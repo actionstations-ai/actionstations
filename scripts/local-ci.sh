@@ -20,7 +20,10 @@ step "unit tests";                  pnpm test
 if [[ "$QUICK" != "--quick" ]]; then
   step "template golden tests";     pnpm test:templates
   step "build check";               pnpm build:check
-  if [[ "${E2E:-0}" == "1" ]]; then step "e2e"; pnpm e2e; fi
+  # Always launch the built app once: catches ESM/CJS interop and startup crashes that
+  # unit tests (Vitest interop) cannot see.
+  step "launch smoke (built app)";  pnpm exec playwright test e2e/smoke.spec.ts
+  if [[ "${E2E:-0}" == "1" ]]; then step "e2e (full)"; pnpm exec playwright test; fi
   step "secrets scan (gitleaks)"
   if command -v gitleaks >/dev/null 2>&1; then
     gitleaks git --no-banner --redact .

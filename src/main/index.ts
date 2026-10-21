@@ -3,6 +3,9 @@ import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { registerIpc } from './ipc'
 import { registerMediaProtocol, registerMediaScheme } from './lib/media-protocol'
+// Load every provider adapter at startup so a broken adapter fails the launch smoke test
+// instead of crashing later on first use.
+import { listAdapterKinds } from './providers/registry'
 
 // Must run before app ready.
 registerMediaScheme()
@@ -64,6 +67,7 @@ void app.whenReady().then(() => {
   session.defaultSession.setPermissionCheckHandler(() => false)
   registerMediaProtocol()
   registerIpc(isAppUrl)
+  if (!app.isPackaged) console.log(`[providers] adapters: ${listAdapterKinds().join(', ')}`)
   createMainWindow()
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createMainWindow()

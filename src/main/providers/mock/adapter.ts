@@ -1,7 +1,8 @@
 import { promises as fs } from 'node:fs'
 import { join } from 'node:path'
 import { PNG } from 'pngjs'
-import { WaveFile } from 'wavefile'
+// wavefile is CommonJS: Node's ESM loader can't see its named exports (Vitest hides this).
+import wavefile from 'wavefile'
 import type { ProviderConfig } from '@shared/schemas'
 import { STAGE_OUTPUT_SCHEMAS, type StageOutputSchemaName } from '@shared/schemas'
 import type {
@@ -15,6 +16,8 @@ import type {
 } from '../types'
 import { HashEmbedder } from '../embedding/hash'
 import { MOCK_FIXTURES } from './fixtures'
+
+const { WaveFile } = wavefile
 
 export type MockResponder = (req: ChatRequest) => unknown | Promise<unknown>
 
