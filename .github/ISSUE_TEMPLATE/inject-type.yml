@@ -1,0 +1,32 @@
+name: New inject type
+description: Request a new inject template / media type
+title: "[inject-type] "
+labels: ["inject-type", "area:templates"]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Type id
+      placeholder: e.g. news_chyron_still
+    validations:
+      required: true
+  - type: textarea
+    id: fields
+    attributes:
+      label: Fields
+      description: Name, type, required?, example value.
+  - type: dropdown
+    id: render
+    attributes:
+      label: Render path
+      options: [template, ai-image, ai-video, tts, composite]
+  - type: textarea
+    id: example
+    attributes:
+      label: Example from a real exercise
+      description: Paste or describe a real inject of this kind (see reference/scenario-3).
+  - type: textarea
+    id: export
+    attributes:
+      label: Export behavior
+      description: Deck page? PNG? Audio file? Anything special about pagination.

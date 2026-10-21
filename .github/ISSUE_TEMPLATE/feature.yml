@@ -1,0 +1,35 @@
+name: Feature
+description: A unit of product work
+title: "[feat] "
+labels: ["type:feature"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What
+      description: What should exist when this is done?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why / user story
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope & paths
+      description: Files/dirs this touches; contracts it depends on.
+  - type: textarea
+    id: done
+    attributes:
+      label: Definition of done
+      value: |
+        - [ ] Implemented
+        - [ ] Unit tests
+        - [ ] `pnpm ci:local` green
+        - [ ] Docs/ADR updated if needed
+  - type: dropdown
+    id: milestone
+    attributes:
+      label: Milestone
+      options: [M0, M1, M2, M3, M4, M5, M6, Later]
