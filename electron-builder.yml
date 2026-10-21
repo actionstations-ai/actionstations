@@ -1,0 +1,41 @@
+appId: com.mdcrowley.tabletopgen
+productName: Tabletop Generator
+copyright: Copyright © 2026 Matt Crowley
+directories:
+  output: release/${version}
+  buildResources: build
+files:
+  - out/**/*
+  - package.json
+  - '!**/*.{map,ts,tsx}'
+extraResources:
+  - from: templates
+    to: app-resources/templates
+  - from: prompts
+    to: app-resources/prompts
+  - from: comfy
+    to: app-resources/comfy
+asarUnpack:
+  - node_modules/better-sqlite3/**
+  - node_modules/sqlite-vec*/**
+  - node_modules/onnxruntime-node/**
+  - node_modules/@tesseract.js-data/**
+npmRebuild: false
+mac:
+  category: public.app-category.education
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+  hardenedRuntime: true
+  identity: null
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+linux:
+  category: Education
+  target:
+    - AppImage

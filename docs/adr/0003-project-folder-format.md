@@ -3,9 +3,11 @@
 Date: 2026-10-21 · Status: Accepted · Issue: #8
 
 ## Context
+
 Projects hold source documents, generated scenarios, injects and media. Users need to back them up, move them between machines, and optionally keep them in git. The data must be inspectable without the app and robust against hand edits or malicious files.
 
 ## Decision
+
 A project is a directory named `<name>.ttxproj/` with the layout in `docs/02-ARCHITECTURE.md` §Storage:
 
 ```
@@ -24,6 +26,7 @@ A project is a directory named `<name>.ttxproj/` with the layout in `docs/02-ARC
 - Secrets never live in the project folder (Electron `safeStorage`, `src/main/secrets`).
 
 ## Consequences
+
 - Projects are portable and diff-friendly; the folder is the source of truth.
 - Schema changes need a version field in `project.json` and migrations on read.
 - Media lives in the folder, so git users should use LFS or ignore `media/`.

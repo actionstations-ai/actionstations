@@ -1,0 +1,99 @@
+// The IPC contract. Each domain declares its channels in its own file; this module merges
+// them. Main validates every request with the `req` schema; the renderer gets typed calls
+// through window.api (src/preload) and src/renderer/src/lib/api.ts.
+import { z } from 'zod'
+import { appChannels } from './app'
+import { projectChannels } from './project'
+import { documentChannels } from './documents'
+import { providerChannels } from './providers'
+import { promptChannels } from './prompts'
+import { generateChannels } from './generate'
+import { jobChannels } from './jobs'
+import { scenarioChannels } from './scenario'
+import { injectChannels } from './injects'
+import { renderChannels } from './render'
+import { comfyChannels } from './comfy'
+import { exportChannels } from './export'
+import { facilitatorChannels } from './facilitator'
+import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
+
+export * from './define'
+import type { ChannelDef } from './define'
+export { JobLogEntry } from './jobs'
+export { HistoryEntry } from './scenario'
+export { LibraryItem } from './injects'
+export { TemplateInfo } from './render'
+export { WorkflowBinding, WorkflowEntry, MediaType } from './comfy'
+export { ExportTarget, EXPORT_TARGETS } from './export'
+export { FacilitatorState } from './facilitator'
+
+/** Merge domain channel maps, refusing duplicate names (a spread would silently overwrite). */
+export function mergeChannels<T extends Record<string, ChannelDef>[]>(
+  ...maps: T
+): UnionToIntersection<T[number]> {
+  const out: Record<string, ChannelDef> = {}
+  for (const m of maps) {
+    for (const [name, def] of Object.entries(m)) {
+      if (name in out) throw new Error(`Duplicate IPC channel "${name}"`)
+      out[name] = def
+    }
+  }
+  return out as UnionToIntersection<T[number]>
+}
+type UnionToIntersection<U> = (U extends unknown ? (x: U) => void : never) extends (
+  x: infer I,
+) => void
+  ? I
+  : never
+
+export const channels = mergeChannels(
+  appChannels,
+  projectChannels,
+  documentChannels,
+  providerChannels,
+  promptChannels,
+  generateChannels,
+  jobChannels,
+  scenarioChannels,
+  injectChannels,
+  renderChannels,
+  comfyChannels,
+  exportChannels,
+  facilitatorChannels,
+)
+
+export type Channels = typeof channels
+export type Channel = keyof Channels
+export type ChannelRequest<C extends Channel> = z.input<Channels[C]['req']>
+export type ChannelRequestParsed<C extends Channel> = z.output<Channels[C]['req']>
+export type ChannelResponse<C extends Channel> = z.output<Channels[C]['res']>
+
+/** Main → renderer push events. */
+export const events = {
+  'job:progress': JobProgressEvent,
+  'job:token': JobTokenEvent,
+  'job:done': JobDoneEvent,
+  'project:changed': z.object({
+    path: z.string(),
+    what: z.enum([
+      'project',
+      'documents',
+      'scenarios',
+      'scenario',
+      'injects',
+      'media',
+      'prompts',
+      'workflows',
+      'settings',
+      'providers',
+      'library',
+    ]),
+    scenarioId: z.string().optional(),
+  }),
+}
+export type Events = typeof events
+export type EventName = keyof Events
+export type EventPayload<E extends EventName> = z.output<Events[E]>
+
+export const CHANNEL_NAMES = Object.keys(channels) as Channel[]
+export const EVENT_NAMES = Object.keys(events) as EventName[]

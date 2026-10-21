@@ -32,12 +32,12 @@ pnpm build                    # electron-builder installers (dmg / nsis / AppIma
 
 Providers are configured in the app under **Settings > Providers**. API keys are stored in the OS keychain via Electron `safeStorage`, never in project files or logs. No network calls are made except to providers you configure.
 
-| Provider | Kind | Base URL | Notes |
-|---|---|---|---|
-| LM Studio | OpenAI-compatible | `http://localhost:1234/v1` | Start the local server in LM Studio (Developer tab) or `lms server start`, then load a model. |
-| Ollama | Ollama native / OpenAI-compatible | `http://localhost:11434` (OpenAI-compatible at `/v1`) | `ollama serve`, then `ollama pull <model>`. `nomic-embed-text` works as the embedding model. |
-| ComfyUI | Media (image, video, TTS) | `http://127.0.0.1:8188` | Default workflows live in `comfy/workflows/`; the app reports missing custom nodes via `/object_info`. |
-| Anthropic | Text | `https://api.anthropic.com` | Paste an API key in Settings. |
+| Provider  | Kind                              | Base URL                                              | Notes                                                                                                  |
+| --------- | --------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| LM Studio | OpenAI-compatible                 | `http://localhost:1234/v1`                            | Start the local server in LM Studio (Developer tab) or `lms server start`, then load a model.          |
+| Ollama    | Ollama native / OpenAI-compatible | `http://localhost:11434` (OpenAI-compatible at `/v1`) | `ollama serve`, then `ollama pull <model>`. `nomic-embed-text` works as the embedding model.           |
+| ComfyUI   | Media (image, video, TTS)         | `http://127.0.0.1:8188`                               | Default workflows live in `comfy/workflows/`; the app reports missing custom nodes via `/object_info`. |
+| Anthropic | Text                              | `https://api.anthropic.com`                           | Paste an API key in Settings.                                                                          |
 
 Each generation task (ideate, draft, critique, embed, image, video, audio) can be routed to a different provider. Without any provider configured, the app still runs with a deterministic offline embedder and mock providers for testing.
 
@@ -58,18 +58,18 @@ e2e/                 Playwright tests
 
 ## Documentation
 
-| Doc | Purpose |
-|---|---|
-| [`docs/01-PRD.md`](docs/01-PRD.md) | Product requirements |
-| [`docs/02-ARCHITECTURE.md`](docs/02-ARCHITECTURE.md) | Processes, storage, providers, rendering, export |
-| [`docs/03-INJECT-TAXONOMY.md`](docs/03-INJECT-TAXONOMY.md) | Supported inject types, fields and render targets |
-| [`docs/04-TABLETOP-METHODOLOGY.md`](docs/04-TABLETOP-METHODOLOGY.md) | HSEEP-style exercise structure the generator reproduces |
-| [`docs/05-DATA-MODEL.md`](docs/05-DATA-MODEL.md) | Project / Scenario / Inject / Asset schema |
-| [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md) | Issues, labels, milestones, branching, local CI |
-| [`docs/07-AGENT-ORCHESTRATION.md`](docs/07-AGENT-ORCHESTRATION.md) | How parallel work is split |
-| [`docs/08-ROADMAP.md`](docs/08-ROADMAP.md) | Milestones M0 to M6 |
-| [`docs/adr/`](docs/adr/) | Architecture Decision Records (stack, local CI, project format, native modules, embeddings, providers, structured output, rendering, audio) |
-| [`CONTRIBUTING.md`](CONTRIBUTING.md) | How to contribute |
+| Doc                                                                  | Purpose                                                                                                                                     |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`docs/01-PRD.md`](docs/01-PRD.md)                                   | Product requirements                                                                                                                        |
+| [`docs/02-ARCHITECTURE.md`](docs/02-ARCHITECTURE.md)                 | Processes, storage, providers, rendering, export                                                                                            |
+| [`docs/03-INJECT-TAXONOMY.md`](docs/03-INJECT-TAXONOMY.md)           | Supported inject types, fields and render targets                                                                                           |
+| [`docs/04-TABLETOP-METHODOLOGY.md`](docs/04-TABLETOP-METHODOLOGY.md) | HSEEP-style exercise structure the generator reproduces                                                                                     |
+| [`docs/05-DATA-MODEL.md`](docs/05-DATA-MODEL.md)                     | Project / Scenario / Inject / Asset schema                                                                                                  |
+| [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md)           | Issues, labels, milestones, branching, local CI                                                                                             |
+| [`docs/07-AGENT-ORCHESTRATION.md`](docs/07-AGENT-ORCHESTRATION.md)   | How parallel work is split                                                                                                                  |
+| [`docs/08-ROADMAP.md`](docs/08-ROADMAP.md)                           | Milestones M0 to M6                                                                                                                         |
+| [`docs/adr/`](docs/adr/)                                             | Architecture Decision Records (stack, local CI, project format, native modules, embeddings, providers, structured output, rendering, audio) |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md)                                 | How to contribute                                                                                                                           |
 
 ## `reference/`
 

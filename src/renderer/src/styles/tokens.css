@@ -1,0 +1,181 @@
+/* Design tokens — the only place raw colors, sizes and fonts are defined.
+   Components use the semantic variables below. Contrast targets WCAG AA:
+   text ≥ 4.5:1 on its surface, UI boundaries ≥ 3:1. */
+:root {
+  /* Type */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-md: 0.875rem;
+  --text-lg: 1rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.625rem;
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* Space (4px grid) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* Shape */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --border-width: 1px;
+  --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-focus);
+
+  /* Layout */
+  --sidebar-width: 15rem;
+  --toolbar-height: 3rem;
+  --content-max: 72rem;
+
+  /* Motion: functional only */
+  --duration-fast: 80ms;
+  --duration-base: 140ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  color-scheme: light dark;
+}
+
+/* Light — "paper": warm neutral ground, ink text, one teal signal color. */
+:root,
+:root[data-theme='light'] {
+  --color-bg: #f5f4f0;
+  --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #ebe9e3;
+  --color-border: #d6d3ca;
+  --color-border-strong: #8f8b80;
+  --color-text: #1b1c1f;
+  --color-text-muted: #545860;
+  --color-text-inverse: #ffffff;
+  --color-accent: #0a5c70;
+  --color-accent-hover: #084a5a;
+  --color-accent-soft: #dceef2;
+  --color-focus: #0a5c70;
+  --color-danger: #a8231a;
+  --color-danger-soft: #fbe5e2;
+  --color-warning: #7a5000;
+  --color-warning-soft: #fbefd5;
+  --color-success: #1c6634;
+  --color-success-soft: #dff1e4;
+  --shadow-1: 0 1px 2px rgb(20 20 18 / 0.08);
+  --shadow-2: 0 4px 16px rgb(20 20 18 / 0.12);
+
+  /* Purpose-tag palette (MSEL chips). Text on soft backgrounds ≥ 4.5:1. */
+  --tag-core-fg: #0a4f60;
+  --tag-core-bg: #d7ecf1;
+  --tag-noise-fg: #4c5058;
+  --tag-noise-bg: #e6e5e0;
+  --tag-herring-fg: #8a2f12;
+  --tag-herring-bg: #fae3d9;
+  --tag-pressure-fg: #7a3f00;
+  --tag-pressure-bg: #fbe9cf;
+  --tag-misinfo-fg: #7c1d4f;
+  --tag-misinfo-bg: #f6dfeb;
+  --tag-clue-fg: #3b3a8a;
+  --tag-clue-bg: #e3e3f8;
+  --tag-hurdle-fg: #5b4300;
+  --tag-hurdle-bg: #f3ecc9;
+  --tag-decision-fg: #ffffff;
+  --tag-decision-bg: #a8231a;
+  --tag-control-fg: #1b1c1f;
+  --tag-control-bg: #d6d3ca;
+}
+
+/* Dark — low-glare console. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #121417;
+    --color-surface: #191c20;
+    --color-surface-raised: #20242a;
+    --color-surface-sunken: #0e1013;
+    --color-border: #2f343b;
+    --color-border-strong: #6b717b;
+    --color-text: #e8e6e0;
+    --color-text-muted: #a3a8b0;
+    --color-text-inverse: #121417;
+    --color-accent: #5bbfd3;
+    --color-accent-hover: #7fd0e0;
+    --color-accent-soft: #15333b;
+    --color-focus: #7fd0e0;
+    --color-danger: #f08a7f;
+    --color-danger-soft: #3a1714;
+    --color-warning: #e7b75a;
+    --color-warning-soft: #33280f;
+    --color-success: #74c98d;
+    --color-success-soft: #14301d;
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-2: 0 6px 20px rgb(0 0 0 / 0.5);
+    --tag-core-fg: #9fdbe8;
+    --tag-core-bg: #163840;
+    --tag-noise-fg: #c4c7cc;
+    --tag-noise-bg: #2a2e33;
+    --tag-herring-fg: #f4b39b;
+    --tag-herring-bg: #3d2117;
+    --tag-pressure-fg: #f2c27c;
+    --tag-pressure-bg: #3a2a12;
+    --tag-misinfo-fg: #eba9cb;
+    --tag-misinfo-bg: #3a1a2c;
+    --tag-clue-fg: #b9b8f2;
+    --tag-clue-bg: #24234a;
+    --tag-hurdle-fg: #e3cf7a;
+    --tag-hurdle-bg: #332c10;
+    --tag-decision-fg: #121417;
+    --tag-decision-bg: #f08a7f;
+    --tag-control-fg: #e8e6e0;
+    --tag-control-bg: #3a3f46;
+  }
+}
+:root[data-theme='dark'] {
+  --color-bg: #121417;
+  --color-surface: #191c20;
+  --color-surface-raised: #20242a;
+  --color-surface-sunken: #0e1013;
+  --color-border: #2f343b;
+  --color-border-strong: #6b717b;
+  --color-text: #e8e6e0;
+  --color-text-muted: #a3a8b0;
+  --color-text-inverse: #121417;
+  --color-accent: #5bbfd3;
+  --color-accent-hover: #7fd0e0;
+  --color-accent-soft: #15333b;
+  --color-focus: #7fd0e0;
+  --color-danger: #f08a7f;
+  --color-danger-soft: #3a1714;
+  --color-warning: #e7b75a;
+  --color-warning-soft: #33280f;
+  --color-success: #74c98d;
+  --color-success-soft: #14301d;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-2: 0 6px 20px rgb(0 0 0 / 0.5);
+  --tag-core-fg: #9fdbe8;
+  --tag-core-bg: #163840;
+  --tag-noise-fg: #c4c7cc;
+  --tag-noise-bg: #2a2e33;
+  --tag-herring-fg: #f4b39b;
+  --tag-herring-bg: #3d2117;
+  --tag-pressure-fg: #f2c27c;
+  --tag-pressure-bg: #3a2a12;
+  --tag-misinfo-fg: #eba9cb;
+  --tag-misinfo-bg: #3a1a2c;
+  --tag-clue-fg: #b9b8f2;
+  --tag-clue-bg: #24234a;
+  --tag-hurdle-fg: #e3cf7a;
+  --tag-hurdle-bg: #332c10;
+  --tag-decision-fg: #121417;
+  --tag-decision-bg: #f08a7f;
+  --tag-control-fg: #e8e6e0;
+  --tag-control-bg: #3a3f46;
+}
