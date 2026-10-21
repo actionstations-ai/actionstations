@@ -16,5 +16,8 @@ export default defineConfig({
     environment: 'node',
     testTimeout: 20000,
     pool: 'forks',
+    // The persistent transform cache keeps stale import.meta.glob results when files are
+    // added (handlers/adapters discovered by glob silently disappear in tests). Off.
+    fsModuleCache: false,
   },
 })

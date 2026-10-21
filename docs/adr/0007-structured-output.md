@@ -21,3 +21,7 @@ The result is always parsed with the stage's zod schema. On failure, one repair 
 - Stages are provider-agnostic; the pipeline only sees validated objects.
 - Local models work, with more repair rounds expected.
 - Wire schemas stay within the JSON Schema subset all three paths handle; zod refinements run only after parsing.
+
+## Status note (2026-10-21, #18)
+
+Per the Claude API reference, Opus 5.5, Sonnet 5.5 and Fable 5.1 reject a forced `tool_choice`; for those models the Anthropic adapter sends `tool_choice: auto` with one strict tool plus a system instruction naming it, and falls back to JSON extraction from text (`structuredVia: 'prompt'`). Older models still get a forced tool. This path is covered by hand-built SSE fixtures only — it has not been exercised against the paid API.
