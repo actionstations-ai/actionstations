@@ -15,7 +15,8 @@ const LM = {
   baseUrl: 'http://127.0.0.1:1234/v1',
   model: process.env.LIVE_MODEL ?? 'qwen3-30b-a3b-2507',
 }
-const OUT = resolve('test-results/m2-exit')
+// Outside test-results/: Playwright wipes that folder at the start of every run.
+const OUT = resolve('.tmp/m2-exit')
 const mdFiles = (dir: string) =>
   readdirSync(resolve(dir))
     .filter((f) => f.endsWith('.md'))
