@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Badge, ProgressBar } from '../../components/ui'
 import { isActive, type LiveLog, type LogStream } from './live-log'
-import { stageLabel } from './stages'
+import { itemLabel, stageLabel } from './stages'
 
 const STATUS_TONE = {
   queued: 'neutral',
@@ -19,12 +19,21 @@ const time = (iso: string) =>
     second: '2-digit',
   })
 
-function StreamView({ stream, open }: { stream: LogStream; open: boolean }) {
+function StreamView({
+  stream,
+  open,
+  labels,
+}: {
+  stream: LogStream
+  open: boolean
+  labels?: Record<string, string>
+}) {
   const pre = useRef<HTMLPreElement>(null)
   useEffect(() => {
     if (pre.current) pre.current.scrollTop = pre.current.scrollHeight
   }, [stream.text])
-  const title = stageLabel(stream.stage) + (stream.itemId ? ` · ${stream.itemId}` : '')
+  const title =
+    stageLabel(stream.stage) + (stream.itemId ? ` · ${itemLabel(stream.itemId, labels)}` : '')
   return (
     <details className="live-log__stream" open={open}>
       <summary>
@@ -37,7 +46,13 @@ function StreamView({ stream, open }: { stream: LogStream; open: boolean }) {
   )
 }
 
-export function LiveLogPanel({ log }: { log: LiveLog }) {
+export function LiveLogPanel({
+  log,
+  itemLabels,
+}: {
+  log: LiveLog
+  itemLabels?: Record<string, string>
+}) {
   if (!log.jobId) {
     return (
       <section className="card live-log" aria-label="Generation log">
@@ -70,7 +85,12 @@ export function LiveLogPanel({ log }: { log: LiveLog }) {
         </ol>
       )}
       {log.streams.map((s) => (
-        <StreamView key={s.key} stream={s} open={active ? s.key === last : false} />
+        <StreamView
+          key={s.key}
+          stream={s}
+          open={active ? s.key === last : false}
+          {...(itemLabels ? { labels: itemLabels } : {})}
+        />
       ))}
     </section>
   )

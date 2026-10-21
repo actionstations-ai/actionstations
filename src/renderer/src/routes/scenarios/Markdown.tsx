@@ -15,7 +15,8 @@ const markdown = new Marked({
 /** Render model-written markdown read-only and sanitized. */
 export function Markdown({ source, label }: { source: string; label: string }) {
   const html = useMemo(() => {
-    const raw = markdown.parse(source, { async: false })
+    // Section markers like <!-- section:overview --> are for the document store, not readers.
+    const raw = markdown.parse(source.replace(/<!--[\s\S]*?-->/g, ''), { async: false })
     return DOMPurify.sanitize(raw, { USE_PROFILES: { html: true } })
   }, [source])
   return (

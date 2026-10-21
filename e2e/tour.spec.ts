@@ -119,7 +119,12 @@ test('tour: every screen with a populated NCIA project', async () => {
       }
     }
     if (sourceDir && existsSync(join(sourceDir, 'ideas.json'))) {
-      writeFileSync(join(projectPath, 'ideas.json'), readFileSync(join(sourceDir, 'ideas.json')))
+      const raw = JSON.parse(readFileSync(join(sourceDir, 'ideas.json'), 'utf8')) as unknown
+      const ideas = Array.isArray(raw) ? raw : (raw as { ideas: unknown[] }).ideas
+      writeFileSync(
+        join(projectPath, 'ideas.json'),
+        JSON.stringify({ generatedAt: new Date().toISOString(), ideas }),
+      )
     }
 
     const key = encodeURIComponent(projectPath)

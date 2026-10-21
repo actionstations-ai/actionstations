@@ -107,7 +107,7 @@ describe('ScenarioPage', () => {
       'jobs:log': () => ({ entries: [], tokens: {} }),
     })
     const user = userEvent.setup()
-    await user.click(await screen.findByRole('button', { name: 'Re-run MSEL phase p3' }))
+    await user.click(await screen.findByRole('button', { name: /^Re-run MSEL phase Phase \d: / }))
     const dialog = await screen.findByRole('dialog')
     await user.type(within(dialog).getByRole('textbox'), 'Add a red herring')
     await user.click(within(dialog).getByRole('button', { name: 'Re-run' }))

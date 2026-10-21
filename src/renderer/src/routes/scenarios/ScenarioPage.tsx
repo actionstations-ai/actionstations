@@ -102,12 +102,20 @@ export default function ScenarioPage() {
               provenance={scenario.provenance}
               busy={isActive(log)}
               onJob={(id) => void follow(id)}
+              itemLabels={phaseLabels(scenario)}
             />
-            <LiveLogPanel log={log} />
+            <LiveLogPanel log={log} itemLabels={phaseLabels(scenario)} />
           </div>
           <ScenarioTabs projectPath={projectPath} scenario={scenario} />
         </>
       )}
     </div>
   )
+}
+
+/** Phase ids → "Phase 2: The Crisis" for per-phase stage runs and log streams. */
+function phaseLabels(scenario: {
+  phases: { id: string; index: number; title: string }[]
+}): Record<string, string> {
+  return Object.fromEntries(scenario.phases.map((p) => [p.id, `Phase ${p.index + 1}: ${p.title}`]))
 }

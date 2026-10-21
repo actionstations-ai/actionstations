@@ -4,7 +4,7 @@ import type { StageRun } from '@shared/schemas/scenario'
 import { Badge, Button, Dialog, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
-import { latestRuns, runDuration, runTokens, stageLabel } from './stages'
+import { itemLabel, latestRuns, runDuration, runTokens, stageLabel } from './stages'
 
 const STATUS_TONE = {
   ok: 'ok',
@@ -20,16 +20,21 @@ interface Props {
   provenance: StageRun[]
   busy: boolean
   onJob: (jobId: string) => void
+  /** itemId → readable label (phase titles). */
+  itemLabels?: Record<string, string>
 }
 
 function RerunDialog(props: {
   run: StageRun | null
+  labels?: Record<string, string>
   onCancel: () => void
   onConfirm: (instructions: string) => void
 }) {
   const [instructions, setInstructions] = useState('')
   const run = props.run
-  const name = run ? stageLabel(run.stage) + (run.itemId ? ` · ${run.itemId}` : '') : ''
+  const name = run
+    ? stageLabel(run.stage) + (run.itemId ? ` · ${itemLabel(run.itemId, props.labels)}` : '')
+    : ''
   return (
     <Dialog
       open={!!run}
@@ -109,7 +114,9 @@ export function StageTimeline(props: Props) {
             <li key={`${run.stage}:${run.itemId ?? ''}`} className="timeline__item">
               <div className="timeline__name">
                 <span>{stageLabel(run.stage)}</span>
-                {run.itemId && <span className="mono muted">{run.itemId}</span>}
+                {run.itemId && (
+                  <span className="muted">{itemLabel(run.itemId, props.itemLabels)}</span>
+                )}
               </div>
               <Badge tone={STATUS_TONE[run.status]}>{run.status}</Badge>
               <span className="muted timeline__meta">
@@ -120,7 +127,7 @@ export function StageTimeline(props: Props) {
                 size="sm"
                 variant="ghost"
                 disabled={props.busy}
-                aria-label={`Re-run ${stageLabel(run.stage)}${run.itemId ? ` ${run.itemId}` : ''}`}
+                aria-label={`Re-run ${stageLabel(run.stage)}${run.itemId ? ` ${itemLabel(run.itemId, props.itemLabels)}` : ''}`}
                 onClick={() => setPending(run)}
               >
                 <RotateCcw size={14} aria-hidden /> Re-run
@@ -132,6 +139,7 @@ export function StageTimeline(props: Props) {
       <RerunDialog
         key={pending ? `${pending.stage}:${pending.itemId ?? ''}` : 'none'}
         run={pending}
+        {...(props.itemLabels ? { labels: props.itemLabels } : {})}
         onCancel={() => setPending(null)}
         onConfirm={(text) => {
           const run = pending

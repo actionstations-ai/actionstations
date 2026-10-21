@@ -40,3 +40,9 @@ export function runTokens(run: StageRun): string {
   if (run.inputTokens === undefined && run.outputTokens === undefined) return '—'
   return `${(run.inputTokens ?? 0).toLocaleString()} in / ${(run.outputTokens ?? 0).toLocaleString()} out`
 }
+
+/** Human label for a per-item stage run: "Phase 2: The Crisis" instead of the phase ULID. */
+export function itemLabel(itemId: string | undefined, labels: Record<string, string> = {}): string {
+  if (!itemId) return ''
+  return labels[itemId] ?? itemId
+}
