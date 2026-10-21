@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Time jump card",
+  "type": "object",
+  "required": ["newTime", "narration"],
+  "properties": {
+    "exerciseTime": {
+      "type": "string",
+      "description": "Exercise clock when the card is read, H:MM",
+      "examples": ["1:00"]
+    },
+    "newTime": {
+      "type": "string",
+      "description": "Wall-clock time players jump to",
+      "examples": ["10:00 AM"]
+    },
+    "jumpLabel": {
+      "type": "string",
+      "description": "How far the clock moves",
+      "examples": ["+60 minutes"]
+    },
+    "narration": { "type": "string", "description": "What the facilitator reads aloud" },
+    "worldState": {
+      "type": "array",
+      "description": "Facts that are now true",
+      "items": { "type": "string" }
+    },
+    "facilitatorNote": {
+      "type": "string",
+      "description": "Private note for the facilitator (not read aloud)"
+    },
+    "scenarioTitle": { "type": "string" },
+    "injectId": { "type": "string", "examples": ["I-05"] }
+  },
+  "additionalProperties": false
+}

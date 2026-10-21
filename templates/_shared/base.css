@@ -1,0 +1,28 @@
+/* Shared base for inject templates. Each template's style.css builds on this.
+   Templates render in a sandboxed offscreen window with no network: use only the
+   bundled fonts below, file:/data: images, and no scripts. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+  color: #0f1419;
+  background: transparent;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+.inject-root {
+  display: block;
+  overflow: hidden;
+}

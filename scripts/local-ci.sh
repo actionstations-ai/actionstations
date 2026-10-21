@@ -18,8 +18,8 @@ step "format:check";                pnpm format:check
 step "typecheck";                   pnpm typecheck
 step "unit tests";                  pnpm test
 if [[ "$QUICK" != "--quick" ]]; then
-  step "template golden tests";     pnpm test:templates
   step "build check";               pnpm build:check
+  step "template render tests";     pnpm test:templates
   # Always launch the built app once: catches ESM/CJS interop and startup crashes that
   # unit tests (Vitest interop) cannot see.
   step "launch smoke (built app)";  pnpm exec playwright test e2e/smoke.spec.ts

@@ -39,3 +39,11 @@ How the codebase is wired so parallel workstreams never edit the same file.
 - `pnpm test` runs Vitest inside Electron's Node (ADR-0004). Tests live beside the code (`*.test.ts`) or in `tests/`.
 - Provider adapters: recorded-fixture contract test always; live test only when `LIVE=1`.
 - `pnpm e2e` builds and drives the real app with Playwright (`e2e/helpers.ts` `launch()` isolates userData).
+
+## Inject templates (`templates/injects/<type>/`)
+- Files: `meta.json` (type, label, version, width, height?, paper, variants[], background, imageSlots[]), `schema.json` (JSON Schema 2020-12 for `fields`, `additionalProperties: false`), `preview.json` (`{ fields, variant?, assets? }` — realistic sample data, must validate against the schema; golden tests use it), `template.html` (Handlebars body), `style.css`.
+- Template context: `fields`, `brand` (project Brand: city, region, aliases e.g. `brand.aliases.localTv`), `variant`, `assets.<slot>` (file:/data: URL of an AI image for composite slots).
+- Escaping is ON (field values are untrusted model output). Helpers: `eq ne and or not gt inc default upper lower compact initials nl2br social join json times`. Never use triple-stash `{{{ }}}`.
+- Rendering: sandboxed offscreen window, no network, no scripts in templates; fonts only from `templates/_shared/fonts.css` (Inter, Roboto, Roboto Condensed, JetBrains Mono, Source Serif 4, Courier Prime, Caveat). Paper types are US Letter, 816 × 1056 CSS px. PNG renders at 2× (deterministic: offscreen DPR = 1).
+- Dev loop: `pnpm build:app && pnpm test:templates` writes `test-results/templates/<type>[--variant].png`. Reference example: `templates/injects/time_jump_card/`.
+- Main-side API: `composeDocument`, `renderPng`, `renderPdf` (`src/main/render/`), `validateFields(type, fields)`.
