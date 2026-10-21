@@ -19,3 +19,7 @@ Hybrid retrieval (FTS5 + vectors) needs an embedding for every chunk. The app is
 - Retrieval always works, even on a fresh offline install; quality improves when the user opts into a real model.
 - Tests are deterministic and need no model download.
 - Switching embedders means re-embedding the whole project index.
+
+## Status note (2026-10-21, #14)
+
+Until #65 lands, the local ONNX embedder runs in the main process, not a worker thread. Batch size is 8: under Electron's runtime a batch of 32 full-length passages crashed the process while 8 and 16 did not. Measured on the NCIA plans (131 chunks), hybrid mode: "FIDS failure" ranks TIRP 13.6 first with both the hash embedder and bge-small; bge-small lifts ASP 6.4 for "access control failure fail unlocked" from 8th to 4th. Embedding 500 chunks: hash 82 ms, bge-small 5.9 s.

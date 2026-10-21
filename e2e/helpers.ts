@@ -26,3 +26,23 @@ export async function launch(env: Record<string, string> = {}): Promise<Launched
   await page.waitForLoadState('domcontentloaded')
   return { app, page, userData }
 }
+
+export type IpcResult =
+  { ok: true; data: unknown } | { ok: false; error: { code: string; message: string } }
+
+/** Call a main-process channel through the renderer's window.ttx bridge. */
+export function invoker(page: Page) {
+  return async <T = unknown>(channel: string, payload?: unknown): Promise<T> => {
+    const r = await page.evaluate(
+      ([c, p]) =>
+        (
+          globalThis as unknown as {
+            ttx: { invoke: (c: string, p: unknown) => Promise<IpcResult> }
+          }
+        ).ttx.invoke(c as string, p),
+      [channel, payload] as const,
+    )
+    if (!r.ok) throw new Error(`${channel} failed: ${r.error.code} ${r.error.message}`)
+    return r.data as T
+  }
+}
