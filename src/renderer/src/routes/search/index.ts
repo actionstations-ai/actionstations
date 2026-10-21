@@ -5,6 +5,6 @@ export const routes: RouteDef[] = [
   {
     path: '/p/:projectKey/search',
     component: lazy(() => import('./SearchPage')),
-    nav: { label: 'Search', scope: 'project', order: 25, icon: 'library' },
+    nav: { label: 'Search index', scope: 'project', order: 60, icon: 'library' },
   },
 ]

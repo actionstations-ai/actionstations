@@ -10,6 +10,6 @@ export const routes: RouteDef[] = [
   {
     path: '/p/:projectKey/providers',
     component: lazy(() => import('./ProjectProvidersPage')),
-    nav: { label: 'Providers', scope: 'project', order: 30, icon: 'providers' },
+    nav: { label: 'Provider routing', scope: 'project', order: 80, icon: 'providers' },
   },
 ]
