@@ -1,0 +1,356 @@
+[
+  {
+    "id": "01M5GCZRSSWVCYGZQ7R6BVN1Y3",
+    "title": "\"Light Out\" at Midnight",
+    "hook": "At 1:17 AM, the ALCS system reports a complete loss of airfield lighting control—runway and taxiway lights flicker and go dark. The AOC receives a garbled radio call from a ground crew reporting a 'random pattern' in the lights. As night operations continue, the pattern becomes erratic, suggesting a deliberate system manipulation.",
+    "threat": "A cyber-intrusion into the ALCS server has enabled remote manipulation of lighting outputs, including false ON/OFF commands and altered intensity settings. The attacker used a vendor remote access tunnel (C6) that was improperly left active.",
+    "systemsAffected": ["ALCS"],
+    "sectionsExercised": [
+      {
+        "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+        "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+        "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+        "chunkId": 38
+      },
+      {
+        "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+        "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+        "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+        "chunkId": 39
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+        "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+        "chunkId": 78
+      }
+    ],
+    "difficulty": "intermediate",
+    "whyItTeaches": "Trust in automated system data versus manual verification; the gap between IT policy and operational reality in remote access management.",
+    "suggestedRoles": [
+      "Airport Operations",
+      "IT/Cybersecurity",
+      "Security/LEO",
+      "PIO",
+      "Airport Director"
+    ]
+  },
+  {
+    "id": "01M5GCZRSSNFEAGE1GTN5PDEWS",
+    "title": "The Key That Still Works",
+    "hook": "At 3:00 AM, a terminal employee is denied entry to the SIDA area despite having a valid badge. Moments later, a security guard reports a person in a maintenance uniform using a revoked badge to enter a jet bridge door. The system logs show the badge was revoked 12 minutes prior.",
+    "threat": "PACS has been compromised via a cyber-attack exploiting an outdated vendor remote access tunnel (C6). The attacker manipulated the database to reinstate revoked badges, and the field panels are operating in 'Local Mode' (C5), so the revocation delay is in effect.",
+    "systemsAffected": ["PACS"],
+    "sectionsExercised": [
+      {
+        "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+        "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+        "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+        "chunkId": 38
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Appendix E",
+        "quote": "Fail-Secure: door mechanically locks; key required for entry; free egress (crash bar). Fail-Safe: door electrically unlocks. | Door Group | Example Location | Power Loss | Network Loss | Fire Alarm | ",
+        "chunkId": 76
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+        "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+        "chunkId": 78
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+        "quote": "**A. Immediate Action.** All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection. **B. Manual Inspect",
+        "chunkId": 68
+      }
+    ],
+    "difficulty": "advanced",
+    "whyItTeaches": "The risk of delayed revocation in manual access control systems; the need to validate stop-lists even when digital systems appear operational.",
+    "suggestedRoles": [
+      "Security/LEO",
+      "IT/Cybersecurity",
+      "Airport Operations",
+      "Badging Office",
+      "Ops Manager"
+    ]
+  },
+  {
+    "id": "01M5GCZRSSRF42V31WN51AX8HK",
+    "title": "FIDS Gone Wild",
+    "hook": "Passengers in the main concourse begin to panic as the FIDS screens display a fake flight from 2019, claiming a departure to Dubai. The announcement system begins playing a pre-recorded audio of a flight cancellation with no actual announcement. A social media post shows a video of a passenger yelling at a screen.",
+    "threat": "The AODB/FIDS system has been infected with ransomware, corrupting flight data and displaying false information. The attacker used a phishing email to gain access to an unpatched terminal, then moved laterally to the FIDS server.",
+    "systemsAffected": ["AODB/FIDS"],
+    "sectionsExercised": [
+      {
+        "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+        "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+        "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+        "chunkId": 38
+      },
+      {
+        "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+        "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+        "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+        "chunkId": 124
+      },
+      {
+        "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+        "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+        "quote": "**Impact:** FIDS go dark; BHS stops. **FIDS Failure:** Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight informatio",
+        "chunkId": 126
+      },
+      {
+        "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+        "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+        "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+        "chunkId": 127
+      }
+    ],
+    "difficulty": "intermediate",
+    "whyItTeaches": "The risk of relying on a single data feed for passenger information; the importance of manual fallbacks and verification.",
+    "suggestedRoles": [
+      "Airport Operations",
+      "IT/Cybersecurity",
+      "PIO",
+      "Security/LEO",
+      "Airline Representative"
+    ]
+  },
+  {
+    "id": "01M5GCZRSSPGMQ9ASD4ESFV8MQ",
+    "title": "Fuel in the Wrong Tank",
+    "hook": "A fuel truck driver reports that the fuel level gauge on the tank they’re about to fill shows 98% full—despite the tank being empty. The SCADA system confirms the gauge reading. The fuel farm manager calls the control room to report a 'possible sensor failure'.",
+    "threat": "The Fuel SCADA system has been compromised, and a malicious actor altered tank level sensors to prevent overfilling alerts. The attacker likely used remote access (C6) to exploit a known vulnerability in the vendor’s software.",
+    "systemsAffected": ["Fuel SCADA"],
+    "sectionsExercised": [
+      {
+        "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+        "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+        "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+        "chunkId": 38
+      },
+      {
+        "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+        "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+        "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+        "chunkId": 39
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+        "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+        "chunkId": 78
+      },
+      {
+        "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+        "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+        "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+        "chunkId": 124
+      }
+    ],
+    "difficulty": "advanced",
+    "whyItTeaches": "The danger of accepting data from a compromised control system without physical verification; the need to isolate and manually verify critical infrastructure.",
+    "suggestedRoles": [
+      "Airport Operations",
+      "IT/Cybersecurity",
+      "Fuel Operations",
+      "Security/LEO",
+      "Emergency Response"
+    ]
+  },
+  {
+    "id": "01M5GCZRSS93VFBE1CD2A1HDTE",
+    "title": "The Man Who Walked Through the Wall",
+    "hook": "A security officer on patrol in the sterile area notices a man in a janitor’s uniform walking through a secured corridor, passing a TSA exit lane. The door appears to be locked, but he simply walked through. No alarm sounded.",
+    "threat": "A cyber-attack on the PACS system caused a complete failure of the Fail-Secure door control logic. The attacker exploited a gap in the physical access protocol (C4) and manipulated the network to disable maglocks on SIDA doors.",
+    "systemsAffected": ["PACS"],
+    "sectionsExercised": [
+      {
+        "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+        "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+        "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+        "chunkId": 38
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Section 3 › 3.5 Failure Modes (Contingency) (TSA Security Directive 1542-04-08G)",
+        "quote": "**Fail-Secure (Locked):** doors from Public to Secure default LOCKED on the exterior; physical key required. **Fail-Safe (Unlocked):** Emergency Egress Routes unlock on Fire Alarm. **Total System Fail",
+        "chunkId": 57
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Appendix E",
+        "quote": "Fail-Secure: door mechanically locks; key required for entry; free egress (crash bar). Fail-Safe: door electrically unlocks. | Door Group | Example Location | Power Loss | Network Loss | Fire Alarm | ",
+        "chunkId": 76
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+        "quote": "**A. Immediate Action.** All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection. **B. Manual Inspect",
+        "chunkId": 68
+      }
+    ],
+    "difficulty": "advanced",
+    "whyItTeaches": "The risk of overreliance on networked access control; the importance of physical verification when digital systems fail.",
+    "suggestedRoles": [
+      "Security/LEO",
+      "IT/Cybersecurity",
+      "Airport Operations",
+      "Emergency Response",
+      "Badging Office"
+    ]
+  },
+  {
+    "id": "01M5GCZRSSBK020PQT55PXRWY7",
+    "title": "The Unplugged Network",
+    "hook": "The AOC receives a report that all airport computers, including the FIDS and ALCS consoles, have shut down. The network status screen shows the internet connection is severed. No one issued a disconnection order.",
+    "threat": "The Airport Director authorized a network disconnection (C3) to contain a suspected ransomware outbreak. However, the IT team failed to follow the proper 'Disconnect' protocol (C3), leading to a cascading failure in manual operations.",
+    "systemsAffected": ["Network (core)", "ALCS", "AODB/FIDS"],
+    "sectionsExercised": [
+      {
+        "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+        "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+        "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+        "chunkId": 39
+      },
+      {
+        "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+        "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+        "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+        "chunkId": 124
+      },
+      {
+        "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+        "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+        "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+        "chunkId": 13
+      }
+    ],
+    "difficulty": "intermediate",
+    "whyItTeaches": "The critical trade-off between containment and continuity; the need to follow structured incident command procedures under pressure.",
+    "suggestedRoles": [
+      "Airport Director",
+      "IT/Cybersecurity",
+      "Airport Operations",
+      "Incident Commander",
+      "PIO"
+    ]
+  },
+  {
+    "id": "01M5GCZRSSQ0QF1PXN5G9F7FF0",
+    "title": "The Ghost Gate",
+    "hook": "A passenger is stopped at a gate near Gate C12. The system shows she is not cleared to board, but her boarding pass is valid and her e-ticket is confirmed. The gate agent checks the FIDS, which shows her flight has departed. The passenger is confused—her flight was scheduled to depart in 15 minutes.",
+    "threat": "The AODB/FIDS system has been compromised, and the flight departure time was altered in the database. The attacker used a fake credential to access a terminal and then modified the flight schedule in the FIDS server, which is not integrated with the airline’s own system.",
+    "systemsAffected": ["AODB/FIDS"],
+    "sectionsExercised": [
+      {
+        "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+        "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+        "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+        "chunkId": 38
+      },
+      {
+        "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+        "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+        "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+        "chunkId": 124
+      },
+      {
+        "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+        "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+        "quote": "**Impact:** FIDS go dark; BHS stops. **FIDS Failure:** Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight informatio",
+        "chunkId": 126
+      },
+      {
+        "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+        "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+        "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+        "chunkId": 127
+      }
+    ],
+    "difficulty": "intermediate",
+    "whyItTeaches": "The danger of a single point of failure in passenger information systems; the need to cross-check data across multiple sources.",
+    "suggestedRoles": [
+      "Airport Operations",
+      "IT/Cybersecurity",
+      "PIO",
+      "Security/LEO",
+      "Airline Representative"
+    ]
+  },
+  {
+    "id": "01M5GCZRSTCZF6X4HTB9705BVH",
+    "title": "The Last 15 Minutes",
+    "hook": "A security guard at the SIDA access point stops a man with a badge that was revoked 16 minutes ago. The system shows the badge is still valid. The guard contacts the ASC, who confirms the badge should have been blocked. The field panel is in Local Mode (C5), so the update lag has not yet been applied.",
+    "threat": "The PACS server was compromised by a cyber-attack that delayed the update of the stop list to the field panels. The attacker used an active vendor remote access tunnel (C6) to insert false data into the access control database.",
+    "systemsAffected": ["PACS"],
+    "sectionsExercised": [
+      {
+        "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+        "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+        "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+        "chunkId": 38
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Appendix E",
+        "quote": "Fail-Secure: door mechanically locks; key required for entry; free egress (crash bar). Fail-Safe: door electrically unlocks. | Door Group | Example Location | Power Loss | Network Loss | Fire Alarm | ",
+        "chunkId": 76
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+        "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+        "chunkId": 78
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+        "quote": "**A. Immediate Action.** All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection. **B. Manual Inspect",
+        "chunkId": 68
+      }
+    ],
+    "difficulty": "advanced",
+    "whyItTeaches": "The risk of operating under a 'time lag' in security systems; the need to validate real-time data with physical and procedural checks.",
+    "suggestedRoles": [
+      "Security/LEO",
+      "IT/Cybersecurity",
+      "Airport Operations",
+      "Badging Office",
+      "ASC"
+    ]
+  }
+]

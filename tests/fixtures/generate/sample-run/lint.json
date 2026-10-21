@@ -1,0 +1,238 @@
+{
+  "lints": [
+    {
+      "code": "INJECT_SCRIPTS_PLAYERS",
+      "severity": "warning",
+      "message": "Row I-10b narrates a decision by Airport Operations Manager (Incident Commander) (\"…ICal entry was made. The drive was removed…\"); let the players make it and describe it in the expected action",
+      "source": "lint",
+      "rowId": "I-10b"
+    },
+    {
+      "code": "MIX_NO_IT_CLUE",
+      "severity": "warning",
+      "message": "No CLUE or TECH_HURDLE inject aimed at IT Director (Technical Incident Command) in phase 4 \"Recovery & Verification\"",
+      "source": "lint"
+    },
+    {
+      "code": "RUBRIC_LINK_UNKNOWN",
+      "severity": "warning",
+      "message": "Rubric metric \"Technical Competence\" links to unknown inject I-22",
+      "source": "lint"
+    },
+    {
+      "code": "RUBRIC_LINK_UNKNOWN",
+      "severity": "warning",
+      "message": "Rubric metric \"Use of Doctrine\" links to unknown inject I-22",
+      "source": "lint"
+    }
+  ],
+  "warnings": [
+    {
+      "code": "LOCATION_UNGROUNDED",
+      "severity": "warning",
+      "message": "The overview placed the facility in california (CA), which the documents never mention; location reset to \"North Coast Regional Airport Authority\"",
+      "source": "lint"
+    },
+    {
+      "code": "INJECT_SCRIPTS_PLAYERS",
+      "severity": "warning",
+      "message": "Row I-10b narrates a decision by Airport Operations Manager (Incident Commander) (\"…ICal entry was made. The drive was removed…\"); let the players make it and describe it in the expected action",
+      "rowId": "I-10b",
+      "source": "lint"
+    },
+    {
+      "code": "MIX_NO_IT_CLUE",
+      "severity": "warning",
+      "message": "No CLUE or TECH_HURDLE inject aimed at IT Director (Technical Incident Command) in phase 4 \"Recovery & Verification\"",
+      "source": "lint"
+    },
+    {
+      "code": "RUBRIC_LINK_UNKNOWN",
+      "severity": "warning",
+      "message": "Rubric metric \"Technical Competence\" links to unknown inject I-22",
+      "source": "lint"
+    },
+    {
+      "code": "RUBRIC_LINK_UNKNOWN",
+      "severity": "warning",
+      "message": "Rubric metric \"Use of Doctrine\" links to unknown inject I-22",
+      "source": "lint"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-02b falsely attributes a field report to a player role (Security) instead of originating from an external source; the door control failure should be injected by the facilitator, not reported by the player. (row rewritten once from this note)",
+      "rowId": "I-02b",
+      "source": "critique",
+      "suggestion": "Reassign I-02b to a non-player inject: 'Facilitator → Security: Field Report: Gate C12 door control panel failed—badge reader unresponsive, door remains locked despite valid swipe. No access code change issued. Is this related to ALCS?'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-03 presents a system log as an inject from IT, a player role; forensic evidence must be injected by the facilitator to maintain external threat credibility. (row rewritten once from this note)",
+      "rowId": "I-03",
+      "source": "critique",
+      "suggestion": "Replace I-03 with: 'Facilitator → IT: System Log: [2024-04-05 03:00:12] Failed authentication on ALCS server (alcs-01, 10.66.0.15) from IP 10.200.1.47 (not in vendor list). Session remained active until 09:29. Last command: 'SET_LIGHTS 17 ON 3s'. No logout. Source: Remote Vendor Tunnel (Siemens) — approved window closed 03:00 AM.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-05 presents an email from IT Director, a player role; this inject should originate from the facilitator to preserve external threat narrative and avoid self-announced decisions. (row rewritten once from this note)",
+      "rowId": "I-05",
+      "source": "critique",
+      "suggestion": "Replace I-05 with: 'Facilitator → IC, TIC: Email Forward: \"ALCS telemetry is inconsistent—lights appear to be responding to external commands. We have a potential remote access vector. Recommend no action yet—verify with physical observation. Do not trust any digital report until field-confirmed. This is not a sensor glitch. This is a compromise.\"'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-09 presents a media inquiry from PIO, a player role; media injects must come from external sources to maintain realism and avoid self-announced decisions. (row rewritten once from this note)",
+      "rowId": "I-09",
+      "source": "critique",
+      "suggestion": "Replace I-09 with: 'Facilitator → PIO: Media Inquiry: Tweet (@NCIA_Media): \"Breaking: NCIA has shut down all digital systems due to a cyberattack. Is the airport safe? Passengers are trapped in terminals. What is the plan? #NCIA #AirportShutDown #CyberAttack\"'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-08b presents a passenger crowd report from Airline Station Manager, a player role; external pressure events must be injected by the facilitator to avoid role self-reporting. (row rewritten once from this note)",
+      "rowId": "I-08b",
+      "source": "critique",
+      "suggestion": "Replace I-08b with: 'Facilitator → Security: Field Report: Gate 12 is blocked by a crowd of passengers. They saw the FIDS screen go dark and believe the airport is closed. One passenger is demanding to know why they can't board a flight. The crowd is growing. Five LEOs on scene but no official statement yet.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-09b presents a system log from IT Director, a player role; forensic evidence must be injected externally to maintain threat credibility and avoid internal self-announcement. (row rewritten once from this note)",
+      "rowId": "I-09b",
+      "source": "critique",
+      "suggestion": "Replace I-09b with: 'Facilitator → IT: System Log: [2024-04-05 10:48:22] ALCS server (alcs-01, 10.66.0.15) rebooted unexpectedly. Last known command: 'SET_LIGHTS 17 ON 3s'. No scheduled maintenance. Reboot initiated from internal console (IP 10.66.0.15). No user session logged in. Check for root access or unauthorized script execution.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-10b presents a Vault breach report from Security, a player role; this critical physical compromise must be injected externally to preserve realism and avoid self-announced events. (row rewritten once from this note)",
+      "rowId": "I-10b",
+      "source": "critique",
+      "suggestion": "Replace I-10b with: 'Facilitator → Security: Field Report: Vault Guard reports the ALCS manual control panel (in the Vault) was accessed remotely via the internal network. The cover was pried open, and a USB drive was inserted into the local port. No physical entry was made. The drive was removed and the panel reset. This confirms the attacker reached the physical control point—this is not just a remote software exploit.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-12 presents a system log from IT Director, a player role; this forensic evidence must be injected by the facilitator to maintain external threat narrative. (row rewritten once from this note)",
+      "rowId": "I-12",
+      "source": "critique",
+      "suggestion": "Replace I-12 with: 'Facilitator → IT: System Log: [2024-04-05 11:48:15] ALCS server (alcs-01, 10.66.0.15) rebooted unexpectedly. Last known command: 'SET_LIGHTS 17 ON 3s'. No scheduled maintenance. Reboot initiated from internal console (IP 10.66.0.15). No user session logged in. Check for root access or unauthorized script execution.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-18b presents a system log from IT Director, a player role; this forensic evidence must be injected externally to preserve realism and avoid internal self-announcement. (row rewritten once from this note)",
+      "rowId": "I-18b",
+      "source": "critique",
+      "suggestion": "Replace I-18b with: 'Facilitator → IT: System Log: [2024-04-05 11:48:15] ALCS server (alcs-01, 10.66.0.15) rebooted unexpectedly. Last known command: 'SET_LIGHTS 17 ON 3s'. No scheduled maintenance. Reboot initiated from internal console (IP 10.66.0.15). No user session logged in. Check for root access or unauthorized script execution.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-20b presents a recovery plan from IT Director, a player role; this must be injected externally to maintain external threat and avoid self-announced decisions. (row rewritten once from this note)",
+      "rowId": "I-20b",
+      "source": "critique",
+      "suggestion": "Replace I-20b with: 'Facilitator → TIC, IC, PIO: Email Forward: \"Recovery Plan for ALCS: (1) Restore from clean gold image (SEC-SVR-01) on air-gapped system; (2) Validate all access logs against the 03:00–09:00 window; (3) Perform 24-hour dry run of manual and automated controls; (4) Reconnect to SecNet only after full audit and CISA approval. No reconnection until all checks pass.\"'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-21b presents a formal request from Airline Station Manager, a player role; external stakeholder pressure must be injected externally to avoid self-reporting. (row rewritten once from this note)",
+      "rowId": "I-21b",
+      "source": "critique",
+      "suggestion": "Replace I-21b with: 'Facilitator → AIR: Formal Request: The airline’s operations team demands a written guarantee before resuming flight operations. They require proof of ALCS safety—show logs, recovery plan, and timeline. No further delays allowed.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-22 presents a recovery plan from IT Director, a player role; this must be injected externally to preserve external threat narrative and avoid self-announced decisions. (row rewritten once from this note)",
+      "rowId": "I-22",
+      "source": "critique",
+      "suggestion": "Replace I-22 with: 'Facilitator → TIC, IC, PIO: Email Forward: \"Recovery Plan for ALCS: (1) Restore from clean gold image (SEC-SVR-01) on air-gapped system; (2) Validate all access logs against the 03:00–09:00 window; (3) Perform 24-hour dry run of manual and automated controls; (4) Reconnect to SecNet only after full audit and CISA approval. No reconnection until all checks pass.\"'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-25b presents a Vault report from Security, a player role; this critical physical evidence must be injected externally to maintain realism and avoid self-announced events. (row rewritten once from this note)",
+      "rowId": "I-25b",
+      "source": "critique",
+      "suggestion": "Replace I-25b with: 'Facilitator → Security: Field Report: Vault Guard reports the USB drive was labeled \"Test_Firmware_V3.1\" and had a cracked casing. The label was printed with a standard office printer. It was not from a known vendor or internal source. We’ve isolated the drive and sent it to forensic lab for analysis.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-04 presents a FIDS alert as an inject from AODB/FIDS, a player role; this should be an external inject to maintain realism and avoid self-announced anomalies.",
+      "rowId": "I-04",
+      "source": "critique",
+      "suggestion": "Replace I-04 with: 'Facilitator → IC: FIDS Board Alert: \"Cargo Flight 742 (Gate C12) - Departed\" — displayed on all FIDS screens, despite no aircraft movement and no gate release. The gate remains occupied by a ground crew vehicle.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-03b presents a social media tweet from a player role (PIO); this must be injected externally to avoid self-announced public sentiment.",
+      "rowId": "I-03b",
+      "source": "critique",
+      "suggestion": "Replace I-03b with: 'Facilitator → PIO: Tweet (@NCIA_Trips): \"Wait—why are the runway lights blinking in Morse code? Is someone trying to warn us? #NCIA #LightsAreTalking #AirportConfusion\" — 42 likes, 17 retweets.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-14 presents a crowd report from Security, a player role; external pressure events must be injected externally to avoid self-reporting.",
+      "rowId": "I-14",
+      "source": "critique",
+      "suggestion": "Replace I-14 with: 'Facilitator → Security: Field Report: Gate 12 is blocked by a crowd of passengers. They saw the FIDS screen go dark and believe the airport is closed. One passenger is demanding to know why they can't board a flight. The crowd is growing. Five LEOs on scene but no official statement yet.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-24b presents a social media tweet from a player role (PIO); this must be injected externally to maintain external threat narrative and avoid self-announced public sentiment.",
+      "rowId": "I-24b",
+      "source": "critique",
+      "suggestion": "Replace I-24b with: 'Facilitator → PIO: Tweet (@NCIA_News): \"BREAKING: The ALCS manual panel was hacked remotely and a USB drive was used to alter the light patterns. The airport says it's safe, but the driver was traced to a known ransomware group. Is this a lie? #NCIA #CyberAttack #Exposed\" — 1,200 likes, 842 retweets, trending on X.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-23 presents a Vault report from Security, a player role; this must be injected externally to preserve realism and avoid self-announced evidence.",
+      "rowId": "I-23",
+      "source": "critique",
+      "suggestion": "Replace I-23 with: 'Facilitator → Security: Field Report: Vault Guard reports the USB drive inserted into the ALCS panel was labeled \"Test_Firmware_V3.1\" and had a cracked casing. The label was printed with a standard office printer. It was not from a known vendor or internal source. We’ve isolated the drive and sent it to forensic lab for analysis.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-23b presents a PA system anomaly from a player role (Helpdesk); this must be injected externally to avoid self-announced technical noise.",
+      "rowId": "I-23b",
+      "source": "critique",
+      "suggestion": "Replace I-23b with: 'Facilitator → IT: Helpdesk Ticket #20420 (Priority: Low) — 'The PA system in Concourse B is playing a loop of the airport’s old jingle from 2003. The volume is too loud, and no one can turn it off. Is this part of the cyberattack? The jingle keeps saying, \"Welcome to NCIA, where the lights never sleep.\"'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-24 presents a FIDS update from a player role (Ops Manager); this must be injected externally to avoid self-announced verification.",
+      "rowId": "I-24",
+      "source": "critique",
+      "suggestion": "Replace I-24 with: 'Facilitator → IC: FIDS Board Alert: \"Flight 742 (Cargo) - Gate C12 - Now Boarding\" — manually updated from paper log. All passenger information has been reconciled with the terminal’s paper manifest. The gate is now open for boarding.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "Row I-04's FIDS alert is not confirmed as a separate system failure; it should be treated as a secondary effect of ALCS compromise, not a standalone event.",
+      "rowId": "I-04",
+      "source": "critique",
+      "suggestion": "Clarify in inject: 'FIDS Board Alert: \"Cargo Flight 742 (Gate C12) - Departed\" — displayed on all FIDS screens, despite no aircraft movement and no gate release. The gate remains occupied by a ground crew vehicle. This is likely a cascading effect of ALCS compromise.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "Row I-17b repeats the same Vault breach report as I-10b; duplication undermines narrative progression and creates redundancy.",
+      "rowId": "I-17b",
+      "source": "critique",
+      "suggestion": "Remove I-17b. The physical breach was already confirmed in I-10b and does not need to be repeated."
+    }
+  ]
+}

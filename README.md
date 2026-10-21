@@ -23,6 +23,7 @@ pnpm test                     # Vitest unit tests (run under Electron-as-Node, m
 pnpm lint && pnpm typecheck   # ESLint + tsc
 pnpm ci:local                 # full local CI: scripts/local-ci.sh
 pnpm e2e                      # Playwright end-to-end tests against the Electron app
+LIVE=1 pnpm test -- tests/live/pipeline.live.test.ts   # full generation run against LM Studio (writes tests/fixtures/generate/sample-run/)
 pnpm build                    # electron-builder installers (dmg / nsis / AppImage)
 ```
 

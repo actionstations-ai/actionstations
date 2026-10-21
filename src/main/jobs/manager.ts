@@ -4,6 +4,7 @@ import type { JobLogEntry } from '@shared/ipc'
 import { emit } from '../lib/events'
 import { AppError } from '../lib/errors'
 import { newId, nowIso } from '../lib/ids'
+import { JobsFileWriter, readPersistedJobs } from './persist'
 
 export interface JobContext {
   jobId: string
@@ -19,6 +20,9 @@ export interface JobContext {
 }
 
 export type JobRunner<T> = (ctx: JobContext) => Promise<T>
+
+/** Starts a fresh job that continues the work of a paused one; returns the new job. */
+export type JobResumer = (paused: Job) => Promise<Job>
 
 interface JobRecord {
   job: Job
@@ -39,10 +43,61 @@ const MAX_LOG = 2000
 const MAX_TOKENS_PER_STAGE = 200_000
 const MAX_FINISHED = 100
 
-/** In-process job queue with progress/log/token streaming over IPC events. */
+/**
+ * In-process job queue with progress/log/token streaming over IPC events. Job records are
+ * mirrored to userData/jobs.json (#54); records left over from a previous run are read on
+ * first use and shown as paused, resumable when a registered resumer exists for their kind.
+ */
 export class JobManager {
   private jobs = new Map<string, JobRecord>()
   private queues = new Map<JobKind, PQueue>()
+  /** Records restored from disk (previous app run); not backed by a running promise. */
+  private restored = new Map<string, Job>()
+  private resumers = new Map<JobKind, JobResumer>()
+  private hydrated = false
+  private writer: JobsFileWriter | undefined
+
+  constructor(private readonly persist = true) {}
+
+  private hydrate(): void {
+    if (this.hydrated) return
+    this.hydrated = true
+    if (!this.persist) return
+    this.writer = new JobsFileWriter()
+    for (const job of readPersistedJobs()) {
+      if (!this.jobs.has(job.id)) this.restored.set(job.id, job)
+    }
+  }
+
+  private save(): void {
+    this.hydrate()
+    this.writer?.schedule([...this.restored.values(), ...[...this.jobs.values()].map((r) => r.job)])
+  }
+
+  /** Flush pending writes (tests, app quit). */
+  flush(): Promise<void> {
+    return this.writer?.flush() ?? Promise.resolve()
+  }
+
+  registerResumer(kind: JobKind, resumer: JobResumer): void {
+    this.resumers.set(kind, resumer)
+  }
+
+  /** Resume a paused job from a previous run; the work continues as a new job. */
+  async resume(id: string): Promise<Job> {
+    this.hydrate()
+    const paused = this.restored.get(id)
+    if (!paused) throw new AppError('NOT_FOUND', `No paused job ${id}`)
+    if (paused.status !== 'paused' || !paused.resumable) {
+      throw new AppError('VALIDATION', `Job ${id} cannot be resumed (${paused.status})`)
+    }
+    const resumer = this.resumers.get(paused.kind)
+    if (!resumer) throw new AppError('NOT_IMPLEMENTED', `No resumer for ${paused.kind} jobs`)
+    const next = await resumer(paused)
+    this.restored.delete(id)
+    this.save()
+    return next
+  }
 
   private queue(kind: JobKind): PQueue {
     let q = this.queues.get(kind)
@@ -80,6 +135,7 @@ export class JobManager {
     }
     const controller = new AbortController()
     const rec: JobRecord = { job, controller, log: [], tokens: {}, promise: Promise.resolve() }
+    this.hydrate()
     this.jobs.set(id, rec)
     const ctx = this.context(rec)
     rec.promise = this.queue(kind).add(async () => {
@@ -134,6 +190,7 @@ export class JobManager {
   ): void {
     rec.job = { ...rec.job, ...patch, updatedAt: nowIso() }
     this.emitProgress(rec, extra)
+    if (patch.status) this.save()
   }
 
   private emitProgress(rec: JobRecord, extra?: { stage?: string; itemId?: string }): void {
@@ -166,22 +223,40 @@ export class JobManager {
   }
 
   get(id: string): Job {
+    this.hydrate()
     const rec = this.jobs.get(id)
-    if (!rec) throw new AppError('NOT_FOUND', `No job ${id}`)
-    return rec.job
+    if (rec) return rec.job
+    const restored = this.restored.get(id)
+    if (!restored) throw new AppError('NOT_FOUND', `No job ${id}`)
+    return restored
   }
 
+  /** Paused jobs count as active: they are waiting for the user to resume or cancel them. */
   list(filter: { projectPath?: string; activeOnly?: boolean } = {}): Job[] {
-    return [...this.jobs.values()]
-      .map((r) => r.job)
+    this.hydrate()
+    const active = new Set<JobStatus>(['queued', 'running', 'paused'])
+    return [...this.restored.values(), ...[...this.jobs.values()].map((r) => r.job)]
       .filter((j) => !filter.projectPath || j.projectPath === filter.projectPath)
-      .filter((j) => !filter.activeOnly || j.status === 'queued' || j.status === 'running')
+      .filter((j) => !filter.activeOnly || active.has(j.status))
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
   }
 
   cancel(id: string): void {
+    this.hydrate()
     const rec = this.jobs.get(id)
-    if (!rec) throw new AppError('NOT_FOUND', `No job ${id}`)
+    if (!rec) {
+      const restored = this.restored.get(id)
+      if (!restored) throw new AppError('NOT_FOUND', `No job ${id}`)
+      this.restored.set(id, {
+        ...restored,
+        status: 'cancelled',
+        message: 'Cancelled',
+        resumable: false,
+        updatedAt: nowIso(),
+      })
+      this.save()
+      return
+    }
     rec.controller.abort()
     // A queued job won't reach its runner for a while; report it cancelled now.
     if (rec.job.status === 'queued') this.finish(rec, 'cancelled')
@@ -197,6 +272,7 @@ export class JobManager {
       .sort((a, b) => a.job.updatedAt.localeCompare(b.job.updatedAt))
       .slice(0, finished.length - MAX_FINISHED)
       .forEach((r) => this.jobs.delete(r.job.id))
+    this.save()
   }
 
   logOf(id: string): { entries: JobLogEntry[]; tokens: Record<string, string> } {

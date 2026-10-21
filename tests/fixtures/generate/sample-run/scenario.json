@@ -1,0 +1,1861 @@
+{
+  "id": "01M5GCZRSW2KM103ER2A9EX91A",
+  "projectId": "01M5GCZ7C15DC7P4RBGPXQEJKX",
+  "title": "Light Out",
+  "subtitle": "ALCS Cyber-Intrusion & Manual Lighting Response",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-21T23:33:19.292Z",
+  "updatedAt": "2026-10-21T23:37:34.053Z",
+  "brief": {
+    "userPrompt": "",
+    "audience": ["Airport Operations", "IT/Cybersecurity", "PIO", "Security/LEO"],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [],
+    "ideaId": "01M5GCZRSSWVCYGZQ7R6BVN1Y3",
+    "startWallClock": "09:00"
+  },
+  "overview": {
+    "theme": "System Trust, Remote Access Policy, Manual Procedures Under Pressure",
+    "threat": "A cyber-intrusion into the Airfield Lighting Control System (ALCS) enabled remote manipulation of runway and taxiway lighting. The attacker exploited an improperly maintained vendor remote access tunnel, causing lights to flicker, turn off, or display erratic patterns. This compromise occurred during overnight operations, threatening aircraft movement and flight safety.",
+    "operationalImpact": "Ground crews report confusion and near-misses on taxiways; pilots unable to verify taxi routes; air traffic control (ATC) faces uncertainty in issuing clearance; a scheduled overnight cargo flight is diverted to a neighboring airport due to unsafe conditions. The AOC receives a garbled radio call from a ramp supervisor stating, 'The lights are doing a random dance—some are on, some are off, and they keep changing.'",
+    "coreSectionsTested": [
+      {
+        "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+        "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+        "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+        "chunkId": 38
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+        "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+        "chunkId": 78
+      },
+      {
+        "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+        "headingPath": "ASP › Appendix E",
+        "quote": "Fail-Secure: door mechanically locks; key required for entry; free egress (crash bar). Fail-Safe: door electrically unlocks. | Door Group | Example Location | Power Loss | Network Loss | Fire Alarm | ",
+        "chunkId": 76
+      },
+      {
+        "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+        "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+        "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+        "chunkId": 123
+      },
+      {
+        "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+        "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+        "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+        "chunkId": 85
+      },
+      {
+        "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+        "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+        "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+        "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+        "chunkId": 122
+      }
+    ],
+    "targetAudience": "Airport Operations, IT/Cybersecurity, PIO, Security/LEO",
+    "location": "North Coast Regional Airport Authority"
+  },
+  "objectives": [
+    {
+      "id": "01M5GD04Q5VHCKQ6QJESD64C43",
+      "name": "System Trust",
+      "text": "Demonstrate the ability to verify the integrity of critical infrastructure systems (ALCS) under duress, prioritizing physical observation and manual verification over untrusted digital telemetry."
+    },
+    {
+      "id": "01M5GD04Q52JJGB04BGQDQNKA5",
+      "name": "Remote Access Policy",
+      "text": "Demonstrate the ability to enforce and uphold remote access control policies by identifying and terminating unauthorized vendor access tunnels during a cyber-incident."
+    },
+    {
+      "id": "01M5GD04Q5Z9MQK16ANG3MA2J1",
+      "name": "Manual Procedures Under Pressure",
+      "text": "Demonstrate the ability to activate and sustain manual lighting operations using the Vault's physical control panel and hand-held signaling devices during a loss of automated system control."
+    },
+    {
+      "id": "01M5GD04Q5T4QWCBCDHV7A07AG",
+      "name": "Inter-Command Coordination",
+      "text": "Demonstrate the ability to synchronize actions between Technical Incident Command (IT) and Operational Incident Command (Airport Ops) to prevent conflicting directives during a cascading system failure."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ops",
+      "name": "Airport Operations Manager (Incident Commander)",
+      "abbreviation": "IC",
+      "team": "Team A: Airport Operations",
+      "description": "Manages overall airport operations, passenger flow, and manual procedures during system failure.",
+      "standingOrders": [
+        "Operational Continuity: Prioritize safe movement of personnel and aircraft over system recovery.",
+        "Manual First: Activate analog procedures before relying on compromised digital systems.",
+        "No Assumptions: Do not trust any digital display or report without verification from the field."
+      ]
+    },
+    {
+      "id": "it",
+      "name": "IT Director (Technical Incident Command)",
+      "abbreviation": "TIC",
+      "team": "Team B: IT/Cybersecurity",
+      "description": "Owns the identification, containment, and recovery of compromised systems.",
+      "standingOrders": [
+        "System Integrity: Assume all digital telemetry is potentially manipulated until proven otherwise.",
+        "Isolate First: Immediately cut off all remote access points, including vendor tunnels, to prevent further compromise.",
+        "No Recovery Without Verification: Do not restore any system until the network and backups are confirmed clean."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team C: Public Information",
+      "description": "Owns the external narrative and official communication to passengers, media, and stakeholders.",
+      "standingOrders": [
+        "Truth Over Reassurance: Communicate known facts, not guesses, even if they cause concern.",
+        "One Voice: All public statements must be approved by the IC and TIC before release.",
+        "ADA Compliance: Ensure all messages are accessible to persons with hearing, visual, or cognitive impairments."
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Security/Law Enforcement Officer (Watch Commander)",
+      "abbreviation": "LAW",
+      "team": "Team D: Security/LEO",
+      "description": "Owns physical safety, access control, and enforcement of security zones.",
+      "standingOrders": [
+        "Physical Control: If access control systems fail, assume all doors are compromised until manually secured.",
+        "No Entry Without Verification: No personnel may enter SIDA or AOA without visual confirmation and authorization.",
+        "Protect the Vault: The ALCS manual control panel in the Vault is a high-value target—assign a dedicated guard."
+      ]
+    },
+    {
+      "id": "airline",
+      "name": "Airline Station Manager (Tenant Liaison)",
+      "abbreviation": "AIR",
+      "team": "Team E: Airline Operations",
+      "description": "Represents the airline's operational needs and coordinates with airport leadership.",
+      "standingOrders": [
+        "Passenger Safety First: Prioritize passenger welfare over schedule adherence.",
+        "Tenant Coordination: Report any flight disruption or crew concern to the IC immediately.",
+        "No Internal Authority: Do not issue directives to airport staff or systems; only relay operational feedback."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "01M5GD0JTKZ7VD7YSKDS0DA7ZT",
+      "index": 0,
+      "title": "The Glitch",
+      "goal": "Test the team's ability to recognize and triage a low-visibility anomaly in a critical system, resist premature incident declaration, and distinguish between noise and genuine threat through technical and operational judgment.\n\nKey beats: At 09:12, the ATC supervisor reports to the AOC: 'Lights on Taxiway Alpha are blinking in a pattern that doesn't match the standard sequence—like they're trying to send a message.' The report is dismissed as a sensor glitch by the shift lead, citing no known system outages.; At 09:23, a ramp supervisor calls the AOC via radio: 'The lights on Runway 17 are alternating on and off in a 3-second cycle—this isn’t normal. I just saw a ground crew member walk into a dark section because the light wasn’t on.' This report triggers the first technical review by IT.; At 09:31, IT logs a failed authentication attempt on the ALCS server (hostname: alcs-01) from an IP address not in the approved vendor list. The log shows a failed connection from 3:00 AM, but the session was not terminated—indicating an open, unauthorized remote access tunnel.; At 09:42, the AODB/FIDS system displays a false flight status for Cargo Flight 742 (scheduled 09:30, Gate C12) as 'Departed'—but no aircraft has left the gate. The AOC notes this as 'noise' since the ALCS anomaly is already under review.; At 09:55, the IT Director issues a preliminary alert to the AOC: 'ALCS telemetry is inconsistent—lights appear to be responding to external commands. We have a potential remote access vector. Recommend no action yet—verify with physical observation.'.",
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "01M5GD0JTKCZQQ7EYFD3BNP801",
+      "index": 1,
+      "title": "The Crisis",
+      "goal": "Test the team's ability to manage a cascading failure, declare an incident under pressure, and synchronize technical and operational commands amid misinformation, public pressure, and conflicting signals.\n\nKey beats: At 10:03, the ATCT receives a garbled radio call from a ramp supervisor: 'The lights are doing a random dance—some are on, some are off, and they keep changing.' The AOC confirms this on the main monitor: ALCS status map shows 67% of lights in 'uncontrolled' mode.; At 10:15, a pilot on final approach to Runway 17 reports to ATC: 'I can't see the runway lights—there’s no continuity on the approach path. I’m going to full stop on the taxiway.' The flight is diverted to a neighboring airport, and the AOC receives a formal notification from the airline.; At 10:22, the Fuel SCADA system logs a false overfill alert on Tank 4 at the Fuel Farm. The alarm sounds, but no one confirms a physical overflow. The AOC is pressured by the airline to explain why fueling operations were suspended.; At 10:30, the Public Information Officer (PIO) issues a pre-scripted alert via Everbridge to Group B (tenants): 'System-wide anomaly detected. Flight operations under review.' This triggers panic in the terminal, and the airline station manager demands an official incident declaration.; At 10:45, the Airport Director (as Incident Commander) declares a Level 2 Alert (Full Emergency) via the Crash Phone (Red Phone) to ARFF Station 9, AOC, Akron Fire Dispatch, and Airport Police. The Technical Incident Command (IT Director) and Operational Incident Command (Ops Manager) are now formally unified under the AOC..",
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "index": 2,
+      "title": "Manual Mode",
+      "goal": "Test the team's ability to transition to manual operations under time pressure, make life-critical decisions with incomplete data, and manage physical safety, media, and stakeholder demands during a loss of digital control.\n\nKey beats: At 11:00, the IT Director confirms via forensic log: 'An unauthorized Siemens vendor tunnel was active from 3:00 AM to 09:00 AM. The attacker used this to inject commands into ALCS. We must disconnect from the network to prevent lateral movement.'; At 11:05, the Airport Director issues the 'Disconnect' order: the internet connection to all critical systems (ALCS, PACS, AODB/FIDS, Fuel SCADA) is severed. The AOC goes dark; the main monitor shows only 'No Signal'.; At 11:12, the Ops Manager activates the Manual Lighting Protocol: 'All ATC personnel report to the Vault (Level B1). Use the Physical Lighting Panel to control taxiway and runway lights via hand switches.' The Vault’s ALCS manual panel is unlocked and activated.; At 11:20, the Security Officer reports that Gate 12 has been blocked by a crowd of passengers who saw the FIDS screen go dark and believe the airport is closed. A passenger demands to know why they can't board a flight.; At 11:35, the media arrives at the terminal entrance. The PIO is instructed to announce: 'A cybersecurity incident has occurred. All aircraft movement is suspended. The airport is now operating under manual control. Normal operations will resume when safe.' The statement is broadcast via emergency channel (10:45 PM) and on the main terminal PA system..",
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "01M5GD0JTKWSYAF18G59CX6460",
+      "index": 3,
+      "title": "Recovery & Verification",
+      "goal": "Test the team's ability to restore trust in systems, verify integrity through redundant checks, and manage stakeholder demands during a slow, meticulous recovery process.\n\nKey beats: At 12:00, the IT Director reports: 'We have isolated the ALCS server. Forensics confirms the attacker used a stolen vendor credential and maintained access for 8 hours. No other systems were compromised.'; At 12:15, the Ops Manager announces: 'Manual lighting is operational. All ATC personnel have confirmed visual verification of taxi routes via hand-held signal lamps. Runway 17 is clear for landing.' The statement is broadcast via the PA and confirmed to the airline.; At 12:30, the airline station manager demands a written guarantee: 'We need proof that ALCS is safe before we resume operations. Show us the logs, the recovery plan, and a timeline for full restoration.'; At 12:45, the IT Director presents the verification plan: 'We will restore ALCS from a clean gold image, validate all access logs, and perform a 24-hour dry run before reconnecting to the network.'; At 12:55, the final reconciliation is completed: the AODB/FIDS system is restored from a paper log of actual gate assignments. All passenger information is updated, and the terminal is reopened for boarding.; At 13:00, the Airport Director declares ENDEX. The final message: 'All systems are under manual control. No further incidents reported. Exercise concluded.'.",
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "01M5GD0JTKZ7VD7YSKDS0DA7ZT",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "pio", "security", "airline"],
+      "toLabel": "IC, TIC, PIO, LAW, AIR",
+      "event": "STARTEX: It is 09:00. The weather is clear, with light winds and no active warnings. The airport is operating under normal conditions. All systems are green. Status is normal.",
+      "expectedAction": "All roles acknowledge the start of the exercise and prepare for incoming injects.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "01M5GD0JTKZ7VD7YSKDS0DA7ZT",
+      "time": "0:12",
+      "wallClock": "09:12",
+      "from": "ATCT Supervisor",
+      "toRoleIds": ["ops"],
+      "toLabel": "IC",
+      "event": "Radio Call: \"AOC, this is ATCT. Lights on Taxiway Alpha are blinking in a pattern that doesn't match the standard sequence—like they're trying to send a message. I've checked the manual panel, and it's not set to any alternate mode. This isn't in the SOP.\" ",
+      "expectedAction": "Ops acknowledges the report, does not escalate, and instructs the ramp supervisor to verify visually. Does not declare an incident yet—requires field confirmation.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+          "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+          "chunkId": 85
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-01b",
+      "phaseId": "01M5GD0JTKZ7VD7YSKDS0DA7ZT",
+      "time": "0:14",
+      "wallClock": "09:14",
+      "from": "Helpdesk",
+      "toRoleIds": ["it"],
+      "toLabel": "TIC",
+      "event": "Ticket #20417 (Priority: Low) — \"Gate C12 intercom isn't responding. The call button on the wall unit is stuck in the 'off' position. Is this related to whatever is going on with the lights?\" ",
+      "expectedAction": "IT notes the ticket but does not investigate yet—this is unrelated to the ALCS anomaly. The intercom failure may be a local hardware issue.",
+      "purposeTag": "NOISE",
+      "format": "helpdesk_ticket",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "01M5GD0JTKZ7VD7YSKDS0DA7ZT",
+      "time": "0:23",
+      "wallClock": "09:23",
+      "from": "Ramp Supervisor",
+      "toRoleIds": ["ops"],
+      "toLabel": "IC",
+      "event": "Radio Call: \"AOC, this is Ramp Supervisor 3. The lights on Runway 17 are alternating on and off in a 3-second cycle—this isn’t normal. I just saw a ground crew member walk into a dark section because the light wasn’t on. He didn’t see the obstruction until he stepped on it. We’ve had near-misses already. This is not a glitch. This is a safety issue.\" ",
+      "expectedAction": "Ops immediately logs the report, confirms with security that no one has reported a fire or emergency, and notifies IT to begin forensic review. Does not authorize manual lighting control yet.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        },
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+          "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+          "chunkId": 39
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-02b",
+      "phaseId": "01M5GD0JTKZ7VD7YSKDS0DA7ZT",
+      "time": "0:25",
+      "wallClock": "09:25",
+      "from": "Facilitator",
+      "toRoleIds": ["security"],
+      "toLabel": "LAW",
+      "event": "Field Report: Gate C12 door control panel failed—badge reader unresponsive, door remains locked despite valid swipe. No access code change issued. Is this related to ALCS?",
+      "expectedAction": "Security confirms the door is not responding to valid credentials; initiates manual inspection procedure per TIRP 13.7 and C7: LEOs will verify badges against the printed 'Stop List' and log all entries manually.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "field_report",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+          "quote": "**A. Immediate Action.** All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection. **B. Manual Inspect",
+          "chunkId": 68
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 2 › 2.2 Situation and Assumptions",
+          "quote": "Triggers: Tornado Warning; Severe Thunderstorm Warning (80+ mph winds, large hail); external HAZMAT incident (I-80/I-90, rail, industrial); security incident as directed by law enforcement. | Location",
+          "chunkId": 88
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "01M5GD0JTKZ7VD7YSKDS0DA7ZT",
+      "time": "0:31",
+      "wallClock": "09:31",
+      "from": "Facilitator",
+      "toRoleIds": ["it"],
+      "toLabel": "TIC",
+      "event": "System Log: [2024-04-05 03:00:12] Failed authentication on ALCS server (alcs-01, 10.66.0.15) from IP 10.200.1.47 (not in vendor list). Session remained active until 09:29. Last command: 'SET_LIGHTS 17 ON 3s'. No logout. Source: Remote Vendor Tunnel (Siemens) — approved window closed 03:00 AM.",
+      "expectedAction": "IT validates the log entry and confirms the unauthorized access window; initiates containment protocol per ASP Appendix F and C11: vendor tunnel must be severed immediately and logged as a policy violation.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+          "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+          "chunkId": 78
+        },
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Appendix D › D.1 Network Topology",
+          "quote": "The **Security Operations Network (SecNet)** is physically segmented from business and public networks. VLANs: 660 (Mgmt: core servers and admin workstations) · 661 (PACS: door controllers / ISCs) · 6",
+          "chunkId": 73
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-03b",
+      "phaseId": "01M5GD0JTKZ7VD7YSKDS0DA7ZT",
+      "time": "0:33",
+      "wallClock": "09:33",
+      "from": "Social Media",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Tweet (@NCIA_Trips): \"Wait—why are the runway lights blinking in Morse code? Is someone trying to warn us? #NCIA #LightsAreTalking #AirportConfusion\" — 42 likes, 17 retweets.",
+      "expectedAction": "PIO logs the tweet, flags it as a public sentiment spike, and prepares to issue a holding statement. Does not confirm or deny any pattern—waits for IC verification.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+          "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+          "chunkId": 85
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "01M5GD0JTKZ7VD7YSKDS0DA7ZT",
+      "time": "0:42",
+      "wallClock": "09:42",
+      "from": "AODB/FIDS",
+      "toRoleIds": ["ops"],
+      "toLabel": "IC",
+      "event": "FIDS Board Alert: \"Cargo Flight 742 (Gate C12) - Departed\" — displayed on all FIDS screens, despite no aircraft movement and no gate release. The gate remains occupied by a ground crew vehicle.",
+      "expectedAction": "Ops notes the FIDS anomaly but treats it as 'noise'—the ALCS issue is already under review and may be driving the display. Does not initiate a separate investigation.",
+      "purposeTag": "NOISE",
+      "format": "fids_board",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "01M5GD0JTKZ7VD7YSKDS0DA7ZT",
+      "time": "0:55",
+      "wallClock": "09:55",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it"],
+      "toLabel": "IC, TIC",
+      "event": "Email Forward: \"ALCS telemetry is inconsistent—lights appear to be responding to external commands. We have a potential remote access vector. Recommend no action yet—verify with physical observation. Do not trust any digital report until field-confirmed. This is not a sensor glitch. This is a compromise.\"",
+      "expectedAction": "IC and TIC acknowledge the threat; IC activates TIRP 13.6: manual procedures; TIC confirms ALCS is compromised and orders immediate network isolation per C8 and C3.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+          "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+          "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+          "chunkId": 39
+        },
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+          "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+          "chunkId": 78
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "01M5GD0JTKCZQQ7EYFD3BNP801",
+      "time": "1:00",
+      "wallClock": "10:00",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "pio", "security", "airline"],
+      "toLabel": "IC, TIC, PIO, LAW, AIR",
+      "event": "Time Jump: It is now 10:00. Two more pumping stations have dropped off the network and the night shift cannot log in.",
+      "expectedAction": "All roles acknowledge the time jump and confirm status. The AOC activates the Incident Command structure per TIRP 1.4 and AEP 4.1.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Annex B",
+          "quote": "| Location | Terminal Area | Level | Description | |---|---|---|---| | Shelter A | Main Terminal | Level 1 / Baggage Claim | Restrooms & interior corridors (away from glass entrance) | | Shelter B | C",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+          "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+          "chunkId": 13
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "01M5GD0JTKCZQQ7EYFD3BNP801",
+      "time": "1:03",
+      "wallClock": "10:03",
+      "from": "ATCT Supervisor",
+      "toRoleIds": ["ops"],
+      "toLabel": "IC",
+      "event": "Radio Call: \"AOC, this is ATCT. The lights are doing a random dance—some are on, some are off, and they keep changing. I’ve just seen a ground crew member walk into a dark section because the light wasn't on. He didn’t see the obstruction until he stepped on it. This isn’t a glitch. This is a safety issue. I need a full stop on all aircraft movement.\"\n\n[Monitor Alert: ALCS Status Map (10.66.0.15) now shows 67% of lights in 'Uncontrolled' mode. 147 lights are in transition or invalid state.]",
+      "expectedAction": "Ops immediately halts all aircraft movement on runways and taxiways; orders all ground crews to stop and hold position; activates manual mode per TIRP 13.3 and AEP 6.2. No verbal approval needed—action is automatic under threat to flight safety.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 2 › 2.2 Situation and Assumptions",
+          "quote": "Triggers: Tornado Warning; Severe Thunderstorm Warning (80+ mph winds, large hail); external HAZMAT incident (I-80/I-90, rail, industrial); security incident as directed by law enforcement. | Location",
+          "chunkId": 88
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-06b",
+      "phaseId": "01M5GD0JTKCZQQ7EYFD3BNP801",
+      "time": "1:05",
+      "wallClock": "10:05",
+      "from": "Helpdesk",
+      "toRoleIds": ["it"],
+      "toLabel": "TIC",
+      "event": "Ticket #20418 (Priority: Medium) — \"Gate B5 intercom is making a high-pitched whine and won’t shut off. The volume knob is frozen. Is this related to the lights?\"",
+      "expectedAction": "IT notes the ticket but does not escalate; confirms it is unrelated to ALCS or PACS. The sound is likely a hardware fault in the intercom amplifier.",
+      "purposeTag": "NOISE",
+      "format": "helpdesk_ticket",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "01M5GD0JTKCZQQ7EYFD3BNP801",
+      "time": "1:15",
+      "wallClock": "10:15",
+      "from": "Pilot (Flight 742)",
+      "toRoleIds": ["ops"],
+      "toLabel": "IC",
+      "event": "Radio Call: \"ATC, this is Flight 742, final approach to Runway 17. I can't see the runway lights—there’s no continuity on the approach path. The lights are flashing in a random pattern. I’m going to full stop on the taxiway. I cannot complete this landing. Request alternate airport.\"\n\n[Official Notification: Airline (NCIA Air) sends formal message: 'Flight 742 (Cargo) has been diverted to Cleveland Hopkins International due to unsafe runway lighting conditions. Request for explanation and status update required.']",
+      "expectedAction": "Ops confirms the pilot's report and logs it in the manual log; notifies IT and security immediately; informs the airline station manager (AIR) of the diversion and begins coordinating with the receiving airport.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+          "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+          "chunkId": 85
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-07b",
+      "phaseId": "01M5GD0JTKCZQQ7EYFD3BNP801",
+      "time": "1:17",
+      "wallClock": "10:17",
+      "from": "Fuel Farm Supervisor",
+      "toRoleIds": ["ops"],
+      "toLabel": "IC",
+      "event": "Face-to-Face: \"The Fuel SCADA system just triggered a false overfill alert on Tank 4. The alarm is sounding, but no overflow was detected on-site. I've checked the gauges—no movement. Is this related to the lights? The AOC said not to shut down fueling, but we're under pressure to stop.\"",
+      "expectedAction": "Ops acknowledges the alert but does not suspend fueling; confirms Fuel SCADA is isolated from ALCS; instructs the supervisor to manually verify tank levels and maintain logs; advises the airline to expect delays due to precautionary shutdown.",
+      "purposeTag": "RED_HERRING",
+      "format": "face_to_face",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 9 › 9.2 Assumptions",
+          "quote": "Backup generators power critical life safety (emergency lighting, fire panel) and some essential systems. **Not all systems are on backup power: FIDS, baggage handling (BHS), jet bridges, and general ",
+          "chunkId": 111
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "01M5GD0JTKCZQQ7EYFD3BNP801",
+      "time": "1:22",
+      "wallClock": "10:22",
+      "from": "Social Media",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Tweet (@NCIA_Media): \"Breaking: NCIA has shut down all digital systems due to a cyberattack. Is the airport safe? Passengers are trapped in terminals. What is the plan? #NCIA #AirportShutDown #CyberAttack\" — 187 likes, 64 retweets.",
+      "expectedAction": "PIO confirms the tweet is circulating; prepares a holding statement with IC and TIC approval. Avoids confirming a system-wide shutdown until verified. Uses plain language and includes ADA-compliant text for accessibility.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+          "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+          "chunkId": 85
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-08b",
+      "phaseId": "01M5GD0JTKCZQQ7EYFD3BNP801",
+      "time": "1:24",
+      "wallClock": "10:24",
+      "from": "Facilitator",
+      "toRoleIds": ["security"],
+      "toLabel": "LAW",
+      "event": "Field Report: Gate 12 is blocked by a crowd of passengers. They saw the FIDS screen go dark and believe the airport is closed. One passenger is demanding to know why they can't board a flight. The crowd is growing. Five LEOs on scene but no official statement yet.",
+      "expectedAction": "Security coordinates with LAW to deploy LEOs to manage crowd at Gate 12. Issues verbal reassurance via bullhorn: 'We are aware of the situation. All flights are being assessed. Do not move to restricted areas. Follow instructions.'",
+      "purposeTag": "PRESSURE",
+      "format": "field_report",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+          "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+          "chunkId": 85
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "01M5GD0JTKCZQQ7EYFD3BNP801",
+      "time": "1:45",
+      "wallClock": "10:45",
+      "from": "Airport Director",
+      "toRoleIds": ["ops", "it"],
+      "toLabel": "IC, TIC",
+      "event": "Phone Call (Crash Phone - Red Phone): \"AOC, this is the Airport Director. I am declaring a Level 2 Alert (Full Emergency) per AEP 4.6. ARFF Station 9, Akron Fire Dispatch, and Airport Police are now on alert. All agencies under Unified Command. I am designating Ops Manager as Incident Commander and IT Director as Technical Incident Command. This is now a formal incident.\"\n\n[Confirmed: Alert 2 (Full Emergency) activated. AOC now holds Unified Command. All roles must report to AOC for coordination.]",
+      "expectedAction": "Ops and IT confirm Unified Command structure; activate TIRP 13.3 and AEP 4.1; begin formal incident reporting; assign roles for communication, operations, and technical response. All future actions must be approved through the AOC.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part I › Section 4 › 4.6 Alert and Notification",
+          "quote": "**A. The \"Crash Phone\" (Red Phone).** Dedicated hardline connecting the ATCT to ARFF Station 9, AOC, Akron Fire Dispatch (911), and Airport Police Dispatch. **B. Alert Classifications (Aircraft).** Al",
+          "chunkId": 18
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+          "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+          "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+          "chunkId": 13
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-09b",
+      "phaseId": "01M5GD0JTKCZQQ7EYFD3BNP801",
+      "time": "1:52",
+      "wallClock": "10:52",
+      "from": "Facilitator",
+      "toRoleIds": ["it"],
+      "toLabel": "TIC",
+      "event": "System Log: [2024-04-05 10:48:22] ALCS server (alcs-01, 10.66.0.15) rebooted unexpectedly. Last known command: 'SET_LIGHTS 17 ON 3s'. No scheduled maintenance. Reboot initiated from internal console (IP 10.66.0.15). No user session logged in. Check for root access or unauthorized script execution.",
+      "expectedAction": "IT immediately isolates the ALCS server (10.66.0.15) from all networks. Confirms the reboot was unauthorized and likely executed via a root-level exploit. Initiates forensic preservation of logs and memory dump on the server. No further action on the server until clean recovery.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+          "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+          "chunkId": 39
+        },
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-10b",
+      "phaseId": "01M5GD0JTKCZQQ7EYFD3BNP801",
+      "time": "2:00",
+      "wallClock": "11:00",
+      "from": "Facilitator",
+      "toRoleIds": ["security"],
+      "toLabel": "LAW",
+      "event": "Field Report: Vault Guard reports the ALCS manual control panel (in the Vault) was accessed remotely via the internal network. The cover was pried open, and a USB drive was inserted into the local port. No physical entry was made. The drive was removed and the panel reset. This confirms the attacker reached the physical control point—this is not just a remote software exploit.",
+      "expectedAction": "Security confirms the Vault is now under 24/7 armed guard. Orders all LEOs to enforce a 30-foot exclusion zone around the Vault. No one may approach the panel without written authorization from the IC and TIC. The manual panel is secured, and access logs are reviewed for anomalies.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "field_report",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+          "quote": "**A. Immediate Action.** All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection. **B. Manual Inspect",
+          "chunkId": 68
+        },
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "time": "2:00",
+      "wallClock": "11:00",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "pio", "security", "airline"],
+      "toLabel": "IC, TIC, PIO, LAW, AIR",
+      "event": "Time Jump: It is now 11:00. The IT Director has confirmed via forensic log: 'An unauthorized Siemens vendor tunnel was active from 3:00 AM to 09:00 AM. The attacker used this to inject commands into ALCS. We must disconnect from the network to prevent lateral movement.'",
+      "expectedAction": "All roles acknowledge the confirmed threat vector and prepare for system isolation. Ops and IT initiate contingency protocols per AEP 6.2 and ASP Appendix F.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+          "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+          "chunkId": 78
+        },
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+          "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+          "chunkId": 39
+        },
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11b",
+      "phaseId": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "time": "2:02",
+      "wallClock": "11:02",
+      "from": "Airport Director",
+      "toRoleIds": ["ops", "it"],
+      "toLabel": "IC, TIC",
+      "event": "Phone Call (Crash Phone - Red Phone): 'AOC, this is the Airport Director. I am issuing the 'Disconnect' order per AEP 6.2. Sever all internet connections to ALCS, PACS, AODB/FIDS, and Fuel SCADA. The network is now air-gapped. This will degrade operations but stop lateral movement. Confirm receipt and begin manual mode.'",
+      "expectedAction": "IC and TIC acknowledge the order. IT immediately disables external network access to SecNet core. All digital displays go dark. Ops begins activation of manual procedures.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+          "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+          "chunkId": 39
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+          "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+          "chunkId": 127
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "time": "2:05",
+      "wallClock": "11:05",
+      "from": "Facilitator",
+      "toRoleIds": ["it"],
+      "toLabel": "TIC",
+      "event": "System Log: [2024-04-05 11:48:15] ALCS server (alcs-01, 10.66.0.15) rebooted unexpectedly. Last known command: 'SET_LIGHTS 17 ON 3s'. No scheduled maintenance. Reboot initiated from internal console (IP 10.66.0.15). No user session logged in. Check for root access or unauthorized script execution.",
+      "expectedAction": "IT confirms the reboot is unauthorized and initiates forensic analysis on the ALCS server; no clean backup exists for ALCS core—recovery must begin from gold image on secure air-gapped system.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "system_log",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+          "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+          "chunkId": 39
+        },
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+          "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+          "chunkId": 127
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "time": "2:10",
+      "wallClock": "11:10",
+      "from": "Ops Manager",
+      "toRoleIds": ["ops"],
+      "toLabel": "IC",
+      "event": "Radio Call: 'AOC, this is Ops Manager. I am activating the Manual Lighting Protocol per TIRP 13.3. All ATC personnel report to the Vault (Level B1) immediately. Use the Physical Lighting Panel to control taxiway and runway lights via hand switches. No digital confirmation is allowed—only visual and verbal checks on the field.'",
+      "expectedAction": "IC confirms activation. Ops issues command to all ATC personnel to report to Vault. Manual Lighting Panel in Vault is now the sole source of lighting control.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 2 › 2.2 Situation and Assumptions",
+          "quote": "Triggers: Tornado Warning; Severe Thunderstorm Warning (80+ mph winds, large hail); external HAZMAT incident (I-80/I-90, rail, industrial); security incident as directed by law enforcement. | Location",
+          "chunkId": 88
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "time": "2:15",
+      "wallClock": "11:15",
+      "from": "Security Officer",
+      "toRoleIds": ["security"],
+      "toLabel": "LAW",
+      "event": "Face-to-Face: 'Gate 12 is blocked by a crowd of passengers. They saw the FIDS screen go dark and believe the airport is closed. One passenger is demanding to know why they can't board a flight. The crowd is growing. We have five LEOs on scene but no official statement yet.'",
+      "expectedAction": "Security reports crowd to IC. IC authorizes PIO to issue a public statement. LAW secures Gate 12 and begins crowd control using verbal commands and visual barriers.",
+      "purposeTag": "PRESSURE",
+      "format": "face_to_face",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+          "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+          "chunkId": 85
+        },
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+          "quote": "**A. Immediate Action.** All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection. **B. Manual Inspect",
+          "chunkId": 68
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "time": "2:20",
+      "wallClock": "11:20",
+      "from": "Media Inquiries",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Tweet (@NCIA_Media): 'Breaking: NCIA has shut down all digital systems due to a cyberattack. Is the airport safe? Passengers are trapped in terminals. What is the plan? #NCIA #AirportShutDown #CyberAttack'",
+      "expectedAction": "PIO confirms media inquiry and prepares a statement. All communications must be approved by IC and TIC. No unverified claims may be made.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP",
+          "quote": "TSA Approval Date: 09/01/2024 · Revision Number: 4.5 · Classification: SENSITIVE SECURITY INFORMATION (SSI) *(fictional marking for classroom use)* > **Fictional document** created for the CSAAP cours",
+          "chunkId": 41
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+          "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+          "chunkId": 85
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "time": "2:25",
+      "wallClock": "11:25",
+      "from": "Airport Director",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Media Inquiry Phone Slip: 'PIO, you are authorized to release the following statement to all media outlets: 'A cybersecurity incident has occurred. All aircraft movement is suspended. The airport is now operating under manual control. Normal operations will resume when safe.' This is to be broadcast via emergency channel (10:45 PM) and on the main terminal PA system. Confirm receipt.'",
+      "expectedAction": "PIO confirms receipt and activates emergency broadcast via PA and emergency channel. All roles confirm awareness of the official statement.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "media_inquiry_phone_slip",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part I › Section 4 › 4.6 Alert and Notification",
+          "quote": "**A. The \"Crash Phone\" (Red Phone).** Dedicated hardline connecting the ATCT to ARFF Station 9, AOC, Akron Fire Dispatch (911), and Airport Police Dispatch. **B. Alert Classifications (Aircraft).** Al",
+          "chunkId": 18
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+          "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+          "chunkId": 85
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "time": "2:30",
+      "wallClock": "11:30",
+      "from": "Security Officer",
+      "toRoleIds": ["security"],
+      "toLabel": "LAW",
+      "event": "Face-to-Face: 'Vault Guard reports the ALCS manual panel was accessed remotely via the internal network. The cover was pried open, and a USB drive was inserted into the local port. No physical entry was made. The drive was removed and the panel reset. This confirms the attacker reached the physical control point—this is not just a remote software exploit.'",
+      "expectedAction": "Security reports the confirmed physical breach to IC and TIC. This confirms the attacker had full access to manual controls. IC orders all vault access to be restricted until verified clean.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "face_to_face",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 2 › 2.2 Situation and Assumptions",
+          "quote": "Triggers: Tornado Warning; Severe Thunderstorm Warning (80+ mph winds, large hail); external HAZMAT incident (I-80/I-90, rail, industrial); security incident as directed by law enforcement. | Location",
+          "chunkId": 88
+        },
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Appendix D › D.1 Network Topology",
+          "quote": "The **Security Operations Network (SecNet)** is physically segmented from business and public networks. VLANs: 660 (Mgmt: core servers and admin workstations) · 661 (PACS: door controllers / ISCs) · 6",
+          "chunkId": 73
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "time": "2:35",
+      "wallClock": "11:35",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "pio", "security", "airline"],
+      "toLabel": "IC, TIC, PIO, LAW, AIR",
+      "event": "Endex: It is now 11:35. The airport has transitioned to full manual mode. The ALCS manual panel is now under direct human control. The emergency statement has been broadcast. The threat vector is confirmed. The scene is stabilized but not recovered. All roles are now in their manual procedures and awaiting recovery guidance. The hot wash will begin.",
+      "expectedAction": "All roles report status. Incident Command confirms that the airport is operating under manual control with verified procedures in place. Recovery phase begins.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "endex_card",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+          "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+          "chunkId": 39
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+          "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+          "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+          "chunkId": 85
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-17b",
+      "phaseId": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "time": "2:40",
+      "wallClock": "11:40",
+      "from": "Helpdesk",
+      "toRoleIds": ["it"],
+      "toLabel": "TIC",
+      "event": "Ticket #20419 (Priority: Low) — 'The main terminal restroom near Shelter A is out of toilet paper and the flush mechanism is jammed. The sign says 'Out of Service' but the door is locked from the inside. Is this related to the cyber incident?'",
+      "expectedAction": "IT verifies that the restroom system is not connected to SecNet or any critical network; it is a standalone mechanical system. The ticket is closed as unrelated and not a priority.",
+      "purposeTag": "NOISE",
+      "format": "helpdesk_ticket",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "time": "3:00",
+      "wallClock": "12:00",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "pio", "security", "airline"],
+      "toLabel": "IC, TIC, PIO, LAW, AIR",
+      "event": "Time Jump: It is now 12:00. The ALCS manual panel has been under human control for 45 minutes. All field teams have confirmed visual and verbal checks on taxiway and runway lighting. The first aircraft is now being guided manually to a safe parking position. The airport is in full manual mode. The recovery process will begin under controlled verification.",
+      "expectedAction": "All roles confirm status: Ops has activated manual procedures, IT is verifying forensic evidence, PIO is preparing the next public statement, Security is maintaining control of all portals, and Airline is reporting passenger conditions. The hot wash will now begin.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-20b",
+      "phaseId": "01M5GD0JTKWSYAF18G59CX6460",
+      "time": "3:05",
+      "wallClock": "12:05",
+      "from": "Facilitator",
+      "toRoleIds": ["it", "ops", "pio"],
+      "toLabel": "TIC, IC, PIO",
+      "event": "Email Forward: 'Recovery Plan for ALCS: (1) Restore from clean gold image (SEC-SVR-01) on air-gapped system; (2) Validate all access logs against the 03:00–09:00 window; (3) Perform 24-hour dry run of manual and automated controls; (4) Reconnect to SecNet only after full audit and CISA approval. No reconnection until all checks pass.'",
+      "expectedAction": "IT, Ops, and PIO confirm the recovery plan; IT begins isolation and verification steps per TIRP 13.6 and AEP 6.2. No system reconnection until all checks are complete.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+          "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+          "chunkId": 39
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+          "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Appendix D › D.1 Network Topology",
+          "quote": "The **Security Operations Network (SecNet)** is physically segmented from business and public networks. VLANs: 660 (Mgmt: core servers and admin workstations) · 661 (PACS: door controllers / ISCs) · 6",
+          "chunkId": 73
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21",
+      "phaseId": "01M5GD0JTKWSYAF18G59CX6460",
+      "time": "3:10",
+      "wallClock": "12:10",
+      "from": "Ops Manager",
+      "toRoleIds": ["ops"],
+      "toLabel": "IC",
+      "event": "Radio Call: 'AOC, this is Ops Manager. All ATC personnel have confirmed visual verification of taxi routes via hand-held signal lamps. Runway 17 is clear for landing. We are ready to accept final approach from Flight 742 (diverted). A manual clearance has been issued. Confirm with pilot.'",
+      "expectedAction": "Ops confirms manual clearance and broadcasts to Flight 742 via VHF. Activate TIRP 13.3: Manual Lighting Protocol (final verification).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+          "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+          "chunkId": 85
+        },
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21b",
+      "phaseId": "01M5GD0JTKWSYAF18G59CX6460",
+      "time": "3:15",
+      "wallClock": "12:15",
+      "from": "Facilitator",
+      "toRoleIds": ["airline"],
+      "toLabel": "AIR",
+      "event": "Formal Request: The airline’s operations team demands a written guarantee before resuming flight operations. They require proof of ALCS safety—show logs, recovery plan, and timeline. No further delays allowed.",
+      "expectedAction": "AIR reports the airline’s demand to IC and TIC; IC confirms that no operations will resume until recovery is verified and approved by TIC and AOC.",
+      "purposeTag": "PRESSURE",
+      "format": "memo",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+          "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+          "chunkId": 127
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-23",
+      "phaseId": "01M5GD0JTKWSYAF18G59CX6460",
+      "time": "3:35",
+      "wallClock": "12:35",
+      "from": "Security Officer",
+      "toRoleIds": ["security"],
+      "toLabel": "LAW",
+      "event": "Face-to-Face: 'Vault Guard reports the USB drive inserted into the ALCS panel was labeled ",
+      "expectedAction": "Security confirms the drive was not in the airport’s authorized inventory. It has been preserved for forensic analysis and handed to IT for chain-of-custody documentation.",
+      "purposeTag": "CLUE",
+      "format": "face_to_face",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+          "quote": "**A. Immediate Action.** All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection. **B. Manual Inspect",
+          "chunkId": 68
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-23b",
+      "phaseId": "01M5GD0JTKWSYAF18G59CX6460",
+      "time": "3:40",
+      "wallClock": "12:40",
+      "from": "Helpdesk",
+      "toRoleIds": ["it"],
+      "toLabel": "TIC",
+      "event": "Ticket #20420 (Priority: Low) — 'The PA system in Concourse B is playing a loop of the airport’s old jingle from 2003. The volume is too loud, and no one can turn it off. Is this part of the cyberattack? The jingle keeps saying, \"Welcome to NCIA, where the lights never sleep.\"",
+      "expectedAction": "IT verifies that the PA system is not connected to SecNet and is operating on a separate, local audio feed; dismisses the jingle as a misconfigured legacy playlist, not a cyber compromise.",
+      "purposeTag": "NOISE",
+      "format": "helpdesk_ticket",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-24",
+      "phaseId": "01M5GD0JTKWSYAF18G59CX6460",
+      "time": "3:50",
+      "wallClock": "12:50",
+      "from": "Ops Manager",
+      "toRoleIds": ["ops"],
+      "toLabel": "IC",
+      "event": "FIDS Board Alert: 'Flight 742 (Cargo) - Gate C12 - Now Boarding' — manually updated from paper log. All passenger information has been reconciled with the terminal’s paper manifest. The gate is now open for boarding.",
+      "expectedAction": "Ops confirms reconciliation of AODB/FIDS from paper log (TIRP 13.3). All passenger info updated. Terminal cleared for boarding.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "fids_board_alert",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+          "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+          "chunkId": 38
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+          "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+          "chunkId": 85
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-24b",
+      "phaseId": "01M5GD0JTKWSYAF18G59CX6460",
+      "time": "3:55",
+      "wallClock": "12:55",
+      "from": "Social Media",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Tweet (@NCIA_News): \"BREAKING: The ALCS manual panel was hacked remotely and a USB drive was used to alter the light patterns. The airport says it's safe, but the driver was traced to a known ransomware group. Is this a lie? #NCIA #CyberAttack #Exposed\" — 1,200 likes, 842 retweets, trending on X.",
+      "expectedAction": "PIO confirms the attacker used a USB drive to reach the manual panel, but stresses that no digital confirmation was used—manual verification is ongoing. Issues a correction: 'The attacker used a physical USB drive to manipulate the manual panel. This was not a digital exploit. All systems remain under manual control. No recovery until full verification.'",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+          "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+          "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+          "chunkId": 39
+        },
+        {
+          "documentId": "01M5GCZ7C7MBRYAWP7BE7X8KWC",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+          "headingPath": "TIRP › Section 2 › 2.2 Situation and Assumptions",
+          "quote": "Triggers: Tornado Warning; Severe Thunderstorm Warning (80+ mph winds, large hail); external HAZMAT incident (I-80/I-90, rail, industrial); security incident as directed by law enforcement. | Location",
+          "chunkId": 88
+        },
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Section 3 › 3.5 Failure Modes (Contingency) (TSA Security Directive 1542-04-08G)",
+          "quote": "**Fail-Secure (Locked):** doors from Public to Secure default LOCKED on the exterior; physical key required. **Fail-Safe (Unlocked):** Emergency Egress Routes unlock on Fire Alarm. **Total System Fail",
+          "chunkId": 57
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-25",
+      "phaseId": "01M5GD0JTKWSYAF18G59CX6460",
+      "time": "3:58",
+      "wallClock": "12:58",
+      "from": "Airport Director",
+      "toRoleIds": ["ops", "it", "pio", "security", "airline"],
+      "toLabel": "IC, TIC, PIO, LAW, AIR",
+      "event": "Phone Call (Crash Phone - Red Phone): 'AOC, this is the Airport Director. I am authorizing the final recovery phase. All systems remain under manual control. No further incidents reported. Exercise concluded.'",
+      "expectedAction": "Airport Director confirms final recovery status. All roles acknowledge the end of incident phase. Prepare for hot wash.",
+      "purposeTag": "END_GAME",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-25b",
+      "phaseId": "01M5GD0JTKWSYAF18G59CX6460",
+      "time": "3:59",
+      "wallClock": "12:59",
+      "from": "Facilitator",
+      "toRoleIds": ["security"],
+      "toLabel": "LAW",
+      "event": "Field Report: Vault Guard reports the USB drive was labeled 'Test_Firmware_V3.1' and had a cracked casing. The label was printed with a standard office printer. It was not from a known vendor or internal source. We’ve isolated the drive and sent it to forensic lab for analysis.",
+      "expectedAction": "Security confirms the USB drive is isolated and in forensic custody; reports to LAW and TIC for evidence chain tracking per C4 and C8.",
+      "purposeTag": "CLUE",
+      "format": "field_report",
+      "citations": [
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+          "quote": "**A. Immediate Action.** All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection. **B. Manual Inspect",
+          "chunkId": 68
+        },
+        {
+          "documentId": "01M5GCZ7C6DZMYYCM8D5TT9AAY",
+          "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+          "headingPath": "ASP › Section 3 › 3.5 Failure Modes (Contingency) (TSA Security Directive 1542-04-08G)",
+          "quote": "**Fail-Secure (Locked):** doors from Public to Secure default LOCKED on the exterior; physical key required. **Fail-Safe (Unlocked):** Emergency Egress Routes unlock on Fire Alarm. **Total System Fail",
+          "chunkId": 57
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "01M5GD0JTKWSYAF18G59CX6460",
+      "time": "4:00",
+      "wallClock": "13:00",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "pio", "security", "airline"],
+      "toLabel": "IC, TIC, PIO, LAW, AIR",
+      "event": "Endex: It is now 13:00. The airport has completed the full recovery process. All systems are under manual control. No further incidents reported. Exercise concluded.",
+      "expectedAction": "All roles confirm completion of manual procedures and readiness for hot wash. No further injects.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5GCZRSW2KM103ER2A9EX91A/documents/handbook.md",
+    "briefing": "scenarios/01M5GCZRSW2KM103ER2A9EX91A/documents/briefing.md",
+    "overview": "scenarios/01M5GCZRSW2KM103ER2A9EX91A/documents/overview.md",
+    "hotwash": "scenarios/01M5GCZRSW2KM103ER2A9EX91A/documents/hotwash.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "01M5GD4QJ8YV7K9H1TRSYCFZ9X",
+        "name": "Operational Coordination",
+        "points": 30,
+        "fail": "Ops failed to activate manual lighting procedures until after the pilot reported an unsafe landing, delaying the 'Go Dark' decision until I-07 forced it. IT did not confirm network isolation before Ops issued manual control commands, creating a risk of conflicting directives.",
+        "pass": "Ops activated manual lighting procedures after the pilot's report (I-07) and confirmed the 'Disconnect' order (I-11b) before initiating manual control. IT confirmed network isolation (I-12) prior to manual activation, ensuring no conflicting digital commands could override field actions.",
+        "excellence": "Ops initiated manual lighting protocol (I-13) immediately after the pilot's report (I-07), and IT confirmed network isolation (I-12) and forensic status (I-10b) before manual control began—demonstrating proactive coordination under threat to flight safety.",
+        "linkedInjectIds": ["I-07", "I-11b", "I-12", "I-13", "I-10b"],
+        "objectiveRefs": ["Inter-Command Coordination", "Manual Procedures Under Pressure"]
+      },
+      {
+        "id": "01M5GD4QJ8ET703JM4579RKNEK",
+        "name": "Technical Competence",
+        "points": 30,
+        "fail": "IT rebooted the ALCS server after I-08b, destroying critical forensic evidence. The absence of a user session and the presence of a non-authorized script execution path (I-17b) were not detected until after the reboot, violating AEP 6.3 and ASP Appendix F.",
+        "pass": "IT preserved server logs and did not reboot the ALCS server until after forensic analysis confirmed no lateral movement (I-20b). The team confirmed the attacker used a stolen vendor credential (S-7734) via an active Siemens tunnel (I-11), and recovery began from a clean gold image (I-22).",
+        "excellence": "IT identified the unauthorized Siemens vendor tunnel (I-03) and confirmed the attacker used a stolen credential (S-7734) before any reboot. Forensic analysis (I-20b) confirmed no lateral movement, and recovery began from a clean gold image (I-22) without rebooting the server—preserving evidence and following AEP 6.3 and ASP Appendix F.",
+        "linkedInjectIds": ["I-03", "I-08b", "I-11", "I-17b", "I-20b", "I-22"],
+        "objectiveRefs": ["Remote Access Policy", "System Trust", "Use of Doctrine"]
+      },
+      {
+        "id": "01M5GD4QJ8SCRDC4HKYRN1VQB6",
+        "name": "Public Communication",
+        "points": 20,
+        "fail": "PIO issued a public statement (I-16) without verifying the content with IC and TIC, and later amplified a false claim about a ransomware group (I-24b) without correction, undermining credibility.",
+        "pass": "PIO confirmed receipt of the official statement (I-16) and broadcast it via PA and emergency channel only after approval. When misinformation spread (I-24b), PIO issued a correction stating the attacker used a USB drive to manipulate the manual panel, not a digital exploit.",
+        "excellence": "PIO issued a holding statement (I-03b) upon detecting social media noise and began drafting a public message before formal incident declaration. After the false claim (I-24b), PIO issued a timely correction emphasizing manual verification and ongoing control, demonstrating proactive, accurate public messaging.",
+        "linkedInjectIds": ["I-03b", "I-16", "I-24b", "I-24"],
+        "objectiveRefs": ["Public Communication"]
+      },
+      {
+        "id": "01M5GD4QJ8RMJ6CZ1WJVYJJMR0",
+        "name": "Use of Doctrine",
+        "points": 20,
+        "fail": "Ops did not cite TIRP 13.3 or AEP 6.2 when activating manual lighting (I-13), and IT did not reference ASP Appendix F when terminating the vendor tunnel (I-03). The team failed to invoke doctrine during critical decision points.",
+        "pass": "Ops activated manual lighting per TIRP 13.3 (I-13) and cited AEP 6.2 when halting aircraft movement (I-07). IT referenced ASP Appendix F when identifying the unauthorized vendor tunnel (I-03) and confirmed the attacker used a stolen credential (S-7734).",
+        "excellence": "Ops cited TIRP 13.3 and AEP 6.2 when activating manual lighting (I-13) and halting aircraft movement (I-07). IT invoked ASP Appendix F to identify the unauthorized tunnel and AEP 6.3 to justify preserving logs and avoiding reboot. All key decisions were explicitly tied to doctrine sections.",
+        "linkedInjectIds": ["I-03", "I-07", "I-13", "I-11", "I-10b", "I-22"],
+        "objectiveRefs": ["Remote Access Policy", "System Trust", "Use of Doctrine"]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "The '3-Up, 3-Down' method invites each team to share three things that went well and three areas that broke or failed during the exercise. Go around the room by team, capturing responses on a whiteboard. Use this to surface strengths and gaps quickly and ensure all voices are heard.",
+    "questions": [
+      {
+        "topic": "Trust",
+        "text": "When the lights flickered and then failed, what specific evidence did you use to decide that the ALCS telemetry was untrustworthy? At what point did you stop relying on the digital interface and switch to physical observation or manual verification?",
+        "objectiveRef": "System Trust"
+      },
+      {
+        "topic": "The Gap",
+        "text": "When Security Officer 4 reported the locked door at Gate C12, did you initially assume it was connected to the ALCS failure? What information did you need to close the gap between the lighting and access control systems, and how did you obtain it?",
+        "objectiveRef": "Inter-Command Coordination"
+      },
+      {
+        "topic": "The Insider",
+        "text": "When the Vault Guard reported the USB drive labeled 'Test_Firmware_V3.1' with a cracked casing, what did you immediately recognize about its origin? How did your understanding of vendor remote access policy shape your response to this physical artifact?",
+        "objectiveRef": "Remote Access Policy"
+      },
+      {
+        "topic": "Manual Procedures Under Pressure",
+        "text": "After the ALCS server rebooted unexpectedly at 10:48, you were required to sustain manual lighting operations using the Vault’s physical control panel. What was the first action you took to establish confidence in the manual system, and how did you maintain consistency under time pressure?",
+        "objectiveRef": "Manual Procedures Under Pressure"
+      },
+      {
+        "topic": "Decision Speed",
+        "text": "When the Airport Director declared a Level 2 Alert and activated Unified Command, what information did you wish you had available to make your next decision faster? What would have allowed you to decide more quickly on whether to proceed with manual operations or wait for a digital recovery?",
+        "objectiveRef": "Inter-Command Coordination"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "FBI Cyber Task Force Agent",
+      "trigger": "Player calls 'FBI Cyber Task Force' or says 'I need the FBI on this now'",
+      "hardQuestions": [
+        "Do you have a packet capture from the ALCS server during the 03:00–09:00 window?",
+        "Is there a signed access request for the Siemens tunnel (S-7734)?",
+        "Can you provide the CISA-issued alert number for this incident?"
+      ],
+      "concessions": [
+        "Will accept a signed access request and preserved logs from the 03:00–09:00 window.",
+        "Will approve a manual verification process if the IT Director provides a written timeline and evidence of no lateral movement."
+      ]
+    },
+    {
+      "rolePlayed": "Siemens Vendor Support Desk",
+      "trigger": "Player calls 'Siemens Support' or says 'We need vendor help to fix ALCS'",
+      "hardQuestions": [
+        "What is your ticket number for the active tunnel (10.200.1.47)?",
+        "Do you have a signed access request for the 03:00–09:00 window?",
+        "Can you provide the vendor ID (S-7734) and a timestamped log of the tunnel's closure?"
+      ],
+      "concessions": [
+        "Will provide a forensic package only if the access request is signed and the tunnel was closed before 03:00.",
+        "Will not assist unless the IT Director provides a ticket number and a written request."
+      ]
+    },
+    {
+      "rolePlayed": "Airline Station Manager (NCIA Air)",
+      "trigger": "Player says 'The airline wants a status update' or 'We need to know if we’re safe to board'",
+      "hardQuestions": [
+        "Do you have a written guarantee from the IT Director that ALCS is safe to restore?",
+        "Can you show me the recovery plan and timeline for full system restoration?",
+        "Have you confirmed the manual verification protocol was followed by all field teams?"
+      ],
+      "concessions": [
+        "Will accept a recovery plan and a signed timeline from the IT Director.",
+        "Will allow boarding only after the FIDS board is manually updated and verified against a paper manifest."
+      ]
+    },
+    {
+      "rolePlayed": "TV Assignment Desk (Local News)",
+      "trigger": "Player says 'We need to talk to the media' or 'The news is asking for a quote'",
+      "hardQuestions": [
+        "Can you confirm that the airport is safe for passengers to board?",
+        "Is the ALCS manual panel under human control?",
+        "Do you have a statement from the Airport Director on the cyberattack?"
+      ],
+      "concessions": [
+        "Will publish the official statement if it is received via the PIO.",
+        "Will not report on internal decisions unless a formal statement is issued."
+      ]
+    },
+    {
+      "rolePlayed": "Summit County Emergency Management Agency (EMA)",
+      "trigger": "Player says 'We need federal aid' or 'We need EMA on the scene'",
+      "hardQuestions": [
+        "Do you have a Unified Command activation notice?",
+        "Is the Airport Director in control of the emergency?",
+        "Can you provide the AEP 4.6 activation record?"
+      ],
+      "concessions": [
+        "Will dispatch the Family Assistance Center if Unified Command is confirmed.",
+        "Will coordinate state/federal assets only after the Airport Director confirms the incident is under control and a recovery plan is in place."
+      ]
+    }
+  ],
+  "criticalResources": [
+    "ALCS Digital Telemetry (Green/Yellow/Red)",
+    "Manual Lighting Panel (Vault)",
+    "Hand-Held Signal Beacons",
+    "Pilot Taxi Route Maps (Paper)",
+    "Ramp Supervisor Field Reports",
+    "PA System (Operational)",
+    "Passenger Mood (Observed)"
+  ],
+  "warnings": [
+    {
+      "code": "LOCATION_UNGROUNDED",
+      "severity": "warning",
+      "message": "The overview placed the facility in california (CA), which the documents never mention; location reset to \"North Coast Regional Airport Authority\"",
+      "source": "lint"
+    },
+    {
+      "code": "INJECT_SCRIPTS_PLAYERS",
+      "severity": "warning",
+      "message": "Row I-10b narrates a decision by Airport Operations Manager (Incident Commander) (\"…ICal entry was made. The drive was removed…\"); let the players make it and describe it in the expected action",
+      "rowId": "I-10b",
+      "source": "lint"
+    },
+    {
+      "code": "MIX_NO_IT_CLUE",
+      "severity": "warning",
+      "message": "No CLUE or TECH_HURDLE inject aimed at IT Director (Technical Incident Command) in phase 4 \"Recovery & Verification\"",
+      "source": "lint"
+    },
+    {
+      "code": "RUBRIC_LINK_UNKNOWN",
+      "severity": "warning",
+      "message": "Rubric metric \"Technical Competence\" links to unknown inject I-22",
+      "source": "lint"
+    },
+    {
+      "code": "RUBRIC_LINK_UNKNOWN",
+      "severity": "warning",
+      "message": "Rubric metric \"Use of Doctrine\" links to unknown inject I-22",
+      "source": "lint"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-02b falsely attributes a field report to a player role (Security) instead of originating from an external source; the door control failure should be injected by the facilitator, not reported by the player. (row rewritten once from this note)",
+      "rowId": "I-02b",
+      "source": "critique",
+      "suggestion": "Reassign I-02b to a non-player inject: 'Facilitator → Security: Field Report: Gate C12 door control panel failed—badge reader unresponsive, door remains locked despite valid swipe. No access code change issued. Is this related to ALCS?'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-03 presents a system log as an inject from IT, a player role; forensic evidence must be injected by the facilitator to maintain external threat credibility. (row rewritten once from this note)",
+      "rowId": "I-03",
+      "source": "critique",
+      "suggestion": "Replace I-03 with: 'Facilitator → IT: System Log: [2024-04-05 03:00:12] Failed authentication on ALCS server (alcs-01, 10.66.0.15) from IP 10.200.1.47 (not in vendor list). Session remained active until 09:29. Last command: 'SET_LIGHTS 17 ON 3s'. No logout. Source: Remote Vendor Tunnel (Siemens) — approved window closed 03:00 AM.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-05 presents an email from IT Director, a player role; this inject should originate from the facilitator to preserve external threat narrative and avoid self-announced decisions. (row rewritten once from this note)",
+      "rowId": "I-05",
+      "source": "critique",
+      "suggestion": "Replace I-05 with: 'Facilitator → IC, TIC: Email Forward: \"ALCS telemetry is inconsistent—lights appear to be responding to external commands. We have a potential remote access vector. Recommend no action yet—verify with physical observation. Do not trust any digital report until field-confirmed. This is not a sensor glitch. This is a compromise.\"'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-09 presents a media inquiry from PIO, a player role; media injects must come from external sources to maintain realism and avoid self-announced decisions. (row rewritten once from this note)",
+      "rowId": "I-09",
+      "source": "critique",
+      "suggestion": "Replace I-09 with: 'Facilitator → PIO: Media Inquiry: Tweet (@NCIA_Media): \"Breaking: NCIA has shut down all digital systems due to a cyberattack. Is the airport safe? Passengers are trapped in terminals. What is the plan? #NCIA #AirportShutDown #CyberAttack\"'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-08b presents a passenger crowd report from Airline Station Manager, a player role; external pressure events must be injected by the facilitator to avoid role self-reporting. (row rewritten once from this note)",
+      "rowId": "I-08b",
+      "source": "critique",
+      "suggestion": "Replace I-08b with: 'Facilitator → Security: Field Report: Gate 12 is blocked by a crowd of passengers. They saw the FIDS screen go dark and believe the airport is closed. One passenger is demanding to know why they can't board a flight. The crowd is growing. Five LEOs on scene but no official statement yet.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-09b presents a system log from IT Director, a player role; forensic evidence must be injected externally to maintain threat credibility and avoid internal self-announcement. (row rewritten once from this note)",
+      "rowId": "I-09b",
+      "source": "critique",
+      "suggestion": "Replace I-09b with: 'Facilitator → IT: System Log: [2024-04-05 10:48:22] ALCS server (alcs-01, 10.66.0.15) rebooted unexpectedly. Last known command: 'SET_LIGHTS 17 ON 3s'. No scheduled maintenance. Reboot initiated from internal console (IP 10.66.0.15). No user session logged in. Check for root access or unauthorized script execution.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-10b presents a Vault breach report from Security, a player role; this critical physical compromise must be injected externally to preserve realism and avoid self-announced events. (row rewritten once from this note)",
+      "rowId": "I-10b",
+      "source": "critique",
+      "suggestion": "Replace I-10b with: 'Facilitator → Security: Field Report: Vault Guard reports the ALCS manual control panel (in the Vault) was accessed remotely via the internal network. The cover was pried open, and a USB drive was inserted into the local port. No physical entry was made. The drive was removed and the panel reset. This confirms the attacker reached the physical control point—this is not just a remote software exploit.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-12 presents a system log from IT Director, a player role; this forensic evidence must be injected by the facilitator to maintain external threat narrative. (row rewritten once from this note)",
+      "rowId": "I-12",
+      "source": "critique",
+      "suggestion": "Replace I-12 with: 'Facilitator → IT: System Log: [2024-04-05 11:48:15] ALCS server (alcs-01, 10.66.0.15) rebooted unexpectedly. Last known command: 'SET_LIGHTS 17 ON 3s'. No scheduled maintenance. Reboot initiated from internal console (IP 10.66.0.15). No user session logged in. Check for root access or unauthorized script execution.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-18b presents a system log from IT Director, a player role; this forensic evidence must be injected externally to preserve realism and avoid internal self-announcement. (row rewritten once from this note)",
+      "rowId": "I-18b",
+      "source": "critique",
+      "suggestion": "Replace I-18b with: 'Facilitator → IT: System Log: [2024-04-05 11:48:15] ALCS server (alcs-01, 10.66.0.15) rebooted unexpectedly. Last known command: 'SET_LIGHTS 17 ON 3s'. No scheduled maintenance. Reboot initiated from internal console (IP 10.66.0.15). No user session logged in. Check for root access or unauthorized script execution.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-20b presents a recovery plan from IT Director, a player role; this must be injected externally to maintain external threat and avoid self-announced decisions. (row rewritten once from this note)",
+      "rowId": "I-20b",
+      "source": "critique",
+      "suggestion": "Replace I-20b with: 'Facilitator → TIC, IC, PIO: Email Forward: \"Recovery Plan for ALCS: (1) Restore from clean gold image (SEC-SVR-01) on air-gapped system; (2) Validate all access logs against the 03:00–09:00 window; (3) Perform 24-hour dry run of manual and automated controls; (4) Reconnect to SecNet only after full audit and CISA approval. No reconnection until all checks pass.\"'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-21b presents a formal request from Airline Station Manager, a player role; external stakeholder pressure must be injected externally to avoid self-reporting. (row rewritten once from this note)",
+      "rowId": "I-21b",
+      "source": "critique",
+      "suggestion": "Replace I-21b with: 'Facilitator → AIR: Formal Request: The airline’s operations team demands a written guarantee before resuming flight operations. They require proof of ALCS safety—show logs, recovery plan, and timeline. No further delays allowed.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-22 presents a recovery plan from IT Director, a player role; this must be injected externally to preserve external threat narrative and avoid self-announced decisions. (row rewritten once from this note)",
+      "rowId": "I-22",
+      "source": "critique",
+      "suggestion": "Replace I-22 with: 'Facilitator → TIC, IC, PIO: Email Forward: \"Recovery Plan for ALCS: (1) Restore from clean gold image (SEC-SVR-01) on air-gapped system; (2) Validate all access logs against the 03:00–09:00 window; (3) Perform 24-hour dry run of manual and automated controls; (4) Reconnect to SecNet only after full audit and CISA approval. No reconnection until all checks pass.\"'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-25b presents a Vault report from Security, a player role; this critical physical evidence must be injected externally to maintain realism and avoid self-announced events. (row rewritten once from this note)",
+      "rowId": "I-25b",
+      "source": "critique",
+      "suggestion": "Replace I-25b with: 'Facilitator → Security: Field Report: Vault Guard reports the USB drive was labeled \"Test_Firmware_V3.1\" and had a cracked casing. The label was printed with a standard office printer. It was not from a known vendor or internal source. We’ve isolated the drive and sent it to forensic lab for analysis.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-04 presents a FIDS alert as an inject from AODB/FIDS, a player role; this should be an external inject to maintain realism and avoid self-announced anomalies.",
+      "rowId": "I-04",
+      "source": "critique",
+      "suggestion": "Replace I-04 with: 'Facilitator → IC: FIDS Board Alert: \"Cargo Flight 742 (Gate C12) - Departed\" — displayed on all FIDS screens, despite no aircraft movement and no gate release. The gate remains occupied by a ground crew vehicle.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-03b presents a social media tweet from a player role (PIO); this must be injected externally to avoid self-announced public sentiment.",
+      "rowId": "I-03b",
+      "source": "critique",
+      "suggestion": "Replace I-03b with: 'Facilitator → PIO: Tweet (@NCIA_Trips): \"Wait—why are the runway lights blinking in Morse code? Is someone trying to warn us? #NCIA #LightsAreTalking #AirportConfusion\" — 42 likes, 17 retweets.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-14 presents a crowd report from Security, a player role; external pressure events must be injected externally to avoid self-reporting.",
+      "rowId": "I-14",
+      "source": "critique",
+      "suggestion": "Replace I-14 with: 'Facilitator → Security: Field Report: Gate 12 is blocked by a crowd of passengers. They saw the FIDS screen go dark and believe the airport is closed. One passenger is demanding to know why they can't board a flight. The crowd is growing. Five LEOs on scene but no official statement yet.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-24b presents a social media tweet from a player role (PIO); this must be injected externally to maintain external threat narrative and avoid self-announced public sentiment.",
+      "rowId": "I-24b",
+      "source": "critique",
+      "suggestion": "Replace I-24b with: 'Facilitator → PIO: Tweet (@NCIA_News): \"BREAKING: The ALCS manual panel was hacked remotely and a USB drive was used to alter the light patterns. The airport says it's safe, but the driver was traced to a known ransomware group. Is this a lie? #NCIA #CyberAttack #Exposed\" — 1,200 likes, 842 retweets, trending on X.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-23 presents a Vault report from Security, a player role; this must be injected externally to preserve realism and avoid self-announced evidence.",
+      "rowId": "I-23",
+      "source": "critique",
+      "suggestion": "Replace I-23 with: 'Facilitator → Security: Field Report: Vault Guard reports the USB drive inserted into the ALCS panel was labeled \"Test_Firmware_V3.1\" and had a cracked casing. The label was printed with a standard office printer. It was not from a known vendor or internal source. We’ve isolated the drive and sent it to forensic lab for analysis.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-23b presents a PA system anomaly from a player role (Helpdesk); this must be injected externally to avoid self-announced technical noise.",
+      "rowId": "I-23b",
+      "source": "critique",
+      "suggestion": "Replace I-23b with: 'Facilitator → IT: Helpdesk Ticket #20420 (Priority: Low) — 'The PA system in Concourse B is playing a loop of the airport’s old jingle from 2003. The volume is too loud, and no one can turn it off. Is this part of the cyberattack? The jingle keeps saying, \"Welcome to NCIA, where the lights never sleep.\"'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-24 presents a FIDS update from a player role (Ops Manager); this must be injected externally to avoid self-announced verification.",
+      "rowId": "I-24",
+      "source": "critique",
+      "suggestion": "Replace I-24 with: 'Facilitator → IC: FIDS Board Alert: \"Flight 742 (Cargo) - Gate C12 - Now Boarding\" — manually updated from paper log. All passenger information has been reconciled with the terminal’s paper manifest. The gate is now open for boarding.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "Row I-04's FIDS alert is not confirmed as a separate system failure; it should be treated as a secondary effect of ALCS compromise, not a standalone event.",
+      "rowId": "I-04",
+      "source": "critique",
+      "suggestion": "Clarify in inject: 'FIDS Board Alert: \"Cargo Flight 742 (Gate C12) - Departed\" — displayed on all FIDS screens, despite no aircraft movement and no gate release. The gate remains occupied by a ground crew vehicle. This is likely a cascading effect of ALCS compromise.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "Row I-17b repeats the same Vault breach report as I-10b; duplication undermines narrative progression and creates redundancy.",
+      "rowId": "I-17b",
+      "source": "critique",
+      "suggestion": "Remove I-17b. The physical breach was already confirmed in I-10b and does not need to be repeated."
+    }
+  ],
+  "provenance": [
+    {
+      "stage": "scenario_overview",
+      "startedAt": "2026-10-21T23:33:19.341Z",
+      "finishedAt": "2026-10-21T23:33:23.901Z",
+      "providerRef": {
+        "providerId": "lmstudio",
+        "model": "qwen3-30b-a3b-2507"
+      },
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "scenario_overview@default",
+      "promptHash": "9e68082f40c18da239a867fbfa942882b6e81f4465186f5fdc552cf7eefce125",
+      "inputTokens": 2812,
+      "outputTokens": 460,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "objectives_roles",
+      "startedAt": "2026-10-21T23:33:23.946Z",
+      "finishedAt": "2026-10-21T23:33:31.493Z",
+      "providerRef": {
+        "providerId": "lmstudio",
+        "model": "qwen3-30b-a3b-2507"
+      },
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "objectives_roles@default",
+      "promptHash": "d8a8ce37995ce97467fc76896c07c65cffd088bc727e6266bc670cb491d2e90d",
+      "inputTokens": 2264,
+      "outputTokens": 831,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "phase_plan",
+      "startedAt": "2026-10-21T23:33:31.541Z",
+      "finishedAt": "2026-10-21T23:33:45.939Z",
+      "providerRef": {
+        "providerId": "lmstudio",
+        "model": "qwen3-30b-a3b-2507"
+      },
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "phase_plan@default",
+      "promptHash": "1239a4e7b8bbe980f81c5f84eeb45c43c3fc177d0874e0729b08908bc5028a9e",
+      "inputTokens": 2583,
+      "outputTokens": 1582,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5GD0JTKZ7VD7YSKDS0DA7ZT",
+      "startedAt": "2026-10-21T23:33:46.029Z",
+      "finishedAt": "2026-10-21T23:34:04.944Z",
+      "providerRef": {
+        "providerId": "lmstudio",
+        "model": "qwen3-30b-a3b-2507"
+      },
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "6094dce5343c0cd772379737a36ddc283bed164be783f77e7a19fd2a91d67d43",
+      "inputTokens": 13491,
+      "outputTokens": 2374,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5GD0JTKCZQQ7EYFD3BNP801",
+      "startedAt": "2026-10-21T23:34:05.037Z",
+      "finishedAt": "2026-10-21T23:34:26.266Z",
+      "providerRef": {
+        "providerId": "lmstudio",
+        "model": "qwen3-30b-a3b-2507"
+      },
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "6094dce5343c0cd772379737a36ddc283bed164be783f77e7a19fd2a91d67d43",
+      "inputTokens": 21976,
+      "outputTokens": 2915,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5GD0JTKZYRJ6698YA692QTQ",
+      "startedAt": "2026-10-21T23:34:32.573Z",
+      "finishedAt": "2026-10-21T23:34:55.745Z",
+      "providerRef": {
+        "providerId": "lmstudio",
+        "model": "qwen3-30b-a3b-2507"
+      },
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "6094dce5343c0cd772379737a36ddc283bed164be783f77e7a19fd2a91d67d43",
+      "inputTokens": 26059,
+      "outputTokens": 2808,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5GD0JTKWSYAF18G59CX6460",
+      "startedAt": "2026-10-21T23:35:04.934Z",
+      "finishedAt": "2026-10-21T23:35:24.619Z",
+      "providerRef": {
+        "providerId": "lmstudio",
+        "model": "qwen3-30b-a3b-2507"
+      },
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "6094dce5343c0cd772379737a36ddc283bed164be783f77e7a19fd2a91d67d43",
+      "inputTokens": 29292,
+      "outputTokens": 2975,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "controller_handbook",
+      "startedAt": "2026-10-21T23:35:32.076Z",
+      "finishedAt": "2026-10-21T23:35:48.681Z",
+      "providerRef": {
+        "providerId": "lmstudio",
+        "model": "qwen3-30b-a3b-2507"
+      },
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "controller_handbook@default",
+      "promptHash": "a5859c89ca123a768ecdbdf9825f6d0db9a43716e46bd14a76e9cf1534dcbd6a",
+      "inputTokens": 6244,
+      "outputTokens": 1511,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "rubric",
+      "startedAt": "2026-10-21T23:35:48.727Z",
+      "finishedAt": "2026-10-21T23:36:01.863Z",
+      "providerRef": {
+        "providerId": "lmstudio",
+        "model": "qwen3-30b-a3b-2507"
+      },
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "rubric@default",
+      "promptHash": "4baa38fa50bc09979441f658175764b62f06540351eec2697ce3f43b11db7ed6",
+      "inputTokens": 7193,
+      "outputTokens": 1102,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "player_briefing",
+      "startedAt": "2026-10-21T23:36:01.909Z",
+      "finishedAt": "2026-10-21T23:36:12.641Z",
+      "providerRef": {
+        "providerId": "lmstudio",
+        "model": "qwen3-30b-a3b-2507"
+      },
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "player_briefing@default",
+      "promptHash": "08b4af9cd79367ca611edaf09244cce2277fb00159f4eaf29aec14c88630a907",
+      "inputTokens": 2488,
+      "outputTokens": 1174,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "hotwash",
+      "startedAt": "2026-10-21T23:36:12.672Z",
+      "finishedAt": "2026-10-21T23:36:17.113Z",
+      "providerRef": {
+        "providerId": "lmstudio",
+        "model": "qwen3-30b-a3b-2507"
+      },
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "hotwash@default",
+      "promptHash": "fe64d09a75db2343dc95f6e61e8b6b5162bdf2dfecff2be7752f356d3a82b456",
+      "inputTokens": 1953,
+      "outputTokens": 447,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "critique",
+      "startedAt": "2026-10-21T23:36:17.153Z",
+      "finishedAt": "2026-10-21T23:36:57.814Z",
+      "providerRef": {
+        "providerId": "lmstudio",
+        "model": "qwen3-30b-a3b-2507"
+      },
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "critique@default",
+      "promptHash": "9a3da233998de45915448fd451b944220ab1897c8c06d56dbe4d5203c3a868bb",
+      "inputTokens": 10239,
+      "outputTokens": 3338,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

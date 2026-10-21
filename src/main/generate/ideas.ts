@@ -1,0 +1,88 @@
+// "Give me ideas": the ideate stage over the project's hazard appendices / checklists /
+// failure modes. Results live in <project>/ideas.json so a chosen idea is still there when a
+// scenario job resumes after a restart.
+import { z } from 'zod'
+import { ScenarioIdea, type IdeasOutput, type ScenarioBrief } from '@shared/schemas'
+import type { JobContext } from '../jobs/manager'
+import { readJsonOr, writeJsonAtomic } from '../lib/fs'
+import { nowIso } from '../lib/ids'
+import { projectPaths } from '../project/store'
+import { pipelineDeps } from './deps'
+import { mapIdeas } from './mappers'
+import { runStage } from './stage'
+import { projectVars, taxonomyVars } from './vars'
+
+const IdeasFile = z.object({
+  generatedAt: z.string(),
+  ideas: z.array(ScenarioIdea).default([]),
+})
+type IdeasFile = z.infer<typeof IdeasFile>
+
+export async function readIdeas(root: string): Promise<ScenarioIdea[]> {
+  const file = await readJsonOr(projectPaths(root).ideas, IdeasFile, () => ({
+    generatedAt: nowIso(),
+    ideas: [],
+  }))
+  return file.ideas
+}
+
+export async function writeIdeas(root: string, ideas: ScenarioIdea[]): Promise<void> {
+  const value: IdeasFile = { generatedAt: nowIso(), ideas }
+  await writeJsonAtomic(projectPaths(root).ideas, value)
+}
+
+/** Make sure an idea handed in with generate:scenario is on disk for later resumes. */
+export async function rememberIdea(root: string, idea: ScenarioIdea): Promise<void> {
+  const ideas = await readIdeas(root)
+  if (ideas.some((i) => i.id === idea.id)) return
+  await writeIdeas(root, [idea, ...ideas])
+}
+
+export async function findIdea(root: string, ideaId?: string): Promise<ScenarioIdea | undefined> {
+  if (!ideaId) return undefined
+  return (await readIdeas(root)).find((i) => i.id === ideaId)
+}
+
+export interface IdeasRequest {
+  brief: Partial<ScenarioBrief>
+  count: number
+}
+
+/** Run the ideate stage and persist the ideas. Returns them for the job result. */
+export async function generateIdeas(
+  root: string,
+  req: IdeasRequest,
+  ctx: JobContext,
+): Promise<ScenarioIdea[]> {
+  const deps = await pipelineDeps()
+  const [project, index] = await Promise.all([deps.loadProject(root), deps.openIndex(root)])
+  ctx.progress(0.05, 'Reading the plans for scenario hooks', { stage: 'ideate' })
+  const result = await runStage<IdeasOutput>({
+    stage: 'ideate',
+    projectPath: root,
+    vars: {
+      project: projectVars(project),
+      brief: req.brief,
+      count: req.count,
+      taxonomy: taxonomyVars,
+      instructions: '',
+    },
+    ctx,
+    deps,
+    index,
+  })
+  const { ideas, dropped } = mapIdeas(result.output, result.retrieved)
+  for (const d of dropped)
+    ctx.log(`Idea "${d.rowId}" cited unknown keys ${d.keys.join(', ')}; dropped`, 'warn', {
+      stage: 'ideate',
+    })
+  const kept = ideas.slice(0, req.count)
+  await writeIdeas(root, kept)
+  ctx.progress(1, `${kept.length} ideas`, { stage: 'ideate' })
+  ctx.log(
+    `ideate: ${kept.length} ideas, ${result.run.inputTokens ?? 0} in / ${result.run.outputTokens ?? 0} out tokens`,
+    'info',
+    { stage: 'ideate' },
+  )
+  return kept
+}
