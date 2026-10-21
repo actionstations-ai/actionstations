@@ -4,7 +4,12 @@ import { dispatch, mergeHandlers, type HandlerMap } from './registry'
 
 // Each domain owns one file in ./handlers; they are discovered at build time so
 // parallel workstreams never edit a shared registry.
-const modules = import.meta.glob<{ default: HandlerMap }>('./handlers/*.ts', { eager: true })
+const modules = import.meta.glob<{ default: HandlerMap }>(
+  ['./handlers/*.ts', '!./handlers/*.test.ts'],
+  {
+    eager: true,
+  },
+)
 
 export const handlers = mergeHandlers(
   Object.fromEntries(Object.entries(modules).map(([file, mod]) => [file, mod.default])),

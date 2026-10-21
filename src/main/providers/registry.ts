@@ -4,7 +4,9 @@ import type { AdapterModule, EmbeddingProvider, MediaProvider, TextProvider } fr
 
 // Adapters are discovered at build time: each folder exports `adapter` from adapter.ts.
 // Adding a provider never requires editing this file.
-const found = import.meta.glob<{ adapter: AdapterModule }>('./**/adapter.ts', { eager: true })
+const found = import.meta.glob<{ adapter: AdapterModule }>(['./**/adapter.ts', '!./**/*.test.ts'], {
+  eager: true,
+})
 
 const adapters = new Map<ProviderKind, AdapterModule>()
 for (const [file, mod] of Object.entries(found)) {
