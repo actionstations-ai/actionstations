@@ -5,11 +5,11 @@ export const routes: RouteDef[] = [
   {
     path: '/providers',
     component: lazy(() => import('./ProvidersPage')),
-    nav: { label: 'Providers', scope: 'global', order: 80, icon: 'settings' },
+    nav: { label: 'Providers', scope: 'global', order: 80, icon: 'providers' },
   },
   {
     path: '/p/:projectKey/providers',
     component: lazy(() => import('./ProjectProvidersPage')),
-    nav: { label: 'Providers', scope: 'project', order: 30, icon: 'settings' },
+    nav: { label: 'Providers', scope: 'project', order: 30, icon: 'providers' },
   },
 ]

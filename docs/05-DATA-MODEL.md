@@ -100,3 +100,14 @@ You are an exercise designer following HSEEP...
 ## Export manifest (`scenario.md` header)
 
 Front matter with scenario id, version, generated-at, provider summary, and a checksum list for all media so a distribution ZIP can be verified.
+
+## App-level files (`<userData>/`, never in a project)
+
+| File | Contents |
+|---|---|
+| `settings.json` | `AppSettings`: recent projects, provider configs (no keys), default routing, embedding mode, UI theme |
+| `secrets.json` | `{ [providerId]: base64(safeStorage.encryptString(apiKey)) }` — ciphertext only, mode 0600 |
+| `prompts/<name>.md` | Global prompt overrides (project overrides live in `<project>/prompts/`) |
+| `models/` | Downloaded local embedding models (only via the explicit download action) |
+| `provider-calls.jsonl` | One line per model call: provider, model, tokens, cost, duration — no prompt text, no keys |
+| `jobs.json` | Persisted job records so interrupted generation shows as resumable |

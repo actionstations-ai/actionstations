@@ -30,16 +30,17 @@ pnpm build                    # electron-builder installers (dmg / nsis / AppIma
 
 ## Connecting providers
 
-Providers are configured in the app under **Settings > Providers**. API keys are stored in the OS keychain via Electron `safeStorage`, never in project files or logs. No network calls are made except to providers you configure.
+Providers are configured in the app under **Providers** (sidebar). **Detect local services** finds LM Studio, Ollama and ComfyUI on localhost and adds them in one click. API keys are encrypted with the OS keychain via Electron `safeStorage` into `<userData>/secrets.json` (ciphertext only, owner-only permissions) — never in project files, `settings.json` or logs; if the OS can't encrypt (e.g. Linux without a keyring) the app refuses to store keys. No network calls are made except to providers you configure.
 
 | Provider  | Kind                              | Base URL                                              | Notes                                                                                                  |
 | --------- | --------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | LM Studio | OpenAI-compatible                 | `http://localhost:1234/v1`                            | Start the local server in LM Studio (Developer tab) or `lms server start`, then load a model.          |
 | Ollama    | Ollama native / OpenAI-compatible | `http://localhost:11434` (OpenAI-compatible at `/v1`) | `ollama serve`, then `ollama pull <model>`. `nomic-embed-text` works as the embedding model.           |
 | ComfyUI   | Media (image, video, TTS)         | `http://127.0.0.1:8188`                               | Default workflows live in `comfy/workflows/`; the app reports missing custom nodes via `/object_info`. |
-| Anthropic | Text                              | `https://api.anthropic.com`                           | Paste an API key in Settings.                                                                          |
+| Anthropic | Text                              | `https://api.anthropic.com`                           | Paste an API key in Providers.                                                                         |
+| Local TTS | OpenAI-compatible (audio)         | `http://127.0.0.1:8765`                               | `mlx_audio.server --port 8765` serves VoxCPM2 / Qwen3-TTS on Apple Silicon via `/v1/audio/speech`.     |
 
-Each generation task (ideate, draft, critique, embed, image, video, audio) can be routed to a different provider. Without any provider configured, the app still runs with a deterministic offline embedder and mock providers for testing.
+Each generation task (ideate, draft, critique, embed, image, video, audio) can be routed to a different provider on the Providers page; a project can override any task on its own Providers page. Without any provider configured the app still ingests and searches documents with a deterministic offline embedder. For offline development and e2e, launch with `TTX_MOCK_PROVIDERS=1` to route every task to a built-in mock provider that returns schema-valid output.
 
 ## Repository layout
 

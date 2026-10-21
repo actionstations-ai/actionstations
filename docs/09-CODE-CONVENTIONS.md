@@ -24,6 +24,8 @@ How the codebase is wired so parallel workstreams never edit the same file.
 - **Jobs:** `jobs/manager.ts` — `jobs.start(kind, async (ctx) => …)`; use `ctx.progress`, `ctx.log`, `ctx.token` (streamed LLM text), `ctx.signal`. Events reach the renderer as `job:progress`, `job:token`, `job:done`.
 - **Events:** `lib/events.ts` `emit('project:changed', …)` after writes so the renderer refreshes.
 - **Providers:** interfaces in `providers/types.ts`. An adapter is a folder with `adapter.ts` exporting `adapter: AdapterModule`; `providers/registry.ts` discovers it. Use `jsonSpec(name, Schema)` and `extractJson(text)` from `providers/json.ts`. The `mock` adapter returns schema-valid fixtures (`providers/mock/fixtures.ts`); override per test with `setMockResponse`.
+- **Provider resolution:** stages never construct providers; call `resolveTextProvider(task, projectPath)` / `resolveMediaProvider` / `resolveEmbeddingProvider` (`providers/resolve.ts`) — effective routing is project over global. Secrets come from `secrets/index.ts` (`getSecret`) and are never passed to the renderer.
+- **Env flags:** `TTX_USER_DATA`, `TTX_RESOURCES` (paths), `TTX_HEADLESS` (don't show windows), `TTX_MOCK_PROVIDERS=1` (seed a mock provider and route every task to it when routing is empty).
 - **Paths:** `lib/paths.ts` — `userDataPath()`, `resourcePath('templates', …)`. `TTX_USER_DATA` and `TTX_RESOURCES` override them in tests/e2e.
 
 ## Renderer (`src/renderer/src/`)
