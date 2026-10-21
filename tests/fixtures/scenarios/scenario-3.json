@@ -1,0 +1,613 @@
+{
+  "id": "scenario-3",
+  "projectId": "ncia",
+  "title": "Flight to Nowhere",
+  "subtitle": "Scenario 3: Data Integrity & FIDS",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-21T00:00:00.000Z",
+  "updatedAt": "2026-10-21T00:00:00.000Z",
+  "brief": {
+    "userPrompt": "A malicious actor manipulates the AODB so FIDS, BHS and PA mislead passengers; test data integrity, public trust and crowd management.",
+    "audience": [
+      "Airport Operations",
+      "IT/Cybersecurity",
+      "Public Safety",
+      "Public Information (PIO)"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [
+      "Coordinate public messaging across IT, Ops, and PIO during a reputational crisis",
+      "Make high-consequence operational decisions on incomplete or conflicting technical data",
+      "Identify the root cause using provided logs"
+    ],
+    "constraints": ["must test TIRP §1.4.5, §4 and §13.6"],
+    "startWallClock": "09:00"
+  },
+  "overview": {
+    "theme": "Data Integrity, Public Trust, and Crowd Management.",
+    "threat": "A malicious actor has gained access to the airport's \"Airport Operational Database\" (AODB), which feeds data to the Flight Information Display Systems (FIDS), Baggage Handling System (BHS), and the automated Public Address (PA) system.",
+    "operationalImpact": "Passengers are misinformed, directed to the wrong gates, or told their flights are cancelled when they aren't. This causes crowding, missed flights, and potential safety hazards.",
+    "coreSectionsTested": [
+      {
+        "documentId": "tirp",
+        "documentTitle": "Terminal Incident Response Plan",
+        "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans › 1.4.5 Use of Communication Systems",
+        "quote": "Communication Systems (Using alternative methods)."
+      },
+      {
+        "documentId": "tirp",
+        "documentTitle": "Terminal Incident Response Plan",
+        "headingPath": "TIRP › Section 4: Repopulation",
+        "quote": "Repopulation (Managing passenger flow)."
+      },
+      {
+        "documentId": "tirp",
+        "documentTitle": "Terminal Incident Response Plan",
+        "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+        "quote": "FIDS / BHS System Failure (Technical response)."
+      }
+    ],
+    "targetAudience": "Airport Operations, IT/Cybersecurity, Public Safety, Public Information (PIO).",
+    "location": "North Coast International Airport (NCIA)"
+  },
+  "objectives": [
+    {
+      "id": "obj-communication",
+      "name": "Communication",
+      "text": "Demonstrate the ability to coordinate public messaging across IT, Ops, and PIO functions during a reputational crisis."
+    },
+    {
+      "id": "obj-decision",
+      "name": "Decision Making",
+      "text": "Demonstrate the ability to make high-consequence operational decisions (e.g., \"Go Dark\") based on incomplete or conflicting technical data."
+    },
+    {
+      "id": "obj-technical",
+      "name": "Technical Analysis",
+      "text": "Correctly identify the root cause (SQL Injection / Compromised Credential) using provided logs."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ops-director",
+      "name": "Ops Director",
+      "abbreviation": "IC",
+      "team": "Operations",
+      "description": "Incident Commander. Manages the physical terminal and passenger safety.",
+      "standingOrders": []
+    },
+    {
+      "id": "it-director",
+      "name": "IT Director",
+      "abbreviation": "IT",
+      "team": "IT/Cybersecurity",
+      "description": "Technical Lead. Manages the investigation and system restoration.",
+      "standingOrders": []
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Public Information",
+      "description": "Manages social media and press inquiries.",
+      "standingOrders": []
+    },
+    {
+      "id": "asc",
+      "name": "Airport Security Coordinator",
+      "abbreviation": "ASC",
+      "team": "Public Safety",
+      "description": "Monitors crowd temper and physical security.",
+      "standingOrders": []
+    },
+    {
+      "id": "airline-liaison",
+      "name": "Airline Liaison",
+      "abbreviation": "AL",
+      "team": "Tenants",
+      "description": "Represents the frustration of the tenant airlines (Delta, United, etc.).",
+      "standingOrders": []
+    }
+  ],
+  "phases": [
+    {
+      "id": "p1",
+      "index": 0,
+      "title": "The Glitch",
+      "goal": "To test initial problem identification and the reluctance to declare an incident.",
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "p2",
+      "index": 1,
+      "title": "The Crisis",
+      "goal": "To escalate the situation to a point where \"Business as Usual\" is impossible.",
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "p3",
+      "index": 2,
+      "title": "Manual Mode",
+      "goal": "To force the transition from digital tools to analog/manual procedures.",
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "p4",
+      "index": 3,
+      "title": "Recovery & Verification",
+      "goal": "To manage the complex process of \"trusting the data\" again.",
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p1",
+      "time": "0:00",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "STARTEX (Start Exercise). Current time: 09:00 AM on a busy Thursday. Weather is clear. Passenger load is high due to a holiday weekend.",
+      "expectedAction": "Establish baseline operations. Review TIRP Section 13.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "citations": [
+        {
+          "documentId": "tirp",
+          "documentTitle": "Terminal Incident Response Plan",
+          "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure"
+        }
+      ],
+      "locked": false,
+      "wallClock": "09:00"
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:15",
+      "from": "Airline Rep",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "Phone Call: \"Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?\"",
+      "expectedAction": "Ops logs a ticket with IT. IT likely treats this as a minor display error/glitch.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false,
+      "wallClock": "09:15"
+    },
+    {
+      "id": "I-02a",
+      "phaseId": "p1",
+      "time": "0:20",
+      "from": "Helpdesk",
+      "toRoleIds": ["it-director"],
+      "toLabel": "IT",
+      "event": "Ticket #4492 (Noise): Vending machines in Concourse B are spitting out soda cans randomly.",
+      "expectedAction": "IT ignores or deprioritizes (correctly). Ops calls maintenance.",
+      "purposeTag": "NOISE",
+      "format": "helpdesk_ticket",
+      "citations": [],
+      "locked": false,
+      "wallClock": "09:20"
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:30",
+      "from": "IT Helpdesk",
+      "toRoleIds": ["it-director"],
+      "toLabel": "IT Lead",
+      "event": "Ticket Update: \"We checked the FIDS server. The data stream from the AODB is actually sending 'Miami'. It's not a display error; the source data changed.\"",
+      "expectedAction": "IT investigates the AODB logs. Ops assumes it's a one-off database error.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "helpdesk_ticket",
+      "citations": [],
+      "locked": false,
+      "wallClock": "09:30"
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:45",
+      "from": "TSA",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "Radio Call: \"Ops, TSA Checkpoint. We have passengers scanning boarding passes for a United flight to Chicago, but the FIDS board in the lobby lists that flight as 'Cancelled'. They are arguing with my TSOs.\"",
+      "expectedAction": "Ops must verify flight status with United directly. Realize the data on screens contradicts reality.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "citations": [],
+      "locked": false,
+      "wallClock": "09:45"
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p1",
+      "time": "0:55",
+      "from": "Social Media",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Tweet (@TravelGuy99): \"NCIA is a joke! Boards say my flight is at Gate A1. I walked to A1 and it's empty. App says A12. Now I'm gonna miss my flight! #Fail\"",
+      "expectedAction": "PIO monitors sentiment. Ops realizes the error is spreading to multiple flights.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "citations": [],
+      "locked": false,
+      "wallClock": "09:55"
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p2",
+      "time": "1:00",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "SCENARIO JUMP: It is now 10:00 AM. The errors are multiplying. 20% of flights on the big board show incorrect times or gates.",
+      "expectedAction": "Activate Section 13.6 (FIDS Failure). Ops should consider putting \"Whiteboard Teams\" on standby.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [
+        {
+          "documentId": "tirp",
+          "documentTitle": "Terminal Incident Response Plan",
+          "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure"
+        }
+      ],
+      "locked": false,
+      "wallClock": "10:00"
+    },
+    {
+      "id": "I-05b",
+      "phaseId": "p2",
+      "time": "1:10",
+      "from": "Parking",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "Radio Call (Red Herring): Fire alarm reported in the Long Term Parking Deck.",
+      "expectedAction": "Ops dispatches Fire to garage but keeps Police/Ops focused on the terminal issues.",
+      "purposeTag": "RED_HERRING",
+      "format": "radio_call",
+      "citations": [],
+      "locked": false,
+      "wallClock": "10:10"
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "1:15",
+      "from": "Automated PA",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "Audio/Visual Inject: The terminal PA system announces: \"Attention passengers. Flight 666 to Purgatory is now boarding at all gates.\" FIDS screens show the same.",
+      "expectedAction": "CRITICAL DECISION POINT: Ops must silence the PA system immediately. IT must disconnect the PA server from the network.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "fids_board",
+      "citations": [
+        {
+          "documentId": "tirp",
+          "documentTitle": "Terminal Incident Response Plan",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans › 1.4.5 Use of Communication Systems"
+        }
+      ],
+      "locked": false,
+      "wallClock": "10:15"
+    },
+    {
+      "id": "I-06b",
+      "phaseId": "p2",
+      "time": "1:20",
+      "from": "Social Media",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Facebook Post: Viral rumor claiming ISIS has taken over the control tower and planes are crashing.",
+      "expectedAction": "PIO must issue an immediate \"Myth Busting\" statement denying physical threats to aircraft.",
+      "purposeTag": "MISINFORMATION",
+      "format": "facebook_post",
+      "citations": [],
+      "locked": false,
+      "wallClock": "10:20"
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "1:30",
+      "from": "BHS Control",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "Phone Call: \"Ops, Baggage Control here. The sortation logic is corrupted. The system is sending all bags for Concourse A (Delta/United) to the 'Manual Encode' pier in the basement. The belt is jammed.\"",
+      "expectedAction": "Ops coordinates with Airlines to initiate manual baggage handling. Massive delays expected.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "memo",
+      "citations": [],
+      "locked": false,
+      "wallClock": "10:30"
+    },
+    {
+      "id": "I-08b",
+      "phaseId": "p2",
+      "time": "1:40",
+      "from": "IT Helpdesk",
+      "toRoleIds": ["it-director"],
+      "toLabel": "IT Lead",
+      "event": "Email Forward: Intern admits to clicking a phishing link (\"Free Browns Tickets\") on workstation OPS_INTERN_03.",
+      "expectedAction": "IT identifies \"Patient Zero\" and begins isolating that workstation to stop the attack vector.",
+      "purposeTag": "CLUE",
+      "format": "email_forward",
+      "citations": [],
+      "locked": false,
+      "wallClock": "10:40"
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p2",
+      "time": "1:45",
+      "from": "Airline Rep",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "Face-to-Face: (Angry) \"Our pilots are refusing to push back because their electronic flight bags are syncing with your airport data, and it's feeding them bad gate info. We are grounding all flights until you confirm your data is clean.\"",
+      "expectedAction": "Ops must declare an official Incident. Establish Unified Command.",
+      "purposeTag": "PRESSURE",
+      "format": "simcell_script",
+      "citations": [],
+      "locked": false,
+      "wallClock": "10:45"
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p3",
+      "time": "2:00",
+      "from": "IT Lead",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "Technical Update: \"We have found unauthorized admin access in the AODB SQL database. Someone is running a script (random_gate_generator.ps1) that randomizes gate assignments.\"",
+      "expectedAction": "DECISION POINT: Ops must authorize a total shutdown of FIDS. The terminal screens go black.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "system_log",
+      "citations": [],
+      "locked": false,
+      "wallClock": "11:00"
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p3",
+      "time": "2:15",
+      "from": "Facilitator",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "Visual Inject: Show a photo of a crowded terminal with blank screens. Passengers are crowding around airline counters demanding info. Noise levels are high.",
+      "expectedAction": "Ops deploys staff with megaphones and whiteboards (Section 13.7 Checklist). PIO puts out \"Go to your airline app\" messaging.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "scene_photo",
+      "citations": [
+        {
+          "documentId": "tirp",
+          "documentTitle": "Terminal Incident Response Plan",
+          "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans › 1.4.5 Use of Communication Systems"
+        }
+      ],
+      "locked": false,
+      "wallClock": "11:15"
+    },
+    {
+      "id": "I-10b",
+      "phaseId": "p3",
+      "time": "2:20",
+      "from": "TSA",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "Phone Call: TSA screening is stopping because boarding pass data doesn't match the system. Lines are backing up dangerously.",
+      "expectedAction": "Ops/LEO must manage the crowd crush at the checkpoint. Ops may ask TSA to move to \"manual ID check\" mode.",
+      "purposeTag": "CONFUSION",
+      "format": "media_inquiry_phone_slip",
+      "citations": [],
+      "locked": false,
+      "wallClock": "11:20"
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p3",
+      "time": "2:30",
+      "from": "Security",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "Radio Call: \"Crowd crush situation at Gate C4. Two flights were directed there by the old screen data. Passengers are fighting over seats.\"",
+      "expectedAction": "Ops directs Police to C4. Priority shifts to crowd control and safety over flight operations.",
+      "purposeTag": "CONFUSION",
+      "format": "radio_call",
+      "citations": [
+        {
+          "documentId": "tirp",
+          "documentTitle": "Terminal Incident Response Plan",
+          "headingPath": "TIRP › Section 4: Repopulation"
+        }
+      ],
+      "locked": false,
+      "wallClock": "11:30"
+    },
+    {
+      "id": "I-12",
+      "phaseId": "p3",
+      "time": "2:45",
+      "from": "Media",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Phone Call: \"Channel 5 News here. Going live in 15 minutes. We are reporting this is 'Cyber Terror'. Comment now or we run with it.\"",
+      "expectedAction": "PIO must issue a holding statement that calms the public without confirming details they don't have yet.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "citations": [],
+      "locked": false,
+      "wallClock": "11:45"
+    },
+    {
+      "id": "I-13",
+      "phaseId": "p4",
+      "time": "3:00",
+      "from": "IT Lead",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "Technical Update: \"We have isolated the compromised server and restored the AODB from a backup taken at 04:00 AM. We believe the data is clean.\"",
+      "expectedAction": "IT requests permission to bring FIDS back online.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "sitrep",
+      "citations": [],
+      "locked": false,
+      "wallClock": "12:00"
+    },
+    {
+      "id": "I-13b",
+      "phaseId": "p4",
+      "time": "3:10",
+      "from": "Airline Rep",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "Threat: \"If you turn those screens on and they show bad info again, I am pulling my staff. I need a guarantee.\"",
+      "expectedAction": "Ops hesitates. Asks IT for a verification plan.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "radio_call",
+      "citations": [],
+      "locked": false,
+      "wallClock": "12:10"
+    },
+    {
+      "id": "I-14",
+      "phaseId": "p4",
+      "time": "3:15",
+      "from": "Ops",
+      "toRoleIds": ["it-director"],
+      "toLabel": "IT",
+      "event": "Operational Query: \"Before we turn the screens on, how do we know the script isn't still hidden?\"",
+      "expectedAction": "IT and Ops devise a testing plan (e.g., turn on one single screen at a remote gate to verify).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email",
+      "citations": [],
+      "locked": false,
+      "wallClock": "12:15"
+    },
+    {
+      "id": "I-14b",
+      "phaseId": "p4",
+      "time": "3:20",
+      "from": "Server",
+      "toRoleIds": ["it-director"],
+      "toLabel": "IT",
+      "event": "Error Message: \"Backup Tape Library Not Mounted.\" Restoration hits a snag.",
+      "expectedAction": "IT must troubleshoot or find an alternate backup source. Delaying recovery.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "error_dialog",
+      "citations": [],
+      "locked": false,
+      "wallClock": "12:20"
+    },
+    {
+      "id": "I-15",
+      "phaseId": "p4",
+      "time": "3:30",
+      "from": "Airlines",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "Coordination: \"We need to manually verify every flight in the system before you publish it.\"",
+      "expectedAction": "A tedious \"data reconciliation\" process begins between Airport Ops and Airlines.",
+      "purposeTag": "END_GAME",
+      "format": "fids_board",
+      "citations": [
+        {
+          "documentId": "tirp",
+          "documentTitle": "Terminal Incident Response Plan",
+          "headingPath": "TIRP › Section 4: Repopulation"
+        }
+      ],
+      "locked": false,
+      "wallClock": "12:30"
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "3:45",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "ENDEX (End Exercise). The screens are successfully restored.",
+      "expectedAction": "Move to Hot Wash / Debrief.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "citations": [],
+      "locked": false,
+      "wallClock": "12:45"
+    }
+  ],
+  "documents": {},
+  "rubric": {
+    "metrics": [
+      {
+        "id": "m1",
+        "name": "Operational Coordination",
+        "points": 30,
+        "fail": "Ops ignored IT and kept bad data on screens, causing chaos.",
+        "pass": "Ops consulted IT but delayed the \"Go Dark\" decision until injects forced it.",
+        "excellence": "Ops proactively established a \"Manual Operations Plan\" (whiteboards) before shutting down the screens.",
+        "linkedInjectIds": ["I-09", "I-10"],
+        "objectiveRefs": ["obj-decision"]
+      },
+      {
+        "id": "m2",
+        "name": "Technical Competence",
+        "points": 30,
+        "fail": "IT rebooted the compromised server immediately (destroying evidence).",
+        "pass": "IT identified the \"UPDATE\" command in the logs but didn't find the source IP.",
+        "excellence": "IT identified the SQL Injection, isolated the specific workstation (192.168.1.55), and preserved logs for the FBI.",
+        "linkedInjectIds": ["I-08b", "I-09", "I-14b"],
+        "objectiveRefs": ["obj-technical"]
+      },
+      {
+        "id": "m3",
+        "name": "Public Communication",
+        "points": 20,
+        "fail": "PIO stayed silent or confirmed \"Terrorism\" without evidence.",
+        "pass": "PIO issued holding statements (\"Technical Glitch\").",
+        "excellence": "PIO actively countered misinformation (the \"ISIS\" rumor) with calm, factual updates across multiple channels.",
+        "linkedInjectIds": ["I-04", "I-06b", "I-12"],
+        "objectiveRefs": ["obj-communication"]
+      },
+      {
+        "id": "m4",
+        "name": "Use of Doctrine",
+        "points": 20,
+        "fail": "Students \"winged it\" and never opened the AEP/TIRP/ASP.",
+        "pass": "Students referenced the plans but struggled to find sections.",
+        "excellence": "Students cited specific sections (e.g., \"Per TIRP Section 13.6, we are activating manual backups\").",
+        "linkedInjectIds": [],
+        "objectiveRefs": []
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Ask the room to identify three things that went well and three things that broke/failed.",
+    "questions": [
+      {
+        "topic": "Trust",
+        "text": "At what point did you stop trusting the screens? Why did it take so long?"
+      },
+      {
+        "topic": "The Gap",
+        "text": "Ops, did you understand what IT was saying? IT, did you understand what Ops needed?"
+      },
+      {
+        "topic": "The Insider",
+        "text": "How did you handle the revelation that the attack came from an intern's computer? Did you treat it as a crime scene or a tech support ticket?"
+      }
+    ]
+  },
+  "simcellScripts": [],
+  "criticalResources": ["FIDS", "BHS", "PA system", "AODB"],
+  "warnings": [],
+  "provenance": []
+}
