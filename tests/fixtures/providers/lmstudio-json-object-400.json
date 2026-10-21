@@ -1,0 +1,26 @@
+{
+  "name": "lmstudio-json-object-400",
+  "recordedAt": "2026-10-21T22:36:45.164Z",
+  "durationMs": 2,
+  "request": {
+    "method": "POST",
+    "path": "/v1/chat/completions",
+    "body": {
+      "model": "qwen3-30b-a3b-2507",
+      "stream": true,
+      "max_tokens": 20,
+      "messages": [
+        {
+          "role": "user",
+          "content": "Reply in JSON."
+        }
+      ],
+      "response_format": {
+        "type": "json_object"
+      }
+    }
+  },
+  "status": 400,
+  "contentType": "application/json; charset=utf-8",
+  "body": "{\"error\":\"'response_format.type' must be 'json_schema' or 'text'\"}"
+}

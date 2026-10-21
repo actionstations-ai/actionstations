@@ -1,0 +1,12 @@
+{
+  "name": "anthropic-rate-limit",
+  "handBuilt": true,
+  "note": "Hand-built 429 body per the documented error shape.",
+  "request": {
+    "method": "POST",
+    "path": "/v1/messages"
+  },
+  "status": 429,
+  "contentType": "application/json",
+  "body": "{\"type\": \"error\", \"error\": {\"type\": \"rate_limit_error\", \"message\": \"Number of request tokens has exceeded your per-minute rate limit\"}}"
+}

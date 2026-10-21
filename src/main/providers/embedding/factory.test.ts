@@ -53,9 +53,9 @@ describe('createEmbedder', () => {
     await expect(
       createEmbedder({ ...settings, providerId: 'p1' }, deps([provider({ enabled: false })])),
     ).rejects.toMatchObject({ code: 'PROVIDER' })
-    // No ollama adapter is registered yet (adapters land in M2).
+    // The Anthropic adapter has no embeddings endpoint.
     await expect(
-      createEmbedder({ ...settings, providerId: 'p1' }, deps([provider({ kind: 'ollama' })])),
+      createEmbedder({ ...settings, providerId: 'p1' }, deps([provider({ kind: 'anthropic' })])),
     ).rejects.toMatchObject(
       expect.objectContaining({
         code: 'PROVIDER',

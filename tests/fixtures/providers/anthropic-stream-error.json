@@ -1,0 +1,12 @@
+{
+  "name": "anthropic-stream-error",
+  "handBuilt": true,
+  "note": "Hand-built from the documented Messages API SSE event format (no paid API call).",
+  "request": {
+    "method": "POST",
+    "path": "/v1/messages"
+  },
+  "status": 200,
+  "contentType": "text/event-stream; charset=utf-8",
+  "body": "event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_01Fixture\",\"type\":\"message\",\"role\":\"assistant\",\"model\":\"claude-opus-5-5\",\"content\":[],\"stop_reason\":null,\"stop_sequence\":null,\"usage\":{\"input_tokens\":10,\"output_tokens\":1}}}\n\nevent: error\ndata: {\"type\":\"error\",\"error\":{\"type\":\"overloaded_error\",\"message\":\"Overloaded\"}}\n\n"
+}
