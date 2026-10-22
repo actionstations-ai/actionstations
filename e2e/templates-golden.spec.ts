@@ -1,11 +1,14 @@
 // Golden-image tests for inject templates (ADR-0008). For every template × variant:
-// render preview.json at 2× through the built app, render it again and byte-compare
-// (determinism), then compare with templates/injects/<type>/__golden__/<variant>.png
+// render preview.json at 2× through the built app, render it again and compare
+// (determinism: ≤ 0.01 % visibly different pixels — GPU rasterization can shift a few
+// anti-aliased pixels between pooled windows, so byte equality is not guaranteed), then compare with templates/injects/<type>/__golden__/<variant>.png
 // (pixelmatch threshold 0.1, ≤ 0.1 % differing pixels). Mismatches write actual + diff
 // images to .tmp/golden-diff/. UPDATE_GOLDENS=1 rewrites the goldens.
 //   pnpm build:app && pnpm test:templates
 import { expect, test } from '@playwright/test'
 import { rmSync } from 'node:fs'
+import pixelmatch from 'pixelmatch'
+import pngjs from 'pngjs'
 import { resolve } from 'node:path'
 import {
   compareWithGolden,
@@ -15,6 +18,17 @@ import {
   type GoldenResult,
 } from '../src/main/render/golden'
 import { invoker, launch } from './helpers'
+
+const { PNG } = pngjs
+
+/** Visible pixel differences between two renders vs the allowed noise (0.01 %). */
+function renderNoise(a: Buffer, b: Buffer): { differing: number; allowed: number } {
+  if (a.equals(b)) return { differing: 0, allowed: 0 }
+  const [x, y] = [PNG.sync.read(a), PNG.sync.read(b)]
+  if (x.width !== y.width || x.height !== y.height) return { differing: Infinity, allowed: 0 }
+  const differing = pixelmatch(x.data, y.data, null, x.width, x.height, { threshold: 0.1 })
+  return { differing, allowed: Math.ceil(x.width * x.height * 0.0001) }
+}
 
 interface TemplateInfo {
   type: string
@@ -50,7 +64,11 @@ test('every template × variant matches its golden PNG and renders deterministic
         const name = goldenName(t.type, variant)
         const first = await render(t, variant)
         const second = await render(t, variant)
-        if (!first.equals(second)) failures.push(`${name}: two renders of the same data differ`)
+        const noise = renderNoise(first, second)
+        if (noise.differing > noise.allowed)
+          failures.push(
+            `${name}: two renders of the same data differ (${noise.differing} px > ${noise.allowed})`,
+          )
         const result: GoldenResult = compareWithGolden(
           first,
           goldenPath(TEMPLATES, t.type, variant),

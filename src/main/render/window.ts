@@ -103,6 +103,34 @@ export function drainRenderPool(): void {
   pool.drain()
 }
 
+/** Fonts loaded and every <img> decoded, so measurement and capture see final pixels. */
+const READY_JS =
+  'document.fonts.ready.then(() => Promise.all([...document.images].map((i) => i.decode().catch(() => null)))).then(() => true)'
+
+/**
+ * Resize a (possibly reused) offscreen window and wait until the compositor surface has
+ * actually taken the new size before anyone captures it; capturing a surface mid-resize
+ * throws UnknownVizError or returns a stale frame.
+ */
+async function resizeAndSettle(win: BrowserWindow, width: number, height: number): Promise<void> {
+  win.setContentSize(width, height)
+  for (let i = 0; i < 40; i++) {
+    const [w, h] = win.getContentSize()
+    const inner = (await win.webContents.executeJavaScript(
+      '[Math.round(innerWidth * devicePixelRatio), Math.round(innerHeight * devicePixelRatio)]',
+    )) as [number, number]
+    if (
+      w === width &&
+      h === height &&
+      Math.abs(inner[0] - width) <= 1 &&
+      Math.abs(inner[1] - height) <= 1
+    )
+      break
+    await new Promise((r) => setTimeout(r, 25))
+  }
+  await win.webContents.executeJavaScript(PAINTED_JS)
+}
+
 async function loadDocument(
   win: BrowserWindow,
   doc: ComposedDocument,
@@ -116,7 +144,7 @@ async function loadDocument(
   try {
     win.setContentSize(Math.ceil(width * scale), Math.ceil((doc.meta.height ?? 1200) * scale))
     await win.loadFile(file)
-    await win.webContents.executeJavaScript('document.fonts.ready.then(() => true)')
+    await win.webContents.executeJavaScript(READY_JS)
     const height =
       doc.meta.height ??
       Math.ceil(
@@ -124,8 +152,7 @@ async function loadDocument(
           'Math.ceil(document.querySelector(".inject-root").getBoundingClientRect().height)',
         )) as number,
       )
-    win.setContentSize(Math.ceil(width * scale), Math.ceil(height * scale))
-    await win.webContents.executeJavaScript(PAINTED_JS)
+    await resizeAndSettle(win, Math.ceil(width * scale), Math.ceil(height * scale))
     return { width, height }
   } finally {
     await fs.rm(file, { force: true })
@@ -155,6 +182,25 @@ export interface PngResult {
  */
 const MAX_CAPTURES = 6
 
+/** capturePage can throw UnknownVizError while the compositor is busy; retry on a fresh frame. */
+async function captureWithRetry(
+  win: BrowserWindow,
+  rect: { x: number; y: number; width: number; height: number },
+): Promise<Buffer> {
+  let lastError: unknown
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try {
+      return (await win.webContents.capturePage(rect)).toPNG()
+    } catch (err) {
+      lastError = err
+      await new Promise((r) => setTimeout(r, 50 * (attempt + 1)))
+      await win.webContents.executeJavaScript(PAINTED_JS)
+    }
+  }
+  // Let the pool recycle this window (a failed job replaces its worker).
+  throw lastError instanceof Error ? lastError : new Error(String(lastError))
+}
+
 export function renderPng(doc: ComposedDocument, scale = 2): Promise<PngResult> {
   return withDocument(doc, scale, async (win, size) => {
     const rect = {
@@ -163,10 +209,10 @@ export function renderPng(doc: ComposedDocument, scale = 2): Promise<PngResult> 
       width: Math.ceil(size.width * scale),
       height: Math.ceil(size.height * scale),
     }
-    let previous = (await win.webContents.capturePage(rect)).toPNG()
+    let previous = await captureWithRetry(win, rect)
     for (let i = 1; i < MAX_CAPTURES; i++) {
       await win.webContents.executeJavaScript(PAINTED_JS)
-      const next = (await win.webContents.capturePage(rect)).toPNG()
+      const next = await captureWithRetry(win, rect)
       if (next.equals(previous)) break
       previous = next
     }
