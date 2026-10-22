@@ -78,6 +78,21 @@ describe('ScenarioPage', () => {
     ).toBeGreaterThan(0)
   })
 
+  it('keeps stages and the generation log collapsed under Advanced information', async () => {
+    setup()
+    const user = userEvent.setup()
+    await screen.findByRole('heading', { name: 'Flight to Nowhere', level: 1 })
+    const summary = screen.getByText('Advanced information')
+    const details = summary.closest('details')!
+    expect(details.open).toBe(false)
+    // The section sits after the tabs, at the bottom of the page.
+    const tablist = screen.getByRole('tablist', { name: 'Scenario sections' })
+    expect(tablist.compareDocumentPosition(details) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(details.contains(screen.getByRole('region', { name: 'Generation stages' }))).toBe(true)
+    await user.click(summary)
+    expect(details.open).toBe(true)
+  })
+
   it('switches to the MSEL, documents (sanitized) and warnings tabs', async () => {
     setup()
     const user = userEvent.setup()

@@ -1,5 +1,5 @@
 import { Tabs } from 'radix-ui'
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import { ArrowLeft, Download, Presentation } from 'lucide-react'
 import { Link, useLocation, useParams, useSearchParams } from 'react-router'
 import type { Scenario } from '@shared/schemas/scenario'
@@ -135,7 +135,12 @@ export default function ScenarioPage() {
       />
       {scenario && (
         <>
-          <div className="scenario-page__status">
+          <ScenarioTabs
+            projectPath={projectPath}
+            scenario={scenario}
+            onJob={(id) => void follow(id)}
+          />
+          <AdvancedInformation running={isActive(log)}>
             <StageTimeline
               projectPath={projectPath}
               scenarioId={scenarioId}
@@ -145,15 +150,28 @@ export default function ScenarioPage() {
               itemLabels={itemLabels(scenario)}
             />
             <LiveLogPanel log={log} itemLabels={itemLabels(scenario)} />
-          </div>
-          <ScenarioTabs
-            projectPath={projectPath}
-            scenario={scenario}
-            onJob={(id) => void follow(id)}
-          />
+          </AdvancedInformation>
         </>
       )}
     </div>
+  )
+}
+
+/**
+ * Generation stages and the live log, collapsed under "Advanced information" at the bottom
+ * of the page. It opens on its own while a generation job runs, so progress stays visible.
+ */
+function AdvancedInformation(props: { running: boolean; children: ReactNode }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <details
+      className="advanced-info"
+      open={open || props.running}
+      onToggle={(e) => setOpen(e.currentTarget.open)}
+    >
+      <summary className="advanced-info__summary">Advanced information</summary>
+      <div className="scenario-page__status">{props.children}</div>
+    </details>
   )
 }
 

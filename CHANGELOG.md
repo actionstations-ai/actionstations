@@ -8,6 +8,11 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Changed
+
+- Scenario page: the Stages list and Generation log moved below the tabs into a collapsed
+  "Advanced information" section, which opens on its own while a generation runs (#189).
+
 ### Added
 
 - Repair a finished scenario in place (#185, ADR-0015): `generate:repair` applies the current

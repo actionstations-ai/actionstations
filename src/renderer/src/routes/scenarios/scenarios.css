@@ -419,3 +419,19 @@
 .live-log__progress .progress {
   flex: 1;
 }
+.advanced-info {
+  margin-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-4);
+}
+.advanced-info__summary {
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+}
+.advanced-info__summary:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
