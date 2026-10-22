@@ -218,7 +218,9 @@ function Editor(props: {
         <ul className="inject-warnings" aria-label="Warnings for this inject">
           {warnings.map((w, i) => (
             <li key={i}>
-              <Badge tone={w.severity === 'error' ? 'error' : 'warn'}>{w.code}</Badge> {w.message}
+              <Badge tone={w.severity === 'error' ? 'error' : 'warn'}>{w.code}</Badge>{' '}
+              <span className="inject-warnings__message">{w.message}</span>
+              {w.suggestion && <span className="inject-warnings__hint"> {w.suggestion}</span>}
             </li>
           ))}
         </ul>

@@ -79,7 +79,7 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `fids_board` | rows[{flight,dest,time,gate,status}], anomalies[], boardStyle | T | I-06; mark bad rows. **Airport only** (`domains: ['airport']`) |
 | `bhs_scada_screen` | belts[], alarms[], state | T | **Airport only** |
 | `info_display_board` | boardTitle, siteName, clock, rows[{primary,secondary,time,position,status,remarks,anomaly}], ticker | T | Generic passenger/customer information display; variants `airport` (departures), `transit_bus` (bay arrivals), `rail` (platform) |
-| `scada_hmi` | systemName, site, state, mode, equipment[{tag,kind,state,value,units,setpoint}], readings[], alarms[] | T | Generic process HMI; variants `water`, `dam`, `power`, `transit_traction`. A wrong value is not highlighted |
+| `scada_hmi` | systemName, site, state, mode, equipment[{tag,kind,state,value,units,setpoint}], readings[], alarms[] | T | Generic process HMI; variants `water`, `water_chemical`, `water_distribution`, `dam`, `power`, `transit_traction` (the model picks one through `variant` in its inject_text reply). A wrong value is not highlighted |
 | `uas_detection_alert` | systemName, site, tracks[{id,remoteIdSerial,altitudeFt,distanceM,operatorLocation,zone,threatLevel}], zones[], events[] | T | Counter-UAS / Remote ID console with an inline-SVG radar; no external tiles |
 | `avl_fleet_map` | systemName, agency, routes[], vehicles[{id,route,status,lastReport,x,y}], alerts[] | T | Transit dispatch AVL map drawn with inline SVG |
 | `incident_alert_notification` | sender, headline, body, issuedAt, areaAffected, instructions[], severity | T | Mass notification as received; variants `wea`, `sms`, `email`, `siren_pa` |

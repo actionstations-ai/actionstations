@@ -16,7 +16,7 @@ import { newId } from '../../lib/ids'
 import { scenarioLayout } from '../../scenario/layout'
 import { getScenario, saveInject, updateScenario, type SaveOptions } from '../../scenario/store'
 import { injectDeps } from './deps'
-import { INJECT_FIELDS_INVALID } from './text-stage'
+import { INJECT_FIELDS_INVALID, INJECT_RENDER_INVALID } from './text-stage'
 import { defaultDelivery } from './type-map'
 
 export async function getInject(
@@ -147,16 +147,20 @@ async function fieldsValid(inject: Inject): Promise<boolean> {
   return templates.validateFields(inject.type, inject.fields).length === 0
 }
 
+/** Warnings that say the fields do not match the template; stale once they validate. */
+const FIELD_WARNINGS = new Set([INJECT_FIELDS_INVALID, INJECT_RENDER_INVALID])
+
 /**
- * After a user save: drop the INJECT_FIELDS_INVALID warning the text job left on this inject
- * once its fields validate. Writes scenario.json only when there is a warning to drop.
+ * After a user save: drop the INJECT_FIELDS_INVALID (text job) and INJECT_RENDER_INVALID
+ * (media job) warnings on this inject once its fields validate. Writes scenario.json only
+ * when there is a warning to drop.
  */
 export async function clearFixedFieldWarnings(
   root: string,
   scenarioId: string,
   inject: Inject,
 ): Promise<void> {
-  const stale = (w: LintWarning) => w.injectId === inject.id && w.code === INJECT_FIELDS_INVALID
+  const stale = (w: LintWarning) => w.injectId === inject.id && FIELD_WARNINGS.has(w.code)
   const scenario = await getScenario(root, scenarioId)
   if (!scenario.warnings.some(stale) || !(await fieldsValid(inject))) return
   await updateScenario(
@@ -175,6 +179,33 @@ export function recordInjectRun(s: Scenario, run: StageRun): void {
   const i = s.provenance.findIndex((r) => r.stage === run.stage && r.itemId === run.itemId)
   if (i >= 0) s.provenance[i] = run
   else s.provenance.push(run)
+}
+
+const rowLevel = (w: LintWarning, rowId: string, codes: Set<string>): boolean =>
+  w.rowId === rowId && !w.injectId && codes.has(w.code)
+
+/**
+ * A row the injects job skipped or failed: its run (keyed by the row id, or by the inject it
+ * was regenerating) and the row-level warning replace the previous ones of those codes.
+ */
+export function recordRowFailure(
+  s: Scenario,
+  rowId: string,
+  run: StageRun,
+  warning: LintWarning | undefined,
+  codes: Iterable<string>,
+): void {
+  recordInjectRun(s, run)
+  const replaced = new Set(codes)
+  s.warnings = s.warnings.filter((w) => !rowLevel(w, rowId, replaced))
+  if (warning) s.warnings.push(warning)
+}
+
+/** The row has its inject now: drop the row-keyed inject_text runs and row-level warnings. */
+export function clearRowRecords(s: Scenario, rowId: string, codes: Iterable<string>): void {
+  const replaced = new Set(codes)
+  s.provenance = s.provenance.filter((r) => !(r.stage === 'inject_text' && r.itemId === rowId))
+  s.warnings = s.warnings.filter((w) => !rowLevel(w, rowId, replaced))
 }
 
 /** Replace the warnings (of the given codes) a previous run attached to this inject. */

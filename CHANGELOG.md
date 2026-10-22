@@ -10,6 +10,19 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Fixed
 
+- Inject generation records every skipped or failed MSEL row on the scenario (an `inject_text`
+  run keyed by the row, an `INJECT_TEXT_FAILED` warning); a reply with no valid JSON gets one
+  fresh call, and a control card the model still fails on is built from its MSEL row; a failed
+  media brief keeps the inject text (#166).
+- Inject fields with an out-of-range enum value (a radio call's `background: "outdoor"`) are
+  repaired to the template's default or first value with an `INJECT_FIELDS_REPAIRED`
+  warning, and the media job reports fields the template still refuses as
+  `INJECT_RENDER_INVALID` in the inject editor (#175).
+- Inject media (#177): a generated still is kept when the template step fails and the job log
+  names the failing step; over-long strings and pattern violations (a 19-character tweet
+  handle) and undeclared nested keys are repaired before validation; the model can choose a
+  template variant (`variant`, e.g. `scada_hmi` `water_chemical`); the domain's scene anchor
+  follows the model's image prompt instead of being prepended to it.
 - Quitting while template previews render no longer hangs (#170): on quit the render-window pool cancels queued and in-flight renders and destroys its windows instead of opening new ones.
 - Facility lint false positives (#165): broad profile nouns (Unit, Gate, Zone, Station, Section,
   Route) are checked only in matching context and never after a responder or access word, so a

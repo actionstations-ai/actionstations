@@ -25,9 +25,12 @@ import { baseVars, dataSafe, rowVars } from '../vars'
 import { contentIssues, type ContentIssue } from './consistency'
 import type { InjectDeps } from './deps'
 import { factsSoFar, formatFacts, storyTexts } from './facts'
+import { controlCardFields } from './control-fallback'
 import { normalizeFields } from './normalize'
+import { formatRepairs, repairFields, type FieldRepair, type RepairMode } from './repair'
 import {
   chooseInjectType,
+  CONTROL_TYPES,
   defaultDelivery,
   KEY_FIELDS,
   schemaHints,
@@ -39,6 +42,10 @@ export const INJECT_TYPE_FALLBACK = 'INJECT_TYPE_FALLBACK'
 export const INJECT_TEMPLATE_MISSING = 'INJECT_TEMPLATE_MISSING'
 export const INJECT_CONTENT_ISSUE = 'INJECT_CONTENT_ISSUE'
 export const CITATION_DROPPED = 'CITATION_DROPPED'
+export const INJECT_FIELDS_REPAIRED = 'INJECT_FIELDS_REPAIRED'
+export const INJECT_TEXT_FALLBACK = 'INJECT_TEXT_FALLBACK'
+/** The template refused the inject's fields at render time (media job, #175). */
+export const INJECT_RENDER_INVALID = 'INJECT_RENDER_INVALID'
 
 export interface InjectEnv {
   root: string
@@ -67,9 +74,13 @@ export interface InjectTextResult {
   inject: Inject
   run: StageRun
   warnings: LintWarning[]
+  /** True when the model failed and the page was built from the row (control cards). */
+  fallback?: boolean
 }
 
 const TITLE_MAX = 80
+
+type Fields = Record<string, unknown>
 
 function fallbackTitle(row: MselRow): string {
   const text = row.event.replace(/^[^:"\n]{0,40}:\s*/, '').replace(/["“”]/g, '')
@@ -252,19 +263,23 @@ interface Validated {
   issues: ContentIssue[]
   /** Content checks that still fail (consistency.ts). */
   content: ContentIssue[]
+  /** Deterministic repairs applied to the kept draft (repair.ts). */
+  repairs: FieldRepair[]
 }
 
-type Checked = Pick<Validated, 'issues' | 'content'>
+type Checked = Pick<Validated, 'issues' | 'content' | 'repairs'>
 
 /**
- * One draft: unknown fields dropped, fields normalised, then the schema issues and the
- * content issues. Both lists go back to the model in the single repair round.
+ * One draft: unknown fields dropped (nested ones too), fields normalised, then the schema
+ * issues and the content issues. Both lists go back to the model in the single repair round.
+ * `mode: 'all'` also fixes enum, pattern and length violations in code (repair.ts).
  */
 function checkDraft(
   input: InjectTextInput,
   injectId: string,
   choice: TypeChoice,
   out: InjectTextOutput,
+  mode: RepairMode = 'keys',
 ): Checked {
   const { env, row, scenario, priorInjects } = input
   const extra = { stage: 'inject_text' as const, itemId: injectId }
@@ -291,6 +306,9 @@ function checkDraft(
   })
   if (notes.length)
     env.ctx.log(`inject_text ${row.id}: normalised ${notes.join('; ')}`, 'info', extra)
+  const repairs = template ? repairFields(schema, out.fields, mode) : []
+  if (repairs.length)
+    env.ctx.log(`inject_text ${row.id}: repaired ${formatRepairs(repairs)}`, 'info', extra)
   const issues = template
     ? env.deps.templates
         .validateFields(choice.type, out.fields)
@@ -305,7 +323,7 @@ function checkDraft(
     storyTexts: storyTexts(scenario.msel, row, priorInjects),
     knownText: knownNames(env.project, scenario),
   })
-  return { issues, content }
+  return { issues, content, repairs }
 }
 
 /** Names that belong to this scenario, so a template example that matches one is not a leak. */
@@ -317,6 +335,19 @@ function knownNames(project: Project, s: Scenario): string {
     ...Object.values(project.brand.aliases),
     ...s.roles.flatMap((r) => [r.name, r.abbreviation, r.team]),
   ].join('\n')
+}
+
+/** Schema issues left after the model's turn: fixed in code where they can be (#175, #177). */
+function settle(
+  input: InjectTextInput,
+  injectId: string,
+  choice: TypeChoice,
+  out: InjectTextOutput,
+  checked: Checked,
+): Checked {
+  if (!checked.issues.length) return checked
+  const again = checkDraft(input, injectId, choice, out, 'all')
+  return { ...again, repairs: [...checked.repairs, ...again.repairs] }
 }
 
 /** Validate the draft; on any issue, one more call carrying all of them. */
@@ -347,10 +378,11 @@ async function validateWithRepair(
     })
     sumInto(first.run, fix.run)
     const fixed = { ...fix.output, type: choice.type }
+    const after = checkDraft(input, injectId, choice, fixed)
     return {
       output: fixed,
       retrieved: fix.retrieved,
-      ...checkDraft(input, injectId, choice, fixed),
+      ...settle(input, injectId, choice, fixed, after),
     }
   } catch (err) {
     if (!(err instanceof StageFailure)) throw err
@@ -360,7 +392,11 @@ async function validateWithRepair(
       'warn',
       extra,
     )
-    return { output: first.output, retrieved: first.retrieved, ...checked }
+    return {
+      output: first.output,
+      retrieved: first.retrieved,
+      ...settle(input, injectId, choice, first.output, checked),
+    }
   }
 }
 
@@ -390,6 +426,38 @@ function typeWarnings(choice: TypeChoice, row: MselRow, injectId: string): LintW
   return []
 }
 
+/** The model's variant when the template has it, else the regenerated inject's, else none. */
+export function chooseVariant(
+  variants: readonly string[],
+  wanted: string | undefined,
+  kept: string | undefined,
+): { variant?: string; rejected?: string } {
+  const w = wanted?.trim()
+  if (w && variants.includes(w)) return { variant: w }
+  const fallback = kept && variants.includes(kept) ? { variant: kept } : {}
+  return w ? { ...fallback, rejected: w } : fallback
+}
+
+function variantOf(
+  input: InjectTextInput,
+  injectId: string,
+  choice: TypeChoice,
+  wanted: string | undefined,
+): string | undefined {
+  if (!choice.hasTemplate) return undefined
+  const { variants } = input.env.deps.templates.loadTemplate(choice.type).meta
+  const picked = chooseVariant(variants, wanted, input.existing?.variant)
+  if (picked.rejected) {
+    const kept = picked.variant ? `kept ${picked.variant}` : 'the default is used'
+    input.env.ctx.log(
+      `inject_text ${input.row.id}: variant "${picked.rejected}" is not one of the ${choice.type} template's (${variants.join(', ')}); ${kept}`,
+      'info',
+      { stage: 'inject_text', itemId: injectId },
+    )
+  }
+  return picked.variant
+}
+
 function toInject(
   input: InjectTextInput,
   injectId: string,
@@ -399,10 +467,12 @@ function toInject(
   const { row, existing } = input
   const { citations, dropped } = resolveCitations(v.output.citations, v.retrieved)
   const note = v.output.instructorNote?.trim()
+  const variant = variantOf(input, injectId, choice, v.output.variant)
   const inject: Inject = {
     id: injectId,
     mselRowId: row.id,
     type: choice.type,
+    ...(variant ? { variant } : {}),
     title: v.output.title.trim() || fallbackTitle(row),
     deliveryMode: v.output.deliveryMode ?? defaultDelivery(choice.type),
     fields: v.output.fields,
@@ -416,7 +486,145 @@ function toInject(
   return { inject, dropped }
 }
 
-/** Expand one MSEL row into an inject. Throws StageFailure only when the first call fails. */
+const warningBase = (row: MselRow, injectId: string) => ({
+  source: 'lint' as const,
+  rowId: row.id,
+  injectId,
+})
+
+/** One INJECT_FIELDS_REPAIRED warning per deterministic repair. */
+export function repairWarnings(
+  row: MselRow,
+  injectId: string,
+  repairs: FieldRepair[],
+): LintWarning[] {
+  return repairs.map((r) => ({
+    ...warningBase(row, injectId),
+    code: INJECT_FIELDS_REPAIRED,
+    severity: 'warning',
+    message: `${row.id}: fields${r.path} repaired to fit the template — ${r.message}`,
+    suggestion: 'Check the repaired field in the inject editor',
+  }))
+}
+
+function validationWarnings(
+  row: MselRow,
+  injectId: string,
+  choice: TypeChoice,
+  v: Checked,
+): LintWarning[] {
+  const warnings = repairWarnings(row, injectId, v.repairs)
+  if (v.issues.length) {
+    warnings.push({
+      ...warningBase(row, injectId),
+      code: INJECT_FIELDS_INVALID,
+      severity: 'warning',
+      message: `${row.id}: fields still do not match the ${choice.type} template after one repair:\n${formatIssues(v.issues)}`,
+      suggestion: 'Open the inject editor and fix the flagged fields',
+    })
+  }
+  if (v.content.length) {
+    warnings.push({
+      ...warningBase(row, injectId),
+      code: INJECT_CONTENT_ISSUE,
+      severity: 'warning',
+      message: `${row.id}: content still inconsistent after one repair:\n${formatIssues(v.content)}`,
+      suggestion: 'Open the inject editor and fix the flagged content',
+    })
+  }
+  return warnings
+}
+
+const firstLine = (run: StageRun): string => run.error?.split('\n')[0] ?? 'invalid output'
+
+/**
+ * The first draft. A reply that fails the output schema even after the stage's own repair
+ * round (a runaway reply with no JSON, a truncated object) gets one fresh call with a clean
+ * conversation before the row counts as failed (#166).
+ */
+async function firstDraft(
+  input: InjectTextInput,
+  injectId: string,
+  vars: Record<string, unknown>,
+): Promise<StageResult<InjectTextOutput>> {
+  try {
+    return await callText(input, injectId, vars)
+  } catch (err) {
+    if (!(err instanceof StageFailure)) throw err
+    input.env.ctx.log(
+      `inject_text ${input.row.id}: no valid reply (${firstLine(err.run)}); trying once more`,
+      'warn',
+      { stage: 'inject_text', itemId: injectId },
+    )
+    try {
+      const again = await callText(input, injectId, vars)
+      sumInto(again.run, err.run)
+      return again
+    } catch (second) {
+      if (second instanceof StageFailure) sumInto(second.run, err.run)
+      throw second
+    }
+  }
+}
+
+function fallbackInject(input: InjectTextInput, injectId: string, type: string, fields: Fields) {
+  const { row, existing } = input
+  return {
+    id: injectId,
+    mselRowId: row.id,
+    type,
+    title: fallbackTitle(row),
+    deliveryMode: defaultDelivery(type),
+    fields,
+    citations: [],
+    assets: existing?.assets ?? [],
+    versions: existing?.versions ?? [],
+    includeInDeck: existing?.includeInDeck ?? true,
+    locked: false,
+  } satisfies Inject
+}
+
+/**
+ * A control row whose replies all failed: the card is built from the row (control-fallback.ts)
+ * and kept with an INJECT_TEXT_FALLBACK warning; the failed run is returned as the stage's run.
+ */
+function controlFallback(
+  input: InjectTextInput,
+  injectId: string,
+  choice: TypeChoice,
+  failure: StageFailure,
+): InjectTextResult | undefined {
+  const { env, row } = input
+  if (!choice.hasTemplate || !Object.values(CONTROL_TYPES).includes(choice.type)) return undefined
+  const fields = controlCardFields(choice.type, row, input.scenario.title)
+  if (!fields) return undefined
+  const schema = env.deps.templates.loadTemplate(choice.type).schema as Record<string, unknown>
+  const known = Object.keys((schema.properties ?? {}) as object)
+  for (const k of Object.keys(fields)) if (known.length && !known.includes(k)) delete fields[k]
+  const repairs = repairFields(schema, fields)
+  const issues = env.deps.templates
+    .validateFields(choice.type, fields)
+    .map((i) => ({ path: `fields${i.path}`, message: i.message }))
+  const warnings: LintWarning[] = [
+    {
+      ...warningBase(row, injectId),
+      code: INJECT_TEXT_FALLBACK,
+      severity: 'warning',
+      message: `${row.id}: the model gave no valid ${choice.type} after a retry (${firstLine(failure.run)}); the card was built from the MSEL row`,
+      suggestion: 'Review the card, or regenerate this inject',
+    },
+    ...validationWarnings(row, injectId, choice, { issues, content: [], repairs }),
+  ]
+  const extra = { stage: 'inject_text' as const, itemId: injectId }
+  for (const w of warnings) env.ctx.log(w.message, 'warn', extra)
+  const inject = fallbackInject(input, injectId, choice.type, fields)
+  return { inject, run: failure.run, warnings, fallback: true }
+}
+
+/**
+ * Expand one MSEL row into an inject. Throws StageFailure when the model gives no valid
+ * reply after a retry, except for control rows, which fall back to a card built from the row.
+ */
 export async function runInjectText(input: InjectTextInput): Promise<InjectTextResult> {
   const { env, row, existing } = input
   const injectId = existing?.id ?? newId()
@@ -434,41 +642,27 @@ export async function runInjectText(input: InjectTextInput): Promise<InjectTextR
       extra,
     )
   const vars = buildVars(input, chosen)
-  const first = await callText(input, injectId, vars)
+  let first: StageResult<InjectTextOutput>
+  try {
+    first = await firstDraft(input, injectId, vars)
+  } catch (err) {
+    const fallback = err instanceof StageFailure && controlFallback(input, injectId, chosen, err)
+    if (fallback) return fallback
+    throw err
+  }
   const choice = finalType(env, chosen, first.output, row.id)
   const validated = await validateWithRepair(input, injectId, vars, first, choice)
   const { inject, dropped } = toInject(input, injectId, choice, validated)
-  const warnings = typeWarnings(choice, row, injectId)
-  if (validated.issues.length) {
-    warnings.push({
-      code: INJECT_FIELDS_INVALID,
-      severity: 'warning',
-      message: `${row.id}: fields still do not match the ${choice.type} template after one repair:\n${formatIssues(validated.issues)}`,
-      source: 'lint',
-      rowId: row.id,
-      injectId,
-      suggestion: 'Open the inject editor and fix the flagged fields',
-    })
-  }
-  if (validated.content.length) {
-    warnings.push({
-      code: INJECT_CONTENT_ISSUE,
-      severity: 'warning',
-      message: `${row.id}: content still inconsistent after one repair:\n${formatIssues(validated.content)}`,
-      source: 'lint',
-      rowId: row.id,
-      injectId,
-      suggestion: 'Open the inject editor and fix the flagged content',
-    })
-  }
+  const warnings = [
+    ...typeWarnings(choice, row, injectId),
+    ...validationWarnings(row, injectId, choice, validated),
+  ]
   if (dropped.length) {
     warnings.push({
+      ...warningBase(row, injectId),
       code: CITATION_DROPPED,
       severity: 'warning',
       message: `inject_text (${row.id}) cited ${dropped.join(', ')}, which was not among the retrieved sections; dropped`,
-      source: 'lint',
-      rowId: row.id,
-      injectId,
     })
   }
   for (const w of warnings) env.ctx.log(w.message, w.severity === 'info' ? 'info' : 'warn', extra)

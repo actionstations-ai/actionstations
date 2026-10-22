@@ -1,31 +1,40 @@
 // generate:injects — inject_text then inject_media_brief for every MSEL row (or the rows
 // asked for), in MSEL order so later injects see the facts earlier ones established. Each
 // inject is saved as soon as it is written (versions pushed, row linked, StageRuns and
-// warnings recorded on the scenario); one row failing does not stop the others.
-import type { Inject, MselRow, Scenario, StageRun } from '@shared/schemas'
+// warnings recorded on the scenario); one row failing does not stop the others. A row the
+// job skips or fails leaves an inject_text run keyed by the row id (status skipped / error)
+// and, for a failure, an INJECT_TEXT_FAILED warning on the row (#166); both go when the row
+// later gets its inject.
+import type { Inject, LintWarning, MselRow, Scenario, StageRun } from '@shared/schemas'
 import type { JobContext } from '../../jobs/manager'
 import { AppError, toAppError } from '../../lib/errors'
 import { nowIso } from '../../lib/ids'
 import { domainContext } from '../domain'
 import { StageFailure } from '../stage'
 import { injectDeps, type InjectDeps } from './deps'
-import { runMediaBrief } from './media-brief-stage'
-import { recordInjectRun, replaceInjectWarnings } from './store'
+import { runMediaBrief, type MediaBriefResult } from './media-brief-stage'
+import { clearRowRecords, recordInjectRun, recordRowFailure, replaceInjectWarnings } from './store'
 import {
   CITATION_DROPPED,
   INJECT_CONTENT_ISSUE,
   INJECT_FIELDS_INVALID,
+  INJECT_FIELDS_REPAIRED,
   INJECT_TEMPLATE_MISSING,
+  INJECT_TEXT_FALLBACK,
   INJECT_TYPE_FALLBACK,
   runInjectText,
   type InjectEnv,
 } from './text-stage'
 
+export const INJECT_TEXT_FAILED = 'INJECT_TEXT_FAILED'
+
 export const TEXT_WARNING_CODES = [
   INJECT_FIELDS_INVALID,
+  INJECT_FIELDS_REPAIRED,
   INJECT_CONTENT_ISSUE,
   INJECT_TYPE_FALLBACK,
   INJECT_TEMPLATE_MISSING,
+  INJECT_TEXT_FALLBACK,
   CITATION_DROPPED,
 ]
 
@@ -39,6 +48,8 @@ export interface InjectsJobSummary {
   generated: string[]
   skipped: { rowId: string; reason: string }[]
   failed: { rowId: string; error: string }[]
+  /** Rows whose page was built from the row after the model failed (control cards). */
+  fallback: { rowId: string; error: string }[]
 }
 
 export async function openInjectEnv(
@@ -76,20 +87,19 @@ export function selectRows(
   })
 }
 
-function failedRun(
-  stage: StageRun['stage'],
+function rowRun(
   itemId: string,
   startedAt: string,
-  err: unknown,
+  status: 'error' | 'skipped',
+  error: string,
 ): StageRun {
-  const e = toAppError(err)
   return {
-    stage,
+    stage: 'inject_text',
     itemId,
     startedAt,
     finishedAt: nowIso(),
-    status: 'error',
-    error: e.code === 'CANCELLED' ? 'Cancelled' : e.message,
+    status,
+    error,
     repairAttempts: 0,
   }
 }
@@ -103,8 +113,47 @@ interface RowWork {
   instructions?: string
 }
 
+/**
+ * The media brief for a freshly written inject. A failed brief never costs the text: the
+ * inject is kept without a brief (the media job writes one) and the failed run is recorded.
+ */
+async function briefFor(w: RowWork, inject: Inject): Promise<Partial<MediaBriefResult>> {
+  try {
+    return await runMediaBrief({
+      env: w.env,
+      scenario: w.scenario,
+      row: w.row,
+      inject,
+      priorInjects: w.priorInjects,
+    })
+  } catch (err) {
+    const e = toAppError(err)
+    if (e.code === 'CANCELLED') throw err
+    w.env.ctx.log(
+      `inject_media_brief ${w.row.id}: ${e.message}; the inject is kept, the media job will plan it`,
+      'warn',
+      { stage: 'inject_media_brief', itemId: inject.id },
+    )
+    const run: StageRun =
+      err instanceof StageFailure
+        ? err.run
+        : {
+            stage: 'inject_media_brief',
+            itemId: inject.id,
+            startedAt: nowIso(),
+            finishedAt: nowIso(),
+            status: 'error',
+            error: e.message,
+            repairAttempts: 0,
+          }
+    return { run }
+  }
+}
+
 /** Text + media brief for one row; saved and recorded before returning. */
-async function generateRow(w: RowWork): Promise<{ inject: Inject; scenario: Scenario }> {
+async function generateRow(
+  w: RowWork,
+): Promise<{ inject: Inject; scenario: Scenario; fallback?: string }> {
   const { env, row } = w
   const text = await runInjectText({
     env,
@@ -114,17 +163,16 @@ async function generateRow(w: RowWork): Promise<{ inject: Inject; scenario: Scen
     priorInjects: w.priorInjects,
     ...(w.instructions ? { instructions: w.instructions } : {}),
   })
-  const brief = await runMediaBrief({
-    env,
-    scenario: w.scenario,
-    row,
-    inject: text.inject,
-    priorInjects: w.priorInjects,
-  })
-  const inject = { ...text.inject, mediaBrief: brief.brief }
+  const brief = await briefFor(w, text.inject)
+  const inject: Inject = { ...text.inject, ...(brief.brief ? { mediaBrief: brief.brief } : {}) }
+  if (!brief.brief) delete inject.mediaBrief
   const saved = await env.deps.injects.saveInject(env.root, w.scenario.id, inject, {
     by: 'ai',
-    note: w.existing ? `regenerated${w.instructions ? ' with instructions' : ''}` : 'generated',
+    note: text.fallback
+      ? 'built from the MSEL row (model failed)'
+      : w.existing
+        ? `regenerated${w.instructions ? ' with instructions' : ''}`
+        : 'generated',
   })
   text.run.finishedAt = text.run.finishedAt ?? nowIso()
   const scenario = await env.deps.injects.updateScenario(
@@ -133,31 +181,69 @@ async function generateRow(w: RowWork): Promise<{ inject: Inject; scenario: Scen
     (s) => {
       const r = s.msel.find((x) => x.id === row.id)
       if (r) r.injectId = saved.id
+      clearRowRecords(s, row.id, [INJECT_TEXT_FAILED])
       recordInjectRun(s, text.run)
-      recordInjectRun(s, brief.run)
+      if (brief.run) recordInjectRun(s, brief.run)
       replaceInjectWarnings(s, saved.id, text.warnings, TEXT_WARNING_CODES)
     },
     { by: 'ai', snapshot: false, note: `inject ${row.id}` },
   )
-  return { inject: saved, scenario }
+  return {
+    inject: saved,
+    scenario,
+    ...(text.fallback ? { fallback: text.run.error ?? 'invalid output' } : {}),
+  }
 }
 
-async function recordFailure(w: RowWork, startedAt: string, err: unknown): Promise<Scenario> {
+/** The failed run, keyed by the existing inject or else by the row (never a fresh inject id). */
+function failureRun(w: RowWork, startedAt: string, err: unknown): StageRun {
   const itemId = w.existing?.id ?? w.row.id
-  const run =
-    err instanceof StageFailure ? err.run : failedRun('inject_text', itemId, startedAt, err)
-  return w.env.deps.injects
-    .updateScenario(w.env.root, w.scenario.id, (s) => recordInjectRun(s, run), {
-      by: 'ai',
-      snapshot: false,
-      note: `inject ${w.row.id} failed`,
-    })
-    .catch(() => w.scenario)
+  if (err instanceof StageFailure) return { ...err.run, stage: 'inject_text', itemId }
+  const e = toAppError(err)
+  return rowRun(itemId, startedAt, 'error', e.code === 'CANCELLED' ? 'Cancelled' : e.message)
+}
+
+function failureWarning(row: MselRow, error: string): LintWarning {
+  return {
+    code: INJECT_TEXT_FAILED,
+    severity: 'warning',
+    message: `${row.id}: no inject was written — ${error.split('\n')[0]}`,
+    source: 'lint',
+    rowId: row.id,
+    suggestion: 'Generate the missing injects again, or create this one in the inject deck',
+  }
+}
+
+/** Write a row's failure or skip onto the scenario; retried once, never dropped silently. */
+async function recordRowOutcome(
+  w: RowWork,
+  run: StageRun,
+  warning: LintWarning | undefined,
+): Promise<Scenario> {
+  const write = () =>
+    w.env.deps.injects.updateScenario(
+      w.env.root,
+      w.scenario.id,
+      (s) => recordRowFailure(s, w.row.id, run, warning, [INJECT_TEXT_FAILED]),
+      { by: 'ai', snapshot: false, note: `inject ${w.row.id} ${run.status}` },
+    )
+  try {
+    return await write().catch(write)
+  } catch (err) {
+    w.env.ctx.log(
+      `inject_text ${w.row.id}: could not record the ${run.status} run on the scenario — ${toAppError(err).message}`,
+      'error',
+      { stage: 'inject_text', itemId: run.itemId ?? w.row.id },
+    )
+    return w.scenario
+  }
 }
 
 function logSummary(ctx: JobContext, summary: InjectsJobSummary): void {
-  const { generated, skipped, failed } = summary
+  const { generated, skipped, failed, fallback } = summary
   const parts = [`${generated.length} inject(s) written`]
+  if (fallback.length)
+    parts.push(`${fallback.length} built from the row (${fallback.map((f) => f.rowId).join(', ')})`)
   if (skipped.length)
     parts.push(`${skipped.length} skipped (${skipped.map((s) => s.rowId).join(', ')})`)
   if (failed.length)
@@ -165,6 +251,35 @@ function logSummary(ctx: JobContext, summary: InjectsJobSummary): void {
   ctx.log(`generate:injects: ${parts.join('; ')}`, failed.length ? 'warn' : 'info')
   for (const f of failed)
     ctx.log(`  ${f.rowId}: ${f.error}`, 'warn', { stage: 'inject_text', itemId: f.rowId })
+}
+
+async function processRow(
+  w: RowWork,
+  summary: InjectsJobSummary,
+  byRow: Map<string, Inject>,
+): Promise<Scenario> {
+  const { row, existing, env } = w
+  const extra = { stage: 'inject_text' as const, itemId: existing?.id ?? row.id }
+  const startedAt = nowIso()
+  if (row.locked || existing?.locked) {
+    summary.skipped.push({ rowId: row.id, reason: 'locked' })
+    env.ctx.log(`inject_text ${row.id}: locked, skipped`, 'info', extra)
+    return recordRowOutcome(w, rowRun(row.id, startedAt, 'skipped', 'locked'), undefined)
+  }
+  try {
+    const done = await generateRow(w)
+    byRow.set(row.id, done.inject)
+    summary.generated.push(row.id)
+    if (done.fallback) summary.fallback.push({ rowId: row.id, error: done.fallback })
+    return done.scenario
+  } catch (err) {
+    if (toAppError(err).code === 'CANCELLED') throw err
+    const run = failureRun(w, startedAt, err)
+    const error = toAppError(err).message
+    summary.failed.push({ rowId: row.id, error })
+    env.ctx.log(`inject_text ${row.id} failed: ${error}`, 'error', extra)
+    return recordRowOutcome(w, run, failureWarning(row, error))
+  }
 }
 
 /** The job body. Returns the summary (also the job's result). */
@@ -179,17 +294,12 @@ export async function runInjectsJob(
   const injects = await env.deps.injects.listInjects(root, scenarioId)
   const byRow = new Map(injects.map((i) => [i.mselRowId, i]))
   const rows = selectRows(scenario, byRow, opts.rowIds)
-  const summary: InjectsJobSummary = { generated: [], skipped: [], failed: [] }
+  const summary: InjectsJobSummary = { generated: [], skipped: [], failed: [], fallback: [] }
   for (const [i, row] of rows.entries()) {
     ctx.throwIfCancelled()
     const existing = byRow.get(row.id)
     const extra = { stage: 'inject_text' as const, itemId: existing?.id ?? row.id }
     ctx.progress(i / rows.length, `inject ${row.id} (${i + 1}/${rows.length})`, extra)
-    if (row.locked || existing?.locked) {
-      summary.skipped.push({ rowId: row.id, reason: 'locked' })
-      ctx.log(`inject_text ${row.id}: locked, skipped`, 'info', extra)
-      continue
-    }
     const work: RowWork = {
       env,
       scenario,
@@ -198,18 +308,7 @@ export async function runInjectsJob(
       priorInjects: [...byRow.values()],
       ...(opts.instructions ? { instructions: opts.instructions } : {}),
     }
-    const startedAt = nowIso()
-    try {
-      const done = await generateRow(work)
-      scenario = done.scenario
-      byRow.set(row.id, done.inject)
-      summary.generated.push(row.id)
-    } catch (err) {
-      if (toAppError(err).code === 'CANCELLED') throw err
-      scenario = await recordFailure(work, startedAt, err)
-      summary.failed.push({ rowId: row.id, error: toAppError(err).message })
-      ctx.log(`inject_text ${row.id} failed: ${toAppError(err).message}`, 'error', extra)
-    }
+    scenario = await processRow(work, summary, byRow)
   }
   logSummary(ctx, summary)
   ctx.progress(1, `${summary.generated.length} inject(s) ready`)

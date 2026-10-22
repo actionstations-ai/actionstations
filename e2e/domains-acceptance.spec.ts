@@ -596,6 +596,10 @@ for (const run of RUNS.filter((r) => WANT.includes(r.id))) {
             .flatMap((i) => i.assets)
             .filter((a) => a.role === 'generated' && a.kind === 'image').length,
           audio: injects.flatMap((i) => i.assets).filter((a) => a.kind === 'audio').length,
+          // Templated injects the media job left without a card (#175, #177).
+          noCard: injects
+            .filter((i) => !i.assets.some((a) => a.role === 'rendered' || a.role === 'composite'))
+            .map((i) => `${i.mselRowId}: ${i.type}`),
         },
         timing: { scenarioSecs, injectSecs, mediaSecs, job: job.status },
         facilityCategories: facts.categories
@@ -658,8 +662,14 @@ for (const run of RUNS.filter((r) => WANT.includes(r.id))) {
             w.code === 'DECISION_POINT_SCOPE',
         ).length,
       ).toBeLessThanOrEqual(3)
-      // The injects job tolerates a failed row (recorded on the scenario); one is acceptable here.
-      expect(injects.length).toBeGreaterThanOrEqual(s.msel.length - 1)
+      // One inject per row (#166): a control row the model fails on gets a card built from
+      // the row; any other failed row is named by its INJECT_TEXT_FAILED warning.
+      const after = await invoke<Scenario>('scenarios:get', { projectPath, scenarioId })
+      const textFailed = after.warnings.filter((w) => w.code === 'INJECT_TEXT_FAILED')
+      expect(
+        injects.map((i) => i.mselRowId).sort(),
+        `rows without an inject: ${textFailed.map((w) => w.message).join(' | ')}`,
+      ).toEqual(s.msel.map((r) => r.id).sort())
       expect(injects.some((i) => i.type === 'fids_board' || i.type === 'bhs_scada_screen')).toBe(
         false,
       )

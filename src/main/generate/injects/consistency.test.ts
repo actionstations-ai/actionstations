@@ -2,6 +2,8 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import type { MselRow } from '@shared/schemas'
+import { builtinProfile } from '@shared/domains'
+import { categoriesForProfile } from '../domain'
 import { extractFacilityFacts } from '../facility'
 import {
   contentIssues,
@@ -150,6 +152,23 @@ describe('technicalIssues (system_log coherence)', () => {
   })
 })
 
+describe('facilityFieldIssues near misses (#165)', () => {
+  it('says "did you mean …?" for an identifier close to a documented one', () => {
+    const transit = extractFacilityFacts(
+      ['Rail service stops at Confluence Station and the Northside Depot.'],
+      categoriesForProfile(builtinProfile('transit')),
+    )
+    const post = row('I-04', 'Rider', 'Post: crowds at the station', 'tweet')
+    const [issue] = facilityFieldIssues(
+      { text: 'Packed platform at Confluence Park Station, nobody knows anything' },
+      transit,
+      post,
+    )
+    expect(issue?.message).toContain('did you mean Confluence Station?')
+    expect(issue?.message).toMatch(/is not in the facility facts; use the documented name$/)
+  })
+})
+
 describe('facilityFieldIssues and contentIssues', () => {
   const facts = extractFacilityFacts([
     'Runways 5/23 and 1/19. Gates (A1–A8, B1–B10). Concourse A and B.',
@@ -161,7 +180,9 @@ describe('facilityFieldIssues and contentIssues', () => {
       facilityFieldIssues({ description: 'Machines at Gate C12 spitting cans' }, facts, ticket),
     ).toEqual([
       expect.objectContaining({
-        message: expect.stringContaining('gate C12 is not in the facility facts'),
+        message: expect.stringMatching(
+          /^Gate C12 \(the documents list .*\) is not in the facility facts; use one that exists$/,
+        ),
       }),
     ])
     expect(facilityFieldIssues({ description: 'Gate Z99 does not exist' }, facts, ticket)).toEqual(

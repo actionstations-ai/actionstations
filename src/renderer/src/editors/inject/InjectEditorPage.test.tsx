@@ -240,4 +240,26 @@ describe('InjectEditorPage', () => {
     const list = await screen.findByRole('list', { name: 'Warnings for this inject' })
     expect(within(list).getByText('INJECT_FIELDS_INVALID')).toBeTruthy()
   })
+
+  it("shows the media job's render warning with the fields and what to do (#175)", async () => {
+    const warned: Scenario = {
+      ...scenario,
+      warnings: [
+        {
+          code: 'INJECT_RENDER_INVALID',
+          severity: 'warning',
+          message:
+            'I-04: the tweet card was not rendered; 1 field(s) do not match the template:\n- fields/handle: must match pattern',
+          injectId: 'inj4',
+          source: 'lint',
+          suggestion: 'Fix the flagged fields in the inject editor, then render again',
+        },
+      ],
+    }
+    setup({ 'scenarios:get': () => warned })
+    const list = await screen.findByRole('list', { name: 'Warnings for this inject' })
+    expect(within(list).getByText('INJECT_RENDER_INVALID')).toBeTruthy()
+    expect(within(list).getByText(/fields\/handle: must match pattern/)).toBeTruthy()
+    expect(within(list).getByText(/Fix the flagged fields in the inject editor/)).toBeTruthy()
+  })
 })

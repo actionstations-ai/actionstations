@@ -605,3 +605,228 @@ describe('injects:* and library:* handlers', () => {
     expect(await invoke('library:list', undefined)).toEqual([])
   })
 })
+
+// ---- #166 / #175 / #177 ------------------------------------------------------------------
+
+const { resolveTextProvider } = await import('../../providers/resolve')
+
+/**
+ * The real provider stack (mock adapter), except that rows in `garbled` get a reply with no
+ * JSON in it — what a runaway local model returns, and what the stage turns into a
+ * StageFailure after its repair round. The number caps how many garbled replies a row gets.
+ */
+function garbleRows(garbled: Record<string, number>): void {
+  setPipelineDeps({
+    openIndex: async () => index,
+    resolveTextProvider: async (task, root) => {
+      const real = await resolveTextProvider(task, root)
+      const chat: typeof real.provider.chat = async (req, onToken) => {
+        const row = rowAskedFor(req)
+        if (req.json?.name === 'InjectTextOutput' && (garbled[row] ?? 0) > 0) {
+          garbled[row]! -= 1
+          return {
+            text: '\n\n\n'.repeat(40),
+            model: 'mock',
+            usage: { inputTokens: 10, outputTokens: 4000 },
+            finishReason: 'length',
+            latencyMs: 0,
+          }
+        }
+        return real.provider.chat(req, onToken)
+      }
+      return { ...real, provider: Object.assign(Object.create(real.provider), { chat }) }
+    },
+  })
+}
+
+describe('generate:injects records every skipped or failed row (#166)', () => {
+  it('a TIME_JUMP row whose replies have no JSON still gets a card built from the row', async () => {
+    garbleRows({ 'I-05': 99 })
+    const { job, injects, scenario: s } = await generateInjects(['I-04', 'I-05', 'I-05b'])
+    expect(job.status, job.error).toBe('done')
+    expect(injects.map((i) => i.mselRowId)).toEqual(['I-04', 'I-05', 'I-05b'])
+    const card = byRow(injects, 'I-05')
+    expect(card.type).toBe('time_jump_card')
+    expect(card.fields).toMatchObject({
+      newTime: '10:00 AM',
+      narration: expect.stringMatching(/^It is now 10:00 AM\. The errors are multiplying/),
+    })
+    expect(s.msel.find((r) => r.id === 'I-05')?.injectId).toBe(card.id)
+    // The failed run stays on the scenario (keyed by the inject) so a gap-fill retries it.
+    const run = s.provenance.find((r) => r.stage === 'inject_text' && r.itemId === card.id)
+    expect(run).toMatchObject({ status: 'error', error: expect.stringMatching(/no JSON/) })
+    expect(run!.repairAttempts).toBeGreaterThanOrEqual(2)
+    expect(s.warnings.find((w) => w.injectId === card.id)?.code).toBe('INJECT_TEXT_FALLBACK')
+    expect(job.result).toMatchObject({ fallback: [{ rowId: 'I-05' }], failed: [] })
+    // The next gap-fill regenerates it with the model.
+    garbleRows({})
+    const again = await generateInjects()
+    const regenerated = (again.job.result as { generated: string[] }).generated
+    expect(regenerated).toContain('I-05')
+    expect(regenerated).not.toContain('I-04')
+    const fixed = byRow(again.injects, 'I-05')
+    expect(fixed.id).toBe(card.id)
+    expect(fixed.fields).toEqual(FIELDS.time_jump_card)
+    expect(again.scenario.warnings.some((w) => w.code === 'INJECT_TEXT_FALLBACK')).toBe(false)
+  })
+
+  it('one garbled reply is retried with a fresh call', async () => {
+    garbleRows({ 'I-02a': 1 })
+    const { job, injects, scenario: s } = await generateInjects(['I-02a'])
+    expect(job.result).toMatchObject({ generated: ['I-02a'], failed: [] })
+    const ticket = byRow(injects, 'I-02a')
+    expect(ticket.fields).toEqual(FIELDS.helpdesk_ticket)
+    expect(s.provenance.find((r) => r.itemId === ticket.id)?.status).toBe('ok')
+  })
+
+  it('a failed non-control row is recorded under its row id and survives the next saves', async () => {
+    garbleRows({ 'I-02a': 99 })
+    const { job, injects, scenario: s } = await generateInjects(['I-02a', 'I-02', 'I-03'])
+    expect(job.result).toMatchObject({ generated: ['I-02', 'I-03'], failed: [{ rowId: 'I-02a' }] })
+    expect(injects.map((i) => i.mselRowId)).toEqual(['I-02', 'I-03'])
+    // Keyed by the row, not by an inject id that was never saved; written before I-02 and
+    // I-03 saved the scenario, and still there after them.
+    const run = s.provenance.find((r) => r.stage === 'inject_text' && r.itemId === 'I-02a')
+    expect(run).toMatchObject({ status: 'error' })
+    expect(
+      s.provenance.filter((r) => r.stage === 'inject_text' && r.status === 'error'),
+    ).toHaveLength(1)
+    const warning = s.warnings.find((w) => w.code === 'INJECT_TEXT_FAILED')
+    expect(warning).toMatchObject({ rowId: 'I-02a' })
+    expect(warning?.injectId).toBeUndefined()
+    // Once the row gets its inject, the row-level records go.
+    garbleRows({})
+    const again = await generateInjects(['I-02a'])
+    expect(again.job.result).toMatchObject({ generated: ['I-02a'] })
+    expect(again.scenario.provenance.some((r) => r.itemId === 'I-02a')).toBe(false)
+    expect(again.scenario.warnings.some((w) => w.code === 'INJECT_TEXT_FAILED')).toBe(false)
+  })
+
+  it('a locked row leaves a skipped run on the scenario', async () => {
+    await saveScenario(
+      projectPath,
+      {
+        ...(await getScenario(projectPath, scenarioId)),
+        msel: (await getScenario(projectPath, scenarioId)).msel.map((r) =>
+          r.id === 'I-01' ? { ...r, locked: true } : r,
+        ),
+      },
+      { by: 'user' },
+    )
+    const { job, scenario: s } = await generateInjects(['I-01'])
+    expect(job.result).toMatchObject({ skipped: [{ rowId: 'I-01', reason: 'locked' }] })
+    expect(
+      s.provenance.find((r) => r.stage === 'inject_text' && r.itemId === 'I-01'),
+    ).toMatchObject({ status: 'skipped', error: 'locked' })
+  })
+
+  it('a failed media brief keeps the inject text; the media job plans it later', async () => {
+    setMockResponse('MediaBriefOutput', () => {
+      throw new Error('LM Studio connection reset')
+    })
+    const { job, injects, scenario: s } = await generateInjects(['I-04'])
+    expect(job.result).toMatchObject({ generated: ['I-04'], failed: [] })
+    const tweet = byRow(injects, 'I-04')
+    expect(tweet.fields).toEqual(FIELDS.tweet)
+    expect(tweet.mediaBrief).toBeUndefined()
+    const textRun = s.provenance.find((r) => r.stage === 'inject_text' && r.itemId === tweet.id)
+    expect(textRun?.status).toBe('ok')
+    expect(
+      s.provenance.find((r) => r.stage === 'inject_media_brief' && r.itemId === tweet.id),
+    ).toMatchObject({ status: 'error', error: expect.stringMatching(/connection reset/) })
+  })
+})
+
+describe('inject_text variant and deterministic field repair (#175, #177)', () => {
+  it("passes the model's variant through when the template has it; an unknown one falls back", async () => {
+    setMockResponse('InjectTextOutput', (req: ChatRequest) => {
+      const out = injectTextResponder(req)
+      if (rowAskedFor(req) === 'I-04') return { ...out, variant: 'light' }
+      if (rowAskedFor(req) === 'I-06b') return { ...out, variant: 'water_chemical' }
+      return out
+    })
+    const { injects } = await generateInjects(['I-04', 'I-06b'])
+    expect(byRow(injects, 'I-04').variant).toBe('light')
+    expect(byRow(injects, 'I-06b').variant).toBeUndefined()
+  })
+
+  it('an enum value the repair round leaves wrong is set in code, with a warning', async () => {
+    setMockResponse('InjectTextOutput', (req: ChatRequest) => {
+      const out = injectTextResponder(req)
+      if (rowAskedFor(req) === 'I-05b')
+        return { ...out, fields: { ...out.fields, background: 'outdoor' } }
+      return out
+    })
+    const { injects, scenario: s } = await generateInjects(['I-05b'])
+    const radio = byRow(injects, 'I-05b')
+    expect(radio.fields.background).toBe('ramp')
+    const repaired = s.warnings.filter(
+      (w) => w.injectId === radio.id && w.code === 'INJECT_FIELDS_REPAIRED',
+    )
+    expect(repaired).toHaveLength(1)
+    expect(repaired[0]!.message).toMatch(/fields\/background .*"outdoor" is not one of/)
+    const invalid = s.warnings.filter(
+      (w) => w.injectId === radio.id && w.code === 'INJECT_FIELDS_INVALID',
+    )
+    expect(invalid).toEqual([])
+  })
+})
+
+describe('generate:media keeps what it can and says why the card is missing (#175, #177)', () => {
+  /** The fake renderer behind the template validation the real renderer does first. */
+  const strictRenderer: typeof fakeRenderer = async (root, id, inject, opts) => {
+    const { validateFields } = await import('../../render/templates')
+    if (validateFields(inject.type, inject.fields).length)
+      throw new Error('renderer was given invalid fields')
+    return fakeRenderer(root, id, inject, opts)
+  }
+
+  it('a tweet with ai_image whose template fails keeps its generated still (#177.1)', async () => {
+    await generateInjects(['I-04'])
+    const stored = byRow(await invoke('injects:list', S()), 'I-04')
+    await invoke('injects:save', {
+      ...S(),
+      inject: { ...stored, fields: { ...stored.fields, text: 42 } },
+    })
+    setInjectDeps({ renderer: strictRenderer, applyPostFx: undefined })
+    const { jobId } = await invoke('generate:media', { ...S(), injectIds: [stored.id] })
+    const job = await jobs.wait(jobId)
+    expect(job.status, job.error).toBe('done')
+    const tweet = await invoke('injects:get', { ...S(), injectId: stored.id })
+    expect(tweet.assets.map((a) => `${a.kind}:${a.role}`)).toEqual(['image:generated'])
+    expect(job.result).toMatchObject({ failed: [{ path: 'template' }] })
+    const log = jobs.logOf(job.id).entries.map((e) => e.message)
+    expect(log).toContain(
+      'media_render I-04: rendered ai_image; failed step(s): template; generated still kept',
+    )
+    const s = await getScenario(projectPath, scenarioId)
+    const w = s.warnings.find((x) => x.injectId === tweet.id && x.code === 'INJECT_RENDER_INVALID')
+    expect(w?.message).toMatch(/the tweet card was not rendered.*\n- fields\/text: must be string/s)
+    expect(w?.suggestion).toMatch(/Fix the flagged fields/)
+    // Fixing the fields in the editor clears the render warning.
+    await invoke('injects:save', { ...S(), inject: { ...tweet, fields: FIELDS.tweet! } })
+    const after = await getScenario(projectPath, scenarioId)
+    expect(after.warnings.some((x) => x.code === 'INJECT_RENDER_INVALID')).toBe(false)
+  })
+
+  it('stored fields with an out-of-enum value are repaired before the template renders (#175)', async () => {
+    await generateInjects(['I-05b'])
+    const stored = byRow(await invoke('injects:list', S()), 'I-05b')
+    await invoke('injects:save', {
+      ...S(),
+      inject: { ...stored, fields: { ...stored.fields, background: 'outdoor' } },
+    })
+    setInjectDeps({ renderer: strictRenderer, applyPostFx: undefined })
+    const { jobId } = await invoke('generate:media', { ...S(), injectIds: [stored.id] })
+    const job = await jobs.wait(jobId)
+    expect(job.result, JSON.stringify(job.result)).toMatchObject({ failed: [] })
+    const radio = await invoke('injects:get', { ...S(), injectId: stored.id })
+    expect(radio.fields.background).toBe('ramp')
+    expect(radio.assets.some((a) => a.role === 'rendered')).toBe(true)
+    const s = await getScenario(projectPath, scenarioId)
+    const repaired = s.warnings.filter(
+      (w) => w.injectId === radio.id && w.code === 'INJECT_FIELDS_REPAIRED',
+    )
+    expect(repaired).toHaveLength(1)
+  })
+})

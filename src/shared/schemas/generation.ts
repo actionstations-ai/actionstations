@@ -93,6 +93,8 @@ export const InjectTextOutput = z.object({
   type: z.string(),
   title: z.string(),
   deliveryMode: z.enum(['hand_to_role', 'display_main_screen', 'play_audio', 'read_aloud']),
+  /** One of the template's variants (meta.json `variants`); the template default when absent. */
+  variant: z.string().optional(),
   fields: z.record(z.string(), z.unknown()),
   instructorNote: z.string().optional(),
   citations: z.array(CitationKey),

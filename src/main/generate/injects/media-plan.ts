@@ -116,13 +116,36 @@ function settingAnchor(prompt: string, scene?: SceneContext): string | undefined
 /** Styles that depict a place (and so take the setting anchor). */
 const PLACE_STYLES = new Set<ImageStyle>(['phone', 'press', 'cctv'])
 
-/** The style anchor, the setting anchor (for scene styles) and then the model's own prompt. */
+/** Camera, framing and light words: a prompt made only of these describes no place. */
+const STYLE_WORDS = new Set(
+  (
+    'a an the of with and in on at from to by taken shot snapshot snap photo photograph picture ' +
+    'image phone smartphone cell candid press wire service cctv surveillance camera frame still ' +
+    'lens mm wide angle tilt tilted slight slightly flash glare close up closeup framing framed ' +
+    'portrait landscape level horizon eye height daylight lighting light lit natural sharp ' +
+    'blurry blurred grainy grain high corner monochrome tint washed out color colour balance ' +
+    'white neutral warm cool tone toned realistic photorealistic style vertical horizontal'
+  ).split(' '),
+)
+
+/** True when the prompt describes a scene of its own (not just camera and light words). */
+export function hasOwnScene(prompt: string): boolean {
+  const words = prompt.toLowerCase().match(/[a-z]+/g) ?? []
+  return words.filter((w) => !STYLE_WORDS.has(w) && !/^\d/.test(w)).length >= 3
+}
+
+/**
+ * The style anchor, then the model's prompt. The profile's setting anchor (scene styles only)
+ * is the scene when the prompt has none; otherwise it follows the scene as setting guidance,
+ * never in front of it, so SDXL does not blend an unrelated stock scene into this one (#177).
+ */
 export function anchoredPrompt(prompt: string, style: ImageStyle, scene?: SceneContext): string {
-  const setting = PLACE_STYLES.has(style) ? settingAnchor(prompt, scene) : undefined
-  const lead = [STYLE_ANCHORS[style], setting].filter(Boolean).join(' ')
   const body = prompt.trim()
   if (!body) return ''
-  return `${lead}. ${body}`
+  const setting = PLACE_STYLES.has(style) ? settingAnchor(prompt, scene) : undefined
+  if (!setting) return `${STYLE_ANCHORS[style]}. ${body}`
+  if (!hasOwnScene(body)) return `${STYLE_ANCHORS[style]} ${setting}. ${body}`
+  return `${STYLE_ANCHORS[style]}. ${body.replace(/[\s.;,]+$/, '')}. Setting: ${setting}`
 }
 
 /** The row or the inject's own fields ask for a photo (an attached image, a scene brief). */

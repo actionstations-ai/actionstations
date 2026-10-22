@@ -1,14 +1,17 @@
 // generate:media — for each inject: AI image → template render (composite when the template
 // has an image slot) → TTS (+ post-FX) → video, as the inject's media brief plans. A brief
 // is produced first when the inject has none (or the user asked for paths it lacks). Each
-// step's failure is logged and the next step still runs; assets of a re-rendered path
-// replace the previous ones; the job ends with a summary and a media_render StageRun per
-// inject.
+// step's failure is logged and the next step still runs (a generated still is kept even when
+// the template step fails, #177); assets of a re-rendered path replace the previous ones.
+// Before the template step the fields get the deterministic repair (repair.ts) and are
+// validated: what still fails becomes an INJECT_RENDER_INVALID warning naming the fields
+// (#175). The job ends with a summary and a media_render StageRun per inject.
 import type {
   Inject,
   LintWarning,
   MediaAsset,
   MediaBrief,
+  MselRow,
   Scenario,
   StageRun,
 } from '@shared/schemas'
@@ -27,11 +30,18 @@ import {
 } from './media-assets'
 import { runMediaBrief } from './media-brief-stage'
 import { planMedia } from './media-plan'
+import { formatRepairs, repairFields, type FieldRepair } from './repair'
 import { injectMediaDir, recordInjectRun, replaceInjectWarnings } from './store'
 import { openInjectEnv } from './text-job'
-import type { InjectEnv } from './text-stage'
+import {
+  INJECT_FIELDS_INVALID,
+  INJECT_RENDER_INVALID,
+  repairWarnings,
+  type InjectEnv,
+} from './text-stage'
 
 export const INJECT_MEDIA_FAILED = 'INJECT_MEDIA_FAILED'
+export { INJECT_RENDER_INVALID }
 
 export interface MediaJobOptions {
   /** Injects to render. Without it: every inject whose brief plans something. */
@@ -45,6 +55,8 @@ export interface MediaFailure {
   rowId: string
   path: RenderPath | 'brief'
   error: string
+  /** Template fields that failed validation (template step only). */
+  issues?: { path: string; message: string }[]
 }
 
 export interface MediaJobSummary {
@@ -98,6 +110,8 @@ interface RenderOutcome {
   written: MediaAsset[]
   rendered: RenderPath[]
   failed: MediaFailure[]
+  /** Deterministic field repairs made before the template step. */
+  repairs: FieldRepair[]
 }
 
 /** Swap the assets a path produced for the new ones (files of the old ones removed). */
@@ -112,13 +126,45 @@ async function replaceAssets(
   return { ...inject, assets: [...inject.assets.filter((a) => !old.includes(a)), ...fresh] }
 }
 
+/**
+ * The fields the template step renders: repaired in code where they break the schema, then
+ * validated, so a refusal names the fields instead of failing inside the renderer.
+ */
+function fieldsForRender(step: StepContext, current: Inject, out: RenderOutcome): Inject {
+  const { templates } = step.deps
+  if (!templates.listTemplateTypes().includes(current.type)) return current
+  const fields = structuredClone(current.fields)
+  const repairs = templates.validateFields(current.type, fields).length
+    ? repairFields(templates.loadTemplate(current.type).schema, fields)
+    : []
+  if (repairs.length) {
+    out.repairs.push(...repairs)
+    step.ctx.log(
+      `media_render ${current.mselRowId} template: repaired ${formatRepairs(repairs)}`,
+      'warn',
+      { stage: 'media_render', itemId: current.id },
+    )
+  }
+  const issues = templates.validateFields(current.type, fields)
+  if (issues.length) {
+    const list = issues.map((i) => `fields${i.path}: ${i.message}`).join('; ')
+    throw new AppError(
+      'VALIDATION',
+      `fields do not match the ${current.type} template: ${list}`,
+      issues.map((i) => ({ path: `fields${i.path}`, message: i.message })),
+    )
+  }
+  return repairs.length ? { ...current, fields } : current
+}
+
 async function runStep(
   step: StepContext,
   path: RenderPath,
-  current: Inject,
+  out: RenderOutcome,
   image: MediaAsset | undefined,
 ) {
-  if (path === 'template') return templateStep(step, current)
+  const current = out.inject
+  if (path === 'template') return templateStep(step, fieldsForRender(step, current, out))
   const asset =
     path === 'ai_image'
       ? await imageStep(step)
@@ -131,13 +177,19 @@ async function runStep(
 /** Run the planned steps in order; a failed step is reported and the rest continue. */
 async function renderSteps(step: StepContext, paths: RenderPath[]): Promise<RenderOutcome> {
   const { brief } = step
-  const out: RenderOutcome = { inject: step.inject, written: [], rendered: [], failed: [] }
+  const out: RenderOutcome = {
+    inject: step.inject,
+    written: [],
+    rendered: [],
+    failed: [],
+    repairs: [],
+  }
   let image: MediaAsset | undefined
   const planned = STEP_ORDER.filter((p) => brief.paths.includes(p) && paths.includes(p))
   for (const path of planned) {
     step.ctx.throwIfCancelled()
     try {
-      const r = await runStep(step, path, out.inject, image)
+      const r = await runStep(step, path, out, image)
       out.inject = r.inject
       out.written.push(...r.assets)
       out.rendered.push(path)
@@ -145,19 +197,43 @@ async function renderSteps(step: StepContext, paths: RenderPath[]): Promise<Rend
     } catch (err) {
       const e = toAppError(err)
       if (e.code === 'CANCELLED') throw err
+      const issues = path === 'template' && Array.isArray(e.details) ? e.details : undefined
       out.failed.push({
         injectId: step.inject.id,
         rowId: step.inject.mselRowId,
         path,
         error: e.message,
+        ...(issues ? { issues: issues as MediaFailure['issues'] } : {}),
       })
-      step.ctx.log(`media_render ${step.inject.mselRowId} ${path}: ${e.message}`, 'error', {
-        stage: 'media_render',
-        itemId: step.inject.id,
-      })
+      step.ctx.log(
+        `media_render ${step.inject.mselRowId} ${path} step failed: ${e.message}`,
+        'error',
+        {
+          stage: 'media_render',
+          itemId: step.inject.id,
+        },
+      )
     }
   }
+  logOutcome(step, planned, out)
   return out
+}
+
+/** One line per inject naming what rendered and which step failed. */
+function logOutcome(step: StepContext, planned: RenderPath[], out: RenderOutcome): void {
+  if (!planned.length) return
+  const failed = out.failed.map((f) => f.path)
+  const parts = [
+    out.rendered.length ? `rendered ${out.rendered.join('+')}` : 'nothing rendered',
+    ...(failed.length ? [`failed step(s): ${failed.join(', ')}`] : []),
+  ]
+  const kept = out.written.filter((a) => a.role === 'generated' && a.kind === 'image').length
+  if (failed.includes('template') && kept) parts.push('generated still kept')
+  step.ctx.log(
+    `media_render ${step.inject.mselRowId}: ${parts.join('; ')}`,
+    failed.length ? 'warn' : 'info',
+    { stage: 'media_render', itemId: step.inject.id },
+  )
 }
 
 function mediaRun(
@@ -182,15 +258,36 @@ function mediaRun(
 }
 
 function mediaWarnings(inject: Inject, failures: MediaFailure[]): LintWarning[] {
-  return failures.map((f) => ({
-    code: INJECT_MEDIA_FAILED,
-    severity: 'warning',
-    message: `${inject.mselRowId}: ${f.path} failed — ${f.error}`,
-    source: 'lint',
-    rowId: inject.mselRowId,
-    injectId: inject.id,
-    suggestion: 'Check the media provider in Providers → Routing and regenerate the media',
-  }))
+  return failures.map((f): LintWarning => {
+    const base = { source: 'lint' as const, rowId: inject.mselRowId, injectId: inject.id }
+    if (f.issues?.length) {
+      return {
+        ...base,
+        code: INJECT_RENDER_INVALID,
+        severity: 'warning',
+        message: `${inject.mselRowId}: the ${inject.type} card was not rendered; ${f.issues.length} field(s) do not match the template:\n${f.issues.map((i) => `- ${i.path}: ${i.message}`).join('\n')}`,
+        suggestion: 'Fix the flagged fields in the inject editor, then render again',
+      }
+    }
+    return {
+      ...base,
+      code: INJECT_MEDIA_FAILED,
+      severity: 'warning',
+      message: `${inject.mselRowId}: ${f.path} step failed — ${f.error}`,
+      suggestion: 'Check the media provider in Providers → Routing and regenerate the media',
+    }
+  })
+}
+
+/** The media run's warnings on the scenario: step failures replaced, repairs added. */
+function applyMediaWarnings(s: Scenario, inject: Inject, row: MselRow, outcome: RenderOutcome) {
+  const repaired = repairWarnings(row, inject.id, outcome.repairs)
+  const known = new Set(s.warnings.map((w) => `${w.injectId}|${w.code}|${w.message}`))
+  const fresh = repaired.filter((w) => !known.has(`${w.injectId}|${w.code}|${w.message}`))
+  const codes = [INJECT_MEDIA_FAILED, INJECT_RENDER_INVALID]
+  // The template accepted the fields: an earlier "fields invalid" note no longer applies.
+  if (outcome.rendered.includes('template')) codes.push(INJECT_FIELDS_INVALID)
+  replaceInjectWarnings(s, inject.id, [...mediaWarnings(inject, outcome.failed), ...fresh], codes)
 }
 
 interface InjectWork {
@@ -240,9 +337,7 @@ async function renderInject(
     (s) => {
       if (briefRun) recordInjectRun(s, briefRun)
       recordInjectRun(s, mediaRun(inject.id, startedAt, outcome, brief))
-      replaceInjectWarnings(s, inject.id, mediaWarnings(inject, outcome.failed), [
-        INJECT_MEDIA_FAILED,
-      ])
+      applyMediaWarnings(s, inject, rowOf(s, inject), outcome)
     },
     { by: 'ai', snapshot: false, note: `media ${inject.mselRowId}` },
   )

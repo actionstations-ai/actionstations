@@ -4,7 +4,7 @@
 // different address than the story established) and facility identifiers the documents do not
 // have (#84). What survives the repair becomes an INJECT_CONTENT_ISSUE warning.
 import type { MselRow } from '@shared/schemas'
-import { unknownFacilityIds, type FacilityFacts } from '../facility'
+import { describeUnknownId, unknownFacilityIds, type FacilityFacts } from '../facility'
 
 type Fields = Record<string, unknown>
 type JsonSchema = Record<string, unknown>
@@ -185,7 +185,7 @@ export function facilityFieldIssues(
     return []
   return unknownFacilityIds(text, facts).map((u) => ({
     path: 'fields',
-    message: `${u.kind} ${u.id} is not in the facility facts (the documents list ${u.known}); use one that exists`,
+    message: `${describeUnknownId(u)} is not in the facility facts; use ${u.didYouMean ? 'the documented name' : 'one that exists'}`,
   }))
 }
 
