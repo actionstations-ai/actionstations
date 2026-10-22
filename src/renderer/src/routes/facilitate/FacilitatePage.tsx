@@ -11,7 +11,7 @@ import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey, projectKey } from '../../state/project'
-import { toLabel } from '../scenarios/msel-utils'
+import { toLabel } from '../../lib/msel'
 import {
   clockMinutes,
   dueRows,

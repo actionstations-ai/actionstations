@@ -5,7 +5,7 @@ import type { Inject } from '@shared/schemas/inject'
 import type { MselRow, Phase } from '@shared/schemas/scenario'
 import { INJECT_TYPES } from '@shared/taxonomy'
 import { Badge, Button, TagChip } from '../../components/ui'
-import { groupByPhase } from '../scenarios/msel-utils'
+import { groupByPhase } from '../../lib/msel'
 
 export interface TimelineEntry {
   row: MselRow
