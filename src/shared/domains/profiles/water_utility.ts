@@ -43,7 +43,9 @@ export const water_utility: DomainProfile = {
     {
       id: 'zones',
       label: 'Pressure zones',
-      noun: 'Pressure Zones?|Zones?',
+      noun: 'Pressure Zones?|Pressure Planes?|Service Zones?',
+      genericNoun: 'Zones?',
+      context: String.raw`pressure|\bpsi\b|hydraulic|distribution|booster|boil|storage|tank|reservoir|pump|water main|feed`,
       idShape: 'alnum',
       lint: true,
       complete: true,

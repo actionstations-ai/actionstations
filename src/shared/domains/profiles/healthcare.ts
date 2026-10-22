@@ -18,7 +18,9 @@ export const healthcare: DomainProfile = {
     {
       id: 'units',
       label: 'Units / wards',
-      noun: 'Units?|Wards?',
+      noun: 'Wards?|Nursing Units?|Care Units?',
+      genericNoun: 'Units?',
+      context: String.raw`patient|nurs|\bbeds?\b|ward|clinical|census|\bICU\b|med-?surg|telemetry|admission|discharge|inpatient`,
       idShape: 'alnum',
       lint: true,
       complete: true,

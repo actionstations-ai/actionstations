@@ -18,7 +18,9 @@ export const industrial: DomainProfile = {
     {
       id: 'units',
       label: 'Process units / lines',
-      noun: 'Units?|Process Units?|Lines?',
+      noun: 'Process Units?|Production Lines?|Process Lines?|Packaging Lines?',
+      genericNoun: 'Units?|Lines?',
+      context: String.raw`process|production|reactor|column|furnace|compressor|kiln|throughput|batch|\bDCS\b|\bPLC\b|\bSIS\b|shutdown|start-?up|\btrip|packag|conveyor|output`,
       idShape: 'alnum',
       lint: true,
       complete: true,

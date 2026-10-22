@@ -80,6 +80,8 @@ The **Embeddings** line shows the index's embedding mode (with this project's Em
 
 After every import or **Rebuild index** the app writes `facility-facts.md` in the project folder: the runways, taxiways, gates, concourses, rooms and areas, equipment, hostnames, IP ranges, phone numbers and agencies your documents state, one `## Section` per category and one `- ` bullet per identifier. Generation hands this list to the model as the only real identifiers, and the MSEL check flags rows that name a runway, taxiway, gate or concourse that is not in it (unless the row frames it as the attacker's fake data).
 
+Some nouns name different things in different rows. A dam's "Unit 4" is a generating unit in a powerhouse row and a sheriff's patrol car in a security row, so the profile checks the broad noun (Unit, Gate, Zone, Station, Section, Route) only when the row is about that kind of thing (for a dam unit: generation, turbines, the powerhouse, MW) and never after a responder or access word ("Patrol Unit 4", "Access Gate 2", "State Route 9"). The specific nouns ("Generating Unit 3", "Spillway Gate 6", "Inundation Zone D") are always checked. A name that is close to a documented one is reported as a suggestion: "Confluence Park Station (did you mean Confluence Station?)".
+
 Open **Facility facts** in the project sidebar to correct the list. Each category is a section; every entry shows whether it came **From documents** (with where it was found, for example _Airport Emergency Plan › 2.2 Scope_) or was **Added by you**.
 
 ![The Facility facts screen after adding Runway 9/27](images/facility-facts.png)

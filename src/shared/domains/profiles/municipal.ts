@@ -26,7 +26,9 @@ export const municipal: DomainProfile = {
     {
       id: 'stations',
       label: 'Fire / police stations',
-      noun: 'Stations?|Fire Stations?|Firehouses?',
+      noun: 'Fire Stations?|Police Stations?|Firehouses?',
+      genericNoun: 'Stations?',
+      context: String.raw`fire|engine|ladder|firehouse|apparatus|police|precinct|\bEMS\b|medic|dispatch|crew`,
       idShape: 'number',
       lint: true,
       complete: true,

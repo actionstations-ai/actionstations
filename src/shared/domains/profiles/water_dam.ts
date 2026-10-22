@@ -18,7 +18,9 @@ export const water_dam: DomainProfile = {
     {
       id: 'spillway_gates',
       label: 'Spillway gates',
-      noun: 'Spillway Gates?|Radial Gates?|Tainter Gates?|Gates?',
+      noun: 'Spillway Gates?|Radial Gates?|Tainter Gates?|Crest Gates?|Sluice Gates?',
+      genericNoun: 'Gates?',
+      context: String.raw`spillway|radial|tainter|crest|sluice|outflow|discharge|\bcfs\b|release|reservoir|pool|hoist|headwater|tailwater|gate (?:position|opening)`,
       idShape: 'alnum',
       lint: true,
       complete: true,
@@ -26,7 +28,10 @@ export const water_dam: DomainProfile = {
     {
       id: 'units',
       label: 'Generating units / turbines',
-      noun: 'Units?|Turbines?|Generating Units?',
+      // "Unit 4" is a generating unit only in a generation row; a patrol or field unit otherwise (#165).
+      noun: 'Generating Units?|Hydro Units?|Turbines?|Generators?',
+      genericNoun: 'Units?',
+      context: String.raw`generat|turbine|powerhouse|power house|hydro|megawatt|\d ?MW\b|wicket|governor|excit|penstock|tailrace|draft tube|full gate|switchyard|synchron|spinning|unit trip`,
       idShape: 'number',
       lint: true,
       complete: true,
@@ -66,7 +71,9 @@ export const water_dam: DomainProfile = {
     {
       id: 'zones',
       label: 'Inundation / evacuation zones',
-      noun: 'Inundation Zones?|Evacuation Zones?|Zones?',
+      noun: 'Inundation Zones?|Evacuation Zones?',
+      genericNoun: 'Zones?',
+      context: String.raw`inundat|evacuat|downstream|flood|breach|siren|warning|shelter|wave`,
       idShape: 'alnum',
       lint: true,
       complete: true,

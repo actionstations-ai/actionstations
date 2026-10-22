@@ -26,7 +26,9 @@ export const stadium_venue: DomainProfile = {
     {
       id: 'sections',
       label: 'Seating sections',
-      noun: 'Sections?',
+      noun: 'Seating Sections?',
+      genericNoun: 'Sections?',
+      context: String.raw`\bseat|fans?\b|crowd|\brows?\b|bowl|stands\b|spectator|usher|evacuat|upper deck|lower deck|lower bowl|upper bowl`,
       idShape: 'alnum',
       lint: true,
       complete: false,

@@ -11,6 +11,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 ### Fixed
 
 - Quitting while template previews render no longer hangs (#170): on quit the render-window pool cancels queued and in-flight renders and destroys its windows instead of opening new ones.
+- Facility lint false positives (#165): broad profile nouns (Unit, Gate, Zone, Station, Section,
+  Route) are checked only in matching context and never after a responder or access word, so a
+  dam's patrol "Unit 4" is no longer a generating unit; a near-miss name such as "Confluence
+  Park Station" is reported as "did you mean Confluence Station?".
 
 ## [0.1.0] - 2026-10-22
 

@@ -18,7 +18,9 @@ export const transit: DomainProfile = {
     {
       id: 'routes',
       label: 'Bus routes',
-      noun: 'Routes?',
+      noun: 'Bus Routes?',
+      genericNoun: 'Routes?',
+      context: String.raw`\bbus|rider|passenger|detour|\bstops?\b|headway|transit|schedule|trip|operator|depot|service`,
       idShape: 'alnum',
       lint: true,
       complete: true,

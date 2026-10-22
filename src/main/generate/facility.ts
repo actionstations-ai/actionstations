@@ -13,6 +13,8 @@ import {
   type FactCategoryEntries,
 } from './facility-categories'
 
+import { nearestEntry } from './facility-near-miss'
+
 export { compressIds, gateList } from './facility-categories'
 
 export const FACILITY_UNKNOWN_ID = 'FACILITY_UNKNOWN_ID'
@@ -117,6 +119,11 @@ export interface UnknownId {
   id: string
   /** What the documents list instead. */
   known: string
+  /**
+   * The documented entry this one most likely means (#165): "Confluence Park Station" when the
+   * documents have "Confluence Station". Only for named identifiers, never for bare numbers.
+   */
+  didYouMean?: string
 }
 
 const PRIVATE_IP = /^(?:10\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.)/
@@ -138,10 +145,25 @@ export function unknownFacilityIds(text: string, f: FacilityFacts): UnknownId[] 
       const key = `${def.noun}:${id}`
       if (seen.has(key) || known.has(id)) continue
       seen.add(key)
-      out.push({ kind: def.noun, id, known: formatEntries(f, category) })
+      const didYouMean = nearestEntry(id, entriesById(category, def))
+      out.push({
+        kind: def.noun,
+        id,
+        known: formatEntries(f, category),
+        ...(didYouMean ? { didYouMean } : {}),
+      })
     }
   }
   return out
+}
+
+/** Each identifier a category's entries stand for → the entry as the documents write it. */
+function entriesById(category: FactCategoryEntries, def: FactCategory): Map<string, string> {
+  const byId = new Map<string, string>()
+  for (const entry of category.entries)
+    for (const id of def.expand ? def.expand([entry]) : [entry])
+      if (!byId.has(id)) byId.set(id, entry)
+  return byId
 }
 
 /** First three octets of every documented network ("10.66.0"). */
@@ -164,8 +186,11 @@ export function foreignPrivateIps(text: string, f: FacilityFacts): string[] {
   return [...out]
 }
 
-const describe = (u: UnknownId): string =>
-  `${u.kind[0]!.toUpperCase()}${u.kind.slice(1)} ${u.id} (the documents list ${u.known})`
+/** "Gate C12 (the documents list …)", or "Station X (did you mean Y?)" for a near miss. */
+export const describeUnknownId = (u: UnknownId): string =>
+  `${u.kind[0]!.toUpperCase()}${u.kind.slice(1)} ${u.id} (${
+    u.didYouMean ? `did you mean ${u.didYouMean}?` : `the documents list ${u.known}`
+  })`
 
 /** Rows that name facility identifiers (runways, gates …) the facts do not have. */
 export function lintFacilityIds(s: Scenario, f: FacilityFacts): LintWarning[] {
@@ -177,13 +202,15 @@ export function lintRowFacility(row: MselRow, f: FacilityFacts): LintWarning[] {
   if (FAKE_FRAMING.test(text)) return []
   const unknown = unknownFacilityIds(text, f)
   if (!unknown.length) return []
+  const nearMisses = unknown.filter((u) => u.didYouMean)
   return [
     {
       code: FACILITY_UNKNOWN_ID,
       severity: 'warning',
-      message: `Row ${row.id} names ${unknown.map(describe).join('; ')}, which the documents do not have`,
-      suggestion:
-        'Use an identifier from the facility facts (facility-facts.md), or frame it as the attacker’s fake data',
+      message: `Row ${row.id} names ${unknown.map(describeUnknownId).join('; ')}, which the documents do not have`,
+      suggestion: nearMisses.length
+        ? `Did you mean ${nearMisses.map((u) => u.didYouMean).join(', ')}? Use the documented name, or frame it as the attacker’s fake data`
+        : 'Use an identifier from the facility facts (facility-facts.md), or frame it as the attacker’s fake data',
       source: 'lint',
       rowId: row.id,
     },

@@ -316,14 +316,58 @@ const patternCategory = (spec: FactCategorySpec): FactCategory => {
 export function compileCategory(spec: FactCategorySpec): FactCategory {
   if (spec.pattern) return patternCategory(spec)
   if (!spec.noun) throw new Error(`Fact category ${spec.id} needs a noun or a pattern`)
+  return withGenericNoun(spec, compileNounCategory(spec))
+}
+
+function compileNounCategory(spec: FactCategorySpec): FactCategory {
   if (spec.idShape === 'runway') return runwayCategory(spec)
   if (spec.idShape === 'number') return numberCategory(spec)
   if (spec.idShape === 'token')
     return patternCategory({
       ...spec,
-      pattern: String.raw`\b((?:${nounSource(spec.noun)})[- ]?\d{1,4}[A-Z]?)\b`,
+      pattern: String.raw`\b((?:${nounSource(spec.noun!)})[- ]?\d{1,4}[A-Z]?)\b`,
     })
   return alnumCategory(spec)
+}
+
+/**
+ * Words before a generic noun that make it another thing (#165): "Patrol Unit 4" is not a
+ * generating unit, "Access Gate 2" is not a spillway gate, "State Route 9" is not a bus route.
+ */
+const QUALIFIERS = String.raw`patrol|police|sheriff(?:'?s)?|deputy|fire|ems|medic|ambulance|rescue|field|response|responder|mobile|security|access|vehicle|entry|perimeter|parking|k-?9|command|crew|maintenance|service|truck|marine|boat|dive|search|tow|state|highway|county|interstate`
+
+/**
+ * A category whose `genericNoun` ("Units?") counts only in context: in a document that matches
+ * `context`, and in a lint text (a row, an inject's fields) that matches it, never after a
+ * qualifier. The strict `noun` ("Generating Units?") always counts.
+ */
+function withGenericNoun(spec: FactCategorySpec, strict: FactCategory): FactCategory {
+  if (!spec.genericNoun) return strict
+  if (!spec.context) throw new Error(`Fact category ${spec.id} needs a context for its genericNoun`)
+  const genericNoun = spec.genericNoun
+  const generic = compileNounCategory({ ...spec, noun: genericNoun })
+  const about = new RegExp(spec.context, 'i')
+  const qualified = new RegExp(
+    String.raw`\b(?:${QUALIFIERS})[\s-]+(?:${nounSource(genericNoun)})\b`,
+    'gi',
+  )
+  const unqualified = (text: string): string => text.replace(qualified, ' ')
+  return {
+    ...strict,
+    *extract(text) {
+      yield* strict.extract(text)
+      if (about.test(text.all))
+        yield* generic.extract({ all: unqualified(text.all), real: unqualified(text.real) })
+    },
+    ...(strict.mentions
+      ? {
+          *mentions(text: string) {
+            yield* strict.mentions!(text)
+            if (about.test(text)) yield* generic.mentions!(unqualified(text))
+          },
+        }
+      : {}),
+  }
 }
 
 /** Extra agencies the profile knows (regulators), appended to the generic agency category. */

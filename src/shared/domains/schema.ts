@@ -32,6 +32,15 @@ export const FactCategory = z.object({
   /** Regex source (case-insensitive) for the noun(s) before an identifier list, e.g. "Routes?". */
   noun: z.string().optional(),
   /**
+   * A broader noun that names this kind only in context (#165): a dam's "Unit 4" is a
+   * generating unit in a powerhouse row and a patrol car in a sheriff row. Matched only where
+   * `context` matches (the sentence, in documents; the row or inject text, in lint) and never
+   * after a responder/vehicle qualifier ("Patrol Unit 4", "Access Gate 2").
+   */
+  genericNoun: z.string().optional(),
+  /** Regex source (case-insensitive) that says a text is about this category ("turbine|MW"). */
+  context: z.string().optional(),
+  /**
    * alnum: "A1", "14", "B12" with ranges ("A1–A8") and lists; number: digits only;
    * runway: "5/23" pairs plus each end; token: "RTU-07", "PLC-3" (noun glued to a number).
    */
