@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { useState } from 'react'
 import type { AppSettings, EmbeddingSettings, UiSettings } from '@shared/schemas'
 import { Button, Field, PageHeader } from '../../components/ui'
@@ -157,6 +158,11 @@ export default function SettingsPage() {
         eyebrow="Application"
         title="Settings"
         description="Preferences for this computer. They are stored in the app's data folder, never inside project folders."
+        actions={
+          <Link className="btn" to="/welcome">
+            Run setup again
+          </Link>
+        }
       />
       {settings.isError && <p className="field__error">{settings.error.message}</p>}
       {settings.data && (

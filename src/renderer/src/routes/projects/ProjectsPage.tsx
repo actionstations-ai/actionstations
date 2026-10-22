@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { useRef, useState } from 'react'
 import type { RecentProject } from '@shared/schemas'
 import { Button, EmptyState, PageHeader } from '../../components/ui'
@@ -99,6 +100,11 @@ export default function ProjectsPage() {
         <EmptyState
           title="No projects yet"
           body="Create a project, then import the plans, policies, maps and forms your exercises should cite — for example an Airport Emergency Plan and a Terminal Incident Response Plan."
+          actions={
+            <Link className="btn" to="/welcome">
+              Set up models &amp; media
+            </Link>
+          }
         />
       ) : (
         <>
