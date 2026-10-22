@@ -1,21 +1,31 @@
+# Installer configuration. Release process, signing and cross-platform notes: docs/RELEASING.md.
 appId: com.mdcrowley.tabletopgen
 productName: Tabletop Generator
 copyright: Copyright © 2026 Matt Crowley
 directories:
   output: release/${version}
   buildResources: build
+artifactName: ${productName}-${version}-${os}-${arch}.${ext}
 files:
   - out/**/*
   - package.json
-  - '!**/*.{map,ts,tsx}'
+  - '!**/*.{map,ts,tsx,mts,cts}'
+  - '!**/*.d.{ts,mts,cts}'
+  # Test goldens, fixtures and package-internal test suites never ship.
+  - '!**/__golden__/**'
+  - '!**/node_modules/**/{test,tests,__tests__,__mocks__,spec,fixtures}/**'
+  - '!**/node_modules/**/*.{md,markdown}'
+  # better-sqlite3 ships Node-API prebuilds for every platform; its C sources are build-only.
+  - '!**/node_modules/better-sqlite3/{deps,src}/**'
 extraResources:
   - from: templates
     to: app-resources/templates
-    filter: ['**/*', '!**/__golden__/**']
+    filter: ['**/*', '!**/__golden__/**', '!**/*.test.*']
   - from: prompts
     to: app-resources/prompts
   - from: comfy
     to: app-resources/comfy
+# Native code and data files read with real fs paths must live outside app.asar.
 asarUnpack:
   - node_modules/better-sqlite3/**
   - node_modules/sqlite-vec*/**
@@ -25,23 +35,65 @@ asarUnpack:
   - node_modules/tesseract.js-core/**
   - node_modules/pdfjs-dist/standard_fonts/**
   - node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs
-  - out/main/*worker*
 npmRebuild: false
+# Hardening (#55). Flipped on the packaged Electron binary after packing.
+electronFuses:
+  runAsNode: false
+  enableCookieEncryption: true
+  enableNodeOptionsEnvironmentVariable: false
+  enableNodeCliInspectArguments: false
+  enableEmbeddedAsarIntegrityValidation: true
+  onlyLoadAppFromAsar: true
+  # Stays on until the renderer is served from a custom protocol (#117): with it off,
+  # file:// can no longer read out/renderer/index.html from inside app.asar (measured:
+  # ERR_FILE_NOT_FOUND, blank window).
+  grantFileProtocolExtraPrivileges: true
+  # Unsigned builds: flipping fuses breaks Electron's ad-hoc signature, which Apple silicon
+  # refuses to run. Re-sign ad hoc (a real Developer ID replaces this; see docs/RELEASING.md).
+  resetAdHocDarwinSignature: true
 mac:
   category: public.app-category.education
+  icon: build/icon.icns
   target:
     - target: dmg
-      arch: [arm64, x64]
+      arch: [arm64]
   hardenedRuntime: true
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  # No Developer ID certificate yet. docs/RELEASING.md describes signing + notarization.
   identity: null
+  # A platform files list that holds only exclusions makes electron-builder copy the whole
+  # project into app.asar, so each one restates the positive pattern.
+  files:
+    - out/**/*
+    - '!**/node_modules/onnxruntime-node/bin/napi-*/{linux,win32}/**'
+dmg:
+  title: ${productName} ${version}
 win:
+  icon: build/icon.ico
   target:
     - target: nsis
       arch: [x64]
+  # A platform files list that holds only exclusions makes electron-builder copy the whole
+  # project into app.asar, so each one restates the positive pattern.
+  files:
+    - out/**/*
+    - '!**/node_modules/onnxruntime-node/bin/napi-*/{linux,darwin}/**'
+    - '!**/node_modules/onnxruntime-node/bin/napi-*/win32/arm64/**'
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
+  artifactName: ${productName}-${version}-win-${arch}-setup.${ext}
 linux:
   category: Education
+  icon: build/icons
+  synopsis: Generate complete, editable tabletop exercises from your own plans.
   target:
-    - AppImage
+    - target: AppImage
+      arch: [x64]
+  # A platform files list that holds only exclusions makes electron-builder copy the whole
+  # project into app.asar, so each one restates the positive pattern.
+  files:
+    - out/**/*
+    - '!**/node_modules/onnxruntime-node/bin/napi-*/{darwin,win32}/**'
+    - '!**/node_modules/onnxruntime-node/bin/napi-*/linux/arm64/**'
