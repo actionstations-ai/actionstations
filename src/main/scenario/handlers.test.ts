@@ -68,6 +68,39 @@ describe('scenarios:* handlers', () => {
     ])
   })
 
+  it('save keeps inject files linked when MSEL row ids are renamed', async () => {
+    const s = await createEmpty()
+    const base = { ...FIXTURE, id: s.id, projectId: s.projectId }
+    const { saveInject, listInjects } = await import('./store')
+    const { Inject } = await import('@shared/schemas')
+    const row = base.msel.find((r) => r.id === 'I-04')!
+    const inject = await saveInject(
+      projectPath,
+      s.id,
+      Inject.parse({
+        id: '01INJECTTWEET0000000000000',
+        mselRowId: 'I-04',
+        type: 'tweet',
+        title: 'Tweet',
+        fields: {},
+      }),
+      { by: 'ai' },
+    )
+    const linked = {
+      ...base,
+      msel: base.msel.map((r) => (r === row ? { ...r, injectId: inject.id } : r)),
+    }
+    await invoke('scenarios:save', { projectPath, scenario: linked })
+    // Renumber I-04 → I-05 in the editor and save again.
+    const renamed = {
+      ...linked,
+      msel: linked.msel.map((r) => (r.injectId === inject.id ? { ...r, id: 'I-05' } : r)),
+    }
+    await invoke('scenarios:save', { projectPath, scenario: renamed, note: 'MSEL edit' })
+    const after = (await listInjects(projectPath, s.id)).find((i) => i.id === inject.id)!
+    expect(after.mselRowId).toBe('I-05')
+  })
+
   it('doc-save / doc-get / history-restore for a document', async () => {
     const s = await createEmpty()
     const ref = { projectPath, scenarioId: s.id, kind: 'handbook' as const }

@@ -1,6 +1,7 @@
 import type { LintWarning, Scenario } from '@shared/schemas'
 import { Scenario as ScenarioSchema, ScenarioBrief } from '@shared/schemas'
 import { defineHandlers } from '../registry'
+import { syncInjectRowIds } from '../../scenario/inject-links'
 import { requireProject } from '../../project/guard'
 import { z } from 'zod'
 import { AppError } from '../../lib/errors'
@@ -42,7 +43,9 @@ export default defineHandlers({
 
   'scenarios:save': async ({ projectPath, scenario, note }) => {
     const root = await requireProject(projectPath)
-    return saveScenario(root, scenario, { by: 'user', ...(note ? { note } : {}) })
+    const saved = await saveScenario(root, scenario, { by: 'user', ...(note ? { note } : {}) })
+    await syncInjectRowIds(root, saved)
+    return saved
   },
 
   'scenarios:create-empty': async ({ projectPath, title, brief }) => {
