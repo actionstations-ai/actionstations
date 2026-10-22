@@ -114,6 +114,11 @@ describe('model and display helpers', () => {
   it('prefers a chat model over an embedding model', () => {
     expect(pickChatModel(['text-embedding-nomic', 'qwen3-30b'])).toBe('qwen3-30b')
   })
+  it('prefers a loaded chat model, ignoring loaded embedding models', () => {
+    const models = ['gpt-oss-20b', 'qwen3-30b', 'text-embedding-nomic']
+    expect(pickChatModel(models, ['text-embedding-nomic', 'qwen3-30b'])).toBe('qwen3-30b')
+    expect(pickChatModel(models, ['text-embedding-nomic'])).toBe('gpt-oss-20b')
+  })
   it('prefers a general speech model over a VoiceDesign one', () => {
     expect(
       pickTtsModel([

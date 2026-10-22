@@ -93,3 +93,18 @@
   display: block;
   font-size: var(--text-xs);
 }
+
+.pull-model {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.pull-model__row input {
+  flex: 1;
+  min-width: 0;
+}
+.pull-model__status {
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}

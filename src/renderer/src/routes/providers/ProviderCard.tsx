@@ -4,6 +4,7 @@ import { Badge, Button, Dialog } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { useIpcMutation, useIpcQuery } from '../../lib/query'
 import { KIND_LABELS, kindUsesKey, type ProviderViewT } from './catalog'
+import { PullModel } from './PullModel'
 
 const INVALIDATES = [
   'providers:list',
@@ -131,6 +132,7 @@ export function ProviderCard(props: { provider: ProviderViewT; onEdit: () => voi
         />
         Enabled
       </label>
+      {p.kind === 'ollama' && p.enabled && <PullModel providerId={p.id} />}
       {test.data && <TestResult result={test.data} />}
       <div className="row provider-card__actions">
         <Button

@@ -78,12 +78,15 @@ export default defineHandlers({
       'embed-model-download',
       async (ctx) => {
         ctx.progress(0, `Downloading ${model}`)
-        await downloadModel(modelsDir(), model, (p) => {
-          const mb = (n: number): string => (n / 1e6).toFixed(1)
-          ctx.progress(
-            p.progress,
-            `${p.file ?? model}: ${mb(p.loadedBytes)} / ${mb(p.totalBytes)} MB`,
-          )
+        await downloadModel(modelsDir(), model, {
+          signal: ctx.signal,
+          onProgress: (p) => {
+            const mb = (n: number): string => (n / 1e6).toFixed(1)
+            ctx.progress(
+              p.progress,
+              `${p.file ?? model}: ${mb(p.loadedBytes)} / ${mb(p.totalBytes)} MB`,
+            )
+          },
         })
         ctx.log(`Downloaded ${model}`)
         return { model }

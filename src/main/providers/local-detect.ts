@@ -9,6 +9,8 @@ export interface LocalService {
   baseUrl: string
   reachable: boolean
   models: string[]
+  /** Models loaded in memory right now (LM Studio only). */
+  loadedModels: string[]
 }
 
 interface Probe {
@@ -17,6 +19,8 @@ interface Probe {
   baseUrl: string
   probeUrl: string
   models: (body: unknown) => string[]
+  /** Optional second probe that lists which models are loaded. */
+  loaded?: { url: string; models: (body: unknown) => string[] }
 }
 
 const PROBE_TIMEOUT_MS = 800
@@ -35,6 +39,18 @@ export const LOCAL_PROBES: Probe[] = [
     baseUrl: 'http://127.0.0.1:1234/v1',
     probeUrl: 'http://127.0.0.1:1234/v1/models',
     models: (b) => strings((b as { data?: unknown })?.data, 'id'),
+    loaded: {
+      // LM Studio's REST API marks each model state: 'loaded' | 'not-loaded'.
+      url: 'http://127.0.0.1:1234/api/v0/models',
+      models: (b) => {
+        const data = (b as { data?: unknown })?.data
+        const rows = Array.isArray(data) ? (data as { state?: unknown }[]) : []
+        return strings(
+          rows.filter((m) => m?.state === 'loaded'),
+          'id',
+        )
+      },
+    },
   },
   {
     kind: 'ollama',
@@ -52,15 +68,32 @@ export const LOCAL_PROBES: Probe[] = [
   },
 ]
 
+async function getJson(url: string, fetchImpl: typeof fetch): Promise<unknown> {
+  const res = await fetchImpl(url, { signal: AbortSignal.timeout(PROBE_TIMEOUT_MS) })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  return res.json().catch(() => null)
+}
+
+async function loadedModels(p: Probe, fetchImpl: typeof fetch): Promise<string[]> {
+  if (!p.loaded) return []
+  try {
+    return p.loaded.models(await getJson(p.loaded.url, fetchImpl)).sort()
+  } catch {
+    return []
+  }
+}
+
 async function probe(p: Probe, fetchImpl: typeof fetch): Promise<LocalService> {
   const base = { kind: p.kind, label: p.label, baseUrl: p.baseUrl }
+  const down = { ...base, reachable: false, models: [], loadedModels: [] }
   try {
-    const res = await fetchImpl(p.probeUrl, { signal: AbortSignal.timeout(PROBE_TIMEOUT_MS) })
-    if (!res.ok) return { ...base, reachable: false, models: [] }
-    const body: unknown = await res.json().catch(() => null)
-    return { ...base, reachable: true, models: p.models(body).sort() }
+    const [body, loaded] = await Promise.all([
+      getJson(p.probeUrl, fetchImpl),
+      loadedModels(p, fetchImpl),
+    ])
+    return { ...base, reachable: true, models: p.models(body).sort(), loadedModels: loaded }
   } catch {
-    return { ...base, reachable: false, models: [] }
+    return down
   }
 }
 

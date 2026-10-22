@@ -29,7 +29,7 @@ import type { ParsedDocument } from './types'
 import { parseDocument } from './worker-host'
 
 const MAX_FILE_BYTES = 512 * 1024 * 1024
-const HEADINGS_PREVIEW = 12
+const HEADINGS_PREVIEW = 60
 
 type IndexFactory = (root: string) => Promise<IndexStore>
 let indexFactory: IndexFactory = openIndex
@@ -58,12 +58,17 @@ export function guessKind(name: string): DocumentKind {
   return 'other'
 }
 
-/** First distinct headings in document order (shown on the document card). */
+/**
+ * First distinct heading paths in document order ("Section 13 › 13.6 FIDS failure"), so the
+ * Headings tab can indent by depth. Every ancestor appears before its descendants.
+ */
 export function headingsPreview(doc: ParsedDocument, max = HEADINGS_PREVIEW): string[] {
   const seen = new Set<string>()
   for (const s of doc.sections) {
+    const parts: string[] = []
     for (const h of s.headingPath) {
-      seen.add(cleanHeadingText(h))
+      parts.push(cleanHeadingText(h).replaceAll('›', '-'))
+      seen.add(parts.join(' › '))
       if (seen.size >= max) return [...seen]
     }
   }

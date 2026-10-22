@@ -14,6 +14,7 @@ const START_HINTS: Record<string, string> = {
 function ModelSelect(props: {
   label: string
   models: string[]
+  loaded: string[]
   value: string
   onChange: (m: string) => void
 }) {
@@ -26,7 +27,7 @@ function ModelSelect(props: {
     >
       {props.models.map((m) => (
         <option key={m} value={m}>
-          {m}
+          {props.loaded.includes(m) ? `${m} (loaded)` : m}
         </option>
       ))}
     </select>
@@ -42,7 +43,8 @@ export function LocalServiceRow(props: {
 }) {
   const s = props.service
   const chatModels = s.models.filter((m) => !/embed/i.test(m))
-  const [model, setModel] = useState(pickChatModel(s.models) ?? '')
+  const loaded = s.loadedModels.filter((m) => chatModels.includes(m))
+  const [model, setModel] = useState(pickChatModel(s.models, s.loadedModels) ?? '')
   const upsert = useUpsertProvider()
   const add = () =>
     upsert.mutate(
@@ -72,12 +74,19 @@ export function LocalServiceRow(props: {
           {!s.reachable
             ? (START_HINTS[s.label] ?? 'Not running.')
             : props.chooseModel
-              ? `${chatModels.length} chat model${chatModels.length === 1 ? '' : 's'} available`
+              ? `${chatModels.length} chat model${chatModels.length === 1 ? '' : 's'} available` +
+                (loaded.length ? ` · ${loaded.join(', ')} loaded` : '')
               : 'Running'}
         </span>
       </div>
       {s.reachable && props.chooseModel && chatModels.length > 0 && !props.added && (
-        <ModelSelect label={s.label} models={chatModels} value={model} onChange={setModel} />
+        <ModelSelect
+          label={s.label}
+          models={chatModels}
+          loaded={loaded}
+          value={model}
+          onChange={setModel}
+        />
       )}
       {!s.reachable ? (
         <Badge>Not found</Badge>

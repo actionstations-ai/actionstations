@@ -40,6 +40,7 @@ const CONCURRENCY: Partial<Record<JobKind, number>> = {
   'generate-scenario': 1,
   'rerun-stage': 1,
   'generate-injects': 1,
+  'model-pull': 1,
 }
 const MAX_LOG = 2000
 const MAX_TOKENS_PER_STAGE = 200_000

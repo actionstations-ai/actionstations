@@ -8,6 +8,8 @@ import { AppError } from '../../lib/errors'
 import type { ParsedDocument, ParseOptions } from '../types'
 import { parseText } from './text'
 
+import type * as TesseractModule from 'tesseract.js'
+
 const requireFromHere = createRequire(import.meta.url)
 
 interface LangData {
@@ -30,7 +32,13 @@ export function bundledLangData(): LangData {
   return { langPath: data.langPath, gzip: data.gzip }
 }
 
-export async function ocrImage(filePath: string, opts: ParseOptions = {}): Promise<string> {
+type TesseractWorker = Awaited<ReturnType<typeof TesseractModule.createWorker>>
+
+/** Run `fn` with one tesseract worker (bundled eng data, LSTM); terminated on abort and after. */
+export async function withOcrWorker<T>(
+  opts: ParseOptions,
+  fn: (worker: TesseractWorker) => Promise<T>,
+): Promise<T> {
   const lang = bundledLangData()
   const { createWorker, OEM } = await import('tesseract.js')
   const worker = await createWorker('eng', OEM.LSTM_ONLY, {
@@ -43,13 +51,17 @@ export async function ocrImage(filePath: string, opts: ParseOptions = {}): Promi
   const abort = () => void worker.terminate()
   opts.signal?.addEventListener('abort', abort, { once: true })
   try {
-    const { data } = await worker.recognize(filePath)
+    const result = await fn(worker)
     if (opts.signal?.aborted) throw new AppError('CANCELLED', 'Cancelled')
-    return data.text
+    return result
   } finally {
     opts.signal?.removeEventListener('abort', abort)
     await worker.terminate().catch(() => undefined)
   }
+}
+
+export async function ocrImage(filePath: string, opts: ParseOptions = {}): Promise<string> {
+  return withOcrWorker(opts, async (worker) => (await worker.recognize(filePath)).data.text)
 }
 
 export async function parseImage(

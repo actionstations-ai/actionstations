@@ -73,7 +73,9 @@ describe.runIf(process.env.LIVE === '1')('LocalOnnxEmbedder (LIVE, bge-small)', 
   it('downloads once, then embeds offline with unit-length 384-d vectors', async () => {
     const progress: number[] = []
     if (!isModelDownloaded(LIVE_MODELS_DIR, DEFAULT_LOCAL_MODEL))
-      await downloadModel(LIVE_MODELS_DIR, DEFAULT_LOCAL_MODEL, (p) => progress.push(p.progress))
+      await downloadModel(LIVE_MODELS_DIR, DEFAULT_LOCAL_MODEL, {
+        onProgress: (p) => progress.push(p.progress),
+      })
     expect(isModelDownloaded(LIVE_MODELS_DIR, DEFAULT_LOCAL_MODEL)).toBe(true)
 
     const fetchSpy = vi.spyOn(globalThis, 'fetch')

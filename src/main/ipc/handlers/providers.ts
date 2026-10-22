@@ -1,6 +1,9 @@
 // Provider settings (#21) and task routing (#22). Configs live in settings.json; API keys
 // live only in secrets (safeStorage) and never cross back to the renderer.
 import { randomBytes } from 'node:crypto'
+import { promises as fs } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { ProviderView, type ProviderConfig, type ProviderHealth } from '@shared/schemas'
 import { defineHandlers } from '../registry'
 import { AppError } from '../../lib/errors'
@@ -10,6 +13,8 @@ import { getSecret, hasSecret, setSecret } from '../../secrets'
 import { getSettings, updateSettings } from '../../settings/store'
 import { adapterFor } from '../../providers/registry'
 import { detectLocalServices } from '../../providers/local-detect'
+import { canPullModels, pullProviderModel, type PullProgress } from '../../providers/model-pull'
+import { jobs } from '../../jobs/manager'
 import {
   assertRoutingTargetsExist,
   configFor,
@@ -97,6 +102,95 @@ async function runTest(config: ProviderConfig, model: string | undefined) {
   }
 }
 
+const SPEECH_TIMEOUT_MS = 120_000
+const SPEECH_MAX_CHARS = 200
+const SPEECH_SAMPLE =
+  'This is a test of the exercise voice. All flights from Concourse A are delayed.'
+
+/** Synthesize one line into a temp dir (never a project) and return it as a data URL. */
+async function runSpeechTest(config: ProviderConfig, text?: string, voiceStyle?: string) {
+  const started = Date.now()
+  const outDir = await fs.mkdtemp(join(tmpdir(), 'ttx-speech-'))
+  try {
+    const provider = await mediaProviderFor(config)
+    if (!provider.capabilities().has('audio'))
+      throw new AppError('VALIDATION', `${config.label} does not generate speech`)
+    const line = (text?.trim() || SPEECH_SAMPLE).slice(0, SPEECH_MAX_CHARS)
+    const [out] = await provider.generate({
+      kind: 'audio',
+      injectId: 'speech-test',
+      brief: {
+        paths: ['tts'],
+        voiceLines: [{ speaker: 'Test', voiceStyle: voiceStyle ?? '', text: line }],
+      },
+      outDir,
+      signal: AbortSignal.timeout(SPEECH_TIMEOUT_MS),
+    })
+    if (!out) throw new AppError('PROVIDER', 'The provider returned no audio')
+    const audio = await fs.readFile(out.filePath)
+    return {
+      ok: true,
+      dataUrl: `data:${out.mimeType};base64,${audio.toString('base64')}`,
+      ...(out.durationSec !== undefined ? { durationSec: out.durationSec } : {}),
+      latencyMs: Date.now() - started,
+    }
+  } catch (e) {
+    const error = redact(errorMessage(e), await getSecret(config.id).catch(() => undefined))
+    return { ok: false, latencyMs: Date.now() - started, error }
+  } finally {
+    await fs.rm(outDir, { recursive: true, force: true })
+  }
+}
+
+const PULL_JOB_KIND = 'model-pull' as const
+
+/** "pulling 3f9a…: 1.2 / 4.7 GB" — Ollama reports bytes per layer. */
+export function pullProgressMessage(model: string, p: PullProgress): string {
+  if (p.total && p.completed !== undefined) {
+    const gb = (n: number): string => (n / 1e9).toFixed(2)
+    return `${model}: ${p.status} ${gb(p.completed)} / ${gb(p.total)} GB`
+  }
+  return `${model}: ${p.status}`
+}
+
+function activePull(providerId: string, model: string): string | undefined {
+  return jobs.list({ activeOnly: true }).find((j) => {
+    const payload = j.payload as { providerId?: string; model?: string } | undefined
+    const live = j.status === 'queued' || j.status === 'running'
+    return (
+      live &&
+      j.kind === PULL_JOB_KIND &&
+      payload?.providerId === providerId &&
+      payload.model === model
+    )
+  })?.id
+}
+
+async function startPull(id: string, model: string): Promise<{ jobId: string }> {
+  const config = await configFor(id)
+  if (!canPullModels(config.kind))
+    throw new AppError('VALIDATION', `Model pull is only available for Ollama providers`)
+  const running = activePull(id, model)
+  if (running) return { jobId: running }
+  const job = jobs.start(
+    PULL_JOB_KIND,
+    async (ctx) => {
+      ctx.progress(0, `Pulling ${model}`)
+      await pullProviderModel(
+        config,
+        model,
+        (p) => ctx.progress(p.fraction ?? 0, pullProgressMessage(model, p)),
+        ctx.signal,
+      )
+      ctx.log(`Pulled ${model} into ${config.label}`)
+      forgetProvider(id)
+      return { providerId: id, model }
+    },
+    { payload: { providerId: id, model } },
+  )
+  return { jobId: job.id }
+}
+
 export default defineHandlers({
   'providers:list': async () => {
     await ensureMockProviders()
@@ -151,6 +245,11 @@ export default defineHandlers({
   'providers:test': async ({ id, model }) => runTest(await configFor(id), model),
 
   'providers:detect-local': () => detectLocalServices(),
+
+  'providers:pull-model': ({ id, model }) => startPull(id, model),
+
+  'providers:test-speech': async ({ id, text, voiceStyle }) =>
+    runSpeechTest(await configFor(id), text, voiceStyle),
 
   'routing:get': async ({ projectPath }) => {
     const root = projectPath ? await requireProject(projectPath) : undefined

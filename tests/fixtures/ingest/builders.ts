@@ -1,6 +1,8 @@
 // Builds small, deterministic fixture files for the ingest tests (PDF, DOCX, PPTX, XLSX), so
 // no binary blobs need to live in the repo. ocr-sample.png is the one committed binary.
 import { promises as fs } from 'node:fs'
+import { createRequire } from 'node:module'
+import { deflateSync } from 'node:zlib'
 import { join } from 'node:path'
 import ExcelJS from 'exceljs'
 import JSZip from 'jszip'
@@ -29,13 +31,22 @@ export interface PdfPageSpec {
   lines: PdfTextLine[]
   header?: string
   footer?: string
+  /** Full-page raster (a "scanned" page): deflated 8-bit RGB pixels. */
+  scan?: ScanImage
+}
+
+export interface ScanImage {
+  width: number
+  height: number
+  deflatedRgb: Buffer
 }
 
 const pdfEscape = (s: string) => s.replace(/[\\()]/g, (c) => '\\' + c)
 
 function pageStream(page: PdfPageSpec): string {
   let y = 740
-  let s = 'BT\n'
+  let s = page.scan ? 'q 612 0 0 792 0 0 cm /Im1 Do Q\n' : ''
+  s += 'BT\n'
   const put = (font: string, size: number, x: number, yy: number, text: string) => {
     s += `/${font} ${size} Tf 1 0 0 1 ${x} ${yy.toFixed(1)} Tm (${pdfEscape(text)}) Tj\n`
   }
@@ -62,9 +73,15 @@ export function buildPdf(pages: PdfPageSpec[], info: { title?: string } = {}): B
     const content = add(
       `<< /Length ${Buffer.byteLength(stream, 'latin1')} >>\nstream\n${stream}\nendstream`,
     )
+    const image = page.scan
+      ? add(
+          `<< /Type /XObject /Subtype /Image /Width ${page.scan.width} /Height ${page.scan.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /FlateDecode /Length ${page.scan.deflatedRgb.length} >>\nstream\n${page.scan.deflatedRgb.toString('latin1')}\nendstream`,
+        )
+      : undefined
+    const xobject = image ? ` /XObject << /Im1 ${image} 0 R >>` : ''
     kids.push(
       add(
-        `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${content} 0 R >>`,
+        `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >>${xobject} >> /Contents ${content} 0 R >>`,
       ),
     )
   }
@@ -82,6 +99,55 @@ export function buildPdf(pages: PdfPageSpec[], info: { title?: string } = {}): B
   out += offsets.map((o) => `${String(o).padStart(10, '0')} 00000 n \n`).join('')
   out += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R${infoRef ? ` /Info ${infoRef} 0 R` : ''} >>\nstartxref\n${xref}\n%%EOF\n`
   return Buffer.from(out, 'latin1')
+}
+
+interface NapiCanvas {
+  createCanvas(
+    w: number,
+    h: number,
+  ): {
+    getContext(kind: '2d'): {
+      fillStyle: string
+      font: string
+      fillRect(x: number, y: number, w: number, h: number): void
+      fillText(t: string, x: number, y: number): void
+      getImageData(x: number, y: number, w: number, h: number): { data: Uint8ClampedArray }
+    }
+  }
+}
+
+/** @napi-rs/canvas is pdf.js's optional Node canvas; resolve it the way pdf.js does. */
+function napiCanvas(): NapiCanvas {
+  const fromPdfjs = createRequire(createRequire(import.meta.url).resolve('pdfjs-dist/package.json'))
+  return fromPdfjs('@napi-rs/canvas') as NapiCanvas
+}
+
+/**
+ * Rasterize text lines onto a white US Letter page at 2× (144 DPI), the way a scanner would
+ * hand it over: pixels only, no text layer. Sizes are in points.
+ */
+export function scanImage(lines: PdfTextLine[]): ScanImage {
+  const k = 2
+  const width = 612 * k
+  const height = 792 * k
+  const ctx = napiCanvas().createCanvas(width, height).getContext('2d')
+  ctx.fillStyle = '#ffffff'
+  ctx.fillRect(0, 0, width, height)
+  ctx.fillStyle = '#111111'
+  let y = 72
+  for (const line of lines) {
+    y += line.size * (1.25 + (line.spaceBefore ?? 0))
+    ctx.font = `${line.bold ? 'bold ' : ''}${line.size * k}px Helvetica, Arial, sans-serif`
+    ctx.fillText(line.text, 72 * k, y * k)
+  }
+  const rgba = ctx.getImageData(0, 0, width, height).data
+  const rgb = Buffer.alloc(width * height * 3)
+  for (let i = 0, j = 0; i < rgba.length; i += 4, j += 3) {
+    rgb[j] = rgba[i]!
+    rgb[j + 1] = rgba[i + 1]!
+    rgb[j + 2] = rgba[i + 2]!
+  }
+  return { width, height, deflatedRgb: deflateSync(rgb) }
 }
 
 const LOREM =

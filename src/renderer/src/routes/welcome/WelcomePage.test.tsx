@@ -22,6 +22,7 @@ function detected() {
       ...LM,
       reachable: true,
       models: ['text-embedding-nomic-embed-text-v1.5', 'qwen3-30b-a3b-2507'],
+      loadedModels: [],
     },
     {
       kind: 'ollama',
@@ -29,8 +30,9 @@ function detected() {
       baseUrl: 'http://127.0.0.1:11434',
       reachable: false,
       models: [],
+      loadedModels: [],
     },
-    { ...COMFY, reachable: true, models: [] },
+    { ...COMFY, reachable: true, models: [], loadedModels: [] },
   ] as const
 }
 
@@ -50,7 +52,8 @@ function setup(extra: Handlers = {}, initial: Partial<AppSettings> = {}) {
       })
       return settings
     },
-    'providers:detect-local': () => detected().map((s) => ({ ...s, models: [...s.models] })),
+    'providers:detect-local': () =>
+      detected().map((s) => ({ ...s, models: [...s.models], loadedModels: [...s.loadedModels] })),
     'providers:list': () => providers,
     'providers:upsert': (req: { config: Partial<ProviderViewT>; apiKey?: string | null }) => {
       const v = {
@@ -69,6 +72,12 @@ function setup(extra: Handlers = {}, initial: Partial<AppSettings> = {}) {
     'providers:models': () => [{ id: 'qwen3-30b-a3b-2507', kind: 'chat' }],
     'providers:test': () => ({ ok: true, sample: 'OK', latencyMs: 412 }),
     'providers:health': () => ({ ok: true, latencyMs: 38 }),
+    'providers:test-speech': () => ({
+      ok: true,
+      dataUrl: 'data:audio/wav;base64,UklGRiQAAABXQVZF',
+      durationSec: 1.2,
+      latencyMs: 900,
+    }),
     'routing:get': () => ({ global: routing, effective: routing }),
     'routing:set': (req: { routing: AppSettings['defaultRouting'] }) => {
       routing = req.routing
@@ -188,6 +197,27 @@ describe('text model step', () => {
     })
   })
 
+  it('preselects the chat model LM Studio has loaded', async () => {
+    setup({
+      'providers:detect-local': () =>
+        detected().map((s) =>
+          s.label === 'LM Studio'
+            ? {
+                ...s,
+                models: ['gpt-oss-20b', ...s.models],
+                loadedModels: ['qwen3-30b-a3b-2507', 'text-embedding-nomic-embed-text-v1.5'],
+              }
+            : { ...s, models: [...s.models], loadedModels: [...s.loadedModels] },
+        ),
+    } as Handlers)
+    renderWizard('text')
+    const list = await screen.findByRole('list', { name: 'Local text services' })
+    const select = (await within(list).findByLabelText('LM Studio model')) as HTMLSelectElement
+    expect(select.value).toBe('qwen3-30b-a3b-2507')
+    expect(within(select).getByText('qwen3-30b-a3b-2507 (loaded)')).toBeTruthy()
+    expect(within(list).getByText(/qwen3-30b-a3b-2507 loaded/)).toBeTruthy()
+  })
+
   it('adds Anthropic with a key that is sent once and cleared from the form', async () => {
     const fake = setup()
     renderWizard('text')
@@ -231,6 +261,11 @@ describe('media step', () => {
     expect(tts.options).toEqual({ ttsModel: 'mlx-community/VoxCPM2-8bit' })
     await user.click(screen.getByRole('button', { name: 'Check voice server' }))
     expect(await screen.findByText('Reachable in 38 ms')).toBeTruthy()
+    await user.click(screen.getByRole('button', { name: 'Speak a test line' }))
+    expect(await screen.findByText('Spoke 1.2 s of audio in 900 ms')).toBeTruthy()
+    const audio = screen.getByLabelText('Test line') as HTMLAudioElement
+    expect(audio.getAttribute('src')).toMatch(/^blob:/)
+    expect(fake.ttx.calls('providers:test-speech')).toEqual([{ id: tts.id }])
 
     await user.click(screen.getByRole('button', { name: 'Save and continue' }))
     expect(await heading('Search quality')).toBeTruthy()

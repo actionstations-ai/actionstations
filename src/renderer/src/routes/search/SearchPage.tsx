@@ -5,7 +5,7 @@ import type { SearchHit } from '@shared/schemas/document'
 import { Button, EmptyState, PageHeader } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
-import { highlightSegments, queryTerms, snippet } from './highlight'
+import { highlightSegments, queryTerms, snippet, stripMarkdown } from './highlight'
 import './search.css'
 
 type Mode = 'hybrid' | 'fts' | 'vector'
@@ -59,7 +59,7 @@ function HitCard({ hit, terms, rank }: { hit: SearchHit; terms: string[]; rank: 
         </div>
       </dl>
       <p className="hit__text">
-        <Highlighted text={snippet(hit.text, terms)} terms={terms} />
+        <Highlighted text={snippet(stripMarkdown(hit.text), terms)} terms={terms} />
       </p>
     </li>
   )

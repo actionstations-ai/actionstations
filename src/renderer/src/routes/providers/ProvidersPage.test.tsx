@@ -27,6 +27,18 @@ function setup(initial: ProviderViewT[] = []) {
       return view
     },
     'providers:test': () => ({ ok: true, sample: 'OK', latencyMs: 318 }),
+    'providers:pull-model': () => ({ jobId: 'job1' }),
+    'jobs:get': () => ({
+      id: 'job1',
+      kind: 'model-pull' as const,
+      status: 'queued' as const,
+      progress: 0,
+      message: 'Queued',
+      createdAt: '2026-10-21T12:00:00.000Z',
+      updatedAt: '2026-10-21T12:00:00.000Z',
+      resumable: false,
+    }),
+    'jobs:cancel': () => undefined,
     'providers:detect-local': () => [
       {
         kind: 'openai-compatible',
@@ -34,6 +46,7 @@ function setup(initial: ProviderViewT[] = []) {
         baseUrl: 'http://127.0.0.1:1234/v1',
         reachable: true,
         models: ['text-embedding-nomic-embed-text-v1.5', 'qwen3-30b-a3b-2507'],
+        loadedModels: [],
       },
       {
         kind: 'ollama',
@@ -41,6 +54,7 @@ function setup(initial: ProviderViewT[] = []) {
         baseUrl: 'http://127.0.0.1:11434',
         reachable: false,
         models: [],
+        loadedModels: [],
       },
       {
         kind: 'comfyui',
@@ -48,6 +62,7 @@ function setup(initial: ProviderViewT[] = []) {
         baseUrl: 'http://127.0.0.1:8188',
         reachable: false,
         models: [],
+        loadedModels: [],
       },
     ],
   })
@@ -118,5 +133,43 @@ describe('ProvidersPage', () => {
     expect(await within(card).findByText('Reachable · 42 ms')).toBeTruthy()
     await userEvent.click(within(card).getByRole('button', { name: 'Test' }))
     expect((await within(card).findByRole('status')).textContent).toBe('Replied “OK” in 318 ms')
+  })
+
+  it('pulls an Ollama model with live progress and cancel', async () => {
+    const ttx = setup([
+      {
+        id: 'ollama',
+        kind: 'ollama',
+        label: 'Ollama',
+        baseUrl: 'http://127.0.0.1:11434',
+        options: {},
+        enabled: true,
+        hasKey: false,
+      },
+    ])
+    const user = userEvent.setup()
+    const card = await screen.findByRole('article', { name: 'Ollama' })
+    const input = within(card).getByLabelText('Pull a model')
+    await user.type(input, 'bad name!')
+    expect(within(card).getByText('Use an Ollama model name such as qwen3:4b')).toBeTruthy()
+    await user.clear(input)
+    await user.type(input, 'qwen3:4b{Enter}')
+    await waitFor(() =>
+      expect(ttx.calls('providers:pull-model')).toEqual([{ id: 'ollama', model: 'qwen3:4b' }]),
+    )
+    const bar = await within(card).findByRole('progressbar', { name: 'Pulling qwen3:4b' })
+    ttx.emit('job:progress', {
+      jobId: 'job1',
+      kind: 'model-pull',
+      status: 'running',
+      progress: 0.5,
+      message: 'qwen3:4b: pulling 3f9a 1.25 / 2.50 GB',
+    })
+    await waitFor(() => expect(bar.getAttribute('aria-valuenow')).toBe('50'))
+    expect(within(card).getByText('qwen3:4b: pulling 3f9a 1.25 / 2.50 GB')).toBeTruthy()
+    await user.click(within(card).getByRole('button', { name: 'Cancel' }))
+    expect(ttx.calls('jobs:cancel')).toEqual([{ jobId: 'job1' }])
+    ttx.emit('job:done', { jobId: 'job1', kind: 'model-pull', status: 'cancelled' })
+    expect(await within(card).findByLabelText('Pull a model')).toBeTruthy()
   })
 })

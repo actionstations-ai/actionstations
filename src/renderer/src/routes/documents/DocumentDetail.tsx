@@ -109,7 +109,10 @@ export function DocumentDetail(props: {
   const { doc, projectPath } = props
   const ref = useRef<HTMLElement>(null)
   // When the panel stacks below the table, bring it into view on open.
-  useEffect(() => ref.current?.scrollIntoView?.({ block: 'nearest' }), [])
+  useEffect(() => {
+    // Chromium's scrollIntoView now returns a Promise; an effect must not return it.
+    void ref.current?.scrollIntoView?.({ block: 'nearest' })
+  }, [])
   return (
     <aside ref={ref} className="doc-detail card" aria-label={`Details for ${doc.title}`}>
       <header className="doc-detail__header">

@@ -24,6 +24,7 @@ const { getSettings, resetSettingsCache } = await import('../../settings/store')
 const { getSecret, resetSecretsQueue } = await import('../../secrets')
 const { resetResolveState } = await import('../../providers/resolve')
 const { clearMockResponses, setMockResponse } = await import('../../providers/mock/adapter')
+const { chunkedResponse, stubFetch } = await import('../../providers/text/test-fixtures')
 
 const KEY = 'sk-test-SUPERSECRET-0123456789'
 const MOCK = { kind: 'mock', label: 'Mock LLM', defaultModel: 'mock-large' }
@@ -176,6 +177,47 @@ describe('providers:health / models / test', () => {
   })
 })
 
+describe('providers:test-speech', () => {
+  afterEach(() => vi.unstubAllGlobals())
+  type SpeechResult = { ok: boolean; dataUrl?: string; durationSec?: number; error?: string }
+
+  it('speaks a capped line through an OpenAI-compatible TTS server and returns a data URL', async () => {
+    const { silentWav } = await import('../../providers/text/openai-compatible/wav')
+    const calls = stubFetch([
+      new Response(silentWav(0.5), { headers: { 'content-type': 'audio/wav' } }),
+    ])
+    const { id } = await call<{ id: string }>('providers:upsert', {
+      config: {
+        kind: 'openai-compatible',
+        label: 'mlx-audio',
+        baseUrl: 'http://127.0.0.1:8765/v1',
+        options: { ttsModel: 'mlx-community/VoxCPM2-8bit' },
+      },
+    })
+    const res = await call<SpeechResult>('providers:test-speech', {
+      id,
+      text: 'x'.repeat(500),
+      voiceStyle: 'calm dispatcher',
+    })
+    expect(res).toMatchObject({ ok: true, durationSec: 0.5 })
+    expect(res.dataUrl).toMatch(/^data:audio\/wav;base64,UklGR/)
+    expect(calls[0]!.url).toBe('http://127.0.0.1:8765/v1/audio/speech')
+    expect((calls[0]!.body as { input: string }).input).toHaveLength(200)
+  })
+
+  it('reports providers without speech as a failed test', async () => {
+    const res = await call<SpeechResult>('providers:test-speech', {
+      id: (
+        await call<{ id: string }>('providers:upsert', {
+          config: { kind: 'ollama', label: 'O', baseUrl: 'http://127.0.0.1:11434' },
+        })
+      ).id,
+    })
+    expect(res.ok).toBe(false)
+    expect(res.error).toBeTruthy()
+  })
+})
+
 describe('providers:detect-local', () => {
   it('probes LM Studio, Ollama and ComfyUI', async () => {
     const found = await call<{ label: string; reachable: boolean }[]>('providers:detect-local')
@@ -236,5 +278,63 @@ describe('routing:get / set', () => {
     expect(Object.keys(effective).sort()).toEqual(
       ['audio', 'critique', 'draft', 'embed', 'ideate', 'image', 'video'].sort(),
     )
+  })
+})
+
+describe('providers:pull-model', () => {
+  afterEach(() => vi.unstubAllGlobals())
+  const OLLAMA = { kind: 'ollama', label: 'Ollama', baseUrl: 'http://127.0.0.1:11434' }
+  const PULL_STREAM = [
+    '{"status":"pulling manifest"}',
+    '{"status":"pulling 3f9a","completed":0,"total":2000000000}',
+    '{"status":"pulling 3f9a","completed":1000000000,"total":2000000000}',
+    '{"status":"pulling 3f9a","completed":2000000000,"total":2000000000}',
+    '{"status":"verifying sha256 digest"}',
+    '{"status":"success"}',
+  ].join('\n')
+
+  it('pulls through the Ollama adapter as a job with byte progress', async () => {
+    const { jobs } = await import('../../jobs/manager')
+    const calls = stubFetch([chunkedResponse(PULL_STREAM + '\n')])
+    const { id } = await call<{ id: string }>('providers:upsert', { config: OLLAMA })
+    const { jobId } = await call<{ jobId: string }>('providers:pull-model', {
+      id,
+      model: 'smollm:135m',
+    })
+    const done = await jobs.wait(jobId)
+    expect(done).toMatchObject({
+      status: 'done',
+      payload: { providerId: id, model: 'smollm:135m' },
+    })
+    expect(calls[0]).toMatchObject({
+      url: 'http://127.0.0.1:11434/api/pull',
+      body: { model: 'smollm:135m', stream: true },
+    })
+  })
+
+  it('formats layer progress in GB and plain statuses as-is', async () => {
+    const { pullProgressMessage } = await import('./providers')
+    expect(
+      pullProgressMessage('qwen3:4b', { status: 'pulling 3f9a', completed: 1.5e9, total: 3e9 }),
+    ).toBe('qwen3:4b: pulling 3f9a 1.50 / 3.00 GB')
+    expect(pullProgressMessage('qwen3:4b', { status: 'success' })).toBe('qwen3:4b: success')
+  })
+
+  it('surfaces Ollama errors as a failed job and refuses non-Ollama providers', async () => {
+    const { jobs } = await import('../../jobs/manager')
+    stubFetch([chunkedResponse('{"error":"pull model manifest: file does not exist"}\n')])
+    const { id } = await call<{ id: string }>('providers:upsert', { config: OLLAMA })
+    const { jobId } = await call<{ jobId: string }>('providers:pull-model', {
+      id,
+      model: 'nope:1b',
+    })
+    const failed = await jobs.wait(jobId)
+    expect(failed.status).toBe('error')
+    expect(failed.error).toMatch(/file does not exist/)
+
+    const mock = await addMock()
+    await expect(
+      call('providers:pull-model', { id: mock.id, model: 'x:1b' }),
+    ).rejects.toMatchObject({ code: 'VALIDATION' })
   })
 })

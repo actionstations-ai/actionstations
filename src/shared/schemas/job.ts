@@ -5,6 +5,7 @@ export const JobKind = z.enum([
   'ingest',
   'reindex',
   'embed-model-download',
+  'model-pull',
   'ideate',
   'generate-scenario',
   'rerun-stage',

@@ -2,7 +2,13 @@ import { mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { beforeAll, describe, expect, it } from 'vitest'
-import { OCR_SAMPLE, buildPdf, writeFixtures } from '../../../../tests/fixtures/ingest/builders'
+import {
+  OCR_SAMPLE,
+  buildPdf,
+  scanImage,
+  writeFixtures,
+  type PdfTextLine,
+} from '../../../../tests/fixtures/ingest/builders'
 import { buildHeadingPath } from '../headings'
 import type { ParsedDocument } from '../types'
 import { parseFile, parserKindFor } from '.'
@@ -138,6 +144,51 @@ describe('Markdown, text and HTML parsers', () => {
     )
     expect(allText(doc)).not.toContain('alert')
   })
+})
+
+describe('scanned PDF OCR fallback', () => {
+  const scannedPage = (n: number, topic: string): PdfTextLine[] => [
+    { text: `SECTION ${n}: ${topic.toUpperCase()}`, size: 18, bold: true },
+    { text: `The duty manager confirms the ${topic} checklist`, size: 11, spaceBefore: 1 },
+    { text: 'and reports status to the operations center.', size: 11 },
+  ]
+  const TOPICS = ['terminal evacuation', 'baggage system outage', 'public information']
+
+  it('OCRs every image-only page and keeps page numbers', async () => {
+    const file = join(dir, 'scanned.pdf')
+    writeFileSync(
+      file,
+      buildPdf(TOPICS.map((t, i) => ({ lines: [], scan: scanImage(scannedPage(i + 1, t)) }))),
+    )
+    const doc = await parseFile(file, 'scanned.pdf')
+    expect(doc.pages).toBe(3)
+    expect(doc.sections.map((s) => s.page)).toEqual([1, 2, 3])
+    const text = allText(doc).toLowerCase()
+    for (const t of TOPICS) expect(text).toContain(`${t} checklist`)
+    expect(doc.sections[1]!.headingPath[0]).toMatch(/SECTION 2: BAGGAGE SYSTEM OUTAGE/)
+    expect(paths(doc, 'SCAN')[1]).toBe('SCAN › Section 2')
+  }, 120_000)
+
+  it('OCRs only the pages without a text layer in a mixed PDF', async () => {
+    const file = join(dir, 'mixed.pdf')
+    writeFileSync(
+      file,
+      buildPdf([
+        { lines: scannedPage(1, 'terminal evacuation') },
+        { lines: [], scan: scanImage(scannedPage(2, 'baggage system outage')) },
+        // A text layer plus a raster stamp: the text layer wins, the image is not OCR'd.
+        {
+          lines: scannedPage(3, 'public information'),
+          scan: scanImage([{ text: 'RASTER ONLY STAMP', size: 30 }]),
+        },
+      ]),
+    )
+    const doc = await parseFile(file, 'mixed.pdf')
+    expect(doc.sections.map((s) => s.page)).toEqual([1, 2, 3])
+    const text = allText(doc).toLowerCase()
+    expect(text).toContain('baggage system outage checklist')
+    expect(text).not.toContain('raster only stamp')
+  }, 120_000)
 })
 
 describe('image OCR', () => {

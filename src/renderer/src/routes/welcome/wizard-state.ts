@@ -104,9 +104,13 @@ export function textProviders(providers: ProviderViewT[]): ProviderViewT[] {
   return providers.filter((p) => TEXT_KINDS.includes(p.kind) && !isTtsProvider(p))
 }
 
-/** Prefer a chat model over an embedding model when picking a default. */
-export function pickChatModel(models: string[]): string | undefined {
-  return models.find((m) => !/embed/i.test(m)) ?? models[0]
+/**
+ * Prefer a chat model the server already has loaded (LM Studio reports this), then any chat
+ * model over an embedding model.
+ */
+export function pickChatModel(models: string[], loaded: string[] = []): string | undefined {
+  const isChat = (m: string) => !/embed/i.test(m)
+  return loaded.find((m) => isChat(m) && models.includes(m)) ?? models.find(isChat) ?? models[0]
 }
 
 /** Prefer a general speech model over one that needs a voice description. */
@@ -164,4 +168,15 @@ export function mediaAssignments(
     })
   }
   return out
+}
+
+/**
+ * data: URL → blob: URL. The renderer CSP allows media from blob: (not data:), and a blob URL
+ * keeps the base64 string out of the DOM.
+ */
+export function dataUrlToBlobUrl(dataUrl: string): string {
+  const match = /^data:([^;,]+);base64,(.*)$/s.exec(dataUrl)
+  if (!match) throw new Error('Unexpected audio data')
+  const bytes = Uint8Array.from(atob(match[2]!), (c) => c.charCodeAt(0))
+  return URL.createObjectURL(new Blob([bytes], { type: match[1] }))
 }

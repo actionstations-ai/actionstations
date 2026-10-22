@@ -54,3 +54,41 @@ export function snippet(text: string, terms: string[], max = 360): string {
   }
   return `${start > 0 ? '… ' : ''}${clean.slice(start, end)}${end < clean.length ? ' …' : ''}`
 }
+
+const TABLE_RULE = /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$/
+
+/** "| a | b |" → "a · b"; rule rows ("|---|---|") disappear. */
+function tableRowToText(line: string): string {
+  if (TABLE_RULE.test(line)) return ''
+  if (!/^\s*\|/.test(line)) return line
+  return line
+    .replace(/^\s*\|/, '')
+    .replace(/\|\s*$/, '')
+    .split('|')
+    .map((c) => c.trim())
+    .filter(Boolean)
+    .join(' · ')
+}
+
+function stripLinePrefix(line: string): string {
+  return tableRowToText(line)
+    .replace(/^\s{0,3}#{1,6}\s+/, '')
+    .replace(/^\s{0,3}>\s?/, '')
+    .replace(/^(\s*)[-*+]\s+/, '$1• ')
+}
+
+/** Markdown chunk text → readable plain text for snippets (emphasis, code, links, tables). */
+export function stripMarkdown(text: string): string {
+  return text
+    .split('\n')
+    .map(stripLinePrefix)
+    .join('\n')
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/(\*\*|__)(?=\S)([\s\S]*?\S)\1/g, '$2')
+    .replace(/(^|[^\w*])\*(?=\S)([^*\n]*?\S)\*(?!\w)/g, '$1$2')
+    .replace(/(^|[^\w_])_(?=\S)([^_\n]*?\S)_(?!\w)/g, '$1$2')
+    .replace(/~~(?=\S)([\s\S]*?\S)~~/g, '$1')
+    .replace(/`([^`\n]+)`/g, '$1')
+    .replace(/\\([\\`*_{}[\]()#+\-.!|>])/g, '$1')
+}

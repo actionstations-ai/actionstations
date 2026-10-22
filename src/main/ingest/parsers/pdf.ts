@@ -1,11 +1,13 @@
 // PDF → positioned text lines (pdfjs-dist legacy build, Node) → layout heuristics.
 // Runs inside the ingest worker thread (worker-host.ts); pdfjs uses its in-thread "fake worker".
+// Pages without a text layer are rasterized and OCR'd (pdf-ocr.ts, #60).
 import { promises as fs } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { AppError } from '../../lib/errors'
 import type { ParsedDocument, ParseOptions } from '../types'
 import { layoutToDocument, type PdfLine } from './pdf-layout'
+import { ocrPdfPages, pageNeedsOcr, type ScannedPage } from './pdf-ocr'
 
 import type * as PdfJsModule from 'pdfjs-dist/legacy/build/pdf.mjs'
 
@@ -119,6 +121,50 @@ async function metadataTitle(doc: PdfDocument): Promise<string | undefined> {
   }
 }
 
+/** Text lines per page from the text layer; pages that look scanned are listed separately. */
+async function textLayerLines(
+  doc: PdfDocument,
+  opts: ParseOptions,
+): Promise<{ lines: PdfLine[][]; scanned: number[] }> {
+  const lines: PdfLine[][] = []
+  const scanned: number[] = []
+  for (let p = 1; p <= doc.numPages; p++) {
+    if (opts.signal?.aborted) throw new AppError('CANCELLED', 'Cancelled')
+    const page = await doc.getPage(p)
+    const height = page.view[3]! - page.view[1]!
+    const pageLines = itemsToLines(await pageItems(page), p, height)
+    if (pageNeedsOcr(pageLines)) scanned.push(p)
+    lines.push(pageLines)
+    page.cleanup()
+  }
+  return { lines, scanned }
+}
+
+async function* scannedPages(doc: PdfDocument, numbers: number[]): AsyncGenerator<ScannedPage> {
+  for (const pageNumber of numbers) {
+    const page = await doc.getPage(pageNumber)
+    try {
+      yield { pageNumber, page, pageHeight: page.view[3]! - page.view[1]! }
+    } finally {
+      page.cleanup()
+    }
+  }
+}
+
+/** Replace the (near-)empty text layer of scanned pages with OCR lines. */
+async function withOcr(
+  doc: PdfDocument,
+  perPage: PdfLine[][],
+  scanned: number[],
+  opts: ParseOptions,
+) {
+  if (!scanned.length) return perPage.flat()
+  const factory = (doc as unknown as { canvasFactory: Parameters<typeof ocrPdfPages>[1] })
+    .canvasFactory
+  const ocr = await ocrPdfPages(scannedPages(doc, scanned), factory, opts)
+  return perPage.flatMap((lines, i) => ocr.get(i + 1) ?? lines)
+}
+
 export async function parsePdf(
   filePath: string,
   fallbackTitle: string,
@@ -135,18 +181,12 @@ export async function parsePdf(
   })
   const doc = await task.promise
   try {
-    const lines: PdfLine[] = []
-    for (let p = 1; p <= doc.numPages; p++) {
-      if (opts.signal?.aborted) throw new AppError('CANCELLED', 'Cancelled')
-      const page = await doc.getPage(p)
-      const height = page.view[3]! - page.view[1]!
-      lines.push(...itemsToLines(await pageItems(page), p, height))
-      page.cleanup()
-    }
+    const { lines: perPage, scanned } = await textLayerLines(doc, opts)
+    const lines = await withOcr(doc, perPage, scanned, opts)
     if (!lines.length) {
       throw new AppError(
         'VALIDATION',
-        'No extractable text: this PDF looks scanned (image-only). Import page images instead.',
+        'No extractable text: this PDF has no text layer and OCR found no readable text.',
       )
     }
     const title = (await metadataTitle(doc)) ?? fallbackTitle

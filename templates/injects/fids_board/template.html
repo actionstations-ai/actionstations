@@ -11,7 +11,8 @@
       {{#if fields.boardSubtitle}}<span class="sub">{{fields.boardSubtitle}}</span>{{/if}}
     </div>
     <div class="where">
-      <span class="airport">{{default fields.airportName brand.aliases.airport}}</span>
+      <!-- prettier-ignore -->
+      <span class="airport">{{default fields.airportName (default brand.aliases.airport "International Airport")}}</span>
       {{#if fields.location}}<span class="loc">{{fields.location}}</span>{{/if}}
     </div>
     <div class="clock">

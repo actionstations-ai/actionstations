@@ -98,7 +98,8 @@ describe('ingest pipeline (via documents:* handlers)', () => {
     })
     expect(meta.sha256).toMatch(/^[0-9a-f]{64}$/)
     expect(meta.chunkCount).toBe(index.rows.get(docId)!.length)
-    expect(meta.headingsPreview).toHaveLength(12)
+    expect(meta.headingsPreview.length).toBeGreaterThan(12)
+    expect(meta.headingsPreview.some((p) => p.includes(' › '))).toBe(true)
     expect(meta.ingestedAt).toBeTruthy()
     expect(DocumentMeta.parse(JSON.parse(readFileSync(join(dir, 'meta.json'), 'utf8')))).toEqual(
       meta,
@@ -263,4 +264,26 @@ describe('guessKind', () => {
     ['CSAAP Module 4.pptx', 'course'],
     ['notes.txt', 'other'],
   ])('%s → %s', (name, kind) => expect(guessKind(name)).toBe(kind))
+})
+
+describe('headingsPreview', () => {
+  it('lists heading paths so ancestors precede descendants', async () => {
+    const { headingsPreview } = await import('./pipeline')
+    const doc = {
+      title: 'T',
+      pages: 0,
+      sections: [
+        { headingPath: ['Part A', 'A.1 Scope'], text: 'x' },
+        { headingPath: ['Part A', 'A.2 Roles › duties'], text: 'y' },
+        { headingPath: ['Part B'], text: 'z' },
+      ],
+    }
+    expect(headingsPreview(doc)).toEqual([
+      'Part A',
+      'Part A › A.1 Scope',
+      'Part A › A.2 Roles - duties',
+      'Part B',
+    ])
+    expect(headingsPreview(doc, 2)).toEqual(['Part A', 'Part A › A.1 Scope'])
+  })
 })

@@ -47,8 +47,31 @@ export const providerChannels = {
         baseUrl: z.string(),
         reachable: z.boolean(),
         models: z.array(z.string()).default([]),
+        /** Models currently loaded in memory (LM Studio reports this; others report none). */
+        loadedModels: z.array(z.string()).default([]),
       }),
     ),
+  ),
+  /** Speak one short line through an audio-capable provider; nothing is written to a project. */
+  'providers:test-speech': channel(
+    z.object({
+      id: SafeId,
+      text: z.string().max(2000).optional(),
+      voiceStyle: z.string().max(500).optional(),
+    }),
+    z.object({
+      ok: z.boolean(),
+      /** data:audio/…;base64,… */
+      dataUrl: z.string().optional(),
+      durationSec: z.number().optional(),
+      latencyMs: z.number(),
+      error: z.string().optional(),
+    }),
+  ),
+  /** Pull (download) a model into an Ollama provider as a job; progress via job:progress. */
+  'providers:pull-model': channel(
+    z.object({ id: SafeId, model: z.string().min(1).max(200) }),
+    z.object({ jobId: SafeId }),
   ),
   'routing:get': channel(z.object({ projectPath: z.string().optional() }), RoutingView),
   'routing:set': channel(

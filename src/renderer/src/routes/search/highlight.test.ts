@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { highlightSegments, queryTerms, snippet } from './highlight'
+import { highlightSegments, queryTerms, snippet, stripMarkdown } from './highlight'
 
 describe('queryTerms', () => {
   it('lowercases, dedupes, drops short words and FTS operators, longest first', () => {
@@ -45,5 +45,26 @@ describe('snippet', () => {
   })
   it('starts at the beginning when nothing matches', () => {
     expect(snippet(long, ['nomatch'], 60).startsWith('intro')).toBe(true)
+  })
+})
+
+describe('stripMarkdown', () => {
+  it('drops emphasis, code and link markup but keeps the words', () => {
+    expect(stripMarkdown('**Impact:** the _FIDS_ and `BHS` fail, see [TIRP](x.md).')).toBe(
+      'Impact: the FIDS and BHS fail, see TIRP.',
+    )
+    expect(stripMarkdown('__Note__ *now* ~~old~~')).toBe('Note now old')
+  })
+  it('keeps snake_case identifiers and arithmetic asterisks intact', () => {
+    expect(stripMarkdown('AODB_SQL_MASTER at 2 * 3 gates')).toBe('AODB_SQL_MASTER at 2 * 3 gates')
+  })
+  it('turns pipe tables into dot-separated cells and removes rule rows', () => {
+    const table = '| System | Owner |\n|---|:---:|\n| FIDS | IT |'
+    expect(stripMarkdown(table)).toBe('System · Owner\n\nFIDS · IT')
+  })
+  it('removes heading, quote and list markers', () => {
+    expect(stripMarkdown('## 13.6 FIDS\n> quoted\n- item\n* other')).toBe(
+      '13.6 FIDS\nquoted\n• item\n• other',
+    )
   })
 })
