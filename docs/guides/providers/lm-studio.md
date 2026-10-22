@@ -18,7 +18,7 @@ Recommended for this app:
 | Model                                  | Size  | Notes                                                                                                                            |
 | -------------------------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------- |
 | `qwen/qwen3-30b-a3b-2507`              | 17 GB | Reference model. A full scenario (11 stages plus the revision pass) took 273 s on Apple Silicon with all 66 citations resolving. |
-| `text-embedding-nomic-embed-text-v1.5` | 84 MB | Embedding model, for when provider embeddings are usable ([#114](https://github.com/mdcrowley/tabletop-gen/issues/114)).         |
+| `text-embedding-nomic-embed-text-v1.5` | 84 MB | Embedding model: route **Embeddings** to it and set Settings → Embeddings to "Configured provider".                              |
 
 ```bash
 lms get qwen/qwen3-30b-a3b-2507

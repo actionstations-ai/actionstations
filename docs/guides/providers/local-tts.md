@@ -71,13 +71,7 @@ By hand:
    ![Adding the local TTS provider](../images/add-provider-tts.png)
 
 2. The card shows **Reachable** and "2 models available". Do not use the card's **Test** button for a speech server: it sends a chat request, which mlx-audio does not serve (404).
-3. Route the **Audio** task to it. **Known gap ([#113](https://github.com/mdcrowley/tabletop-gen/issues/113)):** the Routing table's Audio row lists only ComfyUI, not OpenAI-compatible providers (it does show a voice provider the wizard already routed). Use the wizard, or set it in `settings.json` (in the app's data folder) while the app is closed: copy the provider's `id` from the `providers` list and add
-
-   ```json
-   "defaultRouting": { "audio": { "providerId": "<that id>" } }
-   ```
-
-   merged into the existing `defaultRouting` object, then start the app.
+3. Route the **Audio** task to it: in **Providers → Routing**, pick the provider in the **Audio** row and press **Save routing**. The Audio row offers every OpenAI-compatible provider, ComfyUI, and the mock provider; only the one serving `/v1/audio/speech` can speak, and a provider routed to a task it cannot do (an OpenAI-compatible server on the Image row, for example) fails with a message naming the task.
 
 Voice lines are produced by the inject media stage: **Render all media** on a scenario's **Injects** tab, or **Regenerate media…** in the inject editor, for radio calls, phone calls, voicemails and PA announcements.
 
@@ -93,10 +87,9 @@ Each voice line is one request; the clips are joined into one WAV, and the app's
 
 ## Troubleshooting
 
-| Symptom                                   | Fix                                                                                                                         |
-| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `command not found: mlx_audio.server`     | Add `~/.local/bin` to your `PATH` (`uv tool update-shell`), or run `uv tool install "mlx-audio[server]"` again.             |
-| The first request hangs for minutes       | The model is downloading into the Hugging Face cache. Wait, or pre-fetch it with the `curl` commands above.                 |
-| Requests fail when offline                | A model is missing from the cache while `HF_HUB_OFFLINE=1` is set. Unset it, fetch the model once, set it again.            |
-| Empty WAV or "empty audio" provider error | VoiceDesign without a description, or a server-side error reported mid-stream. Check the server's terminal output.          |
-| Audio row offers only ComfyUI             | [#113](https://github.com/mdcrowley/tabletop-gen/issues/113); use the setup wizard or the `settings.json` workaround above. |
+| Symptom                                   | Fix                                                                                                                |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `command not found: mlx_audio.server`     | Add `~/.local/bin` to your `PATH` (`uv tool update-shell`), or run `uv tool install "mlx-audio[server]"` again.    |
+| The first request hangs for minutes       | The model is downloading into the Hugging Face cache. Wait, or pre-fetch it with the `curl` commands above.        |
+| Requests fail when offline                | A model is missing from the cache while `HF_HUB_OFFLINE=1` is set. Unset it, fetch the model once, set it again.   |
+| Empty WAV or "empty audio" provider error | VoiceDesign without a description, or a server-side error reported mid-stream. Check the server's terminal output. |

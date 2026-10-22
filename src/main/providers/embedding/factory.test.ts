@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os'
 
 vi.mock('electron', () => ({ app: { getPath: () => tmpdir() } }))
 
-const { createEmbedder, embedderKey } = await import('./factory')
+const { createEmbedder, embedderKey, withKnownDims } = await import('./factory')
 const { HashEmbedder } = await import('./hash')
 const { LocalOnnxEmbedder } = await import('./local-onnx')
 const { embedQuery } = await import('./query-aware')
@@ -46,7 +46,6 @@ describe('createEmbedder', () => {
 
   it('explains missing, unknown, disabled and unsupported providers', async () => {
     const settings = { mode: 'provider' as const, model: 'm' }
-    await expect(createEmbedder(settings, deps())).rejects.toMatchObject({ code: 'VALIDATION' })
     await expect(createEmbedder({ ...settings, providerId: 'nope' }, deps())).rejects.toMatchObject(
       { code: 'NOT_FOUND' },
     )
@@ -62,5 +61,59 @@ describe('createEmbedder', () => {
         message: expect.stringMatching(/not available/),
       }),
     )
+  })
+
+  it('without a provider id, uses the Embeddings routing row (with the project path)', async () => {
+    const routed = new HashEmbedder()
+    const resolveRouted = vi.fn(async () => ({ provider: routed }))
+    const e = await createEmbedder(
+      { mode: 'provider', model },
+      { ...deps(), projectPath: '/p/rivergate', resolveRouted },
+    )
+    expect(e).toBe(routed)
+    expect(resolveRouted).toHaveBeenCalledWith('/p/rivergate')
+  })
+
+  it('points at Providers → Routing when the Embeddings row is empty', async () => {
+    const { AppError } = await import('../../lib/errors')
+    const resolveRouted = vi.fn(async () => {
+      throw new AppError('VALIDATION', "No provider is assigned to 'embed'.")
+    })
+    await expect(
+      createEmbedder({ mode: 'provider', model }, { ...deps(), resolveRouted }),
+    ).rejects.toMatchObject({
+      code: 'VALIDATION',
+      message: expect.stringMatching(/Embeddings row in Providers → Routing/),
+    })
+  })
+})
+
+describe('withKnownDims', () => {
+  class LazyDims {
+    readonly id = 'lazy'
+    readonly model = 'nomic-embed-text'
+    dims = 0
+    calls = 0
+    constructor(private readonly fail = false) {}
+    async embed(texts: string[]) {
+      this.calls++
+      if (this.fail) throw new Error('connect ECONNREFUSED 127.0.0.1:1234')
+      this.dims = 768
+      return texts.map(() => new Float32Array(768))
+    }
+  }
+
+  it('probes once so the index knows the vector size before creating its table', async () => {
+    const e = new LazyDims()
+    expect((await withKnownDims(e)).dims).toBe(768)
+    await withKnownDims(e)
+    expect(e.calls).toBe(1)
+  })
+
+  it('reports an unreachable provider as a PROVIDER error', async () => {
+    await expect(withKnownDims(new LazyDims(true))).rejects.toMatchObject({
+      code: 'PROVIDER',
+      message: expect.stringMatching(/Could not reach the embeddings provider.*ECONNREFUSED/),
+    })
   })
 })

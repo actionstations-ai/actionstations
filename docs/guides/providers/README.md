@@ -27,15 +27,15 @@ Each provider card shows its reachability and latency, and has **Test** (a one-l
 
 The **Routing** table decides which provider and model each task uses:
 
-| Task           | What it does                                                                  | Provider types offered                                |
-| -------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------- |
-| **Ideation**   | "Give me ideas": scenario concepts from your documents.                       | Anthropic, OpenAI-compatible, Ollama                  |
-| **Drafting**   | Overview, roles, phases, MSEL, handbook, rubric, briefing, hot wash, injects. | Anthropic, OpenAI-compatible, Ollama                  |
-| **Critique**   | Reviews the draft; the MSEL is then revised from the findings.                | Anthropic, OpenAI-compatible, Ollama                  |
-| **Embeddings** | Document embeddings for the "Configured provider" embedding mode.             | OpenAI-compatible, Ollama                             |
-| **Image**      | Photographic scene images (text-bearing media always use templates).          | ComfyUI                                               |
-| **Video**      | Short clips animated from a scene image.                                      | ComfyUI                                               |
-| **Audio**      | Voice lines for radio calls, voicemails and PA announcements.                 | ComfyUI (see [Local TTS](local-tts.md) for mlx-audio) |
+| Task           | What it does                                                                  | Provider types offered                                 |
+| -------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------ |
+| **Ideation**   | "Give me ideas": scenario concepts from your documents.                       | Anthropic, OpenAI-compatible, Ollama                   |
+| **Drafting**   | Overview, roles, phases, MSEL, handbook, rubric, briefing, hot wash, injects. | Anthropic, OpenAI-compatible, Ollama                   |
+| **Critique**   | Reviews the draft; the MSEL is then revised from the findings.                | Anthropic, OpenAI-compatible, Ollama                   |
+| **Embeddings** | Document embeddings when Settings → Embeddings is "Configured provider".      | OpenAI-compatible, Ollama                              |
+| **Image**      | Photographic scene images (text-bearing media always use templates).          | ComfyUI                                                |
+| **Video**      | Short clips animated from a scene image.                                      | ComfyUI                                                |
+| **Audio**      | Voice lines for radio calls, voicemails and PA announcements.                 | OpenAI-compatible ([Local TTS](local-tts.md)), ComfyUI |
 
 The **Model** column overrides the provider's default model for that task; leave it empty to use the default. A common setup is a strong model for drafting and critique and a faster one for ideation, or a cloud model only for critique.
 
@@ -53,9 +53,9 @@ Search and retrieval for generation use embeddings, chosen under **Settings → 
 | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Keyword hashing** (default)      | Works offline, no download, about half a second to index the six NCIA reference documents. Use this.                                                                                                                                                                                                                                    |
 | **Local model (on this computer)** | Better on paraphrase. The model (`Xenova/bge-small-en-v1.5`, 133 MB) is downloaded once by the setup wizard's **Search quality** step (**Settings → Run setup again**); choosing this mode in Settings alone does not download it, and Documents then shows "Not ready" ([#114](https://github.com/mdcrowley/tabletop-gen/issues/114)). |
-| **Configured provider**            | Needs a provider id that no screen can set yet; the Embeddings routing row is not used ([#114](https://github.com/mdcrowley/tabletop-gen/issues/114)).                                                                                                                                                                                  |
+| **Configured provider**            | Uses the provider and model on the **Embeddings** row of **Providers → Routing** (a project's own routing overrides it). Tested with LM Studio `text-embedding-nomic-embed-text-v1.5` and Ollama `nomic-embed-text` (768 dimensions each). The Embeddings row shows whether this mode is active and links to Settings.                  |
 
-After changing the mode, press **Rebuild index** on the project's Documents page.
+After changing the mode or the Embeddings routing, press **Rebuild index** on the project's Documents page. When the new embedder has different dimensions (384 for keyword hashing, 768 for nomic-embed-text), the stored vectors are dropped and rebuilt.
 
 ## Where settings and keys are stored
 

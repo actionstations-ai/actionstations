@@ -21,6 +21,7 @@ const { resetSecretsQueue } = await import('../secrets')
 const {
   forgetProvider,
   mergeRouting,
+  providerTaskSupport,
   resetResolveState,
   resolveEmbeddingProvider,
   resolveMediaProvider,
@@ -29,8 +30,9 @@ const {
 
 type Config = {
   id: string
-  kind: 'mock' | 'anthropic'
+  kind: 'mock' | 'anthropic' | 'openai-compatible'
   label: string
+  baseUrl?: string
   defaultModel?: string
   enabled?: boolean
 }
@@ -158,6 +160,70 @@ describe('resolveMediaProvider / resolveEmbeddingProvider', () => {
     const r = await resolveEmbeddingProvider()
     expect(r).toMatchObject({ providerId: 'alpha', model: 'hash' })
     expect((await r.provider.embed(['FIDS outage']))[0]).toBeInstanceOf(Float32Array)
+  })
+})
+
+describe('task support and capability checks (#113, #114)', () => {
+  const TTS: Config = {
+    id: 'tts',
+    kind: 'openai-compatible',
+    label: 'mlx-audio',
+    baseUrl: 'http://127.0.0.1:8765/v1',
+    defaultModel: 'mlx-community/VoxCPM2-8bit',
+  }
+
+  it('derives task support from adapter capabilities', () => {
+    const support = providerTaskSupport()
+    expect(support.audio).toEqual(expect.arrayContaining(['openai-compatible', 'comfyui', 'mock']))
+    expect(support.image).not.toContain('openai-compatible')
+    expect(support.image).toEqual(expect.arrayContaining(['comfyui', 'mock']))
+    expect(support.embed).toEqual(expect.arrayContaining(['openai-compatible', 'ollama']))
+    expect(support.embed).not.toContain('anthropic')
+    expect(support.draft).toEqual(expect.arrayContaining(['anthropic', 'openai-compatible']))
+    expect(support.draft).not.toContain('comfyui')
+  })
+
+  it('keeps the Providers screen task list in step with the adapters', async () => {
+    // The renderer is a separate TS project, so load its catalog by URL (types stay local).
+    const catalogUrl = new URL('../../renderer/src/routes/providers/catalog.ts', import.meta.url)
+    const { TASKS } = (await import(/* @vite-ignore */ catalogUrl.href)) as {
+      TASKS: { task: keyof ReturnType<typeof providerTaskSupport>; kinds: string[] }[]
+    }
+    expect(TASKS.length).toBe(7)
+    const support = providerTaskSupport()
+    for (const info of TASKS)
+      expect([...info.kinds].sort(), info.task).toEqual([...support[info.task]].sort())
+  })
+
+  it('routes audio to an OpenAI-compatible TTS server and refuses image there', async () => {
+    await seed([TTS], { audio: { providerId: 'tts' }, image: { providerId: 'tts' } })
+    expect((await resolveMediaProvider('audio')).providerId).toBe('tts')
+    await expect(resolveMediaProvider('image')).rejects.toMatchObject({
+      code: 'VALIDATION',
+      message: expect.stringMatching(/"mlx-audio" cannot generate image/),
+    })
+  })
+
+  it('embedding mode "provider" uses the global Embeddings routing row', async () => {
+    const { createEmbedder } = await import('./embedding/factory')
+    await seed([A], { embed: { providerId: 'alpha', model: 'hash' } })
+    const e = await createEmbedder(
+      { mode: 'provider', model: 'ignored' },
+      { modelsDir: tmpdir(), providers: [] },
+    )
+    expect(e.dims).toBe(384)
+    expect((await e.embed(['FIDS outage']))[0]).toHaveLength(384)
+  })
+
+  it('embedding mode "provider" reads the project override', async () => {
+    const { createEmbedder } = await import('./embedding/factory')
+    await seed([A])
+    const path = await newProject({ embed: { providerId: 'alpha', model: 'hash' } })
+    const settings = { mode: 'provider' as const, model: 'ignored' }
+    const deps = { modelsDir: tmpdir(), providers: [] }
+    await expect(createEmbedder(settings, deps)).rejects.toThrow(/Embeddings row/)
+    const e = await createEmbedder(settings, { ...deps, projectPath: path })
+    expect(e.dims).toBe(384)
   })
 })
 

@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto'
 import {
   PROVIDER_TASKS,
   type AppSettings,
+  type ProviderKind,
   type ProviderConfig,
   type ProviderRef,
   type ProviderRouting,
@@ -13,8 +14,14 @@ import { AppError } from '../lib/errors'
 import { loadProject } from '../project/store'
 import { getSecret } from '../secrets'
 import { getSettings, updateSettings } from '../settings/store'
-import { createEmbeddingProvider, createMediaProvider, createTextProvider } from './registry'
-import type { EmbeddingProvider, MediaProvider, TextProvider } from './types'
+import {
+  adapterFor,
+  createEmbeddingProvider,
+  createMediaProvider,
+  createTextProvider,
+  listAdapterKinds,
+} from './registry'
+import type { AdapterModule, EmbeddingProvider, MediaProvider, TextProvider } from './types'
 
 export type TextTask = Extract<ProviderTask, 'ideate' | 'draft' | 'critique'>
 export type MediaTask = Extract<ProviderTask, 'image' | 'video' | 'audio'>
@@ -100,6 +107,50 @@ export function assertRoutingTargetsExist(routing: ProviderRouting, settings: Ap
     if (ref && !ids.has(ref.providerId))
       throw new AppError('VALIDATION', `Unknown provider "${ref.providerId}" for '${task}'`)
   }
+}
+
+// ---- task support (derived from the adapters) --------------------------------------------
+
+const TEXT_TASKS: readonly TextTask[] = ['ideate', 'draft', 'critique']
+const MEDIA_TASKS: readonly MediaTask[] = ['image', 'video', 'audio']
+
+/** Media capabilities of an adapter, read from a throwaway instance (constructors do no I/O). */
+function mediaCapabilities(kind: ProviderKind, adapter: AdapterModule): Set<string> {
+  if (!adapter.createMedia) return new Set()
+  const probe: ProviderConfig = {
+    id: 'capability-probe',
+    kind,
+    label: 'probe',
+    baseUrl: 'http://127.0.0.1:9',
+    options: {},
+    enabled: true,
+  }
+  try {
+    return new Set(adapter.createMedia(probe, undefined).capabilities())
+  } catch {
+    return new Set()
+  }
+}
+
+/** Tasks one adapter kind can serve. */
+export function tasksForKind(kind: ProviderKind): ProviderTask[] {
+  const adapter = adapterFor(kind)
+  const media = mediaCapabilities(kind, adapter)
+  return [
+    ...(adapter.createText ? TEXT_TASKS : []),
+    ...(adapter.createEmbedding ? (['embed'] as const) : []),
+    ...MEDIA_TASKS.filter((t) => media.has(t)),
+  ]
+}
+
+/** Task → provider kinds whose adapter supports it (what the routing table may offer). */
+export function providerTaskSupport(): Record<ProviderTask, ProviderKind[]> {
+  const out = Object.fromEntries(PROVIDER_TASKS.map((t) => [t, [] as ProviderKind[]])) as Record<
+    ProviderTask,
+    ProviderKind[]
+  >
+  for (const kind of listAdapterKinds()) for (const task of tasksForKind(kind)) out[task].push(kind)
+  return out
 }
 
 // ---- provider lookup ---------------------------------------------------------------------
@@ -198,8 +249,14 @@ export async function resolveMediaProvider(
   const ref = await refFor(task, projectPath)
   const config = await configFor(ref.providerId, task)
   const model = ref.model ?? config.defaultModel
+  const provider = await mediaProviderFor(config)
+  if (!provider.capabilities().has(task))
+    throw new AppError(
+      'VALIDATION',
+      `"${config.label}" cannot generate ${task}. Assign another provider to '${task}' in Providers → Routing.`,
+    )
   return {
-    provider: await mediaProviderFor(config),
+    provider,
     providerId: config.id,
     ...(model ? { model } : {}),
   }

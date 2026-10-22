@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import type { ProviderRef, ProviderRouting, ProviderTask } from '@shared/schemas'
 import { Button } from '../../components/ui'
+import { useIpcQuery } from '../../lib/query'
 import { ModelInput } from './ModelInput'
 import { TASKS, cleanRouting, type ProviderViewT, type RoutingView, type TaskInfo } from './catalog'
 
@@ -43,6 +44,32 @@ function ProviderSelect(props: {
   )
 }
 
+const EMBEDDING_MODE_LABELS = {
+  hash: 'Keyword hashing',
+  'local-onnx': 'Local model',
+  provider: 'Configured provider',
+} as const
+
+/** Embeddings row: whether Settings → Embeddings currently uses this row, with a link there. */
+function EmbeddingNote() {
+  const settings = useIpcQuery('settings:get', undefined)
+  const mode = settings.data?.embeddings.mode
+  const explicit = settings.data?.embeddings.providerId
+  let status = ''
+  if (mode === 'provider')
+    status = explicit
+      ? `In use, but Settings names provider "${explicit}" directly, which takes precedence.`
+      : 'In use: Settings → Embeddings is set to "Configured provider".'
+  else if (mode)
+    status = `Not in use: Settings → Embeddings is set to "${EMBEDDING_MODE_LABELS[mode]}".`
+  return (
+    <span className="muted routing-task__purpose routing-task__note">
+      {status && <span data-testid="embedding-status">{status} </span>}
+      <a href="#/settings">Open Settings → Embeddings</a>
+    </span>
+  )
+}
+
 function RoutingRow(props: {
   info: TaskInfo
   providers: ProviderViewT[]
@@ -62,6 +89,7 @@ function RoutingRow(props: {
       <th scope="row" className="routing-task">
         <span className="routing-task__label">{info.label}</span>
         <span className="muted routing-task__purpose">{info.purpose}</span>
+        {info.task === 'embed' && <EmbeddingNote />}
       </th>
       {projectScope && (
         <td>

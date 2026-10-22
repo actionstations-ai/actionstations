@@ -29,10 +29,21 @@ const COMFY = provider({
   baseUrl: 'http://127.0.0.1:8188',
 })
 const OFF = provider({ id: 'off', label: 'Old server', enabled: false })
-const PROVIDERS = [LM, COMFY, OFF]
+const TTS = provider({
+  id: 'mlx-audio',
+  label: 'mlx-audio',
+  baseUrl: 'http://127.0.0.1:8765/v1',
+  defaultModel: 'mlx-community/VoxCPM2-8bit',
+})
+const PROVIDERS = [LM, COMFY, OFF, TTS]
 
-function setup(scope: 'global' | 'project', view: RoutingView) {
+function setup(
+  scope: 'global' | 'project',
+  view: RoutingView,
+  embeddingMode: 'hash' | 'provider' = 'hash',
+) {
   mockTtx({
+    'settings:get': () => ({ embeddings: { mode: embeddingMode, model: 'm' } }) as never,
     'providers:models': () => [
       { id: 'qwen3-30b-a3b-2507', kind: 'chat' },
       { id: 'gpt-oss-20b', kind: 'chat' },
@@ -75,9 +86,39 @@ describe('RoutingTable — global', () => {
   it('offers only compatible, enabled providers per task', () => {
     setup('global', { global: {}, effective: {} })
     const draft = screen.getByLabelText('Drafting provider') as HTMLSelectElement
-    expect([...draft.options].map((o) => o.textContent)).toEqual(['Not assigned', 'LM Studio'])
+    expect([...draft.options].map((o) => o.textContent)).toEqual([
+      'Not assigned',
+      'LM Studio',
+      'mlx-audio',
+    ])
     const image = screen.getByLabelText('Image provider') as HTMLSelectElement
     expect([...image.options].map((o) => o.textContent)).toEqual(['Not assigned', 'ComfyUI'])
+  })
+
+  it('offers OpenAI-compatible (local TTS) providers for Audio (#113)', async () => {
+    const onSave = setup('global', { global: {}, effective: {} })
+    const audio = screen.getByLabelText('Audio provider') as HTMLSelectElement
+    expect([...audio.options].map((o) => o.textContent)).toEqual([
+      'Not assigned',
+      'LM Studio',
+      'ComfyUI',
+      'mlx-audio',
+    ])
+    await userEvent.selectOptions(audio, 'mlx-audio')
+    await userEvent.click(screen.getByRole('button', { name: 'Save routing' }))
+    expect(onSave).toHaveBeenCalledWith({ audio: { providerId: 'mlx-audio' } })
+  })
+
+  it('explains when the Embeddings row is used and links to Settings (#114)', async () => {
+    setup('global', { global: {}, effective: {} })
+    expect(
+      await screen.findByText(/Not in use: Settings → Embeddings is set to "Keyword hashing"/),
+    ).toBeTruthy()
+    const link = screen.getByRole('link', { name: 'Open Settings → Embeddings' })
+    expect(link.getAttribute('href')).toBe('#/settings')
+    cleanup()
+    setup('global', { global: {}, effective: {} }, 'provider')
+    expect(await screen.findByText(/In use: Settings → Embeddings/)).toBeTruthy()
   })
 
   it('saves provider + model choices and drops blank models', async () => {

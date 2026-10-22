@@ -1,5 +1,7 @@
 // What the Providers page knows about tasks and provider kinds. Display data only; the main
-// process is the authority on what an adapter can actually do.
+// process is the authority on what an adapter can actually do (providers/resolve.ts
+// providerTaskSupport, derived from each adapter's capabilities). A main-side test keeps the
+// `kinds` below equal to it.
 import type { ProviderKind, ProviderRef, ProviderRouting, ProviderTask } from '@shared/schemas'
 import type { ChannelResponse } from '@shared/ipc'
 
@@ -37,7 +39,7 @@ export const TASKS: TaskInfo[] = [
   {
     task: 'embed',
     label: 'Embeddings',
-    purpose: 'Indexes documents for search when embedding mode is "Configured provider".',
+    purpose: 'Indexes documents for search and generation context.',
     kinds: ['openai-compatible', 'ollama', 'mock'],
   },
   {
@@ -55,8 +57,8 @@ export const TASKS: TaskInfo[] = [
   {
     task: 'audio',
     label: 'Audio',
-    purpose: 'Voices radio calls, voicemails and PA announcements.',
-    kinds: ['system-tts', 'comfyui', 'mock'],
+    purpose: 'Voices radio calls, voicemails and PA announcements (local TTS servers included).',
+    kinds: ['openai-compatible', 'comfyui', 'mock'],
   },
 ]
 
