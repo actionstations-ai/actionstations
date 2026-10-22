@@ -122,21 +122,42 @@ export interface TypeChoice {
   hasTemplate: boolean
   /** The type the row asked for, when a fallback was used. */
   requested?: string
+  /** Why the row's format was changed before the fallback chain (logged). */
+  note?: string
 }
 
 const isKnownType = (id: string): boolean => INJECT_TYPE_IDS.includes(id)
+
+/** A caller the media phone slip is for: a newsroom, a reporter, an outlet. */
+const MEDIA_SOURCE =
+  /\b(?:media|press|reporter|journalist|news|newsroom|tv|radio station|channel\s?\d|journal|times|post|gazette|herald|tribune|dispatch|assignment desk|producer|anchor|station|network|broadcast)\b/i
+
+/**
+ * A media phone slip for a row whose source is not a media outlet (TSA, a vendor) would come
+ * back as a newsroom call from the template's examples (#105); it is written as a phone call.
+ */
+function formatForSource(row: MselRow, format: string): { format: string; note?: string } {
+  if (format !== 'media_inquiry_phone_slip') return { format }
+  if (MEDIA_SOURCE.test(row.from) || MEDIA_SOURCE.test(row.event.slice(0, 120))) return { format }
+  return {
+    format: 'phone_call',
+    note: `media_inquiry_phone_slip is for media callers and the row's source is "${row.from}"; written as phone_call`,
+  }
+}
 
 /** Deterministic: the first installed type along the fallback chain, else the type itself. */
 export function chooseInjectType(row: MselRow, installed: Iterable<string>): TypeChoice {
   const have = new Set(installed)
   const control = CONTROL_TYPES[row.purposeTag]
   const format = row.format?.trim() ?? ''
-  const requested = control ?? (isKnownType(format) ? format : 'scenario_update')
-  if (have.has(requested)) return { type: requested, hasTemplate: true }
+  const wanted = control ?? (isKnownType(format) ? format : 'scenario_update')
+  const { format: requested, note } = control ? { format: wanted } : formatForSource(row, wanted)
+  const withNote = note ? { note } : {}
+  if (have.has(requested)) return { type: requested, hasTemplate: true, ...withNote }
   for (const alt of TYPE_FALLBACKS[requested] ?? []) {
-    if (have.has(alt)) return { type: alt, hasTemplate: true, requested }
+    if (have.has(alt)) return { type: alt, hasTemplate: true, requested, ...withNote }
   }
-  return { type: requested, hasTemplate: false }
+  return { type: requested, hasTemplate: false, ...withNote }
 }
 
 export function defaultDelivery(

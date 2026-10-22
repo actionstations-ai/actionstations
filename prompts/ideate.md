@@ -18,7 +18,7 @@ retrieval:
     - 'vendor remote access policy scenario hook'
     - '{{brief.userPrompt}}'
   k: 14
-variables: [project, brief, count, taxonomy, doctrine, retrieved, citationKeys]
+variables: [project, brief, count, taxonomy, facility, doctrine, retrieved, citationKeys]
 ---
 
 <!-- @system -->
@@ -42,6 +42,9 @@ Return JSON only, matching the schema. Fields: ideas[] of { title (short, memora
 
 Organization: {{project.orgName}} ({{project.orgType}}{{#if project.city}}, {{project.city}}{{#if project.region}}, {{project.region}}{{/if}}{{/if}}).
 Documents in the project: {{#each project.documents}}{{shortName}} — {{title}}{{#unless @last}}; {{/unless}}{{/each}}.
+{{#if facility.length}}FACILITY FACTS (from the documents; a hook names only runways, gates, concourses and systems from this list):
+{{#each facility}}- {{this}}
+{{/each}}{{/if}}
 
 {{#if brief.userPrompt}}Designer's request: {{brief.userPrompt}}
 {{/if}}{{#if brief.audience.length}}Audience: {{join brief.audience ", "}}

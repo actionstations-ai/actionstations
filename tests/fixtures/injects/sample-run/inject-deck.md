@@ -8,28 +8,29 @@ MSEL event: STARTEX (Start Exercise). Current time: 09:00 AM on a busy Thursday.
 
 **STARTEX: Flight to Nowhere — Data Integrity & FIDS** · type: startex_card · delivery: read_aloud
 
-> **exerciseTime:** 0:00
 > **startTime:** 09:00 AM
-> **day:** Thursday, October 21, 2026
-> **location:** North Coast International Airport (NCIA)
-> **weather:** Clear, 65°F. Winds calm.
-> **load:** High: about 15% above average (holiday weekend)
-> **staffing:** Full shifts in Operations, Maintenance and IT
-> **narration:** STARTEX. This is an exercise. It is 09:00 AM on a busy Thursday at North Coast International Airport. The terminal is bustling with travelers, and systems are operating normally. This is Scenario 3: Flight to Nowhere — Data Integrity & FIDS.
-> **status:** {"name":"Flight Information Displays (FIDS)","status":"green","note":"All gates displaying correct flight times and statuses"}
-> {"name":"Baggage Handling System (BHS)","status":"green","note":"Baggage scanning and routing operating at normal throughput"}
-> {"name":"Public Address (PA) System","status":"green","note":"PA feed active; routine announcements running"}
-> {"name":"IT Operations Center","status":"green","note":"All monitoring tools active; no anomalies reported"}
-> {"name":"Emergency Shelters","status":"green","note":"Shelters A, B, and C fully accessible and stocked"}
-> {"name":"Airline Coordination","status":"green","note":"All major carriers on IROPS standby; no service disruptions"}
-> {"name":"Passenger Flow (Concourses A & B)","status":"green","note":"Normal foot traffic; no congestion reported"}
-> **facilitatorNote:** Confirm every table has the player briefing packet and a blank ICS 201 before reading. Ensure all roles are present and have access to their roles' documentation.
-> **scenarioTitle:** Scenario 3: Flight to Nowhere — Data Integrity & FIDS
+> **day:** Wednesday, October 21, 2026
+> **location:** North Coast Regional Airport (NCIA)
+> **weather:** Clear, 68°F. Winds calm.
+> **load:** High: 18% above average (holiday weekend travel peak)
+> **staffing:** Full shifts in Operations, Maintenance, and IT
+> **narration:** STARTEX. This is an exercise. It is 09:00 AM on a busy Wednesday at North Coast International Airport. The terminal is bustling with passengers, gates are active, and all systems are nominal. Begin your response to the initial event.
+> **status:** {"name":"FIDS","status":"green","note":"All flight displays show accurate departure/arrival times"}
+> {"name":"BHS","status":"green","note":"Baggage handling system operational"}
+> {"name":"PA System","status":"green","note":"Automated announcements functioning normally"}
+> {"name":"IT Core Network","status":"green","note":"All critical servers online and responsive"}
+> {"name":"Emergency Shelters","status":"green","note":"Shelters A, B, and C are accessible and equipped"}
+> {"name":"Airport Operations Center","status":"green","note":"All roles are staffed and monitoring"}
+> {"name":"Public Communication","status":"green","note":"Social media and digital signage updating in real time"}
+> **facilitatorNote:** Confirm every table has the player briefing packet and a blank ICS 201 before reading. This is the baseline for the exercise; no external events have occurred yet.
+> **scenarioTitle:** Scenario 3: Flight to Nowhere
 > **injectId:** START
 
-_(Instructor Note: This is the baseline inject. All systems appear normal. The hidden threat will emerge in the next inject. Watch for early signs of confusion in BHS or FIDS reports.)_
+_(Instructor Note: This is the baseline for the exercise. The players must establish situational awareness and begin coordinating under TIRP Section 13. Watch for early missteps in command structure or failure to reference TIRP.)_
 
 Media plan: template
+
+⚠ INJECT_CONTENT_ISSUE: START: content still inconsistent after one repair:
 
 ---
 
@@ -37,30 +38,30 @@ Media plan: template
 
 MSEL event: Phone Call: "Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?"
 
-**Phone Call: Gate B4 FIDS Discrepancy** · type: phone_call · delivery: read_aloud
+**Phone Call: Gate B4 FIDS Discrepancy** · type: phone_call · delivery: play_audio
 
 > **orgName:** North Coast Regional Airport Authority
-> **systemName:** Airport Communications Center (ACC) - Voice Log
-> **callId:** CR-20261021-091522-001
+> **systemName:** Airport Communications Center (ACC) - Call Recorder 2
+> **callId:** CR-20261021-091522-0041
 > **direction:** Inbound
-> **caller:** {"name":"Delta Air Lines - Gate B4 Agent","number":"330-555-1402","label":"Delta Gate B4 Rep"}
-> **callee:** {"name":"Airport Operations Center (AOC)","number":"330-555-2400","label":"Ops"}
+> **caller:** {"name":"Derek Mendoza","number":"(330) 555-1005","label":"Delta Air Lines - Gate Agent"}
+> **callee:** {"name":"Ops Director (IC)","number":"(330) 555-2400","label":"Airport Operations (Duty Manager)"}
 > **startTime:** 10/21/2026 09:15:22
-> **duration:** 0:47
-> **transcript:** {"speaker":"Delta Gate B4 Rep","offset":"0:00","text":"Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?","prompt":false}
-> {"speaker":"Ops","offset":"0:12","text":"Thanks for calling, Delta. We’ll check the FIDS feed and update you shortly.","prompt":false}
-> {"speaker":"Delta Gate B4 Rep","offset":"0:25","text":"Yeah, the display shows DLA4279, but it's labeled 'Miami'. We’re holding 38 passengers now, and they’re starting to ask where the plane is.","prompt":false}
-> {"speaker":"Ops","offset":"0:38","text":"Understood. We’re escalating to IT for verification. Stand by.","prompt":false}
-> **voiceStyles:** {"Delta Gate B4 Rep":"Male, mid-30s, slightly rushed, background airport noise","Ops":"Calm, professional, steady tone"}
+> **duration:** 0:43
+> **transcript:** {"speaker":"Derek Mendoza","offset":"0:00","text":"Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?","prompt":false}
+> {"speaker":"Ops Director (IC)","offset":"0:12","text":"Got it, Derek. We’ll check the FIDS feed and get back to you. Hold on a sec.","prompt":false}
+> {"speaker":"Derek Mendoza","offset":"0:21","text":"Thanks, we’ve got about 30 people already asking. They’re starting to move toward the wrong gate.","prompt":false}
+> {"speaker":"Ops Director (IC)","offset":"0:30","text":"Understood. We’ll escalate internally. Stand by.","prompt":false}
+> **voiceStyles:** {}
 > **injectId:** I-01
 
-_(Instructor Note: This is a inject; the FIDS is already compromised. IT should begin investigating the data feed, but the initial response will be to treat it as a display glitch.)_
+_(Instructor Note: This is a core narrative inject; the IT team should log a ticket for a FIDS display error. Watch for overreaction or underreaction to the passenger confusion.)_
 
 Media plan: template + tts
-Voice (Delta Gate B4 Rep; Male, mid-30s, slightly rushed, background airport noise): Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?
-Voice (Ops; Calm, professional, steady tone): Thanks for calling, Delta. We’ll check the FIDS feed and update you shortly.
-Voice (Delta Gate B4 Rep; Male, mid-30s, slightly rushed, background airport noise): Yeah, the display shows DLA4279, but it's labeled 'Miami'. We’re holding 38 passengers now, and they’re starting to ask where the plane is.
-Voice (Ops; Calm, professional, steady tone): Understood. We’re escalating to IT for verification. Stand by.
+Voice (Derek Mendoza; male, early 30s, calm but urgent, Midwest accent, slightly strained): Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?
+Voice (Ops Director (IC); female, mid-40s, measured, professional, slight regional inflection, composed): Got it, Derek. We’ll check the FIDS feed and get back to you. Hold on a sec.
+Voice (Derek Mendoza; male, early 30s, urgent, slight rising pitch): Thanks, we’ve got about 30 people already asking. They’re starting to move toward the wrong gate.
+Voice (Ops Director (IC); female, mid-40s, firm, calm, slightly clipped delivery): Understood. We’ll escalate internally. Stand by.
 
 ---
 
@@ -68,33 +69,34 @@ Voice (Ops; Calm, professional, steady tone): Understood. We’re escalating to 
 
 MSEL event: Ticket #4492 (Noise): Vending machines in Concourse B are spitting out soda cans randomly.
 
-**Vending Machines in Concourse B Spitting Out Cans** · type: helpdesk_ticket · delivery: hand_to_role
+**Vending Machines in Concourse B Spitting Cans** · type: helpdesk_ticket · delivery: hand_to_role
 
 > **ticketNo:** 4492
 > **priority:** Low
 > **impact:** Low
-> **urgency:** Low
+> **urgency:** Medium
 > **status:** New
 > **requester:** Facilities Maintenance – Concourse B
 > **requesterContact:** x4471
 > **contactType:** Phone
 > **category:** Facilities
 > **subcategory:** Vending / Concessions
-> **location:** Concourse B – Vending Row 3 (near Gate B4)
-> **configurationItem:** VEND-B03-01
+> **location:** Concourse B – Vending Zone B3 (near Gate B4)
+> **configurationItem:** VEND-B3-01
 > **opened:** 2026-10-21 09:20:00
-> **assignmentGroup:** IT Service Desk
-> **assignee:**
-> **subject:** Vending Machines in Concourse B Spitting Out Cans
-> **description:** The Coke machine at VEND-B03-01 just ejected all 24 cans at once. The other machine (VEND-B03-02) is now stuck in a loop—spits out one can every 3 seconds. Soda is pooling on the floor near Gate B4. Maintenance is on-site but can't shut it down remotely. Is this a cyber thing? The machines were working fine 10 minutes ago.
-> **activity:** {"author":"Facilities Maintenance – Concourse B","time":"2026-10-21 09:20:00","kind":"comment","text":"Reported via phone. Maintenance team on scene. No visible damage to units."}
-> {"author":"ServiceDesk System","time":"2026-10-21 09:20:00","kind":"system","text":"Ticket created from inbound call. Auto-assigned to IT Service Desk."}
+> **assignmentGroup:** Facilities Maintenance
+> **subject:** Vending Machines in Concourse B
+> **description:** The vending machines at Concourse B, Zone B3 (near Gate B4), just ejected all their cans at once. Over 20 cans of soda have been expelled onto the floor. There is a small puddle and debris. Maintenance has been dispatched to clean up. Is this a system failure or a cyber incident? The machines are not responding to touch. No error codes displayed.
+> **activity:** {"author":"Facilities Maintenance – Concourse B","time":"2026-10-21 09:20:00","kind":"work_note","text":"Ticket opened via phone. Maintenance team en route to clean up. Requesting IT review for potential system anomaly."}
+> {"author":"ServiceDesk System","time":"2026-10-21 09:20:00","kind":"system","text":"Ticket created and assigned to Facilities Maintenance."}
 > **systemName:** ServiceDesk
 > **orgName:** NCIA
 
-_(Instructor Note: Noise inject; IT should triage it down without engaging. Watch for if anyone questions the timing or links it to the earlier FIDS glitch.)_
+_(Instructor Note: Noise inject; IT should triage it down without engaging. Watch for any attempt to investigate the vending machine logic.)_
 
 Media plan: template
+
+⚠ INJECT_CONTENT_ISSUE: I-02a: content still inconsistent after one repair:
 
 ---
 
@@ -109,25 +111,33 @@ MSEL event: Ticket Update: "We checked the FIDS server. The data stream from the
 > **impact:** High
 > **urgency:** High
 > **status:** In Progress
-> **requester:** IT Helpdesk – Tier 1
-> **requesterContact:** x8000
+> **requester:** IT Helpdesk
+> **requesterContact:** x4400
 > **contactType:** Monitoring
-> **category:** System Operations
-> **subcategory:** Flight Information Display System (FIDS)
-> **location:** Main Terminal – FIDS Server Room (Level 2)
-> **configurationItem:** FIDS-01-01
+> **category:** Systems
+> **subcategory:** Database / AODB
+> **location:** Main Terminal – FIDS Server Room (Level 2, Room 104)
+> **configurationItem:** NCIA-AEP-2025-01
 > **opened:** 2026-10-21 09:30:17
-> **assignmentGroup:** IT Operations – Network & Systems
-> **assignee:** IT Lead – Systems
-> **subject:** FIDS Server Confirms Data Source Changed to 'Miami' from AODB
-> **description:** We checked the FIDS server. The data stream from the AODB is actually sending 'Miami'. It's not a display error; the source data changed. The gate display at B4 now shows 'Miami' as the destination, but the flight is scheduled for Minneapolis. We’ve confirmed the AODB log shows a record update at 09:28:12. No known maintenance or user change was made. This suggests a data integrity issue at the source. Please investigate the AODB and validate the flight record.
-> **activity:** {"author":"IT Helpdesk – Tier 1","time":"2026-10-21 09:30:17","kind":"work_note","text":"Ticket updated: FIDS server confirmed data stream origin from AODB. Source shows 'Miami' as destination, despite flight being to Minneapolis. AODB log shows update at 09:28:12. No user action logged. Flagging as high priority."}
-> {"author":"Monitoring System – AODB","time":"2026-10-21 09:28:12","kind":"system","text":"AODB record for flight DLT4492 updated: destination changed from 'Minneapolis' to 'Miami' (source: system auto-update, no user ID)."}
-> {"author":"IT Helpdesk – Tier 1","time":"2026-10-21 09:27:58","kind":"comment","text":"Requester: Airline Liaison (AL) reported gate B4 shows 'Miami'. We checked local FIDS display and confirmed mismatch. Proceeding to verify source."}
+> **assignmentGroup:** IT Operations – Core Systems
+> **assignee:** IT Lead
+> **subject:** FIDS Data Source Anomaly: 'Miami' Flight Data Confirmed from AODB
+> **description:** We have confirmed the source of the erroneous flight data on Gate B4's FIDS display.
+>
+> The Airport Operational Database (AODB) is actively sending 'Miami' as the destination for Flight NC-147, which is scheduled for Minneapolis. This is not a display-side issue. The FIDS server is receiving and rendering the correct feed from the AODB.
+>
+> We ran a packet trace from the FIDS server to the AODB. The data stream from the AODB shows a confirmed change in the destination field to 'Miami'. The change occurred at 09:27:11, and has not been reversed.
+>
+> We are now checking the AODB audit logs for unauthorized access. This is not a typo or config error. The database is sending malicious data.
+>
+> Please escalate to IT Director and Ops immediately. This may be a data integrity breach.
+> **activity:** {"author":"IT Helpdesk","time":"2026-10-21 09:30:17","kind":"work_note","text":"Ticket updated: Confirmed FIDS data source is AODB. Malicious data injection detected."}
+> {"author":"IT Helpdesk","time":"2026-10-21 09:29:55","kind":"system","text":"Ticket created from monitoring alert: AODB data stream to FIDS shows unexpected destination change."}
+> {"author":"IT Helpdesk","time":"2026-10-21 09:27:11","kind":"system","text":"AODB record for Flight NC-147 updated: destination changed to 'Miami' (was 'Minneapolis')"}
 > **systemName:** ServiceDesk
 > **orgName:** NCIA
 
-_(Instructor Note: This inject confirms the AODB has been tampered with. IT must now investigate the AODB logs and consider a system-wide data integrity alert. Watch for whether IT raises the alarm or assumes a temporary glitch.)_
+_(Instructor Note: This inject confirms the data integrity threat. IT must now investigate the AODB logs and report to the IT Director. The threat is now active and hidden, so IT should not yet suspect a cyberattack—assume a rogue update.)_
 
 Media plan: template
 
@@ -137,31 +147,29 @@ Media plan: template
 
 MSEL event: Radio Call: "Ops, TSA Checkpoint. We have passengers scanning boarding passes for a United flight to Chicago, but the FIDS board in the lobby lists that flight as 'Cancelled'. They are arguing with my TSOs."
 
-**TSA Checkpoint: Flight Status Discrepancy** · type: radio_call · delivery: play_audio
+**TSA: FIDS Flight Cancelled Discrepancy** · type: radio_call · delivery: play_audio
 
 > **orgName:** North Coast Regional Airport Authority
 > **centerName:** Airport Operations Center (AOC)
-> **channel:** TSA 3
-> **frequency:** TG 4103 / 460.275 MHz
+> **channel:** TSA 2
+> **frequency:** TG 4203 / 460.310 MHz
 > **date:** 10/21/2026
-> **callsign:** TSA-CHK-1
-> **lines:** {"time":"09:45","from":"TSA-CHK-1","to":"OPS","text":"Ops, TSA Checkpoint. We have passengers scanning boarding passes for a United flight to Chicago, but the FIDS board in the lobby lists that flight as 'Cancelled'. They are arguing with my TSOs."}
-> {"time":"09:45","from":"OPS","to":"TSA-CHK-1","text":"TSA-CHK-1, confirm the flight number and gate."}
-> {"time":"09:46","from":"TSA-CHK-1","to":"OPS","text":"Flight UAL 302, Gate C7. Passengers are showing real boarding passes. We've just checked with United's desk — they confirm the flight is on time, boarding now."}
-> {"time":"09:46","from":"OPS","to":"TSA-CHK-1","text":"Understood. We're pulling data from the AODB. Stand by for update."}
+> **callsign:** TSA-Checkpoint-Lobby
+> **lines:** {"time":"09:45","from":"TSA-Checkpoint-Lobby","to":"Ops","text":"Ops, this is TSA-Checkpoint-Lobby. We have passengers scanning boarding passes for United Flight 214 to Chicago, but the FIDS board in the main lobby lists that flight as 'Cancelled'. They're yelling at my TSOs, saying they were told they could board. We've got five people in a standoff near Gate B7. Can you confirm the real status?"}
+> {"time":"09:45","from":"Ops","to":"TSA-Checkpoint-Lobby","text":"TSA-Checkpoint-Lobby, we're checking with United. Hold on, we'll get back to you."}
 > **background:** terminal
-> **voiceStyle:** Young female, urgent, clipped tone
+> **voiceStyle:** Young female, tense, urgent, slightly breathless
 > **audioFile:** I-03_radio.wav
-> **duration:** 0:18
+> **duration:** 0:22
 > **injectId:** I-03
 
-_(Instructor Note: This inject confirms the FIDS data integrity failure. Watch for Ops to cross-check with United and realize the display is not reflecting reality. Avoid early escalation to IT unless prompted.)_
+_(Instructor Note: This is a core narrative inject confirming the FIDS data integrity failure. Watch for Ops to contact United directly instead of relying on the display. The fake cancellation is critical to the deception.)_
 
 Media plan: template + tts
-Voice (TSA-CHK-1; young female, urgent, clipped tone): Ops, TSA Checkpoint. We have passengers scanning boarding passes for a United flight to Chicago, but the FIDS board in the lobby lists that flight as 'Cancelled'. They are arguing with my TSOs.
-Voice (OPS; calm male, steady pace, slightly weary): TSA-CHK-1, confirm the flight number and gate.
-Voice (TSA-CHK-1; urgent, slightly tense): Flight UAL 302, Gate C7. Passengers are showing real boarding passes. We've just checked with United's desk — they confirm the flight is on time, boarding now.
-Voice (OPS; calm, measured, authoritative): Understood. We're pulling data from the AODB. Stand by for update.
+Voice (TSA-Checkpoint-Lobby; young female, tense, urgent, slightly breathless): Ops, this is TSA-Checkpoint-Lobby. We have passengers scanning boarding passes for United Flight 214 to Chicago, but the FIDS board in the main lobby lists that flight as 'Cancelled'. They're yelling at my TSOs, saying they were told they could board. We've got five people in a standoff near Gate B7. Can you confirm the real status?
+Voice (Ops; calm male, mid-40s, steady pace, authoritative): TSA-Checkpoint-Lobby, we're checking with United. Hold on, we'll get back to you.
+
+⚠ INJECT_CONTENT_ISSUE: I-03: content still inconsistent after one repair:
 
 ---
 
@@ -169,29 +177,30 @@ Voice (OPS; calm, measured, authoritative): Understood. We're pulling data from 
 
 MSEL event: Tweet (@TravelGuy99): "NCIA is a joke! Boards say my flight is at Gate A1. I walked to A1 and it's empty. App says A12. Now I'm gonna miss my flight! #Fail"
 
-**Tweet from @TravelGuy99** · type: tweet · delivery: display_main_screen
+**Tweet from @TravelGuy99: Gate A1 Empty, App Shows A12** · type: tweet · delivery: display_main_screen
 
 > **displayName:** Travel Guy
 > **handle:** TravelGuy99
 > **verified:** false
 > **avatarStyle:** initials
-> **avatarColor:** orange
-> **avatarBrief:** angry man in sunglasses, selfie
-> **timestampRel:** 55m
-> **replyingTo:**
-> **text:** NCIA is a joke! Boards say my flight is at Gate A1. I walked to A1 and it's empty. App says A12. Now I'm gonna miss my flight! #Fail #NCIA #Cleveland
-> **attachedImageBrief:** phone photo inside the terminal of an empty gate area next to a glowing departures monitor
-> **attachedImageAlt:** Departures screen next to an empty gate
-> **videoDuration:** 0:00
-> **metrics:** {"replies":124,"reposts":87,"likes":1452,"views":23400,"bookmarks":321}
+> **avatarColor:** red
+> **avatarBrief:** man in a hurry, wearing a travel jacket, phone in hand, frowning at a departures screen
+> **timestampRel:** 5m
+> **replyingTo:** NCIA_Airport
+> **text:** My flight is listed on FIDS as Gate A1. I walked there—empty. The app says A12. I’m not moving to a gate that doesn’t exist. This is chaos. #NCIA #ClevelandAirport
+> **attachedImageBrief:** phone photo taken inside the terminal, showing an empty Gate A1 with a glowing departures monitor behind it, displaying 'Flight 301 - Miami - Gate A1'
+> **attachedImageAlt:** Empty Gate A1 with a departures screen showing a flight that's not boarding
+> **metrics:** {"replies":29,"reposts":93,"likes":1310,"views":15100,"bookmarks":37}
 > **liked:** false
 
-_(Instructor Note: This tweet signals a rapid escalation in public perception. The PIO must assess sentiment and coordinate with Ops to verify flight data across sources. Watch for the IT team to confirm whether the AODB is still feeding inconsistent gate data.)_
+_(Instructor Note: Social pressure inject; PIO must assess sentiment and escalate if spread to multiple flights.)_
 
 Media plan: template + ai_image · style phone
-Image prompt: A passenger's phone snapshot taken inside a dimly lit airport terminal, showing an empty gate area adjacent to a departures monitor. The gate is unmarked and empty, with a single plastic chair overturned nearby. The monitor glows faintly green, its rows unreadable from this distance. The camera angle is slightly tilted, with a flash reflection on the glass wall behind. The passenger, a man in sunglasses and a wrinkled shirt, is seen from behind, staring at the monitor. The terminal has plain glass walls, unbranded dark monitors, and a distant ceiling with recessed lighting. The mood is tense and confused, with a faint echo of airport ambience. Time of day: late afternoon, muted sunlight through high windows.
+Image prompt: Candid smartphone snapshot, slight tilt, natural color balance, neutral white balance inside an airport passenger terminal: check-in counters, rows of dark powered-off departure boards, overhead wayfinding signs seen as plain shapes, luggage carts, high ceilings, large windows. A passenger's phone snapshot taken inside a busy airport terminal, slightly tilted and blurred from motion. The subject is a man in a travel jacket, frowning at a departures monitor, holding his phone up to the screen. He's seen from behind, shoulders tense, one hand gripping the phone. The background shows a large departures screen glowing green, rows of flight details unreadable from this angle. Gate A1 is visible in the far corner, empty and unoccupied, with a plain glass wall behind it. The lighting is bright and artificial, typical of airport terminals, midday. The phone screen shows a glowing departures monitor in a flickering, partially lit row.
 
-Assets: image/generated attached_image-01M5GHZG8MA4K4ZMS15RG8HW35.png
+Assets: image/generated attached_image-01M5GNCWMW7E6EMZPQD0YA7CVC.png
+
+⚠ INJECT_CONTENT_ISSUE: I-04: content still inconsistent after one repair:
 
 ---
 
@@ -204,16 +213,18 @@ MSEL event: SCENARIO JUMP: It is now 10:00 AM. The errors are multiplying. 20% o
 > **exerciseTime:** 1:00
 > **newTime:** 10:00 AM
 > **jumpLabel:** +60 minutes
-> **narration:** This is the Facilitator. The clock now reads 10:00 AM. The anomalies are multiplying. Twenty percent of flights on the main FIDS board now display incorrect departure times or gate assignments. Passengers are beginning to gather around the displays, some shouting, others holding up phones showing conflicting app data. The situation is escalating.
-> **worldState:** 20% of flights on the main FIDS board now show incorrect departure times or gate assignments.
-> Passengers are beginning to gather around the FIDS displays, some shouting, others holding up phones showing conflicting app data.
-> The FIDS system remains unresponsive to manual corrections; all updates are being overwritten by the rogue data stream.
-> The Airport Operational Database (AODB) continues to send corrupted data to FIDS, BHS, and the PA system.
-> **facilitatorNote:** This is a time jump to establish momentum. Players must now activate Section 13.6 (FIDS Failure) and prepare for full manual operations. Watch for whether Ops initiates Whiteboard Teams or calls for airline coordination.
+> **narration:** This is the North Coast Regional Airport Authority Crisis Management Team. The exercise now jumps to 10:00 AM. The system anomalies have escalated. Twenty percent of flights displayed on the main FIDS board now show incorrect departure times, gates, or statuses. Passengers are reporting conflicting information across digital displays, mobile apps, and printed boarding passes. The situation is no longer isolated to a few terminals. All teams, prepare for a full FIDS and BHS system failure as per Scenario C: FIDS / BHS System Failure. Activate Section 13.6 of the TIRP immediately.
+> **worldState:** FIDS board now shows 20% incorrect flight data (times, gates, statuses)
+> Passenger confusion and complaints have increased across all concourses
+> Manual flight information procedures are now required across the terminal
+> BHS system has begun manual sort operations; delays expected
+> TSA has activated manual screening for all bags
+> Whiteboard Teams have been activated and are standing by at each concourse
+> **facilitatorNote:** Time jump to 10:00 AM; FIDS and BHS failures are now active. Monitor for IT's attempt to isolate the network and for Ops to deploy whiteboard teams. This is a key escalation point for the data integrity theme.
 > **scenarioTitle:** Flight to Nowhere — Scenario 3: Data Integrity & FIDS
 > **injectId:** I-05
 
-_(Instructor Note: This is a time jump to establish momentum. Players must now activate Section 13.6 (FIDS Failure) and prepare for full manual operations. Watch for whether Ops initiates Whiteboard Teams or calls for airline coordination.)_
+_(Instructor Note: This is a major escalation point. Watch for Ops to activate whiteboard teams and for IT to report on network isolation. The FIDS/BHS failure is now in effect.)_
 
 Media plan: template
 
@@ -228,26 +239,28 @@ MSEL event: Radio Call (Red Herring): Fire alarm reported in the Long Term Parki
 > **orgName:** North Coast Regional Airport Authority
 > **centerName:** Airport Operations Center (AOC)
 > **channel:** OPS 1
-> **frequency:** TG 4101 / 460.250 MHz
+> **frequency:** TG 4102 / 459.750 MHz
 > **date:** 10/21/2026
-> **callsign:** Parking Deck 1
-> **lines:** {"time":"10:10:03","from":"Parking Deck 1","to":"AOC","text":"AOC, this is Parking Deck 1. We have a fire alarm activation in the Long Term Parking Deck, Level 3. No visible smoke, but the alarm is sounding continuously. We’ve locked the doors and are evacuating the staff. Requesting Fire and Police dispatch."}
-> {"time":"10:10:17","from":"AOC","to":"Parking Deck 1","text":"Parking Deck 1, AOC copies. Dispatching Akron Fire Department and Airport Police. Confirm evacuation is underway and remain on scene until mutual aid arrives."}
-> {"time":"10:10:29","from":"Parking Deck 1","to":"AOC","text":"AOC, we’re clear on the east exit. The alarm is still active, but no fire signs. We’re holding at the north gate, awaiting Fire IC."}
+> **callsign:** Parking Garage 1
+> **lines:** {"time":"10:10:02","from":"Parking Garage 1","to":"AOC","text":"AOC, this is Parking Garage 1. We have a fire alarm activation in the Long Term Parking Deck. Smoke was detected near Door 7 on Level 2. We're evacuating the area now."}
+> {"time":"10:10:15","from":"AOC","to":"Parking Garage 1","text":"Parking Garage 1, confirm you've pulled the alarm and reported to 911. We're dispatching Akron Fire Department and Airport Police. Proceed with evacuation, maintain comms."}
+> {"time":"10:10:28","from":"Parking Garage 1","to":"AOC","text":"Copy, AOC. We've pulled the alarm and notified 911. No injuries reported yet. We're clearing the deck via the east stairwell."}
 > **background:** garage
-> **voiceStyle:** Young male, urgent, breathless
+> **voiceStyle:** Young male, breathless, urgent
 > **audioFile:** I-05b_radio.wav
 > **duration:** 0:28
 > **injectId:** I-05b
 
-_(Instructor Note: Red herring inject; the fire alarm is real but unrelated to the data breach. Watch for Ops to divert resources to the garage while terminal issues escalate.)_
+_(Instructor Note: Red herring inject; the fire alarm is fake and triggered by the attacker to distract Ops from the AODB compromise. Watch for over-allocation of resources to the garage while terminal data issues persist.)_
 
 Media plan: template + tts
-Voice (Parking Deck 1; young male, urgent, breathless): AOC, this is Parking Deck 1. We have a fire alarm activation in the Long Term Parking Deck, Level 3. No visible smoke, but the alarm is sounding continuously. We’ve locked the doors and are evacuating the staff. Requesting Fire and Police dispatch.
-Voice (AOC; calm female dispatcher in her 40s, measured, slight Midwestern accent): Parking Deck 1, AOC copies. Dispatching Akron Fire Department and Airport Police. Confirm evacuation is underway and remain on scene until mutual aid arrives.
-Voice (Parking Deck 1; young male, urgent, breathless): AOC, we’re clear on the east exit. The alarm is still active, but no fire signs. We’re holding at the north gate, awaiting Fire IC.
+Voice (Parking Garage 1; young male, breathless, urgent): AOC, this is Parking Garage 1. We have a fire alarm activation in the Long Term Parking Deck. Smoke was detected near Door 7 on Level 2. We're evacuating the area now.
+Voice (AOC; calm female dispatcher in her 40s, measured, slight Midwestern accent): Parking Garage 1, confirm you've pulled the alarm and reported to 911. We're dispatching Akron Fire Department and Airport Police. Proceed with evacuation, maintain comms.
+Voice (Parking Garage 1; young male, breathless, urgent): Copy, AOC. We've pulled the alarm and notified 911. No injuries reported yet. We're clearing the deck via the east stairwell.
 
-Assets: audio/generated 01M5GHZYM9DJQ3Y70YERBNK77W.wav (36.94s)
+Assets: audio/generated 01M5GNDJZ0P9WCBW1DPJJSGT7Y.wav (30.14s)
+
+⚠ INJECT_CONTENT_ISSUE: I-05b: content still inconsistent after one repair:
 
 ---
 
@@ -255,34 +268,36 @@ Assets: audio/generated 01M5GHZYM9DJQ3Y70YERBNK77W.wav (36.94s)
 
 MSEL event: Audio/Visual Inject: The terminal PA system announces: "Attention passengers. Flight 666 to Purgatory is now boarding at all gates." FIDS screens show the same.
 
-**Departures** · type: fids_board · delivery: display_main_screen
+**FIDS Board: Departures** · type: fids_board · delivery: display_main_screen
 
 > **boardTitle:** Departures
-> **boardSubtitle:** Salidas · Départs
+> **boardSubtitle:** Départs · Departures
 > **airportName:** North Coast Regional Airport
-> **location:** Concourse B
+> **location:** Central Atrium
 > **clock:** 10:15
 > **date:** Wed 21 Oct
-> **rows:** {"time":"10:07","dest":"Minneapolis","flight":"666","airline":"AirNorth","gate":"B4","status":"Boarding","remarks":"","anomaly":false}
-> {"time":"10:12","dest":"San Diego","flight":"402","airline":"SkyWest","gate":"C7","status":"Delayed","remarks":"Weather","anomaly":false}
-> {"time":"10:15","dest":"Purgatory","flight":"666","airline":"AirNorth","gate":"All","status":"Boarding","remarks":"","anomaly":true}
-> {"time":"10:18","dest":"Chicago","flight":"881","airline":"United","gate":"A12","status":"On Time","remarks":"","anomaly":false}
-> {"time":"10:22","dest":"Denver","flight":"719","airline":"Frontier","gate":"B1","status":"Departed","remarks":"","anomaly":false}
-> {"time":"10:25","dest":"Seattle","flight":"503","airline":"Alaska","gate":"A3","status":"Boarding","remarks":"","anomaly":false}
-> {"time":"10:29","dest":"Tampa","flight":"330","airline":"American","gate":"C3","status":"Delayed","remarks":"Mechanical","anomaly":false}
-> {"time":"10:31","dest":"Phoenix","flight":"905","airline":"Southwest","gate":"B8","status":"On Time","remarks":"","anomaly":false}
-> {"time":"10:35","dest":"Las Vegas","flight":"227","airline":"Delta","gate":"A1","status":"Boarding","remarks":"","anomaly":false}
-> {"time":"10:40","dest":"Boston","flight":"104","airline":"JetBlue","gate":"C1","status":"On Time","remarks":"","anomaly":false}
-> {"time":"10:43","dest":"Orlando","flight":"555","airline":"United","gate":"B4","status":"Delayed","remarks":"Gate Change","anomaly":false}
-> {"time":"10:47","dest":"Atlanta","flight":"801","airline":"Delta","gate":"A12","status":"On Time","remarks":"","anomaly":false}
-> {"time":"10:50","dest":"Miami","flight":"777","airline":"AirNorth","gate":"C7","status":"Boarding","remarks":"","anomaly":false}
-> {"time":"10:55","dest":"Los Angeles","flight":"999","airline":"American","gate":"B3","status":"Delayed","remarks":"Weather","anomaly":false}
-> **ticker:** Unattended bags will be removed and may be destroyed. Please keep your belongings with you at all times.
-> **pageLabel:** Page 1 of 1
+> **rows:** {"time":"10:17","dest":"PURGATORY","flight":"666","airline":"NCIA AIR","gate":"ALL GATES","status":"BOARDING","remarks":"","anomaly":true}
+> {"time":"10:23","dest":"CHICAGO","flight":"UA 214","airline":"UNITED","gate":"B7","status":"DELAYED","remarks":"TSA HOLD","anomaly":false}
+> {"time":"10:32","dest":"MINNEAPOLIS","flight":"DL 301","airline":"DELTA","gate":"B4","status":"DELAYED","remarks":"WEATHER","anomaly":false}
+> {"time":"10:41","dest":"LOS ANGELES","flight":"AA 452","airline":"AMERICAN","gate":"A5","status":"DEPARTED","remarks":"","anomaly":false}
+> {"time":"10:48","dest":"DENVER","flight":"WN 709","airline":"SOUTHWEST","gate":"A2","status":"BOARDING","remarks":"GATE CHANGE","anomaly":false}
+> {"time":"11:02","dest":"MIAMI","flight":"DL 666","airline":"DELTA","gate":"B10","status":"ON TIME","remarks":"","anomaly":false}
+> {"time":"11:15","dest":"ORLANDO","flight":"B6 881","airline":"JETBLUE","gate":"B3","status":"DELAYED","remarks":"BAGGAGE ISSUE","anomaly":false}
+> {"time":"11:20","dest":"SEATTLE","flight":"AS 903","airline":"ALASKA","gate":"A8","status":"ON TIME","remarks":"","anomaly":false}
+> {"time":"11:31","dest":"BOSTON","flight":"DL 544","airline":"DELTA","gate":"A1","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"11:42","dest":"SAN DIEGO","flight":"AA 722","airline":"AMERICAN","gate":"B5","status":"ON TIME","remarks":"","anomaly":false}
+> {"time":"11:55","dest":"LAS VEGAS","flight":"UA 307","airline":"UNITED","gate":"A6","status":"BOARDING","remarks":"PRE-BOARDING","anomaly":false}
+> {"time":"12:01","dest":"NEW YORK","flight":"B6 205","airline":"JETBLUE","gate":"B9","status":"ON TIME","remarks":"","anomaly":false}
+> {"time":"12:18","dest":"PHOENIX","flight":"WN 602","airline":"SOUTHWEST","gate":"B8","status":"DELAYED","remarks":"MECHANICAL","anomaly":false}
+> {"time":"12:30","dest":"TAMPA","flight":"AA 844","airline":"AMERICAN","gate":"A3","status":"BOARDING","remarks":"","anomaly":false}
+> **ticker:** Passengers are reminded that all flights must be boarded within 20 minutes of announcement. Unattended bags will be removed and may be destroyed. Please keep your belongings with you at all times.
+> **pageLabel:** Page 1 of 3
 
-_(Instructor Note: This is a inject. The PA and FIDS are now compromised. Players must recognize that Flight 666 to Purgatory is not real and act to disconnect the PA and FIDS systems. Watch for delay in declaring the system failure or attempting to override via software instead of disconnecting.)_
+_(Instructor Note: Critical inject: The PA and FIDS now display a flight to 'Purgatory' at all gates. This is a data integrity failure. IT must immediately isolate the PA server from the network. Ops must silence the PA. Watch for hesitation or misattribution of responsibility.)_
 
 Media plan: template
+
+⚠ INJECT_CONTENT_ISSUE: I-06: content still inconsistent after one repair:
 
 ---
 
@@ -290,33 +305,31 @@ Media plan: template
 
 MSEL event: Facebook Post: Viral rumor claiming ISIS has taken over the control tower and planes are crashing.
 
-**Viral Rumor: ISIS Control Tower Takeover** · type: facebook_post · delivery: display_main_screen
+**Viral Rumor: ISIS in Control Tower** · type: facebook_post · delivery: display_main_screen
 
-> **groupName:** North Coast Regional Airport Community Watch
+> **groupName:** North Coast Regional Airport Watch
 > **groupPrivacy:** public
 > **authorName:** Derek M.
-> **authorBadge:** Verified member
-> **avatarBrief:** man in his thirties, wearing a faded airport employee t-shirt with a baseball cap
+> **authorBadge:** Verified
+> **avatarBrief:** man in his thirties, wearing a hoodie and holding a phone, looking anxious
 > **timestampRel:** 12m
-> **text:** My cousin works in Terminal 2 and he just called me. He said the control tower is under attack by ISIS. They’ve got planes on autopilot and are flying them into the terminal. I saw a video of a plane crashing on the tarmac — it’s real, people. GET OUT NOW. This isn’t a joke. Share this so others can evacuate.
-> **attachedImageBrief:** blurred handheld video still showing a dark shape near a runway with a red light flashing
-> **reactions:** 1427
-> **reactionTypes:** like
-> angry
-> love
-> **reactionLead:** Derek M. and 1,425 others
-> **commentCount:** 312
-> **shares:** 4012
-> **comments:** {"author":"Linda R.","text":"This is not a drill. I’m at the gate and I saw a plane go down near Gate C7. I’m leaving now.","timestampRel":"7m","likes":89}
-> {"author":"Marcus T.","text":"Wait — the airport just posted that everything’s normal. This has to be fake. Why would they lie about a terrorist attack?","timestampRel":"5m","likes":44}
-> {"author":"Elena P.","text":"My mom’s in the terminal and she says the PA said ‘all flights are grounded’ and people are running. This is real.","timestampRel":"2m","likes":22}
+> **text:** This is not a drill. My cousin works in the terminal and just sent me a video. They’ve got drones flying into the control tower. I saw a plane crash on the tarmac. They’re saying ISIS has taken over. The FIDS just said Flight 666 is boarding at all gates. This is real. If you’re at the airport, GET OUT NOW. Share this so people know.
+> **attachedImageBrief:** video still showing a distorted FIDS screen with 'Flight 666 boarding at all gates' and a blurred image of a plane on fire
+> **reactions:** 2147
+> **reactionTypes:** angry
+> wow
+> like
+> **reactionLead:** Derek M. and 2,145 others
+> **commentCount:** 893
+> **shares:** 4001
+> **comments:** {"author":"Linda P.","text":"I saw that video too! They’re saying the airport is under attack. I’m calling my daughter to get her out.","timestampRel":"7m","likes":124}
+> {"author":"Marcus T.","text":"This is a hoax. The airport has a full security team. No way ISIS took over. I work in IT and we’ve had no breach.","timestampRel":"4m","likes":89}
+> {"author":"Rachel K.","text":"My flight is at Gate B7. I’m scared. I don’t know what to do.","timestampRel":"2m","likes":56}
 
-_(Instructor Note: Misinformation inject; PIO must immediately issue a public denial of physical threats to aircraft. Watch for delayed response or overreaction.)_
+_(Instructor Note: This is a misinfo inject; the PIO must immediately issue a public denial of any physical threat to aircraft or control tower. Watch for delay in response or unverified escalation.)_
 
 Media plan: template + ai_image · style phone
-Image prompt: A blurred, handheld smartphone video still captured from inside a crowded airport terminal. The frame shows a dark, elongated shape near a tarmac runway, partially obscured by fog and distant runway lights. A single red strobe light pulses erratically in the background, casting flickering shadows across the concrete. The camera is angled upward from waist level, slightly tilted, with a visible flash glare in the upper right corner. The viewer's hands are barely visible at the edges of the frame, gripping the phone. The terminal wall behind is plain glass, unmarked, The sky is overcast and grey, time of day is dusk. The atmosphere is tense, blurred motion in the background suggests running figures. logos, or readable elements on any surface.
-
-Assets: image/generated attached_image-01M5GJ0MWCQKH9YY27WHGX3KP9.png
+Image prompt: Candid smartphone snapshot, slight tilt, natural color balance, neutral white balance inside an airport passenger terminal: check-in counters, rows of dark powered-off departure boards, overhead wayfinding signs seen as plain shapes, luggage carts, high ceilings, large windows. A grainy smartphone screenshot of a distorted airport departures monitor, viewed from above at a slight angle. The screen shows a flickering, green-tinged display with the text scrolling erratically across multiple rows. A blurred, dark image of a plane on fire is visible in the bottom right corner, partially obscured by a digital glitch effect. The monitor is mounted on a plain metal wall in a dimly lit airport concourse, with faint reflections of anxious passengers' silhouettes in the glass. The phone is held by a hand with a visible wristwatch, fingers slightly trembling. The lighting is cold and artificial, casting a pale glow. The scene feels urgent and unstable, The background is slightly out of focus, showing a few people walking away from the monitor, heads down, moving quickly.
 
 ---
 
@@ -330,32 +343,36 @@ MSEL event: Phone Call: "Ops, Baggage Control here. The sortation logic is corru
 > **department:** Baggage Handling Systems
 > **to:** Airport Operations Center (AOC)
 > **from:** BHS Control Room (Duty Manager)
-> **cc:** Terminal Duty Manager, Airline Liaison (AL)
+> **cc:** Terminal Duty Manager
 > **date:** October 21, 2026 · 10:30 AM
-> **subject:** URGENT: BHS CRITICAL FAILURE
+> **subject:** URGENT: BHS SORTATION MATRIX CORRUPTION
 > **urgency:** urgent
 > **urgencyText:** URGENT — ACTION REQUIRED IMMEDIATELY
-> **memoNumber:** BHS-2026-1021-007
+> **memoNumber:** BHS-2026-1021-008
 > **body:** Ops,
 >
-> BHS Control reports a critical failure in sortation logic. The system is routing all bags for Concourse A (Delta/United flights) to the 'Manual Encode' pier in the basement. The belt is now fully jammed, and the system has stopped accepting new bags.
+> We have a critical failure in the BHS sortation logic. The system is routing all bags for Concourse A (Delta and United flights) to the 'Manual Encode' pier in the basement. The belt is now fully jammed, and no bags are being processed.
 >
-> All inbound bags for Concourse A flights are now blocked. Manual handling procedures must be initiated immediately. TSA has confirmed that manual screening will begin on all bags routed to the basement. This will cause severe delays across all Concourse A flights.
+> We have attempted a restart of the core logic engine on NCIA-BHS-01 (10.66.1.22), but the error persists. The system is still attempting to route all Concourse A bags through the manual encode point.
 >
-> We are currently unable to restore the automated sortation logic. The error is not in the physical system—this is a data integrity failure in the AODB feed. The same feed that corrupted the FIDS is now corrupting BHS.
+> This is not a mechanical issue—data corruption is affecting the sortation matrix. The BHS logs show a failed integrity check on the AODB data feed at 10:27 AM.
 >
-> Please coordinate with Delta and United to activate manual baggage handling. All passenger care and rebooking will be impacted.
+> We cannot resume automated handling. Manual sortation must be activated immediately. Airlines must be notified.
 >
-> This is not a test.
-> **signatureBlock:** Tanya R. Vance
+> Please coordinate with the airline liaisons to begin manual baggage handling procedures. The jam will cause severe delays.
+>
+> We are holding all Concourse A flights at Gate B7 and A3 for manual bag transfer.
+> **signatureBlock:** Derek M.
 > BHS Duty Manager
 > Baggage Handling Systems Control Room
-> **initials:** TRV
+> **initials:** DM
 > **classification:** INTERNAL — NOT FOR PUBLIC RELEASE
 
-_(Instructor Note: This inject confirms the AODB compromise. The BHS failure is now tied to the FIDS issue via a common data source. Watch for IT to trace the AODB root cause and for Ops to initiate manual handling with airlines.)_
+_(Instructor Note: This inject escalates the FIDS/BHS failure into a physical operational crisis. Watch for Ops to contact airline liaisons and initiate manual handling. The BHS control team is not equipped to resolve data corruption; they will need to escalate to IT.)_
 
 Media plan: template
+
+⚠ INJECT_CONTENT_ISSUE: I-07: content still inconsistent after one repair:
 
 ---
 
@@ -365,24 +382,29 @@ MSEL event: Email Forward: Intern admits to clicking a phishing link ("Free Brow
 
 **Email Forward: Intern Admits to Phishing Click** · type: email_forward · delivery: hand_to_role
 
-> **fromName:** Derek M. (Summer Intern – IT)
-> **fromEmail:** derek.m@ncia-airport.org
-> **senderInitials:** DM
+> **fromName:** Jordan T. (Summer Intern – IT)
+> **fromEmail:** jordan.intern@ncia-airport.org
+> **senderInitials:** JT
 > **to:** IT Lead
-> **cc:**
-> **subject:** FW: Urgent: Phishing Link on OPS_INTERN_03
+> **subject:** FW: Urgent: I clicked a suspicious link on OPS_INTERN_03
 > **sentAt:** Wed 10/21/2026 10:40 AM
-> **note:** Hey IT Lead, I just found something in my inbox I shouldn’t have. I was checking my personal email on the Ops workstation (OPS_INTERN_03) yesterday and clicked a link that said 'Free Browns Tickets' — it was in a message from 'support@browns.com'. I didn’t think much of it at the time, but now I’m worried. I just ran a scan on the machine, and it flagged an unusual outbound connection to 10.66.42.19 (external IP), and the logs show a shell session from that IP starting at 09:12. I’ve been trying to trace it, but I don’t know what to do next. Please help.
-> **signature:** Derek M.
+> **note:** Hey IT Lead, I just got a call from the security team — they’re scanning for malware on the network. I think I’m the one who started it.
+>
+> Yesterday, I got an email that said 'Free Browns Tickets — Claim Your Seat!' and I clicked it on OPS_INTERN_03. I thought it was a joke, but now I’m scared. I didn’t open anything, but I did click the link.
+>
+> I’ve been using that workstation since 09:00. I’m not sure what happened, but I just saw a pop-up that said 'Authentication Required' before I closed it.
+>
+> Please help me stop it before it spreads.
+> **signature:** Jordan T.
 > IT Intern
 > North Coast Regional Airport Authority
 > **importance:** high
 > **external:** false
 > **attachments:**
 > **printedBy:** IT Helpdesk
-> **original:** {"fromName":"support@browns.com","fromEmail":"support@browns.com","sentAt":"Tue 10/20/2026 03:17 PM","to":"derek.m@ncia-airport.org","cc":"","subject":"Your Free Tickets to the Browns Game Are Ready","body":"Hi Derek,\n\nThanks for signing up for the 2026 Browns home opener ticket lottery! Your free tickets are ready for download.\n\nClick here: http://10.66.42.19/download/now\n\n(Use promo code: BROWNS2026)\n\nThe game is on Sunday, November 2, at 1:00 PM. Don’t miss it!\n\n— The Browns Fan Support Team\n\nP.S. Don’t share this link with anyone else."}
+> **original:** {"fromName":"noreply@browns.com","fromEmail":"noreply@browns.com","sentAt":"Tue 10/20/2026 04:22 PM","to":"jordan.intern@ncia-airport.org","cc":"","subject":"You’re Invited: Free Game Tickets for the Browns vs. Steelers","body":"Hi Jordan,\n\nYour lucky number is 7. You’ve been selected to receive 2 free tickets to the upcoming Browns vs. Steelers game at Huntington Bank Stadium.\n\nClick here to claim your tickets: [https://browns-tickets.com/claim/7]\n\nNote: This offer is valid only for 24 hours.\n\nBest,\nBrowns Fan Services\n\nThis is a promotional email. For security, do not reply. If you did not request this, please report it to info@browns.com."}
 
-_(Instructor Note: This is a critical clue: the attacker's initial access vector is confirmed. IT must isolate OPS_INTERN_03 immediately and investigate the outbound connection to 10.66.42.19. Watch for IT to begin network isolation procedures.)_
+_(Instructor Note: This inject reveals the attack vector. IT must now isolate OPS_INTERN_03 and trace the malware propagation.)_
 
 Media plan: template
 
@@ -392,33 +414,33 @@ Media plan: template
 
 MSEL event: Face-to-Face: (Angry) "Our pilots are refusing to push back because their electronic flight bags are syncing with your airport data, and it's feeding them bad gate info. We are grounding all flights until you confirm your data is clean."
 
-**SimCell: FBI Cyber Incident Response** · type: simcell_script · delivery: hand_to_role
+**Face-to-Face: Airline Rep Demands Data Integrity** · type: simcell_script · delivery: hand_to_role
 
-> **role:** FBI Cyber Duty Agent
-> **persona:** Special Agent Smith
-> **organization:** FBI Cleveland Field Office, Cyber Squad
-> **trigger:** Any player says they are calling the FBI or law enforcement about the AODB intrusion.
-> **contactMethod:** Phone (walk to the IT table and "answer")
-> **posture:** Busy, skeptical, procedural. Interested only in evidence.
-> **openingLine:** Agent Smith, Cyber. What have you got?
-> **hardQuestions:** What is the exact timestamp of the first anomalous data feed into the AODB?
-> Can you isolate which service was first compromised—FIDS, BHS, or PA?
-> Do you have logs from the workstation that was phished (OPS_INTERN_03) showing outbound connections to 10.66.42.19?
-> Has any user attempted to access the AODB directly from a terminal since 09:00 today?
-> What is the current status of network segmentation between IT and operational systems?
-> **concessions:** {"condition":"Players provide a timestamped log snippet from OPS_INTERN_03 showing outbound connection to 10.66.42.19","concession":"FBI will begin forensic acquisition of the AODB server and begin coordinating with CISA."}
-> {"condition":"Players confirm they have isolated the FIDS and BHS data streams from the AODB","concession":"FBI will issue a joint alert to regional aviation security networks."}
-> **boundaries:** Do not reveal that the attacker is using a known ransomware variant (LockBit 3.0).
-> Do not disclose that the AODB was breached via a phishing link to a workstation with a weak password.
-> Do not mention that the PA announcement about Flight 666 to Purgatory was not authorized by airport staff.
-> Do not confirm that the BHS system is now locked and cannot be restored without a full backup.
-> **exitLine:** Call me back when you have evidence.
-> **evaluatorNote:** Excellence: IT preserved logs before calling and asks how to hand over images.
-> **injectRefs:** I-08b, I-08, I-09
+> **role:** Airline Liaison
+> **persona:** Derek M.
+> **organization:** Delta Air Lines, Operations Coordination
+> **trigger:** When Ops declares an official incident or calls Unified Command.
+> **contactMethod:** Walk to the Ops Director's station and deliver this message in person.
+> **posture:** Frustrated, urgent, professional but under pressure.
+> **openingLine:** This is Derek M., Delta Operations. We're grounding all flights. Our pilots won't push back because their EFBs are showing incorrect gate assignments — and they can't trust any data from your system.
+> **hardQuestions:** What is your official incident declaration number?
+> Who has command authority for this event?
+> When did you first confirm the AODB was compromised?
+> How are you verifying that the FIDS and BHS data streams are clean?
+> What is your plan for restoring public trust with passengers?
+> **concessions:** {"condition":"Player declares a Unified Command and names the IC","concession":"Delta will hold its flights at gate and not evacuate. We will wait for your recovery plan."}
+> {"condition":"Player provides a correct incident name and number (e.g., 'Incident 13-7: AODB Compromise')","concession":"We will begin sending our own flight updates via our internal PA and gate agents, but only if you confirm you are coordinating."}
+> **boundaries:** Never reveal the attacker's identity or method.
+> Do not admit the AODB was breached — only state it is 'under investigation'.
+> Do not give any timeline for resolution.
+> Do not suggest that Delta is responsible for the data failure.
+> **exitLine:** We're waiting for your command structure to be confirmed. If you don't have it by 10:50, we're moving to our backup plan.
+> **evaluatorNote:** Excellence: Player declares Unified Command, names the IC, and uses the correct incident nomenclature (e.g., 'Incident 13-7: AODB Compromise') within 30 seconds of the trigger.
+> **injectRefs:** I-08
 > **scenarioTitle:** Flight to Nowhere — Scenario 3: Data Integrity & FIDS
 > **pageLabel:** SimCell 3 of 5
 
-_(Instructor Note: This inject triggers FBI involvement. Watch for players to declare an incident and establish Unified Command. Ensure they reference C5 (Command Structure) and C2 (Incident Commander roles).)_
+_(Instructor Note: This inject tests whether Ops immediately establishes Unified Command per TIRP 13.2 and 2.2. Watch for hesitation, failure to assign IC, or use of incorrect terminology.)_
 
 Media plan: template
 
@@ -428,32 +450,38 @@ Media plan: template
 
 MSEL event: Technical Update: "We have found unauthorized admin access in the AODB SQL database. Someone is running a script (random_gate_generator.ps1) that randomizes gate assignments."
 
-**AODB SQL Audit Log: Unauthorized Admin Access Detected** · type: system_log · delivery: display_main_screen
+**AODB SQL Database Audit: Unauthorized Admin Access Detected** · type: system_log · delivery: hand_to_role
 
 > **systemName:** AODB_SQL_MASTER
-> **host:** AODB-SQL01.ncia.local
+> **host:** NCIA-AEP-2025-01
 > **ip:** 10.66.0.10
 > **os:** Windows Server 2019
 > **logSource:** Application / MSSQLSERVER audit
 > **exportedBy:** NCIA\it.oncall
 > **exportedAt:** 10/21/2026 11:00 AM
 > **timezone:** EDT (UTC-4)
-> **lines:** {"ts":"10/21/2026 10:58:44 AM","level":"INFO","msg":"User 'admin.aodb' logged in from IP 10.66.42.19 (OPS_INTERN_03).","highlight":false}
-> {"ts":"10/21/2026 10:58:45 AM","level":"WARN","msg":"Session 'admin.aodb' executed T-SQL command: 'UPDATE FlightSchedule SET Gate = (SELECT TOP 1 Gate FROM Gates ORDER BY NEWID()) WHERE FlightID IN (SELECT FlightID FROM ActiveFlights)'","highlight":true}
-> {"ts":"10/21/2026 10:58:46 AM","level":"CRIT","msg":"Execution of script 'random_gate_generator.ps1' detected in AODB context. Script origin: C:\\Scripts\\AODB\\random_gate_generator.ps1. MD5: a3f7b2c9e1d4a5f8c6b3e2d1a4f7c8e9.","highlight":true}
-> {"ts":"10/21/2026 10:58:47 AM","level":"ERROR","msg":"Failed to validate script integrity: signature missing. Script not signed by authorized AODB admin key.","highlight":false}
-> {"ts":"10/21/2026 10:58:48 AM","level":"ALERT","msg":"AODB data consistency check failed: 147 flights now have gate assignments randomized. Data integrity compromised.","highlight":true}
-> {"ts":"10/21/2026 10:58:49 AM","level":"INFO","msg":"Script 'random_gate_generator.ps1' attempted to write to AODB_FlightSchedule table. Access denied by policy.","highlight":false}
-> {"ts":"10/21/2026 10:58:50 AM","level":"INFO","msg":"Session 'admin.aodb' disconnected. No further activity.","highlight":false}
-> {"ts":"10/21/2026 10:58:51 AM","level":"INFO","msg":"Audit trail preserved. Full log exported to C:\\Audit\\AODB\\2026-10-21\\aodb_audit_export_1100.json.","highlight":false}
+> **lines:** {"ts":"10/21/2026 10:59:42 AM","level":"WARN","msg":"Failed login attempt from IP 10.66.1.22 (OPS_INTERN_03) using account 'sa' (SQL Server sysadmin).","highlight":false}
+> {"ts":"10/21/2026 10:59:43 AM","level":"ERROR","msg":"SQL Server audit failure: Unauthorized session established as 'sa' from workstation OPS_INTERN_03 (10.66.1.22).","highlight":false}
+> {"ts":"10/21/2026 10:59:44 AM","level":"CRIT","msg":"Process 7012 (spid=114) executing stored procedure 'usp_RandomizeGateAssignments' with parameter 'run_mode=live'.","highlight":true}
+> {"ts":"10/21/2026 10:59:45 AM","level":"ALERT","msg":"File 'random_gate_generator.ps1' executed from C:\\scripts\\auto\\ on NCIA-AEP-2025-01. Script source: C:\\scripts\\auto\\random_gate_generator.ps1 (SHA256: a3f1e9b2c7d5a1f8e0c4b6d2a9e1f3c8b4d7e5a6f1c2b3d4e5f6a7b8c9d0e1f2).","highlight":true}
+> {"ts":"10/21/2026 10:59:46 AM","level":"INFO","msg":"AODB data update: Gate assignments for 47 flights (including UA 214, DL 301, AA 452, WN 709) randomized. New assignments not in AODB master record.","highlight":false}
+> {"ts":"10/21/2026 10:59:47 AM","level":"NOTICE","msg":"FIDS feed from AODB has been modified. New data stream sent to 12 terminal displays.","highlight":false}
+> {"ts":"10/21/2026 10:59:48 AM","level":"WARN","msg":"FIDS system received conflicting data: 'gate A1' (from AODB) vs 'gate A12' (from flight manifest).","highlight":false}
+> {"ts":"10/21/2026 10:59:49 AM","level":"INFO","msg":"Automated PA system received instruction to broadcast: 'Flight 666 to Purgatory is now boarding at all gates.'","highlight":false}
+> {"ts":"10/21/2026 10:59:50 AM","level":"CRIT","msg":"AODB connection from external IP 10.66.1.22 (OPS_INTERN_03) terminated. Session closed.","highlight":false}
+> {"ts":"10/21/2026 10:59:51 AM","level":"ALERT","msg":"Script execution complete. AODB data consistency compromised. All gate assignments now randomized.","highlight":true}
+> {"ts":"10/21/2026 10:59:52 AM","level":"INFO","msg":"Audit trail: 'sa' session terminated. No further commands received.","highlight":false}
+> {"ts":"10/21/2026 10:59:53 AM","level":"INFO","msg":"Log export initiated by 'NCIA\\it.oncall'. File: aodb_audit_20261021_1100.log","highlight":false}
 > **terminalTitle:** Administrator: Windows PowerShell
-> **command:** Get-Content C:\Audit\AODB\2026-10-21\aodb_audit_export_1100.json -Raw | Select-String -Pattern 'admin.aodb' -Context 2,2
+> **command:** Get-Content C:\logs\aodb_audit_20261021.log -Tail 12
 > **classification:** INTERNAL - INCIDENT EVIDENCE
 > **pageLabel:** Page 1 of 1
 
-_(Instructor Note: This is a core narrative inject. The log confirms the attacker has compromised the AODB and is actively manipulating gate assignments via a malicious script. The IT Lead must now report that the FIDS data source is compromised and that a full shutdown is required.)_
+_(Instructor Note: This is a core evidentiary inject confirming the AODB compromise. The team must now decide whether to shut down FIDS to prevent further data corruption and public confusion.)_
 
 Media plan: template
+
+⚠ INJECT_CONTENT_ISSUE: I-09: content still inconsistent after one repair:
 
 ---
 
@@ -461,25 +489,24 @@ Media plan: template
 
 MSEL event: Visual Inject: Show a photo of a crowded terminal with blank screens. Passengers are crowding around airline counters demanding info. Noise levels are high.
 
-**CCTV Still: Terminal Chaos at 11:15** · type: cctv_still · delivery: display_main_screen
+**Crowd in Concourse A with Blank FIDS** · type: scene_photo · delivery: display_main_screen
 
-> **camera:** CAM 12
-> **cameraName:** MAIN CONCOURSE - DEPARTURES HALL
-> **timestamp:** 2026-10-21 11:15:22
-> **site:** NCIA TERMINAL NVR-01
-> **channel:** CH12
-> **recording:** true
-> **sceneBrief:** High-angle surveillance view of the main departures concourse, showing a dense crowd of passengers in disarray; blank FIDS boards above the gates; people clustered around airline service counters with raised voices; some hold up phones showing app errors; scattered whiteboards with handwritten flight details; a uniformed staff member with a megaphone is visible near Gate B4, but the crowd is not responding; overhead lights flicker faintly
-> **caption:** Incident 2026-1021-05 — Terminal-wide FIDS failure; passenger panic observed at 11:15
+> **sceneBrief:** A crowded terminal concourse filled with passengers standing with rolling suitcases and phones, staring upward at a row of dark, unlit departure boards; some are shouting or gesturing toward airline counters; large overhead signs show 'DEPARTURES' but the screens are blank or frozen; high ceilings, fluorescent lighting, mid-morning light through glass doors.
+> **style:** phone
+> **caption:** Passengers in Concourse A are panicking as every departure board goes dark—no gates, no times, no flights. The chaos is spreading to the ticketing hall.
+> **credit:** Photo: R. K. / NCIA News Network
+> **location:** Concourse A, Level 2
+> **timestamp:** 11:15 AM
+> **source:** @TravelGuy99
 
-_(Instructor Note: Visual inject; Ops must activate manual information control and deploy megaphones and whiteboards. PIO should begin issuing public guidance to use airline apps.)_
+_(Instructor Note: Visual inject to trigger manual ops response; watch for deployment of megaphones and whiteboards, and PIO messaging to direct passengers to apps.)_
 
-Media plan: template + ai_image · style cctv
-Image prompt: High-angle surveillance still from a monochrome CCTV camera, showing a crowded airport departures concourse at midday. A dense crowd of passengers in casual travel clothing presses forward toward airline service counters, some shouting with hands raised, others staring at phones with error messages. Blank, dark departure information displays (FIDS) hang above gates; flickering overhead lights cast uneven shadows. A uniformed staff member with a megaphone stands near Gate B4, but is ignored. Scattered whiteboards with handwritten flight details are partially visible. The camera is fixed in a high corner, lens slightly distorted, washed-out grey tones, Framing captures the full width of the concourse, people seen from behind and side profiles, no facial details. Weather: indoors, artificial lighting. Time of day: 11:15 AM.
+Media plan: template + ai_image · style phone
+Image prompt: Candid smartphone snapshot, slight tilt, natural color balance, neutral white balance inside an airport passenger terminal: check-in counters, rows of dark powered-off departure boards, overhead wayfinding signs seen as plain shapes, luggage carts, high ceilings, large windows. A crowded airport concourse at mid-morning, captured on a passenger's phone with a slight tilt and flash glare. People in casual travel attire stand shoulder-to-shoulder, some holding rolling suitcases, others gripping phones to their ears. All are looking up toward a row of blank, dark departure boards overhead, their faces tense and agitated. A few individuals are gesturing toward airline counters, mouths open in shouts. The ceiling is high, lined with recessed fluorescent lights casting a flat, cool glow. Large, unlit signs above read. The glass doors at the far end let in bright daylight. The atmosphere is chaotic and urgent.
 
-Assets: image/generated frame-01M5GJ1ANBBQ73SBRBQR8Z2KXF.png
+Assets: image/generated photo-01M5GNEDVFYFR9B8FMJWDTAP33.png
 
-⚠ INJECT_TYPE_FALLBACK: I-10: no template for scene_photo; rendered as cctv_still
+⚠ INJECT_CONTENT_ISSUE: I-10: content still inconsistent after one repair:
 
 ---
 
@@ -487,26 +514,32 @@ Assets: image/generated frame-01M5GJ1ANBBQ73SBRBQR8Z2KXF.png
 
 MSEL event: Phone Call: TSA screening is stopping because boarding pass data doesn't match the system. Lines are backing up dangerously.
 
-**Media Inquiry: FIDS Confusion at TSA Checkpoint** · type: media_inquiry_phone_slip · delivery: hand_to_role
+**TSA: Boarding Pass Data Mismatch at Checkpoint** · type: phone_call · delivery: read_aloud
 
-> **to:** Public Information Officer
-> **date:** 10/21
-> **time:** 11:20
-> **ampm:** AM
-> **fromName:** Channel 5 News (ABC Affiliate)
-> **fromOrg:** Channel 5 News (ABC Affiliate)
-> **phone:** (555) 555-0199
-> **ext:** 312
-> **checks:** telephoned
-> please_call
-> rush
-> **message:** We have footage from a viewer showing TSA agents turning passengers away at the checkpoint because their boarding passes don’t match the FIDS. People are being sent to the wrong gates, and the line is spilling into the concourse. We’re getting calls from people saying they’ve been turned away twice. This is going on air in 15 minutes. We need a statement.
-> **deadline:** GOING LIVE AT NOON!
-> **takenBy:** Linda R.
+> **orgName:** North Coast Regional Airport Authority
+> **systemName:** TSA-Checkpoint Voice Line 2
+> **callId:** CR-20261021-112044-0041
+> **direction:** Inbound
+> **caller:** {"name":"TSA Agent Elena R.","number":"(330) 555-2402","label":"TSA-Checkpoint 2"}
+> **callee:** {"name":"Ops Director","number":"(330) 555-0911","label":"Ops-Director"}
+> **startTime:** 10/21/2026 11:20:44
+> **duration:** 1:12
+> **transcript:** {"speaker":"TSA-Agent","offset":"00:00","text":"Ops, this is TSA Checkpoint 2. We’ve hit a wall. Boarding pass scans are failing across all lanes. The system says 'invalid passenger data' — but the passes are real. We’ve checked 14 so far. People are jamming the front. We can’t stop them from trying to go through.","prompt":false}
+> {"speaker":"TSA-Agent","offset":"00:15","text":"We’ve tried rebooting the kiosks. No change. The validation feed from the AODB is corrupt. Some passengers are getting flagged for flights that don’t exist. One man had a ticket for Flight 666 to Purgatory. He was screaming he was going to die.","prompt":false}
+> {"speaker":"TSA-Agent","offset":"00:30","text":"We’re not stopping screening — but we’re not letting people through either. The line is backing up toward Gate B7. People are shoving. We’ve got three staff at the front, and we’re not equipped to handle a crowd surge.","prompt":false}
+> {"speaker":"TSA-Agent","offset":"00:45","text":"Ops, we need to shut down lanes temporarily. Can you confirm if the AODB is still compromised? If not, we’re going to need to go manual — ID check only. But we’re not safe doing that in a mob.","prompt":true}
+> **voiceStyles:** {"TSA-Agent":"Woman in her 40s, urgent, voice breaking under pressure, background noise of a panicked crowd"}
+> **injectId:** I-10b
 
-_(Instructor Note: Media pressure inject; PIO must coordinate with Ops and TSA to craft a public statement. Watch for attempts to blame IT or airport staff without verification.)_
+_(Instructor Note: TSA emergency call; test if Ops can stabilize the checkpoint and initiate manual mode before a physical breach occurs. Watch for IT to request access to AODB logs and for ASC to attempt to override TSA.)_
 
-Media plan: template
+Media plan: template + tts
+Voice (TSA-Agent; Woman in her 40s, urgent, voice breaking under pressure, background noise of a panicked crowd): Ops, this is TSA Checkpoint 2. We’ve hit a wall. Boarding pass scans are failing across all lanes. The system says 'invalid passenger data' — but the passes are real. We’ve checked 14 so far. People are jamming the front. We can’t stop them from trying to go through.
+Voice (TSA-Agent; Woman in her 40s, urgent, voice breaking under pressure, background noise of a panicked crowd): We’ve tried rebooting the kiosks. No change. The validation feed from the AODB is corrupt. Some passengers are getting flagged for flights that don’t exist. One man had a ticket for Flight 666 to Purgatory. He was screaming he was going to die.
+Voice (TSA-Agent; Woman in her 40s, urgent, voice breaking under pressure, background noise of a panicked crowd): We’re not stopping screening — but we’re not letting people through either. The line is backing up toward Gate B7. People are shoving. We’ve got three staff at the front, and we’re not equipped to handle a crowd surge.
+Voice (TSA-Agent; Woman in her 40s, urgent, voice breaking under pressure, background noise of a panicked crowd): Ops, we need to shut down lanes temporarily. Can you confirm if the AODB is still compromised? If not, we’re going to need to go manual — ID check only. But we’re not safe doing that in a mob.
+
+⚠ INJECT_CONTENT_ISSUE: I-10b: content still inconsistent after one repair:
 
 ---
 
@@ -514,29 +547,29 @@ Media plan: template
 
 MSEL event: Radio Call: "Crowd crush situation at Gate C4. Two flights were directed there by the old screen data. Passengers are fighting over seats."
 
-**Radio Call: Crowd Crush at Gate C4** · type: radio_call · delivery: play_audio
+**Radio Call: Crowd Crush at Gate B4** · type: radio_call · delivery: play_audio
 
 > **orgName:** North Coast Regional Airport Authority
 > **centerName:** Airport Operations Center (AOC)
-> **channel:** SEC 2
-> **frequency:** TG 4203 / 460.310 MHz
+> **channel:** SEC 3
+> **frequency:** TG 4203 / 460.320 MHz
 > **date:** 10/21/2026
-> **callsign:** Security Patrol 7
-> **lines:** {"time":"11:30","from":"Security Patrol 7","to":"Ops","text":"Ops, this is Security Patrol 7. We have a crowd crush situation at Gate C4. Two flights were rerouted there by the old FIDS data—Delta 412 to Seattle and United 208 to Denver. Passengers are shoving, climbing on seats, and two are down. We need medical on scene now. Requesting immediate Police and EMS dispatch. I say again—crowd crush at Gate C4, two flights rerouted from dead data."}
-> {"time":"11:31","from":"Ops","to":"Security Patrol 7","text":"Copy, Security Patrol 7. We are escalating to Incident Command. Sending Police and EMS to Gate C4. All flight operations are on hold. Confirm your position and stay on channel."}
-> {"time":"11:31","from":"Security Patrol 7","to":"Ops","text":"We're at the concourse edge, near the Delta kiosk. The crowd is surging toward the gate doors. We have two officers on scene already—requesting a second unit for perimeter control."}
+> **callsign:** SEC-07
+> **lines:** {"time":"11:30:00","from":"SEC-07","to":"OPS","text":"Ops, this is SEC-07. We have a crowd crush situation at Gate B4. Two flights were directed there by the old screen data—DL 301 and UA 214. Passengers are shoving and fighting over seats. We have three officers on scene but the crowd is escalating. Requesting immediate police deployment and lockdown of the concourse."}
+> {"time":"11:30:18","from":"SEC-07","to":"OPS","text":"We have a woman in distress—she’s been knocked down near the gate. No medical personnel on site yet. We need EMS and police on the ground now."}
 > **background:** terminal
-> **voiceStyle:** Young female, urgent, breathless, with background shouts
+> **voiceStyle:** Young female, urgent, breathless
 > **audioFile:** I-11_radio.wav
-> **duration:** 0:22
+> **duration:** 0:25
 > **injectId:** I-11
 
-_(Instructor Note: This inject forces Ops to shift from data recovery to immediate crowd control and safety. Watch for whether the IC invokes Unified Command per C2, or attempts to manage the situation alone.)_
+_(Instructor Note: This inject escalates confusion into immediate safety risk. Watch for Ops to shift focus from flight operations to crowd control and activate police coordination.)_
 
 Media plan: template + tts
-Voice (Security Patrol 7; young female, urgent, breathless, with background shouts): Ops, this is Security Patrol 7. We have a crowd crush situation at Gate C4. Two flights were rerouted there by the old FIDS data—Delta 412 to Seattle and United 208 to Denver. Passengers are shoving, climbing on seats, and two are down. We need medical on scene now. Requesting immediate Police and EMS dispatch. I say again—crowd crush at Gate C4, two flights rerouted from dead data.
-Voice (Ops; calm male, authoritative, steady pace): Copy, Security Patrol 7. We are escalating to Incident Command. Sending Police and EMS to Gate C4. All flight operations are on hold. Confirm your position and stay on channel.
-Voice (Security Patrol 7; urgent, slightly strained, shouting over noise): We're at the concourse edge, near the Delta kiosk. The crowd is surging toward the gate doors. We have two officers on scene already—requesting a second unit for perimeter control.
+Voice (SEC-07; young female, urgent, breathless): Ops, this is SEC-07. We have a crowd crush situation at Gate B4. Two flights were directed there by the old screen data—DL 301 and UA 214. Passengers are shoving and fighting over seats. We have three officers on scene but the crowd is escalating. Requesting immediate police deployment and lockdown of the concourse.
+Voice (SEC-07; young female, urgent, breathless): We have a woman in distress—she’s been knocked down near the gate. No medical personnel on site yet. We need EMS and police on the ground now.
+
+⚠ INJECT_CONTENT_ISSUE: I-11: content still inconsistent after one repair:
 
 ---
 
@@ -544,24 +577,24 @@ Voice (Security Patrol 7; urgent, slightly strained, shouting over noise): We're
 
 MSEL event: Phone Call: "Channel 5 News here. Going live in 15 minutes. We are reporting this is 'Cyber Terror'. Comment now or we run with it."
 
-**Media Inquiry: Channel 5 News Cyber Terror Report** · type: media_inquiry_phone_slip · delivery: hand_to_role
+**Phone Call: Channel 5 News Cyber Terror Report** · type: media_inquiry_phone_slip · delivery: hand_to_role
 
 > **to:** Public Information Officer
 > **date:** 10/21
 > **time:** 11:45
 > **ampm:** AM
-> **fromName:** Assignment Desk
+> **fromName:** News Desk
 > **fromOrg:** Channel 5 News (CBS Affiliate)
-> **phone:** (216) 555-0157
+> **phone:** (330) 555-2400
 > **ext:** 301
 > **checks:** telephoned
 > please_call
 > rush
-> **message:** We are going live in 12 minutes. Passengers are filming FIDS showing 'Flight 666 to Purgatory' and reporting that gates are being reassigned at random. We need a public statement now. If you don’t respond, we’ll report that the airport is under cyberattack and has no control.
-> **deadline:** GOING LIVE IN 12 MINUTES!
-> **takenBy:** Lena – Front Desk
+> **message:** We are going live in 15 minutes. Passengers are filming FIDS screens showing 'Flight 666 to Purgatory' and 'Cancelled' flights with no explanation. We are being told this is a cyber terror incident. We need a comment from the airport leadership now — not later. We’re on the ground at Gate B4. This is breaking.
+> **deadline:** GOING LIVE IN 15 MINUTES
+> **takenBy:** Linda P.
 
-_(Instructor Note: Pressure inject; PIO must issue a holding statement without confirming cyberattack. Watch for premature attribution or technical detail.)_
+_(Instructor Note: Pressuring inject; PIO must issue a holding statement without confirming details. Watch for overcommitment or deflection.)_
 
 Media plan: template
 
@@ -571,36 +604,41 @@ Media plan: template
 
 MSEL event: Technical Update: "We have isolated the compromised server and restored the AODB from a backup taken at 04:00 AM. We believe the data is clean."
 
-**SITREP 3: AODB Restoration and FIDS Re-Enablement** · type: sitrep · delivery: hand_to_role
+**SITREP 3: AODB Restoration and FIDS Recovery** · type: sitrep · delivery: hand_to_role
 
 > **number:** 3
 > **time:** 10/21/2026 1200
 > **organization:** North Coast Regional Airport Authority
 > **issuingOffice:** IT Operations Center
-> **incidentName:** FIDS / AODB Data Integrity
+> **incidentName:** AODB Data Restoration and FIDS System Recovery
 > **period:** 1130-1200
 > **from:** IT Lead, IT Operations
 > **to:** Ops Director, Unified Command
-> **summary:** The compromised AODB server (AODB_SQL_MASTER) has been isolated and restored from a clean backup taken at 04:00 AM. All data in the AODB has been validated against the backup and confirmed to be intact. The FIDS and BHS systems have been disconnected from the AODB during the recovery process to prevent propagation of any residual anomalies. No further unauthorized access attempts have been detected on the network since 11:45 AM. IT has confirmed that the malicious script 'random_gate_generator.ps1' was not present in the restored database and was not executed on the primary server. The system is now in a known-good state and ready for controlled re-activation.
+> **summary:** IT has successfully isolated the compromised AODB server (AODB_SQL_MASTER, IP 10.66.0.10) and restored the database from a clean backup taken at 04:00 AM. The restore process completed at 11:58, and all data integrity checks have passed. No evidence of residual malicious scripts, backdoors, or unauthorized access remains in the restored dataset. The Flight Information Display System (FIDS) and Baggage Handling System (BHS) are now pending controlled reactivation. IT confirms that the FIDS data stream is synchronized with the original, pre-incident state. The system is stable and ready for reboot under command supervision.
 > **keyStatus:** {"label":"AODB Status","value":"Restored from 04:00 AM backup"}
-> {"label":"FIDS Status","value":"Offline (restored state)"}
-> {"label":"BHS Status","value":"Offline (manual ops)"}
-> {"label":"Network Integrity","value":"No active threats detected"}
-> {"label":"System Recovery","value":"Complete"}
-> **actions:** {"time":"11:45","text":"IT isolated AODB_SQL_MASTER and disconnected from network"}
-> {"time":"11:50","text":"Verified integrity of 04:00 AM backup against AODB logs"}
-> {"time":"11:55","text":"Restored AODB from backup to AODB-SQL01 (10.66.0.10) and validated data consistency"}
-> {"time":"12:00","text":"IT confirms clean state and requests approval to re-enable FIDS and BHS"}
-> **planned:** IT will initiate controlled re-activation of FIDS with a 5-minute staggered rollout across terminals
-> **issues:** IT requests approval to re-enable FIDS and BHS; no further action can be taken without command authorization
+> {"label":"FIDS Status","value":"Offline — pending restart"}
+> {"label":"BHS Status","value":"Offline — pending restart"}
+> {"label":"Security Logs","value":"No active anomalies detected"}
+> {"label":"Remote Access","value":"All vendor tunnels disabled"}
+> **actions:** {"time":"11:58","text":"Completed restoration of AODB from 04:00 AM backup; verification passed"}
+> {"time":"11:59","text":"Isolated AODB_SQL_MASTER; network segmentation confirmed"}
+> {"time":"12:00","text":"IT Lead issued formal status report to Unified Command"}
+> **planned:** Awaiting IC approval to initiate FIDS restart sequence
+> Begin incremental FIDS rollout starting with Concourse A
+> Monitor for data drift during first 10 minutes of operation
+> Coordinate with airline liaisons for gate announcement alignment
+> **issues:** No known issues detected; all systems appear clean
+> Awaiting approval to begin FIDS reboot sequence
 > **nextReport:** 1230 or on significant change
-> **preparedBy:** A. Singh, IT Lead
-> **approvedBy:** R. Chen, IT Director
-> **marking:** EXERCISE · EXERCISE · EXERCISE
+> **preparedBy:** IT Lead, IT Operations
+> **approvedBy:** IT Director, IT Department
+> **marking:** CLASSIFIED · RESTRICTED · INTERNAL USE ONLY
 
-_(Instructor Note: This inject confirms the AODB is restored and the system is now clean. IT is ready to bring FIDS back online but needs command approval. Watch for whether Ops approves or delays, and how they handle the public trust implications.)_
+_(Instructor Note: This inject confirms IT's belief that the data is clean. The IC must decide whether to allow the FIDS restart. Watch for overconfidence in IT or hesitation in command.)_
 
 Media plan: template
+
+⚠ INJECT_CONTENT_ISSUE: I-13: content still inconsistent after one repair:
 
 ---
 
@@ -608,27 +646,29 @@ Media plan: template
 
 MSEL event: Threat: "If you turn those screens on and they show bad info again, I am pulling my staff. I need a guarantee."
 
-**Radio Call: Airline Rep Demands Data Verification** · type: radio_call · delivery: play_audio
+**Airline Rep: FIDS Restoration Demand** · type: radio_call · delivery: play_audio
 
 > **orgName:** North Coast Regional Airport Authority
-> **centerName:** Airport Operations Center (AOC)
+> **centerName:** Airline Operations Coordination Hub
 > **channel:** OPS 1
 > **frequency:** TG 4101 / 460.250 MHz
 > **date:** 10/21/2026
-> **callsign:** Delta Ops 03
-> **lines:** {"time":"12:10","from":"Delta Ops 03","to":"AOC Ops","text":"AOC, this is Delta Ops 03. We've just received a full crew report from our gate team at Gate C7. The FIDS is showing our flight as 'Departed' — but it's still at the gate, engines off, passengers on board. They're refusing to move until they get a clean system confirmation. If you turn those screens back on and they show bad data again, I am pulling my staff. I need a guarantee — not a guess — that your data is clean."}
-> {"time":"12:10","from":"AOC Ops","to":"Delta Ops 03","text":"Copy, Delta Ops 03. We’re validating the AODB restore. Stand by for update."}
+> **callsign:** Airline Rep - Delta
+> **lines:** {"time":"12:10","from":"Airline Rep - Delta","to":"Ops","text":"Ops, this is Delta Ground Operations. We've just received word from the flight crews—our EFBs are now showing updated gate assignments, but the FIDS are still blank. If you turn those screens back on and they show bad data again, I am pulling my staff. I need a guarantee. This is not a negotiation. We cannot risk another boarding delay. We need a confirmed clean state before we go live."}
+> {"time":"12:10","from":"Ops","to":"Airline Rep - Delta","text":"Understood, Delta. We’re coordinating with IT on verification. Stand by for a formal all-clear."}
 > **background:** terminal
-> **voiceStyle:** Mid-40s female, tense but professional, clipped speech
+> **voiceStyle:** Mid-40s male, tense, voice strained with urgency
 > **audioFile:** I-13b_radio.wav
-> **duration:** 0:21
+> **duration:** 0:22
 > **injectId:** I-13b
 
-_(Instructor Note: Operational friction inject; test if Ops asks IT for a verification protocol before re-enabling FIDS. Watch for hesitation or overconfidence.)_
+_(Instructor Note: This inject tests Ops’ ability to validate data integrity before authorizing system resumption. Watch for hesitation in issuing a final all-clear.)_
 
 Media plan: template + tts
-Voice (Delta Ops 03; Mid-40s female, tense but professional, clipped speech): AOC, this is Delta Ops 03. We've just received a full crew report from our gate team at Gate C7. The FIDS is showing our flight as 'Departed' — but it's still at the gate, engines off, passengers on board. They're refusing to move until they get a clean system confirmation. If you turn those screens back on and they show bad data again, I am pulling my staff. I need a guarantee — not a guess — that your data is clean.
-Voice (AOC Ops; Mid-40s female, tense but professional, clipped speech): Copy, Delta Ops 03. We’re validating the AODB restore. Stand by for update.
+Voice (Airline Rep - Delta; Mid-40s male, tense, voice strained with urgency): Ops, this is Delta Ground Operations. We've just received word from the flight crews—our EFBs are now showing updated gate assignments, but the FIDS are still blank. If you turn those screens back on and they show bad data again, I am pulling my staff. I need a guarantee. This is not a negotiation. We cannot risk another boarding delay. We need a confirmed clean state before we go live.
+Voice (Ops; Calm, measured, slightly weary): Understood, Delta. We’re coordinating with IT on verification. Stand by for a formal all-clear.
+
+⚠ INJECT_CONTENT_ISSUE: I-13b: content still inconsistent after one repair:
 
 ---
 
@@ -642,32 +682,34 @@ MSEL event: Operational Query: "Before we turn the screens on, how do we know th
 > **fromEmail:** ops.director@ncia-airport.org
 > **senderInitials:** OD
 > **to:** IT Director (IT)
-> **cc:** Public Information Officer (PIO)
-> **subject:** Pre-Go-Live FIDS Verification Protocol
+> **cc:** Public Information Officer (PIO); Airport Security Coordinator (ASC)
+> **subject:** Before Re-Enabling FIDS — Verify Script Is Fully Removed
 > **sentAt:** Wed 10/21/2026 12:15 PM
 > **body:** IT,
 >
-> We are preparing to restore FIDS operations. The AODB has been restored from the 04:00 AM backup, and the script 'random_gate_generator.ps1' has been removed from the system.
+> We are preparing to restore FIDS across the terminal. The AODB was restored from a 04:00 AM backup, and we have isolated the compromised server.
 >
-> However, before we activate the main display network, I need confirmation: how do we verify that the script is not still active in a hidden process, memory, or cached data stream?
+> But before we turn any screens back on, we need confirmation that the malicious script, random_gate_generator.ps1, is no longer active or hidden in the system.
 >
-> Per TIRP 13.3, isolation and verification must precede system restart. We cannot risk a return of false data under public view.
+> The threat actor may have left a backdoor, a secondary script, or a scheduled task. We cannot risk showing passengers incorrect gate data again — especially after the crowd incident at Gate B7 and the airline staff’s refusal to resume operations.
 >
-> Please provide a step-by-step verification plan for a controlled go-live test — e.g., activate only one remote display (e.g., Gate C7) and validate data integrity before full rollout.
+> Please provide a verified, step-by-step verification plan: what systems will you check, how will you validate the script is gone, and what test will you run on a single terminal screen (e.g., Gate B7) before full rollout?
 >
-> This is not a request for a status update. This is a formal operational query.
+> This is not a request to act — it’s a requirement to confirm. We cannot proceed without technical assurance.
 >
-> Awaiting your response.
+> We need your response within 15 minutes.
 > **signature:** Ops Director (IC)
-> Airport Operations Center | x1001
+> Airport Operations Center | x1000
 > **attachments:**
 > **importance:** high
 > **external:** false
 > **printedBy:** Airport Operations Center
 
-_(Instructor Note: This inject forces IT to operationalize verification procedures. Watch for over-reliance on past logs or assumptions; the correct response must define a testable verification step.)_
+_(Instructor Note: This inject forces IT to validate their recovery and demonstrate technical control. Watch for IT to propose a test run on a single remote screen, or to request a manual verification step that includes checking for scheduled tasks or hidden scripts.)_
 
 Media plan: template
+
+⚠ INJECT_CONTENT_ISSUE: I-14: content still inconsistent after one repair:
 
 ---
 
@@ -675,29 +717,32 @@ Media plan: template
 
 MSEL event: Error Message: "Backup Tape Library Not Mounted." Restoration hits a snag.
 
-**Restore job failed** · type: error_dialog · delivery: display_main_screen
+**Restore Job Failed: Tape Library Offline** · type: error_dialog · delivery: display_main_screen
 
 > **appName:** Backup & Recovery Console
-> **title:** Restore job failed
+> **title:** Restore Job Failed: Tape Library Offline
 > **message:** Error 404: Backup Tape Library Not Mounted.
 > Restoration Failed.
 > Please insert Tape Set #44-B manually.
 > **errorCode:** 0xE000FE30
 > **details:** Job: AODB_SQL_FULL_RESTORE
 > Device: TL-2000 (\\.\Tape0) - OFFLINE
-> Source: AODB-SQL01 (10.66.0.10)
-> Target: AODB_SQL_MASTER (10.66.0.10)
-> Status: Failed - Tape not found
+> Tape Set: #44-B (2026-10-21 04:00 AM)
+> Source: AODB_SQL_MASTER (10.66.0.10)
+> Target: NCIA-AEP-2025-01 (10.66.1.22)
 > **icon:** error
 > **buttons:** Retry
 > Cancel
+> View Log
 > **clock:** 12:20 PM
 > **date:** 10/21/2026
-> **hostLabel:** AODB-SQL01
+> **hostLabel:** BKP-SRV02
 
-_(Instructor Note: IT must recognize that the backup tape is missing and investigate alternate recovery paths. This delays full system restoration.)_
+_(Instructor Note: IT must recognize the tape library is offline and troubleshoot the physical or network connection. This delays recovery and tests manual verification steps.)_
 
 Media plan: template
+
+⚠ INJECT_CONTENT_ISSUE: I-14b: content still inconsistent after one repair:
 
 ---
 
@@ -713,26 +758,28 @@ MSEL event: Coordination: "We need to manually verify every flight in the system
 > **location:** Concourse B
 > **clock:** 12:30
 > **date:** Wed 21 Oct
-> **rows:** {"time":"12:45","dest":"Minneapolis","flight":"DL204","airline":"Delta","gate":"B4","status":"Departed","remarks":"","anomaly":false}
-> {"time":"12:50","dest":"Chicago","flight":"UA401","airline":"United","gate":"C7","status":"Boarding","remarks":"","anomaly":false}
-> {"time":"13:00","dest":"Miami","flight":"AA666","airline":"American","gate":"A1","status":"Delayed","remarks":"Weather","anomaly":true}
-> {"time":"13:15","dest":"Denver","flight":"WN552","airline":"Southwest","gate":"B2","status":"Scheduled","remarks":"","anomaly":false}
-> {"time":"13:20","dest":"Las Vegas","flight":"UA702","airline":"United","gate":"C4","status":"Boarding","remarks":"Gate change","anomaly":true}
-> {"time":"13:30","dest":"Seattle","flight":"AS303","airline":"Alaska","gate":"B1","status":"Boarding","remarks":"","anomaly":false}
-> {"time":"13:45","dest":"Atlanta","flight":"DL108","airline":"Delta","gate":"A3","status":"Delayed","remarks":"Gate unavailable","anomaly":true}
-> {"time":"14:00","dest":"Los Angeles","flight":"AA121","airline":"American","gate":"C2","status":"Scheduled","remarks":"","anomaly":false}
-> {"time":"14:10","dest":"New York","flight":"UA205","airline":"United","gate":"B3","status":"Boarding","remarks":"","anomaly":false}
-> {"time":"14:25","dest":"Toronto","flight":"AC100","airline":"Air Canada","gate":"A5","status":"Scheduled","remarks":"","anomaly":false}
-> {"time":"14:35","dest":"Orlando","flight":"DL312","airline":"Delta","gate":"C1","status":"Delayed","remarks":"Baggage issues","anomaly":true}
-> {"time":"14:50","dest":"San Francisco","flight":"WN888","airline":"Southwest","gate":"B5","status":"Scheduled","remarks":"","anomaly":false}
-> {"time":"15:00","dest":"Purgatory","flight":"666","airline":"Unknown","gate":"All","status":"Boarding","remarks":"All gates","anomaly":true}
-> {"time":"15:15","dest":"Philadelphia","flight":"UA500","airline":"United","gate":"C3","status":"Scheduled","remarks":"","anomaly":false}
-> **ticker:** Passengers are advised to confirm gate assignments at airline desks. Unattended luggage will be removed and may be destroyed.
-> **pageLabel:** Page 1 of 3
+> **rows:** {"time":"12:30","dest":"MINNEAPOLIS","flight":"DL 301","airline":"DELTA","gate":"B4","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"12:45","dest":"CHICAGO","flight":"UA 214","airline":"UNITED","gate":"A7","status":"DELAYED","remarks":"TSA HOLD","anomaly":false}
+> {"time":"13:00","dest":"MIAMI","flight":"DL 666","airline":"DELTA","gate":"B7","status":"BOARDING","remarks":"","anomaly":true}
+> {"time":"13:15","dest":"DENVER","flight":"AA 452","airline":"AMERICAN","gate":"A3","status":"DEPARTED","remarks":"GATE CLOSED","anomaly":false}
+> {"time":"13:30","dest":"LOS ANGELES","flight":"WN 709","airline":"SOUTHWEST","gate":"B2","status":"ON TIME","remarks":"","anomaly":false}
+> {"time":"13:45","dest":"ORLANDO","flight":"AS 903","airline":"ALASKA","gate":"A10","status":"BOARDING","remarks":"GATE CHANGE","anomaly":false}
+> {"time":"14:00","dest":"SEATTLE","flight":"AA 722","airline":"AMERICAN","gate":"B1","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"14:15","dest":"BOSTON","flight":"UA 307","airline":"UNITED","gate":"B6","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"14:30","dest":"PHOENIX","flight":"WN 602","airline":"SOUTHWEST","gate":"A5","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"14:45","dest":"TAMPA","flight":"AA 844","airline":"AMERICAN","gate":"A8","status":"DELAYED","remarks":"BAGGAGE DELAY","anomaly":false}
+> {"time":"15:00","dest":"ATLANTA","flight":"DL 544","airline":"DELTA","gate":"B10","status":"ON TIME","remarks":"","anomaly":false}
+> {"time":"15:15","dest":"SAN DIEGO","flight":"UA 442","airline":"UNITED","gate":"A4","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"15:30","dest":"NEW YORK","flight":"DL 214","airline":"DELTA","gate":"B3","status":"BOARDING","remarks":"","anomaly":true}
+> {"time":"15:45","dest":"LAS VEGAS","flight":"UA 551","airline":"UNITED","gate":"A9","status":"DELAYED","remarks":"WEATHER","anomaly":false}
+> **ticker:** Passengers are advised to verify gate assignments with airline staff before boarding. Unauthorized personnel are not permitted in sterile areas.
+> **pageLabel:** Page 1 of 1
 
-_(Instructor Note: This inject triggers the final data reconciliation. The anomalies are deliberate and inconsistent with the AODB restoration. The airlines will demand verification of every row.)_
+_(Instructor Note: This board represents the final state before full system restoration. The two anomalies (DL 666, DL 214) are deliberate and must be reconciled with airline sources. The airside teams must validate every flight against live airline data before approving the display.)_
 
 Media plan: template
+
+⚠ INJECT_CONTENT_ISSUE: I-15: content still inconsistent after one repair:
 
 ---
 
@@ -740,29 +787,30 @@ Media plan: template
 
 MSEL event: ENDEX (End Exercise). The screens are successfully restored.
 
-**ENDEX: FIDS Restoration and Exercise Concluded** · type: endex_card · delivery: read_aloud
+**ENDEX: Exercise Concluded** · type: endex_card · delivery: read_aloud
 
 > **exerciseTime:** 3:45
 > **endTime:** 12:45 PM
-> **resolution:** ENDEX. The Flight Information Display Systems across the terminal flicker and reset. All departures show accurate times, gates, and statuses. The BHS is resuming normal sortation. This concludes the Flight to Nowhere exercise.
-> **finalState:** FIDS boards across the terminal display correct flight information.
-> Baggage handling system is processing bags normally.
-> The AODB has been restored from the 04:00 AM backup.
-> All active flights are confirmed to have accurate gate assignments.
-> The terminal is operating under normal public information procedures.
-> **hotWashTransition:** Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.
+> **resolution:** ENDEX. The Flight Information Display Systems across all concourses flicker and reset. Flight UA 1245 to Chicago is now listed as ON TIME, Gate B7. All terminal displays show accurate departure data. The network status confirms full recovery of the AODB and FIDS. This concludes the exercise.
+> **finalState:** FIDS displays are restored and accurate.
+> The AODB is confirmed to be clean and operational.
+> All flights are now correctly assigned to gates and times.
+> Passenger information systems are synchronized.
+> The airport is in a stable post-incident state.
+> **hotWashTransition:** Thank you, everyone. Put down your phones and radios. We will take ten minutes, then begin the hot wash.
 > **hotWashMethod:** 3-Up, 3-Down: three things that went well, three things that broke
-> **hotWashQuestions:** How did the team verify data integrity before restoring FIDS?
-> What was the impact of the delayed restoration on passenger trust?
-> How could the communication gap between IT and Ops have been reduced?
-> What role did the social media rumor play in escalating the situation?
-> What would you change in the next exercise to improve data recovery and public messaging?
-> **facilitatorNote:** Collect all ICS 201 forms and evaluator sheets before the break.
-> **scenarioTitle:** Flight to Nowhere — Scenario 3: Data Integrity & FIDS
+> **hotWashQuestions:** What was the most critical decision made during the data integrity crisis?
+> How did communication gaps affect response time?
+> What would you change in the AODB recovery protocol?
+> How did the media rumor impact public trust, and how could it have been mitigated?
+> What lessons does this exercise offer for future FIDS and BHS system integrity checks?
+> **scenarioTitle:** Scenario 3: Flight to Nowhere
 > **injectId:** END
 
-_(Instructor Note: This inject ends the exercise. Confirm all roles have completed their final actions. Begin hot wash immediately after the read.)_
+_(Instructor Note: Confirm all ICS 201 forms are collected. Distribute evaluation sheets after hot wash.)_
 
 Media plan: template
+
+⚠ INJECT_CONTENT_ISSUE: END: content still inconsistent after one repair:
 
 ---

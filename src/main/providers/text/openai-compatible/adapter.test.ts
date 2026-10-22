@@ -1,6 +1,6 @@
 // Contract test: OpenAI-compatible adapter against responses recorded from LM Studio
 // (tests/fixtures/providers/lmstudio-*.json, see record.mjs) plus hand-built edge cases.
-import { mkdtempSync, readFileSync } from 'node:fs'
+import { mkdtempSync, readdirSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -163,6 +163,41 @@ describe('OpenAI-compatible chat', () => {
     expect(second.structuredVia).toBe('prompt')
   })
 
+  it('starts reasoning models (gpt-oss) from json_object, unless jsonMode says otherwise (#81)', async () => {
+    const answer = () =>
+      chunkedResponse(
+        openAiSse([
+          {
+            model: 'gpt-oss-20b',
+            choices: [
+              {
+                index: 0,
+                delta: {
+                  content:
+                    '{"rows":[{"id":"START","time":"T+0","purposeTag":"STARTEX","event":"go"},{"id":"I-01","time":"T+5","purposeTag":"PRESSURE","event":"x"}]}',
+                },
+              },
+            ],
+          },
+          { choices: [{ index: 0, delta: {}, finish_reason: 'stop' }] },
+        ]),
+        { contentType: 'text/event-stream' },
+      )
+    const calls = stubFetch([answer, answer, answer])
+    const res = await provider({ defaultModel: 'openai/gpt-oss-20b' }).chat(ask(MINI))
+    expect(res.structuredVia).toBe('json_object')
+    expect((res.json as Body).rows).toHaveLength(2)
+    expect((calls[0]!.body as Body).response_format).toEqual({ type: 'json_object' })
+    expect((calls[0]!.body as Body).messages[0].content).toContain('Respond with JSON only')
+    // Other models keep strict json_schema first; an explicit jsonMode wins for gpt-oss too.
+    await provider({ defaultModel: 'qwen3-30b-a3b-2507' }).chat(ask(MINI))
+    expect((calls[1]!.body as Body).response_format.type).toBe('json_schema')
+    await provider({ defaultModel: 'gpt-oss-120b', options: { jsonMode: 'json_schema' } }).chat(
+      ask(MINI),
+    )
+    expect((calls[2]!.body as Body).response_format.type).toBe('json_schema')
+  })
+
   it('does not downgrade on errors unrelated to the response format', async () => {
     stubFetch([new Response('{"error":"Model unloaded"}', { status: 404 })])
     await expect(provider().chat(ask(MINI))).rejects.toMatchObject({
@@ -304,6 +339,109 @@ describe('OpenAI-compatible speech (mlx-audio)', () => {
       prompt: expect.stringContaining('Dispatcher: Stay on the line.'),
     })
     expect(progress.at(-1)).toBe(1)
+  })
+
+  it('keeps one voice per speaker: later lines are cloned from the first clip (#108)', async () => {
+    const models = () =>
+      new Response(
+        JSON.stringify({
+          data: [{ id: 'mlx-community/VoxCPM2-8bit' }, { id: ttsConfig.defaultModel }],
+        }),
+        { headers: { 'content-type': 'application/json' } },
+      )
+    const calls = stubFetch((call) =>
+      call.url.endsWith('/models') ? models() : new Response(silentWav(0.4)),
+    )
+    const media = adapter.createMedia!(ttsConfig, undefined)
+    const outDir = mkdtempSync(join(tmpdir(), 'ttx-tts-'))
+    const [out] = await media.generate({
+      kind: 'audio',
+      injectId: 'inj-05b',
+      outDir,
+      brief: {
+        paths: ['tts'],
+        voiceLines: [
+          { speaker: 'Parking 3', voiceStyle: 'tired male supervisor', text: 'Ops, Parking 3.' },
+          { speaker: 'Ops', voiceStyle: 'calm female dispatcher', text: 'Go ahead.' },
+          {
+            speaker: 'Parking 3',
+            voiceStyle: 'tired male supervisor',
+            text: 'Alarm on level three.',
+          },
+          { speaker: 'Ops', voiceStyle: 'calm female dispatcher', text: 'Copy, fire is en route.' },
+        ],
+      },
+    })
+    const speech = calls.filter((c) => c.url.endsWith('/audio/speech')).map((c) => c.body as Body)
+    expect(calls.filter((c) => c.url.endsWith('/models'))).toHaveLength(1)
+    expect(speech).toHaveLength(4)
+    // First line of each speaker: the configured VoiceDesign model with the description.
+    expect(speech[0]).toMatchObject({
+      model: ttsConfig.defaultModel,
+      instruct: 'tired male supervisor',
+    })
+    expect(speech[0]).not.toHaveProperty('ref_audio')
+    expect(speech[1]).toMatchObject({
+      model: ttsConfig.defaultModel,
+      instruct: 'calm female dispatcher',
+    })
+    // Later lines: the VoxCPM clone model with the speaker's first clip and text, no description.
+    expect(speech[2]).toEqual({
+      model: 'mlx-community/VoxCPM2-8bit',
+      input: 'Alarm on level three.',
+      response_format: 'wav',
+      ref_audio: join(outDir, 'inj-05b-ref-0.wav'),
+      ref_text: 'Ops, Parking 3.',
+    })
+    expect(speech[3]).toMatchObject({
+      ref_audio: join(outDir, 'inj-05b-ref-1.wav'),
+      ref_text: 'Go ahead.',
+    })
+    expect(speech[3]).not.toHaveProperty('instruct')
+    // Reference clips are removed; only the joined WAV remains.
+    expect(readdirSync(outDir)).toEqual([out!.filePath.split('/').pop()])
+    expect(out!.provenance.model).toBe(
+      `${ttsConfig.defaultModel} + mlx-community/VoxCPM2-8bit (clone)`,
+    )
+    expect(out!.durationSec).toBeCloseTo(4 * 0.4 + 3 * 0.35, 2)
+  })
+
+  it('a VoxCPM model clones with itself; one line per speaker or voiceClone off voices each line alone', async () => {
+    const calls = stubFetch(() => new Response(silentWav(0.2)))
+    const vox = { ...ttsConfig, defaultModel: 'mlx-community/VoxCPM2-8bit' }
+    const lines = [
+      { speaker: 'PA', voiceStyle: 'synthetic PA voice', text: 'Attention please.' },
+      { speaker: 'PA', voiceStyle: 'synthetic PA voice', text: 'Flight 666 is boarding.' },
+    ]
+    const outDir = mkdtempSync(join(tmpdir(), 'ttx-tts-'))
+    await adapter.createMedia!(vox, undefined).generate({
+      kind: 'audio',
+      injectId: 'i',
+      outDir,
+      brief: { paths: ['tts'], voiceLines: lines },
+    })
+    expect(calls.map((c) => c.url.endsWith('/models'))).toEqual([false, false])
+    expect(calls[1]!.body).toMatchObject({ model: vox.defaultModel, ref_text: 'Attention please.' })
+    expect(calls[1]!.body).not.toHaveProperty('instruct')
+
+    calls.length = 0
+    await adapter.createMedia!({ ...vox, options: { voiceClone: 'off' } }, undefined).generate({
+      kind: 'audio',
+      injectId: 'i',
+      outDir,
+      brief: { paths: ['tts'], voiceLines: lines },
+    })
+    expect(calls.map((c) => (c.body as Body).ref_audio)).toEqual([undefined, undefined])
+
+    calls.length = 0
+    await adapter.createMedia!(ttsConfig, undefined).generate({
+      kind: 'audio',
+      injectId: 'i',
+      outDir,
+      brief: { paths: ['tts'], voiceLines: [lines[0]!, { ...lines[1]!, speaker: 'Agent' }] },
+    })
+    expect(calls.some((c) => c.url.endsWith('/models'))).toBe(false)
+    expect(calls.map((c) => (c.body as Body).ref_audio)).toEqual([undefined, undefined])
   })
 
   it('omits the voice description for non-VoiceDesign models when none is given', async () => {

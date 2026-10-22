@@ -8,6 +8,7 @@ import {
   applyMselPhase,
   applyPhasePlan,
   goalSummary,
+  phaseBeats,
   rowToOut,
   groundLocation,
   stripCitationKeys,
@@ -149,6 +150,13 @@ describe('mappers', () => {
       'Test the reluctance to declare.',
     )
     expect(goalSummary('Plain goal')).toBe('Plain goal')
+  })
+
+  it('reads beats from Phase.beats, else from the legacy "Key beats:" tail (#87)', () => {
+    expect(phaseBeats({ goal: 'g', beats: ['x', 'y'] })).toEqual(['x', 'y'])
+    expect(phaseBeats({ goal: 'Declare.\n\nKey beats: a; b c.' })).toEqual(['a', 'b c'])
+    expect(phaseBeats({ goal: 'Plain goal' })).toEqual([])
+    expect(phaseBeats({ goal: 'g', beats: [] })).toEqual([])
   })
 
   it('keeps locked rows and carries inject links by row id when a phase is regenerated (#90)', () => {

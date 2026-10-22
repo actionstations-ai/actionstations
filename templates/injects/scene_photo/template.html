@@ -1,0 +1,26 @@
+<section class="scene s-{{default fields.style variant}}">
+  <div class="frame">
+    {{#if assets.photo}}
+    <img class="photo" src="{{assets.photo}}" alt="" />
+    {{else}}
+    <div class="photo empty"><span>PHOTO</span></div>
+    {{/if}}
+    <div class="grade" aria-hidden="true"></div>
+    {{#if (eq (default fields.style variant) "phone")}}
+    <div class="strip">
+      {{#if fields.timestamp}}<span class="time">{{fields.timestamp}}</span>{{/if}} {{#if
+      fields.location}}<span class="where">{{fields.location}}</span>{{/if}} {{#if
+      fields.source}}<span class="from">{{fields.source}}</span>{{/if}}
+    </div>
+    {{/if}}
+  </div>
+  {{#if (or fields.caption fields.credit)}}
+  <footer class="cutline">
+    {{#if fields.caption}}
+    <p class="caption">{{fields.caption}}</p>
+    {{/if}} {{#if fields.credit}}
+    <p class="credit">{{fields.credit}}</p>
+    {{/if}}
+  </footer>
+  {{/if}}
+</section>

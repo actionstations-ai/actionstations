@@ -6,6 +6,7 @@ import type { IndexStore } from '../retrieve/types'
 import type { RenderedPrompt } from '../prompts'
 import type { ResolvedText } from '../providers/resolve'
 import type { SaveOptions } from '../scenario/store'
+import type { FacilityFacts } from './facility'
 
 export type TextTask = Extract<ProviderTask, 'ideate' | 'draft' | 'critique'>
 
@@ -34,6 +35,8 @@ export interface PipelineDeps {
   resolveTextProvider(task: TextTask, projectPath?: string): Promise<ResolvedText>
   openIndex(projectPath: string): Promise<SearchIndex>
   loadProject(projectPath: string): Promise<Project>
+  /** Facility identifiers the project's documents state (#84). */
+  loadFacilityFacts(projectPath: string, project: Project): Promise<FacilityFacts>
   store: ScenarioStoreDeps
 }
 
@@ -58,6 +61,8 @@ async function realDeps(missing: (keyof PipelineDeps)[]): Promise<Partial<Pipeli
   }
   if (need('openIndex')) out.openIndex = (await import('../retrieve')).openIndex
   if (need('loadProject')) out.loadProject = (await import('../project/store')).loadProject
+  if (need('loadFacilityFacts'))
+    out.loadFacilityFacts = (await import('./facility')).loadFacilityFacts
   if (need('store')) out.store = await import('../scenario/store')
   return out
 }
@@ -68,6 +73,7 @@ const KEYS: (keyof PipelineDeps)[] = [
   'resolveTextProvider',
   'openIndex',
   'loadProject',
+  'loadFacilityFacts',
   'store',
 ]
 

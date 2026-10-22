@@ -12,6 +12,7 @@ import { runMediaBrief } from './media-brief-stage'
 import { recordInjectRun, replaceInjectWarnings } from './store'
 import {
   CITATION_DROPPED,
+  INJECT_CONTENT_ISSUE,
   INJECT_FIELDS_INVALID,
   INJECT_TEMPLATE_MISSING,
   INJECT_TYPE_FALLBACK,
@@ -21,6 +22,7 @@ import {
 
 export const TEXT_WARNING_CODES = [
   INJECT_FIELDS_INVALID,
+  INJECT_CONTENT_ISSUE,
   INJECT_TYPE_FALLBACK,
   INJECT_TEMPLATE_MISSING,
   CITATION_DROPPED,
@@ -41,7 +43,8 @@ export interface InjectsJobSummary {
 export async function openInjectEnv(root: string, ctx: JobContext): Promise<InjectEnv> {
   const deps: InjectDeps = await injectDeps()
   const [project, index] = await Promise.all([deps.loadProject(root), deps.openIndex(root)])
-  return { root, deps, index, project, ctx }
+  const facility = await deps.loadFacilityFacts(root, project)
+  return { root, deps, index, project, facility, ctx }
 }
 
 const runOk = (s: Scenario, stage: StageRun['stage'], itemId: string): boolean =>

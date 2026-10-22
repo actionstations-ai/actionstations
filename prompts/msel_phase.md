@@ -46,6 +46,7 @@ variables:
     mixGaps,
     revisePass,
     reviseNotes,
+    facility,
   ]
 ---
 
@@ -81,7 +82,7 @@ WRITING THE EVENT COLUMN
 
 - Write the actual inject as players receive it: the phone call in quotes with the caller's role; the radio call with the unit; the ticket with its number, priority and verbatim description; the tweet with handle, text and hashtags; the log excerpt with timestamps and the exact command or file name; the memo with FROM/TO/SUBJECT. Lead with the channel ("Phone Call:", "Radio Call:", "Ticket #NNNNN:", "Tweet (@handle):", "Email Forward:", "Technical Update:", "Face-to-Face:").
 - Use realism devices: ticket numbers, named workstations and servers consistent with the documents' naming and IP schema, real flight/door/gate identifiers that exist in the documents, a script or file name, a SQL statement or command line, local references (the city, the local TV station, a local sports team, a community Facebook group), named frontline people (gate agent, duty manager, TSA supervisor, intern).
-- Facility facts come from the documents: use only runways, gates, concourses, doors, rooms, phone numbers, hostnames and IP ranges that the documents state (or that fit their stated schema). If the documents list gates A1–A8 and B1–B10, there is no "Gate 12"; if the IP schema is 10.66.x.x, a new host is 10.66.x.y. A deliberately impossible identifier is allowed only as the attacker's fake data, and the expected action must note it. Keep technical claims internally consistent: an address you call "unauthorized" must lie outside every range you list as authorized; prefer hostnames and addresses that appear in the retrieved text over invented domains.
+- Facility facts come from the documents: use only runways, taxiways, gates, concourses, doors, rooms, phone numbers, hostnames and IP ranges that the FACILITY FACTS list below states (or that fit their stated schema). If the facts list gates A1–A8 and B1–B10, there is no "Gate C12"; if the runways are 5/23 and 1/19, there is no "Runway 17"; if the IP schema is 10.66.x.x, a new host is 10.66.x.y. A deliberately impossible identifier is allowed only as the attacker's fake data, and the expected action must say it does not exist. Keep technical claims internally consistent: an address you call "unauthorized" must lie outside every range you list as authorized; prefer hostnames and addresses from the facts over invented ones.
 - Humour in the attacker's fake data is fine and memorable; the players' own data must stay plausible.
 - The noise item must be genuinely unrelated (a printer, a parking gate, an escalator, a password reset) and tempting to connect. Invent fresh details for THIS organization; never reuse ticket numbers, handles, names or phrases from the style examples.
 
@@ -113,7 +114,10 @@ Plan sections tested: {{join scenario.overview.coreSectionsTested "; "}}
 Roles (use these keys in "to"):
 {{#each roles}}- {{key}} = {{name}} ({{abbreviation}}). {{description}} Standing orders: {{join standingOrders " "}}
 {{/each}}
-Phase arc:
+{{#if facility.length}}FACILITY FACTS (from the documents — the only identifiers of these kinds that exist; anything else must be framed as fake data):
+{{#each facility}}- {{this}}
+{{/each}}
+{{/if}}Phase arc:
 {{#each phases}}- Phase {{number}}: {{title}} ({{startTime}}–{{endTime}}). {{goal}}
 {{/each}}
 {{#if priorRows.length}}Rows already written{{#unless mixPass}} for earlier phases{{/unless}} (continue the story; do not repeat them):
@@ -125,7 +129,7 @@ Phase arc:
 {{/each}}{{/if}}
 </scenario_state>
 {{#if revisePass}}
-REVISION PASS for phase {{phase.number}}: {{phase.title}} ({{phase.startTime}}–{{phase.endTime}}). The rows already written above include this phase's rows. A reviewer flagged the rows below. Return ONLY those rows, rewritten so each note is fixed, keeping the SAME id, time and purposeTag. When a note says the source is a player role, re-source the inject from an outside party (a helpdesk ticket, a SIEM or system alert, a vendor, a tenant employee, a reporter, a dispatcher, an automated system) and keep its substance; the players' own decision moves to expectedAction. Do not return any other rows.
+REVISION PASS for phase {{phase.number}}: {{phase.title}} ({{phase.startTime}}–{{phase.endTime}}). The rows already written above include this phase's rows. A reviewer flagged the rows below. Return ONLY those rows, rewritten so each note is fixed, keeping the SAME id, time and purposeTag. When a note says the source is a player role, re-source the inject from a SPECIFIC outside party (a named helpdesk, a SIEM or system alert, a vendor NOC, a tenant employee, a gate agent, a dispatcher, a reporter, a social media user) and keep its substance; the players' own decision moves to expectedAction. "from" is never the bare "Facilitator" for a non-control row. When a note says an identifier is not in the facility facts, replace it with one from the FACILITY FACTS list (the list is complete: an id that is not on it does not exist, however plausible it looks) or state in the event and expected action that it does not exist. Never write notes, explanations or bracketed remarks into a row; rows contain only the inject. Do not return any other rows.
 {{#each reviseNotes}}- {{this}}
 {{/each}}
 {{else}}
@@ -135,7 +139,10 @@ MIX COMPLETION PASS for phase {{phase.number}}: {{phase.title}} ({{phase.startTi
 {{/each}}Ids continue from "I-{{nextInjectNumber}}" or take a "b"/"c" suffix on the id of the existing row they ride on. Times are elapsed exercise time inside {{phase.startTime}}–{{phase.endTime}}, placed between the existing rows.
 {{else}}
 NOW WRITE PHASE {{phase.number}}: {{phase.title}} ({{phase.startTime}}–{{phase.endTime}}, {{phase.minutes}} minutes).
-Goal and beats: {{phase.goal}}
+Goal: {{phase.goal}}
+{{#if phase.beats.length}}Beats this phase must deliver (each one becomes at least one inject):
+{{#each phase.beats}}- {{this}}
+{{/each}}{{/if}}
 Write {{targetRowCount}} to {{maxRowCount}} rows. The next free core inject number is {{nextInjectNumber}} (use "I-{{nextInjectNumber}}" style ids, zero-padded to two digits).{{#if phase.isFirst}} Begin with the START row at {{phase.startTime}}.{{else}} Begin with a TIME_JUMP row at {{phase.startTime}}.{{/if}}{{#if phase.isLast}} End with the END row at {{phase.endTime}}.{{/if}}
 {{/if}}
 {{/if}}

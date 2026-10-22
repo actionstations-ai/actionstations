@@ -32,6 +32,7 @@ variables:
     variants,
     imageSlots,
     facts,
+    facility,
     storySoFar,
     priorInjects,
     previous,
@@ -64,12 +65,13 @@ OUTPUT CONTRACT
 
 WRITING THE CONTENT
 
-- The content is THIS row's event, from THIS row's source, to THIS row's recipient. The examples in the template field list show the format only; never copy their subject (a different caller, agency, outlet or incident) into the page. If the type seems to fit the row poorly, still write the row's event in that type's form.
-- For a SimCell script the persona is the row's source ("from") and the trigger is the row's event; for a control card the narration covers the row's event.
+- The content is THIS row's event, from THIS row's source, to THIS row's recipient. The examples in the template field list show the format only; never copy their subject (a different caller, agency, outlet or incident) into the page: a field value that repeats an example word for word is wrong unless the row itself says it. If the type seems to fit the row poorly, still write the row's event in that type's form.
+- PERSONA: every name, role, organization, outlet or caller on the page is the row's source ("from: …" below) or someone the row's event names. For a SimCell script the role played is the row's source and the trigger is the row's event; for a phone slip the caller is the row's source and its organization; for a control card the narration covers the row's event.
 - Internal labels never appear in the content: no purpose tags (CORE_NARRATIVE, NOISE…), no "inject", no role keys, no mention of the exercise, facilitator or players, except on the control cards and in instructorNote.
 - Follow each field description's formatting cues (capitals on a departure board, 24h clock where the description says so, carrier code + number for flights, "first name + last initial" for a poster).
 - Write the artifact itself, in the voice of its source: the ticket as the helpdesk system shows it, the email with FROM/TO/SUBJECT and a sign-off, the memo with a signature block, the radio call as spoken ("Ops, this is Parking Garage. We have a fire alarm…"), the tweet with handle, display name, text, relative timestamp and metrics, the log with timestamps, levels, the exact command or file name and a hostname/IP header.
-- Use the facts already established (listed below) for every identifier: hostnames, IP addresses, flight numbers, gates, doors, ticket numbers, people, handles. Never introduce a second name for something that already has one, and never give an existing number to a different thing: a new ticket, call, flight or incident gets a NEW number (an update to ticket #4492 keeps #4492; a different ticket does not). New identifiers must fit the documents' schema (if the documents give gates A1–A8 and B1–B10 there is no Gate 12; if the IP plan is 10.66.x.x a new host is 10.66.x.y). A deliberately impossible identifier is allowed only as the attacker's fake data.
+- Use the facts already established (listed below) for every identifier: hostnames, IP addresses, flight numbers, gates, doors, ticket numbers, people, handles. Never introduce a second name for something that already has one, and never give an existing number to a different thing: a new ticket, call, flight or incident gets a NEW number (an update to ticket #4492 keeps #4492; a different ticket does not). A host, workstation or address the MSEL row already pairs ("OPS_INTERN_03 (192.168.1.55)") keeps that pairing. New identifiers must fit the FACILITY FACTS (if they list gates A1–A8 and B1–B10 there is no Gate C12; if the IP plan is 10.66.x.x a new host is 10.66.x.y). A deliberately impossible identifier is allowed only as the attacker's fake data.
+- Technical evidence must be internally coherent: the operating system matches the tooling (PowerShell, .ps1, C:\ paths and MSSQL on Windows; bash, /var/log, sudo and systemd on Linux), a failed command affects no rows, a successful one does, and the host named as the source of an action is the one the story established.
 - Realism devices: ticket numbers, named workstations and servers, a script or file name, a SQL statement or command line, local references (the city, the local TV station, a local sports team, a community Facebook group), named frontline people with a role (a gate agent, a duty manager, a TSA supervisor, an intern). Humour in the attacker's data is fine and memorable; the players' own data stays plausible.
 - Length: a ticket 2–4 sentences; an email or memo 80–160 words; a log 6–12 lines; a tweet under 280 characters; a radio call 2–4 short transmissions; a PA announcement one or two sentences; a phone slip 2–4 sentences with a deadline; a FIDS board 8–12 rows with 2–4 wrong ones that stand out.
 - Social posts: a believable handle and display name for THIS city; metrics that match the tag (a viral rumor has hundreds of shares; a lone complaint has a dozen). Posts never mention the exercise.
@@ -79,7 +81,7 @@ WRITING THE CONTENT
 - Nothing in the content may reveal the hidden threat earlier than the MSEL does; clues stay as subtle as the row says.
 
 {{#if repairIssues}}
-REPAIR: your previous reply (below) did not fit the template's schema. Fix every listed issue and return the complete corrected JSON object. Keep the content; change only what the issues require (field names, types, missing fields, extra fields).
+REPAIR: your previous reply (below) did not pass validation. Fix every listed issue and return the complete corrected JSON object. Keep the content that was not flagged; change what the issues require (field names, types, missing or extra fields, copied examples, contradicting identifiers).
 Issues:
 {{repairIssues}}
 
@@ -102,6 +104,11 @@ Roles: {{#each roles}}{{key}} = {{name}} ({{abbreviation}}){{#unless @last}}; {{
 {{#if storySoFar.length}}
 Story so far (earlier MSEL rows; keep continuity with them):
 {{#each storySoFar}}- {{time}}{{#if wallClock}} ({{wallClock}}){{/if}} {{id}} {{from}} → {{to}}: {{event}}
+{{/each}}
+{{/if}}
+{{#if facility.length}}
+FACILITY FACTS (from the documents — the only runways, taxiways, gates, concourses, rooms, hostnames, IP ranges, phone numbers and agencies that exist):
+{{#each facility}}- {{this}}
 {{/each}}
 {{/if}}
 {{#if facts.length}}

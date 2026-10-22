@@ -362,7 +362,11 @@ describe('generate:media', () => {
       model: 'mock',
       createdAt: expect.any(String),
     })
-    expect(photo.provenance.prompt).toMatch(/^Phone snapshot/)
+    // The style/setting anchors lead; the model's own prompt follows.
+    expect(photo.provenance.prompt).toMatch(
+      /^Candid smartphone snapshot.*airport passenger terminal/,
+    )
+    expect(photo.provenance.prompt).toContain('Phone snapshot')
     expect(photo.provenance.negativePrompt).toMatch(/^text, letters/)
     expect(photo.sha256).toMatch(/^[0-9a-f]{64}$/)
     const composite = tweet.assets.find((a) => a.role === 'composite')!

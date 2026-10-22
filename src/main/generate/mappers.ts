@@ -32,13 +32,28 @@ import {
 
 export const DEFAULT_START_WALL_CLOCK = '09:00'
 
-/** Separates a phase's one-sentence goal from the beats the MSEL author needs. */
+/**
+ * Scenarios written before Phase.beats existed (#87) carried the beats inside Phase.goal
+ * after this marker; goalSummary / phaseBeats still read that form.
+ */
 export const BEATS_MARKER = 'Key beats:'
 
 /** The goal without its beats, for the MSEL header and later stages. */
 export function goalSummary(goal: string): string {
   const at = goal.indexOf(BEATS_MARKER)
   return (at < 0 ? goal : goal.slice(0, at)).trim()
+}
+
+/** The phase's beats: the explicit field, else the legacy "Key beats:" tail of the goal. */
+export function phaseBeats(phase: Pick<Phase, 'goal' | 'beats'>): string[] {
+  if (phase.beats) return phase.beats
+  const at = phase.goal.indexOf(BEATS_MARKER)
+  if (at < 0) return []
+  return phase.goal
+    .slice(at + BEATS_MARKER.length)
+    .split(/;\s*/)
+    .map((b) => b.trim().replace(/\.$/, ''))
+    .filter(Boolean)
 }
 
 /** "(C3)", "[C1, C2]", "(see C4)" written into prose; bare "C1" is left alone (Gate C1 exists). */
@@ -292,7 +307,8 @@ export function applyPhasePlan(s: Scenario, out: PhasePlanOutput): void {
     id: s.phases[index]?.id ?? newId(),
     index,
     title: p.title,
-    goal: p.goal,
+    goal: p.goal.trim(),
+    beats: p.beats.map((b) => b.trim()).filter(Boolean),
     startTime: shift(windows[index]!.startTime),
     endTime: shift(windows[index]!.endTime),
   }))

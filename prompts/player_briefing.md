@@ -23,6 +23,7 @@ variables:
     roles,
     startWallClock,
     durationHours,
+    facility,
     doctrine,
     retrieved,
     instructions,
@@ -59,7 +60,10 @@ Operational impact (for your eyes; do not reveal the cause): {{scenario.overview
 Roles and teams:
 {{#each roles}}- key {{key}}: {{name}} ({{abbreviation}}) — {{team}}. {{description}} Standing orders: {{join standingOrders " "}}
 {{/each}}Critical resources on the status board: {{join scenario.criticalResources ", "}}
-First injects of the exercise (the anomaly must match the first real inject):
+{{#if facility.length}}FACILITY FACTS (from the documents; use only these runways, gates, concourses, rooms and systems):
+{{#each facility}}- {{this}}
+{{/each}}
+{{/if}}First injects of the exercise (the anomaly must match the first real inject):
 {{#each firstRows}}- {{time}} {{id}} [{{purposeTag}}] {{from}} → {{to}}: {{event}}
 {{/each}}
 </scenario_state>

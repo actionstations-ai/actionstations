@@ -11,7 +11,13 @@ import type {
   Scenario,
 } from '@shared/schemas'
 import { PURPOSE_TAG_INFO } from '@shared/taxonomy'
-import { DEFAULT_START_WALL_CLOCK, goalSummary, resolveToRoles, wallClockAt } from './mappers'
+import {
+  DEFAULT_START_WALL_CLOCK,
+  goalSummary,
+  phaseBeats,
+  resolveToRoles,
+  wallClockAt,
+} from './mappers'
 
 const cell = (s: string): string =>
   s
@@ -81,6 +87,8 @@ export function renderMselMarkdown(s: Scenario): string {
   for (const p of s.phases) {
     const rows = s.msel.filter((r) => r.phaseId === p.id)
     lines.push(phaseHeading(p), '', `Goal: ${goalSummary(p.goal)}`, '')
+    const beats = phaseBeats(p)
+    if (beats.length) lines.push(`Beats: ${beats.join('; ')}.`, '')
     lines.push(rows.length ? mselTable(rows, s.roles) : '_No injects generated yet._', '')
   }
   return lines.join('\n').trimEnd() + '\n'

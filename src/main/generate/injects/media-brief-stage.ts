@@ -95,7 +95,7 @@ export async function runMediaBrief(input: MediaBriefInput): Promise<MediaBriefR
       extra,
     )
     return {
-      brief: normalizeBrief(plan, undefined, inject),
+      brief: normalizeBrief(plan, undefined, inject, { orgType: env.project.orgType }),
       plan,
       run: skippedRun(inject.id, `template only${why}`),
     }
@@ -110,7 +110,9 @@ export async function runMediaBrief(input: MediaBriefInput): Promise<MediaBriefR
     deps: env.deps,
     index: env.index,
   })
-  const brief = normalizeBrief(plan, stripKeysDeep(r.output), inject)
+  const brief = normalizeBrief(plan, stripKeysDeep(r.output), inject, {
+    orgType: env.project.orgType,
+  })
   if (brief.paths.includes('ai_image') && !brief.imagePrompt) {
     env.ctx.log(
       `inject_media_brief ${row.id}: the model wrote no image prompt; the image step will be skipped`,

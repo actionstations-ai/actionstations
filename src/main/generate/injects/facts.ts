@@ -105,6 +105,20 @@ export function factsSoFar(rows: MselRow[], row: MselRow, priorInjects: Inject[]
   return [...into.values()].slice(0, MAX_FACTS)
 }
 
+/** The story's text up to `row` (its rows and the injects written for earlier rows). */
+export function storyTexts(rows: MselRow[], row: MselRow, priorInjects: Inject[]): string[] {
+  const at = rows.findIndex((r) => r.id === row.id)
+  const upTo = at < 0 ? rows : rows.slice(0, at + 1)
+  const byRow = new Map(rows.map((r, i) => [r.id, i]))
+  const earlier = priorInjects.filter(
+    (inj) => at < 0 || (byRow.get(inj.mselRowId) ?? Number.MAX_SAFE_INTEGER) < at,
+  )
+  return [
+    ...upTo.map((r) => `${r.event}\n${r.expectedAction}`),
+    ...earlier.map((inj) => [inj.title, ...strings(inj.fields)].join('\n')),
+  ]
+}
+
 /** Grouped one-liners for the prompt: "hosts: AODB_SQL_MASTER (I-09), OPS_INTERN_03 (I-08b)". */
 export function formatFacts(facts: Fact[]): string[] {
   const labels: Record<Fact['kind'], string> = {

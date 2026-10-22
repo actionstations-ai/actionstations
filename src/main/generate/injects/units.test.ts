@@ -269,11 +269,37 @@ describe('normalizeBrief', () => {
       },
       inject('scene_photo', 'I-10'),
     )
-    expect(brief.imagePrompt).toBe('A terminal')
+    expect(brief.imagePrompt).toBe(
+      'Candid smartphone snapshot, slight tilt, natural color balance, neutral white balance. A terminal',
+    )
     expect(brief.negativePrompt).toMatch(/^text, letters/)
     expect(brief.negativePrompt).toContain('empty terminal')
+    expect(brief.negativePrompt).toContain('office cubicles')
     expect(brief.negativePrompt?.match(/blurry/g)).toHaveLength(1)
     expect(brief.imageStyle).toBe('phone')
+  })
+  it('anchors scene prompts with the style and the organization setting', () => {
+    const plan = planMedia(inject('scene_photo', 'I-10'), row('I-10', 'Visual', 'scene_photo'))
+    const airport = normalizeBrief(
+      plan,
+      { paths: ['ai_image'], imagePrompt: 'Crowd under dark screens', imageStyle: 'press' },
+      inject('scene_photo', 'I-10'),
+      { orgType: 'airport' },
+    )
+    expect(airport.imagePrompt).toMatch(
+      /^Press photograph, level horizon.*inside an airport passenger terminal: check-in counters.*\. Crowd under dark screens$/,
+    )
+    // Portraits and screens are not places: no setting anchor, no scene negatives.
+    const portrait = normalizeBrief(
+      plan,
+      { paths: ['ai_image'], imagePrompt: 'An angry man', imageStyle: 'portrait' },
+      inject('scene_photo', 'I-10'),
+      { orgType: 'airport' },
+    )
+    expect(portrait.imagePrompt).toBe(
+      'Head and shoulders portrait, shallow depth of field, natural skin tones. An angry man',
+    )
+    expect(portrait.negativePrompt).not.toContain('office cubicles')
   })
   it('forces the planned paths and falls back to voice lines from the fields', () => {
     const inj = inject('radio_call', 'I-05b', {

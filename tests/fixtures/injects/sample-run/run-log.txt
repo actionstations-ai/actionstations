@@ -1,83 +1,76 @@
 [0s] adapters: comfyui, mock, anthropic, ollama, openai-compatible
-[1s] ingested 6 docs; "FIDS failure" → TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure | TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure | ASP › Section 3 › 3.5 Failure Modes (Contingency) (TSA Security Directive 1542-04-08G)
-[1s] project /Users/matt/Code/tabletop-gen/.claude/worktrees/agent-ad259680b8e517667/.tmp/live-injects/North-Coast-International-Airport.ttxproj; scenario 01M5GHSHA8TCSPJ734C706VFW3
-[1s] progress: inject START (1/24)
-[6s] progress: inject I-01 (2/24)
-[14s] progress: inject I-02a (3/24)
-[19s] progress: inject I-02 (4/24)
-[26s] progress: inject I-03 (5/24)
-[34s] progress: inject I-04 (6/24)
-[43s] progress: inject I-05 (7/24)
-[48s] progress: inject I-05b (8/24)
-[55s] progress: inject I-06 (9/24)
-[66s] progress: inject I-06b (10/24)
-[73s] progress: inject I-07 (11/24)
-[78s] progress: inject I-08b (12/24)
-[85s] progress: inject I-08 (13/24)
-[92s] progress: inject I-09 (14/24)
-[106s] progress: inject I-10 (15/24)
-[112s] progress: inject I-10b (16/24)
-[117s] progress: inject I-11 (17/24)
-[128s] progress: inject I-12 (18/24)
-[132s] progress: inject I-13 (19/24)
-[140s] progress: inject I-13b (20/24)
-[148s] progress: inject I-14 (21/24)
-[153s] progress: inject I-14b (22/24)
-[157s] progress: inject I-15 (23/24)
-[169s] progress: inject END (24/24)
-[175s] generate:injects done in 174s; {"generated":["START","I-01","I-02a","I-02","I-03","I-04","I-05","I-05b","I-06","I-06b","I-07","I-08b","I-08","I-09","I-10","I-10b","I-11","I-12","I-13","I-13b","I-14","I-14b","I-15","END"],"skipped":[],"failed":[]}
-[175s]   START startex_card: ok 5.3s in=2824 out=551 repairs=0
-[175s]   I-01 phone_call: ok 5.2s in=3373 out=544 repairs=0
-[175s]   I-02a helpdesk_ticket: ok 5.1s in=3348 out=493 repairs=0
-[175s]   I-02 helpdesk_ticket: ok 6.8s in=3549 out=670 repairs=0
-[175s]   I-03 radio_call: ok 4.9s in=3297 out=469 repairs=0
-[175s]   I-04 tweet: ok 3.7s in=8475 out=616 repairs=1
-[175s]   I-05 time_jump_card: ok 4.3s in=3421 out=391 repairs=0
-[175s]   I-05b radio_call: ok 4.9s in=3691 out=444 repairs=0
-[175s]   I-06 fids_board: ok 10.4s in=3752 out=1000 repairs=0
-[175s]   I-06b facebook_post: ok 5.5s in=4164 out=474 repairs=0
-[175s]   I-07 memo: ok 5.3s in=3975 out=476 repairs=0
-[175s]   I-08b email_forward: ok 6.6s in=4163 out=598 repairs=0
-[175s]   I-08 simcell_script: ok 7s in=4332 out=600 repairs=0
-[175s]   I-09 system_log: ok 13.4s in=4508 out=885 repairs=0
-[175s]   I-10 cctv_still: ok 4.2s in=4714 out=295 repairs=0
-[175s]   I-10b media_inquiry_phone_slip: ok 4.1s in=4490 out=294 repairs=0
-[175s]   I-11 radio_call: ok 6.2s in=4805 out=493 repairs=0
-[175s]   I-12 media_inquiry_phone_slip: ok 3.9s in=4667 out=268 repairs=0
-[175s]   I-13 sitrep: ok 8.2s in=4786 out=686 repairs=0
-[175s]   I-13b radio_call: ok 5.3s in=4836 out=410 repairs=0
-[175s]   I-14 email: ok 5.4s in=4899 out=417 repairs=0
-[175s]   I-14b error_dialog: ok 4s in=5040 out=263 repairs=0
-[175s]   I-15 fids_board: ok 11.4s in=5136 out=979 repairs=0
-[175s]   END endex_card: ok 5.8s in=5213 out=418 repairs=0
-[175s] media briefs: 8 model calls, 22s
-[175s] progress: media I-04 (1/7)
-[177s] progress: image for I-04: Queueing SDXL documentary photo
-[177s] progress: image for I-04: ComfyUI started the workflow
-[196s] progress: image for I-04: Media ready
-[196s] progress: media I-05b (2/7)
-[199s] progress: audio for I-05b: Voicing Parking Deck 1 (1/3)
-[203s] progress: audio for I-05b: Voicing AOC (2/3)
-[206s] progress: audio for I-05b: Voicing Parking Deck 1 (3/3)
-[209s] progress: audio for I-05b: Audio ready
-[211s] progress: media I-06 (3/7)
-[211s] progress: media I-06b (4/7)
-[214s] progress: image for I-06b: Queueing SDXL documentary photo
-[214s] progress: image for I-06b: ComfyUI started the workflow
-[234s] progress: image for I-06b: Media ready
-[234s] progress: media I-09 (5/7)
-[234s] progress: media I-10 (6/7)
-[237s] progress: image for I-10: Queueing SDXL documentary photo
-[237s] progress: image for I-10: ComfyUI started the workflow
-[256s] progress: image for I-10: Media ready
-[256s] progress: media I-12 (7/7)
-[256s] generate:media done in 82s; {"rendered":[{"injectId":"01M5GHTH6M1EDTZJVXEBT6BT46","rowId":"I-04","assets":1},{"injectId":"01M5GHTZ1Z67G58RDN9E726670","rowId":"I-05b","assets":1},{"injectId":"01M5GHVGFY0W7H12D4P4AND6QE","rowId":"I-06b","assets":1},{"injectId":"01M5GHWQGCH14S69G5V4S5HJ35","rowId":"I-10","assets":1}],"skipped":[{"injectId":"01M5GHV6A5HHVWJK3TPSHN91BE","rowId":"I-06","reason":"nothing planned"},{"injectId":"01M5GHWAD3GBB09S1Y35QHQZFN","rowId":"I-09","reason":"nothing planned"},{"injectId":"01M5GHXDDSAQ58G0EA3VFHYY9V","rowId":"I-12","reason":"nothing planned"}],"failed":[]}
-[256s]   I-04 template+ai_image: ok 21.7s
-[256s]   I-05b template+tts: ok 14.7s
-[256s]   I-06 template: ok 0s
-[256s]   I-06b template+ai_image: ok 22.8s
-[256s]   I-09 template: ok 0s
-[256s]   I-10 template+ai_image: ok 22.3s
-[256s]   I-12 template: ok 0s
-[257s] warnings: INJECT_TYPE_FALLBACK(I-10)
-[257s] media copied: 4; skipped: 0
+[2s] ingested 6 docs; "FIDS failure" → TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure | TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure | ASP › Section 3 › 3.5 Failure Modes (Contingency) (TSA Security Directive 1542-04-08G)
+[2s] project /Users/matt/Code/tabletop-gen/.claude/worktrees/agent-a3435ef6819bcf08f/.tmp/live-quality/project/North-Coast-International-Airport.ttxproj; scenario 01M5GMQXZCKJJ45EQS4FS0NZBZ
+[2s] progress: inject START (1/24)
+[32s] progress: inject I-01 (2/24)
+[56s] progress: inject I-02a (3/24)
+[86s] progress: inject I-02 (4/24)
+[104s] progress: inject I-03 (5/24)
+[136s] progress: inject I-04 (6/24)
+[158s] progress: inject I-05 (7/24)
+[170s] progress: inject I-05b (8/24)
+[204s] progress: inject I-06 (9/24)
+[260s] progress: inject I-06b (10/24)
+[293s] progress: inject I-07 (11/24)
+[325s] progress: inject I-08b (12/24)
+[339s] progress: inject I-08 (13/24)
+[356s] progress: inject I-09 (14/24)
+[421s] progress: inject I-10 (15/24)
+[437s] progress: inject I-10b (16/24)
+[469s] progress: inject I-11 (17/24)
+[488s] progress: inject I-12 (18/24)
+[501s] progress: inject I-13 (19/24)
+[527s] progress: inject I-13b (20/24)
+[551s] progress: inject I-14 (21/24)
+[572s] progress: inject I-14b (22/24)
+[587s] progress: inject I-15 (23/24)
+[636s] progress: inject END (24/24)
+[656s] generate:injects done in 654s; {"generated":["START","I-01","I-02a","I-02","I-03","I-04","I-05","I-05b","I-06","I-06b","I-07","I-08b","I-08","I-09","I-10","I-10b","I-11","I-12","I-13","I-13b","I-14","I-14b","I-15","END"],"skipped":[],"failed":[]}
+[656s]   START startex_card: ok 16.4s in=8077 out=1038 repairs=1
+[656s]   I-01 phone_call: ok 12.1s in=4133 out=500 repairs=0
+[656s]   I-02a helpdesk_ticket: ok 18s in=8915 out=930 repairs=1
+[656s]   I-02 helpdesk_ticket: ok 17.9s in=4304 out=679 repairs=0
+[656s]   I-03 radio_call: ok 12.8s in=8668 out=786 repairs=1
+[656s]   I-04 tweet: ok 7.7s in=10218 out=615 repairs=1
+[656s]   I-05 time_jump_card: ok 11.7s in=4208 out=450 repairs=0
+[656s]   I-05b radio_call: ok 15s in=9630 out=890 repairs=1
+[656s]   I-06 fids_board: ok 24.5s in=10525 out=2110 repairs=1
+[656s]   I-06b facebook_post: ok 14.4s in=5083 out=495 repairs=0
+[656s]   I-07 memo: ok 15.5s in=10637 out=1005 repairs=1
+[656s]   I-08b email_forward: ok 14.1s in=5100 out=571 repairs=0
+[656s]   I-08 simcell_script: ok 17.4s in=5256 out=583 repairs=0
+[656s]   I-09 system_log: ok 33.9s in=12429 out=2379 repairs=1
+[656s]   I-10 scene_photo: ok 6.2s in=11774 out=522 repairs=1
+[656s]   I-10b phone_call: ok 12.1s in=11519 out=1304 repairs=1
+[656s]   I-11 radio_call: ok 7.7s in=12062 out=776 repairs=1
+[656s]   I-12 media_inquiry_phone_slip: ok 6.1s in=11712 out=559 repairs=1
+[656s]   I-13 sitrep: ok 11.7s in=12386 out=1291 repairs=1
+[656s]   I-13b radio_call: ok 9.6s in=12121 out=778 repairs=1
+[656s]   I-14 email: ok 11s in=12302 out=931 repairs=1
+[656s]   I-14b error_dialog: ok 7.4s in=12511 out=602 repairs=1
+[656s]   I-15 fids_board: ok 23.2s in=13527 out=2083 repairs=1
+[656s]   END endex_card: ok 10.3s in=12771 out=806 repairs=1
+[656s] media briefs: 9 model calls, 67s
+[656s] progress: media I-04 (1/5)
+[661s] progress: image for I-04: Queueing SDXL documentary photo
+[661s] progress: image for I-04: ComfyUI started the workflow
+[689s] progress: image for I-04: Media ready
+[689s] progress: media I-05b (2/5)
+[693s] progress: audio for I-05b: Voicing Parking Garage 1 (1/3)
+[699s] progress: audio for I-05b: Voicing AOC (2/3)
+[703s] progress: audio for I-05b: Voicing Parking Garage 1 (3/3)
+[709s] progress: audio for I-05b: Audio ready
+[712s] progress: media I-09 (3/5)
+[712s] progress: media I-10 (4/5)
+[716s] progress: image for I-10: Queueing SDXL documentary photo
+[716s] progress: image for I-10: ComfyUI started the workflow
+[739s] progress: image for I-10: Media ready
+[739s] progress: media I-12 (5/5)
+[739s] generate:media done in 83s; {"rendered":[{"injectId":"01M5GMW12TRR85DKTTS9772G0W","rowId":"I-04","assets":1},{"injectId":"01M5GMX271DSN5EVSGDSDT27F5","rowId":"I-05b","assets":1},{"injectId":"01M5GN4Q6K2Y90FBNAZNRV2RRR","rowId":"I-10","assets":1}],"skipped":[{"injectId":"01M5GN2R69QK0MEMH6E95S7XWK","rowId":"I-09","reason":"nothing planned"},{"injectId":"01M5GN6RWQ5TE8VPFN3748T3FK","rowId":"I-12","reason":"nothing planned"}],"failed":[]}
+[739s]   I-04 template+ai_image: ok 32.7s
+[739s]   I-05b template+tts: ok 22.8s
+[739s]   I-09 template: ok 0s
+[739s]   I-10 template+ai_image: ok 27.5s
+[739s]   I-12 template: ok 0s
+[740s] warnings: INJECT_CONTENT_ISSUE(START), INJECT_CONTENT_ISSUE(I-02a), INJECT_CONTENT_ISSUE(I-03), INJECT_CONTENT_ISSUE(I-04), INJECT_CONTENT_ISSUE(I-05b), INJECT_CONTENT_ISSUE(I-06), INJECT_CONTENT_ISSUE(I-07), INJECT_CONTENT_ISSUE(I-09), INJECT_CONTENT_ISSUE(I-10), INJECT_CONTENT_ISSUE(I-10b), INJECT_CONTENT_ISSUE(I-11), INJECT_CONTENT_ISSUE(I-13), INJECT_CONTENT_ISSUE(I-13b), INJECT_CONTENT_ISSUE(I-14), INJECT_CONTENT_ISSUE(I-14b), INJECT_CONTENT_ISSUE(I-15), INJECT_CONTENT_ISSUE(END)
+[740s] media copied: 3; skipped: 0

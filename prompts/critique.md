@@ -14,7 +14,7 @@ retrieval:
     - 'checklist response actions'
     - 'facility description gates doors levels locations'
   k: 8
-variables: [project, scenario, roles, phases, lints, doctrine, retrieved, instructions]
+variables: [project, scenario, roles, phases, lints, facility, doctrine, retrieved, instructions]
 ---
 
 <!-- @system -->
@@ -33,9 +33,9 @@ Check, in this order:
 2. Plausibility: would a practitioner in this discipline find the inject credible? Flag generic, vague or "placeholder" wording.
 3. Doctrine: expected actions align with the retrieved plan sections; flag an expected action that contradicts the plan or ignores a documented procedure/authority.
 4. Role coverage and tension: every role gets meaningful work each phase; the public-information track is a real storyline; at least one decision with costs on both sides.
-5. Realism devices: concrete artifacts (ticket numbers, hostnames consistent with the documents, flight/door identifiers that exist, local references). Flag invented infrastructure that contradicts the documents (a runway, gate, room or IP range the documents do not have).
+5. Realism devices: concrete artifacts (ticket numbers, hostnames consistent with the documents, flight/door identifiers that exist, local references). Flag invented infrastructure that contradicts the FACILITY FACTS listed in the scenario state (a runway, taxiway, gate, concourse, room or IP range the documents do not have), unless the row itself frames it as the attacker's fake data.
    5a. Identity and geography: the organization name, facility name, city, county and state in the overview, briefing and injects must match the documents; flag any invented or contradicting geography. Technical claims must be internally consistent (an address called unauthorized must be outside the ranges listed as authorized; hostnames follow the documented schema).
-   5b. Inject hygiene: an inject's "from" must be the outside world, never a player role announcing its own decision (that belongs in the expected action); rows that repeat an earlier row; times outside the phase; a phase whose public-information role or technical role gets nothing to do.
+   5b. Inject hygiene: an inject's "from" must be the outside world, never a player role announcing its own decision (that belongs in the expected action). Judge this ONLY by the row's "from" column against the player roles listed (their keys, abbreviations and names): "Facilitator", "SimCell", a helpdesk, "Social Media", a vendor, a tenant, a reporter, a dispatcher, a field unit and any automated system, alert or log are outside parties by definition, whatever system or team the event concerns — a system log delivered by "Facilitator" or "System Alert" about the IT team's servers is NOT from a player role. Also flag rows that repeat an earlier row; times outside the phase; a phase whose public-information role or technical role gets nothing to do.
 6. The deterministic lint results provided: confirm, dismiss with a reason, or extend them.
 
 severity: "error" for something that breaks play (contradiction, impossible timing, wrong procedure), "warning" for quality problems, "info" for polish. Do not pad: 3–12 issues is typical for a decent draft. summary: 2–4 sentences on overall quality and the two or three changes that matter most.
@@ -52,8 +52,11 @@ Threat: {{scenario.overview.threat}}
 Operational impact: {{scenario.overview.operationalImpact}}
 Plan sections tested: {{join scenario.overview.coreSectionsTested "; "}}
 Objectives: {{#each scenario.objectives}}{{name}}{{#unless @last}}; {{/unless}}{{/each}}
-Roles: {{#each roles}}{{key}} = {{name}}{{#unless @last}}; {{/unless}}{{/each}}
-Phases:
+Player roles (key = name, abbreviation): {{#each roles}}{{key}} = {{name}}{{#if abbreviation}}, {{abbreviation}}{{/if}}{{#unless @last}}; {{/unless}}{{/each}}
+{{#if facility.length}}FACILITY FACTS (from the documents; the only identifiers of these kinds that exist):
+{{#each facility}}- {{this}}
+{{/each}}
+{{/if}}Phases:
 {{#each phases}}- Phase {{number}}: {{title}} ({{startTime}}–{{endTime}}). {{goal}}
 {{/each}}
 MSEL ({{scenario.rowCount}} rows):

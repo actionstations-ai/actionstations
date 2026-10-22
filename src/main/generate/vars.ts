@@ -3,7 +3,7 @@
 import type { MselRow, Project, Role, Scenario, ScenarioIdea } from '@shared/schemas'
 import { INJECT_TYPES, PURPOSE_TAG_INFO, PURPOSE_TAGS } from '@shared/taxonomy'
 import { citationLabel } from './docs'
-import { DEFAULT_START_WALL_CLOCK, goalSummary } from './mappers'
+import { DEFAULT_START_WALL_CLOCK, goalSummary, phaseBeats } from './mappers'
 
 /** Tags that delimit data blocks in the prompts. */
 const DATA_TAG = /<(?=\s*\/?\s*(?:documents?|scenario_state)\b)/gi
@@ -94,6 +94,7 @@ export function scenarioVars(s: Scenario) {
       number: p.index + 1,
       title: p.title,
       goal: goalSummary(p.goal),
+      beats: phaseBeats(p),
       startTime: p.startTime,
       endTime: p.endTime,
     })),

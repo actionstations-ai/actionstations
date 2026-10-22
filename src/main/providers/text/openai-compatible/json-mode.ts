@@ -25,12 +25,22 @@ export function clearJsonModeCache(): void {
   workingMode.clear()
 }
 
-/** Modes to try, starting from a configured override or the remembered mode. */
-export function modesToTry(key: string, override?: string): JsonMode[] {
+/**
+ * Reasoning models (gpt-oss, o-series, DeepSeek-R1, QwQ) under LM Studio's strict
+ * `json_schema` mode return one truncated item and stop (#81); they are started from
+ * `json_object`, where the instruction-carrying prompt yields complete output.
+ */
+const REASONING_MODEL = /gpt-oss|\bo[134](?:-mini|-pro)?\b|deepseek-r1|\bqwq\b|reasoning/i
+
+export function defaultModeFor(model: string): JsonMode {
+  return REASONING_MODEL.test(model) ? 'json_object' : 'json_schema'
+}
+
+/** Modes to try, starting from a configured override, the remembered mode, or the model's default. */
+export function modesToTry(key: string, override?: string, model = ''): JsonMode[] {
   const first = (JSON_MODES as readonly string[]).includes(override ?? '')
     ? (override as JsonMode)
-    : rememberedMode(key)
-  if (!first) return [...JSON_MODES]
+    : (rememberedMode(key) ?? defaultModeFor(model))
   return JSON_MODES.slice(JSON_MODES.indexOf(first))
 }
 

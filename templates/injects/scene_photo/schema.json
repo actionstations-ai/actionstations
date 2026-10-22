@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Scene photo",
+  "description": "A plain photograph shown to the room: a passenger's phone snapshot or a wire-service press photo. The image slot 'photo' holds the AI scene; the template adds only a thin frame, an optional caption and a credit line, so no readable text is ever painted by the image model.",
+  "type": "object",
+  "required": ["sceneBrief"],
+  "properties": {
+    "sceneBrief": {
+      "type": "string",
+      "description": "Image prompt for the photo (used by the media stage, not printed). Describe the scene positively: subject, setting as the documents describe it, people and what they do, lighting, time of day. Screens are dark, frozen or unreadable from the distance; never quote on-screen text.",
+      "examples": [
+        "Crowded airport concourse, passengers standing with rolling suitcases looking up at a row of dark powered-off departure boards, high ceilings, late morning light"
+      ]
+    },
+    "style": {
+      "type": "string",
+      "enum": ["phone", "press"],
+      "description": "phone = a passenger's snapshot (timestamp strip, slight vignette); press = wire-service photo (white border, serif caption, credit line). Defaults to the variant.",
+      "examples": ["phone"]
+    },
+    "caption": {
+      "type": "string",
+      "description": "Caption under the photo, in the voice of whoever shares it (a post, a newsroom cutline). One or two sentences.",
+      "examples": [
+        "Passengers wait in Concourse A as every departure board goes dark on Thursday morning."
+      ]
+    },
+    "credit": {
+      "type": "string",
+      "description": "Credit line: a handle for a phone photo, a photographer and outlet for a press photo.",
+      "examples": ["Photo: J. Ortiz / Akron Beacon Journal"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Where the photo was taken, shown small in the strip (a documented area of the facility).",
+      "examples": ["Concourse A, Level 2"]
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "Time shown in the phone strip or the cutline, as a phone or a newsroom writes it.",
+      "examples": ["10:22 AM"]
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the photo surfaced (shown in the strip): a social handle, a station, a tip line.",
+      "examples": ["@TravelGuy99"]
+    }
+  },
+  "additionalProperties": false
+}

@@ -10,6 +10,7 @@ import {
   type HotwashOutput,
   type LintWarning,
   type MselPhaseOutput,
+  type MselRow,
   type ObjectivesRolesOutput,
   type OverviewOutput,
   type Phase,
@@ -34,10 +35,18 @@ import {
   rubricSection,
   upsertSection,
 } from './docs'
+import {
+  FACILITY_UNKNOWN_ID,
+  facilitySheet,
+  lintFacilityIds,
+  lintRowFacility,
+  type FacilityFacts,
+} from './facility'
 import { findIdea } from './ideas'
-import { decisionPhaseIndex, lintScenario, phaseMixGaps } from './lint'
-import { BEATS_MARKER, type MselMapResult } from './mappers'
+import { decisionPhaseIndex, lintScenario, phaseMixGaps, roleNamedBy } from './lint'
+import { goalSummary, phaseBeats, type MselMapResult } from './mappers'
 import type { RetrievedChunk } from './retrieval'
+import { repairRubricLinks, sourceFor } from './sources'
 import {
   applyHandbook,
   applyHotwash,
@@ -73,7 +82,12 @@ export const CITATION_DROPPED = 'CITATION_DROPPED'
 export const ROLE_KEY_UNKNOWN = 'ROLE_KEY_UNKNOWN'
 export const LOCATION_UNGROUNDED = 'LOCATION_UNGROUNDED'
 /** Warnings the mappers record while generating; kept when the lints are recomputed. */
-const PIPELINE_WARNINGS = new Set([CITATION_DROPPED, ROLE_KEY_UNKNOWN, LOCATION_UNGROUNDED])
+const PIPELINE_WARNINGS = new Set([
+  CITATION_DROPPED,
+  ROLE_KEY_UNKNOWN,
+  LOCATION_UNGROUNDED,
+  FACILITY_UNKNOWN_ID,
+])
 /** rowId the overview's dropped citations are recorded under. */
 const OVERVIEW_ROW = 'overview'
 
@@ -131,6 +145,7 @@ interface Env {
   deps: PipelineDeps
   index: SearchIndex
   project: Project
+  facility: FacilityFacts
   idea?: ScenarioIdea
   ctx: JobContext
 }
@@ -203,6 +218,7 @@ const vars = (input: StepInput, extra: Record<string, unknown> = {}): Record<str
     ...(input.env.idea ? { idea: input.env.idea } : {}),
     ...(input.instructions ? { instructions: input.instructions } : {}),
   }),
+  facility: facilitySheet(input.env.facility),
   ...extra,
 })
 
@@ -246,13 +262,7 @@ async function stepObjectivesRoles(input: StepInput): Promise<StageRun> {
 
 async function stepPhasePlan(input: StepInput): Promise<StageRun> {
   const r = await call<PhasePlanOutput>(input, vars(input))
-  const withBeats: PhasePlanOutput = {
-    phases: r.output.phases.map((p) => ({
-      ...p,
-      goal: p.beats.length ? `${p.goal.trim()}\n\n${BEATS_MARKER} ${p.beats.join('; ')}.` : p.goal,
-    })),
-  }
-  applyPhasePlan(input.scenario, withBeats)
+  applyPhasePlan(input.scenario, r.output)
   return r.run
 }
 
@@ -276,7 +286,8 @@ function mselVars(input: StepInput, phase: Phase, withCurrent = false): Record<s
     phase: {
       number: phase.index + 1,
       title: phase.title,
-      goal: phase.goal,
+      goal: goalSummary(phase.goal),
+      beats: dataSafe(phaseBeats(phase)),
       startTime: phase.startTime,
       endTime: phase.endTime,
       isFirst: phase.index === 0,
@@ -414,8 +425,21 @@ async function stepMselPhase(input: StepInput): Promise<StageRun> {
   }
   for (const row of mapped.rows) owned.add(row.id)
   reportMapping(s, phase, mapped, env.ctx, owned)
+  noteFacility(s, mapped.rows, env)
   await writeDoc(env, s, 'overview', renderMselMarkdown(s), `msel_phase ${phase.index + 1}`)
   return r.run
+}
+
+/** Record FACILITY_UNKNOWN_ID for the rows just written (#84); earlier ones for them are gone. */
+function noteFacility(s: Scenario, rows: MselRow[], env: Env): void {
+  const ids = new Set(rows.map((r) => r.id))
+  s.warnings = s.warnings.filter((w) => !(w.code === FACILITY_UNKNOWN_ID && ids.has(w.rowId ?? '')))
+  for (const row of rows) {
+    for (const w of lintRowFacility(row, env.facility)) {
+      s.warnings.push(w)
+      env.ctx.log(w.message, 'warn', { stage: 'msel_phase', itemId: row.phaseId })
+    }
+  }
 }
 
 async function stepHandbook(input: StepInput): Promise<StageRun> {
@@ -508,8 +532,9 @@ async function revisePhaseRows(
   })
   const prev = runFor(s, step)
   if (prev) sumTokens(prev, fix.run)
+  const rows = await requireSpecificSources(mselInput, base, fix, prev)
   const byId = new Map(current.map((r) => [r.id.toUpperCase(), r]))
-  const replacements = fix.output.rows.flatMap((r) => {
+  const replacements = rows.flatMap((r) => {
     const original = byId.get(r.id.trim().toUpperCase())
     if (!original || original.locked || !flagged.has(original.id.toUpperCase())) return []
     return [{ ...r, id: original.id, time: original.time }]
@@ -520,6 +545,58 @@ async function revisePhaseRows(
   const mapped = applyMselPhase(s, phase, { rows: replacements }, fix.retrieved, { keepIds })
   reportMapping(s, phase, mapped, env.ctx, rewritten)
   return rewritten
+}
+
+type OutRow = MselPhaseOutput['rows'][number]
+const GENERIC_SOURCE =
+  /^\s*(?:the\s+)?(?:facilitator|controller|simcell|sim cell|exercise (?:director|control)|moderator)\s*$/i
+const CONTROL_TAGS = new Set<OutRow['purposeTag']>(['STARTEX', 'TIME_JUMP', 'ENDEX'])
+
+/** A revised non-control row sourced from a generic "Facilitator" (#85): flat and unplayable. */
+const hasGenericSource = (r: OutRow): boolean =>
+  GENERIC_SOURCE.test(r.from) &&
+  !CONTROL_TAGS.has(r.purposeTag) &&
+  !/^Facilitator prompt/i.test(r.event)
+
+/**
+ * The revision pass must name the outside party that delivers each row. Rows that came back
+ * from a generic facilitator get one more call with that note; whatever is still generic is
+ * re-sourced deterministically from its channel (sources.ts).
+ */
+async function requireSpecificSources(
+  input: StepInput,
+  base: Record<string, unknown>,
+  fix: StageResult<MselPhaseOutput>,
+  prev: StageRun | undefined,
+): Promise<OutRow[]> {
+  let rows = fix.output.rows
+  const generic = rows.filter(hasGenericSource)
+  if (!generic.length) return rows
+  const notes = generic.map(
+    (r) =>
+      `${r.id}: "from" is "${r.from.trim()}". Name the specific outside party that delivers this inject (a helpdesk, a SIEM or system alert, a vendor NOC, a tenant employee, a gate agent, a dispatcher, a reporter, a social media user); keep the id, time, tag and substance.`,
+  )
+  input.env.ctx.log(
+    `critique: ${generic.length} revised row(s) sourced from a generic facilitator; asking for a specific source`,
+    'info',
+    { stage: 'critique', ...(input.step.itemId ? { itemId: input.step.itemId } : {}) },
+  )
+  try {
+    const again = await call<MselPhaseOutput>(input, {
+      ...base,
+      targetRowCount: generic.length,
+      maxRowCount: generic.length,
+      revisePass: true,
+      reviseNotes: dataSafe(notes),
+    })
+    if (prev) sumTokens(prev, again.run)
+    const byId = new Map(again.output.rows.map((r) => [r.id.trim().toUpperCase(), r]))
+    rows = rows.map((r) => byId.get(r.id.trim().toUpperCase()) ?? r)
+  } catch (err) {
+    if (!(err instanceof StageFailure)) throw err
+    if (prev) sumTokens(prev, err.run)
+  }
+  return rows.map((r) => (hasGenericSource(r) ? { ...r, from: sourceFor(r) } : r))
 }
 
 /**
@@ -567,11 +644,65 @@ async function reviseFromCritique(
 /** Lints are recomputed here; critique issues replace the previous critique's. */
 const REVISION_NOTE = ' (row rewritten once from this note)'
 
+type Issue = CritiqueOutput['issues'][number]
+
+/** A critique issue that claims a row's source is a player role. */
+const SOURCE_CLAIM = /\bplayer role\b/i
+const SOURCE_VERBS = /\b(?:presents?|attribut\w*|sourced|comes?|originat\w*|from)\b/i
+const NARRATION = /\bnarrat\w*\b/i
+
+/**
+ * The critique over-flags rows whose source is Facilitator, Helpdesk, Social Media or an
+ * automated system as "from a player role" (#85). Such a claim is checked against the row:
+ * when `from` names no player role, the issue is dismissed.
+ */
+function dismissFalseSourceIssues(s: Scenario, issues: Issue[], ctx: JobContext): Issue[] {
+  return issues.filter((i) => {
+    if (!i.rowId || !SOURCE_CLAIM.test(i.message) || !SOURCE_VERBS.test(i.message)) return true
+    if (NARRATION.test(i.message)) return true
+    const row = s.msel.find((r) => r.id === i.rowId)
+    if (!row || roleNamedBy(row.from, s.roles)) return true
+    ctx.log(
+      `critique: dismissed "${i.message.slice(0, 90)}…" — row ${row.id} comes from "${row.from}", not a player role`,
+      'info',
+      { stage: 'critique' },
+    )
+    return false
+  })
+}
+
+/** Facility-id lint hits as error issues, so the revision pass rewrites those rows too (#84). */
+function facilityIssues(s: Scenario, facility: FacilityFacts): Issue[] {
+  return lintFacilityIds(s, facility).map((w) => ({
+    severity: 'error' as const,
+    rowId: w.rowId!,
+    message: w.message,
+    suggestion: w.suggestion ?? '',
+  }))
+}
+
+/** Rubric links to rows a revision dropped or renamed are repaired or pruned (#86). */
+function pruneRubricLinks(s: Scenario, ctx: JobContext): void {
+  if (!s.rubric) return
+  for (const fix of repairRubricLinks(s.rubric.metrics, s.msel))
+    ctx.log(
+      `rubric: "${fix.metric}" linked ${fix.from}, which the revision removed; ${fix.to ? `relinked to ${fix.to}` : 'link dropped'}`,
+      'warn',
+      { stage: 'critique' },
+    )
+}
+
 async function stepCritique(input: StepInput): Promise<StageRun> {
-  const { scenario: s } = input
+  const { scenario: s, env } = input
   const r = await call<CritiqueOutput>(input, vars(input, { lints: lintScenario(s) }))
-  const rewritten = await reviseFromCritique(input, r.output.issues, r.run)
-  const critique: LintWarning[] = r.output.issues.map((i) => ({
+  const issues = dismissFalseSourceIssues(s, r.output.issues, env.ctx)
+  const rewritten = await reviseFromCritique(
+    input,
+    [...issues, ...facilityIssues(s, env.facility)],
+    r.run,
+  )
+  pruneRubricLinks(s, env.ctx)
+  const critique: LintWarning[] = issues.map((i) => ({
     code: 'CRITIQUE',
     severity: i.severity,
     message: i.message + (i.rowId && rewritten.has(i.rowId) ? REVISION_NOTE : ''),
@@ -584,7 +715,10 @@ async function stepCritique(input: StepInput): Promise<StageRun> {
   const live = (w: LintWarning): boolean =>
     !w.rowId || w.rowId === OVERVIEW_ROW || rowIds.has(w.rowId)
   s.warnings = [
-    ...s.warnings.filter((w) => PIPELINE_WARNINGS.has(w.code) && live(w)),
+    ...s.warnings.filter(
+      (w) => PIPELINE_WARNINGS.has(w.code) && w.code !== FACILITY_UNKNOWN_ID && live(w),
+    ),
+    ...lintFacilityIds(s, env.facility),
     ...lintScenario(s),
     ...critique,
   ]
@@ -680,7 +814,8 @@ async function openEnv(root: string, scenario: Scenario, ctx: JobContext): Promi
     deps.openIndex(root),
     findIdea(root, scenario.id, scenario.brief.ideaId),
   ])
-  return { root, deps, index, project, ...(idea ? { idea } : {}), ctx }
+  const facility = await deps.loadFacilityFacts(root, project)
+  return { root, deps, index, project, facility, ...(idea ? { idea } : {}), ctx }
 }
 
 /** Run every step that has no ok run yet, in order. This is both "generate" and "continue". */

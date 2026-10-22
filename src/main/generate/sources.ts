@@ -34,7 +34,8 @@ const CHANNEL_LABEL = /^\s*[A-Z][\w /#-]{1,30}(?:\([^)]*\))?\s*:/
 const DECISION_VERBS =
   /\b(activates?|declares?|authori[sz]es?|orders?|approves?|decides?|initiates?|directs?|assumes?|announces?|confirms?|requests?|notif(?:y|ies)|isolates?|shuts? down|disconnects?|issues?)\b/i
 
-function sourceFor(row: OutRow): string {
+/** The outside party that plausibly delivers a row's channel ("System Alert", "IT Helpdesk"). */
+export function sourceFor(row: OutRow): string {
   const channel = `${row.format} ${row.event.slice(0, 40)}`
   return CHANNEL_SOURCES.find((c) => c.test.test(channel))?.source ?? 'Frontline Staff'
 }

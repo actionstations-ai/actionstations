@@ -118,7 +118,7 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
     onToken?: (t: string) => void,
   ): Promise<ChatResponse> {
     const key = modeKey(this.base, model)
-    const modes = modesToTry(key, stringOption(this.config, 'jsonMode'))
+    const modes = modesToTry(key, stringOption(this.config, 'jsonMode'), model)
     for (const [i, mode] of modes.entries()) {
       const start = Date.now()
       const { system, extra } = jsonModeRequest(req, mode)

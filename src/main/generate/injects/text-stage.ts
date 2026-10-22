@@ -1,7 +1,8 @@
 // inject_text for one MSEL row: pick the type (template-backed when possible), show the
-// model the template's schema and the facts established so far, validate the fields with
-// the template's JSON Schema, send the ajv issues back once, and keep the inject with a lint
-// warning when the repair also misses (a page the user can fix beats a failed job).
+// model the template's schema, the facility facts and the facts established so far, normalise
+// the fields, validate them with the template's JSON Schema plus the content checks
+// (consistency.ts), send every issue back once, and keep the inject with a lint warning when
+// the repair also misses (a page the user can fix beats a failed job).
 import type {
   Inject,
   InjectTextOutput,
@@ -15,12 +16,15 @@ import { injectTypeInfo } from '@shared/taxonomy'
 import type { JobContext } from '../../jobs/manager'
 import { newId } from '../../lib/ids'
 import type { SearchIndex } from '../deps'
+import { facilitySheet, type FacilityFacts } from '../facility'
 import { stripKeysDeep } from '../mappers'
 import { resolveCitations, type RetrievedChunk } from '../retrieval'
 import { runStage, StageFailure, type StageResult } from '../stage'
 import { baseVars, dataSafe, rowVars } from '../vars'
+import { contentIssues, type ContentIssue } from './consistency'
 import type { InjectDeps } from './deps'
-import { factsSoFar, formatFacts } from './facts'
+import { factsSoFar, formatFacts, storyTexts } from './facts'
+import { normalizeFields } from './normalize'
 import {
   chooseInjectType,
   defaultDelivery,
@@ -32,6 +36,7 @@ import {
 export const INJECT_FIELDS_INVALID = 'INJECT_FIELDS_INVALID'
 export const INJECT_TYPE_FALLBACK = 'INJECT_TYPE_FALLBACK'
 export const INJECT_TEMPLATE_MISSING = 'INJECT_TEMPLATE_MISSING'
+export const INJECT_CONTENT_ISSUE = 'INJECT_CONTENT_ISSUE'
 export const CITATION_DROPPED = 'CITATION_DROPPED'
 
 export interface InjectEnv {
@@ -39,6 +44,8 @@ export interface InjectEnv {
   deps: InjectDeps
   index: SearchIndex
   project: Project
+  /** Identifiers the project's documents state (#84). */
+  facility: FacilityFacts
   ctx: JobContext
 }
 
@@ -147,6 +154,7 @@ function buildVars(input: InjectTextInput, choice: TypeChoice): Record<string, u
     defaultDelivery: defaultDelivery(choice.type),
     ...templateVars(env, choice),
     facts: dataSafe(formatFacts(facts)),
+    facility: facilitySheet(env.facility),
     storySoFar: dataSafe(storySoFar(s, row)),
     priorInjects: dataSafe(
       priorInjects.map((i) => ({ id: i.mselRowId, type: i.type, title: i.title })),
@@ -175,10 +183,10 @@ export function dropUnknownFields(out: InjectTextOutput, known: string[]): strin
   return dropped
 }
 
-const formatIssues = (issues: { path: string; message: string }[]): string =>
+const formatIssues = (issues: ContentIssue[]): string =>
   issues
     .slice(0, 25)
-    .map((i) => `- fields${i.path}: ${i.message}`)
+    .map((i) => `- ${i.path}: ${i.message}`)
     .join('\n')
 
 async function callText(
@@ -232,10 +240,74 @@ function finalType(
 interface Validated {
   output: InjectTextOutput
   retrieved: RetrievedChunk[]
-  issues: { path: string; message: string }[]
+  /** Template schema violations (ajv), paths prefixed "fields". */
+  issues: ContentIssue[]
+  /** Content checks that still fail (consistency.ts). */
+  content: ContentIssue[]
 }
 
-/** Validate against the template schema; on issues, one more call carrying them. */
+type Checked = Pick<Validated, 'issues' | 'content'>
+
+/**
+ * One draft: unknown fields dropped, fields normalised, then the schema issues and the
+ * content issues. Both lists go back to the model in the single repair round.
+ */
+function checkDraft(
+  input: InjectTextInput,
+  injectId: string,
+  choice: TypeChoice,
+  out: InjectTextOutput,
+): Checked {
+  const { env, row, scenario, priorInjects } = input
+  const extra = { stage: 'inject_text' as const, itemId: injectId }
+  const template = choice.hasTemplate ? env.deps.templates.loadTemplate(choice.type) : undefined
+  const schema = (template?.schema ?? {}) as Record<string, unknown>
+  if (template) {
+    const dropped = dropUnknownFields(out, Object.keys((schema.properties ?? {}) as object))
+    if (dropped.length)
+      env.ctx.log(
+        `inject_text ${row.id}: dropped field(s) the ${choice.type} template does not have: ${dropped.join(', ')}`,
+        'info',
+        extra,
+      )
+  }
+  const notes = normalizeFields({
+    type: choice.type,
+    fields: out.fields,
+    row,
+    required: (schema.required as string[] | undefined) ?? [],
+  })
+  if (notes.length)
+    env.ctx.log(`inject_text ${row.id}: normalised ${notes.join('; ')}`, 'info', extra)
+  const issues = template
+    ? env.deps.templates
+        .validateFields(choice.type, out.fields)
+        .map((i) => ({ path: `fields${i.path}`, message: i.message }))
+    : []
+  const content = contentIssues({
+    type: choice.type,
+    fields: out.fields,
+    schema,
+    row,
+    facility: env.facility,
+    storyTexts: storyTexts(scenario.msel, row, priorInjects),
+    knownText: knownNames(env.project, scenario),
+  })
+  return { issues, content }
+}
+
+/** Names that belong to this scenario, so a template example that matches one is not a leak. */
+function knownNames(project: Project, s: Scenario): string {
+  return [
+    s.title,
+    project.orgName,
+    project.name,
+    ...Object.values(project.brand.aliases),
+    ...s.roles.flatMap((r) => [r.name, r.abbreviation, r.team]),
+  ].join('\n')
+}
+
+/** Validate the draft; on any issue, one more call carrying all of them. */
 async function validateWithRepair(
   input: InjectTextInput,
   injectId: string,
@@ -244,40 +316,30 @@ async function validateWithRepair(
   choice: TypeChoice,
 ): Promise<Validated> {
   const { env, row } = input
-  const validate = (o: InjectTextOutput) =>
-    choice.hasTemplate ? env.deps.templates.validateFields(choice.type, o.fields) : []
-  if (choice.hasTemplate) {
-    const known = Object.keys(
-      (env.deps.templates.loadTemplate(choice.type).schema.properties ?? {}) as object,
-    )
-    const dropped = dropUnknownFields(first.output, known)
-    if (dropped.length) {
-      env.ctx.log(
-        `inject_text ${row.id}: dropped field(s) the ${choice.type} template does not have: ${dropped.join(', ')}`,
-        'info',
-        { stage: 'inject_text', itemId: injectId },
-      )
-    }
-  }
-  const issues = validate(first.output)
-  if (!issues.length) return { output: first.output, retrieved: first.retrieved, issues }
   const extra = { stage: 'inject_text' as const, itemId: injectId }
+  const checked = checkDraft(input, injectId, choice, first.output)
+  const all = [...checked.issues, ...checked.content]
+  if (!all.length) return { output: first.output, retrieved: first.retrieved, ...checked }
   env.ctx.log(
-    `inject_text ${row.id}: fields do not match the ${choice.type} template, asking for a repair\n${formatIssues(issues)}`,
+    `inject_text ${row.id}: ${checked.issues.length} schema and ${checked.content.length} content issue(s), asking for a repair\n${formatIssues(all)}`,
     'warn',
     extra,
   )
-  env.ctx.token('inject_text', '\n\n[field repair round]\n', injectId)
+  env.ctx.token('inject_text', '\n\n[repair round]\n', injectId)
   try {
     const fix = await callText(input, injectId, {
       ...vars,
       injectType: choice.type,
-      repairIssues: formatIssues(issues),
+      repairIssues: formatIssues(all),
       previousOutput: JSON.stringify(first.output, null, 2),
     })
     sumInto(first.run, fix.run)
     const fixed = { ...fix.output, type: choice.type }
-    return { output: fixed, retrieved: fix.retrieved, issues: validate(fixed) }
+    return {
+      output: fixed,
+      retrieved: fix.retrieved,
+      ...checkDraft(input, injectId, choice, fixed),
+    }
   } catch (err) {
     if (!(err instanceof StageFailure)) throw err
     sumInto(first.run, err.run)
@@ -286,7 +348,7 @@ async function validateWithRepair(
       'warn',
       extra,
     )
-    return { output: first.output, retrieved: first.retrieved, issues }
+    return { output: first.output, retrieved: first.retrieved, ...checked }
   }
 }
 
@@ -348,6 +410,7 @@ export async function runInjectText(input: InjectTextInput): Promise<InjectTextR
   const injectId = existing?.id ?? newId()
   const chosen = chooseInjectType(row, env.deps.templates.listTemplateTypes())
   const extra = { stage: 'inject_text' as const, itemId: injectId }
+  if (chosen.note) env.ctx.log(`inject_text ${row.id}: ${chosen.note}`, 'info', extra)
   if (chosen.requested)
     env.ctx.log(
       `inject_text ${row.id}: ${chosen.requested} → ${chosen.type} (no template)`,
@@ -369,6 +432,17 @@ export async function runInjectText(input: InjectTextInput): Promise<InjectTextR
       rowId: row.id,
       injectId,
       suggestion: 'Open the inject editor and fix the flagged fields',
+    })
+  }
+  if (validated.content.length) {
+    warnings.push({
+      code: INJECT_CONTENT_ISSUE,
+      severity: 'warning',
+      message: `${row.id}: content still inconsistent after one repair:\n${formatIssues(validated.content)}`,
+      source: 'lint',
+      rowId: row.id,
+      injectId,
+      suggestion: 'Open the inject editor and fix the flagged content',
     })
   }
   if (dropped.length) {

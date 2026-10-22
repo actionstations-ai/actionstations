@@ -368,7 +368,9 @@ describe('scenario pipeline (mock provider, shipped prompts)', () => {
     expect(after.status).toBe('draft')
     expect(after.phases.map((p) => p.title)).toEqual(['Early', 'Late'])
     expect(after.phases[0]?.id).toBe(s.phases[0]?.id)
-    expect(after.phases[0]?.goal).toContain('Key beats: a.')
+    // Beats are a field of their own (#87); the goal stays clean.
+    expect(after.phases[0]?.goal).toBe('g1')
+    expect(after.phases[0]?.beats).toEqual(['a'])
     expect(runFor(after, { stage: 'phase_plan' })?.status).toBe('ok')
     expect(runFor(after, { stage: 'scenario_overview' })?.status).toBe('ok')
     for (const stage of [

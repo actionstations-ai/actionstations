@@ -44,6 +44,8 @@ export const Phase = z.object({
   index: z.number().int().nonnegative(),
   title: z.string(),
   goal: z.string(),
+  /** Story beats the MSEL author must deliver in this phase (from phase_plan). */
+  beats: z.array(z.string()).optional(),
   startTime: ExerciseTime,
   endTime: ExerciseTime,
 })

@@ -62,6 +62,47 @@ export const DEFAULT_NEGATIVE_PROMPT =
   'text, letters, words, captions, subtitles, readable signage, watermark, logo, signature, ' +
   'blurry, low quality, deformed hands, extra limbs, extra fingers, cartoon, illustration, 3d render, cgi'
 
+/** Scene renders drift into offices and colour casts without these (M3 acceptance run). */
+export const SCENE_NEGATIVE_PROMPT =
+  'green tint, color cast, oversaturated, office cubicles, desks, computer lab, warehouse, classroom, empty room'
+
+/** Camera/style anchors SDXL follows better than adjectives buried in a paragraph. */
+const STYLE_ANCHORS: Record<ImageStyle, string> = {
+  phone: 'Candid smartphone snapshot, slight tilt, natural color balance, neutral white balance',
+  press: 'Press photograph, level horizon, 35 mm lens, sharp, natural daylight color',
+  cctv: 'High corner surveillance camera frame, wide angle, washed-out monochrome tint',
+  screen: 'A monitor photographed at an angle, slight moiré and reflections',
+  portrait: 'Head and shoulders portrait, shallow depth of field, natural skin tones',
+}
+
+/** What the setting looks like per organization type, so a terminal is not a cubicle farm. */
+const SETTING_ANCHORS: Record<string, string> = {
+  airport:
+    'inside an airport passenger terminal: check-in counters, rows of dark powered-off departure boards, overhead wayfinding signs seen as plain shapes, luggage carts, high ceilings, large windows',
+  hospital:
+    'inside a hospital: a nurses station, corridor with handrails, wheeled beds, wall-mounted dark monitors, bright even lighting',
+  utility:
+    'at a water or power utility plant: control room consoles with dark screens, pipes, pumps, valves, safety railings',
+  campus:
+    'on a university campus: a lecture hall or quad, students with backpacks, brick and glass buildings',
+}
+
+export interface SceneContext {
+  orgType?: string
+}
+
+/** Styles that depict a place (and so take the setting anchor). */
+const PLACE_STYLES = new Set<ImageStyle>(['phone', 'press', 'cctv'])
+
+/** The style anchor, the setting anchor (for scene styles) and then the model's own prompt. */
+export function anchoredPrompt(prompt: string, style: ImageStyle, scene?: SceneContext): string {
+  const setting = PLACE_STYLES.has(style) ? SETTING_ANCHORS[scene?.orgType ?? ''] : undefined
+  const lead = [STYLE_ANCHORS[style], setting].filter(Boolean).join(' ')
+  const body = prompt.trim()
+  if (!body) return ''
+  return `${lead}. ${body}`
+}
+
 /** The row or the inject's own fields ask for a photo (an attached image, a scene brief). */
 export function wantsPhoto(inject: Inject, row: MselRow): boolean {
   return imageBriefField(inject.fields) !== undefined || PHOTO_WORDS.test(row.event)
@@ -144,12 +185,15 @@ export function positivePrompt(prompt: string): string {
     .trim()
 }
 
-function mergeNegative(model?: string): string {
+function mergeNegative(model: string | undefined, style: ImageStyle): string {
+  const base = PLACE_STYLES.has(style)
+    ? `${DEFAULT_NEGATIVE_PROMPT}, ${SCENE_NEGATIVE_PROMPT}`
+    : DEFAULT_NEGATIVE_PROMPT
   const extra = (model ?? '')
     .split(/\s*,\s*/)
     .map((s) => s.trim().toLowerCase())
-    .filter((s) => s && !DEFAULT_NEGATIVE_PROMPT.includes(s))
-  return [DEFAULT_NEGATIVE_PROMPT, ...extra].join(', ')
+    .filter((s) => s && !base.includes(s))
+  return [base, ...extra].join(', ')
 }
 
 type VoiceLine = NonNullable<MediaBrief['voiceLines']>[number]
@@ -198,14 +242,16 @@ export function normalizeBrief(
   plan: MediaPlan,
   out: MediaBriefOutput | undefined,
   inject: Inject,
+  scene?: SceneContext,
 ): MediaBrief {
   const brief: MediaBrief = { paths: [...plan.paths] }
   const wantsImage = plan.paths.includes('ai_image') || plan.paths.includes('ai_video')
   if (wantsImage) {
+    const style = out?.imageStyle ?? plan.imageStyle ?? 'phone'
     const prompt = positivePrompt(out?.imagePrompt ?? imageBriefField(inject.fields) ?? '')
-    if (prompt) brief.imagePrompt = prompt
-    brief.negativePrompt = mergeNegative(out?.negativePrompt)
-    brief.imageStyle = out?.imageStyle ?? plan.imageStyle ?? 'phone'
+    if (prompt) brief.imagePrompt = anchoredPrompt(prompt, style, scene)
+    brief.negativePrompt = mergeNegative(out?.negativePrompt, style)
+    brief.imageStyle = style
   }
   if (plan.paths.includes('ai_video')) {
     const v = positivePrompt(out?.videoPrompt ?? out?.imagePrompt ?? '')

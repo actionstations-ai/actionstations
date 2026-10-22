@@ -10,6 +10,7 @@ import { nowIso } from '../lib/ids'
 import { projectPaths } from '../project/store'
 import { scenarioLayout } from '../scenario/layout'
 import { pipelineDeps } from './deps'
+import { facilitySheet } from './facility'
 import { mapIdeas } from './mappers'
 import { runStage } from './stage'
 import { projectVars, taxonomyVars } from './vars'
@@ -79,6 +80,7 @@ export async function generateIdeas(
 ): Promise<ScenarioIdea[]> {
   const deps = await pipelineDeps()
   const [project, index] = await Promise.all([deps.loadProject(root), deps.openIndex(root)])
+  const facility = await deps.loadFacilityFacts(root, project)
   ctx.progress(0.05, 'Reading the plans for scenario hooks', { stage: 'ideate' })
   const result = await runStage<IdeasOutput>({
     stage: 'ideate',
@@ -88,6 +90,7 @@ export async function generateIdeas(
       brief: req.brief,
       count: req.count,
       taxonomy: taxonomyVars,
+      facility: facilitySheet(facility),
       instructions: '',
     },
     ctx,
