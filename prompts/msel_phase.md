@@ -1,7 +1,7 @@
 ---
 name: msel_phase
 stage: msel_phase
-version: 3
+version: 4
 description: The MSEL rows for one phase (time, inject id, from, to, event, expected action, purpose tag, format, citations).
 outputSchema: MselPhaseOutput
 task: draft
@@ -47,6 +47,8 @@ variables:
     instructions,
     mixPass,
     mixGaps,
+    mixReplaceRows,
+    mixAddCount,
     revisePass,
     reviseNotes,
     facility,
@@ -135,14 +137,16 @@ Roles (use these keys in "to"):
 {{/each}}{{/if}}
 </scenario_state>
 {{#if revisePass}}
-REVISION PASS for phase {{phase.number}}: {{phase.title}} ({{phase.startTime}}–{{phase.endTime}}). The rows already written above include this phase's rows. A reviewer flagged the rows below. Return ONLY those rows, rewritten so each note is fixed, keeping the SAME id, time and purposeTag. When a note says the source is a player role, re-source the inject from a SPECIFIC outside party (a named helpdesk, a system alarm or alert, a vendor NOC, a partner's employee, one of the front-line people, a dispatcher, a reporter, a social media user) and keep its substance; the players' own decision moves to expectedAction. "from" is never the bare "Facilitator" for a non-control row. When a note says an identifier is not in the facility facts, replace it with one from the FACILITY FACTS list (the list is complete: an id that is not on it does not exist, however plausible it looks) or state in the event and expected action that it does not exist. Never write notes, explanations or bracketed remarks into a row; rows contain only the inject. Do not return any other rows.
+REVISION PASS for phase {{phase.number}}: {{phase.title}} ({{phase.startTime}}–{{phase.endTime}}). The rows already written above include this phase's rows. A reviewer flagged the rows below. Return ONLY those rows, rewritten so each note is fixed, keeping the SAME id, time and purposeTag. When a note says the source is a player role, re-source the inject from a SPECIFIC outside party (a named helpdesk, a system alarm or alert, a vendor NOC, a partner's employee, one of the front-line people, a dispatcher, a reporter, a social media user) and keep its substance; the players' own decision moves to expectedAction. "from" is never the bare "Facilitator" for a non-control row. When a note says the row is written in a player's voice ("This is the <role>", a named player announcing "I have made the decision"), the inject is the player's own decision: rewrite it as what an outside party says or sends that forces that decision (a demand, a deadline, a failure, a report), and put the decision in expectedAction. When a note says a row repeats another, write a different inject that moves the story on. When a note says a row lies outside the phase window or after the ENDEX row, keep the time (the app re-times it) and make the content fit before ENDEX. When a note says an identifier is not in the facility facts, replace it with one from the FACILITY FACTS list (the list is complete: an id that is not on it does not exist, however plausible it looks) or state in the event and expected action that it does not exist. Never write notes, explanations or bracketed remarks into a row; rows contain only the inject. Do not return any other rows.
 {{#each reviseNotes}}- {{this}}
 {{/each}}
 {{else}}
 {{#if mixPass}}
-MIX COMPLETION PASS for phase {{phase.number}}: {{phase.title}} ({{phase.startTime}}–{{phase.endTime}}). The rows already written above include this phase's rows. Do NOT rewrite or repeat any of them, and do NOT return START, TIME_JUMP or END rows. Return ONLY {{targetRowCount}} to {{maxRowCount}} NEW rows that add exactly what is missing:
+MIX COMPLETION PASS for phase {{phase.number}}: {{phase.title}} ({{phase.startTime}}–{{phase.endTime}}). The rows already written above include this phase's rows. Do NOT repeat any of them, and do NOT return START, TIME_JUMP or END rows. Return exactly {{targetRowCount}} row(s) that together supply what is missing:
 {{#each mixGaps}}- {{this}}
-{{/each}}Ids continue from "I-{{nextInjectNumber}}" or take a "b"/"c" suffix on the id of the existing row they ride on. Times are elapsed exercise time inside {{phase.startTime}}–{{phase.endTime}}, placed between the existing rows.
+{{/each}}{{#if mixReplaceRows.length}}The phase is close to its size limit, so first REWRITE these existing rows (the phase has other rows doing their job) into rows that cover the list. Return each with the SAME id and time; its tag, source, recipients and text change to the new inject:
+{{#each mixReplaceRows}}- {{time}} {{id}} [{{purposeTag}}] {{from}} → {{to}}: {{event}}
+{{/each}}{{/if}}{{#if mixAddCount}}Add {{mixAddCount}} NEW row(s) for what the rewrites do not cover. Ids continue from "I-{{nextInjectNumber}}" or take a "b"/"c" suffix on the id of the existing row they ride on. Times are elapsed exercise time inside {{phase.startTime}}–{{phase.endTime}}, placed between the existing rows.{{else}}Add no new rows: the phase is full.{{/if}}
 {{else}}
 NOW WRITE PHASE {{phase.number}}: {{phase.title}} ({{phase.startTime}}–{{phase.endTime}}, {{phase.minutes}} minutes).
 Goal: {{phase.goal}}

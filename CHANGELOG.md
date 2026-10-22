@@ -15,6 +15,17 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   Route) are checked only in matching context and never after a responder or access word, so a
   dam's patrol "Unit 4" is no longer a generating unit; a near-miss name such as "Confluence
   Park Station" is reported as "did you mean Confluence Station?".
+- Injects that carry a player's own decision ("This is the DOM. I have made the decision…")
+  are caught from the event text whatever `from` says (`INJECT_PLAYER_VOICE`) and re-sourced
+  by the MSEL revision pass (#164).
+- Phases no longer overfill (#167): the mix completion pass stays within the phase's max row
+  count and rewrites spare NOISE / PRESSURE rows before adding new ones, and a first call that
+  writes too many rows is trimmed to the max, lowest-value rows first, with every role and
+  tag still covered.
+- Structural MSEL problems are repaired before a scenario is marked ready: rows outside their
+  phase are re-timed, ENDEX is kept last and single, exact-duplicate rows are dropped, roles
+  are capped at the audience list, and the remaining structural lints (near-duplicates,
+  unknown facility identifiers, rows after ENDEX) go through one more revision round (#174).
 
 ## [0.1.0] - 2026-10-22
 

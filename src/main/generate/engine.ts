@@ -26,7 +26,7 @@ import type { JobContext } from '../jobs/manager'
 import { AppError, toAppError } from '../lib/errors'
 import { nowIso } from '../lib/ids'
 import { pipelineDeps, type PipelineDeps, type SearchIndex } from './deps'
-import { domainContext, type DomainContext } from './domain'
+import { domainContext, roleHeuristics, type DomainContext } from './domain'
 import {
   hotwashSection,
   renderBriefingMarkdown,
@@ -48,11 +48,21 @@ import {
   DECISION_POINT_RETAGGED,
   decisionPhaseIndex,
   lintScenario,
-  phaseMixGaps,
+  overfillRows,
   pickDecisionRow,
+  planMixCompletion,
   roleNamedBy,
+  structuralLints,
+  type MixPlan,
 } from './lint'
+import { INJECT_PLAYER_VOICE } from './lint-structure'
 import { goalSummary, phaseBeats, type MselMapResult } from './mappers'
+import {
+  capRoles,
+  convertToFacilitatorPrompt,
+  repairStructure,
+  type StructureRepair,
+} from './mappers-structure'
 import type { RetrievedChunk } from './retrieval'
 import { repairRubricLinks, sourceFor } from './sources'
 import {
@@ -262,6 +272,7 @@ async function stepOverview(input: StepInput): Promise<StageRun> {
 async function stepObjectivesRoles(input: StepInput): Promise<StageRun> {
   const r = await call<ObjectivesRolesOutput>(input, vars(input))
   applyObjectivesRoles(input.scenario, r.output)
+  capToAudience(input)
   await writeDoc(
     input.env,
     input.scenario,
@@ -270,6 +281,20 @@ async function stepObjectivesRoles(input: StepInput): Promise<StageRun> {
     'objectives_roles',
   )
   return r.run
+}
+
+/** No more player roles than the brief's audience list has entries (#174). */
+function capToAudience(input: StepInput): void {
+  const { scenario: s, env } = input
+  const cap = s.brief.audience.length
+  const before = s.roles.length
+  const dropped = capRoles(s, cap, roleHeuristics(env.domain.profile))
+  if (!dropped.length) return
+  env.ctx.log(
+    `objectives_roles: ${before} roles for a ${cap}-entry audience; dropped ${dropped.map((r) => `"${r.name}"`).join(', ')}`,
+    'warn',
+    { stage: 'objectives_roles' },
+  )
 }
 
 async function stepPhasePlan(input: StepInput): Promise<StageRun> {
@@ -385,35 +410,86 @@ const sumTokens = (into: StageRun, run: StageRun): void => {
   into.costUsd = (into.costUsd ?? 0) + (run.costUsd ?? 0)
 }
 
+interface MixResult {
+  /** The first call's rows with the rewritten spares substituted, plus the new rows. */
+  rows: OutRow[]
+  added: number
+  rewritten: number
+}
+
+const upper = (id: string): string => id.trim().toUpperCase()
+
 /**
- * One extra call that asks only for the rows the phase still lacks (docs/04 inject mix and
- * role coverage). Returns the rows to merge, or [] when the phase is complete.
+ * Merge the mix pass's rows: a row with a spare's id replaces it (same id and time); new rows
+ * are kept up to the plan's count, plus one for each spare the model did not return, never
+ * past the phase's room (#167). Control rows and repeats of existing ids are ignored.
+ */
+function mergeMixRows(
+  firstRows: OutRow[],
+  mixRows: OutRow[],
+  plan: MixPlan,
+  current: MselRow[],
+): MixResult {
+  const spares = new Map(plan.replace.map((r) => [upper(r.id), r]))
+  const existing = new Set(current.map((r) => upper(r.id)))
+  const rewrites = new Map<string, OutRow>()
+  const fresh: OutRow[] = []
+  for (const r of mixRows) {
+    const spare = spares.get(upper(r.id))
+    if (spare) {
+      if (!rewrites.has(upper(r.id)))
+        rewrites.set(upper(r.id), { ...r, id: spare.id, time: spare.time })
+    } else if (!CONTROL_TAGS.has(r.purposeTag) && !existing.has(upper(r.id))) fresh.push(r)
+  }
+  const missing = plan.replace.length - rewrites.size
+  const added = fresh.slice(0, Math.min(plan.room, plan.add + missing))
+  const rows = firstRows.map((r) => rewrites.get(upper(r.id)) ?? r)
+  return { rows: [...rows, ...added], added: added.length, rewritten: rewrites.size }
+}
+
+/**
+ * One extra call for what the phase still lacks (docs/04 inject mix and role coverage),
+ * within the phase's max row count: spare NOISE / PRESSURE rows are rewritten first, new rows
+ * are added only while there is room. Undefined when the phase is complete or full.
  */
 async function completeMix(
   input: StepInput,
   phase: Phase,
   first: StageResult<MselPhaseOutput>,
-): Promise<MselPhaseOutput['rows']> {
+): Promise<MixResult | undefined> {
   const { scenario: s, env } = input
-  const gaps = phaseMixGaps(s, phase, env.domain)
-  if (!gaps.length) return []
+  const base = mselVars(input, phase, true)
+  const maxRows = base.maxRowCount as number
+  const ids = first.output.rows.map((r) => upper(r.id))
+  const once = (r: MselRow): boolean => ids.filter((x) => x === upper(r.id)).length === 1
+  const plan = planMixCompletion(s, phase, maxRows, env.domain, once)
+  const extra = { stage: 'msel_phase' as const, itemId: phase.id }
+  if (plan.skipped.length)
+    env.ctx.log(
+      `msel_phase ${phase.index + 1}: the phase is at its ${maxRows}-row limit; not asked for ${plan.skipped.length} more row(s)`,
+      'warn',
+      extra,
+    )
+  if (!plan.needs.length) return undefined
   env.ctx.log(
-    `msel_phase ${phase.index + 1}: completing the mix — ${gaps.map((g) => g.code).join(', ')}`,
+    `msel_phase ${phase.index + 1}: completing the mix — ${plan.replace.length} spare row(s) to rewrite, up to ${plan.add} to add`,
     'info',
-    { stage: 'msel_phase', itemId: phase.id },
+    extra,
   )
   const current = s.msel.filter((r) => r.phaseId === phase.id)
-  const base = mselVars(input, phase, true)
   const fix = await call<MselPhaseOutput>(input, {
     ...base,
     priorRows: [...(base.priorRows as unknown[]), ...current.map((r) => rowVars(r, s.roles))],
-    targetRowCount: gaps.length,
-    maxRowCount: gaps.length + 1,
+    targetRowCount: plan.needs.length,
+    maxRowCount: plan.needs.length,
     mixPass: true,
-    mixGaps: gaps.map((g) => g.need),
+    mixGaps: plan.needs,
+    mixReplaceRows: plan.replace.map((r) => rowVars(r, s.roles)),
+    mixAddCount: plan.add,
   })
   sumTokens(first.run, fix.run)
-  return rekeyCitations(fix.output.rows, fix.retrieved, first.retrieved)
+  const rows = rekeyCitations(fix.output.rows, fix.retrieved, first.retrieved)
+  return mergeMixRows(first.output.rows, rows, plan, current)
 }
 
 async function stepMselPhase(input: StepInput): Promise<StageRun> {
@@ -423,24 +499,62 @@ async function stepMselPhase(input: StepInput): Promise<StageRun> {
   const owned = new Set(s.msel.filter((x) => x.phaseId === phase.id).map((x) => x.id))
   const r = await call<MselPhaseOutput>(input, mselVars(input, phase))
   let mapped = applyMselPhase(s, phase, r.output, r.retrieved)
-  const added = await completeMix(input, phase, r)
-  if (added.length) {
-    mapped = applyMselPhase(s, phase, { rows: [...r.output.rows, ...added] }, r.retrieved)
+  const mix = await completeMix(input, phase, r)
+  const extra = { stage: 'msel_phase' as const, itemId: phase.id }
+  if (mix) {
+    mapped = applyMselPhase(s, phase, { rows: mix.rows }, r.retrieved)
     env.ctx.log(
-      `msel_phase ${phase.index + 1}: ${added.length} row(s) added by the mix pass`,
+      `msel_phase ${phase.index + 1}: mix pass rewrote ${mix.rewritten} and added ${mix.added} row(s)`,
       'info',
-      {
-        stage: 'msel_phase',
-        itemId: phase.id,
-      },
+      extra,
     )
   }
   for (const row of mapped.rows) owned.add(row.id)
   reportMapping(s, phase, mapped, env.ctx, owned)
   ensureDecisionPoint(s, phase, env)
-  noteFacility(s, mapped.rows, env)
+  reportStructure(repairStructure(s), env.ctx, extra)
+  trimOverfill(input, phase)
+  const live = new Set(s.msel.map((x) => x.id))
+  noteFacility(
+    s,
+    mapped.rows.filter((x) => live.has(x.id)),
+    env,
+  )
   await writeDoc(env, s, 'overview', renderMselMarkdown(s), `msel_phase ${phase.index + 1}`)
   return r.run
+}
+
+/** A phase the first call overfilled is trimmed to its max row count, coverage kept (#167). */
+function trimOverfill(input: StepInput, phase: Phase): void {
+  const { scenario: s, env } = input
+  const maxRows = mselVars(input, phase).maxRowCount as number
+  const drop = new Set(overfillRows(s, phase, maxRows, env.domain))
+  if (!drop.size) return
+  s.msel = s.msel.filter((r) => !drop.has(r))
+  env.ctx.log(
+    `msel_phase ${phase.index + 1}: ${drop.size} row(s) over the ${maxRows}-row limit dropped (${[...drop].map((r) => r.id).join(', ')})`,
+    'warn',
+    { stage: 'msel_phase', itemId: phase.id },
+  )
+}
+
+/** Log the deterministic structural repairs; true when anything changed. */
+function reportStructure(
+  fix: StructureRepair,
+  ctx: JobContext,
+  extra: { stage: Stage; itemId?: string },
+): boolean {
+  for (const d of fix.duplicates)
+    ctx.log(`Row ${d.rowId} dropped: it repeats row ${d.of}`, 'warn', extra)
+  for (const id of fix.extraEndex)
+    ctx.log(`Row ${id} dropped: one ENDEX row closes the exercise`, 'warn', extra)
+  for (const t of fix.retimed)
+    ctx.log(
+      `Row ${t.rowId} moved from ${t.from} to ${t.to}: it lay outside its phase or after ENDEX`,
+      'warn',
+      extra,
+    )
+  return !!(fix.duplicates.length || fix.extraEndex.length || fix.retimed.length)
 }
 
 /**
@@ -730,15 +844,70 @@ function pruneRubricLinks(s: Scenario, ctx: JobContext): void {
     )
 }
 
+/**
+ * Row-level structural problems as error issues for the revision pass (#164, #174): rows
+ * outside their phase or after ENDEX, near-duplicates, injects in a player's voice, and
+ * identifiers the facility facts do not list (the message names the known ones).
+ */
+function structuralIssues(s: Scenario, env: Env): Issue[] {
+  const unlocked = new Set(s.msel.filter((r) => !r.locked).map((r) => r.id))
+  return [
+    ...facilityIssues(s, env.facility),
+    ...structuralLints(s, env.domain).map((w) => ({
+      severity: 'error' as const,
+      rowId: w.rowId!,
+      message: w.message,
+      suggestion: w.suggestion ?? '',
+    })),
+  ].filter((i) => !!i.rowId && unlocked.has(i.rowId))
+}
+
+/**
+ * After the critique revision: repair what code can, then one more revision round for the
+ * structural problems still left; rows still in a player's voice become facilitator prompts.
+ */
+async function reviseStructureAgain(
+  input: StepInput,
+  critiqueRun: StageRun,
+  rewritten: Set<string>,
+  repairedBefore: boolean,
+): Promise<void> {
+  const { scenario: s, env } = input
+  const extra = { stage: 'critique' as const }
+  let changed = reportStructure(repairStructure(s), env.ctx, extra) || repairedBefore
+  const again = structuralIssues(s, env)
+  if (again.length) {
+    env.ctx.log(
+      `critique: ${again.length} structural issue(s) left after the revision; revising once more`,
+      'info',
+      extra,
+    )
+    for (const id of await reviseFromCritique(input, again, critiqueRun)) rewritten.add(id)
+    changed = reportStructure(repairStructure(s), env.ctx, extra) || changed
+  }
+  const voiced = new Set(
+    structuralLints(s, env.domain)
+      .filter((w) => w.code === INJECT_PLAYER_VOICE)
+      .map((w) => w.rowId!),
+  )
+  for (const id of convertToFacilitatorPrompt(s, voiced)) {
+    env.ctx.log(
+      `Row ${id} still announced a player's decision; turned into a facilitator prompt`,
+      'warn',
+      extra,
+    )
+    changed = true
+  }
+  if (changed) await writeDoc(env, s, 'overview', renderMselMarkdown(s), 'structural repair')
+}
+
 async function stepCritique(input: StepInput): Promise<StageRun> {
   const { scenario: s, env } = input
+  const repaired = reportStructure(repairStructure(s), env.ctx, { stage: 'critique' })
   const r = await call<CritiqueOutput>(input, vars(input, { lints: lintScenario(s, env.domain) }))
   const issues = dismissFalseSourceIssues(s, r.output.issues, env.ctx)
-  const rewritten = await reviseFromCritique(
-    input,
-    [...issues, ...facilityIssues(s, env.facility)],
-    r.run,
-  )
+  const rewritten = await reviseFromCritique(input, [...issues, ...structuralIssues(s, env)], r.run)
+  await reviseStructureAgain(input, r.run, rewritten, repaired)
   pruneRubricLinks(s, env.ctx)
   const critique: LintWarning[] = issues.map((i) => ({
     code: 'CRITIQUE',

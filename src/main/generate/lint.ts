@@ -14,6 +14,12 @@ import {
   type Scenario,
 } from '@shared/schemas'
 import { domainContext, roleHeuristics, type DomainContext } from './domain'
+import {
+  DUPLICATE_EVENT,
+  INJECT_PLAYER_VOICE,
+  lintDuplicateEvents,
+  lintPlayerVoice,
+} from './lint-structure'
 
 export const DENSITY_MIN_MINUTES = 5
 export const DENSITY_MAX_MINUTES = 20
@@ -206,6 +212,8 @@ export interface MixGap {
   /** What the phase still needs, phrased for the model ("one NOISE or RED_HERRING inject"). */
   need: string
   message: string
+  /** The role the gap is about (role coverage, PIO pressure, the technical clue). */
+  roleId?: string
 }
 
 /** Control rows (STARTEX, TIME_JUMP, ENDEX) go to everyone and give no role work to do. */
@@ -285,6 +293,7 @@ export function phaseMixGaps(s: Scenario, phase: Phase, domainIn?: DomainContext
       code: 'MIX_NO_PIO_PRESSURE',
       need: `one PRESSURE or MISINFORMATION inject addressed to "${pio.id}" (social media, a reporter with a deadline, a rumor)`,
       message: `No PRESSURE or MISINFORMATION inject aimed at ${pio.name} in ${label}`,
+      roleId: pio.id,
     })
   }
   const clue = new Set(['CLUE', 'TECH_HURDLE'])
@@ -293,6 +302,7 @@ export function phaseMixGaps(s: Scenario, phase: Phase, domainIn?: DomainContext
       code: clueRole === 'technical' ? 'MIX_NO_IT_CLUE' : 'MIX_NO_CLUE',
       need: `one CLUE (${domain.threat.clueKinds}) or TECH_HURDLE (${domain.threat.hurdleKinds}) addressed to "${it.id}"`,
       message: `No CLUE or TECH_HURDLE inject aimed at ${it.name} in ${label}`,
+      roleId: it.id,
     })
   }
   for (const role of s.roles) {
@@ -301,6 +311,7 @@ export function phaseMixGaps(s: Scenario, phase: Phase, domainIn?: DomainContext
         code: 'ROLE_NO_INJECT',
         need: `one inject addressed to "${role.id}" (${role.name}) that gives that role something to do`,
         message: `${role.name} receives no inject in ${label}`,
+        roleId: role.id,
       })
     }
   }
@@ -479,6 +490,8 @@ export function lintScenario(scenario: Scenario, domainIn?: DomainContext): Lint
     ...lintBoundaries(scenario),
     ...lintFromRoles(scenario),
     ...lintScriptedDecisions(scenario),
+    ...lintPlayerVoice(scenario),
+    ...lintDuplicateEvents(scenario),
     ...lintReferenceLeak(scenario),
     ...lintPhaseMix(scenario, domain),
     ...lintDecisionPoint(scenario),
@@ -487,4 +500,182 @@ export function lintScenario(scenario: Scenario, domainIn?: DomainContext): Lint
     ...lintCitations(scenario),
     ...lintRubric(scenario),
   ]
+}
+
+// ---- mix completion plan (#167) ---------------------------------------------------------------
+
+/** Tags of rows the mix pass may rewrite when the phase has another row covering their job. */
+const SPARE_TAGS = new Set<MselRow['purposeTag']>([
+  'NOISE',
+  'RED_HERRING',
+  'DISTRACTION',
+  'PRESSURE',
+  'MISINFORMATION',
+])
+
+const NEED_ORDER = [
+  MIX_NO_DECISION_POINT,
+  'MIX_NO_CORE',
+  'MIX_NO_PIO_PRESSURE',
+  'MIX_NO_IT_CLUE',
+  'MIX_NO_CLUE',
+  'MIX_NO_NOISE',
+  'ROLE_NO_INJECT',
+]
+const gapKey = (g: MixGap): string => `${g.code}:${g.roleId ?? ''}`
+
+/**
+ * One ask per row the pass should produce, most important first. A role whose PRESSURE or
+ * CLUE gap is asked for needs no separate coverage row; the remaining uncovered roles share
+ * one inject.
+ */
+export function rowNeeds(gaps: MixGap[]): string[] {
+  const covered = new Set(gaps.filter((g) => g.code !== 'ROLE_NO_INJECT').map((g) => g.roleId))
+  const roles = gaps.filter((g) => g.code === 'ROLE_NO_INJECT' && !covered.has(g.roleId))
+  const others = gaps
+    .filter((g) => g.code !== 'ROLE_NO_INJECT')
+    .sort((a, b) => NEED_ORDER.indexOf(a.code) - NEED_ORDER.indexOf(b.code))
+    .map((g) => g.need)
+  if (roles.length <= 1) return [...others, ...roles.map((g) => g.need)]
+  const keys = roles.map((g) => `"${g.roleId}"`).join(', ')
+  return [
+    ...others,
+    `one inject addressed to ${keys} together that gives each of them something to do`,
+  ]
+}
+
+/**
+ * Unlocked NOISE / PRESSURE-type rows of the phase that can be rewritten without opening a
+ * new gap: removing them (one after another) leaves the phase's gaps as they are.
+ */
+export function spareRows(
+  s: Scenario,
+  phase: Phase,
+  domain?: DomainContext,
+  eligible: (r: MselRow) => boolean = () => true,
+): MselRow[] {
+  const before = new Set(phaseMixGaps(s, phase, domain).map(gapKey))
+  const removed = new Set<MselRow>()
+  for (const row of rowsOf(s, phase.id)) {
+    if (row.locked || !SPARE_TAGS.has(row.purposeTag) || !eligible(row)) continue
+    const without = { ...s, msel: s.msel.filter((r) => r !== row && !removed.has(r)) }
+    const after = phaseMixGaps(without, phase, domain).map(gapKey)
+    if (after.every((k) => before.has(k))) removed.add(row)
+  }
+  return [...removed]
+}
+
+/** Rows that are never trimmed: control cards and the decision point. */
+const UNTRIMMABLE = new Set<MselRow['purposeTag']>([...CONTROL_TAGS, 'DECISION_POINT'])
+
+/** Removing `row` keeps another row of its tag and every role it addresses still served. */
+function redundant(row: MselRow, rest: MselRow[]): boolean {
+  if (!rest.some((r) => r.purposeTag === row.purposeTag)) return false
+  const served = (roleId: string): boolean =>
+    rest.some((r) => !CONTROL_TAGS.has(r.purposeTag) && r.toRoleIds.includes(roleId))
+  return row.toRoleIds.every(served)
+}
+
+/**
+ * The rows to drop so a phase the first call overfilled fits `maxRows` (#167). Lowest value
+ * first: spare NOISE / PRESSURE-type rows, then other rows, latest first within each group.
+ * A row is only dropped when its tag and every role it addresses are still covered by
+ * another row and the phase's mix gaps do not grow. Locked rows, control cards and the
+ * DECISION_POINT are never dropped, so the phase can stay over the limit.
+ */
+export function overfillRows(
+  s: Scenario,
+  phase: Phase,
+  maxRows: number,
+  domain?: DomainContext,
+): MselRow[] {
+  const rows = rowsOf(s, phase.id)
+  if (rows.length <= maxRows) return []
+  const before = new Set(phaseMixGaps(s, phase, domain).map(gapKey))
+  const candidates = rows
+    .filter((r) => !r.locked && !UNTRIMMABLE.has(r.purposeTag))
+    .reverse()
+    .sort((a, b) => Number(!SPARE_TAGS.has(a.purposeTag)) - Number(!SPARE_TAGS.has(b.purposeTag)))
+  const dropped = new Set<MselRow>()
+  for (const row of candidates) {
+    if (rows.length - dropped.size <= maxRows) break
+    const rest = rows.filter((r) => r !== row && !dropped.has(r))
+    if (!redundant(row, rest)) continue
+    const without = { ...s, msel: s.msel.filter((r) => r !== row && !dropped.has(r)) }
+    if (phaseMixGaps(without, phase, domain).every((g) => before.has(gapKey(g)))) dropped.add(row)
+  }
+  return [...dropped]
+}
+
+export interface MixPlan {
+  /** What the pass must produce, one ask per row, most important first. */
+  needs: string[]
+  /** Spare rows the pass rewrites (same id and time) to cover needs. */
+  replace: MselRow[]
+  /** New rows the pass may add without the phase exceeding `maxRows`. */
+  add: number
+  /** Needs dropped because the phase is full and no spare row is left. */
+  skipped: string[]
+  /** Rows the phase can still take before it reaches `maxRows`. */
+  room: number
+}
+
+/**
+ * How the mix completion pass covers the phase's gaps within `maxRows` (#167): rewrite spare
+ * NOISE / PRESSURE rows first, then add new rows only while the phase has room.
+ */
+export function planMixCompletion(
+  s: Scenario,
+  phase: Phase,
+  maxRows: number,
+  domain?: DomainContext,
+  eligible?: (r: MselRow) => boolean,
+): MixPlan {
+  const needs = rowNeeds(phaseMixGaps(s, phase, domain))
+  const room = Math.max(0, maxRows - rowsOf(s, phase.id).length)
+  if (!needs.length) return { needs, replace: [], add: 0, skipped: [], room }
+  const replace = spareRows(s, phase, domain, eligible).slice(0, needs.length)
+  const add = Math.min(needs.length - replace.length, room)
+  const used = replace.length + add
+  return { needs: needs.slice(0, used), replace, add, skipped: needs.slice(used), room }
+}
+
+// ---- structural lints for the revision pass (#174) -------------------------------------------
+
+/** Lint codes the MSEL revision pass is asked to fix, whatever the critique said. */
+export const STRUCTURAL_CODES = new Set([
+  'ROW_OUTSIDE_PHASE',
+  'ENDEX_LAST',
+  DUPLICATE_EVENT,
+  INJECT_PLAYER_VOICE,
+  'INJECT_SCRIPTS_PLAYERS',
+  'FROM_PLAYER_ROLE',
+])
+
+/** Rows placed after the ENDEX row: the exercise is over before they are delivered. */
+function rowsAfterEndex(s: Scenario): W[] {
+  const at = s.msel.findIndex((r) => r.purposeTag === 'ENDEX')
+  if (at < 0) return []
+  const end = s.msel[at]!
+  return s.msel.slice(at + 1).map((r) =>
+    warn(
+      'ENDEX_LAST',
+      `Row ${r.id} (${r.time}) comes after the ENDEX row ${end.id} (${end.time})`,
+      {
+        rowId: r.id,
+        suggestion: `Resolve it before ENDEX at ${end.time}, or fold it into the ENDEX row`,
+      },
+    ),
+  )
+}
+
+/**
+ * The structural lints on rows (#164, #174): rows outside their phase, rows after ENDEX,
+ * near-duplicate rows and injects that carry a player's own decision. Each has a rowId.
+ */
+export function structuralLints(s: Scenario, domain?: DomainContext): LintWarning[] {
+  const out = lintScenario(s, domain).filter(
+    (w) => w.rowId && STRUCTURAL_CODES.has(w.code) && w.code !== 'ENDEX_LAST',
+  )
+  return [...out, ...rowsAfterEndex(s)]
 }
