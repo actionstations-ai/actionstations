@@ -1,5 +1,5 @@
 import { _electron as electron, type ElectronApplication, type Page } from '@playwright/test'
-import { mkdtempSync } from 'node:fs'
+import { mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 
@@ -9,9 +9,21 @@ export interface Launched {
   userData: string
 }
 
+export interface LaunchOptions {
+  /** Reuse an existing userData dir (relaunch) instead of a fresh one. */
+  userData?: string
+  /** Fresh installs open the setup wizard; specs skip it unless they test it. */
+  onboarding?: boolean
+}
+
 /** Launch the built app (out/) with an isolated userData dir. */
-export async function launch(env: Record<string, string> = {}): Promise<Launched> {
-  const userData = mkdtempSync(join(tmpdir(), 'ttx-e2e-'))
+export async function launch(
+  env: Record<string, string> = {},
+  opts: LaunchOptions = {},
+): Promise<Launched> {
+  const userData = opts.userData ?? mkdtempSync(join(tmpdir(), 'ttx-e2e-'))
+  if (!opts.userData && !opts.onboarding)
+    writeFileSync(join(userData, 'settings.json'), JSON.stringify({ onboardingComplete: true }))
   const app = await electron.launch({
     args: [resolve('out/main/index.js')],
     env: {

@@ -1,0 +1,200 @@
+/* Setup wizard (#48). Tokens only. */
+.wizard {
+  max-width: 52rem;
+}
+.wizard h2 {
+  margin: 0;
+  font-size: var(--text-xl);
+}
+/* The step heading takes focus programmatically so screen readers announce the new step;
+   it is not interactive, so it shows no focus ring. */
+.wizard h2[tabindex='-1']:focus,
+.wizard h2[tabindex='-1']:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+.wizard a.btn {
+  text-decoration: none;
+  color: inherit;
+}
+.wizard h3 {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+.wizard p {
+  margin: 0;
+}
+
+.wizard-stepper {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.wizard-stepper__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+.wizard-stepper__btn:hover {
+  border-color: var(--color-border-strong);
+}
+.wizard-stepper__num {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-xs);
+}
+.is-done .wizard-stepper__num {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+.is-current .wizard-stepper__btn {
+  border-color: var(--color-accent);
+  color: var(--color-text);
+  font-weight: var(--weight-medium);
+}
+.is-current .wizard-stepper__num {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
+.wizard-step {
+  gap: var(--space-5);
+}
+.wizard-step__intro {
+  color: var(--color-text-muted);
+  max-width: 44rem;
+}
+.wizard-step__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.wizard-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: var(--space-4);
+}
+.wizard-list {
+  margin: 0;
+  padding-left: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.wizard-card__head {
+  justify-content: space-between;
+}
+
+.wizard-services {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.wizard-service {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: var(--border-width) solid var(--color-border);
+}
+.wizard-service:first-child {
+  border-top: none;
+}
+.wizard-service__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.wizard-service__status {
+  font-size: var(--text-sm);
+}
+.wizard-service__model {
+  max-width: 16rem;
+}
+
+.wizard-radios {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.wizard-radio,
+.wizard-check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  cursor: pointer;
+}
+.wizard-radio input,
+.wizard-check input {
+  margin-top: 0.2rem;
+  accent-color: var(--color-accent);
+}
+.wizard-radio--card {
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+.wizard-radio--card:has(input:checked) {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+.wizard-radio__body {
+  gap: var(--space-1);
+}
+
+.wizard-test {
+  gap: var(--space-2);
+}
+.wizard-result {
+  font-size: var(--text-sm);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  overflow-wrap: anywhere;
+}
+.wizard-result--ok {
+  background: var(--color-success-soft);
+  color: var(--color-text);
+}
+.wizard-result--error {
+  background: var(--color-danger-soft);
+  color: var(--color-text);
+}
+
+.wizard-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.wizard-links a {
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+}

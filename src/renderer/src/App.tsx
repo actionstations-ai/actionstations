@@ -1,5 +1,5 @@
 import { Suspense, useEffect } from 'react'
-import { HashRouter, NavLink, Navigate, Route, Routes, useParams } from 'react-router'
+import { HashRouter, NavLink, Route, Routes, useParams } from 'react-router'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { allRoutes } from './routes'
 import { queryClient, useIpcQuery } from './lib/query'
@@ -7,6 +7,7 @@ import { subscribe } from './lib/api'
 import { Toaster } from './components/toast'
 import { NAV_ICONS } from './components/nav-icons'
 import { fromProjectKey, projectKey, useProjectUi } from './state/project'
+import { FirstRunRedirect } from './routes/welcome/FirstRunRedirect'
 
 function ThemeSync() {
   const settings = useIpcQuery('settings:get', undefined)
@@ -88,7 +89,7 @@ export function App() {
           <main className="main" id="main">
             <Suspense fallback={<div className="page muted">Loading…</div>}>
               <Routes>
-                <Route path="/" element={<Navigate to="/projects" replace />} />
+                <Route path="/" element={<FirstRunRedirect />} />
                 {allRoutes.map((r) => {
                   const C = r.component
                   const el = r.path.includes(':projectKey') ? (
