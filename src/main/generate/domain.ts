@@ -291,10 +291,23 @@ const numberCategory = (spec: FactCategorySpec): FactCategory => {
   }
 }
 
+/**
+ * A pattern match as an identifier: spaces collapsed, upper-cased, and a leading article
+ * dropped when a name is left ("The Lakeshore Flight Area" is "LAKESHORE FLIGHT AREA").
+ */
+export function patternId(s: string): string {
+  const id = s.replace(/\s+/g, ' ').trim().toUpperCase()
+  const bare = id.replace(/^(?:THE|A|AN) /, '')
+  return bare.includes(' ') ? bare : id
+}
+
+/** An article and one word ("The Field", "a Range") is a common noun, not a site's name. */
+const COMMON_NOUN = /^(?:THE|A|AN) \S+$/
+
 /** A custom pattern: group 1 is the identifier, compared case-insensitively as written. */
 const patternCategory = (spec: FactCategorySpec): FactCategory => {
   const re = new RegExp(spec.pattern!, 'g')
-  const norm = (s: string): string => s.replace(/\s+/g, ' ').trim().toUpperCase()
+  const norm = patternId
   return {
     id: spec.id,
     label: spec.label,
@@ -307,7 +320,10 @@ const patternCategory = (spec: FactCategorySpec): FactCategory => {
     expand: (entries) => unique(entries.map(norm)),
     format: (entries) => (spec.complete ? entries.join(', ') : capped(entries)),
     *mentions(text) {
-      for (const m of text.matchAll(re)) if (m[1]) yield norm(m[1])
+      for (const m of text.matchAll(re)) {
+        const id = m[1] ? norm(m[1]) : ''
+        if (id && !COMMON_NOUN.test(id)) yield id
+      }
     },
   }
 }

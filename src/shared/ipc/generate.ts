@@ -41,4 +41,13 @@ export const generateChannels = {
     }),
     JobRef,
   ),
+  /**
+   * Repair a finished scenario in place (#185): MSEL repairs and the revision pass for
+   * flagged rows only, then injects and media for what changed. `aiStills` caps the AI stills
+   * rendered for injects that plan one and have none (default: all of them).
+   */
+  'generate:repair': channel(
+    P.extend({ scenarioId: SafeId, aiStills: z.number().int().min(0).max(100).optional() }),
+    JobRef,
+  ),
 }

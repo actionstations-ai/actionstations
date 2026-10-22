@@ -1,5 +1,6 @@
-// scripts/make-example.mjs: the packaging half of the example builder (#157, #158).
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+// scripts/make-example.mjs: the packaging half of the example builder (#157, #158) and the
+// file diff of the repair report (#185).
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import pngjs from 'pngjs'
@@ -7,10 +8,12 @@ import { describe, expect, it } from 'vitest'
 import {
   chooseAssets,
   findLeaks,
+  hashTree,
   isDerived,
   packageProject,
   scrub,
   shippedPng,
+  treeDiff,
   writeManifest,
   type BuildSpec,
 } from '../../scripts/make-example.mjs'
@@ -201,6 +204,25 @@ describe('chooseAssets', () => {
     expect([...kept.keys()].sort()).toEqual(['A1', 'B1', 'C1'])
     expect(kept.get('B1')?.width).toBe(960)
   })
+
+  it('keeps at most two AI composites, ahead of the rendered cards (#185)', () => {
+    const { src } = fakeProject()
+    const tweets = ['E1', 'E2', 'E3'].map((id) => ({
+      id,
+      mselRowId: 'I-02',
+      type: 'tweet',
+      title: id,
+      fields: {},
+      assets: [asset(id, 'composite')],
+    }))
+    for (const t of tweets) {
+      const path = join(src, t.assets[0]!.path)
+      mkdirSync(join(path, '..'), { recursive: true })
+      writeFileSync(path, png(800, 600))
+    }
+    const { kept } = chooseAssets(src, [{ id: 'S1', scenario, injects: [...injects, ...tweets] }])
+    expect([...kept.keys()]).toEqual(['E1', 'E2', 'A1', 'B1', 'C1'])
+  })
 })
 
 describe('packageProject + writeManifest', () => {
@@ -249,5 +271,25 @@ describe('packageProject + writeManifest', () => {
     expect(() => packageProject(spec, out, join(out, 'examples', 'leaky', 'project'))).toThrow(
       /author paths/,
     )
+  })
+})
+
+describe('hashTree + treeDiff (repair report)', () => {
+  it('counts changed, added, removed and byte-identical files', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ttx-tree-'))
+    mkdirSync(join(dir, 'injects'), { recursive: true })
+    writeFileSync(join(dir, 'scenario.json'), '{"v":1}')
+    writeFileSync(join(dir, 'injects', 'A.json'), 'a')
+    writeFileSync(join(dir, 'injects', 'B.json'), 'b')
+    const before = hashTree(dir)
+    writeFileSync(join(dir, 'scenario.json'), '{"v":2}')
+    rmSync(join(dir, 'injects', 'B.json'))
+    writeFileSync(join(dir, 'injects', 'C.json'), 'c')
+    expect(treeDiff(before, hashTree(dir))).toEqual({
+      changed: ['scenario.json'],
+      added: ['injects/C.json'],
+      removed: ['injects/B.json'],
+      identical: 1,
+    })
   })
 })

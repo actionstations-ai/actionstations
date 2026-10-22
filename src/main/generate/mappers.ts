@@ -331,15 +331,20 @@ export interface ResolvedTo {
 
 const norm = (s: string): string => s.trim().toLowerCase()
 
-/** Role by exact key / abbreviation / name, else by a unique prefix match ("sec" → security). */
+/**
+ * Role by exact key / abbreviation / name, else by a unique prefix match of the key or the
+ * abbreviation ("sec" → security, a truncated "as" → ASO).
+ */
 function roleFor(key: string, roles: Role[]): Role | undefined {
   const k = norm(key)
   const exact = roles.find((r) => [r.id, r.abbreviation, r.name].some((x) => norm(x) === k))
   if (exact) return exact
-  const prefix = roles.filter(
-    (r) => k.length >= 2 && (norm(r.id).startsWith(k) || k.startsWith(norm(r.id))),
-  )
-  return prefix.length === 1 ? prefix[0] : undefined
+  if (k.length < 2) return undefined
+  const prefixOf = (x: string): boolean => !!x && (norm(x).startsWith(k) || k.startsWith(norm(x)))
+  const byId = roles.filter((r) => prefixOf(r.id))
+  if (byId.length) return byId.length === 1 ? byId[0] : undefined
+  const byAbbr = roles.filter((r) => norm(r.abbreviation).startsWith(k))
+  return byAbbr.length === 1 ? byAbbr[0] : undefined
 }
 
 /** Resolve "to" keys against roles by id, abbreviation or name (case-insensitive). */

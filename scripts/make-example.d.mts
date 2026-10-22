@@ -76,3 +76,12 @@ export function writeManifest(
   bundles: Bundle[],
   dir?: string,
 ): ExampleManifest
+
+export interface TreeDiff {
+  changed: string[]
+  added: string[]
+  removed: string[]
+  identical: number
+}
+export function hashTree(dir: string): Map<string, string>
+export function treeDiff(before: Map<string, string>, after: Map<string, string>): TreeDiff

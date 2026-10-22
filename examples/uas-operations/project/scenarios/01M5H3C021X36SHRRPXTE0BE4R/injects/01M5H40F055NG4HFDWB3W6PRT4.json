@@ -1,74 +1,96 @@
 {
   "id": "01M5H40F055NG4HFDWB3W6PRT4",
   "mselRowId": "I-20",
-  "type": "scenario_update",
+  "type": "phone_call",
   "title": "Decision: Manual Control or Lake Landing",
   "deliveryMode": "read_aloud",
   "fields": {
-    "exerciseTime": "2:15",
-    "scenarioTime": "11:15",
-    "headline": "Switch to Manual Mode Now",
-    "deliverTo": "IC, TL, ASO, SPO, PIO",
-    "narration": "All hands, this is the Incident Commander. The Payload Operator has confirmed that UAS-11 will cross the north shore of the lake in 42 seconds. The aircraft cannot be recovered if it lands in water per ERP Section 4.3. The forensic evidence confirms an unauthorized remote session from IP 192.168.100.22. GCS-01 firmware is mismatched. The C2 link was compromised. We must decide now: keep automation and risk a lake landing, or switch to manual/attitude mode and land now to preserve the aircraft and prevent a water recovery.",
-    "keyFacts": [
-      "UAS-11 will cross the north shore of the lake in 42 seconds.",
-      "The C2 link was compromised via unauthorized remote session from 192.168.100.22.",
-      "GCS-01 firmware mismatch detected — 03.2026-C vs. baseline 03.2026-B.",
-      "The aircraft must be landed manually to prevent a lake recovery.",
-      "The client demands a status update by 12:00."
+    "orgName": "Federal Aviation Administration",
+    "systemName": "FSDO Incident Line",
+    "callId": "CR-20261022-111530-0041",
+    "direction": "Inbound",
+    "caller": {
+      "name": "FSDO",
+      "number": "(585) 555-0188",
+      "label": "FSDO Contact"
+    },
+    "callee": {
+      "name": "Incident Commander",
+      "number": "(585) 555-0170",
+      "label": "IC"
+    },
+    "startTime": "10/22/2026 11:15:30",
+    "duration": "0:58",
+    "transcript": [
+      {
+        "speaker": "FSDO",
+        "offset": "00:00",
+        "text": "Incident Commander, this is the FAA FSDO (FSDO contact: (585) 555-0188). We have reviewed your incident report on UAS-11. The flight over the lodge patio during a guest event constitutes a violation of 14 CFR Part 107 and the Group’s UAS policy (C-24.0). We are initiating a formal inquiry. You must submit the flight logs and telemetry within 24 hours. Failure to comply may result in suspension of your Part 107 waiver.",
+        "prompt": false
+      },
+      {
+        "speaker": "FSDO",
+        "offset": "00:32",
+        "text": "The aircraft is now 42 seconds from crossing the north shore of the lake. If it lands in water, recovery will require the sheriff’s marine unit per ERP Section 4.3. You must now decide: keep automation or switch to manual/attitude mode. The deadline for a public statement on the aircraft’s status is 12:00.",
+        "prompt": false
+      }
     ],
-    "expectedAction": "The Incident Commander must declare the decision to switch UAS-11 to manual/attitude mode and initiate a controlled landing on the meadow. The IC must ensure that GCS-01 and the 915 MHz radio state are preserved and that no power-off occurs until full telemetry and logs are captured. The decision must be communicated to all roles via the incident command structure.",
-    "scenarioTitle": "Ghost Flight at Birch Hollow — GNSS Spoofing & Command Hijack",
+    "voiceStyles": {},
     "injectId": "I-20"
   },
-  "instructorNote": "This inject closes the final decision point. The IC must now declare the switch to manual control. The team must follow ERP Section 4.3 and ISP Section 9.1 for evidence preservation.",
+  "variant": "default",
+  "instructorNote": "This is a critical decision point. The IC must authorize manual control to prevent a lake landing. Observe whether the team invokes HUOG-ERP Section 11.3 and HUOG-ISP Section 9.1 for evidence preservation.",
   "citations": [
     {
       "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
       "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
-      "headingPath": "ERP › Section 4 › 4.3 Water recovery",
-      "quote": "An aircraft in the lake or Millstone Creek is not recovered by the crew. The IC calls the site manager and CCSO; recovery uses the property's boat with life jackets or waits for the sheriff's marine",
-      "chunkId": 13
-    },
-    {
-      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
-      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
-      "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
-      "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
-      "chunkId": 127
+      "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+      "quote": "Treat as Level 2. Land all aircraft; preserve the GCS state; call the Systems & Cybersecurity Lead before anything is powered down; no further launches at the site that day; the HUOG-ISP incident play",
+      "chunkId": 25
     },
     {
       "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
       "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
-      "headingPath": "ERP › Section 2 › 2.1 Incident Commander",
-      "quote": "The **Director of Flight Operations (Devin Alcott)** is the Group's Incident Commander (IC) for any flight-operations emergency. Until the FOM is reached, the **RPIC of the affected aircraft** is the on-sce",
-      "chunkId": 6
-    },
-    {
-      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
-      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
-      "headingPath": "FOM › Section 6 › 6.1 Classes and ceilings",
-      "quote": "Horton Field is under the HWK Class C airspace with a UAS Facility Map grid ceiling of 200 ft AGL. The Birch Hollow Range flight areas are in Class G airspace below the Class C shelf with the Part 107 ceil",
-      "chunkId": 62
+      "headingPath": "ERP › Section 9 › 9.2 Birch Hollow Range",
+      "quote": "- First responders: 911 (Dunmore Fire District EMS; CCSO). Nearest hospital by road: the SSL's site card lists the route; cellular coverage is good at the lodge and poor on the quarry bench, so the Qu",
+      "chunkId": 27
     }
   ],
   "mediaBrief": {
-    "paths": ["template"]
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "FSDO",
+        "voiceStyle": "calm male federal voice, mid-50s, precise, neutral tone, measured pace",
+        "text": "Incident Commander, this is the FAA FSDO (FSDO contact: (585) 555-0188). We have reviewed your incident report on UAS-11. The flight over the lodge patio during a guest event constitutes a violation of 14 CFR Part 107 and the Group’s UAS policy (C-24.0). We are initiating a formal inquiry. You must submit the flight logs and telemetry within 24 hours. Failure to comply may result in suspension of your Part 107 waiver."
+      },
+      {
+        "speaker": "FSDO",
+        "voiceStyle": "same as above, slightly more urgent in delivery",
+        "text": "The aircraft is now 42 seconds from crossing the north shore of the lake. If it lands in water, recovery will require the sheriff’s marine unit per ERP Section 4.3. You must now decide: keep automation or switch to manual/attitude mode. The deadline for a public statement on the aircraft’s status is 12:00."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
   },
   "assets": [
     {
-      "id": "01M5H71SNJEHQEAQETNVX1C0KS",
+      "id": "01M5HX3V4G65BZN04H4NRP43Z4",
       "kind": "image",
-      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H40F055NG4HFDWB3W6PRT4/01M5H71SNJEHQEAQETNVX1C0KS.png",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H40F055NG4HFDWB3W6PRT4/01M5HX3V4G65BZN04H4NRP43Z4.png",
       "role": "rendered",
       "width": 816,
       "height": 1056,
-      "sha256": "a8f0fdd04dbe7dbbc2a66858b457bc92255b202daa4faa08c3a3c7f94b1e9330",
+      "sha256": "4af3f2cf8471cd2275620da8190b4178cb45bf6f2403f40d82c347ecbe1595e6",
       "provenance": {
         "provider": "template",
-        "templateId": "scenario_update",
+        "templateId": "phone_call",
         "templateVersion": "1",
-        "createdAt": "2026-10-22T07:08:48.553Z"
+        "createdAt": "2026-10-22T13:34:24.262Z"
       }
     }
   ],
@@ -100,9 +122,54 @@
         "instructorNote": "This inject closes the final decision point. The IC must now declare the switch to manual control. The team must follow ERP Section 4.3 and ISP Section 9.1 for evidence preservation.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-22T13:33:55.327Z",
+      "by": "ai",
+      "note": "regenerated",
+      "snapshot": {
+        "title": "Decision: Manual Control or Lake Landing",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Federal Aviation Administration",
+          "systemName": "FSDO Incident Line",
+          "callId": "CR-20261022-111530-0041",
+          "direction": "Inbound",
+          "caller": {
+            "name": "FSDO",
+            "number": "(585) 555-0188",
+            "label": "FSDO Contact"
+          },
+          "callee": {
+            "name": "Incident Commander",
+            "number": "(585) 555-0170",
+            "label": "IC"
+          },
+          "startTime": "10/22/2026 11:15:30",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "FSDO",
+              "offset": "00:00",
+              "text": "Incident Commander, this is the FAA FSDO (FSDO contact: (585) 555-0188). We have reviewed your incident report on UAS-11. The flight over the lodge patio during a guest event constitutes a violation of 14 CFR Part 107 and the Group’s UAS policy (C-24.0). We are initiating a formal inquiry. You must submit the flight logs and telemetry within 24 hours. Failure to comply may result in suspension of your Part 107 waiver.",
+              "prompt": false
+            },
+            {
+              "speaker": "FSDO",
+              "offset": "00:32",
+              "text": "The aircraft is now 42 seconds from crossing the north shore of the lake. If it lands in water, recovery will require the sheriff’s marine unit per ERP Section 4.3. You must now decide: keep automation or switch to manual/attitude mode. The deadline for a public statement on the aircraft’s status is 12:00.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-20"
+        },
+        "instructorNote": "This is a critical decision point. The IC must authorize manual control to prevent a lake landing. Observe whether the team invokes HUOG-ERP Section 11.3 and HUOG-ISP Section 9.1 for evidence preservation.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T07:08:48.765Z"
+  "updatedAt": "2026-10-22T13:34:47.673Z"
 }

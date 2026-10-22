@@ -26,29 +26,29 @@ The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this
 
 ## SECTION 2: ROLES
 
-| Role                          | Holder                            | Responsibilities                                                                                                                                                                     |
-| ----------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Systems & Cybersecurity Lead  | Tomás Reyes                       | Plan owner; GCS baseline and updates; link and radio configuration; firewall; NAS and backups; incident lead for cyber events; liaison to the managed SOC and the Compliance Officer |
-| General Manager               | Marguerite Ostrowski              | Accountable; approves client data agreements; decides on client and regulator notification with the ASO; authorizes paying no ransom (Section 9.3)                                   |
-| Director of Flight Operations | Devin Alcott                      | Enforces the field rules; owns the parameter change log with the Systems & Cybersecurity Lead; Incident Commander when aircraft are involved                                         |
-| Payload & Calibration Lead    | Hannah Whitlock                   | Owns calibration data integrity, the ground-truth records and PL-02 export-control handling                                                                                          |
-| Data Center Operations lead   | Lin Zhou (Data Center Operations) | DC-HPC accounts, scratch and project storage, DC-XFER01                                                                                                                              |
-| Fleet & Logistics Manager     | Owen Castellano                   | Physical security of Hangar 1 and Hangars 2 and 3; asset tags; visitor sign-in; removable-media custody                                                                              |
-| Campaign Leads                | Per campaign                      | Classify the campaign's data (Section 7.2); approve releases with the Systems & Cybersecurity Lead                                                                                   |
-| managed SOC                   | SecureWatch MSSP                  | 24 h monitoring of HUOG-FW01 logs; incident coordination; forensics                                                                                                                  |
-| Compliance Officer            | Dana Kurtz                        | Technology control plans; PL-02 and controlled data determinations                                                                                                                   |
+| Role | Holder | Responsibilities |
+|---|---|---|
+| Systems & Cybersecurity Lead | Tomás Reyes | Plan owner; GCS baseline and updates; link and radio configuration; firewall; NAS and backups; incident lead for cyber events; liaison to the managed SOC and the Compliance Officer |
+| General Manager | Marguerite Ostrowski | Accountable; approves client data agreements; decides on client and regulator notification with the ASO; authorizes paying no ransom (Section 9.3) |
+| Director of Flight Operations | Devin Alcott | Enforces the field rules; owns the parameter change log with the Systems & Cybersecurity Lead; Incident Commander when aircraft are involved |
+| Payload & Calibration Lead | Hannah Whitlock | Owns calibration data integrity, the ground-truth records and PL-02 export-control handling |
+| Data Center Operations lead | Lin Zhou (Data Center Operations) | DC-HPC accounts, scratch and project storage, DC-XFER01 |
+| Fleet & Logistics Manager | Owen Castellano | Physical security of Hangar 1 and Hangars 2 and 3; asset tags; visitor sign-in; removable-media custody |
+| Campaign Leads | Per campaign | Classify the campaign's data (Section 7.2); approve releases with the Systems & Cybersecurity Lead |
+| managed SOC | SecureWatch MSSP | 24 h monitoring of HUOG-FW01 logs; incident coordination; forensics |
+| Compliance Officer | Dana Kurtz | Technology control plans; PL-02 and controlled data determinations |
 
 ## SECTION 3: SYSTEM DESCRIPTION
 
 ### 3.1 Networks
 
-| Network                | Range           | Hosts                                                                                                   | Egress                                                                                                                |
-| ---------------------- | --------------- | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Flight Ops VLAN        | 10.17.40.0/24   | GCS-01 to GCS-04, RTK-1/2, PAY-01, HUOG-CAL01 when docked                                               | Through HUOG-FW01; Internet only to the OEM update and licensing endpoints during the Tuesday 0700–0900 update window |
-| Data VLAN              | 10.17.41.0/24   | HUOG-NAS01 (10.17.41.5), HUOG-PROC01 (10.17.41.11), HUOG-PROC02 (10.17.41.12), HUOG-CAL01 (10.17.41.20) | Through HUOG-FW01; SMB from base only for Group accounts                                                              |
-| Data Center Operations | 10.17.60.0/24   | DC-LOGIN01, DC-XFER01, project storage `/projects/huog/`                                                | Corporate-managed                                                                                                     |
-| Field LAN              | 192.168.88.0/24 | Field laptops, DAA-1 (192.168.88.40), FIELD-RTR-1 (192.168.88.1)                                        | Cellular uplink; VPN to the office network when the GCS needs the NAS                                                 |
-| Corporate              | —               | Identity, email, ITSM, the OEM fleet portal (cloud)                                                     | —                                                                                                                     |
+| Network | Range | Hosts | Egress |
+|---|---|---|---|
+| Flight Ops VLAN | 10.17.40.0/24 | GCS-01 to GCS-04, RTK-1/2, PAY-01, HUOG-CAL01 when docked | Through HUOG-FW01; Internet only to the OEM update and licensing endpoints during the Tuesday 0700–0900 update window |
+| Data VLAN | 10.17.41.0/24 | HUOG-NAS01 (10.17.41.5), HUOG-PROC01 (10.17.41.11), HUOG-PROC02 (10.17.41.12), HUOG-CAL01 (10.17.41.20) | Through HUOG-FW01; SMB from base only for Group accounts |
+| Data Center Operations | 10.17.60.0/24 | DC-LOGIN01, DC-XFER01, project storage `/projects/huog/` | Corporate-managed |
+| Field LAN | 192.168.88.0/24 | Field laptops, DAA-1 (192.168.88.40), FIELD-RTR-1 (192.168.88.1) | Cellular uplink; VPN to the office network when the GCS needs the NAS |
+| Corporate | — | Identity, email, ITSM, the OEM fleet portal (cloud) | — |
 
 ### 3.2 Flows
 
@@ -110,14 +110,14 @@ FIELD-RTR-1 provides the field LAN; its admin password is the purchase default (
 
 ### 6.1 Storage
 
-| Store                    | Contents                                                                           | Protection                                                          |
-| ------------------------ | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| GCS and payload drives   | Current campaign's raw data until copied                                           | Encrypted; copied to the NAS the same day, wiped after verification |
-| HUOG-NAS01 (10.17.41.5)  | Flight logs, raw payload data, calibration files, ops records, baselines, firmware | RAID; nightly snapshots (14 days); SMB with per-group permissions   |
-| HUOG-PROC01/02           | Working copies during processing                                                   | Local only; no long-term storage                                    |
-| DC-HPC `/projects/huog/` | Processed products, large hyperspectral cubes, client deliverables in preparation  | Off-site backup; project-level permissions                          |
-| DC-XFER01                | Outbound deliverables, 30-day retention                                            | Per-client SFTP accounts; audit log                                 |
-| OEM fleet portal (cloud) | Flight records for UAS-01 to UAS-10                                                | Vendor-controlled; Group account with MFA                           |
+| Store | Contents | Protection |
+|---|---|---|
+| GCS and payload drives | Current campaign's raw data until copied | Encrypted; copied to the NAS the same day, wiped after verification |
+| HUOG-NAS01 (10.17.41.5) | Flight logs, raw payload data, calibration files, ops records, baselines, firmware | RAID; nightly snapshots (14 days); SMB with per-group permissions |
+| HUOG-PROC01/02 | Working copies during processing | Local only; no long-term storage |
+| DC-HPC `/projects/huog/` | Processed products, large hyperspectral cubes, client deliverables in preparation | Off-site backup; project-level permissions |
+| DC-XFER01 | Outbound deliverables, 30-day retention | Per-client SFTP accounts; audit log |
+| OEM fleet portal (cloud) | Flight records for UAS-01 to UAS-10 | Vendor-controlled; Group account with MFA |
 
 ### 6.2 Backups
 
@@ -138,12 +138,12 @@ The Group's reputation with clients rests on delivering calibrated data on time 
 
 ### 7.2 Data classes
 
-| Class                   | Examples                                                                                                   | Handling                                                                                                                                                                                                                                             |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Public**              | Published papers, demo imagery of Horton Field                                                             | No restriction                                                                                                                                                                                                                                       |
-| **Internal**            | Flight logs, maintenance records, most trainee projects                                                    | Group accounts only                                                                                                                                                                                                                                  |
-| **Client-confidential** | CVAC field imagery (farm boundaries, yield estimates), CP&L task-order data, client collections            | Named-user access; DC-XFER01 or the client portal only; no personal devices; client notified of any exposure within the agreement's time (CP&L: 24 hours; CVAC: 5 days)                                                                              |
-| **Export-controlled**   | PL-02 technical data, SAR (PL-06) raw data and processing code, anything the Compliance Officer designates | Technology control plan TCP-2025-07; US persons only; stored only in the `\\HUOG-NAS01\controlled\` share and the DC-HPC controlled project; never on a GCS; never on a tablet; the Compliance Officer notified the same day of any loss or exposure |
+| Class | Examples | Handling |
+|---|---|---|
+| **Public** | Published papers, demo imagery of Horton Field | No restriction |
+| **Internal** | Flight logs, maintenance records, most trainee projects | Group accounts only |
+| **Client-confidential** | CVAC field imagery (farm boundaries, yield estimates), CP&L task-order data, client collections | Named-user access; DC-XFER01 or the client portal only; no personal devices; client notified of any exposure within the agreement's time (CP&L: 24 hours; CVAC: 5 days) |
+| **Export-controlled** | PL-02 technical data, SAR (PL-06) raw data and processing code, anything the Compliance Officer designates | Technology control plan TCP-2025-07; US persons only; stored only in the `\\HUOG-NAS01\controlled\` share and the DC-HPC controlled project; never on a GCS; never on a tablet; the Compliance Officer notified the same day of any loss or exposure |
 
 The Campaign Lead assigns the class in the Campaign Plan (HUOG-FOM 5.1); the Systems & Cybersecurity Lead sets the folder permissions before the first flight day.
 
@@ -238,24 +238,24 @@ This plan is reviewed each August with the MSSP and after any Section 9 incident
 
 ## ANNEX A: ASSET INVENTORY (EXTRACT)
 
-| Asset                 | Tag                    | Hostname / address       | Baseline                    | Notes                                                           |
-| --------------------- | ---------------------- | ------------------------ | --------------------------- | --------------------------------------------------------------- |
-| GCS-01                | HUOG-0101              | HUOG-GCS01 · 10.17.40.11 | 03.2026-B                   | Dual C2 radios                                                  |
-| GCS-02                | HUOG-0102              | HUOG-GCS02 · 10.17.40.12 | 03.2026-B                   | Remote-support tool removed 03/2026                             |
-| GCS-03                | HUOG-0103              | HUOG-GCS03 · 10.17.40.13 | 03.2026-B                   | Designated spare / update test unit                             |
-| GCS-04                | HUOG-0104              | HUOG-GCS04 · 10.17.40.14 | L-2026.2                    | UAS-12 only; open-source ground station                         |
-| GCS-05, GCS-06        | HUOG-0105/0106         | Managed tablets          | MDM                         | UAS-07 to UAS-10                                                |
-| PAY-01                | HUOG-0110              | HUOG-PAY01 · 10.17.40.31 | 03.2026-B                   | Payload control                                                 |
-| RTK-1, RTK-2          | HUOG-0121/0122         | 10.17.40.21/22           | Vendor fw 2.8               | 433 MHz corrections                                             |
-| FIELD-RTR-1           | HUOG-0130              | 192.168.88.1             | Vendor fw                   | Default admin password (HL-29)                                  |
-| DAA-1                 | HUOG-0140              | 192.168.88.40            | —                           | ADS-B receiver, air-traffic display                             |
-| HUOG-NAS01            | HUOG-0201              | 10.17.41.5               | NAS OS 7.2                  | Shares: flightlogs, ops, calibration, controlled, it, campaigns |
-| HUOG-PROC01/02        | HUOG-0211/0212         | 10.17.41.11/12           | Workstation 2026.1          | Processing                                                      |
-| HUOG-CAL01            | HUOG-0220              | 10.17.41.20              | Workstation 2026.1          | Calibration shop instruments                                    |
-| HUOG-FW01             | HUOG-0301              | 10.17.40.1 / 10.17.41.1  | Corporate firewall standard | Syslog to the MSSP SIEM                                         |
-| Encrypted drives      | HUOG-D01 to HUOG-D08   | —                        | —                           | Kit-log custody                                                 |
-| Offline backup drives | OB-1, OB-2             | —                        | —                           | One in the General Manager's safe                               |
-| DC-LOGIN01, DC-XFER01 | Data Center Operations | 10.17.60.x               | Corporate                   | `/projects/huog/`                                               |
+| Asset | Tag | Hostname / address | Baseline | Notes |
+|---|---|---|---|---|
+| GCS-01 | HUOG-0101 | HUOG-GCS01 · 10.17.40.11 | 03.2026-B | Dual C2 radios |
+| GCS-02 | HUOG-0102 | HUOG-GCS02 · 10.17.40.12 | 03.2026-B | Remote-support tool removed 03/2026 |
+| GCS-03 | HUOG-0103 | HUOG-GCS03 · 10.17.40.13 | 03.2026-B | Designated spare / update test unit |
+| GCS-04 | HUOG-0104 | HUOG-GCS04 · 10.17.40.14 | L-2026.2 | UAS-12 only; open-source ground station |
+| GCS-05, GCS-06 | HUOG-0105/0106 | Managed tablets | MDM | UAS-07 to UAS-10 |
+| PAY-01 | HUOG-0110 | HUOG-PAY01 · 10.17.40.31 | 03.2026-B | Payload control |
+| RTK-1, RTK-2 | HUOG-0121/0122 | 10.17.40.21/22 | Vendor fw 2.8 | 433 MHz corrections |
+| FIELD-RTR-1 | HUOG-0130 | 192.168.88.1 | Vendor fw | Default admin password (HL-29) |
+| DAA-1 | HUOG-0140 | 192.168.88.40 | — | ADS-B receiver, air-traffic display |
+| HUOG-NAS01 | HUOG-0201 | 10.17.41.5 | NAS OS 7.2 | Shares: flightlogs, ops, calibration, controlled, it, campaigns |
+| HUOG-PROC01/02 | HUOG-0211/0212 | 10.17.41.11/12 | Workstation 2026.1 | Processing |
+| HUOG-CAL01 | HUOG-0220 | 10.17.41.20 | Workstation 2026.1 | Calibration shop instruments |
+| HUOG-FW01 | HUOG-0301 | 10.17.40.1 / 10.17.41.1 | Corporate firewall standard | Syslog to the MSSP SIEM |
+| Encrypted drives | HUOG-D01 to HUOG-D08 | — | — | Kit-log custody |
+| Offline backup drives | OB-1, OB-2 | — | — | One in the General Manager's safe |
+| DC-LOGIN01, DC-XFER01 | Data Center Operations | 10.17.60.x | Corporate | `/projects/huog/` |
 
 Endpoint-protection exclusions on the GCS baseline: the OEM flight software program folder and its log folder; the mission-planning software's cache folder. No other exclusions are permitted.
 
@@ -265,12 +265,12 @@ Systems & Cybersecurity Lead, Tomás Reyes — 585-555-0143 · Alternate admin, 
 
 ## ANNEX C: KNOWN GAPS (09/2026)
 
-| Id     | Gap                                                                                                 | Owner                        | Target            |
-| ------ | --------------------------------------------------------------------------------------------------- | ---------------------------- | ----------------- |
-| HL-29  | FIELD-RTR-1 admin password is the purchase default                                                  | Systems & Cybersecurity Lead | 10/2026           |
-| HL-27  | Parameter change log for UAS-12 incomplete after the 07/2026 timer test                             | FOM                          | 09/2026           |
-| ISP-G1 | No GNSS interference detector at either site                                                        | FY27 budget request          | FY27              |
-| ISP-G2 | Quarterly restore test for 09/2026 not yet run                                                      | Systems & Cybersecurity Lead | 09/30/2026        |
-| ISP-G3 | OB-1 found in the Hangar 2 cabinet rather than the safe during the 08/2026 audit                    | Fleet & Logistics Manager    | Closed 08/20/2026 |
-| ISP-G4 | CVAC imagery for the 2026 season still on a crew member's HUOG-PROC01 working folder after delivery | Campaign Lead                | 09/2026           |
-| ISP-G5 | OEM fleet portal account shared between the FOM and the Fleet & Logistics Manager (one MFA device)  | Systems & Cybersecurity Lead | 10/2026           |
+| Id | Gap | Owner | Target |
+|---|---|---|---|
+| HL-29 | FIELD-RTR-1 admin password is the purchase default | Systems & Cybersecurity Lead | 10/2026 |
+| HL-27 | Parameter change log for UAS-12 incomplete after the 07/2026 timer test | FOM | 09/2026 |
+| ISP-G1 | No GNSS interference detector at either site | FY27 budget request | FY27 |
+| ISP-G2 | Quarterly restore test for 09/2026 not yet run | Systems & Cybersecurity Lead | 09/30/2026 |
+| ISP-G3 | OB-1 found in the Hangar 2 cabinet rather than the safe during the 08/2026 audit | Fleet & Logistics Manager | Closed 08/20/2026 |
+| ISP-G4 | CVAC imagery for the 2026 season still on a crew member's HUOG-PROC01 working folder after delivery | Campaign Lead | 09/2026 |
+| ISP-G5 | OEM fleet portal account shared between the FOM and the Fleet & Logistics Manager (one MFA device) | Systems & Cybersecurity Lead | 10/2026 |

@@ -6,7 +6,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-22T06:45:53.817Z",
-  "updatedAt": "2026-10-22T07:14:45.643Z",
+  "updatedAt": "2026-10-22T13:25:04.592Z",
   "brief": {
     "userPrompt": "At 02:40 a remote-support session through the DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building raises the Caustic Feed System dose setpoint (NAOH-FC-203) step by step toward 40 mg/L while the single night operator is on rounds; finished-water pH climbs on AIT-302, the hard-wired high-high switch PSH-302 and a grab sample disagree with what the HMI trend shows. Vendor remote access, manual chemical feed, isolating the control network, Ohio EPA notification and the Do Not Drink decision for Zone 1.",
     "audience": [
@@ -360,11 +360,12 @@
       "from": "Outside Caller",
       "toRoleIds": [
         "ops",
-        "it"
+        "wq",
+        "pio"
       ],
-      "toLabel": "IC, TL",
-      "event": "Phone Call: \"Director Albrecht, this is Marcus Oyelaran, Water Quality Manager. The lab has confirmed: pH is 9.3, caustic dose is 38 mg/L. The PLC clamp is 40 mg/L, so we are over. PSH-302 has not tripped — that's not normal. This means the HMI is not reflecting reality. The control system is compromised. We are in a public health emergency. We must issue a Do Not Drink advisory.\"\n\n- Lab result: pH 9.3, Caustic 38 mg/L\n- PSH-302: Not tripped\n- Conclusion: HMI is lying; control system has failed",
-      "expectedAction": "Ops confirms the WQ Manager’s assessment. Ops authorizes the advisory decision process under Section 5.3 and instructs the PIO to prepare a public statement using the pre-scripted template (MDWS-PCP-2026). Ops notifies the SCADA / IT Security Manager to investigate the root cause.",
+      "toLabel": "IC, WQ, PIO",
+      "event": "Phone Call: 'This is Sarah Tran, Ohio EPA DDAGW Central District. I am receiving a Level 3 emergency notification from Millbrook DWS via the pre-scripted external reporting clock. I confirm receipt and will initiate the regulatory response. Please provide the lab result for Sample 24-1187 and the GIS boundary for the affected area within 15 minutes.'",
+      "expectedAction": "The Incident Commander confirms lab results and GIS boundary to DDAGW; the Water Quality Manager provides the lab data and the Distribution Superintendent confirms the affected zone using GIS. The PIO prepares the advisory template under Section 10.",
       "purposeTag": "CORE_NARRATIVE",
       "format": "phone_call",
       "injectId": "01M5H65R6RVT2A86M3DRS7Y7SK",
@@ -425,25 +426,25 @@
       "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
       "time": "0:50",
       "wallClock": "09:50",
-      "from": "Outside Caller",
+      "from": "Carver County EMA",
       "toRoleIds": [
         "ops",
-        "regulator",
+        "wq",
         "pio"
       ],
-      "toLabel": "IC, DDAGW, PIO",
-      "event": "Phone Call: \"This is Denise Albrecht, Director of Water Operations. I am declaring a Level 3 — Public Health Emergency — under ERP Section 4.4. I am activating the Section 7.5 Manual Operation protocol. The control system has been compromised, and the finished water pH is 9.3 with caustic at 38 mg/L. I am notifying the Ohio EPA DDAGW Central District via the pre-scripted external reporting clock (Section 5.3). I am authorizing the advisory decision process.\"",
-      "expectedAction": "Ops confirms Level 3 declaration and activates the advisory decision process per Section 5.3; notifies the PIO to begin public release (SOP 10.1).",
+      "toLabel": "IC, WQ, PIO",
+      "event": "Phone Call: 'This is Thomas Greene, Carver County EMA. I have activated the County EOC and am deploying the Joint Information Center (JIC). I am directing the Public Information Officer to begin issuing public advisories per MDWS-PCP-2026, Section 10. I require confirmation of the affected zone and a public statement within 30 minutes.'",
+      "expectedAction": "The Incident Commander authorizes the Public Information Officer to release the advisory using the Section 10 template; the Water Quality Manager confirms the health effects content. The PIO issues the advisory to MillbrookAlert, the website, and social media within 30 minutes.",
       "purposeTag": "CORE_NARRATIVE",
       "format": "phone_call",
       "injectId": "01M5H66JWKCW0NMJY2W1SS3123",
       "citations": [
         {
-          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-          "headingPath": "ERP › Section 13",
-          "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
-          "chunkId": 48
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 2",
+          "quote": "| Role | Name | Responsibilities | |---|---|---| | Public Information Officer (PIO) | Hannah Weiss, City Communications Director | Owns this plan; approves and releases all public statements; spokespe",
+          "chunkId": 105
         },
         {
           "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
@@ -792,17 +793,17 @@
       "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
       "time": "1:45",
       "wallClock": "10:45",
-      "from": "Outside Caller",
+      "from": "Facilitator",
       "toRoleIds": [
         "ops",
         "wq",
         "pio"
       ],
       "toLabel": "IC, WQ, PIO",
-      "event": "Phone Call: 'This is Carol Dugan, Ohio EPA DDAGW Central District. I am confirming a Level 3 — Public Health Emergency under ERP Section 4.4. The lab result (pH 9.3, caustic 38 mg/L) exceeds the safe limit. You must issue the official Do Not Drink advisory within 30 minutes. I need confirmation from the Water Quality Manager and the Director before I will accept your public statement.'",
-      "expectedAction": "Ops calls WQ to confirm lab data; WQ confirms pH > 9.5 and caustic > 40 mg/L (PLC clamp); Ops authorizes the official advisory per Section 5.3 and instructs PIO to publish the full template.",
+      "event": "Facilitator prompt to IC, WQ, PIO: the situation now demands a call. What is your call, who signs off, and who must be told?",
+      "expectedAction": "Phone Call: 'This is Carol Dugan, Ohio EPA DDAGW Central District. I am confirming a Level 3 — Public Health Emergency under ERP Section 4.4. The lab result (pH 9.3, caustic 38 mg/L) exceeds the safe limit. You must issue the official Do Not Drink advisory within 30 minutes. I need confirmation from the Water Quality Manager and the Director before I will accept your public statement.' DECISION POINT: Ops must authorize the issuance of the Do Not Drink advisory per ERP Section 4.4; WQ confirms lab results; PIO publishes the advisory using the Section 10 template and GIS boundary. All roles must act within 30 minutes of this call.",
       "purposeTag": "CORE_NARRATIVE",
-      "format": "regulatory_notice",
+      "format": "phone_call",
       "injectId": "01M5H6AZR9V2A43GE4GHXTGGDX",
       "citations": [
         {
@@ -813,11 +814,11 @@
           "chunkId": 48
         },
         {
-          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-          "headingPath": "ERP › Section 1 › 1.1 Purpose",
-          "quote": "This Emergency Response Plan (ERP) tells the Department of Water & Sewer (DWS) how to detect, classify and respond to an emergency affecting the Millbrook water system, how to protect public health wh",
-          "chunkId": 3
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
         }
       ],
       "locked": false
@@ -860,49 +861,17 @@
       "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
       "time": "1:50",
       "wallClock": "10:50",
-      "from": "Outside Caller",
+      "from": "Kessler Controls NOC",
       "toRoleIds": [
-        "ops"
+        "ops",
+        "it"
       ],
-      "toLabel": "IC",
-      "event": "Phone Call: 'This is Priya Nandakumar, SCADA / IT Security Manager. I’ve called Kessler Controls at (555) 039-4411 to request a remote support session. They said a signed access request is required, and they cannot begin until the network is fully isolated and the cyber-insurance carrier has been notified. I’ve also checked: the vendor’s remote-access portal requires a signed access request before any session can be approved.'",
-      "expectedAction": "IT confirms the vendor cannot assist until the access request is signed and the carrier is notified; advises IC that no vendor recovery is possible until the formal process is followed; logs the call in the vendor contact log.",
+      "toLabel": "IC, TL",
+      "event": "Phone Call: 'This is Sam Whitfield, Kessler Controls NOC. We have received a request for remote support from your SCADA / IT Security Manager. However, your network remains un-isolated, and no signed access request has been submitted. Our remote-access portal requires a signed access request and a confirmed network isolation before any session can be approved. We cannot begin until these are met. Please contact us only after full isolation and a signed request.'",
+      "expectedAction": "TL confirms that no vendor session may proceed until the network is fully isolated and a signed access request is submitted; IC authorizes the submission of the signed access request to Kessler Controls under Section 6.2.",
       "purposeTag": "TECH_HURDLE",
       "format": "phone_call",
       "injectId": "01M5H6BQ2W0KFTBNHHEP1XHP03",
-      "citations": [
-        {
-          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
-          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
-          "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
-          "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
-          "chunkId": 70
-        },
-        {
-          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
-          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
-          "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
-          "quote": "- [ ] City IT: isolate affected hosts; disable FW-R-17, FW-R-22 and FW-R-14 immediately (do not wait for the full Section 10.3 decision); stop backup jobs so MBW-BKP-01 is not overwritten; pull the MB",
-          "chunkId": 86
-        }
-      ],
-      "locked": false
-    },
-    {
-      "id": "I-18b",
-      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
-      "time": "1:52",
-      "wallClock": "10:52",
-      "from": "Staff Email",
-      "toRoleIds": [
-        "it"
-      ],
-      "toLabel": "TL",
-      "event": "Email Forward: From: Priya Nandakumar (SCADA / IT Security Manager) | To: Kevin Marsh (City IT Director) | Subject: Vendor Access Request — Kessler Controls (F-4) — Required for PLC-02 Re-image\n\nWe need to re-image PLC-02 to restore control. Kessler Controls has confirmed that the spare PLC-02 (revision 3.2) is on-site, but the vendor’s remote-access portal will only allow a session after a signed access request is uploaded and approved. The request must be signed by the Director of Water Operations or the City Manager. I’ve attached the Kessler Controls access form (F-4) and the vendor’s compliance policy. The vendor says they cannot begin any remote work until this is complete.",
-      "expectedAction": "IT notifies the Incident Commander and City Manager that a signed access request is required from Kessler Controls before any remote session can be initiated; the request must be routed through the City Manager's office and signed by the Director of Water Operations per C13 and C16. No re-image can proceed without it.",
-      "purposeTag": "TECH_HURDLE",
-      "format": "email_forward",
-      "injectId": "01M5H6C1Z6BTC76R5H0HEQRCPZ",
       "citations": [
         {
           "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
@@ -1049,10 +1018,10 @@
         "ops"
       ],
       "toLabel": "IC",
-      "event": "Face-to-Face: \"I am declaring the system off automation. The PLC program is corrupted and cannot be trusted. We have no safe path to return to automatic control. I am authorizing full manual operation for 72 hours, with two operators per shift. The risk of another overfeed is too high to justify continuing in automatic. We must protect public health first. This is a Level 3 emergency under ERP Section 4.4. I am initiating the OHWARN mutual-aid request now.\"\n\nNote: The Director is making a high-consequence decision to stop automation and fall back to manual control, despite reduced staffing and slower response times.",
-      "expectedAction": "DECISION POINT: The Director authorizes full manual operation and activates the OHWARN mutual-aid agreement (ERP Section 12). The shift will run with two operators per shift for 72 hours. The ICS team confirms the new operating mode and updates the incident status.",
+      "event": "Regulatory Notice: From: Carol Dugan, Ohio EPA DDAGW Central District | To: Denise Albrecht, Director of Water Operations | Subject: URGENT: Level 3 — Public Health Emergency — Immediate Action Required\n\nConfirmation received: pH 9.6, caustic 37 mg/L in Zone 1 (Sample 24-1189) — exceeds safe limits. The control system is compromised and cannot be trusted. You are authorized to maintain the Do Not Drink advisory and to proceed with full manual operation under ERP Section 4.4. Do not return to automatic control until verification is complete. Immediate action is required to protect public health. Failure to act constitutes a regulatory violation.",
+      "expectedAction": "DECISION POINT: Ops must authorize full manual operation for 72 hours, with two operators per shift, under ERP Section 4.4 and the Level 3 emergency declaration. The decision to stop automation and fall back to manual control is confirmed.",
       "purposeTag": "DECISION_POINT",
-      "format": "face_to_face",
+      "format": "regulatory_notice",
       "injectId": "01M5H6DWT9XG48D9CB5QPF00TN",
       "citations": [
         {
@@ -1793,26 +1762,6 @@
   ],
   "warnings": [
     {
-      "code": "ROW_OUTSIDE_PHASE",
-      "severity": "warning",
-      "message": "Row I-10b (1:02) is outside \"The Sighting\" (0:00–1:00)",
-      "rowId": "I-10b",
-      "source": "lint"
-    },
-    {
-      "code": "ROW_OUTSIDE_PHASE",
-      "severity": "warning",
-      "message": "Row I-10c (1:05) is outside \"The Sighting\" (0:00–1:00)",
-      "rowId": "I-10c",
-      "source": "lint"
-    },
-    {
-      "code": "DENSITY_HIGH",
-      "severity": "info",
-      "message": "Phase 1 has 13 injects over 60 min (one every 5 min; aim for 10–15)",
-      "source": "lint"
-    },
-    {
       "code": "CRITIQUE",
       "severity": "error",
       "message": "HMI shows 14 mg/L, but lab confirms 38 mg/L caustic and pH 9.3; the HMI value is not within the normal band for pH, which is 7.4–7.8. (row rewritten once from this note)",
@@ -1909,39 +1858,25 @@
       "suggestion": "Update the HMI status to reflect that the local manual stop was successful, and the pump is off, to match the physical state."
     },
     {
+      "code": "ROLE_NO_INJECT",
+      "severity": "warning",
+      "message": "Security & Emergency Manager (Sec) receives no inject in phase 1 \"The Sighting\"",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_NO_INJECT",
+      "severity": "warning",
+      "message": "Ohio EPA DDAGW Central District (Regulator Liaison) receives no inject in phase 1 \"The Sighting\"",
+      "source": "lint"
+    },
+    {
       "code": "INJECT_CONTENT_ISSUE",
       "severity": "warning",
-      "message": "START: content still inconsistent after one repair:\n- fields: treatment plant THE RIVERSIDE WATER TREATMENT PLANT is not in the facility facts (the documents list Riverside Water Treatment Plant); use one that exists",
-      "rowId": "START",
-      "injectId": "01M5H64GRE22QRSEQWYEWZ2EQ0",
+      "message": "I-11c: content still inconsistent after one repair:\n- fields.readings[].label: \"Finished Cl2 residual\" is the template's example, not this row's content; write what the row's source and event say\n- fields: Storage tank / reservoir CAUSTIC BULK TANK (the documents list Hilltop Tank, Northgate Reservoir, Orchard Standpipe) is not in the facility facts; use one that exists\n- fields: Storage tank / reservoir HYPOCHLORITE TANK (the documents list Hilltop Tank, Northgate Reservoir, Orchard Standpipe) is not in the facility facts; use one that exists",
+      "rowId": "I-11c",
+      "injectId": "01M5H71D0J5DE42TEAR7NDQ90H",
       "source": "lint",
       "suggestion": "Open the inject editor and fix the flagged content"
-    },
-    {
-      "code": "INJECT_FIELDS_INVALID",
-      "severity": "warning",
-      "message": "I-09: fields still do not match the tweet template after one repair:\n- fields/handle: must match pattern \"^[A-Za-z0-9_]{1,15}$\"",
-      "rowId": "I-09",
-      "injectId": "01M5H67J1PZ8KBFYXAYMKAJJAZ",
-      "source": "lint",
-      "suggestion": "Open the inject editor and fix the flagged fields"
-    },
-    {
-      "code": "INJECT_FIELDS_INVALID",
-      "severity": "warning",
-      "message": "I-10c: fields still do not match the email_forward template after one repair:\n- fields/original: must NOT have additional properties",
-      "rowId": "I-10c",
-      "injectId": "01M5H68KZVQHBB6PZ3NWPR0NQN",
-      "source": "lint",
-      "suggestion": "Open the inject editor and fix the flagged fields"
-    },
-    {
-      "code": "CITATION_DROPPED",
-      "severity": "warning",
-      "message": "inject_text (I-18b) cited C16, which was not among the retrieved sections; dropped",
-      "rowId": "I-18b",
-      "injectId": "01M5H6C1Z6BTC76R5H0HEQRCPZ",
-      "source": "lint"
     }
   ],
   "provenance": [
@@ -1992,8 +1927,8 @@
       "model": "qwen3-30b-a3b-2507",
       "promptRef": "msel_phase@default",
       "promptHash": "3610641dbdaabd2926e8be28cf08f52276582f4b41c8cbfbfeeedc727da67bc9",
-      "inputTokens": 36574,
-      "outputTokens": 6313,
+      "inputTokens": 49233,
+      "outputTokens": 7309,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0
@@ -2006,8 +1941,8 @@
       "model": "qwen3-30b-a3b-2507",
       "promptRef": "msel_phase@default",
       "promptHash": "3610641dbdaabd2926e8be28cf08f52276582f4b41c8cbfbfeeedc727da67bc9",
-      "inputTokens": 41216,
-      "outputTokens": 3455,
+      "inputTokens": 69991,
+      "outputTokens": 4183,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0
@@ -2020,8 +1955,8 @@
       "model": "qwen3-30b-a3b-2507",
       "promptRef": "msel_phase@default",
       "promptHash": "3610641dbdaabd2926e8be28cf08f52276582f4b41c8cbfbfeeedc727da67bc9",
-      "inputTokens": 45754,
-      "outputTokens": 5807,
+      "inputTokens": 61756,
+      "outputTokens": 6099,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0
@@ -2205,13 +2140,13 @@
     {
       "stage": "inject_text",
       "itemId": "01M5H65R6RVT2A86M3DRS7Y7SK",
-      "startedAt": "2026-10-22T06:53:29.695Z",
-      "finishedAt": "2026-10-22T06:53:39.397Z",
+      "startedAt": "2026-10-22T13:20:36.041Z",
+      "finishedAt": "2026-10-22T13:20:46.530Z",
       "model": "qwen3-30b-a3b-2507",
       "promptRef": "inject_text@default",
-      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
-      "inputTokens": 7164,
-      "outputTokens": 773,
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 8177,
+      "outputTokens": 793,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0
@@ -2219,13 +2154,13 @@
     {
       "stage": "inject_media_brief",
       "itemId": "01M5H65R6RVT2A86M3DRS7Y7SK",
-      "startedAt": "2026-10-22T06:53:39.404Z",
-      "finishedAt": "2026-10-22T06:53:46.174Z",
+      "startedAt": "2026-10-22T13:20:46.544Z",
+      "finishedAt": "2026-10-22T13:20:51.378Z",
       "model": "qwen3-30b-a3b-2507",
       "promptRef": "inject_media_brief@default",
-      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
-      "inputTokens": 2206,
-      "outputTokens": 756,
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2129,
+      "outputTokens": 512,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0
@@ -2256,13 +2191,13 @@
     {
       "stage": "inject_text",
       "itemId": "01M5H66JWKCW0NMJY2W1SS3123",
-      "startedAt": "2026-10-22T06:53:57.018Z",
-      "finishedAt": "2026-10-22T06:54:04.924Z",
+      "startedAt": "2026-10-22T13:20:51.392Z",
+      "finishedAt": "2026-10-22T13:20:59.514Z",
       "model": "qwen3-30b-a3b-2507",
       "promptRef": "inject_text@default",
-      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
-      "inputTokens": 6747,
-      "outputTokens": 633,
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 8278,
+      "outputTokens": 560,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0
@@ -2270,13 +2205,13 @@
     {
       "stage": "inject_media_brief",
       "itemId": "01M5H66JWKCW0NMJY2W1SS3123",
-      "startedAt": "2026-10-22T06:54:04.930Z",
-      "finishedAt": "2026-10-22T06:54:11.092Z",
+      "startedAt": "2026-10-22T13:20:59.519Z",
+      "finishedAt": "2026-10-22T13:21:02.958Z",
       "model": "qwen3-30b-a3b-2507",
       "promptRef": "inject_media_brief@default",
-      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
-      "inputTokens": 2177,
-      "outputTokens": 686,
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2074,
+      "outputTokens": 344,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0
@@ -2552,13 +2487,13 @@
     {
       "stage": "inject_text",
       "itemId": "01M5H6AZR9V2A43GE4GHXTGGDX",
-      "startedAt": "2026-10-22T06:56:21.267Z",
-      "finishedAt": "2026-10-22T06:56:31.917Z",
+      "startedAt": "2026-10-22T13:21:55.720Z",
+      "finishedAt": "2026-10-22T13:22:07.663Z",
       "model": "qwen3-30b-a3b-2507",
       "promptRef": "inject_text@default",
-      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
-      "inputTokens": 9929,
-      "outputTokens": 743,
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 10966,
+      "outputTokens": 640,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0
@@ -2566,10 +2501,15 @@
     {
       "stage": "inject_media_brief",
       "itemId": "01M5H6AZR9V2A43GE4GHXTGGDX",
-      "startedAt": "2026-10-22T06:56:31.924Z",
-      "finishedAt": "2026-10-22T06:56:31.924Z",
-      "status": "skipped",
-      "error": "template only",
+      "startedAt": "2026-10-22T13:22:07.671Z",
+      "finishedAt": "2026-10-22T13:22:12.185Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2720,
+      "outputTokens": 371,
+      "costUsd": 0,
+      "status": "ok",
       "repairAttempts": 0
     },
     {
@@ -2603,13 +2543,13 @@
     {
       "stage": "inject_text",
       "itemId": "01M5H6BQ2W0KFTBNHHEP1XHP03",
-      "startedAt": "2026-10-22T06:56:45.157Z",
-      "finishedAt": "2026-10-22T06:56:53.515Z",
+      "startedAt": "2026-10-22T13:22:12.201Z",
+      "finishedAt": "2026-10-22T13:22:21.473Z",
       "model": "qwen3-30b-a3b-2507",
       "promptRef": "inject_text@default",
-      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
-      "inputTokens": 10005,
-      "outputTokens": 498,
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 10947,
+      "outputTokens": 461,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0
@@ -2617,38 +2557,15 @@
     {
       "stage": "inject_media_brief",
       "itemId": "01M5H6BQ2W0KFTBNHHEP1XHP03",
-      "startedAt": "2026-10-22T06:56:53.523Z",
-      "finishedAt": "2026-10-22T06:56:56.286Z",
+      "startedAt": "2026-10-22T13:22:21.479Z",
+      "finishedAt": "2026-10-22T13:22:24.360Z",
       "model": "qwen3-30b-a3b-2507",
       "promptRef": "inject_media_brief@default",
-      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
-      "inputTokens": 2477,
-      "outputTokens": 267,
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2692,
+      "outputTokens": 249,
       "costUsd": 0,
       "status": "ok",
-      "repairAttempts": 0
-    },
-    {
-      "stage": "inject_text",
-      "itemId": "01M5H6C1Z6BTC76R5H0HEQRCPZ",
-      "startedAt": "2026-10-22T06:56:56.302Z",
-      "finishedAt": "2026-10-22T06:57:07.087Z",
-      "model": "qwen3-30b-a3b-2507",
-      "promptRef": "inject_text@default",
-      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
-      "inputTokens": 10212,
-      "outputTokens": 730,
-      "costUsd": 0,
-      "status": "ok",
-      "repairAttempts": 0
-    },
-    {
-      "stage": "inject_media_brief",
-      "itemId": "01M5H6C1Z6BTC76R5H0HEQRCPZ",
-      "startedAt": "2026-10-22T06:57:07.090Z",
-      "finishedAt": "2026-10-22T06:57:07.090Z",
-      "status": "skipped",
-      "error": "template only",
       "repairAttempts": 0
     },
     {
@@ -2751,13 +2668,13 @@
     {
       "stage": "inject_text",
       "itemId": "01M5H6DWT9XG48D9CB5QPF00TN",
-      "startedAt": "2026-10-22T06:57:56.561Z",
-      "finishedAt": "2026-10-22T06:58:04.416Z",
+      "startedAt": "2026-10-22T13:22:24.380Z",
+      "finishedAt": "2026-10-22T13:22:36.704Z",
       "model": "qwen3-30b-a3b-2507",
       "promptRef": "inject_text@default",
-      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
-      "inputTokens": 10863,
-      "outputTokens": 431,
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 12375,
+      "outputTokens": 735,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0
@@ -2765,8 +2682,8 @@
     {
       "stage": "inject_media_brief",
       "itemId": "01M5H6DWT9XG48D9CB5QPF00TN",
-      "startedAt": "2026-10-22T06:58:04.419Z",
-      "finishedAt": "2026-10-22T06:58:04.419Z",
+      "startedAt": "2026-10-22T13:24:25.445Z",
+      "finishedAt": "2026-10-22T13:24:25.445Z",
       "status": "skipped",
       "error": "template only",
       "repairAttempts": 0
@@ -3197,8 +3114,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H67J1PZ8KBFYXAYMKAJJAZ",
-      "startedAt": "2026-10-22T07:14:38.129Z",
-      "finishedAt": "2026-10-22T07:14:38.247Z",
+      "startedAt": "2026-10-22T13:24:26.046Z",
+      "finishedAt": "2026-10-22T13:24:45.919Z",
       "promptRef": "template+ai_image",
       "status": "ok",
       "repairAttempts": 0
@@ -3224,8 +3141,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H68KZVQHBB6PZ3NWPR0NQN",
-      "startedAt": "2026-10-22T07:14:38.693Z",
-      "finishedAt": "2026-10-22T07:14:38.931Z",
+      "startedAt": "2026-10-22T13:24:25.791Z",
+      "finishedAt": "2026-10-22T13:24:26.035Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3242,8 +3159,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H69N50N3C9CKRSBKZEEE8F",
-      "startedAt": "2026-10-22T07:14:39.150Z",
-      "finishedAt": "2026-10-22T07:14:39.264Z",
+      "startedAt": "2026-10-22T13:24:45.922Z",
+      "finishedAt": "2026-10-22T13:25:04.591Z",
       "promptRef": "template+ai_image",
       "status": "ok",
       "repairAttempts": 0
@@ -3278,9 +3195,9 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6AZR9V2A43GE4GHXTGGDX",
-      "startedAt": "2026-10-22T07:14:40.148Z",
-      "finishedAt": "2026-10-22T07:14:40.374Z",
-      "promptRef": "template",
+      "startedAt": "2026-10-22T13:23:42.740Z",
+      "finishedAt": "2026-10-22T13:24:07.967Z",
+      "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
     },
@@ -3296,18 +3213,9 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6BQ2W0KFTBNHHEP1XHP03",
-      "startedAt": "2026-10-22T07:14:40.572Z",
-      "finishedAt": "2026-10-22T07:14:40.767Z",
+      "startedAt": "2026-10-22T13:24:07.969Z",
+      "finishedAt": "2026-10-22T13:24:25.443Z",
       "promptRef": "template+tts",
-      "status": "ok",
-      "repairAttempts": 0
-    },
-    {
-      "stage": "media_render",
-      "itemId": "01M5H6C1Z6BTC76R5H0HEQRCPZ",
-      "startedAt": "2026-10-22T07:14:40.769Z",
-      "finishedAt": "2026-10-22T07:14:41.005Z",
-      "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
     },
@@ -3350,8 +3258,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6DWT9XG48D9CB5QPF00TN",
-      "startedAt": "2026-10-22T07:14:41.888Z",
-      "finishedAt": "2026-10-22T07:14:42.102Z",
+      "startedAt": "2026-10-22T13:24:25.445Z",
+      "finishedAt": "2026-10-22T13:24:25.680Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3512,8 +3420,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H65R6RVT2A86M3DRS7Y7SK",
-      "startedAt": "2026-10-22T07:14:36.981Z",
-      "finishedAt": "2026-10-22T07:14:37.202Z",
+      "startedAt": "2026-10-22T13:22:36.729Z",
+      "finishedAt": "2026-10-22T13:23:16.660Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -3521,8 +3429,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H66JWKCW0NMJY2W1SS3123",
-      "startedAt": "2026-10-22T07:14:37.494Z",
-      "finishedAt": "2026-10-22T07:14:37.712Z",
+      "startedAt": "2026-10-22T13:23:16.663Z",
+      "finishedAt": "2026-10-22T13:23:42.566Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -3539,10 +3447,33 @@
     {
       "stage": "media_render",
       "itemId": "01M5H71D0J5DE42TEAR7NDQ90H",
-      "startedAt": "2026-10-22T07:14:39.266Z",
-      "finishedAt": "2026-10-22T07:14:39.436Z",
+      "startedAt": "2026-10-22T13:23:42.568Z",
+      "finishedAt": "2026-10-22T13:23:42.738Z",
       "promptRef": "template",
       "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H71D0J5DE42TEAR7NDQ90H",
+      "startedAt": "2026-10-22T13:21:02.977Z",
+      "finishedAt": "2026-10-22T13:21:28.373Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 26200,
+      "outputTokens": 3114,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H71D0J5DE42TEAR7NDQ90H",
+      "startedAt": "2026-10-22T13:23:42.569Z",
+      "finishedAt": "2026-10-22T13:23:42.569Z",
+      "status": "skipped",
+      "error": "template only",
       "repairAttempts": 0
     }
   ]

@@ -668,3 +668,32 @@ export async function runInjectText(input: InjectTextInput): Promise<InjectTextR
   for (const w of warnings) env.ctx.log(w.message, w.severity === 'info' ? 'info' : 'warn', extra)
   return { inject, run: first.run, warnings }
 }
+
+export interface InjectRecheck {
+  /** Template schema issues the deterministic repair cannot fix (paths "fields…"). */
+  issues: ContentIssue[]
+  /** Content checks (consistency.ts) that still fail. */
+  content: ContentIssue[]
+  /** INJECT_FIELDS_INVALID / INJECT_CONTENT_ISSUE warnings for what is still wrong. */
+  warnings: LintWarning[]
+}
+
+/**
+ * The checks a fresh draft gets, run on a stored inject (generate:repair): a warning an older
+ * generator recorded that the current checks no longer raise can go without rewriting the
+ * inject. The inject is not changed (the fields are checked on a copy); schema violations the
+ * code repair fixes are left to the media job, which repairs and saves before it renders.
+ */
+export function recheckInject(input: InjectTextInput, inject: Inject): InjectRecheck {
+  const hasTemplate = input.env.deps.templates.listTemplateTypes().includes(inject.type)
+  const choice: TypeChoice = { type: inject.type, hasTemplate }
+  const copy = {
+    type: inject.type,
+    title: inject.title,
+    fields: structuredClone(inject.fields),
+    citations: [],
+  } as unknown as InjectTextOutput
+  const checked = checkDraft(input, inject.id, choice, copy, 'all')
+  const warnings = validationWarnings(input.row, inject.id, choice, { ...checked, repairs: [] })
+  return { issues: checked.issues, content: checked.content, warnings }
+}

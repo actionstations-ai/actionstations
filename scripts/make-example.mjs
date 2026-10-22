@@ -4,9 +4,13 @@
 // strips and trims the generated project folder for git.
 //
 //   node scripts/make-example.mjs generate --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…] [--replace]
+//   node scripts/make-example.mjs repair   --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…]
+//   node scripts/make-example.mjs export   --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…]
 //   node scripts/make-example.mjs package  --spec examples/<id>/build.json --out .tmp/examples-release/<id>
 //   node scripts/make-example.mjs verify   --spec examples/<id>/build.json
 //
+// export: the PDF set, the DOCX documents and the distribution ZIP of every scenario again,
+//   into <out>/exports/<key>/ (repair and generate export too).
 // generate: creates (or reopens) <out>/project, imports the spec's documents, routes every
 //   task to the local providers (LM Studio text, ComfyUI images, mlx-audio TTS), generates one
 //   scenario per spec entry (scenario → injects → template media for every inject, a bounded
@@ -14,6 +18,12 @@
 //   <out>/exports/<key>/ and writes review material (summary, scenario, injects, documents)
 //   to <out>/review/<key>/. <out>/state.json maps scenario keys to ids so a key can be
 //   regenerated alone (--only key --replace). Needs `pnpm build:app` first.
+// repair: fixes the generated scenarios in place with generate:repair (#185) instead of
+//   regenerating them: MSEL repairs and the revision pass for flagged rows only, injects and
+//   media for what changed, up to media.aiImagesPerScenario AI stills. Writes
+//   <out>/review/<key>/repair.json (warning counts per code before/after, the job summary, and
+//   how many scenario files changed, were added, removed or stayed byte-identical), refreshes
+//   the review material and exports the PDF set and ZIP again.
 // package: copies <out>/project to examples/<id>/project without index.sqlite*, .cache, job
 //   or log files, provider ids and absolute paths, keeps only the most useful rendered PNGs
 //   and at most two AI stills per scenario within the git media budget (6 MB), drops audio,
@@ -22,6 +32,7 @@
 // verify: copies examples/<id>/project to a temp folder, opens it in the built app, rebuilds
 //   the index and checks that every scenario, inject and kept asset loads.
 import { _electron as electron } from '@playwright/test'
+import { createHash } from 'node:crypto'
 import {
   cpSync,
   existsSync,
@@ -71,6 +82,7 @@ const EXPORT_TARGETS = [
   'handbook_pdf',
   'briefing_pdf',
   'exercise_plan_pdf',
+  'docx',
   'zip',
 ]
 /** Tags whose injects are kept first when trimming media for git. */
@@ -99,9 +111,9 @@ function parseArgs(argv) {
     else if (a === '--replace') args.replace = true
     else throw new Error(`Unknown argument ${a}`)
   }
-  if (!['generate', 'package', 'verify'].includes(command ?? ''))
+  if (!['generate', 'repair', 'export', 'package', 'verify'].includes(command ?? ''))
     throw new Error(
-      'Usage: make-example.mjs generate|package|verify --spec <build.json> [--out <dir>]',
+      'Usage: make-example.mjs generate|repair|export|package|verify --spec <build.json> [--out <dir>]',
     )
   if (!args.spec) throw new Error('--spec is required')
   return args
@@ -384,6 +396,122 @@ async function generate(args) {
   }
 }
 
+// ---- repair ------------------------------------------------------------------------------------
+
+/** sha256 of every file under `dir`, by path relative to it. */
+export function hashTree(dir) {
+  const out = new Map()
+  if (!existsSync(dir)) return out
+  for (const rel of walk(dir))
+    out.set(
+      rel,
+      createHash('sha256')
+        .update(readFileSync(join(dir, rel)))
+        .digest('hex'),
+    )
+  return out
+}
+
+/** Files changed, added, removed and byte-identical between two hashTree results. */
+export function treeDiff(before, after) {
+  const changed = []
+  const added = []
+  const removed = []
+  let identical = 0
+  for (const [rel, h] of after) {
+    if (!before.has(rel)) added.push(rel)
+    else if (before.get(rel) !== h) changed.push(rel)
+    else identical++
+  }
+  for (const rel of before.keys()) if (!after.has(rel)) removed.push(rel)
+  return { changed: changed.sort(), added: added.sort(), removed: removed.sort(), identical }
+}
+
+const RECORD_FILES = /(^|\/)history\//
+
+async function repairOne(invoke, spec, out, projectPath, entry, state) {
+  const { scenarioId } = state.scenarios[entry.key]
+  const dir = join(projectPath, 'scenarios', scenarioId)
+  const keep = (m) => new Map([...m].filter(([rel]) => !RECORD_FILES.test(rel)))
+  const before = await invoke('scenarios:get', { projectPath, scenarioId })
+  const hashesBefore = keep(hashTree(dir))
+  const t0 = Date.now()
+  const { jobId } = await invoke('generate:repair', {
+    projectPath,
+    scenarioId,
+    aiStills: spec.media?.aiImagesPerScenario ?? 2,
+  })
+  const job = await waitForJob(invoke, jobId, `repair ${entry.key}`, 90 * 60_000)
+  const repairSecs = Math.round((Date.now() - t0) / 1000)
+  const injects = await invoke('injects:list', { projectPath, scenarioId })
+  const lints = await invoke('scenarios:lint', { projectPath, scenarioId })
+  const { scenario, docs, summary } = await reviewMaterial(
+    invoke,
+    projectPath,
+    scenarioId,
+    injects,
+    lints,
+    { repairSecs },
+  )
+  const diff = treeDiff(hashesBefore, keep(hashTree(dir)))
+  const review = join(out, 'review', entry.key)
+  const report = {
+    scenarioId,
+    warningsBefore: byCode(before.warnings),
+    warningsAfter: byCode(scenario.warnings),
+    repair: job.result,
+    files: diff,
+  }
+  writeJson(join(review, 'repair.json'), report)
+  const { entries } = await invoke('jobs:log', { jobId })
+  writeJson(join(review, 'repair-log.json'), entries)
+  writeJson(join(review, 'summary.json'), summary)
+  writeJson(join(review, 'scenario.json'), scenario)
+  writeJson(join(review, 'injects.json'), injects)
+  writeJson(join(review, 'lints.json'), lints)
+  for (const [k, md] of Object.entries(docs)) writeFileSync(join(review, `${k}.md`), md)
+  await exportScenario(invoke, projectPath, scenarioId, join(out, 'exports', entry.key))
+  log(
+    `${entry.key}: repaired in ${repairSecs}s — ${diff.changed.length} file(s) changed, ` +
+      `${diff.added.length} added, ${diff.removed.length} removed, ${diff.identical} identical`,
+  )
+}
+
+/** Open the generated project in `out` and run `each` for every wanted scenario of the spec. */
+async function forEachGenerated(args, label, each) {
+  const spec = loadSpec(args.spec)
+  const out = resolve(args.out ?? join(ROOT, '.tmp/examples-release', spec.id))
+  const state = readState(out)
+  if (!state.projectPath) throw new Error(`${label}: nothing generated in ${out}`)
+  const { app, invoke } = await launchApp()
+  try {
+    const projectPath = join(out, state.projectPath)
+    await invoke('project:open', { path: projectPath })
+    await routeToLocalStack(invoke)
+    const wanted = spec.scenarios.filter((s) => !args.only.length || args.only.includes(s.key))
+    for (const entry of wanted) {
+      if (!state.scenarios[entry.key])
+        throw new Error(`${label}: "${entry.key}" was never generated`)
+      await each({ invoke, spec, out, projectPath, entry, state })
+    }
+  } finally {
+    await app.close()
+  }
+}
+
+const repair = (args) =>
+  forEachGenerated(args, 'repair', (c) =>
+    repairOne(c.invoke, c.spec, c.out, c.projectPath, c.entry, c.state),
+  )
+
+/** The PDF set, DOCX and distribution ZIP of every scenario again, into <out>/exports/<key>/. */
+const exportAll = (args) =>
+  forEachGenerated(args, 'export', async (c) => {
+    const { scenarioId } = c.state.scenarios[c.entry.key]
+    await exportScenario(c.invoke, c.projectPath, scenarioId, join(c.out, 'exports', c.entry.key))
+    log(`${c.entry.key}: exported to ${join(c.out, 'exports', c.entry.key)}`)
+  })
+
 // ---- package -----------------------------------------------------------------------------------
 
 /** Files and folders of a generated project that never ship: derived, transient, or local. */
@@ -483,9 +611,10 @@ export function shippedPng(buffer) {
 }
 
 /**
- * Which assets each scenario keeps in git: rendered/composite PNGs in MSEL order by tag
- * priority, at most two composites with an AI still, round-robin across scenarios until the
- * budget is spent. Returns the shipped (1×) image per kept asset id.
+ * Which assets each scenario keeps in git: at most two composites with an AI still first (the
+ * scarce media the example shows off, #185), then rendered PNGs in MSEL order by tag priority,
+ * round-robin across scenarios until the budget is spent. Returns the shipped (1×) image per
+ * kept asset id.
  */
 export function chooseAssets(projectDir, scenarios) {
   const queues = scenarios.map(({ scenario, injects }) => {
@@ -496,17 +625,9 @@ export function chooseAssets(projectDir, scenarios) {
       return (p === -1 ? TAG_PRIORITY.length : p) * 1000 + (order.get(inj.mselRowId) ?? 999)
     }
     const sorted = [...injects].sort((a, b) => rank(a) - rank(b))
-    let stills = 0
-    const queue = []
-    for (const inj of sorted)
-      for (const a of inj.assets.filter(KEEP_ASSET)) {
-        if (a.role === 'composite') {
-          if (stills >= 2) continue
-          stills++
-        }
-        queue.push(a)
-      }
-    return queue
+    const assets = sorted.flatMap((inj) => inj.assets.filter(KEEP_ASSET))
+    const composites = assets.filter((a) => a.role === 'composite').slice(0, 2)
+    return [...composites, ...assets.filter((a) => a.role !== 'composite')]
   })
   const kept = new Map()
   let total = 0
@@ -679,7 +800,9 @@ if (isMain) {
   Promise.resolve()
     .then(() => {
       const args = parseArgs(process.argv.slice(2))
-      return { generate, package: packageExample, verify }[args.command](args)
+      return { generate, repair, export: exportAll, package: packageExample, verify }[args.command](
+        args,
+      )
     })
     .catch((err) => {
       console.error(err)

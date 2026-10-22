@@ -6,7 +6,10 @@ import { jobs as defaultJobs, type JobContext, type JobManager } from '../../job
 import { newId } from '../../lib/ids'
 import { claimScenario } from '../../scenario/busy'
 
-export type InjectJobKind = Extract<JobKind, 'generate-injects' | 'render-media'>
+export type InjectJobKind = Extract<
+  JobKind,
+  'generate-injects' | 'render-media' | 'repair-scenario'
+>
 
 /** Start a job that owns `scenarioId` until it settles; CONFLICT when another job owns it. */
 export function startInjectJob(

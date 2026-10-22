@@ -8,7 +8,20 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Added
+
+- Repair a finished scenario in place (#185, ADR-0015): `generate:repair` applies the current
+  MSEL repairs and lints, runs the revision pass only for rows still flagged, writes injects
+  only for rows whose text changed or that have none, and re-renders only stale cards and
+  missing AI stills; everything else stays byte-identical. `make-example.mjs repair` uses it
+  for the bundled examples, which were repaired this way.
+
 ### Fixed
+
+- Lint false positives found on the bundled examples (#185): a named site with a leading
+  article ("The Lakeshore Flight Area"), a rogue device the row itself calls unknown ("No
+  record of GCS-12 in fleet", "No GCS-12 exists") in the MSEL and inject checks, and a
+  truncated recipient key ("as" for ASO).
 
 - Inject generation records every skipped or failed MSEL row on the scenario (an `inject_text`
   run keyed by the row, an `INJECT_TEXT_FAILED` warning); a reply with no valid JSON gets one

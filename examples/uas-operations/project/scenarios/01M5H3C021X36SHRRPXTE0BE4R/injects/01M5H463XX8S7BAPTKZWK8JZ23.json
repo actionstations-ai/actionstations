@@ -5,75 +5,95 @@
   "title": "FSDO: Incident Status Update — UAS-11",
   "deliveryMode": "read_aloud",
   "fields": {
-    "orgName": "Harwick UAS Operations Group",
-    "systemName": "AOC Console 3 - Call Log",
-    "callId": "CR-20261022-124015-0038",
-    "direction": "Internal",
+    "orgName": "Federal Aviation Administration (FAA) — FSDO",
+    "systemName": "FSDO Communications Console",
+    "callId": "CR-20261022-124015-0041",
+    "direction": "Inbound",
     "caller": {
-      "name": "Priya Natarajan",
-      "number": "(585) 555-0177",
-      "label": "ASO"
+      "name": "James K. Dunbar",
+      "number": "(585) 555-0188",
+      "label": "FSDO"
     },
     "callee": {
-      "name": "Devin Alcott",
+      "name": "Marguerite Ostrowski",
       "number": "(585) 555-0140",
       "label": "Incident Commander"
     },
     "startTime": "10/22/2026 12:40:15",
-    "duration": "0:32",
+    "duration": "0:48",
     "transcript": [
       {
-        "speaker": "ASO",
+        "speaker": "FSDO",
         "offset": "0:00",
-        "text": "Incident Commander, this is the ASO. I have just reported to the FAA FSDO via HUOG-ERP Section 6.2 (FSDO contact: (585) 555-0188). UAS-11 has been landed manually on the meadow. The GCS is quarantined. The fleet of that type is grounded per ISP Section 9.1. The incident is under investigation. The FSDO has been updated on the status and the hold on data transfer.",
+        "text": "Incident Commander, this is the FAA FSDO (FSDO contact: (585) 555-0188). UAS-11 has been landed manually on the meadow. The GCS is quarantined. The fleet of that type is grounded per ISP Section 9.1. The incident is under investigation. The FSDO has been updated on the status and the hold on data transfer. Please confirm that all required logs and telemetry have been submitted and that no further flights will occur until the investigation is closed.",
         "prompt": false
       }
     ],
     "voiceStyles": {},
     "injectId": "I-28"
   },
-  "instructorNote": "Confirm FSDO reporting and fleet grounding per ISP Section 9.1 and C3. The team must verify that no further flights are authorized.",
+  "variant": "default",
+  "instructorNote": "This inject confirms the final operational status to regulators and triggers the incident closure process. Watch for the ASO to validate the FSDO’s confirmation and initiate the handover to the IC for formal closure.",
   "citations": [
     {
-      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
-      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
-      "headingPath": "ISP › Section 9 › 9.4 Flyaway or unplanned flight with a suspected cyber cause",
-      "quote": "Runs under the HUOG-ERP Incident Commander. The Systems & Cybersecurity Lead quarantines the GCS, the controller and any radio; retrieves telemetry, link logs, parameter files and the OEM app logs bef",
-      "chunkId": 130
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+      "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+      "chunkId": 21
     },
     {
-      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
-      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
-      "headingPath": "ISP",
-      "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this document are simulated.",
-      "chunkId": 95
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+      "quote": "Treat as Level 2. Land all aircraft; preserve the GCS state; call the Systems & Cybersecurity Lead before anything is powered down; no further launches at the site that day; the HUOG-ISP incident play",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 11 › 11.3 Records",
+      "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+      "chunkId": 36
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 9 › 9.2 Flyaway (aircraft not responding and leaving the flight area)",
+      "quote": "1. RPIC: \"FLYAWAY, UAS-xx\" on Crew Ch 1; attempt RTL, then land, then motor cut-off if below 30 ft over clear ground. 2. GSO: note last position, altitude, heading, speed and battery time remaining fr",
+      "chunkId": 81
     }
   ],
   "mediaBrief": {
-    "paths": ["template", "tts"],
+    "paths": [
+      "template",
+      "tts"
+    ],
     "voiceLines": [
       {
-        "speaker": "ASO",
-        "voiceStyle": "calm female dispatcher in her 40s, measured, slight Midwestern accent",
-        "text": "Incident Commander, this is the ASO. I have just reported to the FAA FSDO via HUOG-ERP Section 6.2 (FSDO contact: (585) 555-0188). UAS-11 has been landed manually on the meadow. The GCS is quarantined. The fleet of that type is grounded per ISP Section 9.1. The incident is under investigation. The FSDO has been updated on the status and the hold on data transfer."
+        "speaker": "FSDO",
+        "voiceStyle": "calm male voice in his 50s, measured pace, neutral Mid-Atlantic accent, slightly clipped delivery",
+        "text": "Incident Commander, this is the FAA FSDO. UAS-11 has been landed manually on the meadow. The GCS is quarantined. The fleet of that type is grounded per ISP Section 9.1. The incident is under investigation. The FSDO has been updated on the status and the hold on data transfer. Please confirm that all required logs and telemetry have been submitted and that no further flights will occur until the investigation is closed."
       }
     ],
-    "postFx": ["phone"]
+    "postFx": [
+      "phone"
+    ]
   },
   "assets": [
     {
-      "id": "01M5H71VQQW0QBQNGE9VPYXHVH",
+      "id": "01M5HX4J6B4H2A1557RS3YBYMQ",
       "kind": "image",
-      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H463XX8S7BAPTKZWK8JZ23/01M5H71VQQW0QBQNGE9VPYXHVH.png",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H463XX8S7BAPTKZWK8JZ23/01M5HX4J6B4H2A1557RS3YBYMQ.png",
       "role": "rendered",
       "width": 816,
       "height": 1056,
-      "sha256": "447adc7efafb8fe6da7b2a4c471c4e4abd458a298949a28dc0f0301da16a2785",
+      "sha256": "3eebb3cd45230b891d85ce363fd9f8e8c0ad25e8cfa8b3408f3c964e75c04b14",
       "provenance": {
         "provider": "template",
         "templateId": "phone_call",
         "templateVersion": "1",
-        "createdAt": "2026-10-22T07:08:50.693Z"
+        "createdAt": "2026-10-22T13:34:47.899Z"
       }
     }
   ],
@@ -116,9 +136,48 @@
         "instructorNote": "Confirm FSDO reporting and fleet grounding per ISP Section 9.1 and C3. The team must verify that no further flights are authorized.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-22T13:34:18.320Z",
+      "by": "ai",
+      "note": "regenerated",
+      "snapshot": {
+        "title": "FSDO: Incident Status Update — UAS-11",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Federal Aviation Administration (FAA) — FSDO",
+          "systemName": "FSDO Communications Console",
+          "callId": "CR-20261022-124015-0041",
+          "direction": "Inbound",
+          "caller": {
+            "name": "James K. Dunbar",
+            "number": "(585) 555-0188",
+            "label": "FSDO"
+          },
+          "callee": {
+            "name": "Marguerite Ostrowski",
+            "number": "(585) 555-0140",
+            "label": "Incident Commander"
+          },
+          "startTime": "10/22/2026 12:40:15",
+          "duration": "0:48",
+          "transcript": [
+            {
+              "speaker": "FSDO",
+              "offset": "0:00",
+              "text": "Incident Commander, this is the FAA FSDO (FSDO contact: (585) 555-0188). UAS-11 has been landed manually on the meadow. The GCS is quarantined. The fleet of that type is grounded per ISP Section 9.1. The incident is under investigation. The FSDO has been updated on the status and the hold on data transfer. Please confirm that all required logs and telemetry have been submitted and that no further flights will occur until the investigation is closed.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-28"
+        },
+        "instructorNote": "This inject confirms the final operational status to regulators and triggers the incident closure process. Watch for the ASO to validate the FSDO’s confirmation and initiate the handover to the IC for formal closure.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T07:08:50.881Z"
+  "updatedAt": "2026-10-22T13:34:57.648Z"
 }

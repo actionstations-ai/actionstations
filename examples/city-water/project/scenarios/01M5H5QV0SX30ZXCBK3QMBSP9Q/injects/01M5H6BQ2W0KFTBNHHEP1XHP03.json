@@ -2,17 +2,17 @@
   "id": "01M5H6BQ2W0KFTBNHHEP1XHP03",
   "mselRowId": "I-16",
   "type": "phone_call",
-  "title": "Phone Call: IT Security Manager — Vendor Access Blocked",
+  "title": "Phone Call: Kessler Controls NOC — Vendor Access Blocked",
   "deliveryMode": "read_aloud",
   "fields": {
-    "orgName": "City of Millbrook Department of Water & Sewer",
-    "systemName": "Millbrook Control Room Voicemail System",
+    "orgName": "Kessler Controls",
+    "systemName": "Kessler Controls NOC Call Log",
     "callId": "CR-20261022-105012-0401",
     "direction": "Inbound",
     "caller": {
-      "name": "Priya Nandakumar",
-      "number": "(555) 031-2280",
-      "label": "SCADA / IT Security Manager"
+      "name": "Sam Whitfield",
+      "number": "(555) 039-4411",
+      "label": "Kessler Controls NOC"
     },
     "callee": {
       "name": "Denise Albrecht",
@@ -20,39 +20,46 @@
       "label": "Director of Water Operations"
     },
     "startTime": "10/22/2026 10:50:12",
-    "duration": "0:38",
+    "duration": "0:41",
     "transcript": [
       {
         "speaker": "Caller",
         "offset": "0:00",
-        "text": "Director Albrecht, this is Priya Nandakumar, SCADA / IT Security Manager. I’ve just called Kessler Controls at (555) 039-4411 to request a remote support session. They confirmed: a signed access request is required before any session can begin. They cannot initiate remote access until the network is fully isolated and the cyber-insurance carrier has been notified. I’ve verified — their remote-access portal enforces this as a hard gate. No session can be approved without both conditions met.",
+        "text": "This is Sam Whitfield, Kessler Controls NOC. We’ve received a remote support request from your SCADA / IT Security Manager. However, your network remains un-isolated, and no signed access request has been submitted. Our remote-access portal requires both a confirmed network isolation and a signed access request before any session can be approved. We cannot begin until these are met. Please contact us only after full isolation and a signed request.",
         "prompt": false
       },
       {
         "speaker": "Caller",
-        "offset": "0:22",
-        "text": "I’ve also checked the Kessler Controls ticketing system — no open ticket for this window. No approval exists. The system is locked down. We cannot proceed with vendor recovery until the formal process is followed.",
+        "offset": "0:28",
+        "text": "I’ve also verified the Kessler Controls ticketing system — no open ticket for this window. No approval exists. The system is locked down. We cannot proceed with vendor recovery until the formal process under Section 6.2 is followed.",
         "prompt": false
       }
     ],
     "voiceStyles": {},
     "injectId": "I-16"
   },
-  "instructorNote": "This inject tests whether IT and the IC understand that vendor access is blocked by policy and must not be bypassed. Watch for any suggestion to 'just call them' or to assume a vendor can act without formal approval.",
+  "instructorNote": "This inject confirms that vendor access is blocked until formal isolation and a signed request are submitted. The team must initiate the correct process.",
   "citations": [
     {
       "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
       "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
-      "headingPath": "City of Millbrook Department of… › Section 2",
-      "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
-      "chunkId": 59
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+      "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+      "chunkId": 70
     },
     {
-      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
-      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
-      "headingPath": "City of Millbrook Department of… › Section A",
-      "quote": "| Organization | Scope | Contact | |---|---|---| | Kessler Controls | AquaSight servers, HMIs, PLC logic, MBW-JUMP-01 access | Support (555) 039-4400 (business hours); escalation (555) 039-4411 (24 h)",
-      "chunkId": 159
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.1 Policy",
+      "quote": "No person or vendor has standing remote access to the control network. All interactive remote access is through MBW-JUMP-01 under FW-R-09 and FW-R-11, with MFA, a named account, a ticket and a session",
+      "chunkId": 69
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 11 › 11.3 Known Remote-Access Risk",
+      "quote": "The approved vendor path is MBW-JUMP-01 in a ticketed window. A remote-support agent (ScreenBridge) installed by DosaTech on MBW-HMI-02 in the Chemical Building reaches the internet outside that path ",
+      "chunkId": 46
     }
   ],
   "mediaBrief": {
@@ -63,13 +70,13 @@
     "voiceLines": [
       {
         "speaker": "Caller",
-        "voiceStyle": "calm female dispatcher in her 40s, measured, slight Midwestern accent",
-        "text": "Director Albrecht, this is Priya Nandakumar, SCADA / IT Security Manager. I’ve just called Kessler Controls at five five five zero three nine four four one one to request a remote support session. They confirmed: a signed access request is required before any session can begin. They cannot initiate remote access until the network is fully isolated and the cyber-insurance carrier has been notified. I’ve verified — their remote-access portal enforces this as a hard gate. No session can be approved without both conditions met."
+        "voiceStyle": "calm male voice, mid-40s, measured pace, neutral regional accent, slightly clipped delivery",
+        "text": "This is Sam Whitfield, Kessler Controls NOC. We’ve received a remote support request from your SCADA / IT Security Manager. However, your network remains un-isolated, and no signed access request has been submitted. Our remote-access portal requires both a confirmed network isolation and a signed access request before any session can be approved. We cannot begin until these are met. Please contact us only after full isolation and a signed request."
       },
       {
         "speaker": "Caller",
-        "voiceStyle": "calm female dispatcher in her 40s, measured, slight Midwestern accent",
-        "text": "I’ve also checked the Kessler Controls ticketing system — no open ticket for this window. No approval exists. The system is locked down. We cannot proceed with vendor recovery until the formal process is followed."
+        "voiceStyle": "same as above, slightly more urgent in tone",
+        "text": "I’ve also verified the Kessler Controls ticketing system — no open ticket for this window. No approval exists. The system is locked down. We cannot proceed with vendor recovery until the formal process under Section 6.2 is followed."
       }
     ],
     "postFx": [
@@ -122,9 +129,54 @@
         "instructorNote": "This inject tests whether IT and the IC understand that vendor access is blocked by policy and must not be bypassed. Watch for any suggestion to 'just call them' or to assume a vendor can act without formal approval.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-22T13:22:24.361Z",
+      "by": "ai",
+      "note": "regenerated",
+      "snapshot": {
+        "title": "Phone Call: Kessler Controls NOC — Vendor Access Blocked",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Kessler Controls",
+          "systemName": "Kessler Controls NOC Call Log",
+          "callId": "CR-20261022-105012-0401",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Sam Whitfield",
+            "number": "(555) 039-4411",
+            "label": "Kessler Controls NOC"
+          },
+          "callee": {
+            "name": "Denise Albrecht",
+            "number": "(555) 031-2200",
+            "label": "Director of Water Operations"
+          },
+          "startTime": "10/22/2026 10:50:12",
+          "duration": "0:41",
+          "transcript": [
+            {
+              "speaker": "Caller",
+              "offset": "0:00",
+              "text": "This is Sam Whitfield, Kessler Controls NOC. We’ve received a remote support request from your SCADA / IT Security Manager. However, your network remains un-isolated, and no signed access request has been submitted. Our remote-access portal requires both a confirmed network isolation and a signed access request before any session can be approved. We cannot begin until these are met. Please contact us only after full isolation and a signed request.",
+              "prompt": false
+            },
+            {
+              "speaker": "Caller",
+              "offset": "0:28",
+              "text": "I’ve also verified the Kessler Controls ticketing system — no open ticket for this window. No approval exists. The system is locked down. We cannot proceed with vendor recovery until the formal process under Section 6.2 is followed.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-16"
+        },
+        "instructorNote": "This inject confirms that vendor access is blocked until formal isolation and a signed request are submitted. The team must initiate the correct process.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T07:14:40.765Z"
+  "updatedAt": "2026-10-22T13:24:25.441Z"
 }

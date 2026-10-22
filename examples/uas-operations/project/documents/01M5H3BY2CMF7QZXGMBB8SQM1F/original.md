@@ -29,40 +29,40 @@ Flights are conducted under 14 CFR Part 107, the Group's waivers (Section 6.5), 
 
 ### 1.4 Related Documents
 
-| Document                                          | Number         | Revision |
-| ------------------------------------------------- | -------------- | -------- |
-| Emergency Response Plan for Flight Operations     | HUOG-ERP-2026  | 2.0      |
-| Information Security Plan — GCS and Data Pipeline | HUOG-ISP-2026  | 1.3      |
-| Site & Airspace Sheet                             | HUOG-SITE-2026 | 2.1      |
-| Hangar Complex Emergency Procedures               | CIS-EP-2025    | 3        |
-| Corporate Communications crisis protocol          | UC-CP-2025     | —        |
+| Document | Number | Revision |
+|---|---|---|
+| Emergency Response Plan for Flight Operations | HUOG-ERP-2026 | 2.0 |
+| Information Security Plan — GCS and Data Pipeline | HUOG-ISP-2026 | 1.3 |
+| Site & Airspace Sheet | HUOG-SITE-2026 | 2.1 |
+| Hangar Complex Emergency Procedures | CIS-EP-2025 | 3 |
+| Corporate Communications crisis protocol | UC-CP-2025 | — |
 
 ## SECTION 2: ORGANIZATION AND RESPONSIBILITIES
 
 ### 2.1 Positions
 
-| Position                                                 | Holder                | Responsibilities                                                                                                                                                 |
-| -------------------------------------------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| General Manager                                          | Marguerite Ostrowski  | Accountable executive; approves this manual, client agreements and any flight outside Section 7 limits; spokesperson with Corporate Communications               |
-| Director of Flight Operations (FOM) / Chief Remote Pilot | Devin Alcott          | Owns the flight schedule, crew rosters, LAANC and NOTAM review, fleet register and the go/no-go; Incident Commander for a flight-operations emergency (HUOG-ERP) |
-| Aviation Safety Officer (ASO)                            | Priya Natarajan       | Owns the safety case, hazard log, waiver compliance, regulator reporting, crew currency audits; independent of the FOM; may stop any flight                      |
-| Systems & Cybersecurity Lead                             | Tomás Reyes           | Owns the GCS fleet, firmware, radio configuration, networks, the data pipeline and cyber incident response (HUOG-ISP)                                            |
-| Payload & Calibration Lead                               | Hannah Whitlock       | Owns payload integration, calibration procedures, ground-truth instruments and data quality                                                                      |
-| Fleet & Logistics Manager                                | Owen Castellano       | Owns Hangar 1, batteries, field kits, vehicles, keys, visitor sign-in, purchasing                                                                                |
-| Campaign Lead                                            | Assigned per campaign | Owns the science plan, the target layout and the client relationship for that campaign                                                                           |
+| Position | Holder | Responsibilities |
+|---|---|---|
+| General Manager | Marguerite Ostrowski | Accountable executive; approves this manual, client agreements and any flight outside Section 7 limits; spokesperson with Corporate Communications |
+| Director of Flight Operations (FOM) / Chief Remote Pilot | Devin Alcott | Owns the flight schedule, crew rosters, LAANC and NOTAM review, fleet register and the go/no-go; Incident Commander for a flight-operations emergency (HUOG-ERP) |
+| Aviation Safety Officer (ASO) | Priya Natarajan | Owns the safety case, hazard log, waiver compliance, regulator reporting, crew currency audits; independent of the FOM; may stop any flight |
+| Systems & Cybersecurity Lead | Tomás Reyes | Owns the GCS fleet, firmware, radio configuration, networks, the data pipeline and cyber incident response (HUOG-ISP) |
+| Payload & Calibration Lead | Hannah Whitlock | Owns payload integration, calibration procedures, ground-truth instruments and data quality |
+| Fleet & Logistics Manager | Owen Castellano | Owns Hangar 1, batteries, field kits, vehicles, keys, visitor sign-in, purchasing |
+| Campaign Lead | Assigned per campaign | Owns the science plan, the target layout and the client relationship for that campaign |
 
 ### 2.2 Decision authority
 
-| Decision                                                                                           | Authority                                                                                       |
-| -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Go / no-go for a flight day                                                                        | FOM (RPIC may always say no)                                                                    |
-| Stop a flight in progress                                                                          | RPIC, VO (by calling "ABORT"), ASO                                                              |
-| Fly above the Horton Field LAANC grid ceiling (Further Coordination)                               | FOM with ASO concurrence                                                                        |
-| Fly a payload without a current calibration file                                                   | Payload & Calibration Lead, noted in the flight log                                             |
+| Decision | Authority |
+|---|---|
+| Go / no-go for a flight day | FOM (RPIC may always say no) |
+| Stop a flight in progress | RPIC, VO (by calling "ABORT"), ASO |
+| Fly above the Horton Field LAANC grid ceiling (Further Coordination) | FOM with ASO concurrence |
+| Fly a payload without a current calibration file | Payload & Calibration Lead, noted in the flight log |
 | Fly during a public event at the adjacent Harwick Fairgrounds within 500 ft of the event footprint | Prohibited (Section 7.6); only the General Manager may request an exception from Harwick Police |
-| Accept a client site within 40 miles                                                               | FOM after a Site Survey Form (Annex B)                                                          |
-| Release flight data to a client                                                                    | Campaign Lead with the Systems & Cybersecurity Lead (HUOG-ISP Section 7)                        |
-| Notify the FAA, NTSB or law enforcement                                                            | ASO (FOM in the ASO's absence) per HUOG-ERP Section 6                                           |
+| Accept a client site within 40 miles | FOM after a Site Survey Form (Annex B) |
+| Release flight data to a client | Campaign Lead with the Systems & Cybersecurity Lead (HUOG-ISP Section 7) |
+| Notify the FAA, NTSB or law enforcement | ASO (FOM in the ASO's absence) per HUOG-ERP Section 6 |
 
 ## SECTION 3: CREW ROLES AND QUALIFICATIONS
 
@@ -80,13 +80,13 @@ A person may hold two roles only in the combinations RPIC+Campaign Lead or VO+SS
 
 ### 3.2 Minimum crew
 
-| Aircraft                    | Minimum crew                                                              |
-| --------------------------- | ------------------------------------------------------------------------- |
-| UAS-07 to UAS-10 (training) | RPIC + VO (instructor may act as VO)                                      |
-| UAS-04 to UAS-06            | RPIC + VO; PO when PL-03/PL-04 flown for a client deliverable             |
-| UAS-01, UAS-02, UAS-03      | RPIC + VO + PO + GSO                                                      |
-| UAS-11 (VTOL)               | RPIC + VO + GSO; a second VO beyond 500 m downrange                       |
-| UAS-12 (Testbed)            | RPIC + VO + GSO; the Systems & Cybersecurity Lead or a delegate at GCS-04 |
+| Aircraft | Minimum crew |
+|---|---|
+| UAS-07 to UAS-10 (training) | RPIC + VO (instructor may act as VO) |
+| UAS-04 to UAS-06 | RPIC + VO; PO when PL-03/PL-04 flown for a client deliverable |
+| UAS-01, UAS-02, UAS-03 | RPIC + VO + PO + GSO |
+| UAS-11 (VTOL) | RPIC + VO + GSO; a second VO beyond 500 m downrange |
+| UAS-12 (Testbed) | RPIC + VO + GSO; the Systems & Cybersecurity Lead or a delegate at GCS-04 |
 
 ### 3.3 Currency and training
 
@@ -115,13 +115,13 @@ The fleet register (Annex A, mirrored in the OEM fleet portal and the maintenanc
 
 ### 4.3 Inspections
 
-| Inspection    | When                                                                     | By                                          |
-| ------------- | ------------------------------------------------------------------------ | ------------------------------------------- |
-| Pre-flight    | Every flight (checklist 8.3)                                             | RPIC                                        |
-| 25-hour       | Every 25 flight hours                                                    | Fleet & Logistics Manager with the FOM      |
+| Inspection | When | By |
+|---|---|---|
+| Pre-flight | Every flight (checklist 8.3) | RPIC |
+| 25-hour | Every 25 flight hours | Fleet & Logistics Manager with the FOM |
 | Post-incident | After any hard landing, prop strike, lost link, flyaway or water contact | FOM and ASO; aircraft DOWN until signed off |
-| Annual        | Each August                                                              | FOM, ASO, Systems & Cybersecurity Lead      |
-| Payload       | Before each campaign                                                     | Payload & Calibration Lead                  |
+| Annual | Each August | FOM, ASO, Systems & Cybersecurity Lead |
+| Payload | Before each campaign | Payload & Calibration Lead |
 
 ### 4.4 Batteries
 
@@ -143,14 +143,14 @@ On each flight day the RPIC prepares a flight plan on form FOM-2 for each aircra
 
 ### 5.3 Weather minimums
 
-| Limit                                               | Value                                                                            |
-| --------------------------------------------------- | -------------------------------------------------------------------------------- |
-| Wind (steady / gust)                                | Heavy-lift 18 kt / 25 kt; mid-size and small 15 kt / 20 kt; UAS-11 20 kt / 28 kt |
-| Visibility                                          | 3 statute miles                                                                  |
-| Cloud clearance                                     | 500 ft below clouds, 2,000 ft horizontal                                         |
-| Precipitation                                       | None; no flight within 30 minutes of lightning within 10 nm                      |
-| Temperature                                         | 20 °F to 95 °F (battery and cooled-sensor limits)                                |
-| Solar elevation for calibrated spectral collections | Above 30°                                                                        |
+| Limit | Value |
+|---|---|
+| Wind (steady / gust) | Heavy-lift 18 kt / 25 kt; mid-size and small 15 kt / 20 kt; UAS-11 20 kt / 28 kt |
+| Visibility | 3 statute miles |
+| Cloud clearance | 500 ft below clouds, 2,000 ft horizontal |
+| Precipitation | None; no flight within 30 minutes of lightning within 10 nm |
+| Temperature | 20 °F to 95 °F (battery and cooled-sensor limits) |
+| Solar elevation for calibrated spectral collections | Above 30° |
 
 ### 5.4 Risk assessment
 
@@ -178,11 +178,11 @@ The FOM checks NOTAMs and TFRs for the HWK area the evening before and the morni
 
 ### 6.5 Waivers and authorizations
 
-| Authorization                              | Reference (exercise reference) | Conditions                                                                                        |
-| ------------------------------------------ | ------------------------------ | ------------------------------------------------------------------------------------------------- |
-| Part 107.29 night operations               | 107W-2026-01184                | Anti-collision lights visible 3 sm; night-trained crew; expires 08/31/2028                        |
-| UAS-12 flight-test protocol                | HUOG-FTP-12, 05/2024           | Horton Field only; test flights stay within the field boundary; broadcast module RID-BM-12 fitted |
-| Experimental radio authorization for PL-06 | WR-EXP-2025-0912               | Quarry Flight Area; log every transmission                                                        |
+| Authorization | Reference (exercise reference) | Conditions |
+|---|---|---|
+| Part 107.29 night operations | 107W-2026-01184 | Anti-collision lights visible 3 sm; night-trained crew; expires 08/31/2028 |
+| UAS-12 flight-test protocol | HUOG-FTP-12, 05/2024 | Horton Field only; test flights stay within the field boundary; broadcast module RID-BM-12 fitted |
+| Experimental radio authorization for PL-06 | WR-EXP-2025-0912 | Quarry Flight Area; log every transmission |
 
 The Group holds no BVLOS, operations-over-people or Part 107.39 waiver; a request for one goes through the ASO and the General Manager.
 
@@ -301,15 +301,15 @@ All aircraft broadcast Remote ID (standard, or the broadcast modules RID-BM-11 o
 
 ### 10.2 Records
 
-| Record                                      | Where                                                   | Retention            |
-| ------------------------------------------- | ------------------------------------------------------- | -------------------- |
-| Flight logs (telemetry, GCS logs)           | GCS → `\\HUOG-NAS01\flightlogs\<year>\<tail>\`          | 5 years              |
-| FOM-2 flight plans and FOM-1 campaign plans | `\\HUOG-NAS01\ops\plans\`                               | 5 years              |
-| LAANC authorizations                        | Saved as PDF with the FOM-2                             | 5 years              |
-| Crew roster and currency                    | `\\HUOG-NAS01\ops\crew-roster.xlsx`                     | Current + 3 years    |
-| Maintenance and battery logs                | OEM fleet portal; maintenance spreadsheet; battery book | Life of the aircraft |
-| Parameter change log (UAS-11, UAS-12)       | `\\HUOG-NAS01\ops\param-log.md`                         | Life of the aircraft |
-| Hazard log and incident reports             | ASO folder on the NAS                                   | 10 years             |
+| Record | Where | Retention |
+|---|---|---|
+| Flight logs (telemetry, GCS logs) | GCS → `\\HUOG-NAS01\flightlogs\<year>\<tail>\` | 5 years |
+| FOM-2 flight plans and FOM-1 campaign plans | `\\HUOG-NAS01\ops\plans\` | 5 years |
+| LAANC authorizations | Saved as PDF with the FOM-2 | 5 years |
+| Crew roster and currency | `\\HUOG-NAS01\ops\crew-roster.xlsx` | Current + 3 years |
+| Maintenance and battery logs | OEM fleet portal; maintenance spreadsheet; battery book | Life of the aircraft |
+| Parameter change log (UAS-11, UAS-12) | `\\HUOG-NAS01\ops\param-log.md` | Life of the aircraft |
+| Hazard log and incident reports | ASO folder on the NAS | 10 years |
 
 ### 10.3 Reporting
 
@@ -334,12 +334,12 @@ The Group exercises the HUOG-ERP annually as a tabletop with Harwick Police, Cor
 
 ### 11.4 Open items (hazard log extract, 09/2026)
 
-| Id    | Hazard                                                                                                                                    | Status                                                            |
-| ----- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Id | Hazard | Status |
+|---|---|---|
 | HL-24 | UAS-05 lost link for 38 s at the Lakeshore Flight Area on 06/14/2026; RTL functioned; cause attributed to a crew Wi-Fi hotspot on 2.4 GHz | Mitigation: hotspots banned at the launch point; crew radios only |
-| HL-27 | Parameter change log for UAS-12 not updated after a lost-link timer test in 07/2026                                                       | Open — FOM to audit                                               |
-| HL-29 | FIELD-RTR-1 admin password unchanged since purchase                                                                                       | Open — Systems & Cybersecurity Lead                               |
-| HL-31 | Birch Hollow Range gate found open on arrival twice in 08/2026                                                                            | Open — site manager                                               |
+| HL-27 | Parameter change log for UAS-12 not updated after a lost-link timer test in 07/2026 | Open — FOM to audit |
+| HL-29 | FIELD-RTR-1 admin password unchanged since purchase | Open — Systems & Cybersecurity Lead |
+| HL-31 | Birch Hollow Range gate found open on arrival twice in 08/2026 | Open — site manager |
 
 ## ANNEX A: FLEET REGISTER (SUMMARY)
 

@@ -8,7 +8,7 @@
     "exerciseTime": "2:00",
     "newTime": "11:00",
     "jumpLabel": "+60 minutes",
-    "narration": "It is now 2:00. The forensic evidence is in. The 915 MHz C2 link was compromised via an unauthorized remote session from IP 192.168.100.22 at 09:12. The session modified the home point and altered the flight path. The IP is not in the Group’s approved vendor list. The GCS-01 logs confirm a C2 link compromise per ISP Section 9.1. The team must now decide: keep automation or fall back to manual control.",
+    "narration": "It is now 2:00. The forensic evidence is in. The 915 MHz C2 link was compromised via an unauthorized remote session from IP 192.168.100.22 at 09:12. The session modified the home point and altered the flight path. The IP is not in the Group’s approved vendor list. The GCS-01 logs confirm a C2 link compromise per ISP Section 9.1. The team must now decide: keep automation or fall back to manual control. The aircraft is 42 seconds from crossing the north shore of the lake. If it lands in water, recovery will require the sheriff’s marine unit per ERP Section 4.3. The deadline for a public statement on the aircraft’s status is 12:00.",
     "worldState": [
       "IP 192.168.100.22 is not in the Group’s approved vendor list.",
       "The C2 link compromise is confirmed via GCS-01 logs and RTK-1 base telemetry.",
@@ -23,25 +23,28 @@
     "scenarioTitle": "Ghost Flight at Birch Hollow — GNSS Spoofing & Command Hijack",
     "injectId": "I-17"
   },
+  "variant": "default",
   "instructorNote": "This is a decision point inject. The IC must now choose between keeping automation (risking a water recovery) or switching to manual/attitude mode (risking a crash but preserving the aircraft). Watch for hesitation, misalignment on C2 link and GCS state, and failure to consult the ISP or ERP.",
   "citations": [
     {
       "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
       "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
-      "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
-      "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
-      "chunkId": 127
+      "headingPath": "ISP",
+      "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. Hostnames, addresses, vendors, clients and",
+      "chunkId": 95
     },
     {
-      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
-      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
-      "headingPath": "FOM › Section 9 › 9.3 GNSS degradation or spoofing suspicion",
-      "quote": "Signs: satellite count falls while the sky is clear; position jumps; RTK fix lost on both RTK-1 and the aircraft; the home point moves; DAA-1 and the GCS disagree on position. Actions: the RPIC switch",
-      "chunkId": 82
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 2",
+      "quote": "| Role | Holder | Responsibilities | |---|---|---| | Systems & Cybersecurity Lead | Tomás Reyes | Plan owner; GCS baseline and updates; link and radio configuration; firewall; NAS and backups; inciden",
+      "chunkId": 100
     }
   ],
   "mediaBrief": {
-    "paths": ["template"]
+    "paths": [
+      "template"
+    ]
   },
   "assets": [],
   "versions": [
@@ -74,9 +77,39 @@
         "instructorNote": "This is a decision point inject. The IC must now choose between keeping automation (risking a water recovery) or switching to manual/attitude mode (risking a crash but preserving the aircraft). Watch for hesitation, misalignment on C2 link and GCS state, and failure to consult the ISP or ERP.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-22T13:33:08.579Z",
+      "by": "ai",
+      "note": "regenerated",
+      "snapshot": {
+        "title": "Time Jump: 2:00 — Forensic Evidence Confirmed",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "2:00",
+          "newTime": "11:00",
+          "jumpLabel": "+60 minutes",
+          "narration": "It is now 2:00. The forensic evidence is in. The 915 MHz C2 link was compromised via an unauthorized remote session from IP 192.168.100.22 at 09:12. The session modified the home point and altered the flight path. The IP is not in the Group’s approved vendor list. The GCS-01 logs confirm a C2 link compromise per ISP Section 9.1. The team must now decide: keep automation or fall back to manual control. The aircraft is 42 seconds from crossing the north shore of the lake. If it lands in water, recovery will require the sheriff’s marine unit per ERP Section 4.3. The deadline for a public statement on the aircraft’s status is 12:00.",
+          "worldState": [
+            "IP 192.168.100.22 is not in the Group’s approved vendor list.",
+            "The C2 link compromise is confirmed via GCS-01 logs and RTK-1 base telemetry.",
+            "The home point was modified remotely at 09:12 via the 915 MHz C2 link.",
+            "The flight path was altered by unauthorized command injection.",
+            "UAS-11 remains airborne and on an uncommanded trajectory toward Millstone Creek.",
+            "The RTK-1 base (SM-L1) and GCS-01 are in a compromised state; no further automated commands may be trusted.",
+            "The aircraft is now 120 meters from the lake edge and descending toward the water at 2.3 m/s.",
+            "All evidence has been preserved: full telemetry, link logs, and RTK base logs are on HUOG-NAS01 and the managed SOC has imaging access."
+          ],
+          "facilitatorNote": "This is a decision point inject. The IC must now choose between keeping automation (risking a water recovery) or switching to manual/attitude mode (risking a crash but preserving the aircraft). Watch for hesitation, misalignment on C2 link and GCS state, and failure to consult the ISP or ERP.",
+          "scenarioTitle": "Ghost Flight at Birch Hollow — GNSS Spoofing & Command Hijack",
+          "injectId": "I-17"
+        },
+        "instructorNote": "This is a decision point inject. The IC must now choose between keeping automation (risking a water recovery) or switching to manual/attitude mode (risking a crash but preserving the aircraft). Watch for hesitation, misalignment on C2 link and GCS state, and failure to consult the ISP or ERP.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T07:08:47.719Z"
+  "updatedAt": "2026-10-22T13:34:18.872Z"
 }

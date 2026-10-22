@@ -4,7 +4,12 @@
 // different address than the story established) and facility identifiers the documents do not
 // have (#84). What survives the repair becomes an INJECT_CONTENT_ISSUE warning.
 import type { MselRow } from '@shared/schemas'
-import { describeUnknownId, unknownFacilityIds, type FacilityFacts } from '../facility'
+import {
+  FAKE_FRAMING,
+  describeUnknownId,
+  unknownFacilityIds,
+  type FacilityFacts,
+} from '../facility'
 
 type Fields = Record<string, unknown>
 type JsonSchema = Record<string, unknown>
@@ -169,7 +174,10 @@ export function technicalIssues(
   return out
 }
 
-/** Facility identifiers in the fields that the documents do not have (unless framed as fake). */
+/**
+ * Facility identifiers in the fields that the documents do not have, unless the row or the
+ * fields frame them as fake (the same framing the MSEL lint accepts, facility.ts).
+ */
 export function facilityFieldIssues(
   fields: Fields,
   facts: FacilityFacts,
@@ -177,12 +185,7 @@ export function facilityFieldIssues(
 ): ContentIssue[] {
   const text = strings(fields).join('\n')
   const framing = `${row.event}\n${row.expectedAction}\n${text}`
-  if (
-    /\b(?:no such|does not exist|doesn't exist|non-?existent|not a real|invalid|fake|bogus|impossible|phantom)\b/i.test(
-      framing,
-    )
-  )
-    return []
+  if (FAKE_FRAMING.test(framing)) return []
   return unknownFacilityIds(text, facts).map((u) => ({
     path: 'fields',
     message: `${describeUnknownId(u)} is not in the facility facts; use ${u.didYouMean ? 'the documented name' : 'one that exists'}`,

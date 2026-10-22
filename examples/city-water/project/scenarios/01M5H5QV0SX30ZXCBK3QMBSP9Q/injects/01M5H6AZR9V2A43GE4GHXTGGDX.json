@@ -1,50 +1,58 @@
 {
   "id": "01M5H6AZR9V2A43GE4GHXTGGDX",
   "mselRowId": "I-15",
-  "type": "regulatory_notice",
+  "type": "phone_call",
   "title": "Do Not Drink Advisory — Zone 1 Water Quality Emergency",
-  "deliveryMode": "hand_to_role",
+  "deliveryMode": "read_aloud",
   "fields": {
-    "agency": "Ohio Environmental Protection Agency",
-    "parent": "State of Ohio",
-    "office": "Division of Drinking and Ground Waters, Central District",
-    "noticeType": "EA",
-    "number": "EA-2026-1045",
-    "subject": "Do Not Drink Advisory — Elevated pH and Caustic Overfeed in Zone 1",
-    "issued": "October 22, 2026",
-    "effectiveDate": "October 22, 2026, 10:45",
-    "expirationDate": "October 23, 2026, 10:45",
-    "applicability": "City of Millbrook Department of Water & Sewer, all field and control personnel, public distribution points",
-    "authority": "Ohio Revised Code § 3745.01; EPA 40 CFR 141.12; ERP Section 4.4",
-    "purpose": "The Ohio EPA DDAGW Central District has confirmed a public health emergency due to a confirmed caustic overfeed in the Zone 1 distribution area. Laboratory results from Sample 24-1187 show a finished-water pH of 9.3 and a measured caustic dose of 38 mg/L, both exceeding safe limits. The control system is compromised and cannot be trusted to reflect actual conditions. This emergency constitutes a credible threat to public health under Section 4.3 of the Ohio Drinking Water Rule. The City must issue an official advisory to prevent ingestion of contaminated water.",
-    "actions": [
-      "Immediately issue a Do Not Drink advisory for Zone 1, including all residents, businesses, and facilities served directly by the High Service Pump Station",
-      "Publish the advisory on the City’s website, MillbrookAlert, social media, and via SMS within 30 minutes of this notice",
-      "Provide bottled water distribution points at Zone 1 (Valley) and Northgate Zone 3 by 12:00 today",
-      "Report full compliance to the Ohio EPA DDAGW Central District via CISA WaterISAC portal within 2 hours",
-      "Maintain a 24-hour public hotline (555) 038-8800 for customer inquiries and health concerns"
-    ],
-    "contact": "Questions: contact the Ohio EPA DDAGW Central District at (555) 037-1555 or via secure email to ddagw-central@epa.ohio.gov",
-    "approvedBy": {
-      "name": "Denise Albrecht",
-      "title": "Director, Water Operations, City of Millbrook",
-      "signature": "D. Albrecht"
+    "orgName": "Ohio Environmental Protection Agency",
+    "systemName": "DDAGW Central District Emergency Line",
+    "callId": "CR-20261022-104512-0401",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Carol Dugan",
+      "number": "(555) 037-1555",
+      "label": "Ohio EPA DDAGW Central District"
     },
-    "handling": "SENSITIVE SECURITY INFORMATION",
-    "notams": [],
-    "searchLocation": "Millbrook, Ohio",
-    "notamSource": "Federal NOTAM System",
-    "retrieved": "10/22/2026 10:45",
-    "marking": "EXERCISE · EXERCISE · EXERCISE"
+    "callee": {
+      "name": "Marcus Oyelaran",
+      "number": "(555) 038-7100",
+      "label": "Water Quality Manager"
+    },
+    "startTime": "10/22/2026 10:45:12",
+    "duration": "0:58",
+    "transcript": [
+      {
+        "speaker": "Carol Dugan",
+        "offset": "0:00",
+        "text": "This is Carol Dugan, Ohio EPA DDAGW Central District. I am confirming a Level 3 — Public Health Emergency under ERP Section 4.4. The lab result (pH 9.3, caustic 38 mg/L) exceeds the safe limit. You must issue the official Do Not Drink advisory within 30 minutes. I need confirmation from the Water Quality Manager and the Director before I will accept your public statement.",
+        "prompt": false
+      },
+      {
+        "speaker": "Marcus Oyelaran",
+        "offset": "0:22",
+        "text": "Understood, Carol. I confirm that Sample 24-1187 from the effluent line shows pH 9.3 and caustic dose 38 mg/L — both above the safe threshold. The control system is compromised and cannot be trusted. I am authorizing the Do Not Drink advisory for Zone 1.",
+        "prompt": false
+      },
+      {
+        "speaker": "Carol Dugan",
+        "offset": "0:40",
+        "text": "Good. The City must publish the advisory on the website, MillbrookAlert, social media, and SMS within 30 minutes of this call. I will log your confirmation. Report full compliance via CISA WaterISAC within 2 hours. The public health risk is active.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-15"
   },
-  "instructorNote": "This inject confirms the regulatory trigger for the official advisory. The IC must validate lab data with WQ and then authorize the full advisory release via PIO. Watch for delays in confirmation or hesitation on the advisory type.",
+  "variant": "default",
+  "instructorNote": "This inject confirms the formal regulatory mandate to issue the Do Not Drink advisory. Watch for the PIO to initiate the Section 10 template, the WQ to confirm lab results, and the IC to authorize the public release. Delay or confusion here indicates a failure in the emergency approval chain.",
   "citations": [
     {
       "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
       "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
-      "headingPath": "City of Millbrook Department of… › Section 4 › 4.1 Types",
-      "quote": "| Type | When used (ERP Section 9 decides) | What the public is told to do | |---|---|---| | **Boil Water Advisory** | Loss of pressure below 20 psi in an area; a main break that depressurizes an area",
-      "chunkId": 108
+      "headingPath": "City of Millbrook Department of… › Section 5 › 5.1 Targets",
+      "quote": "| Step | Target from the Director's decision | Who | |---|---|---| | Critical-customer phone calls complete | 60 minutes (hospital and Carver Kidney Center within 15 minutes) | Customer Service Lead a",
+      "chunkId": 111
     },
     {
       "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
@@ -54,32 +62,60 @@
       "chunkId": 39
     },
     {
-      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-      "headingPath": "ERP › Section 5 › 5.1 General",
-      "quote": "Notifications are made by telephone with a voice read-back and logged on ERP-1 (time, person reached, message, call-back number). Email, MillbrookAlert and text are supplementary. If a primary contact",
-      "chunkId": 14
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+      "quote": "| Statement type | Drafted by | Facts approved by | Released by | |---|---|---|---| | Boil Water / Do Not Drink / Do Not Use / Precautionary advisory | PIO | Director + Water Quality Manager; City Man",
+      "chunkId": 106
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+      "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+      "chunkId": 112
     }
   ],
   "mediaBrief": {
     "paths": [
-      "template"
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Carol Dugan",
+        "voiceStyle": "calm female federal inspector, mid-50s, precise enunciation, slight Ohio accent",
+        "text": "This is Carol Dugan, Ohio EPA DDAGW Central District. I am confirming a Level 3 — Public Health Emergency under ERP Section 4.4. The lab result (pH 9.3, caustic 38 mg/L) exceeds the safe limit. You must issue the official Do Not Drink advisory within 30 minutes. I need confirmation from the Water Quality Manager and the Director before I will accept your public statement."
+      },
+      {
+        "speaker": "Marcus Oyelaran",
+        "voiceStyle": "composed male water quality manager, late 40s, steady tone, slight urgency",
+        "text": "Understood, Carol. I confirm that Sample 24-1187 from the effluent line shows pH 9.3 and caustic dose 38 mg/L — both above the safe threshold. The control system is compromised and cannot be trusted. I am authorizing the Do Not Drink advisory for Zone 1."
+      },
+      {
+        "speaker": "Carol Dugan",
+        "voiceStyle": "clear federal voice, measured, authoritative",
+        "text": "Good. The City must publish the advisory on the website, MillbrookAlert, social media, and SMS within 30 minutes of this call. I will log your confirmation. Report full compliance via CISA WaterISAC within 2 hours. The public health risk is active."
+      }
+    ],
+    "postFx": [
+      "phone"
     ]
   },
   "assets": [
     {
-      "id": "01M5H7CH15NQYQJZE7E3J7S49D",
+      "id": "01M5HWG8N5WCJV42A1T5M7K2P8",
       "kind": "image",
-      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H6AZR9V2A43GE4GHXTGGDX/01M5H7CH15NQYQJZE7E3J7S49D.png",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H6AZR9V2A43GE4GHXTGGDX/01M5HWG8N5WCJV42A1T5M7K2P8.png",
       "role": "rendered",
       "width": 816,
       "height": 1056,
-      "sha256": "6ab42bcae4aa3ce4d001b7c9842cf5bcc2ef94597231860f80d42f46304937cf",
+      "sha256": "dc2e1f7e396e8df4e90f3742505cc9ca93e935a0bc2d5883798e255bca35d592",
       "provenance": {
         "provider": "template",
-        "templateId": "regulatory_notice",
+        "templateId": "phone_call",
         "templateVersion": "1",
-        "createdAt": "2026-10-22T07:14:40.153Z"
+        "createdAt": "2026-10-22T13:23:42.746Z"
       }
     }
   ],
@@ -127,9 +163,60 @@
         "instructorNote": "This inject confirms the regulatory trigger for the official advisory. The IC must validate lab data with WQ and then authorize the full advisory release via PIO. Watch for delays in confirmation or hesitation on the advisory type.",
         "deliveryMode": "hand_to_role"
       }
+    },
+    {
+      "at": "2026-10-22T13:22:12.185Z",
+      "by": "ai",
+      "note": "regenerated",
+      "snapshot": {
+        "title": "Do Not Drink Advisory — Zone 1 Water Quality Emergency",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ohio Environmental Protection Agency",
+          "systemName": "DDAGW Central District Emergency Line",
+          "callId": "CR-20261022-104512-0401",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Carol Dugan",
+            "number": "(555) 037-1555",
+            "label": "Ohio EPA DDAGW Central District"
+          },
+          "callee": {
+            "name": "Marcus Oyelaran",
+            "number": "(555) 038-7100",
+            "label": "Water Quality Manager"
+          },
+          "startTime": "10/22/2026 10:45:12",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "Carol Dugan",
+              "offset": "0:00",
+              "text": "This is Carol Dugan, Ohio EPA DDAGW Central District. I am confirming a Level 3 — Public Health Emergency under ERP Section 4.4. The lab result (pH 9.3, caustic 38 mg/L) exceeds the safe limit. You must issue the official Do Not Drink advisory within 30 minutes. I need confirmation from the Water Quality Manager and the Director before I will accept your public statement.",
+              "prompt": false
+            },
+            {
+              "speaker": "Marcus Oyelaran",
+              "offset": "0:22",
+              "text": "Understood, Carol. I confirm that Sample 24-1187 from the effluent line shows pH 9.3 and caustic dose 38 mg/L — both above the safe threshold. The control system is compromised and cannot be trusted. I am authorizing the Do Not Drink advisory for Zone 1.",
+              "prompt": false
+            },
+            {
+              "speaker": "Carol Dugan",
+              "offset": "0:40",
+              "text": "Good. The City must publish the advisory on the website, MillbrookAlert, social media, and SMS within 30 minutes of this call. I will log your confirmation. Report full compliance via CISA WaterISAC within 2 hours. The public health risk is active.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-15"
+        },
+        "instructorNote": "This inject confirms the formal regulatory mandate to issue the Do Not Drink advisory. Watch for the PIO to initiate the Section 10 template, the WQ to confirm lab results, and the IC to authorize the public release. Delay or confusion here indicates a failure in the emergency approval chain.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T07:14:40.373Z"
+  "updatedAt": "2026-10-22T13:24:07.966Z"
 }

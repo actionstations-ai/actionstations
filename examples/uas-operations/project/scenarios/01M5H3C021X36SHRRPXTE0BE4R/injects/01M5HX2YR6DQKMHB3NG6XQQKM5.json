@@ -1,0 +1,115 @@
+{
+  "id": "01M5HX2YR6DQKMHB3NG6XQQKM5",
+  "mselRowId": "I-27c",
+  "type": "helpdesk_ticket",
+  "title": "GCS-03: Spurious Link Quality with GNSS Error",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "2026-9919",
+    "priority": "High",
+    "impact": "High",
+    "urgency": "High",
+    "status": "New",
+    "requester": "Field Crew (Trainee)",
+    "requesterContact": "x2045",
+    "contactType": "Self-service",
+    "category": "Systems",
+    "subcategory": "Ground Control Station",
+    "location": "Birch Hollow Range, Hangar 3",
+    "configurationItem": "GCS-03",
+    "opened": "2026-10-22 12:38:17",
+    "assignmentGroup": "Systems & Cybersecurity",
+    "subject": "GCS-03: 100% 915 MHz link quality but GNSS error and no RTK fix",
+    "description": "Field: GCS-03 showing 100% link quality on 915 MHz, but HMI shows 'No RTK fix' and 'GNSS error'. Payload Operator says the calibration tarps were not on the ground at 09:10. Is the GCS-03 baseline corrupted? Request: verify baseline on HUOG-NAS01\\it\\baselines\\ and check for unauthorized config changes.",
+    "activity": [
+      {
+        "author": "Field Crew (Trainee)",
+        "time": "2026-10-22 12:38:17",
+        "kind": "work_note",
+        "text": "Ticket raised via internal portal. GCS-03 is active in the hangar. Link quality is 100% but telemetry shows no RTK fix and GNSS error. Payload Operator confirmed tarps not on ground at 09:10. Baseline verification required."
+      },
+      {
+        "author": "System",
+        "time": "2026-10-22 12:38:17",
+        "kind": "system",
+        "text": "Ticket created and routed to assignment group 'Systems & Cybersecurity'."
+      }
+    ],
+    "systemName": "ServiceDesk",
+    "orgName": "Harwick UAS Operations Group"
+  },
+  "variant": "default",
+  "instructorNote": "This is a red herring. The baseline on GCS-03 is intact; the issue is a spoofed telemetry feed. The TL must verify the baseline hash before acting.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 4 › 4.1 Baseline",
+      "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselines",
+      "chunkId": 104
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Annex A",
+      "quote": "| Asset | Tag | Hostname / address | Baseline | Notes | |---|---|---|---|---| | GCS-01 | HUOG-0101 | HUOG-GCS01 · 10.17.40.11 | 03.2026-B | Dual C2 radios | | GCS-02 | HUOG-0102 | HUOG-GCS02 · 10.17.4",
+      "chunkId": 135
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:34:06.505Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GCS-03: Spurious Link Quality with GNSS Error",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "2026-9919",
+          "priority": "High",
+          "impact": "High",
+          "urgency": "High",
+          "status": "New",
+          "requester": "Field Crew (Trainee)",
+          "requesterContact": "x2045",
+          "contactType": "Self-service",
+          "category": "Systems",
+          "subcategory": "Ground Control Station",
+          "location": "Birch Hollow Range, Hangar 3",
+          "configurationItem": "GCS-03",
+          "opened": "2026-10-22 12:38:17",
+          "assignmentGroup": "Systems & Cybersecurity",
+          "subject": "GCS-03: 100% 915 MHz link quality but GNSS error and no RTK fix",
+          "description": "Field: GCS-03 showing 100% link quality on 915 MHz, but HMI shows 'No RTK fix' and 'GNSS error'. Payload Operator says the calibration tarps were not on the ground at 09:10. Is the GCS-03 baseline corrupted? Request: verify baseline on HUOG-NAS01\\it\\baselines\\ and check for unauthorized config changes.",
+          "activity": [
+            {
+              "author": "Field Crew (Trainee)",
+              "time": "2026-10-22 12:38:17",
+              "kind": "work_note",
+              "text": "Ticket raised via internal portal. GCS-03 is active in the hangar. Link quality is 100% but telemetry shows no RTK fix and GNSS error. Payload Operator confirmed tarps not on ground at 09:10. Baseline verification required."
+            },
+            {
+              "author": "System",
+              "time": "2026-10-22 12:38:17",
+              "kind": "system",
+              "text": "Ticket created and routed to assignment group 'Systems & Cybersecurity'."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Harwick UAS Operations Group"
+        },
+        "instructorNote": "This is a red herring. The baseline on GCS-03 is intact; the issue is a spoofed telemetry feed. The TL must verify the baseline hash before acting.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:34:47.894Z"
+}

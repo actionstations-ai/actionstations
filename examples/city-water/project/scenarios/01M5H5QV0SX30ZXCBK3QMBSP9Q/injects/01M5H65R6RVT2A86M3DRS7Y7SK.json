@@ -2,7 +2,7 @@
   "id": "01M5H65R6RVT2A86M3DRS7Y7SK",
   "mselRowId": "I-04",
   "type": "phone_call",
-  "title": "Phone Call: WQ Manager — Advisory Decision Initiated",
+  "title": "Phone Call: Ohio EPA DDAGW — Level 3 Notification Confirmed",
   "deliveryMode": "read_aloud",
   "fields": {
     "orgName": "City of Millbrook Department of Water & Sewer",
@@ -10,12 +10,12 @@
     "callId": "CR-20261022-093512-0401",
     "direction": "Inbound",
     "caller": {
-      "name": "Marcus Oyelaran",
-      "number": "(555) 034-1199",
-      "label": "Water Quality Manager"
+      "name": "Sarah Tran",
+      "number": "(555) 038-8800",
+      "label": "Ohio EPA DDAGW Central District"
     },
     "callee": {
-      "name": "Director Albrecht",
+      "name": "Denise Albrecht",
       "number": "(555) 031-2244",
       "label": "Director of Water Operations"
     },
@@ -23,58 +23,65 @@
     "duration": "2:18",
     "transcript": [
       {
-        "speaker": "Marcus Oyelaran",
+        "speaker": "Sarah Tran",
         "offset": "00:00",
-        "text": "Director Albrecht, this is Marcus Oyelaran, Water Quality Manager. The lab has confirmed: pH is 9.3, caustic dose is 38 mg/L. The PLC clamp is 40 mg/L, so we are over. PSH-302 has not tripped — that's not normal. This means the HMI is not reflecting reality. The control system is compromised. We are in a public health emergency. We must issue a Do Not Drink advisory.",
+        "text": "This is Sarah Tran, Ohio EPA DDAGW Central District. I am receiving a Level 3 emergency notification from Millbrook DWS via the pre-scripted external reporting clock. I confirm receipt and will initiate the regulatory response. Please provide the lab result for Sample 24-1187 and the GIS boundary for the affected area within 15 minutes.",
         "prompt": false
       },
       {
-        "speaker": "Director Albrecht",
+        "speaker": "Denise Albrecht",
         "offset": "00:42",
-        "text": "Understood, Marcus. I’ve just received the field report from Night Operator Chen and the HMI override failure from Rios. Confirming: HMI still shows NAOH-FC-203 at 14 mg/L, but lab confirms 38 mg/L and pH 9.3. PSH-302 not tripped. Yes — this is a control-system anomaly. I’m initiating the advisory process now. I’ll notify the PIO and SCADA / IT Security Manager.",
+        "text": "Understood, Sarah. The lab result for Sample 24-1187 confirms pH 9.3 and caustic dose at 38 mg/L — both exceed the PLC hard limit of 40 mg/L. The control system is not reflecting actual feed rates. The affected area is Zone 1, as mapped in MDWS-MAP-2026, and includes all customers served by the Hilltop Tank and Northgate Reservoir. I am sending the GIS boundary via secure email now. We are activating the Do Not Drink advisory under MDWS-PCP-2026.",
         "prompt": false
       },
       {
-        "speaker": "Marcus Oyelaran",
+        "speaker": "Sarah Tran",
         "offset": "01:18",
-        "text": "Good. We must act before any downstream customers report symptoms. The 2-hour grab samples are now invalid — they’re from a compromised feed. We need to lock out the caustic feed and notify the EMA and Ohio EPA within 24 hours per C2. This is Tier 1.",
+        "text": "Confirmed. I will log this as a Level 3 public health emergency. The 24-hour reporting window under C1 applies. Please ensure the final advisory includes the full lab report and a statement on control-system integrity. I will notify the regional office and request a joint site assessment within 4 hours.",
         "prompt": false
       },
       {
-        "speaker": "Director Albrecht",
+        "speaker": "Denise Albrecht",
         "offset": "01:50",
-        "text": "Confirmed. I’m placing the call to the PIO now. We’ll follow MDWS-PCP-2026 for the statement. Hold on — I’m turning off the line for a second to alert the team.",
+        "text": "Affirmative. I am coordinating with the SCADA / IT Security Manager and the Distribution Superintendent to finalize the boundary. The advisory will be issued within 30 minutes. I’ll follow up with a formal report via CISA and WaterISAC as required. Thank you for your prompt response.",
         "prompt": false
       }
     ],
     "voiceStyles": {
-      "Marcus Oyelaran": "Male, mid-50s, urgent, clipped speech, background lab hum",
-      "Director Albrecht": "Male, late 50s, calm but firm, measured tone, slight pause between sentences"
+      "Sarah Tran": "Female, late 40s, professional, clipped tone, slight echo on line",
+      "Denise Albrecht": "Female, late 50s, calm, authoritative, deliberate pace"
     },
     "injectId": "I-04"
   },
-  "instructorNote": "Core narrative inject; the WQ Manager confirms the HMI is compromised and triggers the advisory decision process. Watch for the IC to initiate the approval chain and confirm the external reporting timeline.",
+  "instructorNote": "Regulatory escalation inject; the IC must confirm lab data and GIS zone to the EPA, and the WQ and Distribution roles must validate the data and boundary. Watch for any delay in confirming the affected area or lab results.",
   "citations": [
     {
       "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
       "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
-      "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
-      "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
-      "chunkId": 73
+      "headingPath": "City of Millbrook Department of… › Section 12",
+      "quote": "| Event | Report to | Clock | |---|---|---| | Any confirmed or strongly suspected cyber intrusion on the control network, or unauthorized operation of equipment | CISA (24/7) | Within 24 hours; immedi",
+      "chunkId": 93
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+      "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+      "chunkId": 112
     },
     {
       "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
       "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-      "headingPath": "ERP › Section 5 › 5.3 External Reporting Clocks",
-      "quote": "| Event | Report to | Time limit | By | |---|---|---|---| | Any Tier 1 public-notice situation (Section 9.2) | Ohio EPA DDAGW Central District (district engineer Paul Grieve; 24-h line (555) 037-1555)",
-      "chunkId": 16
+      "headingPath": "ERP › Section 5 › 5.2 Internal Call-Down",
+      "quote": "| Step | From | To | Time limit | |---|---|---|---| | 1 | Person observing | RWTP Control Room (555) 031-2244 | Immediately (radio DWS-1 or phone) | | 2 | Duty operator | Plant Superintendent (Ray Cas",
+      "chunkId": 15
     },
     {
-      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
-      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
-      "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
-      "quote": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
-      "chunkId": 143
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 3",
+      "quote": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+      "chunkId": 9
     }
   ],
   "mediaBrief": {
@@ -84,24 +91,24 @@
     ],
     "voiceLines": [
       {
-        "speaker": "Marcus Oyelaran",
-        "voiceStyle": "Male, mid-50s, urgent, clipped speech, background lab hum",
-        "text": "Director Albrecht, this is Marcus Oyelaran, Water Quality Manager. The lab has confirmed: pH is 9.3, caustic dose is 38 mg/L. The PLC clamp is 40 mg/L, so we are over. PSH-302 has not tripped — that's not normal. This means the HMI is not reflecting reality. The control system is compromised. We are in a public health emergency. We must issue a Do Not Drink advisory."
+        "speaker": "Sarah Tran",
+        "voiceStyle": "Female, late 40s, professional, clipped tone, slight echo on line",
+        "text": "This is Sarah Tran, Ohio EPA DDAGW Central District. I am receiving a Level 3 emergency notification from Millbrook DWS via the pre-scripted external reporting clock. I confirm receipt and will initiate the regulatory response. Please provide the lab result for Sample 24-1187 and the GIS boundary for the affected area within 15 minutes."
       },
       {
-        "speaker": "Director Albrecht",
-        "voiceStyle": "Male, late 50s, calm but firm, measured tone, slight pause between sentences",
-        "text": "Understood, Marcus. I’ve just received the field report from Night Operator Chen and the HMI override failure from Rios. Confirming: HMI still shows NAOH-FC-203 at 14 mg/L, but lab confirms 38 mg/L and pH 9.3. PSH-302 not tripped. Yes — this is a control-system anomaly. I’m initiating the advisory process now. I’ll notify the PIO and SCADA / IT Security Manager."
+        "speaker": "Denise Albrecht",
+        "voiceStyle": "Female, late 50s, calm, authoritative, deliberate pace",
+        "text": "Understood, Sarah. The lab result for Sample 24-1187 confirms pH 9.3 and caustic dose at 38 mg/L — both exceed the PLC hard limit of 40 mg/L. The control system is not reflecting actual feed rates. The affected area is Zone 1, as mapped in MDWS-MAP-2026, and includes all customers served by the Hilltop Tank and Northgate Reservoir. I am sending the GIS boundary via secure email now. We are activating the Do Not Drink advisory under MDWS-PCP-2026."
       },
       {
-        "speaker": "Marcus Oyelaran",
-        "voiceStyle": "Male, mid-50s, urgent, clipped speech, background lab hum",
-        "text": "Good. We must act before any downstream customers report symptoms. The 2-hour grab samples are now invalid — they’re from a compromised feed. We need to lock out the caustic feed and notify the EMA and Ohio EPA within 24 hours per C2. This is Tier 1."
+        "speaker": "Sarah Tran",
+        "voiceStyle": "Female, late 40s, professional, clipped tone, slight echo on line",
+        "text": "Confirmed. I will log this as a Level 3 public health emergency. The 24-hour reporting window under C1 applies. Please ensure the final advisory includes the full lab report and a statement on control-system integrity. I will notify the regional office and request a joint site assessment within 4 hours."
       },
       {
-        "speaker": "Director Albrecht",
-        "voiceStyle": "Male, late 50s, calm but firm, measured tone, slight pause between sentences",
-        "text": "Confirmed. I’m placing the call to the PIO now. We’ll follow MDWS-PCP-2026 for the statement. Hold on — I’m turning off the line for a second to alert the team."
+        "speaker": "Denise Albrecht",
+        "voiceStyle": "Female, late 50s, calm, authoritative, deliberate pace",
+        "text": "Affirmative. I am coordinating with the SCADA / IT Security Manager and the Distribution Superintendent to finalize the boundary. The advisory will be issued within 30 minutes. I’ll follow up with a formal report via CISA and WaterISAC as required. Thank you for your prompt response."
       }
     ],
     "postFx": [
@@ -110,18 +117,18 @@
   },
   "assets": [
     {
-      "id": "01M5H7CDY7A73T85KQDT17EQ5X",
+      "id": "01M5HWE884K72FDS3W3EC1CVJX",
       "kind": "image",
-      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H65R6RVT2A86M3DRS7Y7SK/01M5H7CDY7A73T85KQDT17EQ5X.png",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H65R6RVT2A86M3DRS7Y7SK/01M5HWE884K72FDS3W3EC1CVJX.png",
       "role": "rendered",
       "width": 816,
       "height": 1056,
-      "sha256": "7359cb42d1bca6795444565d927030e2958aed8de27065a643887b43fa2b580e",
+      "sha256": "6460d7b8c8f5cdbc3adc6a90e9f8c0a50c52d2e50e3585d98ffac993846ff1c7",
       "provenance": {
         "provider": "template",
         "templateId": "phone_call",
         "templateVersion": "1",
-        "createdAt": "2026-10-22T07:14:36.985Z"
+        "createdAt": "2026-10-22T13:22:36.732Z"
       }
     }
   ],
@@ -185,9 +192,69 @@
         "instructorNote": "Core narrative inject; the WQ Manager confirms the HMI is compromised and triggers the advisory decision process. Watch for the IC to initiate the approval chain and confirm the external reporting timeline.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-22T13:20:51.379Z",
+      "by": "ai",
+      "note": "regenerated",
+      "snapshot": {
+        "title": "Phone Call: Ohio EPA DDAGW — Level 3 Notification Confirmed",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "Central Operations Voice Recorder - CDR-01",
+          "callId": "CR-20261022-093512-0401",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Sarah Tran",
+            "number": "(555) 038-8800",
+            "label": "Ohio EPA DDAGW Central District"
+          },
+          "callee": {
+            "name": "Denise Albrecht",
+            "number": "(555) 031-2244",
+            "label": "Director of Water Operations"
+          },
+          "startTime": "10/22/2026 09:35:12",
+          "duration": "2:18",
+          "transcript": [
+            {
+              "speaker": "Sarah Tran",
+              "offset": "00:00",
+              "text": "This is Sarah Tran, Ohio EPA DDAGW Central District. I am receiving a Level 3 emergency notification from Millbrook DWS via the pre-scripted external reporting clock. I confirm receipt and will initiate the regulatory response. Please provide the lab result for Sample 24-1187 and the GIS boundary for the affected area within 15 minutes.",
+              "prompt": false
+            },
+            {
+              "speaker": "Denise Albrecht",
+              "offset": "00:42",
+              "text": "Understood, Sarah. The lab result for Sample 24-1187 confirms pH 9.3 and caustic dose at 38 mg/L — both exceed the PLC hard limit of 40 mg/L. The control system is not reflecting actual feed rates. The affected area is Zone 1, as mapped in MDWS-MAP-2026, and includes all customers served by the Hilltop Tank and Northgate Reservoir. I am sending the GIS boundary via secure email now. We are activating the Do Not Drink advisory under MDWS-PCP-2026.",
+              "prompt": false
+            },
+            {
+              "speaker": "Sarah Tran",
+              "offset": "01:18",
+              "text": "Confirmed. I will log this as a Level 3 public health emergency. The 24-hour reporting window under C1 applies. Please ensure the final advisory includes the full lab report and a statement on control-system integrity. I will notify the regional office and request a joint site assessment within 4 hours.",
+              "prompt": false
+            },
+            {
+              "speaker": "Denise Albrecht",
+              "offset": "01:50",
+              "text": "Affirmative. I am coordinating with the SCADA / IT Security Manager and the Distribution Superintendent to finalize the boundary. The advisory will be issued within 30 minutes. I’ll follow up with a formal report via CISA and WaterISAC as required. Thank you for your prompt response.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "Sarah Tran": "Female, late 40s, professional, clipped tone, slight echo on line",
+            "Denise Albrecht": "Female, late 50s, calm, authoritative, deliberate pace"
+          },
+          "injectId": "I-04"
+        },
+        "instructorNote": "Regulatory escalation inject; the IC must confirm lab data and GIS zone to the EPA, and the WQ and Distribution roles must validate the data and boundary. Watch for any delay in confirming the affected area or lab results.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T07:14:37.200Z"
+  "updatedAt": "2026-10-22T13:23:16.659Z"
 }

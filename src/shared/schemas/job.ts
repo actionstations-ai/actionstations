@@ -11,6 +11,7 @@ export const JobKind = z.enum([
   'rerun-stage',
   'generate-injects',
   'render-media',
+  'repair-scenario',
   'export',
 ])
 export type JobKind = z.infer<typeof JobKind>

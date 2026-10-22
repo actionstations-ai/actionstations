@@ -1,32 +1,49 @@
 {
   "id": "01M5H6DWT9XG48D9CB5QPF00TN",
   "mselRowId": "I-19c",
-  "type": "scenario_update",
+  "type": "regulatory_notice",
   "title": "Full Manual Operation Authorized — Public Health First",
-  "deliveryMode": "read_aloud",
+  "deliveryMode": "display_main_screen",
   "fields": {
-    "exerciseTime": "2:15",
-    "scenarioTime": "11:15",
-    "headline": "Full Manual Operation Declared",
-    "deliverTo": "All players",
-    "narration": "The Director of Water Operations has just made a final decision. She has declared the control system permanently off automation. All automatic control functions are suspended. The plant will now operate in full manual mode for up to 72 hours, with two certified operators on site at all times. The risk of another overfeed — or a failure to detect one — is too high to justify continuing in automatic. The emergency has been elevated to Level 3 under ERP Section 4.4. The OHWARN mutual-aid request has been initiated, and certified backup personnel are being dispatched. The shift will now run under manual control procedures as outlined in ERP Section 7.5.1 and C4.",
-    "keyFacts": [
-      "Full manual operation is now active",
-      "Two operators per shift required for 72 hours",
-      "OHWARN mutual-aid request initiated",
-      "Automatic control is suspended",
-      "ERP Section 7.5.1 and C4 apply"
+    "agency": "Ohio EPA",
+    "parent": "Ohio Department of Health",
+    "office": "DDAGW Central District",
+    "noticeType": "SD",
+    "number": "SD-OH-2026-1022-01",
+    "subject": "URGENT: Level 3 — Public Health Emergency — Immediate Action Required",
+    "issued": "October 22, 2026",
+    "effectiveDate": "October 22, 2026, 11:15",
+    "expirationDate": "October 25, 2026, 11:15",
+    "applicability": "City of Millbrook Department of Water & Sewer, all on-site and remote personnel operating under MDWS-ERP-2026 and MDWS-OTSEC-2026",
+    "authority": "Ohio Revised Code § 3745.02; 40 CFR 141.72",
+    "purpose": "The Ohio EPA DDAGW Central District has confirmed a Level 3 public health emergency in Zone 1 due to a confirmed caustic overfeed. The control system has been compromised and cannot be trusted to reflect real-time water quality. The pH of 9.6 and caustic dose of 37 mg/L in Sample 24-1189 exceed safe limits and pose a direct risk of chemical injury. The system's telemetry is no longer reliable. Immediate manual control is required to prevent further exposure.\n\nFailure to maintain full manual operation constitutes a violation of the Safe Drinking Water Act and the Ohio Water Quality Standards.",
+    "actions": [
+      "Immediately suspend all automatic control functions in the RWTP and distribution system.",
+      "Operate the plant under full manual control for up to 72 hours with two certified operators on site at all times.",
+      "Maintain the Do Not Drink advisory for Zone 1 until further notice and until verification is complete.",
+      "Report all manual actions to the Ohio EPA DDAGW Central District via the MDWS-PCP-2026 incident reporting portal within 15 minutes of each change.",
+      "Confirm that the HMI, SCADA, and PLC systems are isolated from external access and that no remote sessions are active.",
+      "Initiate the OHWARN mutual-aid request for certified backup operators and confirm arrival time within 2 hours."
     ],
-    "expectedAction": "The ICS team confirms the new operating mode and updates the incident status in the ERP log. The Operations Section Chief — Plant and the Technical Specialist — SCADA / Cyber validate the manual control handover and begin logging all actions on Form OPS-9."
+    "contact": "Questions: contact Carol Dugan, Ohio EPA DDAGW Central District, at (555) 038-7100 or carol.dugan@ohioepa.gov",
+    "approvedBy": {
+      "name": "Carol Dugan",
+      "title": "Director, DDAGW Central District",
+      "signature": "C. Dugan"
+    },
+    "handling": "SENSITIVE SECURITY INFORMATION",
+    "marking": "EXERCISE · EXERCISE · EXERCISE",
+    "notams": []
   },
-  "instructorNote": "This inject confirms the shift has made the irreversible decision to abandon automation. Watch for whether the team activates the OHWARN call and checks staffing compliance.",
+  "variant": "directive",
+  "instructorNote": "This inject confirms the final decision to enter full manual operation. Watch for the IC to formally authorize the shift, assign roles, and begin logging on Form OPS-9. Ensure the manual mode transition is documented and that no further automatic control attempts are made.",
   "citations": [
     {
-      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-      "headingPath": "ERP › Section 7 › 7.5 Cyber Incident › 7.5.1 Manual Operation",
-      "quote": "The plant can be run in manual for 72 hours with two operators per shift. Chemical feed pumps are set by their local stroke and speed dials; the High Service pumps run in HAND from the MCC; grab sampl",
-      "chunkId": 30
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 4 › 4.1 Types",
+      "quote": "| Type | When used (ERP Section 9 decides) | What the public is told to do | |---|---|---| | **Boil Water Advisory** | Loss of pressure below 20 psi in an area; a main break that depressurizes an area",
+      "chunkId": 108
     },
     {
       "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
@@ -38,9 +55,9 @@
     {
       "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
       "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-      "headingPath": "ERP › Section 3",
-      "quote": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
-      "chunkId": 9
+      "headingPath": "ERP › Section 7 › 7.5 Cyber Incident › 7.5.1 Manual Operation",
+      "quote": "The plant can be run in manual for 72 hours with two operators per shift. Chemical feed pumps are set by their local stroke and speed dials; the High Service pumps run in HAND from the MCC; grab sampl",
+      "chunkId": 30
     }
   ],
   "mediaBrief": {
@@ -50,18 +67,18 @@
   },
   "assets": [
     {
-      "id": "01M5H7CJQC0S4R9NNDNA8MNTMH",
+      "id": "01M5HWHJBPFC1Y9GA5MP7EW18G",
       "kind": "image",
-      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H6DWT9XG48D9CB5QPF00TN/01M5H7CJQC0S4R9NNDNA8MNTMH.png",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H6DWT9XG48D9CB5QPF00TN/01M5HWHJBPFC1Y9GA5MP7EW18G.png",
       "role": "rendered",
       "width": 816,
       "height": 1056,
-      "sha256": "6ed3e31c47c4a12bcc64ca8e38a0857b951327579770633586c824051c7d76a0",
+      "sha256": "f1d6b59d5d4cffbbb5c0499a182aabebd1f1d304e98be6bbb4d67be56e705f7d",
       "provenance": {
         "provider": "template",
-        "templateId": "scenario_update",
+        "templateId": "regulatory_notice",
         "templateVersion": "1",
-        "createdAt": "2026-10-22T07:14:41.890Z"
+        "createdAt": "2026-10-22T13:24:25.449Z"
       }
     }
   ],
@@ -91,9 +108,51 @@
         "instructorNote": "This inject confirms the shift has made the irreversible decision to abandon automation. Watch for whether the team activates the OHWARN call and checks staffing compliance.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-22T13:22:36.708Z",
+      "by": "ai",
+      "note": "regenerated",
+      "snapshot": {
+        "title": "Full Manual Operation Authorized — Public Health First",
+        "type": "regulatory_notice",
+        "fields": {
+          "agency": "Ohio EPA",
+          "parent": "Ohio Department of Health",
+          "office": "DDAGW Central District",
+          "noticeType": "SD",
+          "number": "SD-OH-2026-1022-01",
+          "subject": "URGENT: Level 3 — Public Health Emergency — Immediate Action Required",
+          "issued": "October 22, 2026",
+          "effectiveDate": "October 22, 2026, 11:15",
+          "expirationDate": "October 25, 2026, 11:15",
+          "applicability": "City of Millbrook Department of Water & Sewer, all on-site and remote personnel operating under MDWS-ERP-2026 and MDWS-OTSEC-2026",
+          "authority": "Ohio Revised Code § 3745.02; 40 CFR 141.72",
+          "purpose": "The Ohio EPA DDAGW Central District has confirmed a Level 3 public health emergency in Zone 1 due to a confirmed caustic overfeed. The control system has been compromised and cannot be trusted to reflect real-time water quality. The pH of 9.6 and caustic dose of 37 mg/L in Sample 24-1189 exceed safe limits and pose a direct risk of chemical injury. The system's telemetry is no longer reliable. Immediate manual control is required to prevent further exposure.\n\nFailure to maintain full manual operation constitutes a violation of the Safe Drinking Water Act and the Ohio Water Quality Standards.",
+          "actions": [
+            "Immediately suspend all automatic control functions in the RWTP and distribution system.",
+            "Operate the plant under full manual control for up to 72 hours with two certified operators on site at all times.",
+            "Maintain the Do Not Drink advisory for Zone 1 until further notice and until verification is complete.",
+            "Report all manual actions to the Ohio EPA DDAGW Central District via the MDWS-PCP-2026 incident reporting portal within 15 minutes of each change.",
+            "Confirm that the HMI, SCADA, and PLC systems are isolated from external access and that no remote sessions are active.",
+            "Initiate the OHWARN mutual-aid request for certified backup operators and confirm arrival time within 2 hours."
+          ],
+          "contact": "Questions: contact Carol Dugan, Ohio EPA DDAGW Central District, at (555) 038-7100 or carol.dugan@ohioepa.gov",
+          "approvedBy": {
+            "name": "Carol Dugan",
+            "title": "Director, DDAGW Central District",
+            "signature": "C. Dugan"
+          },
+          "handling": "SENSITIVE SECURITY INFORMATION",
+          "marking": "EXERCISE · EXERCISE · EXERCISE",
+          "notams": []
+        },
+        "instructorNote": "This inject confirms the final decision to enter full manual operation. Watch for the IC to formally authorize the shift, assign roles, and begin logging on Form OPS-9. Ensure the manual mode transition is documented and that no further automatic control attempts are made.",
+        "deliveryMode": "display_main_screen"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T07:14:42.101Z"
+  "updatedAt": "2026-10-22T13:24:25.677Z"
 }

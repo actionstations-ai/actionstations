@@ -6,6 +6,7 @@ import { briefWithThreat, profileFor } from '../../generate/domain'
 import { PIPELINE_STAGES } from '../../generate/engine'
 import { generateIdeas, readIdeas, rememberIdea, saveScenarioIdea } from '../../generate/ideas'
 import { startInjectJob, runInjectsJob, runMediaJob } from '../../generate/injects'
+import { runRepairJob } from '../../generate/repair'
 import { continueJob, registerScenarioResumers, rerunJob } from '../../generate/scenario-jobs'
 import { jobs } from '../../jobs/manager'
 import { AppError } from '../../lib/errors'
@@ -85,6 +86,19 @@ export default defineHandlers({
       root,
       scenarioId,
       (ctx) => runMediaJob(root, scenarioId, opts, ctx),
+      opts,
+    )
+    return { jobId: job.id }
+  },
+  // Repair in place (#185): owns the scenario like the inject jobs while it runs.
+  'generate:repair': async ({ projectPath, scenarioId, aiStills }) => {
+    const root = await requireProject(projectPath)
+    const opts = aiStills !== undefined ? { aiStills } : {}
+    const job = startInjectJob(
+      'repair-scenario',
+      root,
+      scenarioId,
+      (ctx) => runRepairJob(root, scenarioId, opts, ctx),
       opts,
     )
     return { jobId: job.id }

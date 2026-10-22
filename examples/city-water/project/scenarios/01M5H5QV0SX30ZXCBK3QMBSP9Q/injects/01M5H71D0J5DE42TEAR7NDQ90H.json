@@ -215,32 +215,267 @@
     "hmiNode": "MBW-HMI-01"
   },
   "variant": "water_chemical",
-  "instructorNote": "Display on the main screen. This is the moment the room can see the control system disagreeing with itself: the Control Room HMI shows the written setpoint and the acknowledged alarm; the Chemical Building HMI (MBW-HMI-02) was frozen by the remote session. Expect IT to call CODE CLEARWATER and start OT Plan 10.4; if they only argue about the number, prompt with \"who acknowledged the 08:31 alarm?\"",
-  "citations": [],
+  "instructorNote": "This inject confirms the HMI is compromised and displays false normalcy. The SCADA / IT team must verify the manual mode transition and initiate CODE CLEARWATER to isolate the system. Watch for any attempt to restore automatic control without verification.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+      "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+      "chunkId": 73
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.4 Suspected Setpoint Tampering Checklist",
+      "quote": "- [ ] Operator: read the current dose and setpoint for every chemical feed on MBW-HMI-02; compare with the dose table and the last grab sample; note any value above the normal band in Section 7.1 - [ ",
+      "chunkId": 85
+    },
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A",
+      "quote": "| Screen | Name | Contents | Where shown | |---|---|---|---| | OVW-1 | Plant Overview | Raw flow, plant flow, clearwell levels, finished water quality (AIT-301 to AIT-304), HSP status, zone pressures,",
+      "chunkId": 156
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+      "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
+      "chunkId": 29
+    }
+  ],
   "mediaBrief": {
     "paths": [
       "template"
     ]
   },
-  "assets": [
+  "assets": [],
+  "versions": [
     {
-      "id": "01M5H7CG6AAGP8HR4G1Q52ZJCT",
-      "kind": "image",
-      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H71D0J5DE42TEAR7NDQ90H/01M5H7CG6AAGP8HR4G1Q52ZJCT.png",
-      "role": "rendered",
-      "width": 1920,
-      "height": 1080,
-      "sha256": "e0c8b3a41ba37d576e4e0c8385d94f8ae826e296321ecec946ced20f3867b131",
-      "provenance": {
-        "provider": "template",
-        "templateId": "scada_hmi",
-        "templateVersion": "2",
-        "createdAt": "2026-10-22T07:14:39.272Z"
+      "at": "2026-10-22T13:21:55.700Z",
+      "by": "ai",
+      "note": "regenerated",
+      "snapshot": {
+        "title": "HMI: Chemical Feed screen on MBW-HMI-01 — caustic at 38 mg/L, pH 9.3 in alarm",
+        "type": "scada_hmi",
+        "fields": {
+          "systemName": "CHEMICAL FEED — CHM-2",
+          "site": "Riverside Water Treatment Plant",
+          "clock": "10:15:08",
+          "date": "22-OCT-2026",
+          "operator": "OPS_SHIFT_B",
+          "state": "critical",
+          "stateText": "AIT-302 pH HIGH 9.3",
+          "mode": "AUTO",
+          "equipment": [
+            {
+              "tag": "CL2-FC-201",
+              "label": "Pre-Chlorination Dose",
+              "kind": "pump",
+              "state": "running",
+              "value": "1.8",
+              "units": "mg/L",
+              "setpoint": "1.8",
+              "note": "FLOW PACED"
+            },
+            {
+              "tag": "CL2-FC-202",
+              "label": "Post-Chlorination Dose",
+              "kind": "pump",
+              "state": "running",
+              "value": "2.4",
+              "units": "mg/L",
+              "setpoint": "2.4",
+              "note": "RESIDUAL TRIM"
+            },
+            {
+              "tag": "NAOH-FC-203",
+              "label": "Caustic Dose",
+              "kind": "pump",
+              "state": "alarm",
+              "value": "37.6",
+              "units": "mg/L",
+              "setpoint": "38.0",
+              "note": "SP WRITE MBW-HMI-02 08:22 PIN"
+            },
+            {
+              "tag": "F-FC-204",
+              "label": "Fluoride Dose",
+              "kind": "pump",
+              "state": "running",
+              "value": "0.7",
+              "units": "mg/L",
+              "setpoint": "0.7"
+            },
+            {
+              "tag": "ALUM-FC-205",
+              "label": "Alum Dose",
+              "kind": "pump",
+              "state": "running",
+              "value": "22.0",
+              "units": "mg/L",
+              "setpoint": "22.0"
+            },
+            {
+              "tag": "POLY-FC-206",
+              "label": "Polymer Dose",
+              "kind": "pump",
+              "state": "running",
+              "value": "0.3",
+              "units": "mg/L",
+              "setpoint": "0.3"
+            },
+            {
+              "tag": "LIT-203",
+              "label": "Caustic Bulk Tank",
+              "kind": "tank",
+              "state": "running",
+              "value": "58",
+              "units": "%",
+              "note": "FALLING 0.9 %/H"
+            },
+            {
+              "tag": "LIT-201",
+              "label": "Hypochlorite Tank A",
+              "kind": "tank",
+              "state": "running",
+              "value": "71",
+              "units": "%"
+            },
+            {
+              "tag": "AIT-302",
+              "label": "Finished Water pH",
+              "kind": "sensor",
+              "state": "alarm",
+              "value": "9.3",
+              "units": "pH",
+              "setpoint": "7.6",
+              "note": "HI 8.5 ACK 08:31 @MBW-HMI-02"
+            },
+            {
+              "tag": "AIT-301",
+              "label": "Finished Cl2 Residual",
+              "kind": "sensor",
+              "state": "running",
+              "value": "1.4",
+              "units": "mg/L",
+              "setpoint": "1.5"
+            },
+            {
+              "tag": "PSH-302",
+              "label": "pH High-High Switch",
+              "kind": "sensor",
+              "state": "running",
+              "value": "ARMED",
+              "note": "TRIP 9.5 HARD-WIRED"
+            },
+            {
+              "tag": "FIT-501",
+              "label": "Plant Finished Flow",
+              "kind": "sensor",
+              "state": "running",
+              "value": "7.2",
+              "units": "MGD"
+            }
+          ],
+          "readings": [
+            {
+              "label": "Finished pH",
+              "value": "9.3",
+              "units": "pH",
+              "alarm": true
+            },
+            {
+              "label": "Caustic dose setpoint",
+              "value": "38.0",
+              "units": "mg/L"
+            },
+            {
+              "label": "Caustic dose PV",
+              "value": "37.6",
+              "units": "mg/L"
+            },
+            {
+              "label": "Finished Cl2 residual",
+              "value": "1.4",
+              "units": "mg/L"
+            },
+            {
+              "label": "Plant flow",
+              "value": "7.2",
+              "units": "MGD"
+            },
+            {
+              "label": "Clearwell 1 level",
+              "value": "13.8",
+              "units": "ft"
+            },
+            {
+              "label": "Raw turbidity",
+              "value": "4.1",
+              "units": "NTU"
+            },
+            {
+              "label": "Distribution pressure",
+              "value": "70",
+              "units": "psi"
+            }
+          ],
+          "alarms": [
+            {
+              "time": "10:12:40",
+              "priority": "2",
+              "tag": "AIT-302.HI",
+              "text": "FINISHED WATER pH HIGH 9.3",
+              "acked": false
+            },
+            {
+              "time": "09:58:03",
+              "priority": "4",
+              "tag": "SCADA.SESSION",
+              "text": "REMOTE SESSION MBW-HMI-02 dosatech_svc ACTIVE",
+              "acked": false
+            },
+            {
+              "time": "08:31:17",
+              "priority": "2",
+              "tag": "AIT-302.HI",
+              "text": "FINISHED WATER pH HIGH 8.6 — ACK OPS_SHIFT_B @MBW-HMI-02",
+              "acked": true
+            },
+            {
+              "time": "08:22:31",
+              "priority": "4",
+              "tag": "NAOH-FC-203.SP",
+              "text": "SETPOINT 35.0 → 38.0 mg/L PIN ACCEPTED MBW-HMI-02",
+              "acked": true
+            },
+            {
+              "time": "08:05:03",
+              "priority": "4",
+              "tag": "NAOH-FC-203.SP",
+              "text": "SETPOINT 14.0 → 25.0 mg/L PIN ACCEPTED MBW-HMI-02",
+              "acked": true
+            }
+          ],
+          "statusItems": [
+            "PLC-01 ONLINE",
+            "PLC-02 ONLINE",
+            "PLC-05 ONLINE",
+            "RTU-01 ONLINE",
+            "HISTORIAN ONLINE",
+            "REMOTE: JUMP 0 / SCREENBRIDGE 1"
+          ],
+          "hmiNode": "MBW-HMI-01"
+        },
+        "instructorNote": "This inject confirms the HMI is compromised and displays false normalcy. The SCADA / IT team must verify the manual mode transition and initiate CODE CLEARWATER to isolate the system. Watch for any attempt to restore automatic control without verification.",
+        "deliveryMode": "display_main_screen"
       }
     }
   ],
-  "versions": [],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T07:14:39.435Z"
+  "updatedAt": "2026-10-22T13:23:42.736Z"
 }

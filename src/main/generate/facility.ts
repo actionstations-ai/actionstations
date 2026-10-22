@@ -32,9 +32,13 @@ export interface FacilityFacts {
 
 export const EMPTY_FACTS: FacilityFacts = { categories: [], documentCount: 0 }
 
-/** The text itself says the identifier is bogus (attacker data, a data-integrity tell). */
-const FAKE_FRAMING =
-  /\b(?:no such|does not exist|doesn't exist|non-?existent|not a real|not exist|invalid|fake|bogus|impossible|phantom|fictitious|made-up|spoofed)\b/i
+/**
+ * The text itself says the identifier is bogus (attacker data, a data-integrity tell): "no
+ * such", "fake", and the inventory phrasings of a rogue device ("No record of GCS-12 in the
+ * fleet", "No GCS-12 exists", "not in the inventory").
+ */
+export const FAKE_FRAMING =
+  /\b(?:no such|does not exist|doesn't exist|non-?existent|not a real|not exist|invalid|fake|bogus|impossible|phantom|fictitious|made-up|spoofed|rogue|no record of|not (?:in|on) (?:the |our )?(?:fleet|inventory|baseline|asset list|roster)|no [\w-]+ (?:exists|has ever been issued|in (?:the )?(?:fleet|inventory)))\b/i
 
 /** Sentences that do not call an identifier fake (a plan may note "Gate Z99 does not exist"). */
 const realSentences = (text: string): string =>

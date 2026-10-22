@@ -2,62 +2,56 @@
   "id": "01M5H66JWKCW0NMJY2W1SS3123",
   "mselRowId": "I-06",
   "type": "phone_call",
-  "title": "Phone Call: Director Albrecht — Level 3 Declaration",
+  "title": "Phone Call: Carver County EMA — EOC Activation",
   "deliveryMode": "read_aloud",
   "fields": {
-    "orgName": "City of Millbrook Department of Water & Sewer",
-    "systemName": "MDWS-OTSEC-2026 Call Recorder",
-    "callId": "CR-20261022-095012-0401",
-    "direction": "Outbound",
+    "orgName": "Carver County Emergency Management Agency",
+    "systemName": "EMA-9000 Call Recorder",
+    "callId": "CR-20261022-095012-0402",
+    "direction": "Inbound",
     "caller": {
+      "name": "Thomas Greene",
+      "number": "(555) 034-1199",
+      "label": "Carver County EMA, EOC Operations Lead"
+    },
+    "callee": {
       "name": "Denise Albrecht",
       "number": "(555) 031-2244",
       "label": "Director of Water Operations"
     },
-    "callee": {
-      "name": "Ohio EPA DDAGW Central District",
-      "number": "(555) 038-8800",
-      "label": "DDAGW Central District"
-    },
     "startTime": "10/22/2026 09:50:12",
-    "duration": "1:12",
+    "duration": "0:58",
     "transcript": [
       {
         "speaker": "Caller",
         "offset": "00:00",
-        "text": "This is Denise Albrecht, Director of Water Operations, City of Millbrook. I am declaring a Level 3 — Public Health Emergency — under ERP Section 4.4. The control system has been compromised, and the finished water pH is 9.3 with caustic at 38 mg/L. I am activating the Section 7.5 Manual Operation protocol. I am notifying the Ohio EPA DDAGW Central District via the pre-scripted external reporting clock (Section 5.3). I am authorizing the advisory decision process.",
+        "text": "This is Thomas Greene, Carver County EMA. I have activated the County EOC and am deploying the Joint Information Center (JIC). I am directing the Public Information Officer to begin issuing public advisories per MDWS-PCP-2026, Section 10. I require confirmation of the affected zone and a public statement within 30 minutes.",
         "prompt": false
       },
       {
         "speaker": "Callee",
-        "offset": "00:38",
-        "text": "Director Albrecht, this is Jennifer Vance, DDAGW Central District. We have received your Level 3 declaration. We will begin documentation and notify the Health Commissioner. Please proceed with the advisory release protocol.",
+        "offset": "00:33",
+        "text": "Understood, Thomas. I am confirming the affected zone is Zone 1, including Valley and Hilltop areas. The advisory will be issued under the Do Not Drink protocol. I am authorizing the Public Information Officer to proceed with the Section 10 template immediately.",
         "prompt": false
       },
       {
         "speaker": "Caller",
-        "offset": "00:51",
-        "text": "Understood. I am initiating the advisory decision process with the Water Quality Manager and Public Information Officer. We will follow the ERP timeline. This is a Do Not Drink emergency. I will confirm contact with the Mayor’s office within 15 minutes.",
-        "prompt": false
-      },
-      {
-        "speaker": "Callee",
-        "offset": "01:02",
-        "text": "Confirmed. We are monitoring. DDAGW will not intervene unless directed. Please keep us updated.",
+        "offset": "00:49",
+        "text": "Confirmed. The County EOC is now active. We will begin coordinating with the Health Department and the FBI through the joint cyber-incident cell. You have 30 minutes to publish the first advisory. I will expect a progress update in 15 minutes.",
         "prompt": false
       }
     ],
     "voiceStyles": {},
     "injectId": "I-06"
   },
-  "instructorNote": "This inject confirms the Level 3 declaration and triggers the advisory release cascade. Watch for timely activation of the media release sequence and proper use of the ERP timeline by the PIO and WQ.",
+  "instructorNote": "This inject triggers the public advisory release sequence. The PIO must now initiate the full public statement rollout using the Section 10 template and confirm the affected zone with GIS. Watch for delays in the statement issuance.",
   "citations": [
     {
       "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
       "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-      "headingPath": "ERP › Section 5 › 5.2 Internal Call-Down",
-      "quote": "| Step | From | To | Time limit | |---|---|---|---| | 1 | Person observing | RWTP Control Room (555) 031-2244 | Immediately (radio DWS-1 or phone) | | 2 | Duty operator | Plant Superintendent (Ray Cas",
-      "chunkId": 15
+      "headingPath": "ERP › Section 10",
+      "quote": "The PIO runs all public and media communication under MDWS-PCP-2026, from the Joint Information Center with Carver County EMA when the County EOC is active. Channels: MillbrookAlert (31,000 registrati",
+      "chunkId": 43
     },
     {
       "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
@@ -69,16 +63,9 @@
     {
       "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
       "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-      "headingPath": "ERP › Section 5 › 5.1 General",
-      "quote": "Notifications are made by telephone with a voice read-back and logged on ERP-1 (time, person reached, message, call-back number). Email, MillbrookAlert and text are supplementary. If a primary contact",
-      "chunkId": 14
-    },
-    {
-      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
-      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
-      "headingPath": "City of Millbrook Department of… › Section 5 › 5.1 Targets",
-      "quote": "| Step | Target from the Director's decision | Who | |---|---|---| | Critical-customer phone calls complete | 60 minutes (hospital and Carver Kidney Center within 15 minutes) | Customer Service Lead a",
-      "chunkId": 111
+      "headingPath": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+      "quote": "- Loss of disinfection (finished chlorine residual below 0.2 mg/L entering distribution) or any confirmed or credible contamination of source, plant or distribution water. - A Boil Water, Do Not Drink",
+      "chunkId": 13
     }
   ],
   "mediaBrief": {
@@ -89,23 +76,18 @@
     "voiceLines": [
       {
         "speaker": "Caller",
-        "voiceStyle": "calm female dispatcher in her 40s, measured, slight Midwestern accent",
-        "text": "This is Denise Albrecht, Director of Water Operations, City of Millbrook. I am declaring a Level 3 — Public Health Emergency — under ERP Section 4.4. The control system has been compromised, and the finished water pH is 9.3 with caustic at 38 mg/L. I am activating the Section 7.5 Manual Operation protocol. I am notifying the Ohio EPA DDAGW Central District via the pre-scripted external reporting clock (Section 5.3). I am authorizing the advisory decision process."
+        "voiceStyle": "calm male EMA operations lead, mid-50s, measured pace, slight Minnesota accent",
+        "text": "This is Thomas Greene, Carver County EMA. I have activated the County EOC and am deploying the Joint Information Center (JIC). I am directing the Public Information Officer to begin issuing public advisories per MDWS-PCP-2026, Section 10. I require confirmation of the affected zone and a public statement within 30 minutes."
       },
       {
         "speaker": "Callee",
-        "voiceStyle": "professional female voice, mid-40s, calm, precise, Eastern U.S. accent",
-        "text": "Director Albrecht, this is Jennifer Vance, DDAGW Central District. We have received your Level 3 declaration. We will begin documentation and notify the Health Commissioner. Please proceed with the advisory release protocol."
+        "voiceStyle": "calm female water operations director, late 40s, steady and precise, slight Midwest inflection",
+        "text": "Understood, Thomas. I am confirming the affected zone is Zone 1, including Valley and Hilltop areas. The advisory will be issued under the Do Not Drink protocol. I am authorizing the Public Information Officer to proceed with the Section 10 template immediately."
       },
       {
         "speaker": "Caller",
-        "voiceStyle": "determined female voice, 50s, steady, low urgency",
-        "text": "Understood. I am initiating the advisory decision process with the Water Quality Manager and Public Information Officer. We will follow the ERP timeline. This is a Do Not Drink emergency. I will confirm contact with the Mayor’s office within 15 minutes."
-      },
-      {
-        "speaker": "Callee",
-        "voiceStyle": "neutral male voice, mid-50s, calm, deliberate, Ohio regional accent",
-        "text": "Confirmed. We are monitoring. DDAGW will not intervene unless directed. Please keep us updated."
+        "voiceStyle": "calm male EMA operations lead, mid-50s, measured pace, slight Minnesota accent",
+        "text": "Confirmed. The County EOC is now active. We will begin coordinating with the Health Department and the FBI through the joint cyber-incident cell. You have 30 minutes to publish the first advisory. I will expect a progress update in 15 minutes."
       }
     ],
     "postFx": [
@@ -114,18 +96,18 @@
   },
   "assets": [
     {
-      "id": "01M5H7CEE3T80NZQKYSTZ888WB",
+      "id": "01M5HWFF61C1BPWA9GNVA8CHKF",
       "kind": "image",
-      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H66JWKCW0NMJY2W1SS3123/01M5H7CEE3T80NZQKYSTZ888WB.png",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H66JWKCW0NMJY2W1SS3123/01M5HWFF61C1BPWA9GNVA8CHKF.png",
       "role": "rendered",
       "width": 816,
       "height": 1056,
-      "sha256": "7b437a1fd9264bb123a83d4a4c1e262e3b507413fa7dc5f2048fa10c7dffa955",
+      "sha256": "c9549c0aac32e928232877d9f790110abf2fc3b6cd21f3ee7beb170ed12d0a9b",
       "provenance": {
         "provider": "template",
         "templateId": "phone_call",
         "templateVersion": "1",
-        "createdAt": "2026-10-22T07:14:37.495Z"
+        "createdAt": "2026-10-22T13:23:16.664Z"
       }
     }
   ],
@@ -186,9 +168,60 @@
         "instructorNote": "This inject confirms the Level 3 declaration and triggers the advisory release cascade. Watch for timely activation of the media release sequence and proper use of the ERP timeline by the PIO and WQ.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-22T13:21:02.958Z",
+      "by": "ai",
+      "note": "regenerated",
+      "snapshot": {
+        "title": "Phone Call: Carver County EMA — EOC Activation",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Carver County Emergency Management Agency",
+          "systemName": "EMA-9000 Call Recorder",
+          "callId": "CR-20261022-095012-0402",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Thomas Greene",
+            "number": "(555) 034-1199",
+            "label": "Carver County EMA, EOC Operations Lead"
+          },
+          "callee": {
+            "name": "Denise Albrecht",
+            "number": "(555) 031-2244",
+            "label": "Director of Water Operations"
+          },
+          "startTime": "10/22/2026 09:50:12",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "Caller",
+              "offset": "00:00",
+              "text": "This is Thomas Greene, Carver County EMA. I have activated the County EOC and am deploying the Joint Information Center (JIC). I am directing the Public Information Officer to begin issuing public advisories per MDWS-PCP-2026, Section 10. I require confirmation of the affected zone and a public statement within 30 minutes.",
+              "prompt": false
+            },
+            {
+              "speaker": "Callee",
+              "offset": "00:33",
+              "text": "Understood, Thomas. I am confirming the affected zone is Zone 1, including Valley and Hilltop areas. The advisory will be issued under the Do Not Drink protocol. I am authorizing the Public Information Officer to proceed with the Section 10 template immediately.",
+              "prompt": false
+            },
+            {
+              "speaker": "Caller",
+              "offset": "00:49",
+              "text": "Confirmed. The County EOC is now active. We will begin coordinating with the Health Department and the FBI through the joint cyber-incident cell. You have 30 minutes to publish the first advisory. I will expect a progress update in 15 minutes.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-06"
+        },
+        "instructorNote": "This inject triggers the public advisory release sequence. The PIO must now initiate the full public statement rollout using the Section 10 template and confirm the affected zone with GIS. Watch for delays in the statement issuance.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T07:14:37.711Z"
+  "updatedAt": "2026-10-22T13:23:42.565Z"
 }

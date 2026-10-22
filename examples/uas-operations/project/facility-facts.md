@@ -16,7 +16,6 @@ extracted version, use "Reset to extracted facts" on the Facility facts screen (
 versions are kept in `.cache/facility-facts-history/`).
 
 ## Flight sites / test areas
-
 <!-- category: flight_sites -->
 
 - Birch Hollow Range
@@ -26,7 +25,6 @@ versions are kept in `.cache/facility-facts-history/`).
 - Quarry Flight Area
 
 ## Airframes (tail / serial numbers)
-
 <!-- category: airframes -->
 
 - UAS-01
@@ -43,7 +41,6 @@ versions are kept in `.cache/facility-facts-history/`).
 - UAS-12
 
 ## Ground control stations
-
 <!-- category: gcs_hosts -->
 
 - GCS-01
@@ -54,7 +51,6 @@ versions are kept in `.cache/facility-facts-history/`).
 - GCS-06
 
 ## Radio links / frequencies
-
 <!-- category: frequencies -->
 
 - 2.4 GHz
@@ -67,13 +63,11 @@ versions are kept in `.cache/facility-facts-history/`).
 - 928 MHz
 
 ## Payloads / sensors
-
 <!-- category: payloads -->
 
 _None found in the documents._
 
 ## Airspace / LAANC ceilings
-
 <!-- category: airspace -->
 
 - Class C
@@ -85,7 +79,6 @@ _None found in the documents._
 - grid ceiling of 200 ft
 
 ## Hangars / labs
-
 <!-- category: hangars -->
 
 - Hangar 1
@@ -93,7 +86,6 @@ _None found in the documents._
 - Hangar 3
 
 ## Locations / areas
-
 <!-- category: locations -->
 
 - Level 1
@@ -101,13 +93,11 @@ _None found in the documents._
 - Level 3
 
 ## Assets / equipment
-
 <!-- category: assets -->
 
 _None found in the documents._
 
 ## Systems / hosts
-
 <!-- category: hosts -->
 
 - HUOG-ERP-2026
@@ -181,7 +171,6 @@ _None found in the documents._
 - ECR-2025-07
 
 ## Networks / IP ranges
-
 <!-- category: networks -->
 
 - 10.17.40.x
@@ -190,7 +179,6 @@ _None found in the documents._
 - 192.168.88.x
 
 ## Phone numbers
-
 <!-- category: phones -->
 
 - (585) 555-0140
@@ -216,7 +204,6 @@ _None found in the documents._
 - (585) 555-0157
 
 ## Agencies / contacts
-
 <!-- category: agencies -->
 
 - Harwick Police Department

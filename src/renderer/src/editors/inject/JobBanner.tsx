@@ -12,6 +12,7 @@ const KIND_LABEL: Partial<Record<JobKind, string>> = {
   'render-media': 'Rendering media',
   'generate-scenario': 'Generating the scenario',
   'rerun-stage': 'Re-running a stage',
+  'repair-scenario': 'Repairing the scenario',
 }
 
 export function JobBanner(props: {

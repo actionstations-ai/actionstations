@@ -35,15 +35,15 @@ The **Director of Flight Operations (Devin Alcott)** is the Group's Incident Com
 
 ### 2.2 Group incident team
 
-| Position                          | Holder                                                         | Alternate                  |
-| --------------------------------- | -------------------------------------------------------------- | -------------------------- |
-| Incident Commander                | Director of Flight Operations                                  | Aviation Safety Officer    |
-| Safety and notifications          | Aviation Safety Officer                                        | General Manager            |
-| Technical lead (links, GCS, data) | Systems & Cybersecurity Lead (Tomás Reyes)                     | Payload & Calibration Lead |
-| Site and logistics                | Fleet & Logistics Manager (Owen Castellano)                    | Campaign Lead              |
-| Liaison to Harwick Police / CCSO  | Fleet & Logistics Manager                                      | Aviation Safety Officer    |
-| Communications liaison            | General Manager with Corporate Communications (Celeste Marrow) | —                          |
-| Scribe                            | Flight operations desk trainee assistant                       | GSO                        |
+| Position | Holder | Alternate |
+|---|---|---|
+| Incident Commander | Director of Flight Operations | Aviation Safety Officer |
+| Safety and notifications | Aviation Safety Officer | General Manager |
+| Technical lead (links, GCS, data) | Systems & Cybersecurity Lead (Tomás Reyes) | Payload & Calibration Lead |
+| Site and logistics | Fleet & Logistics Manager (Owen Castellano) | Campaign Lead |
+| Liaison to Harwick Police / CCSO | Fleet & Logistics Manager | Aviation Safety Officer |
+| Communications liaison | General Manager with Corporate Communications (Celeste Marrow) | — |
+| Scribe | Flight operations desk trainee assistant | GSO |
 
 ### 2.3 Where the team works
 
@@ -55,11 +55,11 @@ The scribe keeps a timed log from the first call: who reported, what was seen, e
 
 ## SECTION 3: INCIDENT LEVELS
 
-| Level                        | Definition                                                                                                                                                                                                                                                                                                                                                         | Declared by      | Response                                                                                                                                                                            |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Level 1 — Abnormal event** | Lost link with successful RTL; hard landing without damage beyond props; geofence hold; LAANC lapse; public complaint; an unknown drone seen near a Group site; battery warning without heat                                                                                                                                                                       | RPIC             | Flight day may continue after the RPIC and FOM agree; same-day report to the FOM and ASO; aircraft inspected if involved                                                            |
-| **Level 2 — Incident**       | Crash or hard landing with airframe or payload damage; flyaway recovered within the flight area; minor injury treated on site; battery smoke or fire contained; drone of unknown origin repeatedly over a Group site; GNSS or link interference suspected; a Group aircraft outside its geofence                                                                   | RPIC or FOM      | Flights stop at the site; IC and incident team activated; notifications per Section 6; aircraft and GCS quarantined                                                                 |
-| **Level 3 — Emergency**      | Flyaway leaving the flight area or heading toward the Class C airspace or any manned aircraft; any injury needing EMS; fire not immediately contained; crash onto a road, a building, the lodge, Millstone County Park or private property; any event during a public event at the adjacent Harwick Fairgrounds; any event likely to draw media or law enforcement | RPIC, FOM or ASO | 911 first; all Group flights stop; Harwick Police or CCSO on scene; General Manager and Corporate Communications notified within 15 minutes; regulatory notifications per Section 6 |
+| Level | Definition | Declared by | Response |
+|---|---|---|---|
+| **Level 1 — Abnormal event** | Lost link with successful RTL; hard landing without damage beyond props; geofence hold; LAANC lapse; public complaint; an unknown drone seen near a Group site; battery warning without heat | RPIC | Flight day may continue after the RPIC and FOM agree; same-day report to the FOM and ASO; aircraft inspected if involved |
+| **Level 2 — Incident** | Crash or hard landing with airframe or payload damage; flyaway recovered within the flight area; minor injury treated on site; battery smoke or fire contained; drone of unknown origin repeatedly over a Group site; GNSS or link interference suspected; a Group aircraft outside its geofence | RPIC or FOM | Flights stop at the site; IC and incident team activated; notifications per Section 6; aircraft and GCS quarantined |
+| **Level 3 — Emergency** | Flyaway leaving the flight area or heading toward the Class C airspace or any manned aircraft; any injury needing EMS; fire not immediately contained; crash onto a road, a building, the lodge, Millstone County Park or private property; any event during a public event at the adjacent Harwick Fairgrounds; any event likely to draw media or law enforcement | RPIC, FOM or ASO | 911 first; all Group flights stop; Harwick Police or CCSO on scene; General Manager and Corporate Communications notified within 15 minutes; regulatory notifications per Section 6 |
 
 A level may be declared directly. The IC may raise a level at any time; only the IC lowers one.
 
@@ -97,20 +97,20 @@ An aircraft in the lake or Millstone Creek is not recovered by the crew. The IC 
 
 ### 6.1 Notification order
 
-| Order | Who                                                        | When                                                                                                                                                                     | By whom                                |
-| ----- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
-| 1     | 911 (fire, EMS, law enforcement)                           | Immediately for Level 3 with injury, fire or a public hazard                                                                                                             | Anyone                                 |
-| 2     | HWK Air Traffic Control Tower (exercise line 585-555-0199) | Immediately for a flyaway or loss of control that may enter the Class C surface area or exceed 400 ft AGL; otherwise within 5 minutes of any flyaway                     | RPIC                                   |
-| 3     | Flight operations desk (585-555-0140) → FOM (IC)           | Immediately                                                                                                                                                              | RPIC or GSO                            |
-| 4     | Harwick Police Department (585-555-0111)                   | Immediately for any Level 2 or 3 at the base; within 15 minutes for a Birch Hollow Range Level 3                                                                         | Fleet & Logistics Manager or IC        |
-| 5     | CCSO (911 or 585-555-0120)                                 | Immediately for a Birch Hollow Range Level 3; for any aircraft lost outside the property; for any unknown drone that persists (Section 8.4)                              | IC or SSL                              |
-| 6     | Aviation Safety Officer                                    | Within 15 minutes of any Level 2 or 3                                                                                                                                    | IC                                     |
-| 7     | General Manager                                            | Within 15 minutes of any Level 3; same day for Level 2                                                                                                                   | ASO                                    |
-| 8     | Corporate Communications (585-555-0160)                    | Within 15 minutes of any Level 3 or any event with a witness, a post or a reporter                                                                                       | General Manager                        |
-| 9     | Systems & Cybersecurity Lead                               | Immediately for any lost link, flyaway, GNSS anomaly, unexpected parameter change or GCS behaviour; within 1 hour otherwise                                              | IC                                     |
-| 10    | managed SOC (585-555-0155)                                 | Within 1 hour when a cyber cause is suspected (HUOG-ISP Section 9)                                                                                                       | Systems & Cybersecurity Lead           |
-| 11    | Client program office                                      | Within 24 hours when client data, a client deliverable or a client-owned instrument is affected; immediately if client data may have been exposed (HUOG-ISP Section 7.5) | General Manager with the Campaign Lead |
-| 12    | Compliance Officer (585-555-0165)                          | Same day when PL-02 or controlled data is lost, stolen or exposed                                                                                                        | Systems & Cybersecurity Lead           |
+| Order | Who | When | By whom |
+|---|---|---|---|
+| 1 | 911 (fire, EMS, law enforcement) | Immediately for Level 3 with injury, fire or a public hazard | Anyone |
+| 2 | HWK Air Traffic Control Tower (exercise line 585-555-0199) | Immediately for a flyaway or loss of control that may enter the Class C surface area or exceed 400 ft AGL; otherwise within 5 minutes of any flyaway | RPIC |
+| 3 | Flight operations desk (585-555-0140) → FOM (IC) | Immediately | RPIC or GSO |
+| 4 | Harwick Police Department (585-555-0111) | Immediately for any Level 2 or 3 at the base; within 15 minutes for a Birch Hollow Range Level 3 | Fleet & Logistics Manager or IC |
+| 5 | CCSO (911 or 585-555-0120) | Immediately for a Birch Hollow Range Level 3; for any aircraft lost outside the property; for any unknown drone that persists (Section 8.4) | IC or SSL |
+| 6 | Aviation Safety Officer | Within 15 minutes of any Level 2 or 3 | IC |
+| 7 | General Manager | Within 15 minutes of any Level 3; same day for Level 2 | ASO |
+| 8 | Corporate Communications (585-555-0160) | Within 15 minutes of any Level 3 or any event with a witness, a post or a reporter | General Manager |
+| 9 | Systems & Cybersecurity Lead | Immediately for any lost link, flyaway, GNSS anomaly, unexpected parameter change or GCS behaviour; within 1 hour otherwise | IC |
+| 10 | managed SOC (585-555-0155) | Within 1 hour when a cyber cause is suspected (HUOG-ISP Section 9) | Systems & Cybersecurity Lead |
+| 11 | Client program office | Within 24 hours when client data, a client deliverable or a client-owned instrument is affected; immediately if client data may have been exposed (HUOG-ISP Section 7.5) | General Manager with the Campaign Lead |
+| 12 | Compliance Officer (585-555-0165) | Same day when PL-02 or controlled data is lost, stolen or exposed | Systems & Cybersecurity Lead |
 
 ### 6.2 Regulatory notifications (ASO)
 
@@ -234,29 +234,29 @@ Within one week of any Level 2 or 3, the IC runs a one-hour hot wash with the cr
 
 ## ANNEX A: CONTACT LIST (EXERCISE NUMBERS)
 
-| Party                                                | Number             | Notes                                             |
-| ---------------------------------------------------- | ------------------ | ------------------------------------------------- |
-| Emergency                                            | 911                | Fire, EMS, law enforcement                        |
-| Harwick Police Department                            | 585-555-0111       | 24 h; base first responder; event command post    |
-| Flight operations desk, Hangar 2                     | 585-555-0140       | Staffed during campaigns; Crew Ch 3 repeater      |
-| Devin Alcott, FOM (IC)                               | 585-555-0141       | Mobile                                            |
-| Priya Natarajan, ASO                                 | 585-555-0142       | Mobile                                            |
-| Tomás Reyes, Systems & Cybersecurity Lead            | 585-555-0143       | Mobile                                            |
-| Hannah Whitlock, Payload & Calibration Lead          | 585-555-0144       | Mobile                                            |
-| Owen Castellano, Fleet & Logistics Manager           | 585-555-0145       | Mobile                                            |
-| Marguerite Ostrowski, General Manager                | 585-555-0146       | Mobile                                            |
-| Corporate Communications (Celeste Marrow)            | 585-555-0160       | Media, social, holding statements                 |
-| managed SOC                                          | 585-555-0155       | 24 h                                              |
-| IT helpdesk (ITSM)                                   | 585-555-0150       | Tickets                                           |
-| Compliance Officer (Dana Kurtz)                      | 585-555-0165       | Business hours                                    |
-| Calder County Sheriff's Office                       | 911 / 585-555-0120 | Birch Hollow Range; drone complaints; marine unit |
-| Dunmore Fire District                                | 911                | Birch Hollow Range fire/EMS                       |
-| Birch Hollow Lodge property manager (Rosa Lindqvist) | 585-555-0170       | Gate, lodge, events                               |
-| HWK Air Traffic Control Tower                        | 585-555-0199       | Exercise line — flyaway / incursion               |
-| FAA Harwick FSDO                                     | 585-555-0188       | Exercise line — accidents, incidents              |
-| NTSB Response Operations Center                      | 585-555-0177       | Exercise line                                     |
-| CP&L program office (Felix Amundsen)                 | 585-555-0180       | Utility inspection client                         |
-| CVAC (Marisol Reyes-Tanaka)                          | 585-555-0185       | Agricultural cooperative partner                  |
+| Party | Number | Notes |
+|---|---|---|
+| Emergency | 911 | Fire, EMS, law enforcement |
+| Harwick Police Department | 585-555-0111 | 24 h; base first responder; event command post |
+| Flight operations desk, Hangar 2 | 585-555-0140 | Staffed during campaigns; Crew Ch 3 repeater |
+| Devin Alcott, FOM (IC) | 585-555-0141 | Mobile |
+| Priya Natarajan, ASO | 585-555-0142 | Mobile |
+| Tomás Reyes, Systems & Cybersecurity Lead | 585-555-0143 | Mobile |
+| Hannah Whitlock, Payload & Calibration Lead | 585-555-0144 | Mobile |
+| Owen Castellano, Fleet & Logistics Manager | 585-555-0145 | Mobile |
+| Marguerite Ostrowski, General Manager | 585-555-0146 | Mobile |
+| Corporate Communications (Celeste Marrow) | 585-555-0160 | Media, social, holding statements |
+| managed SOC | 585-555-0155 | 24 h |
+| IT helpdesk (ITSM) | 585-555-0150 | Tickets |
+| Compliance Officer (Dana Kurtz) | 585-555-0165 | Business hours |
+| Calder County Sheriff's Office | 911 / 585-555-0120 | Birch Hollow Range; drone complaints; marine unit |
+| Dunmore Fire District | 911 | Birch Hollow Range fire/EMS |
+| Birch Hollow Lodge property manager (Rosa Lindqvist) | 585-555-0170 | Gate, lodge, events |
+| HWK Air Traffic Control Tower | 585-555-0199 | Exercise line — flyaway / incursion |
+| FAA Harwick FSDO | 585-555-0188 | Exercise line — accidents, incidents |
+| NTSB Response Operations Center | 585-555-0177 | Exercise line |
+| CP&L program office (Felix Amundsen) | 585-555-0180 | Utility inspection client |
+| CVAC (Marisol Reyes-Tanaka) | 585-555-0185 | Agricultural cooperative partner |
 
 ## ANNEX B: INCIDENT REPORT FORM (FOM-4) — FIELDS
 

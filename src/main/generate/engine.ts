@@ -1,7 +1,8 @@
 // The pipeline engine (#25): a fixed stage order with msel_phase expanded per phase, one
 // StageRun per step kept in scenario.provenance, a checkpoint (scenario.json) after every
 // step, resume from the first step without an ok run, and re-run of a single step that marks
-// everything downstream stale (never auto-rerun).
+// everything downstream stale (never auto-rerun). The exported step helpers are shared with
+// repair-msel.ts (generate:repair), which runs the same repairs on a finished scenario.
 import {
   exerciseMinutes,
   type BriefingOutput,
@@ -100,7 +101,7 @@ export const CITATION_DROPPED = 'CITATION_DROPPED'
 export const ROLE_KEY_UNKNOWN = 'ROLE_KEY_UNKNOWN'
 export const LOCATION_UNGROUNDED = 'LOCATION_UNGROUNDED'
 /** Warnings the mappers record while generating; kept when the lints are recomputed. */
-const PIPELINE_WARNINGS = new Set([
+export const PIPELINE_WARNINGS = new Set([
   CITATION_DROPPED,
   ROLE_KEY_UNKNOWN,
   LOCATION_UNGROUNDED,
@@ -108,7 +109,7 @@ const PIPELINE_WARNINGS = new Set([
   DECISION_POINT_RETAGGED,
 ])
 /** rowId the overview's dropped citations are recorded under. */
-const OVERVIEW_ROW = 'overview'
+export const OVERVIEW_ROW = 'overview'
 
 /** Drop the pipeline warnings a step is about to record again, so re-runs never pile them up. */
 function clearPipelineWarnings(s: Scenario, owned: (w: LintWarning) => boolean): void {
@@ -159,7 +160,7 @@ export function markStale(s: Scenario, step: StepKey): StepKey[] {
   return stale
 }
 
-interface Env {
+export interface Env {
   root: string
   deps: PipelineDeps
   index: SearchIndex
@@ -171,18 +172,18 @@ interface Env {
   ctx: JobContext
 }
 
-interface StepInput {
+export interface StepInput {
   env: Env
   scenario: Scenario
   step: StepKey
   instructions?: string
 }
 
-const save = (env: Env, s: Scenario, note: string): Promise<Scenario> =>
+export const save = (env: Env, s: Scenario, note: string): Promise<Scenario> =>
   env.deps.store.saveScenario(env.root, s, { by: 'ai', snapshot: false, note })
 
 /** Write a document; the store records its path in scenario.json, so mirror that in memory. */
-async function writeDoc(
+export async function writeDoc(
   env: Env,
   s: Scenario,
   kind: 'overview' | 'handbook' | 'briefing' | 'hotwash',
@@ -218,7 +219,10 @@ function noteDropped(
 }
 
 /** Run the step's prompt; citation keys written into prose are stripped from the output. */
-async function call<T>(input: StepInput, vars: Record<string, unknown>): Promise<StageResult<T>> {
+export async function call<T>(
+  input: StepInput,
+  vars: Record<string, unknown>,
+): Promise<StageResult<T>> {
   const { env, step } = input
   const result = await runStage<T>({
     stage: step.stage,
@@ -307,7 +311,11 @@ async function stepPhasePlan(input: StepInput): Promise<StageRun> {
  * Variables for one msel_phase call. `withCurrent` (mix and revision passes) counts the
  * phase's own rows when numbering; a fresh pass counts earlier phases and locked rows only.
  */
-function mselVars(input: StepInput, phase: Phase, withCurrent = false): Record<string, unknown> {
+export function mselVars(
+  input: StepInput,
+  phase: Phase,
+  withCurrent = false,
+): Record<string, unknown> {
   const s = input.scenario
   const prior = s.msel.filter((r) => {
     const p = s.phases.find((x) => x.id === r.phaseId)
@@ -343,7 +351,7 @@ function mselVars(input: StepInput, phase: Phase, withCurrent = false): Record<s
 }
 
 /** Log and record what the mapper changed; `owned` rows' earlier pipeline warnings are replaced. */
-function reportMapping(
+export function reportMapping(
   s: Scenario,
   phase: Phase,
   mapped: MselMapResult,
@@ -404,7 +412,7 @@ function rekeyCitations(
   }))
 }
 
-const sumTokens = (into: StageRun, run: StageRun): void => {
+export const sumTokens = (into: StageRun, run: StageRun): void => {
   into.inputTokens = (into.inputTokens ?? 0) + (run.inputTokens ?? 0)
   into.outputTokens = (into.outputTokens ?? 0) + (run.outputTokens ?? 0)
   into.costUsd = (into.costUsd ?? 0) + (run.costUsd ?? 0)
@@ -539,7 +547,7 @@ function trimOverfill(input: StepInput, phase: Phase): void {
 }
 
 /** Log the deterministic structural repairs; true when anything changed. */
-function reportStructure(
+export function reportStructure(
   fix: StructureRepair,
   ctx: JobContext,
   extra: { stage: Stage; itemId?: string },
@@ -753,7 +761,7 @@ async function requireSpecificSources(
  * A revision that fails (invalid output after the repair round, a provider error) is skipped
  * and logged: the original rows stay and the critique still finishes. Cancellation propagates.
  */
-async function reviseFromCritique(
+export async function reviseFromCritique(
   input: StepInput,
   issues: CritiqueOutput['issues'],
   critiqueRun: StageRun,
@@ -834,7 +842,7 @@ function facilityIssues(s: Scenario, facility: FacilityFacts): Issue[] {
 }
 
 /** Rubric links to rows a revision dropped or renamed are repaired or pruned (#86). */
-function pruneRubricLinks(s: Scenario, ctx: JobContext): void {
+export function pruneRubricLinks(s: Scenario, ctx: JobContext): void {
   if (!s.rubric) return
   for (const fix of repairRubricLinks(s.rubric.metrics, s.msel))
     ctx.log(
@@ -849,7 +857,7 @@ function pruneRubricLinks(s: Scenario, ctx: JobContext): void {
  * outside their phase or after ENDEX, near-duplicates, injects in a player's voice, and
  * identifiers the facility facts do not list (the message names the known ones).
  */
-function structuralIssues(s: Scenario, env: Env): Issue[] {
+export function structuralIssues(s: Scenario, env: Env): Issue[] {
   const unlocked = new Set(s.msel.filter((r) => !r.locked).map((r) => r.id))
   return [
     ...facilityIssues(s, env.facility),
@@ -866,7 +874,7 @@ function structuralIssues(s: Scenario, env: Env): Issue[] {
  * After the critique revision: repair what code can, then one more revision round for the
  * structural problems still left; rows still in a player's voice become facilitator prompts.
  */
-async function reviseStructureAgain(
+export async function reviseStructureAgain(
   input: StepInput,
   critiqueRun: StageRun,
   rewritten: Set<string>,
@@ -1014,7 +1022,7 @@ export function stepLabel(s: Scenario, step: StepKey): string {
   return p ? `msel_phase ${p.index + 1}/${s.phases.length} "${p.title}"` : 'msel_phase'
 }
 
-async function openEnv(root: string, scenario: Scenario, ctx: JobContext): Promise<Env> {
+export async function openEnv(root: string, scenario: Scenario, ctx: JobContext): Promise<Env> {
   const deps = await pipelineDeps()
   const [project, index, idea] = await Promise.all([
     deps.loadProject(root),

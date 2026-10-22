@@ -148,6 +148,32 @@ export function anchoredPrompt(prompt: string, style: ImageStyle, scene?: SceneC
   return `${STYLE_ANCHORS[style]}. ${body.replace(/[\s.;,]+$/, '')}. Setting: ${setting}`
 }
 
+/** Every setting anchor a stored prompt may carry for this scene context. */
+function settingTexts(scene?: SceneContext): string[] {
+  const profile = builtinProfile(scene?.orgType)
+  const anchors = scene?.anchors ?? (profile.id === 'generic' ? undefined : profile.sceneAnchors)
+  if (!anchors) return []
+  const texts = [anchors.public, anchors.control, anchors.exterior, anchors.publicScreensDark]
+  const all = texts.flatMap((t) => (t ? [t, withoutScreens(t)] : []))
+  return [...new Set(all)].sort((a, b) => b.length - a.length)
+}
+
+/**
+ * A stored image prompt written before #177 put the setting anchor in front of the model's own
+ * scene ("<style> <setting>. <scene>"): the setting moves behind the scene, as anchoredPrompt
+ * writes it now. Any other prompt is returned unchanged, so this is safe to run on any brief.
+ */
+export function reanchorPrompt(stored: string, style: ImageStyle, scene?: SceneContext): string {
+  const prefix = `${STYLE_ANCHORS[style]} `
+  if (!PLACE_STYLES.has(style) || !stored.startsWith(prefix)) return stored
+  const rest = stored.slice(prefix.length)
+  const setting = settingTexts(scene).find((t) => rest.startsWith(`${t}. `))
+  if (!setting) return stored
+  const body = rest.slice(setting.length + 2).trim()
+  if (!hasOwnScene(body)) return stored
+  return `${STYLE_ANCHORS[style]}. ${body.replace(/[\s.;,]+$/, '')}. Setting: ${setting}`
+}
+
 /** The row or the inject's own fields ask for a photo (an attached image, a scene brief). */
 export function wantsPhoto(inject: Inject, row: MselRow): boolean {
   return imageBriefField(inject.fields) !== undefined || PHOTO_WORDS.test(row.event)
