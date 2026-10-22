@@ -1,5 +1,10 @@
-import { _electron as electron, type ElectronApplication, type Page } from '@playwright/test'
-import { mkdtempSync, writeFileSync } from 'node:fs'
+import {
+  _electron as electron,
+  expect,
+  type ElectronApplication,
+  type Page,
+} from '@playwright/test'
+import { mkdtempSync, readdirSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 
@@ -57,4 +62,45 @@ export function invoker(page: Page) {
     if (!r.ok) throw new Error(`${channel} failed: ${r.error.code} ${r.error.message}`)
     return r.data as T
   }
+}
+
+/** Navigate the renderer's hash router (e.g. `#/p/<key>/documents`). */
+export async function goTo(page: Page, hash: string): Promise<void> {
+  await page.evaluate((h) => {
+    ;(globalThis as unknown as { location: { hash: string } }).location.hash = h
+  }, hash)
+}
+
+/** Absolute paths of the Markdown files in a repo folder (e.g. `reference/ncia`). */
+export function mdFiles(dir: string): string[] {
+  return readdirSync(resolve(dir))
+    .filter((f) => f.endsWith('.md'))
+    .sort()
+    .map((f) => join(resolve(dir), f))
+}
+
+export interface JobState {
+  status: string
+  message: string
+  error?: string
+  result?: unknown
+}
+
+/** Poll jobs:get until the job finishes; fails unless it ends `done`. */
+export async function waitForJob(
+  invoke: ReturnType<typeof invoker>,
+  jobId: string,
+  timeout = 60_000,
+  intervals = [500, 1000],
+): Promise<JobState & { secs: number }> {
+  const started = Date.now()
+  await expect
+    .poll(async () => (await invoke<JobState>('jobs:get', { jobId })).status, {
+      timeout,
+      intervals,
+    })
+    .toMatch(/done|error|cancelled/)
+  const job = await invoke<JobState>('jobs:get', { jobId })
+  expect(job.status, job.error).toBe('done')
+  return { ...job, secs: Math.round((Date.now() - started) / 1000) }
 }
