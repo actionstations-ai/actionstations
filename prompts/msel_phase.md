@@ -1,7 +1,7 @@
 ---
 name: msel_phase
 stage: msel_phase
-version: 2
+version: 3
 description: The MSEL rows for one phase (time, inject id, from, to, event, expected action, purpose tag, format, citations).
 outputSchema: MselPhaseOutput
 task: draft
@@ -85,7 +85,7 @@ INJECT MIX for this phase (all required):
 
 WRITING THE EVENT COLUMN
 
-- Write the actual inject as players receive it: the phone call in quotes with the caller's role; the radio call with the unit; the ticket with its number, priority and verbatim description; the post with handle, text and hashtags; the log, alarm or HMI excerpt with timestamps and the exact tag, command or file name; the memo with FROM/TO/SUBJECT; the field report with who saw what where. Lead with the channel ("Phone Call:", "Radio Call:", "Ticket #NNNNN:", "Post (@handle):", "Email Forward:", "Alarm:", "Technical Update:", "Field Report:", "Face-to-Face:").
+- Write the actual inject as players receive it: the phone call in quotes with the caller's role; the radio call with the unit; the ticket with its number, priority and verbatim description; the post with handle, text and hashtags (the handle belongs to a member of the public, a neighbor, a customer or an employee's personal account — never the organization's own official account, which does not post rumors about itself); the log, alarm or HMI excerpt with timestamps and the exact tag, command or file name; the memo with FROM/TO/SUBJECT; the field report with who saw what where. Lead with the channel ("Phone Call:", "Radio Call:", "Ticket #NNNNN:", "Post (@handle):", "Email Forward:", "Alarm:", "Technical Update:", "Field Report:", "Face-to-Face:").
 - Use realism devices: ticket numbers, named workstations, servers and controllers consistent with the documents' naming and IP schema, place and equipment identifiers that exist in the documents, a script or file name, a command line, a setpoint or reading with units, local references (the city, the local TV station, a community group), named front-line people with a role ({{domain.vocabulary.frontline}}).
 - Facility facts come from the documents: use only the identifiers of the kinds the FACILITY FACTS list below ({{join domain.factCategories ", "}}, rooms, phone numbers, hostnames, IP ranges) that the list states, or that fit their stated schema. If the facts list Routes 14, 22 and 41, there is no "Route 9"; if they list Spillway Gates 1–5, there is no "Gate 7"; if the IP schema is 10.72.x.x, a new host is 10.72.x.y. A deliberately impossible identifier is allowed only as the attacker's fake data, and the expected action must say it does not exist. Keep technical claims internally consistent: an address you call "unauthorized" must lie outside every range you list as authorized; prefer hostnames and addresses from the facts over invented ones.
 - Humour in the attacker's fake data is fine and memorable; the players' own data must stay plausible.
@@ -110,7 +110,7 @@ Return JSON only, matching the schema: { rows: [ { id, time, from, to[], event, 
 
 <scenario_state>
 Scenario: {{scenario.title}}{{#if scenario.subtitle}} — {{scenario.subtitle}}{{/if}}
-Organization: {{project.orgName}} ({{domain.label}}){{#if project.city}}, {{project.city}}{{#if project.region}}, {{project.region}}{{/if}}{{/if}}. Narrative clock starts at {{startWallClock}}.
+Organization: {{project.orgName}} ({{domain.label}}){{#if project.city}}, {{project.city}}{{#if project.region}}, {{project.region}}{{/if}}{{/if}}.{{#if project.aliases.orgDomain}} Email domain: {{project.aliases.orgDomain}} — every address of the organization's own people and units uses it; outside parties get plausible fictional domains, never a real company's, agency's or newspaper's.{{/if}}{{#if project.aliases.localTv}} Local TV: {{project.aliases.localTv}}; other media outlets are fictional.{{/if}} Narrative clock starts at {{startWallClock}}.
 Kind of incident: {{threat.label}}
 Theme: {{scenario.overview.theme}}
 Threat (hidden from players until the clues reveal it): {{scenario.overview.threat}}

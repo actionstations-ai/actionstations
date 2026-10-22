@@ -1,0 +1,3509 @@
+{
+  "id": "01M5H3C021X36SHRRPXTE0BE4R",
+  "projectId": "01M5H3BY1EV4BBVDCB8DC08A56",
+  "title": "Ghost Flight at Birch Hollow",
+  "subtitle": "GNSS Spoofing & Command Hijack",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-22T06:04:28.609Z",
+  "updatedAt": "2026-10-22T06:21:14.469Z",
+  "brief": {
+    "userPrompt": "A multispectral and hyperspectral sensor campaign at the Lakeshore Flight Area of the Birch Hollow Range (UAS-01 with PL-01, UAS-11 with PL-03, GCS-01 and GCS-02, RTK-1) is disrupted by a command-and-control link hijack and GNSS spoofing: UAS-11's 915 MHz telemetry shows a second ground station, the aircraft start executing waypoints nobody loaded, RTK-1 and the aircraft lose fix at the same time under a clear sky, the home point moves, and a pickup truck with antennas is seen leaving the lodge parking lot. The crew must land in attitude mode, preserve the GCS and radio state, decide whether to call HWK Tower, re-key the links, work with CCSO and the managed security provider, and tell the CP&L client whether Deliverable D-3 data is intact.",
+    "audience": [
+      "Flight Operations",
+      "Systems / Cybersecurity",
+      "Aviation Safety",
+      "Corporate Communications",
+      "Security / CCSO liaison",
+      "Payload & Calibration"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [],
+    "startWallClock": "09:00",
+    "threatFamily": "cyber_physical"
+  },
+  "overview": {
+    "theme": "Command Integrity, Cyber-Physical Trust, and Interagency Coordination",
+    "threat": "A cyber-physical incident involving GNSS spoofing and unauthorized command injection disrupted the multispectral and hyperspectral sensor campaign at the Lakeshore Flight Area of the Birch Hollow Range. The hijack caused UAS-11 to execute uncommanded waypoints, lose RTK-1 and aircraft GNSS fix simultaneously under clear sky, show a second ground station in telemetry, and alter the home point. The incident originated from a compromised 915 MHz link and a vehicle with RF equipment departing the lodge parking area.",
+    "operationalImpact": "The RPIC and VO on UAS-11 experience a sudden, unexplained aircraft position jump and loss of RTK fix, conflicting with the GCS and DAA-1. The flight must be landed in attitude mode. The GCS and radio state must be preserved. The crew is unable to confirm the aircraft’s true position, and the Payload Operator cannot verify calibration status. The flight test site is shut down. The ASO is notified. The CP&L client is alerted about potential data integrity loss for Deliverable D-3. The site manager reports a vehicle with antennas leaving the lodge. Security and CCSO are engaged. Corporate Communications receives a trainee video from the site, and HUOG managed security provider is activated.",
+    "coreSectionsTested": [
+      {
+        "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+        "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+        "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+        "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+        "chunkId": 127
+      },
+      {
+        "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+        "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+        "headingPath": "ISP › Section 5 › 5.2 Link monitoring",
+        "quote": "The GSO watches link quality (RSSI, packet loss) on the GCS; link quality below 50 % for 10 seconds is an abort criterion (HUOG-FOM 9.5). Telemetry logs for every flight are kept with the flight log. ",
+        "chunkId": 110
+      },
+      {
+        "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+        "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+        "headingPath": "ISP › Table of Contents",
+        "quote": "Section 1 Purpose and Scope · Section 2 Roles · Section 3 System Description · Section 4 Ground Control Station Security · Section 5 Links, GNSS and Radio · Section 6 Data Pipeline and Backups · Secti",
+        "chunkId": 96
+      },
+      {
+        "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+        "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+        "headingPath": "ERP › Section 11 › 11.3 Records",
+        "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Rep",
+        "chunkId": 36
+      },
+      {
+        "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+        "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+        "headingPath": "SITE › 9. Contacts (exercise numbers)",
+        "quote": "| Party | Role | Number | |---|---|---| | Harwick Police Department | City police, first response, public event at the adjacent Harwick Fairgrounds control | 585-555-0111 | | Calder County Sheriff's Office (CCSO) | Law enforcement at the Birch Hollow",
+        "chunkId": 147
+      },
+      {
+        "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+        "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+        "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+        "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager forw",
+        "chunkId": 32
+      }
+    ],
+    "targetAudience": "Flight Operations, Systems / Cybersecurity, Aviation Safety, Corporate Communications, Security / CCSO liaison, Payload & Calibration",
+    "location": "Harwick UAS Operations Group, Birch Hollow Range, Harwick, Calder County, New York"
+  },
+  "objectives": [
+    {
+      "id": "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
+      "name": "Command Integrity",
+      "text": "Demonstrate the ability to verify and restore command authority over a flight system after a suspected GNSS spoofing and unauthorized command injection, using telemetry logs and radio state preservation."
+    },
+    {
+      "id": "01M5H3CJP2FMY4R6NW1PNTNX55",
+      "name": "Cyber-Physical Trust",
+      "text": "Demonstrate the ability to resolve conflicting data between the GCS, DAA-1, and aircraft telemetry during a cyber-physical incident, prioritizing field observations and forensic preservation."
+    },
+    {
+      "id": "01M5H3CJP2KVV2FEX57ZR9V03M",
+      "name": "Interagency Coordination",
+      "text": "Demonstrate the ability to synchronize reporting and action with law enforcement (CCSO), base safety, the FSDO, and the client (CP&L) while maintaining regulatory compliance and data integrity."
+    },
+    {
+      "id": "01M5H3CJP2CAGWJ6CR4V57RHFP",
+      "name": "Incident Response Continuity",
+      "text": "Demonstrate the ability to maintain operational continuity under a cascading failure of C2 links, RTK base, and GNSS, by activating pre-defined emergency procedures and preserving evidence."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ops",
+      "name": "Director of Flight Operations (Incident Commander)",
+      "abbreviation": "IC",
+      "team": "Team A: Operations",
+      "description": "Manages flight operations, crew, and go/no-go decisions; owns the flight test site and the aircraft's operational status.",
+      "standingOrders": [
+        "Flight First: land the aircraft immediately if command integrity is compromised, even if telemetry suggests otherwise.",
+        "Preserve State: do not power down the GCS or radio link until full telemetry and link logs are captured.",
+        "Follow the FOM: if the Flight Operations Manual is unavailable, defer to the RPIC on scene to act under Sections 4–8.",
+        "Declare a Standdown: if a flight controller or GCS shows modified parameters, ground all aircraft of that type until baseline verification."
+      ]
+    },
+    {
+      "id": "it",
+      "name": "Systems & Cybersecurity Lead (Technical Lead)",
+      "abbreviation": "TL",
+      "team": "Team B: Systems / Cyber",
+      "description": "Owns the GCS, C2 links, telemetry pipeline, and the investigation into cyber incidents; leads technical forensics.",
+      "standingOrders": [
+        "Forensics First: preserve the GCS and radio state before any reboot or re-key.",
+        "Trace the RF: document every transmitter visible at the site, including crew hotspots, vehicles, and lodge Wi-Fi.",
+        "Verify the Baseline: if a flight controller or GCS shows modified firmware, quarantine the system and halt all flights of that type.",
+        "Report to the MSSP: activate the Managed SOC (SecureWatch MSSP) and coordinate with the Compliance Officer if PL-02 data is at risk."
+      ]
+    },
+    {
+      "id": "safety",
+      "name": "Aviation Safety Officer (ASO)",
+      "abbreviation": "ASO",
+      "team": "Team C: Safety",
+      "description": "Owns the safety case, airspace authorizations, and regulatory reporting; ensures compliance with the FOM and ERP.",
+      "standingOrders": [
+        "Regulatory First: report any flight departure outside authorization to the FAA FSDO immediately.",
+        "Notify the FSDO: when a flight is involved and the GCS shows modified parameters, initiate the FSDO reporting protocol.",
+        "Hold the Line: if the ASO suspects a cyber-physical incident, do not release any public statement until the General Manager signs off.",
+        "Verify the Airspace: confirm that the Birch Hollow Range flight area is still authorized for operation after any incident."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Communications Lead (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team D: Communications",
+      "description": "Owns the narrative, media, and public messaging; coordinates with Corporate Communications and the client.",
+      "standingOrders": [
+        "Truth Over Reassurance: do not release a statement that contradicts the field team’s observations, even under pressure.",
+        "Forward Evidence: send any trainee video, forum post, or social media content to Corporate Communications and the ASO immediately.",
+        "Client First: notify the CP&L program office of any data integrity loss affecting a deliverable, before any public comment.",
+        "No Solo Messaging: all public statements must be approved by the General Manager through Corporate Communications."
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Security / CCSO Liaison",
+      "abbreviation": "Sec",
+      "team": "Team E: Security",
+      "description": "Owns the hangar, test site perimeter, and law enforcement liaison; ensures physical order and safe access.",
+      "standingOrders": [
+        "Secure the Site: if a vehicle with RF equipment is seen leaving, notify Harwick Police Department and CCSO immediately.",
+        "Control Access: if a vehicle is seen near the launch area, block entry to Hangar 1 until the site is secured.",
+        "Document the Scene: photograph any vehicle that left, the lodge parking area, and the launch site after the event.",
+        "Law Enforcement First: if a cyber-physical incident involves a suspect vehicle, hand over all evidence to CCSO and do not attempt to track it."
+      ]
+    },
+    {
+      "id": "client",
+      "name": "Client Liaison (CP&L Program Office)",
+      "abbreviation": "SPO",
+      "team": "Team F: Client",
+      "description": "Owns the data deliverables, client reporting, and controlled technology; ensures compliance with federal program requirements.",
+      "standingOrders": [
+        "Deliverable Integrity: if data integrity is compromised, declare a hold on Deliverable D-3 and notify the client immediately.",
+        "Export Control: if PL-02 data is at risk, activate the Compliance Officer and halt all data transfers.",
+        "No Assumptions: do not assume the flight was successful; base all client reports on verified telemetry and logs.",
+        "Client-First: all technical updates to the client must be routed through the General Manager and the ASO."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "index": 0,
+      "title": "The Sighting",
+      "goal": "Test the players' ability to recognize and respond to a conflicting physical-digital state where field telemetry and control system data disagree, triggering an incident declaration.",
+      "beats": [
+        "At 09:12, the Payload Operator on UAS-11 reports via intercom: 'PANEL CLEAR' acknowledged, but the aircraft's position on DAA-1 shows it 120 meters east of the meadow, over the lodge patio—despite the flight line being east–west over the meadow and the aircraft's telemetry showing a 150-m jump in latitude under clear sky with full RTK-1 fix.",
+        "At 09:18, the GCS (GCS-02) displays a second ground station in the device list: 'GCS-12' (unknown to the Group), with a matching 915 MHz MAC address to the compromised link from the lodge. The system logs show a 20-second spike in link quality at 09:15, followed by a simultaneous loss of RTK-1 and aircraft GNSS fix.",
+        "At 09:25, the RPIC attempts to re-establish command using the OEM app on GCS-02; it prompts to re-pair with a new device ID. The Systems & Cybersecurity Lead confirms via the HUOG-FOM Appendix 3 that no GCS has ever used 'GCS-12' or this MAC address in the fleet.",
+        "At 09:30, the Site Survey Form (FOM-3) is reviewed; the Site Manager reports via radio that a white van with a rooftop antenna and a 915 MHz transceiver left the lodge parking pad (TP-LFA-LP1) at 09:10, matching the timeline of the telemetry anomaly.",
+        "At 09:35, the Incident Commander declares the incident under ISP Section 9.1, activates the ERP, and assigns the scribe to begin the incident log per ERP Section 10.3."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "01M5H3D49G554QYC2XD2J624AH",
+      "index": 1,
+      "title": "Loss of Control",
+      "goal": "Test the players' ability to manage cascading system failures, prioritize field verification, and coordinate interagency response under spreading uncertainty and misinformation.",
+      "beats": [
+        "At 10:05, the aircraft telemetry confirms a second home point was set at 09:13—originating from the unknown GCS-12. The RTK-1 base (SM-L1) logs show a 10-second burst of 915 MHz RF energy from the van’s direction, coinciding with the link spike and GNSS jump.",
+        "At 10:12, a trainee video from the site is received by Corporate Communications: the aircraft appears to hover over the lodge patio, then veer west into the meadow, with a visible, uncommanded turn to the right. The video is timestamped 09:14 and uploaded to the Group's social media group.",
+        "At 10:18, the ASO notifies the FSDO via the ASO channel (HUOG-ERP Section 6.2), citing 'unauthorized command injection and C2 link compromise'. The Site Manager confirms the van was not on the Site Survey Form (FOM-3) and was not cleared for the site.",
+        "At 10:22, the Payload Operator reports that the calibration tarps (CT-1 to CT-4) were not verified as clear—'PANEL CLEAR' was called, but no tarp was visible in the imagery. The HMI shows a 30% confidence in calibration status, and the sensor logs show anomalous radiance values.",
+        "At 10:28, the Systems & Cybersecurity Lead confirms that GCS-02's endpoint security alert triggered on the 915 MHz link, and the OEM app attempted to re-pair due to a firmware mismatch in the GCS's controller—evidence of a C2 link compromise under ISP Section 9.1."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "01M5H3D49GSZH564BJBECAQ1Y3",
+      "index": 2,
+      "title": "Manual Operation",
+      "goal": "Test the players' ability to make a high-consequence decision to fall back to manual control, accept operational risk, and manage stakeholder pressure under time and evidence constraints.",
+      "beats": [
+        "At 11:00, the Systems & Cybersecurity Lead presents the forensic evidence: the GCS-02 logs show a remote session from a 915 MHz IP address (192.168.100.22) at 09:12, which modified the home point and altered the aircraft's flight path. The session was not authorized in the Kit Log (FOM-4), and the IP is not in the Group’s approved vendor list.",
+        "At 11:08, the Incident Commander must decide: keep UAS-11 in automatic mode and risk another uncommanded flight, or switch to manual/attitude mode and land the aircraft now, halting the campaign. The Payload Operator warns that the current flight path will cross the north shore of the lake—where UAS-11 cannot be recovered if it lands in water per ERP Section 4.3.",
+        "At 11:15, the CP&L client liaison reports that the client is demanding a status update by 12:00. The client’s instrument (CP&L-D3) is tied to the hyperspectral data, which may be corrupted.",
+        "At 11:20, the CCSO confirms they have the van’s license plate and are en route to intercept it. Security reports that the van was seen on a local traffic camera near the site at 09:11.",
+        "At 11:25, the Incident Commander orders: 'Switch UAS-11 to manual/attitude mode. Land now. Preserve GCS-02 and the 915 MHz radio state. Do not power off. Report to the MSSP.' The decision is recorded in the incident log under ERP Section 11.3."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "index": 3,
+      "title": "Restoration & Verification",
+      "goal": "Test the players' ability to restore control through verification, phased return to automation, and formal reporting to regulators and clients.",
+      "beats": [
+        "At 12:10, the Systems & Cybersecurity Lead confirms that GCS-02 has been isolated and the 915 MHz radio disconnected. The baseline image (GCS-03) is loaded onto a spare GCS for re-verification.",
+        "At 12:25, the managed SOC reports that the GCS-02 firmware hash matches the Group’s baseline, but the 915 MHz link was compromised via a rogue RF emitter. The vendor (HUOG-FW01) must be contacted for a signed access request to re-key the link.",
+        "At 12:35, the Site Manager confirms that the RTK-1 base (SM-L1) has been re-checked and is back in sync. The Payload Operator confirms that the calibration tarps were not disturbed and that a new 'PANEL CLEAR' call was made.",
+        "At 12:45, the Incident Commander issues the formal notification to the CP&L client via C4: 'Data for Deliverable D-3 may be compromised. We are verifying integrity. Next update at 14:00.'",
+        "At 12:50, the Incident Commander confirms to the FSDO that UAS-11 has been landed, the GCS is quarantined, and the fleet of that type is grounded per ISP Section 9.1. The exercise ends at 13:00 (narrative time) with the final log entry: 'All systems preserved. Incident closed. Restoration phase complete.'"
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "safety", "pio", "security", "client"],
+      "toLabel": "All",
+      "event": "Startex Card: 'It is 09:00. The weather is clear, 72°F, winds 6 mph from the west. The Lakeshore Flight Area is under the Part 107 ceiling of 400 ft AGL, with a grid ceiling of 200 ft over Horton Field. UAS-11 is in the pre-flight phase for a multispectral campaign over the meadow. All systems are nominal. Status is normal.'",
+      "expectedAction": "",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M5H3PH7E7NPQWWA0DSFBRAK5",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "time": "0:12",
+      "wallClock": "09:12",
+      "from": "Payload Operator",
+      "toRoleIds": ["ops", "it", "safety", "security"],
+      "toLabel": "IC, TL, ASO, Sec",
+      "event": "Field Report: 'This is the Payload Operator on UAS-11. PANEL CLEAR confirmed. The aircraft is now 120 meters east of the meadow, over the lodge patio. DAA-1 shows position as 43.1724°N, 77.5631°W. RTK-1 has a full fix. The aircraft telemetry shows a 150-meter jump in latitude under clear sky. The flight line is east–west over the meadow. This does not match the field. The aircraft is not on the flight line.'",
+      "expectedAction": "Ops orders the RPIC and VO to declare 'ABORT' and switch to attitude mode; itcs to verify the GCS telemetry and link logs; security to confirm site access and monitor the launch area.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5H3Q13Y81122AJ029JVH6CJ",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+          "quote": "- Launch point TP-LFA-LP1 at the lodge parking pad. RTK-1 on survey marker SM-L1 by the lodge. - Flight lines run east–west over the meadow and the north shore of the lake; no flight over the lodge or",
+          "chunkId": 69
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "time": "0:18",
+      "wallClock": "09:18",
+      "from": "GCS-02",
+      "toRoleIds": ["it", "ops", "safety"],
+      "toLabel": "TL, IC, ASO",
+      "event": "System Log: 'Device List – GCS-02 – 09:18:02 – New entry: GCS-12 (MAC: 915-0A-1F-3C-7D-4E). No record of GCS-12 in fleet. 915 MHz link quality spiked to 94% at 09:15:30, then dropped to 12%. RTK-1 and aircraft GNSS both lost fix at 09:15:32 under clear sky.'",
+      "expectedAction": "It verifies the MAC address against the fleet inventory (Annex A); confirms no GCS-12 exists; orders all GCSs to preserve state and not reboot; alerts the managed SOC via HUOG-NAS01 and begins log capture.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5H3QBHBDPRHA6H6BH4DXRZH",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 4 › 4.1 Baseline",
+          "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselin",
+          "chunkId": 104
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "time": "0:25",
+      "wallClock": "09:25",
+      "from": "RPIC",
+      "toRoleIds": ["ops", "it"],
+      "toLabel": "IC, TL",
+      "event": "Radio Call: 'Ops, I’m trying to re-pair via the OEM app on GCS-02. It says: \"Device ID mismatch. Re-pair required. New device ID: GCS-12. Accept?\" I did not send that command. No GCS-12 exists in the fleet. Is this a spoof?'",
+      "expectedAction": "Ops confirms with it that no GCS-12 has ever been issued; it verifies the GCS-02 firmware against baseline 03.2026-B; both roles agree to quarantine GCS-02 and declare a fleet-wide command integrity hold per HUOG-ISP Section 9.1.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "radio_call",
+      "injectId": "01M5H3R2QK1TBZT0BDVB0E9THX",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 4 › 4.1 Baseline",
+          "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselin",
+          "chunkId": 104
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "time": "0:30",
+      "wallClock": "09:30",
+      "from": "Site Manager",
+      "toRoleIds": ["ops", "security", "safety"],
+      "toLabel": "IC, Sec, ASO",
+      "event": "Radio Call: 'Ops, this is Site Manager at Birch Hollow Range. A white van with a rooftop antenna and a 915 MHz transceiver left the lodge parking pad (TP-LFA-LP1) at 09:10. No ID on the vehicle. It was not on the site survey form. The lodge Wi-Fi is on 10.17.40.11.'",
+      "expectedAction": "Security confirms the van was not in the site’s visitor log; orders the site to be secured; notifies Harwick Police Department and CCSO; instructs the crew to block Hangar 1 access until further notice.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5H3RM5JTYZQD65XCN1VKKCJ",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+          "quote": "- Launch point TP-LFA-LP1 at the lodge parking pad. RTK-1 on survey marker SM-L1 by the lodge. - Flight lines run east–west over the meadow and the north shore of the lake; no flight over the lodge or",
+          "chunkId": 69
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "time": "0:35",
+      "wallClock": "09:35",
+      "from": "Staff Email",
+      "toRoleIds": ["ops", "it", "safety", "pio", "security", "client"],
+      "toLabel": "All",
+      "event": "Memo: 'Incident declared under HUOG-ISP Section 9.1 (C2 link compromise, interference or GNSS spoofing). Activate HUOG-ERP. Incident Commander (Ops) assigned. Scribe to begin incident log at \\HUOG-NAS01\\ops\\incident-log\\2026-09-01-\\UAS-11\\ per ERP Section 11.3. All roles to proceed under the ERP incident command structure.'",
+      "expectedAction": "Ops activates the HUOG-ERP; assigns the scribe to begin the paper and digital log; confirms all roles are in the incident command chain; notifies the General Manager and ASO of the declaration.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "memo",
+      "injectId": "01M5H3S1TY2M2A37TJA19D5WYV",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+          "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+          "chunkId": 99
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Rep",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "time": "0:40",
+      "wallClock": "09:40",
+      "from": "Bystander (on Instagram)",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Post (@HarwickSkies): \"UAS-11 just flew over the lodge patio and dropped a fake drone on the roof. It’s not a real drone, right? #BirchHollowIncident #GhostDrone\" — photo of a drone-like object hovering over the lodge, timestamp 09:37.",
+      "expectedAction": "PIO forwards the post to Corporate Communications and the ASO; does not comment; logs the social sentiment and confirms the video is evidence for the investigation.",
+      "purposeTag": "PRESSURE",
+      "format": "instagram_post",
+      "injectId": "01M5H3S84W1K93CBCKYG3ZGPMF",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager forw",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "time": "0:45",
+      "wallClock": "09:45",
+      "from": "Base Security",
+      "toRoleIds": ["security"],
+      "toLabel": "Sec",
+      "event": "Email Forward: 'From: Base Security (Security Office, HUOG) To: Sec (Security / CCSO Liaison) Subject: UAS-11 Incident – Site Alert – 09:45. We have received a report from a trainee that UAS-11 flew over the lodge and dropped a fake drone. No aircraft were on the air at 09:37. Please confirm if this was a test or if the UAS is compromised.'",
+      "expectedAction": "Security confirms the report was not from a field crew; notes that no UAS was authorized over the lodge; logs the external report; does not investigate further without ASO or General Manager approval.",
+      "purposeTag": "RED_HERRING",
+      "format": "email_forward",
+      "injectId": "01M5H3SE55P6DPXS1S2FSQ865T",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager forw",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "time": "0:50",
+      "wallClock": "09:50",
+      "from": "Staff Email",
+      "toRoleIds": ["client", "pio"],
+      "toLabel": "SPO, PIO",
+      "event": "Email: 'From: CP&L Program Office (SPO) To: Client Liaison (SPO) Subject: UAS-11 – Data Integrity Concern – D-3. The Payload Operator reports a position jump and loss of RTK fix. Is Deliverable D-3 at risk? Please confirm if data collection was corrupted.'",
+      "expectedAction": "SPO notifies the General Manager and ASO; confirms that no final data release has occurred; halts any data transfer to the client until the incident is resolved.",
+      "purposeTag": "PRESSURE",
+      "format": "email",
+      "injectId": "01M5H3SNRQ0PEADMFQTN1G2SKS",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 7 › 7.5 Client notification",
+          "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrument",
+          "chunkId": 121
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "time": "0:55",
+      "wallClock": "09:55",
+      "from": "Field Crew (Trainee)",
+      "toRoleIds": ["ops"],
+      "toLabel": "IC",
+      "event": "Helpdesk Ticket #2026-9917: 'GCS-02: Unable to re-pair. OEM app shows GCS-12. No GCS-12 in fleet. Request: Forensics team on-site.'",
+      "expectedAction": "Ops acknowledges the ticket; adds it to the incident log; assigns it to the technical lead for priority 1 response.",
+      "purposeTag": "NOISE",
+      "format": "helpdesk_ticket",
+      "injectId": "01M5H3SW4CQQ2W6D6CR5K5FGHH",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+          "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+          "chunkId": 99
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "time": "1:00",
+      "wallClock": "10:00",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "safety", "pio", "security", "client"],
+      "toLabel": "All",
+      "event": "Time Jump Card: 'It is now 1:00. The problem has spread to the RTK base and GCS-02's radio state. The RPIC cannot command UAS-11 in any mode. The team cannot confirm the aircraft's true position. The site is under standdown. The investigation is now underway.'",
+      "expectedAction": "",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5H3T39K0MZN9618CVZG1CVB",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "01M5H3D49G554QYC2XD2J624AH",
+      "time": "1:05",
+      "wallClock": "10:05",
+      "from": "System Alert",
+      "toRoleIds": ["it", "ops"],
+      "toLabel": "TL, IC, as",
+      "event": "System Log: 'RTK-1 Base (SM-L1) – 09:13:44 – New entry: GPS position update from external source (915 MHz RF burst, 10 sec, 10.17.40.11). Timestamp: 09:13:44. Source: 10.17.40.11 (lodge Wi-Fi). New home point set: 43.1724°N, 77.5631°W (lodge patio). GPS fix lost on RTK-1 and UAS-11 simultaneously. 915 MHz link quality spike to 94% at 09:15:30.'",
+      "expectedAction": "TL verifies the RTK-1 log and confirms the home point change was triggered by a spoofed GPS signal from a 915 MHz RF burst; IC orders the RPIC to hold UAS-11 in attitude mode and not attempt any return-to-home (RTL) or manual override until the telemetry is fully analyzed. All roles must use the RTK-1 and DAA-1 logs as primary sources.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "system_log",
+      "injectId": "01M5H3TFCDKRXFTF0E339CY171",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11b",
+      "phaseId": "01M5H3D49G554QYC2XD2J624AH",
+      "time": "1:07",
+      "wallClock": "10:07",
+      "from": "Corporate Communications",
+      "toRoleIds": ["pio", "security"],
+      "toLabel": "PIO, as, Sec",
+      "event": "Email Forward: 'From: Corporate Communications (HUOG) To: PIO, ASO, Sec Subject: Trainee Video – UAS-11 – Birch Hollow Range – 09:14 – Incident Footage Received. Attached: UAS-11_Flight_0914.mp4 (2.3 MB). Summary: Drone appears to hover over lodge patio (09:14:02), then makes a sharp uncommanded right turn and flies west into meadow. No operator input visible. Video timestamp matches telemetry spike. Note: Video was uploaded to Group's internal social media group (HarwickSkies) by trainee on site.'",
+      "expectedAction": "PIO forwards the video to Corporate Communications and the ASO per HUOG-ERP Section 10.3; Sec confirms the video was not taken from a vantage point on the authorized flight line. No public release until General Manager approval.",
+      "purposeTag": "PRESSURE",
+      "format": "email_forward",
+      "injectId": "01M5H3V6293Y97J2W90J9E5QDW",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager forw",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "01M5H3D49G554QYC2XD2J624AH",
+      "time": "1:12",
+      "wallClock": "10:12",
+      "from": "Field Unit (radio)",
+      "toRoleIds": ["ops", "client"],
+      "toLabel": "as, IC, SPO",
+      "event": "Radio Call: 'ASO to Ops and SPO: This is the ASO. I have just reported to the FAA FSDO via HUOG-ERP Section 6.2 (FSDO contact: (585) 555-0188). Incident: unauthorized command injection, C2 link compromise, and flight outside authorized parameters. UAS-11 flew over the lodge patio, which is prohibited during guest events. Site Survey Form (FOM-3) for Birch Hollow Range does not list the van. FSDO is now in the loop.'",
+      "expectedAction": "ASO confirms the FSDO has been notified per HUOG-ERP Section 6 and HUOG-ISP Section 9.1; IC ensures all flight data is preserved and not released until the FSDO has reviewed it. SPO is informed that the incident may impact D-3 deliverable.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "injectId": "01M5H3VDGXZXWMNBB6NTMKE7VN",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 7 › 7.5 Client notification",
+          "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrument",
+          "chunkId": 121
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-12b",
+      "phaseId": "01M5H3D49G554QYC2XD2J624AH",
+      "time": "1:14",
+      "wallClock": "10:14",
+      "from": "Trainee (Field Crew)",
+      "toRoleIds": ["security", "ops"],
+      "toLabel": "Sec, IC",
+      "event": "Helpdesk Ticket #2026-9918: 'Field: Cal tarps not visible. Payload Operator called \"PANEL CLEAR\" at 09:10, but CT-1 to CT-4 were not on the ground. HMI shows 30% confidence in calibration status. Radiance values in first line show 12% outlier. Is data usable? Need verification.'",
+      "expectedAction": "IC confirms with the Payload Operator that calibration tarps were not verified; IC declares a hold on all data from UAS-11 until the telemetry and HMI logs are reconciled and the calibration status is verified. No data export to client until after forensic review.",
+      "purposeTag": "NOISE",
+      "format": "helpdesk_ticket",
+      "injectId": "01M5H3VQH3QS6JNV68EAPQC5Q0",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+          "quote": "- Launch point TP-LFA-LP1 at the lodge parking pad. RTK-1 on survey marker SM-L1 by the lodge. - Flight lines run east–west over the meadow and the north shore of the lake; no flight over the lodge or",
+          "chunkId": 69
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "01M5H3D49G554QYC2XD2J624AH",
+      "time": "1:18",
+      "wallClock": "10:18",
+      "from": "System Log",
+      "toRoleIds": ["it", "ops"],
+      "toLabel": "TL, IC, as",
+      "event": "System Log: 'GCS-01 – 09:15:31 – Security Alert: Firmware mismatch detected in C2 link controller (GCS-01). Expected: 03.2026-B. Found: 03.2026-C. OEM app attempted to re-pair with GCS-12 (MAC: 915-0A-1F-3C-7D-4E) due to configuration drift. No record of GCS-12 in fleet or baseline. Link was compromised at 09:13:44. Baseline 03.2026-B is on \\HUOG-NAS01\\it\\baselines\\. This is a C2 link compromise per ISP Section 9.1.'",
+      "expectedAction": "TL confirms the firmware mismatch on GCS-01 and declares a C2 link compromise per ISP Section 9.1; orders immediate preservation of GCS-01 and radio state; initiates forensics on GCS-01 and RTK-1 logs; notifies managed SOC via HUOG-NAS01 and requests imaging of the 915 MHz link traffic from 09:13:44 to 09:15:32.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "system_log",
+      "injectId": "01M5H3VZ47AQFES1GRNDK57CR3",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 4 › 4.1 Baseline",
+          "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselin",
+          "chunkId": 104
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-13b",
+      "phaseId": "01M5H3D49G554QYC2XD2J624AH",
+      "time": "1:20",
+      "wallClock": "10:20",
+      "from": "Data Center Operations Liaison",
+      "toRoleIds": ["it", "ops"],
+      "toLabel": "TL, IC",
+      "event": "Email: 'From: Lin Zhou (Data Center Operations) To: Systems & Cybersecurity Lead, IC Subject: PL-02 Data – UAS-11 – 09:10–09:15. The calibration tarps were not on the ground. Radiance values show 12% outlier. PL-02 data (hyperspectral) may be compromised. Request: hold all exports to client until forensic verification.'",
+      "expectedAction": "TL notifies the Compliance Officer (Dana Kurtz) per HUOG-ISP Section 7.5 and confirms PL-02 data is at risk. IC ensures no data is released to client until the General Manager signs off.",
+      "purposeTag": "RED_HERRING",
+      "format": "email",
+      "injectId": "01M5H3WMD9EBJ7M6BQ6QT77P19",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 7 › 7.5 Client notification",
+          "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrument",
+          "chunkId": 121
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 2",
+          "quote": "| Role | Holder | Responsibilities | |---|---|---| | Systems & Cybersecurity Lead | Tomás Reyes | Plan owner; GCS baseline and updates; link and radio configuration; firewall; NAS and backups; inciden",
+          "chunkId": 100
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "01M5H3D49G554QYC2XD2J624AH",
+      "time": "1:25",
+      "wallClock": "10:25",
+      "from": "Staff Email",
+      "toRoleIds": ["ops", "security"],
+      "toLabel": "as, IC, Sec",
+      "event": "Memo: 'To: All. Incident Status: UAS-11 under full standdown. FSDO notified. Site secured. No further flights. All roles to operate under HUOG-ERP. Incident log is being maintained at \\HUOG-NAS01\\ops\\incident-log\\2026-09-01\\UAS-11\\ per ERP Section 11.3. All evidence must be preserved. No public statement until General Manager approval.'",
+      "expectedAction": "ASO confirms the standdown and locks all data exports; IC ensures the incident folder is populated with all logs, HMI screenshots, and telemetry. All roles must use the paper copy of the notification record per ERP Section 16.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "memo",
+      "injectId": "01M5H3WWK6WWH0GAVMP1JXDCRD",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Rep",
+          "chunkId": 36
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "01M5H3D49G554QYC2XD2J624AH",
+      "time": "1:30",
+      "wallClock": "10:30",
+      "from": "Social Media",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Post (@HarwickSkies): \"UAS-11 just flew over the lodge, dropped a fake drone, and vanished. Is this a hack? #BirchHollowIncident #GhostDrone #UAS11\" — 420 reposts in 5 minutes. Video shows the aircraft hovering over the patio, then veering west with no control input.",
+      "expectedAction": "PIO logs the post and forwards it to Corporate Communications and the ASO per HUOG-ERP Section 10.3; PIO does not issue a public statement and waits for General Manager approval before any response.",
+      "purposeTag": "PRESSURE",
+      "format": "instagram_post",
+      "injectId": "01M5H3XDVWRJFB3M705NFT5X57",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager forw",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "01M5H3D49G554QYC2XD2J624AH",
+      "time": "1:35",
+      "wallClock": "10:35",
+      "from": "FSDO",
+      "toRoleIds": ["safety"],
+      "toLabel": "ASO",
+      "event": "Phone Call: \"ASO, this is the FAA FSDO (FSDO contact: (585) 555-0188). We have received your incident report on UAS-11. The flight over the lodge patio during a guest event constitutes a violation of 14 CFR Part 107 and the the Group’s UAS policy (C-24.0). We are initiating a formal inquiry. Please confirm whether the aircraft departed from an unauthorized location and whether any data was collected outside the authorized test area. You must submit the flight logs and telemetry within 24 hours. Failure to comply may result in suspension of your Part 107 waiver.\"\n",
+      "expectedAction": "ASO confirms receipt of the FSDO inquiry; notifies the General Manager and the Systems & Cybersecurity Lead; logs the FSDO contact details and deadline in the incident folder per HUOG-ERP Section 11.3; does not respond to the FSDO directly without the General Manager’s approval.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "injectId": "01M5H3XNJRA2AADH50C9VBBKWG",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 1 › 1.3 Authority",
+          "quote": "Flights are conducted under 14 CFR Part 107, the Group's waivers (Section 6.5), the UAS-12 flight-test protocol (Section 10.1) and the the Group's UAS policy (simulated policy C-24.0",
+          "chunkId": 45
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Rep",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-16b",
+      "phaseId": "01M5H3D49G554QYC2XD2J624AH",
+      "time": "1:40",
+      "wallClock": "10:40",
+      "from": "Harwick Police Department",
+      "toRoleIds": ["security"],
+      "toLabel": "Sec",
+      "event": "Radio Call: \"Sec, this is Harwick Police Department. CCSO has taken custody of the white van seen leaving the lodge parking pad (TP-LFA-LP1) at 09:10. The vehicle was stopped near Route 14, 3 miles west of the property. It had a 915 MHz transceiver and a laptop running RF signal analysis software. The driver is in custody. We are forwarding the vehicle’s log and the laptop’s drive to the managed SOC for forensic imaging. You are to secure the site and preserve all evidence until CCSO provides a handover report.\"\n",
+      "expectedAction": "Security confirms receipt of the CCSO handover; photographs the launch area and the lodge parking pad as per the site-securing protocol; begins compiling the evidence log for the incident folder per HUOG-ERP Section 11.3; does not attempt to access the vehicle or laptop without formal handover.",
+      "purposeTag": "PRESSURE",
+      "format": "radio_call",
+      "injectId": "01M5H3XZD3CKZDTBF38SMSM7DB",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 4 › 4.3 Water recovery",
+          "quote": "An aircraft in the lake or Millstone Creek is not recovered by the crew. The IC calls the site manager and CCSO; recovery uses the property's boat with life jackets or waits for the sheriff's marine",
+          "chunkId": 13
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Rep",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "01M5H3D49GSZH564BJBECAQ1Y3",
+      "time": "2:00",
+      "wallClock": "11:00",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "safety", "pio", "security", "client"],
+      "toLabel": "All",
+      "event": "Time Jump Card: 'It is now 2:00. The forensic evidence is in. The 915 MHz C2 link was compromised via an unauthorized remote session from IP 192.168.100.22 at 09:12. The session modified the home point and altered the flight path. The IP is not in the Group’s approved vendor list. The GCS-02 logs confirm a C2 link compromise per ISP Section 9.1. The team must now decide: keep automation or fall back to manual control.'",
+      "expectedAction": "The Incident Commander (IC) must now make the decision to either keep automation and risk a lake landing, or switch to manual/attitude mode and land now to preserve the aircraft and prevent a water recovery.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5H3Y8CT7BWQ3STG8WRTR6HR",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-17b",
+      "phaseId": "01M5H3D49GSZH564BJBECAQ1Y3",
+      "time": "2:02",
+      "wallClock": "11:02",
+      "from": "System Log",
+      "toRoleIds": ["it", "ops", "security"],
+      "toLabel": "TL, IC, as, Sec",
+      "event": "System Log: 'GCS-01 – 09:12:47 – Remote session established via 915 MHz link from IP 192.168.100.22 (not in Group’s approved vendor list). Session ID: 0x9E2D4F. Command: set_home_point(43.1724°N, 77.5631°W). Command: modify_flight_path(waypoint 7 → 150m E, 120m N). Source: not in Kit Log (FOM-4). No MFA or 2FA recorded. Session terminated at 09:13:50. GCS-01 firmware mismatch (03.2026-C) detected. RTK-1 base (SM-L1) was the first point of compromise. The flight path change was not initiated by the RPIC or VO.'",
+      "expectedAction": "The Systems & Cybersecurity Lead (TL) confirms that GCS-01 is not in the baseline 03.2026-B and that the firmware mismatch is a critical indicator of compromise. The TL must report the unauthorized session to the managed SOC and initiate a full forensic preservation of GCS-01 and the 915 MHz radio state.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5H3YT12FK0F9Y1RFWX93CFR",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 4 › 4.1 Baseline",
+          "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselin",
+          "chunkId": 104
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "01M5H3D49GSZH564BJBECAQ1Y3",
+      "time": "2:05",
+      "wallClock": "11:05",
+      "from": "Payload Operator",
+      "toRoleIds": ["ops", "it", "client"],
+      "toLabel": "IC, TL, SPO",
+      "event": "Radio Call: 'Ops, I’m looking at the HMI. The aircraft is on a 150-meter eastward leg, now 110 meters north of the meadow. It will cross the north shore of the lake in 42 seconds. If it lands in the lake, recovery will require CCSO and the marine unit per ERP Section 4.3. The battery is at 82%. We cannot stop it in automation. We must switch to manual now.'",
+      "expectedAction": "IC confirms the Payload Operator’s assessment and initiates the decision point. The team must decide whether to keep automation and risk a lake landing, or switch to manual/attitude mode to land now.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "injectId": "01M5H3ZM2TTC5WMGAADRWP8XG0",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 4 › 4.3 Water recovery",
+          "quote": "An aircraft in the lake or Millstone Creek is not recovered by the crew. The IC calls the site manager and CCSO; recovery uses the property's boat with life jackets or waits for the sheriff's marine",
+          "chunkId": 13
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+          "quote": "- Launch point TP-LFA-LP1 at the lodge parking pad. RTK-1 on survey marker SM-L1 by the lodge. - Flight lines run east–west over the meadow and the north shore of the lake; no flight over the lodge or",
+          "chunkId": 69
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-18b",
+      "phaseId": "01M5H3D49GSZH564BJBECAQ1Y3",
+      "time": "2:07",
+      "wallClock": "11:07",
+      "from": "Staff Email",
+      "toRoleIds": ["client", "pio", "ops"],
+      "toLabel": "SPO, PIO, IC",
+      "event": "Email: 'From: CP&L Program Office (SPO) To: Client Liaison (SPO), Communications Lead (PIO), Incident Commander (IC) Subject: UAS-11 – D-3 Deliverable Status – 11:07. The client is demanding a status update by 12:00. The instrument (CP&L-D3) is tied to the hyperspectral data, which may be corrupted. We must confirm whether data was collected and whether it is usable. Please advise on the status.'",
+      "expectedAction": "SPO confirms the client’s deadline and warns of potential program delays if no update is provided by 12:00. The team must balance operational risk against client pressure.",
+      "purposeTag": "PRESSURE",
+      "format": "email",
+      "injectId": "01M5H3ZWPP812VQMYZDVB9BEFX",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 7 › 7.5 Client notification",
+          "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrument",
+          "chunkId": 121
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+          "quote": "Parameter sets (failsafe actions, lost-link timers, RTL altitude, geofence) are exported after every change to `\\\\HUOG-NAS01\\ops\\param-log.md` with the hash of the parameter file. The pre-flight che",
+          "chunkId": 107
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "01M5H3D49GSZH564BJBECAQ1Y3",
+      "time": "2:10",
+      "wallClock": "11:10",
+      "from": "CCSO",
+      "toRoleIds": ["security", "ops"],
+      "toLabel": "Sec, IC, as",
+      "event": "Radio Call: 'Sec, this is CCSO. We have the van’s license plate (HUOG-915-7X). The vehicle was seen on a local traffic camera near Route 14 at 09:11. It is en route to the hangar complex. The driver is in custody. We are forwarding the vehicle’s log and laptop drive to the managed SOC for forensic imaging. The van was not registered to any Group vendor.'",
+      "expectedAction": "Sec confirms CCSO has taken custody of the vehicle and will not attempt to track it further. The team now knows the attacker’s vehicle was in the area at 09:11 and is now in custody.",
+      "purposeTag": "DISTRACTION",
+      "format": "radio_call",
+      "injectId": "01M5H404XQXAK58464TSA0CQVC",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 9 › 9.3 Client sites",
+          "quote": "The Site Survey Form (FOM-3) names the responders, the hospital and the landowner contact; the crew carries it. The IC calls the client's contact for any Level 2 or 3.",
+          "chunkId": 28
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-20",
+      "phaseId": "01M5H3D49GSZH564BJBECAQ1Y3",
+      "time": "2:15",
+      "wallClock": "11:15",
+      "from": "Face-to-Face",
+      "toRoleIds": ["ops", "it", "client", "pio"],
+      "toLabel": "IC, TL, as, SPO, PIO",
+      "event": "Face-to-Face: 'All hands, this is the Incident Commander. The Payload Operator has confirmed that UAS-11 will cross the north shore of the lake in 42 seconds. The aircraft cannot be recovered if it lands in water per ERP Section 4.3. The client demands a status update by 12:00. The forensic evidence shows an unauthorized remote session from 192.168.100.22. The GCS-01 firmware is mismatched. The C2 link was compromised. We must decide now: keep automation and risk a lake landing, or switch to manual/attitude mode and land now to preserve the aircraft and prevent a water recovery.'",
+      "expectedAction": "The Incident Commander (IC) must declare the decision to switch UAS-11 to manual/attitude mode and initiate a controlled landing on the meadow. The IC must ensure that GCS-01 and the 915 MHz radio state are preserved and that no power-off occurs until full telemetry and logs are captured. The decision must be communicated to all roles via the incident command structure.",
+      "purposeTag": "DECISION_POINT",
+      "format": "face_to_face",
+      "injectId": "01M5H40F055NG4HFDWB3W6PRT4",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Rep",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21",
+      "phaseId": "01M5H3D49GSZH564BJBECAQ1Y3",
+      "time": "2:18",
+      "wallClock": "11:18",
+      "from": "Memo",
+      "toRoleIds": ["ops", "it", "safety", "pio", "security", "client"],
+      "toLabel": "All",
+      "event": "Memo: 'To: All. Decision made: UAS-11 is now in manual/attitude mode. The aircraft will be landed manually on the meadow. GCS-01 and the 915 MHz radio state are preserved. No power-off. The managed SOC has been notified. The incident log has been updated per ERP Section 11.3. The Payload Operator is now in control. All roles to proceed under HUOG-ERP.'",
+      "expectedAction": "The Incident Commander (IC) must confirm that the Payload Operator has assumed manual control. The Systems & Cybersecurity Lead (TL) must verify that GCS-01 remains in a preserved state and that the telemetry and link logs are being streamed to the NAS. The ASO must confirm that no public statement has been issued and that the FSDO is still in the loop.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "memo",
+      "injectId": "01M5H40RBYBFKN6XN5242FQZVE",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Rep",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-22",
+      "phaseId": "01M5H3D49GSZH564BJBECAQ1Y3",
+      "time": "2:20",
+      "wallClock": "11:20",
+      "from": "Base Security",
+      "toRoleIds": ["safety"],
+      "toLabel": "ASO",
+      "event": "Radio Call: \"ASO, this is Base Security. We’ve received a call from a local resident near Route 14 reporting a drone crash near the Birch Hollow Range access road. They said they saw a small aircraft go down near the woods, and a vehicle matching the white van description was seen fleeing the area. The resident has a photo of a blackened fuselage on the ground. We’re sending a patrol to confirm. Do you want us to hold the scene?\"",
+      "expectedAction": "Safety instructs Base Security to secure the access road and hold the scene until CCSO arrives; no on-site recovery until the forensic chain of custody is established.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5H411923Y6HH27Q7XYZD6A7",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 4 › 4.3 Water recovery",
+          "quote": "An aircraft in the lake or Millstone Creek is not recovered by the crew. The IC calls the site manager and CCSO; recovery uses the property's boat with life jackets or waits for the sheriff's marine",
+          "chunkId": 13
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-23",
+      "phaseId": "01M5H3D49GSZH564BJBECAQ1Y3",
+      "time": "2:35",
+      "wallClock": "11:35",
+      "from": "Frontline Staff",
+      "toRoleIds": ["safety"],
+      "toLabel": "ASO",
+      "event": "Field Report: \"This is Security at the Birch Hollow Range. I’ve just completed a perimeter sweep of the launch area and the lodge parking pad. The white van (HUOG-915-7X) was not seen on any access road camera, but I found a 915 MHz RF jammer device in a backpack under the lodge deck. It was powered off, but the battery was warm. The device is labeled 'VHF-JAM-915X' and has a serial number: 915-JAM-001. I’ve photographed it and secured it in a Faraday bag. The device was not on the site survey form (FOM-3).\"",
+      "expectedAction": "Safety confirms the jammer is evidence and hands it over to CCSO for forensic imaging; ensures the device is not tampered with and logs it in the incident folder per ERP Section 11.3.",
+      "purposeTag": "CLUE",
+      "format": "field_report",
+      "injectId": "01M5H41CSNXS3V1YF8ZS7ZMZBA",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Rep",
+          "chunkId": 36
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-24",
+      "phaseId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "time": "3:00",
+      "wallClock": "12:00",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "safety", "pio", "security", "client"],
+      "toLabel": "All",
+      "event": "Time Jump Card: 'It is now 3:00. The forensic evidence is confirmed. The GCS-02 is isolated. The 915 MHz link is disconnected. The baseline image (GCS-03) is being loaded onto a spare GCS for re-verification. The team is now in the restoration phase. The aircraft remains in manual/attitude mode on the meadow. No further flights are authorized.'",
+      "expectedAction": "All roles confirm the status of the investigation and begin restoration tasks under HUOG-ERP Section 11.3. The Incident Commander activates the baseline verification process per HUOG-ISP Section 9.1.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5H4281WPJ2MCQBVS1EAWMS1",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.1 Return to flight",
+          "quote": "An aircraft involved in a Level 2 or 3 event is DOWN until the post-incident inspection (HUOG-FOM 4.3), the Systems & Cybersecurity Lead's link and parameter review, and the ASO's sign-off. The site i",
+          "chunkId": 34
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-24b",
+      "phaseId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "time": "3:05",
+      "wallClock": "12:05",
+      "from": "managed SOC",
+      "toRoleIds": ["it", "ops", "security"],
+      "toLabel": "TL, IC, as, Sec",
+      "event": "Email Forward: 'From: Managed SOC (SecureWatch MSSP) To: Systems & Cybersecurity Lead (TL), Incident Commander (IC), ASO, Security Liaison (Sec) Subject: UAS-11 Incident – Forensic Report – 12:15. Summary: GCS-02 firmware hash matches baseline 03.2026-B after re-imaging. The 915 MHz link was compromised via a rogue RF emitter (IP 192.168.100.22, MAC: 915-0A-1F-3C-7D-4E). The device is not in Group’s approved vendor list. Vendor (HUOG-FW01) must be contacted for a signed access request to re-key the link. All logs preserved. Forensic imaging complete.'",
+      "expectedAction": "TL confirms the baseline verification is complete; the GCS-02 is quarantined and must not be reconnected until vendor access is obtained. All roles proceed under HUOG-ISP Section 9.1 and HUOG-ERP Section 11.3.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5H42SGSCM0VZ1AZE8CBAMBA",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 4 › 4.1 Baseline",
+          "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselin",
+          "chunkId": 104
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-26b",
+      "phaseId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "time": "3:20",
+      "wallClock": "12:20",
+      "from": "Reporter",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Email Forward: 'From: Joe Ritter (Harwick Daily News) To: Communications Lead (PIO) Subject: UAS-11 – Birch Hollow Range Incident – 12:20. Breaking: Harwick UAS Operations Group confirms a drone crash near the Birch Hollow Range. Video shows a blackened fuselage in the woods. Is the aircraft still active? Is the CP&L program at risk? Deadline: 13:00. Please respond by 12:45 for publication.'",
+      "expectedAction": "PIO forwards the email to Corporate Communications and the ASO immediately; does not respond directly; waits for General Manager approval before any public comment.",
+      "purposeTag": "PRESSURE",
+      "format": "email_forward",
+      "injectId": "01M5H44026Y4N0KK64Y4CSP9PQ",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager forw",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-26",
+      "phaseId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "time": "3:25",
+      "wallClock": "12:25",
+      "from": "Site Manager",
+      "toRoleIds": ["ops", "it", "security"],
+      "toLabel": "IC, TL, as, Sec",
+      "event": "Field Report: 'This is the Site Manager at Birch Hollow Range. RTK-1 base (SM-L1) has been re-checked. GPS fix restored. RTK sync confirmed. The calibration tarps (CT-1 to CT-4) were not disturbed. The Payload Operator has just called ",
+      "expectedAction": "The Site Manager confirms RTK-1 re-sync and tarp integrity. The Payload Operator confirms a new 'PANEL CLEAR' call was made. The team proceeds to re-enable the telemetry pipeline under supervision.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5H448Q62DYZ7M26HZEWYD5N",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+          "quote": "- Launch point TP-LFA-LP1 at the lodge parking pad. RTK-1 on survey marker SM-L1 by the lodge. - Flight lines run east–west over the meadow and the north shore of the lake; no flight over the lodge or",
+          "chunkId": 69
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-27b",
+      "phaseId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "time": "3:30",
+      "wallClock": "12:30",
+      "from": "managed SOC",
+      "toRoleIds": ["it"],
+      "toLabel": "TL",
+      "event": "Email: 'From: Managed SOC (SecureWatch MSSP) To: Systems & Cybersecurity Lead (TL) Subject: UAS-11 – GCS Re-Imaging – Vendor Access Required. The spare GCS (GCS-04) is running baseline 03.2026-B but the 915 MHz radio firmware is still locked to the old key. Vendor (HUOG-FW01) must provide a signed access request to re-key the link. No on-site re-imaging is possible. Access request form (MSSP-REQ-915) must be submitted within 24 hours.'",
+      "expectedAction": "TL submits the MSSP-REQ-915 access request form to HUOG-FW01 within 24 hours, per HUOG-ISP Section 9.1. No on-site re-imaging is authorized without the signed access request. All roles maintain the current standdown status.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "email",
+      "injectId": "01M5H4578PACAGG2KV6SHPFDVC",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 4 › 4.1 Baseline",
+          "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselin",
+          "chunkId": 104
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-27",
+      "phaseId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "time": "3:35",
+      "wallClock": "12:35",
+      "from": "Incident Commander",
+      "toRoleIds": ["pio", "ops"],
+      "toLabel": "s, PIO, IC, as",
+      "event": "Memo: 'To: Client Liaison (SPO), Communications Lead (PIO), Incident Commander (IC), Aviation Safety Officer (ASO). Formal Notification: UAS-11 Incident – Data Integrity for Deliverable D-3. Data for Deliverable D-3 may be compromised. We are verifying integrity. Next update at 14:00. All data transfers on hold until verification complete. Refer to HUOG-ISP Section 7.5 for client notification protocol.'",
+      "expectedAction": "The Incident Commander issues the formal client notification per HUOG-ISP Section 7.5. All data transfers are paused. The client is informed via the General Manager and ASO, as per C6 and C5.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "memo",
+      "injectId": "01M5H45SCWQ82JAT5XCR761F1T",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 7 › 7.5 Client notification",
+          "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrument",
+          "chunkId": 121
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-28",
+      "phaseId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "time": "3:40",
+      "wallClock": "12:40",
+      "from": "Outside Caller",
+      "toRoleIds": ["ops", "security"],
+      "toLabel": "as, IC, Sec",
+      "event": "Phone Call: 'Incident Commander, this is the ASO. I have just reported to the FAA FSDO via HUOG-ERP Section 6.2 (FSDO contact: (585) 555-0188). UAS-11 has been landed manually on the meadow. The GCS is quarantined. The fleet of that type is grounded per ISP Section 9.1. The incident is under investigation. The FSDO has been updated on the status and the hold on data transfer.'",
+      "expectedAction": "The ASO confirms FSDO reporting and fleet grounding per ISP Section 9.1 and C3. The team verifies that no further flights are authorized.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5H463XX8S7BAPTKZWK8JZ23",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-28b",
+      "phaseId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "time": "3:40",
+      "wallClock": "12:40",
+      "from": "Site Manager",
+      "toRoleIds": ["safety"],
+      "toLabel": "ASO",
+      "event": "Field Report: 'This is the Site Manager at Birch Hollow Range. I’ve just completed a full perimeter sweep of the launch area and the lodge parking pad. The 915 MHz RF jammer device (serial: 915-JAM-001) was found under the lodge deck. It is not on the site survey form (FOM-3). The device was powered off but the battery was warm. I’ve secured it in a Faraday bag. The vehicle (HUOG-915-7X) was not on any access road camera. The lodge Wi-Fi (10.17.40.11) remains active and unaltered.'",
+      "expectedAction": "ASO confirms that the site is secured and that the RF jammer is to remain in the Faraday bag until CCSO provides a handover report; does not authorize any on-site handling.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5H46EGDP1Z893EQ73R2TBHZ",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+          "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+          "chunkId": 127
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-29",
+      "phaseId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "time": "3:50",
+      "wallClock": "12:50",
+      "from": "Incident Commander",
+      "toRoleIds": ["ops", "security", "pio"],
+      "toLabel": "IC, as, Sec, s, PIO",
+      "event": "Memo: 'To: All. Final Status: UAS-11 is in manual/attitude mode on the meadow. The GCS and radio state are preserved. The fleet of that type is grounded. The baseline has been verified. The site is secured. The managed SOC has been notified. The FSDO and client have been informed. The incident log is closed. All roles to prepare for the hot wash.'",
+      "expectedAction": "The Incident Commander confirms final status and closes the incident log per HUOG-ERP Section 11.3. All roles prepare for the hot wash.",
+      "purposeTag": "END_GAME",
+      "format": "memo",
+      "injectId": "01M5H47CD2SS9SCSDTGN1VNBAM",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+          "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+          "chunkId": 99
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.1 Return to flight",
+          "quote": "An aircraft involved in a Level 2 or 3 event is DOWN until the post-incident inspection (HUOG-FOM 4.3), the Systems & Cybersecurity Lead's link and parameter review, and the ASO's sign-off. The site i",
+          "chunkId": 34
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-29b",
+      "phaseId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "time": "3:50",
+      "wallClock": "12:50",
+      "from": "CP&L Program Office",
+      "toRoleIds": ["client"],
+      "toLabel": "SPO",
+      "event": "Email: 'From: CP&L Program Office (SPO) To: Client Liaison (SPO) Subject: UAS-11 – D-3 Deliverable – Final Status – 12:50. The client has reviewed the preliminary forensic report. They are demanding confirmation on data usability for D-3 by 13:00. If data is unusable, they will initiate a formal review of the Group’s compliance with the CP&L contract. Please confirm whether data was collected and whether it can be used in the final report.'",
+      "expectedAction": "SPO confirms to the CP&L Program Office that data integrity is under review and that a final determination will be made by 14:00; does not speculate on usability or accept responsibility for data loss.",
+      "purposeTag": "PRESSURE",
+      "format": "email",
+      "injectId": "01M5H47NWX21DWJVQ97JN47506",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 7 › 7.5 Client notification",
+          "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrument",
+          "chunkId": 121
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.1 Return to flight",
+          "quote": "An aircraft involved in a Level 2 or 3 event is DOWN until the post-incident inspection (HUOG-FOM 4.3), the Systems & Cybersecurity Lead's link and parameter review, and the ASO's sign-off. The site i",
+          "chunkId": 34
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "time": "4:00",
+      "wallClock": "13:00",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "safety", "pio", "security", "client"],
+      "toLabel": "All",
+      "event": "Endex Card: 'It is now 13:00. All systems preserved. Incident closed. Restoration phase complete. The team has restored control, verified integrity, and reported to regulators and clients. The hot wash will begin immediately.'",
+      "expectedAction": "All roles confirm the end of the exercise. The hot wash begins.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M5H47YSK0ZDWVH5MFT91JY95",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/documents/handbook.md",
+    "briefing": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/documents/briefing.md",
+    "overview": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/documents/overview.md",
+    "hotwash": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/documents/hotwash.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "01M5H3JSTJD00ZF79PDNMC2A9F",
+        "name": "Command Integrity",
+        "points": 30,
+        "fail": "Ops delayed the stop-service decision until I-09 forced it; failed to order the RPIC to hold UAS-11 in attitude mode after I-08b, allowing uncommanded flight; did not confirm telemetry consistency before authorizing manual control.",
+        "pass": "Ops ordered the RPIC to hold UAS-11 in attitude mode after I-01 and I-11; confirmed telemetry consistency from RTK-1 and DAA-1 logs before authorizing manual control in I-20; preserved GCS-02 and radio state throughout.",
+        "excellence": "Ops preemptively ordered the RPIC to switch to attitude mode at I-01, citing ISP Section 9.1; immediately initiated telemetry correlation between RTK-1, DAA-1, and aircraft logs; confirmed GCS-02 state preservation before I-11b and I-17b, preventing evidence loss.",
+        "linkedInjectIds": ["I-01", "I-08", "I-11", "I-17b", "I-20"],
+        "objectiveRefs": ["Command Integrity"]
+      },
+      {
+        "id": "01M5H3JSTJ5S4GX0T8Q5C87M28",
+        "name": "Cyber-Physical Trust",
+        "points": 30,
+        "fail": "IT reset the controller after I-08b, destroying evidence; failed to compare aircraft GNSS logs with RTK-1 and DAA-1 logs; relied on the Payload Operator's HMI instead of forensic logs.",
+        "pass": "IT verified the RTK-1 and DAA-1 logs against aircraft telemetry; confirmed the home point change was triggered by a spoofed GPS signal from 10.17.40.11 in I-11; compared firmware hashes in I-13b and confirmed mismatch.",
+        "excellence": "IT proactively compared aircraft GNSS logs with RTK-1, DAA-1, and SV-1/SV-2 logs before I-11; identified the spoofed GPS signal from 10.17.40.11 in I-11; confirmed the remote session from 192.168.100.22 in I-17b using full log correlation, preventing misattribution.",
+        "linkedInjectIds": ["I-08", "I-11", "I-13b", "I-17b", "I-24b"],
+        "objectiveRefs": ["Cyber-Physical Trust"]
+      },
+      {
+        "id": "01M5H3JSTJKP2D78PWJG7NRFK8",
+        "name": "Interagency Coordination",
+        "points": 20,
+        "fail": "PIO issued a public statement in response to I-15 before General Manager approval; failed to notify Harwick Police Department and CCSO per C4 before I-04.",
+        "pass": "PIO forwarded I-06 and I-15 to Corporate Communications and the ASO per HUOG-ERP Section 10.3; notified CCSO and Harwick Police Department via C4 contact list after I-04; confirmed FSDO contact (585-555-0177) was used in I-12.",
+        "excellence": "PIO immediately forwarded I-06 and I-15 to Corporate Communications and the ASO; notified CCSO and Harwick Police Department per C4 contact list before I-04; confirmed FSDO contact (585-555-0177) was used in I-12 and maintained chain of custody for all external reports.",
+        "linkedInjectIds": ["I-04", "I-06", "I-12", "I-16", "I-28"],
+        "objectiveRefs": ["Interagency Coordination"]
+      },
+      {
+        "id": "01M5H3JSTJADWGT3DQ01A79XK6",
+        "name": "Use of Doctrine",
+        "points": 20,
+        "fail": "Trainees did not cite any plan section when reporting I-06; failed to reference HUOG-ISP Section 9.1 when declaring the incident in I-05.",
+        "pass": "Trainees cited HUOG-ISP Section 9.1 in I-05 when declaring the incident; referenced HUOG-ERP Section 11.3 for log maintenance; used C4 contact list to report to CCSO and FSDO.",
+        "excellence": "Trainees cited HUOG-ISP Section 9.1 and HUOG-ERP Section 11.3 in I-05 to declare the incident; referenced C4 contact list to report to CCSO and FSDO; cited HUOG-ISP Section 7.5 in I-27 to justify client notification; used C4 for all external reporting.",
+        "linkedInjectIds": ["I-05", "I-06", "I-12", "I-16", "I-27"],
+        "objectiveRefs": ["Use of Doctrine"]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Use the '3-Up, 3-Down' method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room team by team, and write each response on a whiteboard to visualize the feedback. This helps surface both strengths and gaps in real time.",
+    "questions": [
+      {
+        "topic": "Trust",
+        "text": "At the moment you received I-02, when did you stop trusting the telemetry from the GCS-02, DAA-1, and RTK-1, and what evidence made you switch from 'system says' to 'field says'?",
+        "objectiveRef": "Cyber-Physical Trust"
+      },
+      {
+        "topic": "The Gap",
+        "text": "When you saw the unauthorized remote session from IP 192.168.100.22 in I-17b, what did you treat as evidence and what did you treat as a ticket to action? What would have made you decide to isolate the GCS-02 sooner, based on C1 and C2?",
+        "objectiveRef": "Command Integrity"
+      },
+      {
+        "topic": "The Call",
+        "text": "At I-20, when you had to choose between keeping automation and risking a lake landing or switching to manual/attitude mode, what factors tipped the balance? What would have let you decide faster, and which part of the EOP (e.g. C3, C4) should have triggered that decision earlier?",
+        "objectiveRef": "Incident Response Continuity"
+      },
+      {
+        "topic": "The Vendor",
+        "text": "The compromised 915 MHz link originated from a vehicle with RF equipment. When did you first consider bringing in the system vendor and the law enforcement (CCSO) contact, and what evidence would have triggered that step before the field report (I-23)?",
+        "objectiveRef": "Interagency Coordination"
+      },
+      {
+        "topic": "The Plan",
+        "text": "The flight path change was not in the Kit Log (FOM-4). When did you realize that the standard operating procedure in C4 (Lakeshore Flight Area) was being bypassed, and how did you reconcile operational pressure with compliance under C3?",
+        "objectiveRef": "Incident Response Continuity"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "Managed SOC (SecureWatch MSSP)",
+      "trigger": "The Systems & Cybersecurity Lead (TL) says, 'I need a forensic report on the GCS-02 and the RTK base.'",
+      "hardQuestions": [
+        "Do you have the full telemetry and link logs preserved from before power-off?",
+        "Is the baseline image (03.2026-B) on the NAS and hash-verified?",
+        "Was the forensic imaging completed on the laptop drive and vehicle log, and is the chain-of-custody documented?"
+      ],
+      "concessions": [
+        "Will accept a signed access request and a hash comparison report from the vendor."
+      ]
+    },
+    {
+      "rolePlayed": "FAA Harwick FSDO",
+      "trigger": "The Aviation Safety Officer (ASO) says, 'I’ve reported to the FSDO.'",
+      "hardQuestions": [
+        "Have you submitted the flight logs and telemetry within 24 hours as required?",
+        "Can you confirm whether the aircraft departed from an unauthorized location?",
+        "Is the flight outside the authorized test area and during a public event at the adjacent Harwick Fairgrounds?"
+      ],
+      "concessions": [
+        "Will accept the full telemetry packet and a signed log of the submission timestamp from the ASO."
+      ]
+    },
+    {
+      "rolePlayed": "CP&L Program Office (Client)",
+      "trigger": "The Client Liaison (SPO) says, 'The client wants a status update on D-3.'",
+      "hardQuestions": [
+        "Is the data for Deliverable D-3 confirmed as usable?",
+        "Have you preserved the raw hyperspectral data and the calibration tarps status?",
+        "Has the Systems & Cybersecurity Lead verified the integrity of the data pipeline?"
+      ],
+      "concessions": [
+        "Will accept a signed verification from the TL and a copy of the incident log from the NAS."
+      ]
+    }
+  ],
+  "criticalResources": [
+    "GCS (Ground Control Station)",
+    "C2 Link (915 MHz)",
+    "Telemetry Radio Link",
+    "GNSS / RTK Base Station (RTK-1)",
+    "Autopilot and Flight Controller",
+    "Payload and Sensor Computer (PL-02)",
+    "Battery Charger and Battery Management System",
+    "Remote ID Module",
+    "Detect-and-Avoid / ADS-B Receiver (DAA-1)",
+    "Hangar PACS and CCTV",
+    "IT Systems (NAS, Firewall, Backups)",
+    "Public Mood (Social Media Sentiment)",
+    "RTK-1 and SV-1/SV-2 Logs",
+    "GCS and Radio State (Preserved)",
+    "Hangar 1 Perimeter (Physical Security)"
+  ],
+  "warnings": [
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-11 is addressed to \"as\", which is not a role key",
+      "rowId": "I-11",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-11b is addressed to \"as\", which is not a role key",
+      "rowId": "I-11b",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-12 is addressed to \"as\", which is not a role key",
+      "rowId": "I-12",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-14 is addressed to \"as\", which is not a role key",
+      "rowId": "I-14",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-19 is addressed to \"as\", which is not a role key",
+      "rowId": "I-19",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-26 is addressed to \"as\", which is not a role key",
+      "rowId": "I-26",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-27 is addressed to \"s\", \"as\", which is not a role key",
+      "rowId": "I-27",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-28 is addressed to \"as\", which is not a role key",
+      "rowId": "I-28",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-29 is addressed to \"as\", \"s\", which is not a role key",
+      "rowId": "I-29",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-17b is addressed to \"as\", which is not a role key",
+      "rowId": "I-17b",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-20 is addressed to \"as\", which is not a role key",
+      "rowId": "I-20",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-13 is addressed to \"as\", which is not a role key",
+      "rowId": "I-13",
+      "source": "lint"
+    },
+    {
+      "code": "ROLE_KEY_UNKNOWN",
+      "severity": "warning",
+      "message": "Row I-24b is addressed to \"as\", which is not a role key",
+      "rowId": "I-24b",
+      "source": "lint"
+    },
+    {
+      "code": "FACILITY_UNKNOWN_ID",
+      "severity": "warning",
+      "message": "Row START names Flight site / test area THE LAKESHORE FLIGHT AREA (the documents list Creek Test Area, Horton Field, Lakeshore Flight Area, Quarry Flight Area), which the documents do not have",
+      "rowId": "START",
+      "source": "lint",
+      "suggestion": "Use an identifier from the facility facts (facility-facts.md), or frame it as the attacker’s fake data"
+    },
+    {
+      "code": "FACILITY_UNKNOWN_ID",
+      "severity": "warning",
+      "message": "Row I-02 names Ground control station GCS-02 (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04); Ground control station GCS-12 (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04), which the documents do not have",
+      "rowId": "I-02",
+      "source": "lint",
+      "suggestion": "Use an identifier from the facility facts (facility-facts.md), or frame it as the attacker’s fake data"
+    },
+    {
+      "code": "FACILITY_UNKNOWN_ID",
+      "severity": "warning",
+      "message": "Row I-03 names Ground control station GCS-02 (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04); Ground control station GCS-12 (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04), which the documents do not have",
+      "rowId": "I-03",
+      "source": "lint",
+      "suggestion": "Use an identifier from the facility facts (facility-facts.md), or frame it as the attacker’s fake data"
+    },
+    {
+      "code": "FACILITY_UNKNOWN_ID",
+      "severity": "warning",
+      "message": "Row I-09 names Ground control station GCS-02 (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04); Ground control station GCS-12 (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04), which the documents do not have",
+      "rowId": "I-09",
+      "source": "lint",
+      "suggestion": "Use an identifier from the facility facts (facility-facts.md), or frame it as the attacker’s fake data"
+    },
+    {
+      "code": "FACILITY_UNKNOWN_ID",
+      "severity": "warning",
+      "message": "Row I-10 names Ground control station GCS-02 (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04), which the documents do not have",
+      "rowId": "I-10",
+      "source": "lint",
+      "suggestion": "Use an identifier from the facility facts (facility-facts.md), or frame it as the attacker’s fake data"
+    },
+    {
+      "code": "FACILITY_UNKNOWN_ID",
+      "severity": "warning",
+      "message": "Row I-13 names Ground control station GCS-12 (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04), which the documents do not have",
+      "rowId": "I-13",
+      "source": "lint",
+      "suggestion": "Use an identifier from the facility facts (facility-facts.md), or frame it as the attacker’s fake data"
+    },
+    {
+      "code": "FACILITY_UNKNOWN_ID",
+      "severity": "warning",
+      "message": "Row I-17 names Ground control station GCS-02 (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04), which the documents do not have",
+      "rowId": "I-17",
+      "source": "lint",
+      "suggestion": "Use an identifier from the facility facts (facility-facts.md), or frame it as the attacker’s fake data"
+    },
+    {
+      "code": "FACILITY_UNKNOWN_ID",
+      "severity": "warning",
+      "message": "Row I-24 names Ground control station GCS-02 (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04), which the documents do not have",
+      "rowId": "I-24",
+      "source": "lint",
+      "suggestion": "Use an identifier from the facility facts (facility-facts.md), or frame it as the attacker’s fake data"
+    },
+    {
+      "code": "FACILITY_UNKNOWN_ID",
+      "severity": "warning",
+      "message": "Row I-24b names Ground control station GCS-02 (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04), which the documents do not have",
+      "rowId": "I-24b",
+      "source": "lint",
+      "suggestion": "Use an identifier from the facility facts (facility-facts.md), or frame it as the attacker’s fake data"
+    },
+    {
+      "code": "INJECT_SCRIPTS_PLAYERS",
+      "severity": "warning",
+      "message": "Row I-10 narrates a decision by Director of Flight Operations (Incident Commander) (\"…ICcannot command UAS-11 in any mode. The…\"); let the players make it and describe it in the expected action",
+      "rowId": "I-10",
+      "source": "lint"
+    },
+    {
+      "code": "INJECT_SCRIPTS_PLAYERS",
+      "severity": "warning",
+      "message": "Row I-17 narrates a decision by Security / CCSO Liaison (\"…Section 9.1. The team must now decide: keep…\"); let the players make it and describe it in the expected action",
+      "rowId": "I-17",
+      "source": "lint"
+    },
+    {
+      "code": "MIX_NO_NOISE",
+      "severity": "warning",
+      "message": "No NOISE or RED_HERRING inject in phase 4 \"Restoration & Verification\"",
+      "source": "lint"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-10 falsely attributes a decision to the Incident Commander; the time jump is a narrative trigger, not a player action. (row rewritten once from this note)",
+      "rowId": "I-10",
+      "source": "critique",
+      "suggestion": "Rewrite I-10 to state only that the time has jumped and the team must prepare for Phase 2, with no implied decision by a player role."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-17 falsely attributes a decision to the Security / CCSO Liaison; the narrative should not assign a player role to decide on manual control. (row rewritten once from this note)",
+      "rowId": "I-17",
+      "source": "critique",
+      "suggestion": "Rewrite I-17 to state only that forensic evidence is in and the team must now decide, with the decision point to be made by the Incident Commander in the next row."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-25b repeats the same inject as I-22, creating a redundant noise.",
+      "rowId": "I-25b",
+      "source": "critique",
+      "suggestion": "Remove I-25b or reframe it as a new report from a different source, such as a local news outlet, to avoid duplication."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-24b uses 're-imaging' incorrectly; the baseline was already loaded, and 're-imaging' implies a full OS reload, not verification. (row rewritten once from this note)",
+      "rowId": "I-24b",
+      "source": "critique",
+      "suggestion": "Change 're-imaging' to 're-verification' and clarify that the baseline image was loaded and compared against the GCS-02 firmware."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-27b incorrectly states that on-site re-imaging is not possible; the scenario allows it, and the vendor access request is for re-keying, not re-imaging. (row rewritten once from this note)",
+      "rowId": "I-27b",
+      "source": "critique",
+      "suggestion": "Revise the email to state that on-site re-imaging is not authorized and that only re-keying is permitted via the vendor access request."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-28 falsely claims the fleet is grounded per ISP Section 9.1; the fleet grounding is a decision, not an automatic outcome.",
+      "rowId": "I-28",
+      "source": "critique",
+      "suggestion": "Change to state that the fleet grounding is pending the Incident Commander’s approval and will be executed per ISP Section 9.1 after formal declaration."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Row I-29 closes the incident log prematurely; the hot wash has not occurred, and the log must remain open until after the debrief.",
+      "rowId": "I-29",
+      "source": "critique",
+      "suggestion": "Delay the final memo until after the hot wash, and change the status to 'incident under review' until the debrief is complete."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "Row I-04 uses 'white van' without a vehicle identifier; the scenario state lists HUOG-915-7X as the license plate, so it must be used.",
+      "rowId": "I-04",
+      "source": "critique",
+      "suggestion": "Update the radio call to include the license plate: 'white van (HUOG-915-7X)'."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "Row I-13b references PL-02 data as compromised; PL-02 is not listed in the FACILITY FACTS as a known system.",
+      "rowId": "I-13b",
+      "source": "critique",
+      "suggestion": "Replace 'PL-02' with a valid system from the FACILITY FACTS, such as 'PAY-01', or define PL-02 in the scenario state."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "Row I-17b uses 'IP 192.168.100.22' as a source; this IP is not in the approved ranges (10.17.40.x, 10.17.41.x, 10.17.60.x, 192.168.88.x). (row rewritten once from this note)",
+      "rowId": "I-17b",
+      "source": "critique",
+      "suggestion": "Change the IP to 192.168.88.22, which is in the approved 192.168.88.x range."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "Row I-23 uses 'VHF-JAM-915X' as a device name; the scenario state lists only 915 MHz as a frequency, not VHF.",
+      "rowId": "I-23",
+      "source": "critique",
+      "suggestion": "Change the device name to '915-MHz JAMMER-001' to match the documented frequency and naming convention."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "Row I-24b refers to 'GCS-03' as the baseline image; GCS-03 is not in the FACILITY FACTS list of GCSs (GCS-01 to GCS-06, GCS01 to GCS04). (row rewritten once from this note)",
+      "rowId": "I-24b",
+      "source": "critique",
+      "suggestion": "Replace 'GCS-03' with 'GCS-04' or 'GCS03' to match the documented list."
+    },
+    {
+      "code": "INJECT_CONTENT_ISSUE",
+      "severity": "warning",
+      "message": "START: content still inconsistent after one repair:\n- fields: flight site / test area THE LAKESHORE FLIGHT AREA is not in the facility facts (the documents list Creek Test Area, Horton Field, Lakeshore Flight Area, Quarry Flight Area); use one that exists",
+      "rowId": "START",
+      "injectId": "01M5H3PH7E7NPQWWA0DSFBRAK5",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged content"
+    },
+    {
+      "code": "INJECT_CONTENT_ISSUE",
+      "severity": "warning",
+      "message": "I-02: content still inconsistent after one repair:\n- fields: ground control station GCS-02 is not in the facility facts (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04); use one that exists",
+      "rowId": "I-02",
+      "injectId": "01M5H3QBHBDPRHA6H6BH4DXRZH",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged content"
+    },
+    {
+      "code": "INJECT_CONTENT_ISSUE",
+      "severity": "warning",
+      "message": "I-03: content still inconsistent after one repair:\n- fields: ground control station GCS-02 is not in the facility facts (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04); use one that exists",
+      "rowId": "I-03",
+      "injectId": "01M5H3R2QK1TBZT0BDVB0E9THX",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged content"
+    },
+    {
+      "code": "INJECT_FIELDS_INVALID",
+      "severity": "warning",
+      "message": "I-04: fields still do not match the radio_call template after one repair:\n- fields/background: must be equal to one of the allowed values",
+      "rowId": "I-04",
+      "injectId": "01M5H3RM5JTYZQD65XCN1VKKCJ",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged fields"
+    },
+    {
+      "code": "INJECT_CONTENT_ISSUE",
+      "severity": "warning",
+      "message": "I-10: content still inconsistent after one repair:\n- fields: ground control station GCS-02 is not in the facility facts (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04); use one that exists",
+      "rowId": "I-10",
+      "injectId": "01M5H3T39K0MZN9618CVZG1CVB",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged content"
+    },
+    {
+      "code": "INJECT_CONTENT_ISSUE",
+      "severity": "warning",
+      "message": "I-11: content still inconsistent after one repair:\n- fields: ground control station GCS-12 is not in the facility facts (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04); use one that exists",
+      "rowId": "I-11",
+      "injectId": "01M5H3TFCDKRXFTF0E339CY171",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged content"
+    },
+    {
+      "code": "INJECT_CONTENT_ISSUE",
+      "severity": "warning",
+      "message": "I-13: content still inconsistent after one repair:\n- fields: ground control station GCS-12 is not in the facility facts (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04); use one that exists",
+      "rowId": "I-13",
+      "injectId": "01M5H3VZ47AQFES1GRNDK57CR3",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged content"
+    },
+    {
+      "code": "INJECT_CONTENT_ISSUE",
+      "severity": "warning",
+      "message": "I-17b: content still inconsistent after one repair:\n- fields: ground control station GCS-12 is not in the facility facts (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04); use one that exists\n- fields: ground control station GCS-02 is not in the facility facts (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04); use one that exists",
+      "rowId": "I-17b",
+      "injectId": "01M5H3YT12FK0F9Y1RFWX93CFR",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged content"
+    },
+    {
+      "code": "INJECT_CONTENT_ISSUE",
+      "severity": "warning",
+      "message": "I-24: content still inconsistent after one repair:\n- fields: ground control station GCS-02 is not in the facility facts (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04); use one that exists",
+      "rowId": "I-24",
+      "injectId": "01M5H4281WPJ2MCQBVS1EAWMS1",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged content"
+    },
+    {
+      "code": "INJECT_FIELDS_INVALID",
+      "severity": "warning",
+      "message": "I-24b: fields still do not match the email_forward template after one repair:\n- fields/original: must NOT have additional properties",
+      "rowId": "I-24b",
+      "injectId": "01M5H42SGSCM0VZ1AZE8CBAMBA",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged fields"
+    },
+    {
+      "code": "INJECT_CONTENT_ISSUE",
+      "severity": "warning",
+      "message": "I-24b: content still inconsistent after one repair:\n- fields: ground control station GCS-02 is not in the facility facts (the documents list GCS-01, GCS-02, GCS-03, GCS-04, GCS-05, GCS-06, GCS01, GCS02, GCS03, GCS04); use one that exists",
+      "rowId": "I-24b",
+      "injectId": "01M5H42SGSCM0VZ1AZE8CBAMBA",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged content"
+    },
+    {
+      "code": "INJECT_MEDIA_FAILED",
+      "severity": "warning",
+      "message": "I-24b: template failed — Inject 01M5H42SGSCM0VZ1AZE8CBAMBA fields do not match the email_forward template: /original must NOT have additional properties",
+      "rowId": "I-24b",
+      "injectId": "01M5H42SGSCM0VZ1AZE8CBAMBA",
+      "source": "lint",
+      "suggestion": "Check the media provider in Providers → Routing and regenerate the media"
+    },
+    {
+      "code": "INJECT_MEDIA_FAILED",
+      "severity": "warning",
+      "message": "I-04: template failed — Inject 01M5H3RM5JTYZQD65XCN1VKKCJ fields do not match the radio_call template: /background must be equal to one of the allowed values",
+      "rowId": "I-04",
+      "injectId": "01M5H3RM5JTYZQD65XCN1VKKCJ",
+      "source": "lint",
+      "suggestion": "Check the media provider in Providers → Routing and regenerate the media"
+    }
+  ],
+  "provenance": [
+    {
+      "stage": "scenario_overview",
+      "startedAt": "2026-10-22T06:04:28.633Z",
+      "finishedAt": "2026-10-22T06:04:34.187Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "scenario_overview@default",
+      "promptHash": "16e3d8badb4d20f60c83c4701882c3ffcfa5a065c536349f081551dc1d94843b",
+      "inputTokens": 3189,
+      "outputTokens": 518,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "objectives_roles",
+      "startedAt": "2026-10-22T06:04:34.201Z",
+      "finishedAt": "2026-10-22T06:04:47.682Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "objectives_roles@default",
+      "promptHash": "3d1c2b684e0885dced1f90439df7567faf98f511000c78a9fbce4bc796b396fd",
+      "inputTokens": 3379,
+      "outputTokens": 1370,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "phase_plan",
+      "startedAt": "2026-10-22T06:04:47.697Z",
+      "finishedAt": "2026-10-22T06:05:05.712Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "phase_plan@default",
+      "promptHash": "d5ba5715d3af2998a1d7f397abe4dee08f509a020e2084d00d52e1f11136e32a",
+      "inputTokens": 3325,
+      "outputTokens": 1737,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+      "startedAt": "2026-10-22T06:05:05.736Z",
+      "finishedAt": "2026-10-22T06:05:37.233Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "3610641dbdaabd2926e8be28cf08f52276582f4b41c8cbfbfeeedc727da67bc9",
+      "inputTokens": 18569,
+      "outputTokens": 2611,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5H3D49G554QYC2XD2J624AH",
+      "startedAt": "2026-10-22T06:05:37.253Z",
+      "finishedAt": "2026-10-22T06:06:08.364Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "3610641dbdaabd2926e8be28cf08f52276582f4b41c8cbfbfeeedc727da67bc9",
+      "inputTokens": 31277,
+      "outputTokens": 3333,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5H3D49GSZH564BJBECAQ1Y3",
+      "startedAt": "2026-10-22T06:06:16.093Z",
+      "finishedAt": "2026-10-22T06:06:42.947Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "3610641dbdaabd2926e8be28cf08f52276582f4b41c8cbfbfeeedc727da67bc9",
+      "inputTokens": 35691,
+      "outputTokens": 3993,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+      "startedAt": "2026-10-22T06:06:52.434Z",
+      "finishedAt": "2026-10-22T06:07:17.572Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "3610641dbdaabd2926e8be28cf08f52276582f4b41c8cbfbfeeedc727da67bc9",
+      "inputTokens": 40312,
+      "outputTokens": 5684,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "controller_handbook",
+      "startedAt": "2026-10-22T06:07:37.905Z",
+      "finishedAt": "2026-10-22T06:07:55.424Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "controller_handbook@default",
+      "promptHash": "e2fef25331b9e1d7345f70cd9b29ceec65c2c18f975219deb5ca4365edd96969",
+      "inputTokens": 9016,
+      "outputTokens": 1297,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "rubric",
+      "startedAt": "2026-10-22T06:07:55.444Z",
+      "finishedAt": "2026-10-22T06:08:11.602Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "rubric@default",
+      "promptHash": "ad7bd6953cef369fd9514e4afe0f3ba42c00ff46e006516319efc459947cf670",
+      "inputTokens": 9884,
+      "outputTokens": 1056,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "player_briefing",
+      "startedAt": "2026-10-22T06:08:11.622Z",
+      "finishedAt": "2026-10-22T06:08:29.524Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "player_briefing@default",
+      "promptHash": "8f2102ec53a8b66fec8b29b0e02e33e403ab08766558036ece9685bb58015158",
+      "inputTokens": 4953,
+      "outputTokens": 1648,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "hotwash",
+      "startedAt": "2026-10-22T06:08:29.541Z",
+      "finishedAt": "2026-10-22T06:08:34.522Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "hotwash@default",
+      "promptHash": "3203b67c6ff847c27925a8402438166159dad09b8fcc35fd87fa19f0115e5216",
+      "inputTokens": 2233,
+      "outputTokens": 490,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "critique",
+      "startedAt": "2026-10-22T06:08:34.545Z",
+      "finishedAt": "2026-10-22T06:08:55.572Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "critique@default",
+      "promptHash": "924bbcf2e62aae9fcbf3b6c02d6743e9e376ef619d4ab25c20cf308d416c83f2",
+      "inputTokens": 13922,
+      "outputTokens": 1272,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3PH7E7NPQWWA0DSFBRAK5",
+      "startedAt": "2026-10-22T06:10:13.889Z",
+      "finishedAt": "2026-10-22T06:10:21.592Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12011,
+      "outputTokens": 1336,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3PH7E7NPQWWA0DSFBRAK5",
+      "startedAt": "2026-10-22T06:10:30.136Z",
+      "finishedAt": "2026-10-22T06:10:30.136Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3Q13Y81122AJ029JVH6CJ",
+      "startedAt": "2026-10-22T06:10:30.149Z",
+      "finishedAt": "2026-10-22T06:10:40.795Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 5476,
+      "outputTokens": 919,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3Q13Y81122AJ029JVH6CJ",
+      "startedAt": "2026-10-22T06:10:40.806Z",
+      "finishedAt": "2026-10-22T06:10:40.806Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3QBHBDPRHA6H6BH4DXRZH",
+      "startedAt": "2026-10-22T06:10:40.817Z",
+      "finishedAt": "2026-10-22T06:10:52.221Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12155,
+      "outputTokens": 2052,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3QBHBDPRHA6H6BH4DXRZH",
+      "startedAt": "2026-10-22T06:11:04.559Z",
+      "finishedAt": "2026-10-22T06:11:04.559Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3R2QK1TBZT0BDVB0E9THX",
+      "startedAt": "2026-10-22T06:11:04.570Z",
+      "finishedAt": "2026-10-22T06:11:10.330Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12202,
+      "outputTokens": 908,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3R2QK1TBZT0BDVB0E9THX",
+      "startedAt": "2026-10-22T06:11:16.869Z",
+      "finishedAt": "2026-10-22T06:11:22.410Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 1790,
+      "outputTokens": 580,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3RM5JTYZQD65XCN1VKKCJ",
+      "startedAt": "2026-10-22T06:11:22.425Z",
+      "finishedAt": "2026-10-22T06:11:27.333Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12620,
+      "outputTokens": 682,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3RM5JTYZQD65XCN1VKKCJ",
+      "startedAt": "2026-10-22T06:11:32.384Z",
+      "finishedAt": "2026-10-22T06:11:36.407Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 1723,
+      "outputTokens": 445,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3S1TY2M2A37TJA19D5WYV",
+      "startedAt": "2026-10-22T06:11:36.420Z",
+      "finishedAt": "2026-10-22T06:11:42.865Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 5879,
+      "outputTokens": 516,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3S1TY2M2A37TJA19D5WYV",
+      "startedAt": "2026-10-22T06:11:42.870Z",
+      "finishedAt": "2026-10-22T06:11:42.870Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3S84W1K93CBCKYG3ZGPMF",
+      "startedAt": "2026-10-22T06:11:42.881Z",
+      "finishedAt": "2026-10-22T06:11:46.994Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 5840,
+      "outputTokens": 285,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3S84W1K93CBCKYG3ZGPMF",
+      "startedAt": "2026-10-22T06:11:47.001Z",
+      "finishedAt": "2026-10-22T06:11:49.020Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 1728,
+      "outputTokens": 207,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3SE55P6DPXS1S2FSQ865T",
+      "startedAt": "2026-10-22T06:11:49.035Z",
+      "finishedAt": "2026-10-22T06:11:56.812Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 6443,
+      "outputTokens": 621,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3SE55P6DPXS1S2FSQ865T",
+      "startedAt": "2026-10-22T06:11:56.817Z",
+      "finishedAt": "2026-10-22T06:11:56.817Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3SNRQ0PEADMFQTN1G2SKS",
+      "startedAt": "2026-10-22T06:11:56.829Z",
+      "finishedAt": "2026-10-22T06:12:03.330Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 6119,
+      "outputTokens": 515,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3SNRQ0PEADMFQTN1G2SKS",
+      "startedAt": "2026-10-22T06:12:03.335Z",
+      "finishedAt": "2026-10-22T06:12:03.335Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3SW4CQQ2W6D6CR5K5FGHH",
+      "startedAt": "2026-10-22T06:12:03.349Z",
+      "finishedAt": "2026-10-22T06:12:10.664Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 6829,
+      "outputTokens": 558,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3SW4CQQ2W6D6CR5K5FGHH",
+      "startedAt": "2026-10-22T06:12:10.671Z",
+      "finishedAt": "2026-10-22T06:12:10.671Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3T39K0MZN9618CVZG1CVB",
+      "startedAt": "2026-10-22T06:12:10.681Z",
+      "finishedAt": "2026-10-22T06:12:16.702Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 13957,
+      "outputTokens": 828,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3T39K0MZN9618CVZG1CVB",
+      "startedAt": "2026-10-22T06:12:23.048Z",
+      "finishedAt": "2026-10-22T06:12:23.048Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3TFCDKRXFTF0E339CY171",
+      "startedAt": "2026-10-22T06:12:23.060Z",
+      "finishedAt": "2026-10-22T06:12:34.332Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 15283,
+      "outputTokens": 1785,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3TFCDKRXFTF0E339CY171",
+      "startedAt": "2026-10-22T06:12:46.275Z",
+      "finishedAt": "2026-10-22T06:12:46.275Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3V6293Y97J2W90J9E5QDW",
+      "startedAt": "2026-10-22T06:12:46.288Z",
+      "finishedAt": "2026-10-22T06:12:53.909Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 7008,
+      "outputTokens": 561,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3V6293Y97J2W90J9E5QDW",
+      "startedAt": "2026-10-22T06:12:53.910Z",
+      "finishedAt": "2026-10-22T06:12:53.910Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3VDGXZXWMNBB6NTMKE7VN",
+      "startedAt": "2026-10-22T06:12:53.923Z",
+      "finishedAt": "2026-10-22T06:12:59.846Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 7282,
+      "outputTokens": 385,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3VDGXZXWMNBB6NTMKE7VN",
+      "startedAt": "2026-10-22T06:12:59.851Z",
+      "finishedAt": "2026-10-22T06:13:04.158Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 1968,
+      "outputTokens": 429,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3VQH3QS6JNV68EAPQC5Q0",
+      "startedAt": "2026-10-22T06:13:04.170Z",
+      "finishedAt": "2026-10-22T06:13:11.935Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 8014,
+      "outputTokens": 506,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3VQH3QS6JNV68EAPQC5Q0",
+      "startedAt": "2026-10-22T06:13:11.937Z",
+      "finishedAt": "2026-10-22T06:13:11.937Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3VZ47AQFES1GRNDK57CR3",
+      "startedAt": "2026-10-22T06:13:11.949Z",
+      "finishedAt": "2026-10-22T06:13:22.546Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 17139,
+      "outputTokens": 1575,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3VZ47AQFES1GRNDK57CR3",
+      "startedAt": "2026-10-22T06:13:33.730Z",
+      "finishedAt": "2026-10-22T06:13:33.730Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3WMD9EBJ7M6BQ6QT77P19",
+      "startedAt": "2026-10-22T06:13:33.745Z",
+      "finishedAt": "2026-10-22T06:13:42.110Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 8542,
+      "outputTokens": 555,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3WMD9EBJ7M6BQ6QT77P19",
+      "startedAt": "2026-10-22T06:13:42.112Z",
+      "finishedAt": "2026-10-22T06:13:42.112Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3WWK6WWH0GAVMP1JXDCRD",
+      "startedAt": "2026-10-22T06:13:42.124Z",
+      "finishedAt": "2026-10-22T06:13:50.740Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 16865,
+      "outputTokens": 1206,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3WWK6WWH0GAVMP1JXDCRD",
+      "startedAt": "2026-10-22T06:13:59.798Z",
+      "finishedAt": "2026-10-22T06:13:59.798Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3XDVWRJFB3M705NFT5X57",
+      "startedAt": "2026-10-22T06:13:59.813Z",
+      "finishedAt": "2026-10-22T06:14:05.177Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 8117,
+      "outputTokens": 296,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3XDVWRJFB3M705NFT5X57",
+      "startedAt": "2026-10-22T06:14:05.183Z",
+      "finishedAt": "2026-10-22T06:14:07.699Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 1999,
+      "outputTokens": 226,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3XNJRA2AADH50C9VBBKWG",
+      "startedAt": "2026-10-22T06:14:07.711Z",
+      "finishedAt": "2026-10-22T06:14:15.396Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 8569,
+      "outputTokens": 463,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3XNJRA2AADH50C9VBBKWG",
+      "startedAt": "2026-10-22T06:14:15.406Z",
+      "finishedAt": "2026-10-22T06:14:17.756Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2217,
+      "outputTokens": 215,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3XZD3CKZDTBF38SMSM7DB",
+      "startedAt": "2026-10-22T06:14:17.771Z",
+      "finishedAt": "2026-10-22T06:14:24.723Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 9065,
+      "outputTokens": 393,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3XZD3CKZDTBF38SMSM7DB",
+      "startedAt": "2026-10-22T06:14:24.730Z",
+      "finishedAt": "2026-10-22T06:14:26.964Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2142,
+      "outputTokens": 204,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3Y8CT7BWQ3STG8WRTR6HR",
+      "startedAt": "2026-10-22T06:14:26.978Z",
+      "finishedAt": "2026-10-22T06:14:35.816Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 18102,
+      "outputTokens": 1166,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3Y8CT7BWQ3STG8WRTR6HR",
+      "startedAt": "2026-10-22T06:14:45.019Z",
+      "finishedAt": "2026-10-22T06:14:45.019Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3YT12FK0F9Y1RFWX93CFR",
+      "startedAt": "2026-10-22T06:14:45.036Z",
+      "finishedAt": "2026-10-22T06:14:57.964Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 20207,
+      "outputTokens": 1832,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3YT12FK0F9Y1RFWX93CFR",
+      "startedAt": "2026-10-22T06:15:11.700Z",
+      "finishedAt": "2026-10-22T06:15:11.700Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3ZM2TTC5WMGAADRWP8XG0",
+      "startedAt": "2026-10-22T06:15:11.715Z",
+      "finishedAt": "2026-10-22T06:15:18.338Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 9149,
+      "outputTokens": 366,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3ZM2TTC5WMGAADRWP8XG0",
+      "startedAt": "2026-10-22T06:15:18.345Z",
+      "finishedAt": "2026-10-22T06:15:20.527Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2142,
+      "outputTokens": 176,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H3ZWPP812VQMYZDVB9BEFX",
+      "startedAt": "2026-10-22T06:15:20.541Z",
+      "finishedAt": "2026-10-22T06:15:28.942Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 9495,
+      "outputTokens": 505,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H3ZWPP812VQMYZDVB9BEFX",
+      "startedAt": "2026-10-22T06:15:28.945Z",
+      "finishedAt": "2026-10-22T06:15:28.945Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H404XQXAK58464TSA0CQVC",
+      "startedAt": "2026-10-22T06:15:28.960Z",
+      "finishedAt": "2026-10-22T06:15:36.818Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 9813,
+      "outputTokens": 447,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H404XQXAK58464TSA0CQVC",
+      "startedAt": "2026-10-22T06:15:36.825Z",
+      "finishedAt": "2026-10-22T06:15:39.262Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2219,
+      "outputTokens": 225,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H40F055NG4HFDWB3W6PRT4",
+      "startedAt": "2026-10-22T06:15:39.279Z",
+      "finishedAt": "2026-10-22T06:15:48.851Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 9698,
+      "outputTokens": 578,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H40F055NG4HFDWB3W6PRT4",
+      "startedAt": "2026-10-22T06:15:48.856Z",
+      "finishedAt": "2026-10-22T06:15:48.856Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H40RBYBFKN6XN5242FQZVE",
+      "startedAt": "2026-10-22T06:15:48.870Z",
+      "finishedAt": "2026-10-22T06:15:57.981Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 10004,
+      "outputTokens": 555,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H40RBYBFKN6XN5242FQZVE",
+      "startedAt": "2026-10-22T06:15:57.983Z",
+      "finishedAt": "2026-10-22T06:15:57.983Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H411923Y6HH27Q7XYZD6A7",
+      "startedAt": "2026-10-22T06:15:57.992Z",
+      "finishedAt": "2026-10-22T06:16:05.096Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 10371,
+      "outputTokens": 376,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H411923Y6HH27Q7XYZD6A7",
+      "startedAt": "2026-10-22T06:16:05.104Z",
+      "finishedAt": "2026-10-22T06:16:09.773Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2227,
+      "outputTokens": 497,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H41CSNXS3V1YF8ZS7ZMZBA",
+      "startedAt": "2026-10-22T06:16:09.788Z",
+      "finishedAt": "2026-10-22T06:16:23.382Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 22496,
+      "outputTokens": 1872,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H41CSNXS3V1YF8ZS7ZMZBA",
+      "startedAt": "2026-10-22T06:16:37.686Z",
+      "finishedAt": "2026-10-22T06:16:37.686Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H4281WPJ2MCQBVS1EAWMS1",
+      "startedAt": "2026-10-22T06:16:37.701Z",
+      "finishedAt": "2026-10-22T06:16:46.584Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 21268,
+      "outputTokens": 1033,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H4281WPJ2MCQBVS1EAWMS1",
+      "startedAt": "2026-10-22T06:16:55.570Z",
+      "finishedAt": "2026-10-22T06:16:55.570Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H42SGSCM0VZ1AZE8CBAMBA",
+      "startedAt": "2026-10-22T06:16:55.587Z",
+      "finishedAt": "2026-10-22T06:17:09.356Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 23158,
+      "outputTokens": 1865,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H42SGSCM0VZ1AZE8CBAMBA",
+      "startedAt": "2026-10-22T06:17:23.741Z",
+      "finishedAt": "2026-10-22T06:17:23.741Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H43N16BB8MBQB6VEAJZ02X",
+      "startedAt": "2026-10-22T06:17:23.761Z",
+      "finishedAt": "2026-10-22T06:17:30.836Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 10737,
+      "outputTokens": 357,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H43N16BB8MBQB6VEAJZ02X",
+      "startedAt": "2026-10-22T06:17:30.845Z",
+      "finishedAt": "2026-10-22T06:17:35.038Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2266,
+      "outputTokens": 425,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H44026Y4N0KK64Y4CSP9PQ",
+      "startedAt": "2026-10-22T06:17:35.054Z",
+      "finishedAt": "2026-10-22T06:17:43.899Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 11051,
+      "outputTokens": 493,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H44026Y4N0KK64Y4CSP9PQ",
+      "startedAt": "2026-10-22T06:17:43.904Z",
+      "finishedAt": "2026-10-22T06:17:43.904Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H448Q62DYZ7M26HZEWYD5N",
+      "startedAt": "2026-10-22T06:17:43.920Z",
+      "finishedAt": "2026-10-22T06:17:59.074Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 24423,
+      "outputTokens": 2054,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H448Q62DYZ7M26HZEWYD5N",
+      "startedAt": "2026-10-22T06:18:15.183Z",
+      "finishedAt": "2026-10-22T06:18:15.183Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H4578PACAGG2KV6SHPFDVC",
+      "startedAt": "2026-10-22T06:18:15.200Z",
+      "finishedAt": "2026-10-22T06:18:24.306Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 25208,
+      "outputTokens": 920,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H4578PACAGG2KV6SHPFDVC",
+      "startedAt": "2026-10-22T06:18:33.749Z",
+      "finishedAt": "2026-10-22T06:18:33.749Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H45SCWQ82JAT5XCR761F1T",
+      "startedAt": "2026-10-22T06:18:33.766Z",
+      "finishedAt": "2026-10-22T06:18:44.530Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12028,
+      "outputTokens": 616,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H45SCWQ82JAT5XCR761F1T",
+      "startedAt": "2026-10-22T06:18:44.533Z",
+      "finishedAt": "2026-10-22T06:18:44.533Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H463XX8S7BAPTKZWK8JZ23",
+      "startedAt": "2026-10-22T06:18:44.551Z",
+      "finishedAt": "2026-10-22T06:18:53.018Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 11792,
+      "outputTokens": 413,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H463XX8S7BAPTKZWK8JZ23",
+      "startedAt": "2026-10-22T06:18:53.029Z",
+      "finishedAt": "2026-10-22T06:18:55.369Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2463,
+      "outputTokens": 196,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H46EGDP1Z893EQ73R2TBHZ",
+      "startedAt": "2026-10-22T06:18:55.381Z",
+      "finishedAt": "2026-10-22T06:19:10.406Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 25485,
+      "outputTokens": 1920,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H46EGDP1Z893EQ73R2TBHZ",
+      "startedAt": "2026-10-22T06:19:25.979Z",
+      "finishedAt": "2026-10-22T06:19:25.979Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H47CD2SS9SCSDTGN1VNBAM",
+      "startedAt": "2026-10-22T06:19:25.996Z",
+      "finishedAt": "2026-10-22T06:19:35.698Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12263,
+      "outputTokens": 516,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H47CD2SS9SCSDTGN1VNBAM",
+      "startedAt": "2026-10-22T06:19:35.702Z",
+      "finishedAt": "2026-10-22T06:19:35.702Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H47NWX21DWJVQ97JN47506",
+      "startedAt": "2026-10-22T06:19:35.717Z",
+      "finishedAt": "2026-10-22T06:19:44.808Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12306,
+      "outputTokens": 458,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H47NWX21DWJVQ97JN47506",
+      "startedAt": "2026-10-22T06:19:44.811Z",
+      "finishedAt": "2026-10-22T06:19:44.811Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H47YSK0ZDWVH5MFT91JY95",
+      "startedAt": "2026-10-22T06:19:44.826Z",
+      "finishedAt": "2026-10-22T06:19:55.253Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12478,
+      "outputTokens": 542,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H47YSK0ZDWVH5MFT91JY95",
+      "startedAt": "2026-10-22T06:19:55.256Z",
+      "finishedAt": "2026-10-22T06:19:55.256Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3PH7E7NPQWWA0DSFBRAK5",
+      "startedAt": "2026-10-22T06:19:59.368Z",
+      "finishedAt": "2026-10-22T06:19:59.701Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3Q13Y81122AJ029JVH6CJ",
+      "startedAt": "2026-10-22T06:19:59.703Z",
+      "finishedAt": "2026-10-22T06:19:59.931Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3QBHBDPRHA6H6BH4DXRZH",
+      "startedAt": "2026-10-22T06:19:59.934Z",
+      "finishedAt": "2026-10-22T06:20:00.208Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3R2QK1TBZT0BDVB0E9THX",
+      "startedAt": "2026-10-22T06:20:49.420Z",
+      "finishedAt": "2026-10-22T06:21:07.689Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3RM5JTYZQD65XCN1VKKCJ",
+      "startedAt": "2026-10-22T06:21:07.691Z",
+      "finishedAt": "2026-10-22T06:21:14.468Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "error": "tts rendered; template: Inject 01M5H3RM5JTYZQD65XCN1VKKCJ fields do not match the radio_call template: /background must be equal to one of the allowed values",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3S1TY2M2A37TJA19D5WYV",
+      "startedAt": "2026-10-22T06:20:00.410Z",
+      "finishedAt": "2026-10-22T06:20:00.631Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3S84W1K93CBCKYG3ZGPMF",
+      "startedAt": "2026-10-22T06:20:09.390Z",
+      "finishedAt": "2026-10-22T06:20:28.668Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3SE55P6DPXS1S2FSQ865T",
+      "startedAt": "2026-10-22T06:20:00.740Z",
+      "finishedAt": "2026-10-22T06:20:00.953Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3SNRQ0PEADMFQTN1G2SKS",
+      "startedAt": "2026-10-22T06:20:00.955Z",
+      "finishedAt": "2026-10-22T06:20:01.149Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3SW4CQQ2W6D6CR5K5FGHH",
+      "startedAt": "2026-10-22T06:20:01.151Z",
+      "finishedAt": "2026-10-22T06:20:01.373Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3T39K0MZN9618CVZG1CVB",
+      "startedAt": "2026-10-22T06:20:01.375Z",
+      "finishedAt": "2026-10-22T06:20:01.593Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3TFCDKRXFTF0E339CY171",
+      "startedAt": "2026-10-22T06:20:01.595Z",
+      "finishedAt": "2026-10-22T06:20:01.845Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3V6293Y97J2W90J9E5QDW",
+      "startedAt": "2026-10-22T06:20:01.847Z",
+      "finishedAt": "2026-10-22T06:20:02.053Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3VDGXZXWMNBB6NTMKE7VN",
+      "startedAt": "2026-10-22T06:20:02.055Z",
+      "finishedAt": "2026-10-22T06:20:02.247Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3VQH3QS6JNV68EAPQC5Q0",
+      "startedAt": "2026-10-22T06:20:02.249Z",
+      "finishedAt": "2026-10-22T06:20:02.447Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3VZ47AQFES1GRNDK57CR3",
+      "startedAt": "2026-10-22T06:20:02.449Z",
+      "finishedAt": "2026-10-22T06:20:02.665Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3WMD9EBJ7M6BQ6QT77P19",
+      "startedAt": "2026-10-22T06:20:02.667Z",
+      "finishedAt": "2026-10-22T06:20:02.876Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3WWK6WWH0GAVMP1JXDCRD",
+      "startedAt": "2026-10-22T06:20:02.878Z",
+      "finishedAt": "2026-10-22T06:20:03.097Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3XDVWRJFB3M705NFT5X57",
+      "startedAt": "2026-10-22T06:20:28.671Z",
+      "finishedAt": "2026-10-22T06:20:46.395Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3XNJRA2AADH50C9VBBKWG",
+      "startedAt": "2026-10-22T06:20:03.222Z",
+      "finishedAt": "2026-10-22T06:20:03.415Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3XZD3CKZDTBF38SMSM7DB",
+      "startedAt": "2026-10-22T06:20:03.417Z",
+      "finishedAt": "2026-10-22T06:20:03.613Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3Y8CT7BWQ3STG8WRTR6HR",
+      "startedAt": "2026-10-22T06:20:03.618Z",
+      "finishedAt": "2026-10-22T06:20:03.834Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3YT12FK0F9Y1RFWX93CFR",
+      "startedAt": "2026-10-22T06:20:03.836Z",
+      "finishedAt": "2026-10-22T06:20:04.072Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3ZM2TTC5WMGAADRWP8XG0",
+      "startedAt": "2026-10-22T06:20:04.074Z",
+      "finishedAt": "2026-10-22T06:20:04.264Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H3ZWPP812VQMYZDVB9BEFX",
+      "startedAt": "2026-10-22T06:20:04.265Z",
+      "finishedAt": "2026-10-22T06:20:04.456Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H404XQXAK58464TSA0CQVC",
+      "startedAt": "2026-10-22T06:20:04.458Z",
+      "finishedAt": "2026-10-22T06:20:04.653Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H40F055NG4HFDWB3W6PRT4",
+      "startedAt": "2026-10-22T06:20:04.656Z",
+      "finishedAt": "2026-10-22T06:20:04.874Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H40RBYBFKN6XN5242FQZVE",
+      "startedAt": "2026-10-22T06:20:04.876Z",
+      "finishedAt": "2026-10-22T06:20:05.093Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H411923Y6HH27Q7XYZD6A7",
+      "startedAt": "2026-10-22T06:20:05.095Z",
+      "finishedAt": "2026-10-22T06:20:05.288Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H41CSNXS3V1YF8ZS7ZMZBA",
+      "startedAt": "2026-10-22T06:20:05.290Z",
+      "finishedAt": "2026-10-22T06:20:05.514Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H4281WPJ2MCQBVS1EAWMS1",
+      "startedAt": "2026-10-22T06:20:05.517Z",
+      "finishedAt": "2026-10-22T06:20:05.734Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H42SGSCM0VZ1AZE8CBAMBA",
+      "startedAt": "2026-10-22T06:20:05.736Z",
+      "finishedAt": "2026-10-22T06:20:05.738Z",
+      "promptRef": "template",
+      "status": "error",
+      "error": "nothing rendered; template: Inject 01M5H42SGSCM0VZ1AZE8CBAMBA fields do not match the email_forward template: /original must NOT have additional properties",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H43N16BB8MBQB6VEAJZ02X",
+      "startedAt": "2026-10-22T06:20:05.740Z",
+      "finishedAt": "2026-10-22T06:20:05.933Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H44026Y4N0KK64Y4CSP9PQ",
+      "startedAt": "2026-10-22T06:20:05.936Z",
+      "finishedAt": "2026-10-22T06:20:06.144Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H448Q62DYZ7M26HZEWYD5N",
+      "startedAt": "2026-10-22T06:20:06.146Z",
+      "finishedAt": "2026-10-22T06:20:06.372Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H4578PACAGG2KV6SHPFDVC",
+      "startedAt": "2026-10-22T06:20:06.374Z",
+      "finishedAt": "2026-10-22T06:20:06.581Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H45SCWQ82JAT5XCR761F1T",
+      "startedAt": "2026-10-22T06:20:06.583Z",
+      "finishedAt": "2026-10-22T06:20:06.805Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H463XX8S7BAPTKZWK8JZ23",
+      "startedAt": "2026-10-22T06:20:06.807Z",
+      "finishedAt": "2026-10-22T06:20:06.996Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H46EGDP1Z893EQ73R2TBHZ",
+      "startedAt": "2026-10-22T06:20:06.998Z",
+      "finishedAt": "2026-10-22T06:20:07.223Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H47CD2SS9SCSDTGN1VNBAM",
+      "startedAt": "2026-10-22T06:20:07.225Z",
+      "finishedAt": "2026-10-22T06:20:07.443Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H47NWX21DWJVQ97JN47506",
+      "startedAt": "2026-10-22T06:20:07.445Z",
+      "finishedAt": "2026-10-22T06:20:07.651Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H47YSK0ZDWVH5MFT91JY95",
+      "startedAt": "2026-10-22T06:20:07.653Z",
+      "finishedAt": "2026-10-22T06:20:07.870Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

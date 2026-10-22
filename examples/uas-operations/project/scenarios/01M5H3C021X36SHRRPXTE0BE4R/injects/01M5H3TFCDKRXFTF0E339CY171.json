@@ -1,0 +1,188 @@
+{
+  "id": "01M5H3TFCDKRXFTF0E339CY171",
+  "mselRowId": "I-11",
+  "type": "system_log",
+  "title": "RTK-1 Base: Spoofed GPS Signal Detected — SM-L1",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "RTK-1 Base (SM-L1)",
+    "host": "SM-L1",
+    "ip": "10.17.40.11",
+    "os": "Linux Ubuntu 22.04 LTS",
+    "logSource": "GPS_Signal_Ingest / rtk-1-gps-001.log",
+    "exportedBy": "HUOG-NAS01\\sysmon",
+    "exportedAt": "10/22/2026 10:05 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "09:13:44",
+        "level": "ALERT",
+        "msg": "GPS position update received from external source via 915 MHz RF burst (10 sec). Source: 10.17.40.11 (lodge Wi-Fi). New home point set: 43.1724°N, 77.5631°W (lodge patio).",
+        "highlight": true
+      },
+      {
+        "ts": "09:13:44",
+        "level": "ERROR",
+        "msg": "RTK-1 GPS fix lost under clear sky. Satellite count dropped from 12 to 4. No atmospheric interference detected.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:30",
+        "level": "WARN",
+        "msg": "915 MHz link quality spiked to 94% (normal: 70–85%). No corresponding flight activity on UAS-11 or GCS-04.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:32",
+        "level": "ERROR",
+        "msg": "Aircraft GNSS (UAS-11) lost RTK fix simultaneously with RTK-1. Position jumped 150 meters east under clear sky. DAA-1 telemetry shows disagreement with GCS-04.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:32",
+        "level": "CRIT",
+        "msg": "New device entry in telemetry: GCS-12 (MAC: 915-0A-1F-3C-7D-4E). Not in fleet. No record of GCS-12 in HUOG-ISP-2026.",
+        "highlight": true
+      },
+      {
+        "ts": "09:15:32",
+        "level": "NOTICE",
+        "msg": "RTK-1 and UAS-11 GNSS logs now show synchronized position jump and fix loss. Correlation confirmed.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:32",
+        "level": "INFO",
+        "msg": "Link integrity compromised. 915 MHz RF burst from 10.17.40.11 (lodge Wi-Fi) matches white van departure time (09:10).",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:32",
+        "level": "ALERT",
+        "msg": "All telemetry sources (RTK-1, DAA-1, GCS-04, UAS-11) now show a 150-meter eastward position jump. No visual confirmation of aircraft movement.",
+        "highlight": true
+      }
+    ],
+    "terminalTitle": "RTK-1 Base Console (SM-L1)",
+    "command": "tail -f /var/log/rtk-1-gps-001.log",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "instructorNote": "This inject confirms the GNSS spoofing and command hijack. The TL must cross-reference the RTK-1 and DAA-1 logs to validate the home point change and spoofed signal. The IC must prevent any RTL or manual override until telemetry is cleared.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+      "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+      "chunkId": 127
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 9 › 9.3 GNSS degradation or spoofing suspicion",
+      "quote": "Signs: satellite count falls while the sky is clear; position jumps; RTK fix lost on both RTK-1 and the aircraft; the home point moves; DAA-1 and the GCS disagree on position. Actions: the RPIC switch",
+      "chunkId": 82
+    }
+  ],
+  "mediaBrief": {
+    "paths": ["template"]
+  },
+  "assets": [
+    {
+      "id": "01M5H71PHB4918651M2AJ77S9J",
+      "kind": "image",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H3TFCDKRXFTF0E339CY171/01M5H71PHB4918651M2AJ77S9J.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "fcc7e129a7d7599961bc5844f98161bfea89ea10a6ee11daa961c28f9904a77f",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:08:45.331Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:12:46.276Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "RTK-1 Base: Spoofed GPS Signal Detected — SM-L1",
+        "type": "system_log",
+        "fields": {
+          "systemName": "RTK-1 Base (SM-L1)",
+          "host": "SM-L1",
+          "ip": "10.17.40.11",
+          "os": "Linux Ubuntu 22.04 LTS",
+          "logSource": "GPS_Signal_Ingest / rtk-1-gps-001.log",
+          "exportedBy": "HUOG-NAS01\\sysmon",
+          "exportedAt": "10/22/2026 10:05 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "09:13:44",
+              "level": "ALERT",
+              "msg": "GPS position update received from external source via 915 MHz RF burst (10 sec). Source: 10.17.40.11 (lodge Wi-Fi). New home point set: 43.1724°N, 77.5631°W (lodge patio).",
+              "highlight": true
+            },
+            {
+              "ts": "09:13:44",
+              "level": "ERROR",
+              "msg": "RTK-1 GPS fix lost under clear sky. Satellite count dropped from 12 to 4. No atmospheric interference detected.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:30",
+              "level": "WARN",
+              "msg": "915 MHz link quality spiked to 94% (normal: 70–85%). No corresponding flight activity on UAS-11 or GCS-04.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:32",
+              "level": "ERROR",
+              "msg": "Aircraft GNSS (UAS-11) lost RTK fix simultaneously with RTK-1. Position jumped 150 meters east under clear sky. DAA-1 telemetry shows disagreement with GCS-04.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:32",
+              "level": "CRIT",
+              "msg": "New device entry in telemetry: GCS-12 (MAC: 915-0A-1F-3C-7D-4E). Not in fleet. No record of GCS-12 in HUOG-ISP-2026.",
+              "highlight": true
+            },
+            {
+              "ts": "09:15:32",
+              "level": "NOTICE",
+              "msg": "RTK-1 and UAS-11 GNSS logs now show synchronized position jump and fix loss. Correlation confirmed.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:32",
+              "level": "INFO",
+              "msg": "Link integrity compromised. 915 MHz RF burst from 10.17.40.11 (lodge Wi-Fi) matches white van departure time (09:10).",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:32",
+              "level": "ALERT",
+              "msg": "All telemetry sources (RTK-1, DAA-1, GCS-04, UAS-11) now show a 150-meter eastward position jump. No visual confirmation of aircraft movement.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "RTK-1 Base Console (SM-L1)",
+          "command": "tail -f /var/log/rtk-1-gps-001.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the GNSS spoofing and command hijack. The TL must cross-reference the RTK-1 and DAA-1 logs to validate the home point change and spoofed signal. The IC must prevent any RTL or manual override until telemetry is cleared.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:08:45.574Z"
+}

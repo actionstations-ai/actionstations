@@ -1,0 +1,216 @@
+{
+  "id": "01M5H41CSNXS3V1YF8ZS7ZMZBA",
+  "mselRowId": "I-23",
+  "type": "field_report",
+  "title": "Field Report: RF Jammer Found Under Lodge Deck — Birch Hollow Range",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Harwick UAS Operations Group — Security Operations",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0120",
+    "date": "10/22/2026",
+    "time": "11:35",
+    "location": "Lodge deck, under north-facing support beam (TP-LFA-LP1)",
+    "inspector": "Security Officer, Birch Hollow Range",
+    "unit": "Patrol 3 · Vehicle HUOG-915-7X",
+    "reportType": "security",
+    "weather": "Clear, 74°F, wind 5 mph from the west",
+    "summary": "During a routine perimeter sweep of the launch area and lodge parking pad, a 915 MHz RF jammer device was discovered under the north-facing support beam of the lodge deck. The device was powered off but showed signs of recent operation: battery was warm to the touch. The unit is labeled 'VHF-JAM-915X' with serial number 915-JAM-001. It was not listed on the site survey form (FOM-3) and had no associated clearance in the Group's equipment log. The device was secured in a Faraday bag and photographed for evidence. No other anomalies were observed in the immediate area.",
+    "findings": [
+      {
+        "item": "Perimeter fence integrity",
+        "condition": "ok",
+        "notes": "No visible damage or breach"
+      },
+      {
+        "item": "Lodge deck structural integrity",
+        "condition": "ok",
+        "notes": "No signs of tampering or structural compromise"
+      },
+      {
+        "item": "Presence of unauthorized RF equipment",
+        "condition": "failed",
+        "notes": "915 MHz jammer device (VHF-JAM-915X, SN: 915-JAM-001) found under deck"
+      },
+      {
+        "item": "Site survey form (FOM-3) compliance",
+        "condition": "failed",
+        "notes": "Device not listed in site survey or equipment log"
+      },
+      {
+        "item": "Vehicle access control",
+        "condition": "ok",
+        "notes": "White van (HUOG-915-7X) not detected on access road cameras"
+      },
+      {
+        "item": "GCS-01 and RTK-1 signal integrity",
+        "condition": "not_inspected",
+        "notes": "No on-site diagnostics performed"
+      },
+      {
+        "item": "Remote ID or telemetry evidence",
+        "condition": "not_inspected",
+        "notes": "No GCS or DAA-1 data collected on-site"
+      },
+      {
+        "item": "Emergency response readiness",
+        "condition": "ok",
+        "notes": "All emergency kits and contact numbers verified on site"
+      },
+      {
+        "item": "Calibration tarp visibility",
+        "condition": "ok",
+        "notes": "Tarp not observed, but not required for this inspection"
+      },
+      {
+        "item": "Evidence chain of custody",
+        "condition": "ok",
+        "notes": "Device sealed in Faraday bag and logged in incident folder"
+      }
+    ],
+    "actionsTaken": [
+      "Recovered 915 MHz jammer device (VHF-JAM-915X, SN: 915-JAM-001) from under lodge deck",
+      "Secured device in Faraday bag to prevent signal leakage",
+      "Photographed device and surrounding area",
+      "Notified Incident Commander (IC) and Aviation Safety Officer (ASO) via radio at 11:35",
+      "Logged device in incident folder per HUOG-ERP Section 11.3"
+    ],
+    "recommendations": [
+      "Forward device to managed SOC for forensic imaging under HUOG-ISP Section 9.1"
+    ],
+    "photosNote": "4 photos attached: IMG_0120-0121 (device under deck, close-up of label, battery temp check, Faraday bag seal)",
+    "signature": "Security Officer, Birch Hollow Range",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "instructorNote": "This inject confirms the attacker's jamming device as physical evidence. The ASO must verify chain of custody and ensure no handling beyond forensic protocols. The device's presence confirms the C2 link compromise was not just digital.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 11 › 11.3 Records",
+      "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Rep",
+      "chunkId": 36
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+      "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Over ",
+      "chunkId": 24
+    }
+  ],
+  "mediaBrief": {
+    "paths": ["template"]
+  },
+  "assets": [
+    {
+      "id": "01M5H71T952JHS8Z6F9X9J4S0H",
+      "kind": "image",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H41CSNXS3V1YF8ZS7ZMZBA/01M5H71T952JHS8Z6F9X9J4S0H.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "12252467793592309124353804ef594db64bbb3a1d9c095890db0b4ff09ea67b",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:08:49.173Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:16:37.686Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Field Report: RF Jammer Found Under Lodge Deck — Birch Hollow Range",
+        "type": "field_report",
+        "fields": {
+          "organization": "Harwick UAS Operations Group — Security Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0120",
+          "date": "10/22/2026",
+          "time": "11:35",
+          "location": "Lodge deck, under north-facing support beam (TP-LFA-LP1)",
+          "inspector": "Security Officer, Birch Hollow Range",
+          "unit": "Patrol 3 · Vehicle HUOG-915-7X",
+          "reportType": "security",
+          "weather": "Clear, 74°F, wind 5 mph from the west",
+          "summary": "During a routine perimeter sweep of the launch area and lodge parking pad, a 915 MHz RF jammer device was discovered under the north-facing support beam of the lodge deck. The device was powered off but showed signs of recent operation: battery was warm to the touch. The unit is labeled 'VHF-JAM-915X' with serial number 915-JAM-001. It was not listed on the site survey form (FOM-3) and had no associated clearance in the Group's equipment log. The device was secured in a Faraday bag and photographed for evidence. No other anomalies were observed in the immediate area.",
+          "findings": [
+            {
+              "item": "Perimeter fence integrity",
+              "condition": "ok",
+              "notes": "No visible damage or breach"
+            },
+            {
+              "item": "Lodge deck structural integrity",
+              "condition": "ok",
+              "notes": "No signs of tampering or structural compromise"
+            },
+            {
+              "item": "Presence of unauthorized RF equipment",
+              "condition": "failed",
+              "notes": "915 MHz jammer device (VHF-JAM-915X, SN: 915-JAM-001) found under deck"
+            },
+            {
+              "item": "Site survey form (FOM-3) compliance",
+              "condition": "failed",
+              "notes": "Device not listed in site survey or equipment log"
+            },
+            {
+              "item": "Vehicle access control",
+              "condition": "ok",
+              "notes": "White van (HUOG-915-7X) not detected on access road cameras"
+            },
+            {
+              "item": "GCS-01 and RTK-1 signal integrity",
+              "condition": "not_inspected",
+              "notes": "No on-site diagnostics performed"
+            },
+            {
+              "item": "Remote ID or telemetry evidence",
+              "condition": "not_inspected",
+              "notes": "No GCS or DAA-1 data collected on-site"
+            },
+            {
+              "item": "Emergency response readiness",
+              "condition": "ok",
+              "notes": "All emergency kits and contact numbers verified on site"
+            },
+            {
+              "item": "Calibration tarp visibility",
+              "condition": "ok",
+              "notes": "Tarp not observed, but not required for this inspection"
+            },
+            {
+              "item": "Evidence chain of custody",
+              "condition": "ok",
+              "notes": "Device sealed in Faraday bag and logged in incident folder"
+            }
+          ],
+          "actionsTaken": [
+            "Recovered 915 MHz jammer device (VHF-JAM-915X, SN: 915-JAM-001) from under lodge deck",
+            "Secured device in Faraday bag to prevent signal leakage",
+            "Photographed device and surrounding area",
+            "Notified Incident Commander (IC) and Aviation Safety Officer (ASO) via radio at 11:35",
+            "Logged device in incident folder per HUOG-ERP Section 11.3"
+          ],
+          "recommendations": [
+            "Forward device to managed SOC for forensic imaging under HUOG-ISP Section 9.1"
+          ],
+          "photosNote": "4 photos attached: IMG_0120-0121 (device under deck, close-up of label, battery temp check, Faraday bag seal)",
+          "signature": "Security Officer, Birch Hollow Range",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the attacker's jamming device as physical evidence. The ASO must verify chain of custody and ensure no handling beyond forensic protocols. The device's presence confirms the C2 link compromise was not just digital.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:08:49.395Z"
+}

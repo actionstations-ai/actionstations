@@ -1,0 +1,312 @@
+[
+  {
+    "row": "START",
+    "type": "startex_card",
+    "title": "STARTEX: Ghost Flight at Birch Hollow — GNSS Spoofing & Command Hijack",
+    "fields": {
+      "startTime": "09:00",
+      "day": "Thursday, October 22, 2026",
+      "location": "Lakeshore Flight Area, Birch Hollow Range",
+      "weather": "Clear, 72°F. Winds 6 mph from the west.",
+      "load": "Multispectral and hyperspectral sensor campaign in progress; UAS-11 in pre-flight phase.",
+      "staffing": "Full crew on site: RPIC, Payload Operator, Visual Observer, GCS Operator; remote support from GCS-04 and HUOG-ERP-2026.",
+      "narration": "STARTEX. This is an exercise. It is 09:00 on Thursday, October 22, 2026. The Lakeshore Flight Area in the Birch Hollow Range is under the Part 107 ceiling of 400 ft AGL. UAS-11 is in pre-flight phase for a multispectral campaign over the meadow. All systems are nominal. Status is normal.",
+      "status": [
+        {
+          "name": "UAS-11 (Flight)",
+          "status": "green",
+          "note": "Pre-flight; GNSS lock, RTK-1 active, 915 MHz link stable"
+        },
+        {
+          "name": "GCS-04 (Remote)",
+          "status": "green",
+          "note": "Telemetry and command link up; monitor and backup"
+        },
+        {
+          "name": "RTK-1 (Survey Marker)",
+          "status": "green",
+          "note": "Position fixed; signal lock confirmed"
+        },
+        {
+          "name": "Birch Hollow Range Gate",
+          "status": "green",
+          "note": "Gate 7 unlocked; access authorized for campaign team"
+        },
+        {
+          "name": "the UAS-12 flight-test protocol (FUA)",
+          "status": "green",
+          "note": "the UAS-12 flight-test protocol active; UAS-12 not in use"
+        },
+        {
+          "name": "LAANC",
+          "status": "green",
+          "note": "Authorization active for Birch Hollow Range; no TFRs in effect"
+        },
+        {
+          "name": "ATC Coordination",
+          "status": "green",
+          "note": "HWK Air Traffic Control Tower on standby; FSDO notified for campaign start"
+        }
+      ],
+      "facilitatorNote": "Confirm all roles have the ICS 201, the HUOG-FOM 2026, and the HUOG-ISP 2026 playbooks. No one should begin responding to the event until the next inject.",
+      "scenarioTitle": "Ghost Flight at Birch Hollow — GNSS Spoofing & Command Hijack",
+      "injectId": "START"
+    }
+  },
+  {
+    "row": "I-01",
+    "type": "field_report",
+    "title": "UAS-11: Uncommanded Position Jump — Lakeshore Flight Area",
+    "fields": {
+      "organization": "Harwick UAS Operations Group — Flight Operations",
+      "formTitle": "Field Inspection Report",
+      "reportNo": "FIR-2026-0120",
+      "date": "10/22/2026",
+      "time": "09:12",
+      "location": "Lakeshore Flight Area, meadow west end, near lodge patio",
+      "inspector": "Payload Operator, UAS-11",
+      "unit": "UAS-11 · GCS-04",
+      "reportType": "incident",
+      "weather": "Clear, 72°F, wind 6 mph from the west",
+      "summary": "This is the Payload Operator on UAS-11. PANEL CLEAR confirmed. The aircraft is now 120 meters east of the meadow, over the lodge patio. DAA-1 shows position as 43.1724°N, 77.5631°W. RTK-1 has a full fix. The aircraft telemetry shows a 150-meter jump in latitude under clear sky. The flight line is east–west over the meadow. This does not match the field. The aircraft is not on the flight line.",
+      "findings": [
+        {
+          "item": "Aircraft position vs. flight line",
+          "condition": "failed",
+          "notes": "150m east jump in latitude under clear sky; not on assigned east–west line"
+        },
+        {
+          "item": "RTK-1 fix status",
+          "condition": "ok",
+          "notes": "Full RTK correction received at launch point and during flight"
+        },
+        {
+          "item": "DAA-1 position accuracy",
+          "condition": "deficient",
+          "notes": "Disagrees with known aircraft telemetry and field coordinates"
+        },
+        {
+          "item": "Payload sensor status",
+          "condition": "ok",
+          "notes": "PAY-01 receiving, calibration file date matches FOM-2"
+        },
+        {
+          "item": "Link quality (RSSI)",
+          "condition": "ok",
+          "notes": "Above 70% at launch point"
+        },
+        {
+          "item": "Remote ID broadcast",
+          "condition": "ok",
+          "notes": "Confirmed on GCS status page"
+        },
+        {
+          "item": "Visual Observer in position",
+          "condition": "ok",
+          "notes": "VO on site, notifying of anomaly"
+        },
+        {
+          "item": "Site personnel clearance",
+          "condition": "ok",
+          "notes": "No one within 100m of launch zone"
+        },
+        {
+          "item": "Calibration tarps and reflectance panel",
+          "condition": "ok",
+          "notes": "CT-1 to CT-4 and RP-1 deployed, no obstruction"
+        },
+        {
+          "item": "Aircraft altitude",
+          "condition": "failed",
+          "notes": "120m (394 ft) AGL; exceeds standard multispectral line altitude of 120m and exceeds 400 ft AGL limit in Class G airspace"
+        }
+      ],
+      "actionsTaken": [
+        "Declared 'ABORT' to RPIC and VO via intercom",
+        "Switched to attitude mode on GCS-04",
+        "Notified Incident Commander (IC), Technical Lead (TL), and Safety Officer (ASO) via secure channel"
+      ],
+      "recommendations": [
+        "Immediately land UAS-11 in manual mode",
+        "Preserve GCS-04 and RTK-1 telemetry logs for forensic analysis",
+        "Secure launch area and monitor for unauthorized RF emitters",
+        "Initiate Section 9.1 incident protocol per ISP C2"
+      ],
+      "photosNote": "2 photos attached: IMG_0120-0121 (UAS-11 over lodge patio, DAA-1 display with GPS jump)",
+      "signature": "Payload Operator, UAS-11",
+      "marking": "EXERCISE · EXERCISE · EXERCISE"
+    }
+  },
+  {
+    "row": "I-02",
+    "type": "system_log",
+    "title": "GCS-02: Unauthorized GCS Detected in Device List",
+    "fields": {
+      "systemName": "GCS-02 System Log",
+      "host": "GCS-02",
+      "ip": "10.17.60.22",
+      "os": "Ubuntu 22.04 LTS",
+      "logSource": "Device List / GCS-02",
+      "exportedBy": "HUOG-OPS-03",
+      "exportedAt": "10/22/2026 09:18 AM",
+      "timezone": "EDT (UTC-4)",
+      "lines": [
+        {
+          "ts": "09:18:02",
+          "level": "ALERT",
+          "msg": "New device entry: GCS-04 (MAC: 915-0A-1F-3C-7D-4E). No record of GCS-04 in fleet register. MAC not in inventory.",
+          "highlight": true
+        },
+        {
+          "ts": "09:15:32",
+          "level": "ERROR",
+          "msg": "RTK-1: GNSS fix lost. Satellite count: 12 → 0. Sky clear. No weather event.",
+          "highlight": false
+        },
+        {
+          "ts": "09:15:32",
+          "level": "ERROR",
+          "msg": "UAS-11: Aircraft GNSS fix lost. Position jumped 150m north. No known motion or wind event.",
+          "highlight": false
+        },
+        {
+          "ts": "09:15:30",
+          "level": "WARN",
+          "msg": "915 MHz link quality: 94% → 12% in 0.4 seconds. No known interference source.",
+          "highlight": false
+        },
+        {
+          "ts": "09:15:30",
+          "level": "INFO",
+          "msg": "UAS-11: RTK-1 and aircraft GNSS both lost fix simultaneously under clear sky.",
+          "highlight": false
+        },
+        {
+          "ts": "09:15:30",
+          "level": "INFO",
+          "msg": "UAS-11: DAA-1 telemetry shows position as 43.1724°N, 77.5631°W. GCS-02 shows 43.1719°N, 77.5635°W.",
+          "highlight": false
+        },
+        {
+          "ts": "09:15:30",
+          "level": "INFO",
+          "msg": "UAS-11: Home point updated to 43.1721°N, 77.5633°W. No command received from RPIC.",
+          "highlight": false
+        },
+        {
+          "ts": "09:15:30",
+          "level": "INFO",
+          "msg": "UAS-11: Flight controller received command to set home point. No RPIC input logged.",
+          "highlight": false
+        },
+        {
+          "ts": "09:15:30",
+          "level": "INFO",
+          "msg": "UAS-11: Command injection detected. Firmware hash matches baseline.",
+          "highlight": false
+        },
+        {
+          "ts": "09:15:30",
+          "level": "INFO",
+          "msg": "UAS-11: DAA-1 and GCS-02 disagree on aircraft position. Discrepancy: 0.0005° (approx. 55m).",
+          "highlight": false
+        },
+        {
+          "ts": "09:15:30",
+          "level": "INFO",
+          "msg": "UAS-11: No user input received from RPIC at 09:15:30.",
+          "highlight": false
+        },
+        {
+          "ts": "09:18:02",
+          "level": "NOTICE",
+          "msg": "Log export initiated by HUOG-OPS-03. All logs preserved to HUOG-NAS01: /incidents/20261022/GCS-02-091802",
+          "highlight": false
+        }
+      ],
+      "terminalTitle": "GCS-02: Terminal - Log Capture Session",
+      "command": "sudo tail -f /var/log/gcs-11/device-list.log",
+      "classification": "INTERNAL - INCIDENT EVIDENCE",
+      "pageLabel": "Page 1 of 1"
+    }
+  },
+  {
+    "row": "I-03",
+    "type": "radio_call",
+    "title": "Radio: Unauthorized GCS Device Detected — UAS-11",
+    "fields": {
+      "orgName": "Harwick UAS Operations Group",
+      "centerName": "Operations Command Center (OCC)",
+      "channel": "UAS-11 Flight Ops",
+      "frequency": "915 MHz / TG 011",
+      "date": "10/22/2026",
+      "callsign": "RPIC-11",
+      "lines": [
+        {
+          "time": "09:25:12",
+          "from": "RPIC-11",
+          "to": "IC, TL",
+          "text": "Ops, I'm trying to re-pair via the OEM app on GCS-02. It says: 'Device ID mismatch. Re-pair required. New device ID: GCS-04. Accept?' I did not send that command. No GCS-04 exists as a separate GCS in the fleet. Is this a spoof?"
+        },
+        {
+          "time": "09:25:28",
+          "from": "RPIC-11",
+          "to": "IC, TL",
+          "text": "The system is still showing GCS-04 in the device list. I've checked the fleet roster and baseline. There is no GCS-04 as a standalone ground station. GCS-04 runs the Linux baseline L-2026.2 and is not a command node. This is not a known configuration. I'm not initiating any re-pair. I'm holding the link and waiting for your direction."
+        }
+      ],
+      "background": "office",
+      "voiceStyle": "Young male, tense, clipped, urgent",
+      "audioFile": "I-03_radio.wav",
+      "duration": "0:23",
+      "injectId": "I-03"
+    }
+  },
+  {
+    "row": "I-04",
+    "type": "radio_call",
+    "title": "Radio: White Van at Lodge Parking Pad — Birch Hollow Range",
+    "fields": {
+      "orgName": "Harwick UAS Operations Group",
+      "centerName": "Flight Operations Center (FOC)",
+      "channel": "TAC 3",
+      "frequency": "TG 3001 / 462.2625 MHz",
+      "date": "10/22/2026",
+      "callsign": "Site Manager",
+      "lines": [
+        {
+          "time": "09:30",
+          "from": "Site Manager",
+          "to": "IC, Sec, ASO",
+          "text": "Ops, this is Site Manager at Birch Hollow Range. A white van with a rooftop antenna and a 915 MHz transceiver left the lodge parking pad (TP-LFA-LP1) at 09:10. No ID on the vehicle. It was not on the site survey form. The lodge Wi-Fi is on 10.17.40.11."
+        }
+      ],
+      "background": "none",
+      "voiceStyle": "Middle-aged male, calm but urgent, slight background wind and distant engine hum",
+      "audioFile": "I-04a_radio.wav",
+      "duration": "0:21",
+      "injectId": "I-04"
+    }
+  },
+  {
+    "row": "I-05",
+    "type": "memo",
+    "title": "Incident Declaration: UAS-11 Link Compromise",
+    "fields": {
+      "orgName": "Harwick UAS Operations Group",
+      "department": "Systems & Cybersecurity",
+      "to": "All",
+      "from": "Systems & Cybersecurity Lead",
+      "cc": "General Manager, Aviation Safety Officer, Client Liaison, Security / CCSO Liaison",
+      "date": "October 22, 2026 · 09:35",
+      "subject": "INCIDENT DECLARED: UAS-11 915 MHz Link Compromise and GNSS Spoofing",
+      "urgency": "urgent",
+      "urgencyText": "URGENT — INCIDENT COMMAND STRUCTURE ENGAGED",
+      "memoNumber": "HUOG-ISP-2026-0922-05",
+      "body": "This is an official declaration of a Level 3 incident under HUOG-ISP Section 9.1 (C2 link compromise, interference, or GNSS spoofing).\n\nThe HUOG-ERP has been activated. Incident Commander (Ops) is assigned. All roles must now proceed under the HUOG-ERP incident command structure.\n\nThe scribe is to begin the incident log immediately at \\HUOG-NAS01\\ops\\incident-log\\2026-10-22\\UAS-11\\ per HUOG-ERP Section 11.3. The digital log and paper copy must be maintained in real time.\n\nAll communications, actions, and decisions must be documented. Do not initiate any system resets, reboots, or network disconnections without explicit direction from the Incident Commander or the Systems & Cybersecurity Lead.\n\nThis incident is now under full operational control. All roles are to report status updates via the primary command channel and ensure all team members are accounted for in the incident chain.",
+      "signatureBlock": "Tomás Reyes\nSystems & Cybersecurity Lead\nRIT UAS Operations Group",
+      "initials": "TR",
+      "classification": "INTERNAL — NOT FOR PUBLIC RELEASE"
+    }
+  }
+]

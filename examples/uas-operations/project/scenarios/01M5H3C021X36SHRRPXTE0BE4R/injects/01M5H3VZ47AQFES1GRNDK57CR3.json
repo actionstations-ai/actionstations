@@ -1,0 +1,183 @@
+{
+  "id": "01M5H3VZ47AQFES1GRNDK57CR3",
+  "mselRowId": "I-13",
+  "type": "system_log",
+  "title": "GCS-01: Firmware Mismatch Detected in C2 Link Controller",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "HUOG-ISP-2026",
+    "host": "GCS-01",
+    "ip": "10.17.40.15",
+    "os": "Windows Server 2019",
+    "logSource": "C2 Link Controller / Firmware Monitor",
+    "exportedBy": "HUOG-NAS01\\it.admin",
+    "exportedAt": "10/22/2026 10:18 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "09:13:44",
+        "level": "ALERT",
+        "msg": "External GPS signal received via 915 MHz RF burst (10.17.40.11). Source: lodge Wi-Fi (TP-LFA-LP1). GPS position update: 43.1724°N, 77.5631°W. New home point set.",
+        "highlight": true
+      },
+      {
+        "ts": "09:15:30",
+        "level": "WARN",
+        "msg": "915 MHz link quality spiked to 94%. RTK-1 and UAS-11 both lost GPS fix under clear sky.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:31",
+        "level": "CRIT",
+        "msg": "Firmware mismatch detected in C2 link controller (GCS-01). Expected: 03.2026-B. Found: 03.2026-C. OEM app attempted to re-pair with GCS-12 (MAC: 915-0A-1F-3C-7D-4E) due to configuration drift.",
+        "highlight": true
+      },
+      {
+        "ts": "09:15:32",
+        "level": "ERROR",
+        "msg": "Link compromised at 09:13:44. No record of GCS-12 in fleet or baseline. Per HUOG-ISP Section 9.1, declare C2 link compromise.",
+        "highlight": true
+      },
+      {
+        "ts": "09:15:33",
+        "level": "INFO",
+        "msg": "Baseline 03.2026-B is stored at \\HUOG-NAS01\\it\\baselines\\.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:34",
+        "level": "NOTICE",
+        "msg": "Preserve GCS-01 and radio state. Retrieve full telemetry and link logs before power-off.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:35",
+        "level": "INFO",
+        "msg": "Notify managed SOC via HUOG-NAS01. Request imaging of 915 MHz link traffic from 09:13:44 to 09:15:32.",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Get-Content .\\logs\\c2_link_controller.log -Tail 20",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "instructorNote": "This inject confirms the C2 link compromise and activates the forensics protocol. Watch for the TL to isolate GCS-01 and initiate the managed SOC request.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP",
+      "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this document are simulated.",
+      "chunkId": 95
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+      "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+      "chunkId": 127
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 4 › 4.1 Baseline",
+      "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselin",
+      "chunkId": 104
+    }
+  ],
+  "mediaBrief": {
+    "paths": ["template"]
+  },
+  "assets": [
+    {
+      "id": "01M5H71QA80YT282HR5A1H4N55",
+      "kind": "image",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H3VZ47AQFES1GRNDK57CR3/01M5H71QA80YT282HR5A1H4N55.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "d7e916af766f13839de99d2940128b7f1d63e0a3e15b378e2ae25964aa93d6e3",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:08:46.166Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:13:33.731Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GCS-01: Firmware Mismatch Detected in C2 Link Controller",
+        "type": "system_log",
+        "fields": {
+          "systemName": "HUOG-ISP-2026",
+          "host": "GCS-01",
+          "ip": "10.17.40.15",
+          "os": "Windows Server 2019",
+          "logSource": "C2 Link Controller / Firmware Monitor",
+          "exportedBy": "HUOG-NAS01\\it.admin",
+          "exportedAt": "10/22/2026 10:18 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "09:13:44",
+              "level": "ALERT",
+              "msg": "External GPS signal received via 915 MHz RF burst (10.17.40.11). Source: lodge Wi-Fi (TP-LFA-LP1). GPS position update: 43.1724°N, 77.5631°W. New home point set.",
+              "highlight": true
+            },
+            {
+              "ts": "09:15:30",
+              "level": "WARN",
+              "msg": "915 MHz link quality spiked to 94%. RTK-1 and UAS-11 both lost GPS fix under clear sky.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:31",
+              "level": "CRIT",
+              "msg": "Firmware mismatch detected in C2 link controller (GCS-01). Expected: 03.2026-B. Found: 03.2026-C. OEM app attempted to re-pair with GCS-12 (MAC: 915-0A-1F-3C-7D-4E) due to configuration drift.",
+              "highlight": true
+            },
+            {
+              "ts": "09:15:32",
+              "level": "ERROR",
+              "msg": "Link compromised at 09:13:44. No record of GCS-12 in fleet or baseline. Per HUOG-ISP Section 9.1, declare C2 link compromise.",
+              "highlight": true
+            },
+            {
+              "ts": "09:15:33",
+              "level": "INFO",
+              "msg": "Baseline 03.2026-B is stored at \\HUOG-NAS01\\it\\baselines\\.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:34",
+              "level": "NOTICE",
+              "msg": "Preserve GCS-01 and radio state. Retrieve full telemetry and link logs before power-off.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:35",
+              "level": "INFO",
+              "msg": "Notify managed SOC via HUOG-NAS01. Request imaging of 915 MHz link traffic from 09:13:44 to 09:15:32.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content .\\logs\\c2_link_controller.log -Tail 20",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the C2 link compromise and activates the forensics protocol. Watch for the TL to isolate GCS-01 and initiate the managed SOC request.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:08:46.375Z"
+}

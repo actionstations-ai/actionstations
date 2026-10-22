@@ -5,7 +5,7 @@
 // no airport vocabulary leaks, that facility identifiers come from the project's documents,
 // and that the tag mix and decision point fit the threat family. Opt-in, slow:
 //   LIVE=1 pnpm exec playwright test e2e/domains-acceptance.spec.ts
-//   DOMAINS=transit,dam,uas   (default: all three)   MEDIA=0 skips image/TTS rendering
+//   DOMAINS=transit,dam,uas,uas-ops   (default: all four)   MEDIA=0 skips image/TTS rendering
 // Outputs (summaries, documents, copied media) go to .tmp/domains-acceptance/<run>/ and the
 // small review fixtures to tests/fixtures/domains/<run>/ when SAVE_FIXTURES=1.
 import { expect, test } from '@playwright/test'
@@ -19,7 +19,7 @@ test.setTimeout(90 * 60_000)
 
 const OUT = resolve('.tmp/domains-acceptance')
 const FIXTURES = resolve('tests/fixtures/domains')
-const WANT = (process.env.DOMAINS ?? 'transit,dam,uas').split(',').map((s) => s.trim())
+const WANT = (process.env.DOMAINS ?? 'transit,dam,uas,uas-ops').split(',').map((s) => s.trim())
 const MEDIA = process.env.MEDIA !== '0'
 /** Airport words that must not appear unless the project's own documents use them. */
 const AIRPORT_WORDS =
@@ -28,6 +28,8 @@ const AIRPORT_WORDS =
 interface Run {
   id: string
   dir: string
+  /** Files in `dir` that are not project documents (a sources list). */
+  exclude?: string[]
   orgType: string
   name: string
   orgName: string
@@ -126,6 +128,38 @@ const RUNS: Run[] = [
     expectIdentifiers:
       /\bSpillway Gates? \d\b|\bRTU-0\d\b|CAM-\d\d|AeroSentry|boat ramp|Zone [ABC]\b/i,
   },
+  {
+    // The unmanned-systems pack (#157): the operator's own aircraft, GCS and links.
+    id: 'uas-ops',
+    dir: 'reference/uas-ops',
+    exclude: ['SOURCES.md'],
+    orgType: 'unmanned_systems',
+    name: 'Harwick UAS Operations Group',
+    orgName: 'Harwick UAS Operations Group',
+    city: 'Harwick',
+    region: 'Calder County, New York',
+    aliases: {
+      org: 'Harwick UAS Operations Group',
+      orgShort: 'HUOG',
+      orgDomain: 'huog.example',
+      localTv: 'Channel 10',
+      airport: 'Horton Field',
+    },
+    threatFamily: 'cyber_physical',
+    userPrompt:
+      "A multispectral sensor campaign at the Lakeshore Flight Area of the Birch Hollow Range (UAS-01 with PL-01, UAS-11 with PL-03, GCS-01 and GCS-02, RTK-1) is disrupted by a C2-link hijack and GNSS spoofing: UAS-11's 915 MHz telemetry shows a second ground station, the aircraft execute waypoints nobody loaded, RTK-1 and the aircraft lose fix together under a clear sky, and the home point moves. The crew must land in attitude mode, preserve the GCS state, decide whether to call HWK Tower, re-key the links, work with CCSO and the managed security provider, and tell the CP&L client whether Deliverable D-3 data is intact.",
+    audience: [
+      'Flight Operations',
+      'Systems / Cybersecurity',
+      'Aviation Safety',
+      'Corporate Communications',
+      'Security / CCSO liaison',
+    ],
+    // ATC, LAANC and Class C airspace are this operator's own vocabulary.
+    allowedWords: ['flight', 'flights', 'airport'],
+    expectIdentifiers:
+      /\bUAS-(?:0\d|1[0-2])\b|\bGCS-0[1-6]\b|\bRTK-[12]\b|\bPL-0[1-7]\b|HUOG-[A-Z0-9]+|Lakeshore Flight Area|Horton Field|Birch Hollow Range|\b915 MHz\b/,
+  },
 ]
 
 interface Row {
@@ -208,7 +242,7 @@ for (const run of RUNS.filter((r) => WANT.includes(r.id))) {
         path: projectPath,
         patch: { brand: { city: run.city, region: run.region, aliases: run.aliases } },
       })
-      const files = mdFiles(run.dir)
+      const files = mdFiles(run.dir).filter((f) => !run.exclude?.includes(basename(f)))
       await invoke('documents:import', { projectPath, filePaths: files })
       await expect
         .poll(

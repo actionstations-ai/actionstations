@@ -39,7 +39,8 @@ export const unmanned_systems: DomainProfile = {
     {
       id: 'gcs_hosts',
       label: 'Ground control stations',
-      pattern: String.raw`\b(GCS[- ]?\d{1,3}|GCS-[A-Z0-9]{2,8})\b`,
+      // A separator is required so a hostname such as HUOG-GCS01 is not a second station id.
+      pattern: String.raw`\b(GCS[- ]\d{1,3}|GCS-[A-Z0-9]{2,8})\b`,
       idShape: 'token',
       lint: true,
       complete: true,
@@ -47,7 +48,7 @@ export const unmanned_systems: DomainProfile = {
     {
       id: 'frequencies',
       label: 'Radio links / frequencies',
-      pattern: String.raw`\b(\d{3,4}(?:\.\d{1,3})? ?MHz|[2-5](?:\.\d)? ?GHz)\b`,
+      pattern: String.raw`\b(\d{3,4}(?:\.\d{1,4})? ?MHz|[2-5](?:\.\d)? ?GHz)\b`,
       idShape: 'token',
       lint: false,
       complete: true,
@@ -71,7 +72,8 @@ export const unmanned_systems: DomainProfile = {
     {
       id: 'hangars',
       label: 'Hangars / labs',
-      noun: 'Hangars?|Labs?|Bays?',
+      // Room numbers run to four digits ("Lab 2130"), beyond the alnum id shape.
+      pattern: String.raw`\b((?:Hangar|Lab|Flight Bay|Bay) [A-Z]?\d{1,4}[A-Z]?)\b`,
       idShape: 'alnum',
       lint: true,
       complete: true,

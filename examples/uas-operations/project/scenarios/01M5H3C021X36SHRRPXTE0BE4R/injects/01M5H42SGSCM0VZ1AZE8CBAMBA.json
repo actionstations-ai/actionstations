@@ -1,0 +1,114 @@
+{
+  "id": "01M5H42SGSCM0VZ1AZE8CBAMBA",
+  "mselRowId": "I-24b",
+  "type": "email_forward",
+  "title": "managed SOC: GCS-02 Forensic Verification Complete",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Managed SOC (SecureWatch MSSP)",
+    "fromEmail": "soc@huog.example",
+    "senderInitials": "SOC",
+    "to": "Systems & Cybersecurity Lead (TL), Incident Commander (IC), ASO, Security Liaison (Sec)",
+    "subject": "FW: UAS-11 Incident – Forensic Report – 12:15",
+    "sentAt": "Thu 10/22/2026 12:05 PM",
+    "note": "This is the final forensic report from the managed SOC. All evidence has been verified and preserved. The baseline re-image of GCS-03 has been confirmed to match 03.2026-B. The 915 MHz link compromise is confirmed as originating from a rogue RF emitter at IP 192.168.100.22 (MAC: 915-0A-1F-3C-7D-4E). The device is not in the Group’s approved vendor list. Vendor (HUOG-FW01) must be contacted for a signed access request to re-key the link. All logs are preserved and the chain of custody is intact. No further action is required on the GCS-02 until vendor access is obtained.",
+    "signature": "Managed SOC (SecureWatch MSSP)\n24/7 Monitoring\nHUOG-FW01",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "managed SOC",
+    "original": {
+      "fromName": "Managed SOC (SecureWatch MSSP)",
+      "fromEmail": "soc@huog.example",
+      "sentAt": "Thu 10/22/2026 12:15 PM",
+      "to": "Incident Response Team",
+      "cc": "managed SOC, General Manager (Marguerite Ostrowski), Compliance Officer (Dana Kurtz)",
+      "subject": "UAS-11 Incident – Forensic Report – 12:15",
+      "body": "Subject: UAS-11 Incident – Forensic Report – 12:15\n\nSummary: GCS-03 firmware hash matches baseline 03.2026-B after re-imaging. The 915 MHz link was compromised via a rogue RF emitter (IP 192.168.100.22, MAC: 915-0A-1F-3C-7D-4E). The device is not in Group’s approved vendor list. Vendor (HUOG-FW01) must be contacted for a signed access request to re-key the link. All logs preserved. Forensic imaging complete.\n\nKey findings:\n- GCS-03 firmware hash: 9A3F2D1C7E5B84F0A12E6D3C9B8A7F2D (matches 03.2026-B baseline)\n- 915 MHz link compromise confirmed via MAC 915-0A-1F-3C-7D-4E\n- IP 192.168.100.22 not in approved vendor list\n- No vendor access record for 915-0A-1F-3C-7D-4E\n- All telemetry, link logs, and RTK base logs preserved\n- Chain of custody maintained via managed SOC forensic imaging\n\nAction: GCS-03 must remain quarantined. Re-keying of the 915 MHz link requires signed access request from HUOG-FW01. No further reconnection until approval.\n\nReference: HUOG-ISP Section 9.1, HUOG-ERP Section 11.3"
+    }
+  },
+  "instructorNote": "This inject confirms baseline verification and quarantines GCS-03. The TL must now initiate the vendor access request process. Watch for delays in obtaining the signed access request.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP",
+      "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this document are simulated.",
+      "chunkId": 95
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 8 › 8.2 Vendors and remote access",
+      "quote": "The OEM has no remote access to the Group's systems; support is by exported logs. The mission-planning software vendor's license server is reached outbound only. The GCS vendor's remote-support tool was",
+      "chunkId": 123
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Table of Contents",
+      "quote": "Section 1 Purpose and Scope · Section 2 Roles · Section 3 System Description · Section 4 Ground Control Station Security · Section 5 Links, GNSS and Radio · Section 6 Data Pipeline and Backups · Secti",
+      "chunkId": 96
+    }
+  ],
+  "mediaBrief": {
+    "paths": ["template"]
+  },
+  "assets": [
+    {
+      "id": "01M5H71TQG6NKDMSA70YWZ1ATJ",
+      "kind": "image",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H42SGSCM0VZ1AZE8CBAMBA/01M5H71TQG6NKDMSA70YWZ1ATJ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 989,
+      "sha256": "6e1662408626c2b3a75c89a9c4b896459921d963ae915a0607a2b8bd09c92ec4",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:08:49.615Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:17:23.742Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "managed SOC: GCS-02 Forensic Verification Complete",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Managed SOC (SecureWatch MSSP)",
+          "fromEmail": "soc@huog.example",
+          "senderInitials": "MSSP",
+          "to": "Systems & Cybersecurity Lead (TL), Incident Commander (IC), ASO, Security Liaison (Sec)",
+          "subject": "FW: UAS-11 Incident – Forensic Report – 12:15",
+          "sentAt": "Thu 10/22/2026 12:05 PM",
+          "note": "This is the final forensic report from the managed SOC. All evidence has been verified and preserved. The baseline re-image of GCS-03 has been confirmed to match 03.2026-B. The 915 MHz link compromise is confirmed as originating from a rogue RF emitter at IP 192.168.100.22 (MAC: 915-0A-1F-3C-7D-4E). The device is not in the Group’s approved vendor list. Vendor (HUOG-FW01) must be contacted for a signed access request to re-key the link. All logs are preserved and the chain of custody is intact. No further action is required on the GCS-02 until vendor access is obtained.",
+          "signature": "Managed SOC (SecureWatch MSSP)\n24/7 Monitoring\nHUOG-FW01",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "managed SOC",
+          "original": {
+            "fromName": "Managed SOC (SecureWatch MSSP)",
+            "fromEmail": "soc@huog.example",
+            "sentAt": "Thu 10/22/2026 12:15 PM",
+            "to": "Incident Response Team",
+            "cc": "managed SOC, General Manager (Marguerite Ostrowski), Compliance Officer (Dana Kurtz)",
+            "subject": "UAS-11 Incident – Forensic Report – 12:15",
+            "body": "Subject: UAS-11 Incident – Forensic Report – 12:15\n\nSummary: GCS-03 firmware hash matches baseline 03.2026-B after re-imaging. The 915 MHz link was compromised via a rogue RF emitter (IP 192.168.100.22, MAC: 915-0A-1F-3C-7D-4E). The device is not in Group’s approved vendor list. Vendor (HUOG-FW01) must be contacted for a signed access request to re-key the link. All logs preserved. Forensic imaging complete.\n\nKey findings:\n- GCS-03 firmware hash: 9A3F2D1C7E5B84F0A12E6D3C9B8A7F2D (matches 03.2026-B baseline)\n- 915 MHz link compromise confirmed via MAC 915-0A-1F-3C-7D-4E\n- IP 192.168.100.22 not in approved vendor list\n- No vendor access record for 915-0A-1F-3C-7D-4E\n- All telemetry, link logs, and RTK base logs preserved\n- Chain of custody maintained via managed SOC forensic imaging\n\nAction: GCS-03 must remain quarantined. Re-keying of the 915 MHz link requires signed access request from HUOG-FW01. No further reconnection until approval.\n\nReference: HUOG-ISP Section 9.1, HUOG-ERP Section 11.3",
+            "attachments": []
+          }
+        },
+        "instructorNote": "This inject confirms baseline verification and quarantines GCS-03. The TL must now initiate the vendor access request process. Watch for delays in obtaining the signed access request.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:08:49.855Z"
+}

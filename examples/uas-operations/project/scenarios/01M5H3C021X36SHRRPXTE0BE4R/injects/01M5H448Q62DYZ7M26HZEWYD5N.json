@@ -1,0 +1,225 @@
+{
+  "id": "01M5H448Q62DYZ7M26HZEWYD5N",
+  "mselRowId": "I-26",
+  "type": "field_report",
+  "title": "RTK-1 Base Re-Sync and Calibration Tarp Integrity Check — Birch Hollow Range",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Harwick UAS Operations Group — Flight Operations",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0922-15",
+    "date": "10/22/2026",
+    "time": "12:25",
+    "location": "Lakeshore Flight Area, RTK-1 base station (SM-L1), lodge parking pad (TP-LFA-LP1)",
+    "inspector": "Site Manager, Birch Hollow Range",
+    "unit": "Field Crew · UAS-11 Site Team",
+    "reportType": "routine",
+    "weather": "Clear, 72°F, wind 6 mph from the west",
+    "summary": "This is the Site Manager at Birch Hollow Range. RTK-1 base (SM-L1) has been re-checked. GPS fix restored. RTK sync confirmed. The calibration tarps (CT-1 to CT-4) were not disturbed. The Payload Operator has just called 'PANEL CLEAR' again. All pre-flight checks are now green. The telemetry pipeline may be re-enabled under supervision.",
+    "findings": [
+      {
+        "item": "RTK-1 base (SM-L1) GPS fix",
+        "condition": "ok",
+        "notes": "Confirmed via GCS-03 status page; full fix restored at 12:23:44"
+      },
+      {
+        "item": "RTK-1 base (SM-L1) RTK sync",
+        "condition": "ok",
+        "notes": "Sync status: 'RTK Synced' on GCS-03; confirmed via HUOG-NAS01 log"
+      },
+      {
+        "item": "Calibration tarps CT-1 to CT-4",
+        "condition": "ok",
+        "notes": "All tarps present and undisturbed; no signs of disturbance or movement"
+      },
+      {
+        "item": "Reflectance panel stand RP-1",
+        "condition": "ok",
+        "notes": "RP-1 upright and unobstructed; visible from GCS-03 HMI"
+      },
+      {
+        "item": "Payload Operator call for 'PANEL CLEAR'",
+        "condition": "ok",
+        "notes": "Confirmed: Payload Operator said 'PANEL CLEAR' at 12:24:11; recorded in GCS-03 telemetry log"
+      },
+      {
+        "item": "Site survey form (FOM-3) compliance",
+        "condition": "ok",
+        "notes": "All site markers and cones in place; no unauthorized personnel or equipment on site"
+      },
+      {
+        "item": "Lodge patio and meadow access",
+        "condition": "ok",
+        "notes": "No guest activity detected; all zones clear"
+      },
+      {
+        "item": "GCS-03 radio state",
+        "condition": "ok",
+        "notes": "915 MHz link quality: 78%; no spikes or anomalies"
+      },
+      {
+        "item": "UAS-11 aircraft status",
+        "condition": "ok",
+        "notes": "In manual/attitude mode on meadow; battery 82%; no further movement"
+      },
+      {
+        "item": "RF jammer device (VHF-JAM-915X, serial 915-JAM-001)",
+        "condition": "ok",
+        "notes": "Secured in Faraday bag; no further emissions detected"
+      }
+    ],
+    "actionsTaken": [
+      "Re-verified RTK-1 base (SM-L1) GPS and RTK sync via GCS-03",
+      "Confirmed calibration tarps (CT-1–CT-4) were not disturbed",
+      "Re-confirmed Payload Operator's 'PANEL CLEAR' call at 12:24:11",
+      "Notified Incident Commander and Technical Lead of system readiness for telemetry re-enablement under supervision"
+    ],
+    "recommendations": [
+      "Re-enable telemetry pipeline under HUOG-ERP Section 11.3 supervision",
+      "Conduct full pre-flight verification before any new flight campaign",
+      "Maintain RTK-1 base (SM-L1) under continuous surveillance until full forensic clearance"
+    ],
+    "photosNote": "2 photos attached: IMG_0120-0121 (RTK-1 base, SM-L1); IMG_0122-0123 (calibration tarps, CT-1 to CT-4)",
+    "signature": "Site Manager, Birch Hollow Range",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "instructorNote": "This inject confirms restoration of RTK-1 and tarp integrity. The team must now re-enable telemetry under supervision. Watch for premature attempts to re-activate automation.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+      "quote": "- Launch point TP-LFA-LP1 at the lodge parking pad. RTK-1 on survey marker SM-L1 by the lodge. - Flight lines run east–west over the meadow and the north shore of the lake; no flight over the lodge or",
+      "chunkId": 69
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 8 › 8.3 Pre-flight checklist (per aircraft)",
+      "quote": "- Airframe: props, arms, landing gear, payload mount, no cracks; registration and Remote ID marking visible - Batteries: correct packs, voltage, latched; pack numbers on FOM-2 - GCS: correct aircraft ",
+      "chunkId": 76
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 6 › 6.1 Classes and ceilings",
+      "quote": "Horton Field is under the HWK Class C airspace with a UAS Facility Map grid ceiling of 200 ft AGL. The Birch Hollow Range flight areas are in Class G airspace below the Class C shelf with the Part 107 ceil",
+      "chunkId": 62
+    }
+  ],
+  "mediaBrief": {
+    "paths": ["template"]
+  },
+  "assets": [
+    {
+      "id": "01M5H71V51BQZ8JABB9XHBT3MQ",
+      "kind": "image",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H448Q62DYZ7M26HZEWYD5N/01M5H71V51BQZ8JABB9XHBT3MQ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "5f14aca4a262d8af64734a9dc52e03b5310272ee878d9dc43174ff11243b025f",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:08:50.063Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:18:15.183Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "RTK-1 Base Re-Sync and Calibration Tarp Integrity Check — Birch Hollow Range",
+        "type": "field_report",
+        "fields": {
+          "organization": "Harwick UAS Operations Group — Flight Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0922-15",
+          "date": "10/22/2026",
+          "time": "12:25",
+          "location": "Lakeshore Flight Area, RTK-1 base station (SM-L1), lodge parking pad (TP-LFA-LP1)",
+          "inspector": "Site Manager, Birch Hollow Range",
+          "unit": "Field Crew · UAS-11 Site Team",
+          "reportType": "routine",
+          "weather": "Clear, 72°F, wind 6 mph from the west",
+          "summary": "This is the Site Manager at Birch Hollow Range. RTK-1 base (SM-L1) has been re-checked. GPS fix restored. RTK sync confirmed. The calibration tarps (CT-1 to CT-4) were not disturbed. The Payload Operator has just called 'PANEL CLEAR' again. All pre-flight checks are now green. The telemetry pipeline may be re-enabled under supervision.",
+          "findings": [
+            {
+              "item": "RTK-1 base (SM-L1) GPS fix",
+              "condition": "ok",
+              "notes": "Confirmed via GCS-03 status page; full fix restored at 12:23:44"
+            },
+            {
+              "item": "RTK-1 base (SM-L1) RTK sync",
+              "condition": "ok",
+              "notes": "Sync status: 'RTK Synced' on GCS-03; confirmed via HUOG-NAS01 log"
+            },
+            {
+              "item": "Calibration tarps CT-1 to CT-4",
+              "condition": "ok",
+              "notes": "All tarps present and undisturbed; no signs of disturbance or movement"
+            },
+            {
+              "item": "Reflectance panel stand RP-1",
+              "condition": "ok",
+              "notes": "RP-1 upright and unobstructed; visible from GCS-03 HMI"
+            },
+            {
+              "item": "Payload Operator call for 'PANEL CLEAR'",
+              "condition": "ok",
+              "notes": "Confirmed: Payload Operator said 'PANEL CLEAR' at 12:24:11; recorded in GCS-03 telemetry log"
+            },
+            {
+              "item": "Site survey form (FOM-3) compliance",
+              "condition": "ok",
+              "notes": "All site markers and cones in place; no unauthorized personnel or equipment on site"
+            },
+            {
+              "item": "Lodge patio and meadow access",
+              "condition": "ok",
+              "notes": "No guest activity detected; all zones clear"
+            },
+            {
+              "item": "GCS-03 radio state",
+              "condition": "ok",
+              "notes": "915 MHz link quality: 78%; no spikes or anomalies"
+            },
+            {
+              "item": "UAS-11 aircraft status",
+              "condition": "ok",
+              "notes": "In manual/attitude mode on meadow; battery 82%; no further movement"
+            },
+            {
+              "item": "RF jammer device (VHF-JAM-915X, serial 915-JAM-001)",
+              "condition": "ok",
+              "notes": "Secured in Faraday bag; no further emissions detected"
+            }
+          ],
+          "actionsTaken": [
+            "Re-verified RTK-1 base (SM-L1) GPS and RTK sync via GCS-03",
+            "Confirmed calibration tarps (CT-1–CT-4) were not disturbed",
+            "Re-confirmed Payload Operator's 'PANEL CLEAR' call at 12:24:11",
+            "Notified Incident Commander and Technical Lead of system readiness for telemetry re-enablement under supervision"
+          ],
+          "recommendations": [
+            "Re-enable telemetry pipeline under HUOG-ERP Section 11.3 supervision",
+            "Conduct full pre-flight verification before any new flight campaign",
+            "Maintain RTK-1 base (SM-L1) under continuous surveillance until full forensic clearance"
+          ],
+          "photosNote": "2 photos attached: IMG_0120-0121 (RTK-1 base, SM-L1); IMG_0122-0123 (calibration tarps, CT-1 to CT-4)",
+          "signature": "Site Manager, Birch Hollow Range",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms restoration of RTK-1 and tarp integrity. The team must now re-enable telemetry under supervision. Watch for premature attempts to re-activate automation.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:08:50.285Z"
+}

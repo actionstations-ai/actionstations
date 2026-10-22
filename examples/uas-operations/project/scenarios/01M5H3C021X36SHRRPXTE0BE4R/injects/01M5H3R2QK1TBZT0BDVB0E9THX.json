@@ -1,0 +1,134 @@
+{
+  "id": "01M5H3R2QK1TBZT0BDVB0E9THX",
+  "mselRowId": "I-03",
+  "type": "radio_call",
+  "title": "Radio: Unauthorized GCS Device Detected — UAS-11",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Harwick UAS Operations Group",
+    "centerName": "Operations Command Center (OCC)",
+    "channel": "UAS-11 Flight Ops",
+    "frequency": "915 MHz / TG 011",
+    "date": "10/22/2026",
+    "callsign": "RPIC-11",
+    "lines": [
+      {
+        "time": "09:25:12",
+        "from": "RPIC-11",
+        "to": "IC, TL",
+        "text": "Ops, I'm trying to re-pair via the OEM app on GCS-02. It says: 'Device ID mismatch. Re-pair required. New device ID: GCS-04. Accept?' I did not send that command. No GCS-04 exists as a separate GCS in the fleet. Is this a spoof?"
+      },
+      {
+        "time": "09:25:28",
+        "from": "RPIC-11",
+        "to": "IC, TL",
+        "text": "The system is still showing GCS-04 in the device list. I've checked the fleet roster and baseline. There is no GCS-04 as a standalone ground station. GCS-04 runs the Linux baseline L-2026.2 and is not a command node. This is not a known configuration. I'm not initiating any re-pair. I'm holding the link and waiting for your direction."
+      }
+    ],
+    "background": "office",
+    "voiceStyle": "Young male, tense, clipped, urgent",
+    "audioFile": "I-03_radio.wav",
+    "duration": "0:23",
+    "injectId": "I-03"
+  },
+  "instructorNote": "This is a command integrity trigger. The RPIC confirms a rogue GCS device in telemetry. The technical team must validate the baseline and declare a fleet-wide hold. Watch for over-reliance on the RPIC's authority.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+      "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+      "headingPath": "SITE › 10. Data-integrity tells (features that do not exist)",
+      "quote": "Non-existent features (data-integrity tells for scenarios): there is no thirteenth aircraft (a \"UAS 13\" does not exist), no seventh ground control station (\"GCS 07\" does not exist), no Hangar 4, n",
+      "chunkId": 148
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 4 › 4.1 Baseline",
+      "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselin",
+      "chunkId": 104
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+      "quote": "Treat as Level 2. Land all aircraft; preserve the GCS state; call the Systems & Cybersecurity Lead before anything is powered down; no further launches at the site that day; the HUOG-ISP incident play",
+      "chunkId": 25
+    }
+  ],
+  "mediaBrief": {
+    "paths": ["template", "tts"],
+    "voiceLines": [
+      {
+        "speaker": "RPIC-11",
+        "voiceStyle": "Young male, tense, clipped, urgent",
+        "text": "Ops, I'm trying to re-pair via the OEM app on GCS-02. It says: 'Device ID mismatch. Re-pair required. New device ID: GCS-04. Accept?' I did not send that command. No GCS-04 exists as a separate GCS in the fleet. Is this a spoof?"
+      },
+      {
+        "speaker": "RPIC-11",
+        "voiceStyle": "Young male, tense, clipped, urgent",
+        "text": "The system is still showing GCS-04 in the device list. I've checked the fleet roster and baseline. There is no GCS-04 as a standalone ground station. GCS-04 runs the Linux baseline L-2026.2 and is not a command node. This is not a known configuration. I'm not initiating any re-pair. I'm holding the link and waiting for your direction."
+      }
+    ],
+    "postFx": ["radio"]
+  },
+  "assets": [
+    {
+      "id": "01M5H71MWRYA2DPQ2ADJ7DY9K2",
+      "kind": "image",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H3R2QK1TBZT0BDVB0E9THX/01M5H71MWRYA2DPQ2ADJ7DY9K2.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "798c4f5e5a50a5aae3026e7a12db76c0412ea302ba611f54b6448ff3ba3ccaa8",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:08:43.683Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:11:22.411Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Radio: Unauthorized GCS Device Detected — UAS-11",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "centerName": "Operations Command Center (OCC)",
+          "channel": "UAS-11 Flight Ops",
+          "frequency": "915 MHz / TG 011",
+          "date": "10/22/2026",
+          "callsign": "RPIC-11",
+          "lines": [
+            {
+              "time": "09:25:12",
+              "from": "RPIC-11",
+              "to": "IC, TL",
+              "text": "Ops, I'm trying to re-pair via the OEM app on GCS-02. It says: 'Device ID mismatch. Re-pair required. New device ID: GCS-04. Accept?' I did not send that command. No GCS-04 exists as a separate GCS in the fleet. Is this a spoof?"
+            },
+            {
+              "time": "09:25:28",
+              "from": "RPIC-11",
+              "to": "IC, TL",
+              "text": "The system is still showing GCS-04 in the device list. I've checked the fleet roster and baseline. There is no GCS-04 as a standalone ground station. GCS-04 runs the Linux baseline L-2026.2 and is not a command node. This is not a known configuration. I'm not initiating any re-pair. I'm holding the link and waiting for your direction."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Young male, tense, clipped, urgent",
+          "audioFile": "I-03_radio.wav",
+          "duration": "0:23",
+          "injectId": "I-03"
+        },
+        "instructorNote": "This is a command integrity trigger. The RPIC confirms a rogue GCS device in telemetry. The technical team must validate the baseline and declare a fleet-wide hold. Watch for over-reliance on the RPIC's authority.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:08:43.877Z"
+}

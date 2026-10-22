@@ -27,6 +27,7 @@ Two more fictional document sets exercise the domain-neutral generator; each is 
 |---|---|---|
 | `transit/` | Riverbend Regional Transit Authority (bus + light rail; Harlan County, Ohio) | Emergency Operations Plan (EOP), System Security & Emergency Preparedness Plan (SSEPP), CAD/AVL & fare-system cyber annex, system map |
 | `dam/` | Cedar Ridge Dam, Cedar Valley Water Authority (hydro + flood control; Pike County, Ohio) | Emergency Action Plan (EAP, inundation zones + notification flowchart), Security Plan (physical + SCADA), O&M manual excerpt, site map |
+| `uas-ops/` | Harwick UAS Operations Group (HUOG), a simulated regional unmanned-aircraft operator — infrastructure inspection, agricultural and environmental survey, public-safety support — flying under Part 107 beside a Class C airport (#157). Each document opens with a standard exercise marking; `SOURCES.md` lists the public material consulted for realism and is not a project document (the example builder and the acceptance test skip it). The bundled example `examples/uas-operations/` is generated from this set | UAS Flight Operations & Safety Manual (FOM), Emergency Response Plan for flight operations (ERP), Information Security Plan for the GCS fleet and data pipeline (ISP), site & airspace sheet |
 
 ## NOT included — copyright
 

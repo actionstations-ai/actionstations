@@ -1,0 +1,236 @@
+{
+  "id": "01M5H3QBHBDPRHA6H6BH4DXRZH",
+  "mselRowId": "I-02",
+  "type": "system_log",
+  "title": "GCS-02: Unauthorized GCS Detected in Device List",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "GCS-02 System Log",
+    "host": "GCS-02",
+    "ip": "10.17.60.22",
+    "os": "Ubuntu 22.04 LTS",
+    "logSource": "Device List / GCS-02",
+    "exportedBy": "HUOG-OPS-03",
+    "exportedAt": "10/22/2026 09:18 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "09:18:02",
+        "level": "ALERT",
+        "msg": "New device entry: GCS-04 (MAC: 915-0A-1F-3C-7D-4E). No record of GCS-04 in fleet register. MAC not in inventory.",
+        "highlight": true
+      },
+      {
+        "ts": "09:15:32",
+        "level": "ERROR",
+        "msg": "RTK-1: GNSS fix lost. Satellite count: 12 → 0. Sky clear. No weather event.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:32",
+        "level": "ERROR",
+        "msg": "UAS-11: Aircraft GNSS fix lost. Position jumped 150m north. No known motion or wind event.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:30",
+        "level": "WARN",
+        "msg": "915 MHz link quality: 94% → 12% in 0.4 seconds. No known interference source.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:30",
+        "level": "INFO",
+        "msg": "UAS-11: RTK-1 and aircraft GNSS both lost fix simultaneously under clear sky.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:30",
+        "level": "INFO",
+        "msg": "UAS-11: DAA-1 telemetry shows position as 43.1724°N, 77.5631°W. GCS-02 shows 43.1719°N, 77.5635°W.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:30",
+        "level": "INFO",
+        "msg": "UAS-11: Home point updated to 43.1721°N, 77.5633°W. No command received from RPIC.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:30",
+        "level": "INFO",
+        "msg": "UAS-11: Flight controller received command to set home point. No RPIC input logged.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:30",
+        "level": "INFO",
+        "msg": "UAS-11: Command injection detected. Firmware hash matches baseline.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:30",
+        "level": "INFO",
+        "msg": "UAS-11: DAA-1 and GCS-02 disagree on aircraft position. Discrepancy: 0.0005° (approx. 55m).",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:30",
+        "level": "INFO",
+        "msg": "UAS-11: No user input received from RPIC at 09:15:30.",
+        "highlight": false
+      },
+      {
+        "ts": "09:18:02",
+        "level": "NOTICE",
+        "msg": "Log export initiated by HUOG-OPS-03. All logs preserved to HUOG-NAS01: /incidents/20261022/GCS-02-091802",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "GCS-02: Terminal - Log Capture Session",
+    "command": "sudo tail -f /var/log/gcs-11/device-list.log",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "instructorNote": "This inject confirms the presence of a rogue GCS. The technical team must immediately isolate GCS-02 and preserve all logs. Watch for attempts to reboot or re-pair the 915 MHz link.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+      "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+      "chunkId": 127
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 9 › 9.3 GNSS degradation or spoofing suspicion",
+      "quote": "Signs: satellite count falls while the sky is clear; position jumps; RTK fix lost on both RTK-1 and the aircraft; the home point moves; DAA-1 and the GCS disagree on position. Actions: the RPIC switch",
+      "chunkId": 82
+    }
+  ],
+  "mediaBrief": {
+    "paths": ["template"]
+  },
+  "assets": [
+    {
+      "id": "01M5H71MPDBQ5YCYSGNET1FF3Y",
+      "kind": "image",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H3QBHBDPRHA6H6BH4DXRZH/01M5H71MPDBQ5YCYSGNET1FF3Y.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "5f558297edc4a56a830b5c72cc835b8d2bedde377c3bf7ee63d1c26e9e3edcd3",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:08:43.444Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:11:04.559Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GCS-02: Unauthorized GCS Detected in Device List",
+        "type": "system_log",
+        "fields": {
+          "systemName": "GCS-02 System Log",
+          "host": "GCS-02",
+          "ip": "10.17.60.22",
+          "os": "Ubuntu 22.04 LTS",
+          "logSource": "Device List / GCS-02",
+          "exportedBy": "HUOG-OPS-03",
+          "exportedAt": "10/22/2026 09:18 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "09:18:02",
+              "level": "ALERT",
+              "msg": "New device entry: GCS-04 (MAC: 915-0A-1F-3C-7D-4E). No record of GCS-04 in fleet register. MAC not in inventory.",
+              "highlight": true
+            },
+            {
+              "ts": "09:15:32",
+              "level": "ERROR",
+              "msg": "RTK-1: GNSS fix lost. Satellite count: 12 → 0. Sky clear. No weather event.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:32",
+              "level": "ERROR",
+              "msg": "UAS-11: Aircraft GNSS fix lost. Position jumped 150m north. No known motion or wind event.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:30",
+              "level": "WARN",
+              "msg": "915 MHz link quality: 94% → 12% in 0.4 seconds. No known interference source.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:30",
+              "level": "INFO",
+              "msg": "UAS-11: RTK-1 and aircraft GNSS both lost fix simultaneously under clear sky.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:30",
+              "level": "INFO",
+              "msg": "UAS-11: DAA-1 telemetry shows position as 43.1724°N, 77.5631°W. GCS-02 shows 43.1719°N, 77.5635°W.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:30",
+              "level": "INFO",
+              "msg": "UAS-11: Home point updated to 43.1721°N, 77.5633°W. No command received from RPIC.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:30",
+              "level": "INFO",
+              "msg": "UAS-11: Flight controller received command to set home point. No RPIC input logged.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:30",
+              "level": "INFO",
+              "msg": "UAS-11: Command injection detected. Firmware hash matches baseline.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:30",
+              "level": "INFO",
+              "msg": "UAS-11: DAA-1 and GCS-02 disagree on aircraft position. Discrepancy: 0.0005° (approx. 55m).",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:30",
+              "level": "INFO",
+              "msg": "UAS-11: No user input received from RPIC at 09:15:30.",
+              "highlight": false
+            },
+            {
+              "ts": "09:18:02",
+              "level": "NOTICE",
+              "msg": "Log export initiated by HUOG-OPS-03. All logs preserved to HUOG-NAS01: /incidents/20261022/GCS-02-091802",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "GCS-02: Terminal - Log Capture Session",
+          "command": "sudo tail -f /var/log/gcs-11/device-list.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the presence of a rogue GCS. The technical team must immediately isolate GCS-02 and preserve all logs. Watch for attempts to reboot or re-pair the 915 MHz link.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:08:43.679Z"
+}

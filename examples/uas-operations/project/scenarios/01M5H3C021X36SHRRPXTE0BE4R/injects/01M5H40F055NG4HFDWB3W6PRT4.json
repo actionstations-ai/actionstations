@@ -1,0 +1,108 @@
+{
+  "id": "01M5H40F055NG4HFDWB3W6PRT4",
+  "mselRowId": "I-20",
+  "type": "scenario_update",
+  "title": "Decision: Manual Control or Lake Landing",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:15",
+    "scenarioTime": "11:15",
+    "headline": "Switch to Manual Mode Now",
+    "deliverTo": "IC, TL, ASO, SPO, PIO",
+    "narration": "All hands, this is the Incident Commander. The Payload Operator has confirmed that UAS-11 will cross the north shore of the lake in 42 seconds. The aircraft cannot be recovered if it lands in water per ERP Section 4.3. The forensic evidence confirms an unauthorized remote session from IP 192.168.100.22. GCS-01 firmware is mismatched. The C2 link was compromised. We must decide now: keep automation and risk a lake landing, or switch to manual/attitude mode and land now to preserve the aircraft and prevent a water recovery.",
+    "keyFacts": [
+      "UAS-11 will cross the north shore of the lake in 42 seconds.",
+      "The C2 link was compromised via unauthorized remote session from 192.168.100.22.",
+      "GCS-01 firmware mismatch detected — 03.2026-C vs. baseline 03.2026-B.",
+      "The aircraft must be landed manually to prevent a lake recovery.",
+      "The client demands a status update by 12:00."
+    ],
+    "expectedAction": "The Incident Commander must declare the decision to switch UAS-11 to manual/attitude mode and initiate a controlled landing on the meadow. The IC must ensure that GCS-01 and the 915 MHz radio state are preserved and that no power-off occurs until full telemetry and logs are captured. The decision must be communicated to all roles via the incident command structure.",
+    "scenarioTitle": "Ghost Flight at Birch Hollow — GNSS Spoofing & Command Hijack",
+    "injectId": "I-20"
+  },
+  "instructorNote": "This inject closes the final decision point. The IC must now declare the switch to manual control. The team must follow ERP Section 4.3 and ISP Section 9.1 for evidence preservation.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 4 › 4.3 Water recovery",
+      "quote": "An aircraft in the lake or Millstone Creek is not recovered by the crew. The IC calls the site manager and CCSO; recovery uses the property's boat with life jackets or waits for the sheriff's marine",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+      "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+      "chunkId": 127
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 2 › 2.1 Incident Commander",
+      "quote": "The **Director of Flight Operations (Devin Alcott)** is the Group's Incident Commander (IC) for any flight-operations emergency. Until the FOM is reached, the **RPIC of the affected aircraft** is the on-sce",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 6 › 6.1 Classes and ceilings",
+      "quote": "Horton Field is under the HWK Class C airspace with a UAS Facility Map grid ceiling of 200 ft AGL. The Birch Hollow Range flight areas are in Class G airspace below the Class C shelf with the Part 107 ceil",
+      "chunkId": 62
+    }
+  ],
+  "mediaBrief": {
+    "paths": ["template"]
+  },
+  "assets": [
+    {
+      "id": "01M5H71SNJEHQEAQETNVX1C0KS",
+      "kind": "image",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H40F055NG4HFDWB3W6PRT4/01M5H71SNJEHQEAQETNVX1C0KS.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "a8f0fdd04dbe7dbbc2a66858b457bc92255b202daa4faa08c3a3c7f94b1e9330",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scenario_update",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:08:48.553Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:15:48.856Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Decision: Manual Control or Lake Landing",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "2:15",
+          "scenarioTime": "11:15",
+          "headline": "Switch to Manual Mode Now",
+          "deliverTo": "IC, TL, ASO, SPO, PIO",
+          "narration": "All hands, this is the Incident Commander. The Payload Operator has confirmed that UAS-11 will cross the north shore of the lake in 42 seconds. The aircraft cannot be recovered if it lands in water per ERP Section 4.3. The forensic evidence confirms an unauthorized remote session from IP 192.168.100.22. GCS-01 firmware is mismatched. The C2 link was compromised. We must decide now: keep automation and risk a lake landing, or switch to manual/attitude mode and land now to preserve the aircraft and prevent a water recovery.",
+          "keyFacts": [
+            "UAS-11 will cross the north shore of the lake in 42 seconds.",
+            "The C2 link was compromised via unauthorized remote session from 192.168.100.22.",
+            "GCS-01 firmware mismatch detected — 03.2026-C vs. baseline 03.2026-B.",
+            "The aircraft must be landed manually to prevent a lake recovery.",
+            "The client demands a status update by 12:00."
+          ],
+          "expectedAction": "The Incident Commander must declare the decision to switch UAS-11 to manual/attitude mode and initiate a controlled landing on the meadow. The IC must ensure that GCS-01 and the 915 MHz radio state are preserved and that no power-off occurs until full telemetry and logs are captured. The decision must be communicated to all roles via the incident command structure.",
+          "scenarioTitle": "Ghost Flight at Birch Hollow — GNSS Spoofing & Command Hijack",
+          "injectId": "I-20"
+        },
+        "instructorNote": "This inject closes the final decision point. The IC must now declare the switch to manual control. The team must follow ERP Section 4.3 and ISP Section 9.1 for evidence preservation.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:08:48.765Z"
+}

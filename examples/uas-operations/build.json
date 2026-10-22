@@ -1,0 +1,45 @@
+{
+  "id": "uas-operations",
+  "title": "Harwick UAS Operations Group",
+  "domainProfile": "unmanned_systems",
+  "summary": "A regional unmanned-aircraft operator (infrastructure inspection, agricultural and environmental survey, public-safety support) flying under Part 107 beside a Class C airport: a C2-link hijack and GNSS spoofing during a multispectral sensor campaign at its leased range.",
+  "notice": "Exercise material — for training use. The organization, people, procedures, numbers, frequencies, addresses and identifiers in this example are simulated; the public sources consulted for realism are listed in reference/uas-ops/SOURCES.md.",
+  "project": {
+    "name": "Harwick UAS Operations Group",
+    "orgName": "Harwick UAS Operations Group",
+    "orgType": "unmanned_systems",
+    "brand": {
+      "city": "Harwick",
+      "region": "Calder County, New York",
+      "aliases": {
+        "org": "Harwick UAS Operations Group",
+        "orgShort": "HUOG",
+        "orgDomain": "huog.example",
+        "localTv": "Channel 10",
+        "airport": "Horton Field"
+      }
+    }
+  },
+  "documents": { "dir": "reference/uas-ops", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "c2-hijack",
+      "threatFamily": "cyber_physical",
+      "summary": "During a multispectral and hyperspectral campaign at Birch Hollow Range, UAS-01 and UAS-11 start receiving commands the crew did not send while GNSS positions drift; the Group must land safely, preserve the GCS state, re-key links and decide what to tell the client and the FAA.",
+      "userPrompt": "A multispectral and hyperspectral sensor campaign at the Lakeshore Flight Area of Birch Hollow Range (UAS-01 with PL-01, UAS-11 with PL-03, GCS-01 and GCS-02, RTK-1) is disrupted by a command-and-control link hijack and GNSS spoofing: UAS-11's 915 MHz telemetry shows a second ground station, the aircraft start executing waypoints nobody loaded, RTK-1 and the aircraft lose fix at the same time under a clear sky, the home point moves, and a pickup truck with antennas is seen leaving the lodge parking lot. The crew must land in attitude mode, preserve the GCS and radio state, decide whether to call HWK Tower, re-key the links, work with CCSO and the managed SOC, and tell the CP&L client whether Deliverable D-3 data is intact.",
+      "audience": [
+        "Flight Operations",
+        "Systems / Cybersecurity",
+        "Aviation Safety",
+        "Corporate Communications",
+        "Security / CCSO liaison",
+        "Payload & Calibration"
+      ],
+      "constraints": [
+        "Every email address of the Group and its units uses the exercise domain huog.example; outside parties use fictional domains and fictional outlet names (Channel 10, the Harwick Daily News); never a real agency, company or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (clients, the managed SOC, Data Center Operations, CCSO, the FAA) are played by the SimCell, not seated as players."
+      ]
+    }
+  ]
+}

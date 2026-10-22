@@ -1,0 +1,108 @@
+{
+  "id": "01M5H3WMD9EBJ7M6BQ6QT77P19",
+  "mselRowId": "I-13b",
+  "type": "email",
+  "title": "Email: PL-02 Data Risk — UAS-11 Flight Window",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Lin Zhou (Data Center Operations)",
+    "fromEmail": "lin.zhou@dc.huog.example",
+    "senderInitials": "LZ",
+    "to": "Systems & Cybersecurity Lead, IC",
+    "subject": "PL-02 Data – UAS-11 – 09:10–09:15 – Hold All Exports",
+    "sentAt": "Thu 10/22/2026 10:20 AM",
+    "body": "TL, IC,\n\nThe PL-02 hyperspectral dataset from UAS-11's 09:10–09:15 window shows radiance anomalies consistent with a calibration tarps exposure event. CT-1 to CT-4 were not on the ground during the pre-flight inspection, and the HMI shows 30% confidence in calibration status.\n\nThe radiance values in the first line show 12% outlier. This is outside the tolerance band for PL-02 data integrity. The raw data may be compromised.\n\nRequest: Hold all exports to the client until forensic verification is complete. Do not release D-3 or any PL-02-derived deliverables.\n\nPer HUOG-ISP Section 7.5, this must be confirmed with the General Manager and Compliance Officer.\n\n— Lin Zhou\nData Center Operations Liaison\nData Center Operations",
+    "signature": "Lin Zhou\nData Center Operations Liaison\nData Center Operations\n(585) 555-0157",
+    "attachments": [
+      {
+        "name": "PL-02_UAS11_0910-0915_raw.csv",
+        "size": "14.2 MB",
+        "kind": "file"
+      },
+      {
+        "name": "PL-02_Deliverable_Scope.pdf",
+        "size": "2.1 MB",
+        "kind": "pdf"
+      }
+    ],
+    "importance": "high",
+    "external": false,
+    "printedBy": "Data Center Operations"
+  },
+  "instructorNote": "Red herring; the PL-02 data is not actually compromised, but the email triggers the Compliance Officer notification process. Watch for TL to correctly escalate to Dana Kurtz and IC to halt client data releases.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 2",
+      "quote": "| Role | Holder | Responsibilities | |---|---|---| | Systems & Cybersecurity Lead | Tomás Reyes | Plan owner; GCS baseline and updates; link and radio configuration; firewall; NAS and backups; inciden",
+      "chunkId": 100
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 6 › 6.1 Notification order",
+      "quote": "| Order | Who | When | By whom | |---|---|---|---| | 1 | 911 (fire, EMS, law enforcement) | Immediately for Level 3 with injury, fire or a public hazard | Anyone | | 2 | HWK Air Traffic Control Tower ",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.5 Lost or stolen GCS, drive or payload",
+      "quote": "Within the hour: corporate account password resets for anyone signed in on it; the OEM fleet portal session revoked; the device marked lost in mobile-device management (tablets); a Harwick Police or CCSO ",
+      "chunkId": 131
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Annex B",
+      "quote": "Systems & Cybersecurity Lead, Tomás Reyes — 585-555-0143 · Alternate admin, Nadia Okonkwo — 585-555-0147 · managed SOC — 585-555-0155 (24 h) · IT helpdesk — 585-555-0150 · Data Center Operations lead,",
+      "chunkId": 136
+    }
+  ],
+  "mediaBrief": {
+    "paths": ["template"]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T06:13:42.112Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Email: PL-02 Data Risk — UAS-11 Flight Window",
+        "type": "email",
+        "fields": {
+          "fromName": "Lin Zhou (Data Center Operations)",
+          "fromEmail": "lin.zhou@dc.huog.example",
+          "senderInitials": "LZ",
+          "to": "Systems & Cybersecurity Lead, IC",
+          "subject": "PL-02 Data – UAS-11 – 09:10–09:15 – Hold All Exports",
+          "sentAt": "Thu 10/22/2026 10:20 AM",
+          "body": "TL, IC,\n\nThe PL-02 hyperspectral dataset from UAS-11's 09:10–09:15 window shows radiance anomalies consistent with a calibration tarps exposure event. CT-1 to CT-4 were not on the ground during the pre-flight inspection, and the HMI shows 30% confidence in calibration status.\n\nThe radiance values in the first line show 12% outlier. This is outside the tolerance band for PL-02 data integrity. The raw data may be compromised.\n\nRequest: Hold all exports to the client until forensic verification is complete. Do not release D-3 or any PL-02-derived deliverables.\n\nPer HUOG-ISP Section 7.5, this must be confirmed with the General Manager and Compliance Officer.\n\n— Lin Zhou\nData Center Operations Liaison\nData Center Operations",
+          "signature": "Lin Zhou\nData Center Operations Liaison\nData Center Operations\n(585) 555-0157",
+          "attachments": [
+            {
+              "name": "PL-02_UAS11_0910-0915_raw.csv",
+              "size": "14.2 MB",
+              "kind": "file"
+            },
+            {
+              "name": "PL-02_Deliverable_Scope.pdf",
+              "size": "2.1 MB",
+              "kind": "pdf"
+            }
+          ],
+          "importance": "high",
+          "external": false,
+          "printedBy": "Data Center Operations"
+        },
+        "instructorNote": "Red herring; the PL-02 data is not actually compromised, but the email triggers the Compliance Officer notification process. Watch for TL to correctly escalate to Dana Kurtz and IC to halt client data releases.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:08:46.584Z"
+}

@@ -1,0 +1,112 @@
+{
+  "id": "01M5H3SW4CQQ2W6D6CR5K5FGHH",
+  "mselRowId": "I-09",
+  "type": "helpdesk_ticket",
+  "title": "Helpdesk Ticket: GCS-02 Re-pair Failure",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "2026-9917",
+    "priority": "High",
+    "impact": "High",
+    "urgency": "High",
+    "status": "New",
+    "requester": "Field Crew (Trainee)",
+    "requesterContact": "x4471",
+    "contactType": "Self-service",
+    "category": "UAS Operations",
+    "subcategory": "Ground Control Station",
+    "location": "Lakeshore Flight Area, Birch Hollow Range",
+    "configurationItem": "GCS-02",
+    "opened": "2026-10-22 09:55:12",
+    "assignmentGroup": "HUOG Group - Technical Support",
+    "subject": "GCS-02: Unable to re-pair. OEM app shows GCS-12. No GCS-12 in fleet.",
+    "description": "The OEM flight app on GCS-02 is showing a device ID mismatch. It prompts: 'Device ID mismatch. Re-pair required. New device ID: GCS-12. Accept?' There is no record of GCS-12 in the fleet. The aircraft telemetry shows a second ground station in the network. We attempted to re-pair via the app but it failed. No GCS-12 exists. Request: Forensics team on-site to investigate unauthorized device injection.",
+    "activity": [
+      {
+        "author": "Field Crew (Trainee)",
+        "time": "2026-10-22 09:55:12",
+        "kind": "comment",
+        "text": "This is a repeat of the GCS-12 device alert from earlier. The aircraft is still showing a fake GCS in telemetry. We cannot re-pair. Requesting immediate forensics on-site."
+      },
+      {
+        "author": "ServiceDesk System",
+        "time": "2026-10-22 09:55:12",
+        "kind": "system",
+        "text": "Ticket created from self-service portal. Status set to 'New'. Routing to HUOG Group - Technical Support."
+      }
+    ],
+    "systemName": "ServiceDesk",
+    "orgName": "HUOG Group"
+  },
+  "instructorNote": "Noise inject; the technical team should acknowledge and triage the ticket as a priority 1 incident, but not overreact to the duplicate alert.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.0 Common first steps",
+      "quote": "1. Whoever notices tells the Systems & Cybersecurity Lead (585-555-0143) and, if a flight is involved, the RPIC lands and the HUOG-ERP applies. 2. Do not power off, reboot or \"clean\" anything; disconn",
+      "chunkId": 126
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 2 › 2.1 Positions",
+      "quote": "| Position | Holder | Responsibilities | |---|---|---| | General Manager | Marguerite Ostrowski | Accountable executive; approves this manual, client agreements and any flight outside Section 7 limi",
+      "chunkId": 47
+    }
+  ],
+  "mediaBrief": {
+    "paths": ["template"]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T06:12:10.671Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Helpdesk Ticket: GCS-02 Re-pair Failure",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "2026-9917",
+          "priority": "High",
+          "impact": "High",
+          "urgency": "High",
+          "status": "New",
+          "requester": "Field Crew (Trainee)",
+          "requesterContact": "x4471",
+          "contactType": "Self-service",
+          "category": "UAS Operations",
+          "subcategory": "Ground Control Station",
+          "location": "Lakeshore Flight Area, Birch Hollow Range",
+          "configurationItem": "GCS-02",
+          "opened": "2026-10-22 09:55:12",
+          "assignmentGroup": "HUOG Group - Technical Support",
+          "subject": "GCS-02: Unable to re-pair. OEM app shows GCS-12. No GCS-12 in fleet.",
+          "description": "The OEM flight app on GCS-02 is showing a device ID mismatch. It prompts: 'Device ID mismatch. Re-pair required. New device ID: GCS-12. Accept?' There is no record of GCS-12 in the fleet. The aircraft telemetry shows a second ground station in the network. We attempted to re-pair via the app but it failed. No GCS-12 exists. Request: Forensics team on-site to investigate unauthorized device injection.",
+          "activity": [
+            {
+              "author": "Field Crew (Trainee)",
+              "time": "2026-10-22 09:55:12",
+              "kind": "comment",
+              "text": "This is a repeat of the GCS-12 device alert from earlier. The aircraft is still showing a fake GCS in telemetry. We cannot re-pair. Requesting immediate forensics on-site."
+            },
+            {
+              "author": "ServiceDesk System",
+              "time": "2026-10-22 09:55:12",
+              "kind": "system",
+              "text": "Ticket created from self-service portal. Status set to 'New'. Routing to HUOG Group - Technical Support."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "HUOG Group"
+        },
+        "instructorNote": "Noise inject; the technical team should acknowledge and triage the ticket as a priority 1 incident, but not overreact to the duplicate alert.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:08:45.130Z"
+}

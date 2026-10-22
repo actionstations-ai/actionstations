@@ -1,0 +1,99 @@
+{
+  "id": "01M5H40RBYBFKN6XN5242FQZVE",
+  "mselRowId": "I-21",
+  "type": "memo",
+  "title": "UAS-11: Manual Control Initiated — Lake Risk Averted",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "orgName": "Harwick UAS Operations Group",
+    "department": "Flight Operations & Safety",
+    "to": "All",
+    "from": "Incident Commander (IC)",
+    "cc": "Systems & Cybersecurity Lead (TL), Aviation Safety Officer (ASO), Client Liaison (SPO), Communications Lead (PIO), Security / CCSO Liaison (Sec)",
+    "date": "October 22, 2026 · 11:18 AM",
+    "subject": "DECISION CONFIRMED: UAS-11 Now in Manual/Attitude Mode — Full Standdown Maintained",
+    "urgency": "urgent",
+    "urgencyText": "URGENT — ACTION REQUIRED IMMEDIATELY",
+    "memoNumber": "HUOG-ISP-2026-0922-09",
+    "body": "All roles,\n\nThe Incident Commander has approved the transition to manual/attitude mode for UAS-11. The aircraft is now under direct control of the Payload Operator. The landing will be executed on the meadow, east of the lodge, to avoid water recovery and preserve the airframe.\n\nGCS-01 and the 915 MHz radio state are preserved per C2 and HUOG-ERP Section 4.3. No power-off has occurred. The telemetry and link logs are being streamed in real time to \\HUOG-NAS01\\ops\\incident-log\\2026-09-01\\UAS-11\\ for forensic retention.\n\nThe managed SOC has been notified of the propertyd state and is monitoring for any further anomalies. The incident log has been updated per HUOG-ERP Section 11.3.\n\nAll roles must continue operating under the HUOG-ERP incident command structure. No public statement is to be issued until further approval from the General Manager.\n\nThis decision is effective immediately.",
+    "signatureBlock": "Marguerite Ostrowski\nDirector of Flight Operations (Incident Commander)\nRIT Harwick UAS Operations Group",
+    "initials": "MO",
+    "classification": "INTERNAL — NOT FOR PUBLIC RELEASE"
+  },
+  "instructorNote": "This memo confirms the manual control decision and enforces the preservation of evidence. Watch for the TL to verify log streaming and the IC to confirm manual control handover.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+      "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+      "chunkId": 127
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+      "quote": "Treat as Level 2. Land all aircraft; preserve the GCS state; call the Systems & Cybersecurity Lead before anything is powered down; no further launches at the site that day; the HUOG-ISP incident play",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.4 Flyaway or unplanned flight with a suspected cyber cause",
+      "quote": "Runs under the HUOG-ERP Incident Commander. The Systems & Cybersecurity Lead quarantines the GCS, the controller and any radio; retrieves telemetry, link logs, parameter files and the OEM app logs bef",
+      "chunkId": 130
+    }
+  ],
+  "mediaBrief": {
+    "paths": ["template"]
+  },
+  "assets": [
+    {
+      "id": "01M5H71SWCKXWCJHHZP7PBPTA9",
+      "kind": "image",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H40RBYBFKN6XN5242FQZVE/01M5H71SWCKXWCJHHZP7PBPTA9.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "4c203800546894f45beeee1a0386371aa63613b9ee3df0689ba9107f5e196f01",
+      "provenance": {
+        "provider": "template",
+        "templateId": "memo",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:08:48.768Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:15:57.983Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "UAS-11: Manual Control Initiated — Lake Risk Averted",
+        "type": "memo",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "department": "Flight Operations & Safety",
+          "to": "All",
+          "from": "Incident Commander (IC)",
+          "cc": "Systems & Cybersecurity Lead (TL), Aviation Safety Officer (ASO), Client Liaison (SPO), Communications Lead (PIO), Security / CCSO Liaison (Sec)",
+          "date": "October 22, 2026 · 11:18 AM",
+          "subject": "DECISION CONFIRMED: UAS-11 Now in Manual/Attitude Mode — Full Standdown Maintained",
+          "urgency": "urgent",
+          "urgencyText": "URGENT — ACTION REQUIRED IMMEDIATELY",
+          "memoNumber": "HUOG-ISP-2026-0922-09",
+          "body": "All roles,\n\nThe Incident Commander has approved the transition to manual/attitude mode for UAS-11. The aircraft is now under direct control of the Payload Operator. The landing will be executed on the meadow, east of the lodge, to avoid water recovery and preserve the airframe.\n\nGCS-01 and the 915 MHz radio state are preserved per C2 and HUOG-ERP Section 4.3. No power-off has occurred. The telemetry and link logs are being streamed in real time to \\HUOG-NAS01\\ops\\incident-log\\2026-09-01\\UAS-11\\ for forensic retention.\n\nThe managed SOC has been notified of the propertyd state and is monitoring for any further anomalies. The incident log has been updated per HUOG-ERP Section 11.3.\n\nAll roles must continue operating under the HUOG-ERP incident command structure. No public statement is to be issued until further approval from the General Manager.\n\nThis decision is effective immediately.",
+          "signatureBlock": "Marguerite Ostrowski\nDirector of Flight Operations (Incident Commander)\nRIT Harwick UAS Operations Group",
+          "initials": "MO",
+          "classification": "INTERNAL — NOT FOR PUBLIC RELEASE"
+        },
+        "instructorNote": "This memo confirms the manual control decision and enforces the preservation of evidence. Watch for the TL to verify log streaming and the IC to confirm manual control handover.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:08:48.980Z"
+}

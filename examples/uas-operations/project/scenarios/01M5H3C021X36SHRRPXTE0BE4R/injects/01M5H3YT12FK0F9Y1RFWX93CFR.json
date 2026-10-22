@@ -1,0 +1,190 @@
+{
+  "id": "01M5H3YT12FK0F9Y1RFWX93CFR",
+  "mselRowId": "I-17b",
+  "type": "system_log",
+  "title": "GCS-01: Unauthorized Remote Session Detected — 915 MHz Link Compromise",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "GCS-01",
+    "host": "GCS-01",
+    "ip": "10.17.40.15",
+    "os": "Windows Server 2019",
+    "logSource": "C2 Link Controller / 915 MHz Radio Logs",
+    "exportedBy": "HUOG-NAS01\\it.admin",
+    "exportedAt": "10/22/2026 11:02 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "09:12:47",
+        "level": "ALERT",
+        "msg": "Remote session established via 915 MHz link from IP 192.168.100.22 (not in Group’s approved vendor list). Session ID: 0x9E2D4F. Command: set_home_point(43.1724°N, 77.5631°W). Command: modify_flight_path(waypoint 7 → 150m E, 120m N). Source: not in Kit Log (FOM-4). No MFA or 2FA recorded. Session terminated at 09:13:50.",
+        "highlight": true
+      },
+      {
+        "ts": "09:13:44",
+        "level": "CRIT",
+        "msg": "RTK-1 Base (SM-L1) received external GPS signal update from 10.17.40.11 (lodge Wi-Fi). GPS fix lost on RTK-1 and UAS-11 simultaneously.",
+        "highlight": false
+      },
+      {
+        "ts": "09:13:50",
+        "level": "INFO",
+        "msg": "Session terminated. No active connection. GCS-01 firmware mismatch (03.2026-C) detected. Expected: 03.2026-B. Found: 03.2026-C.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:31",
+        "level": "ERROR",
+        "msg": "Firmware mismatch detected in C2 link controller (GCS-01). OEM app attempted to re-pair with GCS-12 (MAC: 915-0A-1F-3C-7D-4E) due to configuration drift. No record of GCS-12 in fleet or baseline.",
+        "highlight": false
+      },
+      {
+        "ts": "09:15:32",
+        "level": "WARN",
+        "msg": "RTK-1 and aircraft GNSS both lost fix under clear sky. DAA-1 and GCS-02 telemetry disagree on aircraft position.",
+        "highlight": false
+      },
+      {
+        "ts": "09:18:02",
+        "level": "INFO",
+        "msg": "New device entry in GCS-02 device list: GCS-12 (MAC: 915-0A-1F-3C-7D-4E). No record of GCS-12 in fleet or baseline.",
+        "highlight": false
+      },
+      {
+        "ts": "09:18:05",
+        "level": "NOTICE",
+        "msg": "OEM app on GCS-02 prompted: 'Device ID mismatch. Re-pair required. New device ID: GCS-12. Accept?' RPIC did not initiate command.",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Get-Content C:\\logs\\c2_link\\915mhz_gcs01.log -Tail 100",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "instructorNote": "This is a critical clue confirming the attacker’s entry point via GCS-01. The TL must immediately validate the firmware mismatch and initiate managed SOC reporting.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP",
+      "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this document are simulated.",
+      "chunkId": 95
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+      "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+      "chunkId": 127
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 4 › 4.1 Baseline",
+      "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselin",
+      "chunkId": 104
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 2",
+      "quote": "| Role | Holder | Responsibilities | |---|---|---| | Systems & Cybersecurity Lead | Tomás Reyes | Plan owner; GCS baseline and updates; link and radio configuration; firewall; NAS and backups; inciden",
+      "chunkId": 100
+    }
+  ],
+  "mediaBrief": {
+    "paths": ["template"]
+  },
+  "assets": [
+    {
+      "id": "01M5H71RW3VFX8DBFNZM5N92K1",
+      "kind": "image",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H3YT12FK0F9Y1RFWX93CFR/01M5H71RW3VFX8DBFNZM5N92K1.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "c373e2c1df2385fcce661bb5e49b9147c8a2053cb3a76dfe351d7139c4e506c3",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:08:47.722Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:15:11.701Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GCS-01: Unauthorized Remote Session Detected — 915 MHz Link Compromise",
+        "type": "system_log",
+        "fields": {
+          "systemName": "GCS-01",
+          "host": "GCS-01",
+          "ip": "10.17.40.15",
+          "os": "Windows Server 2019",
+          "logSource": "C2 Link Controller / 915 MHz Radio Logs",
+          "exportedBy": "HUOG-NAS01\\it.admin",
+          "exportedAt": "10/22/2026 11:02 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "09:12:47",
+              "level": "ALERT",
+              "msg": "Remote session established via 915 MHz link from IP 192.168.100.22 (not in Group’s approved vendor list). Session ID: 0x9E2D4F. Command: set_home_point(43.1724°N, 77.5631°W). Command: modify_flight_path(waypoint 7 → 150m E, 120m N). Source: not in Kit Log (FOM-4). No MFA or 2FA recorded. Session terminated at 09:13:50.",
+              "highlight": true
+            },
+            {
+              "ts": "09:13:44",
+              "level": "CRIT",
+              "msg": "RTK-1 Base (SM-L1) received external GPS signal update from 10.17.40.11 (lodge Wi-Fi). GPS fix lost on RTK-1 and UAS-11 simultaneously.",
+              "highlight": false
+            },
+            {
+              "ts": "09:13:50",
+              "level": "INFO",
+              "msg": "Session terminated. No active connection. GCS-01 firmware mismatch (03.2026-C) detected. Expected: 03.2026-B. Found: 03.2026-C.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:31",
+              "level": "ERROR",
+              "msg": "Firmware mismatch detected in C2 link controller (GCS-01). OEM app attempted to re-pair with GCS-12 (MAC: 915-0A-1F-3C-7D-4E) due to configuration drift. No record of GCS-12 in fleet or baseline.",
+              "highlight": false
+            },
+            {
+              "ts": "09:15:32",
+              "level": "WARN",
+              "msg": "RTK-1 and aircraft GNSS both lost fix under clear sky. DAA-1 and GCS-02 telemetry disagree on aircraft position.",
+              "highlight": false
+            },
+            {
+              "ts": "09:18:02",
+              "level": "INFO",
+              "msg": "New device entry in GCS-02 device list: GCS-12 (MAC: 915-0A-1F-3C-7D-4E). No record of GCS-12 in fleet or baseline.",
+              "highlight": false
+            },
+            {
+              "ts": "09:18:05",
+              "level": "NOTICE",
+              "msg": "OEM app on GCS-02 prompted: 'Device ID mismatch. Re-pair required. New device ID: GCS-12. Accept?' RPIC did not initiate command.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\logs\\c2_link\\915mhz_gcs01.log -Tail 100",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a critical clue confirming the attacker’s entry point via GCS-01. The TL must immediately validate the firmware mismatch and initiate managed SOC reporting.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:08:47.956Z"
+}

@@ -1,7 +1,7 @@
 ---
 name: inject_text
 stage: inject_text
-version: 3
+version: 4
 description: Expand one MSEL row into a full inject page - title, delivery mode, the template's fields filled exactly, instructor note.
 outputSchema: InjectTextOutput
 task: draft
@@ -98,7 +98,7 @@ Return JSON only, matching the schema.
 
 <scenario_state>
 Scenario: {{scenario.title}}{{#if scenario.subtitle}} — {{scenario.subtitle}}{{/if}}. Theme: {{scenario.overview.theme}}. Kind of incident: {{threat.label}}.
-Organization: {{project.orgName}} ({{domain.label}}){{#if project.city}}, {{project.city}}{{#if project.region}}, {{project.region}}{{/if}}{{/if}}. The facility is {{domain.vocabulary.facility}}; the public are {{domain.vocabulary.public}}.{{#if brand.aliases.localTv}} Local TV: {{brand.aliases.localTv}}.{{/if}}{{#if brand.aliases.airlineA}} Airlines: {{brand.aliases.airlineA}}{{#if brand.aliases.airlineB}}, {{brand.aliases.airlineB}}{{/if}}.{{/if}}
+Organization: {{project.orgName}} ({{domain.label}}){{#if project.city}}, {{project.city}}{{#if project.region}}, {{project.region}}{{/if}}{{/if}}. The facility is {{domain.vocabulary.facility}}; the public are {{domain.vocabulary.public}}.{{#if brand.aliases.orgDomain}} Email domain: {{brand.aliases.orgDomain}} (every address of the organization's own people uses it; outside parties get fictional domains, never a real company's, agency's or newspaper's).{{/if}}{{#if brand.aliases.localTv}} Local TV: {{brand.aliases.localTv}}; other media outlets are fictional.{{/if}}{{#if brand.aliases.airlineA}} Airlines: {{brand.aliases.airlineA}}{{#if brand.aliases.airlineB}}, {{brand.aliases.airlineB}}{{/if}}.{{/if}}
 Phase {{phase.number}}: {{phase.title}} ({{phase.startTime}}–{{phase.endTime}}). Exercise date: {{exerciseDate}} (use it, in the artifact's own date format, wherever a date is shown; the clock below is the time of day).
 Threat (hidden from players; never state it unless this row reveals it): {{scenario.overview.threat}}
 Roles: {{#each roles}}{{key}} = {{name}} ({{abbreviation}}){{#unless @last}}; {{/unless}}{{/each}}
