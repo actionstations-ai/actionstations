@@ -176,7 +176,7 @@ export const MOCK_FIXTURES: Record<StageOutputSchemaName, unknown> = {
       subject: 'Vending Machines in Concourse B',
       description:
         'The Coke machines at Gate B2 and B6 just spit out all their cans at once. Is this a cyber thing?',
-      status: 'Open',
+      status: 'New',
       assignee: 'IT Helpdesk',
     },
     instructorNote: 'Noise inject; IT should triage it down.',

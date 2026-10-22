@@ -1,5 +1,5 @@
 import { Tabs } from 'radix-ui'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Download, Presentation } from 'lucide-react'
 import { Link, useLocation, useParams, useSearchParams } from 'react-router'
 import type { Scenario } from '@shared/schemas/scenario'
 import { Badge, PageHeader } from '../../components/ui'
@@ -97,7 +97,25 @@ export default function ScenarioPage() {
         eyebrow="Scenario"
         title={scenario?.title ?? 'Loading…'}
         description={scenario?.subtitle}
-        actions={scenario && <Badge tone={STATUS_TONE[scenario.status]}>{scenario.status}</Badge>}
+        actions={
+          scenario && (
+            <>
+              <Badge tone={STATUS_TONE[scenario.status]}>{scenario.status}</Badge>
+              <Link
+                className="btn"
+                to={`/p/${projectKey(projectPath)}/scenarios/${scenario.id}/facilitate`}
+              >
+                <Presentation size={16} aria-hidden /> Facilitate
+              </Link>
+              <Link
+                className="btn btn--primary"
+                to={`/p/${projectKey(projectPath)}/scenarios/${scenario.id}/export`}
+              >
+                <Download size={16} aria-hidden /> Export…
+              </Link>
+            </>
+          )
+        }
       />
       {scenario && (
         <>

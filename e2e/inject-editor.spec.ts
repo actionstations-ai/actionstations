@@ -102,9 +102,8 @@ test('inject editor: write injects, edit five types, preview, save, render', asy
       timeout: 30_000,
     })
     await expect(page.getByText('24 of 24 rows have an inject')).toBeVisible()
-    // The mock writes a ticket status the template does not allow: every card carries the
-    // INJECT_FIELDS_INVALID warning until the user fixes it in the editor.
-    await expect(deck.getByText('1 warning')).toHaveCount(24)
+    // Mock injects are schema-valid: no card carries a warning.
+    await expect(deck.getByText(/\d+ warnings?/)).toHaveCount(0)
 
     const idOf = async (row: string) => (await list()).find((i) => i.mselRowId === row)!.id
     const open = async (row: string) => {
@@ -201,7 +200,14 @@ test('inject editor: write injects, edit five types, preview, save, render', asy
     expect(memo.type).toBe('memo')
     expect(memo.fields.body).toBeTruthy()
 
-    // 6. I-02 helpdesk ticket: fix the invalid status the inline error points at, edit subject.
+    // 6. I-02 helpdesk ticket: give it a status the template does not allow (as a model
+    // might), then fix it where the inline error points, and edit the subject.
+    const badTicket = onDisk(await idOf('I-02'))
+    await invoke('injects:save', {
+      projectPath,
+      scenarioId,
+      inject: { ...badTicket, fields: { ...badTicket.fields, status: 'Open' } },
+    })
     await open('I-02')
     await expect(page.getByText('1 field issue(s)')).toBeVisible()
     await expect(
@@ -225,20 +231,20 @@ test('inject editor: write injects, edit five types, preview, save, render', asy
       ),
     ).toEqual(new Set(['tweet', 'fids_board', 'radio_call', 'memo', 'helpdesk_ticket']))
 
-    // Deck: render all media; the five fixed injects render, the rest keep their warning.
+    // Deck: render all media; every inject is valid now, so all 24 render.
     await goTo(page, `#/p/${key}/scenarios/${scenarioId}?tab=injects`)
     await page.getByRole('button', { name: 'Render all media' }).click()
-    await expect(page.getByText('24 of 24 rows have an inject · 5 rendered')).toBeVisible({
+    await expect(page.getByText('24 of 24 rows have an inject · 24 rendered')).toBeVisible({
       timeout: 120_000,
     })
     await expect(page.getByRole('button', { name: 'Render all media' })).toBeEnabled({
       timeout: 30_000,
     })
-    await expect(deck.getByRole('img')).toHaveCount(5)
-    await expect(deck.getByText('2 warnings')).toHaveCount(19)
+    await expect(deck.getByRole('img')).toHaveCount(24)
+    await expect(deck.getByText(/\d+ warnings?/)).toHaveCount(0)
     await shoot(page, 'deck', page.locator('.deck__toolbar'))
     await page.getByLabel('Media', { exact: true }).selectOption('with')
-    await expect(deck.getByRole('listitem')).toHaveCount(5)
+    await expect(deck.getByRole('listitem')).toHaveCount(24)
     await shoot(page, 'deck-filtered', page.locator('.deck__toolbar'))
 
     // Versions panel shows the user save.
