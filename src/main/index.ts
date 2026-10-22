@@ -14,6 +14,7 @@ import { registerMediaProtocol, registerMediaScheme } from './lib/media-protocol
 // Load every provider adapter at startup so a broken adapter fails the launch smoke test
 // instead of crashing later on first use.
 import { listAdapterKinds } from './providers/registry'
+import { shutdownRenderPool } from './render/window'
 
 // Must run before app ready.
 registerMediaScheme()
@@ -94,6 +95,10 @@ app.on('window-all-closed', () => {
 
 // Job records are written debounced; write them now so a job that just finished is not shown
 // as "Interrupted — resumable" on the next start. flush() writes synchronously.
+// Then stop the render-window pool: otherwise quitting closes the busy render windows, the
+// queued previews spawn fresh ones after Electron's close-all pass, and quit never ends (#170).
+// Nothing here calls preventDefault, so quit always proceeds.
 app.on('before-quit', () => {
   void jobs.flush()
+  shutdownRenderPool()
 })

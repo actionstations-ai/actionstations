@@ -6,6 +6,10 @@
 //   jobs with the same key; a mismatched idle worker is destroyed to make room.
 // - A worker is recycled after `maxUses` jobs, when it reports itself dead (renderer crash),
 //   when its job times out, or when `reset` fails.
+// - shutdown() (app quit) is final: queued and in-flight jobs reject with CANCELLED, every
+//   worker is destroyed, and no worker is created afterwards. Without it, quitting closed
+//   the busy windows, the failed jobs woke queued ones, and those opened fresh windows
+//   after Electron's close-all pass, so quit never finished (#170).
 import { AppError } from '../lib/errors'
 
 export interface PoolDriver<W> {
@@ -50,6 +54,9 @@ export class WorkerPool<W> {
   private waiters: Waiter[] = []
   private created = 0
   private destroyed = 0
+  private closed = false
+  /** Rejecters for jobs currently running, so shutdown() can settle them at once. */
+  private readonly inFlight = new Set<(e: AppError) => void>()
 
   constructor(
     private readonly driver: PoolDriver<W>,
@@ -76,6 +83,7 @@ export class WorkerPool<W> {
 
   /** Run one job on a worker for `key`, with the pool's timeout and crash handling. */
   async run<T>(key: string, job: (worker: W) => Promise<T>): Promise<T> {
+    this.throwIfClosed()
     const slot = await this.acquire(key)
     let healthy = true
     try {
@@ -93,10 +101,34 @@ export class WorkerPool<W> {
     for (const s of this.slots.filter((x) => !x.busy)) this.remove(s)
   }
 
+  /**
+   * Stop for good (app quit): reject queued and running jobs with CANCELLED, destroy every
+   * worker, and refuse new jobs. Synchronous so it can run from `before-quit`.
+   */
+  shutdown(): void {
+    if (this.closed) return
+    this.closed = true
+    for (const reject of [...this.inFlight]) reject(cancelledError())
+    this.inFlight.clear()
+    for (const w of this.waiters.splice(0)) w.wake()
+    for (const s of [...this.slots]) this.remove(s)
+  }
+
+  get isShutDown(): boolean {
+    return this.closed
+  }
+
+  private throwIfClosed(): void {
+    if (this.closed) throw cancelledError()
+  }
+
   private async guarded<T>(slot: Slot<W>, job: (worker: W) => Promise<T>): Promise<T> {
     let timer: ReturnType<typeof setTimeout> | undefined
     let unsubscribe = (): void => undefined
+    let cancel: (e: AppError) => void = () => undefined
     const failure = new Promise<never>((_, reject) => {
+      cancel = reject
+      this.inFlight.add(cancel)
       timer = setTimeout(
         () => reject(new AppError('INTERNAL', `Render timed out after ${this.opts.timeoutMs} ms`)),
         this.opts.timeoutMs,
@@ -108,6 +140,7 @@ export class WorkerPool<W> {
     try {
       return await Promise.race([job(slot.worker), failure])
     } finally {
+      this.inFlight.delete(cancel)
       clearTimeout(timer)
       unsubscribe()
     }
@@ -115,6 +148,7 @@ export class WorkerPool<W> {
 
   private async acquire(key: string): Promise<Slot<W>> {
     for (;;) {
+      this.throwIfClosed()
       const idle = this.slots.find((s) => !s.busy && s.key === key && this.driver.isAlive(s.worker))
       if (idle) {
         idle.busy = true
@@ -138,17 +172,26 @@ export class WorkerPool<W> {
     try {
       const worker = await this.driver.create(key)
       this.created++
+      if (this.closed) {
+        this.destroyed++
+        this.destroyWorker(worker)
+        throw cancelledError()
+      }
       const slot: Slot<W> = { key, worker, uses: 0, busy: true }
       this.slots.push(slot)
       return slot
     } finally {
       this.pending--
-      if (this.slots.length + this.pending < this.opts.size) this.wakeNext()
+      if (!this.closed && this.slots.length + this.pending < this.opts.size) this.wakeNext()
     }
   }
 
   private async release(slot: Slot<W>, healthy: boolean): Promise<void> {
     slot.uses++
+    if (this.closed) {
+      this.remove(slot)
+      return
+    }
     let keep = healthy && slot.uses < this.opts.maxUses && this.driver.isAlive(slot.worker)
     if (keep) {
       try {
@@ -167,8 +210,12 @@ export class WorkerPool<W> {
     if (i < 0) return
     this.slots.splice(i, 1)
     this.destroyed++
+    this.destroyWorker(slot.worker)
+  }
+
+  private destroyWorker(worker: W): void {
     try {
-      this.driver.destroy(slot.worker)
+      this.driver.destroy(worker)
     } catch {
       // Already gone (crashed); nothing to release.
     }
@@ -183,4 +230,8 @@ export class WorkerPool<W> {
     const [w] = this.waiters.splice(i, 1)
     w!.wake()
   }
+}
+
+function cancelledError(): AppError {
+  return new AppError('CANCELLED', 'Render cancelled: the app is quitting')
 }

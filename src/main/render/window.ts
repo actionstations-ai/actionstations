@@ -98,9 +98,17 @@ export function renderPoolStats(): PoolStats & { options: PoolOptions } {
   return { ...pool.stats(), options: pool.options }
 }
 
-/** Destroy idle render windows (e.g. before quit). */
+/** Destroy idle render windows (busy ones close when their render ends). */
 export function drainRenderPool(): void {
   pool.drain()
+}
+
+/**
+ * App quit: cancel queued renders, reject in-flight ones (CANCELLED) and destroy every
+ * render window, before Electron's close-all pass. Final; later renders reject at once.
+ */
+export function shutdownRenderPool(): void {
+  pool.shutdown()
 }
 
 /** Fonts loaded and every <img> decoded, so measurement and capture see final pixels. */

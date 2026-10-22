@@ -174,3 +174,74 @@ describe('WorkerPool', () => {
     expect(pool.stats().workers).toBe(0)
   })
 })
+
+describe('WorkerPool.shutdown (quit while rendering, #170)', () => {
+  const never = () => new Promise<never>(() => undefined)
+  const cancelled = { name: 'AppError', code: 'CANCELLED' }
+
+  it('rejects in-flight and queued jobs as cancelled and destroys every worker', async () => {
+    const { driver, all, destroyed } = fakeDriver()
+    const pool = new WorkerPool(driver, opts({ size: 2, timeoutMs: 60_000 }))
+    const runs = Array.from({ length: 6 }, () => pool.run('2', never))
+    await sleep(5)
+    expect(pool.stats()).toMatchObject({ workers: 2, busy: 2, waiting: 4 })
+    pool.shutdown()
+    const settled = await Promise.allSettled(runs)
+    for (const s of settled) {
+      expect(s.status).toBe('rejected')
+      expect((s as PromiseRejectedResult).reason).toMatchObject(cancelled)
+    }
+    expect(all).toHaveLength(2)
+    expect(destroyed).toHaveLength(2)
+    expect(pool.stats()).toMatchObject({ workers: 0, busy: 0, waiting: 0 })
+  })
+
+  it('does not spawn replacement workers when windows die during shutdown', async () => {
+    const { driver, all } = fakeDriver()
+    const pool = new WorkerPool(driver, opts({ size: 1, timeoutMs: 60_000 }))
+    const runs = [pool.run('2', never), pool.run('2', never), pool.run('1', never)]
+    await sleep(5)
+    // Quitting closes the busy window (onDeath 'closed') while other jobs wait for a slot.
+    all[0]!.die?.('closed')
+    pool.shutdown()
+    await Promise.allSettled(runs)
+    await sleep(5)
+    expect(all).toHaveLength(1)
+    expect(pool.stats()).toMatchObject({ workers: 0, waiting: 0 })
+  })
+
+  it('rejects new jobs after shutdown without creating a worker', async () => {
+    const { driver, all } = fakeDriver()
+    const pool = new WorkerPool(driver, opts())
+    pool.shutdown()
+    await expect(pool.run('2', async () => 1)).rejects.toMatchObject(cancelled)
+    expect(all).toHaveLength(0)
+  })
+
+  it('destroys a worker whose creation finishes after shutdown', async () => {
+    const { driver, destroyed } = fakeDriver()
+    let finishCreate: () => void = () => undefined
+    const create = driver.create
+    driver.create = (key) =>
+      new Promise((resolve) => {
+        finishCreate = () => void create(key).then(resolve)
+      })
+    const pool = new WorkerPool(driver, opts({ size: 1 }))
+    const run = pool.run('2', async () => 'never')
+    await sleep(1)
+    pool.shutdown()
+    finishCreate()
+    await expect(run).rejects.toMatchObject(cancelled)
+    expect(destroyed).toHaveLength(1)
+    expect(pool.stats().workers).toBe(0)
+  })
+
+  it('is idempotent', async () => {
+    const { driver } = fakeDriver()
+    const pool = new WorkerPool(driver, opts())
+    await pool.run('2', async () => 1)
+    pool.shutdown()
+    pool.shutdown()
+    expect(pool.stats()).toMatchObject({ workers: 0, destroyed: 1 })
+  })
+})
