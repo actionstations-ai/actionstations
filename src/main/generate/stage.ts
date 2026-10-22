@@ -24,6 +24,7 @@ import {
   retrievedVars,
   type RetrievedChunk,
 } from './retrieval'
+import { asTask } from './task-errors'
 
 export interface StageCall {
   stage: Stage
@@ -187,7 +188,9 @@ export async function runStage<T>(call: StageCall): Promise<StageResult<T>> {
   const prompt = await deps.loadPrompt(call.promptName ?? stage, projectPath)
   const fm = prompt.frontmatter
   const queries = renderQueries(fm.retrieval.queries, call.vars)
-  const retrieved = await retrieveForStage(call.index, queries, fm.retrieval.k, ctx.signal)
+  const retrieved = await asTask('embed', () =>
+    retrieveForStage(call.index, queries, fm.retrieval.k, ctx.signal),
+  )
   const { name, schema } = schemaWhen(schemaFor(prompt), retrieved)
   const rendered = deps.renderPrompt(prompt, {
     ...call.vars,
@@ -195,7 +198,9 @@ export async function runStage<T>(call: StageCall): Promise<StageResult<T>> {
     doctrine: doctrineBlock(retrieved),
     citationKeys: retrieved.map((r) => r.key),
   })
-  const { provider, model, providerId } = await deps.resolveTextProvider(fm.task, projectPath)
+  const { provider, model, providerId } = await asTask(fm.task, () =>
+    deps.resolveTextProvider(fm.task, projectPath),
+  )
   const run = newRun(call, prompt, rendered.hash, model, providerId)
   const extra = { stage, ...(itemId ? { itemId } : {}) }
   ctx.log(`${stage}: ${retrieved.length} sections retrieved; ${providerId}/${model}`, 'info', extra)
@@ -215,7 +220,7 @@ export async function runStage<T>(call: StageCall): Promise<StageResult<T>> {
     messages: [{ role: 'user', content: rendered.user }],
     onToken: (text) => ctx.token(stage, text, itemId),
   }
-  const parsed = await callWithRepair(conv, schema, run, call)
+  const parsed = await asTask(fm.task, () => callWithRepair(conv, schema, run, call), providerId)
   run.finishedAt = nowIso()
   if (!parsed.ok) {
     run.status = 'error'

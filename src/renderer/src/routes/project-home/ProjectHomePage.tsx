@@ -1,4 +1,4 @@
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import type { Project } from '@shared/schemas'
 import { Badge, Button, EmptyState, PageHeader } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
@@ -6,6 +6,7 @@ import { fromProjectKey } from '../../state/project'
 import { revealFolder, revealLabel } from '../projects/reveal'
 import { ProjectSettingsForm } from './ProjectSettingsForm'
 import './project-home.css'
+import { errorText } from '../../lib/errors'
 
 const formatDate = (iso: string): string =>
   new Date(iso).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
@@ -20,8 +21,10 @@ function ProjectSummary({ path, project }: { path: string; project: Project }) {
       <dl className="project-summary__stats">
         <div>
           <dt>Documents</dt>
-          <dd>{project.documents.length}</dd>
-          {project.documents.length > 0 && <span className="muted">{ready} indexed</span>}
+          <dd>
+            {project.documents.length}
+            {project.documents.length > 0 && <span className="muted"> {ready} indexed</span>}
+          </dd>
         </div>
         <div>
           <dt>Scenarios</dt>
@@ -54,7 +57,15 @@ export default function ProjectHomePage() {
   if (query.isError)
     return (
       <div className="page">
-        <EmptyState title="This project could not be opened" body={query.error.message} />
+        <EmptyState
+          title="This project could not be opened"
+          body={errorText(query.error)}
+          actions={
+            <Link className="btn btn--primary" to="/projects">
+              Back to Projects
+            </Link>
+          }
+        />
       </div>
     )
   if (!query.data) return <div className="page muted">Loading project…</div>

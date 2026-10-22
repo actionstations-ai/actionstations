@@ -9,6 +9,8 @@ import { RoutingTable } from './RoutingTable'
 import { useSaveRouting } from './use-save-routing'
 import type { ProviderViewT } from './catalog'
 import './providers.css'
+import { errorText } from '../../lib/errors'
+import { Link } from 'react-router'
 
 function GlobalRouting({ providers }: { providers: ProviderViewT[] }) {
   const routing = useIpcQuery('routing:get', {})
@@ -21,7 +23,11 @@ function GlobalRouting({ providers }: { providers: ProviderViewT[] }) {
           Which provider and model each task uses by default. Projects can override any row.
         </p>
       </div>
-      {routing.isError && <p className="field__error">{routing.error.message}</p>}
+      {routing.isError && (
+        <p className="field__error" role="alert">
+          {errorText(routing.error)}
+        </p>
+      )}
       {routing.data && (
         <RoutingTable
           key={JSON.stringify(routing.data)}
@@ -52,12 +58,26 @@ export default function ProvidersPage() {
           </Button>
         }
       />
-      {providers.isError && <p className="field__error">{providers.error.message}</p>}
+      {providers.isError && (
+        <p className="field__error" role="alert">
+          {errorText(providers.error)}
+        </p>
+      )}
       <DetectLocal providers={list} />
       {providers.data && list.length === 0 && (
         <EmptyState
           title="No providers yet"
           body="Detect a local service above or add one by hand. LM Studio and Ollama keep everything on this computer."
+          actions={
+            <>
+              <Button variant="primary" onClick={() => setEditing('new')}>
+                Add provider
+              </Button>
+              <Link className="btn" to="/welcome">
+                Guided setup
+              </Link>
+            </>
+          }
         />
       )}
       {list.length > 0 && (

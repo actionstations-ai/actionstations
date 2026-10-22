@@ -6,6 +6,7 @@ import type { ScenarioDocKind } from '@shared/schemas/scenario'
 import { Button, Dialog } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { lineDiff } from './line-diff'
+import { errorText } from '../../lib/errors'
 
 const SIGN = { same: ' ', add: '+', del: '−', skip: '…' } as const
 
@@ -56,7 +57,11 @@ export function HistoryPanel(props: {
   return (
     <section className="history" aria-label="Version history">
       <h3 className="section-title">Version history</h3>
-      {history.isError && <p className="field__error">{history.error.message}</p>}
+      {history.isError && (
+        <p className="field__error" role="alert">
+          {errorText(history.error)}
+        </p>
+      )}
       {!entries.length && history.data && (
         <p className="muted">No saved versions yet. Every save keeps one.</p>
       )}
@@ -85,7 +90,11 @@ export function HistoryPanel(props: {
               Restore this version
             </Button>
           </div>
-          {entry.isError && <p className="field__error">{entry.error.message}</p>}
+          {entry.isError && (
+            <p className="field__error" role="alert">
+              {errorText(entry.error)}
+            </p>
+          )}
           {entry.data?.markdown !== undefined && (
             <DiffView before={entry.data.markdown} after={props.current} />
           )}

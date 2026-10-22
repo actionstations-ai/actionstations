@@ -5,6 +5,7 @@ import { fromProjectKey } from '../../state/project'
 import { PromptEditor } from './PromptEditor'
 import { PromptList } from './PromptList'
 import './prompts.css'
+import { errorText } from '../../lib/errors'
 
 const GLOBAL_DESC =
   'Prompts the generator sends at each stage. A global override applies to every project; reset it to return to the shipped default.'
@@ -29,7 +30,7 @@ export default function PromptsPage() {
       />
       {list.error && (
         <p className="field__error" role="alert">
-          Could not list prompts: {list.error.message}
+          Could not list prompts: {errorText(list.error)}
         </p>
       )}
       {list.isSuccess && entries.length === 0 && (

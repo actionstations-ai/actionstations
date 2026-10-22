@@ -337,7 +337,7 @@ test.describe('packaged app', () => {
         'the presentation window',
       )
       expect(present.url().startsWith(`${APP_INDEX}#/present/`)).toBe(true)
-      const img = present.getByRole('img', { name: 'Inject' })
+      const img = present.getByRole('img')
       await expect(img).toBeVisible()
       await expect
         .poll(() => img.evaluate((el) => (el as unknown as { naturalWidth: number }).naturalWidth))

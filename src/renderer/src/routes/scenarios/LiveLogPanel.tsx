@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import { Badge, ProgressBar } from '../../components/ui'
 import { isActive, type LiveLog, type LogStream } from './live-log'
 import { itemLabel, stageLabel } from './stages'
+import { LiveStatus } from '../../components/LiveStatus'
+import { CancelJobButton } from '../../components/CancelJobButton'
+import { errorText } from '../../lib/errors'
 
 const STATUS_TONE = {
   queued: 'neutral',
@@ -69,10 +72,21 @@ export function LiveLogPanel({
         <h2 className="section-title">Generation log</h2>
         {log.status && <Badge tone={STATUS_TONE[log.status]}>{log.status}</Badge>}
       </div>
-      {active && <ProgressBar value={log.progress} label="Generation progress" />}
-      <p className="live-log__message" aria-live="polite">
-        {log.message}
-      </p>
+      {active && (
+        <div className="row live-log__progress">
+          <ProgressBar value={log.progress} label="Generation progress" />
+          <CancelJobButton jobId={log.jobId} label="Cancel generation" />
+        </div>
+      )}
+      {log.status === 'error' ? (
+        <p className="field__error live-log__message" role="alert">
+          Generation stopped: {errorText(log.message)} Use “Continue from failure” in Stages to
+          retry from the step that failed.
+        </p>
+      ) : (
+        <p className="live-log__message">{log.message}</p>
+      )}
+      <LiveStatus text={log.message} />
       {log.entries.length > 0 && (
         <ol className="live-log__entries" aria-label="Log entries">
           {log.entries.map((e, i) => (

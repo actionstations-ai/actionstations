@@ -5,6 +5,7 @@ import { toast } from '../../components/toast-store'
 import { useIpcMutation, useIpcQuery } from '../../lib/query'
 import { KIND_LABELS, kindUsesKey, type ProviderViewT } from './catalog'
 import { PullModel } from './PullModel'
+import { errorText } from '../../lib/errors'
 
 const INVALIDATES = [
   'providers:list',
@@ -45,7 +46,7 @@ function TestResult({
     >
       {result.ok
         ? `Replied “${result.sample ?? ''}” in ${Math.round(result.latencyMs)} ms`
-        : `Test failed after ${Math.round(result.latencyMs)} ms: ${result.error ?? 'unknown error'}`}
+        : `Test failed after ${Math.round(result.latencyMs)} ms. ${errorText(result.error ?? 'No reply.')}`}
     </p>
   )
 }

@@ -3,6 +3,8 @@ import type { EmbeddingStatus } from '@shared/schemas/document'
 import { Badge, ProgressBar } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import type { LiveProgress } from './job-progress'
+import { LiveStatus } from '../../components/LiveStatus'
+import { CancelJobButton } from '../../components/CancelJobButton'
 
 const MODE_LABELS: Record<EmbeddingStatus['mode'], string> = {
   'local-onnx': 'local model',
@@ -19,7 +21,7 @@ function describe(s: EmbeddingStatus): string {
 export function IndexStatus({ rebuild }: { rebuild: LiveProgress | undefined }) {
   const status = useIpcQuery('embeddings:status', undefined)
   return (
-    <div className="index-status" aria-live="polite">
+    <div className="index-status">
       <div className="index-status__line">
         <span className="index-status__label">Embeddings</span>
         {status.isPending && <span className="muted">Checking…</span>}
@@ -39,7 +41,9 @@ export function IndexStatus({ rebuild }: { rebuild: LiveProgress | undefined }) 
       {rebuild && (
         <div className="index-status__rebuild">
           <span>Rebuilding index: {rebuild.message || 'working'}</span>
+          <LiveStatus text={`Rebuilding index: ${rebuild.message || 'working'}`} />
           <ProgressBar value={rebuild.progress} label="Index rebuild progress" />
+          <CancelJobButton jobId={rebuild.jobId} label="Cancel rebuild" />
         </div>
       )}
     </div>

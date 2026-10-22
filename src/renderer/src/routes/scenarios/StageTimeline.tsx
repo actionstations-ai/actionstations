@@ -85,7 +85,7 @@ function useStageActions(props: Props) {
     try {
       onJob((await fn()).jobId)
     } catch (e) {
-      toast.error(`Could not ${what}`, (e as Error).message)
+      toast.error(`Could not ${what}`, e)
     }
   }
   return {

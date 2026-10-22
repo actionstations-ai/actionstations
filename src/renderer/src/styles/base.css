@@ -54,16 +54,39 @@ kbd,
   font-family: var(--font-mono);
   font-size: 0.92em;
 }
+/* Focus is an outline, not a box-shadow: component box-shadows (current nav item, cards)
+   cannot override it, and forced-colors modes keep it. Components that draw their own ring
+   use var(--focus-ring) and keep a transparent outline for forced-colors. */
 :focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-  border-radius: var(--radius-sm);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+/* A Radix tab list can take focus itself for one Tab press right after a mouse click on a
+   tab (it then forwards arrows to the tabs); show where focus is. Radix sets an inline
+   `outline: none` on the list, hence !important. */
+[role='tablist']:focus-visible {
+  outline: 2px solid var(--color-focus) !important;
+  outline-offset: 2px;
+}
+/* Layout classes (.stack, .row) must not resurrect elements hidden with the attribute. */
+[hidden] {
+  display: none !important;
+}
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 2px solid Highlight !important;
+    outline-offset: 2px;
+  }
 }
 ::selection {
   background: var(--color-accent-soft);
 }
+/* Pinned to its containing block's origin so a visually hidden label far right in a wide
+   table cannot widen the window (WCAG 1.4.10 reflow). */
 .sr-only {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 1px;
   height: 1px;
   padding: 0;

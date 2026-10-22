@@ -6,6 +6,7 @@ import { useIpcQuery } from '../../../lib/query'
 import { KIND_LABELS } from '../../providers/catalog'
 import { TestResult } from '../StepLayout'
 import { formatLatency, type ProviderViewT, type TextChoice } from '../wizard-state'
+import { errorText } from '../../../lib/errors'
 
 type TestOutcome = Awaited<ReturnType<typeof call<'providers:test'>>>
 
@@ -63,7 +64,7 @@ function TestButton({ choice }: { choice: TextChoice }) {
       setResult({
         ok: false,
         latencyMs: 0,
-        error: err instanceof Error ? err.message : String(err),
+        error: errorText(err),
       })
     } finally {
       setBusy(false)
@@ -81,7 +82,7 @@ function TestButton({ choice }: { choice: TextChoice }) {
         <TestResult ok={result.ok}>
           {result.ok
             ? `Replied “${result.sample ?? ''}” in ${formatLatency(result.latencyMs)}`
-            : `Failed: ${result.error ?? 'no reply'}`}
+            : `Failed. ${errorText(result.error ?? 'No reply.')}`}
         </TestResult>
       )}
     </div>

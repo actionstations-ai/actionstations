@@ -15,6 +15,7 @@ import { RegenerateButton } from './RegenerateButton'
 import { SaveProblem, SaveState } from './SaveState'
 import { Toolbar } from './Toolbar'
 import { useDocEditor } from './use-doc-editor'
+import { errorText } from '../../lib/errors'
 
 export interface DocEditorProps {
   projectPath: string
@@ -89,7 +90,11 @@ export function MarkdownDocEditor(props: DocEditorProps) {
         </div>
       </div>
       <SaveProblem status={d.status} error={d.error} onRetry={() => void d.retry()} />
-      {d.doc.isError && <p className="field__error">Could not load: {d.doc.error.message}</p>}
+      {d.doc.isError && (
+        <p className="field__error" role="alert">
+          Could not load: {errorText(d.doc.error)}
+        </p>
+      )}
       <div className="doc-editor__body">
         <div className="doc-editor__main">
           {empty && (

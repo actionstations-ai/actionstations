@@ -2,7 +2,7 @@
 import { clsx } from 'clsx'
 import { Dialog as RDialog } from 'radix-ui'
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
-import { useId } from 'react'
+import { useId, useLayoutEffect, useRef } from 'react'
 import { PURPOSE_TAG_INFO, type PurposeTag } from '@shared/taxonomy'
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -128,6 +128,24 @@ export function ProgressBar({ value, label }: { value: number; label: string }) 
   )
 }
 
+/**
+ * Where focus was when a dialog opened. Our dialogs are controlled (no Radix Trigger), and
+ * Radix returns focus to its trigger ref on close, which is empty; without this, focus fell
+ * to <body> after every dialog (WCAG 2.4.3).
+ */
+function useReturnFocus(open: boolean) {
+  const opener = useRef<HTMLElement | null>(null)
+  useLayoutEffect(() => {
+    if (open) opener.current = document.activeElement as HTMLElement | null
+  }, [open])
+  return (e: Event) => {
+    const el = opener.current
+    if (!el || !el.isConnected || el === document.body) return
+    e.preventDefault()
+    el.focus()
+  }
+}
+
 export function Dialog(props: {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -136,14 +154,12 @@ export function Dialog(props: {
   children: ReactNode
   footer?: ReactNode
 }) {
+  const returnFocus = useReturnFocus(props.open)
   return (
     <RDialog.Root open={props.open} onOpenChange={props.onOpenChange}>
       <RDialog.Portal>
         <RDialog.Overlay className="dialog-overlay" />
-        <RDialog.Content
-          className="dialog"
-          aria-describedby={props.description ? undefined : undefined}
-        >
+        <RDialog.Content className="dialog" onCloseAutoFocus={returnFocus}>
           <RDialog.Title asChild>
             <h2>{props.title}</h2>
           </RDialog.Title>

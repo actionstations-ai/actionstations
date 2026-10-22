@@ -8,6 +8,7 @@ import { useIpcMutation, useIpcQuery } from '../../lib/query'
 import { fromProjectKey, projectKey } from '../../state/project'
 import { ScenarioCard } from './ScenarioCard'
 import './scenarios.css'
+import { errorText } from '../../lib/errors'
 
 function DeleteDialog(props: {
   meta: ScenarioMeta | null
@@ -53,14 +54,14 @@ export default function ScenariosPage() {
       { projectPath, scenarioId: meta.id },
       {
         onSuccess: (s) => toast.success(`Duplicated as “${s.title}”`),
-        onError: (e) => toast.error('Could not duplicate', e.message),
+        onError: (e) => toast.error('Could not duplicate', e),
       },
     )
   const onDelete = (meta: ScenarioMeta) => {
     setPendingDelete(null)
     remove.mutate(
       { projectPath, scenarioId: meta.id },
-      { onError: (e) => toast.error('Could not delete', e.message) },
+      { onError: (e) => toast.error('Could not delete', e) },
     )
   }
 
@@ -79,7 +80,7 @@ export default function ScenariosPage() {
       />
       {list.isError && (
         <p className="field__error" role="alert">
-          Could not load scenarios: {list.error.message}
+          Could not load scenarios: {errorText(list.error)}
         </p>
       )}
       {list.isSuccess && items.length === 0 && (

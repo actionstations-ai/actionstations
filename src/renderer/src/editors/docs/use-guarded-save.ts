@@ -7,6 +7,7 @@ import { subscribe } from '../../lib/api'
 import { isConflict } from './conflict'
 import { parkPendingSave } from './pending-saves'
 import { useLatest } from './use-latest'
+import { errorText } from '../../lib/errors'
 
 export type SaveStatus = 'idle' | 'saving' | 'saved' | 'blocked' | 'error'
 
@@ -62,7 +63,7 @@ export function useGuardedSave<T>(
         } else if (isConflict(e)) {
           set('blocked')
         } else {
-          setError(e instanceof Error ? e.message : String(e))
+          setError(errorText(e))
           set('error')
         }
         return false

@@ -154,7 +154,13 @@ test('facilitator: clock, deliver to a second window, notes persist', async () =
     await expect(timeline.locator('.fac-row--due')).toHaveCount(9)
     await page.locator('.main').evaluate((el) => el.scrollTo(0, 0))
     await page.screenshot({ path: join(OUT, 'light-clock.png') })
-    // The 1:00 time jump has passed; the next one is none in Scenario 3.
+    // The 1:00 time jump has passed; the next one is none in Scenario 3. Space on a focused
+    // button presses that button, so the shortcut is tried with focus on the page itself.
+    await page.evaluate(() =>
+      (
+        globalThis as unknown as { document: { activeElement: { blur?: () => void } | null } }
+      ).document.activeElement?.blur?.(),
+    )
     await page.keyboard.press('Space')
     await expect(page.getByRole('button', { name: 'Resume', exact: true })).toBeVisible()
 
@@ -162,24 +168,24 @@ test('facilitator: clock, deliver to a second window, notes persist', async () =
     await timeline.getByRole('button', { name: 'Deliver I-06', exact: true }).click()
     const present = await presentPage(app)
     await present.waitForLoadState('domcontentloaded')
-    const img = present.getByRole('img', { name: 'Inject' })
+    const img = present.getByRole('img')
     await expect(img).toBeVisible()
     await expect
       .poll(() => img.evaluate((el) => (el as unknown as { naturalWidth: number }).naturalWidth))
       .toBeGreaterThan(1000)
     expect(await img.getAttribute('src')).toContain(`/media/${fids.id}/`)
     await expect(timeline.getByText('Delivered 1:15')).toBeVisible()
-    await expect(page.getByRole('status')).toContainText('I-06 delivered')
+    await expect(page.locator('.fac-status')).toContainText('I-06 delivered')
     // The presentation shows only the media: no sidebar, no title, no tags.
     await expect(present.getByText('Flight to Nowhere')).toHaveCount(0)
     await expect(present.getByText('Core narrative')).toHaveCount(0)
 
     // Hot wash note on the delivered inject, autosaved.
     await page.getByLabel('Hot wash notes for I-06').fill('Ops kept the FIDS on for 12 minutes.')
-    await expect(page.getByRole('status')).toContainText('Saved')
+    await expect(page.locator('.fac-status')).toContainText('Saved')
     await page.getByRole('tab', { name: 'General notes' }).click()
     await page.getByRole('textbox', { name: 'General notes' }).fill('PIO joined late.')
-    await expect(page.getByRole('status')).toContainText('Saved')
+    await expect(page.locator('.fac-status')).toContainText('Saved')
 
     // Hand-to-role inject: no presentation change, shows the hand-out instruction.
     await page.getByRole('tab', { name: 'Inject' }).click()

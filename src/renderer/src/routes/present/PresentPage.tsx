@@ -11,6 +11,7 @@ import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
 import { presentAsset } from '../facilitate/delivery'
 import './present.css'
+import { injectAlt } from '../../lib/inject-alt'
 
 function AudioCard({ src }: { src: string }) {
   const ref = useRef<HTMLAudioElement>(null)
@@ -46,11 +47,12 @@ function AudioCard({ src }: { src: string }) {
   )
 }
 
-function Media({ projectPath, asset }: { projectPath: string; asset: MediaAsset }) {
+function Media(props: { projectPath: string; asset: MediaAsset; alt: string }) {
+  const { projectPath, asset } = props
   const src = mediaUrl(projectPath, asset.path)
-  if (asset.kind === 'image') return <img className="present__image" src={src} alt="Inject" />
+  if (asset.kind === 'image') return <img className="present__image" src={src} alt={props.alt} />
   if (asset.kind === 'video')
-    return <video className="present__video" src={src} controls autoPlay />
+    return <video className="present__video" src={src} controls autoPlay aria-label={props.alt} />
   if (asset.kind === 'audio') return <AudioCard src={src} />
   return null
 }
@@ -80,7 +82,14 @@ export default function PresentPage() {
 
   return (
     <div className="present" data-testid="present">
-      {asset && <Media key={asset.id} projectPath={projectPath} asset={asset} />}
+      {asset && (
+        <Media
+          key={asset.id}
+          projectPath={projectPath}
+          asset={asset}
+          alt={injectAlt(inject.data)}
+        />
+      )}
       {inject.data && !asset && <p className="present__empty">No media for this inject.</p>}
       {inject.isError && <p className="present__empty">Could not load this inject.</p>}
       {showTitle && inject.data && <p className="present__title">{inject.data.title}</p>}

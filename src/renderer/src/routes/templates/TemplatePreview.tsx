@@ -1,5 +1,6 @@
 import type { TemplateInfo } from '@shared/ipc'
 import { useIpcQuery } from '../../lib/query'
+import { errorText } from '../../lib/errors'
 
 /** A template's preview.json rendered by the main-process renderer (render:preview). */
 export function TemplatePreview(props: {
@@ -18,7 +19,7 @@ export function TemplatePreview(props: {
   if (preview.error)
     return (
       <div className="tpl-preview tpl-preview--error" style={{ aspectRatio: ratio }} role="alert">
-        Preview failed: {preview.error.message}
+        Preview failed: {errorText(preview.error)}
       </div>
     )
   if (!preview.data)

@@ -13,6 +13,7 @@ import {
   type EditorState,
 } from './editor-state'
 import type { Draft } from './model'
+import { errorText } from '../../lib/errors'
 
 export const SAVE_DEBOUNCE_MS = 700
 export const SAVE_NOTE = 'MSEL edit'
@@ -57,8 +58,8 @@ export function useMselEditor(projectPath: string, scenario: Scenario): MselEdit
     } catch (e) {
       const err = e as Error
       if (e instanceof IpcError && e.code === 'CONFLICT')
-        dispatch({ type: 'conflict', message: err.message })
-      else dispatch({ type: 'failed', message: err.message })
+        dispatch({ type: 'conflict', message: errorText(err) })
+      else dispatch({ type: 'failed', message: errorText(err) })
     }
   }, [projectPath])
 

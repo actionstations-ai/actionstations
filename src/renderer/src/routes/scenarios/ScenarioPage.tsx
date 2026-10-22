@@ -1,4 +1,5 @@
 import { Tabs } from 'radix-ui'
+import { useState } from 'react'
 import { ArrowLeft, Download, Presentation } from 'lucide-react'
 import { Link, useLocation, useParams, useSearchParams } from 'react-router'
 import type { Scenario } from '@shared/schemas/scenario'
@@ -20,6 +21,7 @@ import { WarningsSection } from './ScenarioSections'
 import { StageTimeline } from './StageTimeline'
 import { useLiveLog } from './use-live-log'
 import './scenarios.css'
+import { errorText } from '../../lib/errors'
 
 const STATUS_TONE = { draft: 'neutral', ready: 'ok', archived: 'warn' } as const
 
@@ -29,7 +31,14 @@ function ScenarioTabs(props: {
   onJob: (jobId: string) => void
 }) {
   const { projectPath, scenario } = props
-  const initialTab = useSearchParams()[0].get('tab')
+  const tabFromUrl = useSearchParams()[0].get('tab')
+  const [tab, setTab] = useState(tabFromUrl ?? 'overview')
+  // Links such as "Open the MSEL" (?tab=msel) switch the tab while the page stays mounted.
+  const [urlTab, setUrlTab] = useState(tabFromUrl)
+  if (tabFromUrl !== urlTab) {
+    setUrlTab(tabFromUrl)
+    if (tabFromUrl) setTab(tabFromUrl)
+  }
   const tabs = [
     ['overview', 'Overview'],
     ['objectives', 'Objectives & Roles'],
@@ -40,7 +49,7 @@ function ScenarioTabs(props: {
     ['warnings', `Warnings (${scenario.warnings.length})`],
   ] as const
   return (
-    <Tabs.Root defaultValue={initialTab ?? 'overview'} className="tabs">
+    <Tabs.Root value={tab} onValueChange={setTab} className="tabs">
       <PendingSavesNote scenarioId={scenario.id} />
       <Tabs.List className="tabs__list" aria-label="Scenario sections">
         {tabs.map(([value, label]) => (
@@ -92,7 +101,7 @@ export default function ScenarioPage() {
       <div className="page">
         {back}
         <p className="field__error" role="alert">
-          Could not load this scenario: {query.error.message}
+          Could not load this scenario: {errorText(query.error)}
         </p>
       </div>
     )

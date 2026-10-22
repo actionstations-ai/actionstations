@@ -1,7 +1,6 @@
-// What the Providers page knows about tasks and provider kinds. Display data only; the main
-// process is the authority on what an adapter can actually do (providers/resolve.ts
-// providerTaskSupport, derived from each adapter's capabilities). A main-side test keeps the
-// `kinds` below equal to it.
+// What the Providers page shows about tasks and provider kinds. Display data only: which
+// providers can serve a task comes from main (`providers:task-support`, derived from each
+// adapter's capabilities), never from a list kept here.
 import type { ProviderKind, ProviderRef, ProviderRouting, ProviderTask } from '@shared/schemas'
 import type { ChannelResponse } from '@shared/ipc'
 
@@ -12,53 +11,43 @@ export interface TaskInfo {
   task: ProviderTask
   label: string
   purpose: string
-  kinds: ProviderKind[]
 }
-
-const TEXT_KINDS: ProviderKind[] = ['anthropic', 'openai-compatible', 'ollama', 'mock']
 
 export const TASKS: TaskInfo[] = [
   {
     task: 'ideate',
     label: 'Ideation',
     purpose: 'Brainstorms scenario concepts and threat storylines from your documents.',
-    kinds: TEXT_KINDS,
   },
   {
     task: 'draft',
     label: 'Drafting',
     purpose: 'Writes the MSEL, injects, controller handbook and player briefing.',
-    kinds: TEXT_KINDS,
   },
   {
     task: 'critique',
     label: 'Critique',
     purpose: 'Reviews drafts against your plans and the exercise objectives.',
-    kinds: TEXT_KINDS,
   },
   {
     task: 'embed',
     label: 'Embeddings',
     purpose: 'Indexes documents for search and generation context.',
-    kinds: ['openai-compatible', 'ollama', 'mock'],
   },
   {
     task: 'image',
     label: 'Image',
     purpose: 'Generates photographic scene images (text-bearing media use templates).',
-    kinds: ['comfyui', 'mock'],
   },
   {
     task: 'video',
     label: 'Video',
     purpose: 'Generates short video clips for injects.',
-    kinds: ['comfyui', 'mock'],
   },
   {
     task: 'audio',
     label: 'Audio',
     purpose: 'Voices radio calls, voicemails and PA announcements (local TTS servers included).',
-    kinds: ['openai-compatible', 'comfyui', 'mock'],
   },
 ]
 

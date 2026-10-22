@@ -1,5 +1,5 @@
 import { Tabs } from 'radix-ui'
-import { ArrowLeft, FolderOpen } from 'lucide-react'
+import { ArrowLeft, FolderOpen, RotateCcw } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import type { ExportTarget } from '@shared/ipc'
@@ -23,6 +23,9 @@ import {
   type TargetOption,
 } from './targets'
 import './export.css'
+import { errorText } from '../../lib/errors'
+import { LiveStatus } from '../../components/LiveStatus'
+import { CancelJobButton } from '../../components/CancelJobButton'
 
 function TargetGroup(props: {
   legend: string
@@ -68,37 +71,58 @@ function Preview({ projectPath, scenarioId }: { projectPath: string; scenarioId:
             </Tabs.Trigger>
           ))}
         </Tabs.List>
+        <Tabs.Content value={doc} tabIndex={-1}>
+          <div className="export-preview__frame" aria-busy={preview.isFetching}>
+            {preview.isError && (
+              <p className="field__error" role="alert">
+                Preview failed: {errorText(preview.error)}
+              </p>
+            )}
+            {preview.data && (
+              <iframe
+                // No scripts, no same-origin: the document is static HTML built from model text.
+                sandbox=""
+                title={`Preview of ${label}`}
+                srcDoc={preview.data.html}
+              />
+            )}
+            {!preview.data && !preview.isError && <p className="muted">Building preview…</p>}
+          </div>
+        </Tabs.Content>
       </Tabs.Root>
-      <div className="export-preview__frame" aria-busy={preview.isFetching}>
-        {preview.isError && (
-          <p className="field__error" role="alert">
-            Preview failed: {preview.error.message}
-          </p>
-        )}
-        {preview.data && (
-          <iframe
-            // No scripts, no same-origin: the document is static HTML built from model text.
-            sandbox=""
-            title={`Preview of ${label}`}
-            srcDoc={preview.data.html}
-          />
-        )}
-        {!preview.data && !preview.isError && <p className="muted">Building preview…</p>}
-      </div>
     </section>
   )
 }
 
-function ExportStatus(props: { job: ReturnType<typeof useJob>; result: ExportJobResult | null }) {
+function ExportStatus(props: {
+  job: ReturnType<typeof useJob>
+  jobId: string | null
+  result: ExportJobResult | null
+  onRetry: () => void
+}) {
   const { job, result } = props
   if (!job) return null
   const failed = job.status === 'error' || job.status === 'cancelled'
+  const running = job.status === 'queued' || job.status === 'running'
+  const failure =
+    job.status === 'cancelled'
+      ? 'Export cancelled. Nothing more was written.'
+      : `Export failed: ${errorText(job.error ?? job.message)}`
   return (
-    <div className="export-status" aria-live="polite">
+    <div className="export-status">
       {!failed && <ProgressBar value={job.progress} label="Export progress" />}
+      {!failed && <LiveStatus text={job.message} />}
+      {running && props.jobId && <CancelJobButton jobId={props.jobId} label="Cancel export" />}
       <p className={failed ? 'field__error' : 'muted'} role={failed ? 'alert' : undefined}>
-        {failed ? `Export failed: ${job.error ?? job.message}` : job.message}
+        {failed ? failure : job.message}
       </p>
+      {failed && (
+        <div className="row">
+          <Button size="sm" onClick={props.onRetry}>
+            <RotateCcw size={14} aria-hidden /> Retry export
+          </Button>
+        </div>
+      )}
       {result && (
         <div className="export-status__done">
           <p>
@@ -162,7 +186,7 @@ export default function ExportPage() {
       const { jobId: id } = await call('export:run', { projectPath, scenarioId, outDir, targets })
       setJobId(id)
     } catch (err) {
-      setStartError((err as Error).message)
+      setStartError(errorText(err))
     }
   }
   const scenarioUrl = `/p/${projectKey(projectPath)}/scenarios/${scenarioId}`
@@ -235,7 +259,7 @@ export default function ExportPage() {
               {running ? 'Exporting…' : 'Export'}
             </Button>
           </div>
-          <ExportStatus job={job} result={result} />
+          <ExportStatus job={job} jobId={jobId} result={result} onRetry={() => void start()} />
         </form>
         {scenarioId && <Preview projectPath={projectPath} scenarioId={scenarioId} />}
       </div>

@@ -195,4 +195,45 @@ describe('GeneratePage', () => {
     expect(req.idea.id).toBe('idea1')
     expect(req.brief.ideaId).toBe('idea1')
   })
+
+  it('blames document search (not the text model) when embeddings fail, and can retry or cancel', async () => {
+    const ttx = setup({
+      'generate:ideas': () => ({ jobId: 'IDEAS2' }),
+      'jobs:get': () => {
+        throw new FakeIpcError('NOT_FOUND', 'gone')
+      },
+      'jobs:cancel': () => undefined,
+    })
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('tab', { name: 'Give me ideas' }))
+    await user.click(screen.getByRole('button', { name: /Give me ideas/ }))
+    await waitFor(() => expect(ttx.calls('generate:ideas')).toHaveLength(1))
+    act(() =>
+      ttx.emit('job:progress', {
+        jobId: 'IDEAS2',
+        kind: 'ideate',
+        status: 'running',
+        progress: 0.1,
+        message: 'Reading the plans',
+      }),
+    )
+    await user.click(await screen.findByRole('button', { name: 'Cancel' }))
+    expect(ttx.calls('jobs:cancel')[0]).toEqual({ jobId: 'IDEAS2' })
+    act(() =>
+      ttx.emit('job:done', {
+        jobId: 'IDEAS2',
+        kind: 'ideate',
+        status: 'error',
+        error:
+          'Embeddings (document search): OpenAI-compatible server unreachable at http://127.0.0.1:1234: ECONNREFUSED',
+      }),
+    )
+    const alert = await screen.findByRole('alert')
+    expect(alert.textContent).toMatch(/Document search failed/)
+    expect(alert.textContent).toMatch(/LM Studio isn't responding at http:\/\/127.0.0.1:1234/)
+    expect(alert.textContent).not.toMatch(/No text model/)
+    expect(within(alert).getByRole('link', { name: 'Embedding settings' })).toBeTruthy()
+    await user.click(within(alert).getByRole('button', { name: /Retry/ }))
+    await waitFor(() => expect(ttx.calls('generate:ideas')).toHaveLength(2))
+  })
 })

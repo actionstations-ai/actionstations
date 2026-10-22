@@ -48,7 +48,7 @@ describe('PresentPage', () => {
 
   it('shows the requested asset scaled to fit, with the title only on request', async () => {
     open('?asset=PAGE&title=1')
-    const img = await screen.findByRole('img', { name: 'Inject' })
+    const img = await screen.findByRole('img')
     expect(img.getAttribute('src')).toBe(mediaUrl(PROJECT, 'scenarios/S/media/INJ03/PAGE.png'))
     expect(img.className).toBe('present__image')
     expect(screen.getByText('Radio call from TSA')).toBeTruthy()

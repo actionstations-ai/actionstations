@@ -17,12 +17,16 @@ const stores = new Map<string, { store: SqliteIndexStore; embedder: EmbeddingPro
 
 export const modelsDir = (): string => userDataPath('models')
 
-/** The embedder chosen in settings.embeddings. */
-export async function activeEmbedder(): Promise<EmbeddingProvider> {
+/**
+ * The embedder chosen in settings.embeddings. With a project path, "Configured provider" mode
+ * uses that project's Embeddings routing override (Providers → Routing) over the global row.
+ */
+export async function activeEmbedder(projectPath?: string): Promise<EmbeddingProvider> {
   const settings = await getSettings()
   return createEmbedder(settings.embeddings, {
     modelsDir: modelsDir(),
     providers: settings.providers,
+    ...(projectPath ? { projectPath } : {}),
   })
 }
 
@@ -47,7 +51,7 @@ export function openIndexAt(file: string, embedder: EmbeddingProvider): SqliteIn
 
 /** Index for a project root (already checked with requireProject by IPC handlers). */
 export async function openIndex(projectPath: string): Promise<SqliteIndexStore> {
-  return openIndexAt(projectPaths(projectPath).index, await activeEmbedder())
+  return openIndexAt(projectPaths(projectPath).index, await activeEmbedder(projectPath))
 }
 
 /** Close a project's index connection (project closed or deleted). */

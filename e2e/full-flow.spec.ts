@@ -261,9 +261,9 @@ async function facilitate(
   await timeline.getByRole('button', { name: `Deliver ${rowId}`, exact: true }).click()
   const present = await presentationWindow(app)
   await present.waitForLoadState('domcontentloaded')
-  const img = present.getByRole('img', { name: 'Inject' })
+  const img = present.getByRole('img')
   await expect(img).toBeVisible()
-  await expect(page.getByRole('status')).toContainText(`${rowId} delivered`)
+  await expect(page.locator('.fac-status')).toContainText(`${rowId} delivered`)
   await shot(page, 'facilitate')
   await present.screenshot({
     path: join(SHOTS, `${String(++shotNo).padStart(2, '0')}-present.png`),

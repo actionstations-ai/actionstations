@@ -7,6 +7,7 @@ import type { RenderedPrompt } from '../prompts'
 import type { ResolvedText } from '../providers/resolve'
 import type { SaveOptions } from '../scenario/store'
 import type { FacilityFacts } from './facility'
+import { asTask } from './task-errors'
 
 export type TextTask = Extract<ProviderTask, 'ideate' | 'draft' | 'critique'>
 
@@ -59,7 +60,10 @@ async function realDeps(missing: (keyof PipelineDeps)[]): Promise<Partial<Pipeli
   if (need('resolveTextProvider')) {
     out.resolveTextProvider = (await import('../providers/resolve')).resolveTextProvider
   }
-  if (need('openIndex')) out.openIndex = (await import('../retrieve')).openIndex
+  if (need('openIndex')) {
+    const { openIndex } = await import('../retrieve')
+    out.openIndex = (projectPath) => asTask('embed', () => openIndex(projectPath))
+  }
   if (need('loadProject')) out.loadProject = (await import('../project/store')).loadProject
   if (need('loadFacilityFacts'))
     out.loadFacilityFacts = (await import('./facility')).loadFacilityFacts

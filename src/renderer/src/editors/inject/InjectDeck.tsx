@@ -29,6 +29,8 @@ import { JobBanner } from './JobBanner'
 import { injectUrl } from './links'
 import { useScenarioJob } from './use-scenario-job'
 import './inject-editor.css'
+import { errorText } from '../../lib/errors'
+import { injectAlt } from '../../lib/inject-alt'
 
 function toLabel(row: DeckEntry['row'], scenario: Scenario): string {
   if (row.toLabel) return row.toLabel
@@ -51,7 +53,7 @@ function Thumb({ entry, projectPath }: { entry: DeckEntry; projectPath: string }
     <div className="deck-card__thumb">
       <img
         src={mediaUrl(projectPath, t.path)}
-        alt={`${entry.row.id}: ${entry.inject?.title ?? ''}`}
+        alt={injectAlt(entry.inject ?? { mselRowId: entry.row.id }, `MSEL row ${entry.row.id}`)}
         loading="lazy"
       />
     </div>
@@ -329,7 +331,12 @@ export function InjectDeck(props: {
     return (
       <EmptyState
         title="No MSEL yet"
-        body="Generate the scenario's MSEL first; injects are written from its rows."
+        body="Injects are written from MSEL rows. Generate the scenario's MSEL from the stages above, or add rows by hand in the MSEL tab."
+        actions={
+          <Link className="btn btn--primary" to="?tab=msel">
+            Open the MSEL
+          </Link>
+        }
       />
     )
   return (
@@ -357,7 +364,7 @@ export function InjectDeck(props: {
       />
       {injects.isError && (
         <p className="field__error" role="alert">
-          Could not load injects: {injects.error.message}
+          Could not load injects: {errorText(injects.error)}
         </p>
       )}
       {shown.length ? (

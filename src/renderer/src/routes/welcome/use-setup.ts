@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { call } from '../../lib/api'
 import { queryClient, useIpcMutation, useIpcQuery } from '../../lib/query'
 import { routeTasks, type Assignment } from './wizard-state'
+import { errorText } from '../../lib/errors'
 
 /** Probe localhost once per wizard visit; the result is reused by the text and media steps. */
 export function useLocalServices() {
@@ -38,7 +39,7 @@ export function useAction() {
       await fn()
       return true
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err))
+      setError(errorText(err))
       return false
     } finally {
       setBusy(false)

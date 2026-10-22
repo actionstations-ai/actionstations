@@ -1,7 +1,7 @@
 // Task → provider + model table. Global scope edits settings.defaultRouting; project scope
 // shows the inherited global value per task and lets the user override it.
 import { useState } from 'react'
-import type { ProviderRef, ProviderRouting, ProviderTask } from '@shared/schemas'
+import type { ProviderKind, ProviderRef, ProviderRouting, ProviderTask } from '@shared/schemas'
 import { Button } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { ModelInput } from './ModelInput'
@@ -20,11 +20,13 @@ function describeRef(ref: ProviderRef | undefined, providers: ProviderViewT[]): 
 function ProviderSelect(props: {
   info: TaskInfo
   providers: ProviderViewT[]
+  /** Provider kinds main says can serve this task (adapter capabilities); undefined while loading. */
+  supported: ProviderKind[] | undefined
   value: string
   onChange: (id: string) => void
 }) {
   const options = props.providers.filter(
-    (p) => p.id === props.value || (p.enabled && props.info.kinds.includes(p.kind)),
+    (p) => p.id === props.value || (p.enabled && !!props.supported?.includes(p.kind)),
   )
   return (
     <select
@@ -73,6 +75,7 @@ function EmbeddingNote() {
 function RoutingRow(props: {
   info: TaskInfo
   providers: ProviderViewT[]
+  supported: ProviderKind[] | undefined
   value: ProviderRef | undefined
   onChange: (ref: ProviderRef | undefined) => void
   /** Project scope only. */
@@ -110,6 +113,7 @@ function RoutingRow(props: {
             <ProviderSelect
               info={info}
               providers={props.providers}
+              supported={props.supported}
               value={value?.providerId ?? ''}
               onChange={(id) => props.onChange(id ? { providerId: id } : undefined)}
             />
@@ -142,6 +146,7 @@ export function RoutingTable(props: {
   saving: boolean
   onSave: (routing: ProviderRouting) => void
 }) {
+  const support = useIpcQuery('providers:task-support', undefined)
   const initial: Draft = (props.scope === 'global' ? props.view.global : props.view.project) ?? {}
   const [draft, setDraft] = useState<Draft>(initial)
   const [overrides, setOverrides] = useState<Set<ProviderTask>>(
@@ -184,6 +189,7 @@ export function RoutingTable(props: {
                 key={info.task}
                 info={info}
                 providers={props.providers}
+                supported={support.data?.[info.task]?.kinds}
                 value={draft[info.task]}
                 onChange={(ref) => setRow(info.task, ref)}
                 {...(props.scope === 'project'

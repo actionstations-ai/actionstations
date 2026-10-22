@@ -15,6 +15,7 @@ import {
   type InputRow,
   type RowBinding,
 } from './workflow-utils'
+import { errorText } from '../../lib/errors'
 
 function ValueCell({ value }: { value: unknown }) {
   const text = formatValue(value)
@@ -109,7 +110,11 @@ export function BindingEditor({ workflow }: { workflow: WorkflowEntry }) {
           {save.isPending ? 'Saving…' : 'Save bindings'}
         </Button>
       </div>
-      {inputs.isError && <p className="field__error">{inputs.error.message}</p>}
+      {inputs.isError && (
+        <p className="field__error" role="alert">
+          {errorText(inputs.error)}
+        </p>
+      )}
       {inputs.data && (
         <div className="wf-table-wrap">
           <table className="table" aria-label={`Inputs of ${workflow.name}`}>

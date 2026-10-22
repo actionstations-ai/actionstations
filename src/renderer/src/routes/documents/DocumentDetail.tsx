@@ -6,6 +6,7 @@ import { Button } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { HeadingTree } from './HeadingTree'
 import { buildHeadingTree, paginateText } from './doc-utils'
+import { errorText } from '../../lib/errors'
 
 const CHUNK_PAGE = 200
 
@@ -35,7 +36,12 @@ function TextViewer({ projectPath, doc }: { projectPath: string; doc: DocumentMe
   const pages = useMemo(() => paginateText(text.data ?? ''), [text.data])
   const [page, setPage] = useState(0)
   if (text.isPending) return <p className="muted">Loading text…</p>
-  if (text.isError) return <p className="field__error">Could not load text: {text.error.message}</p>
+  if (text.isError)
+    return (
+      <p className="field__error" role="alert">
+        Could not load text: {errorText(text.error)}
+      </p>
+    )
   if (!text.data) return <p className="muted">No text was extracted from this document.</p>
   const current = Math.min(page, pages.length - 1)
   return (
@@ -57,7 +63,11 @@ function ChunkList({ projectPath, doc }: { projectPath: string; doc: DocumentMet
   )
   if (chunks.isPending) return <p className="muted">Loading chunks…</p>
   if (chunks.isError)
-    return <p className="field__error">Could not load chunks: {chunks.error.message}</p>
+    return (
+      <p className="field__error" role="alert">
+        Could not load chunks: {errorText(chunks.error)}
+      </p>
+    )
   const list = chunks.data
   if (!list.length) return <p className="muted">No chunks yet. They appear once ingest finishes.</p>
   return (

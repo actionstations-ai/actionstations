@@ -182,7 +182,9 @@ test('inject editor: write injects, edit five types, preview, save, render', asy
     await page.getByLabel('Rows 2: Anomaly').check()
     await page.getByLabel('Variant').selectOption('glitch')
     await expect(page.getByText(/field issue/)).toHaveCount(0)
-    await expect(page.getByRole('img', { name: /^Preview of/ })).toBeVisible({ timeout: 15_000 })
+    await expect(page.getByRole('img', { name: /, live preview$/ })).toBeVisible({
+      timeout: 15_000,
+    })
     await expect(page.getByText('Rendering…')).toHaveCount(0)
     await shoot(page, 'editor-fids')
     await save(page)
@@ -320,7 +322,9 @@ test('inject editor: write injects, edit five types, preview, save, render', asy
     const own = await preview({ injectId: i04 })
     expect(own.dataUrl).not.toBe(sample.dataUrl)
     await open('I-04')
-    await expect(page.getByRole('img', { name: /^Preview of/ })).toBeVisible({ timeout: 15_000 })
+    await expect(page.getByRole('img', { name: /, live preview$/ })).toBeVisible({
+      timeout: 15_000,
+    })
     await expect(page.getByText('Rendering…')).toHaveCount(0)
     await shoot(page, 'editor-tweet-own-image')
 

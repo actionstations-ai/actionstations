@@ -1,12 +1,12 @@
 import { Suspense, useEffect } from 'react'
-import { HashRouter, NavLink, Route, Routes, useParams } from 'react-router'
+import { HashRouter, Route, Routes, useParams } from 'react-router'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { allRoutes } from './routes'
 import { queryClient, useIpcQuery } from './lib/query'
 import { subscribe } from './lib/api'
 import { Toaster } from './components/toast'
-import { NAV_ICONS } from './components/nav-icons'
-import { fromProjectKey, projectKey, useProjectUi } from './state/project'
+import { ChromeFor, RouteFocus, Sidebar, SkipLink } from './components/shell'
+import { fromProjectKey, useProjectUi } from './state/project'
 import { FirstRunRedirect } from './routes/welcome/FirstRunRedirect'
 
 function ThemeSync() {
@@ -31,43 +31,6 @@ function EventBridge() {
   return null
 }
 
-function Sidebar() {
-  const projectPath = useProjectUi((s) => s.projectPath)
-  const project = useIpcQuery(
-    'project:get',
-    { path: projectPath ?? '' },
-    { enabled: !!projectPath },
-  )
-  const nav = allRoutes.filter((r) => r.nav)
-  const link = (r: (typeof nav)[number]) => {
-    const Icon = r.nav?.icon ? NAV_ICONS[r.nav.icon] : undefined
-    const to = projectPath ? r.path.replace(':projectKey', projectKey(projectPath)) : r.path
-    return (
-      <NavLink key={r.path} to={to} className="nav-link" end>
-        {Icon && <Icon size={16} aria-hidden />}
-        {r.nav?.label}
-      </NavLink>
-    )
-  }
-  return (
-    <nav className="sidebar" aria-label="Main">
-      <div className="sidebar__brand">
-        Tabletop Generator
-        <small>Exercise design studio</small>
-      </div>
-      {nav.filter((r) => r.nav?.scope === 'global').map(link)}
-      {projectPath && (
-        <>
-          <div className="sidebar__section" title={projectPath}>
-            {project.data?.project.name ?? 'Project'}
-          </div>
-          {nav.filter((r) => r.nav?.scope === 'project').map(link)}
-        </>
-      )}
-    </nav>
-  )
-}
-
 /** Keeps the open-project store in sync with /p/:projectKey/* routes. */
 function ProjectScope({ children }: { children: React.ReactNode }) {
   const { projectKey: key } = useParams()
@@ -78,34 +41,60 @@ function ProjectScope({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 
+function AppRoutes() {
+  return (
+    <Suspense fallback={<div className="page muted">Loading…</div>}>
+      <Routes>
+        <Route path="/" element={<FirstRunRedirect />} />
+        {allRoutes.map((r) => {
+          const C = r.component
+          const el = r.path.includes(':projectKey') ? (
+            <ProjectScope>
+              <C />
+            </ProjectScope>
+          ) : (
+            <C />
+          )
+          return <Route key={r.path} path={r.path} element={el} />
+        })}
+        <Route
+          path="*"
+          element={
+            <div className="page">
+              <h1>Page not found</h1>
+            </div>
+          }
+        />
+      </Routes>
+    </Suspense>
+  )
+}
+
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <HashRouter>
         <ThemeSync />
         <EventBridge />
-        <div className="shell">
-          <Sidebar />
-          <main className="main" id="main">
-            <Suspense fallback={<div className="page muted">Loading…</div>}>
-              <Routes>
-                <Route path="/" element={<FirstRunRedirect />} />
-                {allRoutes.map((r) => {
-                  const C = r.component
-                  const el = r.path.includes(':projectKey') ? (
-                    <ProjectScope>
-                      <C />
-                    </ProjectScope>
-                  ) : (
-                    <C />
-                  )
-                  return <Route key={r.path} path={r.path} element={el} />
-                })}
-                <Route path="*" element={<div className="page">Not found.</div>} />
-              </Routes>
-            </Suspense>
-          </main>
-        </div>
+        <RouteFocus />
+        <ChromeFor
+          chrome={
+            <>
+              <SkipLink />
+              <div className="shell">
+                <Sidebar />
+                <main className="main" id="main">
+                  <AppRoutes />
+                </main>
+              </div>
+            </>
+          }
+          bare={
+            <main id="main">
+              <AppRoutes />
+            </main>
+          }
+        />
         <Toaster />
       </HashRouter>
     </QueryClientProvider>

@@ -17,6 +17,7 @@ import { useDocumentActions, useImportDocuments } from './use-document-actions'
 import { useFileDrop } from './use-file-drop'
 import { useJobProgress } from './use-job-progress'
 import './documents.css'
+import { errorText } from '../../lib/errors'
 
 const DOC_QUERIES = [
   'documents:list',
@@ -127,7 +128,7 @@ export default function DocumentsPage() {
       <IndexStatus rebuild={live[INDEX_TARGET]} />
       {docs.isError && (
         <p className="field__error" role="alert">
-          Could not load documents: {docs.error.message}
+          Could not load documents: {errorText(docs.error)}
         </p>
       )}
       {docs.isSuccess && list.length === 0 && <DocumentsEmpty onImport={importer.pickFiles} />}

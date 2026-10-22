@@ -14,6 +14,7 @@ import {
   pickTtsModel,
   type ProviderViewT,
 } from '../wizard-state'
+import { errorText } from '../../../lib/errors'
 
 const refreshProviders = () => queryClient.invalidateQueries({ queryKey: ['providers:list'] })
 
@@ -30,10 +31,7 @@ async function connectVoiceServer(baseUrl: string): Promise<ProviderViewT> {
     })
   } catch (err) {
     await call('providers:remove', { id: added.id }).catch(() => undefined)
-    throw new Error(
-      `No voice server answered at ${baseUrl}: ${err instanceof Error ? err.message : String(err)}`,
-      { cause: err },
-    )
+    throw new Error(`No voice server answered at ${baseUrl}: ${errorText(err)}`, { cause: err })
   } finally {
     await refreshProviders()
   }

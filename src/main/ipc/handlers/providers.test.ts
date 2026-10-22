@@ -226,6 +226,35 @@ describe('providers:detect-local', () => {
   })
 })
 
+describe('providers:task-support', () => {
+  it('lists, per task, the adapter kinds and configured providers that can serve it', async () => {
+    const mock = await addMock()
+    const comfy = await call<{ id: string }>('providers:upsert', {
+      config: { kind: 'comfyui', label: 'ComfyUI', baseUrl: 'http://127.0.0.1:8188' },
+    })
+    const lm = await call<{ id: string }>('providers:upsert', {
+      config: {
+        kind: 'openai-compatible',
+        label: 'LM Studio',
+        baseUrl: 'http://127.0.0.1:1234/v1',
+        enabled: false,
+      },
+    })
+    const support =
+      await call<Record<string, { kinds: string[]; providerIds: string[] }>>(
+        'providers:task-support',
+      )
+    expect(Object.keys(support).sort()).toEqual(
+      ['audio', 'critique', 'draft', 'embed', 'ideate', 'image', 'video'].sort(),
+    )
+    expect(support.draft!.kinds).toEqual(expect.arrayContaining(['anthropic', 'openai-compatible']))
+    expect(support.draft!.providerIds.sort()).toEqual([lm.id, mock.id].sort())
+    expect(support.image!.providerIds.sort()).toEqual([comfy.id, mock.id].sort())
+    expect(support.embed!.providerIds).not.toContain(comfy.id)
+    expect(support.audio!.providerIds).toEqual(expect.arrayContaining([comfy.id, lm.id]))
+  })
+})
+
 describe('routing:get / set', () => {
   it('stores global routing in settings and project overrides in project.json', async () => {
     const g = await addMock({ label: 'Global' })

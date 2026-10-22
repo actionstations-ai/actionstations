@@ -7,6 +7,7 @@ import type { Stage } from '@shared/schemas/scenario'
 import { Button, Dialog, ProgressBar } from '../../components/ui'
 import { call, subscribe } from '../../lib/api'
 import { isConflict } from './conflict'
+import { errorText } from '../../lib/errors'
 
 type Run =
   | { phase: 'idle' }
@@ -40,7 +41,7 @@ function useJobRun(run: Run, setRun: (r: Run) => void) {
       subscribe('job:done', (e) => {
         if (e.jobId !== jobId) return
         if (e.status === 'done') setRun({ phase: 'done', message: 'Regenerated.' })
-        else setRun({ phase: 'error', message: e.error ?? `Generation ${e.status}.` })
+        else setRun({ phase: 'error', message: errorText(e.error ?? `Generation ${e.status}.`) })
       }),
     ]
     return () => offs.forEach((off) => off())
@@ -74,7 +75,7 @@ export function RegenerateButton(props: RegenerateProps) {
     } catch (e) {
       const message = isConflict(e)
         ? 'Generation is already running for this scenario. Try again when it finishes.'
-        : `Could not start: ${(e as Error).message}`
+        : `Could not start: ${errorText(e)}`
       setRun({ phase: 'error', message })
     }
   }

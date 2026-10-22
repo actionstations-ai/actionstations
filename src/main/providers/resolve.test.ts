@@ -183,18 +183,6 @@ describe('task support and capability checks (#113, #114)', () => {
     expect(support.draft).not.toContain('comfyui')
   })
 
-  it('keeps the Providers screen task list in step with the adapters', async () => {
-    // The renderer is a separate TS project, so load its catalog by URL (types stay local).
-    const catalogUrl = new URL('../../renderer/src/routes/providers/catalog.ts', import.meta.url)
-    const { TASKS } = (await import(/* @vite-ignore */ catalogUrl.href)) as {
-      TASKS: { task: keyof ReturnType<typeof providerTaskSupport>; kinds: string[] }[]
-    }
-    expect(TASKS.length).toBe(7)
-    const support = providerTaskSupport()
-    for (const info of TASKS)
-      expect([...info.kinds].sort(), info.task).toEqual([...support[info.task]].sort())
-  })
-
   it('routes audio to an OpenAI-compatible TTS server and refuses image there', async () => {
     await seed([TTS], { audio: { providerId: 'tts' }, image: { providerId: 'tts' } })
     expect((await resolveMediaProvider('audio')).providerId).toBe('tts')

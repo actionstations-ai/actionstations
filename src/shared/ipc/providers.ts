@@ -7,8 +7,17 @@ import {
   ProviderHealth,
   ProviderKind,
   ProviderRouting,
+  ProviderTask,
   ProviderView,
 } from '../schemas/provider'
+
+/** Who can serve one task: adapter kinds (from their capabilities) and configured providers. */
+export const TaskSupport = z.object({
+  kinds: z.array(ProviderKind),
+  /** Configured providers (enabled or not) whose kind supports the task. */
+  providerIds: z.array(z.string()),
+})
+export type TaskSupport = z.infer<typeof TaskSupport>
 
 const RoutingView = z.object({
   global: ProviderRouting,
@@ -73,6 +82,8 @@ export const providerChannels = {
     z.object({ id: SafeId, model: z.string().min(1).max(200) }),
     z.object({ jobId: SafeId }),
   ),
+  /** Per task, which provider kinds and configured providers can serve it (main is the authority). */
+  'providers:task-support': channel(z.void(), z.record(ProviderTask, TaskSupport)),
   'routing:get': channel(z.object({ projectPath: z.string().optional() }), RoutingView),
   'routing:set': channel(
     z.object({

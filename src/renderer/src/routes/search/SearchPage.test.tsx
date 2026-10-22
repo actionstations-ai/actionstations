@@ -78,7 +78,9 @@ describe('SearchPage', () => {
     fail = true
     await user.type(screen.getByRole('searchbox', { name: 'Query' }), ' else')
     await user.click(screen.getByRole('button', { name: /Search/ }))
-    expect((await screen.findByRole('alert')).textContent).toMatch(/Index store lands with #14/)
+    expect((await screen.findByRole('alert')).textContent).toMatch(
+      /isn.t available in this version/,
+    )
   })
 
   it('keeps the search button disabled for a blank query', () => {

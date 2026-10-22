@@ -7,6 +7,7 @@ import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
 import { useIpcMutation } from '../../lib/query'
 import { useJob } from '../generate/use-job'
+import { LiveStatus } from '../../components/LiveStatus'
 
 const MODEL_NAME = /^[A-Za-z0-9][A-Za-z0-9._:/-]*$/
 
@@ -30,8 +31,9 @@ function PullProgress(props: { jobId: string; model: string; onFinished: () => v
   )
   const job = useJob(props.jobId, onDone)
   return (
-    <div className="stack pull-model__progress" role="status" aria-live="polite">
+    <div className="stack pull-model__progress">
       <ProgressBar value={job?.progress ?? 0} label={`Pulling ${model}`} />
+      <LiveStatus text={`Pulling ${model}: ${job?.message ?? 'queued'}`} />
       <div className="row pull-model__status">
         <span className="muted mono">{job?.message ?? 'Queued'}</span>
         <Button

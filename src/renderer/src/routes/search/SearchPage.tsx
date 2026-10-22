@@ -1,12 +1,13 @@
 import { Search } from 'lucide-react'
 import { useId, useState, type FormEvent } from 'react'
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import type { SearchHit } from '@shared/schemas/document'
 import { Button, EmptyState, PageHeader } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
-import { fromProjectKey } from '../../state/project'
+import { fromProjectKey, projectKey } from '../../state/project'
 import { highlightSegments, queryTerms, snippet, stripMarkdown } from './highlight'
 import './search.css'
+import { errorText } from '../../lib/errors'
 
 type Mode = 'hybrid' | 'fts' | 'vector'
 const MODES: { value: Mode; label: string; hint: string }[] = [
@@ -38,7 +39,7 @@ function HitCard({ hit, terms, rank }: { hit: SearchHit; terms: string[]; rank: 
     <li className="hit card">
       <div className="hit__head">
         <span className="hit__rank">{rank}</span>
-        <h3 className="hit__heading">{hit.headingPath || 'Untitled section'}</h3>
+        <h2 className="hit__heading">{hit.headingPath || 'Untitled section'}</h2>
       </div>
       <p className="hit__source">
         {hit.documentTitle}
@@ -134,7 +135,7 @@ function Results({ projectPath, params }: { projectPath: string; params: SearchP
   if (hits.isError)
     return (
       <p className="field__error" role="alert">
-        Search failed: {hits.error.message}
+        Search failed: {errorText(hits.error)}
       </p>
     )
   if (!hits.data.length)
@@ -142,6 +143,11 @@ function Results({ projectPath, params }: { projectPath: string; params: SearchP
       <EmptyState
         title="No matches"
         body="Nothing in this project's index matched. Check that documents finished ingesting, or try Keyword mode for exact terms."
+        actions={
+          <Link className="btn" to={`/p/${projectKey(projectPath)}/documents`}>
+            Check documents
+          </Link>
+        }
       />
     )
   return (

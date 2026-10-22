@@ -5,11 +5,17 @@ import { useIpcQuery } from '../../../lib/query'
 import { useLocalServices } from '../use-setup'
 import type { ProviderViewT } from '../wizard-state'
 import { LocalServiceRow } from './LocalServiceRow'
+import { errorText } from '../../../lib/errors'
 
 function ComfyStatus({ provider }: { provider: ProviderViewT }) {
   const status = useIpcQuery('comfy:status', { providerId: provider.id })
   if (status.isPending) return <p className="muted">Checking ComfyUI workflows…</p>
-  if (status.isError) return <p className="field__error">{status.error.message}</p>
+  if (status.isError)
+    return (
+      <p className="field__error" role="alert">
+        {errorText(status.error)}
+      </p>
+    )
   const s = status.data
   if (!s.ok)
     return (

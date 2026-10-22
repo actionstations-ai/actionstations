@@ -137,7 +137,9 @@ describe('InjectDeck', () => {
     const card = within(deck)
       .getByRole('link', { name: 'Angry traveller' })
       .closest('[role="row"]') as HTMLElement
-    expect(within(card).getByRole('img', { name: 'I-04: Angry traveller' })).toBeTruthy()
+    expect(
+      within(card).getByRole('img', { name: /^Angry traveller — .*, MSEL row I-04$/ }),
+    ).toBeTruthy()
     expect(within(card).getByText('Audio')).toBeTruthy()
     expect(within(card).getByLabelText('Locked')).toBeTruthy()
     expect(within(card).getByText(/2 warnings/)).toBeTruthy()
@@ -153,7 +155,7 @@ describe('InjectDeck', () => {
       message: 'inject I-04 (5/24)',
       itemId: 'inj4',
     })
-    const banner = await screen.findByRole('status', { name: 'Generation status' })
+    const banner = await screen.findByRole('region', { name: 'Generation status' })
     expect(within(banner).getByText(/inject I-04/)).toBeTruthy()
     expect(within(card).getByText('Working…')).toBeTruthy()
     expect(

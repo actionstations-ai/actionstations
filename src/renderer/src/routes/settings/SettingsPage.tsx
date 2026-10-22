@@ -1,11 +1,12 @@
 import { Link } from 'react-router'
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import type { AppSettings, EmbeddingSettings, UiSettings } from '@shared/schemas'
 import { Button, Field, PageHeader } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
 import { useIpcMutation, useIpcQuery } from '../../lib/query'
 import './settings.css'
+import { errorText } from '../../lib/errors'
 
 const THEMES: { value: UiSettings['theme']; label: string }[] = [
   { value: 'system', label: 'Match system' },
@@ -13,7 +14,7 @@ const THEMES: { value: UiSettings['theme']; label: string }[] = [
   { value: 'dark', label: 'Dark' },
 ]
 
-const EMBEDDING_MODES: { value: EmbeddingSettings['mode']; label: string; hint: string }[] = [
+const EMBEDDING_MODES: { value: EmbeddingSettings['mode']; label: string; hint: ReactNode }[] = [
   {
     value: 'hash',
     label: 'Keyword hashing (fastest, no model)',
@@ -27,7 +28,13 @@ const EMBEDDING_MODES: { value: EmbeddingSettings['mode']; label: string; hint: 
   {
     value: 'provider',
     label: 'Configured provider',
-    hint: 'Uses an embeddings endpoint from one of your configured providers (e.g. LM Studio, Ollama).',
+    hint: (
+      <>
+        Uses the provider assigned to the <strong>Embeddings</strong> row in Providers → Routing
+        (e.g. LM Studio, Ollama); a project&rsquo;s own routing overrides it.{' '}
+        <Link to="/providers">Open Providers → Routing</Link>
+      </>
+    ),
   },
 ]
 
@@ -164,7 +171,11 @@ export default function SettingsPage() {
           </Link>
         }
       />
-      {settings.isError && <p className="field__error">{settings.error.message}</p>}
+      {settings.isError && (
+        <p className="field__error" role="alert">
+          {errorText(settings.error)}
+        </p>
+      )}
       {settings.data && (
         <>
           <GeneralSection settings={settings.data} />

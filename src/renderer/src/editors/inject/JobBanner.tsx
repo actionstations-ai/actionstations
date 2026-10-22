@@ -5,6 +5,7 @@ import { Button, ProgressBar } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
 import type { ScenarioJob } from './use-scenario-job'
+import { LiveStatus } from '../../components/LiveStatus'
 
 const KIND_LABEL: Partial<Record<JobKind, string>> = {
   'generate-injects': 'Writing injects',
@@ -22,7 +23,10 @@ export function JobBanner(props: {
   if (!job && !props.pendingSave) return null
   const label = job ? (KIND_LABEL[job.kind] ?? 'Generation') : 'Generation'
   return (
-    <section className="job-banner" role="status" aria-label="Generation status">
+    <section className="job-banner" aria-label="Generation status">
+      <LiveStatus
+        text={job ? `${label}: ${job.message || job.status}` : 'Waiting for generation to finish'}
+      />
       <div className="job-banner__text">
         <strong>{job ? `${label} for this scenario` : 'Waiting for generation to finish'}</strong>
         {job && <span className="muted"> · {job.message || job.status}</span>}

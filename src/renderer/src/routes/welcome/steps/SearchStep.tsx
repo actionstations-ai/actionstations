@@ -8,11 +8,14 @@ import { queryClient, useIpcQuery } from '../../../lib/query'
 import { StepLayout, type StepNav } from '../StepLayout'
 import { useAction } from '../use-setup'
 import { LOCAL_EMBED_MODEL, LOCAL_EMBED_SIZE } from '../wizard-state'
+import { errorText } from '../../../lib/errors'
+import { LiveStatus } from '../../../components/LiveStatus'
+import { CancelJobButton } from '../../../components/CancelJobButton'
 
 type Mode = 'hash' | 'local-onnx'
 type Download =
   | { state: 'idle' }
-  | { state: 'running'; progress: number; message: string }
+  | { state: 'running'; progress: number; message: string; jobId?: string }
   | { state: 'error'; message: string }
   | { state: 'done' }
 
@@ -29,14 +32,19 @@ function useModelDownload(onFinished: () => void) {
     const offProgress = subscribe('job:progress', (e) => {
       if (!jobId.current) early.current.push(e)
       else if (e.jobId === jobId.current)
-        setDownload({ state: 'running', progress: e.progress, message: e.message })
+        setDownload({ state: 'running', progress: e.progress, message: e.message, jobId: e.jobId })
     })
     const offDone = subscribe('job:done', (e) => {
       if (e.jobId !== jobId.current) return
       if (e.status === 'done') {
         setDownload({ state: 'done' })
         finished.current()
-      } else setDownload({ state: 'error', message: e.error ?? `Download ${e.status}` })
+      } else if (e.status === 'cancelled')
+        setDownload({
+          state: 'error',
+          message: 'Download cancelled. Start it again when you are ready.',
+        })
+      else setDownload({ state: 'error', message: errorText(e.error ?? 'Download failed') })
     })
     return () => {
       offProgress()
@@ -49,10 +57,15 @@ function useModelDownload(onFinished: () => void) {
       const { jobId: id } = await call('embeddings:download-model')
       jobId.current = id
       const last = early.current.filter((e) => e.jobId === id).pop()
-      if (last) setDownload({ state: 'running', progress: last.progress, message: last.message })
+      setDownload({
+        state: 'running',
+        progress: last?.progress ?? 0,
+        message: last?.message ?? 'Starting download…',
+        jobId: id,
+      })
       early.current = []
     } catch (err) {
-      setDownload({ state: 'error', message: err instanceof Error ? err.message : String(err) })
+      setDownload({ state: 'error', message: errorText(err) })
     }
   }
   return { download, start }
@@ -97,9 +110,13 @@ function DownloadPanel(props: { download: Download; downloaded: boolean; onStart
     )
   if (d.state === 'running')
     return (
-      <div className="stack" aria-live="polite">
+      <div className="stack">
         <ProgressBar value={d.progress} label="Model download" />
-        <span className="muted">{d.message}</span>
+        <LiveStatus text={`Model download: ${d.message}`} />
+        <div className="row">
+          <span className="muted">{d.message}</span>
+          {d.jobId && <CancelJobButton jobId={d.jobId} />}
+        </div>
       </div>
     )
   return (

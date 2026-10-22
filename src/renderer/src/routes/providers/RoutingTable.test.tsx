@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { cleanup, render, screen, within } from '@testing-library/react'
+import { cleanup, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -37,6 +37,28 @@ const TTS = provider({
 })
 const PROVIDERS = [LM, COMFY, OFF, TTS]
 
+/** What main's providers:task-support reports for PROVIDERS (from adapter capabilities). */
+const OPENAI = [LM.id, OFF.id, TTS.id]
+const TASK_SUPPORT = {
+  ideate: { kinds: ['openai-compatible'], providerIds: OPENAI },
+  draft: { kinds: ['openai-compatible'], providerIds: OPENAI },
+  critique: { kinds: ['openai-compatible'], providerIds: OPENAI },
+  embed: { kinds: ['openai-compatible'], providerIds: OPENAI },
+  image: { kinds: ['comfyui'], providerIds: [COMFY.id] },
+  video: { kinds: ['comfyui'], providerIds: [COMFY.id] },
+  audio: {
+    kinds: ['openai-compatible', 'comfyui'],
+    providerIds: [LM.id, COMFY.id, OFF.id, TTS.id],
+  },
+}
+
+/** Option labels of a task's provider select once task support has loaded. */
+async function optionsOf(label: string): Promise<(string | null)[]> {
+  const select = screen.getByLabelText(label) as HTMLSelectElement
+  await waitFor(() => expect(select.options.length).toBeGreaterThan(1))
+  return [...select.options].map((o) => o.textContent)
+}
+
 function setup(
   scope: 'global' | 'project',
   view: RoutingView,
@@ -44,6 +66,7 @@ function setup(
 ) {
   mockTtx({
     'settings:get': () => ({ embeddings: { mode: embeddingMode, model: 'm' } }) as never,
+    'providers:task-support': () => TASK_SUPPORT as never,
     'providers:models': () => [
       { id: 'qwen3-30b-a3b-2507', kind: 'chat' },
       { id: 'gpt-oss-20b', kind: 'chat' },
@@ -83,28 +106,21 @@ describe('RoutingTable — global', () => {
     expect(screen.getByText(/Writes the MSEL/)).toBeTruthy()
   })
 
-  it('offers only compatible, enabled providers per task', () => {
+  it('offers only the enabled providers main says can serve each task', async () => {
     setup('global', { global: {}, effective: {} })
-    const draft = screen.getByLabelText('Drafting provider') as HTMLSelectElement
-    expect([...draft.options].map((o) => o.textContent)).toEqual([
-      'Not assigned',
-      'LM Studio',
-      'mlx-audio',
-    ])
-    const image = screen.getByLabelText('Image provider') as HTMLSelectElement
-    expect([...image.options].map((o) => o.textContent)).toEqual(['Not assigned', 'ComfyUI'])
+    expect(await optionsOf('Drafting provider')).toEqual(['Not assigned', 'LM Studio', 'mlx-audio'])
+    expect(await optionsOf('Image provider')).toEqual(['Not assigned', 'ComfyUI'])
   })
 
   it('offers OpenAI-compatible (local TTS) providers for Audio (#113)', async () => {
     const onSave = setup('global', { global: {}, effective: {} })
-    const audio = screen.getByLabelText('Audio provider') as HTMLSelectElement
-    expect([...audio.options].map((o) => o.textContent)).toEqual([
+    expect(await optionsOf('Audio provider')).toEqual([
       'Not assigned',
       'LM Studio',
       'ComfyUI',
       'mlx-audio',
     ])
-    await userEvent.selectOptions(audio, 'mlx-audio')
+    await userEvent.selectOptions(screen.getByLabelText('Audio provider'), 'mlx-audio')
     await userEvent.click(screen.getByRole('button', { name: 'Save routing' }))
     expect(onSave).toHaveBeenCalledWith({ audio: { providerId: 'mlx-audio' } })
   })
@@ -125,6 +141,7 @@ describe('RoutingTable — global', () => {
     const onSave = setup('global', { global: {}, effective: {} })
     const save = screen.getByRole('button', { name: 'Save routing' })
     expect((save as HTMLButtonElement).disabled).toBe(true)
+    await optionsOf('Drafting provider')
     await userEvent.selectOptions(screen.getByLabelText('Drafting provider'), 'lmstudio-1a2b')
     await userEvent.type(screen.getByLabelText('Drafting model'), 'gpt-oss-20b')
     await userEvent.selectOptions(screen.getByLabelText('Critique provider'), 'lmstudio-1a2b')

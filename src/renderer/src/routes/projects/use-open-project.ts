@@ -4,13 +4,12 @@ import { toast } from '../../components/toast-store'
 import { call, IpcError } from '../../lib/api'
 import { queryClient } from '../../lib/query'
 import { projectKey, useProjectUi } from '../../state/project'
+import { errorText } from '../../lib/errors'
 
 const openError = (err: unknown): string =>
   err instanceof IpcError && err.code === 'NOT_FOUND'
     ? 'That folder has no project.json. Choose a .ttxproj folder created by Tabletop Generator.'
-    : err instanceof Error
-      ? err.message
-      : String(err)
+    : errorText(err)
 
 /** Open a project folder (registers it as recent) and go to its overview. */
 export function useOpenProject() {

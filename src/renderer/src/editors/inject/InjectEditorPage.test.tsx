@@ -114,7 +114,7 @@ describe('InjectEditorPage', () => {
           ),
       ).toBe(true),
     )
-    expect(screen.getByRole('img', { name: 'Preview of Vending machines' })).toBeTruthy()
+    expect(screen.getByRole('img', { name: /^Vending machines — .*, live preview$/ })).toBeTruthy()
     await userEvent.keyboard('{Meta>}s{/Meta}')
     await waitFor(() => expect(ttx.calls('injects:save')).toHaveLength(1))
     const saved = (ttx.calls('injects:save')[0] as { inject: Inject }).inject
@@ -137,7 +137,7 @@ describe('InjectEditorPage', () => {
     const title = await screen.findByLabelText('Title *')
     await userEvent.type(title, ' (edited)')
     await userEvent.click(screen.getByRole('button', { name: 'Save' }))
-    const banner = await screen.findByRole('status', { name: 'Generation status' })
+    const banner = await screen.findByRole('region', { name: 'Generation status' })
     expect(within(banner).getByText(/edits are kept and will be saved automatically/)).toBeTruthy()
     expect((screen.getByLabelText('Title *') as HTMLInputElement).value).toBe(
       'Vending machines (edited)',
@@ -147,7 +147,7 @@ describe('InjectEditorPage', () => {
     const saved = (ttx.calls('injects:save')[1] as { inject: Inject }).inject
     expect(saved.title).toBe('Vending machines (edited)')
     await waitFor(() =>
-      expect(screen.queryByRole('status', { name: 'Generation status' })).toBeNull(),
+      expect(screen.queryByRole('region', { name: 'Generation status' })).toBeNull(),
     )
   })
 

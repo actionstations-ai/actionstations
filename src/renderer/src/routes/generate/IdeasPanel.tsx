@@ -7,6 +7,7 @@ import { queryClient, useIpcQuery } from '../../lib/query'
 import { GenerateError } from './GenerateError'
 import { IdeaCard } from './IdeaCard'
 import { useJob } from './use-job'
+import { LiveStatus } from '../../components/LiveStatus'
 
 type ErrorLike = { code?: string; message: string }
 
@@ -22,12 +23,16 @@ export function IdeasPanel(props: {
   const ideas = useIpcQuery('generate:ideas-result', { projectPath })
   const job = useJob(jobId, (e) => {
     if (e.status === 'error') setError({ message: e.error ?? 'Idea generation failed' })
+    if (e.status === 'cancelled')
+      setError({ code: 'CANCELLED', message: 'Idea generation was cancelled' })
     void queryClient.invalidateQueries({ queryKey: ['generate:ideas-result'] })
   })
   const running = job?.status === 'queued' || job?.status === 'running'
 
-  const start = async (e: FormEvent) => {
-    e.preventDefault()
+  const cancel = () =>
+    jobId && void call('jobs:cancel', { jobId }).catch((err: unknown) => setError(err as IpcError))
+
+  const request = async () => {
     setError(null)
     try {
       const n = Math.min(12, Math.max(1, Math.round(Number(count)) || 6))
@@ -40,6 +45,10 @@ export function IdeasPanel(props: {
     } catch (err) {
       setError(err as IpcError)
     }
+  }
+  const start = (e: FormEvent) => {
+    e.preventDefault()
+    void request()
   }
 
   const list = ideas.data ?? []
@@ -82,12 +91,19 @@ export function IdeasPanel(props: {
         {running && job && (
           <div className="stack">
             <ProgressBar value={job.progress} label="Idea generation progress" />
-            <span className="muted" aria-live="polite">
-              {job.message}
-            </span>
+            <div className="row">
+              <span className="muted">{job.message}</span>
+              <LiveStatus text={job.message} />
+              <Button size="sm" onClick={cancel}>
+                Cancel
+              </Button>
+            </div>
           </div>
         )}
-        <GenerateError error={error} />
+        <GenerateError
+          error={error}
+          {...(error && error.code !== 'CANCELLED' ? { onRetry: () => void request() } : {})}
+        />
       </form>
       {list.length > 0 && (
         <ul className="grid-cards idea-grid" aria-label="Scenario ideas">

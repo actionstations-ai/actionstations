@@ -65,11 +65,7 @@ function StatusCell({
 export function DocumentRow(props: DocumentRowProps) {
   const { doc } = props
   return (
-    <tr
-      className={clsx('doc-row', props.selected && 'doc-row--selected')}
-      aria-selected={props.selected}
-      onClick={props.onSelect}
-    >
+    <tr className={clsx('doc-row', props.selected && 'doc-row--selected')} onClick={props.onSelect}>
       <td className="doc-row__title">
         <InlineText
           value={doc.title}

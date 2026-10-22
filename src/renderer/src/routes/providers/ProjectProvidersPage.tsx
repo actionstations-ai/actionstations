@@ -6,6 +6,7 @@ import { fromProjectKey } from '../../state/project'
 import { RoutingTable } from './RoutingTable'
 import { useSaveRouting } from './use-save-routing'
 import './providers.css'
+import { errorText } from '../../lib/errors'
 
 export default function ProjectProvidersPage() {
   const projectPath = fromProjectKey(useParams().projectKey ?? '')
@@ -28,7 +29,11 @@ export default function ProjectProvidersPage() {
             the project file, so they travel with the project.
           </p>
         </div>
-        {error && <p className="field__error">{error.message}</p>}
+        {error && (
+          <p className="field__error" role="alert">
+            {errorText(error)}
+          </p>
+        )}
         {providers.data && routing.data && (
           <RoutingTable
             key={JSON.stringify(routing.data)}

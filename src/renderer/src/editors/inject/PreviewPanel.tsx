@@ -6,6 +6,7 @@ import type { TemplateInfo } from '@shared/ipc'
 import { Button } from '../../components/ui'
 import { call } from '../../lib/api'
 import { stableJson } from './draft'
+import { errorText } from '../../lib/errors'
 
 const DEBOUNCE_MS = 300
 
@@ -48,8 +49,8 @@ function usePreview(req: PreviewRequest | null, scale: number, refreshKey: strin
           setImage({ ...r, scale })
           setError(null)
         })
-        .catch((e: Error) => {
-          if (seq.current === mine) setError(e.message)
+        .catch((e: unknown) => {
+          if (seq.current === mine) setError(errorText(e))
         })
         .finally(() => {
           if (seq.current === mine) setBusy(false)

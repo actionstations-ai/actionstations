@@ -4,6 +4,7 @@ import type { WorkflowEntry } from '@shared/ipc'
 import { Button, Field } from '../../components/ui'
 import { useIpcMutation } from '../../lib/query'
 import { dataUrlToObjectUrl } from './workflow-utils'
+import { errorText } from '../../lib/errors'
 
 const EXPECTED: Record<WorkflowEntry['mediaType'], string> = {
   image: 'about 20 s for SDXL on Apple Silicon',
@@ -68,7 +69,7 @@ export function TestRender(props: { workflow: WorkflowEntry; providerId: string 
       )}
       {render.isError && (
         <p className="field__error" role="alert">
-          {render.error.message}
+          {errorText(render.error)}
         </p>
       )}
       {render.data && (

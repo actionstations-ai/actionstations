@@ -22,6 +22,7 @@ import {
   forgetProvider,
   getRoutingView,
   mediaProviderFor,
+  providerTaskSupport,
   textProviderFor,
 } from '../../providers/resolve'
 
@@ -191,7 +192,21 @@ async function startPull(id: string, model: string): Promise<{ jobId: string }> 
   return { jobId: job.id }
 }
 
+/** Task → kinds whose adapter supports it, and the configured providers of those kinds. */
+async function taskSupport() {
+  await ensureMockProviders()
+  const { providers } = await getSettings()
+  const byKind = providerTaskSupport()
+  return Object.fromEntries(
+    Object.entries(byKind).map(([task, kinds]) => [
+      task,
+      { kinds, providerIds: providers.filter((p) => kinds.includes(p.kind)).map((p) => p.id) },
+    ]),
+  ) as Record<keyof typeof byKind, { kinds: ProviderConfig['kind'][]; providerIds: string[] }>
+}
+
 export default defineHandlers({
+  'providers:task-support': () => taskSupport(),
   'providers:list': async () => {
     await ensureMockProviders()
     const { providers } = await getSettings()

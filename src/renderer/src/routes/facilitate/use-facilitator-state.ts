@@ -4,6 +4,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { FacilitatorState } from '@shared/ipc'
 import { call } from '../../lib/api'
+import { errorText } from '../../lib/errors'
 
 export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
 
@@ -34,7 +35,7 @@ export function useFacilitatorState(projectPath: string, scenarioId: string): Fa
         latest.current = s
         setState(s)
       },
-      (err: Error) => live && setLoadError(err.message),
+      (err: unknown) => live && setLoadError(errorText(err)),
     )
     return () => {
       live = false

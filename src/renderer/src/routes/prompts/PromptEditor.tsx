@@ -16,6 +16,7 @@ import {
   type Layer,
   type LineIssue,
 } from './prompt-utils'
+import { errorText } from '../../lib/errors'
 
 const PROMPT_QUERIES = ['prompts:list', 'prompts:get'] as const
 type Layers = ChannelResponse<'prompts:get'>
@@ -172,7 +173,7 @@ function EditorForm(props: EditorProps & { layers: Layers }) {
         },
         onError: (err) => {
           const found = issuesFrom(err.details)
-          setIssues(found.length ? found : [{ line: 1, message: err.message }])
+          setIssues(found.length ? found : [{ line: 1, message: errorText(err) }])
         },
       },
     )
@@ -181,7 +182,7 @@ function EditorForm(props: EditorProps & { layers: Layers }) {
     setConfirmReset(false)
     reset.mutate(target, {
       onSuccess: () => toast.success(`${props.name} reset to ${baseLabel.toLowerCase()}`),
-      onError: (err) => toast.error('Could not reset prompt', err.message),
+      onError: (err) => toast.error('Could not reset prompt', err),
     })
   }
   const scopeLabel = props.scope === 'project' ? LAYER_LABEL.project : LAYER_LABEL.global
@@ -245,7 +246,7 @@ export function PromptEditor(props: EditorProps) {
   if (layers.error)
     return (
       <p className="field__error" role="alert">
-        Could not load {props.name}: {layers.error.message}
+        Could not load {props.name}: {errorText(layers.error)}
       </p>
     )
   const start = startingText(props.scope, layers.data.raw)

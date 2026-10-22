@@ -5,6 +5,7 @@ import { Badge, EmptyState, PageHeader } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey, projectKey } from '../../state/project'
 import './facilitate.css'
+import { errorText } from '../../lib/errors'
 
 export default function FacilitateIndexPage() {
   const params = useParams()
@@ -21,7 +22,7 @@ export default function FacilitateIndexPage() {
       />
       {list.isError && (
         <p className="field__error" role="alert">
-          Could not list scenarios: {list.error.message}
+          Could not list scenarios: {errorText(list.error)}
         </p>
       )}
       {list.data && scenarios.length === 0 && (

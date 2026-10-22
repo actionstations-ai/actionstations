@@ -16,6 +16,7 @@ import {
 import { AnthropicCard } from './AnthropicCard'
 import { LocalServiceRow } from './LocalServiceRow'
 import { ProviderChoice } from './ProviderChoice'
+import { errorText } from '../../../lib/errors'
 
 function LocalTextServices(props: {
   providers: ProviderViewT[]
@@ -34,7 +35,11 @@ function LocalTextServices(props: {
       <p className="muted">
         Local models keep everything on this machine and cost nothing per run.
       </p>
-      {detect.isError && <p className="field__error">{detect.error.message}</p>}
+      {detect.isError && (
+        <p className="field__error" role="alert">
+          {errorText(detect.error)}
+        </p>
+      )}
       <ul
         className="wizard-services"
         aria-label="Local text services"

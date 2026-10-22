@@ -12,6 +12,7 @@ import {
 import { TemplateDetail } from './TemplateDetail'
 import { TemplatePreview } from './TemplatePreview'
 import './templates.css'
+import { errorText } from '../../lib/errors'
 
 const DESCRIPTION =
   'Every inject template the app can render, shown with its sample data. Text-bearing injects always come from these templates, so their text is exact.'
@@ -77,7 +78,7 @@ export default function TemplatesPage() {
       <PageHeader eyebrow="Library" title="Templates" description={DESCRIPTION} />
       {list.error && (
         <p className="field__error" role="alert">
-          Could not list templates: {list.error.message}
+          Could not list templates: {errorText(list.error)}
         </p>
       )}
       {list.isSuccess && templates.length === 0 && (

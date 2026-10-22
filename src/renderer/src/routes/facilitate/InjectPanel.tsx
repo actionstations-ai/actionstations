@@ -9,6 +9,7 @@ import {
   type DeliveryAction,
 } from './delivery'
 import type { TimelineEntry } from './Timeline'
+import { injectAlt } from '../../lib/inject-alt'
 
 export interface InjectPanelProps {
   projectPath: string
@@ -56,7 +57,7 @@ function Preview({ projectPath, entry }: { projectPath: string; entry: TimelineE
         <img
           className="fac-panel__preview"
           src={mediaUrl(projectPath, image.path)}
-          alt={`Inject page for ${entry.row.id}`}
+          alt={injectAlt(entry.inject ?? { mselRowId: entry.row.id }, `MSEL row ${entry.row.id}`)}
         />
       )}
       {audio && (

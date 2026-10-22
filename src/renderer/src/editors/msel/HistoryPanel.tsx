@@ -6,6 +6,7 @@ import { describeSnapshot } from './cell-format'
 import { Badge, Button, Dialog } from '../../components/ui'
 import { call } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
+import { errorText } from '../../lib/errors'
 
 interface Props {
   open: boolean
@@ -44,7 +45,7 @@ export function HistoryPanel(props: Props) {
       await props.onRestored()
       props.onClose()
     } catch (e) {
-      setError((e as Error).message)
+      setError(errorText(e))
     } finally {
       setBusy(null)
     }
@@ -78,7 +79,9 @@ export function HistoryPanel(props: Props) {
       footer={<Button onClick={props.onClose}>Close</Button>}
     >
       {history.isError && (
-        <p className="field__error">Could not load history: {history.error.message}</p>
+        <p className="field__error" role="alert">
+          Could not load history: {errorText(history.error)}
+        </p>
       )}
       {error && (
         <p className="field__error" role="alert">

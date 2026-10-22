@@ -1,8 +1,9 @@
 // Workflows page (#33): ComfyUI connection status, default workflow per media type, the
 // workflow list with missing-node warnings, import, binding editor and test render.
+import { Link } from 'react-router'
 import { useEffect, useState } from 'react'
 import type { WorkflowEntry } from '@shared/ipc'
-import { Badge, Button, EmptyState, PageHeader } from '../../components/ui'
+import { Badge, Button, Dialog, EmptyState, PageHeader } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { queryClient, useIpcMutation, useIpcQuery } from '../../lib/query'
 import { BindingEditor } from './BindingEditor'
@@ -10,6 +11,7 @@ import { ImportDialog } from './ImportDialog'
 import { TestRender } from './TestRender'
 import { MEDIA_TYPES, groupByMedia, missingSummary } from './workflow-utils'
 import './workflows.css'
+import { errorText } from '../../lib/errors'
 
 const SOURCE_LABEL: Record<WorkflowEntry['source'], string> = {
   default: 'Built-in',
@@ -31,12 +33,17 @@ function StatusCard(props: { providerId: string | undefined }) {
       <EmptyState
         title="No ComfyUI provider"
         body="Add ComfyUI under Providers (Detect local services finds http://127.0.0.1:8188) to check nodes and test renders."
+        actions={
+          <Link className="btn btn--primary" to="/providers">
+            Open Providers
+          </Link>
+        }
       />
     )
   return (
     <section className="card row wf-status" aria-label="ComfyUI status">
       {status.isPending && <span className="muted">Checking ComfyUI…</span>}
-      {status.isError && <Badge tone="error">{status.error.message}</Badge>}
+      {status.isError && <Badge tone="error">{errorText(status.error)}</Badge>}
       {status.data && (
         <Badge tone={status.data.ok ? 'ok' : 'error'}>
           {status.data.ok ? 'Connected' : 'Unreachable'}
@@ -162,7 +169,9 @@ function SelectedWorkflow(props: { workflow: WorkflowEntry; providerId: string |
     invalidates: ['comfy:workflows:list', 'comfy:defaults:get'],
   })
   const isDefault = w.source === 'default'
+  const [confirming, setConfirming] = useState(false)
   const remove = async () => {
+    setConfirming(false)
     try {
       await del.mutateAsync({ id: w.id })
       toast.success(isDefault ? 'Bindings reset' : 'Workflow deleted')
@@ -175,10 +184,30 @@ function SelectedWorkflow(props: { workflow: WorkflowEntry; providerId: string |
       <BindingEditor key={`${w.id}:${w.sha256}:${JSON.stringify(w.bindings)}`} workflow={w} />
       <TestRender workflow={w} providerId={props.providerId} />
       <div className="row">
-        <Button variant={isDefault ? 'default' : 'danger'} onClick={() => void remove()}>
+        <Button variant={isDefault ? 'default' : 'danger'} onClick={() => setConfirming(true)}>
           {isDefault ? 'Reset bindings to built-in' : 'Delete workflow'}
         </Button>
       </div>
+      <Dialog
+        open={confirming}
+        onOpenChange={setConfirming}
+        title={isDefault ? 'Reset bindings?' : 'Delete workflow?'}
+        description={
+          isDefault
+            ? `Your bindings for “${w.name}” are replaced by the built-in ones.`
+            : `“${w.name}” and its bindings are removed from this computer.`
+        }
+        footer={
+          <>
+            <Button onClick={() => setConfirming(false)}>Cancel</Button>
+            <Button variant="danger" onClick={() => void remove()}>
+              {isDefault ? 'Reset' : 'Delete'}
+            </Button>
+          </>
+        }
+      >
+        {null}
+      </Dialog>
     </div>
   )
 }
@@ -221,7 +250,11 @@ export default function WorkflowsPage() {
         }
       />
       {providers.data && <StatusCard providerId={providerId} />}
-      {list.isError && <p className="field__error">{list.error.message}</p>}
+      {list.isError && (
+        <p className="field__error" role="alert">
+          {errorText(list.error)}
+        </p>
+      )}
       {list.data && <DefaultsCard list={list.data} />}
       {list.data && (
         <WorkflowList list={list.data} selectedId={selectedId} onSelect={setSelectedId} />

@@ -71,12 +71,44 @@ const isTyping = (el: EventTarget | null) =>
   el instanceof HTMLElement &&
   (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName))
 
+/** Space on a focused button, link, tab or checkbox belongs to that control. */
+const ownsSpace = (el: EventTarget | null) =>
+  el instanceof HTMLElement &&
+  !!el.closest('button, a[href], summary, [role="tab"], [role="button"], [role="checkbox"]')
+
+const SHORTCUTS_KEY = 'ttx.facilitate.singleKeyShortcuts'
+
+/** Single-key shortcuts can be switched off (WCAG 2.1.4); the choice is kept on this computer. */
+function useShortcutsEnabled(): [boolean, (on: boolean) => void] {
+  const [on, setOn] = useState(() => {
+    try {
+      return localStorage.getItem(SHORTCUTS_KEY) !== 'off'
+    } catch {
+      return true
+    }
+  })
+  const set = (next: boolean) => {
+    setOn(next)
+    try {
+      localStorage.setItem(SHORTCUTS_KEY, next ? 'on' : 'off')
+    } catch {
+      /* storage unavailable: the choice lasts for this session */
+    }
+  }
+  return [on, set]
+}
+
 /** Space start/pause, N next due, D deliver selected — never while typing. */
-function useShortcuts(keys: { toggle: () => void; next: () => void; deliver: () => void }) {
+function useShortcuts(
+  keys: { toggle: () => void; next: () => void; deliver: () => void },
+  enabled: boolean,
+) {
   useEffect(() => {
+    if (!enabled) return
     const onKey = (e: KeyboardEvent) => {
       if (e.repeat || e.metaKey || e.ctrlKey || e.altKey || isTyping(e.target)) return
       const k = e.key.toLowerCase()
+      if (k === ' ' && ownsSpace(e.target)) return
       if (k === ' ') keys.toggle()
       else if (k === 'n') keys.next()
       else if (k === 'd') keys.deliver()
@@ -85,7 +117,7 @@ function useShortcuts(keys: { toggle: () => void; next: () => void; deliver: () 
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [keys])
+  }, [keys, enabled])
 }
 
 const SAVE_LABEL: Record<SaveStatus, string> = {
@@ -208,7 +240,8 @@ function FacilitateView({
     }),
     [update, scenario.msel, state, selected, deliver],
   )
-  useShortcuts(keys)
+  const [shortcutsOn, setShortcutsOn] = useShortcutsEnabled()
+  useShortcuts(keys, shortcutsOn)
 
   const dueCount = entries.filter((e) => e.due).length
   return (
@@ -242,15 +275,33 @@ function FacilitateView({
         <span>{announce}</span>
         <span className="muted">{SAVE_LABEL[saveStatus]}</span>
       </p>
-      <p className="fac-keys muted">
-        Keys: <kbd>Space</kbd> start/pause · <kbd>N</kbd> next due · <kbd>D</kbd> deliver selected ·{' '}
-        <kbd>↑</kbd>/<kbd>↓</kbd> move in timeline · <kbd>Esc</kbd> on the presentation screen
-        closes it
-      </p>
+      <div className="fac-keys muted row">
+        <label className="row">
+          <input
+            type="checkbox"
+            checked={shortcutsOn}
+            onChange={(e) => setShortcutsOn(e.target.checked)}
+          />
+          Single-key shortcuts
+        </label>
+        <span>
+          <kbd>Space</kbd> start/pause · <kbd>N</kbd> next due · <kbd>D</kbd> deliver selected ·{' '}
+          <kbd>↑</kbd>/<kbd>↓</kbd> move in timeline · <kbd>Esc</kbd> on the presentation screen
+          closes it
+        </span>
+      </div>
       {scenario.msel.length === 0 ? (
         <EmptyState
           title="No MSEL rows"
           body="Generate or write the MSEL before running the exercise."
+          actions={
+            <Link
+              className="btn btn--primary"
+              to={`/p/${projectKey(projectPath)}/scenarios/${scenario.id}?tab=msel`}
+            >
+              Open the MSEL
+            </Link>
+          }
         />
       ) : (
         <div className="fac-layout">

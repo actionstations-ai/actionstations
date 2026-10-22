@@ -30,6 +30,8 @@ import { useScenarioJob } from './use-scenario-job'
 import { ChangeList, VersionsPanel } from './VersionsPanel'
 import '../../routes/scenarios/scenarios.css'
 import './inject-editor.css'
+import { errorText } from '../../lib/errors'
+import { injectAlt } from '../../lib/inject-alt'
 
 /** The draft for an inject from the shared store, falling back to the stored inject. */
 function useDraft(scenarioId: string, inject: Inject) {
@@ -262,7 +264,7 @@ function Editor(props: {
             <Tabs.Content value="preview" className="tabs__panel">
               <PreviewPanel
                 template={template}
-                alt={`Preview of ${draft.title || inject.mselRowId}`}
+                alt={injectAlt({ ...draft, mselRowId: inject.mselRowId }, 'live preview')}
                 refreshKey={inject.assets
                   .filter((a) => a.role === 'generated')
                   .map((a) => a.id)
@@ -281,7 +283,7 @@ function Editor(props: {
               <MediaPanel
                 projectPath={projectPath}
                 assets={inject.assets}
-                title={draft.title || inject.mselRowId}
+                title={injectAlt({ ...draft, mselRowId: inject.mselRowId })}
               />
             </Tabs.Content>
             <Tabs.Content value="versions" className="tabs__panel">
@@ -323,7 +325,7 @@ export default function InjectEditorPage() {
           <ArrowLeft size={14} aria-hidden /> All injects
         </Link>
         <p className="field__error" role="alert">
-          Could not load this inject: {error.message}
+          Could not load this inject: {errorText(error)}
         </p>
       </div>
     )

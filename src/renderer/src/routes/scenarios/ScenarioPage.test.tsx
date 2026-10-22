@@ -122,7 +122,9 @@ describe('ScenarioPage', () => {
         instructions: 'Add a red herring',
       }),
     )
-    expect(await screen.findByText('Re-running MSEL phase')).toBeTruthy()
+    expect(
+      await screen.findByText('Re-running MSEL phase', { selector: '.live-log__message' }),
+    ).toBeTruthy()
   })
 
   it('continues from failure', async () => {

@@ -5,6 +5,7 @@ import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
 import { useIpcMutation } from '../../lib/query'
 import { MEDIA_TYPES, type MediaTypeT } from './workflow-utils'
+import { errorText } from '../../lib/errors'
 
 const baseName = (path: string): string =>
   (path.split(/[\\/]/).pop() ?? path).replace(/\.json$/i, '')
@@ -95,7 +96,7 @@ export function ImportDialog(props: {
         </Field>
         {imp.isError && (
           <p className="field__error" role="alert">
-            {imp.error.message}
+            {errorText(imp.error)}
           </p>
         )}
       </div>
