@@ -15,6 +15,7 @@ fi
 step "install (frozen lockfile)";   pnpm install --frozen-lockfile
 step "lint";                        pnpm lint
 step "format:check";                pnpm format:check
+step "doc links";                   node scripts/check-doc-links.mjs
 step "typecheck";                   pnpm typecheck
 step "unit tests";                  pnpm test
 if [[ "$QUICK" != "--quick" ]]; then

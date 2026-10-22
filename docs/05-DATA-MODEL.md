@@ -42,6 +42,21 @@ MselRow {
   purposeTag: PurposeTag, injectId?,        // null for STARTEX/ENDEX/TIME_JUMP rows without a deck page
   locked: boolean
 }
+// Renaming a row id (inline edit or "Renumber IDs") also rewrites the matching
+// Inject.mselRowId, so injects stay attached to their row; "Renumber IDs" also updates rubric links.
+
+// scenarios/<id>/idea.json — the ScenarioIdea the scenario was developed from (absent otherwise)
+
+// scenarios/<id>/facilitator.json — facilitator mode session state
+FacilitatorState {
+  elapsedMin, runningSince?,                 // exercise clock: minutes when last paused/started + wall-clock anchor
+  delivered: Record<rowId, { at, exerciseTime }>,
+  notes: Record<rowId, string>,              // per-inject hot wash notes
+  generalNotes
+}
+
+// One generation job per scenario: while it runs, scenarios:save / scenarios:doc-save for that
+// scenario return CONFLICT; editors keep unsaved edits and retry after job:done.
 
 // scenarios/<id>/injects/<injectId>.json
 Inject {

@@ -26,7 +26,9 @@
 
 - **Main process** owns: filesystem, SQLite, all network calls, parsing, generation pipeline, media rendering, export. Nothing secret or heavy runs in the renderer.
 - **Renderer** is a pure UI over IPC. Uses TanStack Query for IPC calls, Zustand for local UI state. No Node integration; `contextIsolation: true`; preload exposes a typed `window.api` generated from `src/shared/ipc.ts`.
-- **Hidden render window** (`render/`): loads inject templates (HTML/CSS + JSON data) and captures PNG via `webContents.capturePage` or PDF via `printToPDF`. Pooled; one window per render job queue.
+- **Hidden render window** (`render/`): loads inject templates (HTML/CSS + JSON data) and captures PNG via `webContents.capturePage` or PDF via `printToPDF`. Pooled; one window per render job queue. Render windows get no IPC bridge.
+- **Presentation window** (`facilitator/present.ts`, facilitator mode): shows one inject's media full-screen on a second display. It loads the app's own `index.html#/present/…` with the same preload and sandbox as the main window, so it is a trusted app view (`registerIpc` accepts it) with no extra privileges.
+- **One generation job per scenario.** While a generation job runs for a scenario, `scenarios:save` and `scenarios:doc-save` for it return `CONFLICT` ("Generation is running for this scenario"); editors keep the user's edits and retry after `job:done`.
 - **Worker threads** for ingestion (pdf parsing, OCR, embedding) so the UI never stalls.
 
 ## Storage
@@ -39,6 +41,8 @@ MyAirport.ttxproj/
   documents/<docId>/original.pdf, text.md, meta.json
   scenarios/<scenarioId>/
     scenario.json              # overview, objectives, roles, phases, msel (inject refs)
+    idea.json                  # the idea the scenario was developed from, if any
+    facilitator.json           # facilitator mode: exercise clock, delivered injects, hot wash notes
     injects/<injectId>.json
     documents/{handbook,briefing,rubric,hotwash}.md
     media/<injectId>/<assetId>.{png,mp4,wav}

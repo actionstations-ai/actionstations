@@ -28,7 +28,17 @@ LIVE=1 pnpm test -- tests/live/injects.live.test.ts    # Scenario 3 inject deck 
 pnpm build                    # electron-builder installers (dmg / nsis / AppImage)
 ```
 
-`pnpm ci:local` runs a frozen install, lint, format check, typecheck, unit tests, template golden tests and a build check. Set `E2E=1` to include Playwright.
+`pnpm ci:local` runs a frozen install, lint, format check, a Markdown link check, typecheck, unit tests, a build check, the template golden tests, a launch smoke test of the built app and a gitleaks scan. Set `E2E=1` to include the full Playwright suite. See [CONTRIBUTING](CONTRIBUTING.md#local-ci) for what each step does and how to run the live tests.
+
+## Guides
+
+| Guide                                                               | For                                                                                                                                                                                                                                                                                           |
+| ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Getting started](docs/guides/getting-started.md)                   | Install, create a project, import and search documents, connect a model, generate a scenario.                                                                                                                                                                                                 |
+| [Provider setup](docs/guides/providers/README.md)                   | Routing, embeddings, and step-by-step setup for [LM Studio](docs/guides/providers/lm-studio.md), [Ollama](docs/guides/providers/ollama.md), [Anthropic](docs/guides/providers/anthropic.md), [ComfyUI](docs/guides/providers/comfyui.md) and [local TTS](docs/guides/providers/local-tts.md). |
+| [How a good tabletop exercise is built](docs/guides/methodology.md) | The exercise design the generator follows.                                                                                                                                                                                                                                                    |
+| [Prompts](docs/guides/prompts.md)                                   | How prompts are layered, what each stage can use, and how to change them safely.                                                                                                                                                                                                              |
+| [Template authoring](docs/guides/templates.md)                      | Writing inject templates, golden images, and adding a new inject type.                                                                                                                                                                                                                        |
 
 ## Connecting providers
 
@@ -42,7 +52,7 @@ Providers are configured in the app under **Providers** (sidebar). **Detect loca
 | Anthropic | Text                              | `https://api.anthropic.com`                           | Paste an API key in Providers.                                                                         |
 | Local TTS | OpenAI-compatible (audio)         | `http://127.0.0.1:8765`                               | `mlx_audio.server --port 8765` serves VoxCPM2 / Qwen3-TTS on Apple Silicon via `/v1/audio/speech`.     |
 
-Each generation task (ideate, draft, critique, embed, image, video, audio) can be routed to a different provider on the Providers page; a project can override any task on its own Providers page. Without any provider configured the app still ingests and searches documents with a deterministic offline embedder. For offline development and e2e, launch with `TTX_MOCK_PROVIDERS=1` to route every task to a built-in mock provider that returns schema-valid output.
+Each generation task (ideate, draft, critique, embed, image, video, audio) can be routed to a different provider on the Providers page; a project can override any task on its own Provider routing page. Setup steps, measured timings and troubleshooting for each provider are in the [provider guides](docs/guides/providers/README.md). Without any provider configured the app still ingests and searches documents with a deterministic offline embedder. For offline development and e2e, launch with `TTX_MOCK_PROVIDERS=1` to route every task to a built-in mock provider that returns schema-valid output.
 
 ## Repository layout
 
@@ -72,6 +82,8 @@ e2e/                 Playwright tests
 | [`docs/07-AGENT-ORCHESTRATION.md`](docs/07-AGENT-ORCHESTRATION.md)   | How parallel work is split                                                                                                                  |
 | [`docs/08-ROADMAP.md`](docs/08-ROADMAP.md)                           | Milestones M0 to M6                                                                                                                         |
 | [`docs/adr/`](docs/adr/)                                             | Architecture Decision Records (stack, local CI, project format, native modules, embeddings, providers, structured output, rendering, audio) |
+| [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md)         | How handlers, routes, adapters and templates are wired                                                                                      |
+| [`docs/guides/`](docs/guides/)                                       | User and contributor guides (see [Guides](#guides))                                                                                         |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md)                                 | How to contribute                                                                                                                           |
 
 ## `reference/`
