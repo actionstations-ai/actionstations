@@ -1,11 +1,15 @@
 import type { LintWarning, Scenario } from '@shared/schemas'
-import { ScenarioBrief } from '@shared/schemas'
+import { Scenario as ScenarioSchema, ScenarioBrief } from '@shared/schemas'
 import { defineHandlers } from '../registry'
 import { requireProject } from '../../project/guard'
+import { z } from 'zod'
+import { AppError } from '../../lib/errors'
+import { readHistory } from '../../scenario/history'
 import {
   createScenario,
   getScenario,
   readScenarioDoc,
+  requireScenarioDir,
   saveScenario,
   writeScenarioDoc,
 } from '../../scenario/store'
@@ -74,6 +78,15 @@ export default defineHandlers({
 
   'scenarios:history': async ({ projectPath, scenarioId, artifact }) =>
     listHistory(await requireProject(projectPath), scenarioId, artifact),
+
+  'scenarios:history-get': async ({ projectPath, scenarioId, artifact, entryId }) => {
+    const root = await requireProject(projectPath)
+    const layout = await requireScenarioDir(root, scenarioId)
+    const entry = (await readHistory(layout.historyFile(artifact))).find((e) => e.id === entryId)
+    if (!entry) throw new AppError('NOT_FOUND', `No history entry ${entryId} for ${artifact}`)
+    if (artifact !== 'scenario') return { markdown: z.string().parse(entry.snapshot) }
+    return { scenario: ScenarioSchema.parse(entry.snapshot) }
+  },
 
   'scenarios:history-restore': async ({ projectPath, scenarioId, artifact, entryId }) => {
     const root = await requireProject(projectPath)

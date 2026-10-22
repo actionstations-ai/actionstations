@@ -8,20 +8,20 @@ import { fromProjectKey, projectKey } from '../../state/project'
 import { isActive } from './live-log'
 import { LiveLogPanel } from './LiveLogPanel'
 import { MselTable } from './MselTable'
-import {
-  DocumentsSection,
-  ObjectivesRolesSection,
-  OverviewSection,
-  RubricSection,
-  WarningsSection,
-} from './ScenarioSections'
+import { DocumentsTab, ObjectivesTab, OverviewTab, RubricTab } from '../../editors/docs'
+import { WarningsSection } from './ScenarioSections'
 import { StageTimeline } from './StageTimeline'
 import { useLiveLog } from './use-live-log'
 import './scenarios.css'
 
 const STATUS_TONE = { draft: 'neutral', ready: 'ok', archived: 'warn' } as const
 
-function ScenarioTabs({ projectPath, scenario }: { projectPath: string; scenario: Scenario }) {
+function ScenarioTabs(props: {
+  projectPath: string
+  scenario: Scenario
+  onJob: (jobId: string) => void
+}) {
+  const { projectPath, scenario } = props
   const tabs = [
     ['overview', 'Overview'],
     ['objectives', 'Objectives & Roles'],
@@ -40,19 +40,19 @@ function ScenarioTabs({ projectPath, scenario }: { projectPath: string; scenario
         ))}
       </Tabs.List>
       <Tabs.Content value="overview" className="tabs__panel">
-        <OverviewSection scenario={scenario} />
+        <OverviewTab {...props} />
       </Tabs.Content>
       <Tabs.Content value="objectives" className="tabs__panel">
-        <ObjectivesRolesSection scenario={scenario} />
+        <ObjectivesTab {...props} />
       </Tabs.Content>
       <Tabs.Content value="msel" className="tabs__panel">
         <MselTable phases={scenario.phases} rows={scenario.msel} roles={scenario.roles} />
       </Tabs.Content>
       <Tabs.Content value="documents" className="tabs__panel">
-        <DocumentsSection projectPath={projectPath} scenario={scenario} />
+        <DocumentsTab {...props} />
       </Tabs.Content>
       <Tabs.Content value="rubric" className="tabs__panel">
-        <RubricSection scenario={scenario} />
+        <RubricTab {...props} />
       </Tabs.Content>
       <Tabs.Content value="warnings" className="tabs__panel">
         <WarningsSection projectPath={projectPath} scenarioId={scenario.id} />
@@ -106,7 +106,11 @@ export default function ScenarioPage() {
             />
             <LiveLogPanel log={log} itemLabels={phaseLabels(scenario)} />
           </div>
-          <ScenarioTabs projectPath={projectPath} scenario={scenario} />
+          <ScenarioTabs
+            projectPath={projectPath}
+            scenario={scenario}
+            onJob={(id) => void follow(id)}
+          />
         </>
       )}
     </div>

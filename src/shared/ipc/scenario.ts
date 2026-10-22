@@ -44,6 +44,11 @@ export const scenarioChannels = {
     S.extend({ artifact: z.union([z.literal('scenario'), ScenarioDocKind]) }),
     z.array(HistoryEntry),
   ),
+  /** One history entry's content: `markdown` for a document, `scenario` for the scenario. */
+  'scenarios:history-get': channel(
+    S.extend({ artifact: z.union([z.literal('scenario'), ScenarioDocKind]), entryId: SafeId }),
+    z.object({ markdown: z.string().optional(), scenario: Scenario.optional() }),
+  ),
   'scenarios:history-restore': channel(
     S.extend({ artifact: z.union([z.literal('scenario'), ScenarioDocKind]), entryId: SafeId }),
     z.void(),

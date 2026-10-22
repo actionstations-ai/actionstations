@@ -70,7 +70,9 @@ describe('ScenarioPage', () => {
       within(stages).getByText(/qwen3-30b-a3b-2507 · 3,200 in \/ 800 out · 12.0 s/),
     ).toBeTruthy()
     expect(within(stages).getByText('Model returned invalid JSON')).toBeTruthy()
-    expect(screen.getByText('Data Integrity, Public Trust, and Crowd Management.')).toBeTruthy()
+    expect(
+      await screen.findByDisplayValue('Data Integrity, Public Trust, and Crowd Management.'),
+    ).toBeTruthy()
     expect(
       screen.getAllByText('13.6 Scenario C: FIDS / BHS System Failure').length,
     ).toBeGreaterThan(0)
