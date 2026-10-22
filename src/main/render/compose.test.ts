@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 
 vi.mock('electron', () => ({ app: { isPackaged: false, getAppPath: () => resolve('.') } }))
 process.env.TTX_RESOURCES = resolve('.')
-const { composeDocument } = await import('./compose')
+const { composeDocument, initials } = await import('./compose')
 const { listTemplateTypes, loadTemplate, validateFields } = await import('./templates')
 
 describe('template composition', () => {
@@ -44,6 +44,13 @@ describe('template composition', () => {
       /url\('file:\/\/.*templates\/_shared\/fonts\/inter-latin-400-normal\.woff2'\)/,
     )
     expect(doc.html).not.toMatch(/https?:\/\//)
+  })
+
+  it('initials skip punctuation-led words', () => {
+    expect(initials('Kyle (Summer Intern – Ops)')).toBe('KS')
+    expect(initials('Karen S.')).toBe('KS')
+    expect(initials('@TravelGuy99')).toBe('T')
+    expect(initials('')).toBe('')
   })
 
   it('rejects path-like template types', () => {

@@ -18,6 +18,17 @@ export interface ComposeInput {
   assets?: Record<string, string>
 }
 
+/** "Karen Smith" → "KS"; skips words that start with punctuation ("Kyle (Summer Intern – Ops)" → "KS"). */
+export function initials(s: unknown): string {
+  return String(s ?? '')
+    .split(/\s+/)
+    .map((w) => w.replace(/^[^\p{L}\p{N}]+/u, ''))
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0]!.toUpperCase())
+    .join('')
+}
+
 const hb = Handlebars.create()
 
 const compactNumber = new Intl.NumberFormat('en-US', {
@@ -39,14 +50,7 @@ hb.registerHelper({
   lower: (s: unknown) => String(s ?? '').toLowerCase(),
   /** 12400 → "12.4K" (social metrics). Strings pass through unchanged. */
   compact: (n: unknown) => (typeof n === 'number' ? compactNumber.format(n) : String(n ?? '')),
-  /** "Karen Smith" → "KS" (avatar fallbacks). */
-  initials: (s: unknown) =>
-    String(s ?? '')
-      .split(/\s+/)
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((w) => w[0]!.toUpperCase())
-      .join(''),
+  initials,
   /** Escape, then turn newlines into <br>. Safe for untrusted text. */
   nl2br: (s: unknown) =>
     new hb.SafeString(hb.escapeExpression(String(s ?? '')).replace(/\r?\n/g, '<br>')),
@@ -64,7 +68,12 @@ hb.registerHelper({
   /** Repeat a block n times: {{#times 5}}…{{/times}} (index as @index). */
   times(n: number, options: Handlebars.HelperOptions) {
     let out = ''
-    for (let i = 0; i < Number(n); i++) out += options.fn(this, { data: { index: i } })
+    for (let i = 0; i < Number(n); i++) {
+      // Keep @root and parent data inside the block; only add @index.
+      const data = Handlebars.createFrame(options.data ?? {})
+      data.index = i
+      out += options.fn(this, { data })
+    }
     return out
   },
 })

@@ -148,15 +148,29 @@ export interface PngResult {
   scale: number
 }
 
+/**
+ * Offscreen windows can return a frame that is not fully rasterized even after two
+ * animation frames. Capture until two consecutive frames are byte-identical (stable),
+ * so output is deterministic; give up after MAX_CAPTURES and use the last frame.
+ */
+const MAX_CAPTURES = 6
+
 export function renderPng(doc: ComposedDocument, scale = 2): Promise<PngResult> {
   return withDocument(doc, scale, async (win, size) => {
-    const img = await win.webContents.capturePage({
+    const rect = {
       x: 0,
       y: 0,
       width: Math.ceil(size.width * scale),
       height: Math.ceil(size.height * scale),
-    })
-    return { png: img.toPNG(), ...size, scale }
+    }
+    let previous = (await win.webContents.capturePage(rect)).toPNG()
+    for (let i = 1; i < MAX_CAPTURES; i++) {
+      await win.webContents.executeJavaScript(PAINTED_JS)
+      const next = (await win.webContents.capturePage(rect)).toPNG()
+      if (next.equals(previous)) break
+      previous = next
+    }
+    return { png: previous, ...size, scale }
   })
 }
 
