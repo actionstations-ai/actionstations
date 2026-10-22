@@ -31,15 +31,19 @@ export async function writeFacilitatorState(
   scenarioId: string,
   state: FacilitatorState,
 ): Promise<FacilitatorState> {
-  const file = await facilitatorStatePath(root, scenarioId)
   const clean = FacilitatorState.parse(state)
-  const prev = queues.get(file) ?? Promise.resolve()
-  const run = prev.catch(() => undefined).then(() => writeJsonAtomic(file, clean))
-  queues.set(file, run)
+  // Join the queue synchronously, before any await, so saves land in call order; the path
+  // is resolved inside the queued step.
+  const key = `${root}\0${scenarioId}`
+  const prev = queues.get(key) ?? Promise.resolve()
+  const run = prev
+    .catch(() => undefined)
+    .then(async () => writeJsonAtomic(await facilitatorStatePath(root, scenarioId), clean))
+  queues.set(key, run)
   try {
     await run
   } finally {
-    if (queues.get(file) === run) queues.delete(file)
+    if (queues.get(key) === run) queues.delete(key)
   }
   return clean
 }
