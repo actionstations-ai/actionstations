@@ -8,8 +8,30 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-22
+
 ### Added
 
+- Domain profiles (#156, PR #168, ADR-0014): generation is domain-neutral. 13 built-in
+  profiles (airport, transit, dam, water utility, energy, healthcare, campus, venue, port,
+  municipal, industrial, unmanned systems, generic) set vocabulary, facility-fact
+  categories, systems, roles, outside parties and photo settings; 8 threat families
+  (cyber, physical security, cyber-physical, UAS / drone, insider, natural hazard,
+  infrastructure failure, mass gathering) set the phase arc, decision points and lint
+  rules. All default prompts neutralized; six generic templates (`info_display_board`,
+  `scada_hmi`, `uas_detection_alert`, `avl_fleet_map`, `incident_alert_notification`,
+  `field_report`); transit and dam reference sets.
+- Domain picker in project setup, the setup wizard and project settings with per-project
+  vocabulary overrides; threat-family choice on the Generate brief with a suggested
+  default; domain filter in the template gallery; bundled example projects on the Projects
+  screen and in onboarding (#169, PR #172).
+- UAS organization pack (#157, PR #176): `reference/uas-ops/` (flight operations and safety
+  manual, emergency response plan, information security plan, site and airspace sheet) and
+  `examples/uas-operations/` — the "Ghost Flight at Birch Hollow" GNSS spoofing / command
+  hijack tabletop; `scripts/make-example.mjs` builds, packages and verifies examples.
+- In-app facility facts editor and project embedding status (#155, #160, PR #163).
+- Accessibility and error-UX pass: WCAG AA contrast check, keyboard and screen-reader
+  fixes, axe checks in e2e (#49, PR #159).
 - City water pack (#158): `reference/city-water/` — the simulated City of Millbrook
   Department of Water & Sewer (AWIA-style Emergency Response Plan, OT / cybersecurity plan
   and incident response playbook, SCADA system description with tag and setpoint limits,
@@ -21,7 +43,6 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   leak check for author paths and secrets, and skips edit history; `DOMAINS=water`,
   `PROJECT_DIR` and `EXPORT_DIR` for `e2e/domains-acceptance.spec.ts`. The remaining three
   Millbrook tabletops are tracked in #171.
-
 - Installers: macOS dmg (arm64), Windows NSIS (x64) and Linux AppImage (x64) with the app
   icon, version and architecture in every artifact name; `scripts/release.sh` (dry run by
   default) and `scripts/package-smoke.mjs`, which tests the packaged app (#50).
@@ -85,5 +106,5 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 - Electron fuses set on packaged builds: `RunAsNode`, `NODE_OPTIONS` and `--inspect` are
   disabled; cookie encryption, `OnlyLoadAppFromAsar` and embedded asar integrity
-  validation are enabled (#55). `GrantFileProtocolExtraPrivileges` stays on until the
-  renderer moves to a custom protocol (#117).
+  validation are enabled (#55). `GrantFileProtocolExtraPrivileges` is off: the renderer
+  loads from a custom `app://` protocol (#117, ADR-0013).
