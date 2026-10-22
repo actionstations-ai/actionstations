@@ -255,6 +255,8 @@ describe('DocumentsPage — index', () => {
   it('shows embedding status with a settings link and tracks a rebuild', async () => {
     const ttx = setup([makeDoc()], { 'index:rebuild': () => ({ jobId: 'IDX1' }) })
     expect(await screen.findByText(/hash-384/)).toBeTruthy()
+    // The status reflects this project's Embeddings routing (#160).
+    expect(ttx.calls('embeddings:status')[0]).toEqual({ projectPath: PROJECT })
     expect(screen.getByRole('link', { name: 'Embedding settings' }).getAttribute('href')).toBe(
       '/settings',
     )

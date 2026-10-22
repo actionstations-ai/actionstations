@@ -2,9 +2,51 @@ import { z } from 'zod'
 import { channel } from './define'
 import { Brand, OpenProject, OrgType, RecentProject, Role } from '../schemas/project'
 import { ProviderRouting } from '../schemas/provider'
-import { patchOf } from '../schemas/common'
+import { patchOf, SafeId } from '../schemas/common'
 
 const ProjectPath = z.object({ path: z.string().min(1) })
+
+/** Where an extracted fact was found (#155). */
+export const FacilityFactSource = z.object({
+  documentId: z.string(),
+  documentTitle: z.string(),
+  /** Nearest heading above the first mention ("" when the document has none). */
+  section: z.string(),
+})
+export type FacilityFactSource = z.infer<typeof FacilityFactSource>
+
+/** One category of facility-facts.md as the editor shows it (#155). */
+export const FacilityFactCategory = z.object({
+  id: z.string(),
+  label: z.string(),
+  /** The entries in the file, in file order. */
+  entries: z.array(z.string()),
+  /** What extraction from the documents gives right now (entries not here were added). */
+  extracted: z.array(z.string()),
+  /** Extracted entry → where it was found, when known. */
+  sources: z.record(z.string(), FacilityFactSource),
+  /** Generated rows naming an identifier of this kind outside the list get FACILITY_UNKNOWN_ID. */
+  linted: z.boolean(),
+})
+export type FacilityFactCategory = z.infer<typeof FacilityFactCategory>
+
+/** Limits for one save (#155): entries are single lines in a Markdown bullet list. */
+export const FACILITY_LIMITS = {
+  categories: 100,
+  entriesPerCategory: 2000,
+  entryLength: 200,
+  labelLength: 80,
+} as const
+
+/** A category as the editor saves it. Entries are trimmed, de-duplicated and blanks dropped. */
+export const FacilityFactCategoryInput = z.object({
+  id: SafeId.max(64),
+  label: z.string().trim().min(1).max(FACILITY_LIMITS.labelLength),
+  entries: z
+    .array(z.string().max(FACILITY_LIMITS.entryLength))
+    .max(FACILITY_LIMITS.entriesPerCategory),
+})
+export type FacilityFactCategoryInput = z.infer<typeof FacilityFactCategoryInput>
 
 /** <project>/facility-facts.md (#143): the identifiers the generator treats as real. */
 export const FacilityFactsFile = z.object({
@@ -15,6 +57,12 @@ export const FacilityFactsFile = z.object({
   edited: z.boolean(),
   /** The newer extraction (facility-facts.generated.md) when an edited file was kept. */
   generatedMarkdown: z.string().optional(),
+  /** The file parsed into categories, with the extraction beside it (#155). */
+  categories: z.array(FacilityFactCategory),
+  /** Hash of `markdown`; a save that names an older revision is refused (CONFLICT). */
+  revision: z.string(),
+  /** Earlier versions kept in .cache/facility-facts-history/ (newest first, at most 20). */
+  historyCount: z.number().int().nonnegative(),
 })
 export type FacilityFactsFile = z.infer<typeof FacilityFactsFile>
 
@@ -55,4 +103,15 @@ export const projectChannels = {
   'project:facility-facts': channel(ProjectPath, FacilityFactsFile),
   /** Discard the designer's edits: rewrite facility-facts.md from the documents. */
   'project:facility-facts-reset': channel(ProjectPath, FacilityFactsFile),
+  /**
+   * Write facility-facts.md from the editor (#155). The previous file goes to the history;
+   * `revision` (from the last read) guards against overwriting a change made on disk.
+   */
+  'project:facility-facts-save': channel(
+    ProjectPath.extend({
+      revision: z.string().optional(),
+      categories: z.array(FacilityFactCategoryInput).max(FACILITY_LIMITS.categories),
+    }),
+    FacilityFactsFile,
+  ),
 }

@@ -58,6 +58,14 @@ const SCREENS: Screen[] = [
   { name: 'project-overview', hash: (s) => `#/p/${s.key}` },
   { name: 'documents', hash: (s) => `#/p/${s.key}/documents` },
   {
+    name: 'facility-facts',
+    hash: (s) => `#/p/${s.key}/facts`,
+    prepare: async (page) => {
+      await page.getByRole('region', { name: 'Runways' }).waitFor()
+      await page.getByText(/unknown-identifier warning|No scenarios to check/).waitFor()
+    },
+  },
+  {
     name: 'document-detail',
     hash: (s) => `#/p/${s.key}/documents`,
     prepare: async (page) => {

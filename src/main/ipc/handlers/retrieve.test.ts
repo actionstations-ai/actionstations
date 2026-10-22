@@ -12,7 +12,7 @@ vi.mock('electron', () => ({
 
 const { dispatch } = await import('../registry')
 const handlers = (await import('./retrieve')).default
-const { createProject } = await import('../../project/store')
+const { createProject, updateProject } = await import('../../project/store')
 const { resetSettingsCache, updateSettings } = await import('../../settings/store')
 const { openIndex } = await import('../../retrieve')
 const { closeAllConnections } = await import('../../db')
@@ -91,6 +91,34 @@ describe('retrieve handlers', () => {
       ok: true,
       data: { mode: 'provider', ready: false, message: expect.stringMatching(/not configured/) },
     })
+  })
+
+  it('embeddings:status with projectPath reports the project routing (#160)', async () => {
+    const path = await newProject()
+    await updateSettings((s) => {
+      s.embeddings = { mode: 'provider', model: 'nomic-embed-text' }
+    })
+    await updateProject(path, (p) => {
+      p.providerRouting = { embed: { providerId: 'project-only-embedder' } }
+    })
+    const global = await dispatch(handlers, 'embeddings:status', undefined)
+    expect(global).toMatchObject({
+      ok: true,
+      data: { message: expect.stringMatching(/No provider is assigned/) },
+    })
+    const project = await dispatch(handlers, 'embeddings:status', { projectPath: path })
+    expect(project).toMatchObject({
+      ok: true,
+      data: {
+        mode: 'provider',
+        ready: false,
+        message: expect.stringMatching(/project-only-embedder/),
+      },
+    })
+    const unknown = await dispatch(handlers, 'embeddings:status', {
+      projectPath: '/no/such/project',
+    })
+    expect(unknown).toMatchObject({ ok: false })
   })
 
   it('switching embedder keeps keyword search working until chunks are re-embedded', async () => {

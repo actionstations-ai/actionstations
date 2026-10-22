@@ -70,19 +70,25 @@ For each document, check:
 - **Kind**: plan, policy, map, form, course, prior exercise or other.
 - **Status**: **Indexed** when the document is searchable.
 
-The **Embeddings** line shows the index's embedding mode. The default, **Keyword hashing**, works offline with no download; see [Embeddings](providers/README.md#embeddings) for the other modes and their current limits. After changing the mode, click **Rebuild index**.
+The **Embeddings** line shows the index's embedding mode (with this project's Embeddings routing when it overrides the global one). The default, **Keyword hashing**, works offline with no download; see [Embeddings](providers/README.md#embeddings) for the other modes and their current limits. After changing the mode, click **Rebuild index**.
 
 ### Facility facts
 
 After every import or **Rebuild index** the app writes `facility-facts.md` in the project folder: the runways, taxiways, gates, concourses, rooms and areas, equipment, hostnames, IP ranges, phone numbers and agencies your documents state, one `## Section` per category and one `- ` bullet per identifier. Generation hands this list to the model as the only real identifiers, and the MSEL check flags rows that name a runway, taxiway, gate or concourse that is not in it (unless the row frames it as the attacker's fake data).
 
-Open the file in any text editor to correct it:
+Open **Facility facts** in the project sidebar to correct the list. Each category is a section; every entry shows whether it came **From documents** (with where it was found, for example _Airport Emergency Plan › 2.2 Scope_) or was **Added by you**.
 
-- **Add** what the extraction missed, for example a runway that only appears on an image-only map: add `- 9/27` under `## Runways`. Rows naming Runway 9 or 27 are then accepted.
-- **Remove** what is wrong, for example a gate range that belongs to the perimeter fence rather than the terminal. Rows naming a removed gate are then flagged.
-- **Add a category** with a new `## Section` (for example `## Pump stations`); its entries are shown to the model.
+![The Facility facts screen after adding Runway 9/27](images/facility-facts.png)
 
-Your edits win. Once you have changed the file, importing more documents no longer overwrites it; the fresh extraction is written to `facility-facts.generated.md` next to it so you can copy across what you need. To start over from the documents, delete `facility-facts.md`; it is recreated from the documents on the next import or generation.
+- **Add** what the extraction missed, for example a runway that only appears on an image-only map: type `9/27` in **Add to Runways** and press Enter. Paste a list to add one entry per line. Rows naming Runway 9 or 27 are then accepted.
+- **Edit or remove** what is wrong, for example a gate range that belongs to the perimeter fence rather than the terminal: change the entry, or press **×** (or Backspace in an empty entry). Extracted entries you removed are listed under the section with **Restore**. Rows naming a removed gate are then flagged.
+- **Add a category** under **Add a category** (for example _Pump stations_); its entries are shown to the model but not linted. Only categories marked **Checked by lint** produce warnings.
+
+**Save** (or Ctrl+S / Cmd+S) writes `facility-facts.md`; **Discard changes** goes back to the saved file. After every save the **Scenario check** re-lints the project's scenarios and says how many unknown-identifier warnings (FACILITY_UNKNOWN_ID) there are now compared with when you opened the screen; **Check scenarios** runs it again, and each scenario's **Warnings** tab shows the rows.
+
+You can also edit `facility-facts.md` in any text editor: one `## Section` per category and one `- ` bullet per entry. If the file changes on disk while the screen has unsaved edits, Save is refused and the screen offers to reload the file.
+
+Your edits win. Once you have changed the file, importing more documents no longer overwrites it; the fresh extraction is written to `facility-facts.generated.md` next to it, and the screen lists what it found that your list lacks. To start over from the documents, click **Reset to extracted facts** and confirm. Every save and reset first keeps the previous file in `.cache/facility-facts-history/` (the last 20 versions; the project's `.gitignore` excludes `.cache/`).
 
 ## 4. Search the plans
 

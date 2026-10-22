@@ -46,6 +46,10 @@ export const documentChannels = {
     }),
     z.array(SearchHit),
   ),
-  'embeddings:status': channel(z.void(), EmbeddingStatus),
+  /** With projectPath, provider mode reports that project's Embeddings routing (#160). */
+  'embeddings:status': channel(
+    z.object({ projectPath: z.string().min(1).optional() }).optional(),
+    EmbeddingStatus,
+  ),
   'embeddings:download-model': channel(z.void(), JobRef),
 }

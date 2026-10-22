@@ -3,6 +3,9 @@ import { Scenario as ScenarioSchema, ScenarioBrief } from '@shared/schemas'
 import { defineHandlers } from '../registry'
 import { syncInjectRowIds } from '../../scenario/inject-links'
 import { requireProject } from '../../project/guard'
+import { loadProject } from '../../project/store'
+import { lintFacilityIds } from '../../generate/facility'
+import { loadFacilityFacts } from '../../generate/facility-file'
 import { z } from 'zod'
 import { AppError } from '../../lib/errors'
 import { readHistory } from '../../scenario/history'
@@ -27,12 +30,19 @@ type LintModule = { lintScenario?: (s: Scenario) => LintWarning[] | Promise<Lint
 // The linter is built by the pipeline workstream; a glob keeps main building without it.
 const lintModules = import.meta.glob<LintModule>('../../generate/lint.ts')
 
-/** Fresh lint when the linter exists, otherwise the warnings stored on the scenario. */
-export async function lintOrStored(scenario: Scenario): Promise<LintWarning[]> {
+/**
+ * Fresh lint when the linter exists, otherwise the warnings stored on the scenario. With the
+ * project root, rows are also checked against facility-facts.md (FACILITY_UNKNOWN_ID, #155), so
+ * an edit on the Facility facts screen shows up on the next lint.
+ */
+export async function lintOrStored(scenario: Scenario, root?: string): Promise<LintWarning[]> {
   const load = Object.values(lintModules)[0]
   const mod = load ? await load() : undefined
   if (!mod?.lintScenario) return scenario.warnings
-  return mod.lintScenario(scenario)
+  const fresh = await mod.lintScenario(scenario)
+  if (!root) return fresh
+  const facts = await loadFacilityFacts(root, await loadProject(root))
+  return [...fresh, ...lintFacilityIds(scenario, facts)]
 }
 
 export default defineHandlers({
@@ -63,7 +73,7 @@ export default defineHandlers({
 
   'scenarios:lint': async ({ projectPath, scenarioId }) => {
     const root = await requireProject(projectPath)
-    return lintOrStored(await getScenario(root, scenarioId))
+    return lintOrStored(await getScenario(root, scenarioId), root)
   },
 
   'scenarios:doc-get': async ({ projectPath, scenarioId, kind }) => {

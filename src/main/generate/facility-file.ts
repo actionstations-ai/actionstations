@@ -24,12 +24,14 @@ const INTRO = `These are the identifiers the generator treats as real for this p
 the model as the only allowed names and flags generated rows that use others. They were
 extracted from the ingested documents.
 
-Edit freely: add an entry the extraction missed, delete one that is wrong, or add a new
-\`## Section\` for another kind of identifier. One entry per \`- \` bullet; ranges such as
-\`A1–A8\` work for gates. Your edits win: once you change this file, re-ingesting documents
-no longer overwrites it, and the fresh extraction goes to \`${FACILITY_GENERATED_FILE}\`
-instead. To return to the extracted version, delete this file: it is written again from
-the documents on the next import or generation.`
+Edit them in the app (Facility facts in the project) or here: add an entry the extraction
+missed, delete one that is wrong, or add a new \`## Section\` for another kind of
+identifier. One entry per \`- \` bullet; ranges such as \`A1–A8\` work for gates.
+
+Your edits win: once you change this file, re-ingesting documents no longer overwrites it,
+and the fresh extraction goes to \`${FACILITY_GENERATED_FILE}\` instead. To return to the
+extracted version, use "Reset to extracted facts" on the Facility facts screen (earlier
+versions are kept in \`.cache/facility-facts-history/\`).`
 
 // ---- render / parse -----------------------------------------------------------------------
 
@@ -58,10 +60,13 @@ function sectionsOf(md: string): string {
   return at < 0 ? '' : md.slice(at)
 }
 
-/** The whole facility-facts.md for extracted facts, with the hash that marks it unedited. */
-export function renderFacilityFile(facts: FacilityFacts): string {
+/**
+ * The whole facility-facts.md. The marker carries the hash of the extracted facts (`auto`,
+ * default: `facts` themselves), so a file whose sections differ from them reads as edited.
+ */
+export function renderFacilityFile(facts: FacilityFacts, auto: FacilityFacts = facts): string {
   const sections = sectionsMarkdown(facts)
-  const marker = `<!-- ttx:facility-facts v1 auto-hash=${hashOf(sections)} -->`
+  const marker = `<!-- ttx:facility-facts v1 auto-hash=${hashOf(sectionsMarkdown(auto))} -->`
   return `# Facility facts\n\n${marker}\n\n${INTRO}\n\n${sections}`
 }
 

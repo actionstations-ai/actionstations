@@ -125,7 +125,7 @@ export default function DocumentsPage() {
           </>
         }
       />
-      <IndexStatus rebuild={live[INDEX_TARGET]} />
+      <IndexStatus projectPath={projectPath} rebuild={live[INDEX_TARGET]} />
       {docs.isError && (
         <p className="field__error" role="alert">
           Could not load documents: {errorText(docs.error)}

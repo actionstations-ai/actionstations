@@ -25,9 +25,12 @@ function localStatus(model: string): EmbeddingStatus {
   }
 }
 
-async function providerStatus(settings: EmbeddingSettings): Promise<EmbeddingStatus> {
+async function providerStatus(
+  settings: EmbeddingSettings,
+  projectPath?: string,
+): Promise<EmbeddingStatus> {
   try {
-    const e = await activeEmbedder()
+    const e = await activeEmbedder(projectPath)
     return { mode: 'provider', model: e.model, dims: e.dims, ready: true, downloaded: false }
   } catch (err) {
     const message = toAppError(err).message
@@ -42,10 +45,11 @@ async function providerStatus(settings: EmbeddingSettings): Promise<EmbeddingSta
   }
 }
 
-export async function embeddingStatus(): Promise<EmbeddingStatus> {
+/** With a project root, provider mode reports that project's Embeddings routing (#160). */
+export async function embeddingStatus(projectPath?: string): Promise<EmbeddingStatus> {
   const { embeddings } = await getSettings()
   if (embeddings.mode === 'local-onnx') return localStatus(embeddings.model)
-  if (embeddings.mode === 'provider') return providerStatus(embeddings)
+  if (embeddings.mode === 'provider') return providerStatus(embeddings, projectPath)
   const e = await activeEmbedder()
   return {
     mode: 'hash',
@@ -71,7 +75,8 @@ export default defineHandlers({
     const index = await openIndex(root)
     return index.search(query, { k, mode, ...(documentIds ? { documentIds } : {}) })
   },
-  'embeddings:status': () => embeddingStatus(),
+  'embeddings:status': async (req) =>
+    embeddingStatus(req?.projectPath ? await requireProject(req.projectPath) : undefined),
   'embeddings:download-model': async () => {
     const model = await modelToDownload()
     const job = jobs.start(

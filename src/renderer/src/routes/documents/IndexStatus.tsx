@@ -17,9 +17,15 @@ function describe(s: EmbeddingStatus): string {
   return s.message ? `${base}. ${s.message}` : base
 }
 
-/** Embedding model status plus live progress for an index rebuild. */
-export function IndexStatus({ rebuild }: { rebuild: LiveProgress | undefined }) {
-  const status = useIpcQuery('embeddings:status', undefined)
+/** Embedding model status (with the project's routing, #160) plus live index-rebuild progress. */
+export function IndexStatus({
+  projectPath,
+  rebuild,
+}: {
+  projectPath: string
+  rebuild: LiveProgress | undefined
+}) {
+  const status = useIpcQuery('embeddings:status', { projectPath })
   return (
     <div className="index-status">
       <div className="index-status__line">

@@ -30,7 +30,14 @@ Role { id, name, abbreviation, team, description, standingOrders: string[] }   /
 // "<!-- ttx:facility-facts v1 auto-hash=<sha256 of the sections> -->" tells an unedited file
 // from an edited one: an edited file is never overwritten — the new extraction goes to
 // facility-facts.generated.md — and the generator reads facility-facts.md, so user edits
-// (removals included) win. IPC: project:facility-facts (read), project:facility-facts-reset.
+// (removals included) win. IPC: project:facility-facts (read: the markdown plus categories
+// with the current extraction, per-entry sources and a lint flag, a revision hash and the
+// history count), project:facility-facts-save ({ path, revision?, categories: [{ id, label,
+// entries }] } — entries trimmed, blanks dropped, de-duplicated; a stale revision is CONFLICT;
+// the marker keeps the extraction's hash, so saved facts read as edited unless they equal
+// it), project:facility-facts-reset. Save and reset first copy the previous file to
+// .cache/facility-facts-history/<timestamp>.md (last 20 kept). scenarios:lint includes
+// FACILITY_UNKNOWN_ID against this file (#155).
 
 // scenarios/<id>/scenario.json
 Scenario {
