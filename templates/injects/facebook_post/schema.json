@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Social post (Facebook-style)",
+  "description": "A post in a Facebook-style feed, either in a public community group (public_group variant) or on a personal profile (profile variant). Write it like a real resident would: run-on sentences, capitals for emphasis, a call to share.",
+  "type": "object",
+  "required": ["authorName", "text"],
+  "properties": {
+    "groupName": {
+      "type": "string",
+      "description": "Group the post appears in (public_group variant)",
+      "examples": ["Cleveland Moms Group", "Akron-Canton Travelers"]
+    },
+    "groupPrivacy": {
+      "type": "string",
+      "enum": ["public", "private"],
+      "description": "Group privacy shown by the audience icon",
+      "examples": ["public"]
+    },
+    "authorName": {
+      "type": "string",
+      "description": "Poster's name as shown (often first name + last initial)",
+      "examples": ["Karen S."]
+    },
+    "authorBadge": {
+      "type": "string",
+      "description": "Optional group badge next to the poster's name",
+      "examples": ["Top contributor", "Admin"]
+    },
+    "avatarBrief": {
+      "type": "string",
+      "description": "Image-generation brief for the poster's profile photo (media stage, not rendered)",
+      "examples": ["woman in her forties, casual backyard profile photo"]
+    },
+    "timestampRel": {
+      "type": "string",
+      "description": "Relative post age as Facebook shows it",
+      "examples": ["5m", "1h", "Just now"]
+    },
+    "text": {
+      "type": "string",
+      "description": "Post text. Newlines are kept; #hashtags are highlighted.",
+      "examples": [
+        "My sister works at the airport and she just texted me. She said ISIS has taken over the control tower. They are crashing planes into the terminal! GET OUT NOW! Share this!!!"
+      ]
+    },
+    "attachedImageBrief": {
+      "type": "string",
+      "description": "Image-generation brief for an attached photo (attached_image slot; media stage only). Leave empty for a text-only post.",
+      "examples": ["blurry phone photo of a crowded check-in hall"]
+    },
+    "reactions": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total reaction count",
+      "examples": [212]
+    },
+    "reactionTypes": {
+      "type": "array",
+      "description": "Up to three reaction icons shown, most common first",
+      "maxItems": 3,
+      "items": {
+        "type": "string",
+        "enum": ["like", "love", "care", "haha", "wow", "sad", "angry"]
+      },
+      "examples": [["wow", "sad", "like"]]
+    },
+    "reactionLead": {
+      "type": "string",
+      "description": "Optional 'name and N others' text that replaces the bare count",
+      "examples": ["Jen Kowalski and 211 others"]
+    },
+    "commentCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of comments",
+      "examples": [87]
+    },
+    "shares": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of shares",
+      "examples": [400]
+    },
+    "comments": {
+      "type": "array",
+      "description": "Comments shown under the post (most relevant first). Keep to 0–3.",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["author", "text"],
+        "properties": {
+          "author": { "type": "string", "description": "Commenter name", "examples": ["Dana R."] },
+          "text": {
+            "type": "string",
+            "description": "Comment text",
+            "examples": ["Is this real?? My husband flies out of there at 2"]
+          },
+          "timestampRel": { "type": "string", "description": "Comment age", "examples": ["3m"] },
+          "likes": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Reactions on the comment",
+            "examples": [14]
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

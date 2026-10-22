@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Social post (X-style)",
+  "description": "A single public post on an X/Twitter-style microblog, rendered as a timeline screenshot. Keep the text under 280 characters and write it the way a real member of the public would post: informal, emotional, hashtags at the end.",
+  "type": "object",
+  "required": ["displayName", "handle", "text"],
+  "properties": {
+    "displayName": {
+      "type": "string",
+      "description": "Account display name as shown in bold above the post",
+      "examples": ["Travel Guy", "Akron Beacon Journal"]
+    },
+    "handle": {
+      "type": "string",
+      "description": "Account handle without the leading @",
+      "pattern": "^[A-Za-z0-9_]{1,15}$",
+      "examples": ["TravelGuy99", "ConspiracyTruth"]
+    },
+    "verified": {
+      "type": "boolean",
+      "description": "Show the blue verification badge (news outlets, officials, paid accounts)",
+      "examples": [false]
+    },
+    "avatarStyle": {
+      "type": "string",
+      "enum": ["photo", "initials", "default"],
+      "description": "Profile picture: photo uses the avatar image slot when one exists, initials draws a colored disc, default draws the grey placeholder silhouette",
+      "examples": ["photo"]
+    },
+    "avatarColor": {
+      "type": "string",
+      "enum": ["blue", "green", "orange", "purple", "red", "gray"],
+      "description": "Disc color for the initials avatar",
+      "examples": ["orange"]
+    },
+    "avatarBrief": {
+      "type": "string",
+      "description": "Image-generation brief for the profile photo (used by the media stage, not rendered)",
+      "examples": ["generic angry man in sunglasses, selfie"]
+    },
+    "timestampRel": {
+      "type": "string",
+      "description": "Relative post age exactly as the timeline shows it",
+      "examples": ["4m", "2h", "Oct 14"]
+    },
+    "replyingTo": {
+      "type": "string",
+      "description": "Handle this post replies to, without @ (shows 'Replying to @…')",
+      "examples": ["NCIA_Airport"]
+    },
+    "text": {
+      "type": "string",
+      "description": "Post text. #hashtags and @mentions are highlighted automatically. Newlines are kept.",
+      "maxLength": 560,
+      "examples": [
+        "NCIA is a joke! Boards say my flight is at Gate A1. I walked to A1 and it's empty. App says A12. Now I'm gonna miss my flight! #Fail #NCIA #Cleveland"
+      ]
+    },
+    "attachedImageBrief": {
+      "type": "string",
+      "description": "Image-generation brief for the attached photo (filled into the attached_image slot by the media stage, not rendered as text). Describe a phone photo; never rely on legible text in the image.",
+      "examples": [
+        "phone photo inside the terminal of an empty gate area next to a glowing departures monitor"
+      ]
+    },
+    "attachedImageAlt": {
+      "type": "string",
+      "description": "Short description of the attached photo (alt text)",
+      "examples": ["Departures screen next to an empty gate"]
+    },
+    "videoDuration": {
+      "type": "string",
+      "description": "When the attachment is a video, its length as shown on the play badge (M:SS)",
+      "pattern": "^\\d{1,2}:\\d{2}$",
+      "examples": ["0:07"]
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Engagement counts under the post. Numbers are abbreviated automatically (12400 → 12.4K).",
+      "additionalProperties": false,
+      "properties": {
+        "replies": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Reply count",
+          "examples": [3]
+        },
+        "reposts": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Repost/retweet count",
+          "examples": [12]
+        },
+        "likes": { "type": "integer", "minimum": 0, "description": "Like count", "examples": [45] },
+        "views": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "View count",
+          "examples": [2104]
+        },
+        "bookmarks": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Bookmark count (usually hidden on timelines; shown when > 0)",
+          "examples": [0]
+        }
+      }
+    },
+    "liked": {
+      "type": "boolean",
+      "description": "Draw the heart filled (the screenshotting account liked it)",
+      "examples": [false]
+    }
+  },
+  "additionalProperties": false
+}

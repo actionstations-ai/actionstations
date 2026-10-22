@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Text message thread (phone screenshot)",
+  "description": "A screenshot of a phone messaging thread. 'in' bubbles are from the contact named at the top, 'out' bubbles are from the phone's owner. Write like real texting: short, lowercase, typos, several bubbles in a row.",
+  "type": "object",
+  "required": ["fromLabel", "bubbles"],
+  "properties": {
+    "fromLabel": {
+      "type": "string",
+      "description": "Contact name shown at the top of the thread",
+      "examples": ["Jenny (sis)", "+1 (216) 555-0187"]
+    },
+    "contactInitials": {
+      "type": "string",
+      "maxLength": 2,
+      "description": "Letters in the contact's avatar (defaults to initials of fromLabel)",
+      "examples": ["J"]
+    },
+    "statusTime": {
+      "type": "string",
+      "description": "Clock in the phone status bar",
+      "examples": ["10:47"]
+    },
+    "batteryPercent": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Battery level drawn in the status bar",
+      "examples": [23]
+    },
+    "unreadCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Unread badge next to the back arrow",
+      "examples": [4]
+    },
+    "dateLabel": {
+      "type": "string",
+      "description": "Timestamp separator above the first bubble",
+      "examples": ["Today 10:42 AM"]
+    },
+    "bubbles": {
+      "type": "array",
+      "description": "Messages in order, oldest first",
+      "minItems": 1,
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["dir", "text"],
+        "properties": {
+          "dir": {
+            "type": "string",
+            "enum": ["in", "out"],
+            "description": "in = from the contact, out = from the phone owner",
+            "examples": ["in"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Bubble text",
+            "examples": ["all the screens say flight 666 to purgatory lol"]
+          },
+          "timeLabel": {
+            "type": "string",
+            "description": "Optional timestamp separator shown before this bubble",
+            "examples": ["10:51 AM"]
+          }
+        }
+      }
+    },
+    "receipt": {
+      "type": "string",
+      "description": "Status under the last outgoing bubble",
+      "examples": ["Delivered", "Read 10:46 AM"]
+    }
+  },
+  "additionalProperties": false
+}

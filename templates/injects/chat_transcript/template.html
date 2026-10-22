@@ -1,0 +1,97 @@
+<div class="app">
+  <header class="top">
+    {{#if (eq variant 'slack')}}
+    <div class="ch">
+      <span class="hash">#</span>{{fields.channelName}}<svg
+        class="chev"
+        viewBox="0 0 12 12"
+        aria-hidden="true"
+      >
+        <path d="M3 4.5 6 7.5l3-3" />
+      </svg>
+    </div>
+    {{else}}
+    <span class="team-icon"
+      >{{initials (default fields.workspace (default brand.aliases.orgShort 'Team'))}}</span
+    >
+    <div class="ch-wrap">
+      <div class="ch">{{fields.channelName}}</div>
+      <div class="tabs"><span class="on">Posts</span><span>Files</span><span>Notes</span></div>
+    </div>
+    {{/if}}
+    <span class="members"
+      ><svg viewBox="0 0 20 16" aria-hidden="true">
+        <circle cx="7" cy="5" r="3" />
+        <path
+          d="M1.5 15c.4-3.5 2.6-5.5 5.5-5.5s5.1 2 5.5 5.5M13 2.4a3 3 0 0 1 0 5.6M15 9.8c2 .6 3.3 2.4 3.5 5.2"
+        /></svg
+      >{{#if fields.participants.length}}{{fields.participants.length}}{{else}}4{{/if}}</span
+    >
+  </header>
+  {{#if fields.topic}}
+  <div class="topic">{{fields.topic}}</div>
+  {{/if}}
+
+  <div class="feed">
+    <div class="day"><span>{{default fields.dateLabel 'Today'}}</span></div>
+    {{#each fields.messages}}
+    <div class="msg{{#if important}} imp{{/if}}">
+      <span
+        class="av c{{#each ../fields.participants}}{{#if (eq this ../sender)}}{{@index}}{{/if}}{{/each}}"
+        >{{initials sender}}</span
+      >
+      <div class="content">
+        <div class="meta">
+          <b>{{sender}}</b>{{#if senderTitle}}<span class="title">{{senderTitle}}</span>{{/if}}<span
+            class="time"
+            >{{time}}</span
+          >
+        </div>
+        {{#if important}}
+        <div class="flag">! IMPORTANT</div>
+        {{/if}}
+        <div class="text">{{social text}}</div>
+        {{#if reactions.length}}
+        <div class="rx">
+          {{#each reactions}}
+          <span class="chip">
+            {{#if (eq kind 'like')}}<svg viewBox="0 0 16 16">
+              <path
+                fill="#e8a33d"
+                d="M2 7h2.5v7H2zM5.5 14h5.8c.7 0 1.3-.5 1.5-1.2l1.1-4c.2-.9-.4-1.8-1.4-1.8H9.3l.4-2.4c.1-.7-.3-1.4-1-1.6l-.4-.1L5.5 7z"
+              /></svg
+            >{{/if}} {{#if (eq kind 'eyes')}}<svg viewBox="0 0 16 16">
+              <ellipse cx="5" cy="8" rx="3.3" ry="4.5" fill="#fff" stroke="#555" />
+              <ellipse cx="11" cy="8" rx="3.3" ry="4.5" fill="#fff" stroke="#555" />
+              <circle cx="6" cy="9" r="1.6" fill="#222" />
+              <circle cx="12" cy="9" r="1.6" fill="#222" /></svg
+            >{{/if}} {{#if (eq kind 'check')}}<svg viewBox="0 0 16 16">
+              <rect x="1" y="1" width="14" height="14" rx="3" fill="#2eaa4f" />
+              <path
+                d="m4.5 8.2 2.4 2.4 4.6-5"
+                stroke="#fff"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              /></svg
+            >{{/if}} {{#if (eq kind 'alert')}}<svg viewBox="0 0 16 16">
+              <circle cx="8" cy="8" r="7" fill="#d93025" />
+              <path d="M8 4v5" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+              <circle cx="8" cy="11.8" r="1.1" fill="#fff" /></svg
+            >{{/if}} {{count}}
+          </span>
+          {{/each}}
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+  <footer class="composer">
+    <span class="box"
+      >{{#if (eq variant 'slack')}}Message #{{fields.channelName}}{{else}}Start a post{{/if}}</span
+    >
+  </footer>
+</div>

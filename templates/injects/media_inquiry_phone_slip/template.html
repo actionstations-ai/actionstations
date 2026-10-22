@@ -1,0 +1,101 @@
+<div class="page">
+  <div class="slip">
+    <div class="top">
+      <div class="imp">Important Message</div>
+      <div class="wyo">While You Were Out</div>
+    </div>
+    <div class="line"><span class="lbl">For</span><span class="fill hw">{{fields.to}}</span></div>
+    <div class="line two">
+      <span class="lbl">Date</span><span class="fill hw short">{{fields.date}}</span>
+      <span class="lbl">Time</span><span class="fill hw short">{{fields.time}}</span>
+      <span class="ampm"
+        ><span class="{{#if (eq fields.ampm 'AM')}}circled{{/if}}">A.M.</span
+        ><span class="{{#if (eq fields.ampm 'PM')}}circled{{/if}}">P.M.</span></span
+      >
+    </div>
+    <div class="line">
+      <span class="lbl">M</span><span class="fill hw">{{fields.fromName}}</span>
+    </div>
+    <div class="line">
+      <span class="lbl">of</span
+      ><span class="fill hw"
+        >{{#if fields.fromOrg}}{{fields.fromOrg}}{{else if
+        brand.aliases.localTv}}{{brand.aliases.localTv}}{{/if}}</span
+      >
+    </div>
+    <div class="line two">
+      <span class="lbl">Phone</span><span class="fill hw">{{fields.phone}}</span>
+      <span class="lbl">Ext.</span><span class="fill hw short">{{fields.ext}}</span>
+    </div>
+    <div class="sub"><span>Area Code</span><span>Number</span><span>Extension</span></div>
+
+    <table class="boxes">
+      <tr>
+        <td>Telephoned</td>
+        <td class="box">
+          {{#each fields.checks}}{{#if (eq this 'telephoned')}}<svg viewBox="0 0 30 24">
+            <path d="M3 13c3 2 5 5 7 8 4-8 10-14 17-19" /></svg
+          >{{/if}}{{/each}}
+        </td>
+        <td>Please Call</td>
+        <td class="box">
+          {{#each fields.checks}}{{#if (eq this 'please_call')}}<svg viewBox="0 0 30 24">
+            <path d="M3 13c3 2 5 5 7 8 4-8 10-14 17-19" /></svg
+          >{{/if}}{{/each}}
+        </td>
+      </tr>
+      <tr>
+        <td>Came to See You</td>
+        <td class="box">
+          {{#each fields.checks}}{{#if (eq this 'came_to_see_you')}}<svg viewBox="0 0 30 24">
+            <path d="M3 13c3 2 5 5 7 8 4-8 10-14 17-19" /></svg
+          >{{/if}}{{/each}}
+        </td>
+        <td>Will Call Again</td>
+        <td class="box">
+          {{#each fields.checks}}{{#if (eq this 'will_call_again')}}<svg viewBox="0 0 30 24">
+            <path d="M3 13c3 2 5 5 7 8 4-8 10-14 17-19" /></svg
+          >{{/if}}{{/each}}
+        </td>
+      </tr>
+      <tr>
+        <td>Wants to See You</td>
+        <td class="box">
+          {{#each fields.checks}}{{#if (eq this 'wants_to_see_you')}}<svg viewBox="0 0 30 24">
+            <path d="M3 13c3 2 5 5 7 8 4-8 10-14 17-19" /></svg
+          >{{/if}}{{/each}}
+        </td>
+        <td>Rush</td>
+        <td class="box">
+          {{#each fields.checks}}{{#if (eq this 'rush')}}<svg viewBox="0 0 30 24">
+            <path d="M3 13c3 2 5 5 7 8 4-8 10-14 17-19" /></svg
+          >{{/if}}{{/each}}
+        </td>
+      </tr>
+      <tr>
+        <td>Returned Your Call</td>
+        <td class="box">
+          {{#each fields.checks}}{{#if (eq this 'returned_your_call')}}<svg viewBox="0 0 30 24">
+            <path d="M3 13c3 2 5 5 7 8 4-8 10-14 17-19" /></svg
+          >{{/if}}{{/each}}
+        </td>
+        <td>Special Attention</td>
+        <td class="box">
+          {{#each fields.checks}}{{#if (eq this 'special_attention')}}<svg viewBox="0 0 30 24">
+            <path d="M3 13c3 2 5 5 7 8 4-8 10-14 17-19" /></svg
+          >{{/if}}{{/each}}
+        </td>
+      </tr>
+    </table>
+
+    <div class="msg-lbl">Message</div>
+    <div class="msg">
+      <span class="hw">{{nl2br fields.message}}</span>
+      {{#if fields.deadline}}<span class="hw red">{{fields.deadline}}</span>{{/if}}
+    </div>
+    <div class="line signed">
+      <span class="lbl">Signed</span><span class="fill hw">{{fields.takenBy}}</span>
+    </div>
+    <div class="form-no">FORM 3002-P</div>
+  </div>
+</div>

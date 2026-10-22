@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Press release",
+  "description": "A one-page news release on organization letterhead (AP style: dateline, inverted pyramid, quote from a named official, ### end mark, boilerplate). Used both as an inject (another agency's release) and as the model answer for a player's holding statement.",
+  "type": "object",
+  "required": ["headline", "dateline", "body"],
+  "properties": {
+    "org": {
+      "type": "string",
+      "description": "Issuing organization on the letterhead (defaults to brand.aliases.org)",
+      "examples": ["Northeast Central Interstate Airport"]
+    },
+    "orgAddress": {
+      "type": "string",
+      "description": "Letterhead address line",
+      "examples": ["5400 Airport Parkway · Cleveland, Ohio 44135"]
+    },
+    "releaseType": {
+      "type": "string",
+      "description": "Release line above the headline",
+      "examples": ["FOR IMMEDIATE RELEASE", "EMBARGOED UNTIL 2:00 PM EDT"]
+    },
+    "releaseDate": {
+      "type": "string",
+      "description": "Date (and time) printed under the release line",
+      "examples": ["October 14, 2025 · 12:05 PM"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline (title case, under ~14 words)",
+      "examples": ["NCIA Confirms Flight Information Display Outage; Airport Remains Safe and Open"]
+    },
+    "subhead": {
+      "type": "string",
+      "description": "Optional one-sentence subhead",
+      "examples": ["Travelers should confirm gate and departure times with their airline app"]
+    },
+    "dateline": {
+      "type": "string",
+      "description": "AP dateline that opens the first paragraph (city in capitals, state, date)",
+      "examples": ["CLEVELAND, Ohio (Oct. 14, 2025)"]
+    },
+    "body": {
+      "type": "string",
+      "description": "Release body. Blank lines separate paragraphs; the dateline is prepended to the first paragraph automatically.",
+      "examples": [
+        "Northeast Central Interstate Airport (NCIA) is investigating a technical issue..."
+      ]
+    },
+    "mediaContact": {
+      "type": "object",
+      "description": "Media contact block",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "Contact name", "examples": ["Dana Whitfield"] },
+        "title": {
+          "type": "string",
+          "description": "Contact title",
+          "examples": ["Public Information Officer"]
+        },
+        "phone": { "type": "string", "description": "Phone", "examples": ["(216) 555-0100"] },
+        "email": {
+          "type": "string",
+          "description": "Email",
+          "examples": ["media@ncia-airport.org"]
+        }
+      }
+    },
+    "boilerplate": {
+      "type": "string",
+      "description": "'About the organization' paragraph after the ### mark",
+      "examples": [
+        "Northeast Central Interstate Airport serves more than 10 million passengers a year..."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

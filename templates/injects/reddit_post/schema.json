@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Forum post (Reddit-style)",
+  "description": "A post in a Reddit-style community forum, often a local subreddit or an industry one, with a few top comments. Good for insider leaks ('throwaway, I work at the airport…'), speculation and crowd-sourced rumors.",
+  "type": "object",
+  "required": ["subreddit", "title"],
+  "properties": {
+    "subreddit": {
+      "type": "string",
+      "description": "Community name without the r/ prefix",
+      "pattern": "^[A-Za-z0-9_]{2,21}$",
+      "examples": ["Cleveland", "sysadmin"]
+    },
+    "author": {
+      "type": "string",
+      "description": "Poster's username without u/",
+      "examples": ["throwaway_ncia_ops"]
+    },
+    "timestampRel": {
+      "type": "string",
+      "description": "Relative post age",
+      "examples": ["2 hr. ago"]
+    },
+    "flair": {
+      "type": "string",
+      "description": "Post flair chip",
+      "examples": ["News", "Rumor"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Post title",
+      "examples": ["Anyone know what's going on at NCIA? Every screen says Flight 666 to Purgatory"]
+    },
+    "body": {
+      "type": "string",
+      "description": "Self-post text (newlines kept). Leave empty for an image-only post.",
+      "examples": ["Throwaway because I work there..."]
+    },
+    "imageBrief": {
+      "type": "string",
+      "description": "Image-generation brief for an attached photo (photo slot; media stage only)",
+      "examples": [
+        "phone photo of a bank of departure monitors with blue error screens above a crowd"
+      ]
+    },
+    "upvotes": {
+      "type": "integer",
+      "description": "Score shown in the vote pill",
+      "examples": [1843]
+    },
+    "commentCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Comment count",
+      "examples": [412]
+    },
+    "comments": {
+      "type": "array",
+      "description": "Top comments shown under the post",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["author", "text"],
+        "properties": {
+          "author": {
+            "type": "string",
+            "description": "Commenter username",
+            "examples": ["rustbelt_dad"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Comment text",
+            "examples": ["My cousin at the TSA says they stopped screening entirely."]
+          },
+          "upvotes": { "type": "integer", "description": "Comment score", "examples": [522] },
+          "timestampRel": {
+            "type": "string",
+            "description": "Comment age",
+            "examples": ["1 hr. ago"]
+          },
+          "isOp": {
+            "type": "boolean",
+            "description": "Comment is by the original poster (shows OP tag)",
+            "examples": [false]
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

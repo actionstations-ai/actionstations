@@ -1,0 +1,38 @@
+{
+  "fields": {
+    "channelName": "IT Incident Bridge",
+    "workspace": "NCIA IT",
+    "topic": "Active incident – FIDS showing incorrect gates and destinations since ~10:05",
+    "participants": ["Marcus Lee", "Priya Nair", "Tom Brandt", "Gate Systems Support"],
+    "dateLabel": "Today",
+    "messages": [
+      {
+        "sender": "Priya Nair",
+        "time": "10:41 AM",
+        "text": "FIDS_Data_Stream service on AODB_SQL_MASTER stopped at 10:04 and restarted at 10:06. Nobody on our side touched it."
+      },
+      {
+        "sender": "Tom Brandt",
+        "time": "10:43 AM",
+        "text": "Seeing a burst of failed ADMIN logins right before that. Source is 192.168.1.55 — that's an Ops workstation, not a server.",
+        "reactions": [{ "kind": "eyes", "count": 3 }]
+      },
+      {
+        "sender": "Gate Systems Support",
+        "senderTitle": "External",
+        "time": "10:47 AM",
+        "text": "We can push a clean schedule from our side but only if you confirm the database is not still being modified. Can you confirm?"
+      },
+      {
+        "sender": "Marcus Lee",
+        "time": "10:49 AM",
+        "important": true,
+        "text": "Do NOT push anything yet. @Priya pull the AODB audit log and isolate 192.168.1.55 from the network. I'm briefing Ops at 11.",
+        "reactions": [
+          { "kind": "check", "count": 2 },
+          { "kind": "like", "count": 1 }
+        ]
+      }
+    ]
+  }
+}

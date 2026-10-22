@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Internal memo",
+  "description": "A one-page internal memorandum on organization letterhead, handed to a player. Terse operational language; short labelled paragraphs (Impact / Status / Request) work well.",
+  "type": "object",
+  "required": ["to", "from", "subject", "body"],
+  "properties": {
+    "orgName": {
+      "type": "string",
+      "description": "Organization on the letterhead (defaults to brand.aliases.org)",
+      "examples": ["Northeast Central Interstate Airport"]
+    },
+    "department": {
+      "type": "string",
+      "description": "Issuing department under the organization name",
+      "examples": ["Baggage Handling Systems"]
+    },
+    "to": {
+      "type": "string",
+      "description": "Recipient",
+      "examples": ["Airport Operations Center (AOC)"]
+    },
+    "from": {
+      "type": "string",
+      "description": "Sender",
+      "examples": ["BHS Control Room (Duty Manager)"]
+    },
+    "cc": { "type": "string", "description": "Copies to", "examples": ["Terminal Duty Manager"] },
+    "date": {
+      "type": "string",
+      "description": "Date and time as written on the memo",
+      "examples": ["October 14, 2025 · 10:31 AM"]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject line",
+      "examples": ["URGENT: BHS CRITICAL FAILURE"]
+    },
+    "urgency": {
+      "type": "string",
+      "enum": ["routine", "priority", "urgent", "emergency"],
+      "description": "Urgency: urgent and emergency print a colored banner across the top",
+      "examples": ["urgent"]
+    },
+    "urgencyText": {
+      "type": "string",
+      "description": "Banner wording (defaults by urgency)",
+      "examples": ["URGENT — ACTION REQUIRED IMMEDIATELY"]
+    },
+    "memoNumber": {
+      "type": "string",
+      "description": "Reference number printed top right",
+      "examples": ["BHS-2025-1014-01"]
+    },
+    "body": {
+      "type": "string",
+      "description": "Memo body. Blank lines separate paragraphs; newlines are kept.",
+      "examples": ["Ops,\n\nWe have a major issue."]
+    },
+    "signatureBlock": {
+      "type": "string",
+      "description": "Name and title under the body (newlines kept)",
+      "examples": ["BHS Duty Manager\nBaggage Handling Systems Control Room"]
+    },
+    "initials": {
+      "type": "string",
+      "description": "Handwritten initials next to the FROM line, as on a signed paper memo",
+      "examples": ["RM"]
+    },
+    "classification": {
+      "type": "string",
+      "description": "Handling marking printed in the footer",
+      "examples": ["INTERNAL — NOT FOR PUBLIC RELEASE"]
+    }
+  },
+  "additionalProperties": false
+}

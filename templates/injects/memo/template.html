@@ -1,0 +1,64 @@
+<div class="page" style="--accent: {{default brand.primaryColor '#1f3a5f'}}">
+  {{#if (or (eq fields.urgency 'urgent') (eq fields.urgency 'emergency'))}}
+  <div class="banner u-{{fields.urgency}}">
+    {{#if fields.urgencyText}}{{fields.urgencyText}}{{else if (eq fields.urgency
+    'emergency')}}EMERGENCY — IMMEDIATE ACTION REQUIRED{{else}}URGENT — ACTION REQUIRED{{/if}}
+  </div>
+  {{/if}}
+  <header class="lh">
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" />
+      <path
+        d="M10 27.5 38 18l-3.5 5.2L14 30.5z M20.5 26.3l4.7 9.2 3.4-1.2-2.7-9.6z M15 27l-3.5-5.3 2.7-.9 5 3.9z"
+      />
+    </svg>
+    <div>
+      <div class="org">
+        {{#if fields.orgName}}{{fields.orgName}}{{else if
+        brand.aliases.org}}{{brand.aliases.org}}{{else}}Airport Authority{{/if}}
+      </div>
+      {{#if fields.department}}
+      <div class="dept">{{fields.department}}</div>
+      {{/if}}
+    </div>
+    {{#if fields.memoNumber}}
+    <div class="ref">Ref. {{fields.memoNumber}}</div>
+    {{/if}}
+  </header>
+  <h1 class="title">Memorandum</h1>
+  <table class="hdr">
+    <tr>
+      <th>TO:</th>
+      <td>{{fields.to}}</td>
+    </tr>
+    <tr>
+      <th>FROM:</th>
+      <td>
+        {{fields.from}}{{#if fields.initials}}<span class="ink">{{fields.initials}}</span>{{/if}}
+      </td>
+    </tr>
+    {{#if fields.cc}}
+    <tr>
+      <th>CC:</th>
+      <td>{{fields.cc}}</td>
+    </tr>
+    {{/if}}
+    <tr>
+      <th>DATE:</th>
+      <td>{{fields.date}}</td>
+    </tr>
+    <tr>
+      <th>SUBJECT:</th>
+      <td class="subj">{{fields.subject}}</td>
+    </tr>
+  </table>
+  <div class="rule"></div>
+  <div class="body">{{nl2br fields.body}}</div>
+  {{#if fields.signatureBlock}}
+  <div class="sig">{{nl2br fields.signatureBlock}}</div>
+  {{/if}}
+  <footer class="foot">
+    <span>{{default fields.classification 'INTERNAL — NOT FOR PUBLIC RELEASE'}}</span>
+    <span>Page 1 of 1</span>
+  </footer>
+</div>

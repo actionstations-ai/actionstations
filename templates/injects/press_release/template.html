@@ -1,0 +1,58 @@
+<div class="page" style="--accent: {{default brand.primaryColor '#1f3a5f'}}">
+  <header class="lh">
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" />
+      <path
+        d="M10 27.5 38 18l-3.5 5.2L14 30.5z M20.5 26.3l4.7 9.2 3.4-1.2-2.7-9.6z M15 27l-3.5-5.3 2.7-.9 5 3.9z"
+      />
+    </svg>
+    <div class="org-block">
+      <div class="org">
+        {{#if fields.org}}{{fields.org}}{{else if
+        brand.aliases.org}}{{brand.aliases.org}}{{else}}Airport Authority{{/if}}
+      </div>
+      <div class="addr">
+        {{#if fields.orgAddress}}{{fields.orgAddress}}{{else if brand.city}}{{brand.city}}{{#if
+        brand.region}}, {{brand.region}}{{/if}}{{/if}}
+      </div>
+    </div>
+    <div class="nr">News Release</div>
+  </header>
+
+  <div class="meta">
+    <div>
+      <div class="release">{{default fields.releaseType 'FOR IMMEDIATE RELEASE'}}</div>
+      {{#if fields.releaseDate}}
+      <div class="rdate">{{fields.releaseDate}}</div>
+      {{/if}}
+    </div>
+    {{#if fields.mediaContact}}
+    <div class="contact">
+      <b>Media Contact:</b><br />
+      {{fields.mediaContact.name}}{{#if fields.mediaContact.title}},
+      {{fields.mediaContact.title}}{{/if}}<br />
+      {{fields.mediaContact.phone}}{{#if fields.mediaContact.email}} ·
+      {{fields.mediaContact.email}}{{/if}}
+    </div>
+    {{/if}}
+  </div>
+
+  <h1 class="headline">{{fields.headline}}</h1>
+  {{#if fields.subhead}}
+  <p class="subhead">{{fields.subhead}}</p>
+  {{/if}}
+
+  <div class="body"><b class="dl">{{fields.dateline}} —</b> {{nl2br fields.body}}</div>
+
+  <div class="end">###</div>
+
+  {{#if fields.boilerplate}}
+  <div class="about">
+    <b
+      >About {{#if fields.org}}{{fields.org}}{{else if
+      brand.aliases.org}}{{brand.aliases.org}}{{else}}the Airport{{/if}}</b
+    ><br />
+    {{fields.boilerplate}}
+  </div>
+  {{/if}}
+</div>

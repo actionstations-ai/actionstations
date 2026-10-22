@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "News article (web)",
+  "description": "A screenshot of a local news website article: masthead, section, headline, dek, byline, hero photo with caption, opening paragraphs. Write in AP news style: short paragraphs, attribution for every claim, quotes from bystanders and officials, 'did not respond to a request for comment' where relevant.",
+  "type": "object",
+  "required": ["outlet", "headline", "body"],
+  "properties": {
+    "outlet": {
+      "type": "string",
+      "description": "Publication name in the masthead (prefer brand.aliases.localNews when generating)",
+      "examples": ["Northeast Ohio Ledger"]
+    },
+    "outletDomain": {
+      "type": "string",
+      "description": "Site domain shown in the browser bar",
+      "examples": ["neoledger-news.com"]
+    },
+    "section": {
+      "type": "string",
+      "description": "Section kicker above the headline",
+      "examples": ["Local News", "Business"]
+    },
+    "label": {
+      "type": "string",
+      "enum": ["none", "breaking", "developing", "update"],
+      "description": "Red story label before the section",
+      "examples": ["developing"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Article headline (sentence case, under ~16 words)",
+      "examples": ["Hacked screens, stranded bags: What we know about the chaos at NCIA"]
+    },
+    "dek": {
+      "type": "string",
+      "description": "Summary line under the headline",
+      "examples": ["Airport officials have not said whether the outage was a cyberattack."]
+    },
+    "byline": { "type": "string", "description": "Author name", "examples": ["Alicia Romero"] },
+    "bylineTitle": {
+      "type": "string",
+      "description": "Author role",
+      "examples": ["Transportation Reporter"]
+    },
+    "publishedAt": {
+      "type": "string",
+      "description": "Publication time line",
+      "examples": ["Published Oct. 14, 2025, 1:32 p.m. ET"]
+    },
+    "updatedAt": {
+      "type": "string",
+      "description": "Update time line",
+      "examples": ["Updated 2:05 p.m. ET"]
+    },
+    "heroImageBrief": {
+      "type": "string",
+      "description": "Image-generation brief for the hero photo slot (media stage only; never rely on legible text in it)",
+      "examples": ["passengers under rows of dark departure screens, editorial press photo"]
+    },
+    "heroCaption": {
+      "type": "string",
+      "description": "Photo caption",
+      "examples": ["Travelers wait beneath departure boards at NCIA on Tuesday."]
+    },
+    "heroCredit": {
+      "type": "string",
+      "description": "Photo credit",
+      "examples": ["Marcus Hale / Ledger"]
+    },
+    "body": {
+      "type": "string",
+      "description": "Article text; blank lines separate paragraphs. The screenshot shows roughly the first 5–7 paragraphs.",
+      "examples": ["CLEVELAND — Departure screens at Northeast Central Interstate Airport..."]
+    }
+  },
+  "additionalProperties": false
+}

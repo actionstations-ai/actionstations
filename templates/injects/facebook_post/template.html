@@ -1,0 +1,220 @@
+<article class="card">
+  <header class="head">
+    {{#if (eq variant 'public_group')}}
+    <div class="group-avatar">
+      <span class="group-mark"
+        ><svg viewBox="0 0 40 40" aria-hidden="true">
+          <circle cx="13" cy="13" r="4.2" />
+          <circle cx="24" cy="11.5" r="5" />
+          <path
+            d="M4 30c.6-6 4.2-9.5 9-9.5 2.2 0 4 .7 5.4 1.9C20 19.6 21.9 18 24 18c5.4 0 9 4.6 9.5 12z"
+          /></svg
+      ></span>
+      {{#if assets.avatar}}<img class="mini" src="{{assets.avatar}}" alt="" />{{else}}<span
+        class="mini initials"
+        >{{initials fields.authorName}}</span
+      >{{/if}}
+    </div>
+    <div class="who">
+      <div class="line1">{{default fields.groupName 'Community Group'}}</div>
+      <div class="line2">
+        <span class="author">{{fields.authorName}}</span>
+        {{#if fields.authorBadge}}<span class="badge">{{fields.authorBadge}}</span>{{/if}}
+        <span class="sep">·</span>{{default fields.timestampRel '5m'}}<span class="sep">·</span>
+        {{#if (eq fields.groupPrivacy 'private')}}
+        <svg class="aud" viewBox="0 0 16 16" aria-label="Private group">
+          <rect x="3.5" y="7" width="9" height="7" rx="1.2" />
+          <path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" />
+        </svg>
+        {{else}}
+        <svg class="aud" viewBox="0 0 16 16" aria-label="Public">
+          <circle cx="8" cy="8" r="6.2" />
+          <path d="M1.8 8h12.4M8 1.8c-2.2 2.4-2.2 10 0 12.4M8 1.8c2.2 2.4 2.2 10 0 12.4" />
+        </svg>
+        {{/if}}
+      </div>
+    </div>
+    {{else}} {{#if assets.avatar}}<img class="avatar" src="{{assets.avatar}}" alt="" />{{else}}<span
+      class="avatar initials"
+      >{{initials fields.authorName}}</span
+    >{{/if}}
+    <div class="who">
+      <div class="line1">{{fields.authorName}}</div>
+      <div class="line2">
+        {{default fields.timestampRel '5m'}}<span class="sep">·</span>
+        <svg class="aud" viewBox="0 0 16 16" aria-label="Public">
+          <circle cx="8" cy="8" r="6.2" />
+          <path d="M1.8 8h12.4M8 1.8c-2.2 2.4-2.2 10 0 12.4M8 1.8c2.2 2.4 2.2 10 0 12.4" />
+        </svg>
+      </div>
+    </div>
+    {{/if}}
+    <svg class="dots" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="5" cy="12" r="2" />
+      <circle cx="12" cy="12" r="2" />
+      <circle cx="19" cy="12" r="2" />
+    </svg>
+    <svg class="close" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M6 6l12 12M18 6 6 18" />
+    </svg>
+  </header>
+
+  <p class="text">{{social fields.text}}</p>
+
+  {{#if assets.attached_image}}
+  <figure class="media"><img src="{{assets.attached_image}}" alt="" /></figure>
+  {{/if}} {{#if (or fields.reactions fields.commentCount fields.shares)}}
+  <div class="counts">
+    {{#if fields.reactions}}
+    <span class="rxs">
+      {{#each fields.reactionTypes}}
+      <span class="rx">
+        {{#if (eq this 'like')}}<svg viewBox="0 0 18 18">
+          <circle cx="9" cy="9" r="9" fill="#1b74e4" />
+          <path
+            fill="#fff"
+            d="M4.6 8.2h1.9v5.4H4.6zM7.3 13.6h4.4c.6 0 1-.4 1.2-.9l1-3.4c.2-.7-.3-1.4-1-1.4h-2.7l.4-2c.1-.6-.3-1.2-.9-1.3l-.3-.1-2.1 3.3z"
+          /></svg
+        >{{/if}} {{#if (eq this 'love')}}<svg viewBox="0 0 18 18">
+          <circle cx="9" cy="9" r="9" fill="#f0284a" />
+          <path
+            fill="#fff"
+            d="M9 13.6s-4.3-2.6-4.3-5.6a2.3 2.3 0 0 1 4.3-1.2A2.3 2.3 0 0 1 13.3 8c0 3-4.3 5.6-4.3 5.6z"
+          /></svg
+        >{{/if}} {{#if (eq this 'care')}}<svg viewBox="0 0 18 18">
+          <circle cx="9" cy="9" r="9" fill="#f7b928" />
+          <circle cx="6.3" cy="7" r="1" fill="#5c3a00" />
+          <circle cx="11.7" cy="7" r="1" fill="#5c3a00" />
+          <path
+            fill="#f0284a"
+            d="M9 15.5s-3.4-2-3.4-4.3a1.8 1.8 0 0 1 3.4-.9 1.8 1.8 0 0 1 3.4.9c0 2.3-3.4 4.3-3.4 4.3z"
+          /></svg
+        >{{/if}} {{#if (eq this 'haha')}}<svg viewBox="0 0 18 18">
+          <circle cx="9" cy="9" r="9" fill="#f7b928" />
+          <path
+            d="M4.6 6.6l2 .9-2 .9M13.4 6.6l-2 .9 2 .9"
+            stroke="#5c3a00"
+            stroke-width="1"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path fill="#5c3a00" d="M4.3 10h9.4c0 2.6-2.1 4.6-4.7 4.6S4.3 12.6 4.3 10z" />
+          <path fill="#f0284a" d="M6.2 13.4a4.2 4.2 0 0 0 5.6 0 3 3 0 0 0-5.6 0z" /></svg
+        >{{/if}} {{#if (eq this 'wow')}}<svg viewBox="0 0 18 18">
+          <circle cx="9" cy="9" r="9" fill="#f7b928" />
+          <path
+            d="M4.5 4.6c.6-.6 1.6-.8 2.4-.5M13.5 4.6c-.6-.6-1.6-.8-2.4-.5"
+            stroke="#5c3a00"
+            stroke-width=".9"
+            fill="none"
+            stroke-linecap="round"
+          />
+          <ellipse cx="6.1" cy="7.2" rx="1" ry="1.4" fill="#5c3a00" />
+          <ellipse cx="11.9" cy="7.2" rx="1" ry="1.4" fill="#5c3a00" />
+          <ellipse cx="9" cy="12.2" rx="2" ry="2.5" fill="#5c3a00" /></svg
+        >{{/if}} {{#if (eq this 'sad')}}<svg viewBox="0 0 18 18">
+          <circle cx="9" cy="9" r="9" fill="#f7b928" />
+          <circle cx="6.1" cy="8" r="1" fill="#5c3a00" />
+          <circle cx="11.9" cy="8" r="1" fill="#5c3a00" />
+          <path
+            d="M6.3 13.2c1.4-1.4 4-1.4 5.4 0"
+            stroke="#5c3a00"
+            stroke-width="1"
+            fill="none"
+            stroke-linecap="round"
+          />
+          <path
+            fill="#4fa3f7"
+            d="M12.6 9.6c.5.9 1 1.5 1 2.1a1 1 0 0 1-2 0c0-.6.5-1.2 1-2.1z"
+          /></svg
+        >{{/if}} {{#if (eq this 'angry')}}<svg viewBox="0 0 18 18">
+          <circle cx="9" cy="9" r="9" fill="#f2733a" />
+          <path
+            d="M4.4 7l3 1M13.6 7l-3 1"
+            stroke="#4a1d00"
+            stroke-width="1"
+            stroke-linecap="round"
+          />
+          <circle cx="6.4" cy="9" r=".9" fill="#4a1d00" />
+          <circle cx="11.6" cy="9" r=".9" fill="#4a1d00" />
+          <path
+            d="M6.6 13.2c1.3-.9 3.5-.9 4.8 0"
+            stroke="#4a1d00"
+            stroke-width="1"
+            fill="none"
+            stroke-linecap="round"
+          /></svg
+        >{{/if}}
+      </span>
+      {{/each}}
+      <span class="rx-count"
+        >{{#if fields.reactionLead}}{{fields.reactionLead}}{{else}}{{compact
+        fields.reactions}}{{/if}}</span
+      >
+    </span>
+    {{/if}}
+    <span class="cs">
+      {{#if fields.commentCount}}<span>{{compact fields.commentCount}} comments</span>{{/if}} {{#if
+      fields.shares}}<span>{{compact fields.shares}} shares</span>{{/if}}
+    </span>
+  </div>
+  {{/if}}
+
+  <div class="bar">
+    <span class="btn"
+      ><svg viewBox="0 0 20 20" aria-hidden="true">
+        <path
+          d="M3 8.6h3v8.2H3zM6 16.8h7.5c.9 0 1.6-.6 1.8-1.4l1.5-5.2c.3-1.1-.5-2.1-1.6-2.1h-4l.6-3c.2-.9-.4-1.8-1.3-2l-.5-.1L6 8.6"
+        /></svg
+      >Like</span
+    >
+    <span class="btn"
+      ><svg viewBox="0 0 20 20" aria-hidden="true">
+        <path
+          d="M10 2.8c4.3 0 7.4 3 7.4 6.9s-3.1 6.9-7.4 6.9c-.9 0-1.8-.1-2.6-.4l-3.6 1.6.6-3.2c-1.2-1.3-1.9-3-1.9-4.9 0-3.9 3.2-6.9 7.5-6.9z"
+        /></svg
+      >Comment</span
+    >
+    <span class="btn"
+      ><svg viewBox="0 0 20 20" aria-hidden="true">
+        <path d="M11 3.5l6.3 6-6.3 6v-3.6c-4.2 0-6.6 1.2-8.3 4.1.5-4.7 2.8-8.2 8.3-8.9z" /></svg
+      >Share</span
+    >
+  </div>
+
+  {{#if fields.comments.length}}
+  <section class="comments">
+    <div class="sort">
+      Most relevant <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" /></svg>
+    </div>
+    {{#each fields.comments}}
+    <div class="comment">
+      <span class="c-avatar c{{@index}}">{{initials author}}</span>
+      <div class="c-body">
+        <div class="bubble">
+          <div class="c-name">{{author}}</div>
+          <div class="c-text">{{social text}}</div>
+          {{#if likes}}
+          <span class="c-likes"
+            ><svg viewBox="0 0 18 18">
+              <circle cx="9" cy="9" r="9" fill="#1b74e4" />
+              <path
+                fill="#fff"
+                d="M4.6 8.2h1.9v5.4H4.6zM7.3 13.6h4.4c.6 0 1-.4 1.2-.9l1-3.4c.2-.7-.3-1.4-1-1.4h-2.7l.4-2c.1-.6-.3-1.2-.9-1.3l-.3-.1-2.1 3.3z"
+              /></svg
+            >{{likes}}</span
+          >
+          {{/if}}
+        </div>
+        <div class="c-meta"><span>{{default timestampRel '2m'}}</span><b>Like</b><b>Reply</b></div>
+      </div>
+    </div>
+    {{/each}}
+    <div class="write">
+      <span class="c-avatar me"></span>
+      <span class="write-box">Write a public comment…</span>
+    </div>
+  </section>
+  {{/if}}
+</article>

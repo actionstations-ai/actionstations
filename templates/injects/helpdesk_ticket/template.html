@@ -1,0 +1,141 @@
+<div class="page">
+  <div class="print-head">
+    <span>{{default fields.opened '2025-10-14 09:20:41'}}</span>
+    <span>{{fields.ticketNo}} | Incident | {{default fields.systemName 'ServiceDesk'}}</span>
+    <span></span>
+  </div>
+
+  <header class="appbar">
+    <span class="logo">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M7.5 12.5a4.5 4.5 0 0 1 9 0" />
+      </svg>
+      <b>{{lower (default fields.systemName 'ServiceDesk')}}</b>
+    </span>
+    <span class="org"
+      >{{#if fields.orgName}}{{fields.orgName}}{{else if
+      brand.aliases.orgShort}}{{brand.aliases.orgShort}}{{else}}IT Service Management{{/if}}</span
+    >
+    <span class="nav">All&nbsp;&nbsp;Favorites&nbsp;&nbsp;History&nbsp;&nbsp;Workspaces</span>
+    <span class="me">SD</span>
+  </header>
+
+  <div class="formbar">
+    <span class="back">‹</span>
+    <span class="rec"><b>Incident</b><br />{{fields.ticketNo}}</span>
+    <span class="btns"
+      ><span class="b">Follow</span><span class="b">Update</span
+      ><span class="b primary">Resolve</span><span class="b">Delete</span></span
+    >
+  </div>
+
+  <section class="form">
+    <div class="col">
+      <div class="row"><label>Number</label><span class="v ro">{{fields.ticketNo}}</span></div>
+      <div class="row">
+        <label class="req">Caller</label><span class="v">{{fields.requester}}</span>
+      </div>
+      <div class="row">
+        <label>Contact</label><span class="v">{{fields.requesterContact}}</span>
+      </div>
+      <div class="row">
+        <label>Category</label
+        ><span class="v sel">{{default fields.category 'Inquiry / Help'}}</span>
+      </div>
+      <div class="row">
+        <label>Subcategory</label><span class="v sel">{{fields.subcategory}}</span>
+      </div>
+      <div class="row"><label>Location</label><span class="v">{{fields.location}}</span></div>
+      <div class="row">
+        <label>Configuration item</label><span class="v">{{fields.configurationItem}}</span>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row"><label>Opened</label><span class="v ro">{{fields.opened}}</span></div>
+      <div class="row">
+        <label>Channel</label><span class="v sel">{{default fields.contactType 'Phone'}}</span>
+      </div>
+      <div class="row">
+        <label>State</label><span class="v sel">{{default fields.status 'New'}}</span>
+      </div>
+      <div class="row">
+        <label>Impact</label
+        ><span class="v sel"
+          >{{#if (eq fields.impact 'High')}}1 - High{{else if (eq fields.impact 'Medium')}}2 -
+          Medium{{else}}3 - Low{{/if}}</span
+        >
+      </div>
+      <div class="row">
+        <label>Urgency</label
+        ><span class="v sel"
+          >{{#if (eq fields.urgency 'High')}}1 - High{{else if (eq fields.urgency 'Low')}}3 -
+          Low{{else}}2 - Medium{{/if}}</span
+        >
+      </div>
+      <div class="row">
+        <label>Priority</label>
+        <span class="v ro prio p-{{lower (default fields.priority 'Moderate')}}"
+          ><i></i>{{#if (eq fields.priority 'Critical')}}1 - Critical{{else if (eq fields.priority
+          'High')}}2 - High{{else if (eq fields.priority 'Low')}}4 - Low{{else if (eq
+          fields.priority 'Planning')}}5 - Planning{{else}}3 - Moderate{{/if}}</span
+        >
+      </div>
+      <div class="row">
+        <label>Assignment group</label><span class="v">{{fields.assignmentGroup}}</span>
+      </div>
+      <div class="row"><label>Assigned to</label><span class="v">{{fields.assignee}}</span></div>
+    </div>
+  </section>
+
+  <section class="wide">
+    <div class="row">
+      <label class="req">Short description</label><span class="v">{{fields.subject}}</span>
+    </div>
+    <div class="row top">
+      <label>Description</label><span class="v area">{{nl2br fields.description}}</span>
+    </div>
+  </section>
+
+  <nav class="tabs">
+    <span class="on">Notes</span><span>Related Records</span><span>Resolution Information</span>
+  </nav>
+
+  <section class="notes">
+    <div class="row"><label>Watch list</label><span class="v"></span></div>
+    <div class="row top"><label>Work notes</label><span class="v area short"></span></div>
+    <div class="stream-head">
+      Activity: {{#if fields.activity.length}}{{fields.activity.length}}{{else}}1{{/if}}
+    </div>
+    {{#each fields.activity}}
+    <div class="entry k-{{default kind 'work_note'}}">
+      <div class="who">
+        <span class="av">{{initials author}}</span><b>{{author}}</b
+        ><span class="tag"
+          >{{#if (eq kind 'comment')}}Additional comments{{else if (eq kind 'system')}}Field
+          changes{{else}}Work notes{{/if}}</span
+        ><span class="when">{{time}}</span>
+      </div>
+      <div class="what">{{nl2br text}}</div>
+    </div>
+    {{else}}
+    <div class="entry k-system">
+      <div class="who">
+        <span class="av">SY</span><b>System</b><span class="tag">Field changes</span
+        ><span class="when">{{../fields.opened}}</span>
+      </div>
+      <div class="what">
+        Incident created · State: New · Priority: {{default ../fields.priority 'Moderate'}}
+      </div>
+    </div>
+    {{/each}}
+  </section>
+
+  <div class="print-foot">
+    <span
+      >https://{{lower (default fields.systemName 'servicedesk')}}.{{#if
+      brand.aliases.orgDomain}}{{brand.aliases.orgDomain}}{{else}}corp.local{{/if}}/incident.do?sysparm_query=number={{fields.ticketNo}}</span
+    >
+    <span>1/1</span>
+  </div>
+</div>

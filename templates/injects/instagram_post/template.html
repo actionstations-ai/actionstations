@@ -1,0 +1,57 @@
+<article class="post">
+  <header class="head">
+    <span class="ring"><span class="av">{{initials fields.handle}}</span></span>
+    <div class="who">
+      <div class="l1">
+        <b>{{fields.handle}}</b>
+        {{#if fields.verified}}<svg class="badge" viewBox="0 0 24 24" aria-label="Verified">
+          <polygon
+            points="12.00,1.00 14.41,3.02 17.50,2.47 18.58,5.42 21.53,6.50 20.98,9.59 23.00,12.00 20.98,14.41 21.53,17.50 18.58,18.58 17.50,21.53 14.41,20.98 12.00,23.00 9.59,20.98 6.50,21.53 5.42,18.58 2.47,17.50 3.02,14.41 1.00,12.00 3.02,9.59 2.47,6.50 5.42,5.42 6.50,2.47 9.59,3.02"
+          />
+          <path d="m7.6 12.3 3 3 5.9-6.4" /></svg
+        >{{/if}} {{#if fields.timestampRel}}<span class="t">• {{fields.timestampRel}}</span>{{/if}}
+      </div>
+      {{#if fields.location}}
+      <div class="loc">{{fields.location}}</div>
+      {{/if}}
+    </div>
+    <svg class="more" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="5" cy="12" r="1.5" />
+      <circle cx="12" cy="12" r="1.5" />
+      <circle cx="19" cy="12" r="1.5" />
+    </svg>
+  </header>
+
+  <div class="media">
+    {{#if assets.photo}}<img src="{{assets.photo}}" alt="" />{{else}}
+    <div class="ph"></div>
+    {{/if}}
+  </div>
+
+  <div class="bar">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 20.5s-8.5-5-8.5-11.2A4.6 4.6 0 0 1 12 6.6a4.6 4.6 0 0 1 8.5 2.7c0 6.2-8.5 11.2-8.5 11.2z"
+      />
+    </svg>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M20.6 17.6A9.3 9.3 0 1 0 17 21l3.9.9z" />
+    </svg>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M21.5 3 9.6 13.1M21.5 3l-6.8 18.3-5.1-8.2L2.5 9.3z" />
+    </svg>
+    <svg class="save" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M19.5 21 12 14.6 4.5 21V3h15z" />
+    </svg>
+  </div>
+  {{#if fields.likes}}
+  <div class="likes">{{compact fields.likes}} likes</div>
+  {{/if}}
+  <p class="cap"><b>{{fields.handle}}</b> {{social fields.caption}}</p>
+  {{#if fields.commentCount}}
+  <div class="all">View all {{fields.commentCount}} comments</div>
+  {{/if}} {{#each fields.comments}}
+  <p class="cm"><b>{{handle}}</b> {{social text}}</p>
+  {{/each}}
+  <div class="add">Add a comment…</div>
+</article>

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Phone message slip (While You Were Out)",
+  "description": "A classic pink 'WHILE YOU WERE OUT' phone message slip, filled in by hand by whoever took the call. Used for media inquiries and any urgent call-back. Write the message the way a receptionist jots it down: quotes of what the caller said, capitals for the scary parts.",
+  "type": "object",
+  "required": ["to", "fromName", "message"],
+  "properties": {
+    "to": {
+      "type": "string",
+      "description": "Who the message is for",
+      "examples": ["Public Information Officer"]
+    },
+    "date": { "type": "string", "description": "Date written on the slip", "examples": ["10/14"] },
+    "time": {
+      "type": "string",
+      "description": "Time of the call, without AM/PM",
+      "examples": ["11:45"]
+    },
+    "ampm": {
+      "type": "string",
+      "enum": ["AM", "PM"],
+      "description": "Which of A.M./P.M. is circled",
+      "examples": ["AM"]
+    },
+    "fromName": {
+      "type": "string",
+      "description": "Caller (the 'M' line): person or desk",
+      "examples": ["Assignment Desk"]
+    },
+    "fromOrg": {
+      "type": "string",
+      "description": "Caller's organization (the 'of' line). For media, the outlet; defaults to brand.aliases.localTv when empty.",
+      "examples": ["Channel 5 News (ABC Affiliate)"]
+    },
+    "phone": {
+      "type": "string",
+      "description": "Call-back number as written",
+      "examples": ["(216) 555-0142"]
+    },
+    "ext": { "type": "string", "description": "Extension", "examples": ["204"] },
+    "checks": {
+      "type": "array",
+      "description": "Boxes ticked on the slip",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "telephoned",
+          "came_to_see_you",
+          "wants_to_see_you",
+          "please_call",
+          "will_call_again",
+          "rush",
+          "returned_your_call",
+          "special_attention"
+        ]
+      },
+      "examples": [["telephoned", "please_call", "rush"]]
+    },
+    "message": {
+      "type": "string",
+      "description": "Handwritten message. Keep under ~450 characters so it fits the ruled lines.",
+      "maxLength": 520,
+      "examples": [
+        "We are getting viewer photos of 'Flight 666' on your boards. We need a statement NOW."
+      ]
+    },
+    "deadline": {
+      "type": "string",
+      "description": "Deadline scrawled in red and underlined at the bottom of the message",
+      "examples": ["Going LIVE at Noon!"]
+    },
+    "takenBy": {
+      "type": "string",
+      "description": "Initials or first name of whoever took the call (the 'Signed' line)",
+      "examples": ["Deb – front desk"]
+    }
+  },
+  "additionalProperties": false
+}

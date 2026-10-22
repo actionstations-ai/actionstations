@@ -1,0 +1,75 @@
+<article class="post">
+  <header class="head">
+    <span class="sub-icon">r/</span>
+    <div class="who">
+      <div class="l1">
+        <b>r/{{fields.subreddit}}</b
+        ><span class="t">• {{default fields.timestampRel '2 hr. ago'}}</span>
+      </div>
+      {{#if fields.author}}
+      <div class="l2">{{fields.author}}</div>
+      {{/if}}
+    </div>
+    <span class="join">Join</span>
+    <svg class="more" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="5" cy="12" r="1.6" />
+      <circle cx="12" cy="12" r="1.6" />
+      <circle cx="19" cy="12" r="1.6" />
+    </svg>
+  </header>
+  <h1 class="title">{{fields.title}}</h1>
+  {{#if fields.flair}}<span class="flair">{{fields.flair}}</span>{{/if}} {{#if fields.body}}
+  <div class="body">{{nl2br fields.body}}</div>
+  {{/if}} {{#if assets.photo}}
+  <figure class="media"><img src="{{assets.photo}}" alt="" /></figure>
+  {{/if}}
+
+  <div class="actions">
+    <span class="pill vote">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3 3.5 10H7v6.5h6V10h3.5z" /></svg>
+      <b>{{#if fields.upvotes}}{{compact fields.upvotes}}{{else}}Vote{{/if}}</b>
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17 3.5 10H7V3.5h6V10h3.5z" /></svg>
+    </span>
+    <span class="pill"
+      ><svg viewBox="0 0 20 20" aria-hidden="true">
+        <path
+          d="M10 3c4.1 0 7 2.8 7 6.5S14.1 16 10 16c-1 0-1.9-.2-2.7-.5L3.5 17l1-3.2C3.6 12.6 3 11.1 3 9.5 3 5.8 5.9 3 10 3z"
+        /></svg
+      >{{#if fields.commentCount}}{{compact fields.commentCount}}{{else}}0{{/if}}</span
+    >
+    <span class="pill"
+      ><svg viewBox="0 0 20 20" aria-hidden="true">
+        <path d="M6 6.5 10 2.5l4 4M10 3v10M4 11v5h12v-5" /></svg
+      >Share</span
+    >
+  </div>
+
+  {{#if fields.comments.length}}
+  <section class="comments">
+    <div class="sort">Sort by: <b>Best</b></div>
+    {{#each fields.comments}}
+    <div class="c">
+      <div class="c-head">
+        <span class="c-av c{{@index}}">{{initials author}}</span><b>{{author}}</b>{{#if isOp}}<span
+          class="op"
+          >OP</span
+        >{{/if}}<span class="t">• {{default timestampRel '1 hr. ago'}}</span>
+      </div>
+      <div class="c-body">
+        <div class="c-text">{{nl2br text}}</div>
+        <div class="c-act">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M10 3 3.5 10H7v6.5h6V10h3.5z" />
+          </svg>
+          <b>{{#if upvotes}}{{compact upvotes}}{{else}}1{{/if}}</b>
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M10 17 3.5 10H7V3.5h6V10h3.5z" />
+          </svg>
+          <span>Reply</span><span>Share</span><span>···</span>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </section>
+  {{/if}}
+</article>

@@ -1,0 +1,40 @@
+<div class="frame">
+  {{#if assets.photo}}<img class="photo" src="{{assets.photo}}" alt="" />{{else}}
+  <div class="photo empty"></div>
+  {{/if}} {{#if fields.liveBadge}}
+  <div class="live">
+    <span class="dot"></span>LIVE{{#if fields.liveLocation}}<span class="loc"
+      >{{fields.liveLocation}}</span
+    >{{/if}}
+  </div>
+  {{/if}}
+
+  <div class="bug">
+    <span class="mark">{{default fields.stationShort '5'}}</span>
+    <span class="bug-name"
+      >{{#if fields.station}}{{upper fields.station}}{{else if brand.aliases.localTv}}{{upper
+      brand.aliases.localTv}}{{else}}CHANNEL 5{{/if}}<br /><small>NEWS</small></span
+    >
+  </div>
+
+  <div class="l3">
+    {{#if fields.nameSuper}}
+    <div class="super">
+      <b>{{fields.nameSuper}}</b>{{#if
+      fields.nameSuperTitle}}<span>{{fields.nameSuperTitle}}</span>{{/if}}
+    </div>
+    {{/if}}
+    <div class="kicker">{{default fields.kicker 'BREAKING NEWS'}}</div>
+    <div class="headline">{{upper fields.headline}}</div>
+    {{#if fields.lowerThird}}
+    <div class="sub">{{fields.lowerThird}}</div>
+    {{/if}}
+    <div class="bottom">
+      <span class="time"
+        >{{default fields.clock '12:02'}}{{#if
+        fields.temperature}}<i>{{fields.temperature}}</i>{{/if}}</span
+      >
+      <span class="ticker">{{fields.ticker}}</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,205 @@
+/* Local news website article, browser screenshot (960 px). */
+.browser {
+  font-family: 'Inter', sans-serif;
+  color: #121212;
+  background: #fff;
+}
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 40px;
+  padding: 0 14px;
+  background: #e9e9ec;
+  border-bottom: 1px solid #d0d0d4;
+}
+.dots {
+  display: flex;
+  gap: 7px;
+}
+.dots i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+.dots i:nth-child(2) {
+  background: #febc2e;
+}
+.dots i:nth-child(3) {
+  background: #28c840;
+}
+.url {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 560px;
+  margin: 0 auto;
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 7px;
+  background: #fff;
+  font-size: 12.5px;
+  color: #333;
+}
+.url svg {
+  width: 10px;
+  height: 12px;
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.4;
+}
+.mast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px 12px;
+  border-bottom: 1px solid #ddd;
+}
+.menu {
+  width: 20px;
+  height: 16px;
+  stroke: #121212;
+  stroke-width: 2;
+}
+.logo {
+  font-family: 'Source Serif 4', serif;
+  font-weight: 700;
+  font-size: 34px;
+  letter-spacing: -0.01em;
+}
+.sub {
+  padding: 7px 14px;
+  border-radius: 3px;
+  background: #0b5394;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+  padding: 10px 0;
+  border-bottom: 3px double #121212;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.art {
+  position: relative;
+  width: 720px;
+  margin: 0 auto;
+  padding: 26px 0 0;
+}
+.kick {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.lab {
+  padding: 2px 8px;
+  background: #c8102e;
+  color: #fff;
+}
+.sec {
+  color: #0b5394;
+}
+h1 {
+  margin: 12px 0 10px;
+  font-family: 'Source Serif 4', serif;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+.dek {
+  margin: 0 0 18px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 20px;
+  line-height: 1.4;
+  color: #444;
+}
+.by {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3;
+  font-size: 14px;
+}
+.by-av {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #d9e2ec;
+  color: #34495e;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.by-name b {
+  font-weight: 700;
+}
+.by-time {
+  margin-top: 2px;
+  color: #666;
+  font-size: 13px;
+}
+.share {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
+}
+.share svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #444;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+.hero {
+  margin: 22px 0 0;
+}
+.hero img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+}
+figcaption {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #555;
+}
+.credit {
+  color: #888;
+}
+.body {
+  max-height: 560px;
+  overflow: hidden;
+  margin-top: 22px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 19px;
+  line-height: 1.6;
+}
+.fade {
+  position: relative;
+  height: 60px;
+  margin-top: -60px;
+  background: linear-gradient(rgba(255, 255, 255, 0), #fff);
+}
+
+/* Long unbroken words (URLs, hashes) must wrap instead of overflowing. */
+h1,
+.dek {
+  overflow-wrap: anywhere;
+}

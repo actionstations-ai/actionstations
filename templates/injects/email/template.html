@@ -1,0 +1,147 @@
+{{#if (eq variant 'print')}}
+<div class="print">
+  <div class="owner">{{default fields.printedBy fields.to}}</div>
+  <table class="hdr">
+    <tr>
+      <th>From:</th>
+      <td>{{fields.fromName}}{{#if fields.fromEmail}} &lt;{{fields.fromEmail}}&gt;{{/if}}</td>
+    </tr>
+    <tr>
+      <th>Sent:</th>
+      <td>{{fields.sentAt}}</td>
+    </tr>
+    <tr>
+      <th>To:</th>
+      <td>{{fields.to}}</td>
+    </tr>
+    {{#if fields.cc}}
+    <tr>
+      <th>Cc:</th>
+      <td>{{fields.cc}}</td>
+    </tr>
+    {{/if}}
+    <tr>
+      <th>Subject:</th>
+      <td>{{fields.subject}}</td>
+    </tr>
+    {{#if fields.attachments.length}}
+    <tr>
+      <th>Attachments:</th>
+      <td>{{#each fields.attachments}}{{name}}{{#unless @last}}; {{/unless}}{{/each}}</td>
+    </tr>
+    {{/if}} {{#if (eq fields.importance 'high')}}
+    <tr>
+      <th>Importance:</th>
+      <td>High</td>
+    </tr>
+    {{/if}}
+  </table>
+  {{#if fields.external}}
+  <p class="ext-print">
+    CAUTION: This email originated from outside of the organization. Do not click links or open
+    attachments unless you recognize the sender and know the content is safe.
+  </p>
+  {{/if}}
+  <div class="pbody">{{nl2br fields.body}}</div>
+  {{#if fields.signature}}
+  <div class="psig">{{nl2br fields.signature}}</div>
+  {{/if}}
+</div>
+{{else}}
+<div class="screen">
+  <div class="toolbar">
+    <span class="tb"
+      ><svg viewBox="0 0 20 20">
+        <path d="M8 5 3.5 9.5 8 14M3.8 9.5H12a4.5 4.5 0 0 1 4.5 4.5v1.5" /></svg
+      >Reply</span
+    >
+    <span class="tb"
+      ><svg viewBox="0 0 20 20">
+        <path d="M7 5 2.5 9.5 7 14M11 5 6.5 9.5 11 14M6.8 9.5H13a4 4 0 0 1 4 4V15" /></svg
+      >Reply all</span
+    >
+    <span class="tb"
+      ><svg viewBox="0 0 20 20">
+        <path d="M12 5l4.5 4.5L12 14M16.2 9.5H8a4.5 4.5 0 0 0-4.5 4.5v1.5" /></svg
+      >Forward</span
+    >
+    <span class="tb"
+      ><svg viewBox="0 0 20 20">
+        <rect x="3" y="5" width="14" height="11" rx="1.5" />
+        <path d="M3 8h14M8 11.5h4" /></svg
+      >Archive</span
+    >
+    <span class="tb"
+      ><svg viewBox="0 0 20 20"><path d="M4.5 6h11M8 6V4.5h4V6M6 6l.8 10h6.4L14 6" /></svg
+      >Delete</span
+    >
+  </div>
+  {{#if (eq fields.importance 'high')}}
+  <div class="infobar">This message was sent with High importance.</div>
+  {{/if}} {{#if fields.external}}
+  <div class="ext">
+    <b>CAUTION:</b> This email originated from outside of the organization. Do not click links or
+    open attachments unless you recognize the sender and know the content is safe.
+  </div>
+  {{/if}}
+  <h1 class="subject">
+    {{#if (eq fields.importance 'high')}}<span class="bang">!</span>{{/if}}{{fields.subject}}
+  </h1>
+  <div class="sender">
+    <span class="avatar"
+      >{{#if fields.senderInitials}}{{fields.senderInitials}}{{else}}{{initials
+      fields.fromName}}{{/if}}</span
+    >
+    <div class="ids">
+      <div class="from">
+        <b>{{fields.fromName}}</b>{{#if fields.fromEmail}}
+        <span class="addr">&lt;{{fields.fromEmail}}&gt;</span>{{/if}}
+      </div>
+      <div class="rcpt">To: {{fields.to}}</div>
+      {{#if fields.cc}}
+      <div class="rcpt">Cc: {{fields.cc}}</div>
+      {{/if}}
+    </div>
+    <div class="when">
+      <span class="icons"
+        ><svg viewBox="0 0 20 20">
+          <path d="M8 5 3.5 9.5 8 14M3.8 9.5H12a4.5 4.5 0 0 1 4.5 4.5v1.5" /></svg
+        ><svg viewBox="0 0 20 20">
+          <path d="M7 5 2.5 9.5 7 14M11 5 6.5 9.5 11 14M6.8 9.5H13a4 4 0 0 1 4 4V15" /></svg
+        ><svg viewBox="0 0 20 20">
+          <path d="M12 5l4.5 4.5L12 14M16.2 9.5H8a4.5 4.5 0 0 0-4.5 4.5v1.5" /></svg
+        ><svg viewBox="0 0 20 20" class="fill">
+          <circle cx="4.5" cy="10" r="1.3" />
+          <circle cx="10" cy="10" r="1.3" />
+          <circle cx="15.5" cy="10" r="1.3" /></svg
+      ></span>
+      <span>{{fields.sentAt}}</span>
+    </div>
+  </div>
+  {{#if fields.attachments.length}}
+  <div class="chips">
+    {{#each fields.attachments}}
+    <span class="chip">
+      <span class="ficon k-{{default kind 'file'}}"
+        >{{#if (eq kind 'pdf')}}PDF{{else if (eq kind 'doc')}}W{{else if (eq kind 'xls')}}X{{else if
+        (eq kind 'ppt')}}P{{else if (eq kind 'img')}}IMG{{else if (eq kind 'zip')}}ZIP{{else}}<svg
+          viewBox="0 0 16 16"
+        >
+          <path d="M4 1.5h5.5L13 5v9.5H4z" /></svg
+        >{{/if}}</span
+      >
+      <span class="fmeta"
+        ><span class="fname">{{name}}</span>{{#if size}}<span class="fsize">{{size}}</span
+        >{{/if}}</span
+      >
+      <svg class="chev" viewBox="0 0 12 12"><path d="M3 4.5 6 7.5l3-3" /></svg>
+    </span>
+    {{/each}}
+  </div>
+  {{/if}}
+  <div class="body">{{nl2br fields.body}}</div>
+  {{#if fields.signature}}
+  <div class="sig">{{nl2br fields.signature}}</div>
+  {{/if}}
+</div>
+{{/if}}

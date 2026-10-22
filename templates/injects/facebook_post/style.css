@@ -1,0 +1,329 @@
+/* Facebook-style feed post (desktop feed card, 590 px) on the grey feed background. */
+.inject-root {
+  padding: 12px 13px;
+  background: #f0f2f5;
+}
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  color: #050505;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  overflow: hidden;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px 0;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: 0 0 40px;
+}
+.initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #8a6a3f;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+.group-avatar {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+}
+.group-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #c8577b;
+  overflow: hidden;
+}
+.group-mark svg {
+  width: 40px;
+  height: 40px;
+  fill: rgba(255, 255, 255, 0.9);
+}
+.mini {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+  font-size: 10px;
+}
+.who {
+  flex: 1;
+  min-width: 0;
+}
+.line1 {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+}
+.line2 {
+  display: flex;
+  align-items: center;
+  color: #65676b;
+  font-size: 13px;
+  line-height: 18px;
+}
+.author {
+  font-weight: 600;
+  color: #65676b;
+}
+.badge {
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 4px;
+  background: #e7f3ff;
+  color: #1b74e4;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+}
+.sep {
+  padding: 0 4px;
+}
+.aud {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: #65676b;
+  stroke-width: 1.4;
+}
+.dots {
+  width: 20px;
+  height: 20px;
+  fill: #65676b;
+  margin-right: 14px;
+}
+.close {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #65676b;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.text {
+  margin: 0;
+  padding: 10px 16px 14px;
+  overflow-wrap: anywhere;
+}
+.link {
+  color: #1b74e4;
+  font-weight: 600;
+}
+.media {
+  margin: 0;
+  border-top: 1px solid #e4e6eb;
+  border-bottom: 1px solid #e4e6eb;
+}
+.media img {
+  width: 100%;
+  max-height: 600px;
+  object-fit: cover;
+}
+.counts {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 16px;
+  padding: 10px 0;
+  color: #65676b;
+  font-size: 15px;
+}
+.rxs {
+  display: flex;
+  align-items: center;
+}
+.rx {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  margin-right: -4px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #fff;
+}
+.rx:nth-child(1) {
+  z-index: 3;
+}
+.rx:nth-child(2) {
+  z-index: 2;
+}
+.rx svg {
+  width: 100%;
+  height: 100%;
+}
+.rx-count {
+  margin-left: 10px;
+}
+.cs {
+  display: flex;
+  gap: 14px;
+}
+.bar {
+  display: flex;
+  margin: 0 16px;
+  padding: 4px 0;
+  border-top: 1px solid #ced0d4;
+  color: #65676b;
+  font-weight: 600;
+  font-size: 15px;
+}
+.bar .btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 36px;
+}
+.bar svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #65676b;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.comments {
+  margin: 0 16px;
+  padding: 4px 0 12px;
+  border-top: 1px solid #ced0d4;
+}
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 0 6px;
+  color: #65676b;
+  font-weight: 600;
+  font-size: 15px;
+}
+.sort svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: #65676b;
+  stroke-width: 1.6;
+}
+.comment {
+  display: flex;
+  gap: 6px;
+  padding: 4px 0;
+}
+.c-avatar {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  background: #6d7f94;
+}
+.c-avatar.c1 {
+  background: #4b8a64;
+}
+.c-avatar.c2 {
+  background: #a0603b;
+}
+.c-avatar.c3 {
+  background: #6b5aa6;
+}
+.c-avatar.me {
+  background: #d8dadf;
+}
+.c-body {
+  min-width: 0;
+}
+.bubble {
+  position: relative;
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 18px;
+  background: #f0f2f5;
+}
+.c-name {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+}
+.c-text {
+  font-size: 15px;
+  line-height: 20px;
+  overflow-wrap: anywhere;
+}
+.c-likes {
+  position: absolute;
+  right: -10px;
+  bottom: -12px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 4px 2px 2px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  color: #65676b;
+  font-size: 13px;
+  line-height: 16px;
+}
+.c-likes svg {
+  width: 16px;
+  height: 16px;
+}
+.c-meta {
+  display: flex;
+  gap: 14px;
+  padding: 3px 12px 0;
+  color: #65676b;
+  font-size: 12px;
+  line-height: 16px;
+}
+.c-meta b {
+  font-weight: 700;
+}
+.write {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 8px;
+}
+.write-box {
+  flex: 1;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 18px;
+  background: #f0f2f5;
+  color: #65676b;
+  font-size: 15px;
+  line-height: 36px;
+}
+
+/* Long unbroken words (URLs, hashes) must wrap instead of overflowing. */
+.line1 {
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,82 @@
+<div class="phone">
+  <div class="status">
+    <span class="clock">{{default fields.statusTime '10:47'}}</span>
+    <span class="icons">
+      <svg class="sig" viewBox="0 0 18 12" aria-hidden="true">
+        <rect x="0" y="8" width="3" height="4" rx="1" />
+        <rect x="5" y="5.5" width="3" height="6.5" rx="1" />
+        <rect x="10" y="3" width="3" height="9" rx="1" />
+        <rect x="15" y="0" width="3" height="12" rx="1" class="off" />
+      </svg>
+      <svg class="wifi" viewBox="0 0 16 12" aria-hidden="true">
+        <path
+          d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0zM3.5 6.9a6.4 6.4 0 0 1 9 0l-1.4 1.4a4.4 4.4 0 0 0-6.2 0zM1.2 4.6a9.6 9.6 0 0 1 13.6 0l-1.4 1.4a7.6 7.6 0 0 0-10.8 0z"
+        />
+      </svg>
+      <span class="batt"
+        ><span
+          class="lvl{{#if fields.batteryPercent}}{{#unless (gt fields.batteryPercent 20)}} low{{/unless}}{{/if}}"
+          style="width: {{default fields.batteryPercent 64}}%"
+        ></span
+      ></span>
+    </span>
+  </div>
+
+  <header class="head">
+    <span class="back"
+      ><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" /></svg>{{#if
+      fields.unreadCount}}<span class="unread">{{fields.unreadCount}}</span>{{/if}}</span
+    >
+    <div class="contact">
+      <span class="avatar"
+        >{{#if fields.contactInitials}}{{fields.contactInitials}}{{else}}{{initials
+        fields.fromLabel}}{{/if}}</span
+      >
+      <span class="name"
+        >{{fields.fromLabel}}
+        <svg viewBox="0 0 8 12" aria-hidden="true"><path d="m2 2 4 4-4 4" /></svg
+      ></span>
+    </div>
+    <span class="video"
+      ><svg viewBox="0 0 26 18" aria-hidden="true">
+        <rect x="1" y="2" width="16" height="14" rx="3.5" />
+        <path d="M18.5 7.2 25 3.5v11l-6.5-3.7z" /></svg
+    ></span>
+  </header>
+
+  <div class="thread">
+    <div class="sep">
+      {{#if (eq variant 'sms')}}Text Message<br />{{else}}iMessage<br />{{/if}}<b
+        >{{default fields.dateLabel 'Today'}}</b
+      >
+    </div>
+    {{#each fields.bubbles}} {{#if timeLabel}}
+    <div class="sep"><b>{{timeLabel}}</b></div>
+    {{/if}}
+    <div class="row {{dir}}">
+      <div
+        class="b {{dir}}{{#unless (eq dir (lookup (lookup ../fields.bubbles (inc @index)) 'dir'))}} tail{{/unless}}"
+      >
+        {{nl2br text}}
+      </div>
+    </div>
+    {{/each}} {{#if fields.receipt}}
+    <div class="receipt">{{fields.receipt}}</div>
+    {{/if}}
+  </div>
+
+  <footer class="compose">
+    <span class="plus"
+      ><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" /></svg
+    ></span>
+    <span class="field"
+      >{{#if (eq variant 'sms')}}Text Message{{else}}iMessage{{/if}}<svg
+        viewBox="0 0 14 20"
+        aria-hidden="true"
+      >
+        <rect x="4" y="1.5" width="6" height="11" rx="3" />
+        <path d="M1.5 9.5a5.5 5.5 0 0 0 11 0M7 15v3.5" /></svg
+    ></span>
+  </footer>
+  <div class="home"></div>
+</div>

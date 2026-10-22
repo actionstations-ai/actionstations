@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TV news still with lower third",
+  "description": "A frame grab from a local TV newscast: an AI photo (live shot or anchor) under a template-rendered lower third, LIVE bug, station bug and ticker. All readable text is in these fields, never in the photo.",
+  "type": "object",
+  "required": ["headline"],
+  "properties": {
+    "station": {
+      "type": "string",
+      "description": "Station brand for the bug (defaults to brand.aliases.localTv, then 'Channel 5')",
+      "examples": ["Channel 5"]
+    },
+    "stationShort": {
+      "type": "string",
+      "description": "Short mark inside the station bug (number or call letters)",
+      "maxLength": 6,
+      "examples": ["5"]
+    },
+    "kicker": {
+      "type": "string",
+      "description": "Red tag above the headline",
+      "examples": ["BREAKING NEWS", "DEVELOPING STORY"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Main lower-third line (all caps on air; under ~45 characters)",
+      "maxLength": 70,
+      "examples": ["CYBER TERROR AT NCIA: IS IT SAFE?"]
+    },
+    "lowerThird": {
+      "type": "string",
+      "description": "Second line under the headline (detail or attribution)",
+      "examples": ["Screens show 'Flight 666 to Purgatory'; baggage system reportedly down"]
+    },
+    "liveBadge": {
+      "type": "boolean",
+      "description": "Show the LIVE bug in the top-left corner",
+      "examples": [true]
+    },
+    "liveLocation": {
+      "type": "string",
+      "description": "Location beside the LIVE bug",
+      "examples": ["NCIA TERMINAL"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "On-air clock",
+      "examples": ["12:02"]
+    },
+    "temperature": {
+      "type": "string",
+      "description": "Weather temperature next to the clock",
+      "examples": ["58°"]
+    },
+    "nameSuper": {
+      "type": "string",
+      "description": "Name of the reporter or interviewee shown on the lower third",
+      "examples": ["JESSICA MARTIN"]
+    },
+    "nameSuperTitle": {
+      "type": "string",
+      "description": "Title under the name",
+      "examples": ["Reporting live"]
+    },
+    "ticker": {
+      "type": "string",
+      "description": "Crawl text along the bottom (several items separated by ' • ')",
+      "examples": [
+        "FAA: Air traffic control operating normally • Travelers urged to check airline apps"
+      ]
+    },
+    "anchorBrief": {
+      "type": "string",
+      "description": "Image-generation brief for the photo slot (reporter live shot, anchor desk or b-roll). Media stage only; not rendered.",
+      "examples": [
+        "field reporter with microphone in a crowded airport terminal, broadcast camera footage"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

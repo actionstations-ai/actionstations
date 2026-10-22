@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Team chat (Teams/Slack-style)",
+  "description": "A screenshot of a workplace chat channel or group chat (teams variant: Microsoft Teams-like; slack variant: Slack-like). Messages are short and informal; use @mentions for people being pulled in.",
+  "type": "object",
+  "required": ["channelName", "messages"],
+  "properties": {
+    "channelName": {
+      "type": "string",
+      "description": "Channel or group chat name",
+      "examples": ["IT Incident Bridge", "ops-bridge"]
+    },
+    "workspace": {
+      "type": "string",
+      "description": "Team / workspace name shown above the channel (defaults to brand.aliases.orgShort)",
+      "examples": ["NCIA IT"]
+    },
+    "topic": {
+      "type": "string",
+      "description": "Channel topic or description line",
+      "examples": ["Active incident – FIDS data integrity"]
+    },
+    "participants": {
+      "type": "array",
+      "description": "Everyone in the chat, in a stable order (drives avatar colors and the member count)",
+      "items": { "type": "string" },
+      "examples": [["Marcus Lee", "Priya Nair", "Tom Brandt"]]
+    },
+    "dateLabel": {
+      "type": "string",
+      "description": "Day divider above the first message",
+      "examples": ["Today"]
+    },
+    "messages": {
+      "type": "array",
+      "description": "Messages oldest first",
+      "minItems": 1,
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sender", "text"],
+        "properties": {
+          "sender": {
+            "type": "string",
+            "description": "Sender name (should match a participants entry)",
+            "examples": ["Priya Nair"]
+          },
+          "senderTitle": {
+            "type": "string",
+            "description": "Optional title or org shown after the name (e.g. External for a vendor)",
+            "examples": ["External"]
+          },
+          "time": { "type": "string", "description": "Time as shown", "examples": ["10:14 AM"] },
+          "text": {
+            "type": "string",
+            "description": "Message text; @mentions are highlighted; newlines kept",
+            "examples": ["@Marcus Lee FIDS_Data_Stream restarted itself at 10:06"]
+          },
+          "important": {
+            "type": "boolean",
+            "description": "Flag the message as IMPORTANT/urgent (red marker)",
+            "examples": [false]
+          },
+          "reactions": {
+            "type": "array",
+            "description": "Reaction chips under the message",
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["kind", "count"],
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": ["like", "eyes", "check", "alert"],
+                  "description": "Reaction glyph",
+                  "examples": ["eyes"]
+                },
+                "count": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "Count",
+                  "examples": [2]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

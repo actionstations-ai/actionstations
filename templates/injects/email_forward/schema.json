@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Forwarded email (Outlook-style)",
+  "description": "An email that forwards an earlier message: the forwarder's own note on top, then the classic '-----Original Message-----' header block and the original body. Use it for clues passed along by staff (e.g. a user forwarding a phishing email to the helpdesk).",
+  "type": "object",
+  "required": ["fromName", "to", "subject", "note", "original"],
+  "properties": {
+    "fromName": {
+      "type": "string",
+      "description": "Forwarder display name",
+      "examples": ["Kyle (Summer Intern – Ops)"]
+    },
+    "fromEmail": {
+      "type": "string",
+      "description": "Forwarder address",
+      "examples": ["kyle.intern@ncia-airport.org"]
+    },
+    "senderInitials": {
+      "type": "string",
+      "maxLength": 3,
+      "description": "Letters for the sender's avatar disc when the display name is not a plain first and last name",
+      "examples": ["K"]
+    },
+    "to": {
+      "type": "string",
+      "description": "Recipients of the forward",
+      "examples": ["IT Helpdesk"]
+    },
+    "cc": {
+      "type": "string",
+      "description": "Cc recipients of the forward",
+      "examples": [""]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject of the forward (usually 'FW: ' + original subject, or the forwarder's own words)",
+      "examples": ["Uh oh..."]
+    },
+    "sentAt": {
+      "type": "string",
+      "description": "When the forward was sent, as the client shows it",
+      "examples": ["Tue 10/14/2025 11:38 AM"]
+    },
+    "note": {
+      "type": "string",
+      "description": "The forwarder's own message above the forwarded content. Newlines are kept.",
+      "examples": [
+        "Hey guys, I think I messed up. I clicked a link in an email yesterday that said 'Free Browns Tickets' on the Ops workstation (OPS_INTERN_03)."
+      ]
+    },
+    "signature": {
+      "type": "string",
+      "description": "Forwarder's signature (newlines kept)",
+      "examples": ["Kyle\nOperations Intern"]
+    },
+    "importance": {
+      "type": "string",
+      "enum": ["high", "normal", "low"],
+      "description": "Importance of the forward",
+      "examples": ["normal"]
+    },
+    "external": {
+      "type": "boolean",
+      "description": "Show the external-sender caution banner on the forward",
+      "examples": [false]
+    },
+    "attachments": {
+      "type": "array",
+      "description": "Attachment chips on the forward",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "File name",
+            "examples": ["invoice.pdf"]
+          },
+          "size": {
+            "type": "string",
+            "description": "Size as shown",
+            "examples": ["88 KB"]
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["pdf", "doc", "xls", "ppt", "img", "zip", "file"],
+            "description": "Icon family",
+            "examples": ["pdf"]
+          }
+        }
+      }
+    },
+    "printedBy": {
+      "type": "string",
+      "description": "Mailbox owner printed at the top of the print variant",
+      "examples": ["IT Helpdesk"]
+    },
+    "original": {
+      "type": "object",
+      "description": "The forwarded message",
+      "additionalProperties": false,
+      "required": ["fromName", "subject", "body"],
+      "properties": {
+        "fromName": {
+          "type": "string",
+          "description": "Original sender display name",
+          "examples": ["Browns Fan Rewards"]
+        },
+        "fromEmail": {
+          "type": "string",
+          "description": "Original sender address (for phishing, a look-alike domain)",
+          "examples": ["rewards@browns-fan-rewards.co"]
+        },
+        "sentAt": {
+          "type": "string",
+          "description": "Original sent date-time (Outlook long form)",
+          "examples": ["Monday, October 13, 2025 4:12 PM"]
+        },
+        "to": {
+          "type": "string",
+          "description": "Original recipients",
+          "examples": ["OPS_INTERN_03"]
+        },
+        "cc": {
+          "type": "string",
+          "description": "Original Cc",
+          "examples": [""]
+        },
+        "subject": {
+          "type": "string",
+          "description": "Original subject",
+          "examples": ["Free Browns Tickets – Claim by 5 PM!"]
+        },
+        "body": {
+          "type": "string",
+          "description": "Original body as plain text (newlines kept)",
+          "examples": ["Congratulations! You have been selected..."]
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

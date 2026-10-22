@@ -1,0 +1,224 @@
+/* X/Twitter-style timeline post, 598 px column. Generic look-alike: no trademarked marks. */
+body {
+  --bg: #ffffff;
+  --fg: #0f1419;
+  --muted: #536471;
+  --line: #eff3f4;
+  --link: #1d9bf0;
+  --like: #f91880;
+  --media-line: #cfd9de;
+}
+body.variant-dark {
+  --bg: #000000;
+  --fg: #e7e9ea;
+  --muted: #71767b;
+  --line: #2f3336;
+  --link: #1d9bf0;
+  --media-line: #2f3336;
+  background: #000;
+}
+.inject-root {
+  background: var(--bg);
+}
+.post {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px 4px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+}
+.avatar-col {
+  flex: 0 0 40px;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+}
+.c-blue {
+  background: #1d6fb8;
+}
+.c-green {
+  background: #2e7d4f;
+}
+.c-orange {
+  background: #c25a12;
+}
+.c-purple {
+  background: #6a3fb5;
+}
+.c-red {
+  background: #b3261e;
+}
+.c-gray {
+  background: #5b6670;
+}
+.placeholder {
+  background: #ccd6dd;
+  overflow: hidden;
+}
+.placeholder svg {
+  width: 40px;
+  height: 40px;
+  fill: #8899a6;
+}
+.main {
+  flex: 1;
+  min-width: 0;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  line-height: 20px;
+}
+.name {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.badge {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+.badge polygon {
+  fill: var(--link);
+  stroke: var(--link);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+.badge path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.handle,
+.dot,
+.time {
+  color: var(--muted);
+}
+.dot {
+  padding: 0 1px;
+}
+.more {
+  margin-left: auto;
+  width: 18.75px;
+  height: 18.75px;
+  fill: var(--muted);
+}
+.replying {
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+.text {
+  margin: 2px 0 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.link {
+  color: var(--link);
+}
+.media {
+  position: relative;
+  margin: 12px 0 0;
+  border: 1px solid var(--media-line);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.media img {
+  width: 100%;
+  max-height: 510px;
+  object-fit: cover;
+}
+.play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: var(--link);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.play svg {
+  width: 28px;
+  height: 28px;
+  margin-left: 3px;
+  fill: #fff;
+}
+.duration {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 0 4px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.77);
+  color: #fff;
+  font-size: 13px;
+  line-height: 20px;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.act {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+.act svg,
+.bm svg {
+  width: 18.75px;
+  height: 18.75px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.like.on {
+  color: var(--like);
+}
+.like.on svg {
+  fill: var(--like);
+}
+.act.tail {
+  flex: 0 0 auto;
+  gap: 14px;
+}
+.bm {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Long unbroken words (URLs, hashes) must wrap instead of overflowing. */
+.name {
+  overflow-wrap: anywhere;
+}

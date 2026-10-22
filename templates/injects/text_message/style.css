@@ -1,0 +1,282 @@
+/* Phone messaging screenshot (390 pt wide). imessage = blue outgoing, sms = green outgoing. */
+body {
+  --out: #0b84fe;
+}
+body.variant-sms {
+  --out: #34c759;
+}
+.phone {
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  font-family: 'Inter', sans-serif;
+  color: #000;
+}
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  padding: 6px 30px 0 44px;
+}
+.clock {
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sig {
+  width: 18px;
+  height: 12px;
+  fill: #000;
+}
+.sig .off {
+  fill: #c7c7cc;
+}
+.wifi {
+  width: 16px;
+  height: 12px;
+  fill: #000;
+}
+.batt {
+  position: relative;
+  width: 25px;
+  height: 12px;
+  padding: 1.5px;
+  border: 1.2px solid #9a9a9f;
+  border-radius: 4px;
+  display: flex;
+}
+.batt::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 3px;
+  width: 2px;
+  height: 4px;
+  border-radius: 0 1px 1px 0;
+  background: #9a9a9f;
+}
+.lvl {
+  border-radius: 1.5px;
+  background: #000;
+}
+.lvl.low {
+  background: #ff3b30;
+}
+.head {
+  display: flex;
+  align-items: flex-start;
+  padding: 4px 16px 10px;
+  border-bottom: 0.5px solid #d8d8dc;
+  background: #f9f9f9;
+}
+.back {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 64px;
+  padding-top: 16px;
+}
+.back svg {
+  width: 12px;
+  height: 20px;
+  fill: none;
+  stroke: var(--out);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+body.variant-sms .back svg {
+  stroke: #0b84fe;
+}
+.unread {
+  min-width: 22px;
+  padding: 1px 6px;
+  border-radius: 11px;
+  background: #0b84fe;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+.contact {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(#a5abb6, #858b96);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.name {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 12px;
+  color: #000;
+}
+.name svg {
+  width: 8px;
+  height: 12px;
+  fill: none;
+  stroke: #9a9a9f;
+  stroke-width: 1.6;
+}
+.video {
+  width: 64px;
+  padding-top: 18px;
+  text-align: right;
+}
+.video svg {
+  width: 26px;
+  height: 18px;
+  fill: none;
+  stroke: #0b84fe;
+  stroke-width: 1.7;
+  stroke-linejoin: round;
+}
+.thread {
+  flex: 1;
+  padding: 8px 16px 16px;
+}
+.sep {
+  margin: 10px 0 8px;
+  text-align: center;
+  font-size: 11.5px;
+  line-height: 15px;
+  color: #8a8a8e;
+}
+.sep b {
+  font-weight: 600;
+}
+.row {
+  display: flex;
+  margin-bottom: 2px;
+}
+.row.out {
+  justify-content: flex-end;
+}
+.b {
+  position: relative;
+  max-width: 266px;
+  padding: 7px 12px 8px;
+  border-radius: 18px;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+.b.in {
+  background: #e9e9eb;
+  color: #000;
+}
+.b.out {
+  background: var(--out);
+  color: #fff;
+}
+.b.tail {
+  margin-bottom: 8px;
+}
+.b.tail::before,
+.b.tail::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  height: 20px;
+}
+.b.out.tail::before {
+  right: -7px;
+  width: 20px;
+  background: var(--out);
+  border-bottom-left-radius: 16px 14px;
+}
+.b.out.tail::after {
+  right: -26px;
+  width: 26px;
+  background: #fff;
+  border-bottom-left-radius: 10px;
+}
+.b.in.tail::before {
+  left: -7px;
+  width: 20px;
+  background: #e9e9eb;
+  border-bottom-right-radius: 16px 14px;
+}
+.b.in.tail::after {
+  left: -26px;
+  width: 26px;
+  background: #fff;
+  border-bottom-right-radius: 10px;
+}
+.receipt {
+  margin-top: -4px;
+  text-align: right;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #8a8a8e;
+}
+.compose {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px 8px;
+}
+.plus {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #eeeef0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.plus svg {
+  width: 18px;
+  height: 18px;
+  stroke: #7c7c80;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 36px;
+  padding: 0 12px 0 14px;
+  border: 1px solid #d1d1d6;
+  border-radius: 18px;
+  color: #b0b0b5;
+  font-size: 16px;
+}
+.field svg {
+  width: 14px;
+  height: 20px;
+  fill: none;
+  stroke: #9a9a9f;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.home {
+  width: 134px;
+  height: 5px;
+  margin: 10px auto 8px;
+  border-radius: 3px;
+  background: #000;
+}

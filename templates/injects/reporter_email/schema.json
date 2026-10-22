@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reporter email (media inquiry)",
+  "description": "An email from a journalist to the organization's PIO or media inbox asking for comment against a deadline. Professional but pushy: what they already have, what they are about to publish, a specific list of questions, the deadline.",
+  "type": "object",
+  "required": ["outlet", "reporterName", "subject", "body", "deadline"],
+  "properties": {
+    "outlet": {
+      "type": "string",
+      "description": "News outlet the reporter works for (prefer the project's local outlets, e.g. brand.aliases.localNews or localTv)",
+      "examples": ["The Plain Dealer", "Channel 5 News"]
+    },
+    "reporterName": {
+      "type": "string",
+      "description": "Reporter's full name",
+      "examples": ["Alicia Romero"]
+    },
+    "reporterTitle": {
+      "type": "string",
+      "description": "Reporter's title or beat",
+      "examples": ["Transportation Reporter"]
+    },
+    "reporterEmail": {
+      "type": "string",
+      "description": "Reporter's email address",
+      "examples": ["aromero@plaindealer-news.com"]
+    },
+    "reporterPhone": {
+      "type": "string",
+      "description": "Reporter's phone (signature)",
+      "examples": ["(216) 555-0177 (cell)"]
+    },
+    "to": {
+      "type": "string",
+      "description": "Recipient (PIO or media inbox)",
+      "examples": ["media@ncia-airport.org"]
+    },
+    "cc": { "type": "string", "description": "Cc", "examples": [""] },
+    "subject": {
+      "type": "string",
+      "description": "Subject line (often 'Media inquiry – …' or 'Request for comment')",
+      "examples": ["Request for comment: FIDS outage, reports of cyberattack — deadline 1 PM"]
+    },
+    "sentAt": {
+      "type": "string",
+      "description": "Sent date-time as the client shows it",
+      "examples": ["Tue 10/14/2025 12:18 PM"]
+    },
+    "body": {
+      "type": "string",
+      "description": "Email body (newlines kept). Do not include the signature; it is built from the reporter fields.",
+      "examples": ["Hi,\n\nI'm working on a story for this afternoon..."]
+    },
+    "deadline": {
+      "type": "string",
+      "description": "Deadline shown on the follow-up flag bar",
+      "examples": ["Today 1:00 PM"]
+    },
+    "printedBy": {
+      "type": "string",
+      "description": "Mailbox owner printed at the top of the print variant",
+      "examples": ["Public Information Officer"]
+    }
+  },
+  "additionalProperties": false
+}

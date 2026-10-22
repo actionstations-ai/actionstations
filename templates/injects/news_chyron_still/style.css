@@ -1,0 +1,170 @@
+/* Local TV newscast frame grab, 1280 × 720 (16:9). Graphics are generic, no network marks. */
+.frame {
+  position: relative;
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  font-family: 'Roboto Condensed', sans-serif;
+  color: #fff;
+  background: #0b1a2e;
+}
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo.empty {
+  background:
+    radial-gradient(ellipse at 30% 35%, #23456f 0, transparent 60%),
+    radial-gradient(ellipse at 75% 60%, #142b4a 0, transparent 70%), #0b1a2e;
+}
+.live {
+  position: absolute;
+  left: 48px;
+  top: 40px;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 0 0 14px;
+  background: #d0101b;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.06em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+.live .dot {
+  width: 12px;
+  height: 12px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: #fff;
+}
+.live .loc {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  margin-left: 14px;
+  padding: 0 16px;
+  background: rgba(10, 22, 40, 0.88);
+  font-size: 22px;
+  letter-spacing: 0.04em;
+}
+.bug {
+  position: absolute;
+  right: 48px;
+  top: 36px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.92;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+.mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 30px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+.bug-name {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 18px;
+  letter-spacing: 0.06em;
+}
+.bug-name small {
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  font-weight: 400;
+}
+.l3 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.super {
+  display: flex;
+  width: fit-content;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 8px 64px;
+  padding: 5px 14px;
+  background: rgba(10, 22, 40, 0.86);
+  font-size: 22px;
+}
+.super b {
+  letter-spacing: 0.04em;
+}
+.super span {
+  font-size: 18px;
+  color: #c9d6e6;
+}
+.kicker {
+  display: inline-block;
+  margin-left: 64px;
+  padding: 4px 16px 3px;
+  background: #d0101b;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 0.08em;
+}
+.headline {
+  margin: 0 64px 0 64px;
+  padding: 10px 22px 8px;
+  background: #fff;
+  color: #0b1a2e;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 54px;
+  letter-spacing: 0.005em;
+  border-left: 10px solid #d0101b;
+}
+.sub {
+  margin: 0 64px;
+  padding: 7px 22px 8px 32px;
+  background: #102a4c;
+  font-size: 24px;
+  line-height: 30px;
+}
+.bottom {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  margin-top: 14px;
+  background: rgba(6, 14, 26, 0.92);
+  font-size: 22px;
+}
+.time {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 44px;
+  padding: 0 18px 0 64px;
+  background: #d0101b;
+  font-weight: 700;
+}
+.time i {
+  font-style: normal;
+  font-weight: 400;
+}
+.ticker {
+  padding-left: 22px;
+  white-space: nowrap;
+  overflow: hidden;
+  letter-spacing: 0.02em;
+}
+
+/* Long unbroken words (URLs, hashes) must wrap instead of overflowing. */
+.headline,
+.sub {
+  overflow-wrap: anywhere;
+}

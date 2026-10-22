@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Email (Outlook-style)",
+  "description": "A single email as seen in a desktop mail client reading pane (screen variant) or as printed from it (print variant). Write the body as the sender would: greeting, short paragraphs, sign-off.",
+  "type": "object",
+  "required": ["fromName", "to", "subject", "body"],
+  "properties": {
+    "fromName": {
+      "type": "string",
+      "description": "Sender display name",
+      "examples": ["BHS Control Room (Duty Manager)"]
+    },
+    "fromEmail": {
+      "type": "string",
+      "description": "Sender address",
+      "examples": ["bhs.control@ncia-airport.org"]
+    },
+    "senderInitials": {
+      "type": "string",
+      "maxLength": 3,
+      "description": "Letters for the sender's avatar disc when the display name is not a plain first and last name",
+      "examples": ["K"]
+    },
+    "to": {
+      "type": "string",
+      "description": "Recipients as displayed (names or addresses, separated by semicolons)",
+      "examples": ["Airport Operations Center (AOC)"]
+    },
+    "cc": {
+      "type": "string",
+      "description": "Cc recipients",
+      "examples": ["Terminal Duty Manager"]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject line",
+      "examples": ["URGENT: BHS CRITICAL FAILURE"]
+    },
+    "sentAt": {
+      "type": "string",
+      "description": "Sent date-time as the client shows it",
+      "examples": ["Tue 10/14/2025 10:31 AM"]
+    },
+    "body": {
+      "type": "string",
+      "description": "Message body as plain text. Blank lines separate paragraphs.",
+      "examples": ["Ops,\n\nWe have a major issue.\n\n— BHS Duty Manager"]
+    },
+    "signature": {
+      "type": "string",
+      "description": "Signature block under the body (newlines kept)",
+      "examples": ["BHS Duty Manager\nBaggage Handling Systems | x2210"]
+    },
+    "attachments": {
+      "type": "array",
+      "description": "Attachment chips shown above the body",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "File name with extension (extension picks the icon)",
+            "examples": ["SAC_alarm_log.xlsx"]
+          },
+          "size": {
+            "type": "string",
+            "description": "File size as shown",
+            "examples": ["48 KB"]
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["pdf", "doc", "xls", "ppt", "img", "zip", "file"],
+            "description": "Icon family (defaults to file)",
+            "examples": ["xls"]
+          }
+        }
+      }
+    },
+    "importance": {
+      "type": "string",
+      "enum": ["high", "normal", "low"],
+      "description": "Message importance (high shows the red exclamation and info bar)",
+      "examples": ["high"]
+    },
+    "external": {
+      "type": "boolean",
+      "description": "Show the external-sender caution banner (mail from outside the organization)",
+      "examples": [false]
+    },
+    "printedBy": {
+      "type": "string",
+      "description": "Mailbox owner printed at the top of the print variant",
+      "examples": ["Airport Operations Center"]
+    }
+  },
+  "additionalProperties": false
+}

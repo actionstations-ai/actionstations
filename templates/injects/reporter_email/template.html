@@ -1,0 +1,124 @@
+{{#if (eq variant 'print')}}
+<div class="print">
+  <div class="owner">{{default fields.printedBy fields.to}}</div>
+  <table class="hdr">
+    <tr>
+      <th>From:</th>
+      <td>
+        {{fields.reporterName}}{{#if fields.reporterEmail}} &lt;{{fields.reporterEmail}}&gt;{{/if}}
+      </td>
+    </tr>
+    <tr>
+      <th>Sent:</th>
+      <td>{{fields.sentAt}}</td>
+    </tr>
+    <tr>
+      <th>To:</th>
+      <td>{{fields.to}}</td>
+    </tr>
+    {{#if fields.cc}}
+    <tr>
+      <th>Cc:</th>
+      <td>{{fields.cc}}</td>
+    </tr>
+    {{/if}}
+    <tr>
+      <th>Subject:</th>
+      <td>{{fields.subject}}</td>
+    </tr>
+    <tr>
+      <th>Follow Up Flag:</th>
+      <td>Follow up</td>
+    </tr>
+    <tr>
+      <th>Due By:</th>
+      <td>{{fields.deadline}}</td>
+    </tr>
+    <tr>
+      <th>Flag Status:</th>
+      <td>Flagged</td>
+    </tr>
+  </table>
+  <p class="ext-print">
+    CAUTION: This email originated from outside of the organization. Do not click links or open
+    attachments unless you recognize the sender and know the content is safe.
+  </p>
+  <div class="pbody">{{nl2br fields.body}}</div>
+  <div class="psig">
+    <b>{{fields.reporterName}}</b><br />
+    {{#if fields.reporterTitle}}{{fields.reporterTitle}} | {{/if}}{{fields.outlet}}<br />
+    {{fields.reporterPhone}}{{#if fields.reporterEmail}}{{#if fields.reporterPhone}} |
+    {{/if}}{{fields.reporterEmail}}{{/if}}
+  </div>
+</div>
+{{else}}
+<div class="screen">
+  <div class="toolbar">
+    <span class="tb"
+      ><svg viewBox="0 0 20 20">
+        <path d="M8 5 3.5 9.5 8 14M3.8 9.5H12a4.5 4.5 0 0 1 4.5 4.5v1.5" /></svg
+      >Reply</span
+    >
+    <span class="tb"
+      ><svg viewBox="0 0 20 20">
+        <path d="M7 5 2.5 9.5 7 14M11 5 6.5 9.5 11 14M6.8 9.5H13a4 4 0 0 1 4 4V15" /></svg
+      >Reply all</span
+    >
+    <span class="tb"
+      ><svg viewBox="0 0 20 20">
+        <path d="M12 5l4.5 4.5L12 14M16.2 9.5H8a4.5 4.5 0 0 0-4.5 4.5v1.5" /></svg
+      >Forward</span
+    >
+    <span class="tb"
+      ><svg viewBox="0 0 20 20"><path d="M5 17V3.5M5 4h10l-2.5 3.5L15 11H5" /></svg>Flag</span
+    >
+  </div>
+  <div class="flagbar">
+    <svg viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M3.5 15V1.5M3.5 2h9l-2.2 3.2 2.2 3.3h-9" /></svg
+    >Follow up. Due by {{fields.deadline}}.
+  </div>
+  <div class="ext">
+    <b>CAUTION:</b> This email originated from outside of the organization. Do not click links or
+    open attachments unless you recognize the sender and know the content is safe.
+  </div>
+  <h1 class="subject">{{fields.subject}}</h1>
+  <div class="sender">
+    <span class="avatar">{{initials fields.reporterName}}</span>
+    <div class="ids">
+      <div class="from">
+        <b>{{fields.reporterName}}</b>{{#if fields.reporterEmail}}
+        <span class="addr">&lt;{{fields.reporterEmail}}&gt;</span>{{/if}}
+      </div>
+      <div class="rcpt">To: {{fields.to}}</div>
+      {{#if fields.cc}}
+      <div class="rcpt">Cc: {{fields.cc}}</div>
+      {{/if}}
+    </div>
+    <div class="when">
+      <span class="icons"
+        ><svg viewBox="0 0 20 20">
+          <path d="M8 5 3.5 9.5 8 14M3.8 9.5H12a4.5 4.5 0 0 1 4.5 4.5v1.5" /></svg
+        ><svg viewBox="0 0 20 20">
+          <path d="M7 5 2.5 9.5 7 14M11 5 6.5 9.5 11 14M6.8 9.5H13a4 4 0 0 1 4 4V15" /></svg
+        ><svg viewBox="0 0 20 20">
+          <path d="M12 5l4.5 4.5L12 14M16.2 9.5H8a4.5 4.5 0 0 0-4.5 4.5v1.5" /></svg
+        ><svg viewBox="0 0 20 20" class="fill">
+          <circle cx="4.5" cy="10" r="1.3" />
+          <circle cx="10" cy="10" r="1.3" />
+          <circle cx="15.5" cy="10" r="1.3" /></svg
+      ></span>
+      <span>{{fields.sentAt}}</span>
+    </div>
+  </div>
+  <div class="body">{{nl2br fields.body}}</div>
+  <div class="sig">
+    <b class="sig-name">{{fields.reporterName}}</b><br />
+    {{#if fields.reporterTitle}}{{fields.reporterTitle}} | {{/if}}<span class="outlet"
+      >{{fields.outlet}}</span
+    ><br />
+    {{fields.reporterPhone}}{{#if fields.reporterEmail}}{{#if fields.reporterPhone}} |
+    {{/if}}{{fields.reporterEmail}}{{/if}}
+  </div>
+</div>
+{{/if}}

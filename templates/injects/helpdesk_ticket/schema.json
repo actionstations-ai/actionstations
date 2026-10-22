@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Helpdesk ticket printout",
+  "description": "An IT service-desk incident record printed from the browser (ServiceNow/Jira-style form). The description is the requester's own words: plain, a little confused, often ending with a question.",
+  "type": "object",
+  "required": ["ticketNo", "subject", "description"],
+  "properties": {
+    "ticketNo": {
+      "type": "string",
+      "description": "Ticket number exactly as the system shows it",
+      "examples": ["4492", "INC0004492"]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["Critical", "High", "Moderate", "Low", "Planning"],
+      "description": "Priority (drives the colored priority indicator)",
+      "examples": ["Low"]
+    },
+    "impact": {
+      "type": "string",
+      "enum": ["High", "Medium", "Low"],
+      "description": "Impact rating",
+      "examples": ["Low"]
+    },
+    "urgency": {
+      "type": "string",
+      "enum": ["High", "Medium", "Low"],
+      "description": "Urgency rating",
+      "examples": ["Medium"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["New", "In Progress", "On Hold", "Resolved", "Closed"],
+      "description": "Ticket state",
+      "examples": ["New"]
+    },
+    "requester": {
+      "type": "string",
+      "description": "Caller / requester name and role",
+      "examples": ["Facilities Maintenance – Concourse B"]
+    },
+    "requesterContact": {
+      "type": "string",
+      "description": "Phone extension or email of the requester",
+      "examples": ["x4471"]
+    },
+    "contactType": {
+      "type": "string",
+      "enum": ["Phone", "Email", "Self-service", "Walk-in", "Monitoring"],
+      "description": "How the ticket came in",
+      "examples": ["Phone"]
+    },
+    "category": {
+      "type": "string",
+      "description": "Category",
+      "examples": ["Facilities"]
+    },
+    "subcategory": {
+      "type": "string",
+      "description": "Subcategory",
+      "examples": ["Vending / Concessions"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Where the problem is",
+      "examples": ["Concourse B – Gates B2, B6"]
+    },
+    "configurationItem": {
+      "type": "string",
+      "description": "Affected asset or system (CMDB configuration item)",
+      "examples": ["VEND-B02-01"]
+    },
+    "opened": {
+      "type": "string",
+      "description": "Opened date-time as the system prints it",
+      "examples": ["2025-10-14 09:20:41"]
+    },
+    "assignmentGroup": {
+      "type": "string",
+      "description": "Team the ticket is routed to",
+      "examples": ["IT Service Desk"]
+    },
+    "assignee": {
+      "type": "string",
+      "description": "Person assigned (empty when unassigned)",
+      "examples": [""]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Short description / subject line",
+      "examples": ["Vending Machines in Concourse B"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Full description in the requester's words. Newlines are kept.",
+      "examples": [
+        "The Coke machines at Gate B2 and B6 just spit out all their cans at once. There is soda everywhere. Maintenance needed for cleanup. Is this a cyber thing?"
+      ]
+    },
+    "activity": {
+      "type": "array",
+      "description": "Activity stream entries, newest first (work notes are internal, comments are visible to the requester)",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["author", "text"],
+        "properties": {
+          "author": { "type": "string", "description": "Who wrote it", "examples": ["System"] },
+          "time": {
+            "type": "string",
+            "description": "Timestamp as printed",
+            "examples": ["2025-10-14 09:20:41"]
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["work_note", "comment", "system"],
+            "description": "Entry type",
+            "examples": ["work_note"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Entry text",
+            "examples": ["Called Facilities, they are sending a cleaning crew."]
+          }
+        }
+      }
+    },
+    "systemName": {
+      "type": "string",
+      "description": "Name of the service-desk product shown in the header (generic; no real product names)",
+      "examples": ["ServiceDesk"]
+    },
+    "orgName": {
+      "type": "string",
+      "description": "Organization name shown in the header (defaults to brand.aliases.orgShort)",
+      "examples": ["NCIA"]
+    }
+  },
+  "additionalProperties": false
+}

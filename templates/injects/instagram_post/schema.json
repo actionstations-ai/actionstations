@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Photo post (Instagram-style)",
+  "description": "A square photo post in an Instagram-style feed. The photo comes from the image slot; the caption carries the message. Captions are casual, with emojis spelled out as words and a run of hashtags at the end.",
+  "type": "object",
+  "required": ["handle", "caption"],
+  "properties": {
+    "handle": {
+      "type": "string",
+      "description": "Account handle without @",
+      "pattern": "^[A-Za-z0-9._]{1,30}$",
+      "examples": ["cle.wanderer"]
+    },
+    "verified": {
+      "type": "boolean",
+      "description": "Show the verified badge",
+      "examples": [false]
+    },
+    "location": {
+      "type": "string",
+      "description": "Location tag under the handle",
+      "examples": ["NCIA – Northeast Central Interstate Airport"]
+    },
+    "timestampRel": {
+      "type": "string",
+      "description": "Relative post age shown next to the handle",
+      "examples": ["42m"]
+    },
+    "imageBrief": {
+      "type": "string",
+      "description": "Image-generation brief for the photo slot (media stage only; square; never rely on legible text in it)",
+      "examples": [
+        "very long security line through a bright terminal atrium, phone photo from above"
+      ]
+    },
+    "likes": {
+      "type": ["integer", "string"],
+      "minimum": 0,
+      "description": "Like count: a number (abbreviated automatically, 12400 → 12.4K) or the exact text the app shows",
+      "examples": ["1,204", 18200]
+    },
+    "caption": {
+      "type": "string",
+      "description": "Caption text; #hashtags and @mentions are highlighted",
+      "examples": [
+        "Security line goes past the food court. Nobody knows anything. #NCIA #travelfail"
+      ]
+    },
+    "commentCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total comments ('View all N comments')",
+      "examples": [88]
+    },
+    "comments": {
+      "type": "array",
+      "description": "Up to two preview comments",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["handle", "text"],
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "Commenter handle",
+            "examples": ["jess_k_216"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Comment",
+            "examples": ["my flight is at 2 should i even go"]
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

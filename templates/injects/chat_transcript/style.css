@@ -1,0 +1,312 @@
+/* Workplace chat channel screenshot. teams = Teams-like cards, slack = Slack-like flat list. */
+.app {
+  font-family: 'Inter', sans-serif;
+  color: #242424;
+  font-size: 14px;
+  line-height: 20px;
+  background: #f5f5f5;
+}
+.top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px 0;
+  background: #fff;
+  border-bottom: 1px solid #e1e1e1;
+}
+.team-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  background: #5b5fc7;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ch-wrap {
+  flex: 1;
+}
+.ch {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+}
+.tabs {
+  display: flex;
+  gap: 18px;
+  margin-top: 4px;
+  font-size: 14px;
+  color: #616161;
+}
+.tabs span {
+  padding: 4px 0 8px;
+}
+.tabs .on {
+  color: #242424;
+  font-weight: 600;
+  border-bottom: 3px solid #5b5fc7;
+}
+.members {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 12px auto;
+  padding: 3px 8px;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #424242;
+}
+.members svg {
+  width: 18px;
+  height: 15px;
+  fill: none;
+  stroke: #424242;
+  stroke-width: 1.4;
+}
+.topic {
+  padding: 6px 20px;
+  background: #fff;
+  border-bottom: 1px solid #e1e1e1;
+  color: #616161;
+  font-size: 13px;
+}
+.feed {
+  padding: 4px 20px 12px;
+}
+.day {
+  position: relative;
+  margin: 12px 0 10px;
+  text-align: center;
+  font-size: 12px;
+  color: #616161;
+}
+.day::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1px solid #d6d6d6;
+}
+.day span {
+  position: relative;
+  padding: 0 10px;
+  background: #f5f5f5;
+}
+.msg {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.av {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #6b6f7a;
+}
+.c0 {
+  background: #4f6bed;
+}
+.c1 {
+  background: #c4314b;
+}
+.c2 {
+  background: #038387;
+}
+.c3 {
+  background: #8764b8;
+}
+.c4 {
+  background: #ca5010;
+}
+.c5 {
+  background: #498205;
+}
+.c6 {
+  background: #005b70;
+}
+.content {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 14px 10px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.msg.imp .content {
+  border-left: 4px solid #c4314b;
+}
+.meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.meta b {
+  font-weight: 600;
+  font-size: 14px;
+}
+.title {
+  padding: 0 5px;
+  border: 1px solid #c8c8c8;
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 15px;
+  color: #616161;
+}
+.time {
+  color: #616161;
+  font-size: 12px;
+}
+.flag {
+  margin-top: 2px;
+  color: #c4314b;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.text {
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+}
+.link {
+  color: #4f52b2;
+  font-weight: 600;
+}
+.rx {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background: #fafafa;
+  font-size: 12px;
+  color: #424242;
+}
+.chip svg {
+  width: 15px;
+  height: 15px;
+}
+.composer {
+  padding: 4px 20px 16px 62px;
+}
+.box {
+  display: block;
+  padding: 9px 12px;
+  border: 1px solid #d1d1d1;
+  border-radius: 6px;
+  background: #fff;
+  color: #8a8a8a;
+}
+
+/* Slack-like variant */
+body.variant-slack .app {
+  background: #fff;
+  color: #1d1c1d;
+  font-size: 15px;
+  line-height: 22px;
+}
+body.variant-slack .top {
+  padding: 14px 20px;
+}
+body.variant-slack .ch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: 800;
+}
+body.variant-slack .hash {
+  margin-right: 2px;
+  color: #616061;
+  font-weight: 400;
+}
+body.variant-slack .chev {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: #1d1c1d;
+  stroke-width: 1.6;
+}
+body.variant-slack .members {
+  margin-bottom: 0;
+  border-radius: 6px;
+}
+body.variant-slack .topic {
+  border-bottom: 1px solid #e8e8e8;
+}
+body.variant-slack .feed {
+  padding: 0 0 8px;
+}
+body.variant-slack .day span {
+  padding: 2px 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #fff;
+  font-weight: 700;
+  color: #1d1c1d;
+}
+body.variant-slack .msg {
+  gap: 8px;
+  margin: 0;
+  padding: 8px 20px;
+}
+body.variant-slack .msg.imp {
+  background: #fdf3d8;
+}
+body.variant-slack .av {
+  flex-basis: 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+body.variant-slack .content {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+body.variant-slack .msg.imp .content {
+  border-left: 0;
+}
+body.variant-slack .meta b {
+  font-weight: 900;
+  font-size: 15px;
+}
+body.variant-slack .link {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: #e8f5fa;
+  color: #1264a3;
+  font-weight: 400;
+}
+body.variant-slack .chip {
+  border-color: #ddd;
+  background: #f8f8f8;
+}
+body.variant-slack .composer {
+  padding: 4px 20px 18px;
+}
+body.variant-slack .box {
+  padding: 12px;
+  border-color: #bbb;
+  border-radius: 8px;
+  color: #868686;
+}

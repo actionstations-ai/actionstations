@@ -1,0 +1,198 @@
+/* Reddit-style post detail page (740 px). Generic look-alike, no mascot or wordmark. */
+.post {
+  padding: 16px 20px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #1a1a1b;
+  background: #fff;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sub-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #2a6fdb;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.who {
+  flex: 1;
+}
+.l1 {
+  font-size: 12px;
+  line-height: 16px;
+}
+.l1 b {
+  font-weight: 700;
+}
+.t {
+  margin-left: 4px;
+  color: #576f76;
+  font-size: 12px;
+}
+.l2 {
+  font-size: 12px;
+  line-height: 16px;
+  color: #576f76;
+}
+.join {
+  padding: 5px 12px;
+  border-radius: 16px;
+  background: #0a449b;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.more {
+  width: 20px;
+  height: 20px;
+  fill: #576f76;
+}
+.title {
+  margin: 10px 0 6px;
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.flair {
+  display: inline-block;
+  margin-bottom: 6px;
+  padding: 0 8px;
+  border-radius: 12px;
+  background: #e9e1f7;
+  color: #3a2470;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 22px;
+}
+.body {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 21px;
+  overflow-wrap: anywhere;
+}
+.media {
+  margin: 12px 0 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+}
+.media img {
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+}
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 16px;
+  background: #eaedef;
+  font-size: 12px;
+  font-weight: 600;
+}
+.pill svg,
+.c-act svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: #1a1a1b;
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+.pill.vote {
+  padding: 0 8px;
+}
+.comments {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #edeff1;
+}
+.sort {
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #576f76;
+}
+.sort b {
+  color: #1a1a1b;
+}
+.c {
+  margin-bottom: 10px;
+}
+.c-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+.c-head b {
+  font-weight: 600;
+}
+.c-av {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #46a508;
+}
+.c-av.c1 {
+  background: #ff4500;
+}
+.c-av.c2 {
+  background: #7193ff;
+}
+.op {
+  color: #0a449b;
+  font-weight: 700;
+}
+.c-body {
+  margin-left: 11px;
+  padding-left: 19px;
+  border-left: 2px solid #edeff1;
+}
+.c-text {
+  padding-top: 4px;
+  overflow-wrap: anywhere;
+}
+.c-act {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  color: #576f76;
+  font-size: 12px;
+  font-weight: 600;
+}
+.c-act b {
+  color: #1a1a1b;
+}
+.c-act span {
+  margin-left: 6px;
+}
+
+/* Long unbroken words (URLs, hashes) must wrap instead of overflowing. */
+.title {
+  overflow-wrap: anywhere;
+}

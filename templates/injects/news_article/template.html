@@ -1,0 +1,76 @@
+<div class="browser">
+  <div class="chrome">
+    <span class="dots"><i></i><i></i><i></i></span>
+    <span class="url"
+      ><svg viewBox="0 0 12 14" aria-hidden="true">
+        <rect x="1.5" y="6" width="9" height="7" rx="1.5" />
+        <path d="M3.5 6V4.5a2.5 2.5 0 0 1 5 0V6" /></svg
+      >{{default fields.outletDomain 'localnews.com'}}/news/local</span
+    >
+  </div>
+  <header class="mast">
+    <svg class="menu" viewBox="0 0 20 16" aria-hidden="true">
+      <path d="M1 2h18M1 8h18M1 14h18" />
+    </svg>
+    <span class="logo">{{fields.outlet}}</span>
+    <span class="sub">Subscribe</span>
+  </header>
+  <nav class="nav">
+    <span>Local</span><span>Politics</span><span>Business</span><span>Sports</span
+    ><span>Weather</span><span>Opinion</span><span>Things to Do</span>
+  </nav>
+
+  <article class="art">
+    <div class="kick">
+      {{#if (eq fields.label 'breaking')}}<span class="lab">Breaking</span>{{else if (eq
+      fields.label 'developing')}}<span class="lab">Developing</span>{{else if (eq fields.label
+      'update')}}<span class="lab">Update</span>{{/if}}
+      <span class="sec">{{default fields.section 'Local News'}}</span>
+    </div>
+    <h1>{{fields.headline}}</h1>
+    {{#if fields.dek}}
+    <p class="dek">{{fields.dek}}</p>
+    {{/if}}
+    <div class="by">
+      <span class="by-av">{{initials fields.byline}}</span>
+      <div>
+        {{#if fields.byline}}
+        <div class="by-name">
+          By <b>{{fields.byline}}</b>{{#if fields.bylineTitle}}, {{fields.bylineTitle}}{{/if}}
+        </div>
+        {{/if}}
+        <div class="by-time">
+          {{fields.publishedAt}}{{#if fields.updatedAt}} · {{fields.updatedAt}}{{/if}}
+        </div>
+      </div>
+      <span class="share">
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M6 10.5h8M10 6.5v8M3.5 10a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0" />
+        </svg>
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <rect x="2.5" y="4.5" width="15" height="11" rx="1.5" />
+          <path d="m3 5.5 7 5.5 7-5.5" />
+        </svg>
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <path
+            d="M8 12a3.5 3.5 0 0 0 5 0l3-3a3.5 3.5 0 0 0-5-5l-1 1M12 8a3.5 3.5 0 0 0-5 0l-3 3a3.5 3.5 0 0 0 5 5l1-1"
+          />
+        </svg>
+      </span>
+    </div>
+    {{#if assets.hero}}
+    <figure class="hero">
+      <img src="{{assets.hero}}" alt="" />
+      {{#if (or fields.heroCaption fields.heroCredit)}}
+      <figcaption>
+        {{fields.heroCaption}} {{#if fields.heroCredit}}<span class="credit"
+          >({{fields.heroCredit}})</span
+        >{{/if}}
+      </figcaption>
+      {{/if}}
+    </figure>
+    {{/if}}
+    <div class="body">{{nl2br fields.body}}</div>
+    <div class="fade"></div>
+  </article>
+</div>
