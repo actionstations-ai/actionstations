@@ -1,6 +1,6 @@
 import { Tabs } from 'radix-ui'
 import { ArrowLeft } from 'lucide-react'
-import { Link, useLocation, useParams } from 'react-router'
+import { Link, useLocation, useParams, useSearchParams } from 'react-router'
 import type { Scenario } from '@shared/schemas/scenario'
 import { Badge, PageHeader } from '../../components/ui'
 import { MselEditor } from '../../editors/msel/MselEditor'
@@ -9,6 +9,7 @@ import { fromProjectKey, projectKey } from '../../state/project'
 import { isActive } from './live-log'
 import { LiveLogPanel } from './LiveLogPanel'
 import { DocumentsTab, ObjectivesTab, OverviewTab, RubricTab } from '../../editors/docs'
+import { InjectDeck } from '../../editors/inject/InjectDeck'
 import { WarningsSection } from './ScenarioSections'
 import { StageTimeline } from './StageTimeline'
 import { useLiveLog } from './use-live-log'
@@ -22,16 +23,18 @@ function ScenarioTabs(props: {
   onJob: (jobId: string) => void
 }) {
   const { projectPath, scenario } = props
+  const initialTab = useSearchParams()[0].get('tab')
   const tabs = [
     ['overview', 'Overview'],
     ['objectives', 'Objectives & Roles'],
     ['msel', `MSEL (${scenario.msel.length})`],
+    ['injects', 'Injects'],
     ['documents', 'Documents'],
     ['rubric', 'Rubric'],
     ['warnings', `Warnings (${scenario.warnings.length})`],
   ] as const
   return (
-    <Tabs.Root defaultValue="overview" className="tabs">
+    <Tabs.Root defaultValue={initialTab ?? 'overview'} className="tabs">
       <Tabs.List className="tabs__list" aria-label="Scenario sections">
         {tabs.map(([value, label]) => (
           <Tabs.Trigger key={value} value={value} className="tabs__trigger">
@@ -47,6 +50,9 @@ function ScenarioTabs(props: {
       </Tabs.Content>
       <Tabs.Content value="msel" className="tabs__panel">
         <MselEditor projectPath={projectPath} scenario={scenario} />
+      </Tabs.Content>
+      <Tabs.Content value="injects" className="tabs__panel">
+        <InjectDeck {...props} />
       </Tabs.Content>
       <Tabs.Content value="documents" className="tabs__panel">
         <DocumentsTab {...props} />
