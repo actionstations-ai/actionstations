@@ -3,11 +3,11 @@ import { ArrowLeft } from 'lucide-react'
 import { Link, useLocation, useParams } from 'react-router'
 import type { Scenario } from '@shared/schemas/scenario'
 import { Badge, PageHeader } from '../../components/ui'
+import { MselEditor } from '../../editors/msel/MselEditor'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey, projectKey } from '../../state/project'
 import { isActive } from './live-log'
 import { LiveLogPanel } from './LiveLogPanel'
-import { MselTable } from './MselTable'
 import { DocumentsTab, ObjectivesTab, OverviewTab, RubricTab } from '../../editors/docs'
 import { WarningsSection } from './ScenarioSections'
 import { StageTimeline } from './StageTimeline'
@@ -46,7 +46,7 @@ function ScenarioTabs(props: {
         <ObjectivesTab {...props} />
       </Tabs.Content>
       <Tabs.Content value="msel" className="tabs__panel">
-        <MselTable phases={scenario.phases} rows={scenario.msel} roles={scenario.roles} />
+        <MselEditor projectPath={projectPath} scenario={scenario} />
       </Tabs.Content>
       <Tabs.Content value="documents" className="tabs__panel">
         <DocumentsTab {...props} />

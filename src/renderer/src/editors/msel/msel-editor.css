@@ -1,0 +1,491 @@
+/* MSEL grid editor. Tokens only. Fits 1280 px without clipping (#82): fixed layout, Event and
+   Expected Action wrap, select/drag/time/id stick to the left when the grid scrolls. */
+.msel-editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.msel-editor__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.msel-editor__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.msel-editor__sep {
+  width: var(--border-width);
+  align-self: stretch;
+  background: var(--color-border);
+  margin: 0 var(--space-1);
+}
+.msel-editor__snap {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+.msel-editor__snap .select {
+  width: auto;
+  min-height: 2rem;
+  padding: var(--space-1) var(--space-2);
+}
+.msel-editor__status {
+  font-size: var(--text-sm);
+}
+.msel-editor__banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--color-warning);
+  background: var(--color-warning-soft);
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+}
+
+/* Lint + bulk bars */
+.msel-editor__lint,
+.msel-editor__bulk {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--text-sm);
+}
+.msel-editor__lint-note {
+  margin-left: auto;
+  font-size: var(--text-xs);
+}
+.msel-editor__lint-summary {
+  font-weight: var(--weight-medium);
+}
+.msel-editor__lint-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-height: 12rem;
+  overflow: auto;
+}
+.msel-editor__lint-list li {
+  display: flex;
+  gap: var(--space-2);
+  align-items: baseline;
+}
+.msel-editor__jump {
+  font: inherit;
+  font-family: var(--font-mono);
+  color: var(--color-accent);
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.msel-editor__jump:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.msel-editor__bulk {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+.msel-editor__num {
+  width: 5rem;
+  min-height: 2rem;
+  padding: var(--space-1) var(--space-2);
+}
+.msel-editor__phase-select {
+  width: auto;
+  min-height: 2rem;
+  padding: var(--space-1) var(--space-2);
+}
+
+/* Grid */
+.msel-editor__scroll {
+  overflow: auto;
+  max-height: max(24rem, calc(100vh - 14rem));
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.msel-editor__grid {
+  table-layout: fixed;
+  min-width: 58rem;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.msel-editor__col-select {
+  width: 1.75rem;
+}
+.msel-editor__col-drag {
+  width: 1.5rem;
+}
+.msel-editor__col-time {
+  width: 3.5rem;
+}
+.msel-editor__col-id {
+  width: 4rem;
+}
+.msel-editor__col-from {
+  width: 4.75rem;
+}
+.msel-editor__col-to {
+  width: 4rem;
+}
+/* Event and Expected Action have no width: they share what is left and wrap. */
+.msel-editor__col-tag {
+  width: 6rem;
+}
+.msel-editor__col-format {
+  width: 5.5rem;
+}
+.msel-editor__col-citations {
+  width: 5rem;
+}
+.msel-editor__col-locked {
+  width: 3.75rem;
+}
+.msel-editor__col-actions {
+  width: 2rem;
+}
+
+.msel-editor__grid th,
+.msel-editor__grid td {
+  padding: var(--space-2) var(--space-2);
+  overflow-wrap: anywhere;
+}
+.msel-editor__grid thead th {
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: var(--text-sm);
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--color-surface);
+}
+/* Sticky left columns: select, drag, time, id. */
+.msel-editor__c-select,
+.msel-editor__c-drag,
+.msel-editor__c-time,
+.msel-editor__c-id {
+  position: sticky;
+  z-index: 1;
+  background: var(--color-surface);
+}
+thead .msel-editor__c-select,
+thead .msel-editor__c-drag,
+thead .msel-editor__c-time,
+thead .msel-editor__c-id {
+  z-index: 4;
+}
+
+/* Offsets = sum of the widths of the sticky columns before. */
+.msel-editor__c-select {
+  left: 0;
+}
+.msel-editor__c-drag {
+  left: 1.75rem;
+}
+.msel-editor__c-time {
+  left: 3.25rem;
+}
+.msel-editor__c-id {
+  left: 6.75rem;
+  box-shadow: inset calc(-1 * var(--border-width)) 0 0 var(--color-border);
+}
+.msel-editor__c-select,
+.msel-editor__c-drag,
+.msel-editor__c-locked,
+.msel-editor__c-actions {
+  padding-left: var(--space-1) !important;
+  padding-right: var(--space-1) !important;
+  text-align: center;
+}
+.msel-editor__grid td {
+  line-height: var(--leading-normal);
+}
+.msel-editor__grid td:focus,
+.msel-editor__grid td [data-focus]:focus {
+  outline: none;
+}
+.msel-editor__grid td:focus-visible,
+.msel-editor__grid td:focus {
+  box-shadow: inset 0 0 0 2px var(--color-focus);
+}
+.msel-editor__grid td [data-focus]:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+.msel-editor__grid td.is-active:not(:focus) {
+  box-shadow: inset 0 0 0 1px var(--color-border-strong);
+}
+.msel-editor__row--control td {
+  background: var(--color-accent-soft);
+}
+.msel-editor__row[aria-selected='true'] td {
+  background: var(--color-surface-sunken);
+}
+.msel-editor__row.has-warning td.msel-editor__c-select {
+  box-shadow: inset 3px 0 0 var(--color-warning);
+}
+.msel-editor__row.is-dragging {
+  position: relative;
+  z-index: 5;
+  box-shadow: var(--shadow-2);
+}
+.msel-editor__row.is-dragging td {
+  background: var(--color-surface-raised);
+}
+.msel-editor__view {
+  min-height: 1.25rem;
+  white-space: pre-wrap;
+}
+.msel-editor__c-event .msel-editor__view,
+.msel-editor__c-expected .msel-editor__view {
+  cursor: text;
+}
+.msel-editor__id {
+  font-weight: var(--weight-semibold);
+}
+.msel-editor__wall {
+  display: block;
+  font-size: var(--text-xs);
+}
+.msel-editor__time-warn,
+.msel-editor__row-warn {
+  display: inline-flex;
+  margin-left: var(--space-1);
+  color: var(--color-warning);
+  vertical-align: middle;
+}
+.msel-editor__handle {
+  cursor: grab;
+  color: var(--color-text-muted);
+}
+.is-locked {
+  color: var(--color-accent);
+}
+.msel-editor__grid .btn--icon.btn--sm {
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+}
+
+/* Phase header lines */
+.msel-editor__phase td,
+.msel-editor__phase th {
+  background: var(--color-surface-sunken);
+  border-bottom: var(--border-width) solid var(--color-border-strong);
+  font-size: var(--text-md);
+  color: var(--color-text);
+  text-transform: none;
+  letter-spacing: normal;
+}
+.msel-editor__phase-cell {
+  padding: var(--space-3) !important;
+}
+.msel-editor__phase-title {
+  display: block;
+  font-weight: var(--weight-semibold);
+}
+.msel-editor__phase-goal {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  margin-top: var(--space-1);
+  max-width: 90ch;
+  cursor: text;
+}
+
+/* Citations: compact chips, full heading path in the tooltip. */
+.msel-editor__cites {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.msel-editor__cite {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-accent);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Editors */
+.msel-editor__cell-edit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.msel-editor__input,
+.msel-editor__textarea {
+  min-height: 2rem;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-sm);
+}
+.msel-editor__textarea {
+  resize: none;
+  overflow: hidden;
+  line-height: var(--leading-normal);
+}
+.msel-editor__popover {
+  z-index: 70;
+  min-width: 14rem;
+  max-width: 22rem;
+  background: var(--color-surface-raised);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-2);
+  padding: var(--space-1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+}
+.msel-editor__filter {
+  min-height: 2rem;
+  padding: var(--space-1) var(--space-2);
+}
+.msel-editor__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 18rem;
+  overflow: auto;
+}
+.msel-editor__list:focus {
+  outline: none;
+}
+.msel-editor__list:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+.msel-editor__option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.msel-editor__option[data-active] {
+  background: var(--color-accent-soft);
+  box-shadow: inset 2px 0 0 var(--color-accent);
+}
+.msel-editor__hint {
+  font-size: var(--text-xs);
+  margin-left: auto;
+  text-align: right;
+}
+.msel-editor__help {
+  margin: 0;
+  padding: 0 var(--space-2);
+  font-size: var(--text-xs);
+}
+.msel-editor__remove {
+  margin-left: auto;
+}
+
+/* Menus (Radix dropdown) */
+.msel-menu {
+  min-width: 12rem;
+  background: var(--color-surface-raised);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-2);
+  padding: var(--space-1);
+  z-index: 60;
+}
+.msel-menu__item {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+.msel-menu__item[data-highlighted] {
+  background: var(--color-accent-soft);
+}
+.msel-menu__item[data-disabled] {
+  color: var(--color-text-muted);
+  cursor: default;
+}
+.msel-menu__item--danger {
+  color: var(--color-danger);
+}
+.msel-menu__separator {
+  height: var(--border-width);
+  background: var(--color-border);
+  margin: var(--space-1) 0;
+}
+
+/* Dialog bits */
+.msel-editor__two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+.msel-editor__preview {
+  max-height: 20rem;
+  overflow: auto;
+}
+.msel-editor__dialog-quote {
+  border-left: 3px solid var(--color-border-strong);
+  padding-left: var(--space-3);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+.msel-editor__history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 24rem;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+.msel-editor__history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: var(--border-width) solid var(--color-border);
+  font-size: var(--text-sm);
+}
+.msel-editor__history-preview {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-xs);
+}
+.msel-editor__c-tag .tag {
+  white-space: normal;
+  max-width: 100%;
+}

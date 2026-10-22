@@ -82,7 +82,7 @@ describe('ScenarioPage', () => {
     setup()
     const user = userEvent.setup()
     await user.click(await screen.findByRole('tab', { name: 'MSEL (24)' }))
-    expect(screen.getByRole('table', { name: 'Master Scenario Events List' })).toBeTruthy()
+    expect(screen.getByRole('grid', { name: 'Master Scenario Events List' })).toBeTruthy()
     await user.click(screen.getByRole('tab', { name: 'Documents' }))
     const doc = await screen.findByRole('article', { name: 'Controller handbook' })
     expect(within(doc).getByRole('heading', { name: 'Controller Handbook' })).toBeTruthy()

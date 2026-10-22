@@ -61,7 +61,7 @@ test('scenario store + screens: Scenario 3 MSEL renders like the reference', asy
     await card.getByRole('link', { name: 'Flight to Nowhere' }).click()
     await expect(page.getByRole('heading', { name: 'Flight to Nowhere', level: 1 })).toBeVisible()
     await page.getByRole('tab', { name: 'MSEL (24)' }).click()
-    const msel = page.getByRole('table', { name: 'Master Scenario Events List' })
+    const msel = page.getByRole('grid', { name: 'Master Scenario Events List' })
     await expect(msel.getByRole('row')).toHaveCount(1 + 4 + 24)
     await expect(msel.getByText('Phase 3: Manual Mode')).toBeVisible()
     const herring = msel.getByRole('row').filter({ hasText: 'I-05b' })
