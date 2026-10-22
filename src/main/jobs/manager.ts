@@ -30,6 +30,8 @@ interface JobRecord {
   log: JobLogEntry[]
   tokens: Record<string, string>
   promise: Promise<unknown>
+  /** Called once when the job reaches done / error / cancelled (not persisted). */
+  onSettled?: (job: Job) => void
 }
 
 const CONCURRENCY: Partial<Record<JobKind, number>> = {
@@ -74,9 +76,13 @@ export class JobManager {
     this.writer?.schedule([...this.restored.values(), ...[...this.jobs.values()].map((r) => r.job)])
   }
 
-  /** Flush pending writes (tests, app quit). */
+  /**
+   * Write pending job records now (tests, app quit). The write is synchronous, so calling it
+   * from before-quit (which cannot await) still persists a job that just finished.
+   */
   flush(): Promise<void> {
-    return this.writer?.flush() ?? Promise.resolve()
+    this.writer?.flushSync()
+    return Promise.resolve()
   }
 
   registerResumer(kind: JobKind, resumer: JobResumer): void {
@@ -116,6 +122,7 @@ export class JobManager {
       scenarioId?: string
       payload?: unknown
       resumable?: boolean
+      onSettled?: (job: Job) => void
     } = {},
   ): Job {
     const id = newId()
@@ -134,7 +141,14 @@ export class JobManager {
       ...(meta.payload !== undefined ? { payload: meta.payload } : {}),
     }
     const controller = new AbortController()
-    const rec: JobRecord = { job, controller, log: [], tokens: {}, promise: Promise.resolve() }
+    const rec: JobRecord = {
+      job,
+      controller,
+      log: [],
+      tokens: {},
+      promise: Promise.resolve(),
+      ...(meta.onSettled ? { onSettled: meta.onSettled } : {}),
+    }
     this.hydrate()
     this.jobs.set(id, rec)
     const ctx = this.context(rec)
@@ -219,6 +233,9 @@ export class JobManager {
       ...(result !== undefined ? { result } : {}),
       ...(error ? { error } : {}),
     })
+    const settled = rec.onSettled
+    rec.onSettled = undefined
+    settled?.(rec.job)
     this.prune()
   }
 

@@ -5,6 +5,24 @@ import { INJECT_TYPES, PURPOSE_TAG_INFO, PURPOSE_TAGS } from '@shared/taxonomy'
 import { citationLabel } from './docs'
 import { DEFAULT_START_WALL_CLOCK, goalSummary } from './mappers'
 
+/** Tags that delimit data blocks in the prompts. */
+const DATA_TAG = /<(?=\s*\/?\s*(?:documents?|scenario_state)\b)/gi
+
+/**
+ * Earlier model output (which can quote the documents) goes back into later prompts inside
+ * <scenario_state>; a "</scenario_state>" or "</documents>" in it must not end that block.
+ */
+export function dataSafe<T>(value: T): T {
+  if (typeof value === 'string') return value.replace(DATA_TAG, '‹') as T
+  if (Array.isArray(value)) return value.map(dataSafe) as T
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).map(([k, v]) => [k, dataSafe(v)]),
+    ) as T
+  }
+  return value
+}
+
 export function projectVars(p: Project) {
   return {
     name: p.name,
@@ -30,14 +48,14 @@ export const taxonomyVars = {
 }
 
 function roleVars(r: Role) {
-  return {
+  return dataSafe({
     key: r.id,
     name: r.name,
     abbreviation: r.abbreviation,
     team: r.team,
     description: r.description,
     standingOrders: r.standingOrders,
-  }
+  })
 }
 
 export function rowVars(r: MselRow, roles: Role[]) {
@@ -48,7 +66,7 @@ export function rowVars(r: MselRow, roles: Role[]) {
       .map((x) => x.abbreviation || x.name)
       .join(', ') ||
     'All'
-  return {
+  return dataSafe({
     id: r.id,
     time: r.time,
     wallClock: r.wallClock ?? '',
@@ -60,12 +78,12 @@ export function rowVars(r: MselRow, roles: Role[]) {
     purposeTag: r.purposeTag,
     format: r.format ?? '',
     citations: r.citations.map(citationLabel),
-  }
+  })
 }
 
 export function scenarioVars(s: Scenario) {
   const o = s.overview
-  return {
+  return dataSafe({
     id: s.id,
     title: s.title,
     subtitle: s.subtitle ?? '',
@@ -91,7 +109,7 @@ export function scenarioVars(s: Scenario) {
       message: w.message,
       rowId: w.rowId ?? '',
     })),
-  }
+  })
 }
 
 export interface BaseVarsInput {
@@ -110,7 +128,7 @@ export function baseVars(input: BaseVarsInput): Record<string, unknown> {
     durationHours: scenario.brief.durationHours,
     phaseCount: scenario.brief.phaseCount,
     idea: idea
-      ? { ...idea, sectionsExercised: idea.sectionsExercised.map(citationLabel) }
+      ? dataSafe({ ...idea, sectionsExercised: idea.sectionsExercised.map(citationLabel) })
       : undefined,
     scenario: scenarioVars(scenario),
     roles: scenario.roles.map(roleVars),

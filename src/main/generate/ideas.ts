@@ -1,12 +1,14 @@
 // "Give me ideas": the ideate stage over the project's hazard appendices / checklists /
-// failure modes. Results live in <project>/ideas.json so a chosen idea is still there when a
-// scenario job resumes after a restart.
+// failure modes. Results live in <project>/ideas.json; the idea a scenario was started from is
+// snapshotted in scenarios/<id>/idea.json, so resumes and re-runs see it as the designer chose
+// it even after the next ideate run rewrites ideas.json.
 import { z } from 'zod'
 import { ScenarioIdea, type IdeasOutput, type ScenarioBrief } from '@shared/schemas'
 import type { JobContext } from '../jobs/manager'
-import { readJsonOr, writeJsonAtomic } from '../lib/fs'
+import { exists, readJson, readJsonOr, writeJsonAtomic } from '../lib/fs'
 import { nowIso } from '../lib/ids'
 import { projectPaths } from '../project/store'
+import { scenarioLayout } from '../scenario/layout'
 import { pipelineDeps } from './deps'
 import { mapIdeas } from './mappers'
 import { runStage } from './stage'
@@ -31,18 +33,39 @@ export async function writeIdeas(root: string, ideas: ScenarioIdea[]): Promise<v
   await writeJsonAtomic(projectPaths(root).ideas, value)
 }
 
-/** Make sure an idea handed in with generate:scenario is on disk for later resumes. */
+/** Keep ideas.json current with an idea handed in with generate:scenario (edits win). */
 export async function rememberIdea(root: string, idea: ScenarioIdea): Promise<void> {
   const ideas = await readIdeas(root)
-  if (ideas.some((i) => i.id === idea.id)) return
-  await writeIdeas(root, [idea, ...ideas])
+  const at = ideas.findIndex((i) => i.id === idea.id)
+  await writeIdeas(root, at >= 0 ? ideas.map((i, n) => (n === at ? idea : i)) : [idea, ...ideas])
 }
 
-export async function findIdea(root: string, ideaId?: string): Promise<ScenarioIdea | undefined> {
+/**
+ * Snapshot the chosen idea inside the scenario folder. ideas.json is rewritten by every ideate
+ * run; the snapshot is what a paused or re-run scenario reads.
+ */
+export async function saveScenarioIdea(
+  root: string,
+  scenarioId: string,
+  idea: ScenarioIdea,
+): Promise<void> {
+  await writeJsonAtomic(scenarioLayout(root, scenarioId).idea, ScenarioIdea.parse(idea))
+}
+
+/** The scenario's idea snapshot, else (older scenarios) the idea in ideas.json by id. */
+export async function findIdea(
+  root: string,
+  scenarioId: string,
+  ideaId?: string,
+): Promise<ScenarioIdea | undefined> {
+  const file = scenarioLayout(root, scenarioId).idea
+  if (await exists(file)) {
+    const snap = await readJson(file, ScenarioIdea).catch(() => undefined)
+    if (snap) return snap
+  }
   if (!ideaId) return undefined
   return (await readIdeas(root)).find((i) => i.id === ideaId)
 }
-
 export interface IdeasRequest {
   brief: Partial<ScenarioBrief>
   count: number

@@ -50,6 +50,16 @@ describe('job persistence (#54)', () => {
     expect(raw).not.toContain('a log line')
   })
 
+  it('flush() writes synchronously, so a job that finished just before quit is not lost (#90)', async () => {
+    const jm = new JobManager()
+    const job = jm.start('ideate', async () => 'ok')
+    await jm.wait(job.id)
+    // before-quit cannot await: the file must be on disk when flush() returns.
+    void jm.flush()
+    const saved = JSON.parse(readFileSync(join(userData, 'jobs.json'), 'utf8')).jobs as Job[]
+    expect(saved.find((j) => j.id === job.id)?.status).toBe('done')
+  })
+
   it('marks interrupted jobs paused on the next start; resumable only with a checkpoint', () => {
     expect(pauseInterrupted(record({}))).toMatchObject({ status: 'paused', resumable: true })
     expect(pauseInterrupted(record({ kind: 'ingest' }))).toMatchObject({

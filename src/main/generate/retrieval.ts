@@ -67,6 +67,12 @@ export async function retrieveForStage(
 
 const escapeAttr = (s: string): string => s.replace(/["<>&]/g, (c) => `&#${c.charCodeAt(0)};`)
 
+/**
+ * Chunk text is untrusted (any ingested PDF): escape '&' and '<' so no sequence in it can
+ * open or close a tag (</documents>, </DOCUMENTS >, <document …>) and end the data block.
+ */
+export const escapeText = (s: string): string => s.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+
 /** Split "TIRP › Section 13 › 13.6 …" into the document label and the section path. */
 function splitHeading(headingPath: string): { doc: string; section: string } {
   const parts = headingPath.split(/\s+›\s+/)
@@ -82,7 +88,7 @@ export function doctrineBlock(chunks: RetrievedChunk[]): string {
     const page = hit.page ? ` page="${hit.page}"` : ''
     const text =
       hit.text.length > MAX_CHUNK_CHARS ? hit.text.slice(0, MAX_CHUNK_CHARS) + ' …' : hit.text
-    return `<document key="${key}" source="${escapeAttr(doc)}" section="${escapeAttr(section)}"${page}>\n${text.replace(/<\/document>/g, '')}\n</document>`
+    return `<document key="${key}" source="${escapeAttr(doc)}" section="${escapeAttr(section)}"${page}>\n${escapeText(text)}\n</document>`
   })
   return `<documents>\n${docs.join('\n')}\n</documents>`
 }
@@ -94,7 +100,7 @@ export function retrievedVars(chunks: RetrievedChunk[]) {
     documentTitle: hit.documentTitle,
     headingPath: hit.headingPath,
     page: hit.page,
-    text: hit.text,
+    text: escapeText(hit.text),
   }))
 }
 

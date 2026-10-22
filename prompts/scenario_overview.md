@@ -45,7 +45,7 @@ Style, modeled on a strong hand-written overview:
 - theme: the 2–4 ideas the exercise is really about ("Data Integrity, Public Trust, and Crowd Management.").
 - threat: who did what to which system, in 2–3 sentences, naming the system as the documents name it and the downstream systems it feeds.
 - operationalImpact: what people in the building experience, in concrete terms (wrong gates, jammed belts, doors that will not open, crowds, missed flights, a reporter in the lobby).
-- coreSectionsTested: 3–6 entries. Each cites one key from <documents> and says in one clause WHY the exercise tests it ("manual announcements when displays fail"). Prefer the most specific sections: a checklist, a scenario sub-section, a failure-mode matrix, an authority to act.
+- coreSectionsTested: 3–6 entries. Each cites one key from <documents> and says in one clause WHY the exercise tests it ("manual announcements when displays fail"). Prefer the most specific sections: a checklist, a scenario sub-section, a failure-mode matrix, an authority to act. If <documents> has no sections (no citation keys are available), return an empty list rather than inventing a key.
 - targetAudience: the disciplines in the room. location: the facility exactly as the documents name it, with the city, county and state the documents give (copy them from the retrieved text; if the documents do not state geography, use the organization name alone). Never invent or guess a city, state or country.
 
 Return JSON only, matching the schema.

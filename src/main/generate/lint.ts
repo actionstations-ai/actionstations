@@ -196,12 +196,46 @@ export interface MixGap {
   message: string
 }
 
+/** Control rows (STARTEX, TIME_JUMP, ENDEX) go to everyone and give no role work to do. */
+const CONTROL_TAGS = new Set<MselRow['purposeTag']>(['STARTEX', 'TIME_JUMP', 'ENDEX'])
+
+/** A row addressed to the whole room ("all", or every role listed). */
+export function isBroadcast(row: MselRow, roles: Role[]): boolean {
+  if (norm(row.toLabel ?? '') === 'all') return true
+  return roles.length > 1 && roles.every((r) => row.toRoleIds.includes(r.id))
+}
+
+/**
+ * The phase (0-based) that carries the exercise's single DECISION_POINT: the middle of the
+ * exercise (phase 3 of 4, phase 2 of 2 or 3), the only phase of a one-phase exercise.
+ */
+export function decisionPhaseIndex(phaseCount: number): number {
+  return phaseCount <= 1 ? 0 : Math.floor(phaseCount / 2)
+}
+
+const MIX_NO_DECISION_POINT = 'MIX_NO_DECISION_POINT'
+
+function decisionGap(s: Scenario, phase: Phase): MixGap[] {
+  if (phase.index !== decisionPhaseIndex(s.phases.length)) return []
+  if (s.msel.some((r) => r.purposeTag === 'DECISION_POINT')) return []
+  return [
+    {
+      code: MIX_NO_DECISION_POINT,
+      need: "the exercise's one DECISION_POINT inject: a high-consequence call with a cost on both sides (go dark, isolate, stop screening, evacuate, pull a vendor's access)",
+      message: `No DECISION_POINT inject in ${phaseLabel(phase)}, the phase that should carry it`,
+    },
+  ]
+}
+
 /** Inject-mix and role-coverage gaps of one phase (docs/04 §3). Empty when the phase is fine. */
 export function phaseMixGaps(s: Scenario, phase: Phase): MixGap[] {
   const rows = rowsOf(s, phase.id)
   if (!rows.length) return []
   const label = phaseLabel(phase)
   const has = (pred: (r: MselRow) => boolean): boolean => rows.some(pred)
+  /** Addressed to this role specifically, not as part of a broadcast. */
+  const aimedAt = (r: MselRow, roleId: string): boolean =>
+    r.toRoleIds.includes(roleId) && !isBroadcast(r, s.roles)
   const gaps: MixGap[] = []
   const pio = findRole(s.roles, PIO_LIKE)
   const it = findRole(s.roles, IT_LIKE)
@@ -220,7 +254,7 @@ export function phaseMixGaps(s: Scenario, phase: Phase): MixGap[] {
     })
   }
   const pressure = new Set(['PRESSURE', 'MISINFORMATION', 'DISTRACTION'])
-  if (pio && !has((r) => pressure.has(r.purposeTag) && r.toRoleIds.includes(pio.id))) {
+  if (pio && !has((r) => pressure.has(r.purposeTag) && aimedAt(r, pio.id))) {
     gaps.push({
       code: 'MIX_NO_PIO_PRESSURE',
       need: `one PRESSURE or MISINFORMATION inject addressed to "${pio.id}" (social media, a reporter with a deadline, a rumor)`,
@@ -228,7 +262,7 @@ export function phaseMixGaps(s: Scenario, phase: Phase): MixGap[] {
     })
   }
   const clue = new Set(['CLUE', 'TECH_HURDLE'])
-  if (it && !has((r) => clue.has(r.purposeTag) && r.toRoleIds.includes(it.id))) {
+  if (it && !has((r) => clue.has(r.purposeTag) && aimedAt(r, it.id))) {
     gaps.push({
       code: 'MIX_NO_IT_CLUE',
       need: `one CLUE (forensic breadcrumb) or TECH_HURDLE (recovery complication) addressed to "${it.id}"`,
@@ -236,7 +270,7 @@ export function phaseMixGaps(s: Scenario, phase: Phase): MixGap[] {
     })
   }
   for (const role of s.roles) {
-    if (!has((r) => r.toRoleIds.includes(role.id))) {
+    if (!has((r) => !CONTROL_TAGS.has(r.purposeTag) && r.toRoleIds.includes(role.id))) {
       gaps.push({
         code: 'ROLE_NO_INJECT',
         need: `one inject addressed to "${role.id}" (${role.name}) that gives that role something to do`,
@@ -244,22 +278,26 @@ export function phaseMixGaps(s: Scenario, phase: Phase): MixGap[] {
       })
     }
   }
-  return gaps
+  return [...gaps, ...decisionGap(s, phase)]
 }
 
 function lintPhaseMix(s: Scenario): W[] {
   return s.phases.flatMap((p) => {
     if (!rowsOf(s, p.id).length)
       return [error('PHASE_EMPTY', `Phase ${p.index + 1} "${p.title}" has no injects`)]
-    return phaseMixGaps(s, p).map((g) => warn(g.code, g.message))
+    // The decision point is checked once for the whole exercise (lintDecisionPoint).
+    return phaseMixGaps(s, p)
+      .filter((g) => g.code !== MIX_NO_DECISION_POINT)
+      .map((g) => warn(g.code, g.message))
   })
 }
 
-/** A DECISION_POINT must land in the middle phases (2–3 of 4; the middle third in general). */
+/** A DECISION_POINT must land in the middle phases (2–3 of 4, the designated phase in general). */
 function lintDecisionPoint(s: Scenario): W[] {
-  if (s.phases.length < 2) return []
-  const from = 1
-  const to = s.phases.length >= 4 ? 2 : s.phases.length - 1
+  if (!s.phases.length) return []
+  const dp = decisionPhaseIndex(s.phases.length)
+  const from = Math.min(1, dp)
+  const to = Math.max(dp, s.phases.length >= 4 ? 2 : s.phases.length - 1)
   const middle = s.phases.filter((p) => p.index >= from && p.index <= to).map((p) => p.id)
   const ok = s.msel.some((r) => r.purposeTag === 'DECISION_POINT' && middle.includes(r.phaseId))
   return ok

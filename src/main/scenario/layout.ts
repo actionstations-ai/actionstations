@@ -20,6 +20,8 @@ export function scenarioLayout(root: string, scenarioId: string) {
   return {
     dir,
     file: safeJoin(dir, 'scenario.json'),
+    /** The idea the scenario was started from, as the designer chose (and edited) it. */
+    idea: safeJoin(dir, 'idea.json'),
     injects: safeJoin(dir, 'injects'),
     inject: (injectId: string) => safeJoin(dir, 'injects', `${assertSafeId(injectId)}.json`),
     documents: safeJoin(dir, 'documents'),

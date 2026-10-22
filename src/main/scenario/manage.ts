@@ -9,6 +9,7 @@ import { emit } from '../lib/events'
 import { readJson, safeJoin, writeFileAtomic, writeJsonAtomic } from '../lib/fs'
 import { newId, nowIso } from '../lib/ids'
 import { loadProject, updateProject } from '../project/store'
+import { assertNotGenerating } from './busy'
 import { readHistory, toHistoryEntries } from './history'
 import { scenarioLayout, withScenarioLock, type HistoryArtifact } from './layout'
 import {
@@ -27,6 +28,7 @@ export async function listScenarios(projectPath: string): Promise<ScenarioMeta[]
 
 /** Remove scenarios/<id>/ and its project.json entry. A missing folder is not an error. */
 export async function deleteScenario(projectPath: string, scenarioId: string): Promise<void> {
+  assertNotGenerating(projectPath, scenarioId)
   await withScenarioLock(projectPath, scenarioId, async () => {
     const { dir } = scenarioLayout(projectPath, scenarioId)
     await fs.rm(dir, { recursive: true, force: true })
@@ -113,6 +115,7 @@ export async function restoreHistory(
   artifact: HistoryArtifact,
   entryId: string,
 ): Promise<void> {
+  assertNotGenerating(projectPath, scenarioId)
   const entry = await findEntry(projectPath, scenarioId, artifact, entryId)
   const note = `Restored version from ${entry.at}`
   if (artifact !== 'scenario') {

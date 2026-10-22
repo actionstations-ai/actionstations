@@ -23,6 +23,12 @@ import {
 import { newId } from '../lib/ids'
 import type { RetrievedChunk } from './retrieval'
 import { resolveCitations } from './retrieval'
+import {
+  repairPlayerSources,
+  repairRubricLinks,
+  type LinkRepair,
+  type SourceRepair,
+} from './sources'
 
 export const DEFAULT_START_WALL_CLOCK = '09:00'
 
@@ -38,8 +44,16 @@ export function goalSummary(goal: string): string {
 /** "(C3)", "[C1, C2]", "(see C4)" written into prose; bare "C1" is left alone (Gate C1 exists). */
 const KEY_REFS = /\s*[([]\s*(?:see|per|cf\.?)?\s*C\d+(?:\s*[,;/&]\s*(?:and\s+)?C\d+)*\s*[)\]]/gi
 
+/** "gates (C1, C2)", "Concourse (C4)": a facility identifier list, not a citation. */
+const FACILITY_BEFORE =
+  /\b(?:gates?|concourses?|doors?|stands?|piers?|terminals?|bays?|zones?|levels?|lots?|hangars?|rooms?|positions?)\s*$/i
+
 export function stripCitationKeys(text: string): string {
-  return text.replace(KEY_REFS, '').replace(/[ \t]{2,}/g, ' ')
+  return text
+    .replace(KEY_REFS, (match, offset: number, whole: string) =>
+      FACILITY_BEFORE.test(whole.slice(0, offset)) ? match : '',
+    )
+    .replace(/[ \t]{2,}/g, ' ')
 }
 
 /** Strip key references from every string in a stage output; arrays of bare keys survive. */
@@ -356,6 +370,8 @@ export interface MselMapResult {
   synthesized: string[]
   /** START/END rows written into a phase that is not the first/last one; dropped. */
   stray: string[]
+  /** Rows whose source was a player role, re-sourced or turned into a facilitator prompt. */
+  resourced: SourceRepair[]
 }
 
 /** A START row belongs to the first phase and an END row to the last; elsewhere they are noise. */
@@ -411,11 +427,12 @@ function withBoundaryRows(
   phase: Phase,
   phaseCount: number,
   startWallClock: string,
+  kept: MselRow[] = [],
 ): { rows: OutRow[]; synthesized: string[] } {
   const synthesized: string[] = []
   const out = [...rows]
   const has = (tag: OutRow['purposeTag']): boolean =>
-    rows.some((r) => boundaryTag(r.id, r.purposeTag) === tag)
+    [...rows, ...kept].some((r) => boundaryTag(r.id, r.purposeTag) === tag)
   if (phase.index === 0 && !has('STARTEX')) {
     synthesized.push('START')
     out.unshift({
@@ -486,32 +503,56 @@ function dedupeRows(
   return { kept, duplicates }
 }
 
-/** Rows for one phase, replacing whatever that phase had before. Other phases are untouched. */
+export interface ApplyMselOptions {
+  /** Existing rows of the phase to keep verbatim (the critique revision's unflagged rows). */
+  keepIds?: Set<string>
+}
+
+/** The phase's current rows split into those kept verbatim (locked or requested) and the rest. */
+function keptRows(s: Scenario, phase: Phase, opts: ApplyMselOptions): MselRow[] {
+  return s.msel.filter((r) => r.phaseId === phase.id && (r.locked || opts.keepIds?.has(r.id)))
+}
+
+/**
+ * Rows for one phase, replacing what that phase had before; other phases are untouched.
+ * Locked rows (and `keepIds`) stay exactly as they are and a model row with their id is
+ * dropped; a regenerated row keeps the inject page linked to its id (injectId).
+ */
 export function applyMselPhase(
   s: Scenario,
   phase: Phase,
   out: MselPhaseOutput,
   chunks: RetrievedChunk[],
+  opts: ApplyMselOptions = {},
 ): MselMapResult {
   const c: CitationCollector = { chunks, dropped: [] }
   const others = s.msel.filter((r) => r.phaseId !== phase.id)
-  const taken = new Set(others.map((r) => r.id))
+  const kept = keptRows(s, phase, opts)
+  const keptIds = new Set(kept.map((r) => r.id.toUpperCase()))
+  const injectIds = new Map(
+    s.msel.filter((r) => r.phaseId === phase.id && r.injectId).map((r) => [r.id, r.injectId!]),
+  )
+  const taken = new Set([...others, ...kept].map((r) => r.id))
   const renamed: { from: string; to: string }[] = []
   const unresolvedTo: MselMapResult['unresolvedTo'] = []
   const start = s.brief.startWallClock ?? DEFAULT_START_WALL_CLOCK
-  const { rows: inPlace, stray } = dropStrayBoundaryRows(out.rows, phase, s.phases.length)
-  const bounded = withBoundaryRows(inPlace, phase, s.phases.length, start)
-  const { kept, duplicates } = dedupeRows(
+  const fresh = out.rows.filter((r) => !keptIds.has(r.id.trim().toUpperCase()))
+  const overKept = out.rows.filter((r) => keptIds.has(r.id.trim().toUpperCase())).map((r) => r.id)
+  const { rows: inPlace, stray } = dropStrayBoundaryRows(fresh, phase, s.phases.length)
+  const { rows: sourced, repairs } = repairPlayerSources(inPlace, s.roles)
+  const bounded = withBoundaryRows(sourced, phase, s.phases.length, start, kept)
+  const deduped = dedupeRows(
     bounded.rows,
-    others.map((r) => eventKey(r.event)),
+    [...others, ...kept].map((r) => eventKey(r.event)),
   )
-  const rows = kept.map((r): MselRow => {
+  const rows = deduped.kept.map((r): MselRow => {
     const id = uniqueRowId(r.id, taken)
     if (id !== r.id.trim()) renamed.push({ from: r.id, to: id })
     taken.add(id)
     const time = normalizeExerciseTime(r.time, phase.startTime)
     const to = resolveToRoles(r.to, s.roles)
     if (to.unresolved.length) unresolvedTo.push({ rowId: id, keys: to.unresolved })
+    const injectId = injectIds.get(id)
     return {
       id,
       phaseId: phase.id,
@@ -524,11 +565,14 @@ export function applyMselPhase(
       expectedAction: r.expectedAction,
       purposeTag: phaseTag(boundaryTag(id, r.purposeTag), phase, s.phases.length),
       format: r.format,
+      ...(injectId ? { injectId } : {}),
       citations: cite(r.citations, c, id),
       locked: false,
     }
   })
-  const sorted = [...rows].sort((a, b) => exerciseMinutes(a.time) - exerciseMinutes(b.time))
+  const sorted = [...kept, ...rows].sort(
+    (a, b) => exerciseMinutes(a.time) - exerciseMinutes(b.time),
+  )
   s.msel = [...others, ...sorted].sort(
     (a, b) =>
       phaseIndex(s, a.phaseId) - phaseIndex(s, b.phaseId) ||
@@ -538,10 +582,11 @@ export function applyMselPhase(
     rows: sorted,
     dropped: c.dropped,
     renamed,
-    duplicates,
+    duplicates: [...overKept, ...deduped.duplicates],
     unresolvedTo,
     synthesized: bounded.synthesized,
     stray,
+    resourced: repairs,
   }
 }
 
@@ -552,7 +597,8 @@ export function applyHandbook(s: Scenario, out: HandbookOutput): void {
   s.simcellScripts = out.simcellScripts
 }
 
-export function applyRubric(s: Scenario, out: RubricOutput): void {
+/** Rubric links to rows that do not exist are repaired to the nearest real row or dropped. */
+export function applyRubric(s: Scenario, out: RubricOutput): LinkRepair[] {
   const prev = new Map((s.rubric?.metrics ?? []).map((m) => [m.name.toLowerCase(), m.id]))
   s.rubric = {
     metrics: out.metrics.map((m) => ({
@@ -566,6 +612,7 @@ export function applyRubric(s: Scenario, out: RubricOutput): void {
       objectiveRefs: m.objectiveRefs,
     })),
   }
+  return repairRubricLinks(s.rubric.metrics, s.msel)
 }
 
 export function applyHotwash(s: Scenario, out: HotwashOutput): void {

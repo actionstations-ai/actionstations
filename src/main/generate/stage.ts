@@ -1,8 +1,10 @@
 // One stage call: retrieval plan → prompt render → provider call with a JSON schema →
 // zod validation → one repair round (errors + bad output sent back) → typed output plus a
 // StageRun record for provenance.
-import type { z } from 'zod'
+import { z } from 'zod'
 import {
+  CitationKey,
+  OverviewOutput,
   STAGE_OUTPUT_SCHEMAS,
   type PromptFile,
   type Stage,
@@ -65,6 +67,24 @@ function schemaFor(prompt: PromptFile): { name: StageOutputSchemaName; schema: z
   }
   const key = name as StageOutputSchemaName
   return { name: key, schema: STAGE_OUTPUT_SCHEMAS[key] }
+}
+
+/**
+ * Schemas that require at least one citation key cannot be satisfied when nothing was
+ * retrieved (the prompt also says never to invent keys). With no keys, accept an empty list.
+ */
+const WITHOUT_CITATIONS: Partial<Record<StageOutputSchemaName, z.ZodType>> = {
+  OverviewOutput: OverviewOutput.extend({
+    coreSectionsTested: z.array(z.object({ citation: CitationKey, why: z.string() })),
+  }),
+}
+
+function schemaWhen(
+  base: { name: StageOutputSchemaName; schema: z.ZodType },
+  retrieved: RetrievedChunk[],
+): { name: StageOutputSchemaName; schema: z.ZodType } {
+  const relaxed = retrieved.length ? undefined : WITHOUT_CITATIONS[base.name]
+  return relaxed ? { name: base.name, schema: relaxed } : base
 }
 
 function formatIssues(err: z.ZodError): string {
@@ -165,10 +185,10 @@ async function callWithRepair(
 export async function runStage<T>(call: StageCall): Promise<StageResult<T>> {
   const { stage, itemId, ctx, deps, projectPath } = call
   const prompt = await deps.loadPrompt(call.promptName ?? stage, projectPath)
-  const { name, schema } = schemaFor(prompt)
   const fm = prompt.frontmatter
   const queries = renderQueries(fm.retrieval.queries, call.vars)
   const retrieved = await retrieveForStage(call.index, queries, fm.retrieval.k, ctx.signal)
+  const { name, schema } = schemaWhen(schemaFor(prompt), retrieved)
   const rendered = deps.renderPrompt(prompt, {
     ...call.vars,
     retrieved: retrievedVars(retrieved),

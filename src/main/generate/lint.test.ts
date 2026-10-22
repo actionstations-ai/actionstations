@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import type { MselRow, Scenario } from '@shared/schemas'
-import { lintScenario, phaseMixGaps } from './lint'
+import { decisionPhaseIndex, lintScenario, phaseMixGaps } from './lint'
 
 const FIXTURE = JSON.parse(
   readFileSync(join(__dirname, '../../../tests/fixtures/scenarios/scenario-3.json'), 'utf8'),
@@ -159,6 +159,70 @@ describe('lintScenario rules', () => {
     )
     expect(gaps.find((g) => g.code === 'MIX_NO_PIO_PRESSURE')?.need).toContain('"pio"')
     expect(phaseMixGaps(s, s.phases[0]!).map((g) => g.code)).not.toContain('MIX_NO_CORE')
+  })
+
+  it('does not count STARTEX / TIME_JUMP / ENDEX broadcasts as role coverage (#90)', () => {
+    const s = clone()
+    const everyone = s.roles.map((r) => r.id)
+    // The pipeline resolves to: ["all"] to every role id, as mappers.resolveToRoles does.
+    for (const r of s.msel) if (r.toLabel === 'All') r.toRoleIds = [...everyone]
+    const phase2 = s.phases[1]!
+    const missing = phaseMixGaps(s, phase2)
+      .filter((g) => g.code === 'ROLE_NO_INJECT')
+      .map((g) => g.message)
+    // In phase 2 only I-05 (TIME_JUMP) and I-06 (a CORE_NARRATIVE broadcast) reach ASC and AL.
+    expect(missing).toEqual([])
+    const i06 = s.msel.find((r) => r.id === 'I-06')!
+    i06.toRoleIds = ['ops-director']
+    i06.toLabel = 'Ops'
+    const after = phaseMixGaps(s, phase2).filter((g) => g.code === 'ROLE_NO_INJECT')
+    expect(after.map((g) => g.need)).toEqual([
+      expect.stringContaining('"asc"'),
+      expect.stringContaining('"airline-liaison"'),
+    ])
+  })
+
+  it('does not let a broadcast row satisfy the PIO or IT check (#90)', () => {
+    const s = clone()
+    const phase2 = s.phases[1]!
+    const i06b = s.msel.find((r) => r.id === 'I-06b')!
+    i06b.toRoleIds = s.roles.map((r) => r.id)
+    i06b.toLabel = 'All'
+    const i08b = s.msel.find((r) => r.id === 'I-08b')!
+    i08b.toRoleIds = s.roles.map((r) => r.id)
+    i08b.toLabel = 'All'
+    const gaps = phaseMixGaps(s, phase2).map((g) => g.code)
+    expect(gaps).toContain('MIX_NO_PIO_PRESSURE')
+    expect(gaps).toContain('MIX_NO_IT_CLUE')
+  })
+
+  it('asks for the single DECISION_POINT in its designated phase only (#90)', () => {
+    expect([1, 2, 3, 4, 5, 6].map(decisionPhaseIndex)).toEqual([0, 1, 1, 2, 2, 3])
+    const s = clone()
+    expect(s.msel.some((r) => r.purposeTag === 'DECISION_POINT')).toBe(false)
+    const at = decisionPhaseIndex(s.phases.length)
+    for (const p of s.phases) {
+      const dp = phaseMixGaps(s, p).find((g) => g.code === 'MIX_NO_DECISION_POINT')
+      if (p.index === at) expect(dp?.need).toMatch(/DECISION_POINT/)
+      else expect(dp).toBeUndefined()
+    }
+    // The scenario-level lint reports it once, not once more per phase.
+    const c = codes(s)
+    expect(c).toContain('NO_DECISION_POINT')
+    expect(c).not.toContain('MIX_NO_DECISION_POINT')
+    // Two phases: the decision point belongs in phase 2.
+    const two = clone()
+    two.phases = two.phases.slice(0, 2)
+    two.msel = two.msel.filter((r) => two.phases.some((p) => p.id === r.phaseId))
+    expect(phaseMixGaps(two, two.phases[1]!).map((g) => g.code)).toContain('MIX_NO_DECISION_POINT')
+    expect(phaseMixGaps(two, two.phases[0]!).map((g) => g.code)).not.toContain(
+      'MIX_NO_DECISION_POINT',
+    )
+    // Once any phase has one, no phase asks for another.
+    two.msel.find((r) => r.id === 'I-03')!.purposeTag = 'DECISION_POINT'
+    expect(phaseMixGaps(two, two.phases[1]!).map((g) => g.code)).not.toContain(
+      'MIX_NO_DECISION_POINT',
+    )
   })
 
   it('is silent on an empty scenario', () => {

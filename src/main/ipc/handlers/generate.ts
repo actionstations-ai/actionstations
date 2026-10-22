@@ -1,27 +1,16 @@
 // Generation handlers (#25/#26/#27). generate:injects and generate:media land with M3 (#34).
-import type { Job, ScenarioBrief, ScenarioIdea } from '@shared/schemas'
+import type { ScenarioBrief, ScenarioIdea } from '@shared/schemas'
 import { defineHandlers } from '../registry'
 import { pipelineDeps } from '../../generate/deps'
-import { PIPELINE_STAGES, rerunStep, runPipeline, type StepKey } from '../../generate/engine'
-import { generateIdeas, readIdeas, rememberIdea } from '../../generate/ideas'
+import { PIPELINE_STAGES } from '../../generate/engine'
+import { generateIdeas, readIdeas, rememberIdea, saveScenarioIdea } from '../../generate/ideas'
+import { continueJob, registerScenarioResumers, rerunJob } from '../../generate/scenario-jobs'
 import { jobs } from '../../jobs/manager'
 import { AppError } from '../../lib/errors'
 import { requireProject } from '../../project/guard'
 
-const continueJob = (root: string, scenarioId: string): Job =>
-  jobs.start('generate-scenario', (ctx) => runPipeline(root, scenarioId, ctx), {
-    projectPath: root,
-    scenarioId,
-    resumable: true,
-  })
-
-/** A scenario pipeline interrupted by an app exit picks up from its last checkpoint. */
-jobs.registerResumer('generate-scenario', async (paused) =>
-  continueJob(await requireProject(paused.projectPath!), paused.scenarioId!),
-)
-jobs.registerResumer('rerun-stage', async (paused) =>
-  continueJob(await requireProject(paused.projectPath!), paused.scenarioId!),
-)
+/** Interrupted pipeline / re-run jobs resume as the same work (generate/scenario-jobs). */
+registerScenarioResumers()
 
 function scenarioTitle(brief: ScenarioBrief, idea?: ScenarioIdea): string {
   if (idea?.title) return idea.title
@@ -47,6 +36,7 @@ export default defineHandlers({
       title: scenarioTitle(brief, idea),
       brief: { ...brief, ...(idea ? { ideaId: idea.id } : {}) },
     })
+    if (idea) await saveScenarioIdea(root, scenario.id, idea)
     return { jobId: continueJob(root, scenario.id).id, scenarioId: scenario.id }
   },
   'generate:continue': async ({ projectPath, scenarioId }) => {
@@ -61,12 +51,11 @@ export default defineHandlers({
     if (stage === 'msel_phase' && !itemId) {
       throw new AppError('VALIDATION', 'msel_phase needs the phase id as itemId')
     }
-    const step: StepKey = { stage, ...(itemId ? { itemId } : {}) }
-    const job = jobs.start(
-      'rerun-stage',
-      (ctx) => rerunStep(root, scenarioId, step, instructions, ctx),
-      { projectPath: root, scenarioId, payload: { stage, itemId, instructions }, resumable: true },
-    )
+    const job = rerunJob(root, scenarioId, {
+      stage,
+      ...(itemId ? { itemId } : {}),
+      ...(instructions ? { instructions } : {}),
+    })
     return { jobId: job.id }
   },
 })

@@ -2,6 +2,7 @@ import { app, BrowserWindow, session, shell } from 'electron'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { registerIpc } from './ipc'
+import { jobs } from './jobs/manager'
 import { registerMediaProtocol, registerMediaScheme } from './lib/media-protocol'
 // Load every provider adapter at startup so a broken adapter fails the launch smoke test
 // instead of crashing later on first use.
@@ -76,4 +77,10 @@ void app.whenReady().then(() => {
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
+})
+
+// Job records are written debounced; write them now so a job that just finished is not shown
+// as "Interrupted — resumable" on the next start. flush() writes synchronously.
+app.on('before-quit', () => {
+  void jobs.flush()
 })

@@ -16,6 +16,7 @@ import { emit } from '../lib/events'
 import { ensureDir, exists, readJson, safeJoin, writeFileAtomic, writeJsonAtomic } from '../lib/fs'
 import { newId, nowIso } from '../lib/ids'
 import { loadProject, updateProject } from '../project/store'
+import { assertNotGenerating } from './busy'
 import { appendHistory } from './history'
 import { scenarioLayout, withScenarioLock } from './layout'
 
@@ -110,12 +111,14 @@ export async function getScenario(projectPath: string, scenarioId: string): Prom
 /**
  * Validate + atomically write scenario.json, update project.json ScenarioMeta, append a
  * history snapshot, emit project:changed {what:'scenario'}. Serialized per scenario.
+ * A user save while a generation job owns the scenario fails with CONFLICT (./busy).
  */
 export async function saveScenario(
   projectPath: string,
   scenario: Scenario,
   opts: SaveOptions,
 ): Promise<Scenario> {
+  if (opts.by === 'user') assertNotGenerating(projectPath, scenario.id)
   return withScenarioLock(projectPath, scenario.id, () =>
     writeScenario(projectPath, scenario, opts),
   )
@@ -158,6 +161,7 @@ export async function writeScenarioDoc(
   markdown: string,
   opts: SaveOptions,
 ): Promise<void> {
+  if (opts.by === 'user') assertNotGenerating(projectPath, scenarioId)
   await withScenarioLock(projectPath, scenarioId, async () => {
     const layout = await requireScenarioDir(projectPath, scenarioId)
     await writeFileAtomic(layout.doc(kind), markdown)

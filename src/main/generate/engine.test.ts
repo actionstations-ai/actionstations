@@ -485,7 +485,7 @@ describe('scenario pipeline (scripted provider)', () => {
     expect(provider.requests).toHaveLength(4)
   })
 
-  it('cancels between and inside calls, records the step as failed and can continue later', async () => {
+  it('cancels inside a call, records the step as failed and can continue later', async () => {
     let release: (() => void) | undefined
     const provider = new ScriptedProvider(async (req) => {
       if (req.json?.name === 'ObjectivesRolesOutput') {
@@ -526,5 +526,45 @@ describe('scenario pipeline (scripted provider)', () => {
     const job2 = await jobs.wait(cont.jobId)
     expect(job2.status, job2.error).toBe('done')
     expect((await getScenario(projectPath, scenarioId)).title).toBe('T')
+  })
+
+  it('cancels between calls: the finished step is kept and the next one never starts', async () => {
+    const store = await import('../scenario/store')
+    const provider = new ScriptedProvider(() =>
+      JSON.stringify({
+        title: 'Between',
+        subtitle: 's',
+        theme: 't',
+        threat: 'th',
+        operationalImpact: 'o',
+        coreSectionsTested: [{ citation: 'C1', why: 'w' }],
+        targetAudience: 'a',
+        location: 'l',
+      }),
+    )
+    let resolveJobId: (id: string) => void = () => undefined
+    const jobIdKnown = new Promise<string>((r) => (resolveJobId = r))
+    setPipelineDeps({
+      openIndex: async () => index,
+      resolveTextProvider: async () => ({ provider, model: 'scripted', providerId: 'scripted' }),
+      store: {
+        ...store,
+        saveScenario: async (root, scenario, opts) => {
+          const saved = await store.saveScenario(root, scenario, opts)
+          // The overview checkpoint is written; cancel before the next step begins.
+          if (opts.note === 'scenario_overview ok') jobs.cancel(await jobIdKnown)
+          return saved
+        },
+      },
+    })
+    const { jobId, scenarioId } = await invoke('generate:scenario', { projectPath, brief })
+    resolveJobId(jobId)
+    const job = await jobs.wait(jobId)
+    expect(job.status).toBe('cancelled')
+    const s = await getScenario(projectPath, scenarioId)
+    expect(s.title).toBe('Between')
+    expect(runFor(s, { stage: 'scenario_overview' })?.status).toBe('ok')
+    expect(runFor(s, { stage: 'objectives_roles' })).toBeUndefined()
+    expect(provider.requests).toHaveLength(1)
   })
 })
