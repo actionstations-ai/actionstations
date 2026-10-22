@@ -1,0 +1,90 @@
+{
+  "id": "01M5HYBZEERQXSV01192R75M01",
+  "mselRowId": "I-09",
+  "type": "scenario_update",
+  "title": "Decision Point — Honeypot or Kill?",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:18",
+    "scenarioTime": "09:00",
+    "headline": "Honeypot or Kill? Choose Your Path",
+    "deliverTo": "All players",
+    "narration": "The IT team has made its recommendation. The rogue access point remains active — but now, under controlled conditions. The FBI has approved a limited honeypot operation. The device is not disconnected, but all traffic from the hidden SSID is now routed through a monitored sandbox. The attacker will believe they still have a foothold. If they connect, we will capture their IP, commands, and any data they try to exfiltrate. We will feed them fake credentials, fake server logs, and fake network paths. The goal is not to stop them — it is to catch them in the act. The network is not fully secured, but we are turning their advantage into our trap.",
+    "keyFacts": [
+      "The rogue AP remains active but isolated to a monitored sandbox.",
+      "All inbound traffic is being captured and analyzed by the FBI and IT.",
+      "Fake network data is being fed to the attacker to mislead them.",
+      "The attacker still believes they have access to VLAN 60, 10, 20, 30, 40, and 99.",
+      "The FBI is actively tracking the attacker’s behavior from the sandbox."
+    ],
+    "expectedAction": "IT leads traffic analysis and forensic logging. Ops prepares for potential secondary attacks or network disruption. Security monitors for any physical signs of attacker presence. Command confirms the decision to proceed with the honeypot.",
+    "facilitatorNote": "This inject confirms the decision to proceed with the honeypot. The FBI is now in the loop. The next move is intelligence gathering — not containment.",
+    "scenarioTitle": "Carbon Copy — Scenario 5: Badge Cloning & Physical-Cyber Convergence",
+    "injectId": "I-09"
+  },
+  "variant": "default",
+  "instructorNote": "This inject locks in the honeypot decision. The next event will be a fake login attempt from the attacker’s IP, which must be detected and analyzed.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 10 › 10.2 Operations",
+      "quote": "All threats treated as real until proven otherwise. Receiver uses the Bomb Threat Checklist; reports to Airport Police or the ACC. Airport Police assume IC; with FBI/TSA assess as **Non-Specific** (he",
+      "chunkId": 114
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+      "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+      "chunkId": 122
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:56:25.854Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Decision Point — Honeypot or Kill?",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "1:18",
+          "scenarioTime": "09:00",
+          "headline": "Honeypot or Kill? Choose Your Path",
+          "deliverTo": "All players",
+          "narration": "The IT team has made its recommendation. The rogue access point remains active — but now, under controlled conditions. The FBI has approved a limited honeypot operation. The device is not disconnected, but all traffic from the hidden SSID is now routed through a monitored sandbox. The attacker will believe they still have a foothold. If they connect, we will capture their IP, commands, and any data they try to exfiltrate. We will feed them fake credentials, fake server logs, and fake network paths. The goal is not to stop them — it is to catch them in the act. The network is not fully secured, but we are turning their advantage into our trap.",
+          "keyFacts": [
+            "The rogue AP remains active but isolated to a monitored sandbox.",
+            "All inbound traffic is being captured and analyzed by the FBI and IT.",
+            "Fake network data is being fed to the attacker to mislead them.",
+            "The attacker still believes they have access to VLAN 60, 10, 20, 30, 40, and 99.",
+            "The FBI is actively tracking the attacker’s behavior from the sandbox."
+          ],
+          "expectedAction": "IT leads traffic analysis and forensic logging. Ops prepares for potential secondary attacks or network disruption. Security monitors for any physical signs of attacker presence. Command confirms the decision to proceed with the honeypot.",
+          "facilitatorNote": "This inject confirms the decision to proceed with the honeypot. The FBI is now in the loop. The next move is intelligence gathering — not containment.",
+          "scenarioTitle": "Carbon Copy — Scenario 5: Badge Cloning & Physical-Cyber Convergence",
+          "injectId": "I-09"
+        },
+        "instructorNote": "This inject locks in the honeypot decision. The next event will be a fake login attempt from the attacker’s IP, which must be detected and analyzed.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:56:52.885Z"
+}

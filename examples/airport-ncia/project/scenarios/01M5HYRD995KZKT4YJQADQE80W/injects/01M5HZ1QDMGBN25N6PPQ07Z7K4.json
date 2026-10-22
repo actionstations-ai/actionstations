@@ -1,0 +1,121 @@
+{
+  "id": "01M5HZ1QDMGBN25N6PPQ07Z7K4",
+  "mselRowId": "END",
+  "type": "endex_card",
+  "title": "End Exercise — Clock Strikes Noon",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:00",
+    "endTime": "12:00 PM",
+    "resolution": "ENDEX. The clock hits 12:00. The AODB server goes silent. FIDS displays across the terminal go dark. Gate management systems show 'NO DATA.' A file appears on the server desktop: 'You should have hired me. — D'. The threat has executed. The airport's flight operations are now disrupted.",
+    "finalState": [
+      "AODB server (AODB-SVR-01) is unresponsive.",
+      "FIDS data feed is offline.",
+      "Scheduled task 'AODB_IndexMaintenance' executed at 12:00:00.",
+      "README_NCIA.txt was created on AODB-SVR-01.",
+      "The logic bomb has been activated."
+    ],
+    "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will now begin the hot wash.",
+    "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+    "hotWashQuestions": [
+      "What indicators were most critical in identifying the threat?",
+      "Why did the SIEM not alert on the scheduled task or service account?",
+      "How did the prioritization of physical and cyber actions affect the outcome?",
+      "What would have changed if the team had discovered the task earlier?",
+      "How should the airport improve off-boarding procedures for contractors?"
+    ],
+    "scenarioTitle": "Scenario 8: Anonymous Threat, Logic Bomb Hunt",
+    "injectId": "END"
+  },
+  "variant": "default",
+  "instructorNote": "This is the final inject. All roles have received their cues. The debrief should focus on delayed triage, the failure of routine checks to catch the threat, and the importance of service account hygiene. Collect all documentation and evaluator sheets.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part I › Section 7 › 7.1 Training and Exercises",
+      "quote": "- **Annual Tabletop Exercise (TTX):** discussion-based exercise testing command and control (e.g., Cyber Incident, Severe Weather). - **Triennial Full-Scale Exercise (FSE):** live exercise with resour",
+      "chunkId": 24
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 5 › 5.2 Response Capability (49 CFR § 1542.217)",
+      "quote": "Checkpoint response within **3 minutes** of a duress alarm or call. Security breaches anywhere on the airport within **5 minutes**. Responding officers readily identifiable; plain-clothes display cred",
+      "chunkId": 63
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.3 Operations",
+      "quote": "LEOs move toward the threat first. Fire/EMS stage in a cold zone until LEOs declare \"secure.\" Then LEOs secure the scene and Fire/EMS triage.",
+      "chunkId": 119
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 10 › 10.2 Operations",
+      "quote": "All threats treated as real until proven otherwise. Receiver uses the Bomb Threat Checklist; reports to Airport Police or the ACC. Airport Police assume IC; with FBI/TSA assess as **Non-Specific** (he",
+      "chunkId": 114
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+      "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+      "chunkId": 120
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:08:19.855Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "End Exercise — Clock Strikes Noon",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "endTime": "12:00 PM",
+          "resolution": "ENDEX. The clock hits 12:00. The AODB server goes silent. FIDS displays across the terminal go dark. Gate management systems show 'NO DATA.' A file appears on the server desktop: 'You should have hired me. — D'. The threat has executed. The airport's flight operations are now disrupted.",
+          "finalState": [
+            "AODB server (AODB-SVR-01) is unresponsive.",
+            "FIDS data feed is offline.",
+            "Scheduled task 'AODB_IndexMaintenance' executed at 12:00:00.",
+            "README_NCIA.txt was created on AODB-SVR-01.",
+            "The logic bomb has been activated."
+          ],
+          "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will now begin the hot wash.",
+          "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "What indicators were most critical in identifying the threat?",
+            "Why did the SIEM not alert on the scheduled task or service account?",
+            "How did the prioritization of physical and cyber actions affect the outcome?",
+            "What would have changed if the team had discovered the task earlier?",
+            "How should the airport improve off-boarding procedures for contractors?"
+          ],
+          "scenarioTitle": "Scenario 8: Anonymous Threat, Logic Bomb Hunt",
+          "injectId": "END"
+        },
+        "instructorNote": "This is the final inject. All roles have received their cues. The debrief should focus on delayed triage, the failure of routine checks to catch the threat, and the importance of service account hygiene. Collect all documentation and evaluator sheets.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:08:28.015Z"
+}

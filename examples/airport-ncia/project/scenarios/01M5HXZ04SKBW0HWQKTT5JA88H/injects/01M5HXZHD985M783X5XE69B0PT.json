@@ -1,0 +1,186 @@
+{
+  "id": "01M5HXZHD985M783X5XE69B0PT",
+  "mselRowId": "I-02",
+  "type": "sitrep",
+  "title": "SITREP: Domain Controller Compromised — Full Identity Infrastructure Compromised",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "number": "2",
+    "time": "10/22/2026 0817",
+    "organization": "North Coast Regional Airport Authority",
+    "issuingOffice": "Cyber Incident Response Center",
+    "incidentName": "Full Identity Infrastructure Compromise",
+    "period": "0800–0817",
+    "from": "IT Team Analysis",
+    "to": "All",
+    "summary": "The Domain Controller (DC) has been confirmed as compromised. This is not a localized breach — the attacker has full access to every user account, including all administrative credentials, via stolen password hashes. The compromise extends to every system that relies on Active Directory authentication, including PACS, video systems, access control, and all user workstations. The attacker has had full access to the identity infrastructure for at least 90 days. No account is trusted. All authentication must be treated as potentially forged. The environment is no longer secure for any user or system.",
+    "keyStatus": [
+      {
+        "label": "Domain Controller",
+        "value": "Compromised — Untrusted"
+      },
+      {
+        "label": "PACS Access Control",
+        "value": "Untrusted — Door states may be falsified"
+      },
+      {
+        "label": "Video Surveillance",
+        "value": "Source integrity compromised"
+      },
+      {
+        "label": "Badge Enrollment System",
+        "value": "Untrusted — Biometric data may be manipulated"
+      },
+      {
+        "label": "Authentication Systems",
+        "value": "All credentials potentially exposed"
+      }
+    ],
+    "actions": [
+      {
+        "time": "0814",
+        "text": "IT confirmed the Domain Controller (NCIA-SEC-DB01) is beaconing to a known malicious C2 domain."
+      },
+      {
+        "time": "0815",
+        "text": "All AD-based authentication services suspended across the network."
+      },
+      {
+        "time": "0816",
+        "text": "TSA and FBI notified via emergency protocol (FBI-TSA-NCIA-2026-001)."
+      },
+      {
+        "time": "0817",
+        "text": "IC directed all staff to assume all credentials are invalid — no user or admin account is trusted."
+      }
+    ],
+    "planned": [
+      "Convene Unified Command to assess impact on operations and physical security.",
+      "Initiate full password reset protocol using out-of-band verification (e.g. paper tokens, biometric OTPs).",
+      "Begin forensic isolation of all domain-joined systems.",
+      "Activate breach notification protocol under ASP Section 4.4."
+    ],
+    "issues": [
+      "No trusted authentication path exists; password reset cannot be done via standard AD.",
+      "No known list of compromised accounts — all must be assumed compromised.",
+      "Physical access control (PACS) may have been manipulated; doors may be unlocked without authorization."
+    ],
+    "nextReport": "0830 or on significant change",
+    "preparedBy": "Marcus Chen, IT Security Lead",
+    "approvedBy": "A. Patel, Planning Section Chief",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the full identity compromise. The team must now decide how to proceed without trust in any credential. Watch for attempts to bypass the AD issue by using paper-based auth or assuming local admin rights — those are also compromised.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 4 › 4.4 Accountability and Auditing",
+      "quote": "Lost/stolen badges reported within 24 hours and deactivated immediately. If more than **5%** of active badges are unaccounted for, TSA may mandate a complete re-badging at the airport's expense. Tenan",
+      "chunkId": 61
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.5 Scenario B: Access Control System Failure",
+      "quote": "**Impact:** all airport-controlled doors fail \"locked\" (no movement) or \"unlocked\" (massive security breach). **\"Fail Unlocked\":** LEO/Security immediately dispatch all available staff to physically s",
+      "chunkId": 125
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:49:39.755Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SITREP: Domain Controller Compromised — Full Identity Infrastructure Compromised",
+        "type": "sitrep",
+        "fields": {
+          "number": "2",
+          "time": "10/22/2026 0817",
+          "organization": "North Coast Regional Airport Authority",
+          "issuingOffice": "Cyber Incident Response Center",
+          "incidentName": "Full Identity Infrastructure Compromise",
+          "period": "0800–0817",
+          "from": "IT Team Analysis",
+          "to": "All",
+          "summary": "The Domain Controller (DC) has been confirmed as compromised. This is not a localized breach — the attacker has full access to every user account, including all administrative credentials, via stolen password hashes. The compromise extends to every system that relies on Active Directory authentication, including PACS, video systems, access control, and all user workstations. The attacker has had full access to the identity infrastructure for at least 90 days. No account is trusted. All authentication must be treated as potentially forged. The environment is no longer secure for any user or system.",
+          "keyStatus": [
+            {
+              "label": "Domain Controller",
+              "value": "Compromised — Untrusted"
+            },
+            {
+              "label": "PACS Access Control",
+              "value": "Untrusted — Door states may be falsified"
+            },
+            {
+              "label": "Video Surveillance",
+              "value": "Source integrity compromised"
+            },
+            {
+              "label": "Badge Enrollment System",
+              "value": "Untrusted — Biometric data may be manipulated"
+            },
+            {
+              "label": "Authentication Systems",
+              "value": "All credentials potentially exposed"
+            }
+          ],
+          "actions": [
+            {
+              "time": "0814",
+              "text": "IT confirmed the Domain Controller (NCIA-SEC-DB01) is beaconing to a known malicious C2 domain."
+            },
+            {
+              "time": "0815",
+              "text": "All AD-based authentication services suspended across the network."
+            },
+            {
+              "time": "0816",
+              "text": "TSA and FBI notified via emergency protocol (FBI-TSA-NCIA-2026-001)."
+            },
+            {
+              "time": "0817",
+              "text": "IC directed all staff to assume all credentials are invalid — no user or admin account is trusted."
+            }
+          ],
+          "planned": [
+            "Convene Unified Command to assess impact on operations and physical security.",
+            "Initiate full password reset protocol using out-of-band verification (e.g. paper tokens, biometric OTPs).",
+            "Begin forensic isolation of all domain-joined systems.",
+            "Activate breach notification protocol under ASP Section 4.4."
+          ],
+          "issues": [
+            "No trusted authentication path exists; password reset cannot be done via standard AD.",
+            "No known list of compromised accounts — all must be assumed compromised.",
+            "Physical access control (PACS) may have been manipulated; doors may be unlocked without authorization."
+          ],
+          "nextReport": "0830 or on significant change",
+          "preparedBy": "Marcus Chen, IT Security Lead",
+          "approvedBy": "A. Patel, Planning Section Chief",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the full identity compromise. The team must now decide how to proceed without trust in any credential. Watch for attempts to bypass the AD issue by using paper-based auth or assuming local admin rights — those are also compromised.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:51:25.085Z"
+}

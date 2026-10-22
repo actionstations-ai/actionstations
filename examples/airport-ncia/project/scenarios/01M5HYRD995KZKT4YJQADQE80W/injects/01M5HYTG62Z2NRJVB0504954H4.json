@@ -1,0 +1,205 @@
+{
+  "id": "01M5HYTG62Z2NRJVB0504954H4",
+  "mselRowId": "A-07",
+  "type": "siem_alert",
+  "title": "SIEM 30-Day Review: Orphaned Account and Suspicious Activity",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "product": "Sentinel Point SIEM",
+    "tenant": "NCIA - Airport IT",
+    "alertId": "ALR-2026-104418",
+    "severity": "info",
+    "riskScore": 32,
+    "rule": "Orphaned Service Account with Outbound Connection and Script Execution",
+    "ruleDescription": "A service account (svc_nexgen_aodb) used for AODB maintenance was active 5 days ago, initiated an outbound connection to a known VPS provider, and executed a PowerShell script on the AODB server that created a new scheduled task. The account was not removed during off-boarding.",
+    "status": "New",
+    "assignee": "Unassigned",
+    "firstSeen": "10/17/2026 02:12:07",
+    "lastSeen": "10/17/2026 02:18:03",
+    "eventCount": 3,
+    "source": {
+      "host": "NCIA-SEC-DB01",
+      "ip": "10.1.10.20",
+      "user": "svc_nexgen_aodb",
+      "zone": "Security Ops VLAN"
+    },
+    "dest": {
+      "host": "104.248.52.117",
+      "ip": "104.248.52.117",
+      "service": "HTTPS (443)",
+      "zone": "External"
+    },
+    "tactics": [
+      "T1078 Valid Accounts",
+      "T1071 Application Layer Protocol",
+      "T1059 Command and Scripting Interpreter"
+    ],
+    "details": [
+      {
+        "key": "Account Type",
+        "value": "Service Account"
+      },
+      {
+        "key": "Account Status",
+        "value": "Active"
+      },
+      {
+        "key": "Last Login",
+        "value": "10/17/2026 02:12:07"
+      },
+      {
+        "key": "Script Executed",
+        "value": "C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1"
+      },
+      {
+        "key": "Task Created",
+        "value": "AODB_IndexMaintenance (12:00:00 PM)"
+      },
+      {
+        "key": "Connection Purpose",
+        "value": "Outbound beacon to external VPS (DigitalOcean)"
+      },
+      {
+        "key": "Account Created By",
+        "value": "Dmitri Volkov (NexGen Solutions)"
+      },
+      {
+        "key": "Account Last Modified",
+        "value": "10/17/2026 02:14:22"
+      }
+    ],
+    "rawEvent": "2026-10-17T02:12:07-05:00 NCIA-SEC-DB01 Windows Event Log 4624: User 'svc_nexgen_aodb' logged on via RDP from external IP 73.189.22.104. [CLIENT: 73.189.22.104]\n2026-10-17T02:14:22-05:00 NCIA-SEC-DB01 Windows Event Log 4688: Process 'powershell.exe' created with command line 'powershell.exe -ExecutionPolicy Bypass -File C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1' by user 'svc_nexgen_aodb'.\n2026-10-17T02:15:11-05:00 NCIA-SEC-DB01 Windows Event Log 4624: User 'svc_nexgen_aodb' connected to external host 104.248.52.117 on port 443 (HTTPS). [CLIENT: 10.1.10.20]",
+    "relatedAlerts": [
+      {
+        "time": "10/17/2026 02:14:22",
+        "title": "PowerShell Script Execution Detected",
+        "severity": "high"
+      },
+      {
+        "time": "10/17/2026 02:15:11",
+        "title": "Outbound Connection to VPS (104.248.52.117)",
+        "severity": "medium"
+      }
+    ],
+    "analyst": "it.oncall"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the three anomalies from prior injects. The SIEM has all the evidence, but the alerts were not prioritized — a key point for post-exercise discussion on alert tuning and operational noise.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+      "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part II › Appendix 1 › 1.3 Operational Procedures",
+      "quote": "**A. Communications.** ARFF Discrete Frequency (121.9 MHz) or Summit County 800 MHz Fireground Channel. Upon Alert 3, ATC silences non-emergency ground traffic. **B. Grid Maps.** All agencies use the ",
+      "chunkId": 28
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:04:27.092Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIEM 30-Day Review: Orphaned Account and Suspicious Activity",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "NCIA - Airport IT",
+          "alertId": "ALR-2026-104418",
+          "severity": "info",
+          "riskScore": 32,
+          "rule": "Orphaned Service Account with Outbound Connection and Script Execution",
+          "ruleDescription": "A service account (svc_nexgen_aodb) used for AODB maintenance was active 5 days ago, initiated an outbound connection to a known VPS provider, and executed a PowerShell script on the AODB server that created a new scheduled task. The account was not removed during off-boarding.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "10/17/2026 02:12:07",
+          "lastSeen": "10/17/2026 02:18:03",
+          "eventCount": 3,
+          "source": {
+            "host": "NCIA-SEC-DB01",
+            "ip": "10.1.10.20",
+            "user": "svc_nexgen_aodb",
+            "zone": "Security Ops VLAN"
+          },
+          "dest": {
+            "host": "104.248.52.117",
+            "ip": "104.248.52.117",
+            "service": "HTTPS (443)",
+            "zone": "External"
+          },
+          "tactics": [
+            "T1078 Valid Accounts",
+            "T1071 Application Layer Protocol",
+            "T1059 Command and Scripting Interpreter"
+          ],
+          "details": [
+            {
+              "key": "Account Type",
+              "value": "Service Account"
+            },
+            {
+              "key": "Account Status",
+              "value": "Active"
+            },
+            {
+              "key": "Last Login",
+              "value": "10/17/2026 02:12:07"
+            },
+            {
+              "key": "Script Executed",
+              "value": "C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1"
+            },
+            {
+              "key": "Task Created",
+              "value": "AODB_IndexMaintenance (12:00:00 PM)"
+            },
+            {
+              "key": "Connection Purpose",
+              "value": "Outbound beacon to external VPS (DigitalOcean)"
+            },
+            {
+              "key": "Account Created By",
+              "value": "Dmitri Volkov (NexGen Solutions)"
+            },
+            {
+              "key": "Account Last Modified",
+              "value": "10/17/2026 02:14:22"
+            }
+          ],
+          "rawEvent": "2026-10-17T02:12:07-05:00 NCIA-SEC-DB01 Windows Event Log 4624: User 'svc_nexgen_aodb' logged on via RDP from external IP 73.189.22.104. [CLIENT: 73.189.22.104]\n2026-10-17T02:14:22-05:00 NCIA-SEC-DB01 Windows Event Log 4688: Process 'powershell.exe' created with command line 'powershell.exe -ExecutionPolicy Bypass -File C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1' by user 'svc_nexgen_aodb'.\n2026-10-17T02:15:11-05:00 NCIA-SEC-DB01 Windows Event Log 4624: User 'svc_nexgen_aodb' connected to external host 104.248.52.117 on port 443 (HTTPS). [CLIENT: 10.1.10.20]",
+          "relatedAlerts": [
+            {
+              "time": "10/17/2026 02:14:22",
+              "title": "PowerShell Script Execution Detected",
+              "severity": "high"
+            },
+            {
+              "time": "10/17/2026 02:15:11",
+              "title": "Outbound Connection to VPS (104.248.52.117)",
+              "severity": "medium"
+            }
+          ],
+          "analyst": "it.oncall"
+        },
+        "instructorNote": "This inject confirms the three anomalies from prior injects. The SIEM has all the evidence, but the alerts were not prioritized — a key point for post-exercise discussion on alert tuning and operational noise.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:08:23.897Z"
+}

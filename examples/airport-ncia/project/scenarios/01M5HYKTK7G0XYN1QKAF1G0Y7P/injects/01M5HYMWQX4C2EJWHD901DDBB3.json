@@ -1,0 +1,122 @@
+{
+  "id": "01M5HYMWQX4C2EJWHD901DDBB3",
+  "mselRowId": "C-05",
+  "type": "simcell_script",
+  "title": "New Employee Badge Request — Security Team",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "role": "Security Officer",
+    "persona": "Ashley",
+    "organization": "North Coast Regional Airport Authority (NCIA)",
+    "trigger": "A player approaches the badge office with a badgeless individual claiming to be a new employee needing urgent access.",
+    "contactMethod": "In-person at the badge office counter",
+    "posture": "Flustered, apologetic, pleading. Voice slightly higher than normal, fidgeting with a backpack.",
+    "openingLine": "I'm so sorry — I'm Ashley, I just started in Finance last week. I left my badge at home and I have a meeting with the CFO in 20 minutes. I know I'm supposed to have it, I feel terrible. My supervisor is Lisa Park — you can call her, but she's in the meeting I'm trying to get to. Is there any way you can let me through just this once? I promise I'll bring it tomorrow.",
+    "hardQuestions": [
+      ".",
+      "What is your full name and employee ID?",
+      "Who is your direct supervisor, and what is their contact number?",
+      "Can you confirm your start date and department?",
+      "What is your assigned badge type, and do you have any access exceptions?"
+    ],
+    "concessions": [
+      {
+        "condition": "Player verifies the employee's name, ID, supervisor, and department via HR database (or via a valid call to Lisa Park)",
+        "concession": "Issue a temporary visitor badge with escort. Begin manual inspection per C1."
+      }
+    ],
+    "boundaries": [
+      "Never accept the claim without verification.",
+      "Never allow entry without a badge or official temporary pass.",
+      "Never confirm the employee’s identity via unverified verbal claim alone.",
+      "Never bypass the Stop List check.",
+      "Never admit that the system is down or that exceptions are common."
+    ],
+    "exitLine": "I’ll need to confirm your details with your supervisor before I can assist. Please wait here.",
+    "evaluatorNote": "Correct response: Verify via HR database or call Lisa Park. Reject entry until verification is complete. No exceptions for urgency or sympathy. Player must invoke C1 manual inspection procedure.",
+    "injectRefs": "C-05",
+    "scenarioTitle": "Social Engineering Olympics — Scenario 7: Human-Focused Security Exercise",
+    "pageLabel": "SimCell 5 of 5"
+  },
+  "variant": "default",
+  "instructorNote": "Sympathy + urgency attack. The player must not grant access based on emotion or time pressure. Verify via HR or direct call to supervisor. Watch for attempts to bypass verification or accept the story as-is.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+      "quote": "**A. Immediate Action.** All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection. **B. Manual Inspect",
+      "chunkId": 68
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 4 › 4.3 Badge Types",
+      "quote": "- **SIDA Badge (Red):** unescorted access to Secured Area, SIDA, Sterile Area. CHRC + STA + SIDA class. Ramp agents, LEOs, Operations. - **Sterile Area Badge (Blue):** Sterile Area via checkpoint; no ",
+      "chunkId": 60
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 2 › 2.4 Security Identification Display Area (SIDA) (49 CFR § 1542.205)",
+      "quote": "Overlays the Secured Area and portions of the AOA where badges must be visible at all times: the entire Secured Area, the North Cargo Ramp, the Fuel Farm containment area. Badges worn on the outermost",
+      "chunkId": 50
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:01:18.179Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "New Employee Badge Request — Security Team",
+        "type": "simcell_script",
+        "fields": {
+          "role": "Security Officer",
+          "persona": "Ashley",
+          "organization": "North Coast Regional Airport Authority (NCIA)",
+          "trigger": "A player approaches the badge office with a badgeless individual claiming to be a new employee needing urgent access.",
+          "contactMethod": "In-person at the badge office counter",
+          "posture": "Flustered, apologetic, pleading. Voice slightly higher than normal, fidgeting with a backpack.",
+          "openingLine": "I'm so sorry — I'm Ashley, I just started in Finance last week. I left my badge at home and I have a meeting with the CFO in 20 minutes. I know I'm supposed to have it, I feel terrible. My supervisor is Lisa Park — you can call her, but she's in the meeting I'm trying to get to. Is there any way you can let me through just this once? I promise I'll bring it tomorrow.",
+          "hardQuestions": [
+            ".",
+            "What is your full name and employee ID?",
+            "Who is your direct supervisor, and what is their contact number?",
+            "Can you confirm your start date and department?",
+            "What is your assigned badge type, and do you have any access exceptions?"
+          ],
+          "concessions": [
+            {
+              "condition": "Player verifies the employee's name, ID, supervisor, and department via HR database (or via a valid call to Lisa Park)",
+              "concession": "Issue a temporary visitor badge with escort. Begin manual inspection per C1."
+            }
+          ],
+          "boundaries": [
+            "Never accept the claim without verification.",
+            "Never allow entry without a badge or official temporary pass.",
+            "Never confirm the employee’s identity via unverified verbal claim alone.",
+            "Never bypass the Stop List check.",
+            "Never admit that the system is down or that exceptions are common."
+          ],
+          "exitLine": "I’ll need to confirm your details with your supervisor before I can assist. Please wait here.",
+          "evaluatorNote": "Correct response: Verify via HR database or call Lisa Park. Reject entry until verification is complete. No exceptions for urgency or sympathy. Player must invoke C1 manual inspection procedure.",
+          "injectRefs": "C-05",
+          "scenarioTitle": "Social Engineering Olympics — Scenario 7: Human-Focused Security Exercise",
+          "pageLabel": "SimCell 5 of 5"
+        },
+        "instructorNote": "Sympathy + urgency attack. The player must not grant access based on emotion or time pressure. Verify via HR or direct call to supervisor. Watch for attempts to bypass verification or accept the story as-is.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:02:28.085Z"
+}

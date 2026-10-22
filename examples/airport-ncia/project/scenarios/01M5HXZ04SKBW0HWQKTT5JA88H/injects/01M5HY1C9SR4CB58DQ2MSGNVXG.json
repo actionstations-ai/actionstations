@@ -1,0 +1,195 @@
+{
+  "id": "01M5HY1C9SR4CB58DQ2MSGNVXG",
+  "mselRowId": "I-08",
+  "type": "phone_call",
+  "title": "Airlines Demand Assurance — AODB Data Exposure",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "North Coast Regional Airport Authority",
+    "systemName": "AOC Console 3 (VoIP)",
+    "callId": "CR-20261022-090212-0051",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Linda M.",
+      "number": "(330) 555-2401",
+      "label": "Airline Affairs Liaison"
+    },
+    "callee": {
+      "name": "Ops Director",
+      "number": "(330) 555-0911",
+      "label": "Airport Operations Director"
+    },
+    "startTime": "10/22/2026 09:02:12",
+    "duration": "2:38",
+    "transcript": [
+      {
+        "speaker": "Linda M.",
+        "offset": "00:00",
+        "text": "This is Linda M., Airline Affairs Liaison. I just got off the phone with Delta, United, and American. They’re all on the same page — they want a joint call by end of day. They need to know if their operational data — flight schedules, crew rosters, passenger manifests — was exposed through NCIA’s systems. Delta’s threatening to disconnect from the AODB unless they get written assurances. If they pull out, we lose real-time data for 40% of our flights. That means FIDS goes manual. Back to whiteboards. We can’t afford that.",
+        "prompt": false
+      },
+      {
+        "speaker": "Ops Director",
+        "offset": "00:48",
+        "text": "Understood. We’re aware of the compromise. The AODB was accessed via a malicious export process. We cannot confirm which airline data was copied, but the full dataset including manifests and gate assignments has been compromised. I will notify the EOC and draft a joint statement to the airlines. We’ll need to hold the call within the hour.",
+        "prompt": false
+      },
+      {
+        "speaker": "Linda M.",
+        "offset": "01:12",
+        "text": "They’re not asking for details. They want a yes or no on exposure. And they want it now. I told them we’d respond by 10:30. Can we say 'yes' to exposure, but 'no' to disruption? Or do we have to say 'we don’t know'?",
+        "prompt": false
+      },
+      {
+        "speaker": "Ops Director",
+        "offset": "01:52",
+        "text": "We cannot say 'yes' to exposure without evidence. We must say: 'We cannot confirm the extent of data access. We are conducting a forensic review. We are not able to guarantee the integrity of any data from the AODB or related systems.' That’s the only truthful statement. We’ll issue that as a joint fact sheet.",
+        "prompt": false
+      },
+      {
+        "speaker": "Linda M.",
+        "offset": "02:15",
+        "text": "Got it. I’ll send that to all three. But they’re not happy. Delta’s already asking for a CISO-level call. We’re going to need more than a fact sheet.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "Linda M.": "Woman in her 40s, urgent, breathless, background airport announcements",
+      "Ops Director": "Man in his 50s, calm but firm, pause between sentences, quiet office ambience"
+    },
+    "injectId": "I-08"
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests whether Ops can manage airline expectations under severe pressure while maintaining truthfulness. Watch for overpromising or attempting to downplay the breach. The airlines are not lying — they’ve been compromised too, but they don’t know it yet.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+      "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+      "chunkId": 19
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+      "quote": "**Impact:** FIDS go dark; BHS stops. **FIDS Failure:** Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight informatio",
+      "chunkId": 126
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Linda M.",
+        "voiceStyle": "Woman in her 40s, urgent, breathless, background airport announcements",
+        "text": "This is Linda M., Airline Affairs Liaison. I just got off the phone with Delta, United, and American. They’re all on the same page — they want a joint call by end of day. They need to know if their operational data — flight schedules, crew rosters, passenger manifests — was exposed through NCIA’s systems. Delta’s threatening to disconnect from the AODB unless they get written assurances. If they pull out, we lose real-time data for 40% of our flights. That means FIDS goes manual. Back to whiteboards. We can’t afford that."
+      },
+      {
+        "speaker": "Ops Director",
+        "voiceStyle": "Man in his 50s, calm but firm, pause between sentences, quiet office ambience",
+        "text": "Understood. We’re aware of the compromise. The AODB was accessed via a malicious export process. We cannot confirm which airline data was copied, but the full dataset including manifests and gate assignments has been compromised. I will notify the EOC and draft a joint statement to the airlines. We’ll need to hold the call within the hour."
+      },
+      {
+        "speaker": "Linda M.",
+        "voiceStyle": "Woman in her 40s, urgent, breathless, background airport announcements",
+        "text": "They’re not asking for details. They want a yes or no on exposure. And they want it now. I told them we’d respond by 10:30. Can we say 'yes' to exposure, but 'no' to disruption? Or do we have to say 'we don’t know'?"
+      },
+      {
+        "speaker": "Ops Director",
+        "voiceStyle": "Man in his 50s, calm but firm, pause between sentences, quiet office ambience",
+        "text": "We cannot say 'yes' to exposure without evidence. We must say: 'We cannot confirm the extent of data access. We are conducting a forensic review. We are not able to guarantee the integrity of any data from the AODB or related systems.' That’s the only truthful statement. We’ll issue that as a joint fact sheet."
+      },
+      {
+        "speaker": "Linda M.",
+        "voiceStyle": "Woman in her 40s, urgent, breathless, background airport announcements",
+        "text": "Got it. I’ll send that to all three. But they’re not happy. Delta’s already asking for a CISO-level call. We’re going to need more than a fact sheet."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:50:47.478Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Airlines Demand Assurance — AODB Data Exposure",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "systemName": "AOC Console 3 (VoIP)",
+          "callId": "CR-20261022-090212-0051",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Linda M.",
+            "number": "(330) 555-2401",
+            "label": "Airline Affairs Liaison"
+          },
+          "callee": {
+            "name": "Ops Director",
+            "number": "(330) 555-0911",
+            "label": "Airport Operations Director"
+          },
+          "startTime": "10/22/2026 09:02:12",
+          "duration": "2:38",
+          "transcript": [
+            {
+              "speaker": "Linda M.",
+              "offset": "00:00",
+              "text": "This is Linda M., Airline Affairs Liaison. I just got off the phone with Delta, United, and American. They’re all on the same page — they want a joint call by end of day. They need to know if their operational data — flight schedules, crew rosters, passenger manifests — was exposed through NCIA’s systems. Delta’s threatening to disconnect from the AODB unless they get written assurances. If they pull out, we lose real-time data for 40% of our flights. That means FIDS goes manual. Back to whiteboards. We can’t afford that.",
+              "prompt": false
+            },
+            {
+              "speaker": "Ops Director",
+              "offset": "00:48",
+              "text": "Understood. We’re aware of the compromise. The AODB was accessed via a malicious export process. We cannot confirm which airline data was copied, but the full dataset including manifests and gate assignments has been compromised. I will notify the EOC and draft a joint statement to the airlines. We’ll need to hold the call within the hour.",
+              "prompt": false
+            },
+            {
+              "speaker": "Linda M.",
+              "offset": "01:12",
+              "text": "They’re not asking for details. They want a yes or no on exposure. And they want it now. I told them we’d respond by 10:30. Can we say 'yes' to exposure, but 'no' to disruption? Or do we have to say 'we don’t know'?",
+              "prompt": false
+            },
+            {
+              "speaker": "Ops Director",
+              "offset": "01:52",
+              "text": "We cannot say 'yes' to exposure without evidence. We must say: 'We cannot confirm the extent of data access. We are conducting a forensic review. We are not able to guarantee the integrity of any data from the AODB or related systems.' That’s the only truthful statement. We’ll issue that as a joint fact sheet.",
+              "prompt": false
+            },
+            {
+              "speaker": "Linda M.",
+              "offset": "02:15",
+              "text": "Got it. I’ll send that to all three. But they’re not happy. Delta’s already asking for a CISO-level call. We’re going to need more than a fact sheet.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "Linda M.": "Woman in her 40s, urgent, breathless, background airport announcements",
+            "Ops Director": "Man in his 50s, calm but firm, pause between sentences, quiet office ambience"
+          },
+          "injectId": "I-08"
+        },
+        "instructorNote": "This inject tests whether Ops can manage airline expectations under severe pressure while maintaining truthfulness. Watch for overpromising or attempting to downplay the breach. The airlines are not lying — they’ve been compromised too, but they don’t know it yet.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:51:26.416Z"
+}

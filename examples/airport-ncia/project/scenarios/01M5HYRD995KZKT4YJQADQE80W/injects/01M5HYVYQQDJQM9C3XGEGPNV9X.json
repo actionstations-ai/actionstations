@@ -1,0 +1,78 @@
+{
+  "id": "01M5HYVYQQDJQM9C3XGEGPNV9X",
+  "mselRowId": "A-11",
+  "type": "cctv_still",
+  "title": "CCTV Still: Server Room — Unauthorized Entry (4 Weeks Ago)",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "camera": "CAM-SRV-04",
+    "cameraName": "Main Server Room - Core Rack Area",
+    "timestamp": "2026-10-15 23:47:12",
+    "site": "NCIA TERMINAL NVR-01",
+    "channel": "CH12",
+    "recording": true,
+    "sceneBrief": "High-angle CCTV view of the main server room, showing racks of servers and network equipment under cool white lighting. A lone figure in a gray NexGen Solutions jacket walks past the core rack (Rack 4), pausing briefly to insert a USB drive into a workstation labeled NCIA-ENROLL. The figure exits via the east door, leaving the frame.",
+    "caption": "Exported by Security Ops for incident IR-2026-031 — 4-week review, server room access log anomaly (11:47 PM, Oct 15, 2026)"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the timeline of the insider threat. The 4-week-old video shows Volkov physically accessing the server room during his contract’s final week. If players request a deeper review of past footage, this is the evidence they need. If not, it confirms the absence of recent anomalies.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+      "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.1 Network Topology",
+      "quote": "The **Security Operations Network (SecNet)** is physically segmented from business and public networks. VLANs: 660 (Mgmt: core servers and admin workstations) · 661 (PACS: door controllers / ISCs) · 6",
+      "chunkId": 73
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "ai_image"
+    ],
+    "imagePrompt": "High corner surveillance camera frame, wide angle, washed-out monochrome tint. High-angle CCTV still from CAM-SRV-04, showing the main server room at NCIA TERMINAL NVR-01. Cool white fluorescent lighting illuminates rows of server racks and network equipment. A lone figure in a gray NexGen Solutions jacket walks past Rack 4, pausing to insert a small USB drive into a workstation labeled NCIA-ENROLL. The figure wears no visible badge, face obscured by shadow. Exit via the east door. Monochrome tint, washed-out color palette, wide-angle lens, low-resolution grain. Camera positioned high in the corner, fixed. Framing captures the full corridor and rack area. Time of day: night, 11:47 PM, October 15, 2026. Mood: tense, silent, surveillance. Setting: inside an airport passenger terminal: check-in counters, rows of dark powered-off departure boards, overhead wayfinding signs seen as plain shapes, luggage carts, high ceilings, large windows",
+    "negativePrompt": "text, letters, words, captions, subtitles, readable signage, watermark, logo, signature, blurry, low quality, deformed hands, extra limbs, extra fingers, cartoon, illustration, 3d render, cgi, green tint, color cast, oversaturated, office cubicles, desks, computer lab, warehouse, classroom, empty room, no person, clean white walls, readable text on monitor, realistic skin texture",
+    "imageStyle": "cctv"
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:05:10.779Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "CCTV Still: Server Room — Unauthorized Entry (4 Weeks Ago)",
+        "type": "cctv_still",
+        "fields": {
+          "camera": "CAM-SRV-04",
+          "cameraName": "Main Server Room - Core Rack Area",
+          "timestamp": "2026-10-15 23:47:12",
+          "site": "NCIA TERMINAL NVR-01",
+          "channel": "CH12",
+          "recording": true,
+          "sceneBrief": "High-angle CCTV view of the main server room, showing racks of servers and network equipment under cool white lighting. A lone figure in a gray NexGen Solutions jacket walks past the core rack (Rack 4), pausing briefly to insert a USB drive into a workstation labeled NCIA-ENROLL. The figure exits via the east door, leaving the frame.",
+          "caption": "Exported by Security Ops for incident IR-2026-031 — 4-week review, server room access log anomaly (11:47 PM, Oct 15, 2026)"
+        },
+        "instructorNote": "This inject confirms the timeline of the insider threat. The 4-week-old video shows Volkov physically accessing the server room during his contract’s final week. If players request a deeper review of past footage, this is the evidence they need. If not, it confirms the absence of recent anomalies.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:08:24.787Z"
+}

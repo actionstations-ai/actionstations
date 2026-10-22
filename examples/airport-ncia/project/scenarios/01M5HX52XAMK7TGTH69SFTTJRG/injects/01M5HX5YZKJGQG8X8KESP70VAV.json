@@ -1,0 +1,147 @@
+{
+  "id": "01M5HX5YZKJGQG8X8KESP70VAV",
+  "mselRowId": "I-02",
+  "type": "helpdesk_ticket",
+  "title": "FIDS Data Source Anomaly — Gate B4",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "4492",
+    "priority": "High",
+    "impact": "High",
+    "urgency": "High",
+    "status": "In Progress",
+    "requester": "IT Helpdesk",
+    "requesterContact": "x2400",
+    "contactType": "Monitoring",
+    "category": "Network & Systems",
+    "subcategory": "Database & Data Integration",
+    "location": "Concourse B – FIDS Server Room (Level 2)",
+    "configurationItem": "NCIA-PACS-CORE",
+    "opened": "2026-10-22 09:30:17",
+    "assignmentGroup": "IT Infrastructure Team",
+    "assignee": "IT Lead",
+    "subject": "FIDS Data Source Anomaly — Gate B4",
+    "description": "We checked the FIDS server. The data stream from the AODB is actually sending 'Miami'. It's not a display error; the source data changed. Passengers at Gate B4 are still being directed to Miami, but the actual flight is to Minneapolis. The AODB has not been updated to reflect the correct destination. This is not a display glitch. The feed from the AODB is corrupted or tampered with.",
+    "activity": [
+      {
+        "author": "IT Lead",
+        "time": "2026-10-22 09:30:17",
+        "kind": "work_note",
+        "text": "Confirmed: FIDS is pulling from AODB. Source data shows 'Miami' as destination. No manual update made. AODB logs to be reviewed."
+      },
+      {
+        "author": "IT Helpdesk",
+        "time": "2026-10-22 09:30:01",
+        "kind": "comment",
+        "text": "Follow-up on Ticket #4492. The vending machine issue was isolated to Concourse B, VEND-B02-01. No network or firmware anomalies detected. Suspect local hardware failure. Reassigned to Facilities for cleanup."
+      },
+      {
+        "author": "IT Helpdesk",
+        "time": "2026-10-22 09:29:58",
+        "kind": "system",
+        "text": "Ticket status updated to 'In Progress'."
+      },
+      {
+        "author": "IT Helpdesk",
+        "time": "2026-10-22 09:29:45",
+        "kind": "comment",
+        "text": "New ticket received from monitoring: FIDS is displaying wrong destination for Gate B4. Initial report from Gate B4 agent."
+      }
+    ],
+    "systemName": "ServiceDesk",
+    "orgName": "NCIA"
+  },
+  "instructorNote": "This inject escalates the data integrity threat. IT must investigate AODB logs for anomalies. Watch for overconfidence in dismissing the issue as a 'one-off' error.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+      "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+      "chunkId": 55
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 6 › 6.2 Aircraft Piracy (Hijacking)",
+      "quote": "Code 7500 → AOC notifies FBI, TSA, ATC. Aircraft directed to the Designated Isolated Parking Position (Remote De-icing Pad, North Ramp, ≥ 300 ft from terminal/critical infrastructure). FBI assumes Inc",
+      "chunkId": 66
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:35:41.623Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "FIDS Data Source Anomaly — Gate B4",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "4492",
+          "priority": "High",
+          "impact": "High",
+          "urgency": "High",
+          "status": "In Progress",
+          "requester": "IT Helpdesk",
+          "requesterContact": "x2400",
+          "contactType": "Monitoring",
+          "category": "Network & Systems",
+          "subcategory": "Database & Data Integration",
+          "location": "Concourse B – FIDS Server Room (Level 2)",
+          "configurationItem": "NCIA-PACS-CORE",
+          "opened": "2026-10-22 09:30:17",
+          "assignmentGroup": "IT Infrastructure Team",
+          "assignee": "IT Lead",
+          "subject": "FIDS Data Source Anomaly — Gate B4",
+          "description": "We checked the FIDS server. The data stream from the AODB is actually sending 'Miami'. It's not a display error; the source data changed. Passengers at Gate B4 are still being directed to Miami, but the actual flight is to Minneapolis. The AODB has not been updated to reflect the correct destination. This is not a display glitch. The feed from the AODB is corrupted or tampered with.",
+          "activity": [
+            {
+              "author": "IT Lead",
+              "time": "2026-10-22 09:30:17",
+              "kind": "work_note",
+              "text": "Confirmed: FIDS is pulling from AODB. Source data shows 'Miami' as destination. No manual update made. AODB logs to be reviewed."
+            },
+            {
+              "author": "IT Helpdesk",
+              "time": "2026-10-22 09:30:01",
+              "kind": "comment",
+              "text": "Follow-up on Ticket #4492. The vending machine issue was isolated to Concourse B, VEND-B02-01. No network or firmware anomalies detected. Suspect local hardware failure. Reassigned to Facilities for cleanup."
+            },
+            {
+              "author": "IT Helpdesk",
+              "time": "2026-10-22 09:29:58",
+              "kind": "system",
+              "text": "Ticket status updated to 'In Progress'."
+            },
+            {
+              "author": "IT Helpdesk",
+              "time": "2026-10-22 09:29:45",
+              "kind": "comment",
+              "text": "New ticket received from monitoring: FIDS is displaying wrong destination for Gate B4. Initial report from Gate B4 agent."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "NCIA"
+        },
+        "instructorNote": "This inject escalates the data integrity threat. IT must investigate AODB logs for anomalies. Watch for overconfidence in dismissing the issue as a 'one-off' error.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:38:51.268Z"
+}

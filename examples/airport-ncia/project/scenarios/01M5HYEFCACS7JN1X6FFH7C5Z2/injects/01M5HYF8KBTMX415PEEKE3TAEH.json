@@ -1,0 +1,194 @@
+{
+  "id": "01M5HYF8KBTMX415PEEKE3TAEH",
+  "mselRowId": "I-03",
+  "type": "sitrep",
+  "title": "SIEM Analysis: SSH Scan and Firewall Rule (CM-2026-0087)",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "number": "3",
+    "time": "10/22/2026 1015",
+    "organization": "North Coast Regional Airport Authority",
+    "issuingOffice": "IT & Cybersecurity Division",
+    "incidentName": "Retail Payment System Outage — Network Failure",
+    "period": "1000–1015",
+    "from": "IT Security Incident Management Team",
+    "to": "All Command and Control Roles; Airport Operations; Public Information Officer; Legal & Compliance",
+    "summary": "At 10:15, IT confirms a prior overnight SSH scanning attempt from IP 185.220.101.34, detected between 2:00 and 2:15 AM. The scans targeted the airport's perimeter firewall and were blocked by failed authentication. This IP is associated with the CISA-issued advisory TI-2026-0312, a known botnet probing infrastructure. The same IP range was later blocked in a rule change logged at 09:45 by IT Manager Jordan Kelley, identified as CM-2026-0087. The rule was intended to block 185.220.0.0/16 but was applied to the Retail VLAN (10.1.40.0/24) with 'any' source zone and address. This change occurred just two minutes before the first POS terminal failed at 09:47. The rule is now active and potentially causing the network outage affecting 47 retail terminals across Concourses A and B. No further scanning has been detected since 2:15 AM.",
+    "keyStatus": [
+      {
+        "label": "Retail VLAN (10.1.40.0/24)",
+        "value": "Blocked by unintended firewall rule"
+      },
+      {
+        "label": "POS Terminals",
+        "value": "All offline — no network reach to payment gateway"
+      },
+      {
+        "label": "Firewall Rule CM-2026-0087",
+        "value": "Active — Source: any, Destination: Retail VLAN"
+      },
+      {
+        "label": "SIEM Correlation",
+        "value": "SSH scan (2:00–2:15) → Rule CM-2026-0087 (09:45) → Outage (09:47)"
+      },
+      {
+        "label": "Badging System",
+        "value": "Operational — no impact"
+      },
+      {
+        "label": "FIDS / AODB",
+        "value": "Stable — no data corruption detected"
+      }
+    ],
+    "actions": [
+      {
+        "time": "10:00",
+        "text": "Initial report from Vendor Manager: 47 retail terminals now cash-only; lines forming in Concourse A."
+      },
+      {
+        "time": "10:07",
+        "text": "RetailLink Vendor confirms firmware v4.2.1 pushed at 09:30; terminals online but not reaching gateway."
+      },
+      {
+        "time": "10:15",
+        "text": "IT SIEM analysis confirms SSH scan from 185.220.101.34 (TI-2026-0312) occurred at 2:00–2:15 AM; failed access attempts logged."
+      },
+      {
+        "time": "10:15",
+        "text": "Firewall rule CM-2026-0087 (intended to block 185.220.0.0/16) confirmed in change log; applied to Retail VLAN (10.1.40.0/24) with 'any' source."
+      }
+    ],
+    "planned": [
+      "Review full firewall rule set and reverse CM-2026-0087 immediately.",
+      "Verify all access control system (ASC) doors in Secured Area are operating under fail-secure mode.",
+      "Notify PEO and Legal of potential change management failure.",
+      "Begin forensic review of IT Manager Jordan Kelley’s session logs for CM-2026-0087."
+    ],
+    "issues": [
+      "Unintended rule CM-2026-0087 remains active — may prevent any recovery until reversed.",
+      "No prior peer review of firewall change CM-2026-0087 — violates change management policy.",
+      "TSA and FBI have not been notified — potential compliance risk if threat is misclassified."
+    ],
+    "nextReport": "1030 or on significant change",
+    "preparedBy": "T. Reynolds, IT Security Analyst",
+    "approvedBy": "J. Kelley, IT Manager",
+    "marking": "EXERCISE EXERCISE EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject forces the team to confront the timeline and rule structure. The IT team must now examine the actual firewall rule to detect the misconfiguration. Watch for whether they pivot from scanning to rule review.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 5 › 5.4 Checklist: Severe Winter Storm",
+      "quote": "- Ops: regular NWS calls; activate IROPS; updates via PA, FIDS, social media; coordinate passenger care; activate \"essential personnel\" plan. - Facilities: generators fueled and tested; HVAC at full c",
+      "chunkId": 103
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+      "quote": "**A. Immediate Action.** All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection. **B. Manual Inspect",
+      "chunkId": 68
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:58:18.706Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIEM Analysis: SSH Scan and Firewall Rule (CM-2026-0087)",
+        "type": "sitrep",
+        "fields": {
+          "number": "3",
+          "time": "10/22/2026 1015",
+          "organization": "North Coast Regional Airport Authority",
+          "issuingOffice": "IT & Cybersecurity Division",
+          "incidentName": "Retail Payment System Outage — Network Failure",
+          "period": "1000–1015",
+          "from": "IT Security Incident Management Team",
+          "to": "All Command and Control Roles; Airport Operations; Public Information Officer; Legal & Compliance",
+          "summary": "At 10:15, IT confirms a prior overnight SSH scanning attempt from IP 185.220.101.34, detected between 2:00 and 2:15 AM. The scans targeted the airport's perimeter firewall and were blocked by failed authentication. This IP is associated with the CISA-issued advisory TI-2026-0312, a known botnet probing infrastructure. The same IP range was later blocked in a rule change logged at 09:45 by IT Manager Jordan Kelley, identified as CM-2026-0087. The rule was intended to block 185.220.0.0/16 but was applied to the Retail VLAN (10.1.40.0/24) with 'any' source zone and address. This change occurred just two minutes before the first POS terminal failed at 09:47. The rule is now active and potentially causing the network outage affecting 47 retail terminals across Concourses A and B. No further scanning has been detected since 2:15 AM.",
+          "keyStatus": [
+            {
+              "label": "Retail VLAN (10.1.40.0/24)",
+              "value": "Blocked by unintended firewall rule"
+            },
+            {
+              "label": "POS Terminals",
+              "value": "All offline — no network reach to payment gateway"
+            },
+            {
+              "label": "Firewall Rule CM-2026-0087",
+              "value": "Active — Source: any, Destination: Retail VLAN"
+            },
+            {
+              "label": "SIEM Correlation",
+              "value": "SSH scan (2:00–2:15) → Rule CM-2026-0087 (09:45) → Outage (09:47)"
+            },
+            {
+              "label": "Badging System",
+              "value": "Operational — no impact"
+            },
+            {
+              "label": "FIDS / AODB",
+              "value": "Stable — no data corruption detected"
+            }
+          ],
+          "actions": [
+            {
+              "time": "10:00",
+              "text": "Initial report from Vendor Manager: 47 retail terminals now cash-only; lines forming in Concourse A."
+            },
+            {
+              "time": "10:07",
+              "text": "RetailLink Vendor confirms firmware v4.2.1 pushed at 09:30; terminals online but not reaching gateway."
+            },
+            {
+              "time": "10:15",
+              "text": "IT SIEM analysis confirms SSH scan from 185.220.101.34 (TI-2026-0312) occurred at 2:00–2:15 AM; failed access attempts logged."
+            },
+            {
+              "time": "10:15",
+              "text": "Firewall rule CM-2026-0087 (intended to block 185.220.0.0/16) confirmed in change log; applied to Retail VLAN (10.1.40.0/24) with 'any' source."
+            }
+          ],
+          "planned": [
+            "Review full firewall rule set and reverse CM-2026-0087 immediately.",
+            "Verify all access control system (ASC) doors in Secured Area are operating under fail-secure mode.",
+            "Notify PEO and Legal of potential change management failure.",
+            "Begin forensic review of IT Manager Jordan Kelley’s session logs for CM-2026-0087."
+          ],
+          "issues": [
+            "Unintended rule CM-2026-0087 remains active — may prevent any recovery until reversed.",
+            "No prior peer review of firewall change CM-2026-0087 — violates change management policy.",
+            "TSA and FBI have not been notified — potential compliance risk if threat is misclassified."
+          ],
+          "nextReport": "1030 or on significant change",
+          "preparedBy": "T. Reynolds, IT Security Analyst",
+          "approvedBy": "J. Kelley, IT Manager",
+          "marking": "EXERCISE EXERCISE EXERCISE"
+        },
+        "instructorNote": "This inject forces the team to confront the timeline and rule structure. The IT team must now examine the actual firewall rule to detect the misconfiguration. Watch for whether they pivot from scanning to rule review.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:59:42.419Z"
+}

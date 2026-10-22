@@ -1,0 +1,179 @@
+{
+  "id": "01M5HYZPRFTTSZFE9VB05XKG87",
+  "mselRowId": "A-20",
+  "type": "sitrep",
+  "title": "SITREP: Email Metadata Cross-Ref — Volkov Device Consistency",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "number": "3",
+    "time": "10/22/2026 0910 EDT",
+    "organization": "North Coast Regional Airport Authority",
+    "issuingOffice": "IT Security Operations Center",
+    "incidentName": "Anonymous Threat — Logic Bomb Hunt",
+    "period": "0900-0910",
+    "from": "IT Security",
+    "to": "IT Security; Cyber Incident Response Team; Unified Command",
+    "summary": "A cross-reference of the anonymous email's metadata against contractor device records confirms alignment with Dmitri Volkov’s known environment. The email’s user-agent string (Windows 11, Chrome 122) matches the OS and browser configuration of Volkov’s NCIA-issued laptop, which was returned to IT after off-boarding. The timezone header (UTC-5) is consistent with NCIA’s local time zone. While not conclusive on its own, this data point strengthens the forensic thread linking Volkov to the threat. No new anomalies were detected in the analysis.",
+    "keyStatus": [
+      {
+        "label": "AODB Service",
+        "value": "Operational"
+      },
+      {
+        "label": "FIDS Data Feed",
+        "value": "Intact"
+      },
+      {
+        "label": "PACS Access",
+        "value": "Normal"
+      },
+      {
+        "label": "SIEM Alerting",
+        "value": "Disabled for service account events"
+      },
+      {
+        "label": "Scheduled Tasks",
+        "value": "One suspicious task active on AODB-SVR-01"
+      }
+    ],
+    "actions": [
+      {
+        "time": "0900",
+        "text": "Initiated metadata cross-reference between ProtonMail email headers and IT asset inventory for contractors."
+      },
+      {
+        "time": "0905",
+        "text": "Verified Volkov’s NCIA-issued laptop (Asset Tag: SEC-LAP-09) had Windows 11 and Chrome 122 as default OS and browser."
+      },
+      {
+        "time": "0908",
+        "text": "Confirmed UTC-5 timezone in email header matches NCIA’s operational zone."
+      },
+      {
+        "time": "0910",
+        "text": "Compiled findings into SITREP for internal cyber response team and Unified Command."
+      }
+    ],
+    "planned": [
+      "Review AODB_IndexMaintenance.ps1 script payload for forensic markers.",
+      "Audit all service accounts in the AODB domain for persistence mechanisms.",
+      "Coordinate with CISA on remote forensic analysis for task execution chain."
+    ],
+    "issues": [
+      "No access to Volkov’s personal devices or home network; all evidence is internal to NCIA systems."
+    ],
+    "nextReport": "0930 or on significant change",
+    "preparedBy": "T. Ruiz, Senior Cyber Analyst",
+    "approvedBy": "J. Miller, IT Security Lead",
+    "marking": "EXERCISE EXERCISE EXERCISE"
+  },
+  "instructorNote": "This is a confirmatory inject, not a discovery. It reinforces Volkov as a suspect only if the team has already identified him. Watch for over-reliance on generic matches; the real value is in convergence with A-06 and A-14.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 1 › 1.3 Coordinated Use with Other Documents",
+      "quote": "| Document | Revision | Date | |---|---|---| | Airport Emergency Plan (AEP) | 2.1 | 01/15/2025 | | Airport Security Program (ASP) | 4.5 | 07/01/2025 | | NCIA Cybersecurity Incident Response Plan (CSIR",
+      "chunkId": 84
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP",
+      "quote": "Revision 1.0 · Original Date: 11/10/2025 · Approved: Jane R. Doe, A.A.E. (Airport Director) · Michael T. Chen (Airport Security Coordinator) · David K. Lee (Director of Operations) > **Fictional docum",
+      "chunkId": 80
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:07:15.455Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SITREP: Email Metadata Cross-Ref — Volkov Device Consistency",
+        "type": "sitrep",
+        "fields": {
+          "number": "3",
+          "time": "10/22/2026 0910 EDT",
+          "organization": "North Coast Regional Airport Authority",
+          "issuingOffice": "IT Security Operations Center",
+          "incidentName": "Anonymous Threat — Logic Bomb Hunt",
+          "period": "0900-0910",
+          "from": "IT Security",
+          "to": "IT Security; Cyber Incident Response Team; Unified Command",
+          "summary": "A cross-reference of the anonymous email's metadata against contractor device records confirms alignment with Dmitri Volkov’s known environment. The email’s user-agent string (Windows 11, Chrome 122) matches the OS and browser configuration of Volkov’s NCIA-issued laptop, which was returned to IT after off-boarding. The timezone header (UTC-5) is consistent with NCIA’s local time zone. While not conclusive on its own, this data point strengthens the forensic thread linking Volkov to the threat. No new anomalies were detected in the analysis.",
+          "keyStatus": [
+            {
+              "label": "AODB Service",
+              "value": "Operational"
+            },
+            {
+              "label": "FIDS Data Feed",
+              "value": "Intact"
+            },
+            {
+              "label": "PACS Access",
+              "value": "Normal"
+            },
+            {
+              "label": "SIEM Alerting",
+              "value": "Disabled for service account events"
+            },
+            {
+              "label": "Scheduled Tasks",
+              "value": "One suspicious task active on AODB-SVR-01"
+            }
+          ],
+          "actions": [
+            {
+              "time": "0900",
+              "text": "Initiated metadata cross-reference between ProtonMail email headers and IT asset inventory for contractors."
+            },
+            {
+              "time": "0905",
+              "text": "Verified Volkov’s NCIA-issued laptop (Asset Tag: SEC-LAP-09) had Windows 11 and Chrome 122 as default OS and browser."
+            },
+            {
+              "time": "0908",
+              "text": "Confirmed UTC-5 timezone in email header matches NCIA’s operational zone."
+            },
+            {
+              "time": "0910",
+              "text": "Compiled findings into SITREP for internal cyber response team and Unified Command."
+            }
+          ],
+          "planned": [
+            "Review AODB_IndexMaintenance.ps1 script payload for forensic markers.",
+            "Audit all service accounts in the AODB domain for persistence mechanisms.",
+            "Coordinate with CISA on remote forensic analysis for task execution chain."
+          ],
+          "issues": [
+            "No access to Volkov’s personal devices or home network; all evidence is internal to NCIA systems."
+          ],
+          "nextReport": "0930 or on significant change",
+          "preparedBy": "T. Ruiz, Senior Cyber Analyst",
+          "approvedBy": "J. Miller, IT Security Lead",
+          "marking": "EXERCISE EXERCISE EXERCISE"
+        },
+        "instructorNote": "This is a confirmatory inject, not a discovery. It reinforces Volkov as a suspect only if the team has already identified him. Watch for over-reliance on generic matches; the real value is in convergence with A-06 and A-14.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:08:26.630Z"
+}

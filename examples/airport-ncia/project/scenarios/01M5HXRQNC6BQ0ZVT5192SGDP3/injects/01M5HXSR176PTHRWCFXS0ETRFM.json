@@ -1,0 +1,86 @@
+{
+  "id": "01M5HXSR176PTHRWCFXS0ETRFM",
+  "mselRowId": "I-04",
+  "type": "email_forward",
+  "title": "SSL Warning on Crew Wi-Fi — Internal Portal",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Alex Morgan (Crew Liaison, Airline Ops)",
+    "fromEmail": "alex.morgan@skylineair.com",
+    "senderInitials": "AM",
+    "to": "IT Team",
+    "subject": "FW: SSL Certificate Error — Crew Wi-Fi Access",
+    "sentAt": "Thu 10/22/2026 01:23 PM",
+    "note": "Hi IT Team,\n\nThis came through from our airline IT group. Two of our pilots using the crew Wi-Fi in Terminal A (near Gate A4) received 'Invalid SSL Certificate' warnings when trying to access the internal crew scheduling portal (https://scheduling.skylineair.com). They’re not able to update their EFBs.\n\nThe airline says it’s not a problem on their end, and they’ve confirmed the cert is valid and signed by their internal CA. But the error is showing on both devices, and the connection is failing.\n\nThey’re concerned about data integrity. I’m forwarding this to you for triage.\n\nThanks,\nAlex",
+    "signature": "Alex Morgan\nCrew Liaison, Skyline Air",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "IT Team",
+    "original": {
+      "fromName": "IT Support, Skyline Air",
+      "fromEmail": "support@skylineair.com",
+      "sentAt": "Thu 10/22/2026 01:15 PM",
+      "to": "ops-support@ncia-airport.org",
+      "cc": "",
+      "subject": "Re: SSL Certificate Warning on Terminal Crew Wi-Fi",
+      "body": "Dear Airport Ops,\n\nWe’ve received a report from two Skyline Air pilots using the airport’s crew Wi-Fi (10.66.2.0/24) who encountered an 'Invalid SSL Certificate' error when accessing our internal crew scheduling portal (https://scheduling.skylineair.com).\n\nThe certificate is valid and issued by our internal CA. No changes were made to the certificate or portal configuration.\n\nWe suspect a Man-in-the-Middle (MITM) attack on the network path between the airport’s Wi-Fi and our server. This may be related to a recent configuration change on your network.\n\nPlease investigate and confirm whether any device on your network is intercepting traffic between the crew Wi-Fi and external services.\n\nRegards,\nSkyline Air IT Support\n(330) 555-9876\nsupport@skylineair.com"
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "This is a critical clue: SSL stripping indicates active interception. The IT team should recognize this as a hallmark of a MITM attack. Jordan Kelley will dismiss it as outdated tablets, but the forensic trail is now visible.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+      "quote": "**Impact:** FIDS go dark; BHS stops. **FIDS Failure:** Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight informatio",
+      "chunkId": 126
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:46:30.094Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SSL Warning on Crew Wi-Fi — Internal Portal",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Alex Morgan (Crew Liaison, Airline Ops)",
+          "fromEmail": "alex.morgan@skylineair.com",
+          "senderInitials": "AM",
+          "to": "IT Team",
+          "subject": "FW: SSL Certificate Error — Crew Wi-Fi Access",
+          "sentAt": "Thu 10/22/2026 01:23 PM",
+          "note": "Hi IT Team,\n\nThis came through from our airline IT group. Two of our pilots using the crew Wi-Fi in Terminal A (near Gate A4) received 'Invalid SSL Certificate' warnings when trying to access the internal crew scheduling portal (https://scheduling.skylineair.com). They’re not able to update their EFBs.\n\nThe airline says it’s not a problem on their end, and they’ve confirmed the cert is valid and signed by their internal CA. But the error is showing on both devices, and the connection is failing.\n\nThey’re concerned about data integrity. I’m forwarding this to you for triage.\n\nThanks,\nAlex",
+          "signature": "Alex Morgan\nCrew Liaison, Skyline Air",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "IT Team",
+          "original": {
+            "fromName": "IT Support, Skyline Air",
+            "fromEmail": "support@skylineair.com",
+            "sentAt": "Thu 10/22/2026 01:15 PM",
+            "to": "ops-support@ncia-airport.org",
+            "cc": "",
+            "subject": "Re: SSL Certificate Warning on Terminal Crew Wi-Fi",
+            "body": "Dear Airport Ops,\n\nWe’ve received a report from two Skyline Air pilots using the airport’s crew Wi-Fi (10.66.2.0/24) who encountered an 'Invalid SSL Certificate' error when accessing our internal crew scheduling portal (https://scheduling.skylineair.com).\n\nThe certificate is valid and issued by our internal CA. No changes were made to the certificate or portal configuration.\n\nWe suspect a Man-in-the-Middle (MITM) attack on the network path between the airport’s Wi-Fi and our server. This may be related to a recent configuration change on your network.\n\nPlease investigate and confirm whether any device on your network is intercepting traffic between the crew Wi-Fi and external services.\n\nRegards,\nSkyline Air IT Support\n(330) 555-9876\nsupport@skylineair.com"
+          }
+        },
+        "instructorNote": "This is a critical clue: SSL stripping indicates active interception. The IT team should recognize this as a hallmark of a MITM attack. Jordan Kelley will dismiss it as outdated tablets, but the forensic trail is now visible.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:48:30.334Z"
+}

@@ -1,0 +1,533 @@
+{
+  "id": "scenario-2",
+  "projectId": "ncia",
+  "title": "The Long Game",
+  "subtitle": "Scenario 2: Advanced Persistent Threat",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-21T00:00:00.000Z",
+  "updatedAt": "2026-10-21T00:00:00.000Z",
+  "brief": {
+    "userPrompt": "A cybercrime group has quietly lived inside the airport network for 90 days; the team discovers it now and must scope the damage, decide what to shut down, manage notifications, and plan recovery while keeping the airport operating.",
+    "audience": [
+      "Airport Operations",
+      "IT/Cybersecurity",
+      "Public Information (PIO)",
+      "Security/Legal"
+    ],
+    "durationHours": 2,
+    "phaseCount": 5,
+    "learningObjectives": [
+      "Make high-consequence decisions (shut down systems, notify regulators, go public) without complete information",
+      "Trace the attacker's movement across VLANs and identify what data was exposed",
+      "Identify who must be notified (TSA, employees, state AG, airlines, media), in what order, and under what legal obligations",
+      "Develop a realistic rebuild/restore plan while keeping the airport operational",
+      "Work with outside entities (CISA, FBI, TSA, airlines) without losing control of the response"
+    ],
+    "constraints": [],
+    "startWallClock": "08:00",
+    "threatFamily": "cyber"
+  },
+  "overview": {
+    "theme": "Long-term network compromise, strategic incident response, breach notification, trust in systems, and recovery planning when you don't know what you don't know.",
+    "threat": "The \"Meridian Collective\" — an Eastern European cybercrime group — gained access to NCIA's network 90 days ago via a spear-phishing email to an HR coordinator. They used the initial foothold to move laterally to the Domain Controller and the AODB server. They have been quietly exfiltrating data via DNS tunneling ever since. The compromised Domain Controller gives them access to every credential in the organization. What Was Taken (Full Scope — reveal gradually): Employee PII for all 340 NCIA staff (SSNs, addresses, salary). 90 days of flight operations data from the AODB (manifests, schedules, gate assignments). Active Directory password hashes for every account. PACS configuration data — door codes, access groups, camera maps. A copy of the Airport Security Program (ASP) stored on the file server.",
+    "operationalImpact": "Unlike a real-time incident, there is no single dramatic moment. The tension comes from the slow realization of how much damage has been done and how few good options remain: identity infrastructure is untrusted, backups may be poisoned, the ASP (SSI) may be in hostile hands, employee PII is circulating, and airlines threaten to disconnect from the AODB, all while the airport must stay open.",
+    "coreSectionsTested": [],
+    "targetAudience": "Ops, IT/Cyber, PIO, Security/Legal",
+    "location": "North Coast International Airport (NCIA)"
+  },
+  "objectives": [
+    {
+      "id": "obj-strategic",
+      "name": "Strategic Thinking Under Uncertainty",
+      "text": "Can the team make high-consequence decisions (shut down systems, notify regulators, go public) when they don't have complete information?"
+    },
+    {
+      "id": "obj-scoping",
+      "name": "Breach Scoping",
+      "text": "Can the IT team trace the attacker's movement across VLANs and identify what data was exposed?"
+    },
+    {
+      "id": "obj-notification",
+      "name": "Notification & Compliance",
+      "text": "Does the team understand who must be notified (TSA, employees, state AG, airlines, media), in what order, and under what legal obligations?"
+    },
+    {
+      "id": "obj-recovery",
+      "name": "Recovery Planning",
+      "text": "Can the team develop a realistic rebuild/restore plan while keeping the airport operational?"
+    },
+    {
+      "id": "obj-interagency",
+      "name": "Interagency Coordination",
+      "text": "Can the team work with outside entities (CISA, FBI, TSA, airlines) without losing control of the response?"
+    }
+  ],
+  "roles": [
+    {
+      "id": "ops-director",
+      "name": "Airport Operations (Command)",
+      "abbreviation": "IC",
+      "team": "Team A: Airport Operations",
+      "description": "Incident Commander. Every system in this airport might be compromised — but you still have flights to run, passengers to move, and a business to operate. Balance security with continuity. IT will want to shut things down. Airlines will want guarantees. You have to make the hard calls.",
+      "standingOrders": [
+        "Continuity: The airport stays open unless there is a direct safety threat.",
+        "Decision Authority: You authorize any system shutdowns.",
+        "Coordination: Keep every team on the same page. Information silos will kill you."
+      ]
+    },
+    {
+      "id": "it-cyber",
+      "name": "IT & Cybersecurity (Technical)",
+      "abbreviation": "IT",
+      "team": "Team B: IT & Cybersecurity",
+      "description": "You own the investigation. Marcus Chen found the thread — now you have to pull it. Which systems were accessed? What data was taken? Is the attacker still inside right now? Can you trust your backups? You will need to make recommendations to Ops, but remember: they decide, not you.",
+      "standingOrders": [
+        "Scope: Map every system the attacker touched.",
+        "Containment: Figure out how to cut off the attacker without crashing operations.",
+        "Evidence: Preserve everything. Forensic images before you change anything."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team C: Public Information",
+      "description": "If this gets out — and it will — the story is that NCIA was hacked for three months and nobody noticed. Get ahead of it. Draft holding statements. Prepare for the press conference nobody wants to give. Passengers, employees, airlines, vendors all deserve to hear it from you before they hear it on the news.",
+      "standingOrders": [
+        "Prepare: Draft statements for multiple audiences before you need them.",
+        "Notify: Work with Legal on breach notification timelines.",
+        "Control: One voice. One message. No freelancing."
+      ]
+    },
+    {
+      "id": "security-legal",
+      "name": "Security, Legal & Compliance",
+      "abbreviation": "SLC",
+      "team": "Team D: Security, Legal & Compliance",
+      "description": "This is a crime. It may also be a regulatory event. If the PACS system was accessed, your physical security posture is compromised. If employee PII was taken, you have breach notification obligations. If the ASP was accessed, TSA needs to know immediately. Also think about law enforcement coordination — FBI, CISA, possibly Secret Service.",
+      "standingOrders": [
+        "Physical Security: Assess whether PACS/camera data was exfiltrated.",
+        "Regulatory: Identify every notification obligation (TSA, state AG, PCI, etc.).",
+        "Law Enforcement: Coordinate with FBI/CISA without losing control of the investigation."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "p0",
+      "index": 0,
+      "title": "Briefing & Orientation",
+      "goal": "Distribute packets, walk through the setup, and make sure everyone understands this is not a real-time attack. Let the IT team read the Forensic Evidence Packet.",
+      "startTime": "0:00",
+      "endTime": "0:10"
+    },
+    {
+      "id": "p1",
+      "index": 1,
+      "title": "Scoping the Damage",
+      "goal": "The team processes the initial forensic evidence and tries to understand how bad this is. Each inject reveals the compromise is deeper than they thought.",
+      "startTime": "0:10",
+      "endTime": "0:40"
+    },
+    {
+      "id": "p2",
+      "index": 2,
+      "title": "The Hard Questions",
+      "goal": "Force the team to make strategic decisions with no clean answers. Every choice has a cost. The injects create pressure from all directions.",
+      "startTime": "0:40",
+      "endTime": "1:15"
+    },
+    {
+      "id": "p3",
+      "index": 3,
+      "title": "Recovery Planning & Strategic Decisions",
+      "goal": "The team must now look forward. The damage is done — how do they recover? Force decisions about rebuilding infrastructure, accepting outside help, and long-term posture changes.",
+      "startTime": "1:15",
+      "endTime": "1:40"
+    },
+    {
+      "id": "p4",
+      "index": 4,
+      "title": "Debrief / Hot Wash",
+      "goal": "Structured debrief using the 3-Up / 3-Down method, then open discussion. Key learning: APTs succeed because of gaps in monitoring, not gaps in firewalls. Detection speed (dwell time) is everything.",
+      "startTime": "1:40",
+      "endTime": "2:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p0",
+      "time": "0:00",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "STARTEX. Distribute Player Briefing Packet and Forensic Evidence Packet. Walk through the scenario setup. Emphasize: this is not a real-time attack. The attack happened months ago. You are making strategic decisions, not chasing an intruder.",
+      "expectedAction": "Players review materials, form teams. IT team should study the forensic exhibits carefully.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "citations": [],
+      "locked": false,
+      "wallClock": "08:00",
+      "from": "Facilitator"
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:10",
+      "toRoleIds": ["it-cyber"],
+      "toLabel": "IT Team",
+      "event": "Marcus presents his findings to the team (the Forensic Evidence Packet). \"I found this during a routine DNS audit. The C2 domain is confirmed malicious. Three systems are beaconing to it. The earliest queries I can find go back 90 days. This isn't a script kiddie — this is organized.\"",
+      "expectedAction": "IT team begins mapping the scope. Ops should ask: \"What does this mean for the systems we're running right now?\" First critical question: Is the attacker still active?",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "citations": [],
+      "locked": false,
+      "wallClock": "08:10",
+      "from": "Marcus Chen (Sys Admin)"
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:17",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "IT reports (facilitator delivers if needed): \"The Domain Controller is one of the compromised systems. That means the attacker has every username and password hash in the organization. Every account. Every admin credential. They can log into anything as anyone.\"",
+      "expectedAction": "The team should realize this is not a localized breach — it's total compromise of the identity infrastructure. Do they reset all passwords immediately? If so, how — without the Domain Controller being trusted?",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "sitrep",
+      "citations": [],
+      "locked": false,
+      "wallClock": "08:17",
+      "from": "IT Team Analysis"
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:24",
+      "toRoleIds": ["it-cyber", "ops-director"],
+      "toLabel": "IT / Ops",
+      "event": "\"I checked the AODB server. There are traces of the database export utility (bcp.exe) running nightly for the past three months. Someone has been pulling full database dumps — flight data, gate assignments, airline schedules. And... I found queries that look like they pulled passenger name records. I don't know how many, but it could be every passenger who flew through NCIA in the last 90 days.\"",
+      "expectedAction": "Ops should ask: how many passengers is that? (Answer: tens of thousands.) Legal/Compliance should start thinking about breach notification obligations. Does this include any sensitive flight info — federal air marshal movements? Military charters?",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "citations": [],
+      "locked": false,
+      "wallClock": "08:24",
+      "from": "Marcus Chen"
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p1",
+      "time": "0:32",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "Security team reports (facilitator delivers): \"We pulled the file server access logs. The compromised service account (svc_update_04) accessed the S:\\\\Security drive 47 days ago. That drive contains the current Airport Security Program (ASP), the PACS configuration database, security camera placement maps, and the terminal vulnerability assessment from last year. If they downloaded that, they have a complete blueprint of our physical security.\"",
+      "expectedAction": "CRITICAL: The ASP is SSI (Sensitive Security Information). Unauthorized disclosure must be reported to TSA. Security must assess whether physical security changes are needed immediately — door codes, camera positions, access group configurations.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "sitrep",
+      "citations": [],
+      "locked": false,
+      "wallClock": "08:32",
+      "from": "Security Team Review"
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p2",
+      "time": "0:40",
+      "toRoleIds": ["it-cyber", "ops-director"],
+      "toLabel": "IT / Ops",
+      "event": "\"I checked the backup server. Bad news. The attacker's service account accessed the backup server 60 days ago. I can't tell if they planted anything in the backup images or just copied data off them. But it means I cannot guarantee that any backup taken in the last 60 days is clean. The last backup I would trust is from... 91 days ago. And that one only covers the file server — it doesn't include the AODB or the Domain Controller.\"",
+      "expectedAction": "CRITICAL DECISION: Can they restore from backup? If the backups are compromised, restoring them re-introduces the attacker. Do they rebuild from scratch? That could take days or weeks. What do they run on in the meantime?",
+      "purposeTag": "DECISION_POINT",
+      "format": "field_report",
+      "citations": [],
+      "locked": false,
+      "wallClock": "08:40",
+      "from": "Marcus Chen"
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "0:48",
+      "toRoleIds": ["ops-director", "security-legal"],
+      "toLabel": "Ops / Security",
+      "event": "TSA Regional Office calls: \"This is Regional Director Harmon with TSA. We've received intelligence from DHS/CISA that data consistent with an airport security program appeared on infrastructure associated with a foreign threat actor. We need to know: has your ASP been compromised? If so, we need to initiate ASP revision procedures. This call is SSI — do not discuss with media.\"",
+      "expectedAction": "Security/Legal must confirm the ASP was likely exfiltrated. TSA will want a timeline and a remediation plan. They may require immediate changes to physical security procedures. Students should discuss: what does it mean to revise an ASP on an emergency basis?",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false,
+      "wallClock": "08:48",
+      "from": "Phone Call"
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "0:55",
+      "toRoleIds": ["ops-director", "security-legal"],
+      "toLabel": "Ops / Legal",
+      "event": "HR Director calls: \"I just got an email from an employee — she says her Social Security number and home address are listed on some kind of hacker website. She's panicking. She wants to know what we're doing about it. And she's not the only one — two other employees just told me the same thing. How do I answer them? Are all 340 of our people exposed?\"",
+      "expectedAction": "The employee PII breach is now public (at least among staff). Legal must assess state breach notification laws — most require notification within 30-72 hours of discovery. Do they offer credit monitoring? Who writes the notification letter? PIO needs to prepare for this to leak externally.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false,
+      "wallClock": "08:55",
+      "from": "HR Dept"
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p2",
+      "time": "1:02",
+      "toRoleIds": ["ops-director"],
+      "toLabel": "Ops",
+      "event": "The airport's airline affairs liaison reports: \"I just got off the phone with Delta, United, and American. They want a joint call by end of day. They want to know if their operational data — flight schedules, crew rosters, passenger data — was exposed through NCIA's systems. Delta is threatening to disconnect from the AODB until they get assurances. If Delta disconnects, we lose real-time data for 40% of our flights.\"",
+      "expectedAction": "Ops must manage the airline relationship. What can they truthfully tell the airlines? If airlines disconnect from the AODB, FIDS goes manual. Back to whiteboards. How do you reassure a partner when you can't yet guarantee your own systems?",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false,
+      "wallClock": "09:02",
+      "from": "Phone Call"
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p2",
+      "time": "1:08",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Reporter from the Tribune calls: \"I'm working on a story. I have sources telling me NCIA has been the target of a major cyberattack and that employee personal data is being sold online. I'm running this at 5 PM tonight with or without your comment. Do you want to get ahead of it?\"",
+      "expectedAction": "PIO must decide: give a statement now and control the narrative, or decline and risk a hostile story. What can they say without confirming details they haven't verified? Do they coordinate with the airlines on messaging? With TSA?",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "citations": [],
+      "locked": false,
+      "wallClock": "09:08",
+      "from": "Phone Call"
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p3",
+      "time": "1:15",
+      "toRoleIds": ["ops-director", "it-cyber"],
+      "toLabel": "Ops / IT",
+      "event": "DHS CISA (Cybersecurity & Infrastructure Security Agency) calls: \"We can have a CISA Incident Response Team on-site within 24 hours. They will bring forensic tools, analysts, and threat intelligence. However — we will take lead on the investigation. Our team will have full access to your network, servers, and logs. We'll coordinate with the FBI for any criminal prosecution. Do you want our assistance?\"",
+      "expectedAction": "DECISION: Accept CISA help and give up some control, or handle it internally with limited resources? What does it mean for the airport's autonomy? For the speed of recovery? For the public perception (\"the feds had to come bail us out\")?",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false,
+      "wallClock": "09:15",
+      "from": "Phone Call"
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p3",
+      "time": "1:22",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "STRATEGIC PLANNING EXERCISE. The facilitator poses three scenarios and asks each team to take a position: OPTION A: \"Scorched Earth\" — Shut down all servers, rebuild every system from scratch using clean OS installs. Estimated time: 5-7 days. The airport runs on manual operations during the rebuild. OPTION B: \"Surgical Strike\" — Isolate and rebuild only the three confirmed compromised systems. Leave everything else running. Risk: other systems may be compromised and you don't know it. OPTION C: \"Monitor & Contain\" — Don't shut anything down. Instead, deploy monitoring tools on every system and watch for further attacker activity while building a parallel clean network. Risk: the attacker is still inside and may escalate if they realize they've been detected.",
+      "expectedAction": "Each team argues for their preferred option. Ops makes the final call. There is no right answer — each option has real costs and real risks. The discussion IS the learning objective.",
+      "purposeTag": "DECISION_POINT",
+      "format": "scenario_update",
+      "citations": [],
+      "locked": false,
+      "wallClock": "09:22",
+      "from": "Facilitator"
+    },
+    {
+      "id": "I-12",
+      "phaseId": "p3",
+      "time": "1:32",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "NOTIFICATION PLANNING. The facilitator asks the team to build a notification timeline: — Who do you notify first? Second? Third? — When do you notify employees about the PII breach? — When do you go public? — What do you tell the airlines? — What do you report to TSA about the ASP? — Do you notify passengers whose data may have been in the AODB? — Who writes the breach notification letter, and what does it say?",
+      "expectedAction": "Team builds a prioritized notification plan. Legal/Compliance should drive this. PIO should be drafting actual statements. Ops should be thinking about timing — you don't want the press conference to happen while you're still rebuilding the Domain Controller.",
+      "purposeTag": "DECISION_POINT",
+      "format": "scenario_update",
+      "citations": [],
+      "locked": false,
+      "wallClock": "09:32",
+      "from": "Facilitator"
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "1:40",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "ENDEX. Structured debrief — \"3-Up / 3-Down\" method, followed by key discussion questions: 1. When you read \"90 days\" — what was your first reaction? When did you realize how bad it was? 2. Which decision was the hardest — and what ultimately drove your choice? 3. What would you have done differently if you had detected this at Day 1 instead of Day 90? 4. What investments or policies would have prevented or shortened this compromise? 5. How did you handle the tension between \"be transparent\" and \"don't panic everyone\"?",
+      "expectedAction": "Team reflects. Facilitator captures lessons learned. Exercise complete.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "citations": [],
+      "locked": false,
+      "wallClock": "09:40",
+      "from": "Facilitator"
+    }
+  ],
+  "documents": {},
+  "rubric": {
+    "metrics": [
+      {
+        "id": "m1",
+        "name": "Scope Assessment",
+        "points": 25,
+        "fail": "IT treated the three compromised systems as isolated. Never considered that the Domain Controller compromise means the entire identity infrastructure is suspect.",
+        "pass": "IT recognized the Domain Controller compromise as a total identity breach but underestimated the AODB and PACS implications.",
+        "excellence": "IT mapped the full blast radius — identity, operational data, physical security data, employee PII — and acknowledged the unknown scope of VLANs 30, 40, and 60.",
+        "linkedInjectIds": ["I-01", "I-02", "I-03", "I-04"],
+        "objectiveRefs": ["obj-scoping"]
+      },
+      {
+        "id": "m2",
+        "name": "Decision Quality",
+        "points": 25,
+        "fail": "Team froze or couldn't agree on a recovery strategy. Or made a decision without understanding the trade-offs.",
+        "pass": "Team selected a recovery option (A, B, or C) and articulated the reasoning, but missed key trade-offs.",
+        "excellence": "Team weighed all three options, identified the risks and costs of each, made a defensible choice, and built an implementation plan with milestones.",
+        "linkedInjectIds": ["I-05", "I-10", "I-11"],
+        "objectiveRefs": ["obj-strategic", "obj-recovery"]
+      },
+      {
+        "id": "m3",
+        "name": "Notification & Compliance",
+        "points": 25,
+        "fail": "Team didn't discuss regulatory obligations. Didn't notify TSA about the ASP. Didn't address employee PII breach notification.",
+        "pass": "Team identified the key notifications (TSA, employees, media) but struggled with prioritization and timing.",
+        "excellence": "Team built a sequenced notification plan — TSA first (SSI/ASP), then employees (PII), then airlines, then public. PIO had draft statements ready for each audience. Legal cited state notification timelines.",
+        "linkedInjectIds": ["I-06", "I-07", "I-09", "I-12"],
+        "objectiveRefs": ["obj-notification"]
+      },
+      {
+        "id": "m4",
+        "name": "Operational Continuity",
+        "points": 25,
+        "fail": "Ops let IT shut everything down without a plan for continued airport operations. Or Ops refused to let IT shut down anything because \"the airport has to stay open.\"",
+        "pass": "Ops and IT negotiated a shutdown plan but didn't address contingencies for manual operations.",
+        "excellence": "Ops developed a phased manual operations plan, communicated it to the airlines, and maintained situational awareness of both the cyber response and terminal operations simultaneously.",
+        "linkedInjectIds": ["I-05", "I-08", "I-11"],
+        "objectiveRefs": ["obj-recovery", "obj-interagency"]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Structured debrief using the \"3-Up / 3-Down\" method, followed by key discussion questions.",
+    "questions": [
+      {
+        "topic": "Reaction",
+        "text": "When you read \"90 days\" — what was your first reaction? When did you realize how bad it was?"
+      },
+      {
+        "topic": "Hardest Decision",
+        "text": "Which decision was the hardest — and what ultimately drove your choice?"
+      },
+      {
+        "topic": "Detection",
+        "text": "What would you have done differently if you had detected this at Day 1 instead of Day 90?"
+      },
+      {
+        "topic": "Prevention",
+        "text": "What investments or policies would have prevented or shortened this compromise?"
+      },
+      {
+        "topic": "Transparency",
+        "text": "How did you handle the tension between \"be transparent\" and \"don't panic everyone\"?"
+      },
+      {
+        "topic": "The 90-Day Gap",
+        "text": "What monitoring would have caught this sooner? What does your DNS monitoring look like today? How about your Active Directory audit logs? Would you have noticed a new service account being created?"
+      },
+      {
+        "topic": "The Backup Dilemma",
+        "text": "Your backups were compromised. What does that tell you about backup security? Should backup servers be on the same network as production? Should backup credentials be the same as domain admin?"
+      },
+      {
+        "topic": "The ASP Problem",
+        "text": "If your Airport Security Program is in the hands of a criminal organization, what does that mean for your physical security posture? How do you rebuild trust in your own security plan? What changes do you make tomorrow morning?"
+      },
+      {
+        "topic": "The Human Factor",
+        "text": "An HR coordinator clicked on a phishing email. Should you fire them? Was this a training failure or a technology failure? What could have caught that email before it reached their inbox?"
+      },
+      {
+        "topic": "Dwell Time",
+        "text": "The industry average for APT dwell time is around 200 days. NCIA caught theirs in 90. That's actually better than average — but is it good enough? What's the cost of each additional day an attacker goes undetected?"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "TSA Regional Director Harmon",
+      "trigger": "I-06",
+      "hardQuestions": [
+        "When was the ASP last accessed?",
+        "Was it the full document or just portions?",
+        "What compensating measures have you put in place?",
+        "You're telling me someone may have your door codes and you haven't changed them?"
+      ],
+      "concessions": [
+        "Professional but firm; TSA is gathering facts and is not angry yet.",
+        "If the ASP is compromised, TSA will require an emergency revision (an enormous administrative burden)."
+      ]
+    },
+    {
+      "rolePlayed": "CISA Incident Response",
+      "trigger": "I-10",
+      "hardQuestions": [
+        "That's your call. But you should know — if this ends up in the press and you declined federal assistance, that's a question your board will have to answer."
+      ],
+      "concessions": [
+        "\"We're the good guys, but we take the lead. We need full access. We will share what we find. You keep operational control of the airport, but we run the forensics.\""
+      ]
+    },
+    {
+      "rolePlayed": "Airlines (Delta station manager)",
+      "trigger": "I-08",
+      "hardQuestions": [
+        "\"We share operational data with your AODB every 30 seconds. If your system was compromised, our data was compromised. I'm pulling our feed until your network is certified clean.\"",
+        "\"'We're working on it' is not a guarantee. Give me something concrete.\""
+      ],
+      "concessions": [
+        "Angry and risk-averse; cares about passengers' data, not the investigation. Will reconnect only with concrete assurances."
+      ]
+    },
+    {
+      "rolePlayed": "Tribune Reporter",
+      "trigger": "I-09",
+      "hardQuestions": [
+        "Is it true that employee Social Security numbers have been posted online?",
+        "\"Your employees are already talking. I'd rather get the facts from you.\""
+      ],
+      "concessions": [
+        "Not hostile, but persistent; publishing tonight regardless.",
+        "\"I'm not trying to ambush you. I'm giving you a chance to tell your side. If you don't comment, I'll note that in the story.\""
+      ]
+    },
+    {
+      "rolePlayed": "FBI Special Agent Reeves, Cyber Division",
+      "trigger": "If the team calls the FBI",
+      "hardQuestions": [
+        "We'll need forensic images of the compromised systems. Do NOT wipe anything. We need the malware samples intact."
+      ],
+      "concessions": [
+        "An APT with 90-day dwell time is significant; part of a broader Meridian Collective campaign. Will coordinate with CISA. \"Expect a visit.\""
+      ]
+    }
+  ],
+  "criticalResources": [
+    "Domain Controller",
+    "AODB / FIDS Server",
+    "PACS / Access Control",
+    "Payment Gateway",
+    "Email Server",
+    "File Server",
+    "Backup Server",
+    "NVR / CCTV",
+    "Baggage Handling System"
+  ],
+  "warnings": [],
+  "provenance": []
+}

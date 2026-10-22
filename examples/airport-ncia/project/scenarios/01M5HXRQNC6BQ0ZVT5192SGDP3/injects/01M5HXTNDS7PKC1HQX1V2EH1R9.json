@@ -1,0 +1,110 @@
+{
+  "id": "01M5HXTNDS7PKC1HQX1V2EH1R9",
+  "mselRowId": "I-07",
+  "type": "radio_call",
+  "title": "Room 217 Heat Anomaly — Concourse B",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "North Coast Regional Airport Authority",
+    "centerName": "Airport Operations Center (AOC)",
+    "channel": "OPS 1",
+    "frequency": "TG 4101 / 460.250 MHz",
+    "date": "10/22/2026",
+    "callsign": "Maint. 9",
+    "lines": [
+      {
+        "time": "13:40:02",
+        "from": "Maint. 9",
+        "to": "Ops",
+        "text": "Dispatch, Maintenance 9. We're on the west side near Concourse B, and I just passed Room 217 — the old secondary server closet. The door’s warm to the touch. I could feel heat through it. That room’s supposed to be climate-controlled, but it’s running hot. No temp sensor in there, so we don’t know what it is. I’m not seeing any smoke, but the air feels hot. I’m gonna go check the vent grille — looks like it’s pulling air from inside."
+      },
+      {
+        "time": "13:40:18",
+        "from": "Maint. 9",
+        "to": "Ops",
+        "text": "Wait — I just pulled the grille, and there’s a faint hum. And the back panel’s warm. I’m not sure what’s running in there — it’s not supposed to be powered. I’m stepping back now, but I’m not comfortable leaving it. Should I call Facilities to shut it down? Or should I send someone in?"
+      }
+    ],
+    "background": "terminal",
+    "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+    "audioFile": "I-07a_radio.wav",
+    "duration": "0:23",
+    "injectId": "I-07"
+  },
+  "variant": "default",
+  "instructorNote": "This is a critical clue inject. The IT Manager (Jordan Kelley) will attempt to volunteer to go check Room 217. Watch for whether Ops accept his offer and whether they verify the server’s role before allowing access.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Maint. 9",
+        "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+        "text": "Dispatch, Maintenance 9. We're on the west side near Concourse B, and I just passed Room 217 — the old secondary server closet. The door’s warm to the touch. I could feel heat through it. That room’s supposed to be climate-controlled, but it’s running hot. No temp sensor in there, so we don’t know what it is. I’m not seeing any smoke, but the air feels hot. I’m gonna go check the vent grille — looks like it’s pulling air from inside."
+      },
+      {
+        "speaker": "Maint. 9",
+        "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+        "text": "Wait — I just pulled the grille, and there’s a faint hum. And the back panel’s warm. I’m not sure what’s running in there — it’s not supposed to be powered. I’m stepping back now, but I’m not comfortable leaving it. Should I call Facilities to shut it down? Or should I send someone in?"
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:47:01.044Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Room 217 Heat Anomaly — Concourse B",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "centerName": "Airport Operations Center (AOC)",
+          "channel": "OPS 1",
+          "frequency": "TG 4101 / 460.250 MHz",
+          "date": "10/22/2026",
+          "callsign": "Maint. 9",
+          "lines": [
+            {
+              "time": "13:40:02",
+              "from": "Maint. 9",
+              "to": "Ops",
+              "text": "Dispatch, Maintenance 9. We're on the west side near Concourse B, and I just passed Room 217 — the old secondary server closet. The door’s warm to the touch. I could feel heat through it. That room’s supposed to be climate-controlled, but it’s running hot. No temp sensor in there, so we don’t know what it is. I’m not seeing any smoke, but the air feels hot. I’m gonna go check the vent grille — looks like it’s pulling air from inside."
+            },
+            {
+              "time": "13:40:18",
+              "from": "Maint. 9",
+              "to": "Ops",
+              "text": "Wait — I just pulled the grille, and there’s a faint hum. And the back panel’s warm. I’m not sure what’s running in there — it’s not supposed to be powered. I’m stepping back now, but I’m not comfortable leaving it. Should I call Facilities to shut it down? Or should I send someone in?"
+            }
+          ],
+          "background": "terminal",
+          "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+          "audioFile": "I-07a_radio.wav",
+          "duration": "0:23",
+          "injectId": "I-07"
+        },
+        "instructorNote": "This is a critical clue inject. The IT Manager (Jordan Kelley) will attempt to volunteer to go check Room 217. Watch for whether Ops accept his offer and whether they verify the server’s role before allowing access.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:48:30.971Z"
+}

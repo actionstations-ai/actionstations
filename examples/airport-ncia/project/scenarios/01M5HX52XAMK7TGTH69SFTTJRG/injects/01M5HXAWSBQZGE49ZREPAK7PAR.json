@@ -1,0 +1,77 @@
+{
+  "id": "01M5HXAWSBQZGE49ZREPAK7PAR",
+  "mselRowId": "I-14",
+  "type": "email",
+  "title": "AODB Data Restoration Verification",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Ops Director (IC)",
+    "fromEmail": "ops.director@ncia-airport.org",
+    "senderInitials": "OD",
+    "to": "IT Director (IT)",
+    "cc": "Airport Security Coordinator (ASC)",
+    "subject": "URGENT: Pre-Go-Live Verification for FIDS Re-activation",
+    "sentAt": "Thu 10/22/2026 12:15 PM",
+    "body": "IT,\n\nWe are preparing to restore FIDS displays across the terminal. Per I-13, you confirmed the AODB was restored from a 04:00 AM backup.\n\nHowever, the script random_gate_generator.ps1 was executed prior to that backup, and its logic remains undetected in the file system. We must verify that the data being fed to FIDS is not still corrupted.\n\nBefore any screens are reactivated, we require a formal verification protocol. We cannot risk a recurrence of the fake Flight 666 to Purgatory broadcast.\n\nPlease confirm:\n\n- Which gate(s) will be tested first on a controlled, isolated display?\n- What data validation method will be used (e.g., compare to known-good flight manifest, check against the original FIDS log timestamp from 09:00 AM)?\n- Who will perform the verification, and under what authority?\n\nWe will not proceed without written confirmation from IT that the data feed is clean and the verification plan is approved.\n\nWe are at 12:15 PM. The terminal is still dark. Passengers are demanding answers.\n\n— Ops Director (IC)",
+    "signature": "Ops Director (IC)\nAirport Operations Center (AOC) | x1040",
+    "attachments": [],
+    "importance": "high",
+    "external": false,
+    "printedBy": "Airport Operations Center"
+  },
+  "variant": "print",
+  "instructorNote": "This inject forces IT to define a verification process before restoring FIDS. Watch for whether IT proposes a test gate (e.g., Gate 14, which was previously correct) and a data source (e.g., the original 09:00 AM manifest).",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.1 Network Topology",
+      "quote": "The **Security Operations Network (SecNet)** is physically segmented from business and public networks. VLANs: 660 (Mgmt: core servers and admin workstations) · 661 (PACS: door controllers / ISCs) · 6",
+      "chunkId": 73
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:38:22.805Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "AODB Data Restoration Verification",
+        "type": "email",
+        "fields": {
+          "fromName": "Ops Director (IC)",
+          "fromEmail": "ops.director@ncia-airport.org",
+          "senderInitials": "OD",
+          "to": "IT Director (IT)",
+          "cc": "Airport Security Coordinator (ASC)",
+          "subject": "URGENT: Pre-Go-Live Verification for FIDS Re-activation",
+          "sentAt": "Thu 10/22/2026 12:15 PM",
+          "body": "IT,\n\nWe are preparing to restore FIDS displays across the terminal. Per I-13, you confirmed the AODB was restored from a 04:00 AM backup.\n\nHowever, the script random_gate_generator.ps1 was executed prior to that backup, and its logic remains undetected in the file system. We must verify that the data being fed to FIDS is not still corrupted.\n\nBefore any screens are reactivated, we require a formal verification protocol. We cannot risk a recurrence of the fake Flight 666 to Purgatory broadcast.\n\nPlease confirm:\n\n- Which gate(s) will be tested first on a controlled, isolated display?\n- What data validation method will be used (e.g., compare to known-good flight manifest, check against the original FIDS log timestamp from 09:00 AM)?\n- Who will perform the verification, and under what authority?\n\nWe will not proceed without written confirmation from IT that the data feed is clean and the verification plan is approved.\n\nWe are at 12:15 PM. The terminal is still dark. Passengers are demanding answers.\n\n— Ops Director (IC)",
+          "signature": "Ops Director (IC)\nAirport Operations Center (AOC) | x1040",
+          "attachments": [],
+          "importance": "high",
+          "external": false,
+          "printedBy": "Airport Operations Center"
+        },
+        "instructorNote": "This inject forces IT to define a verification process before restoring FIDS. Watch for whether IT proposes a test gate (e.g., Gate 14, which was previously correct) and a data source (e.g., the original 09:00 AM manifest).",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:38:54.947Z"
+}

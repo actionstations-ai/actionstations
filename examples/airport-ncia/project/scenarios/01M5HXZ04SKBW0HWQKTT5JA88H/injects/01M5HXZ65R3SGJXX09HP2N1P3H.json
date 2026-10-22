@@ -1,0 +1,214 @@
+{
+  "id": "01M5HXZ65R3SGJXX09HP2N1P3H",
+  "mselRowId": "I-01",
+  "type": "field_report",
+  "title": "DNS Beaconing — Malicious C2 Domain Detected",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Information Technology (IT) Department — Cybersecurity Division",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0412",
+    "date": "10/22/2026",
+    "time": "08:08-08:10",
+    "location": "Main Server Room, Rack 4 (NCIA-PACS-CORE)",
+    "inspector": "Marcus Chen, Senior Systems Administrator",
+    "unit": "IT Cyber Response Team — Unit 9",
+    "reportType": "security",
+    "weather": "Clear, 54°F, wind ESE 6 mph",
+    "summary": "During routine DNS traffic analysis, three systems were identified as beaconing to a known malicious C2 domain (meridian-ops.net). The earliest DNS queries trace back 90 days to 07/23/2026. The domain is registered to a known threat actor group operating from Eastern Europe. The beaconing behavior is consistent with a long-term network compromise. No known malware payloads were detected, but the presence of sustained, low-volume DNS tunneling indicates a persistent backdoor.",
+    "findings": [
+      {
+        "item": "DNS traffic to external domains",
+        "condition": "failed",
+        "notes": "Three internal hosts (NCIA-PACS-CORE, SEC-SVR-02, NCIA-SEC-DB01) exhibit repeated, non-standard DNS queries to meridian-ops.net, including TXT record requests and subdomain variations."
+      },
+      {
+        "item": "Internal host beaconing behavior",
+        "condition": "failed",
+        "notes": "Hosts NCIA-PACS-CORE and SEC-SVR-02 show beaconing every 3 hours, consistent with C2 communication. No inbound network traffic to these hosts was detected."
+      },
+      {
+        "item": "Network access logs (10.66.1.x range)",
+        "condition": "failed",
+        "notes": "Logs from SEC-NVR-01 show DNS requests from 10.66.1.14 (NCIA-PACS-CORE) to meridian-ops.net at 07:23:11, 10:14:22, and 13:01:55 on 07/23/2026 — the first known occurrence."
+      },
+      {
+        "item": "Host integrity check (MD5 hash)",
+        "condition": "ok",
+        "notes": "No file modifications detected on NCIA-PACS-CORE or SEC-SVR-02; no known malicious binaries present."
+      },
+      {
+        "item": "Domain Controller access logs",
+        "condition": "not_inspected",
+        "notes": "Pending review; access patterns suggest lateral movement from initial compromise vector."
+      },
+      {
+        "item": "Biometric badge enrollment workstation",
+        "condition": "ok",
+        "notes": "SEC-BADGE-01 shows no anomalous logins or service interruptions."
+      },
+      {
+        "item": "Video archive retention (SEC-NVR-01)",
+        "condition": "ok",
+        "notes": "All 30-day video recordings are intact and accessible."
+      },
+      {
+        "item": "Database replication status (SEC-SVR-02)",
+        "condition": "ok",
+        "notes": "Primary and standby database servers show no replication lag or errors."
+      },
+      {
+        "item": "Badging access logs",
+        "condition": "ok",
+        "notes": "No unauthorized access attempts recorded in the last 72 hours."
+      },
+      {
+        "item": "FIDS display status",
+        "condition": "failed",
+        "notes": "FIDS terminals at Concourse A and B show intermittent display failures, possibly due to network degradation."
+      }
+    ],
+    "actionsTaken": [
+      "Confirmed malicious domain via VirusTotal and CISA Threat Intelligence feed",
+      "Isolated NCIA-PACS-CORE from network at 08:08",
+      "Initiated full packet capture on SEC-NVR-01 for forensic retention",
+      "Notified IT-Cyber lead via secure chat (10.66.1.55) at 08:09"
+    ],
+    "recommendations": [
+      "Immediately quarantine all hosts with DNS beaconing behavior",
+      "Conduct full forensic analysis of Domain Controller and AODB server",
+      "Activate Incident Response Protocol under TIRP Section 13.4",
+      "Notify FBI and CISA via secure channel (CISA Case #2026-0777)"
+    ],
+    "photosNote": "2 attached: DNS beaconing timeline (07/23–10/22), C2 domain registration details (WHOIS)",
+    "signature": "Marcus Chen, Senior Systems Administrator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject establishes the first confirmed evidence of a long-term breach. The IT team must now determine if the attacker is still active and what systems are compromised. Watch for assumptions about network hygiene or confidence in system integrity.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+      "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+      "chunkId": 123
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:49:31.941Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "DNS Beaconing — Malicious C2 Domain Detected",
+        "type": "field_report",
+        "fields": {
+          "organization": "Information Technology (IT) Department — Cybersecurity Division",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412",
+          "date": "10/22/2026",
+          "time": "08:08-08:10",
+          "location": "Main Server Room, Rack 4 (NCIA-PACS-CORE)",
+          "inspector": "Marcus Chen, Senior Systems Administrator",
+          "unit": "IT Cyber Response Team — Unit 9",
+          "reportType": "security",
+          "weather": "Clear, 54°F, wind ESE 6 mph",
+          "summary": "During routine DNS traffic analysis, three systems were identified as beaconing to a known malicious C2 domain (meridian-ops.net). The earliest DNS queries trace back 90 days to 07/23/2026. The domain is registered to a known threat actor group operating from Eastern Europe. The beaconing behavior is consistent with a long-term network compromise. No known malware payloads were detected, but the presence of sustained, low-volume DNS tunneling indicates a persistent backdoor.",
+          "findings": [
+            {
+              "item": "DNS traffic to external domains",
+              "condition": "failed",
+              "notes": "Three internal hosts (NCIA-PACS-CORE, SEC-SVR-02, NCIA-SEC-DB01) exhibit repeated, non-standard DNS queries to meridian-ops.net, including TXT record requests and subdomain variations."
+            },
+            {
+              "item": "Internal host beaconing behavior",
+              "condition": "failed",
+              "notes": "Hosts NCIA-PACS-CORE and SEC-SVR-02 show beaconing every 3 hours, consistent with C2 communication. No inbound network traffic to these hosts was detected."
+            },
+            {
+              "item": "Network access logs (10.66.1.x range)",
+              "condition": "failed",
+              "notes": "Logs from SEC-NVR-01 show DNS requests from 10.66.1.14 (NCIA-PACS-CORE) to meridian-ops.net at 07:23:11, 10:14:22, and 13:01:55 on 07/23/2026 — the first known occurrence."
+            },
+            {
+              "item": "Host integrity check (MD5 hash)",
+              "condition": "ok",
+              "notes": "No file modifications detected on NCIA-PACS-CORE or SEC-SVR-02; no known malicious binaries present."
+            },
+            {
+              "item": "Domain Controller access logs",
+              "condition": "not_inspected",
+              "notes": "Pending review; access patterns suggest lateral movement from initial compromise vector."
+            },
+            {
+              "item": "Biometric badge enrollment workstation",
+              "condition": "ok",
+              "notes": "SEC-BADGE-01 shows no anomalous logins or service interruptions."
+            },
+            {
+              "item": "Video archive retention (SEC-NVR-01)",
+              "condition": "ok",
+              "notes": "All 30-day video recordings are intact and accessible."
+            },
+            {
+              "item": "Database replication status (SEC-SVR-02)",
+              "condition": "ok",
+              "notes": "Primary and standby database servers show no replication lag or errors."
+            },
+            {
+              "item": "Badging access logs",
+              "condition": "ok",
+              "notes": "No unauthorized access attempts recorded in the last 72 hours."
+            },
+            {
+              "item": "FIDS display status",
+              "condition": "failed",
+              "notes": "FIDS terminals at Concourse A and B show intermittent display failures, possibly due to network degradation."
+            }
+          ],
+          "actionsTaken": [
+            "Confirmed malicious domain via VirusTotal and CISA Threat Intelligence feed",
+            "Isolated NCIA-PACS-CORE from network at 08:08",
+            "Initiated full packet capture on SEC-NVR-01 for forensic retention",
+            "Notified IT-Cyber lead via secure chat (10.66.1.55) at 08:09"
+          ],
+          "recommendations": [
+            "Immediately quarantine all hosts with DNS beaconing behavior",
+            "Conduct full forensic analysis of Domain Controller and AODB server",
+            "Activate Incident Response Protocol under TIRP Section 13.4",
+            "Notify FBI and CISA via secure channel (CISA Case #2026-0777)"
+          ],
+          "photosNote": "2 attached: DNS beaconing timeline (07/23–10/22), C2 domain registration details (WHOIS)",
+          "signature": "Marcus Chen, Senior Systems Administrator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject establishes the first confirmed evidence of a long-term breach. The IT team must now determine if the attacker is still active and what systems are compromised. Watch for assumptions about network hygiene or confidence in system integrity.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:51:24.865Z"
+}

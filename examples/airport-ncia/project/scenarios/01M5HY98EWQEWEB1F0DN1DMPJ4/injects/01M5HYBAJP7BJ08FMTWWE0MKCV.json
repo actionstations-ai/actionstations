@@ -1,0 +1,192 @@
+{
+  "id": "01M5HYBAJP7BJ08FMTWWE0MKCV",
+  "mselRowId": "I-07",
+  "type": "sitrep",
+  "title": "Rogue AP — Trunk Port Reconfiguration Confirmed",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "number": "7",
+    "time": "10/22/2026 0842",
+    "organization": "North Coast Regional Airport Authority",
+    "issuingOffice": "IT & Cybersecurity Command",
+    "incidentName": "Badge Cloning & Physical-Cyber Convergence",
+    "period": "0834–0842",
+    "from": "IT & Cybersecurity (Lead)",
+    "to": "All Command and Functional Teams",
+    "summary": "IT has confirmed that the rogue wireless access point installed in Electrical Room B was not only connected to Port 23 on the Cisco 2960 switch, but also reconfigured that port from an access mode to a trunk mode. This change allows the device to carry traffic from all VLANs — including Server VLAN 10, Admin VLAN 20, Security Camera VLAN 30, Retail VLAN 40, and Management VLAN 99. As a result, any device connecting to the hidden SSID on the rogue AP gains access to the entire internal network. This was not a random or opportunistic act — it required knowledge of switch configuration, default credentials, and NCIA’s VLAN structure. The attacker had deliberate access to network infrastructure. The full reach of the compromise is now confirmed.",
+    "keyStatus": [
+      {
+        "label": "PACS",
+        "value": "Compromised — clone used to access Electrical Room B"
+      },
+      {
+        "label": "FIDS / AODB",
+        "value": "Offline — on manual"
+      },
+      {
+        "label": "Network Access",
+        "value": "Trunk Port Exploited — Full VLAN Exposure"
+      },
+      {
+        "label": "Physical Security",
+        "value": "Doors S-4 and S-6 remain secured"
+      },
+      {
+        "label": "Rogue Device",
+        "value": "Active — behind UPS in E-2"
+      }
+    ],
+    "actions": [
+      {
+        "time": "0834",
+        "text": "IT team confirmed the rogue TP-Link device was connected to Port 23 on the Cisco 2960 switch in Electrical Room B."
+      },
+      {
+        "time": "0836",
+        "text": "IT reviewed switch configuration logs and confirmed Port 23 was reconfigured from access to trunk mode."
+      },
+      {
+        "time": "0838",
+        "text": "IT cross-referenced the device's MAC address (50:C7:BF:XX:XX:XX) with known inventory — not in database."
+      },
+      {
+        "time": "0840",
+        "text": "IT confirmed the trunk port now carries traffic from VLANs 10, 20, 30, 40, and 99."
+      },
+      {
+        "time": "0842",
+        "text": "IT issued alert: All network access via Port 23 is now untrusted and must be treated as compromised."
+      }
+    ],
+    "planned": [
+      "Initiate full network isolation of VLAN 60 (Baggage/OT) and VLAN 99 (Management) pending forensic review.",
+      "Audit all switch configurations across Concourse B and Concourse A network closets for unauthorized changes.",
+      "Request CISA technical team to assist in forensic analysis of switch configuration logs."
+    ],
+    "issues": [
+      "Switch management credentials may be standardized across all closets — if so, attacker could have used them across multiple sites.",
+      "No CCTV coverage in Electrical Room B or maintenance corridor — limits forensic visibility.",
+      "Rogue device remains active and accessible from Concourse B parking structure."
+    ],
+    "nextReport": "0900 or on significant change",
+    "preparedBy": "Dr. Elena, IT & Cybersecurity Lead",
+    "approvedBy": "IT Director, North Coast Regional Airport Authority",
+    "marking": "EXERCISE EXERCISE EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the attacker’s technical sophistication. The trunk port reconfiguration is the key to full network compromise. Watch for teams to ask about credential reuse across switch closets.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+      "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+      "chunkId": 38
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:56:08.072Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Rogue AP — Trunk Port Reconfiguration Confirmed",
+        "type": "sitrep",
+        "fields": {
+          "number": "7",
+          "time": "10/22/2026 0842",
+          "organization": "North Coast Regional Airport Authority",
+          "issuingOffice": "IT & Cybersecurity Command",
+          "incidentName": "Badge Cloning & Physical-Cyber Convergence",
+          "period": "0834–0842",
+          "from": "IT & Cybersecurity (Lead)",
+          "to": "All Command and Functional Teams",
+          "summary": "IT has confirmed that the rogue wireless access point installed in Electrical Room B was not only connected to Port 23 on the Cisco 2960 switch, but also reconfigured that port from an access mode to a trunk mode. This change allows the device to carry traffic from all VLANs — including Server VLAN 10, Admin VLAN 20, Security Camera VLAN 30, Retail VLAN 40, and Management VLAN 99. As a result, any device connecting to the hidden SSID on the rogue AP gains access to the entire internal network. This was not a random or opportunistic act — it required knowledge of switch configuration, default credentials, and NCIA’s VLAN structure. The attacker had deliberate access to network infrastructure. The full reach of the compromise is now confirmed.",
+          "keyStatus": [
+            {
+              "label": "PACS",
+              "value": "Compromised — clone used to access Electrical Room B"
+            },
+            {
+              "label": "FIDS / AODB",
+              "value": "Offline — on manual"
+            },
+            {
+              "label": "Network Access",
+              "value": "Trunk Port Exploited — Full VLAN Exposure"
+            },
+            {
+              "label": "Physical Security",
+              "value": "Doors S-4 and S-6 remain secured"
+            },
+            {
+              "label": "Rogue Device",
+              "value": "Active — behind UPS in E-2"
+            }
+          ],
+          "actions": [
+            {
+              "time": "0834",
+              "text": "IT team confirmed the rogue TP-Link device was connected to Port 23 on the Cisco 2960 switch in Electrical Room B."
+            },
+            {
+              "time": "0836",
+              "text": "IT reviewed switch configuration logs and confirmed Port 23 was reconfigured from access to trunk mode."
+            },
+            {
+              "time": "0838",
+              "text": "IT cross-referenced the device's MAC address (50:C7:BF:XX:XX:XX) with known inventory — not in database."
+            },
+            {
+              "time": "0840",
+              "text": "IT confirmed the trunk port now carries traffic from VLANs 10, 20, 30, 40, and 99."
+            },
+            {
+              "time": "0842",
+              "text": "IT issued alert: All network access via Port 23 is now untrusted and must be treated as compromised."
+            }
+          ],
+          "planned": [
+            "Initiate full network isolation of VLAN 60 (Baggage/OT) and VLAN 99 (Management) pending forensic review.",
+            "Audit all switch configurations across Concourse B and Concourse A network closets for unauthorized changes.",
+            "Request CISA technical team to assist in forensic analysis of switch configuration logs."
+          ],
+          "issues": [
+            "Switch management credentials may be standardized across all closets — if so, attacker could have used them across multiple sites.",
+            "No CCTV coverage in Electrical Room B or maintenance corridor — limits forensic visibility.",
+            "Rogue device remains active and accessible from Concourse B parking structure."
+          ],
+          "nextReport": "0900 or on significant change",
+          "preparedBy": "Dr. Elena, IT & Cybersecurity Lead",
+          "approvedBy": "IT Director, North Coast Regional Airport Authority",
+          "marking": "EXERCISE EXERCISE EXERCISE"
+        },
+        "instructorNote": "This inject confirms the attacker’s technical sophistication. The trunk port reconfiguration is the key to full network compromise. Watch for teams to ask about credential reuse across switch closets.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:56:52.450Z"
+}

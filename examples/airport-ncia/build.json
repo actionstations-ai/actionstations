@@ -1,0 +1,155 @@
+{
+  "id": "airport-ncia",
+  "title": "North Coast International Airport",
+  "domainProfile": "airport",
+  "summary": "A mid-size commercial airport (terminal, FIDS, baggage handling, AODB, PA) with its Airport Emergency Plan, Airport Security Program and Terminal Incident Response Plan, and the hand-authored Scenario 3 tabletop: a manipulated AODB drives FIDS, baggage and PA to mislead passengers.",
+  "notice": "EXERCISE MATERIAL — for training use. North Coast International Airport, its people and identifiers are simulated.",
+  "project": {
+    "name": "North Coast International Airport",
+    "orgName": "North Coast Regional Airport Authority",
+    "orgType": "airport",
+    "brand": {
+      "city": "Akron",
+      "region": "Summit County, Ohio",
+      "aliases": {
+        "org": "North Coast International Airport",
+        "orgShort": "NCIA",
+        "orgDomain": "ncia-airport.org",
+        "localTv": "Channel 5"
+      }
+    }
+  },
+  "documents": {
+    "dirs": ["reference/ncia", "reference/ics-forms"]
+  },
+  "media": {
+    "aiImagesPerScenario": 3,
+    "ttsPerScenario": 4
+  },
+  "scenarios": [
+    {
+      "key": "flight-to-nowhere",
+      "threatFamily": "cyber",
+      "summary": "A malicious actor manipulates the AODB so FIDS, baggage and PA mislead passengers; the airport must restore data integrity, manage crowds at the gates and keep public trust.",
+      "seed": {
+        "scenario": "tests/fixtures/scenarios/scenario-3.json",
+        "documents": {
+          "handbook": "reference/scenario-3/controller-handbook.md",
+          "briefing": "reference/scenario-3/player-briefing.md"
+        }
+      }
+    },
+    {
+      "key": "scenario-1",
+      "threatFamily": "insider",
+      "summary": "The airport's own IT Manager, extorted by a criminal syndicate, plants a rogue man-in-the-middle device to skim retail payment card data while being the most helpful person in the room; test insider threat recognition, network forensics and PCI-aware incident response.",
+      "media": {
+        "aiImagesPerScenario": 1,
+        "ttsPerScenario": 1
+      },
+      "seed": {
+        "scenario": "tests/fixtures/scenarios/scenario-1.json",
+        "documents": {
+          "handbook": "reference/scenario-1/controller-handbook.md",
+          "briefing": "reference/scenario-1/player-briefing.md"
+        }
+      }
+    },
+    {
+      "key": "scenario-2",
+      "threatFamily": "cyber",
+      "summary": "A cybercrime group has quietly lived inside the airport network for 90 days; the team discovers it now and must scope the damage, decide what to shut down, manage notifications, and plan recovery while keeping the airport operating.",
+      "media": {
+        "aiImagesPerScenario": 1,
+        "ttsPerScenario": 1
+      },
+      "seed": {
+        "scenario": "tests/fixtures/scenarios/scenario-2.json",
+        "documents": {
+          "handbook": "reference/scenario-2/controller-handbook.md",
+          "briefing": "reference/scenario-2/player-briefing.md"
+        }
+      }
+    },
+    {
+      "key": "scenario-4",
+      "threatFamily": "insider",
+      "summary": "A local TV station broadcasts details from the airport's Sensitive Security Information security program, forcing a parallel insider-leak investigation and mass security remediation while the airport keeps operating.",
+      "media": {
+        "aiImagesPerScenario": 1,
+        "ttsPerScenario": 1
+      },
+      "seed": {
+        "scenario": "tests/fixtures/scenarios/scenario-4.json",
+        "documents": {
+          "handbook": "reference/scenario-4/controller-handbook.md",
+          "briefing": "reference/scenario-4/player-briefing.md"
+        }
+      }
+    },
+    {
+      "key": "scenario-5",
+      "threatFamily": "cyber_physical",
+      "summary": "A cloned vendor badge is used to plant a rogue wireless access point in a network infrastructure room; IT must assemble the PACS, CCTV and switch evidence to find it and decide how to contain it.",
+      "media": {
+        "aiImagesPerScenario": 1,
+        "ttsPerScenario": 1
+      },
+      "seed": {
+        "scenario": "tests/fixtures/scenarios/scenario-5.json",
+        "documents": {
+          "handbook": "reference/scenario-5/controller-handbook.md",
+          "briefing": "reference/scenario-5/player-briefing.md"
+        }
+      }
+    },
+    {
+      "key": "scenario-6",
+      "threatFamily": "infrastructure_failure",
+      "summary": "Every POS terminal in the airport goes dark two minutes after the IT Manager's emergency firewall rule, while a real SSH scan and a vendor firmware push make a cyberattack and a supply-chain compromise look equally plausible.",
+      "media": {
+        "aiImagesPerScenario": 1,
+        "ttsPerScenario": 1
+      },
+      "seed": {
+        "scenario": "tests/fixtures/scenarios/scenario-6.json",
+        "documents": {
+          "handbook": "reference/scenario-6/controller-handbook.md",
+          "briefing": "reference/scenario-6/player-briefing.md"
+        }
+      }
+    },
+    {
+      "key": "scenario-7",
+      "threatFamily": "physical_security",
+      "summary": "Over two hours the facilitator role-plays 12 phone, email, in-person and social media contacts, 9 of them social engineering attacks and 3 legitimate, and teams must verify each one without rejecting everything.",
+      "media": {
+        "aiImagesPerScenario": 1,
+        "ttsPerScenario": 1
+      },
+      "seed": {
+        "scenario": "tests/fixtures/scenarios/scenario-7.json",
+        "documents": {
+          "handbook": "reference/scenario-7/controller-handbook.md",
+          "briefing": "reference/scenario-7/player-briefing.md"
+        }
+      }
+    },
+    {
+      "key": "scenario-8",
+      "threatFamily": "insider",
+      "summary": "An anonymous email names noon as the deadline; teams spend a 180-minute time budget on an action menu to find an ex-contractor's logic bomb on the AODB server before 12:00.",
+      "media": {
+        "aiImagesPerScenario": 1,
+        "ttsPerScenario": 1
+      },
+      "seed": {
+        "scenario": "tests/fixtures/scenarios/scenario-8.json",
+        "documents": {
+          "handbook": "reference/scenario-8/controller-handbook.md",
+          "briefing": "reference/scenario-8/player-briefing.md"
+        }
+      }
+    }
+  ]
+}

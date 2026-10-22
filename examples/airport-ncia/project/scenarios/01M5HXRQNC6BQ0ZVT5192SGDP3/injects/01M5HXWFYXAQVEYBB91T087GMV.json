@@ -1,0 +1,211 @@
+{
+  "id": "01M5HXWFYXAQVEYBB91T087GMV",
+  "mselRowId": "I-13",
+  "type": "field_report",
+  "title": "Insider Threat Correlation — IT Manager on Shift",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "North Coast Regional Airport Authority — IT & Cybersecurity",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0419",
+    "date": "10/22/2026",
+    "time": "14:15",
+    "location": "Main Server Room, Rack 4; Field Panels (Terminal Zones A & B)",
+    "inspector": "Marcus Chen, Senior Systems Administrator",
+    "unit": "IT Operations Team",
+    "reportType": "security",
+    "weather": "Clear, 62°F, wind ESE 5 mph",
+    "summary": "Cross-referencing network logs, PACS system events, and physical access anomalies from the past 48 hours reveals a consistent temporal correlation between all system disruptions and the shift schedule of IT Manager Jordan Kelley. During all flagged incidents — rogue device on VLAN 30, 4-hour log gap on core switch, hot server closet at Room 217, door propped open — Kelley was the sole IT staff on duty. No other staff member was logged in or active on the network during these events. The pattern suggests a single point of access and control. No external breach indicators found. Internal access remains unchallenged.",
+    "findings": [
+      {
+        "item": "PACS Server (NCIA-PACS-CORE) — Last Active User",
+        "condition": "failed",
+        "notes": "User 'jkelley' logged in at 13:10, 13:30, and 13:55. No other IT staff were active in the session logs for the same period."
+      },
+      {
+        "item": "VLAN 30 — Rogue Device (MAC: B8:27:EB:xx:xx:xx)",
+        "condition": "failed",
+        "notes": "Device first detected at 13:18. Last activity logged at 13:45. Active only during Kelley’s shift window (13:00–14:30). No other IT team member had access to VLAN 30 configuration."
+      },
+      {
+        "item": "Core Switch Log Integrity (Port G1/0/1)",
+        "condition": "failed",
+        "notes": "Log gap from 10:00 PM to 2:00 AM on 10/21/2026. Correlates with Kelley’s shift end. No system reboot recorded. Network traffic resumed normally."
+      },
+      {
+        "item": "Room 217 (Concourse B) — Thermal Anomaly",
+        "condition": "failed",
+        "notes": "Heat spike detected at 13:42. Door was found propped open at 13:58. Access logs show badge 'SEC-BADGE-01' used at 13:50. No other access logs from IT staff after 13:40."
+      },
+      {
+        "item": "Field Panel — Local Mode Activation",
+        "condition": "failed",
+        "notes": "Local Mode engaged on 4 panels (T1–T4) at 13:52. No formal order issued. Manual override logs show no override activity."
+      },
+      {
+        "item": "Network Access — Badge Enrollment Station",
+        "condition": "failed",
+        "notes": "SEC-BADGE-01 (NCIA-ENROLL) was accessed at 13:48. No record of badge issuance or revocation. Last successful login by 'jkelley' was at 13:47."
+      },
+      {
+        "item": "Video Vault — SEC-NVR-01",
+        "condition": "ok",
+        "notes": "No tampering. All 30-day recordings intact."
+      },
+      {
+        "item": "PACS Database — Last Sync",
+        "condition": "ok",
+        "notes": "Last sync to NCIA-PACS-REPL at 13:45. No anomalies."
+      },
+      {
+        "item": "Access Control — Door Lock Status",
+        "condition": "ok",
+        "notes": "All doors in Fail-Secure mode. No unauthorized unlock events."
+      },
+      {
+        "item": "Cable Management — Rack 4",
+        "condition": "ok",
+        "notes": "No unauthorized cabling or jacks found."
+      }
+    ],
+    "actionsTaken": [
+      "Reviewed PACS server logs and user session history",
+      "Cross-referenced network events with IT shift logs",
+      "Verified badge access and device MAC correlation",
+      "Notified IT Team Lead via encrypted chat (14:14)",
+      "Initiated internal audit of all IT access points"
+    ],
+    "recommendations": [
+      "Immediately isolate Jordan Kelley from network access and PACS systems",
+      "Preserve all server logs, access records, and device images as forensic evidence",
+      "Initiate internal investigation under airport policy 7.3 (Insider Threat Protocol)",
+      "Contact Airport Security and Legal for escalation to FBI/CISA per TIRP 13.4",
+      "Do not confront Kelley directly; secure the network before any action"
+    ],
+    "photosNote": "5 photos attached: IMG_FIR20260419-001 (PACS server log screen), IMG_FIR20260419-002 (VLAN 30 device MAC), IMG_FIR20260419-003 (Room 217 thermal scan), IMG_FIR20260419-004 (badge access log), IMG_FIR20260419-005 (shift log correlation chart)",
+    "signature": "Marcus Chen, Senior Systems Administrator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject forces the team to confront the insider threat directly. Watch for hesitation in isolating Kelley, or attempts to bypass procedures. The team must now decide whether to act on evidence or await policy guidance.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix E",
+      "quote": "Fail-Secure: door mechanically locks; key required for entry; free egress (crash bar). Fail-Safe: door electrically unlocks. | Door Group | Example Location | Power Loss | Network Loss | Fire Alarm | ",
+      "chunkId": 76
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:48:06.879Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Insider Threat Correlation — IT Manager on Shift",
+        "type": "field_report",
+        "fields": {
+          "organization": "North Coast Regional Airport Authority — IT & Cybersecurity",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0419",
+          "date": "10/22/2026",
+          "time": "14:15",
+          "location": "Main Server Room, Rack 4; Field Panels (Terminal Zones A & B)",
+          "inspector": "Marcus Chen, Senior Systems Administrator",
+          "unit": "IT Operations Team",
+          "reportType": "security",
+          "weather": "Clear, 62°F, wind ESE 5 mph",
+          "summary": "Cross-referencing network logs, PACS system events, and physical access anomalies from the past 48 hours reveals a consistent temporal correlation between all system disruptions and the shift schedule of IT Manager Jordan Kelley. During all flagged incidents — rogue device on VLAN 30, 4-hour log gap on core switch, hot server closet at Room 217, door propped open — Kelley was the sole IT staff on duty. No other staff member was logged in or active on the network during these events. The pattern suggests a single point of access and control. No external breach indicators found. Internal access remains unchallenged.",
+          "findings": [
+            {
+              "item": "PACS Server (NCIA-PACS-CORE) — Last Active User",
+              "condition": "failed",
+              "notes": "User 'jkelley' logged in at 13:10, 13:30, and 13:55. No other IT staff were active in the session logs for the same period."
+            },
+            {
+              "item": "VLAN 30 — Rogue Device (MAC: B8:27:EB:xx:xx:xx)",
+              "condition": "failed",
+              "notes": "Device first detected at 13:18. Last activity logged at 13:45. Active only during Kelley’s shift window (13:00–14:30). No other IT team member had access to VLAN 30 configuration."
+            },
+            {
+              "item": "Core Switch Log Integrity (Port G1/0/1)",
+              "condition": "failed",
+              "notes": "Log gap from 10:00 PM to 2:00 AM on 10/21/2026. Correlates with Kelley’s shift end. No system reboot recorded. Network traffic resumed normally."
+            },
+            {
+              "item": "Room 217 (Concourse B) — Thermal Anomaly",
+              "condition": "failed",
+              "notes": "Heat spike detected at 13:42. Door was found propped open at 13:58. Access logs show badge 'SEC-BADGE-01' used at 13:50. No other access logs from IT staff after 13:40."
+            },
+            {
+              "item": "Field Panel — Local Mode Activation",
+              "condition": "failed",
+              "notes": "Local Mode engaged on 4 panels (T1–T4) at 13:52. No formal order issued. Manual override logs show no override activity."
+            },
+            {
+              "item": "Network Access — Badge Enrollment Station",
+              "condition": "failed",
+              "notes": "SEC-BADGE-01 (NCIA-ENROLL) was accessed at 13:48. No record of badge issuance or revocation. Last successful login by 'jkelley' was at 13:47."
+            },
+            {
+              "item": "Video Vault — SEC-NVR-01",
+              "condition": "ok",
+              "notes": "No tampering. All 30-day recordings intact."
+            },
+            {
+              "item": "PACS Database — Last Sync",
+              "condition": "ok",
+              "notes": "Last sync to NCIA-PACS-REPL at 13:45. No anomalies."
+            },
+            {
+              "item": "Access Control — Door Lock Status",
+              "condition": "ok",
+              "notes": "All doors in Fail-Secure mode. No unauthorized unlock events."
+            },
+            {
+              "item": "Cable Management — Rack 4",
+              "condition": "ok",
+              "notes": "No unauthorized cabling or jacks found."
+            }
+          ],
+          "actionsTaken": [
+            "Reviewed PACS server logs and user session history",
+            "Cross-referenced network events with IT shift logs",
+            "Verified badge access and device MAC correlation",
+            "Notified IT Team Lead via encrypted chat (14:14)",
+            "Initiated internal audit of all IT access points"
+          ],
+          "recommendations": [
+            "Immediately isolate Jordan Kelley from network access and PACS systems",
+            "Preserve all server logs, access records, and device images as forensic evidence",
+            "Initiate internal investigation under airport policy 7.3 (Insider Threat Protocol)",
+            "Contact Airport Security and Legal for escalation to FBI/CISA per TIRP 13.4",
+            "Do not confront Kelley directly; secure the network before any action"
+          ],
+          "photosNote": "5 photos attached: IMG_FIR20260419-001 (PACS server log screen), IMG_FIR20260419-002 (VLAN 30 device MAC), IMG_FIR20260419-003 (Room 217 thermal scan), IMG_FIR20260419-004 (badge access log), IMG_FIR20260419-005 (shift log correlation chart)",
+          "signature": "Marcus Chen, Senior Systems Administrator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject forces the team to confront the insider threat directly. Watch for hesitation in isolating Kelley, or attempts to bypass procedures. The team must now decide whether to act on evidence or await policy guidance.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:48:32.032Z"
+}

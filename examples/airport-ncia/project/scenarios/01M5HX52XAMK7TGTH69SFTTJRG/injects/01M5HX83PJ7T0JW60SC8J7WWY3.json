@@ -1,0 +1,86 @@
+{
+  "id": "01M5HX83PJ7T0JW60SC8J7WWY3",
+  "mselRowId": "I-08b",
+  "type": "email_forward",
+  "title": "Phishing Click — Intern Workstation",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Jordan M. (Intern – IT)",
+    "fromEmail": "jordan.miller@ncia-airport.org",
+    "senderInitials": "JM",
+    "to": "IT Lead",
+    "subject": "FW: Urgent — Phishing Link Clicked on OPS_INTERN_03",
+    "sentAt": "Thu 10/22/2026 10:40 AM",
+    "note": "Hey IT Lead, I just got a call from the security team. I accidentally clicked a link in a phishing email this morning while using the Ops workstation (OPS_INTERN_03). The email said 'Free Browns Tickets – Claim Your Seats Now!' and I thought it was a joke. Now they're saying I might’ve opened a backdoor. I’m really sorry. I didn’t realize it was bad.\n\nI’ve locked the workstation and disconnected the network cable. Let me know what to do next.",
+    "signature": "Jordan Miller\nIT Intern\nNorth Coast Regional Airport Authority",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "IT Helpdesk",
+    "original": {
+      "fromName": "noreply@brownstickets2026.com",
+      "fromEmail": "noreply@brownstickets2026.com",
+      "sentAt": "Thu 10/22/2026 09:58 AM",
+      "to": "jordan.miller@ncia-airport.org",
+      "cc": "",
+      "subject": "You're Invited: Free Browns Tickets for October 23rd Game",
+      "body": "Hi Jordan,\n\nGood news! Your free tickets to the Cleveland Browns vs. Raiders game on October 23rd are ready.\n\nClick here to claim your seat: https://tickets.browns.com/claim/ncia-2026-jm\n\nDon’t miss out — tickets go fast!\n\nBest,\nBrowns Ticketing Team\n\nThis is an automated message. Do not reply."
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "This inject reveals the attack vector. IT must isolate OPS_INTERN_03 and initiate forensic containment.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:36:50.793Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Phishing Click — Intern Workstation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Jordan M. (Intern – IT)",
+          "fromEmail": "jordan.miller@ncia-airport.org",
+          "senderInitials": "JM",
+          "to": "IT Lead",
+          "subject": "FW: Urgent — Phishing Link Clicked on OPS_INTERN_03",
+          "sentAt": "Thu 10/22/2026 10:40 AM",
+          "note": "Hey IT Lead, I just got a call from the security team. I accidentally clicked a link in a phishing email this morning while using the Ops workstation (OPS_INTERN_03). The email said 'Free Browns Tickets – Claim Your Seats Now!' and I thought it was a joke. Now they're saying I might’ve opened a backdoor. I’m really sorry. I didn’t realize it was bad.\n\nI’ve locked the workstation and disconnected the network cable. Let me know what to do next.",
+          "signature": "Jordan Miller\nIT Intern\nNorth Coast Regional Airport Authority",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "IT Helpdesk",
+          "original": {
+            "fromName": "noreply@brownstickets2026.com",
+            "fromEmail": "noreply@brownstickets2026.com",
+            "sentAt": "Thu 10/22/2026 09:58 AM",
+            "to": "jordan.miller@ncia-airport.org",
+            "cc": "",
+            "subject": "You're Invited: Free Browns Tickets for October 23rd Game",
+            "body": "Hi Jordan,\n\nGood news! Your free tickets to the Cleveland Browns vs. Raiders game on October 23rd are ready.\n\nClick here to claim your seat: https://tickets.browns.com/claim/ncia-2026-jm\n\nDon’t miss out — tickets go fast!\n\nBest,\nBrowns Ticketing Team\n\nThis is an automated message. Do not reply."
+          }
+        },
+        "instructorNote": "This inject reveals the attack vector. IT must isolate OPS_INTERN_03 and initiate forensic containment.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:38:52.974Z"
+}

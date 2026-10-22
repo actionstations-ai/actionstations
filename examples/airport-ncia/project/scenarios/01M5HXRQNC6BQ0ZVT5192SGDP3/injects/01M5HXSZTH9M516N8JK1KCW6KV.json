@@ -1,0 +1,207 @@
+{
+  "id": "01M5HXSZTH9M516N8JK1KCW6KV",
+  "mselRowId": "I-05",
+  "type": "field_report",
+  "title": "Log Integrity Gap — Core Switch Inspection",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "North Coast Regional Airport Authority — IT Operations",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0417",
+    "date": "10/22/2026",
+    "time": "13:28",
+    "location": "Main Server Room, Rack 4 (Core Switch: NCIA-PACS-CORE)",
+    "inspector": "Marcus Chen, Systems Administrator",
+    "unit": "IT Operations · SecNet Team",
+    "reportType": "security",
+    "weather": "Indoor, 72°F, no wind",
+    "summary": "While performing a routine audit of the core switch's log retention for compliance verification, a 4-hour gap was identified in the system logs from 22 October 2026, 22:00–02:00. The logs abruptly cease at 22:00 and resume at 02:00 with no error, reboot, or system interruption recorded in the event log. No hardware failure, power fluctuation, or maintenance window was logged during that period.",
+    "findings": [
+      {
+        "item": "System log integrity — 48-hour retention",
+        "condition": "failed",
+        "notes": "Log data missing for 04:00 between 22:00 and 02:00 on 22 October 2026."
+      },
+      {
+        "item": "Event log — system reboot or crash",
+        "condition": "ok",
+        "notes": "No reboot, crash, or power loss event recorded in logs for the same period."
+      },
+      {
+        "item": "Log rotation configuration",
+        "condition": "ok",
+        "notes": "Log rotation set to daily; no configuration error found."
+      },
+      {
+        "item": "Switch firmware version",
+        "condition": "ok",
+        "notes": "Version 12.4.3a, up to date."
+      },
+      {
+        "item": "Syslog server connectivity",
+        "condition": "ok",
+        "notes": "Syslog server (10.66.0.10) reachable and receiving logs from other devices."
+      },
+      {
+        "item": "Network traffic — VLAN 660",
+        "condition": "ok",
+        "notes": "No abnormal traffic spikes detected on SecNet (VLAN 660) during gap window."
+      },
+      {
+        "item": "Access control — core switch console",
+        "condition": "ok",
+        "notes": "No unauthorized login attempts recorded in PACS server logs for the same timeframe."
+      },
+      {
+        "item": "Physical access — server room",
+        "condition": "ok",
+        "notes": "No forced entry or unauthorized access to server room logged via ISC-Gate-N during the gap."
+      },
+      {
+        "item": "Audit trail — user activity",
+        "condition": "ok",
+        "notes": "No admin session initiated from NCIA-ENROLL (10.66.0.50) during gap."
+      },
+      {
+        "item": "Database integrity — NCIA-PACS-CORE",
+        "condition": "ok",
+        "notes": "No log truncation or database corruption detected in SQL server logs."
+      }
+    ],
+    "actionsTaken": [
+      "Documented log gap in system audit trail",
+      "Verified no reboot or hardware fault",
+      "Cross-checked with vendor logs — no reported issues",
+      "Notified IT Manager via internal channel (22:00–02:00 window not covered by alerting system)"
+    ],
+    "recommendations": [
+      "Conduct forensic log analysis on NCIA-PACS-CORE to identify root cause of gap",
+      "Audit all PACS system access logs for the 22 October 2026 window",
+      "Review vendor remote access logs for 22 October — prior to 22:00",
+      "Report to IT Leadership and Security Oversight Committee per ASP Section 3.4"
+    ],
+    "photosNote": "2 screenshots attached: (1) log output from NCIA-PACS-CORE (10.66.0.10), showing 4-hour void between 22:00 and 02:00; (2) timestamped console session from 13:28, showing no prior alert for the gap.",
+    "signature": "Marcus Chen, Systems Administrator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject introduces a forensic clue that suggests tampering or data suppression. The IT team should recognize that a 4-hour log gap with no system event is highly unusual and warrants immediate investigation. Watch for teams that dismiss it as 'just a buffer overflow' — the IT Manager will later claim this.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.1 Network Topology",
+      "quote": "The **Security Operations Network (SecNet)** is physically segmented from business and public networks. VLANs: 660 (Mgmt: core servers and admin workstations) · 661 (PACS: door controllers / ISCs) · 6",
+      "chunkId": 73
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:46:41.593Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Log Integrity Gap — Core Switch Inspection",
+        "type": "field_report",
+        "fields": {
+          "organization": "North Coast Regional Airport Authority — IT Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0417",
+          "date": "10/22/2026",
+          "time": "13:28",
+          "location": "Main Server Room, Rack 4 (Core Switch: NCIA-PACS-CORE)",
+          "inspector": "Marcus Chen, Systems Administrator",
+          "unit": "IT Operations · SecNet Team",
+          "reportType": "security",
+          "weather": "Indoor, 72°F, no wind",
+          "summary": "While performing a routine audit of the core switch's log retention for compliance verification, a 4-hour gap was identified in the system logs from 22 October 2026, 22:00–02:00. The logs abruptly cease at 22:00 and resume at 02:00 with no error, reboot, or system interruption recorded in the event log. No hardware failure, power fluctuation, or maintenance window was logged during that period.",
+          "findings": [
+            {
+              "item": "System log integrity — 48-hour retention",
+              "condition": "failed",
+              "notes": "Log data missing for 04:00 between 22:00 and 02:00 on 22 October 2026."
+            },
+            {
+              "item": "Event log — system reboot or crash",
+              "condition": "ok",
+              "notes": "No reboot, crash, or power loss event recorded in logs for the same period."
+            },
+            {
+              "item": "Log rotation configuration",
+              "condition": "ok",
+              "notes": "Log rotation set to daily; no configuration error found."
+            },
+            {
+              "item": "Switch firmware version",
+              "condition": "ok",
+              "notes": "Version 12.4.3a, up to date."
+            },
+            {
+              "item": "Syslog server connectivity",
+              "condition": "ok",
+              "notes": "Syslog server (10.66.0.10) reachable and receiving logs from other devices."
+            },
+            {
+              "item": "Network traffic — VLAN 660",
+              "condition": "ok",
+              "notes": "No abnormal traffic spikes detected on SecNet (VLAN 660) during gap window."
+            },
+            {
+              "item": "Access control — core switch console",
+              "condition": "ok",
+              "notes": "No unauthorized login attempts recorded in PACS server logs for the same timeframe."
+            },
+            {
+              "item": "Physical access — server room",
+              "condition": "ok",
+              "notes": "No forced entry or unauthorized access to server room logged via ISC-Gate-N during the gap."
+            },
+            {
+              "item": "Audit trail — user activity",
+              "condition": "ok",
+              "notes": "No admin session initiated from NCIA-ENROLL (10.66.0.50) during gap."
+            },
+            {
+              "item": "Database integrity — NCIA-PACS-CORE",
+              "condition": "ok",
+              "notes": "No log truncation or database corruption detected in SQL server logs."
+            }
+          ],
+          "actionsTaken": [
+            "Documented log gap in system audit trail",
+            "Verified no reboot or hardware fault",
+            "Cross-checked with vendor logs — no reported issues",
+            "Notified IT Manager via internal channel (22:00–02:00 window not covered by alerting system)"
+          ],
+          "recommendations": [
+            "Conduct forensic log analysis on NCIA-PACS-CORE to identify root cause of gap",
+            "Audit all PACS system access logs for the 22 October 2026 window",
+            "Review vendor remote access logs for 22 October — prior to 22:00",
+            "Report to IT Leadership and Security Oversight Committee per ASP Section 3.4"
+          ],
+          "photosNote": "2 screenshots attached: (1) log output from NCIA-PACS-CORE (10.66.0.10), showing 4-hour void between 22:00 and 02:00; (2) timestamped console session from 13:28, showing no prior alert for the gap.",
+          "signature": "Marcus Chen, Systems Administrator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject introduces a forensic clue that suggests tampering or data suppression. The IT team should recognize that a 4-hour log gap with no system event is highly unusual and warrants immediate investigation. Watch for teams that dismiss it as 'just a buffer overflow' — the IT Manager will later claim this.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:48:30.561Z"
+}

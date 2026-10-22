@@ -1,0 +1,232 @@
+{
+  "id": "01M5HYAJ8EMBZM3NP34704Z86W",
+  "mselRowId": "I-05",
+  "type": "field_report",
+  "title": "CCTV Review — Unauthorized Access to Electrical Room B",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "North Coast Regional Airport Authority — Security & Law Enforcement",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0753",
+    "date": "10/22/2026",
+    "time": "08:25",
+    "location": "Door S-4 (Concourse B) and Door S-6 (Non-Sterile Exit)",
+    "inspector": "Officer S., Security Supervisor",
+    "unit": "SEC-07",
+    "reportType": "security",
+    "weather": "Clear, 62°F, wind ESE 8 mph",
+    "summary": "CCTV review of Door S-4 access at 07:38 and exit at 08:07 confirms unauthorized individual used a cloned badge to enter and exit the secure corridor. The individual, male, 5'10\", wearing a grey maintenance jumpsuit, baseball cap, and black backpack, was not recognized as an airport employee or vendor. The badge on his lanyard was a plain white card without photo, hologram, or standard NCIA branding. No camera coverage exists in the maintenance corridor M-3 or inside Electrical Room B. The subject carried the backpack heavier upon exit. The access pattern matches the PACS log for the duplicate credential event.",
+    "findings": [
+      {
+        "item": "Door S-4 access control log",
+        "condition": "failed",
+        "notes": "Event timestamped 07:38:12; badge read at 125 kHz; no biometric verification; unauthorized individual."
+      },
+      {
+        "item": "Door S-6 exit log",
+        "condition": "failed",
+        "notes": "Event timestamped 08:07:44; same badge; no secondary verification; subject not in employee or vendor database."
+      },
+      {
+        "item": "CCTV footage at Door S-4",
+        "condition": "deficient",
+        "notes": "Visual confirmed: unknown male in maintenance attire; badge appears to be a blank T5577 card; no photo or hologram; lanyard not standard issue."
+      },
+      {
+        "item": "CCTV footage at Door S-6",
+        "condition": "deficient",
+        "notes": "Same subject; backpack appears heavier on exit; no visible tools, but load suggests equipment was carried."
+      },
+      {
+        "item": "Maintenance corridor M-3 (S-4 to E-2)",
+        "condition": "not_inspected",
+        "notes": "No camera installed; access to Electrical Room B unmonitored."
+      },
+      {
+        "item": "Electrical Room B (E-2)",
+        "condition": "not_inspected",
+        "notes": "No internal CCTV; access via unmonitored corridor; no environmental sensors detected."
+      },
+      {
+        "item": "Badge on subject (S-4)",
+        "condition": "failed",
+        "notes": "Plain white card; not a standard NCIA badge; likely a T5577 card programmed with Mendez’s 125 kHz credential."
+      },
+      {
+        "item": "Backpack (S-6)",
+        "condition": "deficient",
+        "notes": "Visual weight differential noted; may have contained network tools or rogue access point components."
+      },
+      {
+        "item": "Door S-4 physical lock status",
+        "condition": "ok",
+        "notes": "No signs of forced entry; door remained locked externally as per fail-secure policy."
+      },
+      {
+        "item": "Access control system status",
+        "condition": "ok",
+        "notes": "PACS logged event; no system failure detected; system responded normally to access attempt."
+      }
+    ],
+    "actionsTaken": [
+      "Reviewed CCTV footage from 07:38 to 08:07 at Door S-4 and S-6",
+      "Cross-referenced subject image with employee and vendor databases; no match found",
+      "Notified IT and OPS Command of unauthorized access pattern",
+      "Initiated facial image search with TSA and FBI fusion center",
+      "Flagged missing camera coverage in M-3 corridor and E-2 room"
+    ],
+    "recommendations": [
+      "Immediately install camera in maintenance corridor M-3 between S-4 and E-2",
+      "Audit all access point logs for duplicate 125 kHz credential events over past 72 hours",
+      "Conduct physical inspection of Electrical Room B for unauthorized devices",
+      "Update badge policy to disable legacy 125 kHz mode on all issued cards",
+      "Issue alert to all staff: report any unmarked white badge seen on lanyard"
+    ],
+    "photosNote": "4 photos attached: IMG_20261022_0825_S1 (S-4 entry), IMG_20261022_0825_S2 (S-4 full view), IMG_20261022_0825_S3 (S-6 exit), IMG_20261022_0825_S4 (backpack weight comparison)",
+    "signature": "Officer S., Security Supervisor",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the attacker’s physical presence and movement. The lack of camera coverage in M-3 and E-2 is a critical gap. The team must now link the video evidence to the PACS log and the T5577 card to deduce that the rogue AP was likely installed in E-2.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.1 Network Topology",
+      "quote": "The **Security Operations Network (SecNet)** is physically segmented from business and public networks. VLANs: 660 (Mgmt: core servers and admin workstations) · 661 (PACS: door controllers / ISCs) · 6",
+      "chunkId": 73
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.5 Failure Modes (Contingency) (TSA Security Directive 1542-04-08G)",
+      "quote": "**Fail-Secure (Locked):** doors from Public to Secure default LOCKED on the exterior; physical key required. **Fail-Safe (Unlocked):** Emergency Egress Routes unlock on Fire Alarm. **Total System Fail",
+      "chunkId": 57
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 11 › 11.2 Operations",
+      "quote": "Report \"running the checkpoint\" or \"piggybacking\" immediately. LEOs respond to last known location. **\"Concourse Dump\":** LEO IC with ASC and TSA decides to evacuate the sterile area — default respons",
+      "chunkId": 116
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+      "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+      "chunkId": 120
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:55:46.184Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "CCTV Review — Unauthorized Access to Electrical Room B",
+        "type": "field_report",
+        "fields": {
+          "organization": "North Coast Regional Airport Authority — Security & Law Enforcement",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0753",
+          "date": "10/22/2026",
+          "time": "08:25",
+          "location": "Door S-4 (Concourse B) and Door S-6 (Non-Sterile Exit)",
+          "inspector": "Officer S., Security Supervisor",
+          "unit": "SEC-07",
+          "reportType": "security",
+          "weather": "Clear, 62°F, wind ESE 8 mph",
+          "summary": "CCTV review of Door S-4 access at 07:38 and exit at 08:07 confirms unauthorized individual used a cloned badge to enter and exit the secure corridor. The individual, male, 5'10\", wearing a grey maintenance jumpsuit, baseball cap, and black backpack, was not recognized as an airport employee or vendor. The badge on his lanyard was a plain white card without photo, hologram, or standard NCIA branding. No camera coverage exists in the maintenance corridor M-3 or inside Electrical Room B. The subject carried the backpack heavier upon exit. The access pattern matches the PACS log for the duplicate credential event.",
+          "findings": [
+            {
+              "item": "Door S-4 access control log",
+              "condition": "failed",
+              "notes": "Event timestamped 07:38:12; badge read at 125 kHz; no biometric verification; unauthorized individual."
+            },
+            {
+              "item": "Door S-6 exit log",
+              "condition": "failed",
+              "notes": "Event timestamped 08:07:44; same badge; no secondary verification; subject not in employee or vendor database."
+            },
+            {
+              "item": "CCTV footage at Door S-4",
+              "condition": "deficient",
+              "notes": "Visual confirmed: unknown male in maintenance attire; badge appears to be a blank T5577 card; no photo or hologram; lanyard not standard issue."
+            },
+            {
+              "item": "CCTV footage at Door S-6",
+              "condition": "deficient",
+              "notes": "Same subject; backpack appears heavier on exit; no visible tools, but load suggests equipment was carried."
+            },
+            {
+              "item": "Maintenance corridor M-3 (S-4 to E-2)",
+              "condition": "not_inspected",
+              "notes": "No camera installed; access to Electrical Room B unmonitored."
+            },
+            {
+              "item": "Electrical Room B (E-2)",
+              "condition": "not_inspected",
+              "notes": "No internal CCTV; access via unmonitored corridor; no environmental sensors detected."
+            },
+            {
+              "item": "Badge on subject (S-4)",
+              "condition": "failed",
+              "notes": "Plain white card; not a standard NCIA badge; likely a T5577 card programmed with Mendez’s 125 kHz credential."
+            },
+            {
+              "item": "Backpack (S-6)",
+              "condition": "deficient",
+              "notes": "Visual weight differential noted; may have contained network tools or rogue access point components."
+            },
+            {
+              "item": "Door S-4 physical lock status",
+              "condition": "ok",
+              "notes": "No signs of forced entry; door remained locked externally as per fail-secure policy."
+            },
+            {
+              "item": "Access control system status",
+              "condition": "ok",
+              "notes": "PACS logged event; no system failure detected; system responded normally to access attempt."
+            }
+          ],
+          "actionsTaken": [
+            "Reviewed CCTV footage from 07:38 to 08:07 at Door S-4 and S-6",
+            "Cross-referenced subject image with employee and vendor databases; no match found",
+            "Notified IT and OPS Command of unauthorized access pattern",
+            "Initiated facial image search with TSA and FBI fusion center",
+            "Flagged missing camera coverage in M-3 corridor and E-2 room"
+          ],
+          "recommendations": [
+            "Immediately install camera in maintenance corridor M-3 between S-4 and E-2",
+            "Audit all access point logs for duplicate 125 kHz credential events over past 72 hours",
+            "Conduct physical inspection of Electrical Room B for unauthorized devices",
+            "Update badge policy to disable legacy 125 kHz mode on all issued cards",
+            "Issue alert to all staff: report any unmarked white badge seen on lanyard"
+          ],
+          "photosNote": "4 photos attached: IMG_20261022_0825_S1 (S-4 entry), IMG_20261022_0825_S2 (S-4 full view), IMG_20261022_0825_S3 (S-6 exit), IMG_20261022_0825_S4 (backpack weight comparison)",
+          "signature": "Officer S., Security Supervisor",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the attacker’s physical presence and movement. The lack of camera coverage in M-3 and E-2 is a critical gap. The team must now link the video evidence to the PACS log and the T5577 card to deduce that the rogue AP was likely installed in E-2.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:56:52.003Z"
+}

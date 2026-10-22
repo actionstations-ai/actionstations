@@ -1,0 +1,90 @@
+{
+  "id": "01M5HZ1GPWRFFWK1A80JKFMV27",
+  "mselRowId": "F-1200",
+  "type": "scenario_update",
+  "title": "Clock Strikes Noon — Logic Bomb Activated",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:00",
+    "scenarioTime": "12:00 PM",
+    "headline": "AODB Failure at Noon",
+    "deliverTo": "All players",
+    "narration": "The clock hits 12:00 PM. The AODB server (AODB-SVR-01, 10.1.10.20) abruptly stops responding. Across the airport, FIDS displays go dark. Gate management terminals flash 'NO DATA'. A new file appears on the desktop of the AODB server: README_NCIA.txt. The file reads: 'You should have hired me. — D'. The AODB service has been stopped. The database is encrypted. The FIDS data feed is gone.",
+    "keyFacts": [
+      "AODB service stopped at 12:00:00 PM",
+      "FIDS data feed permanently deleted",
+      "AODB database files encrypted with AES-256",
+      "Ransom note placed on server desktop",
+      "Attack was executed via scheduled task AODB_IndexMaintenance"
+    ],
+    "expectedAction": "Ops assesses terminal-wide disruption. IT confirms the logic bomb executed. Security verifies no physical threat but confirms a cyberattack has occurred.",
+    "facilitatorNote": "Pause for effect after reading the first sentence. Then read the rest in a steady, controlled tone. Show the 'README_NCIA.txt' file on screen if available.",
+    "scenarioTitle": "Scenario 8: Anonymous Threat, Logic Bomb Hunt",
+    "injectId": "F-1200"
+  },
+  "variant": "default",
+  "instructorNote": "This is the final inject. The threat has executed. If the team neutralized it earlier, skip to the success path. Otherwise, this triggers full crisis management and post-incident response.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+      "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+      "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+      "chunkId": 120
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:08:12.207Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Clock Strikes Noon — Logic Bomb Activated",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "3:00",
+          "scenarioTime": "12:00 PM",
+          "headline": "AODB Failure at Noon",
+          "deliverTo": "All players",
+          "narration": "The clock hits 12:00 PM. The AODB server (AODB-SVR-01, 10.1.10.20) abruptly stops responding. Across the airport, FIDS displays go dark. Gate management terminals flash 'NO DATA'. A new file appears on the desktop of the AODB server: README_NCIA.txt. The file reads: 'You should have hired me. — D'. The AODB service has been stopped. The database is encrypted. The FIDS data feed is gone.",
+          "keyFacts": [
+            "AODB service stopped at 12:00:00 PM",
+            "FIDS data feed permanently deleted",
+            "AODB database files encrypted with AES-256",
+            "Ransom note placed on server desktop",
+            "Attack was executed via scheduled task AODB_IndexMaintenance"
+          ],
+          "expectedAction": "Ops assesses terminal-wide disruption. IT confirms the logic bomb executed. Security verifies no physical threat but confirms a cyberattack has occurred.",
+          "facilitatorNote": "Pause for effect after reading the first sentence. Then read the rest in a steady, controlled tone. Show the 'README_NCIA.txt' file on screen if available.",
+          "scenarioTitle": "Scenario 8: Anonymous Threat, Logic Bomb Hunt",
+          "injectId": "F-1200"
+        },
+        "instructorNote": "This is the final inject. The threat has executed. If the team neutralized it earlier, skip to the success path. Otherwise, this triggers full crisis management and post-incident response.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:08:27.800Z"
+}

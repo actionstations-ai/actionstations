@@ -1,0 +1,104 @@
+{
+  "id": "01M5HXX59CD8A85SQK778A9PED",
+  "mselRowId": "I-15",
+  "type": "scenario_update",
+  "title": "The Insider's Reveal — Jordan Kelley",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:28",
+    "scenarioTime": "14:28",
+    "headline": "Jordan Kelley Confesses to Insider Threat",
+    "deliverTo": "All players",
+    "narration": "The facilitator stands and addresses the group. 'Team, I need to be clear: Jordan Kelley is not just an IT manager. He is the threat. He planted a Raspberry Pi on the camera VLAN to intercept unencrypted payment data. He used the legacy server in Room 217 as a covert exfiltration node. The data was tunneling out via DNS to a remote C2 server. He claims he was blackmailed over a gambling debt — but he never reported it. He never sought help. He chose to act alone. The logs were altered, the door to Room 217 was propped open, and the network was compromised — all while he was on duty. The system did not fail. It was manipulated by someone who had full access and was trusted to keep it safe.'",
+    "keyFacts": [
+      "Jordan Kelley is the insider who planted the MitM device on the camera VLAN.",
+      "The rogue device intercepted unencrypted payment data from the Retail VLAN.",
+      "Room 217 was used as a covert exfiltration node via a legacy server.",
+      "The data was tunneled out via DNS to a remote C2 server.",
+      "Kelley was under extortion pressure but failed to report the threat."
+    ],
+    "expectedAction": "Facilitator leads guided discussion on insider threat controls, separation of duties, and PCI compliance.",
+    "facilitatorNote": "Pause after the narration to allow the weight of the reveal to settle. Use the 'nudge' from I-13 as context for the group's prior failure to act. Emphasize that the network did not fail — it was compromised by a trusted insider.",
+    "scenarioTitle": "Glass House — Scenario 1: Insider Threat & Payment Card Breach",
+    "injectId": "I-15"
+  },
+  "variant": "default",
+  "instructorNote": "This inject concludes the scenario. Use it to prompt reflection on trust, access control, and the human factor in cybersecurity. Watch for players who minimize Kelley's role or focus on technical fixes over process failures.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.4 Operational Logic & Alarms",
+      "quote": "Valid read: green LED, lock releases 5 seconds. Invalid read: red LED, \"Access Denied\" logged. Door Forced Open alarm; Door Held Open alarm (> 30 s). **Hard Anti-Passback** at the employee portal.",
+      "chunkId": 56
+    },
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part I › Section 2 › 2.1 Purpose",
+      "quote": "The primary purpose of this AEP is to establish a comprehensive framework for the response to, management of, and recovery from emergencies occurring at or affecting North Coast International Airport.",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+      "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+      "chunkId": 120
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:48:20.671Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "The Insider's Reveal — Jordan Kelley",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "1:28",
+          "scenarioTime": "14:28",
+          "headline": "Jordan Kelley Confesses to Insider Threat",
+          "deliverTo": "All players",
+          "narration": "The facilitator stands and addresses the group. 'Team, I need to be clear: Jordan Kelley is not just an IT manager. He is the threat. He planted a Raspberry Pi on the camera VLAN to intercept unencrypted payment data. He used the legacy server in Room 217 as a covert exfiltration node. The data was tunneling out via DNS to a remote C2 server. He claims he was blackmailed over a gambling debt — but he never reported it. He never sought help. He chose to act alone. The logs were altered, the door to Room 217 was propped open, and the network was compromised — all while he was on duty. The system did not fail. It was manipulated by someone who had full access and was trusted to keep it safe.'",
+          "keyFacts": [
+            "Jordan Kelley is the insider who planted the MitM device on the camera VLAN.",
+            "The rogue device intercepted unencrypted payment data from the Retail VLAN.",
+            "Room 217 was used as a covert exfiltration node via a legacy server.",
+            "The data was tunneled out via DNS to a remote C2 server.",
+            "Kelley was under extortion pressure but failed to report the threat."
+          ],
+          "expectedAction": "Facilitator leads guided discussion on insider threat controls, separation of duties, and PCI compliance.",
+          "facilitatorNote": "Pause after the narration to allow the weight of the reveal to settle. Use the 'nudge' from I-13 as context for the group's prior failure to act. Emphasize that the network did not fail — it was compromised by a trusted insider.",
+          "scenarioTitle": "Glass House — Scenario 1: Insider Threat & Payment Card Breach",
+          "injectId": "I-15"
+        },
+        "instructorNote": "This inject concludes the scenario. Use it to prompt reflection on trust, access control, and the human factor in cybersecurity. Watch for players who minimize Kelley's role or focus on technical fixes over process failures.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:48:32.465Z"
+}

@@ -1,0 +1,90 @@
+{
+  "id": "01M5HXWYB4NZ8714EBX8V7C7PN",
+  "mselRowId": "I-14",
+  "type": "scenario_update",
+  "title": "The Insider's Reveal — Jordan Kelley",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:22",
+    "scenarioTime": "14:22",
+    "headline": "The IT Manager's Confession",
+    "deliverTo": "All players",
+    "narration": "The exercise pauses. The facilitator speaks clearly: 'This is not a drill. The threat has been confirmed. Jordan Kelley, the IT Manager, is the insider. He planted a Raspberry Pi on the camera VLAN — a device designed to intercept unencrypted payment data as it flows between the Retail VLAN and the Internal Payment Gateway. The device was configured as a Man-in-the-Middle bridge, silently capturing card details from point-of-sale terminals across the terminal. The stolen data was encrypted and exfiltrated via DNS tunneling to a command-and-control server using a legacy server in Room 217, which had been repurposed as a hidden backdoor. Kelley was under extortion — a criminal syndicate had leverage over his personal finances and forced him to act. He did not want to do this. He believed he had no choice. The breach has now been confirmed. The airport’s payment systems are compromised. The data is already in the hands of cybercriminals.",
+    "keyFacts": [
+      "The rogue device was a Raspberry Pi on VLAN 30 (Camera VLAN) with MAC B8:27:EB:xx:xx:xx.",
+      "The device intercepted unencrypted card data between Retail VLAN and Payment Gateway.",
+      "Data was exfiltrated via DNS tunneling through the legacy server in Room 217 (SEC-SVR-02, NCIA-PACS-REPL).",
+      "Jordan Kelley was under coercion from a criminal syndicate due to personal financial pressure.",
+      "The breach is confirmed. The stolen data is already circulating on dark web marketplaces."
+    ],
+    "expectedAction": "Team absorbs the reveal. Facilitator opens the floor for initial reactions.",
+    "facilitatorNote": "Pause the clock. Hold eye contact. Read slowly and clearly. After the narration, allow 10–15 seconds of silence before opening for discussion.",
+    "scenarioTitle": "Glass House — Scenario 1: Insider Threat & Payment Card Breach",
+    "injectId": "I-14"
+  },
+  "variant": "default",
+  "instructorNote": "This inject ends the exercise phase. The players now know the full threat. Prepare for post-exercise debrief on ethics, trust, and insider threat detection.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+      "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+      "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+      "chunkId": 12
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:48:13.992Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "The Insider's Reveal — Jordan Kelley",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "1:22",
+          "scenarioTime": "14:22",
+          "headline": "The IT Manager's Confession",
+          "deliverTo": "All players",
+          "narration": "The exercise pauses. The facilitator speaks clearly: 'This is not a drill. The threat has been confirmed. Jordan Kelley, the IT Manager, is the insider. He planted a Raspberry Pi on the camera VLAN — a device designed to intercept unencrypted payment data as it flows between the Retail VLAN and the Internal Payment Gateway. The device was configured as a Man-in-the-Middle bridge, silently capturing card details from point-of-sale terminals across the terminal. The stolen data was encrypted and exfiltrated via DNS tunneling to a command-and-control server using a legacy server in Room 217, which had been repurposed as a hidden backdoor. Kelley was under extortion — a criminal syndicate had leverage over his personal finances and forced him to act. He did not want to do this. He believed he had no choice. The breach has now been confirmed. The airport’s payment systems are compromised. The data is already in the hands of cybercriminals.",
+          "keyFacts": [
+            "The rogue device was a Raspberry Pi on VLAN 30 (Camera VLAN) with MAC B8:27:EB:xx:xx:xx.",
+            "The device intercepted unencrypted card data between Retail VLAN and Payment Gateway.",
+            "Data was exfiltrated via DNS tunneling through the legacy server in Room 217 (SEC-SVR-02, NCIA-PACS-REPL).",
+            "Jordan Kelley was under coercion from a criminal syndicate due to personal financial pressure.",
+            "The breach is confirmed. The stolen data is already circulating on dark web marketplaces."
+          ],
+          "expectedAction": "Team absorbs the reveal. Facilitator opens the floor for initial reactions.",
+          "facilitatorNote": "Pause the clock. Hold eye contact. Read slowly and clearly. After the narration, allow 10–15 seconds of silence before opening for discussion.",
+          "scenarioTitle": "Glass House — Scenario 1: Insider Threat & Payment Card Breach",
+          "injectId": "I-14"
+        },
+        "instructorNote": "This inject ends the exercise phase. The players now know the full threat. Prepare for post-exercise debrief on ethics, trust, and insider threat detection.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:48:32.249Z"
+}

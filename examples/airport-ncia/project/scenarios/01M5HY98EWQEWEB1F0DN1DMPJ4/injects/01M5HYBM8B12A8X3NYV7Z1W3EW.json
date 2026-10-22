@@ -1,0 +1,144 @@
+{
+  "id": "01M5HYBM8B12A8X3NYV7Z1W3EW",
+  "mselRowId": "I-08",
+  "type": "phone_call",
+  "title": "TSA/FBI Facial Match — Viktor Sorin Identified",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "North Coast Regional Airport Authority",
+    "systemName": "TSA-Interpol Fusion Line",
+    "callId": "CR-20261022-085215-008",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Special Agent D. Rivas, FBI Cyber Division",
+      "number": "(216) 555-2000",
+      "label": "FBI"
+    },
+    "callee": {
+      "name": "Security Officer M. Teller",
+      "number": "(330) 555-2401",
+      "label": "SEC"
+    },
+    "startTime": "10/22/2026 08:52:15",
+    "duration": "0:57",
+    "transcript": [
+      {
+        "speaker": "FBI",
+        "offset": "00:00",
+        "text": "Security Officer Teller, this is Special Agent D. Rivas, FBI Cyber Division. We’ve just run your CCTV still from Door S-4 through Interpol’s facial recognition database. We have a potential match: Viktor Sorin, 34, Ukrainian national, flagged as a known associate of a cybercrime-as-a-service operation based in Eastern Europe. He’s not on any terrorist watchlist, but he’s been linked to multiple network intrusions via rogue hardware implants. We believe Sorin was hired to establish persistent access to your network. He installed the device in Electrical Room B. The client — whoever paid him — now has the means to reach your network from outside, including the parking structure. If that rogue AP is still broadcasting, they may already be on your network. Or they may not have connected yet. Either way, whoever hired Sorin now knows how to get in. We recommend immediate isolation of Port 23 on the Cisco 2960 switch. Do not reboot the switch. Preserve logs.",
+        "prompt": false
+      },
+      {
+        "speaker": "SEC",
+        "offset": "00:32",
+        "text": "Understood, Agent Rivas. We’re already on it. We’ve confirmed the device is still active. We’ll isolate Port 23 and begin containment. Will keep you updated.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "FBI": "Male, mid-40s, calm, authoritative, background low-frequency hum",
+      "SEC": "Female, late 20s, urgent, professional, slight static"
+    },
+    "injectId": "I-08"
+  },
+  "variant": "default",
+  "instructorNote": "This inject triggers the critical containment decision. The team must now decide whether to disconnect the rogue AP (stop lateral movement) or leave it running to catch the client. FBI's direction is to isolate, but the team must weigh intelligence value against risk.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+      "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+      "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+      "chunkId": 120
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "FBI",
+        "voiceStyle": "Male, mid-40s, calm, authoritative, background low-frequency hum",
+        "text": "Security Officer Teller, this is Special Agent D. Rivas, FBI Cyber Division. We’ve just run your CCTV still from Door S-4 through Interpol’s facial recognition database. We have a potential match: Viktor Sorin, 34, Ukrainian national, flagged as a known associate of a cybercrime-as-a-service operation based in Eastern Europe. He’s not on any terrorist watchlist, but he’s been linked to multiple network intrusions via rogue hardware implants. We believe Sorin was hired to establish persistent access to your network. He installed the device in Electrical Room B. The client — whoever paid him — now has the means to reach your network from outside, including the parking structure. If that rogue AP is still broadcasting, they may already be on your network. Or they may not have connected yet. Either way, whoever hired Sorin now knows how to get in. We recommend immediate isolation of Port 23 on the Cisco 2960 switch. Do not reboot the switch. Preserve logs."
+      },
+      {
+        "speaker": "SEC",
+        "voiceStyle": "Female, late 20s, urgent, professional, slight static",
+        "text": "Understood, Agent Rivas. We’re already on it. We’ve confirmed the device is still active. We’ll isolate Port 23 and begin containment. Will keep you updated."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:56:19.529Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "TSA/FBI Facial Match — Viktor Sorin Identified",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "systemName": "TSA-Interpol Fusion Line",
+          "callId": "CR-20261022-085215-008",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Special Agent D. Rivas, FBI Cyber Division",
+            "number": "(216) 555-2000",
+            "label": "FBI"
+          },
+          "callee": {
+            "name": "Security Officer M. Teller",
+            "number": "(330) 555-2401",
+            "label": "SEC"
+          },
+          "startTime": "10/22/2026 08:52:15",
+          "duration": "0:57",
+          "transcript": [
+            {
+              "speaker": "FBI",
+              "offset": "00:00",
+              "text": "Security Officer Teller, this is Special Agent D. Rivas, FBI Cyber Division. We’ve just run your CCTV still from Door S-4 through Interpol’s facial recognition database. We have a potential match: Viktor Sorin, 34, Ukrainian national, flagged as a known associate of a cybercrime-as-a-service operation based in Eastern Europe. He’s not on any terrorist watchlist, but he’s been linked to multiple network intrusions via rogue hardware implants. We believe Sorin was hired to establish persistent access to your network. He installed the device in Electrical Room B. The client — whoever paid him — now has the means to reach your network from outside, including the parking structure. If that rogue AP is still broadcasting, they may already be on your network. Or they may not have connected yet. Either way, whoever hired Sorin now knows how to get in. We recommend immediate isolation of Port 23 on the Cisco 2960 switch. Do not reboot the switch. Preserve logs.",
+              "prompt": false
+            },
+            {
+              "speaker": "SEC",
+              "offset": "00:32",
+              "text": "Understood, Agent Rivas. We’re already on it. We’ve confirmed the device is still active. We’ll isolate Port 23 and begin containment. Will keep you updated.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "FBI": "Male, mid-40s, calm, authoritative, background low-frequency hum",
+            "SEC": "Female, late 20s, urgent, professional, slight static"
+          },
+          "injectId": "I-08"
+        },
+        "instructorNote": "This inject triggers the critical containment decision. The team must now decide whether to disconnect the rogue AP (stop lateral movement) or leave it running to catch the client. FBI's direction is to isolate, but the team must weigh intelligence value against risk.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:57:26.313Z"
+}

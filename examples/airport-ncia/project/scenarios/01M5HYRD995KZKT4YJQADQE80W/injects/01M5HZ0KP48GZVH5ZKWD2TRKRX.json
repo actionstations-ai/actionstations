@@ -1,0 +1,88 @@
+{
+  "id": "01M5HZ0KP48GZVH5ZKWD2TRKRX",
+  "mselRowId": "F-1100",
+  "type": "scenario_update",
+  "title": "Time Check: 11:00 AM — Final Decision Window",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:00",
+    "scenarioTime": "11:00 AM",
+    "headline": "One Hour to Noon — Final Decision",
+    "deliverTo": "All players",
+    "narration": "The clock now reads 11:00 AM. The threat window is narrowing. The system has not yet failed, but the timeline is absolute: if the logic bomb is active, it will trigger at exactly 12:00 PM. You have one hour to confirm the threat, validate your response, and commit to a course of action. No more delays. No more side tracks. The entire airport’s digital and physical operations depend on your decision.",
+    "keyFacts": [
+      "The AODB server (10.1.10.20) contains a scheduled task named AODB_IndexMaintenance set to run at 12:00:00 PM.",
+      "The task is triggered by the orphaned service account svc_nexgen_aodb.",
+      "The PowerShell script executes AES-256 encryption on AODB database files and deletes the FIDS data feed configuration.",
+      "The FBI and CISA have been notified. They will not arrive before noon.",
+      "The IT team has initiated emergency backups. Recovery from backup is possible but will take 1–2 hours."
+    ],
+    "expectedAction": "The team must now decide: do they attempt to stop the scheduled task, or prepare to contain and recover from the impact? The decision must be made and communicated within 15 minutes.",
+    "scenarioTitle": "Scenario 8: Anonymous Threat, Logic Bomb Hunt",
+    "injectId": "F-1100"
+  },
+  "variant": "default",
+  "instructorNote": "This inject forces the team to commit to a response path. If they have not identified the scheduled task by now, they are not on track. Watch for denial of the digital threat, over-reliance on manual processes, or attempts to evacuate the terminal based on an assumed physical threat.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+      "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+      "chunkId": 127
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 11 › 11.2 Operations",
+      "quote": "Report \"running the checkpoint\" or \"piggybacking\" immediately. LEOs respond to last known location. **\"Concourse Dump\":** LEO IC with ASC and TSA decides to evacuate the sterile area — default respons",
+      "chunkId": 116
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:07:43.966Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Check: 11:00 AM — Final Decision Window",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "2:00",
+          "scenarioTime": "11:00 AM",
+          "headline": "One Hour to Noon — Final Decision",
+          "deliverTo": "All players",
+          "narration": "The clock now reads 11:00 AM. The threat window is narrowing. The system has not yet failed, but the timeline is absolute: if the logic bomb is active, it will trigger at exactly 12:00 PM. You have one hour to confirm the threat, validate your response, and commit to a course of action. No more delays. No more side tracks. The entire airport’s digital and physical operations depend on your decision.",
+          "keyFacts": [
+            "The AODB server (10.1.10.20) contains a scheduled task named AODB_IndexMaintenance set to run at 12:00:00 PM.",
+            "The task is triggered by the orphaned service account svc_nexgen_aodb.",
+            "The PowerShell script executes AES-256 encryption on AODB database files and deletes the FIDS data feed configuration.",
+            "The FBI and CISA have been notified. They will not arrive before noon.",
+            "The IT team has initiated emergency backups. Recovery from backup is possible but will take 1–2 hours."
+          ],
+          "expectedAction": "The team must now decide: do they attempt to stop the scheduled task, or prepare to contain and recover from the impact? The decision must be made and communicated within 15 minutes.",
+          "scenarioTitle": "Scenario 8: Anonymous Threat, Logic Bomb Hunt",
+          "injectId": "F-1100"
+        },
+        "instructorNote": "This inject forces the team to commit to a response path. If they have not identified the scheduled task by now, they are not on track. Watch for denial of the digital threat, over-reliance on manual processes, or attempts to evacuate the terminal based on an assumed physical threat.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:08:27.165Z"
+}

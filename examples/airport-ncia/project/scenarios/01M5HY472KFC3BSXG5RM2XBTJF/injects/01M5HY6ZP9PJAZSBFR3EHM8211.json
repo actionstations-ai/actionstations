@@ -1,0 +1,151 @@
+{
+  "id": "01M5HY6ZP9PJAZSBFR3EHM8211",
+  "mselRowId": "I-10",
+  "type": "simcell_script",
+  "title": "TSA Compliance Team — Emergency SSI Review",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "role": "TSA Compliance Team",
+    "persona": "Agent Elena M.",
+    "organization": "TSA Regional Compliance Division, Field Operations",
+    "trigger": "When any player says they are contacting TSA about the SSI leak or initiating a compliance review.",
+    "contactMethod": "Walk to the Ops Command table and present this page.",
+    "posture": "Authoritative, no-nonsense, focused on systemic failure. Not emotional, but clearly disappointed by the state of SSI controls.",
+    "openingLine": "TSA Compliance. I'm here for the emergency SSI review. I need to see three things immediately: your SSI distribution log — who has copies and who has access. Your file server access controls — show me the permissions on the ASP directory. And your workstation authentication policy — I understand you have a shared local account on a security office workstation?",
+    "hardQuestions": [
+      ". What is your current SSI access control policy for the ASP?",
+      "How was the ASP stored on a general-access file share with no encryption or access audit trail?",
+      "Who approved the use of a shared local account on SECWS-02 for printing sensitive documents?",
+      "How long was the ASP stored on the S:\\\nSecurity share without a formal review or audit?",
+      "Why was there no DLP or print monitoring in place for SSI?",
+      "What is your plan to prevent this from happening again — not just fix the leak, but fix the system?"
+    ],
+    "concessions": [
+      {
+        "condition": "Players produce a written SSI access log with verified roles and timestamps",
+        "concession": "I will accept this as a preliminary record. You may now proceed to the next phase of compliance."
+      },
+      {
+        "condition": "Players demonstrate they have disabled the shared local account on SECWS-02 and initiated a full audit of all SSI-accessing workstations",
+        "concession": "I will confirm that the immediate risk has been contained. You now have 24 hours to submit a full remediation report to our regional office."
+      }
+    ],
+    "boundaries": [
+      "Do not reveal that Ray Delgado is the actual source of the leak.",
+      "Do not admit that the ASP was ever stored on a non-encrypted share.",
+      "Do not confirm or deny the presence of a physical copy in the Security office.",
+      "Do not discuss the attorney's call or any legal threats from Delgado's counsel."
+    ],
+    "exitLine": "I'm leaving now. I expect a written report on your SSI remediation plan within 24 hours. If you don't have it, I'll escalate to the TSA National Office.",
+    "evaluatorNote": "Excellence: Players immediately produce the SSI access log and explain the shared workstation policy. They show they understand systemic failure, not just individual blame.",
+    "injectRefs": "I-08, I-09, I-10",
+    "scenarioTitle": "The Leak — Scenario 4: SSI Disclosure & Internal Investigation",
+    "pageLabel": "SimCell 1 of 5"
+  },
+  "variant": "default",
+  "instructorNote": "This inject forces players to confront the root causes of the leak — not just the person, but the failure to protect SSI as required by C6 and TIRP 4.4. Watch for blame-shifting vs. systemic analysis. The role must not confirm Delgado's guilt but must pressure for policy change.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+      "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+      "chunkId": 55
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+      "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+      "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+      "chunkId": 120
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 4 › 4.4 Responsibilities",
+      "quote": "Ops coordinates and communicates. LEO controls queues; TSA re-opens checkpoints; LEO/Security sweep the sterile area first. Airlines re-staff and inform passengers. CBP re-establishes FIS.",
+      "chunkId": 99
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 1 › 1.3 Protection of Sensitive Security Information (SSI) (49 CFR § 1520)",
+      "quote": "This ASP and related documents (maps, access control codes, vulnerability assessments) are SSI. - **Access / Need-to-Know:** Airport Authority employees with security responsibilities; TSA and FAA ins",
+      "chunkId": 45
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:53:45.031Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "TSA Compliance Team — Emergency SSI Review",
+        "type": "simcell_script",
+        "fields": {
+          "role": "TSA Compliance Team",
+          "persona": "Agent Elena M.",
+          "organization": "TSA Regional Compliance Division, Field Operations",
+          "trigger": "When any player says they are contacting TSA about the SSI leak or initiating a compliance review.",
+          "contactMethod": "Walk to the Ops Command table and present this page.",
+          "posture": "Authoritative, no-nonsense, focused on systemic failure. Not emotional, but clearly disappointed by the state of SSI controls.",
+          "openingLine": "TSA Compliance. I'm here for the emergency SSI review. I need to see three things immediately: your SSI distribution log — who has copies and who has access. Your file server access controls — show me the permissions on the ASP directory. And your workstation authentication policy — I understand you have a shared local account on a security office workstation?",
+          "hardQuestions": [
+            ". What is your current SSI access control policy for the ASP?",
+            "How was the ASP stored on a general-access file share with no encryption or access audit trail?",
+            "Who approved the use of a shared local account on SECWS-02 for printing sensitive documents?",
+            "How long was the ASP stored on the S:\\\nSecurity share without a formal review or audit?",
+            "Why was there no DLP or print monitoring in place for SSI?",
+            "What is your plan to prevent this from happening again — not just fix the leak, but fix the system?"
+          ],
+          "concessions": [
+            {
+              "condition": "Players produce a written SSI access log with verified roles and timestamps",
+              "concession": "I will accept this as a preliminary record. You may now proceed to the next phase of compliance."
+            },
+            {
+              "condition": "Players demonstrate they have disabled the shared local account on SECWS-02 and initiated a full audit of all SSI-accessing workstations",
+              "concession": "I will confirm that the immediate risk has been contained. You now have 24 hours to submit a full remediation report to our regional office."
+            }
+          ],
+          "boundaries": [
+            "Do not reveal that Ray Delgado is the actual source of the leak.",
+            "Do not admit that the ASP was ever stored on a non-encrypted share.",
+            "Do not confirm or deny the presence of a physical copy in the Security office.",
+            "Do not discuss the attorney's call or any legal threats from Delgado's counsel."
+          ],
+          "exitLine": "I'm leaving now. I expect a written report on your SSI remediation plan within 24 hours. If you don't have it, I'll escalate to the TSA National Office.",
+          "evaluatorNote": "Excellence: Players immediately produce the SSI access log and explain the shared workstation policy. They show they understand systemic failure, not just individual blame.",
+          "injectRefs": "I-08, I-09, I-10",
+          "scenarioTitle": "The Leak — Scenario 4: SSI Disclosure & Internal Investigation",
+          "pageLabel": "SimCell 1 of 5"
+        },
+        "instructorNote": "This inject forces players to confront the root causes of the leak — not just the person, but the failure to protect SSI as required by C6 and TIRP 4.4. Watch for blame-shifting vs. systemic analysis. The role must not confirm Delgado's guilt but must pressure for policy change.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:54:07.983Z"
+}

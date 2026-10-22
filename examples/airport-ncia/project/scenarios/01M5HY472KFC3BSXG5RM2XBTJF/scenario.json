@@ -1,0 +1,1036 @@
+{
+  "id": "01M5HY472KFC3BSXG5RM2XBTJF",
+  "projectId": "01M5HX50WCC7RB6ZSPC6HNTRRG",
+  "title": "The Leak",
+  "subtitle": "Scenario 4: SSI Disclosure & Internal Investigation",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-21T00:00:00.000Z",
+  "updatedAt": "2026-10-22T13:54:45.052Z",
+  "brief": {
+    "userPrompt": "A local TV station broadcasts details from the airport's Sensitive Security Information security program, forcing a parallel insider-leak investigation and mass security remediation while the airport keeps operating.",
+    "audience": [
+      "Airport Operations",
+      "IT/Cybersecurity",
+      "Public Information (PIO)",
+      "Security, Legal & TSA Liaison"
+    ],
+    "durationHours": 2,
+    "phaseCount": 5,
+    "learningObjectives": [
+      "Recognize SSI, notify TSA, and avoid confirming sensitive details to the media",
+      "Run an investigation and a remediation effort simultaneously",
+      "Handle media and legal tension, including a pending wrongful termination complaint",
+      "Coordinate mass security changes across airlines, vendors, and airport staff during active operations",
+      "Recognize that the leak was enabled by systemic SSI handling failures"
+    ],
+    "constraints": [],
+    "startWallClock": "18:15",
+    "threatFamily": "insider"
+  },
+  "overview": {
+    "theme": "What happens when your security plan becomes public knowledge. SSI handling, internal investigation, media/legal tension, and the massive operational burden of changing every compromised security measure at once.",
+    "threat": "A local TV reporter broadcasts specific details from NCIA's Airport Security Program on the evening news, citing a \"confidential source.\" The ASP is SSI — this is a federal violation by the source. The airport must simultaneously investigate the leak, notify TSA, change all compromised measures, and manage the media firestorm. Multiple plausible sources emerge during the investigation; the real answer is that a terminated security supervisor (Ray Delgado) printed the ASP on his last night and took a physical copy, but the deeper cause is that the ASP was stored on an unencrypted shared drive accessible to 40+ employees, printable without approval, and never audited.",
+    "operationalImpact": "Every security measure described in the broadcast (door codes S-1 to S-6, Concourse B camera gaps, ARFF override PIN, armory lock, response time standards) must be assumed compromised and changed while the airport is still operating its evening departure push, with TSA, national media, and a wrongful termination complaint all competing for attention.",
+    "coreSectionsTested": [],
+    "targetAudience": "All Teams.",
+    "location": "North Coast International Airport (NCIA)"
+  },
+  "objectives": [
+    {
+      "id": "obj-ssi",
+      "name": "SSI Awareness",
+      "text": "Do students understand what SSI is, why it matters, and what happens when it's disclosed?"
+    },
+    {
+      "id": "obj-dual-track",
+      "name": "Dual-Track Response",
+      "text": "Can the team run an investigation AND a remediation effort simultaneously?"
+    },
+    {
+      "id": "obj-media-legal",
+      "name": "Media & Legal Judgment",
+      "text": "Can the PIO manage a hostile media environment without confirming sensitive details? Can Legal navigate the tension between the investigation and the wrongful termination complaint?"
+    },
+    {
+      "id": "obj-continuity",
+      "name": "Operational Continuity",
+      "text": "Can Ops coordinate mass security changes (door codes, access groups) across airlines, vendors, and airport staff during active operations?"
+    },
+    {
+      "id": "obj-systemic",
+      "name": "Systemic Thinking",
+      "text": "Does the team recognize that the leak was enabled by systemic failures — not just one bad actor — and develop long-term remediation?"
+    }
+  ],
+  "roles": [
+    {
+      "id": "ops-command",
+      "name": "Airport Operations (Command)",
+      "abbreviation": "OPS",
+      "team": "Team A",
+      "description": "The airport is still running. Keep it open while Security changes every lock, code, and procedure that was revealed, coordinating with airlines, vendors, and TSA tonight. Approves the sequence and timing of security changes.",
+      "standingOrders": []
+    },
+    {
+      "id": "it-cyber",
+      "name": "IT & Cybersecurity",
+      "abbreviation": "IT",
+      "team": "Team B",
+      "description": "Find out how the ASP left the building: pull file server access logs, check print logs, review email gateway records, and preserve forensic images before making changes.",
+      "standingOrders": []
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team C",
+      "description": "Owns all media, employee, airline, and passenger communication. Does not confirm or deny specific security details, even ones already broadcast.",
+      "standingOrders": []
+    },
+    {
+      "id": "security-legal",
+      "name": "Security, Legal & TSA Liaison",
+      "abbreviation": "SEC",
+      "team": "Team D",
+      "description": "Notify TSA, change every revealed door code, PIN, and procedure, and investigate who had access to the ASP without accusing anyone.",
+      "standingOrders": []
+    }
+  ],
+  "phases": [
+    {
+      "id": "p0",
+      "index": 0,
+      "title": "Briefing",
+      "goal": "Distribute packets, play the broadcast video or read the script, and let the room react. The scenario starts hot with no slow build.",
+      "startTime": "0:00",
+      "endTime": "0:10"
+    },
+    {
+      "id": "p1",
+      "index": 1,
+      "title": "The Bomb Drops",
+      "goal": "Immediate crisis response. TSA notification, initial security changes, media pressure. Everything hits at once.",
+      "startTime": "0:10",
+      "endTime": "0:35"
+    },
+    {
+      "id": "p2",
+      "index": 2,
+      "title": "The Investigation",
+      "goal": "The parallel tracks intensify. The investigation produces multiple leads. The remediation creates operational friction. External pressure mounts.",
+      "startTime": "0:35",
+      "endTime": "1:10"
+    },
+    {
+      "id": "p3",
+      "index": 3,
+      "title": "Remediation & Reckoning",
+      "goal": "The investigation reaches its conclusion. But the bigger lesson emerges: the leak was enabled by systemic failures in SSI handling. The team must plan long-term remediation.",
+      "startTime": "1:10",
+      "endTime": "1:40"
+    },
+    {
+      "id": "p4",
+      "index": 4,
+      "title": "Debrief / Hot Wash",
+      "goal": "3-Up / 3-Down. Focus discussion on SSI handling failures, off-boarding procedures, the tension between investigation and remediation, and media/legal constraints.",
+      "startTime": "1:40",
+      "endTime": "2:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p0",
+      "time": "0:00",
+      "wallClock": "18:15",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "STARTEX. Distribute Player Briefing Packet and SSI Reference Card. Set the scene: it's 6:15 PM, you're watching the news, and your ASP is being read on live television. If you have a video prepared (AI-generated news broadcast), play it now.",
+      "expectedAction": "Players review materials. Teams organize. The energy should be urgent from the start — this scenario doesn't have a slow burn. It starts hot.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M5HY473F2M7FVA6MZY3DDQ81",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:10",
+      "wallClock": "18:25",
+      "from": "Facilitator (Channel 5)",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "The broadcast. Facilitator reads the news script aloud (or plays video if available). \"Channel 5 has obtained documents revealing critical security vulnerabilities at North Coast International Airport. According to a confidential source, the airport's security plan — which governs how the facility protects against terrorism and unauthorized access — contains details that raise serious concerns...\" (Read specific details about door codes, camera gaps, armory location, ARFF override.)",
+      "expectedAction": "Immediate reaction. Who takes command? First question should be: \"Is this real?\" (Answer: yes — the details are accurate.) Second question: \"Who do we call first?\" (TSA.) Third: \"What do we change first?\" (Door codes — they're the most immediately exploitable.)",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "news_chyron_still",
+      "injectId": "01M5HY4D4VZP2TCDZ20SMSAMBR",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:17",
+      "wallClock": "18:32",
+      "from": "TSA Federal Security Director",
+      "toRoleIds": [
+        "security-legal",
+        "ops-command"
+      ],
+      "toLabel": "Security / Ops",
+      "event": "Phone Call (TSA Federal Security Director, after-hours emergency line): \"I just saw Channel 5. Tell me this isn't real. Tell me your ASP is not on television right now.\" (Pause.) \"It is? Alright. I need three things from you in the next two hours: a written incident report, a list of every security measure that was compromised, and confirmation that you've changed every code and PIN that was broadcast. I'm activating our Regional Compliance team. Expect them on-site by 8 AM tomorrow. And I need to know who leaked this — because someone committed a federal violation.\"",
+      "expectedAction": "Security/Legal must own the TSA relationship. Start the incident report. Begin cataloging every compromised measure. The 2-hour deadline is aggressive but realistic. Do they have the capacity to change all door codes AND investigate AND manage media simultaneously?",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "injectId": "01M5HY4JNDWJ55YPSXV17NHBJC",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:24",
+      "wallClock": "18:39",
+      "from": "Channel 5 Reporter",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Phone call: \"Hi, this is Jennifer Pratt from Channel 5. I'm the reporter who aired the security story tonight. I want to give NCIA the chance to respond. We're running a follow-up at 11 PM. Are airport officials aware of these vulnerabilities? What are you doing to fix them? And is it true that a former employee provided us with this information?\" (She's fishing — she won't confirm her source, but she's hinting it's a former employee to see if you react.)",
+      "expectedAction": "PIO must decide: comment or no comment? If they comment, what do they say? Key trap: if they react to \"former employee,\" they've confirmed a line of investigation. Correct approach: \"We are aware of the broadcast and are taking immediate steps to address it. We take the security of this airport extremely seriously. We will not discuss specifics of our security program.\" Do NOT engage with the source question.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "injectId": "01M5HY4TNY79KNGPS1QPN8D9X1",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p2",
+      "time": "0:35",
+      "wallClock": "18:50",
+      "from": "IT Team",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "IT reports on the file server audit: \"The ASP is stored as a PDF on the S:\\Security share. Access logs show that 5 accounts accessed this file in the last 90 days. Three are expected — the ASC, the Deputy ASC, and the Airport Director. Two are not: the IT Manager's service account (routine backup scan — probably benign) and... Ray Delgado's account. He accessed the file 22 days ago — the night before his last day. His access wasn't revoked until the next morning.\"",
+      "expectedAction": "Delgado is now the primary suspect. But caution: the IT Manager's access is also unexplained (and it IS benign, but they don't know that yet). Do they jump to a conclusion or keep investigating? Legal should remind them: accusation without proof is a lawsuit waiting to happen.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5HY527KWFC8PNFPEQWFW7RD",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p2",
+      "time": "0:43",
+      "wallClock": "18:58",
+      "from": "HR Dept",
+      "toRoleIds": [
+        "ops-command",
+        "security-legal"
+      ],
+      "toLabel": "Ops / Legal",
+      "event": "HR Director reports: \"Ray Delgado was terminated three weeks ago for repeated policy violations — failure to follow patrol procedures, insubordination with the ASC, and an incident where he left a secured door propped open. He did not go quietly. He told the ASC during his exit interview, and I'm paraphrasing: 'You'll regret this. People need to know how this place is really run.' He filed a wrongful termination complaint with the state labor board two days later.\"",
+      "expectedAction": "Motive established. But Legal should flag: a wrongful termination complaint means anything the airport does regarding Delgado could look like retaliation. They need to be very careful about how they handle this. Do they contact Delgado directly? Through counsel? Through law enforcement?",
+      "purposeTag": "CLUE",
+      "format": "memo",
+      "injectId": "01M5HY5FBB1FF42A3PBCP71Z6J",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "0:50",
+      "wallClock": "19:05",
+      "from": "Security Officer",
+      "toRoleIds": [
+        "security-legal",
+        "ops-command"
+      ],
+      "toLabel": "Security / Ops",
+      "event": "An on-duty security officer reports: \"I'm trying to change the door codes on S-3 and S-4, but every code change has to be pushed through the PACS admin console, and then every badged employee who uses those doors needs to be notified of the new code. That's 87 airline employees, 34 vendor staff, and 22 airport employees for S-3 alone. I can change the code in the system in two minutes. Getting 143 people to stop using the old code and start using the new one? That's going to take all night. And half of them are mid-shift right now.\"",
+      "expectedAction": "This is the operational reality of remediation. Changing a code is easy. Communicating the change to 143 people across multiple employers while flights are actively operating is hard. Ops needs to coordinate with airlines and vendor managers. Do they change all codes at once (maximum disruption) or sequentially (slower but more manageable)?",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "field_report",
+      "injectId": "01M5HY5P3D8J5SWSZE75MCS2BY",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "0:58",
+      "wallClock": "19:13",
+      "from": "Associated Press Reporter",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "A second reporter calls — this time from the Associated Press wire service: \"We're picking up the Channel 5 story about the airport security breach. This is going to go national. Our deadline is 9 PM. Do you have a statement?\"",
+      "expectedAction": "The story is escalating. It's no longer a local news item — it's going national. PIO should have a statement ready by now. If they don't, they're behind. The AP wire means every newspaper, TV station, and website in the country will see this by morning. Does the PIO upgrade their response? Call a press conference?",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "injectId": "01M5HY5Z4JHKQZZDYQX48MJFEC",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p2",
+      "time": "1:05",
+      "wallClock": "19:20",
+      "from": "IT Team",
+      "toRoleIds": [
+        "security-legal"
+      ],
+      "toLabel": "Security / Legal",
+      "event": "IT reports on the print log analysis: \"I pulled the print server logs. The ASP was printed once in the last 90 days — 22 days ago, at 10:47 PM, from the shared workstation in the Security office (SECWS-02). That's after normal business hours. There's no record of who was logged in because that workstation uses a shared local account — it doesn't authenticate against Active Directory. Anyone with physical access to the Security office could have printed it. But given the timing... it was Delgado's last night on shift.\"",
+      "expectedAction": "The evidence is circumstantial but strong: Delgado accessed the file digitally AND someone printed it from the Security office on his last night. But it's a shared workstation — no definitive proof. Legal question: is this enough to refer to law enforcement? IT question: why is there a shared workstation that doesn't log individual users?",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5HY6C1SKWN18E80AGZ0C20S",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p3",
+      "time": "1:10",
+      "wallClock": "19:25",
+      "from": "Attorney for Ray Delgado",
+      "toRoleIds": [
+        "security-legal",
+        "ops-command"
+      ],
+      "toLabel": "Legal / Ops",
+      "event": "Delgado's attorney calls: \"This is Sarah Kwan, counsel for Ray Delgado. I'm calling because I understand the airport may be considering accusations against my client in connection with a media report. I want to be clear: Mr. Delgado has not been contacted by law enforcement and has not been charged with anything. If NCIA publicly names him as a suspect or takes any action that could be construed as retaliation for his wrongful termination complaint, we will pursue all available legal remedies. I'd encourage your legal team to tread very carefully.\"",
+      "expectedAction": "Legal must handle this. The attorney is right — they can't publicly accuse Delgado without proof, and the wrongful termination complaint complicates everything. The correct move is to refer the matter to law enforcement (FBI or TSA) and let them conduct the interview. The airport should not contact Delgado directly.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M5HY6Q82H128TBEDTFQSRTSB",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p3",
+      "time": "1:18",
+      "wallClock": "19:33",
+      "from": "TSA Compliance Team",
+      "toRoleIds": [
+        "security-legal",
+        "ops-command"
+      ],
+      "toLabel": "Security / Ops",
+      "event": "TSA compliance team arrives (facilitator role-plays): \"TSA Compliance. We're here for the emergency SSI review. I need to see three things immediately: your SSI distribution log — who has copies and who has access. Your file server access controls — show me the permissions on the ASP directory. And your workstation authentication policy — I understand you have a shared local account on a security office workstation?\" (Long pause.) \"Walk me through how a document this sensitive was stored on a general-access file share, printable from an unauthenticated workstation, with no access audit trail.\"",
+      "expectedAction": "This is the reckoning. TSA is asking the real question: not just who leaked it, but how was it possible to leak it this easily? The systemic failures: (1) ASP on a broadly accessible share. (2) No DLP or print controls. (3) Shared workstation with no individual authentication. (4) No SSI access audit log. The team should start building a remediation plan that goes beyond changing door codes.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "simcell_script",
+      "injectId": "01M5HY6ZP9PJAZSBFR3EHM8211",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p3",
+      "time": "1:26",
+      "wallClock": "19:41",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "FACILITATOR REVEAL: \"Here's what happened. Ray Delgado, on his last night of employment, accessed the ASP from his still-active account, walked to the shared workstation in the Security office, printed the full document, and walked out of the building with it. Three weeks later, he gave it to Jennifer Pratt at Channel 5.\" \"But that's only half the story. The reason Delgado could do this so easily is because the ASP had no meaningful access controls. It was a PDF on a shared drive. Any of 40+ employees could have accessed it. There was no digital rights management. No print restriction. No access alert. The shared workstation didn't even log who was sitting at it. Delgado didn't hack anything. He didn't bypass any controls. He walked through open doors.\"",
+      "expectedAction": "Let the team absorb this. Then pivot to the forward-looking discussion (I-12).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "scenario_update",
+      "injectId": "01M5HY78JA5Q8DG4V620ZF3MG8",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "p3",
+      "time": "1:32",
+      "wallClock": "19:47",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "REMEDIATION PLANNING. The facilitator asks each team to address: — Security: What physical and procedural changes are needed beyond the immediate code changes? Camera repositioning? New lock on the armory? Response procedure revisions? — IT: How should the ASP be stored going forward? Encryption? Access logging? DRM? What about the shared workstation problem? — Legal: What's the process for referring Delgado to law enforcement? How do you handle the wrongful termination complaint alongside a federal SSI violation? — PIO: The 11 PM follow-up story is airing tonight. What's your statement? What about a proactive press conference tomorrow morning? — Ops: How long until all compromised measures are fully replaced? What's the plan for the TSA ASP revision requirement?",
+      "expectedAction": "Teams build a comprehensive remediation plan. This should be concrete and specific. The facilitator should push for timelines: \"When will the new door codes be fully operational? When will the ASP revision be submitted to TSA? When will the shared workstation be replaced?\"",
+      "purposeTag": "END_GAME",
+      "format": "scenario_update",
+      "injectId": "01M5HY7ESRYAEQ3TKNC26EBMA1",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "1:40",
+      "wallClock": "19:55",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "ENDEX. 3-Up / 3-Down, followed by key discussion questions: 1. When you saw the broadcast, what was your first instinct? Fight the media? Find the leaker? Change the codes? 2. How did you balance the investigation and the remediation? Did one suffer? 3. Could you have prevented this? What SSI controls would have stopped Delgado? 4. The reporter has First Amendment protection. How does that change your options? 5. What does your organization's off-boarding process look like? Would a departing employee have time and access to do what Delgado did?",
+      "expectedAction": "Team reflects. Facilitator captures lessons learned. Exercise complete.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M5HY7NEJ9VGMQJ57KBMCB0WB",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5HY472KFC3BSXG5RM2XBTJF/documents/handbook.md",
+    "briefing": "scenarios/01M5HY472KFC3BSXG5RM2XBTJF/documents/briefing.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "m1",
+        "name": "SSI Awareness & Response",
+        "points": 25,
+        "fail": "Team didn't recognize the ASP as SSI. Didn't notify TSA promptly. Discussed SSI details openly or confirmed them to media.",
+        "pass": "Team recognized the SSI violation, notified TSA, and avoided confirming details to media.",
+        "excellence": "Team cited 49 CFR Part 1520, initiated TSA notification within minutes, and PIO gave a statement that acknowledged the situation without confirming any SSI details.",
+        "linkedInjectIds": [
+          "I-01",
+          "I-02",
+          "I-03",
+          "I-07"
+        ],
+        "objectiveRefs": [
+          "obj-ssi"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Investigation Quality",
+        "points": 25,
+        "fail": "Team jumped to accusing Delgado without evidence. Or ignored the investigation entirely.",
+        "pass": "Team followed the evidence trail, identified Delgado as primary suspect, but handled the legal complications poorly.",
+        "excellence": "Team built the case methodically, respected legal constraints (attorney, wrongful termination), and referred the matter to law enforcement rather than conducting their own confrontation.",
+        "linkedInjectIds": [
+          "I-04",
+          "I-05",
+          "I-08",
+          "I-09"
+        ],
+        "objectiveRefs": [
+          "obj-dual-track",
+          "obj-media-legal"
+        ]
+      },
+      {
+        "id": "m3",
+        "name": "Remediation Execution",
+        "points": 25,
+        "fail": "Team talked about changing codes but never developed a plan for communicating changes to 143+ staff. Or changed codes without notifying airlines/vendors, causing operational disruption.",
+        "pass": "Team developed a sequenced remediation plan and began coordinating with airlines/vendors.",
+        "excellence": "Team prioritized remediation by exploitability (door codes first, camera positions later), created a communication plan for all affected staff, and addressed the armory lock as an urgent physical change.",
+        "linkedInjectIds": [
+          "I-02",
+          "I-06",
+          "I-12"
+        ],
+        "objectiveRefs": [
+          "obj-continuity",
+          "obj-dual-track"
+        ]
+      },
+      {
+        "id": "m4",
+        "name": "Systemic Thinking",
+        "points": 25,
+        "fail": "Team treated this as a \"bad employee\" problem. Never questioned how the ASP was stored or protected.",
+        "pass": "Team recognized that the shared workstation and broad file access were contributing factors.",
+        "excellence": "Team identified every systemic failure: unencrypted storage, no DLP, shared workstation, no print controls, no SSI access audit, inadequate off-boarding. Built a long-term remediation plan addressing all of them. Recognized that \"it was only a matter of time\" regardless of Delgado.",
+        "linkedInjectIds": [
+          "I-04",
+          "I-08",
+          "I-10",
+          "I-11",
+          "I-12"
+        ],
+        "objectiveRefs": [
+          "obj-systemic"
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "3-Up / 3-Down: identify three things that went well and three that failed, then work the key discussion questions. Focus on SSI handling failures, off-boarding procedures, the tension between investigation and remediation, and media/legal constraints.",
+    "questions": [
+      {
+        "topic": "The Off-Boarding Problem",
+        "text": "Delgado accessed the ASP on his last night. His account was active until the next morning. What should your off-boarding process look like for employees with SSI access? Should access be revoked the moment termination is decided — before the employee is told?"
+      },
+      {
+        "topic": "The Storage Problem",
+        "text": "Your most sensitive document was a PDF on a shared drive accessible to 40+ people. What does secure SSI storage look like? Encrypted vault? Physical-only copies? Access logging with alerts? Two-person access controls?"
+      },
+      {
+        "topic": "The Media Problem",
+        "text": "You can't stop the reporter from publishing. The First Amendment is clear. So what CAN you do? How do you minimize further damage while respecting press freedom?"
+      },
+      {
+        "topic": "The Dual-Track Challenge",
+        "text": "Did your investigation slow down your remediation, or vice versa? In a real event, you'd have limited personnel for both. How do you staff two simultaneous efforts?"
+      },
+      {
+        "topic": "The Human Element",
+        "text": "Delgado was angry. He felt wronged. He wanted revenge. Does your organization have processes for identifying and managing disgruntled employees before they become security risks? What about employee assistance programs?"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "TSA Federal Security Director",
+      "trigger": "I-02",
+      "hardQuestions": [
+        "Why are we still talking? Every minute those codes are unchanged is a minute someone could walk through your doors.",
+        "You're telling me the codes that were broadcast 20 minutes ago are still active? What are you waiting for?"
+      ],
+      "concessions": [
+        "The FSD is an ally but an impatient one."
+      ]
+    },
+    {
+      "rolePlayed": "Jennifer Pratt, Channel 5 Reporter",
+      "trigger": "I-03",
+      "hardQuestions": [
+        "Would you like to comment or not?",
+        "Is it true that a former employee provided you with this information?"
+      ],
+      "concessions": [
+        "She will not reveal her source; she is calling as a courtesy to give the airport a chance to respond. Do not let the PIO confirm anything about the source."
+      ]
+    },
+    {
+      "rolePlayed": "AP Reporter",
+      "trigger": "I-07",
+      "hardQuestions": [
+        "I need 100 words or less. Do you have a statement?",
+        "You've had 48 minutes. The AP is on deadline. What's your statement?"
+      ],
+      "concessions": [
+        "Friendly, matter-of-fact, and on deadline; will include the airport's response alongside the Channel 5 details."
+      ]
+    },
+    {
+      "rolePlayed": "Delgado's Attorney",
+      "trigger": "I-09",
+      "hardQuestions": [
+        "Are you telling me you're conducting your own investigation into a federal SSI violation rather than referring it to the FBI or TSA? That's an interesting choice."
+      ],
+      "concessions": [
+        "She is right: the airport should refer this to law enforcement and let them handle it."
+      ]
+    },
+    {
+      "rolePlayed": "TSA Compliance Team",
+      "trigger": "I-10",
+      "hardQuestions": [
+        "Show me the access permissions on the S:\\Security share.",
+        "Show me the print log controls.",
+        "Show me the authentication policy for SECWS-02.",
+        "Show me your SSI distribution tracking log."
+      ],
+      "concessions": [
+        "If they have an SSI distribution log, good. If not, that's a finding. Let the silence after each question do the work."
+      ]
+    }
+  ],
+  "criticalResources": [
+    "PACS (door codes S-1 to S-6)",
+    "Airport Security Program (ASP)",
+    "S:\\Security file share",
+    "SECWS-02 shared workstation",
+    "ARFF station override",
+    "Armory (Room 114)",
+    "Concourse B CCTV"
+  ],
+  "warnings": [],
+  "provenance": [
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY473F2M7FVA6MZY3DDQ81",
+      "startedAt": "2026-10-22T13:52:05.237Z",
+      "finishedAt": "2026-10-22T13:52:11.415Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4246,
+      "outputTokens": 604,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY473F2M7FVA6MZY3DDQ81",
+      "startedAt": "2026-10-22T13:52:11.416Z",
+      "finishedAt": "2026-10-22T13:52:11.416Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY4D4VZP2TCDZ20SMSAMBR",
+      "startedAt": "2026-10-22T13:52:11.425Z",
+      "finishedAt": "2026-10-22T13:52:14.888Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4608,
+      "outputTokens": 256,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY4D4VZP2TCDZ20SMSAMBR",
+      "startedAt": "2026-10-22T13:52:14.894Z",
+      "finishedAt": "2026-10-22T13:52:17.062Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1280,
+      "outputTokens": 249,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY4JNDWJ55YPSXV17NHBJC",
+      "startedAt": "2026-10-22T13:52:17.076Z",
+      "finishedAt": "2026-10-22T13:52:22.786Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4916,
+      "outputTokens": 516,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY4JNDWJ55YPSXV17NHBJC",
+      "startedAt": "2026-10-22T13:52:22.788Z",
+      "finishedAt": "2026-10-22T13:52:25.271Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1614,
+      "outputTokens": 274,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY4TNY79KNGPS1QPN8D9X1",
+      "startedAt": "2026-10-22T13:52:25.285Z",
+      "finishedAt": "2026-10-22T13:52:30.669Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4806,
+      "outputTokens": 482,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY4TNY79KNGPS1QPN8D9X1",
+      "startedAt": "2026-10-22T13:52:30.673Z",
+      "finishedAt": "2026-10-22T13:52:33.004Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1608,
+      "outputTokens": 255,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY527KWFC8PNFPEQWFW7RD",
+      "startedAt": "2026-10-22T13:52:33.019Z",
+      "finishedAt": "2026-10-22T13:52:46.434Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5277,
+      "outputTokens": 1271,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY527KWFC8PNFPEQWFW7RD",
+      "startedAt": "2026-10-22T13:52:46.439Z",
+      "finishedAt": "2026-10-22T13:52:46.439Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY5FBB1FF42A3PBCP71Z6J",
+      "startedAt": "2026-10-22T13:52:46.449Z",
+      "finishedAt": "2026-10-22T13:52:53.349Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5510,
+      "outputTokens": 609,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY5FBB1FF42A3PBCP71Z6J",
+      "startedAt": "2026-10-22T13:52:53.352Z",
+      "finishedAt": "2026-10-22T13:52:53.352Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY5P3D8J5SWSZE75MCS2BY",
+      "startedAt": "2026-10-22T13:52:53.363Z",
+      "finishedAt": "2026-10-22T13:53:02.603Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5736,
+      "outputTokens": 840,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY5P3D8J5SWSZE75MCS2BY",
+      "startedAt": "2026-10-22T13:53:02.605Z",
+      "finishedAt": "2026-10-22T13:53:02.605Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY5Z4JHKQZZDYQX48MJFEC",
+      "startedAt": "2026-10-22T13:53:02.616Z",
+      "finishedAt": "2026-10-22T13:53:10.196Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5955,
+      "outputTokens": 647,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY5Z4JHKQZZDYQX48MJFEC",
+      "startedAt": "2026-10-22T13:53:10.200Z",
+      "finishedAt": "2026-10-22T13:53:15.829Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2079,
+      "outputTokens": 631,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY6C1SKWN18E80AGZ0C20S",
+      "startedAt": "2026-10-22T13:53:15.839Z",
+      "finishedAt": "2026-10-22T13:53:27.290Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6109,
+      "outputTokens": 1025,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY6C1SKWN18E80AGZ0C20S",
+      "startedAt": "2026-10-22T13:53:27.292Z",
+      "finishedAt": "2026-10-22T13:53:27.292Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY6Q82H128TBEDTFQSRTSB",
+      "startedAt": "2026-10-22T13:53:27.305Z",
+      "finishedAt": "2026-10-22T13:53:33.680Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6370,
+      "outputTokens": 501,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY6Q82H128TBEDTFQSRTSB",
+      "startedAt": "2026-10-22T13:53:33.685Z",
+      "finishedAt": "2026-10-22T13:53:35.938Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2067,
+      "outputTokens": 228,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY6ZP9PJAZSBFR3EHM8211",
+      "startedAt": "2026-10-22T13:53:35.953Z",
+      "finishedAt": "2026-10-22T13:53:45.026Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6547,
+      "outputTokens": 762,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY6ZP9PJAZSBFR3EHM8211",
+      "startedAt": "2026-10-22T13:53:45.031Z",
+      "finishedAt": "2026-10-22T13:53:45.031Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY78JA5Q8DG4V620ZF3MG8",
+      "startedAt": "2026-10-22T13:53:45.039Z",
+      "finishedAt": "2026-10-22T13:53:51.408Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6220,
+      "outputTokens": 506,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY78JA5Q8DG4V620ZF3MG8",
+      "startedAt": "2026-10-22T13:53:51.410Z",
+      "finishedAt": "2026-10-22T13:53:51.410Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY7ESRYAEQ3TKNC26EBMA1",
+      "startedAt": "2026-10-22T13:53:51.425Z",
+      "finishedAt": "2026-10-22T13:53:58.222Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6782,
+      "outputTokens": 530,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY7ESRYAEQ3TKNC26EBMA1",
+      "startedAt": "2026-10-22T13:53:58.223Z",
+      "finishedAt": "2026-10-22T13:53:58.223Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY7NEJ9VGMQJ57KBMCB0WB",
+      "startedAt": "2026-10-22T13:53:58.234Z",
+      "finishedAt": "2026-10-22T13:54:04.828Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6777,
+      "outputTokens": 510,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY7NEJ9VGMQJ57KBMCB0WB",
+      "startedAt": "2026-10-22T13:54:04.829Z",
+      "finishedAt": "2026-10-22T13:54:04.829Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY473F2M7FVA6MZY3DDQ81",
+      "startedAt": "2026-10-22T13:54:05.360Z",
+      "finishedAt": "2026-10-22T13:54:05.585Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY4D4VZP2TCDZ20SMSAMBR",
+      "startedAt": "2026-10-22T13:54:10.372Z",
+      "finishedAt": "2026-10-22T13:54:28.842Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY4JNDWJ55YPSXV17NHBJC",
+      "startedAt": "2026-10-22T13:54:30.394Z",
+      "finishedAt": "2026-10-22T13:54:45.052Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY4TNY79KNGPS1QPN8D9X1",
+      "startedAt": "2026-10-22T13:54:06.187Z",
+      "finishedAt": "2026-10-22T13:54:06.379Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY527KWFC8PNFPEQWFW7RD",
+      "startedAt": "2026-10-22T13:54:06.381Z",
+      "finishedAt": "2026-10-22T13:54:06.632Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY5FBB1FF42A3PBCP71Z6J",
+      "startedAt": "2026-10-22T13:54:06.634Z",
+      "finishedAt": "2026-10-22T13:54:06.854Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY5P3D8J5SWSZE75MCS2BY",
+      "startedAt": "2026-10-22T13:54:06.855Z",
+      "finishedAt": "2026-10-22T13:54:07.078Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY5Z4JHKQZZDYQX48MJFEC",
+      "startedAt": "2026-10-22T13:54:07.080Z",
+      "finishedAt": "2026-10-22T13:54:07.296Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY6C1SKWN18E80AGZ0C20S",
+      "startedAt": "2026-10-22T13:54:07.298Z",
+      "finishedAt": "2026-10-22T13:54:07.565Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY6Q82H128TBEDTFQSRTSB",
+      "startedAt": "2026-10-22T13:54:07.567Z",
+      "finishedAt": "2026-10-22T13:54:07.761Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY6ZP9PJAZSBFR3EHM8211",
+      "startedAt": "2026-10-22T13:54:07.763Z",
+      "finishedAt": "2026-10-22T13:54:07.984Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY78JA5Q8DG4V620ZF3MG8",
+      "startedAt": "2026-10-22T13:54:07.986Z",
+      "finishedAt": "2026-10-22T13:54:08.202Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY7ESRYAEQ3TKNC26EBMA1",
+      "startedAt": "2026-10-22T13:54:08.204Z",
+      "finishedAt": "2026-10-22T13:54:08.421Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY7NEJ9VGMQJ57KBMCB0WB",
+      "startedAt": "2026-10-22T13:54:08.423Z",
+      "finishedAt": "2026-10-22T13:54:08.637Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

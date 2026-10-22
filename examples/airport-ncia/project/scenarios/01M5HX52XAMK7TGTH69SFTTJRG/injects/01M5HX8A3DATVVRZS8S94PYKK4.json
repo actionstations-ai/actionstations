@@ -1,0 +1,130 @@
+{
+  "id": "01M5HX8A3DATVVRZS8S94PYKK4",
+  "mselRowId": "I-08",
+  "type": "simcell_script",
+  "title": "Airline Rep — Flight Grounding Due to Data Corruption",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "role": "Airline Liaison",
+    "persona": "Jordan M.",
+    "organization": "Delta Air Lines, Ground Operations",
+    "trigger": "When a player says they are declaring a security incident or establishing Unified Command.",
+    "contactMethod": "Walk to the Ops table and hand this to the Ops Director.",
+    "posture": "Frustrated, urgent, and clearly under pressure from the flight deck.",
+    "openingLine": "Ops, this is Jordan M. from Delta. We're grounding all flights—pilots are refusing to push back. Their EFBs are pulling data from your system, and it's showing wrong gates and times. We need confirmation that your data is clean before we move again.",
+    "hardQuestions": [
+      ". What is your current assessment of the data integrity issue?",
+      ". Who has authority to declare this a system-wide incident?",
+      ". How are you coordinating with IT and the ICP?",
+      ". What is your plan to restore confidence in the FIDS and BHS data?",
+      ". Have you notified the FBI or CISA?",
+      ". What is the operational impact on passenger flow and terminal safety?"
+    ],
+    "concessions": [
+      {
+        "condition": "Players declare an Incident and establish Unified Command",
+        "concession": "Delta will hold all flights in a state of 'pre-pushback hold' until the ICP confirms data stability and provides a recovery timeline."
+      },
+      {
+        "condition": "Players name the correct command structure per TIRP",
+        "concession": "Delta will assign a liaison to the ICP and begin sharing real-time flight status updates via manual log."
+      }
+    ],
+    "boundaries": [
+      "Do not reveal that the EFB data was altered by a malicious actor.",
+      "Do not name the FBI or CISA unless players ask.",
+      "Do not admit that the EFB data is confirmed to be compromised.",
+      "Do not suggest that Delta is taking control of airport systems."
+    ],
+    "exitLine": "I need a verbal confirmation from the IC that Unified Command is established and that you've validated your data sources. I'll wait here.",
+    "evaluatorNote": "Excellence: The IC declares an official incident, names the Unified Command structure, and references TIRP Section 12 for command roles. The Ops Director asks for the EFB data source to be isolated.",
+    "injectRefs": "I-08",
+    "scenarioTitle": "Flight to Nowhere — Scenario 3: Data Integrity & FIDS",
+    "pageLabel": "SimCell 3 of 5"
+  },
+  "variant": "default",
+  "instructorNote": "This inject triggers the need to formally declare an incident and activate Unified Command. Watch for players who hesitate to name the command roles or fail to reference TIRP. The airline's refusal to push back is a pressure point to force formal escalation.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part I › Section 4 › 4.3 Direction and Control",
+      "quote": "**A. Incident Commander (IC).** Jurisdiction determined by the primary threat: Fire/HAZMAT/Aircraft Crash → Akron Fire Department (Battalion Chief). Security/Terrorism/Criminal Act → Akron Police Depa",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+      "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+      "chunkId": 122
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+      "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+      "chunkId": 120
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:36:58.877Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Airline Rep — Flight Grounding Due to Data Corruption",
+        "type": "simcell_script",
+        "fields": {
+          "role": "Airline Liaison",
+          "persona": "Jordan M.",
+          "organization": "Delta Air Lines, Ground Operations",
+          "trigger": "When a player says they are declaring a security incident or establishing Unified Command.",
+          "contactMethod": "Walk to the Ops table and hand this to the Ops Director.",
+          "posture": "Frustrated, urgent, and clearly under pressure from the flight deck.",
+          "openingLine": "Ops, this is Jordan M. from Delta. We're grounding all flights—pilots are refusing to push back. Their EFBs are pulling data from your system, and it's showing wrong gates and times. We need confirmation that your data is clean before we move again.",
+          "hardQuestions": [
+            ". What is your current assessment of the data integrity issue?",
+            ". Who has authority to declare this a system-wide incident?",
+            ". How are you coordinating with IT and the ICP?",
+            ". What is your plan to restore confidence in the FIDS and BHS data?",
+            ". Have you notified the FBI or CISA?",
+            ". What is the operational impact on passenger flow and terminal safety?"
+          ],
+          "concessions": [
+            {
+              "condition": "Players declare an Incident and establish Unified Command",
+              "concession": "Delta will hold all flights in a state of 'pre-pushback hold' until the ICP confirms data stability and provides a recovery timeline."
+            },
+            {
+              "condition": "Players name the correct command structure per TIRP",
+              "concession": "Delta will assign a liaison to the ICP and begin sharing real-time flight status updates via manual log."
+            }
+          ],
+          "boundaries": [
+            "Do not reveal that the EFB data was altered by a malicious actor.",
+            "Do not name the FBI or CISA unless players ask.",
+            "Do not admit that the EFB data is confirmed to be compromised.",
+            "Do not suggest that Delta is taking control of airport systems."
+          ],
+          "exitLine": "I need a verbal confirmation from the IC that Unified Command is established and that you've validated your data sources. I'll wait here.",
+          "evaluatorNote": "Excellence: The IC declares an official incident, names the Unified Command structure, and references TIRP Section 12 for command roles. The Ops Director asks for the EFB data source to be isolated.",
+          "injectRefs": "I-08",
+          "scenarioTitle": "Flight to Nowhere — Scenario 3: Data Integrity & FIDS",
+          "pageLabel": "SimCell 3 of 5"
+        },
+        "instructorNote": "This inject triggers the need to formally declare an incident and activate Unified Command. Watch for players who hesitate to name the command roles or fail to reference TIRP. The airline's refusal to push back is a pressure point to force formal escalation.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:38:53.237Z"
+}

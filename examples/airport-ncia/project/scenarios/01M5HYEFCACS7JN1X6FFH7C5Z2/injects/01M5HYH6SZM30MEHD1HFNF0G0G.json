@@ -1,0 +1,97 @@
+{
+  "id": "01M5HYH6SZM30MEHD1HFNF0G0G",
+  "mselRowId": "I-09",
+  "type": "scenario_update",
+  "title": "Root Cause Analysis — Firewall Rule Error",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:10",
+    "scenarioTime": "11:00",
+    "headline": "Root Cause Confirmed: Self-Inflicted Outage",
+    "deliverTo": "All players",
+    "narration": "The root cause of the Retail VLAN outage has been confirmed. The firewall rule CM-2026-0087, created by IT Manager Jordan Kelley at 09:45, was intended to block inbound traffic from the 185.220.0.0/16 IP range. However, the rule was misconfigured: the source zone was set to 'any' instead of 'Untrust,' the source address was 'any' instead of 185.220.0.0/16, and it was positioned above the inter-VLAN allow rules. This meant it denied all traffic to the Retail VLAN — including from internal systems and authorized sources. No peer review was conducted, and no post-change verification was performed. The rule was deployed without validation. The system failed to catch the error because it lacked automated syntax checking, mandatory peer review for emergency changes, and post-implementation testing. This was not a cyberattack — it was a self-inflicted outage caused by a flawed change process.",
+    "keyFacts": [
+      "Rule CM-2026-0087 was misconfigured: Source Zone = 'any', Source Address = 'any', Position = 3 above allow rules",
+      "No peer review or automated validation occurred on the emergency change",
+      "The rule was not tested after deployment",
+      "The Retail VLAN was isolated due to the rule's position and scope",
+      "The IT Manager acted under emergency policy but bypassed controls that would have caught the error"
+    ],
+    "expectedAction": "The team must now conduct a post-incident review to identify systemic weaknesses in change management. Recommend immediate policy updates to require automated validation, peer review, and post-change verification for all emergency firewall changes.",
+    "facilitatorNote": "Read this inject aloud with deliberate pacing. Emphasize that the threat was real, but the response caused harm. The goal is not to assign blame, but to surface systemic failure points.",
+    "scenarioTitle": "Friendly Fire — Scenario 6: Self-Inflicted Network Outage",
+    "injectId": "I-09"
+  },
+  "variant": "default",
+  "instructorNote": "This inject closes the root cause discussion. The team must now shift from diagnosing to reforming — identifying what controls would have prevented the error. No blame, only systemic reflection.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part II › Appendix 1 › 1.2 Alert Classifications",
+      "quote": "| Alert | Description | Response | |---|---|---| | ALERT 1 | Local Standby. Defect not normally causing serious difficulty | ARFF mans vehicles at Station 9. Ops conducts runway debris check | | ALERT",
+      "chunkId": 27
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+      "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+      "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+      "chunkId": 14
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:59:18.110Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Root Cause Analysis — Firewall Rule Error",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "1:10",
+          "scenarioTime": "11:00",
+          "headline": "Root Cause Confirmed: Self-Inflicted Outage",
+          "deliverTo": "All players",
+          "narration": "The root cause of the Retail VLAN outage has been confirmed. The firewall rule CM-2026-0087, created by IT Manager Jordan Kelley at 09:45, was intended to block inbound traffic from the 185.220.0.0/16 IP range. However, the rule was misconfigured: the source zone was set to 'any' instead of 'Untrust,' the source address was 'any' instead of 185.220.0.0/16, and it was positioned above the inter-VLAN allow rules. This meant it denied all traffic to the Retail VLAN — including from internal systems and authorized sources. No peer review was conducted, and no post-change verification was performed. The rule was deployed without validation. The system failed to catch the error because it lacked automated syntax checking, mandatory peer review for emergency changes, and post-implementation testing. This was not a cyberattack — it was a self-inflicted outage caused by a flawed change process.",
+          "keyFacts": [
+            "Rule CM-2026-0087 was misconfigured: Source Zone = 'any', Source Address = 'any', Position = 3 above allow rules",
+            "No peer review or automated validation occurred on the emergency change",
+            "The rule was not tested after deployment",
+            "The Retail VLAN was isolated due to the rule's position and scope",
+            "The IT Manager acted under emergency policy but bypassed controls that would have caught the error"
+          ],
+          "expectedAction": "The team must now conduct a post-incident review to identify systemic weaknesses in change management. Recommend immediate policy updates to require automated validation, peer review, and post-change verification for all emergency firewall changes.",
+          "facilitatorNote": "Read this inject aloud with deliberate pacing. Emphasize that the threat was real, but the response caused harm. The goal is not to assign blame, but to surface systemic failure points.",
+          "scenarioTitle": "Friendly Fire — Scenario 6: Self-Inflicted Network Outage",
+          "injectId": "I-09"
+        },
+        "instructorNote": "This inject closes the root cause discussion. The team must now shift from diagnosing to reforming — identifying what controls would have prevented the error. No blame, only systemic reflection.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:59:43.596Z"
+}

@@ -1,0 +1,447 @@
+{
+  "id": "scenario-6",
+  "projectId": "ncia",
+  "title": "Friendly Fire",
+  "subtitle": "Scenario 6: Self-Inflicted Network Outage",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-21T00:00:00.000Z",
+  "updatedAt": "2026-10-21T00:00:00.000Z",
+  "brief": {
+    "userPrompt": "Every POS terminal in the airport goes dark two minutes after the IT Manager's emergency firewall rule, while a real SSH scan and a vendor firmware push make a cyberattack and a supply-chain compromise look equally plausible.",
+    "audience": [
+      "Airport Operations",
+      "IT/Cybersecurity",
+      "Public Information (PIO)",
+      "Security, Legal & Compliance"
+    ],
+    "durationHours": 2,
+    "phaseCount": 5,
+    "learningObjectives": [
+      "Follow evidence instead of assumptions when diagnosing an outage (diagnostic rigor)",
+      "Resist confirmation bias when real but unrelated events make an attack theory feel true",
+      "Identify change management failures (self-approval, no peer review, no post-change verification) as systemic root causes",
+      "Communicate under uncertainty without prematurely declaring a cyberattack",
+      "Balance accountability and blame when the cause is an internal error"
+    ],
+    "constraints": ["puzzle-driven: three theories, two red herrings, one correct answer"],
+    "startWallClock": "09:50",
+    "threatFamily": "infrastructure_failure"
+  },
+  "overview": {
+    "theme": "Incident misidentification. Confirmation bias. Change management failures. What happens when the \"attacker\" is sitting in the room and doesn't know it.",
+    "threat": "Not an attack: IT Manager Jordan Kelley wrote an emergency firewall rule (CM-2026-0087, 09:45) meant to block 185.220.0.0/16 but set Source Zone and Source Address to \"any\" with the Retail VLAN (10.1.40.0/24) as destination, at position 3 above the inter-VLAN allow rules. Two red herrings compete: real failed SSH scanning from 185.220.101.34 at 2 AM and a RetailLink firmware push at 9:30 AM.",
+    "operationalImpact": "All 47 retail tenants are cash-only, Concourse B food court FIDS displays are dark, gate management terminals and landside check-in kiosks are intermittent, and airlines face delayed departures, with media and social attention building around a presumed cyberattack.",
+    "coreSectionsTested": [],
+    "targetAudience": "Airport Operations, IT/Cybersecurity, Public Information (PIO), Security, Legal & Compliance.",
+    "location": "North Coast International Airport (NCIA)"
+  },
+  "objectives": [
+    {
+      "id": "obj-diagnostic",
+      "name": "Diagnostic Rigor",
+      "text": "Can the IT team follow evidence instead of assumptions? Do they read the actual firewall rule, or do they chase the more exciting cyberattack theory?"
+    },
+    {
+      "id": "obj-bias",
+      "name": "Confirmation Bias",
+      "text": "The exercise is designed to exploit the team's natural tendency to see what they expect to see. External scanning + vendor issues = \"it must be an attack.\" Do they resist that pull?"
+    },
+    {
+      "id": "obj-change",
+      "name": "Change Management",
+      "text": "The root cause is a process failure — self-approval, no peer review, no post-change verification. Does the team identify the systemic issues or just blame the individual?"
+    },
+    {
+      "id": "obj-comms",
+      "name": "Crisis Communication Under Uncertainty",
+      "text": "Can PIO manage media and passengers without prematurely declaring a cyberattack that turns out to be a typo?"
+    },
+    {
+      "id": "obj-accountability",
+      "name": "Accountability vs. Blame",
+      "text": "The Jordan Kelley question. Fire him or fix the system that let him make the mistake?"
+    }
+  ],
+  "roles": [
+    {
+      "id": "ops",
+      "name": "Airport Operations (Command)",
+      "abbreviation": "OPS",
+      "team": "Team A: Airport Operations",
+      "description": "47 retail tenants can't process card transactions. Passengers are standing in lines with no way to pay. Airlines are reporting check-in kiosk failures. Manage the operational fallout while IT figures out the cause.",
+      "standingOrders": [
+        "Triage: Which systems are down and what's the passenger impact?",
+        "Communicate: Tenant liaison, airline ops, passenger messaging.",
+        "Cash Ops: Coordinate with tenants on cash-only procedures and ATM availability."
+      ]
+    },
+    {
+      "id": "it",
+      "name": "IT & Cybersecurity (Lead)",
+      "abbreviation": "IT",
+      "team": "Team B: IT & Cybersecurity",
+      "description": "Three theories. One answer. The evidence is in the firewall logs, the SIEM, the change management system, the vendor communication, and the network traffic data. Eliminate two theories and confirm one. Then fix it.",
+      "standingOrders": [
+        "Investigate: Firewall rule analysis, SIEM log review, vendor contact, change log audit.",
+        "Contain: If it's an attack, isolate. If it's a vendor issue, roll back. If it's internal, revert.",
+        "Communicate: Keep the room informed. Don't disappear into the logs — translate for the non-IT teams."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team C: Public Information",
+      "description": "Passengers are already posting on social media: \"NCIA card readers down — can't buy coffee.\" One person has tweeted \"Are we under cyberattack??\" You don't know the answer yet. Say something without saying the wrong thing.",
+      "standingOrders": [
+        "Monitor: Track social media in real time.",
+        "Draft: Prepare statements for three scenarios (attack, vendor failure, internal error).",
+        "Hold: Do NOT confirm a cyberattack until IT has confirmed it. Premature disclosure is irreversible."
+      ]
+    },
+    {
+      "id": "legal",
+      "name": "Security, Legal & Compliance",
+      "abbreviation": "LEGAL",
+      "team": "Team D: Security, Legal & Compliance",
+      "description": "If this is a cyberattack, PCI-DSS notification requirements may be triggered. TSA may need to be informed depending on scope. If payment card data was compromised, the state Attorney General's office has a 72-hour notification window. But if it's NOT an attack, none of that applies. Be ready for both.",
+      "standingOrders": [
+        "Assess: Is there any indication that payment card data was accessed or exfiltrated?",
+        "Standby: Prepare notification templates for TSA, PCI council, state AG — but do NOT send.",
+        "Coordinate: If law enforcement is needed, what's the trigger?"
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "p0",
+      "index": 0,
+      "title": "Briefing",
+      "goal": "Present all three theories equally. Do NOT hint at the answer. Let IT study the Evidence Packet.",
+      "startTime": "0:00",
+      "endTime": "0:10"
+    },
+    {
+      "id": "p1",
+      "index": 1,
+      "title": "Chase the Theories",
+      "goal": "The team pursues all three theories. Each inject reinforces one theory before the next inject undermines it. The evidence oscillates — keeping the team uncertain.",
+      "startTime": "0:10",
+      "endTime": "0:40"
+    },
+    {
+      "id": "p2",
+      "index": 2,
+      "title": "The Evidence Converges",
+      "goal": "Theory A collapses. Theory C gains traction. The team reads the actual firewall rule and finds the errors. The \"aha\" moment.",
+      "startTime": "0:40",
+      "endTime": "1:10"
+    },
+    {
+      "id": "p3",
+      "index": 3,
+      "title": "The Reckoning",
+      "goal": "Root cause analysis. Change management failures. Process improvements. And the hardest question: what do you do about Jordan Kelley?",
+      "startTime": "1:10",
+      "endTime": "1:40"
+    },
+    {
+      "id": "p4",
+      "index": 4,
+      "title": "Debrief / Hot Wash",
+      "goal": "3-Up / 3-Down. Focus on: confirmation bias, change management, and the tension between accountability and blame.",
+      "startTime": "1:40",
+      "endTime": "2:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p0",
+      "time": "0:00",
+      "wallClock": "09:50",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "STARTEX. Distribute Player Briefing Packet. Give Network Evidence Packet to IT only. Present all three theories equally. Do NOT hint at the answer. The team should feel genuinely uncertain about which theory is correct.",
+      "expectedAction": "Teams organize. IT begins reviewing evidence. All teams should note the dual-clock: investigate AND manage the operational impact simultaneously.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:10",
+      "wallClock": "10:00",
+      "from": "Vendor Manager",
+      "toRoleIds": ["ops"],
+      "toLabel": "Ops / IT",
+      "event": "Airport's tenant coordinator calls: \"I'm getting hammered by vendors. SkyLounge, Hudson News, the duty-free shop — every single one is cash-only. Passengers are furious. The Starbucks in Concourse A has a line out the door and they can't process a single card. I need a timeline for restoration. What do I tell 47 tenants?\"",
+      "expectedAction": "Ops must manage the operational fallout NOW — independent of the investigation. Options: coordinate cash-only signage, direct passengers to ATMs, contact airline clubs about POS workarounds. The tenant coordinator needs answers, not \"we're investigating.\"",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:17",
+      "wallClock": "10:07",
+      "from": "RetailLink Vendor",
+      "toRoleIds": ["it"],
+      "toLabel": "IT",
+      "event": "Phone call from RetailLink support: \"We heard your terminals are down. We did push firmware v4.2.1 at 9:30 this morning — it's a routine PCI compliance patch. We've checked our end and the update completed successfully on all 47 terminals. The terminals are online — they're just not reaching your payment gateway. This looks like a network issue on YOUR side, not a terminal issue on ours. Also, FYI — we flagged unusual API queries against our cloud portal yesterday from an IP we didn't recognize. We reported it to our security team. Unrelated, probably, but I wanted to mention it.\"",
+      "expectedAction": "ELIMINATES THEORY B — partially. The firmware update didn't change terminal network settings. The terminals are online. The problem is between the terminals and the gateway — that's network, not vendor. But the \"unusual API queries\" comment re-fuels Theory A (external attack). IT should note: the vendor issue and the outage may be coincidental, not causal.",
+      "purposeTag": "RED_HERRING",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:25",
+      "wallClock": "10:15",
+      "from": "IT SIEM Analysis",
+      "toRoleIds": ["ops", "it", "pio", "legal"],
+      "toLabel": "All",
+      "event": "IT reports on SIEM analysis: \"We found the SSH scanning from last night — 185.220.101.34. Three failed login attempts against the firewall between 2:00 and 2:15 AM. All three failed — wrong credentials. No access was gained. But here's the thing: that IP is from a known scanning botnet flagged in CISA advisory TI-2026-0312. Someone was actively probing our firewall 7 hours before the outage. Coincidence? We also see that Jordan Kelley wrote a firewall rule this morning at 09:45 specifically to block that IP range. The rule is in the change log as CM-2026-0087. We should look at that rule.\"",
+      "expectedAction": "This introduces the critical timeline: scan at 2 AM → Kelley writes blocking rule at 9:45 → outage at 9:47. The IT team should now want to inspect the actual rule. If they pivot to reading the firewall rule, they're on the right track. If they stay focused on the SSH scanning, they're still chasing Theory A.",
+      "purposeTag": "CLUE",
+      "format": "sitrep",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p1",
+      "time": "0:33",
+      "wallClock": "10:23",
+      "from": "Social Media / Media",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "PIO monitors social media: trending posts include \"@NCIAirport card readers are all down — anyone else stuck paying cash?\" and \"Is NCIA under cyberattack?? Nothing is working.\" A local reporter has DM'd the airport's account: \"We're hearing reports of a major system outage at NCIA. Is this a cyberattack? We're going live at noon. Comment?\"",
+      "expectedAction": "PIO must decide: what do you say? You don't know the cause yet. If you say \"we're under investigation for a cyberattack\" and it turns out to be a typo, that headline lives forever. If you say \"it's a minor technical issue\" and it IS an attack, you look like you covered it up. The correct statement is neutral: \"We're experiencing a temporary system issue affecting some retail terminals. We're working to restore service and will provide updates as available.\"",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p2",
+      "time": "0:40",
+      "wallClock": "10:30",
+      "from": "IT Firewall Analysis",
+      "toRoleIds": ["ops", "it", "pio", "legal"],
+      "toLabel": "All",
+      "event": "IT reports on the firewall rule CM-2026-0087: \"We pulled the actual rule from the running config. It was supposed to block inbound traffic from 185.220.0.0/16. But that's not what it says. Source Zone is set to 'any' — not 'Untrust.' That means it applies to ALL zones, including internal VLANs. Source Address is set to 'any' — not 185.220.0.0/16. That means ALL source addresses. Destination is 10.1.40.0/24 — the Retail VLAN. Action is DENY. Position 3 — above the inter-VLAN allow rules. This rule says: deny ALL traffic from ANYWHERE going to the Retail VLAN. That's not a targeted block on an external threat. That's a kill switch on our Retail VLAN. And it was put there by Jordan Kelley at 9:45 this morning. Two minutes before every POS terminal went dark.\" (Silence.)",
+      "expectedAction": "THE ANSWER. Theory C confirmed. The outage was caused by an overly broad firewall rule written by the IT Manager himself. Three errors: wrong source zone, wrong source address, and the rule was placed above the allow rules in the policy order. This is the emotional pivot. The team expected an attacker. They got a typo. Let the room absorb it. Then someone will ask: \"Can we just delete the rule and fix it?\" (Yes — but that's not the end of the exercise.)",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "console_dump",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "0:50",
+      "wallClock": "10:40",
+      "from": "Facilitator",
+      "toRoleIds": ["it"],
+      "toLabel": "IT",
+      "event": "DECISION: \"The fix is straightforward — delete rule TI-2026-0312-Block and traffic between VLAN 10 and VLAN 40 will be restored instantly. Do you delete it now?\" But wait: the original threat was real. 185.220.0.0/16 WAS scanning your firewall last night. If you delete the rule entirely, you're removing the protection Kelley was trying to add. If you rewrite it correctly, you have to get it right THIS time. Option A: Delete the rule. Restore service immediately. Deal with the threat intel later. Option B: Rewrite the rule correctly (Source Zone: Untrust, Source Address: 185.220.0.0/16, Dest: any) and apply the corrected version. Takes 5-10 more minutes. Option C: Delete the rule AND apply a temporary block on 185.220.101.34 (the specific scanning IP) as a targeted measure while a proper rule is designed and peer-reviewed.",
+      "expectedAction": "Option C is the best answer — it restores service AND addresses the real threat with a narrow, targeted block. But any option that restores service is acceptable. The real question is: does the IT team want someone to peer-review the corrected rule before it's applied? (They should. That's the change management lesson.)",
+      "purposeTag": "DECISION_POINT",
+      "format": "simcell_script",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "0:58",
+      "wallClock": "10:48",
+      "from": "Phone Call",
+      "toRoleIds": ["ops", "it"],
+      "toLabel": "Ops / IT",
+      "event": "Delta station manager calls: \"Our check-in kiosks were timing out for 45 minutes. I've got 200 passengers who couldn't use self-service check-in. My agents are processing them manually and we're looking at a 40-minute delay on three departures. I need a root cause analysis by end of day, and I need assurance this won't happen again. Was this a cyberattack?\"",
+      "expectedAction": "Ops must decide what to tell the airline. The truth is embarrassing: it was a misconfigured firewall rule — your own IT team's mistake. But the airline needs a candid answer. If they find out later that you misrepresented the cause, trust is broken. The correct approach: \"The outage was caused by an internal configuration error that has been corrected. It was not a cyberattack. We are implementing additional controls to prevent recurrence.\"",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p2",
+      "time": "1:05",
+      "wallClock": "10:55",
+      "from": "Phone Call",
+      "toRoleIds": ["pio", "ops"],
+      "toLabel": "PIO / Ops",
+      "event": "Reporter calls PIO: \"We're going live at noon with the NCIA outage story. We have multiple passenger reports that the airport's payment systems were down for over an hour. One source is telling us it was a cyberattack. Can you confirm or deny?\"",
+      "expectedAction": "PIO now faces the hardest version of this question. They know it WASN'T a cyberattack. But saying \"it was our own mistake\" is embarrassing. Saying \"no comment\" lets the cyberattack narrative run. The correct approach: issue a statement that's candid without being self-flagellating. \"At approximately 9:47 AM, a configuration error in our network infrastructure caused a temporary disruption to retail payment systems. The issue was identified and corrected within [X] minutes. This was not a cyberattack. We are reviewing our change management procedures to prevent recurrence.\"",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p3",
+      "time": "1:10",
+      "wallClock": "11:00",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "pio", "legal"],
+      "toLabel": "All",
+      "event": "ROOT CAUSE ANALYSIS. The facilitator walks through the failure chain: 1. Real threat detected (SSH scanning) — appropriate concern. 2. Kelley decides to write a blocking rule — reasonable response. 3. The rule was self-approved — NCIA policy allows emergency threat mitigation without peer review. 4. Three errors in the rule: wrong source zone, wrong source address, rule position above allow rules. 5. No post-change verification — Kelley was called to a meeting and didn't check. 6. The outage was detected in 2 minutes — but cause identification took [however long it took the team]. \"Where did the process fail? Was it the person, the policy, or both?\"",
+      "expectedAction": "This is the systems-thinking discussion. Kelley made a mistake, but the system ALLOWED the mistake: no peer review, no automated validation, no post-change testing requirement, no firewall rule syntax checking. The question is not \"fire Kelley\" — it's \"what controls would have caught this before it went live?\"",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "scenario_update",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p3",
+      "time": "1:20",
+      "wallClock": "11:10",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "pio", "legal"],
+      "toLabel": "All",
+      "event": "THE JORDAN KELLEY QUESTION. The facilitator asks directly: \"Jordan Kelley is your IT Manager. He wrote the rule. He self-approved it. He didn't verify it. He crashed your retail network for [X] minutes. 47 tenants couldn't process transactions. Airlines delayed flights. You may have PCI reporting obligations. The media called. Do you discipline him? Fire him? Or do you recognize that the system allowed a single person to make a change with no review, no validation, and no verification — and that if Kelley hadn't made this mistake, someone else eventually would have? What do you do with Jordan?\"",
+      "expectedAction": "This is the exercise's emotional peak. Some will want to fire him. Others will defend him. The best answer is nuanced: Kelley made a mistake, but the organization failed to prevent it. A blame-free culture that focuses on process improvement is more resilient than one that fires the person who made the error. But there IS accountability for skipping post-change verification. Let the room argue. The argument IS the exercise.",
+      "purposeTag": "DECISION_POINT",
+      "format": "simcell_script",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p3",
+      "time": "1:30",
+      "wallClock": "11:20",
+      "from": "Facilitator",
+      "toRoleIds": ["ops", "it", "pio", "legal"],
+      "toLabel": "All",
+      "event": "PROCESS IMPROVEMENT. Each team addresses their area: — IT: Mandatory peer review for all firewall changes (no self-approval). Automated rule validation (syntax check against known-good patterns). Mandatory post-change verification checklist. Firewall rule change staging environment. Alert-on-deny-rule creation. — Ops: Retail outage playbook — what to do in the first 5 minutes when POS goes down. Cash-only signage pre-staged. ATM location communication. Airline notification protocol. — PIO: Pre-drafted holding statements for system outages (attack vs. error vs. unknown). Social media monitoring escalation triggers. — Legal: When does a network outage trigger PCI notification? When does it NOT? What's the threshold? (Answer: if no card data was compromised, PCI notification is not required — but you need to confirm no data was exposed.)",
+      "expectedAction": "Push for specifics. \"When does the peer review policy go into effect? Tomorrow? Next quarter? What does the staging environment look like? Who reviews emergency changes at 2 AM?\"",
+      "purposeTag": "END_GAME",
+      "format": "scenario_update",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "1:40",
+      "wallClock": "11:30",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "ENDEX. 3-Up / 3-Down, followed by key discussion questions: 1. Which theory did you pursue first? Why? How long before you pivoted? 2. Did you WANT it to be a cyberattack? Why is that instinct dangerous? 3. How long did it take to read the actual firewall rule? Could you have found it faster? 4. What would you tell the airlines? The media? The board? 5. Jordan Kelley — what did you decide? Would you feel different if it was you?",
+      "expectedAction": "Team reflects. Facilitator captures lessons. Exercise complete.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {},
+  "rubric": {
+    "metrics": [
+      {
+        "id": "m1",
+        "name": "Diagnostic Accuracy",
+        "points": 30,
+        "fail": "Team declared a cyberattack without confirming. Never read the firewall rule.",
+        "excellence": "IT identified the firewall rule errors independently from the Evidence Packet, correlated the 09:45 change with the 09:47 outage, and eliminated A and B with specific evidence.",
+        "linkedInjectIds": ["I-02", "I-03", "I-05"],
+        "objectiveRefs": ["obj-diagnostic", "obj-bias"],
+        "pass": "Team eventually identified Theory C as correct after working through the evidence."
+      },
+      {
+        "id": "m2",
+        "name": "Operational Management",
+        "points": 25,
+        "fail": "Team focused entirely on investigation. Tenants, airlines, and passengers were ignored.",
+        "excellence": "Ops had cash-only signage deployed within 10 minutes, directed passengers to ATMs, coordinated with airline ops on kiosk workarounds, and gave tenants a restoration timeline.",
+        "linkedInjectIds": ["I-01", "I-07"],
+        "objectiveRefs": [],
+        "pass": "Ops coordinated cash-only procedures and communicated with tenants and airlines."
+      },
+      {
+        "id": "m3",
+        "name": "Crisis Comms",
+        "points": 20,
+        "fail": "PIO confirmed a cyberattack prematurely, or gave \"no comment\" to all inquiries.",
+        "excellence": "PIO had differentiated statements pre-drafted for all three scenarios, issued accurate correction once cause was confirmed, and proactively managed the media narrative.",
+        "linkedInjectIds": ["I-04", "I-08"],
+        "objectiveRefs": ["obj-comms"],
+        "pass": "PIO issued a holding statement that didn't confirm or deny attack."
+      },
+      {
+        "id": "m4",
+        "name": "Process Improvement",
+        "points": 25,
+        "fail": "Team focused on blaming Kelley. Didn't address systemic issues.",
+        "excellence": "Team produced a comprehensive improvement plan: mandatory peer review, automated rule validation, post-change verification checklist, staging environment, and a nuanced accountability approach for Kelley that balances consequences with culture.",
+        "linkedInjectIds": ["I-06", "I-09", "I-10", "I-11"],
+        "objectiveRefs": ["obj-change", "obj-accountability"],
+        "pass": "Team identified the self-approval policy and lack of peer review as contributing factors."
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "3-Up / 3-Down, followed by key discussion questions. Focus on: confirmation bias, change management, and the tension between accountability and blame.",
+    "questions": [
+      {
+        "topic": "Confirmation Bias",
+        "text": "You had real SSH scanning, a real vendor update, and a real firewall change. Two of those were red herrings. Which theory did you chase first — and was it because of evidence or instinct?",
+        "objectiveRef": "obj-bias"
+      },
+      {
+        "topic": "The 2-Minute Gap",
+        "text": "The rule was applied at 9:45. The outage started at 9:47. That's a 2-minute correlation. How long did it take you to make that connection?",
+        "objectiveRef": "obj-diagnostic"
+      },
+      {
+        "topic": "Self-Approval",
+        "text": "Kelley approved his own change under the emergency threat mitigation policy. Should ANY firewall change be self-approved? What about at 2 AM when nobody else is available?",
+        "objectiveRef": "obj-change"
+      },
+      {
+        "topic": "Post-Change Verification",
+        "text": "Kelley didn't test after applying the rule. If he had pinged one POS terminal from the Server VLAN, he'd have caught it in 30 seconds. Should post-change verification be mandatory and automated?",
+        "objectiveRef": "obj-change"
+      },
+      {
+        "topic": "The Kelley Question",
+        "text": "In aviation, we have just culture — we don't punish good-faith mistakes, but we hold people accountable for reckless behavior. Was Kelley's mistake a good-faith error or reckless? Where's the line?",
+        "objectiveRef": "obj-accountability"
+      },
+      {
+        "topic": "The Communication Trap",
+        "text": "If PIO had said 'cyberattack' at noon and you found out it was a typo at 12:30, could you undo that headline? What does premature disclosure cost?",
+        "objectiveRef": "obj-comms"
+      }
+    ]
+  },
+  "simcellScripts": [],
+  "criticalResources": [
+    "POS terminals (47 tenants)",
+    "Payment gateway (VLAN 10)",
+    "Core firewall (Palo Alto PA-850)",
+    "FIDS displays (Concourse B food court)",
+    "Check-in kiosks (landside)",
+    "Gate management terminals (Concourse B)"
+  ],
+  "warnings": [],
+  "provenance": []
+}

@@ -1,0 +1,207 @@
+{
+  "id": "01M5HXZS1EJZ6Q4G3873YJF10R",
+  "mselRowId": "I-03",
+  "type": "field_report",
+  "title": "AODB Data Export — Malicious bcp.exe Activity Detected",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "North Coast Regional Airport Authority — IT & Cybersecurity",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0412",
+    "date": "10/22/2026",
+    "time": "08:24",
+    "location": "AODB Server Room (Rack 3, Server Bay 7) — NCIA-PACS-CORE",
+    "inspector": "Marcus Chen, Senior Systems Administrator",
+    "unit": "IT Security & Forensics Team",
+    "reportType": "security",
+    "weather": "Clear, 41°F, wind ESE 8 mph",
+    "summary": "During a forensic audit of the AODB server, traces of the database export utility (bcp.exe) were found running nightly for the past 90 days. Logs indicate full database dumps of flight operations data, including gate assignments, airline manifests, and passenger name records. Query patterns suggest the attacker extracted passenger PII for all flights over the past 90 days. No known legitimate use for bcp.exe exists in this context; the activity pattern matches known exfiltration behavior.",
+    "findings": [
+      {
+        "item": "bcp.exe execution logs",
+        "condition": "failed",
+        "notes": "Executed 327 times between 02:15 and 02:30 UTC daily; last run 10/21/2026, 02:22"
+      },
+      {
+        "item": "AODB database integrity",
+        "condition": "deficient",
+        "notes": "Database export logs show 90-day full dump cycles; no audit trail for export operations"
+      },
+      {
+        "item": "Nightly maintenance job",
+        "condition": "not_inspected",
+        "notes": "Job name not found in scheduled task list; appears to be custom script"
+      },
+      {
+        "item": "Process access control",
+        "condition": "failed",
+        "notes": "bcp.exe executed under SYSTEM context with no user session; no user logs in during execution"
+      },
+      {
+        "item": "File integrity check",
+        "condition": "failed",
+        "notes": "bcp.exe hash mismatch with official Microsoft distribution"
+      },
+      {
+        "item": "DNS tunneling activity",
+        "condition": "failed",
+        "notes": "Confirmed C2 domain beaconing from AODB server to external host; traffic routed via DNS tunnel"
+      },
+      {
+        "item": "Access to passenger PII",
+        "condition": "failed",
+        "notes": "Query logs show 14,728 passenger name records retrieved; no record of authorization"
+      },
+      {
+        "item": "Backup system access",
+        "condition": "deficient",
+        "notes": "Backup job was not encrypted; exported data could have been copied to external media"
+      },
+      {
+        "item": "Active Directory authentication",
+        "condition": "failed",
+        "notes": "bcp.exe process logged in via domain credentials; credential hash reuse detected"
+      },
+      {
+        "item": "Antivirus alert history",
+        "condition": "ok",
+        "notes": "No alerts generated for bcp.exe or DNS tunneling traffic"
+      }
+    ],
+    "actionsTaken": [
+      "Confirmed bcp.exe is not part of standard AODB software suite",
+      "Isolated AODB server from network at 08:23",
+      "Initiated full forensic image of AODB server storage",
+      "Notified IT-Cyber and Ops Command via secure channel"
+    ],
+    "recommendations": [
+      "Immediately revoke all domain credentials due to compromise",
+      "Notify Legal/Compliance and PIO for breach reporting obligations",
+      "Begin passenger notification protocol under NCIA Incident Response Policy",
+      "Conduct full network-wide credential rotation and MFA enforcement"
+    ],
+    "photosNote": "3 attached: IMG_20261022-001 (bcp.exe process trace), IMG_20261022-002 (AODB export logs), IMG_20261022-003 (DNS tunneling packet capture) — all in .pdf format",
+    "signature": "Marcus Chen, Senior Systems Administrator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the attacker has had long-term access to passenger data and flight operations. Watch for the legal team to initiate breach notification planning and for ops to assess passenger impact.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+      "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+      "chunkId": 120
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:49:49.806Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "AODB Data Export — Malicious bcp.exe Activity Detected",
+        "type": "field_report",
+        "fields": {
+          "organization": "North Coast Regional Airport Authority — IT & Cybersecurity",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412",
+          "date": "10/22/2026",
+          "time": "08:24",
+          "location": "AODB Server Room (Rack 3, Server Bay 7) — NCIA-PACS-CORE",
+          "inspector": "Marcus Chen, Senior Systems Administrator",
+          "unit": "IT Security & Forensics Team",
+          "reportType": "security",
+          "weather": "Clear, 41°F, wind ESE 8 mph",
+          "summary": "During a forensic audit of the AODB server, traces of the database export utility (bcp.exe) were found running nightly for the past 90 days. Logs indicate full database dumps of flight operations data, including gate assignments, airline manifests, and passenger name records. Query patterns suggest the attacker extracted passenger PII for all flights over the past 90 days. No known legitimate use for bcp.exe exists in this context; the activity pattern matches known exfiltration behavior.",
+          "findings": [
+            {
+              "item": "bcp.exe execution logs",
+              "condition": "failed",
+              "notes": "Executed 327 times between 02:15 and 02:30 UTC daily; last run 10/21/2026, 02:22"
+            },
+            {
+              "item": "AODB database integrity",
+              "condition": "deficient",
+              "notes": "Database export logs show 90-day full dump cycles; no audit trail for export operations"
+            },
+            {
+              "item": "Nightly maintenance job",
+              "condition": "not_inspected",
+              "notes": "Job name not found in scheduled task list; appears to be custom script"
+            },
+            {
+              "item": "Process access control",
+              "condition": "failed",
+              "notes": "bcp.exe executed under SYSTEM context with no user session; no user logs in during execution"
+            },
+            {
+              "item": "File integrity check",
+              "condition": "failed",
+              "notes": "bcp.exe hash mismatch with official Microsoft distribution"
+            },
+            {
+              "item": "DNS tunneling activity",
+              "condition": "failed",
+              "notes": "Confirmed C2 domain beaconing from AODB server to external host; traffic routed via DNS tunnel"
+            },
+            {
+              "item": "Access to passenger PII",
+              "condition": "failed",
+              "notes": "Query logs show 14,728 passenger name records retrieved; no record of authorization"
+            },
+            {
+              "item": "Backup system access",
+              "condition": "deficient",
+              "notes": "Backup job was not encrypted; exported data could have been copied to external media"
+            },
+            {
+              "item": "Active Directory authentication",
+              "condition": "failed",
+              "notes": "bcp.exe process logged in via domain credentials; credential hash reuse detected"
+            },
+            {
+              "item": "Antivirus alert history",
+              "condition": "ok",
+              "notes": "No alerts generated for bcp.exe or DNS tunneling traffic"
+            }
+          ],
+          "actionsTaken": [
+            "Confirmed bcp.exe is not part of standard AODB software suite",
+            "Isolated AODB server from network at 08:23",
+            "Initiated full forensic image of AODB server storage",
+            "Notified IT-Cyber and Ops Command via secure channel"
+          ],
+          "recommendations": [
+            "Immediately revoke all domain credentials due to compromise",
+            "Notify Legal/Compliance and PIO for breach reporting obligations",
+            "Begin passenger notification protocol under NCIA Incident Response Policy",
+            "Conduct full network-wide credential rotation and MFA enforcement"
+          ],
+          "photosNote": "3 attached: IMG_20261022-001 (bcp.exe process trace), IMG_20261022-002 (AODB export logs), IMG_20261022-003 (DNS tunneling packet capture) — all in .pdf format",
+          "signature": "Marcus Chen, Senior Systems Administrator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the attacker has had long-term access to passenger data and flight operations. Watch for the legal team to initiate breach notification planning and for ops to assess passenger impact.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:51:25.315Z"
+}

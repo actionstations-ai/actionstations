@@ -1,0 +1,159 @@
+{
+  "id": "01M5HY0NDMNTAYP1W3ED0H6XBT",
+  "mselRowId": "I-06",
+  "type": "phone_call",
+  "title": "TSA Regional Office: ASP Compromise Alert",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "North Coast Regional Airport Authority",
+    "systemName": "Airport Communications Center (ACC) - Line 1",
+    "callId": "CR-20261022-084812-0047",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Harmon, Director Marcus",
+      "number": "(216) 555-1000",
+      "label": "TSA Regional Director"
+    },
+    "callee": {
+      "name": "Ops / Security Team",
+      "number": "(330) 555-2400",
+      "label": "Airport Operations (Duty Manager)"
+    },
+    "startTime": "10/22/2026 08:48:00",
+    "duration": "0:48",
+    "transcript": [
+      {
+        "speaker": "TSA",
+        "offset": "0:00",
+        "text": "This is Director Marcus Harmon with the TSA Regional Office. We've received intelligence from DHS/CISA that data consistent with an airport security program appeared on infrastructure associated with a foreign threat actor. We need to know: has your ASP been compromised? If so, we must initiate ASP revision procedures immediately. This call is SSI — do not discuss with media.",
+        "prompt": false
+      },
+      {
+        "speaker": "TSA",
+        "offset": "0:22",
+        "text": "We need a confirmation and a timeline. The attacker may have used your ASP to map access controls, camera coverage, and emergency egress points. This is not a routine review — it's an emergency directive under TSA Emergency Amendments.",
+        "prompt": false
+      },
+      {
+        "speaker": "TSA",
+        "offset": "0:38",
+        "text": "We will expect a remediation plan within 24 hours. If you confirm the ASP was exfiltrated, we will require immediate changes to physical security procedures and a full audit of all access control logs for the last 90 days.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "TSA": "Male, mid-50s, clipped, urgent, background airport PA faintly audible"
+    },
+    "injectId": "I-06"
+  },
+  "variant": "default",
+  "instructorNote": "This inject escalates the threat to a regulatory level. The team must confirm the ASP was compromised, which they already know from prior injects, and begin drafting an emergency ASP revision plan under TSA authority.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.5 Failure Modes (Contingency) (TSA Security Directive 1542-04-08G)",
+      "quote": "**Fail-Secure (Locked):** doors from Public to Secure default LOCKED on the exterior; physical key required. **Fail-Safe (Unlocked):** Emergency Egress Routes unlock on Fire Alarm. **Total System Fail",
+      "chunkId": 57
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 1 › 1.4 Amendments and Changes (49 CFR § 1542.105)",
+      "quote": "Airport-initiated amendments submitted to the TSA FSD at least 45 days before the effective date. TSA Emergency Amendments must be implemented within the timeframe specified.",
+      "chunkId": 46
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+      "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+      "chunkId": 120
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "TSA",
+        "voiceStyle": "Male, mid-50s, clipped, urgent, background airport PA faintly audible",
+        "text": "This is Director Marcus Harmon with the TSA Regional Office. We've received intelligence from DHS/CISA that data consistent with an airport security program appeared on infrastructure associated with a foreign threat actor. We need to know: has your ASP been compromised? If so, we must initiate ASP revision procedures immediately. This call is SSI — do not discuss with media."
+      },
+      {
+        "speaker": "TSA",
+        "voiceStyle": "Male, mid-50s, clipped, urgent, background airport PA faintly audible",
+        "text": "We need a confirmation and a timeline. The attacker may have used your ASP to map access controls, camera coverage, and emergency egress points. This is not a routine review — it's an emergency directive under TSA Emergency Amendments."
+      },
+      {
+        "speaker": "TSA",
+        "voiceStyle": "Male, mid-50s, clipped, urgent, background airport PA faintly audible",
+        "text": "We will expect a remediation plan within 24 hours. If you confirm the ASP was exfiltrated, we will require immediate changes to physical security procedures and a full audit of all access control logs for the last 90 days."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:50:18.716Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "TSA Regional Office: ASP Compromise Alert",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "systemName": "Airport Communications Center (ACC) - Line 1",
+          "callId": "CR-20261022-084812-0047",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Harmon, Director Marcus",
+            "number": "(216) 555-1000",
+            "label": "TSA Regional Director"
+          },
+          "callee": {
+            "name": "Ops / Security Team",
+            "number": "(330) 555-2400",
+            "label": "Airport Operations (Duty Manager)"
+          },
+          "startTime": "10/22/2026 08:48:00",
+          "duration": "0:48",
+          "transcript": [
+            {
+              "speaker": "TSA",
+              "offset": "0:00",
+              "text": "This is Director Marcus Harmon with the TSA Regional Office. We've received intelligence from DHS/CISA that data consistent with an airport security program appeared on infrastructure associated with a foreign threat actor. We need to know: has your ASP been compromised? If so, we must initiate ASP revision procedures immediately. This call is SSI — do not discuss with media.",
+              "prompt": false
+            },
+            {
+              "speaker": "TSA",
+              "offset": "0:22",
+              "text": "We need a confirmation and a timeline. The attacker may have used your ASP to map access controls, camera coverage, and emergency egress points. This is not a routine review — it's an emergency directive under TSA Emergency Amendments.",
+              "prompt": false
+            },
+            {
+              "speaker": "TSA",
+              "offset": "0:38",
+              "text": "We will expect a remediation plan within 24 hours. If you confirm the ASP was exfiltrated, we will require immediate changes to physical security procedures and a full audit of all access control logs for the last 90 days.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "TSA": "Male, mid-50s, clipped, urgent, background airport PA faintly audible"
+          },
+          "injectId": "I-06"
+        },
+        "instructorNote": "This inject escalates the threat to a regulatory level. The team must confirm the ASP was compromised, which they already know from prior injects, and begin drafting an emergency ASP revision plan under TSA authority.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:51:55.148Z"
+}

@@ -1,0 +1,161 @@
+{
+  "id": "01M5HYSC83Y2SM7R44HQFN7DV0",
+  "mselRowId": "A-03",
+  "type": "screenshot_generic",
+  "title": "Network Scan Results: Stale Account Detected",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "appName": "Network Discovery Dashboard",
+    "windowTitle": "Scan Report - Full Internal Network (10.66.0.0/16)",
+    "location": "https://ncia-secops.ncia-airport.org/scans/2026-10-22/0900-1000",
+    "menuItems": [
+      "File",
+      "Edit",
+      "View",
+      "Tools",
+      "Help"
+    ],
+    "sidebarItems": [
+      {
+        "label": "Active Scans",
+        "meta": "1",
+        "selected": false
+      },
+      {
+        "label": "Scan History",
+        "meta": "24",
+        "selected": false
+      },
+      {
+        "label": "Vulnerability Report",
+        "meta": "372",
+        "selected": false
+      },
+      {
+        "label": "Stale Accounts",
+        "meta": "12",
+        "selected": true
+      },
+      {
+        "label": "Firewall Logs",
+        "meta": "89",
+        "selected": false
+      },
+      {
+        "label": "Endpoint Compliance",
+        "meta": "217",
+        "selected": false
+      }
+    ],
+    "statusText": "Scan completed: 09:30 AM · 10.66.0.0/16 · 14,237 hosts · 177 critical findings (resolved) · 12 high-risk items (resolved) · 1 stale service account detected",
+    "imageBrief": "Network scan dashboard with red alert icon on 'Stale Accounts' tab, highlighted row in table showing 'svc_nexgen_aodb' with status 'Inactive but present'",
+    "clock": "09:30 AM"
+  },
+  "variant": "windows",
+  "instructorNote": "This is a dead-end inject. The stale account is the correct clue, but it’s available via a 10-minute audit (A-06) — scanning for it costs 30 minutes. Watch for teams who over-invest in broad scans instead of targeted audits.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.5 Scenario B: Access Control System Failure",
+      "quote": "**Impact:** all airport-controlled doors fail \"locked\" (no movement) or \"unlocked\" (massive security breach). **\"Fail Unlocked\":** LEO/Security immediately dispatch all available staff to physically s",
+      "chunkId": 125
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "ai_image"
+    ],
+    "imagePrompt": "A monitor photographed at an angle, slight moiré and reflections. A monitor screen capture showing a network discovery dashboard interface with a red alert icon on the tab. The screen displays a table with a highlighted row containing the account, marked as. The interface has a dark theme with unbranded, plain glass walls visible behind the monitor. The monitor is slightly angled, showing a reflection of a person's back and a blurred terminal desk with a keyboard and headset. The screen has a faint glow, and the time is visible in the top-right corner. Framing is tight on the monitor, Lighting is dim, ambient, with a cool blue tint. The scene is from a distance, as if captured by a camera mounted near the terminal's IT operations desk.",
+    "negativePrompt": "text, letters, words, captions, subtitles, readable signage, watermark, logo, signature, blurry, low quality, deformed hands, extra limbs, extra fingers, cartoon, illustration, 3d render, cgi, empty desk, no people, blank screen, visible text on monitor, brand, reflection of face, overexposed",
+    "imageStyle": "screen"
+  },
+  "assets": [
+    {
+      "id": "01M5HZ2WRK4SB491WT0D7PMHVZ",
+      "kind": "image",
+      "path": "scenarios/01M5HYRD995KZKT4YJQADQE80W/media/01M5HYSC83Y2SM7R44HQFN7DV0/01M5HZ2WRK4SB491WT0D7PMHVZ.png",
+      "role": "composite",
+      "width": 1280,
+      "height": 800,
+      "sha256": "c133068ca1211b66f666fa67dc71b990d5fb8d18cd99c879be28b3a462e53680",
+      "provenance": {
+        "provider": "template",
+        "templateId": "screenshot_generic",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T14:08:49.704Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T14:03:46.144Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Network Scan Results: Stale Account Detected",
+        "type": "screenshot_generic",
+        "fields": {
+          "appName": "Network Discovery Dashboard",
+          "windowTitle": "Scan Report - Full Internal Network (10.66.0.0/16)",
+          "location": "https://ncia-secops.ncia-airport.org/scans/2026-10-22/0900-1000",
+          "menuItems": [
+            "File",
+            "Edit",
+            "View",
+            "Tools",
+            "Help"
+          ],
+          "sidebarItems": [
+            {
+              "label": "Active Scans",
+              "meta": "1",
+              "selected": false
+            },
+            {
+              "label": "Scan History",
+              "meta": "24",
+              "selected": false
+            },
+            {
+              "label": "Vulnerability Report",
+              "meta": "372",
+              "selected": false
+            },
+            {
+              "label": "Stale Accounts",
+              "meta": "12",
+              "selected": true
+            },
+            {
+              "label": "Firewall Logs",
+              "meta": "89",
+              "selected": false
+            },
+            {
+              "label": "Endpoint Compliance",
+              "meta": "217",
+              "selected": false
+            }
+          ],
+          "statusText": "Scan completed: 09:30 AM · 10.66.0.0/16 · 14,237 hosts · 177 critical findings (resolved) · 12 high-risk items (resolved) · 1 stale service account detected",
+          "imageBrief": "Network scan dashboard with red alert icon on 'Stale Accounts' tab, highlighted row in table showing 'svc_nexgen_aodb' with status 'Inactive but present'",
+          "clock": "09:30 AM"
+        },
+        "instructorNote": "This is a dead-end inject. The stale account is the correct clue, but it’s available via a 10-minute audit (A-06) — scanning for it costs 30 minutes. Watch for teams who over-invest in broad scans instead of targeted audits.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:08:50.456Z"
+}

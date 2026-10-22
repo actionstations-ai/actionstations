@@ -1,0 +1,148 @@
+{
+  "id": "01M5HYEZTAATWD53D9N7PC663F",
+  "mselRowId": "I-02",
+  "type": "phone_call",
+  "title": "RetailLink Vendor: POS Outage — Firmware Update",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "North Coast Regional Airport Authority",
+    "systemName": "Airport Operations Center (AOC) - Console 3",
+    "callId": "CR-20261022-100700-0013",
+    "direction": "Inbound",
+    "caller": {
+      "name": "R. Thompson",
+      "number": "(330) 555-2400",
+      "label": "RetailLink Vendor Support"
+    },
+    "callee": {
+      "name": "Jordan Kelley",
+      "number": "(330) 555-0911",
+      "label": "IT Manager"
+    },
+    "startTime": "10/22/2026 10:07:00",
+    "duration": "0:43",
+    "transcript": [
+      {
+        "speaker": "R. Thompson",
+        "offset": "00:00",
+        "text": "Hello, this is R. Thompson from RetailLink Vendor Support. We’re calling regarding the widespread point-of-sale terminal outage across your airport’s retail tenants. Our systems confirm the v4.2.1 firmware update pushed at 9:30 this morning completed successfully on all 47 terminals. The terminals are online, but they’re not reaching your payment gateway. We’ve verified the terminal network configuration is unchanged and compliant. This appears to be a network connectivity issue on your end, not a terminal fault."
+      },
+      {
+        "speaker": "R. Thompson",
+        "offset": "00:28",
+        "text": "Also, for your awareness — we flagged unusual API queries against our cloud portal from an IP address we don’t recognize. It occurred yesterday, shortly after the update. We reported it to our security team. Unrelated, probably, but we wanted to pass it along."
+      },
+      {
+        "speaker": "Jordan Kelley",
+        "offset": "00:39",
+        "text": "Understood. We’re investigating. Thank you for the update."
+      }
+    ],
+    "voiceStyles": {
+      "R. Thompson": "Male, mid-40s, calm, professional, slight background typing noise",
+      "Jordan Kelley": "Male, late 30s, focused, slightly strained, background keyboard clicks"
+    },
+    "injectId": "I-02"
+  },
+  "variant": "default",
+  "instructorNote": "This inject introduces a red herring: the firmware update is legitimate and successful, but the API anomaly re-energizes the external attack theory. IT should now focus on network path validation, not vendor systems.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "R. Thompson",
+        "voiceStyle": "Male, mid-40s, calm, professional, slight background typing noise",
+        "text": "Hello, this is R. Thompson from RetailLink Vendor Support. We’re calling regarding the widespread point-of-sale terminal outage across your airport’s retail tenants. Our systems confirm the v4.2.1 firmware update pushed at 9:30 this morning completed successfully on all 47 terminals. The terminals are online, but they’re not reaching your payment gateway. We’ve verified the terminal network configuration is unchanged and compliant. This appears to be a network connectivity issue on your end, not a terminal fault."
+      },
+      {
+        "speaker": "R. Thompson",
+        "voiceStyle": "Male, mid-40s, calm, professional, slight background typing noise",
+        "text": "Also, for your awareness — we flagged unusual API queries against our cloud portal from an IP address we don’t recognize. It occurred yesterday, shortly after the update. We reported it to our security team. Unrelated, probably, but we wanted to pass it along."
+      },
+      {
+        "speaker": "Jordan Kelley",
+        "voiceStyle": "Male, late 30s, focused, slightly strained, background keyboard clicks",
+        "text": "Understood. We’re investigating. Thank you for the update."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:58:07.205Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "RetailLink Vendor: POS Outage — Firmware Update",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "systemName": "Airport Operations Center (AOC) - Console 3",
+          "callId": "CR-20261022-100700-0013",
+          "direction": "Inbound",
+          "caller": {
+            "name": "R. Thompson",
+            "number": "(330) 555-2400",
+            "label": "RetailLink Vendor Support"
+          },
+          "callee": {
+            "name": "Jordan Kelley",
+            "number": "(330) 555-0911",
+            "label": "IT Manager"
+          },
+          "startTime": "10/22/2026 10:07:00",
+          "duration": "0:43",
+          "transcript": [
+            {
+              "speaker": "R. Thompson",
+              "offset": "00:00",
+              "text": "Hello, this is R. Thompson from RetailLink Vendor Support. We’re calling regarding the widespread point-of-sale terminal outage across your airport’s retail tenants. Our systems confirm the v4.2.1 firmware update pushed at 9:30 this morning completed successfully on all 47 terminals. The terminals are online, but they’re not reaching your payment gateway. We’ve verified the terminal network configuration is unchanged and compliant. This appears to be a network connectivity issue on your end, not a terminal fault."
+            },
+            {
+              "speaker": "R. Thompson",
+              "offset": "00:28",
+              "text": "Also, for your awareness — we flagged unusual API queries against our cloud portal from an IP address we don’t recognize. It occurred yesterday, shortly after the update. We reported it to our security team. Unrelated, probably, but we wanted to pass it along."
+            },
+            {
+              "speaker": "Jordan Kelley",
+              "offset": "00:39",
+              "text": "Understood. We’re investigating. Thank you for the update."
+            }
+          ],
+          "voiceStyles": {
+            "R. Thompson": "Male, mid-40s, calm, professional, slight background typing noise",
+            "Jordan Kelley": "Male, late 30s, focused, slightly strained, background keyboard clicks"
+          },
+          "injectId": "I-02"
+        },
+        "instructorNote": "This inject introduces a red herring: the firmware update is legitimate and successful, but the API anomaly re-energizes the external attack theory. IT should now focus on network path validation, not vendor systems.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:59:42.192Z"
+}

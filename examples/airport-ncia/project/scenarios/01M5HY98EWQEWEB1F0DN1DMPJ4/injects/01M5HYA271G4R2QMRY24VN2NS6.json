@@ -1,0 +1,113 @@
+{
+  "id": "01M5HYA271G4R2QMRY24VN2NS6",
+  "mselRowId": "I-03",
+  "type": "simcell_script",
+  "title": "Proxmark3 Capture — Vendor Break Room V-1",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "role": "IT & Cybersecurity (Lead)",
+    "persona": "Dr. Elena Voss",
+    "organization": "North Coast Regional Airport Authority, IT & Cybersecurity Division",
+    "trigger": "When the IT team reports they have confirmed the 125 kHz signal capture and are ready to investigate the attack vector.",
+    "contactMethod": "Phone (walk to the IT table and \"answer\")",
+    "posture": "Calm, precise, and methodical. She speaks with authority but avoids dramatics. Focuses on evidence and process.",
+    "openingLine": "This is Dr. Elena Voss, IT & Cybersecurity Lead. I’ve reviewed the PACS logs and the Proxmark3 pattern. I’m calling because we need to confirm the capture location before the attacker leaves a second footprint.",
+    "hardQuestions": [
+      ". What was the timestamp of the first 125 kHz double-read at V-1 on Wednesday?",
+      ". What was the duration between the two reads at V-1?",
+      ". What is the name of the access point that was compromised after the capture?",
+      ". What is the IP address of the rogue wireless access point that was later detected on the network?",
+      ". What door in the system recorded the duplicate 125 kHz read on Thursday morning?"
+    ],
+    "concessions": [
+      {
+        "condition": "All five hard questions are answered correctly",
+        "concession": "I’ll release the full PACS audit trail from V-1 and the associated video feed from NCIA-VIDEO-A, which shows a man in a maintenance uniform near the door at 10:22:17, holding a device with a blinking red light. The feed confirms the door’s 125 kHz antenna was active at that time."
+      }
+    ],
+    "boundaries": [
+      "Never mention the attacker’s identity (Viktor Sorin).",
+      "Never reveal that the rogue AP was discovered on the network at 08:14.",
+      "Never say the device was a Proxmark3 unless the player names it first.",
+      "Never confirm the video feed exists unless the player asks for it."
+    ],
+    "exitLine": "Understood. I’ll send the video file to your workstation now. Keep it secured — this is a forensic chain of custody.",
+    "evaluatorNote": "Excellent: IT identifies the capture window (10:22–10:23), the location (V-1), and links it to the rogue AP and the video. They must use the V-1 door name and 125 kHz frequency as evidence.",
+    "injectRefs": "I-03",
+    "scenarioTitle": "Carbon Copy — Scenario 5: Badge Cloning & Physical-Cyber Convergence",
+    "pageLabel": "SimCell 3 of 5"
+  },
+  "variant": "default",
+  "instructorNote": "This inject pushes IT to close the loop on the Proxmark3 attack. The video concession confirms the capture site and provides visual proof. Watch for players who don’t notice the 27-second gap between reads — that’s the critical forensic detail.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.4 Operational Logic & Alarms",
+      "quote": "Valid read: green LED, lock releases 5 seconds. Invalid read: red LED, \"Access Denied\" logged. Door Forced Open alarm; Door Held Open alarm (> 30 s). **Hard Anti-Passback** at the employee portal.",
+      "chunkId": 56
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:55:24.126Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Proxmark3 Capture — Vendor Break Room V-1",
+        "type": "simcell_script",
+        "fields": {
+          "role": "IT & Cybersecurity (Lead)",
+          "persona": "Dr. Elena Voss",
+          "organization": "North Coast Regional Airport Authority, IT & Cybersecurity Division",
+          "trigger": "When the IT team reports they have confirmed the 125 kHz signal capture and are ready to investigate the attack vector.",
+          "contactMethod": "Phone (walk to the IT table and \"answer\")",
+          "posture": "Calm, precise, and methodical. She speaks with authority but avoids dramatics. Focuses on evidence and process.",
+          "openingLine": "This is Dr. Elena Voss, IT & Cybersecurity Lead. I’ve reviewed the PACS logs and the Proxmark3 pattern. I’m calling because we need to confirm the capture location before the attacker leaves a second footprint.",
+          "hardQuestions": [
+            ". What was the timestamp of the first 125 kHz double-read at V-1 on Wednesday?",
+            ". What was the duration between the two reads at V-1?",
+            ". What is the name of the access point that was compromised after the capture?",
+            ". What is the IP address of the rogue wireless access point that was later detected on the network?",
+            ". What door in the system recorded the duplicate 125 kHz read on Thursday morning?"
+          ],
+          "concessions": [
+            {
+              "condition": "All five hard questions are answered correctly",
+              "concession": "I’ll release the full PACS audit trail from V-1 and the associated video feed from NCIA-VIDEO-A, which shows a man in a maintenance uniform near the door at 10:22:17, holding a device with a blinking red light. The feed confirms the door’s 125 kHz antenna was active at that time."
+            }
+          ],
+          "boundaries": [
+            "Never mention the attacker’s identity (Viktor Sorin).",
+            "Never reveal that the rogue AP was discovered on the network at 08:14.",
+            "Never say the device was a Proxmark3 unless the player names it first.",
+            "Never confirm the video feed exists unless the player asks for it."
+          ],
+          "exitLine": "Understood. I’ll send the video file to your workstation now. Keep it secured — this is a forensic chain of custody.",
+          "evaluatorNote": "Excellent: IT identifies the capture window (10:22–10:23), the location (V-1), and links it to the rogue AP and the video. They must use the V-1 door name and 125 kHz frequency as evidence.",
+          "injectRefs": "I-03",
+          "scenarioTitle": "Carbon Copy — Scenario 5: Badge Cloning & Physical-Cyber Convergence",
+          "pageLabel": "SimCell 3 of 5"
+        },
+        "instructorNote": "This inject pushes IT to close the loop on the Proxmark3 attack. The video concession confirms the capture site and provides visual proof. Watch for players who don’t notice the 27-second gap between reads — that’s the critical forensic detail.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:56:51.556Z"
+}

@@ -1,0 +1,207 @@
+{
+  "id": "01M5HXVJHB7GEGV99Z8XGWHV51",
+  "mselRowId": "I-10",
+  "type": "field_report",
+  "title": "Core Switch Reboot Alert — Critical Patch Required",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "North Coast Regional Airport Authority — IT Operations",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0418",
+    "date": "10/22/2026",
+    "time": "13:58",
+    "location": "Main Server Room (Rack 4), NCIA-PACS-CORE",
+    "inspector": "Jordan Kelley, IT Manager",
+    "unit": "IT Operations · Core Switch Team",
+    "reportType": "security",
+    "weather": "Indoor — 72°F, dry",
+    "summary": "IT Manager Jordan Kelley has issued an emergency directive to reboot the primary core switch (NCIA-PACS-CORE) immediately due to a critical firmware vulnerability in the network infrastructure. The alert originated from the vendor's security bulletin, and Kelley states that the switch must be rebooted within 5 minutes to prevent potential exploitation. The reboot will cause a full network outage across all VLANs, including emergency comms, video surveillance, and access control. No prior approval has been obtained. The action is being executed from the console at NCIA-PACS-CORE.",
+    "findings": [
+      {
+        "item": "Core Switch Status",
+        "condition": "failed",
+        "notes": "Switch has not been rebooted in 90 days. No scheduled maintenance window exists."
+      },
+      {
+        "item": "Network Uptime",
+        "condition": "deficient",
+        "notes": "No recent uptime logs available; system has not been rebooted since September 12, 2026."
+      },
+      {
+        "item": "Firmware Version",
+        "condition": "failed",
+        "notes": "Running v3.1.7 — vendor has issued critical patch v3.2.0 (released 10/20/2026) for CVE-2026-9876 (buffer overflow in command parser)."
+      },
+      {
+        "item": "Access Control System",
+        "condition": "ok",
+        "notes": "ASC is still operational but will lose sync during reboot."
+      },
+      {
+        "item": "Video Surveillance (NVR-01)",
+        "condition": "ok",
+        "notes": "NVR-01 has 30-day retention and is online."
+      },
+      {
+        "item": "Database Server (SEC-SVR-01)",
+        "condition": "ok",
+        "notes": "Primary database is active and responsive."
+      },
+      {
+        "item": "Emergency PA System",
+        "condition": "deficient",
+        "notes": "PA will be unavailable during reboot. Backup power is active but not tested."
+      },
+      {
+        "item": "Badging Workstation (SEC-BADGE-01)",
+        "condition": "ok",
+        "notes": "Biometric enrollment remains functional."
+      },
+      {
+        "item": "Network Log Integrity",
+        "condition": "not_inspected",
+        "notes": "Log retention has not been verified since 10/21/2026."
+      },
+      {
+        "item": "Rogue Device on VLAN 30",
+        "condition": "not_inspected",
+        "notes": "Unrecognized MAC (B8:27:EB:xx:xx:xx) still present on camera VLAN; no investigation completed."
+      }
+    ],
+    "actionsTaken": [
+      "Initiated core switch reboot from console at NCIA-PACS-CORE",
+      "Broadcast emergency alert to all IT and ops teams via internal chat",
+      "Disabled remote access to core switch to prevent interference",
+      "Notified Security Lead via radio (call sign: IT-OPS) that network will be down for 5 minutes"
+    ],
+    "recommendations": [
+      "Conduct post-reboot forensic review of switch logs and VLAN traffic for anomalies",
+      "Verify all network services are restored within 10 minutes",
+      "Review vendor patching policy and implement automated patching for critical systems",
+      "Suspend all unscheduled switch reboots until formal approval process is in place"
+    ],
+    "photosNote": "No photos attached. Console screen capture of reboot command sequence (timestamp: 13:58:03) available in IT Incident Log.",
+    "signature": "Jordan Kelley, IT Manager",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This is a critical decision point. The reboot will erase volatile forensic evidence on the rogue device. Players must decide whether to allow it to prevent a potential breach or to preserve evidence. Watch for teams that attempt to override the reboot or demand a delay.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+      "quote": "**A. Immediate Action.** All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection. **B. Manual Inspect",
+      "chunkId": 68
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:47:32.971Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Core Switch Reboot Alert — Critical Patch Required",
+        "type": "field_report",
+        "fields": {
+          "organization": "North Coast Regional Airport Authority — IT Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0418",
+          "date": "10/22/2026",
+          "time": "13:58",
+          "location": "Main Server Room (Rack 4), NCIA-PACS-CORE",
+          "inspector": "Jordan Kelley, IT Manager",
+          "unit": "IT Operations · Core Switch Team",
+          "reportType": "security",
+          "weather": "Indoor — 72°F, dry",
+          "summary": "IT Manager Jordan Kelley has issued an emergency directive to reboot the primary core switch (NCIA-PACS-CORE) immediately due to a critical firmware vulnerability in the network infrastructure. The alert originated from the vendor's security bulletin, and Kelley states that the switch must be rebooted within 5 minutes to prevent potential exploitation. The reboot will cause a full network outage across all VLANs, including emergency comms, video surveillance, and access control. No prior approval has been obtained. The action is being executed from the console at NCIA-PACS-CORE.",
+          "findings": [
+            {
+              "item": "Core Switch Status",
+              "condition": "failed",
+              "notes": "Switch has not been rebooted in 90 days. No scheduled maintenance window exists."
+            },
+            {
+              "item": "Network Uptime",
+              "condition": "deficient",
+              "notes": "No recent uptime logs available; system has not been rebooted since September 12, 2026."
+            },
+            {
+              "item": "Firmware Version",
+              "condition": "failed",
+              "notes": "Running v3.1.7 — vendor has issued critical patch v3.2.0 (released 10/20/2026) for CVE-2026-9876 (buffer overflow in command parser)."
+            },
+            {
+              "item": "Access Control System",
+              "condition": "ok",
+              "notes": "ASC is still operational but will lose sync during reboot."
+            },
+            {
+              "item": "Video Surveillance (NVR-01)",
+              "condition": "ok",
+              "notes": "NVR-01 has 30-day retention and is online."
+            },
+            {
+              "item": "Database Server (SEC-SVR-01)",
+              "condition": "ok",
+              "notes": "Primary database is active and responsive."
+            },
+            {
+              "item": "Emergency PA System",
+              "condition": "deficient",
+              "notes": "PA will be unavailable during reboot. Backup power is active but not tested."
+            },
+            {
+              "item": "Badging Workstation (SEC-BADGE-01)",
+              "condition": "ok",
+              "notes": "Biometric enrollment remains functional."
+            },
+            {
+              "item": "Network Log Integrity",
+              "condition": "not_inspected",
+              "notes": "Log retention has not been verified since 10/21/2026."
+            },
+            {
+              "item": "Rogue Device on VLAN 30",
+              "condition": "not_inspected",
+              "notes": "Unrecognized MAC (B8:27:EB:xx:xx:xx) still present on camera VLAN; no investigation completed."
+            }
+          ],
+          "actionsTaken": [
+            "Initiated core switch reboot from console at NCIA-PACS-CORE",
+            "Broadcast emergency alert to all IT and ops teams via internal chat",
+            "Disabled remote access to core switch to prevent interference",
+            "Notified Security Lead via radio (call sign: IT-OPS) that network will be down for 5 minutes"
+          ],
+          "recommendations": [
+            "Conduct post-reboot forensic review of switch logs and VLAN traffic for anomalies",
+            "Verify all network services are restored within 10 minutes",
+            "Review vendor patching policy and implement automated patching for critical systems",
+            "Suspend all unscheduled switch reboots until formal approval process is in place"
+          ],
+          "photosNote": "No photos attached. Console screen capture of reboot command sequence (timestamp: 13:58:03) available in IT Incident Log.",
+          "signature": "Jordan Kelley, IT Manager",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This is a critical decision point. The reboot will erase volatile forensic evidence on the rogue device. Players must decide whether to allow it to prevent a potential breach or to preserve evidence. Watch for teams that attempt to override the reboot or demand a delay.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:48:31.497Z"
+}

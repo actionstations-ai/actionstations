@@ -1,0 +1,170 @@
+{
+  "id": "01M5HX8J00KWAW32V7A92JKQHJ",
+  "mselRowId": "I-09",
+  "type": "system_log",
+  "title": "AODB SQL Database Unauthorized Access — Gate Randomization Script",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "AODB_SQL_MASTER",
+    "host": "NCIA-PACS-CORE",
+    "ip": "10.66.0.10",
+    "os": "Windows Server 2019",
+    "logSource": "Application / MSSQLSERVER audit",
+    "exportedBy": "NCIA\\it.oncall",
+    "exportedAt": "10/22/2026 11:00 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "11:00:02",
+        "level": "ALERT",
+        "msg": "Unauthorized admin login detected from session 0x9A2F1E8D. Source IP: 10.66.1.22 (OPS_INTERN_03).",
+        "highlight": true
+      },
+      {
+        "ts": "11:00:04",
+        "level": "CRIT",
+        "msg": "Session 0x9A2F1E8D executed stored procedure [sp_update_flight_assignments] with parameter 'gate_randomize = TRUE'.",
+        "highlight": true
+      },
+      {
+        "ts": "11:00:06",
+        "level": "ERROR",
+        "msg": "Script 'random_gate_generator.ps1' executed from path C:\\Scripts\\AODB\\Automated\\. This script modifies gate assignments across all active flights in the AODB.",
+        "highlight": true
+      },
+      {
+        "ts": "11:00:08",
+        "level": "WARN",
+        "msg": "Gate assignments for 42 flights have been randomized. New assignments: UA 2401 → Gate 14, DL 666 → Gate B6, AA 512 → Gate A3, WN 888 → Gate 8.",
+        "highlight": false
+      },
+      {
+        "ts": "11:00:10",
+        "level": "INFO",
+        "msg": "Script execution completed. No error logs generated.",
+        "highlight": false
+      },
+      {
+        "ts": "11:00:12",
+        "level": "NOTICE",
+        "msg": "Script 'random_gate_generator.ps1' has not been approved in change control. Hash: 7A9F2D8C3E1B4F6A2C5D9E0F1B8C7D3A.",
+        "highlight": false
+      },
+      {
+        "ts": "11:00:14",
+        "level": "INFO",
+        "msg": "Audit trail preserved. All actions logged to C:\\Logs\\AODB\\Audit\\20261022_AuditTrail.log.",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Get-Content C:\\Logs\\AODB\\Audit\\20261022_AuditTrail.log -Tail 20",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "This is a core inject confirming the attack vector and malicious payload. The IT Lead must now report the script execution and unauthorized access. Watch for Ops to assess whether to shut down FIDS to prevent further data corruption.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+      "quote": "**Impact:** FIDS go dark; BHS stops. **FIDS Failure:** Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight informatio",
+      "chunkId": 126
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+      "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+      "chunkId": 55
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:37:11.005Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "AODB SQL Database Unauthorized Access — Gate Randomization Script",
+        "type": "system_log",
+        "fields": {
+          "systemName": "AODB_SQL_MASTER",
+          "host": "NCIA-PACS-CORE",
+          "ip": "10.66.0.10",
+          "os": "Windows Server 2019",
+          "logSource": "Application / MSSQLSERVER audit",
+          "exportedBy": "NCIA\\it.oncall",
+          "exportedAt": "10/22/2026 11:00 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "11:00:02",
+              "level": "ALERT",
+              "msg": "Unauthorized admin login detected from session 0x9A2F1E8D. Source IP: 10.66.1.22 (OPS_INTERN_03).",
+              "highlight": true
+            },
+            {
+              "ts": "11:00:04",
+              "level": "CRIT",
+              "msg": "Session 0x9A2F1E8D executed stored procedure [sp_update_flight_assignments] with parameter 'gate_randomize = TRUE'.",
+              "highlight": true
+            },
+            {
+              "ts": "11:00:06",
+              "level": "ERROR",
+              "msg": "Script 'random_gate_generator.ps1' executed from path C:\\Scripts\\AODB\\Automated\\. This script modifies gate assignments across all active flights in the AODB.",
+              "highlight": true
+            },
+            {
+              "ts": "11:00:08",
+              "level": "WARN",
+              "msg": "Gate assignments for 42 flights have been randomized. New assignments: UA 2401 → Gate 14, DL 666 → Gate B6, AA 512 → Gate A3, WN 888 → Gate 8.",
+              "highlight": false
+            },
+            {
+              "ts": "11:00:10",
+              "level": "INFO",
+              "msg": "Script execution completed. No error logs generated.",
+              "highlight": false
+            },
+            {
+              "ts": "11:00:12",
+              "level": "NOTICE",
+              "msg": "Script 'random_gate_generator.ps1' has not been approved in change control. Hash: 7A9F2D8C3E1B4F6A2C5D9E0F1B8C7D3A.",
+              "highlight": false
+            },
+            {
+              "ts": "11:00:14",
+              "level": "INFO",
+              "msg": "Audit trail preserved. All actions logged to C:\\Logs\\AODB\\Audit\\20261022_AuditTrail.log.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\Logs\\AODB\\Audit\\20261022_AuditTrail.log -Tail 20",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a core inject confirming the attack vector and malicious payload. The IT Lead must now report the script execution and unauthorized access. Watch for Ops to assess whether to shut down FIDS to prevent further data corruption.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:38:53.443Z"
+}

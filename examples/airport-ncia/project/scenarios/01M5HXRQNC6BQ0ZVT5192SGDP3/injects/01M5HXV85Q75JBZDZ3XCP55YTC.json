@@ -1,0 +1,147 @@
+{
+  "id": "01M5HXV85Q75JBZDZ3XCP55YTC",
+  "mselRowId": "I-09",
+  "type": "phone_call",
+  "title": "Mouse Movement Anomaly — Baggage Office",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "North Coast Regional Airport Authority",
+    "systemName": "AOC Console 3 (Call Recorder)",
+    "callId": "CR-20261022-135211-0004",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Dana Reilly",
+      "number": "(330) 555-2403",
+      "label": "Baggage Office"
+    },
+    "callee": {
+      "name": "IT Team",
+      "number": "(330) 555-0911",
+      "label": "IT Operations Center"
+    },
+    "startTime": "10/22/2026 13:52:11",
+    "duration": "0:34",
+    "transcript": [
+      {
+        "speaker": "Dana Reilly",
+        "offset": "0:00",
+        "text": "This is Dana Reilly from Baggage Operations. I need to report something weird — my mouse cursor just moved on its own for about three seconds. Then it stopped. My screen flickered. I’m alone here — nobody’s at my desk.",
+        "prompt": false
+      },
+      {
+        "speaker": "IT Team",
+        "offset": "0:12",
+        "text": "Copy that, Dana. We’re logging this now. Is your screen still active? Any other behavior?",
+        "prompt": true
+      },
+      {
+        "speaker": "Dana Reilly",
+        "offset": "0:21",
+        "text": "Yes, it’s still on. I didn’t touch anything. I just saw the cursor shift left, then back to center. I don’t know what to think.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "Dana Reilly": "Woman in her 30s, voice tight with confusion, background low hum of baggage conveyor motors",
+      "IT Team": "Calm, professional, with slight urgency"
+    },
+    "injectId": "I-09"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the rogue device is actively probing lateral access. The IT team must correlate this to the earlier MAC anomaly on VLAN 30 and check for unauthorized RDP or VNC sessions on the BHS network.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Dana Reilly",
+        "voiceStyle": "Woman in her 30s, voice tight with confusion, background low hum of baggage conveyor motors",
+        "text": "This is Dana Reilly from Baggage Operations. I need to report something weird — my mouse cursor just moved on its own for about three seconds. Then it stopped. My screen flickered. I’m alone here — nobody’s at my desk."
+      },
+      {
+        "speaker": "IT Team",
+        "voiceStyle": "Calm, professional, with slight urgency",
+        "text": "Copy that, Dana. We’re logging this now. Is your screen still active? Any other behavior?"
+      },
+      {
+        "speaker": "Dana Reilly",
+        "voiceStyle": "Woman in her 30s, voice tight with confusion, background low hum of baggage conveyor motors",
+        "text": "Yes, it’s still on. I didn’t touch anything. I just saw the cursor shift left, then back to center. I don’t know what to think."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:47:22.024Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Mouse Movement Anomaly — Baggage Office",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "systemName": "AOC Console 3 (Call Recorder)",
+          "callId": "CR-20261022-135211-0004",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Dana Reilly",
+            "number": "(330) 555-2403",
+            "label": "Baggage Office"
+          },
+          "callee": {
+            "name": "IT Team",
+            "number": "(330) 555-0911",
+            "label": "IT Operations Center"
+          },
+          "startTime": "10/22/2026 13:52:11",
+          "duration": "0:34",
+          "transcript": [
+            {
+              "speaker": "Dana Reilly",
+              "offset": "0:00",
+              "text": "This is Dana Reilly from Baggage Operations. I need to report something weird — my mouse cursor just moved on its own for about three seconds. Then it stopped. My screen flickered. I’m alone here — nobody’s at my desk.",
+              "prompt": false
+            },
+            {
+              "speaker": "IT Team",
+              "offset": "0:12",
+              "text": "Copy that, Dana. We’re logging this now. Is your screen still active? Any other behavior?",
+              "prompt": true
+            },
+            {
+              "speaker": "Dana Reilly",
+              "offset": "0:21",
+              "text": "Yes, it’s still on. I didn’t touch anything. I just saw the cursor shift left, then back to center. I don’t know what to think.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "Dana Reilly": "Woman in her 30s, voice tight with confusion, background low hum of baggage conveyor motors",
+            "IT Team": "Calm, professional, with slight urgency"
+          },
+          "injectId": "I-09"
+        },
+        "instructorNote": "This inject confirms the rogue device is actively probing lateral access. The IT team must correlate this to the earlier MAC anomaly on VLAN 30 and check for unauthorized RDP or VNC sessions on the BHS network.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:48:31.269Z"
+}

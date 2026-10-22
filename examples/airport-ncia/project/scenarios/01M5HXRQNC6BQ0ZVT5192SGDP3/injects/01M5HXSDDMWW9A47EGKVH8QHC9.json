@@ -1,0 +1,114 @@
+{
+  "id": "01M5HXSDDMWW9A47EGKVH8QHC9",
+  "mselRowId": "I-03",
+  "type": "helpdesk_ticket",
+  "title": "Rogue Device Detected on Camera VLAN",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "3371",
+    "priority": "High",
+    "impact": "Medium",
+    "urgency": "High",
+    "status": "New",
+    "requester": "Network Technician Priya Deshmukh",
+    "requesterContact": "x2015",
+    "contactType": "Monitoring",
+    "category": "Network Infrastructure",
+    "subcategory": "Security Devices",
+    "location": "VLAN 30 (Security Cameras) – Main Server Room (Rack 4)",
+    "configurationItem": "SEC-NVR-01 (10.66.0.20)",
+    "opened": "2026-10-22 13:18:00",
+    "assignmentGroup": "IT Security & Forensics",
+    "subject": "Unrecognized MAC Address on Camera VLAN – Possible Rogue Device",
+    "description": "During a routine network sweep of VLAN 30 (Security Cameras), a device with MAC address B8:27:EB:7F:3C:1A was detected. The device is not a camera or NVR and does not match any known asset in the CMDB.\n\nIt is registered on the camera VLAN (10.66.2.x) but is not listed in the hardware inventory. The device responds to ICMP and has an open SSH port (22) with a default login prompt. It is not connected to any authorized device or network segment.\n\nThe MAC prefix (B8:27:EB) is a Raspberry Pi model. This device is not in the approved equipment list. I recommend immediate isolation and forensic imaging.\n\n— Priya Deshmukh, Network Technician",
+    "activity": [
+      {
+        "author": "System",
+        "time": "2026-10-22 13:18:00",
+        "kind": "system",
+        "text": "Ticket created via automated network monitor (VLAN 30 scan) — unapproved device detected"
+      },
+      {
+        "author": "Priya Deshmukh",
+        "time": "2026-10-22 13:17:45",
+        "kind": "work_note",
+        "text": "Confirmed: device not in CMDB. No record of this MAC in any network log or device registration. Appears to have been connected within the last 10 minutes. No known access point or switch port matches."
+      }
+    ],
+    "systemName": "ServiceDesk",
+    "orgName": "NCIA"
+  },
+  "instructorNote": "This is a forensic clue inject. The IT team must investigate the rogue device on VLAN 30. Jordan Kelley, if questioned, will deflect and suggest it's a test device. Watch for overreliance on his reassurance.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.1 Network Topology",
+      "quote": "The **Security Operations Network (SecNet)** is physically segmented from business and public networks. VLANs: 660 (Mgmt: core servers and admin workstations) · 661 (PACS: door controllers / ISCs) · 6",
+      "chunkId": 73
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:46:22.112Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Rogue Device Detected on Camera VLAN",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "3371",
+          "priority": "High",
+          "impact": "Medium",
+          "urgency": "High",
+          "status": "New",
+          "requester": "Network Technician Priya Deshmukh",
+          "requesterContact": "x2015",
+          "contactType": "Monitoring",
+          "category": "Network Infrastructure",
+          "subcategory": "Security Devices",
+          "location": "VLAN 30 (Security Cameras) – Main Server Room (Rack 4)",
+          "configurationItem": "SEC-NVR-01 (10.66.0.20)",
+          "opened": "2026-10-22 13:18:00",
+          "assignmentGroup": "IT Security & Forensics",
+          "subject": "Unrecognized MAC Address on Camera VLAN – Possible Rogue Device",
+          "description": "During a routine network sweep of VLAN 30 (Security Cameras), a device with MAC address B8:27:EB:7F:3C:1A was detected. The device is not a camera or NVR and does not match any known asset in the CMDB.\n\nIt is registered on the camera VLAN (10.66.2.x) but is not listed in the hardware inventory. The device responds to ICMP and has an open SSH port (22) with a default login prompt. It is not connected to any authorized device or network segment.\n\nThe MAC prefix (B8:27:EB) is a Raspberry Pi model. This device is not in the approved equipment list. I recommend immediate isolation and forensic imaging.\n\n— Priya Deshmukh, Network Technician",
+          "activity": [
+            {
+              "author": "System",
+              "time": "2026-10-22 13:18:00",
+              "kind": "system",
+              "text": "Ticket created via automated network monitor (VLAN 30 scan) — unapproved device detected"
+            },
+            {
+              "author": "Priya Deshmukh",
+              "time": "2026-10-22 13:17:45",
+              "kind": "work_note",
+              "text": "Confirmed: device not in CMDB. No record of this MAC in any network log or device registration. Appears to have been connected within the last 10 minutes. No known access point or switch port matches."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "NCIA"
+        },
+        "instructorNote": "This is a forensic clue inject. The IT team must investigate the rogue device on VLAN 30. Jordan Kelley, if questioned, will deflect and suggest it's a test device. Watch for overreliance on his reassurance.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:48:30.098Z"
+}

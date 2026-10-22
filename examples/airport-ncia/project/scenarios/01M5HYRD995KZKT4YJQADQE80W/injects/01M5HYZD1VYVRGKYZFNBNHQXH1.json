@@ -1,0 +1,107 @@
+{
+  "id": "01M5HYZD1VYVRGKYZFNBNHQXH1",
+  "mselRowId": "A-19",
+  "type": "console_dump",
+  "title": "Scheduled Tasks Scan: AODB-SVR-01",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "windowTitle": "Administrator: Windows PowerShell",
+    "host": "AODB-SVR-01",
+    "user": "svc_nexgen_aodb",
+    "cwd": "C:\\Windows\\system32",
+    "prompt": "PS C:\\Windows\\system32>",
+    "commands": [
+      {
+        "cmd": "Get-ScheduledTask | Where-Object { $_.TaskName -like \"*AODB*\" } | Select-Object TaskName, State, Action, Trigger",
+        "output": "TaskName State Action Trigger\r\n-------- ----- ------ -------\r\nAODB_IndexMaintenance Running {\\\"Command\\\":\\\"C:\\\\AODB\\\\Maintenance\\\\AODB_IndexMaintenance.ps1\\\"} {\\\"StartBoundary\\\":\\\"2026-10-22T12:00:00\\\",\\\"Enabled\\\":true}",
+        "error": false
+      },
+      {
+        "cmd": "Get-ScheduledTask -TaskName \"AODB_IndexMaintenance\" | Get-ScheduledTaskInfo",
+        "output": "TaskName : AODB_IndexMaintenance\r\nLast Run Time : 10/22/2026 11:00:00 AM\r\nNext Run Time : 10/22/2026 12:00:00 PM\r\nLast Run Result : 0 (0x0)\r\nRun As User : svc_nexgen_aodb\r\nTask Path : \\AODB\\Maintenance\\\r\nDescription : Automated index maintenance and data integrity check.",
+        "error": false
+      },
+      {
+        "cmd": "Get-ScheduledTask -TaskName \"AODB_IndexMaintenance\" | Select-Object -ExpandProperty Action | Select-Object -ExpandProperty Arguments",
+        "output": "C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1",
+        "error": false
+      },
+      {
+        "cmd": "Get-Content C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1 | Select-Object -First 10",
+        "output": "# AODB Index Maintenance Script\r\n# Author: Dmitri Volkov, NexGen Solutions\r\n# Purpose: Periodic optimization and integrity verification\r\n\r\n# Load encryption module\r\nImport-Module -Name C:\\AODB\\Lib\\AES256.psm1\r\n\r\n# Encrypt database files\r\n$Files = Get-ChildItem -Path C:\\AODB\\Data\\ -Filter *.mdb -Recurse\r\n$EncryptedFiles = New-Object System.Collections.ArrayList\r\nforeach ($File in $Files) {\r\n $EncryptedFile = $File.FullName + \".enc\"\r\n $EncryptedFiles.Add($EncryptedFile)\r\n Invoke-Expression \"& C:\\AODB\\Tools\\encrypt.exe -i $File.FullName -o $EncryptedFile -k $((Get-Content C:\\AODB\\Config\\key.txt))\"\r\n}",
+        "error": false
+      }
+    ],
+    "showCursor": true
+  },
+  "variant": "powershell",
+  "instructorNote": "This confirms the logic bomb is active and scheduled for noon. The team must now decide whether to stop the task, isolate the server, or attempt to reverse the script before it runs.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+      "quote": "**A. Immediate Action.** All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection. **B. Manual Inspect",
+      "chunkId": 68
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:07:05.994Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Scheduled Tasks Scan: AODB-SVR-01",
+        "type": "console_dump",
+        "fields": {
+          "windowTitle": "Administrator: Windows PowerShell",
+          "host": "AODB-SVR-01",
+          "user": "svc_nexgen_aodb",
+          "cwd": "C:\\Windows\\system32",
+          "prompt": "PS C:\\Windows\\system32>",
+          "commands": [
+            {
+              "cmd": "Get-ScheduledTask | Where-Object { $_.TaskName -like \"*AODB*\" } | Select-Object TaskName, State, Action, Trigger",
+              "output": "TaskName State Action Trigger\r\n-------- ----- ------ -------\r\nAODB_IndexMaintenance Running {\\\"Command\\\":\\\"C:\\\\AODB\\\\Maintenance\\\\AODB_IndexMaintenance.ps1\\\"} {\\\"StartBoundary\\\":\\\"2026-10-22T12:00:00\\\",\\\"Enabled\\\":true}",
+              "error": false
+            },
+            {
+              "cmd": "Get-ScheduledTask -TaskName \"AODB_IndexMaintenance\" | Get-ScheduledTaskInfo",
+              "output": "TaskName : AODB_IndexMaintenance\r\nLast Run Time : 10/22/2026 11:00:00 AM\r\nNext Run Time : 10/22/2026 12:00:00 PM\r\nLast Run Result : 0 (0x0)\r\nRun As User : svc_nexgen_aodb\r\nTask Path : \\AODB\\Maintenance\\\r\nDescription : Automated index maintenance and data integrity check.",
+              "error": false
+            },
+            {
+              "cmd": "Get-ScheduledTask -TaskName \"AODB_IndexMaintenance\" | Select-Object -ExpandProperty Action | Select-Object -ExpandProperty Arguments",
+              "output": "C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1",
+              "error": false
+            },
+            {
+              "cmd": "Get-Content C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1 | Select-Object -First 10",
+              "output": "# AODB Index Maintenance Script\r\n# Author: Dmitri Volkov, NexGen Solutions\r\n# Purpose: Periodic optimization and integrity verification\r\n\r\n# Load encryption module\r\nImport-Module -Name C:\\AODB\\Lib\\AES256.psm1\r\n\r\n# Encrypt database files\r\n$Files = Get-ChildItem -Path C:\\AODB\\Data\\ -Filter *.mdb -Recurse\r\n$EncryptedFiles = New-Object System.Collections.ArrayList\r\nforeach ($File in $Files) {\r\n $EncryptedFile = $File.FullName + \".enc\"\r\n $EncryptedFiles.Add($EncryptedFile)\r\n Invoke-Expression \"& C:\\AODB\\Tools\\encrypt.exe -i $File.FullName -o $EncryptedFile -k $((Get-Content C:\\AODB\\Config\\key.txt))\"\r\n}",
+              "error": false
+            }
+          ],
+          "showCursor": true
+        },
+        "instructorNote": "This confirms the logic bomb is active and scheduled for noon. The team must now decide whether to stop the task, isolate the server, or attempt to reverse the script before it runs.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:08:26.415Z"
+}

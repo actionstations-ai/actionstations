@@ -1,0 +1,127 @@
+{
+  "id": "01M5HYFWGX1KE0FP3P6GQQ1FR3",
+  "mselRowId": "I-05",
+  "type": "console_dump",
+  "title": "Firewall Rule CM-2026-0087 — Final Analysis",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "windowTitle": "Administrator: Windows PowerShell",
+    "host": "NCIA-SEC-DB01",
+    "user": "admin",
+    "cwd": "C:\\\\Scripts",
+    "prompt": "PS C:\\\\Scripts>",
+    "commands": [
+      {
+        "cmd": "Get-Content -Path C:\\Scripts\\firewall_config_latest.txt | Select-String -Pattern 'CM-2026-0087'",
+        "output": "# CM-2026-0087 - BLOCK 185.220.0.0/16 (Scan Botnet) - CREATED BY JORDAN KELLEY (09:45) \n rule {\n name \"CM-2026-0087\";\n source-zone any;\n source-address any;\n destination-zone any;\n destination-address 10.1.40.0/24;\n action deny;\n position 3;\n comment \"Block external scan range 185.220.0.0/16; target: Retail VLAN\";\n }",
+        "error": false
+      },
+      {
+        "cmd": "Get-Content -Path C:\\Scripts\\firewall_config_latest.txt | Select-String -Pattern 'inter-VLAN allow' -Context 2,2",
+        "output": "# INTER-VLAN ALLOW RULES (POSITION 4 AND BELOW) \n rule {\n name \"allow_concourse_a_to_retail\";\n source-zone internal;\n source-address 10.66.1.0/24;\n destination-zone retail;\n destination-address 10.1.40.0/24;\n action permit;\n position 4;\n }\n rule {\n name \"allow_security_to_retail\";\n source-zone security_ops;\n source-address 10.72.0.0/24;\n destination-zone retail;\n destination-address 10.1.40.0/24;\n action permit;\n position 5;\n }",
+        "error": false
+      },
+      {
+        "cmd": "Get-Content -Path C:\\Scripts\\firewall_config_latest.txt | Select-String -Pattern 'any' -Context 0,0 | Select-String -Pattern 'source-zone' | Select-String -Pattern 'any'",
+        "output": "source-zone any;",
+        "error": false
+      },
+      {
+        "cmd": "Get-Content -Path C:\\Scripts\\firewall_config_latest.txt | Select-String -Pattern 'any' -Context 0,0 | Select-String -Pattern 'source-address' | Select-String -Pattern 'any'",
+        "output": "source-address any;",
+        "error": false
+      },
+      {
+        "cmd": "Get-Content -Path C:\\Scripts\\firewall_config_latest.txt | Select-String -Pattern '10.1.40.0/24' | Select-String -Pattern 'destination-address'",
+        "output": "destination-address 10.1.40.0/24;",
+        "error": false
+      },
+      {
+        "cmd": "Get-Content -Path C:\\Scripts\\firewall_config_latest.txt | Select-String -Pattern 'position 3' | Select-String -Pattern 'deny'",
+        "output": "position 3;\n action deny;",
+        "error": false
+      }
+    ],
+    "showCursor": true
+  },
+  "variant": "powershell",
+  "instructorNote": "This is the confirmatory evidence for Theory C. The team must now confront that the outage was self-inflicted. Watch for disbelief, frustration, or the immediate urge to delete the rule without risk assessment.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+      "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:58:36.761Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Firewall Rule CM-2026-0087 — Final Analysis",
+        "type": "console_dump",
+        "fields": {
+          "windowTitle": "Administrator: Windows PowerShell",
+          "host": "NCIA-SEC-DB01",
+          "user": "admin",
+          "cwd": "C:\\\\Scripts",
+          "prompt": "PS C:\\\\Scripts>",
+          "commands": [
+            {
+              "cmd": "Get-Content -Path C:\\Scripts\\firewall_config_latest.txt | Select-String -Pattern 'CM-2026-0087'",
+              "output": "# CM-2026-0087 - BLOCK 185.220.0.0/16 (Scan Botnet) - CREATED BY JORDAN KELLEY (09:45) \n rule {\n name \"CM-2026-0087\";\n source-zone any;\n source-address any;\n destination-zone any;\n destination-address 10.1.40.0/24;\n action deny;\n position 3;\n comment \"Block external scan range 185.220.0.0/16; target: Retail VLAN\";\n }",
+              "error": false
+            },
+            {
+              "cmd": "Get-Content -Path C:\\Scripts\\firewall_config_latest.txt | Select-String -Pattern 'inter-VLAN allow' -Context 2,2",
+              "output": "# INTER-VLAN ALLOW RULES (POSITION 4 AND BELOW) \n rule {\n name \"allow_concourse_a_to_retail\";\n source-zone internal;\n source-address 10.66.1.0/24;\n destination-zone retail;\n destination-address 10.1.40.0/24;\n action permit;\n position 4;\n }\n rule {\n name \"allow_security_to_retail\";\n source-zone security_ops;\n source-address 10.72.0.0/24;\n destination-zone retail;\n destination-address 10.1.40.0/24;\n action permit;\n position 5;\n }",
+              "error": false
+            },
+            {
+              "cmd": "Get-Content -Path C:\\Scripts\\firewall_config_latest.txt | Select-String -Pattern 'any' -Context 0,0 | Select-String -Pattern 'source-zone' | Select-String -Pattern 'any'",
+              "output": "source-zone any;",
+              "error": false
+            },
+            {
+              "cmd": "Get-Content -Path C:\\Scripts\\firewall_config_latest.txt | Select-String -Pattern 'any' -Context 0,0 | Select-String -Pattern 'source-address' | Select-String -Pattern 'any'",
+              "output": "source-address any;",
+              "error": false
+            },
+            {
+              "cmd": "Get-Content -Path C:\\Scripts\\firewall_config_latest.txt | Select-String -Pattern '10.1.40.0/24' | Select-String -Pattern 'destination-address'",
+              "output": "destination-address 10.1.40.0/24;",
+              "error": false
+            },
+            {
+              "cmd": "Get-Content -Path C:\\Scripts\\firewall_config_latest.txt | Select-String -Pattern 'position 3' | Select-String -Pattern 'deny'",
+              "output": "position 3;\n action deny;",
+              "error": false
+            }
+          ],
+          "showCursor": true
+        },
+        "instructorNote": "This is the confirmatory evidence for Theory C. The team must now confront that the outage was self-inflicted. Watch for disbelief, frustration, or the immediate urge to delete the rule without risk assessment.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:59:42.714Z"
+}

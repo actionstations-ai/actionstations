@@ -1,0 +1,151 @@
+{
+  "id": "01M5HX6TMCSS4C5QGQ3T80P4VM",
+  "mselRowId": "I-05b",
+  "type": "radio_call",
+  "title": "Fire Alarm — Long Term Parking Deck",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "North Coast Regional Airport Authority",
+    "centerName": "Airport Operations Center (AOC)",
+    "channel": "FIRE 1",
+    "frequency": "TG 4105 / 460.310 MHz",
+    "date": "10/22/2026",
+    "callsign": "Garage 1",
+    "lines": [
+      {
+        "time": "10:10:03",
+        "from": "Garage 1",
+        "to": "AOC",
+        "text": "AOC, this is Garage 1. We have a confirmed fire alarm activation in the Long Term Parking Deck, Level 2. Smoke is visible near Door 7. We're initiating a manual pull and have evacuated the area."
+      },
+      {
+        "time": "10:10:11",
+        "from": "AOC",
+        "to": "Garage 1",
+        "text": "Garage 1, confirm: is the alarm from a smoke detector, or was it manually pulled?"
+      },
+      {
+        "time": "10:10:15",
+        "from": "Garage 1",
+        "to": "AOC",
+        "text": "Manual pull, AOC. We saw a flash near the utility closet. No fire yet, but the alarm is active and the door is blocked by debris. We need fire response now."
+      },
+      {
+        "time": "10:10:22",
+        "from": "AOC",
+        "to": "Garage 1",
+        "text": "Garage 1, standby. Dispatching Akron Fire Department. Do not re-enter until confirmed safe. Evacuate to Shelter B."
+      }
+    ],
+    "background": "garage",
+    "voiceStyle": "Young male, urgent, breathless, with background noise of distant sirens",
+    "audioFile": "I-05b_radio.wav",
+    "duration": "0:22",
+    "injectId": "I-05b"
+  },
+  "variant": "default",
+  "instructorNote": "Red herring inject; the fire alarm is fake and part of the cyberattack. The security team may be distracted by the call, but the terminal FIDS and BHS issues remain unresolved. Watch for overreaction to the garage alarm.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 8 › 8.2 Operations",
+      "quote": "Pull nearest alarm, report to 911 or the ACC. Fire alarm activation mandates full immediate EVACUATION (Section 3). Akron Fire Department (AFD) assumes IC on arrival.",
+      "chunkId": 109
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 8 › 8.4 Checklist: Structural Fire",
+      "quote": "- Ops: confirm 911 notification; activate EVACUATION; announce \"A fire has been reported. Evacuate the terminal immediately. Use the nearest exit.\"; establish contact with Fire IC at Command Post. - L",
+      "chunkId": 110
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Garage 1",
+        "voiceStyle": "Young male, urgent, breathless, with background noise of distant sirens",
+        "text": "AOC, this is Garage 1. We have a confirmed fire alarm activation in the Long Term Parking Deck, Level 2. Smoke is visible near Door 7. We're initiating a manual pull and have evacuated the area."
+      },
+      {
+        "speaker": "AOC",
+        "voiceStyle": "Calm, measured, professional female voice, slight delay in response",
+        "text": "Garage 1, confirm: is the alarm from a smoke detector, or was it manually pulled?"
+      },
+      {
+        "speaker": "Garage 1",
+        "voiceStyle": "Young male, urgent, breathless, with background noise of distant sirens",
+        "text": "Manual pull, AOC. We saw a flash near the utility closet. No fire yet, but the alarm is active and the door is blocked by debris. We need fire response now."
+      },
+      {
+        "speaker": "AOC",
+        "voiceStyle": "Calm, measured, professional female voice, slight delay in response",
+        "text": "Garage 1, standby. Dispatching Akron Fire Department. Do not re-enter until confirmed safe. Evacuate to Shelter B."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:36:11.355Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Fire Alarm — Long Term Parking Deck",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "centerName": "Airport Operations Center (AOC)",
+          "channel": "FIRE 1",
+          "frequency": "TG 4105 / 460.310 MHz",
+          "date": "10/22/2026",
+          "callsign": "Garage 1",
+          "lines": [
+            {
+              "time": "10:10:03",
+              "from": "Garage 1",
+              "to": "AOC",
+              "text": "AOC, this is Garage 1. We have a confirmed fire alarm activation in the Long Term Parking Deck, Level 2. Smoke is visible near Door 7. We're initiating a manual pull and have evacuated the area."
+            },
+            {
+              "time": "10:10:11",
+              "from": "AOC",
+              "to": "Garage 1",
+              "text": "Garage 1, confirm: is the alarm from a smoke detector, or was it manually pulled?"
+            },
+            {
+              "time": "10:10:15",
+              "from": "Garage 1",
+              "to": "AOC",
+              "text": "Manual pull, AOC. We saw a flash near the utility closet. No fire yet, but the alarm is active and the door is blocked by debris. We need fire response now."
+            },
+            {
+              "time": "10:10:22",
+              "from": "AOC",
+              "to": "Garage 1",
+              "text": "Garage 1, standby. Dispatching Akron Fire Department. Do not re-enter until confirmed safe. Evacuate to Shelter B."
+            }
+          ],
+          "background": "garage",
+          "voiceStyle": "Young male, urgent, breathless, with background noise of distant sirens",
+          "audioFile": "I-05b_radio.wav",
+          "duration": "0:22",
+          "injectId": "I-05b"
+        },
+        "instructorNote": "Red herring inject; the fire alarm is fake and part of the cyberattack. The security team may be distracted by the call, but the terminal FIDS and BHS issues remain unresolved. Watch for overreaction to the garage alarm.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:40:43.653Z"
+}

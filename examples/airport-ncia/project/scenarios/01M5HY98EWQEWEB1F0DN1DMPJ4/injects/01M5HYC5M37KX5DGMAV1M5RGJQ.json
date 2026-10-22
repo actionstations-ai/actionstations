@@ -1,0 +1,90 @@
+{
+  "id": "01M5HYC5M37KX5DGMAV1M5RGJQ",
+  "mselRowId": "I-10",
+  "type": "scenario_update",
+  "title": "Systemic Vulnerability Assessment — Key Failures Identified",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:26",
+    "scenarioTime": "09:08",
+    "headline": "Systemic Vulnerability Assessment",
+    "deliverTo": "All players",
+    "narration": "The facilitator stands and addresses the group. 'We’ve identified the root causes behind this breach. The rogue access was possible because 12 legacy 125 kHz readers remain active across the terminal — 12 in total. None of them have been replaced or disabled. The attacker used a Proxmark3 — a $25 device — to capture an unencrypted signal and clone it. That same attacker reconfigured Port 23 on the Cisco 2960 switch in Electrical Room B to trunk mode. No alert was triggered — because NCIA has no switch port change monitoring. The same default password is used on every IDF switch closet across the facility. No 802.1X port authentication is in place. And there is no camera coverage in the maintenance corridor or inside Electrical Room B. Open switch ports were not disabled. The network was exposed — not by a flaw in design, but by a chain of preventable oversights. This is not a one-off failure. It is a systemic gap in security posture.'",
+    "keyFacts": [
+      "12 legacy 125 kHz readers remain active and unpatched.",
+      "No switch port change monitoring — attacker reconfigured Port 23 without alert.",
+      "Shared default passwords on all IDF switch closets.",
+      "No 802.1X port authentication enabled.",
+      "No CCTV coverage in maintenance corridors or network rooms."
+    ],
+    "expectedAction": "Players must now build a remediation plan on the whiteboard, addressing all six systemic failures with actionable controls.",
+    "facilitatorNote": "Read the narration slowly and pause after each fact. Emphasize that this is not a technical issue — it's a policy and process failure. Watch for teams that try to fix only one point instead of the full chain.",
+    "scenarioTitle": "Carbon Copy — Scenario 5: Badge Cloning & Physical-Cyber Convergence",
+    "injectId": "I-10"
+  },
+  "variant": "default",
+  "instructorNote": "This inject completes the systemic findings phase. The team must now build a remediation plan that addresses all six failures. No team should skip any point. If a team tries to fix only the switch or only the readers, interrupt and ask: 'What about the passwords? What about the cameras?'",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+      "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+      "chunkId": 38
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+      "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+      "chunkId": 55
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:56:33.124Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Systemic Vulnerability Assessment — Key Failures Identified",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "1:26",
+          "scenarioTime": "09:08",
+          "headline": "Systemic Vulnerability Assessment",
+          "deliverTo": "All players",
+          "narration": "The facilitator stands and addresses the group. 'We’ve identified the root causes behind this breach. The rogue access was possible because 12 legacy 125 kHz readers remain active across the terminal — 12 in total. None of them have been replaced or disabled. The attacker used a Proxmark3 — a $25 device — to capture an unencrypted signal and clone it. That same attacker reconfigured Port 23 on the Cisco 2960 switch in Electrical Room B to trunk mode. No alert was triggered — because NCIA has no switch port change monitoring. The same default password is used on every IDF switch closet across the facility. No 802.1X port authentication is in place. And there is no camera coverage in the maintenance corridor or inside Electrical Room B. Open switch ports were not disabled. The network was exposed — not by a flaw in design, but by a chain of preventable oversights. This is not a one-off failure. It is a systemic gap in security posture.'",
+          "keyFacts": [
+            "12 legacy 125 kHz readers remain active and unpatched.",
+            "No switch port change monitoring — attacker reconfigured Port 23 without alert.",
+            "Shared default passwords on all IDF switch closets.",
+            "No 802.1X port authentication enabled.",
+            "No CCTV coverage in maintenance corridors or network rooms."
+          ],
+          "expectedAction": "Players must now build a remediation plan on the whiteboard, addressing all six systemic failures with actionable controls.",
+          "facilitatorNote": "Read the narration slowly and pause after each fact. Emphasize that this is not a technical issue — it's a policy and process failure. Watch for teams that try to fix only one point instead of the full chain.",
+          "scenarioTitle": "Carbon Copy — Scenario 5: Badge Cloning & Physical-Cyber Convergence",
+          "injectId": "I-10"
+        },
+        "instructorNote": "This inject completes the systemic findings phase. The team must now build a remediation plan that addresses all six failures. No team should skip any point. If a team tries to fix only the switch or only the readers, interrupt and ask: 'What about the passwords? What about the cameras?'",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:56:53.105Z"
+}

@@ -1,0 +1,168 @@
+{
+  "id": "01M5HY9TH3R7Y381B99DSJ0MTG",
+  "mselRowId": "I-02",
+  "type": "sitrep",
+  "title": "Badge Cloning — 125 kHz Signal Capture Confirmed",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "number": "2",
+    "time": "10/22/2026 0800",
+    "organization": "North Coast Regional Airport Authority",
+    "issuingOffice": "IT & Cybersecurity Division",
+    "incidentName": "Badge Cloning & Physical-Cyber Convergence",
+    "period": "0752–0800",
+    "from": "IT & Cybersecurity (Lead)",
+    "to": "All",
+    "summary": "IT has confirmed the duplicate badge event is not a smart card copy. The cloned badge was registered via 125 kHz frequency on the iCLASS reader at Door S-4, not the encrypted 13.56 MHz used by the legitimate card. This confirms a Proxmark3-style attack: the attacker captured the unencrypted 125 kHz legacy credential from Carlos Mendez’s badge during a prior access event and wrote it to a blank T5577 card. The 125 kHz signal was read at V-1 on Wednesday, October 21, 2026, at 10:22. The original Mendez badge was not compromised; the attacker exploited the dual-frequency legacy capability for backward compatibility. The clone was used to access Electrical Room B at 07:38, where a rogue wireless access point was later discovered.",
+    "keyStatus": [
+      {
+        "label": "PACS Logs",
+        "value": "Anomaly confirmed: 125 kHz read at V-1 (Wed, 10:22)"
+      },
+      {
+        "label": "Badge Clone",
+        "value": "T5577 card, 125 kHz, unencrypted"
+      },
+      {
+        "label": "Access Point",
+        "value": "Rogue WAP in Electrical Room B"
+      },
+      {
+        "label": "System Integrity",
+        "value": "Compromised at network layer (switch port 12)"
+      },
+      {
+        "label": "Physical Access",
+        "value": "Door S-4, Level 2, Concourse B"
+      }
+    ],
+    "actions": [
+      {
+        "time": "07:52",
+        "text": "IT confirmed duplicate alert triggered by 125 kHz signal at Door S-4"
+      },
+      {
+        "time": "07:58",
+        "text": "IT cross-referenced all Mendez badge events with frequency logs"
+      },
+      {
+        "time": "08:00",
+        "text": "IT identified the 125 kHz signal anomaly at V-1 on Wednesday, October 21, 2026, at 10:22"
+      }
+    ],
+    "planned": [
+      "Conduct forensic analysis of SEC-BADGE-01 logs from October 21, 10:00–11:00"
+    ],
+    "issues": [
+      "No known alert on 125 kHz capture at V-1 prior to 10:22 (Wed)"
+    ],
+    "nextReport": "08:30 or on significant change",
+    "preparedBy": "Dr. L. Reyes, IT Forensics Lead",
+    "approvedBy": "R. Chen, CISO",
+    "marking": "EXERCISE EXERCISE EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This confirms the Proxmark3 attack vector. The IT team must now focus on the V-1 capture event and cross-reference badge enrollment logs.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.4 Operational Logic & Alarms",
+      "quote": "Valid read: green LED, lock releases 5 seconds. Invalid read: red LED, \"Access Denied\" logged. Door Forced Open alarm; Door Held Open alarm (> 30 s). **Hard Anti-Passback** at the employee portal.",
+      "chunkId": 56
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 10 › 10.2 Operations",
+      "quote": "All threats treated as real until proven otherwise. Receiver uses the Bomb Threat Checklist; reports to Airport Police or the ACC. Airport Police assume IC; with FBI/TSA assess as **Non-Specific** (he",
+      "chunkId": 114
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:55:16.828Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Badge Cloning — 125 kHz Signal Capture Confirmed",
+        "type": "sitrep",
+        "fields": {
+          "number": "2",
+          "time": "10/22/2026 0800",
+          "organization": "North Coast Regional Airport Authority",
+          "issuingOffice": "IT & Cybersecurity Division",
+          "incidentName": "Badge Cloning & Physical-Cyber Convergence",
+          "period": "0752–0800",
+          "from": "IT & Cybersecurity (Lead)",
+          "to": "All",
+          "summary": "IT has confirmed the duplicate badge event is not a smart card copy. The cloned badge was registered via 125 kHz frequency on the iCLASS reader at Door S-4, not the encrypted 13.56 MHz used by the legitimate card. This confirms a Proxmark3-style attack: the attacker captured the unencrypted 125 kHz legacy credential from Carlos Mendez’s badge during a prior access event and wrote it to a blank T5577 card. The 125 kHz signal was read at V-1 on Wednesday, October 21, 2026, at 10:22. The original Mendez badge was not compromised; the attacker exploited the dual-frequency legacy capability for backward compatibility. The clone was used to access Electrical Room B at 07:38, where a rogue wireless access point was later discovered.",
+          "keyStatus": [
+            {
+              "label": "PACS Logs",
+              "value": "Anomaly confirmed: 125 kHz read at V-1 (Wed, 10:22)"
+            },
+            {
+              "label": "Badge Clone",
+              "value": "T5577 card, 125 kHz, unencrypted"
+            },
+            {
+              "label": "Access Point",
+              "value": "Rogue WAP in Electrical Room B"
+            },
+            {
+              "label": "System Integrity",
+              "value": "Compromised at network layer (switch port 12)"
+            },
+            {
+              "label": "Physical Access",
+              "value": "Door S-4, Level 2, Concourse B"
+            }
+          ],
+          "actions": [
+            {
+              "time": "07:52",
+              "text": "IT confirmed duplicate alert triggered by 125 kHz signal at Door S-4"
+            },
+            {
+              "time": "07:58",
+              "text": "IT cross-referenced all Mendez badge events with frequency logs"
+            },
+            {
+              "time": "08:00",
+              "text": "IT identified the 125 kHz signal anomaly at V-1 on Wednesday, October 21, 2026, at 10:22"
+            }
+          ],
+          "planned": [
+            "Conduct forensic analysis of SEC-BADGE-01 logs from October 21, 10:00–11:00"
+          ],
+          "issues": [
+            "No known alert on 125 kHz capture at V-1 prior to 10:22 (Wed)"
+          ],
+          "nextReport": "08:30 or on significant change",
+          "preparedBy": "Dr. L. Reyes, IT Forensics Lead",
+          "approvedBy": "R. Chen, CISO",
+          "marking": "EXERCISE EXERCISE EXERCISE"
+        },
+        "instructorNote": "This confirms the Proxmark3 attack vector. The IT team must now focus on the V-1 capture event and cross-reference badge enrollment logs.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:56:51.303Z"
+}

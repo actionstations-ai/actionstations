@@ -1,0 +1,97 @@
+{
+  "id": "01M5HY78JA5Q8DG4V620ZF3MG8",
+  "mselRowId": "I-11",
+  "type": "scenario_update",
+  "title": "Ray Delgado Confirmed as SSI Leaker",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:26",
+    "scenarioTime": "19:41",
+    "headline": "Ray Delgado Confirmed as Source",
+    "deliverTo": "All",
+    "narration": "The facility's internal investigation has concluded. Ray Delgado, the former security supervisor, was the source of the SSI leak. On his final shift, he accessed the Airport Security Program (ASP) from his still-active account, walked to the shared workstation in the Security office (SECWS-02), and printed the full document. He exited the building with it. Three weeks later, he handed the physical copy to Channel 5 reporter Jennifer Pratt. The ASP was not hacked. No breach occurred. Delgado exploited no technical flaw — he simply walked through unsecured doors with a document that was stored on a shared drive, accessible to 40+ employees, printable from an unauthenticated workstation, and never audited for access.",
+    "keyFacts": [
+      "Ray Delgado accessed and printed the ASP on his last shift (22 days ago).",
+      "The ASP was stored on S:\\Security\\ as NCIA_ASP_2024.pdf.",
+      "The print was made from SECWS-02, a shared workstation with no user authentication.",
+      "No access controls or audit logs prevented the leak.",
+      "The leak was not a cyberattack — it was a failure of policy, process, and oversight."
+    ],
+    "expectedAction": "Let the team absorb this. Then pivot to the forward-looking discussion (I-12).",
+    "facilitatorNote": "Pause after 'black.' Let the room react. Then read the rest slowly, with emphasis on 'walked through unsecured doors.'",
+    "scenarioTitle": "Scenario 4: SSI Disclosure & Internal Investigation",
+    "injectId": "I-11"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the leak's origin and root cause. The team must now shift from investigation to remediation and systemic reform. Watch for reactive blame-shifting or deflection — the deeper lesson is not about Delgado, but about the lack of controls that allowed him to act so freely.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part II › Appendix 4 › 4.3 Active Shooter",
+      "quote": "Immediate suspension of all aircraft movement. Perimeter gates locked down (LEO entry only). See TIRP Section 12 for terminal-specific actions.",
+      "chunkId": 35
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.3 Operations",
+      "quote": "LEOs move toward the threat first. Fire/EMS stage in a cold zone until LEOs declare \"secure.\" Then LEOs secure the scene and Fire/EMS triage.",
+      "chunkId": 119
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+      "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+      "chunkId": 120
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:53:51.410Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Ray Delgado Confirmed as SSI Leaker",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "1:26",
+          "scenarioTime": "19:41",
+          "headline": "Ray Delgado Confirmed as Source",
+          "deliverTo": "All",
+          "narration": "The facility's internal investigation has concluded. Ray Delgado, the former security supervisor, was the source of the SSI leak. On his final shift, he accessed the Airport Security Program (ASP) from his still-active account, walked to the shared workstation in the Security office (SECWS-02), and printed the full document. He exited the building with it. Three weeks later, he handed the physical copy to Channel 5 reporter Jennifer Pratt. The ASP was not hacked. No breach occurred. Delgado exploited no technical flaw — he simply walked through unsecured doors with a document that was stored on a shared drive, accessible to 40+ employees, printable from an unauthenticated workstation, and never audited for access.",
+          "keyFacts": [
+            "Ray Delgado accessed and printed the ASP on his last shift (22 days ago).",
+            "The ASP was stored on S:\\Security\\ as NCIA_ASP_2024.pdf.",
+            "The print was made from SECWS-02, a shared workstation with no user authentication.",
+            "No access controls or audit logs prevented the leak.",
+            "The leak was not a cyberattack — it was a failure of policy, process, and oversight."
+          ],
+          "expectedAction": "Let the team absorb this. Then pivot to the forward-looking discussion (I-12).",
+          "facilitatorNote": "Pause after 'black.' Let the room react. Then read the rest slowly, with emphasis on 'walked through unsecured doors.'",
+          "scenarioTitle": "Scenario 4: SSI Disclosure & Internal Investigation",
+          "injectId": "I-11"
+        },
+        "instructorNote": "This inject confirms the leak's origin and root cause. The team must now shift from investigation to remediation and systemic reform. Watch for reactive blame-shifting or deflection — the deeper lesson is not about Delgado, but about the lack of controls that allowed him to act so freely.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:54:08.201Z"
+}

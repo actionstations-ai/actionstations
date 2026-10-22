@@ -1,0 +1,217 @@
+{
+  "id": "01M5HYAYWCE8NZ4JDAX8VMJ0J0",
+  "mselRowId": "I-06",
+  "type": "field_report",
+  "title": "Rogue Network Bridge — Electrical Room B",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "North Coast Regional Airport Authority — IT & Cybersecurity",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0754",
+    "date": "10/22/2026",
+    "time": "08:34",
+    "location": "Electrical Room B, Concourse B, Level 2",
+    "inspector": "Lead R., IT Security Engineer",
+    "unit": "IT Inspection Team · Unit 9",
+    "reportType": "security",
+    "weather": "Clear, 62°F, wind ESE 5 mph",
+    "summary": "During a physical inspection of Electrical Room B, a modified TP-Link wireless router was discovered hidden behind the UPS battery backup unit. The device is connected via USB to the UPS power feed and to Port 23 on the Cisco Catalyst 2960 switch. The device is broadcasting a hidden SSID and has two external antennas. Signal strength analysis indicates it can be accessed from the Concourse B parking structure. The device has been connected for approximately 30 minutes and is actively bridging to the Concourse B operational VLAN. MAC address: 50:C7:BF:XX:XX:XX (TP-Link OUI). No logs or traffic traces have been extracted yet. The device remains in place for forensic preservation.",
+    "findings": [
+      {
+        "item": "UPS battery backup",
+        "condition": "ok",
+        "notes": "No damage or tampering observed. Device is physically attached behind unit."
+      },
+      {
+        "item": "Cisco 2960 switch Port 23",
+        "condition": "deficient",
+        "notes": "Cable to device shows no external port damage. Port status shows active link and up."
+      },
+      {
+        "item": "Wireless device (router)",
+        "condition": "failed",
+        "notes": "Modified TP-Link model, 2.4 GHz only. Hidden SSID active. Antenna pattern suggests directional access from Concourse B parking lot."
+      },
+      {
+        "item": "Power source",
+        "condition": "ok",
+        "notes": "USB cable tapped into UPS power feed. No external power source visible."
+      },
+      {
+        "item": "VLAN connectivity",
+        "condition": "not_inspected",
+        "notes": "Pending network team verification."
+      },
+      {
+        "item": "Physical access log for Door S-4",
+        "condition": "ok",
+        "notes": "Confirmed via PACS log: clone entry at 07:38."
+      },
+      {
+        "item": "CCTV coverage of room",
+        "condition": "failed",
+        "notes": "No camera inside room. Corridor camera only captures entry/exit."
+      },
+      {
+        "item": "Network switch configuration",
+        "condition": "not_inspected",
+        "notes": "Pending verification by IT network team."
+      },
+      {
+        "item": "Biometric access to room",
+        "condition": "ok",
+        "notes": "No biometric lock present. Physical key not required for entry."
+      },
+      {
+        "item": "Device MAC address",
+        "condition": "failed",
+        "notes": "50:C7:BF:XX:XX:XX — matches known TP-Link OUI. No known device in inventory with this MAC."
+      }
+    ],
+    "actionsTaken": [
+      "Photographed device and surrounding area using device camera (IMG_20261022_0834_01 to IMG_20261022_0834_04)",
+      "Documented MAC address and port connection",
+      "Secured scene with tape and signage: 'DO NOT TOUCH — FORENSIC EVIDENCE'",
+      "Notified IT Lead and Security IC via radio at 08:34",
+      "Confirmed device remains powered and connected for forensic analysis"
+    ],
+    "recommendations": [
+      "Immediately isolate Concourse B operational VLAN from core network",
+      "Conduct full switch port audit on Cisco 2960 for unauthorized MAC addresses",
+      "Trace all traffic from Port 23 using packet capture tools",
+      "Begin forensic imaging of SEC-SVR-01 and NCIA-PACS-CORE for related access logs",
+      "Deploy security team to monitor parking structure near Concourse B for suspicious activity"
+    ],
+    "photosNote": "4 photos attached: IMG_20261022_0834_01 (device view), IMG_20261022_0834_02 (port connection), IMG_20261022_0834_03 (antenna orientation), IMG_20261022_0834_04 (device behind UPS)",
+    "signature": "Lead R., IT Security Engineer",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "instructorNote": "This is the critical puzzle piece: the rogue device is a bridge, not a direct access point. The players must now recognize that physical access to a network room enabled a cyber foothold. Watch for IT to request network logs and switch configs.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.1 General Description (49 CFR § 1542.207)",
+      "quote": "NCIA uses an Automated Access Control System (AACS), commercially the \"Lenel OnGuard Integrated Security System,\" integrating Physical Access Control (PACS), Video Surveillance (VMS), and Intrusion De",
+      "chunkId": 53
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:55:58.161Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Rogue Network Bridge — Electrical Room B",
+        "type": "field_report",
+        "fields": {
+          "organization": "North Coast Regional Airport Authority — IT & Cybersecurity",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0754",
+          "date": "10/22/2026",
+          "time": "08:34",
+          "location": "Electrical Room B, Concourse B, Level 2",
+          "inspector": "Lead R., IT Security Engineer",
+          "unit": "IT Inspection Team · Unit 9",
+          "reportType": "security",
+          "weather": "Clear, 62°F, wind ESE 5 mph",
+          "summary": "During a physical inspection of Electrical Room B, a modified TP-Link wireless router was discovered hidden behind the UPS battery backup unit. The device is connected via USB to the UPS power feed and to Port 23 on the Cisco Catalyst 2960 switch. The device is broadcasting a hidden SSID and has two external antennas. Signal strength analysis indicates it can be accessed from the Concourse B parking structure. The device has been connected for approximately 30 minutes and is actively bridging to the Concourse B operational VLAN. MAC address: 50:C7:BF:XX:XX:XX (TP-Link OUI). No logs or traffic traces have been extracted yet. The device remains in place for forensic preservation.",
+          "findings": [
+            {
+              "item": "UPS battery backup",
+              "condition": "ok",
+              "notes": "No damage or tampering observed. Device is physically attached behind unit."
+            },
+            {
+              "item": "Cisco 2960 switch Port 23",
+              "condition": "deficient",
+              "notes": "Cable to device shows no external port damage. Port status shows active link and up."
+            },
+            {
+              "item": "Wireless device (router)",
+              "condition": "failed",
+              "notes": "Modified TP-Link model, 2.4 GHz only. Hidden SSID active. Antenna pattern suggests directional access from Concourse B parking lot."
+            },
+            {
+              "item": "Power source",
+              "condition": "ok",
+              "notes": "USB cable tapped into UPS power feed. No external power source visible."
+            },
+            {
+              "item": "VLAN connectivity",
+              "condition": "not_inspected",
+              "notes": "Pending network team verification."
+            },
+            {
+              "item": "Physical access log for Door S-4",
+              "condition": "ok",
+              "notes": "Confirmed via PACS log: clone entry at 07:38."
+            },
+            {
+              "item": "CCTV coverage of room",
+              "condition": "failed",
+              "notes": "No camera inside room. Corridor camera only captures entry/exit."
+            },
+            {
+              "item": "Network switch configuration",
+              "condition": "not_inspected",
+              "notes": "Pending verification by IT network team."
+            },
+            {
+              "item": "Biometric access to room",
+              "condition": "ok",
+              "notes": "No biometric lock present. Physical key not required for entry."
+            },
+            {
+              "item": "Device MAC address",
+              "condition": "failed",
+              "notes": "50:C7:BF:XX:XX:XX — matches known TP-Link OUI. No known device in inventory with this MAC."
+            }
+          ],
+          "actionsTaken": [
+            "Photographed device and surrounding area using device camera (IMG_20261022_0834_01 to IMG_20261022_0834_04)",
+            "Documented MAC address and port connection",
+            "Secured scene with tape and signage: 'DO NOT TOUCH — FORENSIC EVIDENCE'",
+            "Notified IT Lead and Security IC via radio at 08:34",
+            "Confirmed device remains powered and connected for forensic analysis"
+          ],
+          "recommendations": [
+            "Immediately isolate Concourse B operational VLAN from core network",
+            "Conduct full switch port audit on Cisco 2960 for unauthorized MAC addresses",
+            "Trace all traffic from Port 23 using packet capture tools",
+            "Begin forensic imaging of SEC-SVR-01 and NCIA-PACS-CORE for related access logs",
+            "Deploy security team to monitor parking structure near Concourse B for suspicious activity"
+          ],
+          "photosNote": "4 photos attached: IMG_20261022_0834_01 (device view), IMG_20261022_0834_02 (port connection), IMG_20261022_0834_03 (antenna orientation), IMG_20261022_0834_04 (device behind UPS)",
+          "signature": "Lead R., IT Security Engineer",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This is the critical puzzle piece: the rogue device is a bridge, not a direct access point. The players must now recognize that physical access to a network room enabled a cyber foothold. Watch for IT to request network logs and switch configs.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:56:52.228Z"
+}

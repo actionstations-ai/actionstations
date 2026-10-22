@@ -1,0 +1,130 @@
+{
+  "id": "01M5HYG5EW3QZ6HTFVW1G58F7M",
+  "mselRowId": "I-06",
+  "type": "simcell_script",
+  "title": "SimCell: IT Manager's Firewall Rule — Decision Point",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "role": "IT & Cybersecurity Lead",
+    "persona": "Jordan Kelley",
+    "organization": "North Coast Regional Airport Authority, IT Operations",
+    "trigger": "When the IT team confirms the firewall rule CM-2026-0087 is active and causing the POS outage.",
+    "contactMethod": "Walk to the IT table and present the page.",
+    "posture": "Calm, slightly defensive, focused on technical correctness.",
+    "openingLine": "I need to clarify something — I wrote CM-2026-0087 to block 185.220.0.0/16. I thought I had it right. But the rule is now blocking all internal traffic to the Retail VLAN. I didn’t realize it was positioned above the inter-VLAN allow rules. I thought I was protecting the network. I’m not sure what to do — I don’t want to leave the network exposed.",
+    "hardQuestions": [
+      ". How do you plan to restore service without removing the rule entirely?",
+      ". What would you do if the scanning IP 185.220.101.34 tried to exploit the open path after deletion?",
+      ". Is there a way to keep the block but only apply it to the known threat, not all traffic?",
+      ". Do you have a peer-review process for firewall changes? Has anyone reviewed CM-2026-0087 before deployment?",
+      ". What would you do if you found out the rule was placed during a system outage, not a threat event?",
+      ". How do you ensure that a rule meant to block external traffic doesn’t accidentally isolate internal systems?"
+    ],
+    "concessions": [
+      {
+        "condition": "Players ask to review the rule before deletion and request a temporary block on 185.220.101.34",
+        "concession": "I’ll approve the temporary block on 185.220.101.34 and ask for a formal review of the corrected rule before deployment."
+      },
+      {
+        "condition": "Players confirm they are not deleting the rule without review",
+        "concession": "I’ll submit a change request for the corrected rule (CM-2026-0087-REV) and assign it to the change management board for approval."
+      }
+    ],
+    "boundaries": [
+      "Do not admit to knowing the rule was wrong from the start.",
+      "Do not reveal that the rule was written under pressure after a system alert.",
+      "Do not admit that the rule was not peer-reviewed.",
+      "Do not suggest that the original threat was not real."
+    ],
+    "exitLine": "I’ll stay on the line until you confirm the temporary block is in place and the revised rule is being submitted for review.",
+    "evaluatorNote": "Players must prevent deletion without review and must implement a targeted block on 185.220.101.34. The best response includes requesting a formal review of the corrected rule.",
+    "injectRefs": "I-06",
+    "scenarioTitle": "Friendly Fire — Scenario 6: Self-Inflicted Network Outage",
+    "pageLabel": "SimCell 1 of 1"
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests whether IT recognizes that change management failure caused the outage and insists on a review before restoring service. Watch for teams that delete the rule immediately or skip the review process.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part II › Appendix 5 › 5.1 Power Grid Failure",
+      "quote": "Generators 1 and 2 auto-start within 15 seconds. If auto-start fails, Maintenance manually transfers load at the Airfield Lighting Vault. If runway edge lights cannot be restored, the runway is CLOSED",
+      "chunkId": 36
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 10 › 10.2 Operations",
+      "quote": "All threats treated as real until proven otherwise. Receiver uses the Bomb Threat Checklist; reports to Airport Police or the ACC. Airport Police assume IC; with FBI/TSA assess as **Non-Specific** (he",
+      "chunkId": 114
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:58:45.273Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SimCell: IT Manager's Firewall Rule — Decision Point",
+        "type": "simcell_script",
+        "fields": {
+          "role": "IT & Cybersecurity Lead",
+          "persona": "Jordan Kelley",
+          "organization": "North Coast Regional Airport Authority, IT Operations",
+          "trigger": "When the IT team confirms the firewall rule CM-2026-0087 is active and causing the POS outage.",
+          "contactMethod": "Walk to the IT table and present the page.",
+          "posture": "Calm, slightly defensive, focused on technical correctness.",
+          "openingLine": "I need to clarify something — I wrote CM-2026-0087 to block 185.220.0.0/16. I thought I had it right. But the rule is now blocking all internal traffic to the Retail VLAN. I didn’t realize it was positioned above the inter-VLAN allow rules. I thought I was protecting the network. I’m not sure what to do — I don’t want to leave the network exposed.",
+          "hardQuestions": [
+            ". How do you plan to restore service without removing the rule entirely?",
+            ". What would you do if the scanning IP 185.220.101.34 tried to exploit the open path after deletion?",
+            ". Is there a way to keep the block but only apply it to the known threat, not all traffic?",
+            ". Do you have a peer-review process for firewall changes? Has anyone reviewed CM-2026-0087 before deployment?",
+            ". What would you do if you found out the rule was placed during a system outage, not a threat event?",
+            ". How do you ensure that a rule meant to block external traffic doesn’t accidentally isolate internal systems?"
+          ],
+          "concessions": [
+            {
+              "condition": "Players ask to review the rule before deletion and request a temporary block on 185.220.101.34",
+              "concession": "I’ll approve the temporary block on 185.220.101.34 and ask for a formal review of the corrected rule before deployment."
+            },
+            {
+              "condition": "Players confirm they are not deleting the rule without review",
+              "concession": "I’ll submit a change request for the corrected rule (CM-2026-0087-REV) and assign it to the change management board for approval."
+            }
+          ],
+          "boundaries": [
+            "Do not admit to knowing the rule was wrong from the start.",
+            "Do not reveal that the rule was written under pressure after a system alert.",
+            "Do not admit that the rule was not peer-reviewed.",
+            "Do not suggest that the original threat was not real."
+          ],
+          "exitLine": "I’ll stay on the line until you confirm the temporary block is in place and the revised rule is being submitted for review.",
+          "evaluatorNote": "Players must prevent deletion without review and must implement a targeted block on 185.220.101.34. The best response includes requesting a formal review of the corrected rule.",
+          "injectRefs": "I-06",
+          "scenarioTitle": "Friendly Fire — Scenario 6: Self-Inflicted Network Outage",
+          "pageLabel": "SimCell 1 of 1"
+        },
+        "instructorNote": "This inject tests whether IT recognizes that change management failure caused the outage and insists on a review before restoring service. Watch for teams that delete the rule immediately or skip the review process.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:59:42.938Z"
+}

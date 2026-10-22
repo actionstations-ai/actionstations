@@ -1,0 +1,164 @@
+{
+  "id": "01M5HY5P3D8J5SWSZE75MCS2BY",
+  "mselRowId": "I-06",
+  "type": "field_report",
+  "title": "Door Code Change Coordination — S-3 and S-4",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "North Coast International Airport — Security Operations",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0501",
+    "date": "10/22/2026",
+    "time": "19:05",
+    "location": "S-3 and S-4 Access Control Zones, Concourse A, Terminal Level 2",
+    "inspector": "J. Reynolds, Security Officer (Grade 4)",
+    "unit": "Patrol 7 · Unit 9",
+    "reportType": "security",
+    "weather": "Clear, 51°F, wind SSW 5 mph",
+    "summary": "Attempted to update access codes for S-3 and S-4 doors in Concourse A following public disclosure of compromised security measures. Code change initiated via PACS admin console; however, post-change verification revealed that 143 badge-holding personnel across airline, vendor, and airport staff groups remain unaware of the new codes. Coordination with airline gate supervisors and vendor leads is required to ensure all users update their access devices. Current workflow does not support automated broadcast of code changes to external employees. Manual follow-up is required for each group, and many personnel are currently on shift. Estimated time to complete full awareness rollout: 6–8 hours.",
+    "findings": [
+      {
+        "item": "PACS admin console access",
+        "condition": "ok",
+        "notes": "Successfully logged in and updated S-3 and S-4 door codes (new: 7491, 2836)."
+      },
+      {
+        "item": "Badge sync status",
+        "condition": "deficient",
+        "notes": "Post-update sync failed for 37 badges across airline and vendor roles. Manual re-authorization required for each individual."
+      },
+      {
+        "item": "Gate supervisor awareness",
+        "condition": "deficient",
+        "notes": "Gate A7 supervisor confirmed not notified of change; currently enforcing old code."
+      },
+      {
+        "item": "Vendor staff communication",
+        "condition": "deficient",
+        "notes": "Three vendor teams on-site; none received update via internal messaging system."
+      },
+      {
+        "item": "Airline crew alerting",
+        "condition": "not_inspected",
+        "notes": "No record of alert sent to airline operations team; pending action."
+      },
+      {
+        "item": "Emergency override procedure",
+        "condition": "ok",
+        "notes": "SIP override still functional and accessible via emergency panel in S-3."
+      }
+    ],
+    "actionsTaken": [
+      "Updated S-3 and S-4 door codes in PACS admin console (19:02)",
+      "Notified Concourse A Supervisor via radio (19:03)",
+      "Initiated manual badge sync for 143 users",
+      "Requested assistance from Ops to draft mass notification to airline and vendor leads"
+    ],
+    "recommendations": [
+      "Establish a centralized alert system for security measure changes to all badge-holding personnel across tenant organizations",
+      "Implement a 24-hour grace period for code changes to allow phased rollout and reduce operational friction",
+      "Require airline and vendor leads to acknowledge receipt of all security update notifications"
+    ],
+    "photosNote": "2 photos attached: IMG_20261022-1905-001 (S-3 door keypad), IMG_20261022-1905-002 (PACS console, code fields)",
+    "signature": "J. Reynolds, Security Officer (Grade 4)",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "instructorNote": "This inject reveals the real-world friction of implementing security changes across a multi-tenant airport. The team must decide whether to enforce immediate compliance or allow a phased rollout, balancing security urgency with operational continuity.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 4 › 4.5 Checklist: Repopulation",
+      "quote": "- Ops: receive \"All Clear\"; coordinate plan with LEO/TSA/Airlines; announce phased plan; manage queues. - LEO/Security/TSA: sweep sterile area; re-establish checkpoints; maintain orderly queues. - Air",
+      "chunkId": 100
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 4 › 4.4 Accountability and Auditing",
+      "quote": "Lost/stolen badges reported within 24 hours and deactivated immediately. If more than **5%** of active badges are unaccounted for, TSA may mandate a complete re-badging at the airport's expense. Tenan",
+      "chunkId": 61
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:53:02.605Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Door Code Change Coordination — S-3 and S-4",
+        "type": "field_report",
+        "fields": {
+          "organization": "North Coast International Airport — Security Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0501",
+          "date": "10/22/2026",
+          "time": "19:05",
+          "location": "S-3 and S-4 Access Control Zones, Concourse A, Terminal Level 2",
+          "inspector": "J. Reynolds, Security Officer (Grade 4)",
+          "unit": "Patrol 7 · Unit 9",
+          "reportType": "security",
+          "weather": "Clear, 51°F, wind SSW 5 mph",
+          "summary": "Attempted to update access codes for S-3 and S-4 doors in Concourse A following public disclosure of compromised security measures. Code change initiated via PACS admin console; however, post-change verification revealed that 143 badge-holding personnel across airline, vendor, and airport staff groups remain unaware of the new codes. Coordination with airline gate supervisors and vendor leads is required to ensure all users update their access devices. Current workflow does not support automated broadcast of code changes to external employees. Manual follow-up is required for each group, and many personnel are currently on shift. Estimated time to complete full awareness rollout: 6–8 hours.",
+          "findings": [
+            {
+              "item": "PACS admin console access",
+              "condition": "ok",
+              "notes": "Successfully logged in and updated S-3 and S-4 door codes (new: 7491, 2836)."
+            },
+            {
+              "item": "Badge sync status",
+              "condition": "deficient",
+              "notes": "Post-update sync failed for 37 badges across airline and vendor roles. Manual re-authorization required for each individual."
+            },
+            {
+              "item": "Gate supervisor awareness",
+              "condition": "deficient",
+              "notes": "Gate A7 supervisor confirmed not notified of change; currently enforcing old code."
+            },
+            {
+              "item": "Vendor staff communication",
+              "condition": "deficient",
+              "notes": "Three vendor teams on-site; none received update via internal messaging system."
+            },
+            {
+              "item": "Airline crew alerting",
+              "condition": "not_inspected",
+              "notes": "No record of alert sent to airline operations team; pending action."
+            },
+            {
+              "item": "Emergency override procedure",
+              "condition": "ok",
+              "notes": "SIP override still functional and accessible via emergency panel in S-3."
+            }
+          ],
+          "actionsTaken": [
+            "Updated S-3 and S-4 door codes in PACS admin console (19:02)",
+            "Notified Concourse A Supervisor via radio (19:03)",
+            "Initiated manual badge sync for 143 users",
+            "Requested assistance from Ops to draft mass notification to airline and vendor leads"
+          ],
+          "recommendations": [
+            "Establish a centralized alert system for security measure changes to all badge-holding personnel across tenant organizations",
+            "Implement a 24-hour grace period for code changes to allow phased rollout and reduce operational friction",
+            "Require airline and vendor leads to acknowledge receipt of all security update notifications"
+          ],
+          "photosNote": "2 photos attached: IMG_20261022-1905-001 (S-3 door keypad), IMG_20261022-1905-002 (PACS console, code fields)",
+          "signature": "J. Reynolds, Security Officer (Grade 4)",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject reveals the real-world friction of implementing security changes across a multi-tenant airport. The team must decide whether to enforce immediate compliance or allow a phased rollout, balancing security urgency with operational continuity.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:54:07.077Z"
+}

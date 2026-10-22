@@ -1,0 +1,165 @@
+{
+  "id": "01M5HXTB1WTR55HKJ096YETMWR",
+  "mselRowId": "I-06",
+  "type": "phone_call",
+  "title": "HR: Failed Logins on Inactive Accounts",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "North Coast Regional Airport Authority",
+    "systemName": "AOC Call Recorder - Console 5",
+    "callId": "CR-20261022-133512-0003",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Dana Reeves",
+      "number": "(330) 555-2400",
+      "label": "HR Admin"
+    },
+    "callee": {
+      "name": "Ops Director",
+      "number": "(330) 555-0911",
+      "label": "AOC Duty Officer"
+    },
+    "startTime": "10/22/2026 13:35:12",
+    "duration": "0:58",
+    "transcript": [
+      {
+        "speaker": "HR Admin",
+        "offset": "0:00",
+        "text": "AOC, this is HR. We're getting a spike in Account Locked alerts for six employees who aren't scheduled today. They're not on site, not using any systems. Their accounts keep getting hit with failed login attempts—passwords are being tried repeatedly. Is there a system-wide authentication issue?",
+        "prompt": false
+      },
+      {
+        "speaker": "AOC Duty Officer",
+        "offset": "0:15",
+        "text": "Hold on, HR—this is the AOC. We’re not seeing any active network anomalies. Is it possible someone's testing credentials from outside?",
+        "prompt": false
+      },
+      {
+        "speaker": "HR Admin",
+        "offset": "0:28",
+        "text": "No, it's not external. The failed attempts are coming from internal IP 10.66.0.50, which is assigned to NCIA-PACS-CORE. That host is not supposed to be initiating auth requests. We’ve already disabled the accounts. But the pattern's consistent—each account is being targeted with a different password set, then locked out.",
+        "prompt": false
+      },
+      {
+        "speaker": "AOC Duty Officer",
+        "offset": "0:45",
+        "text": "Understood. We’ll check the PACS logs and notify IT. Thanks for the alert.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-06"
+  },
+  "variant": "default",
+  "instructorNote": "This inject introduces credential-spray behavior from the rogue device. Watch for IT to check auth logs on NCIA-PACS-CORE and Security to validate the source IP.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.1 General Description (49 CFR § 1542.207)",
+      "quote": "NCIA uses an Automated Access Control System (AACS), commercially the \"Lenel OnGuard Integrated Security System,\" integrating Physical Access Control (PACS), Video Surveillance (VMS), and Intrusion De",
+      "chunkId": 53
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 4 › 4.4 Accountability and Auditing",
+      "quote": "Lost/stolen badges reported within 24 hours and deactivated immediately. If more than **5%** of active badges are unaccounted for, TSA may mandate a complete re-badging at the airport's expense. Tenan",
+      "chunkId": 61
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "HR Admin",
+        "voiceStyle": "calm female HR specialist, mid-40s, slightly urgent but controlled, clipped Mid-Atlantic accent",
+        "text": "AOC, this is HR. We're getting a spike in Account Locked alerts for six employees who aren't scheduled today. They're not on site, not using any systems. Their accounts keep getting hit with failed login attempts—passwords are being tried repeatedly. Is there a system-wide authentication issue?"
+      },
+      {
+        "speaker": "AOC Duty Officer",
+        "voiceStyle": "male operations director, late 50s, measured, calm but alert, neutral Midwest tone",
+        "text": "Hold on, HR—this is the AOC. We’re not seeing any active network anomalies. Is it possible someone's testing credentials from outside?"
+      },
+      {
+        "speaker": "HR Admin",
+        "voiceStyle": "calm female HR specialist, mid-40s, slightly urgent but controlled, clipped Mid-Atlantic accent",
+        "text": "No, it's not external. The failed attempts are coming from internal IP 10.66.0.50, which is assigned to NCIA-PACS-CORE. That host is not supposed to be initiating auth requests. We’ve already disabled the accounts. But the pattern's consistent—each account is being targeted with a different password set, then locked out."
+      },
+      {
+        "speaker": "AOC Duty Officer",
+        "voiceStyle": "male operations director, late 50s, measured, calm but alert, neutral Midwest tone",
+        "text": "Understood. We’ll check the PACS logs and notify IT. Thanks for the alert."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:46:52.213Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "HR: Failed Logins on Inactive Accounts",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "systemName": "AOC Call Recorder - Console 5",
+          "callId": "CR-20261022-133512-0003",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Dana Reeves",
+            "number": "(330) 555-2400",
+            "label": "HR Admin"
+          },
+          "callee": {
+            "name": "Ops Director",
+            "number": "(330) 555-0911",
+            "label": "AOC Duty Officer"
+          },
+          "startTime": "10/22/2026 13:35:12",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "HR Admin",
+              "offset": "0:00",
+              "text": "AOC, this is HR. We're getting a spike in Account Locked alerts for six employees who aren't scheduled today. They're not on site, not using any systems. Their accounts keep getting hit with failed login attempts—passwords are being tried repeatedly. Is there a system-wide authentication issue?",
+              "prompt": false
+            },
+            {
+              "speaker": "AOC Duty Officer",
+              "offset": "0:15",
+              "text": "Hold on, HR—this is the AOC. We’re not seeing any active network anomalies. Is it possible someone's testing credentials from outside?",
+              "prompt": false
+            },
+            {
+              "speaker": "HR Admin",
+              "offset": "0:28",
+              "text": "No, it's not external. The failed attempts are coming from internal IP 10.66.0.50, which is assigned to NCIA-PACS-CORE. That host is not supposed to be initiating auth requests. We’ve already disabled the accounts. But the pattern's consistent—each account is being targeted with a different password set, then locked out.",
+              "prompt": false
+            },
+            {
+              "speaker": "AOC Duty Officer",
+              "offset": "0:45",
+              "text": "Understood. We’ll check the PACS logs and notify IT. Thanks for the alert.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-06"
+        },
+        "instructorNote": "This inject introduces credential-spray behavior from the rogue device. Watch for IT to check auth logs on NCIA-PACS-CORE and Security to validate the source IP.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:48:30.776Z"
+}

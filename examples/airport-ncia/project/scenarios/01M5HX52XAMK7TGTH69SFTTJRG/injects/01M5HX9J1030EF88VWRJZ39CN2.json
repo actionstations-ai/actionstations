@@ -1,0 +1,134 @@
+{
+  "id": "01M5HX9J1030EF88VWRJZ39CN2",
+  "mselRowId": "I-11",
+  "type": "radio_call",
+  "title": "Crowd Crush at Gate C4",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "North Coast Regional Airport Authority",
+    "centerName": "Airport Operations Center (AOC)",
+    "channel": "SEC 2",
+    "frequency": "TG 4202 / 460.310 MHz",
+    "date": "10/22/2026",
+    "callsign": "Security 4",
+    "lines": [
+      {
+        "time": "11:30:02",
+        "from": "Security 4",
+        "to": "Ops",
+        "text": "Ops, this is Security 4. We have a crowd crush at Gate C4. Two flights were routed there by the old FIDS data — UA 2401 and DL 666. Passengers are shoving, fighting over seats, and there's a child down. We need help now."
+      },
+      {
+        "time": "11:30:14",
+        "from": "Ops",
+        "to": "Security 4",
+        "text": "Copy, Security 4. We're sending Police to C4 immediately. Hold position. Do not enter the gate area unless safe. We'll send a supervisor."
+      },
+      {
+        "time": "11:30:21",
+        "from": "Security 4",
+        "to": "Ops",
+        "text": "Roger. We're trying to keep people back from the gate, but the doors are jammed. We're going to need a med team on standby."
+      }
+    ],
+    "background": "terminal",
+    "voiceStyle": "Young female, urgent, voice shaking slightly",
+    "audioFile": "I-11_radio.wav",
+    "duration": "0:21",
+    "injectId": "I-11"
+  },
+  "variant": "default",
+  "instructorNote": "This inject escalates the threat from data corruption to physical safety. Watch for the Ops Director to shift priorities from flight operations to crowd control and medical response.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
+      "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
+      "chunkId": 95
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+      "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+      "chunkId": 120
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Security 4",
+        "voiceStyle": "Young female, urgent, voice shaking slightly",
+        "text": "Ops, this is Security 4. We have a crowd crush at Gate C4. Two flights were routed there by the old FIDS data — UA 2401 and DL 666. Passengers are shoving, fighting over seats, and there's a child down. We need help now."
+      },
+      {
+        "speaker": "Ops",
+        "voiceStyle": "Calm male dispatcher, steady pace, slightly clipped tone",
+        "text": "Copy, Security 4. We're sending Police to C4 immediately. Hold position. Do not enter the gate area unless safe. We'll send a supervisor."
+      },
+      {
+        "speaker": "Security 4",
+        "voiceStyle": "Young female, urgent, voice shaking slightly",
+        "text": "Roger. We're trying to keep people back from the gate, but the doors are jammed. We're going to need a med team on standby."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:37:47.830Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Crowd Crush at Gate C4",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "centerName": "Airport Operations Center (AOC)",
+          "channel": "SEC 2",
+          "frequency": "TG 4202 / 460.310 MHz",
+          "date": "10/22/2026",
+          "callsign": "Security 4",
+          "lines": [
+            {
+              "time": "11:30:02",
+              "from": "Security 4",
+              "to": "Ops",
+              "text": "Ops, this is Security 4. We have a crowd crush at Gate C4. Two flights were routed there by the old FIDS data — UA 2401 and DL 666. Passengers are shoving, fighting over seats, and there's a child down. We need help now."
+            },
+            {
+              "time": "11:30:14",
+              "from": "Ops",
+              "to": "Security 4",
+              "text": "Copy, Security 4. We're sending Police to C4 immediately. Hold position. Do not enter the gate area unless safe. We'll send a supervisor."
+            },
+            {
+              "time": "11:30:21",
+              "from": "Security 4",
+              "to": "Ops",
+              "text": "Roger. We're trying to keep people back from the gate, but the doors are jammed. We're going to need a med team on standby."
+            }
+          ],
+          "background": "terminal",
+          "voiceStyle": "Young female, urgent, voice shaking slightly",
+          "audioFile": "I-11_radio.wav",
+          "duration": "0:21",
+          "injectId": "I-11"
+        },
+        "instructorNote": "This inject escalates the threat from data corruption to physical safety. Watch for the Ops Director to shift priorities from flight operations to crowd control and medical response.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:38:54.050Z"
+}

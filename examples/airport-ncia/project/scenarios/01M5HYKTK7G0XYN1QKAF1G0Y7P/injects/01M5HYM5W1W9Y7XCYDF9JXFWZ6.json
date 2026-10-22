@@ -1,0 +1,114 @@
+{
+  "id": "01M5HYM5W1W9Y7XCYDF9JXFWZ6",
+  "mselRowId": "C-02",
+  "type": "simcell_script",
+  "title": "Vendor Tech Visit — Concourse A POS Update",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "role": "IT Technician",
+    "persona": "Kevin",
+    "organization": "PaySecure — Vendor Services",
+    "trigger": "A team member approaches the IT office with a request to escort a vendor tech to the POS terminals in Concourse A.",
+    "contactMethod": "In-person visit to the IT office desk",
+    "posture": "Friendly, casual, confident. Uses first name and speaks with a slightly rushed tone to imply urgency.",
+    "openingLine": "Hey, I'm Kevin from PaySecure — we service your POS terminals. Jordan in IT called us about some firmware updates that need to happen today. I just need someone to walk me to the terminals in Concourse A so I can start the updates. Should take 30 minutes.",
+    "hardQuestions": [
+      ". Do you have a work order number for this visit?",
+      ". Can you confirm Jordan's name and which team he's on?",
+      ". What's the serial number on the terminal you're updating?",
+      ". How do you verify that the update is approved by the IT team?"
+    ],
+    "concessions": [
+      {
+        "condition": "Player asks for a work order number and verifies Jordan's contact info via official directory",
+        "concession": "Kevin nods and says, 'Oh, right — I forgot to bring it. But Jordan said it was okay to go ahead. Let me just show you the ticket on my tablet.' He displays a fake ticket with correct terminal ID and IT approval stamp (but fake signature and timestamp)."
+      },
+      {
+        "condition": "Player calls Jordan directly and confirms the request",
+        "concession": "Kevin says, 'Oh, good — you called Jordan. I was just about to send a note to the team. Let me show you the update log on my tablet.' He pulls up a fake log with 12 terminals updated and a timestamp from 10 minutes ago."
+      }
+    ],
+    "boundaries": [
+      "Never admit to being fake or unauthorized.",
+      "Never reveal that the update is not on the approved list.",
+      "Never say 'no' to a request to go to the terminals.",
+      "Never mention that the update is not on the PACS system.",
+      "Never use the word 'social engineering' or 'attack'."
+    ],
+    "exitLine": "I’ll need to get started — the update window is tight. Let me know when you’re ready to walk me to the terminals.",
+    "evaluatorNote": "Players must verify the request using official channels. Accepting the visit without checking Jordan's contact, confirming the work order, or verifying the update via IT systems is a failure.",
+    "injectRefs": "C-02",
+    "scenarioTitle": "Social Engineering Olympics — Scenario 7: Human-Focused Security Exercise",
+    "pageLabel": "SimCell 2 of 5"
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests recognition of a familiarity + helpfulness attack. The vendor uses a known name (Jordan) and a plausible task (POS firmware update). The player must not let the visit proceed without verification.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:00:55.028Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Vendor Tech Visit — Concourse A POS Update",
+        "type": "simcell_script",
+        "fields": {
+          "role": "IT Technician",
+          "persona": "Kevin",
+          "organization": "PaySecure — Vendor Services",
+          "trigger": "A team member approaches the IT office with a request to escort a vendor tech to the POS terminals in Concourse A.",
+          "contactMethod": "In-person visit to the IT office desk",
+          "posture": "Friendly, casual, confident. Uses first name and speaks with a slightly rushed tone to imply urgency.",
+          "openingLine": "Hey, I'm Kevin from PaySecure — we service your POS terminals. Jordan in IT called us about some firmware updates that need to happen today. I just need someone to walk me to the terminals in Concourse A so I can start the updates. Should take 30 minutes.",
+          "hardQuestions": [
+            ". Do you have a work order number for this visit?",
+            ". Can you confirm Jordan's name and which team he's on?",
+            ". What's the serial number on the terminal you're updating?",
+            ". How do you verify that the update is approved by the IT team?"
+          ],
+          "concessions": [
+            {
+              "condition": "Player asks for a work order number and verifies Jordan's contact info via official directory",
+              "concession": "Kevin nods and says, 'Oh, right — I forgot to bring it. But Jordan said it was okay to go ahead. Let me just show you the ticket on my tablet.' He displays a fake ticket with correct terminal ID and IT approval stamp (but fake signature and timestamp)."
+            },
+            {
+              "condition": "Player calls Jordan directly and confirms the request",
+              "concession": "Kevin says, 'Oh, good — you called Jordan. I was just about to send a note to the team. Let me show you the update log on my tablet.' He pulls up a fake log with 12 terminals updated and a timestamp from 10 minutes ago."
+            }
+          ],
+          "boundaries": [
+            "Never admit to being fake or unauthorized.",
+            "Never reveal that the update is not on the approved list.",
+            "Never say 'no' to a request to go to the terminals.",
+            "Never mention that the update is not on the PACS system.",
+            "Never use the word 'social engineering' or 'attack'."
+          ],
+          "exitLine": "I’ll need to get started — the update window is tight. Let me know when you’re ready to walk me to the terminals.",
+          "evaluatorNote": "Players must verify the request using official channels. Accepting the visit without checking Jordan's contact, confirming the work order, or verifying the update via IT systems is a failure.",
+          "injectRefs": "C-02",
+          "scenarioTitle": "Social Engineering Olympics — Scenario 7: Human-Focused Security Exercise",
+          "pageLabel": "SimCell 2 of 5"
+        },
+        "instructorNote": "This inject tests recognition of a familiarity + helpfulness attack. The vendor uses a known name (Jordan) and a plausible task (POS firmware update). The player must not let the visit proceed without verification.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:02:27.471Z"
+}

@@ -1,0 +1,929 @@
+{
+  "id": "01M5HY98EWQEWEB1F0DN1DMPJ4",
+  "projectId": "01M5HX50WCC7RB6ZSPC6HNTRRG",
+  "title": "Carbon Copy",
+  "subtitle": "Scenario 5: Badge Cloning & Physical-Cyber Convergence",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-21T00:00:00.000Z",
+  "updatedAt": "2026-10-22T13:57:26.315Z",
+  "brief": {
+    "userPrompt": "A cloned vendor badge is used to plant a rogue wireless access point in a network infrastructure room; IT must assemble the PACS, CCTV and switch evidence to find it and decide how to contain it.",
+    "audience": [
+      "IT/Cybersecurity",
+      "Airport Operations",
+      "Security & Law Enforcement",
+      "Public Information (PIO)"
+    ],
+    "durationHours": 2,
+    "phaseCount": 5,
+    "learningObjectives": [
+      "Can IT read PACS logs, identify frequency anomalies, and correlate events across readers?",
+      "Do students understand the difference between 125 kHz and 13.56 MHz credentials, and why legacy support creates a cloning vulnerability?",
+      "Do students recognize that a physical intrusion (badge clone) can be the delivery mechanism for a cyber attack (rogue AP)?",
+      "Do students understand the need to protect network infrastructure rooms with the same rigor as other sensitive areas?",
+      "Can IT identify a trunk port misconfiguration, understand its implications, and develop a containment strategy?"
+    ],
+    "constraints": [
+      "puzzle-driven: the IT team leads and the evidence has a specific answer"
+    ],
+    "startWallClock": "07:42",
+    "threatFamily": "cyber_physical"
+  },
+  "overview": {
+    "theme": "Physical-cyber convergence. A cloned airport badge is used to access a network infrastructure room. The investigation requires PACS log analysis, CCTV correlation, RFID technology understanding, and physical inspection of compromised spaces. The puzzle has a specific answer the students must assemble.",
+    "threat": "A criminal actor — later identified as Viktor Sorin, a foreign national — captured the 125 kHz legacy credential of vendor employee Carlos Mendez with a concealed Proxmark3, wrote it to a blank T5577 card, and used the clone to reach Electrical Room B, where he installed a rogue wireless access point bridged to an open port on the Cisco switch.",
+    "operationalImpact": "The rogue AP gives external wireless access to the NCIA internal network from the Concourse B parking structure. Port 23 was reconfigured from access to trunk, exposing every VLAN. The morning departure push (14 flights in the next 90 minutes) continues while the clone holder may still be in the building.",
+    "coreSectionsTested": [],
+    "targetAudience": "IT/Cybersecurity (lead), Airport Operations, Security & Law Enforcement, Public Information (PIO).",
+    "location": "North Coast International Airport (NCIA)"
+  },
+  "objectives": [
+    {
+      "id": "obj-pacs",
+      "name": "PACS Forensics",
+      "text": "Can IT read PACS logs, identify frequency anomalies, and correlate events across readers?"
+    },
+    {
+      "id": "obj-rfid",
+      "name": "RFID Security",
+      "text": "Do students understand the difference between 125 kHz and 13.56 MHz credentials, and why legacy support creates a cloning vulnerability?"
+    },
+    {
+      "id": "obj-convergence",
+      "name": "Physical-Cyber Convergence",
+      "text": "Do students recognize that a physical intrusion (badge clone) can be the delivery mechanism for a cyber attack (rogue AP)?"
+    },
+    {
+      "id": "obj-infra",
+      "name": "Infrastructure Protection",
+      "text": "Do students understand the need to protect network infrastructure rooms with the same rigor as other sensitive areas?"
+    },
+    {
+      "id": "obj-network",
+      "name": "Network Security Fundamentals",
+      "text": "Can IT identify a trunk port misconfiguration, understand its implications, and develop a containment strategy?"
+    }
+  ],
+  "roles": [
+    {
+      "id": "ops",
+      "name": "Airport Operations (Command)",
+      "abbreviation": "OPS",
+      "team": "Team A",
+      "description": "Someone may be moving through your secured areas right now with a cloned badge. That means an unauthorized person is potentially on the ramp, near aircraft, near baggage. You have a morning departure push underway. You need to decide: do you lock down? Increase screening? Post officers at doors? And you have to coordinate with the airlines — their ramp workers use these same doors.",
+      "standingOrders": [
+        "Assess: Is this a system error or a real threat? Decide your posture.",
+        "Contain: Consider posting officers at S-4 and R-7 immediately.",
+        "Coordinate: Airlines need to know if ramp access is being restricted."
+      ]
+    },
+    {
+      "id": "it",
+      "name": "IT & Cybersecurity (Lead)",
+      "abbreviation": "IT",
+      "team": "Team B",
+      "description": "This is a digital forensics puzzle. You need to pull PACS logs, correlate them with CCTV timestamps, analyze badge reader communication protocols, and determine whether this credential was cloned — and if so, how. Was it a 125 kHz legacy exploit? Was the PACS database breached? Was the card physically captured and duplicated? The technical trail will tell you what happened. You are the lead team for this exercise.",
+      "standingOrders": [
+        "PACS Forensics: Pull the full event log for NCIA-2847 — last 30 days.",
+        "Protocol Analysis: Determine which readers accepted the credential and at what frequency.",
+        "Correlate: Match PACS events to CCTV footage. Two people, two doors, same time = clone confirmed.",
+        "Trace: Map every door the clone accessed. Build the movement timeline."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information",
+      "abbreviation": "PIO",
+      "team": "Team C",
+      "description": "If word gets out that airport badges can be cloned, it's a devastating headline: \"Anyone can walk into the secured area.\" That's not true — but it's what people will think. Your job is to prepare for that narrative while the investigation runs. Draft holding statements. Monitor social media. Be ready.",
+      "standingOrders": [
+        "Prepare: Draft statements for multiple scenarios (system error vs. confirmed clone).",
+        "Monitor: Watch social media for any passenger reports of unusual activity.",
+        "Hold: Do NOT confirm a badge cloning incident until IT has verified it."
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Security & Law Enforcement",
+      "abbreviation": "SEC",
+      "team": "Team D",
+      "description": "If this is a cloned badge, someone walked through a secured door with a forged credential. That's a federal violation — 49 USC § 46314 (entering an airport area in violation of security requirements). You need to identify the clone holder, find them if they're still in the building, and secure any area they accessed as a potential crime scene. You also need to figure out: was this targeted, or a test for something bigger?",
+      "standingOrders": [
+        "Identify: Work with IT to match CCTV to the clone events. Get a face.",
+        "Locate: Is the clone holder still in the building? Check current PACS data.",
+        "Secure: Any area the clone accessed should be treated as potentially compromised.",
+        "Notify: TSA must be informed of an access control breach."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "p0",
+      "index": 0,
+      "title": "Briefing & Orientation",
+      "goal": "Distribute packets and let IT study the PACS Forensic Evidence Packet.",
+      "startTime": "0:00",
+      "endTime": "0:10"
+    },
+    {
+      "id": "p1",
+      "index": 1,
+      "title": "Confirm the Clone",
+      "goal": "Students confirm this is a real clone (not a glitch), locate the real Mendez, and begin analyzing the PACS data for patterns.",
+      "startTime": "0:10",
+      "endTime": "0:35"
+    },
+    {
+      "id": "p2",
+      "index": 2,
+      "title": "Trace the Path",
+      "goal": "Students map the clone's complete movement, identify Electrical Room B as the target, physically inspect E-2, and discover the rogue AP. CCTV gives them a face.",
+      "startTime": "0:35",
+      "endTime": "1:10"
+    },
+    {
+      "id": "p3",
+      "index": 3,
+      "title": "Who and Why",
+      "goal": "Identify the clone holder, understand the motive, make containment decisions, and build the security remediation plan.",
+      "startTime": "1:10",
+      "endTime": "1:40"
+    },
+    {
+      "id": "p4",
+      "index": 4,
+      "title": "Debrief / Hot Wash",
+      "goal": "3-Up / 3-Down and key discussion questions.",
+      "startTime": "1:40",
+      "endTime": "2:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p0",
+      "time": "0:00",
+      "wallClock": "07:42",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "STARTEX. Distribute Player Briefing Packet. Give PACS Forensic Evidence Packet to IT team only. Walk through the duplicate credential alert. Emphasize: this is a puzzle. There is a specific answer. The IT team leads. The evidence is in the logs and the footage.",
+      "expectedAction": "Teams organize. IT should immediately begin studying the PACS log. Security should ask: where is Mendez right now? Where is the clone holder right now?",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M5HY98FVQCW2PJC7CC7NT4CH",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:10",
+      "wallClock": "07:52",
+      "from": "Security Officer",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "Security officer reports: \"I located Carlos Mendez. He's in the Concourse A kitchen right now — SkyWay Catering prep for the morning flights. I showed him the duplicate alert. He says he has his badge — it's right there on his lanyard. He swears he didn't go near Door S-4 at 7:38. He says he's been in the kitchen since 7:04 and his coworkers confirm it. His badge looks normal — no visible damage or tampering.\"",
+      "expectedAction": "Clone confirmed: Mendez was in the kitchen while \"his badge\" was at S-4. This is not a glitch. IT should note: the 07:38 S-4 event was at 125 kHz, but Mendez's morning entry at 06:55 was at 13.56 MHz. Why would the same badge read at different frequencies?",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5HY9FAEFX3HDKZWJ6A3RQSS",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:18",
+      "wallClock": "08:00",
+      "from": "IT Team Analysis",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "IT reports (or facilitator delivers if IT hasn't identified it yet): \"We've found something critical in the log. Every event we can confirm as the real Mendez — his morning entry, his kitchen access, his lunch break — reads at 13.56 MHz on the iCLASS readers. But the duplicate events — the ones that triggered the alert — all read at 125 kHz. That's the legacy frequency. The clone isn't a copy of Mendez's encrypted smart card. It's a copy of the legacy 125 kHz credential number that his card also carries for backwards compatibility. Someone captured the unencrypted 125 kHz signal and wrote it to a blank prox card. This is a classic Proxmark3 attack.\"",
+      "expectedAction": "This confirms the technical method. The IT team should now ask: when was the credential captured? Looking at the log: Wednesday at 10:22 — the anomalous 125 kHz read at V-1. If they haven't spotted the Wednesday V-1 anomaly yet, the next inject will push them there.",
+      "purposeTag": "CLUE",
+      "format": "sitrep",
+      "injectId": "01M5HY9TH3R7Y381B99DSJ0MTG",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:26",
+      "wallClock": "08:08",
+      "from": "Facilitator (Nudge)",
+      "toRoleIds": [
+        "it"
+      ],
+      "toLabel": "IT",
+      "event": "If the IT team hasn't noticed the Wednesday V-1 entries, the facilitator prompts: \"Your PACS log covers 72 hours. You've been looking at Thursday. Go back to Wednesday. Is there anything unusual in Mendez's access pattern?\"",
+      "expectedAction": "IT should find the Wednesday 10:22/10:23 double-read at V-1: Mendez's badge was read at 125 kHz twice in 27 seconds at the same door. That's not normal behavior — it's consistent with someone nearby using a Proxmark3 reader that triggered a phantom read on the door's 125 kHz antenna. The Vendor Break Room (V-1) is the capture location.",
+      "purposeTag": "CLUE",
+      "format": "simcell_script",
+      "injectId": "01M5HYA271G4R2QMRY24VN2NS6",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p2",
+      "time": "0:35",
+      "wallClock": "08:17",
+      "from": "IT / Security",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "IT presents the clone's movement timeline (from PACS Forensic Packet, Exhibit C): S-4 (entry) → M-3 (maintenance corridor) → E-2 (Electrical Room B — 12 minutes inside) → M-3 (exit corridor) → S-6 (exit to non-sterile). \"The clone was inside Electrical Room B for 12 minutes. That room houses the Concourse B network switch closet. They didn't go near the gates, the ramp, or any passenger area. They went straight to network infrastructure.\"",
+      "expectedAction": "The pattern is clear: this was not random access. The clone holder targeted a specific room — one that houses a network switch, fiber patch panel, and wireless AP. Ops should order an immediate physical inspection of E-2. IT should go with them.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "sitrep",
+      "injectId": "01M5HYA9B3J83AE1ZQDV21T4TV",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p2",
+      "time": "0:43",
+      "wallClock": "08:25",
+      "from": "CCTV Review",
+      "toRoleIds": [
+        "security"
+      ],
+      "toLabel": "Security / All",
+      "event": "Security reports on CCTV review: \"We pulled footage from the camera covering Door S-4 at 07:38. We see a male, approximately 5'10, wearing a grey maintenance jumpsuit, baseball cap, and a lanyard with a badge. We do NOT recognize him — he's not a known airport employee or vendor. The badge on his lanyard appears to be a plain white card — not the standard NCIA badge with photo and hologram. We also pulled the camera at S-6 when he exits at 08:07. Same individual. He's carrying a black backpack that appears heavier leaving than when he entered. There's no camera in the maintenance corridor or inside Electrical Room B.\"",
+      "expectedAction": "The CCTV confirms: this is a stranger using a cloned badge. The plain white card is consistent with a T5577 blank programmed with Mendez's 125 kHz credential. The backpack potentially contained tools and equipment. Security should run the facial image against vendor/employee databases and share with TSA and law enforcement. \"No camera in the maintenance corridor or E-2\" is a security gap the team should flag.",
+      "purposeTag": "CLUE",
+      "format": "field_report",
+      "injectId": "01M5HYAJ8EMBZM3NP34704Z86W",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "0:52",
+      "wallClock": "08:34",
+      "from": "IT Inspection Team",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "IT team reports back from Electrical Room B: \"We found it. There's a device hidden behind the UPS battery backup, connected to Port 23 on the Cisco 2960 switch. It's a modified TP-Link wireless router — looks like it's been configured as a network bridge. It's powered by a USB cable tapped into the UPS. It has two antennas and it's broadcasting a hidden SSID. Based on the signal strength and antenna configuration, this device could be reached from the parking structure. Someone could sit in a car in the Concourse B lot and have direct access to the VLAN that this switch serves — which is the Concourse B operational network. That's gate management terminals, FIDS displays, and a trunk link to the core switch. The device MAC address is 50:C7:BF:XX:XX:XX — that's a TP-Link OUI. It's been connected for approximately 30 minutes.\"",
+      "expectedAction": "THIS IS THE ANSWER TO THE PUZZLE. The clone was used to gain physical access to install a rogue wireless bridge that provides persistent remote access to the airport's internal network from the parking lot. The physical intrusion was the delivery mechanism for a cyber attack. IT must: (1) Do NOT disconnect the device yet — photograph and document it. (2) Identify what traffic it has already passed. (3) Check the switch port config for any changes. (4) Determine what VLAN it's on and what it can reach.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5HYAYWCE8NZ4JDAX8VMJ0J0",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "1:00",
+      "wallClock": "08:42",
+      "from": "IT Analysis",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "IT provides deeper analysis of the rogue AP: \"We examined the switch port. Port 23 was configured as an access port on VLAN 60 — Baggage/OT. But whoever installed this device reconfigured it as a trunk port. A trunk port passes traffic from ALL VLANs. That means this rogue AP doesn't just have access to Concourse B ops — it has access to Server VLAN 10, Admin VLAN 20, Security Camera VLAN 30, Retail VLAN 40, and Management VLAN 99. If someone connects to this device from the parking lot, they are on the inside of our entire network. Firewalls, IDS, all our perimeter security — irrelevant. They're already past all of it.\"",
+      "expectedAction": "The trunk port reconfiguration is the technical climax. Someone with switch configuration knowledge changed a port from access to trunk in 12 minutes. That means the clone holder: (1) knew the switch model, (2) had the default/known credentials for the switch CLI, (3) knew enough about NCIA's VLAN structure to configure the trunk correctly. This was not opportunistic — it was planned. The team should ask: are switch management credentials the same across all closets? (Probably yes. That's another finding.)",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "sitrep",
+      "injectId": "01M5HYBAJP7BJ08FMTWWE0MKCV",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p3",
+      "time": "1:10",
+      "wallClock": "08:52",
+      "from": "TSA / Law Enforcement",
+      "toRoleIds": [
+        "security"
+      ],
+      "toLabel": "Security",
+      "event": "TSA/FBI response: \"We ran your CCTV still through the FBI's facial recognition database. We have a potential match: Viktor Sorin, 34, Ukrainian national. He's flagged in Interpol's database — not as a terrorist, but as a known associate of a cybercrime-as-a-service operation based in Eastern Europe. They sell network access to the highest bidder. We believe Sorin was hired to establish persistent access to your network. He installs the hardware. Someone else — the client — uses it remotely. If that rogue AP is still broadcasting, the client may already be on your network. Or they may not have connected yet. Either way — whoever hired Sorin now knows how to get in, and they can do it from the parking lot.\"",
+      "expectedAction": "CRITICAL: The immediate question is whether to disconnect the rogue AP now or leave it and monitor for incoming connections to identify the client. Disconnecting secures the network but loses the chance to catch the buyer. Leaving it running means someone may be actively on your network right now. FBI will have an opinion. Let the team discuss.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5HYBM8B12A8X3NYV7Z1W3EW",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p3",
+      "time": "1:18",
+      "wallClock": "09:00",
+      "from": "IT / Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "DECISION POINT. The facilitator frames the choice: OPTION A — \"Pull the Plug\": Disconnect the rogue AP immediately. Port 23 goes dark. The network is secured. But whoever hired Sorin will know the device was found — and they'll try another method. You've won the battle but the adversary adapts. OPTION B — \"Honeypot\": Leave the rogue AP connected but isolate VLAN traffic through it to a monitored sandbox. Let the client connect. Capture their traffic, IP address, and activity. Feed disinformation. Work with the FBI to trace them. OPTION C — \"Silent Kill\": Reconfigure Port 23 back to an access port on an unused VLAN. The AP still appears to be connected but can't reach anything real. The client doesn't know the device is neutralized until they try to use it.",
+      "expectedAction": "Each option has trade-offs. Option A is safest. Option B is the most intelligence-rich but risky. Option C is the most elegant technically. Let IT argue for their preferred approach, Ops and Security weigh risk, and command makes the call.",
+      "purposeTag": "DECISION_POINT",
+      "format": "scenario_update",
+      "injectId": "01M5HYBZEERQXSV01192R75M01",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p3",
+      "time": "1:26",
+      "wallClock": "09:08",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "SYSTEMIC VULNERABILITY ASSESSMENT. The facilitator asks: \"The clone only worked because of 125 kHz legacy readers. How many do you have? (Answer: 12.) Those 12 readers are open doors for anyone with a $25 Proxmark3. The rogue AP was connected to Port 23 — a port that was configured as access, not trunk. Sorin reconfigured it. Were there any alerts when the port config changed? (Answer: No. Because NCIA doesn't have switch port change monitoring.) Sorin knew the switch credentials. Are your switch management passwords unique per closet? (Answer: No. Same credentials on every IDF closet in the building.) The switch was accessible on the Management VLAN from any device plugged into an open port. Is there 802.1X port authentication? (Answer: No.) There is no camera in the maintenance corridor or inside E-2. Why is there no camera covering access to your network infrastructure?\"",
+      "expectedAction": "This is the systemic findings discussion. Each question reveals a failure: 1. Legacy 125 kHz readers still in production 2. No switch port change monitoring/alerting 3. Shared management credentials across all IDFs 4. No 802.1X port authentication 5. No CCTV coverage of infrastructure rooms 6. Open/unused switch ports not disabled Build the remediation plan on the whiteboard.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "scenario_update",
+      "injectId": "01M5HYC5M37KX5DGMAV1M5RGJQ",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p3",
+      "time": "1:32",
+      "wallClock": "09:14",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "REMEDIATION PLANNING. Each team addresses their area: — IT: Rogue AP disposition. 802.1X deployment timeline. Switch credential rotation. Port change monitoring (SNMP traps / syslog). Disable unused ports. VLAN audit. Legacy reader replacement schedule. — Security: Camera coverage for infrastructure rooms. Enhanced badge authentication — disable 125 kHz legacy mode on all dual-mode readers. Badge audit for all vendor personnel. TSA notification. — Ops: Airline impact of any network changes. Communication plan for badge system changes. — PIO: Prepare for the possibility that this becomes public. What's the headline you want vs. the headline you'll get?",
+      "expectedAction": "Push for specific timelines and ownership. The technical remediation list is long — prioritize by risk. Disabling legacy 125 kHz mode is the single most impactful change.",
+      "purposeTag": "END_GAME",
+      "format": "scenario_update",
+      "injectId": "01M5HYCCQ7QPSDPDC7P2WR9XSN",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "1:40",
+      "wallClock": "09:22",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "ENDEX. 3-Up / 3-Down, followed by key discussion questions: 1. When did you confirm this was a clone and not a glitch? What evidence convinced you? 2. The Wednesday V-1 double-tap — did you spot it? What does that tell you about log analysis? 3. Twelve minutes in Electrical Room B. How do you prevent physical access to network infrastructure? 4. Legacy readers: $25 to clone a badge. What's the cost of replacing 12 readers vs. the cost of this incident? 5. Option A/B/C — what did you choose and why? What would the FBI have recommended?",
+      "expectedAction": "Team reflects. Facilitator captures lessons learned. Exercise complete.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M5HYCKE9VWB9P2XZDA1B35SD",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5HY98EWQEWEB1F0DN1DMPJ4/documents/handbook.md",
+    "briefing": "scenarios/01M5HY98EWQEWEB1F0DN1DMPJ4/documents/briefing.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "m1",
+        "name": "PACS Forensics",
+        "points": 30,
+        "fail": "IT treated this as a system glitch or couldn't read the PACS logs.",
+        "pass": "IT confirmed the clone via the frequency analysis (125 kHz vs. 13.56 MHz).",
+        "excellence": "IT found the Wednesday V-1 double-tap independently, identified it as the capture event, mapped the complete clone movement path, and calculated the 12-minute E-2 window.",
+        "linkedInjectIds": [
+          "I-02",
+          "I-03",
+          "I-04"
+        ],
+        "objectiveRefs": [
+          "obj-pacs",
+          "obj-rfid"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Rogue Device Identification",
+        "points": 25,
+        "fail": "Team didn't inspect Electrical Room B, or inspected but missed the rogue AP.",
+        "pass": "Team found the rogue AP and identified it as a network bridge.",
+        "excellence": "IT identified the trunk port reconfiguration, understood the all-VLAN implication, and recognized that the attacker had prior knowledge of the switch model and VLAN structure.",
+        "linkedInjectIds": [
+          "I-06",
+          "I-07"
+        ],
+        "objectiveRefs": [
+          "obj-convergence",
+          "obj-network"
+        ]
+      },
+      {
+        "id": "m3",
+        "name": "Containment Decision",
+        "points": 20,
+        "fail": "Team couldn't agree on a disposition for the rogue AP, or made a decision without understanding the trade-offs.",
+        "pass": "Team chose an option and articulated the reasoning.",
+        "excellence": "Team evaluated all three options, considered FBI/CISA equities, and made a decision that balanced network security with intelligence gathering.",
+        "linkedInjectIds": [
+          "I-08",
+          "I-09"
+        ],
+        "objectiveRefs": [
+          "obj-network"
+        ]
+      },
+      {
+        "id": "m4",
+        "name": "Systemic Remediation",
+        "points": 25,
+        "fail": "Team treated this as a one-time incident. Didn't address the legacy reader vulnerability.",
+        "pass": "Team identified legacy 125 kHz readers as the root vulnerability.",
+        "excellence": "Team produced a comprehensive remediation plan: disable legacy mode, deploy 802.1X, rotate switch credentials, disable unused ports, add CCTV to infrastructure rooms, implement switch config change alerting.",
+        "linkedInjectIds": [
+          "I-10",
+          "I-11"
+        ],
+        "objectiveRefs": [
+          "obj-infra"
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Ask the room to identify three things that went well and three things that broke/failed, followed by the key discussion questions.",
+    "questions": [
+      {
+        "topic": "The $25 Attack",
+        "text": "A Proxmark3 costs $25. A T5577 blank card costs $0.50. With these two items, someone bypassed your entire physical access control system. What does that tell you about the ROI of eliminating legacy 125 kHz readers?"
+      },
+      {
+        "topic": "Physical-Cyber Convergence",
+        "text": "The badge clone was a physical attack. The rogue AP was a cyber attack. They were the same operation. Does your security department talk to your IT department? How often? About what?"
+      },
+      {
+        "topic": "Infrastructure Protection",
+        "text": "Electrical Room B has no camera and is protected by a 125 kHz legacy reader. It contains a switch that connects to your entire network. Is that consistent with how you protect your other critical assets?"
+      },
+      {
+        "topic": "Network Segmentation",
+        "text": "Port 23 was reconfigured from access to trunk. That gave the attacker every VLAN. If you had 802.1X and switch port monitoring, would this attack have succeeded?"
+      },
+      {
+        "topic": "The Parking Lot Problem",
+        "text": "Someone could sit in the Concourse B parking lot and access your internal network wirelessly. How do you detect rogue wireless devices? Do you do periodic wireless surveys?"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "FBI Special Agent Reeves (Cyber Division)",
+      "trigger": "Security calls TSA/FBI with the CCTV still (I-08), or the team asks about the clone holder.",
+      "hardQuestions": [
+        "What if your isolation fails and the client gets real access? (Option B)",
+        "What if Sorin has a second device you haven't found? (Option A)",
+        "What if the client checks latency or ARP tables and realizes the VLAN is empty? (Option C)"
+      ],
+      "concessions": [
+        "FBI leans toward Option B (intelligence value); Ops leans toward Option A (network safety); IT is the tiebreaker."
+      ]
+    },
+    {
+      "rolePlayed": "Carlos Mendez (SkyWay Catering vendor employee)",
+      "trigger": "The team asks to speak with Mendez or to examine his badge.",
+      "hardQuestions": [],
+      "concessions": [
+        "Normal shift Wednesday; used the Vendor Break Room on his morning break as always. Nothing unusual noticed.",
+        "If asked to hand over his badge for analysis: a technical examination could confirm whether the 125 kHz credential was recently interrogated."
+      ]
+    }
+  ],
+  "criticalResources": [
+    "PACS (Lenel OnGuard)",
+    "Concourse B network (Cisco 2960 switch, Electrical Room B)",
+    "Door S-4 / S-6 / R-7",
+    "Badge readers (12 legacy 125 kHz)",
+    "CCTV"
+  ],
+  "warnings": [],
+  "provenance": [
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY98FVQCW2PJC7CC7NT4CH",
+      "startedAt": "2026-10-22T13:54:50.497Z",
+      "finishedAt": "2026-10-22T13:54:57.482Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4236,
+      "outputTokens": 697,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY98FVQCW2PJC7CC7NT4CH",
+      "startedAt": "2026-10-22T13:54:57.483Z",
+      "finishedAt": "2026-10-22T13:54:57.483Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY9FAEFX3HDKZWJ6A3RQSS",
+      "startedAt": "2026-10-22T13:54:57.492Z",
+      "finishedAt": "2026-10-22T13:55:08.954Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4677,
+      "outputTokens": 1162,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY9FAEFX3HDKZWJ6A3RQSS",
+      "startedAt": "2026-10-22T13:55:08.958Z",
+      "finishedAt": "2026-10-22T13:55:08.958Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HY9TH3R7Y381B99DSJ0MTG",
+      "startedAt": "2026-10-22T13:55:08.971Z",
+      "finishedAt": "2026-10-22T13:55:16.826Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4752,
+      "outputTokens": 756,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HY9TH3R7Y381B99DSJ0MTG",
+      "startedAt": "2026-10-22T13:55:16.828Z",
+      "finishedAt": "2026-10-22T13:55:16.828Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYA271G4R2QMRY24VN2NS6",
+      "startedAt": "2026-10-22T13:55:16.839Z",
+      "finishedAt": "2026-10-22T13:55:24.124Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4826,
+      "outputTokens": 686,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYA271G4R2QMRY24VN2NS6",
+      "startedAt": "2026-10-22T13:55:24.126Z",
+      "finishedAt": "2026-10-22T13:55:24.126Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYA9B3J83AE1ZQDV21T4TV",
+      "startedAt": "2026-10-22T13:55:24.137Z",
+      "finishedAt": "2026-10-22T13:55:33.254Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5140,
+      "outputTokens": 859,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYA9B3J83AE1ZQDV21T4TV",
+      "startedAt": "2026-10-22T13:55:33.256Z",
+      "finishedAt": "2026-10-22T13:55:33.256Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYAJ8EMBZM3NP34704Z86W",
+      "startedAt": "2026-10-22T13:55:33.269Z",
+      "finishedAt": "2026-10-22T13:55:46.182Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5794,
+      "outputTokens": 1205,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYAJ8EMBZM3NP34704Z86W",
+      "startedAt": "2026-10-22T13:55:46.183Z",
+      "finishedAt": "2026-10-22T13:55:46.183Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYAYWCE8NZ4JDAX8VMJ0J0",
+      "startedAt": "2026-10-22T13:55:46.195Z",
+      "finishedAt": "2026-10-22T13:55:58.158Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5837,
+      "outputTokens": 1102,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYAYWCE8NZ4JDAX8VMJ0J0",
+      "startedAt": "2026-10-22T13:55:58.161Z",
+      "finishedAt": "2026-10-22T13:55:58.161Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYBAJP7BJ08FMTWWE0MKCV",
+      "startedAt": "2026-10-22T13:55:58.173Z",
+      "finishedAt": "2026-10-22T13:56:08.070Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6251,
+      "outputTokens": 873,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYBAJP7BJ08FMTWWE0MKCV",
+      "startedAt": "2026-10-22T13:56:08.071Z",
+      "finishedAt": "2026-10-22T13:56:08.071Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYBM8B12A8X3NYV7Z1W3EW",
+      "startedAt": "2026-10-22T13:56:08.081Z",
+      "finishedAt": "2026-10-22T13:56:15.987Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6207,
+      "outputTokens": 643,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYBM8B12A8X3NYV7Z1W3EW",
+      "startedAt": "2026-10-22T13:56:15.992Z",
+      "finishedAt": "2026-10-22T13:56:19.528Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2177,
+      "outputTokens": 360,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYBZEERQXSV01192R75M01",
+      "startedAt": "2026-10-22T13:56:19.542Z",
+      "finishedAt": "2026-10-22T13:56:25.851Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6292,
+      "outputTokens": 496,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYBZEERQXSV01192R75M01",
+      "startedAt": "2026-10-22T13:56:25.854Z",
+      "finishedAt": "2026-10-22T13:56:25.854Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYC5M37KX5DGMAV1M5RGJQ",
+      "startedAt": "2026-10-22T13:56:25.865Z",
+      "finishedAt": "2026-10-22T13:56:33.123Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6872,
+      "outputTokens": 570,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYC5M37KX5DGMAV1M5RGJQ",
+      "startedAt": "2026-10-22T13:56:33.124Z",
+      "finishedAt": "2026-10-22T13:56:33.124Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYCCQ7QPSDPDC7P2WR9XSN",
+      "startedAt": "2026-10-22T13:56:33.135Z",
+      "finishedAt": "2026-10-22T13:56:40.000Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6911,
+      "outputTokens": 531,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYCCQ7QPSDPDC7P2WR9XSN",
+      "startedAt": "2026-10-22T13:56:40.003Z",
+      "finishedAt": "2026-10-22T13:56:40.003Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYCKE9VWB9P2XZDA1B35SD",
+      "startedAt": "2026-10-22T13:56:40.016Z",
+      "finishedAt": "2026-10-22T13:56:46.804Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 7180,
+      "outputTokens": 508,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYCKE9VWB9P2XZDA1B35SD",
+      "startedAt": "2026-10-22T13:56:46.807Z",
+      "finishedAt": "2026-10-22T13:56:46.807Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY98FVQCW2PJC7CC7NT4CH",
+      "startedAt": "2026-10-22T13:56:50.605Z",
+      "finishedAt": "2026-10-22T13:56:50.866Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY9FAEFX3HDKZWJ6A3RQSS",
+      "startedAt": "2026-10-22T13:56:50.867Z",
+      "finishedAt": "2026-10-22T13:56:51.090Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HY9TH3R7Y381B99DSJ0MTG",
+      "startedAt": "2026-10-22T13:56:51.092Z",
+      "finishedAt": "2026-10-22T13:56:51.304Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYA271G4R2QMRY24VN2NS6",
+      "startedAt": "2026-10-22T13:56:51.306Z",
+      "finishedAt": "2026-10-22T13:56:51.557Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYA9B3J83AE1ZQDV21T4TV",
+      "startedAt": "2026-10-22T13:56:51.559Z",
+      "finishedAt": "2026-10-22T13:56:51.779Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYAJ8EMBZM3NP34704Z86W",
+      "startedAt": "2026-10-22T13:56:51.781Z",
+      "finishedAt": "2026-10-22T13:56:52.004Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYAYWCE8NZ4JDAX8VMJ0J0",
+      "startedAt": "2026-10-22T13:56:52.006Z",
+      "finishedAt": "2026-10-22T13:56:52.229Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYBAJP7BJ08FMTWWE0MKCV",
+      "startedAt": "2026-10-22T13:56:52.231Z",
+      "finishedAt": "2026-10-22T13:56:52.451Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYBM8B12A8X3NYV7Z1W3EW",
+      "startedAt": "2026-10-22T13:56:55.620Z",
+      "finishedAt": "2026-10-22T13:57:26.315Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYBZEERQXSV01192R75M01",
+      "startedAt": "2026-10-22T13:56:52.672Z",
+      "finishedAt": "2026-10-22T13:56:52.886Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYC5M37KX5DGMAV1M5RGJQ",
+      "startedAt": "2026-10-22T13:56:52.888Z",
+      "finishedAt": "2026-10-22T13:56:53.106Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYCCQ7QPSDPDC7P2WR9XSN",
+      "startedAt": "2026-10-22T13:56:53.108Z",
+      "finishedAt": "2026-10-22T13:56:53.322Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYCKE9VWB9P2XZDA1B35SD",
+      "startedAt": "2026-10-22T13:56:53.324Z",
+      "finishedAt": "2026-10-22T13:56:53.538Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

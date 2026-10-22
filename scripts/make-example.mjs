@@ -13,7 +13,7 @@
 //   into <out>/exports/<key>/ (repair and generate export too).
 // generate: creates (or reopens) <out>/project, imports the spec's documents, routes every
 //   task to the local providers (LM Studio text, ComfyUI images, mlx-audio TTS), generates one
-//   scenario per spec entry (scenario → injects → template media for every inject, a bounded
+//   scenario per spec entry, or loads a hand-authored one (entry.seed) (scenario → injects → template media for every inject, a bounded
 //   number of AI stills and voice clips), exports the PDF set and a ZIP per scenario to
 //   <out>/exports/<key>/ and writes review material (summary, scenario, injects, documents)
 //   to <out>/review/<key>/. <out>/state.json maps scenario keys to ids so a key can be
@@ -174,12 +174,15 @@ const log = (msg) => console.log(`[make-example ${new Date().toISOString().slice
 // ---- generate ----------------------------------------------------------------------------------
 
 function documentFiles(spec) {
-  const dir = resolve(ROOT, spec.documents.dir)
   const exclude = new Set(spec.documents.exclude ?? [])
-  return readdirSync(dir)
-    .filter((f) => f.endsWith('.md') && !exclude.has(f))
-    .sort()
-    .map((f) => join(dir, f))
+  const dirs = spec.documents.dirs ?? [spec.documents.dir]
+  return dirs.flatMap((d) => {
+    const dir = resolve(ROOT, d)
+    return readdirSync(dir)
+      .filter((f) => f.endsWith('.md') && !exclude.has(f))
+      .sort()
+      .map((f) => join(dir, f))
+  })
 }
 
 function readState(out) {
@@ -313,13 +316,7 @@ async function exportScenario(invoke, projectPath, scenarioId, dir) {
   await waitForJob(invoke, jobId, 'export', 20 * 60_000)
 }
 
-async function generateOne(invoke, spec, out, projectPath, entry, state) {
-  const previous = state.scenarios[entry.key]
-  if (previous) {
-    log(`deleting the previous "${entry.key}" scenario ${previous.scenarioId}`)
-    await invoke('scenarios:delete', { projectPath, scenarioId: previous.scenarioId })
-  }
-  const t0 = Date.now()
+async function generateScenario(invoke, projectPath, entry) {
   const { jobId, scenarioId } = await invoke('generate:scenario', {
     projectPath,
     brief: {
@@ -334,6 +331,41 @@ async function generateOne(invoke, spec, out, projectPath, entry, state) {
     },
   })
   await waitForJob(invoke, jobId, `scenario ${entry.key}`, 60 * 60_000)
+  return scenarioId
+}
+
+/** A hand-authored scenario (entry.seed.scenario JSON + markdown documents) instead of a
+ *  generated one: only injects and media are generated for it. */
+async function seedScenario(invoke, projectPath, entry) {
+  const authored = JSON.parse(readFileSync(resolve(ROOT, entry.seed.scenario), 'utf8'))
+  const empty = await invoke('scenarios:create-empty', { projectPath, title: authored.title })
+  await invoke('scenarios:save', {
+    projectPath,
+    scenario: { ...authored, id: empty.id, projectId: empty.projectId, documents: {} },
+    note: 'Hand-authored scenario (example seed)',
+  })
+  for (const [kind, file] of Object.entries(entry.seed.documents ?? {}))
+    await invoke('scenarios:doc-save', {
+      projectPath,
+      scenarioId: empty.id,
+      kind,
+      markdown: readFileSync(resolve(ROOT, file), 'utf8'),
+      note: 'Hand-authored document (example seed)',
+    })
+  log(`${entry.key}: seeded "${authored.title}" (${authored.msel.length} rows)`)
+  return empty.id
+}
+
+async function generateOne(invoke, spec, out, projectPath, entry, state) {
+  const previous = state.scenarios[entry.key]
+  if (previous) {
+    log(`deleting the previous "${entry.key}" scenario ${previous.scenarioId}`)
+    await invoke('scenarios:delete', { projectPath, scenarioId: previous.scenarioId })
+  }
+  const t0 = Date.now()
+  const scenarioId = entry.seed
+    ? await seedScenario(invoke, projectPath, entry)
+    : await generateScenario(invoke, projectPath, entry)
   const scenarioSecs = Math.round((Date.now() - t0) / 1000)
   const t1 = Date.now()
   const injectJob = await invoke('generate:injects', { projectPath, scenarioId })
@@ -341,7 +373,7 @@ async function generateOne(invoke, spec, out, projectPath, entry, state) {
   const injectSecs = Math.round((Date.now() - t1) / 1000)
   let injects = await invoke('injects:list', { projectPath, scenarioId })
   const t2 = Date.now()
-  await renderMedia(invoke, projectPath, scenarioId, injects, spec.media ?? {})
+  await renderMedia(invoke, projectPath, scenarioId, injects, entry.media ?? spec.media ?? {})
   injects = await invoke('injects:list', { projectPath, scenarioId })
   const mediaSecs = Math.round((Date.now() - t2) / 1000)
   const lints = await invoke('scenarios:lint', { projectPath, scenarioId })
@@ -533,7 +565,7 @@ export function isDerived(rel) {
 // Paths that reveal the author's machine, and key-shaped strings. Story content such as
 // "/var/log/scada.log" inside a system-log inject is exactly what those injects should carry.
 const AUTHOR_PATH =
-  /(?:^|["'\s(=:])((?:\/Users\/|\/home\/|\/private\/|\/tmp\/|\/var\/folders\/|[A-Za-z]:\\+Users\\+)[^"'\s)]*)/g
+  /(?:^|["'\s(=:])((?:\/Users\/|\/home\/|\/private\/|\/tmp\/|\/var\/folders\/|[A-Za-z]:\\+Users\\+(?!\\*Public\\))[^"'\s)]*)/g
 const SECRET_HINT = /\b(?:sk-[A-Za-z0-9]{8,}|api[_-]?key\s*[:=]|Bearer\s+[A-Za-z0-9._-]{16,})/g
 
 /** Author-machine paths or secret-looking strings in a text file of the packaged project. */

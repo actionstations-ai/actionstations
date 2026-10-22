@@ -1,0 +1,184 @@
+{
+  "id": "01M5HYA9B3J83AE1ZQDV21T4TV",
+  "mselRowId": "I-04",
+  "type": "sitrep",
+  "title": "Badge Clone — Network Infrastructure Room Access Confirmed",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "number": "4",
+    "time": "10/22/2026 0817",
+    "organization": "North Coast Regional Airport Authority",
+    "issuingOffice": "IT & Cybersecurity Division",
+    "incidentName": "Badge Cloning & Physical-Cyber Convergence",
+    "period": "0800–0817",
+    "from": "IT & Cybersecurity (Lead)",
+    "to": "All (Unified Command, Security, Operations, Public Information)",
+    "summary": "The forensic analysis of the cloned badge's access events confirms a targeted movement through secure areas. The clone entered Door S-4 at 07:38, traveled through Maintenance Corridor M-3, and accessed Electrical Room B (E-2) at 07:42. The individual remained inside E-2 for 12 minutes, from 07:42 to 07:54, before exiting via M-3 to Door S-6. The room is located in Concourse B and houses the fiber patch panel, primary network switch for Concourse B, and a wireless access point. No access to passenger zones, gates, or ramp areas was recorded. The movement pattern indicates deliberate targeting of network infrastructure, not random or opportunistic access. The attacker bypassed physical and digital access controls to reach a critical node in the airport’s internal network.",
+    "keyStatus": [
+      {
+        "label": "Network Integrity",
+        "value": "Compromised (E-2 switch access)"
+      },
+      {
+        "label": "Access Control",
+        "value": "Bypassed via cloned 125 kHz badge"
+      },
+      {
+        "label": "Security Perimeter",
+        "value": "Intact (no breach of sterile area)"
+      },
+      {
+        "label": "Cyber Threat Level",
+        "value": "High (Confirmed physical-cyber convergence)"
+      }
+    ],
+    "actions": [
+      {
+        "time": "08:00",
+        "text": "IT confirmed duplicate badge event at Door S-4, 07:38"
+      },
+      {
+        "time": "08:05",
+        "text": "PACS log correlation completed; 125 kHz frequency identified as attack vector"
+      },
+      {
+        "time": "08:10",
+        "text": "Timeline of clone’s movement reconstructed from PACS and CCTV (SEC-NVR-01) logs"
+      },
+      {
+        "time": "08:15",
+        "text": "Electrical Room B (E-2) identified as target location; switch closet and patch panel confirmed as assets inside"
+      }
+    ],
+    "planned": [
+      "Immediate physical inspection of Electrical Room B (E-2) by Security and IT teams",
+      "Isolate VLAN 666 (Security Ops) from the rest of the network to prevent lateral movement",
+      "Initiate manual FIDS and BHS operations per TIRP Section 12.5",
+      "Activate FBI/CISA liaison per C2 guidance"
+    ],
+    "issues": [
+      "No physical evidence of forced entry in E-2; possible use of authorized access point (e.g., maintenance portal)",
+      "CCTV from M-3 corridor shows no individual in the video feed during E-2 access window; likely camera disabled or bypassed",
+      "Fiber patch panel not locked; staff may have left it unsecured"
+    ],
+    "nextReport": "08:30 or on significant change",
+    "preparedBy": "Lead R., IT & Cybersecurity (Lead)",
+    "approvedBy": "Dr. Elena, IT Division Director",
+    "marking": "EXERCISE EXERCISE EXERCISE"
+  },
+  "instructorNote": "This inject confirms the convergence of physical and cyber threats. Watch for the IT team to request a joint inspection of E-2, and for Security to push for perimeter lockdown. The attacker used a known maintenance path — if the team doesn’t spot that, prompt them to cross-check the map.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part II › Appendix 4 › 4.3 Active Shooter",
+      "quote": "Immediate suspension of all aircraft movement. Perimeter gates locked down (LEO entry only). See TIRP Section 12 for terminal-specific actions.",
+      "chunkId": 35
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+      "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+      "chunkId": 54
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:55:33.257Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Badge Clone — Network Infrastructure Room Access Confirmed",
+        "type": "sitrep",
+        "fields": {
+          "number": "4",
+          "time": "10/22/2026 0817",
+          "organization": "North Coast Regional Airport Authority",
+          "issuingOffice": "IT & Cybersecurity Division",
+          "incidentName": "Badge Cloning & Physical-Cyber Convergence",
+          "period": "0800–0817",
+          "from": "IT & Cybersecurity (Lead)",
+          "to": "All (Unified Command, Security, Operations, Public Information)",
+          "summary": "The forensic analysis of the cloned badge's access events confirms a targeted movement through secure areas. The clone entered Door S-4 at 07:38, traveled through Maintenance Corridor M-3, and accessed Electrical Room B (E-2) at 07:42. The individual remained inside E-2 for 12 minutes, from 07:42 to 07:54, before exiting via M-3 to Door S-6. The room is located in Concourse B and houses the fiber patch panel, primary network switch for Concourse B, and a wireless access point. No access to passenger zones, gates, or ramp areas was recorded. The movement pattern indicates deliberate targeting of network infrastructure, not random or opportunistic access. The attacker bypassed physical and digital access controls to reach a critical node in the airport’s internal network.",
+          "keyStatus": [
+            {
+              "label": "Network Integrity",
+              "value": "Compromised (E-2 switch access)"
+            },
+            {
+              "label": "Access Control",
+              "value": "Bypassed via cloned 125 kHz badge"
+            },
+            {
+              "label": "Security Perimeter",
+              "value": "Intact (no breach of sterile area)"
+            },
+            {
+              "label": "Cyber Threat Level",
+              "value": "High (Confirmed physical-cyber convergence)"
+            }
+          ],
+          "actions": [
+            {
+              "time": "08:00",
+              "text": "IT confirmed duplicate badge event at Door S-4, 07:38"
+            },
+            {
+              "time": "08:05",
+              "text": "PACS log correlation completed; 125 kHz frequency identified as attack vector"
+            },
+            {
+              "time": "08:10",
+              "text": "Timeline of clone’s movement reconstructed from PACS and CCTV (SEC-NVR-01) logs"
+            },
+            {
+              "time": "08:15",
+              "text": "Electrical Room B (E-2) identified as target location; switch closet and patch panel confirmed as assets inside"
+            }
+          ],
+          "planned": [
+            "Immediate physical inspection of Electrical Room B (E-2) by Security and IT teams",
+            "Isolate VLAN 666 (Security Ops) from the rest of the network to prevent lateral movement",
+            "Initiate manual FIDS and BHS operations per TIRP Section 12.5",
+            "Activate FBI/CISA liaison per C2 guidance"
+          ],
+          "issues": [
+            "No physical evidence of forced entry in E-2; possible use of authorized access point (e.g., maintenance portal)",
+            "CCTV from M-3 corridor shows no individual in the video feed during E-2 access window; likely camera disabled or bypassed",
+            "Fiber patch panel not locked; staff may have left it unsecured"
+          ],
+          "nextReport": "08:30 or on significant change",
+          "preparedBy": "Lead R., IT & Cybersecurity (Lead)",
+          "approvedBy": "Dr. Elena, IT Division Director",
+          "marking": "EXERCISE EXERCISE EXERCISE"
+        },
+        "instructorNote": "This inject confirms the convergence of physical and cyber threats. Watch for the IT team to request a joint inspection of E-2, and for Security to push for perimeter lockdown. The attacker used a known maintenance path — if the team doesn’t spot that, prompt them to cross-check the map.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:56:51.778Z"
+}

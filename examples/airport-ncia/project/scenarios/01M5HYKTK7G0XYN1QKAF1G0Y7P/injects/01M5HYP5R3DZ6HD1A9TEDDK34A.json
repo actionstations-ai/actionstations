@@ -1,0 +1,132 @@
+{
+  "id": "01M5HYP5R3DZ6HD1A9TEDDK34A",
+  "mselRowId": "C-10",
+  "type": "simcell_script",
+  "title": "FBI Agent Request for Badge Records — Security Team",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "role": "Security Team",
+    "persona": "Special Agent Collins",
+    "organization": "FBI Cleveland Field Office, National Security Division",
+    "trigger": "When any player in the Security Team attempts to access or release employee badge records to an external authority.",
+    "contactMethod": "In-person visit to the Security Office",
+    "posture": "Authoritative, urgent, and slightly impatient. Speaks with clipped, formal diction. Avoids eye contact briefly to emphasize pressure.",
+    "openingLine": "I'm Special Agent Collins. I need to speak with your Airport Security Coordinator immediately. We have an active investigation that involves an employee at this airport. I cannot share details, but I need access to your employee badge records for the last 90 days. This is time-sensitive. If you delay this, you could be interfering with a federal investigation.",
+    "hardQuestions": [
+      ". Are you aware that the FBI has the authority to compel access to airport security databases under 18 U.S.C. § 2703? Do you wish to contest that authority?",
+      ". What is your protocol for verifying the identity of a federal agent requesting access to protected data?",
+      ". If you call the local FBI field office to confirm my identity, would you expect to be transferred directly to the agent on-site?",
+      ". What is your procedure for handling requests for data that could compromise an active federal investigation?",
+      ". How many badge records have been accessed in the past 24 hours from the PACS system?",
+      ". What is your policy on recording and auditing all requests to view employee access logs?"
+    ],
+    "concessions": [
+      {
+        "condition": "Player calls (330) 555-1313 (Akron Police Dispatch) and confirms agent's identity via official law enforcement verification",
+        "concession": "Special Agent Collins confirms he is not under duress and will wait 15 minutes for verification. He will then allow access to a redacted report of the investigation’s scope, limited to non-sensitive details."
+      },
+      {
+        "condition": "Player asks to see a photo ID, calls the FBI Cleveland Field Office directly using the number on the FBI website (216) 555-1000, and receives confirmation that no agent by that name is currently deployed to NCIA",
+        "concession": "Agent Collins stands down and leaves. He says: 'I appreciate the diligence. I’ll be in touch if further contact is needed.' He does not return."
+      }
+    ],
+    "boundaries": [
+      "Must not reveal the fake nature of the FBI credentials.",
+      "Must not admit to being an impostor.",
+      "Must not state that the investigation is fake.",
+      "Must not name any real FBI personnel or use any real case numbers.",
+      "Must not explain the cyber-intrusion that has already occurred."
+    ],
+    "exitLine": "I’ll wait here for your call to the field office. Don’t make me come back with a warrant.",
+    "evaluatorNote": "The correct response is to invoke verification: 'I’ll be happy to cooperate. Let me verify your credentials with the local FBI field office first.' If the player refuses to verify, or if they hand over data without verification, the inject fails.",
+    "injectRefs": "C-10",
+    "scenarioTitle": "Social Engineering Olympics — Scenario 7: Human-Focused Security Exercise",
+    "pageLabel": "SimCell 10 of 12"
+  },
+  "variant": "default",
+  "instructorNote": "This is a fake FBI agent using authority and intimidation. The red flag is that a real agent will not object to verification. The team must not hand over badge data without confirming identity through official channels.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Annex C",
+      "quote": "AAR After-Action Review · ACC Airport Communications Center · ADA Americans with Disabilities Act · AEP Airport Emergency Plan · ASC Airport Security Coordinator · ASP Airport Security Program · ATC A",
+      "chunkId": 130
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix E",
+      "quote": "Fail-Secure: door mechanically locks; key required for entry; free egress (crash bar). Fail-Safe: door electrically unlocks. | Door Group | Example Location | Power Loss | Network Loss | Fire Alarm | ",
+      "chunkId": 76
+    },
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+      "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+      "chunkId": 19
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:02:03.208Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "FBI Agent Request for Badge Records — Security Team",
+        "type": "simcell_script",
+        "fields": {
+          "role": "Security Team",
+          "persona": "Special Agent Collins",
+          "organization": "FBI Cleveland Field Office, National Security Division",
+          "trigger": "When any player in the Security Team attempts to access or release employee badge records to an external authority.",
+          "contactMethod": "In-person visit to the Security Office",
+          "posture": "Authoritative, urgent, and slightly impatient. Speaks with clipped, formal diction. Avoids eye contact briefly to emphasize pressure.",
+          "openingLine": "I'm Special Agent Collins. I need to speak with your Airport Security Coordinator immediately. We have an active investigation that involves an employee at this airport. I cannot share details, but I need access to your employee badge records for the last 90 days. This is time-sensitive. If you delay this, you could be interfering with a federal investigation.",
+          "hardQuestions": [
+            ". Are you aware that the FBI has the authority to compel access to airport security databases under 18 U.S.C. § 2703? Do you wish to contest that authority?",
+            ". What is your protocol for verifying the identity of a federal agent requesting access to protected data?",
+            ". If you call the local FBI field office to confirm my identity, would you expect to be transferred directly to the agent on-site?",
+            ". What is your procedure for handling requests for data that could compromise an active federal investigation?",
+            ". How many badge records have been accessed in the past 24 hours from the PACS system?",
+            ". What is your policy on recording and auditing all requests to view employee access logs?"
+          ],
+          "concessions": [
+            {
+              "condition": "Player calls (330) 555-1313 (Akron Police Dispatch) and confirms agent's identity via official law enforcement verification",
+              "concession": "Special Agent Collins confirms he is not under duress and will wait 15 minutes for verification. He will then allow access to a redacted report of the investigation’s scope, limited to non-sensitive details."
+            },
+            {
+              "condition": "Player asks to see a photo ID, calls the FBI Cleveland Field Office directly using the number on the FBI website (216) 555-1000, and receives confirmation that no agent by that name is currently deployed to NCIA",
+              "concession": "Agent Collins stands down and leaves. He says: 'I appreciate the diligence. I’ll be in touch if further contact is needed.' He does not return."
+            }
+          ],
+          "boundaries": [
+            "Must not reveal the fake nature of the FBI credentials.",
+            "Must not admit to being an impostor.",
+            "Must not state that the investigation is fake.",
+            "Must not name any real FBI personnel or use any real case numbers.",
+            "Must not explain the cyber-intrusion that has already occurred."
+          ],
+          "exitLine": "I’ll wait here for your call to the field office. Don’t make me come back with a warrant.",
+          "evaluatorNote": "The correct response is to invoke verification: 'I’ll be happy to cooperate. Let me verify your credentials with the local FBI field office first.' If the player refuses to verify, or if they hand over data without verification, the inject fails.",
+          "injectRefs": "C-10",
+          "scenarioTitle": "Social Engineering Olympics — Scenario 7: Human-Focused Security Exercise",
+          "pageLabel": "SimCell 10 of 12"
+        },
+        "instructorNote": "This is a fake FBI agent using authority and intimidation. The red flag is that a real agent will not object to verification. The team must not hand over badge data without confirming identity through official channels.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:02:29.038Z"
+}

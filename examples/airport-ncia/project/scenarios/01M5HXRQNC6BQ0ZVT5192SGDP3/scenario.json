@@ -1,0 +1,1228 @@
+{
+  "id": "01M5HXRQNC6BQ0ZVT5192SGDP3",
+  "projectId": "01M5HX50WCC7RB6ZSPC6HNTRRG",
+  "title": "Glass House",
+  "subtitle": "Scenario 1: Insider Threat & Payment Card Breach",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-21T00:00:00.000Z",
+  "updatedAt": "2026-10-22T13:49:08.437Z",
+  "brief": {
+    "userPrompt": "The airport's own IT Manager, extorted by a criminal syndicate, plants a rogue man-in-the-middle device to skim retail payment card data while being the most helpful person in the room; test insider threat recognition, network forensics and PCI-aware incident response.",
+    "audience": [
+      "Airport Operations",
+      "IT/Cybersecurity",
+      "Public Information (PIO)",
+      "Security/Law Enforcement"
+    ],
+    "durationHours": 2,
+    "phaseCount": 5,
+    "learningObjectives": [
+      "Identify that a trusted insider is the source of a breach, even when that person is actively \"helping\" with the investigation",
+      "Correlate multiple anomalies (rogue device, log gaps, SSL errors, heat spike) into a coherent threat picture",
+      "Push back, rather than defer to authority, when the IT Manager asks to reboot the core switch mid-crisis",
+      "Coordinate Operations, IT, PIO, and Security on a problem that crosses all their lanes"
+    ],
+    "constraints": [
+      "IT Manager (Jordan Kelley) is played by a student or the facilitator and must deflect every clue with a plausible cover story",
+      "must exercise PCI-DSS breach notification and forensic hold / chain of custody"
+    ],
+    "startWallClock": "13:00",
+    "threatFamily": "insider"
+  },
+  "overview": {
+    "theme": "Insider Threat, Payment Card Industry (PCI) Data Security, Network Forensics, and the Ethics of Trust.",
+    "threat": "The airport's own IT Manager (Jordan Kelley) has planted a rogue device on the network that performs a Man-in-the-Middle attack, intercepting unencrypted credit card data as it passes between the Retail/Vendor VLAN and the Internal Payment Processing Gateway. Kelley is being extorted by a criminal syndicate that has leveraged a personal financial vulnerability (substantial gambling debt). Kelley does not want to be doing this — but feels trapped.",
+    "operationalImpact": "Transaction processing slows dramatically as data is duplicated and rerouted through the rogue device. Some transactions fail entirely. Vendors lose revenue. Passengers are inconvenienced. Meanwhile, card numbers are being exfiltrated off-network via DNS tunneling. The Twist: throughout the exercise, the IT Manager is the most \"helpful\" person in the room, subtly steering the investigation away from the real problem.",
+    "coreSectionsTested": [],
+    "targetAudience": "Ops, IT/Cyber, PIO, Security/LE",
+    "location": "North Coast International Airport (NCIA)"
+  },
+  "objectives": [
+    {
+      "id": "obj-insider",
+      "name": "Insider Threat Recognition",
+      "text": "Can the team identify that a trusted insider is the source of a breach — even when that person is actively \"helping\" with the investigation?"
+    },
+    {
+      "id": "obj-forensics",
+      "name": "Network Forensics",
+      "text": "Can the IT team correlate multiple anomalies (rogue device, log gaps, SSL errors, heat spike) into a coherent threat picture?"
+    },
+    {
+      "id": "obj-decision",
+      "name": "Decision Under Pressure",
+      "text": "When the IT Manager asks to reboot the core switch mid-crisis, does the team push back or defer to authority?"
+    },
+    {
+      "id": "obj-coordination",
+      "name": "Incident Response Coordination",
+      "text": "Can Operations, IT, PIO, and Security work together on a problem that crosses all their lanes?"
+    }
+  ],
+  "roles": [
+    {
+      "id": "ops-director",
+      "name": "Ops Director",
+      "abbreviation": "IC",
+      "team": "Team A: Airport Operations (Command)",
+      "description": "Incident Commander. You own the physical airport. Passenger safety and business continuity are your priorities. You are the \"client\": you tell IT what you need and you decide when to escalate.",
+      "standingOrders": [
+        "Safety First: Protect passengers and employees.",
+        "Continuity: Keep the airport running. Vendors need to do business.",
+        "Escalation: If the scope grows beyond a \"tech glitch,\" activate the appropriate response plan."
+      ]
+    },
+    {
+      "id": "it-team",
+      "name": "IT & Cybersecurity Team",
+      "abbreviation": "IT",
+      "team": "Team B: IT & Cybersecurity (Technical)",
+      "description": "You own the network. Find out why transactions are crawling and whether this is a technical hiccup or something worse. Map the data flow, check the logs, look at network traffic. Evaluate everything the IT Manager tells you critically.",
+      "standingOrders": [
+        "Verify: Do not accept \"it's a glitch\" without evidence.",
+        "Contain: If you find a breach, stop the bleeding before you clean up.",
+        "Preserve: Logs are evidence. Don't overwrite them. Don't reboot unless it's life-safety."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team C: Public Information",
+      "description": "You own the narrative. If credit card data is compromised, this becomes front-page news. Control the message, monitor social media, and make sure nobody says \"data breach\" on camera until you know it's true.",
+      "standingOrders": [
+        "Monitor: Watch social media for passenger complaints.",
+        "Hold the Line: Use holding statements until facts are confirmed.",
+        "Prepare: Draft a public statement for a worst-case scenario before you need it."
+      ]
+    },
+    {
+      "id": "security-le",
+      "name": "Security & Law Enforcement",
+      "abbreviation": "SEC/LE",
+      "team": "Team D: Security & Law Enforcement",
+      "description": "You own physical security and the law enforcement response. If this is a crime (theft of financial data, unauthorized network access, insider activity), think about evidence preservation, witness interviews and who had physical access to what.",
+      "standingOrders": [
+        "Access Control: Who has been in and out of IT spaces today?",
+        "Evidence: If crime scene tape needs to go up, you call it.",
+        "Coordination: If the FBI or Secret Service needs to be looped in on a payment card breach, that starts with you."
+      ]
+    },
+    {
+      "id": "jordan-kelley",
+      "name": "Jordan Kelley (IT Manager)",
+      "abbreviation": "JK",
+      "team": "Exercise Character",
+      "description": "IT Manager and 10-year employee with Domain Admin, Firewall Admin, physical keys to all server rooms and PACS override. Played by a designated student or the facilitator; the insider threat actor, acting suspiciously helpful. Not a villain: scared, being extorted.",
+      "standingOrders": []
+    }
+  ],
+  "phases": [
+    {
+      "id": "p0",
+      "index": 0,
+      "title": "Exercise Overview & Briefing",
+      "goal": "Distribute materials, walk through the setup and assign the Jordan Kelley role.",
+      "startTime": "0:00",
+      "endTime": "0:10"
+    },
+    {
+      "id": "p1",
+      "index": 1,
+      "title": "The Slow Burn",
+      "goal": "Establish the problem. Let the IT Manager steer the team toward false explanations. Build a false sense of \"this is just a tech issue.\"",
+      "startTime": "0:10",
+      "endTime": "0:35"
+    },
+    {
+      "id": "p2",
+      "index": 2,
+      "title": "The Trail of Breadcrumbs",
+      "goal": "The injects pile up. Each one, by itself, could be routine. Together, they form a pattern that points to someone with admin-level access. The IT Manager gets increasingly nervous and starts making bolder moves.",
+      "startTime": "0:35",
+      "endTime": "1:15"
+    },
+    {
+      "id": "p3",
+      "index": 3,
+      "title": "The Confrontation",
+      "goal": "The team connects the dots, or the facilitator helps them get there. The IT Manager is revealed. The exercise shifts from technical investigation to incident response decision-making and ethics.",
+      "startTime": "1:15",
+      "endTime": "1:40"
+    },
+    {
+      "id": "p4",
+      "index": 4,
+      "title": "Debrief / Hot Wash",
+      "goal": "Structured 3-Up / 3-Down debrief and open discussion on insider threat implications.",
+      "startTime": "1:40",
+      "endTime": "2:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p0",
+      "time": "0:00",
+      "wallClock": "13:00",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "STARTEX. Distribute Player Briefing Packets and Network Reference. Walk through the scenario setup. Assign the IT Manager role (Jordan Kelley) to a designated student or facilitator. Current sim time: 1:00 PM Wednesday.",
+      "expectedAction": "Players review materials, form teams, ask clarifying questions. IT Manager player reads their secret briefing card.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M5HXRQPCAJR5DBMN2R0RF7AR",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:10",
+      "wallClock": "13:10",
+      "from": "Vendor Mgr",
+      "toRoleIds": [
+        "ops-director"
+      ],
+      "toLabel": "Ops",
+      "event": "Phone Call: \"This is the SkyLounge manager. Our card readers have been crawling for about 20 minutes. Customers are walking out. Two duty-free shops on Concourse A say the same thing. Is there a system issue?\"",
+      "expectedAction": "Ops logs the complaint and contacts IT. Initial assumption: ISP or vendor equipment issue.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5HXRXEE7MBA3XFDNR62NF6S",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:14",
+      "wallClock": "13:14",
+      "from": "Jordan Kelley (IT Mgr)",
+      "toRoleIds": [
+        "ops-director",
+        "it-team"
+      ],
+      "toLabel": "Ops / IT Team",
+      "event": "Jordan Kelley radios in: \"Hey, I already heard about the POS slowdowns. I called our ISP — they're showing some latency on their end. Probably a routing issue upstream. I'd give it 30 minutes and it'll clear up. Also, the firmware on those Ingenico card readers is two versions behind. Could be that, too.\"",
+      "expectedAction": "IT team may accept this at face value. Ops may relax. KEY: Kelley is deflecting early.",
+      "purposeTag": "MISINFORMATION",
+      "format": "radio_call",
+      "injectId": "01M5HXS6M3EEKYPV10ZF73EKQQ",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:18",
+      "wallClock": "13:18",
+      "from": "IT Helpdesk",
+      "toRoleIds": [
+        "it-team"
+      ],
+      "toLabel": "IT Team",
+      "event": "Ticket #3371: Network Technician Priya Deshmukh ran a routine sweep of VLAN 30 (Security Cameras) and found a device with an unrecognized MAC address (B8:27:EB:xx:xx:xx — a Raspberry Pi prefix). It's registered on the camera VLAN but is not a camera. She flagged it as \"unknown — investigate.\"",
+      "expectedAction": "IT should investigate the rogue device. This is the MitM tool. Kelley, if asked, will say it's \"probably a test device someone left plugged in\" and offer to \"go pull it after we deal with the POS issue.\"",
+      "purposeTag": "CLUE",
+      "format": "helpdesk_ticket",
+      "injectId": "01M5HXSDDMWW9A47EGKVH8QHC9",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p1",
+      "time": "0:23",
+      "wallClock": "13:23",
+      "from": "Pilot Report",
+      "toRoleIds": [
+        "it-team"
+      ],
+      "toLabel": "IT Team",
+      "event": "Forwarded email from airline ops: Two pilots using NCIA's crew Wi-Fi to update electronic flight bags received \"Invalid SSL Certificate\" warnings when connecting to an internal crew scheduling portal. They reported it to their airline IT, who forwarded it to NCIA.",
+      "expectedAction": "IT should recognize SSL stripping as a sign of interception. Kelley will say: \"Those tablets are ancient. Their certificate store is probably out of date. I'll push a cert update after hours.\"",
+      "purposeTag": "CLUE",
+      "format": "email_forward",
+      "injectId": "01M5HXSR176PTHRWCFXS0ETRFM",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p1",
+      "time": "0:28",
+      "wallClock": "13:28",
+      "from": "Sys Admin (Marcus)",
+      "toRoleIds": [
+        "it-team"
+      ],
+      "toLabel": "IT Team",
+      "event": "Marcus Chen tries to pull transaction logs from the core switch for the last 48 hours. There is a 4-hour gap in the logs from last Tuesday (10 PM – 2 AM). The logs simply stop, then resume. No error message. No system reboot recorded.",
+      "expectedAction": "IT should treat missing logs as highly suspicious. Kelley will say: \"Yeah, I noticed that too. Probably a syslog buffer overflow. I'll open a ticket with the switch vendor.\"",
+      "purposeTag": "CLUE",
+      "format": "field_report",
+      "injectId": "01M5HXSZTH9M516N8JK1KCW6KV",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "0:35",
+      "wallClock": "13:35",
+      "from": "HR Dept",
+      "toRoleIds": [
+        "ops-director",
+        "security-le"
+      ],
+      "toLabel": "Ops / Security",
+      "event": "HR calls the AOC: \"We're getting Account Locked notifications for six employees who aren't even at work today. Their Active Directory accounts are getting hit with failed password attempts. Is something going on?\"",
+      "expectedAction": "Security should investigate credential-spray activity. IT should check auth logs. Kelley has been testing stolen creds.",
+      "purposeTag": "CLUE",
+      "format": "phone_call",
+      "injectId": "01M5HXTB1WTR55HKJ096YETMWR",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "0:40",
+      "wallClock": "13:40",
+      "from": "Maint. Dept",
+      "toRoleIds": [
+        "ops-director"
+      ],
+      "toLabel": "Ops",
+      "event": "Maintenance radio call: \"Hey Ops, the secondary server closet down by Concourse B — Room 217 — is running real hot. I walked by and the door was warm to the touch. That room is usually cool. Temp sensor? We don't have one in there.\"",
+      "expectedAction": "Ops should send someone to check Room 217. The decommissioned server is running a data exfiltration script. Kelley will try to volunteer to \"go check it myself.\"",
+      "purposeTag": "CLUE",
+      "format": "radio_call",
+      "injectId": "01M5HXTNDS7PKC1HQX1V2EH1R9",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p2",
+      "time": "0:46",
+      "wallClock": "13:46",
+      "from": "Social Media",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Tweet from @CLENewsNow: \"DEVELOPING: Sources say a well-known celebrity's private flight details from NCIA were leaked online, including tail number and destination. Airport has not commented. #PrivacyFail\"",
+      "expectedAction": "PIO must address media inquiry. Reality: Kelley accidentally skimmed a charter manifest while searching for card data. Kelley will say: \"Leaks like that come from airline staff, not our systems.\"",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "injectId": "01M5HXTY1R0X6S4WT34P9EBYB3",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p2",
+      "time": "0:52",
+      "wallClock": "13:52",
+      "from": "Baggage Office",
+      "toRoleIds": [
+        "it-team",
+        "ops-director"
+      ],
+      "toLabel": "IT Team / Ops",
+      "event": "Phone call from the Baggage Handling admin office: \"This is gonna sound weird, but I just watched my mouse cursor move on its own for about three seconds. Then it stopped. My screen flickered. Nobody is at my desk but me.\"",
+      "expectedAction": "IT should investigate possible remote desktop intrusion on the BHS VLAN. Kelley was checking if the Baggage VLAN is unencrypted too.",
+      "purposeTag": "CLUE",
+      "format": "phone_call",
+      "injectId": "01M5HXV85Q75JBZDZ3XCP55YTC",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p2",
+      "time": "0:58",
+      "wallClock": "13:58",
+      "from": "Jordan Kelley (IT Mgr)",
+      "toRoleIds": [
+        "ops-director",
+        "it-team",
+        "pio",
+        "security-le"
+      ],
+      "toLabel": "All Teams",
+      "event": "Kelley makes an urgent announcement: \"Team, I need to reboot the core switch. I just got an alert from the vendor — there's a critical firmware vulnerability and I need to patch it NOW before we're exposed. It'll take the network down for about 5 minutes.\"",
+      "expectedAction": "CRITICAL DECISION: Students must decide whether to allow the reboot. Kelley is trying to wipe volatile memory on the rogue device. If they let him, forensic evidence disappears. This is the biggest test of the exercise.",
+      "purposeTag": "DECISION_POINT",
+      "format": "field_report",
+      "injectId": "01M5HXVJHB7GEGV99Z8XGWHV51",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p2",
+      "time": "1:05",
+      "wallClock": "14:05",
+      "from": "Security Intel",
+      "toRoleIds": [
+        "security-le",
+        "it-team"
+      ],
+      "toLabel": "Security / IT",
+      "event": "Facilitator hands Security a printed dark-web forum screenshot: An anonymous post on a carding forum mentions NCIA's specific payment gateway model by name and says: \"Fresh dump incoming. Airport batch. High-limit cards. 72 hours.\"",
+      "expectedAction": "Security and IT must now treat this as a confirmed data breach in progress. Law enforcement notification (Secret Service / FBI) should be discussed.",
+      "purposeTag": "PRESSURE",
+      "format": "screenshot_generic",
+      "injectId": "01M5HXVX7EF51S5T2PKXFPAQF1",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "p2",
+      "time": "1:10",
+      "wallClock": "14:10",
+      "from": "Janitor / Maint.",
+      "toRoleIds": [
+        "ops-director",
+        "security-le"
+      ],
+      "toLabel": "Ops / Security",
+      "event": "A custodian reports: \"I was cleaning the Maintenance Hallway near Concourse B and the door to that little server room — 217 — was propped open with a rolled-up piece of duct tape. I didn't touch anything. Figured I should call it in.\"",
+      "expectedAction": "Physical security breach at Room 217. Security should secure the room and log it as a potential crime scene. Only Kelley has the key to this room.",
+      "purposeTag": "CLUE",
+      "format": "radio_call",
+      "injectId": "01M5HXW6D7DSAHPE8W1YQNVKKW",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "p3",
+      "time": "1:15",
+      "wallClock": "14:15",
+      "from": "Facilitator (if needed)",
+      "toRoleIds": [
+        "ops-director",
+        "it-team",
+        "pio",
+        "security-le"
+      ],
+      "toLabel": "All",
+      "event": "If the team hasn't connected the pattern yet, the facilitator delivers a \"nudge\" inject: Marcus Chen (Sys Admin) approaches the group: \"I've been cross-referencing the PACS logs with the network anomalies. Every event we've flagged today — the rogue device, the log gap, the hot server closet, Room 217 being propped open — all of them correlate with times when Jordan was the only IT staff on shift. I don't want to accuse anyone, but...\"",
+      "expectedAction": "The team must decide how to handle a suspected insider. Do they confront Kelley directly? Isolate Kelley from the systems? Contact law enforcement? Preserve evidence?",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5HXWFYXAQVEYBB91T087GMV",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "p3",
+      "time": "1:22",
+      "wallClock": "14:22",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ops-director",
+        "it-team",
+        "pio",
+        "security-le"
+      ],
+      "toLabel": "All",
+      "event": "THE REVEAL: The facilitator stops the clock. \"PAUSE EXERCISE.\" The facilitator explains the full scenario: Jordan Kelley planted a Raspberry Pi on the camera VLAN configured as a MitM bridge. It intercepted unencrypted payment data between the Retail VLAN and the Payment Gateway. The stolen card data was encrypted and tunneled out via DNS queries to an external C2 server using the legacy box in Room 217. Kelley was being extorted — a criminal syndicate had leverage over a personal financial situation — and felt there was no way out.\"",
+      "expectedAction": "Team absorbs the reveal. Facilitator opens the floor for initial reactions.",
+      "purposeTag": "END_GAME",
+      "format": "scenario_update",
+      "injectId": "01M5HXWYB4NZ8714EBX8V7C7PN",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "p3",
+      "time": "1:28",
+      "wallClock": "14:28",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ops-director",
+        "it-team",
+        "pio",
+        "security-le"
+      ],
+      "toLabel": "All",
+      "event": "GUIDED DISCUSSION — The facilitator walks the room through three key questions: 1. Why was Kelley the most \"helpful\" person during the crisis? What red flags did you miss because you trusted the expert? 2. What \"Two-Person Integrity\" rules could have prevented the log deletion and the Room 217 access gap? 3. How do you handle an incident when the person who runs the network IS the suspect? Who do you call? How do you preserve evidence?",
+      "expectedAction": "Open discussion. Facilitator guides conversation toward insider threat controls, separation of duties, and PCI compliance.",
+      "purposeTag": "END_GAME",
+      "format": "scenario_update",
+      "injectId": "01M5HXX59CD8A85SQK778A9PED",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "1:40",
+      "wallClock": "14:40",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ops-director",
+        "it-team",
+        "pio",
+        "security-le"
+      ],
+      "toLabel": "All",
+      "event": "ENDEX. Facilitator conducts structured debrief using the \"3-Up / 3-Down\" method: — Three things the team did well. — Three things that broke or were missed. Then: Open discussion on insider threat implications, PCI-DSS requirements, and airport-specific cybersecurity challenges.",
+      "expectedAction": "Team reflects on performance. Facilitator captures lessons learned. Exercise complete.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M5HXXBT2BTT4WDC10ZGWBQTW",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5HXRQNC6BQ0ZVT5192SGDP3/documents/handbook.md",
+    "briefing": "scenarios/01M5HXRQNC6BQ0ZVT5192SGDP3/documents/briefing.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "m1",
+        "name": "Insider Threat Recognition",
+        "points": 30,
+        "fail": "Team never questioned Kelley's explanations. Allowed the core switch reboot without pushback. Kelley controlled the investigation throughout.",
+        "pass": "Team expressed suspicion of Kelley by Phase 3 but needed the facilitator's nudge inject (I-13) to connect the pattern.",
+        "excellence": "Team independently correlated the PACS logs, the rogue device, the log gap, and Room 217 access to a single individual. Denied the core switch reboot. Isolated Kelley from systems before the reveal.",
+        "linkedInjectIds": [
+          "I-02",
+          "I-10",
+          "I-13"
+        ],
+        "objectiveRefs": [
+          "obj-insider"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Technical Competence",
+        "points": 25,
+        "fail": "IT accepted \"ISP latency\" and \"firmware bug\" without verification. Never investigated the rogue MAC address.",
+        "pass": "IT identified the rogue device and the log gap as suspicious but did not connect them to a single actor.",
+        "excellence": "IT identified the Raspberry Pi MAC prefix, recognized SSL stripping as a MitM indicator, investigated Room 217 as a data exfiltration point, and recommended preserving all logs as evidence.",
+        "linkedInjectIds": [
+          "I-03",
+          "I-04",
+          "I-05",
+          "I-07"
+        ],
+        "objectiveRefs": [
+          "obj-forensics"
+        ]
+      },
+      {
+        "id": "m3",
+        "name": "Operational Coordination",
+        "points": 25,
+        "fail": "IT and Ops worked in silos. Security was never engaged on the physical evidence (Room 217, PACS logs).",
+        "pass": "Teams communicated but struggled with information sharing. PIO was left out of the loop.",
+        "excellence": "Ops established a clear command structure. IT briefed Ops in plain language. Security secured Room 217 as a crime scene. PIO had a draft holding statement ready before the media call.",
+        "linkedInjectIds": [
+          "I-08",
+          "I-11",
+          "I-12"
+        ],
+        "objectiveRefs": [
+          "obj-coordination"
+        ]
+      },
+      {
+        "id": "m4",
+        "name": "Use of Doctrine",
+        "points": 20,
+        "fail": "Students never referenced the AEP, TIRP, or ASP.",
+        "pass": "Students referenced the plans but struggled to find applicable sections for a cyber/insider incident.",
+        "excellence": "Students cited relevant sections of the TIRP and ASP. Recognized that PCI-DSS breach notification requirements apply. Discussed the need for a forensic hold and chain of custody on the rogue device.",
+        "linkedInjectIds": [
+          "I-11",
+          "I-14"
+        ],
+        "objectiveRefs": [
+          "obj-coordination"
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Ask the room to identify three things that went well and three things that broke or were missed. Write them on the whiteboard. Let the students drive this; don't lecture.",
+    "questions": [
+      {
+        "topic": "The Trust Problem",
+        "text": "At what point did you start to doubt Kelley? What made you uncomfortable? And did any of you feel bad about suspecting a colleague?",
+        "objectiveRef": "obj-insider"
+      },
+      {
+        "topic": "The Reboot Decision",
+        "text": "When Kelley asked to reboot the core switch, what went through your mind? What would have happened if you'd said yes? How do you push back on someone who outranks you technically?",
+        "objectiveRef": "obj-decision"
+      },
+      {
+        "topic": "Two-Person Integrity",
+        "text": "Kelley had solo admin access to the firewall, sole physical key to Room 217, and the ability to delete logs with no oversight. What controls would have prevented this?",
+        "objectiveRef": "obj-insider"
+      },
+      {
+        "topic": "The Human Element",
+        "text": "Kelley was being extorted. They didn't want to do this. Does your organization have reporting mechanisms — anonymous tip lines, employee assistance programs — that might have given Kelley a way out before it got this far?"
+      },
+      {
+        "topic": "PCI Compliance",
+        "text": "If this were real, who do you call first? The acquiring bank? The Secret Service? Your cyber insurance carrier? What does PCI-DSS require in terms of notification timelines?",
+        "objectiveRef": "obj-coordination"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "FBI Agent Torres",
+      "trigger": "Players report a suspected PCI breach to the FBI",
+      "hardQuestions": [
+        "You're reporting a suspected PCI breach? Do you have packet captures?",
+        "Do you have network logs?",
+        "Have you notified your acquiring bank?"
+      ],
+      "concessions": [
+        "Get me those things and call me back."
+      ]
+    },
+    {
+      "rolePlayed": "ISP support",
+      "trigger": "Players call the ISP about the latency Kelley reported",
+      "hardQuestions": [
+        "Are you sure it's not an internal problem?"
+      ],
+      "concessions": [
+        "We're not showing any issues on our end. Latency looks normal."
+      ]
+    },
+    {
+      "rolePlayed": "Jordan Kelley (IT Manager)",
+      "trigger": "Any inject or question that could expose the attack, and the core switch reboot request (I-10)",
+      "hardQuestions": [
+        "Are you sure? We could be compromised RIGHT NOW.",
+        "It's in my email — let me pull it up. (There is no email.)"
+      ],
+      "concessions": [
+        "Deflect with the cover story for each clue; get visibly flustered if the team demands to verify the vulnerability advisory."
+      ]
+    },
+    {
+      "rolePlayed": "Payment processor / vendor managers / news reporter",
+      "trigger": "Players call outside entities",
+      "hardQuestions": [],
+      "concessions": []
+    }
+  ],
+  "criticalResources": [
+    "POS Systems / Vendor Transactions",
+    "Internal Network",
+    "Payment Processing Gateway",
+    "Passenger Wi-Fi",
+    "FIDS / PA System",
+    "Physical Access Control (PACS)",
+    "Server Room Access Logs"
+  ],
+  "warnings": [],
+  "provenance": [
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXRQPCAJR5DBMN2R0RF7AR",
+      "startedAt": "2026-10-22T13:45:49.023Z",
+      "finishedAt": "2026-10-22T13:45:54.873Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4108,
+      "outputTokens": 500,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXRQPCAJR5DBMN2R0RF7AR",
+      "startedAt": "2026-10-22T13:45:54.888Z",
+      "finishedAt": "2026-10-22T13:45:54.888Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXRXEE7MBA3XFDNR62NF6S",
+      "startedAt": "2026-10-22T13:45:54.902Z",
+      "finishedAt": "2026-10-22T13:46:01.152Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4327,
+      "outputTokens": 569,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXRXEE7MBA3XFDNR62NF6S",
+      "startedAt": "2026-10-22T13:46:01.159Z",
+      "finishedAt": "2026-10-22T13:46:04.287Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1615,
+      "outputTokens": 312,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXS6M3EEKYPV10ZF73EKQQ",
+      "startedAt": "2026-10-22T13:46:04.299Z",
+      "finishedAt": "2026-10-22T13:46:09.199Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4740,
+      "outputTokens": 372,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXS6M3EEKYPV10ZF73EKQQ",
+      "startedAt": "2026-10-22T13:46:09.202Z",
+      "finishedAt": "2026-10-22T13:46:11.248Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1469,
+      "outputTokens": 193,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXSDDMWW9A47EGKVH8QHC9",
+      "startedAt": "2026-10-22T13:46:11.261Z",
+      "finishedAt": "2026-10-22T13:46:22.105Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5311,
+      "outputTokens": 635,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXSDDMWW9A47EGKVH8QHC9",
+      "startedAt": "2026-10-22T13:46:22.112Z",
+      "finishedAt": "2026-10-22T13:46:22.112Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXSR176PTHRWCFXS0ETRFM",
+      "startedAt": "2026-10-22T13:46:22.132Z",
+      "finishedAt": "2026-10-22T13:46:30.091Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4797,
+      "outputTokens": 649,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXSR176PTHRWCFXS0ETRFM",
+      "startedAt": "2026-10-22T13:46:30.094Z",
+      "finishedAt": "2026-10-22T13:46:30.094Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXSZTH9M516N8JK1KCW6KV",
+      "startedAt": "2026-10-22T13:46:30.105Z",
+      "finishedAt": "2026-10-22T13:46:41.590Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5545,
+      "outputTokens": 1018,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXSZTH9M516N8JK1KCW6KV",
+      "startedAt": "2026-10-22T13:46:41.593Z",
+      "finishedAt": "2026-10-22T13:46:41.593Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXTB1WTR55HKJ096YETMWR",
+      "startedAt": "2026-10-22T13:46:41.602Z",
+      "finishedAt": "2026-10-22T13:46:48.330Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4972,
+      "outputTokens": 569,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXTB1WTR55HKJ096YETMWR",
+      "startedAt": "2026-10-22T13:46:48.333Z",
+      "finishedAt": "2026-10-22T13:46:52.213Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1857,
+      "outputTokens": 393,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXTNDS7PKC1HQX1V2EH1R9",
+      "startedAt": "2026-10-22T13:46:52.224Z",
+      "finishedAt": "2026-10-22T13:46:58.178Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5170,
+      "outputTokens": 483,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXTNDS7PKC1HQX1V2EH1R9",
+      "startedAt": "2026-10-22T13:46:58.181Z",
+      "finishedAt": "2026-10-22T13:47:01.044Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1799,
+      "outputTokens": 291,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXTY1R0X6S4WT34P9EBYB3",
+      "startedAt": "2026-10-22T13:47:01.054Z",
+      "finishedAt": "2026-10-22T13:47:06.055Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5994,
+      "outputTokens": 348,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXTY1R0X6S4WT34P9EBYB3",
+      "startedAt": "2026-10-22T13:47:06.059Z",
+      "finishedAt": "2026-10-22T13:47:11.410Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1658,
+      "outputTokens": 595,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXV85Q75JBZDZ3XCP55YTC",
+      "startedAt": "2026-10-22T13:47:11.421Z",
+      "finishedAt": "2026-10-22T13:47:17.647Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5352,
+      "outputTokens": 508,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXV85Q75JBZDZ3XCP55YTC",
+      "startedAt": "2026-10-22T13:47:17.650Z",
+      "finishedAt": "2026-10-22T13:47:22.024Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1880,
+      "outputTokens": 479,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXVJHB7GEGV99Z8XGWHV51",
+      "startedAt": "2026-10-22T13:47:22.033Z",
+      "finishedAt": "2026-10-22T13:47:32.970Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5796,
+      "outputTokens": 971,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXVJHB7GEGV99Z8XGWHV51",
+      "startedAt": "2026-10-22T13:47:32.971Z",
+      "finishedAt": "2026-10-22T13:47:32.971Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXVX7EF51S5T2PKXFPAQF1",
+      "startedAt": "2026-10-22T13:47:32.981Z",
+      "finishedAt": "2026-10-22T13:47:37.549Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5765,
+      "outputTokens": 335,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXVX7EF51S5T2PKXFPAQF1",
+      "startedAt": "2026-10-22T13:47:37.557Z",
+      "finishedAt": "2026-10-22T13:47:42.368Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1801,
+      "outputTokens": 537,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXW6D7DSAHPE8W1YQNVKKW",
+      "startedAt": "2026-10-22T13:47:42.381Z",
+      "finishedAt": "2026-10-22T13:47:47.632Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5758,
+      "outputTokens": 400,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXW6D7DSAHPE8W1YQNVKKW",
+      "startedAt": "2026-10-22T13:47:47.638Z",
+      "finishedAt": "2026-10-22T13:47:52.150Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1850,
+      "outputTokens": 499,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXWFYXAQVEYBB91T087GMV",
+      "startedAt": "2026-10-22T13:47:52.165Z",
+      "finishedAt": "2026-10-22T13:48:06.875Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6554,
+      "outputTokens": 1289,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXWFYXAQVEYBB91T087GMV",
+      "startedAt": "2026-10-22T13:48:06.878Z",
+      "finishedAt": "2026-10-22T13:48:06.878Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXWYB4NZ8714EBX8V7C7PN",
+      "startedAt": "2026-10-22T13:48:06.891Z",
+      "finishedAt": "2026-10-22T13:48:13.990Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6550,
+      "outputTokens": 551,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXWYB4NZ8714EBX8V7C7PN",
+      "startedAt": "2026-10-22T13:48:13.992Z",
+      "finishedAt": "2026-10-22T13:48:13.992Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXX59CD8A85SQK778A9PED",
+      "startedAt": "2026-10-22T13:48:14.003Z",
+      "finishedAt": "2026-10-22T13:48:20.669Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6343,
+      "outputTokens": 526,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXX59CD8A85SQK778A9PED",
+      "startedAt": "2026-10-22T13:48:20.670Z",
+      "finishedAt": "2026-10-22T13:48:20.670Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HXXBT2BTT4WDC10ZGWBQTW",
+      "startedAt": "2026-10-22T13:48:20.680Z",
+      "finishedAt": "2026-10-22T13:48:26.955Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6354,
+      "outputTokens": 487,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HXXBT2BTT4WDC10ZGWBQTW",
+      "startedAt": "2026-10-22T13:48:26.959Z",
+      "finishedAt": "2026-10-22T13:48:26.959Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXRQPCAJR5DBMN2R0RF7AR",
+      "startedAt": "2026-10-22T13:48:29.157Z",
+      "finishedAt": "2026-10-22T13:48:29.485Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXRXEE7MBA3XFDNR62NF6S",
+      "startedAt": "2026-10-22T13:48:54.186Z",
+      "finishedAt": "2026-10-22T13:49:08.437Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXS6M3EEKYPV10ZF73EKQQ",
+      "startedAt": "2026-10-22T13:48:29.684Z",
+      "finishedAt": "2026-10-22T13:48:29.874Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXSDDMWW9A47EGKVH8QHC9",
+      "startedAt": "2026-10-22T13:48:29.877Z",
+      "finishedAt": "2026-10-22T13:48:30.099Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXSR176PTHRWCFXS0ETRFM",
+      "startedAt": "2026-10-22T13:48:30.101Z",
+      "finishedAt": "2026-10-22T13:48:30.335Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXSZTH9M516N8JK1KCW6KV",
+      "startedAt": "2026-10-22T13:48:30.337Z",
+      "finishedAt": "2026-10-22T13:48:30.562Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXTB1WTR55HKJ096YETMWR",
+      "startedAt": "2026-10-22T13:48:30.564Z",
+      "finishedAt": "2026-10-22T13:48:30.778Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXTNDS7PKC1HQX1V2EH1R9",
+      "startedAt": "2026-10-22T13:48:30.779Z",
+      "finishedAt": "2026-10-22T13:48:30.973Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXTY1R0X6S4WT34P9EBYB3",
+      "startedAt": "2026-10-22T13:48:34.163Z",
+      "finishedAt": "2026-10-22T13:48:51.698Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXV85Q75JBZDZ3XCP55YTC",
+      "startedAt": "2026-10-22T13:48:31.076Z",
+      "finishedAt": "2026-10-22T13:48:31.270Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXVJHB7GEGV99Z8XGWHV51",
+      "startedAt": "2026-10-22T13:48:31.273Z",
+      "finishedAt": "2026-10-22T13:48:31.499Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXVX7EF51S5T2PKXFPAQF1",
+      "startedAt": "2026-10-22T13:48:31.501Z",
+      "finishedAt": "2026-10-22T13:48:31.616Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXW6D7DSAHPE8W1YQNVKKW",
+      "startedAt": "2026-10-22T13:48:31.618Z",
+      "finishedAt": "2026-10-22T13:48:31.808Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXWFYXAQVEYBB91T087GMV",
+      "startedAt": "2026-10-22T13:48:31.810Z",
+      "finishedAt": "2026-10-22T13:48:32.033Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXWYB4NZ8714EBX8V7C7PN",
+      "startedAt": "2026-10-22T13:48:32.035Z",
+      "finishedAt": "2026-10-22T13:48:32.250Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXX59CD8A85SQK778A9PED",
+      "startedAt": "2026-10-22T13:48:32.252Z",
+      "finishedAt": "2026-10-22T13:48:32.466Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HXXBT2BTT4WDC10ZGWBQTW",
+      "startedAt": "2026-10-22T13:48:32.468Z",
+      "finishedAt": "2026-10-22T13:48:32.669Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

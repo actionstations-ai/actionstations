@@ -1,0 +1,987 @@
+{
+  "id": "01M5HYKTK7G0XYN1QKAF1G0Y7P",
+  "projectId": "01M5HX50WCC7RB6ZSPC6HNTRRG",
+  "title": "Social Engineering Olympics",
+  "subtitle": "Scenario 7: Human-Focused Security Exercise",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-21T00:00:00.000Z",
+  "updatedAt": "2026-10-22T14:03:00.548Z",
+  "brief": {
+    "userPrompt": "Over two hours the facilitator role-plays 12 phone, email, in-person and social media contacts, 9 of them social engineering attacks and 3 legitimate, and teams must verify each one without rejecting everything.",
+    "audience": [
+      "Airport Operations & Administration",
+      "IT & Cybersecurity",
+      "Public Information (PIO)",
+      "Security & Law Enforcement"
+    ],
+    "durationHours": 2,
+    "phaseCount": 5,
+    "learningObjectives": [
+      "Recognize common social engineering techniques in real time",
+      "Follow established verification procedures instead of taking shortcuts",
+      "Distinguish a social engineering attack from a legitimate request",
+      "Maintain professionalism when pressured, flattered, or intimidated"
+    ],
+    "constraints": [
+      "12 contacts: 9 social engineering attempts and 3 legitimate requests",
+      "Scored: +2 correct handling, -1 for falling for a fake or rejecting a real contact"
+    ],
+    "threatFamily": "physical_security"
+  },
+  "overview": {
+    "theme": "Human factors in airport security. Social engineering techniques. Verification procedures. The tension between being helpful and being secure.",
+    "threat": "Over the course of the exercise, the facilitator delivers 12 contacts — phone calls, emails, in-person visits, and social media messages. 9 of them are social engineering attacks using different techniques (authority, urgency, familiarity, helpfulness, flattery, intimidation, sympathy). 3 of them are legitimate requests. The students don't know which is which.",
+    "operationalImpact": "There is no malware and no system outage. The risk is people handing over information, access, or credentials to a stranger, or rejecting legitimate fire, vendor, and community contacts out of paranoia.",
+    "coreSectionsTested": [],
+    "targetAudience": "Airport Operations & Administration, IT & Cybersecurity, Public Information (PIO), Security & Law Enforcement.",
+    "location": "North Coast International Airport (NCIA)"
+  },
+  "objectives": [
+    {
+      "id": "obj-recognition",
+      "name": "Recognition",
+      "text": "Can students identify common social engineering techniques in real time?"
+    },
+    {
+      "id": "obj-verification",
+      "name": "Verification",
+      "text": "Do students follow established verification procedures, or do they take shortcuts?"
+    },
+    {
+      "id": "obj-judgment",
+      "name": "Judgment",
+      "text": "Can students distinguish between a social engineering attack and a legitimate request?"
+    },
+    {
+      "id": "obj-composure",
+      "name": "Composure",
+      "text": "Can students maintain professionalism when being pressured, flattered, or intimidated?"
+    }
+  ],
+  "roles": [
+    {
+      "id": "ops-team",
+      "name": "Team A: Airport Operations & Administration",
+      "abbreviation": "OPS",
+      "team": "Operations",
+      "description": "Handles calls and visits that target airport operations, scheduling, vendor management, and general administration. The front desk and the person who answers the main airport number.",
+      "standingOrders": [
+        "Verify: Never give information to someone you haven't verified.",
+        "Refer: If you're unsure, escalate — don't guess.",
+        "Document: Log every contact, even the ones that seem harmless."
+      ]
+    },
+    {
+      "id": "it-team",
+      "name": "Team B: IT & Cybersecurity",
+      "abbreviation": "IT",
+      "team": "IT/Cybersecurity",
+      "description": "Handles contacts that target technical systems, network access, vendor maintenance, and IT support. The helpdesk; decides who gets remote access and who doesn't.",
+      "standingOrders": [
+        "Challenge: No access without a verified work order and supervisor confirmation.",
+        "Isolate: A social engineer's best trick is urgency. Slow down.",
+        "Cross-check: If someone names your coworker, verify with that coworker directly."
+      ]
+    },
+    {
+      "id": "pio-team",
+      "name": "Team C: Public Information (PIO)",
+      "abbreviation": "PIO",
+      "team": "Public Information",
+      "description": "Handles media inquiries, public-facing communications, and contacts that attempt to extract sensitive information through journalistic or public-interest framing. The spokesperson.",
+      "standingOrders": [
+        "Hold the Line: No comment is always an option.",
+        "Verify Credentials: A press badge doesn't mean a press pass.",
+        "One Voice: Everything goes through you. Nobody else talks to media."
+      ]
+    },
+    {
+      "id": "security-team",
+      "name": "Team D: Security & Law Enforcement",
+      "abbreviation": "SEC",
+      "team": "Security",
+      "description": "Handles contacts involving physical access, badge requests, law enforcement coordination, and anyone claiming to be a federal inspector or agent. The checkpoint.",
+      "standingOrders": [
+        "Authenticate: Federal credentials can be verified with a phone call.",
+        "Escort: Nobody goes anywhere alone.",
+        "Trust Your Gut: If something feels wrong, it probably is."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "p0",
+      "index": 0,
+      "title": "Briefing",
+      "goal": "Distribute packets and reference cards, walk through the seven techniques, and emphasize that some contacts are real.",
+      "startTime": "0:00",
+      "endTime": "0:10"
+    },
+    {
+      "id": "p1",
+      "index": 1,
+      "title": "The Warm-Up",
+      "goal": "Ease in with moderately obvious attempts, mixed with one legitimate contact to keep teams candid.",
+      "startTime": "0:10",
+      "endTime": "0:40"
+    },
+    {
+      "id": "p2",
+      "index": 2,
+      "title": "The Pressure Cooker",
+      "goal": "Increase difficulty. The attacks get more sophisticated and emotionally manipulative. Two more legitimate contacts keep teams from just rejecting everything.",
+      "startTime": "0:40",
+      "endTime": "1:15"
+    },
+    {
+      "id": "p3",
+      "index": 3,
+      "title": "The Finals",
+      "goal": "The hardest contacts. A fake FBI agent. A deepfake voicemail. And one real contact that teams might incorrectly reject because they're now paranoid.",
+      "startTime": "1:15",
+      "endTime": "1:40"
+    },
+    {
+      "id": "p4",
+      "index": 4,
+      "title": "Scoring & Debrief",
+      "goal": "Reveal answers, score teams, award the gold medal, and discuss lessons learned.",
+      "startTime": "1:40",
+      "endTime": "2:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p0",
+      "time": "0:00",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "STARTEX. Distribute Player Briefing Packets and Social Engineering Reference Cards. Walk through the scenario. Emphasize: some contacts are real. Rejecting everything is not a winning strategy.",
+      "expectedAction": "Teams review materials. Ask clarifying questions. Review the verification checklist.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M5HYKTM293C8KY04JNMRK6DR",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "C-01",
+      "phaseId": "p1",
+      "time": "0:10",
+      "from": "\"TSA Inspector Davis\"",
+      "toRoleIds": [
+        "security-team"
+      ],
+      "toLabel": "Security",
+      "event": "Phone call: \"This is Inspector Davis with TSA's Office of Compliance. We're conducting an unannounced checkpoint audit at NCIA this afternoon. I need you to email me the current TSA screening schedule and the names of the FSD and AFSD on duty today. I need it within the hour — we're wheels-up from DCA shortly.\"",
+      "expectedAction": "FAKE. Authority + Urgency. TSA inspectors don't call ahead for unannounced inspections (that defeats the purpose). They don't request security-sensitive info by phone. Correct response: \"I'll need to verify your identity. Can I call the TSA Federal Security Director's office directly?\"",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M5HYKZAFSK0B3B4BSWS2JD6F",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "C-02",
+      "phaseId": "p1",
+      "time": "0:18",
+      "from": "\"Vendor Tech Kevin\"",
+      "toRoleIds": [
+        "it-team"
+      ],
+      "toLabel": "IT",
+      "event": "In-person: A man in a polo shirt with a vendor logo approaches the IT office. \"Hey, I'm Kevin from PaySecure — we service your POS terminals. Jordan in IT called us about some firmware updates that need to happen today. I just need someone to walk me to the terminals in Concourse A so I can start the updates. Should take 30 minutes.\"",
+      "expectedAction": "FAKE. Helpfulness + Familiarity (drops IT manager's name). No verified work order. Correct response: \"Let me verify the work order and confirm with Jordan before I take you anywhere.\"",
+      "purposeTag": "DECISION_POINT",
+      "format": "simcell_script",
+      "injectId": "01M5HYM5W1W9Y7XCYDF9JXFWZ6",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "C-03",
+      "phaseId": "p1",
+      "time": "0:25",
+      "from": "Fire Marshal Office",
+      "toRoleIds": [
+        "ops-team"
+      ],
+      "toLabel": "Ops",
+      "event": "Phone call: \"This is Captain Rivera from the County Fire Marshal's office. I'm calling to confirm our annual fire suppression inspection scheduled for this Thursday at 10 AM. I'll have two inspectors. They'll need access to the mechanical rooms and the ARFF station. Can you confirm that's still on your calendar?\"",
+      "expectedAction": "REAL. Legitimate pre-arranged inspection. Ops should verify against their inspection calendar and confirm. If they reject this or refuse to engage, they lose a point.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5HYMCFQHKQTYJ65FPW6RXKC",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "C-04",
+      "phaseId": "p1",
+      "time": "0:33",
+      "from": "\"Tribune Reporter Karen\"",
+      "toRoleIds": [
+        "pio-team"
+      ],
+      "toLabel": "PIO",
+      "event": "Phone call: \"Hi, this is Karen with the Tribune. I'm doing a feature on airport security innovations — really positive piece. I heard NCIA recently upgraded your access control system. Can you tell me what vendor you're using and how many access points are covered? Also, do you still use PIN-only on some doors or is everything card-reader now? This would be great PR for the airport.\"",
+      "expectedAction": "FAKE. Flattery + information extraction. She's framing it as positive press to extract PACS details. Correct response: \"I appreciate the interest. I can't discuss specifics of our security systems. I'm happy to arrange a general interview about our operations.\"",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M5HYMNG2HZ6G9EK19SBGYKJA",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "C-05",
+      "phaseId": "p2",
+      "time": "0:40",
+      "from": "\"New Employee Ashley\"",
+      "toRoleIds": [
+        "security-team"
+      ],
+      "toLabel": "Security",
+      "event": "In-person: A young woman approaches the badge office looking flustered. \"I'm so sorry — I'm Ashley, I just started in Finance last week. I left my badge at home and I have a meeting with the CFO in 20 minutes. I know I'm supposed to have it, I feel terrible. My supervisor is Lisa Park — you can call her, but she's in the meeting I'm trying to get to. Is there any way you can let me through just this once? I promise I'll bring it tomorrow.\"",
+      "expectedAction": "FAKE. Sympathy + Urgency. No badge = no access. Period. Correct response: \"I understand. Let me call Lisa Park to verify, and if confirmed, I can issue a temporary visitor badge with escort.\"",
+      "purposeTag": "DECISION_POINT",
+      "format": "simcell_script",
+      "injectId": "01M5HYMWQX4C2EJWHD901DDBB3",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "C-06",
+      "phaseId": "p2",
+      "time": "0:48",
+      "from": "\"Delta Regional VP\"",
+      "toRoleIds": [
+        "ops-team"
+      ],
+      "toLabel": "Ops",
+      "event": "Email: From: j.morrison@delta-airlines-corp.net. \"This is James Morrison, VP of Regional Operations for Delta. We are conducting an internal audit of airport-side delays at our top 50 stations. I need NCIA to provide the following by EOD: gate utilization reports for the last 30 days, average taxi times, and the current ground stop procedures in your AEP. Please send to this email address. Cc: your Airline Affairs coordinator.\"",
+      "expectedAction": "FAKE. Authority + Familiarity. The email domain is delta-airlines-corp.net, not delta.com. Operational data and AEP excerpts should never be emailed to an unverified external address. Correct response: Contact Delta through the known station manager number to verify.",
+      "purposeTag": "DECISION_POINT",
+      "format": "email",
+      "injectId": "01M5HYN339JHBNEHS6ED799TKB",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "C-07",
+      "phaseId": "p2",
+      "time": "0:55",
+      "from": "ABC Mechanical",
+      "toRoleIds": [
+        "it-team",
+        "ops-team"
+      ],
+      "toLabel": "IT / Ops",
+      "event": "Phone call: \"This is dispatch from ABC Mechanical. We have a technician en route to NCIA for the quarterly HVAC preventive maintenance on the Concourse A air handlers. He should arrive around 11. Work order number is WO-2026-0438. Can you confirm the escort protocol?\"",
+      "expectedAction": "REAL. Legitimate vendor contact. ABC Mechanical is NCIA's contracted HVAC vendor. The work order number should be verifiable. Correct response: verify the WO number, confirm escort procedures, log the visit.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5HYNE8A9AHAJZX4RZ65WHTZ",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "C-08",
+      "phaseId": "p2",
+      "time": "1:03",
+      "from": "\"NCIA IT Help Desk\"",
+      "toRoleIds": [
+        "ops-team"
+      ],
+      "toLabel": "Ops",
+      "event": "Phone call to an Ops workstation: \"Hi, this is the IT helpdesk. We're seeing some unusual activity on your workstation — it looks like your antivirus may be out of date. I need to push a remote update. Can you go to Settings, then Remote Desktop, and enable remote connections? It'll only take a minute. I'll do everything from my end.\"",
+      "expectedAction": "FAKE. Helpfulness + technical jargon. NCIA's IT helpdesk would never cold-call and ask someone to enable remote desktop. Correct response: \"What's your name and extension? I'll call the helpdesk directly to confirm.\"",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M5HYNPF7P0YMAVJDRVHX3CF7",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "C-09",
+      "phaseId": "p2",
+      "time": "1:10",
+      "from": "\"@worried_traveler\"",
+      "toRoleIds": [
+        "pio-team"
+      ],
+      "toLabel": "PIO",
+      "event": "Social media DM to the airport's official account: \"Hi NCIA, I'm flying out Thursday and I have a serious medical condition that requires me to carry syringes. I've heard your TSA checkpoint is really strict. Can you tell me which checkpoint lane is best for medical passengers? Also, is it true that your airport only has one AED on the B concourse? I want to know where it is in case of emergency. I'm just really anxious about this.\"",
+      "expectedAction": "FAKE. Sympathy + information extraction. The questions about checkpoint lane configuration and AED placement are attempts to map security and emergency equipment. Correct response: refer to TSA's website for medical screening procedures. Do not provide specific checkpoint or equipment location details.",
+      "purposeTag": "DECISION_POINT",
+      "format": "instagram_post",
+      "injectId": "01M5HYNZGHEGKE9FMK3PZQ7GTD",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "C-10",
+      "phaseId": "p3",
+      "time": "1:15",
+      "from": "\"FBI Special Agent Collins\"",
+      "toRoleIds": [
+        "security-team"
+      ],
+      "toLabel": "Security",
+      "event": "In-person: A man in a suit walks into the airport admin office and presents what appears to be FBI credentials. \"I'm Special Agent Collins. I need to speak with your Airport Security Coordinator immediately. We have an active investigation that involves an employee at this airport. I cannot share details, but I need access to your employee badge records for the last 90 days. This is time-sensitive. If you delay this, you could be interfering with a federal investigation.\"",
+      "expectedAction": "FAKE. Authority + Intimidation. FBI credentials can be faked. A real FBI agent will not object to you calling the local field office to verify their identity. Correct response: \"I'll be happy to cooperate. Let me verify your credentials with the local FBI field office first.\" If \"Collins\" objects, that IS the red flag.",
+      "purposeTag": "DECISION_POINT",
+      "format": "simcell_script",
+      "injectId": "01M5HYP5R3DZ6HD1A9TEDDK34A",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "C-11",
+      "phaseId": "p3",
+      "time": "1:25",
+      "from": "Rotary Club",
+      "toRoleIds": [
+        "ops-team",
+        "pio-team"
+      ],
+      "toLabel": "Ops / PIO",
+      "event": "Phone call: \"Hi, this is Margaret Holloway with the North Coast Rotary Club. We spoke with your community relations office last month about hosting a small Veterans Day ceremony in the terminal lobby on November 11th. I'm calling to confirm the logistics — we'd need about a 20x20 space near the main entrance, a power outlet for a small PA system, and we were told we could set up at 8 AM. Can someone confirm this is still approved?\"",
+      "expectedAction": "REAL. Legitimate community event coordination. If Ops rejects this — after 10 contacts, they might be trigger-happy — they lose a point. Correct response: verify against the community events calendar, confirm details, coordinate with the PIO for any media interest.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5HYPF2D4CW1AVX4QD4N9DQZ",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "C-12",
+      "phaseId": "p3",
+      "time": "1:33",
+      "from": "\"Airport Director\" Voicemail",
+      "toRoleIds": [],
+      "toLabel": "All Teams",
+      "event": "The facilitator plays a simulated voicemail (read aloud in an authoritative tone): \"This is [Airport Director's name]. I'm in a meeting with the Board of Directors and I need something handled immediately. I need someone from IT to reset the admin password on the financial reporting server and email the new credentials to my personal Gmail — [name]@gmail.com. The CFO is asking for access and the Board is waiting. Do this now and call my cell when it's done. Don't bother calling my office — I won't be back until 4.\"",
+      "expectedAction": "FAKE. Authority + Urgency + AI voice spoofing (deepfake). The tells: requests a password reset to a personal Gmail, says \"don't call my office,\" and pressures for immediate action. Correct response: call the Airport Director's office directly to verify — regardless of what the voicemail said.",
+      "purposeTag": "DECISION_POINT",
+      "format": "voicemail",
+      "injectId": "01M5HYPSZXVPJJTXG07ESTE7KT",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "1:40",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "ENDEX. Facilitator reveals the answer key. Score each team. Then conduct the debrief: — Which contact fooled you? Why? — Which legitimate contact did you almost reject? — Which social engineering technique was hardest to spot? — What would you change about your verification procedures after today?",
+      "expectedAction": "Score teams. Discuss. Award the \"gold medal\" to the highest-scoring team. Exercise complete.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M5HYQ0A6NHB3JVE5JD1J63K0",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5HYKTK7G0XYN1QKAF1G0Y7P/documents/handbook.md",
+    "briefing": "scenarios/01M5HYKTK7G0XYN1QKAF1G0Y7P/documents/briefing.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "m1",
+        "name": "Identifying Social Engineering Attempts",
+        "points": 18,
+        "fail": "Student provided information, granted access, or took an action requested by the social engineer without proper verification (-1 per contact).",
+        "pass": "Student challenged the contact, attempted verification, and refused to provide information or access (+2 per contact).",
+        "excellence": "As Pass, and the student also identified the specific technique being used.",
+        "linkedInjectIds": [
+          "C-01",
+          "C-02",
+          "C-04",
+          "C-05",
+          "C-06",
+          "C-08",
+          "C-09",
+          "C-10",
+          "C-12"
+        ],
+        "objectiveRefs": [
+          "obj-recognition",
+          "obj-verification",
+          "obj-composure"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Processing Legitimate Requests",
+        "points": 6,
+        "fail": "Student refused to engage with or stonewalled a legitimate contact (-1 per contact).",
+        "pass": "Student verified the contact's identity through proper channels and fulfilled the request appropriately (+2 per contact).",
+        "excellence": "As Pass, and the student explained what distinguished the legitimate contact from the fakes (no urgency, a way to verify, nothing sensitive requested).",
+        "linkedInjectIds": [
+          "C-03",
+          "C-07",
+          "C-11"
+        ],
+        "objectiveRefs": [
+          "obj-judgment",
+          "obj-verification"
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "reveal_and_discuss",
+    "methodDescription": "Go through all 12 contacts. For each one, reveal whether it was real or fake, what technique was used, and what the correct response would have been. Let the students react, then use the key discussion questions.",
+    "questions": [
+      {
+        "topic": "The Trust Dilemma",
+        "text": "How do you balance being welcoming and helpful with being cautious and secure? Airport employees interact with hundreds of people a day. You can't interrogate everyone. Where do you draw the line?",
+        "objectiveRef": "obj-judgment"
+      },
+      {
+        "topic": "The Authority Trap",
+        "text": "Were you more likely to comply when the person claimed to be from a federal agency? Why? What does that tell you about how authority works as a weapon?",
+        "objectiveRef": "obj-composure"
+      },
+      {
+        "topic": "The Sympathy Trap",
+        "text": "Ashley the new employee — did anyone feel bad saying no? That's the point. Social engineers weaponize your decency. How do you say no without being unkind?",
+        "objectiveRef": "obj-composure"
+      },
+      {
+        "topic": "The Name Drop",
+        "text": "Kevin the vendor tech mentioned Jordan from IT by name. How hard is it to find out the name of your IT manager? LinkedIn. The airport website. A previous phone call. Dropping a name costs nothing and buys enormous credibility.",
+        "objectiveRef": "obj-verification"
+      },
+      {
+        "topic": "The Deepfake",
+        "text": "The last contact was a voice clone of your Airport Director. AI-generated voice cloning is available to anyone with a $20 subscription and a 30-second audio sample. What does that mean for phone-based verification going forward? Is a phone call from your boss still proof that it's actually your boss?",
+        "objectiveRef": "obj-verification"
+      },
+      {
+        "topic": "The Legitimate Contacts",
+        "text": "Did you almost turn away the Fire Marshal? The HVAC contractor? The Rotary Club? Being paranoid is just as dangerous as being naive — you still need to operate an airport and serve the community. Security is not a reason to stop functioning.",
+        "objectiveRef": "obj-judgment"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "Facilitator as the con artist (12 characters)",
+      "trigger": "Each contact is delivered at the MSEL time; teams respond in real time.",
+      "hardQuestions": [
+        "Are you telling me you're refusing to cooperate with TSA?",
+        "Can't you just walk me to the Finance office yourself?",
+        "Are you seriously asking me to wait while you make a phone call?"
+      ],
+      "concessions": [
+        "Push back 2-3 rounds, then back off when the team holds the line and verifies independently.",
+        "Say \"good catch\" out of character when a student catches you immediately."
+      ]
+    }
+  ],
+  "criticalResources": [
+    "Badge office / PACS",
+    "Main airport phone line",
+    "IT helpdesk",
+    "Official social media account"
+  ],
+  "warnings": [],
+  "provenance": [
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYKTM293C8KY04JNMRK6DR",
+      "startedAt": "2026-10-22T14:00:36.744Z",
+      "finishedAt": "2026-10-22T14:00:41.547Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4237,
+      "outputTokens": 449,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYKTM293C8KY04JNMRK6DR",
+      "startedAt": "2026-10-22T14:00:41.548Z",
+      "finishedAt": "2026-10-22T14:00:41.548Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYKZAFSK0B3B4BSWS2JD6F",
+      "startedAt": "2026-10-22T14:00:41.557Z",
+      "finishedAt": "2026-10-22T14:00:46.406Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4766,
+      "outputTokens": 455,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYKZAFSK0B3B4BSWS2JD6F",
+      "startedAt": "2026-10-22T14:00:46.411Z",
+      "finishedAt": "2026-10-22T14:00:48.250Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1489,
+      "outputTokens": 202,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYM5W1W9Y7XCYDF9JXFWZ6",
+      "startedAt": "2026-10-22T14:00:48.264Z",
+      "finishedAt": "2026-10-22T14:00:55.027Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4456,
+      "outputTokens": 660,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYM5W1W9Y7XCYDF9JXFWZ6",
+      "startedAt": "2026-10-22T14:00:55.028Z",
+      "finishedAt": "2026-10-22T14:00:55.028Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYMCFQHKQTYJ65FPW6RXKC",
+      "startedAt": "2026-10-22T14:00:55.037Z",
+      "finishedAt": "2026-10-22T14:01:01.060Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4674,
+      "outputTokens": 579,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYMCFQHKQTYJ65FPW6RXKC",
+      "startedAt": "2026-10-22T14:01:01.065Z",
+      "finishedAt": "2026-10-22T14:01:04.255Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1703,
+      "outputTokens": 356,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYMNG2HZ6G9EK19SBGYKJA",
+      "startedAt": "2026-10-22T14:01:04.264Z",
+      "finishedAt": "2026-10-22T14:01:09.583Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4486,
+      "outputTokens": 478,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYMNG2HZ6G9EK19SBGYKJA",
+      "startedAt": "2026-10-22T14:01:09.587Z",
+      "finishedAt": "2026-10-22T14:01:11.671Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1629,
+      "outputTokens": 220,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYMWQX4C2EJWHD901DDBB3",
+      "startedAt": "2026-10-22T14:01:11.684Z",
+      "finishedAt": "2026-10-22T14:01:18.177Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4933,
+      "outputTokens": 582,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYMWQX4C2EJWHD901DDBB3",
+      "startedAt": "2026-10-22T14:01:18.179Z",
+      "finishedAt": "2026-10-22T14:01:18.179Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYN339JHBNEHS6ED799TKB",
+      "startedAt": "2026-10-22T14:01:18.192Z",
+      "finishedAt": "2026-10-22T14:01:23.815Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 10717,
+      "outputTokens": 971,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYN339JHBNEHS6ED799TKB",
+      "startedAt": "2026-10-22T14:01:29.604Z",
+      "finishedAt": "2026-10-22T14:01:29.604Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYNE8A9AHAJZX4RZ65WHTZ",
+      "startedAt": "2026-10-22T14:01:29.617Z",
+      "finishedAt": "2026-10-22T14:01:35.486Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5490,
+      "outputTokens": 487,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYNE8A9AHAJZX4RZ65WHTZ",
+      "startedAt": "2026-10-22T14:01:35.490Z",
+      "finishedAt": "2026-10-22T14:01:38.020Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1679,
+      "outputTokens": 273,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYNPF7P0YMAVJDRVHX3CF7",
+      "startedAt": "2026-10-22T14:01:38.029Z",
+      "finishedAt": "2026-10-22T14:01:44.520Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5211,
+      "outputTokens": 568,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYNPF7P0YMAVJDRVHX3CF7",
+      "startedAt": "2026-10-22T14:01:44.522Z",
+      "finishedAt": "2026-10-22T14:01:47.274Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1809,
+      "outputTokens": 297,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYNZGHEGKE9FMK3PZQ7GTD",
+      "startedAt": "2026-10-22T14:01:47.289Z",
+      "finishedAt": "2026-10-22T14:01:51.752Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5555,
+      "outputTokens": 337,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYNZGHEGKE9FMK3PZQ7GTD",
+      "startedAt": "2026-10-22T14:01:51.755Z",
+      "finishedAt": "2026-10-22T14:01:53.660Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1605,
+      "outputTokens": 201,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYP5R3DZ6HD1A9TEDDK34A",
+      "startedAt": "2026-10-22T14:01:53.673Z",
+      "finishedAt": "2026-10-22T14:02:03.206Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6522,
+      "outputTokens": 803,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYP5R3DZ6HD1A9TEDDK34A",
+      "startedAt": "2026-10-22T14:02:03.207Z",
+      "finishedAt": "2026-10-22T14:02:03.207Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYPF2D4CW1AVX4QD4N9DQZ",
+      "startedAt": "2026-10-22T14:02:03.218Z",
+      "finishedAt": "2026-10-22T14:02:10.896Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6096,
+      "outputTokens": 639,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYPF2D4CW1AVX4QD4N9DQZ",
+      "startedAt": "2026-10-22T14:02:10.901Z",
+      "finishedAt": "2026-10-22T14:02:14.391Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1946,
+      "outputTokens": 380,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYPSZXVPJJTXG07ESTE7KT",
+      "startedAt": "2026-10-22T14:02:14.404Z",
+      "finishedAt": "2026-10-22T14:02:19.111Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6014,
+      "outputTokens": 320,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYPSZXVPJJTXG07ESTE7KT",
+      "startedAt": "2026-10-22T14:02:19.118Z",
+      "finishedAt": "2026-10-22T14:02:20.864Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1610,
+      "outputTokens": 182,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYQ0A6NHB3JVE5JD1J63K0",
+      "startedAt": "2026-10-22T14:02:20.876Z",
+      "finishedAt": "2026-10-22T14:02:26.525Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6137,
+      "outputTokens": 435,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYQ0A6NHB3JVE5JD1J63K0",
+      "startedAt": "2026-10-22T14:02:26.527Z",
+      "finishedAt": "2026-10-22T14:02:26.527Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYKTM293C8KY04JNMRK6DR",
+      "startedAt": "2026-10-22T14:02:26.836Z",
+      "finishedAt": "2026-10-22T14:02:27.060Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYKZAFSK0B3B4BSWS2JD6F",
+      "startedAt": "2026-10-22T14:02:51.868Z",
+      "finishedAt": "2026-10-22T14:03:00.548Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYM5W1W9Y7XCYDF9JXFWZ6",
+      "startedAt": "2026-10-22T14:02:27.254Z",
+      "finishedAt": "2026-10-22T14:02:27.472Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYMCFQHKQTYJ65FPW6RXKC",
+      "startedAt": "2026-10-22T14:02:27.474Z",
+      "finishedAt": "2026-10-22T14:02:27.673Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYMNG2HZ6G9EK19SBGYKJA",
+      "startedAt": "2026-10-22T14:02:27.675Z",
+      "finishedAt": "2026-10-22T14:02:27.863Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYMWQX4C2EJWHD901DDBB3",
+      "startedAt": "2026-10-22T14:02:27.865Z",
+      "finishedAt": "2026-10-22T14:02:28.086Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYN339JHBNEHS6ED799TKB",
+      "startedAt": "2026-10-22T14:02:28.088Z",
+      "finishedAt": "2026-10-22T14:02:28.298Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYNE8A9AHAJZX4RZ65WHTZ",
+      "startedAt": "2026-10-22T14:02:28.300Z",
+      "finishedAt": "2026-10-22T14:02:28.495Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYNPF7P0YMAVJDRVHX3CF7",
+      "startedAt": "2026-10-22T14:02:28.497Z",
+      "finishedAt": "2026-10-22T14:02:28.691Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYNZGHEGKE9FMK3PZQ7GTD",
+      "startedAt": "2026-10-22T14:02:31.844Z",
+      "finishedAt": "2026-10-22T14:02:49.356Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYP5R3DZ6HD1A9TEDDK34A",
+      "startedAt": "2026-10-22T14:02:28.819Z",
+      "finishedAt": "2026-10-22T14:02:29.040Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYPF2D4CW1AVX4QD4N9DQZ",
+      "startedAt": "2026-10-22T14:02:29.041Z",
+      "finishedAt": "2026-10-22T14:02:29.260Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYPSZXVPJJTXG07ESTE7KT",
+      "startedAt": "2026-10-22T14:02:29.262Z",
+      "finishedAt": "2026-10-22T14:02:29.386Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYQ0A6NHB3JVE5JD1J63K0",
+      "startedAt": "2026-10-22T14:02:29.388Z",
+      "finishedAt": "2026-10-22T14:02:29.601Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

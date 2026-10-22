@@ -1,0 +1,86 @@
+{
+  "id": "01M5HYX87RKA4FM6TF2A7TH09T",
+  "mselRowId": "A-15",
+  "type": "memo",
+  "title": "Network Isolation Plan Draft — VLAN 666 Containment",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "orgName": "North Coast International Airport",
+    "department": "IT / Cybersecurity",
+    "to": "IT / Cybersecurity (Lead)",
+    "from": "IT Security Operations",
+    "cc": "Security / Physical (SEC), Operations / Command (OPS)",
+    "date": "October 22, 2026 · 09:00 AM",
+    "subject": "URGENT: Draft Plan for Immediate VLAN 666 Isolation — AODB and PACS Infrastructure",
+    "urgency": "urgent",
+    "urgencyText": "URGENT — ACTION REQUIRED IMMEDIATELY",
+    "memoNumber": "IT-SEC-2026-1022-015",
+    "body": "This memo formalizes the draft emergency isolation protocol for VLAN 666 (Security Ops), effective immediately.\n\nGiven the confirmed presence of a malicious scheduled task on the AODB server (NCIA-SEC-DB01, 10.1.10.20) targeting the AODB database and FIDS feed, and the confirmed orphaned service account (svc_nexgen_aodb) with active network access, immediate network containment is required.\n\nThe proposed plan: at the first sign of anomalous behavior (e.g., unexpected PowerShell execution, database lock, or FIDS feed disruption), execute the VLAN 666 isolation command via the secure console at NCIA-SEC-DB01.\n\nThis command will: \n- Disconnect VLAN 666 from all upstream network segments (including 10.66.0.x and 10.66.1.x)\n- Block all inbound and outbound traffic to and from VLAN 666\n- Preserve access to internal control systems (e.g., NCIA-PACS-CORE, SEC-BADGE-01, NCIA-VIDEO-A) for emergency maintenance\n\nThe command is pre-approved under TIRP Section 10.4 Checklist: Bomb Threat, and C3 Section 3.2 (Network Segmentation). Execution is limited to authorized IT Security personnel using the dual-authentication console.\n\nThis action does not require prior LEO IC approval. It is a pre-emptive measure to contain a known high-risk threat vector.\n\nImplementation is to begin immediately. The plan is now in effect.",
+    "signatureBlock": "Alex Rivera\nCybersecurity Operations Lead\nIT / Cybersecurity",
+    "initials": "AR",
+    "classification": "INTERNAL — NOT FOR PUBLIC RELEASE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject rewards proactive containment planning. Watch for whether the team implements the isolation command as a defensive action, or delays it due to perceived need for IC approval.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 10 › 10.4 Checklist: Bomb Threat",
+      "quote": "- LEO/Security: assume IC; threat assessment; decide evacuate/search/heighten awareness; notify FBI, TSA, request Bomb Squad; if device found, perimeter and evacuate. - Ops: await LEO IC; PA announcem",
+      "chunkId": 115
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+      "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 10 › 10.2 Operations",
+      "quote": "All threats treated as real until proven otherwise. Receiver uses the Bomb Threat Checklist; reports to Airport Police or the ACC. Airport Police assume IC; with FBI/TSA assess as **Non-Specific** (he",
+      "chunkId": 114
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:05:53.651Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Network Isolation Plan Draft — VLAN 666 Containment",
+        "type": "memo",
+        "fields": {
+          "orgName": "North Coast International Airport",
+          "department": "IT / Cybersecurity",
+          "to": "IT / Cybersecurity (Lead)",
+          "from": "IT Security Operations",
+          "cc": "Security / Physical (SEC), Operations / Command (OPS)",
+          "date": "October 22, 2026 · 09:00 AM",
+          "subject": "URGENT: Draft Plan for Immediate VLAN 666 Isolation — AODB and PACS Infrastructure",
+          "urgency": "urgent",
+          "urgencyText": "URGENT — ACTION REQUIRED IMMEDIATELY",
+          "memoNumber": "IT-SEC-2026-1022-015",
+          "body": "This memo formalizes the draft emergency isolation protocol for VLAN 666 (Security Ops), effective immediately.\n\nGiven the confirmed presence of a malicious scheduled task on the AODB server (NCIA-SEC-DB01, 10.1.10.20) targeting the AODB database and FIDS feed, and the confirmed orphaned service account (svc_nexgen_aodb) with active network access, immediate network containment is required.\n\nThe proposed plan: at the first sign of anomalous behavior (e.g., unexpected PowerShell execution, database lock, or FIDS feed disruption), execute the VLAN 666 isolation command via the secure console at NCIA-SEC-DB01.\n\nThis command will: \n- Disconnect VLAN 666 from all upstream network segments (including 10.66.0.x and 10.66.1.x)\n- Block all inbound and outbound traffic to and from VLAN 666\n- Preserve access to internal control systems (e.g., NCIA-PACS-CORE, SEC-BADGE-01, NCIA-VIDEO-A) for emergency maintenance\n\nThe command is pre-approved under TIRP Section 10.4 Checklist: Bomb Threat, and C3 Section 3.2 (Network Segmentation). Execution is limited to authorized IT Security personnel using the dual-authentication console.\n\nThis action does not require prior LEO IC approval. It is a pre-emptive measure to contain a known high-risk threat vector.\n\nImplementation is to begin immediately. The plan is now in effect.",
+          "signatureBlock": "Alex Rivera\nCybersecurity Operations Lead\nIT / Cybersecurity",
+          "initials": "AR",
+          "classification": "INTERNAL — NOT FOR PUBLIC RELEASE"
+        },
+        "instructorNote": "This inject rewards proactive containment planning. Watch for whether the team implements the isolation command as a defensive action, or delays it due to perceived need for IC approval.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:08:25.603Z"
+}

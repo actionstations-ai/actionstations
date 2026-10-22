@@ -1,0 +1,311 @@
+{
+  "id": "01M5HYS07ZFW163WVVRG9ZF0F0",
+  "mselRowId": "A-02",
+  "type": "email_header_analysis",
+  "title": "Email Payload Analysis: Zero-Width Space in Subject",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "orgName": "NCIA Information Technology - Security",
+    "caseId": "IR-2026-031",
+    "analyst": "J. Okafor",
+    "analyzedAt": "10/22/2026 09:00",
+    "subject": "12:00",
+    "displayFrom": "ncia_reckoning@proton.me",
+    "recipient": "it-security@ncia-airport.org",
+    "verdict": "suspicious",
+    "checks": [
+      {
+        "label": "SPF",
+        "result": "pass",
+        "detail": "Sender domain allows sending from ProtonMail's infrastructure."
+      },
+      {
+        "label": "DKIM",
+        "result": "none",
+        "detail": "ProtonMail uses its own signing keys; not aligned with ncia-airport.org."
+      },
+      {
+        "label": "DMARC",
+        "result": "pass",
+        "detail": "Policy allows delivery despite missing DKIM."
+      },
+      {
+        "label": "Reputation",
+        "result": "warn",
+        "detail": "ProtonMail inbox used for known threat actor patterns in threat intel feeds."
+      },
+      {
+        "label": "Content Filter",
+        "result": "pass",
+        "detail": "No malware, no attachments, no known malicious URLs."
+      }
+    ],
+    "hops": [
+      {
+        "from": "mail.protonmail.com",
+        "by": "proxy-2.protonmail.ch",
+        "time": "2026-10-22T08:57:12Z",
+        "flag": true
+      },
+      {
+        "from": "10.10.10.10",
+        "by": "mx.protonmail.com",
+        "time": "2026-10-22T08:57:11Z",
+        "flag": false
+      },
+      {
+        "from": "10.10.10.10",
+        "by": "smtp-in.protonmail.com",
+        "time": "2026-10-22T08:57:10Z",
+        "flag": false
+      }
+    ],
+    "headers": [
+      {
+        "name": "From",
+        "value": "ncia_reckoning@proton.me",
+        "flag": false,
+        "note": ""
+      },
+      {
+        "name": "To",
+        "value": "it-security@ncia-airport.org",
+        "flag": false,
+        "note": ""
+      },
+      {
+        "name": "Subject",
+        "value": "12:00\u0000",
+        "flag": true,
+        "note": "Contains U+200B (zero-width space) between '1' and '2' in '12:00'"
+      },
+      {
+        "name": "Message-ID",
+        "value": "<1234567890@protonmail.com>",
+        "flag": false,
+        "note": ""
+      },
+      {
+        "name": "Date",
+        "value": "Thu, 22 Oct 2026 08:57:09 GMT",
+        "flag": false,
+        "note": ""
+      },
+      {
+        "name": "MIME-Version",
+        "value": "1.0",
+        "flag": false,
+        "note": ""
+      },
+      {
+        "name": "Content-Type",
+        "value": "text/plain; charset=utf-8",
+        "flag": false,
+        "note": ""
+      },
+      {
+        "name": "Content-Transfer-Encoding",
+        "value": "7bit",
+        "flag": false,
+        "note": ""
+      },
+      {
+        "name": "X-Priority",
+        "value": "1 (Highest)",
+        "flag": false,
+        "note": ""
+      },
+      {
+        "name": "Received",
+        "value": "from mail.protonmail.com (mail.protonmail.com [10.10.10.10]) by mx.protonmail.com with ESMTP; Thu, 22 Oct 2026 08:57:10 GMT",
+        "flag": false,
+        "note": ""
+      },
+      {
+        "name": "Received",
+        "value": "from proxy-2.protonmail.ch (proxy-2.protonmail.ch [10.10.10.10]) by proxy-2.protonmail.ch with ESMTP; Thu, 22 Oct 2026 08:57:11 GMT",
+        "flag": false,
+        "note": ""
+      },
+      {
+        "name": "Received",
+        "value": "from mail.protonmail.com (mail.protonmail.com [10.10.10.10]) by proxy-2.protonmail.ch with ESMTP; Thu, 22 Oct 2026 08:57:12 GMT",
+        "flag": false,
+        "note": ""
+      }
+    ],
+    "conclusion": "The email contains no attachments, malware, or malicious links. However, the subject line \"12:00\" includes a zero-width space (U+200B) between the digits '1' and '2', which is not visible in rendering but is detectable in the raw text. This technique is used to bypass simple text-matching filters and indicates technical sophistication. Combined with the use of ProtonMail and the taunting tone, this suggests a threat actor with IT system knowledge, not a casual or non-technical individual. The sender is likely familiar with email header manipulation and filtering evasion. No evidence of phishing or credential harvesting, but the artifact is a deliberate obfuscation tactic to avoid automated detection."
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the threat actor has technical expertise. Watch for IT to prioritize investigating the AODB and PACS systems, and for security to consider access control anomalies. The zero-width space is a red flag for insider threat behavior.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP",
+      "quote": "TSA Approval Date: 09/01/2024 · Revision Number: 4.5 · Classification: SENSITIVE SECURITY INFORMATION (SSI) *(fictional marking for classroom use)* > **Fictional document** created for the CSAAP cours",
+      "chunkId": 41
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:03:38.621Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Email Payload Analysis: Zero-Width Space in Subject",
+        "type": "email_header_analysis",
+        "fields": {
+          "orgName": "NCIA Information Technology - Security",
+          "caseId": "IR-2026-031",
+          "analyst": "J. Okafor",
+          "analyzedAt": "10/22/2026 09:00",
+          "subject": "12:00",
+          "displayFrom": "ncia_reckoning@proton.me",
+          "recipient": "it-security@ncia-airport.org",
+          "verdict": "suspicious",
+          "checks": [
+            {
+              "label": "SPF",
+              "result": "pass",
+              "detail": "Sender domain allows sending from ProtonMail's infrastructure."
+            },
+            {
+              "label": "DKIM",
+              "result": "none",
+              "detail": "ProtonMail uses its own signing keys; not aligned with ncia-airport.org."
+            },
+            {
+              "label": "DMARC",
+              "result": "pass",
+              "detail": "Policy allows delivery despite missing DKIM."
+            },
+            {
+              "label": "Reputation",
+              "result": "warn",
+              "detail": "ProtonMail inbox used for known threat actor patterns in threat intel feeds."
+            },
+            {
+              "label": "Content Filter",
+              "result": "pass",
+              "detail": "No malware, no attachments, no known malicious URLs."
+            }
+          ],
+          "hops": [
+            {
+              "from": "mail.protonmail.com",
+              "by": "proxy-2.protonmail.ch",
+              "time": "2026-10-22T08:57:12Z",
+              "flag": true
+            },
+            {
+              "from": "10.10.10.10",
+              "by": "mx.protonmail.com",
+              "time": "2026-10-22T08:57:11Z",
+              "flag": false
+            },
+            {
+              "from": "10.10.10.10",
+              "by": "smtp-in.protonmail.com",
+              "time": "2026-10-22T08:57:10Z",
+              "flag": false
+            }
+          ],
+          "headers": [
+            {
+              "name": "From",
+              "value": "ncia_reckoning@proton.me",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "To",
+              "value": "it-security@ncia-airport.org",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "Subject",
+              "value": "12:00\u0000",
+              "flag": true,
+              "note": "Contains U+200B (zero-width space) between '1' and '2' in '12:00'"
+            },
+            {
+              "name": "Message-ID",
+              "value": "<1234567890@protonmail.com>",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "Date",
+              "value": "Thu, 22 Oct 2026 08:57:09 GMT",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "MIME-Version",
+              "value": "1.0",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "Content-Type",
+              "value": "text/plain; charset=utf-8",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "Content-Transfer-Encoding",
+              "value": "7bit",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "X-Priority",
+              "value": "1 (Highest)",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "Received",
+              "value": "from mail.protonmail.com (mail.protonmail.com [10.10.10.10]) by mx.protonmail.com with ESMTP; Thu, 22 Oct 2026 08:57:10 GMT",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "Received",
+              "value": "from proxy-2.protonmail.ch (proxy-2.protonmail.ch [10.10.10.10]) by proxy-2.protonmail.ch with ESMTP; Thu, 22 Oct 2026 08:57:11 GMT",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "Received",
+              "value": "from mail.protonmail.com (mail.protonmail.com [10.10.10.10]) by proxy-2.protonmail.ch with ESMTP; Thu, 22 Oct 2026 08:57:12 GMT",
+              "flag": false,
+              "note": ""
+            }
+          ],
+          "conclusion": "The email contains no attachments, malware, or malicious links. However, the subject line \"12:00\" includes a zero-width space (U+200B) between the digits '1' and '2', which is not visible in rendering but is detectable in the raw text. This technique is used to bypass simple text-matching filters and indicates technical sophistication. Combined with the use of ProtonMail and the taunting tone, this suggests a threat actor with IT system knowledge, not a casual or non-technical individual. The sender is likely familiar with email header manipulation and filtering evasion. No evidence of phishing or credential harvesting, but the artifact is a deliberate obfuscation tactic to avoid automated detection."
+        },
+        "instructorNote": "This inject confirms the threat actor has technical expertise. Watch for IT to prioritize investigating the AODB and PACS systems, and for security to consider access control anomalies. The zero-width space is a red flag for insider threat behavior.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:08:22.906Z"
+}

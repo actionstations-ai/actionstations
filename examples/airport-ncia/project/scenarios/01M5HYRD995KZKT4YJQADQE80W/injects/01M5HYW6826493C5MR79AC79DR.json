@@ -1,0 +1,234 @@
+{
+  "id": "01M5HYW6826493C5MR79AC79DR",
+  "mselRowId": "A-12",
+  "type": "pacs_alarm_panel",
+  "title": "PACS After-Hours Access Alert — Server Room",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "AccessGuard Alarm Monitor",
+    "site": "NCIA - Terminal & SIDA",
+    "operator": "SOC Console 3 - r.martinez",
+    "clock": "09:00:00",
+    "date": "10/22/2026",
+    "alarms": [
+      {
+        "time": "08:59:12",
+        "priority": "high",
+        "door": "Server Room (Rack 4)",
+        "event": "After-hours badge swipe (biometric)",
+        "cardholder": "Dmitri Volkov (svc_nexgen_aodb)",
+        "count": 1,
+        "state": "new"
+      }
+    ],
+    "procedure": [
+      "Verify badge ID and credential status",
+      "Cross-reference with active access logs",
+      "Check video feed from CAM-SRV-04",
+      "Notify Security Lead and ASC"
+    ],
+    "doors": [
+      {
+        "name": "Server Room (Rack 4)",
+        "state": "unlocked"
+      },
+      {
+        "name": "ARFF IT Closet",
+        "state": "secure"
+      },
+      {
+        "name": "Main Server Room",
+        "state": "secure"
+      },
+      {
+        "name": "Badging Office",
+        "state": "secure"
+      },
+      {
+        "name": "Level 1 Concourse",
+        "state": "secure"
+      },
+      {
+        "name": "Concourse A",
+        "state": "secure"
+      },
+      {
+        "name": "Concourse B",
+        "state": "secure"
+      },
+      {
+        "name": "Gate A1",
+        "state": "secure"
+      },
+      {
+        "name": "Gate B3",
+        "state": "secure"
+      },
+      {
+        "name": "Gate 24",
+        "state": "secure"
+      },
+      {
+        "name": "Shelter A",
+        "state": "secure"
+      },
+      {
+        "name": "Shelter B",
+        "state": "secure"
+      },
+      {
+        "name": "Shelter C",
+        "state": "secure"
+      },
+      {
+        "name": "Shelter D",
+        "state": "secure"
+      },
+      {
+        "name": "Lot C",
+        "state": "secure"
+      },
+      {
+        "name": "Station 9",
+        "state": "secure"
+      }
+    ]
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the timeline of physical access. The alarm shows Dmitri Volkov's badge was used to enter the server room after hours — exactly the window when the logic bomb was planted. The player team must now connect this to the prior injects about the orphaned service account and the scheduled task.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+      "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 6 › 6.5 Breach of the Sterile Area",
+      "quote": "**\"Concourse Dump\":** the ASC, in consultation with the TSA FSD, may order evacuation of the entire concourse to the public side; complete LEO sweep (K9 and physical); all passengers re-screened by TS",
+      "chunkId": 69
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:05:17.774Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "PACS After-Hours Access Alert — Server Room",
+        "type": "pacs_alarm_panel",
+        "fields": {
+          "systemName": "AccessGuard Alarm Monitor",
+          "site": "NCIA - Terminal & SIDA",
+          "operator": "SOC Console 3 - r.martinez",
+          "clock": "09:00:00",
+          "date": "10/22/2026",
+          "alarms": [
+            {
+              "time": "08:59:12",
+              "priority": "high",
+              "door": "Server Room (Rack 4)",
+              "event": "After-hours badge swipe (biometric)",
+              "cardholder": "Dmitri Volkov (svc_nexgen_aodb)",
+              "count": 1,
+              "state": "new"
+            }
+          ],
+          "procedure": [
+            "Verify badge ID and credential status",
+            "Cross-reference with active access logs",
+            "Check video feed from CAM-SRV-04",
+            "Notify Security Lead and ASC"
+          ],
+          "doors": [
+            {
+              "name": "Server Room (Rack 4)",
+              "state": "unlocked"
+            },
+            {
+              "name": "ARFF IT Closet",
+              "state": "secure"
+            },
+            {
+              "name": "Main Server Room",
+              "state": "secure"
+            },
+            {
+              "name": "Badging Office",
+              "state": "secure"
+            },
+            {
+              "name": "Level 1 Concourse",
+              "state": "secure"
+            },
+            {
+              "name": "Concourse A",
+              "state": "secure"
+            },
+            {
+              "name": "Concourse B",
+              "state": "secure"
+            },
+            {
+              "name": "Gate A1",
+              "state": "secure"
+            },
+            {
+              "name": "Gate B3",
+              "state": "secure"
+            },
+            {
+              "name": "Gate 24",
+              "state": "secure"
+            },
+            {
+              "name": "Shelter A",
+              "state": "secure"
+            },
+            {
+              "name": "Shelter B",
+              "state": "secure"
+            },
+            {
+              "name": "Shelter C",
+              "state": "secure"
+            },
+            {
+              "name": "Shelter D",
+              "state": "secure"
+            },
+            {
+              "name": "Lot C",
+              "state": "secure"
+            },
+            {
+              "name": "Station 9",
+              "state": "secure"
+            }
+          ]
+        },
+        "instructorNote": "This inject confirms the timeline of physical access. The alarm shows Dmitri Volkov's badge was used to enter the server room after hours — exactly the window when the logic bomb was planted. The player team must now connect this to the prior injects about the orphaned service account and the scheduled task.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:08:24.939Z"
+}

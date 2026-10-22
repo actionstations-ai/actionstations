@@ -1,0 +1,1689 @@
+{
+  "id": "01M5HYRD995KZKT4YJQADQE80W",
+  "projectId": "01M5HX50WCC7RB6ZSPC6HNTRRG",
+  "title": "Countdown",
+  "subtitle": "Scenario 8: Anonymous Threat, Logic Bomb Hunt",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-21T00:00:00.000Z",
+  "updatedAt": "2026-10-22T14:09:22.755Z",
+  "brief": {
+    "userPrompt": "An anonymous email names noon as the deadline; teams spend a 180-minute time budget on an action menu to find an ex-contractor's logic bomb on the AODB server before 12:00.",
+    "audience": [
+      "IT/Cybersecurity",
+      "Airport Security",
+      "Airport Operations",
+      "Public Information (PIO)"
+    ],
+    "durationHours": 2,
+    "phaseCount": 3,
+    "learningObjectives": [
+      "Prioritize investigative actions under a fixed time budget",
+      "Identify the attack vector (scheduled task plus orphaned service account) from available evidence",
+      "Triage physical versus cyber threats from the clues",
+      "Recognize orphaned contractor service accounts as a systemic off-boarding failure",
+      "Prepare contingency plans if the threat cannot be found in time"
+    ],
+    "constraints": [
+      "players drive the investigation from an action menu; the facilitator is reactive",
+      "scenario clock runs on action costs (305 minutes of actions against 180 minutes of clock)"
+    ],
+    "startWallClock": "09:00",
+    "threatFamily": "insider"
+  },
+  "overview": {
+    "theme": "Time-budget investigation: prioritization under pressure, cyber versus physical triage, and contractor off-boarding.",
+    "threat": "A former IT contractor (Dmitri Volkov, NexGen Solutions), passed over for a promised full-time position, planted a logic bomb on the AODB server: a Windows scheduled task (AODB_IndexMaintenance) that runs a PowerShell script at 12:00:00 PM to stop the AODB service, encrypt the AODB database files with AES-256, delete the FIDS data feed configuration and drop a ransom note reading \"You should have hired me. — D\". He kept access through an orphaned VPN service account (svc_nexgen_aodb) that was never disabled.",
+    "operationalImpact": "If not stopped at 12:00 the AODB goes down: every FIDS display goes blank, gate management terminals lose flight data, airlines cannot see assignments and baggage routing data disappears. Lights, doors and cameras keep working, but all flight operational data vanishes. Recovery from backup takes 4-6 hours minimum.",
+    "coreSectionsTested": [],
+    "targetAudience": "IT/Cybersecurity, Airport Security, Airport Operations, Public Information (PIO).",
+    "location": "North Coast International Airport (NCIA)"
+  },
+  "objectives": [
+    {
+      "id": "obj-prioritization",
+      "name": "Prioritization Under Pressure",
+      "text": "305 minutes of possible actions, 180 minutes of clock. Decide what to do first and what to skip."
+    },
+    {
+      "id": "obj-cyber-investigation",
+      "name": "Cyber Investigation Skills",
+      "text": "Identify the attack vector (scheduled task + orphaned service account) from the available evidence."
+    },
+    {
+      "id": "obj-triage",
+      "name": "Physical vs. Cyber Triage",
+      "text": "The email doesn't say \"cyberattack.\" Avoid wasting time on physical sweeps by reading the clues pointing to digital."
+    },
+    {
+      "id": "obj-offboarding",
+      "name": "Contractor Off-Boarding",
+      "text": "Recognize the orphaned service account as a systemic off-boarding failure."
+    },
+    {
+      "id": "obj-contingency",
+      "name": "Contingency Planning",
+      "text": "If the bomb cannot be found, prepare for impact."
+    }
+  ],
+  "roles": [
+    {
+      "id": "it-cyber",
+      "name": "IT / Cyber (Lead)",
+      "abbreviation": "IT",
+      "team": "IT/Cybersecurity",
+      "description": "Email forensics, network analysis, server inspection, log review, threat hunting. Looking for something planted on the network.",
+      "standingOrders": []
+    },
+    {
+      "id": "security-physical",
+      "name": "Security / Physical",
+      "abbreviation": "SEC",
+      "team": "Security",
+      "description": "Physical sweeps, CCTV review, PACS audit, perimeter checks. Checking whether the threat is physical.",
+      "standingOrders": []
+    },
+    {
+      "id": "ops-command",
+      "name": "Operations / Command",
+      "abbreviation": "OPS",
+      "team": "Operations",
+      "description": "Managing the clock. Prioritizing actions. Making the call on when to stop investigating and start preparing contingencies.",
+      "standingOrders": []
+    },
+    {
+      "id": "pio-legal",
+      "name": "PIO / Legal",
+      "abbreviation": "PIO",
+      "team": "Public Information",
+      "description": "Drafts communications for passengers, airlines and TSA; prepares for the worst while the others hunt.",
+      "standingOrders": []
+    }
+  ],
+  "phases": [
+    {
+      "id": "p1",
+      "index": 0,
+      "title": "Open Investigation",
+      "goal": "Players choose actions from the menu; each costs scenario minutes while the clock advances from 09:00.",
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "p2",
+      "index": 1,
+      "title": "Pressure Builds",
+      "goal": "Forced events (airline call, social media leak, 11:00 checkpoint) add operational pressure while the investigation continues.",
+      "startTime": "1:00",
+      "endTime": "2:30"
+    },
+    {
+      "id": "p3",
+      "index": 2,
+      "title": "Final Countdown",
+      "goal": "TSA decision, last chance to neutralize, and resolution at 12:00.",
+      "startTime": "2:30",
+      "endTime": "3:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "STARTEX (Start Exercise). Current time: 09:00 AM on a Tuesday. The IT shared inbox has received the email \"12:00\" from ncia_reckoning@proton.me (received 08:57): \"Something will happen at NCIA at exactly 12:00 PM today. You won't find it in time. But you're welcome to try.\" Baseline briefing is free. The scenario clock runs on action costs, not real time.",
+      "expectedAction": "Teams read the baseline information and the Action Menu Card, divide by skill, and choose their first action. The facilitator writes 09:00 and a 12:00 DEADLINE line on the whiteboard.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M5HYRDA4APJW84PE6VD8DVCN",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-01",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Security",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Security",
+      "event": "A-01 Trace Email (15 min): ProtonMail. End-to-end encrypted. Headers show it passed through ProtonMail's servers in Switzerland. No origin IP exposed. Sender used Tor or VPN. Tracing is a dead end. However, the email was composed with a user-agent string showing Windows 11, Chrome 122, and the timezone header is UTC-5 (Eastern Time).",
+      "expectedAction": "✗ DEAD END. This costs 15 minutes and yields no direct lead. The metadata (Windows 11, Chrome, Eastern timezone) becomes useful later if the team takes A-20 (Cross-Reference), but on its own it's too generic.",
+      "purposeTag": "RED_HERRING",
+      "format": "email_header_analysis",
+      "injectId": "01M5HYRK68K3W27S9FA9F89W6R",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-02",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Security",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Security",
+      "event": "A-02 Scan Email Payload (10 min): No malware, no attachments, no tracking pixels. But: the email contains an invisible Unicode character sequence in the subject line \"12:00\" — specifically U+200B (zero-width space) between the digits. This is a common technique used by people familiar with email systems to bypass simple text-matching filters. Suggests the sender has technical sophistication.",
+      "expectedAction": "■ USEFUL. The zero-width space trick confirms technical sophistication. Combined with the ProtonMail usage and taunting tone, this points to someone with IT skills — not a passenger or disgruntled non-technical employee.",
+      "purposeTag": "CLUE",
+      "format": "email_header_analysis",
+      "injectId": "01M5HYS07ZFW163WVVRG9ZF0F0",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-03",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Security",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Security",
+      "event": "A-03 Full Network Scan (30 min): Scan completes after 30 minutes. No critical vulnerabilities found that weren't already known. All external-facing services are patched. One finding: the VPN concentrator has a stale service account profile (svc_nexgen_aodb) that wasn't cleaned up during off-boarding. But this information is also available faster through A-06 (VPN Audit) for 10 minutes. This scan was expensive for what it returned.",
+      "expectedAction": "✗ DEAD END (EXPENSIVE). This action costs 30 minutes — the most expensive on the menu — and its only useful finding (the stale VPN account) is available faster through A-06 for 10 minutes. Teams that take this first have burned a sixth of their total time.",
+      "purposeTag": "RED_HERRING",
+      "format": "screenshot_generic",
+      "injectId": "01M5HYSC83Y2SM7R44HQFN7DV0",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-04",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Security",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Security",
+      "event": "A-04 Firewall Logs (15 min): No anomalous inbound connections from external IPs in the last 7 days. No port scans. No brute force attempts. One notable entry: 5 days ago at 2:14 AM, an outbound connection from the AODB server (10.1.10.20) to 104.248.52.117 on port 443, duration 4 seconds. Single connection. Could be a check-in or heartbeat. The external IP resolves to a DigitalOcean VPS.",
+      "expectedAction": "■ USEFUL. The outbound beacon from the AODB server is a strong clue. It tells IT: something on the AODB server called home 5 days ago. Combined with A-06 (VPN login also 5 days ago), this confirms the AODB server has been tampered with.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5HYSKK6F50EARXTMRP73CYQ",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-05",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Security",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Security",
+      "event": "A-05 Inspect AODB Server (15 min): Server is healthy. All services running. BUT: Windows Task Scheduler contains a task named \"AODB_IndexMaintenance\" that was NOT created by the standard AODB installation. Task details: Trigger = 12:00:00 PM today. Action = Execute PowerShell script C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1. Created by: svc_nexgen_aodb. Created: 4 weeks ago. Last modified: 5 days ago (the VPN connection). The PowerShell script, when examined, contains AES-256 encryption routines targeting the AODB database files, FIDS configuration deletion, and writes a file to the desktop called README_NCIA.txt.",
+      "expectedAction": "★ CRITICAL PATH. THIS IS THE ANSWER. If the team takes this action, they've found the bomb. They now need to: (1) delete the scheduled task, (2) delete or quarantine the PowerShell script, and (3) disable svc_nexgen_aodb to prevent reconnection. All three = GOLD.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "console_dump",
+      "injectId": "01M5HYSWA6P96ARDPTNT32PVA4",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-06",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Security",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Security",
+      "event": "A-06 VPN Access Logs (10 min): VPN logs show all connections for the last 30 days. One stands out: service account svc_nexgen_aodb connected 5 days ago at 2:12 AM from external IP 73.189.22.104. Session duration: 6 minutes. That account was created by NexGen Solutions contractor Dmitri Volkov during the AODB migration project. Volkov's personal account (d.volkov) was disabled during off-boarding. The service account was not — it was categorized as a system account, not a user account.",
+      "expectedAction": "★ CRITICAL PATH. This is the first critical path clue. It identifies the orphaned service account AND the fact that someone used it 5 days ago to access the AODB server. At 10 minutes, it's the cheapest critical clue. Teams that start here are on the optimal path.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "system_log",
+      "injectId": "01M5HYT58GQ3T9EZS0N0EN6QG5",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-07",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Security",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Security",
+      "event": "A-07 SIEM 30-Day Review (20 min): 1,247 alerts in 30 days. Most are routine. After filtering: 3 notable events. (1) The VPN login from svc_nexgen_aodb 5 days ago — flagged as INFO, not WARNING, because it's a \"service account.\" (2) A PowerShell execution on the AODB server 4 weeks ago that created a new scheduled task — logged but not alerted because scheduled task creation by admin accounts is classified as routine. (3) The outbound connection to 104.248.52.117 from the AODB server. All three were logged. None were alerted. The SIEM rules didn't classify them as threats.",
+      "expectedAction": "■ USEFUL (SLOW). This action takes 20 minutes and confirms what A-06 and A-04 already reveal faster. The key lesson: the SIEM had the data. It just didn't flag it. This is a strong post-exercise discussion point about SIEM tuning and alert fatigue.",
+      "purposeTag": "CLUE",
+      "format": "siem_alert",
+      "injectId": "01M5HYTG62Z2NRJVB0504954H4",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-08",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Security",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Security",
+      "event": "A-08 DNS Query Logs (10 min): No suspicious domain lookups. No DGA patterns. No known C2 domains. The AODB server resolved 104.248.52.117 via a direct IP connection — no DNS lookup at all. Clean.",
+      "expectedAction": "✗ DEAD END. Dead end. The attacker used a hardcoded IP, bypassing DNS entirely. This is technically realistic — sophisticated attackers often avoid DNS to evade exactly this kind of monitoring.",
+      "purposeTag": "RED_HERRING",
+      "format": "system_log",
+      "injectId": "01M5HYTVJQKNDS2G5TMTMXV109",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-09",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "Security",
+      "toRoleIds": [
+        "security-physical"
+      ],
+      "toLabel": "Security",
+      "event": "A-09 Physical Sweep — Terminal (20 min): Nothing found. No suspicious packages. No unattended items. No unauthorized individuals. Terminal is normal. This action was expensive and yielded nothing — the threat is digital, not physical.",
+      "expectedAction": "✗ DEAD END. 20 minutes spent confirming what the evidence already suggested: the threat is digital. The email was sent to the IT support address, not the general tip line. The sender taunted with technical confidence. Physical sweeps are understandable but low-priority.",
+      "purposeTag": "RED_HERRING",
+      "format": "field_report",
+      "injectId": "01M5HYVASKDZ42BZM749T4KVNB",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-10",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "Security",
+      "toRoleIds": [
+        "security-physical"
+      ],
+      "toLabel": "Security",
+      "event": "A-10 Physical Sweep — Ramp (25 min): Nothing found. Ramp is clean. Cargo areas normal. ARFF station secure. Another 25 minutes spent confirming the threat is not physical.",
+      "expectedAction": "✗ DEAD END. 25 minutes — the second most expensive action — for nothing. If a team takes both A-09 and A-10, they've spent 45 minutes (25% of their budget) on physical sweeps that yield zero. This is the cost of not reading the clues.",
+      "purposeTag": "RED_HERRING",
+      "format": "field_report",
+      "injectId": "01M5HYVMJTR02CBFP1JQ8HQ51Z",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-11",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "Security",
+      "toRoleIds": [
+        "security-physical"
+      ],
+      "toLabel": "Security",
+      "event": "A-11 CCTV — Key Areas (20 min): Server room camera shows no unauthorized physical access in 24 hours. Normal IT staff entries only. BUT: reviewing the server room footage from 4 weeks ago (the week Volkov's contract ended), you can see Volkov entering the server room at 11:47 PM — after hours — badging in with his still-active credential. He spent 22 minutes inside. This is when he planted the logic bomb.",
+      "expectedAction": "■ USEFUL. The 24-hour review is clean. The 4-week review shows Volkov. If the team specifically asks to look back further than 24 hours, reward them with the Volkov sighting. If they don't ask, give them the 24-hour clean result and move on.",
+      "purposeTag": "CLUE",
+      "format": "cctv_still",
+      "injectId": "01M5HYVYQQDJQM9C3XGEGPNV9X",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-12",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "Security",
+      "toRoleIds": [
+        "security-physical"
+      ],
+      "toLabel": "Security",
+      "event": "A-12 PACS After-Hours Audit (10 min): 22 after-hours access events in the last 30 days. Most are Security and IT staff with legitimate reasons. One flag: d.volkov (Dmitri Volkov) badge accessed the server room at 11:47 PM, 27 days ago. His badge was deactivated 2 days later during off-boarding. This confirms physical access during the window when the task was created.",
+      "expectedAction": "■ USEFUL. This confirms the physical access timeline. Volkov was in the server room after hours, right before his contract ended. Combined with A-06 (VPN) and A-05 (AODB inspect), the picture is complete: physical access to plant the bomb, VPN access 5 days ago to verify it.",
+      "purposeTag": "CLUE",
+      "format": "pacs_alarm_panel",
+      "injectId": "01M5HYW6826493C5MR79AC79DR",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-13",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "TSA / FBI",
+      "toRoleIds": [
+        "ops-command"
+      ],
+      "toLabel": "TSA / FBI",
+      "event": "A-13 TSA/FBI Threat Check (10 min): No specific threat advisories for NCIA. FBI is not aware of any credible threats. TSA threat level remains ELEVATED (Bravo) — baseline. No actionable intelligence. However, FBI says they'll open a file if you have a specific suspect.",
+      "expectedAction": "✗ DEAD END. Dead end for the investigation, but reasonable due diligence. The FBI offer to open a case if there's a suspect is useful later — once the team identifies Volkov, they should circle back.",
+      "purposeTag": "RED_HERRING",
+      "format": "phone_call",
+      "injectId": "01M5HYWD2JCJM7EP1QVV5Y736T",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-14",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Staff",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Staff",
+      "event": "A-14 Interview IT Staff (15 min): IT staff report: Dmitri Volkov was a NexGen Solutions contractor who ran the AODB migration. Technically brilliant. Quiet. Did excellent work. He created the service account svc_nexgen_aodb for automated AODB maintenance scripts. He was informally told by the Operations Director that a full-time IT position would be created for him after the project. That position was posted externally instead. Volkov said nothing but seemed... off... his last two weeks. IT staff also note: Volkov had full admin access to the AODB server, including the ability to create scheduled tasks and install scripts.",
+      "expectedAction": "★ CRITICAL PATH. This establishes motive AND confirms Volkov had the access and skills. The detail about the promised job is the human element — the anger that drove the logic bomb. \"He just got quiet\" should feel ominous.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5HYWVF8JKCGPA7HQ7C2PYV9",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-15",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Security",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Security",
+      "event": "A-15 Network Isolation Plan (10 min): Team drafts a plan to isolate the Server VLAN from all other segments at a moment's notice. This doesn't find the threat but ensures rapid containment if the noon event is network-based. Smart contingency — earns partial credit even if they don't find the bomb.",
+      "expectedAction": "■ GOOD PLANNING. Smart contingency action. Even if they don't find the bomb, being ready to isolate demonstrates good incident response thinking. Award bonus points.",
+      "purposeTag": "DECISION_POINT",
+      "format": "memo",
+      "injectId": "01M5HYX87RKA4FM6TF2A7TH09T",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-16",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "Operations",
+      "toRoleIds": [
+        "ops-command"
+      ],
+      "toLabel": "Operations",
+      "event": "A-16 Evacuation Prep (15 min): Resources staged for a physical evacuation. But the threat is cyber, not physical. These 15 minutes could have been spent on digital investigation. Not worthless — contingency planning is never wasted — but low priority given the evidence.",
+      "expectedAction": "✗ LOW VALUE. Not wrong — but 15 minutes spent on physical contingency when the threat is cyber. Low value relative to cyber investigation actions.",
+      "purposeTag": "RED_HERRING",
+      "format": "memo",
+      "injectId": "01M5HYXG3RZ4NBFWHWRKA3WSBR",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-17",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "CISA",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "CISA",
+      "event": "A-17 CISA Contact (10 min): CISA acknowledges the report. They can provide remote forensic assistance within 2 hours — which means they won't arrive before noon. But they recommend: check for scheduled tasks on critical servers, audit service accounts, and look for persistence mechanisms. If the team hasn't already taken A-05 or A-19, this is a strong hint to do so.",
+      "expectedAction": "■ GOOD PLANNING. CISA's recommendations are basically the answer key: check scheduled tasks, audit service accounts. If the team hasn't taken A-05 or A-19 yet, this should push them there. It's a $10 hint — well worth it.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M5HYXZHE8J01HBXBXG50AVBD",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-18",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Security",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Security",
+      "event": "A-18 Emergency Backups (20 min): Snapshot backups initiated for AODB, FIDS, PACS, and DC. This doesn't stop the bomb, but if the bomb goes off, recovery is 1-2 hours from fresh backup instead of 4-6 hours from the last nightly backup. This is the best \"insurance\" action.",
+      "expectedAction": "★ SMART INSURANCE. This is the best insurance action. 20 minutes is expensive, but if the bomb goes off, recovery is much faster. Teams that take this action AND find the bomb earn bonus points for thinking defensively while investigating.",
+      "purposeTag": "DECISION_POINT",
+      "format": "console_dump",
+      "injectId": "01M5HYYXY8QQ7X1J0YCZ7NY67W",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-19",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Security",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Security",
+      "event": "A-19 Search Scheduled Tasks (15 min): Query returns scheduled tasks across all Windows servers. Most are legitimate: Windows Update, backup jobs, antivirus scans. ONE stands out: on the AODB server (AODB-SVR-01), a task named AODB_IndexMaintenance. Created by svc_nexgen_aodb, 4 weeks ago. Trigger: 12:00:00 PM TODAY. Action: PowerShell script. No other servers have suspicious tasks. Attack is targeted at AODB only.",
+      "expectedAction": "★ CRITICAL PATH. If the team takes this before A-05, they find the bomb from a different angle — broad search instead of targeted inspection. Either path works. This also confirms there's only ONE bomb — no secondary devices on other servers.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "console_dump",
+      "injectId": "01M5HYZD1VYVRGKYZFNBNHQXH1",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "A-20",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "IT Security",
+      "toRoleIds": [
+        "it-cyber"
+      ],
+      "toLabel": "IT Security",
+      "event": "A-20 Email Metadata Cross-Ref (10 min): Email header timezone: UTC-5 (Eastern Time — consistent with NCIA's timezone). User-agent: Windows 11, Chrome 122. Comparing with contractor records: Volkov's NCIA-issued laptop was Windows 11. His browser history (from the IT asset log before return) shows Chrome was his default browser. Not conclusive — millions of people use this config — but combined with other evidence, it fits.",
+      "expectedAction": "■ USEFUL. This is a confirmation clue, not a discovery clue. It only matters if the team has already developed Volkov as a suspect. On its own, it's too generic. But in combination with A-06 and A-14, it adds another thread.",
+      "purposeTag": "CLUE",
+      "format": "sitrep",
+      "injectId": "01M5HYZPRFTTSZFE9VB05XKG87",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "F-1000",
+      "phaseId": "p2",
+      "time": "1:00",
+      "wallClock": "10:00",
+      "from": "Airline Operations Manager",
+      "toRoleIds": [
+        "ops-command"
+      ],
+      "toLabel": "Ops",
+      "event": "Phone Call: Airline Operations Manager calls: \"We heard there's a security situation. Should we be worried? We have 8 departures between 11 and noon.\"",
+      "expectedAction": "Forces Ops to communicate with airlines under uncertainty. Do they delay flights? Hold boarding? Or say nothing and hope?",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "injectId": "01M5HZ00020V62MCDBMY76P6HP",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "F-1030",
+      "phaseId": "p2",
+      "time": "1:30",
+      "wallClock": "10:30",
+      "from": "Social Media",
+      "toRoleIds": [
+        "pio-legal"
+      ],
+      "toLabel": "PIO",
+      "event": "Tweet: a passenger overheard airport staff saying \"something might happen at noon\" and tweeted it. \"@NCIAirport are we safe??\" Getting traction.",
+      "expectedAction": "PIO must manage. The information has leaked. What do you say?",
+      "purposeTag": "MISINFORMATION",
+      "format": "tweet",
+      "injectId": "01M5HZ0BPEWHQG0RPX8YF5HMYH",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "F-1100",
+      "phaseId": "p2",
+      "time": "2:00",
+      "wallClock": "11:00",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "Facilitator announces: \"One hour remaining. The clock is at 11:00. What is your current theory? What have you found? What is your contingency plan if you don't find it in time?\"",
+      "expectedAction": "Checkpoint. Forces the team to synthesize what they know. If they haven't found the scheduled task yet, this is the last push to focus on cyber investigation.",
+      "purposeTag": "DECISION_POINT",
+      "format": "scenario_update",
+      "injectId": "01M5HZ0KP48GZVH5ZKWD2TRKRX",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "F-1130",
+      "phaseId": "p3",
+      "time": "2:30",
+      "wallClock": "11:30",
+      "from": "TSA",
+      "toRoleIds": [
+        "ops-command"
+      ],
+      "toLabel": "Ops",
+      "event": "Phone Call: TSA calls: \"We're getting reports that NCIA has received a threat. Do we need to elevate the checkpoint? We can go to enhanced screening in 15 minutes but it will create 45-minute wait times.\"",
+      "expectedAction": "Decision: elevated screening costs operational efficiency but demonstrates response. Is it warranted if the threat is cyber, not physical?",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M5HZ0VV3XMWR4XC1M8KS20DK",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "F-1145",
+      "phaseId": "p3",
+      "time": "2:45",
+      "wallClock": "11:45",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "Facilitator: \"Fifteen minutes. If you have identified the threat and want to neutralize it, this is your last opportunity. Describe what you're doing and how.\"",
+      "expectedAction": "Final chance. If they've found the scheduled task, they delete it. If they haven't, they need to describe their contingency plan for when 12:00 hits.",
+      "purposeTag": "DECISION_POINT",
+      "format": "scenario_update",
+      "injectId": "01M5HZ18Y0ZA86WPM5J0690RG6",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "F-1200",
+      "phaseId": "p3",
+      "time": "3:00",
+      "wallClock": "12:00",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "IF NOT NEUTRALIZED: \"The clock hits 12:00. The AODB server stops responding. FIDS displays across the airport go blank. Gate management terminals show 'NO DATA.' A file appears on the server desktop: 'You should have hired me. — D'\" IF NEUTRALIZED: \"The clock hits 12:00. Nothing happens. The team prevented the attack.\"",
+      "expectedAction": "Resolution. Either celebration or crisis management begins.",
+      "purposeTag": "END_GAME",
+      "format": "scenario_update",
+      "injectId": "01M5HZ1GPWRFFWK1A80JKFMV27",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p3",
+      "time": "3:00",
+      "wallClock": "12:00",
+      "from": "Facilitator",
+      "toRoleIds": [],
+      "toLabel": "All",
+      "event": "ENDEX (End Exercise). The clock has resolved at 12:00. Move to the debrief.",
+      "expectedAction": "Move to the debrief questions. Reserve 20-30 minutes of real time for the debrief.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M5HZ1QDMGBN25N6PPQ07Z7K4",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5HYRD995KZKT4YJQADQE80W/documents/handbook.md",
+    "briefing": "scenarios/01M5HYRD995KZKT4YJQADQE80W/documents/briefing.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "m1",
+        "name": "Outcome",
+        "points": 100,
+        "fail": "FAIL (25 points): 12:00 arrived with no identification and no contingency plan. AODB goes down. The team is caught flat-footed.",
+        "pass": "SILVER (75 points): found the logic bomb but only partially neutralized it (deleted task but not account, or took server offline) OR identified the threat but ran out of time. BRONZE (50 points): did not find the bomb but had strong contingency plans: backups taken, network isolation plan ready, communications drafted, CISA contacted.",
+        "excellence": "GOLD (100 points): found the logic bomb AND properly neutralized it (deleted task + disabled account) before 12:00.",
+        "linkedInjectIds": [
+          "A-05",
+          "A-06",
+          "A-14",
+          "A-19",
+          "F-1145",
+          "F-1200"
+        ],
+        "objectiveRefs": [
+          "obj-prioritization",
+          "obj-cyber-investigation",
+          "obj-contingency"
+        ]
+      },
+      {
+        "id": "m2",
+        "name": "Bonus Points",
+        "points": 30,
+        "fail": "No bonus awarded.",
+        "pass": "+10: identified Volkov by name before the reveal. +10: took A-18 (Emergency Backups) as insurance even while investigating.",
+        "excellence": "+5: requested a creative custom action that yielded useful results. +5: PIO had a contingency communication plan ready by 11:00.",
+        "linkedInjectIds": [
+          "A-14",
+          "A-18",
+          "F-1100"
+        ],
+        "objectiveRefs": [
+          "obj-contingency"
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "debrief",
+    "methodDescription": "Reserve 20-30 minutes of real time for the debrief after the clock resolves.",
+    "questions": [
+      {
+        "topic": "Time Management",
+        "text": "How many minutes did you spend on dead ends? What would you have done differently?",
+        "objectiveRef": "obj-prioritization"
+      },
+      {
+        "topic": "Prioritization",
+        "text": "What made you choose your first action? Was it the right one?",
+        "objectiveRef": "obj-prioritization"
+      },
+      {
+        "topic": "Physical vs. Cyber",
+        "text": "If you swept the terminal, what told you to look there? What clues pointed to a digital threat instead?",
+        "objectiveRef": "obj-triage"
+      },
+      {
+        "topic": "Service Accounts",
+        "text": "svc_nexgen_aodb was never disabled because it looked like a system account. How many orphaned service accounts do you have in your real environment?",
+        "objectiveRef": "obj-offboarding"
+      },
+      {
+        "topic": "Scheduled Tasks",
+        "text": "A scheduled task sat on your AODB server for 4 weeks. Nobody noticed. Do you audit scheduled tasks? How often?",
+        "objectiveRef": "obj-cyber-investigation"
+      },
+      {
+        "topic": "Contractor Off-Boarding",
+        "text": "Volkov's personal account was disabled. His service account was not. What does your off-boarding checklist look like for contractors who created system accounts?",
+        "objectiveRef": "obj-offboarding"
+      },
+      {
+        "topic": "The Human Factor",
+        "text": "Volkov was promised a job and didn't get it. He said nothing. He smiled on his last day. Then he planted a logic bomb. What could the organization have done differently?"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "NexGen Solutions (contractor's former employer)",
+      "trigger": "Team calls NexGen Solutions about Volkov (custom action, 10 minutes).",
+      "hardQuestions": [],
+      "concessions": [
+        "NexGen confirms Volkov's contract ended normally.",
+        "NexGen notes he created a service account for the migration; they don't know it's still active."
+      ]
+    },
+    {
+      "rolePlayed": "TSA / FBI",
+      "trigger": "Team contacts TSA or the FBI (A-13), or TSA calls at 11:30.",
+      "hardQuestions": [
+        "We're getting reports that NCIA has received a threat. Do we need to elevate the checkpoint? We can go to enhanced screening in 15 minutes but it will create 45-minute wait times."
+      ],
+      "concessions": [
+        "FBI will open a file once the team has a specific suspect; report the email to IC3."
+      ]
+    },
+    {
+      "rolePlayed": "CISA 24/7 Operations Center",
+      "trigger": "Team activates CISA emergency contact (A-17).",
+      "hardQuestions": [],
+      "concessions": [
+        "Remote incident response available within 2 hours, so no arrival before noon.",
+        "Recommends: check critical servers for scheduled tasks, audit service accounts, look for persistence mechanisms, and preserve a payload for forensics before deleting."
+      ]
+    },
+    {
+      "rolePlayed": "Airline Operations Manager",
+      "trigger": "Forced event at 10:00.",
+      "hardQuestions": [
+        "We heard there's a security situation. Should we be worried? We have 8 departures between 11 and noon."
+      ],
+      "concessions": []
+    }
+  ],
+  "criticalResources": [
+    "AODB",
+    "FIDS",
+    "PACS",
+    "Domain Controller",
+    "VPN concentrator"
+  ],
+  "warnings": [],
+  "provenance": [
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYRDA4APJW84PE6VD8DVCN",
+      "startedAt": "2026-10-22T14:03:06.954Z",
+      "finishedAt": "2026-10-22T14:03:12.960Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4212,
+      "outputTokens": 587,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYRDA4APJW84PE6VD8DVCN",
+      "startedAt": "2026-10-22T14:03:12.963Z",
+      "finishedAt": "2026-10-22T14:03:12.963Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYRK68K3W27S9FA9F89W6R",
+      "startedAt": "2026-10-22T14:03:12.978Z",
+      "finishedAt": "2026-10-22T14:03:26.323Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4715,
+      "outputTokens": 1375,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYRK68K3W27S9FA9F89W6R",
+      "startedAt": "2026-10-22T14:03:26.331Z",
+      "finishedAt": "2026-10-22T14:03:26.331Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYS07ZFW163WVVRG9ZF0F0",
+      "startedAt": "2026-10-22T14:03:26.341Z",
+      "finishedAt": "2026-10-22T14:03:38.619Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4723,
+      "outputTokens": 1236,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYS07ZFW163WVVRG9ZF0F0",
+      "startedAt": "2026-10-22T14:03:38.621Z",
+      "finishedAt": "2026-10-22T14:03:38.621Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYSC83Y2SM7R44HQFN7DV0",
+      "startedAt": "2026-10-22T14:03:38.635Z",
+      "finishedAt": "2026-10-22T14:03:43.740Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 4911,
+      "outputTokens": 448,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYSC83Y2SM7R44HQFN7DV0",
+      "startedAt": "2026-10-22T14:03:43.744Z",
+      "finishedAt": "2026-10-22T14:03:46.143Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1687,
+      "outputTokens": 258,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYSKK6F50EARXTMRP73CYQ",
+      "startedAt": "2026-10-22T14:03:46.157Z",
+      "finishedAt": "2026-10-22T14:03:55.070Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5343,
+      "outputTokens": 813,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYSKK6F50EARXTMRP73CYQ",
+      "startedAt": "2026-10-22T14:03:55.072Z",
+      "finishedAt": "2026-10-22T14:03:55.072Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYSWA6P96ARDPTNT32PVA4",
+      "startedAt": "2026-10-22T14:03:55.085Z",
+      "finishedAt": "2026-10-22T14:04:04.232Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5139,
+      "outputTokens": 863,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYSWA6P96ARDPTNT32PVA4",
+      "startedAt": "2026-10-22T14:04:04.234Z",
+      "finishedAt": "2026-10-22T14:04:04.234Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYT58GQ3T9EZS0N0EN6QG5",
+      "startedAt": "2026-10-22T14:04:04.246Z",
+      "finishedAt": "2026-10-22T14:04:15.418Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 5713,
+      "outputTokens": 1028,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYT58GQ3T9EZS0N0EN6QG5",
+      "startedAt": "2026-10-22T14:04:15.420Z",
+      "finishedAt": "2026-10-22T14:04:15.420Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYTG62Z2NRJVB0504954H4",
+      "startedAt": "2026-10-22T14:04:15.436Z",
+      "finishedAt": "2026-10-22T14:04:27.085Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6189,
+      "outputTokens": 1044,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYTG62Z2NRJVB0504954H4",
+      "startedAt": "2026-10-22T14:04:27.092Z",
+      "finishedAt": "2026-10-22T14:04:27.092Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYTVJQKNDS2G5TMTMXV109",
+      "startedAt": "2026-10-22T14:04:27.101Z",
+      "finishedAt": "2026-10-22T14:04:42.671Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6261,
+      "outputTokens": 1434,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYTVJQKNDS2G5TMTMXV109",
+      "startedAt": "2026-10-22T14:04:42.672Z",
+      "finishedAt": "2026-10-22T14:04:42.672Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYVASKDZ42BZM749T4KVNB",
+      "startedAt": "2026-10-22T14:04:42.681Z",
+      "finishedAt": "2026-10-22T14:04:52.693Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6573,
+      "outputTokens": 862,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYVASKDZ42BZM749T4KVNB",
+      "startedAt": "2026-10-22T14:04:52.694Z",
+      "finishedAt": "2026-10-22T14:04:52.694Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYVMJTR02CBFP1JQ8HQ51Z",
+      "startedAt": "2026-10-22T14:04:52.704Z",
+      "finishedAt": "2026-10-22T14:05:03.087Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6551,
+      "outputTokens": 896,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYVMJTR02CBFP1JQ8HQ51Z",
+      "startedAt": "2026-10-22T14:05:03.090Z",
+      "finishedAt": "2026-10-22T14:05:03.090Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYVYQQDJQM9C3XGEGPNV9X",
+      "startedAt": "2026-10-22T14:05:03.103Z",
+      "finishedAt": "2026-10-22T14:05:08.256Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6798,
+      "outputTokens": 335,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYVYQQDJQM9C3XGEGPNV9X",
+      "startedAt": "2026-10-22T14:05:08.263Z",
+      "finishedAt": "2026-10-22T14:05:10.778Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1984,
+      "outputTokens": 249,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYW6826493C5MR79AC79DR",
+      "startedAt": "2026-10-22T14:05:10.793Z",
+      "finishedAt": "2026-10-22T14:05:17.767Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6711,
+      "outputTokens": 542,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYW6826493C5MR79AC79DR",
+      "startedAt": "2026-10-22T14:05:17.774Z",
+      "finishedAt": "2026-10-22T14:05:17.774Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYWD2JCJM7EP1QVV5Y736T",
+      "startedAt": "2026-10-22T14:05:17.785Z",
+      "finishedAt": "2026-10-22T14:05:27.386Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 6710,
+      "outputTokens": 783,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYWD2JCJM7EP1QVV5Y736T",
+      "startedAt": "2026-10-22T14:05:27.394Z",
+      "finishedAt": "2026-10-22T14:05:32.512Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2504,
+      "outputTokens": 545,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYWVF8JKCGPA7HQ7C2PYV9",
+      "startedAt": "2026-10-22T14:05:32.530Z",
+      "finishedAt": "2026-10-22T14:05:45.583Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 7395,
+      "outputTokens": 1096,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYWVF8JKCGPA7HQ7C2PYV9",
+      "startedAt": "2026-10-22T14:05:45.586Z",
+      "finishedAt": "2026-10-22T14:05:45.586Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYX87RKA4FM6TF2A7TH09T",
+      "startedAt": "2026-10-22T14:05:45.600Z",
+      "finishedAt": "2026-10-22T14:05:53.648Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 7269,
+      "outputTokens": 627,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYX87RKA4FM6TF2A7TH09T",
+      "startedAt": "2026-10-22T14:05:53.651Z",
+      "finishedAt": "2026-10-22T14:05:53.651Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYXG3RZ4NBFWHWRKA3WSBR",
+      "startedAt": "2026-10-22T14:05:53.664Z",
+      "finishedAt": "2026-10-22T14:06:01.383Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 15855,
+      "outputTokens": 1150,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYXG3RZ4NBFWHWRKA3WSBR",
+      "startedAt": "2026-10-22T14:06:09.449Z",
+      "finishedAt": "2026-10-22T14:06:09.449Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYXZHE8J01HBXBXG50AVBD",
+      "startedAt": "2026-10-22T14:06:09.461Z",
+      "finishedAt": "2026-10-22T14:06:17.998Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 7526,
+      "outputTokens": 646,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYXZHE8J01HBXBXG50AVBD",
+      "startedAt": "2026-10-22T14:06:18.002Z",
+      "finishedAt": "2026-10-22T14:06:40.577Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 6682,
+      "outputTokens": 2420,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYYXY8QQ7X1J0YCZ7NY67W",
+      "startedAt": "2026-10-22T14:06:40.592Z",
+      "finishedAt": "2026-10-22T14:06:56.050Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 7353,
+      "outputTokens": 1302,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYYXY8QQ7X1J0YCZ7NY67W",
+      "startedAt": "2026-10-22T14:06:56.054Z",
+      "finishedAt": "2026-10-22T14:06:56.054Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYZD1VYVRGKYZFNBNHQXH1",
+      "startedAt": "2026-10-22T14:06:56.066Z",
+      "finishedAt": "2026-10-22T14:07:05.990Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 7759,
+      "outputTokens": 750,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYZD1VYVRGKYZFNBNHQXH1",
+      "startedAt": "2026-10-22T14:07:05.994Z",
+      "finishedAt": "2026-10-22T14:07:05.994Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HYZPRFTTSZFE9VB05XKG87",
+      "startedAt": "2026-10-22T14:07:06.007Z",
+      "finishedAt": "2026-10-22T14:07:15.453Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 8155,
+      "outputTokens": 701,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HYZPRFTTSZFE9VB05XKG87",
+      "startedAt": "2026-10-22T14:07:15.455Z",
+      "finishedAt": "2026-10-22T14:07:15.455Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HZ00020V62MCDBMY76P6HP",
+      "startedAt": "2026-10-22T14:07:15.464Z",
+      "finishedAt": "2026-10-22T14:07:23.902Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 8016,
+      "outputTokens": 601,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HZ00020V62MCDBMY76P6HP",
+      "startedAt": "2026-10-22T14:07:23.908Z",
+      "finishedAt": "2026-10-22T14:07:27.431Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2603,
+      "outputTokens": 344,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HZ0BPEWHQG0RPX8YF5HMYH",
+      "startedAt": "2026-10-22T14:07:27.444Z",
+      "finishedAt": "2026-10-22T14:07:33.102Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 8405,
+      "outputTokens": 302,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HZ0BPEWHQG0RPX8YF5HMYH",
+      "startedAt": "2026-10-22T14:07:33.110Z",
+      "finishedAt": "2026-10-22T14:07:35.615Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2350,
+      "outputTokens": 226,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HZ0KP48GZVH5ZKWD2TRKRX",
+      "startedAt": "2026-10-22T14:07:35.627Z",
+      "finishedAt": "2026-10-22T14:07:43.962Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 8238,
+      "outputTokens": 525,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HZ0KP48GZVH5ZKWD2TRKRX",
+      "startedAt": "2026-10-22T14:07:43.966Z",
+      "finishedAt": "2026-10-22T14:07:43.966Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HZ0VV3XMWR4XC1M8KS20DK",
+      "startedAt": "2026-10-22T14:07:43.978Z",
+      "finishedAt": "2026-10-22T14:07:51.977Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 8414,
+      "outputTokens": 529,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HZ0VV3XMWR4XC1M8KS20DK",
+      "startedAt": "2026-10-22T14:07:51.981Z",
+      "finishedAt": "2026-10-22T14:07:57.370Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2610,
+      "outputTokens": 551,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HZ18Y0ZA86WPM5J0690RG6",
+      "startedAt": "2026-10-22T14:07:57.384Z",
+      "finishedAt": "2026-10-22T14:08:05.332Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 8424,
+      "outputTokens": 495,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HZ18Y0ZA86WPM5J0690RG6",
+      "startedAt": "2026-10-22T14:08:05.336Z",
+      "finishedAt": "2026-10-22T14:08:05.336Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HZ1GPWRFFWK1A80JKFMV27",
+      "startedAt": "2026-10-22T14:08:05.347Z",
+      "finishedAt": "2026-10-22T14:08:12.202Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 8581,
+      "outputTokens": 421,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HZ1GPWRFFWK1A80JKFMV27",
+      "startedAt": "2026-10-22T14:08:12.206Z",
+      "finishedAt": "2026-10-22T14:08:12.206Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5HZ1QDMGBN25N6PPQ07Z7K4",
+      "startedAt": "2026-10-22T14:08:12.220Z",
+      "finishedAt": "2026-10-22T14:08:19.853Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "ac7df1ea1fc7e7aaed69f16142c31c62bbb3ca766d6660128a026e9f3b9e5207",
+      "inputTokens": 8602,
+      "outputTokens": 495,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5HZ1QDMGBN25N6PPQ07Z7K4",
+      "startedAt": "2026-10-22T14:08:19.855Z",
+      "finishedAt": "2026-10-22T14:08:19.855Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYRDA4APJW84PE6VD8DVCN",
+      "startedAt": "2026-10-22T14:08:22.204Z",
+      "finishedAt": "2026-10-22T14:08:22.423Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYRK68K3W27S9FA9F89W6R",
+      "startedAt": "2026-10-22T14:08:22.425Z",
+      "finishedAt": "2026-10-22T14:08:22.677Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYS07ZFW163WVVRG9ZF0F0",
+      "startedAt": "2026-10-22T14:08:22.678Z",
+      "finishedAt": "2026-10-22T14:08:22.908Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYSC83Y2SM7R44HQFN7DV0",
+      "startedAt": "2026-10-22T14:08:32.220Z",
+      "finishedAt": "2026-10-22T14:08:50.457Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYSKK6F50EARXTMRP73CYQ",
+      "startedAt": "2026-10-22T14:08:23.026Z",
+      "finishedAt": "2026-10-22T14:08:23.231Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYSWA6P96ARDPTNT32PVA4",
+      "startedAt": "2026-10-22T14:08:23.232Z",
+      "finishedAt": "2026-10-22T14:08:23.437Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYT58GQ3T9EZS0N0EN6QG5",
+      "startedAt": "2026-10-22T14:08:23.442Z",
+      "finishedAt": "2026-10-22T14:08:23.723Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYTG62Z2NRJVB0504954H4",
+      "startedAt": "2026-10-22T14:08:23.726Z",
+      "finishedAt": "2026-10-22T14:08:23.898Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYTVJQKNDS2G5TMTMXV109",
+      "startedAt": "2026-10-22T14:08:23.901Z",
+      "finishedAt": "2026-10-22T14:08:24.138Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYVASKDZ42BZM749T4KVNB",
+      "startedAt": "2026-10-22T14:08:24.140Z",
+      "finishedAt": "2026-10-22T14:08:24.364Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYVMJTR02CBFP1JQ8HQ51Z",
+      "startedAt": "2026-10-22T14:08:24.366Z",
+      "finishedAt": "2026-10-22T14:08:24.589Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYVYQQDJQM9C3XGEGPNV9X",
+      "startedAt": "2026-10-22T14:08:24.591Z",
+      "finishedAt": "2026-10-22T14:08:24.788Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYW6826493C5MR79AC79DR",
+      "startedAt": "2026-10-22T14:08:24.790Z",
+      "finishedAt": "2026-10-22T14:08:24.940Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYWD2JCJM7EP1QVV5Y736T",
+      "startedAt": "2026-10-22T14:08:52.241Z",
+      "finishedAt": "2026-10-22T14:09:22.755Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYWVF8JKCGPA7HQ7C2PYV9",
+      "startedAt": "2026-10-22T14:08:25.162Z",
+      "finishedAt": "2026-10-22T14:08:25.387Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYX87RKA4FM6TF2A7TH09T",
+      "startedAt": "2026-10-22T14:08:25.388Z",
+      "finishedAt": "2026-10-22T14:08:25.604Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYXG3RZ4NBFWHWRKA3WSBR",
+      "startedAt": "2026-10-22T14:08:25.606Z",
+      "finishedAt": "2026-10-22T14:08:25.825Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYXZHE8J01HBXBXG50AVBD",
+      "startedAt": "2026-10-22T14:08:25.827Z",
+      "finishedAt": "2026-10-22T14:08:26.044Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYYXY8QQ7X1J0YCZ7NY67W",
+      "startedAt": "2026-10-22T14:08:26.046Z",
+      "finishedAt": "2026-10-22T14:08:26.248Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYZD1VYVRGKYZFNBNHQXH1",
+      "startedAt": "2026-10-22T14:08:26.249Z",
+      "finishedAt": "2026-10-22T14:08:26.416Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HYZPRFTTSZFE9VB05XKG87",
+      "startedAt": "2026-10-22T14:08:26.418Z",
+      "finishedAt": "2026-10-22T14:08:26.632Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HZ00020V62MCDBMY76P6HP",
+      "startedAt": "2026-10-22T14:08:26.634Z",
+      "finishedAt": "2026-10-22T14:08:26.833Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HZ0BPEWHQG0RPX8YF5HMYH",
+      "startedAt": "2026-10-22T14:08:26.836Z",
+      "finishedAt": "2026-10-22T14:08:26.949Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HZ0KP48GZVH5ZKWD2TRKRX",
+      "startedAt": "2026-10-22T14:08:26.951Z",
+      "finishedAt": "2026-10-22T14:08:27.167Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HZ0VV3XMWR4XC1M8KS20DK",
+      "startedAt": "2026-10-22T14:08:27.169Z",
+      "finishedAt": "2026-10-22T14:08:27.360Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HZ18Y0ZA86WPM5J0690RG6",
+      "startedAt": "2026-10-22T14:08:27.362Z",
+      "finishedAt": "2026-10-22T14:08:27.587Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HZ1GPWRFFWK1A80JKFMV27",
+      "startedAt": "2026-10-22T14:08:27.589Z",
+      "finishedAt": "2026-10-22T14:08:27.802Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5HZ1QDMGBN25N6PPQ07Z7K4",
+      "startedAt": "2026-10-22T14:08:27.804Z",
+      "finishedAt": "2026-10-22T14:08:28.017Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

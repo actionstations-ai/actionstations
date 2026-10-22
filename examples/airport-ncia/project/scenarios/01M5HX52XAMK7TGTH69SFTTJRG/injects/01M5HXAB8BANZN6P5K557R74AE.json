@@ -1,0 +1,196 @@
+{
+  "id": "01M5HXAB8BANZN6P5K557R74AE",
+  "mselRowId": "I-13",
+  "type": "sitrep",
+  "title": "AODB Data Restoration — FIDS Recovery Initiated",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "number": "3",
+    "time": "10/22/2026 1200 EDT",
+    "organization": "North Coast Regional Airport Authority",
+    "issuingOffice": "IT Operations Center",
+    "incidentName": "FIDS / AODB Data Integrity",
+    "period": "1130-1200",
+    "from": "IT Lead, Technical Incident Command",
+    "to": "Ops Director, Operational Incident Command",
+    "summary": "The compromised AODB server (NCIA-PACS-CORE) has been isolated and restored from a clean backup taken at 04:00 AM. All data integrity checks have passed. The FIDS data feed is now stable and matches the airline-provided flight schedules. BHS sortation logic has been reset, and manual procedures have been deactivated. The IT team confirms that no further malicious activity has been detected in the AODB or related systems. The PA system remains offline pending verification of the flight data stream.",
+    "keyStatus": [
+      {
+        "label": "FIDS",
+        "value": "Restored from backup — data clean"
+      },
+      {
+        "label": "BHS",
+        "value": "Sortation logic reset — manual mode off"
+      },
+      {
+        "label": "PA System",
+        "value": "Offline — awaiting data verification"
+      },
+      {
+        "label": "AODB",
+        "value": "Isolated and restored — no active threat"
+      },
+      {
+        "label": "TSA Screening",
+        "value": "Stable — no further data mismatches"
+      }
+    ],
+    "actions": [
+      {
+        "time": "1145",
+        "text": "IT completed isolation of NCIA-PACS-CORE and initiated restore from 04:00 AM backup"
+      },
+      {
+        "time": "1150",
+        "text": "Database integrity check passed on AODB — no signs of persistent malware"
+      },
+      {
+        "time": "1155",
+        "text": "FIDS data feed successfully reconnected to clean AODB source"
+      },
+      {
+        "time": "1157",
+        "text": "BHS control system confirmed synchronized with updated flight data"
+      }
+    ],
+    "planned": [
+      "IT will conduct a 15-minute test broadcast to one FIDS zone (Concourse B) to validate display accuracy before full rollout",
+      "Ops to coordinate with airline liaisons on a controlled FIDS rollout to avoid confusion",
+      "PA system to be reactivated only after FIDS stability is confirmed across all zones"
+    ],
+    "issues": [
+      "No issues with backup integrity or access controls found; however, manual verification of all gate assignments is required before full FIDS activation",
+      "TSA remains on alert for any data drift during the test rollout"
+    ],
+    "nextReport": "1230 or on significant change",
+    "preparedBy": "IT Lead, IT Director's Office",
+    "approvedBy": "IT Director, North Coast Regional Airport Authority",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This is a critical inject for IT to request authority to restore FIDS. Watch for the Ops Director to ask for verification steps or to delay rollout due to public trust concerns.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.1 Purpose",
+      "quote": "Guidance for a significant IT system failure, whether caused by a malicious cyber-attack (e.g., ransomware) or a technical failure. Focus: operational continuity.",
+      "chunkId": 121
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+      "quote": "**Impact:** FIDS go dark; BHS stops. **FIDS Failure:** Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight informatio",
+      "chunkId": 126
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+      "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+      "chunkId": 122
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:38:06.453Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "AODB Data Restoration — FIDS Recovery Initiated",
+        "type": "sitrep",
+        "fields": {
+          "number": "3",
+          "time": "10/22/2026 1200 EDT",
+          "organization": "North Coast Regional Airport Authority",
+          "issuingOffice": "IT Operations Center",
+          "incidentName": "FIDS / AODB Data Integrity",
+          "period": "1130-1200",
+          "from": "IT Lead, Technical Incident Command",
+          "to": "Ops Director, Operational Incident Command",
+          "summary": "The compromised AODB server (NCIA-PACS-CORE) has been isolated and restored from a clean backup taken at 04:00 AM. All data integrity checks have passed. The FIDS data feed is now stable and matches the airline-provided flight schedules. BHS sortation logic has been reset, and manual procedures have been deactivated. The IT team confirms that no further malicious activity has been detected in the AODB or related systems. The PA system remains offline pending verification of the flight data stream.",
+          "keyStatus": [
+            {
+              "label": "FIDS",
+              "value": "Restored from backup — data clean"
+            },
+            {
+              "label": "BHS",
+              "value": "Sortation logic reset — manual mode off"
+            },
+            {
+              "label": "PA System",
+              "value": "Offline — awaiting data verification"
+            },
+            {
+              "label": "AODB",
+              "value": "Isolated and restored — no active threat"
+            },
+            {
+              "label": "TSA Screening",
+              "value": "Stable — no further data mismatches"
+            }
+          ],
+          "actions": [
+            {
+              "time": "1145",
+              "text": "IT completed isolation of NCIA-PACS-CORE and initiated restore from 04:00 AM backup"
+            },
+            {
+              "time": "1150",
+              "text": "Database integrity check passed on AODB — no signs of persistent malware"
+            },
+            {
+              "time": "1155",
+              "text": "FIDS data feed successfully reconnected to clean AODB source"
+            },
+            {
+              "time": "1157",
+              "text": "BHS control system confirmed synchronized with updated flight data"
+            }
+          ],
+          "planned": [
+            "IT will conduct a 15-minute test broadcast to one FIDS zone (Concourse B) to validate display accuracy before full rollout",
+            "Ops to coordinate with airline liaisons on a controlled FIDS rollout to avoid confusion",
+            "PA system to be reactivated only after FIDS stability is confirmed across all zones"
+          ],
+          "issues": [
+            "No issues with backup integrity or access controls found; however, manual verification of all gate assignments is required before full FIDS activation",
+            "TSA remains on alert for any data drift during the test rollout"
+          ],
+          "nextReport": "1230 or on significant change",
+          "preparedBy": "IT Lead, IT Director's Office",
+          "approvedBy": "IT Director, North Coast Regional Airport Authority",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This is a critical inject for IT to request authority to restore FIDS. Watch for the Ops Director to ask for verification steps or to delay rollout due to public trust concerns.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:38:54.550Z"
+}

@@ -1,0 +1,123 @@
+{
+  "id": "01M5HY2PR60SXEC4XC6DYKME0F",
+  "mselRowId": "END",
+  "type": "endex_card",
+  "title": "END — Debrief / Hot Wash",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:40",
+    "endTime": "09:40",
+    "resolution": "ENDEX. The emergency lights dim. The screens go dark. A soft chime sounds through the room. The facilitator stands and speaks: 'This concludes the exercise. Thank you for your full engagement. We will now begin the hot wash.'",
+    "finalState": [
+      "The attacker's presence in the network remains undetected by operations.",
+      "The Airport Security Program (ASP) and PACS configuration have been exfiltrated.",
+      "The Domain Controller and AODB server were compromised 90 days ago.",
+      "All 340 employees' PII has been exposed.",
+      "The airport is operating under manual procedures, with no confidence in digital systems."
+    ],
+    "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.",
+    "hotWashMethod": "3-Up / 3-Down: three things that went well, three things that broke",
+    "hotWashQuestions": [
+      "When you read '90 days' — what was your first reaction? When did you realize how bad it was?",
+      "Which decision was the hardest — and what ultimately drove your choice?",
+      "What would you have done differently if you had detected this at Day 1 instead of Day 90?",
+      "What investments or policies would have prevented or shortened this compromise?",
+      "How did you handle the tension between 'be transparent' and 'don't panic everyone'?"
+    ],
+    "facilitatorNote": "Collect all ICS 201 forms and evaluator sheets before the break. Note that the team's risk assessment of 'monitor and contain' was the most common choice — expect strong discussion on its trade-offs.",
+    "scenarioTitle": "The Long Game — Scenario 2: Advanced Persistent Threat",
+    "injectId": "END"
+  },
+  "variant": "default",
+  "instructorNote": "This is the final inject. The facilitator reads the resolution and transition aloud. The hot wash questions are drawn directly from the MSEL row. No further evidence is introduced.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part II › Appendix 5 › 5.1 Power Grid Failure",
+      "quote": "Generators 1 and 2 auto-start within 15 seconds. If auto-start fails, Maintenance manually transfers load at the Airfield Lighting Vault. If runway edge lights cannot be restored, the runway is CLOSED",
+      "chunkId": 36
+    },
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part I › Section 7 › 7.1 Training and Exercises",
+      "quote": "- **Annual Tabletop Exercise (TTX):** discussion-based exercise testing command and control (e.g., Cyber Incident, Severe Weather). - **Triennial Full-Scale Exercise (FSE):** live exercise with resour",
+      "chunkId": 24
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.4 Operational Logic & Alarms",
+      "quote": "Valid read: green LED, lock releases 5 seconds. Invalid read: red LED, \"Access Denied\" logged. Door Forced Open alarm; Door Held Open alarm (> 30 s). **Hard Anti-Passback** at the employee portal.",
+      "chunkId": 56
+    },
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part I › Section 7 › 7.2 Plan Review and Cycle",
+      "quote": "Annual review by the Airport Security Coordinator (ASC) and Director of Operations. Contact/minor updates made immediately. After-Action Review (AAR) following any Alert 3 or Full-Scale Exercise; less",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+      "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+      "chunkId": 120
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:51:22.133Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "END — Debrief / Hot Wash",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "1:40",
+          "endTime": "09:40",
+          "resolution": "ENDEX. The emergency lights dim. The screens go dark. A soft chime sounds through the room. The facilitator stands and speaks: 'This concludes the exercise. Thank you for your full engagement. We will now begin the hot wash.'",
+          "finalState": [
+            "The attacker's presence in the network remains undetected by operations.",
+            "The Airport Security Program (ASP) and PACS configuration have been exfiltrated.",
+            "The Domain Controller and AODB server were compromised 90 days ago.",
+            "All 340 employees' PII has been exposed.",
+            "The airport is operating under manual procedures, with no confidence in digital systems."
+          ],
+          "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.",
+          "hotWashMethod": "3-Up / 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "When you read '90 days' — what was your first reaction? When did you realize how bad it was?",
+            "Which decision was the hardest — and what ultimately drove your choice?",
+            "What would you have done differently if you had detected this at Day 1 instead of Day 90?",
+            "What investments or policies would have prevented or shortened this compromise?",
+            "How did you handle the tension between 'be transparent' and 'don't panic everyone'?"
+          ],
+          "facilitatorNote": "Collect all ICS 201 forms and evaluator sheets before the break. Note that the team's risk assessment of 'monitor and contain' was the most common choice — expect strong discussion on its trade-offs.",
+          "scenarioTitle": "The Long Game — Scenario 2: Advanced Persistent Threat",
+          "injectId": "END"
+        },
+        "instructorNote": "This is the final inject. The facilitator reads the resolution and transition aloud. The hot wash questions are drawn directly from the MSEL row. No further evidence is introduced.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:51:27.545Z"
+}

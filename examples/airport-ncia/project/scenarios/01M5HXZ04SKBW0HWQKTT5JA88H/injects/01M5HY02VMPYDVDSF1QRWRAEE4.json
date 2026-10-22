@@ -1,0 +1,178 @@
+{
+  "id": "01M5HY02VMPYDVDSF1QRWRAEE4",
+  "mselRowId": "I-04",
+  "type": "sitrep",
+  "title": "SITREP: ASP and PACS Data Compromised — Full Security Blueprint Exposed",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "number": "4",
+    "time": "10/22/2026 0832 EDT",
+    "organization": "North Coast Regional Airport Authority",
+    "issuingOffice": "Security Operations Center",
+    "incidentName": "Airport Security Program (ASP) and PACS Configuration Data Compromised",
+    "period": "0810–0832",
+    "from": "Security Team Review",
+    "to": "All",
+    "summary": "Security team has confirmed that the compromised service account (svc_update_04) accessed the S:\\Security drive on October 22, 2026, at 07:45. The drive contains the current Airport Security Program (ASP), the PACS configuration database, security camera placement maps, and the terminal vulnerability assessment from last year. The attacker has full access to physical security architecture, including door codes, access group memberships, and camera coverage. This constitutes a critical breach of Sensitive Security Information (SSI) under 49 CFR § 1542.221. The ASP and PACS data were not encrypted and were stored in plain text on the file server. Immediate assessment is required to determine if any physical security controls have been altered or if the attacker has already implemented changes to bypass access controls.",
+    "keyStatus": [
+      {
+        "label": "ASP Status",
+        "value": "Compromised (SSI)"
+      },
+      {
+        "label": "PACS Configuration",
+        "value": "Exposed"
+      },
+      {
+        "label": "Camera Maps",
+        "value": "Exposed"
+      },
+      {
+        "label": "Door Code Integrity",
+        "value": "Unknown"
+      },
+      {
+        "label": "TSA Notification",
+        "value": "Pending"
+      }
+    ],
+    "actions": [
+      {
+        "time": "08:15",
+        "text": "Security team isolated the S:\\Security drive from network access to prevent further data exfiltration."
+      },
+      {
+        "time": "08:22",
+        "text": "TSA Federal Security Director (FSD) notified via emergency line (330) 555-0911; escalation to ASC Michael T. Chen initiated."
+      },
+      {
+        "time": "08:28",
+        "text": "All access to the S:\\Security drive revoked; forensic image of the drive created and secured for TSA review."
+      }
+    ],
+    "planned": [
+      "Conduct immediate physical security audit of all sterile access points.",
+      "Initiate formal SSI breach notification to TSA under 49 CFR § 1542.221.",
+      "Coordinate with Facilities to verify manual override availability for all fail-locked doors.",
+      "Activate emergency communications protocol for public and internal messaging."
+    ],
+    "issues": [
+      "No evidence yet of actual changes to door codes or camera placements, but attacker has full blueprint.",
+      "TSA response time unknown; must assume 90-minute delay for formal guidance.",
+      "Internal team lacks access to full ASP details; must rely on TSA for validation."
+    ],
+    "nextReport": "0900 or on significant change",
+    "preparedBy": "Lead A., Security Operations",
+    "approvedBy": "Michael T. Chen, Director of Public Safety / Security",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject triggers the formal SSI breach reporting obligation. Watch for players to contact TSA or attempt to bypass the notification step. The attacker has the full security blueprint — they could have already altered access controls.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+      "quote": "| Designation | Name | Title | 24/7 Contact | Email | |---|---|---|---|---| | Primary ASC | Michael T. Chen | Director of Public Safety / Security | (330) 555-0911 (Operations Center priority line) | ",
+      "chunkId": 44
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 11 › 11.4 Checklist: Security Breach",
+      "quote": "- LEO/Security: assume IC; respond to contain; coordinate with TSA/ASC on dump decision; direct occupants to public side; full sweep. - Ops: await LEO IC; PA only as directed; prepare EVACUATION. - TS",
+      "chunkId": 117
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.5 Scenario B: Access Control System Failure",
+      "quote": "**Impact:** all airport-controlled doors fail \"locked\" (no movement) or \"unlocked\" (massive security breach). **\"Fail Unlocked\":** LEO/Security immediately dispatch all available staff to physically s",
+      "chunkId": 125
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:49:58.282Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SITREP: ASP and PACS Data Compromised — Full Security Blueprint Exposed",
+        "type": "sitrep",
+        "fields": {
+          "number": "4",
+          "time": "10/22/2026 0832 EDT",
+          "organization": "North Coast Regional Airport Authority",
+          "issuingOffice": "Security Operations Center",
+          "incidentName": "Airport Security Program (ASP) and PACS Configuration Data Compromised",
+          "period": "0810–0832",
+          "from": "Security Team Review",
+          "to": "All",
+          "summary": "Security team has confirmed that the compromised service account (svc_update_04) accessed the S:\\Security drive on October 22, 2026, at 07:45. The drive contains the current Airport Security Program (ASP), the PACS configuration database, security camera placement maps, and the terminal vulnerability assessment from last year. The attacker has full access to physical security architecture, including door codes, access group memberships, and camera coverage. This constitutes a critical breach of Sensitive Security Information (SSI) under 49 CFR § 1542.221. The ASP and PACS data were not encrypted and were stored in plain text on the file server. Immediate assessment is required to determine if any physical security controls have been altered or if the attacker has already implemented changes to bypass access controls.",
+          "keyStatus": [
+            {
+              "label": "ASP Status",
+              "value": "Compromised (SSI)"
+            },
+            {
+              "label": "PACS Configuration",
+              "value": "Exposed"
+            },
+            {
+              "label": "Camera Maps",
+              "value": "Exposed"
+            },
+            {
+              "label": "Door Code Integrity",
+              "value": "Unknown"
+            },
+            {
+              "label": "TSA Notification",
+              "value": "Pending"
+            }
+          ],
+          "actions": [
+            {
+              "time": "08:15",
+              "text": "Security team isolated the S:\\Security drive from network access to prevent further data exfiltration."
+            },
+            {
+              "time": "08:22",
+              "text": "TSA Federal Security Director (FSD) notified via emergency line (330) 555-0911; escalation to ASC Michael T. Chen initiated."
+            },
+            {
+              "time": "08:28",
+              "text": "All access to the S:\\Security drive revoked; forensic image of the drive created and secured for TSA review."
+            }
+          ],
+          "planned": [
+            "Conduct immediate physical security audit of all sterile access points.",
+            "Initiate formal SSI breach notification to TSA under 49 CFR § 1542.221.",
+            "Coordinate with Facilities to verify manual override availability for all fail-locked doors.",
+            "Activate emergency communications protocol for public and internal messaging."
+          ],
+          "issues": [
+            "No evidence yet of actual changes to door codes or camera placements, but attacker has full blueprint.",
+            "TSA response time unknown; must assume 90-minute delay for formal guidance.",
+            "Internal team lacks access to full ASP details; must rely on TSA for validation."
+          ],
+          "nextReport": "0900 or on significant change",
+          "preparedBy": "Lead A., Security Operations",
+          "approvedBy": "Michael T. Chen, Director of Public Safety / Security",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject triggers the formal SSI breach reporting obligation. Watch for players to contact TSA or attempt to bypass the notification step. The attacker has the full security blueprint — they could have already altered access controls.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:51:25.537Z"
+}

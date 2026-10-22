@@ -1,0 +1,93 @@
+{
+  "id": "01M5HXB3YSW0BZFR05YHC4JAPN",
+  "mselRowId": "I-14b",
+  "type": "error_dialog",
+  "title": "Restore job failed",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "appName": "Backup & Recovery Console",
+    "title": "Restore job failed",
+    "message": "Error 404: Backup Tape Library Not Mounted.\nRestoration Failed.\nPlease insert Tape Set #44-B manually.",
+    "errorCode": "0xE000FE30",
+    "details": "Job: AODB_SQL_FULL_RESTORE\nDevice: TL-2000 (\\\\.\\Tape0) - OFFLINE\nLibrary: NCIA-BKP-LIB01 (10.66.1.22)\nTape Set: #44-B (2026-10-22-0400)\nStatus: Mount failed - No tape in drive.",
+    "icon": "error",
+    "buttons": [
+      "Retry",
+      "Cancel"
+    ],
+    "clock": "12:20 PM",
+    "date": "10/22/2026",
+    "hostLabel": "SEC-SVR-01 (10.72.1.55)"
+  },
+  "variant": "windows",
+  "instructorNote": "This inject creates a technical hurdle in the recovery process. IT must verify the physical tape library status or find an alternate backup source. Watch for premature escalation to Ops or attempts to bypass the error.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+      "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5HXC3EQ7GV9PRQ99X8VQXBN",
+      "kind": "image",
+      "path": "scenarios/01M5HX52XAMK7TGTH69SFTTJRG/media/01M5HXB3YSW0BZFR05YHC4JAPN/01M5HXC3EQ7GV9PRQ99X8VQXBN.png",
+      "role": "rendered",
+      "width": 960,
+      "height": 600,
+      "sha256": "5fa53ab8d24c4312df96517ca8d604c6e07e17528a56ba830aceeac5e8f3d030",
+      "provenance": {
+        "provider": "template",
+        "templateId": "error_dialog",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T13:38:54.953Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T13:38:27.766Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Restore job failed",
+        "type": "error_dialog",
+        "fields": {
+          "appName": "Backup & Recovery Console",
+          "title": "Restore job failed",
+          "message": "Error 404: Backup Tape Library Not Mounted.\nRestoration Failed.\nPlease insert Tape Set #44-B manually.",
+          "errorCode": "0xE000FE30",
+          "details": "Job: AODB_SQL_FULL_RESTORE\nDevice: TL-2000 (\\\\.\\Tape0) - OFFLINE\nLibrary: NCIA-BKP-LIB01 (10.66.1.22)\nTape Set: #44-B (2026-10-22-0400)\nStatus: Mount failed - No tape in drive.",
+          "icon": "error",
+          "buttons": [
+            "Retry",
+            "Cancel"
+          ],
+          "clock": "12:20 PM",
+          "date": "10/22/2026",
+          "hostLabel": "SEC-SVR-01 (10.72.1.55)"
+        },
+        "instructorNote": "This inject creates a technical hurdle in the recovery process. IT must verify the physical tape library status or find an alternate backup source. Watch for premature escalation to Ops or attempts to bypass the error.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:38:55.067Z"
+}

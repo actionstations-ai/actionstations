@@ -1,0 +1,165 @@
+{
+  "id": "01M5HX5904QMVK8R7SQ6WSYRES",
+  "mselRowId": "I-01",
+  "type": "phone_call",
+  "title": "Flight Info Display Error — Gate B4",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "North Coast Regional Airport Authority",
+    "systemName": "AOC Call Recorder - Console 2",
+    "callId": "CR-20261022-091522-0341",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Jordan Reed",
+      "number": "(330) 555-2403",
+      "label": "Delta Air Lines, Gate B4 Agent"
+    },
+    "callee": {
+      "name": "Alex Morgan",
+      "number": "(330) 555-0911",
+      "label": "Airport Operations Center"
+    },
+    "startTime": "10/22/2026 09:15:22",
+    "duration": "0:42",
+    "transcript": [
+      {
+        "speaker": "caller",
+        "offset": "00:00",
+        "text": "Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?",
+        "prompt": false
+      },
+      {
+        "speaker": "callee",
+        "offset": "00:18",
+        "text": "Got it, Delta. We’ll check the FIDS feed and update the display. Hold on.",
+        "prompt": false
+      },
+      {
+        "speaker": "caller",
+        "offset": "00:27",
+        "text": "Thanks. There’s a group of 12 passengers already at the gate—some are starting to ask if they’re on the wrong flight.",
+        "prompt": false
+      },
+      {
+        "speaker": "callee",
+        "offset": "00:36",
+        "text": "Understood. We’ll prioritize this. AOC, on it.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-01"
+  },
+  "variant": "default",
+  "instructorNote": "This is a core narrative inject; the IT team should begin investigating the FIDS data feed. Watch for overconfidence in dismissing the error as minor.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part I › Section 4 › 4.6 Alert and Notification",
+      "quote": "**A. The \"Crash Phone\" (Red Phone).** Dedicated hardline connecting the ATCT to ARFF Station 9, AOC, Akron Fire Dispatch (911), and Airport Police Dispatch. **B. Alert Classifications (Aircraft).** Al",
+      "chunkId": 18
+    },
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part I › Section 4 › 4.5 EOC Activation Levels",
+      "quote": "| Level | Name | Description & Triggers | Staffing | |---|---|---|---| | 3 | Monitoring | Potential threat or minor incident. Severe Weather Watch, VIP visit, credible intel, \"Alert 1\" | AOC monitors.",
+      "chunkId": 17
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "caller",
+        "voiceStyle": "young female gate agent, slightly anxious, rapid pace, regional Midwest accent",
+        "text": "Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?"
+      },
+      {
+        "speaker": "callee",
+        "voiceStyle": "calm female dispatcher in her 40s, measured, slight Midwestern accent",
+        "text": "Got it, Delta. We’ll check the FIDS feed and update the display. Hold on."
+      },
+      {
+        "speaker": "caller",
+        "voiceStyle": "same as first line, voice tightens slightly",
+        "text": "Thanks. There’s a group of 12 passengers already at the gate—some are starting to ask if they’re on the wrong flight."
+      },
+      {
+        "speaker": "callee",
+        "voiceStyle": "steady, authoritative, slightly urgent",
+        "text": "Understood. We’ll prioritize this. AOC, on it."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:35:19.942Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Flight Info Display Error — Gate B4",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "systemName": "AOC Call Recorder - Console 2",
+          "callId": "CR-20261022-091522-0341",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Jordan Reed",
+            "number": "(330) 555-2403",
+            "label": "Delta Air Lines, Gate B4 Agent"
+          },
+          "callee": {
+            "name": "Alex Morgan",
+            "number": "(330) 555-0911",
+            "label": "Airport Operations Center"
+          },
+          "startTime": "10/22/2026 09:15:22",
+          "duration": "0:42",
+          "transcript": [
+            {
+              "speaker": "caller",
+              "offset": "00:00",
+              "text": "Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?",
+              "prompt": false
+            },
+            {
+              "speaker": "callee",
+              "offset": "00:18",
+              "text": "Got it, Delta. We’ll check the FIDS feed and update the display. Hold on.",
+              "prompt": false
+            },
+            {
+              "speaker": "caller",
+              "offset": "00:27",
+              "text": "Thanks. There’s a group of 12 passengers already at the gate—some are starting to ask if they’re on the wrong flight.",
+              "prompt": false
+            },
+            {
+              "speaker": "callee",
+              "offset": "00:36",
+              "text": "Understood. We’ll prioritize this. AOC, on it.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-01"
+        },
+        "instructorNote": "This is a core narrative inject; the IT team should begin investigating the FIDS data feed. Watch for overconfidence in dismissing the error as minor.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:40:11.397Z"
+}

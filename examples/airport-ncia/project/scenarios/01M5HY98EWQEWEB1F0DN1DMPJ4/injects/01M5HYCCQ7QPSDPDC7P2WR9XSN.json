@@ -1,0 +1,97 @@
+{
+  "id": "01M5HYCCQ7QPSDPDC7P2WR9XSN",
+  "mselRowId": "I-11",
+  "type": "scenario_update",
+  "title": "Remediation Planning",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:32",
+    "scenarioTime": "09:14",
+    "headline": "Remediation Planning — Final Phase",
+    "deliverTo": "All players",
+    "narration": "The exercise has reached its final phase. The threat actor has been identified and the compromise is confirmed. The airport must now act to close the gaps exposed in the attack. IT will lead on technical remediation: disabling legacy 125 kHz readers, deploying 802.1X port authentication, implementing port change monitoring via SNMP and syslog, rotating switch credentials, and auditing all VLAN configurations. Security will enforce camera coverage for all network infrastructure rooms, conduct a full badge audit for vendors, and disable 125 kHz mode on all dual-mode access readers. Ops must prepare for network changes that could impact airline operations and draft a communication plan for staff and passengers. PIO must begin shaping the public narrative — what headline do you want to see on Channel 5 tomorrow? This is your final chance to close the loop.",
+    "keyFacts": [
+      "125 kHz legacy readers are to be disabled on all dual-mode PACS access points.",
+      "802.1X port authentication must be deployed across all network closets by Q1 2027.",
+      "Switch credentials must be rotated every 90 days and stored in the encrypted vault.",
+      "Port change monitoring (SNMP traps and syslog) must be enabled on all core switches.",
+      "VLAN 666 (Security Ops) remains air-gapped; no external access is permitted."
+    ],
+    "expectedAction": "IT prioritizes disabling legacy 125 kHz mode on all dual-mode readers. Security confirms camera coverage for E-2 and M-3. Ops drafts a communication plan for airline partners. PIO prepares a media statement.",
+    "facilitatorNote": "This is the final inject. Confirm all teams have committed to a timeline and ownership. Push for a hard deadline on disabling legacy readers.",
+    "scenarioTitle": "Carbon Copy — Scenario 5: Badge Cloning & Physical-Cyber Convergence",
+    "injectId": "I-11"
+  },
+  "variant": "default",
+  "instructorNote": "This is the final inject. Confirm all teams have committed to a timeline and ownership. Push for a hard deadline on disabling legacy readers.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+      "quote": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+      "chunkId": 38
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+      "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:56:40.004Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Remediation Planning",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "1:32",
+          "scenarioTime": "09:14",
+          "headline": "Remediation Planning — Final Phase",
+          "deliverTo": "All players",
+          "narration": "The exercise has reached its final phase. The threat actor has been identified and the compromise is confirmed. The airport must now act to close the gaps exposed in the attack. IT will lead on technical remediation: disabling legacy 125 kHz readers, deploying 802.1X port authentication, implementing port change monitoring via SNMP and syslog, rotating switch credentials, and auditing all VLAN configurations. Security will enforce camera coverage for all network infrastructure rooms, conduct a full badge audit for vendors, and disable 125 kHz mode on all dual-mode access readers. Ops must prepare for network changes that could impact airline operations and draft a communication plan for staff and passengers. PIO must begin shaping the public narrative — what headline do you want to see on Channel 5 tomorrow? This is your final chance to close the loop.",
+          "keyFacts": [
+            "125 kHz legacy readers are to be disabled on all dual-mode PACS access points.",
+            "802.1X port authentication must be deployed across all network closets by Q1 2027.",
+            "Switch credentials must be rotated every 90 days and stored in the encrypted vault.",
+            "Port change monitoring (SNMP traps and syslog) must be enabled on all core switches.",
+            "VLAN 666 (Security Ops) remains air-gapped; no external access is permitted."
+          ],
+          "expectedAction": "IT prioritizes disabling legacy 125 kHz mode on all dual-mode readers. Security confirms camera coverage for E-2 and M-3. Ops drafts a communication plan for airline partners. PIO prepares a media statement.",
+          "facilitatorNote": "This is the final inject. Confirm all teams have committed to a timeline and ownership. Push for a hard deadline on disabling legacy readers.",
+          "scenarioTitle": "Carbon Copy — Scenario 5: Badge Cloning & Physical-Cyber Convergence",
+          "injectId": "I-11"
+        },
+        "instructorNote": "This is the final inject. Confirm all teams have committed to a timeline and ownership. Push for a hard deadline on disabling legacy readers.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:56:53.321Z"
+}

@@ -1,0 +1,58 @@
+{
+  "id": "airport-ncia",
+  "title": "North Coast International Airport",
+  "domainProfile": "airport",
+  "summary": "A mid-size commercial airport (terminal, FIDS, baggage handling, AODB, PA) with its Airport Emergency Plan, Airport Security Program and Terminal Incident Response Plan, and the hand-authored Scenario 3 tabletop: a manipulated AODB drives FIDS, baggage and PA to mislead passengers.",
+  "fictional": true,
+  "notice": "EXERCISE MATERIAL — for training use. North Coast International Airport, its people and identifiers are simulated.",
+  "scenarios": [
+    {
+      "id": "01M5HX52XAMK7TGTH69SFTTJRG",
+      "title": "Flight to Nowhere",
+      "threatFamily": "cyber",
+      "summary": "A malicious actor manipulates the AODB so FIDS, baggage and PA mislead passengers; the airport must restore data integrity, manage crowds at the gates and keep public trust."
+    },
+    {
+      "id": "01M5HXRQNC6BQ0ZVT5192SGDP3",
+      "title": "Glass House",
+      "threatFamily": "insider",
+      "summary": "The airport's own IT Manager, extorted by a criminal syndicate, plants a rogue man-in-the-middle device to skim retail payment card data while being the most helpful person in the room; test insider threat recognition, network forensics and PCI-aware incident response."
+    },
+    {
+      "id": "01M5HXZ04SKBW0HWQKTT5JA88H",
+      "title": "The Long Game",
+      "threatFamily": "cyber",
+      "summary": "A cybercrime group has quietly lived inside the airport network for 90 days; the team discovers it now and must scope the damage, decide what to shut down, manage notifications, and plan recovery while keeping the airport operating."
+    },
+    {
+      "id": "01M5HY472KFC3BSXG5RM2XBTJF",
+      "title": "The Leak",
+      "threatFamily": "insider",
+      "summary": "A local TV station broadcasts details from the airport's Sensitive Security Information security program, forcing a parallel insider-leak investigation and mass security remediation while the airport keeps operating."
+    },
+    {
+      "id": "01M5HY98EWQEWEB1F0DN1DMPJ4",
+      "title": "Carbon Copy",
+      "threatFamily": "cyber_physical",
+      "summary": "A cloned vendor badge is used to plant a rogue wireless access point in a network infrastructure room; IT must assemble the PACS, CCTV and switch evidence to find it and decide how to contain it."
+    },
+    {
+      "id": "01M5HYEFCACS7JN1X6FFH7C5Z2",
+      "title": "Friendly Fire",
+      "threatFamily": "infrastructure_failure",
+      "summary": "Every POS terminal in the airport goes dark two minutes after the IT Manager's emergency firewall rule, while a real SSH scan and a vendor firmware push make a cyberattack and a supply-chain compromise look equally plausible."
+    },
+    {
+      "id": "01M5HYKTK7G0XYN1QKAF1G0Y7P",
+      "title": "Social Engineering Olympics",
+      "threatFamily": "physical_security",
+      "summary": "Over two hours the facilitator role-plays 12 phone, email, in-person and social media contacts, 9 of them social engineering attacks and 3 legitimate, and teams must verify each one without rejecting everything."
+    },
+    {
+      "id": "01M5HYRD995KZKT4YJQADQE80W",
+      "title": "Countdown",
+      "threatFamily": "insider",
+      "summary": "An anonymous email names noon as the deadline; teams spend a 180-minute time budget on an action menu to find an ex-contractor's logic bomb on the AODB server before 12:00."
+    }
+  ]
+}

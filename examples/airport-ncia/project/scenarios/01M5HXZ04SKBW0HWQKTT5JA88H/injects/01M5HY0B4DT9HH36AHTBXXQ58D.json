@@ -1,0 +1,213 @@
+{
+  "id": "01M5HY0B4DT9HH36AHTBXXQ58D",
+  "mselRowId": "I-05",
+  "type": "field_report",
+  "title": "Backup Server Access — Compromised Images Detected",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "North Coast Regional Airport Authority — IT & Cybersecurity",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0413",
+    "date": "10/22/2026",
+    "time": "08:40",
+    "location": "Main Server Room (Rack 4), Backup Storage Array",
+    "inspector": "Marcus Chen, Senior Systems Administrator",
+    "unit": "IT Cyber Response Team",
+    "reportType": "security",
+    "weather": "Clear, 61°F, wind SSW 5 mph",
+    "summary": "During a forensic audit of the backup server (SEC-SVR-02), I identified unauthorized access by the attacker’s service account (svc_update_04) 60 days ago. The account accessed the backup repository, copied data, and attempted to modify retention policies on two images. I cannot confirm whether the attacker planted a backdoor or corrupted the backup metadata. The most recent clean backup is 91 days old and only includes the file server. The AODB and Domain Controller were not backed up in that image. Any restore from a backup within the last 60 days risks reintroducing the malware.",
+    "findings": [
+      {
+        "item": "Backup server integrity check",
+        "condition": "failed",
+        "notes": "Malicious service account (svc_update_04) accessed backup repository 60 days ago; attempted to alter retention policy on image #2026-0901"
+      },
+      {
+        "item": "File server backup image (91 days old)",
+        "condition": "ok",
+        "notes": "Only image from before the 90-day compromise window; no evidence of tampering"
+      },
+      {
+        "item": "AODB backup image (60 days old)",
+        "condition": "not_inspected",
+        "notes": "Image was not fully verified; suspect of being compromised"
+      },
+      {
+        "item": "Domain Controller backup image (60 days old)",
+        "condition": "not_inspected",
+        "notes": "Image not verified; likely compromised"
+      },
+      {
+        "item": "Backup retention policy",
+        "condition": "failed",
+        "notes": "Retained 30-day window was modified to 7-day window by attacker; suggests data deletion intent"
+      },
+      {
+        "item": "Access logs for service account (svc_update_04)",
+        "condition": "failed",
+        "notes": "Logs show repeated access to backup repository; last access 47 days ago"
+      },
+      {
+        "item": "Primary database (NCIA-PACS-CORE) backup",
+        "condition": "not_inspected",
+        "notes": "Not included in any backup image from last 60 days"
+      },
+      {
+        "item": "Biometric enrollment workstation (SEC-BADGE-01)",
+        "condition": "ok",
+        "notes": "No evidence of compromise in backup"
+      },
+      {
+        "item": "Video storage (SEC-NVR-01)",
+        "condition": "ok",
+        "notes": "No access logs show abnormal behavior"
+      },
+      {
+        "item": "Network traffic to C2 domain",
+        "condition": "ok",
+        "notes": "No active beaconing from backup server"
+      }
+    ],
+    "actionsTaken": [
+      "Isolated SEC-SVR-02 from network",
+      "Disabled backup replication to offsite storage",
+      "Notified IT Director and Ops IC via secure channel",
+      "Preserved original backup images and logs on write-protected media"
+    ],
+    "recommendations": [
+      "Do not restore any system from backup taken in last 60 days",
+      "Begin rebuild of all critical systems from gold images (2026-07-01) and patch via air-gapped workstations",
+      "Establish manual operations protocol for 72-hour window",
+      "Request CISA to validate recovery plan and provide forensic analysis support"
+    ],
+    "photosNote": "2 photos attached: IMG_20261022-004 (backup server access log), IMG_20261022-005 (service account activity timeline)",
+    "signature": "Marcus Chen, Senior Systems Administrator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "instructorNote": "Critical decision point: Players must now decide whether to attempt recovery from potentially compromised backups. The attacker controls every credential and has had 90 days to embed persistence. This inject forces a choice between risk (restore) and cost (rebuild). Watch for hesitation to accept that 'clean' backups are not available.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+      "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+      "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+      "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+      "chunkId": 74
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 4 › 4.2 Assumptions",
+      "quote": "IC has declared \"All Clear\"; building inspections complete; utilities (power, water, IT) functional; security incidents require a full sweep and re-screening of the sterile area.",
+      "chunkId": 97
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:50:08.814Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Backup Server Access — Compromised Images Detected",
+        "type": "field_report",
+        "fields": {
+          "organization": "North Coast Regional Airport Authority — IT & Cybersecurity",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0413",
+          "date": "10/22/2026",
+          "time": "08:40",
+          "location": "Main Server Room (Rack 4), Backup Storage Array",
+          "inspector": "Marcus Chen, Senior Systems Administrator",
+          "unit": "IT Cyber Response Team",
+          "reportType": "security",
+          "weather": "Clear, 61°F, wind SSW 5 mph",
+          "summary": "During a forensic audit of the backup server (SEC-SVR-02), I identified unauthorized access by the attacker’s service account (svc_update_04) 60 days ago. The account accessed the backup repository, copied data, and attempted to modify retention policies on two images. I cannot confirm whether the attacker planted a backdoor or corrupted the backup metadata. The most recent clean backup is 91 days old and only includes the file server. The AODB and Domain Controller were not backed up in that image. Any restore from a backup within the last 60 days risks reintroducing the malware.",
+          "findings": [
+            {
+              "item": "Backup server integrity check",
+              "condition": "failed",
+              "notes": "Malicious service account (svc_update_04) accessed backup repository 60 days ago; attempted to alter retention policy on image #2026-0901"
+            },
+            {
+              "item": "File server backup image (91 days old)",
+              "condition": "ok",
+              "notes": "Only image from before the 90-day compromise window; no evidence of tampering"
+            },
+            {
+              "item": "AODB backup image (60 days old)",
+              "condition": "not_inspected",
+              "notes": "Image was not fully verified; suspect of being compromised"
+            },
+            {
+              "item": "Domain Controller backup image (60 days old)",
+              "condition": "not_inspected",
+              "notes": "Image not verified; likely compromised"
+            },
+            {
+              "item": "Backup retention policy",
+              "condition": "failed",
+              "notes": "Retained 30-day window was modified to 7-day window by attacker; suggests data deletion intent"
+            },
+            {
+              "item": "Access logs for service account (svc_update_04)",
+              "condition": "failed",
+              "notes": "Logs show repeated access to backup repository; last access 47 days ago"
+            },
+            {
+              "item": "Primary database (NCIA-PACS-CORE) backup",
+              "condition": "not_inspected",
+              "notes": "Not included in any backup image from last 60 days"
+            },
+            {
+              "item": "Biometric enrollment workstation (SEC-BADGE-01)",
+              "condition": "ok",
+              "notes": "No evidence of compromise in backup"
+            },
+            {
+              "item": "Video storage (SEC-NVR-01)",
+              "condition": "ok",
+              "notes": "No access logs show abnormal behavior"
+            },
+            {
+              "item": "Network traffic to C2 domain",
+              "condition": "ok",
+              "notes": "No active beaconing from backup server"
+            }
+          ],
+          "actionsTaken": [
+            "Isolated SEC-SVR-02 from network",
+            "Disabled backup replication to offsite storage",
+            "Notified IT Director and Ops IC via secure channel",
+            "Preserved original backup images and logs on write-protected media"
+          ],
+          "recommendations": [
+            "Do not restore any system from backup taken in last 60 days",
+            "Begin rebuild of all critical systems from gold images (2026-07-01) and patch via air-gapped workstations",
+            "Establish manual operations protocol for 72-hour window",
+            "Request CISA to validate recovery plan and provide forensic analysis support"
+          ],
+          "photosNote": "2 photos attached: IMG_20261022-004 (backup server access log), IMG_20261022-005 (service account activity timeline)",
+          "signature": "Marcus Chen, Senior Systems Administrator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Critical decision point: Players must now decide whether to attempt recovery from potentially compromised backups. The attacker controls every credential and has had 90 days to embed persistence. This inject forces a choice between risk (restore) and cost (rebuild). Watch for hesitation to accept that 'clean' backups are not available.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:51:25.765Z"
+}

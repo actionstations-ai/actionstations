@@ -1,0 +1,247 @@
+{
+  "id": "01M5HYTVJQKNDS2G5TMTMXV109",
+  "mselRowId": "A-08",
+  "type": "system_log",
+  "title": "DNS Query Logs: No Suspicious Resolutions",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "DNS Query Monitor",
+    "host": "NCIA-PACS-CORE",
+    "ip": "10.1.10.20",
+    "os": "Windows Server 2019",
+    "logSource": "DNS Query Log (Forwarder)",
+    "exportedBy": "NCIA\\it.security.monitor",
+    "exportedAt": "10/22/2026 09:05 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "10/22/2026 08:45:12 AM",
+        "level": "INFO",
+        "msg": "DNS query for 'aodb.ncia-airport.org' resolved to 10.1.10.20 (local)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:12 AM",
+        "level": "INFO",
+        "msg": "DNS query for 'fids.ncia-airport.org' resolved to 10.1.10.25 (local)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:13 AM",
+        "level": "INFO",
+        "msg": "DNS query for 'svc_nexgen_aodb.ncia-airport.org' returned NXDOMAIN (no such record)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:14 AM",
+        "level": "INFO",
+        "msg": "DNS query for '104.248.52.117' (reverse lookup) returned 'dc1.digitalocean.com' (IP not in any known C2 zone)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:15 AM",
+        "level": "INFO",
+        "msg": "DNS query for '104.248.52.117' (forward lookup) returned 'dc1.digitalocean.com' (resolved via direct IP)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:16 AM",
+        "level": "INFO",
+        "msg": "DNS query for '104.248.52.117' (A record) returned 104.248.52.117 (no subdomain resolution)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:17 AM",
+        "level": "INFO",
+        "msg": "DNS query for '104.248.52.117' (PTR) returned 'digitalocean.com' (no C2 pattern)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:18 AM",
+        "level": "INFO",
+        "msg": "DNS query for '104.248.52.117' (SOA) returned 'ns1.digitalocean.com' (valid zone)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:19 AM",
+        "level": "INFO",
+        "msg": "DNS query for '104.248.52.117' (TXT) returned 'DigitalOcean VPS (ID: 17342219)' (no threat indicators)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:20 AM",
+        "level": "INFO",
+        "msg": "DNS query for '104.248.52.117' (A record) returned 104.248.52.117 (no C2 domain pattern)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:21 AM",
+        "level": "INFO",
+        "msg": "DNS query for '104.248.52.117' (AAAA) returned 'no record' (IPv6 not enabled)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:22 AM",
+        "level": "INFO",
+        "msg": "DNS query for '104.248.52.117' (reverse) returned 'dc1.digitalocean.com' (verified)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:23 AM",
+        "level": "INFO",
+        "msg": "DNS query for '104.248.52.117' (any) returned '104.248.52.117' (no anomalies)",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 08:45:24 AM",
+        "level": "INFO",
+        "msg": "DNS query for '104.248.52.117' (query type: ANY) returned '104.248.52.117' (clean result)",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Get-DnsQueryLog -From '10/21/2026 08:00:00 AM' -To '10/22/2026 08:50:00 AM' -Filter '104.248.52.117' | Export-CSV -Path 'C:\\Logs\\DNS\\10222026_DNS_117.csv'",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This is a dead-end inject: the attacker bypassed DNS entirely by using a hardcoded IP. The players must recognize that the absence of DNS activity does not imply safety — the attacker avoided detection by not using DNS at all.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+      "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5HX50XVDHY1MWFHXC4CVZYA",
+      "documentTitle": "NCIA Terminal Map",
+      "headingPath": "NCIA Terminal Map",
+      "quote": "The original `NCIA Terminal Map.pdf` is image-only (no extractable text) and must be copied into `reference/originals/`. It is the base image for the `map_annotation` inject type and for the Player Br",
+      "chunkId": 131
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T14:04:42.672Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "DNS Query Logs: No Suspicious Resolutions",
+        "type": "system_log",
+        "fields": {
+          "systemName": "DNS Query Monitor",
+          "host": "NCIA-PACS-CORE",
+          "ip": "10.1.10.20",
+          "os": "Windows Server 2019",
+          "logSource": "DNS Query Log (Forwarder)",
+          "exportedBy": "NCIA\\it.security.monitor",
+          "exportedAt": "10/22/2026 09:05 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/22/2026 08:45:12 AM",
+              "level": "INFO",
+              "msg": "DNS query for 'aodb.ncia-airport.org' resolved to 10.1.10.20 (local)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:12 AM",
+              "level": "INFO",
+              "msg": "DNS query for 'fids.ncia-airport.org' resolved to 10.1.10.25 (local)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:13 AM",
+              "level": "INFO",
+              "msg": "DNS query for 'svc_nexgen_aodb.ncia-airport.org' returned NXDOMAIN (no such record)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:14 AM",
+              "level": "INFO",
+              "msg": "DNS query for '104.248.52.117' (reverse lookup) returned 'dc1.digitalocean.com' (IP not in any known C2 zone)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:15 AM",
+              "level": "INFO",
+              "msg": "DNS query for '104.248.52.117' (forward lookup) returned 'dc1.digitalocean.com' (resolved via direct IP)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:16 AM",
+              "level": "INFO",
+              "msg": "DNS query for '104.248.52.117' (A record) returned 104.248.52.117 (no subdomain resolution)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:17 AM",
+              "level": "INFO",
+              "msg": "DNS query for '104.248.52.117' (PTR) returned 'digitalocean.com' (no C2 pattern)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:18 AM",
+              "level": "INFO",
+              "msg": "DNS query for '104.248.52.117' (SOA) returned 'ns1.digitalocean.com' (valid zone)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:19 AM",
+              "level": "INFO",
+              "msg": "DNS query for '104.248.52.117' (TXT) returned 'DigitalOcean VPS (ID: 17342219)' (no threat indicators)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:20 AM",
+              "level": "INFO",
+              "msg": "DNS query for '104.248.52.117' (A record) returned 104.248.52.117 (no C2 domain pattern)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:21 AM",
+              "level": "INFO",
+              "msg": "DNS query for '104.248.52.117' (AAAA) returned 'no record' (IPv6 not enabled)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:22 AM",
+              "level": "INFO",
+              "msg": "DNS query for '104.248.52.117' (reverse) returned 'dc1.digitalocean.com' (verified)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:23 AM",
+              "level": "INFO",
+              "msg": "DNS query for '104.248.52.117' (any) returned '104.248.52.117' (no anomalies)",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 08:45:24 AM",
+              "level": "INFO",
+              "msg": "DNS query for '104.248.52.117' (query type: ANY) returned '104.248.52.117' (clean result)",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-DnsQueryLog -From '10/21/2026 08:00:00 AM' -To '10/22/2026 08:50:00 AM' -Filter '104.248.52.117' | Export-CSV -Path 'C:\\Logs\\DNS\\10222026_DNS_117.csv'",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a dead-end inject: the attacker bypassed DNS entirely by using a hardcoded IP. The players must recognize that the absence of DNS activity does not imply safety — the attacker avoided detection by not using DNS at all.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T14:08:24.137Z"
+}

@@ -1,0 +1,81 @@
+{
+  "id": "01M5HX6NQ1T7MZW0R0JKG5H3S6",
+  "mselRowId": "I-05",
+  "type": "time_jump_card",
+  "title": "Time Jump: 10:00 AM — FIDS and BHS Disruptions Multiply",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:00",
+    "newTime": "10:00 AM",
+    "jumpLabel": "+60 minutes",
+    "narration": "This is the facilitator. The exercise now advances to 10:00 AM. The FIDS and BHS disruptions are no longer isolated. Data integrity failures have spread across the system. Twenty percent of flights on the main FIDS board now display incorrect departure times or assigned gates. The BHS has stopped moving bags. The PA system is intermittently broadcasting outdated departure announcements. Airport operations must now activate full manual procedures.",
+    "worldState": [
+      "FIDS now shows incorrect departure times or gates for 20% of flights.",
+      "BHS has halted; manual bag sorting is in progress.",
+      "PA system is broadcasting outdated flight information.",
+      "Ops has activated Section 13.6 (FIDS Failure) and must deploy whiteboard teams to all concourses.",
+      "IT is isolating the network due to suspected cyber intrusion.",
+      "TSA has reverted to manual screening; passengers are being directed via paper manifests."
+    ],
+    "facilitatorNote": "This inject triggers the full FIDS/BHS failure response. Watch for activation of Section 13.6 procedures and manual coordination by Ops and the airline liaisons.",
+    "scenarioTitle": "Flight to Nowhere — Scenario 3: Data Integrity & FIDS",
+    "injectId": "I-05"
+  },
+  "variant": "default",
+  "instructorNote": "This inject establishes the full-scale FIDS/BHS failure. The players must now treat it as a critical infrastructure failure with cascading operational impacts. Monitor for whether they activate Section 13.6 and deploy whiteboard teams.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+      "quote": "**Impact:** FIDS go dark; BHS stops. **FIDS Failure:** Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight informatio",
+      "chunkId": 126
+    },
+    {
+      "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+      "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+      "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+      "chunkId": 124
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:36:02.184Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 10:00 AM — FIDS and BHS Disruptions Multiply",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "1:00",
+          "newTime": "10:00 AM",
+          "jumpLabel": "+60 minutes",
+          "narration": "This is the facilitator. The exercise now advances to 10:00 AM. The FIDS and BHS disruptions are no longer isolated. Data integrity failures have spread across the system. Twenty percent of flights on the main FIDS board now display incorrect departure times or assigned gates. The BHS has stopped moving bags. The PA system is intermittently broadcasting outdated departure announcements. Airport operations must now activate full manual procedures.",
+          "worldState": [
+            "FIDS now shows incorrect departure times or gates for 20% of flights.",
+            "BHS has halted; manual bag sorting is in progress.",
+            "PA system is broadcasting outdated flight information.",
+            "Ops has activated Section 13.6 (FIDS Failure) and must deploy whiteboard teams to all concourses.",
+            "IT is isolating the network due to suspected cyber intrusion.",
+            "TSA has reverted to manual screening; passengers are being directed via paper manifests."
+          ],
+          "facilitatorNote": "This inject triggers the full FIDS/BHS failure response. Watch for activation of Section 13.6 procedures and manual coordination by Ops and the airline liaisons.",
+          "scenarioTitle": "Flight to Nowhere — Scenario 3: Data Integrity & FIDS",
+          "injectId": "I-05"
+        },
+        "instructorNote": "This inject establishes the full-scale FIDS/BHS failure. The players must now treat it as a critical infrastructure failure with cascading operational impacts. Monitor for whether they activate Section 13.6 and deploy whiteboard teams.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:38:51.821Z"
+}

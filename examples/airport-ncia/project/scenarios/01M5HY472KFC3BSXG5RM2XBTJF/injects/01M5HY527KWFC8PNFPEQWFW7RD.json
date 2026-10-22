@@ -1,0 +1,223 @@
+{
+  "id": "01M5HY527KWFC8PNFPEQWFW7RD",
+  "mselRowId": "I-04",
+  "type": "system_log",
+  "title": "ASP File Access Audit — Sensitive Security Information",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "NCIA-Security-File-Audit",
+    "host": "SEC-SVR-01",
+    "ip": "10.66.1.55",
+    "os": "Windows Server 2019",
+    "logSource": "S:\\Security\\ASP_Audit.log",
+    "exportedBy": "NCIA\\it.cyber.monitor",
+    "exportedAt": "10/22/2026 06:50 PM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "10/22/2026 06:49:12 PM",
+        "level": "INFO",
+        "msg": "File access event: 'NCIA_ASP_2024.pdf' opened by user 'ray.delgado@ncia-airport.org' from IP 10.66.1.103 (Terminal 104, Badging Office).",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 06:49:13 PM",
+        "level": "INFO",
+        "msg": "Access type: read and print. File size: 1.4 MB. Duration: 3 minutes 22 seconds.",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 06:49:14 PM",
+        "level": "WARN",
+        "msg": "User 'ray.delgado@ncia-airport.org' is not a member of the 'Security-Need-To-Know' group. Access not authorized under C1.",
+        "highlight": true
+      },
+      {
+        "ts": "10/22/2026 06:49:15 PM",
+        "level": "INFO",
+        "msg": "File closed. Print job initiated: 'ASP_Audit_Print_221022-1849-001'.",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 06:49:16 PM",
+        "level": "INFO",
+        "msg": "User 'it.manager.service@ncia-airport.org' accessed 'NCIA_ASP_2024.pdf' from IP 10.66.1.101 (IT Workstation W12). Access type: backup scan (scheduled).",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 06:49:17 PM",
+        "level": "INFO",
+        "msg": "User 'deputy.asc@ncia-airport.org' accessed 'NCIA_ASP_2024.pdf' from IP 10.66.1.102 (ASC Workstation). Access type: routine review.",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 06:49:18 PM",
+        "level": "INFO",
+        "msg": "User 'airport.director@ncia-airport.org' accessed 'NCIA_ASP_2024.pdf' from IP 10.66.1.100 (Director's Office). Access type: compliance verification.",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 06:49:19 PM",
+        "level": "INFO",
+        "msg": "User 'asc@ncia-airport.org' accessed 'NCIA_ASP_2024.pdf' from IP 10.66.1.103 (ASC Workstation). Access type: policy update verification.",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 06:49:20 PM",
+        "level": "INFO",
+        "msg": "Audit session complete. 5 access events logged. 1 unauthorized access (Ray Delgado).",
+        "highlight": false
+      },
+      {
+        "ts": "10/22/2026 06:49:21 PM",
+        "level": "NOTICE",
+        "msg": "File 'NCIA_ASP_2024.pdf' located on S:\\Security share. File is not encrypted and is accessible to 40+ users with 'Read' permissions.",
+        "highlight": true
+      },
+      {
+        "ts": "10/22/2026 06:49:22 PM",
+        "level": "CRIT",
+        "msg": "Alert: File 'NCIA_ASP_2024.pdf' contains SSI. Unauthorized access detected. Immediate review required.",
+        "highlight": true
+      },
+      {
+        "ts": "10/22/2026 06:49:23 PM",
+        "level": "INFO",
+        "msg": "Exported by: NCIA\\it.cyber.monitor. Export method: print to local queue (printer: SEC-PRN-01, located in IT Security Office).",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Security File Audit: SSI Exposure",
+    "command": "Get-Content S:\\Security\\ASP_Audit.log -Raw | Select-String -Pattern 'NCIA_ASP_2024.pdf' -Context 0,2",
+    "classification": "SENSITIVE SECURITY INFORMATION (SSI) – INTERNAL – INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This inject reveals the first concrete evidence of a suspect: Delgado. The IT team has not yet flagged the IT Manager's access as anomalous, so players must not assume it's malicious. Watch for premature accusations or hasty escalation to legal without cross-checking.",
+  "citations": [
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 1 › 1.3 Protection of Sensitive Security Information (SSI) (49 CFR § 1520)",
+      "quote": "This ASP and related documents (maps, access control codes, vulnerability assessments) are SSI. - **Access / Need-to-Know:** Airport Authority employees with security responsibilities; TSA and FAA ins",
+      "chunkId": 45
+    },
+    {
+      "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+      "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+      "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+      "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+      "chunkId": 54
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T13:52:46.439Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ASP File Access Audit — Sensitive Security Information",
+        "type": "system_log",
+        "fields": {
+          "systemName": "NCIA-Security-File-Audit",
+          "host": "SEC-SVR-01",
+          "ip": "10.66.1.55",
+          "os": "Windows Server 2019",
+          "logSource": "S:\\Security\\ASP_Audit.log",
+          "exportedBy": "NCIA\\it.cyber.monitor",
+          "exportedAt": "10/22/2026 06:50 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/22/2026 06:49:12 PM",
+              "level": "INFO",
+              "msg": "File access event: 'NCIA_ASP_2024.pdf' opened by user 'ray.delgado@ncia-airport.org' from IP 10.66.1.103 (Terminal 104, Badging Office).",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 06:49:13 PM",
+              "level": "INFO",
+              "msg": "Access type: read and print. File size: 1.4 MB. Duration: 3 minutes 22 seconds.",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 06:49:14 PM",
+              "level": "WARN",
+              "msg": "User 'ray.delgado@ncia-airport.org' is not a member of the 'Security-Need-To-Know' group. Access not authorized under C1.",
+              "highlight": true
+            },
+            {
+              "ts": "10/22/2026 06:49:15 PM",
+              "level": "INFO",
+              "msg": "File closed. Print job initiated: 'ASP_Audit_Print_221022-1849-001'.",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 06:49:16 PM",
+              "level": "INFO",
+              "msg": "User 'it.manager.service@ncia-airport.org' accessed 'NCIA_ASP_2024.pdf' from IP 10.66.1.101 (IT Workstation W12). Access type: backup scan (scheduled).",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 06:49:17 PM",
+              "level": "INFO",
+              "msg": "User 'deputy.asc@ncia-airport.org' accessed 'NCIA_ASP_2024.pdf' from IP 10.66.1.102 (ASC Workstation). Access type: routine review.",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 06:49:18 PM",
+              "level": "INFO",
+              "msg": "User 'airport.director@ncia-airport.org' accessed 'NCIA_ASP_2024.pdf' from IP 10.66.1.100 (Director's Office). Access type: compliance verification.",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 06:49:19 PM",
+              "level": "INFO",
+              "msg": "User 'asc@ncia-airport.org' accessed 'NCIA_ASP_2024.pdf' from IP 10.66.1.103 (ASC Workstation). Access type: policy update verification.",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 06:49:20 PM",
+              "level": "INFO",
+              "msg": "Audit session complete. 5 access events logged. 1 unauthorized access (Ray Delgado).",
+              "highlight": false
+            },
+            {
+              "ts": "10/22/2026 06:49:21 PM",
+              "level": "NOTICE",
+              "msg": "File 'NCIA_ASP_2024.pdf' located on S:\\Security share. File is not encrypted and is accessible to 40+ users with 'Read' permissions.",
+              "highlight": true
+            },
+            {
+              "ts": "10/22/2026 06:49:22 PM",
+              "level": "CRIT",
+              "msg": "Alert: File 'NCIA_ASP_2024.pdf' contains SSI. Unauthorized access detected. Immediate review required.",
+              "highlight": true
+            },
+            {
+              "ts": "10/22/2026 06:49:23 PM",
+              "level": "INFO",
+              "msg": "Exported by: NCIA\\it.cyber.monitor. Export method: print to local queue (printer: SEC-PRN-01, located in IT Security Office).",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Security File Audit: SSI Exposure",
+          "command": "Get-Content S:\\Security\\ASP_Audit.log -Raw | Select-String -Pattern 'NCIA_ASP_2024.pdf' -Context 0,2",
+          "classification": "SENSITIVE SECURITY INFORMATION (SSI) – INTERNAL – INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject reveals the first concrete evidence of a suspect: Delgado. The IT team has not yet flagged the IT Manager's access as anomalous, so players must not assume it's malicious. Watch for premature accusations or hasty escalation to legal without cross-checking.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T13:54:06.631Z"
+}
