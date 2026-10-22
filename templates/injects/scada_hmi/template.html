@@ -1,0 +1,118 @@
+<section class="hmi st-{{default fields.state 'normal'}}">
+  <header class="bar">
+    <span class="logo" aria-hidden="true"
+      ><svg viewBox="0 0 32 32">
+        <rect
+          x="3"
+          y="5"
+          width="26"
+          height="18"
+          rx="2"
+          fill="none"
+          stroke="#4b5560"
+          stroke-width="2"
+        />
+        <path d="M7 18l5-6 4 4 5-7 4 5" fill="none" stroke="#4b5560" stroke-width="2" />
+        <rect x="11" y="25" width="10" height="3" fill="#4b5560" /></svg
+    ></span>
+    <h1>{{default fields.systemName "PROCESS OVERVIEW"}}</h1>
+    <!-- prettier-ignore -->
+    <span class="site">{{default fields.site (default brand.aliases.airport (default brand.aliases.orgShort "Control Room"))}}</span>
+    <span class="chip">{{default fields.stateText (upper (default fields.state "normal"))}}</span>
+    {{#if fields.mode}}<span class="mode">MODE <b>{{upper fields.mode}}</b></span
+    >{{/if}}
+    <span class="spacer"></span>
+    {{#if fields.operator}}<span class="who">OPERATOR <b>{{fields.operator}}</b></span
+    >{{/if}}
+    <span class="clock"><b>{{fields.clock}}</b><small>{{fields.date}}</small></span>
+  </header>
+  <nav class="tabs">
+    <span class="on">OVERVIEW</span>
+    {{#if (eq variant "dam")}}
+    <span>SPILLWAY</span><span>POWERHOUSE</span><span>RESERVOIR</span><span>INSTRUMENTATION</span>
+    {{else if (eq variant "power")}}
+    <span>ONE-LINE</span><span>FEEDERS</span><span>TRANSFORMERS</span><span>PROTECTION</span>
+    {{else if (eq variant "transit_traction")}}
+    <span>SUBSTATIONS</span><span>CATENARY</span><span>RECTIFIERS</span><span>BREAKERS</span>
+    {{else}}
+    <span>INTAKE</span><span>FILTRATION</span><span>CHEMICAL FEED</span><span>CLEARWELL</span
+    ><span>DISTRIBUTION</span>
+    {{/if}}
+    <span>TRENDS</span><span>ALARMS</span>
+  </nav>
+
+  <div class="mid">
+    <div class="grid">
+      {{#each fields.equipment}}
+      <div class="tile s-{{state}} k-{{kind}}">
+        <svg class="glyph" viewBox="0 0 64 64" aria-hidden="true">
+          {{#if (eq kind "tank")}}
+          <path class="f" d="M12 14q0-6 20-6t20 6v38q0 4-20 4t-20-4z" />
+          <path class="ln" d="M12 30h40" />
+          {{else if (eq kind "pump")}}
+          <circle class="f" cx="32" cy="32" r="21" />
+          <path class="ln" d="M24 20l18 12-18 12z" />
+          {{else if (eq kind "valve")}}
+          <path class="f" d="M8 18l24 14-24 14zM56 18L32 32l24 14z" />
+          <path class="ln" d="M32 32V12M24 12h16" />
+          {{else if (eq kind "gate")}}
+          <path class="ln" d="M8 10v48M56 10v48M8 58h48" />
+          <rect class="f" x="14" y="16" width="36" height="26" />
+          <path class="ln" d="M32 16V4M26 9l6-6 6 6" />
+          {{else if (eq kind "breaker")}}
+          <path class="ln" d="M32 2v12M32 50v12" />
+          <rect class="f" x="16" y="14" width="32" height="36" />
+          {{else if (eq kind "unit")}}
+          <circle class="f" cx="32" cy="32" r="22" />
+          <path class="ln" d="M18 32q7-12 14 0t14 0" />
+          {{else if (eq kind "feeder")}}
+          <path class="ln" d="M6 32h40" />
+          <path class="f" d="M44 20l14 12-14 12z" />
+          <path class="ln" d="M14 22v20M24 22v20" />
+          {{else}}
+          <circle class="f" cx="32" cy="32" r="18" />
+          <path class="ln" d="M32 50v10M22 60h20" />
+          {{/if}}
+        </svg>
+        <div class="tx">
+          <span class="tag">{{tag}}</span>
+          <span class="lbl">{{label}}</span>
+        </div>
+        <span class="state">{{upper state}}</span>
+        <div class="pv">{{#if value}}<b>{{value}}</b><small>{{units}}</small>{{/if}}</div>
+        <div class="sp">{{#if setpoint}}SP {{setpoint}} {{units}}{{/if}}</div>
+        <div class="note">{{note}}</div>
+      </div>
+      {{/each}}
+    </div>
+    <aside class="panel">
+      <div class="ph">KEY PROCESS VALUES</div>
+      {{#each fields.readings}}
+      <div class="rd{{#if alarm}} al{{/if}}">
+        <span>{{label}}</span><b>{{value}}</b><small>{{units}}</small>
+      </div>
+      {{/each}}
+      <div class="btns"><span>ACK ALL</span><span>SILENCE</span><span>FACEPLATE</span></div>
+    </aside>
+  </div>
+
+  <section class="alarms">
+    <div class="ah">
+      <span>ALARM SUMMARY</span><span class="cnt">{{fields.alarms.length}} ACTIVE</span>
+    </div>
+    <div class="ar arh">
+      <span>P</span><span>TIME</span><span>TAG</span><span>MESSAGE</span><span>STATE</span>
+    </div>
+    {{#each fields.alarms}}
+    <div class="ar p{{priority}}{{#unless acked}} un{{/unless}}">
+      <span class="pri">{{priority}}</span><span>{{time}}</span><span>{{tag}}</span
+      ><span>{{text}}</span><span>{{#if acked}}ACK{{else}}UNACK{{/if}}</span>
+    </div>
+    {{/each}}
+  </section>
+  <footer class="sb">
+    {{#each fields.statusItems}}<span>{{this}}</span>{{/each}}
+    <span class="spacer"></span>{{#if fields.hmiNode}}<span>HMI NODE {{fields.hmiNode}}</span
+    >{{/if}}
+  </footer>
+</section>

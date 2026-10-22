@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { ThreatFamilyId } from '../domains/schema'
 import { Citation, ExerciseTime, Id, IsoDateTime, RelPath, WallClock } from './common'
 import { Role } from './project'
 import { ProviderRef } from './provider'
@@ -17,6 +18,11 @@ export const ScenarioBrief = z.object({
   ideaId: Id.optional(),
   /** Narrative start, e.g. "09:00". */
   startWallClock: WallClock.optional(),
+  /**
+   * The kind of incident (src/shared/domains threat families): sets the phase arc, the
+   * decision-point vocabulary and the lint rules. Inferred from the idea / request when absent.
+   */
+  threatFamily: ThreatFamilyId.optional(),
 })
 export type ScenarioBrief = z.infer<typeof ScenarioBrief>
 
@@ -205,5 +211,7 @@ export const ScenarioIdea = z.object({
   difficulty: z.enum(['introductory', 'intermediate', 'advanced']).default('intermediate'),
   whyItTeaches: z.string().default(''),
   suggestedRoles: z.array(z.string()).default([]),
+  /** Threat family the idea exercises (inferred from its text when the model did not say). */
+  threatFamily: ThreatFamilyId.optional(),
 })
 export type ScenarioIdea = z.infer<typeof ScenarioIdea>

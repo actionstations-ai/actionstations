@@ -1,0 +1,121 @@
+{
+  "run": "transit",
+  "orgType": "transit",
+  "threatFamily": "cyber_physical",
+  "title": "Ghost Buses",
+  "threat": "An adversary exploited the integrator’s VPN to compromise the CAD/AVL system, injecting false vehicle positions and run assignments. The OCC’s dispatch interface displayed buses on incorrect routes and at non-existent stops, while the RRTA Rider app and PIDS showed ghost buses—vehicles that were not physically present. This led to field confusion, false rider expectations, and operational paralysis.",
+  "location": "Central Transit Center campus, Riverbend, Harlan County, Ohio",
+  "roles": [
+    "ops: Director of Transportation (Incident Commander)",
+    "it: IT/OT Manager (Technical Lead)",
+    "pio: Communications Director (Public Information Officer)",
+    "police: Chief of Transit Police (Security)",
+    "fleet: Director of Fleet Maintenance (Fleet)"
+  ],
+  "phases": [
+    "Something Is Off",
+    "Loss of Control",
+    "Manual Operation",
+    "Restoration & Verification"
+  ],
+  "rows": 39,
+  "rowsWithDocumentIdentifiers": 21,
+  "tags": {
+    "STARTEX": 1,
+    "CORE_NARRATIVE": 8,
+    "CLUE": 6,
+    "PRESSURE": 8,
+    "NOISE": 3,
+    "CONFUSION": 2,
+    "TIME_JUMP": 2,
+    "RED_HERRING": 3,
+    "DECISION_POINT": 1,
+    "OPERATIONAL_FRICTION": 1,
+    "TECH_HURDLE": 2,
+    "END_GAME": 1,
+    "ENDEX": 1
+  },
+  "decisionPoints": [
+    "I-18: Memo (internal): 'Per EOP 5.3 and C2, I hereby authorize the full suspension of automated CAD/AVL dispatch and service c"
+  ],
+  "lintCodes": {
+    "INJECT_SCRIPTS_PLAYERS": 1
+  },
+  "warningCodes": {
+    "INJECT_SCRIPTS_PLAYERS": 1,
+    "CRITIQUE": 12
+  },
+  "critiqueCount": 12,
+  "facilityUnknown": 0,
+  "leaks": {
+    "msel": [],
+    "injects": [],
+    "documents": [],
+    "imagePrompts": []
+  },
+  "injectTypes": [
+    "START: startex_card",
+    "I-01: radio_call",
+    "I-01b: field_report",
+    "I-02: system_log",
+    "I-03: memo",
+    "I-04: tweet",
+    "I-05: radio_call",
+    "I-06: pa_announcement",
+    "I-07: email_forward",
+    "I-08: scenario_update",
+    "I-09: time_jump_card",
+    "I-10: radio_call",
+    "I-09b: phone_call",
+    "I-11: tweet",
+    "I-12: system_log",
+    "I-13: pa_announcement",
+    "I-14: scenario_update",
+    "I-14b: phone_call",
+    "I-15: memo",
+    "I-16: email_forward",
+    "I-17a: system_log",
+    "I-17b: email_forward",
+    "I-18: memo",
+    "I-18b: scenario_update",
+    "I-19: radio_call",
+    "I-20: system_log",
+    "I-21: email_forward",
+    "I-22: radio_call",
+    "I-23: scenario_update",
+    "I-24: time_jump_card",
+    "I-24b: system_log",
+    "I-25: field_report",
+    "I-25b: field_report",
+    "I-26: system_log",
+    "I-27: radio_call",
+    "I-27b: radio_call",
+    "I-28: pa_announcement",
+    "I-29: memo",
+    "END: endex_card"
+  ],
+  "assets": {
+    "rendered": 74,
+    "aiImages": 1,
+    "audio": 3
+  },
+  "timing": {
+    "scenarioSecs": 546,
+    "injectSecs": 380,
+    "mediaSecs": 55,
+    "job": "done"
+  },
+  "facilityCategories": [
+    "Bus routes: 12",
+    "Rail lines: 3",
+    "Vehicle / bus numbers: 21",
+    "Stops: 15",
+    "Depots / yards / transit centers: 22",
+    "Locations / areas: 12",
+    "Assets / equipment: 6",
+    "Systems / hosts: 20",
+    "Networks / IP ranges: 10",
+    "Phone numbers: 33",
+    "Agencies / contacts: 9"
+  ]
+}

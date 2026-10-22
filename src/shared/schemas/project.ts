@@ -1,11 +1,31 @@
 import { z } from 'zod'
+import { DomainProfileOverrides } from '../domains/schema'
 import { Id, IsoDateTime, RelPath } from './common'
 import { ProviderRouting } from './provider'
 
 export const PROJECT_FORMAT_VERSION = 1
 
+/**
+ * Built-in domain profile ids (src/shared/domains) plus the legacy values ('hospital',
+ * 'utility') that resolve to one as aliases; any other string resolves to the generic profile.
+ */
+export const ORG_TYPE_IDS = [
+  'airport',
+  'transit',
+  'water_dam',
+  'water_utility',
+  'energy_utility',
+  'healthcare',
+  'campus',
+  'stadium_venue',
+  'port_maritime',
+  'municipal',
+  'industrial',
+  'unmanned_systems',
+  'generic',
+] as const
 export const OrgType = z.union([
-  z.enum(['airport', 'hospital', 'utility', 'campus', 'generic']),
+  z.enum([...ORG_TYPE_IDS, 'hospital', 'utility']),
   z.string().min(1),
 ])
 
@@ -81,6 +101,8 @@ export const Project = z.object({
   name: z.string().min(1),
   orgName: z.string().default(''),
   orgType: OrgType.default('generic'),
+  /** Project-level edits to the built-in domain profile orgType selects (ADR-0014). */
+  domainProfileOverrides: DomainProfileOverrides.optional(),
   createdAt: IsoDateTime,
   updatedAt: IsoDateTime,
   appVersion: z.string(),

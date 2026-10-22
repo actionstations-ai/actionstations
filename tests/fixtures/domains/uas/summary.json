@@ -1,0 +1,117 @@
+{
+  "run": "uas",
+  "orgType": "water_dam",
+  "threatFamily": "uas_drone",
+  "title": "Sky Watcher",
+  "threat": "A privately operated drone, detected by AeroSentry with Remote ID data, repeatedly overflies the dam crest and spillway gates during a weekend public event. The operator is estimated near the public boat ramp, triggering concerns over security, public safety, and legal authority to act. The drone’s flight path and proximity to critical infrastructure—Spillway Hoist House, Intake Tower 1, and the powerhouse—elevate the risk to operational integrity, potentially disrupting control room operations and public confidence.",
+  "location": "Cedar Ridge Dam, Milford, Pike County, Ohio",
+  "roles": [
+    "ops: Dam Operations Manager (Incident Commander)",
+    "it: SCADA / IT Security Lead (Technical Lead)",
+    "pio: Public Affairs Officer (PIO)",
+    "security: Security Manager (Sec)",
+    "dse: Dam Safety Engineer (DSE)",
+    "ema: County Emergency Manager (Downstream Liaison)"
+  ],
+  "phases": ["The Sighting", "Persistent Incursion", "Decision & Coordination", "Resolution"],
+  "rows": 40,
+  "rowsWithDocumentIdentifiers": 18,
+  "tags": {
+    "STARTEX": 1,
+    "CORE_NARRATIVE": 9,
+    "CLUE": 6,
+    "TECH_HURDLE": 3,
+    "PRESSURE": 11,
+    "NOISE": 3,
+    "TIME_JUMP": 3,
+    "CONFUSION": 1,
+    "DECISION_POINT": 1,
+    "END_GAME": 1,
+    "ENDEX": 1
+  },
+  "decisionPoints": [
+    "I-24: Decision Point: DOM to all: 'We must decide now: do we halt all gate operations in the Spillway Hoist House area — inclu"
+  ],
+  "lintCodes": {
+    "MIX_NO_NOISE": 1
+  },
+  "warningCodes": {
+    "MIX_NO_NOISE": 1,
+    "CRITIQUE": 12
+  },
+  "critiqueCount": 12,
+  "facilityUnknown": 0,
+  "leaks": {
+    "msel": [],
+    "injects": [],
+    "documents": [],
+    "imagePrompts": []
+  },
+  "injectTypes": [
+    "START: startex_card",
+    "I-01: uas_detection_alert",
+    "I-02: field_report",
+    "I-03: system_log",
+    "I-04: system_log",
+    "I-05: tweet",
+    "I-06: radio_call",
+    "I-09: phone_call",
+    "I-07: memo",
+    "I-10: radio_call",
+    "I-08: email_forward",
+    "I-11: time_jump_card",
+    "I-12: uas_detection_alert",
+    "I-13: field_report",
+    "I-14: system_log",
+    "I-15: radio_call",
+    "I-16: system_log",
+    "I-17: memo",
+    "I-18: radio_call",
+    "I-19: helpdesk_ticket",
+    "I-20: tweet",
+    "I-21: time_jump_card",
+    "I-22: radio_call",
+    "I-23: radio_call",
+    "I-24: memo",
+    "I-25: media_inquiry_phone_slip",
+    "I-26: system_log",
+    "I-27: radio_call",
+    "I-28: memo",
+    "I-28b: radio_call",
+    "I-30: radio_call",
+    "I-31: system_log",
+    "I-32: press_release",
+    "I-33: radio_call",
+    "I-34: memo",
+    "I-36: helpdesk_ticket",
+    "I-36b: tweet",
+    "I-35: endex_card",
+    "END: endex_card"
+  ],
+  "assets": {
+    "rendered": 69,
+    "aiImages": 1,
+    "audio": 3
+  },
+  "timing": {
+    "scenarioSecs": 265,
+    "injectSecs": 496,
+    "mediaSecs": 61,
+    "job": "done"
+  },
+  "facilityCategories": [
+    "Spillway gates: 3",
+    "Generating units / turbines: 2",
+    "Penstocks: 2",
+    "Intake towers: 1",
+    "RTUs / PLCs: 10",
+    "Gauges: 5",
+    "Inundation / evacuation zones: 3",
+    "Downstream communities: 5",
+    "Locations / areas: 8",
+    "Systems / hosts: 39",
+    "Networks / IP ranges: 5",
+    "Phone numbers: 41",
+    "Agencies / contacts: 10"
+  ]
+}

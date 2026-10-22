@@ -13,7 +13,8 @@ import { AppError } from '../lib/errors'
 import { emit } from '../lib/events'
 import { ensureDir, safeJoin, writeFileAtomic } from '../lib/fs'
 import { loadProject, projectPaths } from '../project/store'
-import { categoryDefinition, DEFAULT_FACT_CATEGORIES } from './facility-categories'
+import { categoriesForProject } from './domain'
+import { categoryDefinition, type FactCategory } from './facility-categories'
 import type { FacilityFacts } from './facility'
 import {
   extractProjectFacts,
@@ -129,8 +130,9 @@ function categoryView(
   entries: string[],
   extracted: FacilityFacts,
   sources: Map<string, Record<string, FacilityFactCategory['sources'][string]>>,
+  categories: FactCategory[],
 ): FacilityFactCategory {
-  const def = categoryDefinition(id)
+  const def = categoryDefinition(id, categories)
   return {
     id,
     label,
@@ -145,16 +147,18 @@ function categoryView(
 export async function readFacilityView(root: string): Promise<FacilityFactsFile> {
   const state = await readFacilityFile(root)
   const project = await loadProject(root)
-  const extracted = await extractProjectFacts(root, project)
-  const hits = await projectSectionHits(root, project, DEFAULT_FACT_CATEGORIES)
-  const sources = sourcesFor(extracted, hits, DEFAULT_FACT_CATEGORIES)
+  // The project's domain profile decides the categories (ADR-0014).
+  const categories = categoriesForProject(project)
+  const extracted = await extractProjectFacts(root, project, categories)
+  const hits = await projectSectionHits(root, project, categories)
+  const sources = sourcesFor(extracted, hits, categories)
   const inFile = parseFacilityFile(state.markdown).categories
   const missing = extracted.categories.filter((c) => !inFile.some((f) => f.id === c.id))
   return {
     ...state,
     categories: [
-      ...inFile.map((c) => categoryView(c.id, c.label, c.entries, extracted, sources)),
-      ...missing.map((c) => categoryView(c.id, c.label, [], extracted, sources)),
+      ...inFile.map((c) => categoryView(c.id, c.label, c.entries, extracted, sources, categories)),
+      ...missing.map((c) => categoryView(c.id, c.label, [], extracted, sources, categories)),
     ],
     revision: revisionOf(state.markdown),
     historyCount: await historyCount(root),

@@ -82,7 +82,8 @@ describe('facility-facts.md format (#143)', () => {
     for (const c of facts.categories)
       expect(md).toContain(`## ${c.label}\n<!-- category: ${c.id} -->`)
     expect(isUnedited(md)).toBe(true)
-    expect(parseFacilityFile(md, 1)).toEqual({ ...facts, documentCount: 1 })
+    // The parsed file carries no category definitions (the project's profile adds them).
+    expect(parseFacilityFile(md, 1)).toEqual({ categories: facts.categories, documentCount: 1 })
   })
 
   it('counts any change to the sections as an edit, and reads headings without an id comment', () => {

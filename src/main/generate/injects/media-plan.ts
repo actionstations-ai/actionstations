@@ -5,6 +5,7 @@
 // standard negative prompt, post-FX per voice type, voice lines from the fields as a
 // fallback).
 import type { Inject, MediaBrief, MediaBriefOutput, MselRow } from '@shared/schemas'
+import { builtinProfile, type SceneAnchors } from '@shared/domains'
 import { injectTypeInfo, type RenderPath } from '@shared/taxonomy'
 import type { LoadedTemplate } from '../../render/templates'
 
@@ -75,38 +76,41 @@ const STYLE_ANCHORS: Record<ImageStyle, string> = {
   portrait: 'Head and shoulders portrait, shallow depth of field, natural skin tones',
 }
 
-/** What the setting looks like per organization type, so a terminal is not a cubicle farm. */
-const SETTING_ANCHORS: Record<string, string> = {
-  airport:
-    'inside an airport passenger terminal: check-in counters, rows of dark powered-off departure boards, overhead wayfinding signs seen as plain shapes, luggage carts, high ceilings, large windows',
-  hospital:
-    'inside a hospital: a nurses station, corridor with handrails, wheeled beds, wall-mounted dark monitors, bright even lighting',
-  utility:
-    'at a water or power utility plant: control room consoles with dark screens, pipes, pumps, valves, safety railings',
-  campus:
-    'on a university campus: a lecture hall or quad, students with backpacks, brick and glass buildings',
-}
+/** The scene is a control room / dispatch floor / command post rather than a public area. */
+const CONTROL_WORDS =
+  /\b(?:control room|operations? cent(?:er|re)|dispatch|console|hmi|scada|command (?:post|cent(?:er|re))|eoc|occ|aoc|nurses?'? station|dcs|dispatcher|operator'?s? desk)\b/i
+/** The scene is outdoors / in the field. */
+const EXTERIOR_WORDS =
+  /\b(?:outside|outdoors?|exterior|parking|street|road|apron|yard|crest|substation|fence|perimeter|boat ramp|river|reservoir|spillway|tarmac|sidewalk|ambulance bay|loading dock|field|pole|highway|intersection|bus stop|platform|pier|berth|quay)\b/i
 
-/**
- * The same settings without any screen, board or monitor (#141): SDXL lights every display
- * it is asked to paint, "dark powered-off boards" included, so a scene whose screens are
- * meant to be dark must not name them at all.
- */
-const SCREENLESS_SETTING_ANCHORS: Record<string, string> = {
-  airport:
-    'inside a dim airport terminal concourse: crowds waiting at check-in counters, luggage carts, high ceilings, large windows',
-  hospital:
-    'inside a dim hospital corridor: a nurses station, handrails, wheeled beds, staff in scrubs',
-  utility:
-    'at a dim water or power utility plant: pipes, pumps, valves, safety railings, workers in hard hats',
-  campus:
-    'on a university campus: a lecture hall or quad, students with backpacks, brick and glass buildings',
+/** Which of the profile's three settings a prompt describes. */
+export function sceneKind(
+  prompt: string,
+): keyof Pick<SceneAnchors, 'public' | 'control' | 'exterior'> {
+  if (CONTROL_WORDS.test(prompt)) return 'control'
+  if (EXTERIOR_WORDS.test(prompt)) return 'exterior'
+  return 'public'
 }
 
 export interface SceneContext {
+  /** Resolves to a built-in profile's scene anchors when `anchors` is not given. */
   orgType?: string
+  /** The project's effective profile anchors (overrides applied). */
+  anchors?: SceneAnchors
   /** The brief says the screens are dark: describe the scene without them (#141). */
   screensDark?: boolean
+}
+
+/** The profile's anchor for a prompt; the generic profile adds none (the model's own words stand). */
+function settingAnchor(prompt: string, scene?: SceneContext): string | undefined {
+  const profile = builtinProfile(scene?.orgType)
+  const anchors = scene?.anchors ?? (profile.id === 'generic' ? undefined : profile.sceneAnchors)
+  if (!anchors) return undefined
+  const kind = sceneKind(prompt)
+  const text = anchors[kind]
+  if (!scene?.screensDark) return text
+  if (kind === 'public' && anchors.publicScreensDark) return anchors.publicScreensDark
+  return withoutScreens(text)
 }
 
 /** Styles that depict a place (and so take the setting anchor). */
@@ -114,8 +118,7 @@ const PLACE_STYLES = new Set<ImageStyle>(['phone', 'press', 'cctv'])
 
 /** The style anchor, the setting anchor (for scene styles) and then the model's own prompt. */
 export function anchoredPrompt(prompt: string, style: ImageStyle, scene?: SceneContext): string {
-  const anchors = scene?.screensDark ? SCREENLESS_SETTING_ANCHORS : SETTING_ANCHORS
-  const setting = PLACE_STYLES.has(style) ? anchors[scene?.orgType ?? ''] : undefined
+  const setting = PLACE_STYLES.has(style) ? settingAnchor(prompt, scene) : undefined
   const lead = [STYLE_ANCHORS[style], setting].filter(Boolean).join(' ')
   const body = prompt.trim()
   if (!body) return ''

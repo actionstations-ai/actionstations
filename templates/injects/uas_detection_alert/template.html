@@ -1,0 +1,183 @@
+<section class="con">
+  <header class="bar">
+    <span class="logo" aria-hidden="true"
+      ><svg viewBox="0 0 32 32">
+        <circle cx="16" cy="16" r="13" fill="none" stroke="#4fd1c5" stroke-width="2" />
+        <circle cx="16" cy="16" r="7" fill="none" stroke="#4fd1c5" stroke-width="1.5" />
+        <path d="M16 16 26 7" stroke="#4fd1c5" stroke-width="2" />
+        <circle cx="21" cy="11" r="2.2" fill="#ff5a4f" /></svg
+    ></span>
+    <h1>{{default fields.systemName "C-UAS Console"}}</h1>
+    <span class="mod">DETECT · TRACK · IDENTIFY</span>
+    <!-- prettier-ignore -->
+    <span class="site">{{default fields.site (default brand.aliases.airport (default brand.aliases.orgShort "Protected Site"))}}</span>
+    <span class="spacer"></span>
+    <span class="sens"><i></i>RF <i></i>RADAR <i></i>REMOTE ID <i class="off"></i>EO/IR</span>
+    {{#if fields.operator}}<span class="who">OPERATOR <b>{{fields.operator}}</b></span
+    >{{/if}}
+    <span class="clock"><b>{{fields.clock}}</b><small>{{fields.date}}</small></span>
+  </header>
+  {{#if fields.alertBanner}}
+  <div class="banner">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 2 23 21H1z" fill="#fff" />
+      <path d="M11 9h2v6h-2zM11 17h2v2h-2z" fill="#b3121b" />
+    </svg>
+    <span>{{fields.alertBanner}}</span>
+  </div>
+  {{/if}}
+
+  <div class="body">
+    <aside class="list">
+      <div class="ph">TRACKS <span>{{fields.tracks.length}}</span></div>
+      {{#each fields.tracks}}
+      <div class="trk t-{{threatLevel}} s-{{status}}{{#if @first}} sel{{/if}}">
+        <div class="r1">
+          <b>{{id}}</b><span class="lvl">{{upper threatLevel}}</span
+          ><span class="st">{{upper status}}</span>
+        </div>
+        <div class="r2">{{default aircraftType "Unclassified"}}</div>
+        <div class="r3">
+          <span>{{altitudeFt}} ft</span><span>{{distanceM}} m</span>{{#if
+          bearing}}<span>{{bearing}}°</span>{{/if}}<span>{{lastSeen}}</span>
+        </div>
+      </div>
+      {{/each}}
+      <div class="ph zh">ZONES</div>
+      {{#each fields.zones}}
+      <div class="zone">
+        <i class="z{{@index}}"></i><b>{{name}}</b>{{#if radiusM}}<span>{{radiusM}} m</span>{{/if}}
+        {{#if note}}<small>{{note}}</small>{{/if}}
+      </div>
+      {{/each}}
+    </aside>
+
+    <div class="scope">
+      <div class="radar" style="--range: {{default fields.rangeM 1500}}">
+        <svg class="bg" viewBox="0 0 600 600" aria-hidden="true">
+          <defs>
+            <pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M40 0H0v40" fill="none" stroke="#14222c" stroke-width="1" />
+            </pattern>
+            <clipPath id="c"><circle cx="300" cy="300" r="292" /></clipPath>
+          </defs>
+          <g clip-path="url(#c)">
+            <rect width="600" height="600" fill="url(#g)" />
+            <path
+              d="M0 410q90-30 150-10t130 40 170-20 150 10V600H0z"
+              fill="#0e2a3a"
+              opacity="0.85"
+            />
+            <path
+              d="M0 410q90-30 150-10t130 40 170-20 150 10"
+              fill="none"
+              stroke="#1f5470"
+              stroke-width="2"
+            />
+            <path
+              d="M60 0q40 160 10 300t60 300M520 0q-30 120 20 260"
+              fill="none"
+              stroke="#2a3640"
+              stroke-width="3"
+              stroke-dasharray="1 0"
+            />
+          </g>
+          <circle cx="300" cy="300" r="280" fill="none" stroke="#2c4a57" stroke-width="1.5" />
+          <circle cx="300" cy="300" r="186.7" fill="none" stroke="#21363f" stroke-width="1" />
+          <circle cx="300" cy="300" r="93.3" fill="none" stroke="#21363f" stroke-width="1" />
+          <path d="M300 14v572M14 300h572" stroke="#1b2c35" stroke-width="1" />
+          <path d="M300 300 300 20A280 280 0 0 1 498 102z" fill="#4fd1c5" opacity="0.06" />
+          <path d="M300 300 498 102" stroke="#4fd1c5" stroke-width="1.5" opacity="0.5" />
+          <polygon
+            points="262,286 300,280 340,284 342,296 320,300 300,302 280,300 258,296"
+            fill="#3c4f5c"
+            stroke="#9fb4c2"
+            stroke-width="1.5"
+          />
+        </svg>
+        {{#each fields.zones}} {{#if radiusM}}
+        <div class="zring z{{@index}}" style="--r: {{radiusM}}"><span>{{name}}</span></div>
+        {{/if}} {{/each}}
+        <span class="cardinal n">N</span><span class="cardinal e">E</span
+        ><span class="cardinal s">S</span><span class="cardinal w">W</span>
+        <span class="rng">{{default fields.rangeM 1500}} m</span>
+        <!-- prettier-ignore -->
+        <span class="sitelbl">{{default fields.site (default brand.aliases.airport (default brand.aliases.orgShort "SITE"))}}</span>
+        {{#each fields.tracks}}
+        <div
+          class="dot t-{{threatLevel}} s-{{status}}"
+          style="--b: {{default bearing 0}}; --d: {{distanceM}}; --h: {{default heading 0}}"
+        >
+          <span class="pip"><i class="vec"></i></span
+          ><span class="lab">{{id}} · {{altitudeFt}}ft</span>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    {{#with (lookup fields.tracks 0)}}
+    <aside class="detail t-{{threatLevel}}">
+      <div class="dh">
+        <span>SELECTED TRACK</span><b>{{id}}</b
+        ><span class="lvl">THREAT {{upper threatLevel}}</span>
+      </div>
+      <dl>
+        <div>
+          <dt>Status</dt>
+          <dd>{{upper status}}</dd>
+        </div>
+        <div>
+          <dt>Classification</dt>
+          <dd>{{default aircraftType "Unclassified"}}</dd>
+        </div>
+        <div class="wide">
+          <dt>Remote ID serial</dt>
+          <dd class="mono">{{default remoteIdSerial "NO BROADCAST"}}</dd>
+        </div>
+        <div>
+          <dt>Altitude AGL</dt>
+          <dd class="big">{{altitudeFt}} <small>ft</small></dd>
+        </div>
+        <div>
+          <dt>Ground speed</dt>
+          <dd class="big">{{default speedKt "—"}} <small>kt</small></dd>
+        </div>
+        <div>
+          <dt>Heading</dt>
+          <dd>{{#if heading}}{{heading}}°{{else}}—{{/if}}</dd>
+        </div>
+        <div>
+          <dt>Range / bearing</dt>
+          <dd>{{distanceM}} m · {{#if bearing}}{{bearing}}°{{else}}—{{/if}}</dd>
+        </div>
+        <div>
+          <dt>First seen</dt>
+          <dd class="mono">{{firstSeen}}</dd>
+        </div>
+        <div>
+          <dt>Last update</dt>
+          <dd class="mono">{{lastSeen}}</dd>
+        </div>
+        {{#if zone}}
+        <div class="wide">
+          <dt>Zone</dt>
+          <dd class="zn">{{zone}}</dd>
+        </div>
+        {{/if}}
+        <div class="wide">
+          <dt>Operator location (estimate)</dt>
+          <dd>{{default operatorLocation "No estimate"}}</dd>
+        </div>
+      </dl>
+      <div class="acts"><span>SLEW CAMERA</span><span>NOTIFY</span><span>EXPORT TRACK</span></div>
+    </aside>
+    {{/with}}
+  </div>
+
+  <section class="log">
+    <div class="ph">EVENT LOG</div>
+    {{#each fields.events}}
+    <div class="ev"><span>{{time}}</span><span>{{text}}</span></div>
+    {{/each}}
+  </section>
+</section>

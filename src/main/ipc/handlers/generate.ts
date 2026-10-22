@@ -2,6 +2,7 @@
 import type { ScenarioBrief, ScenarioIdea } from '@shared/schemas'
 import { defineHandlers } from '../registry'
 import { pipelineDeps } from '../../generate/deps'
+import { briefWithThreat, profileFor } from '../../generate/domain'
 import { PIPELINE_STAGES } from '../../generate/engine'
 import { generateIdeas, readIdeas, rememberIdea, saveScenarioIdea } from '../../generate/ideas'
 import { startInjectJob, runInjectsJob, runMediaJob } from '../../generate/injects'
@@ -33,9 +34,11 @@ export default defineHandlers({
     const root = await requireProject(projectPath)
     if (idea) await rememberIdea(root, idea)
     const deps = await pipelineDeps()
+    // The threat family is settled at creation (ADR-0014): every stage and re-run sees it.
+    const settled = briefWithThreat(brief, profileFor(await deps.loadProject(root)), idea)
     const scenario = await deps.store.createScenario(root, {
       title: scenarioTitle(brief, idea),
-      brief: { ...brief, ...(idea ? { ideaId: idea.id } : {}) },
+      brief: { ...settled, ...(idea ? { ideaId: idea.id } : {}) },
     })
     if (idea) await saveScenarioIdea(root, scenario.id, idea)
     return { jobId: continueJob(root, scenario.id).id, scenarioId: scenario.id }

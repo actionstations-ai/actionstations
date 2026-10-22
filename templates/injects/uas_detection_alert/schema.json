@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UAS / drone detection alert",
+  "description": "1600x900 counter-UAS / Remote ID detection console: track list, a schematic radar around the protected site with alert zones, the selected (first) track in detail, and the event log. Tracks are placed by bearing and distance from the site.",
+  "type": "object",
+  "required": ["tracks"],
+  "properties": {
+    "systemName": {
+      "type": "string",
+      "description": "Detection product / console name.",
+      "examples": ["AeroSentry", "SkyWatch C-UAS"]
+    },
+    "site": {
+      "type": "string",
+      "description": "Protected site name (drawn at the radar centre). Falls back to brand.aliases.airport, then brand.aliases.orgShort.",
+      "examples": ["Cedar Ridge Dam", "Riverbend Stadium"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "Console clock, 24h HH:MM:SS.",
+      "examples": ["14:07:32"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Console date.",
+      "examples": ["21 OCT 2026"]
+    },
+    "operator": {
+      "type": "string",
+      "description": "Logged-in console operator.",
+      "examples": ["SEC-OPS 2"]
+    },
+    "rangeM": {
+      "type": "number",
+      "description": "Radius of the outer radar ring in metres (default 1500).",
+      "examples": [1500]
+    },
+    "alertBanner": {
+      "type": "string",
+      "description": "Alert banner text across the top of the console.",
+      "examples": ["ZONE BREACH — TRK-0417 INSIDE CREST RESTRICTED ZONE"]
+    },
+    "tracks": {
+      "type": "array",
+      "description": "Detected aircraft. The first track is shown in the detail panel (up to 8).",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "status",
+          "altitudeFt",
+          "distanceM",
+          "firstSeen",
+          "lastSeen",
+          "threatLevel"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Track id assigned by the system.",
+            "examples": ["TRK-0417"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["new", "tracking", "lost"],
+            "description": "Track status.",
+            "examples": ["tracking"]
+          },
+          "aircraftType": {
+            "type": "string",
+            "description": "Classified airframe / model.",
+            "examples": ["Quadcopter (DJI Mavic 3 class)", "Fixed-wing, unknown"]
+          },
+          "remoteIdSerial": {
+            "type": "string",
+            "description": "Broadcast Remote ID serial number (ANSI/CTA-2063 style), or blank when none.",
+            "examples": ["1581F5FJD239C00DW04K"]
+          },
+          "altitudeFt": {
+            "type": "number",
+            "description": "Altitude above ground level in feet.",
+            "examples": [310]
+          },
+          "speedKt": {
+            "type": "number",
+            "description": "Ground speed in knots.",
+            "examples": [2]
+          },
+          "heading": {
+            "type": "number",
+            "description": "Track heading in degrees true (0 = north).",
+            "examples": [95]
+          },
+          "distanceM": {
+            "type": "number",
+            "description": "Distance from the protected site in metres.",
+            "examples": [180]
+          },
+          "bearing": {
+            "type": "number",
+            "description": "Bearing from the site to the aircraft in degrees true (0 = north).",
+            "examples": [40]
+          },
+          "firstSeen": {
+            "type": "string",
+            "description": "Time first detected, HH:MM:SS.",
+            "examples": ["13:52:10"]
+          },
+          "lastSeen": {
+            "type": "string",
+            "description": "Time of last update, HH:MM:SS.",
+            "examples": ["14:07:31"]
+          },
+          "operatorLocation": {
+            "type": "string",
+            "description": "Pilot / ground station location estimate as text.",
+            "examples": ["Est. 1.1 km SW — Lakeshore Rd public boat ramp (±60 m)"]
+          },
+          "zone": {
+            "type": "string",
+            "description": "Name of the alert / restricted zone the track is in.",
+            "examples": ["CREST RESTRICTED ZONE"]
+          },
+          "threatLevel": {
+            "type": "string",
+            "enum": ["low", "medium", "high"],
+            "description": "System threat assessment; drives the track colour.",
+            "examples": ["high"]
+          }
+        }
+      }
+    },
+    "zones": {
+      "type": "array",
+      "description": "Alert zones centred on the site, drawn as rings (up to 4).",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Zone name.",
+            "examples": ["CREST RESTRICTED ZONE"]
+          },
+          "radiusM": {
+            "type": "number",
+            "description": "Zone radius in metres.",
+            "examples": [400]
+          },
+          "note": {
+            "type": "string",
+            "description": "Zone rule shown in the legend.",
+            "examples": ["No-fly · alert on entry"]
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "description": "Event log, newest first (up to 6).",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "text"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Event time, HH:MM:SS.",
+            "examples": ["14:05:48"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Event text.",
+            "examples": ["TRK-0417 entered CREST RESTRICTED ZONE"]
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

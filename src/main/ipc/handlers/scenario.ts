@@ -4,6 +4,7 @@ import { defineHandlers } from '../registry'
 import { syncInjectRowIds } from '../../scenario/inject-links'
 import { requireProject } from '../../project/guard'
 import { loadProject } from '../../project/store'
+import { domainContext, type DomainContext } from '../../generate/domain'
 import { lintFacilityIds } from '../../generate/facility'
 import { loadFacilityFacts } from '../../generate/facility-file'
 import { z } from 'zod'
@@ -25,7 +26,9 @@ import {
   restoreHistory,
 } from '../../scenario/manage'
 
-type LintModule = { lintScenario?: (s: Scenario) => LintWarning[] | Promise<LintWarning[]> }
+type LintModule = {
+  lintScenario?: (s: Scenario, domain?: DomainContext) => LintWarning[] | Promise<LintWarning[]>
+}
 
 // The linter is built by the pipeline workstream; a glob keeps main building without it.
 const lintModules = import.meta.glob<LintModule>('../../generate/lint.ts')
@@ -39,9 +42,12 @@ export async function lintOrStored(scenario: Scenario, root?: string): Promise<L
   const load = Object.values(lintModules)[0]
   const mod = load ? await load() : undefined
   if (!mod?.lintScenario) return scenario.warnings
-  const fresh = await mod.lintScenario(scenario)
-  if (!root) return fresh
-  const facts = await loadFacilityFacts(root, await loadProject(root))
+  if (!root) return mod.lintScenario(scenario)
+  // The project's domain profile and the scenario's threat family shape the mix rules, and
+  // the facts carry the profile's categories (ADR-0014).
+  const project = await loadProject(root)
+  const fresh = await mod.lintScenario(scenario, domainContext(project, scenario))
+  const facts = await loadFacilityFacts(root, project)
   return [...fresh, ...lintFacilityIds(scenario, facts)]
 }
 

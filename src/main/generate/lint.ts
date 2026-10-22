@@ -1,6 +1,10 @@
 // Deterministic checks on a Scenario (docs/04 §3): timing, ids, role coverage, the inject
 // mix per phase, decision points, STARTEX/ENDEX, density, citations and rubric integrity.
-// Pure: no I/O, so scenarios:lint and the pipeline's critique step share it.
+// Pure: no I/O, so scenarios:lint and the pipeline's critique step share it. The mix rules
+// come from the domain profile (which role is "public", "technical", "security") and the
+// threat family (whether every phase needs a technical clue, what the decision point must
+// involve) — ADR-0014. Without a DomainContext the generic profile and the brief's threat
+// family (default: cyber) apply, which is the pre-profile behaviour.
 import {
   exerciseMinutes,
   type LintWarning,
@@ -9,9 +13,7 @@ import {
   type Role,
   type Scenario,
 } from '@shared/schemas'
-
-const PIO_LIKE = /\bpio\b|public information|public affairs|communications? officer|spokesperson/i
-const IT_LIKE = /\bit\b|cyber|information technology|technical lead|ciso|soc\b|network/i
+import { domainContext, roleHeuristics, type DomainContext } from './domain'
 
 export const DENSITY_MIN_MINUTES = 5
 export const DENSITY_MAX_MINUTES = 20
@@ -36,6 +38,10 @@ const error = (code: string, message: string, extra: Partial<W> = {}): W => ({
 export function findRole(roles: Role[], pattern: RegExp): Role | undefined {
   return roles.find((r) => pattern.test(`${r.id} ${r.abbreviation} ${r.name}`))
 }
+
+/** The context to lint against when the caller has none: generic profile, the brief's threat. */
+const contextFor = (s: Scenario, domain?: DomainContext): DomainContext =>
+  domain ?? domainContext({ orgType: 'generic' }, s)
 
 const rowsOf = (s: Scenario, phaseId: string): MselRow[] =>
   s.msel.filter((r) => r.phaseId === phaseId)
@@ -163,11 +169,17 @@ const REFERENCE_STRINGS = [
   'travelguy99',
   'cleveland moms',
   'ops_intern_03',
-  // Style examples inside prompts/msel_phase.md (a water utility) must not leak either.
+  // Style examples inside prompts/msel_phase.md (a water utility, a transit agency, a venue)
+  // must not leak either.
   '#20417',
   'ridgeview',
   'chlorine dosing',
   'pumping stations have dropped',
+  'supervisor 12',
+  'bus 2231',
+  'elm and 9th',
+  'sectiononetwofan',
+  '#stadiumfail',
 ]
 const REFERENCE_TOPIC = /\bfids\b|aodb|flight information display/i
 
@@ -214,31 +226,45 @@ export function decisionPhaseIndex(phaseCount: number): number {
 }
 
 const MIX_NO_DECISION_POINT = 'MIX_NO_DECISION_POINT'
+export const DECISION_POINT_SCOPE = 'DECISION_POINT_SCOPE'
 
-function decisionGap(s: Scenario, phase: Phase): MixGap[] {
+/** The decision-point need, in the threat family's words (plus what it must involve). */
+function decisionNeed(domain: DomainContext): string {
+  const { threat } = domain
+  const examples = threat.decisionPointExamples.slice(0, 3).join('; ')
+  const must = threat.lint.decisionMustMention
+    ? `, taken with ${threat.lint.decisionMustMention.description}`
+    : ''
+  return `the exercise's one DECISION_POINT inject: a high-consequence call with a cost on both sides${must} (${examples})`
+}
+
+function decisionGap(s: Scenario, phase: Phase, domain: DomainContext): MixGap[] {
   if (phase.index !== decisionPhaseIndex(s.phases.length)) return []
   if (s.msel.some((r) => r.purposeTag === 'DECISION_POINT')) return []
   return [
     {
       code: MIX_NO_DECISION_POINT,
-      need: "the exercise's one DECISION_POINT inject: a high-consequence call with a cost on both sides (go dark, isolate, stop screening, evacuate, pull a vendor's access)",
+      need: decisionNeed(domain),
       message: `No DECISION_POINT inject in ${phaseLabel(phase)}, the phase that should carry it`,
     },
   ]
 }
 
 /** Inject-mix and role-coverage gaps of one phase (docs/04 §3). Empty when the phase is fine. */
-export function phaseMixGaps(s: Scenario, phase: Phase): MixGap[] {
+export function phaseMixGaps(s: Scenario, phase: Phase, domainIn?: DomainContext): MixGap[] {
   const rows = rowsOf(s, phase.id)
   if (!rows.length) return []
+  const domain = contextFor(s, domainIn)
+  const heur = roleHeuristics(domain.profile)
   const label = phaseLabel(phase)
   const has = (pred: (r: MselRow) => boolean): boolean => rows.some(pred)
   /** Addressed to this role specifically, not as part of a broadcast. */
   const aimedAt = (r: MselRow, roleId: string): boolean =>
     r.toRoleIds.includes(roleId) && !isBroadcast(r, s.roles)
   const gaps: MixGap[] = []
-  const pio = findRole(s.roles, PIO_LIKE)
-  const it = findRole(s.roles, IT_LIKE)
+  const pio = findRole(s.roles, heur.public)
+  const clueRole = domain.threat.lint.clueRole
+  const it = domain.threat.lint.clueRequired ? findRole(s.roles, heur[clueRole]) : undefined
   if (!has((r) => r.purposeTag === 'CORE_NARRATIVE')) {
     gaps.push({
       code: 'MIX_NO_CORE',
@@ -264,8 +290,8 @@ export function phaseMixGaps(s: Scenario, phase: Phase): MixGap[] {
   const clue = new Set(['CLUE', 'TECH_HURDLE'])
   if (it && !has((r) => clue.has(r.purposeTag) && aimedAt(r, it.id))) {
     gaps.push({
-      code: 'MIX_NO_IT_CLUE',
-      need: `one CLUE (forensic breadcrumb) or TECH_HURDLE (recovery complication) addressed to "${it.id}"`,
+      code: clueRole === 'technical' ? 'MIX_NO_IT_CLUE' : 'MIX_NO_CLUE',
+      need: `one CLUE (${domain.threat.clueKinds}) or TECH_HURDLE (${domain.threat.hurdleKinds}) addressed to "${it.id}"`,
       message: `No CLUE or TECH_HURDLE inject aimed at ${it.name} in ${label}`,
     })
   }
@@ -278,18 +304,75 @@ export function phaseMixGaps(s: Scenario, phase: Phase): MixGap[] {
       })
     }
   }
-  return [...gaps, ...decisionGap(s, phase)]
+  return [...gaps, ...decisionGap(s, phase, domain)]
 }
 
-function lintPhaseMix(s: Scenario): W[] {
+export const DECISION_POINT_RETAGGED = 'DECISION_POINT_RETAGGED'
+
+const DECISION_WORDS =
+  /\bdecision\b|\bdecides?\b|\bdecide whether\b|\bauthori[sz]e[sd]?\b|\bwhether to\b|\bmust (?:choose|call|order|decide)\b|\brecommends? (?:a |an |the )?(?:pause|halt|stop|suspension|shutdown|evacuation|lockdown)\b|\borders? (?:all|the|a)\b/i
+const CONSEQUENCE_WORDS =
+  /\b(?:halt|stop|suspend|pause|cease|evacuate|shelter|lock ?down|shut (?:down|off)|disconnect|isolate|go dark|continue operations|curtail|pay|refuse)\b/i
+
+/**
+ * The row of the decision phase that reads most like the exercise's decision point, when the
+ * model tagged none (the mix pass asked once; a local model sometimes writes the decision as
+ * CORE_NARRATIVE). Control and locked rows are never candidates; nothing is picked when no
+ * row mentions a decision or a consequence.
+ */
+export function pickDecisionRow(
+  s: Scenario,
+  phase: Phase,
+  domain: DomainContext,
+): MselRow | undefined {
+  if (phase.index !== decisionPhaseIndex(s.phases.length)) return undefined
+  if (s.msel.some((r) => r.purposeTag === 'DECISION_POINT')) return undefined
+  const must = domain.threat.lint.decisionMustMention
+  const scope = must ? new RegExp(must.pattern, 'i') : undefined
+  let best: { row: MselRow; score: number } | undefined
+  for (const row of rowsOf(s, phase.id)) {
+    if (CONTROL_TAGS.has(row.purposeTag) || row.locked) continue
+    const text = `${row.event}\n${row.expectedAction}`
+    let score = 0
+    if (/decision point/i.test(row.expectedAction)) score += 3
+    if (DECISION_WORDS.test(text)) score += 2
+    if (CONSEQUENCE_WORDS.test(text)) score += 1
+    if (scope?.test(text)) score += 2
+    if (score > 0 && (!best || score > best.score)) best = { row, score }
+  }
+  return best && best.score >= 2 ? best.row : undefined
+}
+
+function lintPhaseMix(s: Scenario, domain: DomainContext): W[] {
   return s.phases.flatMap((p) => {
     if (!rowsOf(s, p.id).length)
       return [error('PHASE_EMPTY', `Phase ${p.index + 1} "${p.title}" has no injects`)]
     // The decision point is checked once for the whole exercise (lintDecisionPoint).
-    return phaseMixGaps(s, p)
+    return phaseMixGaps(s, p, domain)
       .filter((g) => g.code !== MIX_NO_DECISION_POINT)
       .map((g) => warn(g.code, g.message))
   })
+}
+
+/**
+ * The threat family's decision point must involve what the family says (a drone incident's
+ * decision is taken with law enforcement / the airspace authority): checked on every
+ * DECISION_POINT row's event and expected action.
+ */
+function lintDecisionScope(s: Scenario, domain: DomainContext): W[] {
+  const must = domain.threat.lint.decisionMustMention
+  if (!must) return []
+  const rows = s.msel.filter((r) => r.purposeTag === 'DECISION_POINT')
+  if (!rows.length) return []
+  const re = new RegExp(must.pattern, 'i')
+  if (rows.some((r) => re.test(`${r.event}\n${r.expectedAction}`))) return []
+  return [
+    warn(
+      DECISION_POINT_SCOPE,
+      `The DECISION_POINT (${rows.map((r) => r.id).join(', ')}) does not involve ${must.description}, which a ${domain.threat.label.toLowerCase()} decision must`,
+      { rowId: rows[0]!.id },
+    ),
+  ]
 }
 
 /** A DECISION_POINT must land in the middle phases (2–3 of 4, the designated phase in general). */
@@ -384,8 +467,12 @@ function lintRubric(s: Scenario): W[] {
   return out
 }
 
-/** All deterministic lints for a scenario. Safe to call on a partially generated scenario. */
-export function lintScenario(scenario: Scenario): LintWarning[] {
+/**
+ * All deterministic lints for a scenario. Safe to call on a partially generated scenario.
+ * `domain` (the project's profile and the scenario's threat family) shapes the mix rules.
+ */
+export function lintScenario(scenario: Scenario, domainIn?: DomainContext): LintWarning[] {
+  const domain = contextFor(scenario, domainIn)
   return [
     ...lintTiming(scenario),
     ...lintIds(scenario),
@@ -393,8 +480,9 @@ export function lintScenario(scenario: Scenario): LintWarning[] {
     ...lintFromRoles(scenario),
     ...lintScriptedDecisions(scenario),
     ...lintReferenceLeak(scenario),
-    ...lintPhaseMix(scenario),
+    ...lintPhaseMix(scenario, domain),
     ...lintDecisionPoint(scenario),
+    ...lintDecisionScope(scenario, domain),
     ...lintDensity(scenario),
     ...lintCitations(scenario),
     ...lintRubric(scenario),

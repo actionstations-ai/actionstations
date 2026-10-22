@@ -1,0 +1,443 @@
+/* 1920 × 1080 process-control HMI overview, high-performance grey palette (ISA-101 style):
+   equipment is grey; colour appears only for fault, alarm and unknown states. A value that
+   differs from its setpoint is drawn exactly like any other value. */
+.hmi {
+  width: 1920px;
+  height: 1080px;
+  display: flex;
+  flex-direction: column;
+  background: #bfc3c7;
+  color: #22272c;
+  font-family: 'Roboto', sans-serif;
+}
+.spacer {
+  flex: 1;
+}
+.bar {
+  height: 62px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 20px;
+  background: #d9dcdf;
+  border-bottom: 2px solid #8e959c;
+}
+.logo svg {
+  display: block;
+  width: 34px;
+  height: 34px;
+}
+.bar h1 {
+  margin: 0;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.site {
+  font-size: 15px;
+  color: #535b63;
+}
+.chip {
+  padding: 5px 14px;
+  border: 2px solid #22272c;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: #e8eaec;
+}
+.st-degraded .chip {
+  background: #ffd23f;
+}
+.st-critical .chip {
+  background: #e3262f;
+  border-color: #8c0f15;
+  color: #fff;
+}
+.mode {
+  padding: 5px 12px;
+  border: 1px solid #8e959c;
+  font-size: 13px;
+  color: #535b63;
+  letter-spacing: 0.06em;
+}
+.mode b {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  color: #22272c;
+}
+.who {
+  font-size: 13px;
+  color: #535b63;
+}
+.who b {
+  color: #22272c;
+}
+.clock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: 'JetBrains Mono', monospace;
+}
+.clock b {
+  font-size: 22px;
+}
+.clock small {
+  font-size: 12px;
+  color: #535b63;
+}
+.tabs {
+  height: 40px;
+  display: flex;
+  gap: 2px;
+  padding: 6px 20px 0;
+  background: #a9aeb3;
+}
+.tabs span {
+  padding: 8px 22px;
+  background: #c9cdd1;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: #3c434a;
+}
+.tabs .on {
+  background: #bfc3c7;
+  color: #111;
+  font-weight: 700;
+}
+.mid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  gap: 16px;
+  padding: 12px 20px;
+  min-height: 0;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 8px;
+  min-width: 0;
+}
+.tile {
+  display: grid;
+  grid-template-columns: 62px 1fr auto;
+  grid-template-rows: auto auto 1fr;
+  grid-template-areas:
+    'g tx st'
+    'g pv pv'
+    'sp sp note';
+  column-gap: 12px;
+  row-gap: 2px;
+  padding: 10px 12px 8px;
+  background: #cdd1d5;
+  border: 1px solid #a3a9ae;
+  min-width: 0;
+}
+.glyph {
+  grid-area: g;
+  width: 58px;
+  height: 58px;
+  align-self: start;
+}
+.glyph .f {
+  fill: #4b5560;
+  stroke: #2f363c;
+  stroke-width: 2.5;
+}
+.glyph .ln {
+  fill: none;
+  stroke: #2f363c;
+  stroke-width: 3;
+}
+.k-pump .glyph .ln {
+  fill: #e8eaec;
+  stroke: #e8eaec;
+  stroke-width: 1;
+}
+.k-unit .glyph .ln {
+  stroke: #e8eaec;
+}
+.k-tank .glyph .ln {
+  stroke: #8e959c;
+}
+/* Stopped / closed: hollow glyph. */
+.s-stopped .glyph .f,
+.s-closed .glyph .f,
+.s-offline .glyph .f {
+  fill: #e8eaec;
+}
+.s-stopped.k-pump .glyph .ln,
+.s-closed.k-pump .glyph .ln {
+  fill: #4b5560;
+  stroke: #4b5560;
+}
+.s-stopped.k-unit .glyph .ln {
+  stroke: #4b5560;
+}
+.tx {
+  grid-area: tx;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.lbl {
+  font-size: 14px;
+  line-height: 1.2;
+  color: #3c434a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.state {
+  grid-area: st;
+  align-self: start;
+  padding: 3px 8px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border: 1.5px solid #4b5560;
+  background: #d9dcdf;
+}
+.s-running .state,
+.s-open .state,
+.s-moving .state,
+.s-online .state,
+.s-auto .state,
+.s-remote .state {
+  background: #4b5560;
+  color: #fff;
+}
+.s-manual .state,
+.s-local .state {
+  background: #e8eaec;
+  border-style: dashed;
+}
+.pv {
+  grid-area: pv;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.pv b {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.pv small {
+  font-size: 14px;
+  color: #3c434a;
+}
+.sp {
+  grid-area: sp;
+  align-self: end;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #3c434a;
+}
+.note {
+  grid-area: note;
+  align-self: end;
+  justify-self: end;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #535b63;
+  white-space: nowrap;
+}
+/* Abnormal states only. */
+.s-fault,
+.s-tripped,
+.s-alarm {
+  border: 2px solid #c4151d;
+  background: #d5c9ca;
+}
+.s-fault .state,
+.s-tripped .state {
+  background: #e3262f;
+  border-color: #8c0f15;
+  color: #fff;
+}
+.s-fault .glyph .f {
+  fill: #e3262f;
+  stroke: #8c0f15;
+}
+.s-alarm {
+  border-color: #b08600;
+  background: #d6d0bb;
+}
+.s-alarm .state {
+  background: #ffd23f;
+  border-color: #8a6d00;
+  color: #111;
+}
+.s-alarm .glyph .f {
+  fill: #ffd23f;
+  stroke: #8a6d00;
+}
+.s-fault .note {
+  color: #a3121a;
+}
+.s-unknown .state {
+  background: #e8eaec;
+  border-color: #b0198f;
+  color: #8a1271;
+}
+.s-unknown .glyph .f {
+  fill: #e8eaec;
+  stroke: #b0198f;
+  stroke-dasharray: 5 4;
+}
+.s-unknown .pv b {
+  color: #8a1271;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+}
+.ph {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #3c434a;
+  padding: 2px 2px 4px;
+  border-bottom: 1px solid #8e959c;
+}
+.rd {
+  display: grid;
+  grid-template-columns: 1fr auto 62px;
+  align-items: baseline;
+  column-gap: 10px;
+  padding: 9px 12px;
+  background: #cdd1d5;
+  border: 1px solid #a3a9ae;
+}
+.rd span {
+  font-size: 15px;
+  color: #3c434a;
+}
+.rd b {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+}
+.rd small {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #535b63;
+}
+.rd.al {
+  border: 2px solid #c4151d;
+}
+.rd.al b {
+  color: #c4151d;
+}
+.btns {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.btns span {
+  padding: 11px 0;
+  text-align: center;
+  background: #e8eaec;
+  border: 2px outset #f4f5f6;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.alarms {
+  height: 290px;
+  flex: none;
+  margin: 0 20px 10px;
+  background: #22272c;
+  color: #d9dcdf;
+  border: 2px solid #4b5560;
+  overflow: hidden;
+}
+.ah {
+  height: 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 14px;
+  background: #3c434a;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.cnt {
+  color: #ff6b70;
+}
+.ar {
+  display: grid;
+  grid-template-columns: 44px 110px 200px 1fr 90px;
+  align-items: center;
+  height: 36px;
+  padding: 0 14px;
+  border-bottom: 1px solid #3c434a;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+}
+.arh {
+  height: 28px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #8e959c;
+}
+.pri {
+  width: 26px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #111;
+}
+.p1 .pri {
+  background: #e3262f;
+  color: #fff;
+}
+.p2 .pri {
+  background: #ff8a1f;
+}
+.p3 .pri {
+  background: #ffd23f;
+}
+.p4 .pri {
+  background: #5aa7e8;
+}
+.ar.un {
+  color: #fff;
+  font-weight: 700;
+}
+.ar.un.p1 {
+  background: rgba(227, 38, 47, 0.28);
+}
+.sb {
+  height: 28px;
+  flex: none;
+  display: flex;
+  gap: 26px;
+  align-items: center;
+  padding: 0 20px;
+  background: #d9dcdf;
+  border-top: 1px solid #8e959c;
+  font-size: 12px;
+  color: #3c434a;
+}

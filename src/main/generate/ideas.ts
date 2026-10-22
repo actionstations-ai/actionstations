@@ -3,6 +3,7 @@
 // snapshotted in scenarios/<id>/idea.json, so resumes and re-runs see it as the designer chose
 // it even after the next ideate run rewrites ideas.json.
 import { z } from 'zod'
+import { threatFamily } from '@shared/domains'
 import { ScenarioIdea, type IdeasOutput, type ScenarioBrief } from '@shared/schemas'
 import type { JobContext } from '../jobs/manager'
 import { exists, readJson, readJsonOr, writeJsonAtomic } from '../lib/fs'
@@ -10,10 +11,11 @@ import { nowIso } from '../lib/ids'
 import { projectPaths } from '../project/store'
 import { scenarioLayout } from '../scenario/layout'
 import { pipelineDeps } from './deps'
+import { domainVars, ideaThreatFamily, profileFor, threatVars } from './domain'
 import { facilitySheet } from './facility'
 import { mapIdeas } from './mappers'
 import { runStage } from './stage'
-import { projectVars, taxonomyVars } from './vars'
+import { projectVars, taxonomyVarsFor } from './vars'
 
 const IdeasFile = z.object({
   generatedAt: z.string(),
@@ -81,15 +83,19 @@ export async function generateIdeas(
   const deps = await pipelineDeps()
   const [project, index] = await Promise.all([deps.loadProject(root), deps.openIndex(root)])
   const facility = await deps.loadFacilityFacts(root, project)
+  const profile = profileFor(project)
   ctx.progress(0.05, 'Reading the plans for scenario hooks', { stage: 'ideate' })
   const result = await runStage<IdeasOutput>({
     stage: 'ideate',
     projectPath: root,
     vars: {
       project: projectVars(project),
+      domain: domainVars(profile),
+      // The families the domain can exercise, spelled out for the ideas to spread across.
+      threatFamilies: profile.threatFamilies.map((id) => threatVars(threatFamily(id))),
       brief: req.brief,
       count: req.count,
-      taxonomy: taxonomyVars,
+      taxonomy: taxonomyVarsFor(profile),
       facility: facilitySheet(facility),
       instructions: '',
     },
@@ -102,7 +108,12 @@ export async function generateIdeas(
     ctx.log(`Idea "${d.rowId}" cited unknown keys ${d.keys.join(', ')}; dropped`, 'warn', {
       stage: 'ideate',
     })
-  const kept = ideas.slice(0, req.count)
+  // Each idea carries the threat family its text describes, so the scenario built from it
+  // starts with the right phase arc (the designer can still change it in the brief).
+  const kept = ideas.slice(0, req.count).map((idea) => ({
+    ...idea,
+    threatFamily: idea.threatFamily ?? ideaThreatFamily(idea, profile),
+  }))
   await writeIdeas(root, kept)
   ctx.progress(1, `${kept.length} ideas`, { stage: 'ideate' })
   ctx.log(

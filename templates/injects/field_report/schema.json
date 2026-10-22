@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Field / inspection report",
+  "description": "A one-page field inspection / patrol report form (US Letter): header block, a findings checklist with condition boxes, actions taken, recommendations, a photo log note and signature. For dam safety patrols, utility line inspections, facility security rounds, transit track walks and similar field work.",
+  "type": "object",
+  "required": ["reportNo", "date", "location", "inspector", "reportType", "summary"],
+  "properties": {
+    "organization": {
+      "type": "string",
+      "description": "Organization / department at the top of the form. Falls back to brand.aliases.org.",
+      "examples": [
+        "Cedar Ridge Dam — Operations & Maintenance",
+        "Riverbend Water Utility — Distribution"
+      ]
+    },
+    "formTitle": {
+      "type": "string",
+      "description": "Form title (default \"Field Inspection Report\").",
+      "examples": ["Field Inspection Report", "Security Patrol Report"]
+    },
+    "reportNo": {
+      "type": "string",
+      "description": "Report / form number.",
+      "examples": ["FIR-2026-0412"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Inspection date.",
+      "examples": ["10/21/2026"]
+    },
+    "time": {
+      "type": "string",
+      "description": "Inspection time or time range.",
+      "examples": ["13:40-14:20"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Where the inspection took place.",
+      "examples": ["Dam crest, left abutment to spillway; downstream toe road"]
+    },
+    "inspector": {
+      "type": "string",
+      "description": "Inspector name and title.",
+      "examples": ["R. Delgado, Dam Tender II"]
+    },
+    "unit": {
+      "type": "string",
+      "description": "Crew, unit or vehicle.",
+      "examples": ["Patrol 2 · Truck 14"]
+    },
+    "reportType": {
+      "type": "string",
+      "enum": ["routine", "incident", "damage", "security", "safety"],
+      "description": "Report type; the matching box is ticked.",
+      "examples": ["security"]
+    },
+    "weather": {
+      "type": "string",
+      "description": "Weather at the time of inspection.",
+      "examples": ["Overcast, 58°F, wind NW 10 mph"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Narrative summary of what was found.",
+      "examples": [
+        "During the afternoon crest patrol found the perimeter fence cut at the left abutment and a drone hovering over the spillway gates."
+      ]
+    },
+    "findings": {
+      "type": "array",
+      "description": "Checklist items inspected (up to 10).",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item", "condition"],
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Item / element inspected.",
+            "examples": ["Perimeter fence — left abutment"]
+          },
+          "condition": {
+            "type": "string",
+            "enum": ["ok", "deficient", "failed", "not_inspected"],
+            "description": "Condition found; the matching box is ticked.",
+            "examples": ["failed"]
+          },
+          "notes": {
+            "type": "string",
+            "description": "Short note on the condition.",
+            "examples": ["Chain-link cut ~1.2 m vertical, fresh cut ends"]
+          }
+        }
+      }
+    },
+    "actionsTaken": {
+      "type": "array",
+      "description": "Actions taken on site.",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        ["Notified Security Supervisor by radio at 13:58", "Photographed fence breach and drone"]
+      ]
+    },
+    "recommendations": {
+      "type": "array",
+      "description": "Recommended follow-up.",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        [
+          "Temporary fence repair and padlock today",
+          "Request law enforcement contact with drone operator"
+        ]
+      ]
+    },
+    "photosNote": {
+      "type": "string",
+      "description": "Text description of attached photos (no image is rendered).",
+      "examples": [
+        "6 photos attached: IMG_0412-0417 (fence cut, footprints, drone over gates, boat ramp vehicle)"
+      ]
+    },
+    "signature": {
+      "type": "string",
+      "description": "Signature line name and title.",
+      "examples": ["R. Delgado, Dam Tender II"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Marking line at top and bottom of the page.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    }
+  },
+  "additionalProperties": false
+}

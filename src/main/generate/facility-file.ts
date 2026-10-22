@@ -10,6 +10,7 @@ import { exists, safeJoin, writeFileAtomic } from '../lib/fs'
 import { documentFiles } from '../ingest/storage'
 import { loadProject } from '../project/store'
 import { emit } from '../lib/events'
+import { categoriesForProject } from './domain'
 import { DEFAULT_FACT_CATEGORIES, type FactCategory } from './facility-categories'
 import { extractFacilityFacts, type FacilityFacts } from './facility'
 
@@ -157,7 +158,7 @@ async function documentTexts(root: string, project: Project): Promise<string[]> 
 export async function extractProjectFacts(
   root: string,
   project: Project,
-  categories: FactCategory[] = DEFAULT_FACT_CATEGORIES,
+  categories: FactCategory[] = categoriesForProject(project),
 ): Promise<FacilityFacts> {
   return extractFacilityFacts(await documentTexts(root, project), categories)
 }
@@ -234,7 +235,8 @@ export async function readFacilityFile(root: string): Promise<FacilityFileState>
 export async function loadFacilityFacts(root: string, project: Project): Promise<FacilityFacts> {
   const documentCount = project.documents.filter((d) => d.status === 'ok').length
   const md = await readIfExists(facilityFilePath(root))
-  if (md !== undefined) return parseFacilityFile(md, documentCount)
+  if (md !== undefined)
+    return { ...parseFacilityFile(md, documentCount), definitions: categoriesForProject(project) }
   const facts = await extractProjectFacts(root, project)
   await writeFileAtomic(facilityFilePath(root), renderFacilityFile(facts))
   return facts

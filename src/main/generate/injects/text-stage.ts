@@ -16,6 +16,7 @@ import { injectTypeInfo } from '@shared/taxonomy'
 import type { JobContext } from '../../jobs/manager'
 import { newId } from '../../lib/ids'
 import type { SearchIndex } from '../deps'
+import type { DomainContext } from '../domain'
 import { facilitySheet, type FacilityFacts } from '../facility'
 import { stripKeysDeep } from '../mappers'
 import { resolveCitations, type RetrievedChunk } from '../retrieval'
@@ -46,6 +47,8 @@ export interface InjectEnv {
   project: Project
   /** Identifiers the project's documents state (#84). */
   facility: FacilityFacts
+  /** The project's domain profile and the scenario's threat family (ADR-0014). */
+  domain: DomainContext
   ctx: JobContext
 }
 
@@ -143,7 +146,12 @@ function buildVars(input: InjectTextInput, choice: TypeChoice): Record<string, u
   const facts = factsSoFar(s.msel, row, priorInjects)
   const info = injectTypeInfo(choice.type)
   return {
-    ...baseVars({ project: env.project, scenario: s, ...(instructions ? { instructions } : {}) }),
+    ...baseVars({
+      project: env.project,
+      scenario: s,
+      domain: env.domain,
+      ...(instructions ? { instructions } : {}),
+    }),
     row: rowVars(row, s.roles),
     phase: phaseVars(s, row),
     exerciseDate: exerciseDate(),
@@ -412,7 +420,11 @@ function toInject(
 export async function runInjectText(input: InjectTextInput): Promise<InjectTextResult> {
   const { env, row, existing } = input
   const injectId = existing?.id ?? newId()
-  const chosen = chooseInjectType(row, env.deps.templates.listTemplateTypes())
+  const chosen = chooseInjectType(
+    row,
+    env.deps.templates.listTemplateTypes(),
+    env.domain.profile.id,
+  )
   const extra = { stage: 'inject_text' as const, itemId: injectId }
   if (chosen.note) env.ctx.log(`inject_text ${row.id}: ${chosen.note}`, 'info', extra)
   if (chosen.requested)

@@ -1,0 +1,353 @@
+[
+  {
+    "row": "START",
+    "type": "startex_card",
+    "title": "STARTEX: Sky Watcher — UAS Overflight & Interagency Coordination",
+    "fields": {
+      "startTime": "09:00",
+      "day": "Thursday, October 22, 2026",
+      "location": "Cedar Ridge Dam, Milford, Pike County, Ohio",
+      "weather": "Clear, 72°F. Light wind.",
+      "load": "Reservoir at elevation 800.5 ft, within rule curve. Normal operational load.",
+      "staffing": "Full shift: Control Room Operator (day), On-Call Operator (night), Security Manager, SCADA/IT Lead, Dam Safety Engineer, Public Affairs Officer, and Dam Operations Manager on-site.",
+      "narration": "STARTEX. This is an exercise. It is 09:00 on Thursday, October 22, 2026. The weather is clear, 72°F, light wind. All systems are nominal. The reservoir is at elevation 800.5 feet, within the rule curve. The shift is operating under normal conditions with no active emergencies. Status is normal.",
+      "status": [
+        {
+          "name": "Reservoir Level",
+          "status": "green",
+          "note": "800.5 ft (within rule curve)"
+        },
+        {
+          "name": "Spillway Gates",
+          "status": "green",
+          "note": "All closed, locked, and tagged"
+        },
+        {
+          "name": "Generating Units",
+          "status": "green",
+          "note": "Units 1 and 2 offline for routine maintenance"
+        },
+        {
+          "name": "SCADA System",
+          "status": "green",
+          "note": "Stable; no alarms"
+        },
+        {
+          "name": "AeroSentry UAS Detection",
+          "status": "yellow",
+          "note": "One alert recorded at 08:58 — unknown drone over crest, 300 ft altitude, heading southeast"
+        },
+        {
+          "name": "Pike County EMA",
+          "status": "green",
+          "note": "On standby; no alerts received"
+        },
+        {
+          "name": "Public Event",
+          "status": "green",
+          "note": "Weekend community festival at boat ramp, 100+ attendees"
+        }
+      ],
+      "facilitatorNote": "Confirm all roles have their incident packets and EAPs. The drone alert is not yet in play; it will trigger at 0:05.",
+      "scenarioTitle": "Sky Watcher — UAS Overflight & Interagency Coordination",
+      "injectId": "START"
+    }
+  },
+  {
+    "row": "I-01",
+    "type": "uas_detection_alert",
+    "title": "UAS Overflight — Spillway Hoist House Proximity",
+    "fields": {
+      "systemName": "AeroSentry",
+      "site": "Cedar Ridge Dam",
+      "clock": "09:05:17",
+      "date": "22 OCT 2026",
+      "operator": "SEC-OPS 2",
+      "rangeM": 1500,
+      "alertBanner": "UAS DETECTED — OVERCREST PROXIMITY, 150 FT TO HOIST HOUSE",
+      "tracks": [
+        {
+          "id": "TRK-9X7F23",
+          "status": "tracking",
+          "aircraftType": "Multirotor",
+          "remoteIdSerial": "9X-7F23",
+          "altitudeFt": 85,
+          "speedKt": 12,
+          "heading": 65,
+          "distanceM": 150,
+          "bearing": 65,
+          "firstSeen": "09:05:17",
+          "lastSeen": "09:05:17",
+          "operatorLocation": "Boat Ramp East Shore (near buoy line)",
+          "zone": "Spillway Hoist House Restricted Zone",
+          "threatLevel": "high"
+        }
+      ],
+      "zones": [
+        {
+          "name": "Spillway Hoist House Restricted Zone",
+          "radiusM": 200,
+          "note": "No UAS permitted; includes Spillway Gates 1–5 and hoist house access"
+        },
+        {
+          "name": "Intake Tower 1 Restricted Zone",
+          "radiusM": 300,
+          "note": "No UAS permitted; includes access bridge and tower base"
+        },
+        {
+          "name": "Powerhouse and Switchyard Restricted Zone",
+          "radiusM": 400,
+          "note": "No UAS permitted; includes generator floor, RTU-04/05, and padlocked switchyard"
+        },
+        {
+          "name": "Reservoir Surface Zone",
+          "radiusM": 1000,
+          "note": "No UAS permitted over reservoir surface; includes buoy line and public boat ramp"
+        }
+      ],
+      "events": [
+        {
+          "time": "09:05:17",
+          "text": "UAS 9X-7F23 detected over dam crest; estimated 150 ft from Spillway Hoist House; Remote ID confirmed; operator location: Boat Ramp East Shore"
+        },
+        {
+          "time": "09:04:52",
+          "text": "UAS 9X-7F23 detected approaching from east, altitude 78 ft, speed 11 mph"
+        },
+        {
+          "time": "09:04:31",
+          "text": "UAS 9X-7F23 entered airspace above Spillway Hoist House (zone 1) — first alert generated"
+        },
+        {
+          "time": "09:04:15",
+          "text": "UAS 9X-7F23 detected leaving public overlook (CAM-09) and entering restricted airspace"
+        },
+        {
+          "time": "09:04:01",
+          "text": "AeroSentry system triggered on UAS 9X-7F23; initial proximity alert"
+        },
+        {
+          "time": "09:03:45",
+          "text": "AeroSentry system updated to include Remote ID feed for 9X-7F23; verified against FAA UASFM database"
+        }
+      ]
+    }
+  },
+  {
+    "row": "I-02",
+    "type": "field_report",
+    "title": "UAS Overflight — Spillway Hoist House Proximity",
+    "fields": {
+      "organization": "Cedar Valley Water Authority — Security Division",
+      "formTitle": "Field Inspection Report",
+      "reportNo": "FIR-2026-0413",
+      "date": "10/22/2026",
+      "time": "09:08-09:10",
+      "location": "Spillway Hoist House crest, near Door P-7 (west)",
+      "inspector": "Patrol Officer 3, Contract Security Officer",
+      "unit": "Crest Patrol Unit 3 · Truck 14",
+      "reportType": "security",
+      "weather": "Clear, 72°F, light wind",
+      "summary": "Visual confirmation of UAS 9X-7F23 passing within 100 ft of the Spillway Hoist House control panel. Drone has black tail with red stripe. Movement was slow and deliberate, consistent with surveillance. No sound heard. No operator seen on ground. No physical contact or interference with infrastructure.",
+      "findings": [
+        {
+          "item": "Perimeter fence integrity",
+          "condition": "ok",
+          "notes": "No damage observed at the hoist house access gate or surrounding fencing."
+        },
+        {
+          "item": "Control panel access area",
+          "condition": "ok",
+          "notes": "No unauthorized access or tampering noted on the control panel housing."
+        },
+        {
+          "item": "UAS presence on site",
+          "condition": "deficient",
+          "notes": "Confirmed visual sighting of drone with remote ID 9X-7F23 within 100 ft of critical control structure."
+        },
+        {
+          "item": "Operator visibility",
+          "condition": "not_inspected",
+          "notes": "No visible operator or vehicle in vicinity of the hoist house or Crest Road."
+        },
+        {
+          "item": "Audio from drone",
+          "condition": "ok",
+          "notes": "No audible motor or transmission noise detected."
+        },
+        {
+          "item": "Visual obstruction",
+          "condition": "ok",
+          "notes": "No debris or temporary structures obstructing the view from the hoist house door."
+        },
+        {
+          "item": "Security camera coverage",
+          "condition": "ok",
+          "notes": "CAM-09 (west abutment) and CAM-07 (Spillway Hoist House) show no gaps in coverage."
+        },
+        {
+          "item": "Emergency exit access",
+          "condition": "ok",
+          "notes": "Door P-7 remains unobstructed and accessible."
+        },
+        {
+          "item": "Remote ID data",
+          "condition": "ok",
+          "notes": "Remote ID confirmed via AeroSentry; drone registered to operator near public boat ramp (0.6 mi upstream, east shore)."
+        },
+        {
+          "item": "Structural impact",
+          "condition": "ok",
+          "notes": "No signs of impact or energy discharge on the hoist house or surrounding concrete."
+        }
+      ],
+      "actionsTaken": [
+        "Reported visual confirmation to Security Manager via radio at 09:10",
+        "Documented drone description and flight path in field log",
+        "Notified Control Room of UAS proximity per EAP 4.2"
+      ],
+      "recommendations": [
+        "File formal report in Security Incident Log (Log ID: S-2026-0413)",
+        "Initiate UAS threat assessment per Security Plan Section 6.4",
+        "Notify Pike County Sheriff's Office and FAA per EAP 5.2"
+      ],
+      "photosNote": "6 photos attached: IMG_0413-0418 (drone profile, control panel proximity, 100-ft range estimate, east abutment, boat ramp area, CAM-09 feed), all timestamped 09:08-09:10",
+      "signature": "Patrol Officer 3, Contract Security Officer",
+      "marking": "EXERCISE · EXERCISE · EXERCISE"
+    }
+  },
+  {
+    "row": "I-03",
+    "type": "system_log",
+    "title": "UASFM Query — No Authorization for 9X-7F23",
+    "fields": {
+      "systemName": "FAA UAS Facility Map",
+      "host": "FAA-UASFM-01",
+      "ip": "10.85.40.12",
+      "os": "Linux (Ubuntu 22.04)",
+      "logSource": "/var/log/uastrack/uastrack.log",
+      "exportedBy": "FAA\\uasfm.system",
+      "exportedAt": "10/22/2026 09:15 AM",
+      "timezone": "EDT (UTC-4)",
+      "lines": [
+        {
+          "ts": "2026-10-22 09:15:03",
+          "level": "INFO",
+          "msg": "Query: UAS 9X-7F23 (Remote ID: 9X-7F23) — 3-mile radius around Cedar Ridge Dam (N40.1234, W82.3456)",
+          "highlight": false
+        },
+        {
+          "ts": "2026-10-22 09:15:04",
+          "level": "WARN",
+          "msg": "No flight authorization or waiver issued for UAS 9X-7F23 within 3-mile radius",
+          "highlight": false
+        },
+        {
+          "ts": "2026-10-22 09:15:05",
+          "level": "INFO",
+          "msg": "No registered UAS operations at East Overlook or near Spillway Hoist House (monoliths 9–14)",
+          "highlight": false
+        },
+        {
+          "ts": "2026-10-22 09:15:06",
+          "level": "NOTICE",
+          "msg": "Remote ID: 9X-7F23 — Operator location: 1.2 mi SSW of East Overlook (estimated)",
+          "highlight": true
+        },
+        {
+          "ts": "2026-10-22 09:15:07",
+          "level": "INFO",
+          "msg": "Query completed. Response time: 1.2 sec. Exported to CVWA Security Incident Log (file: SEC-INC-2026-0413)",
+          "highlight": false
+        }
+      ],
+      "terminalTitle": "FAA UAS Facility Map — Query Terminal",
+      "command": "uastrack query 9X-7F23 --radius 3mi --facility 'Cedar Ridge Dam' --output json",
+      "classification": "CLASSIFIED - UAS OPERATIONAL INTELLIGENCE",
+      "pageLabel": "Page 1 of 1"
+    }
+  },
+  {
+    "row": "I-04",
+    "type": "system_log",
+    "title": "SCADA Telemetry Check — RTU-06 and RTU-08 Status",
+    "fields": {
+      "systemName": "CRD-SCADA-SRV01",
+      "host": "CRD-SCADA-SRV01",
+      "ip": "10.84.10.250",
+      "os": "Linux Ubuntu 22.04 LTS",
+      "logSource": "/var/log/scada/telemetry.log",
+      "exportedBy": "ITL\\scada.monitor",
+      "exportedAt": "10/22/2026 09:20 AM",
+      "timezone": "EDT (UTC-4)",
+      "lines": [
+        {
+          "ts": "10/22/2026 09:20:01 AM",
+          "level": "INFO",
+          "msg": "RTU-06 (Spillway Seepage Sensors) — status: ONLINE, last heartbeat 09:20:00. All 4 piezometers within tolerance (G-2/G-3: 12.3 ft, 12.5 ft; W-1 to W-4: 4.1–4.3 ft). No alarm conditions.",
+          "highlight": false
+        },
+        {
+          "ts": "10/22/2026 09:20:02 AM",
+          "level": "INFO",
+          "msg": "RTU-08 (Cellular Telemetry) — status: ONLINE, last report 09:20:01. Milford Gauge (RTU-08) reports stage: 16.2 ft, rising at 0.1 ft/hr. No data gaps.",
+          "highlight": false
+        },
+        {
+          "ts": "10/22/2026 09:20:03 AM",
+          "level": "INFO",
+          "msg": "CRD-SCADA-SRV01 — HMI integrity check: Gate 3 position (40% open) confirmed via RTU-02. No unscheduled commands received since 09:12:00. No network anomalies in 10.84.x.x.",
+          "highlight": false
+        },
+        {
+          "ts": "10/22/2026 09:20:04 AM",
+          "level": "NOTICE",
+          "msg": "AeroSentry UAS alert 9X-7F23 still active. Location: 150 ft from Spillway Hoist House. Heading: ENE. Altitude: 85 ft. Remote ID: 'Owner: 9X-7F23, Control Station: 10.85.40.12 (FIR-2026-0413)' — confirmed in SEC-INC-2026-0413.",
+          "highlight": true
+        },
+        {
+          "ts": "10/22/2026 09:20:05 AM",
+          "level": "INFO",
+          "msg": "SCADA HMI (CRD-HMI-01) — no unauthorized access attempts. Last login: 09:00:00 (DOM). No new user sessions.",
+          "highlight": false
+        },
+        {
+          "ts": "10/22/2026 09:20:06 AM",
+          "level": "INFO",
+          "msg": "Audit: No changes to PLC-1/PLC-2 logic since 09:12:00. No new HydroLogix sessions on CRD-JUMP-01.",
+          "highlight": false
+        }
+      ],
+      "terminalTitle": "Administrator: Linux Terminal",
+      "command": "tail -n 6 /var/log/scada/telemetry.log",
+      "classification": "INTERNAL - INCIDENT EVIDENCE",
+      "pageLabel": "Page 1 of 1"
+    }
+  },
+  {
+    "row": "I-05",
+    "type": "tweet",
+    "title": "Social Media Post — Drone Overflight Concern",
+    "fields": {
+      "displayName": "Milford Boat Watch",
+      "handle": "MilfordBoatWatch",
+      "verified": false,
+      "avatarStyle": "initials",
+      "avatarColor": "blue",
+      "avatarBrief": "person holding a fishing rod, wearing a baseball cap",
+      "timestampRel": "25m",
+      "text": "Why is that drone hovering over the dam? Is it filming? #CedarRidgeDam #SkyWatcher",
+      "attachedImageBrief": "phone photo of a drone visible in the sky above the dam crest, partially obscured by trees on the overlook",
+      "attachedImageAlt": "Drone in the sky above the dam overlook, viewed from ground level",
+      "metrics": {
+        "replies": 0,
+        "reposts": 12,
+        "likes": 47,
+        "views": 1240,
+        "bookmarks": 3
+      },
+      "liked": false
+    },
+    "imagePrompt": "Candid smartphone snapshot, slight tilt, natural color balance, neutral white balance on the crest road of a concrete dam: spillway gate hoists, an intake tower, a white service pickup truck, the reservoir on one side and a steep wooded valley on the other. Phone snapshot taken from ground level at the Cedar Ridge Dam overlook, focusing on the sky above the dam crest. A small, dark drone is visible in the mid-distance, partially obscured by leafy tree branches. The background shows the reservoir below, the dam's concrete spillway, and distant recreational boats on the water. The sky is overcast with soft daylight, and the image has a slight tilt and flash glare from the phones hand, visible at the lower edge, wearing a baseball cap and holding a fishing rod. The screen is plain, unbranded, and slightly smudged."
+  }
+]

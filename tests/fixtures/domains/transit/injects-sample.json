@@ -1,0 +1,271 @@
+[
+  {
+    "row": "START",
+    "type": "startex_card",
+    "title": "STARTEX: Ghost Buses — CAD/AVL Integrity & Service Continuity",
+    "fields": {
+      "startTime": "09:00",
+      "day": "Thursday",
+      "location": "Riverbend Regional Transit Authority (RRTA) Operations Control Center (OCC)",
+      "weather": "Clear, 58°F. Winds calm.",
+      "load": "High: morning rush hour, 22% above average ridership",
+      "staffing": "Full OCC shift; Duty Superintendent, IT/OT Manager, PIO, Transit Police Chief, Fleet Director on duty",
+      "narration": "STARTEX. This is an exercise. It is 09:00 on a busy Thursday, October 22, 2026. The morning rush is under way. All systems show nominal status on the OCC main display. The Blue Line and Route 14 are operating on schedule. Bus 4417 is at Stop 1042, performing a loop at Central Transit Center. The OCC console 3 live PA feed is active. No alerts are pending.",
+      "status": [
+        {
+          "name": "OCC Main Display",
+          "status": "green",
+          "note": "All systems nominal"
+        },
+        {
+          "name": "Blue Line Service",
+          "status": "green",
+          "note": "On schedule"
+        },
+        {
+          "name": "Route 14 Service",
+          "status": "green",
+          "note": "On schedule"
+        },
+        {
+          "name": "Bus 4417 (Stop 1042)",
+          "status": "green",
+          "note": "Looping at Central Transit Center"
+        },
+        {
+          "name": "RiderAlert App",
+          "status": "green",
+          "note": "Live updates syncing"
+        },
+        {
+          "name": "PIDS Network",
+          "status": "green",
+          "note": "All displays active"
+        },
+        {
+          "name": "CAD/AVL System",
+          "status": "green",
+          "note": "No anomalies detected"
+        }
+      ],
+      "facilitatorNote": "Confirm all roles have their briefing packets and blank ICS-201 forms. No action required yet — players must accept baseline status as normal.",
+      "scenarioTitle": "Ghost Buses — CAD/AVL Integrity & Service Continuity",
+      "injectId": "START"
+    }
+  },
+  {
+    "row": "I-01",
+    "type": "radio_call",
+    "title": "Radio: Bus 147 — Ghost Stop at Confluence Park",
+    "fields": {
+      "orgName": "Riverbend Regional Transit Authority",
+      "centerName": "OCC Dispatch",
+      "channel": "TRANSIT-OPS 1",
+      "frequency": "TG 1001 / 450.100 MHz",
+      "date": "10/22/2026",
+      "callsign": "Bus 147",
+      "lines": [
+        {
+          "time": "09:12",
+          "from": "Bus 147",
+          "to": "OCC",
+          "text": "OCC, this is Bus 147 on Route 14. Dispatch sent me to 'Stop 14B at Confluence Park.' I just arrived at the end of Confluence Street and see no platform, no sign, and no one. The dashboard map says I'm 300 meters from the stop, but I'm standing at the dead end. What's going on?"
+        },
+        {
+          "time": "09:12",
+          "from": "OCC",
+          "to": "Bus 147",
+          "text": "Bus 147, hold position. We’re checking the system. Do not proceed beyond the dead end. Confirm your location: Stop 1057, Confluence Park, northbound side."
+        }
+      ],
+      "background": "vehicle",
+      "voiceStyle": "Young male, tense, slightly frustrated",
+      "audioFile": "I-01_radio.wav",
+      "duration": "0:14",
+      "injectId": "I-01"
+    }
+  },
+  {
+    "row": "I-01b",
+    "type": "field_report",
+    "title": "PIDS Discrepancy — Central Transit Center",
+    "fields": {
+      "organization": "Riverbend Regional Transit Authority — Operations Control Center",
+      "formTitle": "Field Inspection Report",
+      "reportNo": "FIR-2026-0413",
+      "date": "10/22/2026",
+      "time": "09:13",
+      "location": "Central Transit Center, Platform 2, PIDS Display Zone 4",
+      "inspector": "A. Marlowe, OCC Console 3 Operator",
+      "unit": "OCC Console 3",
+      "reportType": "incident",
+      "weather": "Clear, 52°F, light wind",
+      "summary": "Live PA is functioning normally, but PIDS displays at Central Transit Center show Bus 147 arriving in 2 minutes at Stop 14B. No vehicle is visible on the platform. CAD/AVL map shows no assignment for 147 to that stop. Rider app and digital displays are showing identical false arrival. This is not a transient glitch; the system is consistently reporting a vehicle that does not exist.",
+      "findings": [
+        {
+          "item": "PIDS display status",
+          "condition": "failed",
+          "notes": "Shows Bus 147 arriving in 2 min at Stop 14B; no vehicle present"
+        },
+        {
+          "item": "Live PA audio path",
+          "condition": "ok",
+          "notes": "PA feed from OCC console 3 is active and unaffected"
+        },
+        {
+          "item": "CAD/AVL map",
+          "condition": "deficient",
+          "notes": "No assignment for Bus 147 to Stop 14B; vehicle not in system location"
+        },
+        {
+          "item": "Rider app status",
+          "condition": "failed",
+          "notes": "App shows same false arrival as PIDS"
+        },
+        {
+          "item": "HMI status at OCC",
+          "condition": "deficient",
+          "notes": "HMI shows no vehicle at Stop 14B; mismatch with PIDS and app"
+        },
+        {
+          "item": "GTFS-RT feed",
+          "condition": "failed",
+          "notes": "Feed from RRTA-GTFS-RT01 (10.72.10.50) is publishing stale and incorrect trip data"
+        },
+        {
+          "item": "PIDS-SRV01 status",
+          "condition": "failed",
+          "notes": "RRTA-PIDS-SRV01 (10.72.10.55) is driving false display content"
+        },
+        {
+          "item": "System logs",
+          "condition": "not_inspected",
+          "notes": "Log review pending IT/OT verification"
+        },
+        {
+          "item": "Generator status",
+          "condition": "ok",
+          "notes": "OCC generator nominal; no power event"
+        },
+        {
+          "item": "Dispatcher communication",
+          "condition": "ok",
+          "notes": "Voice dispatch confirms no assignment for 147 to Stop 14B"
+        }
+      ],
+      "actionsTaken": [
+        "Notified DT and PIO via intercom at 09:13",
+        "Confirmed live PA is unaffected",
+        "Initiated blanking sequence on OCC console 3 (hardware switch engaged)",
+        "Documented PIDS and app discrepancies in CAD incident log"
+      ],
+      "recommendations": [
+        "Immediately isolate RRTA-PIDS-SRV01 and RRTA-GTFS-RT01 from network",
+        "Confirm system integrity via IT/OT verification per EOP 9.8",
+        "Post correction on RiderAlert staff page using 'real-time information unavailable' language",
+        "Notify General Manager per C1"
+      ],
+      "photosNote": "2 photos attached: IMG_20261022-091301 (PIDS showing Bus 147 at Stop 14B), IMG_20261022-091302 (CAD/AVL map, no assignment for 147 to Stop 14B)",
+      "signature": "A. Marlowe, OCC Console 3 Operator",
+      "marking": "EXERCISE · EXERCISE · EXERCISE"
+    }
+  },
+  {
+    "row": "I-02",
+    "type": "system_log",
+    "title": "AVL Gateway Stale Data — Route 14",
+    "fields": {
+      "systemName": "RRTA-AVL-GW01",
+      "host": "RRTA-AVL-GW01",
+      "ip": "10.72.10.51",
+      "os": "Linux Ubuntu 22.04",
+      "logSource": "avl_gateway.log",
+      "exportedBy": "RRTA\\ot.ops.monitor",
+      "exportedAt": "October 22, 2026 09:15 AM",
+      "timezone": "EDT (UTC-4)",
+      "lines": [
+        {
+          "ts": "2026-10-22 08:58:22",
+          "level": "INFO",
+          "msg": "Last valid position received from Bus 147 (Route 14).",
+          "highlight": false
+        },
+        {
+          "ts": "2026-10-22 08:58:22",
+          "level": "WARN",
+          "msg": "No incoming positions from any vehicle on Route 14 since 08:58:22.",
+          "highlight": true
+        },
+        {
+          "ts": "2026-10-22 09:15:00",
+          "level": "NOTICE",
+          "msg": "RRTA-GTFS-RT01 (10.72.10.50) continues to publish GTFS-RT feed with 14 bus positions, including Bus 147, using stale data.",
+          "highlight": false
+        },
+        {
+          "ts": "2026-10-22 09:15:00",
+          "level": "INFO",
+          "msg": "Feed source and routing unchanged. No network disruption or configuration change detected.",
+          "highlight": false
+        },
+        {
+          "ts": "2026-10-22 09:15:00",
+          "level": "INFO",
+          "msg": "RRTA-GTFS-RT01 is operating within expected parameters.",
+          "highlight": false
+        }
+      ],
+      "terminalTitle": "Administrator: Linux Terminal",
+      "command": "tail -n 10 /var/log/avl_gateway.log",
+      "classification": "INTERNAL - INCIDENT EVIDENCE",
+      "pageLabel": "Page 1 of 1"
+    }
+  },
+  {
+    "row": "I-03",
+    "type": "memo",
+    "title": "CODE GRAYLINE Declaration — Route 14 AVL Data Compromise",
+    "fields": {
+      "orgName": "Riverbend Regional Transit Authority",
+      "department": "Office of the Director of Transportation",
+      "to": "OCC Duty Superintendent (Night Supervisor 0130–0430)",
+      "from": "Luis Ortega, Director of Transportation",
+      "cc": "IT/OT Manager (Priya Natarajan), Chief of Transit Police (Renee Calloway), Emergency Manager (Tomasz Kowal)",
+      "date": "October 22, 2026 · 09:18 AM",
+      "subject": "CODE GRAYLINE — Level 2 Activation: Loss of Trusted AVL Data Across Route 14, PIDS, and Rider App",
+      "urgency": "urgent",
+      "urgencyText": "URGENT — ACTION REQUIRED IMMEDIATELY",
+      "memoNumber": "RRTA-2026-0001-003",
+      "body": "Per EOP 5.2, Level 2 activation criteria are met: loss of trusted AVL data across core Route 14, PIDS and RRTA Rider app showing false vehicle arrivals, and a verified field report confirming a mismatch between dispatch data and physical presence.\n\nDeclaring CODE GRAYLINE. Initiate Annex A notification matrix. Open CAD incident 2026-0001. Confirm generator status at OCC and Northside Depot. Brief IC on vehicle status and riders on board.\n\nPer EOP 4.3, this action triggers a systemwide alert on TRANSIT-OPS 1 and RiderAlert staff page. The ICS-214 unit log has been initiated and is under scribe assignment.\n\nAll response personnel must adhere to the EOP 5.2 protocol. No further service suspensions may be issued without OCC Duty Superintendent approval.",
+      "signatureBlock": "Luis Ortega\nDirector of Transportation\nRiverbend Regional Transit Authority",
+      "initials": "LO",
+      "classification": "INTERNAL — NOT FOR PUBLIC RELEASE"
+    }
+  },
+  {
+    "row": "I-04",
+    "type": "tweet",
+    "title": "Ghost Bus Alert — Confluence Park",
+    "fields": {
+      "displayName": "RRTA RiderWatch",
+      "handle": "RRTA_RiderWatch",
+      "verified": false,
+      "avatarStyle": "initials",
+      "avatarColor": "blue",
+      "avatarBrief": "red and black logo with a bus icon",
+      "timestampRel": "2m",
+      "text": "Bus 147 just pulled up at Stop 14B, Confluence Park? No bus, no platform. Riders are starting to gather. Is this a hack? #RRTAGhostBus #Stop14BIsFake",
+      "attachedImageBrief": "phone photo of an empty platform at Confluence Park, showing a PIDS screen with a bus icon and the label 'Arriving in 2 min' in the top-right corner",
+      "attachedImageAlt": "Empty platform at Confluence Park with a PIDS screen showing a bus icon and arrival time",
+      "metrics": {
+        "replies": 12,
+        "reposts": 24,
+        "likes": 89,
+        "views": 14000,
+        "bookmarks": 17
+      },
+      "liked": false
+    },
+    "imagePrompt": "Candid smartphone snapshot, slight tilt, natural color balance, neutral white balance a city bus stopped on an urban street with its hazard lights on, riders standing on the sidewalk, a supervisor SUV behind it, daylight. Phone snapshot taken from behind a crowd of confused riders at Confluence Park stop, midday sunlight glinting off glass. The empty platform stretches ahead, concrete tiles worn and cracked. A PIDS screen mounted high on a steel pole shows a bus icon in the top-right corner,; the display is frozen, glowing faint green, its rows unreadable from this angle. Riders stand in clusters, some looking up at the screen, others checking phones. A man in a grey jacket leans against a pole, head tilted toward the screen. The lens is slightly tilted, flash glare on the monitors reactions."
+  }
+]

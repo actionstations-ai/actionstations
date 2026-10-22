@@ -56,7 +56,12 @@ function briefVars(input: MediaBriefInput, plan: MediaPlan): Record<string, unkn
   const { env, scenario: s, row, inject, priorInjects, instructions } = input
   const info = injectTypeInfo(inject.type)
   return {
-    ...baseVars({ project: env.project, scenario: s, ...(instructions ? { instructions } : {}) }),
+    ...baseVars({
+      project: env.project,
+      scenario: s,
+      domain: env.domain,
+      ...(instructions ? { instructions } : {}),
+    }),
     row: rowVars(row, s.roles),
     inject: dataSafe({
       id: inject.id,
@@ -85,6 +90,7 @@ function briefVars(input: MediaBriefInput, plan: MediaPlan): Record<string, unkn
 /** Plan the media for one inject; the brief is attached to the inject by the caller. */
 export async function runMediaBrief(input: MediaBriefInput): Promise<MediaBriefResult> {
   const { env, inject, row } = input
+  const scene = { orgType: env.project.orgType, anchors: env.domain.profile.sceneAnchors }
   const plan = planMedia(inject, row, templateFor(env, inject.type), input.forcePaths ?? [])
   const extra = { stage: 'inject_media_brief' as const, itemId: inject.id }
   if (!plan.needsModel) {
@@ -95,7 +101,7 @@ export async function runMediaBrief(input: MediaBriefInput): Promise<MediaBriefR
       extra,
     )
     return {
-      brief: normalizeBrief(plan, undefined, inject, { orgType: env.project.orgType }),
+      brief: normalizeBrief(plan, undefined, inject, scene),
       plan,
       run: skippedRun(inject.id, `template only${why}`),
     }
@@ -110,9 +116,7 @@ export async function runMediaBrief(input: MediaBriefInput): Promise<MediaBriefR
     deps: env.deps,
     index: env.index,
   })
-  const brief = normalizeBrief(plan, stripKeysDeep(r.output), inject, {
-    orgType: env.project.orgType,
-  })
+  const brief = normalizeBrief(plan, stripKeysDeep(r.output), inject, scene)
   if (brief.paths.includes('ai_image') && !brief.imagePrompt) {
     env.ctx.log(
       `inject_media_brief ${row.id}: the model wrote no image prompt; the image step will be skipped`,

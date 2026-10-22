@@ -1,6 +1,6 @@
 # Tabletop Generator
 
-Tabletop Generator is a local-first Electron desktop app that turns an organization's source documents (emergency plans, security programs, course material) into complete, editable, exportable tabletop exercises: scenario narrative, Master Scenario Events List (MSEL), inject deck with realistic media (tweets, helpdesk tickets, emails, log files, FIDS boards, radio and phone audio, short video), controller handbook, and player briefing. You connect the LLM, image, voice and video providers you choose (local models via LM Studio, Ollama and ComfyUI, or Anthropic), and every generated item cites the section of your own documents it came from. It generalizes the hand-built CSAAP airport-cybersecurity tabletops in `reference/`.
+Tabletop Generator is a local-first Electron desktop app that turns an organization's source documents (emergency plans, security programs, course material) into complete, editable, exportable tabletop exercises: scenario narrative, Master Scenario Events List (MSEL), inject deck with realistic media (tweets, helpdesk tickets, emails, log files, information boards and HMI screens, radio and phone audio, short video), controller handbook, and player briefing. You connect the LLM, image, voice and video providers you choose (local models via LM Studio, Ollama and ComfyUI, or Anthropic), and every generated item cites the section of your own documents it came from. It generalizes the hand-built CSAAP airport-cybersecurity tabletops in `reference/` to any cyber-physical, emergency-management or operations domain (transit, dams and water utilities, energy, healthcare, campuses, venues, ports, cities, plants, drone operators) through domain profiles (ADR-0014).
 
 Repository: https://github.com/mdcrowley/tabletop-gen
 
@@ -90,7 +90,7 @@ e2e/                 Playwright tests
 
 `reference/` holds the CSAAP material the app was modeled on, as text:
 
-- `reference/ncia/` - sample input documents for the fictional North Coast International Airport (AEP, ASP, TIRP, terminal map). This is what a user would import into a project.
+- `reference/ncia/` - sample input documents for the fictional North Coast International Airport (AEP, ASP, TIRP, terminal map). This is what a user would import into a project. `reference/transit/` (a bus + light-rail agency) and `reference/dam/` (a hydro / flood-control dam) are the same for two other domains.
 - `reference/ics-forms/` - ICS-201 and ICS-203 form bases.
 - `reference/scenario-3/` - the gold-standard outputs (MSEL, master inject deck, controller handbook, player briefing, inject visual targets). Generated output is measured against these.
 - `reference/course/` - course outline used for learning objectives.

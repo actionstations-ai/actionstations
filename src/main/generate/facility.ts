@@ -21,6 +21,11 @@ export interface FacilityFacts {
   /** One entry list per category, in sheet order. */
   categories: FactCategoryEntries[]
   documentCount: number
+  /**
+   * The category definitions these facts were extracted with (a domain profile's); the
+   * airport + generic defaults when absent. Lint and sheet formatting look them up here.
+   */
+  definitions?: FactCategory[]
 }
 
 export const EMPTY_FACTS: FacilityFacts = { categories: [], documentCount: 0 }
@@ -56,8 +61,13 @@ export function extractFacilityFacts(
       return { id: c.id, label: c.label, entries: c.finalize ? c.finalize(entries) : entries }
     }),
     documentCount: texts.length,
+    definitions: categories,
   }
 }
+
+/** The definition of a category in these facts (the facts' own list, then the defaults). */
+const definitionOf = (f: FacilityFacts, id: string): FactCategory | undefined =>
+  categoryDefinition(id, f.definitions ?? DEFAULT_FACT_CATEGORIES)
 
 /** A category's entries as stored (empty when the facts have no such category). */
 export function factEntries(f: FacilityFacts, id: string): string[] {
@@ -67,7 +77,7 @@ export function factEntries(f: FacilityFacts, id: string): string[] {
 /** A copy of the facts with one category's entries replaced (added when missing). */
 export function withEntries(f: FacilityFacts, id: string, entries: string[]): FacilityFacts {
   const has = f.categories.some((c) => c.id === id)
-  const label = categoryDefinition(id)?.label ?? id
+  const label = definitionOf(f, id)?.label ?? id
   return {
     ...f,
     categories: has
@@ -79,14 +89,14 @@ export function withEntries(f: FacilityFacts, id: string, entries: string[]): Fa
 /** Every identifier a category's entries stand for (ranges and pairs expanded). */
 export function factIds(f: FacilityFacts, id: string): string[] {
   const entries = factEntries(f, id)
-  const def = categoryDefinition(id)
+  const def = definitionOf(f, id)
   return def?.expand ? def.expand(entries) : entries
 }
 
 const DEFAULT_CAP = 25
 
-function formatEntries(category: FactCategoryEntries): string {
-  const def = categoryDefinition(category.id)
+function formatEntries(f: FacilityFacts, category: FactCategoryEntries): string {
+  const def = definitionOf(f, category.id)
   if (def?.format) return def.format(category.entries)
   const shown = category.entries.slice(0, DEFAULT_CAP).join(', ')
   return category.entries.length > DEFAULT_CAP ? `${shown}, …` : shown
@@ -96,7 +106,7 @@ function formatEntries(category: FactCategoryEntries): string {
 export function facilitySheet(f: FacilityFacts): string[] {
   return f.categories
     .filter((c) => c.entries.length)
-    .map((c) => `${categoryDefinition(c.id)?.sheetLabel ?? c.label}: ${formatEntries(c)}`)
+    .map((c) => `${definitionOf(f, c.id)?.sheetLabel ?? c.label}: ${formatEntries(f, c)}`)
 }
 
 // ---- lint -------------------------------------------------------------------------------
@@ -121,14 +131,14 @@ export function unknownFacilityIds(text: string, f: FacilityFacts): UnknownId[] 
   const out: UnknownId[] = []
   const seen = new Set<string>()
   for (const category of f.categories) {
-    const def = categoryDefinition(category.id)
+    const def = definitionOf(f, category.id)
     if (!def?.mentions || !def.noun || !category.entries.length) continue
     const known = new Set(factIds(f, category.id))
     for (const id of def.mentions(text)) {
       const key = `${def.noun}:${id}`
       if (seen.has(key) || known.has(id)) continue
       seen.add(key)
-      out.push({ kind: def.noun, id, known: formatEntries(category) })
+      out.push({ kind: def.noun, id, known: formatEntries(f, category) })
     }
   }
   return out

@@ -1,0 +1,208 @@
+{
+  "variant": "water",
+  "fields": {
+    "systemName": "WTP-1 PROCESS OVERVIEW",
+    "site": "Riverbend Water Treatment Plant",
+    "clock": "06:41:18",
+    "date": "21-OCT-2026",
+    "operator": "OPS_SHIFT_B",
+    "state": "degraded",
+    "stateText": "FILTER 3 OFFLINE",
+    "mode": "AUTO",
+    "equipment": [
+      {
+        "tag": "P-101",
+        "label": "Raw Water Pump 1",
+        "kind": "pump",
+        "state": "running",
+        "value": "4,180",
+        "units": "gpm",
+        "note": "LEAD"
+      },
+      {
+        "tag": "P-102",
+        "label": "Raw Water Pump 2",
+        "kind": "pump",
+        "state": "running",
+        "value": "4,060",
+        "units": "gpm",
+        "note": "LAG"
+      },
+      {
+        "tag": "P-103",
+        "label": "Raw Water Pump 3",
+        "kind": "pump",
+        "state": "stopped",
+        "value": "0",
+        "units": "gpm",
+        "note": "STANDBY"
+      },
+      {
+        "tag": "TK-110",
+        "label": "Flash Mix Basin",
+        "kind": "tank",
+        "state": "running",
+        "value": "9.6",
+        "units": "ft"
+      },
+      {
+        "tag": "CL2-FC-201",
+        "label": "Chlorine Dose Control",
+        "kind": "pump",
+        "state": "running",
+        "value": "4.0",
+        "units": "mg/L",
+        "setpoint": "4.0",
+        "note": "CASCADE"
+      },
+      {
+        "tag": "AIT-301",
+        "label": "Clearwell Cl2 Residual",
+        "kind": "sensor",
+        "state": "running",
+        "value": "1.2",
+        "units": "mg/L",
+        "setpoint": "2.0"
+      },
+      {
+        "tag": "FC-202",
+        "label": "Coagulant Feed",
+        "kind": "pump",
+        "state": "running",
+        "value": "18.5",
+        "units": "mg/L",
+        "setpoint": "18.5"
+      },
+      {
+        "tag": "FC-203",
+        "label": "Fluoride Feed",
+        "kind": "pump",
+        "state": "running",
+        "value": "0.7",
+        "units": "mg/L",
+        "setpoint": "0.7"
+      },
+      {
+        "tag": "FV-301",
+        "label": "Filter 1 Effluent",
+        "kind": "valve",
+        "state": "open",
+        "value": "64",
+        "units": "%"
+      },
+      {
+        "tag": "FV-302",
+        "label": "Filter 2 Effluent",
+        "kind": "valve",
+        "state": "open",
+        "value": "61",
+        "units": "%"
+      },
+      {
+        "tag": "FV-303",
+        "label": "Filter 3 Effluent",
+        "kind": "valve",
+        "state": "fault",
+        "value": "0",
+        "units": "%",
+        "note": "TRAVEL TIMEOUT"
+      },
+      {
+        "tag": "FV-304",
+        "label": "Filter 4 Effluent",
+        "kind": "valve",
+        "state": "open",
+        "value": "66",
+        "units": "%"
+      },
+      {
+        "tag": "TK-401",
+        "label": "Clearwell 1",
+        "kind": "tank",
+        "state": "running",
+        "value": "14.2",
+        "units": "ft"
+      },
+      {
+        "tag": "HSP-1",
+        "label": "High Service Pump 1",
+        "kind": "pump",
+        "state": "running",
+        "value": "6,050",
+        "units": "gpm"
+      },
+      {
+        "tag": "HSP-2",
+        "label": "High Service Pump 2",
+        "kind": "pump",
+        "state": "manual",
+        "value": "5,890",
+        "units": "gpm",
+        "note": "HAND"
+      },
+      {
+        "tag": "PIT-501",
+        "label": "Distribution Pressure",
+        "kind": "sensor",
+        "state": "running",
+        "value": "68",
+        "units": "psi"
+      }
+    ],
+    "readings": [
+      { "label": "Plant flow", "value": "12.4", "units": "MGD" },
+      { "label": "Raw turbidity", "value": "3.8", "units": "NTU" },
+      { "label": "Combined filter effluent", "value": "0.08", "units": "NTU" },
+      { "label": "Clearwell level", "value": "14.2", "units": "ft" },
+      { "label": "Finished pH", "value": "7.6" },
+      { "label": "Finished Cl2 residual", "value": "1.2", "units": "mg/L" },
+      { "label": "Cl2 dose setpoint", "value": "4.0", "units": "mg/L" },
+      { "label": "Distribution pressure", "value": "68", "units": "psi" }
+    ],
+    "alarms": [
+      {
+        "time": "06:38:02",
+        "priority": "4",
+        "tag": "SCADA.LOGIN",
+        "text": "OPERATOR LOGIN REMOTE_SVC FROM VPN-GW-02",
+        "acked": false
+      },
+      {
+        "time": "06:21:47",
+        "priority": "2",
+        "tag": "FV-303.ZS",
+        "text": "FILTER 3 EFFLUENT VALVE TRAVEL TIMEOUT",
+        "acked": false
+      },
+      {
+        "time": "06:12:40",
+        "priority": "3",
+        "tag": "FLT-3.HL",
+        "text": "FILTER 3 HEADLOSS HIGH 7.9 FT",
+        "acked": true
+      },
+      {
+        "time": "05:58:11",
+        "priority": "4",
+        "tag": "HSP-2.HOA",
+        "text": "HIGH SERVICE PUMP 2 IN HAND",
+        "acked": true
+      },
+      {
+        "time": "04:03:26",
+        "priority": "3",
+        "tag": "P-103.FLT",
+        "text": "RAW WATER PUMP 3 VFD FAULT RESET",
+        "acked": true
+      }
+    ],
+    "statusItems": [
+      "PLC-01 ONLINE",
+      "PLC-02 ONLINE",
+      "RTU-07 TANK SITE ONLINE",
+      "HISTORIAN ONLINE",
+      "REMOTE ACCESS: 1 SESSION"
+    ],
+    "hmiNode": "WTP-OWS-02"
+  }
+}

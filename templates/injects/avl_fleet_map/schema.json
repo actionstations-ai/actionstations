@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AVL fleet map",
+  "description": "1920x1080 transit dispatch Automatic Vehicle Location (AVL / CAD-AVL) screen: a schematic service-area map with route lines and vehicle markers coloured by schedule adherence, plus route status, vehicle list and alerts. Vehicle x/y are map coordinates 0-100 (left-right, top-bottom); the transit centre hub is at about x 46, y 48 and the river crosses the lower third (about y 70 at the left edge to y 54 at the right). Route lines are fixed schematic paths assigned in route order: 1st north (x 46 to 38, y 48 to 6), 2nd east along the river's north bank (to x 96, y 44), 3rd north-east (via x 70, y 40 to x 94, y 26), 4th west (via x 22, y 40 to x 6, y 40), 5th south across the bridge (x 46 down to y 82, then x 58, y 94), 6th north-north-east express (via x 54, y 34 to x 80, y 8).",
+  "type": "object",
+  "required": ["routes", "vehicles"],
+  "properties": {
+    "systemName": {
+      "type": "string",
+      "description": "Dispatch / AVL product and screen name.",
+      "examples": ["TransitTrack CAD/AVL — Fleet Map"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Transit agency name. Falls back to brand.aliases.org.",
+      "examples": ["Riverbend Regional Transit Authority"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "Dispatch clock, 24h HH:MM:SS.",
+      "examples": ["07:52:14"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Service date.",
+      "examples": ["Tue 21 Oct 2026"]
+    },
+    "dispatcher": {
+      "type": "string",
+      "description": "Logged-in dispatcher position.",
+      "examples": ["DISP-3 (L. Okafor)"]
+    },
+    "mapLabel": {
+      "type": "string",
+      "description": "Area name over the map.",
+      "examples": ["Downtown / River District"]
+    },
+    "routes": {
+      "type": "array",
+      "description": "Routes in service, in the order their schematic lines are assigned (up to 6).",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "color", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Public route number.",
+            "examples": ["14", "40X"]
+          },
+          "name": {
+            "type": "string",
+            "description": "Route name.",
+            "examples": ["Northside", "Riverfront"]
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$",
+            "description": "Route line colour, #rrggbb.",
+            "examples": ["#1f6fd1", "#d9480f"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["normal", "delayed", "detour", "suspended", "no_data"],
+            "description": "Route service status.",
+            "examples": ["delayed"]
+          },
+          "headwayMin": {
+            "type": "number",
+            "description": "Scheduled headway in minutes.",
+            "examples": [15]
+          },
+          "vehiclesExpected": {
+            "type": "integer",
+            "description": "Vehicles scheduled on the route now.",
+            "examples": [3]
+          },
+          "vehiclesReporting": {
+            "type": "integer",
+            "description": "Vehicles currently reporting position.",
+            "examples": [2]
+          }
+        }
+      }
+    },
+    "vehicles": {
+      "type": "array",
+      "description": "Vehicles on the map (up to 18).",
+      "minItems": 1,
+      "maxItems": 18,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "route", "status", "lastReport", "x", "y"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Bus / vehicle number.",
+            "examples": ["2214"]
+          },
+          "route": {
+            "type": "string",
+            "description": "Route id the vehicle is signed on to.",
+            "examples": ["22"]
+          },
+          "operator": {
+            "type": "string",
+            "description": "Operator badge number or name.",
+            "examples": ["#4471"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["in_service", "late", "early", "off_route", "no_signal", "stale", "emergency"],
+            "description": "AVL status; drives the marker colour (no_signal / stale are greyed).",
+            "examples": ["in_service", "no_signal", "off_route"]
+          },
+          "lastReport": {
+            "type": "string",
+            "description": "Time of the last position report, HH:MM:SS.",
+            "examples": ["07:52:09", "07:41:02"]
+          },
+          "x": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Map x position, 0 (west edge) to 100 (east edge).",
+            "examples": [58]
+          },
+          "y": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Map y position, 0 (north edge) to 100 (south edge).",
+            "examples": [55]
+          },
+          "heading": {
+            "type": "number",
+            "description": "Heading in degrees (0 = north / up).",
+            "examples": [90]
+          },
+          "delayMin": {
+            "type": "number",
+            "description": "Schedule deviation in minutes (positive = late, negative = early).",
+            "examples": [6]
+          },
+          "note": {
+            "type": "string",
+            "description": "Short dispatcher note.",
+            "examples": ["NO GPS 11 MIN", "AVL POS IN RIVER"]
+          }
+        }
+      }
+    },
+    "alerts": {
+      "type": "array",
+      "description": "Dispatch alerts, newest first (up to 5).",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "text", "severity"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Alert time, HH:MM.",
+            "examples": ["07:50"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Alert text.",
+            "examples": ["Bus 2214 off route 1.2 km — position reported in Cedar River"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["info", "warning", "critical"],
+            "description": "Alert severity.",
+            "examples": ["warning"]
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

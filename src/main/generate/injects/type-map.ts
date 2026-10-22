@@ -4,7 +4,7 @@
 // When nothing in the chain is installed the row keeps its taxonomy type with no template:
 // the model then fills the taxonomy's key fields and the page is listed as text-only.
 import type { MselRow } from '@shared/schemas'
-import { INJECT_TYPE_IDS, injectTypeInfo } from '@shared/taxonomy'
+import { INJECT_TYPE_IDS, injectTypeFitsDomain, injectTypeInfo } from '@shared/taxonomy'
 
 export const CONTROL_TYPES: Partial<Record<MselRow['purposeTag'], string>> = {
   STARTEX: 'startex_card',
@@ -44,8 +44,14 @@ export const TYPE_FALLBACKS: Record<string, string[]> = {
   email_header_analysis: ['email', 'system_log'],
   ransom_note: ['error_dialog', 'memo'],
   screenshot_generic: ['error_dialog', 'system_log'],
-  fids_board: ['status_board', 'scene_photo'],
-  bhs_scada_screen: ['status_board', 'system_log'],
+  fids_board: ['info_display_board', 'status_board', 'scene_photo'],
+  bhs_scada_screen: ['scada_hmi', 'status_board', 'system_log'],
+  info_display_board: ['fids_board', 'status_board', 'scene_photo'],
+  scada_hmi: ['bhs_scada_screen', 'status_board', 'system_log'],
+  uas_detection_alert: ['siem_alert', 'screenshot_generic', 'radio_call'],
+  avl_fleet_map: ['status_board', 'map_annotation', 'scene_photo'],
+  incident_alert_notification: ['text_message', 'pa_announcement', 'memo'],
+  field_report: ['sitrep', 'memo', 'scene_photo'],
   pacs_alarm_panel: ['status_board', 'siem_alert'],
   cctv_still: ['scene_photo', 'signage_photo'],
   scene_photo: ['cctv_still', 'signage_photo'],
@@ -98,6 +104,18 @@ export const KEY_FIELDS: Record<string, string> = {
   screenshot_generic: 'appName, windowTitle, caption',
   fids_board: 'rows[{flight,dest,time,gate,status}], anomalies[], boardStyle',
   bhs_scada_screen: 'belts[], alarms[], state',
+  info_display_board:
+    'boardTitle, siteName, clock, rows[{primary,secondary,time,position,status,remarks,anomaly}], ticker',
+  scada_hmi:
+    'systemName, site, clock, state, mode, equipment[{tag,label,kind,state,value,units,setpoint}], readings[{label,value,units,alarm}], alarms[{time,priority,tag,text,acked}]',
+  uas_detection_alert:
+    'systemName, site, clock, tracks[{id,status,remoteIdSerial,altitudeFt,distanceM,operatorLocation,zone,threatLevel}], zones[{name}], events[{time,text}]',
+  avl_fleet_map:
+    'systemName, agency, clock, routes[{id,name,status}], vehicles[{id,route,status,lastReport,x,y}], alerts[{time,text,severity}]',
+  incident_alert_notification:
+    'sender, headline, body, issuedAt, areaAffected, instructions[], severity',
+  field_report:
+    'organization, reportNo, date, time, location, inspector, reportType, summary, findings[{item,condition,notes}], actionsTaken[], recommendations[]',
   pacs_alarm_panel: 'doors[], alarms[]',
   cctv_still: 'camera, timestamp, sceneBrief',
   scene_photo: 'sceneBrief, style, caption',
@@ -145,17 +163,47 @@ function formatForSource(row: MselRow, format: string): { format: string; note?:
   }
 }
 
-/** Deterministic: the first installed type along the fallback chain, else the type itself. */
-export function chooseInjectType(row: MselRow, installed: Iterable<string>): TypeChoice {
-  const have = new Set(installed)
+/** A type the project's domain may use (untagged, or tagged for this domain). */
+const fitsDomain = (type: string, domainId: string | undefined): boolean => {
+  if (!domainId) return true
+  const info = injectTypeInfo(type)
+  return !info || injectTypeFitsDomain(info, domainId)
+}
+
+/**
+ * Deterministic: the first installed type along the fallback chain, else the type itself.
+ * With a domain id, a type tagged for other domains (a FIDS board in a transit project) is
+ * treated as unavailable and the chain finds the generic equivalent.
+ */
+export function chooseInjectType(
+  row: MselRow,
+  installed: Iterable<string>,
+  domainId?: string,
+): TypeChoice {
+  const have = new Set([...installed].filter((t) => fitsDomain(t, domainId)))
   const control = CONTROL_TYPES[row.purposeTag]
   const format = row.format?.trim() ?? ''
   const wanted = control ?? (isKnownType(format) ? format : 'scenario_update')
-  const { format: requested, note } = control ? { format: wanted } : formatForSource(row, wanted)
+  const { format: requested, note: sourceNote } = control
+    ? { format: wanted }
+    : formatForSource(row, wanted)
+  const note =
+    sourceNote ??
+    (!control && !fitsDomain(requested, domainId)
+      ? `${requested} belongs to another domain than ${domainId}; using the closest equivalent`
+      : undefined)
   const withNote = note ? { note } : {}
   if (have.has(requested)) return { type: requested, hasTemplate: true, ...withNote }
   for (const alt of TYPE_FALLBACKS[requested] ?? []) {
     if (have.has(alt)) return { type: alt, hasTemplate: true, requested, ...withNote }
+  }
+  if (!fitsDomain(requested, domainId)) {
+    return {
+      type: 'scenario_update',
+      hasTemplate: have.has('scenario_update'),
+      requested,
+      ...withNote,
+    }
   }
   return { type: requested, hasTemplate: false, ...withNote }
 }

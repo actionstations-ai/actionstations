@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Information display board",
+  "description": "A 1920x1080 passenger / customer information display (bus arrivals at a transit center, a rail platform departure screen, an airport departures board). Columns are fixed by the variant; every variant reads the same generic row keys. Wrong data must look exactly like real data: anomaly rows are drawn identically.",
+  "type": "object",
+  "required": ["rows"],
+  "properties": {
+    "boardTitle": {
+      "type": "string",
+      "description": "Large board heading.",
+      "examples": ["Bus Departures", "Departures", "Next Trains"]
+    },
+    "boardSubtitle": {
+      "type": "string",
+      "description": "Second-language or secondary heading shown beside the title.",
+      "examples": ["Salidas de autobuses", "Platforms 1-4"]
+    },
+    "siteName": {
+      "type": "string",
+      "description": "Station / facility name in the header. Falls back to brand.aliases.airport, then brand.aliases.orgShort.",
+      "examples": ["Riverbend Transit Center", "Union Street Station"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Where this screen hangs (shown small in the header).",
+      "examples": ["Concourse Level", "Platform 2 North"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "Wall-clock time shown on the board, 24h HH:MM.",
+      "examples": ["08:42"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date line under the clock.",
+      "examples": ["Tue 21 Oct"]
+    },
+    "rows": {
+      "type": "array",
+      "description": "Board rows top to bottom (14 fit). Put anomalous rows among normal ones, not first.",
+      "minItems": 1,
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["primary", "secondary", "time", "status"],
+        "properties": {
+          "primary": {
+            "type": "string",
+            "description": "Service identifier: bus route number, rail line or train number, or flight number.",
+            "examples": ["14", "22X", "Blue Line 412"]
+          },
+          "secondary": {
+            "type": "string",
+            "description": "Destination or headsign, in capitals as boards show it.",
+            "examples": ["NORTHSIDE / MALL", "RIVERFRONT VIA MAIN ST", "HARBOR POINT"]
+          },
+          "time": {
+            "type": "string",
+            "description": "Scheduled time, 24h HH:MM.",
+            "examples": ["08:45"]
+          },
+          "position": {
+            "type": "string",
+            "description": "Where to board: bus bay, rail platform or gate.",
+            "examples": ["A3", "4"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status in capitals: a countdown (\"3 MIN\"), DUE, ON TIME, BOARDING, DELAYED, CANCELLED, DEPARTED, or an expected time.",
+            "examples": ["DUE", "6 MIN", "DELAYED", "CANCELLED"]
+          },
+          "remarks": {
+            "type": "string",
+            "description": "Short remark (rail variant shows it as the car count / formation column).",
+            "examples": ["DETOUR VIA 5TH ST", "6 CARS", "EXP 08:58"]
+          },
+          "anomaly": {
+            "type": "boolean",
+            "description": "True when this row is the injected wrong data. Rendered identically to normal rows (instructor metadata).",
+            "examples": [true]
+          }
+        }
+      }
+    },
+    "ticker": {
+      "type": "string",
+      "description": "Notice line at the foot of the screen.",
+      "examples": [
+        "Route 9 is on detour via 5th Street until further notice. Please keep your belongings with you at all times."
+      ]
+    },
+    "pageLabel": {
+      "type": "string",
+      "description": "Pager text at the bottom right.",
+      "examples": ["Page 1 of 2"]
+    }
+  },
+  "additionalProperties": false
+}

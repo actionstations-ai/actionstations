@@ -266,6 +266,9 @@ export function applyOverview(
   }
 }
 
+/** A "role" that is the status board or the resource list, mirrored from the prompt's field names. */
+const NOT_A_ROLE = /critical ?resources?|status board|resource (?:board|list)/i
+
 export function applyObjectivesRoles(s: Scenario, out: ObjectivesRolesOutput): void {
   const prevObjectives = new Map(s.objectives.map((o) => [o.name.toLowerCase(), o.id]))
   s.objectives = out.objectives.map((o) => ({
@@ -274,7 +277,8 @@ export function applyObjectivesRoles(s: Scenario, out: ObjectivesRolesOutput): v
     text: o.text,
   }))
   const seen = new Set<string>()
-  s.roles = out.roles.map((r, i): Role => {
+  const players = out.roles.filter((r) => !NOT_A_ROLE.test(`${r.key} ${r.name}`))
+  s.roles = (players.length >= 2 ? players : out.roles).map((r, i): Role => {
     let id = roleKeyToId(r.key, i)
     while (seen.has(id)) id = `${id}_${i + 1}`
     seen.add(id)

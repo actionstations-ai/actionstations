@@ -276,7 +276,7 @@ export async function runMediaJob(
   opts: MediaJobOptions,
   ctx: JobContext,
 ): Promise<MediaJobSummary> {
-  const env = await openInjectEnv(root, ctx)
+  const env = await openInjectEnv(root, ctx, scenarioId)
   let scenario = await env.deps.store.getScenario(root, scenarioId)
   const all = await env.deps.injects.listInjects(root, scenarioId)
   const targets = selectInjects(all, opts.injectIds)

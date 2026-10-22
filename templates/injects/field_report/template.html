@@ -1,0 +1,118 @@
+<article class="doc">
+  <p class="marking top">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div class="issuer">
+      <span class="org"
+        >{{default fields.organization (default brand.aliases.org "Field Operations")}}</span
+      >
+      <h1>{{default fields.formTitle "Field Inspection Report"}}</h1>
+    </div>
+    <div class="num">
+      <span>REPORT NO.</span>
+      <strong>{{fields.reportNo}}</strong>
+    </div>
+  </header>
+
+  <table class="info">
+    <tr>
+      <th>Date</th>
+      <td>{{fields.date}}</td>
+      <th>Time</th>
+      <td>{{fields.time}}</td>
+    </tr>
+    <tr>
+      <th>Location</th>
+      <td colspan="3">{{fields.location}}</td>
+    </tr>
+    <tr>
+      <th>Inspector</th>
+      <td>{{fields.inspector}}</td>
+      <th>Unit</th>
+      <td>{{fields.unit}}</td>
+    </tr>
+    <tr>
+      <th>Weather</th>
+      <td colspan="3">{{fields.weather}}</td>
+    </tr>
+    <tr>
+      <th>Type</th>
+      <td colspan="3" class="tcell">
+        <div class="types">
+          <span class="{{#if (eq fields.reportType 'routine')}}on{{/if}}"><i></i>Routine</span>
+          <span class="{{#if (eq fields.reportType 'incident')}}on{{/if}}"><i></i>Incident</span>
+          <span class="{{#if (eq fields.reportType 'damage')}}on{{/if}}"><i></i>Damage</span>
+          <span class="{{#if (eq fields.reportType 'security')}}on{{/if}}"><i></i>Security</span>
+          <span class="{{#if (eq fields.reportType 'safety')}}on{{/if}}"><i></i>Safety</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <h2>1. Summary of observations</h2>
+  <p class="summary">{{nl2br fields.summary}}</p>
+
+  {{#if fields.findings.length}}
+  <h2>2. Inspection checklist</h2>
+  <table class="find">
+    <thead>
+      <tr>
+        <th class="it">Item</th>
+        <th class="ck">OK</th>
+        <th class="ck">Def.</th>
+        <th class="ck">Failed</th>
+        <th class="ck">N/I</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.findings}}
+      <tr>
+        <td class="it">{{item}}</td>
+        <td class="ck">{{#if (eq condition "ok")}}X{{/if}}</td>
+        <td class="ck">{{#if (eq condition "deficient")}}X{{/if}}</td>
+        <td class="ck">{{#if (eq condition "failed")}}X{{/if}}</td>
+        <td class="ck">{{#if (eq condition "not_inspected")}}X{{/if}}</td>
+        <td class="nt">{{notes}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}
+
+  <div class="two">
+    <section>
+      <h2>3. Actions taken</h2>
+      <ol>
+        {{#each fields.actionsTaken}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ol>
+    </section>
+    <section>
+      <h2>4. Recommendations</h2>
+      <ol>
+        {{#each fields.recommendations}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ol>
+    </section>
+  </div>
+
+  {{#if fields.photosNote}}
+  <p class="photos"><b>Photo log:</b> {{fields.photosNote}}</p>
+  {{/if}}
+
+  <footer class="foot">
+    <div class="sign">
+      <div>
+        <span class="hand">{{fields.signature}}</span>
+        <span class="line">Inspector signature / title</span>
+      </div>
+      <div>
+        <span class="hand"></span>
+        <span class="line">Reviewed by / date</span>
+      </div>
+    </div>
+    <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  </footer>
+</article>

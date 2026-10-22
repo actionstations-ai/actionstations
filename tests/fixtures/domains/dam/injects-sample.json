@@ -1,0 +1,488 @@
+[
+  {
+    "row": "START",
+    "type": "startex_card",
+    "title": "STARTEX: Exercise Initiation",
+    "fields": {
+      "startTime": "09:00",
+      "day": "Thursday",
+      "location": "Cedar Ridge Dam, Milford, Pike County, Ohio",
+      "weather": "Clear, 68°F. Winds calm.",
+      "load": "Reservoir at 802.1 ft, within rule curve; nominal operating load.",
+      "staffing": "Day shift Control Room Operator on duty; all critical roles assigned and on-site.",
+      "narration": "STARTEX. This is an exercise. It is 09:00 on Thursday, October 22, 2026, at the Cedar Ridge Dam. All systems are nominal. The reservoir is at 802.1 feet, within the rule curve. No incidents are reported. The Control Room is operating under normal conditions.",
+      "status": [
+        {
+          "name": "Reservoir Level",
+          "status": "green",
+          "note": "802.1 ft, within rule curve"
+        },
+        {
+          "name": "Spillway Gates",
+          "status": "green",
+          "note": "All gates closed; status confirmed via SCADA"
+        },
+        {
+          "name": "SCADA System",
+          "status": "green",
+          "note": "Online and stable; no alarms"
+        },
+        {
+          "name": "Security Perimeter",
+          "status": "green",
+          "note": "Fence intact; access logs clear"
+        },
+        {
+          "name": "Control Room",
+          "status": "green",
+          "note": "Day shift Operator active; no pending tasks"
+        },
+        {
+          "name": "Downstream Alert Systems",
+          "status": "green",
+          "note": "Sirens S-1 to S-9 tested and functional"
+        },
+        {
+          "name": "Emergency Notification Chain",
+          "status": "green",
+          "note": "All EAP contact points verified and active"
+        }
+      ],
+      "facilitatorNote": "Confirm all roles have access to EAP, CEP, and operational logs. Ensure the Control Room logbook is open to the current date.",
+      "scenarioTitle": "Broken Fence, False Gate — SCADA Integrity & Physical Security",
+      "injectId": "START"
+    }
+  },
+  {
+    "row": "I-01",
+    "type": "scada_hmi",
+    "title": "Gate 4 Uncommanded Movement — HMI Alert",
+    "fields": {
+      "systemName": "Cedar Ridge Dam — SCADA HMI Overview",
+      "site": "Cedar Ridge Dam",
+      "clock": "09:12:07",
+      "date": "22-OCT-2026",
+      "operator": "OPS_SHIFT_B",
+      "state": "critical",
+      "stateText": "UNAUTHORIZED GATE MOVEMENT DETECTED",
+      "mode": "REMOTE",
+      "equipment": [
+        {
+          "tag": "SPILLWAY_GATE_4",
+          "label": "Spillway Gate 4",
+          "kind": "gate",
+          "state": "moving",
+          "value": "1.0 ft",
+          "units": "ft",
+          "setpoint": "0.0 ft",
+          "note": "Moving at 1 ft/10 min; not in operating sequence"
+        },
+        {
+          "tag": "LCP_4",
+          "label": "LCP-4",
+          "kind": "sensor",
+          "state": "normal",
+          "value": "0.0 ft",
+          "units": "ft",
+          "setpoint": "",
+          "note": "Mechanical indicator reading"
+        },
+        {
+          "tag": "PLC_2",
+          "label": "PLC-2",
+          "kind": "sensor",
+          "state": "local",
+          "value": "LOCAL",
+          "units": "",
+          "setpoint": "",
+          "note": "Mode: LOCAL; control authority retained"
+        },
+        {
+          "tag": "RTU_08",
+          "label": "RTU-08",
+          "kind": "sensor",
+          "state": "online",
+          "value": "0.12 min",
+          "units": "min",
+          "setpoint": "",
+          "note": "Last update: 09:11:55"
+        },
+        {
+          "tag": "CRD_HMI_01",
+          "label": "CRD-HMI-01",
+          "kind": "sensor",
+          "state": "normal",
+          "value": "0.00 sec",
+          "units": "sec",
+          "setpoint": "",
+          "note": "HMI timestamp sync: OK"
+        },
+        {
+          "tag": "G_2",
+          "label": "Gauge G-2",
+          "kind": "sensor",
+          "state": "normal",
+          "value": "802.4 ft",
+          "units": "ft",
+          "setpoint": "",
+          "note": "Reservoir level rise detected"
+        },
+        {
+          "tag": "G_3",
+          "label": "Gauge G-3",
+          "kind": "sensor",
+          "state": "normal",
+          "value": "801.9 ft",
+          "units": "ft",
+          "setpoint": "",
+          "note": "Reservoir level rise detected"
+        }
+      ],
+      "readings": [
+        {
+          "label": "Reservoir Elevation",
+          "value": "802.1 ft",
+          "units": "ft",
+          "alarm": false
+        },
+        {
+          "label": "Spillway Gate 4 Position",
+          "value": "1.0 ft",
+          "units": "ft",
+          "alarm": true
+        },
+        {
+          "label": "Gate 4 Rate Limit",
+          "value": "1.0 ft / 10 min",
+          "units": "ft/min",
+          "alarm": false
+        },
+        {
+          "label": "Gate 4 Mechanical Indicator",
+          "value": "0.0 ft",
+          "units": "ft",
+          "alarm": true
+        },
+        {
+          "label": "PLC-2 Control Mode",
+          "value": "LOCAL",
+          "units": "",
+          "alarm": false
+        },
+        {
+          "label": "Gate 4 Known Wear",
+          "value": "20.0 ft max",
+          "units": "ft",
+          "alarm": false
+        },
+        {
+          "label": "Gate 4 Operating Sequence",
+          "value": "3-2-4-1-5",
+          "units": "",
+          "alarm": true
+        },
+        {
+          "label": "Gate 4 Status",
+          "value": "MOVING",
+          "units": "",
+          "alarm": true
+        },
+        {
+          "label": "Gate 4 Command Source",
+          "value": "UNKNOWN",
+          "units": "",
+          "alarm": true
+        },
+        {
+          "label": "AlarmLink Status",
+          "value": "ACTIVE",
+          "units": "",
+          "alarm": false
+        }
+      ],
+      "alarms": [
+        {
+          "time": "09:12:06",
+          "priority": "1",
+          "tag": "SPILLWAY_GATE_4",
+          "text": "Gate 4: Moving (1 ft/10 min) – Not in sequence, no command issued. PLC-2 status: LOCAL mode active. Gate 4 mechanical indicator: 0.0 ft. Gate not in operating sequence (must be 3-2-4-1-5).",
+          "acked": false
+        },
+        {
+          "time": "09:12:05",
+          "priority": "2",
+          "tag": "G_2",
+          "text": "Reservoir level rising: 802.4 ft (up 0.3 ft from 09:10)",
+          "acked": false
+        },
+        {
+          "time": "09:12:04",
+          "priority": "2",
+          "tag": "G_3",
+          "text": "Reservoir level rising: 801.9 ft (up 0.2 ft from 09:10)",
+          "acked": false
+        },
+        {
+          "time": "09:12:03",
+          "priority": "3",
+          "tag": "PLC_2",
+          "text": "PLC-2 control mode changed to LOCAL at 09:11:58",
+          "acked": false
+        },
+        {
+          "time": "09:12:02",
+          "priority": "3",
+          "tag": "CRD_EWS_01",
+          "text": "Baseline logic check failed: PLC-2 running modified version (checksum mismatch)",
+          "acked": false
+        },
+        {
+          "time": "09:12:01",
+          "priority": "4",
+          "tag": "CRD_JUMP_01",
+          "text": "Vendor session active: 10.85.40.12 (HydroLogix) – Session started 09:10:15",
+          "acked": false
+        }
+      ],
+      "statusItems": [
+        "PLC-1 ONLINE",
+        "PLC-2 ONLINE",
+        "RTU-01 ONLINE",
+        "RTU-08 ONLINE",
+        "HMI-01: REMOTE ACCESS ACTIVE",
+        "CRD-FW-01: ISOLATION IN PROGRESS",
+        "SECURITY LOG: P1/P2 ALARM TEST PASSED",
+        "CRD-JUMP-01: SESSION IN PROGRESS",
+        "CRD-EWS-01: CHECKSUM MISMATCH DETECTED"
+      ],
+      "hmiNode": "CRD-HMI-01 (10.84.20.03)"
+    }
+  },
+  {
+    "row": "I-02",
+    "type": "phone_call",
+    "title": "Gate 4 Uncommanded Movement — SCADA Remote Control Failure",
+    "fields": {
+      "orgName": "Cedar Valley Water Authority",
+      "systemName": "Control Room Voice Recorder - CVWA-OM-CRD",
+      "callId": "CR-20261022-091522-0044",
+      "direction": "Internal",
+      "caller": {
+        "name": "Control Room Operator",
+        "number": "(555) 021-4410",
+        "label": "Operator"
+      },
+      "callee": {
+        "name": "Dam Operations Manager",
+        "number": "(555) 021-4499",
+        "label": "DOM"
+      },
+      "startTime": "10/22/2026 09:15:22",
+      "duration": "0:38",
+      "transcript": [
+        {
+          "speaker": "Operator",
+          "offset": "0:00",
+          "text": "DOM, I just tried to stop Gate 4 via SCADA remote control. No response.",
+          "prompt": false
+        },
+        {
+          "speaker": "Operator",
+          "offset": "0:07",
+          "text": "The HMI still shows 'Moving (1 ft/10 min)' and PLC-2 is still in LOCAL mode.",
+          "prompt": false
+        },
+        {
+          "speaker": "Operator",
+          "offset": "0:15",
+          "text": "No one is at the Spillway Hoist House. This is not a normal local operation.",
+          "prompt": false
+        }
+      ],
+      "voiceStyles": {},
+      "injectId": "I-02"
+    }
+  },
+  {
+    "row": "I-03",
+    "type": "field_report",
+    "title": "Gate 4 Mechanical Position Check — Spillway Hoist House",
+    "fields": {
+      "organization": "Cedar Valley Water Authority — Operations & Maintenance",
+      "formTitle": "Field Inspection Report",
+      "reportNo": "FIR-2026-091804",
+      "date": "10/22/2026",
+      "time": "09:15-09:18",
+      "location": "Spillway Hoist House, Gate 4 Control Panel (LCP-4)",
+      "inspector": "T. Reynolds, Control Room Operator",
+      "unit": "OCC-OPS-01",
+      "reportType": "security",
+      "weather": "Clear, 68°F, light wind",
+      "summary": "Performed on-site verification of Spillway Gate 4 mechanical position indicator following HMI anomaly. Gate is physically at 0.0 ft. No movement observed on hoist drum. Mechanical indicator confirms zero position. HMI and PACS logs show uncommanded movement (1 ft/10 min) in progress. No one present at the hoist house. SCADA data stream does not reflect physical reality. Indicates potential compromise in HMI or PACS data path.",
+      "findings": [
+        {
+          "item": "Gate 4 mechanical position indicator (drum)",
+          "condition": "ok",
+          "notes": "Reading 0.0 ft; no visible slack or wear"
+        },
+        {
+          "item": "LCP-4 LOCAL mode status",
+          "condition": "ok",
+          "notes": "LOCAL lamp illuminated; selector switch confirmed in LOCAL position"
+        },
+        {
+          "item": "Gate 4 hoist motor",
+          "condition": "ok",
+          "notes": "No noise or vibration; no motion observed"
+        },
+        {
+          "item": "Security camera feed (CAM-04)",
+          "condition": "ok",
+          "notes": "Camera view shows empty hoist house; no personnel present"
+        },
+        {
+          "item": "Door P-6 access log (PACS)",
+          "condition": "not_inspected",
+          "notes": "Awaiting log retrieval from CRD-PACS-01"
+        },
+        {
+          "item": "Gate operating sequence compliance",
+          "condition": "failed",
+          "notes": "Gate 4 not in correct sequence (must be 3-2-4-1-5); movement not authorized"
+        },
+        {
+          "item": "Alarm P1/P2 (HMI)",
+          "condition": "ok",
+          "notes": "Alarms active on HMI; not acknowledged"
+        },
+        {
+          "item": "RTU-08 cellular link status",
+          "condition": "ok",
+          "notes": "Connected; timestamp 09:14:32"
+        },
+        {
+          "item": "Gate 4 PLC-2 status",
+          "condition": "ok",
+          "notes": "PLC-2 shows LOCAL mode; no active remote command"
+        },
+        {
+          "item": "Mechanical interlock (slack-cable)",
+          "condition": "ok",
+          "notes": "No activation; no abnormal tension"
+        }
+      ],
+      "actionsTaken": [
+        "Verified mechanical gate position at LCP-4",
+        "Confirmed no personnel or equipment present at hoist house",
+        "Notified DOM, DSE, and ITL via CVWA-1 radio",
+        "Logged discrepancy in Field Log (FIR-2026-091804)",
+        "Initiated local verification of all gate positions via mechanical indicators"
+      ],
+      "recommendations": [
+        "Immediately isolate SCADA data stream from HMI-01 for Gate 4",
+        "Audit PACS and HMI logs from 09:00 to 09:18 for anomalies",
+        "Conduct point-to-point gate verification per CRDOMM Section 8",
+        "Review PACS access logs for R4 and R6 roles in prior 72 hours"
+      ],
+      "photosNote": "4 photos attached: IMG_20261022-091501 (gate 4 drum), IMG_20261022-091502 (LCP-4 panel), IMG_20261022-091503 (empty hoist house), IMG_20261022-091504 (door P-6 access log screen) – access pending",
+      "signature": "T. Reynolds, Control Room Operator",
+      "marking": "EXERCISE · EXERCISE · EXERCISE"
+    }
+  },
+  {
+    "row": "I-04",
+    "type": "system_log",
+    "title": "Unauthorized Badge Access — Door P-6 (Spillway Hoist House)",
+    "fields": {
+      "systemName": "PACS-01 (PAC Security System)",
+      "host": "CRD-PACS-01",
+      "ip": "10.85.40.12",
+      "os": "Linux Ubuntu 22.04 LTS",
+      "logSource": "Access Control Log: Door P-6 (Spillway Hoist House)",
+      "exportedBy": "SEC\\vramos",
+      "exportedAt": "10/22/2026 09:20 AM",
+      "timezone": "EDT (UTC-4)",
+      "lines": [
+        {
+          "ts": "2026-10-22 09:08:12",
+          "level": "INFO",
+          "msg": "Badge scan: Series 200, ID 20076. Door P-6 (Spillway Hoist House). Access granted.",
+          "highlight": true
+        },
+        {
+          "ts": "2026-10-22 09:11:44",
+          "level": "INFO",
+          "msg": "Badge scan: Series 200, ID 20076. Door P-6 (Spillway Hoist House). Access granted.",
+          "highlight": true
+        },
+        {
+          "ts": "2026-10-22 09:20:00",
+          "level": "WARN",
+          "msg": "Badge ID 20076 not found in active badge database. No employee or contractor assigned to this ID. Series 200 keys not issued to contractors; valid series for contractors are 300–399.",
+          "highlight": false
+        },
+        {
+          "ts": "2026-10-22 09:20:00",
+          "level": "WARN",
+          "msg": "No record of badge 20076 in PACS database. No entry to Intake Tower 1 or Spillway Hoist House logged for this badge in the last 72 hours.",
+          "highlight": false
+        },
+        {
+          "ts": "2026-10-22 09:20:00",
+          "level": "ALERT",
+          "msg": "Unverified badge 20076 used to access Door P-6 (Spillway Hoist House). Door P-6 is fail-secure. Access occurred during normal operating hours, no known personnel on site.",
+          "highlight": false
+        }
+      ],
+      "terminalTitle": "PACS-01: Security Audit Terminal",
+      "command": "tail -n 10 /var/log/pacs/audit_door_p6.log",
+      "classification": "INTERNAL - INCIDENT EVIDENCE",
+      "pageLabel": "Page 1 of 1"
+    }
+  },
+  {
+    "row": "I-05",
+    "type": "phone_call",
+    "title": "Gate 4 False Movement — Unauthorized Access",
+    "fields": {
+      "orgName": "Cedar Valley Water Authority",
+      "systemName": "CVWA-OM-CRD",
+      "callId": "CR-20261022-092218-0051",
+      "direction": "Internal",
+      "caller": {
+        "name": "Control Room Operator",
+        "number": "(555) 021-4410",
+        "label": "OP-01"
+      },
+      "callee": {
+        "name": "Dam Operations Manager (DOM)",
+        "number": "(555) 021-4499",
+        "label": "DOM"
+      },
+      "startTime": "10/22/2026 09:22:18",
+      "duration": "1:12",
+      "transcript": [
+        {
+          "speaker": "OP-01",
+          "offset": "00:00",
+          "text": "DOM, it's OP-01 at Control Room. I’ve just confirmed Gate 4 is not moving on the ground. The mechanical indicator at LCP-4 shows 0.0 ft. But the HMI still shows 'Moving (1 ft/10 min)' and PLC-2 is in LOCAL mode. I just cross-checked the badge log — Door P-6 was accessed twice, at 09:08 and 09:11, by badge 20076. That badge isn’t in the system. No one on site has it. I don’t know if this is a physical breach or a cyberattack. Can I declare Level 3 under EAP 4.4? I can’t reach the on-call operator.",
+          "prompt": false
+        },
+        {
+          "speaker": "DOM",
+          "offset": "00:35",
+          "text": "Hold on, OP-01. I’m reviewing EAP 4.4. Yes — if the DOM is unreachable and the threat is imminent, the Control Room Operator may assume command and declare Level 3. I’m confirming with Security now.",
+          "prompt": false
+        },
+        {
+          "speaker": "OP-01",
+          "offset": "00:50",
+          "text": "Understood. I’m sending you the PACS log and HMI alert ID CRD-HMI-01. I’ll wait for your direction.",
+          "prompt": false
+        }
+      ],
+      "voiceStyles": {},
+      "injectId": "I-05"
+    }
+  }
+]

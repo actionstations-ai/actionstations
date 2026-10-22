@@ -5,7 +5,12 @@ Zod schemas in `src/shared/schemas/` are canonical; this is the human-readable s
 ```ts
 // project.json
 Project {
-  id, name, orgName, orgType: 'airport'|'hospital'|'utility'|'campus'|'generic'|string,
+  id, name, orgName,
+  orgType: 'airport'|'transit'|'water_dam'|'water_utility'|'energy_utility'|'healthcare'|'campus'
+         |'stadium_venue'|'port_maritime'|'municipal'|'industrial'|'unmanned_systems'|'generic'|string,
+         // selects the domain profile (src/shared/domains, ADR-0014); 'hospital', 'utility' and other
+         // aliases resolve to a profile; unknown values are the generic profile
+  domainProfileOverrides?: Partial<DomainProfile>,   // per-project edits; a field replaces the built-in one
   createdAt, updatedAt, appVersion,
   brand: { logoPath?, primaryColor?, city?, region?, aliases: Record<string,string> }, // e.g. airlineNames
   defaultRoles: Role[],
@@ -42,7 +47,9 @@ Role { id, name, abbreviation, team, description, standingOrders: string[] }   /
 // scenarios/<id>/scenario.json
 Scenario {
   id, projectId, title, subtitle?, version, status: 'draft'|'ready'|'archived',
-  brief: { userPrompt, audience, durationHours, learningObjectives[], constraints[] },
+  brief: { userPrompt, audience, durationHours, learningObjectives[], constraints[],
+           threatFamily?: 'cyber'|'physical_security'|'cyber_physical'|'uas_drone'|'insider'
+                         |'natural_hazard'|'infrastructure_failure'|'mass_gathering' },  // settled at creation (ADR-0014)
   overview: { theme, threat, operationalImpact, coreSectionsTested: Citation[] },
   objectives: Objective[],                 // { id, text, metricRef? }
   roles: Role[],

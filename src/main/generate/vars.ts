@@ -1,8 +1,16 @@
 // Variables every prompt can use (prompts/*.md `variables:` frontmatter documents which ones a
 // stage reads). Kept compact: the model sees the scenario state, not storage details.
 import type { MselRow, Project, Role, Scenario, ScenarioIdea } from '@shared/schemas'
-import { INJECT_TYPES, PURPOSE_TAG_INFO, PURPOSE_TAGS } from '@shared/taxonomy'
+import type { DomainProfile } from '@shared/domains'
+import {
+  INJECT_TYPES,
+  injectTypesForDomain,
+  PURPOSE_TAG_INFO,
+  PURPOSE_TAGS,
+  type InjectTypeInfo,
+} from '@shared/taxonomy'
 import { citationLabel } from './docs'
+import { domainContext, domainVars, threatVars, type DomainContext } from './domain'
 import { DEFAULT_START_WALL_CLOCK, goalSummary, phaseBeats } from './mappers'
 
 /** Tags that delimit data blocks in the prompts. */
@@ -37,14 +45,27 @@ export function projectVars(p: Project) {
   }
 }
 
-export const taxonomyVars = {
-  purposeTags: PURPOSE_TAGS.map((tag) => ({ tag, ...PURPOSE_TAG_INFO[tag] })),
-  injectTypes: INJECT_TYPES.map((t) => ({
+const typeVars = (types: readonly InjectTypeInfo[]) =>
+  types.map((t) => ({
     id: t.id,
     label: t.label,
     category: t.category,
     delivery: t.defaultDelivery,
-  })),
+  }))
+
+export const taxonomyVars = {
+  purposeTags: PURPOSE_TAGS.map((tag) => ({ tag, ...PURPOSE_TAG_INFO[tag] })),
+  injectTypes: typeVars(INJECT_TYPES),
+}
+
+/** The taxonomy as a domain sees it: its preferred types first, other-domain types left out. */
+export function taxonomyVarsFor(profile: DomainProfile) {
+  const allowed = injectTypesForDomain(profile.id)
+  const preferred = profile.injectTypes
+    .map((id) => allowed.find((t) => t.id === id))
+    .filter((t): t is InjectTypeInfo => !!t)
+  const rest = allowed.filter((t) => !profile.injectTypes.includes(t.id))
+  return { ...taxonomyVars, injectTypes: typeVars([...preferred, ...rest]) }
 }
 
 function roleVars(r: Role) {
@@ -118,12 +139,17 @@ export interface BaseVarsInput {
   scenario: Scenario
   idea?: ScenarioIdea
   instructions?: string
+  /** The project's profile and the scenario's threat family; derived from them when absent. */
+  domain?: DomainContext
 }
 
 export function baseVars(input: BaseVarsInput): Record<string, unknown> {
   const { project, scenario, idea, instructions } = input
+  const domain = input.domain ?? domainContext(project, scenario)
   return {
     project: projectVars(project),
+    domain: domainVars(domain.profile),
+    threat: threatVars(domain.threat),
     brief: scenario.brief,
     startWallClock: scenario.brief.startWallClock ?? DEFAULT_START_WALL_CLOCK,
     durationHours: scenario.brief.durationHours,
@@ -134,7 +160,7 @@ export function baseVars(input: BaseVarsInput): Record<string, unknown> {
     scenario: scenarioVars(scenario),
     roles: scenario.roles.map(roleVars),
     phases: scenarioVars(scenario).phases,
-    taxonomy: taxonomyVars,
+    taxonomy: taxonomyVarsFor(domain.profile),
     instructions: instructions ?? '',
   }
 }

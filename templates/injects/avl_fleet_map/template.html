@@ -1,0 +1,123 @@
+<section class="avl">
+  <header class="bar">
+    <span class="logo" aria-hidden="true"
+      ><svg viewBox="0 0 32 32">
+        <rect x="5" y="4" width="22" height="20" rx="4" fill="#1f3a5f" />
+        <rect x="8" y="8" width="16" height="7" rx="1" fill="#e9ecef" />
+        <circle cx="11" cy="19.5" r="1.8" fill="#e9ecef" />
+        <circle cx="21" cy="19.5" r="1.8" fill="#e9ecef" />
+        <rect x="8" y="24" width="4" height="4" rx="1" fill="#1f3a5f" />
+        <rect x="20" y="24" width="4" height="4" rx="1" fill="#1f3a5f" /></svg
+    ></span>
+    <h1>{{default fields.systemName "CAD/AVL — Fleet Map"}}</h1>
+    <span class="agency"
+      >{{default fields.agency (default brand.aliases.org "Transit Dispatch")}}</span
+    >
+    <span class="spacer"></span>
+    <span class="kpi">IN SERVICE <b>{{fields.vehicles.length}}</b></span>
+    {{#if fields.dispatcher}}<span class="who">DISPATCHER <b>{{fields.dispatcher}}</b></span
+    >{{/if}}
+    <span class="clock"><b>{{fields.clock}}</b><small>{{fields.date}}</small></span>
+  </header>
+  <div class="body">
+    <div class="map">
+      <svg class="base" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <rect width="100" height="100" fill="#f4f1ea" />
+        <path
+          class="park"
+          d="M60 74 72 66 80 70 76 82 64 84z M12 14 24 12 26 24 14 26z M84 80 98 76 98 92 86 94z"
+        />
+        <g class="streets">
+          <path
+            d="M4 0v100M10 0v100M16 0v100M22 0v100M28 0v100M34 0v100M40 0v100M46 0v100M52 0v100M58 0v100M64 0v100M70 0v100M76 0v100M82 0v100M88 0v100M94 0v100"
+          />
+          <path
+            d="M0 4h100M0 10h100M0 16h100M0 22h100M0 28h100M0 34h100M0 40h100M0 46h100M0 52h100M0 58h100M0 64h100M0 70h100M0 76h100M0 82h100M0 88h100M0 94h100"
+          />
+        </g>
+        <g class="arterials">
+          <path d="M0 48h100M46 0v100M0 26h100M70 0v60" />
+        </g>
+        <path class="river" d="M0 72C25 66 40 78 60 64S85 50 100 54" />
+        <path class="riverline" d="M0 72C25 66 40 78 60 64S85 50 100 54" />
+        <path class="parkway" d="M0 18C30 24 60 10 100 16" />
+        <path class="bridge" d="M46 64.5v7.5" />
+        {{#each fields.routes}}
+        <path
+          class="route rs-{{status}}"
+          stroke="{{color}}"
+          d="{{#if (eq @index 0)}}M46 48L46 30L38 22L38 6{{else if (eq @index 1)}}M46 48L60 56L78 48L96 44{{else if (eq @index 2)}}M46 48L70 40L70 26L94 26{{else if (eq @index 3)}}M46 48L30 48L22 40L6 40{{else if (eq @index 4)}}M46 48L46 82L58 94{{else}}M46 48L54 34L54 16L80 8{{/if}}"
+        />
+        {{/each}}
+      </svg>
+      <span class="area">{{fields.mapLabel}}</span>
+      <span class="geo" style="left: 8%; top: 75.5%">CEDAR RIVER</span>
+      <span class="geo pk" style="left: 76%; top: 12.4%">RIVER PARKWAY</span>
+      <span class="hub" style="left: 46%; top: 48%"><i></i><b>TRANSIT CENTER</b></span>
+      {{#each fields.routes}}
+      <span
+        class="rlab"
+        style="background: {{color}}; {{#if (eq @index 0)}}left: 38%; top: 4%{{else if (eq @index 1)}}left: 96%; top: 42%{{else if (eq @index 2)}}left: 94%; top: 23.5%{{else if (eq @index 3)}}left: 5%; top: 37.5%{{else if (eq @index 4)}}left: 58%; top: 95.5%{{else}}left: 80%; top: 5.5%{{/if}}"
+        >{{id}}</span
+      >
+      {{/each}} {{#each fields.vehicles}}
+      <span class="veh v-{{status}}" style="left: {{x}}%; top: {{y}}%">
+        {{#if heading}}<i class="hd" style="transform: rotate({{heading}}deg)"></i>{{/if}}
+        <b>{{id}}</b>
+      </span>
+      {{/each}}
+      <div class="legend">
+        <span><i class="v-in_service"></i>On time</span><span><i class="v-late"></i>Late</span
+        ><span><i class="v-early"></i>Early</span><span><i class="v-off_route"></i>Off route</span
+        ><span><i class="v-no_signal"></i>No signal / stale</span
+        ><span><i class="v-emergency"></i>Emergency</span>
+      </div>
+      <div class="scale"><i></i>0.5 mi</div>
+    </div>
+
+    <aside class="side">
+      <section class="box">
+        <h2>Routes</h2>
+        <div class="rt rth">
+          <span></span><span>ROUTE</span><span>STATUS</span><span>HEADWAY</span><span>AVL</span>
+        </div>
+        {{#each fields.routes}}
+        <div class="rt">
+          <i style="background: {{color}}"></i>
+          <span><b>{{id}}</b> {{name}}</span>
+          <span class="rst r-{{status}}"
+            >{{#if (eq status "no_data")}}NO DATA{{else}}{{upper status}}{{/if}}</span
+          >
+          <span class="num">{{#if headwayMin}}{{headwayMin}} min{{/if}}</span>
+          <span class="num">{{vehiclesReporting}}/{{vehiclesExpected}}</span>
+        </div>
+        {{/each}}
+      </section>
+      <section class="box vl">
+        <h2>Vehicles</h2>
+        <div class="vr vrh">
+          <span>BUS</span><span>RT</span><span>STATUS</span><span>LAST RPT</span><span>DEV</span
+          ><span>NOTE</span>
+        </div>
+        {{#each fields.vehicles}}
+        <div class="vr v-{{status}}">
+          <b>{{id}}</b><span>{{route}}</span
+          ><span class="vst"
+            ><i></i>{{#if (eq status "in_service")}}IN SERVICE{{else if (eq status "off_route")}}OFF
+            ROUTE{{else if (eq status "no_signal")}}NO SIGNAL{{else}}{{upper status}}{{/if}}</span
+          ><span class="num">{{lastReport}}</span
+          ><span class="num"
+            >{{#if delayMin}}{{#if (gt delayMin 0)}}+{{/if}}{{delayMin}}{{else}}0{{/if}}</span
+          ><span class="nt">{{note}}</span>
+        </div>
+        {{/each}}
+      </section>
+      <section class="box">
+        <h2>Alerts</h2>
+        {{#each fields.alerts}}
+        <div class="al a-{{severity}}"><span class="num">{{time}}</span><span>{{text}}</span></div>
+        {{/each}}
+      </section>
+    </aside>
+  </div>
+</section>

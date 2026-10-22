@@ -76,8 +76,13 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 ### Operational displays & physical
 | Type | Key fields | Render | Notes |
 |---|---|---|---|
-| `fids_board` | rows[{flight,dest,time,gate,status}], anomalies[], boardStyle | T | I-06; mark bad rows |
-| `bhs_scada_screen` | belts[], alarms[], state | T | |
+| `fids_board` | rows[{flight,dest,time,gate,status}], anomalies[], boardStyle | T | I-06; mark bad rows. **Airport only** (`domains: ['airport']`) |
+| `bhs_scada_screen` | belts[], alarms[], state | T | **Airport only** |
+| `info_display_board` | boardTitle, siteName, clock, rows[{primary,secondary,time,position,status,remarks,anomaly}], ticker | T | Generic passenger/customer information display; variants `airport` (departures), `transit_bus` (bay arrivals), `rail` (platform) |
+| `scada_hmi` | systemName, site, state, mode, equipment[{tag,kind,state,value,units,setpoint}], readings[], alarms[] | T | Generic process HMI; variants `water`, `dam`, `power`, `transit_traction`. A wrong value is not highlighted |
+| `uas_detection_alert` | systemName, site, tracks[{id,remoteIdSerial,altitudeFt,distanceM,operatorLocation,zone,threatLevel}], zones[], events[] | T | Counter-UAS / Remote ID console with an inline-SVG radar; no external tiles |
+| `avl_fleet_map` | systemName, agency, routes[], vehicles[{id,route,status,lastReport,x,y}], alerts[] | T | Transit dispatch AVL map drawn with inline SVG |
+| `incident_alert_notification` | sender, headline, body, issuedAt, areaAffected, instructions[], severity | T | Mass notification as received; variants `wea`, `sms`, `email`, `siren_pa` |
 | `pacs_alarm_panel` | doors[], alarms[] | T | |
 | `cctv_still` | camera, timestamp, sceneBrief | AI + T overlay | Timestamp/camera-ID overlay via template |
 | `scene_photo` | sceneBrief, style(phone/press), caption, credit | AI + T | I-10 crowded terminal, blank screens; photo framed by the `scene_photo` template (phone or press variant) |
@@ -93,6 +98,7 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `ics_203_prefill` | assignments | T (PDF) | |
 | `status_board` | resources[{name,status,notes}] | T | Player briefing resource table |
 | `sitrep` | number, time, summary, actions | T | |
+| `field_report` | organization, reportNo, date, location, inspector, reportType, summary, findings[{item,condition,notes}], actionsTaken[], recommendations[] | T (PDF) | Field / inspection / patrol report |
 
 ### Facilitator control
 | Type | Key fields | Render | Notes |
@@ -102,6 +108,10 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `scenario_update` | narration | T | Read aloud |
 | `endex_card` | resolution, transition to hot wash | T | |
 | `simcell_script` | role being played, hard questions[], concessions[] | T (handbook only) | "Agent Smith: do you have a PCAP?" |
+
+## Domain tags (ADR-0014)
+
+An inject type may carry `domains: ['airport', …]` in `src/shared/taxonomy.ts`. A tagged type is offered only to projects whose domain profile has one of those ids: the MSEL prompt lists the domain's types (the profile's preferred types first), and `chooseInjectType` treats a tagged type as unavailable elsewhere and follows the fallback chain to the generic equivalent (`fids_board` → `info_display_board`, `bhs_scada_screen` → `scada_hmi`). Untagged types belong to every domain.
 
 ## Rendering rules
 

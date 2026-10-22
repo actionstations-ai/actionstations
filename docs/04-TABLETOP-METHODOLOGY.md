@@ -26,6 +26,23 @@ Every scenario ships as a set. The generator's output schema mirrors these exact
 | **Player Briefing Packet** | Students | Situation brief (time, weather, load, status board); the anomaly as players first see it; mission statement; **Team assignments & standing orders** (one table per team); Rules of engagement ("This is an exercise", "REAL WORLD" stop phrase, time jumps, artifacts are intelligence); blank ICS-201 with map sketch, situation summary, objectives, critical resource status table |
 | **Inject media** | Players (handed/displayed) | PNG screenshots of tweets/posts, printed tickets/memos/logs, FIDS board image, photos for the main screen, audio for PA/radio |
 
+## 2a. The method is domain-neutral (ADR-0014)
+
+Scenario 3 is an airport cyber incident, but the method is not airport-specific and not cyber-specific. The generator reads the organization through a **domain profile** (`src/shared/domains/`: airport, transit, dam, water utility, energy utility, healthcare, campus, stadium/venue, port, municipal government, industrial plant, unmanned-systems operator, generic) that says what its facility, public and front line are called, which identifier categories its documents state, which systems and outside parties it has, what its places look like in a photo, and which inject types fit it. It reads the incident through a **threat family** (cyber, physical security, cyber-physical, UAS/drone, insider, natural hazard, infrastructure failure, mass gathering) that supplies the phase arc, the decision-point vocabulary, what a clue and a recovery hurdle are, and the outside party players must coordinate with. Everything below still holds; the four-phase arc named in §3 is the cyber family's. The other families keep four phases and one decision point but change what the phases are:
+
+| Family | Phases (default) | The decision point | A clue is… |
+|---|---|---|---|
+| cyber | The Glitch · The Crisis · Manual Mode · Recovery & Verification | isolate / shut down / go dark; pay or not; wipe or preserve | a log line, a SIEM alert, a phishing header, an odd session |
+| cyber_physical | Something Is Off · Loss of Control · Manual Operation · Restoration & Verification | take the system off automation or stop the process/service | an HMI value that disagrees with the field, a setpoint change with no operator |
+| physical_security | The Anomaly · The Breach · Containment · Recovery & Return | lock down / evacuate / shelter vs. keep operating; hand the scene to LE | a badge log, a CCTV still, a cut fence, a plate |
+| uas_drone | The Sighting · Persistent Incursion · Decision & Coordination · Resolution | halt operations under the overflight, **taken with law enforcement / the airspace authority** (the organization may not interfere with the aircraft) | a Remote ID broadcast, a detection track, an operator location estimate |
+| insider | Oddities · The Pattern · Confrontation · Damage Control | suspend access and involve LE now, or watch; image the workstation | an after-hours badge event, a command history, a copied archive |
+| natural_hazard | The Watch · Impact · Response · Stabilization & Recovery | evacuate / shelter / suspend; release or hold | a gauge reading, a field report, a forecast update |
+| infrastructure_failure | Degradation · Cascade · Continuity Decision · Restoration | curtail service or run degraded; switch to backup now | a status screen, a maintenance log, an alarm history |
+| mass_gathering | Build-up · The Surge · Control Decision · Dispersal & Recovery | stop admission / pause / evacuate an area | a CCTV still, a density count, a medical-call cluster |
+
+The inject mix per phase (§3) keeps CORE_NARRATIVE, NOISE/RED_HERRING and PIO PRESSURE/MISINFORMATION for every family; the CLUE/TECH_HURDLE-to-the-technical-role rule applies to the cyber, cyber-physical and insider families (the others place clues with security or operations as the beats call for them). Noise and pressure injects come from the domain (a farebox jam, a boater's photo of the spillway, a nurse's anonymous post), never from the airport.
+
 ## 3. Scenario design pattern
 
 Scenario 3 is a template for a good classroom TTX. Reproduce the pattern:

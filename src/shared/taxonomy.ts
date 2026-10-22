@@ -66,6 +66,11 @@ export interface InjectTypeInfo {
   /** Part of the M2/M3 minimum viable template set. */
   mvp: boolean
   defaultDelivery: 'hand_to_role' | 'display_main_screen' | 'play_audio' | 'read_aloud'
+  /**
+   * Domain profile ids this type belongs to (src/shared/domains). Absent = every domain.
+   * A domain-tagged type is offered only to projects of those domains (type-map.ts).
+   */
+  domains?: string[]
 }
 
 const t = (
@@ -73,7 +78,7 @@ const t = (
   label: string,
   category: InjectCategory,
   render: RenderPath[],
-  opts: Partial<Pick<InjectTypeInfo, 'paper' | 'mvp' | 'defaultDelivery'>> = {},
+  opts: Partial<Pick<InjectTypeInfo, 'paper' | 'mvp' | 'defaultDelivery' | 'domains'>> = {},
 ): InjectTypeInfo => ({
   id,
   label,
@@ -82,6 +87,7 @@ const t = (
   paper: opts.paper ?? false,
   mvp: opts.mvp ?? false,
   defaultDelivery: opts.defaultDelivery ?? 'hand_to_role',
+  ...(opts.domains ? { domains: opts.domains } : {}),
 })
 
 export const INJECT_TYPES: readonly InjectTypeInfo[] = [
@@ -133,8 +139,26 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
   t('fids_board', 'FIDS board', 'operational', ['template'], {
     mvp: true,
     defaultDelivery: 'display_main_screen',
+    domains: ['airport'],
   }),
-  t('bhs_scada_screen', 'BHS SCADA screen', 'operational', ['template']),
+  t('bhs_scada_screen', 'BHS SCADA screen', 'operational', ['template'], {
+    domains: ['airport'],
+  }),
+  t('info_display_board', 'Information display board', 'operational', ['template'], {
+    defaultDelivery: 'display_main_screen',
+  }),
+  t('scada_hmi', 'SCADA / process HMI', 'operational', ['template'], {
+    defaultDelivery: 'display_main_screen',
+  }),
+  t('uas_detection_alert', 'UAS / drone detection alert', 'operational', ['template'], {
+    defaultDelivery: 'display_main_screen',
+  }),
+  t('avl_fleet_map', 'AVL fleet map', 'operational', ['template'], {
+    defaultDelivery: 'display_main_screen',
+  }),
+  t('incident_alert_notification', 'Mass-notification alert', 'operational', ['template'], {
+    defaultDelivery: 'display_main_screen',
+  }),
   t('pacs_alarm_panel', 'PACS alarm panel', 'operational', ['template']),
   t('cctv_still', 'CCTV still', 'operational', ['ai_image', 'template'], {
     defaultDelivery: 'display_main_screen',
@@ -154,6 +178,7 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
   t('ics_203_prefill', 'ICS-203 (pre-filled)', 'documents', ['template'], { paper: true }),
   t('status_board', 'Status board', 'documents', ['template']),
   t('sitrep', 'SITREP', 'documents', ['template'], { paper: true }),
+  t('field_report', 'Field / inspection report', 'documents', ['template'], { paper: true }),
   // Facilitator control
   t('startex_card', 'STARTEX card', 'control', ['template'], {
     paper: true,
@@ -185,4 +210,17 @@ export type InjectType = string
 
 export function injectTypeInfo(id: string): InjectTypeInfo | undefined {
   return INJECT_TYPES.find((x) => x.id === id)
+}
+
+/** A type is offered to a domain unless it is tagged for other domains only. */
+export function injectTypeFitsDomain(
+  info: Pick<InjectTypeInfo, 'domains'>,
+  domainId: string,
+): boolean {
+  return !info.domains || info.domains.includes(domainId)
+}
+
+/** Inject types a project of `domainId` may use (untagged types plus those tagged for it). */
+export function injectTypesForDomain(domainId: string): InjectTypeInfo[] {
+  return INJECT_TYPES.filter((x) => injectTypeFitsDomain(x, domainId))
 }

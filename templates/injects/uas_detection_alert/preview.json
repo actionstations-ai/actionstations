@@ -1,0 +1,84 @@
+{
+  "fields": {
+    "systemName": "AeroSentry",
+    "site": "Cedar Ridge Dam",
+    "clock": "14:07:32",
+    "date": "21 OCT 2026",
+    "operator": "SEC-OPS 2",
+    "rangeM": 1500,
+    "alertBanner": "ZONE BREACH — TRK-0417 LOITERING INSIDE CREST RESTRICTED ZONE",
+    "tracks": [
+      {
+        "id": "TRK-0417",
+        "status": "tracking",
+        "aircraftType": "Quadcopter (Mavic 3 class)",
+        "remoteIdSerial": "1581F5FJD239C00DW04K",
+        "altitudeFt": 310,
+        "speedKt": 2,
+        "heading": 95,
+        "distanceM": 140,
+        "bearing": 35,
+        "firstSeen": "13:52:10",
+        "lastSeen": "14:07:31",
+        "operatorLocation": "Est. 1.1 km SW — Lakeshore Rd public boat ramp (±60 m)",
+        "zone": "CREST RESTRICTED ZONE",
+        "threatLevel": "high"
+      },
+      {
+        "id": "TRK-0421",
+        "status": "new",
+        "aircraftType": "Quadcopter, no Remote ID",
+        "altitudeFt": 180,
+        "speedKt": 14,
+        "heading": 20,
+        "distanceM": 1180,
+        "bearing": 205,
+        "firstSeen": "14:06:55",
+        "lastSeen": "14:07:30",
+        "zone": "WATCH ZONE",
+        "threatLevel": "medium"
+      },
+      {
+        "id": "TRK-0409",
+        "status": "lost",
+        "aircraftType": "Fixed-wing, hobby",
+        "remoteIdSerial": "1748A2C0KX0091RT",
+        "altitudeFt": 240,
+        "speedKt": 28,
+        "heading": 300,
+        "distanceM": 1350,
+        "bearing": 310,
+        "firstSeen": "13:31:02",
+        "lastSeen": "13:44:19",
+        "threatLevel": "low"
+      }
+    ],
+    "zones": [
+      { "name": "CREST RESTRICTED ZONE", "radiusM": 400, "note": "No-fly · alert on entry" },
+      { "name": "WATCH ZONE", "radiusM": 1200, "note": "Track and log" }
+    ],
+    "events": [
+      {
+        "time": "14:07:02",
+        "text": "TRK-0417 hover 310 ft AGL over spillway gate structure — 6 min stationary"
+      },
+      {
+        "time": "14:06:55",
+        "text": "TRK-0421 NEW — RF detect, no Remote ID broadcast, bearing 205°"
+      },
+      {
+        "time": "14:01:40",
+        "text": "Operator position estimate updated for TRK-0417: Lakeshore Rd boat ramp"
+      },
+      {
+        "time": "13:58:12",
+        "text": "TRK-0417 entered CREST RESTRICTED ZONE — alert sent to Dam Security Supervisor"
+      },
+      {
+        "time": "13:52:10",
+        "text": "TRK-0417 NEW — Remote ID 1581F5FJD239C00DW04K, bearing 220°, 1.0 km"
+      },
+      { "time": "13:44:19", "text": "TRK-0409 LOST — last seen bearing 310°, 1.35 km" }
+    ]
+  }
+}

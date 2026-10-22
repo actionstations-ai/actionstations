@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SCADA / process HMI",
+  "description": "1920x1080 operator workstation HMI overview for a process plant (water / wastewater treatment, dam and hydro plant, electric substation, transit traction power). Grey high-performance HMI style: colour appears only for fault, alarm and unknown states. A value that disagrees with its setpoint is drawn like any other value; nothing highlights it unless the state is fault or alarm.",
+  "type": "object",
+  "required": ["equipment"],
+  "properties": {
+    "systemName": {
+      "type": "string",
+      "description": "HMI screen title.",
+      "examples": [
+        "WTP-1 PROCESS OVERVIEW",
+        "SPILLWAY & POWERHOUSE OVERVIEW",
+        "TPSS NETWORK OVERVIEW"
+      ]
+    },
+    "site": {
+      "type": "string",
+      "description": "Plant / control room label. Falls back to brand.aliases.airport, then brand.aliases.orgShort.",
+      "examples": ["Riverbend Water Treatment Plant", "Cedar Ridge Dam Control Room"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "HMI clock, 24h HH:MM:SS.",
+      "examples": ["06:41:18"]
+    },
+    "date": {
+      "type": "string",
+      "description": "HMI date.",
+      "examples": ["21-OCT-2026"]
+    },
+    "operator": {
+      "type": "string",
+      "description": "Logged-in operator account.",
+      "examples": ["OPS_SHIFT_B", "jmorales"]
+    },
+    "state": {
+      "type": "string",
+      "enum": ["normal", "degraded", "critical"],
+      "description": "Overall system state chip.",
+      "examples": ["degraded"]
+    },
+    "stateText": {
+      "type": "string",
+      "description": "Text in the state chip (defaults to the state).",
+      "examples": ["FILTER 3 OFFLINE", "GATE 2 COMMAND MISMATCH"]
+    },
+    "mode": {
+      "type": "string",
+      "description": "Control mode shown in the header.",
+      "examples": ["AUTO", "MANUAL", "LOCAL"]
+    },
+    "equipment": {
+      "type": "array",
+      "description": "Equipment tiles in the overview grid, in reading order (up to 16).",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tag", "kind", "state"],
+        "properties": {
+          "tag": {
+            "type": "string",
+            "description": "Instrument / equipment tag as the control system labels it.",
+            "examples": ["P-101", "CL2-FC-201", "SG-2", "52-F3"]
+          },
+          "label": {
+            "type": "string",
+            "description": "Short equipment description.",
+            "examples": [
+              "Raw Water Pump 1",
+              "Chlorine Dose Control",
+              "Spillway Gate 2",
+              "Feeder 3 Breaker"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["tank", "pump", "valve", "gate", "breaker", "unit", "feeder", "sensor"],
+            "description": "Equipment kind; picks the glyph.",
+            "examples": ["pump"]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "running",
+              "stopped",
+              "open",
+              "closed",
+              "moving",
+              "online",
+              "offline",
+              "local",
+              "remote",
+              "auto",
+              "tripped",
+              "fault",
+              "alarm",
+              "manual",
+              "unknown"
+            ],
+            "description": "Equipment state. Only fault, alarm, tripped and unknown are coloured; moving / online / offline / local / remote / auto read like running / stopped.",
+            "examples": ["running", "closed", "fault"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Present value (number as text).",
+            "examples": ["4.0", "62", "13.8"]
+          },
+          "units": {
+            "type": "string",
+            "description": "Engineering units of value and setpoint.",
+            "examples": ["mg/L", "%", "kV", "MW", "ft"]
+          },
+          "setpoint": {
+            "type": "string",
+            "description": "Setpoint or commanded value, same units.",
+            "examples": ["4.0", "35"]
+          },
+          "note": {
+            "type": "string",
+            "description": "One short status line under the tile.",
+            "examples": ["LEAD", "BACKWASH DUE", "REMOTE CMD"]
+          }
+        }
+      }
+    },
+    "readings": {
+      "type": "array",
+      "description": "Key process values in the side panel (up to 10).",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Measurement name.",
+            "examples": ["Finished Cl2 residual", "Reservoir elevation", "Bus A voltage"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Value as text.",
+            "examples": ["1.2", "1,042.6", "13.79"]
+          },
+          "units": {
+            "type": "string",
+            "description": "Engineering units.",
+            "examples": ["mg/L", "ft", "kV"]
+          },
+          "alarm": {
+            "type": "boolean",
+            "description": "Show this reading in alarm colour (only when the control system itself alarms it).",
+            "examples": [false]
+          }
+        }
+      }
+    },
+    "alarms": {
+      "type": "array",
+      "description": "Alarm summary rows, newest first (up to 6).",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "priority", "text"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Alarm time, HH:MM:SS.",
+            "examples": ["06:38:02"]
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["1", "2", "3", "4"],
+            "description": "1 = critical ... 4 = advisory.",
+            "examples": ["2"]
+          },
+          "tag": {
+            "type": "string",
+            "description": "Point tag.",
+            "examples": ["FLT-3.HL"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Alarm message.",
+            "examples": ["FILTER 3 HEADLOSS HIGH 7.9 FT"]
+          },
+          "acked": {
+            "type": "boolean",
+            "description": "Acknowledged by an operator.",
+            "examples": [true]
+          }
+        }
+      }
+    },
+    "statusItems": {
+      "type": "array",
+      "description": "Communication status items in the bottom status bar.",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        ["PLC-01 ONLINE", "RTU-07 ONLINE", "HISTORIAN ONLINE", "REMOTE ACCESS: 1 SESSION"]
+      ]
+    },
+    "hmiNode": {
+      "type": "string",
+      "description": "Operator workstation name in the status bar.",
+      "examples": ["OWS-02"]
+    }
+  },
+  "additionalProperties": false
+}

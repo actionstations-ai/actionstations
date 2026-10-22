@@ -6,6 +6,7 @@ import type { Inject, MselRow, Scenario, StageRun } from '@shared/schemas'
 import type { JobContext } from '../../jobs/manager'
 import { AppError, toAppError } from '../../lib/errors'
 import { nowIso } from '../../lib/ids'
+import { domainContext } from '../domain'
 import { StageFailure } from '../stage'
 import { injectDeps, type InjectDeps } from './deps'
 import { runMediaBrief } from './media-brief-stage'
@@ -40,11 +41,17 @@ export interface InjectsJobSummary {
   failed: { rowId: string; error: string }[]
 }
 
-export async function openInjectEnv(root: string, ctx: JobContext): Promise<InjectEnv> {
+export async function openInjectEnv(
+  root: string,
+  ctx: JobContext,
+  scenarioId?: string,
+): Promise<InjectEnv> {
   const deps: InjectDeps = await injectDeps()
   const [project, index] = await Promise.all([deps.loadProject(root), deps.openIndex(root)])
   const facility = await deps.loadFacilityFacts(root, project)
-  return { root, deps, index, project, facility, ctx }
+  const scenario = scenarioId ? await deps.store.getScenario(root, scenarioId) : undefined
+  const domain = domainContext(project, scenario)
+  return { root, deps, index, project, facility, domain, ctx }
 }
 
 const runOk = (s: Scenario, stage: StageRun['stage'], itemId: string): boolean =>
@@ -167,7 +174,7 @@ export async function runInjectsJob(
   opts: InjectsJobOptions,
   ctx: JobContext,
 ): Promise<InjectsJobSummary> {
-  const env = await openInjectEnv(root, ctx)
+  const env = await openInjectEnv(root, ctx, scenarioId)
   let scenario = await env.deps.store.getScenario(root, scenarioId)
   const injects = await env.deps.injects.listInjects(root, scenarioId)
   const byRow = new Map(injects.map((i) => [i.mselRowId, i]))

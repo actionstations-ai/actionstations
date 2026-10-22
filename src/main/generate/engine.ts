@@ -26,6 +26,7 @@ import type { JobContext } from '../jobs/manager'
 import { AppError, toAppError } from '../lib/errors'
 import { nowIso } from '../lib/ids'
 import { pipelineDeps, type PipelineDeps, type SearchIndex } from './deps'
+import { domainContext, type DomainContext } from './domain'
 import {
   hotwashSection,
   renderBriefingMarkdown,
@@ -43,7 +44,14 @@ import {
   type FacilityFacts,
 } from './facility'
 import { findIdea } from './ideas'
-import { decisionPhaseIndex, lintScenario, phaseMixGaps, roleNamedBy } from './lint'
+import {
+  DECISION_POINT_RETAGGED,
+  decisionPhaseIndex,
+  lintScenario,
+  phaseMixGaps,
+  pickDecisionRow,
+  roleNamedBy,
+} from './lint'
 import { goalSummary, phaseBeats, type MselMapResult } from './mappers'
 import type { RetrievedChunk } from './retrieval'
 import { repairRubricLinks, sourceFor } from './sources'
@@ -87,6 +95,7 @@ const PIPELINE_WARNINGS = new Set([
   ROLE_KEY_UNKNOWN,
   LOCATION_UNGROUNDED,
   FACILITY_UNKNOWN_ID,
+  DECISION_POINT_RETAGGED,
 ])
 /** rowId the overview's dropped citations are recorded under. */
 const OVERVIEW_ROW = 'overview'
@@ -146,6 +155,8 @@ interface Env {
   index: SearchIndex
   project: Project
   facility: FacilityFacts
+  /** The project's domain profile and the scenario's threat family (ADR-0014). */
+  domain: DomainContext
   idea?: ScenarioIdea
   ctx: JobContext
 }
@@ -215,6 +226,7 @@ const vars = (input: StepInput, extra: Record<string, unknown> = {}): Record<str
   ...baseVars({
     project: input.env.project,
     scenario: input.scenario,
+    domain: input.env.domain,
     ...(input.env.idea ? { idea: input.env.idea } : {}),
     ...(input.instructions ? { instructions: input.instructions } : {}),
   }),
@@ -383,7 +395,7 @@ async function completeMix(
   first: StageResult<MselPhaseOutput>,
 ): Promise<MselPhaseOutput['rows']> {
   const { scenario: s, env } = input
-  const gaps = phaseMixGaps(s, phase)
+  const gaps = phaseMixGaps(s, phase, env.domain)
   if (!gaps.length) return []
   env.ctx.log(
     `msel_phase ${phase.index + 1}: completing the mix — ${gaps.map((g) => g.code).join(', ')}`,
@@ -425,9 +437,31 @@ async function stepMselPhase(input: StepInput): Promise<StageRun> {
   }
   for (const row of mapped.rows) owned.add(row.id)
   reportMapping(s, phase, mapped, env.ctx, owned)
+  ensureDecisionPoint(s, phase, env)
   noteFacility(s, mapped.rows, env)
   await writeDoc(env, s, 'overview', renderMselMarkdown(s), `msel_phase ${phase.index + 1}`)
   return r.run
+}
+
+/**
+ * The decision phase must leave with its DECISION_POINT. When the model and the mix pass both
+ * failed to tag one, the row that reads like the decision is re-tagged and the change recorded,
+ * so the facilitator sees the call and the critique can judge its scope.
+ */
+function ensureDecisionPoint(s: Scenario, phase: Phase, env: Env): void {
+  const row = pickDecisionRow(s, phase, env.domain)
+  if (!row) return
+  row.purposeTag = 'DECISION_POINT'
+  const w: LintWarning = {
+    code: DECISION_POINT_RETAGGED,
+    severity: 'info',
+    message: `Row ${row.id} was re-tagged DECISION_POINT: the model tagged no decision point in phase ${phase.index + 1}; check that it is the one high-consequence call`,
+    source: 'lint',
+    rowId: row.id,
+  }
+  s.warnings = s.warnings.filter((x) => !(x.code === DECISION_POINT_RETAGGED && x.rowId === row.id))
+  s.warnings.push(w)
+  env.ctx.log(w.message, 'warn', { stage: 'msel_phase', itemId: phase.id })
 }
 
 /** Record FACILITY_UNKNOWN_ID for the rows just written (#84); earlier ones for them are gone. */
@@ -537,7 +571,8 @@ async function revisePhaseRows(
   const replacements = rows.flatMap((r) => {
     const original = byId.get(r.id.trim().toUpperCase())
     if (!original || original.locked || !flagged.has(original.id.toUpperCase())) return []
-    return [{ ...r, id: original.id, time: original.time }]
+    // A revision keeps the row's id, time and tag: a DECISION_POINT must survive its rewrite.
+    return [{ ...r, id: original.id, time: original.time, purposeTag: original.purposeTag }]
   })
   if (!replacements.length) return new Set()
   const rewritten = new Set(replacements.map((r) => r.id))
@@ -637,7 +672,10 @@ async function reviseFromCritique(
       )
     }
   }
-  if (rewritten.size) await writeDoc(env, s, 'overview', renderMselMarkdown(s), 'critique revision')
+  if (rewritten.size) {
+    for (const phase of s.phases) ensureDecisionPoint(s, phase, env)
+    await writeDoc(env, s, 'overview', renderMselMarkdown(s), 'critique revision')
+  }
   return rewritten
 }
 
@@ -694,7 +732,7 @@ function pruneRubricLinks(s: Scenario, ctx: JobContext): void {
 
 async function stepCritique(input: StepInput): Promise<StageRun> {
   const { scenario: s, env } = input
-  const r = await call<CritiqueOutput>(input, vars(input, { lints: lintScenario(s) }))
+  const r = await call<CritiqueOutput>(input, vars(input, { lints: lintScenario(s, env.domain) }))
   const issues = dismissFalseSourceIssues(s, r.output.issues, env.ctx)
   const rewritten = await reviseFromCritique(
     input,
@@ -719,7 +757,7 @@ async function stepCritique(input: StepInput): Promise<StageRun> {
       (w) => PIPELINE_WARNINGS.has(w.code) && w.code !== FACILITY_UNKNOWN_ID && live(w),
     ),
     ...lintFacilityIds(s, env.facility),
-    ...lintScenario(s),
+    ...lintScenario(s, env.domain),
     ...critique,
   ]
   return r.run
@@ -815,7 +853,8 @@ async function openEnv(root: string, scenario: Scenario, ctx: JobContext): Promi
     findIdea(root, scenario.id, scenario.brief.ideaId),
   ])
   const facility = await deps.loadFacilityFacts(root, project)
-  return { root, deps, index, project, facility, ...(idea ? { idea } : {}), ctx }
+  const domain = domainContext(project, scenario)
+  return { root, deps, index, project, facility, domain, ...(idea ? { idea } : {}), ctx }
 }
 
 /** Run every step that has no ok run yet, in order. This is both "generate" and "continue". */

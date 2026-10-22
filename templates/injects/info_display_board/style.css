@@ -1,0 +1,316 @@
+/* 1920 × 1080 passenger information display. One DOM order for every variant; the variant
+   picks the column order (grid areas), header labels, glyph and colour scheme. Anomaly rows
+   are never styled differently from real rows. */
+body {
+  --bg: #071631;
+  --band: #0a1f45;
+  --cols: #102a5c;
+  --alt: #0c2048;
+  --line: #1d3a70;
+  --accent: #f2b705;
+  --hi: #ffd84a;
+  --muted: #9fb3d9;
+  --text: #f4f6fb;
+  --ok: #5fe08a;
+  --warn: #ffb02e;
+  --go: #1f9d4c;
+  --stop: #c62828;
+  --areas: 't s p pos st r';
+  --tracks: 170px 620px 230px 170px 300px 1fr;
+}
+body.variant-transit_bus {
+  --bg: #111417;
+  --band: #0d6b3a;
+  --cols: #1c2227;
+  --alt: #181d21;
+  --line: #2b3339;
+  --accent: #ff8a1f;
+  --hi: #ffa94d;
+  --muted: #c9e8d6;
+  --text: #f5f7f6;
+  --ok: #6fe39a;
+  --warn: #ff8a1f;
+  --go: #0d8a4a;
+  --stop: #d32f2f;
+  --areas: 'p s pos t st r';
+  --tracks: 170px 760px 150px 230px 260px 1fr;
+}
+body.variant-rail {
+  --bg: #1d2833;
+  --band: #2c3b4a;
+  --cols: #3a4b5c;
+  --alt: #23303c;
+  --line: #4a5d70;
+  --accent: #f0c419;
+  --hi: #ffffff;
+  --muted: #b5c3d1;
+  --text: #f2f5f8;
+  --ok: #8fe3a8;
+  --warn: #f0c419;
+  --go: #2e8b57;
+  --stop: #c0392b;
+  --areas: 't s p pos st r';
+  --tracks: 170px 640px 300px 190px 290px 1fr;
+}
+.board {
+  width: 1920px;
+  height: 1080px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+  overflow: hidden;
+}
+.head {
+  height: 150px;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 48px;
+  background: var(--band);
+  border-bottom: 4px solid var(--accent);
+}
+.title {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  min-width: 0;
+}
+.glyph {
+  flex: none;
+  width: 78px;
+  height: 78px;
+  color: var(--accent);
+}
+.variant-transit_bus .glyph {
+  color: #fff;
+}
+.title h1 {
+  margin: 0;
+  font-size: 86px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+.title .sub {
+  align-self: flex-end;
+  margin-bottom: 14px;
+  font-size: 34px;
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.where {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: 'Roboto', sans-serif;
+  color: var(--text);
+  text-align: right;
+}
+.site {
+  font-size: 28px;
+  font-weight: 500;
+}
+.loc {
+  font-size: 20px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.clock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-left: 40px;
+  border-left: 2px solid rgba(255, 255, 255, 0.25);
+}
+.clock .time {
+  font-size: 84px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.clock .date {
+  font-size: 24px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cols,
+.row {
+  display: grid;
+  grid-template-areas: var(--areas);
+  grid-template-columns: var(--tracks);
+  align-items: center;
+  padding: 0 48px;
+}
+.a-t {
+  grid-area: t;
+}
+.a-s {
+  grid-area: s;
+}
+.a-p {
+  grid-area: p;
+}
+.a-pos {
+  grid-area: pos;
+}
+.a-st {
+  grid-area: st;
+}
+.a-r {
+  grid-area: r;
+}
+.cols {
+  height: 54px;
+  background: var(--cols);
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+.row {
+  height: 56px;
+  font-size: 38px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.row:nth-child(even) {
+  background: var(--alt);
+}
+.row > span {
+  overflow: hidden;
+}
+.c-time,
+.c-pos {
+  font-variant-numeric: tabular-nums;
+  color: var(--hi);
+}
+.c-primary b {
+  font-weight: 700;
+}
+.c-remarks {
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.c-status b {
+  display: inline-block;
+  min-width: 220px;
+  padding: 2px 14px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 42px;
+  border-radius: 3px;
+}
+
+/* Bus: route number in a coloured route badge, bay in a bay box. */
+.variant-transit_bus .c-primary b {
+  display: inline-block;
+  min-width: 104px;
+  padding: 0 12px;
+  text-align: center;
+  line-height: 46px;
+  border-radius: 6px;
+  background: #0d8a4a;
+  color: #fff;
+}
+.variant-transit_bus .c-pos {
+  color: var(--text);
+}
+.variant-transit_bus .c-pos::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 30px;
+  margin-right: 12px;
+  vertical-align: -3px;
+  background: var(--accent);
+}
+.variant-transit_bus .c-time {
+  color: var(--text);
+}
+/* Rail: line / service in a grey-blue pill, platform large. */
+.variant-rail .c-primary {
+  font-size: 30px;
+}
+.variant-rail .c-primary b {
+  display: inline-block;
+  padding: 0 14px;
+  line-height: 44px;
+  border-radius: 22px;
+  background: #4f6a86;
+  color: #fff;
+}
+.variant-rail .c-pos {
+  font-size: 44px;
+  color: var(--accent);
+}
+
+/* Status colours as real boards use them (data-status is the upper-cased status text). */
+.row[data-status*='ON TIME'] .c-status b,
+.row[data-status*='SCHEDULED'] .c-status b {
+  color: var(--ok);
+}
+.row[data-status*='BOARD'] .c-status b {
+  background: var(--go);
+  color: #fff;
+}
+.row[data-status='DUE'] .c-status b,
+.row[data-status*='FINAL'] .c-status b,
+.row[data-status*='APPROACH'] .c-status b {
+  background: var(--accent);
+  color: #111;
+}
+.row[data-status*='DELAY'] .c-status b,
+.row[data-status*='EXP'] .c-status b,
+.row[data-status*='CHANGE'] .c-status b {
+  color: var(--warn);
+}
+.row[data-status*='CANCEL'] .c-status b {
+  background: var(--stop);
+  color: #fff;
+}
+.row[data-status*='DEPARTED'],
+.row[data-status*='DEPARTED'] .c-time,
+.row[data-status*='DEPARTED'] .c-pos,
+.row[data-status*='DEPARTED'] .c-remarks {
+  color: #7f8c99;
+}
+.row[data-status*='DEPARTED'] .c-primary b {
+  opacity: 0.55;
+}
+
+.foot {
+  height: 64px;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  background: var(--band);
+  border-top: 2px solid var(--line);
+  font-family: 'Roboto', sans-serif;
+  font-size: 24px;
+  color: var(--text);
+}
+.ticker {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.page {
+  font-size: 22px;
+  color: var(--muted);
+}

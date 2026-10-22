@@ -1,0 +1,400 @@
+/* Mass-notification alert as the recipient sees it, 480 wide. wea = phone lock screen with a
+   Wireless Emergency Alert, sms = opt-in agency text alert, email = alert email,
+   siren_pa = printed siren / PA operator script card. */
+body {
+  --sev: #e8590c;
+}
+.sev-advisory {
+  --sev: #1971c2;
+}
+.sev-watch {
+  --sev: #e0a800;
+}
+.sev-warning {
+  --sev: #e8590c;
+}
+.sev-emergency {
+  --sev: #c92a2a;
+}
+.alert {
+  font-family: 'Inter', sans-serif;
+  color: #000;
+  background: #fff;
+}
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 54px;
+  padding: 8px 34px 0 50px;
+}
+.clock {
+  font-weight: 600;
+  font-size: 17px;
+}
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sig {
+  width: 18px;
+  height: 12px;
+  fill: currentColor;
+}
+.lte {
+  font-size: 12px;
+  font-weight: 700;
+}
+.batt {
+  position: relative;
+  width: 26px;
+  height: 13px;
+  padding: 1.5px;
+  border: 1.2px solid currentColor;
+  border-radius: 4px;
+  display: flex;
+  opacity: 0.9;
+}
+.lvl {
+  width: 70%;
+  border-radius: 1.5px;
+  background: currentColor;
+}
+
+/* WEA lock screen */
+.variant-wea .alert {
+  background: #16304a;
+  color: #fff;
+}
+.lock {
+  min-height: 660px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 14px 14px;
+  background: #16304a;
+}
+.lockicon svg {
+  width: 16px;
+  height: 20px;
+  color: #fff;
+}
+.bigtime {
+  margin: 4px 0 30px;
+  font-size: 96px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.note {
+  width: 100%;
+  padding: 14px 16px 16px;
+  border-radius: 22px;
+  background: rgba(238, 241, 245, 0.94);
+  color: #111;
+}
+.nh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ni {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: #c92a2a;
+}
+.ni svg {
+  width: 18px;
+  height: 18px;
+}
+.na {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #555b62;
+}
+.nt {
+  font-size: 13px;
+  color: #6b7178;
+}
+.ntitle {
+  margin-top: 10px;
+  font-size: 17px;
+  font-weight: 700;
+}
+.nclass {
+  font-size: 15px;
+  font-weight: 600;
+}
+.nbody {
+  margin-top: 4px;
+  font-size: 16px;
+  line-height: 1.38;
+}
+.hint {
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.home {
+  margin-top: auto;
+  width: 140px;
+  height: 5px;
+  border-radius: 3px;
+  background: #fff;
+}
+
+/* SMS thread */
+.sms-head {
+  display: flex;
+  align-items: flex-start;
+  padding: 4px 16px 10px;
+  background: #f9f9f9;
+  border-bottom: 0.5px solid #d8d8dc;
+}
+.back svg {
+  width: 12px;
+  height: 20px;
+  margin-top: 16px;
+  fill: none;
+  stroke: #0b84fe;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.contact {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-right: 12px;
+}
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #a2a6ad;
+  color: #fff;
+}
+.avatar svg {
+  width: 26px;
+  height: 26px;
+}
+.name {
+  font-size: 13px;
+  color: #000;
+}
+.thread {
+  padding: 12px 14px 22px;
+  min-height: 420px;
+}
+.sep {
+  margin: 4px 0 10px;
+  text-align: center;
+  font-size: 12px;
+  color: #8a8a8e;
+}
+.sep b {
+  font-weight: 600;
+}
+.bub {
+  max-width: 84%;
+  padding: 9px 13px;
+  border-radius: 18px;
+  background: #e9e9eb;
+  font-size: 16px;
+  line-height: 1.35;
+}
+.link {
+  color: #0b62d6;
+  text-decoration: underline;
+}
+.receipt {
+  margin-top: 6px;
+  padding-left: 6px;
+  font-size: 11px;
+  color: #8a8a8e;
+}
+
+/* Email */
+.mail {
+  border: 1px solid #d0d4d9;
+}
+.band {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 18px;
+  background: var(--sev);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+.sev-watch .band {
+  color: #111;
+}
+.hdr {
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid #e3e6ea;
+}
+.subj {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.from {
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  align-items: center;
+  column-gap: 10px;
+  margin-top: 12px;
+}
+.av {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #1f3a5f;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+.from b {
+  display: block;
+  font-size: 14px;
+}
+.from small {
+  font-size: 12px;
+  color: #5c636b;
+}
+.from time {
+  font-size: 12px;
+  color: #5c636b;
+}
+.content {
+  padding: 4px 18px 18px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+.content p {
+  margin: 10px 0;
+}
+.content h3 {
+  margin: 14px 0 4px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sev);
+}
+.content ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.area {
+  padding: 8px 10px;
+  background: #f3f5f7;
+  border-left: 4px solid var(--sev);
+}
+.meta {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.meta th,
+.meta td {
+  padding: 5px 8px;
+  border: 1px solid #dde1e5;
+  text-align: left;
+  vertical-align: top;
+}
+.meta th {
+  width: 96px;
+  background: #f3f5f7;
+  font-weight: 600;
+}
+.small {
+  font-size: 11px;
+  color: #6b7178;
+}
+
+/* Siren / PA script card */
+.variant-siren_pa .alert {
+  background: #fbfaf5;
+}
+.card {
+  padding: 18px 20px 20px;
+  border: 2px solid #222;
+  font-family: 'Roboto', sans-serif;
+  color: #111;
+}
+.ch {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 3px solid #222;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.ch b {
+  padding: 2px 10px;
+  background: var(--sev);
+  color: #fff;
+  font-size: 16px;
+}
+.test {
+  margin-top: 10px;
+  padding: 6px 8px;
+  border: 2px dashed #c92a2a;
+  color: #c92a2a;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+.card .meta {
+  margin-top: 10px;
+}
+.card .meta th {
+  background: #efede4;
+}
+.cue {
+  margin: 10px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #444;
+}
+.script {
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: 1px solid #222;
+  background: #fff;
+  font-family: 'Courier Prime', monospace;
+  font-size: 17px;
+  line-height: 1.45;
+}
+.script p {
+  margin: 0 0 8px;
+}
+.script .lead {
+  font-weight: 700;
+}
+.sign {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+  font-size: 13px;
+}

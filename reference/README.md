@@ -19,6 +19,15 @@ Everything the CSAAP Tabletops project held, as text, plus a slot for the origin
 | `scenario-3/injects/README.md` | the five Inject PNGs (described) | Visual targets for templates |
 | `course/course-outline.md` | Module 1–6 Presentation.pdf (condensed) | Learning objectives / outcome IDs |
 
+## Other domains (ADR-0014)
+
+Two more fictional document sets exercise the domain-neutral generator; each is what a user of that kind of organization would upload. They follow the NCIA pattern: section-numbered plans with deliberate hooks, consistent identifiers, invented people, phone numbers, hostnames and addresses, and a short map-of-record file.
+
+| Path | Organization | Documents |
+|---|---|---|
+| `transit/` | Riverbend Regional Transit Authority (bus + light rail; Harlan County, Ohio) | Emergency Operations Plan (EOP), System Security & Emergency Preparedness Plan (SSEPP), CAD/AVL & fare-system cyber annex, system map |
+| `dam/` | Cedar Ridge Dam, Cedar Valley Water Authority (hydro + flood control; Pike County, Ohio) | Emergency Action Plan (EAP, inundation zones + notification flowchart), Security Plan (physical + SCADA), O&M manual excerpt, site map |
+
 ## NOT included — copyright
 
 The project also contains the four **AAAE Certified Member (C.M.) Body of Knowledge** modules (7th ed., © 2022 American Association of Airport Executives, "All Rights Reserved"): Module 1 Finance and Administration of Airports; Module 2 Planning, Construction, and Environmental; Module 3 Airport Operations, Security and Maintenance; Module 4 Communications and Community Relations. They are licensed course texts and must **not** be committed to a public repository. They are summarized by topic in `course/course-outline.md`. If you want them available to the app locally for testing ingestion, put them in `reference/originals/private/` which is gitignored.
