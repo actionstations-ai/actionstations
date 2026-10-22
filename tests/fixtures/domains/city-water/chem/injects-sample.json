@@ -1,0 +1,332 @@
+[
+  {
+    "row": "START",
+    "type": "startex_card",
+    "title": "STARTEX: pH on the Edge — Caustic Overfeed & Public Health",
+    "fields": {
+      "startTime": "09:00",
+      "day": "Thursday, October 22, 2026",
+      "location": "Riverside Water Treatment Plant (RWTP)",
+      "weather": "Clear, 65°F. Winds calm.",
+      "load": "7.2 MGD",
+      "staffing": "Night shift, full control room staffing, certified operator on duty",
+      "narration": "STARTEX. This is an exercise. It is 09:00 on Thursday, October 22, 2026. The Riverside Water Treatment Plant is operating under normal conditions. The night shift is in progress, and the control room is manned by a certified operator. All system statuses are green on the HMI. The narrative clock begins.",
+      "status": [
+        {
+          "name": "Finished Water pH",
+          "status": "green",
+          "note": "8.3 (normal range: 6.5–9.0)"
+        },
+        {
+          "name": "Chlorine Residual (AIT-301)",
+          "status": "green",
+          "note": "0.6 mg/L (normal: 0.3–1.0)"
+        },
+        {
+          "name": "Clearwell 1 Level (LIT-401)",
+          "status": "green",
+          "note": "75% (normal: 20–90%)"
+        },
+        {
+          "name": "Clearwell 2 Level (LIT-402)",
+          "status": "green",
+          "note": "60% (normal: 20–90%)"
+        },
+        {
+          "name": "Caustic Feed Setpoint (NAOH-FC-203)",
+          "status": "green",
+          "note": "22 mg/L (normal: 15–25 mg/L)"
+        },
+        {
+          "name": "Chemical Building HMI (MBW-HMI-02)",
+          "status": "green",
+          "note": "Online, no active alarms"
+        },
+        {
+          "name": "SCADA Network",
+          "status": "green",
+          "note": "All controllers responsive, no telemetry loss"
+        }
+      ],
+      "facilitatorNote": "Confirm all roles have their briefing packets and are seated. This is the baseline state for a cyber-physical incident involving chemical feed tampering. Observe how teams interpret the HMI data versus field reality.",
+      "scenarioTitle": "pH on the Edge — Caustic Overfeed & Public Health",
+      "injectId": "START"
+    }
+  },
+  {
+    "row": "I-01",
+    "type": "field_report",
+    "title": "Field Report: pH Anomaly at Chemical Building",
+    "fields": {
+      "organization": "City of Millbrook Department of Water & Sewer",
+      "formTitle": "Field Inspection Report",
+      "reportNo": "FIR-2026-0015",
+      "date": "10/22/2026",
+      "time": "09:15",
+      "location": "Chemical Building, Zone 2, Level 3",
+      "inspector": "Chen, Night Operator",
+      "unit": "OPS_SHIFT_B · HMI Node: MBW-HMI-02",
+      "reportType": "incident",
+      "weather": "Clear, 62°F, light wind",
+      "summary": "Field reading from AIT-302 indicates finished-water pH at 9.3 — significantly above the normal 7.4–7.8 range. HMI for NAOH-FC-203 displays setpoint at 14.0 mg/L, which is within normal operating band. PSH-302 has not tripped. Caustic pump is running at full speed; tank level is dropping. Water sample taken on-site has a distinct lye taste. Field instruments and physical observation suggest mismatch with HMI display.",
+      "findings": [
+        {
+          "item": "AIT-302 pH sensor reading",
+          "condition": "failed",
+          "notes": "pH = 9.3, exceeds the 8.5 HMI high alarm (PSH-302 trips at 9.5)"
+        },
+        {
+          "item": "NAOH-FC-203 setpoint display",
+          "condition": "ok",
+          "notes": "14.0 mg/L, within normal band"
+        },
+        {
+          "item": "PSH-302 high-pH alarm",
+          "condition": "not_inspected",
+          "notes": "No trip recorded, but field sensor confirms high pH"
+        },
+        {
+          "item": "Caustic feed pump status",
+          "condition": "failed",
+          "notes": "Running at full speed, no manual stop"
+        },
+        {
+          "item": "NAOH-FC-203 tank level",
+          "condition": "deficient",
+          "notes": "Dropping rapidly, no valve closure detected"
+        },
+        {
+          "item": "Grab sample taste test",
+          "condition": "failed",
+          "notes": "Tastes strongly of lye; not safe for consumption"
+        },
+        {
+          "item": "Manual valve position",
+          "condition": "ok",
+          "notes": "Valve at manual hold, not closed"
+        },
+        {
+          "item": "Alarm acknowledgment status",
+          "condition": "not_inspected",
+          "notes": "No record of alarm acknowledged on HMI"
+        },
+        {
+          "item": "HMI access log",
+          "condition": "not_inspected",
+          "notes": "No on-site access to audit log"
+        },
+        {
+          "item": "Field instrument calibration",
+          "condition": "not_inspected",
+          "notes": "Not performed on-site; pending lab verification"
+        }
+      ],
+      "actionsTaken": [
+        "Notified Control Room by radio at 09:15",
+        "Collected grab sample from final filter outlet",
+        "Verified pump run status and tank level drop rate",
+        "Initiated manual hold on NAOH-FC-203 feed line via local panel",
+        "Logged incident in paper control log, Section 7.2"
+      ],
+      "recommendations": [
+        "Immediate audit of AquaSight HMI node MBW-HMI-02 for unauthorized access",
+        "Dispatch lab team to validate pH and chemical concentrations",
+        "Isolate NAOH-FC-203 from system until root cause confirmed",
+        "Notify Public Information Officer for potential consumer advisories",
+        "Open ticket with IT for forensic review of ScreenBridge session on MBW-HMI-02"
+      ],
+      "photosNote": "4 photos attached: IMG_2026-0015-01 (AIT-302 display), IMG_2026-0015-02 (grab sample vial), IMG_2026-0015-03 (caustic pump), IMG_2026-0015-04 (tank level gauge)",
+      "signature": "Chen, Night Operator",
+      "marking": "EXERCISE · EXERCISE · EXERCISE"
+    }
+  },
+  {
+    "row": "I-02",
+    "type": "email_forward",
+    "title": "Lab: pH 9.3 & Caustic 38 mg/L — Sample 24-1187",
+    "fields": {
+      "fromName": "Amina Patel (Lab Assistant)",
+      "fromEmail": "amina.patel@millbrook.gov",
+      "senderInitials": "AP",
+      "to": "Marcus Oyelaran, Water Quality Manager; Director of Water Operations",
+      "subject": "FW: Urgent: Sample 24-1187 (Effluent) - pH 9.3, Caustic 38 mg/L",
+      "sentAt": "Thu 10/22/2026 09:22",
+      "note": "This came in via LIMS-01. pH is 9.3 and measured caustic is 38 mg/L—both above thresholds. The system note says 'exceeds PLC clamp' and 'confirms control-system anomaly'. I flagged it as urgent. Please review immediately.",
+      "signature": "Amina Patel\nLab Assistant, Water Quality Lab\nCity of Millbrook Department of Water & Sewer",
+      "importance": "high",
+      "external": false,
+      "attachments": [
+        {
+          "name": "LIMS-24-1187-2026.pdf",
+          "size": "142 KB",
+          "kind": "pdf"
+        }
+      ],
+      "printedBy": "Water Quality Lab",
+      "original": {
+        "fromName": "LIMS System (Automated)",
+        "fromEmail": "lms@millbrook.gov",
+        "sentAt": "Thu 10/22/2026 09:18",
+        "to": "Lab Assistant",
+        "cc": "",
+        "subject": "Sample 24-1187 – Effluent Line – pH 9.3, Caustic 38 mg/L",
+        "body": "Sample ID: 24-1187\nSource: Effluent line, RWTP\nCollection Time: 09:18\npH: 9.3\nCaustic dose (measured): 38 mg/L\n\nAlert: pH > 9.5, Caustic > 40 mg/L (PLC clamp) — trigger for advisory\n\nSystem note: This exceeds the PLC hard limit (40 mg/L) and confirms a control-system anomaly.\n\nLIMS report with full traceability attached."
+      }
+    }
+  },
+  {
+    "row": "I-03",
+    "type": "radio_call",
+    "title": "Radio: HMI Operator Rios — Manual Override Failed",
+    "fields": {
+      "orgName": "City of Millbrook Department of Water & Sewer",
+      "centerName": "Water Operations Control Center (WOCC)",
+      "channel": "OPS 3",
+      "frequency": "TG 4301 / 460.310 MHz",
+      "date": "10/22/2026",
+      "callsign": "HMI Operator Rios",
+      "lines": [
+        {
+          "time": "09:28",
+          "from": "HMI Operator Rios",
+          "to": "Control",
+          "text": "Control, this is HMI Operator Rios. I just tried to manually override NAOH-FC-203 on the local PLC-02 panel. I selected 'Manual Mode' and setpoint to 0. The pump still runs, and the HMI shows no change in command status — it's still at 'AUTO' and 'Running'. I can't stop it. I've tried twice."
+        }
+      ],
+      "background": "office",
+      "voiceStyle": "Young adult female, tense, breathless",
+      "audioFile": "I-03_radio.wav",
+      "duration": "0:18",
+      "injectId": "I-03"
+    }
+  },
+  {
+    "row": "I-04",
+    "type": "phone_call",
+    "title": "Phone Call: WQ Manager — Advisory Decision Initiated",
+    "fields": {
+      "orgName": "City of Millbrook Department of Water & Sewer",
+      "systemName": "Central Operations Voice Recorder - CDR-01",
+      "callId": "CR-20261022-093512-0401",
+      "direction": "Inbound",
+      "caller": {
+        "name": "Marcus Oyelaran",
+        "number": "(555) 034-1199",
+        "label": "Water Quality Manager"
+      },
+      "callee": {
+        "name": "Director Albrecht",
+        "number": "(555) 031-2244",
+        "label": "Director of Water Operations"
+      },
+      "startTime": "10/22/2026 09:35:12",
+      "duration": "2:18",
+      "transcript": [
+        {
+          "speaker": "Marcus Oyelaran",
+          "offset": "00:00",
+          "text": "Director Albrecht, this is Marcus Oyelaran, Water Quality Manager. The lab has confirmed: pH is 9.3, caustic dose is 38 mg/L. The PLC clamp is 40 mg/L, so we are over. PSH-302 has not tripped — that's not normal. This means the HMI is not reflecting reality. The control system is compromised. We are in a public health emergency. We must issue a Do Not Drink advisory.",
+          "prompt": false
+        },
+        {
+          "speaker": "Director Albrecht",
+          "offset": "00:42",
+          "text": "Understood, Marcus. I’ve just received the field report from Night Operator Chen and the HMI override failure from Rios. Confirming: HMI still shows NAOH-FC-203 at 14 mg/L, but lab confirms 38 mg/L and pH 9.3. PSH-302 not tripped. Yes — this is a control-system anomaly. I’m initiating the advisory process now. I’ll notify the PIO and SCADA / IT Security Manager.",
+          "prompt": false
+        },
+        {
+          "speaker": "Marcus Oyelaran",
+          "offset": "01:18",
+          "text": "Good. We must act before any downstream customers report symptoms. The 2-hour grab samples are now invalid — they’re from a compromised feed. We need to lock out the caustic feed and notify the EMA and Ohio EPA within 24 hours per C2. This is Tier 1.",
+          "prompt": false
+        },
+        {
+          "speaker": "Director Albrecht",
+          "offset": "01:50",
+          "text": "Confirmed. I’m placing the call to the PIO now. We’ll follow MDWS-PCP-2026 for the statement. Hold on — I’m turning off the line for a second to alert the team.",
+          "prompt": false
+        }
+      ],
+      "voiceStyles": {
+        "Marcus Oyelaran": "Male, mid-50s, urgent, clipped speech, background lab hum",
+        "Director Albrecht": "Male, late 50s, calm but firm, measured tone, slight pause between sentences"
+      },
+      "injectId": "I-04"
+    }
+  },
+  {
+    "row": "I-05",
+    "type": "system_log",
+    "title": "System Log: Unauthorized DosaTech Session on MBW-HMI-02",
+    "fields": {
+      "systemName": "AquaSight Audit Log",
+      "host": "MBW-HMI-02",
+      "ip": "10.72.10.22",
+      "os": "Windows Server 2019",
+      "logSource": "MBW-SCADA-SRV01 (audit log)",
+      "exportedBy": "AquaSight Admin (Kessler)",
+      "exportedAt": "10/22/2026 09:42 AM",
+      "timezone": "EDT (UTC-4)",
+      "lines": [
+        {
+          "ts": "2026-10-22 08:00:14",
+          "level": "ALERT",
+          "msg": "Remote session initiated via DosaTech ScreenBridge from IP 10.200.144.122",
+          "highlight": true
+        },
+        {
+          "ts": "2026-10-22 08:00:14",
+          "level": "ERROR",
+          "msg": "No valid MFA token presented; session not tied to a known user account",
+          "highlight": true
+        },
+        {
+          "ts": "2026-10-22 08:05:03",
+          "level": "INFO",
+          "msg": "SETPOINT node=MBW-HMI-02 acct=UNKNOWN tag=NAOH-FC-203.SP old=14.0 new=25.0 mg/L",
+          "highlight": true
+        },
+        {
+          "ts": "2026-10-22 08:12:47",
+          "level": "INFO",
+          "msg": "SETPOINT node=MBW-HMI-02 acct=UNKNOWN tag=NAOH-FC-203.SP old=25.0 new=35.0 mg/L",
+          "highlight": true
+        },
+        {
+          "ts": "2026-10-22 08:22:11",
+          "level": "INFO",
+          "msg": "SETPOINT node=MBW-HMI-02 acct=UNKNOWN tag=NAOH-FC-203.SP old=35.0 new=38.0 mg/L",
+          "highlight": true
+        },
+        {
+          "ts": "2026-10-22 08:22:12",
+          "level": "NOTICE",
+          "msg": "Setpoint write to NAOH-FC-203: 38 mg/L (within PLC hard limit)",
+          "highlight": true
+        },
+        {
+          "ts": "2026-10-22 08:22:12",
+          "level": "ALERT",
+          "msg": "Session duration: 1h12m; no Kessler Controls ticket open for this window",
+          "highlight": true
+        },
+        {
+          "ts": "2026-10-22 08:22:12",
+          "level": "CRIT",
+          "msg": "No approval in remote-access log (MBW-JUMP-01); session not authorized under C4-6.2",
+          "highlight": true
+        },
+        {
+          "ts": "2026-10-22 08:22:12",
+          "level": "ALERT",
+          "msg": "Unauthorized remote access via DosaTech ScreenBridge detected — system integrity compromised",
+          "highlight": true
+        }
+      ],
+      "terminalTitle": "Administrator: Windows PowerShell",
+      "command": "Get-Content C:\\\\Logs\\\\AquaSight\\\\MBW-HMI-02.audit.log -Tail 20",
+      "classification": "INTERNAL - INCIDENT EVIDENCE",
+      "pageLabel": "Page 1 of 1"
+    }
+  }
+]

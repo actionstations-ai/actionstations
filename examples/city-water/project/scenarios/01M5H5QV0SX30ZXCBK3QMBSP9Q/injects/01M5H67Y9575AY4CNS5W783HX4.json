@@ -1,0 +1,104 @@
+{
+  "id": "01M5H67Y9575AY4CNS5W783HX4",
+  "mselRowId": "I-10",
+  "type": "time_jump_card",
+  "title": "Time Jump: 10:00 — Crisis Spreading",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:00",
+    "newTime": "10:00",
+    "jumpLabel": "+60 minutes",
+    "narration": "It is now 10:00. The problem has spread to Zone 1, where customers are reporting chemical taste, nausea, and vomiting. The lab has confirmed a pH of 9.3 and a caustic dose of 38 mg/L — both well above safe limits. The control system has been isolated, but the HMI continues to display normal values. The SCADA / IT Security Manager has confirmed unauthorized remote access via DosaTech ScreenBridge. The Ohio EPA DDAGW has been notified, and the public is demanding answers. The shift cannot restore trust in the system without verification. The next phase begins.",
+    "worldState": [
+      "It is now 10:00.",
+      "The pH in Zone 1 has been confirmed at 9.3 by the lab and field instruments.",
+      "The caustic dose at NAOH-FC-203 remains at 38 mg/L, exceeding the PLC hard limit of 40 mg/L and the safe operating band.",
+      "The HMI for MBW-HMI-02 still shows 'AUTO' and 'Running' for NAOH-FC-203, despite manual override attempts and field evidence of overfeed.",
+      "The DosaTech ScreenBridge session from 10.200.144.122 has been confirmed as unauthorized and unapproved.",
+      "The public has begun demanding immediate action through social media and emergency lines.",
+      "The Ohio EPA DDAGW Central District has been notified per Section 5.3 of the Emergency Response Plan.",
+      "The control system remains in a compromised state; no operator action has restored correct feed control.",
+      "The water quality team has begun collecting grab samples from the High Service Pump Station discharge and the first distribution tap on River Road, per C1.",
+      "The public information team has activated the pre-scripted holding statement in MDWS-PCP-2026, Section 1.2.",
+      "The Director has declared a Level 3 — Public Health Emergency — and activated Section 7.5 Manual Operation protocol."
+    ],
+    "facilitatorNote": "This inject advances the timeline to 10:00. The crisis has escalated to public health impact and operational loss of trust. The team must now coordinate across roles to validate data, manage the public response, and decide whether to issue a Do Not Drink advisory. Watch for hesitation in verifying lab data vs. HMI, and for miscommunication between IT and operations on control system status.",
+    "scenarioTitle": "pH on the Edge — Caustic Overfeed & Public Health",
+    "injectId": "I-10"
+  },
+  "instructorNote": "This inject advances the timeline to 10:00. The crisis has escalated to public health impact and operational loss of trust. The team must now coordinate across roles to validate data, manage the public response, and decide whether to issue a Do Not Drink advisory. Watch for hesitation in verifying lab data vs. HMI, and for miscommunication between IT and operations on control system status.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.4 Suspected Setpoint Tampering Checklist",
+      "quote": "- [ ] Operator: read the current dose and setpoint for every chemical feed on MBW-HMI-02; compare with the dose table and the last grab sample; note any value above the normal band in Section 7.1 - [ ",
+      "chunkId": 85
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+      "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+      "chunkId": 73
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of…",
+      "quote": "Document Control Number: MDWS-PCP-2026 · Revision 2.0 · Effective Date: 02/01/2026 · Approved: Hannah Weiss (Public Information Officer / City Communications Director) · Denise Albrecht (Director of W",
+      "chunkId": 100
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 5 › 5.1 General",
+      "quote": "Notifications are made by telephone with a voice read-back and logged on ERP-1 (time, person reached, message, call-back number). Email, MillbrookAlert and text are supplementary. If a primary contact",
+      "chunkId": 14
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T06:54:51.034Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 10:00 — Crisis Spreading",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "1:00",
+          "newTime": "10:00",
+          "jumpLabel": "+60 minutes",
+          "narration": "It is now 10:00. The problem has spread to Zone 1, where customers are reporting chemical taste, nausea, and vomiting. The lab has confirmed a pH of 9.3 and a caustic dose of 38 mg/L — both well above safe limits. The control system has been isolated, but the HMI continues to display normal values. The SCADA / IT Security Manager has confirmed unauthorized remote access via DosaTech ScreenBridge. The Ohio EPA DDAGW has been notified, and the public is demanding answers. The shift cannot restore trust in the system without verification. The next phase begins.",
+          "worldState": [
+            "It is now 10:00.",
+            "The pH in Zone 1 has been confirmed at 9.3 by the lab and field instruments.",
+            "The caustic dose at NAOH-FC-203 remains at 38 mg/L, exceeding the PLC hard limit of 40 mg/L and the safe operating band.",
+            "The HMI for MBW-HMI-02 still shows 'AUTO' and 'Running' for NAOH-FC-203, despite manual override attempts and field evidence of overfeed.",
+            "The DosaTech ScreenBridge session from 10.200.144.122 has been confirmed as unauthorized and unapproved.",
+            "The public has begun demanding immediate action through social media and emergency lines.",
+            "The Ohio EPA DDAGW Central District has been notified per Section 5.3 of the Emergency Response Plan.",
+            "The control system remains in a compromised state; no operator action has restored correct feed control.",
+            "The water quality team has begun collecting grab samples from the High Service Pump Station discharge and the first distribution tap on River Road, per C1.",
+            "The public information team has activated the pre-scripted holding statement in MDWS-PCP-2026, Section 1.2.",
+            "The Director has declared a Level 3 — Public Health Emergency — and activated Section 7.5 Manual Operation protocol."
+          ],
+          "facilitatorNote": "This inject advances the timeline to 10:00. The crisis has escalated to public health impact and operational loss of trust. The team must now coordinate across roles to validate data, manage the public response, and decide whether to issue a Do Not Drink advisory. Watch for hesitation in verifying lab data vs. HMI, and for miscommunication between IT and operations on control system status.",
+          "scenarioTitle": "pH on the Edge — Caustic Overfeed & Public Health",
+          "injectId": "I-10"
+        },
+        "instructorNote": "This inject advances the timeline to 10:00. The crisis has escalated to public health impact and operational loss of trust. The team must now coordinate across roles to validate data, manage the public response, and decide whether to issue a Do Not Drink advisory. Watch for hesitation in verifying lab data vs. HMI, and for miscommunication between IT and operations on control system status.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:38.464Z"
+}

@@ -1,0 +1,246 @@
+{
+  "id": "01M5H71D0J5DE42TEAR7NDQ90H",
+  "mselRowId": "I-11c",
+  "type": "scada_hmi",
+  "title": "HMI: Chemical Feed screen on MBW-HMI-01 — caustic at 38 mg/L, pH 9.3 in alarm",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "CHEMICAL FEED — CHM-2",
+    "site": "Riverside Water Treatment Plant",
+    "clock": "10:15:08",
+    "date": "22-OCT-2026",
+    "operator": "OPS_SHIFT_B",
+    "state": "critical",
+    "stateText": "AIT-302 pH HIGH 9.3",
+    "mode": "AUTO",
+    "equipment": [
+      {
+        "tag": "CL2-FC-201",
+        "label": "Pre-Chlorination Dose",
+        "kind": "pump",
+        "state": "running",
+        "value": "1.8",
+        "units": "mg/L",
+        "setpoint": "1.8",
+        "note": "FLOW PACED"
+      },
+      {
+        "tag": "CL2-FC-202",
+        "label": "Post-Chlorination Dose",
+        "kind": "pump",
+        "state": "running",
+        "value": "2.4",
+        "units": "mg/L",
+        "setpoint": "2.4",
+        "note": "RESIDUAL TRIM"
+      },
+      {
+        "tag": "NAOH-FC-203",
+        "label": "Caustic Dose",
+        "kind": "pump",
+        "state": "alarm",
+        "value": "37.6",
+        "units": "mg/L",
+        "setpoint": "38.0",
+        "note": "SP WRITE MBW-HMI-02 08:22 PIN"
+      },
+      {
+        "tag": "F-FC-204",
+        "label": "Fluoride Dose",
+        "kind": "pump",
+        "state": "running",
+        "value": "0.7",
+        "units": "mg/L",
+        "setpoint": "0.7"
+      },
+      {
+        "tag": "ALUM-FC-205",
+        "label": "Alum Dose",
+        "kind": "pump",
+        "state": "running",
+        "value": "22.0",
+        "units": "mg/L",
+        "setpoint": "22.0"
+      },
+      {
+        "tag": "POLY-FC-206",
+        "label": "Polymer Dose",
+        "kind": "pump",
+        "state": "running",
+        "value": "0.3",
+        "units": "mg/L",
+        "setpoint": "0.3"
+      },
+      {
+        "tag": "LIT-203",
+        "label": "Caustic Bulk Tank",
+        "kind": "tank",
+        "state": "running",
+        "value": "58",
+        "units": "%",
+        "note": "FALLING 0.9 %/H"
+      },
+      {
+        "tag": "LIT-201",
+        "label": "Hypochlorite Tank A",
+        "kind": "tank",
+        "state": "running",
+        "value": "71",
+        "units": "%"
+      },
+      {
+        "tag": "AIT-302",
+        "label": "Finished Water pH",
+        "kind": "sensor",
+        "state": "alarm",
+        "value": "9.3",
+        "units": "pH",
+        "setpoint": "7.6",
+        "note": "HI 8.5 ACK 08:31 @MBW-HMI-02"
+      },
+      {
+        "tag": "AIT-301",
+        "label": "Finished Cl2 Residual",
+        "kind": "sensor",
+        "state": "running",
+        "value": "1.4",
+        "units": "mg/L",
+        "setpoint": "1.5"
+      },
+      {
+        "tag": "PSH-302",
+        "label": "pH High-High Switch",
+        "kind": "sensor",
+        "state": "running",
+        "value": "ARMED",
+        "note": "TRIP 9.5 HARD-WIRED"
+      },
+      {
+        "tag": "FIT-501",
+        "label": "Plant Finished Flow",
+        "kind": "sensor",
+        "state": "running",
+        "value": "7.2",
+        "units": "MGD"
+      }
+    ],
+    "readings": [
+      {
+        "label": "Finished pH",
+        "value": "9.3",
+        "units": "pH",
+        "alarm": true
+      },
+      {
+        "label": "Caustic dose setpoint",
+        "value": "38.0",
+        "units": "mg/L"
+      },
+      {
+        "label": "Caustic dose PV",
+        "value": "37.6",
+        "units": "mg/L"
+      },
+      {
+        "label": "Finished Cl2 residual",
+        "value": "1.4",
+        "units": "mg/L"
+      },
+      {
+        "label": "Plant flow",
+        "value": "7.2",
+        "units": "MGD"
+      },
+      {
+        "label": "Clearwell 1 level",
+        "value": "13.8",
+        "units": "ft"
+      },
+      {
+        "label": "Raw turbidity",
+        "value": "4.1",
+        "units": "NTU"
+      },
+      {
+        "label": "Distribution pressure",
+        "value": "70",
+        "units": "psi"
+      }
+    ],
+    "alarms": [
+      {
+        "time": "10:12:40",
+        "priority": "2",
+        "tag": "AIT-302.HI",
+        "text": "FINISHED WATER pH HIGH 9.3",
+        "acked": false
+      },
+      {
+        "time": "09:58:03",
+        "priority": "4",
+        "tag": "SCADA.SESSION",
+        "text": "REMOTE SESSION MBW-HMI-02 dosatech_svc ACTIVE",
+        "acked": false
+      },
+      {
+        "time": "08:31:17",
+        "priority": "2",
+        "tag": "AIT-302.HI",
+        "text": "FINISHED WATER pH HIGH 8.6 — ACK OPS_SHIFT_B @MBW-HMI-02",
+        "acked": true
+      },
+      {
+        "time": "08:22:31",
+        "priority": "4",
+        "tag": "NAOH-FC-203.SP",
+        "text": "SETPOINT 35.0 → 38.0 mg/L PIN ACCEPTED MBW-HMI-02",
+        "acked": true
+      },
+      {
+        "time": "08:05:03",
+        "priority": "4",
+        "tag": "NAOH-FC-203.SP",
+        "text": "SETPOINT 14.0 → 25.0 mg/L PIN ACCEPTED MBW-HMI-02",
+        "acked": true
+      }
+    ],
+    "statusItems": [
+      "PLC-01 ONLINE",
+      "PLC-02 ONLINE",
+      "PLC-05 ONLINE",
+      "RTU-01 ONLINE",
+      "HISTORIAN ONLINE",
+      "REMOTE: JUMP 0 / SCREENBRIDGE 1"
+    ],
+    "hmiNode": "MBW-HMI-01"
+  },
+  "variant": "water_chemical",
+  "instructorNote": "Display on the main screen. This is the moment the room can see the control system disagreeing with itself: the Control Room HMI shows the written setpoint and the acknowledged alarm; the Chemical Building HMI (MBW-HMI-02) was frozen by the remote session. Expect IT to call CODE CLEARWATER and start OT Plan 10.4; if they only argue about the number, prompt with \"who acknowledged the 08:31 alarm?\"",
+  "citations": [],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5H7CG6AAGP8HR4G1Q52ZJCT",
+      "kind": "image",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H71D0J5DE42TEAR7NDQ90H/01M5H7CG6AAGP8HR4G1Q52ZJCT.png",
+      "role": "rendered",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "e0c8b3a41ba37d576e4e0c8385d94f8ae826e296321ecec946ced20f3867b131",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scada_hmi",
+        "templateVersion": "2",
+        "createdAt": "2026-10-22T07:14:39.272Z"
+      }
+    }
+  ],
+  "versions": [],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:39.435Z"
+}

@@ -1,0 +1,127 @@
+{
+  "id": "01M5H6JB9P6GPHE8F731YCPZHB",
+  "mselRowId": "I-21g",
+  "type": "regulatory_notice",
+  "title": "Regulatory Notice: DosaTech ScreenBridge Compromise — MDWS-FE-2026",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "agency": "Ohio Environmental Protection Agency",
+    "parent": "State of Ohio",
+    "office": "Central District, Drinking Water and Groundwater Division",
+    "noticeType": "SD",
+    "number": "SD-2026-0418",
+    "subject": "Submission of Forensic Evidence — DosaTech ScreenBridge Compromise (MDWS-FE-2026)",
+    "issued": "October 22, 2026",
+    "effectiveDate": "October 22, 2026, 12:30 EDT",
+    "expirationDate": "December 31, 2026",
+    "applicability": "City of Millbrook Department of Water & Sewer, all personnel involved in cyber-incident response and regulatory reporting",
+    "authority": "Ohio Revised Code § 3745.01; 40 CFR 141.71 (Federal Emergency Response)",
+    "purpose": "The City of Millbrook Department of Water & Sewer has submitted forensic evidence confirming a cyber-physical compromise of the caustic feed control system (NAOH-FC-203) via an unauthorized DosaTech ScreenBridge agent on MBW-HMI-02 (10.72.10.22). The attacker used a fake vendor identity and bypassed multi-factor authentication to increase the setpoint to 38 mg/L without triggering HMI alarms or field safety devices. The attack remains under investigation by CISA and the FBI. This directive confirms the submission of evidence for attribution and forensic analysis.\n\nThe incident is classified as a Level 3 — Public Health Emergency under ERP Section 4.4. All actions taken to isolate, monitor, and restore the system are to be documented and reported via the DDAGW-ELR-2026 portal within 24 hours of verification.",
+    "actions": [
+      "Submit the forensic evidence package (SEC-4 form, MBW-HMI-02 forensic image, DosaTech session audit log) to CISA via the WaterISAC portal within 2 hours of receipt.",
+      "Notify the FBI Cyber Task Force via the WaterISAC portal and request a joint attribution and forensic review under Section 12.3 (External Reporting Clocks).",
+      "Confirm receipt and next steps from CISA and FBI via WaterISAC within 4 hours of submission.",
+      "Maintain the Do Not Drink advisory for Zone 1 until two clean sample rounds (pH ≤ 9.0, caustic ≤ 15 mg/L) are confirmed and verified by DDAGW.",
+      "Report final lab verification to the Ohio EPA DDAGW within 1 hour of confirmation."
+    ],
+    "contact": "Questions: contact Carol Dugan, Ohio EPA DDAGW Central District, (555) 037-1555",
+    "approvedBy": {
+      "name": "Carol Dugan",
+      "title": "District Engineer, Ohio EPA DDAGW Central District",
+      "signature": "CD/2026"
+    },
+    "handling": "SENSITIVE SECURITY INFORMATION",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "instructorNote": "This inject confirms formal regulatory submission of forensic evidence. Watch for the player to initiate external reporting via WaterISAC and confirm CISA/FBI coordination.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.4 ScreenBridge Exception (DosaTech)",
+      "quote": "During the 11/2024 commissioning of the replacement chemical metering pumps and VFDs, DosaTech Metering Systems installed its **ScreenBridge** remote-support agent on **MBW-HMI-02** in the Chemical Bu",
+      "chunkId": 72
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 12",
+      "quote": "| Event | Report to | Clock | |---|---|---| | Any confirmed or strongly suspected cyber intrusion on the control network, or unauthorized operation of equipment | CISA (24/7) | Within 24 hours; immedi",
+      "chunkId": 93
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Annex B",
+      "quote": "Code word **CODE CLEARWATER** on DWS-1 (Section 10.1) · Island steps: FW-R-17, FW-R-22, FW-R-09 off → break MBWSCADA trust → DMZ uplink out → vendor accounts and `dosatech_svc` off → PLCs LOCAL (Secti",
+      "chunkId": 99
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5H7CNAHD723E47MCTGXE9GQ",
+      "kind": "image",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H6JB9P6GPHE8F731YCPZHB/01M5H7CNAHD723E47MCTGXE9GQ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "16f27fd484ee6dc6be81efef064fedd8f21432101c2536c3986fccae4ba7ecab",
+      "provenance": {
+        "provider": "template",
+        "templateId": "regulatory_notice",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:14:44.545Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T07:00:35.984Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Regulatory Notice: DosaTech ScreenBridge Compromise — MDWS-FE-2026",
+        "type": "regulatory_notice",
+        "fields": {
+          "agency": "Ohio Environmental Protection Agency",
+          "parent": "State of Ohio",
+          "office": "Central District, Drinking Water and Groundwater Division",
+          "noticeType": "SD",
+          "number": "SD-2026-0418",
+          "subject": "Submission of Forensic Evidence — DosaTech ScreenBridge Compromise (MDWS-FE-2026)",
+          "issued": "October 22, 2026",
+          "effectiveDate": "October 22, 2026, 12:30 EDT",
+          "expirationDate": "December 31, 2026",
+          "applicability": "City of Millbrook Department of Water & Sewer, all personnel involved in cyber-incident response and regulatory reporting",
+          "authority": "Ohio Revised Code § 3745.01; 40 CFR 141.71 (Federal Emergency Response)",
+          "purpose": "The City of Millbrook Department of Water & Sewer has submitted forensic evidence confirming a cyber-physical compromise of the caustic feed control system (NAOH-FC-203) via an unauthorized DosaTech ScreenBridge agent on MBW-HMI-02 (10.72.10.22). The attacker used a fake vendor identity and bypassed multi-factor authentication to increase the setpoint to 38 mg/L without triggering HMI alarms or field safety devices. The attack remains under investigation by CISA and the FBI. This directive confirms the submission of evidence for attribution and forensic analysis.\n\nThe incident is classified as a Level 3 — Public Health Emergency under ERP Section 4.4. All actions taken to isolate, monitor, and restore the system are to be documented and reported via the DDAGW-ELR-2026 portal within 24 hours of verification.",
+          "actions": [
+            "Submit the forensic evidence package (SEC-4 form, MBW-HMI-02 forensic image, DosaTech session audit log) to CISA via the WaterISAC portal within 2 hours of receipt.",
+            "Notify the FBI Cyber Task Force via the WaterISAC portal and request a joint attribution and forensic review under Section 12.3 (External Reporting Clocks).",
+            "Confirm receipt and next steps from CISA and FBI via WaterISAC within 4 hours of submission.",
+            "Maintain the Do Not Drink advisory for Zone 1 until two clean sample rounds (pH ≤ 9.0, caustic ≤ 15 mg/L) are confirmed and verified by DDAGW.",
+            "Report final lab verification to the Ohio EPA DDAGW within 1 hour of confirmation."
+          ],
+          "contact": "Questions: contact Carol Dugan, Ohio EPA DDAGW Central District, (555) 037-1555",
+          "approvedBy": {
+            "name": "Carol Dugan",
+            "title": "District Engineer, Ohio EPA DDAGW Central District",
+            "signature": "CD/2026"
+          },
+          "handling": "SENSITIVE SECURITY INFORMATION",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms formal regulatory submission of forensic evidence. Watch for the player to initiate external reporting via WaterISAC and confirm CISA/FBI coordination.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:44.768Z"
+}

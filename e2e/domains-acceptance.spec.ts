@@ -6,10 +6,24 @@
 // and that the tag mix and decision point fit the threat family. Opt-in, slow:
 //   LIVE=1 pnpm exec playwright test e2e/domains-acceptance.spec.ts
 //   DOMAINS=transit,dam,uas,uas-ops   (default: all four)   MEDIA=0 skips image/TTS rendering
+//   DOMAINS=water             the City of Millbrook pack (#158) as shipped: water-chem.
+//                             The other Millbrook runs (water-ransomware, water-tank,
+//                             water-main) are defined below and selectable by id.
+//   PROJECT_DIR=<folder>      reuse one project folder across runs (documents imported once;
+//                             every run adds its scenario) — how example packs are built
+//   EXPORT_DIR=<folder>       after each run, export every target to <folder>/<run>/
 // Outputs (summaries, documents, copied media) go to .tmp/domains-acceptance/<run>/ and the
-// small review fixtures to tests/fixtures/domains/<run>/ when SAVE_FIXTURES=1.
+// small review fixtures to tests/fixtures/domains/<run>/ (or the run's fixtureDir) when
+// SAVE_FIXTURES=1.
 import { expect, test } from '@playwright/test'
-import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { basename, join, resolve } from 'node:path'
 import { invoker, launch, mdFiles, waitForJob } from './helpers'
@@ -19,8 +33,29 @@ test.setTimeout(90 * 60_000)
 
 const OUT = resolve('.tmp/domains-acceptance')
 const FIXTURES = resolve('tests/fixtures/domains')
-const WANT = (process.env.DOMAINS ?? 'transit,dam,uas,uas-ops').split(',').map((s) => s.trim())
+/** Group names that stand for several runs. */
+const GROUPS: Record<string, string[]> = {
+  water: ['water-chem'],
+}
+const WANT = (process.env.DOMAINS ?? 'transit,dam,uas,uas-ops')
+  .split(',')
+  .map((s) => s.trim())
+  .flatMap((s) => GROUPS[s] ?? [s])
 const MEDIA = process.env.MEDIA !== '0'
+const PROJECT_DIR = process.env.PROJECT_DIR ? resolve(process.env.PROJECT_DIR) : undefined
+const EXPORT_DIR = process.env.EXPORT_DIR ? resolve(process.env.EXPORT_DIR) : undefined
+const EXPORT_TARGETS = [
+  'msel_pdf',
+  'deck_pdf',
+  'handbook_pdf',
+  'briefing_pdf',
+  'exercise_plan_pdf',
+  'media',
+  'json',
+  'markdown',
+  'docx',
+  'zip',
+]
 /** Airport words that must not appear unless the project's own documents use them. */
 const AIRPORT_WORDS =
   /\b(?:runways?|taxiways?|concourses?|FIDS|AODB|BHS|TSA|airlines?|airport|terminal building|gate agents?|jet ?bridge|flights?)\b/gi
@@ -45,6 +80,33 @@ interface Run {
   expectIdentifiers: RegExp
   /** Airport-list words that are this scenario's own vocabulary ("flights" of a drone). */
   allowedWords?: string[]
+  /** Where SAVE_FIXTURES writes this run (relative to tests/fixtures/domains); default: id. */
+  fixtureDir?: string
+}
+
+/** The City of Millbrook pack (#158): one organization, four threat families. */
+const MILLBROOK = {
+  dir: 'reference/city-water',
+  exclude: ['SOURCES.md'],
+  orgType: 'water_utility',
+  name: 'City of Millbrook Water',
+  orgName: 'City of Millbrook Department of Water & Sewer',
+  city: 'Millbrook',
+  region: 'Carver County, Ohio',
+  aliases: {
+    org: 'City of Millbrook Department of Water & Sewer',
+    orgShort: 'Millbrook DWS',
+    orgDomain: 'millbrook-oh.example',
+    localTv: 'Channel 4',
+    airport: 'Riverside Water Treatment Plant',
+  },
+  audience: [
+    'Water Operations',
+    'SCADA / IT',
+    'Public Information',
+    'Water Quality / Lab',
+    'Security',
+  ],
 }
 
 const RUNS: Run[] = [
@@ -160,6 +222,51 @@ const RUNS: Run[] = [
     expectIdentifiers:
       /\bUAS-(?:0\d|1[0-2])\b|\bGCS-0[1-6]\b|\bRTK-[12]\b|\bPL-0[1-7]\b|HUOG-[A-Z0-9]+|Lakeshore Flight Area|Horton Field|Birch Hollow Range|\b915 MHz\b/,
   },
+  {
+    ...MILLBROOK,
+    id: 'water-chem',
+    fixtureDir: 'city-water/chem',
+    threatFamily: 'cyber_physical',
+    userPrompt:
+      'At 02:40 a remote-support session through the DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building raises the Caustic Feed System dose setpoint (NAOH-FC-203) step by step toward 40 mg/L while the single night operator is on rounds; finished-water pH climbs on AIT-302, the hard-wired high-high switch PSH-302 and a grab sample disagree with what the HMI trend shows. Vendor remote access, manual chemical feed, isolating the control network, Ohio EPA notification and the Do Not Drink decision for Zone 1.',
+    decisionMustMatch:
+      /manual|local control|isolat|disconnect|do not drink|advisory|notif|DDAGW|Ohio EPA/i,
+    expectIdentifiers:
+      /NAOH-FC-203|MBW-HMI-02|PLC-02|PSH-302|AIT-302|ScreenBridge|Clearwell [12]\b|MBW-JUMP-01|dosatech_svc|CODE CLEARWATER|Zone [123]\b|MBW-FW-01/,
+  },
+  {
+    ...MILLBROOK,
+    id: 'water-ransomware',
+    fixtureDir: 'city-water/ransomware',
+    threatFamily: 'cyber',
+    userPrompt:
+      'Ransomware detonates on the business network at City Hall on a Monday morning: the billing system MBW-CIS-01, the AMI head-end MBW-AMI-01 and the file server MBW-FS-01 are encrypted and a ransom note names the city. The SCADA domain MBWSCADA trusts the business domain and firewall rule FW-R-17 carries SMB from the engineering workstation to the backup server MBW-BKP-01, so City IT wants to island the control network while the plant decides whether to go to manual operations, customer service loses billing and the outage map, and the mayor asks whether the water is safe.',
+    decisionMustMatch: /island|isolat|manual|disconnect|trust|FW-R-17|segment/i,
+    expectIdentifiers:
+      /MBW-CIS-01|MBW-AMI-01|MBW-FS-01|MBW-BKP-01|FW-R-17|MBWSCADA|MBW-SCADA-SRV0[12]|MBW-EWS-01|PLC-0[1-6]\b|HSP-[123]\b|Clearwell [12]\b|MBW-DC-0[12]|MBW-FW-01/,
+  },
+  {
+    ...MILLBROOK,
+    id: 'water-tank',
+    fixtureDir: 'city-water/tank',
+    threatFamily: 'physical_security',
+    userPrompt:
+      'On a Saturday night the fence-gate contact ZS-612 at Orchard Standpipe trips and clears twice and CAM-13 shows a figure near the ladder cage; the roof hatch switch ZS-611 has been out of service since 2024 so RTU-02 keeps reporting the hatch closed, the site is not due for a visit until Tuesday, and the outlet chlorine residual AIT-611 drifts down over the following hours. The crew finds the hatch padlock cut. Sampling, isolating the standpipe from Zone 2, police and FBI, Ohio EPA consultation and the precautionary boil-water advisory for the Hilltop area.',
+    decisionMustMatch: /boil|advisory|isolat|sampl|police|notif|DDAGW|Ohio EPA/i,
+    expectIdentifiers:
+      /Orchard Standpipe|ZS-61[12]|CAM-13|AIT-611|RTU-02|Zone 2\b|Hilltop Tank|Orchard Wellfield|Wells? W-[123]\b|LIT-611|DDAGW|MillbrookAlert/,
+  },
+  {
+    ...MILLBROOK,
+    id: 'water-main',
+    fixtureDir: 'city-water/main',
+    threatFamily: 'infrastructure_failure',
+    userPrompt:
+      'During a July heat wave with demand near 14 MGD the Hilltop Tank radio repeater RP-1 fails at 05:30, so Orchard Standpipe, Northgate and Mill Road telemetry go stale on the HMI and the operators acknowledge the stale-data flags; at 06:10 the 24-inch Hilltop Transmission Main breaks near Summit Drive and Hilltop Tank begins to drain with no remote levels visible. Isolation valves V-2410 and V-2418, Mill Road Booster Station, the Carver County Water District interconnect IC-1, pressure at Millbrook General Hospital, and the boil-water decision for the depressurized part of Zone 2.',
+    decisionMustMatch: /boil|advisory|interconnect|IC-1|isolat|valve|manual|mutual aid|OHWARN/i,
+    expectIdentifiers:
+      /Hilltop Tank|Hilltop Transmission Main|RP-1|V-241[08]|Mill Road Booster Station|IC-1\b|Zone [12]\b|RTU-0[1-4]\b|LIT-60[12]|BP-40[12]|Summit Drive|Northgate (?:Reservoir|Booster Station)|Orchard Wellfield/,
+  },
 ]
 
 interface Row {
@@ -224,6 +331,67 @@ function leaks(text: string, documentsText: string, extra: string[] = []): strin
   )
 }
 
+type Invoke = ReturnType<typeof invoker>
+
+/** Wait until every document of the project has been parsed and embedded. */
+async function waitForDocuments(invoke: Invoke, projectPath: string): Promise<void> {
+  await expect
+    .poll(
+      async () =>
+        (await invoke<{ status: string }[]>('documents:list', { projectPath })).every(
+          (d) => d.status === 'ok',
+        ),
+      { timeout: 120_000 },
+    )
+    .toBe(true)
+}
+
+/**
+ * A fresh project for the run, or — with PROJECT_DIR — the one shared project folder: created
+ * and populated by the first run that needs it, reopened (documents already imported) by the
+ * next ones, so one example project carries several scenarios.
+ */
+async function projectFor(invoke: Invoke, run: Run, files: string[]): Promise<string> {
+  if (PROJECT_DIR && existsSync(join(PROJECT_DIR, 'project.json'))) {
+    const { path } = await invoke<{ path: string }>('project:open', { path: PROJECT_DIR })
+    await waitForDocuments(invoke, path)
+    return path
+  }
+  const parentDir = PROJECT_DIR
+    ? resolve(PROJECT_DIR, '..')
+    : mkdtempSync(join(tmpdir(), `ttx-dom-${run.id}-`))
+  mkdirSync(parentDir, { recursive: true })
+  const { path: projectPath } = await invoke<{ path: string }>('project:create', {
+    parentDir,
+    name: run.name,
+    orgName: run.orgName,
+    orgType: run.orgType,
+  })
+  if (PROJECT_DIR && resolve(projectPath) !== PROJECT_DIR)
+    throw new Error(`PROJECT_DIR must be ${projectPath} for the name "${run.name}"`)
+  await invoke('project:update', {
+    path: projectPath,
+    patch: { brand: { city: run.city, region: run.region, aliases: run.aliases } },
+  })
+  await invoke('documents:import', { projectPath, filePaths: files })
+  await waitForDocuments(invoke, projectPath)
+  return projectPath
+}
+
+/** Export every target of the scenario to EXPORT_DIR/<run>/ (the release bundle). */
+async function exportAll(invoke: Invoke, run: Run, projectPath: string, scenarioId: string) {
+  if (!EXPORT_DIR) return
+  const outDir = join(EXPORT_DIR, run.id)
+  mkdirSync(outDir, { recursive: true })
+  const { jobId } = await invoke<{ jobId: string }>('export:run', {
+    projectPath,
+    scenarioId,
+    outDir,
+    targets: EXPORT_TARGETS,
+  })
+  await waitForJob(invoke, jobId, 20 * 60_000, [5000])
+}
+
 for (const run of RUNS.filter((r) => WANT.includes(r.id))) {
   test(`domain acceptance: ${run.id} (${run.orgType} / ${run.threatFamily})`, async () => {
     const out = join(OUT, run.id)
@@ -231,28 +399,8 @@ for (const run of RUNS.filter((r) => WANT.includes(r.id))) {
     const { app, page } = await launch()
     const invoke = invoker(page)
     try {
-      const parentDir = mkdtempSync(join(tmpdir(), `ttx-dom-${run.id}-`))
-      const { path: projectPath } = await invoke<{ path: string }>('project:create', {
-        parentDir,
-        name: run.name,
-        orgName: run.orgName,
-        orgType: run.orgType,
-      })
-      await invoke('project:update', {
-        path: projectPath,
-        patch: { brand: { city: run.city, region: run.region, aliases: run.aliases } },
-      })
       const files = mdFiles(run.dir).filter((f) => !run.exclude?.includes(basename(f)))
-      await invoke('documents:import', { projectPath, filePaths: files })
-      await expect
-        .poll(
-          async () =>
-            (await invoke<{ status: string }[]>('documents:list', { projectPath })).every(
-              (d) => d.status === 'ok',
-            ),
-          { timeout: 120_000 },
-        )
-        .toBe(true)
+      const projectPath = await projectFor(invoke, run, files)
       const documentsText = files.map((f) => readFileSync(f, 'utf8')).join('\n')
 
       const lm = await invoke<{ id: string }>('providers:upsert', {
@@ -460,15 +608,17 @@ for (const run of RUNS.filter((r) => WANT.includes(r.id))) {
       writeFileSync(join(out, 'injects.json'), JSON.stringify(injects, null, 2))
       for (const [k, md] of Object.entries(docs))
         writeFileSync(join(out, `${k}.md`), typeof md === 'string' ? md : JSON.stringify(md))
+      await exportAll(invoke, run, projectPath, scenarioId)
       if (process.env.SAVE_FIXTURES === '1') {
-        mkdirSync(join(FIXTURES, run.id), { recursive: true })
-        writeFileSync(join(FIXTURES, run.id, 'summary.json'), JSON.stringify(summary, null, 2))
+        const fixtureDir = join(FIXTURES, run.fixtureDir ?? run.id)
+        mkdirSync(fixtureDir, { recursive: true })
+        writeFileSync(join(fixtureDir, 'summary.json'), JSON.stringify(summary, null, 2))
         writeFileSync(
-          join(FIXTURES, run.id, 'msel.md'),
+          join(fixtureDir, 'msel.md'),
           typeof docs.overview === 'string' ? docs.overview : '',
         )
         writeFileSync(
-          join(FIXTURES, run.id, 'injects-sample.json'),
+          join(fixtureDir, 'injects-sample.json'),
           JSON.stringify(
             injects.slice(0, 6).map((i) => ({
               row: i.mselRowId,

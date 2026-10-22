@@ -10,6 +10,18 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Added
 
+- City water pack (#158): `reference/city-water/` — the simulated City of Millbrook
+  Department of Water & Sewer (AWIA-style Emergency Response Plan, OT / cybersecurity plan
+  and incident response playbook, SCADA system description with tag and setpoint limits,
+  public communications plan with advisory templates, system map / asset sheet, public
+  sources); `examples/city-water/` — the "pH on the Edge" chemical-feed setpoint tampering
+  tabletop generated from those documents and reviewed; `scada_hmi` template variants
+  `water_chemical` and `water_distribution` and a tile layout fix; the example builder
+  (`scripts/make-example.mjs`, #157) gains exported, unit-tested packaging functions, a
+  leak check for author paths and secrets, and skips edit history; `DOMAINS=water`,
+  `PROJECT_DIR` and `EXPORT_DIR` for `e2e/domains-acceptance.spec.ts`. The remaining three
+  Millbrook tabletops are tracked in #171.
+
 - Installers: macOS dmg (arm64), Windows NSIS (x64) and Linux AppImage (x64) with the app
   icon, version and architecture in every artifact name; `scripts/release.sh` (dry run by
   default) and `scripts/package-smoke.mjs`, which tests the packaged app (#50).

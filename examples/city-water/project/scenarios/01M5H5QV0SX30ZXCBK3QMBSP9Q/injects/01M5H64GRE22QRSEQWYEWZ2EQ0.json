@@ -1,0 +1,160 @@
+{
+  "id": "01M5H64GRE22QRSEQWYEWZ2EQ0",
+  "mselRowId": "START",
+  "type": "startex_card",
+  "title": "STARTEX: pH on the Edge — Caustic Overfeed & Public Health",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "startTime": "09:00",
+    "day": "Thursday, October 22, 2026",
+    "location": "Riverside Water Treatment Plant (RWTP)",
+    "weather": "Clear, 65°F. Winds calm.",
+    "load": "7.2 MGD",
+    "staffing": "Night shift, full control room staffing, certified operator on duty",
+    "narration": "STARTEX. This is an exercise. It is 09:00 on Thursday, October 22, 2026. The Riverside Water Treatment Plant is operating under normal conditions. The night shift is in progress, and the control room is manned by a certified operator. All system statuses are green on the HMI. The narrative clock begins.",
+    "status": [
+      {
+        "name": "Finished Water pH",
+        "status": "green",
+        "note": "8.3 (normal range: 6.5–9.0)"
+      },
+      {
+        "name": "Chlorine Residual (AIT-301)",
+        "status": "green",
+        "note": "0.6 mg/L (normal: 0.3–1.0)"
+      },
+      {
+        "name": "Clearwell 1 Level (LIT-401)",
+        "status": "green",
+        "note": "75% (normal: 20–90%)"
+      },
+      {
+        "name": "Clearwell 2 Level (LIT-402)",
+        "status": "green",
+        "note": "60% (normal: 20–90%)"
+      },
+      {
+        "name": "Caustic Feed Setpoint (NAOH-FC-203)",
+        "status": "green",
+        "note": "22 mg/L (normal: 15–25 mg/L)"
+      },
+      {
+        "name": "Chemical Building HMI (MBW-HMI-02)",
+        "status": "green",
+        "note": "Online, no active alarms"
+      },
+      {
+        "name": "SCADA Network",
+        "status": "green",
+        "note": "All controllers responsive, no telemetry loss"
+      }
+    ],
+    "facilitatorNote": "Confirm all roles have their briefing packets and are seated. This is the baseline state for a cyber-physical incident involving chemical feed tampering. Observe how teams interpret the HMI data versus field reality.",
+    "scenarioTitle": "pH on the Edge — Caustic Overfeed & Public Health",
+    "injectId": "START"
+  },
+  "instructorNote": "This inject establishes the baseline normal state. Watch for premature alarm triage or assumptions about data integrity.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A › A.5.1 Priorities",
+      "quote": "| Priority | Meaning | Operator response | After-hours callout | |---|---|---|---| | P1 Critical | Immediate risk to public health or supply: loss of disinfection (AIT-301 < 0.3), AIT-310 > 1.0, pH ou",
+      "chunkId": 148
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.1 Riverside Water Treatment Plant (RWTP), 1400 River Road",
+      "quote": "| Area | Equipment and tags | Control | |---|---|---| | Intake Structure 1 | Bar screens, two traveling screens; raw water pumps **P-101, P-102, P-103** (6,000 gpm each, two duty one standby); raw tur",
+      "chunkId": 163
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5H7CD1KB208CYXXT59K81NT",
+      "kind": "image",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H64GRE22QRSEQWYEWZ2EQ0/01M5H7CD1KB208CYXXT59K81NT.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "5991f9f4c633e758ef35bf0423632f9aa87485725177a51205ac245bfbc1e138",
+      "provenance": {
+        "provider": "template",
+        "templateId": "startex_card",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:14:36.022Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:53:03.002Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "STARTEX: pH on the Edge — Caustic Overfeed & Public Health",
+        "type": "startex_card",
+        "fields": {
+          "startTime": "09:00",
+          "day": "Thursday, October 22, 2026",
+          "location": "Riverside Water Treatment Plant (RWTP)",
+          "weather": "Clear, 65°F. Winds calm.",
+          "load": "7.2 MGD",
+          "staffing": "Night shift, full control room staffing, certified operator on duty",
+          "narration": "STARTEX. This is an exercise. It is 09:00 on Thursday, October 22, 2026. The Riverside Water Treatment Plant is operating under normal conditions. The night shift is in progress, and the control room is manned by a certified operator. All system statuses are green on the HMI. The narrative clock begins.",
+          "status": [
+            {
+              "name": "Finished Water pH",
+              "status": "green",
+              "note": "8.3 (normal range: 6.5–9.0)"
+            },
+            {
+              "name": "Chlorine Residual (AIT-301)",
+              "status": "green",
+              "note": "0.6 mg/L (normal: 0.3–1.0)"
+            },
+            {
+              "name": "Clearwell 1 Level (LIT-401)",
+              "status": "green",
+              "note": "75% (normal: 20–90%)"
+            },
+            {
+              "name": "Clearwell 2 Level (LIT-402)",
+              "status": "green",
+              "note": "60% (normal: 20–90%)"
+            },
+            {
+              "name": "Caustic Feed Setpoint (NAOH-FC-203)",
+              "status": "green",
+              "note": "22 mg/L (normal: 15–25 mg/L)"
+            },
+            {
+              "name": "Chemical Building HMI (MBW-HMI-02)",
+              "status": "green",
+              "note": "Online, no active alarms"
+            },
+            {
+              "name": "SCADA Network",
+              "status": "green",
+              "note": "All controllers responsive, no telemetry loss"
+            }
+          ],
+          "facilitatorNote": "Confirm all roles have their briefing packets and are seated. This is the baseline state for a cyber-physical incident involving chemical feed tampering. Observe how teams interpret the HMI data versus field reality.",
+          "scenarioTitle": "pH on the Edge — Caustic Overfeed & Public Health",
+          "injectId": "START"
+        },
+        "instructorNote": "This inject establishes the baseline normal state. Watch for premature alarm triage or assumptions about data integrity.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:36.334Z"
+}

@@ -27,6 +27,13 @@
     <span class="clock"><b>{{fields.clock}}</b><small>{{fields.date}}</small></span>
   </header>
   <nav class="tabs">
+    {{#if (eq variant "water_chemical")}}
+    <span>OVERVIEW</span><span>INTAKE</span><span>FILTRATION</span
+    ><span class="on">CHEMICAL FEED</span><span>CLEARWELL</span><span>DISTRIBUTION</span>
+    {{else if (eq variant "water_distribution")}}
+    <span>PLANT</span><span class="on">DISTRIBUTION</span><span>TANKS</span
+    ><span>BOOSTER STATIONS</span><span>ZONES</span><span>TELEMETRY</span>
+    {{else}}
     <span class="on">OVERVIEW</span>
     {{#if (eq variant "dam")}}
     <span>SPILLWAY</span><span>POWERHOUSE</span><span>RESERVOIR</span><span>INSTRUMENTATION</span>
@@ -37,7 +44,7 @@
     {{else}}
     <span>INTAKE</span><span>FILTRATION</span><span>CHEMICAL FEED</span><span>CLEARWELL</span
     ><span>DISTRIBUTION</span>
-    {{/if}}
+    {{/if}} {{/if}}
     <span>TRENDS</span><span>ALARMS</span>
   </nav>
 

@@ -1,0 +1,157 @@
+{
+  "id": "01M5H6D33FWCBDTPJB5XCR7Q1B",
+  "mselRowId": "I-19a",
+  "type": "system_log",
+  "title": "System Log: PLC-02 Program Backup Verification",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "MBW-BKP-01 Audit Log",
+    "host": "MBW-BKP-01",
+    "ip": "10.73.20.60",
+    "os": "Linux Ubuntu 22.04 LTS",
+    "logSource": "PLC-02 Program Comparison Report",
+    "exportedBy": "SCADA / IT Security Manager (Priya Nandakumar)",
+    "exportedAt": "10/22/2026 11:03 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "2026-10-22 11:03:12",
+        "level": "INFO",
+        "msg": "Program comparison initiated for PLC-02 (revision 3.2) against backup on MBW-BKP-01",
+        "highlight": false
+      },
+      {
+        "ts": "2026-10-22 11:03:13",
+        "level": "INFO",
+        "msg": "Source: MBW-BKP-01 (10.73.20.60) — PLC-02 program version 03/2025 (pre-08/2025 flow-pacing update)",
+        "highlight": false
+      },
+      {
+        "ts": "2026-10-22 11:03:14",
+        "level": "INFO",
+        "msg": "Target: PLC-02 (10.72.20.10) — current program version: 03/2025",
+        "highlight": false
+      },
+      {
+        "ts": "2026-10-22 11:03:15",
+        "level": "WARN",
+        "msg": "Mismatch detected: 08/2025 flow-pacing logic not present in backup. This logic was implemented on 08/15/2025 and is not stored on MBW-BKP-01.",
+        "highlight": true
+      },
+      {
+        "ts": "2026-10-22 11:03:16",
+        "level": "ERROR",
+        "msg": "Verification failed: backup program does not contain the latest flow-pacing revision (08/2025). Restoration from backup would result in loss of critical control logic.",
+        "highlight": true
+      },
+      {
+        "ts": "2026-10-22 11:03:17",
+        "level": "ALERT",
+        "msg": "Action required: Full on-site re-image of PLC-02 by Kessler Controls is mandatory. Do not attempt remote reload. Verify program integrity post-reimage with WQ and IC.",
+        "highlight": true
+      }
+    ],
+    "terminalTitle": "Administrator: Linux Bash",
+    "command": "diff -u /var/bkp/plc02/rev3.2-032025.bin /var/ctrl/plc02/rev3.2-082025.bin",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "instructorNote": "This inject confirms the critical gap in the backup strategy. The TL must now validate that the 08/2025 logic cannot be restored from any source, forcing a full on-site re-image. Watch for any attempt to proceed with a remote reload.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 9",
+      "quote": "- Nightly: MBW-EWS-01 copies the HMI application, PLC programs and historian exports to **MBW-BKP-01** on the business LAN under **FW-R-17**. MBW-BKP-01 also holds the CIS, AMI, GIS and LIMS backups —",
+      "chunkId": 81
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+      "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 14 › 14.3 Open Findings (2025 OT Assessment)",
+      "quote": "| Finding | Description | Owner | Status | |---|---|---|---| | F-1 | Shared HMI shift accounts and a single supervisor PIN across all HMIs (Sections 5.1, 5.4) | Nandakumar / Kessler Controls | Open — ",
+      "chunkId": 97
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T06:57:42.231Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "System Log: PLC-02 Program Backup Verification",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MBW-BKP-01 Audit Log",
+          "host": "MBW-BKP-01",
+          "ip": "10.73.20.60",
+          "os": "Linux Ubuntu 22.04 LTS",
+          "logSource": "PLC-02 Program Comparison Report",
+          "exportedBy": "SCADA / IT Security Manager (Priya Nandakumar)",
+          "exportedAt": "10/22/2026 11:03 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "2026-10-22 11:03:12",
+              "level": "INFO",
+              "msg": "Program comparison initiated for PLC-02 (revision 3.2) against backup on MBW-BKP-01",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-22 11:03:13",
+              "level": "INFO",
+              "msg": "Source: MBW-BKP-01 (10.73.20.60) — PLC-02 program version 03/2025 (pre-08/2025 flow-pacing update)",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-22 11:03:14",
+              "level": "INFO",
+              "msg": "Target: PLC-02 (10.72.20.10) — current program version: 03/2025",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-22 11:03:15",
+              "level": "WARN",
+              "msg": "Mismatch detected: 08/2025 flow-pacing logic not present in backup. This logic was implemented on 08/15/2025 and is not stored on MBW-BKP-01.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-22 11:03:16",
+              "level": "ERROR",
+              "msg": "Verification failed: backup program does not contain the latest flow-pacing revision (08/2025). Restoration from backup would result in loss of critical control logic.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-22 11:03:17",
+              "level": "ALERT",
+              "msg": "Action required: Full on-site re-image of PLC-02 by Kessler Controls is mandatory. Do not attempt remote reload. Verify program integrity post-reimage with WQ and IC.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Linux Bash",
+          "command": "diff -u /var/bkp/plc02/rev3.2-032025.bin /var/ctrl/plc02/rev3.2-082025.bin",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the critical gap in the backup strategy. The TL must now validate that the 08/2025 logic cannot be restored from any source, forcing a full on-site re-image. Watch for any attempt to proceed with a remote reload.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:41.689Z"
+}

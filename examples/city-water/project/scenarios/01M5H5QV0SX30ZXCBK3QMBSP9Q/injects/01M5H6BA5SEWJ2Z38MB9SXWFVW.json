@@ -1,0 +1,116 @@
+{
+  "id": "01M5H6BA5SEWJ2Z38MB9SXWFVW",
+  "mselRowId": "I-18",
+  "type": "radio_call",
+  "title": "Radio: Crew 3 — RTU-01 Cabinet Door Ajar",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "centerName": "Water Operations Command Center (WOCC)",
+    "channel": "DWS-1",
+    "frequency": "TG 1001 / 450.125 MHz",
+    "date": "10/22/2026",
+    "callsign": "Crew 3 (Route 22)",
+    "lines": [
+      {
+        "time": "10:48:12",
+        "from": "Crew 3 (Route 22)",
+        "to": "IT",
+        "text": "Dispatch, this is Crew 3 on Route 22. We're at the Eastfield Pump Station and found the RTU-05 cabinet door ajar — no visible damage, but the lock is bent. The HMI shows no alarm, and the RTU is online. We've secured the area and are waiting for the SCADA team to confirm if it's a physical tamper or a false alarm. Should we open it?"
+      },
+      {
+        "time": "10:48:28",
+        "from": "IT",
+        "to": "Crew 3 (Route 22)",
+        "text": "Crew 3, confirm the RTU-05 cabinet door tamper switch status in the log. If it's not tripped, and no alarm was generated, it may be a false alarm. Do not open the cabinet. Wait for the SCADA / IT Security Manager to authorize entry. Report to the Security Officer for chain-of-custody."
+      }
+    ],
+    "background": "garage",
+    "voiceStyle": "Young male, urgent, slightly strained",
+    "audioFile": "I-18_radio.wav",
+    "duration": "0:23",
+    "injectId": "I-18"
+  },
+  "instructorNote": "Noise inject; the technical team should verify the tamper switch status in the log before responding. Watch for any attempt to bypass protocol or open the cabinet.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.2 Remote Sites",
+      "quote": "| Site | Address | Assets and tags | Telemetry | |---|---|---|---| | **Hilltop Tank** | 2200 Summit Drive | Elevated tank 1.0 MG, overflow el. 1,012 ft; level LIT-601 (radar) and LIT-602 (pressure, ba",
+      "chunkId": 164
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+      "quote": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Crew 3 (Route 22)",
+        "voiceStyle": "Young male, urgent, slightly strained",
+        "text": "Dispatch, this is Crew 3 on Route 22. We're at the Eastfield Pump Station and found the RTU-05 cabinet door ajar — no visible damage, but the lock is bent. The HMI shows no alarm, and the RTU is online. We've secured the area and are waiting for the SCADA team to confirm if it's a physical tamper or a false alarm. Should we open it?"
+      },
+      {
+        "speaker": "IT",
+        "voiceStyle": "Calm female dispatcher in her 40s, measured, slight Midwestern accent",
+        "text": "Crew 3, confirm the RTU-05 cabinet door tamper switch status in the log. If it's not tripped, and no alarm was generated, it may be a false alarm. Do not open the cabinet. Wait for the SCADA / IT Security Manager to authorize entry. Report to the Security Officer for chain-of-custody."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T06:56:45.141Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Radio: Crew 3 — RTU-01 Cabinet Door Ajar",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "Water Operations Command Center (WOCC)",
+          "channel": "DWS-1",
+          "frequency": "TG 1001 / 450.125 MHz",
+          "date": "10/22/2026",
+          "callsign": "Crew 3 (Route 22)",
+          "lines": [
+            {
+              "time": "10:48:12",
+              "from": "Crew 3 (Route 22)",
+              "to": "IT",
+              "text": "Dispatch, this is Crew 3 on Route 22. We're at the Eastfield Pump Station and found the RTU-05 cabinet door ajar — no visible damage, but the lock is bent. The HMI shows no alarm, and the RTU is online. We've secured the area and are waiting for the SCADA team to confirm if it's a physical tamper or a false alarm. Should we open it?"
+            },
+            {
+              "time": "10:48:28",
+              "from": "IT",
+              "to": "Crew 3 (Route 22)",
+              "text": "Crew 3, confirm the RTU-05 cabinet door tamper switch status in the log. If it's not tripped, and no alarm was generated, it may be a false alarm. Do not open the cabinet. Wait for the SCADA / IT Security Manager to authorize entry. Report to the Security Officer for chain-of-custody."
+            }
+          ],
+          "background": "garage",
+          "voiceStyle": "Young male, urgent, slightly strained",
+          "audioFile": "I-18_radio.wav",
+          "duration": "0:23",
+          "injectId": "I-18"
+        },
+        "instructorNote": "Noise inject; the technical team should verify the tamper switch status in the log before responding. Watch for any attempt to bypass protocol or open the cabinet.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:40.568Z"
+}

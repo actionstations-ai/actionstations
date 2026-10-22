@@ -1,0 +1,40 @@
+{
+  "id": "city-water",
+  "title": "City of Millbrook Water",
+  "domainProfile": "water_utility",
+  "summary": "A mid-size city water department (surface-water treatment plant with chemical feed, wells, three storage tanks, four pump stations, SCADA with vendor remote access) and a tabletop exercise generated from its simulated plans: chemical-feed setpoint tampering through vendor remote access.",
+  "notice": "EXERCISE MATERIAL — for training use. The City of Millbrook, its people, vendors and identifiers are simulated.",
+  "project": {
+    "name": "City of Millbrook Water",
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "orgType": "water_utility",
+    "brand": {
+      "city": "Millbrook",
+      "region": "Carver County, Ohio",
+      "aliases": {
+        "org": "City of Millbrook Department of Water & Sewer",
+        "orgShort": "Millbrook DWS",
+        "orgDomain": "millbrook-oh.example",
+        "localTv": "Channel 4",
+        "airport": "Riverside Water Treatment Plant"
+      }
+    }
+  },
+  "documents": { "dir": "reference/city-water", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 4 },
+  "scenarios": [
+    {
+      "key": "chem",
+      "threatFamily": "cyber_physical",
+      "summary": "A vendor remote-support session on the Chemical Building HMI raises the caustic dose setpoint at night; the operator, the hard-wired pH trip and the grab samples disagree with the screen, and the department must go to manual, isolate the control network and decide on a Do Not Drink notice.",
+      "userPrompt": "At 02:40 a remote-support session through the DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building raises the Caustic Feed System dose setpoint (NAOH-FC-203) step by step toward 40 mg/L while the single night operator is on rounds; finished-water pH climbs on AIT-302, the hard-wired high-high switch PSH-302 and a grab sample disagree with what the HMI trend shows. Vendor remote access, manual chemical feed, isolating the control network, Ohio EPA notification and the Do Not Drink decision for Zone 1.",
+      "audience": [
+        "Water Operations",
+        "SCADA / IT",
+        "Public Information",
+        "Water Quality / Lab",
+        "Security"
+      ]
+    }
+  ]
+}

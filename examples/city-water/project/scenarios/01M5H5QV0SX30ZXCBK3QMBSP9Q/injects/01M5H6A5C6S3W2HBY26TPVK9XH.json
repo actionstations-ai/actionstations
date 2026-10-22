@@ -1,0 +1,252 @@
+{
+  "id": "01M5H6A5C6S3W2HBY26TPVK9XH",
+  "mselRowId": "I-13",
+  "type": "system_log",
+  "title": "System Log: Full Isolation of SCADA Core",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "MBW-SCADA-SRV01",
+    "host": "MBW-SCADA-SRV01",
+    "ip": "10.72.10.100",
+    "os": "Linux RHEL 8.7 (Kernel 5.14.0)",
+    "logSource": "/var/log/scada-isolation.log",
+    "exportedBy": "scada_sysadmin",
+    "exportedAt": "10/22/2026 10:24 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "10:24:17",
+        "level": "INFO",
+        "msg": "Isolation protocol initiated: MBW-SCADA-SRV01 to MBW-BKP-01 SMB link terminated",
+        "highlight": false
+      },
+      {
+        "ts": "10:24:18",
+        "level": "INFO",
+        "msg": "Firewall rule FW-R-17 (SMB from MBW-EWS-01 to MBW-BKP-01) disabled",
+        "highlight": false
+      },
+      {
+        "ts": "10:24:19",
+        "level": "INFO",
+        "msg": "Firewall rule FW-R-22 (outbound HTTPS from MBW-HMI-02 to DosaTech relay) isolated; source node blocked",
+        "highlight": true
+      },
+      {
+        "ts": "10:24:20",
+        "level": "WARN",
+        "msg": "DosaTech ScreenBridge agent still active on MBW-HMI-02 (10.72.10.22); session not terminated",
+        "highlight": true
+      },
+      {
+        "ts": "10:24:21",
+        "level": "ALERT",
+        "msg": "Confirmed: DosaTech ScreenBridge agent remains active on MBW-HMI-02; no session end signal received",
+        "highlight": true
+      },
+      {
+        "ts": "10:24:22",
+        "level": "CRIT",
+        "msg": "Full network isolation complete. Control network (zone 1) isolated from business LAN. No further data flows to or from MBW-BKP-01 or business-side systems.",
+        "highlight": true
+      },
+      {
+        "ts": "10:24:23",
+        "level": "INFO",
+        "msg": "All HMI and PLC communication to business systems blocked. No outbound paths remain.",
+        "highlight": false
+      },
+      {
+        "ts": "10:24:24",
+        "level": "NOTICE",
+        "msg": "System state: Isolated. No further remote access possible from business LAN. Forensic handover pending.",
+        "highlight": false
+      },
+      {
+        "ts": "10:24:25",
+        "level": "INFO",
+        "msg": "Isolation confirmed by SCADA / IT Security Manager (Priya Nandakumar) via MBW-JUMP-01 (10.72.10.100).",
+        "highlight": false
+      },
+      {
+        "ts": "10:24:26",
+        "level": "INFO",
+        "msg": "Forensic chain-of-custody form SEC-4-2026-1022-082212 activated. All logs retained on MBW-SCADA-SRV01.",
+        "highlight": false
+      },
+      {
+        "ts": "10:24:27",
+        "level": "INFO",
+        "msg": "MBW-SCADA-SRV01 status: Isolated, No Remote Access, Locked",
+        "highlight": false
+      },
+      {
+        "ts": "10:24:28",
+        "level": "INFO",
+        "msg": "System log export completed. File: /var/log/scada-isolation-20261022-102417.log",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: Linux Terminal (MBW-SCADA-SRV01)",
+    "command": "sudo /opt/scada/ops/isolate.sh --full --confirm",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "instructorNote": "This confirms the network is isolated but the DosaTech agent remains active. The technical team must now verify that no further session can be initiated and that the forensic handover is complete before any action on the HMI.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.4 ScreenBridge Exception (DosaTech)",
+      "quote": "During the 11/2024 commissioning of the replacement chemical metering pumps and VFDs, DosaTech Metering Systems installed its **ScreenBridge** remote-support agent on **MBW-HMI-02** in the Chemical Bu",
+      "chunkId": 72
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 11 › 11.3 Known Remote-Access Risk",
+      "quote": "The approved vendor path is MBW-JUMP-01 in a ticketed window. A remote-support agent (ScreenBridge) installed by DosaTech on MBW-HMI-02 in the Chemical Building reaches the internet outside that path ",
+      "chunkId": 46
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 4 › 4.2 Firewall Rule Table (MBW-FW-01, excerpt)",
+      "quote": "| Rule | From | To | Service | Purpose | Owner / Note | |---|---|---|---|---|---| | FW-R-05 | Business LAN | MBW-HIST-01 | HTTPS | Read-only historian dashboards for management and the lab | Nandakuma",
+      "chunkId": 62
+    },
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A",
+      "quote": "| Path | Endpoint reached | Authentication | Logging / recording | Approver | Status | |---|---|---|---|---|---| | MBW-JUMP-01 (RDP gateway in the SCADA DMZ) | MBW-EWS-01, MBW-SCADA-SRV01/02 | Named K",
+      "chunkId": 151
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5H7CGJF91HG8NA56JYSWKNM",
+      "kind": "image",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H6A5C6S3W2HBY26TPVK9XH/01M5H7CGJF91HG8NA56JYSWKNM.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "d399f56210ddeb786b2c5f5f2e1246a26c64a0eb2f6d92876377312ee27b807c",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:14:39.668Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:56:07.119Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "System Log: Full Isolation of SCADA Core",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MBW-SCADA-SRV01",
+          "host": "MBW-SCADA-SRV01",
+          "ip": "10.72.10.100",
+          "os": "Linux RHEL 8.7 (Kernel 5.14.0)",
+          "logSource": "/var/log/scada-isolation.log",
+          "exportedBy": "scada_sysadmin",
+          "exportedAt": "10/22/2026 10:24 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10:24:17",
+              "level": "INFO",
+              "msg": "Isolation protocol initiated: MBW-SCADA-SRV01 to MBW-BKP-01 SMB link terminated",
+              "highlight": false
+            },
+            {
+              "ts": "10:24:18",
+              "level": "INFO",
+              "msg": "Firewall rule FW-R-17 (SMB from MBW-EWS-01 to MBW-BKP-01) disabled",
+              "highlight": false
+            },
+            {
+              "ts": "10:24:19",
+              "level": "INFO",
+              "msg": "Firewall rule FW-R-22 (outbound HTTPS from MBW-HMI-02 to DosaTech relay) isolated; source node blocked",
+              "highlight": true
+            },
+            {
+              "ts": "10:24:20",
+              "level": "WARN",
+              "msg": "DosaTech ScreenBridge agent still active on MBW-HMI-02 (10.72.10.22); session not terminated",
+              "highlight": true
+            },
+            {
+              "ts": "10:24:21",
+              "level": "ALERT",
+              "msg": "Confirmed: DosaTech ScreenBridge agent remains active on MBW-HMI-02; no session end signal received",
+              "highlight": true
+            },
+            {
+              "ts": "10:24:22",
+              "level": "CRIT",
+              "msg": "Full network isolation complete. Control network (zone 1) isolated from business LAN. No further data flows to or from MBW-BKP-01 or business-side systems.",
+              "highlight": true
+            },
+            {
+              "ts": "10:24:23",
+              "level": "INFO",
+              "msg": "All HMI and PLC communication to business systems blocked. No outbound paths remain.",
+              "highlight": false
+            },
+            {
+              "ts": "10:24:24",
+              "level": "NOTICE",
+              "msg": "System state: Isolated. No further remote access possible from business LAN. Forensic handover pending.",
+              "highlight": false
+            },
+            {
+              "ts": "10:24:25",
+              "level": "INFO",
+              "msg": "Isolation confirmed by SCADA / IT Security Manager (Priya Nandakumar) via MBW-JUMP-01 (10.72.10.100).",
+              "highlight": false
+            },
+            {
+              "ts": "10:24:26",
+              "level": "INFO",
+              "msg": "Forensic chain-of-custody form SEC-4-2026-1022-082212 activated. All logs retained on MBW-SCADA-SRV01.",
+              "highlight": false
+            },
+            {
+              "ts": "10:24:27",
+              "level": "INFO",
+              "msg": "MBW-SCADA-SRV01 status: Isolated, No Remote Access, Locked",
+              "highlight": false
+            },
+            {
+              "ts": "10:24:28",
+              "level": "INFO",
+              "msg": "System log export completed. File: /var/log/scada-isolation-20261022-102417.log",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Linux Terminal (MBW-SCADA-SRV01)",
+          "command": "sudo /opt/scada/ops/isolate.sh --full --confirm",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This confirms the network is isolated but the DosaTech agent remains active. The technical team must now verify that no further session can be initiated and that the forensic handover is complete before any action on the HMI.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:39.921Z"
+}

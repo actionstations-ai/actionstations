@@ -1,0 +1,227 @@
+{
+  "id": "01M5H6AHYNVJ3TA4ZY6H9H49PV",
+  "mselRowId": "I-14",
+  "type": "field_report",
+  "title": "Field Report: Control System Anomaly — Chemical Building",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "City of Millbrook Department of Water & Sewer — Operations Division",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0415",
+    "date": "10/22/2026",
+    "time": "10:32",
+    "location": "Chemical Building, Level 1, Control Room and North Service Corridor",
+    "inspector": "Vance, Field Supervisor",
+    "unit": "Field Ops Team 3 · Vehicle 07",
+    "reportType": "incident",
+    "weather": "Clear, 62°F, light breeze from east",
+    "summary": "Review of PACS access logs for the Chemical Building from 09:55 to 10:05 confirms no unauthorized access events, door override codes, or alarm triggers. The HMI shows the east door closed and locked at 09:58:33. PSH-302 has not tripped. Physical safety systems are not engaged. However, lab results confirm finished-water pH is 9.3 and caustic dose is 38 mg/L — both far above safe limits. The HMI displays NAOH-FC-203 at 14 mg/L, within normal band. This indicates a control-system mismatch. No physical breach occurred. The system is compromised.",
+    "findings": [
+      {
+        "item": "Door status (east door)",
+        "condition": "ok",
+        "notes": "HMI and PACS show closed and locked at 09:58:33; no alarms or overrides recorded"
+      },
+      {
+        "item": "PSH-302 status",
+        "condition": "ok",
+        "notes": "No trip recorded; still in normal state"
+      },
+      {
+        "item": "NAOH-FC-203 setpoint (HMI)",
+        "condition": "ok",
+        "notes": "Displays 14 mg/L — within normal band"
+      },
+      {
+        "item": "AIT-302 (pH sensor)",
+        "condition": "failed",
+        "notes": "Reads 9.3 — exceeds safe upper limit of 9.5"
+      },
+      {
+        "item": "Caustic dose (measured)",
+        "condition": "failed",
+        "notes": "Lab confirms 38 mg/L — exceeds PLC hard limit of 40 mg/L"
+      },
+      {
+        "item": "PLC-02 local control panel",
+        "condition": "failed",
+        "notes": "Manual override to 0 mg/L failed — pump remains running"
+      },
+      {
+        "item": "HMI command state (NAOH-FC-203)",
+        "condition": "failed",
+        "notes": "Still shows 'AUTO' and 'Running' — no change after manual override"
+      },
+      {
+        "item": "Field caustic pump",
+        "condition": "failed",
+        "notes": "Running at full speed; tank level dropping"
+      },
+      {
+        "item": "Chemical feed line pressure",
+        "condition": "ok",
+        "notes": "No visible leaks or pressure drops"
+      },
+      {
+        "item": "Control room access logs",
+        "condition": "ok",
+        "notes": "No unauthorized entries or failed access attempts in timeframe"
+      }
+    ],
+    "actionsTaken": [
+      "Reviewed PACS badge and CAM-01 to CAM-10 camera logs for 09:55–10:05 via MBW-NVR-01",
+      "Verified HMI and PACS status for east door at 09:58:33",
+      "Confirmed lab results via LIMS-24-1187-2026",
+      "Notified Incident Commander and SCADA / IT Security Manager via DWS-1"
+    ],
+    "recommendations": [
+      "Activate Section 7.1 manual operation protocol under ERP Section 7.5",
+      "Isolate MBW-HMI-02 and PLC-02 from remote access until forensic review complete",
+      "Initiate chain-of-custody for SEC-4 evidence form (SEC-4-2026-1022-082212)"
+    ],
+    "photosNote": "4 photos attached: IMG_2026-0015-01 (HMI NAOH-FC-203 display), IMG_2026-0015-02 (field pH readout), IMG_2026-0015-03 (caustic pump running), IMG_2026-0015-04 (PLC-02 panel) — all timestamped 10:32",
+    "signature": "Vance, Field Supervisor",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "instructorNote": "This inject confirms the HMI is lying. The IC must now order full manual operations and validate the lab results as the sole reliable source. Watch for hesitation in accepting lab data over HMI.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Annex B",
+      "quote": "| Incident type | Key message 1 | Key message 2 | Key message 3 | |---|---|---|---| | Main break / pressure loss | Here is the area and what to do | Crews are repairing; here is the expected timeline ",
+      "chunkId": 133
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Annex B",
+      "quote": "Code word **CODE CLEARWATER** on DWS-1 (Section 10.1) · Island steps: FW-R-17, FW-R-22, FW-R-09 off → break MBWSCADA trust → DMZ uplink out → vendor accounts and `dosatech_svc` off → PLCs LOCAL (Secti",
+      "chunkId": 99
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 3",
+      "quote": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+      "chunkId": 9
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5H7CGT5T18JBAXHCZTS08DH",
+      "kind": "image",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H6AHYNVJ3TA4ZY6H9H49PV/01M5H7CGT5T18JBAXHCZTS08DH.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "aa9b53e5efa333435d414a738623aead139313f2cdf88ec2b14e5e6fde82a567",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:14:39.925Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:56:21.250Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Field Report: Control System Anomaly — Chemical Building",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — Operations Division",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0415",
+          "date": "10/22/2026",
+          "time": "10:32",
+          "location": "Chemical Building, Level 1, Control Room and North Service Corridor",
+          "inspector": "Vance, Field Supervisor",
+          "unit": "Field Ops Team 3 · Vehicle 07",
+          "reportType": "incident",
+          "weather": "Clear, 62°F, light breeze from east",
+          "summary": "Review of PACS access logs for the Chemical Building from 09:55 to 10:05 confirms no unauthorized access events, door override codes, or alarm triggers. The HMI shows the east door closed and locked at 09:58:33. PSH-302 has not tripped. Physical safety systems are not engaged. However, lab results confirm finished-water pH is 9.3 and caustic dose is 38 mg/L — both far above safe limits. The HMI displays NAOH-FC-203 at 14 mg/L, within normal band. This indicates a control-system mismatch. No physical breach occurred. The system is compromised.",
+          "findings": [
+            {
+              "item": "Door status (east door)",
+              "condition": "ok",
+              "notes": "HMI and PACS show closed and locked at 09:58:33; no alarms or overrides recorded"
+            },
+            {
+              "item": "PSH-302 status",
+              "condition": "ok",
+              "notes": "No trip recorded; still in normal state"
+            },
+            {
+              "item": "NAOH-FC-203 setpoint (HMI)",
+              "condition": "ok",
+              "notes": "Displays 14 mg/L — within normal band"
+            },
+            {
+              "item": "AIT-302 (pH sensor)",
+              "condition": "failed",
+              "notes": "Reads 9.3 — exceeds safe upper limit of 9.5"
+            },
+            {
+              "item": "Caustic dose (measured)",
+              "condition": "failed",
+              "notes": "Lab confirms 38 mg/L — exceeds PLC hard limit of 40 mg/L"
+            },
+            {
+              "item": "PLC-02 local control panel",
+              "condition": "failed",
+              "notes": "Manual override to 0 mg/L failed — pump remains running"
+            },
+            {
+              "item": "HMI command state (NAOH-FC-203)",
+              "condition": "failed",
+              "notes": "Still shows 'AUTO' and 'Running' — no change after manual override"
+            },
+            {
+              "item": "Field caustic pump",
+              "condition": "failed",
+              "notes": "Running at full speed; tank level dropping"
+            },
+            {
+              "item": "Chemical feed line pressure",
+              "condition": "ok",
+              "notes": "No visible leaks or pressure drops"
+            },
+            {
+              "item": "Control room access logs",
+              "condition": "ok",
+              "notes": "No unauthorized entries or failed access attempts in timeframe"
+            }
+          ],
+          "actionsTaken": [
+            "Reviewed PACS badge and CAM-01 to CAM-10 camera logs for 09:55–10:05 via MBW-NVR-01",
+            "Verified HMI and PACS status for east door at 09:58:33",
+            "Confirmed lab results via LIMS-24-1187-2026",
+            "Notified Incident Commander and SCADA / IT Security Manager via DWS-1"
+          ],
+          "recommendations": [
+            "Activate Section 7.1 manual operation protocol under ERP Section 7.5",
+            "Isolate MBW-HMI-02 and PLC-02 from remote access until forensic review complete",
+            "Initiate chain-of-custody for SEC-4 evidence form (SEC-4-2026-1022-082212)"
+          ],
+          "photosNote": "4 photos attached: IMG_2026-0015-01 (HMI NAOH-FC-203 display), IMG_2026-0015-02 (field pH readout), IMG_2026-0015-03 (caustic pump running), IMG_2026-0015-04 (PLC-02 panel) — all timestamped 10:32",
+          "signature": "Vance, Field Supervisor",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the HMI is lying. The IC must now order full manual operations and validate the lab results as the sole reliable source. Watch for hesitation in accepting lab data over HMI.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:40.144Z"
+}

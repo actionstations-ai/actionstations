@@ -36,7 +36,7 @@ import {
 import { homedir, tmpdir } from 'node:os'
 import pngjs from 'pngjs'
 import { dirname, join, relative, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const { PNG } = pngjs
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -387,7 +387,7 @@ async function generate(args) {
 // ---- package -----------------------------------------------------------------------------------
 
 /** Files and folders of a generated project that never ship: derived, transient, or local. */
-function isDerived(rel) {
+export function isDerived(rel) {
   const top = rel.split('/')[0]
   return (
     top === '.cache' ||
@@ -396,8 +396,35 @@ function isDerived(rel) {
     top === 'jobs.json' ||
     top === '.gitignore' ||
     /(^|\/)(?:jobs?|logs?)\.(?:json|jsonl|log)$/.test(rel) ||
-    /(^|\/)[^/]+\.log$/.test(rel)
+    /(^|\/)[^/]+\.(?:log|jsonl)$/.test(rel) ||
+    /^scenarios\/[^/]+\/history\//.test(rel) ||
+    /(^|\/)\.DS_Store$/.test(rel)
   )
+}
+
+// Paths that reveal the author's machine, and key-shaped strings. Story content such as
+// "/var/log/scada.log" inside a system-log inject is exactly what those injects should carry.
+const AUTHOR_PATH =
+  /(?:^|["'\s(=:])((?:\/Users\/|\/home\/|\/private\/|\/tmp\/|\/var\/folders\/|[A-Za-z]:\\+Users\\+)[^"'\s)]*)/g
+const SECRET_HINT = /\b(?:sk-[A-Za-z0-9]{8,}|api[_-]?key\s*[:=]|Bearer\s+[A-Za-z0-9._-]{16,})/g
+
+/** Author-machine paths or secret-looking strings in a text file of the packaged project. */
+export function findLeaks(text) {
+  const found = new Set()
+  for (const m of text.matchAll(AUTHOR_PATH)) found.add(m[1])
+  for (const m of text.matchAll(SECRET_HINT)) found.add(m[0])
+  return [...found]
+}
+
+/** Every text file of the packaged project that still carries a leak, with what it carries. */
+export function leaksIn(dest) {
+  const leaks = []
+  for (const rel of walk(dest)) {
+    if (!/\.(?:json|md|txt)$/.test(rel)) continue
+    const found = findLeaks(readFileSync(join(dest, rel), 'utf8'))
+    if (found.length) leaks.push(`${rel}: ${found.join(', ')}`)
+  }
+  return leaks
 }
 
 function walk(dir, base = dir) {
@@ -411,7 +438,7 @@ function walk(dir, base = dir) {
 }
 
 /** Strip provider ids and absolute paths from a JSON value, recursively. */
-function scrub(value, absolute) {
+export function scrub(value, absolute) {
   if (Array.isArray(value)) return value.map((v) => scrub(v, absolute))
   if (value && typeof value === 'object') {
     const out = {}
@@ -438,7 +465,7 @@ const KEEP_ASSET = (a) =>
   (a.role === 'rendered' || a.role === 'composite') && a.path.endsWith('.png')
 
 /** Templates render at 2×; the bundled copy is 1× (each pixel the mean of a 2×2 block). */
-function shippedPng(buffer) {
+export function shippedPng(buffer) {
   const src = PNG.sync.read(buffer)
   if (src.width < 1600) return { buffer, width: src.width, height: src.height }
   const width = Math.floor(src.width / 2)
@@ -460,7 +487,7 @@ function shippedPng(buffer) {
  * priority, at most two composites with an AI still, round-robin across scenarios until the
  * budget is spent. Returns the shipped (1×) image per kept asset id.
  */
-function chooseAssets(projectDir, scenarios) {
+export function chooseAssets(projectDir, scenarios) {
   const queues = scenarios.map(({ scenario, injects }) => {
     const order = new Map(scenario.msel.map((r, i) => [r.id, i]))
     const rank = (inj) => {
@@ -510,14 +537,14 @@ function scenarioBundles(projectDir, scenarioIds) {
   })
 }
 
-function packageProject(spec, out) {
+/** Build `dest` (default examples/<id>/project) from the generated project in `out`. */
+export function packageProject(spec, out, dest = join(exampleDir(spec), 'project')) {
   const state = readState(out)
   if (!state.projectPath) throw new Error('package: nothing generated in ' + out)
   const src = join(out, state.projectPath)
   const ids = spec.scenarios.map((s) => state.scenarios[s.key]?.scenarioId).filter(Boolean)
   if (ids.length !== spec.scenarios.length)
     throw new Error('package: every scenario in the spec must be generated first')
-  const dest = join(exampleDir(spec), 'project')
   rmSync(dest, { recursive: true, force: true })
   const bundles = scenarioBundles(src, ids)
   const { kept, total } = chooseAssets(src, bundles)
@@ -556,10 +583,14 @@ function packageProject(spec, out) {
     join(dest, '.gitignore'),
     ['index.sqlite', 'index.sqlite-*', '.cache/', ''].join('\n'),
   )
+  const leaks = leaksIn(dest)
+  if (leaks.length)
+    throw new Error(`package: author paths or secrets in the example:\n  ${leaks.join('\n  ')}`)
   return { files, kept: kept.size, mediaBytes: total, bundles }
 }
 
-function writeManifest(spec, out, bundles) {
+/** example.json for the spec's scenarios (ids from `out`'s state), into `dir`. */
+export function writeManifest(spec, out, bundles, dir = exampleDir(spec)) {
   const state = readState(out)
   const manifest = {
     id: spec.id,
@@ -578,7 +609,7 @@ function writeManifest(spec, out, bundles) {
       }
     }),
   }
-  writeJson(join(exampleDir(spec), 'example.json'), manifest)
+  writeJson(join(dir, 'example.json'), manifest)
   return manifest
 }
 
@@ -642,11 +673,16 @@ async function verify(args) {
 
 // ---- main --------------------------------------------------------------------------------------
 
-const args = parseArgs(process.argv.slice(2))
-const run = { generate, package: packageExample, verify }[args.command]
-Promise.resolve()
-  .then(() => run(args))
-  .catch((err) => {
-    console.error(err)
-    process.exit(1)
-  })
+// Only the CLI runs the command; tests import the functions above.
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href
+if (isMain) {
+  Promise.resolve()
+    .then(() => {
+      const args = parseArgs(process.argv.slice(2))
+      return { generate, package: packageExample, verify }[args.command](args)
+    })
+    .catch((err) => {
+      console.error(err)
+      process.exit(1)
+    })
+}

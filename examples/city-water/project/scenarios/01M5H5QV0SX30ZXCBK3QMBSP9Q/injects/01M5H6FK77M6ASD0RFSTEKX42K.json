@@ -1,0 +1,106 @@
+{
+  "id": "01M5H6FK77M6ASD0RFSTEKX42K",
+  "mselRowId": "I-20",
+  "type": "radio_call",
+  "title": "Meter Tech: Frozen Meter Recovers — Route 41",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "centerName": "OCC-WS-03 (10.72.1.55)",
+    "channel": "DWS-1",
+    "frequency": "TG 4101 / 460.250 MHz",
+    "date": "10/22/2026",
+    "callsign": "Meter Tech Harris (Route 41)",
+    "lines": [
+      {
+        "time": "11:45:12",
+        "from": "Meter Tech Harris (Route 41)",
+        "to": "Control",
+        "text": "Control, this is Meter Tech Harris on Route 41. The meter at 123 Oak Street (41-123-OAK) just rebooted and is now showing a flow of 3.2 GPM — it was frozen at 0.000 GPM for 4 hours. I've checked the backflow preventer; it's not leaking. Should I log this as a new anomaly or just note it as a recovery?"
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Young male, calm, slightly tired, with a hint of confusion",
+    "audioFile": "I-20_radio.wav",
+    "duration": "0:18",
+    "injectId": "I-20"
+  },
+  "instructorNote": "Noise inject; the technical team should triage it as a non-critical recovery event, not linked to the control-system compromise. Watch for overreaction to meter anomalies.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.2 Remote Sites",
+      "quote": "| Site | Address | Assets and tags | Telemetry | |---|---|---|---| | **Hilltop Tank** | 2200 Summit Drive | Elevated tank 1.0 MG, overflow el. 1,012 ft; level LIT-601 (radar) and LIT-602 (pressure, ba",
+      "chunkId": 164
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 9",
+      "quote": "- Nightly: MBW-EWS-01 copies the HMI application, PLC programs and historian exports to **MBW-BKP-01** on the business LAN under **FW-R-17**. MBW-BKP-01 also holds the CIS, AMI, GIS and LIMS backups —",
+      "chunkId": 81
+    },
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A › A.7.1 Radio Network",
+      "quote": "| Link | From | To | Medium | Poll interval | |---|---|---|---|---| | T-1 | RWTP master radio (mast, 120 ft) | RTU-01 Hilltop Tank / repeater RP-1 | 900 MHz licensed, 12.4 mi | 30 s | | T-2 | RP-1 | R",
+      "chunkId": 152
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Meter Tech Harris (Route 41)",
+        "voiceStyle": "Young male, calm, slightly tired, with a hint of confusion",
+        "text": "Control, this is Meter Tech Harris on Route 41. The meter at 123 Oak Street, 41-123-OAK, just rebooted and is now showing a flow of 3.2 GPM — it was frozen at zero point zero zero zero GPM for four hours. I've checked the backflow preventer; it's not leaking. Should I log this as a new anomaly or just note it as a recovery?"
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T06:59:05.046Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Meter Tech: Frozen Meter Recovers — Route 41",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "OCC-WS-03 (10.72.1.55)",
+          "channel": "DWS-1",
+          "frequency": "TG 4101 / 460.250 MHz",
+          "date": "10/22/2026",
+          "callsign": "Meter Tech Harris (Route 41)",
+          "lines": [
+            {
+              "time": "11:45:12",
+              "from": "Meter Tech Harris (Route 41)",
+              "to": "Control",
+              "text": "Control, this is Meter Tech Harris on Route 41. The meter at 123 Oak Street (41-123-OAK) just rebooted and is now showing a flow of 3.2 GPM — it was frozen at 0.000 GPM for 4 hours. I've checked the backflow preventer; it's not leaking. Should I log this as a new anomaly or just note it as a recovery?"
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Young male, calm, slightly tired, with a hint of confusion",
+          "audioFile": "I-20_radio.wav",
+          "duration": "0:18",
+          "injectId": "I-20"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it as a non-critical recovery event, not linked to the control-system compromise. Watch for overreaction to meter anomalies.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:43.430Z"
+}

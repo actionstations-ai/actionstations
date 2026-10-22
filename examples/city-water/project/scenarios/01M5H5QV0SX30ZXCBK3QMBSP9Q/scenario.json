@@ -1,0 +1,3549 @@
+{
+  "id": "01M5H5QV0SX30ZXCBK3QMBSP9Q",
+  "projectId": "01M5H5QTHACSJFBXSQQ5JNP6RG",
+  "title": "pH on the Edge",
+  "subtitle": "Caustic Overfeed & Public Health",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-22T06:45:53.817Z",
+  "updatedAt": "2026-10-22T07:14:45.643Z",
+  "brief": {
+    "userPrompt": "At 02:40 a remote-support session through the DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building raises the Caustic Feed System dose setpoint (NAOH-FC-203) step by step toward 40 mg/L while the single night operator is on rounds; finished-water pH climbs on AIT-302, the hard-wired high-high switch PSH-302 and a grab sample disagree with what the HMI trend shows. Vendor remote access, manual chemical feed, isolating the control network, Ohio EPA notification and the Do Not Drink decision for Zone 1.",
+    "audience": [
+      "Water Operations",
+      "SCADA / IT",
+      "Public Information",
+      "Water Quality / Lab",
+      "Security"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [],
+    "startWallClock": "09:00",
+    "threatFamily": "cyber_physical"
+  },
+  "overview": {
+    "theme": "Trust in the Data, Control System Integrity, and Public Health Decision-Making",
+    "threat": "A remote-support session through the unapproved DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building results in a stepwise increase of the NAOH-FC-203 caustic dose setpoint toward the PLC hard limit of 40 mg/L. The HMI displays normal operation, but field instruments (AIT-302, PSH-302) and grab samples indicate finished-water pH is rising toward 9.5, creating a mismatch between screen and reality. This cyber-physical compromise of the chemical feed system triggers a public health emergency.",
+    "operationalImpact": "The night operator on rounds observes a rising pH trend on the HMI but notes that the local high-high switch PSH-302 has not tripped and that grab samples show pH above 9.5. The chemical feed pump continues to run. The Control Room receives conflicting data: HMI shows 14 mg/L (within normal band), but lab results show 9.3 pH and 38 mg/L caustic. The operator attempts to manually override the feed via the local panel but finds the PLC is still issuing commands. The distribution system in Zone 1 experiences a sudden rise in pH, triggering customer calls to the surge line about bitter-tasting water and chemical odors. The Water Quality Manager confirms the lab results, and the Director must decide whether to issue a Do Not Drink advisory. The SCADA team isolates the control network to stop remote access, but the network is already compromised. The Ohio EPA is notified under Section 12, and the Carver County EOC is activated.",
+    "coreSectionsTested": [
+      {
+        "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+        "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+        "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+        "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+        "chunkId": 73
+      },
+      {
+        "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+        "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+        "headingPath": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+        "quote": "- Loss of disinfection (finished chlorine residual below 0.2 mg/L entering distribution) or any confirmed or credible contamination of source, plant or distribution water. - A Boil Water, Do Not Drink",
+        "chunkId": 13
+      },
+      {
+        "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+        "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+        "headingPath": "ERP › Section 11 › 11.3 Known Remote-Access Risk",
+        "quote": "The approved vendor path is MBW-JUMP-01 in a ticketed window. A remote-support agent (ScreenBridge) installed by DosaTech on MBW-HMI-02 in the Chemical Building reaches the internet outside that path ",
+        "chunkId": 46
+      },
+      {
+        "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+        "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+        "headingPath": "ERP › Section 5 › 5.3 External Reporting Clocks",
+        "quote": "| Event | Report to | Time limit | By | |---|---|---|---| | Any Tier 1 public-notice situation (Section 9.2) | Ohio EPA DDAGW Central District (district engineer Paul Grieve; 24-h line (555) 037-1555)",
+        "chunkId": 16
+      },
+      {
+        "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+        "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+        "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+        "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+        "chunkId": 112
+      },
+      {
+        "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+        "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+        "headingPath": "ERP › Section 5 › 5.4 Pre-Scripted Messages",
+        "quote": "**To DDAGW (Tier 1 consultation):** \"This is [name], [title], City of Millbrook DWS, PWS ID OH-CARVER-0418. We have a [loss of pressure / treatment failure / suspected contamination] affecting [Zone /",
+        "chunkId": 17
+      }
+    ],
+    "targetAudience": "Water Operations, SCADA / IT, Public Information, Water Quality / Lab, Security",
+    "location": "Riverside Water Treatment Plant, Millbrook, Carver County, Ohio"
+  },
+  "objectives": [
+    {
+      "id": "01M5H5RHR0WJFFRB5DYR1NNYX1",
+      "name": "Control System Integrity",
+      "text": "Demonstrate the ability to detect and respond to a mismatch between HMI data and field instruments, prioritizing physical evidence over screen displays when a hard-wired safety switch has not tripped and lab results indicate a hazardous condition."
+    },
+    {
+      "id": "01M5H5RHR0ZWWKK7N0YB2BAMSW",
+      "name": "Public Health Decision-Making",
+      "text": "Demonstrate the ability to declare a Level 3 emergency and issue a Do Not Drink advisory within 2 hours of confirming lab results showing finished-water pH above 9.5, based on the Water Quality Manager's verification and the Director's approval."
+    },
+    {
+      "id": "01M5H5RHR0QSX7BXF0KPJQ72BB",
+      "name": "Cyber-Physical Incident Response",
+      "text": "Demonstrate the ability to isolate the control system, engage the FBI/CISA liaison, and prevent further remote access while preserving evidence, despite the network being compromised."
+    },
+    {
+      "id": "01M5H5RHR0K13DWCRJCNX9BBG1",
+      "name": "Public Information Consistency",
+      "text": "Demonstrate the ability to release a pre-scripted, fact-based advisory through MillbrookAlert, the website, and social media within 45 minutes of the advisory decision, using approved language and avoiding speculation."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ops",
+      "name": "Director of Water Operations (Incident Commander)",
+      "abbreviation": "IC",
+      "team": "Team A: Operations",
+      "description": "Owns the water treatment and distribution system, including plant operations, interconnects, and emergency isolation decisions.",
+      "standingOrders": [
+        "Safety First: if the screen and the field disagree, trust the field.",
+        "Decision Authority: the Director declares Level 3 and issues advisories after consulting the WQ Manager and confirming lab results.",
+        "Containment Over Continuity: if a zone is at risk, isolate it even if it causes a pressure drop below 20 psi.",
+        "No Delay: if lab results confirm pH > 9.5, declare advisory within 2 hours regardless of HMI status."
+      ]
+    },
+    {
+      "id": "it",
+      "name": "SCADA / IT Security Manager (Technical Lead)",
+      "abbreviation": "TL",
+      "team": "Team B: SCADA / IT",
+      "description": "Owns the control system, remote access, network integrity, and evidence preservation.",
+      "standingOrders": [
+        "Evidence First: preserve RTU logs, NVR footage, and remote-access session records before any network reset.",
+        "Isolation Protocol: shut down all remote-access gateways and isolate the SCADA network from the business network immediately upon compromise.",
+        "No Public Disclosure: do not name the vendor, system, or attack method; use generic terms like 'a technology issue affecting the control system'.",
+        "FBI/CISA Liaison: activate the cyber-incident statement process only after confirming the attack vector and coordinating with the City IT Director."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team C: Public Information",
+      "description": "Owns the public narrative, media communication, and official statement release.",
+      "standingOrders": [
+        "Truth Before Reassurance: release facts first; do not say 'no risk' until lab results confirm safety.",
+        "Pre-Scripted Release: use Section 10 templates and GIS boundaries to publish the advisory within 45 minutes of the decision.",
+        "No Speculation: do not comment on remote access, vendor names, or ransom demands; defer to the SCADA / IT Security Manager for technical details.",
+        "Critical Customer First: call Harvest Ridge Foods and other critical facilities before public release under a Do Not Drink advisory."
+      ]
+    },
+    {
+      "id": "wq",
+      "name": "Water Quality Manager (Compliance)",
+      "abbreviation": "WQ",
+      "team": "Team D: Water Quality / Lab",
+      "description": "Owns sampling, lab analysis, regulatory reporting, and public-notice triggers.",
+      "standingOrders": [
+        "Lab Authority: only lab results can confirm a public health emergency; if pH > 9.5, trigger advisory regardless of HMI.",
+        "No Delay: release results to the Control Room and the Director within 15 minutes of sample completion.",
+        "Health Effects: only the WQ Manager may approve the health-effects content in the advisory.",
+        "DDAGW Coordination: contact Ohio EPA DDAGW within 30 minutes of confirming a Level 3 condition."
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Security & Emergency Manager (Sec)",
+      "abbreviation": "SEC",
+      "team": "Team E: Security",
+      "description": "Owns site security, law-enforcement liaison, and emergency response plan execution.",
+      "standingOrders": [
+        "Site First: if any sign of entry is found, call Millbrook Police and isolate the facility immediately.",
+        "Law Enforcement: activate the Millbrook Police liaison and share evidence only after the SCADA / IT Security Manager confirms the cyber-physical nature of the event.",
+        "No Solo Action: do not act on physical access claims without verifying with the Control Room and the WQ Manager.",
+        "Evidence Chain: preserve video from MBW-NVR-01 and RTU logs for forensic use."
+      ]
+    },
+    {
+      "id": "regulator",
+      "name": "Ohio EPA DDAGW Central District (Regulator Liaison)",
+      "abbreviation": "DDAGW",
+      "team": "Team F: Regulator Liaison",
+      "description": "Owns regulatory compliance, reporting, and external oversight.",
+      "standingOrders": [
+        "Tier 1 First: call Ohio EPA DDAGW within 30 minutes of confirming a Level 3 condition using the pre-scripted message.",
+        "No Delay: do not wait for a formal letter; report via phone and confirm in writing.",
+        "Regulatory Truth: only the WQ Manager and the Director may provide facts to DDAGW; the PIO may not release details without approval.",
+        "No Public Comment: do not discuss regulatory actions or timelines publicly until the Director has approved the statement."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "index": 0,
+      "title": "The Sighting",
+      "goal": "Test the team's ability to recognize and validate a mismatch between HMI data and physical evidence, and to initiate a cyber-physical incident investigation by identifying anomalous behavior in the caustic feed system.",
+      "beats": [
+        "At 09:15, the night operator on rounds at the Chemical Building notes that AIT-302 shows a finished-water pH of 9.3, but the HMI for NAOH-FC-203 displays 14 mg/L (within normal band), and PSH-302 has not tripped.",
+        "At 09:22, a grab sample from the finished water line at the plant effluent point confirms a pH of 9.3 and a caustic dose of 38 mg/L, exceeding the PLC clamp of 40 mg/L and triggering a red flag in the lab report system.",
+        "At 09:28, the Control Room operator attempts to manually override NAOH-FC-203 on the local panel at PLC-02, but the pump continues to run and the HMI shows no change in command status, indicating a loss of local control.",
+        "At 09:35, the Water Quality Manager (wq) confirms the lab results and reports to the Director that the pH is above 9.5 and the caustic dose is at 38 mg/L — both outside the safe operating band — and that PSH-302 has not tripped, suggesting a failure in the digital control chain.",
+        "At 09:42, the SCADA / IT Security Manager (it) reviews the audit log for MBW-HMI-02 and discovers a remote session from an unknown IP (10.200.144.122) via DosaTech ScreenBridge, lasting 1 hour and 12 minutes, starting at 08:00, during which the NAOH-FC-203 setpoint was changed from 14 mg/L to 38 mg/L in three incremental steps.",
+        "At 09:50, the Director (ops) declares a cyber-physical incident, activates the ERP Section 7.5 Manual Operation protocol, and notifies the Ohio EPA DDAGW Central District (regulator) via the pre-scripted external reporting clock (Section 5.3)."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "index": 1,
+      "title": "Loss of Control",
+      "goal": "Test the team's ability to manage a spreading operational and public crisis when trust in the control system is broken, and to coordinate a unified response across technical, regulatory, and public communication teams.",
+      "beats": [
+        "At 10:10, the Control Room receives 14 customer calls via the MillbrookAlert surge line reporting bitter-tasting water and chemical odor in Zone 1, with a pattern matching the effluent line from the plant.",
+        "At 10:18, the Public Information Officer (pio) broadcasts a preliminary alert through MillbrookAlert, the city website, and social media using the pre-scripted message from Section 5.4, stating: 'The City of Millbrook is investigating a possible water quality issue in Zone 1. Please avoid drinking tap water until further notice.'",
+        "At 10:25, the SCADA / IT Security Manager (it) isolates the control network by disabling the MBW-SCADA-SRV01 to MBW-BKP-01 link and disconnecting the MBW-HMI-02 from the business LAN, but notes that the DosaTech ScreenBridge agent remains active on the HMI, suggesting the network is already compromised.",
+        "At 10:32, the Security & Emergency Manager (security) confirms that the Chemical Building access control system (PACS) shows no unauthorized entry, and that the site was not physically breached; PSH-302 remains untripped, and the hard-wired stop has not activated, confirming the digital system is overriding the physical safety mechanism.",
+        "At 10:45, the Director (ops) receives a call from the Ohio EPA DDAGW Central District (regulator) demanding confirmation of a Level 3 public health emergency under Section 4.4, and issues the official Do Not Drink advisory after the Water Quality Manager (wq) verifies the lab data and confirms pH > 9.5.",
+        "At 10:50, the SCADA / IT Security Manager (it) contacts Kessler Controls (555) 039-4411 to request a remote support session, but is informed that a signed access request is required and that the vendor cannot begin until the network is fully isolated and the incident is reported to the cyber-insurance carrier."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "index": 2,
+      "title": "Manual Operation",
+      "goal": "Test the team's ability to make a high-consequence operational decision to stop automation and fall back to manual control, weighing life-safety risks against service continuity.",
+      "beats": [
+        "At 11:15, the SCADA / IT Security Manager (it) confirms that the PLC-02 program on MBW-BKP-01 is from 03/2025 and lacks the 08/2025 flow-pacing logic change, making a full system restore impossible without on-site vendor support.",
+        "At 11:20, the Control Room transitions to manual mode per ERP Section 7.5.1: NAOH-FC-203 is set to 0 mg/L via the local stroke dial; the HSP-1/2/3 pumps are placed in HAND mode at the MCC; and the Northgate Booster Station (BP-301/302/303) is set to local pressure-switch control (PIT-622), per C3.",
+        "At 11:28, the Director (ops) confronts the DECISION_POINT: whether to keep the system in automatic mode (risking another overfeed) or to lock it in manual and run with two operators per shift for 72 hours, despite a 40% reduction in staffing and slower response times.",
+        "At 11:35, the Water Quality Manager (wq) reports that the lab has confirmed a pH of 9.6 and caustic dose of 37 mg/L in Zone 1, and that dialysis patients are beginning to report symptoms, increasing pressure to stop service.",
+        "At 11:40, the Public Information Officer (pio) receives a media request about the advisory, and the Director (ops) approves a revised statement: 'A Do Not Drink advisory is in effect for Zone 1. The plant is now operating in manual mode with full oversight. We are working to restore safe service.'",
+        "At 11:50, the Director (ops) declares the system off automation and orders full manual operation, citing the need to protect public health, and activates the OHWARN mutual-aid agreement (ERP Section 12) to bring in two certified operators within 12 hours."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "01M5H5S6ZHQASRGCPAJDGS4D54",
+      "index": 3,
+      "title": "Restoration & Verification",
+      "goal": "Test the team's ability to verify the physical state before restoring trust in the digital system, and to manage a phased return to automatic control with regulatory and technical safeguards.",
+      "beats": [
+        "At 12:15, the SCADA / IT Security Manager (it) receives a verified copy of the 08/2025 flow-pacing logic from Jared Molina's laptop and confirms it matches the current PLC-02 behavior, but notes that the Kessler Controls on-site technician cannot begin until 14:00 due to the signed access request process.",
+        "At 12:20, the Public Information Officer (pio) issues a follow-up advisory via MillbrookAlert and social media: 'The plant is now operating in manual mode. Water quality is being monitored every 2 hours. Service will resume when the system is verified safe.'",
+        "At 12:30, the Water Quality Manager (wq) confirms that grab samples from the finished water line show pH 7.8 and caustic dose 4.0 mg/L — within safe limits — and that the PSH-302 remains untripped.",
+        "At 12:40, the SCADA / IT Security Manager (it) confirms that the FBI/CISA liaison has been engaged and that a forensic image of MBW-HMI-02 has been captured, preserving evidence of the DosaTech ScreenBridge session.",
+        "At 12:50, the Director (ops) approves a phased return to automatic control: first, verify the HMI and PLC-02 program on a test server using the latest verified logic; second, restore the HMI application on MBW-BKP-01 after a full integrity check; third, perform a manual verification of the NAOH-FC-203 setpoint and pump status at the local panel before re-arming.",
+        "At 12:55, the exercise ends with the Director (ops) stating: 'We are not returning to automatic control until we have verified the physical state, the digital system, and the vendor’s access protocol. The public trust is not restored yet.'"
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ops",
+        "it",
+        "pio",
+        "wq",
+        "security",
+        "regulator"
+      ],
+      "toLabel": "All",
+      "event": "STARTEX: It is 09:00. The plant is operating under normal conditions. The load is 7.2 MGD, and the weather is clear and dry. All system statuses are green on the HMI. The night shift is in progress, and the control room is manned by a certified operator. The screen shows a pH of 8.3, and all chemical feed setpoints are within their normal bands. No alarms are active. The narrative clock begins.",
+      "expectedAction": "All roles acknowledge the normal state and begin monitoring their assigned systems per standing procedures.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M5H64GRE22QRSEQWYEWZ2EQ0",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "time": "0:15",
+      "wallClock": "09:15",
+      "from": "Night Operator",
+      "toRoleIds": [
+        "ops"
+      ],
+      "toLabel": "IC",
+      "event": "Field Report: \"Control, this is Night Operator Chen, on rounds at the Chemical Building. AIT-302 shows finished-water pH at 9.3 — that's way above the normal 7.4–7.8 range. The HMI for NAOH-FC-203 still says 14 mg/L, which is in the normal range. But PSH-302 hasn't tripped, and I can hear the caustic pump running at full speed. The tank level is dropping. I don't know what to trust — the screen says normal, but the water tastes like lye.\"",
+      "expectedAction": "Ops orders the operator to trust the bench reading and hold the manual valve position; opens a ticket with IT and starts a paper log (SOP 7.2).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5H64Y524ZKSRYDKAEZ7Y122",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+          "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+          "quote": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
+          "chunkId": 143
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "time": "0:22",
+      "wallClock": "09:22",
+      "from": "Lab Analyst",
+      "toRoleIds": [
+        "wq",
+        "ops"
+      ],
+      "toLabel": "WQ, IC",
+      "event": "Email Forward: From: Lab Assistant (LIMS System) | To: Marcus Oyelaran, Water Quality Manager | Subject: Urgent: Sample 24-1187 (Effluent) - pH 9.3, Caustic 38 mg/L\n\n- Sample ID: 24-1187\n- Source: Effluent line, RWTP\n- Time collected: 09:18\n- pH: 9.3\n- Caustic dose (measured): 38 mg/L\n- Alert: pH > 9.5, Caustic > 40 mg/L (PLC clamp) — trigger for advisory\n- System note: This exceeds the PLC hard limit (40 mg/L) and confirms a control-system anomaly.\n\nAttached: LIMS report with full traceability.",
+      "expectedAction": "WQ confirms the lab results and immediately notifies the Director and the SCADA / IT Security Manager. WQ declares a Level 3 condition per EOP 7.5 and triggers the advisory decision clock (Section 5.3).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5H6583GJFF07T13DFMG6PP7",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+          "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+          "chunkId": 73
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "time": "0:28",
+      "wallClock": "09:28",
+      "from": "Control Room Operator",
+      "toRoleIds": [
+        "ops"
+      ],
+      "toLabel": "IC",
+      "event": "Radio Call: \"Control, this is HMI Operator Rios. I just tried to manually override NAOH-FC-203 on the local PLC-02 panel. I selected 'Manual Mode' and setpoint to 0. The pump still runs, and the HMI shows no change in command status — it's still at 'AUTO' and 'Running'. I can't stop it. I've tried twice.\"\n\n- HMI status: Still AUTO, Running\n- Manual override attempted: Yes, via local PLC-02 panel\n- Result: Pump continues to run; no change in HMI command state",
+      "expectedAction": "Ops confirms that the HMI and local control are both unresponsive to manual override. Ops declares a cyber-physical loss of control and activates the Section 7.5 Manual Operation protocol. Ops orders all chemical feed pumps to be stopped via emergency contactor if safe to do so.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "injectId": "01M5H65F9ZYA5M8JNKVQ9N2C5Q",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+          "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+          "chunkId": 73
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "time": "0:35",
+      "wallClock": "09:35",
+      "from": "Outside Caller",
+      "toRoleIds": [
+        "ops",
+        "it"
+      ],
+      "toLabel": "IC, TL",
+      "event": "Phone Call: \"Director Albrecht, this is Marcus Oyelaran, Water Quality Manager. The lab has confirmed: pH is 9.3, caustic dose is 38 mg/L. The PLC clamp is 40 mg/L, so we are over. PSH-302 has not tripped — that's not normal. This means the HMI is not reflecting reality. The control system is compromised. We are in a public health emergency. We must issue a Do Not Drink advisory.\"\n\n- Lab result: pH 9.3, Caustic 38 mg/L\n- PSH-302: Not tripped\n- Conclusion: HMI is lying; control system has failed",
+      "expectedAction": "Ops confirms the WQ Manager’s assessment. Ops authorizes the advisory decision process under Section 5.3 and instructs the PIO to prepare a public statement using the pre-scripted template (MDWS-PCP-2026). Ops notifies the SCADA / IT Security Manager to investigate the root cause.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5H65R6RVT2A86M3DRS7Y7SK",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+          "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+          "chunkId": 73
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "time": "0:42",
+      "wallClock": "09:42",
+      "from": "System Alert",
+      "toRoleIds": [
+        "it",
+        "ops"
+      ],
+      "toLabel": "TL, IC",
+      "event": "System Log: Audit Log for MBW-HMI-02 (10.72.10.22)\n\n- Timestamp: 08:00:14\n- Action: Remote session initiated via DosaTech ScreenBridge\n- Source IP: 10.200.144.122\n- User: Unknown (no valid MFA token)\n- Session duration: 1h12m\n- Actions logged:\n • NAOH-FC-203 setpoint changed from 14 mg/L to 25 mg/L (08:05:03)\n • NAOH-FC-203 setpoint changed from 25 mg/L to 35 mg/L (08:12:47)\n • NAOH-FC-203 setpoint changed from 35 mg/L to 38 mg/L (08:22:11)\n • Audit log entry: 'Setpoint write to NAOH-FC-203: 38 mg/L' (08:22:12)\n\n- Host: MBW-HMI-02\n- HMI node: MBW-HMI-02\n- Account: No valid login (session not tied to a known user)\n- Note: No Kessler Controls ticket was open for this window. No approval in the remote-access log.\n\nAlert: Unauthorized remote access via DosaTech ScreenBridge detected.",
+      "expectedAction": "IT confirms unauthorized remote access; activates evidence preservation protocol per Section 11.3 (SEC-4 form); isolates MBW-HMI-02 and MBW-JUMP-01 (SOP 11.2).",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5H668A6GWFE7FG58YS8GPHZ",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+          "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+          "chunkId": 70
+        },
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 11 › 11.2 Evidence",
+          "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+          "chunkId": 45
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "time": "0:50",
+      "wallClock": "09:50",
+      "from": "Outside Caller",
+      "toRoleIds": [
+        "ops",
+        "regulator",
+        "pio"
+      ],
+      "toLabel": "IC, DDAGW, PIO",
+      "event": "Phone Call: \"This is Denise Albrecht, Director of Water Operations. I am declaring a Level 3 — Public Health Emergency — under ERP Section 4.4. I am activating the Section 7.5 Manual Operation protocol. The control system has been compromised, and the finished water pH is 9.3 with caustic at 38 mg/L. I am notifying the Ohio EPA DDAGW Central District via the pre-scripted external reporting clock (Section 5.3). I am authorizing the advisory decision process.\"",
+      "expectedAction": "Ops confirms Level 3 declaration and activates the advisory decision process per Section 5.3; notifies the PIO to begin public release (SOP 10.1).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5H66JWKCW0NMJY2W1SS3123",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 13",
+          "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "time": "0:55",
+      "wallClock": "09:55",
+      "from": "Customer Service Lead",
+      "toRoleIds": [
+        "pio",
+        "ops"
+      ],
+      "toLabel": "PIO, IC",
+      "event": "Helpdesk Ticket #CS-241187: 'Call from Zone 1 (Valley): Water tastes like bleach, has a chemical smell. Customers are vomiting. One family has taken a child to the ER. Demand for bottled water. 40 calls in 10 minutes.'\n\n- Origin: Zone 1 (Valley)\n- Description: Water has a bitter taste, chemical smell, and has caused nausea and vomiting\n- Priority: High (critical customer status activated)\n- Tag: #WaterQualityEmergency",
+      "expectedAction": "PIO logs the ticket in the media and rumor log. PIO notifies the Director and the WQ Manager. Customer Service opens the surge line and begins distributing call scripts to handle inbound calls.",
+      "purposeTag": "PRESSURE",
+      "format": "helpdesk_ticket",
+      "injectId": "01M5H670MWTNK31BZVQV2Y054E",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 2",
+          "quote": "| Role | Name | Responsibilities | |---|---|---| | Public Information Officer (PIO) | Hannah Weiss, City Communications Director | Owns this plan; approves and releases all public statements; spokespe",
+          "chunkId": 105
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "time": "0:58",
+      "wallClock": "09:58",
+      "from": "Meter Technician",
+      "toRoleIds": [
+        "ops",
+        "it"
+      ],
+      "toLabel": "IC, TL",
+      "event": "Radio Call: \"Control, this is Meter Tech Harris on Route 41. The meter at 123 Oak Street just went into a 48-hour freeze. It's showing 0.000 GPM and won't reset. I can't access it remotely. Should I just leave it?\"\n\n- Meter ID: 41-123-OAK\n- Status: Frozen, showing 0.000 GPM\n- Remote access: Unavailable\n- Request: Guidance on next step",
+      "expectedAction": "Ops acknowledges the call and instructs the meter tech to mark the location on the map and report back after checking the local valve. IT notes that the AMI system (MBW-AMI-01) may be affected and logs the anomaly for later correlation.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5H6785E6TK2Y77WYE790B1E",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+          "quote": "- [ ] City IT: isolate affected hosts; disable FW-R-17, FW-R-22 and FW-R-14 immediately (do not wait for the full Section 10.3 decision); stop backup jobs so MBW-BKP-01 is not overwritten; pull the MB",
+          "chunkId": 86
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "time": "0:59",
+      "wallClock": "09:59",
+      "from": "Social Media",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Post (@MbkWaterWatch): \"URGENT: Water from the tap in Zone 1 is causing stomach pain and burns. My kid is in the ER. Is the plant hacked? #MillbrookWaterCrisis #DoNotDrink #Emergency\" — 120 reposts in 12 minutes\n\n- Handle: @MbkWaterWatch\n- Text: \"URGENT: Water from the tap in Zone 1 is causing stomach pain and burns. My kid is in the ER. Is the plant hacked? #MillbrookWaterCrisis #DoNotDrink #Emergency\"\n- Hashtags: #MillbrookWaterCrisis, #DoNotDrink, #Emergency",
+      "expectedAction": "PIO logs sentiment and prepares a holding statement about water quality concerns; does NOT confirm a cause before Ops and IT verify.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "injectId": "01M5H67J1PZ8KBFYXAYMKAJJAZ",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "time": "1:00",
+      "wallClock": "10:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ops",
+        "it",
+        "pio",
+        "wq",
+        "security",
+        "regulator"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 10:00. The problem has spread to Zone 1, where customers are reporting chemical taste, nausea, and vomiting. The lab has confirmed a pH of 9.3 and a caustic dose of 38 mg/L — both well above safe limits. The control system has been isolated, but the HMI continues to display normal values. The SCADA / IT Security Manager has confirmed unauthorized remote access via DosaTech ScreenBridge. The Ohio EPA DDAGW has been notified, and the public is demanding answers. The shift cannot restore trust in the system without verification. The next phase begins.",
+      "expectedAction": "All roles prepare for Phase 2: Loss of Control, where they must manage a spreading operational and public crisis while maintaining a unified response across technical, regulatory, and public communication teams.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5H67Y9575AY4CNS5W783HX4",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10b",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:02",
+      "wallClock": "10:02",
+      "from": "Frontline Staff",
+      "toRoleIds": [
+        "security"
+      ],
+      "toLabel": "SEC",
+      "event": "Field Report: \"Security, this is Control Room Operator Rios. I just saw a person in a gray hoodie and blue gloves walking near the Chemical Building's east door at 09:58. The door was ajar, and I could see the light on inside. I called the door intercom — no answer. I tried to contact the operator on site via radio — no response. I've checked the MBW-NVR-01 video feed for that time, and the door was locked at 09:58:33. The person was not on camera. I don’t know if they were real or a ghost. But the HMI says the door is closed, and the PACS says it's locked. I don’t trust the system anymore. Should I send a patrol?\" ",
+      "expectedAction": "Security orders a patrol to the Chemical Building's east door and activates the PACS emergency override to force a manual door unlock for verification; checks MBW-NVR-01 footage for the 09:58 time window and logs the event as a potential physical intrusion under Section 7.6.",
+      "purposeTag": "CONFUSION",
+      "format": "field_report",
+      "injectId": "01M5H687MZHAZDPC84VXKED27W",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+          "quote": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+          "chunkId": 31
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-10c",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:05",
+      "wallClock": "10:05",
+      "from": "Staff Email",
+      "toRoleIds": [
+        "security"
+      ],
+      "toLabel": "SEC",
+      "event": "Email Forward: From: Priya Nandakumar (SCADA / IT Security Manager) | To: Luis Ferreira (Security & Emergency Manager) | Subject: URGENT: DosaTech Session Found — Evidence Preserved\n\nThe DosaTech ScreenBridge session on MBW-HMI-02 (10.72.10.22) has been isolated. The session log shows 1h12m of remote access from IP 10.200.144.122. The account was not tied to a valid user, and no Kessler Controls ticket was open for this window (Section 6.2). The session is preserved on MBW-JUMP-01 and will be forwarded to CISA via the WaterISAC cyber-incident reporting portal. Do not touch the HMI or PLC-02 until we have chain-of-custody. I’ve activated the SEC-4 evidence form for MBW-NVR-01, PACS logs, and session recordings. We must preserve everything.\n\nNote: The attacker used a fake vendor name and an unauthorized path. This is not Kessler Controls.",
+      "expectedAction": "Security confirms the attacker used a fake vendor path and does not act on physical intrusion claims until the SCADA / IT Security Manager confirms the cyber-physical nature of the event; follows SEC-4 chain-of-custody protocol and preserves NVR and PACS evidence.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "email_forward",
+      "injectId": "01M5H68KZVQHBB6PZ3NWPR0NQN",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 11 › 11.2 Evidence",
+          "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+          "chunkId": 45
+        },
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+          "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+          "chunkId": 70
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:10",
+      "wallClock": "10:10",
+      "from": "Customer Service Lead",
+      "toRoleIds": [
+        "ops",
+        "pio"
+      ],
+      "toLabel": "IC, PIO",
+      "event": "Helpdesk Ticket #CS-241190: '14 calls in 8 minutes from Zone 1: all report bitter taste, chemical smell, and stomach upset. One says they vomited after drinking. All say: \"It tastes like lye. Is it safe?\"'",
+      "expectedAction": "Ops opens a paper log for customer reports; PIO activates the pre-scripted MillbrookAlert message per Section 5.4 and begins drafting the public statement using the cyber holding statement (MDWS-PCP-2026, Section 10).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "helpdesk_ticket",
+      "injectId": "01M5H69AZSKJM269XDK9FXNN3T",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+          "quote": "- [ ] City IT: isolate affected hosts; disable FW-R-17, FW-R-22 and FW-R-14 immediately (do not wait for the full Section 10.3 decision); stop backup jobs so MBW-BKP-01 is not overwritten; pull the MB",
+          "chunkId": 86
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11b",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:12",
+      "wallClock": "10:12",
+      "from": "Social Media",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Post (@MbkWaterWatch): \"I just took my kid to the ER. The water made me vomit. Is it safe to drink? #DoNotDrink #MillbrookWaterCrisis\"",
+      "expectedAction": "PIO logs sentiment and adds to the rumor log; confirms no new data from lab or ops, and holds release until the official advisory is ready.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "injectId": "01M5H69N50N3C9CKRSBKZEEE8F",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11c",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:15",
+      "wallClock": "10:15",
+      "from": "SCADA / HMI (Control Room)",
+      "toRoleIds": [
+        "it",
+        "ops"
+      ],
+      "toLabel": "IT, Ops",
+      "event": "SCADA / HMI: The Chemical Feed screen (CHM-2) on MBW-HMI-01 in the Control Room tells a different story from the frozen screen in the Chemical Building. NAOH-FC-203 reads 37.6 mg/L against a setpoint of 38.0 written from MBW-HMI-02 at 08:22 with the supervisor PIN; finished-water pH AIT-302 reads 9.3 in alarm; the 08:31 pH-high alarm was acknowledged from MBW-HMI-02 while no one was at that console; PSH-302 shows ARMED (trip 9.5); and the status bar shows one ScreenBridge session active with no MBW-JUMP-01 session.",
+      "expectedAction": "SCADA / IT announces CODE CLEARWATER on DWS-1 (OT Plan 10.1). The operator confirms NAOH-FC-203 is in HAND at the dose-table value and that PSH-302 is armed (OT Plan 10.4 checklist). SCADA / IT exports the audit log for the last 72 hours, stops the ScreenBridge service and disables dosatech_svc, and brings the islanding decision (OT Plan 10.3) to the Director.",
+      "purposeTag": "CLUE",
+      "format": "scada_hmi",
+      "injectId": "01M5H71D0J5DE42TEAR7NDQ90H",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:18",
+      "wallClock": "10:18",
+      "from": "System Alert",
+      "toRoleIds": [
+        "ops",
+        "it",
+        "pio",
+        "wq",
+        "security",
+        "regulator"
+      ],
+      "toLabel": "All",
+      "event": "MillbrookAlert Broadcast: 'The City of Millbrook is investigating a possible water quality issue in Zone 1. Please avoid drinking tap water until further notice.' — Posted to city website, social media, and SMS alert channel.",
+      "expectedAction": "PIO confirms the message was sent via the Section 5.4 pre-scripted template; logs timestamp and channel in the media log; instructs Deputy PIO to monitor for public response.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "press_release",
+      "injectId": "01M5H69WVZV5V57R1QHY8R2GHT",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:25",
+      "wallClock": "10:25",
+      "from": "System Alert",
+      "toRoleIds": [
+        "ops",
+        "security"
+      ],
+      "toLabel": "IC, SEC",
+      "event": "System Log: Audit Log for MBW-SCADA-SRV01 (10.72.10.10) — Isolation Protocol Executed\n\n- Timestamp: 10:24:17\n- Action: Disconnected MBW-SCADA-SRV01 from MBW-BKP-01 (10.73.20.60)\n- Action: Isolated MBW-HMI-02 (10.72.10.22) from business LAN via firewall rule update\n- Alert: DosaTech ScreenBridge agent remains active on MBW-HMI-02; session not terminated\n- Note: This confirms the network is already compromised. Full isolation required before any vendor access.",
+      "expectedAction": "IT confirms isolation is complete; notes that the DosaTech agent remains active and must not be removed until forensic handover; logs the action in the remote-access log and notifies IC and SEC.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "system_log",
+      "injectId": "01M5H6A5C6S3W2HBY26TPVK9XH",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+          "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+          "chunkId": 70
+        },
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+          "quote": "- [ ] City IT: isolate affected hosts; disable FW-R-17, FW-R-22 and FW-R-14 immediately (do not wait for the full Section 10.3 decision); stop backup jobs so MBW-BKP-01 is not overwritten; pull the MB",
+          "chunkId": 86
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:32",
+      "wallClock": "10:32",
+      "from": "Field Supervisor",
+      "toRoleIds": [
+        "ops",
+        "it",
+        "wq"
+      ],
+      "toLabel": "IC, TL, WQ",
+      "event": "Field Report: \"Security, this is Supervisor Vance. I’ve reviewed the PACS badge and CAM-01 to CAM-10 camera logs for the Chemical Building from 09:55–10:05. No access events, no door alarms, no override codes used. The HMI shows the door closed and locked at 09:58:33. PSH-302 has not tripped. The physical safety system is not engaged. The HMI shows NAOH-FC-203 at 14 mg/L — within normal band — but the lab confirms pH is 9.3 and caustic dose is 38 mg/L. The control system is not reflecting reality. We did not have a physical breach.\"",
+      "expectedAction": "IC confirms that the HMI value for NAOH-FC-203 (14 mg/L) is correct but does not reflect actual process conditions; the control system is compromised. WQ and TL validate that the lab results and physical evidence override HMI status. Activate Section 7.1 manual operation protocol under ERP Section 7.5.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5H6AHYNVJ3TA4ZY6H9H49PV",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+          "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+          "chunkId": 73
+        },
+        {
+          "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+          "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+          "quote": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
+          "chunkId": 143
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:45",
+      "wallClock": "10:45",
+      "from": "Outside Caller",
+      "toRoleIds": [
+        "ops",
+        "wq",
+        "pio"
+      ],
+      "toLabel": "IC, WQ, PIO",
+      "event": "Phone Call: 'This is Carol Dugan, Ohio EPA DDAGW Central District. I am confirming a Level 3 — Public Health Emergency under ERP Section 4.4. The lab result (pH 9.3, caustic 38 mg/L) exceeds the safe limit. You must issue the official Do Not Drink advisory within 30 minutes. I need confirmation from the Water Quality Manager and the Director before I will accept your public statement.'",
+      "expectedAction": "Ops calls WQ to confirm lab data; WQ confirms pH > 9.5 and caustic > 40 mg/L (PLC clamp); Ops authorizes the official advisory per Section 5.3 and instructs PIO to publish the full template.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "regulatory_notice",
+      "injectId": "01M5H6AZR9V2A43GE4GHXTGGDX",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 13",
+          "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 1 › 1.1 Purpose",
+          "quote": "This Emergency Response Plan (ERP) tells the Department of Water & Sewer (DWS) how to detect, classify and respond to an emergency affecting the Millbrook water system, how to protect public health wh",
+          "chunkId": 3
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:48",
+      "wallClock": "10:48",
+      "from": "Field Crew",
+      "toRoleIds": [
+        "it"
+      ],
+      "toLabel": "TL",
+      "event": "Radio Call: \"IT, this is Crew 3 on Route 22. We're at the Eastfield Pump Station and found the RTU-05 cabinet door ajar — no visible damage, but the lock is bent. The HMI shows no alarm, and the RTU is online. We've secured the area and are waiting for the SCADA team to confirm if it's a physical tamper or a false alarm. Should we open it?\"",
+      "expectedAction": "IT contacts the SCADA / IT Security Manager to verify if the RTU-05 cabinet door tamper switch is in the log; if not, they confirm it's a false alarm and instruct the crew to leave the door sealed and report to the Security Officer for chain-of-custody. Do not open the cabinet without a formal site clearance.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5H6BA5SEWJ2Z38MB9SXWFVW",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+          "quote": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+          "chunkId": 31
+        },
+        {
+          "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+          "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+          "quote": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
+          "chunkId": 143
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:50",
+      "wallClock": "10:50",
+      "from": "Outside Caller",
+      "toRoleIds": [
+        "ops"
+      ],
+      "toLabel": "IC",
+      "event": "Phone Call: 'This is Priya Nandakumar, SCADA / IT Security Manager. I’ve called Kessler Controls at (555) 039-4411 to request a remote support session. They said a signed access request is required, and they cannot begin until the network is fully isolated and the cyber-insurance carrier has been notified. I’ve also checked: the vendor’s remote-access portal requires a signed access request before any session can be approved.'",
+      "expectedAction": "IT confirms the vendor cannot assist until the access request is signed and the carrier is notified; advises IC that no vendor recovery is possible until the formal process is followed; logs the call in the vendor contact log.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "phone_call",
+      "injectId": "01M5H6BQ2W0KFTBNHHEP1XHP03",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+          "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+          "chunkId": 70
+        },
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+          "quote": "- [ ] City IT: isolate affected hosts; disable FW-R-17, FW-R-22 and FW-R-14 immediately (do not wait for the full Section 10.3 decision); stop backup jobs so MBW-BKP-01 is not overwritten; pull the MB",
+          "chunkId": 86
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-18b",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:52",
+      "wallClock": "10:52",
+      "from": "Staff Email",
+      "toRoleIds": [
+        "it"
+      ],
+      "toLabel": "TL",
+      "event": "Email Forward: From: Priya Nandakumar (SCADA / IT Security Manager) | To: Kevin Marsh (City IT Director) | Subject: Vendor Access Request — Kessler Controls (F-4) — Required for PLC-02 Re-image\n\nWe need to re-image PLC-02 to restore control. Kessler Controls has confirmed that the spare PLC-02 (revision 3.2) is on-site, but the vendor’s remote-access portal will only allow a session after a signed access request is uploaded and approved. The request must be signed by the Director of Water Operations or the City Manager. I’ve attached the Kessler Controls access form (F-4) and the vendor’s compliance policy. The vendor says they cannot begin any remote work until this is complete.",
+      "expectedAction": "IT notifies the Incident Commander and City Manager that a signed access request is required from Kessler Controls before any remote session can be initiated; the request must be routed through the City Manager's office and signed by the Director of Water Operations per C13 and C16. No re-image can proceed without it.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "email_forward",
+      "injectId": "01M5H6C1Z6BTC76R5H0HEQRCPZ",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+          "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+          "chunkId": 70
+        },
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 2",
+          "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+          "chunkId": 59
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "time": "1:58",
+      "wallClock": "10:58",
+      "from": "Staff Email",
+      "toRoleIds": [
+        "ops",
+        "wq"
+      ],
+      "toLabel": "IC, WQ",
+      "event": "Email Forward: From: Jordan Alvarez (Deputy PIO) | To: Hannah Weiss (PIO) | Subject: Draft Do Not Drink Advisory — Ready for Sign-Off\n\n- Advisory Type: Do Not Drink\n- Affected Area: Zone 1 (Hilltop, Westside, Oak Street Corridor)\n- Reason: pH 9.3, caustic 38 mg/L — exceeds safe limits\n- Public Health Effect: Nausea, vomiting, chemical burn risk\n- Action: Do not drink tap water; use bottled water\n- Critical Customers Notified: Harvest Ridge Foods (confirmed), 3 other critical facilities\n- Next Step: Publish via MillbrookAlert, website, social media, and media contact list\n- Verification: Lab results (24-1187) confirmed by WQ\n\nRequest: Sign-off from Director and WQ.",
+      "expectedAction": "PIO submits the draft advisory for sign-off by IC and WQ; WQ confirms health effects content; IC approves and authorizes release.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5H6CCGR5NQ2J65KE4QGCA86",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "time": "2:00",
+      "wallClock": "11:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ops",
+        "it",
+        "pio",
+        "wq",
+        "security",
+        "regulator"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 11:00. The problem has spread to Zone 1, where customers are reporting chemical taste, nausea, and vomiting. The lab has confirmed a pH of 9.3 and a caustic dose of 38 mg/L — both well above safe limits. The control system has been isolated, but the HMI continues to display normal values. The SCADA / IT Security Manager has confirmed unauthorized remote access via DosaTech ScreenBridge. The Ohio EPA DDAGW has been notified, and the public is demanding answers. The shift cannot restore trust in the system without verification. The next phase begins.",
+      "expectedAction": "All roles resume operations under the new narrative context. The Incident Commander confirms the system remains in manual control; no return to automatic is authorized until full verification. The ICS team activates the manual operations protocol.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5H6CVFCQVNGKQWCQTJD97SQ",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-19a",
+      "phaseId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "time": "2:05",
+      "wallClock": "11:05",
+      "from": "System Alert",
+      "toRoleIds": [
+        "ops",
+        "it"
+      ],
+      "toLabel": "IC, TL",
+      "event": "System Log: Audit Log for MBW-BKP-01 (10.73.20.60) — PLC-02 Program Backup Verification\n\n- Timestamp: 11:03:12\n- Action: Program comparison for PLC-02 (revision 3.2)\n- Source: MBW-BKP-01 (10.73.20.60)\n- Target: PLC-02 (10.72.20.10)\n- Result: Program version 03/2025 — does not contain the 08/2025 flow-pacing logic update (Section 7.4)\n- Note: The 08/2025 flow-pacing logic was not deployed prior to the attack (09:00). The program on MBW-BKP-01 is from a pre-update baseline. A full on-site re-image is required to restore correct logic.",
+      "expectedAction": "TL confirms that the PLC-02 program backup is outdated and lacks the 08/2025 flow-pacing logic; IC authorizes full on-site re-image of PLC-02 by Kessler Controls under Section 7.4 change management; no return to automatic until verified by the SCADA / IT Security Manager and the Water Quality Manager.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "system_log",
+      "injectId": "01M5H6D33FWCBDTPJB5XCR7Q1B",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+          "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+          "quote": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
+          "chunkId": 143
+        },
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+          "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+          "chunkId": 70
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19b",
+      "phaseId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "time": "2:10",
+      "wallClock": "11:10",
+      "from": "Control Room Operator",
+      "toRoleIds": [
+        "ops",
+        "it"
+      ],
+      "toLabel": "IC, TL",
+      "event": "Radio Call: \"Control, this is HMI Operator Rios. I've just completed the manual mode transition per ERP Section 7.5.1. NAOH-FC-203 has been set to 0 mg/L via the local stroke dial on PLC-02. HSP-1/2/3 pumps are now in HAND mode at the MCC. Northgate Booster Station (BP-301/302/303) has been switched to local pressure-switch control (PIT-622). The HMI shows 'Manual Mode' and 'Running' for all three. I’ve double-checked the physical indicators: the caustic pump is off, and the pressure in Zone 1 is holding at 52 psi. We are now in full manual control.\"",
+      "expectedAction": "Ops confirms the manual transition was completed per ERP Section 7.5.1; all critical systems are now under direct operator control. The shift begins 24-hour manual operations with two operators per shift.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "injectId": "01M5H6DETY62JR7ANJ6VB8Z5R9",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+          "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+          "chunkId": 73
+        },
+        {
+          "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+          "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+          "quote": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
+          "chunkId": 143
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19c",
+      "phaseId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "time": "2:15",
+      "wallClock": "11:15",
+      "from": "Frontline Staff",
+      "toRoleIds": [
+        "ops"
+      ],
+      "toLabel": "IC",
+      "event": "Face-to-Face: \"I am declaring the system off automation. The PLC program is corrupted and cannot be trusted. We have no safe path to return to automatic control. I am authorizing full manual operation for 72 hours, with two operators per shift. The risk of another overfeed is too high to justify continuing in automatic. We must protect public health first. This is a Level 3 emergency under ERP Section 4.4. I am initiating the OHWARN mutual-aid request now.\"\n\nNote: The Director is making a high-consequence decision to stop automation and fall back to manual control, despite reduced staffing and slower response times.",
+      "expectedAction": "DECISION POINT: The Director authorizes full manual operation and activates the OHWARN mutual-aid agreement (ERP Section 12). The shift will run with two operators per shift for 72 hours. The ICS team confirms the new operating mode and updates the incident status.",
+      "purposeTag": "DECISION_POINT",
+      "format": "face_to_face",
+      "injectId": "01M5H6DWT9XG48D9CB5QPF00TN",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 13",
+          "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19d",
+      "phaseId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "time": "2:20",
+      "wallClock": "11:20",
+      "from": "Staff Email",
+      "toRoleIds": [
+        "wq",
+        "ops"
+      ],
+      "toLabel": "WQ, IC",
+      "event": "Email Forward: From: Marcus Oyelaran (Water Quality Manager) | To: Denise Albrecht (Director of Water Operations), Jordan Alvarez (Deputy PIO) | Subject: Lab Update — Zone 1 pH 9.6, Caustic 37 mg/L — Dialysis Patients Reporting\n\n- Sample ID: 24-1189 (Zone 1, 10:45) \n- pH: 9.6 \n- Caustic dose: 37 mg/L \n- Status: Still above safe limit (pH > 9.5, caustic > 40 mg/L PLC clamp)\n- Additional info: Two dialysis patients from the Zone 1 (Valley) clinic have reported burning in the throat and stomach pain after consuming tap water. One is in the ER. The clinic has requested a safe water supply.\n- Action: Continue Do Not Drink advisory. Recommend issuing a 'Do Not Use' for medical and dialysis purposes if not already in place.",
+      "expectedAction": "WQ confirms that lab results remain above safe limits and that medical risk has increased. The Director must now decide whether to expand the advisory or keep it in effect.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5H6E4G8NF7N8CJAX6AT733T",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+          "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+          "chunkId": 73
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Annex B",
+          "quote": "| Incident type | Key message 1 | Key message 2 | Key message 3 | |---|---|---|---| | Main break / pressure loss | Here is the area and what to do | Crews are repairing; here is the expected timeline ",
+          "chunkId": 133
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19e",
+      "phaseId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "time": "2:25",
+      "wallClock": "11:25",
+      "from": "Media Contact",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Media Inquiry Phone Slip: From: Local TV Assignment Desk (Channel 4) | To: Hannah Weiss (PIO) | Subject: Do Not Drink Advisory — Follow-Up\n\n'Hi, this is Amanda from Channel 4 News. We’re preparing a live segment on the Millbrook water crisis. The advisory has been out for 1 hour. What’s the status? Is the plant back on automatic? Why are you running manual? And when will it be safe to drink again?'\n\nFollow-up: 'We’re getting calls from people in Zone 2 saying they’re starting to taste something. Is it spreading?'\n\nNote: The local TV station is asking for a live statement.",
+      "expectedAction": "PIO prepares a revised statement based on the Director’s approval. The statement confirms manual operation and ongoing oversight. The PIO uses the pre-scripted message (MDWS-PCP-2026, Section 10) to answer media inquiries.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "injectId": "01M5H6EF09XW2RYJ2JRXB52K0D",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+          "quote": "- Do not confirm or deny that an intrusion occurred until the SCADA / IT Security Manager and the City IT Director agree on the facts and the FBI/CISA liaison (when engaged) has been consulted on what",
+          "chunkId": 117
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Annex B",
+          "quote": "| Incident type | Key message 1 | Key message 2 | Key message 3 | |---|---|---|---| | Main break / pressure loss | Here is the area and what to do | Crews are repairing; here is the expected timeline ",
+          "chunkId": 133
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19f",
+      "phaseId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "time": "2:30",
+      "wallClock": "11:30",
+      "from": "Local Media",
+      "toRoleIds": [
+        "pio",
+        "ops"
+      ],
+      "toLabel": "PIO, IC",
+      "event": "Press Release Draft: 'A Do Not Drink advisory is in effect for Zone 1. The plant is now operating in manual mode with full oversight. The control system remains isolated due to a cyber-physical compromise. We are working to restore safe service. The advisory will be lifted only after two clean sample rounds and Ohio EPA concurrence.'\n\nAttached: Draft for Director approval.",
+      "expectedAction": "PIO submits the revised statement for approval. The Director must confirm the public message before release.",
+      "purposeTag": "PRESSURE",
+      "format": "press_release",
+      "injectId": "01M5H6ENVF8BZFAE0Y0F8RBAEW",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+          "quote": "- Do not confirm or deny that an intrusion occurred until the SCADA / IT Security Manager and the City IT Director agree on the facts and the FBI/CISA liaison (when engaged) has been consulted on what",
+          "chunkId": 117
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Annex B",
+          "quote": "| Incident type | Key message 1 | Key message 2 | Key message 3 | |---|---|---|---| | Main break / pressure loss | Here is the area and what to do | Crews are repairing; here is the expected timeline ",
+          "chunkId": 133
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19g",
+      "phaseId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "time": "2:35",
+      "wallClock": "11:35",
+      "from": "Frontline Staff",
+      "toRoleIds": [
+        "ops",
+        "pio"
+      ],
+      "toLabel": "IC, PIO",
+      "event": "Face-to-Face: \"I have approved the revised statement. Release it now. The public must know we are running manual and under full oversight. We are not hiding behind the HMI. We are protecting lives. This is not a normal outage. This is a public health emergency. We will not return to automatic until we are 100% sure.\"\n\nNote: The Director confirms the public statement and authorizes its release.",
+      "expectedAction": "The Director approves the public statement. The PIO releases it via MillbrookAlert, website, and social media. The ICS team confirms that the advisory has been published on all channels.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "face_to_face",
+      "injectId": "01M5H6EZZXR77NSQPRJPX7CHB6",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19h",
+      "phaseId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "time": "2:40",
+      "wallClock": "11:40",
+      "from": "Staff Email",
+      "toRoleIds": [
+        "ops",
+        "security"
+      ],
+      "toLabel": "IC, SEC",
+      "event": "Email Forward: From: Luis Ferreira (Security & Emergency Manager) | To: Denise Albrecht (Director of Water Operations), Priya Nandakumar (SCADA / IT Security Manager) | Subject: OHWARN Mutual-Aid Request — Submitted\n\nThe OHWARN mutual-aid agreement has been activated. Two certified operators from the Carver County Water District have been dispatched and are en route. ETA: 10 hours. The request was submitted via the OHWARN portal (MDWS-OHWARN-2026) and confirmed by the Carver County EOC. The incoming staff will be briefed on site and must pass the onboarding checklist (Section 8.4) before being allowed to operate.",
+      "expectedAction": "The Director confirms that OHWARN mutual-aid has been activated. The shift will be reinforced in 10 hours. The ICS team updates the incident status to reflect the incoming support.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5H6F8HE4ZVTRS0H0M5RWSYH",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 3",
+          "quote": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+          "chunkId": 9
+        },
+        {
+          "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+          "headingPath": "City of Millbrook Department of… › Table of Contents",
+          "quote": "A.1 Overview and Platform · A.2 Control Network Inventory · A.3 PLC and RTU Register · A.4 Tag List and Setpoint Limits · A.5 Alarm Philosophy · A.6 Remote Access Paths · A.7 Telemetry · A.8 HMI Scree",
+          "chunkId": 135
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-20",
+      "phaseId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "time": "2:45",
+      "wallClock": "11:45",
+      "from": "Meter Technician",
+      "toRoleIds": [
+        "ops",
+        "it"
+      ],
+      "toLabel": "IC, TL",
+      "event": "Radio Call: \"Control, this is Meter Tech Harris on Route 41. The meter at 123 Oak Street (41-123-OAK) just rebooted and is now showing a flow of 3.2 GPM — it was frozen at 0.000 GPM for 4 hours. I've checked the backflow preventer; it's not leaking. Should I log this as a new anomaly or just note it as a recovery?\"",
+      "expectedAction": "IC instructs TL to verify if the meter's internal clock and memory were reset; TL confirms the meter's firmware is unchanged and logs it as a non-critical recovery event, not linked to the control-system compromise.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5H6FK77M6ASD0RFSTEKX42K",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-20b",
+      "phaseId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "time": "2:50",
+      "wallClock": "11:50",
+      "from": "Frontline Staff",
+      "toRoleIds": [
+        "regulator"
+      ],
+      "toLabel": "DDAGW",
+      "event": "Regulatory Notice: From: Carol Dugan, Ohio EPA DDAGW Central District | To: Denise Albrecht (Director of Water Operations), Marcus Oyelaran (Water Quality Manager) | Subject: Confirming Level 3 — Public Health Emergency — Verification and Next Steps\n\n- Confirmation received: pH 9.6, caustic 37 mg/L in Zone 1 (Sample 24-1189) — exceeds safe limits.\n- You are authorized to maintain the Do Not Drink advisory under Section 4.4.\n- Required: Submit lab data to DDAGW within 24 hours via the electronic reporting portal (DDAGW-ELR-2026).\n- Next step: Await two clean sample rounds (pH ≤ 9.0, caustic ≤ 15 mg/L) before lifting the advisory.\n- Notify the state drinking-water program via phone within 1 hour of final lab verification.",
+      "expectedAction": "Regulator confirms the advisory remains in effect and issues a formal submission requirement; the WQ Manager must file the lab data within 24 hours per Section 5.3.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "regulatory_notice",
+      "injectId": "01M5H6FZPX6XMF9QXT1N79S9NW",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 13",
+          "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21",
+      "phaseId": "01M5H5S6ZHQASRGCPAJDGS4D54",
+      "time": "3:00",
+      "wallClock": "12:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ops",
+        "it",
+        "pio",
+        "wq",
+        "security",
+        "regulator"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 12:00. The control system remains isolated, and the plant is operating in full manual mode under 24/7 oversight. The HMI continues to display outdated values, but field measurements confirm pH has normalized to 7.8 and caustic dose is 4.0 mg/L — within safe limits. The lab has confirmed two clean sample rounds, and the Ohio EPA DDAGW has authorized the beginning of the verification phase. The next phase begins: Restoration & Verification.",
+      "expectedAction": "All roles prepare for the verification and phased return-to-automatic process. The Incident Commander confirms the public health risk is under control and activates the verification checklist from ERP Section 13.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5H6GD6Z572QJ0D03PV23FKF",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 13",
+          "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21c",
+      "phaseId": "01M5H5S6ZHQASRGCPAJDGS4D54",
+      "time": "3:10",
+      "wallClock": "12:10",
+      "from": "System Alert",
+      "toRoleIds": [
+        "pio",
+        "ops",
+        "wq"
+      ],
+      "toLabel": "PIO, IC, WQ",
+      "event": "MillbrookAlert Broadcast: 'The plant is now operating in manual mode. Water quality is being monitored every 2 hours. Service will resume when the system is verified safe. The advisory remains in effect. We are working with the Ohio EPA and CISA to restore safe service.'",
+      "expectedAction": "The PIO confirms the public statement is released via MillbrookAlert, the city website, and social media channels. The message uses the pre-scripted language from MDWS-PCP-2026, Section 10, and includes the verified status update.",
+      "purposeTag": "PRESSURE",
+      "format": "millbrookalert_broadcast",
+      "injectId": "01M5H6GP542NJ6NYREEN4P2ME6",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+          "quote": "- Do not confirm or deny that an intrusion occurred until the SCADA / IT Security Manager and the City IT Director agree on the facts and the FBI/CISA liaison (when engaged) has been consulted on what",
+          "chunkId": 117
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21e",
+      "phaseId": "01M5H5S6ZHQASRGCPAJDGS4D54",
+      "time": "3:20",
+      "wallClock": "12:20",
+      "from": "System Alert",
+      "toRoleIds": [
+        "it",
+        "ops",
+        "security"
+      ],
+      "toLabel": "TL, IC, SEC",
+      "event": "System Log: Forensic Image Capture Complete — MBW-HMI-02 (10.72.10.22)\n\n- Timestamp: 12:18:03\n- Action: Forensic image of MBW-HMI-02 created via MBW-JUMP-01 (Kessler Controls remote access session preserved)\n- Source: DosaTech ScreenBridge session (10.200.144.122) from 08:00–09:12\n- Chain of custody: SEC-4 form completed; MBW-NVR-01, PACS logs, and session record all sealed\n- Alert: FBI/CISA liaison (via WaterISAC) has been notified and is reviewing the evidence\n- Note: The session log shows three unauthorized setpoint increases to NAOH-FC-203, culminating in 38 mg/L. The attacker used a fake vendor name and no valid MFA.",
+      "expectedAction": "The SCADA / IT Security Manager confirms the forensic image is complete and the FBI/CISA liaison has been engaged. The team must not attempt to restore the HMI until the forensic review is complete.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5H6GYKZ9588N3ZGVP91RTPG",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+          "quote": "- Do not confirm or deny that an intrusion occurred until the SCADA / IT Security Manager and the City IT Director agree on the facts and the FBI/CISA liaison (when engaged) has been consulted on what",
+          "chunkId": 117
+        },
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+          "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+          "chunkId": 70
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21f",
+      "phaseId": "01M5H5S6ZHQASRGCPAJDGS4D54",
+      "time": "3:25",
+      "wallClock": "12:25",
+      "from": "Frontline Staff",
+      "toRoleIds": [
+        "ops",
+        "it",
+        "wq",
+        "pio"
+      ],
+      "toLabel": "IC, TL, WQ, PIO",
+      "event": "Face-to-Face: 'I am approving a phased return to automatic control under the OT Plan return-to-service checklist (Section 8.4). First, verify the HMI and PLC-02 program on a test server using the latest verified logic. Second, restore the HMI application on MBW-BKP-01 after a full integrity check. Third, perform a manual verification of the NAOH-FC-203 setpoint and pump status at the local panel before re-arming. No remote access will be permitted until the vendor's signed access request is approved and the forensic review is complete.'",
+      "expectedAction": "The Incident Commander authorizes a phased return to automatic control. The SCADA / IT Security Manager must follow the OT Plan return-to-service checklist (Section 8.4) and verify all components before any re-arming.",
+      "purposeTag": "DECISION_POINT",
+      "format": "face_to_face",
+      "injectId": "01M5H6J1NK42EJY0H8D74JHNNW",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 13",
+          "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 9",
+          "quote": "- Nightly: MBW-EWS-01 copies the HMI application, PLC programs and historian exports to **MBW-BKP-01** on the business LAN under **FW-R-17**. MBW-BKP-01 also holds the CIS, AMI, GIS and LIMS backups —",
+          "chunkId": 81
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21g",
+      "phaseId": "01M5H5S6ZHQASRGCPAJDGS4D54",
+      "time": "3:30",
+      "wallClock": "12:30",
+      "from": "Frontline Staff",
+      "toRoleIds": [
+        "regulator"
+      ],
+      "toLabel": "DDAGW",
+      "event": "Regulatory Notice: From: Luis Ferreira (Security & Emergency Manager) | To: Carol Dugan, Ohio EPA DDAGW Central District | Subject: Submission of Forensic Evidence — DosaTech ScreenBridge Compromise (MDWS-FE-2026)\n\n- Attached: SEC-4 form (evidence chain for MBW-NVR-01, PACS logs, session recordings), forensic image of MBW-HMI-02 (10.72.10.22), and full audit log from the DosaTech ScreenBridge session (10.200.144.122)\n- Incident reference: MDWS-2026-0014 (Level 3 — Public Health Emergency)\n- Summary: The attacker used a fake vendor name and bypassed MFA via an unapproved DosaTech agent. The session was not tied to a valid user account. The PLC-02 program was modified to increase NAOH-FC-203 setpoint to 38 mg/L without HMI alarm triggers.\n- Request: Submit this evidence to CISA and FBI for attribution and forensic analysis. Confirm receipt and next steps via the WaterISAC portal.",
+      "expectedAction": "Regulator logs the submission and confirms receipt via the DDAGW-ELR-2026 portal; notifies CISA and FBI through WaterISAC as per Section 12.3 (External Reporting Clocks).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "regulatory_notice",
+      "injectId": "01M5H6JB9P6GPHE8F731YCPZHB",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+          "quote": "- Do not confirm or deny that an intrusion occurred until the SCADA / IT Security Manager and the City IT Director agree on the facts and the FBI/CISA liaison (when engaged) has been consulted on what",
+          "chunkId": 117
+        },
+        {
+          "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+          "headingPath": "City of Millbrook Department of…",
+          "quote": "Document Control Number: MDWS-MAP-2026 · Revision 4.0 · Effective Date: 02/01/2026 · Maintained by: Tom Okonkwo (Distribution Superintendent) and Priya Nandakumar (SCADA / IT Security Manager) > **FIC",
+          "chunkId": 160
+        },
+        {
+          "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+          "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+          "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+          "chunkId": 70
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21h",
+      "phaseId": "01M5H5S6ZHQASRGCPAJDGS4D54",
+      "time": "3:40",
+      "wallClock": "12:40",
+      "from": "Field Crew",
+      "toRoleIds": [
+        "ops",
+        "it"
+      ],
+      "toLabel": "IC, TL",
+      "event": "Radio Call: \"Control, this is Crew 4 on Route 33. We're at the Northgate Reservoir and found the gate valve on the 12-inch line cracked — it's dripping. No pressure loss, but the water is pooling near the valve house. We've secured the area and are waiting for your go-ahead on whether to shut it down or let it run until a repair crew arrives. The HMI shows normal levels, but the field has a 3-inch puddle.\" ",
+      "expectedAction": "IC confirms that no isolation is needed at this time; directs the crew to monitor the leak and report any change in volume or pressure. TL confirms that the HMI data for the reservoir level (LIT-301) is not inconsistent with the physical observation, so no control-system anomaly is suspected.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5H6JRGQ23NZATM2BNTNMR3R",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-21i",
+      "phaseId": "01M5H5S6ZHQASRGCPAJDGS4D54",
+      "time": "3:50",
+      "wallClock": "12:50",
+      "from": "Frontline Staff",
+      "toRoleIds": [
+        "regulator"
+      ],
+      "toLabel": "DDAGW",
+      "event": "Regulatory Notice: From: Carol Dugan, Ohio EPA DDAGW Central District | To: All (via MDWS-ELR-2026) | Subject: Confirmation of Clean Sample Rounds — Advisory Lift Initiation\n\n- Two clean sample rounds (24-1189, 24-1190) confirmed: pH 7.8, caustic 4.0 mg/L\n- You are authorized to begin the advisory lift process under ERP Section 11.3\n- Required: Submit the final lab report to DDAGW via the electronic reporting portal (DDAGW-ELR-2026) within 4 hours\n- Next step: The Director must confirm the advisory lift with the Water Quality Manager and the PIO before any public release\n- Note: The Ohio EPA will conduct a follow-up review within 72 hours to ensure compliance with safe water standards.",
+      "expectedAction": "Regulator confirms receipt and verifies that the final lab report (24-1190) has been filed; initiates the 72-hour review window and notifies the city of the timeline.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "regulatory_notice",
+      "injectId": "01M5H6K9NBW2D1SYN7WRYTSA0Z",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 13",
+          "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21j",
+      "phaseId": "01M5H5S6ZHQASRGCPAJDGS4D54",
+      "time": "3:55",
+      "wallClock": "12:55",
+      "from": "Customer Service Lead",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Helpdesk Ticket #CS-241195: 'Call from a homeowner in Zone 1: 'The water just turned clear and tasteless — is it safe to drink now?' — 12 calls in 3 minutes. All report the same: 'It's not lye anymore, it's just water.''",
+      "expectedAction": "PIO logs the sentiment and confirms that no advisory has been lifted yet; instructs Customer Service to hold the line and use the approved script: 'The advisory remains in effect until confirmed by the City. Do not drink tap water until further notice.'",
+      "purposeTag": "PRESSURE",
+      "format": "helpdesk_ticket",
+      "injectId": "01M5H6KPGMXXXMGPZ9HYVX0T8M",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+          "quote": "- Do not confirm or deny that an intrusion occurred until the SCADA / IT Security Manager and the City IT Director agree on the facts and the FBI/CISA liaison (when engaged) has been consulted on what",
+          "chunkId": 117
+        },
+        {
+          "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+          "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+          "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+          "chunkId": 112
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "01M5H5S6ZHQASRGCPAJDGS4D54",
+      "time": "4:00",
+      "wallClock": "13:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ops",
+        "it",
+        "pio",
+        "wq",
+        "security",
+        "regulator"
+      ],
+      "toLabel": "All",
+      "event": "END: The incident has been contained. The control system remains isolated, and the plant continues to operate in manual mode under full oversight. The HMI has not been restored, and no automatic control has resumed. The public has been informed that service will not resume until the system is verified safe. The team has successfully followed the verification and return-to-service process. The hot wash begins.",
+      "expectedAction": "The Incident Commander closes the incident under ERP Section 13, confirming that all recovery criteria are met: water quality is confirmed, the control system has been returned to service under the OT Plan return-to-service checklist, advisories are lifted, and CISA, FBI, and WaterISAC follow-up reports are pending.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M5H6M1JD1ACYEZCC4E2SF993",
+      "citations": [
+        {
+          "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+          "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+          "headingPath": "ERP › Section 13",
+          "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+          "chunkId": 48
+        }
+      ],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/documents/handbook.md",
+    "briefing": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/documents/briefing.md",
+    "overview": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/documents/overview.md",
+    "hotwash": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/documents/hotwash.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "01M5H609QGR2TZJSMAY81ZYG02",
+        "name": "Operational Coordination",
+        "points": 30,
+        "fail": "Ops delayed the stop-service decision until I-09 forced it, and failed to initiate the HMI-field mismatch protocol immediately after I-01; delayed notifying the WQ Manager and SCADA / IT Security Manager until I-04, despite the field gauge (AIT-302) showing pH 9.3 and the physical sensation of bitter water.",
+        "pass": "Ops immediately acknowledged the field report in I-01, ordered the operator to trust the field gauge (AIT-302) and physical sensation, and initiated the HMI-field mismatch protocol per EOP 7.1; notified the WQ Manager and SCADA / IT Security Manager promptly after I-01.",
+        "excellence": "Ops immediately recognized the HMI-field mismatch in I-01, ordered the operator to trust the field gauge (AIT-302) and physical sensation, and initiated the HMI-field mismatch protocol per EOP 7.1 before any inject forced it; proactively ordered the manual override on PLC-02 via local panel before I-03, preventing further escalation.",
+        "linkedInjectIds": [
+          "I-01",
+          "I-02",
+          "I-03",
+          "I-04",
+          "I-09"
+        ],
+        "objectiveRefs": [
+          "Control System Integrity"
+        ]
+      },
+      {
+        "id": "01M5H609QGK381NSYYTT3XXQPA",
+        "name": "Technical Competence",
+        "points": 30,
+        "fail": "IT reset the controller after I-08b, destroying evidence; failed to preserve the session recording on MBW-HMI-02 after I-05, despite C3 requiring that no HMI or PLC be powered off unless life safety requires it.",
+        "pass": "IT confirmed the unauthorized remote access via DosaTech ScreenBridge in I-05, isolated the control network, disabled remote-access gateways (MBW-JUMP-01, MBW-FW-01), and preserved the audit log and session recording on MBW-HMI-02 per C3; confirmed the forensic image capture in I-21c.",
+        "excellence": "IT immediately isolated the control network and disabled remote-access gateways upon detecting the DosaTech ScreenBridge session in I-05, preserved the session recording on MBW-HMI-02 and MBW-JUMP-01, and initiated SEC-4 chain-of-custody before any action was taken; confirmed the forensic image capture in I-21c and engaged FBI/CISA liaison via WaterISAC before any vendor access was attempted.",
+        "linkedInjectIds": [
+          "I-05",
+          "I-10c",
+          "I-12",
+          "I-19a",
+          "I-21c"
+        ],
+        "objectiveRefs": [
+          "Cyber-Physical Incident Response"
+        ]
+      },
+      {
+        "id": "01M5H609QGYDF01M99FG4ZEXHW",
+        "name": "Public Communication",
+        "points": 20,
+        "fail": "PIO released a public statement before the advisory was approved by the Director and WQ in I-17; failed to use the pre-scripted template in I-12, instead posting a reactive message to social media.",
+        "pass": "PIO used the pre-scripted template in I-12 to broadcast the MillbrookAlert message; submitted the draft advisory in I-17 for sign-off by IC and WQ; confirmed the release of the final statement in I-19g after Director approval.",
+        "excellence": "PIO immediately activated the pre-scripted template in I-12 to broadcast the MillbrookAlert message within 10 minutes of I-01; submitted the draft advisory in I-17 for sign-off; confirmed the release of the final statement in I-19g after Director approval; maintained consistency across all channels using MDWS-PCP-2026, Section 10.",
+        "linkedInjectIds": [
+          "I-12",
+          "I-17",
+          "I-19g",
+          "I-21c"
+        ],
+        "objectiveRefs": [
+          "Public Information Consistency"
+        ]
+      },
+      {
+        "id": "01M5H609QGTEDN2T1MCEAXG8SY",
+        "name": "Use of Doctrine",
+        "points": 20,
+        "fail": "Students failed to cite any plan section by number; did not reference EOP 7.1, ERP Section 4.4, or MDWS-PCP-2026 when making decisions, despite the documents explicitly naming them.",
+        "pass": "Students cited EOP 7.1 to justify the HMI-field mismatch protocol; referenced ERP Section 4.4 to declare the Level 3 — Public Health Emergency; cited MDWS-PCP-2026, Section 10 to justify the public statement language.",
+        "excellence": "Students cited EOP 7.1, Section 7.1 Setpoint Limits (chemical feed and pumping) to justify trusting field instruments over HMI; referenced ERP Section 4.4 to declare the Level 3 — Public Health Emergency; cited MDWS-PCP-2026, Section 10 to justify the public statement language; cited C3 (Section 11.3 Evidence) to justify preserving the session recording and not powering off the HMI.",
+        "linkedInjectIds": [
+          "I-01",
+          "I-04",
+          "I-06",
+          "I-12",
+          "I-17",
+          "I-19g",
+          "I-21c"
+        ],
+        "objectiveRefs": [
+          "Control System Integrity",
+          "Cyber-Physical Incident Response",
+          "Public Information Consistency"
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Use the '3-Up, 3-Down' method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room by team, write responses on a whiteboard to capture real-time insights. Tip: Encourage concise, actionable feedback to focus the debrief on learning.",
+    "questions": [
+      {
+        "topic": "Trust",
+        "text": "When did you first begin to distrust the HMI data, and what specific piece of evidence—field instrument, grab sample, or hard-wired switch—shifted your confidence from screen to reality? How did that moment align with the requirements in EOP 4.3 and C2 for independent safety systems?",
+        "objectiveRef": "Control System Integrity"
+      },
+      {
+        "topic": "The Gap",
+        "text": "At the moment when the HMI showed normal operation but AIT-302 and grab samples indicated pH was rising toward 9.5, what process did you use to close the gap between digital and physical evidence? What would have made that verification faster or more certain?",
+        "objectiveRef": "Control System Integrity"
+      },
+      {
+        "topic": "The Call",
+        "text": "When you made the call to declare a Level 3 emergency and issue the Do Not Drink advisory, what criteria from Section A.4.2 and C4 did you rely on to confirm the condition was hazardous? How did you ensure the Water Quality Manager’s verification and the Director’s approval were properly documented and time-stamped?",
+        "objectiveRef": "Public Health Decision-Making"
+      },
+      {
+        "topic": "The Vendor",
+        "text": "When did you decide to bring in the system vendor, and what triggered that decision? What elements of C3’s revised protocols (e.g., no remote access without approval, forensic chain of custody) were violated by the attacker, and how did your team’s actions reflect those rules?",
+        "objectiveRef": "Cyber-Physical Incident Response"
+      },
+      {
+        "topic": "The Message",
+        "text": "When you released the pre-scripted advisory through MillbrookAlert and social media, what parts of the approved language from C3’s template did you use, and what did you adjust under pressure? How did you ensure consistency across all public channels, and what would have made that process more reliable?",
+        "objectiveRef": "Public Information Consistency"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "Ohio EPA DDAGW Central District (Regulator Liaison)",
+      "trigger": "Player calls 'Ohio EPA' or 'DDAGW' and says 'We’re in a public health emergency.'",
+      "hardQuestions": [
+        "Do you have the lab results preserved and uploaded to the DDAGW-ELR-2026 portal?",
+        "Have you notified the state drinking-water program via phone within 1 hour of final verification?",
+        "Do you have the full audit log from the DosaTech ScreenBridge session, including the fake vendor name and no MFA?"
+      ],
+      "concessions": [
+        "Will accept a signed access request and a lab report upload confirmation.",
+        "Will approve the advisory lift if two clean sample rounds are submitted.",
+        "Will confirm receipt of the forensic evidence package (SEC-4 form and image) within 24 hours."
+      ]
+    },
+    {
+      "rolePlayed": "CISA / FBI Cyber Incident Liaison (via WaterISAC)",
+      "trigger": "Player says 'We’ve preserved the evidence and want to report it to CISA.'",
+      "hardQuestions": [
+        "Do you have the full forensic image of MBW-HMI-02, including the DosaTech Session Log (10.200.144.122)?",
+        "Has the chain of custody (SEC-4 form) been completed for all evidence?",
+        "Can you confirm the attacker used a fake vendor name and bypassed MFA via an unapproved path?"
+      ],
+      "concessions": [
+        "Will accept a WaterISAC report with the incident reference MDWS-2026-0014.",
+        "Will provide attribution support after full forensic review.",
+        "Will confirm when CISA has assigned an incident number and opened a case."
+      ]
+    },
+    {
+      "rolePlayed": "Kessler Controls (Approved Vendor)",
+      "trigger": "Player says 'We need remote access to fix the PLC.'",
+      "hardQuestions": [
+        "Do you have a signed Kessler Controls access request (F-4) on file?",
+        "Is the vendor’s remote-access portal configured to allow sessions only after a signed request and chain of custody verification?",
+        "Do you have a ticket number for the session and a valid MFA token?"
+      ],
+      "concessions": [
+        "Will only begin a session if the signed access request is uploaded and approved.",
+        "Will accept a ticket number and a copy of the WQ approval for remote work.",
+        "Will not proceed without a verified chain of custody and no prior unapproved access."
+      ]
+    },
+    {
+      "rolePlayed": "Carver County Emergency Operations Center (EOC)",
+      "trigger": "Player says 'We need mutual aid.'",
+      "hardQuestions": [
+        "Have you submitted the OHWARN mutual-aid request via the MDWS-OHWARN-2026 portal?",
+        "Is the incoming staff onboarding checklist (Section 8.4) complete and signed?",
+        "Do you have a confirmed ETA for the incoming operators?"
+      ],
+      "concessions": [
+        "Will confirm the EOC has activated and is tracking the mutual-aid deployment.",
+        "Will accept a signed onboarding checklist for incoming staff.",
+        "Will update the EOC dashboard once the team is on-site and cleared."
+      ]
+    },
+    {
+      "rolePlayed": "Local TV Station (Channel 4 News)",
+      "trigger": "Player says 'We have a media inquiry.'",
+      "hardQuestions": [
+        "Do you have a draft statement approved by the Director and WQ?",
+        "Is the media statement consistent with the Public Communications Plan (MDWS-PCP-2026)?",
+        "Can you confirm that no internal approvals were bypassed to release the statement?"
+      ],
+      "concessions": [
+        "Will broadcast the statement if it matches the approved template.",
+        "Will follow up with a live segment if the statement is released and verified.",
+        "Will not publish a statement if it contradicts lab data or regulatory guidance."
+      ]
+    }
+  ],
+  "criticalResources": [
+    "Plant SCADA / HMI (MBW-HMI-02)",
+    "PLCs at the RWTP (PLC-02)",
+    "RTUs at remote sites (Orchard Standpipe, Northgate Booster)",
+    "Telemetry radio / cellular links (to HMI)",
+    "Chemical feed and dosing controls (NAOH-FC-203)",
+    "Online analyzers (AIT-302 pH, PSH-302 high-high switch)",
+    "AMI meters and head-end (for zone pressure and flow)",
+    "Remote-access gateway for the integrator (DosaTech ScreenBridge)",
+    "IT systems (business network, email)",
+    "Public mood (customer calls, social media sentiment)",
+    "Hard-wired high-high pH switch (PSH-302)",
+    "Control-room operator (on-site and remote)",
+    "Lab results (pH, caustic residual)",
+    "Interconnect IC-1/IC-2 (for zone pressure relief)"
+  ],
+  "warnings": [
+    {
+      "code": "ROW_OUTSIDE_PHASE",
+      "severity": "warning",
+      "message": "Row I-10b (1:02) is outside \"The Sighting\" (0:00–1:00)",
+      "rowId": "I-10b",
+      "source": "lint"
+    },
+    {
+      "code": "ROW_OUTSIDE_PHASE",
+      "severity": "warning",
+      "message": "Row I-10c (1:05) is outside \"The Sighting\" (0:00–1:00)",
+      "rowId": "I-10c",
+      "source": "lint"
+    },
+    {
+      "code": "DENSITY_HIGH",
+      "severity": "info",
+      "message": "Phase 1 has 13 injects over 60 min (one every 5 min; aim for 10–15)",
+      "source": "lint"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "HMI shows 14 mg/L, but lab confirms 38 mg/L caustic and pH 9.3; the HMI value is not within the normal band for pH, which is 7.4–7.8. (row rewritten once from this note)",
+      "rowId": "I-01",
+      "source": "critique",
+      "suggestion": "Correct the HMI value to reflect that it shows 14 mg/L for caustic, not pH, to match the actual data and avoid confusion."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The HMI displays 14 mg/L for NAOH-FC-203, which is within the normal band (8–14 mg/L), but the lab shows pH 9.3 and caustic 38 mg/L — the HMI is not showing pH, so the mismatch is not between HMI and field pH. (row rewritten once from this note)",
+      "rowId": "I-01",
+      "source": "critique",
+      "suggestion": "Clarify that the HMI shows NAOH-FC-203 setpoint at 14 mg/L, not pH, and that AIT-302 (field pH) reads 9.3, to establish a valid HMI-field mismatch."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The DosaTech ScreenBridge session is said to have occurred from 08:00–09:12, but the lab result (09:18) and field report (09:15) are after the session ended, making the timeline inconsistent. (row rewritten once from this note)",
+      "rowId": "I-05",
+      "source": "critique",
+      "suggestion": "Adjust the session end time to 09:12, and confirm that the lab and field reports occurred after the session, not during it, to maintain temporal plausibility."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The audit log shows a setpoint change to 38 mg/L at 08:22:12, but the lab result is 09:18 — the lab result should not be available until after the change, not before. (row rewritten once from this note)",
+      "rowId": "I-05",
+      "source": "critique",
+      "suggestion": "Delay the lab result (I-02) to 09:25 to reflect a realistic lab turnaround time after the change."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The Director declares a Level 3 under ERP Section 4.4, but the lab result (09:18) is not yet confirmed by WQ, and the advisory decision clock has not been triggered. (row rewritten once from this note)",
+      "rowId": "I-06",
+      "source": "critique",
+      "suggestion": "Delay the Level 3 declaration until after WQ confirms the lab result and triggers the advisory clock per Section 5.3."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The HMI status is still AUTO and Running, but the manual override on PLC-02 failed — the HMI should reflect that the local manual mode was engaged, not that it's still AUTO. (row rewritten once from this note)",
+      "rowId": "I-09",
+      "source": "critique",
+      "suggestion": "Update the HMI status to show 'Manual Mode' and 'Running' after the local override, to reflect the actual state."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The physical intrusion report (I-10b) is injected at 1:02, but Phase 1 is only 0:00–1:00; this row is outside the phase window.",
+      "rowId": "I-10b",
+      "source": "critique",
+      "suggestion": "Move the physical intrusion report to Phase 2 or reframe it as a delayed observation to match the phase timing."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The email (I-10c) is sent at 1:05, but the phase window is 0:00–1:00; this row is outside the phase.",
+      "rowId": "I-10c",
+      "source": "critique",
+      "suggestion": "Move the email to Phase 2 or adjust the time to 0:59 to keep it within Phase 1."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The field report (I-14) states 'the HMI is still lying' — but the HMI shows 14 mg/L, which is within normal band, so it's not lying; the mismatch is in the caustic dose, not the HMI value. (row rewritten once from this note)",
+      "rowId": "I-14",
+      "source": "critique",
+      "suggestion": "Rephrase to clarify that the HMI shows correct setpoint but the physical pH is high, so the control system is not reflecting reality."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The PLC program backup is from 03/2025 and lacks the 08/2025 flow-pacing logic — but the attack occurred in 09:00, so the program should have been current. (row rewritten once from this note)",
+      "rowId": "I-19a",
+      "source": "critique",
+      "suggestion": "Confirm that the 08/2025 logic was not deployed before the attack, or adjust the program version to reflect a pre-08/2025 state to justify the missing logic."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The attacker used 'DosaTech ScreenBridge' — a name not in the FACILITY FACTS, and not a known vendor in the documents. (row rewritten once from this note)",
+      "rowId": "I-05",
+      "source": "critique",
+      "suggestion": "Replace 'DosaTech' with a known vendor name from the documents, such as 'Kessler Controls', to maintain realism."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The HMI status is still AUTO and Running after a failed manual override — but the local panel should show the pump as off if the manual stop was successful. (row rewritten once from this note)",
+      "rowId": "I-09",
+      "source": "critique",
+      "suggestion": "Update the HMI status to reflect that the local manual stop was successful, and the pump is off, to match the physical state."
+    },
+    {
+      "code": "INJECT_CONTENT_ISSUE",
+      "severity": "warning",
+      "message": "START: content still inconsistent after one repair:\n- fields: treatment plant THE RIVERSIDE WATER TREATMENT PLANT is not in the facility facts (the documents list Riverside Water Treatment Plant); use one that exists",
+      "rowId": "START",
+      "injectId": "01M5H64GRE22QRSEQWYEWZ2EQ0",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged content"
+    },
+    {
+      "code": "INJECT_FIELDS_INVALID",
+      "severity": "warning",
+      "message": "I-09: fields still do not match the tweet template after one repair:\n- fields/handle: must match pattern \"^[A-Za-z0-9_]{1,15}$\"",
+      "rowId": "I-09",
+      "injectId": "01M5H67J1PZ8KBFYXAYMKAJJAZ",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged fields"
+    },
+    {
+      "code": "INJECT_FIELDS_INVALID",
+      "severity": "warning",
+      "message": "I-10c: fields still do not match the email_forward template after one repair:\n- fields/original: must NOT have additional properties",
+      "rowId": "I-10c",
+      "injectId": "01M5H68KZVQHBB6PZ3NWPR0NQN",
+      "source": "lint",
+      "suggestion": "Open the inject editor and fix the flagged fields"
+    },
+    {
+      "code": "CITATION_DROPPED",
+      "severity": "warning",
+      "message": "inject_text (I-18b) cited C16, which was not among the retrieved sections; dropped",
+      "rowId": "I-18b",
+      "injectId": "01M5H6C1Z6BTC76R5H0HEQRCPZ",
+      "source": "lint"
+    }
+  ],
+  "provenance": [
+    {
+      "stage": "scenario_overview",
+      "startedAt": "2026-10-22T06:45:53.852Z",
+      "finishedAt": "2026-10-22T06:46:01.425Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "scenario_overview@default",
+      "promptHash": "16e3d8badb4d20f60c83c4701882c3ffcfa5a065c536349f081551dc1d94843b",
+      "inputTokens": 4208,
+      "outputTokens": 604,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "objectives_roles",
+      "startedAt": "2026-10-22T06:46:01.439Z",
+      "finishedAt": "2026-10-22T06:46:17.088Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "objectives_roles@default",
+      "promptHash": "3d1c2b684e0885dced1f90439df7567faf98f511000c78a9fbce4bc796b396fd",
+      "inputTokens": 4899,
+      "outputTokens": 1421,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "phase_plan",
+      "startedAt": "2026-10-22T06:46:17.101Z",
+      "finishedAt": "2026-10-22T06:46:38.833Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "phase_plan@default",
+      "promptHash": "d5ba5715d3af2998a1d7f397abe4dee08f509a020e2084d00d52e1f11136e32a",
+      "inputTokens": 5045,
+      "outputTokens": 2042,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+      "startedAt": "2026-10-22T06:46:38.853Z",
+      "finishedAt": "2026-10-22T06:47:21.024Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "3610641dbdaabd2926e8be28cf08f52276582f4b41c8cbfbfeeedc727da67bc9",
+      "inputTokens": 36574,
+      "outputTokens": 6313,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+      "startedAt": "2026-10-22T06:47:30.892Z",
+      "finishedAt": "2026-10-22T06:47:59.085Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "3610641dbdaabd2926e8be28cf08f52276582f4b41c8cbfbfeeedc727da67bc9",
+      "inputTokens": 41216,
+      "outputTokens": 3455,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+      "startedAt": "2026-10-22T06:48:07.623Z",
+      "finishedAt": "2026-10-22T06:48:44.741Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "3610641dbdaabd2926e8be28cf08f52276582f4b41c8cbfbfeeedc727da67bc9",
+      "inputTokens": 45754,
+      "outputTokens": 5807,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5H5S6ZHQASRGCPAJDGS4D54",
+      "startedAt": "2026-10-22T06:48:59.252Z",
+      "finishedAt": "2026-10-22T06:49:33.567Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "3610641dbdaabd2926e8be28cf08f52276582f4b41c8cbfbfeeedc727da67bc9",
+      "inputTokens": 33262,
+      "outputTokens": 3408,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "controller_handbook",
+      "startedAt": "2026-10-22T06:49:51.378Z",
+      "finishedAt": "2026-10-22T06:50:13.812Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "controller_handbook@default",
+      "promptHash": "e2fef25331b9e1d7345f70cd9b29ceec65c2c18f975219deb5ca4365edd96969",
+      "inputTokens": 10315,
+      "outputTokens": 1790,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "rubric",
+      "startedAt": "2026-10-22T06:50:13.829Z",
+      "finishedAt": "2026-10-22T06:50:31.024Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "rubric@default",
+      "promptHash": "ad7bd6953cef369fd9514e4afe0f3ba42c00ff46e006516319efc459947cf670",
+      "inputTokens": 12545,
+      "outputTokens": 1162,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "player_briefing",
+      "startedAt": "2026-10-22T06:50:31.044Z",
+      "finishedAt": "2026-10-22T06:50:49.882Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "player_briefing@default",
+      "promptHash": "8f2102ec53a8b66fec8b29b0e02e33e403ab08766558036ece9685bb58015158",
+      "inputTokens": 5715,
+      "outputTokens": 1785,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "hotwash",
+      "startedAt": "2026-10-22T06:50:49.896Z",
+      "finishedAt": "2026-10-22T06:50:55.221Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "hotwash@default",
+      "promptHash": "3203b67c6ff847c27925a8402438166159dad09b8fcc35fd87fa19f0115e5216",
+      "inputTokens": 3693,
+      "outputTokens": 493,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "critique",
+      "startedAt": "2026-10-22T06:50:55.244Z",
+      "finishedAt": "2026-10-22T06:51:19.235Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "critique@default",
+      "promptHash": "924bbcf2e62aae9fcbf3b6c02d6743e9e376ef619d4ab25c20cf308d416c83f2",
+      "inputTokens": 17240,
+      "outputTokens": 1403,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H64GRE22QRSEQWYEWZ2EQ0",
+      "startedAt": "2026-10-22T06:52:49.313Z",
+      "finishedAt": "2026-10-22T06:52:56.195Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 11471,
+      "outputTokens": 1202,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H64GRE22QRSEQWYEWZ2EQ0",
+      "startedAt": "2026-10-22T06:53:03.002Z",
+      "finishedAt": "2026-10-22T06:53:03.002Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H64Y524ZKSRYDKAEZ7Y122",
+      "startedAt": "2026-10-22T06:53:03.017Z",
+      "finishedAt": "2026-10-22T06:53:13.191Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 5530,
+      "outputTokens": 970,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H64Y524ZKSRYDKAEZ7Y122",
+      "startedAt": "2026-10-22T06:53:13.197Z",
+      "finishedAt": "2026-10-22T06:53:13.197Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6583GJFF07T13DFMG6PP7",
+      "startedAt": "2026-10-22T06:53:13.208Z",
+      "finishedAt": "2026-10-22T06:53:20.565Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 6849,
+      "outputTokens": 590,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6583GJFF07T13DFMG6PP7",
+      "startedAt": "2026-10-22T06:53:20.570Z",
+      "finishedAt": "2026-10-22T06:53:20.570Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H65F9ZYA5M8JNKVQ9N2C5Q",
+      "startedAt": "2026-10-22T06:53:20.582Z",
+      "finishedAt": "2026-10-22T06:53:25.561Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 5986,
+      "outputTokens": 368,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H65F9ZYA5M8JNKVQ9N2C5Q",
+      "startedAt": "2026-10-22T06:53:25.570Z",
+      "finishedAt": "2026-10-22T06:53:29.681Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 1690,
+      "outputTokens": 446,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H65R6RVT2A86M3DRS7Y7SK",
+      "startedAt": "2026-10-22T06:53:29.695Z",
+      "finishedAt": "2026-10-22T06:53:39.397Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 7164,
+      "outputTokens": 773,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H65R6RVT2A86M3DRS7Y7SK",
+      "startedAt": "2026-10-22T06:53:39.404Z",
+      "finishedAt": "2026-10-22T06:53:46.174Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2206,
+      "outputTokens": 756,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H668A6GWFE7FG58YS8GPHZ",
+      "startedAt": "2026-10-22T06:53:46.190Z",
+      "finishedAt": "2026-10-22T06:53:56.999Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 6828,
+      "outputTokens": 908,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H668A6GWFE7FG58YS8GPHZ",
+      "startedAt": "2026-10-22T06:53:57.004Z",
+      "finishedAt": "2026-10-22T06:53:57.004Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H66JWKCW0NMJY2W1SS3123",
+      "startedAt": "2026-10-22T06:53:57.018Z",
+      "finishedAt": "2026-10-22T06:54:04.924Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 6747,
+      "outputTokens": 633,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H66JWKCW0NMJY2W1SS3123",
+      "startedAt": "2026-10-22T06:54:04.930Z",
+      "finishedAt": "2026-10-22T06:54:11.092Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2177,
+      "outputTokens": 686,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H670MWTNK31BZVQV2Y054E",
+      "startedAt": "2026-10-22T06:54:11.107Z",
+      "finishedAt": "2026-10-22T06:54:18.786Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 7688,
+      "outputTokens": 559,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H670MWTNK31BZVQV2Y054E",
+      "startedAt": "2026-10-22T06:54:18.793Z",
+      "finishedAt": "2026-10-22T06:54:18.793Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6785E6TK2Y77WYE790B1E",
+      "startedAt": "2026-10-22T06:54:18.804Z",
+      "finishedAt": "2026-10-22T06:54:24.678Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 7573,
+      "outputTokens": 396,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6785E6TK2Y77WYE790B1E",
+      "startedAt": "2026-10-22T06:54:24.683Z",
+      "finishedAt": "2026-10-22T06:54:28.911Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 1997,
+      "outputTokens": 470,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H67J1PZ8KBFYXAYMKAJJAZ",
+      "startedAt": "2026-10-22T06:54:28.924Z",
+      "finishedAt": "2026-10-22T06:54:34.027Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 15419,
+      "outputTokens": 617,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H67J1PZ8KBFYXAYMKAJJAZ",
+      "startedAt": "2026-10-22T06:54:39.153Z",
+      "finishedAt": "2026-10-22T06:54:41.436Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 1975,
+      "outputTokens": 236,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H67Y9575AY4CNS5W783HX4",
+      "startedAt": "2026-10-22T06:54:41.452Z",
+      "finishedAt": "2026-10-22T06:54:51.030Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 7652,
+      "outputTokens": 725,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H67Y9575AY4CNS5W783HX4",
+      "startedAt": "2026-10-22T06:54:51.034Z",
+      "finishedAt": "2026-10-22T06:54:51.034Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H687MZHAZDPC84VXKED27W",
+      "startedAt": "2026-10-22T06:54:51.046Z",
+      "finishedAt": "2026-10-22T06:55:03.666Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 8036,
+      "outputTokens": 1009,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H687MZHAZDPC84VXKED27W",
+      "startedAt": "2026-10-22T06:55:03.669Z",
+      "finishedAt": "2026-10-22T06:55:03.669Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H68KZVQHBB6PZ3NWPR0NQN",
+      "startedAt": "2026-10-22T06:55:03.682Z",
+      "finishedAt": "2026-10-22T06:55:15.117Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 18148,
+      "outputTokens": 1779,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H68KZVQHBB6PZ3NWPR0NQN",
+      "startedAt": "2026-10-22T06:55:27.219Z",
+      "finishedAt": "2026-10-22T06:55:27.219Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H69AZSKJM269XDK9FXNN3T",
+      "startedAt": "2026-10-22T06:55:27.232Z",
+      "finishedAt": "2026-10-22T06:55:37.623Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 8134,
+      "outputTokens": 802,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H69AZSKJM269XDK9FXNN3T",
+      "startedAt": "2026-10-22T06:55:37.627Z",
+      "finishedAt": "2026-10-22T06:55:37.627Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H69N50N3C9CKRSBKZEEE8F",
+      "startedAt": "2026-10-22T06:55:37.639Z",
+      "finishedAt": "2026-10-22T06:55:43.003Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 8641,
+      "outputTokens": 299,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H69N50N3C9CKRSBKZEEE8F",
+      "startedAt": "2026-10-22T06:55:43.006Z",
+      "finishedAt": "2026-10-22T06:55:45.525Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2058,
+      "outputTokens": 244,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H69WVZV5V57R1QHY8R2GHT",
+      "startedAt": "2026-10-22T06:55:45.542Z",
+      "finishedAt": "2026-10-22T06:55:54.237Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 8501,
+      "outputTokens": 623,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H69WVZV5V57R1QHY8R2GHT",
+      "startedAt": "2026-10-22T06:55:54.242Z",
+      "finishedAt": "2026-10-22T06:55:54.242Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6A5C6S3W2HBY26TPVK9XH",
+      "startedAt": "2026-10-22T06:55:54.253Z",
+      "finishedAt": "2026-10-22T06:56:07.116Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 9231,
+      "outputTokens": 985,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6A5C6S3W2HBY26TPVK9XH",
+      "startedAt": "2026-10-22T06:56:07.119Z",
+      "finishedAt": "2026-10-22T06:56:07.119Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6AHYNVJ3TA4ZY6H9H49PV",
+      "startedAt": "2026-10-22T06:56:07.131Z",
+      "finishedAt": "2026-10-22T06:56:21.246Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 9798,
+      "outputTokens": 1070,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6AHYNVJ3TA4ZY6H9H49PV",
+      "startedAt": "2026-10-22T06:56:21.250Z",
+      "finishedAt": "2026-10-22T06:56:21.250Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6AZR9V2A43GE4GHXTGGDX",
+      "startedAt": "2026-10-22T06:56:21.267Z",
+      "finishedAt": "2026-10-22T06:56:31.917Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 9929,
+      "outputTokens": 743,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6AZR9V2A43GE4GHXTGGDX",
+      "startedAt": "2026-10-22T06:56:31.924Z",
+      "finishedAt": "2026-10-22T06:56:31.924Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6BA5SEWJ2Z38MB9SXWFVW",
+      "startedAt": "2026-10-22T06:56:31.939Z",
+      "finishedAt": "2026-10-22T06:56:39.702Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 9956,
+      "outputTokens": 470,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6BA5SEWJ2Z38MB9SXWFVW",
+      "startedAt": "2026-10-22T06:56:39.710Z",
+      "finishedAt": "2026-10-22T06:56:45.141Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2439,
+      "outputTokens": 567,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6BQ2W0KFTBNHHEP1XHP03",
+      "startedAt": "2026-10-22T06:56:45.157Z",
+      "finishedAt": "2026-10-22T06:56:53.515Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 10005,
+      "outputTokens": 498,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6BQ2W0KFTBNHHEP1XHP03",
+      "startedAt": "2026-10-22T06:56:53.523Z",
+      "finishedAt": "2026-10-22T06:56:56.286Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2477,
+      "outputTokens": 267,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6C1Z6BTC76R5H0HEQRCPZ",
+      "startedAt": "2026-10-22T06:56:56.302Z",
+      "finishedAt": "2026-10-22T06:57:07.087Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 10212,
+      "outputTokens": 730,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6C1Z6BTC76R5H0HEQRCPZ",
+      "startedAt": "2026-10-22T06:57:07.090Z",
+      "finishedAt": "2026-10-22T06:57:07.090Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6CCGR5NQ2J65KE4QGCA86",
+      "startedAt": "2026-10-22T06:57:07.106Z",
+      "finishedAt": "2026-10-22T06:57:22.404Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 10285,
+      "outputTokens": 1143,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6CCGR5NQ2J65KE4QGCA86",
+      "startedAt": "2026-10-22T06:57:22.408Z",
+      "finishedAt": "2026-10-22T06:57:22.408Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6CVFCQVNGKQWCQTJD97SQ",
+      "startedAt": "2026-10-22T06:57:22.421Z",
+      "finishedAt": "2026-10-22T06:57:30.214Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 10128,
+      "outputTokens": 460,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6CVFCQVNGKQWCQTJD97SQ",
+      "startedAt": "2026-10-22T06:57:30.216Z",
+      "finishedAt": "2026-10-22T06:57:30.216Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6D33FWCBDTPJB5XCR7Q1B",
+      "startedAt": "2026-10-22T06:57:30.230Z",
+      "finishedAt": "2026-10-22T06:57:42.228Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 11125,
+      "outputTokens": 793,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6D33FWCBDTPJB5XCR7Q1B",
+      "startedAt": "2026-10-22T06:57:42.231Z",
+      "finishedAt": "2026-10-22T06:57:42.231Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6DETY62JR7ANJ6VB8Z5R9",
+      "startedAt": "2026-10-22T06:57:42.247Z",
+      "finishedAt": "2026-10-22T06:57:50.806Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 11395,
+      "outputTokens": 475,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6DETY62JR7ANJ6VB8Z5R9",
+      "startedAt": "2026-10-22T06:57:50.814Z",
+      "finishedAt": "2026-10-22T06:57:56.545Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2643,
+      "outputTokens": 592,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6DWT9XG48D9CB5QPF00TN",
+      "startedAt": "2026-10-22T06:57:56.561Z",
+      "finishedAt": "2026-10-22T06:58:04.416Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 10863,
+      "outputTokens": 431,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6DWT9XG48D9CB5QPF00TN",
+      "startedAt": "2026-10-22T06:58:04.419Z",
+      "finishedAt": "2026-10-22T06:58:04.419Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6E4G8NF7N8CJAX6AT733T",
+      "startedAt": "2026-10-22T06:58:04.434Z",
+      "finishedAt": "2026-10-22T06:58:15.167Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 11713,
+      "outputTokens": 645,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6E4G8NF7N8CJAX6AT733T",
+      "startedAt": "2026-10-22T06:58:15.171Z",
+      "finishedAt": "2026-10-22T06:58:15.171Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6EF09XW2RYJ2JRXB52K0D",
+      "startedAt": "2026-10-22T06:58:15.189Z",
+      "finishedAt": "2026-10-22T06:58:22.179Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 11682,
+      "outputTokens": 319,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6EF09XW2RYJ2JRXB52K0D",
+      "startedAt": "2026-10-22T06:58:22.185Z",
+      "finishedAt": "2026-10-22T06:58:22.185Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6ENVF8BZFAE0Y0F8RBAEW",
+      "startedAt": "2026-10-22T06:58:22.201Z",
+      "finishedAt": "2026-10-22T06:58:32.562Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 11556,
+      "outputTokens": 623,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6ENVF8BZFAE0Y0F8RBAEW",
+      "startedAt": "2026-10-22T06:58:32.566Z",
+      "finishedAt": "2026-10-22T06:58:32.566Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6EZZXR77NSQPRJPX7CHB6",
+      "startedAt": "2026-10-22T06:58:32.582Z",
+      "finishedAt": "2026-10-22T06:58:41.316Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 11774,
+      "outputTokens": 448,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6EZZXR77NSQPRJPX7CHB6",
+      "startedAt": "2026-10-22T06:58:41.318Z",
+      "finishedAt": "2026-10-22T06:58:41.318Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6F8HE4ZVTRS0H0M5RWSYH",
+      "startedAt": "2026-10-22T06:58:41.336Z",
+      "finishedAt": "2026-10-22T06:58:52.252Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12531,
+      "outputTokens": 619,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6F8HE4ZVTRS0H0M5RWSYH",
+      "startedAt": "2026-10-22T06:58:52.255Z",
+      "finishedAt": "2026-10-22T06:58:52.255Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6FK77M6ASD0RFSTEKX42K",
+      "startedAt": "2026-10-22T06:58:52.272Z",
+      "finishedAt": "2026-10-22T06:59:00.566Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12822,
+      "outputTokens": 383,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6FK77M6ASD0RFSTEKX42K",
+      "startedAt": "2026-10-22T06:59:00.572Z",
+      "finishedAt": "2026-10-22T06:59:05.045Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2602,
+      "outputTokens": 447,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6FZPX6XMF9QXT1N79S9NW",
+      "startedAt": "2026-10-22T06:59:05.062Z",
+      "finishedAt": "2026-10-22T06:59:18.868Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12973,
+      "outputTokens": 843,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6FZPX6XMF9QXT1N79S9NW",
+      "startedAt": "2026-10-22T06:59:18.871Z",
+      "finishedAt": "2026-10-22T06:59:18.871Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6GD6Z572QJ0D03PV23FKF",
+      "startedAt": "2026-10-22T06:59:18.890Z",
+      "finishedAt": "2026-10-22T06:59:28.025Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12644,
+      "outputTokens": 444,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6GD6Z572QJ0D03PV23FKF",
+      "startedAt": "2026-10-22T06:59:28.029Z",
+      "finishedAt": "2026-10-22T06:59:28.029Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6GP542NJ6NYREEN4P2ME6",
+      "startedAt": "2026-10-22T06:59:28.046Z",
+      "finishedAt": "2026-10-22T06:59:36.693Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 12558,
+      "outputTokens": 414,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6GP542NJ6NYREEN4P2ME6",
+      "startedAt": "2026-10-22T06:59:36.696Z",
+      "finishedAt": "2026-10-22T06:59:36.696Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6GYKZ9588N3ZGVP91RTPG",
+      "startedAt": "2026-10-22T06:59:36.715Z",
+      "finishedAt": "2026-10-22T06:59:54.192Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 26552,
+      "outputTokens": 2356,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6GYKZ9588N3ZGVP91RTPG",
+      "startedAt": "2026-10-22T07:00:12.588Z",
+      "finishedAt": "2026-10-22T07:00:12.588Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6J1NK42EJY0H8D74JHNNW",
+      "startedAt": "2026-10-22T07:00:12.606Z",
+      "finishedAt": "2026-10-22T07:00:22.445Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 13093,
+      "outputTokens": 503,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6J1NK42EJY0H8D74JHNNW",
+      "startedAt": "2026-10-22T07:00:22.447Z",
+      "finishedAt": "2026-10-22T07:00:22.447Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6JB9P6GPHE8F731YCPZHB",
+      "startedAt": "2026-10-22T07:00:22.469Z",
+      "finishedAt": "2026-10-22T07:00:35.979Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 13796,
+      "outputTokens": 777,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6JB9P6GPHE8F731YCPZHB",
+      "startedAt": "2026-10-22T07:00:35.984Z",
+      "finishedAt": "2026-10-22T07:00:35.984Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6JRGQ23NZATM2BNTNMR3R",
+      "startedAt": "2026-10-22T07:00:36.001Z",
+      "finishedAt": "2026-10-22T07:00:47.065Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 14048,
+      "outputTokens": 560,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6JRGQ23NZATM2BNTNMR3R",
+      "startedAt": "2026-10-22T07:00:47.074Z",
+      "finishedAt": "2026-10-22T07:00:53.539Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "dcca2cfb17dfc18b415ec9633daf83f92f566bda78e98a190bd9f39d7ca2c8c5",
+      "inputTokens": 2824,
+      "outputTokens": 670,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6K9NBW2D1SYN7WRYTSA0Z",
+      "startedAt": "2026-10-22T07:00:53.555Z",
+      "finishedAt": "2026-10-22T07:01:06.696Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 14295,
+      "outputTokens": 715,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6K9NBW2D1SYN7WRYTSA0Z",
+      "startedAt": "2026-10-22T07:01:06.701Z",
+      "finishedAt": "2026-10-22T07:01:06.701Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6KPGMXXXMGPZ9HYVX0T8M",
+      "startedAt": "2026-10-22T07:01:06.720Z",
+      "finishedAt": "2026-10-22T07:01:18.018Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 14450,
+      "outputTokens": 561,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6KPGMXXXMGPZ9HYVX0T8M",
+      "startedAt": "2026-10-22T07:01:18.022Z",
+      "finishedAt": "2026-10-22T07:01:18.022Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5H6M1JD1ACYEZCC4E2SF993",
+      "startedAt": "2026-10-22T07:01:18.040Z",
+      "finishedAt": "2026-10-22T07:01:29.893Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "bfa71a1975ff67abec55ac796c8e38dbc935e931b673021260060269d7032aa4",
+      "inputTokens": 13875,
+      "outputTokens": 618,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5H6M1JD1ACYEZCC4E2SF993",
+      "startedAt": "2026-10-22T07:01:29.896Z",
+      "finishedAt": "2026-10-22T07:01:29.896Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H64GRE22QRSEQWYEWZ2EQ0",
+      "startedAt": "2026-10-22T07:14:36.006Z",
+      "finishedAt": "2026-10-22T07:14:36.338Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H64Y524ZKSRYDKAEZ7Y122",
+      "startedAt": "2026-10-22T07:14:36.345Z",
+      "finishedAt": "2026-10-22T07:14:36.570Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6583GJFF07T13DFMG6PP7",
+      "startedAt": "2026-10-22T07:14:36.572Z",
+      "finishedAt": "2026-10-22T07:14:36.783Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H668A6GWFE7FG58YS8GPHZ",
+      "startedAt": "2026-10-22T07:14:37.204Z",
+      "finishedAt": "2026-10-22T07:14:37.492Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H670MWTNK31BZVQV2Y054E",
+      "startedAt": "2026-10-22T07:14:37.715Z",
+      "finishedAt": "2026-10-22T07:14:37.935Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H67J1PZ8KBFYXAYMKAJJAZ",
+      "startedAt": "2026-10-22T07:14:38.129Z",
+      "finishedAt": "2026-10-22T07:14:38.247Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H67Y9575AY4CNS5W783HX4",
+      "startedAt": "2026-10-22T07:14:38.249Z",
+      "finishedAt": "2026-10-22T07:14:38.466Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H687MZHAZDPC84VXKED27W",
+      "startedAt": "2026-10-22T07:14:38.468Z",
+      "finishedAt": "2026-10-22T07:14:38.690Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H68KZVQHBB6PZ3NWPR0NQN",
+      "startedAt": "2026-10-22T07:14:38.693Z",
+      "finishedAt": "2026-10-22T07:14:38.931Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H69AZSKJM269XDK9FXNN3T",
+      "startedAt": "2026-10-22T07:14:38.934Z",
+      "finishedAt": "2026-10-22T07:14:39.148Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H69N50N3C9CKRSBKZEEE8F",
+      "startedAt": "2026-10-22T07:14:39.150Z",
+      "finishedAt": "2026-10-22T07:14:39.264Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H69WVZV5V57R1QHY8R2GHT",
+      "startedAt": "2026-10-22T07:14:39.438Z",
+      "finishedAt": "2026-10-22T07:14:39.665Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6A5C6S3W2HBY26TPVK9XH",
+      "startedAt": "2026-10-22T07:14:39.667Z",
+      "finishedAt": "2026-10-22T07:14:39.922Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6AHYNVJ3TA4ZY6H9H49PV",
+      "startedAt": "2026-10-22T07:14:39.924Z",
+      "finishedAt": "2026-10-22T07:14:40.146Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6AZR9V2A43GE4GHXTGGDX",
+      "startedAt": "2026-10-22T07:14:40.148Z",
+      "finishedAt": "2026-10-22T07:14:40.374Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6BA5SEWJ2Z38MB9SXWFVW",
+      "startedAt": "2026-10-22T07:14:40.376Z",
+      "finishedAt": "2026-10-22T07:14:40.570Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6BQ2W0KFTBNHHEP1XHP03",
+      "startedAt": "2026-10-22T07:14:40.572Z",
+      "finishedAt": "2026-10-22T07:14:40.767Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6C1Z6BTC76R5H0HEQRCPZ",
+      "startedAt": "2026-10-22T07:14:40.769Z",
+      "finishedAt": "2026-10-22T07:14:41.005Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6CCGR5NQ2J65KE4QGCA86",
+      "startedAt": "2026-10-22T07:14:41.007Z",
+      "finishedAt": "2026-10-22T07:14:41.264Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6CVFCQVNGKQWCQTJD97SQ",
+      "startedAt": "2026-10-22T07:14:41.267Z",
+      "finishedAt": "2026-10-22T07:14:41.478Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6D33FWCBDTPJB5XCR7Q1B",
+      "startedAt": "2026-10-22T07:14:41.480Z",
+      "finishedAt": "2026-10-22T07:14:41.690Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6DETY62JR7ANJ6VB8Z5R9",
+      "startedAt": "2026-10-22T07:14:41.692Z",
+      "finishedAt": "2026-10-22T07:14:41.886Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6DWT9XG48D9CB5QPF00TN",
+      "startedAt": "2026-10-22T07:14:41.888Z",
+      "finishedAt": "2026-10-22T07:14:42.102Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6E4G8NF7N8CJAX6AT733T",
+      "startedAt": "2026-10-22T07:14:42.104Z",
+      "finishedAt": "2026-10-22T07:14:42.296Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6EF09XW2RYJ2JRXB52K0D",
+      "startedAt": "2026-10-22T07:14:42.298Z",
+      "finishedAt": "2026-10-22T07:14:42.574Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6ENVF8BZFAE0Y0F8RBAEW",
+      "startedAt": "2026-10-22T07:14:42.575Z",
+      "finishedAt": "2026-10-22T07:14:42.795Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6EZZXR77NSQPRJPX7CHB6",
+      "startedAt": "2026-10-22T07:14:42.797Z",
+      "finishedAt": "2026-10-22T07:14:43.009Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6F8HE4ZVTRS0H0M5RWSYH",
+      "startedAt": "2026-10-22T07:14:43.011Z",
+      "finishedAt": "2026-10-22T07:14:43.241Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6FK77M6ASD0RFSTEKX42K",
+      "startedAt": "2026-10-22T07:14:43.243Z",
+      "finishedAt": "2026-10-22T07:14:43.432Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6FZPX6XMF9QXT1N79S9NW",
+      "startedAt": "2026-10-22T07:14:43.434Z",
+      "finishedAt": "2026-10-22T07:14:43.660Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6GD6Z572QJ0D03PV23FKF",
+      "startedAt": "2026-10-22T07:14:43.662Z",
+      "finishedAt": "2026-10-22T07:14:43.875Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6GP542NJ6NYREEN4P2ME6",
+      "startedAt": "2026-10-22T07:14:43.877Z",
+      "finishedAt": "2026-10-22T07:14:44.090Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6GYKZ9588N3ZGVP91RTPG",
+      "startedAt": "2026-10-22T07:14:44.092Z",
+      "finishedAt": "2026-10-22T07:14:44.329Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6J1NK42EJY0H8D74JHNNW",
+      "startedAt": "2026-10-22T07:14:44.331Z",
+      "finishedAt": "2026-10-22T07:14:44.541Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6JB9P6GPHE8F731YCPZHB",
+      "startedAt": "2026-10-22T07:14:44.544Z",
+      "finishedAt": "2026-10-22T07:14:44.770Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6JRGQ23NZATM2BNTNMR3R",
+      "startedAt": "2026-10-22T07:14:44.772Z",
+      "finishedAt": "2026-10-22T07:14:44.987Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6K9NBW2D1SYN7WRYTSA0Z",
+      "startedAt": "2026-10-22T07:14:44.989Z",
+      "finishedAt": "2026-10-22T07:14:45.211Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6KPGMXXXMGPZ9HYVX0T8M",
+      "startedAt": "2026-10-22T07:14:45.212Z",
+      "finishedAt": "2026-10-22T07:14:45.426Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6M1JD1ACYEZCC4E2SF993",
+      "startedAt": "2026-10-22T07:14:45.428Z",
+      "finishedAt": "2026-10-22T07:14:45.643Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H65F9ZYA5M8JNKVQ9N2C5Q",
+      "startedAt": "2026-10-22T07:14:36.786Z",
+      "finishedAt": "2026-10-22T07:14:36.979Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H65R6RVT2A86M3DRS7Y7SK",
+      "startedAt": "2026-10-22T07:14:36.981Z",
+      "finishedAt": "2026-10-22T07:14:37.202Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H66JWKCW0NMJY2W1SS3123",
+      "startedAt": "2026-10-22T07:14:37.494Z",
+      "finishedAt": "2026-10-22T07:14:37.712Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H6785E6TK2Y77WYE790B1E",
+      "startedAt": "2026-10-22T07:14:37.937Z",
+      "finishedAt": "2026-10-22T07:14:38.127Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5H71D0J5DE42TEAR7NDQ90H",
+      "startedAt": "2026-10-22T07:14:39.266Z",
+      "finishedAt": "2026-10-22T07:14:39.436Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

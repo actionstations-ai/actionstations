@@ -1,0 +1,101 @@
+{
+  "id": "01M5H6J1NK42EJY0H8D74JHNNW",
+  "mselRowId": "I-21f",
+  "type": "scenario_update",
+  "title": "Phased Return to Automatic Control — OT Plan 8.4 Initiated",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:25",
+    "scenarioTime": "12:25",
+    "headline": "Phased Return to Automatic Control",
+    "deliverTo": "IC, TL, WQ, PIO",
+    "narration": "I am approving a phased return to automatic control under the OT Plan return-to-service checklist (Section 8.4). First, verify the HMI and PLC-02 program on a test server using the latest verified logic. Second, restore the HMI application on MBW-BKP-01 after a full integrity check. Third, perform a manual verification of the NAOH-FC-203 setpoint and pump status at the local panel before re-arming. No remote access will be permitted until the vendor's signed access request is approved and the forensic review is complete.",
+    "keyFacts": [
+      "The return to automatic control is now authorized under OT Plan 8.4",
+      "The HMI and PLC-02 program must be verified on a test server before any system change",
+      "MBW-BKP-01 must undergo full integrity verification before HMI restoration",
+      "Manual verification at the local PLC-02 panel is required prior to re-arming",
+      "No remote access will be allowed until the signed Kessler Controls access request is approved and the forensic review is complete"
+    ],
+    "expectedAction": "The Incident Commander authorizes a phased return to automatic control. The SCADA / IT Security Manager must follow the OT Plan return-to-service checklist (Section 8.4) and verify all components before any re-arming.",
+    "scenarioTitle": "pH on the Edge — Caustic Overfeed & Public Health"
+  },
+  "instructorNote": "This inject confirms the Incident Commander's authority to initiate the return-to-service process. Watch for the team to begin verifying the test server and initiating the Kessler Controls access request.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+      "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+      "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+      "chunkId": 70
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 13",
+      "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+      "chunkId": 48
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5H7CN3KNDP9ZDKXK2AEBWRC",
+      "kind": "image",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H6J1NK42EJY0H8D74JHNNW/01M5H7CN3KNDP9ZDKXK2AEBWRC.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "b447ecaeae390ed4f29dc5ec26ef06cd725eace153033cc26db1416eec85ce50",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scenario_update",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:14:44.332Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T07:00:22.447Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Phased Return to Automatic Control — OT Plan 8.4 Initiated",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "3:25",
+          "scenarioTime": "12:25",
+          "headline": "Phased Return to Automatic Control",
+          "deliverTo": "IC, TL, WQ, PIO",
+          "narration": "I am approving a phased return to automatic control under the OT Plan return-to-service checklist (Section 8.4). First, verify the HMI and PLC-02 program on a test server using the latest verified logic. Second, restore the HMI application on MBW-BKP-01 after a full integrity check. Third, perform a manual verification of the NAOH-FC-203 setpoint and pump status at the local panel before re-arming. No remote access will be permitted until the vendor's signed access request is approved and the forensic review is complete.",
+          "keyFacts": [
+            "The return to automatic control is now authorized under OT Plan 8.4",
+            "The HMI and PLC-02 program must be verified on a test server before any system change",
+            "MBW-BKP-01 must undergo full integrity verification before HMI restoration",
+            "Manual verification at the local PLC-02 panel is required prior to re-arming",
+            "No remote access will be allowed until the signed Kessler Controls access request is approved and the forensic review is complete"
+          ],
+          "expectedAction": "The Incident Commander authorizes a phased return to automatic control. The SCADA / IT Security Manager must follow the OT Plan return-to-service checklist (Section 8.4) and verify all components before any re-arming.",
+          "scenarioTitle": "pH on the Edge — Caustic Overfeed & Public Health"
+        },
+        "instructorNote": "This inject confirms the Incident Commander's authority to initiate the return-to-service process. Watch for the team to begin verifying the test server and initiating the Kessler Controls access request.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:44.539Z"
+}

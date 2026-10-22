@@ -1,0 +1,193 @@
+{
+  "id": "01M5H65R6RVT2A86M3DRS7Y7SK",
+  "mselRowId": "I-04",
+  "type": "phone_call",
+  "title": "Phone Call: WQ Manager — Advisory Decision Initiated",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "systemName": "Central Operations Voice Recorder - CDR-01",
+    "callId": "CR-20261022-093512-0401",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Marcus Oyelaran",
+      "number": "(555) 034-1199",
+      "label": "Water Quality Manager"
+    },
+    "callee": {
+      "name": "Director Albrecht",
+      "number": "(555) 031-2244",
+      "label": "Director of Water Operations"
+    },
+    "startTime": "10/22/2026 09:35:12",
+    "duration": "2:18",
+    "transcript": [
+      {
+        "speaker": "Marcus Oyelaran",
+        "offset": "00:00",
+        "text": "Director Albrecht, this is Marcus Oyelaran, Water Quality Manager. The lab has confirmed: pH is 9.3, caustic dose is 38 mg/L. The PLC clamp is 40 mg/L, so we are over. PSH-302 has not tripped — that's not normal. This means the HMI is not reflecting reality. The control system is compromised. We are in a public health emergency. We must issue a Do Not Drink advisory.",
+        "prompt": false
+      },
+      {
+        "speaker": "Director Albrecht",
+        "offset": "00:42",
+        "text": "Understood, Marcus. I’ve just received the field report from Night Operator Chen and the HMI override failure from Rios. Confirming: HMI still shows NAOH-FC-203 at 14 mg/L, but lab confirms 38 mg/L and pH 9.3. PSH-302 not tripped. Yes — this is a control-system anomaly. I’m initiating the advisory process now. I’ll notify the PIO and SCADA / IT Security Manager.",
+        "prompt": false
+      },
+      {
+        "speaker": "Marcus Oyelaran",
+        "offset": "01:18",
+        "text": "Good. We must act before any downstream customers report symptoms. The 2-hour grab samples are now invalid — they’re from a compromised feed. We need to lock out the caustic feed and notify the EMA and Ohio EPA within 24 hours per C2. This is Tier 1.",
+        "prompt": false
+      },
+      {
+        "speaker": "Director Albrecht",
+        "offset": "01:50",
+        "text": "Confirmed. I’m placing the call to the PIO now. We’ll follow MDWS-PCP-2026 for the statement. Hold on — I’m turning off the line for a second to alert the team.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "Marcus Oyelaran": "Male, mid-50s, urgent, clipped speech, background lab hum",
+      "Director Albrecht": "Male, late 50s, calm but firm, measured tone, slight pause between sentences"
+    },
+    "injectId": "I-04"
+  },
+  "instructorNote": "Core narrative inject; the WQ Manager confirms the HMI is compromised and triggers the advisory decision process. Watch for the IC to initiate the approval chain and confirm the external reporting timeline.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+      "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+      "chunkId": 73
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 5 › 5.3 External Reporting Clocks",
+      "quote": "| Event | Report to | Time limit | By | |---|---|---|---| | Any Tier 1 public-notice situation (Section 9.2) | Ohio EPA DDAGW Central District (district engineer Paul Grieve; 24-h line (555) 037-1555)",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+      "quote": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
+      "chunkId": 143
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Marcus Oyelaran",
+        "voiceStyle": "Male, mid-50s, urgent, clipped speech, background lab hum",
+        "text": "Director Albrecht, this is Marcus Oyelaran, Water Quality Manager. The lab has confirmed: pH is 9.3, caustic dose is 38 mg/L. The PLC clamp is 40 mg/L, so we are over. PSH-302 has not tripped — that's not normal. This means the HMI is not reflecting reality. The control system is compromised. We are in a public health emergency. We must issue a Do Not Drink advisory."
+      },
+      {
+        "speaker": "Director Albrecht",
+        "voiceStyle": "Male, late 50s, calm but firm, measured tone, slight pause between sentences",
+        "text": "Understood, Marcus. I’ve just received the field report from Night Operator Chen and the HMI override failure from Rios. Confirming: HMI still shows NAOH-FC-203 at 14 mg/L, but lab confirms 38 mg/L and pH 9.3. PSH-302 not tripped. Yes — this is a control-system anomaly. I’m initiating the advisory process now. I’ll notify the PIO and SCADA / IT Security Manager."
+      },
+      {
+        "speaker": "Marcus Oyelaran",
+        "voiceStyle": "Male, mid-50s, urgent, clipped speech, background lab hum",
+        "text": "Good. We must act before any downstream customers report symptoms. The 2-hour grab samples are now invalid — they’re from a compromised feed. We need to lock out the caustic feed and notify the EMA and Ohio EPA within 24 hours per C2. This is Tier 1."
+      },
+      {
+        "speaker": "Director Albrecht",
+        "voiceStyle": "Male, late 50s, calm but firm, measured tone, slight pause between sentences",
+        "text": "Confirmed. I’m placing the call to the PIO now. We’ll follow MDWS-PCP-2026 for the statement. Hold on — I’m turning off the line for a second to alert the team."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5H7CDY7A73T85KQDT17EQ5X",
+      "kind": "image",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H65R6RVT2A86M3DRS7Y7SK/01M5H7CDY7A73T85KQDT17EQ5X.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "7359cb42d1bca6795444565d927030e2958aed8de27065a643887b43fa2b580e",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:14:36.985Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:53:46.174Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Phone Call: WQ Manager — Advisory Decision Initiated",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "Central Operations Voice Recorder - CDR-01",
+          "callId": "CR-20261022-093512-0401",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Marcus Oyelaran",
+            "number": "(555) 034-1199",
+            "label": "Water Quality Manager"
+          },
+          "callee": {
+            "name": "Director Albrecht",
+            "number": "(555) 031-2244",
+            "label": "Director of Water Operations"
+          },
+          "startTime": "10/22/2026 09:35:12",
+          "duration": "2:18",
+          "transcript": [
+            {
+              "speaker": "Marcus Oyelaran",
+              "offset": "00:00",
+              "text": "Director Albrecht, this is Marcus Oyelaran, Water Quality Manager. The lab has confirmed: pH is 9.3, caustic dose is 38 mg/L. The PLC clamp is 40 mg/L, so we are over. PSH-302 has not tripped — that's not normal. This means the HMI is not reflecting reality. The control system is compromised. We are in a public health emergency. We must issue a Do Not Drink advisory.",
+              "prompt": false
+            },
+            {
+              "speaker": "Director Albrecht",
+              "offset": "00:42",
+              "text": "Understood, Marcus. I’ve just received the field report from Night Operator Chen and the HMI override failure from Rios. Confirming: HMI still shows NAOH-FC-203 at 14 mg/L, but lab confirms 38 mg/L and pH 9.3. PSH-302 not tripped. Yes — this is a control-system anomaly. I’m initiating the advisory process now. I’ll notify the PIO and SCADA / IT Security Manager.",
+              "prompt": false
+            },
+            {
+              "speaker": "Marcus Oyelaran",
+              "offset": "01:18",
+              "text": "Good. We must act before any downstream customers report symptoms. The 2-hour grab samples are now invalid — they’re from a compromised feed. We need to lock out the caustic feed and notify the EMA and Ohio EPA within 24 hours per C2. This is Tier 1.",
+              "prompt": false
+            },
+            {
+              "speaker": "Director Albrecht",
+              "offset": "01:50",
+              "text": "Confirmed. I’m placing the call to the PIO now. We’ll follow MDWS-PCP-2026 for the statement. Hold on — I’m turning off the line for a second to alert the team.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "Marcus Oyelaran": "Male, mid-50s, urgent, clipped speech, background lab hum",
+            "Director Albrecht": "Male, late 50s, calm but firm, measured tone, slight pause between sentences"
+          },
+          "injectId": "I-04"
+        },
+        "instructorNote": "Core narrative inject; the WQ Manager confirms the HMI is compromised and triggers the advisory decision process. Watch for the IC to initiate the approval chain and confirm the external reporting timeline.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:37.200Z"
+}

@@ -59,7 +59,8 @@ export const water_utility: DomainProfile = {
     {
       id: 'pumps',
       label: 'Pumps',
-      pattern: String.raw`\b((?:Pump|P)[- ]?\d{1,3}[A-Z]?)\b`,
+      // Hyphen required for the letter forms so alarm priorities ("P1–P4") are not pumps.
+      pattern: String.raw`\b((?:Pump|P|HSP|BP|BW)-\d{1,3}[A-Z]?|Pump \d{1,3})\b`,
       idShape: 'token',
       lint: false,
       complete: false,
@@ -67,7 +68,8 @@ export const water_utility: DomainProfile = {
     {
       id: 'controllers',
       label: 'PLCs / RTUs',
-      pattern: String.raw`\b((?:PLC|RTU)[- ]?\d{1,3})\b`,
+      // "RTU 10.72.30.101" is an address, not a controller: hyphen required, no dot after.
+      pattern: String.raw`\b((?:PLC|RTU)-\d{1,3})\b(?!\.\d)`,
       idShape: 'token',
       lint: true,
       complete: true,

@@ -1,0 +1,238 @@
+{
+  "id": "01M5H6GYKZ9588N3ZGVP91RTPG",
+  "mselRowId": "I-21e",
+  "type": "system_log",
+  "title": "Forensic Image Capture — MBW-HMI-02",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "MBW-JUMP-01 Forensic Imaging",
+    "host": "MBW-JUMP-01",
+    "ip": "10.72.10.100",
+    "os": "Linux (Ubuntu 22.04)",
+    "logSource": "/var/log/forensics/mbw-hmi-02.img.log",
+    "exportedBy": "Kessler Controls (Remote Session ID: KES-2026-1022-082212)",
+    "exportedAt": "October 22, 2026 12:18:03",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "12:18:03",
+        "level": "INFO",
+        "msg": "Forensic image of MBW-HMI-02 (10.72.10.22) completed via Kessler Controls remote session.",
+        "highlight": false
+      },
+      {
+        "ts": "12:18:04",
+        "level": "INFO",
+        "msg": "Source: DosaTech ScreenBridge session (10.200.144.122) — 08:00:14 to 09:12:26",
+        "highlight": false
+      },
+      {
+        "ts": "12:18:05",
+        "level": "INFO",
+        "msg": "Image hash (SHA-256): f8b3c9d1e4a7f2c1b6e8d5a9c3b2f1e7d6c4a8b5e2f3d1c7a9b6e4f2a1c3d5b8",
+        "highlight": false
+      },
+      {
+        "ts": "12:18:06",
+        "level": "INFO",
+        "msg": "Chain of custody: SEC-4-2026-1022-121803 signed by Luis Ferreira (SEC) and Priya Nandakumar (TL)",
+        "highlight": false
+      },
+      {
+        "ts": "12:18:07",
+        "level": "WARN",
+        "msg": "MBW-HMI-02 is not powered down. The DosaTech ScreenBridge agent remains active. No reboot or reset has occurred.",
+        "highlight": false
+      },
+      {
+        "ts": "12:18:08",
+        "level": "ALERT",
+        "msg": "FBI/CISA liaison (WaterISAC Case #WIS-2026-041122) has been notified. Evidence review pending.",
+        "highlight": true
+      },
+      {
+        "ts": "12:18:09",
+        "level": "INFO",
+        "msg": "Session log from DosaTech ScreenBridge preserved: /forensics/mbw-hmi-02/082212_session.log",
+        "highlight": false
+      },
+      {
+        "ts": "12:18:10",
+        "level": "INFO",
+        "msg": "MBW-NVR-01 footage (09:58:33) and PACS logs (09:58:30–09:58:35) sealed in evidence package (SEC-4-2026-1022-121803)",
+        "highlight": false
+      },
+      {
+        "ts": "12:18:11",
+        "level": "ERROR",
+        "msg": "Attempt to access MBW-HMI-02 via local console failed: no valid MFA token detected. System remains locked.",
+        "highlight": false
+      },
+      {
+        "ts": "12:18:12",
+        "level": "NOTICE",
+        "msg": "No changes to HMI state since 09:58:33. No manual intervention detected.",
+        "highlight": false
+      },
+      {
+        "ts": "12:18:13",
+        "level": "INFO",
+        "msg": "Image verified: 100% match to original HMI state at 09:58:33 (prior to attacker session).",
+        "highlight": false
+      },
+      {
+        "ts": "12:18:14",
+        "level": "INFO",
+        "msg": "Forensic image stored on MBW-JUMP-01 (10.72.10.100) and copied to CISA secure vault (WIS-2026-041122).",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Kessler Controls Remote Forensics Terminal",
+    "command": "sudo /opt/kessler/forensics/imb -host MBW-HMI-02 -ip 10.72.10.22 -output /var/forensics/mbw-hmi-02.img -hash SHA-256",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "instructorNote": "This inject confirms that the forensic chain of custody is complete and that the FBI/CISA liaison has been engaged. The team must not attempt to reboot, reimage, or access the HMI until the forensic review is complete.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.7 Evidence Preservation",
+      "quote": "Do not power off, reimage or \"clean\" MBW-SCADA-SRV01/02, MBW-HMI-01/02/03 or MBW-EWS-01 unless life safety requires it. Export the AquaSight audit log and historian trends for the window; copy MBW-JUM",
+      "chunkId": 88
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 11 › 11.2 Evidence",
+      "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+      "chunkId": 45
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5H7CMWQ7MYH56XC7EQVR7JW",
+      "kind": "image",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H6GYKZ9588N3ZGVP91RTPG/01M5H7CMWQ7MYH56XC7EQVR7JW.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "7d96d3b901a863b84c5f733b926e419ad247d2af0ef95507e8761237f0cc0ac9",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:14:44.093Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T07:00:12.589Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Forensic Image Capture — MBW-HMI-02",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MBW-JUMP-01 Forensic Imaging",
+          "host": "MBW-JUMP-01",
+          "ip": "10.72.10.100",
+          "os": "Linux (Ubuntu 22.04)",
+          "logSource": "/var/log/forensics/mbw-hmi-02.img.log",
+          "exportedBy": "Kessler Controls (Remote Session ID: KES-2026-1022-082212)",
+          "exportedAt": "October 22, 2026 12:18:03",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "12:18:03",
+              "level": "INFO",
+              "msg": "Forensic image of MBW-HMI-02 (10.72.10.22) completed via Kessler Controls remote session.",
+              "highlight": false
+            },
+            {
+              "ts": "12:18:04",
+              "level": "INFO",
+              "msg": "Source: DosaTech ScreenBridge session (10.200.144.122) — 08:00:14 to 09:12:26",
+              "highlight": false
+            },
+            {
+              "ts": "12:18:05",
+              "level": "INFO",
+              "msg": "Image hash (SHA-256): f8b3c9d1e4a7f2c1b6e8d5a9c3b2f1e7d6c4a8b5e2f3d1c7a9b6e4f2a1c3d5b8",
+              "highlight": false
+            },
+            {
+              "ts": "12:18:06",
+              "level": "INFO",
+              "msg": "Chain of custody: SEC-4-2026-1022-121803 signed by Luis Ferreira (SEC) and Priya Nandakumar (TL)",
+              "highlight": false
+            },
+            {
+              "ts": "12:18:07",
+              "level": "WARN",
+              "msg": "MBW-HMI-02 is not powered down. The DosaTech ScreenBridge agent remains active. No reboot or reset has occurred.",
+              "highlight": false
+            },
+            {
+              "ts": "12:18:08",
+              "level": "ALERT",
+              "msg": "FBI/CISA liaison (WaterISAC Case #WIS-2026-041122) has been notified. Evidence review pending.",
+              "highlight": true
+            },
+            {
+              "ts": "12:18:09",
+              "level": "INFO",
+              "msg": "Session log from DosaTech ScreenBridge preserved: /forensics/mbw-hmi-02/082212_session.log",
+              "highlight": false
+            },
+            {
+              "ts": "12:18:10",
+              "level": "INFO",
+              "msg": "MBW-NVR-01 footage (09:58:33) and PACS logs (09:58:30–09:58:35) sealed in evidence package (SEC-4-2026-1022-121803)",
+              "highlight": false
+            },
+            {
+              "ts": "12:18:11",
+              "level": "ERROR",
+              "msg": "Attempt to access MBW-HMI-02 via local console failed: no valid MFA token detected. System remains locked.",
+              "highlight": false
+            },
+            {
+              "ts": "12:18:12",
+              "level": "NOTICE",
+              "msg": "No changes to HMI state since 09:58:33. No manual intervention detected.",
+              "highlight": false
+            },
+            {
+              "ts": "12:18:13",
+              "level": "INFO",
+              "msg": "Image verified: 100% match to original HMI state at 09:58:33 (prior to attacker session).",
+              "highlight": false
+            },
+            {
+              "ts": "12:18:14",
+              "level": "INFO",
+              "msg": "Forensic image stored on MBW-JUMP-01 (10.72.10.100) and copied to CISA secure vault (WIS-2026-041122).",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Kessler Controls Remote Forensics Terminal",
+          "command": "sudo /opt/kessler/forensics/imb -host MBW-HMI-02 -ip 10.72.10.22 -output /var/forensics/mbw-hmi-02.img -hash SHA-256",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms that the forensic chain of custody is complete and that the FBI/CISA liaison has been engaged. The team must not attempt to reboot, reimage, or access the HMI until the forensic review is complete.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:44.327Z"
+}

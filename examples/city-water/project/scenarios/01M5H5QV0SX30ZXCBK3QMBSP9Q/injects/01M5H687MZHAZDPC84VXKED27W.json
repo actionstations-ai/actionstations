@@ -1,0 +1,206 @@
+{
+  "id": "01M5H687MZHAZDPC84VXKED27W",
+  "mselRowId": "I-10b",
+  "type": "field_report",
+  "title": "Field Report: Suspicious Individual Near Chemical Building East Door",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "City of Millbrook Department of Water & Sewer — Security & Emergency Management",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0415",
+    "date": "10/22/2026",
+    "time": "10:02",
+    "location": "Chemical Building, East Door (Door-03-E)",
+    "inspector": "HMI Operator Rios, Control Room Operator",
+    "unit": "OCC-WS-03 (10.72.1.55)",
+    "reportType": "security",
+    "weather": "Clear, 52°F, wind SSW 5 mph",
+    "summary": "At 09:58, a person in a gray hoodie and blue gloves was observed near the east door of the Chemical Building. The door was ajar, and interior light was visible. No response was received from the intercom or radio. Subsequent review of MBW-NVR-01 video footage for 09:58:33 shows the door was locked and the camera feed was unbroken. The PACS system logs show the door remained in 'locked' status throughout the window. The HMI indicates the door is closed and secure. The observer cannot confirm the presence of the individual on video or in system logs. The control system's integrity is now in question. The observer requests verification and a patrol to the site.",
+    "findings": [
+      {
+        "item": "Door status (HMI)",
+        "condition": "failed",
+        "notes": "Shows 'closed' and 'locked', but video shows ajar at 09:58"
+      },
+      {
+        "item": "Door status (PACS)",
+        "condition": "failed",
+        "notes": "Reports 'locked' at 09:58, but no user override logged"
+      },
+      {
+        "item": "MBW-NVR-01 footage (09:58:00–09:58:59)",
+        "condition": "ok",
+        "notes": "No video of individual; door closed at 09:58:33"
+      },
+      {
+        "item": "Intercom response",
+        "condition": "failed",
+        "notes": "No response from on-site operator"
+      },
+      {
+        "item": "Radio contact (on-site)",
+        "condition": "failed",
+        "notes": "No response from operator on DWS-1"
+      },
+      {
+        "item": "Field visibility (east door)",
+        "condition": "not_inspected",
+        "notes": ""
+      },
+      {
+        "item": "Camera coverage (east door)",
+        "condition": "ok",
+        "notes": "No blind spots reported"
+      },
+      {
+        "item": "System time sync (HMI)",
+        "condition": "ok",
+        "notes": "UTC-4 synchronized at 09:58:11"
+      },
+      {
+        "item": "PACS override log",
+        "condition": "ok",
+        "notes": "No manual override attempted"
+      },
+      {
+        "item": "Control Room log (09:58)",
+        "condition": "ok",
+        "notes": "No entry for door anomaly"
+      }
+    ],
+    "actionsTaken": [
+      "Reviewed MBW-NVR-01 footage for 09:58:00–09:58:59",
+      "Verified PACS and HMI status for Door-03-E",
+      "Attempted contact via intercom and DWS-1 radio",
+      "Logged observation in Control Room log (CR-20261022-100212-0401)"
+    ],
+    "recommendations": [
+      "Dispatch Security Patrol to Chemical Building East Door (Door-03-E) for physical verification",
+      "Initiate PACS emergency override to manually unlock Door-03-E and confirm status",
+      "Preserve MBW-NVR-01 footage from 09:58:00 to 09:58:59 for forensic review",
+      "Report to Security & Emergency Manager per Section 7.6 (Physical Intrusion)"
+    ],
+    "photosNote": "1 photo attached: IMG_2026-0015-04 (HMI screen showing Door-03-E status: closed, locked)",
+    "signature": "HMI Operator Rios, Control Room Operator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "instructorNote": "This inject tests Security's ability to act on a conflicting system report. The player must recognize that the HMI and PACS are compromised and require physical verification. Watch for hesitation in issuing a patrol or failing to initiate the PACS override.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+      "quote": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.7 Evidence Preservation",
+      "quote": "Do not power off, reimage or \"clean\" MBW-SCADA-SRV01/02, MBW-HMI-01/02/03 or MBW-EWS-01 unless life safety requires it. Export the AquaSight audit log and historian trends for the window; copy MBW-JUM",
+      "chunkId": 88
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T06:55:03.669Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Field Report: Suspicious Individual Near Chemical Building East Door",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — Security & Emergency Management",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0415",
+          "date": "10/22/2026",
+          "time": "10:02",
+          "location": "Chemical Building, East Door (Door-03-E)",
+          "inspector": "HMI Operator Rios, Control Room Operator",
+          "unit": "OCC-WS-03 (10.72.1.55)",
+          "reportType": "security",
+          "weather": "Clear, 52°F, wind SSW 5 mph",
+          "summary": "At 09:58, a person in a gray hoodie and blue gloves was observed near the east door of the Chemical Building. The door was ajar, and interior light was visible. No response was received from the intercom or radio. Subsequent review of MBW-NVR-01 video footage for 09:58:33 shows the door was locked and the camera feed was unbroken. The PACS system logs show the door remained in 'locked' status throughout the window. The HMI indicates the door is closed and secure. The observer cannot confirm the presence of the individual on video or in system logs. The control system's integrity is now in question. The observer requests verification and a patrol to the site.",
+          "findings": [
+            {
+              "item": "Door status (HMI)",
+              "condition": "failed",
+              "notes": "Shows 'closed' and 'locked', but video shows ajar at 09:58"
+            },
+            {
+              "item": "Door status (PACS)",
+              "condition": "failed",
+              "notes": "Reports 'locked' at 09:58, but no user override logged"
+            },
+            {
+              "item": "MBW-NVR-01 footage (09:58:00–09:58:59)",
+              "condition": "ok",
+              "notes": "No video of individual; door closed at 09:58:33"
+            },
+            {
+              "item": "Intercom response",
+              "condition": "failed",
+              "notes": "No response from on-site operator"
+            },
+            {
+              "item": "Radio contact (on-site)",
+              "condition": "failed",
+              "notes": "No response from operator on DWS-1"
+            },
+            {
+              "item": "Field visibility (east door)",
+              "condition": "not_inspected",
+              "notes": ""
+            },
+            {
+              "item": "Camera coverage (east door)",
+              "condition": "ok",
+              "notes": "No blind spots reported"
+            },
+            {
+              "item": "System time sync (HMI)",
+              "condition": "ok",
+              "notes": "UTC-4 synchronized at 09:58:11"
+            },
+            {
+              "item": "PACS override log",
+              "condition": "ok",
+              "notes": "No manual override attempted"
+            },
+            {
+              "item": "Control Room log (09:58)",
+              "condition": "ok",
+              "notes": "No entry for door anomaly"
+            }
+          ],
+          "actionsTaken": [
+            "Reviewed MBW-NVR-01 footage for 09:58:00–09:58:59",
+            "Verified PACS and HMI status for Door-03-E",
+            "Attempted contact via intercom and DWS-1 radio",
+            "Logged observation in Control Room log (CR-20261022-100212-0401)"
+          ],
+          "recommendations": [
+            "Dispatch Security Patrol to Chemical Building East Door (Door-03-E) for physical verification",
+            "Initiate PACS emergency override to manually unlock Door-03-E and confirm status",
+            "Preserve MBW-NVR-01 footage from 09:58:00 to 09:58:59 for forensic review",
+            "Report to Security & Emergency Manager per Section 7.6 (Physical Intrusion)"
+          ],
+          "photosNote": "1 photo attached: IMG_2026-0015-04 (HMI screen showing Door-03-E status: closed, locked)",
+          "signature": "HMI Operator Rios, Control Room Operator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject tests Security's ability to act on a conflicting system report. The player must recognize that the HMI and PACS are compromised and require physical verification. Watch for hesitation in issuing a patrol or failing to initiate the PACS override.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:38.688Z"
+}

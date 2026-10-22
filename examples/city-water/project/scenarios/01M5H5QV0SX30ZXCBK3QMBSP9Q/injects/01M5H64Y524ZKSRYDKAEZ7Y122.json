@@ -1,0 +1,233 @@
+{
+  "id": "01M5H64Y524ZKSRYDKAEZ7Y122",
+  "mselRowId": "I-01",
+  "type": "field_report",
+  "title": "Field Report: pH Anomaly at Chemical Building",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "City of Millbrook Department of Water & Sewer",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0015",
+    "date": "10/22/2026",
+    "time": "09:15",
+    "location": "Chemical Building, Zone 2, Level 3",
+    "inspector": "Chen, Night Operator",
+    "unit": "OPS_SHIFT_B · HMI Node: MBW-HMI-02",
+    "reportType": "incident",
+    "weather": "Clear, 62°F, light wind",
+    "summary": "Field reading from AIT-302 indicates finished-water pH at 9.3 — significantly above the normal 7.4–7.8 range. HMI for NAOH-FC-203 displays setpoint at 14.0 mg/L, which is within normal operating band. PSH-302 has not tripped. Caustic pump is running at full speed; tank level is dropping. Water sample taken on-site has a distinct lye taste. Field instruments and physical observation suggest mismatch with HMI display.",
+    "findings": [
+      {
+        "item": "AIT-302 pH sensor reading",
+        "condition": "failed",
+        "notes": "pH = 9.3, exceeds the 8.5 HMI high alarm (PSH-302 trips at 9.5)"
+      },
+      {
+        "item": "NAOH-FC-203 setpoint display",
+        "condition": "ok",
+        "notes": "14.0 mg/L, within normal band"
+      },
+      {
+        "item": "PSH-302 high-pH alarm",
+        "condition": "not_inspected",
+        "notes": "No trip recorded, but field sensor confirms high pH"
+      },
+      {
+        "item": "Caustic feed pump status",
+        "condition": "failed",
+        "notes": "Running at full speed, no manual stop"
+      },
+      {
+        "item": "NAOH-FC-203 tank level",
+        "condition": "deficient",
+        "notes": "Dropping rapidly, no valve closure detected"
+      },
+      {
+        "item": "Grab sample taste test",
+        "condition": "failed",
+        "notes": "Tastes strongly of lye; not safe for consumption"
+      },
+      {
+        "item": "Manual valve position",
+        "condition": "ok",
+        "notes": "Valve at manual hold, not closed"
+      },
+      {
+        "item": "Alarm acknowledgment status",
+        "condition": "not_inspected",
+        "notes": "No record of alarm acknowledged on HMI"
+      },
+      {
+        "item": "HMI access log",
+        "condition": "not_inspected",
+        "notes": "No on-site access to audit log"
+      },
+      {
+        "item": "Field instrument calibration",
+        "condition": "not_inspected",
+        "notes": "Not performed on-site; pending lab verification"
+      }
+    ],
+    "actionsTaken": [
+      "Notified Control Room by radio at 09:15",
+      "Collected grab sample from final filter outlet",
+      "Verified pump run status and tank level drop rate",
+      "Initiated manual hold on NAOH-FC-203 feed line via local panel",
+      "Logged incident in paper control log, Section 7.2"
+    ],
+    "recommendations": [
+      "Immediate audit of AquaSight HMI node MBW-HMI-02 for unauthorized access",
+      "Dispatch lab team to validate pH and chemical concentrations",
+      "Isolate NAOH-FC-203 from system until root cause confirmed",
+      "Notify Public Information Officer for potential consumer advisories",
+      "Open ticket with IT for forensic review of ScreenBridge session on MBW-HMI-02"
+    ],
+    "photosNote": "4 photos attached: IMG_2026-0015-01 (AIT-302 display), IMG_2026-0015-02 (grab sample vial), IMG_2026-0015-03 (caustic pump), IMG_2026-0015-04 (tank level gauge)",
+    "signature": "Chen, Night Operator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "instructorNote": "This inject confirms the cyber-physical mismatch between HMI and field instruments. The technical team must now investigate whether the HMI is showing false data or if the system is being manipulated. Watch for overconfidence in HMI data and delays in trusting field evidence.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 4 › 4.1 Zones",
+      "quote": "MBW-FW-01 separates four zones: the business LAN (10.73.0.0/16), the SCADA DMZ (10.72.250.0/24), the control network (10.72.10.0/24) and the field networks (10.72.20.0/24 plant PLCs, 10.72.30.0/24 rem",
+      "chunkId": 61
+    },
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A › A.9.1 Audit Log",
+      "quote": "AquaSight records every operator action in the audit log on MBW-SCADA-SRV01 (replicated to SRV02 and MBW-HIST-01): logins and logouts, setpoint changes (old value, new value, tag, HMI node, account), ",
+      "chunkId": 157
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 6 › 6.3 Customer Complaints and AMI",
+      "quote": "Customer Service codes every call by street and symptom in the CIS. Three or more taste, odor, color or \"burning\" complaints from one pressure zone within an hour, or any report of skin or eye irritat",
+      "chunkId": 21
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5H7CDADVB4HJJ78MBRFN5WZ",
+      "kind": "image",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H64Y524ZKSRYDKAEZ7Y122/01M5H7CDADVB4HJJ78MBRFN5WZ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "c7bdff88be554457008fe7ab68a8c0b10d568904a59b0e2558dda86c0b073c10",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:14:36.349Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:53:13.197Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Field Report: pH Anomaly at Chemical Building",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0015",
+          "date": "10/22/2026",
+          "time": "09:15",
+          "location": "Chemical Building, Zone 2, Level 3",
+          "inspector": "Chen, Night Operator",
+          "unit": "OPS_SHIFT_B · HMI Node: MBW-HMI-02",
+          "reportType": "incident",
+          "weather": "Clear, 62°F, light wind",
+          "summary": "Field reading from AIT-302 indicates finished-water pH at 9.3 — significantly above the normal 7.4–7.8 range. HMI for NAOH-FC-203 displays setpoint at 14.0 mg/L, which is within normal operating band. PSH-302 has not tripped. Caustic pump is running at full speed; tank level is dropping. Water sample taken on-site has a distinct lye taste. Field instruments and physical observation suggest mismatch with HMI display.",
+          "findings": [
+            {
+              "item": "AIT-302 pH sensor reading",
+              "condition": "failed",
+              "notes": "pH = 9.3, exceeds the 8.5 HMI high alarm (PSH-302 trips at 9.5)"
+            },
+            {
+              "item": "NAOH-FC-203 setpoint display",
+              "condition": "ok",
+              "notes": "14.0 mg/L, within normal band"
+            },
+            {
+              "item": "PSH-302 high-pH alarm",
+              "condition": "not_inspected",
+              "notes": "No trip recorded, but field sensor confirms high pH"
+            },
+            {
+              "item": "Caustic feed pump status",
+              "condition": "failed",
+              "notes": "Running at full speed, no manual stop"
+            },
+            {
+              "item": "NAOH-FC-203 tank level",
+              "condition": "deficient",
+              "notes": "Dropping rapidly, no valve closure detected"
+            },
+            {
+              "item": "Grab sample taste test",
+              "condition": "failed",
+              "notes": "Tastes strongly of lye; not safe for consumption"
+            },
+            {
+              "item": "Manual valve position",
+              "condition": "ok",
+              "notes": "Valve at manual hold, not closed"
+            },
+            {
+              "item": "Alarm acknowledgment status",
+              "condition": "not_inspected",
+              "notes": "No record of alarm acknowledged on HMI"
+            },
+            {
+              "item": "HMI access log",
+              "condition": "not_inspected",
+              "notes": "No on-site access to audit log"
+            },
+            {
+              "item": "Field instrument calibration",
+              "condition": "not_inspected",
+              "notes": "Not performed on-site; pending lab verification"
+            }
+          ],
+          "actionsTaken": [
+            "Notified Control Room by radio at 09:15",
+            "Collected grab sample from final filter outlet",
+            "Verified pump run status and tank level drop rate",
+            "Initiated manual hold on NAOH-FC-203 feed line via local panel",
+            "Logged incident in paper control log, Section 7.2"
+          ],
+          "recommendations": [
+            "Immediate audit of AquaSight HMI node MBW-HMI-02 for unauthorized access",
+            "Dispatch lab team to validate pH and chemical concentrations",
+            "Isolate NAOH-FC-203 from system until root cause confirmed",
+            "Notify Public Information Officer for potential consumer advisories",
+            "Open ticket with IT for forensic review of ScreenBridge session on MBW-HMI-02"
+          ],
+          "photosNote": "4 photos attached: IMG_2026-0015-01 (AIT-302 display), IMG_2026-0015-02 (grab sample vial), IMG_2026-0015-03 (caustic pump), IMG_2026-0015-04 (tank level gauge)",
+          "signature": "Chen, Night Operator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the cyber-physical mismatch between HMI and field instruments. The technical team must now investigate whether the HMI is showing false data or if the system is being manipulated. Watch for overconfidence in HMI data and delays in trusting field evidence.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:36.568Z"
+}

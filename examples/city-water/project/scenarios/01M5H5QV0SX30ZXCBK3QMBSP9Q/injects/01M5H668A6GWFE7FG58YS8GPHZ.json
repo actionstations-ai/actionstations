@@ -1,0 +1,209 @@
+{
+  "id": "01M5H668A6GWFE7FG58YS8GPHZ",
+  "mselRowId": "I-05",
+  "type": "system_log",
+  "title": "System Log: Unauthorized DosaTech Session on MBW-HMI-02",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "AquaSight Audit Log",
+    "host": "MBW-HMI-02",
+    "ip": "10.72.10.22",
+    "os": "Windows Server 2019",
+    "logSource": "MBW-SCADA-SRV01 (audit log)",
+    "exportedBy": "AquaSight Admin (Kessler)",
+    "exportedAt": "10/22/2026 09:42 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "2026-10-22 08:00:14",
+        "level": "ALERT",
+        "msg": "Remote session initiated via DosaTech ScreenBridge from IP 10.200.144.122",
+        "highlight": true
+      },
+      {
+        "ts": "2026-10-22 08:00:14",
+        "level": "ERROR",
+        "msg": "No valid MFA token presented; session not tied to a known user account",
+        "highlight": true
+      },
+      {
+        "ts": "2026-10-22 08:05:03",
+        "level": "INFO",
+        "msg": "SETPOINT node=MBW-HMI-02 acct=UNKNOWN tag=NAOH-FC-203.SP old=14.0 new=25.0 mg/L",
+        "highlight": true
+      },
+      {
+        "ts": "2026-10-22 08:12:47",
+        "level": "INFO",
+        "msg": "SETPOINT node=MBW-HMI-02 acct=UNKNOWN tag=NAOH-FC-203.SP old=25.0 new=35.0 mg/L",
+        "highlight": true
+      },
+      {
+        "ts": "2026-10-22 08:22:11",
+        "level": "INFO",
+        "msg": "SETPOINT node=MBW-HMI-02 acct=UNKNOWN tag=NAOH-FC-203.SP old=35.0 new=38.0 mg/L",
+        "highlight": true
+      },
+      {
+        "ts": "2026-10-22 08:22:12",
+        "level": "NOTICE",
+        "msg": "Setpoint write to NAOH-FC-203: 38 mg/L (within PLC hard limit)",
+        "highlight": true
+      },
+      {
+        "ts": "2026-10-22 08:22:12",
+        "level": "ALERT",
+        "msg": "Session duration: 1h12m; no Kessler Controls ticket open for this window",
+        "highlight": true
+      },
+      {
+        "ts": "2026-10-22 08:22:12",
+        "level": "CRIT",
+        "msg": "No approval in remote-access log (MBW-JUMP-01); session not authorized under C4-6.2",
+        "highlight": true
+      },
+      {
+        "ts": "2026-10-22 08:22:12",
+        "level": "ALERT",
+        "msg": "Unauthorized remote access via DosaTech ScreenBridge detected — system integrity compromised",
+        "highlight": true
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Get-Content C:\\\\Logs\\\\AquaSight\\\\MBW-HMI-02.audit.log -Tail 20",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "instructorNote": "This inject confirms the cyber-physical compromise. The IT Lead must validate the log against C1 and C4, and initiate SEC-4 evidence preservation. Watch for confusion over the 'UNKNOWN' account and whether they suspect a vendor account was hijacked.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A › A.9.1 Audit Log",
+      "quote": "AquaSight records every operator action in the audit log on MBW-SCADA-SRV01 (replicated to SRV02 and MBW-HIST-01): logins and logouts, setpoint changes (old value, new value, tag, HMI node, account), ",
+      "chunkId": 157
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+      "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+      "chunkId": 70
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 11 › 11.2 Evidence",
+      "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+      "chunkId": 45
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5H7CE5KNV20ZY0P5SKMKE82",
+      "kind": "image",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H668A6GWFE7FG58YS8GPHZ/01M5H7CE5KNV20ZY0P5SKMKE82.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "e40a6dfd87f5ac346f156007b348ad7860660e52674b9718f32c268ce8a72ba0",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:14:37.208Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:53:57.004Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "System Log: Unauthorized DosaTech Session on MBW-HMI-02",
+        "type": "system_log",
+        "fields": {
+          "systemName": "AquaSight Audit Log",
+          "host": "MBW-HMI-02",
+          "ip": "10.72.10.22",
+          "os": "Windows Server 2019",
+          "logSource": "MBW-SCADA-SRV01 (audit log)",
+          "exportedBy": "AquaSight Admin (Kessler)",
+          "exportedAt": "10/22/2026 09:42 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "2026-10-22 08:00:14",
+              "level": "ALERT",
+              "msg": "Remote session initiated via DosaTech ScreenBridge from IP 10.200.144.122",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-22 08:00:14",
+              "level": "ERROR",
+              "msg": "No valid MFA token presented; session not tied to a known user account",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-22 08:05:03",
+              "level": "INFO",
+              "msg": "SETPOINT node=MBW-HMI-02 acct=UNKNOWN tag=NAOH-FC-203.SP old=14.0 new=25.0 mg/L",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-22 08:12:47",
+              "level": "INFO",
+              "msg": "SETPOINT node=MBW-HMI-02 acct=UNKNOWN tag=NAOH-FC-203.SP old=25.0 new=35.0 mg/L",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-22 08:22:11",
+              "level": "INFO",
+              "msg": "SETPOINT node=MBW-HMI-02 acct=UNKNOWN tag=NAOH-FC-203.SP old=35.0 new=38.0 mg/L",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-22 08:22:12",
+              "level": "NOTICE",
+              "msg": "Setpoint write to NAOH-FC-203: 38 mg/L (within PLC hard limit)",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-22 08:22:12",
+              "level": "ALERT",
+              "msg": "Session duration: 1h12m; no Kessler Controls ticket open for this window",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-22 08:22:12",
+              "level": "CRIT",
+              "msg": "No approval in remote-access log (MBW-JUMP-01); session not authorized under C4-6.2",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-22 08:22:12",
+              "level": "ALERT",
+              "msg": "Unauthorized remote access via DosaTech ScreenBridge detected — system integrity compromised",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\\\Logs\\\\AquaSight\\\\MBW-HMI-02.audit.log -Tail 20",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the cyber-physical compromise. The IT Lead must validate the log against C1 and C4, and initiate SEC-4 evidence preservation. Watch for confusion over the 'UNKNOWN' account and whether they suspect a vendor account was hijacked.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:37.490Z"
+}

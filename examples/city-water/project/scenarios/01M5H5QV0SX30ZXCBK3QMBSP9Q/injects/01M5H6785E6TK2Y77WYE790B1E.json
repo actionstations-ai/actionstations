@@ -1,0 +1,123 @@
+{
+  "id": "01M5H6785E6TK2Y77WYE790B1E",
+  "mselRowId": "I-08",
+  "type": "radio_call",
+  "title": "Meter Tech: Frozen AMI Meter — Route 41",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "centerName": "RWTP Control Room",
+    "channel": "DWS-1",
+    "frequency": "TG 4001 / 460.100 MHz",
+    "date": "10/22/2026",
+    "callsign": "Meter Tech Harris",
+    "lines": [
+      {
+        "time": "09:58:02",
+        "from": "Meter Tech Harris",
+        "to": "Control",
+        "text": "Control, this is Meter Tech Harris on Route 41. The meter at 123 Oak Street just went into a 48-hour freeze. It's showing 0.000 GPM and won't reset. I can't access it remotely. Should I just leave it?"
+      },
+      {
+        "time": "09:58:14",
+        "from": "Control",
+        "to": "Meter Tech Harris",
+        "text": "Copy, Harris. Confirm the meter ID and status. We’re tracking a system-wide anomaly — you’re not alone on this route. Hold position. We’ll validate the AMI feed and send a follow-up."
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Young male, neutral tone, slight static in background",
+    "audioFile": "I-08_radio.wav",
+    "duration": "0:12",
+    "injectId": "I-08"
+  },
+  "instructorNote": "Noise inject; the technical team should triage it down without engaging. The AMI system is under attack, and this is a false alert masked as a hardware failure.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 6 › 6.3 Customer Complaints and AMI",
+      "quote": "Customer Service codes every call by street and symptom in the CIS. Three or more taste, odor, color or \"burning\" complaints from one pressure zone within an hour, or any report of skin or eye irritat",
+      "chunkId": 21
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 1. System at a Glance",
+      "quote": "| Item | Value | |---|---| | Owner / operator | City of Millbrook, Department of Water & Sewer (DWS) | | Public water system ID | OH-CARVER-0418 (community water system) | | Population served | 68,400",
+      "chunkId": 161
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Remote Sites in Manual",
+      "quote": "Hilltop Tank level is read from the sight gauge, Northgate Reservoir from the float board, Orchard Standpipe from the level gauge at the base; distribution crews phone readings to the Control Room **e",
+      "chunkId": 78
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Meter Tech Harris",
+        "voiceStyle": "Young male, neutral tone, slight static in background",
+        "text": "Control, this is Meter Tech Harris on Route 41. The meter at 123 Oak Street just went into a 48-hour freeze. It's showing 0.000 GPM and won't reset. I can't access it remotely. Should I just leave it?"
+      },
+      {
+        "speaker": "Control",
+        "voiceStyle": "Calm female dispatcher, measured pace, slight delay in transmission",
+        "text": "Copy, Harris. Confirm the meter ID and status. We’re tracking a system-wide anomaly — you’re not alone on this route. Hold position. We’ll validate the AMI feed and send a follow-up."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T06:54:28.911Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Meter Tech: Frozen AMI Meter — Route 41",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "DWS-1",
+          "frequency": "TG 4001 / 460.100 MHz",
+          "date": "10/22/2026",
+          "callsign": "Meter Tech Harris",
+          "lines": [
+            {
+              "time": "09:58:02",
+              "from": "Meter Tech Harris",
+              "to": "Control",
+              "text": "Control, this is Meter Tech Harris on Route 41. The meter at 123 Oak Street just went into a 48-hour freeze. It's showing 0.000 GPM and won't reset. I can't access it remotely. Should I just leave it?"
+            },
+            {
+              "time": "09:58:14",
+              "from": "Control",
+              "to": "Meter Tech Harris",
+              "text": "Copy, Harris. Confirm the meter ID and status. We’re tracking a system-wide anomaly — you’re not alone on this route. Hold position. We’ll validate the AMI feed and send a follow-up."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Young male, neutral tone, slight static in background",
+          "audioFile": "I-08_radio.wav",
+          "duration": "0:12",
+          "injectId": "I-08"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it down without engaging. The AMI system is under attack, and this is a false alert masked as a hardware failure.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:38.125Z"
+}

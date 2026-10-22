@@ -1,0 +1,122 @@
+{
+  "id": "01M5H65F9ZYA5M8JNKVQ9N2C5Q",
+  "mselRowId": "I-03",
+  "type": "radio_call",
+  "title": "Radio: HMI Operator Rios — Manual Override Failed",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "centerName": "Water Operations Control Center (WOCC)",
+    "channel": "OPS 3",
+    "frequency": "TG 4301 / 460.310 MHz",
+    "date": "10/22/2026",
+    "callsign": "HMI Operator Rios",
+    "lines": [
+      {
+        "time": "09:28",
+        "from": "HMI Operator Rios",
+        "to": "Control",
+        "text": "Control, this is HMI Operator Rios. I just tried to manually override NAOH-FC-203 on the local PLC-02 panel. I selected 'Manual Mode' and setpoint to 0. The pump still runs, and the HMI shows no change in command status — it's still at 'AUTO' and 'Running'. I can't stop it. I've tried twice."
+      }
+    ],
+    "background": "office",
+    "voiceStyle": "Young adult female, tense, breathless",
+    "audioFile": "I-03_radio.wav",
+    "duration": "0:18",
+    "injectId": "I-03"
+  },
+  "instructorNote": "This inject confirms the loss of control over the caustic feed system. The technical team must now recognize that manual override via PLC-02 is ineffective, confirming a cyber-physical compromise. Watch for the IC to invoke Section 7.5 and order emergency contactor shutdown.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A › A.1.3 Modes of Control",
+      "quote": "| Mode | Meaning | Where selected | |---|---|---| | AUTO | PLC/RTU logic runs the equipment on SCADA setpoints | HMI faceplate | | MANUAL | Operator sets the output (pump speed, valve position, dose) ",
+      "chunkId": 138
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+      "quote": "| Failure | What Still Works | What Is Lost | Required Action | |---|---|---|---| | MBW-SCADA-SRV01 and SRV02 down | PLCs hold last setpoints; local HOA; PSH-302 | All remote control; HMI displays; Al",
+      "chunkId": 79
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+      "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+      "chunkId": 84
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "HMI Operator Rios",
+        "voiceStyle": "Young adult female, tense, breathless",
+        "text": "Control, this is HMI Operator Rios. I just tried to manually override NAOH-FC-203 on the local PLC-02 panel. I selected 'Manual Mode' and setpoint to 0. The pump still runs, and the HMI shows no change in command status — it's still at 'AUTO' and 'Running'. I can't stop it. I've tried twice."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5H7CDQ6TWYM7JPQ3Q6F16K3",
+      "kind": "image",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H65F9ZYA5M8JNKVQ9N2C5Q/01M5H7CDQ6TWYM7JPQ3Q6F16K3.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "1cff9f3ca6c656ce1d1634c08ce77d84f8342c9137856e5c5ba68f1a08bb7619",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-22T07:14:36.789Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-22T06:53:29.681Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Radio: HMI Operator Rios — Manual Override Failed",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "Water Operations Control Center (WOCC)",
+          "channel": "OPS 3",
+          "frequency": "TG 4301 / 460.310 MHz",
+          "date": "10/22/2026",
+          "callsign": "HMI Operator Rios",
+          "lines": [
+            {
+              "time": "09:28",
+              "from": "HMI Operator Rios",
+              "to": "Control",
+              "text": "Control, this is HMI Operator Rios. I just tried to manually override NAOH-FC-203 on the local PLC-02 panel. I selected 'Manual Mode' and setpoint to 0. The pump still runs, and the HMI shows no change in command status — it's still at 'AUTO' and 'Running'. I can't stop it. I've tried twice."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Young adult female, tense, breathless",
+          "audioFile": "I-03_radio.wav",
+          "duration": "0:18",
+          "injectId": "I-03"
+        },
+        "instructorNote": "This inject confirms the loss of control over the caustic feed system. The technical team must now recognize that manual override via PLC-02 is ineffective, confirming a cyber-physical compromise. Watch for the IC to invoke Section 7.5 and order emergency contactor shutdown.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:36.977Z"
+}

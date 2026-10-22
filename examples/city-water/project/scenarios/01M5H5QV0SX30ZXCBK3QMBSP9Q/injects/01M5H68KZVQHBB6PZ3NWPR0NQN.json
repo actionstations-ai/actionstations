@@ -1,0 +1,100 @@
+{
+  "id": "01M5H68KZVQHBB6PZ3NWPR0NQN",
+  "mselRowId": "I-10c",
+  "type": "email_forward",
+  "title": "DosaTech Session Found — Evidence Preserved",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Priya Nandakumar",
+    "fromEmail": "priya.nandakumar@mbw-ops.millbrook.gov",
+    "senderInitials": "PN",
+    "to": "Luis Ferreira (Security & Emergency Manager)",
+    "subject": "URGENT: DosaTech Session Found — Evidence Preserved",
+    "sentAt": "Thu 10/22/2026 10:05 AM",
+    "note": "The DosaTech ScreenBridge session on MBW-HMI-02 (10.72.10.22) has been isolated. The session log shows 1h12m of remote access from IP 10.200.144.122. The account was not tied to a valid user, and no Kessler Controls ticket was open for this window (Section 6.2). The session is preserved on MBW-JUMP-01 and will be forwarded to CISA via the WaterISAC cyber-incident reporting portal. Do not touch the HMI or PLC-02 until we have chain-of-custody. I’ve activated the SEC-4 evidence form for MBW-NVR-01, PACS logs, and session recordings. We must preserve everything.\n\nNote: The attacker used a fake vendor name and an unauthorized path. This is not Kessler Controls.",
+    "signature": "Priya Nandakumar\nSCADA / IT Security Manager",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "SCADA / IT Security Manager",
+    "original": {
+      "fromName": "Security Event Log",
+      "fromEmail": "security@mbw-ops.millbrook.gov",
+      "sentAt": "Thu 10/22/2026 08:22:12 AM",
+      "to": "MBW-JUMP-01",
+      "cc": "",
+      "subject": "Audit Log: Unauthorized Remote Session on MBW-HMI-02",
+      "body": "Host: MBW-HMI-02 (10.72.10.22)\n\nSession ID: SEC-4-2026-1022-082212\n\nSource IP: 10.200.144.122\n\nUser: Unknown (no valid MFA token)\n\nSession duration: 1h12m\n\nActions:\n • NAOH-FC-203 setpoint changed from 14 mg/L to 25 mg/L (08:05:03)\n • NAOH-FC-203 setpoint changed from 25 mg/L to 35 mg/L (08:12:47)\n • NAOH-FC-203 setpoint changed from 35 mg/L to 38 mg/L (08:22:11)\n • Audit log entry: 'Setpoint write to NAOH-FC-203: 38 mg/L' (08:22:12)\n\nNo Kessler Controls ticket was open for this window. No approval in the remote-access log.\n\nAlert: Unauthorized remote access via DosaTech ScreenBridge detected. \n\nLink: https://mbw-jump-01.millbrook.gov/audit/SEC-4-2026-1022-082212\n\nEvidence preserved on MBW-JUMP-01 for chain-of-custody."
+    }
+  },
+  "instructorNote": "This inject confirms the cyber-physical compromise. The security team must now follow SEC-4 and preserve evidence; they must not act on the physical intrusion claim from I-10b until the SCADA / IT Security Manager confirms the system has been compromised.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A",
+      "quote": "| Path | Endpoint reached | Authentication | Logging / recording | Approver | Status | |---|---|---|---|---|---| | MBW-JUMP-01 (RDP gateway in the SCADA DMZ) | MBW-EWS-01, MBW-SCADA-SRV01/02 | Named K",
+      "chunkId": 151
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 14 › 14.3 Open Findings (2025 OT Assessment)",
+      "quote": "| Finding | Description | Owner | Status | |---|---|---|---| | F-1 | Shared HMI shift accounts and a single supervisor PIN across all HMIs (Sections 5.1, 5.4) | Nandakumar / Kessler Controls | Open — ",
+      "chunkId": 97
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+      "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+      "chunkId": 70
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-22T06:55:27.220Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "DosaTech Session Found — Evidence Preserved",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Priya Nandakumar",
+          "fromEmail": "priya.nandakumar@mbw-ops.millbrook.gov",
+          "senderInitials": "PN",
+          "to": "Luis Ferreira (Security & Emergency Manager)",
+          "subject": "URGENT: DosaTech Session Found — Evidence Preserved",
+          "sentAt": "Thu 10/22/2026 10:05 AM",
+          "note": "The DosaTech ScreenBridge session on MBW-HMI-02 (10.72.10.22) has been isolated. The session log shows 1h12m of remote access from IP 10.200.144.122. The account was not tied to a valid user, and no Kessler Controls ticket was open for this window (Section 6.2). The session is preserved on MBW-JUMP-01 and will be forwarded to CISA via the WaterISAC cyber-incident reporting portal. Do not touch the HMI or PLC-02 until we have chain-of-custody. I’ve activated the SEC-4 evidence form for MBW-NVR-01, PACS logs, and session recordings. We must preserve everything.\n\nNote: The attacker used a fake vendor name and an unauthorized path. This is not Kessler Controls.",
+          "signature": "Priya Nandakumar\nSCADA / IT Security Manager",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "SCADA / IT Security Manager",
+          "original": {
+            "fromName": "Security Event Log",
+            "fromEmail": "security@mbw-ops.millbrook.gov",
+            "sentAt": "Thu 10/22/2026 08:22:12 AM",
+            "to": "MBW-JUMP-01",
+            "cc": "",
+            "subject": "Audit Log: Unauthorized Remote Session on MBW-HMI-02",
+            "body": "Host: MBW-HMI-02 (10.72.10.22)\n\nSession ID: SEC-4-2026-1022-082212\n\nSource IP: 10.200.144.122\n\nUser: Unknown (no valid MFA token)\n\nSession duration: 1h12m\n\nActions:\n • NAOH-FC-203 setpoint changed from 14 mg/L to 25 mg/L (08:05:03)\n • NAOH-FC-203 setpoint changed from 25 mg/L to 35 mg/L (08:12:47)\n • NAOH-FC-203 setpoint changed from 35 mg/L to 38 mg/L (08:22:11)\n • Audit log entry: 'Setpoint write to NAOH-FC-203: 38 mg/L' (08:22:12)\n\nNo Kessler Controls ticket was open for this window. No approval in the remote-access log.\n\nAlert: Unauthorized remote access via DosaTech ScreenBridge detected. \n\nLink: https://mbw-jump-01.millbrook.gov/audit/SEC-4-2026-1022-082212\n\nEvidence preserved on MBW-JUMP-01 for chain-of-custody.",
+            "attachments": []
+          }
+        },
+        "instructorNote": "This inject confirms the cyber-physical compromise. The security team must now follow SEC-4 and preserve evidence; they must not act on the physical intrusion claim from I-10b until the SCADA / IT Security Manager confirms the system has been compromised.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-22T07:14:38.930Z"
+}
