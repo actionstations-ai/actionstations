@@ -44,10 +44,9 @@ electronFuses:
   enableNodeCliInspectArguments: false
   enableEmbeddedAsarIntegrityValidation: true
   onlyLoadAppFromAsar: true
-  # Stays on until the renderer is served from a custom protocol (#117): with it off,
-  # file:// can no longer read out/renderer/index.html from inside app.asar (measured:
-  # ERR_FILE_NOT_FOUND, blank window).
-  grantFileProtocolExtraPrivileges: true
+  # Off since the renderer is served from app://bundle/ (#117, ADR-0013); file:// pages get
+  # only what a browser gives them. Render/print windows still load file:// temp documents.
+  grantFileProtocolExtraPrivileges: false
   # Unsigned builds: flipping fuses breaks Electron's ad-hoc signature, which Apple silicon
   # refuses to run. Re-sign ad hoc (a real Developer ID replaces this; see docs/RELEASING.md).
   resetAdHocDarwinSignature: true

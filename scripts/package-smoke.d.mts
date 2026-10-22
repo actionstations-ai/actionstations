@@ -19,3 +19,4 @@ export declare function asarFileList(headerJson: string): string[]
 export declare function asarLeaks(files: string[]): string[]
 export declare function readAsarHeader(asarPath: string): string
 export declare function packagedLayout(appPath: string, platform?: NodeJS.Platform): PackagedLayout
+export declare function killLeftovers(executable: string): string[]

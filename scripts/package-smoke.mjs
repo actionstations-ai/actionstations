@@ -37,8 +37,8 @@ export const EXPECTED_FUSES = {
   enableNodeCliInspectArguments: false,
   enableEmbeddedAsarIntegrityValidation: true,
   onlyLoadAppFromAsar: true,
-  // Required while the renderer loads from file:// inside app.asar (#117).
-  grantFileProtocolExtraPrivileges: true,
+  // The renderer is served from app://bundle/ (#117, ADR-0013).
+  grantFileProtocolExtraPrivileges: false,
 }
 /** Top-level app.asar entries a release may contain. */
 export const ALLOWED_ASAR_ROOTS = ['out', 'node_modules', 'package.json']
@@ -149,6 +149,23 @@ function mountDmg(dmg) {
   }
 }
 
+/** PIDs still running from `executable`; SIGKILLs them so no run leaves the app open. */
+export function killLeftovers(executable) {
+  if (process.platform === 'win32') return []
+  const r = spawnSync('pgrep', ['-f', '--', executable], { encoding: 'utf8' })
+  // Never this script or its parent (`--app <executable>` puts the path on our command line).
+  const self = [String(process.pid), String(process.ppid)]
+  const pids = (r.stdout ?? '').split('\n').filter((pid) => pid && !self.includes(pid))
+  for (const pid of pids) {
+    try {
+      process.kill(Number(pid), 'SIGKILL')
+    } catch {
+      // already gone
+    }
+  }
+  return pids
+}
+
 function staticChecks(layout) {
   const problems = []
   const wires = readFuseWires(readFileSync(layout.fuseBinary))
@@ -186,8 +203,12 @@ function main() {
       env: { ...process.env, TTX_PACKAGED_APP: layout.executable },
     })
     console.log(`packaged e2e: ${((Date.now() - started) / 1000).toFixed(1)} s`)
+    const leftover = killLeftovers(layout.executable)
+    if (leftover.length)
+      throw new Error(`packaged app still running after the e2e (killed): pids ${leftover}`)
     if (run.status !== 0) throw new Error('packaged e2e failed')
   } finally {
+    if (appPath) killLeftovers(packagedLayout(appPath).executable)
     mounted?.detach()
   }
 }

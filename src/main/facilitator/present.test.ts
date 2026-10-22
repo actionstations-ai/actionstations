@@ -120,9 +120,9 @@ describe('presentation window', () => {
     expect(String((win.options.webPreferences as { preload: string }).preload)).toMatch(
       /preload[\\/]index\.cjs$/,
     )
-    expect(win.loadFile).toHaveBeenCalledWith(expect.stringMatching(/renderer[\\/]index\.html$/), {
-      hash: '/present/%2FUsers%2Fa%2FNCIA.ttxproj/S1/INJ1',
-    })
+    expect(win.loadURL).toHaveBeenCalledWith(
+      'app://bundle/index.html#/present/%2FUsers%2Fa%2FNCIA.ttxproj/S1/INJ1',
+    )
     win.emit('ready-to-show')
     expect(win.showInactive).toHaveBeenCalled()
     expect(owner.focus).toHaveBeenCalled()
@@ -132,9 +132,9 @@ describe('presentation window', () => {
     present(target)
     present({ ...target, injectId: 'INJ2', assetId: 'A1' })
     expect(FakeWindow.instances).toHaveLength(1)
-    expect(FakeWindow.instances[0]!.loadFile).toHaveBeenLastCalledWith(expect.any(String), {
-      hash: '/present/%2FUsers%2Fa%2FNCIA.ttxproj/S1/INJ2?asset=A1',
-    })
+    expect(FakeWindow.instances[0]!.loadURL).toHaveBeenLastCalledWith(
+      'app://bundle/index.html#/present/%2FUsers%2Fa%2FNCIA.ttxproj/S1/INJ2?asset=A1',
+    )
   })
 
   it('falls back to a framed preview window when there is only one display', () => {

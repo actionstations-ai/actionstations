@@ -27,7 +27,7 @@ const binaryWith = (...states: string[]) =>
 
 // Wire order: runAsNode, cookieEncryption, nodeOptions, nodeCliInspect, asarIntegrity,
 // onlyLoadAppFromAsar, browserV8Snapshot, grantFileProtocolExtraPrivileges.
-const HARDENED = '01001101'
+const HARDENED = '01001100'
 
 describe('readFuseWires / fuseProblems', () => {
   it('decodes fuse states by name', () => {
@@ -40,6 +40,12 @@ describe('readFuseWires / fuseProblems', () => {
     const wires = readFuseWires(binaryWith(HARDENED, '11111111'))
     expect(wires).toHaveLength(2)
     expect(fuseProblems(wires[1]!)).toContain('runAsNode is true, expected false')
+  })
+  it('requires GrantFileProtocolExtraPrivileges off (#117)', () => {
+    const [wire] = readFuseWires(binaryWith('01001101'))
+    expect(fuseProblems(wire!)).toEqual([
+      'grantFileProtocolExtraPrivileges is true, expected false',
+    ])
   })
   it('marks removed fuses and rejects unknown wire versions', () => {
     const [wire] = readFuseWires(binaryWith('r1001101'))

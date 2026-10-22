@@ -74,20 +74,21 @@ electron-builder copy the whole repository (sources, `reference/`, `CLAUDE.md`) 
 Set by `electronFuses` in `electron-builder.yml` (electron-builder's built-in
 `@electron/fuses` integration, flipped right after packing):
 
-| Fuse                                  | Value  | Effect                                                                       |
-| ------------------------------------- | ------ | ---------------------------------------------------------------------------- |
-| RunAsNode                             | off    | `ELECTRON_RUN_AS_NODE` is ignored; the binary cannot be used as Node.        |
-| EnableCookieEncryption                | on     | Cookie store encrypted with the OS keychain.                                 |
-| EnableNodeOptionsEnvironmentVariable  | off    | `NODE_OPTIONS` / `NODE_EXTRA_CA_CERTS` are ignored.                          |
-| EnableNodeCliInspectArguments         | off    | `--inspect*` and `SIGUSR1` cannot attach a debugger to the main process.     |
-| EnableEmbeddedAsarIntegrityValidation | on     | `app.asar` is checked against the hash in `Info.plist` / the exe (mac, win). |
-| OnlyLoadAppFromAsar                   | on     | Electron loads the app only from `app.asar`.                                 |
-| GrantFileProtocolExtraPrivileges      | **on** | Kept on for now, see below.                                                  |
+| Fuse                                  | Value | Effect                                                                       |
+| ------------------------------------- | ----- | ---------------------------------------------------------------------------- |
+| RunAsNode                             | off   | `ELECTRON_RUN_AS_NODE` is ignored; the binary cannot be used as Node.        |
+| EnableCookieEncryption                | on    | Cookie store encrypted with the OS keychain.                                 |
+| EnableNodeOptionsEnvironmentVariable  | off   | `NODE_OPTIONS` / `NODE_EXTRA_CA_CERTS` are ignored.                          |
+| EnableNodeCliInspectArguments         | off   | `--inspect*` and `SIGUSR1` cannot attach a debugger to the main process.     |
+| EnableEmbeddedAsarIntegrityValidation | on    | `app.asar` is checked against the hash in `Info.plist` / the exe (mac, win). |
+| OnlyLoadAppFromAsar                   | on    | Electron loads the app only from `app.asar`.                                 |
+| GrantFileProtocolExtraPrivileges      | off   | `file://` pages get no privileges beyond a browser's; see below.             |
 
-`GrantFileProtocolExtraPrivileges` stays on because the main window loads
-`out/renderer/index.html` with `loadFile()`, i.e. from `file://` inside `app.asar`. With the
-fuse off that load fails (`ERR_FILE_NOT_FOUND`, measured) and the window stays blank. Serving
-the renderer from a custom protocol removes the need; tracked in #117.
+`GrantFileProtocolExtraPrivileges` can be off because the main and presentation windows load
+the renderer from `app://bundle/index.html`, a custom protocol that reads `out/renderer` out of
+`app.asar` (#117, ADR-0013). With `loadFile()` from `file://` inside `app.asar` and the fuse off,
+the load fails (`ERR_FILE_NOT_FOUND`) and the window stays blank. Render and print windows
+still load temporary `file://` documents, which needs no extra privileges.
 
 Unsigned builds: flipping fuses invalidates Electron's ad-hoc signature, which Apple
 silicon refuses to run, so `resetAdHocDarwinSignature: true` re-signs ad hoc. Remove it once
@@ -112,6 +113,9 @@ arbitrary arguments can already run code as the user.
   each; a `ttx-media://` image from the project decodes in the renderer;
 - every inject template preview renders in the packaged render pool and matches its golden
   (`templates/injects/*/__golden__`), which also proves fonts and `file://` template loading;
+- the renderer is served from `app://bundle/` (webfonts load, the path guard answers 404 for
+  directories and `..` escapes), a rendered inject opens in the presentation window as a
+  `ttx-media://` image, and IPC works from that window;
 - runtime fuse probes: with `ELECTRON_RUN_AS_NODE=1` the binary starts the app instead of
   running `-e`; `--inspect=0` opens no debugger; a `NODE_OPTIONS=--require` script does not
   run (Electron also filters most `NODE_OPTIONS` in packaged apps, so the fuse itself is

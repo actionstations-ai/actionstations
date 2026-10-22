@@ -3,6 +3,7 @@
 // same trusted document as the main window (registerIpc accepts it) with no extra privileges.
 import { app, BrowserWindow, screen, type Display, type Rectangle } from 'electron'
 import { join } from 'node:path'
+import { APP_INDEX_URL } from '../lib/app-protocol'
 
 export interface DisplayInfo {
   id: number
@@ -59,12 +60,8 @@ const devRendererUrl = (): string | undefined =>
   !app.isPackaged && process.env.ELECTRON_RENDERER_URL
     ? process.env.ELECTRON_RENDERER_URL
     : undefined
-const rendererIndex = () => join(import.meta.dirname, '../renderer/index.html')
-
 function loadPresent(win: BrowserWindow, hash: string): void {
-  const dev = devRendererUrl()
-  if (dev) void win.loadURL(`${dev}#${hash}`)
-  else void win.loadFile(rendererIndex(), { hash })
+  void win.loadURL(`${devRendererUrl() ?? APP_INDEX_URL}#${hash}`)
 }
 
 function windowBounds(display: Display | undefined): Partial<Rectangle> {
