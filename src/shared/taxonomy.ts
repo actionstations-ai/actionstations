@@ -139,7 +139,7 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
   t('cctv_still', 'CCTV still', 'operational', ['ai_image', 'template'], {
     defaultDelivery: 'display_main_screen',
   }),
-  t('scene_photo', 'Scene photo', 'operational', ['ai_image'], {
+  t('scene_photo', 'Scene photo', 'operational', ['ai_image', 'template'], {
     defaultDelivery: 'display_main_screen',
   }),
   t('map_annotation', 'Annotated map', 'operational', ['template']),

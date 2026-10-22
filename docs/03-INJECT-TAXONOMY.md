@@ -80,7 +80,7 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `bhs_scada_screen` | belts[], alarms[], state | T | |
 | `pacs_alarm_panel` | doors[], alarms[] | T | |
 | `cctv_still` | camera, timestamp, sceneBrief | AI + T overlay | Timestamp/camera-ID overlay via template |
-| `scene_photo` | sceneBrief, style(phone/press/cctv) | AI | I-10 crowded terminal, blank screens |
+| `scene_photo` | sceneBrief, style(phone/press), caption, credit | AI + T | I-10 crowded terminal, blank screens; photo framed by the `scene_photo` template (phone or press variant) |
 | `map_annotation` | baseMapAsset, markers[], labels[] | T over image | Uses project's terminal map |
 | `signage_photo` | text, placement | AI + T | Whiteboard at gate, etc. |
 
