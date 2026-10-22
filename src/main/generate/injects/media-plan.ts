@@ -87,8 +87,26 @@ const SETTING_ANCHORS: Record<string, string> = {
     'on a university campus: a lecture hall or quad, students with backpacks, brick and glass buildings',
 }
 
+/**
+ * The same settings without any screen, board or monitor (#141): SDXL lights every display
+ * it is asked to paint, "dark powered-off boards" included, so a scene whose screens are
+ * meant to be dark must not name them at all.
+ */
+const SCREENLESS_SETTING_ANCHORS: Record<string, string> = {
+  airport:
+    'inside a dim airport terminal concourse: crowds waiting at check-in counters, luggage carts, high ceilings, large windows',
+  hospital:
+    'inside a dim hospital corridor: a nurses station, handrails, wheeled beds, staff in scrubs',
+  utility:
+    'at a dim water or power utility plant: pipes, pumps, valves, safety railings, workers in hard hats',
+  campus:
+    'on a university campus: a lecture hall or quad, students with backpacks, brick and glass buildings',
+}
+
 export interface SceneContext {
   orgType?: string
+  /** The brief says the screens are dark: describe the scene without them (#141). */
+  screensDark?: boolean
 }
 
 /** Styles that depict a place (and so take the setting anchor). */
@@ -96,7 +114,8 @@ const PLACE_STYLES = new Set<ImageStyle>(['phone', 'press', 'cctv'])
 
 /** The style anchor, the setting anchor (for scene styles) and then the model's own prompt. */
 export function anchoredPrompt(prompt: string, style: ImageStyle, scene?: SceneContext): string {
-  const setting = PLACE_STYLES.has(style) ? SETTING_ANCHORS[scene?.orgType ?? ''] : undefined
+  const anchors = scene?.screensDark ? SCREENLESS_SETTING_ANCHORS : SETTING_ANCHORS
+  const setting = PLACE_STYLES.has(style) ? anchors[scene?.orgType ?? ''] : undefined
   const lead = [STYLE_ANCHORS[style], setting].filter(Boolean).join(' ')
   const body = prompt.trim()
   if (!body) return ''
@@ -193,10 +212,57 @@ export function positivePrompt(prompt: string): string {
     .trim()
 }
 
-function mergeNegative(model: string | undefined, style: ImageStyle): string {
-  const base = PLACE_STYLES.has(style)
+// ---- dark screens (#141) ------------------------------------------------------------------
+
+const SCREEN_WORDS =
+  /\b(?:screens?|boards?|displays?|monitors?|fids|kiosks?|tvs?|televisions?|signage|signs?)\b/i
+const DARK_WORDS =
+  /\b(?:dark|darkened|blank|black(?:ed)? ?out|blacked-out|unlit|powered[- ]?(?:off|down)|switched off|turned off|shut off|went out|dead|no power|without power)\b/i
+
+/** Negative-prompt entries for a scene whose screens must stay dark. */
+export const LIT_SCREEN_NEGATIVE =
+  'illuminated screens, glowing displays, lit departure boards, bright monitors, backlit signs, text'
+
+/** True when a clause of the text says the screens/boards/displays are dark or off. */
+export function describesDarkScreens(...texts: (string | undefined)[]): boolean {
+  return texts.some((t) =>
+    (t ?? '').split(/[,.;!?]|\bbut\b/i).some((c) => SCREEN_WORDS.test(c) && DARK_WORDS.test(c)),
+  )
+}
+
+/** Words that only lead into the screens ("looking up at a row of …") and go with them. */
+const SCREEN_LEAD_IN =
+  /(?:\s+(?:looking|staring|gazing|pointing|glancing|up|upward|at|toward|towards|under|beneath|below|near|by|beside|in|front|of|before|with|and|a|an|the|row|rows|wall|bank|some|every|all|its|their|while|whose|where|but|show|shows|showing|large|small|big|huge|giant|overhead|digital|electronic|flight|departure|arrival|information|wall-mounted|mounted))+\s*$/i
+
+/** The part of a clause before its first screen/darkness word; nothing when that is all. */
+function clauseWithoutScreens(clause: string): string {
+  const screen = SCREEN_WORDS.exec(clause)?.index ?? -1
+  const dark = DARK_WORDS.exec(clause)?.index ?? -1
+  const hits = [screen, dark].filter((i) => i >= 0)
+  if (!hits.length) return clause
+  const end = clause.slice(-1)
+  const head = clause.slice(0, Math.min(...hits)).replace(SCREEN_LEAD_IN, '')
+  return head.trim() ? `${head}${/[,.;]/.test(end) ? end : ''}` : ''
+}
+
+/** The prompt with every clause about screens (or darkness) removed; SDXL lights what it reads. */
+export function withoutScreens(prompt: string): string {
+  const clauses = prompt.split(/(?<=[,.;])/)
+  const kept = clauses.map(clauseWithoutScreens).filter((c) => c.trim())
+  const text = kept
+    .join('')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/[,;\s]+([.;])/g, '$1')
+    .replace(/^[,;.\s]+|[,;\s]+$/g, '')
+    .trim()
+  return text || prompt
+}
+
+function mergeNegative(model: string | undefined, style: ImageStyle, screensDark = false): string {
+  const scene = PLACE_STYLES.has(style)
     ? `${DEFAULT_NEGATIVE_PROMPT}, ${SCENE_NEGATIVE_PROMPT}`
     : DEFAULT_NEGATIVE_PROMPT
+  const base = screensDark ? `${scene}, ${LIT_SCREEN_NEGATIVE}` : scene
   const extra = (model ?? '')
     .split(/\s*,\s*/)
     .map((s) => s.trim().toLowerCase())
@@ -256,9 +322,16 @@ export function normalizeBrief(
   const wantsImage = plan.paths.includes('ai_image') || plan.paths.includes('ai_video')
   if (wantsImage) {
     const style = out?.imageStyle ?? plan.imageStyle ?? 'phone'
-    const prompt = positivePrompt(out?.imagePrompt ?? imageBriefField(inject.fields) ?? '')
-    if (prompt) brief.imagePrompt = anchoredPrompt(prompt, style, scene)
-    brief.negativePrompt = mergeNegative(out?.negativePrompt, style)
+    const source = out?.imagePrompt ?? imageBriefField(inject.fields) ?? ''
+    const dark = describesDarkScreens(
+      source,
+      imageBriefField(inject.fields),
+      asText(inject.fields.caption),
+    )
+    const positive = positivePrompt(source)
+    const prompt = dark ? withoutScreens(positive) : positive
+    if (prompt) brief.imagePrompt = anchoredPrompt(prompt, style, { ...scene, screensDark: dark })
+    brief.negativePrompt = mergeNegative(out?.negativePrompt, style, dark)
     brief.imageStyle = style
   }
   if (plan.paths.includes('ai_video')) {

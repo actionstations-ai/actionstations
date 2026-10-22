@@ -7,6 +7,8 @@ const THINK_BLOCK = /<think(?:ing)?>[\s\S]*?<\/think(?:ing)?>/gi
 const FINAL_CHANNEL =
   /<\|channel\|>\s*final\s*(?:<\|constrain\|>[^<]*)?<\|message\|>([\s\S]*?)(?:<\|end\|>|<\|return\|>|$)/i
 const HARMONY_TOKEN = /<\|[a-z_]+\|>/gi
+const HARMONY_ASIDE =
+  /(?:<\|start\|>[^<]*)?<\|channel\|>\s*(?:analysis|commentary)\b[\s\S]*?(?:<\|end\|>|<\|call\|>|$)/gi
 
 export interface SplitThinking {
   /** The answer with reasoning removed. */
@@ -22,6 +24,12 @@ export function stripThinking(raw: string): SplitThinking {
   if (final) {
     reasoning.push(text.slice(0, final.index))
     text = final[1] ?? ''
+  } else {
+    // No final channel (output cut off mid-analysis): the analysis text is not an answer.
+    text = text.replace(HARMONY_ASIDE, (m) => {
+      reasoning.push(m)
+      return ''
+    })
   }
   text = text.replace(THINK_BLOCK, (m) => {
     reasoning.push(m)
@@ -47,11 +55,16 @@ const OPEN_TAGS = ['<think>', '<thinking>']
 const CLOSE_TAGS = ['</think>', '</thinking>']
 
 /**
- * Wrap an onToken callback so text inside <think>…</think> is not forwarded. Handles tags
- * split across stream chunks by holding back a possible tag prefix.
+ * Wrap an onToken callback so only the answer is forwarded: text inside <think>…</think>
+ * and gpt-oss harmony framing (control tokens, analysis/commentary channels) are dropped.
+ * Tags and tokens split across stream chunks are handled by holding back a possible prefix.
  */
 export function thinkFilter(onToken?: (t: string) => void): (t: string) => void {
   if (!onToken) return () => undefined
+  return harmonyFilter(thinkTagFilter(onToken))
+}
+
+function thinkTagFilter(onToken: (t: string) => void): (t: string) => void {
   let inThink = false
   let pending = ''
   return (chunk: string) => {
@@ -96,4 +109,73 @@ function partialTagSuffix(s: string, tags: string[]): number {
         break
       }
   return keep
+}
+
+type HarmonyState = 'plain' | 'header' | 'body' | 'closed'
+
+const HARMONY_FULL = /^<\|([a-z_]{1,24})\|>/i
+const HARMONY_PARTIAL = /^<(?:\|[a-z_]{0,24}\|?)?$/i
+const HEADER_TOKENS = new Set(['start', 'channel', 'constrain'])
+const END_TOKENS = new Set(['end', 'return', 'call'])
+
+/**
+ * Streaming counterpart of the harmony handling in stripThinking. Text before any harmony
+ * token passes through (plain models); after a token only the body of the `final` channel
+ * (or a message with no channel) is forwarded. Header text (role, channel name, constrain
+ * type) and analysis/commentary bodies never reach the callback.
+ */
+export function harmonyFilter(onToken: (t: string) => void): (t: string) => void {
+  let state: HarmonyState = 'plain'
+  let header = ''
+  let emitBody = false
+  let pending = ''
+
+  const text = (t: string): string => {
+    if (state === 'plain' || (state === 'body' && emitBody)) return t
+    if (state === 'header') header += t
+    return ''
+  }
+
+  const token = (name: string): void => {
+    if (HEADER_TOKENS.has(name)) {
+      if (state !== 'header') header = ''
+      if (name === 'channel') header = ''
+      if (name === 'constrain') header += ' '
+      state = 'header'
+    } else if (name === 'message') {
+      const channel = header.trim().split(/\s+/)[0]?.toLowerCase() ?? ''
+      emitBody = channel === '' || channel === 'final'
+      state = 'body'
+    } else if (END_TOKENS.has(name)) {
+      state = 'closed'
+    }
+  }
+
+  return (chunk: string) => {
+    pending += chunk
+    let out = ''
+    for (;;) {
+      const at = pending.indexOf('<')
+      if (at < 0) {
+        out += text(pending)
+        pending = ''
+        break
+      }
+      out += text(pending.slice(0, at))
+      const rest = pending.slice(at)
+      const full = HARMONY_FULL.exec(rest)
+      if (full) {
+        token((full[1] ?? '').toLowerCase())
+        pending = rest.slice(full[0].length)
+        continue
+      }
+      if (HARMONY_PARTIAL.test(rest)) {
+        pending = rest
+        break
+      }
+      out += text('<')
+      pending = rest.slice(1)
+    }
+    if (out) onToken(out)
+  }
 }

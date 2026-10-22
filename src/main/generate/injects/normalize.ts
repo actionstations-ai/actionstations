@@ -3,6 +3,7 @@
 // fields filled with placeholders ("N/A", "0:00") and a video badge on a photo post. Each
 // function returns a note per change so the job log shows what was normalised.
 import type { MselRow } from '@shared/schemas'
+import { inferCarrier, type CarrierContext } from './carrier'
 
 type Fields = Record<string, unknown>
 
@@ -32,43 +33,19 @@ export function dropVideoBadge(fields: Fields, row: MselRow): boolean {
   return true
 }
 
-/** Carrier names → IATA codes for the departure board. */
-const AIRLINE_CODES: [RegExp, string][] = [
-  [/\bdelta\b/i, 'DL'],
-  [/\bunited\b/i, 'UA'],
-  [/\bamerican\b/i, 'AA'],
-  [/\bsouthwest\b/i, 'WN'],
-  [/\bjet ?blue\b/i, 'B6'],
-  [/\bspirit\b/i, 'NK'],
-  [/\bfrontier\b/i, 'F9'],
-  [/\balaska\b/i, 'AS'],
-  [/\ballegiant\b/i, 'G4'],
-  [/\bsun country\b/i, 'SY'],
-  [/\bhawaiian\b/i, 'HA'],
-  [/\bbreeze\b/i, 'MX'],
-  [/\bair canada\b/i, 'AC'],
-  [/\bwest ?jet\b/i, 'WS'],
-  [/\bbritish airways\b/i, 'BA'],
-  [/\blufthansa\b/i, 'LH'],
-  [/\bfed ?ex\b/i, 'FX'],
-  [/\bups\b/i, '5X'],
-  [/\bskywest\b/i, 'OO'],
-  [/\brepublic\b/i, 'YX'],
-  [/\benvoy\b/i, 'MQ'],
-]
+export { carrierCode } from './carrier'
 
-export function carrierCode(airline: string): string | undefined {
-  return AIRLINE_CODES.find(([re]) => re.test(airline))?.[1]
-}
-
-/** "dl1245" / "Flight 1245" + "Delta" → "DL 1245"; a bare number without a carrier stays. */
-export function normalizeFlight(flight: string, airline?: string): string {
+/**
+ * "dl1245" / "Flight 1245" + "Delta" → "DL 1245". A bare number takes the carrier
+ * inferCarrier finds (airline column, story, brand alias, board majority); with none it stays.
+ */
+export function normalizeFlight(flight: string, airline?: string, ctx?: CarrierContext): string {
   const raw = flight.trim().replace(/^flight\s+#?/i, '')
   const m = /^([A-Z0-9]{2})\s*(\d{1,4}[A-Z]?)$/i.exec(raw)
   if (m && /[A-Z]/i.test(m[1]!)) return `${m[1]!.toUpperCase()} ${m[2]!.toUpperCase()}`
   const digits = /^#?(\d{1,4})$/.exec(raw)
   if (digits) {
-    const code = airline ? carrierCode(airline) : undefined
+    const code = inferCarrier(digits[1]!, airline, ctx)
     return code ? `${code} ${digits[1]}` : digits[1]!
   }
   return raw.toUpperCase()
@@ -88,10 +65,16 @@ export function to24h(time: string): string {
 const upper = (v: unknown): unknown => (typeof v === 'string' ? v.toUpperCase().trim() : v)
 
 /** Departure board rows: capitals, carrier code + number, 24h clock. */
-export function normalizeFidsRows(fields: Fields): string[] {
+export function normalizeFidsRows(
+  fields: Fields,
+  ctx: Omit<CarrierContext, 'boardFlights'> = {},
+): string[] {
   if (!Array.isArray(fields.rows)) return []
   const notes: string[] = []
-  for (const r of fields.rows as Fields[]) {
+  const rows = fields.rows as Fields[]
+  const boardFlights = () =>
+    rows.flatMap((r) => (r && typeof r.flight === 'string' ? [r.flight] : []))
+  for (const r of rows) {
     if (!r || typeof r !== 'object') continue
     for (const key of ['dest', 'status', 'gate', 'airline', 'remarks'] as const) {
       const v = upper(r[key])
@@ -101,7 +84,8 @@ export function normalizeFidsRows(fields: Fields): string[] {
       }
     }
     if (typeof r.flight === 'string') {
-      const f = normalizeFlight(r.flight, typeof r.airline === 'string' ? r.airline : undefined)
+      const airline = typeof r.airline === 'string' ? r.airline : undefined
+      const f = normalizeFlight(r.flight, airline, { ...ctx, boardFlights: boardFlights() })
       if (f !== r.flight) {
         notes.push(`flight "${r.flight}" → "${f}"`)
         r.flight = f
@@ -127,6 +111,8 @@ export interface NormalizeInput {
   row: MselRow
   /** Required top-level fields of the template schema (never dropped). */
   required: string[]
+  /** Story text and brand aliases a bare FIDS flight number can take its carrier from. */
+  carrier?: Omit<CarrierContext, 'boardFlights'>
 }
 
 /** Apply every normaliser that applies to the type; returns the notes for the log. */
@@ -137,6 +123,6 @@ export function normalizeFields(input: NormalizeInput): string[] {
   if (dropped.length) notes.push(`dropped placeholder field(s) ${dropped.join(', ')}`)
   if (SOCIAL.has(type) && dropVideoBadge(fields, row))
     notes.push('dropped videoDuration: no video in this post')
-  if (type === 'fids_board') notes.push(...normalizeFidsRows(fields))
+  if (type === 'fids_board') notes.push(...normalizeFidsRows(fields, input.carrier))
   return notes
 }

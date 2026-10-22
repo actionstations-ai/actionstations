@@ -5,12 +5,16 @@ import type { MselRow, Scenario } from '@shared/schemas'
 import {
   compressIds,
   extractFacilityFacts,
+  factEntries,
+  factIds,
   gateList,
+  ipPrefixes,
   facilitySheet,
   foreignPrivateIps,
   lintFacilityIds,
   lintRowFacility,
   unknownFacilityIds,
+  withEntries,
   type FacilityFacts,
 } from './facility'
 
@@ -40,29 +44,36 @@ const row = (id: string, event: string, expectedAction = ''): MselRow => ({
 
 describe('extractFacilityFacts on reference/ncia', () => {
   const facts = extractFacilityFacts(nciaTexts())
+  const entries = (id: string) => factEntries(facts, id)
+  const gates = factIds(facts, 'gates')
 
   it('finds the runways, taxiways, gates and concourses the AEP states', () => {
-    expect(facts.runways).toEqual(expect.arrayContaining(['5/23', '1/19', '5', '23', '1', '19']))
-    expect(facts.runways).not.toContain('17')
-    expect(facts.taxiways).toEqual(expect.arrayContaining(['A', 'B', 'C', 'D']))
-    for (let n = 1; n <= 8; n++) expect(facts.gates).toContain(`A${n}`)
-    for (let n = 1; n <= 10; n++) expect(facts.gates).toContain(`B${n}`)
-    expect(facts.gates).not.toContain('C12')
+    expect(entries('runways')).toEqual(['5/23', '1/19'])
+    expect(factIds(facts, 'runways')).toEqual(
+      expect.arrayContaining(['5/23', '1/19', '5', '23', '1', '19']),
+    )
+    expect(factIds(facts, 'runways')).not.toContain('17')
+    expect(entries('taxiways')).toEqual(expect.arrayContaining(['A', 'B', 'C', 'D']))
+    for (let n = 1; n <= 8; n++) expect(gates).toContain(`A${n}`)
+    for (let n = 1; n <= 10; n++) expect(gates).toContain(`B${n}`)
+    // Stored as ranges, so facility-facts.md stays short.
+    expect(entries('gates')).toEqual(expect.arrayContaining(['A1–A8', 'B1–B10']))
+    expect(gates).not.toContain('C12')
     // terminal-map.md mentions Gate C4 / Gate Z99 only as deliberately non-existent tells.
-    expect(facts.gates).not.toContain('Z99')
-    expect(facts.gates).not.toContain('C4')
-    expect(facts.concourses).toEqual(['A', 'B'])
-    expect(facts.rooms).toEqual(expect.arrayContaining(['Room 104', 'Level 1', 'Level 2']))
+    expect(gates).not.toContain('Z99')
+    expect(gates).not.toContain('C4')
+    expect(entries('concourses')).toEqual(['A', 'B'])
+    expect(entries('locations')).toEqual(expect.arrayContaining(['Room 104', 'Level 1', 'Level 2']))
   })
 
   it('finds hostnames, the IP schema, phone numbers and agencies', () => {
-    expect(facts.hosts).toEqual(expect.arrayContaining(['NCIA-PACS-CORE', 'SEC-SVR-01']))
-    expect(facts.hosts).not.toContain('HSPD-5')
-    expect(facts.hosts).not.toContain('AES-256')
-    expect(facts.hosts).not.toContain('MAN-MADE')
-    expect(facts.ipPrefixes).toEqual(expect.arrayContaining(['10.66.0', '10.66.1', '10.66.2']))
-    expect(facts.phones).toContain('(330) 555-2424')
-    expect(facts.agencies).toEqual(expect.arrayContaining(['FBI', 'TSA', 'FAA']))
+    expect(entries('hosts')).toEqual(expect.arrayContaining(['NCIA-PACS-CORE', 'SEC-SVR-01']))
+    expect(entries('hosts')).not.toContain('HSPD-5')
+    expect(entries('hosts')).not.toContain('AES-256')
+    expect(entries('hosts')).not.toContain('MAN-MADE')
+    expect(ipPrefixes(facts)).toEqual(expect.arrayContaining(['10.66.0', '10.66.1', '10.66.2']))
+    expect(entries('phones')).toContain('(330) 555-2424')
+    expect(entries('agencies')).toEqual(expect.arrayContaining(['FBI', 'TSA', 'FAA']))
     expect(facts.documentCount).toBe(4)
   })
 
@@ -75,7 +86,8 @@ describe('extractFacilityFacts on reference/ncia', () => {
     )
     expect(sheet.find((l) => l.startsWith('Concourses:'))).toBe('Concourses: A, B')
     expect(sheet.find((l) => l.startsWith('IP ranges:'))).toContain('10.66.0.x')
-    expect(facilitySheet({ ...facts, runways: [], gates: [] })).not.toContain('Runways')
+    const trimmed = withEntries(withEntries(facts, 'runways', []), 'gates', [])
+    expect(facilitySheet(trimmed).some((l) => l.startsWith('Runways'))).toBe(false)
   })
 
   it('flags every invented identifier of the #84 baseline run (the "before" number)', () => {

@@ -66,7 +66,7 @@ async function realDeps(missing: (keyof PipelineDeps)[]): Promise<Partial<Pipeli
   }
   if (need('loadProject')) out.loadProject = (await import('../project/store')).loadProject
   if (need('loadFacilityFacts'))
-    out.loadFacilityFacts = (await import('./facility')).loadFacilityFacts
+    out.loadFacilityFacts = (await import('./facility-file')).loadFacilityFacts
   if (need('store')) out.store = await import('../scenario/store')
   return out
 }

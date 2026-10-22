@@ -1,6 +1,7 @@
 // Build the full HTML of each exported document (MSEL, Master Inject Deck, C/E Handbook,
 // Player Briefing Packet, Exercise Plan) from templates/export and the export model.
 import { documentBodyHtml, hasHeading, markdownToHtml, stripEndNote } from './escape'
+import { dropDuplicateHeaderFacts } from './header-facts'
 import { BLANK_FORMS, embedBlankForm, type EmbeddedForm } from './forms'
 import type { ExportModel } from './model'
 import { DOC_LABELS, embeddedFontsCss, pageCss, type DocKey } from './page'
@@ -46,9 +47,18 @@ function deckSection(model: ExportModel, prefix: string, mode: RenderMode): stri
   return renderExportTemplate('deck', deckView(model, prefix, mode))
 }
 
+/** A generated document's markdown minus its end note and the header facts it repeats. */
+function bodyMarkdown(md: string, facts: { label: string }[]): string {
+  return dropDuplicateHeaderFacts(
+    stripEndNote(md),
+    facts.map((f) => f.label),
+  )
+}
+
 function handbookSection(model: ExportModel, prefix: string): string {
   const { scenario: s, docs } = model
-  const md = stripEndNote(docs.handbook)
+  const facts = titleFacts(model, [['Exercise date', '____________']])
+  const md = bodyMarkdown(docs.handbook, facts)
   const rubric = hasHeading(md, /rubric|grading|evaluation/i) ? [] : (s.rubric?.metrics ?? [])
   const needsHotwash = !hasHeading(md, /hot\s*wash|debrief/i)
   const structuredHotwash = s.hotwash && (s.hotwash.questions.length || s.hotwash.methodDescription)
@@ -59,7 +69,7 @@ function handbookSection(model: ExportModel, prefix: string): string {
       eyebrow: 'Controller / Evaluator (C/E) Handbook',
       heading: scenarioHeading(model),
       sub: s.subtitle ?? '',
-      facts: titleFacts(model, [['Exercise date', '____________']]),
+      facts,
     },
     bodyHtml: trusted(md.trim() ? documentBodyHtml(md) : fallbackHandbookHtml(model)),
     rubric,
@@ -91,7 +101,8 @@ function fallbackHandbookHtml(model: ExportModel): string {
 
 function briefingSection(model: ExportModel, prefix: string, forms: EmbeddedForm[]): string {
   const { scenario: s, docs } = model
-  const md = stripEndNote(docs.briefing)
+  const facts = titleFacts(model, [['Exercise time', s.brief.startWallClock ?? '']])
+  const md = bodyMarkdown(docs.briefing, facts)
   return renderExportTemplate('briefing', {
     prefix,
     title: {
@@ -99,7 +110,7 @@ function briefingSection(model: ExportModel, prefix: string, forms: EmbeddedForm
       eyebrow: 'Player Briefing Packet',
       heading: scenarioHeading(model),
       sub: s.subtitle ?? '',
-      facts: titleFacts(model, [['Exercise time', s.brief.startWallClock ?? '']]),
+      facts,
     },
     bodyHtml: trusted(md.trim() ? documentBodyHtml(md) : ''),
     teams: hasHeading(md, /team/i) ? [] : teamRows(s),

@@ -373,10 +373,11 @@ describe('generate:media', () => {
       createdAt: expect.any(String),
     })
     // The style/setting anchors lead; the model's own prompt follows.
-    expect(photo.provenance.prompt).toMatch(
-      /^Candid smartphone snapshot.*airport passenger terminal/,
-    )
+    // The brief's screens are dark (#141): screenless setting, no screens named at all.
+    expect(photo.provenance.prompt).toMatch(/^Candid smartphone snapshot.*dim airport terminal/)
     expect(photo.provenance.prompt).toContain('Phone snapshot')
+    expect(photo.provenance.prompt).not.toMatch(/screen|board|display/i)
+    expect(photo.provenance.negativePrompt).toContain('illuminated screens')
     expect(photo.provenance.negativePrompt).toMatch(/^text, letters/)
     expect(photo.sha256).toMatch(/^[0-9a-f]{64}$/)
     const composite = tweet.assets.find((a) => a.role === 'composite')!

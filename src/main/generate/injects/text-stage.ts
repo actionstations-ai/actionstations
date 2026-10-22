@@ -276,6 +276,10 @@ function checkDraft(
     fields: out.fields,
     row,
     required: (schema.required as string[] | undefined) ?? [],
+    carrier: {
+      storyText: storyTexts(scenario.msel, row, priorInjects).join('\n'),
+      aliases: env.project.brand.aliases,
+    },
   })
   if (notes.length)
     env.ctx.log(`inject_text ${row.id}: normalised ${notes.join('; ')}`, 'info', extra)

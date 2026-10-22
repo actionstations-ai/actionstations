@@ -20,6 +20,18 @@ DocumentMeta { id, title, filename, kind: 'plan'|'policy'|'map'|'form'|'course'|
 
 Role { id, name, abbreviation, team, description, standingOrders: string[] }   // "Ops Director (IC)" …
 
+// facility-facts.md (#143) — Markdown, not JSON: the identifiers generation treats as real.
+// Written after every ingest / re-index / document removal (and on first use) from
+// documents/*/text.md. One "## <Label>" section per category with a
+// "<!-- category: <id> -->" line, then one "- <entry>" bullet per identifier (gate ranges
+// such as "A1–A8" allowed). Default categories: runways, taxiways, gates, concourses (airport)
+// + locations, assets, hosts, networks, phones, agencies (all org types); a section the user
+// adds becomes a category (shown to the model, not linted). The marker
+// "<!-- ttx:facility-facts v1 auto-hash=<sha256 of the sections> -->" tells an unedited file
+// from an edited one: an edited file is never overwritten — the new extraction goes to
+// facility-facts.generated.md — and the generator reads facility-facts.md, so user edits
+// (removals included) win. IPC: project:facility-facts (read), project:facility-facts-reset.
+
 // scenarios/<id>/scenario.json
 Scenario {
   id, projectId, title, subtitle?, version, status: 'draft'|'ready'|'archived',

@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
+import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 vi.mock('electron', () => ({ app: { isPackaged: false, getAppPath: () => resolve('.') } }))
@@ -81,6 +82,24 @@ describe('document HTML', () => {
     expect(html).toContain('class="form-page"')
     expect(html).toContain('ttx-form-ics-201-prefill variant-blank')
     expect(html).toContain('.ttx-form-ics-201-prefill.variant-blank .v')
+  })
+
+  it('briefing and handbook print Location/Duration once, from the export header (#154)', () => {
+    const model = fixtureModel()
+    const sample = (n: string) =>
+      readFileSync(resolve('tests/fixtures/generate/sample-run', n), 'utf8')
+    model.docs.briefing = sample('briefing.md')
+    model.docs.handbook = sample('handbook.md')
+    model.scenario.brief.startWallClock = '09:00'
+    const briefing = buildDocumentHtml(model, 'briefing', 'pdf')
+    expect(count(briefing, 'Location:')).toBe(0)
+    expect(count(briefing, '>Location<')).toBe(1)
+    expect(briefing).not.toContain('Exercise Duration:')
+    expect(briefing).not.toContain('Current Time:')
+    expect(briefing).toContain('Weather: Clear skies')
+    const handbook = buildDocumentHtml(model, 'handbook', 'pdf')
+    expect(count(handbook, 'Location:')).toBe(0)
+    expect(handbook).not.toContain('Exercise Date: [Date]')
   })
 
   it('exercise plan: cover, then every document once, with unique heading ids', () => {

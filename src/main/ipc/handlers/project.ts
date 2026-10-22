@@ -4,6 +4,7 @@ import { createProject, loadProject, openProject, updateProject } from '../../pr
 import { forgetRecent, listRecent, syncRecent } from '../../project/recent'
 import { duplicateProject } from '../../project/duplicate'
 import { applyProjectPatch } from '../../project/patch'
+import { readFacilityFile, resetFacilityFile } from '../../generate/facility-file'
 
 export default defineHandlers({
   'project:list-recent': () => listRecent(),
@@ -12,6 +13,17 @@ export default defineHandlers({
   'project:create': (req) => createProject(req),
 
   'project:open': ({ path }) => openProject(path),
+
+  'project:facility-facts': async ({ path }) => {
+    const root = await requireProject(path)
+    return readFacilityFile(root)
+  },
+
+  'project:facility-facts-reset': async ({ path }) => {
+    const root = await requireProject(path)
+    await resetFacilityFile(root)
+    return readFacilityFile(root)
+  },
 
   'project:get': async ({ path }) => {
     const root = await requireProject(path)

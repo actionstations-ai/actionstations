@@ -29,7 +29,7 @@ const { resetResolveState } = await import('../providers/resolve')
 const { clearMockResponses, setMockResponse } = await import('../providers/mock/adapter')
 const { setPipelineDeps } = await import('./deps')
 const { getScenario } = await import('../scenario/store')
-const { extractFacilityFacts, FACILITY_UNKNOWN_ID } = await import('./facility')
+const { extractFacilityFacts, FACILITY_UNKNOWN_ID, withEntries } = await import('./facility')
 
 const handlers = { ...projectHandlers, ...generateHandlers, ...jobHandlers }
 
@@ -137,7 +137,7 @@ describe('facility facts (#84)', () => {
   })
 
   it('a revision that grounds the row clears its FACILITY_UNKNOWN_ID warning', async () => {
-    useFacts({ ...NCIA_FACTS, gates: [] })
+    useFacts(withEntries(NCIA_FACTS, 'gates', []))
     setMockResponse('MselPhaseOutput', (req: ChatRequest) => {
       if (isRevision(req)) {
         const fixed = structuredClone(MSEL_PHASES[0]!.rows.find((r) => r.id === 'I-01')!)
@@ -155,7 +155,7 @@ describe('facility facts (#84)', () => {
 
 describe('critique source claims and the revision pass (#85)', () => {
   // The fixture rows name no runway; without gates, no facility issue adds a revision.
-  beforeEach(() => useFacts({ ...NCIA_FACTS, gates: [] }))
+  beforeEach(() => useFacts(withEntries(NCIA_FACTS, 'gates', [])))
 
   it('dismisses "from a player role" claims about rows sourced from the outside world', async () => {
     const revisions: string[] = []
@@ -239,7 +239,7 @@ describe('critique source claims and the revision pass (#85)', () => {
 })
 
 describe('rubric links after a revision (#86)', () => {
-  beforeEach(() => useFacts({ ...NCIA_FACTS, gates: [] }))
+  beforeEach(() => useFacts(withEntries(NCIA_FACTS, 'gates', [])))
 
   it('relinks or prunes rubric links to a row the revision dropped as a duplicate', async () => {
     setMockResponse('CritiqueOutput', () => ({

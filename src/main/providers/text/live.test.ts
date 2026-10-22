@@ -116,6 +116,38 @@ describe.skipIf(!LIVE)('live: LM Studio (OpenAI-compatible)', () => {
   }, 120_000)
 })
 
+const OSS_MODEL = process.env.LIVE_LMSTUDIO_OSS_MODEL ?? 'gpt-oss-20b'
+
+// #142: gpt-oss in prompt mode streams harmony framing; the stream must carry only the answer.
+describe.skipIf(!LIVE || !process.env.LIVE_GPT_OSS)('live: LM Studio gpt-oss harmony', () => {
+  it('streams no control tokens or analysis text in prompt mode, and the JSON parses', async () => {
+    const config = cfg('openai-compatible', 'lmstudio-oss', LM_URL, OSS_MODEL)
+    config.options = { jsonMode: 'prompt' }
+    const chunks: string[] = []
+    const r = await createTextProvider(config).chat(
+      {
+        messages: [{ role: 'user', content: MSEL_PROMPT }],
+        json: jsonSpec('MselPhaseOutput', MselPhaseOutput),
+        maxTokens: 4000,
+      },
+      (t) => chunks.push(t),
+    )
+    const streamed = chunks.join('')
+    const parsed = MselPhaseOutput.safeParse(r.json)
+    report('lmstudio gpt-oss prompt-mode stream', {
+      ...metrics(r),
+      streamedChunks: chunks.length,
+      streamedChars: streamed.length,
+      controlTokens: (streamed.match(/<\|[a-z_]+\|>/g) ?? []).length,
+      zodValid: parsed.success,
+    })
+    expect(streamed).not.toMatch(/<\|[a-z_]+\|>/)
+    expect(streamed).not.toMatch(/^\s*(?:analysis|final|assistant)\b/)
+    expect(streamed.trim().length).toBeGreaterThan(0)
+    expect(parsed.success).toBe(true)
+  }, 600_000)
+})
+
 describe.skipIf(!LIVE)('live: Ollama native', () => {
   const ol = () => createTextProvider(cfg('ollama', 'ollama', OL_URL, OL_MODEL))
 

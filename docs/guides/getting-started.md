@@ -54,7 +54,7 @@ Click **New project** and fill in:
 
 ![Project overview](images/project-overview.png)
 
-The project folder contains `project.json`, `documents/`, `scenarios/`, `prompts/` (project prompt overrides), `index.sqlite` (the search index) and `ideas.json`. Its `.gitignore` excludes the search index and caches, which can be rebuilt.
+The project folder contains `project.json`, `documents/`, `scenarios/`, `prompts/` (project prompt overrides), `index.sqlite` (the search index), `ideas.json` and `facility-facts.md` (see [Facility facts](#facility-facts)). Its `.gitignore` excludes the search index and caches, which can be rebuilt.
 
 ## 3. Import documents
 
@@ -71,6 +71,18 @@ For each document, check:
 - **Status**: **Indexed** when the document is searchable.
 
 The **Embeddings** line shows the index's embedding mode. The default, **Keyword hashing**, works offline with no download; see [Embeddings](providers/README.md#embeddings) for the other modes and their current limits. After changing the mode, click **Rebuild index**.
+
+### Facility facts
+
+After every import or **Rebuild index** the app writes `facility-facts.md` in the project folder: the runways, taxiways, gates, concourses, rooms and areas, equipment, hostnames, IP ranges, phone numbers and agencies your documents state, one `## Section` per category and one `- ` bullet per identifier. Generation hands this list to the model as the only real identifiers, and the MSEL check flags rows that name a runway, taxiway, gate or concourse that is not in it (unless the row frames it as the attacker's fake data).
+
+Open the file in any text editor to correct it:
+
+- **Add** what the extraction missed, for example a runway that only appears on an image-only map: add `- 9/27` under `## Runways`. Rows naming Runway 9 or 27 are then accepted.
+- **Remove** what is wrong, for example a gate range that belongs to the perimeter fence rather than the terminal. Rows naming a removed gate are then flagged.
+- **Add a category** with a new `## Section` (for example `## Pump stations`); its entries are shown to the model.
+
+Your edits win. Once you have changed the file, importing more documents no longer overwrites it; the fresh extraction is written to `facility-facts.generated.md` next to it so you can copy across what you need. To start over from the documents, delete `facility-facts.md`; it is recreated from the documents on the next import or generation.
 
 ## 4. Search the plans
 

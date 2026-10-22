@@ -10,6 +10,7 @@ import { exists } from '../lib/fs'
 import { newId, nowIso } from '../lib/ids'
 import { jobs, type JobContext } from '../jobs/manager'
 import { loadProject } from '../project/store'
+import { refreshFacilityFile } from '../generate/facility-file'
 import { openIndex, type IndexedDocument, type IndexStore } from '../retrieve'
 import { chunkSections } from './chunker'
 import { cleanHeadingText, deriveShortName } from './headings'
@@ -238,7 +239,24 @@ async function runBatch(
       summary.failed.push(id)
     }
   }
+  await refreshFacts(root, ctx)
   return summary
+}
+
+/** facility-facts.md follows the documents (#143); a failure there never fails the ingest. */
+async function refreshFacts(root: string, ctx?: JobContext): Promise<void> {
+  try {
+    const result = await refreshFacilityFile(root)
+    if (result === 'kept-edited')
+      ctx?.log(
+        'facility-facts.md has your edits, so it was kept; the new extraction is in facility-facts.generated.md',
+        'info',
+      )
+  } catch (err) {
+    const message = `facility-facts.md was not updated: ${toAppError(err).message}`
+    if (ctx) ctx.log(message, 'warn')
+    else console.warn(`[ingest] ${message}`)
+  }
 }
 
 export function startIngestJob(
@@ -322,6 +340,7 @@ export async function removeDocument(root: string, documentId: string): Promise<
       console.warn('[ingest] index removal failed:', err)
   }
   await deleteDocumentFolder(root, documentId)
+  await refreshFacts(root)
 }
 
 export async function reingestDocument(root: string, documentId: string): Promise<Job> {
