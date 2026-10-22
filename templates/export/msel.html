@@ -1,0 +1,104 @@
+<section class="doc doc--msel" aria-labelledby="{{prefix}}msel-title">
+  {{> title title}}
+  <div class="msel-intro">
+    {{#if overview}}
+    <section class="section">
+      <h2>Scenario Overview</h2>
+      <dl class="kv">
+        {{#if overview.theme}}
+        <dt>Theme</dt>
+        <dd>{{overview.theme}}</dd>
+        {{/if}} {{#if overview.threat}}
+        <dt>The Threat</dt>
+        <dd>{{overview.threat}}</dd>
+        {{/if}} {{#if overview.impact}}
+        <dt>The Operational Impact</dt>
+        <dd>{{overview.impact}}</dd>
+        {{/if}} {{#if overview.sections.length}}
+        <dt>Core Sections Tested</dt>
+        <dd>
+          <ul class="list">
+            {{#each overview.sections}}
+            <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        </dd>
+        {{/if}}
+      </dl>
+    </section>
+    {{/if}}
+    <div>
+      {{#if objectives.length}}
+      <section class="section">
+        <h2>Exercise Objectives</h2>
+        <ul class="list">
+          {{#each objectives}}
+          <li>{{#if name}}<strong>{{name}}:</strong> {{/if}}{{text}}</li>
+          {{/each}}
+        </ul>
+      </section>
+      {{/if}} {{#if roles.length}}
+      <section class="section">
+        <h2>Roles &amp; Responsibilities</h2>
+        <ul class="list">
+          {{#each roles}}
+          <li><strong>{{name}}:</strong> {{description}}</li>
+          {{/each}}
+        </ul>
+      </section>
+      {{/if}}
+    </div>
+  </div>
+
+  {{#each phases}}
+  <section class="phase" aria-labelledby="{{../prefix}}phase-{{@index}}">
+    <h2 id="{{../prefix}}phase-{{@index}}">
+      {{heading}}{{#if hours}}<span class="phase__hours">{{hours}}</span>{{/if}}
+    </h2>
+    <table class="msel-table">
+      <caption class="sr-only">
+        {{heading}} events
+      </caption>
+      <colgroup>
+        <col class="col-time" />
+        <col class="col-id" />
+        <col class="col-from" />
+        <col class="col-to" />
+        <col class="col-event" />
+        <col class="col-action" />
+        <col class="col-tag" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th scope="col">Time</th>
+          <th scope="col">Inject ID</th>
+          <th scope="col">From</th>
+          <th scope="col">To</th>
+          <th scope="col">Event / Message</th>
+          <th scope="col">Expected Action</th>
+          <th scope="col">Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#if goal}}
+        <tr class="goal-row">
+          <td colspan="7"><strong>Goal:</strong> {{goal}}</td>
+        </tr>
+        {{/if}} {{#each rows}}
+        <tr class="{{rowClass}}">
+          <td class="cell-time">
+            {{time}}{{#if wallClock}}<span class="wall">{{wallClock}}</span>{{/if}}
+          </td>
+          <td class="cell-id">{{id}}</td>
+          <td>{{from}}</td>
+          <td>{{to}}</td>
+          <td>{{event}}{{#if refs}}<span class="refs">Ref: {{refs}}</span>{{/if}}</td>
+          <td>{{expectedAction}}</td>
+          <td>{{> tag tag}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{/each}}
+</section>

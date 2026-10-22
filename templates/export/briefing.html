@@ -1,0 +1,46 @@
+<section class="doc doc--briefing" aria-labelledby="{{prefix}}briefing-title">
+  {{> title title}}
+  <div class="prose">{{bodyHtml}}</div>
+
+  {{#if teams.length}}
+  <section class="section">
+    <h2>Team Assignments &amp; Standing Orders</h2>
+    <table class="grid teams">
+      <caption class="sr-only">
+        Teams, roles and standing orders
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Team</th>
+          <th scope="col">Role</th>
+          <th scope="col">Standing Orders</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each teams}}
+        <tr>
+          <td>{{team}}</td>
+          <td>{{role}}</td>
+          <td>
+            {{#if orders.length}}
+            <ul class="list">
+              {{#each orders}}
+              <li>{{this}}</li>
+              {{/each}}
+            </ul>
+            {{/if}}
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{/if}} {{#if endNote}}
+  <p class="doc-end">{{endNote}}</p>
+  {{/if}} {{#each forms}}
+  <section class="form-page" aria-labelledby="{{../prefix}}form-{{@index}}">
+    <h2 class="sr-only" id="{{../prefix}}form-{{@index}}">{{label}}</h2>
+    {{html}}
+  </section>
+  {{/each}}
+</section>

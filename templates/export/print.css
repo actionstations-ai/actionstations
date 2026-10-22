@@ -1,0 +1,718 @@
+/* Exported exercise documents (MSEL, Master Inject Deck, C/E Handbook, Player Briefing,
+   Exercise Plan). US Letter, printed in a sandboxed window with bundled fonts only.
+   Running headers/footers are @page margin boxes generated per document (page.ts).
+   Named pages: msel (landscape), deck, handbook, briefing, cover, form (full bleed). */
+
+:root {
+  --ink: #16181b;
+  --ink-2: #3b3f45;
+  --muted: #5a5f66;
+  --rule: #b9b6ad;
+  --rule-light: #dcd9d1;
+  --fill: #f1efe9;
+  --fill-2: #e7e4dc;
+  --accent: #0a5c70;
+  --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --serif: 'Source Serif 4', Georgia, serif;
+  --mono: 'JetBrains Mono', Menlo, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+}
+body {
+  font-family: var(--sans);
+  font-size: 9.5pt;
+  line-height: 1.42;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--sans);
+  line-height: 1.2;
+  margin: 0;
+  break-after: avoid;
+}
+p,
+ul,
+ol,
+dl {
+  margin: 0;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+thead {
+  display: table-header-group;
+}
+tr,
+img,
+figure {
+  break-inside: avoid;
+}
+.mono {
+  font-family: var(--mono);
+  font-size: 0.92em;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- Document sections and named pages ---- */
+.doc + .doc {
+  break-before: page;
+}
+.doc--msel {
+  page: msel;
+}
+.doc--deck {
+  page: deck;
+}
+.doc--handbook {
+  page: handbook;
+}
+.doc--briefing {
+  page: briefing;
+}
+.doc--cover {
+  page: cover;
+}
+
+/* ---- Title block ---- */
+.doc-title {
+  border-top: 3pt solid var(--ink);
+  padding-top: 10pt;
+  margin-bottom: 16pt;
+}
+.doc-title__eyebrow {
+  font-size: 8.5pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.doc-title h1 {
+  font-size: 20pt;
+  font-weight: 700;
+  margin-top: 3pt;
+  letter-spacing: -0.01em;
+}
+.doc-title__sub {
+  font-size: 11pt;
+  color: var(--ink-2);
+  margin-top: 3pt;
+}
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4pt 18pt;
+  margin-top: 9pt;
+  font-size: 8.5pt;
+}
+.facts div {
+  display: flex;
+  gap: 4pt;
+}
+.facts dt {
+  font-weight: 600;
+  color: var(--muted);
+}
+.facts dd {
+  margin: 0;
+}
+
+/* ---- Section headings ---- */
+.section {
+  margin-top: 16pt;
+}
+.section > h2,
+.prose h2 {
+  font-size: 12.5pt;
+  font-weight: 700;
+  padding-bottom: 3pt;
+  border-bottom: 0.75pt solid var(--rule);
+  margin: 16pt 0 7pt;
+}
+.prose h3 {
+  font-size: 10.5pt;
+  font-weight: 700;
+  margin: 12pt 0 5pt;
+}
+.prose h4,
+.prose h5,
+.prose h6 {
+  font-size: 9.5pt;
+  font-weight: 700;
+  margin: 10pt 0 4pt;
+}
+.prose > :first-child {
+  margin-top: 0;
+}
+
+/* ---- Long-form text (handbook, briefing) ---- */
+.prose {
+  font-family: var(--serif);
+  font-size: 10.5pt;
+  line-height: 1.5;
+}
+.prose p,
+.prose ul,
+.prose ol,
+.prose blockquote,
+.prose table {
+  margin: 0 0 7pt;
+}
+.prose ul,
+.prose ol {
+  padding-left: 16pt;
+}
+.prose li + li {
+  margin-top: 2.5pt;
+}
+.prose blockquote {
+  border-left: 2pt solid var(--rule);
+  padding: 2pt 0 2pt 9pt;
+  color: var(--ink-2);
+}
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--fill);
+  padding: 0 2pt;
+  border-radius: 2pt;
+}
+.prose a {
+  color: var(--accent);
+}
+.prose table,
+.grid {
+  font-family: var(--sans);
+  font-size: 8.5pt;
+  line-height: 1.38;
+}
+.prose th,
+.prose td,
+.grid th,
+.grid td {
+  border: 0.75pt solid var(--rule);
+  padding: 4pt 5pt;
+  text-align: left;
+  vertical-align: top;
+}
+.prose th,
+.grid th {
+  background: var(--fill-2);
+  font-weight: 600;
+}
+.prose hr {
+  border: 0;
+  border-top: 0.75pt solid var(--rule);
+  margin: 10pt 0;
+}
+.doc-end {
+  margin-top: 18pt;
+  font-style: italic;
+  color: var(--muted);
+  text-align: center;
+  font-size: 9pt;
+}
+
+/* ---- Purpose tag chips (print-friendly: tinted fill + colored rule) ---- */
+.tag {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 6.8pt;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.25;
+  padding: 1.5pt 4pt;
+  border: 0.75pt solid currentColor;
+  border-radius: 2pt;
+  white-space: nowrap;
+}
+.tag--core {
+  color: #0a4f60;
+  background: #e3f1f4;
+}
+.tag--noise {
+  color: #4c5058;
+  background: #eeede9;
+}
+.tag--herring {
+  color: #8a2f12;
+  background: #fbebe4;
+}
+.tag--pressure {
+  color: #7a3f00;
+  background: #fcf0de;
+}
+.tag--misinfo {
+  color: #7c1d4f;
+  background: #f9e9f1;
+}
+.tag--clue {
+  color: #3b3a8a;
+  background: #ececfa;
+}
+.tag--hurdle {
+  color: #5b4300;
+  background: #f6f1d9;
+}
+.tag--decision {
+  color: #fff;
+  background: #a8231a;
+  border-color: #a8231a;
+}
+.tag--control {
+  color: var(--ink);
+  background: #e2dfd7;
+}
+
+/* ---- MSEL (landscape) ---- */
+.msel-intro {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 0 22pt;
+}
+.msel-intro .section > h2 {
+  margin-top: 4pt;
+}
+.kv dt {
+  font-weight: 700;
+  margin-top: 5pt;
+}
+.kv dt:first-child {
+  margin-top: 0;
+}
+.kv dd {
+  margin: 1pt 0 0;
+  font-family: var(--serif);
+  font-size: 10pt;
+}
+.list {
+  padding-left: 13pt;
+}
+.list li + li {
+  margin-top: 2pt;
+}
+.phase {
+  margin-top: 16pt;
+}
+.phase:first-of-type {
+  break-before: page;
+}
+.phase > h2 {
+  font-size: 12.5pt;
+  font-weight: 700;
+  display: flex;
+  align-items: baseline;
+  gap: 8pt;
+  margin-bottom: 5pt;
+}
+.phase__hours {
+  font-size: 9.5pt;
+  font-weight: 500;
+  color: var(--muted);
+}
+.msel-table {
+  font-size: 8.3pt;
+  line-height: 1.36;
+  table-layout: fixed;
+}
+.msel-table th {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  font-size: 7.6pt;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 4pt 5pt;
+  border: 0.75pt solid var(--ink);
+}
+.msel-table td {
+  border: 0.75pt solid var(--rule);
+  padding: 4pt 5pt;
+  vertical-align: top;
+}
+.msel-table tbody tr:nth-child(even) td {
+  background: #faf9f6;
+}
+.msel-table .goal-row td {
+  background: var(--fill);
+  font-size: 8.6pt;
+  border-color: var(--rule);
+}
+.msel-table tr.is-decision td {
+  background: #fdf1ef;
+}
+.msel-table .col-time {
+  width: 6.5%;
+}
+.msel-table .col-id {
+  width: 6.5%;
+}
+.msel-table .col-from,
+.msel-table .col-to {
+  width: 9%;
+}
+.msel-table .col-event {
+  width: 33%;
+}
+.msel-table .col-action {
+  width: 25%;
+}
+.msel-table .col-tag {
+  width: 11%;
+}
+.cell-time {
+  font-family: var(--mono);
+  font-weight: 700;
+}
+.cell-time .wall {
+  display: block;
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 7.4pt;
+}
+.msel-table .tag {
+  white-space: normal;
+}
+.cell-id {
+  font-family: var(--mono);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.refs {
+  display: block;
+  margin-top: 3pt;
+  font-size: 7.2pt;
+  color: var(--muted);
+}
+
+/* ---- Master Inject Deck ---- */
+.instructions ul {
+  padding-left: 14pt;
+  font-family: var(--serif);
+  font-size: 10.5pt;
+}
+.instructions li + li {
+  margin-top: 3pt;
+}
+.deck-index {
+  font-size: 8pt;
+}
+.deck-index td.excluded {
+  color: var(--muted);
+  font-style: italic;
+}
+.inject-page {
+  break-before: page;
+  height: 9.25in;
+  display: flex;
+  flex-direction: column;
+  gap: 9pt;
+  overflow: hidden;
+}
+.inject-bar {
+  border-top: 3pt solid var(--ink);
+  border-bottom: 0.75pt solid var(--ink);
+  background: var(--fill);
+  padding: 7pt 9pt 7pt;
+}
+.inject-bar h2 {
+  font-size: 13pt;
+  font-weight: 700;
+  display: flex;
+  gap: 8pt;
+  align-items: baseline;
+}
+.inject-bar__id {
+  font-family: var(--mono);
+  font-size: 12pt;
+  white-space: nowrap;
+}
+.inject-bar__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3pt 16pt;
+  margin-top: 5pt;
+  font-size: 8.6pt;
+}
+.inject-bar__meta div {
+  display: flex;
+  gap: 4pt;
+  align-items: baseline;
+}
+.inject-bar__meta dt {
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-size: 7pt;
+  letter-spacing: 0.06em;
+}
+.inject-bar__meta dd {
+  margin: 0;
+  font-weight: 600;
+}
+.inject-bar__route {
+  margin-top: 4pt;
+  font-size: 8.2pt;
+  color: var(--ink-2);
+}
+.callout {
+  border: 1pt solid var(--ink);
+  border-left-width: 4pt;
+  padding: 6pt 9pt;
+  font-size: 9.5pt;
+}
+.callout strong {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 8pt;
+  margin-right: 5pt;
+}
+.callout .mono {
+  font-weight: 700;
+}
+.callout__also {
+  display: block;
+  margin-top: 2pt;
+  font-size: 8pt;
+  color: var(--muted);
+}
+.inject-media {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.inject-media img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border: 0.75pt solid var(--rule-light);
+}
+.inject-text {
+  flex: 1 1 auto;
+  min-height: 0;
+  border: 0.75pt solid var(--rule);
+  padding: 16pt 18pt;
+}
+.inject-text__label {
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.inject-text__route {
+  margin-top: 4pt;
+  font-size: 9pt;
+  color: var(--ink-2);
+}
+.inject-text__body {
+  margin-top: 12pt;
+  font-family: var(--serif);
+  font-size: 15pt;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+.instructor-note {
+  border: 0.75pt dashed var(--ink-2);
+  padding: 6pt 9pt;
+  font-size: 9pt;
+}
+.instructor-note h3 {
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 2pt;
+}
+.instructor-note p {
+  font-family: var(--serif);
+  font-size: 10pt;
+}
+
+/* ---- Handbook / briefing extras ---- */
+.rubric td:first-child {
+  width: 19%;
+  font-weight: 600;
+}
+.rubric .box::before {
+  content: '\2610';
+  margin-right: 3pt;
+  font-weight: 400;
+}
+.simcell {
+  border: 0.75pt solid var(--rule);
+  padding: 7pt 9pt;
+  margin-bottom: 7pt;
+  break-inside: avoid;
+}
+.simcell h3 {
+  font-size: 10pt;
+  margin-bottom: 3pt;
+}
+.simcell dl dt {
+  font-size: 7.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-top: 4pt;
+}
+.simcell dl dd {
+  margin: 1pt 0 0;
+  font-family: var(--serif);
+  font-size: 10pt;
+}
+.simcell ul {
+  padding-left: 14pt;
+}
+.teams td:first-child {
+  width: 22%;
+  font-weight: 600;
+}
+.form-page {
+  page: form;
+  break-before: page;
+}
+
+/* ---- Exercise Plan cover ---- */
+.cover {
+  height: 9.2in;
+  display: flex;
+  flex-direction: column;
+}
+.cover__marking {
+  align-self: flex-start;
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border: 1.5pt solid var(--ink);
+  padding: 4pt 9pt;
+}
+.cover__org {
+  margin-top: 1.4in;
+  font-size: 11pt;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.cover__title {
+  font-size: 30pt;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-top: 8pt;
+  border-top: 4pt solid var(--ink);
+  padding-top: 12pt;
+}
+.cover__sub {
+  font-size: 14pt;
+  color: var(--ink-2);
+  margin-top: 6pt;
+}
+.cover__kind {
+  margin-top: 18pt;
+  font-size: 11pt;
+  font-weight: 600;
+}
+.cover .facts {
+  font-size: 10pt;
+  margin-top: 12pt;
+}
+.toc {
+  margin-top: auto;
+  border-top: 0.75pt solid var(--rule);
+  padding-top: 10pt;
+}
+.toc h2 {
+  font-size: 10pt;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 5pt;
+}
+.toc ol {
+  padding-left: 16pt;
+  font-size: 11pt;
+}
+.toc li + li {
+  margin-top: 3pt;
+}
+.cover__note {
+  margin-top: 12pt;
+  font-size: 8.5pt;
+  color: var(--muted);
+}
+
+/* ---- On-screen preview (the app's sandboxed preview pane) ---- */
+@media screen {
+  html,
+  body {
+    background: #e4e2dc;
+  }
+  body {
+    padding: 16px;
+  }
+  .doc {
+    background: #fff;
+    width: 8.5in;
+    max-width: 100%;
+    margin: 0 auto 16px;
+    padding: 0.75in 0.7in;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.18);
+  }
+  .doc--msel {
+    width: 11in;
+  }
+  .inject-page,
+  .phase:first-of-type,
+  .form-page {
+    border-top: 1px dashed #b9b6ad;
+    padding-top: 16px;
+    margin-top: 24px;
+  }
+  .inject-page {
+    height: auto;
+    min-height: 6in;
+  }
+  .inject-media img {
+    max-height: 7in;
+  }
+  .form-page {
+    margin-left: -0.7in;
+    margin-right: -0.7in;
+  }
+  .cover {
+    height: auto;
+    min-height: 8in;
+  }
+}

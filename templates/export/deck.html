@@ -1,0 +1,115 @@
+<section class="doc doc--deck" aria-labelledby="{{prefix}}deck-title">
+  {{> title title}}
+  <section class="section instructions">
+    <h2>Instructions for Facilitator</h2>
+    <ul>
+      <li>
+        <strong>Print:</strong> Print each inject on a separate page. Every MSEL row has a page.
+      </li>
+      <li>
+        <strong>Timing:</strong> Deliver the inject at the exercise time listed in its header.
+      </li>
+      <li>
+        <strong>Target:</strong> Hand the paper to the role indicated, put it on the main screen,
+        play the named audio file, or read it aloud, as the header says.
+      </li>
+      <li>
+        <strong>Style:</strong> Do not explain the inject. Just say, "This just came in," or "This
+        is on the main screen."
+      </li>
+      <li>
+        <strong>Media:</strong> Audio and video files are in the <span class="mono">media/</span>
+        folder of the facilitator package, named as on each page.
+      </li>
+    </ul>
+  </section>
+  <section class="section">
+    <h2>Inject Index</h2>
+    <table class="grid deck-index">
+      <caption class="sr-only">
+        All injects in delivery order
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Time</th>
+          <th scope="col">Inject</th>
+          <th scope="col">Deliver</th>
+          <th scope="col">Purpose</th>
+          <th scope="col">Format</th>
+          <th scope="col">Media</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each index}}
+        <tr>
+          <td class="mono">{{time}}</td>
+          <td class="mono">{{id}}</td>
+          <td>{{delivery}}</td>
+          <td>{{> tag tag}}</td>
+          <td>{{format}}</td>
+          <td class="{{#if excluded}}excluded{{/if}}">{{media}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+
+  {{#each pages}}
+  <article class="inject-page" aria-labelledby="{{../prefix}}inject-{{@index}}">
+    <header class="inject-bar">
+      <h2 id="{{../prefix}}inject-{{@index}}">
+        <span class="inject-bar__id">[INJECT {{id}}]</span><span>{{title}}</span>
+      </h2>
+      <dl class="inject-bar__meta">
+        <div>
+          <dt>Time</dt>
+          <dd>{{time}}{{#if wallClock}} · {{wallClock}}{{/if}}</dd>
+        </div>
+        <div>
+          <dt>Deliver</dt>
+          <dd>{{delivery}}</dd>
+        </div>
+        <div>
+          <dt>Purpose</dt>
+          <dd>{{> tag tag}}</dd>
+        </div>
+        <div>
+          <dt>Format</dt>
+          <dd>{{format}}</dd>
+        </div>
+      </dl>
+      <p class="inject-bar__route">{{phase}} · From {{from}} to {{to}}</p>
+    </header>
+    {{#if audio}}
+    <p class="callout">
+      <strong>Play audio file</strong><span class="mono">{{audio.fileName}}</span>{{#if
+      audio.duration}} · {{audio.duration}}{{/if}} {{#if audio.mp3Name}}<span class="callout__also"
+        >MP3 copy: {{audio.mp3Name}}</span
+      >{{/if}}
+    </p>
+    {{/if}} {{#if video}}
+    <p class="callout">
+      <strong>Play video file</strong><span class="mono">{{video.fileName}}</span>{{#if
+      video.duration}} · {{video.duration}}{{/if}}
+    </p>
+    {{/if}} {{#if image}}
+    <figure class="inject-media">
+      <img src="{{image.src}}" alt="{{image.alt}}" />
+    </figure>
+    {{else}}
+    <div class="inject-text">
+      <p class="inject-text__label">{{textLabel}}</p>
+      <p class="inject-text__route">From: {{from}} · To: {{to}}</p>
+      <p class="inject-text__body">{{event}}</p>
+    </div>
+    {{/if}} {{#if note}}
+    <aside class="instructor-note" aria-label="Instructor note">
+      <h3>Instructor note</h3>
+      <p>{{note}}</p>
+    </aside>
+    {{/if}} {{#if refs}}
+    <p class="refs">Doctrine: {{refs}}</p>
+    {{/if}}
+  </article>
+  {{/each}}
+</section>

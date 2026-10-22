@@ -1,0 +1,16 @@
+<header class="doc-title">
+  <p class="doc-title__eyebrow">{{eyebrow}}</p>
+  <h1 id="{{id}}">{{heading}}</h1>
+  {{#if sub}}
+  <p class="doc-title__sub">{{sub}}</p>
+  {{/if}} {{#if facts.length}}
+  <dl class="facts">
+    {{#each facts}}
+    <div>
+      <dt>{{label}}</dt>
+      <dd>{{value}}</dd>
+    </div>
+    {{/each}}
+  </dl>
+  {{/if}}
+</header>

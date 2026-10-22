@@ -1,0 +1,85 @@
+<section class="doc doc--handbook" aria-labelledby="{{prefix}}handbook-title">
+  {{> title title}}
+  <div class="prose">{{bodyHtml}}</div>
+
+  {{#if rubric.length}}
+  <section class="section">
+    <h2>Evaluation &amp; Grading Rubric</h2>
+    <table class="grid rubric">
+      <caption class="sr-only">
+        Grading rubric
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Metric</th>
+          <th scope="col">Fail</th>
+          <th scope="col">Pass</th>
+          <th scope="col">Excellence</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each rubric}}
+        <tr>
+          <td>{{name}}{{#if points}} ({{points}} points){{/if}}</td>
+          <td><span class="box"></span>{{fail}}</td>
+          <td><span class="box"></span>{{pass}}</td>
+          <td><span class="box"></span>{{excellence}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{/if}} {{#if hotwash}}
+  <section class="section">
+    <h2>Hot Wash Guide (Debrief)</h2>
+    {{#if hotwash.method}}
+    <p class="prose">{{hotwash.method}}</p>
+    {{/if}} {{#if hotwash.questions.length}}
+    <ul class="list prose">
+      {{#each hotwash.questions}}
+      <li>{{#if topic}}<strong>{{topic}}:</strong> {{/if}}{{text}}</li>
+      {{/each}}
+    </ul>
+    {{/if}}
+  </section>
+  {{/if}} {{#if hotwashHtml}}
+  <section class="section">
+    <h2>Hot Wash Guide (Debrief)</h2>
+    <div class="prose">{{hotwashHtml}}</div>
+  </section>
+  {{/if}} {{#if simcell.length}}
+  <section class="section">
+    <h2>SimCell Scripts</h2>
+    {{#each simcell}}
+    <div class="simcell">
+      <h3>{{rolePlayed}}</h3>
+      <dl>
+        <dt>When</dt>
+        <dd>{{trigger}}</dd>
+        {{#if hardQuestions.length}}
+        <dt>Hard questions to ask</dt>
+        <dd>
+          <ul>
+            {{#each hardQuestions}}
+            <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        </dd>
+        {{/if}} {{#if concessions.length}}
+        <dt>What you can concede</dt>
+        <dd>
+          <ul>
+            {{#each concessions}}
+            <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        </dd>
+        {{/if}}
+      </dl>
+    </div>
+    {{/each}}
+  </section>
+  {{/if}} {{#if endNote}}
+  <p class="doc-end">{{endNote}}</p>
+  {{/if}}
+</section>

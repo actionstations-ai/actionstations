@@ -1,0 +1,33 @@
+<section class="doc doc--cover" aria-labelledby="{{prefix}}cover-title">
+  <div class="cover">
+    <p class="cover__marking">EXERCISE — FOR TRAINING USE</p>
+    {{#if org}}
+    <p class="cover__org">{{org}}</p>
+    {{/if}}
+    <h1 class="cover__title" id="{{prefix}}cover-title">{{heading}}</h1>
+    {{#if sub}}
+    <p class="cover__sub">{{sub}}</p>
+    {{/if}}
+    <p class="cover__kind">Exercise Plan · Discussion-based Tabletop Exercise (TTX)</p>
+    <dl class="facts">
+      {{#each facts}}
+      <div>
+        <dt>{{label}}</dt>
+        <dd>{{value}}</dd>
+      </div>
+      {{/each}}
+    </dl>
+    <nav class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        {{#each contents}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ol>
+    </nav>
+    <p class="cover__note">
+      All events, people, posts and messages in this exercise are fictional and exist only for
+      training. Start and end every radio or phone exchange with "This is an exercise."
+    </p>
+  </div>
+</section>
