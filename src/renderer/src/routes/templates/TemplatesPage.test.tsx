@@ -4,8 +4,9 @@ import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it } from 'vitest'
 import type { TemplateInfo } from '@shared/ipc'
 import TemplatesPage from './TemplatesPage'
-import { categoriesPresent, filterTemplates, schemaFields } from './gallery'
-import { mockTtx, renderAt } from '../documents/test-utils'
+import { categoriesPresent, filterTemplates, fitsDomain, schemaFields } from './gallery'
+import { mockTtx, PROJECT, renderAt } from '../documents/test-utils'
+import { useProjectUi } from '../../state/project'
 
 const TIME_JUMP: TemplateInfo = {
   type: 'time_jump_card',
@@ -38,7 +39,12 @@ const TWEET: TemplateInfo = {
   width: 600,
 }
 
-afterEach(() => cleanup())
+const FIDS: TemplateInfo = { ...TWEET, type: 'fids_board', label: 'FIDS board', variants: [] }
+
+afterEach(() => {
+  cleanup()
+  useProjectUi.setState({ projectPath: null })
+})
 
 const setup = () =>
   mockTtx({
@@ -107,7 +113,55 @@ describe('TemplatesPage', () => {
   })
 })
 
+describe('TemplatesPage domain filter', () => {
+  const setupDomains = (orgType?: string) => {
+    if (orgType) useProjectUi.setState({ projectPath: PROJECT })
+    return mockTtx({
+      'templates:list': () => [TIME_JUMP, TWEET, FIDS],
+      'render:preview': () => ({ dataUrl: 'data:image/png;base64,x', width: 1, height: 1 }),
+      'project:get': () => ({ path: PROJECT, project: { orgType } }) as never,
+    })
+  }
+
+  it('shows every domain with no project open and marks domain-only templates', async () => {
+    setupDomains()
+    renderAt('/templates', '/templates', TemplatesPage)
+    const grid = await screen.findByRole('list', { name: '3 templates' })
+    expect(within(grid).getByText('Airport only')).toBeTruthy()
+    const domains = screen.getByRole('group', { name: 'Domain' })
+    const all = within(domains).getByRole('button', { name: 'All domains' })
+    expect(all.getAttribute('aria-pressed')).toBe('true')
+    const user = userEvent.setup()
+    await user.click(within(domains).getByRole('button', { name: 'Dam / water authority' }))
+    expect(await screen.findByRole('list', { name: '2 templates' })).toBeTruthy()
+    expect(screen.queryByText('FIDS board')).toBeNull()
+  })
+
+  it("defaults to the open project's domain; All domains shows the rest", async () => {
+    setupDomains('bus')
+    renderAt('/templates', '/templates', TemplatesPage)
+    const domains = await screen.findByRole('group', { name: 'Domain' })
+    const transit = await within(domains).findByRole('button', { name: /Transit/ })
+    await waitFor(() => expect(transit.getAttribute('aria-pressed')).toBe('true'))
+    expect(transit.textContent).toMatch(/this project/)
+    expect(await screen.findByRole('list', { name: '2 templates' })).toBeTruthy()
+    const user = userEvent.setup()
+    await user.click(within(domains).getByRole('button', { name: 'All domains' }))
+    expect(await screen.findByRole('list', { name: '3 templates' })).toBeTruthy()
+  })
+})
+
 describe('gallery helpers', () => {
+  it('offers untagged templates to every domain and tagged ones to theirs', () => {
+    expect(fitsDomain('tweet', 'water_dam')).toBe(true)
+    expect(fitsDomain('fids_board', 'airport')).toBe(true)
+    expect(fitsDomain('fids_board', 'transit')).toBe(false)
+    expect(fitsDomain('fids_board', 'all')).toBe(true)
+    expect(filterTemplates([TWEET, FIDS], 'all', 'healthcare').map((t) => t.type)).toEqual([
+      'tweet',
+    ])
+  })
+
   it('lists required fields first with readable types', () => {
     expect(schemaFields(TIME_JUMP.schema)).toEqual([
       { name: 'newTime', type: 'string', required: true, description: expect.any(String) },

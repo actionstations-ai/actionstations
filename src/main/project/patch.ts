@@ -18,6 +18,8 @@ export function applyProjectPatch(draft: Project, patch: ProjectPatch): Project 
   if (patch.name !== undefined) draft.name = patch.name
   if (patch.orgName !== undefined) draft.orgName = patch.orgName
   if (patch.orgType !== undefined) draft.orgType = patch.orgType
+  if (patch.domainProfileOverrides === null) delete draft.domainProfileOverrides
+  else if (patch.domainProfileOverrides) draft.domainProfileOverrides = patch.domainProfileOverrides
   if (patch.brand) draft.brand = mergeBrand(draft.brand, patch.brand)
   if (patch.defaultRoles) draft.defaultRoles = patch.defaultRoles
   if (patch.providerRouting) draft.providerRouting = patch.providerRouting

@@ -1,15 +1,6 @@
 // Pure form-state helpers for the Project settings form (kept out of components for tests).
 import type { Project, Role } from '@shared/schemas'
-
-export const ORG_TYPES = ['airport', 'hospital', 'utility', 'campus', 'generic'] as const
-
-export const ORG_TYPE_LABELS: Record<(typeof ORG_TYPES)[number], string> = {
-  airport: 'Airport',
-  hospital: 'Hospital',
-  utility: 'Utility',
-  campus: 'Campus',
-  generic: 'Generic organization',
-}
+import type { DomainProfileOverrides } from '@shared/domains'
 
 export interface AliasRow {
   rowId: string
@@ -26,6 +17,8 @@ export interface ProjectFormState {
   name: string
   orgName: string
   orgType: string
+  /** Project edits to the domain profile (ADR-0014); {} when there are none. */
+  overrides: DomainProfileOverrides
   city: string
   region: string
   primaryColor: string
@@ -43,6 +36,7 @@ export function toFormState(project: Project): ProjectFormState {
     name: project.name,
     orgName: project.orgName,
     orgType: project.orgType,
+    overrides: structuredClone(project.domainProfileOverrides ?? {}),
     city: project.brand.city ?? '',
     region: project.brand.region ?? '',
     primaryColor: project.brand.primaryColor ?? '',
@@ -108,6 +102,7 @@ export function toPatch(form: ProjectFormState) {
     name: form.name.trim(),
     orgName: form.orgName.trim(),
     orgType: form.orgType,
+    domainProfileOverrides: Object.keys(form.overrides).length ? form.overrides : null,
     brand: {
       city: form.city.trim(),
       region: form.region.trim(),

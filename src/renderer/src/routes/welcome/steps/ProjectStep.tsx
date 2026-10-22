@@ -4,8 +4,9 @@ import { Badge, Button, Field } from '../../../components/ui'
 import { call } from '../../../lib/api'
 import { queryClient, useIpcQuery } from '../../../lib/query'
 import { useProjectUi } from '../../../state/project'
-import { ORG_TYPE_LABELS, ORG_TYPES } from '../../project-home/form'
+import { DomainProfilePicker } from '../../../components/DomainProfilePicker'
 import { StepLayout } from '../StepLayout'
+import { ExamplesList } from '../../projects/ExamplesSection'
 import { useAction } from '../use-setup'
 
 interface Draft {
@@ -90,7 +91,7 @@ export function ProjectStep(props: {
   const [draft, setDraft] = useState<Draft>({
     name: '',
     orgName: '',
-    orgType: 'airport',
+    orgType: 'generic',
     parentDir: null,
   })
   const [submitted, setSubmitted] = useState(false)
@@ -160,22 +161,7 @@ export function ProjectStep(props: {
           placeholder="Northfield Regional Airport Authority"
           onChange={(orgName) => set({ orgName })}
         />
-        <Field label="Organization type">
-          {({ id }) => (
-            <select
-              id={id}
-              className="select"
-              value={draft.orgType}
-              onChange={(e) => set({ orgType: e.target.value })}
-            >
-              {ORG_TYPES.map((t) => (
-                <option key={t} value={t}>
-                  {ORG_TYPE_LABELS[t]}
-                </option>
-              ))}
-            </select>
-          )}
-        </Field>
+        <DomainProfilePicker value={draft.orgType} onChange={(id) => set({ orgType: id })} />
         <LocationField value={parentDir} error={dirError} onChange={(v) => set({ parentDir: v })} />
       </div>
       {action.error && (
@@ -183,6 +169,15 @@ export function ProjectStep(props: {
           Could not create the project: {action.error}
         </p>
       )}
+      <ExamplesList
+        heading="Or explore an example"
+        headingLevel="h3"
+        onOpened={(p) => {
+          setProjectPath(p.path)
+          void queryClient.invalidateQueries({ queryKey: ['project:list-recent'] })
+          props.onCreated(p.path)
+        }}
+      />
     </StepLayout>
   )
 }

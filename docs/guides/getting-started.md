@@ -45,14 +45,18 @@ Click **New project** and fill in:
 
 - **Project name**: also used for the folder name (`<name>.ttxproj`).
 - **Organization**: the name as it should appear in briefings and injects.
-- **Organization type**: airport, hospital, utility, campus or generic. Prompts use it to frame the exercise.
+- **Domain**: the kind of organization (a domain profile, ADR-0014): Airport, Transit (bus / rail), Dam / water authority, Water utility, Energy utility, Healthcare, Campus, Stadium / venue, Port / maritime, Municipal government, Industrial / manufacturing, Unmanned systems operator or Generic organization. Type in the search box (`bus`, `dam`, `hospital`, `drone`) to narrow the list, then click a profile or move with the arrow keys. The profile sets the vocabulary, the facility-fact categories, typical roles and outside parties, and the threat families the generator offers. Projects created before profiles existed keep their stored value; the picker says which profile it resolves to (for example _Saved as “hospital”, which uses the Healthcare profile_).
 - **Location**: the parent folder (**Choose…** opens a folder picker). Set a default under **Settings → Default projects folder**.
 
 ![New project dialog](images/new-project.png)
 
-**Create project** opens the project's **Overview**. Fill in **Brand and locale** (city, region, primary colour) and **Aliases** (for example `orgShort` → `NCIA`, `localTv` → `Channel 5`): inject templates read these instead of hard-coding names. **Default roles** pre-fills the player roles of new scenarios. Click **Save settings**.
+**Create project** opens the project's **Overview**. The same domain picker is under **Organization**; below it, **Customize vocabulary** edits this project's player roles, outside parties, IT systems and OT / control systems as chip lists (type and press Enter to add, **×** to remove). A list you change replaces the profile's list for this project only; **Reset to … defaults** removes your changes. Fill in **Brand and locale** (city, region, primary colour) and **Aliases** (for example `orgShort` → `NCIA`, `localTv` → `Channel 5`): inject templates read these instead of hard-coding names. **Default roles** pre-fills the player roles of new scenarios. Click **Save settings**.
 
 ![Project overview](images/project-overview.png)
+
+### Example projects
+
+**Projects → Examples** lists ready-made projects built from fictional organizations' documents, each with its domain, a summary and its scenarios (with their threat families). **Open a copy** asks where to put the copy (default: your projects folder, else `Documents/Tabletop Generator`), copies the example into a new folder (never over an existing one: a second copy gets `-2`), and opens it. The example as shipped is never changed. A project opened from an example shows the example's notice at the top of every project screen. The search index is not shipped; it is rebuilt from the documents when the copy opens, as it is for any project folder opened without `index.sqlite` (a duplicate, or a folder from version control). The setup wizard's **First project** step offers the same examples under **Or explore an example**.
 
 The project folder contains `project.json`, `documents/`, `scenarios/`, `prompts/` (project prompt overrides), `index.sqlite` (the search index), `ideas.json` and `facility-facts.md` (see [Facility facts](#facility-facts)). Its `.gitignore` excludes the search index and caches, which can be rebuilt.
 
@@ -137,6 +141,8 @@ Click **Develop this** on an idea. The **From a prompt** tab opens with the brie
 ![Brief filled from an idea](images/brief-from-idea.png)
 
 You can also start from **From a prompt** without an idea: describe the threat, list the roles and constraints, and generate.
+
+**Threat family** sets the phase arc, the decision points and the lint checks of the scenario (cyber, cyber-physical, physical security, UAS / drone, insider, natural hazard, infrastructure failure, mass gathering; only the families the project's domain supports are listed). It starts on **Use the suggestion**, which shows the family the generator would pick and why: the idea you are developing, words in the brief (_the brief mentions “drone”_), or the domain's default. The suggestion updates as you edit the brief. Choose a family to override it; your choice is what the scenario gets. Idea cards show each idea's threat family too.
 
 The scenario page opens and follows the run. **Stages** lists each completed stage with its model, tokens and duration; the **Generation log** streams progress and each stage's raw output.
 

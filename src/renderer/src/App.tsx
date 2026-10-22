@@ -8,6 +8,7 @@ import { Toaster } from './components/toast'
 import { ChromeFor, RouteFocus, Sidebar, SkipLink } from './components/shell'
 import { fromProjectKey, useProjectUi } from './state/project'
 import { FirstRunRedirect } from './routes/welcome/FirstRunRedirect'
+import { ExampleBanner } from './components/ExampleBanner'
 
 function ThemeSync() {
   const settings = useIpcQuery('settings:get', undefined)
@@ -38,7 +39,12 @@ function ProjectScope({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (key) setProjectPath(fromProjectKey(key))
   }, [key, setProjectPath])
-  return <>{children}</>
+  return (
+    <>
+      {key && <ExampleBanner projectPath={fromProjectKey(key)} />}
+      {children}
+    </>
+  )
 }
 
 function AppRoutes() {

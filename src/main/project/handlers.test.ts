@@ -128,6 +128,24 @@ describe('project handlers', () => {
     expect(project).toMatchObject({ name: 'Keep', orgType: 'hospital', orgName: 'Mercy' })
   })
 
+  it('replaces domain profile overrides and clears them with null', async () => {
+    const { path } = await create('Bus', { orgType: 'transit' })
+    const overrides = { outsideParties: ['County OEM', 'State DOT'], roles: undefined }
+    const set = await invoke('project:update', {
+      path,
+      patch: { domainProfileOverrides: overrides },
+    })
+    expect(set.project.domainProfileOverrides?.outsideParties).toEqual(['County OEM', 'State DOT'])
+    const kept = await invoke('project:update', { path, patch: { orgName: 'RRTA' } })
+    expect(kept.project.domainProfileOverrides?.outsideParties).toHaveLength(2)
+    const cleared = await invoke('project:update', {
+      path,
+      patch: { domainProfileOverrides: null },
+    })
+    expect(cleared.project.domainProfileOverrides).toBeUndefined()
+    expect((await loadProject(path)).domainProfileOverrides).toBeUndefined()
+  })
+
   it('archives and unarchives, flagging the recent entry', async () => {
     const { path } = await create()
     expect((await invoke('project:archive', { path, archived: true })).project.archived).toBe(true)

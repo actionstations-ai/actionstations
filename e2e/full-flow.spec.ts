@@ -63,7 +63,8 @@ async function createProjectInUi(page: Page, invoke: ReturnType<typeof invoker>)
   await dialog
     .getByLabel('Organization', { exact: true })
     .fill('North Coast Regional Airport Authority')
-  await dialog.getByLabel('Organization type').selectOption('airport')
+  await dialog.getByRole('combobox', { name: 'Domain' }).fill('airport')
+  await dialog.getByRole('option', { name: /^Airport/ }).click()
   await shot(page, 'new-project')
   await dialog.getByRole('button', { name: 'Create project' }).click()
   await expect(

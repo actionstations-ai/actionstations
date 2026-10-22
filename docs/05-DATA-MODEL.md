@@ -25,6 +25,12 @@ DocumentMeta { id, title, filename, kind: 'plan'|'policy'|'map'|'form'|'course'|
 
 Role { id, name, abbreviation, team, description, standingOrders: string[] }   // "Ops Director (IC)" …
 
+// .example.json (#169) — only in a project opened from an example (examples:open writes it):
+ExampleMarker { slug, title, notice, domainProfile }   // the app shows `notice` as a banner
+// examples/<slug>/example.json (shipped, read-only) — ExampleManifest in src/shared/ipc/examples.ts:
+ExampleManifest { id, title, domainProfile, summary, fictional: true, notice,
+  scenarios: [{ id, title, threatFamily, summary }] }   // examples/<slug>/project/ is the project
+
 // facility-facts.md (#143) — Markdown, not JSON: the identifiers generation treats as real.
 // Written after every ingest / re-index / document removal (and on first use) from
 // documents/*/text.md. One "## <Label>" section per category with a

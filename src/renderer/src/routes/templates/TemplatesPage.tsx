@@ -1,11 +1,15 @@
 import { useSearchParams } from 'react-router'
 import type { TemplateInfo } from '@shared/ipc'
 import { Badge, EmptyState, PageHeader } from '../../components/ui'
+import { DOMAIN_PROFILES, resolveProfile } from '@shared/domains'
 import { useIpcQuery } from '../../lib/query'
+import { profileLabel } from '../../lib/domains'
+import { useProjectUi } from '../../state/project'
 import {
   CATEGORY_LABELS,
   categoriesPresent,
   categoryOf,
+  domainsOf,
   filterTemplates,
   type GalleryCategory,
 } from './gallery'
@@ -40,6 +44,50 @@ function CategoryFilter(props: {
   )
 }
 
+function DomainFilter(props: {
+  value: string
+  projectDomain: string | undefined
+  onChange: (d: string) => void
+}) {
+  const options = ['all', ...DOMAIN_PROFILES.map((p) => p.id)]
+  return (
+    <div className="stack tpl-domain">
+      <div className="tpl-filter" role="group" aria-label="Domain">
+        {options.map((d) => (
+          <button
+            key={d}
+            type="button"
+            className="tpl-filter__option"
+            aria-pressed={d === props.value}
+            onClick={() => props.onChange(d)}
+          >
+            {d === 'all' ? 'All domains' : profileLabel(d)}
+            {d === props.projectDomain && <span className="sr-only"> (this project)</span>}
+          </button>
+        ))}
+      </div>
+      {props.value !== 'all' && (
+        <p className="muted tpl-domain__note">
+          Showing templates a {profileLabel(props.value)} project can use: every general template
+          plus those made for this domain.
+        </p>
+      )}
+    </div>
+  )
+}
+
+/** The open project's domain profile id, when a project is open. */
+function useProjectDomain(): string | undefined {
+  const projectPath = useProjectUi((s) => s.projectPath)
+  const project = useIpcQuery(
+    'project:get',
+    { path: projectPath ?? '' },
+    { enabled: !!projectPath },
+  )
+  const p = project.data?.project
+  return p ? resolveProfile(p.orgType, p.domainProfileOverrides).id : undefined
+}
+
 function TemplateCard(props: { template: TemplateInfo; onOpen: () => void }) {
   const { template } = props
   return (
@@ -50,6 +98,9 @@ function TemplateCard(props: { template: TemplateInfo; onOpen: () => void }) {
         <span className="row tpl-badges">
           <Badge>{CATEGORY_LABELS[categoryOf(template.type)]}</Badge>
           {template.paper && <Badge tone="info">Paper</Badge>}
+          {domainsOf(template.type).length > 0 && (
+            <Badge tone="warn">{domainsOf(template.type).map(profileLabel).join(', ')} only</Badge>
+          )}
           {template.variants.length > 1 && <Badge>{template.variants.length} variants</Badge>}
         </span>
       </button>
@@ -62,6 +113,8 @@ export default function TemplatesPage() {
   const list = useIpcQuery('templates:list', undefined)
   const templates = list.data ?? []
   const category = (params.get('category') ?? 'all') as GalleryCategory | 'all'
+  const projectDomain = useProjectDomain()
+  const domain = params.get('domain') ?? projectDomain ?? 'all'
   const selected = templates.find((t) => t.type === params.get('type'))
   const update = (next: Record<string, string | null>) => {
     const p = new URLSearchParams(params)
@@ -71,7 +124,7 @@ export default function TemplatesPage() {
     }
     setParams(p)
   }
-  const shown = filterTemplates(templates, category)
+  const shown = filterTemplates(templates, category, domain)
 
   return (
     <div className="page page--wide templates-page">
@@ -96,6 +149,11 @@ export default function TemplatesPage() {
       ) : (
         templates.length > 0 && (
           <>
+            <DomainFilter
+              value={domain}
+              projectDomain={projectDomain}
+              onChange={(d) => update({ domain: d })}
+            />
             <CategoryFilter
               categories={categoriesPresent(templates)}
               value={category}

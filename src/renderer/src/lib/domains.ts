@@ -1,0 +1,149 @@
+// Renderer helpers for domain profiles and threat families (ADR-0014, #169): picker groups and
+// search, how a stored orgType resolves, and the threat family a brief would get and why.
+import {
+  DOMAIN_PROFILES,
+  THREAT_FAMILIES,
+  builtinProfile,
+  chooseThreatFamily,
+  threatFamily,
+  type DomainProfile,
+  type ThreatFamily,
+  type ThreatFamilyId,
+} from '@shared/domains'
+import type { ScenarioIdea } from '@shared/schemas/scenario'
+
+export interface ProfileGroup {
+  label: string
+  profiles: DomainProfile[]
+}
+
+/** Picker sections; every built-in profile appears in exactly one. */
+export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[] }[] = [
+  { label: 'Transportation', ids: ['airport', 'transit', 'port_maritime', 'unmanned_systems'] },
+  {
+    label: 'Utilities and industry',
+    ids: ['water_dam', 'water_utility', 'energy_utility', 'industrial'],
+  },
+  { label: 'Public and community', ids: ['healthcare', 'campus', 'stadium_venue', 'municipal'] },
+  { label: 'Any organization', ids: ['generic'] },
+]
+
+const normalize = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/[_\s-]+/g, ' ')
+    .trim()
+
+/** Whether a profile matches a search: label, description, id or alias. */
+export function profileMatches(profile: DomainProfile, query: string): boolean {
+  const q = normalize(query)
+  if (!q) return true
+  const haystack = [profile.label, profile.description, profile.id, ...profile.aliases]
+    .map(normalize)
+    .join(' | ')
+  return q.split(' ').every((word) => haystack.includes(word))
+}
+
+/** Groups with the profiles that match `query`; empty groups are dropped. */
+export function profileGroups(query = ''): ProfileGroup[] {
+  const byId = new Map(DOMAIN_PROFILES.map((p) => [p.id, p]))
+  return PROFILE_GROUP_IDS.map((g) => ({
+    label: g.label,
+    profiles: g.ids
+      .map((id) => byId.get(id))
+      .filter((p): p is DomainProfile => !!p && profileMatches(p, query)),
+  })).filter((g) => g.profiles.length > 0)
+}
+
+export interface ResolvedOrgType {
+  profile: DomainProfile
+  /** The stored value is not the profile id (a legacy value, an alias, or free text). */
+  differs: boolean
+  /** The stored value names no built-in profile or alias; it falls back to generic. */
+  unknown: boolean
+}
+
+/** How a stored orgType resolves ("hospital" → Healthcare, "utility" → Energy utility). */
+export function resolveOrgType(orgType: string): ResolvedOrgType {
+  const profile = builtinProfile(orgType)
+  const key = orgType
+    .trim()
+    .toLowerCase()
+    .replace(/[\s-]+/g, '_')
+  const known = key === profile.id || profile.aliases.includes(key)
+  return { profile, differs: orgType !== profile.id, unknown: !known }
+}
+
+export const profileLabel = (id: string): string => builtinProfile(id).label
+
+// ---- threat families ----------------------------------------------------------------------
+
+export const threatFamiliesFor = (profile: DomainProfile): ThreatFamily[] =>
+  profile.threatFamilies.map((id) => threatFamily(id))
+
+export const threatLabel = (id: ThreatFamilyId): string =>
+  THREAT_FAMILIES.find((t) => t.id === id)?.label ?? id
+
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+/** The family's keywords that appear as whole words in `text` (same rule as the pipeline). */
+export function matchedKeywords(id: ThreatFamilyId, text: string): string[] {
+  const t = text.toLowerCase().replace(/\s+/g, ' ')
+  return threatFamily(id).keywords.filter((k) => new RegExp(`\\b${escapeRe(k.trim())}\\b`).test(t))
+}
+
+export type SuggestionReason =
+  { kind: 'idea' } | { kind: 'keywords'; words: string[] } | { kind: 'default' }
+
+export interface ThreatSuggestion {
+  id: ThreatFamilyId
+  reason: SuggestionReason
+}
+
+export interface BriefText {
+  userPrompt: string
+  learningObjectives: string[]
+  constraints: string[]
+}
+
+const ideaText = (idea: ScenarioIdea) =>
+  [idea.title, idea.hook, idea.threat, ...idea.systemsAffected].join('\n')
+
+/**
+ * The family generation would settle on when the designer picks none (mirrors the main
+ * process's briefWithThreat): the idea's family when the profile supports it, else keyword
+ * hits in the idea and brief, else the profile's default.
+ */
+export function suggestThreat(
+  profile: DomainProfile,
+  brief: BriefText,
+  idea?: ScenarioIdea | null,
+): ThreatSuggestion {
+  if (idea?.threatFamily && profile.threatFamilies.includes(idea.threatFamily))
+    return { id: idea.threatFamily, reason: { kind: 'idea' } }
+  const text = [
+    idea ? ideaText(idea) : '',
+    brief.userPrompt,
+    ...brief.learningObjectives,
+    ...brief.constraints,
+  ].join('\n')
+  const id = chooseThreatFamily(profile, text)
+  const words = matchedKeywords(id, text)
+  return { id, reason: words.length ? { kind: 'keywords', words } : { kind: 'default' } }
+}
+
+/** One sentence saying why a family was suggested. */
+export function suggestionWhy(s: ThreatSuggestion, profile: DomainProfile): string {
+  if (s.reason.kind === 'idea') return 'the idea you are developing describes this kind of incident'
+  if (s.reason.kind === 'keywords') {
+    const words = s.reason.words.slice(0, 4).map((w) => `“${w}”`)
+    return `the brief mentions ${words.join(', ')}`
+  }
+  return `nothing in the brief points elsewhere, and it is the default for ${profile.label} projects`
+}
+
+/** The family an idea card shows: the idea's own, else what its text suggests. */
+export function ideaFamily(idea: ScenarioIdea, profile: DomainProfile): ThreatFamilyId {
+  if (idea.threatFamily) return idea.threatFamily
+  return chooseThreatFamily(profile, ideaText(idea))
+}

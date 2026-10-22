@@ -1,7 +1,12 @@
 // Pure helpers for the template gallery: categories from the inject taxonomy and a flat
 // field list from each template's JSON Schema.
 import type { TemplateInfo } from '@shared/ipc'
-import { INJECT_CATEGORIES, injectTypeInfo, type InjectCategory } from '@shared/taxonomy'
+import {
+  INJECT_CATEGORIES,
+  injectTypeFitsDomain,
+  injectTypeInfo,
+  type InjectCategory,
+} from '@shared/taxonomy'
 
 export type GalleryCategory = InjectCategory | 'other'
 
@@ -26,11 +31,23 @@ export function categoriesPresent(templates: readonly TemplateInfo[]): GalleryCa
   return [...INJECT_CATEGORIES, 'other' as const].filter((c) => present.has(c))
 }
 
+/** Domain ids a template is tagged for in the taxonomy; empty = every domain. */
+export const domainsOf = (type: string): string[] => injectTypeInfo(type)?.domains ?? []
+
+/** Whether a template is offered to a domain ('all' = no domain filter). */
+export function fitsDomain(type: string, domain: string): boolean {
+  const info = injectTypeInfo(type)
+  return domain === 'all' || !info || injectTypeFitsDomain(info, domain)
+}
+
 export function filterTemplates(
   templates: readonly TemplateInfo[],
   category: GalleryCategory | 'all',
+  domain = 'all',
 ): TemplateInfo[] {
-  return templates.filter((t) => category === 'all' || categoryOf(t.type) === category)
+  return templates.filter(
+    (t) => (category === 'all' || categoryOf(t.type) === category) && fitsDomain(t.type, domain),
+  )
 }
 
 export const variantsOf = (t: Pick<TemplateInfo, 'variants'>): string[] =>

@@ -1,5 +1,6 @@
 // Brief form state <-> ScenarioBrief. Kept as strings while editing; validated on submit.
 import type { ScenarioBrief, ScenarioIdea } from '@shared/schemas/scenario'
+import type { ThreatFamilyId } from '@shared/domains'
 
 export interface BriefDraft {
   userPrompt: string
@@ -10,6 +11,8 @@ export interface BriefDraft {
   constraints: string[]
   startWallClock: string
   ideaId?: string
+  /** The designer's threat family; absent = use the suggestion (inferred from the text). */
+  threatFamily?: ThreatFamilyId
 }
 
 export type BriefErrors = Partial<Record<keyof BriefDraft, string>>
@@ -30,8 +33,9 @@ export function draftFromIdea(idea: ScenarioIdea, base: BriefDraft = emptyDraft(
   if (idea.threat) lines.push(`Threat: ${idea.threat}`)
   if (idea.systemsAffected.length)
     lines.push(`Systems affected: ${idea.systemsAffected.join(', ')}`)
+  const { threatFamily: _dropped, ...rest } = base
   return {
-    ...base,
+    ...rest,
     userPrompt: lines.join('\n'),
     audience: idea.suggestedRoles.length ? [...idea.suggestedRoles] : base.audience,
     learningObjectives: idea.whyItTeaches ? [idea.whyItTeaches] : base.learningObjectives,
@@ -57,7 +61,12 @@ export function validateDraft(d: BriefDraft): BriefErrors {
   return errors
 }
 
-export function toBrief(d: BriefDraft): ScenarioBrief {
+/**
+ * The brief to send. `suggested` is the family shown as "Suggested" when the designer picked
+ * none, so the scenario gets the family the form displayed.
+ */
+export function toBrief(d: BriefDraft, suggested?: ThreatFamilyId): ScenarioBrief {
+  const threatFamily = d.threatFamily ?? suggested
   return {
     userPrompt: d.userPrompt.trim(),
     audience: clean(d.audience),
@@ -67,6 +76,7 @@ export function toBrief(d: BriefDraft): ScenarioBrief {
     constraints: clean(d.constraints),
     ...(d.ideaId ? { ideaId: d.ideaId } : {}),
     ...(d.startWallClock ? { startWallClock: d.startWallClock } : {}),
+    ...(threatFamily ? { threatFamily } : {}),
   }
 }
 

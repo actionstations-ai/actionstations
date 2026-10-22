@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Lightbulb } from 'lucide-react'
 import type { ScenarioIdea } from '@shared/schemas/scenario'
+import type { DomainProfile } from '@shared/domains'
 import { Button, Field, ProgressBar } from '../../components/ui'
 import { call, type IpcError } from '../../lib/api'
 import { queryClient, useIpcQuery } from '../../lib/query'
@@ -14,6 +15,7 @@ type ErrorLike = { code?: string; message: string }
 export function IdeasPanel(props: {
   projectPath: string
   onDevelop: (idea: ScenarioIdea) => void
+  profile?: DomainProfile
 }) {
   const { projectPath } = props
   const [focus, setFocus] = useState('')
@@ -108,7 +110,12 @@ export function IdeasPanel(props: {
       {list.length > 0 && (
         <ul className="grid-cards idea-grid" aria-label="Scenario ideas">
           {list.map((idea) => (
-            <IdeaCard key={idea.id} idea={idea} onDevelop={() => props.onDevelop(idea)} />
+            <IdeaCard
+              key={idea.id}
+              idea={idea}
+              onDevelop={() => props.onDevelop(idea)}
+              {...(props.profile ? { profile: props.profile } : {})}
+            />
           ))}
         </ul>
       )}

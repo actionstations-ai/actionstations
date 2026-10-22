@@ -128,6 +128,8 @@ async function seed(invoke: Invoke): Promise<Seeded> {
   const { path: projectPath } = await invoke<{ path: string }>('project:create', {
     parentDir,
     name: 'North Coast International Airport',
+    // The airport profile extracts runways (generic, the default since #156, does not).
+    orgType: 'airport',
   })
   const { jobId } = await invoke<{ jobId: string }>('documents:import', {
     projectPath,

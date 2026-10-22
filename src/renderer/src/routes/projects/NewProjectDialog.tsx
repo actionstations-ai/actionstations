@@ -4,7 +4,7 @@ import { Button, Dialog, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
-import { ORG_TYPE_LABELS, ORG_TYPES } from '../project-home/form'
+import { DomainProfilePicker } from '../../components/DomainProfilePicker'
 
 interface Draft {
   name: string
@@ -21,7 +21,7 @@ function NewProjectForm(props: {
   const [draft, setDraft] = useState<Draft>({
     name: '',
     orgName: '',
-    orgType: 'airport',
+    orgType: 'generic',
     parentDir: null,
   })
   const [submitted, setSubmitted] = useState(false)
@@ -88,22 +88,7 @@ function NewProjectForm(props: {
           />
         )}
       </Field>
-      <Field label="Organization type">
-        {({ id }) => (
-          <select
-            id={id}
-            className="select"
-            value={draft.orgType}
-            onChange={(e) => set({ orgType: e.target.value })}
-          >
-            {ORG_TYPES.map((t) => (
-              <option key={t} value={t}>
-                {ORG_TYPE_LABELS[t]}
-              </option>
-            ))}
-          </select>
-        )}
-      </Field>
+      <DomainProfilePicker value={draft.orgType} onChange={(id) => set({ orgType: id })} />
       <Field
         label="Location"
         hint="The project folder is created inside this folder."

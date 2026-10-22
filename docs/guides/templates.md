@@ -45,6 +45,8 @@ A template is one folder, `templates/injects/<type>/`, where `<type>` is the inj
 | `background` | Colour behind the inject (the app chrome around a screenshot).                                                       |
 | `imageSlots` | Names of places an AI image can be composited into (see [Image slots](#image-slots)).                                |
 
+Which domains a type belongs to is set in the inject taxonomy (`src/shared/taxonomy.ts`, `domains: ['airport']`), not in `meta.json`. An untagged type is offered to every domain. The Templates page has a **Domain** filter (chips for every domain profile plus **All domains**): a domain shows the untagged templates plus those tagged for it, and tagged cards carry a badge such as _Airport only_. Opened while a project is open, the page starts on that project's domain.
+
 ### `schema.json`
 
 JSON Schema 2020-12 for `fields`, with `"additionalProperties": false`. Rendering validates fields against it (`VALIDATION` lists every issue) and the `inject_text` generation stage sends a summary of it to the model, one line per property:

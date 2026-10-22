@@ -37,7 +37,10 @@ function setup(extra: Handlers = {}) {
     'project:get': () =>
       ({
         path: PROJECT,
-        project: { defaultRoles: [{ id: 'pio', name: 'Public Information Officer' }] },
+        project: {
+          orgType: 'transit',
+          defaultRoles: [{ id: 'pio', name: 'Public Information Officer' }],
+        },
       }) as never,
     'generate:ideas-result': () => [],
     ...extra,
@@ -99,7 +102,7 @@ describe('GeneratePage', () => {
   it('submits the brief and opens the scenario screen', async () => {
     const ttx = setup({ 'generate:scenario': () => ({ jobId: 'J1', scenarioId: 'S1' }) })
     const user = userEvent.setup()
-    await user.type(await screen.findByLabelText('Threat or theme'), 'AODB tampering')
+    await user.type(await screen.findByLabelText('Threat or theme'), 'CAD/AVL tampering')
     await user.click(screen.getByRole('button', { name: '+ Public Information Officer' }))
     await user.type(screen.getByLabelText('Learning objectives'), 'Go dark{Enter}')
     await user.click(screen.getByRole('button', { name: /Generate scenario/ }))
@@ -107,15 +110,45 @@ describe('GeneratePage', () => {
     expect(ttx.calls('generate:scenario')[0]).toEqual({
       projectPath: PROJECT,
       brief: {
-        userPrompt: 'AODB tampering',
+        userPrompt: 'CAD/AVL tampering',
         audience: ['Public Information Officer'],
         durationHours: 4,
         phaseCount: 4,
         learningObjectives: ['Go dark'],
         constraints: [],
         startWallClock: '09:00',
+        threatFamily: 'cyber_physical',
       },
     })
+  })
+
+  it('suggests a threat family from the brief and explains why', async () => {
+    setup()
+    const user = userEvent.setup()
+    const group = await screen.findByRole('group', { name: 'Threat family' })
+    // Transit's default family before anything is typed.
+    expect(group.textContent).toMatch(/Suggested: Cyber-physical incident/)
+    expect(group.textContent).toMatch(/default for Transit \(bus \/ rail\) projects/)
+    await user.type(screen.getByLabelText('Threat or theme'), 'A drone hovers over the depot')
+    expect(group.textContent).toMatch(/Suggested: UAS \/ drone incident/)
+    expect(group.textContent).toMatch(/mentions “drone”/)
+    // The suggestion plus the profile's families (transit offers all eight).
+    const options = within(group)
+      .getAllByRole('radio')
+      .map((r) => r.closest('label')?.querySelector('.threat-choice__title')?.textContent)
+    expect(options[0]).toBe('Use the suggestion')
+    expect(options).toHaveLength(9)
+  })
+
+  it("sends the designer's threat family over the suggestion", async () => {
+    const ttx = setup({ 'generate:scenario': () => ({ jobId: 'J1', scenarioId: 'S1' }) })
+    const user = userEvent.setup()
+    await user.type(await screen.findByLabelText('Threat or theme'), 'A drone over the depot')
+    await user.click(screen.getByRole('radio', { name: /Insider threat/ }))
+    await user.click(screen.getByRole('button', { name: /Generate scenario/ }))
+    await screen.findByText('Scenario screen')
+    const req = ttx.calls('generate:scenario')[0] as { brief: { threatFamily: string } }
+    expect(req.brief.threatFamily).toBe('insider')
   })
 
   it('shows field errors instead of calling generate', async () => {

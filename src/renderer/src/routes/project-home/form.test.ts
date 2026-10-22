@@ -65,4 +65,14 @@ describe('project settings form', () => {
   it('creates role ids that are valid SafeIds', () => {
     expect(emptyRole().id).toMatch(/^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/)
   })
+
+  it('sends domain profile overrides, or null when there are none', () => {
+    const form = toFormState(project)
+    expect(toPatch(form).domainProfileOverrides).toBeNull()
+    form.overrides = { outsideParties: ['County OEM'] }
+    expect(toPatch(form).domainProfileOverrides).toEqual({ outsideParties: ['County OEM'] })
+    expect(isDirty(form, project)).toBe(true)
+    const stored = Project.parse({ ...project, domainProfileOverrides: { outsideParties: ['X'] } })
+    expect(isDirty(toFormState(stored), stored)).toBe(false)
+  })
 })

@@ -1,0 +1,113 @@
+// Open an example (#169): copy `examples/<slug>/project` to a new folder the user owns, mark
+// it with `.example.json` (the banner text) and open the copy. Never overwrites a folder:
+// the target name is claimed with a non-recursive mkdir, which fails if anything is there.
+import { promises as fs } from 'node:fs'
+import { join, relative, resolve } from 'node:path'
+import { app } from 'electron'
+import type { OpenProject } from '@shared/schemas'
+import { ExampleMarker, type ExampleManifest } from '@shared/ipc/examples'
+import { AppError } from '../lib/errors'
+import { ensureDir, slugify, writeJsonAtomic } from '../lib/fs'
+import { newId, nowIso } from '../lib/ids'
+import { getSettings } from '../settings/store'
+import { isDerivedPath } from '../project/duplicate'
+import { openProject, PROJECT_EXT, updateProject } from '../project/store'
+import { ensureIndex } from '../project/ensure-index'
+import { exampleFolder, examplesDir, PROJECT_DIR, readManifest } from './catalog'
+
+export const MARKER_FILE = '.example.json'
+const MAX_SUFFIX = 99
+
+/** Where examples are copied when the request names no folder. */
+export async function defaultExampleParent(): Promise<string> {
+  const settings = await getSettings()
+  if (settings.defaultProjectsDir) return settings.defaultProjectsDir
+  return join(app.getPath('documents'), 'Tabletop Generator')
+}
+
+/**
+ * Claim `<parent>/<slug(title)>.ttxproj`, else `-2`, `-3`… The returned folder was created
+ * empty by this call, so nothing that existed before is ever written into.
+ */
+export async function claimFolder(
+  parent: string,
+  title: string,
+): Promise<{ path: string; n: number }> {
+  await ensureDir(parent)
+  const base = slugify(title)
+  for (let n = 1; n <= MAX_SUFFIX; n++) {
+    const path = resolve(parent, `${base}${n === 1 ? '' : `-${n}`}${PROJECT_EXT}`)
+    try {
+      await fs.mkdir(path)
+      return { path, n }
+    } catch (err) {
+      if ((err as NodeJS.ErrnoException).code !== 'EEXIST') throw err
+    }
+  }
+  throw new AppError('CONFLICT', `Too many copies of "${title}" in ${parent}`)
+}
+
+/** Copy filter: no derived data, no marker from the source, no symlinks (they could point out). */
+export async function shouldCopy(sourceRoot: string, src: string): Promise<boolean> {
+  if (src === sourceRoot) return true
+  const rel = relative(sourceRoot, src)
+  if (isDerivedPath(rel) || rel === MARKER_FILE) return false
+  const stat = await fs.lstat(src)
+  return stat.isDirectory() || stat.isFile()
+}
+
+export function markerFor(slug: string, manifest: ExampleManifest): ExampleMarker {
+  return ExampleMarker.parse({
+    slug,
+    title: manifest.title,
+    notice: manifest.notice,
+    domainProfile: manifest.domainProfile,
+  })
+}
+
+async function copyInto(source: string, target: string): Promise<void> {
+  const stat = await fs.lstat(source).catch(() => null)
+  if (!stat?.isDirectory()) throw new AppError('NOT_FOUND', `Example has no ${PROJECT_DIR} folder`)
+  // The target folder exists (claimFolder made it), so copy entry by entry into it.
+  for (const name of await fs.readdir(source)) {
+    await fs.cp(join(source, name), join(target, name), {
+      recursive: true,
+      force: false,
+      errorOnExist: true,
+      filter: (src) => shouldCopy(source, src),
+    })
+  }
+}
+
+/** Give the copy its own identity; a numbered folder gets a numbered name. */
+async function rename(target: string, n: number): Promise<void> {
+  const now = nowIso()
+  await updateProject(target, (p) => {
+    p.id = newId()
+    if (n > 1) p.name = `${p.name} (${n})`
+    p.archived = false
+    p.createdAt = now
+  })
+}
+
+export async function openExample(
+  slug: string,
+  parentDir?: string,
+  dir = examplesDir(),
+): Promise<OpenProject> {
+  const manifest = await readManifest(slug, dir)
+  const source = join(await exampleFolder(slug, dir), PROJECT_DIR)
+  const parent = resolve(parentDir ?? (await defaultExampleParent()))
+  const { path: target, n } = await claimFolder(parent, manifest.title)
+  try {
+    await copyInto(source, target)
+    await writeJsonAtomic(join(target, MARKER_FILE), markerFor(slug, manifest))
+    await rename(target, n)
+  } catch (err) {
+    await fs.rm(target, { recursive: true, force: true })
+    throw err
+  }
+  const opened = await openProject(target)
+  await ensureIndex(target, opened.project)
+  return opened
+}

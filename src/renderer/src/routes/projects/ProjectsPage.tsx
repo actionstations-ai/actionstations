@@ -7,6 +7,7 @@ import { call } from '../../lib/api'
 import { queryClient, useIpcQuery } from '../../lib/query'
 import { useProjectUi } from '../../state/project'
 import { DuplicateDialog } from './DuplicateDialog'
+import { ExamplesList } from './ExamplesSection'
 import { NewProjectDialog } from './NewProjectDialog'
 import { ProjectCard, type CardAction } from './ProjectCard'
 import { revealFolder } from './reveal'
@@ -99,7 +100,7 @@ export default function ProjectsPage() {
       {recent.isSuccess && projects.length === 0 ? (
         <EmptyState
           title="No projects yet"
-          body="Create a project, then import the plans, policies, maps and forms your exercises should cite — for example an Airport Emergency Plan and a Terminal Incident Response Plan."
+          body="Create a project, then import the plans, policies, maps and forms your exercises should cite — for example an emergency operations plan and an incident response plan."
           actions={
             <Link className="btn" to="/welcome">
               Set up models &amp; media
@@ -120,6 +121,12 @@ export default function ProjectsPage() {
           />
         </>
       )}
+      <ExamplesList
+        onOpened={(p) => {
+          toast.success(`Opened a copy of the example: ${p.project.name}`)
+          opener.enter(p)
+        }}
+      />
       <NewProjectDialog
         open={creating}
         onOpenChange={setCreating}

@@ -3,6 +3,7 @@ import { requireProject } from '../../project/guard'
 import { createProject, loadProject, openProject, updateProject } from '../../project/store'
 import { forgetRecent, listRecent, syncRecent } from '../../project/recent'
 import { duplicateProject } from '../../project/duplicate'
+import { ensureIndex } from '../../project/ensure-index'
 import { applyProjectPatch } from '../../project/patch'
 import {
   readFacilityView,
@@ -16,7 +17,12 @@ export default defineHandlers({
   // create/open register the path (touchRecent), which is what requireProject checks later.
   'project:create': (req) => createProject(req),
 
-  'project:open': ({ path }) => openProject(path),
+  // A copied folder (duplicate, example, git checkout) has no index.sqlite: rebuild it.
+  'project:open': async ({ path }) => {
+    const opened = await openProject(path)
+    await ensureIndex(opened.path, opened.project)
+    return opened
+  },
 
   'project:facility-facts': async ({ path }) => {
     const root = await requireProject(path)
@@ -47,7 +53,9 @@ export default defineHandlers({
 
   'project:duplicate': async ({ path, newName, parentDir }) => {
     const root = await requireProject(path)
-    return duplicateProject(root, { newName, ...(parentDir ? { parentDir } : {}) })
+    const copy = await duplicateProject(root, { newName, ...(parentDir ? { parentDir } : {}) })
+    await ensureIndex(copy.path, copy.project)
+    return copy
   },
 
   'project:archive': async ({ path, archived }) => {

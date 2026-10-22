@@ -361,6 +361,8 @@ describe('first project and done', () => {
 
     await user.type(screen.getByLabelText('Project name'), 'Rivergate Airport')
     await user.type(screen.getByLabelText('Organization'), 'Rivergate Airport Authority')
+    await user.type(screen.getByRole('combobox', { name: 'Domain' }), 'airport')
+    await user.click(screen.getByRole('option', { name: /^Airport/ }))
     await user.click(screen.getByRole('button', { name: 'Create project' }))
     expect(await heading('You’re set up')).toBeTruthy()
     expect(fake.ttx.calls('project:create')[0]).toEqual({

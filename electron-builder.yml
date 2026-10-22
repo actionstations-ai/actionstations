@@ -25,6 +25,10 @@ extraResources:
     to: app-resources/prompts
   - from: comfy
     to: app-resources/comfy
+  # Example projects (#169): examples/<slug>/{example.json,project/}. Never the derived index.
+  - from: examples
+    to: app-resources/examples
+    filter: ['**/*', '!**/index.sqlite*', '!**/.cache/**', '!README.md']
 # Native code and data files read with real fs paths must live outside app.asar.
 asarUnpack:
   - node_modules/better-sqlite3/**

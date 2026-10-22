@@ -3,6 +3,7 @@ import { channel } from './define'
 import { Brand, OpenProject, OrgType, RecentProject, Role } from '../schemas/project'
 import { ProviderRouting } from '../schemas/provider'
 import { patchOf, SafeId } from '../schemas/common'
+import { DomainProfileOverrides } from '../domains/schema'
 
 const ProjectPath = z.object({ path: z.string().min(1) })
 
@@ -85,6 +86,8 @@ export const projectChannels = {
         name: z.string().min(1).optional(),
         orgName: z.string().optional(),
         orgType: OrgType.optional(),
+        /** Replaces the stored overrides of the domain profile (ADR-0014); null clears them. */
+        domainProfileOverrides: DomainProfileOverrides.nullable().optional(),
         /** Shallow patch: fields sent replace stored ones; omitted fields are kept. */
         brand: patchOf(Brand).optional(),
         defaultRoles: z.array(Role).optional(),

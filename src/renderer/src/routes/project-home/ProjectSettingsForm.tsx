@@ -5,9 +5,9 @@ import { toast } from '../../components/toast-store'
 import { useIpcMutation } from '../../lib/query'
 import { AliasesEditor } from './AliasesEditor'
 import { RolesEditor } from './RolesEditor'
+import { VocabularyEditor } from './VocabularyEditor'
+import { DomainProfilePicker } from '../../components/DomainProfilePicker'
 import {
-  ORG_TYPE_LABELS,
-  ORG_TYPES,
   isDirty,
   toFormState,
   toPatch,
@@ -25,7 +25,6 @@ interface SectionProps {
 }
 
 function OrganizationSection({ form, errors, set }: SectionProps) {
-  const custom = !(ORG_TYPES as readonly string[]).includes(form.orgType)
   return (
     <fieldset className="form-section">
       <legend>Organization</legend>
@@ -53,24 +52,13 @@ function OrganizationSection({ form, errors, set }: SectionProps) {
             />
           )}
         </Field>
-        <Field label="Organization type">
-          {({ id }) => (
-            <select
-              id={id}
-              className="select"
-              value={form.orgType}
-              onChange={(e) => set('orgType', e.target.value)}
-            >
-              {ORG_TYPES.map((t) => (
-                <option key={t} value={t}>
-                  {ORG_TYPE_LABELS[t]}
-                </option>
-              ))}
-              {custom && <option value={form.orgType}>{form.orgType}</option>}
-            </select>
-          )}
-        </Field>
       </div>
+      <DomainProfilePicker value={form.orgType} onChange={(id) => set('orgType', id)} />
+      <VocabularyEditor
+        orgType={form.orgType}
+        overrides={form.overrides}
+        onChange={(o) => set('overrides', o)}
+      />
     </fieldset>
   )
 }

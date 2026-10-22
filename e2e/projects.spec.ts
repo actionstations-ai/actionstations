@@ -28,7 +28,8 @@ test('create a project, edit its settings, and see them persist', async () => {
   await expect(dialog.getByLabel('Location')).toHaveValue(parent)
   await dialog.getByLabel('Project name').fill('Northfield Regional Airport')
   await dialog.getByLabel('Organization', { exact: true }).fill('NRAA')
-  await dialog.getByLabel('Organization type').selectOption('airport')
+  await dialog.getByRole('combobox', { name: 'Domain' }).fill('airport')
+  await dialog.getByRole('option', { name: /^Airport/ }).click()
   await page.screenshot({ path: 'test-results/projects-new-dialog.png' })
   await dialog.getByRole('button', { name: 'Create project' }).click()
 

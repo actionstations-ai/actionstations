@@ -1,7 +1,10 @@
 import { useState, type FormEvent } from 'react'
 import { Sparkles } from 'lucide-react'
 import { Button, Field } from '../../components/ui'
+import type { DomainProfile } from '@shared/domains'
+import type { ThreatSuggestion } from '../../lib/domains'
 import { ListEditor } from './ListEditor'
+import { ThreatChoice } from './ThreatChoice'
 import { validateDraft, type BriefDraft, type BriefErrors } from './brief-form'
 
 interface Props {
@@ -10,6 +13,9 @@ interface Props {
   onSubmit: (d: BriefDraft) => void
   submitting: boolean
   roleSuggestions: string[]
+  /** The project's effective domain profile; with `suggestion`, shows the threat choice. */
+  profile?: DomainProfile
+  suggestion?: ThreatSuggestion
   ideaTitle?: string
   onClearIdea?: () => void
 }
@@ -83,6 +89,17 @@ export function BriefForm(props: Props) {
           />
         )}
       </Field>
+      {props.profile && props.suggestion && (
+        <ThreatChoice
+          profile={props.profile}
+          suggestion={props.suggestion}
+          value={draft.threatFamily}
+          onChange={(v) => {
+            const { threatFamily: _old, ...rest } = draft
+            props.onChange(v ? { ...rest, threatFamily: v } : rest)
+          }}
+        />
+      )}
       <ListEditor
         label="Audience roles"
         variant="chips"

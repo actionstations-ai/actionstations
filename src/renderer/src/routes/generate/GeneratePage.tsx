@@ -10,6 +10,8 @@ import { BriefForm } from './BriefForm'
 import { GenerateError } from './GenerateError'
 import { IdeasPanel } from './IdeasPanel'
 import { draftFromIdea, emptyDraft, toBrief, type BriefDraft } from './brief-form'
+import { resolveProfile, type DomainProfile, type ThreatFamilyId } from '@shared/domains'
+import { suggestThreat } from '../../lib/domains'
 import '../scenarios/scenarios.css'
 import './generate.css'
 
@@ -19,13 +21,17 @@ function useStartScenario(projectPath: string) {
   const navigate = useNavigate()
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<IpcError | null>(null)
-  const start = async (draft: BriefDraft, idea: ScenarioIdea | null) => {
+  const start = async (
+    draft: BriefDraft,
+    idea: ScenarioIdea | null,
+    suggested: ThreatFamilyId | undefined,
+  ) => {
     setSubmitting(true)
     setError(null)
     try {
       const { jobId, scenarioId } = await call('generate:scenario', {
         projectPath,
-        brief: toBrief(draft),
+        brief: toBrief(draft, suggested),
         ...(idea ? { idea } : {}),
       })
       navigate(`/p/${projectKey(projectPath)}/scenarios/${scenarioId}`, { state: { jobId } })
@@ -46,6 +52,10 @@ export default function GeneratePage() {
   const [idea, setIdea] = useState<ScenarioIdea | null>(null)
   const { start, submitting, error } = useStartScenario(projectPath)
   const roleSuggestions = (project.data?.project.defaultRoles ?? []).map((r) => r.name)
+  const profile: DomainProfile | undefined = project.data
+    ? resolveProfile(project.data.project.orgType, project.data.project.domainProfileOverrides)
+    : undefined
+  const suggestion = profile ? suggestThreat(profile, draft, idea) : undefined
 
   const develop = (chosen: ScenarioIdea) => {
     setIdea(chosen)
@@ -73,9 +83,10 @@ export default function GeneratePage() {
           <BriefForm
             draft={draft}
             onChange={setDraft}
-            onSubmit={(d) => void start(d, idea)}
+            onSubmit={(d) => void start(d, idea, suggestion?.id)}
             submitting={submitting}
             roleSuggestions={roleSuggestions}
+            {...(profile && suggestion ? { profile, suggestion } : {})}
             {...(idea
               ? {
                   ideaTitle: idea.title,
@@ -89,7 +100,11 @@ export default function GeneratePage() {
           <GenerateError error={error} />
         </Tabs.Content>
         <Tabs.Content value="ideas" className="tabs__panel">
-          <IdeasPanel projectPath={projectPath} onDevelop={develop} />
+          <IdeasPanel
+            projectPath={projectPath}
+            onDevelop={develop}
+            {...(profile ? { profile } : {})}
+          />
         </Tabs.Content>
       </Tabs.Root>
     </div>

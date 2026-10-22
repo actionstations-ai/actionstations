@@ -15,6 +15,7 @@ import { renderChannels } from './render'
 import { comfyChannels } from './comfy'
 import { exportChannels } from './export'
 import { facilitatorChannels } from './facilitator'
+import { exampleChannels } from './examples'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -26,6 +27,7 @@ export { TemplateInfo } from './render'
 export { WorkflowBinding, WorkflowEntry, MediaType } from './comfy'
 export { ExportTarget, EXPORT_TARGETS } from './export'
 export { FacilitatorState } from './facilitator'
+export { ExampleInfo, ExampleManifest, ExampleMarker } from './examples'
 
 /** Merge domain channel maps, refusing duplicate names (a spread would silently overwrite). */
 export function mergeChannels<T extends Record<string, ChannelDef>[]>(
@@ -60,6 +62,7 @@ export const channels = mergeChannels(
   comfyChannels,
   exportChannels,
   facilitatorChannels,
+  exampleChannels,
 )
 
 export type Channels = typeof channels

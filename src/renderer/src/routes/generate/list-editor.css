@@ -1,0 +1,57 @@
+/* ListEditor chips and lists (brief, Customize vocabulary). Tokens only. */
+.chip-list,
+.line-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--space-2);
+}
+.chip-list {
+  flex-wrap: wrap;
+}
+.line-list {
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.chip,
+.line-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: 999px;
+  padding: 0.125rem var(--space-1) 0.125rem var(--space-3);
+  background: var(--color-surface);
+}
+.line-item {
+  border-radius: var(--radius-md);
+  justify-content: space-between;
+}
+.chip--suggest {
+  font: inherit;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  border-style: dashed;
+  padding: 0.125rem var(--space-3);
+  cursor: pointer;
+}
+.chip--suggest:hover {
+  color: var(--color-text);
+}
+.chip__remove {
+  display: inline-flex;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-radius: 999px;
+  padding: var(--space-1);
+}
+.chip__remove:hover {
+  color: var(--color-danger);
+}
+.suggestions {
+  flex-wrap: wrap;
+}

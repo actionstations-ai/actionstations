@@ -1,6 +1,7 @@
 import { useId, useState, type KeyboardEvent } from 'react'
 import { X } from 'lucide-react'
 import { Button } from '../../components/ui'
+import './list-editor.css'
 
 /** Editable list of short strings: type + Enter (or Add) appends; each item removable. */
 export function ListEditor(props: {
