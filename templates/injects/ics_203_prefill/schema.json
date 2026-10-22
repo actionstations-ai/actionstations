@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ICS 203 Organization Assignment List",
+  "description": "FEMA ICS Form 203: who staffs each activated ICS position for one operational period. Every field is optional (not all positions are filled; trainees marked \"(T)\"; multiple names separated by a slash). The 'blank' variant prints empty lines for the player packet.",
+  "type": "object",
+  "properties": {
+    "incidentName": {
+      "type": "string",
+      "description": "Block 1. Incident name",
+      "examples": ["NCIA FIDS / AODB Data Integrity"]
+    },
+    "operationalPeriod": {
+      "type": "object",
+      "description": "Block 2. Operational period the assignments cover",
+      "additionalProperties": false,
+      "properties": {
+        "dateFrom": { "type": "string", "description": "Start date", "examples": ["05/22/2026"] },
+        "dateTo": { "type": "string", "description": "End date", "examples": ["05/22/2026"] },
+        "timeFrom": {
+          "type": "string",
+          "description": "Start time, 24-hour",
+          "examples": ["1045"]
+        },
+        "timeTo": { "type": "string", "description": "End time, 24-hour", "examples": ["1800"] }
+      }
+    },
+    "assignments": {
+      "type": "object",
+      "description": "Blocks 3-8. Names in each position (add agency in parentheses where useful)",
+      "additionalProperties": false,
+      "properties": {
+        "commandStaff": {
+          "type": "object",
+          "description": "Block 3. Incident Commander(s) and Command Staff",
+          "additionalProperties": false,
+          "properties": {
+            "incidentCommanders": {
+              "type": "array",
+              "description": "IC, or up to 3 Unified Commanders with agency",
+              "maxItems": 3,
+              "items": { "type": "string", "examples": ["R. Delgado (NCIA Ops)"] }
+            },
+            "deputy": { "type": "string", "description": "Deputy IC", "examples": ["S. Mills"] },
+            "safetyOfficer": {
+              "type": "string",
+              "description": "Safety Officer",
+              "examples": ["K. Osei"]
+            },
+            "publicInformationOfficer": {
+              "type": "string",
+              "description": "Public Information Officer",
+              "examples": ["T. Nguyen"]
+            },
+            "liaisonOfficer": {
+              "type": "string",
+              "description": "Liaison Officer",
+              "examples": ["M. Brandt"]
+            }
+          }
+        },
+        "agencyRepresentatives": {
+          "type": "array",
+          "description": "Block 4. Agency/organization representatives (up to 6)",
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["agency"],
+            "properties": {
+              "agency": {
+                "type": "string",
+                "description": "Agency or organization",
+                "examples": ["TSA (FSD office)"]
+              },
+              "name": { "type": "string", "description": "Representative", "examples": ["J. Park"] }
+            }
+          }
+        },
+        "planning": {
+          "type": "object",
+          "description": "Block 5. Planning Section",
+          "additionalProperties": false,
+          "properties": {
+            "chief": { "type": "string", "description": "Chief", "examples": ["A. Patel"] },
+            "deputy": { "type": "string", "description": "Deputy" },
+            "resourcesUnit": { "type": "string", "description": "Resources Unit Leader" },
+            "situationUnit": { "type": "string", "description": "Situation Unit Leader" },
+            "documentationUnit": { "type": "string", "description": "Documentation Unit Leader" },
+            "demobilizationUnit": {
+              "type": "string",
+              "description": "Demobilization Unit Leader"
+            },
+            "technicalSpecialists": {
+              "type": "array",
+              "description": "Technical specialists (up to 3), with specialty",
+              "maxItems": 3,
+              "items": { "type": "string", "examples": ["L. Chen (Cyber / AODB)"] }
+            }
+          }
+        },
+        "logistics": {
+          "type": "object",
+          "description": "Block 6. Logistics Section",
+          "additionalProperties": false,
+          "properties": {
+            "chief": { "type": "string", "description": "Chief", "examples": ["J. Romero"] },
+            "deputy": { "type": "string", "description": "Deputy" },
+            "supportBranchDirector": { "type": "string", "description": "Support Branch Director" },
+            "supplyUnit": { "type": "string", "description": "Supply Unit Leader" },
+            "facilitiesUnit": { "type": "string", "description": "Facilities Unit Leader" },
+            "groundSupportUnit": { "type": "string", "description": "Ground Support Unit Leader" },
+            "serviceBranchDirector": { "type": "string", "description": "Service Branch Director" },
+            "communicationsUnit": { "type": "string", "description": "Communications Unit Leader" },
+            "medicalUnit": { "type": "string", "description": "Medical Unit Leader" },
+            "foodUnit": { "type": "string", "description": "Food Unit Leader" }
+          }
+        },
+        "operations": {
+          "type": "object",
+          "description": "Block 7. Operations Section",
+          "additionalProperties": false,
+          "properties": {
+            "chief": { "type": "string", "description": "Chief", "examples": ["D. Kowalski"] },
+            "deputy": { "type": "string", "description": "Deputy" },
+            "stagingArea": {
+              "type": "string",
+              "description": "Staging Area Manager (and location)",
+              "examples": ["Lot C / P. Wade"]
+            },
+            "branches": {
+              "type": "array",
+              "description": "Up to 3 branches",
+              "maxItems": 3,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Branch name",
+                    "examples": ["Terminal"]
+                  },
+                  "director": { "type": "string", "description": "Branch Director" },
+                  "deputy": { "type": "string", "description": "Deputy Branch Director" },
+                  "divisionsGroups": {
+                    "type": "array",
+                    "description": "Up to 4 divisions or groups in the branch",
+                    "maxItems": 4,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["name"],
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "Division or group name",
+                          "examples": ["Concourse A Group"]
+                        },
+                        "leader": {
+                          "type": "string",
+                          "description": "Supervisor",
+                          "examples": ["G. Haines"]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "airOpsBranchDirector": {
+              "type": "string",
+              "description": "Air Operations Branch Director"
+            }
+          }
+        },
+        "finance": {
+          "type": "object",
+          "description": "Block 8. Finance/Administration Section",
+          "additionalProperties": false,
+          "properties": {
+            "chief": { "type": "string", "description": "Chief" },
+            "deputy": { "type": "string", "description": "Deputy" },
+            "timeUnit": { "type": "string", "description": "Time Unit Leader" },
+            "procurementUnit": { "type": "string", "description": "Procurement Unit Leader" },
+            "compClaimsUnit": {
+              "type": "string",
+              "description": "Compensation/Claims Unit Leader"
+            },
+            "costUnit": { "type": "string", "description": "Cost Unit Leader" }
+          }
+        }
+      }
+    },
+    "preparedBy": {
+      "type": "object",
+      "description": "Block 9. Resources Unit Leader who prepared the form",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "Name", "examples": ["B. Ames"] },
+        "position": {
+          "type": "string",
+          "description": "Position/Title",
+          "examples": ["Resources Unit Leader"]
+        },
+        "signature": {
+          "type": "string",
+          "description": "Name as signed (rendered in handwriting)",
+          "examples": ["B. Ames"]
+        },
+        "dateTime": {
+          "type": "string",
+          "description": "Date/time prepared",
+          "examples": ["05/22/2026 1130"]
+        }
+      }
+    },
+    "iapPage": {
+      "type": "string",
+      "description": "Page number within the Incident Action Plan",
+      "examples": ["3"]
+    }
+  },
+  "additionalProperties": false
+}

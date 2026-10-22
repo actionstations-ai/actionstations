@@ -1,0 +1,102 @@
+<article class="page">
+  <header class="run">
+    <span>Controller / Evaluator Handbook · SimCell scripts</span>
+    <span>{{fields.scenarioTitle}}</span>
+  </header>
+
+  <section class="title">
+    <p class="kicker">
+      SimCell role{{#if fields.injectRefs}} · Likely at {{fields.injectRefs}}{{/if}}
+    </p>
+    <h1>{{fields.role}}</h1>
+    {{#if (or fields.persona fields.organization)}}
+    <p class="who">
+      {{#if fields.persona}}<strong>{{fields.persona}}</strong>{{/if}}{{#if (and fields.persona
+      fields.organization)}} · {{/if}}{{fields.organization}}
+    </p>
+    {{/if}}
+  </section>
+
+  <dl class="cue">
+    <div>
+      <dt>Play when</dt>
+      <dd>{{fields.trigger}}</dd>
+    </div>
+    {{#if fields.contactMethod}}
+    <div>
+      <dt>Contact</dt>
+      <dd>{{fields.contactMethod}}</dd>
+    </div>
+    {{/if}} {{#if fields.posture}}
+    <div>
+      <dt>Play it</dt>
+      <dd>{{fields.posture}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+
+  {{#if fields.openingLine}}
+  <blockquote class="line">
+    <span class="tag">Open with</span>
+    <p>"{{fields.openingLine}}"</p>
+  </blockquote>
+  {{/if}}
+
+  <section class="block">
+    <h2>Hard questions</h2>
+    <ol class="questions">
+      {{#each fields.hardQuestions}}
+      <li>"{{this}}"</li>
+      {{/each}}
+    </ol>
+  </section>
+
+  {{#if fields.concessions.length}}
+  <section class="block">
+    <h2>Concede only if earned</h2>
+    <table class="concede">
+      <thead>
+        <tr>
+          <th>If the players…</th>
+          <th>…then you</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.concessions}}
+        <tr>
+          <td>{{condition}}</td>
+          <td>{{concession}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{/if}}
+
+  <div class="pair">
+    {{#if fields.boundaries.length}}
+    <section class="block dont">
+      <h2>Off limits</h2>
+      <ul>
+        {{#each fields.boundaries}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </section>
+    {{/if}} {{#if fields.exitLine}}
+    <section class="block exit">
+      <h2>Close the call</h2>
+      <p>"{{fields.exitLine}}"</p>
+    </section>
+    {{/if}}
+  </div>
+
+  {{#if fields.evaluatorNote}}
+  <aside class="note"><strong>Evaluator:</strong> {{fields.evaluatorNote}}</aside>
+  {{/if}}
+
+  <footer class="foot">
+    <span>Facilitator only. Do not hand to players.</span>
+    <span>{{fields.pageLabel}}</span>
+  </footer>
+</article>

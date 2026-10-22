@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Official letter",
+  "description": "One-page letter on letterhead. Variant 'federal' = government agency look (generic seal, serif department name; e.g. FBI, TSA, DHS style). Variant 'corporate' = company look (monogram, color bar; e.g. an insurer, vendor or airline). Always printed with an exercise marking.",
+  "type": "object",
+  "required": ["letterhead", "to", "from", "body"],
+  "properties": {
+    "letterhead": {
+      "type": "object",
+      "description": "Sender letterhead",
+      "additionalProperties": false,
+      "required": ["organization"],
+      "properties": {
+        "parent": {
+          "type": "string",
+          "description": "Parent department above the organization (federal look)",
+          "examples": ["U.S. Department of Justice"]
+        },
+        "organization": {
+          "type": "string",
+          "description": "Organization name",
+          "examples": ["Federal Bureau of Investigation", "Lakeshore Mutual Insurance Company"]
+        },
+        "office": {
+          "type": "string",
+          "description": "Office, division or field office",
+          "examples": ["Cleveland Field Office"]
+        },
+        "address": {
+          "type": "array",
+          "description": "Street address lines",
+          "items": {
+            "type": "string",
+            "examples": ["1501 Lakeside Avenue", "Cleveland, Ohio 44114"]
+          }
+        },
+        "phone": { "type": "string", "description": "Main phone", "examples": ["(216) 555-0140"] },
+        "web": {
+          "type": "string",
+          "description": "Web address (fictional)",
+          "examples": ["lakeshoremutual.example"]
+        },
+        "tagline": {
+          "type": "string",
+          "description": "Short tagline under a corporate name",
+          "examples": ["Commercial Cyber & Aviation Risk"]
+        }
+      }
+    },
+    "date": { "type": "string", "description": "Letter date", "examples": ["May 22, 2026"] },
+    "referenceNumber": {
+      "type": "string",
+      "description": "File, case or claim number",
+      "examples": ["318A-CV-4471982"]
+    },
+    "referenceLabel": {
+      "type": "string",
+      "description": "Label printed before the reference number",
+      "examples": ["In Reply, Please Refer to File No.", "Claim No."]
+    },
+    "delivery": {
+      "type": "string",
+      "description": "Delivery line above the address",
+      "examples": ["VIA EMAIL AND HAND DELIVERY"]
+    },
+    "to": {
+      "type": "object",
+      "description": "Recipient block",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "examples": ["Ms. Linda Chen"] },
+        "title": { "type": "string", "examples": ["Director of Information Technology"] },
+        "organization": { "type": "string", "examples": ["North Coast International Airport"] },
+        "address": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": ["5300 Riverside Drive", "Cleveland, Ohio 44135"]
+          }
+        }
+      }
+    },
+    "subject": {
+      "type": "string",
+      "description": "Re: line",
+      "examples": ["Request for Preservation of Records"]
+    },
+    "salutation": {
+      "type": "string",
+      "description": "Greeting line",
+      "examples": ["Dear Ms. Chen:"]
+    },
+    "body": {
+      "type": "string",
+      "description": "Letter body: 2-5 paragraphs separated by a blank line (\\n\\n). Formal register.",
+      "examples": [
+        "The Federal Bureau of Investigation is investigating unauthorized access to computer systems at your facility.\n\nPlease preserve all records described below."
+      ]
+    },
+    "closing": {
+      "type": "string",
+      "description": "Complimentary close",
+      "examples": ["Sincerely,"]
+    },
+    "from": {
+      "type": "object",
+      "description": "Signer",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "examples": ["Daniel R. Smith"] },
+        "title": { "type": "string", "examples": ["Supervisory Special Agent"] },
+        "signature": {
+          "type": "string",
+          "description": "Name as signed (rendered in handwriting); omit for no signature",
+          "examples": ["Daniel R. Smith"]
+        }
+      }
+    },
+    "cc": {
+      "type": "array",
+      "description": "Copy recipients",
+      "items": { "type": "string", "examples": ["Airport Security Coordinator, NCIA"] }
+    },
+    "enclosures": {
+      "type": "array",
+      "description": "Enclosures",
+      "items": { "type": "string", "examples": ["Preservation schedule (1 page)"] }
+    },
+    "marking": {
+      "type": "string",
+      "description": "Handling marking printed top and bottom (default: EXERCISE EXERCISE EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    }
+  },
+  "additionalProperties": false
+}

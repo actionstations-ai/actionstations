@@ -1,0 +1,181 @@
+<article class="sheet">
+  <!-- ===== Variant: directive (Security Directive / Emergency Amendment) ===== -->
+  <div class="directive">
+    <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+    <p class="handling">{{default fields.handling "SENSITIVE SECURITY INFORMATION"}}</p>
+    <header class="d-head">
+      <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <path id="rn-seal-top" d="M34.76,96.04 A44,44 0 1,1 85.24,96.04" />
+        </defs>
+        <circle cx="60" cy="60" r="58.5" class="s-fill" />
+        <circle cx="60" cy="60" r="55" class="s-ring" />
+        <circle cx="60" cy="60" r="35" class="s-ring" />
+        <text class="s-text">
+          <textPath href="#rn-seal-top" startOffset="50%" text-anchor="middle">
+            {{upper fields.agency}}
+          </textPath>
+        </text>
+        <path d="M60,38 L80,58 L60,82 L40,58 Z" class="s-mark" />
+        <path d="M60,46 L72,58 L60,73 L48,58 Z" class="s-inner" />
+        <circle cx="60" cy="58" r="4.2" class="s-mark" />
+        <text x="60" y="104" class="s-small" text-anchor="middle">★ ★ ★</text>
+      </svg>
+      <div class="d-names">
+        {{#if fields.parent}}
+        <p class="d-parent">{{fields.parent}}</p>
+        {{/if}}
+        <p class="d-agency">{{fields.agency}}</p>
+        {{#if fields.office}}
+        <p class="d-office">{{fields.office}}</p>
+        {{/if}}
+      </div>
+      <h1 class="d-type">
+        {{#if (eq fields.noticeType "EA")}}Emergency Amendment{{else}}{{#if (eq fields.noticeType
+        "NOTAM")}}Notice{{else}}Security Directive{{/if}}{{/if}}
+      </h1>
+    </header>
+
+    <table class="d-info">
+      {{#if fields.subject}}
+      <tr>
+        <th>Subject:</th>
+        <td class="subj">{{fields.subject}}</td>
+      </tr>
+      {{/if}}
+      <tr>
+        <th>Number:</th>
+        <td><strong>{{fields.number}}</strong></td>
+      </tr>
+      {{#if fields.issued}}
+      <tr>
+        <th>Date:</th>
+        <td>{{fields.issued}}</td>
+      </tr>
+      {{/if}} {{#if fields.effectiveDate}}
+      <tr>
+        <th>Effective:</th>
+        <td>{{fields.effectiveDate}}</td>
+      </tr>
+      {{/if}} {{#if fields.expirationDate}}
+      <tr>
+        <th>Expiration:</th>
+        <td>{{fields.expirationDate}}</td>
+      </tr>
+      {{/if}} {{#if fields.supersedes}}
+      <tr>
+        <th>Supersedes:</th>
+        <td>{{fields.supersedes}}</td>
+      </tr>
+      {{/if}} {{#if fields.applicability}}
+      <tr>
+        <th>Applicability:</th>
+        <td>{{fields.applicability}}</td>
+      </tr>
+      {{/if}} {{#if fields.authority}}
+      <tr>
+        <th>Authority:</th>
+        <td>{{fields.authority}}</td>
+      </tr>
+      {{/if}}
+    </table>
+
+    {{#if fields.purpose}}
+    <section class="d-sec">
+      <h2><span>I.</span> Purpose and General Information</h2>
+      <p>{{nl2br fields.purpose}}</p>
+    </section>
+    {{/if}} {{#if fields.actions.length}}
+    <section class="d-sec">
+      <h2><span>II.</span> Actions Required</h2>
+      <ol class="d-actions">
+        {{#each fields.actions}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ol>
+    </section>
+    {{/if}} {{#if fields.contact}}
+    <p class="d-contact">{{fields.contact}}</p>
+    {{/if}} {{#if fields.approvedBy.name}}
+    <div class="d-approve">
+      <span class="d-approve-label">Approved:</span>
+      <div>
+        <p class="sig">{{fields.approvedBy.signature}}</p>
+        <p class="signer">{{fields.approvedBy.name}}</p>
+        {{#if fields.approvedBy.title}}
+        <p class="signer-title">{{fields.approvedBy.title}}</p>
+        {{/if}}
+      </div>
+    </div>
+    {{/if}}
+
+    <footer class="d-foot">
+      {{#if (eq (default fields.handling "SENSITIVE SECURITY INFORMATION") "SENSITIVE SECURITY
+      INFORMATION")}}
+      <p class="warning">
+        WARNING: This record contains Sensitive Security Information that is controlled under 49 CFR
+        parts 15 and 1520. No part of this record may be disclosed to persons without a "need to
+        know", as defined in 49 CFR parts 15 and 1520, except with the written permission of the
+        Administrator of the Transportation Security Administration or the Secretary of
+        Transportation. Unauthorized release may result in civil penalty or other action.
+      </p>
+      {{/if}}
+      <p class="handling">{{default fields.handling "SENSITIVE SECURITY INFORMATION"}}</p>
+      <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+    </footer>
+  </div>
+
+  <!-- ===== Variant: notam (NOTAM search printout) ===== -->
+  <div class="notam">
+    <div class="print-head">
+      <span>{{fields.retrieved}}</span>
+      <span>NOTAM Search</span>
+    </div>
+    <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+    <header class="n-bar">
+      <svg class="n-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"
+        />
+      </svg>
+      <div>
+        <p class="n-title">NOTAM Search</p>
+        <p class="n-sub">{{default fields.notamSource "Federal NOTAM System"}}</p>
+      </div>
+    </header>
+    <div class="n-query">
+      <span><b>Location:</b> {{fields.searchLocation}}</span>
+      <span><b>Results:</b> {{fields.notams.length}}</span>
+      {{#if fields.retrieved}}<span><b>Retrieved:</b> {{fields.retrieved}}</span>{{/if}}
+    </div>
+    <table class="n-table">
+      <thead>
+        <tr>
+          <th class="n-loc">Location</th>
+          <th class="n-num">NOTAM #/<br />Issue Date (UTC)</th>
+          <th class="n-cls">Class</th>
+          <th class="n-dt">Start Date UTC</th>
+          <th class="n-dt">End Date UTC</th>
+          <th>Condition</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.notams}}
+        <tr class="{{#if highlight}}hl{{/if}}">
+          <td class="n-loc">{{location}}</td>
+          <td class="n-num"><span class="n-link">{{number}}</span><br />{{issued}}</td>
+          <td class="n-cls">{{class}}</td>
+          <td class="n-dt">{{start}}</td>
+          <td class="n-dt">{{end}}</td>
+          <td class="n-text">{{text}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <p class="n-note">All dates and times are UTC unless otherwise noted. EST = estimated.</p>
+    <div class="print-foot">
+      <span>notam-search.example/search?loc={{fields.searchLocation}}</span>
+      <span>1/1</span>
+    </div>
+  </div>
+</article>

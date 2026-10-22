@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ENDEX card",
+  "description": "Facilitator control card that ends play: reads the resolution aloud and moves the room into the hot wash (debrief).",
+  "type": "object",
+  "required": ["resolution"],
+  "properties": {
+    "exerciseTime": {
+      "type": "string",
+      "description": "Exercise clock when the card is read, H:MM",
+      "examples": ["3:45"]
+    },
+    "endTime": {
+      "type": "string",
+      "description": "In-scenario wall-clock time when play stops",
+      "examples": ["12:45 PM"]
+    },
+    "resolution": {
+      "type": "string",
+      "description": "How the scenario resolves; the facilitator reads this aloud to stop play (2-4 sentences, starts with ENDEX)",
+      "examples": [
+        "ENDEX. The board flickers and resets: UA 1245 to Chicago, ON TIME. The screens are restored. This concludes the exercise."
+      ]
+    },
+    "finalState": {
+      "type": "array",
+      "description": "Facts that are true at ENDEX (2-5 short lines)",
+      "items": { "type": "string", "examples": ["FIDS restored from verified 04:00 AM backup"] }
+    },
+    "hotWashTransition": {
+      "type": "string",
+      "description": "What the facilitator says to move the room from play into the hot wash",
+      "examples": [
+        "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash."
+      ]
+    },
+    "hotWashMethod": {
+      "type": "string",
+      "description": "Debrief method used to open the hot wash",
+      "examples": ["3-Up, 3-Down: three things that went well, three things that broke"]
+    },
+    "hotWashQuestions": {
+      "type": "array",
+      "description": "Key discussion questions for the hot wash (3-5)",
+      "items": {
+        "type": "string",
+        "examples": ["At what point did you stop trusting the screens? Why did it take so long?"]
+      }
+    },
+    "facilitatorNote": {
+      "type": "string",
+      "description": "Private note for the facilitator (not read aloud)",
+      "examples": ["Collect all ICS 201 forms and evaluator sheets before the break."]
+    },
+    "scenarioTitle": {
+      "type": "string",
+      "description": "Scenario name for the footer",
+      "examples": ["Scenario 3: Flight to Nowhere"]
+    },
+    "injectId": {
+      "type": "string",
+      "description": "MSEL id of this event",
+      "examples": ["END"]
+    }
+  },
+  "additionalProperties": false
+}

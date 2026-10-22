@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Regulatory notice",
+  "description": "Regulator-issued notice. Variant 'directive' renders a security directive / emergency amendment (TSA SD or EA style: header table, purpose, numbered required actions, approval) from agency, noticeType, number, subject, purpose and actions. Variant 'notam' renders a NOTAM search printout from the notams list. Always printed with an exercise marking.",
+  "type": "object",
+  "required": ["agency", "noticeType"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency",
+      "examples": ["Transportation Security Administration", "Federal Aviation Administration"]
+    },
+    "parent": {
+      "type": "string",
+      "description": "Parent department",
+      "examples": ["U.S. Department of Homeland Security"]
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office",
+      "examples": ["Office of Security Policy and Industry Engagement"]
+    },
+    "noticeType": {
+      "type": "string",
+      "enum": ["SD", "EA", "NOTAM"],
+      "description": "SD = Security Directive (airport operators), EA = Emergency Amendment (air carriers), NOTAM = Notice to Air Missions",
+      "examples": ["SD"]
+    },
+    "number": {
+      "type": "string",
+      "description": "Directive number (directive variant)",
+      "examples": ["SD 1542-26-02"]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Directive subject line (directive variant)",
+      "examples": ["Airport Operational Database Integrity"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Date issued",
+      "examples": ["May 22, 2026"]
+    },
+    "effectiveDate": {
+      "type": "string",
+      "description": "When the requirement takes effect",
+      "examples": ["May 22, 2026, 1800 EDT"]
+    },
+    "expirationDate": {
+      "type": "string",
+      "description": "When it expires",
+      "examples": ["August 22, 2026"]
+    },
+    "supersedes": {
+      "type": "string",
+      "description": "What it cancels and supersedes",
+      "examples": ["None"]
+    },
+    "applicability": {
+      "type": "string",
+      "description": "Who must comply",
+      "examples": ["All airport operators regulated under 49 CFR 1542.103(a)"]
+    },
+    "authority": {
+      "type": "string",
+      "description": "Legal authority",
+      "examples": ["49 U.S.C. 114(l)(2); 49 CFR 1542.303"]
+    },
+    "purpose": {
+      "type": "string",
+      "description": "Purpose and general information paragraph(s), blank line between paragraphs (directive variant)",
+      "examples": [
+        "TSA has received information that unauthorized parties have altered flight information data at a U.S. airport."
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "description": "Numbered actions required (directive variant), 3-6 imperative sentences",
+      "items": {
+        "type": "string",
+        "examples": [
+          "Within 24 hours, verify the integrity of all data published to passenger displays."
+        ]
+      }
+    },
+    "contact": {
+      "type": "string",
+      "description": "Who to contact with questions",
+      "examples": ["Questions: contact your TSA Federal Security Director."]
+    },
+    "approvedBy": {
+      "type": "object",
+      "description": "Approving official",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "examples": ["Jordan A. Ellis"]
+        },
+        "title": {
+          "type": "string",
+          "examples": ["Assistant Administrator, Security Policy"]
+        },
+        "signature": {
+          "type": "string",
+          "description": "Name as signed (rendered in handwriting)",
+          "examples": ["J. A. Ellis"]
+        }
+      }
+    },
+    "handling": {
+      "type": "string",
+      "description": "Handling caveat in the header (directive variant; default SENSITIVE SECURITY INFORMATION)",
+      "examples": ["SENSITIVE SECURITY INFORMATION"]
+    },
+    "notams": {
+      "type": "array",
+      "description": "NOTAM search results (notam variant), most relevant first (1-5)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["location", "number", "text"],
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "ICAO location identifier",
+            "examples": ["KNCA"]
+          },
+          "number": {
+            "type": "string",
+            "description": "NOTAM number",
+            "examples": ["05/014"]
+          },
+          "class": {
+            "type": "string",
+            "description": "NOTAM class",
+            "examples": ["Domestic", "International"]
+          },
+          "issued": {
+            "type": "string",
+            "description": "Issue date/time UTC",
+            "examples": ["05/22/2026 1512"]
+          },
+          "start": {
+            "type": "string",
+            "description": "Start UTC",
+            "examples": ["05/22/2026 1515"]
+          },
+          "end": {
+            "type": "string",
+            "description": "End UTC",
+            "examples": ["05/23/2026 0400EST"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Raw NOTAM text in ICAO/FAA contractions, uppercase",
+            "examples": ["!NCA 05/014 NCA AD AP TERMINAL FLT INFO DISPLAY SYSTEM U/S"]
+          },
+          "highlight": {
+            "type": "boolean",
+            "description": "Mark this NOTAM as the one the inject is about"
+          }
+        }
+      }
+    },
+    "searchLocation": {
+      "type": "string",
+      "description": "Location searched (notam variant)",
+      "examples": ["KNCA"]
+    },
+    "notamSource": {
+      "type": "string",
+      "description": "System named in the NOTAM search banner (notam variant; default Federal NOTAM System)",
+      "examples": ["Federal NOTAM System"]
+    },
+    "retrieved": {
+      "type": "string",
+      "description": "When the search was printed (notam variant)",
+      "examples": ["05/22/2026 1531 UTC"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed top and bottom (default: EXERCISE EXERCISE EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    }
+  },
+  "additionalProperties": false
+}

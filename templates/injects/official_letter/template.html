@@ -1,0 +1,134 @@
+<article class="letter">
+  <p class="marking top">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+
+  <!-- Federal letterhead: generic seal (no real insignia) + department / agency lines -->
+  <header class="lh-federal">
+    <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+      <defs>
+        <path id="seal-top" d="M34.76,96.04 A44,44 0 1,1 85.24,96.04" />
+        <path id="seal-bottom" d="M16.6,90 A52,52 0 0,0 103.4,90" />
+        <clipPath id="seal-shield">
+          <path d="M60,44 L77,49 L77,64 Q77,78 60,86 Q43,78 43,64 L43,49 Z" />
+        </clipPath>
+      </defs>
+      <circle cx="60" cy="60" r="58.5" class="s-fill" />
+      <circle cx="60" cy="60" r="55" class="s-ring" />
+      <circle cx="60" cy="60" r="35" class="s-ring" />
+      <text class="s-text">
+        <textPath href="#seal-top" startOffset="50%" text-anchor="middle">
+          {{upper fields.letterhead.organization}}
+        </textPath>
+      </text>
+      <text class="s-text s-small">
+        <textPath href="#seal-bottom" startOffset="50%" text-anchor="middle">★ ★ ★</textPath>
+      </text>
+      <g clip-path="url(#seal-shield)">
+        <rect x="43" y="44" width="34" height="42" class="s-white" />
+        <rect x="43" y="56" width="4.25" height="30" class="s-stripe" />
+        <rect x="51.5" y="56" width="4.25" height="30" class="s-stripe" />
+        <rect x="60" y="56" width="4.25" height="30" class="s-stripe" />
+        <rect x="68.5" y="56" width="4.25" height="30" class="s-stripe" />
+        <rect x="43" y="44" width="34" height="12" class="s-chief" />
+      </g>
+      <path d="M60,44 L77,49 L77,64 Q77,78 60,86 Q43,78 43,64 L43,49 Z" class="s-outline" />
+      <circle cx="53" cy="50.5" r="1.4" class="s-white" />
+      <circle cx="60" cy="49" r="1.4" class="s-white" />
+      <circle cx="67" cy="50.5" r="1.4" class="s-white" />
+      <path
+        d="M60,30 l2.1,4.3 4.7,0.7 -3.4,3.3 0.8,4.7 -4.2,-2.2 -4.2,2.2 0.8,-4.7 -3.4,-3.3 4.7,-0.7 z"
+        class="s-star"
+      />
+    </svg>
+    <div class="fed-names">
+      {{#if fields.letterhead.parent}}
+      <p class="parent">{{fields.letterhead.parent}}</p>
+      {{/if}}
+      <p class="agency">{{fields.letterhead.organization}}</p>
+      {{#if fields.letterhead.office}}
+      <p class="office">{{fields.letterhead.office}}</p>
+      {{/if}}
+    </div>
+    <div class="fed-addr">
+      {{#each fields.letterhead.address}}<span>{{this}}</span>{{/each}} {{#if
+      fields.letterhead.phone}}<span>{{fields.letterhead.phone}}</span>{{/if}}
+    </div>
+  </header>
+
+  <!-- Corporate letterhead: monogram + name + contact column -->
+  <header class="lh-corporate">
+    <div class="brand">
+      <span class="mono">{{initials fields.letterhead.organization}}</span>
+      <div>
+        <p class="corp-name">{{fields.letterhead.organization}}</p>
+        {{#if fields.letterhead.tagline}}
+        <p class="tagline">{{fields.letterhead.tagline}}</p>
+        {{/if}} {{#if fields.letterhead.office}}
+        <p class="tagline">{{fields.letterhead.office}}</p>
+        {{/if}}
+      </div>
+    </div>
+    <div class="corp-contact">
+      {{#each fields.letterhead.address}}<span>{{this}}</span>{{/each}} {{#if
+      fields.letterhead.phone}}<span>{{fields.letterhead.phone}}</span>{{/if}} {{#if
+      fields.letterhead.web}}<span>{{fields.letterhead.web}}</span>{{/if}}
+    </div>
+  </header>
+
+  <div class="meta">
+    {{#if fields.referenceNumber}}
+    <p class="ref">
+      {{default fields.referenceLabel "Reference:"}} <strong>{{fields.referenceNumber}}</strong>
+    </p>
+    {{/if}}
+    <p class="date">{{fields.date}}</p>
+  </div>
+
+  {{#if fields.delivery}}
+  <p class="delivery">{{fields.delivery}}</p>
+  {{/if}}
+  <address class="to">
+    <span>{{fields.to.name}}</span>
+    {{#if fields.to.title}}<span>{{fields.to.title}}</span>{{/if}} {{#if
+    fields.to.organization}}<span>{{fields.to.organization}}</span>{{/if}} {{#each
+    fields.to.address}}<span>{{this}}</span>{{/each}}
+  </address>
+
+  {{#if fields.subject}}
+  <p class="re"><span>Re:</span> {{fields.subject}}</p>
+  {{/if}} {{#if fields.salutation}}
+  <p class="salutation">{{fields.salutation}}</p>
+  {{/if}}
+  <div class="body">{{nl2br fields.body}}</div>
+
+  <div class="sign">
+    <p>{{default fields.closing "Sincerely,"}}</p>
+    <p class="sig">{{fields.from.signature}}</p>
+    <p class="signer">{{fields.from.name}}</p>
+    {{#if fields.from.title}}
+    <p class="signer-title">{{fields.from.title}}</p>
+    {{/if}}
+  </div>
+
+  {{#if (or fields.enclosures.length fields.cc.length)}}
+  <dl class="dist">
+    {{#if fields.enclosures.length}}
+    <div>
+      <dt>Enclosure{{#if (gt fields.enclosures.length 1)}}s{{/if}}:</dt>
+      <dd>{{join fields.enclosures "; "}}</dd>
+    </div>
+    {{/if}} {{#if fields.cc.length}}
+    <div>
+      <dt>cc:</dt>
+      <dd>{{join fields.cc "; "}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{/if}}
+
+  <footer class="foot">
+    <p class="corp-foot">
+      {{fields.letterhead.organization}}{{#each fields.letterhead.address}} · {{this}}{{/each}}
+    </p>
+    <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  </footer>
+</article>

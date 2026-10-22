@@ -1,0 +1,61 @@
+<article class="card">
+  <header class="top">
+    <span class="kicker">Facilitator control card</span>
+    <span class="meta"
+      >{{fields.injectId}}{{#if fields.exerciseTime}} · Exercise
+      {{fields.exerciseTime}}{{/if}}</span
+    >
+  </header>
+  <h1 class="label">STARTEX</h1>
+  <p class="now">
+    It is <strong>{{fields.startTime}}</strong>{{#if fields.day}}
+    <span class="delta">{{fields.day}}</span>{{/if}}
+  </p>
+  {{#if fields.location}}
+  <p class="where">{{fields.location}}</p>
+  {{/if}}
+  <section class="read">
+    <h2>Read aloud</h2>
+    <p class="narration">{{nl2br fields.narration}}</p>
+  </section>
+  {{#if (or fields.weather fields.load fields.staffing)}}
+  <dl class="conditions">
+    {{#if fields.weather}}
+    <div>
+      <dt>Weather</dt>
+      <dd>{{fields.weather}}</dd>
+    </div>
+    {{/if}} {{#if fields.load}}
+    <div>
+      <dt>Load</dt>
+      <dd>{{fields.load}}</dd>
+    </div>
+    {{/if}} {{#if fields.staffing}}
+    <div>
+      <dt>Staffing</dt>
+      <dd>{{fields.staffing}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{/if}} {{#if fields.status.length}}
+  <section class="board">
+    <h2>Status board at STARTEX</h2>
+    <table>
+      <tbody>
+        {{#each fields.status}}
+        <tr>
+          <th scope="row">{{name}}</th>
+          <td class="pill-cell">
+            <span class="pill s-{{status}}"><i></i>{{status}}</span>
+          </td>
+          <td class="note-cell">{{note}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{/if}} {{#if fields.facilitatorNote}}
+  <aside class="note"><strong>Facilitator only:</strong> {{fields.facilitatorNote}}</aside>
+  {{/if}}
+  <footer>{{fields.scenarioTitle}}</footer>
+</article>

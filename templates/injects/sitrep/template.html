@@ -1,0 +1,94 @@
+<article class="doc">
+  <p class="marking top">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div class="issuer">
+      {{#if fields.organization}}<span class="org">{{fields.organization}}</span>{{/if}} {{#if
+      fields.issuingOffice}}<span class="office">{{fields.issuingOffice}}</span>{{/if}}
+      <h1>Situation Report</h1>
+    </div>
+    <div class="num" aria-label="SITREP number">
+      <span>SITREP</span>
+      <strong>#{{fields.number}}</strong>
+    </div>
+  </header>
+  <table class="info">
+    <tr>
+      <th>Incident</th>
+      <td>{{fields.incidentName}}</td>
+      <th>As of</th>
+      <td>{{fields.time}}</td>
+    </tr>
+    <tr>
+      <th>From</th>
+      <td>{{fields.from}}</td>
+      <th>Period</th>
+      <td>{{fields.period}}</td>
+    </tr>
+    {{#if fields.to}}
+    <tr>
+      <th>To</th>
+      <td colspan="3">{{fields.to}}</td>
+    </tr>
+    {{/if}}
+  </table>
+
+  <ol class="paras">
+    <li>
+      <h2>Situation summary</h2>
+      <p>{{nl2br fields.summary}}</p>
+    </li>
+    {{#if fields.keyStatus.length}}
+    <li>
+      <h2>Current status</h2>
+      <dl class="status">
+        {{#each fields.keyStatus}}
+        <div>
+          <dt>{{label}}</dt>
+          <dd>{{value}}</dd>
+        </div>
+        {{/each}}
+      </dl>
+    </li>
+    {{/if}} {{#if fields.actions.length}}
+    <li>
+      <h2>Actions taken</h2>
+      <ul class="timed">
+        {{#each fields.actions}}
+        <li><span class="t">{{time}}</span><span>{{text}}</span></li>
+        {{/each}}
+      </ul>
+    </li>
+    {{/if}} {{#if fields.planned.length}}
+    <li>
+      <h2>Planned actions (next period)</h2>
+      <ol class="sub">
+        {{#each fields.planned}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ol>
+    </li>
+    {{/if}} {{#if fields.issues.length}}
+    <li>
+      <h2>Issues and resource requests</h2>
+      <ol class="sub">
+        {{#each fields.issues}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ol>
+    </li>
+    {{/if}} {{#if fields.nextReport}}
+    <li>
+      <h2>Next SITREP</h2>
+      <p>{{fields.nextReport}}</p>
+    </li>
+    {{/if}}
+  </ol>
+
+  <footer class="foot">
+    <div class="sign">
+      {{#if fields.preparedBy}}<span><b>Prepared by:</b> {{fields.preparedBy}}</span>{{/if}} {{#if
+      fields.approvedBy}}<span><b>Approved by:</b> {{fields.approvedBy}}</span>{{/if}}
+    </div>
+    <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  </footer>
+</article>

@@ -1,0 +1,465 @@
+<!-- FEMA ICS Form 201 (Incident Briefing) v3 layout, four US Letter pages. -->
+<section class="page p1">
+  <div class="form">
+    <table class="hdr">
+      <tr>
+        <td class="form-title">INCIDENT BRIEFING (ICS 201)</td>
+        <td class="h-name">
+          <b>1. Incident Name:</b><span class="v">{{fields.incidentName}}</span>
+        </td>
+        <td class="h-num">
+          <b>2. Incident Number:</b><span class="v">{{fields.incidentNumber}}</span>
+        </td>
+        <td class="h-dt">
+          <b>3. Date/Time Initiated:</b>
+          <div class="dt-row">
+            <span>Date:</span
+            ><span class="line"><span class="v">{{fields.dateInitiated}}</span></span>
+            <span>Time:</span
+            ><span class="line"><span class="v">{{fields.timeInitiated}}</span></span>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div class="blk map">
+      <p class="cap">
+        <b>4. Map/Sketch</b>
+        <span class="ins"
+          >(include sketch, showing the total area of operations, the incident site/area, impacted
+          and threatened areas, overflight results, trajectories, impacted shorelines, or other
+          graphics depicting situational status and resource assignment):</span
+        >
+      </p>
+      {{#if fields.mapNotes.length}}
+      <ul class="map-notes v">
+        {{#each fields.mapNotes}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+      {{/if}}
+    </div>
+    <div class="blk summary">
+      <p class="cap">
+        <b>5. Situation Summary and Health and Safety Briefing</b>
+        <span class="ins"
+          >(for briefings or transfer of command): Recognize potential incident Health and Safety
+          Hazards and develop necessary measures (remove hazard, provide personal protective
+          equipment, warn people of the hazard) to protect responders from those hazards.</span
+        >
+      </p>
+      <div class="v prose">
+        {{#if fields.situationSummary}}
+        <p>{{nl2br fields.situationSummary}}</p>
+        {{/if}} {{#if fields.safetyBriefing}}
+        <p><span class="hs">Health &amp; safety:</span> {{nl2br fields.safetyBriefing}}</p>
+        {{/if}}
+      </div>
+    </div>
+    <table class="ftr">
+      <tr>
+        <td colspan="3">
+          <div class="prep">
+            <b>6. Prepared by:</b>
+            <span class="pf">Name:</span
+            ><span class="line w-name"><span class="v">{{fields.preparedBy.name}}</span></span>
+            <span class="pf">Position/Title:</span
+            ><span class="line w-pos"><span class="v">{{fields.preparedBy.position}}</span></span>
+            <span class="pf">Signature:</span
+            ><span class="line w-sig sig"
+              ><span class="v">{{fields.preparedBy.signature}}</span></span
+            >
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="pageno"><b>ICS 201, Page 1</b></td>
+        <td colspan="2" class="pdt">
+          <span class="pf">Date/Time:</span
+          ><span class="line w-dt"><span class="v">{{fields.preparedBy.dateTime}}</span></span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+<section class="page p2">
+  <div class="form">
+    <table class="hdr">
+      <tr>
+        <td class="form-title">INCIDENT BRIEFING (ICS 201)</td>
+        <td class="h-name">
+          <b>1. Incident Name:</b><span class="v">{{fields.incidentName}}</span>
+        </td>
+        <td class="h-num">
+          <b>2. Incident Number:</b><span class="v">{{fields.incidentNumber}}</span>
+        </td>
+        <td class="h-dt">
+          <b>3. Date/Time Initiated:</b>
+          <div class="dt-row">
+            <span>Date:</span
+            ><span class="line"><span class="v">{{fields.dateInitiated}}</span></span>
+            <span>Time:</span
+            ><span class="line"><span class="v">{{fields.timeInitiated}}</span></span>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div class="blk objectives">
+      <p class="cap"><b>7. Current and Planned Objectives:</b></p>
+      {{#if fields.objectives.length}}
+      <ol class="v obj-list">
+        {{#each fields.objectives}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ol>
+      {{/if}}
+    </div>
+    <div class="blk actions">
+      <p class="cap"><b>8. Current and Planned Actions, Strategies, and Tactics:</b></p>
+      <div class="rows">
+        <table class="grid act">
+          <thead>
+            <tr>
+              <th class="c-time">Time:</th>
+              <th>Actions:</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each fields.actions}}
+            <tr>
+              <td class="v c-time">{{time}}</td>
+              <td class="v">{{action}}</td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <div class="filler"></div>
+      </div>
+    </div>
+    <table class="ftr">
+      <tr>
+        <td colspan="3">
+          <div class="prep">
+            <b>6. Prepared by:</b>
+            <span class="pf">Name:</span
+            ><span class="line w-name"><span class="v">{{fields.preparedBy.name}}</span></span>
+            <span class="pf">Position/Title:</span
+            ><span class="line w-pos"><span class="v">{{fields.preparedBy.position}}</span></span>
+            <span class="pf">Signature:</span
+            ><span class="line w-sig sig"
+              ><span class="v">{{fields.preparedBy.signature}}</span></span
+            >
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="pageno"><b>ICS 201, Page 2</b></td>
+        <td colspan="2" class="pdt">
+          <span class="pf">Date/Time:</span
+          ><span class="line w-dt"><span class="v">{{fields.preparedBy.dateTime}}</span></span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+<section class="page p3">
+  <div class="form">
+    <table class="hdr">
+      <tr>
+        <td class="form-title">INCIDENT BRIEFING (ICS 201)</td>
+        <td class="h-name">
+          <b>1. Incident Name:</b><span class="v">{{fields.incidentName}}</span>
+        </td>
+        <td class="h-num">
+          <b>2. Incident Number:</b><span class="v">{{fields.incidentNumber}}</span>
+        </td>
+        <td class="h-dt">
+          <b>3. Date/Time Initiated:</b>
+          <div class="dt-row">
+            <span>Date:</span
+            ><span class="line"><span class="v">{{fields.dateInitiated}}</span></span>
+            <span>Time:</span
+            ><span class="line"><span class="v">{{fields.timeInitiated}}</span></span>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div class="blk org">
+      <p class="cap">
+        <b>9. Current Organization</b>
+        <span class="ins">(fill in additional organization as appropriate):</span>
+      </p>
+      <div class="chart">
+        <svg class="wires" width="708" height="780" viewBox="0 0 708 780" aria-hidden="true">
+          <line x1="354" y1="122" x2="354" y2="332" />
+          <line x1="240" y1="179" x2="354" y2="179" />
+          <line x1="240" y1="259" x2="354" y2="259" />
+          <line x1="354" y1="219" x2="468" y2="219" />
+          <line x1="82.5" y1="332" x2="625.5" y2="332" />
+          <line x1="82.5" y1="332" x2="82.5" y2="352" />
+          <line x1="263.5" y1="332" x2="263.5" y2="352" />
+          <line x1="444.5" y1="332" x2="444.5" y2="352" />
+          <line x1="625.5" y1="332" x2="625.5" y2="352" />
+          <line x1="12" y1="418" x2="12" y2="736" />
+          <line x1="12" y1="464" x2="26" y2="464" />
+          <line x1="12" y1="532" x2="26" y2="532" />
+          <line x1="12" y1="600" x2="26" y2="600" />
+          <line x1="12" y1="668" x2="26" y2="668" />
+          <line x1="12" y1="736" x2="26" y2="736" />
+          <line x1="193" y1="418" x2="193" y2="736" />
+          <line x1="193" y1="464" x2="207" y2="464" />
+          <line x1="193" y1="532" x2="207" y2="532" />
+          <line x1="193" y1="600" x2="207" y2="600" />
+          <line x1="193" y1="668" x2="207" y2="668" />
+          <line x1="193" y1="736" x2="207" y2="736" />
+          <line x1="374" y1="418" x2="374" y2="736" />
+          <line x1="374" y1="464" x2="388" y2="464" />
+          <line x1="374" y1="532" x2="388" y2="532" />
+          <line x1="374" y1="600" x2="388" y2="600" />
+          <line x1="374" y1="668" x2="388" y2="668" />
+          <line x1="374" y1="736" x2="388" y2="736" />
+          <line x1="555" y1="418" x2="555" y2="736" />
+          <line x1="555" y1="464" x2="569" y2="464" />
+          <line x1="555" y1="532" x2="569" y2="532" />
+          <line x1="555" y1="600" x2="569" y2="600" />
+          <line x1="555" y1="668" x2="569" y2="668" />
+          <line x1="555" y1="736" x2="569" y2="736" />
+        </svg>
+        <div class="ob ic" style="left: 224px; top: 16px; width: 260px; height: 106px">
+          <span class="ob-l">Incident Commander(s)</span>
+          <span class="ic-line"
+            ><span class="v"
+              >{{#with (lookup fields.orgChart.incidentCommanders 0)}}{{name}}{{#if agency}}
+              ({{agency}}){{/if}}{{/with}}</span
+            ></span
+          >
+          <span class="ic-line"
+            ><span class="v"
+              >{{#with (lookup fields.orgChart.incidentCommanders 1)}}{{name}}{{#if agency}}
+              ({{agency}}){{/if}}{{/with}}</span
+            ></span
+          >
+          <span class="ic-line"
+            ><span class="v"
+              >{{#with (lookup fields.orgChart.incidentCommanders 2)}}{{name}}{{#if agency}}
+              ({{agency}}){{/if}}{{/with}}</span
+            ></span
+          >
+        </div>
+        <div class="ob staff" style="left: 30px; top: 152px; width: 210px; height: 54px">
+          <span class="ob-l">Public Information Officer</span
+          ><span class="ob-v v">{{fields.orgChart.publicInformationOfficer}}</span>
+        </div>
+        <div class="ob staff" style="left: 30px; top: 232px; width: 210px; height: 54px">
+          <span class="ob-l">Safety Officer</span
+          ><span class="ob-v v">{{fields.orgChart.safetyOfficer}}</span>
+        </div>
+        <div class="ob staff" style="left: 468px; top: 192px; width: 210px; height: 54px">
+          <span class="ob-l">Liaison Officer</span
+          ><span class="ob-v v">{{fields.orgChart.liaisonOfficer}}</span>
+        </div>
+        <div class="ob sec ops" style="left: 0px; top: 352px; width: 165px; height: 66px">
+          <span class="ob-l">Operations Section Chief</span
+          ><span class="ob-v v">{{fields.orgChart.operationsChief}}</span>
+        </div>
+        <div class="ob unit" style="left: 26px; top: 438px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.operationsUnits 0)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 26px; top: 506px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.operationsUnits 1)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 26px; top: 574px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.operationsUnits 2)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 26px; top: 642px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.operationsUnits 3)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 26px; top: 710px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.operationsUnits 4)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob sec plan" style="left: 181px; top: 352px; width: 165px; height: 66px">
+          <span class="ob-l">Planning Section Chief</span
+          ><span class="ob-v v">{{fields.orgChart.planningChief}}</span>
+        </div>
+        <div class="ob unit" style="left: 207px; top: 438px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.planningUnits 0)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 207px; top: 506px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.planningUnits 1)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 207px; top: 574px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.planningUnits 2)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 207px; top: 642px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.planningUnits 3)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 207px; top: 710px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.planningUnits 4)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob sec log" style="left: 362px; top: 352px; width: 165px; height: 66px">
+          <span class="ob-l">Logistics Section Chief</span
+          ><span class="ob-v v">{{fields.orgChart.logisticsChief}}</span>
+        </div>
+        <div class="ob unit" style="left: 388px; top: 438px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.logisticsUnits 0)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 388px; top: 506px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.logisticsUnits 1)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 388px; top: 574px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.logisticsUnits 2)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 388px; top: 642px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.logisticsUnits 3)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 388px; top: 710px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.logisticsUnits 4)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob sec fin" style="left: 543px; top: 352px; width: 165px; height: 66px">
+          <span class="ob-l">Finance/Administration Section Chief</span
+          ><span class="ob-v v">{{fields.orgChart.financeChief}}</span>
+        </div>
+        <div class="ob unit" style="left: 569px; top: 438px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.financeUnits 0)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 569px; top: 506px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.financeUnits 1)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 569px; top: 574px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.financeUnits 2)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 569px; top: 642px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.financeUnits 3)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+        <div class="ob unit" style="left: 569px; top: 710px; width: 139px; height: 52px">
+          {{#with (lookup fields.orgChart.financeUnits 4)}}<span class="ob-l v">{{title}}</span
+          ><span class="ob-v v">{{name}}</span>{{/with}}
+        </div>
+      </div>
+    </div>
+    <table class="ftr">
+      <tr>
+        <td colspan="3">
+          <div class="prep">
+            <b>6. Prepared by:</b>
+            <span class="pf">Name:</span
+            ><span class="line w-name"><span class="v">{{fields.preparedBy.name}}</span></span>
+            <span class="pf">Position/Title:</span
+            ><span class="line w-pos"><span class="v">{{fields.preparedBy.position}}</span></span>
+            <span class="pf">Signature:</span
+            ><span class="line w-sig sig"
+              ><span class="v">{{fields.preparedBy.signature}}</span></span
+            >
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="pageno"><b>ICS 201, Page 3</b></td>
+        <td colspan="2" class="pdt">
+          <span class="pf">Date/Time:</span
+          ><span class="line w-dt"><span class="v">{{fields.preparedBy.dateTime}}</span></span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+<section class="page p4">
+  <div class="form">
+    <table class="hdr">
+      <tr>
+        <td class="form-title">INCIDENT BRIEFING (ICS 201)</td>
+        <td class="h-name">
+          <b>1. Incident Name:</b><span class="v">{{fields.incidentName}}</span>
+        </td>
+        <td class="h-num">
+          <b>2. Incident Number:</b><span class="v">{{fields.incidentNumber}}</span>
+        </td>
+        <td class="h-dt">
+          <b>3. Date/Time Initiated:</b>
+          <div class="dt-row">
+            <span>Date:</span
+            ><span class="line"><span class="v">{{fields.dateInitiated}}</span></span>
+            <span>Time:</span
+            ><span class="line"><span class="v">{{fields.timeInitiated}}</span></span>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div class="blk resources">
+      <p class="cap"><b>10. Resource Summary:</b></p>
+      <div class="rows">
+        <table class="grid res">
+          <thead>
+            <tr>
+              <th class="c-res">Resource</th>
+              <th class="c-id">Resource Identifier</th>
+              <th class="c-ord">Date/Time Ordered</th>
+              <th class="c-eta">ETA</th>
+              <th class="c-arr">Arrived</th>
+              <th>Notes (location/assignment/status)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each fields.resources}}
+            <tr>
+              <td class="v">{{resource}}</td>
+              <td class="v">{{identifier}}</td>
+              <td class="v">{{ordered}}</td>
+              <td class="v">{{eta}}</td>
+              <td class="c-arr"><span class="tick{{#if arrived}} on{{/if}}"></span></td>
+              <td class="v">{{notes}}</td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <div class="filler"></div>
+      </div>
+    </div>
+    <table class="ftr">
+      <tr>
+        <td colspan="3">
+          <div class="prep">
+            <b>6. Prepared by:</b>
+            <span class="pf">Name:</span
+            ><span class="line w-name"><span class="v">{{fields.preparedBy.name}}</span></span>
+            <span class="pf">Position/Title:</span
+            ><span class="line w-pos"><span class="v">{{fields.preparedBy.position}}</span></span>
+            <span class="pf">Signature:</span
+            ><span class="line w-sig sig"
+              ><span class="v">{{fields.preparedBy.signature}}</span></span
+            >
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="pageno"><b>ICS 201, Page 4</b></td>
+        <td colspan="2" class="pdt">
+          <span class="pf">Date/Time:</span
+          ><span class="line w-dt"><span class="v">{{fields.preparedBy.dateTime}}</span></span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>

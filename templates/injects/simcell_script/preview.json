@@ -1,0 +1,42 @@
+{
+  "fields": {
+    "role": "FBI Cyber Duty Agent",
+    "persona": "Special Agent Smith",
+    "organization": "FBI Cleveland Field Office, Cyber Squad",
+    "trigger": "Any player says they are calling the FBI or \"law enforcement\" about the AODB intrusion or the screens.",
+    "contactMethod": "Phone. Walk to the caller's table and answer.",
+    "posture": "Busy, skeptical, procedural. Polite but short. You care about evidence, not about their screens. Do not make it easy.",
+    "openingLine": "Agent Smith here, Cyber. This line is recorded. What have you got?",
+    "hardQuestions": [
+      "Do you have a PCAP capture of the traffic? No? Then call me back when you have evidence.",
+      "Who has touched the server since you noticed? Has anyone rebooted it?",
+      "What is the source IP, and is that machine still on your network?",
+      "Are your logs going somewhere the attacker can't reach? How far back do they go?",
+      "Who at the airport is my point of contact, and do they have authority to hand over images?"
+    ],
+    "concessions": [
+      {
+        "condition": "They preserved logs and can name the source workstation (OPS_INTERN_03, 192.168.1.55)",
+        "concession": "Agree to send an agent on site within two hours and open a case number"
+      },
+      {
+        "condition": "They ask what to do before you arrive",
+        "concession": "Advise: isolate, do not wipe, image the disk, keep a chain-of-custody log"
+      },
+      {
+        "condition": "PIO asks what they can say publicly",
+        "concession": "\"You can say law enforcement has been notified. Nothing about suspects.\""
+      }
+    ],
+    "boundaries": [
+      "Do not confirm terrorism, a nation-state, or any attribution",
+      "Do not tell them to take FIDS offline; that is their operational call",
+      "Do not reveal the intern clue; let IT find it in I-08b"
+    ],
+    "exitLine": "Preserve everything and keep a list of who touched what. I'll call you back.",
+    "evaluatorNote": "Technical Competence excellence: IT has preserved logs and isolated 192.168.1.55 before calling. Fail: someone admits rebooting the server.",
+    "injectRefs": "I-08b, I-09, I-13",
+    "scenarioTitle": "Scenario 3: Flight to Nowhere",
+    "pageLabel": "SimCell 2 of 5"
+  }
+}

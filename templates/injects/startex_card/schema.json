@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "STARTEX card",
+  "description": "Facilitator control card read aloud to open the exercise: sets the clock, conditions and the baseline status of key systems.",
+  "type": "object",
+  "required": ["startTime", "narration"],
+  "properties": {
+    "exerciseTime": {
+      "type": "string",
+      "description": "Exercise clock when the card is read, H:MM (normally 0:00)",
+      "examples": ["0:00"]
+    },
+    "startTime": {
+      "type": "string",
+      "description": "In-scenario wall-clock time at STARTEX",
+      "examples": ["09:00 AM"]
+    },
+    "day": {
+      "type": "string",
+      "description": "In-scenario day or date shown next to the time",
+      "examples": ["Thursday", "Thursday, May 22"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Where the scenario takes place (facility name)",
+      "examples": ["North Coast International Airport (NCIA)"]
+    },
+    "weather": {
+      "type": "string",
+      "description": "Current weather, one short line",
+      "examples": ["Clear, 65°F. Winds calm."]
+    },
+    "load": {
+      "type": "string",
+      "description": "Passenger or operational load at start, one short line",
+      "examples": ["High: about 15% above average (holiday weekend)"]
+    },
+    "staffing": {
+      "type": "string",
+      "description": "Staffing level at start, one short line",
+      "examples": ["Full shifts in Operations, Maintenance and IT"]
+    },
+    "narration": {
+      "type": "string",
+      "description": "Opening statement the facilitator reads aloud to start play (2-4 sentences)",
+      "examples": [
+        "STARTEX. This is an exercise. It is 09:00 AM on a busy Thursday at North Coast International Airport."
+      ]
+    },
+    "status": {
+      "type": "array",
+      "description": "Baseline status board at STARTEX: one row per system or area (3-7 rows)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "System, area or function",
+            "examples": ["FIDS screens"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["green", "yellow", "red"],
+            "description": "green = normal, yellow = degraded, red = down",
+            "examples": ["green"]
+          },
+          "note": {
+            "type": "string",
+            "description": "Short qualifier",
+            "examples": ["Normal operations"]
+          }
+        }
+      }
+    },
+    "facilitatorNote": {
+      "type": "string",
+      "description": "Private note for the facilitator (not read aloud)",
+      "examples": [
+        "Confirm every table has the player briefing packet and a blank ICS 201 before reading."
+      ]
+    },
+    "scenarioTitle": {
+      "type": "string",
+      "description": "Scenario name for the footer",
+      "examples": ["Scenario 3: Flight to Nowhere"]
+    },
+    "injectId": {
+      "type": "string",
+      "description": "MSEL id of this event",
+      "examples": ["START"]
+    }
+  },
+  "additionalProperties": false
+}

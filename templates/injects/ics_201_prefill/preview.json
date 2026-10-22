@@ -1,0 +1,126 @@
+{
+  "fields": {
+    "incidentName": "NCIA FIDS / AODB Data Integrity",
+    "incidentNumber": "NCIA-2026-0417",
+    "dateInitiated": "05/22/2026",
+    "timeInitiated": "1045",
+    "mapNotes": [
+      "Gate B4: screen shows MIAMI for Minneapolis flight (0900)",
+      "Gate A1: DL1245 listed, gate empty; pax sent to A12",
+      "Central atrium FIDS: UA 666 PURGATORY / ALL gates",
+      "Long Term Parking Deck L3: fire alarm (Fire on scene)",
+      "BHS Manual Encode pier (basement): belts 1-3 E-Stopped",
+      "TSA checkpoint: line past atrium, crush risk"
+    ],
+    "situationSummary": "Since 0900 the AODB has been feeding false gate, destination and status data to FIDS, the BHS sortation controller and the automated PA. At 1015 the PA announced \"Flight 666 to Purgatory now boarding at all gates.\" BHS is routing all Concourse A bags to the Manual Encode pier; belts 1-3 are E-Stopped. A viral Facebook post claims ISIS has taken the control tower (false). Airlines report pilots refusing pushback because EFBs are syncing bad gate data. IT suspects unauthorized access via workstation OPS_INTERN_03 (phishing, 05/21).",
+    "safetyBriefing": "Crowding at airline counters, Gate C4 and the TSA checkpoint: crush risk. Manual bag handling in the BHS basement: lifting and belt-pinch hazards; lock out belts before entry. Do not trust any screen or PA message until IT verifies it.",
+    "objectives": [
+      "Protect passengers and staff from crowd crush at counters, gates and the checkpoint",
+      "Stop false information reaching the public: silence automated PA, take FIDS dark on IC order",
+      "Stand up manual operations (whiteboard teams, megaphones) per TIRP 13.6 / 13.7",
+      "Contain the AODB compromise and preserve evidence for law enforcement",
+      "Issue holding statement and counter the ISIS rumor within 15 minutes",
+      "Keep airlines informed through the Airline Liaison; restore verified flight data"
+    ],
+    "actions": [
+      {
+        "time": "0915",
+        "action": "Delta (Gate B4) reports wrong destination; Ops opens IT ticket"
+      },
+      { "time": "0930", "action": "IT confirms AODB source data changed, not a display fault" },
+      { "time": "0955", "action": "PIO begins social monitoring after @TravelGuy99 post" },
+      {
+        "time": "1010",
+        "action": "Fire Dept dispatched to LTP Deck L3 alarm (Ops keeps police in terminal)"
+      },
+      { "time": "1015", "action": "Automated PA silenced; PA server disconnected from network" },
+      { "time": "1020", "action": "PIO posts myth-busting statement: no threat to aircraft" },
+      { "time": "1030", "action": "Manual baggage handling with Delta/United ground crews" },
+      { "time": "1040", "action": "IT isolates OPS_INTERN_03 from network; images disk" },
+      { "time": "1045", "action": "Incident declared; Unified Command established in EOC" },
+      { "time": "1100", "action": "PLANNED: Decision on full FIDS shutdown after IT log review" },
+      { "time": "1100", "action": "PLANNED: Whiteboard teams to atrium, A and B concourses" },
+      { "time": "1130", "action": "PLANNED: Notify FBI Cleveland and TSA FSD; preserve AODB logs" }
+    ],
+    "orgChart": {
+      "incidentCommanders": [
+        { "name": "R. Delgado", "agency": "NCIA Ops Director" },
+        { "name": "Lt. M. Harmon", "agency": "NCIA Police" }
+      ],
+      "publicInformationOfficer": "T. Nguyen",
+      "safetyOfficer": "K. Osei",
+      "liaisonOfficer": "M. Brandt (Airlines)",
+      "operationsChief": "D. Kowalski",
+      "planningChief": "A. Patel",
+      "logisticsChief": "J. Romero",
+      "financeChief": "Not activated",
+      "operationsUnits": [
+        { "title": "Terminal Branch", "name": "S. Mills" },
+        { "title": "Baggage (BHS) Group", "name": "BHS Duty Mgr" },
+        { "title": "Security / LEO Group", "name": "Sgt. P. Ruiz" },
+        { "title": "IT / Cyber Group", "name": "IT Director L. Chen" }
+      ],
+      "planningUnits": [
+        { "title": "Situation Unit", "name": "Scribe: B. Ames" },
+        { "title": "Documentation Unit", "name": "C. Frey" }
+      ],
+      "logisticsUnits": [{ "title": "Communications Unit", "name": "Radio shop: E. Diaz" }]
+    },
+    "resources": [
+      {
+        "resource": "Whiteboard teams (x6)",
+        "identifier": "NCIA-OPS-WB",
+        "ordered": "05/22 1010",
+        "eta": "1030",
+        "arrived": true,
+        "notes": "Staged at atrium; deploy on FIDS shutdown"
+      },
+      {
+        "resource": "Megaphones (x12)",
+        "identifier": "NCIA-OPS",
+        "ordered": "05/22 1010",
+        "eta": "1025",
+        "arrived": true,
+        "notes": "With whiteboard teams"
+      },
+      {
+        "resource": "Engine 3, Medic 3",
+        "identifier": "NCIA ARFF",
+        "ordered": "05/22 1010",
+        "eta": "1016",
+        "arrived": true,
+        "notes": "LTP Deck L3 fire alarm"
+      },
+      {
+        "resource": "Police officers (x8)",
+        "identifier": "NCIA PD",
+        "ordered": "05/22 1035",
+        "eta": "1045",
+        "arrived": false,
+        "notes": "Crowd control, checkpoint and Gate C4"
+      },
+      {
+        "resource": "Ground crew, manual bags (x20)",
+        "identifier": "DL / UA ramp",
+        "ordered": "05/22 1030",
+        "eta": "1100",
+        "arrived": false,
+        "notes": "BHS Manual Encode pier"
+      },
+      {
+        "resource": "AODB vendor engineer",
+        "identifier": "Vendor on-call",
+        "ordered": "05/22 0945",
+        "eta": "Unknown",
+        "arrived": false,
+        "notes": "No call back yet"
+      }
+    ],
+    "preparedBy": {
+      "name": "R. Delgado",
+      "position": "Incident Commander",
+      "signature": "R. Delgado",
+      "dateTime": "05/22/2026 1045"
+    }
+  }
+}

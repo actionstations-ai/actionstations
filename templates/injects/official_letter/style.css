@@ -1,0 +1,259 @@
+/* One-page letter on letterhead, US Letter (816 × 1056).
+   variant-federal: agency letterhead with a generic seal (no real insignia), serif body.
+   variant-corporate: company letterhead with monogram and color bar, sans body. */
+.letter {
+  height: 1056px;
+  padding: 26px 92px 26px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Source Serif 4', serif;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: #141414;
+  position: relative;
+}
+p {
+  margin: 0;
+}
+.marking {
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #9b1c14;
+}
+.marking.top {
+  margin-bottom: 18px;
+}
+
+/* Federal letterhead */
+.lh-federal {
+  display: grid;
+  grid-template-columns: 92px 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1.5px solid #1c2c52;
+}
+.seal {
+  width: 92px;
+  height: 92px;
+}
+.s-fill {
+  fill: #fff;
+  stroke: #1c2c52;
+  stroke-width: 2.2;
+}
+.s-ring {
+  fill: none;
+  stroke: #1c2c52;
+  stroke-width: 1;
+}
+.s-text {
+  fill: #1c2c52;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 8.4px;
+  letter-spacing: 0.3px;
+}
+.s-small {
+  font-size: 7px;
+  letter-spacing: 3px;
+}
+.s-white {
+  fill: #fff;
+}
+.s-stripe {
+  fill: #9b1c14;
+}
+.s-chief {
+  fill: #1c2c52;
+}
+.s-outline {
+  fill: none;
+  stroke: #1c2c52;
+  stroke-width: 1.2;
+}
+.s-star {
+  fill: #1c2c52;
+}
+.fed-names .parent {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: #1c2c52;
+}
+.fed-names .agency {
+  margin-top: 3px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #1c2c52;
+}
+.fed-names .office {
+  margin-top: 1px;
+  font-size: 13px;
+  color: #333;
+}
+.fed-addr {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: #333;
+}
+
+/* Corporate letterhead */
+.lh-corporate {
+  display: none;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 18px 0 16px;
+  border-top: 8px solid #0f5c6e;
+  border-bottom: 1px solid #cfd8db;
+  font-family: 'Inter', sans-serif;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.mono {
+  width: 50px;
+  height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f5c6e;
+  color: #fff;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.02em;
+  border-radius: 3px;
+}
+.corp-name {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #0b3a45;
+  line-height: 1.15;
+}
+.tagline {
+  font-size: 11.5px;
+  color: #5a6b70;
+  letter-spacing: 0.02em;
+}
+.corp-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 11px;
+  line-height: 1.45;
+  color: #4a5a5f;
+}
+
+/* Letter body */
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 22px;
+}
+.ref {
+  font-size: 12.5px;
+}
+.ref strong {
+  font-weight: 600;
+}
+.date {
+  margin-left: auto;
+}
+.delivery {
+  margin-top: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.to {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+  line-height: 1.4;
+}
+.re {
+  margin-top: 16px;
+  font-weight: 700;
+}
+.re span {
+  margin-right: 8px;
+}
+.salutation {
+  margin-top: 14px;
+}
+.body {
+  margin-top: 10px;
+  text-align: left;
+}
+.sign {
+  margin-top: 16px;
+}
+.sig {
+  margin: 2px 0 0 -2px;
+  min-height: 34px;
+  font-family: 'Caveat', cursive;
+  font-size: 32px;
+  line-height: 1.05;
+  color: #1c2c80;
+}
+.signer {
+  margin-top: 2px;
+}
+.dist {
+  margin: 18px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.dist div {
+  display: flex;
+  gap: 10px;
+}
+.dist dt {
+  min-width: 74px;
+}
+.dist dd {
+  margin: 0;
+}
+.foot {
+  margin-top: auto;
+}
+.corp-foot {
+  display: none;
+  margin-bottom: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #cfd8db;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 10.5px;
+  color: #5a6b70;
+}
+
+/* Corporate variant switches */
+body.variant-corporate .lh-federal {
+  display: none;
+}
+body.variant-corporate .lh-corporate {
+  display: flex;
+}
+body.variant-corporate .corp-foot {
+  display: block;
+}
+body.variant-corporate .letter {
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+body.variant-corporate .re {
+  font-weight: 600;
+}

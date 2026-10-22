@@ -1,0 +1,214 @@
+/* FEMA ICS 203 (Organization Assignment List) v3 on one US Letter page (816 × 1056).
+   Labels follow the FEMA form; values (.v) are typed entries.
+   variant-blank hides every value so the player packet gets clean, empty lines. */
+.page {
+  height: 1056px;
+  padding: 36px 44px 32px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  color: #000;
+  font-size: 11.5px;
+  line-height: 1.25;
+}
+.form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid #000;
+  min-height: 0;
+}
+b {
+  font-weight: 700;
+}
+.v {
+  font-family: 'Roboto', sans-serif;
+  font-size: 11.5px;
+  color: #000;
+}
+.line {
+  display: inline-block;
+  border-bottom: 1px solid #000;
+  min-height: 14px;
+  padding: 0 4px;
+  vertical-align: bottom;
+  white-space: nowrap;
+}
+
+/* Header: title + blocks 1-2 */
+.hdr,
+.ftr {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.hdr td {
+  border-right: 1px solid #000;
+  padding: 4px 6px 5px;
+  vertical-align: top;
+}
+.hdr td:last-child {
+  border-right: 0;
+}
+.form-title {
+  width: 25%;
+  font-size: 13px;
+  font-weight: 700;
+  vertical-align: middle !important;
+  line-height: 1.2;
+}
+.h-name {
+  width: 33%;
+}
+.h-name .v {
+  display: block;
+  margin-top: 4px;
+  font-size: 12.5px;
+}
+.op-grid {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr;
+  gap: 4px 4px;
+  align-items: end;
+  margin-top: 4px;
+}
+.op-grid .line {
+  margin-right: 6px;
+}
+
+/* Two columns of label/value tables */
+.cols {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid #000;
+  min-height: 0;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+}
+.col + .col {
+  border-left: 1px solid #000;
+}
+.kv {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.kv + .kv {
+  border-top: 1px solid #000;
+}
+.kv caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 4px 6px 2px;
+}
+.kv th,
+.kv td {
+  height: 20.5px;
+  padding: 0 6px;
+  vertical-align: bottom;
+  font-weight: 400;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kv th {
+  width: 40%;
+  padding-left: 14px;
+}
+.kv td {
+  border-bottom: 1px solid #000;
+}
+.kv td .v {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 1px;
+}
+.kv tr.sub th {
+  padding-left: 6px;
+  font-weight: 700;
+  font-style: normal;
+}
+.bname {
+  display: inline-block;
+  height: 15px;
+  min-width: 200px;
+  margin-left: 6px;
+  border-bottom: 1px solid #000;
+  font-weight: 400;
+}
+.reps tr.colhead th {
+  width: auto;
+  font-weight: 700;
+  padding-left: 14px;
+}
+.reps td:first-child {
+  padding-left: 14px;
+}
+.reps td + td {
+  border-left: 1px solid #000;
+}
+.kv {
+  margin-bottom: 5px;
+}
+
+/* Footer: block 9 */
+.ftr td {
+  border-top: 1px solid #000;
+  padding: 5px 6px 6px;
+  vertical-align: bottom;
+}
+.prep {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  white-space: nowrap;
+}
+.prep b {
+  margin-right: 6px;
+}
+.pf {
+  margin-left: 6px;
+}
+.w-name,
+.w-pos {
+  width: 150px;
+}
+.w-sig {
+  flex: 1;
+}
+.sig .v {
+  font-family: 'Caveat', cursive;
+  font-size: 19px;
+  line-height: 14px;
+}
+.pdt {
+  white-space: nowrap;
+}
+.c-formno {
+  width: 30%;
+}
+.c-iap {
+  width: 26%;
+}
+.formno,
+.iap {
+  border-right: 1px solid #000;
+}
+.w-iap {
+  width: 60px;
+}
+.w-dt {
+  width: 220px;
+}
+
+/* Blank variant (player packet): keep every line, drop the values. */
+body.variant-blank .v {
+  visibility: hidden;
+}

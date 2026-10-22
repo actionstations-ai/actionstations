@@ -1,0 +1,71 @@
+<article class="sheet">
+  <header class="head">
+    <div class="org">
+      {{#if fields.organization}}<span>{{fields.organization}}</span>{{/if}}{{#if
+      fields.facility}}<span class="fac">{{fields.facility}}</span>{{/if}}
+    </div>
+    <h1>{{default fields.title "Critical Resource Status"}}</h1>
+    <dl class="meta">
+      <div class="m-incident">
+        <dt>Incident</dt>
+        <dd><span class="v">{{fields.incidentName}}</span></dd>
+      </div>
+      <div>
+        <dt>As of</dt>
+        <dd><span class="v">{{fields.asOf}}</span></dd>
+      </div>
+      <div>
+        <dt>Operational period</dt>
+        <dd><span class="v">{{fields.operationalPeriod}}</span></dd>
+      </div>
+      <div>
+        <dt>Maintained by</dt>
+        <dd><span class="v">{{fields.preparedBy}}</span></dd>
+      </div>
+    </dl>
+  </header>
+
+  <ul class="legend">
+    <li>
+      <span class="chip s-green"><i></i>Green</span> {{default fields.legend.green "Operational"}}
+    </li>
+    <li>
+      <span class="chip s-yellow"><i></i>Yellow</span> {{default fields.legend.yellow "Degraded /
+      workaround in place"}}
+    </li>
+    <li>
+      <span class="chip s-red"><i></i>Red</span> {{default fields.legend.red "Down / unavailable"}}
+    </li>
+  </ul>
+
+  <div class="board">
+    <table>
+      <thead>
+        <tr>
+          <th class="c-name">Resource</th>
+          <th class="c-status">Status</th>
+          <th>Notes</th>
+          <th class="c-owner">Owner</th>
+          <th class="c-upd">Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.resources}}
+        <tr>
+          <th scope="row" class="c-name">{{name}}</th>
+          <td class="c-status">
+            {{#if status}}<span class="st s-{{status}}"
+              ><i></i>{{#if (eq status "unknown")}}Unknown{{else}}{{status}}{{/if}}</span
+            >{{/if}}
+            <span class="choices" aria-hidden="true"><b>G</b><b>Y</b><b>R</b></span>
+          </td>
+          <td><span class="v">{{notes}}</span></td>
+          <td class="c-owner"><span class="v">{{owner}}</span></td>
+          <td class="c-upd"><span class="v">{{updated}}</span></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <div class="filler"></div>
+  </div>
+</article>

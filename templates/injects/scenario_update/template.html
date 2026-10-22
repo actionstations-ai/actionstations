@@ -1,0 +1,38 @@
+<article class="card">
+  <header class="top">
+    <span class="kicker">Facilitator control card</span>
+    <span class="meta"
+      >{{fields.injectId}}{{#if fields.exerciseTime}} · Exercise
+      {{fields.exerciseTime}}{{/if}}</span
+    >
+  </header>
+  <h1 class="label">Scenario update</h1>
+  {{#if (or fields.headline fields.scenarioTime)}}
+  <p class="now">
+    {{#if fields.headline}}<strong>{{fields.headline}}</strong>{{/if}}{{#if fields.scenarioTime}}
+    <span class="delta">{{fields.scenarioTime}}</span>{{/if}}
+  </p>
+  {{/if}}
+  <section class="read">
+    <h2>Read aloud{{#if fields.deliverTo}} · to {{fields.deliverTo}}{{/if}}</h2>
+    <p class="narration">{{nl2br fields.narration}}</p>
+  </section>
+  {{#if fields.keyFacts.length}}
+  <section class="state">
+    <h2>What is now true</h2>
+    <ul>
+      {{#each fields.keyFacts}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+  {{/if}}
+  <div class="private">
+    {{#if fields.expectedAction}}
+    <p class="expected"><strong>Expected action:</strong> {{fields.expectedAction}}</p>
+    {{/if}} {{#if fields.facilitatorNote}}
+    <aside class="note"><strong>Facilitator only:</strong> {{fields.facilitatorNote}}</aside>
+    {{/if}}
+  </div>
+  <footer>{{fields.scenarioTitle}}</footer>
+</article>

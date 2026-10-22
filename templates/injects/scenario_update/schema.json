@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Scenario update",
+  "description": "Facilitator control card read aloud to the room to advance the story without a time jump (a visual or verbal inject delivered by the facilitator).",
+  "type": "object",
+  "required": ["narration"],
+  "properties": {
+    "exerciseTime": {
+      "type": "string",
+      "description": "Exercise clock when the card is read, H:MM",
+      "examples": ["2:15"]
+    },
+    "scenarioTime": {
+      "type": "string",
+      "description": "In-scenario wall-clock time, if the update names it",
+      "examples": ["11:15 AM"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Short title of the development (5-8 words)",
+      "examples": ["The terminal screens go black"]
+    },
+    "deliverTo": {
+      "type": "string",
+      "description": "Who hears it: all players or one team",
+      "examples": ["All players", "Ops Director"]
+    },
+    "narration": {
+      "type": "string",
+      "description": "Text the facilitator reads aloud, present tense, 3-6 sentences",
+      "examples": [
+        "Every screen in the terminal is now black. Passengers are crowding the airline counters demanding information."
+      ]
+    },
+    "keyFacts": {
+      "type": "array",
+      "description": "New facts players can act on (2-5 short lines)",
+      "items": { "type": "string", "examples": ["All FIDS screens are dark by Ops order"] }
+    },
+    "expectedAction": {
+      "type": "string",
+      "description": "What the players are expected to do (from the MSEL), for the facilitator only",
+      "examples": ["Ops deploys staff with megaphones and whiteboards (Section 13.7 checklist)."]
+    },
+    "facilitatorNote": {
+      "type": "string",
+      "description": "Private note for the facilitator (not read aloud)",
+      "examples": ["Show the crowded-terminal photo on the projector while reading."]
+    },
+    "scenarioTitle": {
+      "type": "string",
+      "description": "Scenario name for the footer",
+      "examples": ["Scenario 3: Flight to Nowhere"]
+    },
+    "injectId": {
+      "type": "string",
+      "description": "MSEL id of this event",
+      "examples": ["I-10"]
+    }
+  },
+  "additionalProperties": false
+}

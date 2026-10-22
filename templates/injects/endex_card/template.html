@@ -1,0 +1,45 @@
+<article class="card">
+  <header class="top">
+    <span class="kicker">Facilitator control card</span>
+    <span class="meta"
+      >{{fields.injectId}}{{#if fields.exerciseTime}} · Exercise
+      {{fields.exerciseTime}}{{/if}}</span
+    >
+  </header>
+  <h1 class="label">ENDEX</h1>
+  {{#if fields.endTime}}
+  <p class="now">Play stops at <strong>{{fields.endTime}}</strong></p>
+  {{/if}}
+  <section class="read">
+    <h2>Read aloud</h2>
+    <p class="narration">{{nl2br fields.resolution}}</p>
+  </section>
+  {{#if fields.finalState.length}}
+  <section class="state">
+    <h2>The situation at ENDEX</h2>
+    <ul>
+      {{#each fields.finalState}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+  {{/if}}
+  <section class="hotwash">
+    <h2 class="hw-title">Transition to hot wash</h2>
+    {{#if fields.hotWashTransition}}
+    <p class="say"><span class="say-tag">Say</span>{{fields.hotWashTransition}}</p>
+    {{/if}} {{#if fields.hotWashMethod}}
+    <p class="method"><strong>Open with:</strong> {{fields.hotWashMethod}}</p>
+    {{/if}} {{#if fields.hotWashQuestions.length}}
+    <ol class="questions">
+      {{#each fields.hotWashQuestions}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ol>
+    {{/if}}
+  </section>
+  {{#if fields.facilitatorNote}}
+  <aside class="note"><strong>Facilitator only:</strong> {{fields.facilitatorNote}}</aside>
+  {{/if}}
+  <footer>{{fields.scenarioTitle}}</footer>
+</article>

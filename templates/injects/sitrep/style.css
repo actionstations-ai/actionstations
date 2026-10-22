@@ -1,0 +1,167 @@
+/* Numbered EOC situation report, US Letter (816 × 1056), Word-document look. */
+.doc {
+  height: 1056px;
+  padding: 34px 64px 30px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  line-height: 1.42;
+  color: #111;
+}
+.marking {
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #9b1c14;
+}
+.marking.top {
+  margin-bottom: 16px;
+}
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #1b2a4a;
+}
+.issuer {
+  display: flex;
+  flex-direction: column;
+}
+.org {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #1b2a4a;
+}
+.office {
+  font-size: 12px;
+  color: #444;
+}
+h1 {
+  margin: 8px 0 0;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #1b2a4a;
+}
+.num {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 108px;
+  padding: 6px 14px 4px;
+  border: 2px solid #1b2a4a;
+  color: #1b2a4a;
+}
+.num span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+.num strong {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 38px;
+  line-height: 1;
+}
+.info {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 12.5px;
+}
+.info th,
+.info td {
+  padding: 5px 8px;
+  border: 1px solid #b9c0cc;
+  text-align: left;
+  vertical-align: top;
+}
+.info th {
+  width: 78px;
+  background: #eef1f6;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1b2a4a;
+}
+.info td {
+  width: auto;
+}
+.paras {
+  margin: 14px 0 0;
+  padding-left: 26px;
+}
+.paras > li {
+  margin-bottom: 11px;
+}
+.paras > li::marker {
+  font-weight: 700;
+  color: #1b2a4a;
+}
+h2 {
+  margin: 0 0 3px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #1b2a4a;
+}
+.paras p {
+  margin: 0;
+}
+.status {
+  margin: 2px 0 0;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.status div {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+  padding: 2px 0;
+  border-bottom: 1px dotted #c3c8d2;
+}
+.status dt {
+  font-weight: 700;
+}
+.status dd {
+  margin: 0;
+}
+.timed {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.timed li {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+}
+.t {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.sub {
+  margin: 0;
+  padding-left: 20px;
+  list-style: lower-alpha;
+}
+.foot {
+  margin-top: auto;
+  border-top: 1px solid #b9c0cc;
+  padding-top: 8px;
+}
+.sign {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 12px;
+}

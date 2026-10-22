@@ -1,0 +1,54 @@
+{
+  "fields": {
+    "number": "3",
+    "time": "05/22/2026 1130 EDT",
+    "organization": "North Coast International Airport",
+    "issuingOffice": "Emergency Operations Center",
+    "incidentName": "FIDS / AODB Data Integrity",
+    "period": "1045-1130",
+    "from": "Planning Section, Situation Unit",
+    "to": "Unified Command; Command and General Staff; Airline Station Managers; TSA FSD",
+    "summary": "IT confirmed unauthorized administrator access to the AODB SQL master from workstation OPS_INTERN_03 (192.168.1.55). A script (random_gate_generator.ps1) altered 142 active flight records at 1005. At 1100 the IC ordered all FIDS screens dark; whiteboard teams with megaphones are directing passengers. TSA moved to manual ID checks after boarding-pass scanners rejected mismatched flight data. A crowd crush developed at Gate C4 and is being managed by NCIA Police. No injuries reported.",
+    "keyStatus": [
+      { "label": "FIDS", "value": "RED: dark by IC order since 1100; whiteboards in use" },
+      { "label": "AODB", "value": "RED: compromised; source workstation isolated, logs preserved" },
+      {
+        "label": "Baggage (BHS)",
+        "value": "RED: belts 1-3 E-Stopped; manual handling for Concourse A"
+      },
+      { "label": "Automated PA", "value": "YELLOW: disconnected; live announcements only" },
+      { "label": "TSA checkpoint", "value": "YELLOW: manual ID check; queue past atrium" },
+      { "label": "Airfield", "value": "GREEN: open; airlines holding pushbacks" }
+    ],
+    "actions": [
+      {
+        "time": "1045",
+        "text": "Incident declared; Unified Command (Ops Director, NCIA Police) in the EOC"
+      },
+      {
+        "time": "1050",
+        "text": "PIO holding statement: \"technical issue with flight displays; check your airline app\""
+      },
+      {
+        "time": "1100",
+        "text": "IC ordered FIDS shutdown terminal-wide; whiteboard teams deployed"
+      },
+      { "time": "1110", "text": "Police redirected to Gate C4 crowd crush and checkpoint" },
+      { "time": "1120", "text": "IT preserved AODB logs; FBI Cleveland cyber duty agent notified" }
+    ],
+    "planned": [
+      "Restore AODB from 0400 backup on an isolated network; verify before any screen goes live",
+      "Test-restore a single FIDS screen at a remote gate before terminal-wide restore",
+      "Joint flight-by-flight data reconciliation with Delta and United",
+      "PIO update at 1200 ahead of Channel 5 live broadcast"
+    ],
+    "issues": [
+      "AODB vendor engineer has not responded since 0945",
+      "United Station Manager will pull counter staff if bad data reappears; wants written assurance",
+      "Request 10 additional staff for manual baggage handling (Logistics)"
+    ],
+    "nextReport": "1230, or sooner on significant change",
+    "preparedBy": "B. Ames, Situation Unit Leader",
+    "approvedBy": "A. Patel, Planning Section Chief"
+  }
+}

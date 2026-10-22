@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Resource status board",
+  "description": "EOC critical resource status board: one row per system, area or function with a Green/Yellow/Red status. The 'blank' variant keeps resource names but prints empty G/Y/R choices for players to fill in (player briefing packet).",
+  "type": "object",
+  "required": ["resources"],
+  "properties": {
+    "organization": {
+      "type": "string",
+      "description": "Organization running the board",
+      "examples": ["North Coast International Airport"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Where the board lives",
+      "examples": ["Emergency Operations Center"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Board title (default: Critical Resource Status)",
+      "examples": ["Critical Resource Status"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name",
+      "examples": ["FIDS / AODB Data Integrity"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "When the statuses were last confirmed",
+      "examples": ["11:30 AM"]
+    },
+    "operationalPeriod": {
+      "type": "string",
+      "description": "Operational period covered",
+      "examples": ["05/22 1045-1800"]
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Who maintains the board",
+      "examples": ["Situation Unit (B. Ames)"]
+    },
+    "resources": {
+      "type": "array",
+      "description": "Board rows (4-14), most critical first",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "System, resource, area or function",
+            "examples": ["FIDS Screens"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["green", "yellow", "red", "unknown"],
+            "description": "green = operational, yellow = degraded / at risk, red = down / unavailable, unknown = not yet confirmed",
+            "examples": ["red"]
+          },
+          "notes": {
+            "type": "string",
+            "description": "One-line status note",
+            "examples": ["Dark by IC order since 1100; whiteboards in use"]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Team or person responsible",
+            "examples": ["IT"]
+          },
+          "updated": {
+            "type": "string",
+            "description": "Time of last update",
+            "examples": ["1100"]
+          }
+        }
+      }
+    },
+    "legend": {
+      "type": "object",
+      "description": "Override the meaning of each color",
+      "additionalProperties": false,
+      "properties": {
+        "green": { "type": "string", "examples": ["Normal operations"] },
+        "yellow": { "type": "string", "examples": ["Degraded / workaround in place"] },
+        "red": { "type": "string", "examples": ["Down / unavailable"] }
+      }
+    }
+  },
+  "additionalProperties": false
+}

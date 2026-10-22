@@ -1,0 +1,606 @@
+<!-- FEMA ICS Form 203 (Organization Assignment List) v3 layout, one US Letter page. -->
+<section class="page">
+  <div class="form">
+    <table class="hdr">
+      <tr>
+        <td class="form-title">ORGANIZATION ASSIGNMENT LIST<br />(ICS 203)</td>
+        <td class="h-name">
+          <b>1. Incident Name:</b><span class="v">{{fields.incidentName}}</span>
+        </td>
+        <td class="h-op">
+          <b>2. Operational Period:</b>
+          <div class="op-grid">
+            <span>Date From:</span
+            ><span class="line"><span class="v">{{fields.operationalPeriod.dateFrom}}</span></span>
+            <span>Date To:</span
+            ><span class="line"><span class="v">{{fields.operationalPeriod.dateTo}}</span></span>
+            <span>Time From:</span
+            ><span class="line"><span class="v">{{fields.operationalPeriod.timeFrom}}</span></span>
+            <span>Time To:</span
+            ><span class="line"><span class="v">{{fields.operationalPeriod.timeTo}}</span></span>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="cols">
+      <div class="col">
+        <table class="kv">
+          <caption>
+            3. Incident Commander(s) and Command Staff:
+          </caption>
+          <tbody>
+            <tr>
+              <th>IC/UCs</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.commandStaff.incidentCommanders
+                  0)}}{{this}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th></th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.commandStaff.incidentCommanders
+                  1)}}{{this}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th></th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.commandStaff.incidentCommanders
+                  2)}}{{this}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Deputy</th>
+              <td><span class="v">{{@root.fields.assignments.commandStaff.deputy}}</span></td>
+            </tr>
+            <tr>
+              <th>Safety Officer</th>
+              <td>
+                <span class="v">{{@root.fields.assignments.commandStaff.safetyOfficer}}</span>
+              </td>
+            </tr>
+            <tr>
+              <th>Public Info. Officer</th>
+              <td>
+                <span class="v"
+                  >{{@root.fields.assignments.commandStaff.publicInformationOfficer}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Liaison Officer</th>
+              <td>
+                <span class="v">{{@root.fields.assignments.commandStaff.liaisonOfficer}}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="kv reps">
+          <caption>
+            4. Agency/Organization Representatives:
+          </caption>
+          <tbody>
+            <tr class="colhead">
+              <th>Agency/Organization</th>
+              <th>Name</th>
+            </tr>
+            <tr>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.agencyRepresentatives
+                  0)}}{{agency}}{{/with}}</span
+                >
+              </td>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.agencyRepresentatives
+                  0)}}{{name}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.agencyRepresentatives
+                  1)}}{{agency}}{{/with}}</span
+                >
+              </td>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.agencyRepresentatives
+                  1)}}{{name}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.agencyRepresentatives
+                  2)}}{{agency}}{{/with}}</span
+                >
+              </td>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.agencyRepresentatives
+                  2)}}{{name}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.agencyRepresentatives
+                  3)}}{{agency}}{{/with}}</span
+                >
+              </td>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.agencyRepresentatives
+                  3)}}{{name}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.agencyRepresentatives
+                  4)}}{{agency}}{{/with}}</span
+                >
+              </td>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.agencyRepresentatives
+                  4)}}{{name}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.agencyRepresentatives
+                  5)}}{{agency}}{{/with}}</span
+                >
+              </td>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.agencyRepresentatives
+                  5)}}{{name}}{{/with}}</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="kv">
+          <caption>
+            5. Planning Section:
+          </caption>
+          <tbody>
+            <tr>
+              <th>Chief</th>
+              <td><span class="v">{{@root.fields.assignments.planning.chief}}</span></td>
+            </tr>
+            <tr>
+              <th>Deputy</th>
+              <td><span class="v">{{@root.fields.assignments.planning.deputy}}</span></td>
+            </tr>
+            <tr>
+              <th>Resources Unit</th>
+              <td><span class="v">{{@root.fields.assignments.planning.resourcesUnit}}</span></td>
+            </tr>
+            <tr>
+              <th>Situation Unit</th>
+              <td><span class="v">{{@root.fields.assignments.planning.situationUnit}}</span></td>
+            </tr>
+            <tr>
+              <th>Documentation Unit</th>
+              <td>
+                <span class="v">{{@root.fields.assignments.planning.documentationUnit}}</span>
+              </td>
+            </tr>
+            <tr>
+              <th>Demobilization Unit</th>
+              <td>
+                <span class="v">{{@root.fields.assignments.planning.demobilizationUnit}}</span>
+              </td>
+            </tr>
+            <tr>
+              <th>Technical Specialists</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.planning.technicalSpecialists
+                  0)}}{{this}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th></th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.planning.technicalSpecialists
+                  1)}}{{this}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th></th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.planning.technicalSpecialists
+                  2)}}{{this}}{{/with}}</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="kv">
+          <caption>
+            6. Logistics Section:
+          </caption>
+          <tbody>
+            <tr>
+              <th>Chief</th>
+              <td><span class="v">{{@root.fields.assignments.logistics.chief}}</span></td>
+            </tr>
+            <tr>
+              <th>Deputy</th>
+              <td><span class="v">{{@root.fields.assignments.logistics.deputy}}</span></td>
+            </tr>
+            <tr class="sub">
+              <th colspan="2">Support Branch</th>
+            </tr>
+            <tr>
+              <th>Director</th>
+              <td>
+                <span class="v">{{@root.fields.assignments.logistics.supportBranchDirector}}</span>
+              </td>
+            </tr>
+            <tr>
+              <th>Supply Unit</th>
+              <td><span class="v">{{@root.fields.assignments.logistics.supplyUnit}}</span></td>
+            </tr>
+            <tr>
+              <th>Facilities Unit</th>
+              <td><span class="v">{{@root.fields.assignments.logistics.facilitiesUnit}}</span></td>
+            </tr>
+            <tr>
+              <th>Ground Support Unit</th>
+              <td>
+                <span class="v">{{@root.fields.assignments.logistics.groundSupportUnit}}</span>
+              </td>
+            </tr>
+            <tr class="sub">
+              <th colspan="2">Service Branch</th>
+            </tr>
+            <tr>
+              <th>Director</th>
+              <td>
+                <span class="v">{{@root.fields.assignments.logistics.serviceBranchDirector}}</span>
+              </td>
+            </tr>
+            <tr>
+              <th>Communications Unit</th>
+              <td>
+                <span class="v">{{@root.fields.assignments.logistics.communicationsUnit}}</span>
+              </td>
+            </tr>
+            <tr>
+              <th>Medical Unit</th>
+              <td><span class="v">{{@root.fields.assignments.logistics.medicalUnit}}</span></td>
+            </tr>
+            <tr>
+              <th>Food Unit</th>
+              <td><span class="v">{{@root.fields.assignments.logistics.foodUnit}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <table class="kv">
+          <caption>
+            7. Operations Section:
+          </caption>
+          <tbody>
+            <tr>
+              <th>Chief</th>
+              <td><span class="v">{{@root.fields.assignments.operations.chief}}</span></td>
+            </tr>
+            <tr>
+              <th>Deputy</th>
+              <td><span class="v">{{@root.fields.assignments.operations.deputy}}</span></td>
+            </tr>
+            <tr>
+              <th>Staging Area</th>
+              <td><span class="v">{{@root.fields.assignments.operations.stagingArea}}</span></td>
+            </tr>
+            <tr class="sub">
+              <th colspan="2">
+                Branch
+                <span class="bname"
+                  ><span class="v"
+                    >{{#with (lookup @root.fields.assignments.operations.branches
+                    0)}}{{name}}{{/with}}</span
+                  ></span
+                >
+              </th>
+            </tr>
+            <tr>
+              <th>Branch Director</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches
+                  0)}}{{director}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Deputy</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches
+                  0)}}{{deputy}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Division/Group</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches 0)}}{{#with (lookup
+                  divisionsGroups 0)}}{{name}}{{#if leader}}:
+                  {{leader}}{{/if}}{{/with}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Division/Group</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches 0)}}{{#with (lookup
+                  divisionsGroups 1)}}{{name}}{{#if leader}}:
+                  {{leader}}{{/if}}{{/with}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Division/Group</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches 0)}}{{#with (lookup
+                  divisionsGroups 2)}}{{name}}{{#if leader}}:
+                  {{leader}}{{/if}}{{/with}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Division/Group</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches 0)}}{{#with (lookup
+                  divisionsGroups 3)}}{{name}}{{#if leader}}:
+                  {{leader}}{{/if}}{{/with}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr class="sub">
+              <th colspan="2">
+                Branch
+                <span class="bname"
+                  ><span class="v"
+                    >{{#with (lookup @root.fields.assignments.operations.branches
+                    1)}}{{name}}{{/with}}</span
+                  ></span
+                >
+              </th>
+            </tr>
+            <tr>
+              <th>Branch Director</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches
+                  1)}}{{director}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Deputy</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches
+                  1)}}{{deputy}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Division/Group</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches 1)}}{{#with (lookup
+                  divisionsGroups 0)}}{{name}}{{#if leader}}:
+                  {{leader}}{{/if}}{{/with}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Division/Group</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches 1)}}{{#with (lookup
+                  divisionsGroups 1)}}{{name}}{{#if leader}}:
+                  {{leader}}{{/if}}{{/with}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Division/Group</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches 1)}}{{#with (lookup
+                  divisionsGroups 2)}}{{name}}{{#if leader}}:
+                  {{leader}}{{/if}}{{/with}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Division/Group</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches 1)}}{{#with (lookup
+                  divisionsGroups 3)}}{{name}}{{#if leader}}:
+                  {{leader}}{{/if}}{{/with}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr class="sub">
+              <th colspan="2">
+                Branch
+                <span class="bname"
+                  ><span class="v"
+                    >{{#with (lookup @root.fields.assignments.operations.branches
+                    2)}}{{name}}{{/with}}</span
+                  ></span
+                >
+              </th>
+            </tr>
+            <tr>
+              <th>Branch Director</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches
+                  2)}}{{director}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Deputy</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches
+                  2)}}{{deputy}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Division/Group</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches 2)}}{{#with (lookup
+                  divisionsGroups 0)}}{{name}}{{#if leader}}:
+                  {{leader}}{{/if}}{{/with}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Division/Group</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches 2)}}{{#with (lookup
+                  divisionsGroups 1)}}{{name}}{{#if leader}}:
+                  {{leader}}{{/if}}{{/with}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Division/Group</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches 2)}}{{#with (lookup
+                  divisionsGroups 2)}}{{name}}{{#if leader}}:
+                  {{leader}}{{/if}}{{/with}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <th>Division/Group</th>
+              <td>
+                <span class="v"
+                  >{{#with (lookup @root.fields.assignments.operations.branches 2)}}{{#with (lookup
+                  divisionsGroups 3)}}{{name}}{{#if leader}}:
+                  {{leader}}{{/if}}{{/with}}{{/with}}</span
+                >
+              </td>
+            </tr>
+            <tr class="sub">
+              <th colspan="2">Air Operations Branch</th>
+            </tr>
+            <tr>
+              <th>Air Ops Branch Dir.</th>
+              <td>
+                <span class="v">{{@root.fields.assignments.operations.airOpsBranchDirector}}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="kv">
+          <caption>
+            8. Finance/Administration Section:
+          </caption>
+          <tbody>
+            <tr>
+              <th>Chief</th>
+              <td><span class="v">{{@root.fields.assignments.finance.chief}}</span></td>
+            </tr>
+            <tr>
+              <th>Deputy</th>
+              <td><span class="v">{{@root.fields.assignments.finance.deputy}}</span></td>
+            </tr>
+            <tr>
+              <th>Time Unit</th>
+              <td><span class="v">{{@root.fields.assignments.finance.timeUnit}}</span></td>
+            </tr>
+            <tr>
+              <th>Procurement Unit</th>
+              <td><span class="v">{{@root.fields.assignments.finance.procurementUnit}}</span></td>
+            </tr>
+            <tr>
+              <th>Comp/Claims Unit</th>
+              <td><span class="v">{{@root.fields.assignments.finance.compClaimsUnit}}</span></td>
+            </tr>
+            <tr>
+              <th>Cost Unit</th>
+              <td><span class="v">{{@root.fields.assignments.finance.costUnit}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <table class="ftr">
+      <colgroup>
+        <col class="c-formno" />
+        <col class="c-iap" />
+        <col />
+      </colgroup>
+      <tr>
+        <td colspan="3">
+          <div class="prep">
+            <b>9. Prepared by:</b>
+            <span class="pf">Name:</span
+            ><span class="line w-name"><span class="v">{{fields.preparedBy.name}}</span></span>
+            <span class="pf">Position/Title:</span
+            ><span class="line w-pos"><span class="v">{{fields.preparedBy.position}}</span></span>
+            <span class="pf">Signature:</span
+            ><span class="line w-sig sig"
+              ><span class="v">{{fields.preparedBy.signature}}</span></span
+            >
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="formno"><b>ICS 203</b></td>
+        <td class="iap">
+          IAP Page <span class="line w-iap"><span class="v">{{fields.iapPage}}</span></span>
+        </td>
+        <td class="pdt">
+          <span class="pf">Date/Time:</span
+          ><span class="line w-dt"><span class="v">{{fields.preparedBy.dateTime}}</span></span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>

@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SimCell script",
+  "description": "Controller handbook page for the facilitator playing an outside party (the Simulation Cell): when to play the role, how to sound, the opening line, hard questions to ask, and what to concede only when players earn it. Never handed to players.",
+  "type": "object",
+  "required": ["role", "trigger", "hardQuestions"],
+  "properties": {
+    "role": {
+      "type": "string",
+      "description": "Role the facilitator plays",
+      "examples": ["FBI Cyber Duty Agent"]
+    },
+    "persona": {
+      "type": "string",
+      "description": "Name the facilitator uses in character",
+      "examples": ["Special Agent Smith"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization the persona belongs to",
+      "examples": ["FBI Cleveland Field Office, Cyber Squad"]
+    },
+    "trigger": {
+      "type": "string",
+      "description": "When to play this role",
+      "examples": [
+        "Any player says they are calling the FBI or law enforcement about the AODB intrusion."
+      ]
+    },
+    "contactMethod": {
+      "type": "string",
+      "description": "How players reach the role",
+      "examples": ["Phone (walk to the IT table and \"answer\")"]
+    },
+    "posture": {
+      "type": "string",
+      "description": "Attitude and tone to play",
+      "examples": ["Busy, skeptical, procedural. Interested only in evidence."]
+    },
+    "openingLine": {
+      "type": "string",
+      "description": "First words in character",
+      "examples": ["Agent Smith, Cyber. What have you got?"]
+    },
+    "hardQuestions": {
+      "type": "array",
+      "description": "Questions that make players work (3-6), in character",
+      "items": { "type": "string", "examples": ["Do you have a PCAP capture of the traffic?"] }
+    },
+    "concessions": {
+      "type": "array",
+      "description": "What to give only when players earn it",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["condition", "concession"],
+        "properties": {
+          "condition": {
+            "type": "string",
+            "description": "What the players must do or say",
+            "examples": ["They have preserved logs and can name the source IP"]
+          },
+          "concession": {
+            "type": "string",
+            "description": "What the role gives in return",
+            "examples": ["Agree to send an agent on site within two hours"]
+          }
+        }
+      }
+    },
+    "boundaries": {
+      "type": "array",
+      "description": "Things the role must not do or reveal",
+      "items": { "type": "string", "examples": ["Do not confirm terrorism or attribution"] }
+    },
+    "exitLine": {
+      "type": "string",
+      "description": "How the role ends the call",
+      "examples": ["Call me back when you have evidence."]
+    },
+    "evaluatorNote": {
+      "type": "string",
+      "description": "What the evaluator should look for in the players' response",
+      "examples": ["Excellence: IT preserved logs before calling and asks how to hand over images."]
+    },
+    "injectRefs": {
+      "type": "string",
+      "description": "MSEL events where this role is likely to be called",
+      "examples": ["I-08b, I-09, I-13"]
+    },
+    "scenarioTitle": {
+      "type": "string",
+      "description": "Scenario name for the running head",
+      "examples": ["Scenario 3: Flight to Nowhere"]
+    },
+    "pageLabel": {
+      "type": "string",
+      "description": "Handbook page label",
+      "examples": ["SimCell 2 of 5"]
+    }
+  },
+  "additionalProperties": false
+}
