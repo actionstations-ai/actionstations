@@ -177,6 +177,16 @@ describe('factsSoFar', () => {
 })
 
 describe('planMedia', () => {
+  it('plans a source still before image-to-video for video-only types (#149)', () => {
+    const plan = planMedia(
+      inject('social_video', 'I-11b'),
+      row('I-11b', 'Shaky phone video of people yelling at a blank screen', 'social_video'),
+      undefined,
+    )
+    expect(plan.paths).toEqual(['ai_image', 'ai_video'])
+    expect(plan.imageStyle).toBeDefined()
+  })
+
   it('template only for a text type', () => {
     const plan = planMedia(
       inject('helpdesk_ticket', 'I-01'),

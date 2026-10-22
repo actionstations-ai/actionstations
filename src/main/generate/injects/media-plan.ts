@@ -146,7 +146,15 @@ export function planMedia(
   }
   const video =
     info?.render[0] === 'ai_video' || VIDEO_WORDS.test(row.event) || forced.has('ai_video')
-  if (allowed.has('ai_video') && video) paths.push('ai_video')
+  if (allowed.has('ai_video') && video) {
+    // Image-to-video needs a source still; plan one even for video-only types (#149).
+    if (!paths.includes('ai_image')) {
+      paths.push('ai_image')
+      plan.imageStyle ??= IMAGE_STYLE_BY_TYPE[inject.type] ?? 'phone'
+      reasons.push('still image planned as the image-to-video source')
+    }
+    paths.push('ai_video')
+  }
   plan.needsModel = paths.some((p) => p !== 'template')
   return plan
 }
