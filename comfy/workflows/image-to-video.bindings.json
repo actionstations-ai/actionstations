@@ -1,0 +1,18 @@
+{
+  "name": "LTX-Video image-to-video",
+  "mediaType": "video",
+  "description": "LTX-Video 2B 0.9.8 distilled (ComfyUI core nodes only): animates the scene image into a short MP4, 1024×576 at 24 fps, 8 steps, up to 5 s. Needs ltxv-2b-0.9.8-distilled and t5xxl_fp16 (see comfy/workflows/README.md).",
+  "bindings": [
+    { "target": ["6", "inputs", "text"], "source": "videoPrompt" },
+    { "target": ["7", "inputs", "text"], "source": "negativePrompt" },
+    { "target": ["72", "inputs", "noise_seed"], "source": "seed" },
+    { "target": ["78", "inputs", "image"], "source": "inputImage" },
+    { "target": ["77", "inputs", "width"], "source": "width" },
+    { "target": ["77", "inputs", "height"], "source": "height" },
+    { "target": ["77", "inputs", "length"], "source": "durationSec" }
+  ],
+  "negativePrompt": "low quality, worst quality, deformed, distorted, disfigured, motion smear, motion artifacts, fused fingers, bad anatomy, weird hand, ugly, static frame",
+  "fps": 24,
+  "frameStep": 8,
+  "maxDurationSec": 5
+}

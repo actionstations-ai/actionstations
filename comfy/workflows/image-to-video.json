@@ -1,0 +1,102 @@
+{
+  "44": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": { "ckpt_name": "ltxv-2b-0.9.8-distilled.safetensors" },
+    "_meta": { "title": "Load LTX-Video 2B distilled" }
+  },
+  "38": {
+    "class_type": "CLIPLoader",
+    "inputs": { "clip_name": "t5xxl_fp16.safetensors", "type": "ltxv", "device": "default" },
+    "_meta": { "title": "Load T5-XXL text encoder" }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": { "text": "handheld phone video, people moving naturally", "clip": ["38", 0] },
+    "_meta": { "title": "Positive prompt" }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "low quality, worst quality, deformed, distorted, disfigured, motion smear, motion artifacts, fused fingers, bad anatomy, weird hand, ugly, static frame",
+      "clip": ["38", 0]
+    },
+    "_meta": { "title": "Negative prompt" }
+  },
+  "78": {
+    "class_type": "LoadImage",
+    "inputs": { "image": "example.png" },
+    "_meta": { "title": "Scene image" }
+  },
+  "77": {
+    "class_type": "LTXVImgToVideo",
+    "inputs": {
+      "width": 1024,
+      "height": 576,
+      "length": 97,
+      "batch_size": 1,
+      "strength": 1,
+      "positive": ["6", 0],
+      "negative": ["7", 0],
+      "vae": ["44", 2],
+      "image": ["78", 0]
+    },
+    "_meta": { "title": "Video size and length" }
+  },
+  "69": {
+    "class_type": "LTXVConditioning",
+    "inputs": { "frame_rate": 24, "positive": ["77", 0], "negative": ["77", 1] },
+    "_meta": { "title": "Frame rate" }
+  },
+  "71": {
+    "class_type": "LTXVScheduler",
+    "inputs": {
+      "steps": 8,
+      "max_shift": 2.05,
+      "base_shift": 0.95,
+      "stretch": true,
+      "terminal": 0.1,
+      "latent": ["77", 2]
+    },
+    "_meta": { "title": "Scheduler" }
+  },
+  "73": {
+    "class_type": "KSamplerSelect",
+    "inputs": { "sampler_name": "euler" },
+    "_meta": { "title": "Sampler" }
+  },
+  "72": {
+    "class_type": "SamplerCustom",
+    "inputs": {
+      "add_noise": true,
+      "noise_seed": 0,
+      "cfg": 1,
+      "model": ["44", 0],
+      "positive": ["69", 0],
+      "negative": ["69", 1],
+      "sampler": ["73", 0],
+      "sigmas": ["71", 0],
+      "latent_image": ["77", 2]
+    },
+    "_meta": { "title": "Sample" }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["72", 0], "vae": ["44", 2] },
+    "_meta": { "title": "Decode" }
+  },
+  "80": {
+    "class_type": "CreateVideo",
+    "inputs": { "fps": 24, "images": ["8", 0] },
+    "_meta": { "title": "Frames to video" }
+  },
+  "81": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "filename_prefix": "ttx/image-to-video",
+      "format": "mp4",
+      "format.codec": "h264",
+      "video": ["80", 0]
+    },
+    "_meta": { "title": "Save MP4" }
+  }
+}

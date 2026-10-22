@@ -1,0 +1,20 @@
+{
+  "name": "SDXL documentary photo",
+  "mediaType": "image",
+  "description": "SDXL base text-to-image tuned for documentary / phone-photo realism: 1216×832, dpmpp_2m karras, 25 steps, CFG 6.5. Needs sd_xl_base_1.0.safetensors in models/checkpoints.",
+  "bindings": [
+    { "target": ["6", "inputs", "text"], "source": "imagePrompt" },
+    { "target": ["7", "inputs", "text"], "source": "negativePrompt" },
+    { "target": ["3", "inputs", "seed"], "source": "seed" },
+    { "target": ["5", "inputs", "width"], "source": "width" },
+    { "target": ["5", "inputs", "height"], "source": "height" }
+  ],
+  "styles": {
+    "phone": "candid smartphone photo, handheld, slightly tilted framing, natural available light, mild motion blur, smartphone camera noise, unedited, everyday realism",
+    "press": "news agency photojournalism, telephoto lens, shallow depth of field, crisp focus on subject, natural colors, editorial documentary style",
+    "cctv": "security camera still frame, high elevated wide angle view, slight fisheye distortion, low resolution, washed out colors, grainy, harsh fluorescent lighting",
+    "screen": "photo of a computer monitor taken with a phone, visible screen pixels and moire, slight glare, dim office background",
+    "portrait": "documentary portrait photograph, 85mm lens, natural window light, neutral background, realistic skin texture"
+  },
+  "negativePrompt": "illustration, painting, cartoon, anime, 3d render, cgi, oversaturated, watermark, logo, blurry, deformed hands, extra fingers, distorted faces"
+}

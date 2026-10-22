@@ -65,7 +65,7 @@ export const comfyChannels = {
   ),
   'comfy:workflows:save-bindings': channel(
     z.object({
-      id: z.string(),
+      id: SafeId,
       projectPath: z.string().optional(),
       bindings: z.array(WorkflowBinding),
     }),
@@ -86,6 +86,23 @@ export const comfyChannels = {
         value: z.unknown(),
       }),
     ),
+  ),
+  /** Render one sample through a workflow (Workflows page "Test render"). Blocks until done. */
+  'comfy:test-render': channel(
+    z.object({
+      providerId: SafeId,
+      workflowId: SafeId,
+      projectPath: z.string().optional(),
+      prompt: z.string().max(4000).optional(),
+    }),
+    z.object({
+      mimeType: z.string(),
+      /** data: URL of the output (images and short clips) for an inline preview. */
+      dataUrl: z.string(),
+      seed: z.number().int().optional(),
+      elapsedMs: z.number(),
+      workflowHash: z.string().optional(),
+    }),
   ),
   'comfy:defaults:get': channel(z.void(), z.partialRecord(MediaType, z.string())),
   'comfy:defaults:set': channel(
