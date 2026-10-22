@@ -1,0 +1,68 @@
+/* Presentation window: a projector surface, black in both themes so injects read as the
+   "real" screen. It covers the app shell (sidebar) completely. Sizes and type use tokens; the
+   black/white surface is deliberately theme-independent (CSS keywords, no raw hex). */
+.present {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  color: white;
+  overflow: hidden;
+  cursor: none;
+}
+.present:hover {
+  cursor: default;
+}
+.present__image,
+.present__video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  display: block;
+}
+.present__audio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+}
+.present__speaker {
+  opacity: 0.9;
+}
+.present__play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  border: 3px solid white;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+.present__play:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 4px;
+  box-shadow: none;
+}
+.present__audio-bar {
+  width: min(40rem, 80vw);
+}
+.present__empty {
+  font-size: var(--text-xl);
+  opacity: 0.6;
+}
+.present__title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  background: rgb(0 0 0 / 0.7);
+}

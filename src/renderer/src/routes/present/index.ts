@@ -1,0 +1,10 @@
+import { lazy } from 'react'
+import type { RouteDef } from '../types'
+
+// Loaded only by the presentation window (main/facilitator/present.ts); never in the nav.
+export const routes: RouteDef[] = [
+  {
+    path: '/present/:projectKey/:scenarioId/:injectId',
+    component: lazy(() => import('./PresentPage')),
+  },
+]
