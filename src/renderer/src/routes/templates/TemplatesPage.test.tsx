@@ -1,0 +1,124 @@
+// @vitest-environment happy-dom
+import { cleanup, screen, waitFor, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { afterEach, describe, expect, it } from 'vitest'
+import type { TemplateInfo } from '@shared/ipc'
+import TemplatesPage from './TemplatesPage'
+import { categoriesPresent, filterTemplates, schemaFields } from './gallery'
+import { mockTtx, renderAt } from '../documents/test-utils'
+
+const TIME_JUMP: TemplateInfo = {
+  type: 'time_jump_card',
+  label: 'Time jump card',
+  version: '1',
+  schema: {
+    type: 'object',
+    required: ['newTime'],
+    properties: {
+      exerciseTime: { type: 'string', description: 'Exercise clock' },
+      newTime: { type: 'string', description: 'Wall-clock time players jump to' },
+      worldState: { type: 'array', items: { type: 'string' } },
+    },
+  },
+  preview: { newTime: '10:00 AM' },
+  paper: true,
+  variants: ['default'],
+  width: 816,
+  height: 1056,
+}
+
+const TWEET: TemplateInfo = {
+  type: 'tweet',
+  label: 'Tweet / X post',
+  version: '2',
+  schema: { type: 'object', properties: { theme: { enum: ['light', 'dark'] } } },
+  preview: { text: 'hi' },
+  paper: false,
+  variants: ['light', 'dark'],
+  width: 600,
+}
+
+afterEach(() => cleanup())
+
+const setup = () =>
+  mockTtx({
+    'templates:list': () => [TIME_JUMP, TWEET],
+    'render:preview': (req: { type: string; variant?: string }) => ({
+      dataUrl: `data:image/png;base64,${req.type}-${req.variant ?? 'none'}`,
+      width: 100,
+      height: 100,
+    }),
+  })
+
+describe('TemplatesPage', () => {
+  it('shows every template rendered from its preview data and filters by category', async () => {
+    const ttx = setup()
+    renderAt('/templates', '/templates', TemplatesPage)
+    const grid = await screen.findByRole('list', { name: '2 templates' })
+    expect(within(grid).getAllByRole('listitem')).toHaveLength(2)
+    await waitFor(() =>
+      expect(ttx.calls('render:preview')).toEqual(
+        expect.arrayContaining([
+          { type: 'time_jump_card', fields: { newTime: '10:00 AM' }, scale: 0.5 },
+          { type: 'tweet', fields: { text: 'hi' }, scale: 0.5 },
+        ]),
+      ),
+    )
+    const user = userEvent.setup()
+    const filter = screen.getByRole('group', { name: 'Category' })
+    await user.click(within(filter).getByRole('button', { name: 'Facilitator control' }))
+    const filtered = await screen.findByRole('list', { name: '1 templates' })
+    expect(within(filtered).getByText('Time jump card')).toBeTruthy()
+  })
+
+  it('opens a detail view with schema fields and a variant switcher', async () => {
+    const ttx = setup()
+    renderAt('/templates', '/templates', TemplatesPage)
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: /Tweet \/ X post/ }))
+    const detail = await screen.findByRole('region', { name: 'Tweet / X post' })
+    expect(within(detail).getByRole('rowheader', { name: /theme/ })).toBeTruthy()
+    expect(within(detail).getByText('one of light, dark')).toBeTruthy()
+    const variants = within(detail).getByRole('group', { name: 'Variant' })
+    await user.click(within(variants).getByRole('button', { name: 'dark' }))
+    await waitFor(() =>
+      expect(ttx.calls('render:preview')).toContainEqual({
+        type: 'tweet',
+        fields: { text: 'hi' },
+        scale: 1,
+        variant: 'dark',
+      }),
+    )
+    const img = await within(detail).findByRole('img', { name: 'Tweet / X post preview (dark)' })
+    expect(img.getAttribute('src')).toContain('tweet-dark')
+    await user.click(within(detail).getByRole('button', { name: /All templates/ }))
+    expect(await screen.findByRole('list', { name: '2 templates' })).toBeTruthy()
+  })
+
+  it('shows render errors in place of the preview', async () => {
+    mockTtx({
+      'templates:list': () => [TIME_JUMP],
+      'render:preview': () => {
+        throw new Error('Render timed out after 15000 ms')
+      },
+    })
+    renderAt('/templates', '/templates', TemplatesPage)
+    expect((await screen.findByRole('alert')).textContent).toMatch(/timed out/)
+  })
+})
+
+describe('gallery helpers', () => {
+  it('lists required fields first with readable types', () => {
+    expect(schemaFields(TIME_JUMP.schema)).toEqual([
+      { name: 'newTime', type: 'string', required: true, description: expect.any(String) },
+      { name: 'exerciseTime', type: 'string', required: false, description: 'Exercise clock' },
+      { name: 'worldState', type: 'list of string', required: false },
+    ])
+  })
+
+  it('derives categories from the taxonomy in taxonomy order', () => {
+    expect(categoriesPresent([TIME_JUMP, TWEET])).toEqual(['social', 'control'])
+    expect(categoriesPresent([{ ...TWEET, type: 'custom_thing' }])).toEqual(['other'])
+    expect(filterTemplates([TIME_JUMP, TWEET], 'social').map((t) => t.type)).toEqual(['tweet'])
+  })
+})
