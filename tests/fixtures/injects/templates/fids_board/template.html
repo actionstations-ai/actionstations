@@ -1,0 +1,11 @@
+<table>
+  {{#each fields.rows}}
+  <tr class="{{#if anomaly}}bad{{/if}}">
+    <td>{{flight}}</td>
+    <td>{{dest}}</td>
+    <td>{{time}}</td>
+    <td>{{gate}}</td>
+    <td>{{status}}</td>
+  </tr>
+  {{/each}}
+</table>

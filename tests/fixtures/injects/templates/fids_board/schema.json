@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rows"],
+  "properties": {
+    "rows": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["flight", "dest", "time", "gate", "status"],
+        "properties": {
+          "flight": {
+            "type": "string",
+            "description": "f"
+          },
+          "dest": {
+            "type": "string",
+            "description": "d"
+          },
+          "time": {
+            "type": "string",
+            "description": "t"
+          },
+          "gate": {
+            "type": "string",
+            "description": "g"
+          },
+          "status": {
+            "type": "string",
+            "description": "s"
+          },
+          "anomaly": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "boardStyle": {
+      "type": "string",
+      "enum": ["amber", "led", "lcd"]
+    }
+  }
+}

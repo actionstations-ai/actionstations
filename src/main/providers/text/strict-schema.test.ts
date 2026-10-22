@@ -21,6 +21,9 @@ describe('toStrictSchema', () => {
     const { schema, strict } = toStrictSchema(jsonSpec('I', InjectTextOutput).schema)
     expect(strict).toBe(false)
     expect((schema as J).properties.fields.additionalProperties).toEqual({})
+    // zod emits propertyNames for z.record; LM Studio's grammar compiler rejects it.
+    expect((schema as J).properties.fields.propertyNames).toBeUndefined()
+    expect(JSON.stringify(schema)).not.toContain('propertyNames')
   })
 
   it('drops keywords Anthropic cannot enforce and clamps minItems', () => {

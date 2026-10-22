@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["callsign", "transcript"],
+  "properties": {
+    "channel": {
+      "type": "string",
+      "description": "Channel"
+    },
+    "callsign": {
+      "type": "string",
+      "description": "Unit calling"
+    },
+    "transcript": {
+      "type": "array",
+      "description": "Transmissions in order",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["speaker", "text"],
+        "properties": {
+          "speaker": {
+            "type": "string",
+            "description": "who"
+          },
+          "text": {
+            "type": "string",
+            "description": "what"
+          }
+        }
+      }
+    },
+    "background": {
+      "type": "string",
+      "enum": ["ramp", "terminal", "vehicle", "office"]
+    }
+  }
+}

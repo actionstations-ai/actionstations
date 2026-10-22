@@ -31,6 +31,10 @@ export const ANTHROPIC_UNSUPPORTED = [
 
 const NESTED_LIST_KEYS = ['anyOf', 'oneOf', 'allOf', 'prefixItems'] as const
 
+/** Keywords no structured-output engine implements (zod emits propertyNames for z.record;
+ *  LM Studio's grammar compiler aborts the stream on it). */
+const ALWAYS_DROPPED = new Set(['propertyNames'])
+
 export function toStrictSchema(schema: Json, opts: StrictOptions = {}): StrictResult {
   const state = { strict: true }
   const out = rewrite(schema, opts, state)
@@ -42,7 +46,7 @@ function rewrite(node: unknown, opts: StrictOptions, state: { strict: boolean })
   const src = node as Json
   const out: Json = {}
   for (const [k, v] of Object.entries(src)) {
-    if (opts.dropKeywords?.includes(k)) continue
+    if (ALWAYS_DROPPED.has(k) || opts.dropKeywords?.includes(k)) continue
     out[k] = v
   }
   if (typeof out.minItems === 'number' && opts.dropKeywords && out.minItems > 1) out.minItems = 1

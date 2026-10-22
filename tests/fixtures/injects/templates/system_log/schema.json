@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["systemName", "lines"],
+  "properties": {
+    "systemName": {
+      "type": "string",
+      "description": "System"
+    },
+    "host": {
+      "type": "string",
+      "description": "hostname"
+    },
+    "ip": {
+      "type": "string",
+      "description": "IP"
+    },
+    "os": {
+      "type": "string",
+      "description": "OS"
+    },
+    "lines": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ts", "level", "msg"],
+        "properties": {
+          "ts": {
+            "type": "string",
+            "description": "time"
+          },
+          "level": {
+            "type": "string",
+            "enum": ["INFO", "WARN", "ERROR", "CRIT"]
+          },
+          "msg": {
+            "type": "string",
+            "description": "message"
+          }
+        }
+      }
+    }
+  }
+}

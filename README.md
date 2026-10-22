@@ -24,6 +24,7 @@ pnpm lint && pnpm typecheck   # ESLint + tsc
 pnpm ci:local                 # full local CI: scripts/local-ci.sh
 pnpm e2e                      # Playwright end-to-end tests against the Electron app
 LIVE=1 pnpm test -- tests/live/pipeline.live.test.ts   # full generation run against LM Studio (writes tests/fixtures/generate/sample-run/)
+LIVE=1 pnpm test -- tests/live/injects.live.test.ts    # Scenario 3 inject deck + media on LM Studio, ComfyUI and mlx-audio (writes tests/fixtures/injects/sample-run/)
 pnpm build                    # electron-builder installers (dmg / nsis / AppImage)
 ```
 

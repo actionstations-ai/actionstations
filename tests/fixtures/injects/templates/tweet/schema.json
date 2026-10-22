@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["handle", "displayName", "text"],
+  "properties": {
+    "handle": {
+      "type": "string",
+      "description": "Handle with the at sign",
+      "examples": ["@TravelGuy99"]
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Display name"
+    },
+    "text": {
+      "type": "string",
+      "description": "Post text, under 280 characters"
+    },
+    "timestampRel": {
+      "type": "string",
+      "description": "Relative time",
+      "examples": ["4m"]
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "replies": {
+          "type": "integer",
+          "description": "replies"
+        },
+        "reposts": {
+          "type": "integer",
+          "description": "reposts"
+        },
+        "likes": {
+          "type": "integer",
+          "description": "likes"
+        }
+      }
+    },
+    "verified": {
+      "type": "boolean"
+    },
+    "imageBrief": {
+      "type": "string",
+      "description": "What the attached photo shows (empty when there is none)"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["narration"],
+  "properties": {
+    "exerciseTime": {
+      "type": "string",
+      "description": "H:MM"
+    },
+    "newTime": {
+      "type": "string",
+      "description": "Wall clock"
+    },
+    "jumpLabel": {
+      "type": "string",
+      "description": "+60 minutes"
+    },
+    "narration": {
+      "type": "string",
+      "description": "Read aloud"
+    },
+    "worldState": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "facilitatorNote": {
+      "type": "string",
+      "description": "private"
+    },
+    "weather": {
+      "type": "string",
+      "description": "weather"
+    },
+    "load": {
+      "type": "string",
+      "description": "load"
+    },
+    "status": {
+      "type": "string",
+      "description": "status"
+    },
+    "resolution": {
+      "type": "string",
+      "description": "resolution"
+    },
+    "transition": {
+      "type": "string",
+      "description": "to hot wash"
+    }
+  }
+}

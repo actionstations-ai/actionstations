@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["to", "fromName", "message"],
+  "properties": {
+    "to": {
+      "type": "string",
+      "description": "TO"
+    },
+    "fromName": {
+      "type": "string",
+      "description": "Caller"
+    },
+    "outlet": {
+      "type": "string",
+      "description": "Outlet"
+    },
+    "time": {
+      "type": "string",
+      "description": "Time"
+    },
+    "message": {
+      "type": "string",
+      "description": "Message"
+    },
+    "deadline": {
+      "type": "string",
+      "description": "Deadline"
+    }
+  }
+}

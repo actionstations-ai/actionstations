@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["from", "to", "subject", "body"],
+  "properties": {
+    "from": {
+      "type": "string",
+      "description": "FROM"
+    },
+    "to": {
+      "type": "string",
+      "description": "TO"
+    },
+    "subject": {
+      "type": "string",
+      "description": "SUBJECT"
+    },
+    "urgency": {
+      "type": "string",
+      "description": "urgency"
+    },
+    "body": {
+      "type": "string",
+      "description": "Body"
+    },
+    "signatureBlock": {
+      "type": "string",
+      "description": "sign-off"
+    }
+  }
+}

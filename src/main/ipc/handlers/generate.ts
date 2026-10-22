@@ -4,6 +4,7 @@ import { defineHandlers } from '../registry'
 import { pipelineDeps } from '../../generate/deps'
 import { PIPELINE_STAGES } from '../../generate/engine'
 import { generateIdeas, readIdeas, rememberIdea, saveScenarioIdea } from '../../generate/ideas'
+import { startInjectJob, runInjectsJob, runMediaJob } from '../../generate/injects'
 import { continueJob, registerScenarioResumers, rerunJob } from '../../generate/scenario-jobs'
 import { jobs } from '../../jobs/manager'
 import { AppError } from '../../lib/errors'
@@ -56,6 +57,33 @@ export default defineHandlers({
       ...(itemId ? { itemId } : {}),
       ...(instructions ? { instructions } : {}),
     })
+    return { jobId: job.id }
+  },
+
+  // Inject stages (#34): text + media brief per MSEL row, then media rendering. Both own the
+  // scenario while they run (scenario/busy), like the pipeline jobs.
+  'generate:injects': async ({ projectPath, scenarioId, rowIds }) => {
+    const root = await requireProject(projectPath)
+    const opts = rowIds ? { rowIds } : {}
+    const job = startInjectJob(
+      'generate-injects',
+      root,
+      scenarioId,
+      (ctx) => runInjectsJob(root, scenarioId, opts, ctx),
+      opts,
+    )
+    return { jobId: job.id }
+  },
+  'generate:media': async ({ projectPath, scenarioId, injectIds, paths }) => {
+    const root = await requireProject(projectPath)
+    const opts = { ...(injectIds ? { injectIds } : {}), ...(paths ? { paths } : {}) }
+    const job = startInjectJob(
+      'render-media',
+      root,
+      scenarioId,
+      (ctx) => runMediaJob(root, scenarioId, opts, ctx),
+      opts,
+    )
     return { jobId: job.id }
   },
 })

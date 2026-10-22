@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["groupName", "authorName", "text"],
+  "properties": {
+    "groupName": {
+      "type": "string",
+      "description": "Group"
+    },
+    "authorName": {
+      "type": "string",
+      "description": "Author"
+    },
+    "text": {
+      "type": "string",
+      "description": "Post text"
+    },
+    "shares": {
+      "type": "integer",
+      "description": "shares"
+    },
+    "reactions": {
+      "type": "integer",
+      "description": "reactions"
+    },
+    "comments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "author": {
+            "type": "string",
+            "description": "a"
+          },
+          "text": {
+            "type": "string",
+            "description": "t"
+          }
+        }
+      }
+    },
+    "imageBrief": {
+      "type": "string",
+      "description": "What the attached photo shows (empty when there is none)"
+    }
+  }
+}
