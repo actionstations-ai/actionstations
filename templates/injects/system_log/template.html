@@ -1,0 +1,87 @@
+{{#if (eq variant "terminal")}}
+<section class="term">
+  <div class="term-bar">
+    <svg class="term-ico" viewBox="0 0 16 16" aria-hidden="true">
+      <rect x="0.5" y="1.5" width="15" height="13" rx="2" fill="#2b5797" />
+      <path d="M3.5 5l3 3-3 3" stroke="#fff" stroke-width="1.4" fill="none" />
+      <path d="M8 11.2h4.5" stroke="#fff" stroke-width="1.4" />
+    </svg>
+    <span class="term-title"
+      >{{default fields.terminalTitle (default fields.host fields.systemName)}}</span
+    >
+    <span class="term-ctl" aria-hidden="true"
+      ><i class="min"></i><i class="max"></i><i class="cls"></i
+    ></span>
+  </div>
+  <div class="term-body">
+    {{#if fields.command}}
+    <p class="t-cmd"><span class="t-prompt">PS C:\Logs&gt;</span> {{fields.command}}</p>
+    {{/if}}
+    <p class="t-dim">SYSTEM LOG: {{fields.systemName}}</p>
+    {{#if fields.ip}}
+    <p class="t-dim">IP: {{fields.ip}}</p>
+    {{/if}} {{#if fields.os}}
+    <p class="t-dim">OS: {{fields.os}}</p>
+    {{/if}}
+    <p class="t-gap"></p>
+    {{#each fields.lines}}
+    <p class="t-line lvl-{{lower level}}">
+      <span class="t-ts">{{ts}}</span> <span class="t-lvl">[{{level}}]</span> {{msg}}
+    </p>
+    {{/each}}
+    <p class="t-cmd"><span class="t-prompt">PS C:\Logs&gt;</span> <span class="cursor"></span></p>
+  </div>
+</section>
+{{else}}
+<article class="sheet">
+  <div class="print-top">
+    <span>{{default fields.exportedAt ""}}</span>
+    <span>{{fields.systemName}} - Event Log Export</span>
+  </div>
+  <header class="hdr">
+    <div class="hdr-main">
+      <p class="sys">SYSTEM LOG: {{fields.systemName}}</p>
+      {{#if fields.ip}}
+      <p>IP: {{fields.ip}}</p>
+      {{/if}} {{#if fields.os}}
+      <p>OS: {{fields.os}}</p>
+      {{/if}}
+    </div>
+    <dl class="hdr-meta">
+      {{#if fields.host}}
+      <dt>Host</dt>
+      <dd>{{fields.host}}</dd>
+      {{/if}} {{#if fields.logSource}}
+      <dt>Source</dt>
+      <dd>{{fields.logSource}}</dd>
+      {{/if}} {{#if fields.timezone}}
+      <dt>Time zone</dt>
+      <dd>{{fields.timezone}}</dd>
+      {{/if}} {{#if fields.exportedBy}}
+      <dt>Exported by</dt>
+      <dd>{{fields.exportedBy}}</dd>
+      {{/if}}
+      <dt>Entries</dt>
+      <dd>{{fields.lines.length}}</dd>
+    </dl>
+  </header>
+  {{#if fields.classification}}
+  <p class="class">{{fields.classification}}</p>
+  {{/if}}
+  <div class="cols"><span>#</span><span>Time</span><span>Level</span><span>Message</span></div>
+  <ol class="lines">
+    {{#each fields.lines}}
+    <li class="line lvl-{{lower level}}{{#if highlight}} hl{{/if}}">
+      <span class="n">{{inc @index}}</span><span class="ts">{{ts}}</span
+      ><span class="lvl">[{{level}}]</span><span class="msg">{{msg}}</span>
+    </li>
+    {{/each}}
+  </ol>
+  <p class="eol">*** END OF LOG EXTRACT ***</p>
+  <footer class="foot">
+    <span>{{fields.host}}{{#if fields.ip}} ({{fields.ip}}){{/if}}</span>
+    <span>{{fields.classification}}</span>
+    <span>{{default fields.pageLabel "Page 1 of 1"}}</span>
+  </footer>
+</article>
+{{/if}}

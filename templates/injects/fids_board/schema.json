@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FIDS departures board",
+  "description": "A 1920x1080 airport Flight Information Display System (FIDS) departures screen. Wrong data must look exactly like real data: the board never highlights anomalies (the glitch variant adds display corruption to anomaly rows).",
+  "type": "object",
+  "required": ["rows"],
+  "properties": {
+    "boardTitle": {
+      "type": "string",
+      "description": "Large board heading.",
+      "examples": ["Departures"]
+    },
+    "boardSubtitle": {
+      "type": "string",
+      "description": "Second-language heading shown beside the title.",
+      "examples": ["Salidas · Départs"]
+    },
+    "airportName": {
+      "type": "string",
+      "description": "Airport name in the board header. Falls back to brand.aliases.airport.",
+      "examples": ["Northeast Central International Airport"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Where this screen hangs (shown small in the header).",
+      "examples": ["Central Atrium"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "Wall-clock time shown on the board, 24h HH:MM.",
+      "examples": ["10:15"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date line under the clock.",
+      "examples": ["Tue 21 Oct"]
+    },
+    "rows": {
+      "type": "array",
+      "description": "Departure rows top to bottom (14 fit). Put anomalous rows among normal ones, not first.",
+      "minItems": 1,
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["flight", "dest", "time", "status"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Scheduled departure time, 24h HH:MM (or the wrong value, e.g. NOW or 00:00).",
+            "examples": ["10:20", "NOW"]
+          },
+          "dest": {
+            "type": "string",
+            "description": "Destination city in capitals as boards show it.",
+            "examples": ["ATLANTA", "PURGATORY"]
+          },
+          "flight": {
+            "type": "string",
+            "description": "Carrier code and number with a space.",
+            "examples": ["DL 1245", "UA 666"]
+          },
+          "airline": {
+            "type": "string",
+            "description": "Carrier name in capitals (optional column).",
+            "examples": ["DELTA"]
+          },
+          "gate": {
+            "type": "string",
+            "description": "Gate (or the wrong value, e.g. ALL or Z99).",
+            "examples": ["A1", "Z99"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status word(s) in capitals. ON TIME, BOARDING, NOW BOARDING, FINAL CALL, DELAYED, CANCELLED, DEPARTED and GATE CHANGE get board colors.",
+            "examples": ["ON TIME", "BOARDING", "DELAYED", "CANCELLED"]
+          },
+          "remarks": {
+            "type": "string",
+            "description": "Short remark column text.",
+            "examples": ["NEW TIME 11:40", "SEE AGENT"]
+          },
+          "anomaly": {
+            "type": "boolean",
+            "description": "True when this row is the injected wrong data. Rendered identically to normal rows (instructor metadata); the glitch variant corrupts these rows visually.",
+            "examples": [true]
+          }
+        }
+      }
+    },
+    "ticker": {
+      "type": "string",
+      "description": "Notice line at the foot of the screen.",
+      "examples": [
+        "Unattended bags will be removed and may be destroyed. Please keep your belongings with you at all times."
+      ]
+    },
+    "pageLabel": {
+      "type": "string",
+      "description": "Pager text at the bottom right.",
+      "examples": ["Page 1 of 3"]
+    }
+  },
+  "additionalProperties": false
+}

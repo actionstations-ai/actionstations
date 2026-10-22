@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PA announcement card",
+  "description": "Controller cue card for a terminal public-address announcement: the exact script (also the TTS input), zones, voice and ambience, and how to deliver it.",
+  "type": "object",
+  "required": ["text"],
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "Exact words of the announcement as broadcast.",
+      "examples": [
+        "Attention please. United flight six six six to Purgatory is now boarding at all gates."
+      ]
+    },
+    "zones": {
+      "type": "string",
+      "description": "PA zones it plays in.",
+      "examples": ["ALL TERMINAL ZONES"]
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the announcement comes from.",
+      "examples": ["Automated paging (FIDS-linked)", "Live - AOC console"]
+    },
+    "voiceStyle": {
+      "type": "string",
+      "enum": ["robotic", "human"],
+      "description": "Synthetic automated voice or a live person.",
+      "examples": ["robotic"]
+    },
+    "voiceDirection": {
+      "type": "string",
+      "description": "TTS direction: gender, tone, pace.",
+      "examples": ["Calm synthetic female paging voice, even pace, slight reverb"]
+    },
+    "terminalAmbience": {
+      "type": "string",
+      "description": "Background bed for the audio.",
+      "examples": ["Busy terminal atrium, rolling bags, crowd murmur"]
+    },
+    "chime": {
+      "type": "boolean",
+      "description": "Precede with the two-tone attention chime.",
+      "examples": [true]
+    },
+    "repeat": {
+      "type": "string",
+      "description": "Repeat pattern.",
+      "examples": ["Plays 3x, 20 s apart"]
+    },
+    "time": {
+      "type": "string",
+      "description": "Wall-clock time it plays.",
+      "examples": ["10:15"]
+    },
+    "deliveryNote": {
+      "type": "string",
+      "description": "Instruction to the controller.",
+      "examples": [
+        "Play the audio on room speakers while the FIDS board image is on the main screen. Do not explain it."
+      ]
+    },
+    "audioFile": {
+      "type": "string",
+      "description": "Audio file label.",
+      "examples": ["I-06_pa.wav"]
+    },
+    "duration": {
+      "type": "string",
+      "description": "Audio length M:SS.",
+      "examples": ["0:11"]
+    },
+    "injectId": {
+      "type": "string",
+      "description": "Inject ID.",
+      "examples": ["I-06"]
+    },
+    "scenarioTitle": {
+      "type": "string",
+      "description": "Scenario title in the footer.",
+      "examples": ["Scenario 3: Flight to Nowhere"]
+    }
+  },
+  "additionalProperties": false
+}

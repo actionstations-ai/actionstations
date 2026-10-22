@@ -1,0 +1,154 @@
+/* Terminal window screenshot. PowerShell: classic blue console. Bash: dark terminal. */
+p,
+pre {
+  margin: 0;
+}
+.win {
+  border: 1px solid #4a5260;
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden;
+}
+.variant-bash .win {
+  border-radius: 10px;
+  border-color: #3a3f47;
+}
+.bar {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 12px;
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+}
+.variant-bash .bar {
+  height: 34px;
+  padding: 0 12px;
+  background: #2d3138;
+  color: #c5cad3;
+  justify-content: space-between;
+}
+.variant-bash .title {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+}
+.ico {
+  width: 16px;
+  height: 16px;
+}
+.title {
+  flex: 1;
+}
+.lights {
+  display: flex;
+  gap: 8px;
+}
+.lights i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+.lights i:nth-child(2) {
+  background: #febc2e;
+}
+.lights i:nth-child(3) {
+  background: #28c840;
+}
+.lights.ghost {
+  visibility: hidden;
+}
+.ctl {
+  display: flex;
+  height: 100%;
+}
+.ctl i {
+  position: relative;
+  width: 46px;
+  height: 100%;
+}
+.ctl .min::after {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  width: 10px;
+  border-top: 1px solid #333;
+}
+.ctl .max::after {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 11px;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #333;
+}
+.ctl .cls::before,
+.ctl .cls::after {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  width: 14px;
+  border-top: 1px solid #333;
+  transform: rotate(45deg);
+}
+.ctl .cls::after {
+  transform: rotate(-45deg);
+}
+.body {
+  min-height: 360px;
+  padding: 10px 12px 18px;
+  background: #012456;
+  color: #eeedf0;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.variant-bash .body {
+  background: #1e2127;
+  color: #d4d8de;
+}
+.cmd {
+  margin-top: 10px;
+  word-break: break-all;
+}
+.cmd:first-child {
+  margin-top: 0;
+}
+.c {
+  color: #ffff66;
+}
+.variant-bash .c {
+  color: #e6e6e6;
+}
+.variant-bash .u {
+  color: #8ae234;
+  font-weight: 700;
+}
+.variant-bash .d {
+  color: #729fcf;
+  font-weight: 700;
+}
+.out {
+  font-family: inherit;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.out.err {
+  color: #ff6b6b;
+  background: none;
+}
+.variant-powershell .out.err {
+  color: #ff8080;
+}
+.cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.15em;
+  vertical-align: -0.2em;
+  background: #eeedf0;
+}

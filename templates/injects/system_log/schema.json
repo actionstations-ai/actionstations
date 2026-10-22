@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "System log",
+  "description": "A server or application log as handed to IT: a printout (US Letter) or a terminal window. Lines are colored by level.",
+  "type": "object",
+  "required": ["systemName", "lines"],
+  "properties": {
+    "systemName": {
+      "type": "string",
+      "description": "Name of the logging system, printed after 'SYSTEM LOG:'.",
+      "examples": ["AODB_SQL_MASTER"]
+    },
+    "host": {
+      "type": "string",
+      "description": "Hostname of the server.",
+      "examples": ["AODB-SQL01.ncia.local"]
+    },
+    "ip": {
+      "type": "string",
+      "description": "Server IP address.",
+      "examples": ["10.66.0.10"]
+    },
+    "os": {
+      "type": "string",
+      "description": "Operating system.",
+      "examples": ["Windows Server 2019"]
+    },
+    "logSource": {
+      "type": "string",
+      "description": "Log channel or file the lines came from.",
+      "examples": ["Application / MSSQLSERVER audit", "/var/log/auth.log"]
+    },
+    "exportedBy": {
+      "type": "string",
+      "description": "Account that printed or exported the log.",
+      "examples": ["NCIA\\it.oncall"]
+    },
+    "exportedAt": {
+      "type": "string",
+      "description": "When the log was exported or printed.",
+      "examples": ["10/21/2026 11:58 AM"]
+    },
+    "timezone": {
+      "type": "string",
+      "description": "Timezone of the timestamps.",
+      "examples": ["EDT (UTC-4)"]
+    },
+    "lines": {
+      "type": "array",
+      "description": "Log lines in time order.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ts", "level", "msg"],
+        "properties": {
+          "ts": {
+            "type": "string",
+            "description": "Timestamp exactly as the system prints it.",
+            "examples": ["10:03:12"]
+          },
+          "level": {
+            "type": "string",
+            "enum": ["DEBUG", "INFO", "NOTICE", "WARN", "ERROR", "CRIT", "ALERT"],
+            "description": "Severity level; drives the line color.",
+            "examples": ["WARN"]
+          },
+          "msg": {
+            "type": "string",
+            "description": "Message text (exact; IPs, users, file names, SQL).",
+            "examples": [
+              "Failed Login: User 'ADMIN' from IP 192.168.1.55 (Workstation: OPS_INTERN_03)"
+            ]
+          },
+          "highlight": {
+            "type": "boolean",
+            "description": "Printout variant: mark this line with a highlighter as if an analyst flagged it.",
+            "examples": [true]
+          }
+        }
+      }
+    },
+    "terminalTitle": {
+      "type": "string",
+      "description": "Terminal variant window title.",
+      "examples": ["Administrator: Windows PowerShell"]
+    },
+    "command": {
+      "type": "string",
+      "description": "Terminal variant: the command that printed the log.",
+      "examples": ["Get-Content .\\aodb_audit.log -Tail 50"]
+    },
+    "classification": {
+      "type": "string",
+      "description": "Handling marking printed in the header and footer.",
+      "examples": ["INTERNAL - INCIDENT EVIDENCE"]
+    },
+    "pageLabel": {
+      "type": "string",
+      "description": "Page counter in the footer.",
+      "examples": ["Page 1 of 1"]
+    }
+  },
+  "additionalProperties": false
+}

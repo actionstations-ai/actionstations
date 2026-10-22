@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ransom note",
+  "description": "Ransomware note as found on an encrypted machine: a full-screen lock screen or a README text file open in a plain text editor. Fictional group names, wallets and addresses only.",
+  "type": "object",
+  "required": ["text"],
+  "properties": {
+    "groupName": {
+      "type": "string",
+      "description": "Fictional threat-actor brand.",
+      "examples": ["GATEKEEPER"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Lock-screen headline.",
+      "examples": ["YOUR NETWORK HAS BEEN ENCRYPTED"]
+    },
+    "text": {
+      "type": "string",
+      "description": "Body of the note. Newlines kept. Threatening but no real instructions beyond the fictional contact details.",
+      "examples": [
+        "All files on this network have been encrypted with military grade algorithms. Backups were deleted."
+      ]
+    },
+    "amount": {
+      "type": "string",
+      "description": "Demand with currency.",
+      "examples": ["25 BTC"]
+    },
+    "wallet": {
+      "type": "string",
+      "description": "Fictional cryptocurrency wallet address.",
+      "examples": ["bc1q9x7ttxgkr4h2m3w0exampleexampleex6vq2l"]
+    },
+    "timer": {
+      "type": "string",
+      "description": "Countdown shown on the lock screen, HH:MM:SS.",
+      "examples": ["71:42:13"]
+    },
+    "deadline": {
+      "type": "string",
+      "description": "When the price doubles / data is published.",
+      "examples": ["10/24/2026 10:05 EDT"]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Fictional contact address (e.g. a made-up .onion).",
+      "examples": ["gatekeepr7xexampleonionaddr.onion"]
+    },
+    "victimId": {
+      "type": "string",
+      "description": "Victim/machine key the attackers ask for.",
+      "examples": ["NCIA-7F3A-22C9-91D0"]
+    },
+    "fileName": {
+      "type": "string",
+      "description": "Notepad variant: name of the note file.",
+      "examples": ["README_RESTORE_FILES.txt"]
+    },
+    "threatOfLeak": {
+      "type": "string",
+      "description": "Extra data-leak threat line.",
+      "examples": ["We have copied 214 GB including badge records and the security program."]
+    }
+  },
+  "additionalProperties": false
+}

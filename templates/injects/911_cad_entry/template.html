@@ -1,0 +1,89 @@
+<section class="cad">
+  <div class="title">
+    <span class="ico" aria-hidden="true"
+      ><svg viewBox="0 0 16 16">
+        <rect x="1" y="2" width="14" height="12" rx="1.5" fill="#c0392b" />
+        <path d="M4 6h8M4 9h5" stroke="#fff" stroke-width="1.6" /></svg
+    ></span>
+    <span>CAD - Incident {{fields.incidentNo}}</span>
+    <span class="t-right">{{fields.agency}}</span>
+    <span class="ctl" aria-hidden="true"><i></i><i></i><i></i></span>
+  </div>
+  <div class="menu">
+    <span>File</span><span>Incident</span><span>Units</span><span>Query</span><span>Map</span
+    ><span>Tools</span><span>Help</span>
+  </div>
+  <div class="toolbar">
+    <span class="tb">Dispatch</span><span class="tb">Add Narr</span><span class="tb">Add Unit</span
+    ><span class="tb">Hold</span><span class="tb">Close</span><span class="tb">Map</span
+    ><span class="spacer"></span>
+    <span class="cmdline"><b>CMD&gt;</b> </span>
+  </div>
+
+  <div class="head">
+    <div class="pri p{{default fields.priority '2'}}">P{{default fields.priority "2"}}</div>
+    <div class="ctype">
+      <span class="lbl">Call Type</span>
+      <b>{{fields.callType}}</b>
+    </div>
+    <div class="stat">
+      <span class="lbl">Status</span><b>{{default fields.status "PENDING"}}</b>
+    </div>
+    <div class="recv"><span class="lbl">Received</span><b>{{fields.date}} {{fields.time}}</b></div>
+  </div>
+
+  <div class="grid">
+    <fieldset class="box loc">
+      <legend>Location</legend>
+      <div class="row">
+        <label>Address</label><span class="val strong">{{fields.location}}</span>
+      </div>
+      <div class="row">
+        <label>Common place</label><span class="val">{{fields.commonPlace}}</span>
+      </div>
+      <div class="row"><label>Cross st</label><span class="val">{{fields.crossStreet}}</span></div>
+      <div class="row"><label>Zone / box</label><span class="val">{{fields.zone}}</span></div>
+    </fieldset>
+    <fieldset class="box rp">
+      <legend>Reporting party</legend>
+      <div class="row"><label>Name</label><span class="val">{{fields.caller.name}}</span></div>
+      <div class="row"><label>Phone</label><span class="val">{{fields.caller.phone}}</span></div>
+      <div class="row"><label>Source</label><span class="val">{{fields.caller.source}}</span></div>
+    </fieldset>
+  </div>
+
+  <div class="grid2">
+    <fieldset class="box narr">
+      <legend>Narrative</legend>
+      <ol class="lines">
+        {{#each fields.narrative}}
+        <li>
+          <span class="nt">{{time}}</span><span class="na">{{author}}</span
+          ><span class="nx">{{text}}</span>
+        </li>
+        {{/each}}
+      </ol>
+    </fieldset>
+    <fieldset class="box units">
+      <legend>Units</legend>
+      <table>
+        <tr>
+          <th>Unit</th>
+          <th>Status</th>
+          <th>Time</th>
+        </tr>
+        {{#each fields.units}}
+        <tr class="u-{{lower status}}">
+          <td>{{unit}}</td>
+          <td class="us">{{status}}</td>
+          <td>{{time}}</td>
+        </tr>
+        {{/each}}
+      </table>
+    </fieldset>
+  </div>
+  <div class="sbar">
+    <span>{{fields.dispatcher}}</span><span>Incident {{fields.incidentNo}}</span
+    ><span class="spacer"></span><span>CONNECTED</span>
+  </div>
+</section>

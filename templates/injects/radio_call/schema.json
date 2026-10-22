@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Radio call transcript",
+  "description": "Printed radio-log transcript of a two-way radio call (the paper companion to the TTS audio). Remaining ruled rows stay blank for the controller to log replies.",
+  "type": "object",
+  "required": ["channel", "lines"],
+  "properties": {
+    "orgName": {
+      "type": "string",
+      "description": "Organization that keeps the radio log. Falls back to brand.aliases.airport.",
+      "examples": ["Northeast Central International Airport"]
+    },
+    "centerName": {
+      "type": "string",
+      "description": "Dispatch / communications center name.",
+      "examples": ["Airport Operations Center (AOC)"]
+    },
+    "channel": {
+      "type": "string",
+      "description": "Radio channel or talkgroup name.",
+      "examples": ["OPS 1"]
+    },
+    "frequency": {
+      "type": "string",
+      "description": "Frequency or talkgroup ID.",
+      "examples": ["TG 4101 / 460.250 MHz"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date of the traffic.",
+      "examples": ["10/21/2026"]
+    },
+    "callsign": {
+      "type": "string",
+      "description": "Callsign of the unit originating the call (also the TTS speaker).",
+      "examples": ["Garage 1"]
+    },
+    "lines": {
+      "type": "array",
+      "description": "Transmissions in order. Use the exact words spoken.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "text"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Clock time of the transmission, 24h HH:MM:SS.",
+            "examples": ["10:10:42"]
+          },
+          "from": {
+            "type": "string",
+            "description": "Transmitting unit callsign.",
+            "examples": ["Garage 1"]
+          },
+          "to": {
+            "type": "string",
+            "description": "Unit being called.",
+            "examples": ["Ops"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Words transmitted, as spoken.",
+            "examples": ["Ops, we have a Fire Alarm in the Long Term Parking Deck, Level 3."]
+          }
+        }
+      }
+    },
+    "background": {
+      "type": "string",
+      "enum": ["ramp", "terminal", "vehicle", "garage", "office", "none"],
+      "description": "Background ambience for the TTS audio (also printed on the card).",
+      "examples": ["garage"]
+    },
+    "voiceStyle": {
+      "type": "string",
+      "description": "Voice direction for TTS: age, tone, urgency.",
+      "examples": ["Middle-aged male, calm but urgent, slightly out of breath"]
+    },
+    "audioFile": {
+      "type": "string",
+      "description": "Audio file label printed on the card.",
+      "examples": ["I-05b_radio.wav"]
+    },
+    "duration": {
+      "type": "string",
+      "description": "Audio length M:SS.",
+      "examples": ["0:14"]
+    },
+    "injectId": {
+      "type": "string",
+      "description": "Inject ID printed in the corner.",
+      "examples": ["I-05b"]
+    }
+  },
+  "additionalProperties": false
+}

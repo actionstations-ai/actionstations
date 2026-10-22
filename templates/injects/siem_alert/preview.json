@@ -1,0 +1,56 @@
+{
+  "fields": {
+    "product": "Sentinel Point SIEM",
+    "tenant": "NCIA - Airport IT",
+    "alertId": "ALR-2026-104417",
+    "severity": "high",
+    "riskScore": 87,
+    "rule": "Brute force followed by successful privileged login",
+    "ruleDescription": "3 failed logons for a privileged account followed by a successful logon from the same source within 60 seconds. Source is a workstation in the Ops VLAN with no history of SQL access.",
+    "status": "New",
+    "assignee": "Unassigned",
+    "firstSeen": "10/21/2026 10:03:12",
+    "lastSeen": "10/21/2026 10:05:01",
+    "eventCount": 9,
+    "source": {
+      "host": "OPS_INTERN_03",
+      "ip": "192.168.1.55",
+      "user": "ADMIN",
+      "zone": "Ops VLAN 20"
+    },
+    "dest": {
+      "host": "AODB-SQL01",
+      "ip": "10.66.0.10",
+      "service": "1433/tcp (MSSQL)",
+      "zone": "Server VLAN 66"
+    },
+    "tactics": ["T1110 Brute Force", "T1078 Valid Accounts", "T1565 Data Manipulation"],
+    "details": [
+      { "key": "Logon type", "value": "SQL authentication" },
+      { "key": "Failed attempts", "value": "3 in 3 s" },
+      { "key": "Account", "value": "ADMIN (sysadmin role)" },
+      { "key": "Source first seen", "value": "10/20/2026 16:41 (new device)" },
+      { "key": "Asset criticality", "value": "Tier 1 - AODB" },
+      { "key": "Data source", "value": "MSSQL audit via WEF" }
+    ],
+    "rawEvent": "2026-10-21T10:03:14-04:00 AODB-SQL01 MSSQLSERVER 18456: Login failed for user 'ADMIN'. Reason: Password did not match. [CLIENT: 192.168.1.55]\n2026-10-21T10:03:15-04:00 AODB-SQL01 MSSQLSERVER 18454: Login succeeded for user 'ADMIN'. Connection made using SQL Server authentication. [CLIENT: 192.168.1.55]",
+    "relatedAlerts": [
+      {
+        "time": "10:04:00",
+        "title": "Critical service stopped: FIDS_Data_Stream",
+        "severity": "medium"
+      },
+      {
+        "time": "10:04:05",
+        "title": "Script file written to database server (.ps1)",
+        "severity": "high"
+      },
+      {
+        "time": "10:05:00",
+        "title": "Mass UPDATE on flight_schedule (142 rows)",
+        "severity": "critical"
+      }
+    ],
+    "analyst": "it.oncall"
+  }
+}

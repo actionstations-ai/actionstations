@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "911 CAD incident",
+  "description": "Screenshot of a computer-aided dispatch (CAD) incident record at a 911 / public safety answering point: call details, timestamped narrative and assigned units.",
+  "type": "object",
+  "required": ["incidentNo", "time", "callType", "location", "narrative"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Dispatch center name.",
+      "examples": ["County Regional 911 / Airport Police Dispatch"]
+    },
+    "incidentNo": {
+      "type": "string",
+      "description": "CAD incident number.",
+      "examples": ["26-1021-0412"]
+    },
+    "time": {
+      "type": "string",
+      "description": "Call received time, 24h HH:MM:SS.",
+      "examples": ["10:11:05"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Call date.",
+      "examples": ["10/21/2026"]
+    },
+    "callType": {
+      "type": "string",
+      "description": "CAD call type code and description.",
+      "examples": ["FIRE ALARM - COMMERCIAL / STRUCTURE"]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["1", "2", "3", "4"],
+      "description": "Call priority, 1 highest.",
+      "examples": ["1"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Incident status.",
+      "examples": ["DISPATCHED", "PENDING", "ON SCENE"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Incident address / location.",
+      "examples": ["LONG TERM PARKING DECK LVL 3, 5300 RIVERSIDE DR"]
+    },
+    "commonPlace": {
+      "type": "string",
+      "description": "Common-place name or landmark.",
+      "examples": ["NCIA LONG TERM GARAGE"]
+    },
+    "crossStreet": {
+      "type": "string",
+      "description": "Cross streets.",
+      "examples": ["RIVERSIDE DR / TERMINAL ACCESS RD"]
+    },
+    "zone": {
+      "type": "string",
+      "description": "Response zone / beat / box.",
+      "examples": ["FD BOX 31-7 / APD BEAT A2"]
+    },
+    "caller": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Reporting party.",
+      "properties": {
+        "name": { "type": "string", "examples": ["GARAGE MGR - HOLLIS, R"] },
+        "phone": { "type": "string", "examples": ["(216) 555-0187"] },
+        "source": {
+          "type": "string",
+          "description": "How the call came in.",
+          "examples": ["ALARM CO", "911 WIRELESS", "RADIO"]
+        }
+      }
+    },
+    "narrative": {
+      "type": "array",
+      "description": "Timestamped narrative lines in call-taker shorthand, oldest first.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "text"],
+        "properties": {
+          "time": { "type": "string", "examples": ["10:11:20"] },
+          "author": { "type": "string", "description": "Dispatcher ID.", "examples": ["D14"] },
+          "text": { "type": "string", "examples": ["RP ADV SMOKE NEAR ELEVATOR BANK LVL 3"] }
+        }
+      }
+    },
+    "units": {
+      "type": "array",
+      "description": "Assigned units with status.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["unit", "status"],
+        "properties": {
+          "unit": { "type": "string", "examples": ["E31"] },
+          "status": {
+            "type": "string",
+            "description": "DISP, ENRT, ONSC, AVL, etc.",
+            "examples": ["ENRT"]
+          },
+          "time": { "type": "string", "examples": ["10:12:02"] }
+        }
+      }
+    },
+    "dispatcher": {
+      "type": "string",
+      "description": "Logged-in position.",
+      "examples": ["POS 3 - D14"]
+    }
+  },
+  "additionalProperties": false
+}

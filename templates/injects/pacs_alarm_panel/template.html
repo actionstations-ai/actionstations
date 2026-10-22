@@ -1,0 +1,95 @@
+<section class="app">
+  <header class="bar">
+    <span class="brand">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="4" y="10" width="16" height="12" rx="2" fill="#4aa3ff" />
+        <path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#4aa3ff" stroke-width="2.2" fill="none" />
+        <circle cx="12" cy="15.5" r="1.8" fill="#1b2430" />
+      </svg>
+      {{default fields.systemName "Alarm Monitor"}}
+    </span>
+    <span class="site">{{default fields.site brand.aliases.airport}}</span>
+    <span class="spacer"></span>
+    <span class="op">{{fields.operator}}</span>
+    <span class="clock"><b>{{fields.clock}}</b> {{fields.date}}</span>
+  </header>
+  <div class="tools">
+    <span class="t on">Alarms <b>{{fields.alarms.length}}</b></span
+    ><span class="t">Events</span><span class="t">Doors</span><span class="t">Cardholders</span
+    ><span class="t">Video</span>
+    <span class="spacer"></span>
+    <span class="filter">Filter: All priorities · All areas</span>
+  </div>
+
+  <div class="grid">
+    <section class="queue">
+      <div class="qh">
+        <span></span><span>Time</span><span>Priority</span><span>Location</span><span>Event</span
+        ><span>Cardholder</span><span>#</span><span>State</span>
+      </div>
+      {{#each fields.alarms}}
+      <div class="qr p-{{priority}} s-{{default state 'new'}}{{#if @first}} sel{{/if}}">
+        <span class="dot"></span><span class="mono">{{time}}</span
+        ><span class="pri">{{upper priority}}</span><span class="door">{{door}}</span
+        ><span class="ev">{{event}}</span><span class="ch">{{cardholder}}</span
+        ><span class="mono">{{default count 1}}</span
+        ><span class="st">{{default state "new"}}</span>
+      </div>
+      {{/each}}
+    </section>
+
+    <aside class="doors">
+      <h2>Door status</h2>
+      <div class="tiles">
+        {{#each fields.doors}}
+        <div class="tile d-{{state}}">
+          <svg viewBox="0 0 20 24" aria-hidden="true">
+            <rect
+              x="2"
+              y="1"
+              width="16"
+              height="22"
+              rx="1"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <circle cx="14" cy="13" r="1.6" fill="currentColor" />
+          </svg>
+          <span class="dn">{{name}}</span>
+          <span class="ds">{{upper state}}</span>
+        </div>
+        {{/each}}
+      </div>
+    </aside>
+
+    <section class="detail">
+      {{#with fields.alarms.[0]}}
+      <div class="d-head p-{{priority}}">
+        <span class="pri big">{{upper priority}}</span>
+        <div>
+          <h1>{{event}}</h1>
+          <p>{{door}} · {{time}}{{#if cardholder}} · {{cardholder}}{{/if}}</p>
+        </div>
+      </div>
+      {{/with}}
+      <div class="d-body">
+        {{#if fields.procedure.length}}
+        <div class="proc">
+          <h2>Response procedure</h2>
+          <ol>
+            {{#each fields.procedure}}
+            <li><span class="box"></span>{{this}}</li>
+            {{/each}}
+          </ol>
+        </div>
+        {{/if}}
+        <div class="acts">
+          <span class="b primary">Acknowledge</span><span class="b">Show video</span
+          ><span class="b">Lock door</span><span class="b">Clear</span>
+          <label>Operator notes<span class="note"></span></label>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>

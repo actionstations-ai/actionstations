@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SIEM alert",
+  "description": "Screenshot of an alert detail page in a security monitoring (SIEM) console.",
+  "type": "object",
+  "required": ["severity", "rule", "source", "dest"],
+  "properties": {
+    "product": {
+      "type": "string",
+      "description": "Console name in the top bar. Generic, no real product brands.",
+      "examples": ["Sentinel Point SIEM"]
+    },
+    "tenant": {
+      "type": "string",
+      "description": "Organization / tenant shown in the top bar.",
+      "examples": ["NCIA - Airport IT"]
+    },
+    "alertId": {
+      "type": "string",
+      "description": "Alert identifier.",
+      "examples": ["ALR-2026-104417"]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low", "info"],
+      "description": "Alert severity.",
+      "examples": ["high"]
+    },
+    "riskScore": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Risk score 0-100.",
+      "examples": [87]
+    },
+    "rule": {
+      "type": "string",
+      "description": "Correlation rule name (the alert headline).",
+      "examples": ["Brute force followed by successful privileged login"]
+    },
+    "ruleDescription": {
+      "type": "string",
+      "description": "One or two sentences explaining what fired.",
+      "examples": [
+        "3 failed logons for a privileged account followed by a success from the same source within 60 seconds."
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Triage status.",
+      "examples": ["New", "In progress"]
+    },
+    "assignee": {
+      "type": "string",
+      "description": "Analyst assigned, or Unassigned.",
+      "examples": ["Unassigned"]
+    },
+    "firstSeen": {
+      "type": "string",
+      "description": "First event time.",
+      "examples": ["10/21/2026 10:03:12"]
+    },
+    "lastSeen": {
+      "type": "string",
+      "description": "Last event time.",
+      "examples": ["10/21/2026 10:05:01"]
+    },
+    "eventCount": {
+      "type": "integer",
+      "description": "Correlated event count.",
+      "examples": [9]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Source entity.",
+      "properties": {
+        "host": { "type": "string", "examples": ["OPS_INTERN_03"] },
+        "ip": { "type": "string", "examples": ["192.168.1.55"] },
+        "user": { "type": "string", "examples": ["ADMIN"] },
+        "zone": { "type": "string", "description": "Network zone.", "examples": ["Ops VLAN 20"] }
+      }
+    },
+    "dest": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Destination entity.",
+      "properties": {
+        "host": { "type": "string", "examples": ["AODB-SQL01"] },
+        "ip": { "type": "string", "examples": ["10.66.0.10"] },
+        "service": {
+          "type": "string",
+          "description": "Port / service.",
+          "examples": ["1433/tcp (MSSQL)"]
+        },
+        "zone": { "type": "string", "examples": ["Server VLAN 66"] }
+      }
+    },
+    "tactics": {
+      "type": "array",
+      "description": "ATT&CK-style technique tags.",
+      "items": { "type": "string" },
+      "examples": [["T1110 Brute Force", "T1078 Valid Accounts"]]
+    },
+    "details": {
+      "type": "array",
+      "description": "Extra key/value facts shown in the details grid.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key", "value"],
+        "properties": {
+          "key": { "type": "string", "examples": ["Logon type"] },
+          "value": { "type": "string", "examples": ["SQL authentication"] }
+        }
+      }
+    },
+    "rawEvent": {
+      "type": "string",
+      "description": "Raw event text (monospace block). Newlines kept.",
+      "examples": [
+        "2026-10-21T10:03:15-04:00 AODB-SQL01 MSSQLSERVER 18454: Login succeeded for user 'ADMIN'. [CLIENT: 192.168.1.55]"
+      ]
+    },
+    "relatedAlerts": {
+      "type": "array",
+      "description": "Other alerts on the same entities (time + title).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "title"],
+        "properties": {
+          "time": { "type": "string", "examples": ["10:04:05"] },
+          "title": { "type": "string", "examples": ["Script file written to SQL server"] },
+          "severity": { "type": "string", "enum": ["critical", "high", "medium", "low", "info"] }
+        }
+      }
+    },
+    "analyst": {
+      "type": "string",
+      "description": "Logged-in user shown in the top bar.",
+      "examples": ["it.oncall"]
+    }
+  },
+  "additionalProperties": false
+}

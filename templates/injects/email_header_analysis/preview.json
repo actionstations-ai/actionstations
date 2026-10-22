@@ -1,0 +1,77 @@
+{
+  "fields": {
+    "orgName": "NCIA Information Technology - Security",
+    "caseId": "IR-2026-031",
+    "analyst": "J. Okafor",
+    "analyzedAt": "10/21/2026 11:52",
+    "subject": "Congratulations! Claim your FREE Browns Tickets",
+    "displayFrom": "Browns Fan Rewards <rewards@clevelandbrowns-tix.com>",
+    "recipient": "kyle.m@ncia-airport.org",
+    "verdict": "malicious",
+    "checks": [
+      {
+        "label": "SPF",
+        "result": "fail",
+        "detail": "203.0.113.45 not permitted by clevelandbrowns-tix.com"
+      },
+      { "label": "DKIM", "result": "none", "detail": "No signature" },
+      { "label": "DMARC", "result": "fail", "detail": "p=none (domain registered 10/18/2026)" },
+      { "label": "Link", "result": "warn", "detail": "hxxp://browns-tix-claim[.]top/claim.pdf.exe" }
+    ],
+    "hops": [
+      {
+        "from": "vps-41.hostnode.example [203.0.113.45]",
+        "by": "mail.clevelandbrowns-tix.com",
+        "time": "10/20 16:38:49",
+        "flag": true
+      },
+      {
+        "from": "mail.clevelandbrowns-tix.com [203.0.113.45]",
+        "by": "mx1.ncia-airport.org",
+        "time": "10/20 16:38:52"
+      },
+      { "from": "mx1.ncia-airport.org", "by": "exch02.ncia.local", "time": "10/20 16:38:53" }
+    ],
+    "headers": [
+      {
+        "name": "Return-Path",
+        "value": "<bounce-7731@mailer.hostnode.example>",
+        "flag": true,
+        "note": "Bounce domain does not match the From domain"
+      },
+      {
+        "name": "Received",
+        "value": "from vps-41.hostnode.example ([203.0.113.45]) by mail.clevelandbrowns-tix.com; Mon, 20 Oct 2026 16:38:49 -0400"
+      },
+      {
+        "name": "Received-SPF",
+        "value": "Fail (protection.outlook.example: domain of clevelandbrowns-tix.com does not designate 203.0.113.45 as permitted sender)",
+        "flag": true,
+        "note": "Sending IP is not authorized for the domain"
+      },
+      {
+        "name": "Authentication-Results",
+        "value": "spf=fail smtp.mailfrom=clevelandbrowns-tix.com; dkim=none; dmarc=fail action=none header.from=clevelandbrowns-tix.com"
+      },
+      {
+        "name": "From",
+        "value": "\"Browns Fan Rewards\" <rewards@clevelandbrowns-tix.com>",
+        "flag": true,
+        "note": "Look-alike domain registered 3 days before delivery"
+      },
+      {
+        "name": "Reply-To",
+        "value": "claims.desk2026@freemail.example",
+        "flag": true,
+        "note": "Replies go to a free webmail account"
+      },
+      { "name": "To", "value": "kyle.m@ncia-airport.org" },
+      { "name": "Subject", "value": "Congratulations! Claim your FREE Browns Tickets" },
+      { "name": "Date", "value": "Mon, 20 Oct 2026 16:38:47 -0400" },
+      { "name": "Message-ID", "value": "<20261020203847.4471.qmail@vps-41.hostnode.example>" },
+      { "name": "X-Mailer", "value": "PHPMailer 5.2.9" },
+      { "name": "X-Originating-IP", "value": "[203.0.113.45]" }
+    ],
+    "conclusion": "Look-alike sender domain, failed SPF/DMARC and a link to a double-extension executable. User OPS_INTERN_03 (kyle.m) opened the link at 16:41 per proxy logs. Treat 203.0.113.45 and browns-tix-claim[.]top as IOCs; block and search all mailboxes for the same Message-ID pattern."
+  }
+}

@@ -1,0 +1,88 @@
+<article class="sheet">
+  <header class="top">
+    <div>
+      <p class="org">{{default fields.orgName brand.aliases.airport}}</p>
+      <h1>Email Header Analysis</h1>
+    </div>
+    <dl class="case">
+      {{#if fields.caseId}}
+      <div>
+        <dt>Case</dt>
+        <dd>{{fields.caseId}}</dd>
+      </div>
+      {{/if}} {{#if fields.analyst}}
+      <div>
+        <dt>Analyst</dt>
+        <dd>{{fields.analyst}}</dd>
+      </div>
+      {{/if}} {{#if fields.analyzedAt}}
+      <div>
+        <dt>Date</dt>
+        <dd>{{fields.analyzedAt}}</dd>
+      </div>
+      {{/if}}
+    </dl>
+  </header>
+
+  <section class="msg">
+    <div class="msg-main">
+      <p><span class="k">Subject</span> <b>{{fields.subject}}</b></p>
+      {{#if fields.displayFrom}}
+      <p><span class="k">From</span> {{fields.displayFrom}}</p>
+      {{/if}} {{#if fields.recipient}}
+      <p><span class="k">To</span> {{fields.recipient}}</p>
+      {{/if}}
+    </div>
+    {{#if fields.verdict}}
+    <div class="stamp v-{{fields.verdict}}">{{upper fields.verdict}}</div>
+    {{/if}}
+  </section>
+
+  {{#if fields.checks.length}}
+  <section class="checks">
+    {{#each fields.checks}}
+    <div class="chk r-{{result}}">
+      <span class="lab">{{label}}</span><span class="res">{{upper result}}</span
+      ><span class="det">{{detail}}</span>
+    </div>
+    {{/each}}
+  </section>
+  {{/if}} {{#if fields.hops.length}}
+  <section>
+    <h2>Relay path</h2>
+    <ol class="hops">
+      {{#each fields.hops}}
+      <li class="{{#if flag}}flag{{/if}}">
+        <span class="hn">{{inc @index}}</span><span class="mono">{{from}}</span
+        ><span class="arrow">&#8594;</span><span class="mono">{{by}}</span
+        ><span class="mono t">{{time}}</span>
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+
+  <section class="raw-wrap">
+    <h2>Raw headers</h2>
+    <div class="raw">
+      {{#each fields.headers}}
+      <p class="h{{#if flag}} flag{{/if}}"><b>{{name}}:</b> {{value}}</p>
+      {{/each}}
+    </div>
+    <ol class="notes">
+      {{#each fields.headers}}{{#if flag}}
+      <li>{{note}}</li>
+      {{/if}}{{/each}}
+    </ol>
+  </section>
+
+  {{#if fields.conclusion}}
+  <section class="concl">
+    <h2>Conclusion</h2>
+    <p>{{fields.conclusion}}</p>
+  </section>
+  {{/if}}
+  <footer class="foot">
+    <span>TLP:AMBER - internal incident use</span><span>{{fields.caseId}} · Page 1 of 1</span>
+  </footer>
+</article>

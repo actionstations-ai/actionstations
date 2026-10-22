@@ -1,0 +1,89 @@
+<section class="hmi st-{{default fields.state 'normal'}}">
+  <header class="bar">
+    <span class="logo" aria-hidden="true"
+      ><svg viewBox="0 0 32 32">
+        <rect x="2" y="18" width="28" height="6" rx="3" fill="#4b5560" />
+        <circle cx="8" cy="21" r="1.6" fill="#c9cdd1" />
+        <circle cx="16" cy="21" r="1.6" fill="#c9cdd1" />
+        <circle cx="24" cy="21" r="1.6" fill="#c9cdd1" />
+        <rect x="9" y="8" width="10" height="9" rx="1.5" fill="#4b5560" />
+        <rect
+          x="12"
+          y="5"
+          width="4"
+          height="4"
+          rx="1"
+          fill="none"
+          stroke="#4b5560"
+          stroke-width="1.6"
+        /></svg
+    ></span>
+    <h1>{{default fields.systemName "BHS - SYSTEM OVERVIEW"}}</h1>
+    <span class="site">{{default fields.site brand.aliases.airport}}</span>
+    <span class="chip">{{default fields.stateText (upper (default fields.state "normal"))}}</span>
+    <span class="spacer"></span>
+    <span class="who">OPERATOR <b>{{fields.operator}}</b></span>
+    <span class="clock"><b>{{fields.clock}}</b><small>{{fields.date}}</small></span>
+  </header>
+  <nav class="tabs">
+    <span class="on">OVERVIEW</span><span>TICKETING</span><span>CBIS / EDS</span
+    ><span>SORTATION</span><span>MAKEUP</span><span>TRENDS</span><span>ALARMS</span>
+  </nav>
+
+  <div class="mid">
+    <div class="lines">
+      <div class="lh">
+        <span>TAG</span><span>DESCRIPTION</span><span>CONVEYOR</span><span>FEEDS</span
+        ><span>SPEED</span><span>STATE</span>
+      </div>
+      {{#each fields.belts}}
+      <div class="line s-{{state}}">
+        <span class="tag">{{id}}</span>
+        <span class="lbl">{{label}}</span>
+        <span class="track"
+          ><span class="belt">{{#times bags}}<i></i>{{/times}}</span><span class="head"></span
+        ></span>
+        <span class="to">{{to}}</span>
+        <span class="spd">{{speed}}</span>
+        <span class="state">{{#if (eq state "estop")}}E-STOP{{else}}{{upper state}}{{/if}}</span>
+      </div>
+      {{/each}}
+    </div>
+    <aside class="panel">
+      {{#if fields.sacMode}}
+      <div class="sac">
+        <small>SAC ROUTING MODE</small>
+        <b>{{fields.sacMode}}</b>
+      </div>
+      {{/if}}
+      <div class="kpis">
+        {{#each fields.kpis}}
+        <div class="kpi{{#if alarm}} al{{/if}}"><small>{{label}}</small><b>{{value}}</b></div>
+        {{/each}}
+      </div>
+      <div class="btns">
+        <span>ACK ALL</span><span>SILENCE</span><span class="dis">RESET E-STOP</span>
+      </div>
+    </aside>
+  </div>
+
+  <section class="alarms">
+    <div class="ah">
+      <span>ALARM SUMMARY</span><span class="cnt">{{fields.alarms.length}} ACTIVE</span>
+    </div>
+    <div class="ar arh">
+      <span>P</span><span>TIME</span><span>TAG</span><span>MESSAGE</span><span>STATE</span>
+    </div>
+    {{#each fields.alarms}}
+    <div class="ar p{{priority}}{{#unless acked}} un{{/unless}}">
+      <span class="pri">{{priority}}</span><span>{{time}}</span><span>{{tag}}</span
+      ><span>{{text}}</span><span>{{#if acked}}ACK{{else}}UNACK{{/if}}</span>
+    </div>
+    {{/each}}
+  </section>
+  <footer class="sb">
+    {{#each fields.statusItems}}<span>{{this}}</span>{{/each}}
+    <span class="spacer"></span>{{#if fields.hmiNode}}<span>HMI NODE {{fields.hmiNode}}</span
+    >{{/if}}
+  </footer>
+</section>

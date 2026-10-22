@@ -1,0 +1,244 @@
+/* 1400 × 900 engineering drawing: zones, nodes and links placed from structured fields. */
+p,
+ol {
+  margin: 0;
+}
+.dwg {
+  width: 1400px;
+  height: 900px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 18px;
+  background: #fff;
+  color: #1d2733;
+  font-family: 'Roboto', sans-serif;
+}
+.mark {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: #b3141c;
+  padding: 3px 0;
+}
+.frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #1d2733;
+  min-height: 0;
+}
+.area {
+  position: relative;
+  flex: 1;
+  margin: 10px;
+  background-image:
+    linear-gradient(#eef1f4 1px, transparent 1px),
+    linear-gradient(90deg, #eef1f4 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.zone {
+  position: absolute;
+  border: 1.5px dashed #8c99a8;
+  border-radius: 6px;
+  background: rgba(140, 153, 168, 0.08);
+}
+.zone span {
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #5b6877;
+}
+.z-blue {
+  border-color: #3b74c4;
+  background: rgba(59, 116, 196, 0.07);
+}
+.z-blue span {
+  color: #2a5a9e;
+}
+.z-green {
+  border-color: #2f8a57;
+  background: rgba(47, 138, 87, 0.07);
+}
+.z-green span {
+  color: #22704a;
+}
+.z-amber {
+  border-color: #c98a12;
+  background: rgba(201, 138, 18, 0.08);
+}
+.z-amber span {
+  color: #94640a;
+}
+.z-red {
+  border-color: #c0392b;
+  background: rgba(192, 57, 43, 0.07);
+}
+.z-red span {
+  color: #a12b1f;
+}
+.links {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.links line {
+  stroke: #1d2733;
+  stroke-width: 2;
+}
+.links .l-dashed {
+  stroke: #5b6877;
+  stroke-dasharray: 7 5;
+}
+.links .l-attack {
+  stroke: #d1242f;
+  stroke-width: 3;
+  stroke-dasharray: 12 6;
+}
+.node {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.ico {
+  position: absolute;
+  left: -24px;
+  top: -24px;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border: 1.5px solid #1d2733;
+  border-radius: 8px;
+}
+.ico svg {
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: #1d2733;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.k-cloud .ico {
+  border-radius: 50%;
+}
+.alert .ico {
+  border: 3px solid #d1242f;
+  box-shadow: 0 0 0 4px rgba(209, 36, 47, 0.18);
+}
+.alert .ico svg {
+  stroke: #d1242f;
+}
+.lab {
+  position: absolute;
+  top: 28px;
+  left: -90px;
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  line-height: 1.25;
+}
+.lab b {
+  padding: 0 3px;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 12.5px;
+}
+.alert .lab b {
+  color: #b3141c;
+}
+.ip,
+.nt {
+  padding: 0 3px;
+  background: rgba(255, 255, 255, 0.85);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #3e4a57;
+}
+.nt {
+  font-family: 'Roboto', sans-serif;
+  font-style: italic;
+}
+.bottom {
+  height: 132px;
+  display: grid;
+  grid-template-columns: 230px 1fr 380px;
+  border-top: 2px solid #1d2733;
+}
+.legend {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 14px;
+  border-right: 1px solid #1d2733;
+  font-size: 12px;
+}
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lg {
+  width: 34px;
+  border-top: 2px solid #1d2733;
+}
+.lg.dashed {
+  border-top: 2px dashed #5b6877;
+}
+.lg.attack {
+  border-top: 3px dashed #d1242f;
+}
+.lg.alertbox {
+  width: 16px;
+  height: 16px;
+  border: 3px solid #d1242f;
+  border-radius: 4px;
+  margin: 0 9px;
+}
+.notes {
+  padding: 12px 14px 0 34px;
+  font-size: 12px;
+  line-height: 1.45;
+  border-right: 1px solid #1d2733;
+}
+.tblock {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.tblock td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #1d2733;
+}
+.tblock tr:last-child td {
+  border-bottom: 0;
+}
+.tblock td + td {
+  border-left: 1px solid #1d2733;
+}
+.tblock small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: #5b6877;
+}
+.t-org {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.t-title {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+}

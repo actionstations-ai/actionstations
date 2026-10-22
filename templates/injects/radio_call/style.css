@@ -1,0 +1,140 @@
+/* US Letter radio log sheet (816 × 1056): pre-printed form with typed entries. */
+p,
+dl,
+dd {
+  margin: 0;
+}
+.sheet {
+  height: 1056px;
+  padding: 52px 56px 40px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  color: #1f2a37;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #1f2a37;
+}
+.org {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.radio {
+  width: 40px;
+  height: 40px;
+}
+.org-name {
+  font-size: 15px;
+  font-weight: 700;
+}
+.center {
+  font-size: 12px;
+  color: #4b5563;
+}
+.doc {
+  text-align: right;
+}
+.doc-title {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.doc-sub {
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4b5563;
+}
+.facts {
+  display: grid;
+  grid-template-columns: 0.8fr 1.3fr 0.9fr 1.1fr 1.3fr;
+  margin-top: 16px;
+  border: 1.5px solid #1f2a37;
+}
+.facts > div {
+  padding: 6px 9px 8px;
+  border-right: 1px solid #1f2a37;
+  min-height: 52px;
+}
+.facts > div:last-child {
+  border-right: 0;
+}
+.facts dt {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4b5563;
+}
+.facts dd {
+  margin-top: 4px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 14px;
+}
+.facts dd.big {
+  font-size: 19px;
+  font-weight: 700;
+}
+.log {
+  flex: 1;
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1.5px solid #1f2a37;
+}
+.row {
+  display: grid;
+  grid-template-columns: 86px 104px 76px 1fr;
+}
+.row > span {
+  padding: 7px 8px;
+  border-right: 1px solid #9aa5b1;
+}
+.row > span:last-child {
+  border-right: 0;
+}
+.head {
+  background: #1f2a37;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.head > span {
+  border-right-color: #4b5563;
+}
+.entry,
+.blank {
+  border-bottom: 1px solid #c3cad3;
+}
+.entry {
+  font-family: 'Courier Prime', monospace;
+  font-size: 15px;
+  line-height: 1.45;
+}
+.entry .u {
+  font-weight: 700;
+}
+.blank {
+  height: 31px;
+}
+.foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 10px;
+  color: #4b5563;
+}
+.foot .id {
+  font-weight: 700;
+  color: #1f2a37;
+}

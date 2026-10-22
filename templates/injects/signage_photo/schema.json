@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sign / whiteboard photo",
+  "description": "A phone photo of a sign, whiteboard or taped notice. The image slot 'photo' holds the AI scene with a blank sign surface; the template writes the sign text onto it at 'placement' so the words are exact.",
+  "type": "object",
+  "required": ["text"],
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "Sign text. Newlines start new lines. Keep it short (a sign, not a letter).",
+      "examples": ["GATE A1 CLOSED\nDL 1245 ATLANTA\nNOW AT GATE A12\nSORRY!"]
+    },
+    "style": {
+      "type": "string",
+      "enum": ["marker", "printed", "paper", "led"],
+      "description": "marker = handwritten dry-erase on a whiteboard; printed = bold printed sign; paper = printed sheet taped up; led = orange LED message sign.",
+      "examples": ["marker"]
+    },
+    "ink": {
+      "type": "string",
+      "enum": ["black", "blue", "red"],
+      "description": "Marker color (marker style).",
+      "examples": ["blue"]
+    },
+    "placement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "w", "h"],
+      "description": "Where the blank sign surface is in the photo, in percent of the image (0-100), plus an optional rotation in degrees.",
+      "properties": {
+        "x": { "type": "number", "minimum": 0, "maximum": 100, "examples": [47.5] },
+        "y": { "type": "number", "minimum": 0, "maximum": 100, "examples": [28] },
+        "w": { "type": "number", "minimum": 1, "maximum": 100, "examples": [14] },
+        "h": { "type": "number", "minimum": 1, "maximum": 100, "examples": [28] },
+        "rotate": { "type": "number", "minimum": -30, "maximum": 30, "examples": [-1.5] }
+      }
+    },
+    "fontSize": {
+      "type": "integer",
+      "minimum": 8,
+      "maximum": 120,
+      "description": "Text size in CSS pixels at 1216 px image width.",
+      "examples": [26]
+    },
+    "sceneBrief": {
+      "type": "string",
+      "description": "Image prompt for the photo with a blank sign surface (not printed). Describe the blank surface positively.",
+      "examples": [
+        "Smartphone photo of a blank white dry-erase whiteboard on an easel at an airport gate"
+      ]
+    },
+    "caption": {
+      "type": "string",
+      "description": "Optional caption strip under the photo (e.g. where it was posted).",
+      "examples": ["Gate A1, Concourse A - 10:22"]
+    }
+  },
+  "additionalProperties": false
+}

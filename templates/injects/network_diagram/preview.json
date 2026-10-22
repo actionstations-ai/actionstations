@@ -1,0 +1,103 @@
+{
+  "fields": {
+    "title": "Airport Operations Network - Segmentation Overview",
+    "drawingNo": "ASP Appendix D, Fig. D-2",
+    "revision": "Rev C - 03/2026",
+    "orgName": "Northeast Central International Airport",
+    "marking": "SENSITIVE SECURITY INFORMATION",
+    "zones": [
+      { "label": "INTERNET", "x": 1, "y": 4, "w": 17, "h": 32, "tone": "grey" },
+      { "label": "DMZ - 172.16.10.0/24", "x": 21, "y": 4, "w": 28, "h": 32, "tone": "amber" },
+      {
+        "label": "ENTERPRISE VLAN 10 - 10.10.4.0/24",
+        "x": 52,
+        "y": 4,
+        "w": 47,
+        "h": 32,
+        "tone": "grey"
+      },
+      {
+        "label": "OPS VLAN 20 - 192.168.1.0/24",
+        "x": 1,
+        "y": 44,
+        "w": 36,
+        "h": 54,
+        "tone": "blue"
+      },
+      {
+        "label": "SERVER VLAN 66 - 10.66.0.0/24",
+        "x": 62,
+        "y": 44,
+        "w": 37,
+        "h": 54,
+        "tone": "green"
+      }
+    ],
+    "nodes": {
+      "inet": { "label": "Internet", "kind": "cloud", "x": 9.5, "y": 20 },
+      "fw1": { "label": "FW-EDGE-01", "kind": "firewall", "x": 28, "y": 20, "ip": "172.16.10.1" },
+      "mx1": {
+        "label": "mx1 (mail gateway)",
+        "kind": "server",
+        "x": 42,
+        "y": 20,
+        "ip": "172.16.10.25"
+      },
+      "exch": { "label": "EXCH02", "kind": "server", "x": 62, "y": 20, "ip": "10.10.4.20" },
+      "dc": { "label": "DC01", "kind": "server", "x": 76, "y": 20, "ip": "10.10.4.11" },
+      "files": { "label": "FILE01", "kind": "server", "x": 90, "y": 20, "ip": "10.10.4.30" },
+      "core": {
+        "label": "CORE-SW-01",
+        "kind": "switch",
+        "x": 49.5,
+        "y": 62,
+        "note": "L3 core / ACLs"
+      },
+      "opssw": { "label": "OPS-SW-02", "kind": "switch", "x": 19, "y": 86 },
+      "ws1": { "label": "OPS_WS_01", "kind": "workstation", "x": 8, "y": 62, "ip": "192.168.1.21" },
+      "intern": {
+        "label": "OPS_INTERN_03",
+        "kind": "workstation",
+        "x": 27,
+        "y": 62,
+        "ip": "192.168.1.55",
+        "alert": true
+      },
+      "aodb": {
+        "label": "AODB_SQL_MASTER",
+        "kind": "database",
+        "x": 71,
+        "y": 62,
+        "ip": "10.66.0.10",
+        "note": "Windows Server 2019",
+        "alert": true
+      },
+      "fids": { "label": "FIDS-APP-01", "kind": "server", "x": 89, "y": 62, "ip": "10.66.0.21" },
+      "sac": { "label": "BHS SAC", "kind": "plc", "x": 71, "y": 86, "ip": "10.66.0.40" },
+      "disp": { "label": "FIDS displays (186)", "kind": "display", "x": 89, "y": 86 }
+    },
+    "edges": [
+      { "from": "inet", "to": "fw1" },
+      { "from": "fw1", "to": "mx1" },
+      { "from": "mx1", "to": "exch" },
+      { "from": "fw1", "to": "core" },
+      { "from": "core", "to": "exch" },
+      { "from": "core", "to": "dc" },
+      { "from": "core", "to": "files" },
+      { "from": "core", "to": "opssw" },
+      { "from": "opssw", "to": "ws1" },
+      { "from": "opssw", "to": "intern" },
+      { "from": "core", "to": "aodb" },
+      { "from": "aodb", "to": "fids" },
+      { "from": "fids", "to": "disp" },
+      { "from": "aodb", "to": "sac", "style": "dashed" },
+      { "from": "intern", "to": "inet", "style": "attack" },
+      { "from": "intern", "to": "aodb", "style": "attack" }
+    ],
+    "notes": [
+      "Ops VLAN is permitted to reach AODB SQL on 1433/tcp for legacy reporting (exception E-14).",
+      "AODB pushes flight data to FIDS and the BHS SAC every 30 s.",
+      "Red paths: traffic observed 10/20-10/21 during incident IR-2026-031."
+    ]
+  }
+}

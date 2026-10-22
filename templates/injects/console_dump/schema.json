@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Console session",
+  "description": "Screenshot of a terminal session: commands typed by an admin and their output (PowerShell or bash look, chosen by variant).",
+  "type": "object",
+  "required": ["commands"],
+  "properties": {
+    "windowTitle": {
+      "type": "string",
+      "description": "Terminal window title.",
+      "examples": ["Administrator: Windows PowerShell"]
+    },
+    "host": {
+      "type": "string",
+      "description": "Machine the session runs on (used in the bash prompt and title).",
+      "examples": ["OPS_INTERN_03"]
+    },
+    "user": {
+      "type": "string",
+      "description": "User name (bash prompt).",
+      "examples": ["root"]
+    },
+    "cwd": {
+      "type": "string",
+      "description": "Working directory shown in the prompt.",
+      "examples": ["C:\\Windows\\system32", "~"]
+    },
+    "prompt": {
+      "type": "string",
+      "description": "Exact prompt text, overriding the one built from user/host/cwd.",
+      "examples": ["PS C:\\Users\\kyle.m>"]
+    },
+    "commands": {
+      "type": "array",
+      "description": "Commands in order with their output.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cmd"],
+        "properties": {
+          "cmd": {
+            "type": "string",
+            "description": "Command line as typed.",
+            "examples": ["netstat -ano | findstr ESTABLISHED"]
+          },
+          "output": {
+            "type": "string",
+            "description": "Output exactly as printed, newlines and column spacing kept.",
+            "examples": ["  TCP    192.168.1.55:49822   203.0.113.77:443   ESTABLISHED   6140"]
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Render the output as an error (red).",
+            "examples": [false]
+          }
+        }
+      }
+    },
+    "showCursor": {
+      "type": "boolean",
+      "description": "End with an empty prompt and a cursor.",
+      "examples": [true]
+    }
+  },
+  "additionalProperties": false
+}

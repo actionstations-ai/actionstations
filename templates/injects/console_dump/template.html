@@ -1,0 +1,45 @@
+<section class="win">
+  <div class="bar">
+    {{#if (eq variant "bash")}}
+    <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="title">{{default fields.windowTitle (default fields.host "terminal")}}</span>
+    <span class="lights ghost" aria-hidden="true"><i></i><i></i><i></i></span>
+    {{else}}
+    <svg class="ico" viewBox="0 0 16 16" aria-hidden="true">
+      <rect x="0.5" y="1.5" width="15" height="13" rx="2" fill="#2671be" />
+      <path d="M3.5 5l3 3-3 3" stroke="#fff" stroke-width="1.4" fill="none" />
+      <path d="M8 11.2h4.5" stroke="#fff" stroke-width="1.4" />
+    </svg>
+    <span class="title">{{default fields.windowTitle "Windows PowerShell"}}</span>
+    <span class="ctl" aria-hidden="true"
+      ><i class="min"></i><i class="max"></i><i class="cls"></i
+    ></span>
+    {{/if}}
+  </div>
+  <div class="body">
+    {{#each fields.commands}}
+    <p class="cmd">
+      {{#if @root.fields.prompt}}<span class="pr">{{@root.fields.prompt}}</span>{{else}}{{#if (eq
+      @root.variant "bash")}}<span class="pr"
+        ><span class="u"
+          >{{default @root.fields.user "root"}}@{{default @root.fields.host "localhost"}}</span
+        >:<span class="d">{{default @root.fields.cwd "~"}}</span>$</span
+      >{{else}}<span class="pr">PS {{default @root.fields.cwd "C:\Users\Administrator"}}&gt;</span
+      >{{/if}}{{/if}}
+      <span class="c">{{cmd}}</span>
+    </p>
+    {{#if output}}
+    <pre class="out{{#if error}} err{{/if}}">{{output}}</pre>
+    {{/if}} {{/each}} {{#if fields.showCursor}}
+    <p class="cmd">
+      {{#if fields.prompt}}<span class="pr">{{fields.prompt}}</span>{{else}}{{#if (eq variant
+      "bash")}}<span class="pr"
+        ><span class="u">{{default fields.user "root"}}@{{default fields.host "localhost"}}</span
+        >:<span class="d">{{default fields.cwd "~"}}</span>$</span
+      >{{else}}<span class="pr">PS {{default fields.cwd "C:\Users\Administrator"}}&gt;</span
+      >{{/if}}{{/if}}
+      <span class="cursor"></span>
+    </p>
+    {{/if}}
+  </div>
+</section>

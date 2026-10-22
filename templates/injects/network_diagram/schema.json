@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Network diagram",
+  "description": "Engineering-style network segmentation drawing (security plan appendix style). Nodes are placed by percentage coordinates inside the drawing area; edges connect node ids; zones are shaded rectangles. Rendered as inline SVG/HTML, no diagram engine.",
+  "type": "object",
+  "required": ["title", "nodes", "edges"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Drawing title.",
+      "examples": ["Airport Operations Network - Segmentation Overview"]
+    },
+    "drawingNo": {
+      "type": "string",
+      "description": "Drawing / appendix reference.",
+      "examples": ["ASP Appendix D, Fig. D-2"]
+    },
+    "revision": {
+      "type": "string",
+      "description": "Revision and date.",
+      "examples": ["Rev C - 03/2026"]
+    },
+    "orgName": {
+      "type": "string",
+      "description": "Owner organization. Falls back to brand.aliases.airport.",
+      "examples": ["Northeast Central International Airport"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Handling marking printed top and bottom.",
+      "examples": ["SENSITIVE SECURITY INFORMATION"]
+    },
+    "zones": {
+      "type": "array",
+      "description": "Shaded network zones. x, y, w, h are percentages of the drawing area (0-100).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "x", "y", "w", "h"],
+        "properties": {
+          "label": { "type": "string", "examples": ["OPS VLAN 20 - 192.168.1.0/24"] },
+          "x": { "type": "number", "minimum": 0, "maximum": 100, "examples": [2] },
+          "y": { "type": "number", "minimum": 0, "maximum": 100, "examples": [4] },
+          "w": { "type": "number", "minimum": 1, "maximum": 100, "examples": [30] },
+          "h": { "type": "number", "minimum": 1, "maximum": 100, "examples": [40] },
+          "tone": {
+            "type": "string",
+            "enum": ["blue", "green", "amber", "red", "grey"],
+            "description": "Zone tint.",
+            "examples": ["blue"]
+          }
+        }
+      }
+    },
+    "nodes": {
+      "type": "object",
+      "description": "Nodes keyed by id (letters, digits, underscore). x, y are the node center in percent of the drawing area.",
+      "propertyNames": { "pattern": "^[A-Za-z0-9_]+$" },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "kind", "x", "y"],
+        "properties": {
+          "label": { "type": "string", "examples": ["AODB_SQL_MASTER"] },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "server",
+              "database",
+              "workstation",
+              "firewall",
+              "switch",
+              "router",
+              "cloud",
+              "display",
+              "plc",
+              "wireless"
+            ],
+            "examples": ["database"]
+          },
+          "x": { "type": "number", "minimum": 0, "maximum": 100, "examples": [60] },
+          "y": { "type": "number", "minimum": 0, "maximum": 100, "examples": [30] },
+          "ip": { "type": "string", "examples": ["10.66.0.10"] },
+          "note": {
+            "type": "string",
+            "description": "Second line under the label.",
+            "examples": ["Windows Server 2019"]
+          },
+          "alert": {
+            "type": "boolean",
+            "description": "Mark the node as compromised / of interest (red outline).",
+            "examples": [true]
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "description": "Links between node ids.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "to"],
+        "properties": {
+          "from": { "type": "string", "examples": ["fw1"] },
+          "to": { "type": "string", "examples": ["aodb"] },
+          "style": {
+            "type": "string",
+            "enum": ["solid", "dashed", "attack"],
+            "description": "solid = wired link, dashed = logical / VPN, attack = observed malicious path (red).",
+            "examples": ["solid"]
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "description": "Numbered drawing notes.",
+      "items": { "type": "string" },
+      "examples": [["Ops VLAN is permitted to reach AODB SQL on 1433/tcp for legacy reporting."]]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Annotated map",
+  "description": "A base map (image slot 'baseMap': the project's terminal/airfield map or an aerial image) with numbered markers, shaded areas and a legend drawn by the template. All labels come from these fields.",
+  "type": "object",
+  "required": ["title", "markers"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Map title.",
+      "examples": ["Incident Map - Long Term Parking Fire Alarm"]
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Second header line (source, situation).",
+      "examples": ["AOC situational display · aerial basemap"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time the map reflects.",
+      "examples": ["As of 10:20"]
+    },
+    "orgName": {
+      "type": "string",
+      "description": "Organization. Falls back to brand.aliases.airport.",
+      "examples": ["NCIA Airport Operations"]
+    },
+    "markers": {
+      "type": "array",
+      "description": "Numbered markers. x, y are percentages of the map image (0-100, from the top-left).",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["x", "y", "label", "kind"],
+        "properties": {
+          "x": { "type": "number", "minimum": 0, "maximum": 100, "examples": [22] },
+          "y": { "type": "number", "minimum": 0, "maximum": 100, "examples": [80] },
+          "label": {
+            "type": "string",
+            "description": "Short label next to the pin and in the legend.",
+            "examples": ["Smoke reported - LT Deck L3"]
+          },
+          "detail": {
+            "type": "string",
+            "description": "Legend-only detail line.",
+            "examples": ["Garage manager on scene"]
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["incident", "hazard", "staging", "command", "access", "info"],
+            "description": "Marker color / meaning.",
+            "examples": ["incident"]
+          }
+        }
+      }
+    },
+    "areas": {
+      "type": "array",
+      "description": "Shaded areas (cordons, closures). x, y, w, h in percent of the map.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["x", "y", "w", "h", "label"],
+        "properties": {
+          "x": { "type": "number", "minimum": 0, "maximum": 100 },
+          "y": { "type": "number", "minimum": 0, "maximum": 100 },
+          "w": { "type": "number", "minimum": 1, "maximum": 100 },
+          "h": { "type": "number", "minimum": 1, "maximum": 100 },
+          "label": { "type": "string", "examples": ["Cordon - no entry"] },
+          "kind": {
+            "type": "string",
+            "enum": ["closure", "caution", "staging"],
+            "examples": ["closure"]
+          }
+        }
+      }
+    },
+    "mapBrief": {
+      "type": "string",
+      "description": "Image prompt for the base map when no project map is supplied (not printed).",
+      "examples": [
+        "Top-down aerial orthophoto of a regional airport terminal, apron and parking garage"
+      ]
+    },
+    "scaleLabel": {
+      "type": "string",
+      "description": "Scale bar label.",
+      "examples": ["100 m"]
+    }
+  },
+  "additionalProperties": false
+}

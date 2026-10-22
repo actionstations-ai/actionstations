@@ -1,0 +1,58 @@
+<section class="mapdoc">
+  <header class="head">
+    <div>
+      <p class="org">{{default fields.orgName brand.aliases.airport}}</p>
+      <h1>{{fields.title}}</h1>
+    </div>
+    <div class="h-right">
+      {{#if fields.subtitle}}<span>{{fields.subtitle}}</span>{{/if}} {{#if
+      fields.asOf}}<b>{{fields.asOf}}</b>{{/if}}
+    </div>
+  </header>
+  <div class="body">
+    <div class="map">
+      {{#if assets.baseMap}}
+      <img class="base" src="{{assets.baseMap}}" alt="" />
+      {{else}}
+      <div class="base empty"><span>Base map not loaded</span></div>
+      {{/if}} {{#each fields.areas}}
+      <div
+        class="area a-{{default kind 'closure'}}"
+        style="left: {{x}}%; top: {{y}}%; width: {{w}}%; height: {{h}}%"
+      >
+        <span>{{label}}</span>
+      </div>
+      {{/each}} {{#each fields.markers}}
+      <div class="pin m-{{kind}}" style="left: {{x}}%; top: {{y}}%">
+        <span class="dot">{{inc @index}}</span>
+        <span class="tag">{{label}}</span>
+      </div>
+      {{/each}}
+      <div class="north" aria-hidden="true">
+        <svg viewBox="0 0 40 52">
+          <path d="M20 4 30 34 20 28 10 34z" fill="#111" stroke="#fff" stroke-width="1.5" />
+          <text x="20" y="49" text-anchor="middle">N</text>
+        </svg>
+      </div>
+      {{#if fields.scaleLabel}}
+      <div class="scale"><span class="bar"></span><span>{{fields.scaleLabel}}</span></div>
+      {{/if}}
+    </div>
+    <aside class="legend">
+      <h2>Key</h2>
+      <ol>
+        {{#each fields.markers}}
+        <li class="m-{{kind}}">
+          <span class="dot">{{inc @index}}</span>
+          <span><b>{{label}}</b>{{#if detail}}<small>{{detail}}</small>{{/if}}</span>
+        </li>
+        {{/each}}
+      </ol>
+      <div class="kinds">
+        <span class="m-incident"><i></i>Incident</span><span class="m-hazard"><i></i>Hazard</span
+        ><span class="m-command"><i></i>Command</span><span class="m-staging"><i></i>Staging</span
+        ><span class="m-access"><i></i>Access</span><span class="m-info"><i></i>Info</span>
+      </div>
+    </aside>
+  </div>
+</section>

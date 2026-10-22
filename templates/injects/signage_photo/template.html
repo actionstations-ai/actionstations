@@ -1,0 +1,24 @@
+<section class="shot s-{{default fields.style 'marker'}} ink-{{default fields.ink 'black'}}">
+  {{#if assets.photo}}
+  <img class="photo" src="{{assets.photo}}" alt="" />
+  {{else}}
+  <div class="photo empty"></div>
+  {{/if}} {{#with fields.placement}}
+  <div
+    class="sign"
+    style="left: {{x}}%; top: {{y}}%; width: {{w}}%; height: {{h}}%; transform: rotate({{default rotate 0}}deg)"
+  >
+    <p class="words" style="font-size: {{default @root.fields.fontSize 26}}px">
+      {{nl2br @root.fields.text}}
+    </p>
+  </div>
+  {{else}}
+  <div class="sign" style="left: 30%; top: 20%; width: 40%; height: 50%">
+    <p class="words" style="font-size: {{default fields.fontSize 40}}px">{{nl2br fields.text}}</p>
+  </div>
+  {{/with}}
+  <div class="grade" aria-hidden="true"></div>
+  {{#if fields.caption}}
+  <p class="caption">{{fields.caption}}</p>
+  {{/if}}
+</section>

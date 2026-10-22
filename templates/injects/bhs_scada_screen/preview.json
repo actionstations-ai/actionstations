@@ -1,0 +1,154 @@
+{
+  "fields": {
+    "systemName": "BHS SORTATION - SYSTEM OVERVIEW",
+    "site": "NCIA BHS CONTROL ROOM",
+    "state": "critical",
+    "stateText": "E-STOP ACTIVE",
+    "clock": "10:31:52",
+    "date": "21-OCT-2026",
+    "operator": "BHS_DUTY_MGR",
+    "sacMode": "AUTO - CONC A DEST -> MANUAL ENCODE",
+    "belts": [
+      {
+        "id": "CL-01",
+        "label": "Ticketing Belt 1 (DL)",
+        "to": "EDS 1",
+        "state": "estop",
+        "speed": "0 fpm",
+        "bags": 22
+      },
+      {
+        "id": "CL-02",
+        "label": "Ticketing Belt 2 (UA)",
+        "to": "EDS 1",
+        "state": "estop",
+        "speed": "0 fpm",
+        "bags": 19
+      },
+      {
+        "id": "CL-03",
+        "label": "Ticketing Belt 3 (AA/WN)",
+        "to": "EDS 2",
+        "state": "estop",
+        "speed": "0 fpm",
+        "bags": 17
+      },
+      {
+        "id": "EDS-1",
+        "label": "CBIS Screening Line 1",
+        "to": "SORTER",
+        "state": "idle",
+        "speed": "0 fpm",
+        "bags": 3
+      },
+      {
+        "id": "SRT-1",
+        "label": "Tilt-Tray Sorter",
+        "to": "SAC ROUTING",
+        "state": "running",
+        "speed": "450 fpm",
+        "bags": 6
+      },
+      {
+        "id": "MU-A",
+        "label": "Makeup Pier A (DL/UA)",
+        "to": "CONCOURSE A",
+        "state": "idle",
+        "speed": "0 fpm",
+        "bags": 0
+      },
+      {
+        "id": "MU-B",
+        "label": "Makeup Pier B",
+        "to": "CONCOURSE B",
+        "state": "running",
+        "speed": "300 fpm",
+        "bags": 4
+      },
+      {
+        "id": "ME-1",
+        "label": "Manual Encode Pier",
+        "to": "BASEMENT",
+        "state": "jammed",
+        "speed": "0 fpm",
+        "bags": 40
+      }
+    ],
+    "kpis": [
+      {
+        "label": "Bags in system",
+        "value": "1,284",
+        "alarm": true
+      },
+      {
+        "label": "Throughput / hr",
+        "value": "212"
+      },
+      {
+        "label": "Manual encode queue",
+        "value": "347",
+        "alarm": true
+      },
+      {
+        "label": "Mis-sort rate",
+        "value": "61.8 %",
+        "alarm": true
+      },
+      {
+        "label": "EDS lines online",
+        "value": "2 / 3"
+      },
+      {
+        "label": "Next ATD (DL 1245)",
+        "value": "MISSED",
+        "alarm": true
+      }
+    ],
+    "alarms": [
+      {
+        "time": "10:31:07",
+        "priority": "1",
+        "tag": "ME-1.JAM",
+        "text": "MANUAL ENCODE PIER JAM - PHOTO EYE PE-ME1-04 BLOCKED > 120 s",
+        "acked": false
+      },
+      {
+        "time": "10:30:44",
+        "priority": "1",
+        "tag": "CL-03.ESTOP",
+        "text": "EMERGENCY STOP ACTIVATED - PB-109 (OPERATOR)",
+        "acked": true
+      },
+      {
+        "time": "10:30:41",
+        "priority": "1",
+        "tag": "CL-02.ESTOP",
+        "text": "EMERGENCY STOP ACTIVATED - PB-106 (OPERATOR)",
+        "acked": true
+      },
+      {
+        "time": "10:30:38",
+        "priority": "1",
+        "tag": "CL-01.ESTOP",
+        "text": "EMERGENCY STOP ACTIVATED - PB-104 (OPERATOR)",
+        "acked": true
+      },
+      {
+        "time": "10:28:02",
+        "priority": "2",
+        "tag": "SAC.ROUTE",
+        "text": "SAC DESTINATION TABLE CHANGED - 412 FLIGHTS REMAPPED TO ME-1",
+        "acked": false
+      },
+      {
+        "time": "10:28:00",
+        "priority": "3",
+        "tag": "SAC.AODB",
+        "text": "AODB FLIGHT FEED MISMATCH - BSM/FLIGHT TABLE OUT OF SYNC",
+        "acked": false
+      }
+    ],
+    "statusItems": ["PLC-01 ONLINE", "PLC-02 ONLINE", "SAC SERVER ONLINE", "AODB LINK: DEGRADED"],
+    "hmiNode": "BHS-OWS-02"
+  }
+}

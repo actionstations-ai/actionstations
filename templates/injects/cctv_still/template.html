@@ -1,0 +1,22 @@
+<section class="cam">
+  {{#if assets.frame}}
+  <img class="frame" src="{{assets.frame}}" alt="" />
+  {{else}}
+  <div class="nosignal"><span>NO VIDEO</span></div>
+  {{/if}}
+  <div class="grain" aria-hidden="true"></div>
+  <div class="osd tl">
+    <span>{{fields.camera}}</span>
+    {{#if fields.cameraName}}<span>{{fields.cameraName}}</span>{{/if}}
+  </div>
+  <div class="osd tr">
+    {{#if fields.recording}}<span class="rec"><i></i>REC</span>{{/if}}
+    <span>{{fields.timestamp}}</span>
+  </div>
+  <div class="osd bl">{{default fields.site brand.aliases.airport}}</div>
+  {{#if fields.channel}}
+  <div class="osd br">{{fields.channel}}</div>
+  {{/if}} {{#if fields.caption}}
+  <div class="caption">{{fields.caption}}</div>
+  {{/if}}
+</section>

@@ -1,0 +1,88 @@
+{{#if (eq variant "notepad")}}
+<section class="desk">
+  <div class="np">
+    <div class="np-bar">
+      <svg viewBox="0 0 16 16" aria-hidden="true">
+        <rect x="2.5" y="1.5" width="11" height="13" rx="1" fill="#fff" stroke="#5a7fae" />
+        <path d="M5 5h6M5 7.5h6M5 10h4" stroke="#5a7fae" />
+      </svg>
+      <span>{{default fields.fileName "README.txt"}} - Notepad</span>
+      <span class="ctl" aria-hidden="true"
+        ><i class="min"></i><i class="max"></i><i class="cls"></i
+      ></span>
+    </div>
+    <div class="np-menu">
+      <span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span>
+    </div>
+    <pre class="np-text">
+{{#if fields.groupName}}~~~ {{upper fields.groupName}} ~~~
+
+{{/if}}{{#if fields.headline}}{{fields.headline}}
+
+{{/if}}{{fields.text}}{{#if fields.threatOfLeak}}
+
+{{fields.threatOfLeak}}{{/if}}
+
+{{#if fields.amount}}AMOUNT: {{fields.amount}}
+{{/if}}{{#if fields.wallet}}WALLET: {{fields.wallet}}
+{{/if}}{{#if fields.contact}}CONTACT (Tor Browser): {{fields.contact}}
+{{/if}}{{#if fields.victimId}}YOUR ID: {{fields.victimId}}
+{{/if}}{{#if fields.deadline}}DEADLINE: {{fields.deadline}}
+{{/if}}</pre>
+    <div class="np-status">
+      <span>Ln 1, Col 1</span><span>100%</span><span>Windows (CRLF)</span><span>UTF-8</span>
+    </div>
+  </div>
+</section>
+{{else}}
+<section class="lock">
+  <header class="l-head">
+    <svg class="lockico" viewBox="0 0 48 48" aria-hidden="true">
+      <rect x="9" y="21" width="30" height="22" rx="3" fill="#e11d2e" />
+      <path d="M15 21v-6a9 9 0 0 1 18 0v6" stroke="#e11d2e" stroke-width="4.5" fill="none" />
+      <circle cx="24" cy="31" r="3.2" fill="#0b0b0d" />
+      <rect x="22.6" y="32" width="2.8" height="6" fill="#0b0b0d" />
+    </svg>
+    <div>
+      {{#if fields.groupName}}
+      <p class="grp">{{upper fields.groupName}}</p>
+      {{/if}}
+      <h1>{{default fields.headline "YOUR FILES HAVE BEEN ENCRYPTED"}}</h1>
+    </div>
+  </header>
+  <div class="l-cols">
+    <div class="l-text">
+      <p class="body">{{nl2br fields.text}}</p>
+      {{#if fields.threatOfLeak}}
+      <p class="leak">{{fields.threatOfLeak}}</p>
+      {{/if}}
+    </div>
+    <aside class="l-side">
+      {{#if fields.timer}}
+      <div class="box timer">
+        <small>Time left before price doubles</small>
+        <span class="t">{{fields.timer}}</span>
+        {{#if fields.deadline}}<small>{{fields.deadline}}</small>{{/if}}
+      </div>
+      {{/if}} {{#if fields.amount}}
+      <div class="box"><small>Amount</small><span class="amt">{{fields.amount}}</span></div>
+      {{/if}} {{#if fields.victimId}}
+      <div class="box"><small>Your ID</small><span class="mono">{{fields.victimId}}</span></div>
+      {{/if}}
+    </aside>
+  </div>
+  <footer class="l-foot">
+    {{#if fields.wallet}}
+    <div class="field">
+      <small>Send payment to</small><span class="mono">{{fields.wallet}}</span
+      ><b class="copy">Copy</b>
+    </div>
+    {{/if}} {{#if fields.contact}}
+    <div class="field">
+      <small>Contact (Tor Browser)</small><span class="mono">{{fields.contact}}</span
+      ><b class="copy">Copy</b>
+    </div>
+    {{/if}}
+  </footer>
+</section>
+{{/if}}

@@ -1,0 +1,80 @@
+{
+  "fields": {
+    "systemName": "AccessGuard Alarm Monitor",
+    "site": "NCIA - Terminal & SIDA",
+    "operator": "SOC Console 1 - j.reyes",
+    "clock": "11:24:31",
+    "date": "10/21/2026",
+    "alarms": [
+      {
+        "time": "11:24:09",
+        "priority": "high",
+        "door": "EXIT LANE A - CHECKPOINT",
+        "event": "Door Forced Open",
+        "count": 3,
+        "state": "new"
+      },
+      {
+        "time": "11:23:52",
+        "priority": "high",
+        "door": "SIDA DOOR T-114 (BAG MAKEUP)",
+        "event": "Door Held Open",
+        "cardholder": "OKAFOR, D. #31175",
+        "state": "new"
+      },
+      {
+        "time": "11:22:40",
+        "priority": "medium",
+        "door": "ATRIUM STAIR 2 - EGRESS",
+        "event": "Door Forced Open",
+        "state": "new"
+      },
+      {
+        "time": "11:21:18",
+        "priority": "medium",
+        "door": "GATE B6 JET BRIDGE",
+        "event": "Door Held Open",
+        "cardholder": "UA RAMP - PRICE, K. #22904",
+        "state": "acknowledged"
+      },
+      {
+        "time": "11:19:03",
+        "priority": "low",
+        "door": "OPS CENTER - MAIN",
+        "event": "Invalid Badge",
+        "cardholder": "UNKNOWN #00000",
+        "count": 2,
+        "state": "acknowledged"
+      },
+      {
+        "time": "11:12:47",
+        "priority": "low",
+        "door": "CONCOURSE A - SERVICE CORRIDOR",
+        "event": "Door Held Open",
+        "cardholder": "ABM JANITORIAL #51520",
+        "state": "cleared"
+      }
+    ],
+    "procedure": [
+      "Call up CAM 07 (SSCP MAIN - QUEUE) and CAM 09 (EXIT LANE A)",
+      "Dispatch nearest security officer or LEO to Exit Lane A",
+      "Confirm whether persons entered the sterile area unscreened",
+      "If confirmed: notify ASC and TSA, request sterile area sweep",
+      "Log disposition before clearing the alarm"
+    ],
+    "doors": [
+      { "name": "EXIT LANE A", "state": "forced" },
+      { "name": "EXIT LANE B", "state": "secure" },
+      { "name": "SIDA T-114", "state": "held" },
+      { "name": "ATRIUM STAIR 2", "state": "forced" },
+      { "name": "B6 JET BRIDGE", "state": "held" },
+      { "name": "B2 JET BRIDGE", "state": "secure" },
+      { "name": "A1 JET BRIDGE", "state": "secure" },
+      { "name": "A12 JET BRIDGE", "state": "unlocked" },
+      { "name": "OPS CENTER", "state": "secure" },
+      { "name": "IT DATA ROOM", "state": "secure" },
+      { "name": "BHS CONTROL", "state": "secure" },
+      { "name": "FUEL FARM GATE", "state": "offline" }
+    ]
+  }
+}

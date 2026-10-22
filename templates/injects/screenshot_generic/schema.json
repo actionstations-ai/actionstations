@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Generic app screenshot",
+  "description": "A desktop application window (Windows or macOS chrome by variant) whose content area shows the image slot 'image' (photo, camera view, document scan). Window title, file list and status text are template-rendered from fields.",
+  "type": "object",
+  "required": ["appName"],
+  "properties": {
+    "appName": {
+      "type": "string",
+      "description": "Application name. Generic names only, no real product brands.",
+      "examples": ["Photos"]
+    },
+    "windowTitle": {
+      "type": "string",
+      "description": "Window title (often the open file).",
+      "examples": ["IMG_4471.JPG"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Path / address bar text.",
+      "examples": ["C:\\Users\\aoc.duty\\Downloads\\Shared from Teams"]
+    },
+    "menuItems": {
+      "type": "array",
+      "description": "Menu bar items.",
+      "items": { "type": "string" },
+      "examples": [["File", "Edit", "View", "Help"]]
+    },
+    "sidebarItems": {
+      "type": "array",
+      "description": "Items in the left list (files, cameras, folders). The selected one is highlighted.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label"],
+        "properties": {
+          "label": { "type": "string", "examples": ["IMG_4471.JPG"] },
+          "meta": {
+            "type": "string",
+            "description": "Small grey second line.",
+            "examples": ["10:16 AM"]
+          },
+          "selected": { "type": "boolean", "examples": [true] }
+        }
+      }
+    },
+    "statusText": {
+      "type": "string",
+      "description": "Status bar text.",
+      "examples": ["4032 x 3024 · 3.1 MB · Taken 10/21/2026 10:16 AM"]
+    },
+    "imageBrief": {
+      "type": "string",
+      "description": "Image prompt for the content area (not printed). No readable text in the image.",
+      "examples": ["Busy airport departures hall, travelers looking up at overhead flight screens"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "Taskbar / menu-bar clock.",
+      "examples": ["10:24 AM"]
+    }
+  },
+  "additionalProperties": false
+}

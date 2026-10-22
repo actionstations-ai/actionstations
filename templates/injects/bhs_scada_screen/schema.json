@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BHS SCADA screen",
+  "description": "1920x1080 baggage handling system (BHS) operator HMI overview: conveyor lines with state, sortation KPIs and the alarm banner. Grey high-performance HMI style: color only for abnormal states.",
+  "type": "object",
+  "required": ["belts", "alarms"],
+  "properties": {
+    "systemName": {
+      "type": "string",
+      "description": "HMI screen title.",
+      "examples": ["BHS SORTATION - SYSTEM OVERVIEW"]
+    },
+    "site": {
+      "type": "string",
+      "description": "Site / control room label. Falls back to brand.aliases.airport.",
+      "examples": ["NCIA BHS CONTROL ROOM"]
+    },
+    "state": {
+      "type": "string",
+      "enum": ["normal", "degraded", "critical"],
+      "description": "Overall system state chip.",
+      "examples": ["critical"]
+    },
+    "stateText": {
+      "type": "string",
+      "description": "Text in the state chip.",
+      "examples": ["E-STOP ACTIVE"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "HMI clock, 24h HH:MM:SS.",
+      "examples": ["10:31:52"]
+    },
+    "date": {
+      "type": "string",
+      "description": "HMI date.",
+      "examples": ["21-OCT-2026"]
+    },
+    "operator": {
+      "type": "string",
+      "description": "Logged-in operator.",
+      "examples": ["BHS_DUTY_MGR"]
+    },
+    "sacMode": {
+      "type": "string",
+      "description": "Sortation Allocation Controller routing mode text.",
+      "examples": ["AUTO - ALL DEST -> MANUAL ENCODE"]
+    },
+    "belts": {
+      "type": "array",
+      "description": "Conveyor lines shown top to bottom (up to 9).",
+      "minItems": 1,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "state"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Conveyor tag.",
+            "examples": ["CL-01"]
+          },
+          "label": {
+            "type": "string",
+            "description": "Line description.",
+            "examples": ["Ticketing Belt 1"]
+          },
+          "to": {
+            "type": "string",
+            "description": "Where the line feeds.",
+            "examples": ["MAKEUP A (DL/UA)"]
+          },
+          "state": {
+            "type": "string",
+            "enum": ["running", "idle", "stopped", "estop", "jammed", "fault"],
+            "description": "Line state; drives color.",
+            "examples": ["estop"]
+          },
+          "speed": {
+            "type": "string",
+            "description": "Belt speed.",
+            "examples": ["0 fpm", "300 fpm"]
+          },
+          "bags": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 40,
+            "description": "Bags currently on the line (drawn).",
+            "examples": [14]
+          }
+        }
+      }
+    },
+    "kpis": {
+      "type": "array",
+      "description": "Key figures in the side panel.",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "examples": ["Bags in system"]
+          },
+          "value": {
+            "type": "string",
+            "examples": ["1,284"]
+          },
+          "alarm": {
+            "type": "boolean",
+            "description": "Show this figure in alarm color.",
+            "examples": [true]
+          }
+        }
+      }
+    },
+    "alarms": {
+      "type": "array",
+      "description": "Alarm banner rows, newest first (up to 6).",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "priority", "text"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "examples": ["10:28:14"]
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["1", "2", "3", "4"],
+            "description": "1 = critical ... 4 = advisory.",
+            "examples": ["1"]
+          },
+          "tag": {
+            "type": "string",
+            "description": "Device tag.",
+            "examples": ["CL-01.ESTOP"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Alarm message.",
+            "examples": ["EMERGENCY STOP ACTIVATED - PB-104"]
+          },
+          "acked": {
+            "type": "boolean",
+            "description": "Acknowledged by an operator.",
+            "examples": [false]
+          }
+        }
+      }
+    },
+    "statusItems": {
+      "type": "array",
+      "description": "Communication status items in the bottom status bar.",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["PLC-01 ONLINE", "SAC SERVER ONLINE", "AODB LINK: DEGRADED"]]
+    },
+    "hmiNode": {
+      "type": "string",
+      "description": "Operator workstation name in the status bar.",
+      "examples": ["BHS-OWS-02"]
+    }
+  },
+  "additionalProperties": false
+}

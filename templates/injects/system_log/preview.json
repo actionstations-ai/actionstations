@@ -1,0 +1,51 @@
+{
+  "fields": {
+    "systemName": "AODB_SQL_MASTER",
+    "host": "AODB-SQL01.ncia.local",
+    "ip": "10.66.0.10",
+    "os": "Windows Server 2019",
+    "logSource": "Application / MSSQLSERVER audit",
+    "exportedBy": "NCIA\\it.oncall",
+    "exportedAt": "10/21/2026 11:58 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "10:03:12",
+        "level": "WARN",
+        "msg": "Failed Login: User 'ADMIN' from IP 192.168.1.55 (Workstation: OPS_INTERN_03)"
+      },
+      {
+        "ts": "10:03:13",
+        "level": "WARN",
+        "msg": "Failed Login: User 'ADMIN' from IP 192.168.1.55"
+      },
+      {
+        "ts": "10:03:14",
+        "level": "WARN",
+        "msg": "Failed Login: User 'ADMIN' from IP 192.168.1.55"
+      },
+      {
+        "ts": "10:03:15",
+        "level": "INFO",
+        "msg": "Successful Login: User 'ADMIN' from IP 192.168.1.55"
+      },
+      { "ts": "10:04:00", "level": "INFO", "msg": "SERVICE STOPPED: 'FIDS_Data_Stream'" },
+      {
+        "ts": "10:04:05",
+        "level": "INFO",
+        "msg": "FILE UPLOAD: 'random_gate_generator.ps1' (Size: 45KB)"
+      },
+      {
+        "ts": "10:05:00",
+        "level": "CRIT",
+        "msg": "EXEC: UPDATE flight_schedule SET gate = RAND(), dest = 'PURGATORY' WHERE status = 'ACTIVE';"
+      },
+      { "ts": "10:05:01", "level": "INFO", "msg": "Rows Affected: 142" },
+      { "ts": "10:06:00", "level": "INFO", "msg": "SERVICE STARTED: 'FIDS_Data_Stream'" }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Get-Content .\\aodb_audit.log -Tail 9",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  }
+}

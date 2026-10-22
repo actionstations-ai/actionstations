@@ -1,0 +1,275 @@
+/* 1440 × 825 situational map: base image (slot baseMap) with template-drawn markers. */
+p,
+h1,
+h2,
+ol {
+  margin: 0;
+}
+.mapdoc {
+  width: 1440px;
+  height: 825px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: #14191f;
+  font-family: 'Inter', sans-serif;
+}
+.head {
+  height: 72px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 22px;
+  background: #14191f;
+  color: #fff;
+}
+.org {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9aa6b4;
+}
+.head h1 {
+  font-size: 23px;
+  font-weight: 700;
+}
+.h-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: 13px;
+  color: #c4ccd6;
+}
+.h-right b {
+  font-size: 18px;
+  color: #ffd23f;
+}
+.body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1100px 1fr;
+  gap: 0;
+  min-height: 0;
+}
+.map {
+  position: relative;
+  width: 1100px;
+  height: 753px;
+  overflow: hidden;
+  background: #d9dee3;
+}
+.base {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  filter: saturate(0.7) brightness(1.03);
+}
+.base.empty {
+  display: grid;
+  place-items: center;
+  background-image:
+    linear-gradient(#c3cad2 1px, transparent 1px),
+    linear-gradient(90deg, #c3cad2 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.base.empty span {
+  padding: 8px 14px;
+  background: #fff;
+  border: 1px solid #9aa6b4;
+  color: #5b6672;
+  font-size: 15px;
+}
+.area {
+  position: absolute;
+  border: 3px dashed #d1242f;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(209, 36, 47, 0.22) 0 10px,
+    rgba(209, 36, 47, 0.06) 10px 20px
+  );
+}
+.area span {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  padding: 2px 6px;
+  background: #d1242f;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.a-caution {
+  border-color: #e6a100;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(230, 161, 0, 0.25) 0 10px,
+    rgba(230, 161, 0, 0.06) 10px 20px
+  );
+}
+.a-caution span {
+  background: #e6a100;
+  color: #111;
+}
+.a-staging {
+  border-color: #1f6fd1;
+  background: rgba(31, 111, 209, 0.14);
+}
+.a-staging span {
+  background: #1f6fd1;
+}
+.pin {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.dot {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  background: var(--c, #555);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+.pin .dot {
+  position: absolute;
+  left: -15px;
+  top: -15px;
+}
+.pin .tag {
+  position: absolute;
+  left: 20px;
+  top: -12px;
+  padding: 3px 8px;
+  white-space: nowrap;
+  background: rgba(20, 25, 31, 0.86);
+  border-left: 4px solid var(--c, #555);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+.m-incident {
+  --c: #d1242f;
+}
+.m-hazard {
+  --c: #e67700;
+}
+.m-command {
+  --c: #1f6fd1;
+}
+.m-staging {
+  --c: #2f8a57;
+}
+.m-access {
+  --c: #6c3fc4;
+}
+.m-info {
+  --c: #4b5563;
+}
+.north {
+  position: absolute;
+  right: 18px;
+  top: 14px;
+  width: 40px;
+  height: 52px;
+}
+.north text {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  fill: #111;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 3px;
+}
+.scale {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  font-weight: 600;
+}
+.scale .bar {
+  width: 90px;
+  height: 8px;
+  border: 2px solid #111;
+  border-top: 0;
+}
+.legend {
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #d0d6dc;
+}
+.legend h2 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5b6672;
+}
+.legend ol {
+  list-style: none;
+  padding: 0;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.legend li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.legend .dot {
+  width: 26px;
+  height: 26px;
+  border-width: 2px;
+  font-size: 12px;
+  box-shadow: none;
+}
+.legend b {
+  display: block;
+  font-size: 13.5px;
+  line-height: 1.3;
+}
+.legend small {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: #5b6672;
+}
+.kinds {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding-top: 12px;
+  border-top: 1px solid #d0d6dc;
+  font-size: 12px;
+}
+.kinds span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.kinds i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c);
+}

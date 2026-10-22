@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CCTV still",
+  "description": "A frame grab from a security camera. The image slot 'frame' holds the AI scene; camera ID, timestamp and labels are burned in by the template from these fields (never from the image).",
+  "type": "object",
+  "required": ["camera", "timestamp"],
+  "properties": {
+    "camera": {
+      "type": "string",
+      "description": "Camera ID as the VMS labels it.",
+      "examples": ["CAM 07"]
+    },
+    "cameraName": {
+      "type": "string",
+      "description": "Camera location name.",
+      "examples": ["SSCP MAIN - QUEUE"]
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "Burned-in date and time, recorder format.",
+      "examples": ["2026-10-21 11:23:07"]
+    },
+    "site": {
+      "type": "string",
+      "description": "Site / recorder name in the bottom-left corner. Falls back to brand.aliases.airport.",
+      "examples": ["NCIA TERMINAL NVR-02"]
+    },
+    "channel": {
+      "type": "string",
+      "description": "Recorder channel.",
+      "examples": ["CH07"]
+    },
+    "recording": {
+      "type": "boolean",
+      "description": "Show the REC indicator.",
+      "examples": [true]
+    },
+    "sceneBrief": {
+      "type": "string",
+      "description": "Image prompt for the frame (used by the image stage, not printed). Describe a high, wide surveillance angle; no text in the scene.",
+      "examples": [
+        "High-angle CCTV view of a crowded airport security checkpoint queue, travelers with rolling suitcases, fluorescent light, grainy, desaturated"
+      ]
+    },
+    "caption": {
+      "type": "string",
+      "description": "Optional analyst note bar at the bottom (as added by an export tool).",
+      "examples": ["Exported by SOC for incident 2026-1021-04"]
+    }
+  },
+  "additionalProperties": false
+}

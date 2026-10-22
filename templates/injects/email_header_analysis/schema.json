@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Email header analysis",
+  "description": "Analyst worksheet for a suspicious email: authentication results, relay hops and the raw headers with flagged lines annotated (a phishing CLUE inject).",
+  "type": "object",
+  "required": ["subject", "headers"],
+  "properties": {
+    "orgName": {
+      "type": "string",
+      "description": "Organization doing the analysis. Falls back to brand.aliases.airport.",
+      "examples": ["NCIA Information Technology - Security"]
+    },
+    "caseId": {
+      "type": "string",
+      "description": "Ticket / case number.",
+      "examples": ["IR-2026-031"]
+    },
+    "analyst": {
+      "type": "string",
+      "description": "Analyst name.",
+      "examples": ["J. Okafor"]
+    },
+    "analyzedAt": {
+      "type": "string",
+      "description": "When the analysis was done.",
+      "examples": ["10/21/2026 11:52"]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Email subject line.",
+      "examples": ["Congratulations! Claim your FREE Browns Tickets"]
+    },
+    "displayFrom": {
+      "type": "string",
+      "description": "From header as the user saw it.",
+      "examples": ["Browns Fan Rewards <rewards@clevelandbrowns-tix.com>"]
+    },
+    "recipient": {
+      "type": "string",
+      "description": "Recipient mailbox.",
+      "examples": ["kyle.m@ncia-airport.org"]
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["malicious", "suspicious", "benign"],
+      "description": "Analyst verdict stamp.",
+      "examples": ["malicious"]
+    },
+    "checks": {
+      "type": "array",
+      "description": "Authentication / reputation checks.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "result"],
+        "properties": {
+          "label": { "type": "string", "examples": ["SPF"] },
+          "result": {
+            "type": "string",
+            "enum": ["pass", "fail", "softfail", "none", "warn"],
+            "examples": ["fail"]
+          },
+          "detail": {
+            "type": "string",
+            "examples": ["185.220.101.47 not permitted for clevelandbrowns-tix.com"]
+          }
+        }
+      }
+    },
+    "hops": {
+      "type": "array",
+      "description": "Received hops, origin first.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "by"],
+        "properties": {
+          "from": { "type": "string", "examples": ["mail.clevelandbrowns-tix.com [203.0.113.45]"] },
+          "by": { "type": "string", "examples": ["mx1.ncia-airport.org"] },
+          "time": { "type": "string", "examples": ["10/20 16:38:52"] },
+          "flag": {
+            "type": "boolean",
+            "description": "Mark this hop as suspicious.",
+            "examples": [true]
+          }
+        }
+      }
+    },
+    "headers": {
+      "type": "array",
+      "description": "Raw header lines in order. Flag the tell-tale ones and add a note.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "value"],
+        "properties": {
+          "name": { "type": "string", "examples": ["Return-Path"] },
+          "value": { "type": "string", "examples": ["<bounce-7731@mailer-ru.example>"] },
+          "flag": { "type": "boolean", "description": "Highlight this line.", "examples": [true] },
+          "note": {
+            "type": "string",
+            "description": "Analyst annotation for a flagged line.",
+            "examples": ["Return-Path domain does not match From"]
+          }
+        }
+      }
+    },
+    "conclusion": {
+      "type": "string",
+      "description": "Analyst conclusion paragraph.",
+      "examples": ["Credential-harvesting lure with a malicious executable link."]
+    }
+  },
+  "additionalProperties": false
+}

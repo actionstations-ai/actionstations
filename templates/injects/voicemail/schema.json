@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Voicemail",
+  "description": "Phone screenshot of a visual-voicemail message with its automatic transcription (the printed companion to the TTS audio).",
+  "type": "object",
+  "required": ["caller", "transcript"],
+  "properties": {
+    "caller": {
+      "type": "string",
+      "description": "Contact name as saved on the phone, or the number if unknown.",
+      "examples": ["Tom Reilly - Fox 8 Desk"]
+    },
+    "number": {
+      "type": "string",
+      "description": "Caller number.",
+      "examples": ["(216) 555-0199"]
+    },
+    "label": {
+      "type": "string",
+      "description": "Number label under the name.",
+      "examples": ["mobile", "work"]
+    },
+    "date": {
+      "type": "string",
+      "description": "When the message was left, as the phone shows it.",
+      "examples": ["Today, 11:41 AM"]
+    },
+    "duration": {
+      "type": "string",
+      "description": "Message length M:SS.",
+      "examples": ["0:38"]
+    },
+    "transcript": {
+      "type": "string",
+      "description": "Automatic transcription text. Lower-case slips and missing punctuation make it look real.",
+      "examples": ["Hi this is Tom Reilly calling from the news desk..."]
+    },
+    "voiceStyle": {
+      "type": "string",
+      "description": "TTS voice direction (not printed).",
+      "examples": ["Fast-talking male TV producer, newsroom noise behind him"]
+    },
+    "statusTime": {
+      "type": "string",
+      "description": "Clock in the phone status bar.",
+      "examples": ["11:44"]
+    },
+    "unheard": {
+      "type": "boolean",
+      "description": "Show the blue unheard dot.",
+      "examples": [true]
+    }
+  },
+  "additionalProperties": false
+}

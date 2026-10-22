@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Error dialog",
+  "description": "A screenshot of a system or application error dialog on a desktop (Windows or macOS look, chosen by variant).",
+  "type": "object",
+  "required": ["message"],
+  "properties": {
+    "appName": {
+      "type": "string",
+      "description": "Application that raised the dialog (window title on Windows, menu-bar app on macOS). Generic names only, no real product brands.",
+      "examples": ["Backup & Recovery Console"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Bold headline of the dialog.",
+      "examples": ["Restore job failed"]
+    },
+    "message": {
+      "type": "string",
+      "description": "Main error text exactly as the system shows it. Newlines are kept.",
+      "examples": [
+        "Error 404: Backup Tape Library Not Mounted. Restoration Failed. Please insert Tape Set #44-B manually."
+      ]
+    },
+    "errorCode": {
+      "type": "string",
+      "description": "Code or hex value shown under the message.",
+      "examples": ["0xE000FE30"]
+    },
+    "details": {
+      "type": "string",
+      "description": "Technical details block (monospace), e.g. job name, device, path.",
+      "examples": ["Job: AODB_SQL_FULL_RESTORE\nDevice: TL-2000 (\\\\.\\Tape0) - OFFLINE"]
+    },
+    "icon": {
+      "type": "string",
+      "enum": ["error", "warning", "info", "question"],
+      "description": "Dialog icon.",
+      "examples": ["error"]
+    },
+    "buttons": {
+      "type": "array",
+      "description": "Button labels in on-screen order. The first is the default (highlighted) button on Windows; the last on macOS.",
+      "items": { "type": "string" },
+      "maxItems": 3,
+      "examples": [["Retry", "Cancel"]]
+    },
+    "clock": {
+      "type": "string",
+      "description": "Time on the taskbar / menu-bar clock.",
+      "examples": ["11:22 AM"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date on the taskbar clock (Windows).",
+      "examples": ["10/21/2026"]
+    },
+    "hostLabel": {
+      "type": "string",
+      "description": "Machine label in the corner (remote-desktop style), e.g. server name.",
+      "examples": ["BKP-SRV02"]
+    }
+  },
+  "additionalProperties": false
+}

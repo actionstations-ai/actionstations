@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PACS alarm monitor",
+  "description": "1600x900 physical access control system (PACS) alarm monitoring screen: alarm queue, the selected alarm with its response procedure, and door status tiles.",
+  "type": "object",
+  "required": ["alarms"],
+  "properties": {
+    "systemName": {
+      "type": "string",
+      "description": "Monitoring application name. Generic, no real product brands.",
+      "examples": ["AccessGuard Alarm Monitor"]
+    },
+    "site": {
+      "type": "string",
+      "description": "Site name. Falls back to brand.aliases.airport.",
+      "examples": ["NCIA - Terminal & SIDA"]
+    },
+    "operator": {
+      "type": "string",
+      "description": "Logged-in console operator.",
+      "examples": ["SOC Console 1 - j.reyes"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "Console clock.",
+      "examples": ["11:24:31"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Console date.",
+      "examples": ["10/21/2026"]
+    },
+    "alarms": {
+      "type": "array",
+      "description": "Alarm queue, newest first. The first alarm is shown selected in the detail pane.",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "priority", "door", "event"],
+        "properties": {
+          "time": { "type": "string", "examples": ["11:24:09"] },
+          "priority": { "type": "string", "enum": ["high", "medium", "low"], "examples": ["high"] },
+          "door": {
+            "type": "string",
+            "description": "Reader/door name.",
+            "examples": ["EXIT LANE A - CHECKPOINT"]
+          },
+          "event": {
+            "type": "string",
+            "description": "Event type.",
+            "examples": ["Door Forced Open", "Door Held Open", "Invalid Badge"]
+          },
+          "cardholder": {
+            "type": "string",
+            "description": "Cardholder name and badge, if a badge was presented.",
+            "examples": ["MORALES, T. #40817"]
+          },
+          "count": { "type": "integer", "description": "Repeat count.", "examples": [3] },
+          "state": {
+            "type": "string",
+            "enum": ["new", "acknowledged", "responding", "cleared"],
+            "examples": ["new"]
+          }
+        }
+      }
+    },
+    "procedure": {
+      "type": "array",
+      "description": "Response procedure steps shown for the selected alarm.",
+      "items": { "type": "string" },
+      "examples": [
+        [
+          "Call up camera CAM 07",
+          "Dispatch nearest LEO / security officer",
+          "Notify ASC if SIDA breach confirmed"
+        ]
+      ]
+    },
+    "doors": {
+      "type": "array",
+      "description": "Door status tiles (up to 16).",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "state"],
+        "properties": {
+          "name": { "type": "string", "examples": ["B6 JET BRIDGE"] },
+          "state": {
+            "type": "string",
+            "enum": ["secure", "unlocked", "forced", "held", "offline", "masked"],
+            "examples": ["forced"]
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

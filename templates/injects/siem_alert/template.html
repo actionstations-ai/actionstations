@@ -1,0 +1,149 @@
+<section class="app sev-{{fields.severity}}">
+  <nav class="top">
+    <span class="brand">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2 3 6v6c0 5 3.8 9.3 9 10 5.2-.7 9-5 9-10V6z" fill="#3b82f6" />
+        <path d="M7.5 12.5l3 3 6-6.5" stroke="#fff" stroke-width="2" fill="none" />
+      </svg>
+      {{default fields.product "SIEM Console"}}
+    </span>
+    <span class="nav">Overview</span><span class="nav on">Alerts</span
+    ><span class="nav">Investigations</span><span class="nav">Search</span
+    ><span class="nav">Reports</span>
+    <span class="spacer"></span>
+    {{#if fields.tenant}}<span class="tenant">{{fields.tenant}}</span>{{/if}}
+    <span class="bell" aria-hidden="true"
+      ><svg viewBox="0 0 24 24">
+        <path
+          d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8a2.5 2.5 0 0 0 2.4 2zm7-6V11a7 7 0 0 0-5.5-6.8V3a1.5 1.5 0 0 0-3 0v1.2A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"
+          fill="#9aa8ba"
+        /></svg
+      ><b>3</b></span
+    >
+    <span class="avatar">{{initials (default fields.analyst "SOC")}}</span>
+  </nav>
+
+  <div class="crumbs">Alerts <span>/</span> {{fields.alertId}}</div>
+
+  <header class="head">
+    <div class="h-main">
+      <div class="h-tags">
+        <span class="sev">{{upper fields.severity}}</span>
+        {{#if fields.status}}<span class="status">{{fields.status}}</span>{{/if}}
+        <span class="aid">{{fields.alertId}}</span>
+      </div>
+      <h1>{{fields.rule}}</h1>
+      <p class="h-meta">
+        Assignee: <b>{{default fields.assignee "Unassigned"}}</b> · First seen {{fields.firstSeen}}
+        · Last seen {{fields.lastSeen}}
+      </p>
+    </div>
+    {{#if fields.riskScore}}
+    <div class="risk" style="--s: {{fields.riskScore}}">
+      <div class="ring"><span>{{fields.riskScore}}</span></div>
+      <small>Risk score</small>
+    </div>
+    {{/if}}
+    <div class="actions">
+      <span class="btn">Assign to me</span><span class="btn">Close</span
+      ><span class="btn primary">Investigate</span>
+    </div>
+  </header>
+
+  <div class="cols">
+    <main class="main">
+      {{#if fields.ruleDescription}}
+      <section class="card">
+        <h2>Description</h2>
+        <p class="desc">{{fields.ruleDescription}}</p>
+      </section>
+      {{/if}}
+
+      <section class="card">
+        <h2>Entities</h2>
+        <div class="flow">
+          <div class="ent">
+            <span class="ent-k">Source</span>
+            <b>{{fields.source.host}}</b>
+            <span class="mono">{{fields.source.ip}}</span>
+            {{#if fields.source.user}}<span
+              >User: <span class="mono">{{fields.source.user}}</span></span
+            >{{/if}} {{#if fields.source.zone}}<span class="zone">{{fields.source.zone}}</span
+            >{{/if}}
+          </div>
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 80 20">
+              <path d="M2 10h70M64 3l9 7-9 7" stroke="#e5484d" stroke-width="2.2" fill="none" />
+            </svg>
+            {{#if fields.eventCount}}<small>{{fields.eventCount}} events</small>{{/if}}
+          </div>
+          <div class="ent">
+            <span class="ent-k">Destination</span>
+            <b>{{fields.dest.host}}</b>
+            <span class="mono">{{fields.dest.ip}}</span>
+            {{#if fields.dest.service}}<span
+              >Service: <span class="mono">{{fields.dest.service}}</span></span
+            >{{/if}} {{#if fields.dest.zone}}<span class="zone">{{fields.dest.zone}}</span>{{/if}}
+          </div>
+        </div>
+      </section>
+
+      {{#if fields.details.length}}
+      <section class="card">
+        <h2>Details</h2>
+        <dl class="kv">
+          {{#each fields.details}}
+          <div>
+            <dt>{{key}}</dt>
+            <dd>{{value}}</dd>
+          </div>
+          {{/each}}
+        </dl>
+      </section>
+      {{/if}} {{#if fields.rawEvent}}
+      <section class="card">
+        <h2>Raw event</h2>
+        <pre class="raw">{{fields.rawEvent}}</pre>
+      </section>
+      {{/if}}
+    </main>
+
+    <aside class="side">
+      <section class="card">
+        <h2>Activity</h2>
+        <div class="hist" aria-hidden="true">{{#times 32}}<i></i>{{/times}}</div>
+        <dl class="mini">
+          <div>
+            <dt>Events</dt>
+            <dd>{{fields.eventCount}}</dd>
+          </div>
+          <div>
+            <dt>First</dt>
+            <dd>{{fields.firstSeen}}</dd>
+          </div>
+          <div>
+            <dt>Last</dt>
+            <dd>{{fields.lastSeen}}</dd>
+          </div>
+        </dl>
+      </section>
+      {{#if fields.tactics.length}}
+      <section class="card">
+        <h2>Techniques</h2>
+        <div class="tags">{{#each fields.tactics}}<span>{{this}}</span>{{/each}}</div>
+      </section>
+      {{/if}} {{#if fields.relatedAlerts.length}}
+      <section class="card">
+        <h2>Related alerts</h2>
+        <ul class="rel">
+          {{#each fields.relatedAlerts}}
+          <li class="r-{{default severity 'medium'}}">
+            <i></i><span class="mono">{{time}}</span><span>{{title}}</span>
+          </li>
+          {{/each}}
+        </ul>
+      </section>
+      {{/if}}
+    </aside>
+  </div>
+</section>

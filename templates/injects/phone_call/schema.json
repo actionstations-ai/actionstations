@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Phone call transcript",
+  "description": "Recorded-line call transcript (the printed companion to multi-voice TTS audio). Only the outside caller's lines are scripted; the player role's turns can be left as prompts.",
+  "type": "object",
+  "required": ["caller", "callee", "transcript"],
+  "properties": {
+    "orgName": {
+      "type": "string",
+      "description": "Organization whose recorder captured the call. Falls back to brand.aliases.airport.",
+      "examples": ["Northeast Central International Airport"]
+    },
+    "systemName": {
+      "type": "string",
+      "description": "Call recording system label.",
+      "examples": ["Recorded Line - AOC Console 3"]
+    },
+    "callId": {
+      "type": "string",
+      "description": "Recorder call ID.",
+      "examples": ["CR-20261021-102044-0117"]
+    },
+    "direction": {
+      "type": "string",
+      "enum": ["Inbound", "Outbound", "Internal"],
+      "description": "Call direction relative to the organization.",
+      "examples": ["Inbound"]
+    },
+    "caller": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "description": "Who placed the call.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Caller name and title.",
+          "examples": ["Dana Pruitt, TSA Screening Manager"]
+        },
+        "number": {
+          "type": "string",
+          "description": "Caller ID number.",
+          "examples": ["(216) 555-0142"]
+        },
+        "label": {
+          "type": "string",
+          "description": "Short speaker label used in the transcript.",
+          "examples": ["TSA"]
+        }
+      }
+    },
+    "callee": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "description": "Who answered.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Answering role or person.",
+          "examples": ["Airport Security Coordinator"]
+        },
+        "number": {
+          "type": "string",
+          "description": "Number or extension dialed.",
+          "examples": ["x4410"]
+        },
+        "label": {
+          "type": "string",
+          "description": "Short speaker label used in the transcript.",
+          "examples": ["ASC"]
+        }
+      }
+    },
+    "startTime": {
+      "type": "string",
+      "description": "Call start, date and time.",
+      "examples": ["10/21/2026 11:20:44"]
+    },
+    "duration": {
+      "type": "string",
+      "description": "Call length M:SS.",
+      "examples": ["0:48"]
+    },
+    "transcript": {
+      "type": "array",
+      "description": "Dialogue turns in order.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["speaker", "text"],
+        "properties": {
+          "speaker": {
+            "type": "string",
+            "description": "Speaker label (match caller.label or callee.label).",
+            "examples": ["TSA"]
+          },
+          "offset": {
+            "type": "string",
+            "description": "Time into the call, M:SS.",
+            "examples": ["0:04"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Words spoken. Use [inaudible], [crosstalk] or [background noise] as needed.",
+            "examples": ["We are going to stop screening completely until you fix the data."]
+          },
+          "prompt": {
+            "type": "boolean",
+            "description": "True when this turn is a placeholder for the player's live answer (printed as a blank response line).",
+            "examples": [true]
+          }
+        }
+      }
+    },
+    "voiceStyles": {
+      "type": "object",
+      "description": "TTS voice direction per speaker label.",
+      "additionalProperties": { "type": "string" },
+      "examples": [{ "TSA": "Woman in her 40s, stressed, loud checkpoint noise behind her" }]
+    },
+    "injectId": {
+      "type": "string",
+      "description": "Inject ID printed in the footer.",
+      "examples": ["I-10b"]
+    }
+  },
+  "additionalProperties": false
+}

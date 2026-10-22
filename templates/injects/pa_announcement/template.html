@@ -1,0 +1,64 @@
+<article class="card">
+  <header class="top">
+    <span class="kicker">Audio cue · Public address</span>
+    <span class="meta">{{fields.injectId}}{{#if fields.time}} · {{fields.time}}{{/if}}</span>
+  </header>
+  <div class="title">
+    <svg class="horn" viewBox="0 0 48 48" aria-hidden="true">
+      <path d="M6 18h8l16-10v32L14 30H6z" fill="#111" />
+      <path
+        d="M36 16a10 10 0 0 1 0 16M40 11a16 16 0 0 1 0 26"
+        stroke="#111"
+        stroke-width="3"
+        fill="none"
+        stroke-linecap="round"
+      />
+    </svg>
+    <h1>PA Announcement</h1>
+  </div>
+
+  <section class="script">
+    {{#if fields.chime}}
+    <p class="chime"><span>&#9835;</span> two-tone chime</p>
+    {{/if}}
+    <p class="words">{{nl2br fields.text}}</p>
+    {{#if fields.chime}}
+    <p class="chime end"><span>&#9835;</span> chime</p>
+    {{/if}}
+  </section>
+
+  <dl class="facts">
+    <div>
+      <dt>Zones</dt>
+      <dd>{{default fields.zones "ALL ZONES"}}</dd>
+    </div>
+    <div>
+      <dt>Source</dt>
+      <dd>{{fields.source}}</dd>
+    </div>
+    <div>
+      <dt>Voice</dt>
+      <dd>
+        {{#if (eq fields.voiceStyle "robotic")}}Synthetic / automated{{else}}Live
+        announcer{{/if}}{{#if fields.voiceDirection}}<small>{{fields.voiceDirection}}</small>{{/if}}
+      </dd>
+    </div>
+    <div>
+      <dt>Ambience</dt>
+      <dd>{{fields.terminalAmbience}}</dd>
+    </div>
+    <div>
+      <dt>Repeat</dt>
+      <dd>{{fields.repeat}}</dd>
+    </div>
+    <div>
+      <dt>Audio</dt>
+      <dd class="mono">{{fields.audioFile}}{{#if fields.duration}} ({{fields.duration}}){{/if}}</dd>
+    </div>
+  </dl>
+
+  {{#if fields.deliveryNote}}
+  <aside class="note"><strong>Controller:</strong> {{fields.deliveryNote}}</aside>
+  {{/if}}
+  <footer>{{fields.scenarioTitle}}</footer>
+</article>

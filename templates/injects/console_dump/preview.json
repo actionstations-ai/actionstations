@@ -1,0 +1,27 @@
+{
+  "fields": {
+    "windowTitle": "Administrator: Windows PowerShell - OPS_INTERN_03",
+    "host": "OPS_INTERN_03",
+    "user": "it.oncall",
+    "cwd": "C:\\Windows\\system32",
+    "commands": [
+      {
+        "cmd": "netstat -ano | findstr ESTABLISHED",
+        "output": "  TCP    192.168.1.55:49702    10.10.4.20:445        ESTABLISHED     4\n  TCP    192.168.1.55:49822    203.0.113.77:443      ESTABLISHED     6140\n  TCP    192.168.1.55:49907    10.66.0.10:1433       ESTABLISHED     6140\n  TCP    192.168.1.55:50114    10.10.4.11:135        ESTABLISHED     932"
+      },
+      {
+        "cmd": "Get-Process -Id 6140 | Format-List Name,Path,StartTime",
+        "output": "Name      : updsvc\nPath      : C:\\Users\\kyle.m\\AppData\\Roaming\\Microsoft\\updsvc.exe\nStartTime : 10/20/2026 4:41:09 PM"
+      },
+      {
+        "cmd": "Get-ScheduledTask | Where-Object TaskName -like '*upd*' | Select TaskName,State",
+        "output": "TaskName          State\n--------          -----\nOneDriveUpdSvc    Ready"
+      },
+      {
+        "cmd": "Get-FileHash C:\\Users\\kyle.m\\Downloads\\BrownsTickets_Claim.pdf.exe",
+        "output": "Algorithm       Hash                                                                   Path\n---------       ----                                                                   ----\nSHA256          9F2C4E1B7A0D55E3C1B8F6A2D94E7C03B5A61F8E2D7C9B40A3E5F1D86C2B7A19       C:\\Users\\kyle.m\\Downloads\\BrownsTickets_Cl..."
+      }
+    ],
+    "showCursor": true
+  }
+}

@@ -1,0 +1,77 @@
+<section class="desk">
+  {{#if (eq variant "macos")}}
+  <div class="menubar">
+    <svg class="mb-mark" viewBox="0 0 16 16" aria-hidden="true">
+      <circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6" />
+      <circle cx="8" cy="8" r="2.2" fill="currentColor" />
+    </svg>
+    <b>{{fields.appName}}</b>{{#each fields.menuItems}}<span>{{this}}</span>{{/each}}
+    <span class="mb-right">{{fields.clock}}</span>
+  </div>
+  {{/if}}
+  <div class="win">
+    <div class="bar">
+      {{#if (eq variant "macos")}}
+      <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="title">{{default fields.windowTitle fields.appName}}</span>
+      <span class="lights ghost" aria-hidden="true"><i></i><i></i><i></i></span>
+      {{else}}
+      <span class="app-ico" aria-hidden="true"
+        ><svg viewBox="0 0 16 16">
+          <rect x="1" y="2.5" width="14" height="11" rx="1.5" fill="#3d8bd9" />
+          <path d="M2.5 12l3.5-4 2.5 2.5 2-2 3 3.5z" fill="#fff" />
+          <circle cx="11" cy="5.5" r="1.3" fill="#fff" /></svg
+      ></span>
+      <span class="title"
+        >{{#if fields.windowTitle}}{{fields.windowTitle}} - {{/if}}{{fields.appName}}</span
+      >
+      <span class="ctl" aria-hidden="true"
+        ><i class="min"></i><i class="max"></i><i class="cls"></i
+      ></span>
+      {{/if}}
+    </div>
+    {{#unless (eq variant "macos")}} {{#if fields.menuItems.length}}
+    <div class="menu">{{#each fields.menuItems}}<span>{{this}}</span>{{/each}}</div>
+    {{/if}} {{/unless}} {{#if fields.location}}
+    <div class="loc">
+      <span class="nav" aria-hidden="true">&#8592; &#8594;</span
+      ><span class="path">{{fields.location}}</span>
+    </div>
+    {{/if}}
+    <div class="content">
+      {{#if fields.sidebarItems.length}}
+      <aside class="side">
+        {{#each fields.sidebarItems}}
+        <div class="item{{#if selected}} sel{{/if}}">
+          <span class="thumb"></span
+          ><span><b>{{label}}</b>{{#if meta}}<small>{{meta}}</small>{{/if}}</span>
+        </div>
+        {{/each}}
+      </aside>
+      {{/if}}
+      <div class="view">
+        {{#if assets.image}}
+        <img src="{{assets.image}}" alt="" />
+        {{else}}
+        <div class="noimg">No preview available</div>
+        {{/if}}
+      </div>
+    </div>
+    {{#if fields.statusText}}
+    <div class="status">{{fields.statusText}}</div>
+    {{/if}}
+  </div>
+  {{#unless (eq variant "macos")}}
+  <div class="taskbar">
+    <span class="tb-start" aria-hidden="true"
+      ><svg viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="7.5" fill="none" stroke="#9cc4ff" stroke-width="2.4" /></svg
+    ></span>
+    <span class="tb-app on" aria-hidden="true"
+      ><svg viewBox="0 0 16 16">
+        <rect x="1" y="2.5" width="14" height="11" rx="1.5" fill="#3d8bd9" /></svg
+    ></span>
+    <span class="tb-clock">{{fields.clock}}</span>
+  </div>
+  {{/unless}}
+</section>
