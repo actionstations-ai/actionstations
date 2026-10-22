@@ -19,6 +19,7 @@ Repository: https://github.com/mdcrowley/tabletop-gen
 ```bash
 pnpm install                  # install deps; builds native modules for Electron
 pnpm dev                      # launch the app (electron-vite, HMR)
+scripts/dev-bundle.sh         # macOS: .dev-app/Action Stations.app, a renamed Electron so the menu bar and Dock say Action Stations
 pnpm test                     # Vitest unit tests (run under Electron-as-Node, mock providers)
 pnpm lint && pnpm typecheck   # ESLint + tsc
 pnpm ci:local                 # full local CI: scripts/local-ci.sh

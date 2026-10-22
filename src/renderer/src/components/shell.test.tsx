@@ -52,11 +52,11 @@ describe('app shell', () => {
   it('titles the window after the page heading and moves focus there on navigation', async () => {
     setup()
     await settle()
-    expect(document.title).toBe('Alpha · Tabletop Generator')
+    expect(document.title).toBe('Alpha · Action Stations')
     expect(document.activeElement).toBe(document.body)
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     await settle()
-    expect(document.title).toBe('Beta · Tabletop Generator')
+    expect(document.title).toBe('Beta · Action Stations')
     expect(document.activeElement).toBe(screen.getByRole('heading', { name: 'Beta' }))
   })
 

@@ -1,0 +1,132 @@
+/* Action Stations look: comic panels over the base components. Ink outlines, hard offset
+   shadows, a halftone page texture, a navy sidebar under the logo, display type for page
+   titles. Colors come from tokens.css; contrast stays WCAG AA. */
+
+/* The window never rubber-bands: macOS elastic scroll would lift the whole shell and show a
+   bare strip of page under the navy sidebar. */
+html,
+body {
+  overscroll-behavior: none;
+}
+
+body {
+  background-color: var(--color-bg);
+  background-image: radial-gradient(var(--color-halftone) 1.2px, transparent 1.6px);
+  background-size: 14px 14px;
+}
+
+/* Page titles in the comic display face; smaller headings stay in Inter for legibility.
+   Bangers draws lowercase as small capitals, so "Action Stations" keeps its tall A and S. */
+h1,
+.page-header h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 2.25rem;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+}
+.page-header__eyebrow {
+  color: var(--color-accent);
+  font-weight: var(--weight-semibold);
+}
+
+/* Sidebar: always night navy with blue halftone, whatever the theme, so the logo sits on
+   the dark ground it was drawn for. Scoped tokens keep nav text readable. */
+.sidebar {
+  --color-text: var(--sidebar-text);
+  --color-text-muted: var(--sidebar-text-muted);
+  --color-surface: var(--sidebar-hover);
+  background-color: var(--sidebar-bg);
+  background-image: radial-gradient(rgb(31 111 214 / 0.35) 1.2px, transparent 1.6px);
+  background-size: 10px 10px;
+  border-right: var(--panel-border) solid var(--brand-ink);
+  color: var(--sidebar-text);
+}
+.sidebar__brand {
+  padding: var(--space-1) 0 var(--space-4);
+}
+.sidebar__logo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.sidebar__brand small {
+  padding: var(--space-1) var(--space-2) 0;
+  color: var(--sidebar-accent);
+}
+.sidebar .sidebar__toggle {
+  color: var(--color-text);
+}
+.nav-link[aria-current='page'] {
+  background: var(--color-surface);
+  box-shadow: inset 4px 0 0 var(--sidebar-accent);
+}
+.sidebar :focus-visible {
+  outline-color: var(--sidebar-accent);
+}
+@media (max-width: 52rem) {
+  .sidebar {
+    border-right: none;
+    border-bottom: var(--panel-border) solid var(--brand-ink);
+  }
+  .sidebar__logo {
+    width: auto;
+    height: 2.25rem;
+  }
+}
+
+/* Panels */
+.card,
+.dialog,
+.toast {
+  border: var(--panel-border) solid var(--color-border-strong);
+  box-shadow: var(--shadow-1);
+}
+.dialog {
+  box-shadow: var(--shadow-2);
+}
+.toast {
+  border-left-width: 6px;
+}
+.card--interactive:hover {
+  box-shadow: var(--shadow-2);
+}
+
+/* Buttons press into the page. */
+.btn {
+  border-width: var(--panel-border);
+  font-weight: var(--weight-semibold);
+  box-shadow: 2px 2px 0 var(--color-border-strong);
+  transition:
+    background var(--duration-fast) var(--ease),
+    transform var(--duration-fast) var(--ease),
+    box-shadow var(--duration-fast) var(--ease);
+}
+.btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+.btn--primary {
+  border-color: var(--color-border-strong);
+}
+.btn--ghost,
+.btn:disabled {
+  box-shadow: none;
+}
+
+.progress {
+  border: 1px solid var(--color-border-strong);
+}
+.progress__bar {
+  background-color: var(--brand-red);
+  background-image: radial-gradient(rgb(255 210 31 / 0.55) 1px, transparent 1.4px);
+  background-size: 6px 6px;
+}
+
+@media (forced-colors: active) {
+  body,
+  .sidebar,
+  .progress__bar {
+    background-image: none;
+  }
+}

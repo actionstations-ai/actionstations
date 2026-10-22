@@ -473,7 +473,7 @@ test('a11y: keyboard-only walkthrough from a new project to an export', async ()
     await tabTo(page, dialog.getByRole('button', { name: 'Create project' }))
     await page.keyboard.press('Enter')
     await expect(page.getByRole('heading', { level: 1, name: /Keyboard Airport/ })).toBeVisible()
-    await expect(page).toHaveTitle(/Keyboard Airport · Tabletop Generator/)
+    await expect(page).toHaveTitle(/Keyboard Airport · Action Stations/)
 
     // Import a plan (the native picker is stubbed to answer with it).
     await stubPicker(app, [NCIA[0]!])

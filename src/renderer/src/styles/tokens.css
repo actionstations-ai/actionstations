@@ -4,6 +4,7 @@
 :root {
   /* Type */
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Bangers', 'Impact', var(--font-sans);
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   --text-xs: 0.75rem;
   --text-sm: 0.8125rem;
@@ -48,30 +49,47 @@
   color-scheme: light dark;
 }
 
-/* Light — "paper": warm neutral ground, ink text, one teal signal color. */
+/* Shape shared by the comic panels. Brand colors (logo red, yellow, blue, ink, navy) are
+   repeated in each theme block below so the contrast check sees them. */
+:root {
+  --panel-border: 2px;
+}
+
+/* Light — "newsprint": cream page, ink outlines, red signal color, hard panel shadows. */
 :root,
 :root[data-theme='light'] {
-  --color-bg: #f5f4f0;
+  --brand-red: #e8202a;
+  --brand-yellow: #ffd21f;
+  --brand-blue: #1f6fd6;
+  --brand-ink: #14100c;
+  --brand-navy: #0f1a3c;
+  --sidebar-bg: #0f1a3c;
+  --sidebar-hover: #1c2c5e;
+  --sidebar-text: #fbf3dd;
+  --sidebar-text-muted: #b9c4e6;
+  --sidebar-accent: #ffd21f;
+  --color-bg: #fff6e0;
   --color-surface: #ffffff;
   --color-surface-raised: #ffffff;
-  --color-surface-sunken: #ebe9e3;
-  --color-border: #d6d3ca;
-  --color-border-strong: #858176;
-  --color-text: #1b1c1f;
-  --color-text-muted: #545860;
+  --color-surface-sunken: #fcecc0;
+  --color-border: #d8c79e;
+  --color-border-strong: #14100c;
+  --color-text: #14100c;
+  --color-text-muted: #594c3c;
   --color-text-inverse: #ffffff;
-  --color-accent: #0a5c70;
-  --color-accent-hover: #084a5a;
-  --color-accent-soft: #dceef2;
-  --color-focus: #0a5c70;
+  --color-accent: #c8141e;
+  --color-accent-hover: #a10e16;
+  --color-accent-soft: #ffe0dc;
+  --color-focus: #1756c4;
   --color-danger: #a8231a;
   --color-danger-soft: #fbe5e2;
   --color-warning: #7a5000;
   --color-warning-soft: #fbefd5;
   --color-success: #1c6634;
   --color-success-soft: #dff1e4;
-  --shadow-1: 0 1px 2px rgb(20 20 18 / 0.08);
-  --shadow-2: 0 4px 16px rgb(20 20 18 / 0.12);
+  --color-halftone: rgb(31 111 214 / 0.09);
+  --shadow-1: 3px 3px 0 #14100c;
+  --shadow-2: 6px 6px 0 #14100c;
 
   /* Purpose-tag palette (MSEL chips). Text on soft backgrounds ≥ 4.5:1. */
   --tag-core-fg: #0a4f60;
@@ -94,30 +112,46 @@
   --tag-control-bg: #d6d3ca;
 }
 
-/* Dark — low-glare console. */
+/* Dark — "ink": night-navy page, yellow signal color. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --color-bg: #121417;
-    --color-surface: #191c20;
-    --color-surface-raised: #20242a;
-    --color-surface-sunken: #0e1013;
-    --color-border: #2f343b;
-    --color-border-strong: #6b717b;
-    --color-text: #e8e6e0;
-    --color-text-muted: #a3a8b0;
-    --color-text-inverse: #121417;
-    --color-accent: #5bbfd3;
-    --color-accent-hover: #7fd0e0;
-    --color-accent-soft: #15333b;
-    --color-focus: #7fd0e0;
-    --color-danger: #f08a7f;
-    --color-danger-soft: #3a1714;
-    --color-warning: #e7b75a;
-    --color-warning-soft: #33280f;
-    --color-success: #74c98d;
-    --color-success-soft: #14301d;
-    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
-    --shadow-2: 0 6px 20px rgb(0 0 0 / 0.5);
+    --brand-red: #e8202a;
+    --brand-yellow: #ffd21f;
+    --brand-blue: #1f6fd6;
+    --brand-ink: #14100c;
+    --brand-navy: #0f1a3c;
+    --sidebar-bg: #0f1a3c;
+    --sidebar-hover: #1c2c5e;
+    --sidebar-text: #fbf3dd;
+    --sidebar-text-muted: #b9c4e6;
+    --sidebar-accent: #ffd21f;
+    --sidebar-bg: #0f1a3c;
+    --sidebar-hover: #1c2c5e;
+    --sidebar-text: #fbf3dd;
+    --sidebar-text-muted: #b9c4e6;
+    --sidebar-accent: #ffd21f;
+    --color-bg: #0d1226;
+    --color-surface: #161d38;
+    --color-surface-raised: #1d2547;
+    --color-surface-sunken: #090d1c;
+    --color-border: #303a66;
+    --color-border-strong: #a9b3d6;
+    --color-text: #fbf3dd;
+    --color-text-muted: #b2bad6;
+    --color-text-inverse: #14100c;
+    --color-accent: #ffd21f;
+    --color-accent-hover: #ffe061;
+    --color-accent-soft: #3a3110;
+    --color-focus: #6fb0ff;
+    --color-danger: #ff8a80;
+    --color-danger-soft: #3d1614;
+    --color-warning: #ffc35c;
+    --color-warning-soft: #352710;
+    --color-success: #74d18f;
+    --color-success-soft: #13301d;
+    --color-halftone: rgb(111 176 255 / 0.07);
+    --shadow-1: 3px 3px 0 #000000;
+    --shadow-2: 6px 6px 0 #000000;
     --tag-core-fg: #9fdbe8;
     --tag-core-bg: #163840;
     --tag-noise-fg: #c4c7cc;
@@ -139,27 +173,38 @@
   }
 }
 :root[data-theme='dark'] {
-  --color-bg: #121417;
-  --color-surface: #191c20;
-  --color-surface-raised: #20242a;
-  --color-surface-sunken: #0e1013;
-  --color-border: #2f343b;
-  --color-border-strong: #6b717b;
-  --color-text: #e8e6e0;
-  --color-text-muted: #a3a8b0;
-  --color-text-inverse: #121417;
-  --color-accent: #5bbfd3;
-  --color-accent-hover: #7fd0e0;
-  --color-accent-soft: #15333b;
-  --color-focus: #7fd0e0;
-  --color-danger: #f08a7f;
-  --color-danger-soft: #3a1714;
-  --color-warning: #e7b75a;
-  --color-warning-soft: #33280f;
-  --color-success: #74c98d;
-  --color-success-soft: #14301d;
-  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-2: 0 6px 20px rgb(0 0 0 / 0.5);
+  --brand-red: #e8202a;
+  --brand-yellow: #ffd21f;
+  --brand-blue: #1f6fd6;
+  --brand-ink: #14100c;
+  --brand-navy: #0f1a3c;
+  --sidebar-bg: #0f1a3c;
+  --sidebar-hover: #1c2c5e;
+  --sidebar-text: #fbf3dd;
+  --sidebar-text-muted: #b9c4e6;
+  --sidebar-accent: #ffd21f;
+  --color-bg: #0d1226;
+  --color-surface: #161d38;
+  --color-surface-raised: #1d2547;
+  --color-surface-sunken: #090d1c;
+  --color-border: #303a66;
+  --color-border-strong: #a9b3d6;
+  --color-text: #fbf3dd;
+  --color-text-muted: #b2bad6;
+  --color-text-inverse: #14100c;
+  --color-accent: #ffd21f;
+  --color-accent-hover: #ffe061;
+  --color-accent-soft: #3a3110;
+  --color-focus: #6fb0ff;
+  --color-danger: #ff8a80;
+  --color-danger-soft: #3d1614;
+  --color-warning: #ffc35c;
+  --color-warning-soft: #352710;
+  --color-success: #74d18f;
+  --color-success-soft: #13301d;
+  --color-halftone: rgb(111 176 255 / 0.07);
+  --shadow-1: 3px 3px 0 #000000;
+  --shadow-2: 6px 6px 0 #000000;
   --tag-core-fg: #9fdbe8;
   --tag-core-bg: #163840;
   --tag-noise-fg: #c4c7cc;

@@ -9,8 +9,9 @@ import { useIpcQuery } from '../lib/query'
 import { projectKey, useProjectUi } from '../state/project'
 import { NAV_ICONS } from './nav-icons'
 import { focusTarget, shouldMoveFocus, whenHeading } from '../lib/focus'
+import logoUrl from '../assets/action-stations-logo.png'
 
-const APP_NAME = 'Tabletop Generator'
+const APP_NAME = 'Action Stations'
 
 export function SkipLink() {
   return (
@@ -75,7 +76,7 @@ export function Sidebar() {
     <header className="sidebar" data-open={open || undefined}>
       <div className="sidebar__top">
         <div className="sidebar__brand">
-          {APP_NAME}
+          <img className="sidebar__logo" src={logoUrl} alt={APP_NAME} />
           <small>Exercise design studio</small>
         </div>
         <button

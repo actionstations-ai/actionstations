@@ -297,7 +297,7 @@ test('setup wizard preselects the loaded LM Studio model and speaks a test line'
       await goTo(page, '#/projects')
       await expect(page.getByRole('heading', { name: 'Projects', level: 1 })).toBeVisible()
       await goTo(page, '#/welcome')
-      await expect(page.getByRole('heading', { name: 'Set up Tabletop Generator' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'Set up Action Stations' })).toBeVisible()
     }
     await openStep('text')
     const list = page.getByRole('list', { name: 'Local text services' })

@@ -91,7 +91,7 @@ test('fresh install runs the setup wizard, persists completion and relaunches to
   const { page, userData } = first
   try {
     await page.setViewportSize({ width: 1280, height: 900 })
-    await expect(stepHeading(page, 'Welcome to Tabletop Generator')).toBeVisible()
+    await expect(stepHeading(page, 'Welcome to Action Stations')).toBeVisible()
     expect(page.url()).toContain('#/welcome')
     await expect(page.getByRole('button', { name: 'Skip setup' })).toBeVisible()
     await snap(page, 'welcome')
@@ -130,7 +130,7 @@ test('fresh install runs the setup wizard, persists completion and relaunches to
 test('Skip setup is always available and lands on Projects', async () => {
   const { app, page, userData } = await launch({}, { onboarding: true })
   try {
-    await expect(stepHeading(page, 'Welcome to Tabletop Generator')).toBeVisible()
+    await expect(stepHeading(page, 'Welcome to Action Stations')).toBeVisible()
     await page.getByRole('button', { name: /Search quality/ }).click()
     await expect(stepHeading(page, 'Search quality')).toBeVisible()
     await page.getByRole('button', { name: 'Skip setup' }).click()

@@ -136,7 +136,7 @@ describe('first-run redirect', () => {
   it('sends a fresh install to the wizard', async () => {
     setup()
     renderWizard(null, '/')
-    expect(await heading('Welcome to Tabletop Generator')).toBeTruthy()
+    expect(await heading('Welcome to Action Stations')).toBeTruthy()
   })
   it('sends a finished setup to Projects', async () => {
     setup({}, { onboardingComplete: true })
@@ -149,7 +149,7 @@ describe('welcome step', () => {
   it('states the privacy promise, focuses the heading and moves on', async () => {
     setup()
     renderWizard()
-    const h = await heading('Welcome to Tabletop Generator')
+    const h = await heading('Welcome to Action Stations')
     await waitFor(() => expect(document.activeElement).toBe(h))
     expect(
       screen.getByText(/Nothing leaves this machine except requests to the model providers/),

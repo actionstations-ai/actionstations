@@ -25,6 +25,12 @@ import { errorText } from '../../lib/errors'
 
 const STATUS_TONE = { draft: 'neutral', ready: 'ok', archived: 'warn' } as const
 
+/** Each tab panel opens with a level-2 heading (visually hidden: the tab names it on screen),
+ *  so the panels' own h3 sections follow the page's h1 in order. */
+function PanelHeading({ children }: { children: ReactNode }) {
+  return <h2 className="sr-only">{children}</h2>
+}
+
 function ScenarioTabs(props: {
   projectPath: string
   scenario: Scenario
@@ -59,24 +65,31 @@ function ScenarioTabs(props: {
         ))}
       </Tabs.List>
       <Tabs.Content value="overview" className="tabs__panel">
+        <PanelHeading>Overview</PanelHeading>
         <OverviewTab {...props} />
       </Tabs.Content>
       <Tabs.Content value="objectives" className="tabs__panel">
+        <PanelHeading>Objectives & roles</PanelHeading>
         <ObjectivesTab {...props} />
       </Tabs.Content>
       <Tabs.Content value="msel" className="tabs__panel">
+        <PanelHeading>MSEL</PanelHeading>
         <MselEditor projectPath={projectPath} scenario={scenario} />
       </Tabs.Content>
       <Tabs.Content value="injects" className="tabs__panel">
+        <PanelHeading>Injects</PanelHeading>
         <InjectDeck {...props} />
       </Tabs.Content>
       <Tabs.Content value="documents" className="tabs__panel">
+        <PanelHeading>Documents</PanelHeading>
         <DocumentsTab {...props} />
       </Tabs.Content>
       <Tabs.Content value="rubric" className="tabs__panel">
+        <PanelHeading>Rubric</PanelHeading>
         <RubricTab {...props} />
       </Tabs.Content>
       <Tabs.Content value="warnings" className="tabs__panel">
+        <PanelHeading>Warnings</PanelHeading>
         <WarningsSection projectPath={projectPath} scenarioId={scenario.id} />
       </Tabs.Content>
     </Tabs.Root>

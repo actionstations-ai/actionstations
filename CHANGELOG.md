@@ -10,6 +10,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Changed
 
+- In-app branding is now Action Stations: logo in the sidebar, comic-panel theme (newsprint light, navy-ink dark, Bangers page titles, ink outlines and hard shadows), window, page and menu-bar titles renamed (the settings folder keeps its name); new app icon from the logo; closing the main window now quits the app on macOS too; `scripts/dev-bundle.sh` builds a renamed Electron bundle for unpackaged runs; macOS overscroll bounce disabled (#191).
+
 - Scenario page: the Stages list and Generation log moved below the tabs into a collapsed
   "Advanced information" section, which opens on its own while a generation runs (#189).
 

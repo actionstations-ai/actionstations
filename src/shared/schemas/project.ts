@@ -95,7 +95,7 @@ export const Project = z.object({
     .int()
     .default(PROJECT_FORMAT_VERSION)
     .refine((v) => v <= PROJECT_FORMAT_VERSION, {
-      message: `This project was created by a newer version of Tabletop Generator (format newer than ${PROJECT_FORMAT_VERSION}). Update the app to open it.`,
+      message: `This project was created by a newer version of Action Stations (format newer than ${PROJECT_FORMAT_VERSION}). Update the app to open it.`,
     }),
   id: Id,
   name: z.string().min(1),

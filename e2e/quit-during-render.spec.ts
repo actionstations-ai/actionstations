@@ -45,3 +45,36 @@ test('app.close() during template preview renders finishes promptly', async () =
   console.log(`[quit-during-render] app.close() took ${elapsed} ms`)
   expect(elapsed).toBeLessThan(CLOSE_BUDGET_MS)
 })
+
+// Closing the main window quits the app on every platform, macOS included: no process or
+// Dock icon stays behind, even with hidden render-pool windows alive (#191).
+test('closing the main window ends the app process', async () => {
+  const { app, page } = await launch({ TTX_MOCK_PROVIDERS: '1' })
+  electronProcess = app.process()
+  const created = await invoker(page)<{ path: string }>('project:create', {
+    parentDir: mkdtempSync(join(tmpdir(), 'ttx-quit-')),
+    name: 'Riverbend Transit',
+    orgType: 'transit',
+  })
+  await goTo(page, `#/p/${encodeURIComponent(created.path)}`)
+  await expect(page.getByRole('heading', { level: 1, name: /Riverbend Transit/ })).toBeVisible()
+  await goTo(page, '#/templates')
+  await expect(page.getByText('Rendering…').first()).toBeVisible()
+  await expect
+    .poll(() => app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().length))
+    .toBeGreaterThan(1)
+
+  const exited = new Promise<number>((resolve) => {
+    const started = Date.now()
+    electronProcess!.once('exit', () => resolve(Date.now() - started))
+    setTimeout(() => resolve(Number.POSITIVE_INFINITY), CLOSE_BUDGET_MS)
+  })
+  await app.evaluate(({ BrowserWindow }) => {
+    BrowserWindow.getAllWindows()
+      .find((w) => w.webContents.getURL().includes('#/'))
+      ?.close()
+  })
+  const elapsed = await exited
+  console.log(`[quit-on-close] process exited ${elapsed} ms after closing the main window`)
+  expect(elapsed).toBeLessThan(CLOSE_BUDGET_MS)
+})

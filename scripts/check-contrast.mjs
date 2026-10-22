@@ -52,6 +52,12 @@ export const CONTEXT_PAIRS = [
   ['--color-text-inverse', '--color-accent', TEXT_MIN, 'primary button'],
   ['--color-text-inverse', '--color-accent-hover', TEXT_MIN, 'primary button (hover)'],
   ['--color-accent', '--color-surface', UI_MIN, 'selected indicators, progress'],
+  // The sidebar is navy in every theme; its tokens only ever sit on its own two grounds.
+  ...['--sidebar-bg', '--sidebar-hover'].flatMap((bg) => [
+    ['--sidebar-text', bg, TEXT_MIN, 'sidebar navigation'],
+    ['--sidebar-text-muted', bg, TEXT_MIN, 'sidebar section labels'],
+    ['--sidebar-accent', bg, TEXT_MIN, 'sidebar tagline, current item, focus'],
+  ]),
   ['--color-danger', '--color-surface', UI_MIN, 'invalid input border'],
   ...[
     'core',
@@ -152,7 +158,7 @@ export function rulePairs(files = cssFiles(RENDERER)) {
       const bg = tokenOf(decl.background) ?? tokenOf(decl['background-color'])
       const where = `${relative(ROOT, file)} ${m[1].trim().split('\n').pop()}`
       if (bg) pairs.push([fg, bg, TEXT_MIN, where])
-      else if (!PAIRED_ONLY.has(fg) && !fg.startsWith('--tag-'))
+      else if (!PAIRED_ONLY.has(fg) && !fg.startsWith('--tag-') && !fg.startsWith('--sidebar-'))
         for (const s of SURFACES) pairs.push([fg, s, TEXT_MIN, where])
     }
   }

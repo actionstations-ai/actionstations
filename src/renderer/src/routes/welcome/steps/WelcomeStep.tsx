@@ -10,7 +10,7 @@ const OUTPUTS = [
 export function WelcomeStep({ onNext }: StepNav) {
   return (
     <StepLayout
-      title="Welcome to Tabletop Generator"
+      title="Welcome to Action Stations"
       intro={
         <p>
           Turn your organization&rsquo;s plans and procedures into a complete, editable tabletop

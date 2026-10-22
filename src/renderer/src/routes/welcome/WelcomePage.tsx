@@ -97,7 +97,7 @@ export default function WelcomePage() {
     <div className="page wizard">
       <PageHeader
         eyebrow="Setup"
-        title="Set up Tabletop Generator"
+        title="Set up Action Stations"
         actions={
           step !== 'done' && (
             <Button variant="ghost" onClick={() => void skipSetup()}>

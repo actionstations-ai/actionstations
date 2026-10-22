@@ -8,7 +8,7 @@ import { errorText } from '../../lib/errors'
 
 const openError = (err: unknown): string =>
   err instanceof IpcError && err.code === 'NOT_FOUND'
-    ? 'That folder has no project.json. Choose a .ttxproj folder created by Tabletop Generator.'
+    ? 'That folder has no project.json. Choose a .ttxproj folder created by Action Stations.'
     : errorText(err)
 
 /** Open a project folder (registers it as recent) and go to its overview. */
