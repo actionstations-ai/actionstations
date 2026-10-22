@@ -11,6 +11,7 @@ files:
 extraResources:
   - from: templates
     to: app-resources/templates
+    filter: ['**/*', '!**/__golden__/**']
   - from: prompts
     to: app-resources/prompts
   - from: comfy
