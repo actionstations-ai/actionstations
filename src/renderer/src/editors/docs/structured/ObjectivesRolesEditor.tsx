@@ -17,6 +17,8 @@ interface ObjectivesRoles {
 const OBJECTIVES_ROLES_PART: PartSpec<ObjectivesRoles> = {
   pick: (s) => ({ objectives: s.objectives, roles: s.roles }),
   apply: (s, v): Scenario => ({ ...s, objectives: v.objectives, roles: v.roles }),
+  id: 'objectives-roles',
+  label: 'Objectives & roles',
   note: 'Edited objectives & roles',
 }
 

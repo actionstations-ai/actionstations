@@ -11,6 +11,8 @@ import { useScenarioPart, type PartSpec } from './use-scenario-part'
 const SIMCELL_PART: PartSpec<SimcellScript[]> = {
   pick: (s) => s.simcellScripts,
   apply: (s, simcellScripts) => ({ ...s, simcellScripts }),
+  id: 'simcell',
+  label: 'SimCell scripts',
   note: 'Edited SimCell scripts',
 }
 

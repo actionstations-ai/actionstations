@@ -198,4 +198,46 @@ describe('InjectEditorPage', () => {
     ).toBe(true)
     expect(screen.getByRole('button', { name: /Unlock/ })).toBeTruthy()
   })
+
+  it("saves the chosen variant on the inject and previews it with the inject's images", async () => {
+    const ttx = setup({
+      'templates:list': () => [
+        { ...TEMPLATES[0]!, variants: ['default', 'urgent'] },
+        TEMPLATES[1]!,
+      ],
+    })
+    const select = await screen.findByLabelText('Variant')
+    expect((select as HTMLSelectElement).value).toBe('default')
+    await userEvent.selectOptions(select, 'urgent')
+    expect(screen.getByText('Unsaved changes')).toBeTruthy()
+    await waitFor(() =>
+      expect(ttx.calls('render:preview').at(-1)).toMatchObject({
+        variant: 'urgent',
+        projectPath: PROJECT,
+        scenarioId: 'scen1',
+        injectId: 'inj4',
+      }),
+    )
+    await userEvent.click(screen.getByRole('button', { name: 'Save' }))
+    await waitFor(() => expect(ttx.calls('injects:save')).toHaveLength(1))
+    expect((ttx.calls('injects:save')[0] as { inject: Inject }).inject.variant).toBe('urgent')
+  })
+
+  it('shows stored warnings as they are (main clears fixed-field warnings on save)', async () => {
+    const warned: Scenario = {
+      ...scenario,
+      warnings: [
+        {
+          code: 'INJECT_FIELDS_INVALID',
+          severity: 'warning',
+          message: 'I-04: fields still do not match',
+          injectId: 'inj4',
+          source: 'lint',
+        },
+      ],
+    }
+    setup({ 'scenarios:get': () => warned })
+    const list = await screen.findByRole('list', { name: 'Warnings for this inject' })
+    expect(within(list).getByText('INJECT_FIELDS_INVALID')).toBeTruthy()
+  })
 })

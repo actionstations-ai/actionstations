@@ -16,6 +16,8 @@ type Metric = Rubric['metrics'][number]
 const RUBRIC_PART: PartSpec<Metric[]> = {
   pick: (s) => s.rubric?.metrics ?? [],
   apply: (s, metrics) => ({ ...s, rubric: { metrics } }),
+  id: 'rubric',
+  label: 'Rubric',
   note: 'Edited rubric',
 }
 

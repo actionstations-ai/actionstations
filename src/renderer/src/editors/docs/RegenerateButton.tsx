@@ -6,7 +6,7 @@ import { useEffect, useId, useState } from 'react'
 import type { Stage } from '@shared/schemas/scenario'
 import { Button, Dialog, ProgressBar } from '../../components/ui'
 import { call, subscribe } from '../../lib/api'
-import { isConflict } from './use-guarded-save'
+import { isConflict } from './conflict'
 
 type Run =
   | { phase: 'idle' }

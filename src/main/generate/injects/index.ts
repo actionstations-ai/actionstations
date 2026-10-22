@@ -13,6 +13,7 @@ export { planMedia, normalizeBrief } from './media-plan'
 export { chooseInjectType, schemaHints, TYPE_FALLBACKS } from './type-map'
 export { factsSoFar, formatFacts } from './facts'
 export {
+  clearFixedFieldWarnings,
   createEmptyInject,
   deleteInject,
   getInject,

@@ -99,6 +99,46 @@
 .timeline__error {
   grid-column: 1 / -1;
 }
+.timeline__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: var(--border-width) solid var(--color-border);
+  font-size: var(--text-sm);
+}
+.timeline__group-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2) var(--space-1) 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.timeline__group-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.timeline__group-name {
+  font-weight: var(--weight-medium);
+}
+.timeline__counts {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+.timeline__list--nested {
+  flex-basis: 100%;
+  padding-left: var(--space-5);
+}
+.timeline__list--nested .timeline__item:last-child {
+  border-bottom: none;
+}
 .live-log__message {
   margin: 0;
   font-size: var(--text-sm);

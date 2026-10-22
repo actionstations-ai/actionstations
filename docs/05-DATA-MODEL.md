@@ -63,6 +63,7 @@ Inject {
   id, mselRowId, type: InjectType, title,
   deliveryMode: 'hand_to_role'|'display_main_screen'|'play_audio'|'read_aloud',
   fields: Record<string, unknown>,          // validated by templates/injects/<type>/schema.json
+  variant?: string,                         // template variant; the template's first when absent
   instructorNote?, citations: Citation[],
   assets: MediaAsset[],
   versions: { at, by: 'user'|'ai', snapshot }[],

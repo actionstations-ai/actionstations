@@ -28,6 +28,8 @@ export const renderChannels = {
       variant: z.string().optional(),
       projectPath: z.string().optional(),
       scenarioId: SafeId.optional(),
+      /** With projectPath + scenarioId: fill image slots from this inject's AI images. */
+      injectId: SafeId.optional(),
       scale: z.number().min(0.5).max(3).default(1),
     }),
     z.object({ dataUrl: z.string(), width: z.number(), height: z.number() }),

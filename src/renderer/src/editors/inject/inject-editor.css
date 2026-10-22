@@ -81,9 +81,6 @@
   gap: var(--space-3);
 }
 .deck-grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
   gap: var(--space-4);
@@ -100,6 +97,15 @@
 }
 .deck-card:focus-within {
   box-shadow: var(--focus-ring);
+}
+.deck-card__cell {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.deck-card__cell:focus {
+  outline: none;
 }
 .deck-card__thumb {
   aspect-ratio: 16 / 10;

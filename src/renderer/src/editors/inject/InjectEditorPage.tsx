@@ -16,7 +16,7 @@ import { call } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
 import { deckUrl, injectUrl } from './links'
-import { draftKey, draftOf, sameDraft, useDrafts, type InjectDraft } from './draft'
+import { draftKey, draftOf, pickVariant, sameDraft, useDrafts, type InjectDraft } from './draft'
 import { EditorToolbar } from './EditorToolbar'
 import { InjectForm } from './InjectForm'
 import { JobBanner } from './JobBanner'
@@ -27,7 +27,6 @@ import { issuesByPath, validateFields } from './schema/validate'
 import type { JsonSchema } from './schema/fields'
 import { useInjectActions } from './use-inject-actions'
 import { useScenarioJob } from './use-scenario-job'
-import { pickVariant, readVariant, writeVariant } from './variant-pref'
 import { ChangeList, VersionsPanel } from './VersionsPanel'
 import '../../routes/scenarios/scenarios.css'
 import './inject-editor.css'
@@ -111,8 +110,7 @@ function Editor(props: {
     () => (template ? validateFields(template.schema as JsonSchema, draft.fields) : []),
     [template, draft.fields],
   )
-  const [variantPref, setVariantPref] = useState(() => readVariant(inject.id))
-  const variant = pickVariant(template?.variants ?? [], variantPref)
+  const variant = pickVariant(template?.variants ?? [], draft.variant)
   const [tab, setTab] = useState('preview')
   const [regen, setRegen] = useState<RegenWatch | null>(null)
   const [changes, setChanges] = useState<FieldChange[] | null>(null)
@@ -157,11 +155,7 @@ function Editor(props: {
   )
 
   const row = scenario.msel.find((r) => r.id === inject.mselRowId)
-  const warnings = scenario.warnings.filter(
-    (w) =>
-      w.injectId === inject.id &&
-      !(w.code === 'INJECT_FIELDS_INVALID' && !issues.length && template),
-  )
+  const warnings = scenario.warnings.filter((w) => w.injectId === inject.id)
   const { prev, next } = neighbours(scenario, inject)
   const linkTo = (id: string) => injectUrl(projectPath, scenario.id, id)
   const typeLabel = (t: string) =>
@@ -247,10 +241,7 @@ function Editor(props: {
               templates={templates}
               template={template}
               variant={variant}
-              onVariant={(v) => {
-                setVariantPref(v)
-                writeVariant(inject.id, v)
-              }}
+              onVariant={(v) => setDraft({ ...draft, variant: v })}
               issues={issuesByPath(issues)}
             />
           </fieldset>
@@ -272,12 +263,17 @@ function Editor(props: {
               <PreviewPanel
                 template={template}
                 alt={`Preview of ${draft.title || inject.mselRowId}`}
+                refreshKey={inject.assets
+                  .filter((a) => a.role === 'generated')
+                  .map((a) => a.id)
+                  .join(',')}
                 request={{
                   type: draft.type,
                   fields: draft.fields,
                   variant,
                   projectPath,
                   scenarioId: scenario.id,
+                  injectId: inject.id,
                 }}
               />
             </Tabs.Content>

@@ -53,6 +53,8 @@ export const Inject = z.object({
   deliveryMode: DeliveryMode.default('hand_to_role'),
   /** Validated against templates/injects/<type>/schema.json. */
   fields: z.record(z.string(), z.unknown()).default({}),
+  /** Template variant (meta.json `variants`); the template's first variant when absent. */
+  variant: z.string().optional(),
   instructorNote: z.string().optional(),
   citations: z.array(Citation).default([]),
   mediaBrief: MediaBrief.optional(),

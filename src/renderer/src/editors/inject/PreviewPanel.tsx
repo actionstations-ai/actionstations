@@ -1,6 +1,6 @@
 // Live preview of the draft through render:preview: debounced while typing, rendered at 1×
-// for speed, with a crisp 2× render on demand. Image slots show the template's sample images
-// (render:preview has no inject assets); the inject's own AI images are on the Media tab.
+// for speed, with a crisp 2× render on demand. Image slots show the inject's own AI images
+// (render:preview reads them by injectId) and the template's sample images where it has none.
 import { useEffect, useRef, useState } from 'react'
 import type { TemplateInfo } from '@shared/ipc'
 import { Button } from '../../components/ui'
@@ -22,15 +22,16 @@ export interface PreviewRequest {
   variant?: string
   projectPath: string
   scenarioId: string
+  injectId?: string
 }
 
 /** Render `req` after it has been stable for DEBOUNCE_MS; newer requests win. */
-function usePreview(req: PreviewRequest | null, scale: number) {
+function usePreview(req: PreviewRequest | null, scale: number, refreshKey: string) {
   const [image, setImage] = useState<PreviewImage | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const seq = useRef(0)
-  const key = req ? `${stableJson(req)}@${scale}` : ''
+  const key = req ? `${stableJson(req)}@${scale}#${refreshKey}` : ''
   const latest = useRef(req)
   useEffect(() => {
     latest.current = req
@@ -63,9 +64,15 @@ export function PreviewPanel(props: {
   template: TemplateInfo | undefined
   request: PreviewRequest | null
   alt: string
+  /** Changes when the inject's images change, so the preview picks up new AI images. */
+  refreshKey?: string
 }) {
   const [crisp, setCrisp] = useState(false)
-  const { image, error, busy } = usePreview(props.template ? props.request : null, crisp ? 2 : 1)
+  const { image, error, busy } = usePreview(
+    props.template ? props.request : null,
+    crisp ? 2 : 1,
+    props.refreshKey ?? '',
+  )
   if (!props.template)
     return (
       <p className="muted">

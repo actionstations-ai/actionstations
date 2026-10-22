@@ -11,6 +11,8 @@ const FIXTURE = JSON.parse(
 ) as Record<string, unknown>
 const HANDBOOK = readFileSync(resolve('tests/fixtures/generate/sample-run/handbook.md'), 'utf8')
 const BRIEFING = readFileSync(resolve('reference/scenario-3/player-briefing.md'), 'utf8')
+test.setTimeout(240_000)
+
 const SHOTS = resolve('.tmp/doc-editors')
 
 async function goTo(page: Page, hash: string) {
@@ -144,6 +146,32 @@ test('edit the handbook and a rubric cell, reload, files on disk match', async (
     await page.getByRole('tab', { name: /^Objectives/ }).click()
     await expect(page.getByRole('textbox', { name: 'Objective 1 name' })).toBeVisible()
     await shoot(page, 'objectives')
+
+    // #115: leave a tab while generation owns the scenario. The refused save is kept as a
+    // pending change and written when the job finishes.
+    await page.getByRole('tab', { name: 'Rubric' }).click()
+    const { jobId } = await invoke<{ jobId: string }>('generate:injects', {
+      projectPath,
+      scenarioId: id,
+    })
+    await page.getByRole('textbox', { name: 'Metric 2 name' }).fill('Technical Analysis')
+    await page.getByRole('tab', { name: 'Overview' }).click()
+    await expect(page.getByText('1 unsaved change pending')).toBeVisible()
+    // Capture right away: the mock job finishes within seconds.
+    await page.screenshot({ path: join(SHOTS, 'pending-change-light.png') })
+    await expect(page.getByText(/unsaved change pending/)).toHaveCount(0, { timeout: 120_000 })
+    const job = await invoke<{ status: string }>('jobs:get', { jobId })
+    expect(job.status).toBe('done')
+    await expect
+      .poll(
+        () =>
+          (
+            JSON.parse(
+              readFileSync(join(projectPath, 'scenarios', id, 'scenario.json'), 'utf8'),
+            ) as { rubric: { metrics: { name: string }[] } }
+          ).rubric.metrics[1]?.name,
+      )
+      .toBe('Technical Analysis')
   } finally {
     await app.close()
   }

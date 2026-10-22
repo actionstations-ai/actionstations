@@ -8,7 +8,13 @@ import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey, projectKey } from '../../state/project'
 import { isActive } from './live-log'
 import { LiveLogPanel } from './LiveLogPanel'
-import { DocumentsTab, ObjectivesTab, OverviewTab, RubricTab } from '../../editors/docs'
+import {
+  DocumentsTab,
+  ObjectivesTab,
+  OverviewTab,
+  PendingSavesNote,
+  RubricTab,
+} from '../../editors/docs'
 import { InjectDeck } from '../../editors/inject/InjectDeck'
 import { WarningsSection } from './ScenarioSections'
 import { StageTimeline } from './StageTimeline'
@@ -35,6 +41,7 @@ function ScenarioTabs(props: {
   ] as const
   return (
     <Tabs.Root defaultValue={initialTab ?? 'overview'} className="tabs">
+      <PendingSavesNote scenarioId={scenario.id} />
       <Tabs.List className="tabs__list" aria-label="Scenario sections">
         {tabs.map(([value, label]) => (
           <Tabs.Trigger key={value} value={value} className="tabs__trigger">
@@ -126,9 +133,9 @@ export default function ScenarioPage() {
               provenance={scenario.provenance}
               busy={isActive(log)}
               onJob={(id) => void follow(id)}
-              itemLabels={phaseLabels(scenario)}
+              itemLabels={itemLabels(scenario)}
             />
-            <LiveLogPanel log={log} itemLabels={phaseLabels(scenario)} />
+            <LiveLogPanel log={log} itemLabels={itemLabels(scenario)} />
           </div>
           <ScenarioTabs
             projectPath={projectPath}
@@ -139,6 +146,14 @@ export default function ScenarioPage() {
       )}
     </div>
   )
+}
+
+/** Phase and inject ids → readable labels for per-item stage runs. */
+function itemLabels(scenario: Scenario): Record<string, string> {
+  const injects = scenario.msel
+    .filter((r) => r.injectId)
+    .map((r) => [r.injectId!, `Inject ${r.id}`] as const)
+  return { ...Object.fromEntries(injects), ...phaseLabels(scenario) }
 }
 
 /** Phase ids → "Phase 2: The Crisis" for per-phase stage runs and log streams. */

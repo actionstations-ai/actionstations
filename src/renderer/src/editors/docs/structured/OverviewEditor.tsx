@@ -19,6 +19,8 @@ const BLANK: ScenarioOverview = {
 const OVERVIEW_PART: PartSpec<ScenarioOverview> = {
   pick: (s) => s.overview ?? BLANK,
   apply: (s, overview) => ({ ...s, overview }),
+  id: 'overview',
+  label: 'Overview',
   note: 'Edited overview',
 }
 

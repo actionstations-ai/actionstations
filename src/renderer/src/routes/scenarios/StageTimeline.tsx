@@ -1,10 +1,21 @@
-import { useState } from 'react'
-import { RotateCcw, Play } from 'lucide-react'
+// Generation stages of a scenario: the latest run per (stage, item), with re-run and
+// "Continue from failure". Per-inject stages (one run per inject) are collapsed into one
+// group per stage with ok/error/stale counts; groups with errors start expanded.
+import { useId, useState } from 'react'
+import { ChevronDown, ChevronRight, RotateCcw, Play } from 'lucide-react'
 import type { StageRun } from '@shared/schemas/scenario'
 import { Badge, Button, Dialog, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
-import { itemLabel, latestRuns, runDuration, runTokens, stageLabel } from './stages'
+import {
+  itemLabel,
+  latestRuns,
+  runDuration,
+  runTokens,
+  stageLabel,
+  timelineEntries,
+  type StatusCounts,
+} from './stages'
 
 const STATUS_TONE = {
   ok: 'ok',
@@ -14,15 +25,20 @@ const STATUS_TONE = {
   skipped: 'neutral',
 } as const
 
+const STATUS_ORDER = ['error', 'stale', 'running', 'ok', 'skipped'] as const
+
 interface Props {
   projectPath: string
   scenarioId: string
   provenance: StageRun[]
   busy: boolean
   onJob: (jobId: string) => void
-  /** itemId → readable label (phase titles). */
+  /** itemId → readable label (phase titles, inject row ids). */
   itemLabels?: Record<string, string>
 }
+
+const runName = (run: StageRun, labels?: Record<string, string>): string =>
+  stageLabel(run.stage) + (run.itemId ? ` · ${itemLabel(run.itemId, labels)}` : '')
 
 function RerunDialog(props: {
   run: StageRun | null
@@ -32,14 +48,11 @@ function RerunDialog(props: {
 }) {
   const [instructions, setInstructions] = useState('')
   const run = props.run
-  const name = run
-    ? stageLabel(run.stage) + (run.itemId ? ` · ${itemLabel(run.itemId, props.labels)}` : '')
-    : ''
   return (
     <Dialog
       open={!!run}
       onOpenChange={(open) => !open && props.onCancel()}
-      title={`Re-run ${name}?`}
+      title={`Re-run ${run ? runName(run, props.labels) : ''}?`}
       description="Later stages that depend on this one are marked stale. Locked rows are kept."
       footer={
         <>
@@ -91,11 +104,102 @@ function useStageActions(props: Props) {
   }
 }
 
+function RunItem(props: {
+  run: StageRun
+  labels?: Record<string, string> | undefined
+  busy: boolean
+  onRerun: (run: StageRun) => void
+}) {
+  const { run } = props
+  return (
+    <li className="timeline__item">
+      <div className="timeline__name">
+        <span>{stageLabel(run.stage)}</span>
+        {run.itemId && <span className="muted">{itemLabel(run.itemId, props.labels)}</span>}
+      </div>
+      <Badge tone={STATUS_TONE[run.status]}>{run.status}</Badge>
+      <span className="muted timeline__meta">
+        {run.model ?? '—'} · {runTokens(run)} · {runDuration(run)}
+      </span>
+      {run.error && <span className="field__error timeline__error">{run.error}</span>}
+      <Button
+        size="sm"
+        variant="ghost"
+        disabled={props.busy}
+        aria-label={`Re-run ${stageLabel(run.stage)}${run.itemId ? ` ${itemLabel(run.itemId, props.labels)}` : ''}`}
+        onClick={() => props.onRerun(run)}
+      >
+        <RotateCcw size={14} aria-hidden /> Re-run
+      </Button>
+    </li>
+  )
+}
+
+function CountBadges({ counts }: { counts: StatusCounts }) {
+  return (
+    <span className="timeline__counts">
+      {STATUS_ORDER.filter((s) => counts[s]).map((s) => (
+        <Badge key={s} tone={STATUS_TONE[s]}>
+          {counts[s]} {s}
+        </Badge>
+      ))}
+    </span>
+  )
+}
+
+function RunGroup(props: {
+  stage: string
+  runs: StageRun[]
+  counts: StatusCounts
+  labels?: Record<string, string> | undefined
+  busy: boolean
+  onRerun: (run: StageRun) => void
+}) {
+  const failed = !!props.counts.error
+  // Follows the counts until the user toggles: errors keep the group open.
+  const [toggled, setToggled] = useState<boolean | null>(null)
+  const open = toggled ?? failed
+  const listId = useId()
+  const n = props.runs.length
+  return (
+    <li className="timeline__group" data-failed={failed || undefined}>
+      <button
+        type="button"
+        className="timeline__group-toggle"
+        aria-expanded={open}
+        aria-controls={listId}
+        onClick={() => setToggled(!open)}
+      >
+        {open ? <ChevronDown size={16} aria-hidden /> : <ChevronRight size={16} aria-hidden />}
+        <span className="timeline__group-name">{stageLabel(props.stage)}</span>
+        <span className="muted">
+          {n} inject{n === 1 ? '' : 's'}
+        </span>
+      </button>
+      <CountBadges counts={props.counts} />
+      {open && (
+        <ol id={listId} className="timeline__list timeline__list--nested">
+          {props.runs.map((run) => (
+            <RunItem
+              key={`${run.stage}:${run.itemId ?? ''}`}
+              run={run}
+              labels={props.labels}
+              busy={props.busy}
+              onRerun={props.onRerun}
+            />
+          ))}
+        </ol>
+      )}
+    </li>
+  )
+}
+
 export function StageTimeline(props: Props) {
   const runs = latestRuns(props.provenance)
   const [pending, setPending] = useState<StageRun | null>(null)
   const actions = useStageActions(props)
   const failed = runs.some((r) => r.status === 'error' || r.status === 'stale')
+  const common = { labels: props.itemLabels, busy: props.busy, onRerun: setPending }
   return (
     <section className="card timeline" aria-label="Generation stages">
       <div className="row timeline__head">
@@ -110,30 +214,19 @@ export function StageTimeline(props: Props) {
         <p className="muted">No stages have run for this scenario.</p>
       ) : (
         <ol className="timeline__list">
-          {runs.map((run) => (
-            <li key={`${run.stage}:${run.itemId ?? ''}`} className="timeline__item">
-              <div className="timeline__name">
-                <span>{stageLabel(run.stage)}</span>
-                {run.itemId && (
-                  <span className="muted">{itemLabel(run.itemId, props.itemLabels)}</span>
-                )}
-              </div>
-              <Badge tone={STATUS_TONE[run.status]}>{run.status}</Badge>
-              <span className="muted timeline__meta">
-                {run.model ?? '—'} · {runTokens(run)} · {runDuration(run)}
-              </span>
-              {run.error && <span className="field__error timeline__error">{run.error}</span>}
-              <Button
-                size="sm"
-                variant="ghost"
-                disabled={props.busy}
-                aria-label={`Re-run ${stageLabel(run.stage)}${run.itemId ? ` ${itemLabel(run.itemId, props.itemLabels)}` : ''}`}
-                onClick={() => setPending(run)}
-              >
-                <RotateCcw size={14} aria-hidden /> Re-run
-              </Button>
-            </li>
-          ))}
+          {timelineEntries(runs).map((e) =>
+            e.kind === 'run' ? (
+              <RunItem key={`${e.run.stage}:${e.run.itemId ?? ''}`} run={e.run} {...common} />
+            ) : (
+              <RunGroup
+                key={`group:${e.stage}`}
+                stage={e.stage}
+                runs={e.runs}
+                counts={e.counts}
+                {...common}
+              />
+            ),
+          )}
         </ol>
       )}
       <RerunDialog

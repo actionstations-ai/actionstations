@@ -1,9 +1,11 @@
 // Injects tab of the scenario screen: the deck overview. One card per MSEL row in time order
 // with its inject's thumbnail, type, media and warning badges; deck-wide "Write all injects" /
-// "Render all media" jobs with per-inject progress and cancel; filters.
+// "Render all media" jobs with per-inject progress and cancel; filters. The cards form an
+// ARIA grid with one tab stop: arrow keys, Home/End move between cards (deck-nav.ts), Enter
+// opens the inject editor (or "Create…" for a row without an inject).
 import { AudioLines, Film, Lock, TriangleAlert } from 'lucide-react'
-import { useMemo, useState } from 'react'
-import { Link } from 'react-router'
+import { useMemo, useRef, useState, type KeyboardEvent } from 'react'
+import { Link, useNavigate } from 'react-router'
 import type { TemplateInfo } from '@shared/ipc'
 import type { JobKind } from '@shared/schemas/job'
 import type { Scenario } from '@shared/schemas/scenario'
@@ -22,6 +24,7 @@ import {
   type DeckEntry,
   type DeckFilters,
 } from './deck-model'
+import { gridColumns, nextDeckIndex } from './deck-nav'
 import { JobBanner } from './JobBanner'
 import { injectUrl } from './links'
 import { useScenarioJob } from './use-scenario-job'
@@ -55,6 +58,48 @@ function Thumb({ entry, projectPath }: { entry: DeckEntry; projectPath: string }
   )
 }
 
+function CardBadges(props: {
+  entry: DeckEntry
+  work: 'working' | 'done' | undefined
+  onCreate: () => void
+}) {
+  const { entry } = props
+  return (
+    <div className="deck-card__badges">
+      {entry.audio && (
+        <Badge tone="info">
+          <AudioLines size={12} aria-hidden /> Audio
+        </Badge>
+      )}
+      {entry.video && (
+        <Badge tone="info">
+          <Film size={12} aria-hidden /> Video
+        </Badge>
+      )}
+      {entry.warnings.length > 0 && (
+        <span title={entry.warnings.map((w) => `${w.code}: ${w.message}`).join('\n')}>
+          <Badge tone="warn">
+            <TriangleAlert size={12} aria-hidden /> {entry.warnings.length} warning
+            {entry.warnings.length === 1 ? '' : 's'}
+          </Badge>
+        </span>
+      )}
+      {props.work === 'working' && <Badge tone="info">Working…</Badge>}
+      {props.work === 'done' && <Badge tone="ok">Done</Badge>}
+      {!entry.inject && (
+        <Button
+          size="sm"
+          tabIndex={-1}
+          onClick={props.onCreate}
+          aria-label={`Create inject for ${entry.row.id}`}
+        >
+          Create…
+        </Button>
+      )}
+    </div>
+  )
+}
+
 function DeckCard(props: {
   entry: DeckEntry
   scenario: Scenario
@@ -62,65 +107,115 @@ function DeckCard(props: {
   typeLabel: (t: string) => string
   work: 'working' | 'done' | undefined
   onCreate: () => void
+  /** Roving tab stop: only the active card is in the tab order. */
+  active: boolean
+  index: number
+  onFocusCell: () => void
 }) {
   const { entry, scenario, projectPath } = props
   const { row, inject } = entry
   const type = inject?.type ?? row.format
   return (
-    <li className="deck-card card" data-work={props.work}>
-      <Thumb entry={entry} projectPath={projectPath} />
-      <div className="deck-card__body">
-        <div className="deck-card__meta">
-          <span className="mono deck-card__id">{row.id}</span>
-          <span className="mono muted">{row.time}</span>
-          <TagChip tag={row.purposeTag} />
-          {inject?.locked && (
-            <span className="deck-card__icon" title="Locked">
-              <Lock size={14} aria-label="Locked" />
-            </span>
-          )}
-        </div>
-        <h3 className="deck-card__title">
-          {inject ? (
-            <Link to={injectUrl(projectPath, scenario.id, inject.id)}>
-              {inject.title || row.event}
-            </Link>
-          ) : (
-            <span>{row.event}</span>
-          )}
-        </h3>
-        <p className="deck-card__sub muted">
-          {type ? props.typeLabel(type) : 'No type'} · To {toLabel(row, scenario)}
-        </p>
-        <div className="deck-card__badges">
-          {entry.audio && (
-            <Badge tone="info">
-              <AudioLines size={12} aria-hidden /> Audio
-            </Badge>
-          )}
-          {entry.video && (
-            <Badge tone="info">
-              <Film size={12} aria-hidden /> Video
-            </Badge>
-          )}
-          {entry.warnings.length > 0 && (
-            <span title={entry.warnings.map((w) => `${w.code}: ${w.message}`).join('\n')}>
-              <Badge tone="warn">
-                <TriangleAlert size={12} aria-hidden /> {entry.warnings.length} warning
-                {entry.warnings.length === 1 ? '' : 's'}
-              </Badge>
-            </span>
-          )}
-          {props.work === 'working' && <Badge tone="info">Working…</Badge>}
-          {props.work === 'done' && <Badge tone="ok">Done</Badge>}
-          {!inject && (
-            <Button size="sm" onClick={props.onCreate} aria-label={`Create inject for ${row.id}`}>
-              Create…
-            </Button>
-          )}
+    <div
+      role="row"
+      aria-rowindex={props.index + 1}
+      className="deck-card card"
+      data-work={props.work}
+    >
+      <div
+        role="gridcell"
+        tabIndex={props.active ? 0 : -1}
+        className="deck-card__cell"
+        onFocus={props.onFocusCell}
+      >
+        <Thumb entry={entry} projectPath={projectPath} />
+        <div className="deck-card__body">
+          <div className="deck-card__meta">
+            <span className="mono deck-card__id">{row.id}</span>
+            <span className="mono muted">{row.time}</span>
+            <TagChip tag={row.purposeTag} />
+            {inject?.locked && (
+              <span className="deck-card__icon" title="Locked">
+                <Lock size={14} aria-label="Locked" />
+              </span>
+            )}
+          </div>
+          <h3 className="deck-card__title">
+            {inject ? (
+              <Link to={injectUrl(projectPath, scenario.id, inject.id)} tabIndex={-1}>
+                {inject.title || row.event}
+              </Link>
+            ) : (
+              <span>{row.event}</span>
+            )}
+          </h3>
+          <p className="deck-card__sub muted">
+            {type ? props.typeLabel(type) : 'No type'} · To {toLabel(row, scenario)}
+          </p>
+          <CardBadges entry={entry} work={props.work} onCreate={props.onCreate} />
         </div>
       </div>
-    </li>
+    </div>
+  )
+}
+
+function DeckGrid(props: {
+  entries: DeckEntry[]
+  scenario: Scenario
+  projectPath: string
+  typeLabel: (t: string) => string
+  items: string[] | undefined
+  onCreate: (row: DeckEntry['row']) => void
+}) {
+  const { entries, scenario, projectPath } = props
+  const navigate = useNavigate()
+  const [active, setActive] = useState(0)
+  const grid = useRef<HTMLDivElement>(null)
+  const current = Math.min(active, entries.length - 1)
+  const cell = (i: number) =>
+    grid.current?.querySelectorAll<HTMLElement>('[role="gridcell"]').item(i) ?? null
+
+  const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.target !== cell(current)) return
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      const entry = entries[current]
+      if (entry?.inject) navigate(injectUrl(projectPath, scenario.id, entry.inject.id))
+      else if (entry) props.onCreate(entry.row)
+      return
+    }
+    const next = nextDeckIndex(current, e.key, entries.length, gridColumns(grid.current))
+    if (next === undefined) return
+    e.preventDefault()
+    setActive(next)
+    cell(next)?.focus()
+  }
+
+  return (
+    <div
+      ref={grid}
+      role="grid"
+      aria-label="Inject deck"
+      aria-rowcount={entries.length}
+      aria-describedby="deck-keys"
+      className="deck-grid"
+      onKeyDown={onKeyDown}
+    >
+      {entries.map((e, i) => (
+        <DeckCard
+          key={e.row.id}
+          entry={e}
+          scenario={scenario}
+          projectPath={projectPath}
+          typeLabel={props.typeLabel}
+          work={workState(e, props.items)}
+          onCreate={() => props.onCreate(e.row)}
+          active={i === current}
+          index={i}
+          onFocusCell={() => setActive(i)}
+        />
+      ))}
+    </div>
   )
 }
 
@@ -220,10 +315,7 @@ export function InjectDeck(props: {
   const [filters, setFilters] = useState<DeckFilters>(NO_FILTERS)
   const [creating, setCreating] = useState<DeckEntry['row'] | null>(null)
   const templates: TemplateInfo[] = useMemo(() => templatesQ.data ?? [], [templatesQ.data])
-  const entries = useMemo(
-    () => deckEntries(scenario, injects.data ?? [], templates),
-    [scenario, injects.data, templates],
-  )
+  const entries = useMemo(() => deckEntries(scenario, injects.data ?? []), [scenario, injects.data])
   const typeLabel = (t: string) =>
     templates.find((x) => x.type === t)?.label ?? injectTypeInfo(t)?.label ?? t
   const types = [
@@ -269,19 +361,19 @@ export function InjectDeck(props: {
         </p>
       )}
       {shown.length ? (
-        <ul className="deck-grid" aria-label="Inject deck">
-          {shown.map((e) => (
-            <DeckCard
-              key={e.row.id}
-              entry={e}
-              scenario={scenario}
-              projectPath={projectPath}
-              typeLabel={typeLabel}
-              work={workState(e, job?.items)}
-              onCreate={() => setCreating(e.row)}
-            />
-          ))}
-        </ul>
+        <>
+          <p id="deck-keys" className="sr-only">
+            Arrow keys move between injects, Enter opens the selected inject.
+          </p>
+          <DeckGrid
+            entries={shown}
+            scenario={scenario}
+            projectPath={projectPath}
+            typeLabel={typeLabel}
+            items={job?.items}
+            onCreate={setCreating}
+          />
+        </>
       ) : (
         <p className="muted">No injects match these filters.</p>
       )}

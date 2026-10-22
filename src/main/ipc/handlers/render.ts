@@ -2,28 +2,46 @@ import { defineHandlers } from '../registry'
 import { requireProject } from '../../project/guard'
 import { loadProject } from '../../project/store'
 import { composeDocument } from '../../render/compose'
-import { renderAndSaveInject } from '../../render/inject'
+import { injectSlotFiles, renderAndSaveInject } from '../../render/inject'
 import { listTemplateTypes, loadTemplate, templateInfo } from '../../render/templates'
 import { renderPng } from '../../render/window'
 
-/** Brand of an opened project, so previews show the project's names and local outlets. */
-async function projectBrand(projectPath: string | undefined) {
-  if (!projectPath) return undefined
-  const root = await requireProject(projectPath)
-  return (await loadProject(root)).brand
+interface PreviewContext {
+  type: string
+  projectPath?: string | undefined
+  scenarioId?: string | undefined
+  injectId?: string | undefined
+}
+
+/**
+ * Project brand (names, local outlets) and, for an inject, its own AI images in their slots.
+ * Slots without an AI image keep the template's sample image.
+ */
+async function previewContext(req: PreviewContext) {
+  if (!req.projectPath) return { brand: undefined, assets: {} }
+  const root = await requireProject(req.projectPath)
+  const brand = (await loadProject(root)).brand
+  const assets =
+    req.scenarioId && req.injectId
+      ? await injectSlotFiles(root, req.scenarioId, req.injectId, req.type)
+      : {}
+  return { brand, assets }
 }
 
 export default defineHandlers({
   'templates:list': () => listTemplateTypes().map((t) => templateInfo(loadTemplate(t))),
 
-  'render:preview': async ({ type, fields, brand, variant, scale, projectPath }) => {
-    const effectiveBrand = brand ?? (await projectBrand(projectPath))
+  'render:preview': async (req) => {
+    const { type, fields, brand, variant, scale } = req
+    const ctx = await previewContext(req)
+    const effectiveBrand = brand ?? ctx.brand
     const doc = composeDocument(
       {
         type,
         fields,
         ...(effectiveBrand ? { brand: effectiveBrand } : {}),
         ...(variant ? { variant } : {}),
+        assets: ctx.assets,
       },
       { previewAssets: true },
     )

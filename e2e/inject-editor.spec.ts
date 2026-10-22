@@ -4,7 +4,14 @@
 // save (inject JSON on disk + a new user version), render to PNG, and screenshot the deck and
 // editor in light and dark. Screenshots go to .tmp/inject-editor/ (test-results/ is wiped).
 import { expect, test, type Locator, type Page } from '@playwright/test'
-import { existsSync, mkdirSync, mkdtempSync, readFileSync } from 'node:fs'
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { invoker, launch } from './helpers'
@@ -22,8 +29,9 @@ interface Inject {
   type: string
   title: string
   fields: Record<string, unknown>
+  variant?: string
   versions: { by: string; note?: string }[]
-  assets: { kind: string; role: string; path: string }[]
+  assets: { id: string; kind: string; role: string; path: string }[]
 }
 
 const goTo = (page: Page, hash: string) =>
@@ -94,8 +102,8 @@ test('inject editor: write injects, edit five types, preview, save, render', asy
 
     // 1. Deck: write all injects with the mock provider.
     await goTo(page, `#/p/${key}/scenarios/${scenarioId}?tab=injects`)
-    const deck = page.getByRole('list', { name: 'Inject deck' })
-    await expect(deck.getByRole('listitem')).toHaveCount(24)
+    const deck = page.getByRole('grid', { name: 'Inject deck' })
+    await expect(deck.getByRole('row')).toHaveCount(24)
     await page.getByRole('button', { name: 'Write all injects' }).click()
     await expect.poll(async () => (await list()).length, { timeout: 120_000 }).toBe(24)
     await expect(page.getByRole('button', { name: 'Write all injects' })).toBeEnabled({
@@ -104,6 +112,18 @@ test('inject editor: write injects, edit five types, preview, save, render', asy
     await expect(page.getByText('24 of 24 rows have an inject')).toBeVisible()
     // Mock injects are schema-valid: no card carries a warning.
     await expect(deck.getByText(/\d+ warnings?/)).toHaveCount(0)
+    // Per-inject stage runs are grouped in the timeline (24 per stage), collapsed when ok.
+    const stages = page.getByRole('region', { name: 'Generation stages' })
+    const textGroup = stages.getByRole('button', { name: /Inject text\s*24 injects/ })
+    await expect(textGroup).toHaveAttribute('aria-expanded', 'false')
+    await expect(stages.getByText('24 ok').first()).toBeVisible()
+    await textGroup.click()
+    await expect(textGroup).toHaveAttribute('aria-expanded', 'true')
+    await expect(stages.getByRole('button', { name: /^Re-run Inject text Inject / })).toHaveCount(
+      24,
+    )
+    await textGroup.click()
+    await shoot(page, 'stage-groups', stages)
 
     const idOf = async (row: string) => (await list()).find((i) => i.mselRowId === row)!.id
     const open = async (row: string) => {
@@ -168,6 +188,10 @@ test('inject editor: write injects, edit five types, preview, save, render', asy
     await save(page)
     const fids = onDisk(await idOf('I-06'))
     expect(fids.type).toBe('fids_board')
+    // The variant is saved on the inject (render:inject and export use it).
+    expect(fids.variant).toBe('glitch')
+    await page.reload()
+    await expect(page.getByLabel('Variant')).toHaveValue('glitch')
     expect(fids.fields.rows).toEqual([
       { time: '10:20', dest: 'ATLANTA', flight: 'DL 1245', gate: 'A1', status: 'ON TIME' },
       { time: 'NOW', dest: 'PURGATORY', flight: 'UA 666', status: 'BOARDING', anomaly: true },
@@ -244,8 +268,61 @@ test('inject editor: write injects, edit five types, preview, save, render', asy
     await expect(deck.getByText(/\d+ warnings?/)).toHaveCount(0)
     await shoot(page, 'deck', page.locator('.deck__toolbar'))
     await page.getByLabel('Media', { exact: true }).selectOption('with')
-    await expect(deck.getByRole('listitem')).toHaveCount(24)
+    await expect(deck.getByRole('row')).toHaveCount(24)
     await shoot(page, 'deck-filtered', page.locator('.deck__toolbar'))
+
+    // Keyboard: the deck is one tab stop; arrows move between cards; Enter opens the editor.
+    const cells = deck.getByRole('gridcell')
+    await expect(cells.and(page.locator('[tabindex="0"]'))).toHaveCount(1)
+    await cells.first().focus()
+    await page.keyboard.press('ArrowRight')
+    await expect(cells.nth(1)).toBeFocused()
+    await page.keyboard.press('ArrowDown')
+    const focusedIndex = await cells.evaluateAll((els) =>
+      els.findIndex((el) => el === el.ownerDocument.activeElement),
+    )
+    expect(focusedIndex).toBeGreaterThan(1)
+    await page.keyboard.press('Home')
+    await expect(cells.first()).toBeFocused()
+    await shoot(page, 'deck-keyboard', page.locator('.deck__toolbar'))
+    await page.keyboard.press('ArrowRight')
+    await page.keyboard.press('Enter')
+    await expect(page.getByText(/^Inject I-01 ·/)).toBeVisible()
+
+    // render:preview fills image slots from the inject's own AI images. Give the I-04 tweet
+    // an AI image for its attached_image slot (the FIDS render stands in for a photo).
+    const tweet = onDisk(i04)
+    const photo = onDisk(await idOf('I-06')).assets.find((a) => a.role === 'rendered')!
+    const slotId = 'attached_image-01JABCDEFGHJKMNPQRSTVWXYZ0'
+    const rel = `scenarios/${scenarioId}/media/${i04}/${slotId}.png`
+    copyFileSync(join(projectPath, photo.path), join(projectPath, rel))
+    const aiImage = {
+      id: slotId,
+      kind: 'image',
+      role: 'generated',
+      path: rel,
+      provenance: { provider: 'comfyui', createdAt: new Date().toISOString() },
+    }
+    writeFileSync(
+      injectFile(i04),
+      JSON.stringify({ ...tweet, assets: [...tweet.assets, aiImage] }, null, 2),
+    )
+    const preview = (extra: Record<string, string>) =>
+      invoke<{ dataUrl: string }>('render:preview', {
+        type: 'tweet',
+        fields: tweet.fields,
+        projectPath,
+        scenarioId,
+        scale: 1,
+        ...extra,
+      })
+    const sample = await preview({})
+    const own = await preview({ injectId: i04 })
+    expect(own.dataUrl).not.toBe(sample.dataUrl)
+    await open('I-04')
+    await expect(page.getByRole('img', { name: /^Preview of/ })).toBeVisible({ timeout: 15_000 })
+    await expect(page.getByText('Rendering…')).toHaveCount(0)
+    await shoot(page, 'editor-tweet-own-image')
 
     // Versions panel shows the user save.
     await open('I-02')

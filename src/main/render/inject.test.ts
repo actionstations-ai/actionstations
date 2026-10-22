@@ -48,7 +48,14 @@ cpSync(
 const tweetDir = join(resources, 'templates/injects/tweet')
 mkdirSync(tweetDir, { recursive: true })
 const tweetFiles: Record<string, unknown> = {
-  'meta.json': { type: 'tweet', label: 'Tweet', version: '3', width: 600, imageSlots: ['photo'] },
+  'meta.json': {
+    type: 'tweet',
+    label: 'Tweet',
+    version: '3',
+    width: 600,
+    variants: ['light', 'dark'],
+    imageSlots: ['photo'],
+  },
   'schema.json': {
     type: 'object',
     required: ['text'],
@@ -226,6 +233,83 @@ describe('render:inject', () => {
     )
     expect(existsSync(outside)).toBe(true)
     expect(rendered.inject.assets.map((a) => a.id)).not.toContain('old')
+  })
+})
+
+describe('inject variant', () => {
+  const tweet = (variant?: string) =>
+    makeInject({
+      id: 'tw-2',
+      type: 'tweet',
+      fields: { text: 'Delays at #NCIA' },
+      ...(variant ? { variant } : {}),
+    })
+
+  it('renders the variant saved on the inject', async () => {
+    await saveInject(projectPath, scenarioId, tweet('dark'), { by: 'user' })
+    await renderInject('tw-2')
+    expect(rendered.at(-1)!.html).toContain('class="variant-dark"')
+  })
+
+  it("falls back to the template's first variant when the saved one is unknown", async () => {
+    await saveInject(projectPath, scenarioId, tweet('retired'), { by: 'user' })
+    await renderInject('tw-2')
+    expect(rendered.at(-1)!.html).toContain('class="variant-light"')
+  })
+})
+
+describe('render:preview with an inject', () => {
+  async function injectWithPhoto() {
+    mkdirSync(mediaDir('tw-3'), { recursive: true })
+    const id = slotAssetId('photo')
+    const rel = `scenarios/${scenarioId}/media/tw-3/${id}.png`
+    writeFileSync(join(projectPath, rel), 'fake image')
+    const inject = makeInject({
+      id: 'tw-3',
+      type: 'tweet',
+      fields: { text: 'x' },
+      assets: [aiImage(id, rel)],
+    })
+    await saveInject(projectPath, scenarioId, inject, { by: 'ai' })
+    return id
+  }
+  const preview = (extra: { injectId?: string } = {}) =>
+    invoke('render:preview', {
+      type: 'tweet',
+      fields: { text: 'Draft text' },
+      projectPath,
+      scenarioId,
+      scale: 1,
+      ...extra,
+    })
+
+  it("fills image slots from the inject's own AI images", async () => {
+    const id = await injectWithPhoto()
+    await preview({ injectId: 'tw-3' })
+    const html = rendered.at(-1)!.html
+    expect(html).toContain(`${id}.png`)
+    expect(html).toContain('Draft text')
+  })
+
+  it('keeps template sample images without an inject, or for an inject without images', async () => {
+    const id = await injectWithPhoto()
+    await preview()
+    expect(rendered.at(-1)!.html).not.toContain(`${id}.png`)
+    await preview({ injectId: 'no-such-inject' })
+    expect(rendered.at(-1)!.html).not.toContain('<img')
+  })
+
+  it('guards the project path', async () => {
+    await expect(
+      invoke('render:preview', {
+        type: 'tweet',
+        fields: {},
+        projectPath: tmpdir(),
+        scenarioId,
+        injectId: 'tw-3',
+        scale: 1,
+      }),
+    ).rejects.toMatchObject({ code: 'FORBIDDEN' })
   })
 })
 

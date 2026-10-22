@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import type { Editor } from '@tiptap/react'
 import { afterEach, describe, expect, it } from 'vitest'
 import { lineDiff } from './line-diff'
+import { usePendingSaves } from './pending-saves'
 import { MarkdownDocEditor } from './MarkdownDocEditor'
 import { FakeIpcError, PROJECT, SCENARIO, mockTtx, renderWithClient } from './test-helpers'
 
@@ -98,6 +99,33 @@ describe('MarkdownDocEditor', () => {
     busy = false
     ttx.emit('job:done', { jobId: 'J', kind: 'rerun-stage', status: 'done' })
     await waitFor(() => expect(saves).toEqual([HANDBOOK + 'X']))
+  })
+
+  it('keeps an edit refused after the document was left and gives it back on return (#115)', async () => {
+    let busy = true
+    const saves: string[] = []
+    const handlers = {
+      'scenarios:doc-get': () => ({ markdown: HANDBOOK }),
+      'scenarios:doc-save': (req: { markdown: string }) => {
+        if (busy) throw new FakeIpcError('CONFLICT', 'Generation is running for this scenario')
+        saves.push(req.markdown)
+      },
+    }
+    setup(handlers)
+    await tiptap()
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: 'Markdown source' }))
+    await user.type(screen.getByRole('textbox', { name: /markdown source/ }), 'Late note.')
+    cleanup() // leave the document before the autosave
+    await waitFor(() => expect(Object.keys(usePendingSaves.getState().entries)).toHaveLength(1))
+    expect(Object.values(usePendingSaves.getState().entries)[0]!.label).toBe('Controller handbook')
+
+    busy = false
+    setup(handlers)
+    const surface = await screen.findByRole('textbox', { name: 'Controller handbook' })
+    await waitFor(() => expect(surface.textContent).toContain('Late note.'))
+    expect(usePendingSaves.getState().entries).toEqual({})
+    await waitFor(() => expect(saves.at(-1)).toContain('Late note.'), { timeout: 3000 })
   })
 
   it('shows a diff of a history version against the current text and restores it', async () => {

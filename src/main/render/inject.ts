@@ -86,6 +86,31 @@ async function resolveSlotFiles(
   return files
 }
 
+/** The inject's saved variant when its template still has it; else the template default. */
+export function variantFor(
+  meta: Pick<TemplateMeta, 'variants'>,
+  variant: string | undefined,
+): string | undefined {
+  return variant && meta.variants.includes(variant) ? variant : undefined
+}
+
+/**
+ * slot → absolute file of the AI images an inject already has, for a template type (which
+ * may differ from the stored inject's while the editor changes it). Used by render:preview
+ * so the editor preview shows the inject's own images instead of the template samples.
+ */
+export async function injectSlotFiles(
+  root: string,
+  scenarioId: string,
+  injectId: string,
+  type: string,
+): Promise<Record<string, string>> {
+  const file = scenarioLayout(root, scenarioId).inject(injectId)
+  if (!(await exists(file))) return {}
+  const inject = await readJson(file, Inject)
+  return resolveSlotFiles(root, slotAssets(inject.assets, loadTemplate(type).meta))
+}
+
 function assertValidFields(inject: Inject): void {
   const issues = validateFields(inject.type, inject.fields)
   if (!issues.length) return
@@ -122,10 +147,12 @@ export async function renderInjectAssets(
   const template = loadTemplate(inject.type)
   assertValidFields(inject)
   const slotFiles = await resolveSlotFiles(root, slotAssets(inject.assets, template.meta))
+  const variant = variantFor(template.meta, inject.variant)
   const doc = composeDocument({
     type: inject.type,
     fields: inject.fields,
     ...(opts.brand ? { brand: opts.brand } : {}),
+    ...(variant ? { variant } : {}),
     assets: slotFiles,
   })
   const mediaDir = safeJoin(projectPaths(root).scenarioMedia(scenarioId), inject.id)

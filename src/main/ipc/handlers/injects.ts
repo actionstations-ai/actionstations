@@ -3,6 +3,7 @@
 import { defineHandlers } from '../registry'
 import {
   assertNotGenerating,
+  clearFixedFieldWarnings,
   createEmptyInject,
   deleteFromLibrary,
   deleteInject,
@@ -42,7 +43,12 @@ export default defineHandlers({
     }
     // Media is managed by the media job; a user save never rewrites asset records.
     const next = current ? { ...inject, assets: current.assets } : inject
-    return saveInject(root, scenarioId, next, { by: 'user', ...(note ? { note } : {}) })
+    const saved = await saveInject(root, scenarioId, next, {
+      by: 'user',
+      ...(note ? { note } : {}),
+    })
+    await clearFixedFieldWarnings(root, scenarioId, saved)
+    return saved
   },
 
   'injects:create': async ({ projectPath, scenarioId, mselRowId, type }) => {

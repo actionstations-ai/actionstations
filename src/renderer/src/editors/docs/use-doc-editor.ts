@@ -5,6 +5,7 @@ import type { ScenarioDocKind } from '@shared/schemas/scenario'
 import { call } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
 import { useMarkdownEditor } from './markdown/use-markdown-editor'
+import { pendingKey, peekPending, usePendingSaves } from './pending-saves'
 import { useGuardedSave } from './use-guarded-save'
 import { useLatest } from './use-latest'
 
@@ -39,6 +40,7 @@ export function useDocEditor(ref: DocRef, label: string) {
     () => (modeRef.current === 'source' ? sourceRef.current : serialize()),
     [serialize, modeRef, sourceRef],
   )
+  const parkKey = pendingKey(ref.projectPath, ref.scenarioId, `doc:${ref.kind}`)
   const writer = useGuardedSave(
     ({ markdown, note }: { markdown: string; note?: string | undefined }) =>
       call('scenarios:doc-save', { ...ref, markdown, ...(note ? { note } : {}) }),
@@ -47,6 +49,7 @@ export function useDocEditor(ref: DocRef, label: string) {
       if (modeRef.current === 'rich') rebase(markdown)
       setDirty(current() !== markdown)
     },
+    { key: parkKey, scenarioId: ref.scenarioId, label },
   )
 
   const save = useCallback(
@@ -75,15 +78,23 @@ export function useDocEditor(ref: DocRef, label: string) {
   )
 
   // Load on first data, and again when the file changes underneath a clean editor
-  // (regenerate, restore). Unsaved edits are never replaced.
+  // (regenerate, restore). Unsaved edits are never replaced. On first load an edit parked
+  // when this document was last left (save refused during generation) is taken back.
   const data = doc.data?.markdown
   useEffect(() => {
     if (data === undefined || !editor) return
     if (saved.current !== null && (dirty || data === saved.current)) return
+    const first = saved.current === null
     saved.current = data
-    load(data)
-    setSource(data)
-  }, [data, dirty, editor, load])
+    const parked = first ? peekPending(parkKey) : undefined
+    const text = parked ? (parked.value as { markdown: string }).markdown : data
+    load(text)
+    setSource(text)
+    if (parked) {
+      usePendingSaves.getState().drop(parkKey)
+      changed()
+    }
+  }, [data, dirty, editor, load, parkKey, changed])
 
   const toggleSource = useCallback(() => {
     if (modeRef.current === 'rich') {

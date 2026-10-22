@@ -130,7 +130,10 @@ function BasicsSection(props: FormProps & { onType: (type: string) => void }) {
           )}
         </Field>
         {variants.length > 1 && (
-          <Field label="Variant" hint="Changes the preview look.">
+          <Field
+            label="Variant"
+            hint="Saved with the inject; used for the preview, render and export."
+          >
             {({ id, describedBy }) => (
               <select
                 id={id}

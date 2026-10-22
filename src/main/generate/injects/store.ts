@@ -15,6 +15,8 @@ import { readJson, safeJoin } from '../../lib/fs'
 import { newId } from '../../lib/ids'
 import { scenarioLayout } from '../../scenario/layout'
 import { getScenario, saveInject, updateScenario, type SaveOptions } from '../../scenario/store'
+import { injectDeps } from './deps'
+import { INJECT_FIELDS_INVALID } from './text-stage'
 import { defaultDelivery } from './type-map'
 
 export async function getInject(
@@ -137,6 +139,35 @@ export const trimVersions = (inject: Inject): Inject => ({
   ...inject,
   versions: inject.versions.slice(-MAX_INJECT_VERSIONS),
 })
+
+/** True when the inject's fields match its template (false when there is no template). */
+async function fieldsValid(inject: Inject): Promise<boolean> {
+  const { templates } = await injectDeps()
+  if (!templates.listTemplateTypes().includes(inject.type)) return false
+  return templates.validateFields(inject.type, inject.fields).length === 0
+}
+
+/**
+ * After a user save: drop the INJECT_FIELDS_INVALID warning the text job left on this inject
+ * once its fields validate. Writes scenario.json only when there is a warning to drop.
+ */
+export async function clearFixedFieldWarnings(
+  root: string,
+  scenarioId: string,
+  inject: Inject,
+): Promise<void> {
+  const stale = (w: LintWarning) => w.injectId === inject.id && w.code === INJECT_FIELDS_INVALID
+  const scenario = await getScenario(root, scenarioId)
+  if (!scenario.warnings.some(stale) || !(await fieldsValid(inject))) return
+  await updateScenario(
+    root,
+    scenarioId,
+    (s) => {
+      s.warnings = s.warnings.filter((w) => !stale(w))
+    },
+    { by: 'user', snapshot: false, note: `fixed fields of inject ${inject.mselRowId}` },
+  )
+}
 
 // ---- scenario-side bookkeeping (run under the caller's updateScenario) -------------------
 

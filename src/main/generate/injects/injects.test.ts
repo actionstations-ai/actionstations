@@ -227,6 +227,16 @@ describe('generate:injects (text + media brief)', () => {
     )
     expect(warning?.message).toMatch(/fields\/body: must be string/)
     expect(warning?.rowId).toBe('I-07')
+
+    // A user save that still fails the schema keeps the warning; fixing the fields clears it.
+    await invoke('injects:save', { ...S(), inject: { ...memo, title: 'still broken' } })
+    const flagged = (w: { injectId?: string; code: string }) =>
+      w.injectId === memo.id && w.code === 'INJECT_FIELDS_INVALID'
+    expect((await getScenario(projectPath, scenarioId)).warnings.some(flagged)).toBe(true)
+    await invoke('injects:save', { ...S(), inject: { ...memo, fields: FIELDS.memo! } })
+    const after = await getScenario(projectPath, scenarioId)
+    expect(after.warnings.some(flagged)).toBe(false)
+    expect(after.warnings.length).toBe(s.warnings.length - 1)
   })
 
   it('skips locked rows and locked injects; regenerate-text refuses a locked inject', async () => {

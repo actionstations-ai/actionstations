@@ -5,20 +5,33 @@ import type { Scenario, Stage } from '@shared/schemas/scenario'
 import { call } from '../../../lib/api'
 import { useIpcQuery } from '../../../lib/query'
 import { lastGenerated } from '../owners'
+import { pendingKey, peekPending, usePendingSaves } from '../pending-saves'
 import { useGuardedSave } from '../use-guarded-save'
 import { useLatest } from '../use-latest'
 import { AUTOSAVE_MS } from '../use-doc-editor'
 
 export interface PartSpec<T> {
+  /** Stable id of the part ("rubric"); keys an edit kept while its tab is closed. */
+  id: string
+  /** Name for the pending-edit indicator ("Rubric"). */
+  label: string
   pick: (s: Scenario) => T
   apply: (s: Scenario, value: T) => Scenario
   /** History note for saves, e.g. "Edited rubric". */
   note: string
 }
 
+/** An edit parked when this part's tab was last left (save refused during generation). */
+function parkedValue<T>(key: string): { value: T } | undefined {
+  const parked = peekPending(key)
+  return parked ? { value: (parked.value as { v: T }).v } : undefined
+}
+
 export function useScenarioPart<T>(projectPath: string, scenario: Scenario, spec: PartSpec<T>) {
-  const [value, setValue] = useState<T>(() => spec.pick(scenario))
-  const [dirty, setDirty] = useState(false)
+  const parkKey = pendingKey(projectPath, scenario.id, `part:${spec.id}`)
+  const [parked] = useState(() => parkedValue<T>(parkKey))
+  const [value, setValue] = useState<T>(() => parked?.value ?? spec.pick(scenario))
+  const [dirty, setDirty] = useState(!!parked)
   const baseline = useRef(JSON.stringify(spec.pick(scenario)))
   const valueRef = useLatest(value)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
@@ -46,6 +59,7 @@ export function useScenarioPart<T>(projectPath: string, scenario: Scenario, spec
       baseline.current = JSON.stringify(v)
       setDirty(JSON.stringify(valueRef.current) !== baseline.current)
     },
+    { key: parkKey, scenarioId: scenario.id, label: spec.label },
   )
 
   const save = useCallback(
@@ -62,6 +76,12 @@ export function useScenarioPart<T>(projectPath: string, scenario: Scenario, spec
   )
   const saveRef = useLatest(save)
   const dirtyRef = useLatest(dirty)
+  // A taken-back edit is this editor's again: unpark it and save it (retried on CONFLICT).
+  useEffect(() => {
+    if (!parked) return
+    usePendingSaves.getState().drop(parkKey)
+    timer.current = setTimeout(() => void saveRef.current(), AUTOSAVE_MS)
+  }, [parked, parkKey, saveRef])
   // Leaving the tab saves pending edits.
   useEffect(
     () => () => {

@@ -9,6 +9,8 @@ export interface InjectDraft {
   title: string
   type: string
   fields: Record<string, unknown>
+  /** Template variant; '' = the template's first variant. */
+  variant: string
   deliveryMode: Inject['deliveryMode']
   instructorNote: string
   citations: Inject['citations']
@@ -21,12 +23,19 @@ export function draftOf(inject: Inject): InjectDraft {
     title: inject.title,
     type: inject.type,
     fields: inject.fields,
+    variant: inject.variant ?? '',
     deliveryMode: inject.deliveryMode,
     instructorNote: inject.instructorNote ?? '',
     citations: inject.citations,
     includeInDeck: inject.includeInDeck,
     mediaBrief: inject.mediaBrief,
   }
+}
+
+/** The variant to show and render: the draft's when the template has it, else the first. */
+export function pickVariant(variants: string[], chosen: string): string {
+  if (chosen && variants.includes(chosen)) return chosen
+  return variants[0] ?? 'default'
 }
 
 /** Stable JSON (sorted keys) so key order never makes a draft look dirty. */
@@ -54,6 +63,8 @@ export function applyDraft(latest: Inject, draft: InjectDraft): Inject {
     citations: draft.citations,
     includeInDeck: draft.includeInDeck,
   }
+  if (draft.variant) next.variant = draft.variant
+  else delete next.variant
   if (draft.instructorNote.trim()) next.instructorNote = draft.instructorNote
   else delete next.instructorNote
   if (draft.mediaBrief) next.mediaBrief = draft.mediaBrief

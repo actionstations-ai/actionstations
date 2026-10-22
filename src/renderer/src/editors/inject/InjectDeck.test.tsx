@@ -2,7 +2,7 @@
 import { cleanup, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { MemoryRouter } from 'react-router'
+import { MemoryRouter, useLocation } from 'react-router'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { TemplateInfo } from '@shared/ipc'
 import { Inject } from '@shared/schemas/inject'
@@ -76,16 +76,16 @@ const TEMPLATES: TemplateInfo[] = [
 afterEach(() => cleanup())
 
 describe('deck model', () => {
-  const entries = deckEntries(scenario, [tweet], TEMPLATES)
+  const entries = deckEntries(scenario, [tweet])
 
-  it('one entry per MSEL row in time order, with thumbnail, media flags and live warnings', () => {
+  it('one entry per MSEL row in time order, with thumbnail, media flags and warnings', () => {
     expect(entries.map((e) => e.row.id).slice(0, 3)).toEqual(['START', 'I-01', 'I-02a'])
     const e = entries.find((x) => x.row.id === 'I-04')!
     expect(e.thumbnail?.id).toBe('a1')
     expect(e.audio).toBe(true)
     expect(e.video).toBe(false)
-    // The fields now validate, so the stale INJECT_FIELDS_INVALID is hidden.
-    expect(e.warnings.map((w) => w.code)).toEqual(['INJECT_MEDIA_FAILED'])
+    // Shown as stored: main drops INJECT_FIELDS_INVALID when a save fixes the fields.
+    expect(e.warnings.map((w) => w.code)).toEqual(['INJECT_FIELDS_INVALID', 'INJECT_MEDIA_FAILED'])
   })
 
   it('filters by phase, type, tag and media', () => {
@@ -130,15 +130,17 @@ describe('InjectDeck', () => {
         </MemoryRouter>
       </QueryClientProvider>,
     )
-    const deck = await screen.findByRole('list', { name: 'Inject deck' })
+    const deck = await screen.findByRole('grid', { name: 'Inject deck' })
     await waitFor(() =>
       expect(within(deck).getByRole('link', { name: 'Angry traveller' })).toBeTruthy(),
     )
-    const card = within(deck).getByRole('link', { name: 'Angry traveller' }).closest('li')!
+    const card = within(deck)
+      .getByRole('link', { name: 'Angry traveller' })
+      .closest('[role="row"]') as HTMLElement
     expect(within(card).getByRole('img', { name: 'I-04: Angry traveller' })).toBeTruthy()
     expect(within(card).getByText('Audio')).toBeTruthy()
     expect(within(card).getByLabelText('Locked')).toBeTruthy()
-    expect(within(card).getByText(/1 warning/)).toBeTruthy()
+    expect(within(card).getByText(/2 warnings/)).toBeTruthy()
     expect(screen.getByText('1 of 24 rows have an inject · 1 rendered')).toBeTruthy()
 
     await userEvent.click(screen.getByRole('button', { name: 'Write all injects' }))
@@ -162,7 +164,69 @@ describe('InjectDeck', () => {
 
     await userEvent.selectOptions(screen.getByLabelText('Media'), 'with')
     expect(
-      within(screen.getByRole('list', { name: 'Inject deck' })).getAllByRole('listitem'),
+      within(screen.getByRole('grid', { name: 'Inject deck' })).getAllByRole('row'),
     ).toHaveLength(1)
+  })
+
+  it('is one tab stop; arrows and Home/End move between cards; Enter opens the editor', async () => {
+    mockTtx({
+      'injects:list': () => [tweet],
+      'templates:list': () => TEMPLATES,
+      'jobs:list': () => [],
+    })
+    queryClient.clear()
+    const opened: string[] = []
+    function Where() {
+      opened.push(useLocation().pathname)
+      return null
+    }
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <InjectDeck projectPath={PROJECT} scenario={scenario} />
+          <Where />
+        </MemoryRouter>
+      </QueryClientProvider>,
+    )
+    const deck = await screen.findByRole('grid', { name: 'Inject deck' })
+    await waitFor(() =>
+      expect(within(deck).getByRole('link', { name: 'Angry traveller' })).toBeTruthy(),
+    )
+    const cells = within(deck).getAllByRole('gridcell')
+    expect(cells).toHaveLength(scenario.msel.length)
+    expect(cells.filter((c) => c.tabIndex === 0)).toEqual([cells[0]])
+    cells[0]!.focus()
+    await userEvent.keyboard('{ArrowRight}')
+    expect(document.activeElement).toBe(cells[1])
+    await userEvent.keyboard('{End}')
+    expect(document.activeElement).toBe(cells.at(-1))
+    await userEvent.keyboard('{Home}{ArrowLeft}')
+    expect(document.activeElement).toBe(cells[0])
+    expect(cells[0]!.tabIndex).toBe(0)
+    // I-04 is the 6th row in time order (START, I-01, I-02a, I-02b, I-03, I-04).
+    const i04 = cells.findIndex((c) => within(c).queryByText('I-04'))
+    for (let i = 0; i < i04; i++) await userEvent.keyboard('{ArrowDown}')
+    expect(document.activeElement).toBe(cells[i04])
+    await userEvent.keyboard('{Enter}')
+    expect(opened.at(-1)).toMatch(/\/scenarios\/scen1\/injects\/inj4$/)
+  })
+
+  it('Enter on a row without an inject opens "Create inject"', async () => {
+    mockTtx({ 'injects:list': () => [], 'templates:list': () => TEMPLATES, 'jobs:list': () => [] })
+    queryClient.clear()
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <InjectDeck
+            projectPath={PROJECT}
+            scenario={{ ...scenario, msel: scenario.msel.map(({ injectId: _i, ...r }) => r) }}
+          />
+        </MemoryRouter>
+      </QueryClientProvider>,
+    )
+    const deck = await screen.findByRole('grid', { name: 'Inject deck' })
+    within(deck).getAllByRole('gridcell')[0]!.focus()
+    await userEvent.keyboard('{Enter}')
+    expect(await screen.findByRole('dialog')).toBeTruthy()
   })
 })

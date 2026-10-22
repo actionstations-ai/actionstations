@@ -13,6 +13,8 @@ type Question = HotWash['questions'][number]
 const HOTWASH_PART: PartSpec<HotWash> = {
   pick: (s) => s.hotwash ?? HotWash.parse({}),
   apply: (s, hotwash) => ({ ...s, hotwash }),
+  id: 'hotwash',
+  label: 'Hot wash',
   note: 'Edited hot wash',
 }
 
