@@ -1,9 +1,10 @@
-// Distribution ZIP: facilitator/ gets everything in the export folder; players/ gets only the
+// Distribution ZIP: facilitator/ gets every file this export run wrote (never leftovers from
+// an earlier export into the same folder, #213); players/ gets only the
 // Player Briefing Packet and the blank ICS forms. The players/ list is checked against an
 // allow-list before anything is written, so the MSEL, deck or handbook can never leak to it.
 import { ZipArchive } from 'archiver'
 import { createWriteStream, promises as fs } from 'node:fs'
-import { basename, join, relative, sep } from 'node:path'
+import { basename, isAbsolute, relative, resolve, sep } from 'node:path'
 import { AppError } from '../lib/errors'
 import type { DocumentFileNames } from './naming'
 
@@ -33,24 +34,24 @@ export function assertPlayersOnly(entries: ZipEntry[], names: DocumentFileNames)
   }
 }
 
-async function listFiles(dir: string): Promise<string[]> {
-  const out: string[] = []
-  for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
-    const abs = join(dir, entry.name)
-    if (entry.isDirectory()) out.push(...(await listFiles(abs)))
-    else if (entry.isFile()) out.push(abs)
-  }
-  return out.sort()
-}
-
 const posix = (p: string): string => p.split(sep).join('/')
 
-/** Entries for the distribution ZIP from a finished export folder. */
-export async function distributionEntries(
+function insideFolder(folder: string, abs: string): boolean {
+  const rel = relative(resolve(folder), resolve(abs))
+  return rel !== '' && !rel.startsWith('..') && !isAbsolute(rel)
+}
+
+/**
+ * Entries for the distribution ZIP from the files this run wrote (absolute paths). Anything
+ * outside the export folder (the ZIP itself, for one) is left out.
+ */
+export function distributionEntries(
   folder: string,
   names: DocumentFileNames,
-): Promise<ZipEntry[]> {
-  const facilitator = (await listFiles(folder)).map((source) => ({
+  runFiles: string[],
+): ZipEntry[] {
+  const sources = [...new Set(runFiles.filter((f) => insideFolder(folder, f)))].sort()
+  const facilitator = sources.map((source) => ({
     source,
     name: `facilitator/${posix(relative(folder, source))}`,
   }))

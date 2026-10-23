@@ -192,7 +192,7 @@ async function exportAll(page: Page, key: string, scenarioId: string) {
     timeout: 60_000,
   })
   await shot(page, 'export-done')
-  // The ZIP is written beside the export folder: <outDir>/<Title>-distribution.zip.
+  // The ZIP is written beside the export folder: <outDir>/<Title>-S<n>-<tag>-distribution.zip.
   const zip = readdirSync(outDir).find((f) => f.endsWith('-distribution.zip'))
   expect(zip, `no distribution ZIP in ${outDir}`).toBeTruthy()
   return join(outDir, zip!)

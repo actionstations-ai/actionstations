@@ -6,6 +6,12 @@ import { ProviderRouting } from './provider'
 export const PROJECT_FORMAT_VERSION = 1
 
 /**
+ * Persisted root objects (project.json, scenario.json, inject and document meta files) are
+ * loose: keys this build does not know are kept on load and written back on save, so an older
+ * build never deletes fields a newer one added (#208). Known fields are still validated.
+ */
+
+/**
  * Built-in domain profile ids (src/shared/domains) plus the legacy values ('hospital',
  * 'utility') that resolve to one as aliases; any other string resolves to the generic profile.
  */
@@ -62,7 +68,7 @@ export type DocumentKind = z.infer<typeof DocumentKind>
 
 export const DocumentStatus = z.enum(['pending', 'parsing', 'embedding', 'ok', 'error'])
 
-export const DocumentMeta = z.object({
+export const DocumentMeta = z.looseObject({
   id: Id,
   title: z.string(),
   /** Short label used in citations, e.g. "TIRP". */
@@ -89,7 +95,7 @@ export const ScenarioMeta = z.object({
 })
 export type ScenarioMeta = z.infer<typeof ScenarioMeta>
 
-export const Project = z.object({
+export const Project = z.looseObject({
   formatVersion: z
     .number()
     .int()

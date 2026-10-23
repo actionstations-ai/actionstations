@@ -20,6 +20,7 @@ import {
   documentFiles,
   loadMeta,
   mutateMeta,
+  readableOriginal,
   readText,
   saveMeta,
   sha256File,
@@ -152,8 +153,11 @@ async function ingestOne(
 ): Promise<void> {
   const start = await mutateMeta(root, id, (m) => ({ ...m, status: 'parsing', error: undefined }))
   report(progress, 0.05, 'parsing', `Parsing ${start.filename}`)
-  const files = documentFiles(root, start)
-  const parsed = await parseDocument(files.original, start.filename, progress.ctx.signal)
+  const parsed = await parseDocument(
+    readableOriginal(root, start),
+    start.filename,
+    progress.ctx.signal,
+  )
   progress.ctx.throwIfCancelled()
   const meta = await mutateMeta(root, id, (m) => {
     const untouched = !m.ingestedAt && m.title === titleFromFilename(m.filename)
@@ -267,7 +271,7 @@ export function startIngestJob(
 ): Job {
   return jobs.start('ingest', (ctx) => runBatch(root, ids, mode, ctx, opts), {
     projectPath: root,
-    payload: { documentIds: ids, mode },
+    payload: { documentIds: ids, mode, ...(opts.reset ? { reset: true } : {}) },
   })
 }
 

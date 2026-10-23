@@ -245,7 +245,7 @@ Choose what to export:
 - **Documents (PDF)**: **MSEL** (landscape events table by phase), **Master Inject Deck** (one inject per page with its media), **Controller / Evaluator Handbook** (with rubric, hot wash and SimCell scripts), **Player Briefing Packet** (with blank ICS 201 and ICS 203 forms) and the **Exercise Plan** (a cover page plus all four documents).
 - **Files**: **Media files** (PNG, PDF, WAV and MP3, MP4, named `S<n>-I<id>-<type>`), **scenario.json** (the full scenario with injects inlined), **scenario.md** (a readable copy with media checksums), **Word documents** (handbook and player briefing as `.docx`) and the **Distribution ZIP** (`facilitator/` with everything, `players/` with the briefing and forms).
 
-The right side previews each PDF before you export. Pick an **Output folder** and click **Export**: files go into a folder named after the scenario, and the ZIP sits next to it.
+The right side previews each PDF before you export. Pick an **Output folder** and click **Export**: files go into a folder named after the scenario, its number and a short id (`Flight-to-Nowhere-S3-79J4AB`), so two scenarios with the same title never share a folder, and the ZIP sits next to it. The ZIP holds only the files from that export, not leftovers from an earlier one.
 
 Measured on the Scenario 3 deck (24 injects): every target exported in 5.9 seconds, 54 files including a 20.6 MB distribution ZIP.
 

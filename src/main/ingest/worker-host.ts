@@ -1,6 +1,7 @@
 /// <reference types="electron-vite/node" />
 // Runs heavy parsers (PDF) in a worker_thread so the main process stays responsive.
 // Under Vitest (no electron-vite build) parsing runs in-process.
+import { promises as fs } from 'node:fs'
 import { Worker } from 'node:worker_threads'
 import { basename } from 'node:path'
 import { AppError, type ErrorCode } from '../lib/errors'
@@ -16,11 +17,26 @@ async function workerScriptPath(): Promise<string | undefined> {
   return mod.default
 }
 
-function runWorker(
+const BASE_TIMEOUT_MS = 2 * 60_000
+const PER_10MB_MS = 60_000
+const MAX_TIMEOUT_MS = 30 * 60_000
+
+/**
+ * How long one file may parse before its worker is terminated (#210): two minutes plus one
+ * per 10 MB, capped at 30 minutes, so a pathological file cannot hold an ingest slot forever.
+ */
+export function parseTimeoutMs(bytes: number): number {
+  return Math.min(MAX_TIMEOUT_MS, BASE_TIMEOUT_MS + Math.ceil(bytes / 10_000_000) * PER_10MB_MS)
+}
+
+const minutes = (ms: number) => Math.max(1, Math.round(ms / 60_000))
+
+export function runWorker(
   script: string,
   filePath: string,
   displayName: string,
-  signal?: AbortSignal,
+  signal: AbortSignal | undefined,
+  timeoutMs: number,
 ): Promise<ParsedDocument> {
   return new Promise((resolve, reject) => {
     const worker = new Worker(script, { workerData: { filePath, displayName } })
@@ -28,10 +44,15 @@ function runWorker(
     const settle = (fn: () => void) => {
       if (settled) return
       settled = true
+      clearTimeout(timer)
       signal?.removeEventListener('abort', onAbort)
       fn()
       void worker.terminate()
     }
+    const timer = setTimeout(() => {
+      const message = `Parsing ${displayName} took longer than ${minutes(timeoutMs)} min and was stopped. The file may be damaged or too complex; try exporting it again or converting it to another format.`
+      settle(() => reject(new AppError('INTERNAL', message)))
+    }, timeoutMs)
     const onAbort = () => settle(() => reject(new AppError('CANCELLED', 'Cancelled')))
     signal?.addEventListener('abort', onAbort, { once: true })
     worker.once('message', (reply: WorkerReply) =>
@@ -56,5 +77,6 @@ export async function parseDocument(
 ): Promise<ParsedDocument> {
   const script = needsWorker(parserKindFor(filePath)) ? await workerScriptPath() : undefined
   if (!script) return parseFile(filePath, displayName, signal ? { signal } : {})
-  return runWorker(script, filePath, displayName, signal)
+  const { size } = await fs.stat(filePath)
+  return runWorker(script, filePath, displayName, signal, parseTimeoutMs(size))
 }

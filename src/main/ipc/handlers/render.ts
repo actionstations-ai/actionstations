@@ -5,6 +5,7 @@ import { composeDocument } from '../../render/compose'
 import { injectSlotFiles, renderAndSaveInject } from '../../render/inject'
 import { listTemplateTypes, loadTemplate, templateInfo } from '../../render/templates'
 import { renderPng } from '../../render/window'
+import { assertNotGenerating } from '../../scenario/busy'
 
 interface PreviewContext {
   type: string
@@ -55,6 +56,8 @@ export default defineHandlers({
 
   'render:inject': async ({ projectPath, scenarioId, injectId }) => {
     const root = await requireProject(projectPath)
+    // A media job owning the scenario saves its own copy of the inject later (#206).
+    assertNotGenerating(root, scenarioId)
     return renderAndSaveInject(root, scenarioId, injectId)
   },
 })

@@ -23,6 +23,9 @@ export interface HttpRequest {
 }
 
 const RETRYABLE_STATUS = new Set([408, 409, 425, 429, 500, 502, 503, 504, 529])
+/** 409 Conflict is retried only for requests that are safe to repeat (not POST, #211). */
+const RETRY_ONLY_IDEMPOTENT = new Set([409])
+const MAX_REDIRECTS = 5
 const MAX_BACKOFF_MS = 30_000
 const MAX_ERROR_TEXT = 600
 
@@ -103,6 +106,47 @@ function encodeBody(body: unknown): string | undefined {
   return typeof body === 'string' ? body : JSON.stringify(body)
 }
 
+const methodOf = (req: HttpRequest): string =>
+  req.method ?? (encodeBody(req.body) !== undefined ? 'POST' : 'GET')
+
+function sameOrigin(a: string, b: string): boolean {
+  try {
+    return new URL(a).origin === new URL(b).origin
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Redirects are followed by hand and only within the same origin (#211). fetch's automatic
+ * redirect drops Authorization on a cross-origin hop but keeps custom key headers such as
+ * x-api-key, so a provider (or anything in between) could send the key to another host.
+ */
+async function fetchSameOrigin(url: string, init: RequestInit, vendor: string): Promise<Response> {
+  let current = url
+  let options = init
+  for (let hop = 0; ; hop++) {
+    const res = await fetch(current, { ...options, redirect: 'manual' })
+    const location = res.status >= 300 && res.status < 400 ? res.headers.get('location') : null
+    if (!location) return res
+    const next = new URL(location, current).toString()
+    await res.body?.cancel().catch(() => undefined)
+    if (!sameOrigin(current, next))
+      throw new AppError(
+        'PROVIDER',
+        `${vendor} redirected to another host (${safeOrigin(next)}); not followed so the API key stays with ${safeOrigin(current)}. Check the base URL.`,
+      )
+    if (hop >= MAX_REDIRECTS) throw new AppError('PROVIDER', `${vendor}: too many redirects`)
+    // 303, and 301/302 after a POST, continue as a GET without a body (fetch semantics).
+    if (
+      res.status === 303 ||
+      ((res.status === 301 || res.status === 302) && options.method === 'POST')
+    )
+      options = { ...options, method: 'GET', body: undefined }
+    current = next
+  }
+}
+
 async function attemptFetch(url: string, req: HttpRequest): Promise<Response> {
   const timeoutMs = req.timeoutMs ?? 120_000
   const timer = new AbortController()
@@ -111,13 +155,13 @@ async function attemptFetch(url: string, req: HttpRequest): Promise<Response> {
   const body = encodeBody(req.body)
   const headers = { ...(body !== undefined ? { 'content-type': 'application/json' } : {}) }
   try {
-    return await fetch(url, {
-      method: req.method ?? (body !== undefined ? 'POST' : 'GET'),
-      headers: { ...headers, ...req.headers },
-      body,
-      signal,
-    })
+    return await fetchSameOrigin(
+      url,
+      { method: methodOf(req), headers: { ...headers, ...req.headers }, body, signal },
+      req.vendor,
+    )
   } catch (err) {
+    if (err instanceof AppError) throw err
     if (req.signal?.aborted) throw cancelled()
     if (timer.signal.aborted)
       throw new AppError(
@@ -148,6 +192,11 @@ function safeOrigin(url: string): string {
   }
 }
 
+function isRetryable(status: number, req: HttpRequest): boolean {
+  if (!RETRYABLE_STATUS.has(status)) return false
+  return !(RETRY_ONLY_IDEMPOTENT.has(status) && methodOf(req) === 'POST')
+}
+
 /**
  * fetch with retry/backoff. Resolves with an OK response (body unread); throws AppError
  * ('PROVIDER' for HTTP/network failures, 'CANCELLED' on abort).
@@ -167,7 +216,7 @@ export async function request(url: string, req: HttpRequest): Promise<Response> 
     }
     if (res.ok) return res
     const text = await res.text().catch(() => '')
-    if (!RETRYABLE_STATUS.has(res.status) || attempt >= retries)
+    if (!isRetryable(res.status, req) || attempt >= retries)
       throw providerError(req.vendor, res.status, text, req.secret)
     await sleep(retryDelayMs(res, attempt, base), req.signal)
   }

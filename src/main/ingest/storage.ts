@@ -6,7 +6,15 @@ import { extname } from 'node:path'
 import { DocumentMeta } from '@shared/schemas'
 import { emit } from '../lib/events'
 import { AppError } from '../lib/errors'
-import { exists, readJson, safeJoin, toRel, writeFileAtomic, writeJsonAtomic } from '../lib/fs'
+import {
+  exists,
+  readJson,
+  safeJoin,
+  safeJoinReal,
+  toRel,
+  writeFileAtomic,
+  writeJsonAtomic,
+} from '../lib/fs'
 import { loadProject, projectPaths, updateProject } from '../project/store'
 
 export const TEXT_FILE = 'text.md'
@@ -82,10 +90,21 @@ export async function writeText(root: string, meta: DocumentMeta, text: string):
   await writeFileAtomic(documentFiles(root, meta).text, text)
 }
 
+/**
+ * Real path of a stored document file for reading. A symlink that points outside the project
+ * folder (a shared .ttxproj) throws PATH_ESCAPE, so its target never reaches the index or an LLM.
+ */
+export function readablePath(root: string, abs: string): string {
+  return safeJoinReal(root, toRel(root, abs))
+}
+
+/** The stored original, resolved for reading (see readablePath). */
+export const readableOriginal = (root: string, meta: DocumentMeta): string =>
+  readablePath(root, documentFiles(root, meta).original)
+
 export async function readText(root: string, meta: DocumentMeta): Promise<string> {
-  const path = documentFiles(root, meta).text
   try {
-    return await fs.readFile(path, 'utf8')
+    return await fs.readFile(readablePath(root, documentFiles(root, meta).text), 'utf8')
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === 'ENOENT') {
       throw new AppError('NOT_FOUND', `No extracted text yet for ${meta.title}`)

@@ -95,9 +95,24 @@ export function planMediaFiles(scenarioNo: string, injects: Inject[]): PlannedMe
   return out
 }
 
-/** Document file names inside the export folder. */
-export function documentFileNames(title: string) {
+/**
+ * Short, file-safe tag from a scenario id (last 6 letters/digits), so two scenarios with the
+ * same title never share an export folder or ZIP (#213).
+ */
+export function scenarioTag(scenarioId: string): string {
+  return scenarioId.replace(/[^A-Za-z0-9]/g, '').slice(-6) || 'x'
+}
+
+/**
+ * Document file names inside the export folder. With the scenario, the folder and ZIP are
+ * `<Title>-S<number>-<id tag>` so they are unique per scenario.
+ */
+export function documentFileNames(
+  title: string,
+  scenario?: { scenarioNo: string; scenarioId: string },
+) {
   const t = fileTitle(title)
+  const base = scenario ? `${t}-S${scenario.scenarioNo}-${scenarioTag(scenario.scenarioId)}` : t
   return {
     msel: `${t}-MSEL.pdf`,
     deck: `${t}-Master-Inject-Deck.pdf`,
@@ -108,8 +123,8 @@ export function documentFileNames(title: string) {
     briefingDocx: `${t}-Player-Briefing-Packet.docx`,
     ics201: 'ICS-201-Incident-Briefing-blank.pdf',
     ics203: 'ICS-203-Organization-Assignment-List-blank.pdf',
-    folder: t,
-    zip: `${t}-distribution.zip`,
+    folder: base,
+    zip: `${base}-distribution.zip`,
   }
 }
 export type DocumentFileNames = ReturnType<typeof documentFileNames>

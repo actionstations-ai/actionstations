@@ -168,7 +168,18 @@ export const SCENARIO_DOCS = ['overview', 'handbook', 'briefing', 'hotwash'] as 
 export const ScenarioDocKind = z.enum(SCENARIO_DOCS)
 export type ScenarioDocKind = z.infer<typeof ScenarioDocKind>
 
-export const Scenario = z.object({
+/** scenario.json format; missing means 1. A newer file is refused rather than rewritten. */
+export const SCENARIO_FORMAT_VERSION = 1
+
+/** Loose like Project (see PROJECT_FORMAT_VERSION): unknown keys survive a save (#208). */
+export const Scenario = z.looseObject({
+  formatVersion: z
+    .number()
+    .int()
+    .default(SCENARIO_FORMAT_VERSION)
+    .refine((v) => v <= SCENARIO_FORMAT_VERSION, {
+      message: `This scenario was saved by a newer version of Action Stations (format newer than ${SCENARIO_FORMAT_VERSION}). Update the app to open it.`,
+    }),
   id: Id,
   projectId: Id,
   title: z.string(),

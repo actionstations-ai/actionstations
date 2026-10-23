@@ -8,8 +8,14 @@ import { assertPlayersOnly, distributionEntries, writeZip } from './zip'
 
 const names = documentFileNames('Flight to Nowhere')
 
-function exportFolder(): string {
+/** An export folder and the files the run wrote into it (absolute paths). */
+function exportFolder(): { dir: string; files: string[] } {
   const dir = mkdtempSync(join(tmpdir(), 'ttx-zip-'))
+  const files: string[] = []
+  const put = (rel: string, data: string) => {
+    writeFileSync(join(dir, rel), data)
+    files.push(join(dir, rel))
+  }
   for (const f of [
     names.msel,
     names.deck,
@@ -19,19 +25,19 @@ function exportFolder(): string {
     'scenario.json',
     'scenario.md',
   ])
-    writeFileSync(join(dir, f), f)
+    put(f, f)
   mkdirSync(join(dir, 'forms'))
-  writeFileSync(join(dir, 'forms', names.ics201), 'ics201')
-  writeFileSync(join(dir, 'forms', names.ics203), 'ics203')
+  put(join('forms', names.ics201), 'ics201')
+  put(join('forms', names.ics203), 'ics203')
   mkdirSync(join(dir, 'media'))
-  writeFileSync(join(dir, 'media', 'S3-I04-tweet.png'), 'png')
-  return dir
+  put(join('media', 'S3-I04-tweet.png'), 'png')
+  return { dir, files }
 }
 
 describe('distribution ZIP', () => {
   it('puts everything in facilitator/ and only the packet + blank forms in players/', async () => {
-    const folder = exportFolder()
-    const entries = await distributionEntries(folder, names)
+    const { dir: folder, files: runFiles } = exportFolder()
+    const entries = distributionEntries(folder, names, runFiles)
     const zipPath = join(mkdtempSync(join(tmpdir(), 'ttx-zip-out-')), names.zip)
     await writeZip(zipPath, entries)
     const zip = await JSZip.loadAsync(readFileSync(zipPath))
@@ -77,6 +83,20 @@ describe('distribution ZIP', () => {
   it('fails loudly when a player file is missing', async () => {
     const folder = mkdtempSync(join(tmpdir(), 'ttx-zip-empty-'))
     writeFileSync(join(folder, names.msel), 'x')
-    await expect(distributionEntries(folder, names)).rejects.toThrow(/Player file missing/)
+    expect(() => distributionEntries(folder, names, [join(folder, names.msel)])).toThrow(
+      /Player file missing/,
+    )
+  })
+
+  it('takes only the files this run wrote, not leftovers from an earlier export (#213)', () => {
+    const { dir: folder, files: runFiles } = exportFolder()
+    writeFileSync(join(folder, 'media', 'S3-I09-old-video.mp4'), 'stale')
+    writeFileSync(join(folder, 'Flight-to-Nowhere-Controller-Evaluator-Handbook.docx'), 'stale')
+    const zipPath = join(folder, '..', names.zip)
+    const names_ = distributionEntries(folder, names, [...runFiles, zipPath]).map((e) => e.name)
+    expect(names_).not.toContain('facilitator/media/S3-I09-old-video.mp4')
+    expect(names_).not.toContain('facilitator/Flight-to-Nowhere-Controller-Evaluator-Handbook.docx')
+    expect(names_.some((n) => n.endsWith('.zip'))).toBe(false)
+    expect(names_).toContain('facilitator/media/S3-I04-tweet.png')
   })
 })

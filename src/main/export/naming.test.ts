@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { Inject } from '@shared/schemas'
 import {
   documentFileNames,
+  scenarioTag,
   fileTitle,
   mediaBaseName,
   planMediaFiles,
@@ -54,6 +55,25 @@ describe('fileTitle / documentFileNames', () => {
   })
   it('names the distribution ZIP after the title', () => {
     expect(documentFileNames('Flight to Nowhere').zip).toBe('Flight-to-Nowhere-distribution.zip')
+  })
+  it('gives each scenario its own folder and ZIP, even with the same title (#213)', () => {
+    const a = documentFileNames('Flight to Nowhere', {
+      scenarioNo: '3',
+      scenarioId: '01M5GJ27PWYJ1CJB60T579J4AB',
+    })
+    const b = documentFileNames('Flight to Nowhere', {
+      scenarioNo: '3',
+      scenarioId: '01M5GJ27PWYJ1CJB60T579J4CD',
+    })
+    expect(a.folder).toBe('Flight-to-Nowhere-S3-79J4AB')
+    expect(a.zip).toBe(`${a.folder}-distribution.zip`)
+    expect(b.folder).not.toBe(a.folder)
+    expect(b.zip).not.toBe(a.zip)
+    expect(a.msel).toBe('Flight-to-Nowhere-MSEL.pdf')
+  })
+  it('makes a file-safe tag from any scenario id', () => {
+    expect(scenarioTag('scenario-3')).toBe('nario3')
+    expect(scenarioTag('../..')).toBe('x')
   })
 })
 

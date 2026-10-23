@@ -1,5 +1,5 @@
-// export:run — one job that writes the selected targets into <outDir>/<Title>/ and, for
-// 'zip', <outDir>/<Title>-distribution.zip. Each target is one progress step; the ZIP pulls
+// export:run — one job that writes the selected targets into <outDir>/<Title>-S<n>-<tag>/ and,
+// for 'zip', <outDir>/<Title>-S<n>-<tag>-distribution.zip (unique per scenario, #213). Each target is one progress step; the ZIP pulls
 // in every artifact it needs (all PDFs, media, scenario.json/.md).
 import { promises as fs } from 'node:fs'
 import { isAbsolute, join } from 'node:path'
@@ -134,7 +134,7 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
       return writeOut(state, state.names.briefingDocx, await briefingDocx(state.model))
     case 'zip': {
       const zipPath = join(outDir, state.names.zip)
-      await writeZip(zipPath, await distributionEntries(state.folder, state.names))
+      await writeZip(zipPath, distributionEntries(state.folder, state.names, state.result.files))
       state.result.zipPath = zipPath
       state.result.files.push(zipPath)
       return
@@ -162,7 +162,10 @@ export async function runExport(
   targets: ExportTarget[],
   ctx: Pick<JobContext, 'progress' | 'log' | 'throwIfCancelled'>,
 ): Promise<ExportResult> {
-  const names = documentFileNames(model.scenario.title)
+  const names = documentFileNames(model.scenario.title, {
+    scenarioNo: model.scenarioNo,
+    scenarioId: model.scenario.id,
+  })
   const folder = join(await assertOutDir(outDir), names.folder)
   await ensureDir(folder)
   const state: RunState = {

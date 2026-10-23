@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto'
 import { promises as fs } from 'node:fs'
 import { join } from 'node:path'
 import { toMp3 } from '../providers/media/audio-fx'
-import { ensureDir, safeJoin, writeFileAtomic } from '../lib/fs'
+import { ensureDir, safeJoinReal, writeFileAtomic } from '../lib/fs'
 import type { ExportModel } from './model'
 import type { PlannedMedia } from './naming'
 
@@ -54,10 +54,11 @@ async function exportOne(
 ): Promise<ExportedFile[]> {
   const { asset, inject } = planned
   const rowId = inject.mselRowId
-  const data = await fs.readFile(safeJoin(model.root, asset.path))
+  // safeJoinReal: a symlink in a shared project must not pull outside files into the export.
+  const data = await fs.readFile(safeJoinReal(model.root, asset.path))
   const out = [await writeEntry(dir, planned.fileName, data, rowId, asset.kind)]
   if (planned.posterName && asset.posterPath && model.available.has(asset.posterPath)) {
-    const poster = await fs.readFile(safeJoin(model.root, asset.posterPath))
+    const poster = await fs.readFile(safeJoinReal(model.root, asset.posterPath))
     out.push(await writeEntry(dir, planned.posterName, poster, rowId, 'poster'))
   }
   if (planned.mp3Name) {

@@ -1,3 +1,5 @@
+import { createServer, type IncomingMessage, type ServerResponse } from 'node:http'
+import type { AddressInfo } from 'node:net'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   joinUrl,
@@ -172,5 +174,96 @@ describe('helpers', () => {
     expect(providerError('V', 502, '<html>Bad gateway</html>').message).toBe(
       'V HTTP 502: <html>Bad gateway</html>',
     )
+  })
+})
+
+describe('redirects and key headers (#211)', () => {
+  type Hit = { url: string; method: string; key: string | undefined }
+  async function server(
+    handle: (req: IncomingMessage, res: ServerResponse) => void,
+  ): Promise<{ origin: string; hits: Hit[]; close: () => Promise<void> }> {
+    const hits: Hit[] = []
+    const srv = createServer((req, res) => {
+      hits.push({
+        url: req.url ?? '',
+        method: req.method ?? '',
+        key: req.headers['x-api-key'] as string | undefined,
+      })
+      handle(req, res)
+    })
+    await new Promise<void>((r) => srv.listen(0, '127.0.0.1', () => r()))
+    const { port } = srv.address() as AddressInfo
+    return {
+      origin: `http://127.0.0.1:${port}`,
+      hits,
+      close: () => new Promise((r) => srv.close(() => r())),
+    }
+  }
+  const withKey = { ...fast, retries: 0, headers: { 'x-api-key': 'sk-test-KEYKEYKEYKEY' } }
+
+  it('refuses a cross-origin redirect and never sends the key there', async () => {
+    const other = await server((_req, res) => res.end('stolen'))
+    const api = await server((_req, res) => {
+      res.writeHead(307, { location: `${other.origin}/v1/messages` })
+      res.end()
+    })
+    try {
+      await expect(
+        request(`${api.origin}/v1/messages`, { ...withKey, body: { a: 1 } }),
+      ).rejects.toMatchObject({
+        code: 'PROVIDER',
+        message: expect.stringContaining('redirected to another host'),
+      })
+      expect(other.hits).toHaveLength(0)
+    } finally {
+      await Promise.all([api.close(), other.close()])
+    }
+  })
+
+  it('follows a same-origin redirect with the headers and body intact', async () => {
+    const api = await server((req, res) => {
+      if (req.url === '/old') {
+        res.writeHead(308, { location: '/new' })
+        return res.end()
+      }
+      res.end('ok')
+    })
+    try {
+      const res = await request(`${api.origin}/old`, { ...withKey, body: { a: 1 } })
+      expect(await res.text()).toBe('ok')
+      expect(api.hits.map((h) => [h.url, h.method, h.key])).toEqual([
+        ['/old', 'POST', 'sk-test-KEYKEYKEYKEY'],
+        ['/new', 'POST', 'sk-test-KEYKEYKEYKEY'],
+      ])
+    } finally {
+      await api.close()
+    }
+  })
+
+  it('asks fetch not to follow redirects itself', async () => {
+    const seen: RequestInit['redirect'][] = []
+    vi.stubGlobal('fetch', async (_url: string, init: RequestInit) => {
+      seen.push(init.redirect)
+      return new Response('ok')
+    })
+    await request('http://x', fast)
+    expect(seen).toEqual(['manual'])
+  })
+})
+
+describe('409 retries (#211)', () => {
+  it('does not retry 409 on POST', async () => {
+    const calls = stubFetch([new Response('conflict', { status: 409 }), new Response('ok')])
+    await expect(request('http://x', { ...fast, body: { a: 1 } })).rejects.toMatchObject({
+      message: expect.stringContaining('HTTP 409'),
+    })
+    expect(calls).toHaveLength(1)
+  })
+
+  it('still retries 409 on GET', async () => {
+    const calls = stubFetch([new Response('conflict', { status: 409 }), new Response('ok')])
+    const res = await request('http://x', fast)
+    expect(await res.text()).toBe('ok')
+    expect(calls).toHaveLength(2)
   })
 })

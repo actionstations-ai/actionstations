@@ -1,7 +1,7 @@
 // Everything one export needs, read once from the project: scenario, injects (MSEL order),
 // markdown documents, brand, and the media file plan.
 import type { Brand, Inject, Project, Scenario } from '@shared/schemas'
-import { exists, safeJoin } from '../lib/fs'
+import { safeJoinReal } from '../lib/fs'
 import { loadProject } from '../project/store'
 import { getScenario, listInjects, readScenarioDoc } from '../scenario/store'
 import { planMediaFiles, scenarioNumber, type PlannedMedia } from './naming'
@@ -80,8 +80,16 @@ async function availablePaths(root: string, injects: Inject[]): Promise<Set<stri
   const paths = injects.flatMap((i) =>
     i.assets.flatMap((a) => (a.posterPath ? [a.path, a.posterPath] : [a.path])),
   )
-  const found = await Promise.all(
-    paths.map(async (p) => ((await exists(safeJoin(root, p))) ? p : '')),
-  )
-  return new Set(found.filter(Boolean))
+  // A path counts only when it resolves to a real file inside the project: missing files and
+  // symlinks pointing outside the project folder are both left out (reported as missing).
+  return new Set(paths.filter((p) => insideProject(root, p)))
+}
+
+function insideProject(root: string, rel: string): boolean {
+  try {
+    safeJoinReal(root, rel)
+    return true
+  } catch {
+    return false
+  }
 }

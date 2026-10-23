@@ -44,7 +44,8 @@ export const InjectVersion = z.object({
 })
 export type InjectVersion = z.infer<typeof InjectVersion>
 
-export const Inject = z.object({
+/** Loose so fields a newer build adds survive a save here (#208). */
+export const Inject = z.looseObject({
   id: Id,
   /** MSEL row id this inject belongs to ("I-07"). */
   mselRowId: z.string(),

@@ -14,7 +14,15 @@ import { promises as fs } from 'node:fs'
 import { isAbsolute, relative, sep } from 'node:path'
 import { Inject, type Brand, type MediaAsset } from '@shared/schemas'
 import { AppError } from '../lib/errors'
-import { ensureDir, exists, readJson, safeJoin, toRel, writeFileAtomic } from '../lib/fs'
+import {
+  ensureDir,
+  exists,
+  readJson,
+  safeJoin,
+  safeJoinReal,
+  toRel,
+  writeFileAtomic,
+} from '../lib/fs'
 import { newId, nowIso } from '../lib/ids'
 import { loadProject, projectPaths } from '../project/store'
 import { scenarioLayout } from '../scenario/layout'
@@ -74,14 +82,26 @@ function isInside(dir: string, abs: string): boolean {
   return rel !== '' && rel !== '..' && !rel.startsWith(`..${sep}`) && !isAbsolute(rel)
 }
 
+/**
+ * Real path of a project file, or undefined when it is missing or a symlink that points outside
+ * the project folder (a shared .ttxproj must not put outside files into a render).
+ */
+function realInside(root: string, rel: string): string | undefined {
+  try {
+    return safeJoinReal(root, rel)
+  } catch {
+    return undefined
+  }
+}
+
 async function resolveSlotFiles(
   root: string,
   slots: Map<string, MediaAsset>,
 ): Promise<Record<string, string>> {
   const files: Record<string, string> = {}
   for (const [slot, asset] of slots) {
-    const abs = safeJoin(root, asset.path)
-    if (await exists(abs)) files[slot] = abs
+    const abs = realInside(root, asset.path)
+    if (abs) files[slot] = abs
   }
   return files
 }

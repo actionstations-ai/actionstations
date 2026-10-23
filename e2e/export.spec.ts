@@ -260,7 +260,9 @@ test('exports Scenario 3 (mock media) to PDFs, media, manifest, DOCX and ZIP', a
       timeout: 120_000,
     })
     await expect(page.getByText(/Wrote \d+ files to/)).toBeVisible()
-    expect(readdirSync(join(uiOut, 'Flight-to-Nowhere'))).toContain('Flight-to-Nowhere-MSEL.pdf')
+    // One folder per scenario: <Title>-S<n>-<id tag> (#213).
+    const [uiFolder] = readdirSync(uiOut).filter((f) => f.startsWith('Flight-to-Nowhere-S'))
+    expect(readdirSync(join(uiOut, uiFolder!))).toContain('Flight-to-Nowhere-MSEL.pdf')
     await screenshotBothThemes(page, 'export-done')
     rmSync(outDir, { recursive: true, force: true })
     rmSync(uiOut, { recursive: true, force: true })

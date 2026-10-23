@@ -14,6 +14,17 @@ export function isDerivedPath(rel: string): boolean {
   return top === '.cache' || top === 'index.sqlite' || top.startsWith('index.sqlite-')
 }
 
+/**
+ * Copy filter: no derived data and no symlinks. A symlink in a shared project could point
+ * outside it, and the copy would keep pointing there (or fs.cp would copy its target).
+ */
+export async function shouldDuplicate(root: string, src: string): Promise<boolean> {
+  if (src === root) return true
+  if (isDerivedPath(relative(root, src))) return false
+  const stat = await fs.lstat(src)
+  return stat.isDirectory() || stat.isFile()
+}
+
 export async function duplicateProject(
   root: string,
   input: { newName: string; parentDir?: string },
@@ -26,7 +37,7 @@ export async function duplicateProject(
     recursive: true,
     errorOnExist: true,
     force: false,
-    filter: (src) => src === root || !isDerivedPath(relative(root, src)),
+    filter: (src) => shouldDuplicate(root, src),
   })
   const now = nowIso()
   await updateProject(target, (p) => {

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Channel, ChannelRequest, ChannelResponse } from '@shared/ipc'
@@ -178,6 +178,21 @@ describe('project handlers', () => {
     // The copy is opened: it is first in the recent list and the guard accepts it.
     expect((await invoke('project:list-recent', undefined))[0]?.path).toBe(copy.path)
     await expect(invoke('project:get', { path: copy.path })).resolves.toBeDefined()
+  })
+
+  it('does not copy symlinks when duplicating (#205)', async () => {
+    const src = await create()
+    const outside = mkdtempSync(join(tmpdir(), 'ttx-outside-'))
+    writeFileSync(join(outside, 'private.md'), 'TOP-SECRET-OUTSIDE-PROJECT')
+    mkdirSync(join(src.path, 'documents', 'doc1'))
+    writeFileSync(join(src.path, 'documents', 'doc1', 'meta.json'), '{}')
+    symlinkSync(join(outside, 'private.md'), join(src.path, 'documents', 'doc1', 'text.md'))
+    symlinkSync(outside, join(src.path, 'documents', 'linked-dir'))
+
+    const copy = await invoke('project:duplicate', { path: src.path, newName: 'Linked Copy' })
+    expect(existsSync(join(copy.path, 'documents', 'doc1', 'meta.json'))).toBe(true)
+    expect(existsSync(join(copy.path, 'documents', 'doc1', 'text.md'))).toBe(false)
+    expect(existsSync(join(copy.path, 'documents', 'linked-dir'))).toBe(false)
   })
 
   it('refuses to duplicate over an existing folder', async () => {
