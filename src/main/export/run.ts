@@ -107,12 +107,29 @@ async function writeBlankForms(state: RunState): Promise<void> {
   }
 }
 
+/** The scenario's handouts PDF, when it has any: player handouts with the briefing,
+ *  controller materials with the handbook. */
+async function writeHandouts(
+  state: RunState,
+  doc: 'handouts' | 'controller_handouts',
+  file: 'handouts' | 'controllerHandouts',
+): Promise<void> {
+  if (!state.model.docs[doc].trim()) return
+  const html = buildDocumentHtml(state.model, doc, 'pdf')
+  await writeOut(state, state.names[file], await htmlToPdf(html, EXPORT_DOC_LABELS[doc]))
+}
+
 async function runTarget(state: RunState, target: ExportTarget, outDir: string): Promise<void> {
   const pdf = PDF_DOCS[target]
   if (pdf) {
     const html = buildDocumentHtml(state.model, pdf.doc, 'pdf')
     await writeOut(state, state.names[pdf.file], await htmlToPdf(html, EXPORT_DOC_LABELS[pdf.doc]))
-    if (target === 'briefing_pdf') await writeBlankForms(state)
+    if (target === 'briefing_pdf') {
+      await writeBlankForms(state)
+      await writeHandouts(state, 'handouts', 'handouts')
+    }
+    if (target === 'handbook_pdf')
+      await writeHandouts(state, 'controller_handouts', 'controllerHandouts')
     return
   }
   switch (target) {

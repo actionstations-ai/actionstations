@@ -9,7 +9,7 @@ A bundled project for the `unmanned_systems` domain profile (#157): a regional u
 - `example.json` — the manifest the app lists in its examples gallery (title, profile, notice, scenarios).
 - `project/` — a normal project folder as the app writes it:
   - the four exercise plans from `reference/uas-ops/` imported as documents (UAS Flight Operations & Safety Manual, Emergency Response Plan for flight operations, Information Security Plan for the GCS fleet and data pipeline, Site & Airspace Sheet) and the facility facts extracted from them;
-  - one generated scenario with its MSEL, phases, roles, injects, controller handbook, player briefing, hot wash and rendered inject media within the 6 MB git budget (1× PNGs of the template-rendered injects and up to two AI-composited scene photos; audio, PDFs and the remaining renders are in the release bundle, not in git).
+  - one generated scenario with its MSEL, phases, roles, injects, controller handbook, player briefing, hot wash and rendered inject media within the 6 MB git budget (one voice clip as a 48 kbps MP3, 1× PNGs of the template-rendered injects and up to two AI-composited scene photos; the other voice clips, PDFs and the remaining renders are in the release bundle, not in git).
 
 | Key         | Threat family    | Scenario                                                                                               |
 | ----------- | ---------------- | ------------------------------------------------------------------------------------------------------ |
@@ -26,7 +26,7 @@ node scripts/make-example.mjs package  --spec examples/uas-operations/build.json
 node scripts/make-example.mjs verify   --spec examples/uas-operations/build.json
 ```
 
-`generate` drives the built app headless against the local stack (LM Studio `qwen3-30b-a3b-2507`, ComfyUI SDXL, mlx-audio TTS) and writes the full media set, the PDF exports and a ZIP per scenario to the `--out` folder; `package` strips the project (no `index.sqlite*`, `.cache`, job files, provider ids or absolute paths) and trims media to the budget; `verify` copies the packaged project to a temp folder, opens it in the app, rebuilds the index and checks every scenario, inject and asset. The scenario brief is in `build.json`; the same script builds the other bundled examples.
+`generate` drives the built app headless against the local stack (LM Studio `qwen3-30b-a3b-2507`, ComfyUI SDXL, mlx-audio TTS) and writes the full media set, the PDF exports and a ZIP per scenario to the `--out` folder; `package` strips the project (no `index.sqlite*`, `.cache`, job files, provider ids or absolute paths) and trims media to the budget (one voice clip included); `refresh` records hand corrections made in the `--out` folder, re-renders the corrected cards and re-runs the lints with no model reachable; `verify` copies the packaged project to a temp folder, opens it in the app, rebuilds the index, checks every scenario, inject and asset, and fails on any lint warning other than a CRITIQUE note. The scenario brief is in `build.json`; the same script builds the other bundled examples.
 
 ## Opening it
 

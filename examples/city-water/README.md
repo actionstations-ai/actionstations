@@ -19,7 +19,7 @@ Three more exercises from the same documents (ransomware reaching toward OT, tam
 
 ## Media
 
-The repository copy keeps at most 6 MB of media per example: the template-rendered pictures of the most important injects of each scenario and up to two SDXL stills. Audio, video and the remaining pictures are in the release bundle (`.tmp/examples-release/city-water/`, attached to the GitHub release), together with the PDF, DOCX, Markdown, JSON and ZIP exports of each scenario. Any inject can be re-rendered from its fields inside the app.
+The repository copy keeps at most 6 MB of media per example: one voice clip (the I-28 phone call, as a 48 kbps MP3), the template-rendered pictures of the most important injects of each scenario and up to two SDXL stills. The other voice clips, video and the remaining pictures are in the release bundle (`.tmp/examples-release/city-water/`, attached to the GitHub release), together with the PDF, DOCX, Markdown, JSON and ZIP exports of each scenario. Any inject can be re-rendered from its fields inside the app.
 
 ## Rebuilding
 

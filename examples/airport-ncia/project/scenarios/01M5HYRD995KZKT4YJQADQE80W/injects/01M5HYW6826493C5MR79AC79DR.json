@@ -9,7 +9,7 @@
     "site": "NCIA - Terminal & SIDA",
     "operator": "SOC Console 3 - r.martinez",
     "clock": "09:00:00",
-    "date": "10/22/2026",
+    "date": "10/20/2026",
     "alarms": [
       {
         "time": "08:59:12",
@@ -226,9 +226,110 @@
         "instructorNote": "This inject confirms the timeline of physical access. The alarm shows Dmitri Volkov's badge was used to enter the server room after hours — exactly the window when the logic bomb was planted. The player team must now connect this to the prior injects about the orphaned service account and the scheduled task.",
         "deliveryMode": "display_main_screen"
       }
+    },
+    {
+      "at": "2026-10-23T19:49:17.604Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "PACS After-Hours Access Alert — Server Room",
+        "type": "pacs_alarm_panel",
+        "fields": {
+          "systemName": "AccessGuard Alarm Monitor",
+          "site": "NCIA - Terminal & SIDA",
+          "operator": "SOC Console 3 - r.martinez",
+          "clock": "09:00:00",
+          "date": "10/20/2026",
+          "alarms": [
+            {
+              "time": "08:59:12",
+              "priority": "high",
+              "door": "Server Room (Rack 4)",
+              "event": "After-hours badge swipe (biometric)",
+              "cardholder": "Dmitri Volkov (svc_nexgen_aodb)",
+              "count": 1,
+              "state": "new"
+            }
+          ],
+          "procedure": [
+            "Verify badge ID and credential status",
+            "Cross-reference with active access logs",
+            "Check video feed from CAM-SRV-04",
+            "Notify Security Lead and ASC"
+          ],
+          "doors": [
+            {
+              "name": "Server Room (Rack 4)",
+              "state": "unlocked"
+            },
+            {
+              "name": "ARFF IT Closet",
+              "state": "secure"
+            },
+            {
+              "name": "Main Server Room",
+              "state": "secure"
+            },
+            {
+              "name": "Badging Office",
+              "state": "secure"
+            },
+            {
+              "name": "Level 1 Concourse",
+              "state": "secure"
+            },
+            {
+              "name": "Concourse A",
+              "state": "secure"
+            },
+            {
+              "name": "Concourse B",
+              "state": "secure"
+            },
+            {
+              "name": "Gate A1",
+              "state": "secure"
+            },
+            {
+              "name": "Gate B3",
+              "state": "secure"
+            },
+            {
+              "name": "Gate 24",
+              "state": "secure"
+            },
+            {
+              "name": "Shelter A",
+              "state": "secure"
+            },
+            {
+              "name": "Shelter B",
+              "state": "secure"
+            },
+            {
+              "name": "Shelter C",
+              "state": "secure"
+            },
+            {
+              "name": "Shelter D",
+              "state": "secure"
+            },
+            {
+              "name": "Lot C",
+              "state": "secure"
+            },
+            {
+              "name": "Station 9",
+              "state": "secure"
+            }
+          ]
+        },
+        "instructorNote": "This inject confirms the timeline of physical access. The alarm shows Dmitri Volkov's badge was used to enter the server room after hours — exactly the window when the logic bomb was planted. The player team must now connect this to the prior injects about the orphaned service account and the scheduled task.",
+        "deliveryMode": "display_main_screen"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T14:08:24.939Z"
+  "updatedAt": "2026-10-23T19:49:21.064Z"
 }

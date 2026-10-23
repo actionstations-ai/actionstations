@@ -73,7 +73,7 @@
       },
       {
         "tag": "LIT-203",
-        "label": "Caustic Bulk Tank",
+        "label": "Caustic Bulk Storage Level",
         "kind": "tank",
         "state": "running",
         "value": "58",
@@ -82,7 +82,7 @@
       },
       {
         "tag": "LIT-201",
-        "label": "Hypochlorite Tank A",
+        "label": "Hypochlorite Storage A Level",
         "kind": "tank",
         "state": "running",
         "value": "71",
@@ -142,7 +142,7 @@
         "units": "mg/L"
       },
       {
-        "label": "Finished Cl2 residual",
+        "label": "Chlorine residual (AIT-301)",
         "value": "1.4",
         "units": "mg/L"
       },
@@ -473,9 +473,230 @@
         "instructorNote": "This inject confirms the HMI is compromised and displays false normalcy. The SCADA / IT team must verify the manual mode transition and initiate CODE CLEARWATER to isolate the system. Watch for any attempt to restore automatic control without verification.",
         "deliveryMode": "display_main_screen"
       }
+    },
+    {
+      "at": "2026-10-23T19:43:36.850Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "HMI: Chemical Feed screen on MBW-HMI-01 — caustic at 38 mg/L, pH 9.3 in alarm",
+        "type": "scada_hmi",
+        "fields": {
+          "systemName": "CHEMICAL FEED — CHM-2",
+          "site": "Riverside Water Treatment Plant",
+          "clock": "10:15:08",
+          "date": "22-OCT-2026",
+          "operator": "OPS_SHIFT_B",
+          "state": "critical",
+          "stateText": "AIT-302 pH HIGH 9.3",
+          "mode": "AUTO",
+          "equipment": [
+            {
+              "tag": "CL2-FC-201",
+              "label": "Pre-Chlorination Dose",
+              "kind": "pump",
+              "state": "running",
+              "value": "1.8",
+              "units": "mg/L",
+              "setpoint": "1.8",
+              "note": "FLOW PACED"
+            },
+            {
+              "tag": "CL2-FC-202",
+              "label": "Post-Chlorination Dose",
+              "kind": "pump",
+              "state": "running",
+              "value": "2.4",
+              "units": "mg/L",
+              "setpoint": "2.4",
+              "note": "RESIDUAL TRIM"
+            },
+            {
+              "tag": "NAOH-FC-203",
+              "label": "Caustic Dose",
+              "kind": "pump",
+              "state": "alarm",
+              "value": "37.6",
+              "units": "mg/L",
+              "setpoint": "38.0",
+              "note": "SP WRITE MBW-HMI-02 08:22 PIN"
+            },
+            {
+              "tag": "F-FC-204",
+              "label": "Fluoride Dose",
+              "kind": "pump",
+              "state": "running",
+              "value": "0.7",
+              "units": "mg/L",
+              "setpoint": "0.7"
+            },
+            {
+              "tag": "ALUM-FC-205",
+              "label": "Alum Dose",
+              "kind": "pump",
+              "state": "running",
+              "value": "22.0",
+              "units": "mg/L",
+              "setpoint": "22.0"
+            },
+            {
+              "tag": "POLY-FC-206",
+              "label": "Polymer Dose",
+              "kind": "pump",
+              "state": "running",
+              "value": "0.3",
+              "units": "mg/L",
+              "setpoint": "0.3"
+            },
+            {
+              "tag": "LIT-203",
+              "label": "Caustic Bulk Storage Level",
+              "kind": "tank",
+              "state": "running",
+              "value": "58",
+              "units": "%",
+              "note": "FALLING 0.9 %/H"
+            },
+            {
+              "tag": "LIT-201",
+              "label": "Hypochlorite Storage A Level",
+              "kind": "tank",
+              "state": "running",
+              "value": "71",
+              "units": "%"
+            },
+            {
+              "tag": "AIT-302",
+              "label": "Finished Water pH",
+              "kind": "sensor",
+              "state": "alarm",
+              "value": "9.3",
+              "units": "pH",
+              "setpoint": "7.6",
+              "note": "HI 8.5 ACK 08:31 @MBW-HMI-02"
+            },
+            {
+              "tag": "AIT-301",
+              "label": "Finished Cl2 Residual",
+              "kind": "sensor",
+              "state": "running",
+              "value": "1.4",
+              "units": "mg/L",
+              "setpoint": "1.5"
+            },
+            {
+              "tag": "PSH-302",
+              "label": "pH High-High Switch",
+              "kind": "sensor",
+              "state": "running",
+              "value": "ARMED",
+              "note": "TRIP 9.5 HARD-WIRED"
+            },
+            {
+              "tag": "FIT-501",
+              "label": "Plant Finished Flow",
+              "kind": "sensor",
+              "state": "running",
+              "value": "7.2",
+              "units": "MGD"
+            }
+          ],
+          "readings": [
+            {
+              "label": "Finished pH",
+              "value": "9.3",
+              "units": "pH",
+              "alarm": true
+            },
+            {
+              "label": "Caustic dose setpoint",
+              "value": "38.0",
+              "units": "mg/L"
+            },
+            {
+              "label": "Caustic dose PV",
+              "value": "37.6",
+              "units": "mg/L"
+            },
+            {
+              "label": "Chlorine residual (AIT-301)",
+              "value": "1.4",
+              "units": "mg/L"
+            },
+            {
+              "label": "Plant flow",
+              "value": "7.2",
+              "units": "MGD"
+            },
+            {
+              "label": "Clearwell 1 level",
+              "value": "13.8",
+              "units": "ft"
+            },
+            {
+              "label": "Raw turbidity",
+              "value": "4.1",
+              "units": "NTU"
+            },
+            {
+              "label": "Distribution pressure",
+              "value": "70",
+              "units": "psi"
+            }
+          ],
+          "alarms": [
+            {
+              "time": "10:12:40",
+              "priority": "2",
+              "tag": "AIT-302.HI",
+              "text": "FINISHED WATER pH HIGH 9.3",
+              "acked": false
+            },
+            {
+              "time": "09:58:03",
+              "priority": "4",
+              "tag": "SCADA.SESSION",
+              "text": "REMOTE SESSION MBW-HMI-02 dosatech_svc ACTIVE",
+              "acked": false
+            },
+            {
+              "time": "08:31:17",
+              "priority": "2",
+              "tag": "AIT-302.HI",
+              "text": "FINISHED WATER pH HIGH 8.6 — ACK OPS_SHIFT_B @MBW-HMI-02",
+              "acked": true
+            },
+            {
+              "time": "08:22:31",
+              "priority": "4",
+              "tag": "NAOH-FC-203.SP",
+              "text": "SETPOINT 35.0 → 38.0 mg/L PIN ACCEPTED MBW-HMI-02",
+              "acked": true
+            },
+            {
+              "time": "08:05:03",
+              "priority": "4",
+              "tag": "NAOH-FC-203.SP",
+              "text": "SETPOINT 14.0 → 25.0 mg/L PIN ACCEPTED MBW-HMI-02",
+              "acked": true
+            }
+          ],
+          "statusItems": [
+            "PLC-01 ONLINE",
+            "PLC-02 ONLINE",
+            "PLC-05 ONLINE",
+            "RTU-01 ONLINE",
+            "HISTORIAN ONLINE",
+            "REMOTE: JUMP 0 / SCREENBRIDGE 1"
+          ],
+          "hmiNode": "MBW-HMI-01"
+        },
+        "instructorNote": "This inject confirms the HMI is compromised and displays false normalcy. The SCADA / IT team must verify the manual mode transition and initiate CODE CLEARWATER to isolate the system. Watch for any attempt to restore automatic control without verification.",
+        "deliveryMode": "display_main_screen"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T13:23:42.736Z"
+  "updatedAt": "2026-10-23T19:43:37.584Z"
 }

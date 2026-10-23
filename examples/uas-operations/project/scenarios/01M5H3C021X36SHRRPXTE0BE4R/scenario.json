@@ -6,7 +6,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-22T06:04:28.609Z",
-  "updatedAt": "2026-10-22T13:43:05.296Z",
+  "updatedAt": "2026-10-23T19:43:02.335Z",
   "brief": {
     "userPrompt": "A multispectral and hyperspectral sensor campaign at the Lakeshore Flight Area of the Birch Hollow Range (UAS-01 with PL-01, UAS-11 with PL-03, GCS-01 and GCS-02, RTK-1) is disrupted by a command-and-control link hijack and GNSS spoofing: UAS-11's 915 MHz telemetry shows a second ground station, the aircraft start executing waypoints nobody loaded, RTK-1 and the aircraft lose fix at the same time under a clear sky, the home point moves, and a pickup truck with antennas is seen leaving the lodge parking lot. The crew must land in attitude mode, preserve the GCS and radio state, decide whether to call HWK Tower, re-key the links, work with CCSO and the managed security provider, and tell the CP&L client whether Deliverable D-3 data is intact.",
     "audience": [
@@ -575,7 +575,7 @@
         "client"
       ],
       "toLabel": "IC, TL, ASO, PIO, Sec, SPO",
-      "event": "Time Jump Card: 'It is now 1:00. The problem has spread to the RTK base and GCS-02's radio state. The RPIC cannot command UAS-11 in any mode. The team cannot confirm the aircraft's true position. The site is under standdown. The investigation is now underway.'",
+      "event": "Time Jump Card: 'It is now 10:00. The interference has spread to the RTK base and to the GCS-02 radio. UAS-11 no longer answers the ground station in any flight mode, and its true position is unknown. All flying at Birch Hollow Range has stopped while the incident is worked.'",
       "expectedAction": "The Incident Commander (ops) declares a standdown per HUOG-FOM Section 6.1 and HUOG-ISP Section 9.1; all flights of type UAS-11 are grounded pending forensic review. The Systems & Cybersecurity Lead (it) begins preservation of GCS-02 and RTK-1 logs per HUOG-ISP Section 9.1. The Aviation Safety Officer (safety) confirms the site remains under authorized operation per HUOG-FOM Section 11.1 and Section 7.6. The Communications Lead (pio) activates the client notification protocol per HUOG-ISP Section 7.5. The Security / CCSO Liaison (security) secures Hangar 1 and confirms no unauthorized access occurred. The Client Liaison (client) initiates a hold on Deliverable D-3 per HUOG-ISP Section 7.5.",
       "purposeTag": "TIME_JUMP",
       "format": "time_jump_card",
@@ -757,17 +757,17 @@
       "phaseId": "01M5H3D49G554QYC2XD2J624AH",
       "time": "1:12",
       "wallClock": "10:12",
-      "from": "Field Unit (radio)",
+      "from": "FAA FSDO (duty inspector)",
       "toRoleIds": [
+        "safety",
         "ops",
-        "client",
-        "safety"
+        "client"
       ],
-      "toLabel": "ASO, IC, SPO",
-      "event": "Radio Call: 'ASO to Ops and SPO: This is the ASO. I have just reported to the FAA FSDO via HUOG-ERP Section 6.2 (FSDO contact: (585) 555-0188). Incident: unauthorized command injection, C2 link compromise, and flight outside authorized parameters. UAS-11 flew over the lodge patio, which is prohibited during guest events. Site Survey Form (FOM-3) for Birch Hollow Range does not list the van. FSDO is now in the loop.'",
-      "expectedAction": "ASO confirms the FSDO has been notified per HUOG-ERP Section 6 and HUOG-ISP Section 9.1; IC ensures all flight data is preserved and not released until the FSDO has reviewed it. SPO is informed that the incident may impact D-3 deliverable.",
+      "toLabel": "ASO, IC, Client",
+      "event": "Phone Call: 'This is the duty inspector at the FAA Flight Standards District Office, (585) 555-0188. We have a report of a Harwick UAS Operations Group aircraft flying over the lodge patio at Birch Hollow Range during a guest event, outside its authorized area. I need the remote pilot in command, the aircraft registration and your preliminary account within the hour, and the flight logs are to be preserved as they are.'",
+      "expectedAction": "The ASO takes the call, gives the facts known so far and files the report per HUOG-ERP Section 6.2; the IC orders all flight and GCS data preserved and not released until the FSDO has reviewed it; the Client Liaison warns CP&L that Deliverable D-3 may be affected.",
       "purposeTag": "CORE_NARRATIVE",
-      "format": "radio_call",
+      "format": "phone_call",
       "injectId": "01M5H3VDGXZXWMNBB6NTMKE7VN",
       "citations": [
         {
@@ -1998,21 +1998,6 @@
       "rowId": "I-24b",
       "source": "critique",
       "suggestion": "Replace 'GCS-03' with 'GCS-04' or 'GCS03' to match the documented list."
-    },
-    {
-      "code": "INJECT_SCRIPTS_PLAYERS",
-      "severity": "warning",
-      "message": "Row I-10 narrates a decision by Director of Flight Operations (Incident Commander) (\"…ICcannot command UAS-11 in any mode. The…\"); let the players make it and describe it in the expected action",
-      "rowId": "I-10",
-      "source": "lint"
-    },
-    {
-      "code": "INJECT_PLAYER_VOICE",
-      "severity": "warning",
-      "message": "Row I-12 is written in the voice of Aviation Safety Officer (ASO) (\"ASO\"): a player's own decision or announcement is not an inject",
-      "rowId": "I-12",
-      "source": "lint",
-      "suggestion": "Re-source it from a specific outside party whose demand, deadline or report forces the decision, and move the decision itself to the expected action"
     }
   ],
   "provenance": [
@@ -3300,8 +3285,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H3T39K0MZN9618CVZG1CVB",
-      "startedAt": "2026-10-22T13:34:18.335Z",
-      "finishedAt": "2026-10-22T13:34:18.650Z",
+      "startedAt": "2026-10-23T19:42:57.148Z",
+      "finishedAt": "2026-10-23T19:42:57.482Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3327,8 +3312,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H3VDGXZXWMNBB6NTMKE7VN",
-      "startedAt": "2026-10-22T06:20:02.055Z",
-      "finishedAt": "2026-10-22T06:20:02.247Z",
+      "startedAt": "2026-10-23T19:42:57.485Z",
+      "finishedAt": "2026-10-23T19:42:57.700Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0

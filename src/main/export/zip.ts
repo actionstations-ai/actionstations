@@ -1,6 +1,7 @@
 // Distribution ZIP: facilitator/ gets every file this export run wrote (never leftovers from
-// an earlier export into the same folder, #213); players/ gets only the
-// Player Briefing Packet and the blank ICS forms. The players/ list is checked against an
+// an earlier export into the same folder, #213); players/ gets only the Player Briefing
+// Packet, the blank ICS forms and the Player Handouts (when the scenario has any; Controller
+// Materials stay in facilitator/). The players/ list is checked against an
 // allow-list before anything is written, so the MSEL, deck or handbook can never leak to it.
 import { ZipArchive } from 'archiver'
 import { createWriteStream, promises as fs } from 'node:fs'
@@ -15,10 +16,14 @@ export interface ZipEntry {
   name: string
 }
 
-/** File names allowed in players/: the briefing packet and the blank forms, nothing else. */
+/** File names allowed in players/: the briefing packet, the blank forms and the player
+ *  handouts, nothing else. */
 export function playerFileNames(names: DocumentFileNames): string[] {
-  return [names.briefing, names.ics201, names.ics203]
+  return [names.briefing, names.ics201, names.ics203, names.handouts]
 }
+
+/** Player files a scenario may not have (no handouts written): skipped, not an error. */
+const optionalPlayerFiles = (names: DocumentFileNames): Set<string> => new Set([names.handouts])
 
 /** Throw if anything but the allowed player files would land in players/. */
 export function assertPlayersOnly(entries: ZipEntry[], names: DocumentFileNames): void {
@@ -59,6 +64,7 @@ export function distributionEntries(
   const players: ZipEntry[] = []
   for (const name of playerFileNames(names)) {
     const source = byName.get(name)
+    if (!source && optionalPlayerFiles(names).has(name)) continue
     if (!source) throw new AppError('INTERNAL', `Player file missing from the export: ${name}`)
     players.push({ source, name: `players/${name}` })
   }

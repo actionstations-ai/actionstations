@@ -44,6 +44,7 @@ export function MarkdownDocEditor(props: DocEditorProps) {
   const [showHistory, setShowHistory] = useState(false)
   const edited = useEditedSinceGeneration(props)
   const empty = d.doc.data !== undefined && !d.doc.data.markdown.trim() && !d.dirty
+  const stage = DOC_STAGE[props.kind]
 
   function onKeyDown(e: KeyboardEvent) {
     const mod = e.metaKey || e.ctrlKey
@@ -58,16 +59,18 @@ export function MarkdownDocEditor(props: DocEditorProps) {
 
   return (
     <div className="doc-editor" onKeyDown={onKeyDown}>
-      <RegenerateButton
-        projectPath={props.projectPath}
-        scenarioId={props.scenario.id}
-        stage={DOC_STAGE[props.kind]}
-        label={label.toLowerCase()}
-        hasContent={!empty}
-        edited={edited || d.dirty}
-        snapshot={() => d.save('Before regenerating', true)}
-        onJob={props.onJob}
-      />
+      {stage && (
+        <RegenerateButton
+          projectPath={props.projectPath}
+          scenarioId={props.scenario.id}
+          stage={stage}
+          label={label.toLowerCase()}
+          hasContent={!empty}
+          edited={edited || d.dirty}
+          snapshot={() => d.save('Before regenerating', true)}
+          onJob={props.onJob}
+        />
+      )}
       <div className="doc-editor__bar">
         {d.editor && d.mode === 'rich' && (
           <Toolbar
@@ -97,10 +100,16 @@ export function MarkdownDocEditor(props: DocEditorProps) {
       )}
       <div className="doc-editor__body">
         <div className="doc-editor__main">
-          {empty && (
+          {empty && stage && (
             <p className="muted">
               The {label.toLowerCase()} has not been generated yet. Regenerate it, or start writing
               below.
+            </p>
+          )}
+          {empty && !stage && (
+            <p className="muted">
+              No {label.toLowerCase()} yet. Write them below; they are exported with the{' '}
+              {props.kind === 'handouts' ? 'player packet' : 'facilitator material'}.
             </p>
           )}
           <article aria-label={label} hidden={d.mode !== 'rich'} className="doc-editor__page">

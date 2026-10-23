@@ -7,7 +7,7 @@
   "fields": {
     "appName": "Network Discovery Dashboard",
     "windowTitle": "Scan Report - Full Internal Network (10.66.0.0/16)",
-    "location": "https://ncia-secops.ncia-airport.org/scans/2026-10-22/0900-1000",
+    "location": "https://ncia-secops.ncia-airport.org/scans/2026-10-20/0900-1000",
     "menuItems": [
       "File",
       "Edit",
@@ -80,18 +80,18 @@
   },
   "assets": [
     {
-      "id": "01M5HZ2WRK4SB491WT0D7PMHVZ",
+      "id": "01M5N4Z214W4DMSQWNJJMC0AC0",
       "kind": "image",
-      "path": "scenarios/01M5HYRD995KZKT4YJQADQE80W/media/01M5HYSC83Y2SM7R44HQFN7DV0/01M5HZ2WRK4SB491WT0D7PMHVZ.png",
+      "path": "scenarios/01M5HYRD995KZKT4YJQADQE80W/media/01M5HYSC83Y2SM7R44HQFN7DV0/01M5N4Z214W4DMSQWNJJMC0AC0.png",
       "role": "composite",
       "width": 1280,
       "height": 800,
-      "sha256": "c133068ca1211b66f666fa67dc71b990d5fb8d18cd99c879be28b3a462e53680",
+      "sha256": "c7c6aa1e7409ad5a5b75479fa4cec191aa9e4cd58c2eaf2274c5e00276dbb0e0",
       "provenance": {
         "provider": "template",
         "templateId": "screenshot_generic",
         "templateVersion": "1",
-        "createdAt": "2026-10-22T14:08:49.704Z"
+        "createdAt": "2026-10-23T19:49:18.633Z"
       }
     }
   ],
@@ -153,9 +153,67 @@
         "instructorNote": "This is a dead-end inject. The stale account is the correct clue, but it’s available via a 10-minute audit (A-06) — scanning for it costs 30 minutes. Watch for teams who over-invest in broad scans instead of targeted audits.",
         "deliveryMode": "display_main_screen"
       }
+    },
+    {
+      "at": "2026-10-23T19:49:17.568Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Network Scan Results: Stale Account Detected",
+        "type": "screenshot_generic",
+        "fields": {
+          "appName": "Network Discovery Dashboard",
+          "windowTitle": "Scan Report - Full Internal Network (10.66.0.0/16)",
+          "location": "https://ncia-secops.ncia-airport.org/scans/2026-10-20/0900-1000",
+          "menuItems": [
+            "File",
+            "Edit",
+            "View",
+            "Tools",
+            "Help"
+          ],
+          "sidebarItems": [
+            {
+              "label": "Active Scans",
+              "meta": "1",
+              "selected": false
+            },
+            {
+              "label": "Scan History",
+              "meta": "24",
+              "selected": false
+            },
+            {
+              "label": "Vulnerability Report",
+              "meta": "372",
+              "selected": false
+            },
+            {
+              "label": "Stale Accounts",
+              "meta": "12",
+              "selected": true
+            },
+            {
+              "label": "Firewall Logs",
+              "meta": "89",
+              "selected": false
+            },
+            {
+              "label": "Endpoint Compliance",
+              "meta": "217",
+              "selected": false
+            }
+          ],
+          "statusText": "Scan completed: 09:30 AM · 10.66.0.0/16 · 14,237 hosts · 177 critical findings (resolved) · 12 high-risk items (resolved) · 1 stale service account detected",
+          "imageBrief": "Network scan dashboard with red alert icon on 'Stale Accounts' tab, highlighted row in table showing 'svc_nexgen_aodb' with status 'Inactive but present'",
+          "clock": "09:30 AM"
+        },
+        "instructorNote": "This is a dead-end inject. The stale account is the correct clue, but it’s available via a 10-minute audit (A-06) — scanning for it costs 30 minutes. Watch for teams who over-invest in broad scans instead of targeted audits.",
+        "deliveryMode": "display_main_screen"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T14:08:50.456Z"
+  "updatedAt": "2026-10-23T19:49:19.526Z"
 }

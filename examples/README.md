@@ -42,7 +42,7 @@ examples/<slug>/
 - `index.sqlite*` or `.cache/` (the app rebuilds the index when the copy is opened),
 - job or log files, absolute paths, provider ids or keys, or any other secret.
 
-Strip these with a script, not by hand. Keep binary media to at most 6 MB per example; full media and PDF/ZIP exports belong to the GitHub release, not to git.
+Strip these with a script, not by hand. Keep binary media to at most 6 MB per example (one short voice clip as MP3 included); full media and PDF/ZIP exports belong to the GitHub release, not to git. A shipped example carries no lint warning but CRITIQUE notes: `make-example.mjs verify` and `tests/scripts/example-content.test.ts` both check it. Fix content in place in the release folder, then `refresh` and `package` (no model needed).
 
 ## How the app uses it
 

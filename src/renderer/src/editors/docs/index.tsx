@@ -33,7 +33,7 @@ export function DocumentsTab(props: TabProps) {
   const [kind, setKind] = useState<ScenarioDocKind>(available[0] ?? 'handbook')
   return (
     <div className="stack stack--loose">
-      <div className="row" role="group" aria-label="Document">
+      <div className="row doc-kinds" role="group" aria-label="Document">
         {DOC_ORDER.map((k) => (
           <Button
             key={k}

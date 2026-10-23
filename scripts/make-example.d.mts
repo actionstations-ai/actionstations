@@ -6,6 +6,7 @@ export interface AssetLike {
   path: string
   width?: number
   height?: number
+  durationSec?: number
 }
 export interface InjectLike {
   id: string
@@ -30,6 +31,7 @@ export interface Bundle {
   scenario: ScenarioLike
   injects: InjectLike[]
 }
+export type SeedDocument = string | { file: string; section?: string }
 export interface BuildSpec {
   id: string
   title: string
@@ -39,7 +41,13 @@ export interface BuildSpec {
   project: { name: string; orgName?: string; orgType?: string; brand?: unknown }
   documents: { dir: string; exclude?: string[] }
   media?: { aiImagesPerScenario?: number; ttsPerScenario?: number }
-  scenarios: { key: string; threatFamily: string; summary?: string; userPrompt?: string }[]
+  scenarios: {
+    key: string
+    threatFamily: string
+    summary?: string
+    userPrompt?: string
+    seed?: { scenario: string; documents?: Record<string, SeedDocument | SeedDocument[]> }
+  }[]
 }
 export interface ExampleManifest {
   id: string
@@ -64,12 +72,13 @@ export function shippedPng(buffer: Buffer): ShippedPng
 export function chooseAssets(
   projectDir: string,
   scenarios: Bundle[],
+  reserved?: number,
 ): { kept: Map<string, ShippedPng>; total: number }
 export function packageProject(
   spec: BuildSpec,
   out: string,
   dest?: string,
-): { files: number; kept: number; mediaBytes: number; bundles: Bundle[] }
+): { files: number; kept: number; mediaBytes: number; bundles: Bundle[]; clip?: string }
 export function writeManifest(
   spec: BuildSpec,
   out: string,
@@ -85,3 +94,22 @@ export interface TreeDiff {
 }
 export function hashTree(dir: string): Map<string, string>
 export function treeDiff(before: Map<string, string>, after: Map<string, string>): TreeDiff
+
+export interface WarningLike {
+  code: string
+  severity: string
+  message: string
+  rowId?: string
+  injectId?: string
+}
+export function blockingWarnings<T extends WarningLike>(stored: T[], recomputed?: T[]): T[]
+export function markdownSection(md: string, heading: string): string
+export function seedMarkdown(value: unknown, root?: string): string
+export function shippedMp3(wav: Buffer): Buffer
+export function chooseClip(
+  projectDir: string,
+  scenarios: Bundle[],
+): { asset: AssetLike; buffer: Buffer } | undefined
+export function injectContent(inject: unknown): string
+export function scenarioContent(scenario: unknown): string
+export function assertNoRewrite(result: unknown, key: string): void

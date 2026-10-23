@@ -163,8 +163,23 @@ export const LintWarning = z.object({
 export type LintWarning = z.infer<typeof LintWarning>
 
 /** Markdown documents stored as files under scenarios/<id>/documents/. Paths in
- *  Scenario.documents are project-root-relative (scenarios/<id>/documents/handbook.md). */
-export const SCENARIO_DOCS = ['overview', 'handbook', 'briefing', 'hotwash'] as const
+ *  Scenario.documents are project-root-relative (scenarios/<id>/documents/handbook.md).
+ *  `handouts` (player handouts: reference cards, evidence packets, clue cards) and
+ *  `controller_handouts` (facilitator-only material such as a clue-card deck with controller
+ *  notes) are optional and written by hand, never by a generation stage. */
+export const SCENARIO_DOCS = [
+  'overview',
+  'handbook',
+  'briefing',
+  'hotwash',
+  'handouts',
+  'controller_handouts',
+] as const
+/** Document kinds no generation stage writes. */
+export const HANDOUT_DOCS = [
+  'handouts',
+  'controller_handouts',
+] as const satisfies readonly (typeof SCENARIO_DOCS)[number][]
 export const ScenarioDocKind = z.enum(SCENARIO_DOCS)
 export type ScenarioDocKind = z.infer<typeof ScenarioDocKind>
 
@@ -200,6 +215,8 @@ export const Scenario = z.looseObject({
       briefing: RelPath.optional(),
       overview: RelPath.optional(),
       hotwash: RelPath.optional(),
+      handouts: RelPath.optional(),
+      controller_handouts: RelPath.optional(),
     })
     .default({}),
   rubric: Rubric.optional(),

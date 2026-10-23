@@ -1,28 +1,47 @@
 {
   "id": "01M5H3VDGXZXWMNBB6NTMKE7VN",
   "mselRowId": "I-12",
-  "type": "radio_call",
-  "title": "Radio: FSDO Notified — UAS-11 Unauthorized Flight",
+  "type": "phone_call",
+  "title": "Phone Call: FAA FSDO — UAS-11 Flight Outside Authorized Area",
   "deliveryMode": "hand_to_role",
   "fields": {
     "orgName": "Harwick UAS Operations Group",
-    "centerName": "Operations Command Center (OCC)",
-    "channel": "UAS-11 Incident Channel",
-    "frequency": "TG 915-01 / 915 MHz",
-    "date": "10/22/2026",
-    "callsign": "ASO-1",
-    "lines": [
+    "systemName": "OCC Recorded Line 2",
+    "callId": "CR-20261022-101203-0212",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Duty Inspector",
+      "number": "(585) 555-0188",
+      "label": "FAA Flight Standards District Office"
+    },
+    "callee": {
+      "name": "Aviation Safety Officer",
+      "number": "OCC line 2",
+      "label": "ASO"
+    },
+    "startTime": "10/22/2026 10:12:03",
+    "duration": "0:52",
+    "transcript": [
       {
-        "time": "10:12:03",
-        "from": "ASO-1",
-        "to": "Ops, SPO",
-        "text": "This is the ASO. I have just reported to the FAA FSDO via HUOG-ERP Section 6.2. Incident: unauthorized command injection, C2 link compromise, and flight outside authorized parameters. UAS-11 flew over the lodge patio, which is prohibited during guest events. Site Survey Form (FOM-3) for Birch Hollow Range does not list the van. FSDO is now in the loop."
+        "speaker": "Caller",
+        "offset": "00:00",
+        "text": "This is the duty inspector at the Flight Standards District Office. We have a report that one of your aircraft flew over the lodge patio at Birch Hollow Range during a guest event, outside the area you are authorized for.",
+        "prompt": false
+      },
+      {
+        "speaker": "Callee",
+        "offset": "00:14",
+        "text": "This is the ASO. We are aware of an event with UAS-11 and are working it now.",
+        "prompt": true
+      },
+      {
+        "speaker": "Caller",
+        "offset": "00:22",
+        "text": "I need the remote pilot in command, the aircraft registration and your preliminary account within the hour. Preserve the flight logs and the ground station exactly as they are. Who is my point of contact?",
+        "prompt": false
       }
     ],
-    "background": "office",
-    "voiceStyle": "Middle-aged female, calm but urgent, slight pause between sentences",
-    "audioFile": "I-12_radio.wav",
-    "duration": "0:17",
+    "voiceStyles": {},
     "injectId": "I-12"
   },
   "instructorNote": "This inject confirms the FSDO has been notified per HUOG-ERP Section 6 and HUOG-ISP Section 9.1. The IC must ensure no flight data is released until FSDO review is complete.",
@@ -81,18 +100,18 @@
   },
   "assets": [
     {
-      "id": "01M5H71PYA0A9NXXCSSCE4FRC2",
+      "id": "01M5N4KD28942JGHK6AS6NXTZ9",
       "kind": "image",
-      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H3VDGXZXWMNBB6NTMKE7VN/01M5H71PYA0A9NXXCSSCE4FRC2.png",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H3VDGXZXWMNBB6NTMKE7VN/01M5N4KD28942JGHK6AS6NXTZ9.png",
       "role": "rendered",
       "width": 816,
       "height": 1056,
-      "sha256": "ad1ad0a7e88ba2bb39d638a3357a1df357e8ea953f9ee5518d51344e6398b880",
+      "sha256": "32ba9b6dc3bf1a2ca77020ebeff07a9cac2a22d423088d83b7095f5d1a2b69c2",
       "provenance": {
         "provider": "template",
-        "templateId": "radio_call",
+        "templateId": "phone_call",
         "templateVersion": "1",
-        "createdAt": "2026-10-22T07:08:45.783Z"
+        "createdAt": "2026-10-23T19:42:57.491Z"
       }
     }
   ],
@@ -128,9 +147,60 @@
         "instructorNote": "This inject confirms the FSDO has been notified per HUOG-ERP Section 6 and HUOG-ISP Section 9.1. The IC must ensure no flight data is released until FSDO review is complete.",
         "deliveryMode": "hand_to_role"
       }
+    },
+    {
+      "at": "2026-10-23T19:42:56.880Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone Call: FAA FSDO — UAS-11 Flight Outside Authorized Area",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "systemName": "OCC Recorded Line 2",
+          "callId": "CR-20261022-101203-0212",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Duty Inspector",
+            "number": "(585) 555-0188",
+            "label": "FAA Flight Standards District Office"
+          },
+          "callee": {
+            "name": "Aviation Safety Officer",
+            "number": "OCC line 2",
+            "label": "ASO"
+          },
+          "startTime": "10/22/2026 10:12:03",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "Caller",
+              "offset": "00:00",
+              "text": "This is the duty inspector at the Flight Standards District Office. We have a report that one of your aircraft flew over the lodge patio at Birch Hollow Range during a guest event, outside the area you are authorized for.",
+              "prompt": false
+            },
+            {
+              "speaker": "Callee",
+              "offset": "00:14",
+              "text": "This is the ASO. We are aware of an event with UAS-11 and are working it now.",
+              "prompt": true
+            },
+            {
+              "speaker": "Caller",
+              "offset": "00:22",
+              "text": "I need the remote pilot in command, the aircraft registration and your preliminary account within the hour. Preserve the flight logs and the ground station exactly as they are. Who is my point of contact?",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-12"
+        },
+        "instructorNote": "This inject confirms the FSDO has been notified per HUOG-ERP Section 6 and HUOG-ISP Section 9.1. The IC must ensure no flight data is released until FSDO review is complete.",
+        "deliveryMode": "hand_to_role"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T07:08:45.972Z"
+  "updatedAt": "2026-10-23T19:42:57.698Z"
 }

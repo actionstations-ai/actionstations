@@ -5,10 +5,10 @@
   "title": "IT Staff Interview: Dmitri Volkov Background",
   "deliveryMode": "hand_to_role",
   "fields": {
-    "organization": "North Coast International Airport Authority — IT Department",
+    "organization": "North Coast Regional Airport Authority — IT Department",
     "formTitle": "Field Inspection Report",
     "reportNo": "IR-2026-031",
-    "date": "10/22/2026",
+    "date": "10/20/2026",
     "time": "09:00-09:15",
     "location": "IT Operations Center, Level 2, Room 104",
     "inspector": "A. Rostova, IT Systems Analyst",
@@ -35,7 +35,7 @@
       {
         "item": "After-hours server room access",
         "condition": "failed",
-        "notes": "Volkov accessed server room via badge on 10/22/2026 at 23:47; confirmed by PACS and CCTV."
+        "notes": "Volkov accessed server room via badge on 10/20/2026 at 23:47; confirmed by PACS and CCTV."
       },
       {
         "item": "Automated script execution",
@@ -82,7 +82,7 @@
       "Update SIEM rules to flag any script execution by service accounts",
       "Add behavioral anomaly detection to IT staff monitoring"
     ],
-    "photosNote": "2 photos attached: IMG_0418-0423 (CCTV still of Volkov entering server room, 11:47 PM, 10/22/2026), IMG_0423-0424 (badge scan log from 10/22/2026, 23:47) — both from NCIA-VIDEO-A (SEC-NVR-01)",
+    "photosNote": "2 photos attached: IMG_0418-0423 (CCTV still of Volkov entering server room, 11:47 PM, 10/20/2026), IMG_0423-0424 (badge scan log from 10/20/2026, 23:47) — both from NCIA-VIDEO-A (SEC-NVR-01)",
     "signature": "A. Rostova, IT Systems Analyst",
     "marking": "EXERCISE · EXERCISE · EXERCISE"
   },
@@ -209,9 +209,102 @@
         "instructorNote": "This inject confirms motive and access for the logic bomb. The emotional withdrawal is a key behavioral clue. The facilitator should watch for teams dismissing this as 'just a guy who got passed over' rather than recognizing it as a red flag.",
         "deliveryMode": "hand_to_role"
       }
+    },
+    {
+      "at": "2026-10-23T19:49:17.616Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "IT Staff Interview: Dmitri Volkov Background",
+        "type": "field_report",
+        "fields": {
+          "organization": "North Coast Regional Airport Authority — IT Department",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "IR-2026-031",
+          "date": "10/20/2026",
+          "time": "09:00-09:15",
+          "location": "IT Operations Center, Level 2, Room 104",
+          "inspector": "A. Rostova, IT Systems Analyst",
+          "unit": "IT Security Team · Station 9",
+          "reportType": "security",
+          "weather": "Clear, 61°F, wind SSW 5 mph",
+          "summary": "Interview with three senior IT staff members (including two who worked directly with Dmitri Volkov) confirms that Volkov was a high-performing NexGen Solutions contractor who led the AODB migration project. He had full administrative access to the AODB server and was responsible for creating the service account svc_nexgen_aodb. He was informally promised a full-time IT role after project completion, which was later posted externally. This caused visible behavioral changes in his final two weeks: he became quieter, avoided team gatherings, and spent extended time in the server room after hours. All three staff members noted he never expressed dissatisfaction verbally but became emotionally withdrawn.",
+          "findings": [
+            {
+              "item": "Contractor access level",
+              "condition": "ok",
+              "notes": "Dmitri Volkov had full admin rights on AODB server (10.1.10.20) and PACS system (NCIA-PACS-CORE)."
+            },
+            {
+              "item": "Orphaned service account",
+              "condition": "failed",
+              "notes": "svc_nexgen_aodb account not disabled after off-boarding; remains active and accessible from external network."
+            },
+            {
+              "item": "Scheduled task creation",
+              "condition": "ok",
+              "notes": "Volkov had authority to create and modify scheduled tasks on AODB server."
+            },
+            {
+              "item": "After-hours server room access",
+              "condition": "failed",
+              "notes": "Volkov accessed server room via badge on 10/20/2026 at 23:47; confirmed by PACS and CCTV."
+            },
+            {
+              "item": "Automated script execution",
+              "condition": "ok",
+              "notes": "Volkov had capability to deploy and execute PowerShell scripts on AODB server."
+            },
+            {
+              "item": "Motive for malicious action",
+              "condition": "deficient",
+              "notes": "No formal complaint or documentation of dissatisfaction. Emotional withdrawal noted in final two weeks, but no record of threat or intent."
+            },
+            {
+              "item": "Off-boarding process",
+              "condition": "failed",
+              "notes": "Post-project off-boarding failed to revoke service account and failed to conduct exit interview with contract employee."
+            },
+            {
+              "item": "Security awareness training",
+              "condition": "ok",
+              "notes": "All IT staff completed annual cybersecurity training (1.4.1)."
+            },
+            {
+              "item": "Incident reporting channel",
+              "condition": "ok",
+              "notes": "Employees trained to report concerns via ncia-secops.ncia-airport.org."
+            },
+            {
+              "item": "Physical access to server room",
+              "condition": "failed",
+              "notes": "Volkov used active badge to enter server room 27 days ago; badge was deactivated 2 days later but access was not blocked."
+            }
+          ],
+          "actionsTaken": [
+            "Interviewed three IT staff members on-site",
+            "Reviewed access logs for Volkov (d.volkov) and svc_nexgen_aodb",
+            "Confirmed service account was not removed during off-boarding",
+            "Documented behavioral changes in final two weeks",
+            "Notified IT Director and Security Lead via secure chat (09:14)"
+          ],
+          "recommendations": [
+            "Immediately disable svc_nexgen_aodb account and audit all associated activities",
+            "Conduct a root-cause review of contractor off-boarding process",
+            "Implement mandatory exit interviews for all contractors",
+            "Update SIEM rules to flag any script execution by service accounts",
+            "Add behavioral anomaly detection to IT staff monitoring"
+          ],
+          "photosNote": "2 photos attached: IMG_0418-0423 (CCTV still of Volkov entering server room, 11:47 PM, 10/20/2026), IMG_0423-0424 (badge scan log from 10/20/2026, 23:47) — both from NCIA-VIDEO-A (SEC-NVR-01)",
+          "signature": "A. Rostova, IT Systems Analyst",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms motive and access for the logic bomb. The emotional withdrawal is a key behavioral clue. The facilitator should watch for teams dismissing this as 'just a guy who got passed over' rather than recognizing it as a red flag.",
+        "deliveryMode": "hand_to_role"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T14:08:25.385Z"
+  "updatedAt": "2026-10-23T19:49:21.528Z"
 }

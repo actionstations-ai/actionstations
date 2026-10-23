@@ -8,7 +8,7 @@
     "orgName": "NCIA Information Technology - Security",
     "caseId": "IR-2026-031",
     "analyst": "J. Okafor",
-    "analyzedAt": "10/22/2026 09:15",
+    "analyzedAt": "10/20/2026 09:15",
     "subject": "Something will happen at NCIA at exactly 12:00 PM today. You won't find it in time. But you're welcome to try.",
     "displayFrom": "ncia_reckoning@proton.me",
     "recipient": "it-security@ncia-airport.org",
@@ -44,19 +44,19 @@
       {
         "from": "protonmail.com",
         "by": "protonmail.com",
-        "time": "10/22/2026 08:57:12",
+        "time": "10/20/2026 08:57:12",
         "flag": true
       },
       {
         "from": "10.66.0.10",
         "by": "NCIA-PACS-CORE",
-        "time": "10/22/2026 08:57:14",
+        "time": "10/20/2026 08:57:14",
         "flag": false
       },
       {
         "from": "10.66.0.50",
         "by": "NCIA-ENROLL",
-        "time": "10/22/2026 08:57:15",
+        "time": "10/20/2026 08:57:15",
         "flag": false
       }
     ],
@@ -87,7 +87,7 @@
       },
       {
         "name": "Date",
-        "value": "Tue, 22 Oct 2026 08:57:12 -0500",
+        "value": "Tue, 20 Oct 2026 08:57:12 -0500",
         "flag": true,
         "note": "Timezone header: UTC-5 (Eastern Time); matches local airport clock"
       },
@@ -111,13 +111,13 @@
       },
       {
         "name": "Received",
-        "value": "from 10.66.0.10 (10.66.0.10) by NCIA-PACS-CORE; 22 Oct 2026 08:57:14 -0500",
+        "value": "from 10.66.0.10 (10.66.0.10) by NCIA-PACS-CORE; 20 Oct 2026 08:57:14 -0500",
         "flag": false,
         "note": "Internal hop from AODB server (10.66.0.10) — likely a system mailbox"
       },
       {
         "name": "Received",
-        "value": "from 10.66.0.50 (10.66.0.50) by NCIA-ENROLL; 22 Oct 2026 08:57:15 -0500",
+        "value": "from 10.66.0.50 (10.66.0.50) by NCIA-ENROLL; 20 Oct 2026 08:57:15 -0500",
         "flag": false,
         "note": "Second hop from badging workstation (10.66.0.50) — suggests spoofed or compromised local system"
       }
@@ -279,9 +279,140 @@
         "instructorNote": "This inject tests if the team spends time chasing dead-end forensic leads. The Windows 11/Chrome 122/UTC-5 metadata will be useful later if they follow up on A-20. Do not let them waste time on ProtonMail tracing.",
         "deliveryMode": "hand_to_role"
       }
+    },
+    {
+      "at": "2026-10-23T19:49:17.556Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email Header Analysis: ProtonMail Anomaly",
+        "type": "email_header_analysis",
+        "fields": {
+          "orgName": "NCIA Information Technology - Security",
+          "caseId": "IR-2026-031",
+          "analyst": "J. Okafor",
+          "analyzedAt": "10/20/2026 09:15",
+          "subject": "Something will happen at NCIA at exactly 12:00 PM today. You won't find it in time. But you're welcome to try.",
+          "displayFrom": "ncia_reckoning@proton.me",
+          "recipient": "it-security@ncia-airport.org",
+          "verdict": "suspicious",
+          "checks": [
+            {
+              "label": "SPF",
+              "result": "none",
+              "detail": "No SPF record found for ncia_reckoning@proton.me"
+            },
+            {
+              "label": "DKIM",
+              "result": "none",
+              "detail": "No DKIM signature present"
+            },
+            {
+              "label": "DMARC",
+              "result": "none",
+              "detail": "No DMARC policy for ncia_reckoning@proton.me"
+            },
+            {
+              "label": "Sender Reputation",
+              "result": "fail",
+              "detail": "ProtonMail domain listed in threat intelligence feed as high-risk for anonymized threat sources"
+            },
+            {
+              "label": "Origin IP",
+              "result": "none",
+              "detail": "No traceable origin IP — email routed through Tor via ProtonMail's Swiss servers"
+            }
+          ],
+          "hops": [
+            {
+              "from": "protonmail.com",
+              "by": "protonmail.com",
+              "time": "10/20/2026 08:57:12",
+              "flag": true
+            },
+            {
+              "from": "10.66.0.10",
+              "by": "NCIA-PACS-CORE",
+              "time": "10/20/2026 08:57:14",
+              "flag": false
+            },
+            {
+              "from": "10.66.0.50",
+              "by": "NCIA-ENROLL",
+              "time": "10/20/2026 08:57:15",
+              "flag": false
+            }
+          ],
+          "headers": [
+            {
+              "name": "From",
+              "value": "ncia_reckoning@proton.me",
+              "flag": true,
+              "note": "ProtonMail-encrypted sender; no real identity visible"
+            },
+            {
+              "name": "To",
+              "value": "it-security@ncia-airport.org",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "Subject",
+              "value": "Something will happen at NCIA at exactly 12:00 PM today. You won't find it in time. But you're welcome to try.",
+              "flag": true,
+              "note": "Contains time-specific threat; matches exercise timeline"
+            },
+            {
+              "name": "Message-ID",
+              "value": "<1234567890@protonmail.com>",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "Date",
+              "value": "Tue, 20 Oct 2026 08:57:12 -0500",
+              "flag": true,
+              "note": "Timezone header: UTC-5 (Eastern Time); matches local airport clock"
+            },
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.6261.112 Safari/537.36",
+              "flag": true,
+              "note": "Indicates Windows 11 OS and Chrome 122; consistent with contractor's known environment"
+            },
+            {
+              "name": "MIME-Version",
+              "value": "1.0",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "Content-Type",
+              "value": "text/plain; charset=utf-8",
+              "flag": false,
+              "note": ""
+            },
+            {
+              "name": "Received",
+              "value": "from 10.66.0.10 (10.66.0.10) by NCIA-PACS-CORE; 20 Oct 2026 08:57:14 -0500",
+              "flag": false,
+              "note": "Internal hop from AODB server (10.66.0.10) — likely a system mailbox"
+            },
+            {
+              "name": "Received",
+              "value": "from 10.66.0.50 (10.66.0.50) by NCIA-ENROLL; 20 Oct 2026 08:57:15 -0500",
+              "flag": false,
+              "note": "Second hop from badging workstation (10.66.0.50) — suggests spoofed or compromised local system"
+            }
+          ],
+          "conclusion": "This email is a high-priority threat indicator. It was sent from a ProtonMail account using end-to-end encryption and routed through Swiss servers via Tor, rendering standard IP tracing ineffective. The sender used a Windows 11 environment with Chrome 122 and explicitly set the timezone to UTC-5, aligning with local airport time. The message contains a time-bound threat targeting 12:00 PM today, which matches the exercise timeline. The email passed through NCIA-PACS-CORE (10.66.0.10) and NCIA-ENROLL (10.66.0.50), both critical assets in the SecNet. While no authentication checks pass, the user-agent and timezone metadata may provide indirect linkage to the former contractor, Dmitri Volkov, if cross-referenced with offboarding logs. No direct evidence of compromise found yet, but the sender's behavior suggests deliberate obfuscation. Treat as a red herring for now, but preserve all headers for later correlation."
+        },
+        "instructorNote": "This inject tests if the team spends time chasing dead-end forensic leads. The Windows 11/Chrome 122/UTC-5 metadata will be useful later if they follow up on A-20. Do not let them waste time on ProtonMail tracing.",
+        "deliveryMode": "hand_to_role"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T14:08:22.675Z"
+  "updatedAt": "2026-10-23T19:49:18.392Z"
 }

@@ -11,6 +11,10 @@ export interface ExportDocs {
   briefing: string
   hotwash: string
   overview: string
+  /** Player handouts (players/ and facilitator/); '' when the scenario has none. */
+  handouts: string
+  /** Facilitator-only handouts (facilitator/ only); '' when the scenario has none. */
+  controller_handouts: string
 }
 
 export interface ExportModel {
@@ -38,13 +42,14 @@ export async function loadExportModel(
     listInjects(root, scenarioId),
   ])
   const injects = liveInjects(scenario, all)
-  const read = (kind: 'handbook' | 'briefing' | 'hotwash' | 'overview') =>
-    readScenarioDoc(root, scenarioId, kind)
-  const [handbook, briefing, hotwash, overview] = await Promise.all([
+  const read = (kind: keyof ExportDocs) => readScenarioDoc(root, scenarioId, kind)
+  const [handbook, briefing, hotwash, overview, handouts, controllerHandouts] = await Promise.all([
     read('handbook'),
     read('briefing'),
     read('hotwash'),
     read('overview'),
+    read('handouts'),
+    read('controller_handouts'),
   ])
   const scenarioNo = scenarioNumber(scenario, project.scenarios)
   const media = planMediaFiles(scenarioNo, injects)
@@ -59,7 +64,14 @@ export async function loadExportModel(
     },
     scenario,
     injects,
-    docs: { handbook, briefing, hotwash, overview },
+    docs: {
+      handbook,
+      briefing,
+      hotwash,
+      overview,
+      handouts,
+      controller_handouts: controllerHandouts,
+    },
     scenarioNo,
     media,
     available: await availablePaths(root, injects, project.brand.logoPath),

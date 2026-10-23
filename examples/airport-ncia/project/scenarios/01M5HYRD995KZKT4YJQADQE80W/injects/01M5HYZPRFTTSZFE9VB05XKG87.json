@@ -6,7 +6,7 @@
   "deliveryMode": "hand_to_role",
   "fields": {
     "number": "3",
-    "time": "10/22/2026 0910 EDT",
+    "time": "10/20/2026 0910 EDT",
     "organization": "North Coast Regional Airport Authority",
     "issuingOffice": "IT Security Operations Center",
     "incidentName": "Anonymous Threat — Logic Bomb Hunt",
@@ -171,9 +171,83 @@
         "instructorNote": "This is a confirmatory inject, not a discovery. It reinforces Volkov as a suspect only if the team has already identified him. Watch for over-reliance on generic matches; the real value is in convergence with A-06 and A-14.",
         "deliveryMode": "hand_to_role"
       }
+    },
+    {
+      "at": "2026-10-23T19:49:17.634Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SITREP: Email Metadata Cross-Ref — Volkov Device Consistency",
+        "type": "sitrep",
+        "fields": {
+          "number": "3",
+          "time": "10/20/2026 0910 EDT",
+          "organization": "North Coast Regional Airport Authority",
+          "issuingOffice": "IT Security Operations Center",
+          "incidentName": "Anonymous Threat — Logic Bomb Hunt",
+          "period": "0900-0910",
+          "from": "IT Security",
+          "to": "IT Security; Cyber Incident Response Team; Unified Command",
+          "summary": "A cross-reference of the anonymous email's metadata against contractor device records confirms alignment with Dmitri Volkov’s known environment. The email’s user-agent string (Windows 11, Chrome 122) matches the OS and browser configuration of Volkov’s NCIA-issued laptop, which was returned to IT after off-boarding. The timezone header (UTC-5) is consistent with NCIA’s local time zone. While not conclusive on its own, this data point strengthens the forensic thread linking Volkov to the threat. No new anomalies were detected in the analysis.",
+          "keyStatus": [
+            {
+              "label": "AODB Service",
+              "value": "Operational"
+            },
+            {
+              "label": "FIDS Data Feed",
+              "value": "Intact"
+            },
+            {
+              "label": "PACS Access",
+              "value": "Normal"
+            },
+            {
+              "label": "SIEM Alerting",
+              "value": "Disabled for service account events"
+            },
+            {
+              "label": "Scheduled Tasks",
+              "value": "One suspicious task active on AODB-SVR-01"
+            }
+          ],
+          "actions": [
+            {
+              "time": "0900",
+              "text": "Initiated metadata cross-reference between ProtonMail email headers and IT asset inventory for contractors."
+            },
+            {
+              "time": "0905",
+              "text": "Verified Volkov’s NCIA-issued laptop (Asset Tag: SEC-LAP-09) had Windows 11 and Chrome 122 as default OS and browser."
+            },
+            {
+              "time": "0908",
+              "text": "Confirmed UTC-5 timezone in email header matches NCIA’s operational zone."
+            },
+            {
+              "time": "0910",
+              "text": "Compiled findings into SITREP for internal cyber response team and Unified Command."
+            }
+          ],
+          "planned": [
+            "Review AODB_IndexMaintenance.ps1 script payload for forensic markers.",
+            "Audit all service accounts in the AODB domain for persistence mechanisms.",
+            "Coordinate with CISA on remote forensic analysis for task execution chain."
+          ],
+          "issues": [
+            "No access to Volkov’s personal devices or home network; all evidence is internal to NCIA systems."
+          ],
+          "nextReport": "0930 or on significant change",
+          "preparedBy": "T. Ruiz, Senior Cyber Analyst",
+          "approvedBy": "J. Miller, IT Security Lead",
+          "marking": "EXERCISE EXERCISE EXERCISE"
+        },
+        "instructorNote": "This is a confirmatory inject, not a discovery. It reinforces Volkov as a suspect only if the team has already identified him. Watch for over-reliance on generic matches; the real value is in convergence with A-06 and A-14.",
+        "deliveryMode": "hand_to_role"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T14:08:26.630Z"
+  "updatedAt": "2026-10-23T19:49:22.364Z"
 }

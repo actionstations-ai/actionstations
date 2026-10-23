@@ -6,7 +6,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-22T06:45:53.817Z",
-  "updatedAt": "2026-10-22T13:25:04.592Z",
+  "updatedAt": "2026-10-23T19:43:42.096Z",
   "brief": {
     "userPrompt": "At 02:40 a remote-support session through the DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building raises the Caustic Feed System dose setpoint (NAOH-FC-203) step by step toward 40 mg/L while the single night operator is on rounds; finished-water pH climbs on AIT-302, the hard-wired high-high switch PSH-302 and a grab sample disagree with what the HMI trend shows. Vendor remote access, manual chemical feed, isolating the control network, Ohio EPA notification and the Do Not Drink decision for Zone 1.",
     "audience": [
@@ -300,11 +300,12 @@
       "from": "Lab Analyst",
       "toRoleIds": [
         "wq",
-        "ops"
+        "ops",
+        "regulator"
       ],
-      "toLabel": "WQ, IC",
+      "toLabel": "WQ, IC, Regulator",
       "event": "Email Forward: From: Lab Assistant (LIMS System) | To: Marcus Oyelaran, Water Quality Manager | Subject: Urgent: Sample 24-1187 (Effluent) - pH 9.3, Caustic 38 mg/L\n\n- Sample ID: 24-1187\n- Source: Effluent line, RWTP\n- Time collected: 09:18\n- pH: 9.3\n- Caustic dose (measured): 38 mg/L\n- Alert: pH > 9.5, Caustic > 40 mg/L (PLC clamp) — trigger for advisory\n- System note: This exceeds the PLC hard limit (40 mg/L) and confirms a control-system anomaly.\n\nAttached: LIMS report with full traceability.",
-      "expectedAction": "WQ confirms the lab results and immediately notifies the Director and the SCADA / IT Security Manager. WQ declares a Level 3 condition per EOP 7.5 and triggers the advisory decision clock (Section 5.3).",
+      "expectedAction": "WQ confirms the lab results and immediately notifies the Director and the SCADA / IT Security Manager. WQ declares a Level 3 condition per EOP 7.5 and triggers the advisory decision clock (Section 5.3). The Ohio EPA DDAGW Central District liaison logs the exceedance and asks when the department will make its formal notification.",
       "purposeTag": "CORE_NARRATIVE",
       "format": "email_forward",
       "injectId": "01M5H6583GJFF07T13DFMG6PP7",
@@ -430,11 +431,12 @@
       "toRoleIds": [
         "ops",
         "wq",
-        "pio"
+        "pio",
+        "security"
       ],
-      "toLabel": "IC, WQ, PIO",
+      "toLabel": "IC, WQ, PIO, Sec",
       "event": "Phone Call: 'This is Thomas Greene, Carver County EMA. I have activated the County EOC and am deploying the Joint Information Center (JIC). I am directing the Public Information Officer to begin issuing public advisories per MDWS-PCP-2026, Section 10. I require confirmation of the affected zone and a public statement within 30 minutes.'",
-      "expectedAction": "The Incident Commander authorizes the Public Information Officer to release the advisory using the Section 10 template; the Water Quality Manager confirms the health effects content. The PIO issues the advisory to MillbrookAlert, the website, and social media within 30 minutes.",
+      "expectedAction": "The Incident Commander authorizes the Public Information Officer to release the advisory using the Section 10 template; the Water Quality Manager confirms the health effects content. The PIO issues the advisory to MillbrookAlert, the website, and social media within 30 minutes. The Security & Emergency Manager names the department liaison to the County EOC and confirms the call-back number.",
       "purposeTag": "CORE_NARRATIVE",
       "format": "phone_call",
       "injectId": "01M5H66JWKCW0NMJY2W1SS3123",
@@ -1856,27 +1858,6 @@
       "rowId": "I-09",
       "source": "critique",
       "suggestion": "Update the HMI status to reflect that the local manual stop was successful, and the pump is off, to match the physical state."
-    },
-    {
-      "code": "ROLE_NO_INJECT",
-      "severity": "warning",
-      "message": "Security & Emergency Manager (Sec) receives no inject in phase 1 \"The Sighting\"",
-      "source": "lint"
-    },
-    {
-      "code": "ROLE_NO_INJECT",
-      "severity": "warning",
-      "message": "Ohio EPA DDAGW Central District (Regulator Liaison) receives no inject in phase 1 \"The Sighting\"",
-      "source": "lint"
-    },
-    {
-      "code": "INJECT_CONTENT_ISSUE",
-      "severity": "warning",
-      "message": "I-11c: content still inconsistent after one repair:\n- fields.readings[].label: \"Finished Cl2 residual\" is the template's example, not this row's content; write what the row's source and event say\n- fields: Storage tank / reservoir CAUSTIC BULK TANK (the documents list Hilltop Tank, Northgate Reservoir, Orchard Standpipe) is not in the facility facts; use one that exists\n- fields: Storage tank / reservoir HYPOCHLORITE TANK (the documents list Hilltop Tank, Northgate Reservoir, Orchard Standpipe) is not in the facility facts; use one that exists",
-      "rowId": "I-11c",
-      "injectId": "01M5H71D0J5DE42TEAR7NDQ90H",
-      "source": "lint",
-      "suggestion": "Open the inject editor and fix the flagged content"
     }
   ],
   "provenance": [
@@ -3087,8 +3068,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6583GJFF07T13DFMG6PP7",
-      "startedAt": "2026-10-22T07:14:36.572Z",
-      "finishedAt": "2026-10-22T07:14:36.783Z",
+      "startedAt": "2026-10-23T19:43:36.879Z",
+      "finishedAt": "2026-10-23T19:43:37.205Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3429,8 +3410,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H66JWKCW0NMJY2W1SS3123",
-      "startedAt": "2026-10-22T13:23:16.663Z",
-      "finishedAt": "2026-10-22T13:23:42.566Z",
+      "startedAt": "2026-10-23T19:43:37.207Z",
+      "finishedAt": "2026-10-23T19:43:37.410Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -3447,8 +3428,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H71D0J5DE42TEAR7NDQ90H",
-      "startedAt": "2026-10-22T13:23:42.568Z",
-      "finishedAt": "2026-10-22T13:23:42.738Z",
+      "startedAt": "2026-10-23T19:43:37.412Z",
+      "finishedAt": "2026-10-23T19:43:37.586Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0

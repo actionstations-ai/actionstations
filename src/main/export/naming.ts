@@ -121,6 +121,8 @@ export function documentFileNames(
     exercisePlan: `${t}-Exercise-Plan.pdf`,
     handbookDocx: `${t}-Controller-Evaluator-Handbook.docx`,
     briefingDocx: `${t}-Player-Briefing-Packet.docx`,
+    handouts: `${t}-Player-Handouts.pdf`,
+    controllerHandouts: `${t}-Controller-Materials.pdf`,
     ics201: 'ICS-201-Incident-Briefing-blank.pdf',
     ics203: 'ICS-203-Organization-Assignment-List-blank.pdf',
     folder: base,

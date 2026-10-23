@@ -55,11 +55,12 @@ export function markdownToHtml(md: string): string {
  * Markdown for a document body under the export's own title block: the leading run of
  * title headings (`# Handbook` / `## Scenario 3…`) is dropped and the remaining headings are
  * shifted so the shallowest becomes `baseLevel` (keeps the PDF outline h1 → h2 → h3).
+ * `keepTitles` keeps that leading run (handouts: every `#` heading is a card of its own).
  */
-export function documentBodyHtml(md: string, baseLevel = 2): string {
+export function documentBodyHtml(md: string, baseLevel = 2, keepTitles = false): string {
   const tokens = markdown.lexer(stripSectionMarkers(md))
   let i = 0
-  while (i < tokens.length) {
+  while (!keepTitles && i < tokens.length) {
     const t = tokens[i]!
     if (t.type === 'space' || (t.type === 'heading' && t.depth <= 2)) i++
     else break

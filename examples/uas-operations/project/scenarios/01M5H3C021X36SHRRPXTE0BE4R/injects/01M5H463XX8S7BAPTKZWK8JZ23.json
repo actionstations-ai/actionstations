@@ -82,18 +82,20 @@
   },
   "assets": [
     {
-      "id": "01M5HX4J6B4H2A1557RS3YBYMQ",
-      "kind": "image",
-      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H463XX8S7BAPTKZWK8JZ23/01M5HX4J6B4H2A1557RS3YBYMQ.png",
-      "role": "rendered",
-      "width": 816,
-      "height": 1056,
-      "sha256": "3eebb3cd45230b891d85ce363fd9f8e8c0ad25e8cfa8b3408f3c964e75c04b14",
+      "id": "01M5HX4VKFXY8N2FFHEW59N2T7",
+      "kind": "audio",
+      "path": "scenarios/01M5H3C021X36SHRRPXTE0BE4R/media/01M5H463XX8S7BAPTKZWK8JZ23/01M5HX4VKFXY8N2FFHEW59N2T7.mp3",
+      "role": "generated",
+      "durationSec": 30.72,
+      "sha256": "98d28d534df5f7bb5d688018340a58a3c4268c60d0f200f197d0213e65bb0ac3",
       "provenance": {
-        "provider": "template",
-        "templateId": "phone_call",
-        "templateVersion": "1",
-        "createdAt": "2026-10-22T13:34:47.899Z"
+        "provider": "local-tts-mlx-audio-333c",
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+        "prompt": "FSDO: Incident Commander, this is the FAA FSDO. UAS-11 has been landed manually on the meadow. The GCS is quarantined. The fleet of that type is grounded per ISP Section 9.1. The incident is under investigation. The FSDO has been updated on the status and the hold on data transfer. Please confirm that all required logs and telemetry have been submitted and that no further flights will occur until the investigation is closed.",
+        "postFx": [
+          "phone"
+        ],
+        "createdAt": "2026-10-22T13:34:57.648Z"
       }
     }
   ],

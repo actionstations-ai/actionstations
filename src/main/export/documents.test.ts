@@ -71,6 +71,21 @@ describe('document HTML', () => {
     )
   })
 
+  it('handouts: the hand-written markdown under its own label, escaped (#224)', () => {
+    const model = fixtureModel()
+    model.docs.handouts =
+      '# Action Menu Card\n\n| ID | Action |\n|---|---|\n| A-01 | Trace <b onclick=x>the</b> email |'
+    model.docs.controller_handouts = '# Clue Cards Deck\n\nController note: keep this.'
+    const players = buildDocumentHtml(model, 'handouts', 'pdf')
+    expect(players).toContain('Player Handouts')
+    expect(players).toContain('Action Menu Card')
+    expect(players).toContain('A-01')
+    expect(players).not.toMatch(/<b onclick/i)
+    const controller = buildDocumentHtml(model, 'controller_handouts', 'pdf')
+    expect(controller).toContain('Controller Materials')
+    expect(controller).toContain('Controller note: keep this.')
+  })
+
   it('preview mode loads media through ttx-media:// instead of file:', () => {
     const html = buildDocumentHtml(fixtureModel(), 'deck', 'preview')
     expect(html).toContain('src="ttx-media://project/')

@@ -5,11 +5,20 @@ export const DOC_LABELS: Record<ScenarioDocKind, string> = {
   briefing: 'Player briefing',
   hotwash: 'Hot wash guide',
   overview: 'MSEL document',
+  handouts: 'Player handouts',
+  controller_handouts: 'Controller materials',
 }
-export const DOC_ORDER: ScenarioDocKind[] = ['handbook', 'briefing', 'hotwash', 'overview']
+export const DOC_ORDER: ScenarioDocKind[] = [
+  'handbook',
+  'briefing',
+  'hotwash',
+  'overview',
+  'handouts',
+  'controller_handouts',
+]
 
-/** The generation stage that writes each document. */
-export const DOC_STAGE: Record<ScenarioDocKind, Stage> = {
+/** The generation stage that writes each document; handouts are written by hand only. */
+export const DOC_STAGE: Partial<Record<ScenarioDocKind, Stage>> = {
   handbook: 'controller_handbook',
   briefing: 'player_briefing',
   hotwash: 'hotwash',
@@ -28,7 +37,8 @@ export const PART_STAGE: Record<StructuredPart, Stage> = {
 }
 
 /** When the stage last finished successfully (ISO), or undefined. */
-export function lastGenerated(scenario: Scenario, stage: Stage): string | undefined {
+export function lastGenerated(scenario: Scenario, stage: Stage | undefined): string | undefined {
+  if (!stage) return undefined
   return scenario.provenance
     .filter((r) => r.stage === stage && r.status === 'ok' && r.finishedAt)
     .map((r) => r.finishedAt!)

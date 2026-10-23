@@ -25,7 +25,7 @@
       {
         "speaker": "Caller",
         "offset": "00:00",
-        "text": "This is Thomas Greene, Carver County EMA. I have activated the County EOC and am deploying the Joint Information Center (JIC). I am directing the Public Information Officer to begin issuing public advisories per MDWS-PCP-2026, Section 10. I require confirmation of the affected zone and a public statement within 30 minutes.",
+        "text": "This is Thomas Greene, Carver County EMA. I have activated the County EOC and am standing up the Joint Information Center. I need your department’s EOC liaison on the line and confirmation of the affected zone, and the county expects a public statement within 30 minutes.",
         "prompt": false
       },
       {
@@ -96,18 +96,18 @@
   },
   "assets": [
     {
-      "id": "01M5HWFF61C1BPWA9GNVA8CHKF",
+      "id": "01M5N4MKVKXNK7CXBE33SRR0C8",
       "kind": "image",
-      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H66JWKCW0NMJY2W1SS3123/01M5HWFF61C1BPWA9GNVA8CHKF.png",
+      "path": "scenarios/01M5H5QV0SX30ZXCBK3QMBSP9Q/media/01M5H66JWKCW0NMJY2W1SS3123/01M5N4MKVKXNK7CXBE33SRR0C8.png",
       "role": "rendered",
       "width": 816,
       "height": 1056,
-      "sha256": "c9549c0aac32e928232877d9f790110abf2fc3b6cd21f3ee7beb170ed12d0a9b",
+      "sha256": "0cf9d860db764b7052a6f46f08c9f45ad9fb74d97515c971a54fb16a9c3cb6c2",
       "provenance": {
         "provider": "template",
         "templateId": "phone_call",
         "templateVersion": "1",
-        "createdAt": "2026-10-22T13:23:16.664Z"
+        "createdAt": "2026-10-23T19:43:37.211Z"
       }
     }
   ],
@@ -219,9 +219,60 @@
         "instructorNote": "This inject triggers the public advisory release sequence. The PIO must now initiate the full public statement rollout using the Section 10 template and confirm the affected zone with GIS. Watch for delays in the statement issuance.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-23T19:43:36.843Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone Call: Carver County EMA — EOC Activation",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Carver County Emergency Management Agency",
+          "systemName": "EMA-9000 Call Recorder",
+          "callId": "CR-20261022-095012-0402",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Thomas Greene",
+            "number": "(555) 034-1199",
+            "label": "Carver County EMA, EOC Operations Lead"
+          },
+          "callee": {
+            "name": "Denise Albrecht",
+            "number": "(555) 031-2244",
+            "label": "Director of Water Operations"
+          },
+          "startTime": "10/22/2026 09:50:12",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "Caller",
+              "offset": "00:00",
+              "text": "This is Thomas Greene, Carver County EMA. I have activated the County EOC and am standing up the Joint Information Center. I need your department’s EOC liaison on the line and confirmation of the affected zone, and the county expects a public statement within 30 minutes.",
+              "prompt": false
+            },
+            {
+              "speaker": "Callee",
+              "offset": "00:33",
+              "text": "Understood, Thomas. I am confirming the affected zone is Zone 1, including Valley and Hilltop areas. The advisory will be issued under the Do Not Drink protocol. I am authorizing the Public Information Officer to proceed with the Section 10 template immediately.",
+              "prompt": false
+            },
+            {
+              "speaker": "Caller",
+              "offset": "00:49",
+              "text": "Confirmed. The County EOC is now active. We will begin coordinating with the Health Department and the FBI through the joint cyber-incident cell. You have 30 minutes to publish the first advisory. I will expect a progress update in 15 minutes.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-06"
+        },
+        "instructorNote": "This inject triggers the public advisory release sequence. The PIO must now initiate the full public statement rollout using the Section 10 template and confirm the affected zone with GIS. Watch for delays in the statement issuance.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T13:23:42.565Z"
+  "updatedAt": "2026-10-23T19:43:37.407Z"
 }

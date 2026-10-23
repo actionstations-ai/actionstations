@@ -6,6 +6,7 @@ import {
   Project,
   RelPath,
   Scenario,
+  ScenarioDocKind,
   exerciseMinutes,
   formatExerciseTime,
 } from './index'
@@ -61,6 +62,28 @@ describe('schemas', () => {
     })
     expect(s.brief.durationHours).toBe(4)
     expect(s.msel).toEqual([])
+  })
+
+  it('keeps older scenario documents and accepts the optional handout kinds (#224)', () => {
+    const base = { id: 's1', projectId: 'p1', title: 'Countdown', createdAt: now, updatedAt: now }
+    const old = Scenario.parse({
+      ...base,
+      brief: {},
+      documents: { handbook: 'scenarios/s1/documents/handbook.md' },
+    })
+    expect(old.documents).toEqual({ handbook: 'scenarios/s1/documents/handbook.md' })
+    const withHandouts = Scenario.parse({
+      ...base,
+      brief: {},
+      documents: {
+        handouts: 'scenarios/s1/documents/handouts.md',
+        controller_handouts: 'scenarios/s1/documents/controller_handouts.md',
+      },
+    })
+    expect(withHandouts.documents.handouts).toBe('scenarios/s1/documents/handouts.md')
+    expect(ScenarioDocKind.options).toEqual(
+      expect.arrayContaining(['handouts', 'controller_handouts']),
+    )
   })
 
   it('rejects project-relative paths that escape', () => {

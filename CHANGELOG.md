@@ -53,6 +53,17 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 - Organization-name check for injects (#221): a name that starts like the organization's but is not the project name, `orgName` or `brand.aliases.org` ("North Coast Regional Airport") goes back to the model in the repair round, and becomes an inject warning if it survives.
 - Confirm before quitting or closing the window with unsaved work (#196): main asks the renderer (with a timeout, so a hung page never blocks quitting), which saves pending autosaves first and reports inject drafts, edits parked during generation and editors whose save was refused or failed; a native dialog offers "Quit and discard" or "Cancel".
 - Inject deck cards show a **Draft** badge when the inject has unsaved edits, and the scenario page notes how many injects have an unsaved draft (#202).
+- Player handouts and controller materials (#224): two optional scenario document kinds
+  (`handouts`, `controller_handouts`), listed in the Documents tab and exported as
+  Player Handouts (also in the ZIP's `players/`) and Controller Materials (`facilitator/` only)
+  PDFs. The airport example ships the scenario 1, 2, 4–8 reference cards, evidence packets,
+  Countdown's action menu and clue cards, plus an MSEL document and hot wash guide for every
+  scenario, seeded from `reference/scenario-N/`.
+- Each bundled example ships one short voice clip (MP3, inside the 6 MB budget) (#219).
+- `make-example.mjs refresh` records hand corrections to an example and re-renders their cards
+  with no model reachable; `verify` now fails on any lint warning other than CRITIQUE notes,
+  and `tests/scripts/example-content.test.ts` re-runs the content checks on every shipped
+  inject (#220).
 
 - Project logo: **Logo** in project settings copies a PNG, JPEG or WebP (2 MB max, type
   checked from the bytes) into `<project>/brand/` and sets `brand.logoPath`; templates read it as
@@ -119,6 +130,16 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 - After a restart, an interrupted inject or media job no longer locks the inject deck (#194):
   it shows "Interrupted" with Resume / Dismiss instead of a frozen progress banner, Write all
   and Render all stay usable, and dismissing (cancelling) a restored job now sends `job:done`.
+- Bundled examples carry no lint warnings (#220): city-water phase 1 reaches the Security &
+  Emergency Manager and the state regulator liaison, UAS I-10 narrates no player decision and
+  I-12 comes from the FSDO instead of the ASO, Flight to Nowhere I-02a/I-07 no longer carry
+  template example values and I-11 frames Gate C4 as the bad data's gate.
+- Airport example organization names: North Coast International Airport (NCIA) and the North
+  Coast Regional Airport Authority (NCRAA) throughout the inject fields (#221).
+- Flight to Nowhere fidelity (#222): the I-15 ENDEX board shows the normal "UA 1245 Chicago ON
+  TIME" recovery, the I-02 ticket is the FIDS ticket (its own number, FIDS feed CI, no
+  vending-machine notes), and I-10b is a phone call in the fixture and the example.
+- Countdown's STARTEX card and inject dates match the MSEL's Tuesday (#239).
 
 - Lint false positives found on the bundled examples (#185): a named site with a leading
   article ("The Lakeshore Flight Area"), a rogue device the row itself calls unknown ("No

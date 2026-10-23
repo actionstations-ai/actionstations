@@ -7,7 +7,7 @@
   "fields": {
     "orgName": "North Coast Regional Airport Authority",
     "systemName": "TSA/FBI Integrated Threat Line",
-    "callId": "CR-20261022-090015-0013",
+    "callId": "CR-20261020-090015-0013",
     "direction": "Inbound",
     "caller": {
       "name": "FBI Special Agent Elena Marquez",
@@ -19,7 +19,7 @@
       "number": "(330) 555-2401",
       "label": "TSA-NCIA-1"
     },
-    "startTime": "10/22/2026 09:00:15",
+    "startTime": "10/20/2026 09:00:15",
     "duration": "0:52",
     "transcript": [
       {
@@ -37,7 +37,7 @@
       {
         "speaker": "FBI-DC",
         "offset": "0:16",
-        "text": "Negative, Supervisor. No credible threat advisories for North Coast Regional Airport at this time. The FBI has no open case on NCIA, and no known threats involving any known or suspected actors.",
+        "text": "Negative, Supervisor. No credible threat advisories for North Coast International Airport at this time. The FBI has no open case on NCIA, and no known threats involving any known or suspected actors.",
         "prompt": false
       },
       {
@@ -214,9 +214,87 @@
         "instructorNote": "This inject confirms no active threat; it’s a dead end for immediate action but validates the FBI’s readiness to open a case if a suspect is identified. Watch for players to close the loop later when they find Volkov.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-23T19:49:17.609Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "TSA/FBI Threat Check — No Active Advisory",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "systemName": "TSA/FBI Integrated Threat Line",
+          "callId": "CR-20261020-090015-0013",
+          "direction": "Inbound",
+          "caller": {
+            "name": "FBI Special Agent Elena Marquez",
+            "number": "(216) 555-2000",
+            "label": "FBI-DC"
+          },
+          "callee": {
+            "name": "TSA Supervisor Marcus Reed",
+            "number": "(330) 555-2401",
+            "label": "TSA-NCIA-1"
+          },
+          "startTime": "10/20/2026 09:00:15",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "FBI-DC",
+              "offset": "0:00",
+              "text": "TSA Supervisor Reed, this is FBI Special Agent Marquez, calling from the Joint Terrorism Task Force in Cleveland. We’ve just received your request for a threat assessment on NCIA.",
+              "prompt": false
+            },
+            {
+              "speaker": "TSA-NCIA-1",
+              "offset": "0:08",
+              "text": "Agent Marquez, thank you for the callback. We’re currently running a baseline threat check on a prior alert received via ProtonMail. Is there any active intelligence on NCIA?",
+              "prompt": false
+            },
+            {
+              "speaker": "FBI-DC",
+              "offset": "0:16",
+              "text": "Negative, Supervisor. No credible threat advisories for North Coast International Airport at this time. The FBI has no open case on NCIA, and no known threats involving any known or suspected actors.",
+              "prompt": false
+            },
+            {
+              "speaker": "FBI-DC",
+              "offset": "0:25",
+              "text": "TSA’s threat level remains ELEVATED (Bravo). That’s unchanged. We’re not flagging any new activity or pattern that would suggest an imminent risk to your facility.",
+              "prompt": false
+            },
+            {
+              "speaker": "TSA-NCIA-1",
+              "offset": "0:33",
+              "text": "Understood. Is there any way we could get a formal file opened if we identify a suspect later?",
+              "prompt": false
+            },
+            {
+              "speaker": "FBI-DC",
+              "offset": "0:38",
+              "text": "Yes — absolutely. We’ll open a case file on any individual you identify as a potential threat actor. But we need a name, a descriptor, or a known link to an incident. No leads, no file.",
+              "prompt": false
+            },
+            {
+              "speaker": "TSA-NCIA-1",
+              "offset": "0:45",
+              "text": "Got it. We’ll keep you posted if we get a name. Thank you for the update.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "FBI-DC": "Woman in her 40s, calm, precise, background low-level office chatter",
+            "TSA-NCIA-1": "Man in his 50s, steady, professional, faint radio static"
+          },
+          "injectId": "A-13"
+        },
+        "instructorNote": "This inject confirms no active threat; it’s a dead end for immediate action but validates the FBI’s readiness to open a case if a suspect is identified. Watch for players to close the loop later when they find Volkov.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T14:09:22.753Z"
+  "updatedAt": "2026-10-23T19:49:21.295Z"
 }

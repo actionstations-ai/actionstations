@@ -168,7 +168,7 @@ The tabs under the stages hold the scenario, and every tab is editable:
 - **Objectives & Roles**: exercise objectives, player roles with their standing orders, critical resources, and the SimCell scripts.
 - **MSEL**: the grid editor (below).
 - **Injects**: the inject deck, one card per MSEL row (below).
-- **Documents**: the **Controller handbook**, **Player briefing**, **Hot wash guide** (with its structured questions) and the **MSEL document**, each in a document editor (below).
+- **Documents**: the **Controller handbook**, **Player briefing**, **Hot wash guide** (with its structured questions), the **MSEL document**, and two optional hand-written documents: **Player handouts** (reference cards, evidence packets, clue cards the players get) and **Controller materials** (facilitator-only material such as a clue-card deck with controller notes), each in a document editor (below). No generation stage writes the handouts; write or paste them yourself.
 - **Rubric**: grading metrics with points and Fail / Pass / Excellence behaviours, linked to injects.
 - **Warnings**: deterministic lint findings (for example a role with no inject in a phase) and the critique's findings. Each one leads with a plain-language sentence, then the checker's detail and its code (for example `ROLE_NO_INJECT`). **Must fix** items come first; **Go to row** opens the MSEL tab on that row, **Open inject** opens the inject. The tab's count is the same live check as the list.
 
@@ -254,8 +254,8 @@ Click **Export** on the scenario page.
 
 Choose what to export:
 
-- **Documents (PDF)**: **MSEL** (landscape events table by phase), **Master Inject Deck** (one inject per page with its media), **Controller / Evaluator Handbook** (with rubric, hot wash and SimCell scripts), **Player Briefing Packet** (with blank ICS 201 and ICS 203 forms) and the **Exercise Plan** (a cover page plus all four documents).
-- **Files**: **Media files** (PNG, PDF, WAV and MP3, MP4, named `S<n>-I<id>-<type>`), **scenario.json** (the full scenario with injects inlined), **scenario.md** (a readable copy with media checksums), **Word documents** (handbook and player briefing as `.docx`) and the **Distribution ZIP** (`facilitator/` with everything, `players/` with the briefing and forms).
+- **Documents (PDF)**: **MSEL** (landscape events table by phase), **Master Inject Deck** (one inject per page with its media), **Controller / Evaluator Handbook** (with rubric, hot wash and SimCell scripts), **Player Briefing Packet** (with blank ICS 201 and ICS 203 forms) and the **Exercise Plan** (a cover page plus all four documents). A scenario with handouts also gets **Player Handouts** (with the briefing) and **Controller Materials** (with the handbook) PDFs.
+- **Files**: **Media files** (PNG, PDF, WAV and MP3, MP4, named `S<n>-I<id>-<type>`), **scenario.json** (the full scenario with injects inlined), **scenario.md** (a readable copy with media checksums), **Word documents** (handbook and player briefing as `.docx`) and the **Distribution ZIP** (`facilitator/` with everything, `players/` with the briefing, the forms and the player handouts; controller materials stay in `facilitator/`).
 
 The right side previews each PDF before you export. The bar at the bottom of the options stays in view: it says whether every event has an inject and every inject is rendered (with a link to fix it), shows the **Output folder** and holds **Export**. The folder defaults to `exports` inside the project folder (created on the first export) or the folder you last chose for this project; **Choose…** picks another. Files go into a folder named after the scenario, its number and a short id (`Flight-to-Nowhere-S3-79J4AB`), so two scenarios with the same title never share a folder, and the ZIP sits next to it. The ZIP holds only the files from that export, not leftovers from an earlier one.
 

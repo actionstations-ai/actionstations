@@ -18,11 +18,13 @@ import {
   type RenderMode,
 } from './views'
 
-export type ExportDoc = DocKey | 'exercise_plan'
+export type ExportDoc = DocKey | 'exercise_plan' | 'handouts' | 'controller_handouts'
 
 export const EXPORT_DOC_LABELS: Record<ExportDoc, string> = {
   ...DOC_LABELS,
   exercise_plan: 'Exercise Plan',
+  handouts: 'Player Handouts',
+  controller_handouts: 'Controller Materials',
 }
 
 function formatDate(iso: string): string {
@@ -120,6 +122,28 @@ function briefingSection(model: ExportModel, prefix: string, forms: EmbeddedForm
   })
 }
 
+/** Player handouts or controller materials: the scenario's hand-written markdown as is. */
+function handoutsSection(
+  model: ExportModel,
+  prefix: string,
+  doc: 'handouts' | 'controller_handouts',
+): string {
+  return renderExportTemplate('briefing', {
+    prefix: `${prefix}${doc}-`,
+    title: {
+      id: `${prefix}${doc}-briefing-title`,
+      eyebrow: EXPORT_DOC_LABELS[doc],
+      heading: scenarioHeading(model),
+      sub: model.scenario.subtitle ?? '',
+      facts: [],
+    },
+    bodyHtml: trusted(documentBodyHtml(model.docs[doc], 2, true)),
+    teams: [],
+    forms: [],
+    endNote: `End of ${EXPORT_DOC_LABELS[doc]}`,
+  })
+}
+
 /** The project logo for the cover (#217), when one is set and on disk. */
 function coverLogo(model: ExportModel, mode: RenderMode): string {
   const rel = model.project.brand.logoPath
@@ -179,6 +203,9 @@ export function buildDocumentHtml(model: ExportModel, doc: ExportDoc, mode: Rend
       const forms = packetForms()
       return wrap(model, doc, briefingSection(model, '', forms), forms)
     }
+    case 'handouts':
+    case 'controller_handouts':
+      return wrap(model, doc, handoutsSection(model, '', doc), [])
     case 'exercise_plan': {
       const forms = packetForms()
       const body = [

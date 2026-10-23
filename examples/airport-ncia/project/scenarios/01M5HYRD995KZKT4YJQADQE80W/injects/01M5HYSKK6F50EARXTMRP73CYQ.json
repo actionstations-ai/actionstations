@@ -11,7 +11,7 @@
     "os": "Windows Server 2019",
     "logSource": "Firewall / Outbound Traffic",
     "exportedBy": "NCIA\\it.security",
-    "exportedAt": "10/22/2026 09:00 AM",
+    "exportedAt": "10/20/2026 09:00 AM",
     "timezone": "EDT (UTC-4)",
     "lines": [
       {
@@ -167,9 +167,84 @@
         "instructorNote": "This log confirms the AODB server made an outbound call to a known external VPS five days ago. It's a critical lead: it confirms the server was compromised and reached out to a command-and-control host. The IT team must now trace the scheduled task that triggered it.",
         "deliveryMode": "hand_to_role"
       }
+    },
+    {
+      "at": "2026-10-23T19:49:17.574Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "AODB Server Outbound Beacon — 5 Days Ago",
+        "type": "system_log",
+        "fields": {
+          "systemName": "AODB_Firewall_Logs",
+          "host": "NCIA-AEP-2025-01",
+          "ip": "10.1.10.20",
+          "os": "Windows Server 2019",
+          "logSource": "Firewall / Outbound Traffic",
+          "exportedBy": "NCIA\\it.security",
+          "exportedAt": "10/20/2026 09:00 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/17/2026 02:14:03 AM",
+              "level": "INFO",
+              "msg": "Outbound connection from 10.1.10.20 (AODB Server) to 104.248.52.117 (DigitalOcean VPS) on port 443",
+              "highlight": true
+            },
+            {
+              "ts": "10/17/2026 02:14:03 AM",
+              "level": "INFO",
+              "msg": "Connection duration: 4 seconds",
+              "highlight": false
+            },
+            {
+              "ts": "10/17/2026 02:14:03 AM",
+              "level": "INFO",
+              "msg": "Protocol: TLS 1.2, cipher suite: ECDHE-RSA-AES256-GCM-SHA512",
+              "highlight": false
+            },
+            {
+              "ts": "10/17/2026 02:14:03 AM",
+              "level": "INFO",
+              "msg": "Source identity: AODB_IndexMaintenance (scheduled task)",
+              "highlight": false
+            },
+            {
+              "ts": "10/17/2026 02:14:03 AM",
+              "level": "INFO",
+              "msg": "Destination resolved: 104.248.52.117 → dc1.digitalocean.com (New York)",
+              "highlight": false
+            },
+            {
+              "ts": "10/17/2026 02:14:03 AM",
+              "level": "INFO",
+              "msg": "No matching inbound rule for this connection; allowed under 'Outbound Exceptions' policy",
+              "highlight": false
+            },
+            {
+              "ts": "10/17/2026 02:14:03 AM",
+              "level": "INFO",
+              "msg": "No local policy violation detected",
+              "highlight": false
+            },
+            {
+              "ts": "10/17/2026 02:14:04 AM",
+              "level": "INFO",
+              "msg": "Connection terminated normally",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-FirewallLog -SourceIP 10.1.10.20 -DateRange '10/12/2026 00:00:00'..'10/18/2026 23:59:59' -Outbound",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This log confirms the AODB server made an outbound call to a known external VPS five days ago. It's a critical lead: it confirms the server was compromised and reached out to a command-and-control host. The IT team must now trace the scheduled task that triggered it.",
+        "deliveryMode": "hand_to_role"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T14:08:23.229Z"
+  "updatedAt": "2026-10-23T19:49:19.742Z"
 }

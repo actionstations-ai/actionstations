@@ -121,6 +121,8 @@ export function fixtureModel(overrides: Partial<ExportModel> = {}): ExportModel 
       briefing: readFileSync(resolve('reference/scenario-3/player-briefing.md'), 'utf8'),
       hotwash: '',
       overview: '',
+      handouts: '',
+      controller_handouts: '',
     },
     scenarioNo: '3',
     media: planMediaFiles('3', injects),

@@ -405,7 +405,7 @@
       "event": "Phone Call: TSA screening is stopping because boarding pass data doesn't match the system. Lines are backing up dangerously.",
       "expectedAction": "Ops/LEO must manage the crowd crush at the checkpoint. Ops may ask TSA to move to \"manual ID check\" mode.",
       "purposeTag": "CONFUSION",
-      "format": "media_inquiry_phone_slip",
+      "format": "phone_call",
       "citations": [],
       "locked": false,
       "wallClock": "11:20"
@@ -418,7 +418,7 @@
       "toRoleIds": ["ops-director"],
       "toLabel": "Ops",
       "event": "Radio Call: \"Crowd crush situation at Gate C4. Two flights were directed there by the old screen data. Passengers are fighting over seats.\"",
-      "expectedAction": "Ops directs Police to C4. Priority shifts to crowd control and safety over flight operations.",
+      "expectedAction": "Gate C4 does not exist: it is the bad data's gate (a planted tell). Ops finds where the two crowds actually are (the B10 hold room at the end of Concourse B) and directs Police there. Priority shifts to crowd control and safety over flight operations.",
       "purposeTag": "CONFUSION",
       "format": "radio_call",
       "citations": [

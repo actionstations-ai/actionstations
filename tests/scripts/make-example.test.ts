@@ -4,14 +4,20 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import pngjs from 'pngjs'
+import wavefile from 'wavefile'
 import { describe, expect, it } from 'vitest'
 import {
+  assertNoRewrite,
+  blockingWarnings,
   chooseAssets,
   findLeaks,
   hashTree,
   isDerived,
+  markdownSection,
   packageProject,
+  seedMarkdown,
   scrub,
+  shippedMp3,
   shippedPng,
   treeDiff,
   writeManifest,
@@ -19,6 +25,7 @@ import {
 } from '../../scripts/make-example.mjs'
 
 const { PNG } = pngjs
+const { WaveFile } = wavefile
 
 /** A solid PNG of the given size (2× renders are ≥ 1600 px wide and get halved). */
 function png(width: number, height: number): Buffer {
@@ -291,5 +298,96 @@ describe('hashTree + treeDiff (repair report)', () => {
       removed: ['injects/B.json'],
       identical: 1,
     })
+  })
+})
+
+/** A mono 16-bit WAV of `seconds` of a quiet tone. */
+function wav(seconds: number, rate = 24000): Buffer {
+  const w = new WaveFile()
+  const samples = new Int16Array(seconds * rate).map((_, i) => Math.round(2000 * Math.sin(i / 8)))
+  w.fromScratch(1, rate, '16', samples)
+  return Buffer.from(w.toBuffer())
+}
+
+/** Give the fake project's phone call D1 a real WAV clip of `seconds`. */
+function withClip(src: string, seconds: number): void {
+  const d1 = injects.find((i) => i.id === 'D1')!
+  writeFileSync(join(src, d1.assets[0]!.path), wav(Math.min(seconds, 3)))
+  const file = join(src, 'scenarios', 'S1', 'injects', 'D1.json')
+  const value = JSON.parse(readFileSync(file, 'utf8'))
+  value.assets[0].durationSec = seconds
+  writeFileSync(file, JSON.stringify(value))
+}
+
+describe('voice clip (#219)', () => {
+  it('encodes a WAV as a small mono MP3', () => {
+    const mp3 = shippedMp3(wav(3))
+    expect(mp3[0]).toBe(0xff)
+    expect(mp3.byteLength).toBeLessThan(wav(3).byteLength / 5)
+  })
+
+  it('ships one short clip as MP3 inside the media budget, never a long one', () => {
+    const { out, src } = fakeProject()
+    withClip(src, 3)
+    const dest = join(out, 'examples', 'demo', 'project')
+    expect(packageProject(spec, out, dest).clip).toBe('D1')
+    const d1 = JSON.parse(readFileSync(join(dest, 'scenarios', 'S1', 'injects', 'D1.json'), 'utf8'))
+    expect(d1.assets[0].path).toMatch(/D1\.mp3$/)
+    expect(existsSync(join(dest, d1.assets[0].path))).toBe(true)
+    expect(existsSync(join(dest, 'scenarios', 'S1', 'media', 'D', 'D1.wav'))).toBe(false)
+
+    const long = fakeProject()
+    withClip(long.src, 90)
+    const longDest = join(long.out, 'examples', 'long', 'project')
+    expect(packageProject(spec, long.out, longDest).clip).toBeUndefined()
+  })
+})
+
+describe('seed documents (#224)', () => {
+  const md =
+    '# Handbook\n\n### 4. Rubric\nr\n\n### 5. Hot Wash Guide (Debrief)\nq1\n#### Notes\nn\n\n### 6. After\nx\n'
+
+  it('takes one section down to the next heading of its level', () => {
+    expect(markdownSection(md, 'Hot Wash')).toBe(
+      '### 5. Hot Wash Guide (Debrief)\nq1\n#### Notes\nn\n',
+    )
+    expect(() => markdownSection(md, 'Nope')).toThrow(/no heading/)
+  })
+
+  it('reads a file, a section of one, or a list joined in order', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ttx-seed-'))
+    writeFileSync(join(dir, 'h.md'), md)
+    writeFileSync(join(dir, 'a.md'), '# Card A\n')
+    writeFileSync(join(dir, 'b.md'), '# Card B\n')
+    expect(seedMarkdown('h.md', dir)).toBe(md)
+    expect(seedMarkdown({ file: 'h.md', section: 'Rubric' }, dir)).toBe('### 4. Rubric\nr\n')
+    expect(seedMarkdown(['a.md', 'b.md'], dir)).toBe('# Card A\n\n# Card B\n')
+  })
+})
+
+describe('blockingWarnings (verify, #220)', () => {
+  const w = (code: string, severity = 'warning', rowId?: string) => ({
+    code,
+    severity,
+    message: `${code} message`,
+    ...(rowId ? { rowId } : {}),
+  })
+
+  it('lets CRITIQUE notes and info through and reports everything else once', () => {
+    const stored = [w('CRITIQUE'), w('ROLE_NO_INJECT'), w('DENSITY', 'info')]
+    const fresh = [w('ROLE_NO_INJECT'), w('INJECT_PLAYER_VOICE', 'warning', 'I-12')]
+    expect(blockingWarnings(stored, fresh).map((x) => x.code)).toEqual([
+      'ROLE_NO_INJECT',
+      'INJECT_PLAYER_VOICE',
+    ])
+    expect(blockingWarnings([w('CRITIQUE')])).toEqual([])
+  })
+})
+
+describe('assertNoRewrite (refresh, #220)', () => {
+  it('fails when the repair wanted a model to rewrite something', () => {
+    expect(() => assertNoRewrite({ msel: { textChanged: [] }, injectRows: [] }, 'k')).not.toThrow()
+    expect(() => assertNoRewrite({ msel: { textChanged: ['I-10'] } }, 'k')).toThrow(/I-10/)
+    expect(() => assertNoRewrite({ recheck: { regenerate: ['abc'] } }, 'k')).toThrow(/abc/)
   })
 })

@@ -8,7 +8,7 @@
     "exerciseTime": "1:00",
     "newTime": "10:00",
     "jumpLabel": "+60 minutes",
-    "narration": "It is now 1:00. The problem has spread to the RTK base and GCS-02's radio state. The RPIC cannot command UAS-11 in any mode. The team cannot confirm the aircraft's true position. The site is under standdown. The investigation is now underway.",
+    "narration": "It is now 10:00. The interference has spread to the RTK base and to the GCS-02 radio. UAS-11 no longer answers the ground station in any flight mode, and its true position is unknown. All flying at Birch Hollow Range has stopped while the incident is worked.",
     "worldState": [
       "All flights at the Birch Hollow Range are on indefinite hold.",
       "The RTK base at TP-LFA-RTK1 has lost synchronization with the network; telemetry shows conflicting corrections.",
@@ -101,9 +101,37 @@
         "instructorNote": "This inject enforces full system isolation and standdown. Monitor for team members attempting to override the hold or initiate a recovery without proper authorization.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-23T19:42:56.874Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Time Jump: 1:00 — System Isolation and Standdown",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "1:00",
+          "newTime": "10:00",
+          "jumpLabel": "+60 minutes",
+          "narration": "It is now 10:00. The interference has spread to the RTK base and to the GCS-02 radio. UAS-11 no longer answers the ground station in any flight mode, and its true position is unknown. All flying at Birch Hollow Range has stopped while the incident is worked.",
+          "worldState": [
+            "All flights at the Birch Hollow Range are on indefinite hold.",
+            "The RTK base at TP-LFA-RTK1 has lost synchronization with the network; telemetry shows conflicting corrections.",
+            "GCS-02’s C2 link remains unpaired and locked in a failed state.",
+            "The aircraft's position on DAA-1 now shows a 1.2 km offset from the actual GPS location, with no known origin for the drift.",
+            "The 915 MHz channel is now reporting intermittent signal spikes from an unknown source on 915.420 MHz.",
+            "UAS-11 is unresponsive to all manual commands from GCS-02 or backup GCS-04.",
+            "FOM-2 has been updated to reflect a new status: 'UAS-11 — Uncontrolled, Position Uncertain, Geofence Breach Detected.'"
+          ],
+          "scenarioTitle": "Ghost Flight at Birch Hollow — GNSS Spoofing & Command Hijack",
+          "injectId": "I-10"
+        },
+        "instructorNote": "This inject enforces full system isolation and standdown. Monitor for team members attempting to override the hold or initiate a recovery without proper authorization.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T13:34:18.648Z"
+  "updatedAt": "2026-10-23T19:42:57.479Z"
 }

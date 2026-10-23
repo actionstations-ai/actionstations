@@ -65,8 +65,25 @@ describe('distribution ZIP', () => {
     )
   })
 
+  it('puts player handouts in players/ and keeps controller materials in facilitator/ (#224)', () => {
+    const { dir: folder, files: runFiles } = exportFolder()
+    for (const [name, data] of [
+      [names.handouts, 'handouts'],
+      [names.controllerHandouts, 'controller'],
+    ] as const) {
+      writeFileSync(join(folder, name), data)
+      runFiles.push(join(folder, name))
+    }
+    const files = distributionEntries(folder, names, runFiles).map((e) => e.name)
+    expect(files).toContain('players/Flight-to-Nowhere-Player-Handouts.pdf')
+    expect(files).toContain('facilitator/Flight-to-Nowhere-Player-Handouts.pdf')
+    expect(files).toContain('facilitator/Flight-to-Nowhere-Controller-Materials.pdf')
+    expect(files).not.toContain('players/Flight-to-Nowhere-Controller-Materials.pdf')
+  })
+
   it('refuses facilitator material in players/', () => {
     for (const leak of [
+      names.controllerHandouts,
       names.msel,
       names.deck,
       names.handbook,

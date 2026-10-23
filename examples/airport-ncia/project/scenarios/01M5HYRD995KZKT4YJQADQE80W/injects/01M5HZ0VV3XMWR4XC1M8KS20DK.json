@@ -7,7 +7,7 @@
   "fields": {
     "orgName": "North Coast Regional Airport Authority",
     "systemName": "AOC Console 3 - Call Recording",
-    "callId": "CR-20261022-113015-0021",
+    "callId": "CR-20261020-113015-0021",
     "direction": "Inbound",
     "caller": {
       "name": "Agent Elena",
@@ -19,7 +19,7 @@
       "number": "(330) 555-0911",
       "label": "Operations / Command, Airport Operations Center"
     },
-    "startTime": "10/22/2026 11:30:15",
+    "startTime": "10/20/2026 11:30:15",
     "duration": "0:52",
     "transcript": [
       {
@@ -152,9 +152,63 @@
         "instructorNote": "This inject tests the decision to escalate physical screening in the absence of physical threat evidence. Watch for whether ops chooses operational risk over perceived security, and whether they justify the trade-off.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-23T19:49:17.644Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "TSA: Enhanced Screening Decision",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "systemName": "AOC Console 3 - Call Recording",
+          "callId": "CR-20261020-113015-0021",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Agent Elena",
+            "number": "(216) 555-2000",
+            "label": "TSA Supervisor, Terminal Operations"
+          },
+          "callee": {
+            "name": "Marcus R.",
+            "number": "(330) 555-0911",
+            "label": "Operations / Command, Airport Operations Center"
+          },
+          "startTime": "10/20/2026 11:30:15",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "TSA",
+              "offset": "0:00",
+              "text": "Operations, this is TSA Supervisor Elena calling from the main terminal checkpoint. We're getting internal reports that NCIA has received a threat. We need to know — should we elevate screening to enhanced level? We can begin in 15 minutes, but it will cause 45-minute wait times for all passengers at the SSCP.",
+              "prompt": false
+            },
+            {
+              "speaker": "OPS",
+              "offset": "0:17",
+              "text": "Understood, Agent Elena. We're currently assessing a cyber threat to the AODB system. We have no evidence of a physical device or active threat to the terminal. We're prioritizing digital containment.",
+              "prompt": false
+            },
+            {
+              "speaker": "TSA",
+              "offset": "0:33",
+              "text": "We're not asking for a threat assessment — we're asking for a decision. Do we proceed with enhanced screening? Your call.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "TSA": "Woman in her 40s, stressed, loud checkpoint noise behind her",
+            "OPS": "Male, calm, measured, background radio chatter"
+          },
+          "injectId": "F-1130"
+        },
+        "instructorNote": "This inject tests the decision to escalate physical screening in the absence of physical threat evidence. Watch for whether ops chooses operational risk over perceived security, and whether they justify the trade-off.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T14:08:27.359Z"
+  "updatedAt": "2026-10-23T19:49:22.764Z"
 }

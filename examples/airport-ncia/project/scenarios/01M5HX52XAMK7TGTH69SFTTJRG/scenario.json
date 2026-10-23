@@ -6,7 +6,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-21T00:00:00.000Z",
-  "updatedAt": "2026-10-22T13:41:12.184Z",
+  "updatedAt": "2026-10-23T19:51:09.758Z",
   "brief": {
     "userPrompt": "A malicious actor manipulates the AODB so FIDS, BHS and PA mislead passengers; test data integrity, public trust and crowd management.",
     "audience": [
@@ -449,7 +449,7 @@
       "event": "Phone Call: TSA screening is stopping because boarding pass data doesn't match the system. Lines are backing up dangerously.",
       "expectedAction": "Ops/LEO must manage the crowd crush at the checkpoint. Ops may ask TSA to move to \"manual ID check\" mode.",
       "purposeTag": "CONFUSION",
-      "format": "media_inquiry_phone_slip",
+      "format": "phone_call",
       "injectId": "01M5HX949BEYT8DT9DG6XZ3AMG",
       "citations": [],
       "locked": false
@@ -465,7 +465,7 @@
       ],
       "toLabel": "Ops",
       "event": "Radio Call: \"Crowd crush situation at Gate C4. Two flights were directed there by the old screen data. Passengers are fighting over seats.\"",
-      "expectedAction": "Ops directs Police to C4. Priority shifts to crowd control and safety over flight operations.",
+      "expectedAction": "Gate C4 does not exist: it is the bad data's gate (a planted tell). Ops finds where the two crowds actually are (the B10 hold room at the end of Concourse B) and directs Police there. Priority shifts to crowd control and safety over flight operations.",
       "purposeTag": "CONFUSION",
       "format": "radio_call",
       "injectId": "01M5HX9J1030EF88VWRJZ39CN2",
@@ -611,7 +611,9 @@
   ],
   "documents": {
     "handbook": "scenarios/01M5HX52XAMK7TGTH69SFTTJRG/documents/handbook.md",
-    "briefing": "scenarios/01M5HX52XAMK7TGTH69SFTTJRG/documents/briefing.md"
+    "briefing": "scenarios/01M5HX52XAMK7TGTH69SFTTJRG/documents/briefing.md",
+    "overview": "scenarios/01M5HX52XAMK7TGTH69SFTTJRG/documents/overview.md",
+    "hotwash": "scenarios/01M5HX52XAMK7TGTH69SFTTJRG/documents/hotwash.md"
   },
   "rubric": {
     "metrics": [
@@ -699,35 +701,7 @@
     "PA system",
     "AODB"
   ],
-  "warnings": [
-    {
-      "code": "INJECT_CONTENT_ISSUE",
-      "severity": "warning",
-      "message": "I-02a: content still inconsistent after one repair:\n- fields.requester: \"Facilities Maintenance – Concourse B\" is the template's example, not this row's content; write what the row's source and event say",
-      "rowId": "I-02a",
-      "injectId": "01M5HX5HCAS0JDEFAA0NH3NVKV",
-      "source": "lint",
-      "suggestion": "Open the inject editor and fix the flagged content"
-    },
-    {
-      "code": "INJECT_CONTENT_ISSUE",
-      "severity": "warning",
-      "message": "I-07: content still inconsistent after one repair:\n- fields.from: \"BHS Control Room (Duty Manager)\" is the template's example, not this row's content; write what the row's source and event say\n- fields.cc: \"Terminal Duty Manager\" is the template's example, not this row's content; write what the row's source and event say\n- fields.signatureBlock: \"BHS Duty Manager\nBaggage Handling Systems Control Room\" is the template's example, not this row's content; write what the row's source and event say",
-      "rowId": "I-07",
-      "injectId": "01M5HX7QQ8GPBARY61R5595Q7B",
-      "source": "lint",
-      "suggestion": "Open the inject editor and fix the flagged content"
-    },
-    {
-      "code": "INJECT_CONTENT_ISSUE",
-      "severity": "warning",
-      "message": "I-11: content still inconsistent after one repair:\n- fields: Gate C4 (the documents list A1, A2, A3, A4, A5, A6, A7, A8, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 24) is not in the facility facts; use one that exists",
-      "rowId": "I-11",
-      "injectId": "01M5HX9J1030EF88VWRJZ39CN2",
-      "source": "lint",
-      "suggestion": "Open the inject editor and fix the flagged content"
-    }
-  ],
+  "warnings": [],
   "provenance": [
     {
       "stage": "inject_text",
@@ -1329,8 +1303,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX52YA0BZJ4K8ZBD788BD0",
-      "startedAt": "2026-10-22T13:38:50.294Z",
-      "finishedAt": "2026-10-22T13:38:50.610Z",
+      "startedAt": "2026-10-23T19:48:42.051Z",
+      "finishedAt": "2026-10-23T19:48:42.756Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -1347,8 +1321,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX5HCAS0JDEFAA0NH3NVKV",
-      "startedAt": "2026-10-22T13:38:50.819Z",
-      "finishedAt": "2026-10-22T13:38:51.045Z",
+      "startedAt": "2026-10-23T19:48:42.758Z",
+      "finishedAt": "2026-10-23T19:48:42.998Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -1356,8 +1330,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX5YZKJGQG8X8KESP70VAV",
-      "startedAt": "2026-10-22T13:38:51.048Z",
-      "finishedAt": "2026-10-22T13:38:51.270Z",
+      "startedAt": "2026-10-23T19:48:43.001Z",
+      "finishedAt": "2026-10-23T19:48:43.268Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -1401,8 +1375,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX73JYSEWXG1ZXS6826A9G",
-      "startedAt": "2026-10-22T13:38:52.027Z",
-      "finishedAt": "2026-10-22T13:38:52.291Z",
+      "startedAt": "2026-10-23T19:48:43.270Z",
+      "finishedAt": "2026-10-23T19:48:43.759Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -1419,8 +1393,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX7QQ8GPBARY61R5595Q7B",
-      "startedAt": "2026-10-22T13:38:52.548Z",
-      "finishedAt": "2026-10-22T13:38:52.762Z",
+      "startedAt": "2026-10-23T19:48:43.768Z",
+      "finishedAt": "2026-10-23T19:48:43.994Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -1473,8 +1447,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX9J1030EF88VWRJZ39CN2",
-      "startedAt": "2026-10-22T13:38:53.851Z",
-      "finishedAt": "2026-10-22T13:38:54.051Z",
+      "startedAt": "2026-10-23T19:48:43.997Z",
+      "finishedAt": "2026-10-23T19:48:44.205Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -1527,8 +1501,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HXB8SSR1WXS7KENGKZHQHV",
-      "startedAt": "2026-10-22T13:38:55.070Z",
-      "finishedAt": "2026-10-22T13:38:55.302Z",
+      "startedAt": "2026-10-23T19:48:44.207Z",
+      "finishedAt": "2026-10-23T19:48:44.402Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0

@@ -6,6 +6,7 @@
 //   node scripts/make-example.mjs generate --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…] [--replace]
 //   node scripts/make-example.mjs repair   --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…]
 //   node scripts/make-example.mjs export   --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…]
+//   node scripts/make-example.mjs refresh  --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…]
 //   node scripts/make-example.mjs package  --spec examples/<id>/build.json --out .tmp/examples-release/<id>
 //   node scripts/make-example.mjs verify   --spec examples/<id>/build.json
 //
@@ -24,13 +25,24 @@
 //   <out>/review/<key>/repair.json (warning counts per code before/after, the job summary, and
 //   how many scenario files changed, were added, removed or stayed byte-identical), refreshes
 //   the review material and exports the PDF set and ZIP again.
+// refresh: after hand edits to <out>'s scenario and inject JSON (fixes made in place, #220),
+//   with no model reachable: seeds the spec's documents that differ (overview, hot wash,
+//   handouts), records each edited scenario and inject as a user save, re-renders the template
+//   media of every inject whose content differs from the packaged example, then, for a
+//   generated scenario, runs generate:repair with no AI stills so the stored warnings are
+//   recomputed (fails when the repair would have to rewrite a row or an inject with a model:
+//   fix that by hand first); for a hand-authored (seed) scenario it drops the content warnings
+//   of the injects corrected by hand instead, since the repair would rewrite authored rows.
 // package: copies <out>/project to examples/<id>/project without index.sqlite*, .cache, job
-//   or log files, provider ids and absolute paths, keeps only the most useful rendered PNGs
-//   and at most two AI stills per scenario within the git media budget (6 MB), drops audio,
-//   video and PDFs from the project (the full set stays in <out>), and writes
-//   examples/<id>/example.json.
+//   or log files, provider ids and absolute paths, keeps one short voice clip per example (as
+//   MP3), the most useful rendered PNGs and at most two AI stills per scenario within the git
+//   media budget (6 MB, the clip included), drops the other audio, video and PDFs from the
+//   project (the full set stays in <out>), and writes examples/<id>/example.json.
 // verify: copies examples/<id>/project to a temp folder, opens it in the built app, rebuilds
-//   the index and checks that every scenario, inject and kept asset loads.
+//   the index and checks that every scenario, inject and kept asset loads, and that no
+//   scenario carries a lint warning other than CRITIQUE notes: stored ones, and for a
+//   generated scenario the recomputed lints too (the generator's inject-mix and coverage rules
+//   do not apply to a hand-authored MSEL).
 import { _electron as electron } from '@playwright/test'
 import { createHash } from 'node:crypto'
 import {
@@ -45,11 +57,15 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { homedir, tmpdir } from 'node:os'
+import { createRequire } from 'node:module'
 import pngjs from 'pngjs'
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { runInThisContext } from 'node:vm'
+import wavefile from 'wavefile'
 
 const { PNG } = pngjs
+const { WaveFile } = wavefile
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const MEDIA_BUDGET_BYTES = 6 * 1024 * 1024
 const TEXT_PROVIDER = {
@@ -111,9 +127,9 @@ function parseArgs(argv) {
     else if (a === '--replace') args.replace = true
     else throw new Error(`Unknown argument ${a}`)
   }
-  if (!['generate', 'repair', 'export', 'package', 'verify'].includes(command ?? ''))
+  if (!['generate', 'repair', 'refresh', 'export', 'package', 'verify'].includes(command ?? ''))
     throw new Error(
-      'Usage: make-example.mjs generate|repair|export|package|verify --spec <build.json> [--out <dir>]',
+      'Usage: make-example.mjs generate|repair|refresh|export|package|verify --spec <build.json> [--out <dir>]',
     )
   if (!args.spec) throw new Error('--spec is required')
   return args
@@ -136,10 +152,11 @@ async function launchApp() {
   const userData = mkdtempSync(join(tmpdir(), 'ttx-example-'))
   writeFileSync(join(userData, 'settings.json'), JSON.stringify({ onboardingComplete: true }))
   const app = await electron.launch({
+    timeout: 180_000,
     args: [join(ROOT, 'out/main/index.js')],
     env: { ...process.env, TTX_USER_DATA: userData, TTX_HEADLESS: '1', NODE_ENV: 'test' },
   })
-  const page = await app.firstWindow()
+  const page = await app.firstWindow({ timeout: 180_000 })
   await page.waitForLoadState('domcontentloaded')
   const invoke = async (channel, payload) => {
     const r = await page.evaluate(([c, p]) => globalThis.ttx.invoke(c, p), [channel, payload])
@@ -334,6 +351,36 @@ async function generateScenario(invoke, projectPath, entry) {
   return scenarioId
 }
 
+/** The markdown section under the first heading matching `heading` (case-insensitive),
+ *  down to the next heading of the same or a higher level. Throws when there is none. */
+export function markdownSection(md, heading) {
+  const lines = md.split('\n')
+  const want = new RegExp(heading, 'i')
+  const start = lines.findIndex((l) => /^#{1,6}\s/.test(l) && want.test(l))
+  if (start < 0) throw new Error(`no heading matching "${heading}"`)
+  const level = /^#+/.exec(lines[start])[0].length
+  const higher = new RegExp(`^#{1,${level}}\\s`)
+  const end = lines.findIndex((l, i) => i > start && higher.test(l))
+  return (
+    lines
+      .slice(start, end < 0 ? undefined : end)
+      .join('\n')
+      .trim() + '\n'
+  )
+}
+
+/**
+ * The markdown a seed document entry names: a file, `{ file, section }` (one section of it,
+ * e.g. the hot wash guide of a handbook) or a list of those joined in order (handouts).
+ */
+export function seedMarkdown(value, root = ROOT) {
+  if (Array.isArray(value))
+    return value.map((v) => seedMarkdown(v, root).trim()).join('\n\n') + '\n'
+  const file = typeof value === 'string' ? value : value.file
+  const md = readFileSync(resolve(root, file), 'utf8')
+  return typeof value === 'object' && value.section ? markdownSection(md, value.section) : md
+}
+
 /** A hand-authored scenario (entry.seed.scenario JSON + markdown documents) instead of a
  *  generated one: only injects and media are generated for it. */
 async function seedScenario(invoke, projectPath, entry) {
@@ -344,12 +391,12 @@ async function seedScenario(invoke, projectPath, entry) {
     scenario: { ...authored, id: empty.id, projectId: empty.projectId, documents: {} },
     note: 'Hand-authored scenario (example seed)',
   })
-  for (const [kind, file] of Object.entries(entry.seed.documents ?? {}))
+  for (const [kind, value] of Object.entries(entry.seed.documents ?? {}))
     await invoke('scenarios:doc-save', {
       projectPath,
       scenarioId: empty.id,
       kind,
-      markdown: readFileSync(resolve(ROOT, file), 'utf8'),
+      markdown: seedMarkdown(value),
       note: 'Hand-authored document (example seed)',
     })
   log(`${entry.key}: seeded "${authored.title}" (${authored.msel.length} rows)`)
@@ -510,7 +557,7 @@ async function repairOne(invoke, spec, out, projectPath, entry, state) {
 }
 
 /** Open the generated project in `out` and run `each` for every wanted scenario of the spec. */
-async function forEachGenerated(args, label, each) {
+async function forEachGenerated(args, label, each, route = routeToLocalStack) {
   const spec = loadSpec(args.spec)
   const out = resolve(args.out ?? join(ROOT, '.tmp/examples-release', spec.id))
   const state = readState(out)
@@ -519,7 +566,7 @@ async function forEachGenerated(args, label, each) {
   try {
     const projectPath = join(out, state.projectPath)
     await invoke('project:open', { path: projectPath })
-    await routeToLocalStack(invoke)
+    await route(invoke)
     const wanted = spec.scenarios.filter((s) => !args.only.length || args.only.includes(s.key))
     for (const entry of wanted) {
       if (!state.scenarios[entry.key])
@@ -543,6 +590,171 @@ const exportAll = (args) =>
     await exportScenario(c.invoke, c.projectPath, scenarioId, join(c.out, 'exports', c.entry.key))
     log(`${c.entry.key}: exported to ${join(c.out, 'exports', c.entry.key)}`)
   })
+
+// ---- refresh -----------------------------------------------------------------------------------
+
+/** Every task routed to a provider nobody listens on: a refresh never reaches a model. */
+async function routeOffline(invoke) {
+  const offline = { label: 'Offline (example refresh)', options: {}, enabled: true }
+  const text = await invoke('providers:upsert', {
+    config: {
+      ...offline,
+      kind: 'openai-compatible',
+      baseUrl: 'http://127.0.0.1:9/v1',
+      defaultModel: 'none',
+    },
+  })
+  const image = await invoke('providers:upsert', {
+    config: { ...offline, kind: 'comfyui', baseUrl: 'http://127.0.0.1:9' },
+  })
+  const on = (id) => ({ providerId: id })
+  await invoke('routing:set', {
+    scope: 'global',
+    routing: {
+      ideate: on(text.id),
+      draft: on(text.id),
+      critique: on(text.id),
+      image: on(image.id),
+      video: on(image.id),
+      audio: on(text.id),
+    },
+  })
+}
+
+/** What a hand edit of an inject changes (the parts its template card is drawn from). */
+export const injectContent = (i) =>
+  JSON.stringify([i.type, i.title, i.variant ?? null, i.deliveryMode, i.instructorNote, i.fields])
+
+/** What a hand edit of a scenario changes (not its warnings, provenance or bookkeeping). */
+export const scenarioContent = (s) =>
+  JSON.stringify([
+    s.title,
+    s.subtitle,
+    s.brief,
+    s.overview,
+    s.objectives,
+    s.roles,
+    s.phases,
+    s.msel,
+  ])
+
+function shippedJson(spec, rel) {
+  const file = join(exampleDir(spec), 'project', rel)
+  return existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : undefined
+}
+
+/** Seed documents that differ from what the scenario has (the spec gained a hot wash, handouts…). */
+async function refreshDocuments(invoke, projectPath, scenarioId, entry) {
+  const seeded = []
+  for (const [kind, value] of Object.entries(entry.seed?.documents ?? {})) {
+    const markdown = seedMarkdown(value)
+    const doc = await invoke('scenarios:doc-get', { projectPath, scenarioId, kind })
+    if (doc.markdown === markdown) continue
+    await invoke('scenarios:doc-save', {
+      projectPath,
+      scenarioId,
+      kind,
+      markdown,
+      note: 'Hand-authored document (example seed)',
+    })
+    seeded.push(kind)
+  }
+  return seeded
+}
+
+/** Record hand-edited injects as user saves; returns the ids whose content changed. */
+async function recordInjectEdits(invoke, spec, projectPath, scenarioId) {
+  const changed = []
+  for (const inject of await invoke('injects:list', { projectPath, scenarioId })) {
+    const shipped = shippedJson(spec, `scenarios/${scenarioId}/injects/${inject.id}.json`)
+    if (shipped && injectContent(shipped) === injectContent(inject)) continue
+    const last = inject.versions.at(-1)?.snapshot
+    const recorded = last && injectContent({ ...inject, ...last }) === injectContent(inject)
+    if (!recorded)
+      await invoke('injects:save', {
+        projectPath,
+        scenarioId,
+        inject,
+        note: 'Corrected by hand for the shipped example',
+      })
+    changed.push(inject.id)
+  }
+  return changed
+}
+
+/** Inject warnings a hand correction answers (the content checks re-run in the example test). */
+const CORRECTED_CODES = new Set(['INJECT_CONTENT_ISSUE', 'INJECT_FIELDS_INVALID'])
+
+/**
+ * A hand-authored scenario is never repaired (the repair's MSEL passes would rewrite the
+ * authored rows): the content warnings of the injects corrected by hand are dropped instead.
+ * tests/scripts/example-content.test.ts runs the same content checks on every shipped inject.
+ */
+async function dropCorrectedWarnings(invoke, projectPath, scenarioId, injectIds) {
+  const scenario = await invoke('scenarios:get', { projectPath, scenarioId })
+  const corrected = (w) => injectIds.includes(w.injectId) && CORRECTED_CODES.has(w.code)
+  if (!scenario.warnings.some(corrected)) return
+  await invoke('scenarios:save', {
+    projectPath,
+    scenario: { ...scenario, warnings: scenario.warnings.filter((w) => !corrected(w)) },
+    note: 'Content warnings of the injects corrected by hand',
+  })
+}
+
+/** The repair must not have needed a model: nothing rewritten, nothing regenerated. */
+export function assertNoRewrite(result, key) {
+  const rewrites = [
+    ...(result.msel?.textChanged ?? []),
+    ...(result.injectRows ?? []),
+    ...(result.recheck?.regenerate ?? []),
+    ...(result.stillInjects ?? []),
+  ]
+  if (rewrites.length)
+    throw new Error(
+      `refresh ${key}: the repair wanted to rewrite ${[...new Set(rewrites)].join(', ')}; fix them by hand first`,
+    )
+}
+
+async function refreshOne({ invoke, spec, projectPath, entry, state }) {
+  const { scenarioId } = state.scenarios[entry.key]
+  const seeded = await refreshDocuments(invoke, projectPath, scenarioId, entry)
+  const scenario = await invoke('scenarios:get', { projectPath, scenarioId })
+  const shipped = shippedJson(spec, `scenarios/${scenarioId}/scenario.json`)
+  const edited = !shipped || scenarioContent(shipped) !== scenarioContent(scenario)
+  if (edited)
+    await invoke('scenarios:save', {
+      projectPath,
+      scenario,
+      note: 'Corrected by hand for the shipped example',
+    })
+  const changed = await recordInjectEdits(invoke, spec, projectPath, scenarioId)
+  if (changed.length) {
+    const { jobId } = await invoke('generate:media', {
+      projectPath,
+      scenarioId,
+      injectIds: changed,
+      paths: ['template'],
+    })
+    await waitForJob(invoke, jobId, `templates ${entry.key}`, 20 * 60_000)
+  }
+  if (entry.seed) await dropCorrectedWarnings(invoke, projectPath, scenarioId, changed)
+  else {
+    const { jobId } = await invoke('generate:repair', { projectPath, scenarioId, aiStills: 0 })
+    const job = await waitForJob(invoke, jobId, `relint ${entry.key}`, 20 * 60_000)
+    assertNoRewrite(job.result ?? {}, entry.key)
+  }
+  const after = await invoke('scenarios:get', { projectPath, scenarioId })
+  const lints = entry.seed ? [] : await invoke('scenarios:lint', { projectPath, scenarioId })
+  const open = blockingWarnings(after.warnings, lints)
+  const detail = open.map((w) => `\n    ${w.code} ${w.rowId ?? ''} ${w.message.split('\n')[0]}`)
+  log(
+    `${entry.key}: ${edited ? 'scenario edited, ' : ''}${changed.length} inject(s) re-rendered, ` +
+      `${seeded.length ? `seeded ${seeded.join(', ')}, ` : ''}${open.length} warning(s) open` +
+      detail.join(''),
+  )
+}
+
+const refresh = (args) => forEachGenerated(args, 'refresh', refreshOne, routeOffline)
 
 // ---- package -----------------------------------------------------------------------------------
 
@@ -624,6 +836,66 @@ export function scrub(value, absolute) {
 const KEEP_ASSET = (a) =>
   (a.role === 'rendered' || a.role === 'composite') && a.path.endsWith('.png')
 
+/** The longest voice clip an example ships (seconds); longer ones stay in the release bundle. */
+const MAX_CLIP_SEC = 45
+const CLIP_KBPS = 48
+
+let lame
+/** lamejs's self-contained bundle, evaluated in a function scope (as the app's exporter does). */
+function loadLame() {
+  if (lame) return lame
+  const path = createRequire(import.meta.url).resolve('lamejs/lame.all.js')
+  const source = readFileSync(path, 'utf8')
+  lame = runInThisContext(`(function () {\n${source}\nreturn lamejs;\n})()`, { filename: path })
+  return lame
+}
+
+/** Interleaved 16-bit samples averaged down to one channel. */
+function toMono(samples, channels) {
+  if (channels === 1) return samples
+  const mono = new Int16Array(Math.floor(samples.length / channels))
+  for (let i = 0; i < mono.length; i++) {
+    let sum = 0
+    for (let c = 0; c < channels; c++) sum += samples[i * channels + c]
+    mono[i] = Math.round(sum / channels)
+  }
+  return mono
+}
+
+/** A WAV as a mono MP3 at a voice bitrate: the shipped copy of a voice clip. */
+export function shippedMp3(wav) {
+  const w = new WaveFile(wav)
+  if (w.bitDepth !== '16') w.toBitDepth('16')
+  const samples = toMono(w.getSamples(true, Int16Array), w.fmt.numChannels)
+  const encoder = new (loadLame().Mp3Encoder)(1, w.fmt.sampleRate, CLIP_KBPS)
+  const chunks = []
+  const push = (c) => c.length && chunks.push(Buffer.from(c.buffer, c.byteOffset, c.length))
+  for (let i = 0; i < samples.length; i += 1152)
+    push(encoder.encodeBuffer(samples.subarray(i, i + 1152)))
+  push(encoder.flush())
+  return Buffer.concat(chunks)
+}
+
+/** The one voice clip an example ships: the first by tag priority and MSEL order, short enough. */
+export function chooseClip(projectDir, scenarios) {
+  for (const { scenario, injects } of scenarios) {
+    const order = new Map(scenario.msel.map((r, i) => [r.id, i]))
+    const rank = (inj) => {
+      const row = scenario.msel.find((r) => r.id === inj.mselRowId)
+      const p = TAG_PRIORITY.indexOf(row?.purposeTag ?? '')
+      return (p === -1 ? TAG_PRIORITY.length : p) * 1000 + (order.get(inj.mselRowId) ?? 999)
+    }
+    const clip = [...injects]
+      .sort((a, b) => rank(a) - rank(b))
+      .flatMap((inj) => inj.assets.filter((a) => a.kind === 'audio' && a.path.endsWith('.wav')))
+      .find(
+        (a) => (a.durationSec ?? Infinity) <= MAX_CLIP_SEC && existsSync(join(projectDir, a.path)),
+      )
+    if (clip) return { asset: clip, buffer: shippedMp3(readFileSync(join(projectDir, clip.path))) }
+  }
+  return undefined
+}
+
 /** Templates render at 2×; the bundled copy is 1× (each pixel the mean of a 2×2 block). */
 export function shippedPng(buffer) {
   const src = PNG.sync.read(buffer)
@@ -648,7 +920,7 @@ export function shippedPng(buffer) {
  * round-robin across scenarios until the budget is spent. Returns the shipped (1×) image per
  * kept asset id.
  */
-export function chooseAssets(projectDir, scenarios) {
+export function chooseAssets(projectDir, scenarios, reserved = 0) {
   const queues = scenarios.map(({ scenario, injects }) => {
     const order = new Map(scenario.msel.map((r, i) => [r.id, i]))
     const rank = (inj) => {
@@ -662,7 +934,7 @@ export function chooseAssets(projectDir, scenarios) {
     return [...composites, ...assets.filter((a) => a.role !== 'composite')]
   })
   const kept = new Map()
-  let total = 0
+  let total = reserved
   while (queues.some((q) => q.length)) {
     for (const q of queues) {
       const asset = q.shift()
@@ -690,6 +962,16 @@ function scenarioBundles(projectDir, scenarioIds) {
   })
 }
 
+/** An inject's asset record as shipped: 1× size for a PNG, the MP3 path and hash for a clip. */
+function shippedAsset(asset, shipped) {
+  if (!shipped.ext) return { ...asset, width: shipped.width, height: shipped.height }
+  return {
+    ...asset,
+    path: asset.path.replace(/\.[a-z0-9]+$/, `.${shipped.ext}`),
+    sha256: createHash('sha256').update(shipped.buffer).digest('hex'),
+  }
+}
+
 /** Build `dest` (default examples/<id>/project) from the generated project in `out`. */
 export function packageProject(spec, out, dest = join(exampleDir(spec), 'project')) {
   const state = readState(out)
@@ -700,7 +982,9 @@ export function packageProject(spec, out, dest = join(exampleDir(spec), 'project
     throw new Error('package: every scenario in the spec must be generated first')
   rmSync(dest, { recursive: true, force: true })
   const bundles = scenarioBundles(src, ids)
-  const { kept, total } = chooseAssets(src, bundles)
+  const clip = chooseClip(src, bundles)
+  const { kept, total } = chooseAssets(src, bundles, clip?.buffer.byteLength ?? 0)
+  if (clip) kept.set(clip.asset.id, { buffer: clip.buffer, ext: 'mp3' })
   const absolute = [src, out, ROOT, homedir()]
   let files = 0
   const shipped = new Set(ids)
@@ -710,7 +994,8 @@ export function packageProject(spec, out, dest = join(exampleDir(spec), 'project
     if (scenarioOf && !shipped.has(scenarioOf)) continue
     const mediaId = /\/media\/[^/]+\/([^/]+)\.[a-z0-9]+$/.exec(rel)?.[1]
     if (rel.includes('/media/') && !(mediaId && kept.has(mediaId))) continue
-    const target = join(dest, rel)
+    const ext = mediaId && kept.get(mediaId).ext
+    const target = join(dest, ext ? rel.replace(/\.[a-z0-9]+$/, `.${ext}`) : rel)
     mkdirSync(dirname(target), { recursive: true })
     if (rel.endsWith('.json')) {
       const value = JSON.parse(readFileSync(join(src, rel), 'utf8'))
@@ -729,7 +1014,7 @@ export function packageProject(spec, out, dest = join(exampleDir(spec), 'project
       const value = JSON.parse(readFileSync(file, 'utf8'))
       value.assets = (value.assets ?? [])
         .filter((a) => kept.has(a.id))
-        .map((a) => ({ ...a, width: kept.get(a.id).width, height: kept.get(a.id).height }))
+        .map((a) => shippedAsset(a, kept.get(a.id)))
       writeFileSync(file, JSON.stringify(value, null, 2) + '\n')
     }
   writeFileSync(
@@ -739,7 +1024,7 @@ export function packageProject(spec, out, dest = join(exampleDir(spec), 'project
   const leaks = leaksIn(dest)
   if (leaks.length)
     throw new Error(`package: author paths or secrets in the example:\n  ${leaks.join('\n  ')}`)
-  return { files, kept: kept.size, mediaBytes: total, bundles }
+  return { files, kept: kept.size, mediaBytes: total, bundles, clip: clip?.asset.id }
 }
 
 /** example.json for the spec's scenarios (ids from `out`'s state), into `dir`. */
@@ -769,15 +1054,28 @@ export function writeManifest(spec, out, bundles, dir = exampleDir(spec)) {
 function packageExample(args) {
   const spec = loadSpec(args.spec)
   const out = resolve(args.out ?? join(ROOT, '.tmp/examples-release', spec.id))
-  const { files, kept, mediaBytes, bundles } = packageProject(spec, out)
+  const { files, kept, mediaBytes, bundles, clip } = packageProject(spec, out)
   const manifest = writeManifest(spec, out, bundles)
   log(
-    `packaged examples/${spec.id}: ${files} files, ${kept} media assets, ` +
+    `packaged examples/${spec.id}: ${files} files, ${kept} media assets ` +
+      `(${clip ? 'one voice clip' : 'no voice clip'}), ` +
       `${(mediaBytes / 1024 / 1024).toFixed(2)} MB media, ${manifest.scenarios.length} scenarios`,
   )
 }
 
 // ---- verify ------------------------------------------------------------------------------------
+
+/** Warnings a shipped example may not carry: anything but CRITIQUE notes and info, once each. */
+export function blockingWarnings(stored, recomputed = []) {
+  const seen = new Set()
+  return [...stored, ...recomputed].filter((w) => {
+    if (w.code === 'CRITIQUE' || w.severity === 'info') return false
+    const key = `${w.code}|${w.rowId ?? ''}|${w.injectId ?? ''}|${w.message}`
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+}
 
 async function verify(args) {
   const spec = loadSpec(args.spec)
@@ -800,9 +1098,15 @@ async function verify(args) {
     const hits = await invoke('retrieve:search', { projectPath: copy, query: 'lost link', k: 3 })
     let injectCount = 0
     let assetCount = 0
-    for (const s of manifest.scenarios) {
+    const problems = []
+    for (const [index, s] of manifest.scenarios.entries()) {
       const scenario = await invoke('scenarios:get', { projectPath: copy, scenarioId: s.id })
       const injects = await invoke('injects:list', { projectPath: copy, scenarioId: s.id })
+      const lints = spec.scenarios[index]?.seed
+        ? []
+        : await invoke('scenarios:lint', { projectPath: copy, scenarioId: s.id })
+      for (const w of blockingWarnings(scenario.warnings, lints))
+        problems.push(`${scenario.title}: ${w.code} ${w.rowId ?? ''} ${w.message.split('\n')[0]}`)
       injectCount += injects.length
       for (const a of injects.flatMap((i) => i.assets)) {
         if (!existsSync(join(copy, a.path))) throw new Error(`missing asset ${a.path}`)
@@ -818,6 +1122,11 @@ async function verify(args) {
     )
     if (!docs.every((d) => d.status === 'ok')) throw new Error('a document is not ok after reindex')
     if (!hits.length) throw new Error('search returned nothing after the index rebuild')
+    if (problems.length)
+      throw new Error(
+        `${problems.length} lint warning(s) in the shipped example; fix them in place, then ` +
+          `refresh and package:\n  ${problems.join('\n  ')}`,
+      )
   } finally {
     await app.close()
     rmSync(parentDir, { recursive: true, force: true })
@@ -832,9 +1141,14 @@ if (isMain) {
   Promise.resolve()
     .then(() => {
       const args = parseArgs(process.argv.slice(2))
-      return { generate, repair, export: exportAll, package: packageExample, verify }[args.command](
-        args,
-      )
+      return {
+        generate,
+        repair,
+        refresh,
+        export: exportAll,
+        package: packageExample,
+        verify,
+      }[args.command](args)
     })
     .catch((err) => {
       console.error(err)

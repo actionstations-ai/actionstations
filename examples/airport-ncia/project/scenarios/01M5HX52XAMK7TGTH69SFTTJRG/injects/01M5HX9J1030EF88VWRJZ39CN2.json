@@ -2,7 +2,7 @@
   "id": "01M5HX9J1030EF88VWRJZ39CN2",
   "mselRowId": "I-11",
   "type": "radio_call",
-  "title": "Crowd Crush at Gate C4",
+  "title": "Crowd Crush — Passengers Sent to “Gate C4”",
   "deliveryMode": "play_audio",
   "fields": {
     "orgName": "North Coast Regional Airport Authority",
@@ -16,13 +16,13 @@
         "time": "11:30:02",
         "from": "Security 4",
         "to": "Ops",
-        "text": "Ops, this is Security 4. We have a crowd crush at Gate C4. Two flights were routed there by the old FIDS data — UA 2401 and DL 666. Passengers are shoving, fighting over seats, and there's a child down. We need help now."
+        "text": "Ops, this is Security 4. We have a crowd crush at the B10 hold room. The old FIDS data sent UA 2401 and DL 666 to Gate C4, and Gate C4 does not exist, so both crowds ended up at the end of Concourse B. Passengers are shoving, fighting over seats, and there’s a child down. We need help now."
       },
       {
         "time": "11:30:14",
         "from": "Ops",
         "to": "Security 4",
-        "text": "Copy, Security 4. We're sending Police to C4 immediately. Hold position. Do not enter the gate area unless safe. We'll send a supervisor."
+        "text": "Copy, Security 4. Police are on the way to B10. Hold position and keep people back from the jet bridge door. A supervisor is coming to you."
       },
       {
         "time": "11:30:21",
@@ -126,9 +126,53 @@
         "instructorNote": "This inject escalates the threat from data corruption to physical safety. Watch for the Ops Director to shift priorities from flight operations to crowd control and medical response.",
         "deliveryMode": "play_audio"
       }
+    },
+    {
+      "at": "2026-10-23T19:46:55.768Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Crowd Crush — Passengers Sent to “Gate C4”",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "North Coast Regional Airport Authority",
+          "centerName": "Airport Operations Center (AOC)",
+          "channel": "SEC 2",
+          "frequency": "TG 4202 / 460.310 MHz",
+          "date": "10/22/2026",
+          "callsign": "Security 4",
+          "lines": [
+            {
+              "time": "11:30:02",
+              "from": "Security 4",
+              "to": "Ops",
+              "text": "Ops, this is Security 4. We have a crowd crush at the B10 hold room. The old FIDS data sent UA 2401 and DL 666 to Gate C4, and Gate C4 does not exist, so both crowds ended up at the end of Concourse B. Passengers are shoving, fighting over seats, and there’s a child down. We need help now."
+            },
+            {
+              "time": "11:30:14",
+              "from": "Ops",
+              "to": "Security 4",
+              "text": "Copy, Security 4. Police are on the way to B10. Hold position and keep people back from the jet bridge door. A supervisor is coming to you."
+            },
+            {
+              "time": "11:30:21",
+              "from": "Security 4",
+              "to": "Ops",
+              "text": "Roger. We're trying to keep people back from the gate, but the doors are jammed. We're going to need a med team on standby."
+            }
+          ],
+          "background": "terminal",
+          "voiceStyle": "Young female, urgent, voice shaking slightly",
+          "audioFile": "I-11_radio.wav",
+          "duration": "0:21",
+          "injectId": "I-11"
+        },
+        "instructorNote": "This inject escalates the threat from data corruption to physical safety. Watch for the Ops Director to shift priorities from flight operations to crowd control and medical response.",
+        "deliveryMode": "play_audio"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T13:38:54.050Z"
+  "updatedAt": "2026-10-23T19:48:44.203Z"
 }

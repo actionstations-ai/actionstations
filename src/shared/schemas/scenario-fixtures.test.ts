@@ -27,4 +27,11 @@ describe.each(files)('%s', (file) => {
       for (const id of r.toRoleIds) expect(roles.has(id), `${r.id} role ${id}`).toBe(true)
     }
   })
+  it('uses the media inquiry slip only for calls from the media (#222)', () => {
+    const s = Scenario.parse(raw)
+    for (const r of s.msel.filter((x) => x.format === 'media_inquiry_phone_slip'))
+      expect(`${r.from} ${r.event}`, r.id).toMatch(/media|news|press|reporter|channel/i)
+    if (file === 'scenario-3.json')
+      expect(s.msel.find((r) => r.id === 'I-10b')?.format).toBe('phone_call')
+  })
 })

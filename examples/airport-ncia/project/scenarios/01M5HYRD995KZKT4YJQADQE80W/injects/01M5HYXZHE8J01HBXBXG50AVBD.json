@@ -7,7 +7,7 @@
   "fields": {
     "orgName": "North Coast International Airport",
     "systemName": "AOC Console 3 (Main Emergency Line)",
-    "callId": "CR-20261022-090015-0017",
+    "callId": "CR-20261020-090015-0017",
     "direction": "Inbound",
     "caller": {
       "name": "Agent Marquez",
@@ -19,7 +19,7 @@
       "number": "(330) 555-0911",
       "label": "IT-CYBER"
     },
-    "startTime": "10/22/2026 09:00:00",
+    "startTime": "10/20/2026 09:00:00",
     "duration": "0:48",
     "transcript": [
       {
@@ -190,9 +190,74 @@
         "instructorNote": "This inject confirms the threat’s nature and pushes players toward the correct forensic actions. Watch for any delay in verifying the scheduled task or auditing the service account — that's the key gap to close.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-23T19:49:17.621Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "CISA: Scheduled Task and Service Account Audit",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "North Coast International Airport",
+          "systemName": "AOC Console 3 (Main Emergency Line)",
+          "callId": "CR-20261020-090015-0017",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Agent Marquez",
+            "number": "(216) 555-2000",
+            "label": "CISA Incident Response Team"
+          },
+          "callee": {
+            "name": "IT Security Lead",
+            "number": "(330) 555-0911",
+            "label": "IT-CYBER"
+          },
+          "startTime": "10/20/2026 09:00:00",
+          "duration": "0:48",
+          "transcript": [
+            {
+              "speaker": "CISA",
+              "offset": "0:00",
+              "text": "IT Security Lead, this is Agent Marquez from CISA. We’ve received your alert on the suspected logic bomb at NCIA. We’re prioritizing your case as a high-severity cyber threat."
+            },
+            {
+              "speaker": "CISA",
+              "offset": "0:08",
+              "text": "We’ve confirmed the threat vector: a scheduled task on the AODB server, created by an orphaned service account. Your team has already identified it — good work."
+            },
+            {
+              "speaker": "CISA",
+              "offset": "0:16",
+              "text": "We can provide remote forensic support within two hours. But we recommend immediate action: verify all scheduled tasks on critical servers, audit every service account, and look for persistence mechanisms like registry keys, startup scripts, or hidden services."
+            },
+            {
+              "speaker": "CISA",
+              "offset": "0:27",
+              "text": "If you haven’t already, run a full audit of the AODB server. Check for the task named AODB_IndexMaintenance and the service account svc_nexgen_aodb. That’s your primary path to containment."
+            },
+            {
+              "speaker": "CISA",
+              "offset": "0:39",
+              "text": "We’re not on-site before 12:00. You must act now. Lock down the server if you find it. Do not reboot. Preserve logs."
+            },
+            {
+              "speaker": "CISA",
+              "offset": "0:44",
+              "text": "We’ll send you a secure channel for remote access shortly. Stay on the line for instructions."
+            }
+          ],
+          "voiceStyles": {
+            "CISA": "Male, calm, authoritative, background typing"
+          },
+          "injectId": "A-17"
+        },
+        "instructorNote": "This inject confirms the threat’s nature and pushes players toward the correct forensic actions. Watch for any delay in verifying the scheduled task or auditing the service account — that's the key gap to close.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T14:08:26.043Z"
+  "updatedAt": "2026-10-23T19:49:21.760Z"
 }

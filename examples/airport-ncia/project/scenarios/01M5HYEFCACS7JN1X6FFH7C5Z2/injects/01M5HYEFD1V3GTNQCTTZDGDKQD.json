@@ -7,11 +7,11 @@
   "fields": {
     "startTime": "09:50 AM",
     "day": "Thursday, October 22, 2026",
-    "location": "North Coast Regional Airport (NCIA)",
+    "location": "North Coast International Airport (NCIA)",
     "weather": "Partly cloudy, 68°F. Light winds.",
     "load": "High: 15% above average (holiday travel weekend)",
     "staffing": "Full shifts in Operations, Maintenance, and IT",
-    "narration": "STARTEX. This is an exercise. It is 09:50 AM on Thursday, October 22, 2026, at North Coast Regional Airport. The airport is operating under normal conditions, but a network anomaly has triggered an internal alert. All teams are to begin their roles. The Incident Command structure is now active.",
+    "narration": "STARTEX. This is an exercise. It is 09:50 AM on Thursday, October 22, 2026, at North Coast International Airport. The airport is operating under normal conditions, but a network anomaly has triggered an internal alert. All teams are to begin their roles. The Incident Command structure is now active.",
     "status": [
       {
         "name": "Airport Operations",
@@ -161,9 +161,67 @@
         "instructorNote": "Confirm every table has the player briefing packet and a blank ICS 201 before reading. The dual-clock (09:50) must be visible to all.",
         "deliveryMode": "read_aloud"
       }
+    },
+    {
+      "at": "2026-10-23T19:49:07.385Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "STARTEX — Friendly Fire",
+        "type": "startex_card",
+        "fields": {
+          "startTime": "09:50 AM",
+          "day": "Thursday, October 22, 2026",
+          "location": "North Coast International Airport (NCIA)",
+          "weather": "Partly cloudy, 68°F. Light winds.",
+          "load": "High: 15% above average (holiday travel weekend)",
+          "staffing": "Full shifts in Operations, Maintenance, and IT",
+          "narration": "STARTEX. This is an exercise. It is 09:50 AM on Thursday, October 22, 2026, at North Coast International Airport. The airport is operating under normal conditions, but a network anomaly has triggered an internal alert. All teams are to begin their roles. The Incident Command structure is now active.",
+          "status": [
+            {
+              "name": "Airport Operations",
+              "status": "green",
+              "note": "Normal terminal and airfield operations"
+            },
+            {
+              "name": "IT Network",
+              "status": "yellow",
+              "note": "Unusual firewall rule applied; system logs show block on Retail VLAN"
+            },
+            {
+              "name": "Access Control",
+              "status": "yellow",
+              "note": "Badge readers offline on Concourse B and Gate 14"
+            },
+            {
+              "name": "Video Surveillance",
+              "status": "red",
+              "note": "All video feeds from Concourse B and Level 2 lost"
+            },
+            {
+              "name": "Passenger Information",
+              "status": "yellow",
+              "note": "Digital displays showing error code 702"
+            },
+            {
+              "name": "Emergency Communications",
+              "status": "green",
+              "note": "PA and 911 systems functional"
+            },
+            {
+              "name": "ARFF/Police Response",
+              "status": "green",
+              "note": "On standby, no activation"
+            }
+          ],
+          "scenarioTitle": "Friendly Fire — Scenario 6: Self-Inflicted Network Outage"
+        },
+        "instructorNote": "Confirm every table has the player briefing packet and a blank ICS 201 before reading. The dual-clock (09:50) must be visible to all.",
+        "deliveryMode": "read_aloud"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T13:59:41.750Z"
+  "updatedAt": "2026-10-23T19:49:07.609Z"
 }

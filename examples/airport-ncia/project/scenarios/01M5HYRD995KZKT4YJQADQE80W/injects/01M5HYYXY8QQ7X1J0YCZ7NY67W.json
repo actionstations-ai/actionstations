@@ -13,7 +13,7 @@
     "commands": [
       {
         "cmd": "Get-Date",
-        "output": "Thursday, October 22, 2026 09:00:00 AM",
+        "output": "Tuesday, October 20, 2026 09:00:00 AM",
         "error": false
       },
       {
@@ -57,13 +57,13 @@
         "error": false
       },
       {
-        "cmd": "Write-Host \"Backup status: 100% complete. Snapshot files stored in \\AODB\\Backups\\2026-10-22-090000\" -ForegroundColor Green",
-        "output": "Backup status: 100% complete. Snapshot files stored in \\AODB\\Backups\\2026-10-22-090000",
+        "cmd": "Write-Host \"Backup status: 100% complete. Snapshot files stored in \\AODB\\Backups\\2026-10-20-090000\" -ForegroundColor Green",
+        "output": "Backup status: 100% complete. Snapshot files stored in \\AODB\\Backups\\2026-10-20-090000",
         "error": false
       },
       {
-        "cmd": "Get-ChildItem -Path 'C:\\AODB\\Backups\\2026-10-22-090000' | Format-Table -Property Name, Length, LastWriteTime",
-        "output": "Name Length LastWriteTime\n---- ------ -------------\nAODB_FIDS_PACS_DC_Snapshot_090000.zip 148 MB 10/22/2026 09:00:30 AM\nAODB_IndexMaint_BKUP_090000.log 2.1 KB 10/22/2026 09:00:30 AM\nAODB_FIDS_Config_Backup.xml 4.7 KB 10/22/2026 09:00:30 AM",
+        "cmd": "Get-ChildItem -Path 'C:\\AODB\\Backups\\2026-10-20-090000' | Format-Table -Property Name, Length, LastWriteTime",
+        "output": "Name Length LastWriteTime\n---- ------ -------------\nAODB_FIDS_PACS_DC_Snapshot_090000.zip 148 MB 10/20/2026 09:00:30 AM\nAODB_IndexMaint_BKUP_090000.log 2.1 KB 10/20/2026 09:00:30 AM\nAODB_FIDS_Config_Backup.xml 4.7 KB 10/20/2026 09:00:30 AM",
         "error": false
       },
       {
@@ -179,9 +179,90 @@
         "instructorNote": "This is a defensive insurance move. The team has bought time for recovery if the bomb triggers. Watch for teams who skip this and rush to stop the bomb without backup.",
         "deliveryMode": "hand_to_role"
       }
+    },
+    {
+      "at": "2026-10-23T19:49:17.626Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Emergency Backups: AODB, FIDS, PACS, DC — Snapshot Initiated",
+        "type": "console_dump",
+        "fields": {
+          "windowTitle": "Administrator: Windows PowerShell",
+          "host": "SEC-SVR-01",
+          "user": "svc_nexgen_aodb",
+          "cwd": "C:\\AODB\\Maintenance",
+          "prompt": "PS C:\\AODB\\Maintenance>",
+          "commands": [
+            {
+              "cmd": "Get-Date",
+              "output": "Tuesday, October 20, 2026 09:00:00 AM",
+              "error": false
+            },
+            {
+              "cmd": "Get-Volume | Where-Object { $_.DriveLetter -eq 'C' } | Select-Object DriveLetter, Size, AvailableFreeSpace",
+              "output": "DriveLetter Size AvailableFreeSpace\n---------- ---- --------------\nC 450 GB 210 GB",
+              "error": false
+            },
+            {
+              "cmd": "Write-Host \"Initiating emergency snapshot backups for AODB, FIDS, PACS, and DC...\" -ForegroundColor Yellow",
+              "output": "Initiating emergency snapshot backups for AODB, FIDS, PACS, and DC...",
+              "error": false
+            },
+            {
+              "cmd": "Start-Sleep -Seconds 2",
+              "output": "",
+              "error": false
+            },
+            {
+              "cmd": "Invoke-Command -ComputerName NCIA-PACS-CORE -ScriptBlock { Get-Service -Name 'SQL Server (MSSQLSERVER)' | Stop-Service -Force }",
+              "output": "Stopping service 'SQL Server (MSSQLSERVER)' on NCIA-PACS-CORE.",
+              "error": false
+            },
+            {
+              "cmd": "Invoke-Command -ComputerName NCIA-PACS-CORE -ScriptBlock { Start-Transcript -Path 'C:\\Logs\\Transcript_AODB-FIDS-PACS-DC_090000-090020.txt' }",
+              "output": "Transcript started, output file is C:\\Logs\\Transcript_AODB-FIDS-PACS-DC_090000-090020.txt",
+              "error": false
+            },
+            {
+              "cmd": "Invoke-Command -ComputerName NCIA-PACS-CORE -ScriptBlock { $backup = New-Object -ComObject 'MSXML2.DOMDocument'; $backup.async = $false; $backup.load('C:\\AODB\\Config\\AODB_FIDS_PACS_DC.xml'); $backup.documentElement.selectNodes('//backup-target').item(0).text = 'SNAPSHOT'; $backup.save('C:\\AODB\\Config\\AODB_FIDS_PACS_DC.xml'); Write-Output 'Backup target set to SNAPSHOT' }",
+              "output": "Backup target set to SNAPSHOT",
+              "error": false
+            },
+            {
+              "cmd": "Invoke-Command -ComputerName NCIA-PACS-CORE -ScriptBlock { $backup = New-Object -ComObject 'MSXML2.DOMDocument'; $backup.async = $false; $backup.load('C:\\AODB\\Config\\AODB_FIDS_PACS_DC.xml'); $backup.documentElement.selectNodes('//backup-target').item(0).text = 'SNAPSHOT'; $backup.save('C:\\AODB\\Config\\AODB_FIDS_PACS_DC.xml'); Write-Output 'Backup target set to SNAPSHOT' }",
+              "output": "Backup target set to SNAPSHOT",
+              "error": false
+            },
+            {
+              "cmd": "Invoke-Command -ComputerName NCIA-PACS-CORE -ScriptBlock { Start-Process -FilePath 'C:\\AODB\\Maintenance\\AODB_IndexMaintenance.ps1' -ArgumentList '-Mode Snapshot' -Wait }",
+              "output": "Executing AODB_IndexMaintenance.ps1 with -Mode Snapshot\n[INFO] AODB database snapshot initiated at 09:00:05\n[INFO] FIDS data feed configuration backup completed\n[INFO] PACS session logs archived\n[INFO] DC power state synchronized\n[INFO] All targets: AODB, FIDS, PACS, DC — SNAPSHOT in progress",
+              "error": false
+            },
+            {
+              "cmd": "Write-Host \"Backup status: 100% complete. Snapshot files stored in \\AODB\\Backups\\2026-10-20-090000\" -ForegroundColor Green",
+              "output": "Backup status: 100% complete. Snapshot files stored in \\AODB\\Backups\\2026-10-20-090000",
+              "error": false
+            },
+            {
+              "cmd": "Get-ChildItem -Path 'C:\\AODB\\Backups\\2026-10-20-090000' | Format-Table -Property Name, Length, LastWriteTime",
+              "output": "Name Length LastWriteTime\n---- ------ -------------\nAODB_FIDS_PACS_DC_Snapshot_090000.zip 148 MB 10/20/2026 09:00:30 AM\nAODB_IndexMaint_BKUP_090000.log 2.1 KB 10/20/2026 09:00:30 AM\nAODB_FIDS_Config_Backup.xml 4.7 KB 10/20/2026 09:00:30 AM",
+              "error": false
+            },
+            {
+              "cmd": "Write-Host \"Emergency backup cycle completed. All critical systems backed up to gold image (09:00:45).\" -ForegroundColor Green",
+              "output": "Emergency backup cycle completed. All critical systems backed up to gold image (09:00:45).",
+              "error": false
+            }
+          ],
+          "showCursor": true
+        },
+        "instructorNote": "This is a defensive insurance move. The team has bought time for recovery if the bomb triggers. Watch for teams who skip this and rush to stop the bomb without backup.",
+        "deliveryMode": "hand_to_role"
+      }
     }
   ],
   "includeInDeck": true,
   "locked": false,
-  "updatedAt": "2026-10-22T14:08:26.247Z"
+  "updatedAt": "2026-10-23T19:49:21.970Z"
 }
