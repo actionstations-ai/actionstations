@@ -18,7 +18,7 @@ The owner does not want to pay for GitHub-hosted compute. **Nothing under `.gith
 
 | Label | Use |
 |---|---|
-| `area:scaffold` `area:ipc` `area:ingest` `area:retrieval` `area:providers` `area:comfy` `area:templates` `area:generate` `area:editor` `area:export` `area:facilitator` `area:tests` `area:docs` | component |
+| `area:scaffold` `area:ipc` `area:ingest` `area:retrieval` `area:providers` `area:comfy` `area:templates` `area:generate` `area:editor` `area:export` `area:facilitator` `area:tests` `area:docs` `area:packs` | component |
 | `type:feature` `type:bug` `type:chore` `type:refactor` `type:spike` | kind |
 | `inject-type` | new inject template request (has its own issue form) |
 | `epic` | parent tracking issue |

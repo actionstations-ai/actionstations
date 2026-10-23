@@ -1,0 +1,136 @@
+{
+  "formatVersion": 1,
+  "id": "ai.actionstations.freight-rail",
+  "name": "Freight Rail Operations",
+  "version": "1.0.0",
+  "summary": "Domain profile, dispatch-board template, emergency plan template and an example project for a freight railroad.",
+  "description": "Adds a **freight rail** domain profile (yards, mainline subdivisions, dispatch desk), a dispatch board inject template, a rail-tuned inject prompt and a complete example exercise at a fictional terminal railroad.",
+  "author": {
+    "name": "Action Stations",
+    "url": "https://actionstations.ai"
+  },
+  "license": "CC-BY-4.0",
+  "homepage": "https://actionstations.ai/packs/ai.actionstations.freight-rail/",
+  "minAppVersion": "0.3.0",
+  "domains": ["freight_rail"],
+  "tags": ["rail", "transportation", "hazmat"],
+  "contents": {
+    "templates": ["rail_dispatch_board"],
+    "prompts": ["inject_text"],
+    "domains": ["freight_rail"],
+    "workflows": ["yard-cctv-still"],
+    "documents": ["rail-emergency-plan"],
+    "examples": ["harbor-junction"]
+  },
+  "documents": [
+    {
+      "path": "documents/rail-emergency-plan/emergency-response-plan.pdf",
+      "title": "Railroad Emergency Response Plan (template)",
+      "source": "Written for this pack",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "documents/rail-emergency-plan/hazmat-quick-reference.md",
+      "title": "Hazmat release quick reference",
+      "source": "Written for this pack",
+      "license": "CC0-1.0"
+    }
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5",
+      "size": 1840
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "c693279643b8cd5d248172d9c22cb7cf4ed163a3c98c8a3f69c2717edd3eacb7",
+      "size": 18657
+    },
+    {
+      "path": "templates/rail_dispatch_board/template.html",
+      "sha256": "ace86225e24251030460b55c6023a14889c89c52aa979cc217fae69116741970",
+      "size": 2210
+    },
+    {
+      "path": "templates/rail_dispatch_board/style.css",
+      "sha256": "708cddfc618b7929bfd116846201764c905af11e3cc3871d784dd5ad6511761b",
+      "size": 3105
+    },
+    {
+      "path": "templates/rail_dispatch_board/meta.json",
+      "sha256": "9e1d360e47c7d0a5de9023869db140c25a4335f1379e582eec6ad367442d56ff",
+      "size": 412
+    },
+    {
+      "path": "templates/rail_dispatch_board/schema.json",
+      "sha256": "5443ac16099bb974108272225beeca1407e2fc03b9a2f9823923e1cee3da46f4",
+      "size": 1630
+    },
+    {
+      "path": "templates/rail_dispatch_board/preview.json",
+      "sha256": "fa2b6f380be2b779514f2d330f549957b1690414ac3f8ebb979b74e948757082",
+      "size": 980
+    },
+    {
+      "path": "templates/rail_dispatch_board/__golden__/default.png",
+      "sha256": "dbe238dcc5bd7acaab65d9d01026e4df6039ad97868824dd372b32d5e24b246b",
+      "size": 148230
+    },
+    {
+      "path": "prompts/inject_text.md",
+      "sha256": "f5ca196e436a9f45a4e9136b970ad8515dc86263fb62fd8ef16e98dec2221e9a",
+      "size": 6120
+    },
+    {
+      "path": "domains/freight_rail.json",
+      "sha256": "a321148a79adf65625bee7e7328b43b0db8b3f8447e456827539b0a68bb6ce31",
+      "size": 7340
+    },
+    {
+      "path": "workflows/yard-cctv-still.json",
+      "sha256": "05a508148fd2aa6f4b6231f13f688ebb28a9240113f9d983753ce1630a42a43b",
+      "size": 9012
+    },
+    {
+      "path": "workflows/yard-cctv-still.bindings.json",
+      "sha256": "b61b6ca2f4fa3079c1825cc67494094c0845eedcd68972f14596ae76e1ee0ca9",
+      "size": 688
+    },
+    {
+      "path": "documents/rail-emergency-plan/emergency-response-plan.pdf",
+      "sha256": "8313e1445e7681ccfb55d96316c5b7fc1094b95500f5c4c72a2a9fbfbece1b28",
+      "size": 412870
+    },
+    {
+      "path": "documents/rail-emergency-plan/hazmat-quick-reference.md",
+      "sha256": "49cb4795aa0930150981899787db389427855a517dc56caf6623ae3862271440",
+      "size": 5230
+    },
+    {
+      "path": "examples/harbor-junction/example.json",
+      "sha256": "6507889812785392f34fa74c9ede0ffcff55d25400b2f43b3ff0115c6b68cdaf",
+      "size": 911
+    },
+    {
+      "path": "examples/harbor-junction/project/project.json",
+      "sha256": "1f06adac20f987e615ec63fb31fe522a78330ca5c5474e0339814724b7a6c675",
+      "size": 2304
+    },
+    {
+      "path": "examples/harbor-junction/project/documents/01J9ZK3F7Q2W8N4R6T0V5X1Y3B/meta.json",
+      "sha256": "7a0dfcc3cd7ca5de2a925d37545824ddd5f2df7fdd92a762f1d68968b6796505",
+      "size": 640
+    },
+    {
+      "path": "examples/harbor-junction/project/documents/01J9ZK3F7Q2W8N4R6T0V5X1Y3B/original.md",
+      "sha256": "5b9ecb1a4310c4fae6136b34b13b012a7da0f4c26c25e83df9db1ee717a82032",
+      "size": 22410
+    },
+    {
+      "path": "examples/harbor-junction/project/documents/01J9ZK3F7Q2W8N4R6T0V5X1Y3B/text.md",
+      "sha256": "2a1326a8b253ae1c18be16509803186b2aa34205adc3f90491891dbe112e673a",
+      "size": 22410
+    }
+  ]
+}

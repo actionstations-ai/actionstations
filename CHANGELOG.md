@@ -91,6 +91,13 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Added
 
+#### Packs (specification)
+
+- Packs design for 0.3.0: PRD FR-9, ADR-0018, `docs/packs-format.md` (`.aspack` archive with
+  `pack.json`, catalog `index.json`) and the zod schemas `PackManifest` / `PackCatalog` with
+  path, file-type, size and sha256 rules in `src/shared/schemas/pack.ts`; implementation
+  tracked in epic #274.
+
 #### Editors and saving
 
 - Confirm before quitting or closing the window with unsaved work (#196): main asks the renderer (with a timeout, so a hung page never blocks quitting), which saves pending autosaves first and reports inject drafts, edits parked during generation and editors whose save was refused or failed; a native dialog offers "Quit and discard" or "Cancel".

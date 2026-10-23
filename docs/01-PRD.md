@@ -75,6 +75,35 @@ Building a good tabletop exercise by hand takes days: read the organization's pl
 ### FR-8 Facilitator mode (minimal)
 - Read-only timeline of the MSEL with a running exercise clock, "deliver" button that marks an inject delivered and opens its media full-screen on a second display, notes field per inject for the hot wash.
 
+### FR-9 Packs (0.3.0)
+
+Packs are downloadable bundles of content: inject templates, prompts, domain profiles, ComfyUI workflows, reference documents and example projects (for example an extended social media pack, or an industry domain pack with its standard documentation). They install from a file, a URL or a catalog (the official one at actionstations.ai, or any other), and users can export their own work as a pack to share. Format: [packs-format.md](packs-format.md); design: [ADR-0018](adr/0018-packs.md).
+
+User stories:
+
+- **Browse a catalog.** As a designer I add the official catalog with one click (or paste another catalog URL) and browse its packs by kind, domain and tag, with summary, author, license, size and version. The app contacts a catalog only after I added it, and only when I open Browse or press Refresh.
+- **Install from a file or URL.** I open an `.aspack` file (double-click, drag onto the window, or Packs → Install from file) or paste a download URL, and get the same review screen as for a catalog pack. Nothing installs without that review.
+- **Review contents and licenses first.** Before installing I see every item by kind (templates, prompts, domains, workflows, documents, examples), what each one replaces, the pack license and each document's license and source, ComfyUI custom nodes the workflows need, the archive's sha256 and where it came from, and any conflict with a pack I already have.
+- **Update.** When a catalog lists a newer compatible version I see "Update available" and update with one click after reviewing the changes. Projects that already use the pack's items keep their copies until I update them per project.
+- **Disable.** I can turn a pack off without removing it; its items leave the pickers and nothing else changes.
+- **Uninstall.** I can remove a pack; projects that used its templates, workflows, domain profile, documents or examples keep working, because those were copied into the project when first used.
+- **Provenance.** Templates, prompts, workflows, domain profiles, documents and examples that came from a pack show a badge with the pack's name and version (and "edited" when a project copy was changed), in pickers, the Templates and Prompts screens, Documents and the examples gallery.
+- **Export my work as a pack.** I select my own templates, prompt overrides, workflows, a project's domain profile, project documents (stating each license) and a project as an example, fill in name, id, version and summary, choose a license for the pack (SPDX or `LicenseRef-*`; no default, independent of the app's own license), and get a validated `.aspack`.
+- **Share.** I submit my pack to the official catalog by a pull request to the site repository; the app shows the steps and opens the contribution page when I ask.
+
+Requirements:
+
+- No executable content: allowed file types per kind, template HTML without scripts, handlers or remote references, YAML-only prompt frontmatter, zip limits and path guards (ADR-0018).
+- Integrity by sha256 only: per file in `pack.json`, per archive in the catalog. A mismatch refuses the install.
+- No default catalog, no background network, no automatic updates.
+
+Non-goals (packs):
+
+- Signing, publisher accounts, ratings or reviews, paid packs.
+- Executable plugins, scripts, custom code or new threat families with code-level lint rules.
+- Dependencies between packs, automatic or background updates, telemetry about installs.
+- Hosting user packs anywhere but the site repository (no upload service).
+
 ## Non-functional
 
 - Offline-capable except for configured remote providers.

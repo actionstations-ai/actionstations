@@ -112,6 +112,7 @@ e2e/                 Playwright tests
 | [0015](docs/adr/0015-repair-in-place.md)          | Repair a finished scenario in place                                             |
 | [0016](docs/adr/0016-forward-compatible-files.md) | Forward-compatible project files                                                |
 | [0017](docs/adr/0017-windowed-lists.md)           | Memoized rows and windowed long lists (MSEL grid, inject deck)                  |
+| [0018](docs/adr/0018-packs.md)                    | Packs: installable content bundles                                              |
 
 New ADRs start from [`docs/adr/0000-template.md`](docs/adr/0000-template.md).
 

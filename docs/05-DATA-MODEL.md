@@ -159,3 +159,6 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 | `models/` | Downloaded local embedding models (only via the explicit download action) |
 | `provider-calls.jsonl` | One line per model call: provider, model, tokens, cost, duration — no prompt text, no keys |
 | `jobs.json` | Persisted job records so interrupted generation shows as resumable |
+| `packs/<id>/<version>/` | Installed packs, verified against their `pack.json` hashes, read-only (ADR-0018) |
+| `packs/registry.json` | Installed packs: version, enabled, source (file / url / catalog), archive and content sha256 |
+| `templates/injects/<type>/` | User inject templates, the layer between project and pack templates (ADR-0018) |
