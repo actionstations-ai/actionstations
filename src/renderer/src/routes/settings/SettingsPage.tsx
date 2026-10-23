@@ -157,6 +157,42 @@ function EmbeddingsSection({ settings }: { settings: AppSettings }) {
   )
 }
 
+/** Follow-on jobs after a scenario finishes generating (#227). Off by default. */
+export function GenerationSection({ settings }: { settings: AppSettings }) {
+  const save = useSaveSettings()
+  const on = settings.generation?.autoInjectsAndMedia ?? false
+  return (
+    <section className="card stack settings-section" aria-labelledby="generation-heading">
+      <div>
+        <h2 id="generation-heading">Generation</h2>
+        <p className="muted">
+          A generated scenario starts with its timeline of events. Injects and their media are
+          separate steps you start from the scenario page, so you can review the timeline first.
+        </p>
+      </div>
+      <label className="row">
+        <input
+          type="checkbox"
+          checked={on}
+          aria-describedby="auto-follow-hint"
+          onChange={(e) =>
+            save(
+              { generation: { autoInjectsAndMedia: e.target.checked } },
+              'Automatic injects and media',
+            )
+          }
+        />
+        <span>Write injects and render media automatically after generation</span>
+      </label>
+      <p id="auto-follow-hint" className="field__hint">
+        Runs &ldquo;Write all injects&rdquo; and then &ldquo;Render all media&rdquo; as soon as a
+        scenario finishes generating. Media rendering can take a while with AI image or video
+        providers.
+      </p>
+    </section>
+  )
+}
+
 export default function SettingsPage() {
   const settings = useIpcQuery('settings:get', undefined)
   return (
@@ -179,6 +215,7 @@ export default function SettingsPage() {
       {settings.data && (
         <>
           <GeneralSection settings={settings.data} />
+          <GenerationSection settings={settings.data} />
           <EmbeddingsSection settings={settings.data} />
         </>
       )}

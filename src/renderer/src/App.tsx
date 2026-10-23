@@ -9,6 +9,7 @@ import { ChromeFor, RouteFocus, Sidebar, SkipLink } from './components/shell'
 import { fromProjectKey, useProjectUi } from './state/project'
 import { FirstRunRedirect } from './routes/welcome/FirstRunRedirect'
 import { ExampleBanner } from './components/ExampleBanner'
+import { AutoContinue } from './routes/scenarios/AutoContinue'
 
 function ThemeSync() {
   const settings = useIpcQuery('settings:get', undefined)
@@ -82,6 +83,7 @@ export function App() {
       <HashRouter>
         <ThemeSync />
         <EventBridge />
+        <AutoContinue />
         <RouteFocus />
         <ChromeFor
           chrome={

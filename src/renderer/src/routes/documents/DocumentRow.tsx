@@ -105,7 +105,6 @@ export function DocumentRow(props: DocumentRowProps) {
         />
       </td>
       <td className="num">{doc.pages || '—'}</td>
-      <td className="num">{doc.chunkCount}</td>
       <td onClick={(e) => e.stopPropagation()}>
         <StatusCell doc={doc} live={props.live} onReingest={props.onReingest} />
       </td>

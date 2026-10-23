@@ -23,7 +23,8 @@ import { updateSettings } from '../settings/store'
 
 export const PROJECT_EXT = '.ttxproj'
 const PROJECT_FILE = 'project.json'
-const PROJECT_GITIGNORE = ['index.sqlite', 'index.sqlite-*', '.cache/', ''].join('\n')
+// exports/ is the export page's default output folder (#238): rebuilt from the project.
+const PROJECT_GITIGNORE = ['index.sqlite', 'index.sqlite-*', '.cache/', 'exports/', ''].join('\n')
 
 /** Well-known locations inside a project folder. All results are guarded absolute paths. */
 export const projectPaths = (root: string) => ({

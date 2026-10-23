@@ -11,6 +11,24 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 ### Changed
 
 - Generated MSELs follow the reference pace (#223): `msel_phase` asks for about six rows an hour, at most seven (20–28 rows for a 4-hour exercise, scaled by phase length), side injects included; a new `DENSITY_DENSE` info lint notes a phase above that.
+- Project Overview opens on a "Get this exercise ready" checklist (documents → facility facts →
+  generate → injects → media → export / facilitate) with live state per step, one primary Next
+  button and the project's scenarios; project settings moved into a collapsed section below
+  that remembers whether it was open (#226).
+- Scenario page: a next-action bar ("Next: write 6 injects" → "Render media (0/6)" →
+  "Export / Facilitate") above the tabs; the status badge now reflects the work done (Draft,
+  Injects written, Media rendered, Ready) and lint errors keep a scenario from "Ready"; the
+  Injects tab shows how many injects are missing (#227). New setting (Settings → Generation, off
+  by default): write injects and render media automatically after generation (#227).
+- Warnings tab and MSEL lint use plain-language headlines per check, keep the code and the
+  checker's detail as secondary text, sort errors first and offer "Go to row" (opens the MSEL on
+  that row) or "Open inject". A glossary popover explains MSEL, inject, STARTEX / ENDEX, SimCell,
+  hot wash, time jump, PIO and lint where they first appear, plus a Glossary button on the
+  Overview and scenario page. The facility facts "Checked by lint" badge is no longer red, and
+  the Documents table hides the embedder model and chunk counts behind an Advanced detail (#229).
+- Export page: the output folder defaults to `<project>/exports` (created on the first export)
+  or the folder last chosen for that project; the folder, Export button and a readiness summary
+  (events without injects, unrendered injects, lint errors) sit in a pinned action bar (#238).
 
 - In-app branding is now Action Stations: logo in the sidebar, comic-panel theme (newsprint light, navy-ink dark, Bangers page titles, ink outlines and hard shadows), window, page and menu-bar titles renamed (the settings folder keeps its name); new app icon from the logo; closing the main window now quits the app on macOS too; `scripts/dev-bundle.sh` builds a renamed Electron bundle for unpackaged runs; macOS overscroll bounce disabled (#191).
 
@@ -51,6 +69,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   ZIP holds only the files from that run (#213).
 - Opening a project again while its index rebuild runs reuses that rebuild instead of starting
   a second reset (#214).
+- Scenario Warnings tab count now comes from the same live lint as the tab body, so it no
+  longer says "Warnings (0)" above a list of warnings (#228).
 
 - Lint false positives found on the bundled examples (#185): a named site with a leading
   article ("The Lakeshore Flight Area"), a rogue device the row itself calls unknown ("No

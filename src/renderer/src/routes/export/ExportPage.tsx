@@ -1,5 +1,5 @@
 import { Tabs } from 'radix-ui'
-import { ArrowLeft, FolderOpen, RotateCcw } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, FolderOpen, RotateCcw, TriangleAlert } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import type { ExportTarget } from '@shared/ipc'
@@ -22,6 +22,8 @@ import {
   type PreviewDoc,
   type TargetOption,
 } from './targets'
+import { type Readiness } from '../scenarios/readiness'
+import { useReadiness } from '../scenarios/use-readiness'
 import './export.css'
 import { errorText } from '../../lib/errors'
 import { LiveStatus } from '../../components/LiveStatus'
@@ -94,6 +96,36 @@ function Preview({ projectPath, scenarioId }: { projectPath: string; scenarioId:
   )
 }
 
+/** What the export will contain, shown before it runs (#238). */
+function ReadinessSummary(props: { readiness: Readiness | undefined; scenarioUrl: string }) {
+  const r = props.readiness
+  if (!r) return <p className="muted export-ready">Checking the scenario…</p>
+  const missing = r.rows - r.written
+  const unrendered = r.written - r.rendered
+  const problems = [
+    missing > 0 && `${missing} of ${r.rows} events have no inject yet`,
+    unrendered > 0 && `${unrendered} inject${unrendered === 1 ? ' is' : 's are'} not rendered`,
+    r.errors > 0 && `${r.errors} check${r.errors === 1 ? '' : 's'} report errors`,
+  ].filter((p): p is string => !!p)
+  if (!problems.length)
+    return (
+      <p className="export-ready export-ready--ok">
+        <CheckCircle2 size={16} aria-hidden /> All {r.rows} injects are written and rendered.
+      </p>
+    )
+  return (
+    <div className="export-ready export-ready--warn">
+      <p>
+        <TriangleAlert size={16} aria-hidden /> {problems.join('; ')}. You can export anyway; the
+        deck and handbook will show what is missing.
+      </p>
+      <Link to={`${props.scenarioUrl}?tab=${missing || unrendered ? 'injects' : 'warnings'}`}>
+        {missing ? 'Write the missing injects' : unrendered ? 'Render media' : 'Show the errors'}
+      </Link>
+    </div>
+  )
+}
+
 function ExportStatus(props: {
   job: ReturnType<typeof useJob>
   jobId: string | null
@@ -161,7 +193,8 @@ export default function ExportPage() {
     { enabled: !!scenarioId },
   )
   const [targets, setTargets] = useState<ExportTarget[]>(DEFAULT_TARGETS)
-  const [outDir, setOutDir] = useState(rememberedOutDir)
+  const [outDir, setOutDir] = useState(() => rememberedOutDir(projectPath))
+  const { readiness } = useReadiness(projectPath, scenario.data)
   const [jobId, setJobId] = useState<string | null>(null)
   const [result, setResult] = useState<ExportJobResult | null>(null)
   const [startError, setStartError] = useState('')
@@ -176,7 +209,7 @@ export default function ExportPage() {
     })
     if (dir) {
       setOutDir(dir)
-      rememberOutDir(dir)
+      rememberOutDir(projectPath, dir)
     }
   }
   const start = async () => {
@@ -224,33 +257,34 @@ export default function ExportPage() {
             onToggle={(id) => setTargets((t) => toggleTarget(t, id))}
             disabled={running}
           />
-          <div className="field">
-            <label className="field__label" htmlFor="export-out-dir">
-              Output folder
-            </label>
-            <div className="export-folder">
-              <input
-                id="export-out-dir"
-                className="input"
-                value={outDir}
-                readOnly
-                placeholder="No folder chosen"
-                aria-describedby="export-out-hint"
-              />
-              <Button onClick={() => void chooseFolder()} disabled={running}>
-                Choose…
-              </Button>
+          <div className="export-actions" role="group" aria-label="Export">
+            <ReadinessSummary readiness={readiness} scenarioUrl={scenarioUrl} />
+            <div className="field">
+              <label className="field__label" htmlFor="export-out-dir">
+                Output folder
+              </label>
+              <div className="export-folder">
+                <input
+                  id="export-out-dir"
+                  className="input"
+                  value={outDir}
+                  readOnly
+                  placeholder="No folder chosen"
+                  aria-describedby="export-out-hint"
+                />
+                <Button onClick={() => void chooseFolder()} disabled={running}>
+                  Choose…
+                </Button>
+              </div>
+              <span id="export-out-hint" className="field__hint">
+                Files go into a folder named after the scenario; the ZIP sits next to it.
+              </span>
             </div>
-            <span id="export-out-hint" className="field__hint">
-              Files go into a folder named after the scenario; the ZIP sits next to it.
-            </span>
-          </div>
-          {startError && (
-            <p className="field__error" role="alert">
-              {startError}
-            </p>
-          )}
-          <div className="row">
+            {startError && (
+              <p className="field__error" role="alert">
+                {startError}
+              </p>
+            )}
             <Button
               type="submit"
               variant="primary"
@@ -258,8 +292,8 @@ export default function ExportPage() {
             >
               {running ? 'Exporting…' : 'Export'}
             </Button>
+            <ExportStatus job={job} jobId={jobId} result={result} onRetry={() => void start()} />
           </div>
-          <ExportStatus job={job} jobId={jobId} result={result} onRetry={() => void start()} />
         </form>
         {scenarioId && <Preview projectPath={projectPath} scenarioId={scenarioId} />}
       </div>

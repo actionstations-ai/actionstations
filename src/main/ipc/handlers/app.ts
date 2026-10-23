@@ -55,6 +55,7 @@ export default defineHandlers({
     updateSettings((s) => {
       if (patch.ui) s.ui = { ...s.ui, ...patch.ui }
       if (patch.embeddings) s.embeddings = { ...s.embeddings, ...patch.embeddings }
+      if (patch.generation) s.generation = { ...s.generation, ...patch.generation }
       if (patch.defaultRouting) s.defaultRouting = patch.defaultRouting
       if (patch.onboardingComplete !== undefined) s.onboardingComplete = patch.onboardingComplete
       if (patch.defaultProjectsDir !== undefined) s.defaultProjectsDir = patch.defaultProjectsDir

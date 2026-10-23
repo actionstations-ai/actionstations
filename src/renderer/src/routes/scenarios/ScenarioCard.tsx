@@ -4,8 +4,8 @@ import type { ScenarioMeta } from '@shared/schemas/project'
 import { Badge, Button } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { projectKey } from '../../state/project'
-
-const STATUS_TONE = { draft: 'neutral', ready: 'ok', archived: 'warn' } as const
+import { STATUS_LABEL, STATUS_TONE } from './readiness'
+import { useReadiness } from './use-readiness'
 
 const formatUpdated = (iso: string): string =>
   new Date(iso).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
@@ -19,6 +19,8 @@ export function ScenarioCard(props: {
   const { meta, projectPath } = props
   const detail = useIpcQuery('scenarios:get', { projectPath, scenarioId: meta.id })
   const s = detail.data
+  const { readiness } = useReadiness(projectPath, s)
+  const status = readiness?.status ?? (meta.status === 'archived' ? 'archived' : 'draft')
   const headingId = `scenario-${meta.id}`
   const injects = s ? s.msel.filter((r) => !['STARTEX', 'ENDEX'].includes(r.purposeTag)).length : 0
   return (
@@ -27,7 +29,7 @@ export function ScenarioCard(props: {
         <h2 id={headingId}>
           <Link to={`/p/${projectKey(projectPath)}/scenarios/${meta.id}`}>{meta.title}</Link>
         </h2>
-        <Badge tone={STATUS_TONE[meta.status]}>{meta.status}</Badge>
+        <Badge tone={STATUS_TONE[status]}>{STATUS_LABEL[status]}</Badge>
       </div>
       {s?.subtitle && <p>{s.subtitle}</p>}
       <p className="muted scenario-card__counts">

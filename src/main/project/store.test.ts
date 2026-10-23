@@ -31,6 +31,7 @@ describe('project store', () => {
     for (const d of ['documents', 'scenarios', 'prompts'])
       expect(existsSync(join(path, d))).toBe(true)
     expect(readFileSync(join(path, '.gitignore'), 'utf8')).toContain('index.sqlite')
+    expect(readFileSync(join(path, '.gitignore'), 'utf8')).toContain('exports/')
     expect((await loadProject(path)).id).toBe(project.id)
     expect((await getSettings()).recentProjects[0]?.path).toBe(path)
   })

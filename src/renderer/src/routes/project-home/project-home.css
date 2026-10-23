@@ -1,35 +1,161 @@
 /* Project overview + settings form. Tokens only. */
-.project-summary {
-  display: grid;
-  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
-  gap: var(--space-8);
-  align-items: start;
-}
-.project-summary__stats {
+
+/* "Get this exercise ready" (#226) */
+.checklist {
   display: flex;
-  gap: var(--space-8);
-  margin: 0;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-color: var(--color-border-strong);
 }
-.project-summary__stats div {
+.checklist__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.checklist__header h2 {
+  font-size: var(--text-xl);
+}
+.checklist__header p {
+  margin: var(--space-1) 0 0;
+}
+.checklist__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
 }
-.project-summary__stats dt {
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+.checklist__step {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-top: var(--border-width) solid var(--color-border);
+}
+.checklist__marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: var(--border-width) solid var(--color-border-strong);
+  background: var(--color-surface);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+}
+.checklist__step[data-state='done'] .checklist__marker {
+  background: var(--color-success-soft);
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+.checklist__step[data-state='current'] .checklist__marker {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+.checklist__step[data-state='todo'] .checklist__marker {
+  border-color: var(--color-border);
   color: var(--color-text-muted);
 }
-.project-summary__stats dd {
-  margin: 0;
-  font-size: var(--text-2xl);
+.checklist__title {
+  font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
 }
-.project-summary__stats .muted {
-  display: block;
-  font-weight: var(--weight-regular);
+.checklist__body p {
+  margin: var(--space-1) 0 0;
+}
+.checklist__step[data-state='todo'] .checklist__title {
+  color: var(--color-text-muted);
+}
+.checklist__link {
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+.checklist__badge {
   font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+}
+.checklist__foot {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+/* Scenarios on the Overview */
+.project-scenarios {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.project-scenarios__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+}
+.project-scenarios__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.project-scenarios__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: var(--border-width) solid var(--color-border);
+}
+.project-scenarios__title {
+  font-weight: var(--weight-semibold);
+}
+.project-scenarios__counts,
+.project-scenarios__date {
+  font-size: var(--text-sm);
+}
+.project-scenarios__date {
+  margin-left: auto;
+}
+
+/* Collapsed project settings */
+.project-settings-details {
+  border-top: var(--border-width) solid var(--color-border);
+  padding-top: var(--space-4);
+}
+.project-settings-details__summary {
+  cursor: pointer;
+  padding: var(--space-2) 0;
+}
+.project-settings-details__summary:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+.project-settings-details__label {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+.project-settings-details__body {
+  margin-top: var(--space-4);
+  gap: var(--space-5);
+}
+@media (max-width: 40rem) {
+  .checklist__step {
+    grid-template-columns: 2rem minmax(0, 1fr);
+  }
+  .checklist__link,
+  .checklist__badge {
+    grid-column: 2;
+  }
+  .project-scenarios__date {
+    margin-left: 0;
+  }
 }
 .project-summary__meta {
   display: grid;

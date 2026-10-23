@@ -1,3 +1,4 @@
+import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router'
 import type { Project } from '@shared/schemas'
 import { Badge, Button, EmptyState, PageHeader } from '../../components/ui'
@@ -5,6 +6,9 @@ import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
 import { revealFolder, revealLabel } from '../projects/reveal'
 import { ProjectSettingsForm } from './ProjectSettingsForm'
+import { GlossaryButton } from '../../components/Glossary'
+import { ProjectScenarios } from './ProjectScenarios'
+import { ReadinessChecklist } from './ReadinessChecklist'
 import './project-home.css'
 import { errorText } from '../../lib/errors'
 
@@ -12,40 +16,55 @@ const formatDate = (iso: string): string =>
   new Date(iso).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
 
 function ProjectSummary({ path, project }: { path: string; project: Project }) {
-  const ready = project.documents.filter((d) => d.status === 'ok').length
   return (
-    <section className="card project-summary" aria-labelledby="summary-heading">
-      <h2 id="summary-heading" className="sr-only">
-        Summary
-      </h2>
-      <dl className="project-summary__stats">
-        <div>
-          <dt>Documents</dt>
-          <dd>
-            {project.documents.length}
-            {project.documents.length > 0 && <span className="muted"> {ready} indexed</span>}
-          </dd>
-        </div>
-        <div>
-          <dt>Scenarios</dt>
-          <dd>{project.scenarios.length}</dd>
-        </div>
-        <div>
-          <dt>Default roles</dt>
-          <dd>{project.defaultRoles.length}</dd>
-        </div>
-      </dl>
-      <dl className="project-summary__meta">
-        <dt>Folder</dt>
-        <dd className="mono" title={path}>
-          {path}
-        </dd>
-        <dt>Created</dt>
-        <dd>{formatDate(project.createdAt)}</dd>
-        <dt>Last saved</dt>
-        <dd>{formatDate(project.updatedAt)}</dd>
-      </dl>
-    </section>
+    <dl className="project-summary__meta">
+      <dt>Folder</dt>
+      <dd className="mono" title={path}>
+        {path}
+      </dd>
+      <dt>Created</dt>
+      <dd>{formatDate(project.createdAt)}</dd>
+      <dt>Last saved</dt>
+      <dd>{formatDate(project.updatedAt)}</dd>
+      <dt>Default roles</dt>
+      <dd>{project.defaultRoles.length}</dd>
+    </dl>
+  )
+}
+
+const SETTINGS_OPEN_KEY = 'ttx.overview.settingsOpen'
+
+function readOpen(): boolean {
+  try {
+    return localStorage.getItem(SETTINGS_OPEN_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+/** Project settings, collapsed under the checklist; the open state is remembered. */
+function SettingsDisclosure({ children }: { children: ReactNode }) {
+  const [open, setOpen] = useState(readOpen)
+  return (
+    <details
+      className="project-settings-details"
+      open={open}
+      onToggle={(e) => {
+        const next = e.currentTarget.open
+        setOpen(next)
+        try {
+          localStorage.setItem(SETTINGS_OPEN_KEY, next ? '1' : '0')
+        } catch {
+          // Storage unavailable: the section simply starts collapsed next time.
+        }
+      }}
+    >
+      <summary className="project-settings-details__summary">
+        <span className="project-settings-details__label">Project settings</span>
+        <span className="muted"> Organization, domain, brand and default roles</span>
+      </summary>
+      <div className="stack project-settings-details__body">{children}</div>
+    </details>
   )
 }
 
@@ -81,13 +100,20 @@ export default function ProjectHomePage() {
             {project.archived && <Badge tone="warn">Archived</Badge>}
           </span>
         }
-        description="Everything this project generates draws on its organization profile, brand and default roles below."
+        description="Work through the steps below to turn your documents into a ready-to-run exercise."
         actions={
-          <Button onClick={() => void revealFolder(query.data.path)}>{revealLabel()}</Button>
+          <>
+            <GlossaryButton />
+            <Button onClick={() => void revealFolder(query.data.path)}>{revealLabel()}</Button>
+          </>
         }
       />
-      <ProjectSummary path={query.data.path} project={project} />
-      <ProjectSettingsForm key={project.id} path={query.data.path} project={project} />
+      <ReadinessChecklist path={query.data.path} project={project} />
+      <ProjectScenarios path={query.data.path} scenarios={project.scenarios} />
+      <SettingsDisclosure>
+        <ProjectSummary path={query.data.path} project={project} />
+        <ProjectSettingsForm key={project.id} path={query.data.path} project={project} />
+      </SettingsDisclosure>
     </div>
   )
 }

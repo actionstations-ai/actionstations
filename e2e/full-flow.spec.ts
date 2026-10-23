@@ -104,7 +104,8 @@ async function ideateAndGenerate(page: Page, key: string) {
   await shot(page, 'brief-from-idea')
   await brief.getByRole('button', { name: 'Generate scenario' }).click()
   await expect(page.getByRole('heading', { level: 1 })).not.toHaveText('Loading…')
-  await expect(page.locator('.page-header .badge', { hasText: /^ready$/ })).toBeVisible({
+  // Generation done: the next-action bar asks for the injects (#227).
+  await expect(page.getByRole('region', { name: /^Next: write \d+ injects?$/ })).toBeVisible({
     timeout: 45_000,
   })
   await shot(page, 'scenario-ready')
@@ -113,7 +114,7 @@ async function ideateAndGenerate(page: Page, key: string) {
 }
 
 async function writeAndRender(page: Page, injectCount: () => Promise<number>, rows: number) {
-  await page.getByRole('tab', { name: 'Injects' }).click()
+  await page.getByRole('tab', { name: /^Injects/ }).click()
   await page.getByRole('button', { name: 'Write all injects' }).click()
   await expect.poll(injectCount, { timeout: 30_000 }).toBe(rows)
   await expect(page.getByText(`${rows} of ${rows} rows have an inject`)).toBeVisible({
@@ -173,15 +174,9 @@ async function editMselTime(
   await shot(page, 'msel-edited')
 }
 
-/** Export screen: every target into a preset folder (the folder picker is native). */
+/** Export screen: every target into the default folder, <project>/exports (#238). */
 async function exportAll(page: Page, key: string, scenarioId: string) {
-  const outDir = mkdtempSync(join(tmpdir(), 'ttx-full-flow-out-'))
-  await page.evaluate((dir) => {
-    ;(globalThis as unknown as { localStorage: Storage }).localStorage.setItem(
-      'ttx.export.outDir',
-      dir,
-    )
-  }, outDir)
+  const outDir = join(decodeURIComponent(key), 'exports')
   await goTo(page, `#/p/${key}/scenarios/${scenarioId}/export`)
   await page.reload()
   await expect(page.getByRole('checkbox', { name: /Distribution ZIP/ })).toBeVisible()

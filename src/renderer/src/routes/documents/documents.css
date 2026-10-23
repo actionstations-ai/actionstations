@@ -22,6 +22,19 @@
 .index-status__link {
   margin-left: auto;
 }
+.index-status__advanced summary {
+  cursor: pointer;
+  color: var(--color-text-muted);
+  width: fit-content;
+}
+.index-status__advanced summary:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+.index-status__advanced[open] summary {
+  margin-bottom: var(--space-2);
+}
 .index-status__rebuild {
   display: grid;
   grid-template-columns: auto minmax(8rem, 20rem);

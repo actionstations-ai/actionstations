@@ -155,6 +155,84 @@ describe('ScenarioPage', () => {
   })
 })
 
+describe('ScenarioPage — guided flow (#227, #228, #229)', () => {
+  const lint = [
+    {
+      code: 'PHASE_EMPTY',
+      severity: 'error',
+      message: 'Phase 2 "The Crisis" has no injects',
+      source: 'lint',
+    },
+    {
+      code: 'ROLE_NO_INJECT',
+      severity: 'warning',
+      message: 'Ops Director receives no inject in phase 1',
+      rowId: 'I-03',
+      source: 'lint',
+    },
+    { code: 'DENSITY_LOW', severity: 'info', message: 'Phase 4 has 1 injects', source: 'lint' },
+  ] as const
+
+  it('shows a truthful status, the next action and an Injects badge when injects are missing', async () => {
+    const ttx = setup({
+      'injects:list': () => [],
+      'scenarios:lint': () => [...lint],
+      'generate:injects': () => ({ jobId: 'INJ1' }),
+    })
+    const bar = await screen.findByRole('region', { name: 'Next: write 24 injects' })
+    // The stored status is "ready", but nothing is written yet.
+    expect(screen.getByText('Draft')).toBeTruthy()
+    expect(screen.queryByText('ready')).toBeNull()
+    expect(within(bar).getByText('Injects written: 0/24')).toBeTruthy()
+    expect(screen.getByRole('tab', { name: 'Injects 24 missing' })).toBeTruthy()
+    const user = userEvent.setup()
+    await user.click(within(bar).getByRole('button', { name: 'Write 24 injects' }))
+    await waitFor(() =>
+      expect(ttx.calls('generate:injects')[0]).toEqual({
+        projectPath: PROJECT,
+        scenarioId: 'scenario-3',
+      }),
+    )
+  })
+
+  it('counts the Warnings tab from the same lint query as its body', async () => {
+    // Stored warnings: 1. Live lint: 3.
+    setup({ 'injects:list': () => [], 'scenarios:lint': () => [...lint] })
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('tab', { name: 'Warnings (3)' }))
+    const list = await screen.findByRole('list', { name: 'Warnings' })
+    expect(within(list).getAllByRole('listitem')).toHaveLength(3)
+  })
+
+  it('explains each warning in plain language, keeps the code and jumps to the row', async () => {
+    setup({ 'injects:list': () => [], 'scenarios:lint': () => [...lint] })
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('tab', { name: /^Warnings/ }))
+    const list = await screen.findByRole('list', { name: 'Warnings' })
+    const items = within(list).getAllByRole('listitem')
+    // Errors first, with the plain headline, the checker's detail and the code.
+    expect(within(items[0]!).getByText('Must fix')).toBeTruthy()
+    expect(within(items[0]!).getByText('A phase has no events for the players.')).toBeTruthy()
+    expect(within(items[0]!).getByText('PHASE_EMPTY')).toBeTruthy()
+    expect(
+      within(items[1]!).getByText('A player role has nothing to react to in this phase.'),
+    ).toBeTruthy()
+    await user.click(within(items[1]!).getByRole('button', { name: 'Go to row I-03' }))
+    expect(screen.getByRole('tab', { name: /^MSEL/ }).getAttribute('aria-selected')).toBe('true')
+    const grid = screen.getByRole('grid', { name: 'Master Scenario Events List' })
+    await waitFor(() => expect(grid.contains(document.activeElement)).toBe(true))
+    expect(document.activeElement?.closest('tr')?.textContent).toContain('I-03')
+  })
+
+  it('explains glossary terms in a popover', async () => {
+    setup({ 'injects:list': () => [], 'scenarios:lint': () => [] })
+    const user = userEvent.setup()
+    const bar = await screen.findByRole('region', { name: /^Next:/ })
+    await user.click(within(bar).getByRole('button', { name: 'What is Inject?' }))
+    expect(await screen.findByText(/One message or event handed to the players/)).toBeTruthy()
+  })
+})
+
 describe('ScenariosPage', () => {
   it('lists scenario cards with counts and confirms before deleting', async () => {
     const meta = {

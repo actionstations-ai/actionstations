@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { channel } from './define'
-import { AppSettings, EmbeddingSettings, UiSettings } from '../schemas/settings'
+import { AppSettings, EmbeddingSettings, GenerationSettings, UiSettings } from '../schemas/settings'
 import { patchOf } from '../schemas/common'
 import { ProviderRouting } from '../schemas/provider'
 
@@ -45,6 +45,7 @@ export const appChannels = {
     z.object({
       ui: patchOf(UiSettings).optional(),
       embeddings: patchOf(EmbeddingSettings).optional(),
+      generation: patchOf(GenerationSettings).optional(),
       defaultRouting: ProviderRouting.optional(),
       onboardingComplete: z.boolean().optional(),
       defaultProjectsDir: z.string().optional(),

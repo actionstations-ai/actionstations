@@ -169,7 +169,9 @@ export function CategorySection(props: {
           {draft.entries.length} {draft.entries.length === 1 ? 'entry' : 'entries'}
         </span>
         {category?.linted ? (
-          <Badge tone="info">Checked by lint</Badge>
+          <span title="Scenario events that name an entry missing from this list are flagged on the Warnings tab.">
+            <Badge tone="ok">Checked by lint</Badge>
+          </span>
         ) : (
           <span className="muted facts-category__kind">Shown to the model, not linted</span>
         )}

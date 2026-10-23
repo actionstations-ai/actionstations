@@ -90,7 +90,13 @@ function SaveBanner(props: { state: EditorState; onRetry: () => void }) {
 const isTextTarget = (t: EventTarget | null): boolean =>
   t instanceof HTMLElement && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))
 
-export function MselEditor(props: { projectPath: string; scenario: Scenario }) {
+/** A request to focus a row from outside the editor ("Go to row" on Warnings); `n` repeats it. */
+export interface RowJump {
+  rowId: string
+  n: number
+}
+
+export function MselEditor(props: { projectPath: string; scenario: Scenario; jump?: RowJump }) {
   const { projectPath, scenario } = props
   const editor = useMselEditor(projectPath, scenario)
   const { state, edit } = editor
@@ -220,6 +226,12 @@ export function MselEditor(props: { projectPath: string; scenario: Scenario }) {
   const jumpTo = (rowId: string) => {
     const r = draft.rows.find((x) => x.row.id === rowId)
     if (r) focus({ line: r.key, col: 'id' })
+  }
+  // A new "Go to row" request from outside moves focus once (state adjusted while rendering).
+  const [seenJump, setSeenJump] = useState<RowJump | undefined>()
+  if (props.jump && props.jump !== seenJump) {
+    setSeenJump(props.jump)
+    jumpTo(props.jump.rowId)
   }
 
   const onKeyDown = (e: KeyboardEvent) => {

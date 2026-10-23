@@ -1,5 +1,7 @@
 // @vitest-environment happy-dom
-import { cleanup, render, screen, within } from '@testing-library/react'
+import { cleanup, render, screen, waitFor, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { AppSettings } from '@shared/schemas/settings'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { afterEach, describe, expect, it } from 'vitest'
 import { MemoryRouter } from 'react-router'
@@ -8,7 +10,7 @@ import { FakeIpcError, mockTtx } from '../documents/test-utils'
 import SettingsPage from './SettingsPage'
 
 function setup(handlers: Parameters<typeof mockTtx>[0]) {
-  mockTtx(handlers)
+  const ttx = mockTtx(handlers)
   queryClient.clear()
   render(
     <QueryClientProvider client={queryClient}>
@@ -17,6 +19,7 @@ function setup(handlers: Parameters<typeof mockTtx>[0]) {
       </MemoryRouter>
     </QueryClientProvider>,
   )
+  return ttx
 }
 
 afterEach(() => cleanup())
@@ -48,5 +51,22 @@ describe('SettingsPage', () => {
       },
     })
     expect((await screen.findByRole('alert')).textContent).toMatch(/permissions/)
+  })
+
+  it('offers automatic injects and media after generation, off by default (#227)', async () => {
+    const ttx = setup({
+      'settings:get': () => AppSettings.parse({}),
+      'settings:update': () => AppSettings.parse({ generation: { autoInjectsAndMedia: true } }),
+    })
+    const box = (await screen.findByRole('checkbox', {
+      name: 'Write injects and render media automatically after generation',
+    })) as HTMLInputElement
+    expect(box.checked).toBe(false)
+    await userEvent.setup().click(box)
+    await waitFor(() =>
+      expect(ttx.calls('settings:update')[0]).toEqual({
+        generation: { autoInjectsAndMedia: true },
+      }),
+    )
   })
 })

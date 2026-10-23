@@ -29,7 +29,7 @@ export function IndexStatus({
   return (
     <div className="index-status">
       <div className="index-status__line">
-        <span className="index-status__label">Embeddings</span>
+        <span className="index-status__label">Search index</span>
         {status.isPending && <span className="muted">Checking…</span>}
         {status.isError && <span className="muted">Status unavailable.</span>}
         {status.data && (
@@ -37,13 +37,23 @@ export function IndexStatus({
             <Badge tone={status.data.ready ? 'ok' : 'warn'}>
               {status.data.ready ? 'Ready' : 'Not ready'}
             </Badge>
-            <span className="muted">{describe(status.data)}</span>
+            <span className="muted">
+              {status.data.ready
+                ? 'Generation can search and cite these documents.'
+                : (status.data.message ?? 'Documents cannot be searched yet.')}
+            </span>
           </>
         )}
-        <Link to="/settings" className="index-status__link">
-          Embedding settings
-        </Link>
       </div>
+      <details className="index-status__advanced">
+        <summary>Advanced</summary>
+        <div className="index-status__line">
+          {status.data && <span className="muted">Embeddings: {describe(status.data)}</span>}
+          <Link to="/settings" className="index-status__link">
+            Embedding settings
+          </Link>
+        </div>
+      </details>
       {rebuild && (
         <div className="index-status__rebuild">
           <span>Rebuilding index: {rebuild.message || 'working'}</span>

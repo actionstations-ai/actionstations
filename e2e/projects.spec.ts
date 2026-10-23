@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test'
 import { existsSync, mkdtempSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { launch } from './helpers'
+import { launch, openProjectSettings } from './helpers'
 
 type Invoke = (c: string, p: unknown) => Promise<{ ok: boolean; data?: unknown }>
 const invoke = (page: Page, channel: string, req: unknown) =>
@@ -43,6 +43,11 @@ test('create a project, edit its settings, and see them persist', async () => {
   for (const entry of ['project.json', 'documents', 'scenarios', 'prompts', '.gitignore'])
     expect(existsSync(join(root, entry)), entry).toBe(true)
 
+  // The Overview opens on the checklist; settings sit in a collapsed section (#226).
+  await expect(page.getByRole('region', { name: 'Get this exercise ready' })).toBeVisible()
+  await expect(page.getByRole('link', { name: /^Next: Import documents/ })).toBeVisible()
+  await openProjectSettings(page)
+
   // Edit org name, add an alias and a role.
   await page.getByLabel('Organization name').fill('Northfield Regional Airport Authority')
   await page.getByLabel('City').fill('Northfield')
@@ -73,8 +78,9 @@ test('create a project, edit its settings, and see them persist', async () => {
     }),
   ])
 
-  // Reload: the form comes back from project.json.
+  // Reload: the form comes back from project.json (and the section stays open).
   await page.reload()
+  await openProjectSettings(page)
   await expect(page.getByLabel('Organization name')).toHaveValue(
     'Northfield Regional Airport Authority',
   )

@@ -228,7 +228,7 @@ test('exports Scenario 3 (mock media) to PDFs, media, manifest, DOCX and ZIP', a
           localStorage: { setItem(k: string, v: string): void }
         }
         // The folder picker is a native dialog; preset the remembered folder instead.
-        g.localStorage.setItem('ttx.export.outDir', dir ?? '')
+        g.localStorage.setItem(`ttx.export.outDir:${decodeURIComponent(k ?? '')}`, dir ?? '')
         g.location.hash = `#/p/${k}/scenarios/${id}/export`
       },
       [key, scenarioId, uiOut],

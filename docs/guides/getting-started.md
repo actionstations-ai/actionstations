@@ -50,7 +50,9 @@ Click **New project** and fill in:
 
 ![New project dialog](images/new-project.png)
 
-**Create project** opens the project's **Overview**. The same domain picker is under **Organization**; below it, **Customize vocabulary** edits this project's player roles, outside parties, IT systems and OT / control systems as chip lists (type and press Enter to add, **×** to remove). A list you change replaces the profile's list for this project only; **Reset to … defaults** removes your changes. Fill in **Brand and locale** (city, region, primary colour) and **Aliases** (for example `orgShort` → `NCIA`, `localTv` → `Channel 5`): inject templates read these instead of hard-coding names. **Default roles** pre-fills the player roles of new scenarios. Click **Save settings**.
+**Create project** opens the project's **Overview**. At the top, **Get this exercise ready** lists the six steps (add documents, check the facility facts, generate a scenario, write the injects, render the media, export or facilitate) with what is done so far; the **Next** button opens the first step still to do. Below it are the project's scenarios with their status, and a collapsed **Project settings** section (it remembers whether you left it open). The **Glossary** button explains terms such as MSEL, inject, STARTEX / ENDEX, SimCell and hot wash; a **?** next to a term explains just that one.
+
+Open **Project settings** to edit the project. The same domain picker is under **Organization**; below it, **Customize vocabulary** edits this project's player roles, outside parties, IT systems and OT / control systems as chip lists (type and press Enter to add, **×** to remove). A list you change replaces the profile's list for this project only; **Reset to … defaults** removes your changes. Fill in **Brand and locale** (city, region, primary colour) and **Aliases** (for example `orgShort` → `NCIA`, `localTv` → `Channel 5`): inject templates read these instead of hard-coding names. **Default roles** pre-fills the player roles of new scenarios. Click **Save settings**.
 
 ![Project overview](images/project-overview.png)
 
@@ -156,7 +158,7 @@ Measured with `qwen3-30b-a3b-2507` on Apple Silicon: 340 seconds end to end, MSE
 
 ## 8. Read and edit the result
 
-When the run finishes, the status badge changes to **ready**.
+When the run finishes, a bar above the tabs says what to do next: **Next: write N injects**, then **Render media**, then **Export** or **Facilitate**, with counts for each step. The status badge follows the same steps: **Draft** (injects missing), **Injects written**, **Media rendered**, and **Ready** once every inject is rendered and lint reports no errors. To have the injects written and the media rendered as soon as generation finishes, turn on **Settings → Generation → Write injects and render media automatically after generation** (off by default).
 
 ![All stages complete](images/scenario-stages.png)
 
@@ -168,7 +170,7 @@ The tabs under the stages hold the scenario, and every tab is editable:
 - **Injects**: the inject deck, one card per MSEL row (below).
 - **Documents**: the **Controller handbook**, **Player briefing**, **Hot wash guide** (with its structured questions) and the **MSEL document**, each in a document editor (below).
 - **Rubric**: grading metrics with points and Fail / Pass / Excellence behaviours, linked to injects.
-- **Warnings**: deterministic lint findings (for example a role with no inject in a phase) and the critique's findings, each pointing at a row.
+- **Warnings**: deterministic lint findings (for example a role with no inject in a phase) and the critique's findings. Each one leads with a plain-language sentence, then the checker's detail and its code (for example `ROLE_NO_INJECT`). **Must fix** items come first; **Go to row** opens the MSEL tab on that row, **Open inject** opens the inject. The tab's count is the same live check as the list.
 
   ![Warnings](images/scenario-warnings.png)
 
@@ -245,7 +247,7 @@ Choose what to export:
 - **Documents (PDF)**: **MSEL** (landscape events table by phase), **Master Inject Deck** (one inject per page with its media), **Controller / Evaluator Handbook** (with rubric, hot wash and SimCell scripts), **Player Briefing Packet** (with blank ICS 201 and ICS 203 forms) and the **Exercise Plan** (a cover page plus all four documents).
 - **Files**: **Media files** (PNG, PDF, WAV and MP3, MP4, named `S<n>-I<id>-<type>`), **scenario.json** (the full scenario with injects inlined), **scenario.md** (a readable copy with media checksums), **Word documents** (handbook and player briefing as `.docx`) and the **Distribution ZIP** (`facilitator/` with everything, `players/` with the briefing and forms).
 
-The right side previews each PDF before you export. Pick an **Output folder** and click **Export**: files go into a folder named after the scenario, its number and a short id (`Flight-to-Nowhere-S3-79J4AB`), so two scenarios with the same title never share a folder, and the ZIP sits next to it. The ZIP holds only the files from that export, not leftovers from an earlier one.
+The right side previews each PDF before you export. The bar at the bottom of the options stays in view: it says whether every event has an inject and every inject is rendered (with a link to fix it), shows the **Output folder** and holds **Export**. The folder defaults to `exports` inside the project folder (created on the first export) or the folder you last chose for this project; **Choose…** picks another. Files go into a folder named after the scenario, its number and a short id (`Flight-to-Nowhere-S3-79J4AB`), so two scenarios with the same title never share a folder, and the ZIP sits next to it. The ZIP holds only the files from that export, not leftovers from an earlier one.
 
 Measured on the Scenario 3 deck (24 injects): every target exported in 5.9 seconds, 54 files including a 20.6 MB distribution ZIP.
 

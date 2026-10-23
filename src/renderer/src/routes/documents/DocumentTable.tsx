@@ -23,9 +23,6 @@ export function DocumentTable(props: {
             <th scope="col" className="num">
               Pages
             </th>
-            <th scope="col" className="num">
-              Chunks
-            </th>
             <th scope="col">Status</th>
             <th scope="col">Ingested</th>
             <th scope="col">

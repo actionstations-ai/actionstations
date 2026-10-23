@@ -7,7 +7,7 @@ import { expect, test, type Page } from '@playwright/test'
 import { mkdirSync, mkdtempSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { goTo, invoker, launch } from './helpers'
+import { goTo, invoker, launch, openProjectSettings } from './helpers'
 
 test.setTimeout(300_000)
 const OUT = resolve('.tmp/domain-ui')
@@ -61,6 +61,7 @@ async function settingsStep(page: Page, parent: string) {
     orgType: 'hospital',
   })
   await goTo(page, `#/p/${encodeURIComponent(created.path)}`)
+  await openProjectSettings(page)
   await expect(page.getByTestId('orgtype-note')).toHaveText(/Saved as “hospital”.*Healthcare/)
   await expect(page.getByRole('option', { selected: true })).toHaveText(/^Healthcare/)
   await page.getByRole('button', { name: 'Customize vocabulary' }).click()

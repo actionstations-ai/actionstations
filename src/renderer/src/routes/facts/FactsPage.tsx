@@ -10,6 +10,7 @@ import type { FacilityFactsFile } from '@shared/ipc/project'
 import { Badge, Button, EmptyState, PageHeader } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { LiveStatus } from '../../components/LiveStatus'
+import { Term } from '../../components/Glossary'
 import { call, subscribe } from '../../lib/api'
 import { errorText, isConflictError } from '../../lib/errors'
 import { queryClient, useIpcMutation, useIpcQuery } from '../../lib/query'
@@ -176,10 +177,10 @@ export default function FactsPage() {
         title="Facility facts"
         description={
           <>
-            The identifiers this project treats as real. Generation gives them to the model as the
-            only allowed names, and lint flags scenario rows that name others (FACILITY_UNKNOWN_ID).
-            They live in facility-facts.md in the project folder; your edits there or here win over
-            re-imported documents.
+            The runways, gates, systems and other names this project treats as real. Generation may
+            only use these names, and the automatic checks (<Term id="lint">lint</Term>) flag
+            scenario events that name anything else. They live in facility-facts.md in the project
+            folder; your edits there or here win over re-imported documents.
           </>
         }
         actions={

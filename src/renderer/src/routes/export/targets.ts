@@ -59,17 +59,24 @@ export function toggleTarget(selected: ExportTarget[], id: ExportTarget): Export
 
 const OUT_DIR_KEY = 'ttx.export.outDir'
 
-export function rememberedOutDir(): string {
+/** <project>/exports, created by main on the first export there (#238). */
+export function defaultOutDir(projectPath: string): string {
+  const sep = projectPath.includes('\\') && !projectPath.includes('/') ? '\\' : '/'
+  return `${projectPath.replace(/[\\/]+$/, '')}${sep}exports`
+}
+
+/** The folder last chosen for this project, else <project>/exports. */
+export function rememberedOutDir(projectPath: string): string {
   try {
-    return localStorage.getItem(OUT_DIR_KEY) ?? ''
+    return localStorage.getItem(`${OUT_DIR_KEY}:${projectPath}`) || defaultOutDir(projectPath)
   } catch {
-    return ''
+    return defaultOutDir(projectPath)
   }
 }
 
-export function rememberOutDir(dir: string): void {
+export function rememberOutDir(projectPath: string, dir: string): void {
   try {
-    localStorage.setItem(OUT_DIR_KEY, dir)
+    localStorage.setItem(`${OUT_DIR_KEY}:${projectPath}`, dir)
   } catch {
     // Storage unavailable: the folder is simply not remembered.
   }

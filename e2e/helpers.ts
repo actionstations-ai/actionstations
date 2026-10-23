@@ -71,6 +71,15 @@ export async function goTo(page: Page, hash: string): Promise<void> {
   }, hash)
 }
 
+/** Expand "Project settings" on the project Overview (collapsed by default since #226). */
+export async function openProjectSettings(page: Page): Promise<void> {
+  const details = page.locator('details.project-settings-details')
+  await details.waitFor()
+  if (!(await details.evaluate((d) => (d as unknown as { open: boolean }).open)))
+    await details.locator('summary').click()
+  await expect(page.getByRole('heading', { name: 'Project settings', level: 2 })).toBeVisible()
+}
+
 /** Absolute paths of the Markdown files in a repo folder (e.g. `reference/ncia`). */
 export function mdFiles(dir: string): string[] {
   return readdirSync(resolve(dir))
