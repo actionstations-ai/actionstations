@@ -12,6 +12,7 @@ import {
 } from './lib/app-protocol'
 import { registerMediaProtocol, registerMediaScheme } from './lib/media-protocol'
 import { resourcesDir } from './lib/paths'
+import { createQuitGuard, resetRendererReady } from './lib/quit-guard'
 // Load every provider adapter at startup so a broken adapter fails the launch smoke test
 // instead of crashing later on first use.
 import { listAdapterKinds } from './providers/registry'
@@ -42,6 +43,10 @@ function devIconPath(): string {
   return join(resourcesDir(), 'build', 'icon.png')
 }
 
+let mainWindow: BrowserWindow | undefined
+// Unsaved work in the renderer is confirmed before the app quits or the window closes (#196).
+const quitGuard = createQuitGuard(() => mainWindow)
+
 function createMainWindow(): BrowserWindow {
   const win = new BrowserWindow({
     width: 1440,
@@ -65,7 +70,16 @@ function createMainWindow(): BrowserWindow {
 
   // The main window is the app: closing it quits, on macOS too. Hidden render-pool windows
   // would otherwise keep the process (and its Dock icon) alive with nothing on screen.
-  win.on('closed', () => app.quit())
+  // Unsaved work is confirmed first (the guard quits once it may).
+  win.on('close', (e) => {
+    quitGuard.intercept(e)
+  })
+  win.on('closed', () => {
+    if (mainWindow === win) mainWindow = undefined
+    app.quit()
+  })
+  win.webContents.on('render-process-gone', () => resetRendererReady())
+  mainWindow = win
 
   win.once('ready-to-show', () => {
     if (!process.env.TTX_HEADLESS) win.show()
@@ -112,8 +126,10 @@ app.on('window-all-closed', () => app.quit())
 // as "Interrupted — resumable" on the next start. flush() writes synchronously.
 // Then stop the render-window pool: otherwise quitting closes the busy render windows, the
 // queued previews spawn fresh ones after Electron's close-all pass, and quit never ends (#170).
-// Nothing here calls preventDefault, so quit always proceeds.
-app.on('before-quit', () => {
+// Before that the quit guard asks the renderer about unsaved work; it cancels this quit and
+// quits again once confirmed (or at once when nothing is unsaved or the renderer is silent).
+app.on('before-quit', (e) => {
+  if (!quitGuard.intercept(e)) return
   void jobs.flush()
   shutdownRenderPool()
 })

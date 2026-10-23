@@ -174,6 +174,36 @@ describe('scenario store', () => {
     ).rejects.toMatchObject({ code: 'VALIDATION' })
   })
 
+  it('refuses a save whose baseUpdatedAt is older than scenario.json (#199)', async () => {
+    const s = await create()
+    // A later millisecond, so updatedAt differs.
+    await new Promise((r) => setTimeout(r, 5))
+    const jobWrite = await store.updateScenario(
+      root,
+      s.id,
+      (d) => {
+        d.title = 'Written by a job'
+      },
+      { by: 'ai' },
+    )
+    const stale = { ...s, phases: [] }
+    await expect(
+      store.saveScenario(root, stale, { by: 'user', baseUpdatedAt: s.updatedAt }),
+    ).rejects.toMatchObject({
+      code: 'CONFLICT',
+      details: { reason: store.STALE_REASON, updatedAt: jobWrite.updatedAt },
+    })
+    expect((await store.getScenario(root, s.id)).title).toBe('Written by a job')
+    const fresh = await store.saveScenario(
+      root,
+      { ...jobWrite, phases: [] },
+      { by: 'user', baseUpdatedAt: jobWrite.updatedAt },
+    )
+    expect(fresh.title).toBe('Written by a job')
+    // Without a base the save replaces the scenario as before (pipeline, restore).
+    await expect(store.saveScenario(root, stale, { by: 'user' })).resolves.toBeTruthy()
+  })
+
   it('emits project:changed with the scenario id on save', async () => {
     const s = await create()
     const seen: unknown[] = []

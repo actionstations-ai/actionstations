@@ -10,6 +10,7 @@ import { fromProjectKey, useProjectUi } from './state/project'
 import { FirstRunRedirect } from './routes/welcome/FirstRunRedirect'
 import { ExampleBanner } from './components/ExampleBanner'
 import { AutoContinue } from './routes/scenarios/AutoContinue'
+import { installQuitGuard } from './editors/unsaved-work'
 
 function ThemeSync() {
   const settings = useIpcQuery('settings:get', undefined)
@@ -21,12 +22,14 @@ function ThemeSync() {
   return null
 }
 
-/** Invalidate cached IPC queries when main reports a change. */
+/** Invalidate cached IPC queries when main reports a change; answer quit checks. */
 function EventBridge() {
   useEffect(() => {
     const offs = [
       subscribe('project:changed', () => void queryClient.invalidateQueries()),
       subscribe('job:done', () => void queryClient.invalidateQueries()),
+      // Answer main's "anything unsaved?" before quitting (#196).
+      installQuitGuard(),
     ]
     return () => offs.forEach((off) => off())
   }, [])

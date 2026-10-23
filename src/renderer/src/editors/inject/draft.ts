@@ -90,3 +90,18 @@ export const useDrafts = create<DraftStore>((set) => ({
       return { drafts: rest }
     }),
 }))
+
+/** True when the inject has a draft that differs from its saved copy (#202). */
+export function useHasDraft(scenarioId: string, inject: Inject | undefined): boolean {
+  return useDrafts((s) => {
+    const d = inject ? s.drafts[draftKey(scenarioId, inject.id)] : undefined
+    return !!d && !!inject && !sameDraft(d, draftOf(inject))
+  })
+}
+
+/** How many injects of a scenario have an unsaved draft (kept across navigation). */
+export function useDraftCount(scenarioId: string): number {
+  return useDrafts(
+    (s) => Object.keys(s.drafts).filter((k) => k.startsWith(`${scenarioId}/`)).length,
+  )
+}

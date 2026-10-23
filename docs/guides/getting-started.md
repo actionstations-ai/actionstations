@@ -186,7 +186,7 @@ Everything is stored in `<project>/scenarios/<id>/`: `scenario.json`, the idea i
 - **Renumber IDs…** previews and applies `I-01`, `I-02`, … in time order; rubric links and the injects attached to each row follow the new IDs.
 - Lock a row (padlock) to keep it when the MSEL stage is re-run.
 - The lint bar shows the current warnings; warnings never block saving.
-- Edits save automatically. **Undo**/**Redo** and **History** (saved snapshots you can restore) are in the toolbar.
+- Edits save automatically, also when you switch tab or page right after an edit. A save only replaces the phases and MSEL rows: if the scenario changed meanwhile (a job or another editor wrote it), your edit is applied onto the newer copy. **Undo**/**Redo** and **History** (saved snapshots you can restore) are in the toolbar.
 
 ### The document editors
 
@@ -214,7 +214,9 @@ Click a card to open the **inject editor**. From the keyboard the deck is one Ta
 
 ### While generation is running
 
-A scenario runs one generation job at a time. While it runs, your edits to that scenario are kept in the editor and a banner says "Generation is running for this scenario"; they are saved automatically when the job finishes. If you leave a tab or document before such a save goes through, the edit is kept: the scenario page shows "1 unsaved change pending" and saves it when the job finishes, or the editor takes it back when you return. Field warnings from inject generation (`INJECT_FIELDS_INVALID`) and from rendering (`INJECT_RENDER_INVALID`, which lists the fields the template refused) are cleared when you save fields that match the template. `INJECT_FIELDS_REPAIRED` marks a value the app changed to fit the template (an out-of-range choice, a handle that was too long); check it and save. A row the model could not write is flagged `INJECT_TEXT_FAILED` in the inject deck; a control card built from its MSEL row after the model failed is flagged `INJECT_TEXT_FALLBACK`.
+A scenario runs one generation job at a time. While it runs, your edits to that scenario are kept in the editor and a banner says "Generation is running for this scenario"; they are saved automatically when the job finishes. If you leave a tab or document before such a save goes through, the edit is kept: the scenario page shows "1 unsaved change pending" and saves it when the job finishes, or the editor takes it back when you return. Inject edits are saved by hand; an inject with unsaved edits shows a **Draft** badge on its deck card, and the scenario page says how many injects have an unsaved draft (export and rendering use the saved version).
+
+Quitting the app, or closing its window, with unsaved work (an inject draft, an edit waiting for a job to finish, or a save that failed) asks first: **Quit and discard** or **Cancel**. Edits waiting only for autosave are saved before the app quits. Field warnings from inject generation (`INJECT_FIELDS_INVALID`) and from rendering (`INJECT_RENDER_INVALID`, which lists the fields the template refused) are cleared when you save fields that match the template. `INJECT_FIELDS_REPAIRED` marks a value the app changed to fit the template (an out-of-range choice, a handle that was too long); check it and save. A row the model could not write is flagged `INJECT_TEXT_FAILED` in the inject deck; a control card built from its MSEL row after the model failed is flagged `INJECT_TEXT_FALLBACK`.
 
 ### Improve a stage
 

@@ -8,6 +8,7 @@ import { useMarkdownEditor } from './markdown/use-markdown-editor'
 import { pendingKey, peekPending, usePendingSaves } from './pending-saves'
 import { useGuardedSave } from './use-guarded-save'
 import { useLatest } from './use-latest'
+import { useUnsavedSource } from '../unsaved-work'
 
 export const AUTOSAVE_MS = 1500
 
@@ -75,6 +76,12 @@ export function useDocEditor(ref: DocRef, label: string) {
       if (dirtyRef.current) saveNow.current()
     },
     [dirtyRef],
+  )
+  // Before quitting: save now; an edit still refused (job running) is reported as unsaved.
+  useUnsavedSource(
+    label,
+    () => dirtyRef.current,
+    () => save(),
   )
 
   // Load on first data, and again when the file changes underneath a clean editor

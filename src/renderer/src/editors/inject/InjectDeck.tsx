@@ -3,7 +3,7 @@
 // "Render all media" jobs with per-inject progress and cancel; filters. The cards form an
 // ARIA grid with one tab stop: arrow keys, Home/End move between cards (deck-nav.ts), Enter
 // opens the inject editor (or "Create…" for a row without an inject).
-import { AudioLines, Film, Lock, TriangleAlert } from 'lucide-react'
+import { AudioLines, Film, Lock, PencilLine, TriangleAlert } from 'lucide-react'
 import { useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { Link, useNavigate } from 'react-router'
 import type { TemplateInfo } from '@shared/ipc'
@@ -16,6 +16,7 @@ import { toast } from '../../components/toast-store'
 import { call, IpcError } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
 import { CreateInjectDialog } from './CreateInjectDialog'
+import { useHasDraft } from './draft'
 import {
   deckEntries,
   filterDeck,
@@ -62,12 +63,22 @@ function Thumb({ entry, projectPath }: { entry: DeckEntry; projectPath: string }
 
 function CardBadges(props: {
   entry: DeckEntry
+  scenarioId: string
   work: 'working' | 'done' | undefined
   onCreate: () => void
 }) {
   const { entry } = props
+  // Unsaved edits made in the inject editor (#202): the deck, export and render use the saved copy.
+  const draft = useHasDraft(props.scenarioId, entry.inject)
   return (
     <div className="deck-card__badges">
+      {draft && (
+        <span title="Unsaved edits in the inject editor. The deck, export and render use the saved version until you save.">
+          <Badge tone="warn">
+            <PencilLine size={12} aria-hidden /> Draft
+          </Badge>
+        </span>
+      )}
       {entry.audio && (
         <Badge tone="info">
           <AudioLines size={12} aria-hidden /> Audio
@@ -154,7 +165,12 @@ function DeckCard(props: {
           <p className="deck-card__sub muted">
             {type ? props.typeLabel(type) : 'No type'} · To {toLabel(row, scenario)}
           </p>
-          <CardBadges entry={entry} work={props.work} onCreate={props.onCreate} />
+          <CardBadges
+            entry={entry}
+            scenarioId={scenario.id}
+            work={props.work}
+            onCreate={props.onCreate}
+          />
         </div>
       </div>
     </div>

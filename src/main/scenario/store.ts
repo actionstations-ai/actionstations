@@ -25,7 +25,15 @@ export interface SaveOptions {
   note?: string
   /** Skip the history snapshot (e.g. frequent pipeline checkpoints). */
   snapshot?: boolean
+  /**
+   * The `updatedAt` of the copy the caller edited. When scenario.json is newer the save fails
+   * with CONFLICT (details.reason 'stale') instead of overwriting what was written since.
+   */
+  baseUpdatedAt?: string
 }
+
+/** CONFLICT details when a save's base copy is older than scenario.json. */
+export const STALE_REASON = 'stale'
 
 const metaOf = (s: Scenario): ScenarioMeta => ({
   id: s.id,
@@ -119,8 +127,21 @@ export async function saveScenario(
   opts: SaveOptions,
 ): Promise<Scenario> {
   if (opts.by === 'user') assertNotGenerating(projectPath, scenario.id)
-  return withScenarioLock(projectPath, scenario.id, () =>
-    writeScenario(projectPath, scenario, opts),
+  return withScenarioLock(projectPath, scenario.id, async () => {
+    if (opts.baseUpdatedAt !== undefined)
+      await assertFresh(projectPath, scenario.id, opts.baseUpdatedAt)
+    return writeScenario(projectPath, scenario, opts)
+  })
+}
+
+/** Refuse a save made from a copy older than the one on disk (#199). Caller holds the lock. */
+async function assertFresh(root: string, scenarioId: string, base: string): Promise<void> {
+  const current = await getScenario(root, scenarioId)
+  if (current.updatedAt === base) return
+  throw new AppError(
+    'CONFLICT',
+    'This scenario changed since your edit started; your change was not saved yet.',
+    { reason: STALE_REASON, updatedAt: current.updatedAt },
   )
 }
 

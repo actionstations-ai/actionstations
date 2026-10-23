@@ -25,7 +25,11 @@ async function invoke<C extends Channel>(
   req: ChannelRequest<C>,
 ): Promise<ChannelResponse<C>> {
   const r = await dispatch(handlers, channel, req)
-  if (!r.ok) throw Object.assign(new Error(r.error.message), { code: r.error.code })
+  if (!r.ok)
+    throw Object.assign(new Error(r.error.message), {
+      code: r.error.code,
+      details: r.error.details,
+    })
   return r.data as ChannelResponse<C>
 }
 
@@ -149,6 +153,29 @@ describe('scenarios:* handlers', () => {
     const out = await invoke('scenarios:lint', { projectPath, scenarioId: s.id })
     expect(Array.isArray(out)).toBe(true)
     for (const w of out) expect(w).toHaveProperty('severity')
+  })
+
+  it('save with a stale baseUpdatedAt answers CONFLICT and keeps the newer copy (#199)', async () => {
+    const s = await createEmpty()
+    // A later millisecond, so updatedAt differs.
+    await new Promise((r) => setTimeout(r, 5))
+    const first = await invoke('scenarios:save', {
+      projectPath,
+      scenario: { ...s, title: 'Renamed elsewhere' },
+    })
+    await expect(
+      invoke('scenarios:save', {
+        projectPath,
+        scenario: { ...s, phases: [] },
+        baseUpdatedAt: s.updatedAt,
+      }),
+    ).rejects.toMatchObject({ code: 'CONFLICT', details: { reason: 'stale' } })
+    const saved = await invoke('scenarios:save', {
+      projectPath,
+      scenario: { ...first, phases: [] },
+      baseUpdatedAt: first.updatedAt,
+    })
+    expect(saved.title).toBe('Renamed elsewhere')
   })
 
   it('rejects unsafe scenario ids at the IPC boundary', async () => {

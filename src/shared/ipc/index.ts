@@ -76,6 +76,8 @@ export const events = {
   'job:progress': JobProgressEvent,
   'job:token': JobTokenEvent,
   'job:done': JobDoneEvent,
+  /** Main is about to quit: save what you can, then answer with app:unsaved-report (#196). */
+  'app:quit-check': z.object({ requestId: z.string() }),
   'project:changed': z.object({
     path: z.string(),
     what: z.enum([

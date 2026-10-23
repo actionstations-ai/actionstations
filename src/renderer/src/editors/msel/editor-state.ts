@@ -32,6 +32,7 @@ export type EditorAction =
   | { type: 'conflict'; message: string }
   | { type: 'failed'; message: string }
   | { type: 'retry' }
+  | { type: 'restore'; draft: Draft; savedIds: Record<string, string> }
 
 export const idsOf = (d: Draft): Record<string, string> =>
   Object.fromEntries(d.rows.map((r) => [r.key, r.row.id]))
@@ -114,6 +115,10 @@ export function editorReducer(s: EditorState, a: EditorAction): EditorState {
       return { ...s, status: 'error', error: a.message }
     case 'retry':
       return { ...s, status: isDirty(s) ? 'pending' : 'idle' }
+    case 'restore':
+      // An edit parked when the editor was last left (save refused while a job ran): take it
+      // back as an unsaved change.
+      return { ...changed(s, a.draft, [], []), status: 'pending', savedIds: a.savedIds }
   }
 }
 
@@ -138,13 +143,20 @@ export function remapRubric(
   }
 }
 
-/** The scenario to save: newest base + the edited phases/MSEL (+ rubric link renames). */
-export function scenarioToSave(s: EditorState): Scenario {
-  const rubric = remapRubric(s.base.rubric, s.savedIds, s.draft)
+/** `base` with the draft's phases/MSEL on top (+ rubric links following renamed rows). */
+export function mergeDraft(
+  base: Scenario,
+  draft: Draft,
+  savedIds: Record<string, string>,
+): Scenario {
+  const rubric = remapRubric(base.rubric, savedIds, draft)
   return {
-    ...s.base,
-    phases: s.draft.phases,
-    msel: draftMsel(s.draft),
+    ...base,
+    phases: draft.phases,
+    msel: draftMsel(draft),
     ...(rubric ? { rubric } : {}),
   }
 }
+
+/** The scenario to save: newest base + the edited phases/MSEL (+ rubric link renames). */
+export const scenarioToSave = (s: EditorState): Scenario => mergeDraft(s.base, s.draft, s.savedIds)

@@ -19,6 +19,7 @@ export class FakeIpcError extends Error {
   constructor(
     public code: string,
     message: string,
+    public details?: unknown,
   ) {
     super(message)
   }
@@ -34,7 +35,8 @@ export function mockTtx(handlers: Handlers) {
       return { ok: true, data: await h(payload) }
     } catch (e) {
       const code = e instanceof FakeIpcError ? e.code : 'INTERNAL'
-      return { ok: false, error: { code, message: (e as Error).message } }
+      const details = e instanceof FakeIpcError ? e.details : undefined
+      return { ok: false, error: { code, message: (e as Error).message, details } }
     }
   })
   const on = (event: string, l: (p: unknown) => void) => {

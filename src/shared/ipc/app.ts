@@ -39,6 +39,14 @@ export const appChannels = {
     }),
     z.string().nullable(),
   ),
+  /**
+   * The renderer's answer to an app:quit-check event: what is still unsaved (#196). Without a
+   * requestId it tells main that the renderer's quit guard is listening.
+   */
+  'app:unsaved-report': channel(
+    z.object({ requestId: z.string().optional(), items: z.array(z.string()) }),
+    z.void(),
+  ),
   'shell:show-item': channel(z.object({ path: z.string() }), z.void()),
   'settings:get': channel(z.void(), AppSettings),
   'settings:update': channel(

@@ -485,6 +485,12 @@
   background: var(--color-warning-soft);
   color: var(--color-warning);
 }
+/* The row ID / code column never shrinks or splits ("A-|09", #237). */
+.warning__code,
+.warning__actions .btn {
+  flex: none;
+  white-space: nowrap;
+}
 .msel .citations {
   flex-direction: column;
   min-width: 10rem;

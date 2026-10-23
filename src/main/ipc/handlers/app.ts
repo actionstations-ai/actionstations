@@ -2,6 +2,7 @@ import { app, BrowserWindow, dialog, shell } from 'electron'
 import { defineHandlers } from '../registry'
 import { getSettings, updateSettings } from '../../settings/store'
 import { userDataDir } from '../../lib/paths'
+import { onUnsavedReport } from '../../lib/quit-guard'
 
 const focused = (): BrowserWindow | undefined =>
   BrowserWindow.getFocusedWindow() ?? BrowserWindow.getAllWindows()[0]
@@ -43,6 +44,10 @@ export default defineHandlers({
       ? await dialog.showSaveDialog(win, { title, defaultPath, filters })
       : await dialog.showSaveDialog({ title, defaultPath, filters })
     return r.canceled ? null : (r.filePath ?? null)
+  },
+
+  'app:unsaved-report': ({ requestId, items }) => {
+    onUnsavedReport(requestId, items)
   },
 
   'shell:show-item': ({ path }) => {

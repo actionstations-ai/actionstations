@@ -57,9 +57,13 @@ export default defineHandlers({
   'scenarios:get': async ({ projectPath, scenarioId }) =>
     getScenario(await requireProject(projectPath), scenarioId),
 
-  'scenarios:save': async ({ projectPath, scenario, note }) => {
+  'scenarios:save': async ({ projectPath, scenario, note, baseUpdatedAt }) => {
     const root = await requireProject(projectPath)
-    const saved = await saveScenario(root, scenario, { by: 'user', ...(note ? { note } : {}) })
+    const saved = await saveScenario(root, scenario, {
+      by: 'user',
+      ...(note ? { note } : {}),
+      ...(baseUpdatedAt ? { baseUpdatedAt } : {}),
+    })
     await syncInjectRowIds(root, saved)
     return saved
   },

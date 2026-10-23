@@ -29,6 +29,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 - Export page: the output folder defaults to `<project>/exports` (created on the first export)
   or the folder last chosen for that project; the folder, Export button and a readiness summary
   (events without injects, unrendered injects, lint errors) sit in a pinned action bar (#238).
+- MSEL saves send the `updatedAt` of the copy they were made from; main refuses a stale save with CONFLICT and the editor redoes it onto the newer scenario, so a save never overwrites fields written meanwhile by a job or another editor (#199).
+- MSEL grid: From/To columns are wider and narrow columns (From, To, Tag, Format) break only between words; row IDs and times never split. The Warnings list keeps its row ID / code column on one line (#237).
 
 - In-app branding is now Action Stations: logo in the sidebar, comic-panel theme (newsprint light, navy-ink dark, Bangers page titles, ink outlines and hard shadows), window, page and menu-bar titles renamed (the settings folder keeps its name); new app icon from the logo; closing the main window now quits the app on macOS too; `scripts/dev-bundle.sh` builds a renamed Electron bundle for unpackaged runs; macOS overscroll bounce disabled (#191).
 
@@ -38,6 +40,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 ### Added
 
 - Organization-name check for injects (#221): a name that starts like the organization's but is not the project name, `orgName` or `brand.aliases.org` ("North Coast Regional Airport") goes back to the model in the repair round, and becomes an inject warning if it survives.
+- Confirm before quitting or closing the window with unsaved work (#196): main asks the renderer (with a timeout, so a hung page never blocks quitting), which saves pending autosaves first and reports inject drafts, edits parked during generation and editors whose save was refused or failed; a native dialog offers "Quit and discard" or "Cancel".
+- Inject deck cards show a **Draft** badge when the inject has unsaved edits, and the scenario page notes how many injects have an unsaved draft (#202).
 
 - Repair a finished scenario in place (#185, ADR-0015): `generate:repair` applies the current
   MSEL repairs and lints, runs the revision pass only for rows still flagged, writes injects
@@ -71,6 +75,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   a second reset (#214).
 - Scenario Warnings tab count now comes from the same live lint as the tab body, so it no
   longer says "Warnings (0)" above a list of warnings (#228).
+- The MSEL editor saves a pending edit when it is left (tab, route, scenario switch) instead of dropping it; refused during generation, the edit is parked and taken back when the MSEL opens again (#193).
+- Facilitator: a failed save keeps the changes unsaved and is retried; a failure in the save made on leaving the page shows a toast (#204).
 
 - Lint false positives found on the bundled examples (#185): a named site with a leading
   article ("The Lakeshore Flight Area"), a rogue device the row itself calls unknown ("No

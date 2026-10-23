@@ -8,6 +8,7 @@ import { lastGenerated } from '../owners'
 import { pendingKey, peekPending, usePendingSaves } from '../pending-saves'
 import { useGuardedSave } from '../use-guarded-save'
 import { useLatest } from '../use-latest'
+import { useUnsavedSource } from '../../unsaved-work'
 import { AUTOSAVE_MS } from '../use-doc-editor'
 
 export interface PartSpec<T> {
@@ -89,6 +90,12 @@ export function useScenarioPart<T>(projectPath: string, scenario: Scenario, spec
       if (dirtyRef.current) void saveRef.current()
     },
     [dirtyRef, saveRef],
+  )
+  // Before quitting: save now; an edit still refused (job running) is reported as unsaved.
+  useUnsavedSource(
+    spec.label,
+    () => dirtyRef.current,
+    () => saveRef.current(),
   )
 
   const update = useCallback(

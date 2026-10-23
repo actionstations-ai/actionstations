@@ -1,14 +1,19 @@
 // Loads the facilitator session state once, keeps the working copy locally and saves it back:
 // clock and delivery changes at once, typed notes after a short pause. Saves are serialized
-// and always send the latest full state.
+// and always send the latest full state. A failed save keeps the changes unsaved and is
+// retried; one that fails after the page was left is reported in a toast (#204).
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { FacilitatorState } from '@shared/ipc'
+import { toast } from '../../components/toast-store'
+import { useUnsavedSource } from '../../editors/unsaved-work'
 import { call } from '../../lib/api'
 import { errorText } from '../../lib/errors'
 
 export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
 
 export const NOTE_SAVE_DELAY_MS = 600
+/** Wait before saving again after a failed save. */
+export const SAVE_RETRY_MS = 3000
 
 export interface FacilitatorStore {
   state: FacilitatorState | undefined
@@ -42,22 +47,48 @@ export function useFacilitatorState(projectPath: string, scenarioId: string): Fa
     }
   }, [projectPath, scenarioId])
 
-  const flush = useCallback(() => {
+  // The scenario this page currently works on; a save result for another one is ignored.
+  const scope = `${projectPath}\u0000${scenarioId}`
+  const live = useRef<string | undefined>(undefined)
+  useEffect(() => {
+    live.current = scope
+    return () => {
+      live.current = undefined
+    }
+  }, [scope])
+  const flushRef = useRef<() => Promise<unknown>>(() => Promise.resolve())
+
+  const flush = useCallback((): Promise<unknown> => {
     clearTimeout(timer.current)
     timer.current = undefined
-    if (!dirty.current || !latest.current) return
+    if (!dirty.current || !latest.current) return chain.current
     dirty.current = false
+    const state = latest.current
     setSaveStatus('saving')
-    chain.current = chain.current
+    const saved = chain.current
       .catch(() => undefined)
-      .then(() =>
-        call('facilitator:state-save', { projectPath, scenarioId, state: latest.current! }),
-      )
-      .then(
-        () => setSaveStatus(dirty.current ? 'saving' : 'saved'),
-        () => setSaveStatus('error'),
-      )
-  }, [projectPath, scenarioId])
+      .then(() => call('facilitator:state-save', { projectPath, scenarioId, state }))
+    chain.current = saved.then(
+      () => {
+        if (live.current === scope) setSaveStatus(dirty.current ? 'saving' : 'saved')
+      },
+      (err: unknown) => {
+        if (live.current !== scope) {
+          toast.error('Could not save the facilitator notes', err)
+          return
+        }
+        // Still unsaved: the next save sends the latest full state again.
+        dirty.current = true
+        setSaveStatus('error')
+        clearTimeout(timer.current)
+        timer.current = setTimeout(() => void flushRef.current(), SAVE_RETRY_MS)
+      },
+    )
+    return chain.current
+  }, [projectPath, scenarioId, scope])
+  useEffect(() => {
+    flushRef.current = flush
+  }, [flush])
 
   const update = useCallback<FacilitatorStore['update']>(
     (fn, opts) => {
@@ -76,7 +107,18 @@ export function useFacilitatorState(projectPath: string, scenarioId: string): Fa
   )
 
   // Leaving the page (or switching scenario) saves pending notes immediately.
-  useEffect(() => () => flush(), [flush])
+  useEffect(
+    () => () => {
+      void flush()
+    },
+    [flush],
+  )
+  // Before quitting: save now; a failed save is reported as unsaved.
+  useUnsavedSource(
+    'Facilitator notes',
+    () => dirty.current,
+    () => flush(),
+  )
 
   return { state, loadError, saveStatus, update }
 }

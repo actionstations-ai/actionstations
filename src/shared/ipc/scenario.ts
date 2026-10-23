@@ -18,7 +18,13 @@ export const scenarioChannels = {
   'scenarios:list': channel(z.object({ projectPath: z.string().min(1) }), z.array(ScenarioMeta)),
   'scenarios:get': channel(S, Scenario),
   'scenarios:save': channel(
-    z.object({ projectPath: z.string().min(1), scenario: Scenario, note: z.string().optional() }),
+    z.object({
+      projectPath: z.string().min(1),
+      scenario: Scenario,
+      note: z.string().optional(),
+      /** updatedAt of the copy edited; a newer scenario.json fails with CONFLICT (stale). */
+      baseUpdatedAt: z.string().optional(),
+    }),
     Scenario,
   ),
   'scenarios:create-empty': channel(

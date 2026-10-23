@@ -147,10 +147,10 @@
   width: 4rem;
 }
 .msel-editor__col-from {
-  width: 4.75rem;
+  width: 5.75rem;
 }
 .msel-editor__col-to {
-  width: 4rem;
+  width: 5.75rem;
 }
 /* Event and Expected Action have no width: they share what is left and wrap. */
 .msel-editor__col-tag {
@@ -173,6 +173,20 @@
 .msel-editor__grid td {
   padding: var(--space-2) var(--space-2);
   overflow-wrap: anywhere;
+}
+/* Narrow columns break between words only, never inside one ("IT Securit|y", #237); a row ID
+   or time is never split ("A-|09"). */
+.msel-editor__grid .msel-editor__c-from,
+.msel-editor__grid .msel-editor__c-to,
+.msel-editor__grid .msel-editor__c-tag,
+.msel-editor__grid .msel-editor__c-format {
+  overflow-wrap: break-word;
+  word-break: keep-all;
+}
+.msel-editor__grid .msel-editor__c-id,
+.msel-editor__grid .msel-editor__c-time {
+  overflow-wrap: normal;
+  white-space: nowrap;
 }
 .msel-editor__grid thead th {
   text-transform: none;

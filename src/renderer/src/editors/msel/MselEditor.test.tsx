@@ -7,7 +7,10 @@ import { Scenario, type LintWarning } from '@shared/schemas/scenario'
 import fixture from '../../../../../tests/fixtures/scenarios/scenario-3.json'
 import { FakeIpcError, PROJECT, mockTtx, type Handlers } from '../../routes/documents/test-utils'
 import { queryClient } from '../../lib/query'
+import { pendingKey, usePendingSaves } from '../docs/pending-saves'
+import { flushAndListUnsaved, unsavedItems } from '../unsaved-work'
 import { MselEditor } from './MselEditor'
+import { SAVE_DEBOUNCE_MS } from './use-msel-editor'
 
 const base = Scenario.parse(fixture)
 
@@ -317,5 +320,88 @@ describe('MselEditor', () => {
       expect(within(dialog).queryByRole('button', { name: 'Preview' })).toBeNull(),
     )
     expect(within(dialog).getByRole('button', { name: /^Restore snapshot/ })).toBeTruthy()
+  })
+})
+
+describe('MselEditor save integrity', () => {
+  type SaveReq = Saved & { baseUpdatedAt?: string }
+
+  async function editFrom(user: ReturnType<typeof userEvent.setup>, value: string) {
+    cell('I-02', 'from').focus()
+    await user.keyboard('{Enter}')
+    const from = screen.getByRole('textbox', { name: 'From for I-02' })
+    await user.clear(from)
+    await user.type(from, `${value}{Enter}`)
+  }
+
+  afterEach(() => usePendingSaves.setState({ entries: {} }))
+
+  it('saves a pending edit exactly once when the editor unmounts before the debounce (#193)', async () => {
+    const { user, saves } = setup()
+    await editFrom(user, 'SOC')
+    expect(saves()).toHaveLength(0)
+    cleanup()
+    await waitFor(() => expect(saves()).toHaveLength(1))
+    const req = saves()[0] as SaveReq
+    expect(savedRow(req.scenario, 'I-02').from).toBe('SOC')
+    expect(req.baseUpdatedAt).toBe(base.updatedAt)
+    // Nothing else fires later (the debounce timer is gone with the editor).
+    await new Promise((r) => setTimeout(r, SAVE_DEBOUNCE_MS + 100))
+    expect(saves()).toHaveLength(1)
+  })
+
+  it('parks the edit when unmounted during generation and takes it back on reopen (#193)', async () => {
+    let busy = true
+    const { user, saves } = setup({
+      handlers: {
+        'scenarios:save': (req: Saved) => {
+          if (busy) throw new FakeIpcError('CONFLICT', 'Generation is running for this scenario')
+          return { ...req.scenario, updatedAt: '2026-11-03T00:00:00.000Z' }
+        },
+      },
+    })
+    await editFrom(user, 'SOC')
+    cleanup()
+    const key = pendingKey(PROJECT, base.id, 'msel')
+    await waitFor(() => expect(usePendingSaves.getState().entries[key]?.label).toBe('MSEL'))
+    busy = false
+    // Reopening the MSEL takes the edit back and saves it itself.
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MselEditor projectPath={PROJECT} scenario={base} />
+      </QueryClientProvider>,
+    )
+    await waitFor(() => expect(within(cell('I-02', 'from')).getByText('SOC')).toBeTruthy())
+    expect(usePendingSaves.getState().entries[key]).toBeUndefined()
+    await waitFor(() => expect(saves().length).toBeGreaterThanOrEqual(2), { timeout: 2000 })
+    expect(savedRow(saves().at(-1)!.scenario, 'I-02').from).toBe('SOC')
+  })
+
+  it('redoes a stale save onto the newer scenario instead of overwriting it (#199)', async () => {
+    const newer = { ...base, title: 'Retitled by a job', updatedAt: '2026-11-05T00:00:00.000Z' }
+    const { user, saves, lastSaved } = setup({
+      handlers: {
+        'scenarios:get': () => newer,
+        'scenarios:save': (req: SaveReq) => {
+          if (req.baseUpdatedAt !== newer.updatedAt)
+            throw new FakeIpcError('CONFLICT', 'This scenario changed', { reason: 'stale' })
+          return { ...req.scenario, updatedAt: '2026-11-06T00:00:00.000Z' }
+        },
+      },
+    })
+    await editFrom(user, 'SOC')
+    await waitFor(() => expect(saves()).toHaveLength(2), { timeout: 2000 })
+    expect((saves()[1] as SaveReq).baseUpdatedAt).toBe(newer.updatedAt)
+    expect(lastSaved().title).toBe('Retitled by a job')
+    expect(savedRow(lastSaved(), 'I-02').from).toBe('SOC')
+    expect(await screen.findByText('All changes saved')).toBeTruthy()
+  })
+
+  it('reports an unsaved edit before quit and saves it on flush (#196)', async () => {
+    const { user, saves } = setup()
+    await editFrom(user, 'SOC')
+    expect(unsavedItems()).toContain('MSEL')
+    expect(await flushAndListUnsaved()).not.toContain('MSEL')
+    expect(saves()).toHaveLength(1)
   })
 })
