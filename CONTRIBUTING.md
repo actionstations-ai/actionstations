@@ -14,6 +14,10 @@ pnpm test             # unit tests
 
 For a guided tour of the app itself, see [Getting started](docs/guides/getting-started.md).
 
+## License and contributor agreement
+
+Action Stations is source-available under the [PolyForm Internal Use License 1.0.0](LICENSE.md), with commercial use reserved as described in [COMMERCIAL.md](COMMERCIAL.md). Contributions are accepted under the [Contributor License Agreement](CLA.md): tick the agreement box in the pull request template. You keep the copyright in your work; the agreement lets the licensor offer it under both the source-available and the commercial licenses.
+
 ## The loop
 
 1. **Issue first.** Every change starts as a GitHub issue on `mdcrowley/tabletop-gen`, created from a template in `.github/ISSUE_TEMPLATE/` (feature, bug, new inject type). Apply `area:*`, `type:*` and priority labels and a milestone. If you find more work while you are at it, open an issue for it rather than leaving a placeholder comment in the code.

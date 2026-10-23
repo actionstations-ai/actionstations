@@ -150,6 +150,10 @@ This repository has no GitHub Actions, by design. There is nothing under `.githu
 - **Local-first.** Projects, documents, prompts and generated media live on the user's disk. Remote APIs are opt-in per provider.
 - **Provider-agnostic.** LM Studio / Ollama / OpenAI-compatible and Anthropic for text; ComfyUI for image/video, mlx-audio or the system voice for speech, with the abstraction ready for others.
 
+## License
+
+Source-available under the [PolyForm Internal Use License 1.0.0](LICENSE.md): any organization may use and change Action Stations for free for its own internal operations, including running exercises for its own people. Selling or redistributing it, hosting it for others, and consulting, training or facilitation for other organizations need a commercial license; see [COMMERCIAL.md](COMMERCIAL.md). Contributions are accepted under the [CLA](CLA.md). Third-party dependencies keep their own licenses, and packs carry the license their author chose.
+
 ## History
 
 The repository started as a handoff package (docs, reference material, templates, bootstrap scripts). That setup is complete: labels, milestones and the seed backlog exist on GitHub, and the original kickoff prompt is not needed to work on the project. `CLAUDE.md` at the repo root carries the standing instructions for Claude Code sessions.

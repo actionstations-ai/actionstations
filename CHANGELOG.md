@@ -10,6 +10,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Changed
 
+#### License
+
+- Licensed under the PolyForm Internal Use License 1.0.0 (`LICENSE.md`), with commercial use, including consulting and facilitation for other organizations, reserved as described in `COMMERCIAL.md`; contributions are accepted under a contributor license agreement (`CLA.md`) (#254).
+
 #### Guided workflow and plain language
 
 - Project Overview opens on a "Get this exercise ready" checklist (documents → facility facts →

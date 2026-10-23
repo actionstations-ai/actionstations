@@ -15,6 +15,7 @@ Closes #
 </details>
 
 ## Checklist
+- [ ] I have read the [Contributor License Agreement](../CLA.md) and agree to it for this and my later contributions
 - [ ] No files under `.github/workflows/`
 - [ ] Provider calls only via `src/main/providers/*`
 - [ ] No secrets in project folder or logs
