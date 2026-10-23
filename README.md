@@ -4,6 +4,8 @@ Tabletop Generator is a local-first Electron desktop app that turns an organizat
 
 Repository: https://github.com/mdcrowley/tabletop-gen
 
+**Naming.** The app shows itself as **Action Stations** (window and menu-bar titles, sidebar logo, app icon). The npm package (`tabletop-gen`), the installer and product name (`Tabletop Generator-<version>-…`), the settings folder (`~/Library/Application Support/Tabletop Generator` on macOS, `%APPDATA%\Tabletop Generator` on Windows, `~/.config/Tabletop Generator` on Linux) and the default projects folder (`~/Documents/Tabletop Generator`) keep the original name, so existing settings and projects are found after the rename.
+
 ## Prerequisites
 
 - **OS:** macOS, Windows or Linux.
@@ -66,37 +68,76 @@ templates/injects/   HTML/CSS templates per inject type
 prompts/             Default prompt files (markdown with frontmatter)
 comfy/workflows/     Default ComfyUI workflow JSON per media type
 docs/                PRD, architecture, taxonomy, methodology, ADRs
-reference/           CSAAP source material + Scenario 3 gold-standard outputs
+reference/           Sample input documents per domain + the CSAAP scenario 1–8 gold-standard outputs
+examples/            Example projects that ship with the app (Projects → Examples)
 scripts/             local-ci.sh, bootstrap-github.sh, dev helpers
 e2e/                 Playwright tests
 ```
 
 ## Documentation
 
-| Doc                                                                  | Purpose                                                                                                                                     |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`docs/01-PRD.md`](docs/01-PRD.md)                                   | Product requirements                                                                                                                        |
-| [`docs/02-ARCHITECTURE.md`](docs/02-ARCHITECTURE.md)                 | Processes, storage, providers, rendering, export                                                                                            |
-| [`docs/03-INJECT-TAXONOMY.md`](docs/03-INJECT-TAXONOMY.md)           | Supported inject types, fields and render targets                                                                                           |
-| [`docs/04-TABLETOP-METHODOLOGY.md`](docs/04-TABLETOP-METHODOLOGY.md) | HSEEP-style exercise structure the generator reproduces                                                                                     |
-| [`docs/05-DATA-MODEL.md`](docs/05-DATA-MODEL.md)                     | Project / Scenario / Inject / Asset schema                                                                                                  |
-| [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md)           | Issues, labels, milestones, branching, local CI                                                                                             |
-| [`docs/07-AGENT-ORCHESTRATION.md`](docs/07-AGENT-ORCHESTRATION.md)   | How parallel work is split                                                                                                                  |
-| [`docs/08-ROADMAP.md`](docs/08-ROADMAP.md)                           | Milestones M0 to M6                                                                                                                         |
-| [`docs/adr/`](docs/adr/)                                             | Architecture Decision Records (stack, local CI, project format, native modules, embeddings, providers, structured output, rendering, audio) |
-| [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md)         | How handlers, routes, adapters and templates are wired                                                                                      |
-| [`docs/guides/`](docs/guides/)                                       | User and contributor guides (see [Guides](#guides))                                                                                         |
-| [`CONTRIBUTING.md`](CONTRIBUTING.md)                                 | How to contribute                                                                                                                           |
+| Doc                                                                  | Purpose                                                                       |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| [`docs/01-PRD.md`](docs/01-PRD.md)                                   | Product requirements                                                          |
+| [`docs/02-ARCHITECTURE.md`](docs/02-ARCHITECTURE.md)                 | Processes, storage, providers, rendering, export                              |
+| [`docs/03-INJECT-TAXONOMY.md`](docs/03-INJECT-TAXONOMY.md)           | Supported inject types, fields and render targets                             |
+| [`docs/04-TABLETOP-METHODOLOGY.md`](docs/04-TABLETOP-METHODOLOGY.md) | HSEEP-style exercise structure the generator reproduces                       |
+| [`docs/05-DATA-MODEL.md`](docs/05-DATA-MODEL.md)                     | Project / Scenario / Inject / Asset schema                                    |
+| [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md)           | Issues, labels, milestones, branching, local CI                               |
+| [`docs/07-AGENT-ORCHESTRATION.md`](docs/07-AGENT-ORCHESTRATION.md)   | How parallel work is split                                                    |
+| [`docs/08-ROADMAP.md`](docs/08-ROADMAP.md)                           | Milestones M0 to M6                                                           |
+| [`docs/adr/`](docs/adr/)                                             | Architecture Decision Records, listed [below](#architecture-decision-records) |
+| [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md)         | How handlers, routes, adapters and templates are wired                        |
+| [`docs/guides/`](docs/guides/)                                       | User and contributor guides (see [Guides](#guides))                           |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md)                                 | How to contribute                                                             |
+
+### Architecture decision records
+
+| ADR                                               | Decision                                                                        |
+| ------------------------------------------------- | ------------------------------------------------------------------------------- |
+| [0001](docs/adr/0001-stack.md)                    | Application stack: Electron, React, TypeScript, Vite, pnpm, SQLite + sqlite-vec |
+| [0002](docs/adr/0002-local-ci-no-actions.md)      | Local CI only, no GitHub Actions                                                |
+| [0003](docs/adr/0003-project-folder-format.md)    | Project folder format                                                           |
+| [0004](docs/adr/0004-native-modules-and-tests.md) | Native modules and the test runtime                                             |
+| [0005](docs/adr/0005-embeddings.md)               | Embeddings                                                                      |
+| [0006](docs/adr/0006-providers-over-fetch.md)     | Provider adapters over fetch                                                    |
+| [0007](docs/adr/0007-structured-output.md)        | Structured output from LLMs                                                     |
+| [0008](docs/adr/0008-template-rendering.md)       | Template rendering to PNG and PDF                                               |
+| [0009](docs/adr/0009-audio-tts.md)                | Audio and TTS (amended by 0010)                                                 |
+| [0010](docs/adr/0010-local-tts-openai-speech.md)  | Local TTS through the OpenAI-compatible speech API                              |
+| [0011](docs/adr/0011-video-model-ltxv.md)         | LTX-Video as the default local video model                                      |
+| [0012](docs/adr/0012-inject-stages.md)            | Inject stages: schema-guided text, deterministic media plan, keep-with-warning  |
+| [0013](docs/adr/0013-app-protocol.md)             | Serve the renderer from `app://bundle/`                                         |
+| [0014](docs/adr/0014-domain-profiles.md)          | Domain profiles: domain-neutral generation as data                              |
+| [0015](docs/adr/0015-repair-in-place.md)          | Repair a finished scenario in place                                             |
+| [0016](docs/adr/0016-forward-compatible-files.md) | Forward-compatible project files                                                |
+
+New ADRs start from [`docs/adr/0000-template.md`](docs/adr/0000-template.md).
 
 ## `reference/`
 
-`reference/` holds the CSAAP material the app was modeled on, as text:
+`reference/` holds the material the app was modeled on and is measured against, as text. All organizations in it are fictional. See [`reference/README.md`](reference/README.md) for the file-by-file list.
 
-- `reference/ncia/` - sample input documents for the fictional North Coast International Airport (AEP, ASP, TIRP, terminal map). This is what a user would import into a project. `reference/transit/` (a bus + light-rail agency) and `reference/dam/` (a hydro / flood-control dam) are the same for two other domains.
+- **Input documents** (what a user would import into a project), one folder per domain:
+  - `reference/ncia/` - North Coast International Airport (AEP, ASP, TIRP, terminal map).
+  - `reference/transit/` - Riverbend Regional Transit Authority, a bus + light-rail agency.
+  - `reference/dam/` - Cedar Ridge Dam, a hydro / flood-control dam.
+  - `reference/city-water/` - City of Millbrook Department of Water & Sewer (emergency response plan, OT / cybersecurity plan, SCADA description, public communications plan, system map).
+  - `reference/uas-ops/` - Harwick UAS Operations Group, a drone operator flying under Part 107 (flight operations manual, emergency response plan, information security plan, site and airspace sheet).
+- **Gold-standard outputs**, the CSAAP airport tabletops: `reference/scenario-1/` to `reference/scenario-8/` each hold the MSEL, controller handbook and player briefing. Scenarios 1–7 also have a master inject deck, and every scenario but 3 has player material (a reference card or evidence packet; scenario 8 "Countdown" has an action menu and clue cards in place of an inject deck). `reference/scenario-3/` ("Flight to Nowhere") is the primary benchmark and describes its inject visuals in `injects/README.md`. Generated output is measured against these.
 - `reference/ics-forms/` - ICS-201 and ICS-203 form bases.
-- `reference/scenario-3/` - the gold-standard outputs (MSEL, master inject deck, controller handbook, player briefing, inject visual targets). Generated output is measured against these.
 - `reference/course/` - course outline used for learning objectives.
-- `reference/originals/` - slot for original PDFs/PNGs added by hand; `reference/originals/private/` is gitignored for licensed material. See [`reference/README.md`](reference/README.md).
+- `reference/originals/` - slot for original PDFs/PNGs added by hand; `reference/originals/private/` is gitignored for licensed material.
+
+## `examples/`
+
+`examples/` holds the example projects the app ships, opened from **Projects → Examples** or the setup wizard's first-project step. Opening one copies its `project/` folder to a folder you choose; the shipped files are never changed. Each has an `example.json` manifest and a normal project folder. See [`examples/README.md`](examples/README.md) for the format and the rules for adding one.
+
+| Example                    | Organization (fictional)          | Built from              | Scenarios                                                                       |
+| -------------------------- | --------------------------------- | ----------------------- | ------------------------------------------------------------------------------- |
+| `examples/airport-ncia/`   | North Coast International Airport | `reference/ncia/`       | The eight CSAAP scenarios, seeded from `reference/scenario-1/` to `scenario-8/` |
+| `examples/city-water/`     | City of Millbrook Water           | `reference/city-water/` | pH on the Edge                                                                  |
+| `examples/uas-operations/` | Harwick UAS Operations Group      | `reference/uas-ops/`    | Ghost Flight at Birch Hollow                                                    |
 
 ## No GitHub Actions
 

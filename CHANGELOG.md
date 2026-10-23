@@ -10,7 +10,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Changed
 
-- Generated MSELs follow the reference pace (#223): `msel_phase` asks for about six rows an hour, at most seven (20–28 rows for a 4-hour exercise, scaled by phase length), side injects included; a new `DENSITY_DENSE` info lint notes a phase above that.
+#### Guided workflow and plain language
+
 - Project Overview opens on a "Get this exercise ready" checklist (documents → facility facts →
   generate → injects → media → export / facilitate) with live state per step, one primary Next
   button and the project's scenarios; project settings moved into a collapsed section below
@@ -26,16 +27,25 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   hot wash, time jump, PIO and lint where they first appear, plus a Glossary button on the
   Overview and scenario page. The facility facts "Checked by lint" badge is no longer red, and
   the Documents table hides the embedder model and chunk counts behind an Advanced detail (#229).
-- Export page: the output folder defaults to `<project>/exports` (created on the first export)
-  or the folder last chosen for that project; the folder, Export button and a readiness summary
-  (events without injects, unrendered injects, lint errors) sit in a pinned action bar (#238).
-- MSEL saves send the `updatedAt` of the copy they were made from; main refuses a stale save with CONFLICT and the editor redoes it onto the newer scenario, so a save never overwrites fields written meanwhile by a job or another editor (#199).
-- MSEL grid: From/To columns are wider and narrow columns (From, To, Tag, Format) break only between words; row IDs and times never split. The Warnings list keeps its row ID / code column on one line (#237).
+- Scenario page: the Stages list and Generation log moved below the tabs into a collapsed
+  "Advanced information" section, which opens on its own while a generation runs (#189).
+
+#### Navigation, onboarding and look
+
 - Project sidebar grouped into **Build** (Overview, Documents, Facility facts, Generate, Scenarios, Facilitate) and a collapsible **Advanced** group (Search index, Prompt overrides, Provider routing) that remembers whether it is open; Providers now comes before Prompts, Templates and Workflows; project page titles match their nav labels; the sidebar fits a 1000 × 800 window (#230).
 - One selection style in lists: selected items use a highlighter fill (no longer the error pink) with the accent bar, hover is a neutral tint, and the domain picker shows the current domain with a check (#236).
 - Toasts appear at the bottom left of the content area so they never cover a primary action (#240).
 - Projects with no projects yet: the empty state's primary button is **New project**; setup is the secondary action (#234).
 - Facilitate: the header button is **Open presentation** or **Close presentation** depending on whether the presentation window is open (`facilitator:present-status` and the `facilitator:present-changed` event) (#235).
+- In-app branding is now Action Stations: logo in the sidebar, comic-panel theme (newsprint light, navy-ink dark, Bangers page titles, ink outlines and hard shadows), window, page and menu-bar titles renamed (the settings folder keeps its name); new app icon from the logo; closing the main window now quits the app on macOS too; `scripts/dev-bundle.sh` builds a renamed Electron bundle for unpackaged runs; macOS overscroll bounce disabled (#191).
+
+#### Editors and saving
+
+- MSEL saves send the `updatedAt` of the copy they were made from; main refuses a stale save with CONFLICT and the editor redoes it onto the newer scenario, so a save never overwrites fields written meanwhile by a job or another editor (#199).
+- MSEL grid: From/To columns are wider and narrow columns (From, To, Tag, Format) break only between words; row IDs and times never split. The Warnings list keeps its row ID / code column on one line (#237).
+
+#### Background jobs and repair
+
 - Query refreshes follow what changed (#198): `project:changed` and `job:done` invalidate only
   the queries of that project, scenario and kind of data, at most once per 250 ms, instead of
   every cached query on every save (a 100-inject run no longer re-reads every inject per save).
@@ -43,27 +53,59 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   rebuild and idea jobs reattach after navigating away and back, with progress and Cancel, and
   the Export button stays disabled while that scenario's export runs.
 
-- In-app branding is now Action Stations: logo in the sidebar, comic-panel theme (newsprint light, navy-ink dark, Bangers page titles, ink outlines and hard shadows), window, page and menu-bar titles renamed (the settings folder keeps its name); new app icon from the logo; closing the main window now quits the app on macOS too; `scripts/dev-bundle.sh` builds a renamed Electron bundle for unpackaged runs; macOS overscroll bounce disabled (#191).
+#### Generation and checks
 
-- Scenario page: the Stages list and Generation log moved below the tabs into a collapsed
-  "Advanced information" section, which opens on its own while a generation runs (#189).
+- Generated MSELs follow the reference pace (#223): `msel_phase` asks for about six rows an hour, at most seven (20–28 rows for a 4-hour exercise, scaled by phase length), side injects included; a new `DENSITY_DENSE` info lint notes a phase above that.
+
+#### Documents and export
+
+- Export page: the output folder defaults to `<project>/exports` (created on the first export)
+  or the folder last chosen for that project; the folder, Export button and a readiness summary
+  (events without injects, unrendered injects, lint errors) sit in a pinned action bar (#238).
+
+#### Documentation
+
+- README: the Documentation section lists every ADR (0001–0016), the `reference/` section
+  covers scenarios 1–8, city-water and uas-ops, a new `examples/` section lists the shipped
+  examples, and a note explains why the app says Action Stations while the package, installer
+  and settings folder keep the Tabletop Generator name (#241).
+- Getting started guide matches the current app: the Overview checklist, the scenario
+  next-action bar and status badge, Advanced information with Stages and Repair, the Background
+  jobs list with Resume / Dismiss, the quit confirmation, the export folder default and the
+  system voice in Detect local services. Every guide screenshot was retaken from the built app,
+  and `e2e/guide-screenshots.spec.ts` (`GUIDE_SHOTS=1`) retakes them (#242).
 
 ### Added
 
-- Organization-name check for injects (#221): a name that starts like the organization's but is not the project name, `orgName` or `brand.aliases.org` ("North Coast Regional Airport") goes back to the model in the repair round, and becomes an inject warning if it survives.
+#### Editors and saving
+
 - Confirm before quitting or closing the window with unsaved work (#196): main asks the renderer (with a timeout, so a hung page never blocks quitting), which saves pending autosaves first and reports inject drafts, edits parked during generation and editors whose save was refused or failed; a native dialog offers "Quit and discard" or "Cancel".
 - Inject deck cards show a **Draft** badge when the inject has unsaved edits, and the scenario page notes how many injects have an unsaved draft (#202).
-- Player handouts and controller materials (#224): two optional scenario document kinds
-  (`handouts`, `controller_handouts`), listed in the Documents tab and exported as
-  Player Handouts (also in the ZIP's `players/`) and Controller Materials (`facilitator/` only)
-  PDFs. The airport example ships the scenario 1, 2, 4–8 reference cards, evidence packets,
-  Countdown's action menu and clue cards, plus an MSEL document and hot wash guide for every
-  scenario, seeded from `reference/scenario-N/`.
-- Each bundled example ships one short voice clip (MP3, inside the 6 MB budget) (#219).
-- `make-example.mjs refresh` records hand corrections to an example and re-renders their cards
-  with no model reachable; `verify` now fails on any lint warning other than CRITIQUE notes,
-  and `tests/scripts/example-content.test.ts` re-runs the content checks on every shipped
-  inject (#220).
+
+#### Background jobs and repair
+
+- Jobs tray in the sidebar (#197): every running background job with progress, Cancel and a
+  link to its screen; jobs interrupted by an app exit get Resume or Dismiss. Running imports
+  on the Documents page have **Cancel import**.
+- Resume / Dismiss for interrupted jobs (#195): the inject deck, inject editor, generation log
+  and jobs tray offer **Resume** (continues from the last checkpoint, `jobs:resume`) when main
+  can resume the job and **Dismiss** otherwise; **Continue from failure** also shows for a
+  stage an exit left "running", and starting new work on the scenario clears the old record.
+- **Repair this scenario** under the scenario page's Advanced information (#200), with a
+  confirm dialog (AI stills only when ticked), job banner and progress in the generation log.
+- The Stages list shows the reported cost of remote-provider runs next to the tokens, and the
+  scenario total (#218).
+- Repair a finished scenario in place (#185, ADR-0015): `generate:repair` applies the current
+  MSEL repairs and lints, runs the revision pass only for rows still flagged, writes injects
+  only for rows whose text changed or that have none, and re-renders only stale cards and
+  missing AI stills; everything else stays byte-identical. `make-example.mjs repair` uses it
+  for the bundled examples, which were repaired this way.
+
+#### Generation and checks
+
+- Organization-name check for injects (#221): a name that starts like the organization's but is not the project name, `orgName` or `brand.aliases.org` ("North Coast Regional Airport") goes back to the model in the repair round, and becomes an inject warning if it survives.
+
+#### Media, templates and providers
 
 - Project logo: **Logo** in project settings copies a PNG, JPEG or WebP (2 MB max, type
   checked from the bytes) into `<project>/brand/` and sets `brand.logoPath`; templates read it as
@@ -76,76 +118,59 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   or `espeak-ng` / `espeak`, offered by **Detect local services** only when installed and routable
   to the Audio task; output takes the usual post-FX and MP3 path. ADR-0009 marked amended by
   ADR-0010; README provider table corrected (ComfyUI ships no audio workflow) (#215).
-- Jobs tray in the sidebar (#197): every running background job with progress, Cancel and a
-  link to its screen; jobs interrupted by an app exit get Resume or Dismiss. Running imports
-  on the Documents page have **Cancel import**.
-- Resume / Dismiss for interrupted jobs (#195): the inject deck, inject editor, generation log
-  and jobs tray offer **Resume** (continues from the last checkpoint, `jobs:resume`) when main
-  can resume the job and **Dismiss** otherwise; **Continue from failure** also shows for a
-  stage an exit left "running", and starting new work on the scenario clears the old record.
-- **Repair this scenario** under the scenario page's Advanced information (#200), with a
-  confirm dialog (AI stills only when ticked), job banner and progress in the generation log.
-- The Stages list shows the reported cost of remote-provider runs next to the tokens, and the
-  scenario total (#218).
 
-- Repair a finished scenario in place (#185, ADR-0015): `generate:repair` applies the current
-  MSEL repairs and lints, runs the revision pass only for rows still flagged, writes injects
-  only for rows whose text changed or that have none, and re-renders only stale cards and
-  missing AI stills; everything else stays byte-identical. `make-example.mjs repair` uses it
-  for the bundled examples, which were repaired this way.
+#### Documents and export
+
+- Player handouts and controller materials (#224): two optional scenario document kinds
+  (`handouts`, `controller_handouts`), listed in the Documents tab and exported as
+  Player Handouts (also in the ZIP's `players/`) and Controller Materials (`facilitator/` only)
+  PDFs. The airport example ships the scenario 1, 2, 4–8 reference cards, evidence packets,
+  Countdown's action menu and clue cards, plus an MSEL document and hot wash guide for every
+  scenario, seeded from `reference/scenario-N/`.
+
+#### Bundled examples
+
+- Each bundled example ships one short voice clip (MP3, inside the 6 MB budget) (#219).
+- `make-example.mjs refresh` records hand corrections to an example and re-renders their cards
+  with no model reachable; `verify` now fails on any lint warning other than CRITIQUE notes,
+  and `tests/scripts/example-content.test.ts` re-runs the content checks on every shipped
+  inject (#220).
 
 ### Fixed
 
-- Re-running an MSEL phase, the phase plan or the critique (or repairing the MSEL) now marks the injects of rows whose event, expected action or format changed, or that were removed, as stale, so "Write all injects" writes them again; injects whose row is gone are left out of the export as they are from the deck (#207).
-- The critique and hot wash steps write their documents only after the step's checkpoint: a failed or cancelled step leaves `overview.md`, the handbook and the hot wash as they were (#209).
-- An END_GAME or ENDEX inject never gets a glitch template variant (the recovery board shows normal); a bare-number gate in a flight context ("AC 444 at Gate 14") is checked against the concourse gates when the facts number gates per concourse (#222).
-- Symlinks in a shared project can no longer pull files from outside it: export media and
-  posters, the export's file check, ingest of `text.md` and originals, and template slot images
-  resolve the real path and refuse links that leave the project; duplicating a project skips
-  symlinks (#205).
-- `render:inject` answers CONFLICT while a generation job owns the scenario, like every other
-  scenario and inject write; a handler test covers all of them (#206).
-- An older build no longer deletes fields a newer one wrote: project.json, scenario.json,
-  inject and document meta files keep unknown keys, and scenario.json has a `formatVersion`
-  (missing means 1, newer is refused) (#208, ADR-0016).
-- A document whose parse never finishes fails after a per-file timeout (two minutes plus one
-  per 10 MB, at most 30) instead of holding an ingest slot (#210).
-- Provider requests follow redirects only within the same origin, so an API key header never
-  reaches another host; a 409 on a POST is no longer retried (#211).
-- The local embedding model downloads from a pinned Hugging Face commit and every file is
-  checked against its sha256 (#212).
-- Export writes each scenario into its own folder and ZIP (`<Title>-S<n>-<id tag>`), and the
-  ZIP holds only the files from that run (#213).
-- Opening a project again while its index rebuild runs reuses that rebuild instead of starting
-  a second reset (#214).
+#### Guided workflow and plain language
+
 - Scenario Warnings tab count now comes from the same live lint as the tab body, so it no
   longer says "Warnings (0)" above a list of warnings (#228).
-- The MSEL editor saves a pending edit when it is left (tab, route, scenario switch) instead of dropping it; refused during generation, the edit is parked and taken back when the MSEL opens again (#193).
-- Facilitator: a failed save keeps the changes unsaved and is retried; a failure in the save made on leaving the page shows a toast (#204).
+
+#### Navigation, onboarding and look
+
 - Chat-model pickers never default to an embedding model: Ollama models are classified by their reported capabilities (with a wider name fallback: minilm, bge, e5, gte, mxbai, arctic-embed…), LM Studio embedding models by type, the largest chat model is the default, and "N chat models" counts only chat models (#225).
 - Prompts opens on the first prompt of the first stage group instead of an item off-screen (#231).
 - Scenarios list and idea cards no longer indented by the browser's list padding (#232).
 - Old "Tabletop Generator" wording in the example copy dialog and the DOCX creator metadata now reads Action Stations / "your Documents folder" (the folder on disk is unchanged) (#233).
 - Link-styled buttons are no longer underlined (#234).
+
+#### Editors and saving
+
+- The MSEL editor saves a pending edit when it is left (tab, route, scenario switch) instead of dropping it; refused during generation, the edit is parked and taken back when the MSEL opens again (#193).
+- Facilitator: a failed save keeps the changes unsaved and is retried; a failure in the save made on leaving the page shows a toast (#204).
+
+#### Background jobs and repair
+
 - After a restart, an interrupted inject or media job no longer locks the inject deck (#194):
   it shows "Interrupted" with Resume / Dismiss instead of a frozen progress banner, Write all
   and Render all stay usable, and dismissing (cancelling) a restored job now sends `job:done`.
-- Bundled examples carry no lint warnings (#220): city-water phase 1 reaches the Security &
-  Emergency Manager and the state regulator liaison, UAS I-10 narrates no player decision and
-  I-12 comes from the FSDO instead of the ASO, Flight to Nowhere I-02a/I-07 no longer carry
-  template example values and I-11 frames Gate C4 as the bad data's gate.
-- Airport example organization names: North Coast International Airport (NCIA) and the North
-  Coast Regional Airport Authority (NCRAA) throughout the inject fields (#221).
-- Flight to Nowhere fidelity (#222): the I-15 ENDEX board shows the normal "UA 1245 Chicago ON
-  TIME" recovery, the I-02 ticket is the FIDS ticket (its own number, FIDS feed CI, no
-  vending-machine notes), and I-10b is a phone call in the fixture and the example.
-- Countdown's STARTEX card and inject dates match the MSEL's Tuesday (#239).
 
+#### Generation and checks
+
+- Re-running an MSEL phase, the phase plan or the critique (or repairing the MSEL) now marks the injects of rows whose event, expected action or format changed, or that were removed, as stale, so "Write all injects" writes them again; injects whose row is gone are left out of the export as they are from the deck (#207).
+- The critique and hot wash steps write their documents only after the step's checkpoint: a failed or cancelled step leaves `overview.md`, the handbook and the hot wash as they were (#209).
+- An END_GAME or ENDEX inject never gets a glitch template variant (the recovery board shows normal); a bare-number gate in a flight context ("AC 444 at Gate 14") is checked against the concourse gates when the facts number gates per concourse (#222).
 - Lint false positives found on the bundled examples (#185): a named site with a leading
   article ("The Lakeshore Flight Area"), a rogue device the row itself calls unknown ("No
   record of GCS-12 in fleet", "No GCS-12 exists") in the MSEL and inject checks, and a
   truncated recipient key ("as" for ASO).
-
 - Inject generation records every skipped or failed MSEL row on the scenario (an `inject_text`
   run keyed by the row, an `INJECT_TEXT_FAILED` warning); a reply with no valid JSON gets one
   fresh call, and a control card the model still fails on is built from its MSEL row; a failed
@@ -154,12 +179,6 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   repaired to the template's default or first value with an `INJECT_FIELDS_REPAIRED`
   warning, and the media job reports fields the template still refuses as
   `INJECT_RENDER_INVALID` in the inject editor (#175).
-- Inject media (#177): a generated still is kept when the template step fails and the job log
-  names the failing step; over-long strings and pattern violations (a 19-character tweet
-  handle) and undeclared nested keys are repaired before validation; the model can choose a
-  template variant (`variant`, e.g. `scada_hmi` `water_chemical`); the domain's scene anchor
-  follows the model's image prompt instead of being prepended to it.
-- Quitting while template previews render no longer hangs (#170): on quit the render-window pool cancels queued and in-flight renders and destroys its windows instead of opening new ones.
 - Facility lint false positives (#165): broad profile nouns (Unit, Gate, Zone, Station, Section,
   Route) are checked only in matching context and never after a responder or access word, so a
   dam's patrol "Unit 4" is no longer a generating unit; a near-miss name such as "Confluence
@@ -175,6 +194,53 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   phase are re-timed, ENDEX is kept last and single, exact-duplicate rows are dropped, roles
   are capped at the audience list, and the remaining structural lints (near-duplicates,
   unknown facility identifiers, rows after ENDEX) go through one more revision round (#174).
+
+#### Media, templates and providers
+
+- Inject media (#177): a generated still is kept when the template step fails and the job log
+  names the failing step; over-long strings and pattern violations (a 19-character tweet
+  handle) and undeclared nested keys are repaired before validation; the model can choose a
+  template variant (`variant`, e.g. `scada_hmi` `water_chemical`); the domain's scene anchor
+  follows the model's image prompt instead of being prepended to it.
+
+#### Documents and export
+
+- Export writes each scenario into its own folder and ZIP (`<Title>-S<n>-<id tag>`), and the
+  ZIP holds only the files from that run (#213).
+
+#### Security and robustness
+
+- Symlinks in a shared project can no longer pull files from outside it: export media and
+  posters, the export's file check, ingest of `text.md` and originals, and template slot images
+  resolve the real path and refuse links that leave the project; duplicating a project skips
+  symlinks (#205).
+- `render:inject` answers CONFLICT while a generation job owns the scenario, like every other
+  scenario and inject write; a handler test covers all of them (#206).
+- An older build no longer deletes fields a newer one wrote: project.json, scenario.json,
+  inject and document meta files keep unknown keys, and scenario.json has a `formatVersion`
+  (missing means 1, newer is refused) (#208, ADR-0016).
+- A document whose parse never finishes fails after a per-file timeout (two minutes plus one
+  per 10 MB, at most 30) instead of holding an ingest slot (#210).
+- Provider requests follow redirects only within the same origin, so an API key header never
+  reaches another host; a 409 on a POST is no longer retried (#211).
+- The local embedding model downloads from a pinned Hugging Face commit and every file is
+  checked against its sha256 (#212).
+- Opening a project again while its index rebuild runs reuses that rebuild instead of starting
+  a second reset (#214).
+- Quitting while template previews render no longer hangs (#170): on quit the render-window pool cancels queued and in-flight renders and destroys its windows instead of opening new ones.
+
+#### Bundled examples
+
+- Bundled examples carry no lint warnings (#220): city-water phase 1 reaches the Security &
+  Emergency Manager and the state regulator liaison, UAS I-10 narrates no player decision and
+  I-12 comes from the FSDO instead of the ASO, Flight to Nowhere I-02a/I-07 no longer carry
+  template example values and I-11 frames Gate C4 as the bad data's gate.
+- Airport example organization names: North Coast International Airport (NCIA) and the North
+  Coast Regional Airport Authority (NCRAA) throughout the inject fields (#221).
+- Flight to Nowhere fidelity (#222): the I-15 ENDEX board shows the normal "UA 1245 Chicago ON
+  TIME" recovery, the I-02 ticket is the FIDS ticket (its own number, FIDS feed CI, no
+  vending-machine notes), and I-10b is a phone call in the fixture and the example.
+- Countdown's STARTEX card and inject dates match the MSEL's Tuesday (#239).
 
 ## [0.1.0] - 2026-10-22
 

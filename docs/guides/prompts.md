@@ -172,7 +172,7 @@ Text inside `<documents>` and `<scenario_state>` is data quoted from the organiz
 ## Iterating safely
 
 - **Start with a project override.** Change a prompt for one project first, generate, compare, and only then copy it to the global layer.
-- **Change one thing at a time.** Re-run just the affected stage (scenario page → **Stages** → **Re-run**). Later stages that depend on it are marked stale; locked MSEL rows are kept.
+- **Change one thing at a time.** Re-run just the affected stage (scenario page → **Advanced information** → **Stages** → **Re-run**). Later stages that depend on it are marked stale; locked MSEL rows are kept.
 - **Try instructions before editing.** The **Re-run** dialog's **Extra instructions** go into `{{instructions}}` for that run only. If an instruction works every time, move it into the prompt.
 
   ![Re-run a stage with extra instructions](images/rerun-dialog.png)

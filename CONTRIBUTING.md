@@ -94,7 +94,7 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 
 ## Documentation
 
-- Keep [`README.md`](README.md) runnable and the guides in [`docs/guides/`](docs/guides/) accurate when behaviour changes. Guide screenshots live in `docs/guides/images/`; retake them from the built app when a screen changes.
+- Keep [`README.md`](README.md) runnable and the guides in [`docs/guides/`](docs/guides/) accurate when behaviour changes. Guide screenshots live in `docs/guides/images/`; retake them from the built app when a screen changes with `pnpm build:app && GUIDE_SHOTS=1 pnpm exec playwright test e2e/guide-screenshots.spec.ts` (mock provider, 1440 × 900), then look at each changed image before committing it.
 - Any architectural choice (a new library, a storage format change, a new process boundary) gets an ADR in `docs/adr/NNNN-title.md`, copied from [`docs/adr/0000-template.md`](docs/adr/0000-template.md): context, decision, consequences, kept short. To reverse a decision, write a new ADR and mark the old one `Superseded by ADR-XXXX`.
 
 ## Ground rules

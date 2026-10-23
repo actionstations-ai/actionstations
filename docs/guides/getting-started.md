@@ -2,7 +2,7 @@
 
 This walk-through takes you from a fresh install to a generated exercise: create a project, import an organization's plans, search them, connect a local model, ask for scenario ideas, generate a full scenario (overview, roles, phases, MSEL, controller handbook, rubric, player briefing and hot wash), write the inject deck with its media, edit everything, export the exercise package, and run it in facilitator mode.
 
-It uses the fictional North Coast International Airport (NCIA) plans that ship in [`reference/ncia/`](../../reference/ncia/), and LM Studio with `qwen3-30b-a3b-2507`. The screenshots come from that setup in the built app: ideas took 13 seconds, and the scenario took 5 minutes 40 seconds (39 MSEL rows, every stage `ok`). The editor and facilitator screenshots show a second scenario generated the same way; the inject deck and export screenshots show the Scenario 3 deck from the live inject test.
+It uses the fictional North Coast International Airport (NCIA) plans that ship in [`reference/ncia/`](../../reference/ncia/), and LM Studio with `qwen3-30b-a3b-2507`. The timings come from that setup in the built app: ideas took 13 seconds, and the scenario took 5 minutes 40 seconds (39 MSEL rows, every stage `ok`). The screenshots are taken from the built app by `e2e/guide-screenshots.spec.ts` (`pnpm build:app && GUIDE_SHOTS=1 pnpm exec playwright test e2e/guide-screenshots.spec.ts`), offline with the built-in mock provider, so the stages show `mock-large` instead of a real model; the MSEL, inject, facilitator and export screens show **Flight to Nowhere** from the bundled airport example (see [Example projects](#example-projects)).
 
 Background reading: [How a good tabletop exercise is built](methodology.md).
 
@@ -25,7 +25,7 @@ On first launch the **setup wizard** opens. It has five steps, each of which can
 
 1. **Welcome**: what the app makes and what stays on your computer.
 2. **Text model**: detects LM Studio and Ollama on this computer, lets you pick a model (embedding models are never offered as the writing model; the largest chat model is the default unless one is already loaded) and add the provider with one click, or add an Anthropic API key. It routes ideation, drafting and critique to your choice.
-3. **Media**: checks ComfyUI and its default workflows for images and video, and adds a local voice server (mlx-audio) for speech; it routes the image, video and audio tasks.
+3. **Media**: checks ComfyUI and its default workflows for images and video, and adds a local voice server (mlx-audio) for speech; it routes the image, video and audio tasks. The operating system's own voice is added later from **Providers** (step 5).
 4. **Search quality**: keep the built-in keyword hashing, or download the local embedding model (133 MB, once) for better search.
 5. **First project**: create a project.
 
@@ -34,6 +34,10 @@ On first launch the **setup wizard** opens. It has five steps, each of which can
 ![Choosing a text model in the wizard](images/wizard-text-model.png)
 
 **Skip setup** goes straight to the Projects screen. You can run the wizard again from **Settings → Run setup again**. The rest of this guide shows the same steps on the regular screens, which is also where you change them later.
+
+![Settings](images/settings.png)
+
+**Settings** also holds the default projects folder, the theme, the embedding mode and **Generation → Write injects and render media automatically after generation** (see step 8).
 
 The sidebar has two parts: application screens (Projects, Providers, Prompts, Templates, Workflows, Settings) and, once a project is open, that project's screens. These are grouped into **Build** (Overview, Documents, Facility facts, Generate, Scenarios, Facilitate) and a collapsible **Advanced** group (Search index, Prompt overrides, Provider routing). Advanced starts closed, remembers whether you opened it, and stays open while you are on one of its pages.
 
@@ -117,12 +121,12 @@ Generation needs a text model. If you set one up in the wizard, skip to step 6. 
    lms load qwen/qwen3-30b-a3b-2507 --identifier qwen3-30b-a3b-2507 --context-length 32768 -y
    ```
 
-2. In the app, open **Providers** and click **Detect local services**. It looks for LM Studio, Ollama and ComfyUI on this computer only. Click **Add** next to LM Studio.
+2. In the app, open **Providers** and click **Detect local services**. It looks for LM Studio, Ollama, ComfyUI and a system voice (macOS `say`, Windows SAPI, `espeak-ng` on Linux) on this computer only; a row appears only for what it finds. Click **Add** next to LM Studio.
 
    ![Detect local services](images/detect-local.png)
 
 3. On the LM Studio card, click **Edit** and set **Default model** to `qwen3-30b-a3b-2507` (detection picks the first model alphabetically). Click **Test**: it should answer "OK" in well under a second.
-4. In **Routing**, set **Ideation**, **Drafting** and **Critique** to LM Studio.
+4. In **Routing**, set **Ideation**, **Drafting** and **Critique** to LM Studio. To have voice lines without a TTS server, **Add** the **System voice** row as well and set **Audio** to it (see [System voice](providers/local-tts.md#system-voice-any-platform)).
 
    ![Providers and routing](images/providers-routing.png)
 
@@ -148,21 +152,28 @@ You can also start from **From a prompt** without an idea: describe the threat, 
 
 **Threat family** sets the phase arc, the decision points and the lint checks of the scenario (cyber, cyber-physical, physical security, UAS / drone, insider, natural hazard, infrastructure failure, mass gathering; only the families the project's domain supports are listed). It starts on **Use the suggestion**, which shows the family the generator would pick and why: the idea you are developing, words in the brief (_the brief mentions “drone”_), or the domain's default. The suggestion updates as you edit the brief. Choose a family to override it; your choice is what the scenario gets. Idea cards show each idea's threat family too.
 
-The scenario page opens and follows the run. **Stages** lists each completed stage with its model, tokens and duration; the **Generation log** streams progress and each stage's raw output.
+The scenario page opens and follows the run: the bar above the tabs reads **Generating the scenario…** with a progress bar, and the collapsed **Advanced information** section at the bottom of the page opens on its own while the job runs. In it, **Stages** lists each completed stage with its model, tokens and duration, and the **Generation log** streams progress and each stage's raw output. Click **Advanced information** to close or reopen it at any time.
 
-![Scenario generating](images/scenario-running.png)
+![Advanced information: stages and the generation log](images/scenario-advanced.png)
 
-The stages run in this order: scenario overview, objectives & roles, phase plan, one MSEL phase per exercise phase, controller handbook, rubric, player briefing, hot wash, critique, and a revision pass over the MSEL phases using the critique. You can leave the page; the job keeps running and the page picks it up again.
+The stages run in this order: scenario overview, objectives & roles, phase plan, one MSEL phase per exercise phase, controller handbook, rubric, player briefing, hot wash, critique, and a revision pass over the MSEL phases using the critique. You can leave the page; the job keeps running, the sidebar's **Background jobs** list shows it (see [Background jobs and restarts](#background-jobs-and-restarts)), and the page picks it up again when you return.
 
 Measured with `qwen3-30b-a3b-2507` on Apple Silicon: 340 seconds end to end, MSEL phases of 21,000 to 29,500 input tokens each.
 
 ## 8. Read and edit the result
 
-When the run finishes, a bar above the tabs says what to do next: **Next: write N injects**, then **Render media**, then **Export** or **Facilitate**, with counts for each step. The status badge follows the same steps: **Draft** (injects missing), **Injects written**, **Media rendered**, and **Ready** once every inject is rendered and lint reports no errors. To have the injects written and the media rendered as soon as generation finishes, turn on **Settings → Generation → Write injects and render media automatically after generation** (off by default).
+When the run finishes, the bar above the tabs says what to do next, with one button for it and a progress line (**Timeline: N events**, **Injects written: n/N**, **Media rendered: n/N**, **Checks: no errors** or the error count):
 
-![All stages complete](images/scenario-stages.png)
+1. **Next: write N injects** with **Write N injects** (the same job as **Write all injects** on the Injects tab).
+2. **Next: render media (n/N)** with **Render media**.
+3. **Next: fix N errors found by the checks** with **Show the errors** (opens the Warnings tab), only while lint reports errors; you can still export.
+4. **Ready: export or facilitate** with **Facilitate** and **Export…**.
 
-The tabs under the stages hold the scenario, and every tab is editable:
+While one of these jobs runs, the bar shows it (**Writing injects…**, **Rendering media…**) with its progress. The status badge in the header follows the same steps: **Draft** (injects missing), **Injects written**, **Media rendered**, and **Ready** once every inject is rendered and lint reports no errors. Next to it are **Glossary** and, until the scenario is ready, **Facilitate** and **Export…**. To have the injects written and the media rendered as soon as generation finishes, turn on **Settings → Generation → Write injects and render media automatically after generation** (off by default; the bar links to it).
+
+![The scenario page after generation, with the next-action bar](images/scenario-next.png)
+
+The tabs below the bar hold the scenario, and every tab is editable:
 
 - **Overview**: location, audience, theme, threat, operational impact and the core plan sections tested.
 - **Objectives & Roles**: exercise objectives, player roles with their standing orders, critical resources, and the SimCell scripts.
@@ -216,21 +227,25 @@ Click a card to open the **inject editor**. From the keyboard the deck is one Ta
 
 A scenario runs one generation job at a time. While it runs, your edits to that scenario are kept in the editor and a banner says "Generation is running for this scenario"; they are saved automatically when the job finishes. If you leave a tab or document before such a save goes through, the edit is kept: the scenario page shows "1 unsaved change pending" and saves it when the job finishes, or the editor takes it back when you return. Inject edits are saved by hand; an inject with unsaved edits shows a **Draft** badge on its deck card, and the scenario page says how many injects have an unsaved draft (export and rendering use the saved version).
 
-Quitting the app, or closing its window, with unsaved work (an inject draft, an edit waiting for a job to finish, or a save that failed) asks first: **Quit and discard** or **Cancel**. Edits waiting only for autosave are saved before the app quits. Field warnings from inject generation (`INJECT_FIELDS_INVALID`) and from rendering (`INJECT_RENDER_INVALID`, which lists the fields the template refused) are cleared when you save fields that match the template. `INJECT_FIELDS_REPAIRED` marks a value the app changed to fit the template (an out-of-range choice, a handle that was too long); check it and save. A row the model could not write is flagged `INJECT_TEXT_FAILED` in the inject deck; a control card built from its MSEL row after the model failed is flagged `INJECT_TEXT_FALLBACK`.
+Closing the main window quits the app, on macOS too. Quitting with unsaved work (an inject draft, an edit waiting for a job to finish, or a save that failed) asks first: the **You have unsaved work** dialog lists what would be lost and offers **Quit and discard** or **Cancel** (the default). Edits waiting only for autosave are saved before the app quits. Field warnings from inject generation (`INJECT_FIELDS_INVALID`) and from rendering (`INJECT_RENDER_INVALID`, which lists the fields the template refused) are cleared when you save fields that match the template. `INJECT_FIELDS_REPAIRED` marks a value the app changed to fit the template (an out-of-range choice, a handle that was too long); check it and save. A row the model could not write is flagged `INJECT_TEXT_FAILED` in the inject deck; a control card built from its MSEL row after the model failed is flagged `INJECT_TEXT_FALLBACK`.
 
 ### Improve a stage
 
-The **Stages** panel lists the latest run of each stage. Per-inject stages (inject text, media brief, media render) are grouped into one collapsible row per stage with ok/error/stale counts; a group with errors starts expanded. Each stage has **Re-run**. The dialog takes **Extra instructions** for that run only ("make the red herring more plausible; cite ASP 6.4"). Stages that depend on the re-run one are marked stale; locked MSEL rows are kept. When a re-run of an MSEL phase, the phase plan or the critique changes a row's event, expected action or format, that row's inject text and media are marked stale too, and **Write all injects** on the Injects tab writes them again. An inject whose row was removed is left out of the deck and the export. If a stage fails, **Continue from failure** resumes from it. Each run shows its model, tokens and duration; runs on a remote provider that reports prices also show their cost, and the panel head shows the scenario's total. To change how a stage writes every time, edit its prompt: see the [prompts guide](prompts.md).
+The **Stages** panel under **Advanced information** lists the latest run of each stage. Per-inject stages (inject text, media brief, media render) are grouped into one collapsible row per stage with ok/error/stale counts; a group with errors starts expanded. Each stage has **Re-run**. The dialog takes **Extra instructions** for that run only ("make the red herring more plausible; cite ASP 6.4"). Stages that depend on the re-run one are marked stale; locked MSEL rows are kept. When a re-run of an MSEL phase, the phase plan or the critique changes a row's event, expected action or format, that row's inject text and media are marked stale too, and **Write all injects** on the Injects tab writes them again. An inject whose row was removed is left out of the deck and the export. If a stage fails, **Continue from failure** resumes from it. Each run shows its model, tokens and duration; runs on a remote provider that reports prices also show their cost, and the panel head shows the scenario's total. To change how a stage writes every time, edit its prompt: see the [prompts guide](prompts.md).
 
 ![Re-run a stage](images/rerun-dialog.png)
 
 ### Repair a scenario
 
-A scenario generated by an older version of the app can be brought up to date without regenerating it. Open **Advanced information** at the bottom of the scenario page and click **Repair this scenario** in the Stages panel. Repair applies the current MSEL repairs and checks, rewrites only the injects whose rows changed or that are missing, and re-renders only stale or missing cards; everything else stays as it is, and the scenario history keeps the previous version. Tick **Also generate missing AI stills** to have it create the AI images that briefs plan but that were never made (this uses your image provider). Progress shows in a banner above the stages and in the generation log, with **Cancel job**.
+A scenario generated by an older version of the app can be brought up to date without regenerating it. Open **Advanced information** at the bottom of the scenario page and click **Repair this scenario** at the top of the Stages panel; the **Repair this scenario?** dialog explains what it does, and **Repair** starts it. Repair applies the current MSEL repairs and checks, rewrites only the injects whose rows changed or that are missing, and re-renders only stale or missing cards; everything else stays as it is, and the scenario history keeps the previous version. Tick **Also generate missing AI stills** to have it create the AI images that briefs plan but that were never made (this uses your image provider). Progress shows in a banner above the stages and in the generation log, with **Cancel job**.
 
 ### Background jobs and restarts
 
-Long jobs (imports, index rebuilds, ideas, generation, inject writing, media rendering, export) keep running when you move to another screen. The sidebar's **Background jobs** list shows each one with its progress, **Cancel** and a link back to its screen; the screen picks the job up again when you return. If the app closes while a job runs, the job comes back as **interrupted** after the restart, and nothing is locked meanwhile. A scenario generation or stage re-run can **Resume** from its last checkpoint; other jobs offer **Dismiss**, after which you start the work again (for example **Write all injects**). Starting new work on the scenario also replaces the interrupted record.
+Long jobs (imports, index rebuilds, ideas, generation, inject writing, media rendering, export) keep running when you move to another screen. The sidebar's **Background jobs** list, at the bottom of the sidebar, shows each one with its progress, **Cancel** and a link back to its screen; the screen picks the job up again when you return. The list is hidden while nothing runs.
+
+![The Background jobs list while media renders](images/jobs-tray.png)
+
+If the app closes while a job runs, the job comes back as **interrupted** after the restart (in the jobs list, the inject deck, the inject editor and the generation log), and nothing is locked meanwhile. A scenario generation or stage re-run can **Resume** from its last checkpoint; other jobs offer **Dismiss**, after which you start the work again (for example **Write all injects**). Starting new work on the scenario also replaces the interrupted record.
 
 ## 9. Run the exercise (facilitator mode)
 
@@ -248,7 +263,7 @@ The clock, delivered injects and notes are saved in `<project>/scenarios/<id>/fa
 
 ## 10. Export the exercise
 
-Click **Export** on the scenario page.
+Click **Export…** on the scenario page (in the header, or in the next-action bar once the scenario is ready).
 
 ![The export screen](images/export.png)
 

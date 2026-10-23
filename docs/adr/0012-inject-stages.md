@@ -1,4 +1,4 @@
-# ADR-0011: Inject stages — template-schema-guided text, deterministic media plan, keep-with-warning
+# ADR-0012: Inject stages — template-schema-guided text, deterministic media plan, keep-with-warning
 
 Date: 2026-10-21 · Status: Accepted · Issue: #34
 
