@@ -35,6 +35,19 @@ describe('DomainProfilePicker', () => {
     expect(combo.getAttribute('aria-activedescendant')).toBe(selected.id)
   })
 
+  it('shows the current value with a check, also while a search hides it (#236)', async () => {
+    render(<Harness initial="water_dam" />)
+    const current = screen.getByTestId('domain-current')
+    expect(current.textContent).toBe('Selected: Dam / water authority')
+    const user = userEvent.setup()
+    await user.type(screen.getByRole('combobox', { name: 'Domain' }), 'bus')
+    expect(screen.queryByRole('option', { selected: true })).toBeNull()
+    expect(current.textContent).toBe('Selected: Dam / water authority')
+    await user.click(screen.getAllByRole('option')[0]!)
+    expect(current.textContent).not.toContain('Dam')
+    expect(screen.getByRole('option', { selected: true }).querySelector('svg')).toBeTruthy()
+  })
+
   it('filters by search text and moves the selection with arrow keys', async () => {
     const onChange = vi.fn()
     render(<Harness initial="generic" onChange={onChange} />)

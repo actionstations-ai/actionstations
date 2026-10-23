@@ -66,12 +66,55 @@
   letter-spacing: 0.06em;
   color: var(--color-text-muted);
   padding: var(--space-4) var(--space-2) var(--space-1);
+  /* One line, so the project nav fits a 800 px tall window; the full name is in the tooltip. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sidebar__subhead {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  padding: var(--space-1) var(--space-2) 0;
+}
+.sidebar__disclosure {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  margin-top: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: none;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: var(--text-xs);
+  text-align: left;
+  cursor: pointer;
+}
+.sidebar__disclosure:hover:not(:disabled) {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+.sidebar__disclosure:disabled {
+  cursor: default;
+}
+.sidebar__chevron {
+  transition: transform 120ms ease;
+}
+.sidebar__disclosure[aria-expanded='true'] .sidebar__chevron {
+  transform: rotate(90deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar__chevron {
+    transition: none;
+  }
 }
 .nav-link {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-2);
+  padding: 0.375rem var(--space-2);
   border-radius: var(--radius-md);
   color: var(--color-text);
   text-decoration: none;
@@ -171,6 +214,8 @@
   font-weight: var(--weight-medium);
   cursor: pointer;
   white-space: nowrap;
+  /* Link-styled buttons (<a class="btn">) look like every other button (#234). */
+  text-decoration: none;
   transition: background var(--duration-fast) var(--ease);
 }
 .btn:hover:not(:disabled) {
@@ -228,6 +273,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   gap: var(--space-4);
+  /* Often a <ul>: no browser indent or bullets, so cards line up with the page header (#232). */
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 .stack {
   display: flex;
@@ -405,15 +454,27 @@
 }
 
 /* Toasts */
+/* Bottom-left of the content area (#240): primary actions (Continue, Generate, dialog submit)
+   sit on the right, so a toast never covers them. Gaps between toasts let clicks through. */
 .toasts {
   position: fixed;
-  right: var(--space-4);
+  left: calc(var(--sidebar-width) + var(--space-4));
   bottom: var(--space-4);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
   z-index: 100;
-  max-width: 26rem;
+  max-width: min(26rem, calc(100vw - var(--sidebar-width) - var(--space-8)));
+  pointer-events: none;
+}
+.toasts .toast {
+  pointer-events: auto;
+}
+@media (max-width: 52rem) {
+  .toasts {
+    left: var(--space-4);
+    max-width: calc(100vw - var(--space-8));
+  }
 }
 .toast {
   background: var(--color-surface-raised);

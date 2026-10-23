@@ -313,7 +313,7 @@ function runningFooter(): Footer {
 
 function buildDocument(model: ExportModel, label: string, children: Block[]): Document {
   return new Document({
-    creator: model.project.orgName || 'Tabletop Generator',
+    creator: model.project.orgName || 'Action Stations',
     title: `${label} — ${model.scenario.title}`,
     styles: { default: { document: { run: { font: 'Calibri', size: 21 } } } },
     numbering: {

@@ -1,5 +1,6 @@
 // Helpers shared by the text adapters.
 import type { ModelInfo, ProviderConfig } from '@shared/schemas'
+import { looksLikeEmbeddingModel } from '@shared/model-names'
 import { AppError } from '../../lib/errors'
 import { extractJson } from '../json'
 import type { ChatRequest, JsonSchemaSpec } from '../types'
@@ -33,7 +34,7 @@ export function parseJsonText(text: string): unknown {
 }
 
 export function guessModelKind(id: string): ModelInfo['kind'] {
-  return /embed|bge-|e5-|minilm|nomic/i.test(id) ? 'embedding' : 'chat'
+  return looksLikeEmbeddingModel(id) ? 'embedding' : 'chat'
 }
 
 export function isLocalUrl(url: string): boolean {

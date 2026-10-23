@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { act, cleanup, render, screen } from '@testing-library/react'
+import { act, cleanup, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter, Route, Routes, useNavigate } from 'react-router'
@@ -7,6 +7,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { queryClient } from '../lib/query'
 import { mockTtx } from '../routes/documents/test-utils'
 import { shouldMoveFocus } from '../lib/focus'
+import { useProjectUi } from '../state/project'
 import { RouteFocus, Sidebar, SkipLink } from './shell'
 
 afterEach(() => cleanup())
@@ -80,6 +81,63 @@ describe('app shell', () => {
     await userEvent.keyboard('{Escape}')
     expect(menu.getAttribute('aria-expanded')).toBe('false')
     expect(document.activeElement).toBe(menu)
+  })
+
+  describe('navigation groups (#230)', () => {
+    const PROJECT = '/Users/test/Rivergate.ttxproj'
+    const key = encodeURIComponent(PROJECT)
+    afterEach(() => {
+      useProjectUi.getState().setProjectPath(null)
+      localStorage.clear()
+    })
+    const navLabels = () =>
+      within(screen.getByRole('navigation', { name: 'Main' }))
+        .queryAllByRole('link')
+        .map((l) => l.textContent)
+
+    it('orders global nav with Providers before Prompts, Templates and Workflows', () => {
+      setup()
+      const labels = navLabels()
+      expect(labels.indexOf('Providers')).toBeLessThan(labels.indexOf('Prompts'))
+      expect(labels.indexOf('Providers')).toBeLessThan(labels.indexOf('Templates'))
+      expect(labels.indexOf('Providers')).toBeLessThan(labels.indexOf('Workflows'))
+    })
+
+    it('groups project pages into Build and a collapsed Advanced that remembers its state', async () => {
+      useProjectUi.getState().setProjectPath(PROJECT)
+      setup()
+      const build = screen.getByRole('group', { name: 'Build' })
+      expect(
+        within(build)
+          .getAllByRole('link')
+          .map((l) => l.textContent),
+      ).toEqual(['Overview', 'Documents', 'Facility facts', 'Generate', 'Scenarios', 'Facilitate'])
+      const toggle = screen.getByRole('button', { name: 'Advanced' })
+      expect(toggle.getAttribute('aria-expanded')).toBe('false')
+      expect(screen.queryByRole('link', { name: 'Search index' })).toBeNull()
+      await userEvent.click(toggle)
+      const advanced = screen.getByRole('group', { name: 'Advanced' })
+      expect(
+        within(advanced)
+          .getAllByRole('link')
+          .map((l) => l.textContent),
+      ).toEqual(['Search index', 'Prompt overrides', 'Provider routing'])
+      expect(localStorage.getItem('ttx.nav.advancedOpen')).toBe('1')
+      cleanup()
+      setup()
+      expect(screen.getByRole('button', { name: 'Advanced' }).getAttribute('aria-expanded')).toBe(
+        'true',
+      )
+    })
+
+    it('keeps Advanced open while one of its pages is showing', () => {
+      useProjectUi.getState().setProjectPath(PROJECT)
+      setup(`/p/${key}/search`)
+      expect(screen.getByRole('button', { name: 'Advanced' }).getAttribute('aria-expanded')).toBe(
+        'true',
+      )
+      expect(screen.getByRole('link', { name: 'Search index' })).toBeTruthy()
+    })
   })
 
   it('never pulls focus out of a text field or an open dialog', () => {

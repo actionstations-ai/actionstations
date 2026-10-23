@@ -45,6 +45,11 @@ export function groupByStage(entries: PromptEntry[]): StageGroup[] {
   })).filter((g) => g.entries.length > 0)
 }
 
+/** The prompt the list shows first (top of the first stage group), the default selection. */
+export function firstPromptName(entries: PromptEntry[]): string | undefined {
+  return groupByStage(entries)[0]?.entries[0]?.name ?? entries[0]?.name
+}
+
 export const stageLabel = (stage: string): string =>
   stage.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase())
 

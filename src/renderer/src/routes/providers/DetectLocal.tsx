@@ -14,7 +14,7 @@ function ServiceRow(props: { service: Found; added: boolean }) {
   const add = useIpcMutation('providers:upsert', {
     invalidates: ['providers:list', 'routing:get'],
   })
-  const defaultModel = pickDefaultModel(s.models)
+  const defaultModel = pickDefaultModel(s)
   const onAdd = () =>
     add.mutate(
       {

@@ -3,7 +3,7 @@ import { AppError } from '../../lib/errors'
 import { exists } from '../../lib/fs'
 import { requireProject } from '../../project/guard'
 import { readFacilitatorState, writeFacilitatorState } from '../../facilitator/state'
-import { closePresent, listDisplays, present } from '../../facilitator/present'
+import { closePresent, isPresenting, listDisplays, present } from '../../facilitator/present'
 import { scenarioLayout } from '../../scenario/layout'
 import { requireScenarioDir } from '../../scenario/store'
 import { defineHandlers, type HandlerContext } from '../registry'
@@ -43,4 +43,6 @@ export default defineHandlers({
   },
 
   'facilitator:close-present': () => closePresent(),
+
+  'facilitator:present-status': () => ({ open: isPresenting() }),
 })

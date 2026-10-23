@@ -4,6 +4,7 @@
 import { app, BrowserWindow, screen, type Display, type Rectangle } from 'electron'
 import { join } from 'node:path'
 import { APP_INDEX_URL } from '../lib/app-protocol'
+import { emit } from '../lib/events'
 
 export interface DisplayInfo {
   id: number
@@ -125,6 +126,11 @@ export function presentWindow(): BrowserWindow | undefined {
   return current && !current.win.isDestroyed() ? current.win : undefined
 }
 
+/** Whether a presentation window is open, for the facilitator's Open/Close toggle (#235). */
+export const isPresenting = (): boolean => !!presentWindow()
+
+const announcePresenting = (): void => emit('facilitator:present-changed', { open: isPresenting() })
+
 /** Open (or reuse) the presentation window and show the target inject in it. */
 export function present(
   target: PresentTarget,
@@ -144,7 +150,9 @@ export function present(
     const created = win
     win.on('closed', () => {
       if (current?.win === created) current = undefined
+      announcePresenting()
     })
+    announcePresenting()
   }
   closeWithOwner(opts.owner)
   loadPresent(win, presentHash(target))

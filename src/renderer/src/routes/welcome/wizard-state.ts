@@ -7,6 +7,7 @@ import type {
   ProviderTask,
 } from '@shared/schemas'
 import type { ChannelResponse } from '@shared/ipc'
+import { looksLikeEmbeddingModel, pickChatModel } from '@shared/model-names'
 
 export type ProviderViewT = ChannelResponse<'providers:list'>[number]
 export type LocalService = ChannelResponse<'providers:detect-local'>[number]
@@ -104,14 +105,17 @@ export function textProviders(providers: ProviderViewT[]): ProviderViewT[] {
   return providers.filter((p) => TEXT_KINDS.includes(p.kind) && !isTtsProvider(p))
 }
 
-/**
- * Prefer a chat model the server already has loaded (LM Studio reports this), then any chat
- * model over an embedding model.
- */
-export function pickChatModel(models: string[], loaded: string[] = []): string | undefined {
-  const isChat = (m: string) => !/embed/i.test(m)
-  return loaded.find((m) => isChat(m) && models.includes(m)) ?? models.find(isChat) ?? models[0]
+/** Chat models of a detected service, best default first; embedding models never appear. */
+export function serviceChatModels(s: Pick<LocalService, 'models' | 'chatModels'>): string[] {
+  const listed = s.chatModels.length ? s.chatModels : s.models
+  return listed.filter((m) => !looksLikeEmbeddingModel(m))
 }
+
+/** Default for a detected service: a loaded chat model, else the best chat model. */
+export const defaultServiceModel = (s: LocalService): string | undefined =>
+  pickChatModel(serviceChatModels(s), s.loadedModels)
+
+export { pickChatModel }
 
 /** Prefer a general speech model over one that needs a voice description. */
 export function pickTtsModel(models: string[]): string | undefined {

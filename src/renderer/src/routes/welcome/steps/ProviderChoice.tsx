@@ -4,6 +4,7 @@ import { Badge, Button } from '../../../components/ui'
 import { call } from '../../../lib/api'
 import { useIpcQuery } from '../../../lib/query'
 import { KIND_LABELS } from '../../providers/catalog'
+import { modelSuggestions } from '../../providers/model-suggestions'
 import { TestResult } from '../StepLayout'
 import { formatLatency, type ProviderViewT, type TextChoice } from '../wizard-state'
 import { errorText } from '../../../lib/errors'
@@ -17,7 +18,7 @@ function ModelPicker(props: {
 }) {
   const models = useIpcQuery('providers:models', { id: props.provider.id })
   const chat = (models.data ?? []).filter((m) => m.kind === 'chat' || m.kind === 'unknown')
-  const ids = chat.map((m) => m.id)
+  const ids = modelSuggestions(chat, 'chat')
   if (props.value && !ids.includes(props.value)) ids.unshift(props.value)
   return (
     <label className="field">

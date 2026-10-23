@@ -5,9 +5,23 @@ import type { ProviderKind, ProviderRef, ProviderRouting, ProviderTask } from '@
 import { Button } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { ModelInput } from './ModelInput'
+import type { ModelPurpose } from './model-suggestions'
 import { TASKS, cleanRouting, type ProviderViewT, type RoutingView, type TaskInfo } from './catalog'
 
 type Draft = Partial<Record<ProviderTask, ProviderRef>>
+
+const CHAT_TASKS: ProviderTask[] = ['ideate', 'draft', 'critique']
+
+/** Text tasks never get embedding suggestions; the embed task gets only those (#225). */
+function modelPurpose(task: ProviderTask): ModelPurpose | undefined {
+  if (CHAT_TASKS.includes(task)) return 'chat'
+  return task === 'embed' ? 'embedding' : undefined
+}
+
+const purposeProp = (task: ProviderTask): { purpose?: ModelPurpose } => {
+  const purpose = modelPurpose(task)
+  return purpose ? { purpose } : {}
+}
 
 function describeRef(ref: ProviderRef | undefined, providers: ProviderViewT[]): string {
   if (!ref) return 'Not assigned'
@@ -122,6 +136,7 @@ function RoutingRow(props: {
             <ModelInput
               label={`${info.label} model`}
               {...(value?.providerId ? { providerId: value.providerId } : {})}
+              {...purposeProp(info.task)}
               value={value?.model ?? ''}
               placeholder={
                 provider?.defaultModel ? `Default (${provider.defaultModel})` : 'Provider default'

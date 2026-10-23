@@ -47,6 +47,7 @@ function setup(initial: ProviderViewT[] = []) {
         reachable: true,
         models: ['text-embedding-nomic-embed-text-v1.5', 'qwen3-30b-a3b-2507'],
         loadedModels: [],
+        chatModels: ['qwen3-30b-a3b-2507'],
       },
       {
         kind: 'ollama',
@@ -55,6 +56,7 @@ function setup(initial: ProviderViewT[] = []) {
         reachable: false,
         models: [],
         loadedModels: [],
+        chatModels: [],
       },
       {
         kind: 'comfyui',
@@ -63,6 +65,7 @@ function setup(initial: ProviderViewT[] = []) {
         reachable: false,
         models: [],
         loadedModels: [],
+        chatModels: [],
       },
     ],
   })

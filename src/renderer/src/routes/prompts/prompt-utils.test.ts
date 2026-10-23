@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { PromptEntry } from '@shared/schemas/prompt'
 import {
   diffStats,
+  firstPromptName,
   groupByStage,
   insertIndent,
   issuesFrom,
@@ -47,6 +48,16 @@ describe('groupByStage', () => {
       ['msel_phase', ['msel_a', 'msel_b']],
       ['critique', ['critique']],
     ])
+  })
+
+  it('defaults to the first item of the first group, not the first entry (#231)', () => {
+    const entries = [
+      entry('controller_handbook', 'controller_handbook'),
+      entry('ideate_b', 'ideate'),
+      entry('ideate_a', 'ideate'),
+    ]
+    expect(firstPromptName(entries)).toBe('ideate_a')
+    expect(firstPromptName([])).toBeUndefined()
   })
 })
 

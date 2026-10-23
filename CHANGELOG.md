@@ -31,6 +31,11 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   (events without injects, unrendered injects, lint errors) sit in a pinned action bar (#238).
 - MSEL saves send the `updatedAt` of the copy they were made from; main refuses a stale save with CONFLICT and the editor redoes it onto the newer scenario, so a save never overwrites fields written meanwhile by a job or another editor (#199).
 - MSEL grid: From/To columns are wider and narrow columns (From, To, Tag, Format) break only between words; row IDs and times never split. The Warnings list keeps its row ID / code column on one line (#237).
+- Project sidebar grouped into **Build** (Overview, Documents, Facility facts, Generate, Scenarios, Facilitate) and a collapsible **Advanced** group (Search index, Prompt overrides, Provider routing) that remembers whether it is open; Providers now comes before Prompts, Templates and Workflows; project page titles match their nav labels; the sidebar fits a 1000 × 800 window (#230).
+- One selection style in lists: selected items use a highlighter fill (no longer the error pink) with the accent bar, hover is a neutral tint, and the domain picker shows the current domain with a check (#236).
+- Toasts appear at the bottom left of the content area so they never cover a primary action (#240).
+- Projects with no projects yet: the empty state's primary button is **New project**; setup is the secondary action (#234).
+- Facilitate: the header button is **Open presentation** or **Close presentation** depending on whether the presentation window is open (`facilitator:present-status` and the `facilitator:present-changed` event) (#235).
 
 - In-app branding is now Action Stations: logo in the sidebar, comic-panel theme (newsprint light, navy-ink dark, Bangers page titles, ink outlines and hard shadows), window, page and menu-bar titles renamed (the settings folder keeps its name); new app icon from the logo; closing the main window now quits the app on macOS too; `scripts/dev-bundle.sh` builds a renamed Electron bundle for unpackaged runs; macOS overscroll bounce disabled (#191).
 
@@ -77,6 +82,11 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   longer says "Warnings (0)" above a list of warnings (#228).
 - The MSEL editor saves a pending edit when it is left (tab, route, scenario switch) instead of dropping it; refused during generation, the edit is parked and taken back when the MSEL opens again (#193).
 - Facilitator: a failed save keeps the changes unsaved and is retried; a failure in the save made on leaving the page shows a toast (#204).
+- Chat-model pickers never default to an embedding model: Ollama models are classified by their reported capabilities (with a wider name fallback: minilm, bge, e5, gte, mxbai, arctic-embed…), LM Studio embedding models by type, the largest chat model is the default, and "N chat models" counts only chat models (#225).
+- Prompts opens on the first prompt of the first stage group instead of an item off-screen (#231).
+- Scenarios list and idea cards no longer indented by the browser's list padding (#232).
+- Old "Tabletop Generator" wording in the example copy dialog and the DOCX creator metadata now reads Action Stations / "your Documents folder" (the folder on disk is unchanged) (#233).
+- Link-styled buttons are no longer underlined (#234).
 
 - Lint false positives found on the bundled examples (#185): a named site with a leading
   article ("The Lakeshore Flight Area"), a rogue device the row itself calls unknown ("No

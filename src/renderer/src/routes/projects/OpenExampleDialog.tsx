@@ -46,7 +46,7 @@ function OpenExampleForm(props: {
     <form className="stack" onSubmit={submit} noValidate aria-label="Open example">
       <Field
         label="Copy into"
-        hint="A new project folder is created inside this folder; nothing there is overwritten. Leave empty for Documents/Tabletop Generator."
+        hint="A new project folder is created inside this folder; nothing there is overwritten. Leave empty to use the default projects folder from Settings, or your Documents folder."
       >
         {({ id, describedBy }) => (
           <div className="row">
@@ -54,7 +54,7 @@ function OpenExampleForm(props: {
               id={id}
               className="input mono"
               value={parentDir}
-              placeholder="Documents/Tabletop Generator"
+              placeholder="Default projects folder"
               aria-describedby={describedBy}
               onChange={(e) => setParentDir(e.target.value)}
             />

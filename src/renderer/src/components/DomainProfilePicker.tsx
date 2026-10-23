@@ -3,6 +3,7 @@
 // follows the active option), Enter never submits the surrounding form.
 import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { clsx } from 'clsx'
+import { Check } from 'lucide-react'
 import { profileGroups, resolveOrgType } from '../lib/domains'
 import './domain.css'
 
@@ -28,7 +29,8 @@ export function DomainProfilePicker(props: {
   const listId = `${id}-list`
   const [query, setQuery] = useState('')
   const listRef = useRef<HTMLDivElement>(null)
-  const selected = resolveOrgType(props.value).profile.id
+  const current = resolveOrgType(props.value).profile
+  const selected = current.id
   const groups = useMemo(() => profileGroups(query), [query])
   const flat = groups.flatMap((g) => g.profiles)
   const optionId = (pid: string) => `${id}-opt-${pid}`
@@ -36,8 +38,14 @@ export function DomainProfilePicker(props: {
 
   useEffect(() => {
     if (!active) return
-    const el = listRef.current?.querySelector(`[data-profile="${active}"]`)
-    if (el && 'scrollIntoView' in el) el.scrollIntoView({ block: 'nearest' })
+    const list = listRef.current
+    const el = list?.querySelector<HTMLElement>(`[data-profile="${active}"]`)
+    if (!list || !el) return
+    // Scroll only the list: scrollIntoView would also scroll the page to the picker on load.
+    const top = el.offsetTop
+    if (top < list.scrollTop) list.scrollTop = top
+    else if (top + el.offsetHeight > list.scrollTop + list.clientHeight)
+      list.scrollTop = top + el.offsetHeight - list.clientHeight
   }, [active])
 
   const move = (to: number) => {
@@ -63,9 +71,17 @@ export function DomainProfilePicker(props: {
 
   return (
     <div className="field domain-picker">
-      <label className="field__label" htmlFor={id}>
-        {props.label ?? 'Domain'}
-      </label>
+      <div className="domain-picker__head">
+        <label className="field__label" htmlFor={id}>
+          {props.label ?? 'Domain'}
+        </label>
+        {/* The current value stays visible while the search box is empty or filtering. */}
+        <span className="domain-picker__current" data-testid="domain-current">
+          <Check size={14} aria-hidden />
+          <span className="sr-only">Selected: </span>
+          {current.label}
+        </span>
+      </div>
       <input
         id={id}
         className="input"
@@ -110,6 +126,9 @@ export function DomainProfilePicker(props: {
                 onClick={() => props.onChange(p.id)}
               >
                 <span className="domain-picker__label">{p.label}</span>
+                {p.id === selected && (
+                  <Check size={16} aria-hidden className="domain-picker__check" />
+                )}
                 <span className="domain-picker__desc">{p.description}</span>
               </div>
             ))}

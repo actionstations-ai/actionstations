@@ -37,7 +37,7 @@ Any chat model Ollama serves can be used. The suggested tag is the Ollama build 
 ## 4. Connect it in the app
 
 1. **Providers → Detect local services.** Ollama appears with its model count. Click **Add**.
-2. The detected provider's default model is the first chat model in alphabetical order. Click **Edit** and set **Default model** to the model you pulled (the exact name from `ollama list`, including the tag, for example `qwen3:30b-a3b-instruct-2507-q4_K_M`).
+2. The detected provider's default model is the largest chat model. The app asks Ollama what each model can do (`capabilities` in `/api/tags`, or `/api/show` on older servers), so embedding models such as `nomic-embed-text` or `all-minilm` are never picked or suggested for writing; if Ollama does not answer, names like `embed`, `minilm`, `bge`, `e5`, `gte` and `mxbai` are treated as embedding models. To use a different model, click **Edit** and set **Default model** (the exact name from `ollama list`, including the tag, for example `qwen3:30b-a3b-instruct-2507-q4_K_M`).
 3. Click **Test**. Measured with `qwen2.5:3b`: "OK" in 21 ms with the model loaded, 11.7 s when Ollama first had to load it.
 4. In **Routing**, assign Ideation, Drafting and Critique (or only some of them) to Ollama.
 

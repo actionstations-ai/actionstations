@@ -53,6 +53,8 @@ export const ModelInfo = z.object({
   label: z.string().optional(),
   contextWindow: z.number().int().optional(),
   kind: z.enum(['chat', 'embedding', 'image', 'video', 'audio', 'unknown']).default('chat'),
+  /** Size on disk when the server reports it (Ollama); used to prefer the most capable model. */
+  sizeBytes: z.number().nonnegative().optional(),
 })
 export type ModelInfo = z.infer<typeof ModelInfo>
 

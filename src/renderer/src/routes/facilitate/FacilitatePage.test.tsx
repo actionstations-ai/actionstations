@@ -48,6 +48,8 @@ function setup(initial: Partial<FacilitatorState> = {}) {
       { id: 2, label: 'Projector', primary: false, width: 1920, height: 1080 },
     ],
     'facilitator:present': () => undefined,
+    'facilitator:close-present': () => undefined,
+    'facilitator:present-status': () => ({ open: false }),
   })
   renderAt(
     projectUrl(`scenarios/${scenario.id}/facilitate`),
@@ -115,6 +117,26 @@ describe('FacilitatePage', () => {
     expect(ttx.calls('facilitator:present')).toHaveLength(1)
     await user.click(screen.getByRole('button', { name: 'Undo deliver I-07' }))
     await waitFor(() => expect(ttx.saved().delivered['I-07']).toBeUndefined())
+  })
+
+  it('toggles Open presentation / Close presentation with the window state (#235)', async () => {
+    const ttx = setup()
+    const user = userEvent.setup()
+    await screen.findByRole('region', { name: 'Timeline' })
+    expect(screen.queryByRole('button', { name: /Close presentation/ })).toBeNull()
+    await user.click(screen.getAllByRole('button', { name: /I-06/ })[0]!)
+    await user.click(screen.getByRole('button', { name: /Open presentation/ }))
+    await waitFor(() =>
+      expect(ttx.calls('facilitator:present')).toEqual([
+        expect.objectContaining({ injectId: 'INJ06', assetId: 'A06' }),
+      ]),
+    )
+    act(() => ttx.emit('facilitator:present-changed', { open: true }))
+    await user.click(await screen.findByRole('button', { name: /Close presentation/ }))
+    expect(ttx.calls('facilitator:close-present')).toHaveLength(1)
+    // Closed from anywhere (Escape on the projector): back to Open.
+    act(() => ttx.emit('facilitator:present-changed', { open: false }))
+    expect(await screen.findByRole('button', { name: /Open presentation/ })).toBeTruthy()
   })
 
   it('autosaves notes after typing pauses and lists them in the hot wash helper', async () => {

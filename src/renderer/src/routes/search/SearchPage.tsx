@@ -165,8 +165,8 @@ export default function SearchPage() {
   return (
     <div className="page search-page">
       <PageHeader
-        eyebrow="Debug"
-        title="Search"
+        eyebrow="Advanced"
+        title="Search index"
         description="Query the project index the way the generator does, to check what each stage will retrieve and cite."
       />
       <SearchForm onSearch={setParams} />

@@ -59,6 +59,7 @@ function ProjectList(props: {
 export default function ProjectsPage() {
   const recent = useIpcQuery('project:list-recent', undefined)
   const projects = recent.data ?? []
+  const empty = recent.isSuccess && projects.length === 0
   const [creating, setCreating] = useState(false)
   const [duplicating, setDuplicating] = useState<RecentProject | null>(null)
   const returnFocus = useRef<HTMLElement | null>(null)
@@ -91,20 +92,28 @@ export default function ProjectsPage() {
             <Button disabled={recent.isError} onClick={() => void opener.pickAndOpen()}>
               Open folder…
             </Button>
-            <Button variant="primary" disabled={recent.isError} onClick={() => setCreating(true)}>
-              New project
-            </Button>
+            {/* With no projects yet, the empty state carries the one "New project" button. */}
+            {!empty && (
+              <Button variant="primary" disabled={recent.isError} onClick={() => setCreating(true)}>
+                New project
+              </Button>
+            )}
           </>
         }
       />
-      {recent.isSuccess && projects.length === 0 ? (
+      {empty ? (
         <EmptyState
           title="No projects yet"
           body="Create a project, then import the plans, policies, maps and forms your exercises should cite — for example an emergency operations plan and an incident response plan."
           actions={
-            <Link className="btn" to="/welcome">
-              Set up models &amp; media
-            </Link>
+            <>
+              <Button variant="primary" onClick={() => setCreating(true)}>
+                New project
+              </Button>
+              <Link className="btn" to="/welcome">
+                Set up models &amp; media
+              </Link>
+            </>
           }
         />
       ) : (

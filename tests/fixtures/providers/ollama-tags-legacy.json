@@ -1,0 +1,13 @@
+{
+  "name": "ollama-tags-legacy",
+  "note": "Recorded /api/tags with the capabilities field removed, as older Ollama servers return it.",
+  "recordedAt": "2026-10-23T12:00:00.000Z",
+  "durationMs": 2,
+  "request": {
+    "method": "GET",
+    "path": "/api/tags"
+  },
+  "status": 200,
+  "contentType": "application/json; charset=utf-8",
+  "body": "{\"models\":[{\"name\":\"smollm:135m\",\"model\":\"smollm:135m\",\"modified_at\":\"2026-10-22T13:41:32.890968045-04:00\",\"size\":91739413,\"digest\":\"b0b2a46174385c0adcaa77ff245ffeced5fc4a61447b6f221b2beb5c5a760133\",\"details\":{\"parent_model\":\"\",\"format\":\"gguf\",\"family\":\"llama\",\"families\":[\"llama\"],\"parameter_size\":\"134.52M\",\"quantization_level\":\"Q4_0\",\"context_length\":2048,\"embedding_length\":576,\"runner\":\"ggml\"}},{\"name\":\"all-minilm:22m\",\"model\":\"all-minilm:22m\",\"modified_at\":\"2026-10-21T21:38:17.938698278-04:00\",\"size\":45960996,\"digest\":\"1b226e2802dbb772b5fc32a58f103ca1804ef7501331012de126ab22f67475ef\",\"details\":{\"parent_model\":\"\",\"format\":\"gguf\",\"family\":\"bert\",\"families\":[\"bert\"],\"parameter_size\":\"23M\",\"quantization_level\":\"F16\",\"context_length\":512,\"embedding_length\":384,\"runner\":\"ggml\"}},{\"name\":\"qwen2.5:3b\",\"model\":\"qwen2.5:3b\",\"modified_at\":\"2026-10-21T18:30:02.845518453-04:00\",\"size\":1929912432,\"digest\":\"357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b\",\"details\":{\"parent_model\":\"\",\"format\":\"gguf\",\"family\":\"qwen2\",\"families\":[\"qwen2\"],\"parameter_size\":\"3.1B\",\"quantization_level\":\"Q4_K_M\",\"context_length\":32768,\"embedding_length\":2048,\"runner\":\"ggml\"}}]}"
+}

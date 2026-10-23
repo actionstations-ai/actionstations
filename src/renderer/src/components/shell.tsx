@@ -1,10 +1,11 @@
 // App chrome: skip link, sidebar navigation (collapses behind a Menu button on narrow windows
 // and at high zoom), and route-change handling (document title + focus to the new page's
 // heading so keyboard and screen-reader users land on the content).
-import { Menu, X } from 'lucide-react'
+import { ChevronRight, Menu, X } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { NavLink, useLocation } from 'react-router'
+import { matchPath, NavLink, useLocation } from 'react-router'
 import { allRoutes } from '../routes'
+import type { RouteDef } from '../routes/types'
 import { useIpcQuery } from '../lib/query'
 import { projectKey, useProjectUi } from '../state/project'
 import { NAV_ICONS } from './nav-icons'
@@ -48,19 +49,91 @@ function NavLinks({ onNavigate }: { onNavigate: () => void }) {
     )
   }
   const projectName = project.data?.project.name ?? 'Project'
+  const projectNav = nav.filter((r) => r.nav?.scope === 'project')
   return (
     <>
       {nav.filter((r) => r.nav?.scope === 'global').map(link)}
       {projectPath && (
         <>
-          <div className="sidebar__section" id="nav-project-heading" title={projectPath}>
+          <div
+            className="sidebar__section"
+            id="nav-project-heading"
+            title={`${projectName}\n${projectPath}`}
+          >
             {projectName}
           </div>
           <div className="sidebar__group" role="group" aria-labelledby="nav-project-heading">
-            {nav.filter((r) => r.nav?.scope === 'project').map(link)}
+            <span className="sidebar__subhead" id="nav-build-heading">
+              Build
+            </span>
+            <div className="sidebar__group" role="group" aria-labelledby="nav-build-heading">
+              {projectNav.filter((r) => r.nav?.group !== 'advanced').map(link)}
+            </div>
+            <AdvancedNav routes={projectNav.filter((r) => r.nav?.group === 'advanced')}>
+              {link}
+            </AdvancedNav>
           </div>
         </>
       )}
+    </>
+  )
+}
+
+const ADVANCED_KEY = 'ttx.nav.advancedOpen'
+
+function readAdvancedOpen(): boolean {
+  try {
+    return localStorage.getItem(ADVANCED_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+function saveAdvancedOpen(open: boolean): void {
+  try {
+    localStorage.setItem(ADVANCED_KEY, open ? '1' : '0')
+  } catch {
+    // Remembering the group is a convenience; ignore storage failures.
+  }
+}
+
+/** Power-user pages in a collapsible group that remembers whether it was open (#230). */
+function AdvancedNav(props: { routes: RouteDef[]; children: (r: RouteDef) => ReactNode }) {
+  const { pathname } = useLocation()
+  const [open, setOpen] = useState(readAdvancedOpen)
+  // Never hide the page the user is on: an advanced route keeps the group open.
+  const onAdvancedPage = props.routes.some(
+    (r) => !!matchPath({ path: r.path, end: true }, pathname),
+  )
+  const expanded = open || onAdvancedPage
+  if (!props.routes.length) return null
+  const toggle = () => {
+    const next = !expanded
+    setOpen(next)
+    saveAdvancedOpen(next)
+  }
+  return (
+    <>
+      <button
+        type="button"
+        className="sidebar__disclosure"
+        aria-expanded={expanded}
+        aria-controls="nav-advanced"
+        disabled={onAdvancedPage}
+        onClick={toggle}
+      >
+        <ChevronRight size={14} aria-hidden className="sidebar__chevron" />
+        Advanced
+      </button>
+      <div
+        id="nav-advanced"
+        className="sidebar__group"
+        role="group"
+        aria-label="Advanced"
+        hidden={!expanded}
+      >
+        {props.routes.map(props.children)}
+      </div>
     </>
   )
 }

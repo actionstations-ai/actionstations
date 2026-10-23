@@ -58,6 +58,8 @@ export const providerChannels = {
         models: z.array(z.string()).default([]),
         /** Models currently loaded in memory (LM Studio reports this; others report none). */
         loadedModels: z.array(z.string()).default([]),
+        /** Models that can chat, best default first; embedding models are never listed. */
+        chatModels: z.array(z.string()).default([]),
       }),
     ),
   ),

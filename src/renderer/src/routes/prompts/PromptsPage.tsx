@@ -4,6 +4,7 @@ import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
 import { PromptEditor } from './PromptEditor'
 import { PromptList } from './PromptList'
+import { firstPromptName } from './prompt-utils'
 import './prompts.css'
 import { errorText } from '../../lib/errors'
 
@@ -19,13 +20,13 @@ export default function PromptsPage() {
   const [params, setParams] = useSearchParams()
   const list = useIpcQuery('prompts:list', projectPath ? { projectPath } : {})
   const entries = list.data ?? []
-  const selected = params.get('name') ?? entries[0]?.name
+  const selected = params.get('name') ?? firstPromptName(entries)
 
   return (
     <div className="page page--wide prompts-page">
       <PageHeader
         eyebrow={projectPath ? 'Project' : 'Library'}
-        title="Prompts"
+        title={projectPath ? 'Prompt overrides' : 'Prompts'}
         description={projectPath ? PROJECT_DESC : GLOBAL_DESC}
       />
       {list.error && (

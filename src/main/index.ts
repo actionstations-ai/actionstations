@@ -1,4 +1,5 @@
 import { app, BrowserWindow, session, shell } from 'electron'
+import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { registerIpc } from './ipc'
 import { jobs } from './jobs/manager'
@@ -38,9 +39,12 @@ function sameOrigin(a: string, b: string): boolean {
   }
 }
 
-/** The app icon for unpackaged runs (`pnpm dev`, the desktop launcher), else Electron's. */
-function devIconPath(): string {
-  return join(resourcesDir(), 'build', 'icon.png')
+/** The app icon for unpackaged runs (`pnpm dev`, the desktop launcher), else Electron's. A
+ * resources override without the icon (test fixtures) keeps Electron's: a missing file would
+ * make `dock.setIcon` throw before the window opens. */
+function devIconPath(): string | undefined {
+  const path = join(resourcesDir(), 'build', 'icon.png')
+  return existsSync(path) ? path : undefined
 }
 
 let mainWindow: BrowserWindow | undefined
@@ -48,6 +52,7 @@ let mainWindow: BrowserWindow | undefined
 const quitGuard = createQuitGuard(() => mainWindow)
 
 function createMainWindow(): BrowserWindow {
+  const devIcon = app.isPackaged ? undefined : devIconPath()
   const win = new BrowserWindow({
     width: 1440,
     height: 900,
@@ -57,7 +62,7 @@ function createMainWindow(): BrowserWindow {
     title: 'Action Stations',
     backgroundColor: '#0d1226',
     // Packaged builds take the icon from the installer; unpackaged runs use the build/ master.
-    ...(app.isPackaged ? {} : { icon: devIconPath() }),
+    ...(devIcon ? { icon: devIcon } : {}),
     webPreferences: {
       preload: join(import.meta.dirname, '../preload/index.cjs'),
       contextIsolation: true,
@@ -112,7 +117,8 @@ void app.whenReady().then(() => {
   registerMediaProtocol()
   registerAppProtocol(rendererRoot(import.meta.dirname))
   registerIpc(isAppUrl)
-  if (!app.isPackaged && process.platform === 'darwin') app.dock?.setIcon(devIconPath())
+  const devIcon = app.isPackaged ? undefined : devIconPath()
+  if (devIcon && process.platform === 'darwin') app.dock?.setIcon(devIcon)
   if (!app.isPackaged) console.log(`[providers] adapters: ${listAdapterKinds().join(', ')}`)
   createMainWindow()
   app.on('activate', () => {

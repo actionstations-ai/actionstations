@@ -156,6 +156,7 @@ function ProviderForm(props: { existing?: ProviderViewT; onDone: () => void }) {
             id={id}
             {...(props.existing ? { providerId: props.existing.id } : {})}
             {...(describedBy ? { describedBy } : {})}
+            purpose="chat"
             value={draft.defaultModel}
             placeholder="e.g. qwen3-30b-a3b-2507"
             onChange={(v) => set({ defaultModel: v })}

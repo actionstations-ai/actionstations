@@ -3,7 +3,12 @@ import { useState } from 'react'
 import { Badge, Button } from '../../../components/ui'
 import { toast } from '../../../components/toast-store'
 import { useUpsertProvider } from '../use-setup'
-import { pickChatModel, type LocalService, type ProviderViewT } from '../wizard-state'
+import {
+  defaultServiceModel,
+  serviceChatModels,
+  type LocalService,
+  type ProviderViewT,
+} from '../wizard-state'
 
 const START_HINTS: Record<string, string> = {
   'LM Studio': 'Start the local server in LM Studio (Developer → Start server), then detect again.',
@@ -42,9 +47,9 @@ export function LocalServiceRow(props: {
   onAdded: (p: ProviderViewT) => void
 }) {
   const s = props.service
-  const chatModels = s.models.filter((m) => !/embed/i.test(m))
+  const chatModels = serviceChatModels(s)
   const loaded = s.loadedModels.filter((m) => chatModels.includes(m))
-  const [model, setModel] = useState(pickChatModel(s.models, s.loadedModels) ?? '')
+  const [model, setModel] = useState(defaultServiceModel(s) ?? '')
   const upsert = useUpsertProvider()
   const add = () =>
     upsert.mutate(

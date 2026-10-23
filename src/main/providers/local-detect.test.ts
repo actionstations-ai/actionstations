@@ -27,6 +27,8 @@ describe('detectLocalServices', () => {
       'http://127.0.0.1:1234/api/v0/models',
       'http://127.0.0.1:11434/api/tags',
       'http://127.0.0.1:8188/system_stats',
+      // No capabilities in /api/tags: one /api/show per model.
+      'http://127.0.0.1:11434/api/show',
     ])
     expect(found).toEqual([
       {
@@ -36,6 +38,7 @@ describe('detectLocalServices', () => {
         reachable: true,
         models: ['gpt-oss-20b', 'qwen3-30b-a3b-2507'],
         loadedModels: ['qwen3-30b-a3b-2507'],
+        chatModels: ['gpt-oss-20b', 'qwen3-30b-a3b-2507'],
       },
       {
         kind: 'ollama',
@@ -44,6 +47,7 @@ describe('detectLocalServices', () => {
         reachable: true,
         models: ['llama3:8b'],
         loadedModels: [],
+        chatModels: ['llama3:8b'],
       },
       {
         kind: 'comfyui',
@@ -52,6 +56,7 @@ describe('detectLocalServices', () => {
         reachable: true,
         models: [],
         loadedModels: [],
+        chatModels: [],
       },
     ])
   })
@@ -73,5 +78,54 @@ describe('detectLocalServices', () => {
     }) as typeof fetch
     const [lm] = await detectLocalServices(fakeFetch)
     expect(lm).toMatchObject({ reachable: true, loadedModels: [] })
+  })
+
+  it('never lists embedding models as chat models; Ollama is largest first (#225)', async () => {
+    const shown: string[] = []
+    const fakeFetch = (async (url: string | URL | Request, init?: RequestInit) => {
+      const u = String(url)
+      if (u.endsWith(':1234/api/v0/models'))
+        return json({
+          data: [
+            { id: 'qwen3-30b-a3b-2507', type: 'llm', state: 'not-loaded' },
+            { id: 'granite-retriever', type: 'embeddings', state: 'loaded' },
+          ],
+        })
+      if (u.includes(':1234'))
+        return json({ data: [{ id: 'qwen3-30b-a3b-2507' }, { id: 'granite-retriever' }] })
+      if (u.endsWith('/api/show')) {
+        const model = (JSON.parse(String(init?.body)) as { model: string }).model
+        shown.push(model)
+        return json({ capabilities: model === 'all-minilm:22m' ? ['embedding'] : ['completion'] })
+      }
+      if (u.endsWith('/api/tags'))
+        return json({
+          models: [
+            { name: 'all-minilm:22m', size: 45_960_996 },
+            { name: 'smollm:135m', size: 91_739_413 },
+            { name: 'qwen2.5:3b', size: 1_929_912_432 },
+          ],
+        })
+      return json({})
+    }) as typeof fetch
+    const [lm, ollama] = await detectLocalServices(fakeFetch)
+    expect(lm!.chatModels).toEqual(['qwen3-30b-a3b-2507'])
+    expect(ollama!.models).toContain('all-minilm:22m')
+    expect(ollama!.chatModels).toEqual(['qwen2.5:3b', 'smollm:135m'])
+    expect(shown.sort()).toEqual(['all-minilm:22m', 'qwen2.5:3b', 'smollm:135m'])
+  })
+
+  it('falls back to names when Ollama cannot report capabilities', async () => {
+    const fakeFetch = (async (url: string | URL | Request) => {
+      const u = String(url)
+      if (u.endsWith('/api/show')) return new Response('nope', { status: 404 })
+      if (u.endsWith('/api/tags'))
+        return json({
+          models: [{ name: 'all-minilm:22m' }, { name: 'bge-m3' }, { name: 'llama3:8b' }],
+        })
+      return json({})
+    }) as typeof fetch
+    const [, ollama] = await detectLocalServices(fakeFetch)
+    expect(ollama!.chatModels).toEqual(['llama3:8b'])
   })
 })

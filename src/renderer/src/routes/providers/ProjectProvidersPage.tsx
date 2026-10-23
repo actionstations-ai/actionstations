@@ -18,7 +18,7 @@ export default function ProjectProvidersPage() {
     <div className="page page--wide">
       <PageHeader
         eyebrow="Project"
-        title="Providers"
+        title="Provider routing"
         description="Override the app-wide routing for this project only. Rows left on inherit follow the global setting."
       />
       <section className="card stack" aria-labelledby="project-routing-heading">

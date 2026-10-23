@@ -164,3 +164,36 @@ describe('Ollama native adapter', () => {
     await expect(pullModel(config(), '../etc')).rejects.toMatchObject({ code: 'VALIDATION' })
   })
 })
+
+describe('Ollama model capabilities (#225)', () => {
+  it('reads capabilities and sizes from /api/tags without extra calls', async () => {
+    const calls = stubFetch([fixtureResponse('ollama-tags')])
+    const models = await new OllamaTextProvider(config()).listModels()
+    expect(calls).toHaveLength(1)
+    expect(models.find((m) => m.id === 'nomic-embed-text:latest')).toMatchObject({
+      kind: 'embedding',
+      sizeBytes: 274302450,
+    })
+    expect(models.find((m) => m.id === 'qwen2.5:3b')?.kind).toBe('chat')
+  })
+
+  it('asks /api/show per model when /api/tags has no capabilities (older servers)', async () => {
+    const calls = stubFetch((call) => {
+      if (call.url.endsWith('/api/tags')) return fixtureResponse('ollama-tags-legacy')
+      const model = (call.body as Body).model as string
+      if (model === 'all-minilm:22m') return fixtureResponse('ollama-show-embedding')
+      if (model === 'qwen2.5:3b') return fixtureResponse('ollama-show-chat')
+      return new Response('{"error":"boom"}', { status: 500 })
+    })
+    const models = await new OllamaTextProvider(config()).listModels()
+    const kinds = Object.fromEntries(models.map((m) => [m.id, m.kind]))
+    // all-minilm has no "embed" in its name; /api/show is what tells it apart.
+    expect(kinds).toEqual({
+      'all-minilm:22m': 'embedding',
+      'qwen2.5:3b': 'chat',
+      // /api/show failed: falls back to the name.
+      'smollm:135m': 'chat',
+    })
+    expect(calls.filter((c) => c.url.endsWith('/api/show'))).toHaveLength(3)
+  })
+})

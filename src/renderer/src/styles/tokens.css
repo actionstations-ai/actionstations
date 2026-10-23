@@ -79,7 +79,10 @@
   --color-text-inverse: #ffffff;
   --color-accent: #c8141e;
   --color-accent-hover: #a10e16;
-  --color-accent-soft: #ffe0dc;
+  /* Selected / highlighted items: a yellow highlighter, never the error pink (#236). */
+  --color-accent-soft: #ffe680;
+  /* Hover on list options: neutral, so it never reads as a second selection. */
+  --color-hover: #f0ede6;
   --color-focus: #1756c4;
   --color-danger: #a8231a;
   --color-danger-soft: #fbe5e2;
@@ -142,6 +145,7 @@
     --color-accent: #ffd21f;
     --color-accent-hover: #ffe061;
     --color-accent-soft: #3a3110;
+    --color-hover: #222b52;
     --color-focus: #6fb0ff;
     --color-danger: #ff8a80;
     --color-danger-soft: #3d1614;
@@ -195,6 +199,7 @@
   --color-accent: #ffd21f;
   --color-accent-hover: #ffe061;
   --color-accent-soft: #3a3110;
+  --color-hover: #222b52;
   --color-focus: #6fb0ff;
   --color-danger: #ff8a80;
   --color-danger-soft: #3d1614;

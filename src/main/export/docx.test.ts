@@ -28,4 +28,13 @@ describe('DOCX export', () => {
     expect(xml).toContain('&lt;script&gt;alert(1)&lt;/script&gt;')
     expect(xml).not.toContain('<script>')
   })
+
+  it('names Action Stations as the creator when the project has no organization (#233)', async () => {
+    const model = fixtureModel()
+    model.project.orgName = ''
+    const zip = await JSZip.loadAsync(await handbookDocx(model))
+    const core = await zip.file('docProps/core.xml')!.async('string')
+    expect(core).toContain('<dc:creator>Action Stations</dc:creator>')
+    expect(core).not.toContain('Tabletop Generator')
+  })
 })

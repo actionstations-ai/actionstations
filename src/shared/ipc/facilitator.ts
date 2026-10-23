@@ -40,4 +40,8 @@ export const facilitatorChannels = {
     z.void(),
   ),
   'facilitator:close-present': channel(z.void(), z.void()),
+  /** Whether the presentation window is open (changes arrive as facilitator:present-changed). */
+  'facilitator:present-status': channel(z.void(), z.object({ open: z.boolean() })),
 }
+
+export const PresentChangedEvent = z.object({ open: z.boolean() })

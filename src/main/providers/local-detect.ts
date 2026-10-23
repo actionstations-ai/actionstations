@@ -2,6 +2,8 @@
 // offer one-click setup. Only runs when the user presses "Detect local services"; only ever
 // talks to 127.0.0.1.
 import type { ProviderKind } from '@shared/schemas'
+import { looksLikeEmbeddingModel } from '@shared/model-names'
+import { chatModelsBySize, classifyOllamaTags } from './text/ollama/models'
 
 export interface LocalService {
   kind: ProviderKind
@@ -11,6 +13,14 @@ export interface LocalService {
   models: string[]
   /** Models loaded in memory right now (LM Studio only). */
   loadedModels: string[]
+  /** Models that can chat, best default first (never embedding models). */
+  chatModels: string[]
+}
+
+interface Details {
+  loaded: string[]
+  /** Models the server says are embedding-only. */
+  embedding: string[]
 }
 
 interface Probe {
@@ -19,8 +29,13 @@ interface Probe {
   baseUrl: string
   probeUrl: string
   models: (body: unknown) => string[]
-  /** Optional second probe that lists which models are loaded. */
-  loaded?: { url: string; models: (body: unknown) => string[] }
+  /** Optional second probe that reports loaded models and model types. */
+  details?: { url: string; parse: (body: unknown) => Details }
+  /** Chat models from the probe body, best first; `getJson` reaches the same server. */
+  chat?: (
+    body: unknown,
+    getJson: (url: string, body?: unknown) => Promise<unknown>,
+  ) => Promise<string[]>
 }
 
 const PROBE_TIMEOUT_MS = 800
@@ -39,16 +54,23 @@ export const LOCAL_PROBES: Probe[] = [
     baseUrl: 'http://127.0.0.1:1234/v1',
     probeUrl: 'http://127.0.0.1:1234/v1/models',
     models: (b) => strings((b as { data?: unknown })?.data, 'id'),
-    loaded: {
-      // LM Studio's REST API marks each model state: 'loaded' | 'not-loaded'.
+    details: {
+      // LM Studio's REST API marks each model state ('loaded' | 'not-loaded') and type
+      // ('llm' | 'vlm' | 'embeddings').
       url: 'http://127.0.0.1:1234/api/v0/models',
-      models: (b) => {
+      parse: (b) => {
         const data = (b as { data?: unknown })?.data
-        const rows = Array.isArray(data) ? (data as { state?: unknown }[]) : []
-        return strings(
-          rows.filter((m) => m?.state === 'loaded'),
-          'id',
-        )
+        const rows = Array.isArray(data) ? (data as { state?: unknown; type?: unknown }[]) : []
+        return {
+          loaded: strings(
+            rows.filter((m) => m?.state === 'loaded'),
+            'id',
+          ),
+          embedding: strings(
+            rows.filter((m) => m?.type === 'embeddings'),
+            'id',
+          ),
+        }
       },
     },
   },
@@ -58,6 +80,16 @@ export const LOCAL_PROBES: Probe[] = [
     baseUrl: 'http://127.0.0.1:11434',
     probeUrl: 'http://127.0.0.1:11434/api/tags',
     models: (b) => strings((b as { models?: unknown })?.models, 'name'),
+    // Capabilities from /api/tags, or /api/show per model on older servers (#225).
+    chat: async (body, get) =>
+      chatModelsBySize(
+        await classifyOllamaTags(body, async (name) => {
+          const shown = (await get('http://127.0.0.1:11434/api/show', { model: name })) as {
+            capabilities?: unknown
+          } | null
+          return shown?.capabilities
+        }),
+      ),
   },
   {
     kind: 'comfyui',
@@ -68,36 +100,63 @@ export const LOCAL_PROBES: Probe[] = [
   },
 ]
 
-async function getJson(url: string, fetchImpl: typeof fetch): Promise<unknown> {
-  const res = await fetchImpl(url, { signal: AbortSignal.timeout(PROBE_TIMEOUT_MS) })
+async function getJson(url: string, fetchImpl: typeof fetch, body?: unknown): Promise<unknown> {
+  const res = await fetchImpl(url, {
+    signal: AbortSignal.timeout(PROBE_TIMEOUT_MS),
+    ...(body === undefined
+      ? {}
+      : {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(body),
+        }),
+  })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   return res.json().catch(() => null)
 }
 
-async function loadedModels(p: Probe, fetchImpl: typeof fetch): Promise<string[]> {
-  if (!p.loaded) return []
+const NO_DETAILS: Details = { loaded: [], embedding: [] }
+
+async function details(p: Probe, fetchImpl: typeof fetch): Promise<Details> {
+  if (!p.details) return NO_DETAILS
   try {
-    return p.loaded.models(await getJson(p.loaded.url, fetchImpl)).sort()
+    const d = p.details.parse(await getJson(p.details.url, fetchImpl))
+    return { loaded: d.loaded.sort(), embedding: d.embedding }
   } catch {
-    return []
+    return NO_DETAILS
+  }
+}
+
+async function chatModels(
+  p: Probe,
+  body: unknown,
+  models: string[],
+  info: Details,
+  fetchImpl: typeof fetch,
+): Promise<string[]> {
+  const byName = models.filter((m) => !info.embedding.includes(m) && !looksLikeEmbeddingModel(m))
+  if (!p.chat) return byName
+  try {
+    return await p.chat(body, (url, b) => getJson(url, fetchImpl, b))
+  } catch {
+    return byName
   }
 }
 
 async function probe(p: Probe, fetchImpl: typeof fetch): Promise<LocalService> {
   const base = { kind: p.kind, label: p.label, baseUrl: p.baseUrl }
-  const down = { ...base, reachable: false, models: [], loadedModels: [] }
+  const down = { ...base, reachable: false, models: [], loadedModels: [], chatModels: [] }
   try {
-    const [body, loaded] = await Promise.all([
-      getJson(p.probeUrl, fetchImpl),
-      loadedModels(p, fetchImpl),
-    ])
-    return { ...base, reachable: true, models: p.models(body).sort(), loadedModels: loaded }
+    const [body, info] = await Promise.all([getJson(p.probeUrl, fetchImpl), details(p, fetchImpl)])
+    const models = p.models(body).sort()
+    const chat = await chatModels(p, body, models, info, fetchImpl)
+    return { ...base, reachable: true, models, loadedModels: info.loaded, chatModels: chat }
   } catch {
     return down
   }
 }
 
-/** Probe all known local services in parallel; each has an 800 ms budget. */
+/** Probe all known local services in parallel; each request has an 800 ms budget. */
 export function detectLocalServices(fetchImpl: typeof fetch = fetch): Promise<LocalService[]> {
   return Promise.all(LOCAL_PROBES.map((p) => probe(p, fetchImpl)))
 }

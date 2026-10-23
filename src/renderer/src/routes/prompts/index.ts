@@ -12,6 +12,12 @@ export const routes: RouteDef[] = [
   {
     path: '/p/:projectKey/prompts',
     component: PromptsPage,
-    nav: { label: 'Prompt overrides', scope: 'project', order: 70, icon: 'prompts' },
+    nav: {
+      label: 'Prompt overrides',
+      scope: 'project',
+      order: 70,
+      icon: 'prompts',
+      group: 'advanced',
+    },
   },
 ]

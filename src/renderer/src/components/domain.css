@@ -1,5 +1,7 @@
 /* Domain profile picker, threat-family choice and example banner (#169). Tokens only. */
 .domain-picker__list {
+  /* Offset parent of the options, so the picker can scroll the list alone. */
+  position: relative;
   max-height: 18rem;
   overflow-y: auto;
   border: var(--border-width) solid var(--color-border-strong);
@@ -17,13 +19,17 @@
 }
 .domain-picker__option {
   display: grid;
-  gap: 0.125rem;
+  grid-template-columns: 1fr auto;
+  column-gap: var(--space-2);
+  row-gap: 0.125rem;
   padding: var(--space-2) var(--space-3);
   border-left: 3px solid transparent;
   cursor: pointer;
 }
-.domain-picker__option:hover {
-  background: var(--color-surface-sunken);
+/* One selection style (#236): hover is a neutral tint; only the chosen option gets the
+   highlighter fill, the accent bar and the check. */
+.domain-picker__option:hover:not(.is-selected) {
+  background: var(--color-hover);
 }
 .domain-picker__option.is-selected {
   background: var(--color-accent-soft);
@@ -32,7 +38,30 @@
 .domain-picker__label {
   font-weight: var(--weight-medium);
 }
+.domain-picker__check {
+  grid-column: 2;
+  grid-row: 1;
+  color: var(--color-accent);
+}
+.domain-picker__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.domain-picker__current {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+.domain-picker__current svg {
+  color: var(--color-accent);
+}
 .domain-picker__desc {
+  grid-column: 1;
   font-size: var(--text-sm);
   color: var(--color-text-muted);
   display: -webkit-box;

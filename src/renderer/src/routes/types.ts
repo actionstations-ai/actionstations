@@ -11,5 +11,7 @@ export interface RouteDef {
     order: number
     /** lucide-react icon name (looked up in components/nav-icons). */
     icon?: string
+    /** Project nav only: "advanced" items sit in a collapsible group below the build steps. */
+    group?: 'build' | 'advanced'
   }
 }

@@ -12,15 +12,9 @@ import type {
   EmbeddingProvider,
   TextProvider,
 } from '../../types'
-import {
-  combinedSystem,
-  elapsed,
-  guessModelKind,
-  numberOption,
-  parseJsonText,
-  requireModel,
-} from '../common'
+import { combinedSystem, elapsed, numberOption, parseJsonText, requireModel } from '../common'
 import { restoreOptionals } from '../strict-schema'
+import { classifyOllamaTags } from './models'
 
 export const OLLAMA_BASE_URL = 'http://127.0.0.1:11434'
 const VENDOR = 'Ollama'
@@ -48,14 +42,22 @@ export class OllamaTextProvider implements TextProvider {
   }
 
   async listModels(signal?: AbortSignal): Promise<ModelInfo[]> {
-    const res = await requestJson<{ models?: { name: string; details?: { family?: string } }[] }>(
-      joinUrl(baseOf(this.config), '/api/tags'),
-      { signal, timeoutMs: 10_000, vendor: VENDOR },
+    const base = baseOf(this.config)
+    const tags = await requestJson<unknown>(joinUrl(base, '/api/tags'), {
+      signal,
+      timeoutMs: 10_000,
+      vendor: VENDOR,
+    })
+    return classifyOllamaTags(tags, (name) =>
+      requestJson<{ capabilities?: unknown }>(joinUrl(base, '/api/show'), {
+        method: 'POST',
+        body: { model: name },
+        signal,
+        timeoutMs: 5_000,
+        retries: 0,
+        vendor: VENDOR,
+      }).then((r) => r.capabilities),
     )
-    return (res.models ?? []).map((m) => ({
-      id: m.name,
-      kind: guessModelKind(`${m.name} ${m.details?.family ?? ''}`),
-    }))
   }
 
   async health(signal?: AbortSignal): Promise<ProviderHealth> {

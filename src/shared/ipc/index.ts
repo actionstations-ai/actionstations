@@ -14,7 +14,7 @@ import { injectChannels } from './injects'
 import { renderChannels } from './render'
 import { comfyChannels } from './comfy'
 import { exportChannels } from './export'
-import { facilitatorChannels } from './facilitator'
+import { facilitatorChannels, PresentChangedEvent } from './facilitator'
 import { exampleChannels } from './examples'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
@@ -78,6 +78,7 @@ export const events = {
   'job:done': JobDoneEvent,
   /** Main is about to quit: save what you can, then answer with app:unsaved-report (#196). */
   'app:quit-check': z.object({ requestId: z.string() }),
+  'facilitator:present-changed': PresentChangedEvent,
   'project:changed': z.object({
     path: z.string(),
     what: z.enum([

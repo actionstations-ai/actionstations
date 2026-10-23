@@ -3,6 +3,7 @@
 // adapter's capabilities), never from a list kept here.
 import type { ProviderKind, ProviderRef, ProviderRouting, ProviderTask } from '@shared/schemas'
 import type { ChannelResponse } from '@shared/ipc'
+import { pickChatModel } from '@shared/model-names'
 
 export type RoutingView = ChannelResponse<'routing:get'>
 export type ProviderViewT = ChannelResponse<'providers:list'>[number]
@@ -132,9 +133,13 @@ export const kindUsesKey = (kind: ProviderKind): boolean =>
 
 export const kindRequiresKey = (kind: ProviderKind): boolean => kind === 'anthropic'
 
-/** Prefer a chat model over an embedding model when picking a default. */
-export function pickDefaultModel(models: string[]): string | undefined {
-  return models.find((m) => !/embed/i.test(m)) ?? models[0]
+/** Default model for a detected service: never an embedding model while a chat model exists. */
+export function pickDefaultModel(s: {
+  models: string[]
+  chatModels?: string[]
+  loadedModels?: string[]
+}): string | undefined {
+  return pickChatModel(s.chatModels?.length ? s.chatModels : s.models, s.loadedModels)
 }
 
 /** Drop empty rows; trim models; omit model when blank. */

@@ -23,6 +23,7 @@ function detected() {
       reachable: true,
       models: ['text-embedding-nomic-embed-text-v1.5', 'qwen3-30b-a3b-2507'],
       loadedModels: [],
+      chatModels: ['qwen3-30b-a3b-2507'],
     },
     {
       kind: 'ollama',
@@ -31,10 +32,18 @@ function detected() {
       reachable: false,
       models: [],
       loadedModels: [],
+      chatModels: [],
     },
-    { ...COMFY, reachable: true, models: [], loadedModels: [] },
+    { ...COMFY, reachable: true, models: [], loadedModels: [], chatModels: [] },
   ] as const
 }
+
+const copyService = (s: ReturnType<typeof detected>[number]) => ({
+  ...s,
+  models: [...s.models],
+  loadedModels: [...s.loadedModels],
+  chatModels: [...s.chatModels],
+})
 
 /** A stateful fake main process: providers, routing and settings persist across calls. */
 function setup(extra: Handlers = {}, initial: Partial<AppSettings> = {}) {
@@ -52,8 +61,7 @@ function setup(extra: Handlers = {}, initial: Partial<AppSettings> = {}) {
       })
       return settings
     },
-    'providers:detect-local': () =>
-      detected().map((s) => ({ ...s, models: [...s.models], loadedModels: [...s.loadedModels] })),
+    'providers:detect-local': () => detected().map(copyService),
     'providers:list': () => providers,
     'providers:upsert': (req: { config: Partial<ProviderViewT>; apiKey?: string | null }) => {
       const v = {
@@ -206,8 +214,9 @@ describe('text model step', () => {
                 ...s,
                 models: ['gpt-oss-20b', ...s.models],
                 loadedModels: ['qwen3-30b-a3b-2507', 'text-embedding-nomic-embed-text-v1.5'],
+                chatModels: ['gpt-oss-20b', 'qwen3-30b-a3b-2507'],
               }
-            : { ...s, models: [...s.models], loadedModels: [...s.loadedModels] },
+            : copyService(s),
         ),
     } as Handlers)
     renderWizard('text')
@@ -216,6 +225,32 @@ describe('text model step', () => {
     expect(select.value).toBe('qwen3-30b-a3b-2507')
     expect(within(select).getByText('qwen3-30b-a3b-2507 (loaded)')).toBeTruthy()
     expect(within(list).getByText(/qwen3-30b-a3b-2507 loaded/)).toBeTruthy()
+  })
+
+  it('never defaults Ollama to an embedding model and counts only chat models (#225)', async () => {
+    const ollama = {
+      kind: 'ollama',
+      label: 'Ollama',
+      baseUrl: 'http://127.0.0.1:11434',
+      reachable: true,
+      models: ['all-minilm:22m', 'nomic-embed-text:latest', 'qwen2.5:3b', 'smollm:135m'],
+      loadedModels: [],
+      // Main lists chat models largest first, from Ollama's capabilities.
+      chatModels: ['qwen2.5:3b', 'smollm:135m'],
+    }
+    setup({
+      'providers:detect-local': () =>
+        detected().map((s) => (s.label === 'Ollama' ? ollama : copyService(s))),
+    } as Handlers)
+    renderWizard('text')
+    const list = await screen.findByRole('list', { name: 'Local text services' })
+    const select = (await within(list).findByLabelText('Ollama model')) as HTMLSelectElement
+    expect(select.value).toBe('qwen2.5:3b')
+    const options = within(select)
+      .getAllByRole('option')
+      .map((o) => o.textContent)
+    expect(options).toEqual(['qwen2.5:3b', 'smollm:135m'])
+    expect(within(list).getByText('2 chat models available')).toBeTruthy()
   })
 
   it('adds Anthropic with a key that is sent once and cleared from the form', async () => {

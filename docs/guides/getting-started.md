@@ -24,7 +24,7 @@ pnpm dev
 On first launch the **setup wizard** opens. It has five steps, each of which can be skipped and changed later:
 
 1. **Welcome**: what the app makes and what stays on your computer.
-2. **Text model**: detects LM Studio and Ollama on this computer, lets you pick a model and add the provider with one click, or add an Anthropic API key. It routes ideation, drafting and critique to your choice.
+2. **Text model**: detects LM Studio and Ollama on this computer, lets you pick a model (embedding models are never offered as the writing model; the largest chat model is the default unless one is already loaded) and add the provider with one click, or add an Anthropic API key. It routes ideation, drafting and critique to your choice.
 3. **Media**: checks ComfyUI and its default workflows for images and video, and adds a local voice server (mlx-audio) for speech; it routes the image, video and audio tasks.
 4. **Search quality**: keep the built-in keyword hashing, or download the local embedding model (133 MB, once) for better search.
 5. **First project**: create a project.
@@ -35,7 +35,7 @@ On first launch the **setup wizard** opens. It has five steps, each of which can
 
 **Skip setup** goes straight to the Projects screen. You can run the wizard again from **Settings → Run setup again**. The rest of this guide shows the same steps on the regular screens, which is also where you change them later.
 
-The sidebar has two parts: application screens (Projects, Prompts, Templates, Workflows, Providers, Settings) and, once a project is open, that project's screens (Overview, Documents, Generate, Scenarios, Facilitate, Search index, Prompt overrides, Provider routing).
+The sidebar has two parts: application screens (Projects, Providers, Prompts, Templates, Workflows, Settings) and, once a project is open, that project's screens. These are grouped into **Build** (Overview, Documents, Facility facts, Generate, Scenarios, Facilitate) and a collapsible **Advanced** group (Search index, Prompt overrides, Provider routing). Advanced starts closed, remembers whether you opened it, and stays open while you are on one of its pages.
 
 ## 2. Create a project
 
@@ -58,7 +58,7 @@ Open **Project settings** to edit the project. The same domain picker is under *
 
 ### Example projects
 
-**Projects → Examples** lists ready-made projects built from fictional organizations' documents, each with its domain, a summary and its scenarios (with their threat families). **Open a copy** asks where to put the copy (default: your projects folder, else `Documents/Tabletop Generator`), copies the example into a new folder (never over an existing one: a second copy gets `-2`), and opens it. The example as shipped is never changed. A project opened from an example shows the example's notice at the top of every project screen. The search index is not shipped; it is rebuilt from the documents when the copy opens, as it is for any project folder opened without `index.sqlite` (a duplicate, or a folder from version control). The setup wizard's **First project** step offers the same examples under **Or explore an example**.
+**Projects → Examples** lists ready-made projects built from fictional organizations' documents, each with its domain, a summary and its scenarios (with their threat families). **Open a copy** asks where to put the copy (default: the default projects folder from Settings, else a folder in your Documents folder), copies the example into a new folder (never over an existing one: a second copy gets `-2`), and opens it. The example as shipped is never changed. A project opened from an example shows the example's notice at the top of every project screen. The search index is not shipped; it is rebuilt from the documents when the copy opens, as it is for any project folder opened without `index.sqlite` (a duplicate, or a folder from version control). The setup wizard's **First project** step offers the same examples under **Or explore an example**.
 
 The project folder contains `project.json`, `documents/`, `scenarios/`, `prompts/` (project prompt overrides), `index.sqlite` (the search index), `ideas.json` and `facility-facts.md` (see [Facility facts](#facility-facts)). Its `.gitignore` excludes the search index and caches, which can be rebuilt.
 
@@ -233,7 +233,7 @@ Open **Facilitate** in the project sidebar and pick a scenario.
 - **Exercise clock**: **Start**/pause (**Space**), **Reset**, **Time jump to** the next phase, or type a time (`H:MM`) and **Set time**. The scenario's wall-clock time is shown under it.
 - **Timeline**: every MSEL row by phase; rows whose time has come are marked **Due now**. **N** selects the next due row, the arrow keys move through the timeline, and **Deliver** (**D**) records when it was handed over.
 - The single-key shortcuts (**Space**, **N**, **D**) can be switched off with **Single-key shortcuts** next to the key list (useful with speech input or a screen reader). They never fire while you type, and **Space** on a focused button presses that button.
-- **Show on screen** opens the inject's media full-screen on the display chosen in **Present on** (a second display by default); **Esc** on that screen closes it.
+- **Show on screen** opens the inject's media full-screen on the display chosen in **Present on** (a second display by default); **Esc** on that screen closes it. The header button reads **Open presentation** (shows the selected row's inject) while no presentation is open and **Close presentation** while one is.
 - The side panel has three tabs: **Inject** (event, expected action, instructor note, and a hot wash note for that inject), **Hot wash** (the rubric, the hot wash questions and all inject notes) and **General notes**.
 
 The clock, delivered injects and notes are saved in `<project>/scenarios/<id>/facilitator.json`, so a session survives a restart.
@@ -255,7 +255,7 @@ Measured on the Scenario 3 deck (24 injects): every target exported in 5.9 secon
 
 ## Keyboard, screen readers and zoom
 
-Everything in the app works from the keyboard. **Skip to main content** is the first Tab stop; after you follow a link, focus moves to the new page's heading and the window title names the page. Dialogs keep focus inside until you close them (**Esc**), then return it to the button that opened them. Below about 830 px of width (for example a 1280 px window at 200 % zoom) the sidebar folds behind a **Menu** button. Long jobs (ingest, index rebuilds, model downloads, generation, export) show progress with a **Cancel** button, announce progress to screen readers without flooding them, and failures say what went wrong and what to try next, with **Retry** where it applies. Colors meet WCAG AA in light and dark (`node scripts/check-contrast.mjs` checks every token pair the stylesheets use).
+Everything in the app works from the keyboard. **Skip to main content** is the first Tab stop; after you follow a link, focus moves to the new page's heading and the window title names the page. Dialogs keep focus inside until you close them (**Esc**), then return it to the button that opened them. Below about 830 px of width (for example a 1280 px window at 200 % zoom) the sidebar folds behind a **Menu** button. Long jobs (ingest, index rebuilds, model downloads, generation, export) show progress with a **Cancel** button, announce progress to screen readers without flooding them, and failures say what went wrong and what to try next, with **Retry** where it applies. Notifications appear at the bottom left of the page, away from the primary buttons on the right. Selected items in lists use one style everywhere (a highlight with an accent bar; the domain picker also shows a check and names the current domain above the list); hovering only tints an item. Colors meet WCAG AA in light and dark (`node scripts/check-contrast.mjs` checks every token pair the stylesheets use).
 
 ## Next steps
 

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { Tabs } from 'radix-ui'
-import { ArrowLeft, MonitorX } from 'lucide-react'
+import { ArrowLeft, Monitor, MonitorX } from 'lucide-react'
 import type { FacilitatorState } from '@shared/ipc'
 import { mediaUrl } from '@shared/media-url'
 import type { Inject } from '@shared/schemas/inject'
@@ -30,6 +30,7 @@ import { HotWashPanel } from './HotWashPanel'
 import { InjectPanel } from './InjectPanel'
 import { Timeline, type TimelineEntry } from './Timeline'
 import { useFacilitatorState, type SaveStatus } from './use-facilitator-state'
+import { usePresenting } from './use-presenting'
 import './facilitate.css'
 
 /** Re-render every second while the clock runs (and every 15 s for the local time). */
@@ -227,6 +228,7 @@ function FacilitateView({
     onAnnounce: setAnnounce,
   })
   const { deliver, undo, present } = actions
+  const presenting = usePresenting()
 
   const keys = useMemo(
     () => ({
@@ -254,9 +256,19 @@ function FacilitateView({
         actions={
           <>
             <DisplayPicker value={displayId} onChange={setDisplayId} />
-            <Button onClick={() => void call('facilitator:close-present')}>
-              <MonitorX size={16} aria-hidden /> Close presentation
-            </Button>
+            {presenting ? (
+              <Button onClick={() => void call('facilitator:close-present')}>
+                <MonitorX size={16} aria-hidden /> Close presentation
+              </Button>
+            ) : (
+              <Button
+                disabled={!selected?.inject}
+                title={selected?.inject ? undefined : 'Select a row that has an inject to show'}
+                onClick={() => selected && void present(selected, screenAsset(selected.inject)?.id)}
+              >
+                <Monitor size={16} aria-hidden /> Open presentation
+              </Button>
+            )}
           </>
         }
       />

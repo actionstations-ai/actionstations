@@ -14,6 +14,7 @@ class FakeWebContents {
 
 class FakeWindow {
   static instances: FakeWindow[] = []
+  static getAllWindows = () => [] as FakeWindow[]
   webContents = new FakeWebContents()
   destroyed = false
   listeners = new Map<string, Listener[]>()
@@ -67,8 +68,16 @@ vi.mock('electron', () => ({
   },
 }))
 
-const { chooseDisplay, closePresent, listDisplays, present, presentHash, presentWindow } =
-  await import('./present')
+const {
+  chooseDisplay,
+  closePresent,
+  isPresenting,
+  listDisplays,
+  present,
+  presentHash,
+  presentWindow,
+} = await import('./present')
+const { onEmit } = await import('../lib/events')
 
 const target = { projectPath: '/Users/a/NCIA.ttxproj', scenarioId: 'S1', injectId: 'INJ1' }
 
@@ -170,6 +179,21 @@ describe('presentation window', () => {
     present(target, { owner: owner as never })
     owner.emit('closed')
     expect(FakeWindow.instances[3]!.destroyed).toBe(true)
+  })
+
+  it('reports and announces whether a presentation is open (#235)', () => {
+    const seen: unknown[] = []
+    const off = onEmit((name, payload) => {
+      if (name === 'facilitator:present-changed') seen.push(payload)
+    })
+    expect(isPresenting()).toBe(false)
+    present(target)
+    expect(isPresenting()).toBe(true)
+    present({ ...target, injectId: 'INJ2' })
+    closePresent()
+    expect(isPresenting()).toBe(false)
+    off()
+    expect(seen).toEqual([{ open: true }, { open: false }])
   })
 
   it('blocks navigation and new windows from the presentation document', () => {
