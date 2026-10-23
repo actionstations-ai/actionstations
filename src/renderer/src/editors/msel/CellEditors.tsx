@@ -22,18 +22,16 @@ function growToFit(el: HTMLTextAreaElement | null): void {
   el.style.height = `${el.scrollHeight + 2}px`
 }
 
-/** Single-line input or auto-growing textarea. `validate` returning a message blocks commit. */
-export function TextCellEditor(
-  props: EditorProps<string> & {
-    multiline?: boolean
-    validate?: (value: string) => string | null
-    hint?: string
-  },
-) {
-  const [value, setValue] = useState(props.initial)
+type TextEditorProps = EditorProps<string> & {
+  multiline?: boolean
+  validate?: (value: string) => string | null
+  hint?: string
+}
+
+/** Commit / cancel rules of the text editor: Enter, Tab, Escape and blur. */
+function useTextCommit(props: TextEditorProps, value: string) {
   const [error, setError] = useState<string | null>(null)
   const done = useRef(false)
-  const errId = useId()
   const commit = (move: Move, fromBlur = false) => {
     if (done.current) return
     const problem = props.validate?.(value) ?? null
@@ -61,6 +59,14 @@ export function TextCellEditor(
       props.onCancel()
     }
   }
+  return { error, setError, commit, onKeyDown }
+}
+
+/** Single-line input or auto-growing textarea. `validate` returning a message blocks commit. */
+export function TextCellEditor(props: TextEditorProps) {
+  const [value, setValue] = useState(props.initial)
+  const { error, setError, commit, onKeyDown } = useTextCommit(props, value)
+  const errId = useId()
   const common = {
     'aria-label': props.label,
     'aria-invalid': error ? true : undefined,
@@ -142,8 +148,37 @@ function useTypeahead(options: ListOption[], setActive: (i: number) => void) {
   }
 }
 
-/** Single or multi select listbox in a popover anchored to the cell. */
-export function ListCellEditor(props: ListEditorProps) {
+/** A popover anchored to the cell: Escape cancels, closing it any other way commits. */
+function EditorPopover(props: {
+  anchor: ReactNode
+  onClose: () => void
+  onEscape: () => void
+  onKeyDown: (e: KeyboardEvent) => void
+  children: ReactNode
+}) {
+  return (
+    <Popover.Root open onOpenChange={(open) => !open && props.onClose()}>
+      <Popover.Anchor asChild>{props.anchor}</Popover.Anchor>
+      <Popover.Portal>
+        <Popover.Content
+          className="msel-editor__popover"
+          align="start"
+          sideOffset={2}
+          onEscapeKeyDown={(e) => {
+            e.preventDefault()
+            props.onEscape()
+          }}
+          onKeyDown={props.onKeyDown}
+        >
+          {props.children}
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
+  )
+}
+
+/** Values, filter and active option of a list editor, and how it ends. */
+function useListEditor(props: ListEditorProps) {
   const [values, setValues] = useState(props.initial)
   const [filter, setFilter] = useState('')
   const shown = useMemo(
@@ -160,8 +195,6 @@ export function ListCellEditor(props: ListEditorProps) {
     ),
   )
   const done = useRef(false)
-  const listId = useId()
-  const typeahead = useTypeahead(shown, setActive)
   const finish = (next: string[], move: Move) => {
     if (done.current) return
     done.current = true
@@ -179,94 +212,106 @@ export function ListCellEditor(props: ListEditorProps) {
     setValues(next)
     return next
   }
-  const onKeyDown = (e: KeyboardEvent) => {
+  return { values, filter, setFilter, shown, active, setActive, finish, cancel, pick }
+}
+
+type ListEditor = ReturnType<typeof useListEditor>
+
+function listKeyHandler(props: ListEditorProps, l: ListEditor, typeahead: (k: string) => void) {
+  return (e: KeyboardEvent) => {
     e.stopPropagation()
-    const last = shown.length - 1
-    if (e.key === 'ArrowDown') setActive((i) => Math.min(last, i + 1))
-    else if (e.key === 'ArrowUp') setActive((i) => Math.max(0, i - 1))
-    else if (e.key === 'Home') setActive(0)
-    else if (e.key === 'End') setActive(last)
-    else if (e.key === ' ' && !props.filterable) pick(active)
-    else if (e.key === 'Enter') finish(props.multiple ? values : pick(active), null)
-    else if (e.key === 'Tab') finish(values, tabMove(e))
-    else if (e.key === 'Escape') cancel()
+    const last = l.shown.length - 1
+    if (e.key === 'ArrowDown') l.setActive((i) => Math.min(last, i + 1))
+    else if (e.key === 'ArrowUp') l.setActive((i) => Math.max(0, i - 1))
+    else if (e.key === 'Home') l.setActive(0)
+    else if (e.key === 'End') l.setActive(last)
+    else if (e.key === ' ' && !props.filterable) l.pick(l.active)
+    else if (e.key === 'Enter') l.finish(props.multiple ? l.values : l.pick(l.active), null)
+    else if (e.key === 'Tab') l.finish(l.values, tabMove(e))
+    else if (e.key === 'Escape') l.cancel()
     else if (!props.filterable && e.key.length === 1 && !e.metaKey && !e.ctrlKey) typeahead(e.key)
     else return
     e.preventDefault()
   }
-  const activeId = shown[active] ? `${listId}-${active}` : undefined
+}
+
+function OptionList(props: { editor: ListEditorProps; l: ListEditor; listId: string }) {
+  const { editor: p, l, listId } = props
+  const activeId = l.shown[l.active] ? `${listId}-${l.active}` : undefined
   return (
-    <Popover.Root open onOpenChange={(open) => !open && finish(values, 'blur')}>
-      <Popover.Anchor asChild>{props.anchor}</Popover.Anchor>
-      <Popover.Portal>
-        <Popover.Content
-          className="msel-editor__popover"
-          align="start"
-          sideOffset={2}
-          onEscapeKeyDown={(e) => {
-            e.preventDefault()
-            cancel()
+    <ul
+      id={listId}
+      role="listbox"
+      aria-label={p.label}
+      aria-multiselectable={p.multiple || undefined}
+      aria-activedescendant={activeId}
+      tabIndex={p.filterable ? -1 : 0}
+      autoFocus={!p.filterable}
+      className="msel-editor__list"
+    >
+      {l.shown.map((o, i) => (
+        <li
+          key={o.value}
+          id={`${listId}-${i}`}
+          role="option"
+          aria-selected={l.values.includes(o.value)}
+          data-active={i === l.active || undefined}
+          className="msel-editor__option"
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => {
+            l.setActive(i)
+            const next = l.pick(i)
+            if (!p.multiple) l.finish(next, null)
           }}
-          onKeyDown={onKeyDown}
         >
-          {props.filterable && (
-            <input
-              className="input msel-editor__filter"
-              role="combobox"
-              aria-label={`Filter ${props.label}`}
-              aria-expanded
-              aria-controls={listId}
-              aria-activedescendant={activeId}
-              autoFocus
-              value={filter}
-              onChange={(e) => {
-                setFilter(e.target.value)
-                setActive(0)
-              }}
-            />
+          {p.multiple && (
+            <span className="msel-editor__check" aria-hidden>
+              {l.values.includes(o.value) ? '☑' : '☐'}
+            </span>
           )}
-          <ul
-            id={listId}
-            role="listbox"
-            aria-label={props.label}
-            aria-multiselectable={props.multiple || undefined}
-            aria-activedescendant={activeId}
-            tabIndex={props.filterable ? -1 : 0}
-            autoFocus={!props.filterable}
-            className="msel-editor__list"
-          >
-            {shown.map((o, i) => (
-              <li
-                key={o.value}
-                id={`${listId}-${i}`}
-                role="option"
-                aria-selected={values.includes(o.value)}
-                data-active={i === active || undefined}
-                className="msel-editor__option"
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => {
-                  setActive(i)
-                  const next = pick(i)
-                  if (!props.multiple) finish(next, null)
-                }}
-              >
-                {props.multiple && (
-                  <span className="msel-editor__check" aria-hidden>
-                    {values.includes(o.value) ? '☑' : '☐'}
-                  </span>
-                )}
-                {o.render ?? o.label}
-                {o.hint && <span className="muted msel-editor__hint">{o.hint}</span>}
-              </li>
-            ))}
-            {!shown.length && <li className="muted msel-editor__option">No matches</li>}
-          </ul>
-          {props.multiple && (
-            <p className="muted msel-editor__help">Space toggles · Enter saves · Esc cancels</p>
-          )}
-        </Popover.Content>
-      </Popover.Portal>
-    </Popover.Root>
+          {o.render ?? o.label}
+          {o.hint && <span className="muted msel-editor__hint">{o.hint}</span>}
+        </li>
+      ))}
+      {!l.shown.length && <li className="muted msel-editor__option">No matches</li>}
+    </ul>
+  )
+}
+
+/** Single or multi select listbox in a popover anchored to the cell. */
+export function ListCellEditor(props: ListEditorProps) {
+  const l = useListEditor(props)
+  const listId = useId()
+  const typeahead = useTypeahead(l.shown, l.setActive)
+  const activeId = l.shown[l.active] ? `${listId}-${l.active}` : undefined
+  return (
+    <EditorPopover
+      anchor={props.anchor}
+      onClose={() => l.finish(l.values, 'blur')}
+      onEscape={l.cancel}
+      onKeyDown={listKeyHandler(props, l, typeahead)}
+    >
+      {props.filterable && (
+        <input
+          className="input msel-editor__filter"
+          role="combobox"
+          aria-label={`Filter ${props.label}`}
+          aria-expanded
+          aria-controls={listId}
+          aria-activedescendant={activeId}
+          autoFocus
+          value={l.filter}
+          onChange={(e) => {
+            l.setFilter(e.target.value)
+            l.setActive(0)
+          }}
+        />
+      )}
+      <OptionList editor={props} l={l} listId={listId} />
+      {props.multiple && (
+        <p className="muted msel-editor__help">Space toggles · Enter saves · Esc cancels</p>
+      )}
+    </EditorPopover>
   )
 }
 
@@ -275,18 +320,21 @@ export interface CitationItem {
   title: string
 }
 
-/** Remove citations: arrows move, Delete / Backspace removes, Enter or Esc closes. */
-export function CitationsEditor(
-  props: EditorProps<number[]> & { items: CitationItem[]; anchor: ReactNode },
-) {
+type CitationsProps = EditorProps<number[]> & { items: CitationItem[]; anchor: ReactNode }
+
+/** Kept citations, the active one, and how the editor ends. */
+function useCitations(props: CitationsProps) {
   const [kept, setKept] = useState(props.initial)
   const [active, setActive] = useState(0)
   const done = useRef(false)
-  const listId = useId()
   const finish = (move: Move) => {
     if (done.current) return
     done.current = true
     props.onCommit(kept, move)
+  }
+  const cancel = () => {
+    done.current = true
+    props.onCancel()
   }
   const remove = (pos: number) => {
     setKept((k) => k.filter((_, i) => i !== pos))
@@ -299,67 +347,76 @@ export function CitationsEditor(
     else if (e.key === 'Delete' || e.key === 'Backspace') remove(active)
     else if (e.key === 'Enter') finish(null)
     else if (e.key === 'Tab') finish(tabMove(e))
-    else if (e.key === 'Escape') {
-      done.current = true
-      props.onCancel()
-    } else return
+    else if (e.key === 'Escape') cancel()
+    else return
     e.preventDefault()
   }
+  return { kept, active, finish, cancel, remove, onKeyDown }
+}
+
+/** Remove citations: arrows move, Delete / Backspace removes, Enter or Esc closes. */
+export function CitationsEditor(props: CitationsProps) {
+  const { kept, active, finish, cancel, remove, onKeyDown } = useCitations(props)
+  const listId = useId()
   return (
-    <Popover.Root open onOpenChange={(open) => !open && finish('blur')}>
-      <Popover.Anchor asChild>{props.anchor}</Popover.Anchor>
-      <Popover.Portal>
-        <Popover.Content
-          className="msel-editor__popover"
-          align="start"
-          sideOffset={2}
-          onEscapeKeyDown={(e) => {
-            e.preventDefault()
-            done.current = true
-            props.onCancel()
-          }}
-          onKeyDown={onKeyDown}
-        >
-          <ul
-            id={listId}
-            role="listbox"
-            aria-label={props.label}
-            tabIndex={0}
-            autoFocus
-            aria-activedescendant={kept.length ? `${listId}-${active}` : undefined}
-            className="msel-editor__list"
-          >
-            {kept.map((idx, i) => {
-              const item = props.items[idx]!
-              return (
-                <li
-                  key={idx}
-                  id={`${listId}-${i}`}
-                  role="option"
-                  aria-selected={i === active}
-                  data-active={i === active || undefined}
-                  className="msel-editor__option"
-                  title={item.title}
-                >
-                  <span>{item.label}</span>
-                  <button
-                    type="button"
-                    className="btn btn--ghost btn--sm btn--icon msel-editor__remove"
-                    aria-label={`Remove citation ${item.label}`}
-                    tabIndex={-1}
-                    onMouseDown={(e) => e.preventDefault()}
-                    onClick={() => remove(i)}
-                  >
-                    <X size={12} aria-hidden />
-                  </button>
-                </li>
-              )
-            })}
-            {!kept.length && <li className="muted msel-editor__option">No citations</li>}
-          </ul>
-          <p className="muted msel-editor__help">Delete removes · Enter saves · Esc cancels</p>
-        </Popover.Content>
-      </Popover.Portal>
-    </Popover.Root>
+    <EditorPopover
+      anchor={props.anchor}
+      onClose={() => finish('blur')}
+      onEscape={cancel}
+      onKeyDown={onKeyDown}
+    >
+      <ul
+        id={listId}
+        role="listbox"
+        aria-label={props.label}
+        tabIndex={0}
+        autoFocus
+        aria-activedescendant={kept.length ? `${listId}-${active}` : undefined}
+        className="msel-editor__list"
+      >
+        {kept.map((idx, i) => (
+          <CitationOption
+            key={idx}
+            id={`${listId}-${i}`}
+            item={props.items[idx]!}
+            active={i === active}
+            onRemove={() => remove(i)}
+          />
+        ))}
+        {!kept.length && <li className="muted msel-editor__option">No citations</li>}
+      </ul>
+      <p className="muted msel-editor__help">Delete removes · Enter saves · Esc cancels</p>
+    </EditorPopover>
+  )
+}
+
+function CitationOption(props: {
+  id: string
+  item: CitationItem
+  active: boolean
+  onRemove: () => void
+}) {
+  const { item, active } = props
+  return (
+    <li
+      id={props.id}
+      role="option"
+      aria-selected={active}
+      data-active={active || undefined}
+      className="msel-editor__option"
+      title={item.title}
+    >
+      <span>{item.label}</span>
+      <button
+        type="button"
+        className="btn btn--ghost btn--sm btn--icon msel-editor__remove"
+        aria-label={`Remove citation ${item.label}`}
+        tabIndex={-1}
+        onMouseDown={(e) => e.preventDefault()}
+        onClick={props.onRemove}
+      >
+        <X size={12} aria-hidden />
+      </button>
+    </li>
   )
 }

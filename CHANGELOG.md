@@ -47,6 +47,14 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 #### Editors and saving
 
+- Long MSELs and inject decks stay responsive (#201): committing a cell edit re-renders only
+  that row (about 1 of 304 rows instead of all of them on a 300-row MSEL; commit time measured
+  at ~2–4 ms instead of ~90 ms in the test harness), deck cards re-render only when their own
+  state changes, and lists of 150 or more rows or cards mount only what is near the viewport
+  (new renderer dependency `@tanstack/react-virtual`). Keyboard navigation, "Go to row", drag to
+  retime and screen-reader row positions (`aria-rowindex` / `aria-rowcount`) work the same.
+- The MSEL editor, its rows and cell editors, and the inject deck are split into smaller
+  components and hooks with no change in behavior (part of #203).
 - MSEL saves send the `updatedAt` of the copy they were made from; main refuses a stale save with CONFLICT and the editor redoes it onto the newer scenario, so a save never overwrites fields written meanwhile by a job or another editor (#199).
 - MSEL grid: From/To columns are wider and narrow columns (From, To, Tag, Format) break only between words; row IDs and times never split. The Warnings list keeps its row ID / code column on one line (#237).
 

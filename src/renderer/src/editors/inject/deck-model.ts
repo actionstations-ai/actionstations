@@ -71,6 +71,32 @@ export function filterDeck(entries: DeckEntry[], f: DeckFilters): DeckEntry[] {
   })
 }
 
+const sameJson = (a: unknown, b: unknown): boolean =>
+  a === b || JSON.stringify(a) === JSON.stringify(b)
+
+function sameEntry(a: DeckEntry, b: DeckEntry): boolean {
+  return (
+    a.audio === b.audio &&
+    a.video === b.video &&
+    sameJson(a.row, b.row) &&
+    sameJson(a.inject, b.inject) &&
+    sameJson(a.thumbnail, b.thumbnail) &&
+    sameJson(a.warnings, b.warnings)
+  )
+}
+
+/**
+ * `next` with every entry that did not change replaced by its `prev` object (matched by row
+ * id), so memoized cards skip re-rendering when a refetch brings the same data back (#201).
+ */
+export function reuseEntries(prev: DeckEntry[], next: DeckEntry[]): DeckEntry[] {
+  const old = new Map(prev.map((e) => [e.row.id, e]))
+  return next.map((e) => {
+    const p = old.get(e.row.id)
+    return p && sameEntry(p, e) ? p : e
+  })
+}
+
 /** Work state of an entry in the running job ("Working" for the current item). */
 export function workState(
   e: DeckEntry,

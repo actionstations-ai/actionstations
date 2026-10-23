@@ -85,6 +85,10 @@
   grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
   gap: var(--space-4);
 }
+/* Stands in for the cards a long deck does not mount (#201). */
+.deck-grid__spacer {
+  grid-column: 1 / -1;
+}
 .deck-card {
   display: flex;
   flex-direction: column;
