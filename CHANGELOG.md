@@ -10,12 +10,16 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Changed
 
+- Generated MSELs follow the reference pace (#223): `msel_phase` asks for about six rows an hour, at most seven (20–28 rows for a 4-hour exercise, scaled by phase length), side injects included; a new `DENSITY_DENSE` info lint notes a phase above that.
+
 - In-app branding is now Action Stations: logo in the sidebar, comic-panel theme (newsprint light, navy-ink dark, Bangers page titles, ink outlines and hard shadows), window, page and menu-bar titles renamed (the settings folder keeps its name); new app icon from the logo; closing the main window now quits the app on macOS too; `scripts/dev-bundle.sh` builds a renamed Electron bundle for unpackaged runs; macOS overscroll bounce disabled (#191).
 
 - Scenario page: the Stages list and Generation log moved below the tabs into a collapsed
   "Advanced information" section, which opens on its own while a generation runs (#189).
 
 ### Added
+
+- Organization-name check for injects (#221): a name that starts like the organization's but is not the project name, `orgName` or `brand.aliases.org` ("North Coast Regional Airport") goes back to the model in the repair round, and becomes an inject warning if it survives.
 
 - Repair a finished scenario in place (#185, ADR-0015): `generate:repair` applies the current
   MSEL repairs and lints, runs the revision pass only for rows still flagged, writes injects
@@ -25,6 +29,9 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Fixed
 
+- Re-running an MSEL phase, the phase plan or the critique (or repairing the MSEL) now marks the injects of rows whose event, expected action or format changed, or that were removed, as stale, so "Write all injects" writes them again; injects whose row is gone are left out of the export as they are from the deck (#207).
+- The critique and hot wash steps write their documents only after the step's checkpoint: a failed or cancelled step leaves `overview.md`, the handbook and the hot wash as they were (#209).
+- An END_GAME or ENDEX inject never gets a glitch template variant (the recovery board shows normal); a bare-number gate in a flight context ("AC 444 at Gate 14") is checked against the concourse gates when the facts number gates per concourse (#222).
 - Lint false positives found on the bundled examples (#185): a named site with a leading
   article ("The Lakeshore Flight Area"), a rogue device the row itself calls unknown ("No
   record of GCS-12 in fleet", "No GCS-12 exists") in the MSEL and inject checks, and a

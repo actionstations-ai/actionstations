@@ -216,7 +216,7 @@ A scenario runs one generation job at a time. While it runs, your edits to that 
 
 ### Improve a stage
 
-The **Stages** panel lists the latest run of each stage. Per-inject stages (inject text, media brief, media render) are grouped into one collapsible row per stage with ok/error/stale counts; a group with errors starts expanded. Each stage has **Re-run**. The dialog takes **Extra instructions** for that run only ("make the red herring more plausible; cite ASP 6.4"). Stages that depend on the re-run one are marked stale; locked MSEL rows are kept. If a stage fails, **Continue from failure** resumes from it. To change how a stage writes every time, edit its prompt: see the [prompts guide](prompts.md).
+The **Stages** panel lists the latest run of each stage. Per-inject stages (inject text, media brief, media render) are grouped into one collapsible row per stage with ok/error/stale counts; a group with errors starts expanded. Each stage has **Re-run**. The dialog takes **Extra instructions** for that run only ("make the red herring more plausible; cite ASP 6.4"). Stages that depend on the re-run one are marked stale; locked MSEL rows are kept. When a re-run of an MSEL phase, the phase plan or the critique changes a row's event, expected action or format, that row's inject text and media are marked stale too, and **Write all injects** on the Injects tab writes them again. An inject whose row was removed is left out of the deck and the export. If a stage fails, **Continue from failure** resumes from it. To change how a stage writes every time, edit its prompt: see the [prompts guide](prompts.md).
 
 ![Re-run a stage](images/rerun-dialog.png)
 

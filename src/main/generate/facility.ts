@@ -147,7 +147,8 @@ export function unknownFacilityIds(text: string, f: FacilityFacts): UnknownId[] 
     const known = new Set(factIds(f, category.id))
     for (const id of def.mentions(text)) {
       const key = `${def.noun}:${id}`
-      if (seen.has(key) || known.has(id)) continue
+      const covered = def.covers ? def.covers(id, known, text) : known.has(id)
+      if (seen.has(key) || covered) continue
       seen.add(key)
       const didYouMean = nearestEntry(id, entriesById(category, def))
       out.push({

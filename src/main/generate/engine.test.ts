@@ -136,7 +136,9 @@ describe('scenario pipeline (mock provider, shipped prompts)', () => {
     // Lints ran on a conforming MSEL: nothing beyond the dropped citation and density notes.
     const codes = new Set(s.warnings.map((w) => w.code))
     expect(
-      [...codes].filter((c) => !['CITATION_DROPPED', 'DENSITY_LOW', 'DENSITY_HIGH'].includes(c)),
+      [...codes].filter(
+        (c) => !['CITATION_DROPPED', 'DENSITY_LOW', 'DENSITY_HIGH', 'DENSITY_DENSE'].includes(c),
+      ),
     ).toEqual([])
     // Tokens streamed per stage and item.
     const { tokens } = jobs.logOf(job.id)

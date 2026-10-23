@@ -192,6 +192,76 @@ export function facilityFieldIssues(
   }))
 }
 
+// ---- organization names (#221) ----------------------------------------------------------
+
+export interface OrgNames {
+  /** How the project names its organization: project name, orgName, brand aliases. */
+  official: string[]
+  /** Other names the project knows (roles, teams, facility facts): accepted as written. */
+  other?: string[]
+}
+
+const wordsOf = (s: string): string[] => s.trim().split(/\s+/).filter(Boolean)
+const escapeRe = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+const CONNECTOR = /^(?:of|and|the|for|&)$/i
+
+/** The capitalized name that starts at each `stem` in `text` ("North Coast Regional Airport"). */
+function namesFrom(text: string, stem: string): string[] {
+  const re = new RegExp(
+    String.raw`\b${escapeRe(stem)}(?:\s+(?:[A-Z][\w&'’-]*|of|and|the|for|&))*`,
+    'g',
+  )
+  return [...text.matchAll(re)].map((m) => {
+    const parts = wordsOf(m[0].replace(/['’]s\b/g, ''))
+    while (parts.length && CONNECTOR.test(parts.at(-1)!)) parts.pop()
+    return parts.join(' ')
+  })
+}
+
+/** First words the organization's names share with the text that drifts ("North Coast"). */
+const stemOf = (name: string): string => {
+  const ws = wordsOf(name)
+  return ws.slice(0, Math.min(2, ws.length - 1)).join(' ')
+}
+
+/**
+ * Names that start like the organization's but are not one of its names ("North Coast
+ * Regional Airport" when the project has "North Coast International Airport" owned by the
+ * "North Coast Regional Airport Authority"). A known name followed by a unit ("… Airport
+ * Police") passes; one that ends in another org noun ("… Airport Authority") does not, and
+ * neither does an unknown name that ends in one. Other bodies that share the place name
+ * ("North Coast Medical Center", a "North Coast Airport Watch" group) are left alone.
+ */
+export function orgNameIssues(fields: Fields, org: OrgNames): ContentIssue[] {
+  const official = [
+    ...new Set(org.official.map((n) => n.trim()).filter((n) => wordsOf(n).length >= 2)),
+  ]
+  if (!official.length) return []
+  const known = [...official, ...(org.other ?? [])].map((n) => n.trim().toLowerCase())
+  const nouns = new Set(official.map((n) => wordsOf(n).at(-1)!.toLowerCase()))
+  const endsInNoun = (name: string): boolean => nouns.has(wordsOf(name).at(-1)!.toLowerCase())
+  const drifted = (name: string): boolean => {
+    const lower = name.toLowerCase()
+    if (known.includes(lower)) return false
+    return endsInNoun(name)
+  }
+  const stems = [...new Set(official.map(stemOf))]
+  const seen = new Set<string>()
+  const out: ContentIssue[] = []
+  for (const text of strings(fields))
+    for (const stem of stems)
+      for (const name of namesFrom(text, stem)) {
+        if (wordsOf(name).length <= wordsOf(stem).length || seen.has(name)) continue
+        seen.add(name)
+        if (!drifted(name)) continue
+        out.push({
+          path: 'fields',
+          message: `"${name}" is not a name of this organization; use ${official.map((n) => `"${n}"`).join(' or ')} as the project names it`,
+        })
+      }
+  return out
+}
+
 export interface ContentCheckInput {
   type: string
   fields: Fields
@@ -202,11 +272,13 @@ export interface ContentCheckInput {
   storyTexts: string[]
   /** Names the scenario owns (roles, organization, brand aliases): never a copied example. */
   knownText?: string
+  /** The organization's names, for the name-drift check (#221). */
+  orgNames?: OrgNames
 }
 
 /** Every content issue for one inject, in a stable order. */
 export function contentIssues(input: ContentCheckInput): ContentIssue[] {
-  const { type, fields, schema, row, facility, storyTexts, knownText = '' } = input
+  const { type, fields, schema, row, facility, storyTexts, knownText = '', orgNames } = input
   const rowText = `${row.from}\n${row.event}\n${row.expectedAction}`
   // An example that the story already uses (an AODB host the MSEL named) is not a leak.
   const known = [rowText, knownText, ...storyTexts].join('\n')
@@ -214,5 +286,6 @@ export function contentIssues(input: ContentCheckInput): ContentIssue[] {
     ...exampleCopies(fields, schema, known),
     ...technicalIssues(type, fields, hostIpPairings([rowText, ...storyTexts])),
     ...facilityFieldIssues(fields, facility, row),
+    ...(orgNames ? orgNameIssues(fields, orgNames) : []),
   ]
 }

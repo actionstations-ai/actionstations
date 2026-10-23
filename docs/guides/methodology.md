@@ -24,7 +24,7 @@ Each scenario produces the same set of documents a professional exercise team wo
 
 ## The shape of a scenario
 
-The reference design is about **4 exercise hours in 4 phases**, with real time compressed by **time jumps**: roughly 15 core injects plus about 10 side injects (numbered with a `b` suffix, such as `I-07b`), one every 10 to 15 minutes of exercise time.
+The reference design is about **4 exercise hours in 4 phases**, with real time compressed by **time jumps**: roughly 15 core injects plus about 10 side injects (numbered with a `b` suffix, such as `I-07b`), about one every 10 minutes of exercise time. The generator aims for that pace (20 to 28 rows over 4 hours, scaled by duration) and notes a phase that runs denser with the `DENSITY_DENSE` lint.
 
 The four phases follow an arc:
 

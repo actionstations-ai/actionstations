@@ -10,6 +10,7 @@ import {
   exampleCopies,
   facilityFieldIssues,
   hostIpPairings,
+  orgNameIssues,
   technicalIssues,
 } from './consistency'
 import { chooseInjectType } from './type-map'
@@ -237,5 +238,56 @@ describe('chooseInjectType source remap (#105)', () => {
       type: 'radio_call',
       requested: 'phone_call',
     })
+  })
+})
+
+describe('orgNameIssues (#221)', () => {
+  const org = {
+    official: [
+      'North Coast International Airport',
+      'North Coast Regional Airport Authority',
+      'NCIA',
+    ],
+    other: ['Airport Operations Center'],
+  }
+  const issuesFor = (fields: Record<string, unknown>) =>
+    orgNameIssues(fields, org).map((i) => i.message.split('"')[1])
+
+  it('flags names that drift from the project names', () => {
+    expect(
+      issuesFor({
+        airportName: 'North Coast Regional Airport',
+        orgName: 'North Coast International Airport Authority',
+        lines: [{ msg: 'Call North Coast Regional Airport dispatch.' }],
+      }),
+    ).toEqual(['North Coast Regional Airport', 'North Coast International Airport Authority'])
+  })
+
+  it('accepts the project names, their units, and other local bodies', () => {
+    expect(
+      issuesFor({
+        airportName: 'North Coast International Airport',
+        orgName: "North Coast Regional Airport Authority's Police Department",
+        unit: 'North Coast International Airport Police',
+        other: 'North Coast Medical Center',
+        group: 'Post in North Coast Airport Watch: "Is anyone else stuck at B4?"',
+        short: 'NCIA Operations',
+      }),
+    ).toEqual([])
+  })
+
+  it('runs in contentIssues when the organization names are given', () => {
+    const issues = contentIssues({
+      type: 'fids_board',
+      fields: { airportName: 'North Coast Regional Airport' },
+      schema: {},
+      row: I08,
+      facility: extractFacilityFacts([]),
+      storyTexts: [],
+      orgNames: org,
+    })
+    expect(issues.map((i) => i.message)).toEqual([
+      expect.stringMatching(/"North Coast Regional Airport" is not a name of this organization/),
+    ])
   })
 })

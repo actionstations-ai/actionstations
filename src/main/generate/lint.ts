@@ -23,6 +23,27 @@ import {
 
 export const DENSITY_MIN_MINUTES = 5
 export const DENSITY_MAX_MINUTES = 20
+export const DENSITY_DENSE = 'DENSITY_DENSE'
+
+/** Rows per hour of exercise the reference MSEL runs (24 in 4 h, #223), and the ceiling. */
+export const TARGET_ROWS_PER_HOUR = 6
+export const MAX_ROWS_PER_HOUR = 7
+
+/**
+ * Row counts for a phase of `minutes`: about one inject every 10 minutes, at most one every
+ * 8.5 (20–28 rows for a 4-hour exercise). A short phase still gets room for its mix.
+ */
+export function phaseRowCounts(minutes: number): { targetRowCount: number; maxRowCount: number } {
+  const target = Math.max(4, Math.round((minutes * TARGET_ROWS_PER_HOUR) / 60))
+  const max = Math.max(target + 1, Math.round((minutes * MAX_ROWS_PER_HOUR) / 60))
+  return { targetRowCount: target, maxRowCount: max }
+}
+
+/**
+ * The most rows code keeps in a phase (the mix pass's room, the overfill trim): one above
+ * what the prompt asks for, so a model a row over the steer is not cut. DENSITY_DENSE notes it.
+ */
+export const phaseRowCap = (minutes: number): number => phaseRowCounts(minutes).maxRowCount + 1
 
 type W = LintWarning
 const warn = (code: string, message: string, extra: Partial<W> = {}): W => ({
@@ -423,7 +444,10 @@ function lintBoundaries(s: Scenario): W[] {
   return out
 }
 
-/** ~1 inject per 10–15 minutes; flag phases far outside that band. */
+/**
+ * ~1 inject per 10 minutes: phases far outside the band get DENSITY_LOW / DENSITY_HIGH (the
+ * MSEL repair trims the latter), and a phase above the reference pace a softer DENSITY_DENSE.
+ */
 function lintDensity(s: Scenario): W[] {
   const out: W[] = []
   for (const p of s.phases) {
@@ -431,9 +455,17 @@ function lintDensity(s: Scenario): W[] {
     const minutes = exerciseMinutes(p.endTime) - exerciseMinutes(p.startTime)
     if (!n || minutes <= 0) continue
     const per = minutes / n
-    const detail = `Phase ${p.index + 1} has ${n} injects over ${minutes} min (one every ${Math.round(per)} min; aim for 10–15)`
+    const detail = `Phase ${p.index + 1} has ${n} injects over ${minutes} min (one every ${Math.round(per)} min; aim for about 10)`
     if (per > DENSITY_MAX_MINUTES) out.push(info('DENSITY_LOW', detail))
     if (per < DENSITY_MIN_MINUTES) out.push(info('DENSITY_HIGH', detail))
+    else if (n > phaseRowCounts(minutes).maxRowCount)
+      out.push(
+        info(
+          DENSITY_DENSE,
+          `Phase ${p.index + 1} has ${n} injects over ${minutes} min, more than the reference MSEL's pace (about ${TARGET_ROWS_PER_HOUR} an hour, at most ${phaseRowCounts(minutes).maxRowCount} here)`,
+          { suggestion: 'Merge or cut thin rows so each remaining inject forces a decision' },
+        ),
+      )
   }
   return out
 }

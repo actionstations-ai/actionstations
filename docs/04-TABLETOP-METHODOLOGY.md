@@ -47,7 +47,7 @@ The inject mix per phase (§3) keeps CORE_NARRATIVE, NOISE/RED_HERRING and PIO P
 
 Scenario 3 is a template for a good classroom TTX. Reproduce the pattern:
 
-**Duration & tempo.** 4 exercise hours in 4 phases; real time compressed with Time Jumps. ~15 core injects + ~10 side injects (`b` suffix) ≈ one every 10–15 minutes of exercise time.
+**Duration & tempo.** 4 exercise hours in 4 phases; real time compressed with Time Jumps. ~15 core injects + ~10 side injects (`b` suffix) ≈ one every 10 minutes of exercise time. The `msel_phase` prompt asks for about six rows an hour, at most seven (20–28 rows over 4 hours, scaled by phase length); code keeps at most one row more per phase, and the `DENSITY_DENSE` lint (info) notes a phase above the steer.
 
 **Four-phase arc:**
 1. **The Glitch** — ambiguity; tests reluctance to declare an incident. Small anomaly reported through a mundane channel (gate agent phone call). Includes one *noise* inject so IT practices triage.

@@ -1,7 +1,7 @@
 ---
 name: msel_phase
 stage: msel_phase
-version: 4
+version: 5
 description: The MSEL rows for one phase (time, inject id, from, to, event, expected action, purpose tag, format, citations).
 outputSchema: MselPhaseOutput
 task: draft
@@ -71,7 +71,7 @@ STRUCTURE
 - Every later phase begins with a TIME_JUMP row (id like "I-05", purposeTag TIME_JUMP, format time_jump_card, from "Facilitator", to ["all"]) at the phase start time that advances the clock and multiplies the impact ("It is now 10:00. The problem has spread to … and the shift cannot …").
 - The last phase ends with the ENDEX row: id "END", purposeTag ENDEX, format endex_card, from "Facilitator", to ["all"], at the phase end time, resolving the situation and moving to the hot wash.
 - Core injects are numbered "I-NN" continuing the sequence (next free number is given); side injects that ride on a core inject get a "b" suffix ("I-07b").
-- time is ELAPSED exercise time "H:MM" since STARTEX (0:00), never the time of day; it stays inside the phase window and is non-decreasing down the table, roughly one inject every 10–15 minutes. The app computes the wall clock from the start clock, so write "1:15", not "10:15".
+- time is ELAPSED exercise time "H:MM" since STARTEX (0:00), never the time of day; it stays inside the phase window and is non-decreasing down the table, roughly one inject every 10 minutes (about six an hour, side injects included). The app computes the wall clock from the start clock, so write "1:15", not "10:15".
 - to: ONLY the role keys listed below, exactly as written, or ["all"]. Every role receives at least one inject in this phase. Never invent a key.
 - from: the source in the outside world that the facilitator plays ({{domain.vocabulary.frontline}}; a helpdesk; an automated system or alarm; a vendor; a reporter; a social media user; an outside agency such as {{join domain.outsideParties ", "}}). NEVER a player role: a player's own decision or announcement is not an inject — it belongs in expectedAction. If the story needs the players to decide, write the inject that forces the decision (a demand, a deadline, a failure) and put the decision in expectedAction.
 - Each row appears once. Do not repeat a row or restate the TIME_JUMP.
@@ -153,7 +153,7 @@ Goal: {{phase.goal}}
 {{#if phase.beats.length}}Beats this phase must deliver (each one becomes at least one inject):
 {{#each phase.beats}}- {{this}}
 {{/each}}{{/if}}
-Write {{targetRowCount}} to {{maxRowCount}} rows. The next free core inject number is {{nextInjectNumber}} (use "I-{{nextInjectNumber}}" style ids, zero-padded to two digits).{{#if phase.isFirst}} Begin with the START row at {{phase.startTime}}.{{else}} Begin with a TIME_JUMP row at {{phase.startTime}}.{{/if}}{{#if phase.isLast}} End with the END row at {{phase.endTime}}.{{/if}}
+Write {{targetRowCount}} to {{maxRowCount}} rows, START, TIME_JUMP, END and "b" side injects included — never more. A professional MSEL runs about six injects an hour: fewer, richer rows that each force a decision beat many thin ones; fold a minor beat into a row it rides on rather than adding a row for it. The next free core inject number is {{nextInjectNumber}} (use "I-{{nextInjectNumber}}" style ids, zero-padded to two digits).{{#if phase.isFirst}} Begin with the START row at {{phase.startTime}}.{{else}} Begin with a TIME_JUMP row at {{phase.startTime}}.{{/if}}{{#if phase.isLast}} End with the END row at {{phase.endTime}}.{{/if}}
 {{/if}}
 {{/if}}
 Available citation keys: {{join citationKeys ", "}}.

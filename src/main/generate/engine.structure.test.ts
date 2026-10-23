@@ -92,7 +92,7 @@ const userOf = (req: ChatRequest): string => req.messages[0]!.content
 const phaseRows = (s: Scenario, i: number) => s.msel.filter((r) => r.phaseId === s.phases[i]!.id)
 const codesOf = (s: Scenario): string[] => s.warnings.map((w) => w.code)
 
-/** Phase 1 written at its 8-row limit, with no NOISE and nothing for the ASC. */
+/** Phase 1 written at its 8-row cap, with no NOISE and nothing for the ASC. */
 const FULL_PHASE_1: Row[] = [
   MSEL_PHASES[0]!.rows[0]!,
   row({
@@ -199,7 +199,7 @@ describe('mix completion within the max row count (#167)', () => {
     expect(mixPrompts[0]).toMatch(/REWRITE these existing rows/)
     expect(mixPrompts[0]).toMatch(/Add no new rows: the phase is full/)
     const p1 = phaseRows(s, 0)
-    // 60 minutes: target 5, max 8 rows; the first call already wrote 8.
+    // 60 minutes: the prompt asks for 6–7 rows, code keeps at most 8; the first call wrote 8.
     expect(p1).toHaveLength(8)
     expect(p1.find((r) => r.id === 'I-03')?.purposeTag).toBe('NOISE')
     expect(p1.find((r) => r.id === 'I-03b')?.toRoleIds).toEqual(['asc'])

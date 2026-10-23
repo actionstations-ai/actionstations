@@ -24,6 +24,11 @@ export interface FactCategory {
   format?(entries: string[]): string
   /** Identifiers of this category named in generated text (normalized like `expand`). */
   mentions?(text: string): Iterable<string>
+  /**
+   * Whether the facts cover a mention, given the text it appeared in; `known.has(id)` when
+   * absent. Gates use it to tell a passenger gate from a perimeter gate (#222).
+   */
+  covers?(id: string, known: ReadonlySet<string>, text: string): boolean
 }
 
 /** A category's entries in a FacilityFacts. */
@@ -194,6 +199,33 @@ export const GATES: FactCategory = {
   *mentions(text) {
     for (const m of text.matchAll(/\bGates?\s+([A-Z]?\d{1,3}[A-Z]?)\b/g)) yield m[1]!.toUpperCase()
   },
+  covers: gateCovered,
+}
+
+/** Words and airline flight numbers ("AC 444", "UA1245") that put a gate at a concourse. */
+const FLIGHT_WORDS =
+  /\b(?:flights?|boarding|board|departs?|departing|departures?|arrivals?|arriving|pushback|push back|deplan\w*|jet ?bridge|gate agent|passengers?)\b/i
+const FLIGHT_NUMBER = /\b[A-Z]{2}\s?\d{2,4}\b(?![.\d])/
+const inFlightContext = (sentence: string): boolean =>
+  FLIGHT_WORDS.test(sentence) || FLIGHT_NUMBER.test(sentence)
+
+/** Sentences of `text` that name "Gate <id>". */
+const gateSentences = (text: string, id: string): string[] => {
+  const mention = new RegExp(String.raw`\bGates?\s+${id}\b`, 'i')
+  return text.split(/(?<=[.!?])\s+|\n/).filter((s) => mention.test(s))
+}
+
+/**
+ * A bare-number gate ("Gate 14") where the facts number passenger gates per concourse
+ * ("A1–A8, B1–B10"): in a flight context it is a passenger gate, so only a lettered gate
+ * covers it; elsewhere a documented bare number (a perimeter access gate) still does.
+ */
+function gateCovered(id: string, known: ReadonlySet<string>, text: string): boolean {
+  if (!known.has(id)) return false
+  if (!/^\d+$/.test(id)) return true
+  const lettered = [...known].some((k) => /^[A-Z]\d/.test(k))
+  if (!lettered) return true
+  return !gateSentences(text, id).some(inFlightContext)
 }
 
 export const CONCOURSES: FactCategory = {

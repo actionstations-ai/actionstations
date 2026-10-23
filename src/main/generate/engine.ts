@@ -45,11 +45,14 @@ import {
   type FacilityFacts,
 } from './facility'
 import { findIdea } from './ideas'
+import { describeStaleInjects, markInjectsStale } from './inject-stale'
 import {
   DECISION_POINT_RETAGGED,
   decisionPhaseIndex,
   lintScenario,
   overfillRows,
+  phaseRowCap,
+  phaseRowCounts,
   pickDecisionRow,
   planMixCompletion,
   roleNamedBy,
@@ -170,7 +173,16 @@ export interface Env {
   domain: DomainContext
   idea?: ScenarioIdea
   ctx: JobContext
+  /**
+   * Documents a running step wrote, held until its checkpoint (#209): a failed or cancelled
+   * step leaves the documents on disk as they were. Absent outside executeStep (the MSEL
+   * repair job), where writeDoc writes through.
+   */
+  docs?: DocBuffer
 }
+
+type DocKind = 'overview' | 'handbook' | 'briefing' | 'hotwash'
+export type DocBuffer = Map<DocKind, { md: string; note: string }>
 
 export interface StepInput {
   env: Env
@@ -182,14 +194,21 @@ export interface StepInput {
 export const save = (env: Env, s: Scenario, note: string): Promise<Scenario> =>
   env.deps.store.saveScenario(env.root, s, { by: 'ai', snapshot: false, note })
 
-/** Write a document; the store records its path in scenario.json, so mirror that in memory. */
+/**
+ * Write a document; the store records its path in scenario.json, so mirror that in memory.
+ * Inside a step the write is buffered until the step's checkpoint (flushDocs).
+ */
 export async function writeDoc(
   env: Env,
   s: Scenario,
-  kind: 'overview' | 'handbook' | 'briefing' | 'hotwash',
+  kind: DocKind,
   md: string,
   note: string,
 ): Promise<void> {
+  if (env.docs) {
+    env.docs.set(kind, { md, note })
+    return
+  }
   await env.deps.store.writeScenarioDoc(env.root, s.id, kind, md, {
     by: 'ai',
     snapshot: false,
@@ -307,6 +326,8 @@ async function stepPhasePlan(input: StepInput): Promise<StageRun> {
   return r.run
 }
 
+const phaseMinutes = (p: Phase): number => exerciseMinutes(p.endTime) - exerciseMinutes(p.startTime)
+
 /**
  * Variables for one msel_phase call. `withCurrent` (mix and revision passes) counts the
  * phase's own rows when numbering; a fresh pass counts earlier phases and locked rows only.
@@ -325,7 +346,7 @@ export function mselVars(
   const locked = current.filter((r) => r.locked)
   const counted = [...prior, ...(withCurrent ? current : locked)]
   const numbers = counted.map((r) => Number(/^I-(\d+)/.exec(r.id)?.[1] ?? 0))
-  const minutes = exerciseMinutes(phase.endTime) - exerciseMinutes(phase.startTime)
+  const minutes = phaseMinutes(phase)
   const dp = decisionPhaseIndex(s.phases.length)
   return vars(input, {
     phase: {
@@ -345,8 +366,7 @@ export function mselVars(
     priorRows: prior.map((r) => rowVars(r, s.roles)),
     lockedRows: withCurrent ? [] : locked.map((r) => rowVars(r, s.roles)),
     nextInjectNumber: zeroPad(Math.max(0, ...numbers) + 1),
-    targetRowCount: Math.max(4, Math.round(minutes / 12)),
-    maxRowCount: Math.max(4, Math.round(minutes / 12)) + 3,
+    ...phaseRowCounts(minutes),
   })
 }
 
@@ -467,7 +487,7 @@ async function completeMix(
 ): Promise<MixResult | undefined> {
   const { scenario: s, env } = input
   const base = mselVars(input, phase, true)
-  const maxRows = base.maxRowCount as number
+  const maxRows = phaseRowCap(phaseMinutes(phase))
   const ids = first.output.rows.map((r) => upper(r.id))
   const once = (r: MselRow): boolean => ids.filter((x) => x === upper(r.id)).length === 1
   const plan = planMixCompletion(s, phase, maxRows, env.domain, once)
@@ -535,7 +555,7 @@ async function stepMselPhase(input: StepInput): Promise<StageRun> {
 /** A phase the first call overfilled is trimmed to its max row count, coverage kept (#167). */
 function trimOverfill(input: StepInput, phase: Phase): void {
   const { scenario: s, env } = input
-  const maxRows = mselVars(input, phase).maxRowCount as number
+  const maxRows = phaseRowCap(phaseMinutes(phase))
   const drop = new Set(overfillRows(s, phase, maxRows, env.domain))
   if (!drop.size) return
   s.msel = s.msel.filter((r) => !drop.has(r))
@@ -611,8 +631,9 @@ async function refreshHandbookSection(
   s: Scenario,
   section: 'rubric' | 'hotwash',
 ): Promise<void> {
-  if (!s.documents.handbook) return
-  const md = await env.deps.store.readScenarioDoc(env.root, s.id, 'handbook')
+  const pending = env.docs?.get('handbook')
+  if (!pending && !s.documents.handbook) return
+  const md = pending?.md ?? (await env.deps.store.readScenarioDoc(env.root, s.id, 'handbook'))
   const body = section === 'rubric' ? rubricSection(s) : hotwashSection(s)
   await writeDoc(env, s, 'handbook', upsertSection(md, section, body), `handbook ${section}`)
 }
@@ -995,12 +1016,15 @@ async function executeStep(input: StepInput, opts: ExecuteOptions): Promise<Scen
     ...(step.itemId ? { itemId: step.itemId } : {}),
   })
   const work = structuredClone(input.scenario)
+  const docs: DocBuffer = new Map()
   try {
-    const run = await exec({ ...input, scenario: work })
+    const run = await exec({ ...input, env: { ...env, docs }, scenario: work })
     recordRun(work, run)
+    noteStaleInjects(input.scenario, work, env.ctx)
     opts.onSuccess?.(work)
     work.updatedAt = nowIso()
-    return await save(env, work, `${label} ok`)
+    const saved = await save(env, work, `${label} ok`)
+    return await flushDocs(env, saved, docs)
   } catch (err) {
     if (opts.recordFailure) {
       const run = runOfFailure(step, err, startedAt)
@@ -1014,6 +1038,21 @@ async function executeStep(input: StepInput, opts: ExecuteOptions): Promise<Scen
     }
     throw err
   }
+}
+
+/** Inject runs of rows the step changed or removed become stale (#207). */
+function noteStaleInjects(before: Scenario, after: Scenario, ctx: JobContext): void {
+  const message = describeStaleInjects(markInjectsStale(before.msel, after))
+  if (message) ctx.log(message, 'warn')
+}
+
+/** Write the documents a step buffered, after its checkpoint; returns the scenario with their paths. */
+async function flushDocs(env: Env, saved: Scenario, docs: DocBuffer): Promise<Scenario> {
+  if (!docs.size) return saved
+  const plain: Env = { ...env }
+  delete plain.docs
+  for (const [kind, { md, note }] of docs) await writeDoc(plain, saved, kind, md, note)
+  return saved
 }
 
 export function stepLabel(s: Scenario, step: StepKey): string {

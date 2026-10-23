@@ -22,7 +22,7 @@ import { stripKeysDeep } from '../mappers'
 import { resolveCitations, type RetrievedChunk } from '../retrieval'
 import { runStage, StageFailure, type StageResult } from '../stage'
 import { baseVars, dataSafe, rowVars } from '../vars'
-import { contentIssues, type ContentIssue } from './consistency'
+import { contentIssues, type ContentIssue, type OrgNames } from './consistency'
 import type { InjectDeps } from './deps'
 import { factsSoFar, formatFacts, storyTexts } from './facts'
 import { controlCardFields } from './control-fallback'
@@ -322,6 +322,7 @@ function checkDraft(
     facility: env.facility,
     storyTexts: storyTexts(scenario.msel, row, priorInjects),
     knownText: knownNames(env.project, scenario),
+    orgNames: orgNamesOf(env.project, scenario, env.facility),
   })
   return { issues, content, repairs }
 }
@@ -335,6 +336,19 @@ function knownNames(project: Project, s: Scenario): string {
     ...Object.values(project.brand.aliases),
     ...s.roles.flatMap((r) => [r.name, r.abbreviation, r.team]),
   ].join('\n')
+}
+
+/** The organization's own names, and the other names the project knows (#221). */
+function orgNamesOf(project: Project, s: Scenario, facility: FacilityFacts): OrgNames {
+  const { org, ...rest } = project.brand.aliases
+  return {
+    official: [project.name, project.orgName, org ?? ''].filter(Boolean),
+    other: [
+      ...Object.values(rest),
+      ...s.roles.flatMap((r) => [r.name, r.team]),
+      ...facility.categories.flatMap((c) => c.entries),
+    ].filter((n): n is string => !!n),
+  }
 }
 
 /** Schema issues left after the model's turn: fixed in code where they can be (#175, #177). */
@@ -438,6 +452,27 @@ export function chooseVariant(
   return w ? { ...fallback, rejected: w } : fallback
 }
 
+/** Variants that show a corrupted or failing screen ("glitch"). */
+const DISTRESSED_VARIANT = /glitch|corrupt/i
+/** Rows that resolve the incident: their artifact shows systems back to normal (#222). */
+const RECOVERY_TAGS = new Set(['END_GAME', 'ENDEX'])
+
+/**
+ * The variant the row's purpose allows: a recovery row never gets a distressed variant; it
+ * takes the template's "default" (or first normal) one, or none so the template default renders.
+ */
+export function variantForPurpose(
+  variants: readonly string[],
+  variant: string | undefined,
+  purposeTag: string,
+): string | undefined {
+  if (!variant || !RECOVERY_TAGS.has(purposeTag) || !DISTRESSED_VARIANT.test(variant))
+    return variant
+  return variants.includes('default')
+    ? 'default'
+    : variants.find((v) => !DISTRESSED_VARIANT.test(v))
+}
+
 function variantOf(
   input: InjectTextInput,
   injectId: string,
@@ -455,7 +490,14 @@ function variantOf(
       { stage: 'inject_text', itemId: injectId },
     )
   }
-  return picked.variant
+  const variant = variantForPurpose(variants, picked.variant, input.row.purposeTag)
+  if (variant !== picked.variant)
+    input.env.ctx.log(
+      `inject_text ${input.row.id}: ${input.row.purposeTag} row shows recovery; variant "${picked.variant}" replaced by ${variant ? `"${variant}"` : 'the default'}`,
+      'info',
+      { stage: 'inject_text', itemId: injectId },
+    )
+  return variant
 }
 
 function toInject(

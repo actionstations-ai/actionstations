@@ -1,7 +1,7 @@
 ---
 name: inject_text
 stage: inject_text
-version: 5
+version: 6
 description: Expand one MSEL row into a full inject page - title, delivery mode, the template's fields filled exactly, instructor note.
 outputSchema: InjectTextOutput
 task: draft
@@ -61,7 +61,7 @@ OUTPUT CONTRACT
 - type: the inject type id you were given. Keep it.
 - title: the deck page title, short and specific (a water utility: "Chlorine Residual Alarm — Clearwell 2"; a transit agency: "Radio: Bus 2231 Off Route"; a venue: "Post from @SectionOneTwoFan").
 - deliveryMode: hand_to_role for paper handed to one role; display_main_screen for photos, boards, screens, news stills and anything the whole room sees; play_audio for PA, radio or voicemail audio; read_aloud for cards the facilitator narrates. Default for this type: {{defaultDelivery}}.
-- variant: {{#if variants.length}}one of the template's variants listed below — the one that matches this organization and this artifact (a water utility's chemical-feed screen takes a chemical variant, its distribution network a distribution one); leave it out when none fits better than the first{{else}}leave it out{{/if}}.
+- variant: {{#if variants.length}}one of the template's variants listed below — the one that matches this organization and this artifact (a water utility's chemical-feed screen takes a chemical variant, its distribution network a distribution one); leave it out when none fits better than the first. A row that resolves the incident (END_GAME, ENDEX) shows systems back to normal: never a glitch or corrupted variant{{else}}leave it out{{/if}}.
 - fields: EXACTLY the field names listed under "Template fields" — every required field present, no field that is not listed, each value of the listed type (a string stays a string, an array stays an array of the stated item shape). The template cannot show anything else, so the content players need must be inside these fields. Leave out an optional field that does not apply (a post without a video has no videoDuration; never fill a placeholder like "0:00", "N/A" or an empty string to satisfy it).
 - instructorNote: one or two sentences for the facilitator only: the purpose of the inject and what to watch for ("Noise inject; the technical team should triage it down without engaging.").
 - citations: keys from <documents> this inject draws on (procedures, names, identifiers); [] if none.

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import type { MselRow, Scenario } from '@shared/schemas'
-import { decisionPhaseIndex, lintScenario, phaseMixGaps } from './lint'
+import { decisionPhaseIndex, lintScenario, phaseMixGaps, phaseRowCap, phaseRowCounts } from './lint'
 
 const FIXTURE = JSON.parse(
   readFileSync(join(__dirname, '../../../tests/fixtures/scenarios/scenario-3.json'), 'utf8'),
@@ -10,6 +10,22 @@ const FIXTURE = JSON.parse(
 
 const codes = (s: Scenario): string[] => lintScenario(s).map((w) => w.code)
 const clone = (): Scenario => structuredClone(FIXTURE)
+
+describe('phaseRowCounts (#223)', () => {
+  it('asks for 20–28 rows over a 4-hour, 4-phase exercise, about six an hour', () => {
+    const per = phaseRowCounts(60)
+    expect(per).toEqual({ targetRowCount: 6, maxRowCount: 7 })
+    expect(per.targetRowCount * 4).toBeGreaterThanOrEqual(20)
+    expect(per.maxRowCount * 4).toBeLessThanOrEqual(28)
+  })
+
+  it('scales with the phase length and leaves a short phase room for its mix', () => {
+    expect(phaseRowCounts(120)).toEqual({ targetRowCount: 12, maxRowCount: 14 })
+    expect(phaseRowCounts(25)).toEqual({ targetRowCount: 4, maxRowCount: 5 })
+    // Code (mix room, overfill trim) keeps one row above the steer.
+    expect(phaseRowCap(60)).toBe(8)
+  })
+})
 
 describe('lintScenario on the hand-built Scenario 3', () => {
   it('reports only the gaps docs/04 §5 already knows about', () => {
@@ -100,6 +116,24 @@ describe('lintScenario rules', () => {
     s.msel.splice(2, 0, ...extra)
     const w = lintScenario(s).find((x) => x.code === 'DENSITY_HIGH')
     expect(w?.severity).toBe('info')
+  })
+
+  it('notes a phase above the reference pace softly, and not the gold MSEL (#223)', () => {
+    expect(codes(FIXTURE)).not.toContain('DENSITY_DENSE')
+    const s = clone()
+    const p1 = s.phases[0]!.id
+    const extra: MselRow[] = Array.from({ length: 4 }, (_, i) => ({
+      ...s.msel[1]!,
+      id: `I-Y${i}`,
+      time: `0:${String(20 + i * 5).padStart(2, '0')}`,
+      phaseId: p1,
+    }))
+    s.msel.splice(2, 0, ...extra)
+    const all = lintScenario(s)
+    expect(all.map((w) => w.code)).not.toContain('DENSITY_HIGH')
+    const w = all.find((x) => x.code === 'DENSITY_DENSE')
+    expect(w?.severity).toBe('info')
+    expect(w?.message).toMatch(/Phase 1 has 10 injects over 60 min/)
   })
 
   it('flags injects whose source is a player role', () => {

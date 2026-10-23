@@ -38,6 +38,7 @@ import {
   type StepInput,
 } from './engine'
 import { FACILITY_UNKNOWN_ID, lintFacilityIds } from './facility'
+import { describeStaleInjects, markInjectsStale } from './inject-stale'
 import {
   DENSITY_MIN_MINUTES,
   lintScenario,
@@ -345,6 +346,7 @@ export async function repairMsel(
   const s = await deps.store.getScenario(root, scenarioId)
   const env = await openEnv(root, s, ctx)
   const before = new Map(s.msel.map((r) => [r.id, textOf(r)]))
+  const beforeRows = structuredClone(s.msel)
   ctx.progress(0.05, 'Repairing the MSEL structure', { stage: 'critique' })
   const structure = repairMselStructure(s, env.domain)
   reportStructure({ duplicates: [], extraEndex: [], retimed: structure.retimed }, ctx, {
@@ -372,6 +374,8 @@ export async function repairMsel(
     (id) => rewritten.has(id) || (before.get(id) !== after.get(id) && !mixed.includes(id)),
   )
   const summary: MselRepairSummary = { ...structure, mixed, revised, textChanged, removed }
+  const staleNote = describeStaleInjects(markInjectsStale(beforeRows, s))
+  if (staleNote) ctx.log(staleNote, 'warn')
   s.updatedAt = nowIso()
   await writeDoc(env, s, 'overview', renderMselMarkdown(s), 'repair')
   const saved = await deps.store.saveScenario(root, s, { by: 'ai', note: 'repair' })

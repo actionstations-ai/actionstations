@@ -95,12 +95,12 @@ describe('extractFacilityFacts on reference/ncia', () => {
     const ids = warnings.flatMap((w) => [...w.message.matchAll(/(?:Runway|Taxiway|Gate) \S+/g)])
     const named = new Set(ids.map((m) => m[0]))
     // The issue's examples: Runway 17 and Gate C12. "Taxiway Alpha" is Taxiway A, which the
-    // AEP lists, and the AEP's perimeter "Gates 1–20" make "Gate 12" a documented id, so the
-    // lint lets those two through (the critique still sees the facts sheet).
-    expect([...named]).toEqual(expect.arrayContaining(['Runway 17', 'Gate C12']))
+    // AEP lists. The AEP's perimeter "Gates 1–20" are documented, but "Gate 12 is blocked by a
+    // crowd of passengers" is a passenger gate, and those are lettered (A1–A8, B1–B10, #222).
+    expect([...named]).toEqual(expect.arrayContaining(['Runway 17', 'Gate C12', 'Gate 12']))
     expect([...named]).not.toContain('Gate B5')
-    // Measured: 7 of the 40 baseline rows name an undocumented runway or gate.
-    expect(warnings.length).toBe(7)
+    // Measured: 9 of the 40 baseline rows name an undocumented runway or gate.
+    expect(warnings.length).toBe(9)
   })
 })
 
@@ -125,6 +125,21 @@ describe('unknownFacilityIds / lintRowFacility', () => {
     expect(u[2]!.known).toBe(
       'A1, A2, A3, A4, A5, A6, A7, A8, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10',
     )
+  })
+
+  it('checks a bare-number gate in a flight context against the concourse gates (#222)', () => {
+    const withPerimeter = extractFacilityFacts([
+      'Main Terminal Ramp: 18 gates (A1–A8, B1–B10). Control access points to the airfield (Gates 1–20).',
+    ])
+    const flight = unknownFacilityIds('AC 444 to Toronto now boards at Gate 14.', withPerimeter)
+    expect(flight.map((x) => `${x.kind}:${x.id}`)).toEqual(['gate:14'])
+    expect(
+      unknownFacilityIds('Police close perimeter Gate 14 to vehicle traffic.', withPerimeter),
+    ).toEqual([])
+    expect(unknownFacilityIds('UA 2401 departs from Gate B6.', withPerimeter)).toEqual([])
+    // Without per-concourse gates a documented bare number is a gate like any other.
+    const bare = extractFacilityFacts(['The terminal has Gates 1–20.'])
+    expect(unknownFacilityIds('Flight 12 boards at Gate 14.', bare)).toEqual([])
   })
 
   it('skips categories the documents never mention', () => {
