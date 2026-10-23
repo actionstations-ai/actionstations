@@ -159,6 +159,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Fixed
 
+- Prompt files are YAML-only: a `---js` (or other non-YAML) frontmatter fence is refused on line 1 and never evaluated, so a prompt arriving with a shared project or a pack can't run code in the app (#257).
+
 #### Guided workflow and plain language
 
 - The "narrates a player decision" lint matches role names as whole words, so "IC" no longer matches inside "RPIC", and its quote keeps the space after the role name (no more "ICcannot") (#251).

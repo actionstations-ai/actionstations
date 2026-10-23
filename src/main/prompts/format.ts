@@ -10,6 +10,15 @@ import { validateTemplate } from './template'
 // gray-matter is CommonJS: default-import then use (named imports crash the built ESM main).
 const matter = matterModule
 
+// gray-matter picks an engine from the fence (`---js` runs the block through eval). Prompt files
+// arrive with shared projects and packs, so only a bare `---` fence is accepted, and every
+// non-YAML engine throws as a second guard (#257).
+const YAML_FENCE = /^---\r?\n/
+const refuse = (): never => {
+  throw new Error('frontmatter must be YAML')
+}
+const YAML_ONLY = { engines: { javascript: refuse, js: refuse, coffee: refuse, json: refuse } }
+
 export type SectionName = 'system' | 'context' | 'user'
 
 export interface PromptIssue {
@@ -74,8 +83,15 @@ function splitFrontmatter(raw: string, issues: PromptIssue[]): Split | undefined
     issues.push({ line: 1, message: 'missing YAML frontmatter (file must start with ---)' })
     return undefined
   }
+  if (!YAML_FENCE.test(raw)) {
+    issues.push({
+      line: 1,
+      message: 'frontmatter must be YAML (the first line must be exactly ---)',
+    })
+    return undefined
+  }
   try {
-    const file = matter(raw, {})
+    const file = matter(raw, YAML_ONLY)
     const prefix = raw.slice(0, raw.length - file.content.length)
     return {
       data: (file.data ?? {}) as Record<string, unknown>,

@@ -121,3 +121,23 @@ describe('hashRaw', () => {
     expect(hashRaw('abc\n')).not.toBe(hashRaw('abc'))
   })
 })
+
+describe('frontmatter is YAML only (#257)', () => {
+  const g = globalThis as { __promptEval?: number }
+
+  it.each(['js', 'javascript', 'coffee', 'json', 'yaml'])(
+    'refuses a ---%s fence without evaluating it',
+    (lang) => {
+      delete g.__promptEval
+      const raw = `---${lang}\n{ name: (globalThis.__promptEval = 1, "ideate") }\n---\nbody\n`
+      expect(() => parsePromptRaw(raw, 'ideate', 'ideate.md')).toThrow(/frontmatter must be YAML/)
+      expect(g.__promptEval).toBeUndefined()
+    },
+  )
+
+  it('refuses a fence with trailing text on the first line', () => {
+    expect(() => parsePromptRaw('--- js\nname: ideate\n---\nbody\n', 'ideate', 'x.md')).toThrow(
+      /line 1: frontmatter must be YAML/,
+    )
+  })
+})
