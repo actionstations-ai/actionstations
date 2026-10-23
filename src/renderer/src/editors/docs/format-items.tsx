@@ -31,9 +31,11 @@ import type { ToolbarItem } from './Toolbar'
 const MOD = typeof navigator !== 'undefined' && /Mac/.test(navigator.platform) ? '⌘' : 'Ctrl+'
 const ICON = { size: 16, 'aria-hidden': true } as const
 
-/** The formatting toolbar for a TipTap editor; table edits are enabled inside a table. */
-export function formatItems(editor: Editor, onLink: () => void): ToolbarItem[] {
-  const chain = () => editor.chain().focus()
+const chainOf = (editor: Editor) => () => editor.chain().focus()
+
+/** Paragraph and headings 1–3. */
+function blockItems(editor: Editor): ToolbarItem[] {
+  const chain = chainOf(editor)
   const heading = (level: 1 | 2 | 3, icon: ToolbarItem['icon']): ToolbarItem => ({
     id: `h${level}`,
     label: `Heading ${level}`,
@@ -41,14 +43,6 @@ export function formatItems(editor: Editor, onLink: () => void): ToolbarItem[] {
     shortcut: `${MOD}Alt+${level}`,
     pressed: editor.isActive('heading', { level }),
     onRun: () => chain().toggleHeading({ level }).run(),
-  })
-  const inTable = editor.isActive('table')
-  const tableCmd = (id: string, label: string, icon: ToolbarItem['icon'], cmd: Command) => ({
-    id,
-    label,
-    icon,
-    disabled: !inTable,
-    onRun: () => void runTableCommand(editor, cmd),
   })
   return [
     {
@@ -62,6 +56,13 @@ export function formatItems(editor: Editor, onLink: () => void): ToolbarItem[] {
     heading(1, <Heading1 {...ICON} />),
     heading(2, <Heading2 {...ICON} />),
     heading(3, <Heading3 {...ICON} />),
+  ]
+}
+
+/** Bold, italic and link. */
+function inlineItems(editor: Editor, onLink: () => void): ToolbarItem[] {
+  const chain = chainOf(editor)
+  return [
     {
       id: 'bold',
       label: 'Bold',
@@ -87,6 +88,12 @@ export function formatItems(editor: Editor, onLink: () => void): ToolbarItem[] {
       pressed: editor.isActive('link'),
       onRun: onLink,
     },
+  ]
+}
+
+function listItems(editor: Editor): ToolbarItem[] {
+  const chain = chainOf(editor)
+  return [
     {
       id: 'ul',
       label: 'Bulleted list',
@@ -104,12 +111,26 @@ export function formatItems(editor: Editor, onLink: () => void): ToolbarItem[] {
       pressed: editor.isActive('orderedList'),
       onRun: () => chain().toggleOrderedList().run(),
     },
+  ]
+}
+
+/** Insert a table outside one; row / column / table edits inside one. */
+function tableItems(editor: Editor): ToolbarItem[] {
+  const inTable = editor.isActive('table')
+  const tableCmd = (id: string, label: string, icon: ToolbarItem['icon'], cmd: Command) => ({
+    id,
+    label,
+    icon,
+    disabled: !inTable,
+    onRun: () => void runTableCommand(editor, cmd),
+  })
+  return [
     {
       id: 'table',
       label: 'Insert table',
       icon: <Table {...ICON} />,
       disabled: inTable,
-      onRun: () => chain().insertContent(emptyTable(3, 3)).run(),
+      onRun: () => chainOf(editor)().insertContent(emptyTable(3, 3)).run(),
       group: true,
     },
     tableCmd('row', 'Add row below', <BetweenHorizontalEnd {...ICON} />, addRowAfter),
@@ -122,6 +143,12 @@ export function formatItems(editor: Editor, onLink: () => void): ToolbarItem[] {
       deleteColumn,
     ),
     tableCmd('deltable', 'Delete table', <Grid2x2X {...ICON} />, deleteTable),
+  ]
+}
+
+function historyItems(editor: Editor): ToolbarItem[] {
+  const chain = chainOf(editor)
+  return [
     {
       id: 'undo',
       label: 'Undo',
@@ -139,5 +166,16 @@ export function formatItems(editor: Editor, onLink: () => void): ToolbarItem[] {
       disabled: !editor.can().redo(),
       onRun: () => chain().redo().run(),
     },
+  ]
+}
+
+/** The formatting toolbar for a TipTap editor; table edits are enabled inside a table. */
+export function formatItems(editor: Editor, onLink: () => void): ToolbarItem[] {
+  return [
+    ...blockItems(editor),
+    ...inlineItems(editor, onLink),
+    ...listItems(editor),
+    ...tableItems(editor),
+    ...historyItems(editor),
   ]
 }

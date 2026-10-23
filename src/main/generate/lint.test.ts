@@ -178,6 +178,23 @@ describe('lintScenario rules', () => {
     expect(lintScenario(s).some((x) => x.code === 'REFERENCE_LEAK')).toBe(false)
   })
 
+  it('matches role names on word boundaries and quotes them with a space (#251)', () => {
+    const s = clone()
+    s.roles[0]!.abbreviation = 'IC'
+    const i05 = s.msel.find((r) => r.id === 'I-05')!
+    i05.from = 'Facilitator'
+    // "IC" inside "RPIC" is not the Incident Commander.
+    i05.event = 'SCENARIO UPDATE: The RPIC cannot confirm the link and declares a lost-link state.'
+    const scripted = (sc: Scenario) =>
+      lintScenario(sc).filter((x) => x.code === 'INJECT_SCRIPTS_PLAYERS' && x.rowId === 'I-05')
+    expect(scripted(s)).toEqual([])
+    // A later whole-word mention still counts, and the quote keeps the space after the name.
+    i05.event = 'SCENARIO UPDATE: The RPIC reports lost link; the IC declares an emergency.'
+    const [w] = scripted(s)
+    expect(w?.message).toContain('("…IC declares an emergency.…")')
+    expect(w?.message).not.toMatch(/ICdeclares|ICcannot/)
+  })
+
   it('describes per-phase gaps in model-facing terms', () => {
     const s = clone()
     const phase3 = s.phases[2]!

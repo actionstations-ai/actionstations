@@ -16,6 +16,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 #### Guided workflow and plain language
 
+- Internal: the largest renderer components outside the MSEL editor and inject deck (inject editor, its toolbar and actions, facility facts, facilitator mode, list editors, provider form, document editor, domain picker, brief, export, ideas and a few dialogs) are split into smaller parts and hooks; no behavior change (#203).
+- Generated MSELs follow the reference pace (#223): `msel_phase` asks for about six rows an hour, at most seven (20–28 rows for a 4-hour exercise, scaled by phase length), side injects included; a new `DENSITY_DENSE` info lint notes a phase above that.
 - Project Overview opens on a "Get this exercise ready" checklist (documents → facility facts →
   generate → injects → media → export / facilitate) with live state per step, one primary Next
   button and the project's scenarios; project settings moved into a collapsed section below
@@ -144,6 +146,29 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 #### Guided workflow and plain language
 
+- The "narrates a player decision" lint matches role names as whole words, so "IC" no longer matches inside "RPIC", and its quote keeps the space after the role name (no more "ICcannot") (#251).
+- Re-running an MSEL phase, the phase plan or the critique (or repairing the MSEL) now marks the injects of rows whose event, expected action or format changed, or that were removed, as stale, so "Write all injects" writes them again; injects whose row is gone are left out of the export as they are from the deck (#207).
+- The critique and hot wash steps write their documents only after the step's checkpoint: a failed or cancelled step leaves `overview.md`, the handbook and the hot wash as they were (#209).
+- An END_GAME or ENDEX inject never gets a glitch template variant (the recovery board shows normal); a bare-number gate in a flight context ("AC 444 at Gate 14") is checked against the concourse gates when the facts number gates per concourse (#222).
+- Symlinks in a shared project can no longer pull files from outside it: export media and
+  posters, the export's file check, ingest of `text.md` and originals, and template slot images
+  resolve the real path and refuse links that leave the project; duplicating a project skips
+  symlinks (#205).
+- `render:inject` answers CONFLICT while a generation job owns the scenario, like every other
+  scenario and inject write; a handler test covers all of them (#206).
+- An older build no longer deletes fields a newer one wrote: project.json, scenario.json,
+  inject and document meta files keep unknown keys, and scenario.json has a `formatVersion`
+  (missing means 1, newer is refused) (#208, ADR-0016).
+- A document whose parse never finishes fails after a per-file timeout (two minutes plus one
+  per 10 MB, at most 30) instead of holding an ingest slot (#210).
+- Provider requests follow redirects only within the same origin, so an API key header never
+  reaches another host; a 409 on a POST is no longer retried (#211).
+- The local embedding model downloads from a pinned Hugging Face commit and every file is
+  checked against its sha256 (#212).
+- Export writes each scenario into its own folder and ZIP (`<Title>-S<n>-<id tag>`), and the
+  ZIP holds only the files from that run (#213).
+- Opening a project again while its index rebuild runs reuses that rebuild instead of starting
+  a second reset (#214).
 - Scenario Warnings tab count now comes from the same live lint as the tab body, so it no
   longer says "Warnings (0)" above a list of warnings (#228).
 

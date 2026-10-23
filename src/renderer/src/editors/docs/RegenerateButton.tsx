@@ -48,61 +48,122 @@ function useJobRun(run: Run, setRun: (r: Run) => void) {
   }, [jobId, setRun])
 }
 
+/** Snapshot first when asked (and there is content), then start the stage re-run. */
+async function startRerun(
+  props: RegenerateProps,
+  opts: { instructions: string; keep: boolean },
+  setRun: (r: Run) => void,
+) {
+  if (opts.keep && props.hasContent && !(await props.snapshot())) {
+    setRun({ phase: 'error', message: 'Could not keep a snapshot, so nothing was regenerated.' })
+    return
+  }
+  try {
+    const { jobId } = await call('generate:rerun-stage', {
+      projectPath: props.projectPath,
+      scenarioId: props.scenarioId,
+      stage: props.stage,
+      ...(opts.instructions.trim() ? { instructions: opts.instructions.trim() } : {}),
+    })
+    setRun({ phase: 'running', jobId, progress: 0, message: 'Starting…' })
+    props.onJob?.(jobId)
+  } catch (e) {
+    const message = isConflict(e)
+      ? 'Generation is already running for this scenario. Try again when it finishes.'
+      : `Could not start: ${errorText(e)}`
+    setRun({ phase: 'error', message })
+  }
+}
+
+function RunStatus(props: { run: Run; label: string }) {
+  const { run } = props
+  if (run.phase === 'running')
+    return (
+      <div className="regen__progress">
+        <ProgressBar value={run.progress} label={`Regenerating ${props.label}`} />
+        <span className="muted" role="status">
+          {run.message}
+        </span>
+      </div>
+    )
+  if (run.phase === 'done')
+    return (
+      <span className="muted" role="status">
+        {run.message}
+      </span>
+    )
+  if (run.phase === 'error')
+    return (
+      <span className="field__error" role="alert">
+        {run.message}
+      </span>
+    )
+  return null
+}
+
+function RegenerateOptions(props: {
+  label: string
+  hasContent: boolean
+  edited: boolean
+  instructions: string
+  onInstructions: (text: string) => void
+  keep: boolean
+  onKeep: (keep: boolean) => void
+}) {
+  const ids = useId()
+  return (
+    <div className="stack">
+      {props.hasContent && props.edited && (
+        <p className="editor-banner editor-banner--warn" role="alert">
+          You have edited the {props.label} since it was generated. Regenerating overwrites those
+          edits.
+        </p>
+      )}
+      <div className="field">
+        <label className="field__label" htmlFor={`${ids}-instr`}>
+          Instructions (optional)
+        </label>
+        <textarea
+          id={`${ids}-instr`}
+          className="textarea"
+          rows={3}
+          value={props.instructions}
+          placeholder="e.g. Shorter, and add a hard question for the FBI liaison"
+          onChange={(e) => props.onInstructions(e.target.value)}
+        />
+      </div>
+      {props.hasContent && (
+        <label className="check">
+          <input
+            type="checkbox"
+            checked={props.keep}
+            onChange={(e) => props.onKeep(e.target.checked)}
+          />
+          Keep a history snapshot of the current version first
+        </label>
+      )}
+    </div>
+  )
+}
+
 export function RegenerateButton(props: RegenerateProps) {
   const [open, setOpen] = useState(false)
   const [instructions, setInstructions] = useState('')
   const [keep, setKeep] = useState(true)
   const [run, setRun] = useState<Run>({ phase: 'idle' })
-  const ids = useId()
   useJobRun(run, setRun)
-  const running = run.phase === 'running'
 
-  async function start() {
+  const start = () => {
     setOpen(false)
-    if (keep && props.hasContent && !(await props.snapshot())) {
-      setRun({ phase: 'error', message: 'Could not keep a snapshot, so nothing was regenerated.' })
-      return
-    }
-    try {
-      const { jobId } = await call('generate:rerun-stage', {
-        projectPath: props.projectPath,
-        scenarioId: props.scenarioId,
-        stage: props.stage,
-        ...(instructions.trim() ? { instructions: instructions.trim() } : {}),
-      })
-      setRun({ phase: 'running', jobId, progress: 0, message: 'Starting…' })
-      props.onJob?.(jobId)
-    } catch (e) {
-      const message = isConflict(e)
-        ? 'Generation is already running for this scenario. Try again when it finishes.'
-        : `Could not start: ${errorText(e)}`
-      setRun({ phase: 'error', message })
-    }
+    void startRerun(props, { instructions, keep }, setRun)
   }
 
   return (
     <div className="regen">
-      <Button size="sm" onClick={() => setOpen(true)} disabled={running}>
+      <Button size="sm" onClick={() => setOpen(true)} disabled={run.phase === 'running'}>
         <RefreshCw size={14} aria-hidden /> Regenerate {props.label}
       </Button>
-      {running && (
-        <div className="regen__progress">
-          <ProgressBar value={run.progress} label={`Regenerating ${props.label}`} />
-          <span className="muted" role="status">
-            {run.message}
-          </span>
-        </div>
-      )}
-      {run.phase === 'done' && (
-        <span className="muted" role="status">
-          {run.message}
-        </span>
-      )}
-      {run.phase === 'error' && (
-        <span className="field__error" role="alert">
-          {run.message}
-        </span>
-      )}
+      <RunStatus run={run} label={props.label} />
       <Dialog
         open={open}
         onOpenChange={setOpen}
@@ -115,39 +176,21 @@ export function RegenerateButton(props: RegenerateProps) {
         footer={
           <>
             <Button onClick={() => setOpen(false)}>Cancel</Button>
-            <Button variant="primary" onClick={() => void start()}>
+            <Button variant="primary" onClick={start}>
               Regenerate
             </Button>
           </>
         }
       >
-        <div className="stack">
-          {props.hasContent && props.edited && (
-            <p className="editor-banner editor-banner--warn" role="alert">
-              You have edited the {props.label} since it was generated. Regenerating overwrites
-              those edits.
-            </p>
-          )}
-          <div className="field">
-            <label className="field__label" htmlFor={`${ids}-instr`}>
-              Instructions (optional)
-            </label>
-            <textarea
-              id={`${ids}-instr`}
-              className="textarea"
-              rows={3}
-              value={instructions}
-              placeholder="e.g. Shorter, and add a hard question for the FBI liaison"
-              onChange={(e) => setInstructions(e.target.value)}
-            />
-          </div>
-          {props.hasContent && (
-            <label className="check">
-              <input type="checkbox" checked={keep} onChange={(e) => setKeep(e.target.checked)} />
-              Keep a history snapshot of the current version first
-            </label>
-          )}
-        </div>
+        <RegenerateOptions
+          label={props.label}
+          hasContent={props.hasContent}
+          edited={props.edited}
+          instructions={instructions}
+          onInstructions={setInstructions}
+          keep={keep}
+          onKeep={setKeep}
+        />
       </Dialog>
     </div>
   )

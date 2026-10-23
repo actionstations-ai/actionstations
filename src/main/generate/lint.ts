@@ -156,30 +156,47 @@ const DECISION_VERBS =
   /\b(activates?|declares?|authori[sz]es?|orders?|approves?|decides?|initiates?|directs?|assumes?|announces?|confirms?)\b/i
 const FACILITATOR = /facilitator|controller|simcell|exercise director/i
 
+const escapeRegExp = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+/**
+ * Where `name` occurs in `text` as a whole word (case-insensitive), so "IC" never matches
+ * inside "RPIC" (#251). Returns the index just past each occurrence.
+ */
+function wholeWordEnds(text: string, name: string): number[] {
+  const re = new RegExp(`(?<![\\p{L}\\p{N}])${escapeRegExp(name)}(?![\\p{L}\\p{N}])`, 'giu')
+  return [...text.matchAll(re)].map((m) => m.index + m[0].length)
+}
+
+/** The first "<role name> <decision verb>…" in a facilitator row's text, if any. */
+function scriptedDecision(text: string, r: Role): string | undefined {
+  const names = [r.name, bareName(r.name), r.abbreviation, r.id].filter(
+    (n): n is string => !!n && n.length >= 2,
+  )
+  for (const n of names) {
+    for (const end of wholeWordEnds(text, n)) {
+      const after = text.slice(end, end + 80)
+      if (DECISION_VERBS.test(after))
+        return `${text.slice(end - n.length, end)} ${after.slice(0, 40).trim()}`
+    }
+  }
+  return undefined
+}
+
 /** A facilitator row that narrates what a player role did scripts the players' decisions. */
 function lintScriptedDecisions(s: Scenario): W[] {
   return s.msel.flatMap((row) => {
     if (!FACILITATOR.test(row.from)) return []
     if (row.purposeTag === 'STARTEX' || row.purposeTag === 'ENDEX') return []
-    const text = row.event
     for (const r of s.roles) {
-      const names = [r.name, bareName(r.name), r.abbreviation, r.id].filter(
-        (n) => n && n.length >= 2,
-      )
-      for (const n of names) {
-        const at = text.toLowerCase().indexOf(n.toLowerCase())
-        if (at < 0) continue
-        const after = text.slice(at + n.length, at + n.length + 80)
-        if (DECISION_VERBS.test(after)) {
-          return [
-            warn(
-              'INJECT_SCRIPTS_PLAYERS',
-              `Row ${row.id} narrates a decision by ${r.name} ("…${n}${after.slice(0, 40).trim()}…"); let the players make it and describe it in the expected action`,
-              { rowId: row.id },
-            ),
-          ]
-        }
-      }
+      const quote = scriptedDecision(row.event, r)
+      if (!quote) continue
+      return [
+        warn(
+          'INJECT_SCRIPTS_PLAYERS',
+          `Row ${row.id} narrates a decision by ${r.name} ("…${quote}…"); let the players make it and describe it in the expected action`,
+          { rowId: row.id },
+        ),
+      ]
     }
     return []
   })

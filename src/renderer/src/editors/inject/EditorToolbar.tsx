@@ -19,7 +19,7 @@ import type { useInjectActions } from './use-inject-actions'
 const isMac = typeof navigator !== 'undefined' && /Mac/i.test(navigator.platform)
 const MOD = isMac ? '⌘' : 'Ctrl+'
 
-export function EditorToolbar(props: {
+export interface ToolbarProps {
   inject: Inject
   draft: InjectDraft
   dirty: boolean
@@ -30,64 +30,87 @@ export function EditorToolbar(props: {
   onRegenStart: (jobId: string) => void
   onDeleted: () => void
   onRendered: () => void
-}) {
-  const { inject, actions, jobRunning } = props
-  const [dialog, setDialog] = useState<EditorDialog>(null)
-  const close = () => setDialog(null)
+}
+
+interface PartProps extends ToolbarProps {
+  dialog: EditorDialog
+  setDialog: (dialog: EditorDialog) => void
+}
+
+/** Save, Render, Regenerate text / media and Lock. */
+function MainButtons(props: PartProps) {
+  const { inject, actions, jobRunning, setDialog } = props
   const locked = inject.locked
   const busy = !!actions.busy
+  const saveLabel = actions.pendingSave
+    ? 'Save queued…'
+    : jobRunning && props.dirty
+      ? 'Save when job ends'
+      : 'Save'
+  return (
+    <>
+      <Button
+        variant="primary"
+        disabled={locked || busy || (!props.dirty && !actions.pendingSave)}
+        aria-keyshortcuts="Meta+S Control+S"
+        title={`Save (${MOD}S)`}
+        onClick={() => void actions.save()}
+      >
+        {saveLabel}
+      </Button>
+      <Button
+        disabled={locked || busy || jobRunning}
+        aria-keyshortcuts="Meta+Enter Control+Enter"
+        title={`Save if needed and render the template to PNG (${MOD}Enter)`}
+        onClick={() => void actions.render().then((a) => a && props.onRendered())}
+      >
+        {actions.busy === 'render' ? 'Rendering…' : 'Render'}
+      </Button>
+      <Button disabled={locked || jobRunning} onClick={() => setDialog('regen-text')}>
+        Regenerate text…
+      </Button>
+      <Button disabled={jobRunning} onClick={() => setDialog('regen-media')}>
+        Regenerate media…
+      </Button>
+      <Button disabled={busy} aria-pressed={locked} onClick={() => void actions.setLocked(!locked)}>
+        {locked ? <LockOpen size={14} aria-hidden /> : <Lock size={14} aria-hidden />}
+        {locked ? 'Unlock' : 'Lock'}
+      </Button>
+    </>
+  )
+}
+
+/** Library and delete buttons, after the separator. */
+function SecondaryButtons(props: PartProps) {
+  const { setDialog } = props
+  const locked = props.inject.locked
+  return (
+    <>
+      <Button variant="ghost" onClick={() => setDialog('library-save')}>
+        Save to library…
+      </Button>
+      <Button variant="ghost" disabled={locked} onClick={() => setDialog('library-replace')}>
+        Replace from library…
+      </Button>
+      <Button
+        variant="ghost"
+        disabled={locked || props.jobRunning}
+        onClick={() => setDialog('delete')}
+      >
+        Delete…
+      </Button>
+    </>
+  )
+}
+
+function RegenerateDialogs(props: PartProps) {
+  const { inject, actions, dialog } = props
+  const close = () => props.setDialog(null)
   const mediaDefaults = (inject.mediaBrief?.paths ?? ['template']).filter((p): p is RenderPathId =>
     (RENDER_PATHS as readonly string[]).includes(p),
   )
   return (
     <>
-      <div className="editor-toolbar" role="toolbar" aria-label="Inject actions">
-        <Button
-          variant="primary"
-          disabled={locked || busy || (!props.dirty && !actions.pendingSave)}
-          aria-keyshortcuts="Meta+S Control+S"
-          title={`Save (${MOD}S)`}
-          onClick={() => void actions.save()}
-        >
-          {actions.pendingSave
-            ? 'Save queued…'
-            : jobRunning && props.dirty
-              ? 'Save when job ends'
-              : 'Save'}
-        </Button>
-        <Button
-          disabled={locked || busy || jobRunning}
-          aria-keyshortcuts="Meta+Enter Control+Enter"
-          title={`Save if needed and render the template to PNG (${MOD}Enter)`}
-          onClick={() => void actions.render().then((a) => a && props.onRendered())}
-        >
-          {actions.busy === 'render' ? 'Rendering…' : 'Render'}
-        </Button>
-        <Button disabled={locked || jobRunning} onClick={() => setDialog('regen-text')}>
-          Regenerate text…
-        </Button>
-        <Button disabled={jobRunning} onClick={() => setDialog('regen-media')}>
-          Regenerate media…
-        </Button>
-        <Button
-          disabled={busy}
-          aria-pressed={locked}
-          onClick={() => void actions.setLocked(!locked)}
-        >
-          {locked ? <LockOpen size={14} aria-hidden /> : <Lock size={14} aria-hidden />}
-          {locked ? 'Unlock' : 'Lock'}
-        </Button>
-        <span className="editor-toolbar__sep" aria-hidden />
-        <Button variant="ghost" onClick={() => setDialog('library-save')}>
-          Save to library…
-        </Button>
-        <Button variant="ghost" disabled={locked} onClick={() => setDialog('library-replace')}>
-          Replace from library…
-        </Button>
-        <Button variant="ghost" disabled={locked || jobRunning} onClick={() => setDialog('delete')}>
-          Delete…
-        </Button>
-      </div>
       <RegenerateTextDialog
         open={dialog === 'regen-text'}
         dirty={props.dirty}
@@ -106,9 +129,18 @@ export function EditorToolbar(props: {
           void actions.regenerateMedia(paths)
         }}
       />
+    </>
+  )
+}
+
+function LibraryDialogs(props: PartProps) {
+  const { actions, dialog, draft } = props
+  const close = () => props.setDialog(null)
+  return (
+    <>
       <SaveToLibraryDialog
         open={dialog === 'library-save'}
-        defaultName={props.draft.title}
+        defaultName={draft.title}
         onClose={close}
         onSave={(name) => {
           close()
@@ -122,7 +154,7 @@ export function EditorToolbar(props: {
         onPick={(item) => {
           close()
           props.onReplace({
-            ...props.draft,
+            ...draft,
             type: item.type,
             title: item.title,
             fields: item.fields,
@@ -132,13 +164,29 @@ export function EditorToolbar(props: {
       />
       <DeleteDialog
         open={dialog === 'delete'}
-        label={`inject ${inject.mselRowId}`}
+        label={`inject ${props.inject.mselRowId}`}
         onClose={close}
         onDelete={() => {
           close()
           void actions.remove().then((ok) => ok && props.onDeleted())
         }}
       />
+    </>
+  )
+}
+
+export function EditorToolbar(props: ToolbarProps) {
+  const [dialog, setDialog] = useState<EditorDialog>(null)
+  const parts = { ...props, dialog, setDialog }
+  return (
+    <>
+      <div className="editor-toolbar" role="toolbar" aria-label="Inject actions">
+        <MainButtons {...parts} />
+        <span className="editor-toolbar__sep" aria-hidden />
+        <SecondaryButtons {...parts} />
+      </div>
+      <RegenerateDialogs {...parts} />
+      <LibraryDialogs {...parts} />
     </>
   )
 }

@@ -78,12 +78,96 @@ function TypeSwitchDialog(props: {
   )
 }
 
+function TypeSelect(props: {
+  templates: TemplateInfo[]
+  value: string
+  onType: (t: string) => void
+}) {
+  const { withTemplate, without } = useMemo(
+    () => typeOptions(props.templates, props.value),
+    [props.templates, props.value],
+  )
+  return (
+    <Field label="Type" hint="Switching keeps fields whose names match.">
+      {({ id, describedBy }) => (
+        <select
+          id={id}
+          className="select"
+          value={props.value}
+          aria-describedby={describedBy}
+          onChange={(e) => props.onType(e.target.value)}
+        >
+          <optgroup label="Templates">
+            {withTemplate.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.label}
+              </option>
+            ))}
+          </optgroup>
+          {without.length > 0 && (
+            <optgroup label="No template">
+              {without.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.label}
+                </option>
+              ))}
+            </optgroup>
+          )}
+        </select>
+      )}
+    </Field>
+  )
+}
+
+function VariantSelect(props: {
+  variants: string[]
+  value: string
+  onVariant: (v: string) => void
+}) {
+  return (
+    <Field label="Variant" hint="Saved with the inject; used for the preview, render and export.">
+      {({ id, describedBy }) => (
+        <select
+          id={id}
+          className="select"
+          value={props.value}
+          aria-describedby={describedBy}
+          onChange={(e) => props.onVariant(e.target.value)}
+        >
+          {props.variants.map((v) => (
+            <option key={v} value={v}>
+              {v}
+            </option>
+          ))}
+        </select>
+      )}
+    </Field>
+  )
+}
+
+function DeliverySelect(props: { value: DeliveryMode; onChange: (m: DeliveryMode) => void }) {
+  return (
+    <Field label="Delivery">
+      {({ id }) => (
+        <select
+          id={id}
+          className="select"
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value as DeliveryMode)}
+        >
+          {DeliveryMode.options.map((m) => (
+            <option key={m} value={m}>
+              {DELIVERY_LABEL[m]}
+            </option>
+          ))}
+        </select>
+      )}
+    </Field>
+  )
+}
+
 function BasicsSection(props: FormProps & { onType: (type: string) => void }) {
   const { draft, onChange, template } = props
-  const { withTemplate, without } = useMemo(
-    () => typeOptions(props.templates, draft.type),
-    [props.templates, draft.type],
-  )
   const variants = template?.variants.length ? template.variants : []
   return (
     <fieldset className="editor-section">
@@ -101,72 +185,14 @@ function BasicsSection(props: FormProps & { onType: (type: string) => void }) {
             />
           )}
         </Field>
-        <Field label="Type" hint="Switching keeps fields whose names match.">
-          {({ id, describedBy }) => (
-            <select
-              id={id}
-              className="select"
-              value={draft.type}
-              aria-describedby={describedBy}
-              onChange={(e) => props.onType(e.target.value)}
-            >
-              <optgroup label="Templates">
-                {withTemplate.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.label}
-                  </option>
-                ))}
-              </optgroup>
-              {without.length > 0 && (
-                <optgroup label="No template">
-                  {without.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      {t.label}
-                    </option>
-                  ))}
-                </optgroup>
-              )}
-            </select>
-          )}
-        </Field>
+        <TypeSelect templates={props.templates} value={draft.type} onType={props.onType} />
         {variants.length > 1 && (
-          <Field
-            label="Variant"
-            hint="Saved with the inject; used for the preview, render and export."
-          >
-            {({ id, describedBy }) => (
-              <select
-                id={id}
-                className="select"
-                value={props.variant}
-                aria-describedby={describedBy}
-                onChange={(e) => props.onVariant(e.target.value)}
-              >
-                {variants.map((v) => (
-                  <option key={v} value={v}>
-                    {v}
-                  </option>
-                ))}
-              </select>
-            )}
-          </Field>
+          <VariantSelect variants={variants} value={props.variant} onVariant={props.onVariant} />
         )}
-        <Field label="Delivery">
-          {({ id }) => (
-            <select
-              id={id}
-              className="select"
-              value={draft.deliveryMode}
-              onChange={(e) => onChange({ ...draft, deliveryMode: e.target.value as DeliveryMode })}
-            >
-              {DeliveryMode.options.map((m) => (
-                <option key={m} value={m}>
-                  {DELIVERY_LABEL[m]}
-                </option>
-              ))}
-            </select>
-          )}
-        </Field>
+        <DeliverySelect
+          value={draft.deliveryMode}
+          onChange={(m) => onChange({ ...draft, deliveryMode: m })}
+        />
       </div>
       <label className="ie-checkbox">
         <input

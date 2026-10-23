@@ -1,7 +1,6 @@
 // Inject editor: /p/:projectKey/scenarios/:scenarioId/injects/:injectId.
 // Left: schema-driven form for the draft. Right: live preview, media (with provenance) and
 // versions. Cmd/Ctrl+S saves, Cmd/Ctrl+Enter saves (if needed) and renders.
-import { Tabs } from 'radix-ui'
 import { ArrowLeft } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
@@ -10,28 +9,29 @@ import type { Inject } from '@shared/schemas/inject'
 import type { JobDoneEvent } from '@shared/schemas/job'
 import type { Scenario } from '@shared/schemas/scenario'
 import { injectTypeInfo } from '@shared/taxonomy'
-import { Badge, PageHeader, TagChip } from '../../components/ui'
 import { toast } from '../../components/toast-store'
-import { call } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
-import { deckUrl, injectUrl } from './links'
+import { deckUrl } from './links'
 import { draftKey, draftOf, pickVariant, sameDraft, useDrafts, type InjectDraft } from './draft'
 import { EditorToolbar } from './EditorToolbar'
-import { InjectForm } from './InjectForm'
+import {
+  EditorForm,
+  EditorHeader,
+  EditorSide,
+  InjectNav,
+  InjectWarnings,
+  RegenDiff,
+} from './EditorPanels'
 import { JobBanner } from './JobBanner'
-import { MediaPanel } from './MediaPanel'
-import { PreviewPanel } from './PreviewPanel'
-import { diffFields, type FieldChange } from './schema/diff'
-import { issuesByPath, validateFields } from './schema/validate'
+import { validateFields } from './schema/validate'
 import type { JsonSchema } from './schema/fields'
 import { useInjectActions } from './use-inject-actions'
 import { useScenarioJob } from './use-scenario-job'
-import { ChangeList, VersionsPanel } from './VersionsPanel'
+import { useRegenWatch } from './use-regen-watch'
 import '../../routes/scenarios/scenarios.css'
 import './inject-editor.css'
 import { errorText } from '../../lib/errors'
-import { injectAlt } from '../../lib/inject-alt'
 
 /** The draft for an inject from the shared store, falling back to the stored inject. */
 function useDraft(scenarioId: string, inject: Inject) {
@@ -68,55 +68,33 @@ function useShortcuts(onSave: () => void, onRender: () => void) {
   }, [])
 }
 
-interface RegenWatch {
-  jobId: string
-  before: Pick<Inject, 'title' | 'type' | 'fields'>
-}
+/** The display label of an inject type: its template's, else the taxonomy's, else the id. */
+const labelOf = (templates: TemplateInfo[]) => (t: string) =>
+  templates.find((x) => x.type === t)?.label ?? injectTypeInfo(t)?.label ?? t
 
-function RegenDiff(props: { changes: FieldChange[] | null; onDismiss: () => void }) {
-  if (!props.changes) return null
-  return (
-    <section className="regen-diff card" aria-label="Changes from regeneration">
-      <div className="row regen-diff__head">
-        <strong>Regenerated: {props.changes.length} change(s)</strong>
-        <button type="button" className="btn btn--sm btn--ghost" onClick={props.onDismiss}>
-          Dismiss
-        </button>
-      </div>
-      <ChangeList
-        label="Regenerated fields"
-        changes={props.changes}
-        empty="The text did not change."
-      />
-    </section>
-  )
-}
-
-function neighbours(scenario: Scenario, inject: Inject) {
-  const ids = scenario.msel.filter((r) => r.injectId).map((r) => r.injectId!)
-  const at = ids.indexOf(inject.id)
-  return { prev: at > 0 ? ids[at - 1] : undefined, next: at >= 0 ? ids[at + 1] : undefined }
-}
-
-function Editor(props: {
+interface EditorProps {
   projectPath: string
   scenario: Scenario
   inject: Inject
   templates: TemplateInfo[]
-}) {
-  const { projectPath, scenario, inject, templates } = props
-  const navigate = useNavigate()
-  const { draft, dirty, setDraft } = useDraft(scenario.id, inject)
-  const template = templates.find((t) => t.type === draft.type)
+}
+
+/** The draft, its template, variant and field issues. */
+function useEditorDraft(props: EditorProps) {
+  const { draft, dirty, setDraft } = useDraft(props.scenario.id, props.inject)
+  const template = props.templates.find((t) => t.type === draft.type)
   const issues = useMemo(
     () => (template ? validateFields(template.schema as JsonSchema, draft.fields) : []),
     [template, draft.fields],
   )
   const variant = pickVariant(template?.variants ?? [], draft.variant)
-  const [tab, setTab] = useState('preview')
-  const [regen, setRegen] = useState<RegenWatch | null>(null)
-  const [changes, setChanges] = useState<FieldChange[] | null>(null)
+  return { draft, dirty, setDraft, template, issues, variant }
+}
 
+/** The scenario's generation job, the editor actions and the regeneration diff, wired to job:done. */
+function useEditorJobs(props: EditorProps, draft: InjectDraft, dirty: boolean) {
+  const { projectPath, scenario, inject } = props
+  const regen = useRegenWatch(projectPath, scenario.id, inject.id)
   const onDone = useRef<(e: JobDoneEvent) => void>(() => undefined)
   const { job, interrupted, track } = useScenarioJob(projectPath, scenario.id, (e) =>
     onDone.current(e),
@@ -133,69 +111,36 @@ function Editor(props: {
     onDone.current = (e) => {
       actions.retryPending()
       if (e.status === 'error') toast.error('Generation job failed', e.error)
-      if (regen && e.jobId === regen.jobId) {
-        setRegen(null)
-        void call('injects:get', { projectPath, scenarioId: scenario.id, injectId: inject.id })
-          .then((after) =>
-            setChanges(
-              diffFields(regen.before, {
-                title: after.title,
-                type: after.type,
-                fields: after.fields,
-              }),
-            ),
-          )
-          .catch(() => undefined)
-      }
+      regen.onJobDone(e)
     }
   })
-  useShortcuts(
-    () => {
-      if (!inject.locked) void actions.save()
-    },
-    () => {
-      if (!inject.locked && !job) void actions.render().then((a) => a && setTab('media'))
-    },
-  )
+  return { job, interrupted, actions, regen }
+}
 
+function Editor(props: EditorProps) {
+  const { projectPath, scenario, inject, templates } = props
+  const navigate = useNavigate()
+  const { draft, dirty, setDraft, template, issues, variant } = useEditorDraft(props)
+  const form = { inject, draft, setDraft, templates, template, variant, issues }
+  const [tab, setTab] = useState('preview')
+  const { job, interrupted, actions, regen } = useEditorJobs(props, draft, dirty)
+  useShortcuts(
+    () => !inject.locked && void actions.save(),
+    () => !inject.locked && !job && void actions.render().then((a) => a && setTab('media')),
+  )
   const row = scenario.msel.find((r) => r.id === inject.mselRowId)
-  const warnings = scenario.warnings.filter((w) => w.injectId === inject.id)
-  const { prev, next } = neighbours(scenario, inject)
-  const linkTo = (id: string) => injectUrl(projectPath, scenario.id, id)
-  const typeLabel = (t: string) =>
-    templates.find((x) => x.type === t)?.label ?? injectTypeInfo(t)?.label ?? t
+  const typeLabel = labelOf(templates)
 
   return (
     <div className="page page--wide inject-editor">
-      <nav className="row inject-editor__nav" aria-label="Inject navigation">
-        <Link to={deckUrl(projectPath, scenario.id)} className="back-link">
-          <ArrowLeft size={14} aria-hidden /> All injects
-        </Link>
-        <span className="row">
-          {prev ? (
-            <Link to={linkTo(prev)} className="btn btn--sm">
-              Previous inject
-            </Link>
-          ) : null}
-          {next ? (
-            <Link to={linkTo(next)} className="btn btn--sm">
-              Next inject
-            </Link>
-          ) : null}
-        </span>
-      </nav>
-      <PageHeader
-        eyebrow={`Inject ${inject.mselRowId}${row ? ` · ${row.time}${row.wallClock ? ` (${row.wallClock})` : ''}` : ''} · ${typeLabel(draft.type)}`}
-        title={draft.title || 'Untitled inject'}
-        description={row?.event}
-        actions={
-          <span className="row">
-            {row && <TagChip tag={row.purposeTag} />}
-            {inject.locked && <Badge tone="warn">Locked</Badge>}
-            {dirty && <Badge tone="info">Unsaved changes</Badge>}
-            {issues.length > 0 && <Badge tone="error">{issues.length} field issue(s)</Badge>}
-          </span>
-        }
+      <InjectNav projectPath={projectPath} scenario={scenario} inject={inject} />
+      <EditorHeader
+        inject={inject}
+        draft={draft}
+        row={row}
+        typeLabel={typeLabel(draft.type)}
+        dirty={dirty}
+        issueCount={issues.length}
       />
       <EditorToolbar
         inject={inject}
@@ -205,101 +150,25 @@ function Editor(props: {
         actions={actions}
         typeLabel={typeLabel}
         onReplace={(d) => setDraft(d)}
-        onRegenStart={(jobId) => {
-          setChanges(null)
-          setRegen({
-            jobId,
-            before: { title: inject.title, type: inject.type, fields: inject.fields },
-          })
-        }}
+        onRegenStart={(jobId) =>
+          regen.start(jobId, { title: inject.title, type: inject.type, fields: inject.fields })
+        }
         onDeleted={() => navigate(deckUrl(projectPath, scenario.id))}
         onRendered={() => setTab('media')}
       />
       <JobBanner job={job} interrupted={interrupted} pendingSave={actions.pendingSave} editing />
-      {warnings.length > 0 && (
-        <ul className="inject-warnings" aria-label="Warnings for this inject">
-          {warnings.map((w, i) => (
-            <li key={i}>
-              <Badge tone={w.severity === 'error' ? 'error' : 'warn'}>{w.code}</Badge>{' '}
-              <span className="inject-warnings__message">{w.message}</span>
-              {w.suggestion && <span className="inject-warnings__hint"> {w.suggestion}</span>}
-            </li>
-          ))}
-        </ul>
-      )}
-      <RegenDiff changes={changes} onDismiss={() => setChanges(null)} />
+      <InjectWarnings warnings={scenario.warnings.filter((w) => w.injectId === inject.id)} />
+      <RegenDiff changes={regen.changes} onDismiss={regen.dismiss} />
       <div className="inject-editor__body">
-        <form
-          className="inject-editor__form"
-          aria-label="Inject fields"
-          onSubmit={(e) => {
-            e.preventDefault()
-            void actions.save()
-          }}
-        >
-          <fieldset disabled={inject.locked} className="inject-editor__lockable">
-            {inject.locked && (
-              <p className="lock-note">This inject is locked. Unlock it to edit or regenerate.</p>
-            )}
-            <InjectForm
-              draft={draft}
-              onChange={setDraft}
-              templates={templates}
-              template={template}
-              variant={variant}
-              onVariant={(v) => setDraft({ ...draft, variant: v })}
-              issues={issuesByPath(issues)}
-            />
-          </fieldset>
-        </form>
-        <aside className="inject-editor__side" aria-label="Preview and media">
-          <Tabs.Root value={tab} onValueChange={setTab} className="tabs">
-            <Tabs.List className="tabs__list" aria-label="Inject views">
-              <Tabs.Trigger value="preview" className="tabs__trigger">
-                Preview
-              </Tabs.Trigger>
-              <Tabs.Trigger value="media" className="tabs__trigger">
-                Media ({inject.assets.length})
-              </Tabs.Trigger>
-              <Tabs.Trigger value="versions" className="tabs__trigger">
-                Versions ({inject.versions.length})
-              </Tabs.Trigger>
-            </Tabs.List>
-            <Tabs.Content value="preview" className="tabs__panel">
-              <PreviewPanel
-                template={template}
-                alt={injectAlt({ ...draft, mselRowId: inject.mselRowId }, 'live preview')}
-                refreshKey={inject.assets
-                  .filter((a) => a.role === 'generated')
-                  .map((a) => a.id)
-                  .join(',')}
-                request={{
-                  type: draft.type,
-                  fields: draft.fields,
-                  variant,
-                  projectPath,
-                  scenarioId: scenario.id,
-                  injectId: inject.id,
-                }}
-              />
-            </Tabs.Content>
-            <Tabs.Content value="media" className="tabs__panel">
-              <MediaPanel
-                projectPath={projectPath}
-                assets={inject.assets}
-                title={injectAlt({ ...draft, mselRowId: inject.mselRowId })}
-              />
-            </Tabs.Content>
-            <Tabs.Content value="versions" className="tabs__panel">
-              <VersionsPanel
-                inject={inject}
-                draft={draft}
-                busy={!!job || !!actions.busy}
-                onRestore={(i) => void actions.restore(i)}
-              />
-            </Tabs.Content>
-          </Tabs.Root>
-        </aside>
+        <EditorForm {...form} onSave={() => void actions.save()} />
+        <EditorSide
+          {...form}
+          {...{ projectPath, tab }}
+          scenarioId={scenario.id}
+          onTab={setTab}
+          busy={!!job || !!actions.busy}
+          onRestore={(i) => void actions.restore(i)}
+        />
       </div>
     </div>
   )

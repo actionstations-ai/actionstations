@@ -13,57 +13,27 @@ interface Draft {
   parentDir: string | null
 }
 
-function NewProjectForm(props: {
-  defaultParent: string
-  onCreated: (p: OpenProject) => void
-  onCancel: () => void
-}) {
-  const [draft, setDraft] = useState<Draft>({
-    name: '',
-    orgName: '',
-    orgType: 'generic',
-    parentDir: null,
+/** Create the project folder and remember its parent as the default location. */
+async function createProject(draft: Draft, dir: string): Promise<OpenProject> {
+  const created = await call('project:create', {
+    parentDir: dir,
+    name: draft.name.trim(),
+    orgName: draft.orgName.trim(),
+    orgType: draft.orgType,
   })
-  const [submitted, setSubmitted] = useState(false)
-  const [busy, setBusy] = useState(false)
-  const parentDir = draft.parentDir ?? props.defaultParent
-  const set = (patch: Partial<Draft>) => setDraft((d) => ({ ...d, ...patch }))
-  const nameError = submitted && !draft.name.trim() ? 'Give the project a name.' : undefined
-  const dirError = submitted && !parentDir.trim() ? 'Choose where to create it.' : undefined
+  await call('settings:update', { defaultProjectsDir: dir })
+  return created
+}
 
-  const browse = async () => {
-    const picked = await call('dialog:open-directory', {
-      title: 'Choose where to create the project',
-      ...(parentDir ? { defaultPath: parentDir } : {}),
-    })
-    if (picked) set({ parentDir: picked })
-  }
-
-  const submit = async (e: FormEvent) => {
-    e.preventDefault()
-    setSubmitted(true)
-    if (!draft.name.trim() || !parentDir.trim()) return
-    setBusy(true)
-    try {
-      const dir = parentDir.trim()
-      const created = await call('project:create', {
-        parentDir: dir,
-        name: draft.name.trim(),
-        orgName: draft.orgName.trim(),
-        orgType: draft.orgType,
-      })
-      await call('settings:update', { defaultProjectsDir: dir })
-      props.onCreated(created)
-    } catch (err) {
-      toast.error('Could not create project', err)
-    } finally {
-      setBusy(false)
-    }
-  }
-
+function NameFields(props: {
+  draft: Draft
+  nameError: string | undefined
+  set: (patch: Partial<Draft>) => void
+}) {
+  const { draft, set } = props
   return (
-    <form className="stack" onSubmit={submit} noValidate aria-label="New project">
-      <Field label="Project name" hint="Also used for the folder name." error={nameError}>
+    <>
+      <Field label="Project name" hint="Also used for the folder name." error={props.nameError}>
         {({ id, describedBy, invalid }) => (
           <input
             id={id}
@@ -88,26 +58,86 @@ function NewProjectForm(props: {
           />
         )}
       </Field>
+    </>
+  )
+}
+
+function LocationField(props: {
+  value: string
+  error: string | undefined
+  onChange: (dir: string) => void
+}) {
+  const browse = async () => {
+    const picked = await call('dialog:open-directory', {
+      title: 'Choose where to create the project',
+      ...(props.value ? { defaultPath: props.value } : {}),
+    })
+    if (picked) props.onChange(picked)
+  }
+  return (
+    <Field
+      label="Location"
+      hint="The project folder is created inside this folder."
+      error={props.error}
+    >
+      {({ id, describedBy, invalid }) => (
+        <div className="row">
+          <input
+            id={id}
+            className="input mono"
+            value={props.value}
+            aria-describedby={describedBy}
+            aria-invalid={invalid}
+            onChange={(e) => props.onChange(e.target.value)}
+          />
+          <Button onClick={() => void browse()}>Choose…</Button>
+        </div>
+      )}
+    </Field>
+  )
+}
+
+function NewProjectForm(props: {
+  defaultParent: string
+  onCreated: (p: OpenProject) => void
+  onCancel: () => void
+}) {
+  const [draft, setDraft] = useState<Draft>({
+    name: '',
+    orgName: '',
+    orgType: 'generic',
+    parentDir: null,
+  })
+  const [submitted, setSubmitted] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const parentDir = draft.parentDir ?? props.defaultParent
+  const set = (patch: Partial<Draft>) => setDraft((d) => ({ ...d, ...patch }))
+  const nameError = submitted && !draft.name.trim() ? 'Give the project a name.' : undefined
+  const dirError = submitted && !parentDir.trim() ? 'Choose where to create it.' : undefined
+
+  const submit = async (e: FormEvent) => {
+    e.preventDefault()
+    setSubmitted(true)
+    if (!draft.name.trim() || !parentDir.trim()) return
+    setBusy(true)
+    try {
+      props.onCreated(await createProject(draft, parentDir.trim()))
+    } catch (err) {
+      toast.error('Could not create project', err)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <form className="stack" onSubmit={submit} noValidate aria-label="New project">
+      <NameFields draft={draft} nameError={nameError} set={set} />
       <DomainProfilePicker value={draft.orgType} onChange={(id) => set({ orgType: id })} />
-      <Field
-        label="Location"
-        hint="The project folder is created inside this folder."
+      <LocationField
+        value={parentDir}
         error={dirError}
-      >
-        {({ id, describedBy, invalid }) => (
-          <div className="row">
-            <input
-              id={id}
-              className="input mono"
-              value={parentDir}
-              aria-describedby={describedBy}
-              aria-invalid={invalid}
-              onChange={(e) => set({ parentDir: e.target.value })}
-            />
-            <Button onClick={() => void browse()}>Choose…</Button>
-          </div>
-        )}
-      </Field>
+        onChange={(dir) => set({ parentDir: dir })}
+      />
       <div className="dialog__footer">
         <Button onClick={props.onCancel}>Cancel</Button>
         <Button type="submit" variant="primary" disabled={busy}>

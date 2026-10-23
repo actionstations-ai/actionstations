@@ -1,21 +1,17 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router'
-import { Tabs } from 'radix-ui'
-import { ArrowLeft, Monitor, MonitorX } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import type { FacilitatorState } from '@shared/ipc'
 import { mediaUrl } from '@shared/media-url'
 import type { Inject } from '@shared/schemas/inject'
 import type { Scenario } from '@shared/schemas/scenario'
-import { Button, EmptyState, PageHeader } from '../../components/ui'
-import { toast } from '../../components/toast-store'
-import { call } from '../../lib/api'
+import { PageHeader } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey, projectKey } from '../../state/project'
 import { toLabel } from '../../lib/msel'
 import {
   clockMinutes,
   dueRows,
-  exerciseStamp,
   isDue,
   isRunning,
   nextRow,
@@ -24,13 +20,14 @@ import {
   setClock,
   toggleClock,
 } from './clock'
-import { audioAsset, deliveryAction, imageAsset, screenAsset } from './delivery'
+import { audioAsset, imageAsset, screenAsset } from './delivery'
 import { ExerciseClock } from './ExerciseClock'
-import { HotWashPanel } from './HotWashPanel'
-import { InjectPanel } from './InjectPanel'
+import { NoMsel, PresentControls, ShortcutsBar, SidePanel, StatusLine } from './FacilitateParts'
 import { Timeline, type TimelineEntry } from './Timeline'
+import { useDeliveryActions, type UpdateState } from './use-delivery-actions'
 import { useFacilitatorState, type SaveStatus } from './use-facilitator-state'
 import { usePresenting } from './use-presenting'
+import { useShortcuts, useShortcutsEnabled, type ShortcutKeys } from './use-shortcuts'
 import './facilitate.css'
 
 /** Re-render every second while the clock runs (and every 15 s for the local time). */
@@ -66,88 +63,6 @@ function buildEntries(
       hasNote: !!state.notes[row.id]?.trim(),
     }
   })
-}
-
-const isTyping = (el: EventTarget | null) =>
-  el instanceof HTMLElement &&
-  (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName))
-
-/** Space on a focused button, link, tab or checkbox belongs to that control. */
-const ownsSpace = (el: EventTarget | null) =>
-  el instanceof HTMLElement &&
-  !!el.closest('button, a[href], summary, [role="tab"], [role="button"], [role="checkbox"]')
-
-const SHORTCUTS_KEY = 'ttx.facilitate.singleKeyShortcuts'
-
-/** Single-key shortcuts can be switched off (WCAG 2.1.4); the choice is kept on this computer. */
-function useShortcutsEnabled(): [boolean, (on: boolean) => void] {
-  const [on, setOn] = useState(() => {
-    try {
-      return localStorage.getItem(SHORTCUTS_KEY) !== 'off'
-    } catch {
-      return true
-    }
-  })
-  const set = (next: boolean) => {
-    setOn(next)
-    try {
-      localStorage.setItem(SHORTCUTS_KEY, next ? 'on' : 'off')
-    } catch {
-      /* storage unavailable: the choice lasts for this session */
-    }
-  }
-  return [on, set]
-}
-
-/** Space start/pause, N next due, D deliver selected — never while typing. */
-function useShortcuts(
-  keys: { toggle: () => void; next: () => void; deliver: () => void },
-  enabled: boolean,
-) {
-  useEffect(() => {
-    if (!enabled) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.repeat || e.metaKey || e.ctrlKey || e.altKey || isTyping(e.target)) return
-      const k = e.key.toLowerCase()
-      if (k === ' ' && ownsSpace(e.target)) return
-      if (k === ' ') keys.toggle()
-      else if (k === 'n') keys.next()
-      else if (k === 'd') keys.deliver()
-      else return
-      e.preventDefault()
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [keys, enabled])
-}
-
-const SAVE_LABEL: Record<SaveStatus, string> = {
-  idle: '',
-  saving: 'Saving…',
-  saved: 'Saved',
-  error: 'Could not save — changes kept on this screen',
-}
-
-function DisplayPicker(props: { value: string; onChange: (v: string) => void }) {
-  const displays = useIpcQuery('facilitator:displays', undefined)
-  return (
-    <label className="fac-display">
-      <span className="field__label">Present on</span>
-      <select
-        className="select"
-        value={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
-      >
-        <option value="">Second display (auto)</option>
-        {(displays.data ?? []).map((d) => (
-          <option key={d.id} value={String(d.id)}>
-            {d.label} · {d.width}×{d.height}
-            {d.primary ? ' (this screen)' : ''}
-          </option>
-        ))}
-      </select>
-    </label>
-  )
 }
 
 export default function FacilitatePage() {
@@ -194,19 +109,35 @@ interface ViewProps {
   injects: Inject[]
   state: FacilitatorState
   saveStatus: SaveStatus
-  update: ReturnType<typeof useFacilitatorState>['update']
+  update: UpdateState
   back: React.ReactNode
 }
 
-function FacilitateView({
-  projectPath,
-  scenario,
-  injects,
-  state,
-  saveStatus,
-  update,
-  back,
-}: ViewProps) {
+/** Space toggles the clock, N selects the next due (or next) row, D delivers the selection. */
+function useKeys(
+  p: ViewProps,
+  selected: TimelineEntry | undefined,
+  onSelect: (rowId: string) => void,
+  deliver: (rowId: string) => void,
+): ShortcutKeys {
+  const { update, scenario, state } = p
+  return useMemo(
+    () => ({
+      toggle: () => update((s) => toggleClock(s, new Date())),
+      next: () => {
+        const due = dueRows(scenario.msel, clockMinutes(state, new Date()), state.delivered)[0]
+        const next = due ?? nextRow(scenario.msel, state.delivered)
+        if (next) onSelect(next.id)
+      },
+      deliver: () => selected && deliver(selected.row.id),
+    }),
+    [update, scenario.msel, state, selected, deliver, onSelect],
+  )
+}
+
+/** Clock, timeline entries, selection and the delivery actions of facilitator mode. */
+function useFacilitate(p: ViewProps) {
+  const { projectPath, scenario, injects, state, update } = p
   const now = useNow(isRunning(state))
   const minutes = clockMinutes(state, now)
   const entries = useMemo(
@@ -227,250 +158,93 @@ function FacilitateView({
     onSelect: setSelectedId,
     onAnnounce: setAnnounce,
   })
-  const { deliver, undo, present } = actions
-  const presenting = usePresenting()
+  const keys = useKeys(p, selected, setSelectedId, actions.deliver)
+  return {
+    now,
+    minutes,
+    entries,
+    selected,
+    setSelectedId,
+    displayId,
+    setDisplayId,
+    announce,
+    actions,
+    keys,
+  }
+}
 
-  const keys = useMemo(
-    () => ({
-      toggle: () => update((s) => toggleClock(s, new Date())),
-      next: () => {
-        const due = dueRows(scenario.msel, clockMinutes(state, new Date()), state.delivered)[0]
-        const next = due ?? nextRow(scenario.msel, state.delivered)
-        if (next) setSelectedId(next.id)
-      },
-      deliver: () => selected && deliver(selected.row.id),
-    }),
-    [update, scenario.msel, state, selected, deliver],
+type Facilitate = ReturnType<typeof useFacilitate>
+
+/** The timeline and the side panel, or the empty state when the MSEL has no rows. */
+function RunArea(props: ViewProps & { f: Facilitate; onShow: (entry: TimelineEntry) => void }) {
+  const { projectPath, scenario, state, update, f } = props
+  const { deliver, undo } = f.actions
+  if (scenario.msel.length === 0)
+    return <NoMsel projectPath={projectPath} scenarioId={scenario.id} />
+  return (
+    <div className="fac-layout">
+      <Timeline
+        phases={scenario.phases}
+        entries={f.entries}
+        selectedId={f.selected?.row.id}
+        onSelect={f.setSelectedId}
+        onDeliver={deliver}
+        onUndo={undo}
+      />
+      <SidePanel
+        projectPath={projectPath}
+        scenario={scenario}
+        state={state}
+        selected={f.selected}
+        update={update}
+        onDeliver={deliver}
+        onUndo={undo}
+        onShow={props.onShow}
+      />
+    </div>
   )
-  const [shortcutsOn, setShortcutsOn] = useShortcutsEnabled()
-  useShortcuts(keys, shortcutsOn)
+}
 
-  const dueCount = entries.filter((e) => e.due).length
+function FacilitateView(props: ViewProps) {
+  const { scenario, state, update } = props
+  const f = useFacilitate(props)
+  const show = (entry: TimelineEntry) =>
+    void f.actions.present(entry, screenAsset(entry.inject)?.id)
+  const presenting = usePresenting()
+  const [shortcutsOn, setShortcutsOn] = useShortcutsEnabled()
+  useShortcuts(f.keys, shortcutsOn)
+
   return (
     <div className="page page--wide fac-page">
-      {back}
+      {props.back}
       <PageHeader
         eyebrow="Facilitate"
         title={scenario.title}
         description="Run the exercise: keep the clock, deliver injects to the room, capture notes for the hot wash."
         actions={
-          <>
-            <DisplayPicker value={displayId} onChange={setDisplayId} />
-            {presenting ? (
-              <Button onClick={() => void call('facilitator:close-present')}>
-                <MonitorX size={16} aria-hidden /> Close presentation
-              </Button>
-            ) : (
-              <Button
-                disabled={!selected?.inject}
-                title={selected?.inject ? undefined : 'Select a row that has an inject to show'}
-                onClick={() => selected && void present(selected, screenAsset(selected.inject)?.id)}
-              >
-                <Monitor size={16} aria-hidden /> Open presentation
-              </Button>
-            )}
-          </>
+          <PresentControls
+            displayId={f.displayId}
+            onDisplay={f.setDisplayId}
+            presenting={presenting}
+            selected={f.selected}
+            onPresent={show}
+          />
         }
       />
       <ExerciseClock
-        minutes={minutes}
+        minutes={f.minutes}
         running={isRunning(state)}
-        now={now}
+        now={f.now}
         startWallClock={scenario.brief.startWallClock}
-        dueCount={dueCount}
-        nextJump={nextTimeJump(scenario.msel, minutes)}
-        onToggle={keys.toggle}
+        dueCount={f.entries.filter((e) => e.due).length}
+        nextJump={nextTimeJump(scenario.msel, f.minutes)}
+        onToggle={f.keys.toggle}
         onReset={() => update((s) => resetClock(s))}
         onSet={(m) => update((s) => setClock(s, m, new Date()))}
       />
-      <p className="fac-status" role="status" aria-live="polite">
-        <span>{announce}</span>
-        <span className="muted">{SAVE_LABEL[saveStatus]}</span>
-      </p>
-      <div className="fac-keys muted row">
-        <label className="row">
-          <input
-            type="checkbox"
-            checked={shortcutsOn}
-            onChange={(e) => setShortcutsOn(e.target.checked)}
-          />
-          Single-key shortcuts
-        </label>
-        <span>
-          <kbd>Space</kbd> start/pause · <kbd>N</kbd> next due · <kbd>D</kbd> deliver selected ·{' '}
-          <kbd>↑</kbd>/<kbd>↓</kbd> move in timeline · <kbd>Esc</kbd> on the presentation screen
-          closes it
-        </span>
-      </div>
-      {scenario.msel.length === 0 ? (
-        <EmptyState
-          title="No MSEL rows"
-          body="Generate or write the MSEL before running the exercise."
-          actions={
-            <Link
-              className="btn btn--primary"
-              to={`/p/${projectKey(projectPath)}/scenarios/${scenario.id}?tab=msel`}
-            >
-              Open the MSEL
-            </Link>
-          }
-        />
-      ) : (
-        <div className="fac-layout">
-          <Timeline
-            phases={scenario.phases}
-            entries={entries}
-            selectedId={selected?.row.id}
-            onSelect={setSelectedId}
-            onDeliver={deliver}
-            onUndo={undo}
-          />
-          <SidePanel
-            projectPath={projectPath}
-            scenario={scenario}
-            state={state}
-            selected={selected}
-            update={update}
-            onDeliver={deliver}
-            onUndo={undo}
-            onShow={(entry) => void present(entry, screenAsset(entry.inject)?.id)}
-          />
-        </div>
-      )}
+      <StatusLine announce={f.announce} saveStatus={props.saveStatus} />
+      <ShortcutsBar on={shortcutsOn} onChange={setShortcutsOn} />
+      <RunArea {...props} f={f} onShow={show} />
     </div>
-  )
-}
-
-interface ActionDeps {
-  projectPath: string
-  scenarioId: string
-  displayId: string
-  entries: TimelineEntry[]
-  state: FacilitatorState
-  update: ViewProps['update']
-  onSelect: (rowId: string) => void
-  onAnnounce: (text: string) => void
-}
-
-/** Deliver / undo / show-on-screen for timeline rows. */
-function useDeliveryActions(d: ActionDeps) {
-  const { projectPath, scenarioId, displayId, entries, state, update, onSelect, onAnnounce } = d
-  const present = useCallback(
-    async (entry: TimelineEntry, assetId?: string) => {
-      if (!entry.inject) return
-      try {
-        await call('facilitator:present', {
-          projectPath,
-          scenarioId,
-          injectId: entry.inject.id,
-          ...(assetId ? { assetId } : {}),
-          ...(displayId ? { displayId: Number(displayId) } : {}),
-        })
-      } catch (err) {
-        toast.error('Could not open the presentation screen', (err as Error).message)
-      }
-    },
-    [projectPath, scenarioId, displayId],
-  )
-
-  const deliver = useCallback(
-    (rowId: string) => {
-      const entry = entries.find((e) => e.row.id === rowId)
-      if (!entry || state.delivered[rowId]) return
-      const now = new Date()
-      const stamp = { at: now.toISOString(), exerciseTime: exerciseStamp(clockMinutes(state, now)) }
-      update((s) => ({ ...s, delivered: { ...s.delivered, [rowId]: stamp } }))
-      onSelect(rowId)
-      const action = deliveryAction(entry.inject)
-      if (action.kind === 'present' || action.kind === 'play') void present(entry, action.asset.id)
-      onAnnounce(deliveredMessage(entry, action.kind))
-    },
-    [entries, state, update, present, onSelect, onAnnounce],
-  )
-
-  const undo = useCallback(
-    (rowId: string) => {
-      update((s) => {
-        const { [rowId]: _drop, ...rest } = s.delivered
-        return { ...s, delivered: rest }
-      })
-      onAnnounce(`${rowId} marked not delivered`)
-    },
-    [update, onAnnounce],
-  )
-  return { present, deliver, undo }
-}
-
-function deliveredMessage(entry: TimelineEntry, kind: ReturnType<typeof deliveryAction>['kind']) {
-  const id = entry.row.id
-  if (kind === 'present') return `${id} delivered — showing on the presentation screen`
-  if (kind === 'play') return `${id} delivered — playing audio on the presentation screen`
-  if (kind === 'hand') return `${id} delivered — print / hand to ${entry.target}`
-  if (kind === 'read') return `${id} delivered — read aloud`
-  return `${id} delivered`
-}
-
-function SidePanel(props: {
-  projectPath: string
-  scenario: Scenario
-  state: FacilitatorState
-  selected: TimelineEntry | undefined
-  update: ViewProps['update']
-  onDeliver: (rowId: string) => void
-  onUndo: (rowId: string) => void
-  onShow: (entry: TimelineEntry) => void
-}) {
-  const { selected, state, update } = props
-  return (
-    <Tabs.Root defaultValue="inject" className="fac-side">
-      <Tabs.List className="fac-tabs" aria-label="Facilitator panels">
-        <Tabs.Trigger value="inject" className="fac-tabs__trigger">
-          Inject
-        </Tabs.Trigger>
-        <Tabs.Trigger value="hotwash" className="fac-tabs__trigger">
-          Hot wash
-        </Tabs.Trigger>
-        <Tabs.Trigger value="notes" className="fac-tabs__trigger">
-          General notes
-        </Tabs.Trigger>
-      </Tabs.List>
-      <Tabs.Content value="inject" className="fac-tabs__panel">
-        {selected && (
-          <InjectPanel
-            projectPath={props.projectPath}
-            entry={selected}
-            note={state.notes[selected.row.id] ?? ''}
-            onNote={(text) =>
-              update((s) => ({ ...s, notes: { ...s.notes, [selected.row.id]: text } }), {
-                debounce: true,
-              })
-            }
-            onDeliver={() => props.onDeliver(selected.row.id)}
-            onUndo={() => props.onUndo(selected.row.id)}
-            onShow={() => props.onShow(selected)}
-          />
-        )}
-      </Tabs.Content>
-      <Tabs.Content value="hotwash" className="fac-tabs__panel">
-        <HotWashPanel scenario={props.scenario} state={state} />
-      </Tabs.Content>
-      <Tabs.Content value="notes" className="fac-tabs__panel">
-        <div className="field">
-          <label className="field__label" htmlFor="fac-general-notes">
-            General notes
-          </label>
-          <textarea
-            id="fac-general-notes"
-            className="textarea"
-            rows={14}
-            value={state.generalNotes}
-            placeholder="Observations that are not tied to one inject"
-            onChange={(e) =>
-              update((s) => ({ ...s, generalNotes: e.target.value }), { debounce: true })
-            }
-          />
-        </div>
-      </Tabs.Content>
-    </Tabs.Root>
   )
 }

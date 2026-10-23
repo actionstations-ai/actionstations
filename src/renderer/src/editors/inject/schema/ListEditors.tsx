@@ -1,7 +1,7 @@
 // List controls for the schema form: lists of strings, checkbox groups for lists of enum
 // values, and the row editor for lists of objects (FIDS rows, radio lines, chat messages).
 // Every row has keyboard-reachable move/remove buttons; "Add" focuses the new row.
-import { ArrowDown, ArrowUp, Plus, Trash2 } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { Button } from '../../../components/ui'
 import {
@@ -13,16 +13,9 @@ import {
 } from './fields'
 import { IssuesContext, labelOf, useIssue, type ControlProps } from './form-context'
 import { FieldControl, ObjectBody } from './SchemaForm'
-import {
-  itemNoun,
-  moveItem,
-  numberOrText,
-  parseNumber,
-  removeAt,
-  replaceAt,
-  setKey,
-  type Fields,
-} from './values'
+import { RowActions } from './RowActions'
+import { TableRows } from './RowTable'
+import { itemNoun, moveItem, removeAt, replaceAt, type Fields } from './values'
 
 const asList = (v: unknown): unknown[] => (Array.isArray(v) ? v : [])
 
@@ -36,51 +29,6 @@ function useFocusNewRow(count: number) {
     row?.querySelector<HTMLElement>('input, textarea, select')?.focus()
   }, [pending, count])
   return { container, focusRow: setPending }
-}
-
-function RowActions(props: {
-  index: number
-  count: number
-  noun: string
-  onMove: (delta: number) => void
-  onRemove: () => void
-  canRemove: boolean
-}) {
-  const n = props.index + 1
-  return (
-    <div className="row-actions">
-      <Button
-        size="sm"
-        variant="ghost"
-        icon
-        aria-label={`Move ${props.noun} ${n} up`}
-        disabled={props.index === 0}
-        onClick={() => props.onMove(-1)}
-      >
-        <ArrowUp size={14} aria-hidden />
-      </Button>
-      <Button
-        size="sm"
-        variant="ghost"
-        icon
-        aria-label={`Move ${props.noun} ${n} down`}
-        disabled={props.index === props.count - 1}
-        onClick={() => props.onMove(1)}
-      >
-        <ArrowDown size={14} aria-hidden />
-      </Button>
-      <Button
-        size="sm"
-        variant="ghost"
-        icon
-        aria-label={`Remove ${props.noun} ${n}`}
-        disabled={!props.canRemove}
-        onClick={props.onRemove}
-      >
-        <Trash2 size={14} aria-hidden />
-      </Button>
-    </div>
-  )
 }
 
 function ListHeader(props: { spec: FieldSpec; error?: string; count: number; max?: number }) {
@@ -201,140 +149,6 @@ export function EnumListEditor({ spec, value, onChange, path }: ControlProps<Enu
         ))}
       </div>
     </fieldset>
-  )
-}
-
-/** One cell of a tabular row: a bare control labelled "<Rows> 2: <Gate>". */
-function Cell(props: {
-  spec: FieldSpec
-  value: unknown
-  label: string
-  error?: string
-  onChange: (v: unknown) => void
-}) {
-  const { spec, value, label, error, onChange } = props
-  const aria = { 'aria-label': label, 'aria-invalid': !!error || undefined, title: error }
-  if (spec.kind === 'boolean')
-    return (
-      <input
-        type="checkbox"
-        {...aria}
-        checked={value === true}
-        onChange={(e) => onChange(e.target.checked)}
-      />
-    )
-  if (spec.kind === 'enum')
-    return (
-      <select
-        {...aria}
-        className="select"
-        value={value === undefined ? '' : String(value)}
-        onChange={(e) => onChange(spec.options.find((o) => String(o) === e.target.value))}
-      >
-        <option value="">—</option>
-        {spec.options.map((o) => (
-          <option key={String(o)} value={String(o)}>
-            {String(o)}
-          </option>
-        ))}
-      </select>
-    )
-  if (spec.kind === 'number')
-    return (
-      <input
-        {...aria}
-        type="number"
-        className="input"
-        value={typeof value === 'number' ? value : ''}
-        onChange={(e) => onChange(parseNumber(e.target.value, spec.integer))}
-      />
-    )
-  return (
-    <input
-      {...aria}
-      className="input"
-      value={value === undefined ? '' : String(value)}
-      onChange={(e) =>
-        onChange(spec.kind === 'number-or-text' ? numberOrText(e.target.value) : e.target.value)
-      }
-    />
-  )
-}
-
-function TableRows(props: {
-  spec: ObjectListField
-  list: Fields[]
-  path: string
-  noun: string
-  update: (next: unknown[]) => void
-}) {
-  const { spec, list, path, noun, update } = props
-  const issues = useContext(IssuesContext)
-  const rowErrors = list.flatMap((_, i) =>
-    spec.item.fields
-      .map((f) => [f, issues.get(`${path}/${i}/${f.name}`)] as const)
-      .filter(([, e]) => e)
-      .map(([f, e]) => `${noun} ${i + 1} · ${f.label}: ${e}`),
-  )
-  return (
-    <>
-      <div className="row-table__scroll">
-        <table className="row-table">
-          <thead>
-            <tr>
-              <th scope="col" className="row-table__n">
-                #
-              </th>
-              {spec.item.fields.map((f) => (
-                <th key={f.name} scope="col" title={f.description}>
-                  {labelOf(f)}
-                </th>
-              ))}
-              <th scope="col">
-                <span className="sr-only">Actions</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {list.map((item, i) => (
-              <tr key={i} data-row={i}>
-                <td className="row-table__n mono">{i + 1}</td>
-                {spec.item.fields.map((f) => (
-                  <td key={f.name}>
-                    <Cell
-                      spec={f}
-                      value={item[f.name]}
-                      label={`${spec.label} ${i + 1}: ${f.label}`}
-                      error={issues.get(`${path}/${i}/${f.name}`)}
-                      onChange={(v) =>
-                        update(replaceAt(list, i, setKey(item, f.name, v, f.required)))
-                      }
-                    />
-                  </td>
-                ))}
-                <td>
-                  <RowActions
-                    index={i}
-                    count={list.length}
-                    noun={noun}
-                    canRemove={list.length > (spec.minItems ?? 0)}
-                    onMove={(d) => update(moveItem(list, i, d))}
-                    onRemove={() => update(removeAt(list, i))}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {rowErrors.length > 0 && (
-        <ul className="row-table__errors field__error">
-          {rowErrors.map((e) => (
-            <li key={e}>{e}</li>
-          ))}
-        </ul>
-      )}
-    </>
   )
 }
 

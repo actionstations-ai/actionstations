@@ -126,6 +126,31 @@ function ReadinessSummary(props: { readiness: Readiness | undefined; scenarioUrl
   )
 }
 
+function ExportResultView({ result }: { result: ExportJobResult }) {
+  return (
+    <div className="export-status__done">
+      <p>
+        Wrote {result.files.length} files to <code>{result.folder}</code>
+      </p>
+      {result.warnings.length > 0 && (
+        <ul className="export-status__warnings">
+          {result.warnings.map((w) => (
+            <li key={w}>{w}</li>
+          ))}
+        </ul>
+      )}
+      <div className="row">
+        <Button
+          size="sm"
+          onClick={() => void call('shell:show-item', { path: result.zipPath ?? result.folder })}
+        >
+          <FolderOpen size={14} aria-hidden /> Show in Finder
+        </Button>
+      </div>
+    </div>
+  )
+}
+
 function ExportStatus(props: {
   job: ReturnType<typeof useExportJob>['job']
   jobId: string | null
@@ -155,46 +180,41 @@ function ExportStatus(props: {
           </Button>
         </div>
       )}
-      {result && (
-        <div className="export-status__done">
-          <p>
-            Wrote {result.files.length} files to <code>{result.folder}</code>
-          </p>
-          {result.warnings.length > 0 && (
-            <ul className="export-status__warnings">
-              {result.warnings.map((w) => (
-                <li key={w}>{w}</li>
-              ))}
-            </ul>
-          )}
-          <div className="row">
-            <Button
-              size="sm"
-              onClick={() =>
-                void call('shell:show-item', { path: result.zipPath ?? result.folder })
-              }
-            >
-              <FolderOpen size={14} aria-hidden /> Show in Finder
-            </Button>
-          </div>
-        </div>
-      )}
+      {result && <ExportResultView result={result} />}
     </div>
   )
 }
 
-export default function ExportPage() {
-  const params = useParams()
-  const projectPath = fromProjectKey(params.projectKey ?? '')
-  const scenarioId = params.scenarioId ?? ''
-  const scenario = useIpcQuery(
-    'scenarios:get',
-    { projectPath, scenarioId },
-    { enabled: !!scenarioId },
+function OutputFolder(props: { outDir: string; running: boolean; onChoose: () => void }) {
+  return (
+    <div className="field">
+      <label className="field__label" htmlFor="export-out-dir">
+        Output folder
+      </label>
+      <div className="export-folder">
+        <input
+          id="export-out-dir"
+          className="input"
+          value={props.outDir}
+          readOnly
+          placeholder="No folder chosen"
+          aria-describedby="export-out-hint"
+        />
+        <Button onClick={props.onChoose} disabled={props.running}>
+          Choose…
+        </Button>
+      </div>
+      <span id="export-out-hint" className="field__hint">
+        Files go into a folder named after the scenario; the ZIP sits next to it.
+      </span>
+    </div>
   )
+}
+
+/** Targets, output folder (remembered per project) and the export job with its result. */
+function useExportForm(projectPath: string, scenarioId: string) {
   const [targets, setTargets] = useState<ExportTarget[]>(DEFAULT_TARGETS)
   const [outDir, setOutDir] = useState(() => rememberedOutDir(projectPath))
-  const { readiness } = useReadiness(projectPath, scenario.data)
   const [result, setResult] = useState<ExportJobResult | null>(null)
   const [startError, setStartError] = useState('')
   const onDone = useCallback((e: JobDoneEvent) => setResult(asExportResult(e.result)), [])
@@ -219,6 +239,77 @@ export default function ExportPage() {
       setStartError(errorText(err))
     }
   }
+  const toggle = (id: ExportTarget) => setTargets((t) => toggleTarget(t, id))
+  return { targets, toggle, outDir, chooseFolder, result, startError, start, jobId, job, running }
+}
+
+function ExportForm(props: {
+  form: ReturnType<typeof useExportForm>
+  readiness: Readiness | undefined
+  scenarioUrl: string
+}) {
+  const { form } = props
+  const { running, targets } = form
+  return (
+    <form
+      className="export-form"
+      aria-label="Export options"
+      onSubmit={(e) => {
+        e.preventDefault()
+        void form.start()
+      }}
+    >
+      <TargetGroup
+        legend="Documents (PDF)"
+        options={DOCUMENT_TARGETS}
+        {...{ selected: targets, onToggle: form.toggle, disabled: running }}
+      />
+      <TargetGroup
+        legend="Files"
+        options={FILE_TARGETS}
+        {...{ selected: targets, onToggle: form.toggle, disabled: running }}
+      />
+      <div className="export-actions" role="group" aria-label="Export">
+        <ReadinessSummary readiness={props.readiness} scenarioUrl={props.scenarioUrl} />
+        <OutputFolder
+          outDir={form.outDir}
+          running={running}
+          onChoose={() => void form.chooseFolder()}
+        />
+        {form.startError && (
+          <p className="field__error" role="alert">
+            {form.startError}
+          </p>
+        )}
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={running || !form.outDir || !targets.length}
+        >
+          {running ? 'Exporting…' : 'Export'}
+        </Button>
+        <ExportStatus
+          job={form.job}
+          jobId={form.jobId}
+          result={form.result}
+          onRetry={() => void form.start()}
+        />
+      </div>
+    </form>
+  )
+}
+
+export default function ExportPage() {
+  const params = useParams()
+  const projectPath = fromProjectKey(params.projectKey ?? '')
+  const scenarioId = params.scenarioId ?? ''
+  const scenario = useIpcQuery(
+    'scenarios:get',
+    { projectPath, scenarioId },
+    { enabled: !!scenarioId },
+  )
+  const form = useExportForm(projectPath, scenarioId)
+  const { readiness } = useReadiness(projectPath, scenario.data)
   const scenarioUrl = `/p/${projectKey(projectPath)}/scenarios/${scenarioId}`
 
   return (
@@ -232,66 +323,7 @@ export default function ExportPage() {
         description="Print-ready PDFs, named media files and a distribution package for the exercise."
       />
       <div className="export-layout">
-        <form
-          className="export-form"
-          aria-label="Export options"
-          onSubmit={(e) => {
-            e.preventDefault()
-            void start()
-          }}
-        >
-          <TargetGroup
-            legend="Documents (PDF)"
-            options={DOCUMENT_TARGETS}
-            selected={targets}
-            onToggle={(id) => setTargets((t) => toggleTarget(t, id))}
-            disabled={running}
-          />
-          <TargetGroup
-            legend="Files"
-            options={FILE_TARGETS}
-            selected={targets}
-            onToggle={(id) => setTargets((t) => toggleTarget(t, id))}
-            disabled={running}
-          />
-          <div className="export-actions" role="group" aria-label="Export">
-            <ReadinessSummary readiness={readiness} scenarioUrl={scenarioUrl} />
-            <div className="field">
-              <label className="field__label" htmlFor="export-out-dir">
-                Output folder
-              </label>
-              <div className="export-folder">
-                <input
-                  id="export-out-dir"
-                  className="input"
-                  value={outDir}
-                  readOnly
-                  placeholder="No folder chosen"
-                  aria-describedby="export-out-hint"
-                />
-                <Button onClick={() => void chooseFolder()} disabled={running}>
-                  Choose…
-                </Button>
-              </div>
-              <span id="export-out-hint" className="field__hint">
-                Files go into a folder named after the scenario; the ZIP sits next to it.
-              </span>
-            </div>
-            {startError && (
-              <p className="field__error" role="alert">
-                {startError}
-              </p>
-            )}
-            <Button
-              type="submit"
-              variant="primary"
-              disabled={running || !outDir || !targets.length}
-            >
-              {running ? 'Exporting…' : 'Export'}
-            </Button>
-            <ExportStatus job={job} jobId={jobId} result={result} onRetry={() => void start()} />
-          </div>
-        </form>
+        <ExportForm form={form} readiness={readiness} scenarioUrl={scenarioUrl} />
         {scenarioId && <Preview projectPath={projectPath} scenarioId={scenarioId} />}
       </div>
     </div>
