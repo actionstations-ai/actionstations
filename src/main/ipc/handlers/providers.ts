@@ -227,6 +227,9 @@ export default defineHandlers({
       const i = s.providers.findIndex((p) => p.id === id)
       if (i >= 0) s.providers[i] = next
       else s.providers.push(next)
+      // A key entered again after the settings-folder move clears its notice (#277).
+      if (apiKey && s.keyReentry)
+        s.keyReentry.providerIds = s.keyReentry.providerIds.filter((p) => p !== id)
     })
     forgetProvider(id)
     return toView(next)
@@ -239,6 +242,7 @@ export default defineHandlers({
       for (const [task, ref] of Object.entries(s.defaultRouting))
         if (ref?.providerId === id) delete s.defaultRouting[task as keyof typeof s.defaultRouting]
       if (s.embeddings.providerId === id) delete s.embeddings.providerId
+      if (s.keyReentry) s.keyReentry.providerIds = s.keyReentry.providerIds.filter((p) => p !== id)
     })
     await setSecret(id, null)
     forgetProvider(id)

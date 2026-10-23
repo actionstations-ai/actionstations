@@ -16,7 +16,7 @@ const project = (logoPath?: string) =>
     appVersion: '0.0.1',
     brand: { aliases: {}, ...(logoPath ? { logoPath } : {}) },
   })
-const PATH = '/projects/Northfield.ttxproj'
+const PATH = '/projects/Northfield.asproj'
 
 afterEach(() => cleanup())
 

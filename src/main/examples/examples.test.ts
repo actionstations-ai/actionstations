@@ -9,7 +9,7 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { join, resolve, sep } from 'node:path'
 import type { Channel, ChannelRequest, ChannelResponse } from '@shared/ipc'
 
 const documentsDir = mkdtempSync(join(tmpdir(), 'ttx-docs-'))
@@ -68,7 +68,7 @@ describe('example projects', () => {
 
   it('copies the project, writes the marker, gives it a new id and rebuilds the index', async () => {
     const opened = await invoke('examples:open', { slug: 'mini-transit', parentDir: parent })
-    expect(opened.path).toBe(join(parent, 'Lakeview-Transit-test-fixture.ttxproj'))
+    expect(opened.path).toBe(join(parent, 'Lakeview-Transit-test-fixture.asproj'))
     expect(opened.project.id).not.toBe('mini-transit-fixture')
     expect(opened.project.name).toBe('Lakeview Transit (fixture)')
     expect(existsSync(join(opened.path, 'documents/doc-ops-plan/text.md'))).toBe(true)
@@ -81,11 +81,11 @@ describe('example projects', () => {
   })
 
   it('never overwrites: a second copy gets a numbered folder and name', async () => {
-    const taken = join(parent, 'Lakeview-Transit-test-fixture.ttxproj')
+    const taken = join(parent, 'Lakeview-Transit-test-fixture.asproj')
     mkdirSync(taken)
     writeFileSync(join(taken, 'keep.txt'), 'mine')
     const opened = await invoke('examples:open', { slug: 'mini-transit', parentDir: parent })
-    expect(opened.path).toBe(join(parent, 'Lakeview-Transit-test-fixture-2.ttxproj'))
+    expect(opened.path).toBe(join(parent, 'Lakeview-Transit-test-fixture-2.asproj'))
     expect(opened.project.name).toBe('Lakeview Transit (fixture) (2)')
     expect(readFileSync(join(taken, 'keep.txt'), 'utf8')).toBe('mine')
     expect(existsSync(join(taken, 'project.json'))).toBe(false)
@@ -99,9 +99,22 @@ describe('example projects', () => {
     expect(opened.path.startsWith(parent)).toBe(true)
   })
 
-  it('falls back to Documents/Tabletop Generator', async () => {
+  it('falls back to Documents/Action Stations', async () => {
     const opened = await invoke('examples:open', { slug: 'mini-transit' })
-    expect(opened.path.startsWith(join(documentsDir, 'Tabletop Generator'))).toBe(true)
+    expect(opened.path.startsWith(join(documentsDir, 'Action Stations') + sep)).toBe(true)
+    expect(opened.path.endsWith('.asproj')).toBe(true)
+  })
+
+  it('keeps using the pre-rename projects folder while it was not moved (#277)', async () => {
+    const home = mkdtempSync(join(tmpdir(), 'ttx-home-'))
+    mkdirSync(join(home, 'Documents', 'Tabletop Generator'), { recursive: true })
+    process.env.TTX_TEST_HOME = home
+    try {
+      const opened = await invoke('examples:open', { slug: 'mini-transit' })
+      expect(opened.path.startsWith(join(home, 'Documents', 'Tabletop Generator') + sep)).toBe(true)
+    } finally {
+      delete process.env.TTX_TEST_HOME
+    }
   })
 
   it('refuses slugs that are not plain folder names', async () => {

@@ -11,8 +11,11 @@ import {
   registerAppScheme,
   rendererRoot,
 } from './lib/app-protocol'
+import { projectPathsFromArgv, requestOpen } from './lib/open-requests'
 import { registerMediaProtocol, registerMediaScheme } from './lib/media-protocol'
-import { resourcesDir } from './lib/paths'
+import { appDataDir, documentsDir, resourcesDir } from './lib/paths'
+import { APP_NAME, migrateUserData } from './lib/rename-migration'
+import { finishRenameMigration } from './settings/finish-rename-migration'
 import { createQuitGuard, resetRendererReady } from './lib/quit-guard'
 // Load every provider adapter at startup so a broken adapter fails the launch smoke test
 // instead of crashing later on first use.
@@ -59,7 +62,7 @@ function createMainWindow(): BrowserWindow {
     minWidth: 960,
     minHeight: 640,
     show: false,
-    title: 'Action Stations',
+    title: APP_NAME,
     backgroundColor: '#0d1226',
     // Packaged builds take the icon from the installer; unpackaged runs use the build/ master.
     ...(devIcon ? { icon: devIcon } : {}),
@@ -104,13 +107,22 @@ function createMainWindow(): BrowserWindow {
   return win
 }
 
-// Menu bar, About, Hide and Quit say Action Stations. The settings folder keeps the name it was
-// created under (package productName), so providers and recent projects carry over (#191).
-const settingsDir = app.getPath('userData')
-app.setName('Action Stations')
-app.setPath('userData', process.env.TTX_USER_DATA ?? settingsDir)
+// Menu bar, About, Hide and Quit say Action Stations. The name also keys the macOS Keychain
+// entry safeStorage uses ("Action Stations Safe Storage"), read after this script runs.
+app.setName(APP_NAME)
+// Settings live in <appData>/Action Stations. The first launch after the rename moves the old
+// "Tabletop Generator" folder there (#277); isolated runs (TTX_USER_DATA) never migrate.
+const userDataOverride = process.env.TTX_USER_DATA
+app.setPath('userData', userDataOverride ?? migrateUserData(appDataDir()).userData)
 
-void app.whenReady().then(() => {
+// Project folders opened from Finder / Explorer (#277). 'open-file' can fire before ready.
+app.on('open-file', (e, path) => {
+  e.preventDefault()
+  requestOpen(path)
+})
+for (const path of projectPathsFromArgv(process.argv.slice(1))) requestOpen(path)
+
+void app.whenReady().then(async () => {
   // No camera/mic/geolocation/notifications etc. for any web content.
   session.defaultSession.setPermissionRequestHandler((_wc, _perm, cb) => cb(false))
   session.defaultSession.setPermissionCheckHandler(() => false)
@@ -120,6 +132,11 @@ void app.whenReady().then(() => {
   const devIcon = app.isPackaged ? undefined : devIconPath()
   if (devIcon && process.platform === 'darwin') app.dock?.setIcon(devIcon)
   if (!app.isPackaged) console.log(`[providers] adapters: ${listAdapterKinds().join(', ')}`)
+  // Before the window opens, so the renderer's first reads see the moved paths and keys.
+  if (!userDataOverride)
+    await finishRenameMigration(app.getPath('userData'), documentsDir()).catch((e: unknown) =>
+      console.error('[migration]', e),
+    )
   createMainWindow()
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createMainWindow()

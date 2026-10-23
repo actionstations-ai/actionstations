@@ -46,7 +46,7 @@ describe('project handlers', () => {
   })
 
   it('refuses get/update for folders the user never opened', async () => {
-    const stranger = join(parent, 'other.ttxproj')
+    const stranger = join(parent, 'other.asproj')
     mkdirSync(stranger)
     writeFileSync(join(stranger, 'project.json'), '{}')
     await expect(invoke('project:get', { path: stranger })).rejects.toMatchObject({
@@ -166,7 +166,7 @@ describe('project handlers', () => {
     await invoke('project:archive', { path: src.path, archived: true })
 
     const copy = await invoke('project:duplicate', { path: src.path, newName: 'Northfield Copy' })
-    expect(copy.path).toBe(join(parent, 'Northfield-Copy.ttxproj'))
+    expect(copy.path).toBe(join(parent, 'Northfield-Copy.asproj'))
     expect(copy.project.id).not.toBe(src.project.id)
     expect(copy.project.name).toBe('Northfield Copy')
     expect(copy.project.archived).toBe(false)
@@ -197,7 +197,7 @@ describe('project handlers', () => {
 
   it('refuses to duplicate over an existing folder', async () => {
     const { path } = await create('Dup')
-    mkdirSync(join(parent, 'Taken.ttxproj'))
+    mkdirSync(join(parent, 'Taken.asproj'))
     await expect(invoke('project:duplicate', { path, newName: 'Taken' })).rejects.toMatchObject({
       code: 'CONFLICT',
     })

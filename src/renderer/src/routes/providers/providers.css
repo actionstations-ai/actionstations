@@ -111,3 +111,23 @@
   font-size: var(--text-sm);
   overflow-wrap: anywhere;
 }
+
+/* Notice after the settings-folder move (#277): keys to enter again. */
+.key-reentry {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--color-warning);
+  border-radius: var(--radius-md);
+  background: var(--color-warning-soft);
+  color: var(--color-text);
+}
+.key-reentry svg {
+  flex: none;
+  margin-top: 0.2rem;
+  color: var(--color-warning);
+}
+.key-reentry p {
+  margin: 0;
+}

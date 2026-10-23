@@ -1,4 +1,4 @@
-# 01 — Product Requirements: Tabletop Generator
+# 01 — Product Requirements: Action Stations
 
 ## Problem
 

@@ -84,6 +84,21 @@ describe('providers:upsert / list', () => {
     expect((await getSettings()).providers).toHaveLength(1)
   })
 
+  it('clears the re-entry notice for a provider once its key is entered again (#277)', async () => {
+    const a = await addMock({ label: 'A' })
+    const b = await addMock({ label: 'B' })
+    const { updateSettings } = await import('../../settings/store')
+    await updateSettings((s) => {
+      s.keyReentry = { providerIds: [a.id, b.id], dismissed: false }
+    })
+    await addMock({ id: a.id, label: 'A' })
+    expect((await getSettings()).keyReentry?.providerIds).toEqual([a.id, b.id])
+    await addMock({ id: a.id, label: 'A' }, KEY)
+    expect((await getSettings()).keyReentry?.providerIds).toEqual([b.id])
+    await call('providers:remove', { id: b.id })
+    expect((await getSettings()).keyReentry?.providerIds).toEqual([])
+  })
+
   it('refuses to save anything when secure storage is unavailable', async () => {
     storage.available = false
     await expect(addMock({}, KEY)).rejects.toMatchObject({ code: 'FORBIDDEN' })

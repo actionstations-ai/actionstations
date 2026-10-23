@@ -46,7 +46,7 @@ function OpenExampleForm(props: {
     <form className="stack" onSubmit={submit} noValidate aria-label="Open example">
       <Field
         label="Copy into"
-        hint="A new project folder is created inside this folder; nothing there is overwritten. Leave empty to use the default projects folder from Settings, or your Documents folder."
+        hint="A new project folder is created inside this folder; nothing there is overwritten. Leave empty to use the default projects folder from Settings, or Documents/Action Stations."
       >
         {({ id, describedBy }) => (
           <div className="row">

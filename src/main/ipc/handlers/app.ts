@@ -3,6 +3,7 @@ import { defineHandlers } from '../registry'
 import { getSettings, updateSettings } from '../../settings/store'
 import { userDataDir } from '../../lib/paths'
 import { onUnsavedReport } from '../../lib/quit-guard'
+import { takePendingOpens } from '../../lib/open-requests'
 
 const focused = (): BrowserWindow | undefined =>
   BrowserWindow.getFocusedWindow() ?? BrowserWindow.getAllWindows()[0]
@@ -50,6 +51,8 @@ export default defineHandlers({
     onUnsavedReport(requestId, items)
   },
 
+  'app:pending-opens': () => takePendingOpens(),
+
   'shell:show-item': ({ path }) => {
     shell.showItemInFolder(path)
   },
@@ -64,5 +67,7 @@ export default defineHandlers({
       if (patch.defaultRouting) s.defaultRouting = patch.defaultRouting
       if (patch.onboardingComplete !== undefined) s.onboardingComplete = patch.onboardingComplete
       if (patch.defaultProjectsDir !== undefined) s.defaultProjectsDir = patch.defaultProjectsDir
+      if (patch.keyReentryDismissed !== undefined && s.keyReentry)
+        s.keyReentry.dismissed = patch.keyReentryDismissed
     }),
 })

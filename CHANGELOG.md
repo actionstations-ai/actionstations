@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Tabletop Generator are recorded here. The format follows
+All notable changes to Action Stations are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/). Pull requests are referenced as `PR #NN`, issues
 as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release date, then run
@@ -9,6 +9,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 ## [Unreleased]
 
 ### Changed
+
+#### Name
+
+- The app is now called **Action Stations** everywhere (machine name `actionstations`): package, installer names (`actionstations-<version>-…`), app id `com.mdcrowley.actionstations`, settings folder (`Action Stations` under Application Support, `%APPDATA%` or `~/.config`), default projects folder (`Documents/Action Stations`), documents, and the repository (`mdcrowley/actionstations`). On the first launch after updating, the old `Tabletop Generator` settings and projects folders are moved to the new names (copied when a move is not possible; the old folder is kept if the copy fails) and recent projects are updated. API keys that cannot be unlocked under the new name (keys saved before the in-app rename in #191) are set aside and the Providers page asks for them once. New projects are `<name>.asproj` folders; `.ttxproj` projects open as before, and double-clicking either opens it in the app on macOS (ADR-0019) (#277).
 
 #### License
 

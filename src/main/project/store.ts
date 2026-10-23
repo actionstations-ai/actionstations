@@ -1,5 +1,5 @@
 // Core project-folder store (ADR-0003). Folder layout:
-//   <Name>.ttxproj/
+//   <Name>.asproj/   (older projects: <Name>.ttxproj/, opened the same way)
 //     project.json  documents/<docId>/  scenarios/<id>/{scenario.json,injects/,documents/,media/,history/}  prompts/
 //     index.sqlite  (rebuildable, gitignored via the project's own .gitignore)
 import { promises as fs } from 'node:fs'
@@ -21,7 +21,9 @@ import { newId, nowIso } from '../lib/ids'
 import { markProjectOpen } from '../lib/project-registry'
 import { updateSettings } from '../settings/store'
 
-export const PROJECT_EXT = '.ttxproj'
+export const PROJECT_EXT = '.asproj'
+/** Project folders made before the rename to Action Stations (#277). Still opened as-is. */
+export const LEGACY_PROJECT_EXT = '.ttxproj'
 const PROJECT_FILE = 'project.json'
 // exports/ is the export page's default output folder (#238): rebuilt from the project.
 const PROJECT_GITIGNORE = ['index.sqlite', 'index.sqlite-*', '.cache/', 'exports/', ''].join('\n')
@@ -145,7 +147,12 @@ export async function touchRecent(root: string, project: Project): Promise<void>
 }
 
 /** Default folder name for display when project.json is unreadable. */
-export const folderLabel = (path: string): string => basename(path, PROJECT_EXT)
+export const folderLabel = (path: string): string => {
+  const name = basename(path)
+  for (const ext of [PROJECT_EXT, LEGACY_PROJECT_EXT])
+    if (name.toLowerCase().endsWith(ext)) return name.slice(0, -ext.length)
+  return name
+}
 
 export async function listDir(path: string): Promise<string[]> {
   try {

@@ -79,7 +79,7 @@ const {
 } = await import('./present')
 const { onEmit } = await import('../lib/events')
 
-const target = { projectPath: '/Users/a/NCIA.ttxproj', scenarioId: 'S1', injectId: 'INJ1' }
+const target = { projectPath: '/Users/a/NCIA.asproj', scenarioId: 'S1', injectId: 'INJ1' }
 
 describe('presentation window', () => {
   beforeEach(() => {
@@ -107,9 +107,9 @@ describe('presentation window', () => {
   })
 
   it('routes to the app document with a present hash', () => {
-    expect(presentHash(target)).toBe('/present/%2FUsers%2Fa%2FNCIA.ttxproj/S1/INJ1')
+    expect(presentHash(target)).toBe('/present/%2FUsers%2Fa%2FNCIA.asproj/S1/INJ1')
     expect(presentHash({ ...target, assetId: 'photo-01' })).toBe(
-      '/present/%2FUsers%2Fa%2FNCIA.ttxproj/S1/INJ1?asset=photo-01',
+      '/present/%2FUsers%2Fa%2FNCIA.asproj/S1/INJ1?asset=photo-01',
     )
   })
 
@@ -130,7 +130,7 @@ describe('presentation window', () => {
       /preload[\\/]index\.cjs$/,
     )
     expect(win.loadURL).toHaveBeenCalledWith(
-      'app://bundle/index.html#/present/%2FUsers%2Fa%2FNCIA.ttxproj/S1/INJ1',
+      'app://bundle/index.html#/present/%2FUsers%2Fa%2FNCIA.asproj/S1/INJ1',
     )
     win.emit('ready-to-show')
     expect(win.showInactive).toHaveBeenCalled()
@@ -142,7 +142,7 @@ describe('presentation window', () => {
     present({ ...target, injectId: 'INJ2', assetId: 'A1' })
     expect(FakeWindow.instances).toHaveLength(1)
     expect(FakeWindow.instances[0]!.loadURL).toHaveBeenLastCalledWith(
-      'app://bundle/index.html#/present/%2FUsers%2Fa%2FNCIA.ttxproj/S1/INJ2?asset=A1',
+      'app://bundle/index.html#/present/%2FUsers%2Fa%2FNCIA.asproj/S1/INJ2?asset=A1',
     )
   })
 
@@ -210,7 +210,7 @@ describe('presentation window', () => {
     vi.stubEnv('ELECTRON_RENDERER_URL', 'http://localhost:5173')
     present(target)
     expect(FakeWindow.instances[0]!.loadURL).toHaveBeenCalledWith(
-      'http://localhost:5173#/present/%2FUsers%2Fa%2FNCIA.ttxproj/S1/INJ1',
+      'http://localhost:5173#/present/%2FUsers%2Fa%2FNCIA.asproj/S1/INJ1',
     )
   })
 })

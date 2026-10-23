@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping build Tabletop Generator. This page covers the workflow, the local CI, and the live tests. The longer version of the workflow is [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md); how the code is wired (handlers, routes, adapters, templates) is in [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md).
+Thanks for helping build Action Stations. This page covers the workflow, the local CI, and the live tests. The longer version of the workflow is [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md); how the code is wired (handlers, routes, adapters, templates) is in [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md).
 
 ## Set up
 
@@ -20,7 +20,7 @@ Action Stations is source-available under the [PolyForm Internal Use License 1.0
 
 ## The loop
 
-1. **Issue first.** Every change starts as a GitHub issue on `mdcrowley/tabletop-gen`, created from a template in `.github/ISSUE_TEMPLATE/` (feature, bug, new inject type). Apply `area:*`, `type:*` and priority labels and a milestone. If you find more work while you are at it, open an issue for it rather than leaving a placeholder comment in the code.
+1. **Issue first.** Every change starts as a GitHub issue on `mdcrowley/actionstations`, created from a template in `.github/ISSUE_TEMPLATE/` (feature, bug, new inject type). Apply `area:*`, `type:*` and priority labels and a milestone. If you find more work while you are at it, open an issue for it rather than leaving a placeholder comment in the code.
 2. **Branch** from an up-to-date `main`:
    - `feat/<issue>-<slug>` for features
    - `fix/<issue>-<slug>` for bugs

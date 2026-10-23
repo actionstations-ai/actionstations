@@ -104,6 +104,39 @@ export async function setSecret(providerId: string, value: string | null): Promi
   })
 }
 
+function decrypts(cipher: string): boolean {
+  try {
+    safeStorage.decryptString(Buffer.from(cipher, 'base64'))
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
+ * After the settings folder moved (#277): find keys this install cannot decrypt (written
+ * under another OS keychain entry). The whole encrypted file is first copied aside to
+ * `secrets.unreadable-<time>.json`, then those keys are removed from secrets.json so the
+ * providers show "no key" instead of failing on every call. Returns the affected provider ids.
+ * Does nothing when the OS cannot decrypt at all (the keys may work once a keyring is back).
+ */
+export async function setAsideUndecryptableSecrets(): Promise<string[]> {
+  return serialized(async () => {
+    const map = await readMap()
+    const ids = Object.keys(map)
+    if (ids.length === 0 || !encryptionAvailable()) return []
+    const failed = ids.filter((id) => !decrypts(map[id]!))
+    if (failed.length === 0) return []
+    const stamp = new Date().toISOString().replace(/[:.]/g, '-')
+    const aside = userDataPath(`secrets.unreadable-${stamp}.json`)
+    await writeFileAtomic(aside, JSON.stringify(map, null, 2) + '\n')
+    await fs.chmod(aside, 0o600).catch(() => undefined)
+    for (const id of failed) delete map[id]
+    await writeMap(map)
+    return failed
+  })
+}
+
 export async function hasSecret(providerId: string): Promise<boolean> {
   checkId(providerId)
   return providerId in (await readMap())

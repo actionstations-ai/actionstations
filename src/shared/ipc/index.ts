@@ -78,6 +78,8 @@ export const events = {
   'job:done': JobDoneEvent,
   /** Main is about to quit: save what you can, then answer with app:unsaved-report (#196). */
   'app:quit-check': z.object({ requestId: z.string() }),
+  /** The OS asked the app to open a project folder (double-clicked .asproj, #277). */
+  'app:open-project': z.object({ path: z.string() }),
   'facilitator:present-changed': PresentChangedEvent,
   'project:changed': z.object({
     path: z.string(),

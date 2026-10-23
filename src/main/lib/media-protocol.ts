@@ -15,7 +15,7 @@ export function registerMediaScheme(): void {
 
 /**
  * Serve files from inside known project folders only. The path guard follows symlinks so a
- * shared .ttxproj can't point outside itself; Range headers pass through for video seeking.
+ * shared .asproj can't point outside itself; Range headers pass through for video seeking.
  */
 export function registerMediaProtocol(): void {
   protocol.handle(MEDIA_PROTOCOL, async (request) => {

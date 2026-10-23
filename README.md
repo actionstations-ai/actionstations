@@ -1,10 +1,10 @@
-# Tabletop Generator
+# Action Stations
 
-Tabletop Generator is a local-first Electron desktop app that turns an organization's source documents (emergency plans, security programs, course material) into complete, editable, exportable tabletop exercises: scenario narrative, Master Scenario Events List (MSEL), inject deck with realistic media (tweets, helpdesk tickets, emails, log files, information boards and HMI screens, radio and phone audio, short video), controller handbook, and player briefing. You connect the LLM, image, voice and video providers you choose (local models via LM Studio, Ollama and ComfyUI, or Anthropic), and every generated item cites the section of your own documents it came from. It generalizes the hand-built CSAAP airport-cybersecurity tabletops in `reference/` to any cyber-physical, emergency-management or operations domain (transit, dams and water utilities, energy, healthcare, campuses, venues, ports, cities, plants, drone operators) through domain profiles (ADR-0014).
+Action Stations is a local-first Electron desktop app that turns an organization's source documents (emergency plans, security programs, course material) into complete, editable, exportable tabletop exercises: scenario narrative, Master Scenario Events List (MSEL), inject deck with realistic media (tweets, helpdesk tickets, emails, log files, information boards and HMI screens, radio and phone audio, short video), controller handbook, and player briefing. You connect the LLM, image, voice and video providers you choose (local models via LM Studio, Ollama and ComfyUI, or Anthropic), and every generated item cites the section of your own documents it came from. It generalizes the hand-built CSAAP airport-cybersecurity tabletops in `reference/` to any cyber-physical, emergency-management or operations domain (transit, dams and water utilities, energy, healthcare, campuses, venues, ports, cities, plants, drone operators) through domain profiles (ADR-0014).
 
-Repository: https://github.com/mdcrowley/tabletop-gen
+Repository: https://github.com/mdcrowley/actionstations
 
-**Naming.** The app shows itself as **Action Stations** (window and menu-bar titles, sidebar logo, app icon). The npm package (`tabletop-gen`), the installer and product name (`Tabletop Generator-<version>-…`), the settings folder (`~/Library/Application Support/Tabletop Generator` on macOS, `%APPDATA%\Tabletop Generator` on Windows, `~/.config/Tabletop Generator` on Linux) and the default projects folder (`~/Documents/Tabletop Generator`) keep the original name, so existing settings and projects are found after the rename.
+**Settings and projects.** Settings live in `~/Library/Application Support/Action Stations` (macOS), `%APPDATA%\Action Stations` (Windows) or `~/.config/Action Stations` (Linux); new projects default to `~/Documents/Action Stations` and are folders named `<name>.asproj`. The app was called Tabletop Generator before 0.2.0: on the first launch after updating, it moves the old `Tabletop Generator` settings and projects folders to the new names, and projects named `<name>.ttxproj` keep opening as they are (see the CHANGELOG).
 
 ## Prerequisites
 
@@ -113,6 +113,7 @@ e2e/                 Playwright tests
 | [0016](docs/adr/0016-forward-compatible-files.md) | Forward-compatible project files                                                |
 | [0017](docs/adr/0017-windowed-lists.md)           | Memoized rows and windowed long lists (MSEL grid, inject deck)                  |
 | [0018](docs/adr/0018-packs.md)                    | Packs: installable content bundles                                              |
+| [0019](docs/adr/0019-rename-action-stations.md)   | Rename to Action Stations; migrate old settings, projects and keys              |
 
 New ADRs start from [`docs/adr/0000-template.md`](docs/adr/0000-template.md).
 
@@ -148,7 +149,7 @@ This repository has no GitHub Actions, by design. There is nothing under `.githu
 ## Non-negotiables (also in CLAUDE.md)
 
 - **No GitHub Actions.** Nothing under `.github/workflows/`. Checks run locally via `scripts/local-ci.sh` and git hooks.
-- **Issues are tracked in GitHub Issues** on `mdcrowley/tabletop-gen`. Every unit of work maps to an issue; commits reference issue numbers.
+- **Issues are tracked in GitHub Issues** on `mdcrowley/actionstations`. Every unit of work maps to an issue; commits reference issue numbers.
 - **Local-first.** Projects, documents, prompts and generated media live on the user's disk. Remote APIs are opt-in per provider.
 - **Provider-agnostic.** LM Studio / Ollama / OpenAI-compatible and Anthropic for text; ComfyUI for image/video, mlx-audio or the system voice for speech, with the abstraction ready for others.
 

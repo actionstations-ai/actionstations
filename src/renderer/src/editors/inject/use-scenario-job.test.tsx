@@ -8,7 +8,7 @@ import { useJob } from '../../routes/generate/use-job'
 import { JobBanner } from './JobBanner'
 import { useScenarioJob } from './use-scenario-job'
 
-const PROJECT = '/Users/test/Riverbend.ttxproj'
+const PROJECT = '/Users/test/Riverbend.asproj'
 const job = (over: Partial<Job> = {}): Job => ({
   id: 'OLD',
   kind: 'generate-injects',

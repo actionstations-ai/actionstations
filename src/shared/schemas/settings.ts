@@ -20,6 +20,17 @@ export const GenerationSettings = z.object({
 })
 export type GenerationSettings = z.infer<typeof GenerationSettings>
 
+/**
+ * API keys that could not be read after the settings folder moved to its new name (#277).
+ * The Providers page lists them until the user dismisses the notice; entering a key for a
+ * provider removes it from the list.
+ */
+export const KeyReentry = z.object({
+  providerIds: z.array(z.string()).default([]),
+  dismissed: z.boolean().default(false),
+})
+export type KeyReentry = z.infer<typeof KeyReentry>
+
 export const AppSettings = z.object({
   recentProjects: z.array(RecentProject).default([]),
   providers: z.array(ProviderConfig).default([]),
@@ -30,5 +41,6 @@ export const AppSettings = z.object({
   generation: GenerationSettings.default({ autoInjectsAndMedia: false }),
   onboardingComplete: z.boolean().default(false),
   defaultProjectsDir: z.string().optional(),
+  keyReentry: KeyReentry.optional(),
 })
 export type AppSettings = z.infer<typeof AppSettings>

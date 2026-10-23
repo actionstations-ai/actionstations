@@ -7,7 +7,7 @@ import { applyProgress, applyToken, emptyLog, seedFromJob } from './live-log'
 import { LiveLogPanel } from './LiveLogPanel'
 import { useLiveLog } from './use-live-log'
 
-const PROJECT = '/Users/test/NCIA.ttxproj'
+const PROJECT = '/Users/test/NCIA.asproj'
 const job = (over: Partial<Job> = {}): Job => ({
   id: 'JOB1',
   kind: 'generate-scenario',

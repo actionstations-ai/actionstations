@@ -31,8 +31,8 @@ beforeEach(() => {
 
 describe('activeEmbedder', () => {
   it('passes the project path to the embedder factory', async () => {
-    await activeEmbedder('/projects/ncia.ttxproj')
-    expect(seen.deps[0]?.projectPath).toBe('/projects/ncia.ttxproj')
+    await activeEmbedder('/projects/ncia.asproj')
+    expect(seen.deps[0]?.projectPath).toBe('/projects/ncia.asproj')
   })
 
   it('uses global routing (no project path) when called without one', async () => {

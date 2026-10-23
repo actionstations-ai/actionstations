@@ -141,9 +141,9 @@ describe('helpers', () => {
     expect(formatExerciseTime(75)).toBe('1:15')
   })
   it('round-trips media URLs with spaces and unicode', () => {
-    const url = mediaUrl('/Users/me/My Airport.ttxproj', 'scenarios/s1/media/I-06/board ü.png')
+    const url = mediaUrl('/Users/me/My Airport.asproj', 'scenarios/s1/media/I-06/board ü.png')
     expect(parseMediaUrl(url)).toEqual({
-      projectPath: '/Users/me/My Airport.ttxproj',
+      projectPath: '/Users/me/My Airport.asproj',
       relPath: 'scenarios/s1/media/I-06/board ü.png',
     })
   })

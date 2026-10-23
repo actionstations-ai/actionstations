@@ -3,11 +3,12 @@
 // the target name is claimed with a non-recursive mkdir, which fails if anything is there.
 import { promises as fs } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
-import { app } from 'electron'
 import type { OpenProject } from '@shared/schemas'
 import { ExampleMarker, type ExampleManifest } from '@shared/ipc/examples'
 import { AppError } from '../lib/errors'
 import { ensureDir, slugify, writeJsonAtomic } from '../lib/fs'
+import { documentsDir } from '../lib/paths'
+import { defaultProjectsDir } from '../lib/rename-migration'
 import { newId, nowIso } from '../lib/ids'
 import { getSettings } from '../settings/store'
 import { isDerivedPath } from '../project/duplicate'
@@ -22,11 +23,11 @@ const MAX_SUFFIX = 99
 export async function defaultExampleParent(): Promise<string> {
   const settings = await getSettings()
   if (settings.defaultProjectsDir) return settings.defaultProjectsDir
-  return join(app.getPath('documents'), 'Tabletop Generator')
+  return defaultProjectsDir(documentsDir())
 }
 
 /**
- * Claim `<parent>/<slug(title)>.ttxproj`, else `-2`, `-3`… The returned folder was created
+ * Claim `<parent>/<slug(title)>.asproj`, else `-2`, `-3`… The returned folder was created
  * empty by this call, so nothing that existed before is ever written into.
  */
 export async function claimFolder(

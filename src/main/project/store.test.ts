@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { mkdtempSync, readFileSync, existsSync } from 'node:fs'
+import { mkdtempSync, readFileSync, existsSync, renameSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -8,8 +8,9 @@ vi.mock('electron', () => ({
   BrowserWindow: { getAllWindows: () => [] },
 }))
 
-const { createProject, loadProject, openProject, updateProject, projectPaths } =
+const { createProject, folderLabel, loadProject, openProject, updateProject, projectPaths } =
   await import('./store')
+const { duplicateProject } = await import('./duplicate')
 const { getSettings, resetSettingsCache } = await import('../settings/store')
 
 describe('project store', () => {
@@ -27,13 +28,30 @@ describe('project store', () => {
       orgName: 'NCRAA',
       orgType: 'airport',
     })
-    expect(path.endsWith('North-Coast-International.ttxproj')).toBe(true)
+    expect(path.endsWith('North-Coast-International.asproj')).toBe(true)
     for (const d of ['documents', 'scenarios', 'prompts'])
       expect(existsSync(join(path, d))).toBe(true)
     expect(readFileSync(join(path, '.gitignore'), 'utf8')).toContain('index.sqlite')
     expect(readFileSync(join(path, '.gitignore'), 'utf8')).toContain('exports/')
     expect((await loadProject(path)).id).toBe(project.id)
     expect((await getSettings()).recentProjects[0]?.path).toBe(path)
+  })
+
+  it('opens and duplicates a project from before the rename (.ttxproj, #277)', async () => {
+    const { path } = await createProject({ parentDir: parent, name: 'Legacy' })
+    const legacy = join(parent, 'Legacy.ttxproj')
+    renameSync(path, legacy)
+    const opened = await openProject(legacy)
+    expect(opened.path).toBe(legacy)
+    expect((await getSettings()).recentProjects[0]?.path).toBe(legacy)
+    const copy = await duplicateProject(legacy, { newName: 'Legacy copy' })
+    expect(copy.path).toBe(join(parent, 'Legacy-copy.asproj'))
+  })
+
+  it('labels both project folder extensions without the extension', () => {
+    expect(folderLabel('/x/North-Coast.asproj')).toBe('North-Coast')
+    expect(folderLabel('/x/North-Coast.ttxproj')).toBe('North-Coast')
+    expect(folderLabel('/x/plain-folder')).toBe('plain-folder')
   })
 
   it('refuses to overwrite an existing folder', async () => {

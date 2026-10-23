@@ -107,7 +107,7 @@ function setup(extra: Handlers = {}, initial: Partial<AppSettings> = {}) {
     }),
     'embeddings:download-model': () => ({ jobId: 'JOB1' }),
     'project:create': (req: { parentDir: string; name: string }) => ({
-      path: `${req.parentDir}/${req.name}.ttxproj`,
+      path: `${req.parentDir}/${req.name}.asproj`,
     }),
     ...extra,
   } as Handlers)
@@ -416,7 +416,7 @@ describe('first project and done', () => {
     await user.click(screen.getByRole('button', { name: 'Import documents…' }))
     expect(await screen.findByText('Documents page')).toBeTruthy()
     expect(fake.ttx.calls('documents:import')[0]).toEqual({
-      projectPath: '/Users/test/Exercises/Rivergate Airport.ttxproj',
+      projectPath: '/Users/test/Exercises/Rivergate Airport.asproj',
       filePaths: ['/src/TIRP.pdf'],
     })
   })

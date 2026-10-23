@@ -85,7 +85,7 @@ function isInside(dir: string, abs: string): boolean {
 
 /**
  * Real path of a project file, or undefined when it is missing or a symlink that points outside
- * the project folder (a shared .ttxproj must not put outside files into a render).
+ * the project folder (a shared .asproj must not put outside files into a render).
  */
 function realInside(root: string, rel: string): string | undefined {
   try {

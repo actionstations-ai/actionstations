@@ -47,6 +47,8 @@ export const appChannels = {
     z.object({ requestId: z.string().optional(), items: z.array(z.string()) }),
     z.void(),
   ),
+  /** Project folders the OS asked to open before the window was listening (#277). */
+  'app:pending-opens': channel(z.void(), z.array(z.string())),
   'shell:show-item': channel(z.object({ path: z.string() }), z.void()),
   'settings:get': channel(z.void(), AppSettings),
   'settings:update': channel(
@@ -57,6 +59,8 @@ export const appChannels = {
       defaultRouting: ProviderRouting.optional(),
       onboardingComplete: z.boolean().optional(),
       defaultProjectsDir: z.string().optional(),
+      /** Hide the "re-enter API keys" notice shown after the settings-folder move (#277). */
+      keyReentryDismissed: z.boolean().optional(),
     }),
     AppSettings,
   ),

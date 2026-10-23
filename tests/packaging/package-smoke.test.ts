@@ -100,10 +100,10 @@ describe('asar contents', () => {
 
 describe('packagedLayout', () => {
   it('finds the fuse wire in the framework on macOS and in the executable elsewhere', () => {
-    const mac = packagedLayout('/r/Tabletop Generator.app', 'darwin')
-    expect(mac.executable).toBe('/r/Tabletop Generator.app/Contents/MacOS/Tabletop Generator')
+    const mac = packagedLayout('/r/Action Stations.app', 'darwin')
+    expect(mac.executable).toBe('/r/Action Stations.app/Contents/MacOS/Action Stations')
     expect(mac.fuseBinary).toMatch(/Electron Framework\.framework\/Electron Framework$/)
-    const linux = packagedLayout('/r/linux-unpacked/tabletop-gen', 'linux')
+    const linux = packagedLayout('/r/linux-unpacked/actionstations', 'linux')
     expect(linux.fuseBinary).toBe(linux.executable)
     expect(linux.resources).toBe('/r/linux-unpacked/resources')
   })

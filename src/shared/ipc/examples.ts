@@ -52,7 +52,7 @@ export const exampleChannels = {
   'examples:list': channel(z.void(), z.array(ExampleInfo)),
   /**
    * Copy an example's project into `parentDir` (default: the projects folder from Settings,
-   * else ~/Documents/Tabletop Generator) under a name no existing folder has, then open it.
+   * else ~/Documents/Action Stations) under a name no existing folder has, then open it.
    */
   'examples:open': channel(
     z.object({ slug: SafeId, parentDir: z.string().min(1).optional() }),

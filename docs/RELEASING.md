@@ -23,7 +23,7 @@ There is no release automation and no GitHub Actions (ADR-0002).
    `pnpm ci:local`, bumps the version in `package.json` temporarily, builds this host's
    installers, lists them with sizes, prints the `gh release create` command and the release
    notes, then restores `package.json`. Nothing is committed, tagged, pushed or uploaded.
-4. Smoke-test the installer: `node scripts/package-smoke.mjs --dmg "release/X.Y.Z/Tabletop Generator-X.Y.Z-mac-arm64.dmg"`.
+4. Smoke-test the installer: `node scripts/package-smoke.mjs --dmg "release/X.Y.Z/actionstations-X.Y.Z-mac-arm64.dmg"`.
 5. Publish: `pnpm release X.Y.Z --publish [--issue N]`. This runs `pnpm version X.Y.Z` (commit
    `chore(release): vX.Y.Z (#N)` + tag `vX.Y.Z`), rebuilds the installers, pushes `main` and the
    tag, and creates a **draft** GitHub release with the installers and the CHANGELOG section as
@@ -36,11 +36,11 @@ There is no release automation and no GitHub Actions (ADR-0002).
 
 `artifactName` is `${productName}-${version}-${os}-${arch}.${ext}`:
 
-| Platform | Target        | Example                                          |
-| -------- | ------------- | ------------------------------------------------ |
-| macOS    | dmg, arm64    | `Tabletop Generator-0.1.0-mac-arm64.dmg`         |
-| Windows  | NSIS, x64     | `Tabletop Generator-0.1.0-win-x64-setup.exe`     |
-| Linux    | AppImage, x64 | `Tabletop Generator-0.1.0-linux-x86_64.AppImage` |
+| Platform | Target        | Example                                      |
+| -------- | ------------- | -------------------------------------------- |
+| macOS    | dmg, arm64    | `actionstations-0.1.0-mac-arm64.dmg`         |
+| Windows  | NSIS, x64     | `actionstations-0.1.0-win-x64-setup.exe`     |
+| Linux    | AppImage, x64 | `actionstations-0.1.0-linux-x86_64.AppImage` |
 
 Measured on Apple M-series, Electron 45 (`pnpm build`, 49 s): the arm64 dmg is 263 MB; the
 app bundle is 672 MB on disk, of which `app.asar` is 208 MB and `app.asar.unpacked` 208 MB.
@@ -180,9 +180,9 @@ every credential in environment variables or the OS keychain, never in the repos
    - notarization, preferably with an App Store Connect API key: `APPLE_API_KEY=/path/to/AuthKey_XXXX.p8`,
      `APPLE_API_KEY_ID`, `APPLE_API_ISSUER` (alternatives: `APPLE_ID` +
      `APPLE_APP_SPECIFIC_PASSWORD` + `APPLE_TEAM_ID`, or `APPLE_KEYCHAIN` + `APPLE_KEYCHAIN_PROFILE`).
-4. Verify: `codesign --verify --deep --strict --verbose=2 "Tabletop Generator.app"`,
-   `spctl --assess --type execute -vv "Tabletop Generator.app"`, and
-   `xcrun stapler validate "Tabletop Generator-X.Y.Z-mac-arm64.dmg"`; then
+4. Verify: `codesign --verify --deep --strict --verbose=2 "Action Stations.app"`,
+   `spctl --assess --type execute -vv "Action Stations.app"`, and
+   `xcrun stapler validate "actionstations-X.Y.Z-mac-arm64.dmg"`; then
    `pnpm package:smoke` (signing must not disturb the fuses or asar integrity).
 
 ### Windows: Authenticode
@@ -196,11 +196,11 @@ Code-signing certificates now live on hardware tokens or cloud HSMs, so pick one
   `certificateSubjectName` or `certificateSha1`, `publisherName`, and
   `signingHashAlgorithms: [sha256]`; build on Windows with the token present.
 
-Verify with `signtool verify /pa /v "Tabletop Generator-X.Y.Z-win-x64-setup.exe"`.
+Verify with `signtool verify /pa /v "actionstations-X.Y.Z-win-x64-setup.exe"`.
 
 ### Until then: installing unsigned builds
 
 - macOS: Gatekeeper blocks the first launch. Right-click the app → **Open**, or run
-  `xattr -dr com.apple.quarantine "/Applications/Tabletop Generator.app"`.
+  `xattr -dr com.apple.quarantine "/Applications/Action Stations.app"`.
 - Windows: SmartScreen shows "Windows protected your PC" → **More info** → **Run anyway**.
 - Linux: `chmod +x` the AppImage and run it.

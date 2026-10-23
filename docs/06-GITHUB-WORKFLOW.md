@@ -1,6 +1,6 @@
 # 06 — GitHub Workflow (no Actions)
 
-Repo: `https://github.com/mdcrowley/tabletop-gen` · public · default branch `main`.
+Repo: `https://github.com/mdcrowley/actionstations` · public · default branch `main`.
 
 ## Why no Actions
 

@@ -8,7 +8,7 @@ import { errorText } from '../../lib/errors'
 
 const openError = (err: unknown): string =>
   err instanceof IpcError && err.code === 'NOT_FOUND'
-    ? 'That folder has no project.json. Choose a .ttxproj folder created by Action Stations.'
+    ? 'That folder has no project.json. Choose a project folder (.asproj, or .ttxproj from older versions) created by Action Stations.'
     : errorText(err)
 
 /** Open a project folder (registers it as recent) and go to its overview. */
@@ -31,7 +31,9 @@ export function useOpenProject() {
   }
 
   const pickAndOpen = async (): Promise<void> => {
-    const path = await call('dialog:open-directory', { title: 'Open a .ttxproj project folder' })
+    const path = await call('dialog:open-directory', {
+      title: 'Open a project folder (.asproj or .ttxproj)',
+    })
     if (path) await open(path)
   }
 

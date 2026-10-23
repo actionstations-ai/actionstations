@@ -13,8 +13,8 @@ Installers are not published yet; run the app from source.
 Prerequisites: Node.js 22.12 or later, pnpm 10 (`corepack enable && corepack prepare pnpm@10 --activate`), and on macOS the Xcode Command Line Tools (`xcode-select --install`) in case a native module has to be compiled. See the [README](../../README.md#prerequisites) for Windows and Linux.
 
 ```bash
-git clone https://github.com/mdcrowley/tabletop-gen.git
-cd tabletop-gen
+git clone https://github.com/mdcrowley/actionstations.git
+cd actionstations
 pnpm install
 pnpm dev
 ```
@@ -39,6 +39,10 @@ On first launch the **setup wizard** opens. It has five steps, each of which can
 
 **Settings** also holds the default projects folder, the theme, the embedding mode and **Generation → Write injects and render media automatically after generation** (see step 8).
 
+### Updating from Tabletop Generator
+
+The app was called Tabletop Generator before version 0.2.0. The first launch after updating moves its settings folder (`~/Library/Application Support/Tabletop Generator` on macOS, `%APPDATA%\Tabletop Generator` on Windows, `~/.config/Tabletop Generator` on Linux) to `Action Stations` in the same place, and moves `Documents/Tabletop Generator` to `Documents/Action Stations`; recent projects follow. If a folder cannot be moved, it is copied and the old one is kept; if the copy fails too, the app keeps using the old folder. Saved API keys normally carry over. A key that cannot be unlocked under the new name is kept aside, encrypted, and **Providers** shows a notice and a **Key needs re-entry** badge on that provider: open it with **Edit** and paste the key again.
+
 The sidebar has two parts: application screens (Projects, Providers, Prompts, Templates, Workflows, Settings) and, once a project is open, that project's screens. These are grouped into **Build** (Overview, Documents, Facility facts, Generate, Scenarios, Facilitate) and a collapsible **Advanced** group (Search index, Prompt overrides, Provider routing). Advanced starts closed, remembers whether you opened it, and stays open while you are on one of its pages.
 
 ## 2. Create a project
@@ -47,7 +51,7 @@ A project is a folder on disk that holds one organization's documents and every 
 
 Click **New project** and fill in:
 
-- **Project name**: also used for the folder name (`<name>.ttxproj`).
+- **Project name**: also used for the folder name (`<name>.asproj`). Projects made before the app was renamed are named `<name>.ttxproj`; they open, list and duplicate the same way. On macOS, double-clicking a project folder in Finder opens it in the app.
 - **Organization**: the name as it should appear in briefings and injects.
 - **Domain**: the kind of organization (a domain profile, ADR-0014): Airport, Transit (bus / rail), Dam / water authority, Water utility, Energy utility, Healthcare, Campus, Stadium / venue, Port / maritime, Municipal government, Industrial / manufacturing, Unmanned systems operator or Generic organization. Type in the search box (`bus`, `dam`, `hospital`, `drone`) to narrow the list, then click a profile or move with the arrow keys. The profile sets the vocabulary, the facility-fact categories, typical roles and outside parties, and the threat families the generator offers. Projects created before profiles existed keep their stored value; the picker says which profile it resolves to (for example _Saved as “hospital”, which uses the Healthcare profile_).
 - **Location**: the parent folder (**Choose…** opens a folder picker). Set a default under **Settings → Default projects folder**.

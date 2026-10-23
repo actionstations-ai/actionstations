@@ -107,7 +107,7 @@ test('project, documents, facts, search, ideas, generate', async () => {
     await shot(page, 'new-project')
     await dialog.getByRole('button', { name: 'Create project' }).click()
     await expect(page.getByRole('heading', { level: 1, name: new RegExp(PROJECT) })).toBeVisible()
-    const projectPath = join(parent, `${PROJECT.replace(/ /g, '-')}.ttxproj`)
+    const projectPath = join(parent, `${PROJECT.replace(/ /g, '-')}.asproj`)
     const key = encodeURIComponent(projectPath)
 
     await invoke('documents:import', { projectPath, filePaths: DOCS })

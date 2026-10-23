@@ -181,14 +181,17 @@ test.describe('packaged app', () => {
     const invoke = invoker(app.page)
     try {
       await expect(app.page.getByRole('heading', { name: 'Projects', level: 1 })).toBeVisible()
-      const info = await invoke<{ electron: string }>('app:info')
+      const info = await invoke<{ electron: string; name: string }>('app:info')
       expect(info.electron).toBe('45.0.0')
+      // The menu bar, About and Quit use the app name (#277).
+      expect(info.name).toBe('Action Stations')
 
       const parentDir = mkdtempSync(join(tmpdir(), 'ttx-packaged-proj-'))
       const { path: projectPath } = await invoke<{ path: string }>('project:create', {
         parentDir,
         name: 'Packaged Smoke',
       })
+      expect(projectPath.endsWith('Packaged-Smoke.asproj')).toBe(true)
       const src = mkdtempSync(join(tmpdir(), 'ttx-packaged-src-'))
       const pdf = join(src, 'tirp.pdf')
       const docx = join(src, 'aep.docx')

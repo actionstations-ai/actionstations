@@ -36,7 +36,7 @@
 Project folder layout (portable, git-friendly):
 
 ```
-MyAirport.ttxproj/
+MyAirport.asproj/
   project.json                 # metadata, settings, provider routing
   documents/<docId>/original.pdf, text.md, meta.json
   scenarios/<scenarioId>/

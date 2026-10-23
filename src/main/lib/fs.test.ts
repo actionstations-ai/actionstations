@@ -7,10 +7,10 @@ import { readJson, safeJoin, safeJoinReal, slugify, toRel, writeJsonAtomic } fro
 import { mkdirSync, symlinkSync, writeFileSync } from 'node:fs'
 
 describe('safeJoin', () => {
-  const root = '/projects/NCIA.ttxproj'
+  const root = '/projects/NCIA.asproj'
   it('joins paths inside the root', () => {
     expect(safeJoin(root, 'scenarios/abc/scenario.json')).toBe(
-      '/projects/NCIA.ttxproj/scenarios/abc/scenario.json',
+      '/projects/NCIA.asproj/scenarios/abc/scenario.json',
     )
   })
   it('rejects parent traversal', () => {
@@ -22,7 +22,7 @@ describe('safeJoin', () => {
       expect(() => safeJoin(root, p), p).toThrow(/escapes/)
   })
   it('allows names that merely start with two dots', () => {
-    expect(safeJoin(root, '..notes.md')).toBe('/projects/NCIA.ttxproj/..notes.md')
+    expect(safeJoin(root, '..notes.md')).toBe('/projects/NCIA.asproj/..notes.md')
   })
   it('rejects absolute paths', () => {
     expect(() => safeJoin(root, '/etc/passwd')).toThrow(/Absolute/)

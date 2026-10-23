@@ -1,11 +1,25 @@
 # Installer configuration. Release process, signing and cross-platform notes: docs/RELEASING.md.
-appId: com.mdcrowley.tabletopgen
-productName: Tabletop Generator
+appId: com.mdcrowley.actionstations
+productName: Action Stations
 copyright: Copyright © 2026 Matt Crowley
 directories:
   output: release/${version}
   buildResources: build
-artifactName: ${productName}-${version}-${os}-${arch}.${ext}
+# Installer file names use the machine name (no spaces: release asset names stay intact).
+artifactName: actionstations-${version}-${os}-${arch}.${ext}
+# Double-clicking a project folder opens it in the app (#277). macOS treats these folders as
+# document packages (Finder: Show Package Contents). .ttxproj is the pre-rename extension.
+fileAssociations:
+  - ext: asproj
+    name: Action Stations Project
+    description: Action Stations project
+    role: Editor
+    isPackage: true
+  - ext: ttxproj
+    name: Action Stations Project (older)
+    description: Action Stations project (older format name)
+    role: Editor
+    isPackage: true
 files:
   - out/**/*
   - package.json
@@ -86,8 +100,9 @@ win:
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
-  artifactName: ${productName}-${version}-win-${arch}-setup.${ext}
+  artifactName: actionstations-${version}-win-${arch}-setup.${ext}
 linux:
+  executableName: actionstations
   category: Education
   icon: build/icons
   synopsis: Generate complete, editable tabletop exercises from your own plans.

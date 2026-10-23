@@ -39,7 +39,7 @@ test('create a project, edit its settings, and see them persist', async () => {
   expect(decodeURIComponent(page.url())).toContain('/p/')
   await expect(page.getByRole('link', { name: 'Overview' })).toBeVisible()
 
-  const root = join(parent, 'Northfield-Regional-Airport.ttxproj')
+  const root = join(parent, 'Northfield-Regional-Airport.asproj')
   for (const entry of ['project.json', 'documents', 'scenarios', 'prompts', '.gitignore'])
     expect(existsSync(join(root, entry)), entry).toBe(true)
 
@@ -140,7 +140,7 @@ test('recent project cards: menu actions, archive, and focus return', async () =
   await page.getByLabel('Name of the copy').fill('Lakeside Campus 2027')
   await page.getByRole('button', { name: 'Duplicate', exact: true }).click()
   await expect(page.getByRole('heading', { level: 1, name: /Lakeside Campus 2027/ })).toBeVisible()
-  expect(existsSync(join(parent, 'Lakeside-Campus-2027.ttxproj', 'project.json'))).toBe(true)
+  expect(existsSync(join(parent, 'Lakeside-Campus-2027.asproj', 'project.json'))).toBe(true)
 
   // Forget removes the card but leaves the folder.
   await page.getByRole('link', { name: 'Projects' }).click()
@@ -149,7 +149,7 @@ test('recent project cards: menu actions, archive, and focus return', async () =
   await expect(
     page.getByRole('heading', { level: 2, name: 'Lakeside Campus', exact: true }),
   ).toBeHidden()
-  expect(existsSync(join(parent, 'Lakeside-Campus.ttxproj', 'project.json'))).toBe(true)
+  expect(existsSync(join(parent, 'Lakeside-Campus.asproj', 'project.json'))).toBe(true)
 
   await app.close()
 })

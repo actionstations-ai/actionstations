@@ -84,7 +84,7 @@ describe('app shell', () => {
   })
 
   describe('navigation groups (#230)', () => {
-    const PROJECT = '/Users/test/Rivergate.ttxproj'
+    const PROJECT = '/Users/test/Rivergate.asproj'
     const key = encodeURIComponent(PROJECT)
     afterEach(() => {
       useProjectUi.getState().setProjectPath(null)

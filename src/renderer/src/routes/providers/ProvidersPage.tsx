@@ -6,6 +6,7 @@ import { DetectLocal } from './DetectLocal'
 import { ProviderCard } from './ProviderCard'
 import { ProviderDialog } from './ProviderDialog'
 import { RoutingTable } from './RoutingTable'
+import { KeyReentryNotice } from './KeyReentryNotice'
 import { useSaveRouting } from './use-save-routing'
 import type { ProviderViewT } from './catalog'
 import './providers.css'
@@ -46,6 +47,8 @@ export default function ProvidersPage() {
   const providers = useIpcQuery('providers:list', undefined)
   const [editing, setEditing] = useState<ProviderViewT | 'new' | null>(null)
   const list = providers.data ?? []
+  const settings = useIpcQuery('settings:get', undefined)
+  const needsKey = settings.data?.keyReentry?.providerIds ?? []
   return (
     <div className="page page--wide">
       <PageHeader
@@ -63,6 +66,7 @@ export default function ProvidersPage() {
           {errorText(providers.error)}
         </p>
       )}
+      <KeyReentryNotice providers={list} />
       <DetectLocal providers={list} />
       {providers.data && list.length === 0 && (
         <EmptyState
@@ -83,7 +87,12 @@ export default function ProvidersPage() {
       {list.length > 0 && (
         <section aria-label="Configured providers" className="grid-cards">
           {list.map((p) => (
-            <ProviderCard key={p.id} provider={p} onEdit={() => setEditing(p)} />
+            <ProviderCard
+              key={p.id}
+              provider={p}
+              onEdit={() => setEditing(p)}
+              keyNeedsReentry={!p.hasKey && needsKey.includes(p.id)}
+            />
           ))}
         </section>
       )}

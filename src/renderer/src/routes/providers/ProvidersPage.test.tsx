@@ -5,12 +5,14 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { mockTtx, renderAt } from '../documents/test-utils'
 import ProvidersPage from './ProvidersPage'
 import type { ProviderViewT } from './catalog'
+import { AppSettings } from '@shared/schemas'
 
 const KEY = 'sk-ant-api03-VERYSECRET'
 
-function setup(initial: ProviderViewT[] = []) {
+function setup(initial: ProviderViewT[] = [], extra: Parameters<typeof mockTtx>[0] = {}) {
   let providers = initial
   const ttx = mockTtx({
+    ...extra,
     'providers:list': () => providers,
     'routing:get': () => ({ global: {}, effective: {} }),
     'providers:health': () => ({ ok: true, latencyMs: 42 }),
@@ -85,6 +87,37 @@ function setup(initial: ProviderViewT[] = []) {
 afterEach(() => cleanup())
 
 describe('ProvidersPage', () => {
+  it('asks once for keys that could not be read after the settings-folder move (#277)', async () => {
+    let dismissed = false
+    const openai = {
+      id: 'openai-9f9f',
+      kind: 'openai-compatible',
+      label: 'Cloud LLM',
+      baseUrl: 'https://llm.example.test/v1',
+      enabled: true,
+      options: {},
+      hasKey: false,
+    } as ProviderViewT
+    const ttx = setup([openai], {
+      'settings:get': () =>
+        AppSettings.parse({ keyReentry: { providerIds: ['openai-9f9f'], dismissed } }),
+      'settings:update': (req: { keyReentryDismissed?: boolean }) => {
+        dismissed = req.keyReentryDismissed ?? dismissed
+        return AppSettings.parse({ keyReentry: { providerIds: ['openai-9f9f'], dismissed } })
+      },
+    })
+    const user = userEvent.setup()
+    const notice = await screen.findByRole('status', { name: 'API keys to enter again' })
+    expect(within(notice).getByText(/Enter these API keys again: Cloud LLM\./)).toBeTruthy()
+    const card = await screen.findByRole('article', { name: 'Cloud LLM' })
+    expect(within(card).getByText('Key needs re-entry')).toBeTruthy()
+    await user.click(within(notice).getByRole('button', { name: 'Dismiss' }))
+    await waitFor(() =>
+      expect(screen.queryByRole('status', { name: 'API keys to enter again' })).toBeNull(),
+    )
+    expect(ttx.calls('settings:update')).toEqual([{ keyReentryDismissed: true }])
+  })
+
   it('adds Anthropic with a key that is sent once and never shown again', async () => {
     const ttx = setup()
     const user = userEvent.setup()

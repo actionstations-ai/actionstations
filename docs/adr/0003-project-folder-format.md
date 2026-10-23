@@ -8,10 +8,10 @@ Projects hold source documents, generated scenarios, injects and media. Users ne
 
 ## Decision
 
-A project is a directory named `<name>.ttxproj/` with the layout in `docs/02-ARCHITECTURE.md` §Storage:
+A project is a directory named `<name>.asproj/` with the layout in `docs/02-ARCHITECTURE.md` §Storage:
 
 ```
-<name>.ttxproj/
+<name>.asproj/
   project.json
   documents/<docId>/{original.*, text.md, meta.json}
   scenarios/<scenarioId>/{scenario.json, injects/<injectId>.json,
@@ -24,6 +24,7 @@ A project is a directory named `<name>.ttxproj/` with the layout in `docs/02-ARC
 - `index.sqlite` (chunks, FTS5, sqlite-vec, jobs, provider_calls) is derived data: gitignored inside the project and rebuildable from the folder via "Rebuild index".
 - All path construction goes through one guarded join helper that resolves the path and rejects anything outside the project root (`..`, absolute paths, symlink escapes).
 - Secrets never live in the project folder (Electron `safeStorage`, `src/main/secrets`).
+- The extension was `.ttxproj` before the rename to Action Stations (ADR-0019). Folders with either extension open the same way; the app only checks for `project.json`.
 
 ## Consequences
 

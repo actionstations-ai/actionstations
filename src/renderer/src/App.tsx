@@ -13,6 +13,7 @@ import { AutoContinue } from './routes/scenarios/AutoContinue'
 import { installQuitGuard } from './editors/unsaved-work'
 import { changeFromEvent, changeFromJob, createInvalidator } from './state/invalidate'
 import { useJobsStore } from './state/jobs'
+import { OpenRequests } from './routes/projects/OpenRequests'
 
 function ThemeSync() {
   const settings = useIpcQuery('settings:get', undefined)
@@ -104,6 +105,7 @@ export function App() {
           chrome={
             <>
               <SkipLink />
+              <OpenRequests />
               <div className="shell">
                 <Sidebar />
                 <main className="main" id="main">

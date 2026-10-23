@@ -63,7 +63,7 @@ test('projects: open a copy of an example, see its notice, index rebuilt', async
     await expect(page.getByRole('heading', { level: 1, name: /Lakeview Transit/ })).toBeVisible()
     const banner = page.getByTestId('example-banner')
     await expect(banner).toContainText('fictional agency made up for testing')
-    const copy = join(parent, `${FOLDER}.ttxproj`)
+    const copy = join(parent, `${FOLDER}.asproj`)
     expect(existsSync(join(copy, '.example.json'))).toBe(true)
     await expect.poll(() => existsSync(join(copy, 'index.sqlite')), { timeout: 60_000 }).toBe(true)
     await snap(page, 'example-overview')
@@ -78,7 +78,7 @@ test('projects: open a copy of an example, see its notice, index rebuilt', async
       'examples:open',
       { slug: 'mini-transit', parentDir: parent },
     )
-    expect(second.path).toBe(join(parent, `${FOLDER}-2.ttxproj`))
+    expect(second.path).toBe(join(parent, `${FOLDER}-2.asproj`))
     expect(second.project.name).toMatch(/\(2\)$/)
     expect(readFileSync(join(copy, 'project.json'), 'utf8')).toBe(before)
   } finally {
@@ -98,7 +98,7 @@ test('onboarding: explore an example from the first-project step', async () => {
     await examples.getByRole('button', { name: /Open a copy of Lakeview/ }).click()
     await page.getByRole('dialog').getByRole('button', { name: 'Copy and open' }).click()
     await expect(page.getByRole('heading', { level: 2, name: 'You’re set up' })).toBeVisible()
-    expect(existsSync(join(parent, `${FOLDER}.ttxproj`, 'project.json'))).toBe(true)
+    expect(existsSync(join(parent, `${FOLDER}.asproj`, 'project.json'))).toBe(true)
   } finally {
     await app.close()
   }

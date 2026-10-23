@@ -91,7 +91,18 @@ function RemoveDialog(props: {
   )
 }
 
-export function ProviderCard(props: { provider: ProviderViewT; onEdit: () => void }) {
+function KeyBadge({ hasKey, needsReentry }: { hasKey: boolean; needsReentry: boolean }) {
+  if (hasKey) return <Badge tone="ok">Key stored</Badge>
+  if (needsReentry) return <Badge tone="error">Key needs re-entry</Badge>
+  return <Badge>No key</Badge>
+}
+
+export function ProviderCard(props: {
+  provider: ProviderViewT
+  onEdit: () => void
+  /** Its saved key could not be decrypted after the settings-folder move (#277). */
+  keyNeedsReentry?: boolean
+}) {
   const p = props.provider
   const [removing, setRemoving] = useState(false)
   const test = useIpcMutation('providers:test')
@@ -117,10 +128,12 @@ export function ProviderCard(props: { provider: ProviderViewT; onEdit: () => voi
         <dd className="mono">{p.baseUrl ?? 'Default'}</dd>
         <dt>Default model</dt>
         <dd className="mono">{p.defaultModel ?? 'None'}</dd>
-        {(kindUsesKey(p.kind) || p.hasKey) && (
+        {(kindUsesKey(p.kind) || p.hasKey || props.keyNeedsReentry) && (
           <>
             <dt>API key</dt>
-            <dd>{p.hasKey ? <Badge tone="ok">Key stored</Badge> : <Badge>No key</Badge>}</dd>
+            <dd>
+              <KeyBadge hasKey={p.hasKey} needsReentry={!!props.keyNeedsReentry} />
+            </dd>
           </>
         )}
       </dl>

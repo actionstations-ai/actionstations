@@ -92,7 +92,7 @@ export async function writeText(root: string, meta: DocumentMeta, text: string):
 
 /**
  * Real path of a stored document file for reading. A symlink that points outside the project
- * folder (a shared .ttxproj) throws PATH_ESCAPE, so its target never reaches the index or an LLM.
+ * folder (a shared .asproj) throws PATH_ESCAPE, so its target never reaches the index or an LLM.
  */
 export function readablePath(root: string, abs: string): string {
   return safeJoinReal(root, toRel(root, abs))

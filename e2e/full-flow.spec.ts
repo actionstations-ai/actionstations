@@ -70,7 +70,7 @@ async function createProjectInUi(page: Page, invoke: ReturnType<typeof invoker>)
   await expect(
     page.getByRole('heading', { level: 1, name: new RegExp(PROJECT_NAME) }),
   ).toBeVisible()
-  return join(parent, `${PROJECT_NAME.replace(/ /g, '-')}.ttxproj`)
+  return join(parent, `${PROJECT_NAME.replace(/ /g, '-')}.asproj`)
 }
 
 /** Documents are imported over IPC (native file dialogs can't be driven), then watched. */

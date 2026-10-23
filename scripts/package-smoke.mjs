@@ -135,7 +135,7 @@ function defaultAppPath() {
   if (process.platform === 'darwin')
     return join(release, arch === 'arm64' ? 'mac-arm64' : 'mac', `${productName}.app`)
   if (process.platform === 'win32') return join(release, 'win-unpacked', `${productName}.exe`)
-  return join(release, 'linux-unpacked', 'tabletop-gen')
+  return join(release, 'linux-unpacked', 'actionstations')
 }
 
 function mountDmg(dmg) {

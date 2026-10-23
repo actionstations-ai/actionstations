@@ -3,15 +3,16 @@
 # and re-iconed, so unpackaged runs show "Action Stations" (not "Electron") in the menu bar and
 # Dock. Run the app with:
 #   ".dev-app/Action Stations.app/Contents/MacOS/Electron" .
-# Rebuilt only when the Electron version or build/icon.icns changes.
+# Rebuilt only when the Electron version, build/icon.icns or the bundle id changes.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 NAME="Action Stations"
+BUNDLE_ID="com.mdcrowley.actionstations.dev"
 SRC="node_modules/electron/dist/Electron.app"
 DEST=".dev-app/$NAME.app"
 STAMP=".dev-app/.stamp"
-want="$(node -p "require('electron/package.json').version")-$(shasum build/icon.icns | cut -c1-12)"
+want="$(node -p "require('electron/package.json').version")-$(shasum build/icon.icns | cut -c1-12)-$BUNDLE_ID"
 
 [[ -d "$SRC" ]] || { echo "Electron is not installed; run pnpm install" >&2; exit 1; }
 if [[ -d "$DEST" && "$(cat "$STAMP" 2>/dev/null)" == "$want" ]]; then exit 0; fi
@@ -24,7 +25,7 @@ for key in CFBundleName CFBundleDisplayName; do
   /usr/libexec/PlistBuddy -c "Set :$key $NAME" "$plist" 2>/dev/null \
     || /usr/libexec/PlistBuddy -c "Add :$key string $NAME" "$plist"
 done
-/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.mdcrowley.tabletopgen.dev" "$plist"
+/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier $BUNDLE_ID" "$plist"
 cp build/icon.icns "$DEST/Contents/Resources/electron.icns"
 # Editing the bundle breaks Electron's signature; an ad-hoc one lets macOS launch it.
 codesign --force --deep --sign - "$DEST" >/dev/null 2>&1

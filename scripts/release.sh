@@ -130,7 +130,7 @@ while IFS= read -r f; do ARTIFACTS+=("$f"); done < <(
 step "artifacts"
 for f in "${ARTIFACTS[@]}"; do printf '  %8s  %s\n' "$(du -h "$f" | cut -f1)" "$f"; done
 
-RELEASE_CMD=(gh release create "$TAG" --draft --verify-tag --title "Tabletop Generator ${VERSION}" --notes-file "$NOTES_FILE" "${ARTIFACTS[@]}")
+RELEASE_CMD=(gh release create "$TAG" --draft --verify-tag --title "Action Stations ${VERSION}" --notes-file "$NOTES_FILE" "${ARTIFACTS[@]}")
 if [[ $PUBLISH == 1 ]]; then
   step "push main and ${TAG}"
   git push origin main "$TAG"

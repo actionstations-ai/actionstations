@@ -123,7 +123,7 @@ async function utilityFork(): Promise<ForkChild> {
   ])
   return () =>
     utilityProcess.fork(script, [], {
-      serviceName: 'Tabletop Generator Embeddings',
+      serviceName: 'Action Stations Embeddings',
       stdio: 'inherit',
     }) as unknown as ChildHandle
 }

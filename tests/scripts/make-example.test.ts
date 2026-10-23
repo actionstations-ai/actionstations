@@ -133,7 +133,7 @@ describe('scrub', () => {
 
 describe('findLeaks', () => {
   it('flags author-machine paths and key-shaped strings only', () => {
-    expect(findLeaks('see /Users/someone/Code/x.ttxproj and C:\\Users\\a\\b')).toHaveLength(2)
+    expect(findLeaks('see /Users/someone/Code/x.asproj and C:\\Users\\a\\b')).toHaveLength(2)
     expect(findLeaks('api_key: abc Bearer 0123456789abcdef0123')).toHaveLength(2)
     // story content inside injects is not a leak
     expect(
@@ -153,7 +153,7 @@ describe('shippedPng', () => {
 
 function fakeProject(): { out: string; src: string } {
   const out = mkdtempSync(join(tmpdir(), 'ttx-example-out-'))
-  const src = join(out, 'p.ttxproj')
+  const src = join(out, 'p.asproj')
   const s = join(src, 'scenarios', 'S1')
   for (const d of ['documents/D1', 'scenarios/S1/injects', 'scenarios/S1/history'])
     mkdirSync(join(src, d), { recursive: true })
@@ -184,7 +184,7 @@ function fakeProject(): { out: string; src: string } {
   writeFileSync(
     join(out, 'state.json'),
     JSON.stringify({
-      projectPath: 'p.ttxproj',
+      projectPath: 'p.asproj',
       scenarios: {
         chem: { scenarioId: 'S1', title: 'Caustic Setpoint', threatFamily: 'cyber_physical' },
       },
