@@ -12,7 +12,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 #### License
 
-- Licensed under the PolyForm Internal Use License 1.0.0 (`LICENSE.md`), with commercial use, including consulting and facilitation for other organizations, reserved as described in `COMMERCIAL.md`; contributions are accepted under a contributor license agreement (`CLA.md`) (#254).
+- Licensed under the PolyForm Internal Use License 1.0.0 (`LICENSE.md`), with commercial use, including consulting and facilitation for other organizations, reserved as described in `COMMERCIAL.md`; contributions are accepted under a contributor license agreement (`CLA.md`) (#254). An additional permission (`LICENSE-EDUCATION.md`) lets schools, colleges and universities and their faculty, staff and students use, install and share it for teaching, coursework, research and student exercises (#279).
 
 #### Guided workflow and plain language
 

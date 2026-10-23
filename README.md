@@ -154,7 +154,7 @@ This repository has no GitHub Actions, by design. There is nothing under `.githu
 
 ## License
 
-Source-available under the [PolyForm Internal Use License 1.0.0](LICENSE.md): any organization may use and change Action Stations for free for its own internal operations, including running exercises for its own people. Selling or redistributing it, hosting it for others, and consulting, training or facilitation for other organizations need a commercial license; see [COMMERCIAL.md](COMMERCIAL.md). Contributions are accepted under the [CLA](CLA.md). Third-party dependencies keep their own licenses, and packs carry the license their author chose.
+Source-available under the [PolyForm Internal Use License 1.0.0](LICENSE.md): any organization may use and change Action Stations for free for its own internal operations, including running exercises for its own people. Schools, colleges and universities, their faculty, staff and students, may also use it for teaching, coursework, research and student exercises under the [Additional Permission for Education](LICENSE-EDUCATION.md). Selling or redistributing it, hosting it for others, and consulting, training or facilitation for other organizations need a commercial license; see [COMMERCIAL.md](COMMERCIAL.md). Contributions are accepted under the [CLA](CLA.md). Third-party dependencies keep their own licenses, and packs carry the license their author chose.
 
 ## History
 
