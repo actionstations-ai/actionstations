@@ -43,6 +43,17 @@ const CONCURRENCY: Partial<Record<JobKind, number>> = {
   'repair-scenario': 1,
   'model-pull': 1,
 }
+/**
+ * Jobs that own their scenario while they run (scenario/busy). A new one supersedes any
+ * interrupted (paused) record for the same scenario: that work is being redone.
+ */
+export const SCENARIO_OWNER_KINDS: readonly JobKind[] = [
+  'generate-scenario',
+  'rerun-stage',
+  'generate-injects',
+  'render-media',
+  'repair-scenario',
+]
 const MAX_LOG = 2000
 const MAX_TOKENS_PER_STAGE = 200_000
 const MAX_FINISHED = 100
@@ -102,9 +113,46 @@ export class JobManager {
     const resumer = this.resumers.get(paused.kind)
     if (!resumer) throw new AppError('NOT_IMPLEMENTED', `No resumer for ${paused.kind} jobs`)
     const next = await resumer(paused)
+    // The resumed work is the new job; the old record goes (start() has usually already
+    // superseded it, which told the windows; otherwise tell them here).
+    const stillPaused = this.restored.get(id)?.status === 'paused'
     this.restored.delete(id)
     this.save()
+    if (stillPaused) emit('job:done', { jobId: id, kind: paused.kind, status: 'cancelled' })
     return next
+  }
+
+  /**
+   * End a record restored from a previous run (cancel, resume, superseded): it stays in the
+   * history as cancelled, and job:done tells every window it no longer owns its scenario.
+   */
+  private settleRestored(id: string, message: string): void {
+    const restored = this.restored.get(id)
+    if (!restored) return
+    this.restored.set(id, {
+      ...restored,
+      status: 'cancelled',
+      message,
+      resumable: false,
+      updatedAt: nowIso(),
+    })
+    this.save()
+    emit('job:done', { jobId: id, kind: restored.kind, status: 'cancelled' })
+  }
+
+  /** A new scenario-owning job replaces interrupted records for the same scenario. */
+  private supersedePaused(kind: JobKind, projectPath?: string, scenarioId?: string): void {
+    if (!scenarioId || !SCENARIO_OWNER_KINDS.includes(kind)) return
+    for (const job of [...this.restored.values()]) {
+      if (
+        job.status === 'paused' &&
+        job.scenarioId === scenarioId &&
+        job.projectPath === projectPath &&
+        SCENARIO_OWNER_KINDS.includes(job.kind)
+      ) {
+        this.settleRestored(job.id, 'Superseded by a newer job')
+      }
+    }
   }
 
   private queue(kind: JobKind): PQueue {
@@ -152,6 +200,7 @@ export class JobManager {
       ...(meta.onSettled ? { onSettled: meta.onSettled } : {}),
     }
     this.hydrate()
+    this.supersedePaused(kind, meta.projectPath, meta.scenarioId)
     this.jobs.set(id, rec)
     const ctx = this.context(rec)
     rec.promise = this.queue(kind).add(async () => {
@@ -266,14 +315,7 @@ export class JobManager {
     if (!rec) {
       const restored = this.restored.get(id)
       if (!restored) throw new AppError('NOT_FOUND', `No job ${id}`)
-      this.restored.set(id, {
-        ...restored,
-        status: 'cancelled',
-        message: 'Cancelled',
-        resumable: false,
-        updatedAt: nowIso(),
-      })
-      this.save()
+      if (restored.status === 'paused') this.settleRestored(id, 'Cancelled')
       return
     }
     rec.controller.abort()
@@ -294,8 +336,11 @@ export class JobManager {
     this.save()
   }
 
+  /** A record from a previous run has no log or tokens (never persisted): it reads as empty. */
   logOf(id: string): { entries: JobLogEntry[]; tokens: Record<string, string> } {
+    this.hydrate()
     const rec = this.jobs.get(id)
+    if (!rec && this.restored.has(id)) return { entries: [], tokens: {} }
     if (!rec) throw new AppError('NOT_FOUND', `No job ${id}`)
     return { entries: rec.log, tokens: rec.tokens }
   }

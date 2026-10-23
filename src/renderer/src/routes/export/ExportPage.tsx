@@ -8,7 +8,7 @@ import { Button, PageHeader, ProgressBar } from '../../components/ui'
 import { call } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey, projectKey } from '../../state/project'
-import { useJob } from '../generate/use-job'
+import { useExportJob } from './use-export-job'
 import {
   asExportResult,
   DEFAULT_TARGETS,
@@ -127,7 +127,7 @@ function ReadinessSummary(props: { readiness: Readiness | undefined; scenarioUrl
 }
 
 function ExportStatus(props: {
-  job: ReturnType<typeof useJob>
+  job: ReturnType<typeof useExportJob>['job']
   jobId: string | null
   result: ExportJobResult | null
   onRetry: () => void
@@ -195,12 +195,10 @@ export default function ExportPage() {
   const [targets, setTargets] = useState<ExportTarget[]>(DEFAULT_TARGETS)
   const [outDir, setOutDir] = useState(() => rememberedOutDir(projectPath))
   const { readiness } = useReadiness(projectPath, scenario.data)
-  const [jobId, setJobId] = useState<string | null>(null)
   const [result, setResult] = useState<ExportJobResult | null>(null)
   const [startError, setStartError] = useState('')
   const onDone = useCallback((e: JobDoneEvent) => setResult(asExportResult(e.result)), [])
-  const job = useJob(jobId, onDone)
-  const running = job?.status === 'queued' || job?.status === 'running'
+  const { jobId, job, running, run } = useExportJob(projectPath, scenarioId, onDone)
 
   const chooseFolder = async () => {
     const dir = await call('dialog:open-directory', {
@@ -216,8 +214,7 @@ export default function ExportPage() {
     setResult(null)
     setStartError('')
     try {
-      const { jobId: id } = await call('export:run', { projectPath, scenarioId, outDir, targets })
-      setJobId(id)
+      await run(outDir, targets)
     } catch (err) {
       setStartError(errorText(err))
     }

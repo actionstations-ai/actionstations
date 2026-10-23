@@ -4,6 +4,8 @@ import { isActive, type LiveLog, type LogStream } from './live-log'
 import { itemLabel, stageLabel } from './stages'
 import { LiveStatus } from '../../components/LiveStatus'
 import { CancelJobButton } from '../../components/CancelJobButton'
+import { InterruptedJobActions } from '../../components/InterruptedJobActions'
+import { useJobsStore } from '../../state/jobs'
 import { errorText } from '../../lib/errors'
 
 const STATUS_TONE = {
@@ -64,6 +66,44 @@ export function LiveLogPanel({
       </section>
     )
   }
+  return <JobLog log={log} jobId={log.jobId} {...(itemLabels ? { itemLabels } : {})} />
+}
+
+/** Message line: failure help, the interrupted notice with Resume / Dismiss, or progress. */
+function LogMessage({ log, jobId }: { log: LiveLog; jobId: string }) {
+  const job = useJobsStore((s) => s.jobs[jobId])
+  if (log.status === 'error') {
+    return (
+      <p className="field__error live-log__message" role="alert">
+        Generation stopped: {errorText(log.message)} Use “Continue from failure” in Stages to retry
+        from the step that failed.
+      </p>
+    )
+  }
+  if (log.status === 'paused' && job?.status === 'paused') {
+    return (
+      <div className="row live-log__message">
+        <p>
+          {job.resumable
+            ? 'The app closed before this job finished. Resume continues from the last checkpoint.'
+            : 'The app closed before this job finished. Dismiss it, then start the work again.'}
+        </p>
+        <InterruptedJobActions job={job} />
+      </div>
+    )
+  }
+  return <p className="live-log__message">{log.message}</p>
+}
+
+function JobLog({
+  log,
+  jobId,
+  itemLabels,
+}: {
+  log: LiveLog
+  jobId: string
+  itemLabels?: Record<string, string>
+}) {
   const active = isActive(log)
   const last = log.streams.at(-1)?.key
   return (
@@ -75,17 +115,10 @@ export function LiveLogPanel({
       {active && (
         <div className="row live-log__progress">
           <ProgressBar value={log.progress} label="Generation progress" />
-          <CancelJobButton jobId={log.jobId} label="Cancel generation" />
+          <CancelJobButton jobId={jobId} label="Cancel generation" />
         </div>
       )}
-      {log.status === 'error' ? (
-        <p className="field__error live-log__message" role="alert">
-          Generation stopped: {errorText(log.message)} Use “Continue from failure” in Stages to
-          retry from the step that failed.
-        </p>
-      ) : (
-        <p className="live-log__message">{log.message}</p>
-      )}
+      <LogMessage log={log} jobId={jobId} />
       <LiveStatus text={log.message} />
       {log.entries.length > 0 && (
         <ol className="live-log__entries" aria-label="Log entries">

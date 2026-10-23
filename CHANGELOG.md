@@ -36,6 +36,12 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 - Toasts appear at the bottom left of the content area so they never cover a primary action (#240).
 - Projects with no projects yet: the empty state's primary button is **New project**; setup is the secondary action (#234).
 - Facilitate: the header button is **Open presentation** or **Close presentation** depending on whether the presentation window is open (`facilitator:present-status` and the `facilitator:present-changed` event) (#235).
+- Query refreshes follow what changed (#198): `project:changed` and `job:done` invalidate only
+  the queries of that project, scenario and kind of data, at most once per 250 ms, instead of
+  every cached query on every save (a 100-inject run no longer re-reads every inject per save).
+- Background jobs are tracked in one store for the window (#197): export, import, index
+  rebuild and idea jobs reattach after navigating away and back, with progress and Cancel, and
+  the Export button stays disabled while that scenario's export runs.
 
 - In-app branding is now Action Stations: logo in the sidebar, comic-panel theme (newsprint light, navy-ink dark, Bangers page titles, ink outlines and hard shadows), window, page and menu-bar titles renamed (the settings folder keeps its name); new app icon from the logo; closing the main window now quits the app on macOS too; `scripts/dev-bundle.sh` builds a renamed Electron bundle for unpackaged runs; macOS overscroll bounce disabled (#191).
 
@@ -59,6 +65,18 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   or `espeak-ng` / `espeak`, offered by **Detect local services** only when installed and routable
   to the Audio task; output takes the usual post-FX and MP3 path. ADR-0009 marked amended by
   ADR-0010; README provider table corrected (ComfyUI ships no audio workflow) (#215).
+- Jobs tray in the sidebar (#197): every running background job with progress, Cancel and a
+  link to its screen; jobs interrupted by an app exit get Resume or Dismiss. Running imports
+  on the Documents page have **Cancel import**.
+- Resume / Dismiss for interrupted jobs (#195): the inject deck, inject editor, generation log
+  and jobs tray offer **Resume** (continues from the last checkpoint, `jobs:resume`) when main
+  can resume the job and **Dismiss** otherwise; **Continue from failure** also shows for a
+  stage an exit left "running", and starting new work on the scenario clears the old record.
+- **Repair this scenario** under the scenario page's Advanced information (#200), with a
+  confirm dialog (AI stills only when ticked), job banner and progress in the generation log.
+- The Stages list shows the reported cost of remote-provider runs next to the tokens, and the
+  scenario total (#218).
+
 - Repair a finished scenario in place (#185, ADR-0015): `generate:repair` applies the current
   MSEL repairs and lints, runs the revision pass only for rows still flagged, writes injects
   only for rows whose text changed or that have none, and re-renders only stale cards and
@@ -98,6 +116,9 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 - Scenarios list and idea cards no longer indented by the browser's list padding (#232).
 - Old "Tabletop Generator" wording in the example copy dialog and the DOCX creator metadata now reads Action Stations / "your Documents folder" (the folder on disk is unchanged) (#233).
 - Link-styled buttons are no longer underlined (#234).
+- After a restart, an interrupted inject or media job no longer locks the inject deck (#194):
+  it shows "Interrupted" with Resume / Dismiss instead of a frozen progress banner, Write all
+  and Render all stay usable, and dismissing (cancelling) a restored job now sends `job:done`.
 
 - Lint false positives found on the bundled examples (#185): a named site with a leading
   article ("The Lakeshore Flight Area"), a rogue device the row itself calls unknown ("No

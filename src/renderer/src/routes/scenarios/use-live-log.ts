@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { Job } from '@shared/schemas/job'
 import { call, subscribe } from '../../lib/api'
+import { interruptedJob, isRunning, scenarioOwner, useJobsStore } from '../../state/jobs'
+import { useJobsConnection } from '../../state/use-jobs'
 import { applyProgress, applyToken, emptyLog, seedFromJob, type LiveLog } from './live-log'
 
 async function loadRecorded(jobId: string): Promise<LiveLog | null> {
@@ -15,19 +16,11 @@ async function loadRecorded(jobId: string): Promise<LiveLog | null> {
   }
 }
 
-async function findRunningJob(projectPath: string, scenarioId: string): Promise<Job | null> {
-  try {
-    const jobs = await call('jobs:list', { projectPath, activeOnly: true })
-    return jobs.find((j) => j.scenarioId === scenarioId) ?? null
-  } catch {
-    return null
-  }
-}
-
 /**
- * Live log for one scenario. On mount it reattaches to a running job for this scenario
- * (jobs:list + jobs:log), or to `initialJobId` when the caller just started one.
- * `follow(jobId)` switches to a newly started job (re-run, continue).
+ * Live log for one scenario. It follows `initialJobId` when the caller just started one, and
+ * otherwise the scenario's job from the global job store (#197): the running one, or one an
+ * app exit interrupted. Any job that starts for the scenario later (re-run, continue, resume,
+ * repair, inject jobs) is followed as it starts; `follow(jobId)` switches explicitly.
  */
 export function useLiveLog(projectPath: string, scenarioId: string, initialJobId?: string) {
   const [log, setLog] = useState<LiveLog>(() => emptyLog(initialJobId ?? null))
@@ -40,17 +33,28 @@ export function useLiveLog(projectPath: string, scenarioId: string, initialJobId
     if (seeded && current.current === jobId) setLog(seeded)
   }, [])
 
+  useJobsConnection()
+  const running = useJobsStore((s) => scenarioOwner(s.jobs, projectPath, scenarioId))
+  const interrupted = useJobsStore((s) => interruptedJob(s.jobs, projectPath, scenarioId))
+  const target = running ?? interrupted
+
   useEffect(() => {
-    let cancelled = false
     void (async () => {
-      if (initialJobId) return follow(initialJobId)
-      const job = await findRunningJob(projectPath, scenarioId)
-      if (job && !cancelled) await follow(job.id)
+      if (initialJobId) await follow(initialJobId)
     })()
-    return () => {
-      cancelled = true
-    }
-  }, [projectPath, scenarioId, initialJobId, follow])
+  }, [initialJobId, follow])
+
+  // A job that starts for the scenario takes over the log; an interrupted one only fills an
+  // empty log (it must not replace the log of a job that just finished).
+  const targetId = target?.id
+  const targetRunning = isRunning(target)
+  useEffect(() => {
+    if (!targetId || targetId === current.current) return
+    if (!targetRunning && current.current) return
+    void (async () => {
+      await follow(targetId)
+    })()
+  }, [targetId, targetRunning, follow])
 
   useEffect(() => {
     const offs = [

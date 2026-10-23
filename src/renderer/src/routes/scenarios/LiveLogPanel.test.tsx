@@ -71,7 +71,8 @@ describe('LiveLogPanel + useLiveLog', () => {
     render(<Harness />)
     expect(await screen.findByText('Overview done')).toBeTruthy()
     expect(screen.getByText('| 1:00 | I-05 |')).toBeTruthy()
-    expect(ttx.calls('jobs:list')[0]).toEqual({ projectPath: PROJECT, activeOnly: true })
+    // The global job store (#197) lists active jobs once; this scenario's job is followed.
+    expect(ttx.calls('jobs:list')[0]).toEqual({ activeOnly: true })
     expect(ttx.calls('jobs:log')[0]).toEqual({ jobId: 'JOB1' })
 
     act(() =>
@@ -109,7 +110,6 @@ describe('LiveLogPanel + useLiveLog', () => {
     })
     render(<Harness initialJobId="NEW" />)
     await waitFor(() => expect(ttx.calls('jobs:log')).toEqual([{ jobId: 'NEW' }]))
-    expect(ttx.calls('jobs:list')).toHaveLength(0)
     act(() => ttx.emit('job:token', { jobId: 'NEW', stage: 'scenario_overview', text: '{"theme"' }))
     expect(await screen.findByText('{"theme"')).toBeTruthy()
   })

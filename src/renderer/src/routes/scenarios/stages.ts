@@ -41,6 +41,25 @@ export function runTokens(run: StageRun): string {
   return `${(run.inputTokens ?? 0).toLocaleString()} in / ${(run.outputTokens ?? 0).toLocaleString()} out`
 }
 
+/** US dollars, with more digits below a cent ("$0.0042", "$1.25"). */
+export function formatUsd(usd: number): string {
+  return usd < 0.01 ? `$${usd.toFixed(4)}` : `$${usd.toFixed(2)}`
+}
+
+/**
+ * What a run cost, for remote providers that report a price (#218). Local providers record
+ * 0 and get no figure: '' means "show nothing".
+ */
+export function runCost(run: StageRun): string {
+  return run.costUsd && run.costUsd > 0 ? formatUsd(run.costUsd) : ''
+}
+
+/** Sum of the runs' reported costs ('' when none reported one). */
+export function totalCost(runs: StageRun[]): string {
+  const sum = runs.reduce((n, r) => n + (r.costUsd && r.costUsd > 0 ? r.costUsd : 0), 0)
+  return sum > 0 ? formatUsd(sum) : ''
+}
+
 /** Human label for a per-item stage run: "Phase 2: The Crisis" instead of the phase ULID. */
 export function itemLabel(itemId: string | undefined, labels: Record<string, string> = {}): string {
   if (!itemId) return ''

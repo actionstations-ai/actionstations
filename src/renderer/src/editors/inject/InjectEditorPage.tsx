@@ -118,7 +118,9 @@ function Editor(props: {
   const [changes, setChanges] = useState<FieldChange[] | null>(null)
 
   const onDone = useRef<(e: JobDoneEvent) => void>(() => undefined)
-  const { job, track } = useScenarioJob(projectPath, scenario.id, (e) => onDone.current(e))
+  const { job, interrupted, track } = useScenarioJob(projectPath, scenario.id, (e) =>
+    onDone.current(e),
+  )
   const actions = useInjectActions({
     projectPath,
     scenarioId: scenario.id,
@@ -213,7 +215,7 @@ function Editor(props: {
         onDeleted={() => navigate(deckUrl(projectPath, scenario.id))}
         onRendered={() => setTab('media')}
       />
-      <JobBanner job={job} pendingSave={actions.pendingSave} editing />
+      <JobBanner job={job} interrupted={interrupted} pendingSave={actions.pendingSave} editing />
       {warnings.length > 0 && (
         <ul className="inject-warnings" aria-label="Warnings for this inject">
           {warnings.map((w, i) => (

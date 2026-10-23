@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it } from 'vitest'
 import type { StageRun } from '@shared/schemas/scenario'
 import { StageTimeline } from './StageTimeline'
+import { mockTtx, type Handlers } from '../documents/test-utils'
 
 afterEach(() => cleanup())
 
@@ -23,18 +24,19 @@ const run = (
     ...(error ? { error } : {}),
   }) as StageRun
 
-function setup(provenance: StageRun[]) {
+function setup(provenance: StageRun[], handlers: Handlers = {}, onJob = (_id: string) => {}) {
+  const ttx = mockTtx({ 'jobs:list': () => [], ...handlers })
   render(
     <StageTimeline
       projectPath="/p"
       scenarioId="s1"
       provenance={provenance}
       busy={false}
-      onJob={() => undefined}
+      onJob={onJob}
       itemLabels={{ i1: 'Inject I-01', i2: 'Inject I-02', i3: 'Inject I-03' }}
     />,
   )
-  return screen.getByRole('region', { name: 'Generation stages' })
+  return Object.assign(screen.getByRole('region', { name: 'Generation stages' }), { ttx })
 }
 
 describe('StageTimeline', () => {
@@ -70,5 +72,47 @@ describe('StageTimeline', () => {
     ).toBeTruthy()
     // Non-grouped stages stay plain rows.
     expect(within(stages).getByRole('button', { name: 'Re-run Scenario overview' })).toBeTruthy()
+  })
+
+  it('shows the reported cost of remote runs next to the tokens (#218)', () => {
+    const remote = {
+      ...run('scenario_overview', undefined, 'ok'),
+      model: 'remote-large',
+      inputTokens: 1200,
+      outputTokens: 800,
+      costUsd: 0.0432,
+    }
+    const local = { ...run('phase_plan', undefined, 'ok'), model: 'local-small', costUsd: 0 }
+    const stages = setup([remote, local])
+    expect(within(stages).getByText(/remote-large · 1,200 in \/ 800 out · \$0\.04 ·/)).toBeTruthy()
+    expect(within(stages).getByText(/local-small · — · 0\.0 s/)).toBeTruthy()
+    expect(within(stages).getByText('Reported cost $0.04')).toBeTruthy()
+  })
+
+  it('offers Continue for a stage an app exit left "running" (#195)', () => {
+    const stages = setup([run('msel_phase', 'p1', 'running')])
+    expect(within(stages).getByRole('button', { name: /Continue from failure/ })).toBeTruthy()
+  })
+
+  it('repairs the scenario in place, without AI stills unless asked (#200)', async () => {
+    const started: string[] = []
+    const stages = setup(
+      [run('scenario_overview', undefined, 'ok')],
+      { 'generate:repair': () => ({ jobId: 'R1' }) },
+      (id) => started.push(id),
+    )
+    await userEvent.click(within(stages).getByRole('button', { name: /Repair this scenario/ }))
+    const dialog = await screen.findByRole('dialog', { name: 'Repair this scenario?' })
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Repair' }))
+    expect(stages.ttx.calls('generate:repair')).toEqual([
+      { projectPath: '/p', scenarioId: 's1', aiStills: 0 },
+    ])
+    expect(started).toEqual(['R1'])
+    const banner = await within(stages).findByRole('region', { name: 'Generation status' })
+    expect(within(banner).getByText('Repairing the scenario for this scenario')).toBeTruthy()
+    expect(within(stages).getByRole('button', { name: /Repair this scenario/ })).toHaveProperty(
+      'disabled',
+      true,
+    )
   })
 })

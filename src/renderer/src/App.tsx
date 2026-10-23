@@ -11,6 +11,8 @@ import { FirstRunRedirect } from './routes/welcome/FirstRunRedirect'
 import { ExampleBanner } from './components/ExampleBanner'
 import { AutoContinue } from './routes/scenarios/AutoContinue'
 import { installQuitGuard } from './editors/unsaved-work'
+import { changeFromEvent, changeFromJob, createInvalidator } from './state/invalidate'
+import { useJobsStore } from './state/jobs'
 
 function ThemeSync() {
   const settings = useIpcQuery('settings:get', undefined)
@@ -22,16 +24,26 @@ function ThemeSync() {
   return null
 }
 
-/** Invalidate cached IPC queries when main reports a change; answer quit checks. */
+/**
+ * Invalidate the cached IPC queries a change can affect (#198): by what changed and for which
+ * project and scenario, coalesced to at most one invalidation per 250 ms.
+ Also answers main's quit checks (#196).
+ */
 function EventBridge() {
   useEffect(() => {
+    const invalidator = createInvalidator(queryClient)
     const offs = [
-      subscribe('project:changed', () => void queryClient.invalidateQueries()),
-      subscribe('job:done', () => void queryClient.invalidateQueries()),
+      subscribe('project:changed', (e) => invalidator.push(changeFromEvent(e))),
+      subscribe('job:done', (e) =>
+        invalidator.push(changeFromJob(e.kind, useJobsStore.getState().jobs[e.jobId])),
+      ),
       // Answer main's "anything unsaved?" before quitting (#196).
       installQuitGuard(),
     ]
-    return () => offs.forEach((off) => off())
+    return () => {
+      offs.forEach((off) => off())
+      invalidator.dispose()
+    }
   }, [])
   return null
 }

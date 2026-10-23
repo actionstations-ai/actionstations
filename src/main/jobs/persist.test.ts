@@ -123,3 +123,75 @@ describe('job persistence (#54)', () => {
     expect(jm.list()).toEqual([])
   })
 })
+
+describe('interrupted jobs release their scenario (#194, #195)', () => {
+  const seed = (jobs: Job[]) => writeFileSync(join(userData, 'jobs.json'), JSON.stringify({ jobs }))
+  const watchDone = async () => {
+    const { onEmit } = await import('../lib/events')
+    const seen: unknown[] = []
+    const off = onEmit((name, payload) => {
+      if (name === 'job:done') seen.push(payload)
+    })
+    return { seen, off }
+  }
+
+  it('cancelling (dismissing) a restored job emits job:done cancelled', async () => {
+    seed([record({ kind: 'generate-injects' })])
+    const jm = new JobManager()
+    const { seen, off } = await watchDone()
+    jm.cancel('J1')
+    off()
+    expect(seen).toEqual([{ jobId: 'J1', kind: 'generate-injects', status: 'cancelled' }])
+    expect(jm.get('J1')).toMatchObject({ status: 'cancelled', resumable: false })
+    expect(jm.list({ activeOnly: true })).toEqual([])
+  })
+
+  it('a new job on the same scenario supersedes its paused record', async () => {
+    seed([
+      record({}),
+      record({ id: 'J2', scenarioId: 'S2' }),
+      record({ id: 'J3', kind: 'ingest', scenarioId: undefined }),
+    ])
+    const jm = new JobManager()
+    const { seen, off } = await watchDone()
+    const next = jm.start('generate-scenario', async () => 'ok', {
+      projectPath: '/p',
+      scenarioId: 'S1',
+    })
+    off()
+    expect(seen).toEqual([{ jobId: 'J1', kind: 'generate-scenario', status: 'cancelled' }])
+    expect(jm.get('J1')).toMatchObject({
+      status: 'cancelled',
+      message: 'Superseded by a newer job',
+    })
+    await jm.wait(next.id)
+    const active = jm.list({ activeOnly: true }).map((j) => j.id)
+    expect(active.sort()).toEqual(['J2', 'J3'])
+  })
+
+  it('an export of the scenario does not supersede its paused generation', () => {
+    seed([record({})])
+    const jm = new JobManager()
+    jm.start('export', async () => 'ok', { projectPath: '/p', scenarioId: 'S1' })
+    expect(jm.get('J1').status).toBe('paused')
+  })
+
+  it('resuming tells the windows the paused record is gone', async () => {
+    seed([record({})])
+    const jm = new JobManager()
+    jm.registerResumer('generate-scenario', async () => jm.start('ideate', async () => 'ok'))
+    const { seen, off } = await watchDone()
+    const next = await jm.resume('J1')
+    off()
+    expect(seen).toContainEqual({ jobId: 'J1', kind: 'generate-scenario', status: 'cancelled' })
+    expect(() => jm.get('J1')).toThrow(/No job J1/)
+    await jm.wait(next.id)
+  })
+
+  it('reads a restored job log as empty instead of NOT_FOUND', () => {
+    seed([record({})])
+    const jm = new JobManager()
+    expect(jm.logOf('J1')).toEqual({ entries: [], tokens: {} })
+    expect(() => jm.logOf('nope')).toThrow(/No job nope/)
+  })
+})

@@ -1,28 +1,55 @@
 // Non-destructive notice while a generation job owns the scenario: progress, cancel, and
-// (in the editor) that unsaved edits are kept and will be saved when the job finishes.
-import type { JobKind } from '@shared/schemas/job'
-import { Button, ProgressBar } from '../../components/ui'
-import { toast } from '../../components/toast-store'
-import { call } from '../../lib/api'
+// (in the editor) that unsaved edits are kept and will be saved when the job finishes. A job
+// an app exit interrupted shows as "Interrupted" with Resume / Dismiss instead (#194, #195);
+// it does not hold the scenario, so nothing else is disabled meanwhile.
+import { ProgressBar } from '../../components/ui'
 import type { ScenarioJob } from './use-scenario-job'
 import { LiveStatus } from '../../components/LiveStatus'
+import { CancelJobButton } from '../../components/CancelJobButton'
+import { InterruptedJobActions } from '../../components/InterruptedJobActions'
+import { JOB_LABEL, type TrackedJob } from '../../state/jobs'
 
-const KIND_LABEL: Partial<Record<JobKind, string>> = {
-  'generate-injects': 'Writing injects',
-  'render-media': 'Rendering media',
-  'generate-scenario': 'Generating the scenario',
-  'rerun-stage': 'Re-running a stage',
-  'repair-scenario': 'Repairing the scenario',
+function InterruptedBanner(props: { job: TrackedJob; onResumed?: (jobId: string) => void }) {
+  const label = JOB_LABEL[props.job.kind]
+  return (
+    <section className="job-banner job-banner--interrupted" aria-label="Generation status">
+      <div className="job-banner__text">
+        <strong>Interrupted: {label.toLowerCase()}</strong>
+        <span className="muted">
+          {' '}
+          · The app closed before this job finished.{' '}
+          {props.job.resumable
+            ? 'Resume continues from the last checkpoint.'
+            : 'Dismiss it, then start the work again.'}
+        </span>
+      </div>
+      <InterruptedJobActions
+        job={props.job}
+        {...(props.onResumed ? { onResumed: props.onResumed } : {})}
+      />
+    </section>
+  )
 }
 
 export function JobBanner(props: {
   job: ScenarioJob | null
+  /** A paused job for this scenario from before a restart (shown when nothing runs). */
+  interrupted?: TrackedJob | null
+  onResumed?: (jobId: string) => void
   pendingSave?: boolean
   editing?: boolean
 }) {
   const { job } = props
+  if (!job && props.interrupted && !props.pendingSave) {
+    return (
+      <InterruptedBanner
+        job={props.interrupted}
+        {...(props.onResumed ? { onResumed: props.onResumed } : {})}
+      />
+    )
+  }
   if (!job && !props.pendingSave) return null
-  const label = job ? (KIND_LABEL[job.kind] ?? 'Generation') : 'Generation'
+  const label = job ? JOB_LABEL[job.kind] : 'Generation'
   return (
     <section className="job-banner" aria-label="Generation status">
       <LiveStatus
@@ -42,16 +69,7 @@ export function JobBanner(props: {
       {job && (
         <div className="job-banner__progress">
           <ProgressBar value={job.progress} label={`${label} progress`} />
-          <Button
-            size="sm"
-            onClick={() =>
-              void call('jobs:cancel', { jobId: job.jobId }).catch((e) =>
-                toast.error('Could not cancel', e),
-              )
-            }
-          >
-            Cancel job
-          </Button>
+          <CancelJobButton jobId={job.jobId} label="Cancel job" />
         </div>
       )}
     </section>

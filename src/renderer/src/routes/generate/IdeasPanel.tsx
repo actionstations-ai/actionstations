@@ -9,6 +9,8 @@ import { GenerateError } from './GenerateError'
 import { IdeaCard } from './IdeaCard'
 import { useJob } from './use-job'
 import { LiveStatus } from '../../components/LiveStatus'
+import { CancelJobButton } from '../../components/CancelJobButton'
+import { isRunning, latestJob, trackJob, useJobsStore } from '../../state/jobs'
 
 type ErrorLike = { code?: string; message: string }
 
@@ -20,7 +22,14 @@ export function IdeasPanel(props: {
   const { projectPath } = props
   const [focus, setFocus] = useState('')
   const [count, setCount] = useState('6')
-  const [jobId, setJobId] = useState<string | null>(null)
+  const [started, setStarted] = useState<string | null>(null)
+  // Back on this tab after navigating away: reattach to the project's running idea job (#197).
+  const reattached = useJobsStore((s) =>
+    latestJob(s.jobs, (j) => j.kind === 'ideate' && j.projectPath === projectPath && isRunning(j)),
+  )
+  const jobId = started ?? reattached?.id ?? null
+  // Keep following it once it finishes (it then drops out of the "running" lookup).
+  if (!started && reattached) setStarted(reattached.id)
   const [error, setError] = useState<ErrorLike | null>(null)
   const ideas = useIpcQuery('generate:ideas-result', { projectPath })
   const job = useJob(jobId, (e) => {
@@ -31,9 +40,6 @@ export function IdeasPanel(props: {
   })
   const running = job?.status === 'queued' || job?.status === 'running'
 
-  const cancel = () =>
-    jobId && void call('jobs:cancel', { jobId }).catch((err: unknown) => setError(err as IpcError))
-
   const request = async () => {
     setError(null)
     try {
@@ -43,7 +49,8 @@ export function IdeasPanel(props: {
         brief: focus.trim() ? { userPrompt: focus.trim() } : {},
         count: n,
       })
-      setJobId(id)
+      trackJob(id, { kind: 'ideate', projectPath, payload: { count: n } })
+      setStarted(id)
     } catch (err) {
       setError(err as IpcError)
     }
@@ -96,9 +103,7 @@ export function IdeasPanel(props: {
             <div className="row">
               <span className="muted">{job.message}</span>
               <LiveStatus text={job.message} />
-              <Button size="sm" onClick={cancel}>
-                Cancel
-              </Button>
+              {jobId && <CancelJobButton jobId={jobId} />}
             </div>
           </div>
         )}

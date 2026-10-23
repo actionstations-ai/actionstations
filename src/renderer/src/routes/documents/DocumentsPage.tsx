@@ -12,6 +12,7 @@ import { DocumentDetail } from './DocumentDetail'
 import { DocumentTable } from './DocumentTable'
 import { DocumentsEmpty } from './DocumentsEmpty'
 import { IndexStatus } from './IndexStatus'
+import { IngestJobs } from './IngestJobs'
 import { INDEX_TARGET } from './job-progress'
 import { useDocumentActions, useImportDocuments } from './use-document-actions'
 import { useFileDrop } from './use-file-drop'
@@ -92,7 +93,7 @@ function DropOverlay() {
 export default function DocumentsPage() {
   const projectPath = fromProjectKey(useParams().projectKey ?? '')
   const docs = useIpcQuery('documents:list', { projectPath }, { enabled: !!projectPath })
-  const { live, track } = useJobProgress(onJobDone)
+  const { live, track } = useJobProgress(projectPath, onJobDone)
   const importer = useImportDocuments(projectPath, track)
   const actions = useDocumentActions(projectPath, track)
   const dragging = useFileDrop((paths) => void importer.importPaths(paths), !!projectPath)
@@ -126,6 +127,7 @@ export default function DocumentsPage() {
         }
       />
       <IndexStatus projectPath={projectPath} rebuild={live[INDEX_TARGET]} />
+      <IngestJobs projectPath={projectPath} />
       {docs.isError && (
         <p className="field__error" role="alert">
           Could not load documents: {errorText(docs.error)}

@@ -1,0 +1,50 @@
+/* Jobs tray (#197): sits in the sidebar under the navigation and takes the sidebar's scoped
+   text and surface tokens, so it reads on the night-navy ground in both themes. */
+.jobs-tray {
+  margin-top: auto;
+  padding: var(--space-3) var(--space-2) 0;
+  border-top: var(--border-width) solid var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.jobs-tray__heading {
+  margin: 0;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+.jobs-tray__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.jobs-tray__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+}
+.jobs-tray__label {
+  font-weight: var(--weight-medium);
+}
+.jobs-tray__label a {
+  color: inherit;
+}
+.jobs-tray__state,
+.jobs-tray__message {
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+.jobs-tray__item .btn {
+  align-self: flex-start;
+}
+@media (max-width: 52rem) {
+  .jobs-tray {
+    margin-top: var(--space-2);
+  }
+}

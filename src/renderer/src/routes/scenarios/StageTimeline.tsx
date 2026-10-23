@@ -1,19 +1,26 @@
 // Generation stages of a scenario: the latest run per (stage, item), with re-run and
 // "Continue from failure". Per-inject stages (one run per inject) are collapsed into one
-// group per stage with ok/error/stale counts; groups with errors start expanded.
+// group per stage with ok/error/stale counts; groups with errors start expanded. The head
+// also has "Repair this scenario" (#200) and, while a repair runs, its job banner; reported
+// costs of remote providers show next to the tokens (#218).
 import { useId, useState } from 'react'
 import { ChevronDown, ChevronRight, RotateCcw, Play } from 'lucide-react'
 import type { StageRun } from '@shared/schemas/scenario'
 import { Badge, Button, Dialog, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
+import { JobBanner } from '../../editors/inject/JobBanner'
+import { useScenarioJob } from '../../editors/inject/use-scenario-job'
+import { RepairScenario } from './RepairScenario'
 import {
   itemLabel,
   latestRuns,
+  runCost,
   runDuration,
   runTokens,
   stageLabel,
   timelineEntries,
+  totalCost,
   type StatusCounts,
 } from './stages'
 
@@ -119,7 +126,8 @@ function RunItem(props: {
       </div>
       <Badge tone={STATUS_TONE[run.status]}>{run.status}</Badge>
       <span className="muted timeline__meta">
-        {run.model ?? '—'} · {runTokens(run)} · {runDuration(run)}
+        {run.model ?? '—'} · {runTokens(run)}
+        {runCost(run) && ` · ${runCost(run)}`} · {runDuration(run)}
       </span>
       {run.error && <span className="field__error timeline__error">{run.error}</span>}
       <Button
@@ -194,22 +202,49 @@ function RunGroup(props: {
   )
 }
 
+/**
+ * A stage can continue when it failed or went stale, or when it still says "running" although
+ * no job runs (an app exit cut it off, #195).
+ */
+const canContinue = (runs: StageRun[], busy: boolean): boolean =>
+  runs.some(
+    (r) => r.status === 'error' || r.status === 'stale' || (!busy && r.status === 'running'),
+  )
+
+function TimelineHead(props: Props & { runs: StageRun[]; busy: boolean; resume: () => void }) {
+  const cost = totalCost(props.runs)
+  return (
+    <div className="row timeline__head">
+      <h2 className="section-title">Stages</h2>
+      {cost && <span className="muted">Reported cost {cost}</span>}
+      <span className="row">
+        {canContinue(props.runs, props.busy) && (
+          <Button size="sm" variant="primary" disabled={props.busy} onClick={props.resume}>
+            <Play size={14} aria-hidden /> Continue from failure
+          </Button>
+        )}
+        <RepairScenario
+          projectPath={props.projectPath}
+          scenarioId={props.scenarioId}
+          busy={props.busy}
+          onJob={props.onJob}
+        />
+      </span>
+    </div>
+  )
+}
+
 export function StageTimeline(props: Props) {
   const runs = latestRuns(props.provenance)
   const [pending, setPending] = useState<StageRun | null>(null)
   const actions = useStageActions(props)
-  const failed = runs.some((r) => r.status === 'error' || r.status === 'stale')
-  const common = { labels: props.itemLabels, busy: props.busy, onRerun: setPending }
+  const { job } = useScenarioJob(props.projectPath, props.scenarioId)
+  const busy = props.busy || !!job
+  const common = { labels: props.itemLabels, busy, onRerun: setPending }
   return (
     <section className="card timeline" aria-label="Generation stages">
-      <div className="row timeline__head">
-        <h2 className="section-title">Stages</h2>
-        {failed && (
-          <Button size="sm" variant="primary" disabled={props.busy} onClick={actions.resume}>
-            <Play size={14} aria-hidden /> Continue from failure
-          </Button>
-        )}
-      </div>
+      <TimelineHead {...props} runs={runs} busy={busy} resume={() => void actions.resume()} />
+      {job?.kind === 'repair-scenario' && <JobBanner job={job} />}
       {runs.length === 0 ? (
         <p className="muted">No stages have run for this scenario.</p>
       ) : (

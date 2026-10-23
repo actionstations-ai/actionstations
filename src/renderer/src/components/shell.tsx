@@ -11,6 +11,7 @@ import { projectKey, useProjectUi } from '../state/project'
 import { NAV_ICONS } from './nav-icons'
 import { focusTarget, shouldMoveFocus, whenHeading } from '../lib/focus'
 import logoUrl from '../assets/action-stations-logo.png'
+import { JobsTray } from './JobsTray'
 
 const APP_NAME = 'Action Stations'
 
@@ -174,6 +175,7 @@ export function Sidebar() {
       >
         <NavLinks onNavigate={() => close(false)} />
       </nav>
+      <JobsTray />
     </header>
   )
 }

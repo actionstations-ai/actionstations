@@ -5,7 +5,12 @@ import { call } from '../lib/api'
 import { toast } from './toast-store'
 import { Button } from './ui'
 
-export function CancelJobButton(props: { jobId: string; label?: string }) {
+export function CancelJobButton(props: {
+  jobId: string
+  label?: string
+  /** Accessible name when the visible label alone is ambiguous (the jobs tray). */
+  ariaLabel?: string
+}) {
   const [cancelling, setCancelling] = useState(false)
   const cancel = () => {
     setCancelling(true)
@@ -15,7 +20,12 @@ export function CancelJobButton(props: { jobId: string; label?: string }) {
     })
   }
   return (
-    <Button size="sm" onClick={cancel} disabled={cancelling}>
+    <Button
+      size="sm"
+      onClick={cancel}
+      disabled={cancelling}
+      {...(props.ariaLabel ? { 'aria-label': props.ariaLabel } : {})}
+    >
       <Square size={12} aria-hidden /> {cancelling ? 'Cancelling…' : (props.label ?? 'Cancel')}
     </Button>
   )

@@ -328,7 +328,7 @@ export function InjectDeck(props: {
   const { projectPath, scenario } = props
   const injects = useIpcQuery('injects:list', { projectPath, scenarioId: scenario.id })
   const templatesQ = useIpcQuery('templates:list', undefined, { staleTime: Infinity })
-  const { job, track } = useScenarioJob(projectPath, scenario.id)
+  const { job, interrupted, track } = useScenarioJob(projectPath, scenario.id)
   const jobs = useDeckJobs(projectPath, scenario.id, track, props.onJob)
   const [filters, setFilters] = useState<DeckFilters>(NO_FILTERS)
   const [creating, setCreating] = useState<DeckEntry['row'] | null>(null)
@@ -370,7 +370,11 @@ export function InjectDeck(props: {
           </Button>
         </div>
       </div>
-      <JobBanner job={job} />
+      <JobBanner
+        job={job}
+        interrupted={interrupted}
+        {...(props.onJob ? { onResumed: props.onJob } : {})}
+      />
       <FilterBar
         value={filters}
         onChange={setFilters}
