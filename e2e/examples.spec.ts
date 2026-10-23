@@ -69,7 +69,7 @@ test('projects: open a copy of an example, see its notice, index rebuilt', async
     await snap(page, 'example-overview')
 
     // The banner follows into other project screens.
-    await page.getByRole('link', { name: 'Documents' }).click()
+    await page.getByRole('link', { name: 'Documents', exact: true }).click()
     await expect(page.getByTestId('example-banner')).toBeVisible()
 
     // A second copy goes to a new folder; the first is left as it was.
