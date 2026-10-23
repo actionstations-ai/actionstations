@@ -2,7 +2,7 @@
 
 Voice injects (radio calls, phone calls, voicemails, PA announcements) are spoken by a text-to-speech model, then given radio, phone or PA post-processing by the app. On Apple Silicon the recommended voices run locally under MLX through [mlx-audio](https://github.com/Blaizzy/mlx-audio), whose server speaks the OpenAI `POST /v1/audio/speech` API. The app's **OpenAI-compatible** provider type talks to it directly ([ADR-0010](../../adr/0010-local-tts-openai-speech.md)).
 
-Verified with mlx-audio 0.6.1 on macOS (Apple Silicon). mlx-audio does not run on Windows or Linux; there, use a ComfyUI TTS workflow ([ComfyUI guide](comfyui.md) and [`comfy/workflows/README.md`](../../../comfy/workflows/README.md#adding-a-comfyui-tts-workflow-optional)) or a remote OpenAI-compatible speech endpoint.
+Verified with mlx-audio 0.6.1 on macOS (Apple Silicon). mlx-audio does not run on Windows or Linux; there, use the [system voice](#system-voice-any-platform), a ComfyUI TTS workflow ([ComfyUI guide](comfyui.md) and [`comfy/workflows/README.md`](../../../comfy/workflows/README.md#adding-a-comfyui-tts-workflow-optional)) or a remote OpenAI-compatible speech endpoint.
 
 ## Models
 
@@ -93,3 +93,19 @@ Each voice line is one request; the clips are joined into one WAV, and the app's
 | The first request hangs for minutes       | The model is downloading into the Hugging Face cache. Wait, or pre-fetch it with the `curl` commands above.        |
 | Requests fail when offline                | A model is missing from the cache while `HF_HUB_OFFLINE=1` is set. Unset it, fetch the model once, set it again.   |
 | Empty WAV or "empty audio" provider error | VoiceDesign without a description, or a server-side error reported mid-stream. Check the server's terminal output. |
+
+## System voice (any platform)
+
+When no TTS server is available, the **System voice** provider speaks voice lines with the operating system's own engine. It needs no server, no key and no network:
+
+| Platform | Engine                                  | Install                                                        |
+| -------- | --------------------------------------- | -------------------------------------------------------------- |
+| macOS    | `say`                                   | Built in.                                                      |
+| Windows  | SAPI through PowerShell `System.Speech` | Built in.                                                      |
+| Linux    | `espeak-ng` (or `espeak`)               | `sudo apt install espeak-ng` (or your distribution's package). |
+
+1. Open **Providers** and press **Detect local services**. A **System voice** row appears only when an engine is installed; press **Add**. (Or **Add provider → System voice**.)
+2. In **Routing**, assign **Audio** to the system voice.
+3. Optional: set **Default voice** (for example `Samantha` on macOS, `Microsoft Zira Desktop` on Windows, `en-gb` for espeak). When a call has several speakers and no per-speaker voices are set, each speaker gets a different installed voice (on espeak, a different variant such as `en-us+f3`).
+
+The output is WAV and takes the same radio, phone and PA post-processing and MP3 export as any other voice. System voices sound synthetic next to VoxCPM2 or Qwen3-TTS, so use them as the fallback. Options (edit `settings.json`): `engine` (`say`, `sapi`, `espeak-ng`, `espeak`) to force one, `voices` to map speaker names to voices, `speakerGapSec`, `timeoutMs`.

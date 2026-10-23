@@ -1,11 +1,13 @@
 <div class="page" style="--accent: {{default brand.primaryColor '#1f3a5f'}}">
   <header class="lh">
+    {{#if brand.logo}}<img class="logo" src="{{brand.logo}}" alt="" />{{else}}
     <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
       <circle cx="24" cy="24" r="22" />
       <path
         d="M10 27.5 38 18l-3.5 5.2L14 30.5z M20.5 26.3l4.7 9.2 3.4-1.2-2.7-9.6z M15 27l-3.5-5.3 2.7-.9 5 3.9z"
       />
     </svg>
+    {{/if}}
     <div class="org-block">
       <div class="org">
         {{#if fields.org}}{{fields.org}}{{else if

@@ -48,6 +48,17 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 - Confirm before quitting or closing the window with unsaved work (#196): main asks the renderer (with a timeout, so a hung page never blocks quitting), which saves pending autosaves first and reports inject drafts, edits parked during generation and editors whose save was refused or failed; a native dialog offers "Quit and discard" or "Cancel".
 - Inject deck cards show a **Draft** badge when the inject has unsaved edits, and the scenario page notes how many injects have an unsaved draft (#202).
 
+- Project logo: **Logo** in project settings copies a PNG, JPEG or WebP (2 MB max, type
+  checked from the bytes) into `<project>/brand/` and sets `brand.logoPath`; templates read it as
+  `brand.logo`. Memo, press release, SITREP, own-organization letters (`letterhead.fromProject`)
+  and the Exercise Plan cover show it (#217).
+- `tiktok_video_card` template: a portrait (9:16) short-video still with a poster image slot,
+  on-screen text sticker, caption, sound line and counts as real text; rows of that type no
+  longer fall back to a tweet. New `clock` template helper (#216).
+- System-voice TTS provider (ADR-0009 fallback): offline speech through macOS `say`, Windows SAPI
+  or `espeak-ng` / `espeak`, offered by **Detect local services** only when installed and routable
+  to the Audio task; output takes the usual post-FX and MP3 path. ADR-0009 marked amended by
+  ADR-0010; README provider table corrected (ComfyUI ships no audio workflow) (#215).
 - Repair a finished scenario in place (#185, ADR-0015): `generate:repair` applies the current
   MSEL repairs and lints, runs the revision pass only for rows still flagged, writes injects
   only for rows whose text changed or that have none, and re-renders only stale cards and

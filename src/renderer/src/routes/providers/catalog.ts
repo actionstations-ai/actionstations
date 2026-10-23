@@ -123,9 +123,23 @@ export const PRESETS: Preset[] = [
     usesKey: false,
     keyRequired: false,
     baseUrlEditable: true,
-    hint: 'Local image, video and audio workflows.',
+    hint: 'Local image and video workflows (and audio, if you import a TTS workflow).',
+  },
+  {
+    id: 'system-tts',
+    label: 'System voice',
+    kind: 'system-tts',
+    baseUrl: '',
+    usesKey: false,
+    keyRequired: false,
+    baseUrlEditable: false,
+    hint: 'Offline speech from this computer (macOS say, Windows speech, or espeak-ng on Linux).',
   },
 ]
+
+/** Kinds that run on this computer without a server address. */
+export const kindUsesBaseUrl = (kind: ProviderKind): boolean =>
+  kind !== 'anthropic' && kind !== 'mock' && kind !== 'system-tts'
 
 /** Whether an existing provider of this kind shows the key field. */
 export const kindUsesKey = (kind: ProviderKind): boolean =>

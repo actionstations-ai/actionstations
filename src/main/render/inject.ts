@@ -24,6 +24,7 @@ import {
   writeFileAtomic,
 } from '../lib/fs'
 import { newId, nowIso } from '../lib/ids'
+import { brandLogoFile } from '../project/logo'
 import { loadProject, projectPaths } from '../project/store'
 import { scenarioLayout } from '../scenario/layout'
 import { saveInject } from '../scenario/store'
@@ -168,10 +169,12 @@ export async function renderInjectAssets(
   assertValidFields(inject)
   const slotFiles = await resolveSlotFiles(root, slotAssets(inject.assets, template.meta))
   const variant = variantFor(template.meta, inject.variant)
+  const logo = await brandLogoFile(root, opts.brand)
   const doc = composeDocument({
     type: inject.type,
     fields: inject.fields,
     ...(opts.brand ? { brand: opts.brand } : {}),
+    ...(logo ? { logo } : {}),
     ...(variant ? { variant } : {}),
     assets: slotFiles,
   })

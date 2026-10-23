@@ -96,6 +96,13 @@ export const projectChannels = {
     }),
     OpenProject,
   ),
+  /**
+   * Copy a PNG, JPEG or WebP (2 MB max) into <project>/brand/ and set brand.logoPath (#217).
+   * sourcePath comes from dialog:open-files.
+   */
+  'project:set-logo': channel(ProjectPath.extend({ sourcePath: z.string().min(1) }), OpenProject),
+  /** Remove the project logo. */
+  'project:clear-logo': channel(ProjectPath, OpenProject),
   'project:duplicate': channel(
     ProjectPath.extend({ newName: z.string().min(1), parentDir: z.string().optional() }),
     OpenProject,

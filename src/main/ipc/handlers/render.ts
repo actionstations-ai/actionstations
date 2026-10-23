@@ -1,6 +1,7 @@
 import { defineHandlers } from '../registry'
 import { requireProject } from '../../project/guard'
 import { loadProject } from '../../project/store'
+import { brandLogoFile } from '../../project/logo'
 import { composeDocument } from '../../render/compose'
 import { injectSlotFiles, renderAndSaveInject } from '../../render/inject'
 import { listTemplateTypes, loadTemplate, templateInfo } from '../../render/templates'
@@ -19,14 +20,14 @@ interface PreviewContext {
  * Slots without an AI image keep the template's sample image.
  */
 async function previewContext(req: PreviewContext) {
-  if (!req.projectPath) return { brand: undefined, assets: {} }
+  if (!req.projectPath) return { brand: undefined, logo: undefined, assets: {} }
   const root = await requireProject(req.projectPath)
   const brand = (await loadProject(root)).brand
   const assets =
     req.scenarioId && req.injectId
       ? await injectSlotFiles(root, req.scenarioId, req.injectId, req.type)
       : {}
-  return { brand, assets }
+  return { brand, logo: await brandLogoFile(root, brand), assets }
 }
 
 export default defineHandlers({
@@ -41,6 +42,7 @@ export default defineHandlers({
         type,
         fields,
         ...(effectiveBrand ? { brand: effectiveBrand } : {}),
+        ...(ctx.logo ? { logo: ctx.logo } : {}),
         ...(variant ? { variant } : {}),
         assets: ctx.assets,
       },

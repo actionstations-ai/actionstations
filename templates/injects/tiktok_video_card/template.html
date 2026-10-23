@@ -1,0 +1,88 @@
+<article class="card">
+  <div class="poster">
+    {{#if assets.poster}}<img src="{{assets.poster}}" alt="" />{{else}}
+    <div class="ph"></div>
+    {{/if}}
+  </div>
+  <div class="shade-top"></div>
+  <div class="shade-bottom"></div>
+
+  <header class="tabs">
+    <span class="tab">Following</span>
+    <span class="tab on">For You</span>
+    <svg class="search" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="m15.5 15.5 5 5" />
+    </svg>
+  </header>
+
+  {{#if fields.viewCount}}
+  <div class="views">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" /></svg>
+    {{compact fields.viewCount}} views
+  </div>
+  {{/if}} {{#if fields.overlayText}}
+  <p class="sticker"><span>{{fields.overlayText}}</span></p>
+  {{/if}}
+
+  <svg class="paused" viewBox="0 0 24 24" aria-label="Paused"><path d="M8 5v14l11-7z" /></svg>
+
+  <aside class="rail">
+    <div class="avatar">
+      <span class="av">{{initials fields.handle}}</span>
+      <span class="follow" aria-hidden="true">+</span>
+    </div>
+    <div class="act">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          d="M12 20.5s-8.5-5-8.5-11.2A4.6 4.6 0 0 1 12 6.6a4.6 4.6 0 0 1 8.5 2.7c0 6.2-8.5 11.2-8.5 11.2z"
+        />
+      </svg>
+      <span>{{#if fields.likes}}{{compact fields.likes}}{{else}}Like{{/if}}</span>
+    </div>
+    <div class="act">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 5.5h16v10H10l-4.5 3.5v-3.5H4z" />
+      </svg>
+      <span>{{#if fields.commentCount}}{{compact fields.commentCount}}{{else}}Comment{{/if}}</span>
+    </div>
+    <div class="act">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.5-6 4.5z" /></svg>
+      <span>{{#if fields.saves}}{{compact fields.saves}}{{else}}Save{{/if}}</span>
+    </div>
+    <div class="act">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M13 4.5 21 12l-8 7.5v-4.3C8 15.2 5 17 3 20c.6-5.6 3.8-10 10-10.9z" />
+      </svg>
+      <span>{{#if fields.shares}}{{compact fields.shares}}{{else}}Share{{/if}}</span>
+    </div>
+    <span class="disc" aria-hidden="true"><span></span></span>
+  </aside>
+
+  <footer class="meta">
+    <div class="who">
+      <b>{{fields.handle}}</b>
+      {{#if fields.verified}}<svg class="badge" viewBox="0 0 24 24" aria-label="Verified">
+        <circle cx="12" cy="12" r="10" />
+        <path d="m7.6 12.3 3 3 5.9-6.4" /></svg
+      >{{/if}} {{#if fields.timestampRel}}<span class="t">· {{fields.timestampRel}}</span>{{/if}}
+    </div>
+    <p class="cap">{{social fields.caption}}</p>
+    <div class="sound">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9 17.5V5l11-2v12.5" />
+        <circle cx="6.5" cy="17.5" r="2.5" />
+        <circle cx="17.5" cy="15.5" r="2.5" />
+      </svg>
+      <span
+        >{{#if fields.soundName}}{{fields.soundName}}{{else}}original sound -
+        {{fields.handle}}{{/if}}</span
+      >
+    </div>
+  </footer>
+
+  <div class="progress">
+    <span class="bar"><span class="done"></span></span>
+    {{#if fields.durationSec}}<span class="time">{{clock fields.durationSec}}</span>{{/if}}
+  </div>
+</article>

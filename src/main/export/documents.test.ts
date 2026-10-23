@@ -53,6 +53,24 @@ describe('document HTML', () => {
     expect(html).toContain('Not in deck (turned off)')
   })
 
+  it('exercise plan cover shows the project logo only when it is set and on disk (#217)', () => {
+    const model = fixtureModel()
+    expect(buildDocumentHtml(model, 'exercise_plan', 'pdf')).not.toContain(
+      '<img class="cover__logo"',
+    )
+    model.project.brand = { ...model.project.brand, logoPath: 'brand/logo-abc.png' }
+    expect(buildDocumentHtml(model, 'exercise_plan', 'pdf')).not.toContain(
+      '<img class="cover__logo"',
+    )
+    model.available.add('brand/logo-abc.png')
+    expect(buildDocumentHtml(model, 'exercise_plan', 'pdf')).toMatch(
+      /<img class="cover__logo" src="file:[^"]+brand\/logo-abc\.png"/,
+    )
+    expect(buildDocumentHtml(model, 'exercise_plan', 'preview')).toContain(
+      'class="cover__logo" src="ttx-media://project/',
+    )
+  })
+
   it('preview mode loads media through ttx-media:// instead of file:', () => {
     const html = buildDocumentHtml(fixtureModel(), 'deck', 'preview')
     expect(html).toContain('src="ttx-media://project/')

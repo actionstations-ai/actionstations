@@ -4,6 +4,7 @@ import { Button, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { useIpcMutation } from '../../lib/query'
 import { AliasesEditor } from './AliasesEditor'
+import { LogoPicker } from './LogoPicker'
 import { RolesEditor } from './RolesEditor'
 import { VocabularyEditor } from './VocabularyEditor'
 import { DomainProfilePicker } from '../../components/DomainProfilePicker'
@@ -63,7 +64,13 @@ function OrganizationSection({ form, errors, set }: SectionProps) {
   )
 }
 
-function BrandSection({ form, errors, set }: SectionProps) {
+function BrandSection({
+  form,
+  errors,
+  set,
+  path,
+  project,
+}: SectionProps & { path: string; project: Project }) {
   const validColor = /^#[0-9a-fA-F]{6}$/.test(form.primaryColor)
   return (
     <fieldset className="form-section">
@@ -115,6 +122,7 @@ function BrandSection({ form, errors, set }: SectionProps) {
           )}
         </Field>
       </div>
+      <LogoPicker path={path} project={project} />
       <AliasesEditor rows={form.aliases} errors={errors} onChange={(v) => set('aliases', v)} />
     </fieldset>
   )
@@ -163,7 +171,7 @@ export function ProjectSettingsForm({ path, project }: { path: string; project: 
         </div>
       </div>
       <OrganizationSection form={form} errors={shownErrors} set={set} />
-      <BrandSection form={form} errors={shownErrors} set={set} />
+      <BrandSection form={form} errors={shownErrors} set={set} path={path} project={project} />
       <RolesEditor roles={form.roles} errors={shownErrors} onChange={(v) => set('roles', v)} />
     </form>
   )

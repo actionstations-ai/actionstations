@@ -67,6 +67,15 @@ function setup(initial: ProviderViewT[] = []) {
         loadedModels: [],
         chatModels: [],
       },
+      {
+        kind: 'system-tts',
+        label: 'System voice (macOS say)',
+        baseUrl: '',
+        reachable: true,
+        models: ['Samantha', 'Daniel'],
+        loadedModels: [],
+        chatModels: [],
+      },
     ],
   })
   renderAt('/providers', '/providers', ProvidersPage)
@@ -117,6 +126,34 @@ describe('ProvidersPage', () => {
       },
     })
     expect(await within(list).findByText('Added')).toBeTruthy()
+  })
+
+  it('adds a detected system voice without a base URL', async () => {
+    const ttx = setup()
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Detect local services' }))
+    const list = await screen.findByRole('list', { name: 'Detected services' })
+    expect(within(list).getByText('Installed. Voices: Samantha, Daniel')).toBeTruthy()
+    await user.click(within(list).getByRole('button', { name: 'Add System voice (macOS say)' }))
+    await waitFor(() => expect(ttx.calls('providers:upsert')).toHaveLength(1))
+    const sent = ttx.calls('providers:upsert')[0] as { config: Record<string, unknown> }
+    expect(sent.config).toMatchObject({ kind: 'system-tts', label: 'System voice (macOS say)' })
+    expect(sent.config).not.toHaveProperty('baseUrl')
+  })
+
+  it('adds a system voice from the dialog with no server address', async () => {
+    const ttx = setup()
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Add provider' }))
+    const dialog = await screen.findByRole('dialog', { name: 'Add provider' })
+    await user.selectOptions(within(dialog).getByLabelText('Type'), 'system-tts')
+    expect(within(dialog).queryByLabelText('Base URL')).toBeNull()
+    await user.type(within(dialog).getByLabelText('Default voice'), 'Samantha')
+    await user.click(within(dialog).getByRole('button', { name: 'Add provider' }))
+    await waitFor(() => expect(ttx.calls('providers:upsert')).toHaveLength(1))
+    expect(ttx.calls('providers:upsert')[0]).toMatchObject({
+      config: { kind: 'system-tts', label: 'System voice', defaultModel: 'Samantha' },
+    })
   })
 
   it('shows health latency and runs a test', async () => {

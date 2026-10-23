@@ -3,6 +3,9 @@
 
   <!-- Federal letterhead: generic seal (no real insignia) + department / agency lines -->
   <header class="lh-federal">
+    {{#if (and fields.letterhead.fromProject brand.logo)}}
+    <img class="logo logo--federal" src="{{brand.logo}}" alt="" />
+    {{else}}
     <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
       <defs>
         <path id="seal-top" d="M34.76,96.04 A44,44 0 1,1 85.24,96.04" />
@@ -39,6 +42,7 @@
         class="s-star"
       />
     </svg>
+    {{/if}}
     <div class="fed-names">
       {{#if fields.letterhead.parent}}
       <p class="parent">{{fields.letterhead.parent}}</p>
@@ -57,7 +61,11 @@
   <!-- Corporate letterhead: monogram + name + contact column -->
   <header class="lh-corporate">
     <div class="brand">
+      {{#if (and fields.letterhead.fromProject brand.logo)}}
+      <img class="logo" src="{{brand.logo}}" alt="" />
+      {{else}}
       <span class="mono">{{initials fields.letterhead.organization}}</span>
+      {{/if}}
       <div>
         <p class="corp-name">{{fields.letterhead.organization}}</p>
         {{#if fields.letterhead.tagline}}

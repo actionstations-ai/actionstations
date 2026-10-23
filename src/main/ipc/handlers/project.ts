@@ -5,6 +5,7 @@ import { forgetRecent, listRecent, syncRecent } from '../../project/recent'
 import { duplicateProject } from '../../project/duplicate'
 import { ensureIndex } from '../../project/ensure-index'
 import { applyProjectPatch } from '../../project/patch'
+import { clearLogo, importLogo } from '../../project/logo'
 import {
   readFacilityView,
   resetFacilityFacts,
@@ -49,6 +50,16 @@ export default defineHandlers({
     const project = await updateProject(root, (draft) => applyProjectPatch(draft, patch))
     if (patch.name !== undefined || patch.orgName !== undefined) await syncRecent(root, project)
     return { path: root, project }
+  },
+
+  'project:set-logo': async ({ path, sourcePath }) => {
+    const root = await requireProject(path)
+    return { path: root, project: await importLogo(root, sourcePath) }
+  },
+
+  'project:clear-logo': async ({ path }) => {
+    const root = await requireProject(path)
+    return { path: root, project: await clearLogo(root) }
   },
 
   'project:duplicate': async ({ path, newName, parentDir }) => {

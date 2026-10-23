@@ -16,5 +16,5 @@ ADR-0009 made ComfyUI the primary TTS path. On this project's reference machine 
 ## Consequences
 
 - Remote TTS (OpenAI, any OpenAI-compatible host) works with no new adapter.
-- mlx-audio is Apple-Silicon only; Windows/Linux users use ComfyUI or a remote OpenAI-compatible TTS.
+- mlx-audio is Apple-Silicon only; Windows/Linux users use the system-voice provider (ADR-0009 fallback, #215), a ComfyUI TTS workflow they import, or a remote OpenAI-compatible TTS.
 - mlx-audio reports some request errors mid-stream (HTTP 200 with an empty body); the adapter treats empty/truncated audio as a `PROVIDER` error.

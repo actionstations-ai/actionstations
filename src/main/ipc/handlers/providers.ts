@@ -13,6 +13,7 @@ import { getSecret, hasSecret, setSecret } from '../../secrets'
 import { getSettings, updateSettings } from '../../settings/store'
 import { adapterFor } from '../../providers/registry'
 import { detectLocalServices } from '../../providers/local-detect'
+import { detectSystemVoice } from '../../providers/media/system-tts/service'
 import { canPullModels, pullProviderModel, type PullProgress } from '../../providers/model-pull'
 import { jobs } from '../../jobs/manager'
 import {
@@ -259,7 +260,10 @@ export default defineHandlers({
 
   'providers:test': async ({ id, model }) => runTest(await configFor(id), model),
 
-  'providers:detect-local': () => detectLocalServices(),
+  'providers:detect-local': async () => {
+    const [services, voice] = await Promise.all([detectLocalServices(), detectSystemVoice()])
+    return voice ? [...services, voice] : services
+  },
 
   'providers:pull-model': ({ id, model }) => startPull(id, model),
 

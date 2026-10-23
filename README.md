@@ -12,7 +12,7 @@ Repository: https://github.com/mdcrowley/tabletop-gen
   - macOS: Xcode Command Line Tools (`xcode-select --install`)
   - Windows: Visual Studio Build Tools with the "Desktop development with C++" workload
   - Linux: `build-essential` and `python3`
-- Optional, for generation: a local model server (LM Studio or Ollama) and/or an Anthropic API key; ComfyUI for image, video and TTS media.
+- Optional, for generation: a local model server (LM Studio or Ollama) and/or an Anthropic API key; ComfyUI for image and video media; mlx-audio (Apple Silicon) or the built-in system voice for TTS.
 
 ## Commands
 
@@ -43,15 +43,16 @@ pnpm build                    # electron-builder installers (dmg / nsis / AppIma
 
 ## Connecting providers
 
-Providers are configured in the app under **Providers** (sidebar). **Detect local services** finds LM Studio, Ollama and ComfyUI on localhost and adds them in one click. API keys are encrypted with the OS keychain via Electron `safeStorage` into `<userData>/secrets.json` (ciphertext only, owner-only permissions) — never in project files, `settings.json` or logs; if the OS can't encrypt (e.g. Linux without a keyring) the app refuses to store keys. No network calls are made except to providers you configure.
+Providers are configured in the app under **Providers** (sidebar). **Detect local services** finds LM Studio, Ollama and ComfyUI on localhost, plus the operating system's own voice when one is installed, and adds them in one click. API keys are encrypted with the OS keychain via Electron `safeStorage` into `<userData>/secrets.json` (ciphertext only, owner-only permissions) — never in project files, `settings.json` or logs; if the OS can't encrypt (e.g. Linux without a keyring) the app refuses to store keys. No network calls are made except to providers you configure.
 
-| Provider  | Kind                              | Base URL                                              | Notes                                                                                                  |
-| --------- | --------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| LM Studio | OpenAI-compatible                 | `http://localhost:1234/v1`                            | Start the local server in LM Studio (Developer tab) or `lms server start`, then load a model.          |
-| Ollama    | Ollama native / OpenAI-compatible | `http://localhost:11434` (OpenAI-compatible at `/v1`) | `ollama serve`, then `ollama pull <model>`. `nomic-embed-text` works as the embedding model.           |
-| ComfyUI   | Media (image, video, TTS)         | `http://127.0.0.1:8188`                               | Default workflows live in `comfy/workflows/`; the app reports missing custom nodes via `/object_info`. |
-| Anthropic | Text                              | `https://api.anthropic.com`                           | Paste an API key in Providers.                                                                         |
-| Local TTS | OpenAI-compatible (audio)         | `http://127.0.0.1:8765`                               | `mlx_audio.server --port 8765` serves VoxCPM2 / Qwen3-TTS on Apple Silicon via `/v1/audio/speech`.     |
+| Provider     | Kind                              | Base URL                                              | Notes                                                                                                                                                    |
+| ------------ | --------------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| LM Studio    | OpenAI-compatible                 | `http://localhost:1234/v1`                            | Start the local server in LM Studio (Developer tab) or `lms server start`, then load a model.                                                            |
+| Ollama       | Ollama native / OpenAI-compatible | `http://localhost:11434` (OpenAI-compatible at `/v1`) | `ollama serve`, then `ollama pull <model>`. `nomic-embed-text` works as the embedding model.                                                             |
+| ComfyUI      | Media (image, video)              | `http://127.0.0.1:8188`                               | Default workflows live in `comfy/workflows/` (no audio default; import a TTS workflow to use one). Missing custom nodes are reported via `/object_info`. |
+| Anthropic    | Text                              | `https://api.anthropic.com`                           | Paste an API key in Providers.                                                                                                                           |
+| Local TTS    | OpenAI-compatible (audio)         | `http://127.0.0.1:8765`                               | `mlx_audio.server --port 8765` serves VoxCPM2 / Qwen3-TTS on Apple Silicon via `/v1/audio/speech`.                                                       |
+| System voice | System voice (audio, offline)     | none                                                  | Fallback TTS on any OS: macOS `say`, Windows SAPI (PowerShell `System.Speech`) or `espeak-ng` / `espeak` on Linux. Detected when installed.              |
 
 Each generation task (ideate, draft, critique, embed, image, video, audio) can be routed to a different provider on the Providers page; a project can override any task on its own Provider routing page. Setup steps, measured timings and troubleshooting for each provider are in the [provider guides](docs/guides/providers/README.md). Without any provider configured the app still ingests and searches documents with a deterministic offline embedder. For offline development and e2e, launch with `TTX_MOCK_PROVIDERS=1` to route every task to a built-in mock provider that returns schema-valid output.
 
@@ -106,7 +107,7 @@ This repository has no GitHub Actions, by design. There is nothing under `.githu
 - **No GitHub Actions.** Nothing under `.github/workflows/`. Checks run locally via `scripts/local-ci.sh` and git hooks.
 - **Issues are tracked in GitHub Issues** on `mdcrowley/tabletop-gen`. Every unit of work maps to an issue; commits reference issue numbers.
 - **Local-first.** Projects, documents, prompts and generated media live on the user's disk. Remote APIs are opt-in per provider.
-- **Provider-agnostic.** LM Studio / Ollama / OpenAI-compatible and Anthropic for text; ComfyUI first for image/video/voice, with the abstraction ready for others.
+- **Provider-agnostic.** LM Studio / Ollama / OpenAI-compatible and Anthropic for text; ComfyUI for image/video, mlx-audio or the system voice for speech, with the abstraction ready for others.
 
 ## History
 

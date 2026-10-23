@@ -17,7 +17,7 @@ export const TYPE_FALLBACKS: Record<string, string[]> = {
   tweet: ['facebook_post', 'text_message'],
   facebook_post: ['tweet', 'reddit_post'],
   instagram_post: ['tweet', 'facebook_post'],
-  tiktok_video_card: ['tweet', 'instagram_post'],
+  tiktok_video_card: ['instagram_post', 'tweet'],
   reddit_post: ['facebook_post', 'tweet'],
   social_video: ['tiktok_video_card', 'tweet'],
   press_release: ['memo', 'official_letter'],

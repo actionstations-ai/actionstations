@@ -83,12 +83,12 @@ The template is a Handlebars body. The composer wraps it in a full document:
 
 The context has four keys:
 
-| Key       | Contents                                                                                                    |
-| --------- | ----------------------------------------------------------------------------------------------------------- |
-| `fields`  | The inject's fields (validated against `schema.json`).                                                      |
-| `brand`   | The project's brand: `city`, `region`, `primaryColor`, and `aliases` (see [Brand aliases](#brand-aliases)). |
-| `variant` | The variant being rendered (also available as the `variant-<name>` class on `<body>`).                      |
-| `assets`  | `slot → URL` of AI images for this inject's image slots (empty when there are none).                        |
+| Key       | Contents                                                                                                                                                |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `fields`  | The inject's fields (validated against `schema.json`).                                                                                                  |
+| `brand`   | The project's brand: `city`, `region`, `primaryColor`, `logo` (see [Project logo](#project-logo)), and `aliases` (see [Brand aliases](#brand-aliases)). |
+| `variant` | The variant being rendered (also available as the `variant-<name>` class on `<body>`).                                                                  |
+| `assets`  | `slot → URL` of AI images for this inject's image slots (empty when there are none).                                                                    |
 
 **Escaping is on.** Field values are untrusted model output, so `{{fields.text}}` is HTML-escaped. Never use triple-stash `{{{ }}}`. The helpers that output markup (`nl2br`, `social`) escape their input first.
 
@@ -103,6 +103,7 @@ The context has four keys:
 | `default`          | `{{default fields.workspace 'Team'}}`        | Fallback when the value is missing, `null` or empty text.                                    |
 | `upper`, `lower`   | `{{upper fields.status}}`                    | Case conversion.                                                                             |
 | `compact`          | `{{compact fields.metrics.views}}`           | `12400` → `12.4K`. Strings pass through.                                                     |
+| `clock`            | `{{clock fields.durationSec}}`               | `83` → `1:23`. Strings pass through.                                                         |
 | `initials`         | `{{initials fields.displayName}}`            | `Karen Smith` → `KS` (skips words starting with punctuation).                                |
 | `nl2br`            | `{{nl2br fields.narration}}`                 | Escapes, then turns newlines into `<br>`.                                                    |
 | `social`           | `{{social fields.text}}`                     | Escapes, highlights `#hashtags` and `@mentions` as `<span class="link">`, keeps line breaks. |
@@ -142,6 +143,18 @@ Rules: a field value always wins over an alias, and every alias needs a generic 
 ```handlebars
 {{#if brand.aliases.orgShort}}{{brand.aliases.orgShort}}{{else}}IT Service Management{{/if}}
 ```
+
+### Project logo
+
+`brand.logo` is a `file:` URL of the project's logo (set in project settings, stored as `brand.logoPath`), or absent. It is the organization's own mark, so use it only where the inject comes from the exercise organization, and keep the generic emblem as the fallback so renders without a logo (and the goldens) stay the same:
+
+```handlebars
+{{#if brand.logo}}<img class='logo' src='{{brand.logo}}' alt='' />{{else}}<svg
+    class='emblem'
+  >…</svg>{{/if}}
+```
+
+`memo`, `press_release` and `sitrep` show it in their letterhead; `official_letter` shows it only when `letterhead.fromProject` is true (a letter from an agency or insurer keeps its own seal or monogram). The export's Exercise Plan cover shows it above the organization name.
 
 ### Image slots
 

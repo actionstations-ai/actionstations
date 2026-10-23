@@ -1,6 +1,7 @@
 <article class="doc">
   <p class="marking top">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
   <header class="head">
+    {{#if brand.logo}}<img class="logo" src="{{brand.logo}}" alt="" />{{/if}}
     <div class="issuer">
       {{#if fields.organization}}<span class="org">{{fields.organization}}</span>{{/if}} {{#if
       fields.issuingOffice}}<span class="office">{{fields.issuingOffice}}</span>{{/if}}

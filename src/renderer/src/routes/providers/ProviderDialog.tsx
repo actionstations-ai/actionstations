@@ -10,6 +10,7 @@ import {
   KIND_LABELS,
   PRESETS,
   kindRequiresKey,
+  kindUsesBaseUrl,
   kindUsesKey,
   type Preset,
   type ProviderViewT,
@@ -50,8 +51,7 @@ const fromPreset = (p: Preset) => ({
 function validate(d: Draft, hasKey: boolean) {
   const errors: { label?: string; baseUrl?: string; apiKey?: string } = {}
   if (!d.label.trim()) errors.label = 'Give the provider a name.'
-  if (d.kind !== 'anthropic' && d.kind !== 'mock' && !d.baseUrl.trim())
-    errors.baseUrl = 'Enter the server address.'
+  if (kindUsesBaseUrl(d.kind) && !d.baseUrl.trim()) errors.baseUrl = 'Enter the server address.'
   else if (d.baseUrl.trim() && !/^https?:\/\/\S+$/.test(d.baseUrl.trim()))
     errors.baseUrl = 'Use an http:// or https:// address.'
   const keyAfterSave = typeof d.apiKey === 'string' || (hasKey && d.apiKey !== null)
@@ -67,6 +67,7 @@ function ProviderForm(props: { existing?: ProviderViewT; onDone: () => void }) {
   const hasKey = props.existing?.hasKey ?? false
   const showKey = preset ? preset.usesKey : kindUsesKey(draft.kind) || hasKey
   const errors = submitted ? validate(draft, hasKey) : {}
+  const isSystemVoice = draft.kind === 'system-tts'
   const upsert = useIpcMutation('providers:upsert', {
     invalidates: ['providers:list', 'providers:health', 'providers:models', 'routing:get'],
   })
@@ -136,21 +137,30 @@ function ProviderForm(props: { existing?: ProviderViewT; onDone: () => void }) {
           />
         )}
       </Field>
-      <Field label="Base URL" {...(errors.baseUrl ? { error: errors.baseUrl } : {})}>
-        {({ id, describedBy, invalid }) => (
-          <input
-            id={id}
-            className="input mono"
-            value={draft.baseUrl}
-            readOnly={preset ? !preset.baseUrlEditable : false}
-            placeholder="http://127.0.0.1:8000/v1"
-            aria-describedby={describedBy}
-            aria-invalid={invalid || undefined}
-            onChange={(e) => set({ baseUrl: e.target.value })}
-          />
-        )}
-      </Field>
-      <Field label="Default model" hint="Used when a task does not name a model.">
+      {!isSystemVoice && (
+        <Field label="Base URL" {...(errors.baseUrl ? { error: errors.baseUrl } : {})}>
+          {({ id, describedBy, invalid }) => (
+            <input
+              id={id}
+              className="input mono"
+              value={draft.baseUrl}
+              readOnly={preset ? !preset.baseUrlEditable : false}
+              placeholder="http://127.0.0.1:8000/v1"
+              aria-describedby={describedBy}
+              aria-invalid={invalid || undefined}
+              onChange={(e) => set({ baseUrl: e.target.value })}
+            />
+          )}
+        </Field>
+      )}
+      <Field
+        label={isSystemVoice ? 'Default voice' : 'Default model'}
+        hint={
+          isSystemVoice
+            ? 'Optional, e.g. Samantha (macOS) or en-gb (espeak). Each speaker gets its own voice.'
+            : 'Used when a task does not name a model.'
+        }
+      >
         {({ id, describedBy }) => (
           <ModelInput
             id={id}
@@ -158,7 +168,7 @@ function ProviderForm(props: { existing?: ProviderViewT; onDone: () => void }) {
             {...(describedBy ? { describedBy } : {})}
             purpose="chat"
             value={draft.defaultModel}
-            placeholder="e.g. qwen3-30b-a3b-2507"
+            placeholder={isSystemVoice ? 'System default' : 'e.g. qwen3-30b-a3b-2507'}
             onChange={(v) => set({ defaultModel: v })}
           />
         )}

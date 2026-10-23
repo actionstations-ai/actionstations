@@ -1,4 +1,5 @@
-// "Detect local services": probe LM Studio / Ollama / ComfyUI and add one with a click.
+// "Detect local services": probe LM Studio / Ollama / ComfyUI and the system voice, and add
+// one with a click.
 import { useState } from 'react'
 import type { ChannelResponse } from '@shared/ipc'
 import { Badge, Button } from '../../components/ui'
@@ -21,7 +22,7 @@ function ServiceRow(props: { service: Found; added: boolean }) {
         config: {
           kind: s.kind,
           label: s.label,
-          baseUrl: s.baseUrl,
+          ...(s.baseUrl ? { baseUrl: s.baseUrl } : {}),
           ...(defaultModel ? { defaultModel } : {}),
           options: {},
           enabled: true,
@@ -38,9 +39,11 @@ function ServiceRow(props: { service: Found; added: boolean }) {
         <strong>{s.label}</strong> <span className="mono muted">{s.baseUrl}</span>
         <div className="muted detect-row__models">
           {s.reachable
-            ? s.models.length
-              ? `${s.models.length} model${s.models.length === 1 ? '' : 's'}: ${s.models.slice(0, 4).join(', ')}${s.models.length > 4 ? '…' : ''}`
-              : 'Running'
+            ? s.kind === 'system-tts'
+              ? `Installed${s.models.length ? `. Voices: ${s.models.slice(0, 4).join(', ')}` : ''}`
+              : s.models.length
+                ? `${s.models.length} model${s.models.length === 1 ? '' : 's'}: ${s.models.slice(0, 4).join(', ')}${s.models.length > 4 ? '…' : ''}`
+                : 'Running'
             : 'Not running'}
         </div>
       </div>
@@ -78,13 +81,16 @@ export function DetectLocal({ providers }: { providers: ProviderViewT[] }) {
       setBusy(false)
     }
   }
-  const isAdded = (s: Found) => providers.some((p) => p.baseUrl === s.baseUrl && p.kind === s.kind)
+  const isAdded = (s: Found) =>
+    providers.some((p) => p.kind === s.kind && (s.kind === 'system-tts' || p.baseUrl === s.baseUrl))
   return (
     <section className="card stack" aria-labelledby="detect-heading">
       <div className="row providers-section__head">
         <div>
           <h2 id="detect-heading">Local services</h2>
-          <p className="muted">Looks for LM Studio, Ollama and ComfyUI on this computer only.</p>
+          <p className="muted">
+            Looks for LM Studio, Ollama, ComfyUI and a system voice on this computer only.
+          </p>
         </div>
         <Button onClick={() => void detect()} disabled={busy}>
           {busy ? 'Detecting…' : 'Detect local services'}
@@ -93,7 +99,7 @@ export function DetectLocal({ providers }: { providers: ProviderViewT[] }) {
       {found && (
         <ul className="detect-list" aria-label="Detected services">
           {found.map((s) => (
-            <ServiceRow key={s.baseUrl} service={s} added={isAdded(s)} />
+            <ServiceRow key={`${s.kind}:${s.baseUrl}`} service={s} added={isAdded(s)} />
           ))}
         </ul>
       )}

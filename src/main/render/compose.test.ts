@@ -53,6 +53,62 @@ describe('template composition', () => {
     expect(initials('')).toBe('')
   })
 
+  it('clock formats seconds as m:ss', () => {
+    const doc = composeDocument({
+      type: 'tiktok_video_card',
+      fields: { handle: 'a.b', caption: 'x', durationSec: 83 },
+    })
+    expect(doc.html).toContain('<span class="time">1:23</span>')
+  })
+
+  it('tiktok_video_card draws every word as HTML over the poster slot', () => {
+    const doc = composeDocument({
+      type: 'tiktok_video_card',
+      fields: { handle: 'gate.b4', caption: 'Screens dark #NCIA', overlayText: 'POV: <b>' },
+      assets: { poster: 'data:image/png;base64,AAAA' },
+    })
+    expect(doc.meta.imageSlots).toEqual(['poster'])
+    expect(doc.html).toContain('src="data:image/png;base64,AAAA"')
+    expect(doc.html).toContain('POV: &lt;b&gt;')
+    expect(doc.html).toContain('original sound -')
+    expect(doc.html).toContain('<span class="link">#NCIA</span>')
+  })
+
+  it('brand.logo fills the logo slot of memo, press release, SITREP and own letters (#217)', () => {
+    const logo = 'data:image/png;base64,TE9HTwAB'
+    const render = (type: string, withLogo: boolean) =>
+      composeDocument(
+        { type, fields: loadTemplate(type).preview.fields, ...(withLogo ? { logo } : {}) },
+        { previewAssets: true },
+      ).html
+    for (const type of ['memo', 'press_release', 'sitrep']) {
+      expect(render(type, true), type).toContain(`class="logo" src="${logo}"`)
+      expect(render(type, false), type).not.toContain('class="logo"')
+    }
+    expect(render('memo', true)).not.toContain('class="emblem"')
+    // A letter from another organization keeps its own letterhead.
+    const letter = loadTemplate('official_letter').preview.fields as {
+      letterhead: Record<string, unknown>
+    }
+    const compose = (fromProject: boolean) =>
+      composeDocument({
+        type: 'official_letter',
+        fields: { ...letter, letterhead: { ...letter.letterhead, fromProject } },
+        logo,
+      }).html
+    expect(compose(false)).not.toContain(logo)
+    expect(compose(true)).toContain(logo)
+  })
+
+  it('a logo given as a file path becomes a file: URL', () => {
+    const html = composeDocument({
+      type: 'memo',
+      fields: loadTemplate('memo').preview.fields,
+      logo: resolve('templates/injects/tweet/sample-avatar.jpg'),
+    }).html
+    expect(html).toMatch(/class="logo" src="file:\/\/[^"]+sample-avatar\.jpg"/)
+  })
+
   it('rejects path-like template types', () => {
     expect(() => loadTemplate('../etc')).toThrow(/Invalid template type/)
     expect(() => loadTemplate('nope_nope')).toThrow(/No template/)

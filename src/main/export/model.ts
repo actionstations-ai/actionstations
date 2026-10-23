@@ -21,7 +21,7 @@ export interface ExportModel {
   docs: ExportDocs
   scenarioNo: string
   media: PlannedMedia[]
-  /** Project-relative paths of asset files (and posters) that exist on disk. */
+  /** Project-relative paths of asset files (and posters, and the brand logo) that exist on disk. */
   available: Set<string>
   /** ISO time the export started; printed in footers and the manifest. */
   generatedAt: string
@@ -62,7 +62,7 @@ export async function loadExportModel(
     docs: { handbook, briefing, hotwash, overview },
     scenarioNo,
     media,
-    available: await availablePaths(root, injects),
+    available: await availablePaths(root, injects, project.brand.logoPath),
     generatedAt: now.toISOString(),
   }
 }
@@ -76,10 +76,15 @@ export function liveInjects(scenario: Scenario, injects: Inject[]): Inject[] {
   return injects.filter((i) => rows.has(i.mselRowId))
 }
 
-async function availablePaths(root: string, injects: Inject[]): Promise<Set<string>> {
+async function availablePaths(
+  root: string,
+  injects: Inject[],
+  logoPath?: string,
+): Promise<Set<string>> {
   const paths = injects.flatMap((i) =>
     i.assets.flatMap((a) => (a.posterPath ? [a.path, a.posterPath] : [a.path])),
   )
+  if (logoPath) paths.push(logoPath)
   // A path counts only when it resolves to a real file inside the project: missing files and
   // symlinks pointing outside the project folder are both left out (reported as missing).
   return new Set(paths.filter((p) => insideProject(root, p)))

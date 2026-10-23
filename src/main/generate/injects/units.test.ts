@@ -86,6 +86,19 @@ describe('chooseInjectType', () => {
       type: 'memo',
     })
   })
+  it('keeps tiktok_video_card as its own template-backed type (#216)', async () => {
+    const { readdirSync } = await import('node:fs')
+    const shipped = readdirSync('templates/injects').filter((d) => !d.startsWith('_'))
+    expect(shipped).toContain('tiktok_video_card')
+    expect(chooseInjectType(row('I-11b', 'e', 'tiktok_video_card'), shipped)).toEqual({
+      type: 'tiktok_video_card',
+      hasTemplate: true,
+    })
+    // Without the template, the portrait photo post is the closest substitute.
+    expect(
+      chooseInjectType(row('I-11b', 'e', 'tiktok_video_card'), ['tweet', 'instagram_post']),
+    ).toMatchObject({ type: 'instagram_post', requested: 'tiktok_video_card' })
+  })
   it('keeps the type without a template when the chain has none installed', () => {
     expect(chooseInjectType(row('I-04', 'e', 'scene_photo'), installed)).toEqual({
       type: 'scene_photo',

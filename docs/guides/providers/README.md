@@ -2,13 +2,14 @@
 
 A **provider** is a model or media service the app may call: a local LLM server, a cloud API, ComfyUI, or a local text-to-speech server. The app never contacts a provider you have not added, and nothing leaves your computer unless you add a remote one (Anthropic, or an OpenAI-compatible server on another machine).
 
-| Guide                     | Provider type in the app | Used for                                      | Runs on                           |
-| ------------------------- | ------------------------ | --------------------------------------------- | --------------------------------- |
-| [LM Studio](lm-studio.md) | OpenAI-compatible        | Ideation, drafting, critique, embeddings      | macOS, Windows, Linux             |
-| [Ollama](ollama.md)       | Ollama                   | Ideation, drafting, critique, embeddings      | macOS, Windows, Linux             |
-| [Anthropic](anthropic.md) | Anthropic                | Ideation, drafting, critique                  | Cloud (API key, paid per token)   |
-| [ComfyUI](comfyui.md)     | ComfyUI                  | Scene photos, short video clips, optional TTS | macOS (MPS), Windows/Linux (CUDA) |
-| [Local TTS](local-tts.md) | OpenAI-compatible        | Voice: radio calls, voicemails, PA            | Apple Silicon (mlx-audio)         |
+| Guide                                                  | Provider type in the app | Used for                                      | Runs on                           |
+| ------------------------------------------------------ | ------------------------ | --------------------------------------------- | --------------------------------- |
+| [LM Studio](lm-studio.md)                              | OpenAI-compatible        | Ideation, drafting, critique, embeddings      | macOS, Windows, Linux             |
+| [Ollama](ollama.md)                                    | Ollama                   | Ideation, drafting, critique, embeddings      | macOS, Windows, Linux             |
+| [Anthropic](anthropic.md)                              | Anthropic                | Ideation, drafting, critique                  | Cloud (API key, paid per token)   |
+| [ComfyUI](comfyui.md)                                  | ComfyUI                  | Scene photos, short video clips, optional TTS | macOS (MPS), Windows/Linux (CUDA) |
+| [Local TTS](local-tts.md)                              | OpenAI-compatible        | Voice: radio calls, voicemails, PA            | Apple Silicon (mlx-audio)         |
+| [System voice](local-tts.md#system-voice-any-platform) | System voice             | Offline voice fallback                        | macOS, Windows, Linux (espeak-ng) |
 
 You need at least one text provider to generate scenarios. Everything else is optional: importing and searching documents works with no provider at all.
 
@@ -27,15 +28,15 @@ Each provider card shows its reachability and latency, and has **Test** (a one-l
 
 The **Routing** table decides which provider and model each task uses:
 
-| Task           | What it does                                                                  | Provider types offered                                 |
-| -------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------ |
-| **Ideation**   | "Give me ideas": scenario concepts from your documents.                       | Anthropic, OpenAI-compatible, Ollama                   |
-| **Drafting**   | Overview, roles, phases, MSEL, handbook, rubric, briefing, hot wash, injects. | Anthropic, OpenAI-compatible, Ollama                   |
-| **Critique**   | Reviews the draft; the MSEL is then revised from the findings.                | Anthropic, OpenAI-compatible, Ollama                   |
-| **Embeddings** | Document embeddings when Settings → Embeddings is "Configured provider".      | OpenAI-compatible, Ollama                              |
-| **Image**      | Photographic scene images (text-bearing media always use templates).          | ComfyUI                                                |
-| **Video**      | Short clips animated from a scene image.                                      | ComfyUI                                                |
-| **Audio**      | Voice lines for radio calls, voicemails and PA announcements.                 | OpenAI-compatible ([Local TTS](local-tts.md)), ComfyUI |
+| Task           | What it does                                                                  | Provider types offered                                               |
+| -------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **Ideation**   | "Give me ideas": scenario concepts from your documents.                       | Anthropic, OpenAI-compatible, Ollama                                 |
+| **Drafting**   | Overview, roles, phases, MSEL, handbook, rubric, briefing, hot wash, injects. | Anthropic, OpenAI-compatible, Ollama                                 |
+| **Critique**   | Reviews the draft; the MSEL is then revised from the findings.                | Anthropic, OpenAI-compatible, Ollama                                 |
+| **Embeddings** | Document embeddings when Settings → Embeddings is "Configured provider".      | OpenAI-compatible, Ollama                                            |
+| **Image**      | Photographic scene images (text-bearing media always use templates).          | ComfyUI                                                              |
+| **Video**      | Short clips animated from a scene image.                                      | ComfyUI                                                              |
+| **Audio**      | Voice lines for radio calls, voicemails and PA announcements.                 | OpenAI-compatible ([Local TTS](local-tts.md)), System voice, ComfyUI |
 
 The **Model** column overrides the provider's default model for that task; leave it empty to use the default. A common setup is a strong model for drafting and critique and a faster one for ideation, or a cloud model only for critique.
 
@@ -75,6 +76,7 @@ A few per-provider options have no form field yet. Quit the app, edit the provid
 | `inputUsdPerMTok`, `outputUsdPerMTok`          | OpenAI-compatible         | Prices for the cost estimate in the call log.                                                       |
 | `embeddingDims`                                | OpenAI-compatible, Ollama | Embedding size when the server does not report it.                                                  |
 | `ttsModel`, `voice`, `voices`, `speakerGapSec` | OpenAI-compatible         | Text-to-speech model, default voice, per-speaker voices, gap between speakers.                      |
+| `engine`, `voice`, `voices`, `speakerGapSec`   | System voice              | Speech engine to force, default voice, per-speaker voices, gap between speakers.                    |
 | `numCtx`                                       | Ollama                    | Context window sent as `num_ctx`.                                                                   |
 | `anthropicVersion`, `effort`, `fallbacks`      | Anthropic                 | API version header, effort level (default `high`), server-side model fallbacks.                     |
 

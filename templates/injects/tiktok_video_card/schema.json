@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Short video card (TikTok-style)",
+  "description": "A paused portrait short video in a TikTok-style feed. The poster frame comes from the image slot; the caption, on-screen text, sound line and counts are drawn as real text over it. Captions are short and casual, with a run of hashtags at the end.",
+  "type": "object",
+  "required": ["handle", "caption"],
+  "properties": {
+    "handle": {
+      "type": "string",
+      "description": "Account handle without @",
+      "pattern": "^[A-Za-z0-9._]{1,30}$",
+      "examples": ["gate.b4.diaries"]
+    },
+    "verified": {
+      "type": "boolean",
+      "description": "Show the verified badge",
+      "examples": [false]
+    },
+    "timestampRel": {
+      "type": "string",
+      "description": "Post age shown after the handle",
+      "examples": ["2h ago"]
+    },
+    "caption": {
+      "type": "string",
+      "description": "Caption under the handle; #hashtags and @mentions are highlighted. One or two short sentences.",
+      "examples": [
+        "Screens just died across the whole concourse and nobody will tell us anything #NCIA #stuck"
+      ]
+    },
+    "overlayText": {
+      "type": "string",
+      "description": "Text sticker drawn over the video (the creator's on-screen caption), a few words",
+      "examples": ["POV: every screen in the airport goes black"]
+    },
+    "soundName": {
+      "type": "string",
+      "description": "Sound line at the bottom; defaults to 'original sound - <handle>'",
+      "examples": ["original sound - gate.b4.diaries"]
+    },
+    "viewCount": {
+      "type": ["integer", "string"],
+      "minimum": 0,
+      "description": "Views: a number (abbreviated automatically, 48300 → 48.3K) or the exact text",
+      "examples": [48300]
+    },
+    "likes": {
+      "type": ["integer", "string"],
+      "minimum": 0,
+      "description": "Like count (number or exact text)",
+      "examples": [5120]
+    },
+    "commentCount": {
+      "type": ["integer", "string"],
+      "minimum": 0,
+      "description": "Comment count (number or exact text)",
+      "examples": [312]
+    },
+    "saves": {
+      "type": ["integer", "string"],
+      "minimum": 0,
+      "description": "Save (bookmark) count (number or exact text)",
+      "examples": [640]
+    },
+    "shares": {
+      "type": ["integer", "string"],
+      "minimum": 0,
+      "description": "Share count (number or exact text)",
+      "examples": [1480]
+    },
+    "durationSec": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 600,
+      "description": "Clip length in seconds, shown on the progress bar",
+      "examples": [23]
+    },
+    "thumbnailBrief": {
+      "type": "string",
+      "description": "Image-generation brief for the poster frame (media stage only; portrait 9:16 phone video still; never rely on legible text in it)",
+      "examples": [
+        "crowded airport concourse with dark departure screens, shaky vertical phone video still"
+      ]
+    },
+    "videoBrief": {
+      "type": "string",
+      "description": "Optional brief for a short clip of the same scene (media stage only, when the row asks for footage)",
+      "examples": [
+        "handheld vertical phone video panning across dark gate screens, people pointing"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

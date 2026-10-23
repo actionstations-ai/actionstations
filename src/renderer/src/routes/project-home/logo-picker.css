@@ -1,0 +1,21 @@
+/* Project logo picker (#217). */
+.logo-picker .row {
+  flex-wrap: wrap;
+  align-items: center;
+}
+.logo-picker__preview {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 7rem;
+  height: 3.5rem;
+  padding: var(--space-1, 0.25rem) var(--space-2, 0.5rem);
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--color-border-strong);
+  background: var(--color-surface-sunken);
+}
+.logo-picker__preview img {
+  max-width: 10rem;
+  max-height: 100%;
+  object-fit: contain;
+}

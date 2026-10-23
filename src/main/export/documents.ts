@@ -7,6 +7,7 @@ import type { ExportModel } from './model'
 import { DOC_LABELS, embeddedFontsCss, pageCss, type DocKey } from './page'
 import { printCss, renderExportTemplate, trusted } from './templates'
 import {
+  assetSrc,
   deckView,
   mselView,
   scenarioHeading,
@@ -119,10 +120,17 @@ function briefingSection(model: ExportModel, prefix: string, forms: EmbeddedForm
   })
 }
 
-function coverSection(model: ExportModel, prefix: string): string {
+/** The project logo for the cover (#217), when one is set and on disk. */
+function coverLogo(model: ExportModel, mode: RenderMode): string {
+  const rel = model.project.brand.logoPath
+  return rel && model.available.has(rel) ? assetSrc(model, rel, mode) : ''
+}
+
+function coverSection(model: ExportModel, prefix: string, mode: RenderMode): string {
   const s = model.scenario
   return renderExportTemplate('cover', {
     prefix,
+    logo: coverLogo(model, mode),
     org: model.project.orgName || model.project.name,
     heading: scenarioHeading(model),
     sub: s.subtitle ?? '',
@@ -174,7 +182,7 @@ export function buildDocumentHtml(model: ExportModel, doc: ExportDoc, mode: Rend
     case 'exercise_plan': {
       const forms = packetForms()
       const body = [
-        coverSection(model, 'plan-'),
+        coverSection(model, 'plan-', mode),
         handbookSection(model, 'hb-'),
         mselSection(model, 'ms-'),
         deckSection(model, 'dk-', mode),

@@ -16,6 +16,8 @@ export interface ComposeInput {
   variant?: string
   /** slot → absolute file path or data: URL (AI images for composites). */
   assets?: Record<string, string>
+  /** The project logo (absolute path or data: URL); templates read it as `brand.logo`. */
+  logo?: string
 }
 
 /** "Karen Smith" → "KS"; skips words that start with punctuation ("Kyle (Summer Intern – Ops)" → "KS"). */
@@ -51,6 +53,12 @@ hb.registerHelper({
   /** 12400 → "12.4K" (social metrics). Strings pass through unchanged. */
   compact: (n: unknown) => (typeof n === 'number' ? compactNumber.format(n) : String(n ?? '')),
   initials,
+  /** Seconds → "m:ss" (83 → "1:23"); text passes through unchanged. */
+  clock: (n: unknown) => {
+    if (typeof n !== 'number' || !Number.isFinite(n)) return String(n ?? '')
+    const s = Math.max(0, Math.round(n))
+    return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
+  },
   /** Escape, then turn newlines into <br>. Safe for untrusted text. */
   nl2br: (s: unknown) =>
     new hb.SafeString(hb.escapeExpression(String(s ?? '')).replace(/\r?\n/g, '<br>')),
@@ -125,7 +133,10 @@ export function composeDocument(
   const variant = input.variant ?? t.meta.variants[0] ?? 'default'
   const body = compile(t)({
     fields: input.fields,
-    brand: input.brand ?? { aliases: {} },
+    brand: {
+      ...(input.brand ?? { aliases: {} }),
+      ...(input.logo ? { logo: fileUrl(input.logo) } : {}),
+    },
     variant,
     assets: resolveAssets(t, input, opts.previewAssets ?? false),
   })

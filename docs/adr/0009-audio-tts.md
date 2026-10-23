@@ -1,6 +1,8 @@
 # ADR-0009: Audio and TTS
 
-Date: 2026-10-21 · Status: Accepted · Issue: #35
+Date: 2026-10-21 · Status: Amended by [ADR-0010](0010-local-tts-openai-speech.md) · Issue: #35, #215
+
+> **Amendment (2026-10-23).** ADR-0010 replaced ComfyUI as the primary TTS path with the OpenAI-compatible speech API (mlx-audio). ComfyUI ships no default audio workflow; it is an optional TTS provider. The system-voice fallback below now exists as the `system-tts` provider kind (`src/main/providers/media/system-tts/`, #215): it writes WAV directly (`say --file-format=WAVE`), passes the text through a temp file and arguments as an argv array (no shell), and is offered by **Detect local services** only when an engine is installed.
 
 ## Context
 

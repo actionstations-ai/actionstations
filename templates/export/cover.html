@@ -1,7 +1,9 @@
 <section class="doc doc--cover" aria-labelledby="{{prefix}}cover-title">
   <div class="cover">
     <p class="cover__marking">EXERCISE — FOR TRAINING USE</p>
-    {{#if org}}
+    {{#if logo}}
+    <img class="cover__logo" src="{{logo}}" alt="{{org}} logo" />
+    {{/if}} {{#if org}}
     <p class="cover__org">{{org}}</p>
     {{/if}}
     <h1 class="cover__title" id="{{prefix}}cover-title">{{heading}}</h1>

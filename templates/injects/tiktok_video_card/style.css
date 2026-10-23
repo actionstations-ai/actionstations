@@ -1,0 +1,284 @@
+/* Portrait short-video feed card (360 × 640, 9:16), paused on its poster frame.
+   Generic look-alike: no real app logo; every word is HTML text over the AI still. */
+.card {
+  position: relative;
+  width: 360px;
+  height: 640px;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 17px;
+}
+.poster,
+.poster img,
+.ph {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.poster img {
+  object-fit: cover;
+}
+.ph {
+  background: #2a2a2a;
+}
+/* Legibility scrims, as the real app draws behind its chrome. */
+.shade-top,
+.shade-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.shade-top {
+  top: 0;
+  height: 90px;
+  background: linear-gradient(rgb(0 0 0 / 45%), rgb(0 0 0 / 0%));
+}
+.shade-bottom {
+  bottom: 0;
+  height: 260px;
+  background: linear-gradient(rgb(0 0 0 / 0%), rgb(0 0 0 / 70%));
+}
+.tabs {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.tab {
+  color: rgb(255 255 255 / 65%);
+  padding-bottom: 5px;
+}
+.tab.on {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+.search {
+  position: absolute;
+  right: 14px;
+  top: -1px;
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+.views {
+  position: absolute;
+  top: 50px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px 2px 5px;
+  border-radius: 4px;
+  background: rgb(0 0 0 / 45%);
+  font-size: 12px;
+  font-weight: 600;
+}
+.views svg {
+  width: 13px;
+  height: 13px;
+  fill: #fff;
+}
+.sticker {
+  position: absolute;
+  top: 150px;
+  left: 28px;
+  right: 72px;
+  margin: 0;
+  text-align: center;
+  font-size: 17px;
+  line-height: 25px;
+  font-weight: 700;
+}
+.sticker span {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #fff;
+  color: #111;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.paused {
+  position: absolute;
+  top: 290px;
+  left: 150px;
+  width: 60px;
+  height: 60px;
+  fill: rgb(255 255 255 / 70%);
+}
+.rail {
+  position: absolute;
+  right: 8px;
+  bottom: 96px;
+  width: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.avatar {
+  position: relative;
+  margin-bottom: 6px;
+}
+.av {
+  width: 44px;
+  height: 44px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #5b6b7a;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.follow {
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 18px;
+  height: 18px;
+  margin-left: -9px;
+  border-radius: 50%;
+  background: #fe2c55;
+  font-size: 15px;
+  line-height: 17px;
+  font-weight: 700;
+  text-align: center;
+}
+.act {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 50%);
+}
+.act svg {
+  width: 32px;
+  height: 32px;
+  fill: #fff;
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 35%));
+}
+.disc {
+  width: 40px;
+  height: 40px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: #1c1c1c;
+  border: 8px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.disc span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #5b6b7a;
+}
+.meta {
+  position: absolute;
+  left: 12px;
+  right: 72px;
+  bottom: 30px;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 45%);
+}
+.who {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 15px;
+}
+.who b {
+  font-weight: 700;
+}
+.t {
+  color: rgb(255 255 255 / 75%);
+  font-size: 13px;
+}
+.badge {
+  width: 14px;
+  height: 14px;
+}
+.badge circle {
+  fill: #20d5ec;
+}
+.badge path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+.cap {
+  margin: 6px 0 0;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.link {
+  font-weight: 700;
+}
+.sound {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sound span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sound svg {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+}
+.progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+}
+.bar {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 30%);
+  overflow: hidden;
+}
+.done {
+  display: block;
+  width: 30%;
+  height: 100%;
+  background: #fff;
+}
+.time {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgb(255 255 255 / 85%);
+}

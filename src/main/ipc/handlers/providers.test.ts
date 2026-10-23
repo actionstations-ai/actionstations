@@ -167,7 +167,7 @@ describe('providers:health / models / test', () => {
 
   it('returns a failed health result for a kind with no adapter instead of throwing', async () => {
     const view = await call<{ id: string }>('providers:upsert', {
-      config: { kind: 'system-tts', label: 'Voice' },
+      config: { kind: 'template', label: 'Templates' },
     })
     const health = await call<{ ok: boolean; message: string }>('providers:health', {
       id: view.id,
@@ -219,10 +219,15 @@ describe('providers:test-speech', () => {
 })
 
 describe('providers:detect-local', () => {
-  it('probes LM Studio, Ollama and ComfyUI', async () => {
-    const found = await call<{ label: string; reachable: boolean }[]>('providers:detect-local')
-    expect(found.map((f) => f.label)).toEqual(['LM Studio', 'Ollama', 'ComfyUI'])
+  it('probes LM Studio, Ollama and ComfyUI, then lists the system voice only when installed', async () => {
+    const found =
+      await call<{ label: string; kind: string; reachable: boolean }[]>('providers:detect-local')
+    expect(found.slice(0, 3).map((f) => f.label)).toEqual(['LM Studio', 'Ollama', 'ComfyUI'])
     for (const f of found) expect(typeof f.reachable).toBe('boolean')
+    const { findEngine } = await import('../../providers/media/system-tts/detect')
+    const voice = found.slice(3)
+    expect(voice.map((f) => f.kind)).toEqual(findEngine() ? ['system-tts'] : [])
+    for (const f of voice) expect(f.reachable).toBe(true)
   })
 })
 
