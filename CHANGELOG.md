@@ -124,6 +124,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 #### Packs
 
+- Domain profiles from packs (#263): the domain registry holds the built-in profiles plus those of enabled packs (built-in ids and aliases cannot be reused), the picker lists them under "From packs" with the pack's name, and `domains:list` serves them to the renderer. Choosing a pack domain copies the profile into `project.json` (`domainProfileSnapshot`), so the project lints, extracts facility facts and generates with it after the pack is updated or uninstalled (shown as "from <pack> (not installed)"); overrides apply on top. When the installed pack has another version, Project settings offers "Update profile from pack" with a field-by-field list of changes; nothing changes until it is pressed.
 - Pack catalogs in **Settings → Pack catalogs**: none by default, one click adds the official catalog (`https://actionstations.ai/packs/index.json`), any https URL (http only on this computer) can be added or removed. Catalogs are fetched only on an explicit refresh (`packs:catalogRefresh`), never at startup or in the background: 5 MB cap counted on the bytes, timeout, redirects must stay on https, invalid entries skipped and counted, cached in `userData/packs/catalogs/` for offline display. `packs:download` streams an archive into `userData/packs/.staging/` as a cancellable job, capped at the entry's size (200 MB for Install from URL), and refuses a sha256 mismatch (#267).
 
 #### Editors and saving

@@ -167,3 +167,18 @@ export type DomainProfile = z.infer<typeof DomainProfile>
  */
 export const DomainProfileOverrides = DomainProfile.omit({ id: true, aliases: true }).partial()
 export type DomainProfileOverrides = z.infer<typeof DomainProfileOverrides>
+
+/**
+ * A pack domain profile copied into project.json when the project picks it (ADR-0018, #263):
+ * the project keeps linting and extracting facts with it after the pack is updated or gone.
+ * Updating it from a newer pack version is an explicit action.
+ */
+export const DomainProfileSnapshot = z.object({
+  profile: DomainProfile,
+  packId: z.string().min(1),
+  /** The pack version the profile was copied from. */
+  version: z.string().min(1),
+  /** The pack's display name, for "from <pack> (not installed)". */
+  packName: z.string().optional(),
+})
+export type DomainProfileSnapshot = z.infer<typeof DomainProfileSnapshot>

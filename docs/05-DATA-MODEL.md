@@ -11,6 +11,9 @@ Project {
          // selects the domain profile (src/shared/domains, ADR-0014); 'hospital', 'utility' and other
          // aliases resolve to a profile; unknown values are the generic profile
   domainProfileOverrides?: Partial<DomainProfile>,   // per-project edits; a field replaces the built-in one
+  domainProfileSnapshot?: { profile: DomainProfile, packId, version, packName? },
+         // a pack domain copied in when chosen (ADR-0018, #263); resolveProfile uses it before
+         // the registry, then applies the overrides; refreshed only by "Update profile from pack"
   createdAt, updatedAt, appVersion,
   brand: { logoPath?, primaryColor?, city?, region?, aliases: Record<string,string> }, // e.g. airlineNames
   defaultRoles: Role[],

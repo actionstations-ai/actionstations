@@ -3,10 +3,14 @@
 import {
   DOMAIN_PROFILES,
   THREAT_FAMILIES,
+  baseProfile,
   builtinProfile,
   chooseThreatFamily,
+  domainKey,
+  packProfileEntries,
   threatFamily,
   type DomainProfile,
+  type DomainProfileSnapshot,
   type ThreatFamily,
   type ThreatFamilyId,
 } from '@shared/domains'
@@ -44,33 +48,63 @@ export function profileMatches(profile: DomainProfile, query: string): boolean {
   return q.split(' ').every((word) => haystack.includes(word))
 }
 
+export const PACK_GROUP_LABEL = 'From packs'
+
+/**
+ * The profiles of the "From packs" group: every enabled pack's, plus the project's snapshot
+ * when its pack is no longer installed (so the project's current choice stays visible).
+ */
+function packGroupProfiles(snapshot?: DomainProfileSnapshot): DomainProfile[] {
+  const installed = packProfileEntries().map((e) => e.profile)
+  if (snapshot && !installed.some((p) => p.id === snapshot.profile.id))
+    installed.push(snapshot.profile)
+  return installed
+}
+
 /** Groups with the profiles that match `query`; empty groups are dropped. */
-export function profileGroups(query = ''): ProfileGroup[] {
+export function profileGroups(query = '', snapshot?: DomainProfileSnapshot): ProfileGroup[] {
   const byId = new Map(DOMAIN_PROFILES.map((p) => [p.id, p]))
-  return PROFILE_GROUP_IDS.map((g) => ({
+  const builtin = PROFILE_GROUP_IDS.map((g) => ({
     label: g.label,
     profiles: g.ids
       .map((id) => byId.get(id))
       .filter((p): p is DomainProfile => !!p && profileMatches(p, query)),
-  })).filter((g) => g.profiles.length > 0)
+  }))
+  const packs = {
+    label: PACK_GROUP_LABEL,
+    profiles: packGroupProfiles(snapshot).filter((p) => profileMatches(p, query)),
+  }
+  return [...builtin, packs].filter((g) => g.profiles.length > 0)
+}
+
+/**
+ * Where a non-built-in profile comes from, for the picker: "from Freight Rail", or "from
+ * Freight Rail (not installed)" for a project's snapshot whose pack is gone.
+ */
+export function profileOrigin(
+  profileId: string,
+  snapshot?: DomainProfileSnapshot,
+): string | undefined {
+  const entry = packProfileEntries().find((e) => e.profile.id === profileId)
+  if (entry) return `from ${entry.packName}`
+  if (snapshot?.profile.id === profileId)
+    return `from ${snapshot.packName ?? snapshot.packId} (not installed)`
+  return undefined
 }
 
 export interface ResolvedOrgType {
   profile: DomainProfile
   /** The stored value is not the profile id (a legacy value, an alias, or free text). */
   differs: boolean
-  /** The stored value names no built-in profile or alias; it falls back to generic. */
+  /** The stored value names no profile, alias or snapshot; it falls back to generic. */
   unknown: boolean
 }
 
 /** How a stored orgType resolves ("hospital" → Healthcare, "utility" → Energy utility). */
-export function resolveOrgType(orgType: string): ResolvedOrgType {
-  const profile = builtinProfile(orgType)
-  const key = orgType
-    .trim()
-    .toLowerCase()
-    .replace(/[\s-]+/g, '_')
-  const known = key === profile.id || profile.aliases.includes(key)
+export function resolveOrgType(orgType: string, snapshot?: DomainProfileSnapshot): ResolvedOrgType {
+  const profile = baseProfile(orgType, snapshot)
+  const key = domainKey(orgType)
+  const known = key === profile.id || profile.aliases.some((a) => domainKey(a) === key)
   return { profile, differs: orgType !== profile.id, unknown: !known }
 }
 

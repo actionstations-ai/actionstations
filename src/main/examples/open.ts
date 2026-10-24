@@ -14,6 +14,7 @@ import { getSettings } from '../settings/store'
 import { isDerivedPath } from '../project/duplicate'
 import { openProject, PROJECT_EXT, updateProject } from '../project/store'
 import { ensureIndex } from '../project/ensure-index'
+import { applyDomainSnapshot } from '../project/patch'
 import { exampleFolder, examplesDir, PROJECT_DIR, readManifest } from './catalog'
 
 export const MARKER_FILE = '.example.json'
@@ -88,6 +89,8 @@ async function rename(target: string, n: number): Promise<void> {
     if (n > 1) p.name = `${p.name} (${n})`
     p.archived = false
     p.createdAt = now
+    // An example on a pack domain keeps a copy of the profile (ADR-0018, #263).
+    applyDomainSnapshot(p)
   })
 }
 

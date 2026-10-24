@@ -1,10 +1,18 @@
-import { describe, expect, it } from 'vitest'
-import { DOMAIN_PROFILES, builtinProfile, chooseThreatFamily } from '@shared/domains'
+import { afterEach, describe, expect, it } from 'vitest'
+import {
+  DOMAIN_PROFILES,
+  builtinProfile,
+  chooseThreatFamily,
+  registerPackProfiles,
+} from '@shared/domains'
+import { freightRailEntry, freightRailProfile } from '@shared/domains/pack-fixtures'
 import type { ScenarioIdea } from '@shared/schemas/scenario'
 import {
+  PACK_GROUP_LABEL,
   PROFILE_GROUP_IDS,
   ideaFamily,
   profileGroups,
+  profileOrigin,
   resolveOrgType,
   suggestThreat,
   suggestionWhy,
@@ -53,6 +61,37 @@ describe('resolveOrgType', () => {
     const r = resolveOrgType('Moon base')
     expect(r.profile.id).toBe('generic')
     expect(r.unknown).toBe(true)
+  })
+})
+
+describe('pack profiles in the picker (#263)', () => {
+  afterEach(() => registerPackProfiles([]))
+  const snapshot = {
+    profile: freightRailProfile(),
+    packId: 'org.example.freight-rail',
+    version: '1.0.0',
+    packName: 'Freight Rail',
+  }
+  const packGroup = (q = '', snap?: typeof snapshot) =>
+    profileGroups(q, snap).find((g) => g.label === PACK_GROUP_LABEL)
+
+  it('lists enabled pack profiles in their own group, labelled with the pack', () => {
+    expect(packGroup()).toBeUndefined()
+    registerPackProfiles([freightRailEntry()])
+    expect(packGroup()?.profiles.map((p) => p.id)).toEqual(['freight_rail'])
+    expect(packGroup('railroad')?.profiles).toHaveLength(1)
+    expect(profileOrigin('freight_rail')).toBe('from Freight Rail')
+    expect(profileOrigin('transit')).toBeUndefined()
+    expect(resolveOrgType('railroad')).toMatchObject({ unknown: false, differs: true })
+  })
+
+  it('keeps a project snapshot whose pack is gone, marked not installed', () => {
+    expect(packGroup('', snapshot)?.profiles.map((p) => p.id)).toEqual(['freight_rail'])
+    expect(profileOrigin('freight_rail', snapshot)).toBe('from Freight Rail (not installed)')
+    const r = resolveOrgType('freight_rail', snapshot)
+    expect(r.profile.label).toBe('Freight railroad')
+    expect(r.unknown).toBe(false)
+    expect(resolveOrgType('freight_rail').profile.id).toBe('generic')
   })
 })
 

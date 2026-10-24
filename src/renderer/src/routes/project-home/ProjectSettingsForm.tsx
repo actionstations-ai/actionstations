@@ -7,6 +7,7 @@ import { AliasesEditor } from './AliasesEditor'
 import { LogoPicker } from './LogoPicker'
 import { RolesEditor } from './RolesEditor'
 import { VocabularyEditor } from './VocabularyEditor'
+import { PackProfileUpdate } from './PackProfileUpdate'
 import { DomainProfilePicker } from '../../components/DomainProfilePicker'
 import {
   isDirty,
@@ -25,7 +26,16 @@ interface SectionProps {
   set: SetField
 }
 
-function OrganizationSection({ form, errors, set }: SectionProps) {
+function OrganizationSection({
+  form,
+  errors,
+  set,
+  path,
+  project,
+}: SectionProps & { path: string; project: Project }) {
+  // The snapshot follows the saved orgType; while another domain is picked it does not apply.
+  const snapshot = project.domainProfileSnapshot
+  const onSnapshot = snapshot && form.orgType === project.orgType
   return (
     <fieldset className="form-section">
       <legend>Organization</legend>
@@ -54,10 +64,16 @@ function OrganizationSection({ form, errors, set }: SectionProps) {
           )}
         </Field>
       </div>
-      <DomainProfilePicker value={form.orgType} onChange={(id) => set('orgType', id)} />
+      <DomainProfilePicker
+        value={form.orgType}
+        snapshot={snapshot}
+        onChange={(id) => set('orgType', id)}
+      />
+      {onSnapshot && <PackProfileUpdate path={path} snapshot={snapshot} />}
       <VocabularyEditor
         orgType={form.orgType}
         overrides={form.overrides}
+        snapshot={onSnapshot ? snapshot : undefined}
         onChange={(o) => set('overrides', o)}
       />
     </fieldset>
@@ -170,7 +186,13 @@ export function ProjectSettingsForm({ path, project }: { path: string; project: 
           </Button>
         </div>
       </div>
-      <OrganizationSection form={form} errors={shownErrors} set={set} />
+      <OrganizationSection
+        form={form}
+        errors={shownErrors}
+        set={set}
+        path={path}
+        project={project}
+      />
       <BrandSection form={form} errors={shownErrors} set={set} path={path} project={project} />
       <RolesEditor roles={form.roles} errors={shownErrors} onChange={(v) => set('roles', v)} />
     </form>

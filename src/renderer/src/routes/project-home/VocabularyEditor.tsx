@@ -1,7 +1,8 @@
 // "Customize vocabulary" disclosure in Project settings (#169).
 import { useId, useState } from 'react'
 import { ChevronDown, ChevronRight } from 'lucide-react'
-import type { DomainProfileOverrides } from '@shared/domains'
+import type { DomainProfileOverrides, DomainProfileSnapshot } from '@shared/domains'
+import { useDomainRegistry } from '../../state/domains'
 import { Badge, Button } from '../../components/ui'
 import { resolveOrgType } from '../../lib/domains'
 import { ListEditor } from '../generate/ListEditor'
@@ -11,12 +12,15 @@ export function VocabularyEditor(props: {
   orgType: string
   overrides: DomainProfileOverrides
   onChange: (o: DomainProfileOverrides) => void
+  /** The project's pack-domain snapshot (#263): overrides apply on top of it. */
+  snapshot?: DomainProfileSnapshot
 }) {
   const bodyId = useId()
   const [open, setOpen] = useState(false)
-  const lists = vocabLists(props.orgType, props.overrides)
+  useDomainRegistry()
+  const lists = vocabLists(props.orgType, props.overrides, props.snapshot)
   const count = customizedCount(props.overrides)
-  const profile = resolveOrgType(props.orgType).profile
+  const profile = resolveOrgType(props.orgType, props.snapshot).profile
   return (
     <div className="domain-overrides">
       <Button
@@ -44,7 +48,9 @@ export function VocabularyEditor(props: {
               items={lists[field]}
               placeholder={placeholder}
               onChange={(items) =>
-                props.onChange(setVocabList(props.orgType, props.overrides, field, items))
+                props.onChange(
+                  setVocabList(props.orgType, props.overrides, field, items, props.snapshot),
+                )
               }
             />
           ))}

@@ -14,6 +14,7 @@ import { installQuitGuard } from './editors/unsaved-work'
 import { changeFromEvent, changeFromJob, createInvalidator } from './state/invalidate'
 import { useJobsStore } from './state/jobs'
 import { OpenRequests } from './routes/projects/OpenRequests'
+import { DomainsSync } from './state/domains'
 
 function ThemeSync() {
   const settings = useIpcQuery('settings:get', undefined)
@@ -99,6 +100,7 @@ export function App() {
       <HashRouter>
         <ThemeSync />
         <EventBridge />
+        <DomainsSync />
         <AutoContinue />
         <RouteFocus />
         <ChromeFor

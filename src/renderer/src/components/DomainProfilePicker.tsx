@@ -12,11 +12,13 @@ import {
 } from 'react'
 import { clsx } from 'clsx'
 import { Check } from 'lucide-react'
-import { profileGroups, resolveOrgType } from '../lib/domains'
+import type { DomainProfileSnapshot } from '@shared/domains'
+import { profileGroups, profileOrigin, resolveOrgType } from '../lib/domains'
+import { useDomainRegistry } from '../state/domains'
 import './domain.css'
 
-function OrgTypeNote({ value }: { value: string }) {
-  const resolved = resolveOrgType(value)
+function OrgTypeNote({ value, snapshot }: { value: string; snapshot?: DomainProfileSnapshot }) {
+  const resolved = resolveOrgType(value, snapshot)
   if (!resolved.differs) return null
   return (
     <p className="field__hint" data-testid="orgtype-note">
@@ -93,9 +95,10 @@ function ProfileOption(props: {
   p: Profile
   optionId: string
   selected: boolean
+  origin?: string
   onPick: () => void
 }) {
-  const { p, selected } = props
+  const { p, selected, origin } = props
   return (
     <div
       id={props.optionId}
@@ -105,7 +108,15 @@ function ProfileOption(props: {
       className={clsx('domain-picker__option', selected && 'is-selected')}
       onClick={props.onPick}
     >
-      <span className="domain-picker__label">{p.label}</span>
+      <span className="domain-picker__label">
+        {p.label}
+        {origin && (
+          <span className="domain-picker__origin" data-testid="domain-origin">
+            {' '}
+            {origin}
+          </span>
+        )}
+      </span>
       {selected && <Check size={16} aria-hidden className="domain-picker__check" />}
       <span className="domain-picker__desc">{p.description}</span>
     </div>
@@ -119,6 +130,7 @@ function ProfileList({
   groups,
   query,
   selected,
+  snapshot,
   onChange,
 }: {
   id: string
@@ -127,6 +139,7 @@ function ProfileList({
   groups: Groups
   query: string
   selected: string
+  snapshot?: DomainProfileSnapshot
   onChange: (profileId: string) => void
 }) {
   return (
@@ -149,6 +162,7 @@ function ProfileList({
               p={p}
               optionId={`${id}-opt-${p.id}`}
               selected={p.id === selected}
+              origin={profileOrigin(p.id, snapshot)}
               onPick={() => onChange(p.id)}
             />
           ))}
@@ -168,21 +182,35 @@ export function DomainProfilePicker(props: {
   value: string
   onChange: (profileId: string) => void
   label?: string
+  /** The project's pack-domain snapshot (#263): listed even when its pack is gone. */
+  snapshot?: DomainProfileSnapshot
 }) {
   const id = useId()
   const label = props.label ?? 'Domain'
+  const { snapshot } = props
   const [query, setQuery] = useState('')
   const listRef = useRef<HTMLDivElement>(null)
-  const current = resolveOrgType(props.value).profile
+  const revision = useDomainRegistry()
+  const current = resolveOrgType(props.value, snapshot).profile
   const selected = current.id
-  const groups = useMemo(() => profileGroups(query), [query])
+  const origin = profileOrigin(selected, snapshot)
+  const groups = useMemo(
+    () => profileGroups(query, snapshot),
+    // revision: pack profiles were registered or removed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [query, snapshot, revision],
+  )
   const flat = groups.flatMap((g) => g.profiles)
   const active = flat.some((p) => p.id === selected) ? selected : undefined
   useKeepInView(listRef, active)
 
   return (
     <div className="field domain-picker">
-      <PickerHead id={id} label={label} current={current.label} />
+      <PickerHead
+        id={id}
+        label={label}
+        current={origin ? `${current.label} ${origin}` : current.label}
+      />
       <input
         id={id}
         className="input"
@@ -204,11 +232,11 @@ export function DomainProfilePicker(props: {
         generator uses. Arrow keys choose.
       </span>
       <ProfileList
-        {...{ id, label, groups, query, selected }}
+        {...{ id, label, groups, query, selected, snapshot }}
         ref={listRef}
         onChange={props.onChange}
       />
-      <OrgTypeNote value={props.value} />
+      <OrgTypeNote value={props.value} snapshot={snapshot} />
     </div>
   )
 }

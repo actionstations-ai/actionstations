@@ -16,6 +16,7 @@ import { comfyChannels } from './comfy'
 import { exportChannels } from './export'
 import { facilitatorChannels, PresentChangedEvent } from './facilitator'
 import { exampleChannels } from './examples'
+import { domainChannels, DomainsChangedEvent } from './domains'
 import { packChannels } from './packs'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
@@ -29,6 +30,7 @@ export { WorkflowBinding, WorkflowEntry, MediaType } from './comfy'
 export { ExportTarget, EXPORT_TARGETS } from './export'
 export { FacilitatorState } from './facilitator'
 export { ExampleInfo, ExampleManifest, ExampleMarker } from './examples'
+export { ListedDomainProfile } from './domains'
 export {
   OFFICIAL_CATALOG_URL,
   CachedCatalogView,
@@ -71,6 +73,7 @@ export const channels = mergeChannels(
   exportChannels,
   facilitatorChannels,
   exampleChannels,
+  domainChannels,
   packChannels,
 )
 
@@ -90,6 +93,8 @@ export const events = {
   /** The OS asked the app to open a project folder (double-clicked .asproj, #277). */
   'app:open-project': z.object({ path: z.string() }),
   'facilitator:present-changed': PresentChangedEvent,
+  /** The pack domain profiles changed: refetch domains:list (#263). */
+  'domains:changed': DomainsChangedEvent,
   'project:changed': z.object({
     path: z.string(),
     what: z.enum([

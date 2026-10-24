@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { channel } from './define'
 import { OpenProject } from '../schemas/project'
 import { SafeId } from '../schemas/common'
-import { DOMAIN_IDS } from '../domains'
+import { isDomainId } from '../domains'
 import { ThreatFamilyId } from '../domains/schema'
 
 export const ExampleScenario = z.object({
@@ -20,10 +20,11 @@ export type ExampleScenario = z.infer<typeof ExampleScenario>
 export const ExampleManifest = z.object({
   id: SafeId,
   title: z.string().min(1).max(200),
-  /** A built-in domain profile id (src/shared/domains). */
-  domainProfile: z
-    .string()
-    .refine((v) => DOMAIN_IDS.includes(v), { message: 'Unknown domain profile id' }),
+  /**
+   * A registered domain profile id: a built-in one or one of an enabled pack (#263). A pack's
+   * reader checks its own examples with `exampleManifestFor(packDomainIds)` instead.
+   */
+  domainProfile: z.string().refine((v) => isDomainId(v), { message: 'Unknown domain profile id' }),
   /** One to three sentences for the gallery card. */
   summary: z.string().min(1).max(1000),
   /** Examples are fictional organizations; the app says so wherever one is shown. */
@@ -33,6 +34,17 @@ export const ExampleManifest = z.object({
   scenarios: z.array(ExampleScenario).default([]),
 })
 export type ExampleManifest = z.infer<typeof ExampleManifest>
+
+/**
+ * ExampleManifest for a pack being read before it is registered: `domainProfile` may also be
+ * one of `packDomainIds` (the pack's own domains, ADR-0018).
+ */
+export const exampleManifestFor = (packDomainIds: readonly string[]) =>
+  ExampleManifest.extend({
+    domainProfile: z.string().refine((v) => isDomainId(v) || packDomainIds.includes(v), {
+      message: 'Unknown domain profile id',
+    }),
+  })
 
 /** A listed example: its manifest plus the folder name it is opened by. */
 export const ExampleInfo = ExampleManifest.extend({ slug: SafeId })

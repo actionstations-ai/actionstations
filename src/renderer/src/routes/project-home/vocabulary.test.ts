@@ -1,10 +1,22 @@
 import { describe, expect, it } from 'vitest'
 import { builtinProfile } from '@shared/domains'
+import { freightRailProfile } from '@shared/domains/pack-fixtures'
 import { customizedCount, resetVocab, setVocabList, vocabLists } from './vocabulary'
 
 const transit = builtinProfile('transit')
 
 describe('customize vocabulary', () => {
+  it("starts from a pack domain's snapshot when the project has one (#263)", () => {
+    const snapshot = { profile: freightRailProfile(), packId: 'p', version: '1.0.0' }
+    expect(vocabLists('freight_rail', {}, snapshot).outsideParties).toEqual(['FRA', 'Shippers'])
+    expect(
+      setVocabList('freight_rail', {}, 'outsideParties', ['FRA', 'Shippers'], snapshot),
+    ).toEqual({})
+    expect(vocabLists('freight_rail', {}).outsideParties).toEqual(
+      builtinProfile('generic').outsideParties,
+    )
+  })
+
   it('starts from the built-in profile lists', () => {
     const lists = vocabLists('bus', {})
     expect(lists.roles).toEqual(transit.roles.map((r) => r.name))

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { DomainProfileOverrides } from '../domains/schema'
+import { DomainProfileOverrides, DomainProfileSnapshot } from '../domains/schema'
 import { Id, IsoDateTime, RelPath } from './common'
 import { ProviderRouting } from './provider'
 
@@ -109,6 +109,8 @@ export const Project = z.looseObject({
   orgType: OrgType.default('generic'),
   /** Project-level edits to the built-in domain profile orgType selects (ADR-0014). */
   domainProfileOverrides: DomainProfileOverrides.optional(),
+  /** The pack domain profile orgType names, copied when it was chosen (ADR-0018, #263). */
+  domainProfileSnapshot: DomainProfileSnapshot.optional(),
   createdAt: IsoDateTime,
   updatedAt: IsoDateTime,
   appVersion: z.string(),

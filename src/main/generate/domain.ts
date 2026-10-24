@@ -25,16 +25,25 @@ export interface DomainContext {
   threat: ThreatFamily
 }
 
-/** The effective profile of a project (built-in for its orgType plus the project's overrides). */
-export function profileFor(
-  project: Pick<Project, 'orgType' | 'domainProfileOverrides'>,
-): DomainProfile {
-  return resolveProfile(project.orgType, project.domainProfileOverrides)
+/** The project fields its domain profile resolves from. */
+export type ProjectDomain = Pick<Project, 'orgType' | 'domainProfileOverrides'> &
+  Partial<Pick<Project, 'domainProfileSnapshot'>>
+
+/**
+ * The effective profile of a project: its pack-domain snapshot or the registered profile for
+ * its orgType, plus the project's overrides.
+ */
+export function profileFor(project: ProjectDomain): DomainProfile {
+  return resolveProfile(
+    project.orgType,
+    project.domainProfileOverrides,
+    project.domainProfileSnapshot,
+  )
 }
 
 /** The profile and threat family a scenario is generated and linted against. */
 export function domainContext(
-  project: Pick<Project, 'orgType' | 'domainProfileOverrides'>,
+  project: ProjectDomain,
   scenario?: Pick<Scenario, 'brief'>,
 ): DomainContext {
   const profile = profileFor(project)
@@ -424,8 +433,6 @@ export function categoriesForProfile(profile: DomainProfile): FactCategory[] {
 }
 
 /** The categories a project's facts use. */
-export function categoriesForProject(
-  project: Pick<Project, 'orgType' | 'domainProfileOverrides'>,
-): FactCategory[] {
+export function categoriesForProject(project: ProjectDomain): FactCategory[] {
   return categoriesForProfile(profileFor(project))
 }

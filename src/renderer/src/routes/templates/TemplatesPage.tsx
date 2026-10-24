@@ -85,7 +85,9 @@ function useProjectDomain(): string | undefined {
     { enabled: !!projectPath },
   )
   const p = project.data?.project
-  return p ? resolveProfile(p.orgType, p.domainProfileOverrides).id : undefined
+  return p
+    ? resolveProfile(p.orgType, p.domainProfileOverrides, p.domainProfileSnapshot).id
+    : undefined
 }
 
 function TemplateCard(props: { template: TemplateInfo; onOpen: () => void }) {

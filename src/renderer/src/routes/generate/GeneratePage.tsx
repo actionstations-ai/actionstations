@@ -53,7 +53,11 @@ export default function GeneratePage() {
   const { start, submitting, error } = useStartScenario(projectPath)
   const roleSuggestions = (project.data?.project.defaultRoles ?? []).map((r) => r.name)
   const profile: DomainProfile | undefined = project.data
-    ? resolveProfile(project.data.project.orgType, project.data.project.domainProfileOverrides)
+    ? resolveProfile(
+        project.data.project.orgType,
+        project.data.project.domainProfileOverrides,
+        project.data.project.domainProfileSnapshot,
+      )
     : undefined
   const suggestion = profile ? suggestThreat(profile, draft, idea) : undefined
 

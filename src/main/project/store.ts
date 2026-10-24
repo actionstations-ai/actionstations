@@ -6,6 +6,7 @@ import { promises as fs } from 'node:fs'
 import { basename, join, resolve } from 'node:path'
 import { app } from 'electron'
 import { Project, PROJECT_FORMAT_VERSION, type OpenProject } from '@shared/schemas'
+import { packSnapshotFor } from '@shared/domains'
 import { AppError } from '../lib/errors'
 import { emit } from '../lib/events'
 import {
@@ -71,6 +72,8 @@ export async function createProject(input: {
     name: input.name,
     orgName: input.orgName ?? '',
     orgType: input.orgType ?? 'generic',
+    // A pack domain is copied into the project when chosen (#263).
+    domainProfileSnapshot: packSnapshotFor(input.orgType),
     createdAt: now,
     updatedAt: now,
     appVersion: appVersion(),

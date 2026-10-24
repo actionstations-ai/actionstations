@@ -88,6 +88,11 @@ export const projectChannels = {
         orgType: OrgType.optional(),
         /** Replaces the stored overrides of the domain profile (ADR-0014); null clears them. */
         domainProfileOverrides: DomainProfileOverrides.nullable().optional(),
+        /**
+         * "Update profile from pack" (#263): replace the project's pack domain snapshot with the
+         * installed pack's profile. Choosing a pack domain (orgType) snapshots it already.
+         */
+        refreshDomainProfileSnapshot: z.literal(true).optional(),
         /** Shallow patch: fields sent replace stored ones; omitted fields are kept. */
         brand: patchOf(Brand).optional(),
         defaultRoles: z.array(Role).optional(),

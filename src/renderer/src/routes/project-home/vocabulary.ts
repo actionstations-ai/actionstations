@@ -2,9 +2,10 @@
 // replaces the whole built-in field (ADR-0014), so a list equal to the built-in one is
 // stored as no override at all.
 import {
-  builtinProfile,
+  baseProfile,
   type DomainProfile,
   type DomainProfileOverrides,
+  type DomainProfileSnapshot,
   type RoleTemplate,
 } from '@shared/domains'
 
@@ -28,9 +29,16 @@ function listsOf(p: Pick<DomainProfile, 'roles' | 'outsideParties' | 'systems'>)
   }
 }
 
-/** The lists the generator will use: the overrides where set, else the built-in profile's. */
-export function vocabLists(orgType: string, overrides: DomainProfileOverrides): VocabLists {
-  const base = builtinProfile(orgType)
+/**
+ * The lists the generator will use: the overrides where set, else the profile's (the
+ * project's pack-domain snapshot, or the registered profile).
+ */
+export function vocabLists(
+  orgType: string,
+  overrides: DomainProfileOverrides,
+  snapshot?: DomainProfileSnapshot,
+): VocabLists {
+  const base = baseProfile(orgType, snapshot)
   return listsOf({
     roles: overrides.roles ?? base.roles,
     outsideParties: overrides.outsideParties ?? base.outsideParties,
@@ -81,8 +89,9 @@ export function setVocabList(
   overrides: DomainProfileOverrides,
   field: VocabField,
   items: string[],
+  snapshot?: DomainProfileSnapshot,
 ): DomainProfileOverrides {
-  const base = builtinProfile(orgType)
+  const base = baseProfile(orgType, snapshot)
   const builtIn = listsOf(base)
   if (field === 'roles') {
     if (sameList(items, builtIn.roles)) return without(overrides, 'roles')

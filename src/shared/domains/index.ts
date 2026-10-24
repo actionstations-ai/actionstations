@@ -1,82 +1,78 @@
-// Domain profile registry (ADR-0014). `resolveProfile(orgType, overrides)` is what the
+// Domain profiles (ADR-0014). `resolveProfile(orgType, overrides, snapshot)` is what the
 // pipeline, the lints, the facility-fact extractor and the media planner all go through.
-import { airport } from './profiles/airport'
-import { campus } from './profiles/campus'
-import { energy_utility } from './profiles/energy_utility'
-import { generic } from './profiles/generic'
-import { healthcare } from './profiles/healthcare'
-import { industrial } from './profiles/industrial'
-import { municipal } from './profiles/municipal'
-import { port_maritime } from './profiles/port_maritime'
-import { stadium_venue } from './profiles/stadium_venue'
-import { transit } from './profiles/transit'
-import { unmanned_systems } from './profiles/unmanned_systems'
-import { water_dam } from './profiles/water_dam'
-import { water_utility } from './profiles/water_utility'
+// Profiles come from the built-ins and from enabled packs (registry.ts, ADR-0018 #263).
+import { GENERIC_PROFILE } from './builtins'
+import { builtinByKey, packEntryByKey } from './registry'
 import {
   DomainProfile,
   type DomainProfileOverrides,
+  type DomainProfileSnapshot,
   type ThreatFamily,
   type ThreatFamilyId,
 } from './schema'
+import { snapshotMatches } from './snapshot'
 import { inferThreatFamily, isThreatFamilyId, threatFamily } from './threats'
 
 export * from './schema'
 export { THREAT_FAMILIES, inferThreatFamily, isThreatFamilyId, threatFamily } from './threats'
-
-/** Built-in profiles, in the order a picker should list them. */
-export const DOMAIN_PROFILES: readonly DomainProfile[] = [
-  airport,
-  transit,
-  water_dam,
-  water_utility,
-  energy_utility,
-  healthcare,
-  campus,
-  stadium_venue,
-  port_maritime,
-  municipal,
-  industrial,
-  unmanned_systems,
-  generic,
-].map((p) => DomainProfile.parse(p))
-
-export const DOMAIN_IDS = DOMAIN_PROFILES.map((p) => p.id)
-
-const byIdOrAlias = new Map<string, DomainProfile>()
-for (const p of DOMAIN_PROFILES) {
-  byIdOrAlias.set(p.id, p)
-  for (const a of p.aliases) byIdOrAlias.set(a, p)
-}
-
-/** The built-in profile an orgType names (by id or alias, case-insensitive); generic otherwise. */
-export function builtinProfile(orgType: string | undefined): DomainProfile {
-  const key = (orgType ?? '')
-    .trim()
-    .toLowerCase()
-    .replace(/[\s-]+/g, '_')
-  return byIdOrAlias.get(key) ?? generic
-}
-
-export const isDomainId = (v: unknown): v is string =>
-  typeof v === 'string' &&
-  byIdOrAlias.has(
-    v
-      .trim()
-      .toLowerCase()
-      .replace(/[\s-]+/g, '_'),
-  )
+export { DOMAIN_IDS, DOMAIN_PROFILES, domainKey } from './builtins'
+export {
+  builtinByKey,
+  listProfiles,
+  packEntryByKey,
+  packProfileEntries,
+  profilesRevision,
+  registerPackProfiles,
+  subscribeProfiles,
+  type ListedProfile,
+  type PackProfileEntry,
+  type ProfileSource,
+} from './registry'
+export {
+  nextDomainSnapshot,
+  packSnapshotFor,
+  profileFieldDiff,
+  snapshotMatches,
+  snapshotStatus,
+  type ProfileFieldChange,
+  type SnapshotStatus,
+} from './snapshot'
 
 /**
- * The effective profile of a project: the built-in one for its orgType with the project's
- * overrides applied field by field (an override replaces the whole field). The profile keeps
- * its built-in id so templates, lints and tags keyed by domain id still apply.
+ * The registered profile an orgType names (a built-in or an enabled pack's, by id or alias,
+ * case-insensitive); generic otherwise.
+ */
+export function builtinProfile(orgType: string | undefined): DomainProfile {
+  return builtinByKey(orgType) ?? packEntryByKey(orgType)?.profile ?? GENERIC_PROFILE
+}
+
+/** Whether a value names a registered profile (built-in or enabled pack) by id or alias. */
+export const isDomainId = (v: unknown): v is string =>
+  typeof v === 'string' && (!!builtinByKey(v) || !!packEntryByKey(v))
+
+/**
+ * The profile a project starts from: its snapshot when the snapshot is the profile orgType
+ * names (a pack domain keeps working after the pack is gone), else the registry's.
+ */
+export function baseProfile(
+  orgType: string | undefined,
+  snapshot?: DomainProfileSnapshot,
+): DomainProfile {
+  return snapshotMatches(orgType, snapshot) ? snapshot.profile : builtinProfile(orgType)
+}
+
+/**
+ * The effective profile of a project: the snapshot (when it is the profile orgType names),
+ * else the registered profile, with the project's overrides applied field by field on top
+ * (an override replaces the whole field). The profile keeps its id so templates, lints and
+ * tags keyed by domain id still apply.
  */
 export function resolveProfile(
   orgType: string | undefined,
   overrides?: DomainProfileOverrides,
+  snapshot?: DomainProfileSnapshot,
 ): DomainProfile {
-  const base = builtinProfile(orgType)
+  const base = baseProfile(orgType, snapshot)
   if (!overrides) return base
   const defined = Object.fromEntries(Object.entries(overrides).filter(([, v]) => v !== undefined))
   return DomainProfile.parse({ ...base, ...defined, id: base.id, aliases: base.aliases })
