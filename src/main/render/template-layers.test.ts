@@ -466,6 +466,25 @@ describe('copy-on-use', () => {
     })
   })
 
+  it('"Update from pack" replaces an unedited copy without confirmation (#310)', async () => {
+    await installArchive('rail.aspack', railPack('1.0.0'))
+    await boardInject(await scenarioWithRow())
+    const tree = validPackTree()
+    const meta = JSON.parse(tree[`templates/${BOARD}/meta.json`] as string) as { label: string }
+    tree[`templates/${BOARD}/meta.json`] = JSON.stringify({ ...meta, label: 'Dispatch board v2' })
+    await installArchive('rail-1.1.aspack', railPack('1.1.0', tree))
+
+    const updated = await call('templates:updateFromPack', { projectPath: root, type: BOARD })
+    expect(updated).toMatchObject({
+      label: 'Dispatch board v2',
+      packVersion: '1.1.0',
+      copy: { edited: false, updateAvailable: false },
+    })
+    expect((await readProjectPacks(root)).copies).toEqual([
+      expect.objectContaining({ kind: 'templates', id: BOARD, version: '1.1.0' }),
+    ])
+  })
+
   it('"Update from pack" needs a recorded copy and the pack installed', async () => {
     await expect(
       call('templates:updateFromPack', { projectPath: root, type: BOARD }),

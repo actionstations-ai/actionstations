@@ -79,8 +79,15 @@ function BindingRow(props: {
   )
 }
 
-export function BindingEditor({ workflow }: { workflow: WorkflowEntry }) {
-  const inputs = useIpcQuery('comfy:workflows:inputs', { id: workflow.id })
+export function BindingEditor({
+  workflow,
+  projectPath,
+}: {
+  workflow: WorkflowEntry
+  projectPath?: string | undefined
+}) {
+  const scope = projectPath ? { projectPath } : {}
+  const inputs = useIpcQuery('comfy:workflows:inputs', { id: workflow.id, ...scope })
   const [rows, setRows] = useState(() => rowsFromBindings(workflow.bindings))
   const [dirty, setDirty] = useState(false)
   const save = useIpcMutation('comfy:workflows:save-bindings', {
@@ -88,7 +95,7 @@ export function BindingEditor({ workflow }: { workflow: WorkflowEntry }) {
   })
   const onSave = async () => {
     try {
-      await save.mutateAsync({ id: workflow.id, bindings: bindingsFromRows(rows) })
+      await save.mutateAsync({ id: workflow.id, bindings: bindingsFromRows(rows), ...scope })
       setDirty(false)
       toast.success('Bindings saved')
     } catch (e) {

@@ -158,6 +158,7 @@ export default function TemplatesPage() {
         <TemplateDetail
           key={selected.type}
           template={selected}
+          projectPath={projectPath ?? undefined}
           onBack={() => update({ type: null })}
         />
       ) : (

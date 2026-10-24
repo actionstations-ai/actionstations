@@ -150,6 +150,50 @@ describe('TemplatesPage', () => {
     )
   })
 
+  it('updates a project copy from its pack, confirming first when it is edited (#310)', async () => {
+    useProjectUi.setState({ projectPath: PROJECT })
+    const BOARD: TemplateInfo = {
+      ...TWEET,
+      type: 'rail_dispatch_board',
+      label: 'Rail dispatch board',
+      variants: [],
+      source: 'project',
+      packId: 'ai.actionstations.freight-rail',
+      packVersion: '1.0.0',
+      packName: 'Freight Rail Operations',
+      copy: { edited: true, packMissing: false, updateAvailable: true, installedVersion: '1.1.0' },
+    }
+    const ttx = mockTtx({
+      'templates:list': () => [BOARD, TWEET],
+      'render:preview': () => ({ dataUrl: 'data:image/png;base64,x', width: 1, height: 1 }),
+      'project:get': () => ({ path: PROJECT, project: { orgType: 'airport' } }) as never,
+      'templates:updateFromPack': () => ({
+        ...BOARD,
+        packVersion: '1.1.0',
+        copy: { edited: false, packMissing: false, updateAvailable: false },
+      }),
+    })
+    renderAt('/templates?type=tweet', '/templates', TemplatesPage)
+    await screen.findByRole('region', { name: 'Tweet / X post' })
+    expect(screen.queryByRole('button', { name: 'Update from pack' })).toBeNull()
+    cleanup()
+
+    renderAt('/templates?type=rail_dispatch_board', '/templates', TemplatesPage)
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Update from pack' }))
+    const dialog = await screen.findByRole('dialog', { name: 'Discard your edits?' })
+    expect(dialog.textContent).toMatch(
+      /copy of “Rail dispatch board” has been edited.*Freight Rail Operations 1\.1\.0.*edits are discarded/,
+    )
+    expect(ttx.calls('templates:updateFromPack')).toHaveLength(0)
+    await user.click(within(dialog).getByRole('button', { name: 'Discard edits and update' }))
+    await waitFor(() =>
+      expect(ttx.calls('templates:updateFromPack')).toEqual([
+        { projectPath: PROJECT, type: 'rail_dispatch_board', confirmEdited: true },
+      ]),
+    )
+  })
+
   it('offers the domain profiles of installed packs as domain filters (#273)', async () => {
     const transit = DOMAIN_PROFILES.find((d) => d.id === 'transit')!
     registerPackProfiles([

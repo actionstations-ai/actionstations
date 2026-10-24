@@ -120,7 +120,7 @@ Each copy is recorded in `<project>/packs.json` with the pack, version and file 
 | **not installed**    | The pack is uninstalled or disabled. The project still uses its copy.                              |
 | **Update available** | The installed pack is a newer version than the one the copy came from. The project keeps its copy. |
 
-For a domain profile, the project's **Overview** shows when the installed pack has another version of the profile, with **Show changes** (field by field) and **Update profile from pack**. Nothing changes until you press it. Template and workflow copies show the badge but are not replaced from these screens: the project keeps rendering with its copy, and new projects get the pack's current version.
+For a domain profile, the project's **Overview** shows when the installed pack has another version of the profile, with **Show changes** (field by field) and **Update profile from pack**. Nothing changes until you press it. Template and workflow copies work the same way, with the project open: open the template on the **Templates** screen, or select the workflow on the **Workflows** screen, and press **Update from pack** next to the badge. The project's copy is replaced with the installed pack's version (for a workflow, its graph and the bindings in effect for the pack workflow). If the copy is **edited**, a dialog first explains that your edits will be discarded; **Cancel** keeps the copy as it is. Until you update, the project keeps rendering with its copy, and new projects get the pack's current version.
 
 ### Pack prompts are scoped by domain
 

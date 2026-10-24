@@ -276,7 +276,12 @@ export async function workflowInputs(id: string, projectRoot?: string): Promise<
  * are recorded in <project>/packs.json. Only called when the project has no `<id>.json`, so a
  * leftover record or sidecar of an earlier copy is replaced.
  */
-async function copyPackWorkflow(id: string, projectRoot: string, loc: Located): Promise<void> {
+async function copyPackWorkflow(
+  id: string,
+  projectRoot: string,
+  loc: Located,
+  replaceEdited = true,
+): Promise<void> {
   const pack = loc.pack!
   await copyPackItem(
     projectRoot,
@@ -289,7 +294,7 @@ async function copyPackWorkflow(id: string, projectRoot: string, loc: Located): 
         { from: await effectiveSidecarPath(loc), to: `${PROJECT_REL_DIR}/${id}${BINDINGS_EXT}` },
       ],
     },
-    { replaceEdited: true },
+    { replaceEdited },
   )
 }
 
@@ -304,6 +309,30 @@ export async function workflowForRender(id: string, projectRoot?: string): Promi
   if (!loc) return loaded
   await copyPackWorkflow(id, projectRoot, loc)
   return loadWorkflow(id, projectRoot)
+}
+
+/**
+ * "Update from pack": replace the project's copy of workflow `id` with the installed pack's
+ * version (its workflow and the bindings in effect, as copy-on-use does). Refuses (CONFLICT) to
+ * replace an edited copy unless `confirmEdited`.
+ */
+export async function updateWorkflowFromPack(
+  id: string,
+  projectRoot: string,
+  opts: { confirmEdited?: boolean } = {},
+): Promise<WorkflowEntry> {
+  assertId(id)
+  const copy = await findCopy(projectRoot, 'workflows', id)
+  if (!copy) throw new AppError('NOT_FOUND', `The project has no copy of a pack workflow "${id}"`)
+  const pack = packById(copy.packId)
+  const loc = locatePack(id)
+  if (!pack || !pack.manifest.contents.workflows.includes(id) || loc?.pack?.id !== pack.id)
+    throw new AppError(
+      'NOT_FOUND',
+      `${copy.packName ?? copy.packId} is not installed and enabled, or no longer has "${id}"`,
+    )
+  await copyPackWorkflow(id, projectRoot, loc, opts.confirmEdited ?? false)
+  return (await loadWorkflow(id, projectRoot)).entry
 }
 
 // ---- writing -----------------------------------------------------------------------------

@@ -16,8 +16,10 @@ import {
   loadWorkflow,
   saveBindings,
   setDefaults,
+  updateWorkflowFromPack,
   workflowInputs,
 } from '../../comfy/store'
+import { ensurePacksLoaded } from '../../packs/state'
 
 const STATUS_TIMEOUT_MS = 60_000
 const TEST_RENDER_TIMEOUT_MS = 60 * 60_000
@@ -71,6 +73,11 @@ export default defineHandlers({
   },
   'comfy:workflows:delete': async ({ id, projectPath }) =>
     deleteWorkflow(id, await projectRoot(projectPath)),
+  'comfy:workflows:updateFromPack': async ({ id, projectPath, confirmEdited }) => {
+    await ensurePacksLoaded()
+    const root = await requireProject(projectPath)
+    return updateWorkflowFromPack(id, root, { confirmEdited: confirmEdited ?? false })
+  },
   'comfy:workflows:inputs': async ({ id, projectPath }) =>
     workflowInputs(id, await projectRoot(projectPath)),
   'comfy:defaults:get': async () => getDefaults(),

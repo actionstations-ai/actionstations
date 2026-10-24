@@ -1,6 +1,7 @@
 // Packs end to end (#273), against the built app (`pnpm build:app`): install from a file through
 // the review, the pack template badged and used in a project that keeps rendering after the pack
-// is uninstalled, a local catalog on 127.0.0.1 (refresh, install, update), malicious archives
+// is uninstalled, a local catalog on 127.0.0.1 (refresh, install, update, then Update from pack
+// for a project's copy of the template), malicious archives
 // refused, an example opened from a pack, and Export as pack round-tripped through an install.
 // Every launch gets its own userData, TTX_HEADLESS=1, mock providers and TTX_APP_VERSION=0.3.0
 // (the unpackaged-only stand-in for the release the fixture packs need).
@@ -278,6 +279,29 @@ test('install from a file: review shows contents and licenses, the template gets
   }
 })
 
+/** A freight-rail project with one dispatch board inject (which copies the pack template). */
+async function projectWithBoardInject(invoke: Invoke) {
+  const project = await newProject(invoke, 'Lakeshore Junction Railroad', 'freight_rail')
+  const scenario = await invoke<{ id: string; projectId: string }>('scenarios:create-empty', {
+    projectPath: project.path,
+    title: 'Yard switch failure',
+  })
+  await invoke('scenarios:save', {
+    projectPath: project.path,
+    scenario: { ...SCENARIO, id: scenario.id, projectId: scenario.projectId },
+  })
+  await invoke('injects:create', {
+    projectPath: project.path,
+    scenarioId: scenario.id,
+    mselRowId: SCENARIO.msel[0]!.id,
+    type: 'rail_dispatch_board',
+  })
+  expect(
+    existsSync(join(project.path, 'templates/injects/rail_dispatch_board/template.html')),
+  ).toBe(true)
+  return project
+}
+
 test('a project uses the pack template and still renders it after the pack is uninstalled', async () => {
   const dir = fresh('use')
   const p = await launchPacks('use')
@@ -397,6 +421,8 @@ test('a local catalog: add, refresh, install, update; no request leaves 127.0.0.
     await review.getByRole('button', { name: 'Install', exact: true }).click()
     const row = p.page.getByRole('listitem', { name: new RegExp(PACK_NAME) })
     await expect(row).toContainText('1.0.0')
+    // A project copies the pack's dispatch board when an inject of that type is created.
+    const project = await projectWithBoardInject(p.invoke)
 
     // The catalog publishes 1.1.0; Refresh shows the update.
     server.route(
@@ -411,6 +437,26 @@ test('a local catalog: add, refresh, install, update; no request leaves 127.0.0.
     await expect(row).toContainText('1.1.0')
     const list = await p.invoke<{ id: string; version: string }[]>('packs:list')
     expect(list.map((x) => `${x.id}@${x.version}`)).toEqual([`${PACK_ID}@1.1.0`])
+
+    // The project's copy shows Update available; Update from pack replaces it (#310).
+    await goTo(p.page, `#/p/${project.key}/documents`) // opens the project
+    await expect(p.page.getByRole('button', { name: /Add from pack/ })).toBeVisible()
+    await goTo(p.page, '#/templates?type=rail_dispatch_board')
+    const detail = p.page.getByRole('region', { name: 'Rail dispatch board' })
+    await expect(
+      detail.getByRole('img', { name: /update available \(1\.1\.0 installed\)/ }),
+    ).toBeVisible({ timeout: 15_000 })
+    await detail.getByRole('button', { name: 'Update from pack' }).click()
+    await expect(
+      detail.getByRole('img', { name: `Project copy from pack ${PACK_NAME} 1.1.0` }),
+    ).toBeVisible({ timeout: 15_000 })
+    await expect(detail.getByRole('button', { name: 'Update from pack' })).toHaveCount(0)
+    const copies = JSON.parse(readFileSync(join(project.path, 'packs.json'), 'utf8')) as {
+      copies: { kind: string; id: string; version: string }[]
+    }
+    expect(copies.copies).toContainEqual(
+      expect.objectContaining({ kind: 'templates', id: 'rail_dispatch_board', version: '1.1.0' }),
+    )
     expect(server.hits).toEqual(
       expect.arrayContaining([
         '/index.json',

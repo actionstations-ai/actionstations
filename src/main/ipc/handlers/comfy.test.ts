@@ -1,9 +1,9 @@
 // Integration: comfy:* channels through the IPC dispatcher against a fake ComfyUI server.
-import { mkdtempSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { buildPack } from '../../../../tests/fixtures/packs/build'
+import { buildPack, validPackTree, type PackTree } from '../../../../tests/fixtures/packs/build'
 import { startFakeComfy, type FakeComfy } from '../../providers/media/comfyui/fake-server'
 
 vi.mock('electron', () => ({
@@ -16,7 +16,8 @@ const { dispatch } = await import('../registry')
 const handlers = (await import('./comfy')).default
 const { updateSettings, resetSettingsCache } = await import('../../settings/store')
 const { resetResolveState } = await import('../../providers/resolve')
-const { resetStoreState } = await import('../../comfy/store')
+const { resetStoreState, workflowForRender } = await import('../../comfy/store')
+const { createProject } = await import('../../project/store')
 const packs = await import('../../packs')
 
 async function call<T = unknown>(channel: string, req?: unknown): Promise<T> {
@@ -160,5 +161,96 @@ describe('comfy:* handlers', () => {
     await expect(call('comfy:workflows:delete', { id: 'yard-cctv-still' })).rejects.toThrow(
       /uninstall the pack/,
     )
+  })
+
+  describe('comfy:workflows:updateFromPack (#310)', () => {
+    const WF = 'yard-cctv-still'
+    let root: string
+
+    async function installRail(version: string, tree: PackTree = validPackTree()): Promise<void> {
+      const archive = join(mkdtempSync(join(tmpdir(), 'ttx-wf-pack-')), `rail-${version}.aspack`)
+      writeFileSync(archive, await buildPack(tree, { manifest: (m) => void (m.version = version) }))
+      await packs.installPack(
+        { path: archive, source: { kind: 'file', name: 'rail.aspack' } },
+        { appVersion: '0.3.0' },
+      )
+    }
+
+    /** Version 1.1.0 renames the workflow in its sidecar, so the update is visible. */
+    function treeV2(): PackTree {
+      const tree = validPackTree()
+      const key = `workflows/${WF}.bindings.json`
+      const sidecar = JSON.parse(String(tree[key])) as Record<string, unknown>
+      tree[key] = JSON.stringify({ ...sidecar, name: 'Yard CCTV still v2' })
+      return tree
+    }
+
+    const sidecarFile = () => join(root, 'comfy', 'workflows', `${WF}.bindings.json`)
+    const listed = async () =>
+      (await call<Record<string, unknown>[]>('comfy:workflows:list', { projectPath: root })).find(
+        (w) => w.id === WF,
+      )
+
+    beforeEach(async () => {
+      root = (await createProject({ parentDir: mkdtempSync(join(tmpdir(), 'ttx-p-')), name: 'P' }))
+        .path
+      await installRail('1.0.0')
+      await workflowForRender(WF, root) // copy-on-use
+      await installRail('1.1.0', treeV2())
+    })
+
+    it('replaces an unedited copy with the installed version', async () => {
+      expect(await listed()).toMatchObject({
+        source: 'project',
+        name: 'Yard CCTV still',
+        packVersion: '1.0.0',
+        copy: { edited: false, updateAvailable: true, installedVersion: '1.1.0' },
+      })
+      const updated = await call('comfy:workflows:updateFromPack', { id: WF, projectPath: root })
+      expect(updated).toMatchObject({
+        source: 'project',
+        name: 'Yard CCTV still v2',
+        packVersion: '1.1.0',
+        copy: { edited: false, updateAvailable: false },
+      })
+      expect(await listed()).toMatchObject({ name: 'Yard CCTV still v2', packVersion: '1.1.0' })
+    })
+
+    it('refuses an edited copy without confirmation and replaces it with confirmation', async () => {
+      await call('comfy:workflows:save-bindings', { id: WF, projectPath: root, bindings: [] })
+      expect(await listed()).toMatchObject({ copy: { edited: true, updateAvailable: true } })
+      await expect(
+        call('comfy:workflows:updateFromPack', { id: WF, projectPath: root }),
+      ).rejects.toMatchObject({ code: 'CONFLICT' })
+      expect(JSON.parse(readFileSync(sidecarFile(), 'utf8'))).toMatchObject({ bindings: [] })
+
+      const updated = await call('comfy:workflows:updateFromPack', {
+        id: WF,
+        projectPath: root,
+        confirmEdited: true,
+      })
+      expect(updated).toMatchObject({
+        name: 'Yard CCTV still v2',
+        packVersion: '1.1.0',
+        copy: { edited: false, updateAvailable: false },
+      })
+      expect(
+        (JSON.parse(readFileSync(sidecarFile(), 'utf8')) as { bindings: unknown[] }).bindings
+          .length,
+      ).toBeGreaterThan(0)
+    })
+
+    it('needs a recorded copy, the pack installed and an opened project', async () => {
+      await expect(
+        call('comfy:workflows:updateFromPack', { id: 'sdxl-photo', projectPath: root }),
+      ).rejects.toMatchObject({ code: 'NOT_FOUND' })
+      await packs.uninstallPack('ai.actionstations.freight-rail')
+      await expect(
+        call('comfy:workflows:updateFromPack', { id: WF, projectPath: root }),
+      ).rejects.toMatchObject({ code: 'NOT_FOUND' })
+      await expect(
+        call('comfy:workflows:updateFromPack', { id: WF, projectPath: '/not/opened' }),
+      ).rejects.toMatchObject({ code: 'FORBIDDEN' })
+    })
   })
 })

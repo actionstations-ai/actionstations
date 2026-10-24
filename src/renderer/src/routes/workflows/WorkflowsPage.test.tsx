@@ -4,7 +4,8 @@ import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it } from 'vitest'
 import type { WorkflowEntry } from '@shared/ipc'
 import WorkflowsPage from './WorkflowsPage'
-import { FakeIpcError, mockTtx, renderAt } from '../documents/test-utils'
+import { FakeIpcError, mockTtx, PROJECT, renderAt } from '../documents/test-utils'
+import { useProjectUi } from '../../state/project'
 
 const photo: WorkflowEntry = {
   id: 'sdxl-photo',
@@ -64,7 +65,10 @@ function setup(over: Parameters<typeof mockTtx>[0] = {}) {
   })
 }
 
-afterEach(() => cleanup())
+afterEach(() => {
+  cleanup()
+  useProjectUi.setState({ projectPath: null })
+})
 
 describe('WorkflowsPage', () => {
   it('shows status, defaults and missing-node warnings by media type', async () => {
@@ -190,5 +194,95 @@ describe('WorkflowsPage', () => {
       'Project copy from pack Freight Rail Operations 1.0.0, edited, update available (1.1.0 installed)',
     )
     expect(badge.textContent).toBe('From Freight Rail Operations 1.0.0editedUpdate available')
+  })
+
+  describe('Update from pack (#310)', () => {
+    const copy: WorkflowEntry = {
+      ...photo,
+      id: 'yard-cctv-still',
+      name: 'Yard CCTV still',
+      source: 'project',
+      packId: 'ai.actionstations.freight-rail',
+      packVersion: '1.0.0',
+      packName: 'Freight Rail Operations',
+      copy: { edited: false, packMissing: false, updateAvailable: true, installedVersion: '1.1.0' },
+    }
+    const updated = {
+      ...copy,
+      packVersion: '1.1.0',
+      copy: { ...copy.copy!, updateAvailable: false },
+    }
+
+    it('lists the open project and updates an unedited copy on click', async () => {
+      useProjectUi.setState({ projectPath: PROJECT })
+      const { calls } = setup({
+        'comfy:workflows:list': () => [photo, copy, video],
+        'comfy:workflows:updateFromPack': () => updated,
+      })
+      renderAt('/workflows', '/workflows', WorkflowsPage)
+      const user = userEvent.setup()
+      await user.click(await screen.findByRole('button', { name: /Yard CCTV still/ }))
+      expect(calls('comfy:workflows:list')).toContainEqual({ projectPath: PROJECT })
+      await user.click(screen.getByRole('button', { name: 'Update from pack' }))
+      await waitFor(() =>
+        expect(calls('comfy:workflows:updateFromPack')).toEqual([
+          { id: 'yard-cctv-still', projectPath: PROJECT },
+        ]),
+      )
+      expect(screen.queryByRole('dialog')).toBeNull()
+      // The editor reads a project workflow through the project.
+      expect(calls('comfy:workflows:inputs')).toContainEqual({
+        id: 'yard-cctv-still',
+        projectPath: PROJECT,
+      })
+    })
+
+    it('asks before discarding edits, also when main finds the copy edited', async () => {
+      useProjectUi.setState({ projectPath: PROJECT })
+      let confirmed = false
+      const { calls } = setup({
+        'comfy:workflows:list': () => [photo, copy, video],
+        'comfy:workflows:updateFromPack': (req: never) => {
+          if (!(req as { confirmEdited?: boolean }).confirmEdited)
+            throw new FakeIpcError('CONFLICT', 'The project copy was edited')
+          confirmed = true
+          return updated
+        },
+      })
+      renderAt('/workflows', '/workflows', WorkflowsPage)
+      const user = userEvent.setup()
+      await user.click(await screen.findByRole('button', { name: /Yard CCTV still/ }))
+      await user.click(screen.getByRole('button', { name: 'Update from pack' }))
+      const dialog = await screen.findByRole('dialog', { name: 'Discard your edits?' })
+      expect(dialog.textContent).toMatch(/Freight Rail Operations 1\.1\.0/)
+      await user.click(within(dialog).getByRole('button', { name: 'Cancel' }))
+      expect(confirmed).toBe(false)
+
+      await user.click(screen.getByRole('button', { name: 'Update from pack' }))
+      await user.click(
+        within(await screen.findByRole('dialog')).getByRole('button', {
+          name: 'Discard edits and update',
+        }),
+      )
+      await waitFor(() => expect(confirmed).toBe(true))
+      expect(calls('comfy:workflows:updateFromPack')).toContainEqual({
+        id: 'yard-cctv-still',
+        projectPath: PROJECT,
+        confirmEdited: true,
+      })
+    })
+
+    it('offers no update when the copy is current or the pack is missing', async () => {
+      useProjectUi.setState({ projectPath: PROJECT })
+      const missing = {
+        ...copy,
+        copy: { ...copy.copy!, packMissing: true, updateAvailable: false },
+      }
+      setup({ 'comfy:workflows:list': () => [photo, missing, video] })
+      renderAt('/workflows', '/workflows', WorkflowsPage)
+      await userEvent.click(await screen.findByRole('button', { name: /Yard CCTV still/ }))
+      expect(await screen.findByRole('button', { name: 'Delete workflow' })).toBeTruthy()
+      expect(screen.queryByRole('button', { name: 'Update from pack' })).toBeNull()
+    })
   })
 })

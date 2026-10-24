@@ -28,7 +28,11 @@ function Preview(props: { mimeType: string; dataUrl: string }) {
   return <p className="muted">Rendered {props.mimeType}.</p>
 }
 
-export function TestRender(props: { workflow: WorkflowEntry; providerId: string | undefined }) {
+export function TestRender(props: {
+  workflow: WorkflowEntry
+  providerId: string | undefined
+  projectPath?: string | undefined
+}) {
   const [prompt, setPrompt] = useState('')
   const render = useIpcMutation('comfy:test-render')
   const run = () => {
@@ -36,6 +40,7 @@ export function TestRender(props: { workflow: WorkflowEntry; providerId: string 
     render.mutate({
       providerId: props.providerId,
       workflowId: props.workflow.id,
+      ...(props.projectPath ? { projectPath: props.projectPath } : {}),
       ...(prompt.trim() ? { prompt: prompt.trim() } : {}),
     })
   }

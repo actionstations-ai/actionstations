@@ -6,6 +6,8 @@ import { CATEGORY_LABELS, categoryOf, schemaFields, variantsOf } from './gallery
 import { TemplatePreview } from './TemplatePreview'
 import { templateNote, templateProvenanceOf } from '../../lib/template-source'
 import { ProvenanceBadge } from '../../components/ProvenanceBadge'
+import { PackCopyUpdate } from '../../components/PackCopyUpdate'
+import { useIpcMutation } from '../../lib/query'
 
 function VariantSwitcher(props: {
   variants: string[]
@@ -59,7 +61,35 @@ function FieldTable({ template }: { template: TemplateInfo }) {
   )
 }
 
-export function TemplateDetail(props: { template: TemplateInfo; onBack: () => void }) {
+/** "Update from pack" for the project's copy of a pack template (#310). */
+function TemplateCopyUpdate(props: { template: TemplateInfo; projectPath: string | undefined }) {
+  const { template, projectPath } = props
+  const update = useIpcMutation('templates:updateFromPack', {
+    invalidates: ['templates:list', 'templates:taxonomy'],
+  })
+  if (!projectPath || template.source !== 'project') return null
+  return (
+    <PackCopyUpdate
+      kind="template"
+      name={template.label}
+      packName={template.packName ?? template.packId ?? 'the pack'}
+      copy={template.copy}
+      onUpdate={(confirmEdited) =>
+        update.mutateAsync({
+          projectPath,
+          type: template.type,
+          ...(confirmEdited ? { confirmEdited } : {}),
+        })
+      }
+    />
+  )
+}
+
+export function TemplateDetail(props: {
+  template: TemplateInfo
+  projectPath?: string | undefined
+  onBack: () => void
+}) {
   const { template } = props
   const variants = variantsOf(template)
   const [variant, setVariant] = useState(variants[0]!)
@@ -98,6 +128,9 @@ export function TemplateDetail(props: { template: TemplateInfo; onBack: () => vo
                   {provenance && <ProvenanceBadge provenance={provenance} />}
                   {provenance && note && ' '}
                   {note}
+                  <span className="tpl-copy-update">
+                    <TemplateCopyUpdate template={template} projectPath={props.projectPath} />
+                  </span>
                 </dd>
               </div>
             )}

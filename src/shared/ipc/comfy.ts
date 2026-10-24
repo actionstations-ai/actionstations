@@ -90,6 +90,14 @@ export const comfyChannels = {
     z.object({ id: SafeId, projectPath: z.string().optional() }),
     z.void(),
   ),
+  /**
+   * Replace the project's copy of a pack workflow with the installed pack's version. An edited
+   * copy is refused (CONFLICT) unless `confirmEdited`.
+   */
+  'comfy:workflows:updateFromPack': channel(
+    z.object({ id: SafeId, projectPath: z.string(), confirmEdited: z.boolean().optional() }),
+    WorkflowEntry,
+  ),
   'comfy:workflows:inputs': channel(
     z.object({ id: SafeId, projectPath: z.string().optional() }),
     z.array(

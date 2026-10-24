@@ -8,6 +8,8 @@ import { ProvenanceBadge } from '../../components/ProvenanceBadge'
 import { provenanceOf } from '../../lib/provenance'
 import { toast } from '../../components/toast-store'
 import { queryClient, useIpcMutation, useIpcQuery } from '../../lib/query'
+import { PackCopyUpdate } from '../../components/PackCopyUpdate'
+import { useProjectUi } from '../../state/project'
 import { BindingEditor } from './BindingEditor'
 import { ImportDialog } from './ImportDialog'
 import { TestRender } from './TestRender'
@@ -60,7 +62,9 @@ function StatusCard(props: { providerId: string | undefined }) {
   )
 }
 
-function DefaultsCard({ list }: { list: WorkflowEntry[] }) {
+/** Defaults are app-wide, so they choose from the workflows outside any project. */
+function DefaultsCard() {
+  const list = useIpcQuery('comfy:workflows:list', {}).data ?? []
   const defaults = useIpcQuery('comfy:defaults:get', undefined)
   const save = useIpcMutation('comfy:defaults:set', { invalidates: ['comfy:defaults:get'] })
   const groups = groupByMedia(list)
@@ -169,10 +173,19 @@ function WorkflowList(props: {
   )
 }
 
-function SelectedWorkflow(props: { workflow: WorkflowEntry; providerId: string | undefined }) {
+function SelectedWorkflow(props: {
+  workflow: WorkflowEntry
+  providerId: string | undefined
+  projectPath: string | undefined
+}) {
   const w = props.workflow
+  const { projectPath } = props
+  const scope = projectPath ? { projectPath } : {}
   const del = useIpcMutation('comfy:workflows:delete', {
     invalidates: ['comfy:workflows:list', 'comfy:defaults:get'],
+  })
+  const updateFromPack = useIpcMutation('comfy:workflows:updateFromPack', {
+    invalidates: ['comfy:workflows:list', 'comfy:workflows:inputs'],
   })
   // Built-in and pack workflows are read-only: "delete" resets the user's edited bindings.
   const isDefault = w.source === 'default' || w.source === 'pack'
@@ -181,7 +194,7 @@ function SelectedWorkflow(props: { workflow: WorkflowEntry; providerId: string |
   const remove = async () => {
     setConfirming(false)
     try {
-      await del.mutateAsync({ id: w.id })
+      await del.mutateAsync({ id: w.id, ...scope })
       toast.success(isDefault ? 'Bindings reset' : 'Workflow deleted')
     } catch (e) {
       toast.error(isDefault ? 'Nothing to reset' : 'Could not delete', e)
@@ -189,9 +202,28 @@ function SelectedWorkflow(props: { workflow: WorkflowEntry; providerId: string |
   }
   return (
     <div className="stack" key={w.id}>
-      <BindingEditor key={`${w.id}:${w.sha256}:${JSON.stringify(w.bindings)}`} workflow={w} />
-      <TestRender workflow={w} providerId={props.providerId} />
+      <BindingEditor
+        key={`${w.id}:${w.sha256}:${JSON.stringify(w.bindings)}`}
+        workflow={w}
+        projectPath={projectPath}
+      />
+      <TestRender workflow={w} providerId={props.providerId} projectPath={projectPath} />
       <div className="row">
+        {projectPath && w.source === 'project' && (
+          <PackCopyUpdate
+            kind="workflow"
+            name={w.name}
+            packName={w.packName ?? w.packId ?? 'the pack'}
+            copy={w.copy}
+            onUpdate={(confirmEdited) =>
+              updateFromPack.mutateAsync({
+                id: w.id,
+                projectPath,
+                ...(confirmEdited ? { confirmEdited } : {}),
+              })
+            }
+          />
+        )}
         <Button variant={isDefault ? 'default' : 'danger'} onClick={() => setConfirming(true)}>
           {isDefault ? `Reset bindings to ${origin}` : 'Delete workflow'}
         </Button>
@@ -203,7 +235,7 @@ function SelectedWorkflow(props: { workflow: WorkflowEntry; providerId: string |
         description={
           isDefault
             ? `Your bindings for “${w.name}” are replaced by the ${origin} ones.`
-            : `“${w.name}” and its bindings are removed from this computer.`
+            : `“${w.name}” and its bindings are removed from ${w.source === 'project' ? 'this project' : 'this computer'}.`
         }
         footer={
           <>
@@ -225,7 +257,9 @@ export default function WorkflowsPage() {
   const comfy = (providers.data ?? []).filter((p) => p.kind === 'comfyui' && p.enabled)
   const [providerChoice, setProviderChoice] = useState<string>()
   const providerId = providerChoice ?? comfy[0]?.id
-  const list = useIpcQuery('comfy:workflows:list', {})
+  // With a project open, its own workflows (and copies of pack workflows) are listed too.
+  const projectPath = useProjectUi((s) => s.projectPath) ?? undefined
+  const list = useIpcQuery('comfy:workflows:list', projectPath ? { projectPath } : {})
   const [selectedId, setSelectedId] = useState<string>()
   const [importing, setImporting] = useState(false)
   const selected = list.data?.find((w) => w.id === selectedId)
@@ -263,11 +297,13 @@ export default function WorkflowsPage() {
           {errorText(list.error)}
         </p>
       )}
-      {list.data && <DefaultsCard list={list.data} />}
+      {list.data && <DefaultsCard />}
       {list.data && (
         <WorkflowList list={list.data} selectedId={selectedId} onSelect={setSelectedId} />
       )}
-      {selected && <SelectedWorkflow workflow={selected} providerId={providerId} />}
+      {selected && (
+        <SelectedWorkflow workflow={selected} providerId={providerId} projectPath={projectPath} />
+      )}
       <ImportDialog open={importing} onOpenChange={setImporting} onImported={setSelectedId} />
     </div>
   )
