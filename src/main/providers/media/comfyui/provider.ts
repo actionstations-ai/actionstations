@@ -7,9 +7,9 @@ import type { ProviderConfig, ProviderHealth } from '@shared/schemas'
 import { AppError } from '../../../lib/errors'
 import {
   defaultWorkflowId,
-  loadWorkflow,
   projectRootFor,
   setAvailableNodes,
+  workflowForRender,
 } from '../../../comfy/store'
 import type { WorkflowSidecar } from '../../../comfy/sidecar'
 import { modelNameOf, workflowSha256, type ApiWorkflow } from '../../../comfy/workflow'
@@ -128,7 +128,7 @@ export class ComfyMediaProvider implements MediaProvider {
         `No ComfyUI workflow is set for ${job.kind}. Choose one on the Workflows page.`,
       )
     const projectRoot = await projectRootFor(job.outDir)
-    const { workflow, sidecar } = await loadWorkflow(workflowId, projectRoot)
+    const { workflow, sidecar } = await workflowForRender(workflowId, projectRoot)
     const ctx = await this.bindContext(job, sidecar)
     assertJobFits(sidecar.bindings, ctx)
     const bound = applyBindings(workflow, sidecar.bindings, ctx)

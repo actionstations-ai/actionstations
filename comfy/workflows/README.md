@@ -24,6 +24,10 @@ Where workflows live (looked up in this order):
 | Global  | `<userData>/comfy/workflows/`           | Imported on the Workflows page.                                 |
 | Default | this folder (`app-resources/comfy/...`) | Read-only; edited bindings go to `<userData>/comfy/overrides/`. |
 
+Between Global and Default sit the `workflows/` of enabled packs (read-only; edited bindings go to
+`<userData>/comfy/overrides/packs/<packId>/`). When a pack workflow renders media for a project it
+is copied into `<project>/comfy/workflows/` and recorded in `<project>/packs.json` (ADR-0018).
+
 The default workflow per media type is stored in `<userData>/comfy/defaults.json`
 (built-in: image → `sdxl-photo`, video → `image-to-video`; no audio default).
 

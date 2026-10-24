@@ -3,6 +3,7 @@ import { mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { buildPack } from '../../../../tests/fixtures/packs/build'
 import { startFakeComfy, type FakeComfy } from '../../providers/media/comfyui/fake-server'
 
 vi.mock('electron', () => ({
@@ -16,6 +17,7 @@ const handlers = (await import('./comfy')).default
 const { updateSettings, resetSettingsCache } = await import('../../settings/store')
 const { resetResolveState } = await import('../../providers/resolve')
 const { resetStoreState } = await import('../../comfy/store')
+const packs = await import('../../packs')
 
 async function call<T = unknown>(channel: string, req?: unknown): Promise<T> {
   const res = await dispatch(handlers, channel, req)
@@ -31,6 +33,7 @@ beforeEach(async () => {
   resetSettingsCache()
   resetResolveState()
   resetStoreState()
+  await packs.loadPacks()
   fake = await startFakeComfy()
   await updateSettings((s) => {
     s.providers.push({
@@ -121,5 +124,41 @@ describe('comfy:* handlers', () => {
     await expect(
       call('comfy:workflows:list', { projectPath: '/not/opened' }),
     ).rejects.toMatchObject({ code: 'FORBIDDEN' })
+  })
+
+  it('lists, rebinds and selects a pack workflow (read-only, override in userData)', async () => {
+    const archive = join(mkdtempSync(join(tmpdir(), 'ttx-wf-pack-')), 'rail.aspack')
+    writeFileSync(archive, await buildPack())
+    await packs.installPack(
+      { path: archive, source: { kind: 'file', name: 'rail.aspack' } },
+      { appVersion: '0.3.0' },
+    )
+    const status = await call<{ workflows: { id: string; missingNodes: string[] }[] }>(
+      'comfy:status',
+      { providerId: 'comfy' },
+    )
+    expect(status.workflows.find((w) => w.id === 'yard-cctv-still')!.missingNodes).toEqual([
+      'UltimateSDUpscale',
+    ])
+    const list = await call<Record<string, unknown>[]>('comfy:workflows:list', {})
+    expect(list.find((w) => w.id === 'yard-cctv-still')).toMatchObject({
+      source: 'pack',
+      packId: 'ai.actionstations.freight-rail',
+      packVersion: '1.0.0',
+      packName: 'Freight Rail Operations',
+      customNodes: ['UltimateSDUpscale'],
+    })
+    const saved = await call<{ source: string; bindings: unknown[] }>(
+      'comfy:workflows:save-bindings',
+      { id: 'yard-cctv-still', bindings: [] },
+    )
+    expect(saved).toMatchObject({ source: 'pack', bindings: [] })
+    expect(await call('comfy:defaults:set', { image: 'yard-cctv-still' })).toMatchObject({
+      image: 'yard-cctv-still',
+    })
+    await call('comfy:workflows:delete', { id: 'yard-cctv-still' }) // resets the override
+    await expect(call('comfy:workflows:delete', { id: 'yard-cctv-still' })).rejects.toThrow(
+      /uninstall the pack/,
+    )
   })
 })

@@ -16,7 +16,16 @@ import { errorText } from '../../lib/errors'
 const SOURCE_LABEL: Record<WorkflowEntry['source'], string> = {
   default: 'Built-in',
   global: 'Imported',
+  pack: 'Pack',
   project: 'Project',
+}
+
+/** Plain-text provenance for pack workflows and project copies (badges come in #269). */
+function packLabel(w: WorkflowEntry): string | undefined {
+  if (!w.packId) return undefined
+  const name = w.packName ?? w.packId
+  const from = w.source === 'pack' ? `From ${name}` : `Copied from ${name}`
+  return w.packVersion ? `${from} ${w.packVersion}` : from
 }
 
 function StatusCard(props: { providerId: string | undefined }) {
@@ -114,6 +123,7 @@ function WorkflowCard(props: { workflow: WorkflowEntry; selected: boolean; onSel
           <span className="wf-card__name">{w.name}</span>
           <Badge tone="info">{SOURCE_LABEL[w.source]}</Badge>
         </span>
+        {packLabel(w) && <span className="muted">{packLabel(w)}</span>}
         <span className="muted wf-card__desc">{w.description}</span>
         <span className="row">
           <Badge>{w.bindings.length} bindings</Badge>
@@ -168,7 +178,9 @@ function SelectedWorkflow(props: { workflow: WorkflowEntry; providerId: string |
   const del = useIpcMutation('comfy:workflows:delete', {
     invalidates: ['comfy:workflows:list', 'comfy:defaults:get'],
   })
-  const isDefault = w.source === 'default'
+  // Built-in and pack workflows are read-only: "delete" resets the user's edited bindings.
+  const isDefault = w.source === 'default' || w.source === 'pack'
+  const origin = w.source === 'pack' ? 'pack' : 'built-in'
   const [confirming, setConfirming] = useState(false)
   const remove = async () => {
     setConfirming(false)
@@ -185,7 +197,7 @@ function SelectedWorkflow(props: { workflow: WorkflowEntry; providerId: string |
       <TestRender workflow={w} providerId={props.providerId} />
       <div className="row">
         <Button variant={isDefault ? 'default' : 'danger'} onClick={() => setConfirming(true)}>
-          {isDefault ? 'Reset bindings to built-in' : 'Delete workflow'}
+          {isDefault ? `Reset bindings to ${origin}` : 'Delete workflow'}
         </Button>
       </div>
       <Dialog
@@ -194,7 +206,7 @@ function SelectedWorkflow(props: { workflow: WorkflowEntry; providerId: string |
         title={isDefault ? 'Reset bindings?' : 'Delete workflow?'}
         description={
           isDefault
-            ? `Your bindings for “${w.name}” are replaced by the built-in ones.`
+            ? `Your bindings for “${w.name}” are replaced by the ${origin} ones.`
             : `“${w.name}” and its bindings are removed from this computer.`
         }
         footer={

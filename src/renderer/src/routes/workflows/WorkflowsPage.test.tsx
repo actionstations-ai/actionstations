@@ -151,4 +151,23 @@ describe('WorkflowsPage', () => {
       /No TTS workflow/,
     )
   })
+
+  it('labels pack workflows with their pack and offers a reset, not a delete', async () => {
+    const yard: WorkflowEntry = {
+      ...photo,
+      id: 'yard-cctv-still',
+      name: 'Yard CCTV still',
+      source: 'pack',
+      packId: 'ai.actionstations.freight-rail',
+      packVersion: '1.0.0',
+      packName: 'Freight Rail Operations',
+    }
+    setup({ 'comfy:workflows:list': () => [photo, yard, video] })
+    renderAt('/workflows', '/workflows', WorkflowsPage)
+    const card = await screen.findByRole('button', { name: /Yard CCTV still/ })
+    expect(within(card).getByText('Pack')).toBeTruthy()
+    expect(within(card).getByText('From Freight Rail Operations 1.0.0')).toBeTruthy()
+    await userEvent.click(card)
+    expect(await screen.findByRole('button', { name: 'Reset bindings to pack' })).toBeTruthy()
+  })
 })

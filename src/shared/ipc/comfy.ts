@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { channel } from './define'
 import { SafeId } from '../schemas/common'
+import { PackCopyState } from '../schemas/project-packs'
 
 export const MediaType = z.enum(['image', 'video', 'audio'])
 
@@ -27,16 +28,30 @@ export const WorkflowBinding = z.object({
 })
 export type WorkflowBinding = z.infer<typeof WorkflowBinding>
 
+/**
+ * Where a workflow comes from. Lookup order project > global > pack > default (ADR-0018).
+ * `pack` workflows are read-only (edited bindings go to userData/comfy/overrides/packs/).
+ */
+export const WorkflowSource = z.enum(['default', 'global', 'pack', 'project'])
+
 export const WorkflowEntry = z.object({
   id: z.string(),
   name: z.string(),
   mediaType: MediaType,
-  source: z.enum(['default', 'global', 'project']),
+  source: WorkflowSource,
   description: z.string().default(''),
   bindings: z.array(WorkflowBinding),
   requiredNodes: z.array(z.string()),
   missingNodes: z.array(z.string()).optional(),
+  /** Node classes outside ComfyUI core ("needs custom nodes"). */
+  customNodes: z.array(z.string()).optional(),
   sha256: z.string(),
+  /** The pack this workflow is from: source `pack`, or a project copy of a pack workflow. */
+  packId: z.string().optional(),
+  packVersion: z.string().optional(),
+  packName: z.string().optional(),
+  /** A project copy of a pack workflow (<project>/packs.json): edited / pack missing / update. */
+  copy: PackCopyState.optional(),
 })
 export type WorkflowEntry = z.infer<typeof WorkflowEntry>
 
