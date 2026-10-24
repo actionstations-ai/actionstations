@@ -117,6 +117,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 #### Packs
 
+- `node scripts/pack-validate.mjs` validates `.aspack` files with the app's own reader under plain Node (no Electron): one line per problem with the path inside the pack, exit code 0 or 1. `--catalog-entry --url <base>` prints the catalog entry as JSON, and `--catalog <index.json>` validates a whole catalog strictly with `PackCatalog`. The reader is bundled with Vite into `node_modules/.cache/pack-validate/` on first use (#259).
+- The pack reader requires an example's `example.json` `id` to equal its folder name (#259).
 - Pack reader and validator in main (`src/main/packs/`): `readPack` verifies an `.aspack` (central directory scanned from the raw bytes so encrypted entries, symbolic links, unsafe or duplicate names and case collisions are refused by name; bytes counted while inflating against the per-file, total and compression-ratio limits; archive entries equal `files[]` with matching sha256 and size; per-kind content checks with the app's own schemas) and returns item summaries for the review screen; `extractPack` writes to a staging folder through `safeJoin` with a `realpath` re-check and removes it on any error; `checkTemplateFiles` refuses templates with script, event handlers, remote URLs, CSS `@import`/`expression(`, triple-stash or partials. Fixture archives for every refusal are built at test time (`tests/fixtures/packs/build.ts`) (#258).
 
 #### Packs (specification)

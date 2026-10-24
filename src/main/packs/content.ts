@@ -190,6 +190,11 @@ const PackExampleManifest = ExampleManifest.extend({ domainProfile: z.string() }
 function checkExample(ctx: Ctx, id: string): ItemResult {
   const dir = `examples/${id}`
   const manifest = parseWith(ctx, `${dir}/example.json`, PackExampleManifest)
+  if (manifest && manifest.id !== id)
+    ctx.problems.push({
+      path: `${dir}/example.json`,
+      message: `id "${manifest.id}" must equal the folder name "${id}"`,
+    })
   const d = (json(ctx, `${dir}/example.json`) as { domainProfile?: unknown } | undefined)
     ?.domainProfile
   if (typeof d === 'string') {

@@ -277,6 +277,14 @@ describe('readPack: content checks', () => {
     expect(out).toMatch(/project.json: id/)
   })
 
+  it('refuses an example whose id differs from its folder', async () => {
+    const out = await problemsFor((t) => {
+      const ex = JSON.parse(t['examples/harbor-junction/example.json'] as string)
+      t['examples/harbor-junction/example.json'] = JSON.stringify({ ...ex, id: 'elsewhere' })
+    })
+    expect(out).toMatch(/example.json: id "elsewhere" must equal the folder name "harbor-junction"/)
+  })
+
   it('reports pack.json schema problems with their field path', async () => {
     const out = await problemsFor(
       () => {},

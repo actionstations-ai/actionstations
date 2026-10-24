@@ -112,7 +112,7 @@ The reader (`readPack` in `src/main/packs/reader.ts`) validates content with the
 - **prompts**: frontmatter is YAML (a `---js` or other non-YAML engine is refused), parsed with `PromptFrontmatter`; `name` equals the file stem and names a prompt the app ships.
 - **domains**: `DomainProfile`; the id is not a built-in id or alias; `threatFamilies` use the built-in families.
 - **workflows**: the workflow parses as ComfyUI API format, the sidecar as `WorkflowSidecar`; node classes outside ComfyUI core are listed in the review as "needs custom nodes".
-- **examples**: `ExampleManifest` (`fictional: true`), `project/project.json` as `Project`; `domainProfile` is built-in or provided by the same pack.
+- **examples**: `ExampleManifest` (`fictional: true`, `id` equals the folder name), `project/project.json` as `Project`; `domainProfile` is built-in or provided by the same pack.
 
 ### Template HTML and CSS
 
@@ -243,9 +243,35 @@ How the app fetches (`src/main/packs/catalog.ts`, `download.ts`): catalog URLs l
 
 ## Publishing to the official catalog
 
-1. Build the pack in the app (**Packs → Export as pack**) or by hand, then validate it: `node scripts/pack-validate.mjs <file>.aspack` (#259) checks the schema, path rules, allowed files, sizes and every hash, and prints the catalog entry.
-2. Open a pull request to the site repository adding `packs/files/<id>-<version>.aspack`. The maintainer runs the site's local build, which validates every archive the same way and regenerates `packs/index.json`; there is no CI service.
-3. Reference documents must be redistributable: each `documents[]` entry names its license, and the reviewer checks it before merging.
+1. Build the pack in the app (**Packs → Export as pack**) or by hand, then validate it (#259):
+
+   ```
+   node scripts/pack-validate.mjs <file>.aspack
+   ```
+
+   It runs the app's own reader (`readPack`, `src/main/packs/`), not a copy of its rules: archive limits, path rules, allowed files, every size and sha256, and the per-kind content checks. Valid packs print `<file>: ok (<id> <version>, <n> files, sha256 <hash>)`. Otherwise each problem prints as `<file>: <path inside the pack>: <message>` on stderr. The exit code is 0 when every file is valid and 1 otherwise. Several files can be given at once. `--app-version <v>` sets the version the `minAppVersion` gate compares with; it defaults to the `package.json` version of the checkout.
+
+2. Print the catalog entry for a pack:
+
+   ```
+   node scripts/pack-validate.mjs <file>.aspack --catalog-entry --url https://actionstations.ai/packs/files [--updated <iso-date>]
+   ```
+
+   This prints the entry as JSON: the fields copied from `pack.json`, `kinds`, the archive `size` and `sha256`, `url` = `<base>/<id>-<version>.aspack`, and `updated` (default: now). With several files it prints an array. The entry is checked with `PackCatalogEntry` before it is printed.
+
+3. Validate a whole catalog strictly:
+
+   ```
+   node scripts/pack-validate.mjs --catalog packs/index.json
+   ```
+
+   This uses `PackCatalog`: any invalid or duplicate entry fails, unlike the app, which skips bad entries.
+
+4. Open a pull request to the site repository adding `packs/files/<id>-<version>.aspack`. The maintainer runs the site's local build from a checkout of this repository (after `pnpm install`). The build validates every archive with step 1, regenerates `packs/index.json` from step 2 and checks the result with step 3. There is no CI service.
+
+5. Reference documents must be redistributable: each `documents[]` entry names its license, and the reviewer checks it before merging.
+
+The script needs Node 20 or later and the repository's dev dependencies, not Electron. On first use, and whenever a source under `src/` changes, it bundles the reader with Vite into `node_modules/.cache/pack-validate/`, with a stub in place of `electron`.
 
 ## Compatibility with the draft of 2026-10-23
 
