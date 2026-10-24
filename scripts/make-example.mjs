@@ -6,7 +6,7 @@
 //   node scripts/make-example.mjs generate --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…] [--replace]
 //   node scripts/make-example.mjs repair   --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…]
 //   node scripts/make-example.mjs export   --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…]
-//   node scripts/make-example.mjs refresh  --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…]
+//   node scripts/make-example.mjs refresh  --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…] [--voices]
 //   node scripts/make-example.mjs package  --spec examples/<id>/build.json --out .tmp/examples-release/<id>
 //   node scripts/make-example.mjs verify   --spec examples/<id>/build.json
 //
@@ -33,6 +33,11 @@
 //   recomputed (fails when the repair would have to rewrite a row or an inject with a model:
 //   fix that by hand first); for a hand-authored (seed) scenario it drops the content warnings
 //   of the injects corrected by hand instead, since the repair would rewrite authored rows.
+//   --voices: re-voices the edited injects that carry a voice clip with the local TTS
+//   (mlx-audio); every other task stays routed offline.
+// Names: documents, seed scenarios and seed documents pass through examples/simulated-names.json
+//   (scripts/simulate-names.mjs) on the way in, so released examples carry simulated names
+//   while reference/ keeps the source material (#283).
 // package: copies <out>/project to examples/<id>/project without index.sqlite*, .cache, job
 //   or log files, provider ids and absolute paths, keeps one short voice clip per example (as
 //   MP3), the most useful rendered PNGs and at most two AI stills per scenario within the git
@@ -63,6 +68,7 @@ import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { runInThisContext } from 'node:vm'
 import wavefile from 'wavefile'
+import { simulateNames } from './simulate-names.mjs'
 
 const { PNG } = pngjs
 const { WaveFile } = wavefile
@@ -118,13 +124,14 @@ const TAG_PRIORITY = [
 
 function parseArgs(argv) {
   const [command, ...rest] = argv
-  const args = { command, only: [], replace: false }
+  const args = { command, only: [], replace: false, voices: false }
   for (let i = 0; i < rest.length; i++) {
     const a = rest[i]
     if (a === '--spec') args.spec = rest[++i]
     else if (a === '--out') args.out = rest[++i]
     else if (a === '--only') args.only = rest[++i].split(',').map((s) => s.trim())
     else if (a === '--replace') args.replace = true
+    else if (a === '--voices') args.voices = true
     else throw new Error(`Unknown argument ${a}`)
   }
   if (!['generate', 'repair', 'refresh', 'export', 'package', 'verify'].includes(command ?? ''))
@@ -202,6 +209,16 @@ function documentFiles(spec) {
   })
 }
 
+/** Copies of `files` in `dir` with simulated names (#283); reference/ keeps the source material. */
+export function simulatedCopies(files, dir) {
+  mkdirSync(dir, { recursive: true })
+  return files.map((file) => {
+    const copy = join(dir, file.split(/[\\/]/).pop())
+    writeFileSync(copy, simulateNames(readFileSync(file, 'utf8')))
+    return copy
+  })
+}
+
 function readState(out) {
   const file = join(out, 'state.json')
   return existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : { scenarios: {} }
@@ -232,7 +249,7 @@ async function openOrCreateProject(invoke, spec, out, state) {
     path,
     patch: { name: spec.project.name, brand: spec.project.brand ?? {} },
   })
-  const files = documentFiles(spec)
+  const files = simulatedCopies(documentFiles(spec), join(out, 'sources'))
   log(`importing ${files.length} documents`)
   await invoke('documents:import', { projectPath: path, filePaths: files })
   for (let i = 0; i < 120; i++) {
@@ -377,14 +394,16 @@ export function seedMarkdown(value, root = ROOT) {
   if (Array.isArray(value))
     return value.map((v) => seedMarkdown(v, root).trim()).join('\n\n') + '\n'
   const file = typeof value === 'string' ? value : value.file
-  const md = readFileSync(resolve(root, file), 'utf8')
+  const md = simulateNames(readFileSync(resolve(root, file), 'utf8'))
   return typeof value === 'object' && value.section ? markdownSection(md, value.section) : md
 }
 
 /** A hand-authored scenario (entry.seed.scenario JSON + markdown documents) instead of a
  *  generated one: only injects and media are generated for it. */
 async function seedScenario(invoke, projectPath, entry) {
-  const authored = JSON.parse(readFileSync(resolve(ROOT, entry.seed.scenario), 'utf8'))
+  const authored = JSON.parse(
+    simulateNames(readFileSync(resolve(ROOT, entry.seed.scenario), 'utf8')),
+  )
   const empty = await invoke('scenarios:create-empty', { projectPath, title: authored.title })
   await invoke('scenarios:save', {
     projectPath,
@@ -594,7 +613,7 @@ const exportAll = (args) =>
 // ---- refresh -----------------------------------------------------------------------------------
 
 /** Every task routed to a provider nobody listens on: a refresh never reaches a model. */
-async function routeOffline(invoke) {
+async function routeOffline(invoke, { voices = false } = {}) {
   const offline = { label: 'Offline (example refresh)', options: {}, enabled: true }
   const text = await invoke('providers:upsert', {
     config: {
@@ -616,7 +635,7 @@ async function routeOffline(invoke) {
       critique: on(text.id),
       image: on(image.id),
       video: on(image.id),
-      audio: on(text.id),
+      audio: on(voices ? (await invoke('providers:upsert', { config: TTS_PROVIDER })).id : text.id),
     },
   })
 }
@@ -715,7 +734,24 @@ export function assertNoRewrite(result, key) {
     )
 }
 
-async function refreshOne({ invoke, spec, projectPath, entry, state }) {
+/** Voice clips again for the edited injects that carry one (refresh --voices). */
+async function revoice(invoke, projectPath, scenarioId, changed) {
+  const injects = await invoke('injects:list', { projectPath, scenarioId })
+  const injectIds = injects
+    .filter((i) => changed.includes(i.id) && i.assets.some((a) => a.kind === 'audio'))
+    .map((i) => i.id)
+  if (!injectIds.length) return 0
+  const { jobId } = await invoke('generate:media', {
+    projectPath,
+    scenarioId,
+    injectIds,
+    paths: ['tts'],
+  })
+  await waitForJob(invoke, jobId, `voice clips ${scenarioId}`, 40 * 60_000)
+  return injectIds.length
+}
+
+async function refreshOne({ invoke, spec, projectPath, entry, state, voices }) {
   const { scenarioId } = state.scenarios[entry.key]
   const seeded = await refreshDocuments(invoke, projectPath, scenarioId, entry)
   const scenario = await invoke('scenarios:get', { projectPath, scenarioId })
@@ -737,6 +773,7 @@ async function refreshOne({ invoke, spec, projectPath, entry, state }) {
     })
     await waitForJob(invoke, jobId, `templates ${entry.key}`, 20 * 60_000)
   }
+  const voiced = voices ? await revoice(invoke, projectPath, scenarioId, changed) : 0
   if (entry.seed) await dropCorrectedWarnings(invoke, projectPath, scenarioId, changed)
   else {
     const { jobId } = await invoke('generate:repair', { projectPath, scenarioId, aiStills: 0 })
@@ -749,12 +786,19 @@ async function refreshOne({ invoke, spec, projectPath, entry, state }) {
   const detail = open.map((w) => `\n    ${w.code} ${w.rowId ?? ''} ${w.message.split('\n')[0]}`)
   log(
     `${entry.key}: ${edited ? 'scenario edited, ' : ''}${changed.length} inject(s) re-rendered, ` +
+      `${voiced ? `${voiced} re-voiced, ` : ''}` +
       `${seeded.length ? `seeded ${seeded.join(', ')}, ` : ''}${open.length} warning(s) open` +
       detail.join(''),
   )
 }
 
-const refresh = (args) => forEachGenerated(args, 'refresh', refreshOne, routeOffline)
+const refresh = (args) =>
+  forEachGenerated(
+    args,
+    'refresh',
+    (c) => refreshOne({ ...c, voices: args.voices }),
+    (invoke) => routeOffline(invoke, { voices: args.voices }),
+  )
 
 // ---- package -----------------------------------------------------------------------------------
 
@@ -887,11 +931,16 @@ export function chooseClip(projectDir, scenarios) {
     }
     const clip = [...injects]
       .sort((a, b) => rank(a) - rank(b))
-      .flatMap((inj) => inj.assets.filter((a) => a.kind === 'audio' && a.path.endsWith('.wav')))
+      .flatMap((inj) =>
+        inj.assets.filter((a) => a.kind === 'audio' && /\.(?:wav|mp3)$/.test(a.path)),
+      )
       .find(
         (a) => (a.durationSec ?? Infinity) <= MAX_CLIP_SEC && existsSync(join(projectDir, a.path)),
       )
-    if (clip) return { asset: clip, buffer: shippedMp3(readFileSync(join(projectDir, clip.path))) }
+    if (!clip) continue
+    // A project rebuilt from a shipped example already carries the clip as MP3.
+    const bytes = readFileSync(join(projectDir, clip.path))
+    return { asset: clip, buffer: clip.path.endsWith('.mp3') ? bytes : shippedMp3(bytes) }
   }
   return undefined
 }

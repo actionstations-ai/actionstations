@@ -13,7 +13,7 @@ It is a busy Thursday morning at North Coast International Airport. Passenger vo
 - IT Status: Green / Normal.
 - Staffing: Full shifts are present in Operations, Maintenance, and IT.
 
-**The Anomaly:** At 09:00 AM, the Airport Operations Center (AOC) received a non-emergency call from a Delta Airlines Gate Agent at B4. She reported that the screen above her gate was displaying the wrong destination. She believes it is a simple display glitch.
+**The Anomaly:** At 09:00 AM, the Airport Operations Center (AOC) received a non-emergency call from a Skyline Air Gate Agent at B4. She reported that the screen above her gate was displaying the wrong destination. She believes it is a simple display glitch.
 
 **YOUR MISSION:** Maintain the safety and security of the traveling public while investigating and resolving operational anomalies. You must balance the need for efficiency (keeping planes moving) with security (protecting infrastructure).
 

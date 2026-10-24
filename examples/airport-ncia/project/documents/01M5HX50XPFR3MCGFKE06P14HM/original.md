@@ -52,7 +52,7 @@ Overlays the Secured Area and portions of the AOA where badges must be visible a
 From the exit of the TSA Security Screening Checkpoint (SSCP) through Concourses A and B, hold rooms, post-security concessions, to the aircraft boarding door. Passengers need a valid boarding pass and TSA screening. Employees enter via Known Crewmember (KCM) or TSA screening, unless using a biometric-equipped specialized portal (ramp-to-terminal door).
 
 ### 2.6 Exclusive Areas (49 CFR § 1542.111)
-Exclusive Area Agreements (EAA): United Airlines Cargo Facility (Bldg 4) — United controls the cargo sorting floor and immediate aircraft parking. North Coast Jet Center (FBO) — responsible for GA Ramp access gate (Gate 24).
+Exclusive Area Agreements (EAA): HWK Air Cargo Facility (Bldg 4) — HWK Air controls the cargo sorting floor and immediate aircraft parking. North Coast Jet Center (FBO) — responsible for GA Ramp access gate (Gate 24).
 
 ## SECTION 3: ACCESS CONTROL SYSTEMS
 
@@ -95,7 +95,7 @@ Lost/stolen badges reported within 24 hours and deactivated immediately. If more
 ## SECTION 5: LAW ENFORCEMENT SUPPORT
 
 ### 5.1 General (49 CFR § 1542.215)
-Contract with the **Akron Police Department (APD)**; permanent detail known as the Airport Police Bureau. Officers are sworn Ohio LEOs with arrest authority, firearms, and ASP training.
+Contract with the **Lakeport Police Department (APD)**; permanent detail known as the Airport Police Bureau. Officers are sworn Ohio LEOs with arrest authority, firearms, and ASP training.
 
 ### 5.2 Response Capability (49 CFR § 1542.217)
 Checkpoint response within **3 minutes** of a duress alarm or call. Security breaches anywhere on the airport within **5 minutes**. Responding officers readily identifiable; plain-clothes display credentials on taking action.
@@ -127,12 +127,12 @@ ASC and LEO IC determine evacuation zone. Suspected IED → exclusion zone of 30
 Screening of passengers and property (delegated to TSA, liability retained); security of the aircraft; credential checks of employees entering the aircraft.
 
 ### 7.2 Exclusive Area Agreements
-United Cargo solely responsible for access control at its cargo facility; Airport Police respond only if called.
+HWK Air Cargo solely responsible for access control at its cargo facility; Airport Police respond only if called.
 
 ## ATTACHMENTS
 - **Attachment A: Security Areas Map** — [Placeholder: red/blue/green zones overlaying the terminal and airfield diagram.]
 - **Attachment B: Access Control Points Inventory** — classified list of all 142 monitored doors: Door ID (e.g., T1-104), location, hardware type, fail mode.
-- **Attachment C: Law Enforcement MOU** — agreement between NCRAA and the City of Akron funding and staffing the Airport Police Bureau.
+- **Attachment C: Law Enforcement MOU** — agreement between NCRAA and the City of Lakeport funding and staffing the Airport Police Bureau.
 
 ## APPENDIX D: SECURITY SYSTEMS ARCHITECTURE
 

@@ -28,7 +28,7 @@ Actions required to manage passengers, employees (airport, airline, concessionai
 | Airport Security Program (ASP) | 4.5 | 07/01/2025 |
 | NCIA Cybersecurity Incident Response Plan (CSIRP) | 1.0 | 09/30/2025 |
 | Airport Irregular Operations (IROPS) Plan | 1.2 | 06/01/2025 |
-| City of Akron Fire Dept. Mutual Aid Agreement | N/A | 03/01/2024 |
+| City of Lakeport Fire Dept. Mutual Aid Agreement | N/A | 03/01/2024 |
 
 ### 1.4 Guidance Applicable for All Incident Plans
 
@@ -165,7 +165,7 @@ Fire/EMS assumes IC, identifies material and correct response. Ops relays IC ord
 
 ### 8.2 Operations
 
-Pull nearest alarm, report to 911 or the ACC. Fire alarm activation mandates full immediate EVACUATION (Section 3). Akron Fire Department (AFD) assumes IC on arrival.
+Pull nearest alarm, report to 911 or the ACC. Fire alarm activation mandates full immediate EVACUATION (Section 3). Lakeport Fire Department (AFD) assumes IC on arrival.
 
 ### 8.4 Checklist: Structural Fire
 
@@ -177,15 +177,15 @@ Pull nearest alarm, report to 911 or the ACC. Fire alarm activation mandates ful
 
 ### 9.2 Assumptions
 
-Backup generators power critical life safety (emergency lighting, fire panel) and some essential systems. **Not all systems are on backup power: FIDS, baggage handling (BHS), jet bridges, and general concession power may fail.** Primary provider: Dominion Energy.
+Backup generators power critical life safety (emergency lighting, fire panel) and some essential systems. **Not all systems are on backup power: FIDS, baggage handling (BHS), jet bridges, and general concession power may fail.** Primary provider: Northcoast Electric.
 
 ### 9.3 Responsibilities
 
-Facilities identifies cause, confirms generators, coordinates with Dominion. Ops activates manual procedures; PA or bullhorns; staff to dark restrooms/stairwells. IT verifies critical systems on UPS/generator; prepares restart. LEO/TSA monitor dark areas; checkpoint closes if screening equipment is unpowered.
+Facilities identifies cause, confirms generators, coordinates with Northcoast Electric. Ops activates manual procedures; PA or bullhorns; staff to dark restrooms/stairwells. IT verifies critical systems on UPS/generator; prepares restart. LEO/TSA monitor dark areas; checkpoint closes if screening equipment is unpowered.
 
 ### 9.4 Checklist: Electrical Outage
 
-- Facilities: confirm generators accepted load; identify cause (internal/external); contact Dominion for ETR.
+- Facilities: confirm generators accepted load; identify cause (internal/external); contact Northcoast Electric for ETR.
 - Ops: assess which systems are down; notify tenants of outage and ETR; PA announcement or bullhorns; deploy staff with flashlights.
 - IT: verify network and critical servers; prepare restart sequence.
 - LEO/Security/TSA: deploy staff to key areas; determine checkpoint status.
@@ -282,13 +282,13 @@ All calls routed through the Airport Communications Center (ACC) at (330) 555-24
 | External | Contact |
 |---|---|
 | EMERGENCY (Fire, Police, EMS) | 911 |
-| Akron Fire Department (Dispatch) | (330) 555-1212 |
-| Akron Police Department (Dispatch) | (330) 555-1313 |
+| Lakeport Fire Department (Dispatch) | (330) 555-1212 |
+| Lakeport Police Department (Dispatch) | (330) 555-1313 |
 | National Weather Service | (216) 555-2000 |
 | FBI (Cleveland Field Office) | (216) 555-1000 |
 | TSA (Coordination Center) | (800) 555-TSA1 |
 | FAA (Air Traffic Control Tower) | (330) 555-ATC1 |
-| Dominion Energy (Power) | (800) 555-3000 |
+| Northcoast Electric (Power) | (800) 555-3000 |
 | Summit Co. Emergency Management | (330) 555-EMA1 |
 
 ## ANNEX B: TERMINAL SHELTER LOCATIONS (Mock-Up)

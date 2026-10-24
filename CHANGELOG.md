@@ -83,12 +83,23 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 #### Templates
 
-- Template schema examples and previews use simulated organizations only: airlines (Skyline Air,
-  HWK Air, Lakeshore and others, with their own flight codes), news outlets, the sports team in
-  the phishing lure, community groups, the FBI field office and street addresses no longer name
-  real ones, and the misinformation rumor no longer names a real extremist group. Generic
-  government roles (TSA, FAA, FBI, CISA) stay. A test fails on a deny-list of real names in
-  `templates/**` and the generation fixtures (#278).
+- Released content follows one naming rule. Simulated: the exercising organization and its
+  people, its city, county and local government, airlines (Skyline Air, HWK Air, Lakeshore and
+  others, with their own flight codes), local businesses (news outlets, the sports team in the
+  phishing lure, venues, regional utilities), national consumer brands in the facility and cargo
+  carriers. Real: products and vendors (Cisco, Lenel, Palo Alto…), sector organizations
+  (WaterISAC, OHWARN, the Red Cross), federal and state agencies (the FBI Cleveland Field Office
+  included) and real threat groups. Users' own projects can use any names (#278, #283).
+- Template schema examples and previews follow the rule (#278); the shipped airport example
+  does too: its city, county, local departments, airlines, regional utility, concessions and
+  cargo carriers are simulated, the affected inject cards are re-rendered and the phone-call
+  clip is re-voiced. The water and UAS examples already complied (#283).
+- `examples/simulated-names.json` is applied by `make-example` to imported documents, seed
+  scenarios and seed documents, so rebuilding an example from `reference/` stays simulated, and
+  `scripts/simulate-names.mjs` applies it to files in place. `tests/content/real-org-names.test.ts`
+  checks templates, examples, prompts, domain profiles and the generation fixtures (#283).
+- `make-example refresh --voices` re-voices edited injects that carry a voice clip with the local
+  TTS; `package` keeps a clip that is already MP3 (#283).
 
 #### Documentation
 

@@ -26,7 +26,7 @@ Exercise Date: [Date] · Location: North Coast International Airport (NCIA) · D
 
 **The "SimCell" Role:** You (the Instructor) are the "Simulation Cell." You play everyone else in the world.
 - If a student says, "I call the FBI," you answer the phone as the FBI agent.
-- If they say, "I call United Airlines," you become the angry Station Manager.
+- If they say, "I call HWK Air," you become the angry Station Manager.
 - **Crucial:** Do not make it easy. If they call the FBI, ask hard questions: "Agent Smith here. Do you have a PCAP capture of the traffic? No? Then call me back when you have evidence."
 
 **Managing Time:** The exercise spans 4 hours of simulated time, but you may not have 4 hours of real time. Use "Time Jumps" to skip boring parts.

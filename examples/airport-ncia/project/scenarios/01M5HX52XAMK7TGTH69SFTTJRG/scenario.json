@@ -1,4 +1,5 @@
 {
+  "formatVersion": 1,
   "id": "01M5HX52XAMK7TGTH69SFTTJRG",
   "projectId": "01M5HX50WCC7RB6ZSPC6HNTRRG",
   "title": "Flight to Nowhere",
@@ -6,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-21T00:00:00.000Z",
-  "updatedAt": "2026-10-23T19:51:09.758Z",
+  "updatedAt": "2026-10-24T02:43:36.138Z",
   "brief": {
     "userPrompt": "A malicious actor manipulates the AODB so FIDS, BHS and PA mislead passengers; test data integrity, public trust and crowd management.",
     "audience": [
@@ -109,7 +110,7 @@
       "name": "Airline Liaison",
       "abbreviation": "AL",
       "team": "Tenants",
-      "description": "Represents the frustration of the tenant airlines (Delta, United, etc.).",
+      "description": "Represents the frustration of the tenant airlines (Skyline, HWK Air, etc.).",
       "standingOrders": []
     }
   ],
@@ -180,7 +181,7 @@
         "ops-director"
       ],
       "toLabel": "Ops",
-      "event": "Phone Call: \"Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?\"",
+      "event": "Phone Call: \"Hey Ops, this is Skyline at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?\"",
       "expectedAction": "Ops logs a ticket with IT. IT likely treats this as a minor display error/glitch.",
       "purposeTag": "CORE_NARRATIVE",
       "format": "phone_call",
@@ -234,8 +235,8 @@
         "ops-director"
       ],
       "toLabel": "Ops",
-      "event": "Radio Call: \"Ops, TSA Checkpoint. We have passengers scanning boarding passes for a United flight to Chicago, but the FIDS board in the lobby lists that flight as 'Cancelled'. They are arguing with my TSOs.\"",
-      "expectedAction": "Ops must verify flight status with United directly. Realize the data on screens contradicts reality.",
+      "event": "Radio Call: \"Ops, TSA Checkpoint. We have passengers scanning boarding passes for a HWK Air flight to Chicago, but the FIDS board in the lobby lists that flight as 'Cancelled'. They are arguing with my TSOs.\"",
+      "expectedAction": "Ops must verify flight status with HWK Air directly. Realize the data on screens contradicts reality.",
       "purposeTag": "CORE_NARRATIVE",
       "format": "radio_call",
       "injectId": "01M5HX66HTYF9EK0MQCSA5M3H6",
@@ -350,7 +351,7 @@
         "ops-director"
       ],
       "toLabel": "Ops",
-      "event": "Phone Call: \"Ops, Baggage Control here. The sortation logic is corrupted. The system is sending all bags for Concourse A (Delta/United) to the 'Manual Encode' pier in the basement. The belt is jammed.\"",
+      "event": "Phone Call: \"Ops, Baggage Control here. The sortation logic is corrupted. The system is sending all bags for Concourse A (Skyline/HWK Air) to the 'Manual Encode' pier in the basement. The belt is jammed.\"",
       "expectedAction": "Ops coordinates with Airlines to initiate manual baggage handling. Massive delays expected.",
       "purposeTag": "CORE_NARRATIVE",
       "format": "memo",
@@ -368,7 +369,7 @@
         "it-director"
       ],
       "toLabel": "IT Lead",
-      "event": "Email Forward: Intern admits to clicking a phishing link (\"Free Browns Tickets\") on workstation OPS_INTERN_03.",
+      "event": "Email Forward: Intern admits to clicking a phishing link (\"Free Ironclads Tickets\") on workstation OPS_INTERN_03.",
       "expectedAction": "IT identifies \"Patient Zero\" and begins isolating that workstation to stop the attack vector.",
       "purposeTag": "CLUE",
       "format": "email_forward",
@@ -1312,8 +1313,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX5904QMVK8R7SQ6WSYRES",
-      "startedAt": "2026-10-22T13:40:00.365Z",
-      "finishedAt": "2026-10-22T13:40:11.399Z",
+      "startedAt": "2026-10-24T02:43:24.983Z",
+      "finishedAt": "2026-10-24T02:43:36.137Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -1339,8 +1340,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX66HTYF9EK0MQCSA5M3H6",
-      "startedAt": "2026-10-22T13:40:11.400Z",
-      "finishedAt": "2026-10-22T13:40:27.826Z",
+      "startedAt": "2026-10-24T02:43:20.244Z",
+      "finishedAt": "2026-10-24T02:43:20.443Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -1348,8 +1349,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX6FC38GHV178QQ9WTA31X",
-      "startedAt": "2026-10-22T13:39:00.312Z",
-      "finishedAt": "2026-10-22T13:39:19.782Z",
+      "startedAt": "2026-10-24T02:43:20.445Z",
+      "finishedAt": "2026-10-24T02:43:20.562Z",
       "promptRef": "template+ai_image",
       "status": "ok",
       "repairAttempts": 0
@@ -1366,8 +1367,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX6TMCSS4C5QGQ3T80P4VM",
-      "startedAt": "2026-10-22T13:40:27.828Z",
-      "finishedAt": "2026-10-22T13:40:43.657Z",
+      "startedAt": "2026-10-24T02:43:20.564Z",
+      "finishedAt": "2026-10-24T02:43:20.754Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -1375,8 +1376,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX73JYSEWXG1ZXS6826A9G",
-      "startedAt": "2026-10-23T19:48:43.270Z",
-      "finishedAt": "2026-10-23T19:48:43.759Z",
+      "startedAt": "2026-10-24T02:43:20.757Z",
+      "finishedAt": "2026-10-24T02:43:21.012Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -1384,8 +1385,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX7ERH9T3M6CPXCG3NTECJ",
-      "startedAt": "2026-10-22T13:39:19.785Z",
-      "finishedAt": "2026-10-22T13:39:39.765Z",
+      "startedAt": "2026-10-24T02:43:21.013Z",
+      "finishedAt": "2026-10-24T02:43:21.134Z",
       "promptRef": "template+ai_image",
       "status": "ok",
       "repairAttempts": 0
@@ -1393,8 +1394,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX7QQ8GPBARY61R5595Q7B",
-      "startedAt": "2026-10-23T19:48:43.768Z",
-      "finishedAt": "2026-10-23T19:48:43.994Z",
+      "startedAt": "2026-10-24T02:43:21.136Z",
+      "finishedAt": "2026-10-24T02:43:21.332Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -1402,8 +1403,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX83PJ7T0JW60SC8J7WWY3",
-      "startedAt": "2026-10-22T13:38:52.765Z",
-      "finishedAt": "2026-10-22T13:38:52.975Z",
+      "startedAt": "2026-10-24T02:43:21.333Z",
+      "finishedAt": "2026-10-24T02:43:21.544Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -1411,8 +1412,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX8A3DATVVRZS8S94PYKK4",
-      "startedAt": "2026-10-22T13:38:52.978Z",
-      "finishedAt": "2026-10-22T13:38:53.238Z",
+      "startedAt": "2026-10-24T02:43:21.546Z",
+      "finishedAt": "2026-10-24T02:43:21.802Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -1420,8 +1421,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX8J00KWAW32V7A92JKQHJ",
-      "startedAt": "2026-10-22T13:38:53.240Z",
-      "finishedAt": "2026-10-22T13:38:53.444Z",
+      "startedAt": "2026-10-24T02:43:21.804Z",
+      "finishedAt": "2026-10-24T02:43:22.010Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -1438,8 +1439,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX949BEYT8DT9DG6XZ3AMG",
-      "startedAt": "2026-10-22T13:40:43.659Z",
-      "finishedAt": "2026-10-22T13:41:12.184Z",
+      "startedAt": "2026-10-24T02:43:22.012Z",
+      "finishedAt": "2026-10-24T02:43:22.211Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -1447,8 +1448,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HX9J1030EF88VWRJZ39CN2",
-      "startedAt": "2026-10-23T19:48:43.997Z",
-      "finishedAt": "2026-10-23T19:48:44.205Z",
+      "startedAt": "2026-10-24T02:43:22.213Z",
+      "finishedAt": "2026-10-24T02:43:22.404Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -1474,8 +1475,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HXAKZSD7X36C19JEQPQ8ZH",
-      "startedAt": "2026-10-22T13:38:54.554Z",
-      "finishedAt": "2026-10-22T13:38:54.750Z",
+      "startedAt": "2026-10-24T02:43:22.406Z",
+      "finishedAt": "2026-10-24T02:43:22.600Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -1501,8 +1502,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HXB8SSR1WXS7KENGKZHQHV",
-      "startedAt": "2026-10-23T19:48:44.207Z",
-      "finishedAt": "2026-10-23T19:48:44.402Z",
+      "startedAt": "2026-10-24T02:43:22.602Z",
+      "finishedAt": "2026-10-24T02:43:22.766Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0

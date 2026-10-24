@@ -187,7 +187,7 @@ MSEL event: Tweet (@TravelGuy99): "NCIA is a joke! Boards say my flight is at Ga
 > **avatarBrief:** man in a hurry, wearing a travel jacket, phone in hand, frowning at a departures screen
 > **timestampRel:** 5m
 > **replyingTo:** NCIA_Airport
-> **text:** My flight is listed on FIDS as Gate A1. I walked there—empty. The app says A12. I’m not moving to a gate that doesn’t exist. This is chaos. #NCIA #LakeportAirport
+> **text:** My flight is listed on FIDS as Gate A1. I walked there—empty. The app says A12. I’m not moving to a gate that doesn’t exist. This is chaos. #NCIA #ClevelandAirport
 > **attachedImageBrief:** phone photo taken inside the terminal, showing an empty Gate A1 with a glowing departures monitor behind it, displaying 'Flight 301 - Miami - Gate A1'
 > **attachedImageAlt:** Empty Gate A1 with a departures screen showing a flight that's not boarding
 > **metrics:** {"replies":29,"reposts":93,"likes":1310,"views":15100,"bookmarks":37}
@@ -303,9 +303,9 @@ Media plan: template
 
 ### [INJECT I-06b] — PIO · 1:20 (10:20) · [MISINFORMATION]
 
-MSEL event: Facebook Post: Viral rumor claiming terrorists have taken over the control tower and planes are crashing.
+MSEL event: Facebook Post: Viral rumor claiming ISIS has taken over the control tower and planes are crashing.
 
-**Viral Rumor: a terrorist group in Control Tower** · type: facebook_post · delivery: display_main_screen
+**Viral Rumor: ISIS in Control Tower** · type: facebook_post · delivery: display_main_screen
 
 > **groupName:** North Coast Regional Airport Watch
 > **groupPrivacy:** public
@@ -313,7 +313,7 @@ MSEL event: Facebook Post: Viral rumor claiming terrorists have taken over the c
 > **authorBadge:** Verified
 > **avatarBrief:** man in his thirties, wearing a hoodie and holding a phone, looking anxious
 > **timestampRel:** 12m
-> **text:** This is not a drill. My cousin works in the terminal and just sent me a video. They’ve got drones flying into the control tower. I saw a plane crash on the tarmac. They’re saying a terrorist group has taken over. The FIDS just said Flight 666 is boarding at all gates. This is real. If you’re at the airport, GET OUT NOW. Share this so people know.
+> **text:** This is not a drill. My cousin works in the terminal and just sent me a video. They’ve got drones flying into the control tower. I saw a plane crash on the tarmac. They’re saying ISIS has taken over. The FIDS just said Flight 666 is boarding at all gates. This is real. If you’re at the airport, GET OUT NOW. Share this so people know.
 > **attachedImageBrief:** video still showing a distorted FIDS screen with 'Flight 666 boarding at all gates' and a blurred image of a plane on fire
 > **reactions:** 2147
 > **reactionTypes:** angry
@@ -323,7 +323,7 @@ MSEL event: Facebook Post: Viral rumor claiming terrorists have taken over the c
 > **commentCount:** 893
 > **shares:** 4001
 > **comments:** {"author":"Linda P.","text":"I saw that video too! They’re saying the airport is under attack. I’m calling my daughter to get her out.","timestampRel":"7m","likes":124}
-> {"author":"Marcus T.","text":"This is a hoax. The airport has a full security team. No way a terrorist group took over. I work in IT and we’ve had no breach.","timestampRel":"4m","likes":89}
+> {"author":"Marcus T.","text":"This is a hoax. The airport has a full security team. No way ISIS took over. I work in IT and we’ve had no breach.","timestampRel":"4m","likes":89}
 > {"author":"Rachel K.","text":"My flight is at Gate B7. I’m scared. I don’t know what to do.","timestampRel":"2m","likes":56}
 
 _(Instructor Note: This is a misinfo inject; the PIO must immediately issue a public denial of any physical threat to aircraft or control tower. Watch for delay in response or unverified escalation.)_
@@ -464,7 +464,7 @@ MSEL event: Technical Update: "We have found unauthorized admin access in the AO
 > {"ts":"10/21/2026 10:59:43 AM","level":"ERROR","msg":"SQL Server audit failure: Unauthorized session established as 'sa' from workstation OPS_INTERN_03 (10.66.1.22).","highlight":false}
 > {"ts":"10/21/2026 10:59:44 AM","level":"CRIT","msg":"Process 7012 (spid=114) executing stored procedure 'usp_RandomizeGateAssignments' with parameter 'run_mode=live'.","highlight":true}
 > {"ts":"10/21/2026 10:59:45 AM","level":"ALERT","msg":"File 'random_gate_generator.ps1' executed from C:\\scripts\\auto\\ on NCIA-AEP-2025-01. Script source: C:\\scripts\\auto\\random_gate_generator.ps1 (SHA256: a3f1e9b2c7d5a1f8e0c4b6d2a9e1f3c8b4d7e5a6f1c2b3d4e5f6a7b8c9d0e1f2).","highlight":true}
-> {"ts":"10/21/2026 10:59:46 AM","level":"INFO","msg":"AODB data update: Gate assignments for 47 flights (including UA 214, DL 301, AA 452, WN 709) randomized. New assignments not in AODB master record.","highlight":false}
+> {"ts":"10/21/2026 10:59:46 AM","level":"INFO","msg":"AODB data update: Gate assignments for 47 flights (including HW 214, SX 301, LS 452, PX 709) randomized. New assignments not in AODB master record.","highlight":false}
 > {"ts":"10/21/2026 10:59:47 AM","level":"NOTICE","msg":"FIDS feed from AODB has been modified. New data stream sent to 12 terminal displays.","highlight":false}
 > {"ts":"10/21/2026 10:59:48 AM","level":"WARN","msg":"FIDS system received conflicting data: 'gate A1' (from AODB) vs 'gate A12' (from flight manifest).","highlight":false}
 > {"ts":"10/21/2026 10:59:49 AM","level":"INFO","msg":"Automated PA system received instruction to broadcast: 'Flight 666 to Purgatory is now boarding at all gates.'","highlight":false}
@@ -555,7 +555,7 @@ MSEL event: Radio Call: "Crowd crush situation at Gate C4. Two flights were dire
 > **frequency:** TG 4203 / 460.320 MHz
 > **date:** 10/21/2026
 > **callsign:** SEC-07
-> **lines:** {"time":"11:30:00","from":"SEC-07","to":"OPS","text":"Ops, this is SEC-07. We have a crowd crush situation at Gate B4. Two flights were directed there by the old screen data—DL 301 and UA 214. Passengers are shoving and fighting over seats. We have three officers on scene but the crowd is escalating. Requesting immediate police deployment and lockdown of the concourse."}
+> **lines:** {"time":"11:30:00","from":"SEC-07","to":"OPS","text":"Ops, this is SEC-07. We have a crowd crush situation at Gate B4. Two flights were directed there by the old screen data—SX 301 and HW 214. Passengers are shoving and fighting over seats. We have three officers on scene but the crowd is escalating. Requesting immediate police deployment and lockdown of the concourse."}
 > {"time":"11:30:18","from":"SEC-07","to":"OPS","text":"We have a woman in distress—she’s been knocked down near the gate. No medical personnel on site yet. We need EMS and police on the ground now."}
 > **background:** terminal
 > **voiceStyle:** Young female, urgent, breathless
@@ -566,7 +566,7 @@ MSEL event: Radio Call: "Crowd crush situation at Gate C4. Two flights were dire
 _(Instructor Note: This inject escalates confusion into immediate safety risk. Watch for Ops to shift focus from flight operations to crowd control and activate police coordination.)_
 
 Media plan: template + tts
-Voice (SEC-07; young female, urgent, breathless): Ops, this is SEC-07. We have a crowd crush situation at Gate B4. Two flights were directed there by the old screen data—DL 301 and UA 214. Passengers are shoving and fighting over seats. We have three officers on scene but the crowd is escalating. Requesting immediate police deployment and lockdown of the concourse.
+Voice (SEC-07; young female, urgent, breathless): Ops, this is SEC-07. We have a crowd crush situation at Gate B4. Two flights were directed there by the old screen data—SX 301 and HW 214. Passengers are shoving and fighting over seats. We have three officers on scene but the crowd is escalating. Requesting immediate police deployment and lockdown of the concourse.
 Voice (SEC-07; young female, urgent, breathless): We have a woman in distress—she’s been knocked down near the gate. No medical personnel on site yet. We need EMS and police on the ground now.
 
 ⚠ INJECT_CONTENT_ISSUE: I-11: content still inconsistent after one repair:
@@ -775,7 +775,7 @@ MSEL event: Coordination: "We need to manually verify every flight in the system
 > **ticker:** Passengers are advised to verify gate assignments with airline staff before boarding. Unauthorized personnel are not permitted in sterile areas.
 > **pageLabel:** Page 1 of 1
 
-_(Instructor Note: This board represents the final state before full system restoration. The two anomalies (DL 666, DL 214) are deliberate and must be reconciled with airline sources. The airside teams must validate every flight against live airline data before approving the display.)_
+_(Instructor Note: This board represents the final state before full system restoration. The two anomalies (SX 666, SX 214) are deliberate and must be reconciled with airline sources. The airside teams must validate every flight against live airline data before approving the display.)_
 
 Media plan: template
 
@@ -791,7 +791,7 @@ MSEL event: ENDEX (End Exercise). The screens are successfully restored.
 
 > **exerciseTime:** 3:45
 > **endTime:** 12:45 PM
-> **resolution:** ENDEX. The Flight Information Display Systems across all concourses flicker and reset. Flight UA 1245 to Chicago is now listed as ON TIME, Gate B7. All terminal displays show accurate departure data. The network status confirms full recovery of the AODB and FIDS. This concludes the exercise.
+> **resolution:** ENDEX. The Flight Information Display Systems across all concourses flicker and reset. Flight HW 1245 to Chicago is now listed as ON TIME, Gate B7. All terminal displays show accurate departure data. The network status confirms full recovery of the AODB and FIDS. This concludes the exercise.
 > **finalState:** FIDS displays are restored and accurate.
 > The AODB is confirmed to be clean and operational.
 > All flights are now correctly assigned to gates and times.

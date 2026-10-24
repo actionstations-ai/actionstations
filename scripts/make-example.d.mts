@@ -105,6 +105,8 @@ export interface WarningLike {
 export function blockingWarnings<T extends WarningLike>(stored: T[], recomputed?: T[]): T[]
 export function markdownSection(md: string, heading: string): string
 export function seedMarkdown(value: unknown, root?: string): string
+/** Copies of `files` in `dir` with simulated names (#283). */
+export function simulatedCopies(files: string[], dir: string): string[]
 export function shippedMp3(wav: Buffer): Buffer
 export function chooseClip(
   projectDir: string,

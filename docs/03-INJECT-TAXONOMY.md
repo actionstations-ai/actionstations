@@ -10,7 +10,7 @@ Every inject carries the common envelope (see `05-DATA-MODEL.md`): `id` (`I-07`,
 | `NOISE` | Distraction unrelated to the incident; tests triage | I-02a vending machines spitting cans |
 | `RED_HERRING` | Plausible but false lead; drains resources | I-05b parking deck fire alarm |
 | `PRESSURE` | External stakeholder demands a response now | I-12 Channel 5 "going live in 15 minutes" |
-| `MISINFORMATION` | Rumor the PIO must counter | I-06b "terrorists have the tower" Facebook post |
+| `MISINFORMATION` | Rumor the PIO must counter | I-06b "ISIS has the tower" Facebook post |
 | `CLUE` | Forensic/attribution breadcrumb | I-08b intern admits phishing click |
 | `TECH_HURDLE` | Recovery complication | I-14b backup tape not mounted |
 | `DECISION_POINT` | Forces a high-consequence call | I-09 authorize FIDS shutdown ("Go Dark") |

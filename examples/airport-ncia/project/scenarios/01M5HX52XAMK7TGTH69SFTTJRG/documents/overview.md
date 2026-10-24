@@ -23,7 +23,7 @@ Target Audience: Airport Operations, IT/Cybersecurity, Public Safety, Public Inf
 - **IT Director (Technical Lead):** Manages the investigation and system restoration.
 - **Public Information Officer (PIO):** Manages social media and press inquiries.
 - **Airport Security Coordinator (ASC):** Monitors crowd temper and physical security.
-- **Airline Liaison:** Represents the frustration of the tenant airlines (Delta, United, etc.).
+- **Airline Liaison:** Represents the frustration of the tenant airlines (Skyline, HWK Air, etc.).
 
 ## Phase 1: The Glitch (Hour 0:00 – 1:00)
 
@@ -32,10 +32,10 @@ Goal: To test initial problem identification and the reluctance to declare an in
 | Time | Inject ID | From | To | Event / Message | Expected Action |
 |---|---|---|---|---|---|
 | 0:00 | START | Facilitator | All | STARTEX (Start Exercise). Current time: 09:00 AM on a busy Thursday. Weather is clear. Passenger load is high due to a holiday weekend. | Establish baseline operations. Review TIRP Section 13. |
-| 0:15 | I-01 | Airline Rep | Ops | Phone Call: "Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?" | Ops logs a ticket with IT. IT likely treats this as a minor display error/glitch. |
+| 0:15 | I-01 | Airline Rep | Ops | Phone Call: "Hey Ops, this is Skyline at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?" | Ops logs a ticket with IT. IT likely treats this as a minor display error/glitch. |
 | 0:20 | I-02a | Helpdesk | IT | Ticket #4492 (Noise): Vending machines in Concourse B are spitting out soda cans randomly. | IT ignores or deprioritizes (correctly). Ops calls maintenance. |
 | 0:30 | I-02 | IT Helpdesk | IT Lead | Ticket Update: "We checked the FIDS server. The data stream from the AODB is actually sending 'Miami'. It's not a display error; the source data changed." | IT investigates the AODB logs. Ops assumes it's a one-off database error. |
-| 0:45 | I-03 | TSA | Ops | Radio Call: "Ops, TSA Checkpoint. We have passengers scanning boarding passes for a United flight to Chicago, but the FIDS board in the lobby lists that flight as 'Cancelled'. They are arguing with my TSOs." | Ops must verify flight status with United directly. Realize the data on screens contradicts reality. |
+| 0:45 | I-03 | TSA | Ops | Radio Call: "Ops, TSA Checkpoint. We have passengers scanning boarding passes for a HWK Air flight to Chicago, but the FIDS board in the lobby lists that flight as 'Cancelled'. They are arguing with my TSOs." | Ops must verify flight status with HWK Air directly. Realize the data on screens contradicts reality. |
 | 0:55 | I-04 | Social Media | PIO | Tweet (@TravelGuy99): "NCIA is a joke! Boards say my flight is at Gate A1. I walked to A1 and it's empty. App says A12. Now I'm gonna miss my flight! #Fail" | PIO monitors sentiment. Ops realizes the error is spreading to multiple flights. |
 
 ## Phase 2: The Crisis (Hour 1:00 – 2:00)
@@ -48,8 +48,8 @@ Goal: To escalate the situation to a point where "Business as Usual" is impossib
 | 1:10 | I-05b | Parking | Ops | Radio Call (Red Herring): Fire alarm reported in the Long Term Parking Deck. | Ops dispatches Fire to garage but keeps Police/Ops focused on the terminal issues. |
 | 1:15 | I-06 | Automated PA | All | Audio/Visual Inject: The terminal PA system announces: "Attention passengers. Flight 666 to Purgatory is now boarding at all gates." FIDS screens show the same. | CRITICAL DECISION POINT: Ops must silence the PA system immediately. IT must disconnect the PA server from the network. |
 | 1:20 | I-06b | Social Media | PIO | Facebook Post: Viral rumor claiming ISIS has taken over the control tower and planes are crashing. | PIO must issue an immediate "Myth Busting" statement denying physical threats to aircraft. |
-| 1:30 | I-07 | BHS Control | Ops | Phone Call: "Ops, Baggage Control here. The sortation logic is corrupted. The system is sending all bags for Concourse A (Delta/United) to the 'Manual Encode' pier in the basement. The belt is jammed." | Ops coordinates with Airlines to initiate manual baggage handling. Massive delays expected. |
-| 1:40 | I-08b | IT Helpdesk | IT Lead | Email Forward: Intern admits to clicking a phishing link ("Free Browns Tickets") on workstation OPS_INTERN_03. | IT identifies "Patient Zero" and begins isolating that workstation to stop the attack vector. |
+| 1:30 | I-07 | BHS Control | Ops | Phone Call: "Ops, Baggage Control here. The sortation logic is corrupted. The system is sending all bags for Concourse A (Skyline/HWK Air) to the 'Manual Encode' pier in the basement. The belt is jammed." | Ops coordinates with Airlines to initiate manual baggage handling. Massive delays expected. |
+| 1:40 | I-08b | IT Helpdesk | IT Lead | Email Forward: Intern admits to clicking a phishing link ("Free Ironclads Tickets") on workstation OPS_INTERN_03. | IT identifies "Patient Zero" and begins isolating that workstation to stop the attack vector. |
 | 1:45 | I-08 | Airline Rep | Ops | Face-to-Face: (Angry) "Our pilots are refusing to push back because their electronic flight bags are syncing with your airport data, and it's feeding them bad gate info. We are grounding all flights until you confirm your data is clean." | Ops must declare an official Incident. Establish Unified Command. |
 
 ## Phase 3: Manual Mode (Hour 2:00 – 3:00)

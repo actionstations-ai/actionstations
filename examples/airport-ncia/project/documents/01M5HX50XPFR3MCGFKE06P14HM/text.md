@@ -61,7 +61,7 @@ From the exit of the TSA Security Screening Checkpoint (SSCP) through Concourses
 
 ### 2.6 Exclusive Areas (49 CFR § 1542.111)
 
-Exclusive Area Agreements (EAA): United Airlines Cargo Facility (Bldg 4) — United controls the cargo sorting floor and immediate aircraft parking. North Coast Jet Center (FBO) — responsible for GA Ramp access gate (Gate 24).
+Exclusive Area Agreements (EAA): HWK Air Cargo Facility (Bldg 4) — HWK Air controls the cargo sorting floor and immediate aircraft parking. North Coast Jet Center (FBO) — responsible for GA Ramp access gate (Gate 24).
 
 ## SECTION 3: ACCESS CONTROL SYSTEMS
 
@@ -112,7 +112,7 @@ Lost/stolen badges reported within 24 hours and deactivated immediately. If more
 
 ### 5.1 General (49 CFR § 1542.215)
 
-Contract with the **Akron Police Department (APD)**; permanent detail known as the Airport Police Bureau. Officers are sworn Ohio LEOs with arrest authority, firearms, and ASP training.
+Contract with the **Lakeport Police Department (APD)**; permanent detail known as the Airport Police Bureau. Officers are sworn Ohio LEOs with arrest authority, firearms, and ASP training.
 
 ### 5.2 Response Capability (49 CFR § 1542.217)
 
@@ -152,13 +152,13 @@ Screening of passengers and property (delegated to TSA, liability retained); sec
 
 ### 7.2 Exclusive Area Agreements
 
-United Cargo solely responsible for access control at its cargo facility; Airport Police respond only if called.
+HWK Air Cargo solely responsible for access control at its cargo facility; Airport Police respond only if called.
 
 ## ATTACHMENTS
 
 - **Attachment A: Security Areas Map** — [Placeholder: red/blue/green zones overlaying the terminal and airfield diagram.]
 - **Attachment B: Access Control Points Inventory** — classified list of all 142 monitored doors: Door ID (e.g., T1-104), location, hardware type, fail mode.
-- **Attachment C: Law Enforcement MOU** — agreement between NCRAA and the City of Akron funding and staffing the Airport Police Bureau.
+- **Attachment C: Law Enforcement MOU** — agreement between NCRAA and the City of Lakeport funding and staffing the Airport Police Bureau.
 
 ## APPENDIX D: SECURITY SYSTEMS ARCHITECTURE
 

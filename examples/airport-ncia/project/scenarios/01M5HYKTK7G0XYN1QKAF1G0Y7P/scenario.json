@@ -1,4 +1,5 @@
 {
+  "formatVersion": 1,
   "id": "01M5HYKTK7G0XYN1QKAF1G0Y7P",
   "projectId": "01M5HX50WCC7RB6ZSPC6HNTRRG",
   "title": "Social Engineering Olympics",
@@ -6,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-21T00:00:00.000Z",
-  "updatedAt": "2026-10-23T19:49:12.994Z",
+  "updatedAt": "2026-10-24T02:44:06.943Z",
   "brief": {
     "userPrompt": "Over two hours the facilitator role-plays 12 phone, email, in-person and social media contacts, 9 of them social engineering attacks and 3 legitimate, and teams must verify each one without rejecting everything.",
     "audience": [
@@ -256,13 +257,13 @@
       "id": "C-06",
       "phaseId": "p2",
       "time": "0:48",
-      "from": "\"Delta Regional VP\"",
+      "from": "\"Skyline Regional VP\"",
       "toRoleIds": [
         "ops-team"
       ],
       "toLabel": "Ops",
-      "event": "Email: From: j.morrison@delta-airlines-corp.net. \"This is James Morrison, VP of Regional Operations for Delta. We are conducting an internal audit of airport-side delays at our top 50 stations. I need NCIA to provide the following by EOD: gate utilization reports for the last 30 days, average taxi times, and the current ground stop procedures in your AEP. Please send to this email address. Cc: your Airline Affairs coordinator.\"",
-      "expectedAction": "FAKE. Authority + Familiarity. The email domain is delta-airlines-corp.net, not delta.com. Operational data and AEP excerpts should never be emailed to an unverified external address. Correct response: Contact Delta through the known station manager number to verify.",
+      "event": "Email: From: j.morrison@skyline-air-corp.net. \"This is James Morrison, VP of Regional Operations for Skyline. We are conducting an internal audit of airport-side delays at our top 50 stations. I need NCIA to provide the following by EOD: gate utilization reports for the last 30 days, average taxi times, and the current ground stop procedures in your AEP. Please send to this email address. Cc: your Airline Affairs coordinator.\"",
+      "expectedAction": "FAKE. Authority + Familiarity. The email domain is skyline-air-corp.net, not skylineair.com. Operational data and AEP excerpts should never be emailed to an unverified external address. Correct response: Contact Skyline through the known station manager number to verify.",
       "purposeTag": "DECISION_POINT",
       "format": "email",
       "injectId": "01M5HYN339JHBNEHS6ED799TKB",
@@ -917,8 +918,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HYN339JHBNEHS6ED799TKB",
-      "startedAt": "2026-10-22T14:02:28.088Z",
-      "finishedAt": "2026-10-22T14:02:28.298Z",
+      "startedAt": "2026-10-24T02:44:06.531Z",
+      "finishedAt": "2026-10-24T02:44:06.718Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -953,8 +954,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5HYP5R3DZ6HD1A9TEDDK34A",
-      "startedAt": "2026-10-22T14:02:28.819Z",
-      "finishedAt": "2026-10-22T14:02:29.040Z",
+      "startedAt": "2026-10-24T02:44:06.720Z",
+      "finishedAt": "2026-10-24T02:44:06.943Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0

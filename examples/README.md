@@ -37,6 +37,12 @@ examples/<slug>/
 - `threatFamily` is one of the threat family ids (`cyber`, `physical_security`, `cyber_physical`, `uas_drone`, `insider`, `natural_hazard`, `infrastructure_failure`, `mass_gathering`).
 - `fictional` must be `true`.
 
+## Names
+
+Examples ship with a simulated world around the organization being exercised: the organization and its people, its city, county and local government, airlines, local businesses (media, sports teams, venues, regional utilities), national consumer brands in the facility and cargo carriers. Real-world names stay where the exercise needs them: products and vendors (players practice on real equipment such as Cisco or Lenel), sector organizations (WaterISAC, Aviation ISAC, mutual-aid networks, the Red Cross), federal and state agencies (including named offices such as the FBI Cleveland Field Office) and real threat groups. Users can use any names in their own projects.
+
+`simulated-names.json` is an ordered list of replacements (JavaScript regular expressions). `make-example` applies it to every imported document, seed scenario and seed document, so `reference/` keeps the source material and every rebuild comes out simulated. `node scripts/simulate-names.mjs <file-or-dir>…` applies the same list to files in place. `tests/content/real-org-names.test.ts` fails on a deny-list of the names that must be simulated in `examples/`, `templates/`, `prompts/`, the domain profiles and the generation fixtures.
+
 ## What `project/` must not contain
 
 - `index.sqlite*` or `.cache/` (the app rebuilds the index when the copy is opened),

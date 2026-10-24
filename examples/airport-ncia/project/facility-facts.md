@@ -1,6 +1,6 @@
 # Facility facts
 
-<!-- ttx:facility-facts v1 auto-hash=6c97a490e85e3c5dba35828179f5eef14bb2fa66466bc71c3a01b1810cd663cb -->
+<!-- ttx:facility-facts v1 auto-hash=7d5afd644e8ac0b199fc627f0bae924ec27d13657c2330900cfa5b1523533a1d -->
 
 These are the identifiers the generator treats as real for this project: it gives them to
 the model as the only allowed names and flags generated rows that use others. They were
@@ -104,9 +104,9 @@ versions are kept in `.cache/facility-facts-history/`).
 <!-- category: agencies -->
 
 - FAA
-- Akron Fire Department
-- Akron Police Department
-- Summit County Emergency Management Agency
+- Lakeport Fire Department
+- Lakeport Police Department
+- Haldane County Emergency Management Agency
 - FBI
 - Airport Police Department
 - The Fire Department
