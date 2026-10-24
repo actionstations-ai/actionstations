@@ -300,7 +300,7 @@ describe('DocumentsPage — index', () => {
 })
 
 describe('DocumentsPage — add from pack (#265)', () => {
-  const RAIL = 'ai.actionstations.freight-rail'
+  const RAIL = 'ai.actionstations.heritage-rail'
   const packDoc = (path: string, title: string, license: string, imported?: string) => ({
     packId: RAIL,
     packVersion: '1.0.0',

@@ -144,7 +144,7 @@ describe('comfy:* handlers', () => {
     const list = await call<Record<string, unknown>[]>('comfy:workflows:list', {})
     expect(list.find((w) => w.id === 'yard-cctv-still')).toMatchObject({
       source: 'pack',
-      packId: 'ai.actionstations.freight-rail',
+      packId: 'ai.actionstations.heritage-rail',
       packVersion: '1.0.0',
       packName: 'Freight Rail Operations',
       customNodes: ['UltimateSDUpscale'],
@@ -244,7 +244,7 @@ describe('comfy:* handlers', () => {
       await expect(
         call('comfy:workflows:updateFromPack', { id: 'sdxl-photo', projectPath: root }),
       ).rejects.toMatchObject({ code: 'NOT_FOUND' })
-      await packs.uninstallPack('ai.actionstations.freight-rail')
+      await packs.uninstallPack('ai.actionstations.heritage-rail')
       await expect(
         call('comfy:workflows:updateFromPack', { id: WF, projectPath: root }),
       ).rejects.toMatchObject({ code: 'NOT_FOUND' })

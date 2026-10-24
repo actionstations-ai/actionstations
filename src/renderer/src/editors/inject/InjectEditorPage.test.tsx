@@ -183,7 +183,7 @@ describe('InjectEditorPage', () => {
         mvp: false,
         defaultDelivery: 'play_audio',
         source: 'pack',
-        pack: { id: 'ai.actionstations.freight-rail', version: '1.0.0', name: 'Freight Rail' },
+        pack: { id: 'ai.actionstations.heritage-rail', version: '1.0.0', name: 'Freight Rail' },
       },
     ])
     try {
@@ -195,7 +195,7 @@ describe('InjectEditorPage', () => {
             type: 'rail_dispatch_board',
             label: 'Rail dispatch board',
             source: 'pack',
-            packId: 'ai.actionstations.freight-rail',
+            packId: 'ai.actionstations.heritage-rail',
             packName: 'Freight Rail',
           },
         ],
@@ -216,7 +216,7 @@ describe('InjectEditorPage', () => {
     const copy = {
       ...TEMPLATES[0]!,
       source: 'project' as const,
-      packId: 'ai.actionstations.freight-rail',
+      packId: 'ai.actionstations.heritage-rail',
       packVersion: '1.0.0',
       packName: 'Freight Rail',
       copy: { edited: false, packMissing: false, updateAvailable: true, installedVersion: '1.2.0' },

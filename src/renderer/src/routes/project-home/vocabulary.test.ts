@@ -8,11 +8,11 @@ const transit = builtinProfile('transit')
 describe('customize vocabulary', () => {
   it("starts from a pack domain's snapshot when the project has one (#263)", () => {
     const snapshot = { profile: freightRailProfile(), packId: 'p', version: '1.0.0' }
-    expect(vocabLists('freight_rail', {}, snapshot).outsideParties).toEqual(['FRA', 'Shippers'])
+    expect(vocabLists('heritage_rail', {}, snapshot).outsideParties).toEqual(['FRA', 'Shippers'])
     expect(
-      setVocabList('freight_rail', {}, 'outsideParties', ['FRA', 'Shippers'], snapshot),
+      setVocabList('heritage_rail', {}, 'outsideParties', ['FRA', 'Shippers'], snapshot),
     ).toEqual({})
-    expect(vocabLists('freight_rail', {}).outsideParties).toEqual(
+    expect(vocabLists('heritage_rail', {}).outsideParties).toEqual(
       builtinProfile('generic').outsideParties,
     )
   })

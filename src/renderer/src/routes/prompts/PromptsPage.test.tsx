@@ -42,7 +42,7 @@ interface Store {
 }
 
 const PACK = {
-  packId: 'ai.actionstations.freight-rail',
+  packId: 'ai.actionstations.heritage-rail',
   packVersion: '1.0.0',
   packName: 'Freight Rail',
 }

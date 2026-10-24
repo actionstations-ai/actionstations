@@ -73,7 +73,7 @@ describe('pack domain profiles', () => {
     const list = await invoke('domains:list')
     expect(list.filter((l) => l.source.kind === 'bundled')).toHaveLength(bundledProfiles().length)
     expect(list.at(-1)).toMatchObject({
-      profile: { id: 'freight_rail' },
+      profile: { id: 'heritage_rail' },
       source: { kind: 'pack', packId: 'org.example.freight-rail', packVersion: '1.0.0' },
     })
   })
@@ -93,12 +93,12 @@ describe('pack domain profiles', () => {
     const { path, project } = await invoke('project:create', {
       parentDir: parent,
       name: 'Riverbend Rail',
-      orgType: 'freight_rail',
+      orgType: 'heritage_rail',
     })
     expect(project.domainProfileSnapshot).toMatchObject({
       packId: 'org.example.freight-rail',
       version: '1.0.0',
-      profile: { id: 'freight_rail' },
+      profile: { id: 'heritage_rail' },
     })
 
     const check = async () => {
@@ -108,7 +108,7 @@ describe('pack domain profiles', () => {
       expect(unknownFacilityIds('Crews hold at Yard D9', facts).map((u) => u.id)).toEqual(['D9'])
       const s = scenarioWithoutPhase2Clues()
       const domain = domainContext(stored, s)
-      expect(domain.profile.id).toBe('freight_rail')
+      expect(domain.profile.id).toBe('heritage_rail')
       expect(domain.threat.id).toBe('uas_drone')
       // A drone incident needs no technical clue each phase; the generic (cyber) default would.
       expect(lintScenario(s, domain).map((w) => w.code)).not.toContain('MIX_NO_IT_CLUE')
@@ -120,7 +120,7 @@ describe('pack domain profiles', () => {
     setPackDomainProfiles([]) // uninstalled or disabled
     await check()
     // Saving settings with the same orgType keeps the copy.
-    await invoke('project:update', { path, patch: { orgType: 'freight_rail', name: 'Renamed' } })
+    await invoke('project:update', { path, patch: { orgType: 'heritage_rail', name: 'Renamed' } })
     expect((await loadProject(path)).domainProfileSnapshot?.version).toBe('1.0.0')
   })
 
@@ -129,10 +129,10 @@ describe('pack domain profiles', () => {
     const { path } = await invoke('project:create', {
       parentDir: parent,
       name: 'Riverbend Rail',
-      orgType: 'freight_rail',
+      orgType: 'heritage_rail',
     })
     setPackDomainProfiles([freightRailEntry('2.0.0', { outsideParties: ['FRA', 'STB'] })])
-    await invoke('project:update', { path, patch: { orgType: 'freight_rail' } })
+    await invoke('project:update', { path, patch: { orgType: 'heritage_rail' } })
     expect((await loadProject(path)).domainProfileSnapshot?.version).toBe('1.0.0')
 
     const { project } = await invoke('project:update', {

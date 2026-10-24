@@ -9,10 +9,10 @@ export function freightRailProfile(over: Partial<DomainProfile> = {}): DomainPro
   const transit = builtinProfile('transit')
   return DomainProfile.parse({
     ...transit,
-    id: 'freight_rail',
+    id: 'heritage_rail',
     label: 'Freight railroad',
     description: 'A freight railroad: yards, mainline, dispatch.',
-    aliases: ['freight rail', 'railroad'],
+    aliases: ['heritage rail', 'heritage railroad'],
     factCategories: [
       { id: 'yards', label: 'Rail yards', noun: 'Yards?', idShape: 'alnum', complete: true },
     ],

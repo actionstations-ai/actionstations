@@ -39,7 +39,7 @@ const packs = await import('../../packs')
 const { loadPrompt } = await import('../../prompts')
 
 const NAME = 'inject_text'
-const RAIL = 'ai.actionstations.freight-rail'
+const RAIL = 'ai.actionstations.heritage-rail'
 const DEFAULT_RAW = readFileSync(resolve('prompts', `${NAME}.md`), 'utf8')
 const RULE = 'Use railroad terms: yard, mainline, dispatcher, consist.'
 /** The shipped prompt with one extra line in its @system section, still valid. */
@@ -74,7 +74,7 @@ async function install(buf: Promise<Buffer> | Buffer, file = 'pack.aspack') {
 const installRail = (edit?: (m: Manifest) => void, prompt?: string) =>
   install(buildPack(railTree(prompt), edit ? { manifest: edit } : {}), 'rail.aspack')
 
-/** A pack that only carries the prompt, scoped to freight_rail (the rail pack minus it). */
+/** A pack that only carries the prompt, scoped to heritage_rail (the rail pack minus it). */
 async function installSplitPacks(): Promise<void> {
   const tree = validPackTree()
   delete tree[`prompts/${NAME}.md`]
@@ -91,7 +91,7 @@ async function installSplitPacks(): Promise<void> {
           m.name = 'Rail Prompts'
           m.contents = { prompts: [NAME] }
           m.documents = []
-          m.domains = ['freight_rail']
+          m.domains = ['heritage_rail']
         },
       },
     ),
@@ -123,7 +123,7 @@ beforeEach(async () => {
 describe('pack prompt layer: domain scope', () => {
   it('applies to a project whose domain the pack lists, and not to another', async () => {
     await installRail()
-    const rail = await newProject('freight_rail')
+    const rail = await newProject('heritage_rail')
     const airport = await newProject('airport')
 
     const prompt = await loadPrompt(NAME, rail)
@@ -150,12 +150,12 @@ describe('pack prompt layer: domain scope', () => {
 
   it('resolves the project domain by alias, not by raw orgType', async () => {
     await installRail()
-    expect(await source(await newProject('Freight Railroad'))).toBe('pack')
+    expect(await source(await newProject('Heritage Railroad'))).toBe('pack')
   })
 
   it('resolves the project domain from its snapshot when the domain pack is disabled', async () => {
     await installSplitPacks()
-    const project = await newProject('freight_rail')
+    const project = await newProject('heritage_rail')
     expect(await loadPrompt(NAME, project)).toMatchObject({
       source: 'pack',
       packId: 'org.example.rail-prompts',
@@ -172,7 +172,7 @@ describe('pack prompt layer: domain scope', () => {
 
   it('disabling the pack falls back to the default; enabling it brings it back', async () => {
     await installRail()
-    const project = await newProject('freight_rail')
+    const project = await newProject('heritage_rail')
     expect(await source(project)).toBe('pack')
     await call('packs:setEnabled', { id: RAIL, enabled: false })
     expect(await source(project)).toBe('default')
@@ -186,7 +186,7 @@ describe('pack prompt layer: domain scope', () => {
 describe('pack prompt layer: precedence', () => {
   it('global and project overrides still win over the pack', async () => {
     await installRail()
-    const project = await newProject('freight_rail')
+    const project = await newProject('heritage_rail')
     await call('prompts:save', { name: NAME, scope: 'global', raw: withRule(DEFAULT_RAW, 'G.') })
     expect(await source(project)).toBe('global')
     await call('prompts:save', {
@@ -206,7 +206,7 @@ describe('pack prompt layer: precedence', () => {
 
   it('lists and gets the pack layer with its provenance', async () => {
     await installRail()
-    const project = await newProject('freight_rail')
+    const project = await newProject('heritage_rail')
     const entry = (await call('prompts:list', { projectPath: project })).find(
       (e) => e.name === NAME,
     )
@@ -231,7 +231,7 @@ describe('pack prompt layer: precedence', () => {
 
   it('records the pack text hash as the rendered prompt hash', async () => {
     await installRail()
-    const project = await newProject('freight_rail')
+    const project = await newProject('heritage_rail')
     const { renderPrompt } = await import('../../prompts')
     const { createHash } = await import('node:crypto')
     const rendered = renderPrompt(await loadPrompt(NAME, project), {})
@@ -252,7 +252,7 @@ describe('pack prompt layer: YAML-only frontmatter (#257)', () => {
     const file = join(packs.packById(RAIL)!.dir, 'prompts', `${NAME}.md`)
     chmodSync(file, 0o644)
     writeFileSync(file, jsPrompt)
-    await expect(loadPrompt(NAME, await newProject('freight_rail'))).rejects.toThrow(
+    await expect(loadPrompt(NAME, await newProject('heritage_rail'))).rejects.toThrow(
       /Freight Rail Operations.*prompts\/inject_text\.md/,
     )
   })

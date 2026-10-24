@@ -1,0 +1,256 @@
+{
+  "id": "chemical",
+  "label": "Chemical facility",
+  "description": "A chemical plant, distributor, terminal or fertilizer site holding RMP/PSM-regulated quantities: process units on a DCS with a separate safety instrumented system, tank farms and loading racks, an emergency response team, and a fence-line community that may need to shelter in place.",
+  "aliases": [
+    "chemical",
+    "chemical_plant",
+    "chemical_facility",
+    "chemical_manufacturer",
+    "chemical_distributor",
+    "chemical_terminal",
+    "petrochemical",
+    "specialty_chemicals",
+    "fertilizer_plant",
+    "ag_retailer",
+    "ammonia_plant",
+    "chlor_alkali",
+    "rmp_facility",
+    "psm_facility",
+    "cfats_facility",
+    "tank_farm"
+  ],
+  "vocabulary": {
+    "facility": "the site (process units, tank farm, loading racks and the control room)",
+    "public": "the fence-line community, nearby schools and the site workforce",
+    "frontline": "board operators, outside operators, shift supervisors, emergency response team members, maintenance technicians, security officers",
+    "operationsCenter": "the control room and the site emergency operations center"
+  },
+  "factCategories": [
+    {
+      "id": "units",
+      "label": "Process units",
+      "noun": "Process Units?|Reactor Trains?",
+      "genericNoun": "Units?",
+      "context": "process|reactor|column|furnace|compressor|throughput|batch|\\bDCS\\b|\\bSIS\\b|shutdown|start-?up|\\btrip|chlorine|ammonia|alkylation|production",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "vessels",
+      "label": "Vessels / reactors / columns",
+      "pattern": "\\b((?:R|V|T|C)-\\d{3}[A-Z]?)\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "tanks",
+      "label": "Storage tanks / spheres",
+      "pattern": "\\b((?:Tank|TK|Sphere)[- ]?[A-Z]?\\d{1,4}[A-Z]?)\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "loading",
+      "label": "Loading racks / rail spots / docks",
+      "pattern": "\\b((?:Loading Rack|Rack|Rail Spot|Truck Spot|Dock)[- ]?\\d{1,3}[A-Z]?)\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "cas_numbers",
+      "label": "CAS numbers",
+      "pattern": "\\b(\\d{2,7}-\\d{2}-\\d)\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "sis_functions",
+      "label": "Safety instrumented functions / interlocks",
+      "pattern": "\\b((?:SIF|ESD)-\\d{2,4}[A-Z]?)\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "muster_points",
+      "label": "Muster points",
+      "noun": "Muster Points?|Assembly Points?|Assembly Areas?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "gates",
+      "label": "Site gates",
+      "noun": "Gates?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "ERP (production, inventory, quality), LIMS and MES",
+      "logistics: rail car tracking, truck scheduling, bills of lading and hazmat shipping papers",
+      "SDS management and chemical inventory (Tier II)",
+      "EHS management system",
+      "access control and visitor management",
+      "email and identity",
+      "SIEM"
+    ],
+    "ot": [
+      "distributed control system (DCS)",
+      "safety instrumented system (SIS) on a separate logic solver",
+      "PLCs for packaging, loading racks and utilities",
+      "burner management systems",
+      "fixed fire, gas and toxic gas detection",
+      "deluge, foam and water curtain systems",
+      "tank level gauging and overfill protection",
+      "emergency shutdown and isolation valves, relief systems, flares and scrubbers",
+      "process historian and alarm management",
+      "community warning sirens and the site weather station",
+      "vendor remote access and engineering workstations"
+    ]
+  },
+  "roles": [
+    {
+      "key": "ic",
+      "name": "Emergency Coordinator / Site Incident Commander",
+      "abbreviation": "IC",
+      "team": "Team A: Command",
+      "description": "Activates the emergency response plan, declares the emergency class, asks the county for shelter-in-place or evacuation, and calls mutual aid."
+    },
+    {
+      "key": "ops",
+      "name": "Operations Superintendent / Shift Supervisor",
+      "abbreviation": "OPS",
+      "team": "Team B: Operations",
+      "description": "Owns the unit shutdown sequence, isolating inventory and the safe-park decisions."
+    },
+    {
+      "key": "ot",
+      "name": "Process Control / OT Engineer (Technical Lead)",
+      "abbreviation": "OT",
+      "team": "Team C: Technical",
+      "description": "Owns DCS and SIS integrity, isolating the control network and validating SIS logic before any reset."
+    },
+    {
+      "key": "ehs",
+      "name": "Environmental, Health and Safety Manager",
+      "abbreviation": "EHS",
+      "team": "Team D: Compliance",
+      "description": "Owns the reportable-quantity call and the NRC, SERC, LEPC and OSHA notifications."
+    },
+    {
+      "key": "fso",
+      "name": "Facility Security Officer",
+      "abbreviation": "FSO",
+      "team": "Team E: Security",
+      "description": "Owns the site security plan, access control, theft and diversion response, and the law-enforcement liaison."
+    },
+    {
+      "key": "comm",
+      "name": "Community Relations / Communications Manager (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team F: Communications",
+      "description": "Owns sirens and the community notification line, neighbors and schools, and the media."
+    }
+  ],
+  "outsideParties": [
+    "the National Response Center",
+    "the EPA Region (RMP and CERCLA)",
+    "the OSHA Area Office",
+    "the US Chemical Safety Board",
+    "CISA (ChemLock and Chemical Security Inspectors)",
+    "the FBI WMD Coordinator",
+    "ATF",
+    "the SERC and the LEPC",
+    "county emergency management",
+    "the fire department hazmat team",
+    "the 911 PSAP",
+    "the school district",
+    "CHEMTREC",
+    "the industrial mutual aid association",
+    "the railroad and the trucking carriers",
+    "the DCS / SIS vendor",
+    "an air-monitoring contractor"
+  ],
+  "mediaChannels": [
+    "local TV with aerial footage of the plume",
+    "residents' videos of the flare and smoke on TikTok and X",
+    "a neighborhood Facebook group",
+    "an environmental justice group's statement",
+    "national outlets for a large release"
+  ],
+  "sceneAnchors": {
+    "public": "a residential street next to a chemical plant fence line, distillation columns and flare stacks behind the houses, residents standing in their yards, daylight",
+    "control": "inside a chemical plant control room: board operators at DCS consoles with several monitors, an alarm summary display, a shift supervisor standing behind them, low lighting",
+    "exterior": "a chemical plant process area: steel pipe racks, distillation columns, storage spheres and tanks, a loading rack with a rail tank car, workers in flame-resistant clothing and hard hats, overcast sky"
+  },
+  "injectTypes": [
+    "scada_hmi",
+    "system_log",
+    "siem_alert",
+    "ransom_note",
+    "field_report",
+    "radio_call",
+    "phone_call",
+    "911_cad_entry",
+    "pa_announcement",
+    "cctv_still",
+    "pacs_alarm_panel",
+    "uas_detection_alert",
+    "scene_photo",
+    "map_annotation",
+    "email",
+    "memo",
+    "regulatory_notice",
+    "official_letter",
+    "press_release",
+    "news_chyron_still",
+    "tweet",
+    "facebook_post",
+    "tiktok_video_card",
+    "text_message",
+    "incident_alert_notification",
+    "status_board",
+    "sitrep",
+    "ics_201_prefill"
+  ],
+  "threatFamilies": [
+    "cyber_physical",
+    "infrastructure_failure",
+    "natural_hazard",
+    "physical_security",
+    "insider",
+    "cyber",
+    "uas_drone",
+    "mass_gathering"
+  ],
+  "noiseExamples": [
+    "a truck driver at the gate without the right paperwork",
+    "a contractor asking for a hot-work permit",
+    "a neighbor complaining about flare noise",
+    "a nuisance alarm on a fixed gas detector",
+    "a printer jam in the control room"
+  ],
+  "pressureExamples": [
+    "a resident's video of black smoke over the plant with thousands of shares",
+    "a parent group asking why the school was not told to shelter in place",
+    "a reporter asking what chemical is in the cloud and whether it is toxic",
+    "an environmental group demanding the plant's accident history",
+    "a county commissioner calling for the plant to shut down"
+  ],
+  "rolePatterns": {
+    "technical": "ot\\b|dcs|process control",
+    "security": "fso\\b|facility security",
+    "operations": "shift supervisor|operations superintendent|incident commander"
+  },
+  "agencyPattern": "OSHA|EPA|CSB|Chemical Safety Board|SERC|LEPC|CHEMTREC|National Response Center|state environmental"
+}

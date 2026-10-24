@@ -1,0 +1,243 @@
+{
+  "id": "freight_rail",
+  "label": "Freight railroad",
+  "description": "A freight railroad (Class I, regional or short line): subdivisions and yards, a dispatching center running CTC and PTC, train crews, mechanical and signal forces, the hazardous materials it hauls and the towns along the line.",
+  "aliases": [
+    "railroad",
+    "railway",
+    "freight_railroad",
+    "class_i",
+    "short_line",
+    "regional_railroad",
+    "switching_railroad",
+    "terminal_railroad",
+    "rail_carrier",
+    "hazmat_rail"
+  ],
+  "vocabulary": {
+    "facility": "the railroad (subdivisions, yards, intermodal ramps and the dispatching center)",
+    "public": "residents along the line, shippers and the communities the trains pass through",
+    "frontline": "train crews, train dispatchers, yardmasters, track inspectors, signal maintainers, carmen, railroad police special agents",
+    "operationsCenter": "the network operations and dispatching center"
+  },
+  "factCategories": [
+    {
+      "id": "subdivisions",
+      "label": "Subdivisions",
+      "pattern": "\\b(?!(?:At|On|The|A|An|In|To|From|By|For|With|And|Or|Of|Near|Past|Each|Every|Any|All|No|Our|Its|This|That)\\b)([A-Z][a-z]+(?: [A-Z][a-z]+)? Sub(?:division)?)\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "yards",
+      "label": "Yards / terminals / intermodal ramps",
+      "pattern": "\\b(?!(?:At|On|The|A|An|In|To|From|By|For|With|And|Or|Of|Near|Past|Into|Each|Every|Any|All|No|Our|Its|This|That|Hump|Rail|Railroad)\\b)([A-Z][a-z]+(?: [A-Z][a-z]+)? (?:Yard|Terminal|Intermodal Ramp))\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "control_points",
+      "label": "Control points / interlockings",
+      "pattern": "\\b(CP[- ](?:\\d{1,4}|[A-Z][a-z]+))\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "bridges",
+      "label": "Bridges / tunnels",
+      "pattern": "\\b((?:Bridge|Tunnel) \\d{1,4}(?:\\.\\d{1,2})?)\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "mileposts",
+      "label": "Mileposts",
+      "pattern": "\\bMP ?(\\d{1,4}(?:\\.\\d{1,2})?)\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "trains",
+      "label": "Train symbols",
+      "pattern": "\\b([A-Z]-[A-Z]{4,8}-\\d{2}|(?<=Train )[A-Z]{1,2}\\d{2,4}[A-Z]?)\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "cars",
+      "label": "Rail cars (reporting mark and number)",
+      "pattern": "\\b([A-Z]{3}X \\d{3,6})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "tracks",
+      "label": "Main tracks / sidings",
+      "noun": "Main Tracks?|Mains?|Tracks?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "transportation management and car accounting system (waybills, car location)",
+      "hazmat train consist system",
+      "crew management and calling",
+      "customer portal and EDI with shippers and interchange partners",
+      "industry data exchanges (Umler equipment registry, car hire, AskRail responder app)",
+      "email and identity",
+      "helpdesk / ITSM",
+      "SIEM"
+    ],
+    "ot": [
+      "computer-aided dispatching and CTC with code lines to field signal locations",
+      "wayside signals, track circuits and interlockings",
+      "PTC (I-ETMS onboard, wayside interface units, back office server, 220 MHz radio)",
+      "highway-rail grade crossing warning systems",
+      "wayside defect detectors (hot bearing, dragging equipment, wheel impact)",
+      "hump yard process control (retarders and switches)",
+      "remote-control locomotives and event recorders",
+      "end-of-train devices",
+      "VHF road and yard radio",
+      "yard PACS and CCTV"
+    ]
+  },
+  "roles": [
+    {
+      "key": "coo",
+      "name": "Chief Operating Officer (Incident Commander)",
+      "abbreviation": "COO",
+      "team": "Team A: Operations",
+      "description": "Owns the service plan, train holds and reroutes, crew allocation, and the railroad's seat in unified command."
+    },
+    {
+      "key": "dispatch",
+      "name": "Chief Train Dispatcher / Dispatching Center Manager",
+      "abbreviation": "CTD",
+      "team": "Team A: Operations",
+      "description": "Owns movement authority (CTC signals, track warrants), holds, and track-and-time protection for responders."
+    },
+    {
+      "key": "hazmat",
+      "name": "Hazardous Materials Manager",
+      "abbreviation": "HAZMAT",
+      "team": "Team B: Safety and Hazmat",
+      "description": "Owns the train consist given to responders, the hazmat contractor call-out, and the transfer or vent-and-burn recommendation."
+    },
+    {
+      "key": "ciso",
+      "name": "Cybersecurity Coordinator / CISO (Technical Lead)",
+      "abbreviation": "CISO",
+      "team": "Team C: IT / OT",
+      "description": "The TSA security directive Cybersecurity Coordinator: owns the CISA report, the incident response plan, and IT/OT isolation of dispatching and PTC."
+    },
+    {
+      "key": "rrpd",
+      "name": "Chief of Railroad Police (Rail Security Coordinator)",
+      "abbreviation": "RRPD",
+      "team": "Team D: Security",
+      "description": "Owns trespass, theft and sabotage response, the 24-hour significant security concern report to TSA, and the FBI liaison."
+    },
+    {
+      "key": "pio",
+      "name": "Director of Corporate Communications (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team E: Communications",
+      "description": "Owns community and media messaging, customer and embargo notices, and statements with local officials."
+    }
+  ],
+  "outsideParties": [
+    "FRA (regional office, hazmat and signal inspectors)",
+    "PHMSA",
+    "TSA Surface Operations and the TSOC",
+    "CISA Central",
+    "the FBI field office and JTTF",
+    "the NTSB",
+    "the National Response Center",
+    "EPA (the On-Scene Coordinator)",
+    "county emergency management and the LEPC",
+    "the local fire department (often volunteer)",
+    "the 911 PSAP",
+    "the state environmental agency and state police",
+    "interchange railroads",
+    "shippers and tank car owners",
+    "CHEMTREC",
+    "a hazmat response contractor",
+    "the PTC / signaling vendor"
+  ],
+  "mediaChannels": [
+    "a residents' Facebook group near the line",
+    "Nextdoor posts about the smell and the smoke",
+    "local TV with drone footage of the train",
+    "national cable news",
+    "a rail-enthusiast forum and a scanner feed",
+    "an elected official's post on X"
+  ],
+  "sceneAnchors": {
+    "public": "a small-town main street beside a railroad grade crossing, crossing gates and red signal lights, a freight train passing, residents on the sidewalk, daylight",
+    "control": "inside a railroad dispatching center: rows of dispatcher desks with track-diagram displays, dispatchers wearing headsets, radio consoles, low lighting",
+    "exterior": "a freight rail yard with long strings of tank cars and boxcars, a locomotive idling, a yard tower, ballast and parallel tracks, overcast sky"
+  },
+  "injectTypes": [
+    "radio_call",
+    "911_cad_entry",
+    "scene_photo",
+    "cctv_still",
+    "scada_hmi",
+    "field_report",
+    "system_log",
+    "siem_alert",
+    "helpdesk_ticket",
+    "ransom_note",
+    "map_annotation",
+    "regulatory_notice",
+    "official_letter",
+    "ics_201_prefill",
+    "ics_203_prefill",
+    "incident_alert_notification",
+    "press_release",
+    "news_chyron_still",
+    "facebook_post",
+    "tweet",
+    "media_inquiry_phone_slip",
+    "uas_detection_alert",
+    "status_board"
+  ],
+  "threatFamilies": [
+    "cyber_physical",
+    "cyber",
+    "infrastructure_failure",
+    "physical_security",
+    "insider",
+    "natural_hazard",
+    "uas_drone"
+  ],
+  "noiseExamples": [
+    "a shipper asking where a loaded covered hopper is",
+    "a crew calling in short-rested for the next shift",
+    "a grade crossing reported with gates stuck down after a thunderstorm",
+    "a trespasser photographing trains from a bridge",
+    "a printer jam in the dispatching center"
+  ],
+  "pressureExamples": [
+    "a resident's video of a plume over the derailment shared thousands of times",
+    "a county commissioner demanding to know what is in the tank cars",
+    "a reporter asking whether the train carried vinyl chloride",
+    "a shipper threatening to move freight to trucks after an embargo notice",
+    "a school district asking whether to cancel classes along the evacuation route"
+  ],
+  "rolePatterns": {
+    "technical": "cybersecurity coordinator|ptc|signals",
+    "security": "railroad police|rrpd|special agent",
+    "operations": "dispatch|ctd|transportation"
+  },
+  "agencyPattern": "TSOC|National Response Center|LEPC|CHEMTREC|AAR|STB"
+}

@@ -177,7 +177,7 @@ describe('assembling the bundled packs', () => {
     const r = assembleBundledPacks(BUNDLED_MAP, { root: REPO, appVersion: '0.1.0', strict: true })
     expect(r.problems).toEqual([])
     const ids = r.packs.map((p) => p.manifest.id)
-    expect(ids).toHaveLength(BUNDLED_MAP.packs.length)
+    expect(ids).toEqual(BUNDLED_MAP.packs.map((p) => p.id))
     expect(ids[0]).toBe(CORE)
     const airport = r.packs.find((p) => p.manifest.id === AIRPORT)!.manifest.contents
     expect(airport).toMatchObject({
@@ -277,6 +277,34 @@ describe('assembling the bundled packs', () => {
     expect(existsSync(join(out, CORE, 'templates/tweet/__golden__'))).toBe(false)
   })
 
+  it('ships packs/readmes/<pack>.md as the pack README.md and flags a readme of no pack', async () => {
+    const root = fixtureRepo()
+    mkdirSync(join(root, 'packs/readmes'), { recursive: true })
+    writeFileSync(join(root, 'packs/readmes/transit.md'), '# Transit\n\nPlans and deadlines.\n')
+    const out = join(tmp('ttx-bundled-out-'), 'packs')
+    const r = await buildBundledPacks({ root, outDir: out, appVersion: '0.1.0', map: fixtureMap() })
+    if (!r.ok) throw new Error(r.problems.join('\n'))
+    const manifest = JSON.parse(readFileSync(join(out, TRANSIT, 'pack.json'), 'utf8'))
+    expect(manifest.files.map((f: { path: string }) => f.path)).toContain('README.md')
+    expect(readFileSync(join(out, TRANSIT, 'README.md'), 'utf8')).toMatch(/Plans and deadlines/)
+    expect(existsSync(join(out, CORE, 'README.md'))).toBe(false)
+    writeFileSync(join(root, 'packs/readmes/stadium.md'), '# Orphan\n')
+    const orphan = assembleBundledPacks(fixtureMap(), { root, appVersion: '0.1.0', strict: true })
+    expect(orphan.problems).toContain(
+      'packs/readmes/stadium.md names no pack in packs/bundled.json',
+    )
+  })
+
+  it('ships packs/readmes/<pack>.md as README.md for every domain pack', () => {
+    const r = assembleBundledPacks(BUNDLED_MAP, { root: REPO, appVersion: '0.1.0', strict: true })
+    for (const pack of r.packs.filter((p) => !p.core)) {
+      const readme = pack.files.find((f) => f.path === 'README.md')
+      expect(readme?.source, pack.manifest.id).toBe(
+        join(REPO, 'packs/readmes', `${pack.manifest.id.slice('ai.actionstations.'.length)}.md`),
+      )
+    }
+  })
+
   it('writes nothing when the reader refuses a pack', async () => {
     const root = fixtureRepo()
     writeFileSync(join(root, 'prompts/ideate.md'), '---js\n{}\n---\nbody\n')
@@ -342,7 +370,7 @@ describe('built bundled packs (TTX_BUNDLED_PACKS stands in for app-resources/pac
 // ---- source mode (the repo in place) ---------------------------------------------------------
 
 describe('bundled packs read from the repo (unpackaged runs)', () => {
-  it('lists the core and every domain pack, enabled', async () => {
+  it('lists the core and every domain pack of the map, enabled', async () => {
     const list = (await call<View[]>('packs:list')).filter((p) => p.bundled)
     expect(list).toHaveLength(BUNDLED_MAP.packs.length)
     expect(list[0]).toMatchObject({ id: CORE, core: true, enabled: true })

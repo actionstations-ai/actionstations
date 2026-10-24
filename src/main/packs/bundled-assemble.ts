@@ -10,9 +10,11 @@
 //   examples   examples/<slug>/                 (index.sqlite*, .cache/ and dotfiles left out,
 //                                                except project/.gitignore)
 //   documents  packs/documents/<pack>/<slug>/<file>   (<pack> = id without ai.actionstations.)
+//   README.md  packs/readmes/<pack>.md                 (optional; the pack's root README.md)
 //
 // Strict: every item on disk is mapped to exactly one pack, every mapped item exists, workflows
-// are core-only, and documents stay within the installer budget. Lenient (source mode): items
+// are core-only, every readme names a mapped pack, and documents stay within the installer
+// budget. Lenient (source mode): items
 // the map does not mention that exist on disk (templates, prompts, workflows) join the core
 // pack, and mapped items missing on disk are left out, so a test's resources folder with a
 // few fixture templates still works.
@@ -188,6 +190,13 @@ function itemFiles(
   }
 }
 
+/** packs/readmes/<pack short name>.md: a bundled pack's README.md (optional). */
+export const readmePath = (root: string, id: string): string =>
+  join(root, 'packs', 'readmes', `${bundledShortName(id)}.md`)
+
+/** The readme files on disk, by pack short name. */
+const readmesOnDisk = (root: string): string[] => listFiles(join(root, 'packs', 'readmes'), '.md')
+
 const documentEntry = (d: BundledPackSpec['documents'][number]): PackDocument => ({
   path: `documents/${d.path}`,
   title: d.title,
@@ -215,6 +224,10 @@ function strictChecks(map: BundledMap, root: string, problems: string[]): void {
       if (!owners.has(key))
         problems.push(`${key} is in the repo but mapped to no pack in packs/bundled.json`)
     }
+  const shortNames = new Set(map.packs.map((p) => bundledShortName(p.id)))
+  for (const name of readmesOnDisk(root))
+    if (!shortNames.has(name))
+      problems.push(`packs/readmes/${name}.md names no pack in packs/bundled.json`)
   for (const spec of map.packs) {
     if (!spec.core && spec.contents.workflows.length)
       problems.push(`${spec.id}: workflows belong in the core pack`)
@@ -252,6 +265,9 @@ function packFor(
     }
   }
   if (!files.length) return undefined
+  const readme = readmePath(opts.root, spec.id)
+  if (existsSync(readme))
+    files.push({ path: 'README.md', source: readme, size: statSync(readme).size })
   const kept = new Set(contents.documents)
   return {
     core: spec.core,

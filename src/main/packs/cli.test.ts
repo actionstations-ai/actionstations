@@ -47,7 +47,7 @@ describe('runCli (in process)', () => {
     const c = capture()
     expect(await runCli([fixtures.valid!], await opts(), c.io)).toBe(0)
     expect(c.out[0]).toMatch(
-      /^valid.aspack: ok \(ai.actionstations.freight-rail 1.0.0, \d+ files, sha256 [0-9a-f]{64}\)$/,
+      /^valid.aspack: ok \(ai.actionstations.heritage-rail 1.0.0, \d+ files, sha256 [0-9a-f]{64}\)$/,
     )
     expect(c.err).toEqual([])
   })
@@ -77,11 +77,11 @@ describe('runCli (in process)', () => {
     const entry = PackCatalogEntry.parse(JSON.parse(c.out.join('\n')))
     const bytes = readFileSync(fixtures.valid!)
     expect(entry).toMatchObject({
-      id: 'ai.actionstations.freight-rail',
+      id: 'ai.actionstations.heritage-rail',
       version: '1.0.0',
       kinds: ['templates', 'prompts', 'domains', 'workflows', 'documents', 'examples'],
       size: bytes.length,
-      url: 'https://actionstations.ai/packs/files/ai.actionstations.freight-rail-1.0.0.aspack',
+      url: 'https://actionstations.ai/packs/files/ai.actionstations.heritage-rail-1.0.0.aspack',
       updated: '2026-10-24T10:00:00Z',
     })
   })
@@ -146,7 +146,7 @@ describe('node scripts/pack-validate.mjs (plain Node, no Electron)', () => {
     expect(r.stderr).toBe('')
     expect(r.status).toBe(0)
     expect(PackCatalogEntry.parse(JSON.parse(r.stdout)).url).toBe(
-      'https://x.test/files/ai.actionstations.freight-rail-1.0.0.aspack',
+      'https://x.test/files/ai.actionstations.heritage-rail-1.0.0.aspack',
     )
   })
 

@@ -21,7 +21,7 @@ const builtin: ExampleInfo = {
 const fromPack: ExampleInfo = {
   ...builtin,
   title: 'Harbor Junction',
-  packId: 'ai.actionstations.freight-rail',
+  packId: 'ai.actionstations.heritage-rail',
   packVersion: '1.0.0',
   packName: 'Freight Rail Operations',
   packLicense: 'CC-BY-4.0',
@@ -30,14 +30,14 @@ const fromPack: ExampleInfo = {
 describe('example gallery cards', () => {
   it('keys a pack example by its pack, so it may share a built-in slug', () => {
     expect(exampleKey(builtin)).toBe('mini-transit')
-    expect(exampleKey(fromPack)).toBe('ai.actionstations.freight-rail/mini-transit')
+    expect(exampleKey(fromPack)).toBe('ai.actionstations.heritage-rail/mini-transit')
   })
 
   it('gives a pack example badge data; a built-in gets none', () => {
     expect(exampleProvenance(builtin)).toBeUndefined()
     expect(exampleProvenance(fromPack)).toEqual({
       origin: 'pack',
-      packId: 'ai.actionstations.freight-rail',
+      packId: 'ai.actionstations.heritage-rail',
       packName: 'Freight Rail Operations',
       version: '1.0.0',
     })
@@ -53,7 +53,7 @@ describe('example gallery cards', () => {
     const cards = screen.getAllByRole('listitem')
     expect(cards.map((c) => c.getAttribute('aria-labelledby'))).toEqual([
       'example-mini-transit',
-      'example-ai-actionstations-freight-rail-mini-transit',
+      'example-ai-actionstations-heritage-rail-mini-transit',
     ])
     const [line] = screen.getAllByTestId('example-pack')
     expect(screen.getAllByTestId('example-pack')).toHaveLength(1)

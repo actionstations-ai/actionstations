@@ -37,7 +37,7 @@ import {
 
 test.setTimeout(180_000)
 
-const PACK_ID = 'ai.actionstations.freight-rail'
+const PACK_ID = 'ai.actionstations.heritage-rail'
 const PACK_NAME = 'Freight Rail Operations'
 const SHOTS = process.env.GUIDE_SHOTS === '1'
 const SHOTS_DIR = resolve('docs/guides/images/packs')
@@ -237,7 +237,7 @@ test('install from a file: review shows contents and licenses, the template gets
     for (const id of [
       'rail_dispatch_board',
       'inject_text',
-      'freight_rail',
+      'heritage_rail',
       'yard-cctv-still',
       'rail-emergency-plan',
       'harbor-junction',
@@ -267,7 +267,7 @@ test('install from a file: review shows contents and licenses, the template gets
       .click()
     await p.page
       .getByRole('group', { name: 'Domain' })
-      .getByRole('button', { name: 'Freight rail' })
+      .getByRole('button', { name: 'Heritage rail' })
       .click()
     const badge = p.page.getByRole('img', { name: new RegExp(`From pack ${PACK_NAME} 1\\.0\\.0`) })
     await expect(badge.first()).toBeVisible({ timeout: 15_000 })
@@ -286,7 +286,7 @@ test('install from a file: review shows contents and licenses, the template gets
 
 /** A freight-rail project with one dispatch board inject (which copies the pack template). */
 async function projectWithBoardInject(invoke: Invoke) {
-  const project = await newProject(invoke, 'Lakeshore Junction Railroad', 'freight_rail')
+  const project = await newProject(invoke, 'Lakeshore Junction Railroad', 'heritage_rail')
   const scenario = await invoke<{ id: string; projectId: string }>('scenarios:create-empty', {
     projectPath: project.path,
     title: 'Yard switch failure',
@@ -312,7 +312,7 @@ test('a project uses the pack template and still renders it after the pack is un
   const p = await launchPacks('use')
   try {
     await installByIpc(p.invoke, await writePack(dir, 'rail.aspack', railPack()))
-    const project = await newProject(p.invoke, 'Lakeshore Junction Railroad', 'freight_rail')
+    const project = await newProject(p.invoke, 'Lakeshore Junction Railroad', 'heritage_rail')
     const scenario = await p.invoke<{ id: string; projectId: string }>('scenarios:create-empty', {
       projectPath: project.path,
       title: 'Yard switch failure',

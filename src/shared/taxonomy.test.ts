@@ -22,9 +22,9 @@ const board: InjectTypeInfo = {
   paper: false,
   mvp: false,
   defaultDelivery: 'display_main_screen',
-  domains: ['freight_rail'],
+  domains: ['heritage_rail'],
   source: 'pack',
-  pack: { id: 'ai.actionstations.freight-rail', version: '1.0.0', name: 'Freight Rail' },
+  pack: { id: 'ai.actionstations.heritage-rail', version: '1.0.0', name: 'Freight Rail' },
 }
 
 afterEach(() => registerInjectTypes([]))
@@ -45,7 +45,7 @@ describe('inject type registry', () => {
     expect(injectTypesRevision()).toBe(rev + 1)
     expect(injectTypeInfo('rail_dispatch_board')).toEqual(board)
     expect(isInjectTypeId('rail_dispatch_board')).toBe(true)
-    expect(injectTypesForDomain('freight_rail').map((t) => t.id)).toContain('rail_dispatch_board')
+    expect(injectTypesForDomain('heritage_rail').map((t) => t.id)).toContain('rail_dispatch_board')
     expect(injectTypesForDomain('transit').map((t) => t.id)).not.toContain('rail_dispatch_board')
     expect(INJECT_TYPE_IDS).not.toContain('rail_dispatch_board')
   })

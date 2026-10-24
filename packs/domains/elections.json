@@ -1,0 +1,265 @@
+{
+  "id": "elections",
+  "label": "Election office",
+  "description": "A county or state election office (clerk, registrar, board of elections, supervisor of elections or the Secretary of State's elections division): voter registration, mail ballots, vote centers and drop boxes, certified voting systems at central count, election-night results reporting and the canvass. Scenarios use fictional jurisdictions, contests and candidates.",
+  "aliases": [
+    "election",
+    "election_office",
+    "elections_office",
+    "board_of_elections",
+    "boe",
+    "county_clerk",
+    "registrar",
+    "registrar_of_voters",
+    "rov",
+    "supervisor_of_elections",
+    "soe",
+    "secretary_of_state",
+    "election_administration",
+    "vote_center",
+    "polling_place",
+    "voting"
+  ],
+  "vocabulary": {
+    "facility": "the election office (the warehouse, central count, vote centers, drop boxes and the results-reporting site)",
+    "public": "voters, observers and the candidates' representatives",
+    "frontline": "poll workers, rovers, election technicians, mail-ballot processing staff, hotline staff, warehouse staff",
+    "operationsCenter": "the election-day operations center"
+  },
+  "factCategories": [
+    {
+      "id": "precincts",
+      "label": "Precincts",
+      "pattern": "\\b(?:Precinct|Pct\\.?) ?(\\d{1,4}(?:-[A-Z])?)\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "vote_centers",
+      "label": "Vote centers / polling places",
+      "noun": "Vote Centers?|Polling Places?|Polling Locations?",
+      "idShape": "number",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "drop_boxes",
+      "label": "Drop boxes",
+      "noun": "Drop Box(?:es)?|Ballot Drop Box(?:es)?",
+      "idShape": "number",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "districts",
+      "label": "Districts",
+      "noun": "Districts?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "measures",
+      "label": "Ballot measures",
+      "noun": "Measures?|Propositions?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "devices",
+      "label": "Tabulators / voting devices",
+      "pattern": "\\b((?:DS|ICX|BMD|Tabulator|Pollbook)[- ]?\\d{1,4}(?:-\\d{2,5})?)\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "seals",
+      "label": "Seal numbers",
+      "pattern": "\\bSeal (?:#|No\\.? ?)?([A-Z]?\\d{5,9})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "ballot_styles",
+      "label": "Ballot styles",
+      "pattern": "\\b(BS-\\d{2,4})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "statewide voter registration database and the county election management front end",
+      "electronic pollbooks with network sync",
+      "online voter registration and polling-place lookup",
+      "election-night results reporting website",
+      "ballot-on-demand printers and ballot layout software",
+      "mail-ballot tracking notifications and signature verification",
+      "GIS precinct and district mapping",
+      "county network, email and directory",
+      "hotline / call center and social media accounts"
+    ],
+    "ot": [
+      "precinct-count optical scanners and central-count high-speed scanners",
+      "ballot-marking devices",
+      "the air-gapped election management system server",
+      "removable media and the results upload workstation",
+      "tamper-evident seals and seal logs",
+      "tabulation-room video surveillance",
+      "warehouse and central-count access control",
+      "drop boxes with cameras"
+    ]
+  },
+  "roles": [
+    {
+      "key": "eo",
+      "name": "Chief Election Official (Incident Commander)",
+      "abbreviation": "CEO",
+      "team": "Team A: Command",
+      "description": "The county clerk, registrar or elections director: activates the contingency plan, relocates polling places, asks counsel to petition for extended hours, and speaks for the office."
+    },
+    {
+      "key": "deputy",
+      "name": "Deputy Director (Election-Day Operations Center)",
+      "abbreviation": "Dep",
+      "team": "Team A: Command",
+      "description": "Runs the election-day operations center: hotline, rovers, staffing and logistics."
+    },
+    {
+      "key": "it",
+      "name": "Elections IT Manager / County CISO",
+      "abbreviation": "IT",
+      "team": "Team B: IT and Security",
+      "description": "Owns e-pollbook networking, voter registration access, the results website and isolation decisions."
+    },
+    {
+      "key": "vsm",
+      "name": "Voting Systems Manager",
+      "abbreviation": "VSM",
+      "team": "Team C: Voting Systems",
+      "description": "Owns logic and accuracy testing, tabulator chain of custody, seals and vendor escalation."
+    },
+    {
+      "key": "mail",
+      "name": "Mail Ballot Manager",
+      "abbreviation": "Mail",
+      "team": "Team D: Mail Ballots",
+      "description": "Owns mail-ballot printing, USPS coordination, drop-box collection and signature verification."
+    },
+    {
+      "key": "sec",
+      "name": "Facility Security Manager / Sheriff's Election Liaison",
+      "abbreviation": "Sec",
+      "team": "Team E: Security",
+      "description": "Owns warehouse access, ballot transport escorts, threats to staff and protest response."
+    },
+    {
+      "key": "pio",
+      "name": "Communications Director (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team F: Communications",
+      "description": "Owns voter information, rumor control and results-reporting messages."
+    }
+  ],
+  "outsideParties": [
+    "the Secretary of State / state election director",
+    "CISA (regional election security advisor, Cybersecurity Advisor)",
+    "the U.S. Election Assistance Commission",
+    "the FBI election crimes coordinator",
+    "USPS and the U.S. Postal Inspection Service",
+    "the DOJ Civil Rights Division (Voting Section)",
+    "the FCC (robocalls)",
+    "the state fusion center",
+    "county IT",
+    "the county sheriff and police",
+    "county emergency management",
+    "fire and hazmat (suspicious mail)",
+    "the court (extended-hours petitions)",
+    "the county board of commissioners",
+    "the voting-system and e-pollbook vendors",
+    "the ballot printer and mail house",
+    "party observers and poll watchers",
+    "voting-rights and disability-rights groups"
+  ],
+  "mediaChannels": [
+    "a viral post on X claiming machines flipped votes",
+    "a TikTok livestream from the central-count observation area",
+    "local TV live shots of a long line",
+    "a reporter's records request",
+    "an AI-voice robocall telling voters the wrong date",
+    "a fake polling-place-moved post on Facebook"
+  ],
+  "sceneAnchors": {
+    "public": "voters in line outside a public library used as a vote center, a VOTE HERE sign on an easel, poll workers in lanyards at the door, daylight",
+    "control": "inside a county central count room: high-speed ballot scanners on tables, election workers in pairs handling sealed ballot boxes, an observation window with observers behind it, bright overhead lighting",
+    "exterior": "a county elections warehouse with a loading dock, a box truck with sealed ballot carriers on a hand truck, a sheriff's deputy standing by, overcast sky"
+  },
+  "injectTypes": [
+    "email",
+    "email_forward",
+    "email_header_analysis",
+    "phone_call",
+    "voicemail",
+    "text_message",
+    "memo",
+    "official_letter",
+    "regulatory_notice",
+    "press_release",
+    "tweet",
+    "facebook_post",
+    "tiktok_video_card",
+    "reddit_post",
+    "instagram_post",
+    "news_article",
+    "news_chyron_still",
+    "reporter_email",
+    "media_inquiry_phone_slip",
+    "helpdesk_ticket",
+    "error_dialog",
+    "system_log",
+    "siem_alert",
+    "ransom_note",
+    "cctv_still",
+    "scene_photo",
+    "signage_photo",
+    "status_board",
+    "sitrep",
+    "incident_alert_notification",
+    "uas_detection_alert",
+    "ics_201_prefill"
+  ],
+  "threatFamilies": [
+    "cyber",
+    "physical_security",
+    "insider",
+    "infrastructure_failure",
+    "natural_hazard",
+    "uas_drone",
+    "mass_gathering"
+  ],
+  "noiseExamples": [
+    "a voter asking whether they can wear a campaign shirt to the polls",
+    "a poll worker who forgot the key to the supply cart",
+    "a vote center running low on 'I Voted' stickers",
+    "a records request for last year's poll-worker roster",
+    "a printer jam at the ballot-on-demand station"
+  ],
+  "pressureExamples": [
+    "a viral clip claiming a poll worker threw away ballots",
+    "a candidate's statement demanding a hand count before certification",
+    "a reporter asking why the results page is down",
+    "observers saying they were kept too far from the tabulators",
+    "a robocall in an official's voice telling voters to vote on Wednesday"
+  ],
+  "rolePatterns": {
+    "technical": "voting systems",
+    "security": "sheriff|facility security",
+    "operations": "election-day operations|deputy director"
+  },
+  "agencyPattern": "EAC|Election Assistance Commission|USPIS|Postal Inspection Service|USPS|Secretary of State|EI-ISAC|MS-ISAC|fusion center"
+}

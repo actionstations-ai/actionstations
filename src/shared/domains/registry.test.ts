@@ -30,20 +30,20 @@ const snapshotOf = (version = '1.0.0'): DomainProfileSnapshot => ({
 
 describe('registerPackProfiles', () => {
   it('registers pack profiles beside the built-ins, by id and alias', () => {
-    expect(isDomainId('freight_rail')).toBe(false)
-    expect(builtinProfile('freight_rail').id).toBe('generic')
+    expect(isDomainId('heritage_rail')).toBe(false)
+    expect(builtinProfile('heritage_rail').id).toBe('generic')
     registerPackProfiles([freightRailEntry()])
-    expect(isDomainId('freight_rail')).toBe(true)
+    expect(isDomainId('heritage_rail')).toBe(true)
     expect(isDomainId('Freight Rail')).toBe(true)
-    expect(builtinProfile('railroad').id).toBe('freight_rail')
+    expect(builtinProfile('heritage railroad').id).toBe('heritage_rail')
     const DOMAIN_IDS = bundledDomainIds()
-    expect(DOMAIN_IDS).not.toContain('freight_rail')
+    expect(DOMAIN_IDS).not.toContain('heritage_rail')
     const listed = listProfiles()
     expect(listed.slice(0, DOMAIN_IDS.length).map((l) => l.source.kind)).toEqual(
       DOMAIN_IDS.map(() => 'bundled'),
     )
     expect(listed.at(-1)).toMatchObject({
-      profile: { id: 'freight_rail' },
+      profile: { id: 'heritage_rail' },
       source: {
         kind: 'pack',
         packId: 'org.example.freight-rail',
@@ -59,7 +59,7 @@ describe('registerPackProfiles', () => {
     const before = profilesRevision()
     registerPackProfiles([freightRailEntry()])
     registerPackProfiles([])
-    expect(isDomainId('freight_rail')).toBe(false)
+    expect(isDomainId('heritage_rail')).toBe(false)
     expect(listProfiles().every((l) => l.source.kind === 'bundled')).toBe(true)
     expect(listener).toHaveBeenCalledTimes(2)
     expect(profilesRevision()).toBe(before + 2)
@@ -75,7 +75,7 @@ describe('registerPackProfiles', () => {
       registerPackProfiles([freightRailEntry('1.0.0', { aliases: ['Hospital'] })]),
     ).toThrow(/"hospital" of the built-in healthcare/)
     expect(builtinProfile('transit').label).not.toBe('Freight railroad')
-    expect(builtinProfile('freight_rail').id).toBe('freight_rail')
+    expect(builtinProfile('heritage_rail').id).toBe('heritage_rail')
   })
 
   it('refuses two packs providing the same id or alias', () => {
@@ -83,10 +83,10 @@ describe('registerPackProfiles', () => {
     expect(() => registerPackProfiles([freightRailEntry(), other])).toThrow(/provided by both/)
     const aliasClash = {
       ...other,
-      profile: freightRailProfile({ id: 'short_line', aliases: ['railroad'] }),
+      profile: freightRailProfile({ id: 'narrow_gauge', aliases: ['heritage railroad'] }),
     }
     expect(() => registerPackProfiles([freightRailEntry(), aliasClash])).toThrow(
-      /reuses "railroad"/,
+      /reuses "heritage_railroad"/,
     )
   })
 
@@ -94,7 +94,7 @@ describe('registerPackProfiles', () => {
     const manifest = {
       id: 'rail',
       title: 'Rail',
-      domainProfile: 'freight_rail',
+      domainProfile: 'heritage_rail',
       summary: 'A rail example.',
       fictional: true,
       notice: 'Fictional.',
@@ -109,29 +109,29 @@ describe('resolveProfile with a snapshot', () => {
   it('uses the snapshot first, even when the registry has another version', () => {
     registerPackProfiles([freightRailEntry('2.0.0', { outsideParties: ['FRA', 'STB'] })])
     const snap = snapshotOf('1.0.0')
-    expect(resolveProfile('freight_rail', undefined, snap).outsideParties).toEqual([
+    expect(resolveProfile('heritage_rail', undefined, snap).outsideParties).toEqual([
       'FRA',
       'Shippers',
     ])
-    expect(resolveProfile('freight_rail').outsideParties).toEqual(['FRA', 'STB'])
+    expect(resolveProfile('heritage_rail').outsideParties).toEqual(['FRA', 'STB'])
   })
 
   it('keeps working from the snapshot when the pack is gone', () => {
-    const p = resolveProfile('freight_rail', undefined, snapshotOf())
-    expect(p.id).toBe('freight_rail')
+    const p = resolveProfile('heritage_rail', undefined, snapshotOf())
+    expect(p.id).toBe('heritage_rail')
     expect(p.factCategories.map((c) => c.id)).toEqual(['yards'])
-    expect(resolveProfile('railroad', undefined, snapshotOf()).id).toBe('freight_rail')
-    expect(resolveProfile('freight_rail').id).toBe('generic')
+    expect(resolveProfile('heritage railroad', undefined, snapshotOf()).id).toBe('heritage_rail')
+    expect(resolveProfile('heritage_rail').id).toBe('generic')
   })
 
   it('applies overrides on top of the snapshot and keeps its id', () => {
     const p = resolveProfile(
-      'freight_rail',
+      'heritage_rail',
       { outsideParties: ['County OEM'], label: 'Riverbend Rail' },
       snapshotOf(),
     )
-    expect(p.id).toBe('freight_rail')
-    expect(p.aliases).toEqual(['freight rail', 'railroad'])
+    expect(p.id).toBe('heritage_rail')
+    expect(p.aliases).toEqual(['heritage rail', 'heritage railroad'])
     expect(p.label).toBe('Riverbend Rail')
     expect(p.outsideParties).toEqual(['County OEM'])
     expect(p.factCategories.map((c) => c.id)).toEqual(['yards'])
@@ -145,20 +145,20 @@ describe('resolveProfile with a snapshot', () => {
 
 describe('project snapshots', () => {
   it('snapshots a pack domain when chosen, keeps it while chosen, drops it for a built-in', () => {
-    expect(packSnapshotFor('freight_rail')).toBeUndefined()
+    expect(packSnapshotFor('heritage_rail')).toBeUndefined()
     registerPackProfiles([freightRailEntry('1.0.0')])
-    const first = nextDomainSnapshot('freight_rail', undefined)
+    const first = nextDomainSnapshot('heritage_rail', undefined)
     expect(first).toMatchObject({
       packId: 'org.example.freight-rail',
       version: '1.0.0',
       packName: 'Freight Rail',
     })
     registerPackProfiles([freightRailEntry('2.0.0')])
-    expect(nextDomainSnapshot('freight_rail', first)).toBe(first)
+    expect(nextDomainSnapshot('heritage_rail', first)).toBe(first)
     expect(nextDomainSnapshot('transit', first)).toBeUndefined()
     registerPackProfiles([])
-    expect(nextDomainSnapshot('freight_rail', first)).toBe(first)
-    expect(nextDomainSnapshot('freight_rail', undefined)).toBeUndefined()
+    expect(nextDomainSnapshot('heritage_rail', first)).toBe(first)
+    expect(nextDomainSnapshot('heritage_rail', undefined)).toBeUndefined()
   })
 
   it('reports whether the pack is installed and has another version', () => {

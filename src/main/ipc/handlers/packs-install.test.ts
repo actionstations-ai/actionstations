@@ -72,7 +72,7 @@ async function call<C extends Channel>(
   return r.data as ChannelResponse<C>
 }
 
-const RAIL = 'ai.actionstations.freight-rail'
+const RAIL = 'ai.actionstations.heritage-rail'
 let work: string
 
 async function writePack(name: string, buf: Promise<Buffer> | Buffer): Promise<string> {
@@ -98,23 +98,23 @@ const twinPack = (): Promise<Buffer> =>
 
 /** A pack with one domain that reuses the rail domain's alias. */
 function aliasPack(): Promise<Buffer> {
-  const rail = JSON.parse(validPackTree()['domains/freight_rail.json'] as string) as Record<
+  const rail = JSON.parse(validPackTree()['domains/heritage_rail.json'] as string) as Record<
     string,
     unknown
   >
   const tree: PackTree = {
-    'domains/short_line.json': JSON.stringify({
+    'domains/narrow_gauge.json': JSON.stringify({
       ...rail,
-      id: 'short_line',
+      id: 'narrow_gauge',
       label: 'Short line',
-      aliases: ['freight_railroad'],
+      aliases: ['heritage_railroad'],
     }),
   }
   return buildPack(tree, {
     manifest: (m) => {
       m.id = 'org.example.short-line'
       m.name = 'Short Line'
-      m.contents = { domains: ['short_line'] }
+      m.contents = { domains: ['narrow_gauge'] }
       m.documents = []
       m.domains = []
     },
@@ -198,7 +198,7 @@ describe('packs:inspect', () => {
     })
     const twin = await action(twinPack())
     expect(twin.willEnable).toBe(false)
-    expect(twin.conflict).toMatch(/Freight Rail Operations \(ai.actionstations.freight-rail\)/)
+    expect(twin.conflict).toMatch(/Freight Rail Operations \(ai.actionstations.heritage-rail\)/)
   })
 })
 
@@ -219,7 +219,7 @@ describe('packs:install', () => {
     expect(existsSync(path)).toBe(true)
     expect(events).toEqual([{ installed: 1, enabled: 1 }])
     expect(packs.enabledPacks().map((p) => p.id)).toEqual([RAIL])
-    expect(packDomains()).toEqual(['freight_rail'])
+    expect(packDomains()).toEqual(['heritage_rail'])
   })
 
   it('reinstalls the same version in place', async () => {
@@ -395,19 +395,19 @@ describe('conflicts', () => {
     expect(short.pack.conflicts).toEqual([
       {
         kind: 'domains',
-        id: 'freight_railroad',
+        id: 'heritage_railroad',
         packId: RAIL,
         packName: 'Freight Rail Operations',
       },
     ])
-    expect(packDomains()).toEqual(['freight_rail'])
+    expect(packDomains()).toEqual(['heritage_rail'])
   })
 })
 
 describe('enable, disable, uninstall', () => {
   it('disable removes the domains and the layer; enable brings them back', async () => {
     await install(await writePack('a.aspack', railPack()))
-    expect(packDomains()).toEqual(['freight_rail'])
+    expect(packDomains()).toEqual(['heritage_rail'])
     const off = await call('packs:setEnabled', { id: RAIL, enabled: false })
     expect(off.enabled).toBe(false)
     expect(packDomains()).toEqual([])
@@ -417,7 +417,7 @@ describe('enable, disable, uninstall', () => {
     const again = await install(await writePack('b.aspack', railPack()))
     expect(again.pack.enabled).toBe(false)
     await call('packs:setEnabled', { id: RAIL, enabled: true })
-    expect(packDomains()).toEqual(['freight_rail'])
+    expect(packDomains()).toEqual(['heritage_rail'])
   })
 
   it('uninstall removes the folder, the registry entry and the domains', async () => {
@@ -437,7 +437,7 @@ describe('startup', () => {
     await install(await writePack('a.aspack', railPack()))
     registerPackProfiles([]) // a fresh process
     await packs.initPacks()
-    expect(packDomains()).toEqual(['freight_rail'])
+    expect(packDomains()).toEqual(['heritage_rail'])
     expect(packs.enabledPacks().map((p) => p.id)).toEqual([RAIL])
   })
 
@@ -528,7 +528,7 @@ describe('startup', () => {
     await call('packs:setEnabled', { id: RAIL, enabled: true })
     await packs.initPacks()
     expect(packs.enabledPacks().map((p) => p.id)).toEqual([RAIL])
-    expect(packDomains()).toEqual(['freight_rail'])
+    expect(packDomains()).toEqual(['heritage_rail'])
     // Only that clean start removes the folder no entry lists.
     expect(existsSync(join(packsRoot(), 'org.example.half'))).toBe(false)
   })
@@ -624,7 +624,7 @@ describe('layer API', () => {
     expect(() => packs.packItemPath(pack, 'templates', 'tweet')).toThrow(/no templates item/)
     expect(() => packs.packFilePath(pack, '../registry.json')).toThrow()
     expect(packs.enabledItems('examples')).toEqual([{ pack, id: 'harbor-junction' }])
-    expect(packs.packAppliesToDomain(pack, 'freight_rail')).toBe(true)
+    expect(packs.packAppliesToDomain(pack, 'heritage_rail')).toBe(true)
     expect(packs.packAppliesToDomain(pack, 'airport')).toBe(false)
   })
 

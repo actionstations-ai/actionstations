@@ -51,7 +51,7 @@ async function call<T>(channel: string, req?: unknown): Promise<T> {
   return r.data as T
 }
 
-const RAIL = 'ai.actionstations.freight-rail'
+const RAIL = 'ai.actionstations.heritage-rail'
 const MD = 'documents/rail-emergency-plan/hazmat-quick-reference.md'
 const PDF = 'documents/rail-emergency-plan/emergency-response-plan.pdf'
 

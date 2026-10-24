@@ -51,10 +51,10 @@ function domainProfile(): Record<string, unknown> {
   )
   return {
     ...transit,
-    id: 'freight_rail',
-    label: 'Freight rail',
+    id: 'heritage_rail',
+    label: 'Heritage rail',
     description: 'A freight railroad: yards, mainline subdivisions and a dispatch desk.',
-    aliases: ['freight_railroad'],
+    aliases: ['heritage_railroad'],
   }
 }
 
@@ -66,7 +66,7 @@ function exampleProject(): Record<string, unknown> {
   return {
     ...project,
     name: 'Harbor Junction Terminal Railroad',
-    orgType: 'freight_rail',
+    orgType: 'heritage_rail',
     documents: [],
     scenarios: [],
   }
@@ -99,7 +99,7 @@ export function validPackTree(): PackTree {
         category: 'operational',
         render: ['template'],
         defaultDelivery: 'display_main_screen',
-        domains: ['freight_rail'],
+        domains: ['heritage_rail'],
       },
     }),
     'templates/rail_dispatch_board/schema.json': JSON.stringify({
@@ -116,7 +116,7 @@ export function validPackTree(): PackTree {
     }),
     'templates/rail_dispatch_board/__golden__/default.png': PNG_1PX,
     'prompts/inject_text.md': repo('prompts/inject_text.md'),
-    'domains/freight_rail.json': JSON.stringify(domainProfile(), null, 2),
+    'domains/heritage_rail.json': JSON.stringify(domainProfile(), null, 2),
     'workflows/yard-cctv-still.json': JSON.stringify(workflow(), null, 2),
     'workflows/yard-cctv-still.bindings.json': JSON.stringify({
       ...sidecar,
@@ -127,7 +127,7 @@ export function validPackTree(): PackTree {
     'examples/harbor-junction/example.json': JSON.stringify({
       id: 'harbor-junction',
       title: 'Harbor Junction Terminal Railroad',
-      domainProfile: 'freight_rail',
+      domainProfile: 'heritage_rail',
       summary: 'A hazmat release in a fictional terminal railroad yard.',
       fictional: true,
       notice: 'Fictional organization for exercise use.',
@@ -144,19 +144,19 @@ const bytes = (v: string | Buffer): Buffer => (typeof v === 'string' ? Buffer.fr
 export function manifestFor(tree: PackTree): Manifest {
   return {
     formatVersion: 1,
-    id: 'ai.actionstations.freight-rail',
+    id: 'ai.actionstations.heritage-rail',
     name: 'Freight Rail Operations',
     version: '1.0.0',
     summary: 'Domain profile, dispatch board template, prompt, workflow, documents and an example.',
     author: { name: 'Action Stations', url: 'https://actionstations.ai' },
     license: 'CC-BY-4.0',
     minAppVersion: '0.3.0',
-    domains: ['freight_rail'],
+    domains: ['heritage_rail'],
     tags: ['rail'],
     contents: {
       templates: ['rail_dispatch_board'],
       prompts: ['inject_text'],
-      domains: ['freight_rail'],
+      domains: ['heritage_rail'],
       workflows: ['yard-cctv-still'],
       documents: ['rail-emergency-plan'],
       examples: ['harbor-junction'],
@@ -409,9 +409,9 @@ export const PACK_FIXTURES: Record<string, PackFixture> = {
     build: () =>
       buildPack(
         withTree((t) => {
-          const d = JSON.parse(t['domains/freight_rail.json'] as string) as { aliases: string[] }
+          const d = JSON.parse(t['domains/heritage_rail.json'] as string) as { aliases: string[] }
           d.aliases.push('airport')
-          t['domains/freight_rail.json'] = JSON.stringify(d)
+          t['domains/heritage_rail.json'] = JSON.stringify(d)
         }),
       ),
     expect: /"airport" is a built-in domain id or alias/,

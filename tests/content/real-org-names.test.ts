@@ -16,6 +16,8 @@ const SCANNED = [
   'examples',
   'prompts',
   'src/shared/domains',
+  'packs/domains',
+  'packs/readmes',
   'tests/fixtures/injects',
   'tests/fixtures/generate',
   'tests/fixtures/scenarios',

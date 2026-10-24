@@ -47,7 +47,7 @@ function withFile(m: PackManifestT, path: string): PackManifestT {
 describe('PackManifest: valid packs', () => {
   it('accepts the freight-rail fixture with every kind', () => {
     const m = PackManifest.parse(fixture('freight-rail.pack.json'))
-    expect(m.contents.domains).toEqual(['freight_rail'])
+    expect(m.contents.domains).toEqual(['heritage_rail'])
     expect(m.files.length).toBe(19)
   })
 
@@ -316,7 +316,7 @@ describe('classifyPackPath', () => {
 describe('PackCatalog', () => {
   it('accepts the catalog fixture', () => {
     const c = PackCatalog.parse(fixture('catalog.json'))
-    expect(c.packs.map((p) => p.id)).toContain('ai.actionstations.freight-rail')
+    expect(c.packs.map((p) => p.id)).toContain('ai.actionstations.heritage-rail')
   })
 
   it.each([
@@ -359,7 +359,7 @@ describe('parseCatalog (what the app does with a fetched index)', () => {
     if (!r.ok) return
     expect(r.catalog.packs).toHaveLength(2)
     expect(r.skipped.map((s) => s.index)).toEqual([2, 3])
-    expect(r.skipped[0]!.id).toBe('ai.actionstations.freight-rail')
+    expect(r.skipped[0]!.id).toBe('ai.actionstations.heritage-rail')
   })
 
   it('refuses a newer catalog format with an update message', () => {
@@ -468,8 +468,8 @@ describe('versions', () => {
   })
 
   it('names archives <id>-<version>.aspack', () => {
-    expect(packArchiveName('ai.actionstations.freight-rail', '1.0.0')).toBe(
-      'ai.actionstations.freight-rail-1.0.0.aspack',
+    expect(packArchiveName('ai.actionstations.heritage-rail', '1.0.0')).toBe(
+      'ai.actionstations.heritage-rail-1.0.0.aspack',
     )
   })
 })

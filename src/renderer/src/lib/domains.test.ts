@@ -82,9 +82,9 @@ describe('pack profiles in the picker (#263)', () => {
   it('lists enabled pack profiles in their own group, labelled with the pack', () => {
     expect(packGroup()).toBeUndefined()
     registerPackProfiles([freightRailEntry()])
-    expect(packGroup()?.profiles.map((p) => p.id)).toEqual(['freight_rail'])
-    expect(packGroup('railroad')?.profiles).toHaveLength(1)
-    expect(profileProvenance('freight_rail')).toMatchObject({
+    expect(packGroup()?.profiles.map((p) => p.id)).toEqual(['heritage_rail'])
+    expect(packGroup('heritage railroad')?.profiles).toHaveLength(1)
+    expect(profileProvenance('heritage_rail')).toMatchObject({
       origin: 'pack',
       packName: 'Freight Rail',
     })
@@ -94,21 +94,21 @@ describe('pack profiles in the picker (#263)', () => {
       packId: 'ai.actionstations.transit',
       packName: 'Transit',
     })
-    expect(resolveOrgType('railroad')).toMatchObject({ unknown: false, differs: true })
+    expect(resolveOrgType('heritage railroad')).toMatchObject({ unknown: false, differs: true })
   })
 
   it('keeps a project snapshot whose pack is gone, marked not installed', () => {
-    expect(packGroup('', snapshot)?.profiles.map((p) => p.id)).toEqual(['freight_rail'])
-    expect(profileProvenance('freight_rail', snapshot)).toMatchObject({
+    expect(packGroup('', snapshot)?.profiles.map((p) => p.id)).toEqual(['heritage_rail'])
+    expect(profileProvenance('heritage_rail', snapshot)).toMatchObject({
       origin: 'copy',
       packName: 'Freight Rail',
       packMissing: true,
       updateAvailable: false,
     })
-    const r = resolveOrgType('freight_rail', snapshot)
+    const r = resolveOrgType('heritage_rail', snapshot)
     expect(r.profile.label).toBe('Freight railroad')
     expect(r.unknown).toBe(false)
-    expect(resolveOrgType('freight_rail').profile.id).toBe('generic')
+    expect(resolveOrgType('heritage_rail').profile.id).toBe('generic')
   })
 })
 

@@ -30,7 +30,7 @@ const wrap = (ui: React.ReactNode) =>
 
 describe('pack domain profiles in Project settings (#263)', () => {
   it('badges the snapshot "not installed" when the pack is gone (#269)', () => {
-    wrap(<DomainProfilePicker value="freight_rail" snapshot={snapshot} onChange={() => {}} />)
+    wrap(<DomainProfilePicker value="heritage_rail" snapshot={snapshot} onChange={() => {}} />)
     const current = screen.getByTestId('domain-current')
     expect(current.textContent).toContain('Freight railroad')
     expect(
@@ -44,7 +44,7 @@ describe('pack domain profiles in Project settings (#263)', () => {
 
   it('badges the snapshot "Update available" when the pack has another version (#269)', () => {
     registerPackProfiles([freightRailEntry('2.0.0')])
-    wrap(<DomainProfilePicker value="freight_rail" snapshot={snapshot} onChange={() => {}} />)
+    wrap(<DomainProfilePicker value="heritage_rail" snapshot={snapshot} onChange={() => {}} />)
     const badge = within(screen.getByTestId('domain-current')).getByRole('img', {
       name: /Freight Rail/,
     })

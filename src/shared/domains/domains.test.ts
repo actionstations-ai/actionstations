@@ -35,6 +35,12 @@ describe('built-in domain profiles', () => {
       'municipal',
       'industrial',
       'unmanned_systems',
+      'freight_rail',
+      'gas_pipeline',
+      'chemical',
+      'public_health',
+      'emergency_communications',
+      'elections',
       'k12_schools',
       'commercial_facilities',
       'food_agriculture',
@@ -102,6 +108,14 @@ describe('built-in domain profiles', () => {
     expect(builtinProfile('Bus').id).toBe('transit')
     expect(builtinProfile('water-dam').id).toBe('water_dam')
     expect(builtinProfile('drone program').id).toBe('unmanned_systems')
+    expect(builtinProfile('gas').id).toBe('gas_pipeline')
+    expect(builtinProfile('chemical').id).toBe('chemical')
+    expect(builtinProfile('chemical plant').id).toBe('chemical')
+    expect(builtinProfile('Short Line').id).toBe('freight_rail')
+    expect(builtinProfile('Health Department').id).toBe('public_health')
+    expect(builtinProfile('9-1-1').id).toBe('emergency_communications')
+    expect(builtinProfile('PSAP').id).toBe('emergency_communications')
+    expect(builtinProfile('board of elections').id).toBe('elections')
     expect(builtinProfile('zoo').id).toBe('generic')
     expect(builtinProfile(undefined).id).toBe('generic')
   })

@@ -69,12 +69,12 @@ describe('readPack: valid pack with all six kinds', () => {
     expect(pack.contentSha256).toBe(contentSha256(manifestFor(tree).files))
     expect([...pack.files.keys()].sort()).toEqual(Object.keys(tree).sort())
     expect(pack.files.get('README.md')!.toString()).toBe(tree['README.md'])
-    expect(pack.manifest.id).toBe('ai.actionstations.freight-rail')
+    expect(pack.manifest.id).toBe('ai.actionstations.heritage-rail')
     const byKind = Object.fromEntries(pack.items.map((i) => [`${i.kind}:${i.id}`, i]))
     expect(Object.keys(byKind)).toEqual([
       'templates:rail_dispatch_board',
       'prompts:inject_text',
-      'domains:freight_rail',
+      'domains:heritage_rail',
       'workflows:yard-cctv-still',
       'documents:rail-emergency-plan',
       'examples:harbor-junction',
@@ -85,7 +85,7 @@ describe('readPack: valid pack with all six kinds', () => {
       license: 'CC-BY-4.0',
     })
     expect(byKind['prompts:inject_text']!.replacesBuiltin).toBe(true)
-    expect(byKind['domains:freight_rail']!.title).toBe('Freight rail')
+    expect(byKind['domains:heritage_rail']!.title).toBe('Heritage rail')
     expect(byKind['workflows:yard-cctv-still']).toMatchObject({
       title: 'Yard CCTV still',
       customNodes: ['UltimateSDUpscale'],
@@ -237,8 +237,8 @@ describe('readPack: content checks', () => {
 
   it('refuses a pack domain whose id is a built-in id', async () => {
     const out = await problemsFor((t) => {
-      t['domains/freight_rail.json'] = JSON.stringify({
-        ...JSON.parse(t['domains/freight_rail.json'] as string),
+      t['domains/heritage_rail.json'] = JSON.stringify({
+        ...JSON.parse(t['domains/heritage_rail.json'] as string),
         id: 'transit',
       })
     })
@@ -248,11 +248,11 @@ describe('readPack: content checks', () => {
 
   it('accepts its own domain while that pack domain is registered (reinstall, update)', async () => {
     const buf = await buildPack()
-    const profile = JSON.parse(validPackTree()['domains/freight_rail.json'] as string)
+    const profile = JSON.parse(validPackTree()['domains/heritage_rail.json'] as string)
     registerPackProfiles([
       {
         profile,
-        packId: 'ai.actionstations.freight-rail',
+        packId: 'ai.actionstations.heritage-rail',
         packVersion: '1.0.0',
         packName: 'Freight Rail',
       },

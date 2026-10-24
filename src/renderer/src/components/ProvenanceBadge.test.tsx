@@ -6,7 +6,7 @@ import { ProvenanceBadge } from './ProvenanceBadge'
 
 afterEach(() => cleanup())
 
-const PACK = { packId: 'ai.actionstations.freight-rail', packName: 'Freight Rail Operations' }
+const PACK = { packId: 'ai.actionstations.heritage-rail', packName: 'Freight Rail Operations' }
 
 function badge(p: Provenance) {
   render(<ProvenanceBadge provenance={p} />)
@@ -71,8 +71,12 @@ describe('ProvenanceBadge', () => {
         provenance={{ origin: 'copy', packId: PACK.packId, edited: true, updateAvailable: true }}
       />,
     )
-    const el = screen.getByRole('img', { name: /ai\.actionstations\.freight-rail/ })
-    expect(chips(el)).toEqual(['From ai.actionstations.freight-rail', 'edited', 'Update available'])
+    const el = screen.getByRole('img', { name: /ai\.actionstations\.heritage-rail/ })
+    expect(chips(el)).toEqual([
+      'From ai.actionstations.heritage-rail',
+      'edited',
+      'Update available',
+    ])
   })
 })
 

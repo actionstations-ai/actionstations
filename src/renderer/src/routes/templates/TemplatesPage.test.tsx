@@ -120,7 +120,7 @@ describe('TemplatesPage', () => {
       label: 'Rail dispatch board',
       variants: [],
       source: 'project',
-      packId: 'ai.actionstations.freight-rail',
+      packId: 'ai.actionstations.heritage-rail',
       packVersion: '1.0.0',
       packName: 'Freight Rail Operations',
       copy: { edited: true, packMissing: true, updateAvailable: false },
@@ -158,7 +158,7 @@ describe('TemplatesPage', () => {
       label: 'Rail dispatch board',
       variants: [],
       source: 'project',
-      packId: 'ai.actionstations.freight-rail',
+      packId: 'ai.actionstations.heritage-rail',
       packVersion: '1.0.0',
       packName: 'Freight Rail Operations',
       copy: { edited: true, packMissing: false, updateAvailable: true, installedVersion: '1.1.0' },
@@ -198,8 +198,8 @@ describe('TemplatesPage', () => {
     const transit = builtinProfile('transit')
     registerPackProfiles([
       {
-        profile: { ...transit, id: 'freight_rail', label: 'Freight rail', aliases: [] },
-        packId: 'ai.actionstations.freight-rail',
+        profile: { ...transit, id: 'heritage_rail', label: 'Heritage rail', aliases: [] },
+        packId: 'ai.actionstations.heritage-rail',
         packVersion: '1.0.0',
         packName: 'Freight Rail Operations',
       },
@@ -208,7 +208,7 @@ describe('TemplatesPage', () => {
       setup()
       renderAt('/templates', '/templates', TemplatesPage)
       const domains = await screen.findByRole('group', { name: 'Domain' })
-      expect(within(domains).getByRole('button', { name: 'Freight rail' })).toBeTruthy()
+      expect(within(domains).getByRole('button', { name: 'Heritage rail' })).toBeTruthy()
       expect(within(domains).getByRole('button', { name: 'Airport' })).toBeTruthy()
     } finally {
       registerPackProfiles([])

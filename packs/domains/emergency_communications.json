@@ -1,0 +1,240 @@
+{
+  "id": "emergency_communications",
+  "label": "911 / emergency communications center",
+  "description": "A primary or consolidated Public Safety Answering Point / Emergency Communications Center: 911 call-taking on NG911 call-handling equipment, CAD dispatch for police, fire and EMS, the trunked radio system, the logging recorder, alert and warning, and a backup PSAP.",
+  "aliases": [
+    "911",
+    "9_1_1",
+    "psap",
+    "ecc",
+    "dispatch",
+    "dispatch_center",
+    "communications_center",
+    "comm_center",
+    "emergency_communications_center",
+    "ecd",
+    "public_safety_communications",
+    "911_center",
+    "ng911",
+    "radio_shop"
+  ],
+  "vocabulary": {
+    "facility": "the communications center (the dispatch floor, the equipment room, the radio sites and the backup PSAP)",
+    "public": "callers and residents of the service area, and the police, fire and EMS units the center dispatches",
+    "frontline": "call-takers, police and fire dispatchers, floor supervisors, the 911 systems technician, radio technicians",
+    "operationsCenter": "the dispatch floor"
+  },
+  "factCategories": [
+    {
+      "id": "positions",
+      "label": "Console positions",
+      "noun": "Positions?|Consoles?",
+      "idShape": "number",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "talkgroups",
+      "label": "Talkgroups / channels",
+      "pattern": "\\b((?:[78]|V|U)(?:CALL|TAC)\\d{2}D?|(?:PD|FD|SO|EMS) (?:Main|Dispatch|TAC ?\\d{1,2}|Ops ?\\d{1,2}))\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "radio_sites",
+      "label": "Radio / tower sites",
+      "pattern": "\\b((?:Tower |Radio )?Site \\d{1,3})\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "apparatus",
+      "label": "Apparatus / units",
+      "pattern": "\\b((?:Engine|Ladder|Medic|Rescue|Battalion|Truck|Squad|Tower)[- ]?\\d{1,3})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "cad_incidents",
+      "label": "CAD incident numbers",
+      "pattern": "\\bCAD ?#? ?(\\d{2}-\\d{4,7})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "trunks",
+      "label": "911 trunks / trunk groups",
+      "pattern": "\\b((?:CAMA|SIP) [Tt]runk(?: [Gg]roup)? [A-Z0-9]{1,3})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "911 call-handling equipment (ANI/ALI display, ACD, NG911 i3 call handling)",
+      "ALI database and supplemental device location",
+      "NG911 core services via the ESInet (geospatial routing, text-to-911)",
+      "computer-aided dispatch (CAD) and mobile data terminals",
+      "records management system shared with law enforcement",
+      "mapping / GIS (address points, road centerlines)",
+      "logging recorder for 911, radio and text",
+      "state message switch / NCIC / Nlets (CJIS network)",
+      "IPAWS-OPEN alerting (WEA, EAS), mass notification and outdoor sirens",
+      "10-digit admin phone lines on the VoIP PBX",
+      "fire / EMS station alerting and CAD-to-CAD links",
+      "county network, email, EDR and SIEM"
+    ],
+    "ot": [
+      "P25 trunked radio system (zone controller, tower sites, microwave backhaul)",
+      "dispatch radio consoles, conventional mutual-aid channels and gateways",
+      "UPS and generator with the transfer switch",
+      "equipment-room HVAC",
+      "access control (badges, mantrap) and CCTV",
+      "fire suppression",
+      "backup PSAP and the mobile communications vehicle"
+    ]
+  },
+  "roles": [
+    {
+      "key": "dir",
+      "name": "911 Director (Incident Commander)",
+      "abbreviation": "Dir",
+      "team": "Team A: Command",
+      "description": "Owns center-level command, evacuation to the backup PSAP, overtime and requests to the policy group."
+    },
+    {
+      "key": "sup",
+      "name": "Floor Supervisor (Communications Supervisor)",
+      "abbreviation": "Sup",
+      "team": "Team B: Floor Operations",
+      "description": "Owns moment-to-moment call handling, the switch to manual dispatch with run cards, and talkgroup patches."
+    },
+    {
+      "key": "tech",
+      "name": "911 Systems / Technical Services Manager (Technical Lead)",
+      "abbreviation": "Tech",
+      "team": "Team C: Technology",
+      "description": "Owns the call-handling equipment, CAD, ALI, mapping and the recorder, and escalation to the 911 service provider and vendors."
+    },
+    {
+      "key": "coml",
+      "name": "Radio System Manager / Communications Unit Leader",
+      "abbreviation": "COML",
+      "team": "Team D: Radio",
+      "description": "Owns the trunked radio system, consoles, interoperability channels and the ICS 205."
+    },
+    {
+      "key": "le",
+      "name": "Police / Sheriff Liaison (Patrol Commander)",
+      "abbreviation": "LE",
+      "team": "Team E: Field Agencies",
+      "description": "Owns the field response, the swatting response posture and BOLO dissemination."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team F: Communications",
+      "description": "Owns the call-this-10-digit-number message, social media and the press."
+    }
+  ],
+  "outsideParties": [
+    "the state 911 board / office",
+    "the 911 service provider (ESInet / selective router operator)",
+    "wireless, wireline and VoIP originating service providers",
+    "neighboring PSAPs (alternate routing and mutual aid)",
+    "the Statewide Interoperability Coordinator (SWIC)",
+    "the state CJIS Systems Agency",
+    "the FCC (Public Safety and Homeland Security Bureau)",
+    "CISA (Emergency Communications Coordinator, Cybersecurity Advisor)",
+    "the FBI (swatting, TDoS, CJIS)",
+    "the FirstNet Authority",
+    "the FEMA IPAWS Program Office",
+    "county IT",
+    "county emergency management",
+    "the CAD, call-handling and radio vendors",
+    "police, sheriff, fire and EMS agencies served",
+    "MS-ISAC"
+  ],
+  "mediaChannels": [
+    "a resident's Facebook post saying 911 is not answering",
+    "the local TV assignment desk",
+    "a police scanner stream with listener comments",
+    "a neighborhood app post",
+    "the sheriff's post on X",
+    "a reporter's records request for 911 audio"
+  ],
+  "sceneAnchors": {
+    "public": "a resident on a front porch calling 911 on a mobile phone, a patrol car pulling up to the curb with its light bar on, neighbors watching from the sidewalk, dusk",
+    "control": "inside a 911 dispatch center: rows of dispatch consoles with several monitors each, dispatchers in headsets, a supervisor standing at the back, low lighting",
+    "exterior": "a county emergency communications center: a low brick building with a tall radio tower and microwave dishes behind it, a generator enclosure, patrol cars in the lot, overcast sky"
+  },
+  "injectTypes": [
+    "911_cad_entry",
+    "radio_call",
+    "avl_fleet_map",
+    "phone_call",
+    "voicemail",
+    "text_message",
+    "chat_transcript",
+    "helpdesk_ticket",
+    "error_dialog",
+    "system_log",
+    "siem_alert",
+    "ransom_note",
+    "email",
+    "email_forward",
+    "memo",
+    "official_letter",
+    "regulatory_notice",
+    "press_release",
+    "facebook_post",
+    "tweet",
+    "reddit_post",
+    "news_article",
+    "news_chyron_still",
+    "media_inquiry_phone_slip",
+    "incident_alert_notification",
+    "status_board",
+    "sitrep",
+    "ics_201_prefill",
+    "ics_203_prefill",
+    "map_annotation",
+    "network_diagram",
+    "scada_hmi"
+  ],
+  "threatFamilies": [
+    "cyber",
+    "infrastructure_failure",
+    "cyber_physical",
+    "insider",
+    "natural_hazard",
+    "mass_gathering",
+    "physical_security"
+  ],
+  "noiseExamples": [
+    "a pocket-dial from a caller who cannot be reached back",
+    "a resident calling 911 to report a power outage",
+    "a CAD map tile that fails to load in one subdivision",
+    "a radio check request from a volunteer fire company",
+    "a printer jam at the supervisor's desk"
+  ],
+  "pressureExamples": [
+    "a post saying 911 is down and giving a scammer's phone number to call instead",
+    "a reporter asking how long the caller waited before the fire call was answered",
+    "a council member demanding to know why calls were rerouted to the next county",
+    "a scanner-stream audience accusing dispatch of sending units to the wrong address",
+    "a family member on TV saying nobody answered their 911 call"
+  ],
+  "rolePatterns": {
+    "technical": "911 systems|technical services|tech\\b",
+    "security": "liaison|patrol|le\\b",
+    "operations": "floor|supervisor|dispatch"
+  },
+  "agencyPattern": "FCC|FirstNet|IPAWS|SWIC|NCIC|Nlets|CJIS|MS-ISAC|state 911 (?:board|office)"
+}

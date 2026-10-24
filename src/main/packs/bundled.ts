@@ -21,7 +21,7 @@ import { z } from 'zod'
 import { AppError } from '../lib/errors'
 import { safeJoin } from '../lib/fs'
 import { resourcePath, resourcesDir } from '../lib/paths'
-import { assembleBundledPacks, type AssembledPack } from './bundled-assemble'
+import { assembleBundledPacks, readmePath, type AssembledPack } from './bundled-assemble'
 import {
   BUNDLED_INDEX_FILE,
   BUNDLED_INDEX_VERSION,
@@ -158,6 +158,7 @@ function sourceResolver(root: string, id: string): (packPath: string) => string 
     ['documents/', ['packs', 'documents', bundledShortName(id)]],
   ]
   return (packPath) => {
+    if (packPath === 'README.md') return readmePath(root, id)
     for (const [prefix, folder] of prefixes)
       if (packPath.startsWith(prefix))
         return safeJoin(join(root, ...folder), ...packPath.slice(prefix.length).split('/'))

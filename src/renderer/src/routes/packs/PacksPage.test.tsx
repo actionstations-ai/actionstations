@@ -10,7 +10,7 @@ import PacksPage from './PacksPage'
 import { reviewFile, usePackReview } from './review-store'
 import { mockTtx, renderAt, type Handlers } from '../documents/test-utils'
 
-const RAIL = 'ai.actionstations.freight-rail'
+const RAIL = 'ai.actionstations.heritage-rail'
 const SHA = 'a'.repeat(64)
 const CATALOG = 'https://actionstations.ai/packs/index.json'
 
@@ -22,7 +22,7 @@ const installed = (over: Partial<InstalledPackView> = {}): InstalledPackView => 
   description: '',
   author: { name: 'Action Stations' },
   license: 'CC-BY-4.0',
-  domains: ['freight_rail'],
+  domains: ['heritage_rail'],
   tags: ['rail'],
   enabled: true,
   installedAt: '2026-10-20T12:00:00.000Z',
@@ -52,7 +52,7 @@ const entry = (over: Partial<PackCatalogEntry> = {}): PackCatalogEntry => ({
   author: { name: 'Action Stations' },
   license: 'CC-BY-4.0',
   kinds: ['templates', 'domains'],
-  domains: ['freight_rail'],
+  domains: ['heritage_rail'],
   tags: ['rail'],
   minAppVersion: '0.3.0',
   size: 20480,
@@ -71,7 +71,7 @@ const review = (over: Partial<PackReview> = {}): PackReview => ({
   author: { name: 'Action Stations', url: 'https://actionstations.ai' },
   license: 'CC-BY-4.0',
   minAppVersion: '0.3.0',
-  domains: ['freight_rail'],
+  domains: ['heritage_rail'],
   tags: ['rail'],
   size: 4096,
   archiveSha256: SHA,
@@ -274,7 +274,7 @@ describe('PacksPage review', () => {
 describe('PacksPage conflicts', () => {
   it('names the conflict on the installed list and in the review', async () => {
     const sentence =
-      'Disable Freight Rail Operations (ai.actionstations.freight-rail) to enable this pack.'
+      'Disable Freight Rail Operations (ai.actionstations.heritage-rail) to enable this pack.'
     mockTtx({
       ...base,
       'packs:list': () => [

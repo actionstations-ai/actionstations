@@ -18,8 +18,8 @@ const marker: ExampleMarkerView = {
   slug: 'harbor-junction',
   title: 'Harbor Junction',
   notice: 'A made-up railroad.',
-  domainProfile: 'freight_rail',
-  packId: 'ai.actionstations.freight-rail',
+  domainProfile: 'heritage_rail',
+  packId: 'ai.actionstations.heritage-rail',
   packVersion: '1.0.0',
   packName: 'Freight Rail Operations',
 }

@@ -78,7 +78,7 @@ async function call<C extends Channel>(
   return r.data as ChannelResponse<C>
 }
 
-const RAIL = 'ai.actionstations.freight-rail'
+const RAIL = 'ai.actionstations.heritage-rail'
 const BOARD = 'rail_dispatch_board'
 const BUILTIN_TWEET = resolve('templates/injects/tweet')
 let work: string
@@ -323,7 +323,7 @@ describe('inject type registry', () => {
       label: 'Rail dispatch board',
       category: 'operational',
       defaultDelivery: 'display_main_screen',
-      domains: ['freight_rail'],
+      domains: ['heritage_rail'],
       source: 'pack',
       pack: { id: RAIL, version: '1.0.0' },
     })
@@ -342,7 +342,7 @@ describe('inject type registry', () => {
       format: BOARD,
     })
     const installed = listTemplateTypes(root)
-    expect(chooseInjectType(row, installed, 'freight_rail')).toMatchObject({
+    expect(chooseInjectType(row, installed, 'heritage_rail')).toMatchObject({
       type: BOARD,
       hasTemplate: true,
     })

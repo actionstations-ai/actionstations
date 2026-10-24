@@ -21,7 +21,7 @@ describe('formatListOptions (#269)', () => {
         mvp: false,
         defaultDelivery: 'play_audio',
         source: 'pack',
-        pack: { id: 'ai.actionstations.freight-rail', version: '1.0.0', name: 'Freight Rail' },
+        pack: { id: 'ai.actionstations.heritage-rail', version: '1.0.0', name: 'Freight Rail' },
       },
     ])
     const options = formatListOptions()

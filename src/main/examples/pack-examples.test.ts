@@ -42,7 +42,7 @@ async function call<C extends Channel>(
   return r.data as ChannelResponse<C>
 }
 
-const RAIL = 'ai.actionstations.freight-rail'
+const RAIL = 'ai.actionstations.heritage-rail'
 const FIXTURES = resolve('tests/fixtures/examples')
 let work: string
 let parent: string
@@ -96,7 +96,7 @@ describe('examples from packs', () => {
     ])
     expect(list[0]).toMatchObject({
       title: 'Harbor Junction Terminal Railroad',
-      domainProfile: 'freight_rail',
+      domainProfile: 'heritage_rail',
       packVersion: '1.0.0',
       packName: 'Freight Rail Operations',
       packLicense: 'CC-BY-4.0',
@@ -121,11 +121,11 @@ describe('examples from packs', () => {
       parentDir: parent,
     })
     expect(opened.project.name).toBe('Harbor Junction Terminal Railroad')
-    expect(opened.project.orgType).toBe('freight_rail')
+    expect(opened.project.orgType).toBe('heritage_rail')
     expect(opened.project.domainProfileSnapshot).toMatchObject({
       packId: RAIL,
       version: '1.0.0',
-      profile: { id: 'freight_rail' },
+      profile: { id: 'heritage_rail' },
     })
     // The copy is the user's: editable, with the project's .gitignore, and no marker from the pack.
     expect(statSync(join(opened.path, 'project.json')).mode & 0o200).not.toBe(0)
@@ -135,7 +135,7 @@ describe('examples from packs', () => {
       packId: RAIL,
       packVersion: '1.0.0',
       packName: 'Freight Rail Operations',
-      domainProfile: 'freight_rail',
+      domainProfile: 'heritage_rail',
       packState: { packMissing: false, updateAvailable: false, installedVersion: '1.0.0' },
     })
   })
@@ -148,11 +148,11 @@ describe('examples from packs', () => {
       parentDir: parent,
     })
     await call('packs:uninstall', { id: RAIL })
-    expect(isDomainId('freight_rail')).toBe(false)
+    expect(isDomainId('heritage_rail')).toBe(false)
     expect((await call('examples:list')).map((e) => e.slug)).toEqual(['mini-transit'])
     const reopened = await call('project:open', { path: opened.path })
-    expect(reopened.project.orgType).toBe('freight_rail')
-    expect(reopened.project.domainProfileSnapshot?.profile.id).toBe('freight_rail')
+    expect(reopened.project.orgType).toBe('heritage_rail')
+    expect(reopened.project.domainProfileSnapshot?.profile.id).toBe('heritage_rail')
     const saved = JSON.parse(readFileSync(join(opened.path, 'project.json'), 'utf8')) as {
       domainProfileSnapshot?: { packId: string }
     }
@@ -196,7 +196,7 @@ describe('examples from packs', () => {
       packId: RAIL,
       parentDir: parent,
     })
-    expect(fromPack.project.orgType).toBe('freight_rail')
+    expect(fromPack.project.orgType).toBe('heritage_rail')
     expect(await call('examples:marker', { projectPath: fromPack.path })).toMatchObject({
       slug: 'mini-transit',
       packId: RAIL,

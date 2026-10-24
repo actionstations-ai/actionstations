@@ -24,7 +24,7 @@ const packs = await import('../packs')
 const { readProjectPacks } = await import('../packs/project-copies')
 const { ComfyMediaProvider } = await import('../providers/media/comfyui/provider')
 
-const RAIL = 'ai.actionstations.freight-rail'
+const RAIL = 'ai.actionstations.heritage-rail'
 const WF = 'yard-cctv-still'
 const CTX = { appVersion: '0.3.0' }
 

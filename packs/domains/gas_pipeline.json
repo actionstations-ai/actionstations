@@ -1,0 +1,260 @@
+{
+  "id": "gas_pipeline",
+  "label": "Gas utility / pipeline",
+  "description": "A natural gas local distribution company or a transmission pipeline operator: city gates and regulator stations, mains and services, compressor stations and mainline valves, storage and LNG, a gas control room on SCADA, field servicepersons and the customers on the system.",
+  "aliases": [
+    "gas",
+    "gas_utility",
+    "gas_company",
+    "natural_gas",
+    "ldc",
+    "local_distribution_company",
+    "gas_distribution",
+    "transmission_pipeline",
+    "interstate_pipeline",
+    "pipeline",
+    "pipeline_operator",
+    "compressor_station",
+    "gas_storage",
+    "lng",
+    "lng_terminal",
+    "midstream",
+    "oil_pipeline",
+    "products_pipeline",
+    "hazardous_liquid_pipeline"
+  ],
+  "vocabulary": {
+    "facility": "the gas system (city gates, regulator stations, mains, compressor stations and the gas control room)",
+    "public": "customers and the neighborhoods along the mains and the pipeline right-of-way",
+    "frontline": "gas controllers, gas servicepersons, measurement and regulation technicians, locators, call-center agents",
+    "operationsCenter": "the gas control room"
+  },
+  "factCategories": [
+    {
+      "id": "compressor_stations",
+      "label": "Compressor stations",
+      "pattern": "\\b(?!(?:At|On|The|A|An|In|To|From|By|For|With|And|Or|Of|Near|Each|Every|Any|All|No|Our|Its|This|That)\\b)([A-Z][a-z]+(?: [A-Z][a-z]+)? Compressor Station|Compressor Station \\d{1,4}|Station \\d{3})\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "regulator_stations",
+      "label": "Regulator / city-gate stations",
+      "pattern": "\\b((?:Reg(?:ulator)? Station|RS)[- ]?\\d{1,4}|(?!(?:At|On|The|A|An|In|To|From|By|For|With|And|Or|Of|Near|Each|Every|Any|All|No|Our|Its|This|That)\\b)[A-Z][a-z]+(?: [A-Z][a-z]+)? (?:[Cc]ity [Gg]ate|Regulator Station|Gate Station))\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "valves",
+      "label": "Mainline / block valves",
+      "pattern": "\\b((?:MLV|RCV|ASV|Valve)[- ]?\\d{1,3}(?:-\\d{1,2}|[A-Z])?)\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "lines",
+      "label": "Pipelines / laterals",
+      "noun": "Laterals?|Lines?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "pressure_districts",
+      "label": "Pressure districts",
+      "noun": "Pressure Districts?|Low-Pressure Systems?|Pressure Systems?",
+      "genericNoun": "Districts?",
+      "context": "psig|w\\.c\\.|pressure|regulator|relight|odor|odour|gas main|outage",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "storage",
+      "label": "Storage fields / LNG tanks",
+      "pattern": "\\b((?!(?:At|On|The|A|An|In|To|From|By|For|With|And|Or|Of|Near|Each|Every|Any|All|No|Our|Its|This|That)\\b)[A-Z][a-z]+(?: [A-Z][a-z]+)? (?:Storage Field|Storage Facility)|LNG Tank \\d{1,2})\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "mileposts",
+      "label": "Mileposts",
+      "pattern": "\\bMP ?(\\d{1,4}(?:\\.\\d{1,2})?)\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "ofo",
+      "label": "Operational flow orders",
+      "pattern": "\\b(OFO[- ]\\d{4}-\\d{1,3}|OFO[- ]\\d{1,4})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "customer information and billing system (CIS)",
+      "call center and IVR",
+      "work and asset management with mobile dispatch",
+      "GIS of mains, services and valves",
+      "gas nomination and scheduling, and the interstate pipeline electronic bulletin board",
+      "811 one-call ticket management",
+      "email, ERP and identity",
+      "SIEM"
+    ],
+    "ot": [
+      "pipeline SCADA (gas control) with HMI, historian and alarm management",
+      "RTUs at regulator stations, city gates, compressor stations and valve sites",
+      "remote-control and automatic shut-off valves (RCV / ASV)",
+      "compressor unit control panels and station emergency shutdown (ESD)",
+      "fire and gas detection",
+      "electronic flow measurement, gas chromatographs and odorant injection",
+      "low-pressure district pressure telemetry",
+      "AMI gas meters",
+      "radio, cellular and satellite telemetry links"
+    ]
+  },
+  "roles": [
+    {
+      "key": "vp",
+      "name": "VP Gas Operations (Incident Commander)",
+      "abbreviation": "VP",
+      "team": "Team A: Command",
+      "description": "Activates the emergency plan, approves curtailment and large-area shutdowns, and requests mutual assistance."
+    },
+    {
+      "key": "gcm",
+      "name": "Gas Control Manager",
+      "abbreviation": "GCM",
+      "team": "Team B: Gas Control",
+      "description": "Owns system pressure, line pack, segment isolation, the 1-hour NRC call, and manual operation if SCADA is lost."
+    },
+    {
+      "key": "cyb",
+      "name": "Cybersecurity Coordinator / OT-SCADA Manager (Technical Lead)",
+      "abbreviation": "CYB",
+      "team": "Team C: Technical",
+      "description": "The TSA security directive Cybersecurity Coordinator: owns the CISA report, the incident response plan and isolating gas control from the business network."
+    },
+    {
+      "key": "field",
+      "name": "Field Operations Supervisor (Measurement and Regulation)",
+      "abbreviation": "FOS",
+      "team": "Team D: Field",
+      "description": "Owns servicepersons on odor calls, regulator station checks, manual valve closures and relights."
+    },
+    {
+      "key": "sec",
+      "name": "Corporate Security Manager",
+      "abbreviation": "SEC",
+      "team": "Team E: Security",
+      "description": "Owns the physical security of compressor and city-gate stations and the law-enforcement liaison."
+    },
+    {
+      "key": "pio",
+      "name": "Corporate Communications / Public Awareness Manager (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team F: Communications",
+      "description": "Owns media, evacuation and relight notices, and the smell-gas-act-fast messaging."
+    }
+  ],
+  "outsideParties": [
+    "PHMSA Office of Pipeline Safety",
+    "the state pipeline safety program (often the PUC)",
+    "the National Response Center",
+    "TSA Surface Operations (Pipeline Security)",
+    "CISA Central",
+    "the FBI",
+    "the NTSB",
+    "DOE CESER",
+    "FERC",
+    "the 911 PSAP and the fire department",
+    "county emergency management",
+    "ONG-ISAC / DNG-ISAC",
+    "mutual-assistance gas utilities",
+    "the upstream interstate pipeline",
+    "the SCADA vendor",
+    "the 811 one-call center and the locate contractor",
+    "large customers (a hospital, a gas-fired power plant)"
+  ],
+  "mediaChannels": [
+    "local TV breaking news with a live shot of the evacuation",
+    "Nextdoor posts reporting a gas smell",
+    "a neighborhood Facebook group",
+    "customer posts on X/Twitter",
+    "a Reddit thread about the outage and relights"
+  ],
+  "sceneAnchors": {
+    "public": "a suburban residential street with a gas utility service truck, a technician in a hard hat holding a gas detector at a house meter, neighbors on the sidewalk, daylight",
+    "control": "inside a gas control room: controllers at a long console with headsets, a large dark pipeline schematic wall, alarm lights, low lighting",
+    "exterior": "a fenced natural gas compressor station: compressor buildings, above-ground pipes and valves painted yellow, a gravel yard, cloudy sky"
+  },
+  "injectTypes": [
+    "scada_hmi",
+    "system_log",
+    "siem_alert",
+    "ransom_note",
+    "helpdesk_ticket",
+    "field_report",
+    "radio_call",
+    "phone_call",
+    "voicemail",
+    "911_cad_entry",
+    "avl_fleet_map",
+    "map_annotation",
+    "scene_photo",
+    "cctv_still",
+    "pacs_alarm_panel",
+    "uas_detection_alert",
+    "email",
+    "memo",
+    "regulatory_notice",
+    "official_letter",
+    "press_release",
+    "news_chyron_still",
+    "tweet",
+    "facebook_post",
+    "reddit_post",
+    "text_message",
+    "incident_alert_notification",
+    "status_board",
+    "sitrep",
+    "ics_201_prefill"
+  ],
+  "threatFamilies": [
+    "cyber_physical",
+    "cyber",
+    "infrastructure_failure",
+    "physical_security",
+    "natural_hazard",
+    "insider",
+    "uas_drone",
+    "mass_gathering"
+  ],
+  "noiseExamples": [
+    "a customer asking why the bill went up",
+    "a contractor calling about a missed 811 locate",
+    "a meter set damaged by a snowplow",
+    "a routine odorant level check at a regulator station",
+    "a printer jam in gas control"
+  ],
+  "pressureExamples": [
+    "dozens of posts saying the whole neighborhood smells of gas",
+    "a reporter asking whether the pipeline was shut down by hackers",
+    "drivers posting long lines and empty pumps at gas stations",
+    "a council member demanding a date for relights",
+    "a care home asking when its heat will be back"
+  ],
+  "rolePatterns": {
+    "technical": "scada|ot\\b|cybersecurity coordinator",
+    "security": "corporate security|sec\\b",
+    "operations": "gas control|gas operations"
+  },
+  "agencyPattern": "National Response Center|PUC|PSC|CESER|DOE|ONG-ISAC|DNG-ISAC|E-ISAC|811"
+}

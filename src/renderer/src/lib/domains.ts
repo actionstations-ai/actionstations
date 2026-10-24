@@ -29,20 +29,34 @@ export interface ProfileGroup {
  * (a domain pack added later) is listed under "More domains".
  */
 export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[] }[] = [
-  { label: 'Transportation', ids: ['airport', 'transit', 'port_maritime', 'unmanned_systems'] },
+  {
+    label: 'Transportation',
+    ids: ['airport', 'transit', 'port_maritime', 'freight_rail', 'unmanned_systems'],
+  },
   {
     label: 'Utilities and industry',
-    ids: ['water_dam', 'water_utility', 'energy_utility', 'industrial', 'food_agriculture'],
+    ids: [
+      'water_dam',
+      'water_utility',
+      'energy_utility',
+      'gas_pipeline',
+      'industrial',
+      'chemical',
+      'food_agriculture',
+    ],
   },
   {
     label: 'Public and community',
     ids: [
       'healthcare',
+      'public_health',
       'campus',
       'k12_schools',
       'stadium_venue',
       'commercial_facilities',
       'municipal',
+      'emergency_communications',
+      'elections',
     ],
   },
   {

@@ -1,0 +1,245 @@
+{
+  "id": "public_health",
+  "label": "Public health department",
+  "description": "A local, district or state health department: epidemiology and disease surveillance, the public health laboratory, environmental health, clinics and immunizations, medical countermeasure dispensing, and the health officer's legal orders. Care delivery is the healthcare profile.",
+  "aliases": [
+    "health_department",
+    "public_health_department",
+    "lhd",
+    "local_health_department",
+    "county_health",
+    "county_health_department",
+    "state_health_department",
+    "department_of_health",
+    "doh",
+    "dph",
+    "board_of_health",
+    "health_district",
+    "public_health_agency",
+    "epidemiology",
+    "phep"
+  ],
+  "vocabulary": {
+    "facility": "the health department (district offices, clinics, the public health lab and the departmental operations center)",
+    "public": "residents, clinicians and the communities the department serves",
+    "frontline": "epidemiologists, disease investigators, public health nurses, environmental health specialists, lab scientists, call-center staff",
+    "operationsCenter": "the departmental operations center (DOC)"
+  },
+  "factCategories": [
+    {
+      "id": "pods",
+      "label": "POD sites",
+      "noun": "POD Sites?|PODs?|Points? of Dispensing",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "clinics",
+      "label": "Clinics / district offices",
+      "pattern": "\\b(?!(?:At|On|The|A|An|In|To|From|By|For|With|And|Or|Of|Near|Each|Every|Any|All|No|Our|Its|This|That|Public|Health)\\b)([A-Z][a-z]+(?: [A-Z][a-z]+)? (?:District Clinic|Health Clinic|District Office|Health Center))\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "districts",
+      "label": "Health districts / service areas",
+      "noun": "Health Districts?|Service Areas?",
+      "genericNoun": "Districts?",
+      "context": "health|clinic|outbreak|\\bcases?\\b|vaccin|epidemi|surveillance|immuniz",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "outbreaks",
+      "label": "Outbreak / case numbers",
+      "pattern": "\\b(OB-\\d{4}-\\d{2,5}|Case \\d{2}-\\d{4,6})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "specimens",
+      "label": "Lab accession numbers",
+      "pattern": "\\b(PHL-\\d{2}-\\d{4,6})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "water_systems",
+      "label": "Public water systems (PWSID)",
+      "pattern": "\\b(?:PWSID:? ?)([A-Z]{2}\\d{7})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "disease surveillance and case management system (e.g. NBS or a commercial platform)",
+      "electronic laboratory reporting (ELR) and electronic case reporting (eCR) feeds",
+      "syndromic surveillance (ESSENCE)",
+      "immunization information system (IIS)",
+      "public health laboratory LIMS",
+      "vital records (electronic death registration)",
+      "Health Alert Network messaging and partner mass notification",
+      "countermeasure inventory and cold-chain tracking",
+      "environmental health inspection and permitting database",
+      "clinic EHR and billing",
+      "public website, data dashboards and the call center",
+      "county shared services: email, directory, ERP and SIEM"
+    ],
+    "ot": [
+      "public health lab BSL-3 suite HVAC and directional airflow",
+      "-80 °C freezers and autoclaves with alarms",
+      "vaccine refrigerators with remote temperature monitoring",
+      "access control and CCTV at the lab and clinics",
+      "temporary IT at POD sites"
+    ]
+  },
+  "roles": [
+    {
+      "key": "ho",
+      "name": "Health Officer / Health Director (Incident Commander)",
+      "abbreviation": "HO",
+      "team": "Team A: Command",
+      "description": "Issues health orders (isolation, quarantine, closure), declares a local public health emergency and sits in the policy group."
+    },
+    {
+      "key": "prep",
+      "name": "Public Health Emergency Preparedness Coordinator",
+      "abbreviation": "PHEP",
+      "team": "Team A: Command",
+      "description": "Owns DOC activation, incident management staffing and the plans; seats the liaison in the county EOC (ESF-8)."
+    },
+    {
+      "key": "epi",
+      "name": "Lead Epidemiologist / Communicable Disease Manager",
+      "abbreviation": "Epi",
+      "team": "Team B: Surveillance and Investigation",
+      "description": "Owns case definitions, contact tracing, the outbreak declaration and data release."
+    },
+    {
+      "key": "eh",
+      "name": "Director of Environmental Health",
+      "abbreviation": "EH",
+      "team": "Team C: Environmental Health",
+      "description": "Owns restaurant and pool closures, drinking-water advisories with the water system, and food recalls."
+    },
+    {
+      "key": "mcm",
+      "name": "Medical Countermeasures / SNS Coordinator",
+      "abbreviation": "MCM",
+      "team": "Team D: Logistics",
+      "description": "Owns Strategic National Stockpile requests and receipt, POD activation, security escort and the cold chain."
+    },
+    {
+      "key": "it",
+      "name": "IT Director / Informatics Lead",
+      "abbreviation": "IT",
+      "team": "Team E: IT and Informatics",
+      "description": "Owns the surveillance systems, ELR and eCR feeds, the immunization registry and network isolation (often with county IT)."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team F: Communications",
+      "description": "Owns HAN wording with the medical director, press and social media, rumor control and translation."
+    }
+  ],
+  "outsideParties": [
+    "CDC (Emergency Operations Center, Epi-Aid, the PHEP program office)",
+    "ASPR (the Strategic National Stockpile, regional emergency coordinators)",
+    "FDA",
+    "USDA FSIS",
+    "EPA (drinking water)",
+    "the FBI WMD coordinator",
+    "CISA",
+    "the state health department and the state public health lab",
+    "county emergency management and the county EOC",
+    "county IT",
+    "school districts",
+    "the sheriff and police",
+    "the medical examiner",
+    "the healthcare coalition, hospitals and infection preventionists",
+    "long-term care facilities and pharmacies",
+    "the Medical Reserve Corps",
+    "the Red Cross",
+    "the surveillance-platform and mass-notification vendors"
+  ],
+  "mediaChannels": [
+    "a local TV health reporter's email",
+    "a parent group on Facebook",
+    "a viral TikTok or X post with false claims",
+    "a school district email to parents",
+    "a county commissioner's post",
+    "a Spanish-language radio station"
+  ],
+  "sceneAnchors": {
+    "public": "a mass vaccination clinic in a school gymnasium: lines of residents, nurses at folding tables, signs with arrows, volunteers in vests, daylight through high windows",
+    "control": "inside a health department operations center: staff at long tables with laptops, a wall of printed maps and outbreak charts, an incident command board, fluorescent lighting",
+    "exterior": "a county public health department building with a parking lot, a white mobile clinic van, staff carrying coolers to a car, overcast sky"
+  },
+  "injectTypes": [
+    "press_release",
+    "email",
+    "email_forward",
+    "memo",
+    "official_letter",
+    "regulatory_notice",
+    "phone_call",
+    "voicemail",
+    "text_message",
+    "facebook_post",
+    "tweet",
+    "tiktok_video_card",
+    "reddit_post",
+    "news_article",
+    "news_chyron_still",
+    "media_inquiry_phone_slip",
+    "helpdesk_ticket",
+    "error_dialog",
+    "system_log",
+    "siem_alert",
+    "ransom_note",
+    "sitrep",
+    "status_board",
+    "ics_201_prefill",
+    "ics_203_prefill",
+    "field_report",
+    "scene_photo",
+    "map_annotation",
+    "incident_alert_notification"
+  ],
+  "threatFamilies": [
+    "cyber",
+    "infrastructure_failure",
+    "natural_hazard",
+    "physical_security",
+    "insider",
+    "mass_gathering"
+  ],
+  "noiseExamples": [
+    "a restaurant owner disputing an inspection score",
+    "a resident asking for a copy of a birth certificate",
+    "a routine rabies bite report",
+    "a vaccine shipment arriving a day early",
+    "a printer jam in the epidemiology office"
+  ],
+  "pressureExamples": [
+    "a viral review naming the wrong restaurant as the outbreak source",
+    "threatening voicemails to the health officer after a closure order",
+    "a deepfake video of the health officer announcing a mandatory quarantine",
+    "a reporter asking how many cases the department is not reporting",
+    "a county commissioner questioning the authority for the order"
+  ],
+  "rolePatterns": {
+    "technical": "informatics",
+    "operations": "health officer|preparedness|phep"
+  },
+  "agencyPattern": "CDC|ASPR|HHS|FDA|USDA|FSIS|SNS|Strategic National Stockpile|Medical Reserve Corps|Health-ISAC|MS-ISAC|state health department|state public health lab(?:oratory)?"
+}
