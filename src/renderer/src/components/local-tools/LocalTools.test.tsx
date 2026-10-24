@@ -80,6 +80,7 @@ function mount(
   mode: SetupMode | undefined,
   ui: 'wizard' | 'settings' = 'wizard',
   skipped: ToolId[] = [],
+  status: SetupStatus = STATUS,
 ) {
   let setup = { ...(mode ? { mode } : {}), skipped }
   const ttx = mockTtx({
@@ -88,7 +89,8 @@ function mount(
       setup = { ...setup, ...patch.setup }
       return AppSettings.parse({ setup })
     },
-    'setup:status': () => STATUS,
+    'setup:status': () => status,
+    'setup:stop': () => ({ stopped: true, message: 'Ollama stopped' }),
     'setup:install': () => ({ jobId: '01JOBINSTALL0000000000000A' }),
     'setup:pull-model': () => ({ jobId: '01JOBPULL00000000000000000' }),
     'jobs:list': () => [],
@@ -204,6 +206,75 @@ describe('Where should models run?', () => {
     await waitFor(() =>
       expect(ttx.calls('setup:pull-model')).toEqual([{ modelId: 'lmstudio:qwen/qwen3.5-9b' }]),
     )
+  })
+})
+
+describe('Ollama on Linux (#338)', () => {
+  const linux = (over: Partial<SetupStatus['tools'][number]>): SetupStatus => ({
+    ...STATUS,
+    tools: STATUS.tools.map((t) =>
+      t.id === 'ollama'
+        ? {
+            ...t,
+            state: 'missing' as const,
+            canStart: false,
+            verification: 'Checks the sha256 Ollama publishes.',
+            ...over,
+          }
+        : t,
+    ),
+  })
+  const rocm = {
+    id: 'rocm' as const,
+    name: 'AMD ROCm support',
+    sizeLabel: '1.1 GB download',
+    reason: 'An AMD GPU driver (/dev/kfd) was found.',
+  }
+
+  const ollamaRow = async () => {
+    const list = await screen.findByRole('list', { name: 'Local tools' })
+    return within(list).findByRole('listitem', { name: 'Ollama' })
+  }
+
+  it('offers the ROCm add-on ticked when found and sends it with the install', async () => {
+    const ttx = mount('local', 'wizard', [], linux({ addons: [rocm] }))
+    const row = await ollamaRow()
+    const box = within(row).getByRole('checkbox', { name: /Also install AMD ROCm support/ })
+    expect((box as HTMLInputElement).checked).toBe(true)
+    await userEvent.setup().click(within(row).getByRole('button', { name: 'Download and install' }))
+    await waitFor(() =>
+      expect(ttx.calls('setup:install')).toEqual([{ tool: 'ollama', addons: ['rocm'] }]),
+    )
+  })
+
+  it('leaves an unticked add-on out', async () => {
+    const ttx = mount('local', 'wizard', [], linux({ addons: [rocm] }))
+    const row = await ollamaRow()
+    const user = userEvent.setup()
+    await user.click(within(row).getByRole('checkbox', { name: /AMD ROCm/ }))
+    await user.click(within(row).getByRole('button', { name: 'Download and install' }))
+    await waitFor(() => expect(ttx.calls('setup:install')).toEqual([{ tool: 'ollama' }]))
+  })
+
+  it('shows no add-on choice when no GPU add-on applies', async () => {
+    mount('local', 'wizard', [], linux({}))
+    const list = await screen.findByRole('list', { name: 'Local tools' })
+    const row = await within(list).findByRole('listitem', { name: 'Ollama' })
+    expect(within(row).queryByRole('checkbox')).toBeNull()
+  })
+
+  it('offers Stop only for a server the app started', async () => {
+    const ttx = mount(
+      'local',
+      'wizard',
+      [],
+      linux({ state: 'running', baseUrl: 'http://127.0.0.1:11434', canStop: true }),
+    )
+    const list = await screen.findByRole('list', { name: 'Local tools' })
+    const row = await within(list).findByRole('listitem', { name: 'Ollama' })
+    expect(within(list).getAllByRole('button', { name: /^Stop / })).toHaveLength(1)
+    await userEvent.setup().click(within(row).getByRole('button', { name: 'Stop Ollama' }))
+    await waitFor(() => expect(ttx.calls('setup:stop')).toEqual([{ tool: 'ollama' }]))
   })
 })
 

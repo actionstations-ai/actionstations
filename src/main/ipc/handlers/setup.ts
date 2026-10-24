@@ -2,7 +2,7 @@
 // download page, and recommended model pulls. Downloads start only from these channels,
 // which the renderer calls from a button.
 import { shell } from 'electron'
-import type { ToolId } from '@shared/schemas/setup'
+import type { OllamaAddonId, ToolId } from '@shared/schemas/setup'
 import type { SetupInstallResult } from '@shared/ipc/setup'
 import { defineHandlers } from '../registry'
 import { jobs } from '../../jobs/manager'
@@ -15,7 +15,8 @@ import { installTool } from '../../setup/install'
 import { modelDef, pullModel } from '../../setup/models'
 import type { HostPolicy } from '../../setup/fetch'
 import type { Launcher, Runner } from '../../setup/run'
-import { startTool } from '../../setup/start'
+import type { ToolProcesses } from '../../setup/processes'
+import { startTool, stopTool } from '../../setup/start'
 
 /** Stand-ins for the OS and the network; tests replace them, production leaves them unset. */
 export const setupDeps: {
@@ -26,6 +27,7 @@ export const setupDeps: {
   hardware?: () => Promise<HardwareInput>
   policy?: HostPolicy
   startWaitMs?: number
+  processes?: ToolProcesses
 } = {}
 
 const env = (): SetupEnv => setupDeps.env?.() ?? defaultEnv()
@@ -41,7 +43,7 @@ function activeJob(kind: 'tool-install' | 'model-pull', key: string): string | u
     )?.id
 }
 
-function startInstall(tool: ToolId): { jobId: string } {
+function startInstall(tool: ToolId, addons: OllamaAddonId[] = []): { jobId: string } {
   const key = `tool:${tool}`
   const running = activeJob('tool-install', key)
   if (running) return { jobId: running }
@@ -58,8 +60,9 @@ function startInstall(tool: ToolId): { jobId: string } {
           ...(setupDeps.run ? { run: setupDeps.run } : {}),
           ...(setupDeps.policy ? { policy: setupDeps.policy } : {}),
         },
+        { addons },
       ),
-    { payload: { key, tool } },
+    { payload: { key, tool, ...(addons.length ? { addons } : {}) } },
   )
   return { jobId: job.id }
 }
@@ -98,14 +101,17 @@ export default defineHandlers({
       env: env(),
       ...(setupDeps.hardware ? { hardware: setupDeps.hardware } : {}),
     }),
-  'setup:install': ({ tool }) => startInstall(tool),
+  'setup:install': ({ tool, addons }) => startInstall(tool, addons),
   'setup:start': ({ tool }) =>
     startTool(tool, {
       env: env(),
       ...(setupDeps.run ? { run: setupDeps.run } : {}),
       ...(setupDeps.launch ? { launch: setupDeps.launch } : {}),
       ...(setupDeps.startWaitMs !== undefined ? { waitMs: setupDeps.startWaitMs } : {}),
+      ...(setupDeps.processes ? { processes: setupDeps.processes } : {}),
+      logDir: userDataPath('setup', 'logs'),
     }),
+  'setup:stop': ({ tool }) => stopTool(tool, setupDeps.processes),
   'setup:open-page': async ({ tool }) => {
     await shell.openExternal(TOOLS[tool].downloadPage)
   },

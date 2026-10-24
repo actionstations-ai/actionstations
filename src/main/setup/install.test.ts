@@ -203,11 +203,21 @@ describe('installTool on macOS', () => {
 })
 
 describe('platform checks', () => {
-  it('has no one-click install on Linux', async () => {
+  it('has no one-click install where the vendor publishes nothing to verify', async () => {
     const { deps: d } = deps('linux', goodWin('x'))
     await expect(
-      installTool('ollama', ctx(), { ...d, env: { ...d.env, arch: 'x64' } }),
+      installTool('lmstudio', ctx(), { ...d, env: { ...d.env, arch: 'x64' } }),
     ).rejects.toThrow(/no one-click install on this computer/)
+    await expect(
+      installTool('ollama', ctx(), { ...d, env: { ...d.env, arch: 'riscv64' } }),
+    ).rejects.toThrow(/no one-click install on this computer/)
+  })
+
+  it('refuses add-ons for a tool that has none here', async () => {
+    const { deps: d } = deps('win32', goodWin('Ollama Inc.'))
+    await expect(installTool('ollama', ctx(), d, { addons: ['rocm'] })).rejects.toThrow(
+      /has no add-ons/,
+    )
   })
 
   it('reads the asset and digest from a GitHub release listing', () => {

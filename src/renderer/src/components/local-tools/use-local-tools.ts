@@ -1,7 +1,7 @@
 // Data hooks for the local tools rows (ADR-0021, #334). Status is read only while a local or
 // mixed setup is shown; installs and model pulls are jobs started from a click.
 import type { JobKind } from '@shared/schemas/job'
-import type { HardwareView, SetupSettings, ToolId } from '@shared/schemas/setup'
+import type { HardwareView, OllamaAddonId, SetupSettings, ToolId } from '@shared/schemas/setup'
 import { call } from '../../lib/api'
 import { queryClient, useIpcQuery } from '../../lib/query'
 import { latestJob, trackJob, useJobsStore, type TrackedJob } from '../../state/jobs'
@@ -24,9 +24,9 @@ export function useKeyedJob(kind: JobKind, key: string): TrackedJob | null {
 export const toolKey = (tool: ToolId): string => `tool:${tool}`
 export const modelKey = (modelId: string): string => `model:${modelId}`
 
-export async function startInstall(tool: ToolId): Promise<void> {
+export async function startInstall(tool: ToolId, addons: OllamaAddonId[] = []): Promise<void> {
   try {
-    const { jobId } = await call('setup:install', { tool })
+    const { jobId } = await call('setup:install', { tool, ...(addons.length ? { addons } : {}) })
     trackJob(jobId, { kind: 'tool-install', payload: { key: toolKey(tool), tool } })
   } catch (err) {
     toast.error('Could not start the install', err)

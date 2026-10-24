@@ -3,12 +3,13 @@
 // measured on 2026-10-24; see the ADR's research table. A vendor that moves hosts or changes
 // its signing identity makes installs fail until this file is updated: the user still has
 // "Open the download page".
-import type { ToolId } from '@shared/schemas/setup'
+import type { OllamaAddonId, ToolId } from '@shared/schemas/setup'
 
 export type PlatformKey = `${NodeJS.Platform}-${string}`
 
 export interface InstallerSource {
-  format: 'dmg' | 'exe'
+  /** tar.zst: a Linux release tarball unpacked into a per-user folder (#338). */
+  format: 'dmg' | 'exe' | 'tar.zst'
   /** The vendor's stable "latest" URL (or the release API for Ollama, see `githubAsset`). */
   url: string
   /** Hard cap on the bytes received. */
@@ -136,10 +137,25 @@ export const TOOLS: Record<ToolId, ToolDef> = {
         maxBytes: 3 * GB,
         sizeLabel: '1.7 GB download · at least 4 GB on disk',
       },
+      // Linux (#338): the release tarball, unpacked into a per-user folder without sudo. It
+      // already carries the NVIDIA CUDA and Vulkan libraries; ROCm and JetPack are add-ons.
+      'linux-x64': {
+        format: 'tar.zst',
+        url: 'https://api.github.com/repos/ollama/ollama/releases/latest',
+        githubAsset: { repo: 'ollama/ollama', name: 'ollama-linux-amd64.tar.zst' },
+        maxBytes: 3 * GB,
+        sizeLabel: '1.5 GB download · about 2.5 GB on disk, in your home folder',
+      },
+      'linux-arm64': {
+        format: 'tar.zst',
+        url: 'https://api.github.com/repos/ollama/ollama/releases/latest',
+        githubAsset: { repo: 'ollama/ollama', name: 'ollama-linux-arm64.tar.zst' },
+        maxBytes: 3 * GB,
+        sizeLabel: '1.6 GB download · about 2.3 GB on disk, in your home folder',
+      },
     },
     macApps: ['Ollama.app'],
     pageReason: {
-      linux: `Ollama's Linux install extracts into /usr with sudo or pipes a script into a shell; Action Stations does neither.`,
       win32: 'Ollama publishes no Windows installer for this processor; use the download page.',
     },
   },
@@ -197,6 +213,59 @@ export const TOOLS: Record<ToolId, ToolDef> = {
         : 'mlx-audio runs on Apple Silicon only. Use the system voice or a cloud voice instead.',
   },
 }
+
+/** Ollama's published checksum file in the same GitHub release (`<sha256>  ./<name>` lines). */
+export const OLLAMA_SUMS_ASSET = 'sha256sum.txt'
+
+/**
+ * Optional GPU add-ons for Ollama on Linux (#338): extra tarballs unpacked over the main one,
+ * as Ollama's install.sh does. Offered only when this machine shows the hardware.
+ */
+export interface LinuxAddon {
+  id: OllamaAddonId
+  name: string
+  arch: 'x64' | 'arm64'
+  asset: string
+  maxBytes: number
+  sizeLabel: string
+  /** Why it is offered, in words, for the row. */
+  reason: string
+}
+
+export const OLLAMA_LINUX_ADDONS: Record<OllamaAddonId, LinuxAddon> = {
+  rocm: {
+    id: 'rocm',
+    name: 'AMD ROCm support',
+    arch: 'x64',
+    asset: 'ollama-linux-amd64-rocm.tar.zst',
+    maxBytes: 2 * GB,
+    sizeLabel: '1.1 GB download · about 2.7 GB on disk',
+    reason: 'An AMD GPU driver (/dev/kfd) was found.',
+  },
+  jetpack6: {
+    id: 'jetpack6',
+    name: 'NVIDIA JetPack 6 support',
+    arch: 'arm64',
+    asset: 'ollama-linux-arm64-jetpack6.tar.zst',
+    maxBytes: 1 * GB,
+    sizeLabel: '271 MB download',
+    reason: 'This is an NVIDIA Jetson with JetPack 6 (L4T R36).',
+  },
+  jetpack5: {
+    id: 'jetpack5',
+    name: 'NVIDIA JetPack 5 support',
+    arch: 'arm64',
+    asset: 'ollama-linux-arm64-jetpack5.tar.zst',
+    maxBytes: 1 * GB,
+    sizeLabel: '299 MB download',
+    reason: 'This is an NVIDIA Jetson with JetPack 5 (L4T R35).',
+  },
+}
+
+/** What a Linux Ollama tarball may contain: the binary and its libraries, nothing else. */
+export const OLLAMA_TAR_ALLOW = ['bin/ollama', 'lib/ollama/']
+/** Unpacked size cap for all Ollama tarballs together. */
+export const OLLAMA_UNPACKED_MAX = 12 * GB
 
 export const TOOL_ORDER: ToolId[] = ['lmstudio', 'ollama', 'comfyui', 'voice']
 

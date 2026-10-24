@@ -29,7 +29,7 @@ Each provider card shows its reachability and latency, and has **Test** (a one-l
 **Settings → Local tools** (and the setup wizard's **Where models run** step) asks how models run: **Cloud APIs only**, **Local tools** or **A mix**. Cloud APIs only shows no tool rows and never detects, downloads or installs anything. For local tools, each tool is its own row with what it does, its download and disk size, its license, and its state:
 
 - **Detected**: installed and answering on `127.0.0.1` (ComfyUI Desktop on port 8000 is found too).
-- **Installed, not running**: found on disk, with **Start** where the app can start it. LM Studio starts with `lms server start`, Ollama and ComfyUI Desktop by opening their app, and the voice server with `mlx_audio.server --host 127.0.0.1 --port 8765`.
+- **Installed, not running**: found on disk, with **Start** where the app can start it. LM Studio starts with `lms server start`, Ollama and ComfyUI Desktop by opening their app (on Linux, Ollama with `ollama serve` on 127.0.0.1, which the row can **Stop** again and the app stops when it quits), and the voice server with `mlx_audio.server --host 127.0.0.1 --port 8765`.
 - **Not installed**: **Download and install**, **Open the download page**, or **Skip**. Skip is remembered and can be undone with **Show skipped tools**.
 
 **Download and install** runs as a job with progress and **Cancel**:
@@ -39,7 +39,9 @@ Each provider card shows its reachability and latency, and has **Test** (a one-l
 3. It verifies the publisher signature before anything runs. On macOS that is the pinned Developer ID Team ID plus Gatekeeper; on Windows, the pinned Authenticode signer.
 4. On macOS it copies the app out of the disk image into Applications. On Windows it opens the installer, and Windows asks for administrator rights itself if the installer needs them.
 
-The app never elevates silently and never downloads in the background. On Linux, and for the mlx-audio voice server, only the download page or the exact command is offered: there is no signed installer to verify. See [ADR-0021](../../adr/0021-local-tools-setup.md) for the publisher identities, the per-OS support matrix and what happens when a vendor moves its downloads.
+**Ollama on Linux** installs without `sudo`. A system-wide Ollama (`/usr/local/bin`, `/usr/bin`) is detected first and used as it is. Otherwise **Download and install** fetches the release tarball for x64 or arm64. It requires the sha256 Ollama publishes in `sha256sum.txt`, which must match GitHub's digest; Ollama does not sign its Linux builds, so this checksum is the only check. The tarball is unpacked into `~/.local/share/actionstations/tools/ollama` (under `$XDG_DATA_HOME` when that is set). The main build already includes NVIDIA CUDA support. When the app finds an AMD GPU driver (`/dev/kfd`) or an NVIDIA Jetson, the row also offers the ROCm or JetPack add-on, ticked. To remove it, stop Ollama and delete that folder.
+
+The app never elevates silently and never downloads in the background. For LM Studio and ComfyUI on Linux, and for the mlx-audio voice server, only the download page or the exact command is offered: there is nothing signed or checksummed to verify. See [ADR-0021](../../adr/0021-local-tools-setup.md) for the publisher identities, the per-OS support matrix and what happens when a vendor moves its downloads.
 
 **Recommended models** follow the tools. They are chosen for this computer's memory: 70 % of RAM on Apple Silicon, VRAM on an NVIDIA GPU, otherwise half of RAM on the CPU. You get a text model per tool (from `qwen3.5:4b` up to `gpt-oss:120b`), `nomic-embed-text` for Ollama, and SDXL and LTX-Video for ComfyUI's default workflows. Each has its size and license and is its own **Download**. Downloads go through the tool's own pull: Ollama's pull API, `lms get`, or a sha256-checked file in the checkpoint folder of the running ComfyUI.
 

@@ -1,6 +1,6 @@
 # ADR-0021: Optional setup of local model tools, or cloud APIs only
 
-Date: 2026-10-24 · Status: Accepted · Issue: #334 · Milestone: 0.4.0 Domain packs
+Date: 2026-10-24 · Status: Accepted · Issues: #334, #338 (Linux Ollama) · Milestone: 0.4.0 Domain packs
 
 ## Context
 
@@ -49,7 +49,7 @@ Skip is stored per tool in `settings.setup.skipped` and can be undone. Models ar
 
 **Where the code lives.**
 
-- `src/main/setup/`: `catalog.ts` holds the pinned vendor data. The other modules are `detect.ts`, `hardware.ts`, `fetch.ts`, `verify.ts`, `install.ts`, `start.ts` and `models.ts`.
+- `src/main/setup/`: `catalog.ts` holds the pinned vendor data. The other modules are `detect.ts`, `hardware.ts`, `fetch.ts`, `release.ts`, `verify.ts`, `install.ts`, `start.ts` and `models.ts`; for Linux Ollama (#338), `linux-ollama.ts`, `untar.ts` (safe extraction) and `processes.ts` (servers the app started and can stop).
 - IPC: `setup:*` in `src/shared/ipc/setup.ts`.
 - Jobs: the kind `tool-install` for installs; model downloads use `model-pull`.
 - UI: `src/renderer/src/components/local-tools/`, used by the wizard step and by the Settings section.
@@ -58,7 +58,7 @@ Skip is stored per tool in `settings.setup.skipped` and can be undone. Models ar
 
 1. **Only on a click.** Detection reads files and probes 127.0.0.1. It never contacts a vendor. A download starts only from **Download and install** or a model's **Download** button. It runs as a job with progress and Cancel. There are no background downloads, update checks or telemetry.
 2. **Only from pinned vendor hosts.** Each tool has a start URL and an allowlist of hosts. LM Studio: `lmstudio.ai`, `installers.lmstudio.ai`. Ollama: `ollama.com`, `api.github.com`, `github.com`, `release-assets.githubusercontent.com`, `objects.githubusercontent.com`. ComfyUI: `download.comfy.org`, `dl.todesktop.com`. Model files: `huggingface.co` and `*.hf.co`. Redirects are followed by hand, and every hop must be https on an allowed host. A byte cap per installer, an idle timeout and Cancel remove the partial file.
-3. **sha256 where the vendor publishes one.** For Ollama the job reads the asset's `sha256:` digest from the GitHub releases API and refuses a mismatch. Model files for ComfyUI are pinned to a Hugging Face revision and to the file's sha256 (the LFS object id). LM Studio and ComfyUI Desktop publish no hash, so for them the signature is the only check.
+3. **sha256 where the vendor publishes one.** For Ollama the job reads the asset's `sha256:` digest from the GitHub releases API and refuses a mismatch. On Linux, where there is no signature, the sha256 is required: it comes from Ollama's `sha256sum.txt` in the same release, and when GitHub also lists a digest for the asset the two must agree (see **Ollama on Linux** below). Model files for ComfyUI are pinned to a Hugging Face revision and to the file's sha256 (the LFS object id). LM Studio and ComfyUI Desktop publish no hash, so for them the signature is the only check.
 4. **Publisher signature before anything runs.**
    - **macOS:** the job mounts the DMG read-only with `-nobrowse`. It then runs `codesign --verify --deep --strict` on the `.app`, reads its `TeamIdentifier` from `codesign -dv`, and requires the pinned Team ID. It also requires `spctl --assess --type execute` to accept the app (notarized Developer ID).
    - **Windows:** `Get-AuthenticodeSignature` must report `Valid`, and the signer subject's CN must equal the pinned name.
@@ -66,6 +66,7 @@ Skip is stored per tool in `settings.setup.skipped` and can be undone. Models ar
 5. **The vendor's documented install, with the OS in charge of rights.**
    - **macOS:** the verified `.app` is copied with `ditto` into `/Applications`, or into `~/Applications` when `/Applications` is not writable for the user. The copy's Team ID is verified again, and the image is detached.
    - **Windows:** the verified installer is opened with the shell like a double-click, never with silent or elevation flags. If it needs admin rights, Windows shows its own UAC prompt.
+   - **Linux (Ollama only):** the vendor's manual install (`tar x -C /usr` with `sudo`) is done into a per-user folder instead, with no `sudo`. See **Ollama on Linux** below.
    - The app never calls `sudo`, `osascript … with administrator privileges` or `runas`.
 6. **Models through the tool's own pull.**
    - Ollama: `POST /api/pull` on 127.0.0.1, through the existing adapter.
@@ -77,14 +78,46 @@ Skip is stored per tool in `settings.setup.skipped` and can be undone. Models ar
 
 **Per-OS support.** In the matrix below, "Install" means one-click download, verify and install. "Page" means **Open the download page** only.
 
-| Tool                    | macOS Apple Silicon             | macOS Intel             | Windows x64        | Windows arm64 | Linux         |
-| ----------------------- | ------------------------------- | ----------------------- | ------------------ | ------------- | ------------- |
-| LM Studio               | Install                         | not supported by vendor | Install            | Install       | Page          |
-| Ollama                  | Install (+ sha256)              | Install (+ sha256)      | Install (+ sha256) | Page          | Page          |
-| ComfyUI Desktop         | Install                         | not supported by vendor | Install            | Page          | Page          |
-| Local voice (mlx-audio) | Guided: copy the command, Start | not supported           | not supported      | not supported | not supported |
+| Tool                    | macOS Apple Silicon             | macOS Intel             | Windows x64        | Windows arm64 | Linux                             |
+| ----------------------- | ------------------------------- | ----------------------- | ------------------ | ------------- | --------------------------------- |
+| LM Studio               | Install                         | not supported by vendor | Install            | Install       | Page                              |
+| Ollama                  | Install (+ sha256)              | Install (+ sha256)      | Install (+ sha256) | Page          | Install, sha256 only (x64, arm64) |
+| ComfyUI Desktop         | Install                         | not supported by vendor | Install            | Page          | Page                              |
+| Local voice (mlx-audio) | Guided: copy the command, Start | not supported           | not supported      | not supported | not supported                     |
 
-Linux is page-only. The LM Studio and Comfy Desktop AppImages carry no signature and no published hash. Ollama's documented install extracts into `/usr` with `sudo` or pipes a script into a shell, and the trust model refuses both.
+On Linux, LM Studio and ComfyUI Desktop stay page-only: their AppImages carry no signature and no published hash. Ollama's documented install extracts into `/usr` with `sudo` or pipes a script into a shell, and the trust model refuses both; from #338 on the app does the same unpacking into a per-user folder instead, described next.
+
+**Ollama on Linux (#338).** Measured 2026-10-24 against release v0.40.11 (GitHub releases API, `https://ollama.com/install.sh` and `docs.ollama.com/linux`). The Linux assets are zstd-compressed GNU tarballs:
+
+| Asset                                 | Download | Unpacked     | What it is                                                                          |
+| ------------------------------------- | -------- | ------------ | ----------------------------------------------------------------------------------- |
+| `ollama-linux-amd64.tar.zst`          | 1.51 GB  | 2.48 GB      | `bin/ollama` plus `lib/ollama/` with the CPU, CUDA v12 and v13, and Vulkan backends |
+| `ollama-linux-arm64.tar.zst`          | 1.56 GB  | 2.27 GB      | the same for arm64 (CUDA v12 and v13)                                               |
+| `ollama-linux-amd64-rocm.tar.zst`     | 1.05 GB  | 2.69 GB      | add-on: `lib/ollama/rocm_v7_2/` (AMD ROCm 7.2), unpacked over the main tarball      |
+| `ollama-linux-arm64-jetpack6.tar.zst` | 271 MB   | not measured | add-on for NVIDIA Jetson, L4T R36                                                   |
+| `ollama-linux-arm64-jetpack5.tar.zst` | 299 MB   | not measured | add-on for NVIDIA Jetson, L4T R35                                                   |
+| `ollama-linux-amd64-mlx.tar.zst`      | 1.23 GB  | not measured | not in Ollama's install docs or `install.sh`; not offered                           |
+| `sha256sum.txt`                       | 1.5 KB   |              | `<sha256>  ./<asset>` for every asset of the release                                |
+
+The tarballs hold only regular files, directories and symlinks. The symlinks are relative and stay in their own folder (`libcublas.so.13 -> ./libcublas.so.13.1.1.3`), and many ROCm names are longer than 100 bytes (GNU `././@LongLink` records). `install.sh` unpacks the main tarball into `/usr/local` or `/usr` with `sudo`. It adds the ROCm tarball when `lspci` or `lshw` shows an AMD GPU, and the JetPack tarball when `/etc/nv_tegra_release` names R36 or R35.
+
+What the app does instead:
+
+1. **Where.** `$XDG_DATA_HOME/actionstations/tools/ollama`, or `~/.local/share/actionstations/tools/ollama` when `XDG_DATA_HOME` is unset or not absolute. No `sudo`, no system folders, no PATH changes and no systemd unit.
+2. **A system install wins.** Detection looks at `/usr/local/bin/ollama`, `/usr/bin/ollama` and `~/.local/bin/ollama` first, then the app's own copy. If any is found, the row is **Installed** with **Start**, and an install request is refused before anything is downloaded.
+3. **Release lookup and checksums.** One read of `api.github.com/repos/ollama/ollama/releases/latest` gives the asset URLs and GitHub's digests for that one release. The job then fetches that release's `sha256sum.txt` (at most 64 KB). Each tarball must be listed there, and when GitHub lists a digest too, the two must agree; otherwise nothing is downloaded. The download is hashed while it streams and refused on a mismatch. Ollama does not sign its Linux builds, so this is the only check, and the row says so.
+4. **Safe unpacking.** The archive is decompressed in-process with Node's built-in zstd (Node 22.15 or later; the app refuses with a message on an older runtime). It is unpacked into a staging folder next to the target and moved into place only when every tarball has passed. A failure removes the staging folder and the downloads. The extractor:
+   - allows only `bin/ollama` and paths under `lib/ollama/`;
+   - refuses absolute paths, `..` segments, backslashes and NULs;
+   - accepts a symlink only when its target is relative and resolves inside those paths;
+   - never writes through a symlink or over an existing path: parents are checked with `lstat`, and files are created with `O_EXCL`;
+   - copies a hard link from an earlier file in the same archive instead of linking it;
+   - refuses devices, FIFOs and sparse files, and verifies every header checksum;
+   - drops set-id bits (files become 0755 or 0644);
+   - caps the unpacked total at 12 GB and the entry count at 20 000.
+5. **GPU choice.** There is no separate CUDA download: the main tarball already carries the CUDA and Vulkan libraries. The plain build is therefore the default, and it uses an NVIDIA GPU once the NVIDIA driver is installed. ROCm is offered, ticked, only on x64 when `/dev/kfd` exists (the amdgpu compute interface Ollama itself needs). JetPack 6 or 5 is offered only on arm64 when `/etc/nv_tegra_release` names R36 or R35. Without that hardware the row shows no option, and the main process refuses an add-on the machine does not offer. The `-mlx` asset is not offered, because Ollama does not document it for Linux installs. Detecting a GPU from files can miss one, for example when a container hides `/dev/kfd`; the plain build then runs on the CPU or through Vulkan, and ROCm can be added by hand following Ollama's docs.
+6. **Start and stop.** **Start** runs `<folder>/bin/ollama serve` as a normal child process of the app (no shell, not detached) with `OLLAMA_HOST=127.0.0.1:11434`, so it listens on loopback only. The same applies to a system binary when no Ollama service is already answering. Its output goes to `<userData>/setup/logs/ollama.log`. While it runs, the row shows **Stop** (SIGTERM, then SIGKILL after 5 s), and the app stops it when it quits. A server the app did not start, such as a systemd service, is never stopped. Models go to Ollama's default `~/.ollama/models`.
+7. **Updates and removal.** As on the other platforms, the app does not update the tool. To reinstall or remove it, delete the folder; an existing folder makes a new install refuse rather than overwrite it.
 
 Local voice is guided, not one-click. mlx-audio is a Python package with no signed installer and no publisher identity to pin. Installing it pulls many packages from PyPI, and only their index hashes could be checked. The row therefore shows the exact command (`uv tool install mlx-audio`) and the vendor page, then detects and starts the server once it is installed.
 
@@ -120,8 +153,9 @@ Ollama sizes come from the registry manifests. The LM Studio download depends on
   - LM Studio and ComfyUI Desktop publish no hashes, so for them integrity rests on the signature alone.
   - ComfyUI Desktop's DMG is not signed (only the app inside is).
   - Linux AppImages carry neither a signature nor a published hash.
+  - Ollama's Linux tarballs are not signed. The per-user install rests on the sha256 from `sha256sum.txt`, cross-checked with GitHub's digest. Both are served by GitHub for the same release, so they catch a corrupted or swapped download, not a compromised release.
   - mlx-audio has no publisher signature.
   - Recommended LM Studio model sizes depend on the variant `lms get` resolves.
   - Ollama's `/api/pull` checks layer digests against the registry manifest, but the manifest itself is not signed.
 - Installed tools update themselves through their own updaters. The app does not manage versions after install.
-- Tests use a local http server, fixture binaries and a recorded `codesign`/PowerShell output. They never download a real installer.
+- Tests use a local http server, fixture binaries and a recorded `codesign`/PowerShell output. The Linux tests use tarballs built in memory, including hostile ones (path escapes, links out, devices). They never download a real installer.

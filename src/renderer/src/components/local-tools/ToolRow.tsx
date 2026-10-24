@@ -2,7 +2,7 @@
 // Installed but not running (Start), or Not installed (Download and install / Open the
 // download page / Skip). Nothing happens without a click.
 import { useState } from 'react'
-import type { ToolView } from '@shared/schemas/setup'
+import type { OllamaAddonId, ToolView } from '@shared/schemas/setup'
 import type { SetupInstallResult } from '@shared/ipc'
 import { call } from '../../lib/api'
 import { queryClient } from '../../lib/query'
@@ -23,6 +23,8 @@ const STATE_TONE = { running: 'ok', installed: 'warn', missing: 'neutral' } as c
 function installedMessage(r: SetupInstallResult | undefined): string {
   if (!r) return 'Installed.'
   const hash = r.sha256Checked ? ' and the published sha256' : ''
+  if (!r.signer)
+    return `Installed to ${r.installedAt ?? 'your home folder'} after checking the published sha256. Press Start to run it.`
   if (r.installerOpened)
     return `The installer is open (signed by ${r.signer}${hash ? `, checked against${hash}` : ''}). Follow it, then press Detect again.`
   return `Installed to ${r.installedAt ?? 'Applications'} after checking the signature (${r.signer})${hash}. Press Start to run it.`
@@ -88,33 +90,89 @@ function StartButton({ tool }: { tool: ToolView }) {
   )
 }
 
+function StopButton({ tool }: { tool: ToolView }) {
+  const [busy, setBusy] = useState(false)
+  const stop = async () => {
+    setBusy(true)
+    try {
+      const r = await call('setup:stop', { tool: tool.id })
+      if (!r.stopped) toast.error(r.message)
+      await queryClient.invalidateQueries({ queryKey: ['setup:status'] })
+    } catch (err) {
+      toast.error(`Could not stop ${tool.name}`, err)
+    } finally {
+      setBusy(false)
+    }
+  }
+  return (
+    <div className="row lt-actions">
+      <Button size="sm" disabled={busy} onClick={() => void stop()}>
+        {busy ? 'Stopping…' : `Stop ${tool.name}`}
+      </Button>
+    </div>
+  )
+}
+
+/** GPU add-ons offered because the hardware was found; ticked by default. */
+function AddonChoices(props: {
+  tool: ToolView
+  chosen: OllamaAddonId[]
+  onChange: (next: OllamaAddonId[]) => void
+}) {
+  const addons = props.tool.addons ?? []
+  if (!addons.length) return null
+  const toggle = (id: OllamaAddonId, on: boolean) =>
+    props.onChange(on ? [...props.chosen, id] : props.chosen.filter((a) => a !== id))
+  return (
+    <fieldset className="lt-addons">
+      <legend>GPU support</legend>
+      {addons.map((a) => (
+        <label key={a.id} className="lt-addon">
+          <input
+            type="checkbox"
+            checked={props.chosen.includes(a.id)}
+            onChange={(e) => toggle(a.id, e.target.checked)}
+          />
+          <span>
+            Also install {a.name} ({a.sizeLabel}). <span className="muted">{a.reason}</span>
+          </span>
+        </label>
+      ))}
+    </fieldset>
+  )
+}
+
 function MissingActions(props: { tool: ToolView; busy: boolean; onSkip: () => void }) {
   const t = props.tool
+  const [addons, setAddons] = useState<OllamaAddonId[]>(() => (t.addons ?? []).map((a) => a.id))
   const openPage = () =>
     call('setup:open-page', { tool: t.id }).catch((err: unknown) =>
       toast.error('Could not open the download page', err),
     )
   return (
-    <div className="row lt-actions">
-      {t.method === 'install' && (
-        <Button
-          size="sm"
-          variant="primary"
-          disabled={props.busy}
-          onClick={() => void startInstall(t.id)}
-        >
-          Download and install
+    <>
+      {t.method === 'install' && <AddonChoices tool={t} chosen={addons} onChange={setAddons} />}
+      <div className="row lt-actions">
+        {t.method === 'install' && (
+          <Button
+            size="sm"
+            variant="primary"
+            disabled={props.busy}
+            onClick={() => void startInstall(t.id, addons)}
+          >
+            Download and install
+          </Button>
+        )}
+        {t.method !== 'unsupported' && (
+          <Button size="sm" onClick={() => void openPage()}>
+            Open the download page
+          </Button>
+        )}
+        <Button size="sm" variant="ghost" onClick={props.onSkip}>
+          Skip
         </Button>
-      )}
-      {t.method !== 'unsupported' && (
-        <Button size="sm" onClick={() => void openPage()}>
-          Open the download page
-        </Button>
-      )}
-      <Button size="sm" variant="ghost" onClick={props.onSkip}>
-        Skip
-      </Button>
-    </div>
+      </div>
+    </>
   )
 }
 
@@ -158,6 +216,7 @@ export function ToolRow(props: { tool: ToolView; onSkip: () => void }) {
           </div>
         )}
       </dl>
+      {t.state === 'running' && t.canStop && <StopButton tool={t} />}
       {t.state === 'installed' &&
         (t.canStart ? (
           <div className="row lt-actions">

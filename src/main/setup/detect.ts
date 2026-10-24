@@ -1,9 +1,9 @@
 // Three states per local tool (ADR-0021): running (answers on 127.0.0.1), installed (found on
 // disk, not answering) or missing. Builds on the "Detect local services" probes; only reads
 // files and talks to 127.0.0.1.
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { homedir } from 'node:os'
-import { join, win32 } from 'node:path'
+import { isAbsolute, join, win32 } from 'node:path'
 import type { ToolId, ToolState, ToolView } from '@shared/schemas/setup'
 import { detectLocalServices, type LocalService } from '../providers/local-detect'
 import {
@@ -15,6 +15,8 @@ import {
   platformKey,
   type ToolDef,
 } from './catalog'
+import { offeredAddons, ollamaUserBin, ollamaUserDir } from './linux-ollama'
+import { toolProcesses } from './processes'
 
 export interface SetupEnv {
   platform: NodeJS.Platform
@@ -22,8 +24,20 @@ export interface SetupEnv {
   home: string
   /** %LOCALAPPDATA% on Windows. */
   localAppData?: string
+  /** $XDG_DATA_HOME on Linux (ignored unless absolute, per the XDG spec). */
+  xdgDataHome?: string
   exists: (path: string) => boolean
+  /** Read a small system file (/etc/nv_tegra_release); undefined when absent. */
+  readText?: (path: string) => string | undefined
   fetchImpl: typeof fetch
+}
+
+const readSmall = (path: string): string | undefined => {
+  try {
+    return readFileSync(path, 'utf8').slice(0, 4096)
+  } catch {
+    return undefined
+  }
 }
 
 export function defaultEnv(): SetupEnv {
@@ -32,7 +46,11 @@ export function defaultEnv(): SetupEnv {
     arch: process.arch,
     home: homedir(),
     ...(process.env.LOCALAPPDATA ? { localAppData: process.env.LOCALAPPDATA } : {}),
+    ...(process.env.XDG_DATA_HOME && isAbsolute(process.env.XDG_DATA_HOME)
+      ? { xdgDataHome: process.env.XDG_DATA_HOME }
+      : {}),
     exists: existsSync,
+    readText: readSmall,
     fetchImpl: fetch,
   }
 }
@@ -79,9 +97,12 @@ export function candidates(id: ToolId, env: SetupEnv): Found[] {
         ]
       if (platform === 'win32')
         return [{ path: winJoin(local, 'Programs', 'Ollama', 'ollama.exe'), kind: 'cli' }]
+      // A system-wide install comes first and is preferred; the app's own per-user copy last.
       return [
         { path: '/usr/local/bin/ollama', kind: 'cli' },
         { path: '/usr/bin/ollama', kind: 'cli' },
+        { path: join(home, '.local', 'bin', 'ollama'), kind: 'cli' },
+        { path: ollamaUserBin(env), kind: 'cli' },
       ]
     case 'comfyui': {
       // A git checkout of ComfyUI counts as installed; the app cannot start it for the user.
@@ -174,6 +195,8 @@ function methodFor(def: ToolDef, env: SetupEnv): Pick<ToolView, 'method' | 'meth
 function verificationText(def: ToolDef, env: SetupEnv): string | undefined {
   const source = def.sources[platformKey(env.platform, env.arch)]
   if (!source || !def.identity) return undefined
+  if (source.format === 'tar.zst')
+    return `Checks the sha256 Ollama publishes (sha256sum.txt, and GitHub's digest of the same file), then unpacks into ${ollamaUserDir(env)} without sudo. Ollama's Linux builds carry no signature.`
   const who =
     env.platform === 'darwin'
       ? `${def.identity.macTeamName} (Team ID ${def.identity.macTeamId}), notarized by Apple`
@@ -202,6 +225,8 @@ export function toolView(id: ToolId, env: SetupEnv, running: Running): ToolView 
   const url = running.urls[id]
   const state: ToolState = url ? 'running' : found ? 'installed' : 'missing'
   const verification = verificationText(def, env)
+  const canStop = state === 'running' && toolProcesses.has(id)
+  const addons = state === 'missing' && id === 'ollama' ? offeredAddons(env) : []
   return {
     id,
     name: def.name,
@@ -217,6 +242,17 @@ export function toolView(id: ToolId, env: SetupEnv, running: Running): ToolView 
     ...(id === 'voice' ? { command: VOICE_INSTALL_COMMAND } : {}),
     canStart: state === 'installed' && canStart(id, found, env),
     ...(verification ? { verification } : {}),
+    ...(canStop ? { canStop } : {}),
+    ...(addons.length
+      ? {
+          addons: addons.map((a) => ({
+            id: a.id,
+            name: a.name,
+            sizeLabel: a.sizeLabel,
+            reason: a.reason,
+          })),
+        }
+      : {}),
   }
 }
 

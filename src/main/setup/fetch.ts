@@ -101,31 +101,34 @@ export async function setupGet(
   }
 }
 
-/** Fetch a small JSON document (a release listing) under the same policy. */
-export async function setupGetJson(
+/** Fetch a small text document (a release listing, a checksum file) under the same policy. */
+export async function setupGetText(
   url: string,
   policy: HostPolicy,
-  opts: SetupFetchOptions = {},
-): Promise<unknown> {
+  opts: SetupFetchOptions & { maxBytes?: number; accept?: string } = {},
+): Promise<string> {
+  const max = opts.maxBytes ?? 4 * 1024 * 1024
   const idle = idleAbort(opts.timeoutMs ?? DEFAULT_TIMEOUT_MS, opts.signal)
   try {
-    const res = await setupGet(
-      url,
-      policy,
-      4 * 1024 * 1024,
-      idle.signal,
-      opts.fetchImpl,
-      'application/json',
-    )
+    const res = await setupGet(url, policy, max, idle.signal, opts.fetchImpl, opts.accept)
     const chunks: Uint8Array[] = []
-    await readCapped(res, 4 * 1024 * 1024, (c) => void chunks.push(c), idle.touch)
-    return JSON.parse(Buffer.concat(chunks).toString('utf8'))
+    await readCapped(res, max, (c) => void chunks.push(c), idle.touch)
+    return Buffer.concat(chunks).toString('utf8')
   } catch (err) {
     if (idle.signal.aborted) throw abortError(idle.timedOut, url)
     throw err
   } finally {
     idle.dispose()
   }
+}
+
+/** Fetch a small JSON document (a release listing) under the same policy. */
+export async function setupGetJson(
+  url: string,
+  policy: HostPolicy,
+  opts: SetupFetchOptions = {},
+): Promise<unknown> {
+  return JSON.parse(await setupGetText(url, policy, { ...opts, accept: 'application/json' }))
 }
 
 const closed = (s: WriteStream): Promise<void> =>

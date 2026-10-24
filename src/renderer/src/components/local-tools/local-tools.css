@@ -113,3 +113,26 @@
 .lt-skipped {
   flex-wrap: wrap;
 }
+
+/* GPU add-ons for Ollama on Linux (#338). */
+.lt-addons {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.lt-addons legend {
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-1);
+}
+.lt-addon {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.lt-addon input {
+  margin-top: 0.2rem;
+  accent-color: var(--color-accent);
+}

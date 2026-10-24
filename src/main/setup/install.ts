@@ -5,14 +5,18 @@
 // if it needs admin rights). Never silent, never elevated by the app.
 import { constants, promises as fs } from 'node:fs'
 import { join } from 'node:path'
-import type { ToolId } from '@shared/schemas/setup'
+import type { OllamaAddonId, ToolId } from '@shared/schemas/setup'
 import { AppError } from '../lib/errors'
 import { newId } from '../lib/ids'
 import { TOOLS, platformKey, type InstallerSource, type ToolDef } from './catalog'
-import type { SetupEnv } from './detect'
+import { findInstalled, type SetupEnv } from './detect'
 import { downloadFile, setupGetJson, type HostPolicy } from './fetch'
+import { installOllamaLinux } from './linux-ollama'
 import { runCommand, type Runner } from './run'
+import { githubAsset, type Resolved } from './release'
 import { verifyMacApp, verifyWindowsInstaller } from './verify'
+
+export { githubAsset } from './release'
 
 export interface InstallContext {
   signal: AbortSignal
@@ -37,42 +41,18 @@ export interface InstallDeps {
 
 export interface InstallResult {
   tool: ToolId
-  /** macOS: where the verified app was copied. */
+  /** macOS: where the verified app was copied. Linux: the per-user folder it was unpacked into. */
   installedAt?: string
   /** Windows: the vendor installer was opened and is now running on its own. */
   installerOpened?: boolean
   signer: string
   sha256: string
   sha256Checked: boolean
-}
-
-interface Resolved {
-  url: string
-  sha256?: string
+  /** Linux: GPU add-ons unpacked with it. */
+  addons?: OllamaAddonId[]
 }
 
 const MB = 1024 * 1024
-
-/** The asset URL and sha256 digest from a GitHub "latest release" listing. */
-export function githubAsset(release: unknown, name: string): Resolved {
-  const assets = (release as { assets?: unknown })?.assets
-  const asset = Array.isArray(assets)
-    ? (assets as { name?: unknown; browser_download_url?: unknown; digest?: unknown }[]).find(
-        (a) => a?.name === name,
-      )
-    : undefined
-  if (!asset || typeof asset.browser_download_url !== 'string')
-    throw new AppError(
-      'PROVIDER',
-      `The vendor's latest release has no ${name}; use "Open the download page".`,
-    )
-  const digest =
-    typeof asset.digest === 'string' ? /^sha256:([0-9a-f]{64})$/i.exec(asset.digest) : null
-  return {
-    url: asset.browser_download_url,
-    ...(digest?.[1] ? { sha256: digest[1].toLowerCase() } : {}),
-  }
-}
 
 async function resolveSource(
   source: InstallerSource,
@@ -181,15 +161,54 @@ async function installFromDmg(
   }
 }
 
+/** Linux tarball: refuse when Ollama is already on this machine (a system install wins). */
+async function installTarball(
+  def: ToolDef,
+  source: InstallerSource,
+  addons: OllamaAddonId[],
+  ctx: InstallContext,
+  deps: InstallDeps,
+): Promise<InstallResult> {
+  const found = findInstalled(def.id, deps.env)
+  if (found)
+    throw new AppError(
+      'CONFLICT',
+      `${def.name} is already installed at ${found.path}; press Start instead of installing a second copy.`,
+    )
+  const done = await installOllamaLinux(source, addons, ctx, {
+    env: deps.env,
+    dir: deps.dir,
+    policy: deps.policy ?? { hosts: def.hosts },
+    ...(deps.urlOverride ? { urlOverride: deps.urlOverride } : {}),
+  })
+  ctx.progress(1, `Installed ${def.name} in ${done.installedAt}`)
+  return {
+    tool: def.id,
+    installedAt: done.installedAt,
+    signer: '',
+    sha256: done.sha256,
+    sha256Checked: true,
+    ...(done.addons.length ? { addons: done.addons } : {}),
+  }
+}
+
 /** Download, check and install one tool. Runs inside a job; throws to fail it. */
 export async function installTool(
   id: ToolId,
   ctx: InstallContext,
   deps: InstallDeps,
+  request: { addons?: OllamaAddonId[] } = {},
 ): Promise<InstallResult> {
   const def = TOOLS[id]
   const { env } = deps
   const source = sourceFor(def, env)
+  if (source.format === 'tar.zst') {
+    if (env.platform !== 'linux')
+      throw new AppError('VALIDATION', 'Linux tarballs install on Linux only')
+    return installTarball(def, source, request.addons ?? [], ctx, deps)
+  }
+  if (request.addons?.length)
+    throw new AppError('VALIDATION', `${def.name} has no add-ons on this computer`)
   if (source.format === 'dmg' && env.platform !== 'darwin')
     throw new AppError('VALIDATION', 'Disk images install on macOS only')
   if (source.format === 'exe' && env.platform !== 'win32')

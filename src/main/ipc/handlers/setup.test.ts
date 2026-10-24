@@ -73,12 +73,30 @@ describe('setup:status', () => {
 describe('setup:install', () => {
   it('starts one tool-install job per tool and reports a refusal as the job error', async () => {
     machine.env.platform = 'linux'
-    machine.env.arch = 'x64'
+    machine.env.arch = 'riscv64'
     const { jobId } = await call<{ jobId: string }>('setup:install', { tool: 'ollama' })
     expect(jobs.get(jobId).kind).toBe('tool-install')
     const job = await waitDone(jobId)
     expect(job.status).toBe('error')
     expect(job.error).toMatch(/no one-click install on this computer/)
+  })
+
+  it('refuses a GPU add-on the machine does not offer, as the job error', async () => {
+    machine.env.platform = 'linux'
+    machine.env.arch = 'x64'
+    const { jobId } = await call<{ jobId: string }>('setup:install', {
+      tool: 'ollama',
+      addons: ['rocm'],
+    })
+    const job = await waitDone(jobId)
+    expect(job.error).toMatch(/AMD ROCm support is not offered on this computer/)
+    expect(machine.fetched).toEqual([])
+  })
+
+  it('rejects an unknown add-on', async () => {
+    await expect(call('setup:install', { tool: 'ollama', addons: ['cuda'] })).rejects.toMatchObject(
+      { code: 'VALIDATION' },
+    )
   })
 
   it('rejects an unknown tool', async () => {
@@ -114,6 +132,16 @@ describe('setup:start', () => {
     await expect(call('setup:start', { tool: 'comfyui' })).rejects.toMatchObject({
       code: 'NOT_FOUND',
     })
+  })
+})
+
+describe('setup:stop', () => {
+  it('stops only a server the app started', async () => {
+    const { ToolProcesses } = await import('../../setup/processes')
+    setupDeps.processes = new ToolProcesses()
+    const r = await call<{ stopped: boolean; message: string }>('setup:stop', { tool: 'ollama' })
+    expect(r.stopped).toBe(false)
+    expect(r.message).toMatch(/not started by Action Stations/)
   })
 })
 

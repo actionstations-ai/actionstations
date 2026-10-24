@@ -1,10 +1,12 @@
 // Start an installed local tool on the user's click (ADR-0021): LM Studio through `lms server
 // start` (or by opening the app), Ollama and ComfyUI by opening their app or `ollama serve`, the
 // voice server with mlx_audio.server on 127.0.0.1:8765. Then wait briefly for it to answer.
+import { join } from 'node:path'
 import type { ToolId } from '@shared/schemas/setup'
 import { AppError } from '../lib/errors'
 import { TOOLS, VOICE_START_ARGS } from './catalog'
 import { findInstalled, lmsPath, probeRunning, type SetupEnv } from './detect'
+import { toolProcesses, type ToolProcesses } from './processes'
 import { launchDetached, runCommand, type Launcher, type Runner } from './run'
 
 export interface StartDeps {
@@ -14,7 +16,14 @@ export interface StartDeps {
   /** How long to wait for the tool to answer (ms). */
   waitMs?: number
   sleep?: (ms: number) => Promise<void>
+  /** Servers the app starts and can stop (Ollama on Linux). */
+  processes?: ToolProcesses
+  /** Folder for those servers' logs (userData/setup/logs). */
+  logDir?: string
 }
+
+/** Ollama only listens on the loopback address when the app starts it, whatever the shell set. */
+export const OLLAMA_ENV = { OLLAMA_HOST: '127.0.0.1:11434' }
 
 export interface StartResult {
   running: boolean
@@ -55,6 +64,17 @@ async function launch(id: ToolId, deps: StartDeps): Promise<void> {
   if (found.kind === 'app') return openMacApp(found.path, run)
   if (found.kind === 'exe') return spawnDetached(found.path, [])
   if (id === 'voice') return spawnDetached(found.path, VOICE_START_ARGS)
+  if (id === 'ollama' && env.platform === 'linux') {
+    // A user process the app owns: Stop in the row, and stopped when the app quits.
+    const processes = deps.processes ?? toolProcesses
+    processes.start('ollama', {
+      cmd: found.path,
+      args: ['serve'],
+      env: OLLAMA_ENV,
+      ...(deps.logDir ? { logFile: join(deps.logDir, 'ollama.log') } : {}),
+    })
+    return
+  }
   if (id === 'ollama') return spawnDetached(found.path, ['serve'])
   throw new AppError('VALIDATION', `Start ${TOOLS[id].name} from its app`)
 }
@@ -65,14 +85,35 @@ export async function startTool(id: ToolId, deps: StartDeps): Promise<StartResul
   const wait = deps.waitMs ?? 20_000
   const pause = deps.sleep ?? sleep
   const until = Date.now() + wait
+  const processes = deps.processes ?? toolProcesses
   do {
     const running = await probeRunning(deps.env)
     const baseUrl = running.urls[id]
     if (baseUrl) return { running: true, baseUrl, message: `${TOOLS[id].name} is running` }
+    const exit = !processes.has(id) ? processes.exitOf(id) : undefined
+    if (exit)
+      return {
+        running: false,
+        message: `${TOOLS[id].name} stopped right after starting (${exit.signal ?? `exit code ${exit.code}`}).${deps.logDir ? ` See ${join(deps.logDir, 'ollama.log')}.` : ''}`,
+      }
     await pause(1000)
   } while (Date.now() < until)
   return {
     running: false,
     message: `${TOOLS[id].name} was started but is not answering yet. It may still be loading; detect again in a moment.`,
   }
+}
+
+/** Stop a tool server the app started; a server it did not start is left alone. */
+export async function stopTool(
+  id: ToolId,
+  processes: ToolProcesses = toolProcesses,
+): Promise<{ stopped: boolean; message: string }> {
+  if (!processes.has(id))
+    return {
+      stopped: false,
+      message: `${TOOLS[id].name} was not started by Action Stations, so it is left running. Stop it the way it was started.`,
+    }
+  await processes.stop(id)
+  return { stopped: true, message: `${TOOLS[id].name} stopped` }
 }

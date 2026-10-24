@@ -26,6 +26,19 @@ export type ToolState = z.infer<typeof ToolState>
 export const InstallMethod = z.enum(['install', 'guided', 'page', 'unsupported'])
 export type InstallMethod = z.infer<typeof InstallMethod>
 
+/** Optional GPU add-ons for Ollama on Linux (#338), offered only when the hardware is found. */
+export const OllamaAddonId = z.enum(['rocm', 'jetpack5', 'jetpack6'])
+export type OllamaAddonId = z.infer<typeof OllamaAddonId>
+
+export const ToolAddon = z.object({
+  id: OllamaAddonId,
+  name: z.string(),
+  sizeLabel: z.string(),
+  /** Why it is offered on this machine. */
+  reason: z.string(),
+})
+export type ToolAddon = z.infer<typeof ToolAddon>
+
 export const ToolView = z.object({
   id: ToolId,
   name: z.string(),
@@ -49,6 +62,10 @@ export const ToolView = z.object({
   canStart: z.boolean(),
   /** What verification a one-click install does here, in words. */
   verification: z.string().optional(),
+  /** Stop is offered: the app started this tool's server and can stop it. */
+  canStop: z.boolean().optional(),
+  /** GPU add-ons the one-click install can include on this machine. */
+  addons: z.array(ToolAddon).optional(),
 })
 export type ToolView = z.infer<typeof ToolView>
 

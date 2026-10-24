@@ -23,6 +23,7 @@ import { listAdapterKinds } from './providers/registry'
 import { shutdownRenderPool } from './render/window'
 import { initPacks } from './packs/state'
 import { initTemplateRegistry } from './render/template-registry'
+import { toolProcesses } from './setup/processes'
 
 // Must run before app ready.
 registerMediaScheme()
@@ -171,10 +172,12 @@ app.on('window-all-closed', () => app.quit())
 // as "Interrupted — resumable" on the next start. flush() writes synchronously.
 // Then stop the render-window pool: otherwise quitting closes the busy render windows, the
 // queued previews spawn fresh ones after Electron's close-all pass, and quit never ends (#170).
+// Tool servers the app started itself (Ollama on Linux, #338) are asked to stop too.
 // Before that the quit guard asks the renderer about unsaved work; it cancels this quit and
 // quits again once confirmed (or at once when nothing is unsaved or the renderer is silent).
 app.on('before-quit', (e) => {
   if (!quitGuard.intercept(e)) return
   void jobs.flush()
   shutdownRenderPool()
+  toolProcesses.stopAll()
 })

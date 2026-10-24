@@ -71,7 +71,11 @@ userData/
     .staging/                  # downloads and extractions in progress; emptied at startup
   setup/downloads/             # local tool installers (ADR-0021): deleted after a macOS install or a
                                # refused check; a Windows installer stays until the next attempt
+  setup/logs/ollama.log        # output of the `ollama serve` the app started on Linux (#338)
 ```
+
+On Linux the app unpacks Ollama per user, outside userData: `$XDG_DATA_HOME/actionstations/tools/ollama`
+(default `~/.local/share/…`), with `bin/ollama` and `lib/ollama/` (ADR-0021, #338).
 
 ### Bundled packs (ADR-0020)
 

@@ -63,11 +63,18 @@ describe('detectTools', () => {
     expect(t.voice).toMatchObject({ method: 'guided', command: 'uv tool install mlx-audio' })
   })
 
-  it('offers only the download page on Linux and marks unsupported platforms', async () => {
+  it('offers one-click Ollama on Linux, the page for the rest, and marks unsupported platforms', async () => {
     const linux = await byId(fakeMachine({ platform: 'linux', arch: 'x64', home: '/home/t' }))
     expect(linux.lmstudio!.method).toBe('page')
-    expect(linux.ollama!.method).toBe('page')
+    expect(linux.ollama!.method).toBe('install')
+    expect(linux.ollama!.verification).toMatch(
+      /sha256sum\.txt.*\/home\/t\/\.local\/share\/actionstations\/tools\/ollama without sudo/,
+    )
+    expect(linux.ollama!.sizeLabel).toMatch(/1\.5 GB download/)
+    expect(linux.ollama!.addons).toBeUndefined()
     expect(linux.comfyui!.method).toBe('page')
+    const riscv = await byId(fakeMachine({ platform: 'linux', arch: 'riscv64' }))
+    expect(riscv.ollama!.method).toBe('page')
     expect(linux.voice!.method).toBe('unsupported')
     const intel = await byId(fakeMachine({ platform: 'darwin', arch: 'x64' }))
     expect(intel.lmstudio!.method).toBe('unsupported')
@@ -85,6 +92,30 @@ describe('detectTools', () => {
     const v = toolView('ollama', m.env, { services: [], urls: {} })
     expect(v).toMatchObject({ state: 'installed', method: 'install', canStart: true })
     expect(v.verification).toMatch(/Ollama Inc\. \(Authenticode\)/)
+  })
+
+  it('prefers a system-wide Ollama on Linux over the per-user copy', () => {
+    const own = '/home/t/.local/share/actionstations/tools/ollama/bin/ollama'
+    const both = fakeMachine({
+      platform: 'linux',
+      arch: 'x64',
+      home: '/home/t',
+      files: ['/usr/bin/ollama', own],
+    })
+    expect(toolView('ollama', both.env, { services: [], urls: {} })).toMatchObject({
+      state: 'installed',
+      foundAt: '/usr/bin/ollama',
+      canStart: true,
+    })
+    const mine = fakeMachine({ platform: 'linux', arch: 'x64', home: '/home/t', files: [own] })
+    expect(toolView('ollama', mine.env, { services: [], urls: {} }).foundAt).toBe(own)
+  })
+
+  it('offers the ROCm add-on on Linux only when an AMD GPU driver is present', () => {
+    const m = fakeMachine({ platform: 'linux', arch: 'x64', files: ['/dev/kfd'] })
+    const v = toolView('ollama', m.env, { services: [], urls: {} })
+    expect(v.addons?.map((a) => a.id)).toEqual(['rocm'])
+    expect(v.addons?.[0]?.reason).toMatch(/AMD GPU/)
   })
 
   it('only ever contacts 127.0.0.1', async () => {

@@ -133,10 +133,11 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
     - it fetches only from the vendor's pinned https hosts and checks Ollama's published sha256;
     - before anything runs, it verifies the pinned publisher. macOS needs Team ID `D65G88RHWN` (LM Studio), `3MU9H2V9Y9` (Ollama) or `6FXBT88W8J` (Comfy Desktop), plus Gatekeeper. Windows needs Authenticode signer `Element Labs Inc.`, `Ollama Inc.` or `Drip Artificial Inc`;
     - macOS copies the app from the read-only disk image into Applications. Windows opens the vendor installer and leaves admin rights to UAC.
-  - **Other platforms.** Linux is download-page only. mlx-audio is guided: the row shows its exact command.
+  - **Other platforms.** Linux is download-page only (Ollama gained a one-click install in #338). mlx-audio is guided: the row shows its exact command.
   - **Recommended models.** Models are picked by RAM, VRAM or Apple Silicon. Each is its own **Download** with its size, pulled through Ollama's API, `lms get`, or a sha256-pinned Hugging Face file into ComfyUI's checkpoint folder.
   - **Detect local services** also finds ComfyUI Desktop on `127.0.0.1:8000` when nothing answers on 8188.
   - **Under the hood.** IPC `setup:status`, `setup:install`, `setup:start`, `setup:open-page` and `setup:pull-model`. Settings gain `setup.mode` and `setup.skipped`.
+- One-click Ollama on Linux, without sudo (ADR-0021, #338). **Download and install** fetches the latest release tarball for x64 or arm64 and requires its sha256 from Ollama's `sha256sum.txt`, which must agree with GitHub's digest. It unpacks the tarball into `~/.local/share/actionstations/tools/ollama` (or under `$XDG_DATA_HOME`) with a safe extractor: only `bin/ollama` and `lib/ollama/`, no path escapes, no links out, no special files. A system-wide Ollama is found first and preferred. The AMD ROCm (x64) or NVIDIA JetPack (arm64) add-on is offered, ticked, only when that hardware is found; CUDA is already in the main build. **Start** runs `ollama serve` on 127.0.0.1 as a process the app owns, with a **Stop** button and a log in `setup/logs/ollama.log`, and the app stops it on quit. New IPC `setup:stop`; `setup:install` takes optional `addons`.
 
 #### Repository
 
