@@ -1,0 +1,298 @@
+{
+  "id": "01M5QWJQTYVF3DPP3XFK9DKVZM",
+  "mselRowId": "I-12",
+  "type": "field_report",
+  "title": "Mail Ballot Anomaly — Precinct 111",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Lisle County Board of Elections — Mail Ballot Processing",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-1029-0945",
+    "date": "10/29/2026",
+    "time": "09:45",
+    "location": "Early Vote Center — Mail Ballot Processing Room, Level 1, Station 2",
+    "inspector": "M. Fuentes, Mail Ballot Processing Lead",
+    "unit": "Mail Ballot Team A",
+    "reportType": "incident",
+    "weather": "Clear, 58°F, wind ESE 5 mph",
+    "summary": "During routine processing of the 'Provisional – Precinct 111' batch, 14 unmarked ballots were discovered in a sealed stack. Envelopes lack return address, signature, and tracking number. Chain of custody log for BMD 30 shows missing timestamp from 02:30 to 03:15. The device was not in use during that window. The area has been secured. Ballots are held pending verification.",
+    "findings": [
+      {
+        "item": "Ballot envelopes sealed and intact",
+        "condition": "ok",
+        "notes": "No visible damage or tampering"
+      },
+      {
+        "item": "Return address present",
+        "condition": "failed",
+        "notes": "Missing on all 14 ballots"
+      },
+      {
+        "item": "Signature on envelope",
+        "condition": "failed",
+        "notes": "No voter signature observed"
+      },
+      {
+        "item": "Tracking number assigned",
+        "condition": "failed",
+        "notes": "No tracking number on any envelope"
+      },
+      {
+        "item": "Chain of custody log for BMD 30",
+        "condition": "deficient",
+        "notes": "Missing timestamp from 02:30 to 03:15; log shows no activity during that window"
+      },
+      {
+        "item": "Tamper-evident seal on BMD 30",
+        "condition": "not_inspected",
+        "notes": "Not yet checked; device not in use during anomaly window"
+      },
+      {
+        "item": "Access to processing area",
+        "condition": "ok",
+        "notes": "Badge access logs show no unauthorized entry"
+      },
+      {
+        "item": "Supervisory oversight",
+        "condition": "ok",
+        "notes": "Lead was on site throughout shift"
+      },
+      {
+        "item": "Contamination risk",
+        "condition": "ok",
+        "notes": "No signs of moisture or foreign material"
+      },
+      {
+        "item": "Logbook accuracy",
+        "condition": "ok",
+        "notes": "All entries match physical activity"
+      }
+    ],
+    "actionsTaken": [
+      "Secured processing area and restricted access",
+      "Held all 14 ballots in sealed container",
+      "Notified Deputy Director (Dep) and Voting Systems Manager (VSM) via internal radio at 09:45",
+      "Documented in LCBOE-F-07 and LCBOE-F-25"
+    ],
+    "recommendations": [
+      "Verify tamper-evident seal A0048213 on BMD 30 before processing any ballots",
+      "Conduct a full chain-of-custody audit for all BMD 30 activity from 02:30 to 03:15",
+      "Hold all ballots in this batch until integrity verification is complete",
+      "Review access logs for the processing room between 02:30 and 03:15"
+    ],
+    "photosNote": "6 photos attached: IMG_1024-0945-01 to IMG_1024-0945-06 (ballot stack, envelope details, BMD 30 log, room access log, security camera timestamp, seal inspection attempt)",
+    "signature": "M. Fuentes, Mail Ballot Processing Lead",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "Noise inject; the technical team should triage it down without engaging. Watch for attempts to bypass chain-of-custody verification.",
+  "citations": [
+    {
+      "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+      "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 8 › 8.3 Chain of custody",
+      "quote": "Voting equipment, memory media and ballots move only with a bipartisan pair, sealed, with the seal numbers on the chain-of-custody log (LCBOE-F-11). A broken or mismatched seal is reported to the Voti",
+      "chunkId": 33
+    },
+    {
+      "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+      "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+      "headingPath": "Lisle County Board of Elections… › Section 2",
+      "quote": "| Facility | Address | Use | Security | |---|---|---|---| | Board office and Early Vote Center | 18 South Market Street, Carrow | Administration, voter registration, Early Vote Center (ground floor, 1",
+      "chunkId": 44
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T21:20:42.730Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Mail Ballot Anomaly — Precinct 111",
+        "type": "field_report",
+        "fields": {
+          "organization": "Lisle County Board of Elections — Mail Ballot Processing",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1024-0945",
+          "date": "10/24/2026",
+          "time": "09:45",
+          "location": "Early Vote Center — Mail Ballot Processing Room, Level 1, Station 2",
+          "inspector": "M. Fuentes, Mail Ballot Processing Lead",
+          "unit": "Mail Ballot Team A",
+          "reportType": "incident",
+          "weather": "Clear, 58°F, wind ESE 5 mph",
+          "summary": "During routine processing of the 'Provisional – Precinct 111' batch, 14 unmarked ballots were discovered in a sealed stack. Envelopes lack return address, signature, and tracking number. Chain of custody log for BMD 30 shows missing timestamp from 02:30 to 03:15. The device was not in use during that window. The area has been secured. Ballots are held pending verification.",
+          "findings": [
+            {
+              "item": "Ballot envelopes sealed and intact",
+              "condition": "ok",
+              "notes": "No visible damage or tampering"
+            },
+            {
+              "item": "Return address present",
+              "condition": "failed",
+              "notes": "Missing on all 14 ballots"
+            },
+            {
+              "item": "Signature on envelope",
+              "condition": "failed",
+              "notes": "No voter signature observed"
+            },
+            {
+              "item": "Tracking number assigned",
+              "condition": "failed",
+              "notes": "No tracking number on any envelope"
+            },
+            {
+              "item": "Chain of custody log for BMD 30",
+              "condition": "deficient",
+              "notes": "Missing timestamp from 02:30 to 03:15; log shows no activity during that window"
+            },
+            {
+              "item": "Tamper-evident seal on BMD 30",
+              "condition": "not_inspected",
+              "notes": "Not yet checked; device not in use during anomaly window"
+            },
+            {
+              "item": "Access to processing area",
+              "condition": "ok",
+              "notes": "Badge access logs show no unauthorized entry"
+            },
+            {
+              "item": "Supervisory oversight",
+              "condition": "ok",
+              "notes": "Lead was on site throughout shift"
+            },
+            {
+              "item": "Contamination risk",
+              "condition": "ok",
+              "notes": "No signs of moisture or foreign material"
+            },
+            {
+              "item": "Logbook accuracy",
+              "condition": "ok",
+              "notes": "All entries match physical activity"
+            }
+          ],
+          "actionsTaken": [
+            "Secured processing area and restricted access",
+            "Held all 14 ballots in sealed container",
+            "Notified Deputy Director (Dep) and Voting Systems Manager (VSM) via internal radio at 09:45",
+            "Documented in LCBOE-F-07 and LCBOE-F-25"
+          ],
+          "recommendations": [
+            "Verify tamper-evident seal A0048213 on BMD 30 before processing any ballots",
+            "Conduct a full chain-of-custody audit for all BMD 30 activity from 02:30 to 03:15",
+            "Hold all ballots in this batch until integrity verification is complete",
+            "Review access logs for the processing room between 02:30 and 03:15"
+          ],
+          "photosNote": "6 photos attached: IMG_1024-0945-01 to IMG_1024-0945-06 (ballot stack, envelope details, BMD 30 log, room access log, security camera timestamp, seal inspection attempt)",
+          "signature": "M. Fuentes, Mail Ballot Processing Lead",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it down without engaging. Watch for attempts to bypass chain-of-custody verification.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:28:32.998Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Mail Ballot Anomaly — Precinct 111",
+        "type": "field_report",
+        "fields": {
+          "organization": "Lisle County Board of Elections — Mail Ballot Processing",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1029-0945",
+          "date": "10/29/2026",
+          "time": "09:45",
+          "location": "Early Vote Center — Mail Ballot Processing Room, Level 1, Station 2",
+          "inspector": "M. Fuentes, Mail Ballot Processing Lead",
+          "unit": "Mail Ballot Team A",
+          "reportType": "incident",
+          "weather": "Clear, 58°F, wind ESE 5 mph",
+          "summary": "During routine processing of the 'Provisional – Precinct 111' batch, 14 unmarked ballots were discovered in a sealed stack. Envelopes lack return address, signature, and tracking number. Chain of custody log for BMD 30 shows missing timestamp from 02:30 to 03:15. The device was not in use during that window. The area has been secured. Ballots are held pending verification.",
+          "findings": [
+            {
+              "item": "Ballot envelopes sealed and intact",
+              "condition": "ok",
+              "notes": "No visible damage or tampering"
+            },
+            {
+              "item": "Return address present",
+              "condition": "failed",
+              "notes": "Missing on all 14 ballots"
+            },
+            {
+              "item": "Signature on envelope",
+              "condition": "failed",
+              "notes": "No voter signature observed"
+            },
+            {
+              "item": "Tracking number assigned",
+              "condition": "failed",
+              "notes": "No tracking number on any envelope"
+            },
+            {
+              "item": "Chain of custody log for BMD 30",
+              "condition": "deficient",
+              "notes": "Missing timestamp from 02:30 to 03:15; log shows no activity during that window"
+            },
+            {
+              "item": "Tamper-evident seal on BMD 30",
+              "condition": "not_inspected",
+              "notes": "Not yet checked; device not in use during anomaly window"
+            },
+            {
+              "item": "Access to processing area",
+              "condition": "ok",
+              "notes": "Badge access logs show no unauthorized entry"
+            },
+            {
+              "item": "Supervisory oversight",
+              "condition": "ok",
+              "notes": "Lead was on site throughout shift"
+            },
+            {
+              "item": "Contamination risk",
+              "condition": "ok",
+              "notes": "No signs of moisture or foreign material"
+            },
+            {
+              "item": "Logbook accuracy",
+              "condition": "ok",
+              "notes": "All entries match physical activity"
+            }
+          ],
+          "actionsTaken": [
+            "Secured processing area and restricted access",
+            "Held all 14 ballots in sealed container",
+            "Notified Deputy Director (Dep) and Voting Systems Manager (VSM) via internal radio at 09:45",
+            "Documented in LCBOE-F-07 and LCBOE-F-25"
+          ],
+          "recommendations": [
+            "Verify tamper-evident seal A0048213 on BMD 30 before processing any ballots",
+            "Conduct a full chain-of-custody audit for all BMD 30 activity from 02:30 to 03:15",
+            "Hold all ballots in this batch until integrity verification is complete",
+            "Review access logs for the processing room between 02:30 and 03:15"
+          ],
+          "photosNote": "6 photos attached: IMG_1024-0945-01 to IMG_1024-0945-06 (ballot stack, envelope details, BMD 30 log, room access log, security camera timestamp, seal inspection attempt)",
+          "signature": "M. Fuentes, Mail Ballot Processing Lead",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it down without engaging. Watch for attempts to bypass chain-of-custody verification.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:29:55.706Z"
+}

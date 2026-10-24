@@ -1,0 +1,242 @@
+{
+  "id": "01M5QVG8B87QS4J3XE7RTTFY93",
+  "mselRowId": "START",
+  "type": "startex_card",
+  "title": "STARTEX: Normal Operations — 911 Center Start",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "startTime": "18:30",
+    "day": "Thursday, October 22, 2026",
+    "location": "Rook County Emergency Communications District (911 Center), Halden, Rook County, Indiana",
+    "weather": "Tornado watch until 23:00; storms approaching from the west; 71°F, gusty",
+    "load": "Normal evening load",
+    "staffing": "B shift: supervisor Mike Delgado, call takers on Position 1 to Position 6, dispatchers on Position 7 to Position 10",
+    "narration": "STARTEX. This is an exercise. It is 18:30 on Thursday. The National Weather Service has a tornado watch for Rook County until 23:00; thunderstorms are approaching from the west. The floor is at evening staffing (B shift, Supervisor Mike Delgado) with a normal call load. All systems are green.",
+    "status": [
+      {
+        "name": "911 SIP Trunk Group A",
+        "status": "green",
+        "note": "Primary path — 12 calls in queue"
+      },
+      {
+        "name": "911 SIP Trunk Group B",
+        "status": "green",
+        "note": "Diverse path — active"
+      },
+      {
+        "name": "CAD System",
+        "status": "green",
+        "note": "Stable; 26-104455 open"
+      },
+      {
+        "name": "AVL / Unit Tracking",
+        "status": "green",
+        "note": "All units marked online and responsive"
+      },
+      {
+        "name": "ACD Wallboard",
+        "status": "green",
+        "note": "3 calls in queue, 19 seconds longest wait"
+      },
+      {
+        "name": "Tamarack County Interoperability Link",
+        "status": "green",
+        "note": "Ring-down line active; MCTA-2025 in effect"
+      },
+      {
+        "name": "GateKeeper TDoS Filter",
+        "status": "green",
+        "note": "TDoS-strict rule set active"
+      }
+    ],
+    "facilitatorNote": "Confirm all roles have access to the RCECD-SYS-2026 and RC-CEMP-2024 documents. The 911 call-takers should be in a normal standing posture at their consoles.",
+    "scenarioTitle": "Silent Calls — CAD/AVL Integrity & Service Continuity",
+    "injectId": "START"
+  },
+  "variant": "default",
+  "instructorNote": "This is the baseline. No anomalies yet. Watch for any immediate deviation from normal load or status.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 6 › 6.1 Abandoned-call and queue thresholds",
+      "quote": "The ACD wallboard alarms at 3 calls in queue or 20 seconds longest wait. The supervisor opens Position 12, moves dispatchers to call taking if radio traffic allows, and calls in off-duty staff through",
+      "chunkId": 28
+    },
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 1 › 1.4 Coordinated Documents",
+      "quote": "| Document | Number | Revision | |---|---|---| | Cyber Incident Response Playbook | RCECD-CYB-2026 | 2.1 | | Systems, Positions and Radio Description | RCECD-SYS-2026 | 3.0 | | Rook County Tactical In",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 6 › 6.2 Rerouting 911 calls",
+      "quote": "When RCECD cannot answer, the Technical Lead asks the state ESInet network operations center to route overflow or all 911 calls to Tamarack County Communications under MCTA-2025. Tamarack answers, tak",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 2",
+      "quote": "- Rook County has 118,400 residents; Halden (52,700) is the county seat. RCECD handles about 74,000 911 calls and 96,000 10-digit calls a year, and creates about 88,000 CAD incidents. - 911 calls arri",
+      "chunkId": 24
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat…",
+      "quote": "Document Control Number: RCECD-CYB-2026 · Revision 2.1 · Effective Date: 03/01/2026 · Parent document: RCECD-OPS-2026 · Owners: Brent Harlow (911 Systems Manager) and Nadia Fenwick (County Information",
+      "chunkId": 1
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QW9W0J8DNDTJDKX03P5EC1",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVG8B87QS4J3XE7RTTFY93/01M5QW9W0J8DNDTJDKX03P5EC1.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "e9ddb96a52d606e2c72c3407d1b405de319c2aa64307dbec25a18a506099e959",
+      "provenance": {
+        "provider": "template",
+        "templateId": "startex_card",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:39.705Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:01:48.096Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "STARTEX: Normal Operations — 911 Center Start",
+        "type": "startex_card",
+        "fields": {
+          "startTime": "18:30",
+          "day": "Saturday, October 24, 2026",
+          "location": "Rook County Emergency Communications District (911 Center), Halden, Rook County, Indiana",
+          "weather": "Clear, 62°F. Light breeze.",
+          "load": "12 active calls in queue, 3 pending dispatches — normal weekday evening volume",
+          "staffing": "Full shift: 10 call-takers, 4 supervisors, 1 Technical Lead, 1 COML, 1 Director, 1 Pio",
+          "narration": "STARTEX. This is an exercise. It is 18:30 on Saturday, October 24, 2026. The Rook County Emergency Communications District is operating under normal conditions. All systems are green. The center is handling a typical evening call load, and all personnel are at their stations. Begin operations.",
+          "status": [
+            {
+              "name": "911 SIP Trunk Group A",
+              "status": "green",
+              "note": "Primary path — 12 calls in queue"
+            },
+            {
+              "name": "911 SIP Trunk Group B",
+              "status": "green",
+              "note": "Diverse path — active"
+            },
+            {
+              "name": "CAD System",
+              "status": "green",
+              "note": "Stable; 26-104455 open"
+            },
+            {
+              "name": "AVL / Unit Tracking",
+              "status": "green",
+              "note": "All units marked online and responsive"
+            },
+            {
+              "name": "ACD Wallboard",
+              "status": "green",
+              "note": "3 calls in queue, 19 seconds longest wait"
+            },
+            {
+              "name": "Tamarack County Interoperability Link",
+              "status": "green",
+              "note": "Ring-down line active; MCTA-2025 in effect"
+            },
+            {
+              "name": "GateKeeper TDoS Filter",
+              "status": "green",
+              "note": "TDoS-strict rule set active"
+            }
+          ],
+          "facilitatorNote": "Confirm all roles have access to the RCECD-SYS-2026 and RC-CEMP-2024 documents. The 911 call-takers should be in a normal standing posture at their consoles.",
+          "scenarioTitle": "Silent Calls — CAD/AVL Integrity & Service Continuity",
+          "injectId": "START"
+        },
+        "instructorNote": "This is the baseline. No anomalies yet. Watch for any immediate deviation from normal load or status.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.521Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "STARTEX: Normal Operations — 911 Center Start",
+        "type": "startex_card",
+        "fields": {
+          "startTime": "18:30",
+          "day": "Thursday, October 22, 2026",
+          "location": "Rook County Emergency Communications District (911 Center), Halden, Rook County, Indiana",
+          "weather": "Tornado watch until 23:00; storms approaching from the west; 71°F, gusty",
+          "load": "Normal evening load",
+          "staffing": "B shift: supervisor Mike Delgado, call takers on Position 1 to Position 6, dispatchers on Position 7 to Position 10",
+          "narration": "STARTEX. This is an exercise. It is 18:30 on Thursday. The National Weather Service has a tornado watch for Rook County until 23:00; thunderstorms are approaching from the west. The floor is at evening staffing (B shift, Supervisor Mike Delgado) with a normal call load. All systems are green.",
+          "status": [
+            {
+              "name": "911 SIP Trunk Group A",
+              "status": "green",
+              "note": "Primary path — 12 calls in queue"
+            },
+            {
+              "name": "911 SIP Trunk Group B",
+              "status": "green",
+              "note": "Diverse path — active"
+            },
+            {
+              "name": "CAD System",
+              "status": "green",
+              "note": "Stable; 26-104455 open"
+            },
+            {
+              "name": "AVL / Unit Tracking",
+              "status": "green",
+              "note": "All units marked online and responsive"
+            },
+            {
+              "name": "ACD Wallboard",
+              "status": "green",
+              "note": "3 calls in queue, 19 seconds longest wait"
+            },
+            {
+              "name": "Tamarack County Interoperability Link",
+              "status": "green",
+              "note": "Ring-down line active; MCTA-2025 in effect"
+            },
+            {
+              "name": "GateKeeper TDoS Filter",
+              "status": "green",
+              "note": "TDoS-strict rule set active"
+            }
+          ],
+          "facilitatorNote": "Confirm all roles have access to the RCECD-SYS-2026 and RC-CEMP-2024 documents. The 911 call-takers should be in a normal standing posture at their consoles.",
+          "scenarioTitle": "Silent Calls — CAD/AVL Integrity & Service Continuity",
+          "injectId": "START"
+        },
+        "instructorNote": "This is the baseline. No anomalies yet. Watch for any immediate deviation from normal load or status.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:40.079Z"
+}

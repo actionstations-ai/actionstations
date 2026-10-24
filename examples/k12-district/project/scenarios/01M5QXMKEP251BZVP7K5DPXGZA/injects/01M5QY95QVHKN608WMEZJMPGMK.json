@@ -1,0 +1,183 @@
+{
+  "id": "01M5QY95QVHKN608WMEZJMPGMK",
+  "mselRowId": "I-15",
+  "type": "helpdesk_ticket",
+  "title": "SIS Access Request — Special Ed Roster Workaround",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "HUSD-HD01-2026-0414-0043",
+    "priority": "High",
+    "impact": "High",
+    "urgency": "High",
+    "status": "New",
+    "requester": "Special Education Staff – Halverson High School",
+    "requesterContact": "x2041",
+    "contactType": "Phone",
+    "category": "System Access",
+    "subcategory": "User Permissions",
+    "location": "Halverson High School – Special Ed Office, Room 210",
+    "configurationItem": "HUSD-SIS cloud tenant (HUSD-SIS-Tenant-01)",
+    "opened": "2026-10-24 08:55:00",
+    "assignmentGroup": "IT Service Desk",
+    "subject": "SIS Access for Student Services – Temporary Cloud Access Request",
+    "description": "Staff in Special Ed need to access IEPs for the 10th-grade student group. Can we get a temporary access key to the cloud SIS (HUSD-SIS cloud tenant) to view the 05:00 roster? The on-prem SIS is still read-only. Is there a workaround?",
+    "activity": [
+      {
+        "author": "Special Education Staff – Halverson High School",
+        "time": "2026-10-24 08:55:00",
+        "kind": "comment",
+        "text": "We need to confirm student placements for the 10th-grade group. The paper roster is outdated. Is there a way to get cloud access for 10 minutes while we verify?"
+      },
+      {
+        "author": "ServiceDesk System",
+        "time": "2026-10-24 08:55:00",
+        "kind": "system",
+        "text": "Ticket created. Routing to IT Service Desk."
+      }
+    ],
+    "systemName": "ServiceDesk",
+    "orgName": "Halverson Unified School District"
+  },
+  "variant": "default",
+  "instructorNote": "This ticket tests the CTO’s adherence to the CIRP and verification protocol. The CTO must deny the request and reinforce that only the 05:00 offline roster is trusted; all SIS access must be via the cloud tenant only after CIRP Form 4 is signed and CISA confirms network integrity.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+      "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 11",
+      "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+      "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+      "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+      "quote": "At 05:00 each school day the SIS exports, for each school, the student roster with emergency contacts, authorized pick-up adults, medical alerts and bus assignments to an encrypted USB key in each pri",
+      "chunkId": 34
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYNBKZYN62PGNM0GY402WC",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QY95QVHKN608WMEZJMPGMK/01M5QYNBKZYN62PGNM0GY402WC.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "6d20c7a16b3f09d970db7cf02ad7f2c5f9e8fbb2cf746075c1a6da48c80b29cf",
+      "provenance": {
+        "provider": "template",
+        "templateId": "helpdesk_ticket",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:53.361Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:50:24.290Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIS Access Request — Special Ed Roster Workaround",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "HUSD-HD01-2026-0815-0043",
+          "priority": "High",
+          "impact": "High",
+          "urgency": "High",
+          "status": "New",
+          "requester": "Special Education Staff – Halverson High School",
+          "requesterContact": "x2041",
+          "contactType": "Phone",
+          "category": "System Access",
+          "subcategory": "User Permissions",
+          "location": "Halverson High School – Special Ed Office, Room 210",
+          "configurationItem": "HUSD-SIS cloud tenant (HUSD-SIS-Tenant-01)",
+          "opened": "2026-10-24 08:55:00",
+          "assignmentGroup": "IT Service Desk",
+          "subject": "SIS Access for Student Services – Temporary Cloud Access Request",
+          "description": "Staff in Special Ed need to access IEPs for the 10th-grade student group. Can we get a temporary access key to the cloud SIS (HUSD-SIS cloud tenant) to view the 05:00 roster? The on-prem SIS is still read-only. Is there a workaround?",
+          "activity": [
+            {
+              "author": "Special Education Staff – Halverson High School",
+              "time": "2026-10-24 08:55:00",
+              "kind": "comment",
+              "text": "We need to confirm student placements for the 10th-grade group. The paper roster is outdated. Is there a way to get cloud access for 10 minutes while we verify?"
+            },
+            {
+              "author": "ServiceDesk System",
+              "time": "2026-10-24 08:55:00",
+              "kind": "system",
+              "text": "Ticket created. Routing to IT Service Desk."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Halverson Unified School District"
+        },
+        "instructorNote": "This ticket tests the CTO’s adherence to the CIRP and verification protocol. The CTO must deny the request and reinforce that only the 05:00 offline roster is trusted; all SIS access must be via the cloud tenant only after CIRP Form 4 is signed and CISA confirms network integrity.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.522Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIS Access Request — Special Ed Roster Workaround",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "HUSD-HD01-2026-0414-0043",
+          "priority": "High",
+          "impact": "High",
+          "urgency": "High",
+          "status": "New",
+          "requester": "Special Education Staff – Halverson High School",
+          "requesterContact": "x2041",
+          "contactType": "Phone",
+          "category": "System Access",
+          "subcategory": "User Permissions",
+          "location": "Halverson High School – Special Ed Office, Room 210",
+          "configurationItem": "HUSD-SIS cloud tenant (HUSD-SIS-Tenant-01)",
+          "opened": "2026-10-24 08:55:00",
+          "assignmentGroup": "IT Service Desk",
+          "subject": "SIS Access for Student Services – Temporary Cloud Access Request",
+          "description": "Staff in Special Ed need to access IEPs for the 10th-grade student group. Can we get a temporary access key to the cloud SIS (HUSD-SIS cloud tenant) to view the 05:00 roster? The on-prem SIS is still read-only. Is there a workaround?",
+          "activity": [
+            {
+              "author": "Special Education Staff – Halverson High School",
+              "time": "2026-10-24 08:55:00",
+              "kind": "comment",
+              "text": "We need to confirm student placements for the 10th-grade group. The paper roster is outdated. Is there a way to get cloud access for 10 minutes while we verify?"
+            },
+            {
+              "author": "ServiceDesk System",
+              "time": "2026-10-24 08:55:00",
+              "kind": "system",
+              "text": "Ticket created. Routing to IT Service Desk."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Halverson Unified School District"
+        },
+        "instructorNote": "This ticket tests the CTO’s adherence to the CIRP and verification protocol. The CTO must deny the request and reinforce that only the 05:00 offline roster is trusted; all SIS access must be via the cloud tenant only after CIRP Form 4 is signed and CISA confirms network integrity.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:53.581Z"
+}

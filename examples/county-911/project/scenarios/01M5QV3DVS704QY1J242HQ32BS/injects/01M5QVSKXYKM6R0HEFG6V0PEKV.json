@@ -1,0 +1,300 @@
+{
+  "id": "01M5QVSKXYKM6R0HEFG6V0PEKV",
+  "mselRowId": "I-18",
+  "type": "system_log",
+  "title": "Full System Restore Initiated — CAD Network",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "RCECD-OPS-2026",
+    "host": "CAD-MDS01",
+    "ip": "10.72.30.16",
+    "os": "Windows Server 2022",
+    "logSource": "RCECD-OPS-2026, Section 5, T-2 Contain",
+    "exportedBy": "Brent Harlow, 911 Systems Manager",
+    "exportedAt": "10/22/2026 22:00",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "21:58:02",
+        "level": "INFO",
+        "msg": "CAD-DB01 restore from backup 10-22 02:00 started (Keystone Public Safety session KPS-26-4471)",
+        "highlight": false
+      },
+      {
+        "ts": "21:58:10",
+        "level": "INFO",
+        "msg": "CAD-MDS01 rebuild queued after restore",
+        "highlight": false
+      },
+      {
+        "ts": "21:58:15",
+        "level": "WARN",
+        "msg": "CAD not released for dispatch: 24-hour unit audit not reconciled",
+        "highlight": true
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Restore-CADSystem -BackupPath \\\\10.72.30.200\\backup\\cad\\ -Force -Verify",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This inject confirms full system recovery and closes the verification plan. The Technical Lead has executed the final restore; the Incident Commander should now declare the incident resolved.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Table of Contents",
+      "quote": "Section 1 Purpose · Section 2 What Sits Where · Section 3 Roles · Section 4 Detection and First Report · Section 5 Playbook T — Telephony Denial of Service · Section 6 Playbook C — CAD or County Netwo",
+      "chunkId": 2
+    },
+    {
+      "documentId": "01M5QV3BWAN3C0F4P06WRMQ0DA",
+      "documentTitle": "Rook County Emergency Communications District — Systems, Positions and Radio Description",
+      "headingPath": "Rook County Emergency Communicat… › Section 5",
+      "quote": "| Segment | Systems | Connection to county network | |---|---|---| | Call-handling network | CP-CORE01/02, position call-handling screens | None (vendor VPN for support only, enabled per ticket) | | C",
+      "chunkId": 46
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 3",
+      "quote": "| Role | Primary | Alternate | Decides | |---|---|---|---| | Incident Commander | Karen Voss, 911 Director | Luis Aldana, Operations Manager | Rerouting, manual operations for longer than one shift, e",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QWA41DG24F67CFKHZC8A3A",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVSKXYKM6R0HEFG6V0PEKV/01M5QWA41DG24F67CFKHZC8A3A.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "bab8852eae815755c713308db35dd748d2e58add1c8d0e3a583daab2b7568452",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:48.027Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:07:13.008Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Full System Restore Initiated — CAD Network",
+        "type": "system_log",
+        "fields": {
+          "systemName": "RCECD-OPS-2026",
+          "host": "CAD-MDS01",
+          "ip": "10.72.30.20",
+          "os": "Windows Server 2022",
+          "logSource": "RCECD-OPS-2026, Section 5, T-2 Contain",
+          "exportedBy": "Brent Harlow, 911 Systems Manager",
+          "exportedAt": "10/24/2026 22:00",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "22:00:03",
+              "level": "INFO",
+              "msg": "Restore initiated from clean backup (2025-12-31 23:59) via TAC Systems access (RCECD-OPS-2026, Section 5, T-2 Contain).",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:05",
+              "level": "INFO",
+              "msg": "Component restore: CAD-APP01 (10.72.30.10) — synchronized.",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:07",
+              "level": "INFO",
+              "msg": "Component restore: CAD-DB01 (10.72.30.15) — synchronized.",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:09",
+              "level": "INFO",
+              "msg": "Component restore: CAD-MDS01 (10.72.30.20) — synchronized.",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:11",
+              "level": "INFO",
+              "msg": "Component restore: REC-01 (10.72.30.20) — synchronized.",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:13",
+              "level": "INFO",
+              "msg": "Verification plan closed. All ALI and unit status data now synchronized with field reports.",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:15",
+              "level": "INFO",
+              "msg": "System status: OPERATIONAL. All components restored and verified.",
+              "highlight": true
+            },
+            {
+              "ts": "22:00:16",
+              "level": "NOTICE",
+              "msg": "Record logged in RCECD-OPS-2026, Section 5, T-2 Contain. Incident recovery complete.",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:17",
+              "level": "ALERT",
+              "msg": "All systems now back online and under normal operation. Public 911 service restored.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Restore-CADSystem -BackupPath \\10.72.30.200\\backup\\cad\\ -Force -Verify",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms full system recovery. The Technical Lead has completed verification and restored all CAD components. The Incident Commander must now declare recovery complete and begin post-incident reporting.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:11:13.151Z",
+      "by": "ai",
+      "note": "regenerated",
+      "snapshot": {
+        "title": "Full System Restore Initiated — CAD Network",
+        "type": "system_log",
+        "fields": {
+          "systemName": "RCECD-OPS-2026",
+          "host": "CAD-MDS01",
+          "ip": "10.72.30.16",
+          "os": "Windows Server 2022",
+          "logSource": "RCECD-OPS-2026, Section 5, T-2 Contain",
+          "exportedBy": "Brent Harlow, 911 Systems Manager",
+          "exportedAt": "10/24/2026 22:00",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "22:00:03",
+              "level": "INFO",
+              "msg": "Restore initiated from clean backup (2025-12-31 23:59) via TAC Systems access (RCECD-OPS-2026, Section 5, T-2 Contain).",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:05",
+              "level": "INFO",
+              "msg": "Component restore: CAD-APP01 (10.72.30.10) — synchronized.",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:07",
+              "level": "INFO",
+              "msg": "Component restore: CAD-DB01 (10.72.30.15) — synchronized.",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:09",
+              "level": "INFO",
+              "msg": "Component restore: CAD-MDS01 (10.72.30.16) — synchronized.",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:11",
+              "level": "INFO",
+              "msg": "Component restore: REC-01 (10.72.30.20) — synchronized.",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:13",
+              "level": "INFO",
+              "msg": "Verification plan closed. All ALI and unit status data now synchronized with field reports.",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:15",
+              "level": "INFO",
+              "msg": "System status: OPERATIONAL. All components restored and verified.",
+              "highlight": true
+            },
+            {
+              "ts": "22:00:16",
+              "level": "NOTICE",
+              "msg": "Record logged in RCECD-OPS-2026, Section 5, T-2 Contain. Incident recovery complete.",
+              "highlight": false
+            },
+            {
+              "ts": "22:00:17",
+              "level": "ALERT",
+              "msg": "All systems now back online and under normal operation. Public 911 service restored.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Restore-CADSystem -BackupPath \\\\10.72.30.200\\backup\\cad\\ -Force -Verify",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms full system recovery and closes the verification plan. The Technical Lead has executed the final restore; the Incident Commander should now declare the incident resolved.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.651Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Full System Restore Initiated — CAD Network",
+        "type": "system_log",
+        "fields": {
+          "systemName": "RCECD-OPS-2026",
+          "host": "CAD-MDS01",
+          "ip": "10.72.30.16",
+          "os": "Windows Server 2022",
+          "logSource": "RCECD-OPS-2026, Section 5, T-2 Contain",
+          "exportedBy": "Brent Harlow, 911 Systems Manager",
+          "exportedAt": "10/22/2026 22:00",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "21:58:02",
+              "level": "INFO",
+              "msg": "CAD-DB01 restore from backup 10-22 02:00 started (Keystone Public Safety session KPS-26-4471)",
+              "highlight": false
+            },
+            {
+              "ts": "21:58:10",
+              "level": "INFO",
+              "msg": "CAD-MDS01 rebuild queued after restore",
+              "highlight": false
+            },
+            {
+              "ts": "21:58:15",
+              "level": "WARN",
+              "msg": "CAD not released for dispatch: 24-hour unit audit not reconciled",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Restore-CADSystem -BackupPath \\\\10.72.30.200\\backup\\cad\\ -Force -Verify",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms full system recovery and closes the verification plan. The Technical Lead has executed the final restore; the Incident Commander should now declare the incident resolved.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:48.235Z"
+}

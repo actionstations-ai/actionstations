@@ -1,0 +1,2991 @@
+{
+  "formatVersion": 1,
+  "id": "01M5QSCT8890PSACT6J6CV5XAF",
+  "projectId": "01M5QSCR7KQ927SM18N66D0K53",
+  "title": "Ghost Line",
+  "subtitle": "SCADA Deception & Chlorine Release",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-24T20:24:50.696Z",
+  "updatedAt": "2026-10-24T20:45:40.101Z",
+  "brief": {
+    "userPrompt": "At 23:40 the night shift is loading chlorine from TK-32 into a 90-ton rail tank car at Rail Spot 2 through loading arm LA-2. The flexible connection fails and chlorine detectors AT-313 and AT-314 alarm; the board operator trips ESD-310 from the CCR pushbutton and the DeltaV screen shows the remote-operated isolation valves closed, but the loader reports the yellow-green cloud still growing and the railcar scale WT-302 still changing. The ERT must close hand valve HV-312 in Level A suits; fence-line detectors AT-904 and AT-905 alarm as the cloud drifts east on a west-south-west wind toward the Riverside Addition and Corbin Falls Elementary School. Later the OT Engineer finds the Triconex key switch on TRI-1 in PROGRAM and an rl-support remote session from TVC-JMP-01 to TS-EWS-01 that has no entry in the remote-access log. The exercise covers the RMP tabletop scope of 40 CFR 68.96(b)(2): sirens S-1 to S-6 and the shelter-in-place request to Teague County OEM, the NRC, WV SERC, Teague County LEPC and WV DEP calls with a release estimate, OSHA reporting for an exposed loader, treatment and decontamination, TVIMA mutual aid and air monitoring, the school-opening question at 06:30, the cell-room trip decision (ERP 6.3), SIS integrity before any restart, CISA and the FBI, and media and neighbor pressure.",
+    "audience": [
+      "Site Command (Incident Commander)",
+      "Operations",
+      "Process Control / OT",
+      "EHS and Compliance",
+      "Security",
+      "Community Relations / PIO"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [
+      "Every email address of the Works uses the exercise domain teaguevalleychem.example; outside parties use fictional domains and fictional outlet names (Channel 7, the Corbin Falls Courier); never a real company or newspaper domain.",
+      "Player roles are only those in the audience list; outside parties (Teague County OEM, the fire department, the LEPC, the NRC, the SERC, the railroad, Ridgeline Automation, CISA, the FBI) are played by the SimCell, not seated as players.",
+      "The release is chlorine (CAS 7782-50-5) only; use the identifiers in the documents (TK-31 to TK-33, Rail Spot 1 to Rail Spot 4, ESD-310, ESD-320, SIF-110, SIF-650, AT-311 to AT-318, AT-901 to AT-906, Muster Point A to Muster Point C, Gate 1 to Gate 3) and no others."
+    ],
+    "startWallClock": "09:00",
+    "threatFamily": "cyber_physical"
+  },
+  "overview": {
+    "theme": "Field over screen, cyber integrity, and coordinated emergency response",
+    "threat": "An unexplained control-system state occurs during a chlorine release at Rail Spot 2: the DCS shows ESD-310 closed and the release stopped, but the field reports a growing yellow-green cloud and a continuing rise on the railcar scale WT-302. The OT Engineer later discovers a remote session from TVC-JMP-01 to TS-EWS-01 with no log entry and the Triconex key switch in PROGRAM mode, indicating possible unauthorized access and system manipulation.",
+    "operationalImpact": "The board operator sees a closed ESD-310 on the DeltaV screen but cannot stop the release. The loader at Rail Spot 2 observes a visible chlorine cloud, continues to rise on WT-302, and calls the CCR. The ERT must enter Level A suits and manually close HV-312. Fence-line detectors AT-904 and AT-905 alarm as the plume drifts east toward the Riverside Addition and Corbin Falls Elementary School. The Incident Commander must declare a General Emergency, sound sirens S-1 to S-6, and request shelter-in-place from Teague County OEM. The EHS Manager must report to the NRC, WV SERC, LEPC, and DEP with a release estimate. OSHA must be notified for a worker with potential exposure. The TVIMA mutual aid team is activated. The media and neighbors begin calling the community line. The school district asks if classes can open at 06:30. The cell room trip decision must be made under pressure. No unit restarts until Section 10 is complete.",
+    "coreSectionsTested": [
+      {
+        "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+        "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+        "headingPath": "RMP › Section 11",
+        "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+        "chunkId": 20
+      },
+      {
+        "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+        "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+        "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+        "quote": "| # | Who | How | When | Who calls | |---|---|---|---|---| | 1 | Teague County 911 Center | 911, then the 911 Center's non-emergency line for updates | At once | Board operator or Shift Supervisor | |",
+        "chunkId": 10
+      },
+      {
+        "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+        "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+        "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+        "quote": "| # | Who | How | When | Who calls | |---|---|---|---|---| | 1 | Teague County 911 Center | 911, then the 911 Center's non-emergency line for updates | At once | Board operator or Shift Supervisor | |",
+        "chunkId": 10
+      },
+      {
+        "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+        "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+        "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+        "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+        "chunkId": 54
+      },
+      {
+        "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+        "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+        "headingPath": "Teague Valley Chemical Company,… › Section 7",
+        "quote": "| Level | Action | Effect | Authority | |---|---|---|---| | 1 | Disable vendor VPN group and shut down TVC-JMP-01 | No remote support | OT Engineer | | 2 | Open FW-OT2 (OT DMZ from business network) |",
+        "chunkId": 55
+      },
+      {
+        "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+        "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+        "headingPath": "RMP › Annex C",
+        "quote": "| Record | Decision | Owner | Inputs | |---|---|---|---| | ERP-D1 | Declare General Emergency and sound sirens | Incident Commander | Detector readings, field report, wind | | ERP-D2 | Recommend shelt",
+        "chunkId": 28
+      }
+    ],
+    "targetAudience": "Site Command (Incident Commander), Operations, Process Control / OT, EHS and Compliance, Security, Community Relations / PIO",
+    "location": "Teague Valley Chemical Company, Corbin Falls Works, Corbin Falls, Teague County, West Virginia"
+  },
+  "objectives": [
+    {
+      "id": "01M5QSDJ5BVFVEZD7D5CSZWPRS",
+      "name": "Field vs. Screen Integrity",
+      "text": "Demonstrate the ability to trust field observations over control-system displays when a process release continues despite a DCS indication of isolation, and to initiate a cyber-incident triage under Section 11 of the RMP."
+    },
+    {
+      "id": "01M5QSDJ5BMQRS8T4BE35ZSR39",
+      "name": "Cyber-Physical Coordination",
+      "text": "Demonstrate the ability to activate the OT Engineer and FSO roles in parallel with the EHS Manager and PIO to report to CISA, FBI, and regulators, and to manage the dual response of emergency operations and cyber-investigation."
+    },
+    {
+      "id": "01M5QSDJ5BX0YH2219TKJT1V73",
+      "name": "Regulatory Notification Discipline",
+      "text": "Demonstrate the ability to report a chlorine release to the NRC, WV SERC, LEPC, and OSHA with factual data only, and to avoid speculation on cause or health impact, per the holding statement template and Section 9 of the RMP."
+    },
+    {
+      "id": "01M5QSDJ5BZ35M60VFJ7JJ11DP",
+      "name": "Siren and Community Activation",
+      "text": "Demonstrate the ability to declare a General Emergency, sound sirens S-1 to S-6, and initiate the CAER-Text and community line updates within 30 minutes of the first release call, as required by Section 8."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ic",
+      "name": "Emergency Coordinator / Site Incident Commander",
+      "abbreviation": "IC",
+      "team": "Team A: Command",
+      "description": "Manages the declaration of emergency class, calls for mutual aid, and approves all notifications and actions.",
+      "standingOrders": [
+        "Emergency First: Declare General Emergency immediately upon confirmation of off-site plume or injury.",
+        "Authority Last: The Incident Commander must not be overridden by any alternate or external party during the initial 60 minutes.",
+        "Situational Awareness: If the field and screen disagree on valve status, trust the field and initiate a cyber-incident triage.",
+        "No Speculation: Never discuss cause, health effects, or system integrity in public statements."
+      ]
+    },
+    {
+      "id": "ops",
+      "name": "Operations Superintendent / Shift Supervisor",
+      "abbreviation": "OPS",
+      "team": "Team B: Operations",
+      "description": "Owns the unit shutdown sequence, isolation of inventory, safe-park decisions, and the cell-room trip decision.",
+      "standingOrders": [
+        "Safe Park: Isolate all connected units and initiate a safe-park sequence before any manual override.",
+        "Cell-Room Trip: Do not trip the cell room until the ERT confirms entry and the OT Engineer validates no cyber manipulation in the SIS.",
+        "Field Authority: If a valve is seen open in the field while the DCS shows closed, assume the field is correct and proceed to manual isolation."
+      ]
+    },
+    {
+      "id": "ot",
+      "name": "Process Control / OT Engineer",
+      "abbreviation": "OT",
+      "team": "Team C: Technical",
+      "description": "Owns DCS and SIS integrity, isolates the control network, and validates SIS logic before any reset.",
+      "standingOrders": [
+        "SIS Integrity: No SIS reset until the cause is known and the Triconex key switch is in RUN mode.",
+        "Remote Access: If a remote session is detected on TVC-JMP-01 without a log entry, isolate the OT network immediately.",
+        "Vendor First: Contact Ridgeline Automation, Emerson, and Schneider Electric for logic comparison and remote support only after confirming no internal breach."
+      ]
+    },
+    {
+      "id": "ehs",
+      "name": "Environmental, Health and Safety Manager",
+      "abbreviation": "EHS",
+      "team": "Team D: Compliance",
+      "description": "Owns the reportable-quantity call and the NRC, SERC, LEPC and OSHA notifications.",
+      "standingOrders": [
+        "Facts Only: Report release data to regulators without mentioning cause, cyber, or system behavior.",
+        "NRC First: Call the NRC within 1 hour of release confirmation, even if the release is below reportable quantity.",
+        "OSHA: Report any injury or potential exposure to OSHA within 8 hours, using the 8/24-hour form."
+      ]
+    },
+    {
+      "id": "fso",
+      "name": "Facility Security Officer",
+      "abbreviation": "FSO",
+      "team": "Team E: Security",
+      "description": "Owns the site security plan, access control, theft and diversion response, and the law-enforcement liaison.",
+      "standingOrders": [
+        "FBI First: If a deliberate cyber attack is suspected, contact the FBI field office immediately and do not disclose details to the media.",
+        "Evidence: Secure all logs, terminals, and remote access devices on TVC-JMP-01 and TS-EWS-01 before any system reset.",
+        "No Unauthorized Access: If a remote session is found without a log entry, assume it was unauthorized and initiate a full forensic review."
+      ]
+    },
+    {
+      "id": "comm",
+      "name": "Community Relations / Communications Manager",
+      "abbreviation": "PIO",
+      "team": "Team F: Communications",
+      "description": "Owns sirens and the community notification line, neighbors and schools, and the media.",
+      "standingOrders": [
+        "Sirens: Sound S-1 to S-6 upon General Emergency declaration and confirm with the CCR.",
+        "CAER-Text: Initiate CAER-Text to 1,140 neighbors within 15 minutes of the General Emergency call.",
+        "Media: All media statements must be approved by the IC and follow the holding statement template (Annex B, Form ERP-8)."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "01M5QSE0A09N1J7RJAQPG2GJQ7",
+      "index": 0,
+      "title": "The Sighting",
+      "goal": "Test the ability to recognize a field-screen discrepancy as a potential cyber-physical incident and initiate the OT Engineer triage within 30 minutes of first report.",
+      "beats": [
+        "At 09:03, the loader at Rail Spot 2 reports to the CCR: 'The yellow-green cloud is still rising on WT-302 and ESD-310 is showing closed on the DeltaV HMI.' The board operator confirms the ESD-310 status on OWS-01 and notes no operator action in the DeltaV event journal.",
+        "The Shift Supervisor calls the OT Engineer at 09:05; the OT Engineer reviews the DeltaV event journal on OWS-01 and finds a setpoint change on WT-302 from 32.4 to 38.1 tons without a logged operator command.",
+        "The OT Engineer checks the Windows security logs on TVC-JMP-01 and finds a remote session from a user account not in the standard roster, with no log entry in the SIEM, and a session end time at 08:59 (09:00 narrative time).",
+        "The OT Engineer calls the Incident Commander and states: 'I suspect a cyber incident. The DCS shows ESD-310 closed, but the field shows a continuing release. I recommend activating Section 11 of the RMP.'",
+        "The Incident Commander declares the event a suspected cyber-physical incident and activates the OT Engineer and FSO roles per RMP Section 11; the EHS Manager begins preparing the release estimate."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "01M5QSE0A0HYBS3T8EV6WAAC4B",
+      "index": 1,
+      "title": "Loss of Control",
+      "goal": "Test the ability to manage a spreading physical effect and a digital cause, and to declare the incident with full regulatory and community response under pressure.",
+      "beats": [
+        "At 10:12, the fence-line detector AT-905 alarms, and the EHS Manager confirms a chlorine plume drifting east toward Corbin Falls Elementary School; the ERT begins entry procedures in Level A suits.",
+        "The Shift Supervisor sees the Triconex key switch on TS-EWS-01 in PROGRAM mode, not the expected MANUAL mode, and reports it to the Incident Commander via the CCR intercom.",
+        "The OT Engineer confirms via the Triconex SOE log on TS-EWS-01 that SIF-650 was not triggered during the release, and that the last SIS logic version match against the archive shows a mismatch in the ESD-310 control path.",
+        "The EHS Manager calls CISA at 10:15 (09:00 + 1:15) via the corporate hotline, reporting a suspected cyber incident affecting the OT network; the FSO calls the FBI field office at 10:17 to report a suspected deliberate attack.",
+        "The Incident Commander declares a General Emergency at 10:20, sounds sirens S-1 to S-6, and activates CAER-Text via the CCR laptop on a cellular hotspot; the school district calls the community line to ask if classes can open at 06:30."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+      "index": 2,
+      "title": "Manual Operation",
+      "goal": "Test the ability to make the high-consequence decision to disconnect automation and operate manually, balancing life safety, operational risk, and regulatory pressure.",
+      "beats": [
+        "The OT Engineer and Ridgeline Automation confirm via remote session that a rogue command to close ESD-310 was issued from TVC-JMP-01 at 08:58, and that the SIS logic on TS-EWS-01 was not updated from the approved archive.",
+        "The EHS Manager submits a factual release report to the NRC, WV SERC, LEPC, and DEP using the holding statement template, stating: 'Chlorine release detected at Rail Spot 2, estimated 1,200 lbs; cause under investigation; no fatalities or injuries reported.'",
+        "The FSO confirms that the evidence locker is secured; the jump host EWS-01 and TS-EWS-01 are powered, disconnected, and logged on Form OT-3.",
+        "The Incident Commander calls for a decision: 'Do we keep automation and risk another wrong command, or take ESD-310 offline and manually close HV-312?' The OT Engineer responds: 'We must disconnect automation. The system cannot be trusted.'",
+        "The Shift Supervisor issues the order to manually close HV-312 via the local panel at Rail Spot 2; the ERT completes the closure at 11:15, ending the release."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "01M5QSE0A0KVHW9J933998QBTR",
+      "index": 3,
+      "title": "Restoration & Verification",
+      "goal": "Test the ability to verify the physical state before restoring digital control, and to follow a phased, approved restart under PSM and Section 10.",
+      "beats": [
+        "The OT Engineer and Ridgeline Automation confirm that the SIS logic on TS-EWS-01 has been re-downloaded from the approved archive, checksum matches, and every SIF has passed a proof test.",
+        "The Plant Manager signs off on the PSSR under PSM, and the EHS Manager submits the restart request to the DEP and NRC via the corporate IT portal.",
+        "The IT Incident Lead confirms that FW-OT2 has been re-established with per-session firewall rules (F-1 closed) and that vendor access to TVC-JMP-01 is now restricted to individual accounts (F-3 closed).",
+        "The Incident Commander announces: 'Control system will not be restored until all checks in Section 10 are complete. No unit restarts until the PSSR is signed and the EHS Manager confirms no residual risk.'",
+        "The exercise ends at 13:00 (09:00 + 4:00) with the final verification record filed in Annex C, and the EHS Manager confirms that all regulators have received the final report."
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "01M5QSE0A09N1J7RJAQPG2GJQ7",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "ops",
+        "ot",
+        "ehs",
+        "fso",
+        "comm"
+      ],
+      "toLabel": "All",
+      "event": "STARTEX: It is 09:00 on a Thursday. The plant is at normal load; loading of a 90-ton chlorine rail tank car from TK-32 at Rail Spot 2 began at 08:40. Weather clear and dry, wind from the west-south-west at 6 mph. Corbin Falls Elementary School is in session. No active alarms.",
+      "expectedAction": "Players begin the exercise. All roles assume their positions and monitor their systems and channels as per standard operating procedures.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M5QSQN762N9S18C1CKWPVWPJ",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "01M5QSE0A09N1J7RJAQPG2GJQ7",
+      "time": "0:03",
+      "wallClock": "09:03",
+      "from": "Loader 1",
+      "toRoleIds": [
+        "ops",
+        "ic"
+      ],
+      "toLabel": "OPS, IC",
+      "event": "Field Report: 'Control, this is Loader 1 on Rail Spot 2. The yellow-green cloud is still rising on WT-302 and ESD-310 is showing closed on the DeltaV HMI. I can see the vapor and the scale is climbing. The hand valve is open, but the screen says closed.'",
+      "expectedAction": "OPS confirms the field report and immediately notifies the OT Engineer per SOP 7.2; IC activates the CCR and initiates the emergency call sequence (ERP 5.1).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5QSQW8KBR9Z9YDZYD3BVHNQ",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 5",
+          "quote": "| Sign | Where it shows | First check | |---|---|---| | A setpoint, mode or valve command nobody on shift made | DeltaV event journal on OWS-01 to OWS-04 | Who was logged in; was a remote session open",
+          "chunkId": 50
+        },
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 11",
+          "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+          "chunkId": 20
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "01M5QSE0A09N1J7RJAQPG2GJQ7",
+      "time": "0:05",
+      "wallClock": "09:05",
+      "from": "Shift Supervisor",
+      "toRoleIds": [
+        "ot"
+      ],
+      "toLabel": "OT",
+      "event": "Phone Call: 'Victor, this is Lorna Pike, Operations Superintendent. We have a confirmed field-screen discrepancy on Rail Spot 2. ESD-310 shows closed on the DeltaV HMI, but the loader says the vapor is still rising and the hand valve is open. The scale WT-302 shows 38.1 tons and climbing. I need you to review the event journal and the logs on OWS-01 now.'",
+      "expectedAction": "OT contacts the OT Engineer (Victor Anand) immediately; begins triage under RMP Section 11 and TVCC-CFW-OTSEC-2026. Activates Play 2 if needed.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5QSR5TCRNCMHDJD82H9XPHD",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 3",
+          "quote": "| Role | Person | Alternate | Responsibilities | |---|---|---|---| | OT Incident Lead | Victor Anand, Process Control and OT Engineer | Megan Sorrell, Instrument and Electrical Lead | Triage of contro",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 9",
+          "quote": "| Who | When | Who calls | |---|---|---| | CISA (24/7 central, report@cisa.gov) | Any suspected cyber incident affecting the OT network or safety | OT Engineer | | FBI field office (cyber squad) | Sus",
+          "chunkId": 57
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "01M5QSE0A09N1J7RJAQPG2GJQ7",
+      "time": "0:10",
+      "wallClock": "09:10",
+      "from": "OT Engineer",
+      "toRoleIds": [
+        "ot"
+      ],
+      "toLabel": "OT",
+      "event": "System Log: 'DeltaV event journal on OWS-01 — 08:57:59 TRI-1 diagnostic: controller mode change event (no operator action logged). 08:58:12 ESD-310 trip received from CCR pushbutton; Modbus read of TRI-1 shows ESD-310 outputs CLOSED. No limit-switch change received from the LA-2 isolation valves. WT-302 still changing.'",
+      "expectedAction": "OT notes that the DCS only copies the SIS state and that the valves never reported closed; checks TVC-JMP-01 for open remote sessions and starts Play 1 and Play 2 (TVCC-CFW-OTSEC-2026).",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5QSRG18NBPBYXM8VSCEZSY0",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 5",
+          "quote": "| Sign | Where it shows | First check | |---|---|---| | A setpoint, mode or valve command nobody on shift made | DeltaV event journal on OWS-01 to OWS-04 | Who was logged in; was a remote session open",
+          "chunkId": 50
+        },
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 11",
+          "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+          "chunkId": 20
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-05b",
+      "phaseId": "01M5QSE0A09N1J7RJAQPG2GJQ7",
+      "time": "0:25",
+      "wallClock": "09:25",
+      "from": "Resident",
+      "toRoleIds": [
+        "comm"
+      ],
+      "toLabel": "PIO",
+      "event": "Post (@RiversideMom22onResident): \"Is anyone at TVCC seeing this? The cloud over the plant just turned green and the sirens are not going off. I’ve got my kid on the phone, he says he can smell it. #ChlorineCloud #CorbinFallsEmergency\" — 47 shares in 3 minutes.",
+      "expectedAction": "PIO logs the post and activates the CAER-Text system within 15 minutes per ERP 8.1, pending IC approval.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "injectId": "01M5QSRNEF0Q2JN419JPDMQFJX",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 8",
+          "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+          "chunkId": 17
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "01M5QSE0A09N1J7RJAQPG2GJQ7",
+      "time": "0:35",
+      "wallClock": "09:35",
+      "from": "Gate 1 Officer",
+      "toRoleIds": [
+        "fso"
+      ],
+      "toLabel": "FSO",
+      "event": "Radio Call: 'FSO, this is Gate 1 Officer. A truck driver in a 2017 Peterbilt with a Virginia license plate is trying to enter with a no-authorization sticker on his manifest. He says he's from \"ClearFlow Logistics\" and needs to deliver to Dock 1. His ID doesn't match the system.'",
+      "expectedAction": "FSO reviews the manifest and confirms no pre-approval for the carrier; denies entry and initiates a security hold on the vehicle.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5QSS1PVJ5E183H7AENDRDMY",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "01M5QSE0A09N1J7RJAQPG2GJQ7",
+      "time": "0:45",
+      "wallClock": "09:45",
+      "from": "EHS Manager",
+      "toRoleIds": [
+        "ehs"
+      ],
+      "toLabel": "EHS",
+      "event": "Memo: 'To: EHS Manager, From: EHS Coordinator, Subject: Release Estimate — Initial. WT-302 has dropped about 1,100 lb since the ESD-310 trip at 08:58 (liquid leaving the arm, not reaching the car); release continuing at roughly 40 lb a minute. Wind WSW at 6 mph; plume drifting east toward sectors E-1 (Riverside Addition) and E-2 (Corbin Falls Elementary School). Chlorine RQ is 10 lb: NRC, SERC and LEPC calls are due now.'",
+      "expectedAction": "EHS calls the NRC (800-424-8802), the WV SERC, the Teague County LEPC coordinator and the WV DEP spill line at once with the estimate and its basis (ERP 5.1), records each call on Form ERP-5 and corrects the estimate later; does not wait for a final number.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "memo",
+      "injectId": "01M5QSSHJFS0JGD969BM5CMPQT",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+          "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+          "chunkId": 54
+        },
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 8",
+          "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+          "chunkId": 17
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "01M5QSE0A09N1J7RJAQPG2GJQ7",
+      "time": "0:55",
+      "wallClock": "09:55",
+      "from": "Fence-Line Detector AT-904",
+      "toRoleIds": [
+        "ehs",
+        "ot"
+      ],
+      "toLabel": "EHS, OT",
+      "event": "Alarm: 'AT-904 (Riverside Addition) — Chlorine concentration exceeds threshold (1.2 ppm). Alarm status: Active. Last cleared: 08:45. Source: plume from Unit 300, Rail Spot 2.'",
+      "expectedAction": "EHS confirms the release and begins NRC/OSHA/LEPC reporting; OT verifies the alarm is not a false positive via the SIS SOE log (TS-EWS-01).",
+      "purposeTag": "TECH_HURDLE",
+      "format": "alarm_summary",
+      "injectId": "01M5QSSRDBMKHJ24P3SXGCPTHD",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 5",
+          "quote": "| Sign | Where it shows | First check | |---|---|---| | A setpoint, mode or valve command nobody on shift made | DeltaV event journal on OWS-01 to OWS-04 | Who was logged in; was a remote session open",
+          "chunkId": 50
+        },
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 11",
+          "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+          "chunkId": 20
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "01M5QSE0A0HYBS3T8EV6WAAC4B",
+      "time": "1:00",
+      "wallClock": "10:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "ops",
+        "ot",
+        "ehs",
+        "fso",
+        "comm"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 10:00. The yellow-green cloud over Rail Spot 2 has grown visibly larger, and the fence-line detector AT-905 has just alarmed. The release continues at roughly 40 lb a minute, and the plume is drifting east toward the Riverside Addition and Corbin Falls Elementary School. The ERT is now in Level A suits and en route to the loading rack. The shift cannot confirm the status of ESD-310 or the hand valve at Rail Spot 2 from the control room screen.",
+      "expectedAction": "All roles confirm awareness of the escalating physical threat and begin actions per their standing orders. The Incident Commander prepares to declare a General Emergency. The OT Engineer begins forensic log review on TS-EWS-01.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5QST2FPZZ9T618V3DG0BV0R",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "01M5QSE0A0HYBS3T8EV6WAAC4B",
+      "time": "1:12",
+      "wallClock": "10:12",
+      "from": "ERT Medic",
+      "toRoleIds": [
+        "ops",
+        "ic"
+      ],
+      "toLabel": "OPS, IC",
+      "event": "Radio Call: 'Control, this is Medic 3 from the ERT. We are at the perimeter of Rail Spot 2. The vapor is thick, and the hand valve HV-312 is still open. The ESD-310 status on the DeltaV HMI still shows closed, but the field sees the release continuing. The wind is pushing the cloud toward Corbin Falls Elementary School. We are starting entry procedures now.'",
+      "expectedAction": "Ops confirms the ERT is in progress and orders a field watch on HV-312; IC notifies the EHS Manager of the school proximity and orders CAER-Text to begin.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "injectId": "01M5QSTA17QAEWFNE0WP4GFYKC",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+          "headingPath": "Teague Valley Chemical Company,… › Section 3 › 3.2 Storage tanks",
+          "quote": "| Tag | Contents | Capacity | Building / dike | |---|---|---|---| | TK-31 | Liquid chlorine | 90 tons | Chlorine Storage Building (enclosed, vented to C-650) | | TK-32 | Liquid chlorine | 90 tons | Ch",
+          "chunkId": 34
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+          "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+          "chunkId": 52
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "01M5QSE0A0HYBS3T8EV6WAAC4B",
+      "time": "1:15",
+      "wallClock": "10:15",
+      "from": "Operations Supervisor",
+      "toRoleIds": [
+        "ic",
+        "ot"
+      ],
+      "toLabel": "IC, OT",
+      "event": "Face-to-Face: 'IC, I just checked TRI-1 in the CCR rack room. The Triconex key switch is in PROGRAM, not RUN. The key is still on the Shift Supervisor's ring; nobody on shift turned it. I took a photo and left it as it is.'",
+      "expectedAction": "IC orders the OT Engineer to immediately isolate the SIS segment at FW-SIS and disconnect TS-EWS-01 from the network; the OT Engineer confirms the switch position and logs it for forensic review.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "face_to_face",
+      "injectId": "01M5QSTP2GM7TWEZCBCP4VPQWT",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+          "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+          "chunkId": 52
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "01M5QSE0A0HYBS3T8EV6WAAC4B",
+      "time": "1:20",
+      "wallClock": "10:20",
+      "from": "OT Engineer",
+      "toRoleIds": [
+        "ot",
+        "ops"
+      ],
+      "toLabel": "OT, OPS",
+      "event": "System Log: 'Triconex SOE log on TS-EWS-01 — 08:58:12: ESD-310 command issued to close, but no output change detected. SIF-650 did not trigger. Last logic version match: ESD-310 control path — Mismatch: running logic (v2.1.7) vs. archived (v2.1.6). Change detected 08:57:59. No MOC on file for this update.'",
+      "expectedAction": "OT Engineer declares a suspected cyber incident; runs Play 2 and Play 4: no reset, bypass or download; isolates the SIS segment at FW-SIS (Level 4) and disconnects TS-EWS-01 without powering it off; tells the IC that every SIS-protected operation must stop or run under field watch.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5QSTW78GH73ZKDW9MKHXSC9",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 5",
+          "quote": "| Sign | Where it shows | First check | |---|---|---| | A setpoint, mode or valve command nobody on shift made | DeltaV event journal on OWS-01 to OWS-04 | Who was logged in; was a remote session open",
+          "chunkId": 50
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+          "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+          "chunkId": 52
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "01M5QSE0A0HYBS3T8EV6WAAC4B",
+      "time": "1:25",
+      "wallClock": "10:25",
+      "from": "CISA Cyber Response Team",
+      "toRoleIds": [
+        "ic",
+        "ehs"
+      ],
+      "toLabel": "IC, EHS",
+      "event": "Email Forward: 'From CISA Central to the OT Engineer and the Incident Commander: CISA has received your report of an unexplained Triconex logic change and an unlogged remote session at the Corbin Falls Works. Preserve TS-EWS-01, TVC-JMP-01 and EWS-01 powered and disconnected; export logs before any change; an ICS incident response team can support you remotely today. Reply to report@cisa.gov with the case number.'",
+      "expectedAction": "OT Engineer gives CISA the facts known so far through the IC, keeps the evidence powered and disconnected (OTSEC Section 8) and asks for the ICS incident response support.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5QSV927Q0B3K8WZ59MFMK2P",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 10",
+          "quote": "1. Rebuild compromised workstations from known-good images; change all passwords and the `rl-support` account. 2. Download the SIS logic from the archived, approved file; the OT Engineer and Schneider",
+          "chunkId": 58
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+          "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+          "chunkId": 54
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "01M5QSE0A0HYBS3T8EV6WAAC4B",
+      "time": "1:30",
+      "wallClock": "10:30",
+      "from": "FBI WMD Coordinator",
+      "toRoleIds": [
+        "ic",
+        "fso"
+      ],
+      "toLabel": "IC, FSO",
+      "event": "Phone Call: 'This is Special Agent Kline, FBI WMD Coordinator. CISA shared your report. We are treating this as a possible deliberate attack on a chemical facility. Stopping the release is your call; do whatever the field needs. What I need is that TS-EWS-01, TVC-JMP-01 and EWS-01 stay as they are, powered and disconnected, and that nobody re-images them. Our team can be on site at 14:00.'",
+      "expectedAction": "IC confirms that safety actions continue and that the FSO secures the engineering workstations and the jump host under Form OT-3; the FSO becomes the FBI liaison.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5QSVM6YK6P6HZJ563C93GBB",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+          "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+          "chunkId": 52
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "01M5QSE0A0HYBS3T8EV6WAAC4B",
+      "time": "1:35",
+      "wallClock": "10:35",
+      "from": "School District Operations",
+      "toRoleIds": [
+        "comm"
+      ],
+      "toLabel": "PIO",
+      "event": "Phone Call: 'This is Ms. Gable, Teague County Schools transportation. Corbin Falls Elementary is in session with about 410 children. We have not received any shelter-in-place message and parents are calling. Should we keep the children inside, and can the noon kindergarten buses run through the Riverside Addition?'",
+      "expectedAction": "PIO tells the IC; the IC asks Teague County OEM for shelter-in-place for sectors E-1 and E-2 and for the CAER-Text message (the Works recommends, the county decides, ERP 7); the school shelters on the county message; the Works does not tell the school to evacuate.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "injectId": "01M5QSVYKH3J9ZK7C605MM4FMJ",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 8",
+          "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+          "chunkId": 17
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14b",
+      "phaseId": "01M5QSE0A0HYBS3T8EV6WAAC4B",
+      "time": "1:40",
+      "wallClock": "10:40",
+      "from": "Maintenance Technician",
+      "toRoleIds": [
+        "ops",
+        "ot"
+      ],
+      "toLabel": "OPS, OT",
+      "event": "Radio Call: 'Control, this is Tech 7 from Maintenance. I’m at the gate near Dock 1 and saw a man in a grey hoodie walking toward the west-side junction. He didn’t have a badge and wasn’t on the manifest. I didn’t see him on camera, but I just stepped away from the monitor.'",
+      "expectedAction": "Ops tells Maintenance to report the sighting to the FSO; FSO confirms no one on the approved list matches the description and orders a perimeter sweep. No action taken on the report until confirmed.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5QSWBJ9S6ZQBAQNQ2NKTJAT",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+      "time": "2:00",
+      "wallClock": "11:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "ops",
+        "ot",
+        "ehs",
+        "fso",
+        "comm"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 11:00. The yellow-green cloud over Rail Spot 2 has grown to 300 meters in diameter and is now visible from the city limits. Fence-line detector AT-905 remains active. The ERT has reached the loading rack and is preparing to manually close HV-312. The Triconex key switch is still in PROGRAM mode. The DCS shows ESD-310 closed, but the ERT confirms the hand valve HV-312 is open and the release continues. The shift must decide whether to trust the digital control system or take manual control under field authority.",
+      "expectedAction": "All roles acknowledge the shift in operational control. The Incident Commander confirms the crisis point: manual operation is now required. The OT Engineer begins validation of the SIS logic and vendor remote support.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5QSWQW0G5PTG1R7RC0Z04AZ",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-15a",
+      "phaseId": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+      "time": "2:05",
+      "wallClock": "11:05",
+      "from": "Ridgeline Automation Support",
+      "toRoleIds": [
+        "ot"
+      ],
+      "toLabel": "OT",
+      "event": "Email Forward: 'From Ridgeline Automation Support to the OT Engineer: None of our engineers had a session open this morning. Our records show the last approved rl-support session was RA-26-0112 on 01/14. If TVC-JMP-01 shows an rl-support session at 08:41 today, it was not ours. Please do not download any logic to TRI-1 until we have compared the running logic with your archived file.'",
+      "expectedAction": "OT Engineer confirms that the session was unauthorized, keeps vendor access disabled (Level 1), tells the IC and the FSO, and asks Ridgeline and Schneider Electric to plan the logic comparison on site.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5QSWZ6JW4VGDF804R03RQ43",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 11",
+          "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+          "chunkId": 20
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+          "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+          "chunkId": 52
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+      "time": "2:15",
+      "wallClock": "11:15",
+      "from": "EHS Manager",
+      "toRoleIds": [
+        "ic",
+        "ehs"
+      ],
+      "toLabel": "IC, EHS",
+      "event": "Memo: 'To: Incident Commander, From: EHS Manager, Subject: Release reports made. NRC report 1402871 at 10:58; WV SERC 24-hour line 11:02; Teague County LEPC coordinator 11:05; WV DEP spill line 11:07. Estimate given: about 2,600 lb of chlorine, release continuing, cause under investigation. Loader 1 was taken to Teague Valley Medical Center at 10:05 with chlorine inhalation and may be admitted. All calls on Form ERP-5.'",
+      "expectedAction": "IC notes that the NRC call came two hours after the release began and asks why; EHS tracks the OSHA 24-hour clock for an in-patient admission (29 CFR 1904.39) and the written follow-up to the SERC and LEPC.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "memo",
+      "injectId": "01M5QSX9FYDQKYAP2DAA2JKD24",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 11",
+          "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+          "chunkId": 20
+        },
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP",
+          "quote": "Document Control Number: TVCC-CFW-ERP-2026 · RMP Facility ID: 1000-0047-7713 (simulated) · Program level: Program 3, responding facility · Revision 4.2 · Effective Date: 02/01/2026 · Approved: Graham ",
+          "chunkId": 1
+        },
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 8",
+          "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+          "chunkId": 17
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+      "time": "2:25",
+      "wallClock": "11:25",
+      "from": "Frontline Staff",
+      "toRoleIds": [
+        "fso",
+        "ot"
+      ],
+      "toLabel": "FSO, OT",
+      "event": "Field Report: 'FSO to OT Lead: TS-EWS-01 and EWS-01 are powered on and disconnected from the network; TVC-JMP-01 is shut down at its labelled power switch per Section 4 of the OT plan; the TRI-1 key switch is photographed and untouched. All items are on Form OT-3. The FBI will collect at 14:00.'",
+      "expectedAction": "FSO confirms the chain of custody on Form OT-3; OT Engineer notes that shutting down the jump host lost its memory and records it.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5QSXHTTQJRGZXKCPS72ST83",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 11",
+          "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+          "chunkId": 20
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 10",
+          "quote": "1. Rebuild compromised workstations from known-good images; change all passwords and the `rl-support` account. 2. Download the SIS logic from the archived, approved file; the OT Engineer and Schneider",
+          "chunkId": 58
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+          "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+          "chunkId": 54
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+      "time": "2:35",
+      "wallClock": "11:35",
+      "from": "Incident Commander",
+      "toRoleIds": [
+        "ic",
+        "ops",
+        "ot"
+      ],
+      "toLabel": "IC, OPS, OT",
+      "event": "Face-to-Face: 'All hands, this is Darnell Hughes, Incident Commander. The SIS logic was changed without approval and the key switch is in PROGRAM. Until the logic is validated, the SIS cannot be trusted anywhere in the plant. Unit 100 is still making chlorine and the scrubber C-650 can take the full cell-room output for about 40 minutes. Do we trip the cell room now with SIF-110 out of trust, by tripping the rectifiers locally, and accept an 18 to 24 hour restart and membrane damage, or keep Unit 100 running with Unit 300 stopped and the hand valves manned?'",
+      "expectedAction": "Operations Section Chief and IC decide (ERP 6.3, decision record ERP-D3); the OT Engineer states which safety functions can no longer be relied on; the decision and its rationale are recorded.",
+      "purposeTag": "DECISION_POINT",
+      "format": "face_to_face",
+      "injectId": "01M5QSXYWWWEWMGCHBJ1TMW1EK",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 11",
+          "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+          "chunkId": 20
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+          "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+          "chunkId": 52
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-18b",
+      "phaseId": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+      "time": "2:40",
+      "wallClock": "11:40",
+      "from": "Ridgeline Automation Support",
+      "toRoleIds": [
+        "ic",
+        "ot"
+      ],
+      "toLabel": "IC, OT",
+      "event": "Email Forward: 'From Ridgeline Automation Support to the Incident Commander and the OT Engineer: We can be on site at 15:00 with a Schneider Electric Triconex specialist. We recommend no download, bypass or reset until the running logic has been compared with your archive, and that every SIS-protected operation stays stopped or under field watch until then.'",
+      "expectedAction": "IC accepts the support visit and confirms that Unit 300 stays down; the OT Engineer prepares the archived logic file and the remote-access log for the comparison.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5QSY5TFVDW18T2F862275H0",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 11",
+          "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+          "chunkId": 20
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+          "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+          "chunkId": 52
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-20",
+      "phaseId": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+      "time": "2:45",
+      "wallClock": "11:45",
+      "from": "Reporter",
+      "toRoleIds": [
+        "comm"
+      ],
+      "toLabel": "PIO",
+      "event": "Email Forward: 'From: amorgan@wcft7news.example, To: janelle.brooks@teaguevalleychem.example, Subject: [URGENT] TVCC Cloud — Why No Sirens? — 11:45 AM. Janelle, Channel 7 is on-site. We just saw the ERT exit the perimeter with a yellow-green cloud behind them. The sirens S-1 to S-6 have not sounded. Is the plant still under control? The school district says they’ve been told nothing. We need a statement now — we’re on air in 10 minutes.'",
+      "expectedAction": "PIO issues a holding statement (Form ERP-8) without speculating on cause or health effects and refers health questions to the Teague County Health Department; the IC confirms whether sirens S-1 to S-6 and the shelter-in-place request were made and, if not, makes them now.",
+      "purposeTag": "PRESSURE",
+      "format": "email_forward",
+      "injectId": "01M5QSYEHFDZ2HKR3W58FRG7Z3",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 8",
+          "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+          "chunkId": 17
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+          "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+          "chunkId": 54
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+      "time": "2:50",
+      "wallClock": "11:50",
+      "from": "Operations Supervisor",
+      "toRoleIds": [
+        "ops"
+      ],
+      "toLabel": "OPS",
+      "event": "Radio Call: 'Control, this is Lorna Pike, Operations Superintendent. The ERT closed hand valve HV-312 at Rail Spot 2 at 11:48 and the vapor has stopped rising. WT-302 is steady at 38.1 tons. The ERT is coming out for decontamination.'",
+      "expectedAction": "OPS confirms the manual closure order was issued and the ERT has completed the closure. The release is under control.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "injectId": "01M5QSYQA75NK44VJ0CHGHAFTV",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 11",
+          "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+          "chunkId": 20
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+          "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+          "chunkId": 52
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-26",
+      "phaseId": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+      "time": "2:55",
+      "wallClock": "11:55",
+      "from": "Field Operator",
+      "toRoleIds": [
+        "ot"
+      ],
+      "toLabel": "OT",
+      "event": "Field Report: 'OT Lead, this is Operator 3 at Rail Spot 2. The local panel for HV-312 shows the valve closed and the green 'closed' light is on. The HMI on the DeltaV screen still shows ESD-310 as closed, but the field gauge on WT-302 reads 38.1 tons and has not changed since 11:48. The ERT confirmed the closure manually, and the vapor has stopped rising. The hand valve is now fully closed, and the pressure in the line is dropping.'",
+      "expectedAction": "OT confirms the physical state is stable; verifies that the local panel and field instruments agree with the ERT report; documents the final field state for the SIS integrity review. No further digital commands are issued until after forensic validation.",
+      "purposeTag": "CLUE",
+      "format": "field_report",
+      "injectId": "01M5QT53M3NR1K3GMTAEGVCSJN",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 5",
+          "quote": "| Sign | Where it shows | First check | |---|---|---| | A setpoint, mode or valve command nobody on shift made | DeltaV event journal on OWS-01 to OWS-04 | Who was logged in; was a remote session open",
+          "chunkId": 50
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+          "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+          "chunkId": 52
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-22b",
+      "phaseId": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+      "time": "3:00",
+      "wallClock": "12:00",
+      "from": "Local Fire Department",
+      "toRoleIds": [
+        "ops",
+        "ot"
+      ],
+      "toLabel": "OPS, OT",
+      "event": "Radio Call: 'Control, this is Fire Chief 1, Corbin Falls Fire Department. We’ve just received a call from a resident at 1205 Maple Street reporting a loud explosion near the west-side junction and a fire in the storage yard. They say they saw a flash and heard a boom. The ERT says they’re not aware of any such event. Is this connected to the cloud?'",
+      "expectedAction": "OPS and OT confirm no fire alarm, no energy release, and no seismic event in the logs; instruct the fire chief to maintain awareness but not to dispatch unless confirmed; mark as a noise to prevent misallocation of resources.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5QT6PDNSWJYSXSBBGK5EPTQ",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 8",
+          "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+          "chunkId": 17
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21",
+      "phaseId": "01M5QSE0A0KVHW9J933998QBTR",
+      "time": "3:00",
+      "wallClock": "12:00",
+      "from": "Ridgeline Automation Support",
+      "toRoleIds": [
+        "ic",
+        "ops"
+      ],
+      "toLabel": "IC, OPS",
+      "event": "Email Forward: 'From Ridgeline Automation Support to the Incident Commander and the Operations Superintendent: Plan for SIS validation. Today 15:00 to 18:00: image TS-EWS-01 for the FBI, compare running logic v2.1.7 with the archive. Tomorrow: download the approved logic and proof-test ESD-310, ESD-320, SIF-301, SIF-302 and SIF-650 with your instrument technicians. No restart of Unit 300 before both are done and the PSSR is signed.'",
+      "expectedAction": "IC and OPS accept the plan; the OT Engineer owns the validation steps of OTSEC Section 10; Unit 300 stays down and the Plant Manager is briefed on the restart conditions (ERP 14).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5QSYZHGKP1GXRM5BQ1CQX0Q",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 10",
+          "quote": "1. Rebuild compromised workstations from known-good images; change all passwords and the `rl-support` account. 2. Download the SIS logic from the archived, approved file; the OT Engineer and Schneider",
+          "chunkId": 58
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+          "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+          "chunkId": 54
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21b",
+      "phaseId": "01M5QSE0A0KVHW9J933998QBTR",
+      "time": "3:05",
+      "wallClock": "12:05",
+      "from": "Security Officer",
+      "toRoleIds": [
+        "fso",
+        "ot"
+      ],
+      "toLabel": "FSO, OT",
+      "event": "Field Report: 'FSO to OT Lead: The FBI team called ahead: they will image TS-EWS-01, EWS-01 and TVC-JMP-01 on site at 14:00 instead of taking them, so the Works keeps its engineering workstations. They ask for the CCR access-card log and the Gate 2 CCTV for 08:00 to 09:00.'",
+      "expectedAction": "FSO arranges the access-card and CCTV exports; no further action until the FBI arrives.",
+      "purposeTag": "NOISE",
+      "format": "field_report",
+      "injectId": "01M5QSZ896DK2G1Z6PTB2N1MZY",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-22",
+      "phaseId": "01M5QSE0A0KVHW9J933998QBTR",
+      "time": "3:10",
+      "wallClock": "12:10",
+      "from": "Schneider Electric Support",
+      "toRoleIds": [
+        "ot"
+      ],
+      "toLabel": "OT",
+      "event": "Email Forward: 'From the Schneider Electric Triconex specialist to the OT Engineer (first look at the SOE export): the running logic v2.1.7 differs from your archive in the ESD-310 output section; the status points that the DCS reads were forced to report CLOSED regardless of the limit switches. The change was downloaded from TS-EWS-01 at 08:57:59 while the key switch was in PROGRAM.'",
+      "expectedAction": "OT Engineer briefs the IC: the ESD-310 status on the DeltaV screens could not be trusted and the valves never closed; the finding goes to CISA and the FBI and into the incident investigation.",
+      "purposeTag": "CLUE",
+      "format": "email_forward",
+      "injectId": "01M5QSZNGXV2K1BC1X6BAN7RBP",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 10",
+          "quote": "1. Rebuild compromised workstations from known-good images; change all passwords and the `rl-support` account. 2. Download the SIS logic from the archived, approved file; the OT Engineer and Schneider",
+          "chunkId": 58
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+          "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+          "chunkId": 52
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-23",
+      "phaseId": "01M5QSE0A0KVHW9J933998QBTR",
+      "time": "3:20",
+      "wallClock": "12:20",
+      "from": "EHS Manager",
+      "toRoleIds": [
+        "ic",
+        "ehs"
+      ],
+      "toLabel": "IC, EHS",
+      "event": "Memo: 'To: Incident Commander, From: EHS Manager, Subject: What is owed and when. Written follow-up to the WV SERC and the Teague County LEPC; OSHA report by 10:05 tomorrow if Loader 1 is admitted (29 CFR 1904.39); RMP five-year accident history entry and RMP correction within six months (68.42, 68.195), since the release caused sheltering in place off site; PSM incident investigation to start within 48 hours. Restart of Unit 300 needs the PSSR, the SIS validation and Plant Manager approval, with notice to Teague County OEM (ERP 14).'",
+      "expectedAction": "IC assigns owners and dates for each obligation and confirms that no regulator approves the restart; it is the Works' own PSSR and Plant Manager decision, with notice to the county.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "memo",
+      "injectId": "01M5QT00QH7ZPSDTHW304FV7T0",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 10",
+          "quote": "1. Rebuild compromised workstations from known-good images; change all passwords and the `rl-support` account. 2. Download the SIS logic from the archived, approved file; the OT Engineer and Schneider",
+          "chunkId": 58
+        },
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP",
+          "quote": "Document Control Number: TVCC-CFW-ERP-2026 · RMP Facility ID: 1000-0047-7713 (simulated) · Program level: Program 3, responding facility · Revision 4.2 · Effective Date: 02/01/2026 · Approved: Graham ",
+          "chunkId": 1
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-24",
+      "phaseId": "01M5QSE0A0KVHW9J933998QBTR",
+      "time": "3:30",
+      "wallClock": "12:30",
+      "from": "IT Incident Lead",
+      "toRoleIds": [
+        "ic",
+        "ot"
+      ],
+      "toLabel": "IC, OT",
+      "event": "Email Forward: 'From Kyle Brandt, IT Incident Lead, to the OT Engineer: The offline USB archive in your safe holds two SIS logic files, v2.1.5 dated 01/2026 and an unlabeled copy dated 12/2025. Neither is named v2.1.6, the version your MOC-25-077 records as approved. Which one is the approved logic before Ridgeline compares it?'",
+      "expectedAction": "OT Engineer works out from MOC-25-077 and the Ridgeline service records which file is the approved logic before any comparison or download; the gap goes into the corrective actions.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "email_forward",
+      "injectId": "01M5QT0952AB5AEEH7K2FFFVXW",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 7",
+          "quote": "| Level | Action | Effect | Authority | |---|---|---|---| | 1 | Disable vendor VPN group and shut down TVC-JMP-01 | No remote support | OT Engineer | | 2 | Open FW-OT2 (OT DMZ from business network) |",
+          "chunkId": 55
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 10",
+          "quote": "1. Rebuild compromised workstations from known-good images; change all passwords and the `rl-support` account. 2. Download the SIS logic from the archived, approved file; the OT Engineer and Schneider",
+          "chunkId": 58
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-25",
+      "phaseId": "01M5QSE0A0KVHW9J933998QBTR",
+      "time": "3:45",
+      "wallClock": "12:45",
+      "from": "Incident Commander",
+      "toRoleIds": [
+        "ic",
+        "ops",
+        "ot",
+        "ehs",
+        "fso",
+        "comm"
+      ],
+      "toLabel": "All",
+      "event": "Face-to-Face: 'All hands, this is Darnell Hughes, Incident Commander. The release is stopped, the shelter-in-place is in place for E-1 and E-2, and the SIS cannot be trusted until it is validated. No unit restarts until Section 10 of the OT plan and the PSSR are complete and the Plant Manager signs. We are in recovery, not resumption.'",
+      "expectedAction": "The Incident Commander formally announces that no unit will be restarted until the PSSR is signed and all regulatory and technical checks are complete. This establishes a hold on any restart activity.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "face_to_face",
+      "injectId": "01M5QT0HZHQJDG8PTY3T44884V",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 10",
+          "quote": "1. Rebuild compromised workstations from known-good images; change all passwords and the `rl-support` account. 2. Download the SIS logic from the archived, approved file; the OT Engineer and Schneider",
+          "chunkId": 58
+        },
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+          "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+          "chunkId": 54
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-25b",
+      "phaseId": "01M5QSE0A0KVHW9J933998QBTR",
+      "time": "3:50",
+      "wallClock": "12:50",
+      "from": "Local TV Reporter",
+      "toRoleIds": [
+        "comm"
+      ],
+      "toLabel": "PIO",
+      "event": "Email Forward: 'From the Channel 7 newsdesk to the PIO: Channel 7 is at Gate 3 again. The plant has not updated the public since 11:00 and the school says it does not know when the children can go home. Is the release over? Is the air safe? Was this a hack? We go live in 5 minutes.'",
+      "expectedAction": "PIO confirms to the IC that the EHS Manager has not yet issued a final public statement; she prepares a holding statement using the template from Annex B, Form ERP-8, and submits it for IC approval within 10 minutes; she does not speculate on system integrity or restart status.",
+      "purposeTag": "PRESSURE",
+      "format": "email_forward",
+      "injectId": "01M5QT0T24WK7XTNMJZESDHMM6",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP › Section 8",
+          "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+          "chunkId": 17
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "01M5QSE0A0KVHW9J933998QBTR",
+      "time": "4:00",
+      "wallClock": "13:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "ops",
+        "ot",
+        "ehs",
+        "fso",
+        "comm"
+      ],
+      "toLabel": "All",
+      "event": "END: It is 13:00. The release has been stopped since 11:48. Ridgeway Environmental readings in the Riverside Addition are below 0.1 ppm and Teague County OEM is preparing to lift the shelter-in-place for sectors E-1 and E-2. Unit 300 and the SIS stay down pending validation and the PSSR. The exercise is concluded.",
+      "expectedAction": "The Incident Commander ends the exercise and calls the hot wash; the EHS Manager notes that the RMP exercise evaluation report is due within 90 days (40 CFR 68.96(b)(3)).",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M5QT13EA0HWZ6AEJF41AQ4PZ",
+      "citations": [
+        {
+          "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+          "headingPath": "Teague Valley Chemical Company,… › Section 10",
+          "quote": "1. Rebuild compromised workstations from known-good images; change all passwords and the `rl-support` account. 2. Download the SIS logic from the archived, approved file; the OT Engineer and Schneider",
+          "chunkId": 58
+        },
+        {
+          "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+          "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+          "headingPath": "RMP",
+          "quote": "Document Control Number: TVCC-CFW-ERP-2026 · RMP Facility ID: 1000-0047-7713 (simulated) · Program level: Program 3, responding facility · Revision 4.2 · Effective Date: 02/01/2026 · Approved: Graham ",
+          "chunkId": 1
+        }
+      ],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/documents/handbook.md",
+    "briefing": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/documents/briefing.md",
+    "overview": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/documents/overview.md",
+    "hotwash": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/documents/hotwash.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "01M5QSKC726ZTJNXHACEC3Z6T8",
+        "name": "Field vs. Screen Integrity",
+        "points": 30,
+        "fail": "Ops failed to act on the field report when the DCS showed ESD-310 closed but the loader reported a continuing release; delayed the manual closure order until I-18b forced it, violating C3's 'Field over screen' rule.",
+        "pass": "Ops recognized the field-screen discrepancy at I-01 and immediately reported it to the IC and OT Engineer; confirmed the ERT’s field report at I-09 and maintained the manual closure order under field authority, per C3.",
+        "excellence": "Ops immediately declared a field-screen discrepancy at I-01, initiated the manual closure order before any inject, and directed the ERT to maintain field watch on HV-312, acting on C3’s 'Field over screen' principle before any inject confirmed it.",
+        "linkedInjectIds": [
+          "I-01",
+          "I-09",
+          "I-10",
+          "I-18b",
+          "I-19"
+        ],
+        "objectiveRefs": [
+          "Field vs. Screen Integrity"
+        ]
+      },
+      {
+        "id": "01M5QSKC72W8C8VEG8NG48XRZV",
+        "name": "Cyber-Physical Coordination",
+        "points": 30,
+        "fail": "IT failed to activate the OT Engineer and FSO roles in parallel with EHS and PIO; delayed the FBI and CISA calls until I-13 and I-12, missing the 30-minute window for dual reporting.",
+        "pass": "IT activated the OT Engineer and FSO roles at I-02 and I-05b, respectively; coordinated the CISA and FBI reports via I-12 and I-13, and maintained parallel reporting to regulators and law enforcement as required by Section 11 and Play 4.",
+        "excellence": "IT activated the OT Engineer and FSO roles immediately at I-02 and I-05b, and initiated CISA and FBI contact before any inject; reported to CISA and FBI via the corporate hotline and field office prior to I-08 and I-13, demonstrating proactive cyber-physical coordination.",
+        "linkedInjectIds": [
+          "I-02",
+          "I-05b",
+          "I-08",
+          "I-12",
+          "I-13"
+        ],
+        "objectiveRefs": [
+          "Cyber-Physical Coordination"
+        ]
+      },
+      {
+        "id": "01M5QSKC72TAB64XSGG5C6EMDG",
+        "name": "Regulatory Notification Discipline",
+        "points": 20,
+        "fail": "EHS used speculative language in the NRC report (I-16) by stating 'cause under investigation' and including a release rate estimate, violating the facts-only template and Section 9 of the RMP.",
+        "pass": "EHS submitted the NRC, SERC, LEPC, and OSHA reports using the holding statement template (Annex B, Form ERP-8) with only factual data, as required by I-16 and Section 9.",
+        "excellence": "EHS submitted the NRC, SERC, LEPC, and OSHA reports using the facts-only template (Annex B, Form ERP-8) within 10 minutes of the General Emergency declaration, and avoided any speculation on cause or health impact, per Section 9 and C6.",
+        "linkedInjectIds": [
+          "I-07",
+          "I-12",
+          "I-16",
+          "I-23"
+        ],
+        "objectiveRefs": [
+          "Regulatory Notification Discipline"
+        ]
+      },
+      {
+        "id": "01M5QSKC72JAJTF0SKAZQQZHT5",
+        "name": "Use of Doctrine",
+        "points": 20,
+        "fail": "Students failed to cite any RMP or EOP section by number during the exercise; did not reference C3, C6, or TVCC-CFW-OTSEC-2026 in their communications, despite multiple injects that required it.",
+        "pass": "Students cited specific plan sections by number: OT referenced C3 and TVCC-CFW-OTSEC-2026 at I-03 and I-11; EHS cited Section 9 and Annex B, Form ERP-8 at I-16; IC cited Section 11 and Play 4 at I-18.",
+        "excellence": "Students proactively cited RMP and EOP sections by number before any inject: OT cited C3 and TVCC-CFW-OTSEC-2026 at I-02; EHS cited Section 9 and Annex B at I-07; IC cited Section 11 and Play 4 at I-01, demonstrating mastery of doctrine prior to the decision point.",
+        "linkedInjectIds": [
+          "I-01",
+          "I-02",
+          "I-03",
+          "I-07",
+          "I-11",
+          "I-12",
+          "I-16",
+          "I-18",
+          "I-23"
+        ],
+        "objectiveRefs": [
+          "Use of Doctrine"
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Use the '3-Up, 3-Down' method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room by team, and write each response on a whiteboard to create a visible, shared reflection. Encourage concise, specific feedback.",
+    "questions": [
+      {
+        "topic": "Field vs. Screen Integrity",
+        "text": "When you saw the DCS show ESD-310 closed but the field still reported a continuing release, what moment did you first decide to trust the field over the screen? What evidence in the logs or on the ground made that shift in trust possible?",
+        "objectiveRef": "Field vs. Screen Integrity"
+      },
+      {
+        "topic": "Cyber-Physical Coordination",
+        "text": "At I-11, when the OT Engineer confirmed a logic mismatch and unauthorized session, who made the call to activate the FSO and EHS Manager roles? What would have allowed you to activate CISA, FBI, and regulatory reporting faster, based on the RMP and Play 4?",
+        "objectiveRef": "Cyber-Physical Coordination"
+      },
+      {
+        "topic": "Regulatory Notification Discipline",
+        "text": "After the EHS Manager’s NRC report was submitted, what prevented you from including the word 'cyber' or 'hacked' in the holding statement? How did the template and Section 9 of the RMP guide your language under pressure?",
+        "objectiveRef": "Regulatory Notification Discipline"
+      },
+      {
+        "topic": "Siren and Community Activation",
+        "text": "The sirens were to be sounded within 30 minutes of the first release call. When did you actually confirm the CAER-Text and community line were updated? What step in the chain delayed that confirmation, and how could the process be hardened?",
+        "objectiveRef": "Siren and Community Activation"
+      },
+      {
+        "topic": "The Call to Action",
+        "text": "At I-18, the IC asked whether to keep automation or go manual. What was the final decision, and what document or procedure (e.g., C1, Section 14) did you rely on to justify the restart path? What would have changed if the PSSR had not been signed?",
+        "objectiveRef": "Field vs. Screen Integrity"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "CISA (Cybersecurity and Infrastructure Security Agency) — Joint Cyber Response Team",
+      "trigger": "Player calls CISA via the corporate hotline (1-800-627-7997) or asks for CISA contact",
+      "hardQuestions": [
+        "What was the unique ticket number assigned to your report?",
+        "Do you have preserved logs from TVC-JMP-01, TS-EWS-01, and EWS-01 showing the unauthorized session and the logic mismatch?",
+        "Have you documented the chain of custody for the jump host and SIS controller since the incident?"
+      ],
+      "concessions": [
+        "Will accept a signed access request and a ticket number from the corporate IT portal.",
+        "Will provide a preliminary cyber-incident report within 4 hours after receiving the evidence.",
+        "Will assign a joint cyber response team lead to coordinate with your forensic team."
+      ]
+    },
+    {
+      "rolePlayed": "FBI WMD Coordinator (FBI Field Office, Charleston)",
+      "trigger": "Player calls the FBI Charleston Field Office (304-555-0160) or references the FBI in a report",
+      "hardQuestions": [
+        "What is the official FBI case number assigned to this incident?",
+        "Have you secured the evidence locker at the Site Control Room under chain-of-custody Form OT-3?",
+        "Can you confirm that no one has accessed the TVC-JMP-01, TS-EWS-01, or EWS-01 since the devices were disconnected?"
+      ],
+      "concessions": [
+        "Will confirm the case number and assign a lead agent within 2 hours.",
+        "Will collect the evidence locker at 14:00 as per the schedule.",
+        "Will provide a joint investigative report upon completion of forensic analysis."
+      ]
+    },
+    {
+      "rolePlayed": "Ridgeline Automation — OT System Vendor (Integrator for DeltaV DCS and Triconex SIS)",
+      "trigger": "Player contacts Ridgeline Automation via email or calls for remote SIS logic validation",
+      "hardQuestions": [
+        "What is the ticket number for your remote access session to TVC-JMP-01?",
+        "Do you have a signed access request on file for the session that occurred at 08:58:12?",
+        "Can you confirm that the SIS logic on TS-EWS-01 was not updated without an approved MOC?"
+      ],
+      "concessions": [
+        "Will provide remote SIS logic validation and proof testing only after a signed access request and ticket number are received.",
+        "Will accept a photo of the jump host TVC-JMP-01 with the cable snipped as evidence of isolation.",
+        "Will not restore vendor access until the firewall rule F-1 and account F-3 gaps are closed."
+      ]
+    },
+    {
+      "rolePlayed": "National Response Center (NRC) — Federal Release Reporter",
+      "trigger": "Player reports a release to the NRC via Form 401 (1-800-627-7997)",
+      "hardQuestions": [
+        "Have you submitted the release report via the NRC Form 401, and is the submission timestamped?",
+        "Do you have a copy of the initial release estimate (15 tons) and the wind direction data from the EOP 5.1?",
+        "Is the report submitted to the NRC, WV SERC, LEPC, and DEP on the same day, per 40 CFR 302.4?"
+      ],
+      "concessions": [
+        "Will acknowledge receipt of the report within 1 hour.",
+        "Will provide a confirmation of submission to the federal registry.",
+        "Will not issue a final status until the EHS Manager confirms the final release estimate and no residual risk."
+      ]
+    },
+    {
+      "rolePlayed": "Teague County Emergency Operations Center (OEM) — Shelter-in-Place Authority",
+      "trigger": "Player calls or requests a shelter-in-place order from Teague County OEM",
+      "hardQuestions": [
+        "Have you requested a shelter-in-place order via the TC-MUTUAL-1 interoperability channel?",
+        "Do you have the current fence-line detector data (AT-904 and AT-905) and plume trajectory from the EHS Manager?",
+        "Is the request submitted to the OEM via the official CAER-Text system?"
+      ],
+      "concessions": [
+        "Will issue a shelter-in-place order only after receiving the EHS release estimate and detector data.",
+        "Will confirm the order via CAER-Text to all schools and emergency management.",
+        "Will not lift the order until the EHS Manager submits the final PSSR and restart approval."
+      ]
+    }
+  ],
+  "criticalResources": [
+    "DCS (DeltaV)",
+    "SIS (Triconex)",
+    "PLCs (TVC-JMP-01, TS-EWS-01)",
+    "Fence-line detectors (AT-904, AT-905)",
+    "Sirens (S-1 to S-6)",
+    "CAER-Text system",
+    "Community line (304-555-0190)",
+    "Site weather station",
+    "Vendor remote access (TVC-JMP-01)",
+    "Emergency shutdown valves (HV-312)",
+    "ERT Level A suits",
+    "Decontamination station (Muster Point A)",
+    "Process historian (TVC-PI-01)",
+    "Windows security logs (SIEM)",
+    "SIS logic version archive",
+    "Cell-room trip switch",
+    "Ridgeline Automation support line",
+    "FBI cyber liaison (Teague County)",
+    "NRC hotline",
+    "SERC and LEPC contact list",
+    "Corporate SOC (remote)",
+    "Corporate IT Security (remote)"
+  ],
+  "warnings": [
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Field report from loader at Rail Spot 2 contradicts FACILITY FACTS: 'Rail Spot 2' is not in the list of valid rail spots (Rail Spot 1, 2, 3, 4). (row rewritten once from this note)",
+      "rowId": "I-01",
+      "source": "critique",
+      "suggestion": "Replace 'Rail Spot 2' with 'Rail Spot 1' to match the FACILITY FACTS list."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Setpoint change for WT-302 from 32.4 to 38.1 tons lacks units, violating C1's requirement for units on all values. (row rewritten once from this note)",
+      "rowId": "I-03",
+      "source": "critique",
+      "suggestion": "Add units to the setpoint value: '32.4 to 38.1 tons' must be '32.4 tons to 38.1 tons'."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Social media post from 'RiversideRiser' uses a fake handle and unverified location; must match a real community reference in FACILITY FACTS. (row rewritten once from this note)",
+      "rowId": "I-05b",
+      "source": "critique",
+      "suggestion": "Replace '@RiversideRiser' with a real local reference, e.g., '@RiversideAdditionResident'."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Security gate 2 reports a truck driver with a West Virginia license plate, but WV is not in the FACILITY FACTS list of valid states. (row rewritten once from this note)",
+      "rowId": "I-06",
+      "source": "critique",
+      "suggestion": "Change 'West Virginia' to 'Virginia' to match the state list in FACILITY FACTS."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Fence-line detector AT-905 alarms, but AT-905 is not in the FACILITY FACTS list of valid detectors (AT-901 to AT-906). (row rewritten once from this note)",
+      "rowId": "I-08",
+      "source": "critique",
+      "suggestion": "Correct to AT-904 or AT-906 to match the valid detector list."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Triconex key switch in PROGRAM mode contradicts C7: 'Do not reset the SIS after an unexplained trip' — but the switch was not in RUN or MANUAL, violating SOP 6.3. (row rewritten once from this note)",
+      "rowId": "I-10",
+      "source": "critique",
+      "suggestion": "Reframe the switch state as 'in PROGRAM mode' only if it was not previously in RUN or MANUAL; otherwise, state it was 'not in RUN or MANUAL'."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "SIF-650 not triggered during ESD-310 command execution contradicts C7: 'Field over screen' — but the ERT confirms the release continues, so the SIS must have failed to trip. (row rewritten once from this note)",
+      "rowId": "I-11",
+      "source": "critique",
+      "suggestion": "Clarify that ESD-310 was commanded to close but failed to act, per C7's 'failure to trip' clause."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "EHS Manager calls CISA via hotline (1-800-627-7997), but CISA's official number is not in FACILITY FACTS; must use the documented contact. (row rewritten once from this note)",
+      "rowId": "I-12",
+      "source": "critique",
+      "suggestion": "Replace hotline with CISA’s official number from RMP Annex A."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "FSO calls FBI Charleston Field Office (304-555-0160), but 304-555-0160 is not in FACILITY FACTS list of valid phone numbers. (row rewritten once from this note)",
+      "rowId": "I-13",
+      "source": "critique",
+      "suggestion": "Replace with a valid number from the list, e.g., (304) 555-0161."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "School district calls about opening at 06:30, but the exercise starts at 09:00 and ends at 13:00 — 06:30 is before the exercise began. (row rewritten once from this note)",
+      "rowId": "I-14",
+      "source": "critique",
+      "suggestion": "Change to 14:30 to match the exercise timeline and avoid temporal contradiction."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Ridgeline Automation email claims to have accessed TVC-JMP-01 via vendor VPN, but TVC-JMP-01 is not in FACILITY FACTS list of valid hostnames. (row rewritten once from this note)",
+      "rowId": "I-15a",
+      "source": "critique",
+      "suggestion": "Replace 'TVC-JMP-01' with 'TVC-JMP-02' to match the valid hostnames in FACILITY FACTS."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "OT Engineer's phone call is written in player voice, violating inject hygiene: 'Victor Anand' is a player role, not an outside party. (row rewritten once from this note)",
+      "rowId": "I-18b",
+      "source": "critique",
+      "suggestion": "Rewrite as a system alert from Ridgeline Automation: 'Ridgeline Automation: Confirmed cyber intrusion via TVC-JMP-01; do not reset.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "OT Engineer confirms SIS integrity in a narrative inject, but this is a player decision — must be in expected action. (row rewritten once from this note)",
+      "rowId": "I-21",
+      "source": "critique",
+      "suggestion": "Move the confirmation to the expected action; inject should only state: 'SIS logic validated and checksum matches.'"
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "OT Engineer not named in FACILITY FACTS; must use a name from the list or a documented contact.",
+      "rowId": "I-02",
+      "source": "critique",
+      "suggestion": "Use 'Victor Anand' only if listed in RMP Annex A; otherwise, use a documented contact name."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "EHS Manager estimates 15 tons release, but CAS number 7664-93-9 (chlorine) has no mass unit specified.",
+      "rowId": "I-07",
+      "source": "critique",
+      "suggestion": "Add units: '15 tons' must be '15 tons (7664-93-9)'."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Maintenance technician reports a man in a grey hoodie, but no description matches any known personnel in FACILITY FACTS.",
+      "rowId": "I-14b",
+      "source": "critique",
+      "suggestion": "Replace with a known description, e.g., 'man in grey hoodie, no badge, not on manifest' — but only if a match exists."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Reporter calls PIO with 'Channel 7 is on-site' — but Channel 7 is not in FACILITY FACTS list of valid media outlets.",
+      "rowId": "I-20",
+      "source": "critique",
+      "suggestion": "Replace with 'WCFT7' to match the documented media contact."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "IT Incident Lead confirms firewall rules, but 'FW-OT2' and 'F-1' are not in FACILITY FACTS list of valid network devices.",
+      "rowId": "I-24",
+      "source": "critique",
+      "suggestion": "Replace with 'FW-OT1' and 'F-2' to match the documented network schema."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "Reporter calls for a statement at 13:45, but the exercise ends at 13:00 — 13:45 is after the end.",
+      "rowId": "I-25b",
+      "source": "critique",
+      "suggestion": "Change to 12:45 to stay within exercise timeline."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "TIME_JUMP at 1:00 (10:00) contradicts the timeline: the exercise started at 09:00, so 1:00 is 10:00, not 10:00 a.m.",
+      "rowId": "I-04",
+      "source": "critique",
+      "suggestion": "Confirm that all times are in 24-hour format and match the exercise clock."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "TIME_JUMP at 2:00 (11:00) is correct, but the ERT is said to be 'in Level A suits and en route' — but Level A suits are not in FACILITY FACTS list.",
+      "rowId": "I-15",
+      "source": "critique",
+      "suggestion": "Replace 'Level A suits' with 'Level A (SCBA)' to match the documented equipment list."
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 1 has 8 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 2 has 8 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 3 has 10 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 4 has 8 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    }
+  ],
+  "provenance": [
+    {
+      "stage": "scenario_overview",
+      "startedAt": "2026-10-24T20:24:50.719Z",
+      "finishedAt": "2026-10-24T20:25:00.113Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "scenario_overview@default",
+      "promptHash": "16e3d8badb4d20f60c83c4701882c3ffcfa5a065c536349f081551dc1d94843b",
+      "inputTokens": 5115,
+      "outputTokens": 682,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "objectives_roles",
+      "startedAt": "2026-10-24T20:25:00.127Z",
+      "finishedAt": "2026-10-24T20:25:15.179Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "objectives_roles@default",
+      "promptHash": "3d1c2b684e0885dced1f90439df7567faf98f511000c78a9fbce4bc796b396fd",
+      "inputTokens": 4560,
+      "outputTokens": 1361,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "phase_plan",
+      "startedAt": "2026-10-24T20:25:15.194Z",
+      "finishedAt": "2026-10-24T20:25:29.664Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "phase_plan@default",
+      "promptHash": "d5ba5715d3af2998a1d7f397abe4dee08f509a020e2084d00d52e1f11136e32a",
+      "inputTokens": 3975,
+      "outputTokens": 1340,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5QSE0A09N1J7RJAQPG2GJQ7",
+      "startedAt": "2026-10-24T20:25:29.689Z",
+      "finishedAt": "2026-10-24T20:26:00.782Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "70f8720d8e026d1e35a0f6f380c13c84d72a43ff66ee7c96255d949184002389",
+      "inputTokens": 20496,
+      "outputTokens": 3096,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5QSE0A0HYBS3T8EV6WAAC4B",
+      "startedAt": "2026-10-24T20:26:00.805Z",
+      "finishedAt": "2026-10-24T20:26:37.907Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "70f8720d8e026d1e35a0f6f380c13c84d72a43ff66ee7c96255d949184002389",
+      "inputTokens": 23023,
+      "outputTokens": 3833,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+      "startedAt": "2026-10-24T20:26:37.928Z",
+      "finishedAt": "2026-10-24T20:27:06.232Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "70f8720d8e026d1e35a0f6f380c13c84d72a43ff66ee7c96255d949184002389",
+      "inputTokens": 37264,
+      "outputTokens": 3209,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5QSE0A0KVHW9J933998QBTR",
+      "startedAt": "2026-10-24T20:27:14.604Z",
+      "finishedAt": "2026-10-24T20:27:38.790Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "70f8720d8e026d1e35a0f6f380c13c84d72a43ff66ee7c96255d949184002389",
+      "inputTokens": 39080,
+      "outputTokens": 3707,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "controller_handbook",
+      "startedAt": "2026-10-24T20:27:44.716Z",
+      "finishedAt": "2026-10-24T20:28:11.270Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "controller_handbook@default",
+      "promptHash": "e2fef25331b9e1d7345f70cd9b29ceec65c2c18f975219deb5ca4365edd96969",
+      "inputTokens": 7941,
+      "outputTokens": 2076,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "rubric",
+      "startedAt": "2026-10-24T20:28:11.287Z",
+      "finishedAt": "2026-10-24T20:28:25.698Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "rubric@default",
+      "promptHash": "ad7bd6953cef369fd9514e4afe0f3ba42c00ff46e006516319efc459947cf670",
+      "inputTokens": 8039,
+      "outputTokens": 1021,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "player_briefing",
+      "startedAt": "2026-10-24T20:28:25.723Z",
+      "finishedAt": "2026-10-24T20:28:46.973Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "player_briefing@default",
+      "promptHash": "8f2102ec53a8b66fec8b29b0e02e33e403ab08766558036ece9685bb58015158",
+      "inputTokens": 5033,
+      "outputTokens": 1852,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "hotwash",
+      "startedAt": "2026-10-24T20:28:46.991Z",
+      "finishedAt": "2026-10-24T20:28:52.057Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "hotwash@default",
+      "promptHash": "3203b67c6ff847c27925a8402438166159dad09b8fcc35fd87fa19f0115e5216",
+      "inputTokens": 1940,
+      "outputTokens": 485,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "critique",
+      "startedAt": "2026-10-24T20:28:52.126Z",
+      "finishedAt": "2026-10-24T20:29:20.883Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "critique@default",
+      "promptHash": "924bbcf2e62aae9fcbf3b6c02d6743e9e376ef619d4ab25c20cf308d416c83f2",
+      "inputTokens": 11861,
+      "outputTokens": 1945,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSQN762N9S18C1CKWPVWPJ",
+      "startedAt": "2026-10-24T20:30:46.003Z",
+      "finishedAt": "2026-10-24T20:30:53.179Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 5115,
+      "outputTokens": 623,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSQN762N9S18C1CKWPVWPJ",
+      "startedAt": "2026-10-24T20:30:53.197Z",
+      "finishedAt": "2026-10-24T20:30:53.197Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSQW8KBR9Z9YDZYD3BVHNQ",
+      "startedAt": "2026-10-24T20:30:53.209Z",
+      "finishedAt": "2026-10-24T20:31:02.977Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 5985,
+      "outputTokens": 769,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSQW8KBR9Z9YDZYD3BVHNQ",
+      "startedAt": "2026-10-24T20:31:02.983Z",
+      "finishedAt": "2026-10-24T20:31:02.983Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSR5TCRNCMHDJD82H9XPHD",
+      "startedAt": "2026-10-24T20:31:02.995Z",
+      "finishedAt": "2026-10-24T20:31:10.145Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 5674,
+      "outputTokens": 554,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSR5TCRNCMHDJD82H9XPHD",
+      "startedAt": "2026-10-24T20:31:10.156Z",
+      "finishedAt": "2026-10-24T20:31:13.443Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1828,
+      "outputTokens": 316,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSRG18NBPBYXM8VSCEZSY0",
+      "startedAt": "2026-10-24T20:31:13.453Z",
+      "finishedAt": "2026-10-24T20:31:18.980Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 5795,
+      "outputTokens": 384,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSRG18NBPBYXM8VSCEZSY0",
+      "startedAt": "2026-10-24T20:31:18.986Z",
+      "finishedAt": "2026-10-24T20:31:18.986Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSRNEF0Q2JN419JPDMQFJX",
+      "startedAt": "2026-10-24T20:31:18.999Z",
+      "finishedAt": "2026-10-24T20:31:24.019Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 12799,
+      "outputTokens": 637,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSRNEF0Q2JN419JPDMQFJX",
+      "startedAt": "2026-10-24T20:31:29.175Z",
+      "finishedAt": "2026-10-24T20:31:31.538Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1669,
+      "outputTokens": 232,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSS1PVJ5E183H7AENDRDMY",
+      "startedAt": "2026-10-24T20:31:31.553Z",
+      "finishedAt": "2026-10-24T20:31:36.910Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 12492,
+      "outputTokens": 730,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSS1PVJ5E183H7AENDRDMY",
+      "startedAt": "2026-10-24T20:31:42.517Z",
+      "finishedAt": "2026-10-24T20:31:47.786Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1737,
+      "outputTokens": 521,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSSHJFS0JGD969BM5CMPQT",
+      "startedAt": "2026-10-24T20:31:47.798Z",
+      "finishedAt": "2026-10-24T20:31:54.789Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7045,
+      "outputTokens": 472,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSSHJFS0JGD969BM5CMPQT",
+      "startedAt": "2026-10-24T20:31:54.791Z",
+      "finishedAt": "2026-10-24T20:31:54.791Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSSRDBMKHJ24P3SXGCPTHD",
+      "startedAt": "2026-10-24T20:31:54.802Z",
+      "finishedAt": "2026-10-24T20:32:05.100Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6758,
+      "outputTokens": 780,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSSRDBMKHJ24P3SXGCPTHD",
+      "startedAt": "2026-10-24T20:32:05.105Z",
+      "finishedAt": "2026-10-24T20:32:05.105Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QST2FPZZ9T618V3DG0BV0R",
+      "startedAt": "2026-10-24T20:32:05.118Z",
+      "finishedAt": "2026-10-24T20:32:12.830Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6444,
+      "outputTokens": 555,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QST2FPZZ9T618V3DG0BV0R",
+      "startedAt": "2026-10-24T20:32:12.834Z",
+      "finishedAt": "2026-10-24T20:32:12.834Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSTA17QAEWFNE0WP4GFYKC",
+      "startedAt": "2026-10-24T20:32:12.846Z",
+      "finishedAt": "2026-10-24T20:32:19.818Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6772,
+      "outputTokens": 488,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSTA17QAEWFNE0WP4GFYKC",
+      "startedAt": "2026-10-24T20:32:19.822Z",
+      "finishedAt": "2026-10-24T20:32:25.160Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1926,
+      "outputTokens": 558,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSTP2GM7TWEZCBCP4VPQWT",
+      "startedAt": "2026-10-24T20:32:25.175Z",
+      "finishedAt": "2026-10-24T20:32:31.456Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6909,
+      "outputTokens": 412,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSTP2GM7TWEZCBCP4VPQWT",
+      "startedAt": "2026-10-24T20:32:31.460Z",
+      "finishedAt": "2026-10-24T20:32:31.460Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSTW78GH73ZKDW9MKHXSC9",
+      "startedAt": "2026-10-24T20:44:54.577Z",
+      "finishedAt": "2026-10-24T20:44:58.347Z",
+      "status": "error",
+      "error": "Drafting (Offline (example refresh)): OpenAI-compatible server unreachable at http://127.0.0.1:9: bad port",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSTW78GH73ZKDW9MKHXSC9",
+      "startedAt": "2026-10-24T20:32:44.610Z",
+      "finishedAt": "2026-10-24T20:32:44.610Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSV927Q0B3K8WZ59MFMK2P",
+      "startedAt": "2026-10-24T20:32:44.625Z",
+      "finishedAt": "2026-10-24T20:32:56.021Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7637,
+      "outputTokens": 854,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSV927Q0B3K8WZ59MFMK2P",
+      "startedAt": "2026-10-24T20:32:56.025Z",
+      "finishedAt": "2026-10-24T20:32:56.025Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSVM6YK6P6HZJ563C93GBB",
+      "startedAt": "2026-10-24T20:32:56.039Z",
+      "finishedAt": "2026-10-24T20:33:03.742Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7674,
+      "outputTokens": 501,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSVM6YK6P6HZJ563C93GBB",
+      "startedAt": "2026-10-24T20:33:03.748Z",
+      "finishedAt": "2026-10-24T20:33:06.665Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2124,
+      "outputTokens": 274,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSVYKH3J9ZK7C605MM4FMJ",
+      "startedAt": "2026-10-24T20:33:06.679Z",
+      "finishedAt": "2026-10-24T20:33:15.952Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7627,
+      "outputTokens": 643,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSVYKH3J9ZK7C605MM4FMJ",
+      "startedAt": "2026-10-24T20:33:15.954Z",
+      "finishedAt": "2026-10-24T20:33:19.941Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2248,
+      "outputTokens": 380,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSWBJ9S6ZQBAQNQ2NKTJAT",
+      "startedAt": "2026-10-24T20:33:19.950Z",
+      "finishedAt": "2026-10-24T20:33:27.270Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7381,
+      "outputTokens": 465,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSWBJ9S6ZQBAQNQ2NKTJAT",
+      "startedAt": "2026-10-24T20:33:27.274Z",
+      "finishedAt": "2026-10-24T20:33:32.537Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2100,
+      "outputTokens": 534,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSWQW0G5PTG1R7RC0Z04AZ",
+      "startedAt": "2026-10-24T20:33:32.551Z",
+      "finishedAt": "2026-10-24T20:33:40.045Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7692,
+      "outputTokens": 479,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSWQW0G5PTG1R7RC0Z04AZ",
+      "startedAt": "2026-10-24T20:33:40.046Z",
+      "finishedAt": "2026-10-24T20:33:40.046Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSWZ6JW4VGDF804R03RQ43",
+      "startedAt": "2026-10-24T20:33:40.058Z",
+      "finishedAt": "2026-10-24T20:33:50.581Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8364,
+      "outputTokens": 728,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSWZ6JW4VGDF804R03RQ43",
+      "startedAt": "2026-10-24T20:33:50.585Z",
+      "finishedAt": "2026-10-24T20:33:50.585Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSX9FYDQKYAP2DAA2JKD24",
+      "startedAt": "2026-10-24T20:33:50.598Z",
+      "finishedAt": "2026-10-24T20:33:59.120Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8615,
+      "outputTokens": 548,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSX9FYDQKYAP2DAA2JKD24",
+      "startedAt": "2026-10-24T20:33:59.124Z",
+      "finishedAt": "2026-10-24T20:33:59.124Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSXHTTQJRGZXKCPS72ST83",
+      "startedAt": "2026-10-24T20:33:59.138Z",
+      "finishedAt": "2026-10-24T20:34:12.498Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8767,
+      "outputTokens": 989,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSXHTTQJRGZXKCPS72ST83",
+      "startedAt": "2026-10-24T20:34:12.501Z",
+      "finishedAt": "2026-10-24T20:34:12.501Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSXYWWWEWMGCHBJ1TMW1EK",
+      "startedAt": "2026-10-24T20:34:12.517Z",
+      "finishedAt": "2026-10-24T20:34:19.591Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9030,
+      "outputTokens": 413,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSXYWWWEWMGCHBJ1TMW1EK",
+      "startedAt": "2026-10-24T20:34:19.593Z",
+      "finishedAt": "2026-10-24T20:34:19.593Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSY5TFVDW18T2F862275H0",
+      "startedAt": "2026-10-24T20:34:19.608Z",
+      "finishedAt": "2026-10-24T20:34:28.517Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9327,
+      "outputTokens": 564,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSY5TFVDW18T2F862275H0",
+      "startedAt": "2026-10-24T20:34:28.520Z",
+      "finishedAt": "2026-10-24T20:34:28.520Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSYEHFDZ2HKR3W58FRG7Z3",
+      "startedAt": "2026-10-24T20:34:28.537Z",
+      "finishedAt": "2026-10-24T20:34:37.505Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9916,
+      "outputTokens": 549,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSYEHFDZ2HKR3W58FRG7Z3",
+      "startedAt": "2026-10-24T20:34:37.507Z",
+      "finishedAt": "2026-10-24T20:34:37.507Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSYQA75NK44VJ0CHGHAFTV",
+      "startedAt": "2026-10-24T20:34:37.518Z",
+      "finishedAt": "2026-10-24T20:34:43.947Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9534,
+      "outputTokens": 343,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSYQA75NK44VJ0CHGHAFTV",
+      "startedAt": "2026-10-24T20:34:43.954Z",
+      "finishedAt": "2026-10-24T20:34:45.928Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2183,
+      "outputTokens": 157,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSYZHGKP1GXRM5BQ1CQX0Q",
+      "startedAt": "2026-10-24T20:34:45.944Z",
+      "finishedAt": "2026-10-24T20:34:54.879Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9449,
+      "outputTokens": 566,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSYZHGKP1GXRM5BQ1CQX0Q",
+      "startedAt": "2026-10-24T20:34:54.881Z",
+      "finishedAt": "2026-10-24T20:34:54.881Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSZ896DK2G1Z6PTB2N1MZY",
+      "startedAt": "2026-10-24T20:34:54.894Z",
+      "finishedAt": "2026-10-24T20:35:08.436Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9774,
+      "outputTokens": 963,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSZ896DK2G1Z6PTB2N1MZY",
+      "startedAt": "2026-10-24T20:35:08.439Z",
+      "finishedAt": "2026-10-24T20:35:08.439Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QSZNGXV2K1BC1X6BAN7RBP",
+      "startedAt": "2026-10-24T20:35:08.453Z",
+      "finishedAt": "2026-10-24T20:35:19.911Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9914,
+      "outputTokens": 772,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QSZNGXV2K1BC1X6BAN7RBP",
+      "startedAt": "2026-10-24T20:35:19.915Z",
+      "finishedAt": "2026-10-24T20:35:19.915Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QT00QH7ZPSDTHW304FV7T0",
+      "startedAt": "2026-10-24T20:35:19.931Z",
+      "finishedAt": "2026-10-24T20:35:28.536Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10288,
+      "outputTokens": 498,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QT00QH7ZPSDTHW304FV7T0",
+      "startedAt": "2026-10-24T20:35:28.541Z",
+      "finishedAt": "2026-10-24T20:35:28.541Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QT0952AB5AEEH7K2FFFVXW",
+      "startedAt": "2026-10-24T20:35:28.556Z",
+      "finishedAt": "2026-10-24T20:35:37.577Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10529,
+      "outputTokens": 531,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QT0952AB5AEEH7K2FFFVXW",
+      "startedAt": "2026-10-24T20:35:37.580Z",
+      "finishedAt": "2026-10-24T20:35:37.580Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QT0HZHQJDG8PTY3T44884V",
+      "startedAt": "2026-10-24T20:35:37.594Z",
+      "finishedAt": "2026-10-24T20:35:45.850Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10125,
+      "outputTokens": 458,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QT0HZHQJDG8PTY3T44884V",
+      "startedAt": "2026-10-24T20:35:45.853Z",
+      "finishedAt": "2026-10-24T20:35:45.853Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QT0T24WK7XTNMJZESDHMM6",
+      "startedAt": "2026-10-24T20:35:45.870Z",
+      "finishedAt": "2026-10-24T20:35:55.459Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10644,
+      "outputTokens": 563,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QT0T24WK7XTNMJZESDHMM6",
+      "startedAt": "2026-10-24T20:35:55.461Z",
+      "finishedAt": "2026-10-24T20:35:55.461Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QT13EA0HWZ6AEJF41AQ4PZ",
+      "startedAt": "2026-10-24T20:35:55.474Z",
+      "finishedAt": "2026-10-24T20:36:04.758Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10803,
+      "outputTokens": 522,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QT13EA0HWZ6AEJF41AQ4PZ",
+      "startedAt": "2026-10-24T20:36:04.761Z",
+      "finishedAt": "2026-10-24T20:36:04.761Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSQN762N9S18C1CKWPVWPJ",
+      "startedAt": "2026-10-24T20:45:24.860Z",
+      "finishedAt": "2026-10-24T20:45:25.330Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSQW8KBR9Z9YDZYD3BVHNQ",
+      "startedAt": "2026-10-24T20:45:25.334Z",
+      "finishedAt": "2026-10-24T20:45:25.913Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSR5TCRNCMHDJD82H9XPHD",
+      "startedAt": "2026-10-24T20:45:25.916Z",
+      "finishedAt": "2026-10-24T20:45:26.173Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSRG18NBPBYXM8VSCEZSY0",
+      "startedAt": "2026-10-24T20:45:26.176Z",
+      "finishedAt": "2026-10-24T20:45:26.532Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSRNEF0Q2JN419JPDMQFJX",
+      "startedAt": "2026-10-24T20:45:26.537Z",
+      "finishedAt": "2026-10-24T20:45:27.045Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSS1PVJ5E183H7AENDRDMY",
+      "startedAt": "2026-10-24T20:45:27.053Z",
+      "finishedAt": "2026-10-24T20:45:27.334Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSSHJFS0JGD969BM5CMPQT",
+      "startedAt": "2026-10-24T20:45:27.340Z",
+      "finishedAt": "2026-10-24T20:45:27.644Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSSRDBMKHJ24P3SXGCPTHD",
+      "startedAt": "2026-10-24T20:45:27.649Z",
+      "finishedAt": "2026-10-24T20:45:27.867Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QST2FPZZ9T618V3DG0BV0R",
+      "startedAt": "2026-10-24T20:45:27.872Z",
+      "finishedAt": "2026-10-24T20:45:28.212Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSTA17QAEWFNE0WP4GFYKC",
+      "startedAt": "2026-10-24T20:45:28.217Z",
+      "finishedAt": "2026-10-24T20:45:28.521Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSTP2GM7TWEZCBCP4VPQWT",
+      "startedAt": "2026-10-24T20:45:28.536Z",
+      "finishedAt": "2026-10-24T20:45:28.884Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSTW78GH73ZKDW9MKHXSC9",
+      "startedAt": "2026-10-24T20:45:28.888Z",
+      "finishedAt": "2026-10-24T20:45:29.178Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSV927Q0B3K8WZ59MFMK2P",
+      "startedAt": "2026-10-24T20:45:29.183Z",
+      "finishedAt": "2026-10-24T20:45:29.502Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSVM6YK6P6HZJ563C93GBB",
+      "startedAt": "2026-10-24T20:45:29.506Z",
+      "finishedAt": "2026-10-24T20:45:29.822Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSVYKH3J9ZK7C605MM4FMJ",
+      "startedAt": "2026-10-24T20:45:29.830Z",
+      "finishedAt": "2026-10-24T20:45:30.157Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSWBJ9S6ZQBAQNQ2NKTJAT",
+      "startedAt": "2026-10-24T20:45:30.162Z",
+      "finishedAt": "2026-10-24T20:45:30.462Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSWQW0G5PTG1R7RC0Z04AZ",
+      "startedAt": "2026-10-24T20:45:30.466Z",
+      "finishedAt": "2026-10-24T20:45:30.830Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSWZ6JW4VGDF804R03RQ43",
+      "startedAt": "2026-10-24T20:45:30.834Z",
+      "finishedAt": "2026-10-24T20:45:31.179Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSX9FYDQKYAP2DAA2JKD24",
+      "startedAt": "2026-10-24T20:45:31.184Z",
+      "finishedAt": "2026-10-24T20:45:31.487Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSXHTTQJRGZXKCPS72ST83",
+      "startedAt": "2026-10-24T20:45:31.491Z",
+      "finishedAt": "2026-10-24T20:45:31.823Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSXYWWWEWMGCHBJ1TMW1EK",
+      "startedAt": "2026-10-24T20:45:31.827Z",
+      "finishedAt": "2026-10-24T20:45:32.171Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSY5TFVDW18T2F862275H0",
+      "startedAt": "2026-10-24T20:45:32.176Z",
+      "finishedAt": "2026-10-24T20:45:32.522Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSYEHFDZ2HKR3W58FRG7Z3",
+      "startedAt": "2026-10-24T20:45:32.534Z",
+      "finishedAt": "2026-10-24T20:45:32.865Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSYQA75NK44VJ0CHGHAFTV",
+      "startedAt": "2026-10-24T20:45:32.912Z",
+      "finishedAt": "2026-10-24T20:45:33.205Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSYZHGKP1GXRM5BQ1CQX0Q",
+      "startedAt": "2026-10-24T20:45:33.871Z",
+      "finishedAt": "2026-10-24T20:45:34.200Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSZ896DK2G1Z6PTB2N1MZY",
+      "startedAt": "2026-10-24T20:45:34.205Z",
+      "finishedAt": "2026-10-24T20:45:34.545Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QSZNGXV2K1BC1X6BAN7RBP",
+      "startedAt": "2026-10-24T20:45:34.550Z",
+      "finishedAt": "2026-10-24T20:45:34.884Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QT00QH7ZPSDTHW304FV7T0",
+      "startedAt": "2026-10-24T20:45:34.889Z",
+      "finishedAt": "2026-10-24T20:45:35.221Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QT0952AB5AEEH7K2FFFVXW",
+      "startedAt": "2026-10-24T20:45:35.226Z",
+      "finishedAt": "2026-10-24T20:45:35.544Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QT0HZHQJDG8PTY3T44884V",
+      "startedAt": "2026-10-24T20:45:35.549Z",
+      "finishedAt": "2026-10-24T20:45:35.890Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QT0T24WK7XTNMJZESDHMM6",
+      "startedAt": "2026-10-24T20:45:35.894Z",
+      "finishedAt": "2026-10-24T20:45:36.194Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QT13EA0HWZ6AEJF41AQ4PZ",
+      "startedAt": "2026-10-24T20:45:36.200Z",
+      "finishedAt": "2026-10-24T20:45:36.558Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QT53M3NR1K3GMTAEGVCSJN",
+      "startedAt": "2026-10-24T20:38:06.742Z",
+      "finishedAt": "2026-10-24T20:38:32.403Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 21025,
+      "outputTokens": 1944,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QT53M3NR1K3GMTAEGVCSJN",
+      "startedAt": "2026-10-24T20:39:16.548Z",
+      "finishedAt": "2026-10-24T20:39:16.548Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QT6PDNSWJYSXSBBGK5EPTQ",
+      "startedAt": "2026-10-24T20:38:58.754Z",
+      "finishedAt": "2026-10-24T20:39:11.240Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10190,
+      "outputTokens": 425,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QT6PDNSWJYSXSBBGK5EPTQ",
+      "startedAt": "2026-10-24T20:39:11.249Z",
+      "finishedAt": "2026-10-24T20:39:16.527Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2374,
+      "outputTokens": 264,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QT53M3NR1K3GMTAEGVCSJN",
+      "startedAt": "2026-10-24T20:45:33.209Z",
+      "finishedAt": "2026-10-24T20:45:33.568Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QT6PDNSWJYSXSBBGK5EPTQ",
+      "startedAt": "2026-10-24T20:45:33.573Z",
+      "finishedAt": "2026-10-24T20:45:33.867Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

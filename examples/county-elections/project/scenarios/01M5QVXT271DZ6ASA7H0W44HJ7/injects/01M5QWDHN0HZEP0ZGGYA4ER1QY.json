@@ -1,0 +1,308 @@
+{
+  "id": "01M5QWDHN0HZEP0ZGGYA4ER1QY",
+  "mselRowId": "I-02",
+  "type": "siem_alert",
+  "title": "SIEM Alert: Suspicious Outbound Connection from FS01",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "product": "Sentinel Point SIEM",
+    "tenant": "Lisle County Board of Elections",
+    "alertId": "SIEM-1029-01",
+    "severity": "low",
+    "riskScore": 42,
+    "rule": "Suspicious outbound connection from Microsoft 365 tenant to external IP",
+    "ruleDescription": "Outbound HTTPS connection from LCBOE-FS01 to external IP 104.213.142.77 on port 443, with no associated user authentication event. No known policy permits egress to this IP.",
+    "status": "New",
+    "assignee": "Unassigned",
+    "firstSeen": "10/29/2026 08:17:32",
+    "lastSeen": "10/29/2026 08:17:32",
+    "eventCount": 1,
+    "source": {
+      "host": "LCBOE-FS01",
+      "ip": "10.72.12.20",
+      "user": "N/A",
+      "zone": "Internal"
+    },
+    "dest": {
+      "host": "104.213.142.77",
+      "ip": "104.213.142.77",
+      "service": "HTTPS (443)",
+      "zone": "External"
+    },
+    "tactics": [
+      "T1071 Application Layer Protocol",
+      "T1566 Phishing",
+      "T1078 Valid Accounts"
+    ],
+    "details": [
+      {
+        "key": "Source Host",
+        "value": "LCBOE-FS01"
+      },
+      {
+        "key": "Source IP",
+        "value": "10.72.12.20"
+      },
+      {
+        "key": "Destination IP",
+        "value": "104.213.142.77"
+      },
+      {
+        "key": "Protocol",
+        "value": "HTTPS"
+      },
+      {
+        "key": "Port",
+        "value": "443"
+      },
+      {
+        "key": "Tenant",
+        "value": "lislevotes.example"
+      },
+      {
+        "key": "Authentication Event",
+        "value": "None logged"
+      },
+      {
+        "key": "Connection Type",
+        "value": "Outbound"
+      },
+      {
+        "key": "SIEM Source",
+        "value": "LCBOE-FS01"
+      }
+    ],
+    "rawEvent": "2026-10-24T08:17:32-04:00 LCBOE-FS01 Microsoft 365 104.213.142.77:443 outbound HTTPS session initiated from 10.72.12.20 (LCBOE-FS01), no associated sign-in event logged.",
+    "relatedAlerts": [
+      {
+        "time": "08:12:03",
+        "title": "Failed login from LCBOE-FS01 (10.72.12.20)",
+        "severity": "low"
+      }
+    ],
+    "analyst": "it.oncall"
+  },
+  "variant": "default",
+  "instructorNote": "This alert confirms the attacker's exfiltration attempt via the compromised user inbox. The IT team must immediately isolate LCBOE-FS01 and preserve logs for forensic analysis.",
+  "citations": [
+    {
+      "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+      "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 4",
+      "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+      "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+      "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+      "chunkId": 32
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QX3WNVCWQVQZRPZ0QEYFVY",
+      "kind": "image",
+      "path": "scenarios/01M5QVXT271DZ6ASA7H0W44HJ7/media/01M5QWDHN0HZEP0ZGGYA4ER1QY/01M5QX3WNVCWQVQZRPZ0QEYFVY.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 890,
+      "sha256": "5b74c4f1a263cc61ee4d78e9805f73e367e0310e418a1949daf35eda13bae9f4",
+      "provenance": {
+        "provider": "template",
+        "templateId": "siem_alert",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:29:52.406Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:17:49.672Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIEM Alert: Suspicious Outbound Connection from FS01",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Lisle County Board of Elections",
+          "alertId": "SIEM-1029-01",
+          "severity": "low",
+          "riskScore": 42,
+          "rule": "Suspicious outbound connection from Microsoft 365 tenant to external IP",
+          "ruleDescription": "Outbound HTTPS connection from LCBOE-FS01 to external IP 104.213.142.77 on port 443, with no associated user authentication event. No known policy permits egress to this IP.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "10/24/2026 08:17:32",
+          "lastSeen": "10/24/2026 08:17:32",
+          "eventCount": 1,
+          "source": {
+            "host": "LCBOE-FS01",
+            "ip": "10.72.12.20",
+            "user": "N/A",
+            "zone": "Internal"
+          },
+          "dest": {
+            "host": "104.213.142.77",
+            "ip": "104.213.142.77",
+            "service": "HTTPS (443)",
+            "zone": "External"
+          },
+          "tactics": [
+            "T1071 Application Layer Protocol",
+            "T1566 Phishing",
+            "T1078 Valid Accounts"
+          ],
+          "details": [
+            {
+              "key": "Source Host",
+              "value": "LCBOE-FS01"
+            },
+            {
+              "key": "Source IP",
+              "value": "10.72.12.20"
+            },
+            {
+              "key": "Destination IP",
+              "value": "104.213.142.77"
+            },
+            {
+              "key": "Protocol",
+              "value": "HTTPS"
+            },
+            {
+              "key": "Port",
+              "value": "443"
+            },
+            {
+              "key": "Tenant",
+              "value": "lislevotes.example"
+            },
+            {
+              "key": "Authentication Event",
+              "value": "None logged"
+            },
+            {
+              "key": "Connection Type",
+              "value": "Outbound"
+            },
+            {
+              "key": "SIEM Source",
+              "value": "LCBOE-FS01"
+            }
+          ],
+          "rawEvent": "2026-10-24T08:17:32-04:00 LCBOE-FS01 Microsoft 365 104.213.142.77:443 outbound HTTPS session initiated from 10.72.12.20 (LCBOE-FS01), no associated sign-in event logged.",
+          "relatedAlerts": [
+            {
+              "time": "08:12:03",
+              "title": "Failed login from LCBOE-FS01 (10.72.12.20)",
+              "severity": "low"
+            }
+          ],
+          "analyst": "it.oncall"
+        },
+        "instructorNote": "This alert confirms the attacker's exfiltration attempt via the compromised user inbox. The IT team must immediately isolate LCBOE-FS01 and preserve logs for forensic analysis.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T21:28:32.902Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIEM Alert: Suspicious Outbound Connection from FS01",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Lisle County Board of Elections",
+          "alertId": "SIEM-1029-01",
+          "severity": "low",
+          "riskScore": 42,
+          "rule": "Suspicious outbound connection from Microsoft 365 tenant to external IP",
+          "ruleDescription": "Outbound HTTPS connection from LCBOE-FS01 to external IP 104.213.142.77 on port 443, with no associated user authentication event. No known policy permits egress to this IP.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "10/29/2026 08:17:32",
+          "lastSeen": "10/29/2026 08:17:32",
+          "eventCount": 1,
+          "source": {
+            "host": "LCBOE-FS01",
+            "ip": "10.72.12.20",
+            "user": "N/A",
+            "zone": "Internal"
+          },
+          "dest": {
+            "host": "104.213.142.77",
+            "ip": "104.213.142.77",
+            "service": "HTTPS (443)",
+            "zone": "External"
+          },
+          "tactics": [
+            "T1071 Application Layer Protocol",
+            "T1566 Phishing",
+            "T1078 Valid Accounts"
+          ],
+          "details": [
+            {
+              "key": "Source Host",
+              "value": "LCBOE-FS01"
+            },
+            {
+              "key": "Source IP",
+              "value": "10.72.12.20"
+            },
+            {
+              "key": "Destination IP",
+              "value": "104.213.142.77"
+            },
+            {
+              "key": "Protocol",
+              "value": "HTTPS"
+            },
+            {
+              "key": "Port",
+              "value": "443"
+            },
+            {
+              "key": "Tenant",
+              "value": "lislevotes.example"
+            },
+            {
+              "key": "Authentication Event",
+              "value": "None logged"
+            },
+            {
+              "key": "Connection Type",
+              "value": "Outbound"
+            },
+            {
+              "key": "SIEM Source",
+              "value": "LCBOE-FS01"
+            }
+          ],
+          "rawEvent": "2026-10-24T08:17:32-04:00 LCBOE-FS01 Microsoft 365 104.213.142.77:443 outbound HTTPS session initiated from 10.72.12.20 (LCBOE-FS01), no associated sign-in event logged.",
+          "relatedAlerts": [
+            {
+              "time": "08:12:03",
+              "title": "Failed login from LCBOE-FS01 (10.72.12.20)",
+              "severity": "low"
+            }
+          ],
+          "analyst": "it.oncall"
+        },
+        "instructorNote": "This alert confirms the attacker's exfiltration attempt via the compromised user inbox. The IT team must immediately isolate LCBOE-FS01 and preserve logs for forensic analysis.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:29:52.572Z"
+}

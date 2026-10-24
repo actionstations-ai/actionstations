@@ -1,0 +1,266 @@
+{
+  "id": "01M5QY1AVVYSMA68QDCXXD925H",
+  "mselRowId": "I-04",
+  "type": "system_log",
+  "title": "Veeam Backup Log: Full Backup Completed — HUSD-FS02",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "Veeam Backup & Replication",
+    "host": "HUSD-FS02",
+    "ip": "10.72.10.2",
+    "os": "Windows Server 2022",
+    "logSource": "Backup Job Report (HUSD-FS02_Backup_Full)",
+    "exportedBy": "Veeam\\backup.sysadmin",
+    "exportedAt": "04/14/2026 07:08 AM",
+    "timezone": "PDT (UTC-7)",
+    "lines": [
+      {
+        "ts": "2026-10-24 05:45:12",
+        "level": "INFO",
+        "msg": "Full backup job 'HUSD-FS02_Backup_Full' started successfully.",
+        "highlight": false
+      },
+      {
+        "ts": "2026-10-24 05:45:13",
+        "level": "INFO",
+        "msg": "Source: HUSD-FS02 (10.72.10.2) — Volume: D:\\",
+        "highlight": false
+      },
+      {
+        "ts": "2026-10-24 05:45:14",
+        "level": "INFO",
+        "msg": "Backup target: HUSD-BK01 (10.72.10.10) — Storage: Veeam_NAS01",
+        "highlight": false
+      },
+      {
+        "ts": "2026-10-24 06:40:17",
+        "level": "INFO",
+        "msg": "Differential log generation complete: 1.2 GB of data modified between 05:45 and 06:40.",
+        "highlight": true
+      },
+      {
+        "ts": "2026-10-24 06:40:18",
+        "level": "INFO",
+        "msg": "Backup job 'HUSD-FS02_Backup_Full' completed successfully.",
+        "highlight": false
+      },
+      {
+        "ts": "2026-10-24 06:40:19",
+        "level": "INFO",
+        "msg": "Backup size: 24.7 TB. Verified checksum: PASS.",
+        "highlight": false
+      },
+      {
+        "ts": "2026-10-24 06:40:20",
+        "level": "INFO",
+        "msg": "No job failures or warnings detected.",
+        "highlight": false
+      },
+      {
+        "ts": "2026-10-24 06:40:21",
+        "level": "INFO",
+        "msg": "Report exported to HUSD-FS02\\Logs\\Backup\\HUSD-FS02_Backup_Full_20260414.rpt",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Veeam Console: HUSD-FS02_Backup_Full",
+    "command": "Get-VBRScheduleReport -Job 'HUSD-FS02_Backup_Full' -Date '2026-10-24'",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This inject confirms the full backup window occurred, but the 1.2 GB of changes between 05:45 and 06:40 is inconsistent with normal operations. The CTO must cross-check file integrity hashes from 05:45 to detect exfiltration. Watch for delayed DFIR engagement.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+      "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 5",
+      "quote": "1. Technical Lead confirms the alert with MDR; opens an incident record (CIRP Form 1) with times. 2. Incident Lead decides severity; for S3 or S4 calls the Director of School Safety and General Counse",
+      "chunkId": 7
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYN82A06X1M5EH498G6YJ5",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QY1AVVYSMA68QDCXXD925H/01M5QYN82A06X1M5EH498G6YJ5.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "f97b7d93dce2170659a531c58329250d0083fcfa868fde464895761ae46b53c4",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:49.743Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:46:08.649Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Veeam Backup Log: Full Backup Completed — HUSD-FS02",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Veeam Backup & Replication",
+          "host": "HUSD-FS02",
+          "ip": "10.72.10.2",
+          "os": "Windows Server 2022",
+          "logSource": "Backup Job Report (HUSD-FS02_Backup_Full)",
+          "exportedBy": "Veeam\\backup.sysadmin",
+          "exportedAt": "10/24/2026 07:08 AM",
+          "timezone": "PDT (UTC-7)",
+          "lines": [
+            {
+              "ts": "2026-10-24 05:45:12",
+              "level": "INFO",
+              "msg": "Full backup job 'HUSD-FS02_Backup_Full' started successfully.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 05:45:13",
+              "level": "INFO",
+              "msg": "Source: HUSD-FS02 (10.72.10.2) — Volume: D:\\",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 05:45:14",
+              "level": "INFO",
+              "msg": "Backup target: HUSD-BK01 (10.72.10.10) — Storage: Veeam_NAS01",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 06:40:17",
+              "level": "INFO",
+              "msg": "Differential log generation complete: 1.2 GB of data modified between 05:45 and 06:40.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-24 06:40:18",
+              "level": "INFO",
+              "msg": "Backup job 'HUSD-FS02_Backup_Full' completed successfully.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 06:40:19",
+              "level": "INFO",
+              "msg": "Backup size: 24.7 TB. Verified checksum: PASS.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 06:40:20",
+              "level": "INFO",
+              "msg": "No job failures or warnings detected.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 06:40:21",
+              "level": "INFO",
+              "msg": "Report exported to HUSD-FS02\\Logs\\Backup\\HUSD-FS02_Backup_Full_20261024.rpt",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Veeam Console: HUSD-FS02_Backup_Full",
+          "command": "Get-VBRScheduleReport -Job 'HUSD-FS02_Backup_Full' -Date '2026-10-24'",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the full backup window occurred, but the 1.2 GB of changes between 05:45 and 06:40 is inconsistent with normal operations. The CTO must cross-check file integrity hashes from 05:45 to detect exfiltration. Watch for delayed DFIR engagement.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.473Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Veeam Backup Log: Full Backup Completed — HUSD-FS02",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Veeam Backup & Replication",
+          "host": "HUSD-FS02",
+          "ip": "10.72.10.2",
+          "os": "Windows Server 2022",
+          "logSource": "Backup Job Report (HUSD-FS02_Backup_Full)",
+          "exportedBy": "Veeam\\backup.sysadmin",
+          "exportedAt": "04/14/2026 07:08 AM",
+          "timezone": "PDT (UTC-7)",
+          "lines": [
+            {
+              "ts": "2026-10-24 05:45:12",
+              "level": "INFO",
+              "msg": "Full backup job 'HUSD-FS02_Backup_Full' started successfully.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 05:45:13",
+              "level": "INFO",
+              "msg": "Source: HUSD-FS02 (10.72.10.2) — Volume: D:\\",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 05:45:14",
+              "level": "INFO",
+              "msg": "Backup target: HUSD-BK01 (10.72.10.10) — Storage: Veeam_NAS01",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 06:40:17",
+              "level": "INFO",
+              "msg": "Differential log generation complete: 1.2 GB of data modified between 05:45 and 06:40.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-24 06:40:18",
+              "level": "INFO",
+              "msg": "Backup job 'HUSD-FS02_Backup_Full' completed successfully.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 06:40:19",
+              "level": "INFO",
+              "msg": "Backup size: 24.7 TB. Verified checksum: PASS.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 06:40:20",
+              "level": "INFO",
+              "msg": "No job failures or warnings detected.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 06:40:21",
+              "level": "INFO",
+              "msg": "Report exported to HUSD-FS02\\Logs\\Backup\\HUSD-FS02_Backup_Full_20260414.rpt",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Veeam Console: HUSD-FS02_Backup_Full",
+          "command": "Get-VBRScheduleReport -Job 'HUSD-FS02_Backup_Full' -Date '2026-10-24'",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the full backup window occurred, but the 1.2 GB of changes between 05:45 and 06:40 is inconsistent with normal operations. The CTO must cross-check file integrity hashes from 05:45 to detect exfiltration. Watch for delayed DFIR engagement.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:49.957Z"
+}

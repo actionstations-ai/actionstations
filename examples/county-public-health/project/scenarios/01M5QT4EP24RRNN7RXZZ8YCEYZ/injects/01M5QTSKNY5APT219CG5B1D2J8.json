@@ -1,0 +1,167 @@
+{
+  "id": "01M5QTSKNY5APT219CG5B1D2J8",
+  "mselRowId": "I-08",
+  "type": "email",
+  "title": "Cyber 1 Declaration Required for Network Isolation",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "KDHE Immunization Program",
+    "fromEmail": "immunization-registry@kdhe-exercise.example",
+    "senderInitials": "KI",
+    "to": "Wes Tran (IT); Dr. Joanna Pruitt (HO)",
+    "subject": "Quarantined IIS file from MCHD",
+    "sentAt": "Thu 10/22/2026 10:35 AM",
+    "body": "Last night's IIS-EXPORT-NIGHTLY file from MCHD-INT01 carried 412 MMR doses with lot numbers that are not in your inventory (MMR-2026-0044 and MMR-2026-0045). We have quarantined the file. Do you want us to reject tonight's file too, and who at MCHD will confirm the real doses?",
+    "signature": "Immunization Program\nKansas Department of Health and Environment",
+    "attachments": [],
+    "importance": "high",
+    "external": true,
+    "printedBy": "Wes Tran"
+  },
+  "variant": "screen",
+  "instructorNote": "This inject triggers the formal declaration of Cyber 1. The Incident Commander must now activate EOP Level 1 and declare unified command. Watch for any hesitation in declaring the level or delays in confirming isolation.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 3",
+      "quote": "| Level | Description | MCHD action | |---|---|---| | Cyber 3 | Single device or account; no essential function affected | Informatics Lead tracks; no activation | | Cyber 2 | One MCHD essential funct",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 1",
+      "quote": "Marston County IT runs the network, identity, email, file shares, backups and the managed security service for every county department, MCHD included. The county's Cyber Incident Response Plan (MC-CIR",
+      "chunkId": 3
+    },
+    {
+      "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+      "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+      "headingPath": "Marston County Health Department… › Section 1 › 1.4 Coordinated Documents",
+      "quote": "| Document | Number | Revision | |---|---|---| | Cyber Incident Response Annex | MCHD-CYB-ANX-2026 | 1.2 | | Facilities, Districts and Information Systems Description | MCHD-FAC-SYS-2026 | 2.0 | | Med",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVBK3REHQWTD5V80J1HEXT",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTSKNY5APT219CG5B1D2J8/01M5QVBK3REHQWTD5V80J1HEXT.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 416,
+      "sha256": "7c6d87d3406f3839a1846ec4bca1e783e4379c0d3b289a5d9fc841841b1e1c3d",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:07.653Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:49:25.755Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Cyber 1 Declaration Required for Network Isolation",
+        "type": "email",
+        "fields": {
+          "fromName": "County IT (MC-IT-2026)",
+          "fromEmail": "mc-it-2026@marstonhealth.example",
+          "senderInitials": "MC",
+          "to": "Dr. Joanna Pruitt (HO), Wes Tran (IT)",
+          "subject": "Cyber 1 Required for Isolation",
+          "sentAt": "Sat 10/24/2026 10:35 AM",
+          "body": "Per CISA and MS-ISAC protocols, network isolation for MCHD-INT01 and MCHD-FS01 must be initiated immediately to prevent ransomware propagation.\n\nThe attacker is using a malicious script ('auto_cleaner.py') on MCHD-INT01 to delete and alter entries in the IIS export file. The script has already removed 142 records and is running every 15 minutes.\n\nThis is a confirmed breach. We cannot proceed without a formal Cyber 1 declaration from the Incident Commander. We recommend immediate activation of EOP Level 1.\n\nFailure to act now may result in irreversible data corruption and loss of essential public health functions.",
+          "signature": "County IT\nMarston County Health Department\nMC-IT-2026 | x2015",
+          "attachments": [],
+          "importance": "high",
+          "external": false,
+          "printedBy": "County IT"
+        },
+        "instructorNote": "This inject triggers the formal declaration of Cyber 1. The Incident Commander must now activate EOP Level 1 and declare unified command. Watch for any hesitation in declaring the level or delays in confirming isolation.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.197Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Cyber 1 Declaration Required for Network Isolation",
+        "type": "email",
+        "fields": {
+          "fromName": "County IT (MC-IT-2026)",
+          "fromEmail": "it-helpdesk@marstoncounty.example",
+          "senderInitials": "MC",
+          "to": "Dr. Joanna Pruitt (HO), Wes Tran (IT)",
+          "subject": "Cyber 1 Required for Isolation",
+          "sentAt": "Thu 10/22/2026 10:35 AM",
+          "body": "Per CISA and MS-ISAC protocols, network isolation for MCHD-INT01 and MCHD-FS01 must be initiated immediately to prevent ransomware propagation.\n\nThe attacker is using a malicious script ('auto_cleaner.py') on MCHD-INT01 to delete and alter entries in the IIS export file. The script has already removed 142 records and is running every 15 minutes.\n\nThis is a confirmed breach. We cannot proceed without a formal Cyber 1 declaration from the Incident Commander. We recommend immediate activation of EOP Level 1.\n\nFailure to act now may result in irreversible data corruption and loss of essential public health functions.",
+          "signature": "County IT\nMarston County Health Department\nMC-IT-2026 | x2015",
+          "attachments": [],
+          "importance": "high",
+          "external": false,
+          "printedBy": "County IT",
+          "caller": {
+            "name": "KDHE Immunization Program",
+            "number": "(785) 555-0119",
+            "label": "State immunization registry"
+          },
+          "transcript": [
+            {
+              "speaker": "KDHE Immunization Program",
+              "offset": "0:00",
+              "text": "Last night's IIS-EXPORT-NIGHTLY file from MCHD-INT01 carried 412 MMR doses with lot numbers that are not in your inventory, MMR-2026-0044 and MMR-2026-0045. We have quarantined the file.",
+              "prompt": false
+            },
+            {
+              "speaker": "KDHE Immunization Program",
+              "offset": "0:18",
+              "text": "Do you want us to reject tonight's file too, and who will confirm the real doses?",
+              "prompt": true
+            }
+          ]
+        },
+        "instructorNote": "This inject triggers the formal declaration of Cyber 1. The Incident Commander must now activate EOP Level 1 and declare unified command. Watch for any hesitation in declaring the level or delays in confirming isolation.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:59:02.330Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Cyber 1 Declaration Required for Network Isolation",
+        "type": "email",
+        "fields": {
+          "fromName": "KDHE Immunization Program",
+          "fromEmail": "immunization-registry@kdhe-exercise.example",
+          "senderInitials": "KI",
+          "to": "Wes Tran (IT); Dr. Joanna Pruitt (HO)",
+          "subject": "Quarantined IIS file from MCHD",
+          "sentAt": "Thu 10/22/2026 10:35 AM",
+          "body": "Last night's IIS-EXPORT-NIGHTLY file from MCHD-INT01 carried 412 MMR doses with lot numbers that are not in your inventory (MMR-2026-0044 and MMR-2026-0045). We have quarantined the file. Do you want us to reject tonight's file too, and who at MCHD will confirm the real doses?",
+          "signature": "Immunization Program\nKansas Department of Health and Environment",
+          "attachments": [],
+          "importance": "high",
+          "external": true,
+          "printedBy": "Wes Tran"
+        },
+        "instructorNote": "This inject triggers the formal declaration of Cyber 1. The Incident Commander must now activate EOP Level 1 and declare unified command. Watch for any hesitation in declaring the level or delays in confirming isolation.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:07.903Z"
+}

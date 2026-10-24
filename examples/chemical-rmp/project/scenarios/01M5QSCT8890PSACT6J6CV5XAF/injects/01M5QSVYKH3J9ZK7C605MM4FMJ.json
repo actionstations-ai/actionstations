@@ -1,0 +1,242 @@
+{
+  "id": "01M5QSVYKH3J9ZK7C605MM4FMJ",
+  "mselRowId": "I-14",
+  "type": "phone_call",
+  "title": "School District Ops — Request for Shelter-in-Place Confirmation",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Teague Valley Chemical Company, Corbin Falls Works",
+    "systemName": "TVCC-PIO-LT1",
+    "callId": "CR-20261022-103512-0047",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Ms. Gable",
+      "number": "(304) 555-0146",
+      "label": "School District Operations"
+    },
+    "callee": {
+      "name": "Janelle Brooks",
+      "number": "(304) 555-0163",
+      "label": "PIO"
+    },
+    "startTime": "10/22/2026 10:35:12",
+    "duration": "0:58",
+    "transcript": [
+      {
+        "speaker": "Ms. Gable",
+        "offset": "0:00",
+        "text": "This is Ms. Gable, Teague County Schools transportation. Corbin Falls Elementary is in session with about 410 children. We have not received any shelter-in-place message and parents are calling.",
+        "prompt": false
+      },
+      {
+        "speaker": "Janelle Brooks",
+        "offset": "0:14",
+        "text": "Ms. Gable, this is Janelle Brooks at the Works. I am taking this to our Incident Commander right now.",
+        "prompt": false
+      },
+      {
+        "speaker": "Ms. Gable",
+        "offset": "0:22",
+        "text": "Should we keep the children inside? And can the noon kindergarten buses run through the Riverside Addition?",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Ms. Gable": "Woman in her 40s, calm but urgent, background classroom noise",
+      "Jamie Cho": "Professional, focused, slightly strained"
+    },
+    "injectId": "I-14"
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests the PIO’s awareness of the CAER-Text protocol and their ability to recognize a gap in public notification. Watch for whether they initiate the alert sequence or wait for external confirmation.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 7",
+      "quote": "The Works does not order protective actions off site; it **recommends** them to the Teague County Office of Emergency Management (OEM), which decides and issues them. Default recommendation for a chlo",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 5 › 5.2 What the first call says",
+      "quote": "\"This is the Teague Valley Chemical Corbin Falls Works, 2200 River Terminal Road. We have a chlorine release at [location] since [time]. Wind is from [direction] at [speed]. We are sounding the commun",
+      "chunkId": 11
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 3 — Ransomware on the business network",
+      "quote": "1. Corporate IT isolates the affected hosts; the OT Engineer opens (disconnects) FW-OT2 between the OT DMZ and the business network. 2. The plant keeps running on the DCS if the OT network is clean; s",
+      "chunkId": 53
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Ms. Gable",
+        "voiceStyle": "Woman in her 40s, calm but urgent, background classroom noise",
+        "text": "This is Ms. Gable, School District Operations. We’re calling to confirm whether Corbin Falls Elementary School has received a shelter-in-place order for today’s release. We have parents calling in with concerns, and the cloud is still visible from the school grounds. Can we open at 14:30? We need to know if it’s safe."
+      },
+      {
+        "speaker": "Jamie Cho",
+        "voiceStyle": "Professional, focused, slightly strained",
+        "text": "Ms. Gable, this is Jamie Cho, Communications Manager for TVCC. We have not issued a formal shelter-in-place order to the school. The county has not activated the CAER-Text alert for E-2 yet. We’re checking the status now."
+      },
+      {
+        "speaker": "Ms. Gable",
+        "voiceStyle": "Woman in her 40s, calm but urgent, background classroom noise",
+        "text": "Understood. We’ve had twelve calls from parents already. The students are in the gym, and the wind is still pushing the plume toward the school. We’re concerned about exposure. Please confirm if we should proceed with delayed opening."
+      },
+      {
+        "speaker": "Jamie Cho",
+        "voiceStyle": "Professional, focused, slightly strained",
+        "text": "I’m escalating this to the Incident Commander and EHS right now. We’ll send a formal alert via CAER-Text as soon as we confirm the hazard zone. Stand by for updates."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJMH6HVDDMQ4QPJ6Y3WS1",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSVYKH3J9ZK7C605MM4FMJ/01M5QTJMH6HVDDMQ4QPJ6Y3WS1.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "c86e4b88828162b46440bea761fbeee3849cedc6edcecc347946d8af03b621d1",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:29.832Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:33:19.941Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "School District Ops — Request for Shelter-in-Place Confirmation",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Teague Valley Chemical Company, Corbin Falls Works",
+          "systemName": "TVCC-PIO-LT1",
+          "callId": "CR-20261024-103512-0047",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Ms. Gable",
+            "number": "(304) 555-0146",
+            "label": "School District Operations"
+          },
+          "callee": {
+            "name": "Jamie Cho",
+            "number": "(304) 555-0163",
+            "label": "PIO"
+          },
+          "startTime": "10/24/2026 10:35:12",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "Ms. Gable",
+              "offset": "0:00",
+              "text": "This is Ms. Gable, School District Operations. We’re calling to confirm whether Corbin Falls Elementary School has received a shelter-in-place order for today’s release. We have parents calling in with concerns, and the cloud is still visible from the school grounds. Can we open at 14:30? We need to know if it’s safe.",
+              "prompt": false
+            },
+            {
+              "speaker": "Jamie Cho",
+              "offset": "0:15",
+              "text": "Ms. Gable, this is Jamie Cho, Communications Manager for TVCC. We have not issued a formal shelter-in-place order to the school. The county has not activated the CAER-Text alert for E-2 yet. We’re checking the status now.",
+              "prompt": false
+            },
+            {
+              "speaker": "Ms. Gable",
+              "offset": "0:28",
+              "text": "Understood. We’ve had twelve calls from parents already. The students are in the gym, and the wind is still pushing the plume toward the school. We’re concerned about exposure. Please confirm if we should proceed with delayed opening.",
+              "prompt": false
+            },
+            {
+              "speaker": "Jamie Cho",
+              "offset": "0:42",
+              "text": "I’m escalating this to the Incident Commander and EHS right now. We’ll send a formal alert via CAER-Text as soon as we confirm the hazard zone. Stand by for updates.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "Ms. Gable": "Woman in her 40s, calm but urgent, background classroom noise",
+            "Jamie Cho": "Professional, focused, slightly strained"
+          },
+          "injectId": "I-14"
+        },
+        "instructorNote": "This inject tests the PIO’s awareness of the CAER-Text protocol and their ability to recognize a gap in public notification. Watch for whether they initiate the alert sequence or wait for external confirmation.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.751Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "School District Ops — Request for Shelter-in-Place Confirmation",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Teague Valley Chemical Company, Corbin Falls Works",
+          "systemName": "TVCC-PIO-LT1",
+          "callId": "CR-20261022-103512-0047",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Ms. Gable",
+            "number": "(304) 555-0146",
+            "label": "School District Operations"
+          },
+          "callee": {
+            "name": "Janelle Brooks",
+            "number": "(304) 555-0163",
+            "label": "PIO"
+          },
+          "startTime": "10/22/2026 10:35:12",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "Ms. Gable",
+              "offset": "0:00",
+              "text": "This is Ms. Gable, Teague County Schools transportation. Corbin Falls Elementary is in session with about 410 children. We have not received any shelter-in-place message and parents are calling.",
+              "prompt": false
+            },
+            {
+              "speaker": "Janelle Brooks",
+              "offset": "0:14",
+              "text": "Ms. Gable, this is Janelle Brooks at the Works. I am taking this to our Incident Commander right now.",
+              "prompt": false
+            },
+            {
+              "speaker": "Ms. Gable",
+              "offset": "0:22",
+              "text": "Should we keep the children inside? And can the noon kindergarten buses run through the Riverside Addition?",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Ms. Gable": "Woman in her 40s, calm but urgent, background classroom noise",
+            "Jamie Cho": "Professional, focused, slightly strained"
+          },
+          "injectId": "I-14"
+        },
+        "instructorNote": "This inject tests the PIO’s awareness of the CAER-Text protocol and their ability to recognize a gap in public notification. Watch for whether they initiate the alert sequence or wait for external confirmation.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:30.153Z"
+}

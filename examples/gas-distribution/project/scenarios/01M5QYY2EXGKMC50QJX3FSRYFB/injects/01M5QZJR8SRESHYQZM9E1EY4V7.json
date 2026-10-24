@@ -1,0 +1,161 @@
+{
+  "id": "01M5QZJR8SRESHYQZM9E1EY4V7",
+  "mselRowId": "I-21",
+  "type": "email_forward",
+  "title": "TSA: Final Account Revocation — Halden-support",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Erin Mallory, IT Security Manager",
+    "fromEmail": "erin.mallory@corwinvalleygas.example",
+    "senderInitials": "RT",
+    "to": "Gordon Haskell; Anil Desai",
+    "subject": "FW: Conditions before vendor access returns",
+    "sentAt": "Wed 01/13/2027 20:00",
+    "note": "halden-support is disabled on our side as well. Before any vendor remote access comes back: a full review of the CVG-OT-JMP01 logs, individual vendor accounts with MFA, and a signed access request approved by the IC and the Cybersecurity Coordinator.",
+    "signature": "R. Thompson\nPipeline Security Division\nTSA Office of Pipeline Safety",
+    "importance": "high",
+    "external": true,
+    "attachments": [
+      {
+        "name": "CVG-OT-JMP01_audit_trail_1615.pdf",
+        "size": "2.1 MB",
+        "kind": "pdf"
+      }
+    ],
+    "printedBy": "CISA Central",
+    "original": {
+      "fromName": "Erin Mallory, IT Security Manager",
+      "fromEmail": "erin.mallory@corwinvalleygas.example",
+      "sentAt": "Wed 01/13/2027 20:00",
+      "to": "Gordon Haskell; Anil Desai",
+      "cc": "",
+      "subject": "Conditions before vendor access returns",
+      "body": "halden-support is disabled on our side as well. Before any vendor remote access comes back: a full review of the CVG-OT-JMP01 logs, individual vendor accounts with MFA, and a signed access request approved by the IC and the Cybersecurity Coordinator."
+    }
+  },
+  "variant": "print",
+  "instructorNote": "This inject confirms the final state of remote access controls. The IC must now initiate the formal resumption process under CVG-CIRP-2026 Section 10, ensuring no premature restoration. Watch for any attempt to bypass the audit or issue a command before the CISA review.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 10",
+      "quote": "1. Rebuild suspect OT hosts from the gold images; restore configurations from backups that predate the incident and match recorded hashes. 2. Compare every station RTU and pilot-controller configurati",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 5",
+      "quote": "1. Terminate the suspect session: disable the account in PipeView and in Active Directory (OT domain CVGOT), kill the session on CVG-OT-JMP01. 2. Disable all remote access to OT at CVG-OTFW01 (Annex A",
+      "chunkId": 7
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYPS4MWHST2424A8TC202",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZJR8SRESHYQZM9E1EY4V7/01M5QZYPS4MWHST2424A8TC202.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "17e22423f0ef59fc89ea8a9d4f9689dc628005ceba08de36264c219c234657e9",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:28.307Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:13:08.205Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "TSA: Final Account Revocation — Halden-support",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "R. Thompson, Pipeline Security Division",
+          "fromEmail": "tsp-ops@tsa.dhs.gov",
+          "senderInitials": "RT",
+          "to": "VP Haskell, Anil Desai",
+          "subject": "FW: Final Access Control and Account Revocation — Halden-support Account",
+          "sentAt": "Sat 10/24/2026 20:00",
+          "note": "VP Haskell, Anil —\n\nThis is the final confirmation from TSA. The halden-support account has been permanently revoked and will not be reactivated under any circumstances. All remote access to the OT network will remain disabled until the full CISA forensic review is complete and a signed access request is submitted by the Incident Commander.\n\nWe have coordinated with Halden Automation to ensure no configuration restoration will occur until CISA and TSA jointly confirm the environment is secure.\n\nPlease proceed with the formal review process under CVG-CIRP-2026 Section 10.\n\n—R. Thompson",
+          "signature": "R. Thompson\nPipeline Security Division\nTSA Office of Pipeline Safety",
+          "importance": "high",
+          "external": true,
+          "attachments": [
+            {
+              "name": "CVG-OT-JMP01_audit_trail_1615.pdf",
+              "size": "2.1 MB",
+              "kind": "pdf"
+            }
+          ],
+          "printedBy": "TSA Pipeline Security Division",
+          "original": {
+            "fromName": "TSA Pipeline Security Division",
+            "fromEmail": "tsp-ops@tsa.dhs.gov",
+            "sentAt": "Sat 10/24/2026 20:00",
+            "to": "VP Haskell, Anil Desai",
+            "cc": "",
+            "subject": "Final Access Control and Account Revocation — Halden-support Account",
+            "body": "VP Haskell, Anil,\n\nThe halden-support account has been permanently revoked. New MFA credentials have been issued to CVG staff for remote access. All remote access to the OT network will only resume after: (1) a full audit of the jump host logs by CISA, (2) a signed access request from the Incident Commander, and (3) a review by the Cybersecurity Coordinator. The vendor Halden Automation will not restore any configuration until CISA and TSA confirm the environment is secure.\n\n—TSA Contact: R. Thompson, Pipeline Security Division"
+          }
+        },
+        "instructorNote": "This inject confirms the final state of remote access controls. The IC must now initiate the formal resumption process under CVG-CIRP-2026 Section 10, ensuring no premature restoration. Watch for any attempt to bypass the audit or issue a command before the CISA review.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.499Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "TSA: Final Account Revocation — Halden-support",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Erin Mallory, IT Security Manager",
+          "fromEmail": "erin.mallory@corwinvalleygas.example",
+          "senderInitials": "RT",
+          "to": "Gordon Haskell; Anil Desai",
+          "subject": "FW: Conditions before vendor access returns",
+          "sentAt": "Wed 01/13/2027 20:00",
+          "note": "halden-support is disabled on our side as well. Before any vendor remote access comes back: a full review of the CVG-OT-JMP01 logs, individual vendor accounts with MFA, and a signed access request approved by the IC and the Cybersecurity Coordinator.",
+          "signature": "R. Thompson\nPipeline Security Division\nTSA Office of Pipeline Safety",
+          "importance": "high",
+          "external": true,
+          "attachments": [
+            {
+              "name": "CVG-OT-JMP01_audit_trail_1615.pdf",
+              "size": "2.1 MB",
+              "kind": "pdf"
+            }
+          ],
+          "printedBy": "CISA Central",
+          "original": {
+            "fromName": "Erin Mallory, IT Security Manager",
+            "fromEmail": "erin.mallory@corwinvalleygas.example",
+            "sentAt": "Wed 01/13/2027 20:00",
+            "to": "Gordon Haskell; Anil Desai",
+            "cc": "",
+            "subject": "Conditions before vendor access returns",
+            "body": "halden-support is disabled on our side as well. Before any vendor remote access comes back: a full review of the CVG-OT-JMP01 logs, individual vendor accounts with MFA, and a signed access request approved by the IC and the Cybersecurity Coordinator."
+          }
+        },
+        "instructorNote": "This inject confirms the final state of remote access controls. The IC must now initiate the formal resumption process under CVG-CIRP-2026 Section 10, ensuring no premature restoration. Watch for any attempt to bypass the audit or issue a command before the CISA review.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:28.496Z"
+}

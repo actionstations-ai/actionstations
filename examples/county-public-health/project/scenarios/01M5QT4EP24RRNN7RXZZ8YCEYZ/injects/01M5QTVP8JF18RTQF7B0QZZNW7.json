@@ -1,0 +1,142 @@
+{
+  "id": "01M5QTVP8JF18RTQF7B0QZZNW7",
+  "mselRowId": "I-12",
+  "type": "scenario_update",
+  "title": "Cyber 1 Declaration Required",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:10",
+    "scenarioTime": "11:10 AM",
+    "headline": "Cyber 1 Incident Declared",
+    "deliverTo": "All players",
+    "narration": "Dr. Pruitt, County IT is ready to isolate MCHD-INT01 and the IIS export interface. But the same server carries the electronic lab results from KDHE: if we isolate it, new measles lab results come only by phone and fax, and MCHD-FAX01 is not trusted either. If we keep it online, the script keeps changing data. What is the order?",
+    "keyFacts": [
+      "MCHD-INT01 and IIS export interface (10.72.14.22) are now isolated from the county network.",
+      "The IIS export file is officially 'not trusted' and must not be used for state reporting.",
+      "The Epi team must now operate solely from paper records and DOC laptops on LTE hotspots.",
+      "KDHE is no longer receiving data from MCHD; new case reports must be received via phone or email.",
+      "The Policy Group has been formally notified per C15 and C12."
+    ],
+    "expectedAction": "DECISION POINT: the HO decides isolation (with County IT, which owns the network decision) and the fallback for lab results (Disease Reporting Line, KDHE fax number, MCHD-F-10); declares Cyber 1 if not yet done and informs the Policy Group.",
+    "facilitatorNote": "This inject confirms the formal declaration of Cyber 1. The team must now transition to full paper mode and begin public messaging. Watch for the Epi team to request the line list from the DOC kit.",
+    "scenarioTitle": "Vaccine Vault Breach — Data Integrity & Public Trust",
+    "injectId": "I-12"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the formal declaration of Cyber 1. The team must now transition to full paper mode and begin public messaging. Watch for the Epi team to request the line list from the DOC kit.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 2",
+      "quote": "| Role | Primary | Alternate | Decides | |---|---|---|---| | Incident Commander (MCHD) | Dr. Joanna Pruitt, Health Officer | Dr. Samuel Achebe | Paper mode for the department; public statements about ",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 5 › 5.2 Interface pause (decision record CYB-DR-2)",
+      "quote": "The nightly HL7 VXU export from ClinicTrack to the state IIS (job IIS-EXPORT-NIGHTLY on MCHD-INT01, 01:30) is paused when: - ClinicTrack or MCHD-INT01 is suspected compromised; or - the export file co",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 10",
+      "quote": "Paper mode is declared by the Incident Commander (decision record CYB-DR-1). In paper mode: - Disease reports are taken by phone on MCHD-F-10; investigators work cases in the state surveillance system",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 6",
+      "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+      "chunkId": 10
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVBN4V1EYTX02NWWXAC7ZM",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTVP8JF18RTQF7B0QZZNW7/01M5QVBN4V1EYTX02NWWXAC7ZM.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "9d0f009fc392fd718c32d7161b30ed8611f0ca2b3120fdf283129e99afd6ef18",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scenario_update",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:09.673Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:50:35.831Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Cyber 1 Declaration Required",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "2:10",
+          "scenarioTime": "11:10 AM",
+          "headline": "Cyber 1 Incident Declared",
+          "deliverTo": "All players",
+          "narration": "The Incident Commander has formally declared a Cyber 1 incident. All network traffic to and from MCHD-INT01 (10.72.14.22) and the IIS export interface has been isolated. The IIS export file is now marked 'not trusted' on the DOC status board. The Epi team has been directed to operate exclusively from paper records and the two DOC laptops on LTE hotspots. The state surveillance system is no longer receiving data from MCHD. The Policy Group has been notified per C15 and C12.",
+          "keyFacts": [
+            "MCHD-INT01 and IIS export interface (10.72.14.22) are now isolated from the county network.",
+            "The IIS export file is officially 'not trusted' and must not be used for state reporting.",
+            "The Epi team must now operate solely from paper records and DOC laptops on LTE hotspots.",
+            "KDHE is no longer receiving data from MCHD; new case reports must be received via phone or email.",
+            "The Policy Group has been formally notified per C15 and C12."
+          ],
+          "expectedAction": "The Incident Commander must now activate paper mode and confirm that all frontline teams are operating under C3 procedures. All public messaging must align with the CERC plan.",
+          "facilitatorNote": "This inject confirms the formal declaration of Cyber 1. The team must now transition to full paper mode and begin public messaging. Watch for the Epi team to request the line list from the DOC kit.",
+          "scenarioTitle": "Vaccine Vault Breach — Data Integrity & Public Trust",
+          "injectId": "I-12"
+        },
+        "instructorNote": "This inject confirms the formal declaration of Cyber 1. The team must now transition to full paper mode and begin public messaging. Watch for the Epi team to request the line list from the DOC kit.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.231Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Cyber 1 Declaration Required",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "2:10",
+          "scenarioTime": "11:10 AM",
+          "headline": "Cyber 1 Incident Declared",
+          "deliverTo": "All players",
+          "narration": "Dr. Pruitt, County IT is ready to isolate MCHD-INT01 and the IIS export interface. But the same server carries the electronic lab results from KDHE: if we isolate it, new measles lab results come only by phone and fax, and MCHD-FAX01 is not trusted either. If we keep it online, the script keeps changing data. What is the order?",
+          "keyFacts": [
+            "MCHD-INT01 and IIS export interface (10.72.14.22) are now isolated from the county network.",
+            "The IIS export file is officially 'not trusted' and must not be used for state reporting.",
+            "The Epi team must now operate solely from paper records and DOC laptops on LTE hotspots.",
+            "KDHE is no longer receiving data from MCHD; new case reports must be received via phone or email.",
+            "The Policy Group has been formally notified per C15 and C12."
+          ],
+          "expectedAction": "DECISION POINT: the HO decides isolation (with County IT, which owns the network decision) and the fallback for lab results (Disease Reporting Line, KDHE fax number, MCHD-F-10); declares Cyber 1 if not yet done and informs the Policy Group.",
+          "facilitatorNote": "This inject confirms the formal declaration of Cyber 1. The team must now transition to full paper mode and begin public messaging. Watch for the Epi team to request the line list from the DOC kit.",
+          "scenarioTitle": "Vaccine Vault Breach — Data Integrity & Public Trust",
+          "injectId": "I-12"
+        },
+        "instructorNote": "This inject confirms the formal declaration of Cyber 1. The team must now transition to full paper mode and begin public messaging. Watch for the Epi team to request the line list from the DOC kit.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:09.973Z"
+}

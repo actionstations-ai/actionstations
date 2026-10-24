@@ -1,0 +1,309 @@
+{
+  "id": "01M5QVN5NSRGSY6K6S2BQZVS1Z",
+  "mselRowId": "I-10b",
+  "type": "system_log",
+  "title": "Forensic Audit Trail — CAD-MDS01 Unauthorized Session",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "CAD-MDS01",
+    "host": "CAD-MDS01",
+    "ip": "10.72.30.20",
+    "os": "Windows Server 2022",
+    "logSource": "Audit Log: Admin Interface (Unauthenticated)",
+    "exportedBy": "RCECD\\cyb.admin",
+    "exportedAt": "10/22/2026 20:35",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "20:34:12",
+        "level": "ALERT",
+        "msg": "Unauthorized admin session detected from RCECD-POS09 (10.12.200.102)",
+        "highlight": true
+      },
+      {
+        "ts": "20:34:12",
+        "level": "CRIT",
+        "msg": "User: jdoe (stolen credentials). Session type: SQL injection via unauthenticated admin interface on CAD-APP01.",
+        "highlight": true
+      },
+      {
+        "ts": "20:34:13",
+        "level": "ERROR",
+        "msg": "Script executed: cleaner.bat (SHA256: a7e3f1d9c2b8e6a4f0c7d5e1b3a2c9f4e6d8b7c1a2f5e4d3c6b9a8f7e1d2c3b4)",
+        "highlight": false
+      },
+      {
+        "ts": "20:34:15",
+        "level": "WARN",
+        "msg": "Unit status modified for 17 active calls (include: 26-104455, 26-104456, 26-104457). Status altered to 'Available' despite active dispatch.",
+        "highlight": false
+      },
+      {
+        "ts": "20:34:16",
+        "level": "WARN",
+        "msg": "ALI geolocation data altered for 12 incidents. Source: CAD-MDS01. Verification required.",
+        "highlight": false
+      },
+      {
+        "ts": "20:34:17",
+        "level": "INFO",
+        "msg": "Session duration: 32 seconds. No authentication logs recorded.",
+        "highlight": false
+      },
+      {
+        "ts": "20:34:18",
+        "level": "INFO",
+        "msg": "Source: Unauthenticated admin interface on CAD-APP01 (10.72.30.10).",
+        "highlight": false
+      },
+      {
+        "ts": "20:34:19",
+        "level": "INFO",
+        "msg": "Log entry confirmed on REC-01 (RCECD-F-21). Evidence preserved.",
+        "highlight": false
+      },
+      {
+        "ts": "20:34:20",
+        "level": "NOTICE",
+        "msg": "Session terminated by watchdog process on CAD-MDS01.",
+        "highlight": false
+      },
+      {
+        "ts": "20:34:21",
+        "level": "INFO",
+        "msg": "Audit trail closed. No further access attempted.",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Get-Content .\\audit\\2026-10-24\\audit-20261022-203412.log -Tail 10",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This inject confirms the attacker’s actions and data tampering. The Technical Lead must now declare CAD data untrustworthy and initiate the manual dispatch protocol per RCECD-OPS-2026 Section 7.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BWAN3C0F4P06WRMQ0DA",
+      "documentTitle": "Rook County Emergency Communications District — Systems, Positions and Radio Description",
+      "headingPath": "Rook County Emergency Communicat… › Section 5",
+      "quote": "| Segment | Systems | Connection to county network | |---|---|---| | Call-handling network | CP-CORE01/02, position call-handling screens | None (vendor VPN for support only, enabled per ticket) | | C",
+      "chunkId": 46
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 6 › C-3 Data that must not be trusted until checked",
+      "quote": "Unit status, unit recommendations (run cards), premise hazard notes, address points, and any incident changed during the suspected compromise window. Dispatchers confirm unit availability by radio.",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 7",
+      "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QWA149Y3C644Q3QGZ0FET6",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVN5NSRGSY6K6S2BQZVS1Z/01M5QWA149Y3C644Q3QGZ0FET6.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "37e2b98ea4f493cba20adc526242a93fcdfc69e897a16201f46c99403a51f439",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:44.996Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:04:33.952Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Forensic Audit Trail — CAD-MDS01 Unauthorized Session",
+        "type": "system_log",
+        "fields": {
+          "systemName": "CAD-MDS01",
+          "host": "CAD-MDS01",
+          "ip": "10.72.30.20",
+          "os": "Windows Server 2022",
+          "logSource": "Audit Log: Admin Interface (Unauthenticated)",
+          "exportedBy": "RCECD\\cyb.admin",
+          "exportedAt": "10/24/2026 20:35",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "20:34:12",
+              "level": "ALERT",
+              "msg": "Unauthorized admin session detected from RCECD-POS09 (10.12.200.102)",
+              "highlight": true
+            },
+            {
+              "ts": "20:34:12",
+              "level": "CRIT",
+              "msg": "User: jdoe (stolen credentials). Session type: SQL injection via unauthenticated admin interface on CAD-APP01.",
+              "highlight": true
+            },
+            {
+              "ts": "20:34:13",
+              "level": "ERROR",
+              "msg": "Script executed: cleaner.bat (SHA256: a7e3f1d9c2b8e6a4f0c7d5e1b3a2c9f4e6d8b7c1a2f5e4d3c6b9a8f7e1d2c3b4)",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:15",
+              "level": "WARN",
+              "msg": "Unit status modified for 17 active calls (include: 26-104455, 26-104456, 26-104457). Status altered to 'Available' despite active dispatch.",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:16",
+              "level": "WARN",
+              "msg": "ALI geolocation data altered for 12 incidents. Source: CAD-MDS01. Verification required.",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:17",
+              "level": "INFO",
+              "msg": "Session duration: 32 seconds. No authentication logs recorded.",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:18",
+              "level": "INFO",
+              "msg": "Source: Unauthenticated admin interface on CAD-APP01 (10.72.30.10).",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:19",
+              "level": "INFO",
+              "msg": "Log entry confirmed on REC-01 (RCECD-F-21). Evidence preserved.",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:20",
+              "level": "NOTICE",
+              "msg": "Session terminated by watchdog process on CAD-MDS01.",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:21",
+              "level": "INFO",
+              "msg": "Audit trail closed. No further access attempted.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content .\\audit\\2026-10-24\\audit-20261024-203412.log -Tail 10",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the attacker’s actions and data tampering. The Technical Lead must now declare CAD data untrustworthy and initiate the manual dispatch protocol per RCECD-OPS-2026 Section 7.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.592Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Forensic Audit Trail — CAD-MDS01 Unauthorized Session",
+        "type": "system_log",
+        "fields": {
+          "systemName": "CAD-MDS01",
+          "host": "CAD-MDS01",
+          "ip": "10.72.30.20",
+          "os": "Windows Server 2022",
+          "logSource": "Audit Log: Admin Interface (Unauthenticated)",
+          "exportedBy": "RCECD\\cyb.admin",
+          "exportedAt": "10/22/2026 20:35",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "20:34:12",
+              "level": "ALERT",
+              "msg": "Unauthorized admin session detected from RCECD-POS09 (10.12.200.102)",
+              "highlight": true
+            },
+            {
+              "ts": "20:34:12",
+              "level": "CRIT",
+              "msg": "User: jdoe (stolen credentials). Session type: SQL injection via unauthenticated admin interface on CAD-APP01.",
+              "highlight": true
+            },
+            {
+              "ts": "20:34:13",
+              "level": "ERROR",
+              "msg": "Script executed: cleaner.bat (SHA256: a7e3f1d9c2b8e6a4f0c7d5e1b3a2c9f4e6d8b7c1a2f5e4d3c6b9a8f7e1d2c3b4)",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:15",
+              "level": "WARN",
+              "msg": "Unit status modified for 17 active calls (include: 26-104455, 26-104456, 26-104457). Status altered to 'Available' despite active dispatch.",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:16",
+              "level": "WARN",
+              "msg": "ALI geolocation data altered for 12 incidents. Source: CAD-MDS01. Verification required.",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:17",
+              "level": "INFO",
+              "msg": "Session duration: 32 seconds. No authentication logs recorded.",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:18",
+              "level": "INFO",
+              "msg": "Source: Unauthenticated admin interface on CAD-APP01 (10.72.30.10).",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:19",
+              "level": "INFO",
+              "msg": "Log entry confirmed on REC-01 (RCECD-F-21). Evidence preserved.",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:20",
+              "level": "NOTICE",
+              "msg": "Session terminated by watchdog process on CAD-MDS01.",
+              "highlight": false
+            },
+            {
+              "ts": "20:34:21",
+              "level": "INFO",
+              "msg": "Audit trail closed. No further access attempted.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content .\\audit\\2026-10-24\\audit-20261022-203412.log -Tail 10",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the attacker’s actions and data tampering. The Technical Lead must now declare CAD data untrustworthy and initiate the manual dispatch protocol per RCECD-OPS-2026 Section 7.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:45.278Z"
+}

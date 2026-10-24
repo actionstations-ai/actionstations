@@ -1,0 +1,317 @@
+{
+  "id": "01M5QT53M3NR1K3GMTAEGVCSJN",
+  "mselRowId": "I-26",
+  "type": "field_report",
+  "title": "Rail Spot 2 — Manual Closure Verification",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Teague Valley Chemical Company — Operations & Maintenance",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0412",
+    "date": "10/22/2026",
+    "time": "11:55",
+    "location": "Rail Spot 2, Loading Rack 1, Unit 300",
+    "inspector": "Operator 3, Field Operator",
+    "unit": "ERT Team 1 · HV-312 Local Panel",
+    "reportType": "incident",
+    "weather": "Clear, 52°F, wind WSW 6 mph",
+    "summary": "The local panel for hand valve HV-312 at Rail Spot 2 shows the valve closed and the green 'closed' light is on. The field gauge on WT-302 reads 38.1 tons and has remained stable since 11:48. The ERT confirmed the manual closure of HV-312 at 11:48. The vapor has stopped rising, and pressure in the line is now dropping. The HMI on the DeltaV screen still shows ESD-310 as closed, but the field state is now confirmed stable.",
+    "findings": [
+      {
+        "item": "HV-312 hand valve position",
+        "condition": "ok",
+        "notes": "Fully closed, green light on local panel"
+      },
+      {
+        "item": "WT-302 scale reading",
+        "condition": "ok",
+        "notes": "38.1 tons, stable since 11:48"
+      },
+      {
+        "item": "Vapor presence at Rail Spot 2",
+        "condition": "ok",
+        "notes": "No visible rise; cloud dissipating"
+      },
+      {
+        "item": "Pressure in line (instrument)",
+        "condition": "ok",
+        "notes": "Dropping steadily"
+      },
+      {
+        "item": "ERT status (Level A suit)",
+        "condition": "ok",
+        "notes": "Still on site, preparing for exit"
+      },
+      {
+        "item": "SIS logic state (TS-EWS-01)",
+        "condition": "not_inspected",
+        "notes": "Field confirms physical closure; SIS status not to be relied upon"
+      },
+      {
+        "item": "Field gauge vs. DCS",
+        "condition": "ok",
+        "notes": "Field gauge matches DCS setpoint, but DCS status not trusted"
+      },
+      {
+        "item": "Remote access to TVC-JMP-01",
+        "condition": "not_inspected",
+        "notes": "System isolated per CISA directive"
+      },
+      {
+        "item": "SIF-650 status (SIS)",
+        "condition": "not_inspected",
+        "notes": "Not to be used; system integrity compromised"
+      },
+      {
+        "item": "Control room screen (DeltaV)",
+        "condition": "failed",
+        "notes": "Shows ESD-310 closed but field evidence contradicts; digital state unreliable"
+      }
+    ],
+    "actionsTaken": [
+      "Confirmed manual closure of HV-312 via local panel at 11:55",
+      "Verified field gauge on WT-302 (38.1 tons, stable)",
+      "Notified OT Lead of stable field state",
+      "Documented final physical state for SIS integrity review"
+    ],
+    "recommendations": [
+      "Do not issue any further digital commands to ESD-310 until forensic validation is complete",
+      "Preserve local panel and field instrument data for review",
+      "Report final field state to OT Engineer and Incident Commander for formal closure record"
+    ],
+    "photosNote": "4 photos attached: IMG_FIR-2026-0412-07 (HV-312 local panel, green light on), IMG_FIR-2026-0412-08 (WT-302 scale, 38.1 tons), IMG_FIR-2026-0412-09 (field gauge, pressure drop), IMG_FIR-2026-0412-10 (ERT team, exit preparations)",
+    "signature": "Operator 3, Field Operator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "instructorNote": "This inject confirms the physical state of the system after manual closure. The OT must now validate that the field evidence is final and that no further digital commands should be issued until forensic review is complete.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 6 › 6.2 Entry and stopping the leak (ERT)",
+      "quote": "Entry only in pairs with SCBA and Level A suits, with a backup team ready. On a rail tank car, the ERT uses the Chlorine Institute Emergency Kit C. Manual isolation valves HV-311 to HV-314 at each rai",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 11",
+      "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+      "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+      "chunkId": 54
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJQVA0JJSVY85T25FZPWP",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QT53M3NR1K3GMTAEGVCSJN/01M5QTJQVA0JJSVY85T25FZPWP.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "609b9438257da064801ff81acda77a029d0fa3592f1a67efbd47d717ae6c3b99",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:33.212Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:38:58.733Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Rail Spot 2 — Manual Closure Verification",
+        "type": "field_report",
+        "fields": {
+          "organization": "Teague Valley Chemical Company — Operations & Maintenance",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412",
+          "date": "10/24/2026",
+          "time": "11:55",
+          "location": "Rail Spot 2, Loading Rack 1, Unit 300",
+          "inspector": "Operator 3, Field Operator",
+          "unit": "ERT Team 1 · HV-312 Local Panel",
+          "reportType": "incident",
+          "weather": "Clear, 52°F, wind NW 6 mph",
+          "summary": "The local panel for hand valve HV-312 at Rail Spot 2 shows the valve closed and the green 'closed' light is on. The field gauge on WT-302 reads 38.1 tons and has remained stable since 11:15. The ERT confirmed the manual closure of HV-312 at 11:15. The vapor has stopped rising, and pressure in the line is now dropping. The HMI on the DeltaV screen still shows ESD-310 as closed, but the field state is now confirmed stable.",
+          "findings": [
+            {
+              "item": "HV-312 hand valve position",
+              "condition": "ok",
+              "notes": "Fully closed, green light on local panel"
+            },
+            {
+              "item": "WT-302 scale reading",
+              "condition": "ok",
+              "notes": "38.1 tons, stable since 11:15"
+            },
+            {
+              "item": "Vapor presence at Rail Spot 2",
+              "condition": "ok",
+              "notes": "No visible rise; cloud dissipating"
+            },
+            {
+              "item": "Pressure in line (instrument)",
+              "condition": "ok",
+              "notes": "Dropping steadily"
+            },
+            {
+              "item": "ERT status (Level A suit)",
+              "condition": "ok",
+              "notes": "Still on site, preparing for exit"
+            },
+            {
+              "item": "SIS logic state (TS-EWS-01)",
+              "condition": "not_inspected",
+              "notes": "Field confirms physical closure; SIS status not to be relied upon"
+            },
+            {
+              "item": "Field gauge vs. DCS",
+              "condition": "ok",
+              "notes": "Field gauge matches DCS setpoint, but DCS status not trusted"
+            },
+            {
+              "item": "Remote access to TVC-JMP-01",
+              "condition": "not_inspected",
+              "notes": "System isolated per CISA directive"
+            },
+            {
+              "item": "SIF-650 status (SIS)",
+              "condition": "not_inspected",
+              "notes": "Not to be used; system integrity compromised"
+            },
+            {
+              "item": "Control room screen (DeltaV)",
+              "condition": "failed",
+              "notes": "Shows ESD-310 closed but field evidence contradicts; digital state unreliable"
+            }
+          ],
+          "actionsTaken": [
+            "Confirmed manual closure of HV-312 via local panel at 11:55",
+            "Verified field gauge on WT-302 (38.1 tons, stable)",
+            "Notified OT Lead of stable field state",
+            "Documented final physical state for SIS integrity review"
+          ],
+          "recommendations": [
+            "Do not issue any further digital commands to ESD-310 until forensic validation is complete",
+            "Preserve local panel and field instrument data for review",
+            "Report final field state to OT Engineer and Incident Commander for formal closure record"
+          ],
+          "photosNote": "4 photos attached: IMG_FIR-2026-0412-07 (HV-312 local panel, green light on), IMG_FIR-2026-0412-08 (WT-302 scale, 38.1 tons), IMG_FIR-2026-0412-09 (field gauge, pressure drop), IMG_FIR-2026-0412-10 (ERT team, exit preparations)",
+          "signature": "Operator 3, Field Operator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the physical state of the system after manual closure. The OT must now validate that the field evidence is final and that no further digital commands should be issued until forensic review is complete.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.823Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Rail Spot 2 — Manual Closure Verification",
+        "type": "field_report",
+        "fields": {
+          "organization": "Teague Valley Chemical Company — Operations & Maintenance",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412",
+          "date": "10/22/2026",
+          "time": "11:55",
+          "location": "Rail Spot 2, Loading Rack 1, Unit 300",
+          "inspector": "Operator 3, Field Operator",
+          "unit": "ERT Team 1 · HV-312 Local Panel",
+          "reportType": "incident",
+          "weather": "Clear, 52°F, wind WSW 6 mph",
+          "summary": "The local panel for hand valve HV-312 at Rail Spot 2 shows the valve closed and the green 'closed' light is on. The field gauge on WT-302 reads 38.1 tons and has remained stable since 11:48. The ERT confirmed the manual closure of HV-312 at 11:48. The vapor has stopped rising, and pressure in the line is now dropping. The HMI on the DeltaV screen still shows ESD-310 as closed, but the field state is now confirmed stable.",
+          "findings": [
+            {
+              "item": "HV-312 hand valve position",
+              "condition": "ok",
+              "notes": "Fully closed, green light on local panel"
+            },
+            {
+              "item": "WT-302 scale reading",
+              "condition": "ok",
+              "notes": "38.1 tons, stable since 11:48"
+            },
+            {
+              "item": "Vapor presence at Rail Spot 2",
+              "condition": "ok",
+              "notes": "No visible rise; cloud dissipating"
+            },
+            {
+              "item": "Pressure in line (instrument)",
+              "condition": "ok",
+              "notes": "Dropping steadily"
+            },
+            {
+              "item": "ERT status (Level A suit)",
+              "condition": "ok",
+              "notes": "Still on site, preparing for exit"
+            },
+            {
+              "item": "SIS logic state (TS-EWS-01)",
+              "condition": "not_inspected",
+              "notes": "Field confirms physical closure; SIS status not to be relied upon"
+            },
+            {
+              "item": "Field gauge vs. DCS",
+              "condition": "ok",
+              "notes": "Field gauge matches DCS setpoint, but DCS status not trusted"
+            },
+            {
+              "item": "Remote access to TVC-JMP-01",
+              "condition": "not_inspected",
+              "notes": "System isolated per CISA directive"
+            },
+            {
+              "item": "SIF-650 status (SIS)",
+              "condition": "not_inspected",
+              "notes": "Not to be used; system integrity compromised"
+            },
+            {
+              "item": "Control room screen (DeltaV)",
+              "condition": "failed",
+              "notes": "Shows ESD-310 closed but field evidence contradicts; digital state unreliable"
+            }
+          ],
+          "actionsTaken": [
+            "Confirmed manual closure of HV-312 via local panel at 11:55",
+            "Verified field gauge on WT-302 (38.1 tons, stable)",
+            "Notified OT Lead of stable field state",
+            "Documented final physical state for SIS integrity review"
+          ],
+          "recommendations": [
+            "Do not issue any further digital commands to ESD-310 until forensic validation is complete",
+            "Preserve local panel and field instrument data for review",
+            "Report final field state to OT Engineer and Incident Commander for formal closure record"
+          ],
+          "photosNote": "4 photos attached: IMG_FIR-2026-0412-07 (HV-312 local panel, green light on), IMG_FIR-2026-0412-08 (WT-302 scale, 38.1 tons), IMG_FIR-2026-0412-09 (field gauge, pressure drop), IMG_FIR-2026-0412-10 (ERT team, exit preparations)",
+          "signature": "Operator 3, Field Operator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the physical state of the system after manual closure. The OT must now validate that the field evidence is final and that no further digital commands should be issued until forensic review is complete.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:33.565Z"
+}

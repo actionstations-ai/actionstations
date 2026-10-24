@@ -1,0 +1,155 @@
+{
+  "id": "01M5QSYQA75NK44VJ0CHGHAFTV",
+  "mselRowId": "I-19",
+  "type": "radio_call",
+  "title": "Manual Closure of HV-312 — Rail Spot 2",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "orgName": "Teague Valley Chemical Company",
+    "centerName": "Control Room (CCR)",
+    "channel": "OPS-1",
+    "frequency": "TG 4101 / 460.250 MHz",
+    "date": "10/22/2026",
+    "callsign": "Ops Super",
+    "lines": [
+      {
+        "time": "11:50",
+        "from": "Ops Super",
+        "to": "Control",
+        "text": "The ERT closed hand valve HV-312 at Rail Spot 2 at 11:48 and the vapor has stopped rising. WT-302 is steady at 38.1 tons. The ERT is coming out for decontamination."
+      }
+    ],
+    "background": "office",
+    "voiceStyle": "Middle-aged female, calm but firm, with measured urgency",
+    "audioFile": "I-19_radio.wav",
+    "duration": "0:18",
+    "injectId": "I-19"
+  },
+  "variant": "default",
+  "instructorNote": "This confirms the manual closure order was executed and the release is under control. Watch for any attempt to reassert control via the DCS or SIS.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+      "headingPath": "Teague Valley Chemical Company,… › Section 3 › 3.3 Loading positions",
+      "quote": "| Position | Product | Equipment | Isolation | |---|---|---|---| | Rail Spot 1 | Liquid chlorine | Loading arm LA-1, railcar scale WT-301 | Remote-operated emergency isolation valves on the arm and th",
+      "chunkId": 35
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 6 › 6.1 First actions (board operator and Shift Supervisor)",
+      "quote": "1. Confirm by at least two of: fixed detectors, CCTV, outside operator report, railcar scale weight change. 2. Trip ESD-310 (rail spots) or ESD-320 (tank farm) from the hard-wired ESD pushbuttons on t",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 4",
+      "quote": "| Class | Meaning | Examples | Actions | |---|---|---|---| | Alert | An abnormal condition that the shift is handling; no release beyond the unit | Gas detector at 1 ppm in a building, small leak isol",
+      "chunkId": 9
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Supervisor 12",
+        "voiceStyle": "Middle-aged female, calm but firm, with measured urgency",
+        "text": "Control, this is Supervisor 12. I’ve just issued the order to manually close HV-312 via the local panel at Rail Spot 2. The ERT has confirmed the closure at eleven fifteen. The release has stopped. The scale WT-302 now reads thirty-eight point one tons and is stable. The ERT will report back to CCR."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJQG7A98HB623D1JJ6FAK",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSYQA75NK44VJ0CHGHAFTV/01M5QTJQG7A98HB623D1JJ6FAK.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "51aa2b541be73d3bfafd8094bcd4554322856077ed85113c09c1c7e063ab7071",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:32.914Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:34:45.929Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Manual Closure of HV-312 — Rail Spot 2",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Teague Valley Chemical Company",
+          "centerName": "Control Room (CCR)",
+          "channel": "OPS-1",
+          "frequency": "TG 4101 / 460.250 MHz",
+          "date": "10/24/2026",
+          "callsign": "Supervisor 12",
+          "lines": [
+            {
+              "time": "11:50",
+              "from": "Supervisor 12",
+              "to": "Control",
+              "text": "Control, this is Supervisor 12. I’ve just issued the order to manually close HV-312 via the local panel at Rail Spot 2. The ERT has confirmed the closure at 11:15. The release has stopped. The scale WT-302 now reads 38.1 tons and is stable. The ERT will report back to CCR."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Middle-aged female, calm but firm, with measured urgency",
+          "audioFile": "I-19_radio.wav",
+          "duration": "0:18",
+          "injectId": "I-19"
+        },
+        "instructorNote": "This confirms the manual closure order was executed and the release is under control. Watch for any attempt to reassert control via the DCS or SIS.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.816Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Manual Closure of HV-312 — Rail Spot 2",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Teague Valley Chemical Company",
+          "centerName": "Control Room (CCR)",
+          "channel": "OPS-1",
+          "frequency": "TG 4101 / 460.250 MHz",
+          "date": "10/22/2026",
+          "callsign": "Ops Super",
+          "lines": [
+            {
+              "time": "11:50",
+              "from": "Ops Super",
+              "to": "Control",
+              "text": "The ERT closed hand valve HV-312 at Rail Spot 2 at 11:48 and the vapor has stopped rising. WT-302 is steady at 38.1 tons. The ERT is coming out for decontamination."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Middle-aged female, calm but firm, with measured urgency",
+          "audioFile": "I-19_radio.wav",
+          "duration": "0:18",
+          "injectId": "I-19"
+        },
+        "instructorNote": "This confirms the manual closure order was executed and the release is under control. Watch for any attempt to reassert control via the DCS or SIS.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:33.201Z"
+}

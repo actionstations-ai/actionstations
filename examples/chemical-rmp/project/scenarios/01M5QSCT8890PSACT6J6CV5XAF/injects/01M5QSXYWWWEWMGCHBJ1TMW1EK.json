@@ -1,0 +1,130 @@
+{
+  "id": "01M5QSXYWWWEWMGCHBJ1TMW1EK",
+  "mselRowId": "I-18",
+  "type": "scenario_update",
+  "title": "Incident Commander: Manual Closure Decision",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:35",
+    "scenarioTime": "11:35 AM",
+    "headline": "Trip the cell room?",
+    "deliverTo": "All players",
+    "narration": "All hands, this is Darnell Hughes, Incident Commander. The SIS logic was changed without approval and the key switch is in PROGRAM. Until the logic is validated, the SIS cannot be trusted anywhere in the plant. Unit 100 is still making chlorine and the scrubber C-650 can take the full cell-room output for about 40 minutes. Do we trip the cell room now with SIF-110 out of trust, by tripping the rectifiers locally, and accept an 18 to 24 hour restart and membrane damage, or keep Unit 100 running with Unit 300 stopped and the hand valves manned?",
+    "keyFacts": [
+      "SIS logic was changed without an MOC; the key switch is in PROGRAM",
+      "Unit 100 is still making chlorine; Unit 300 is stopped",
+      "Scrubber C-650 can take the full cell-room output for about 40 minutes",
+      "A cell-room restart takes 18 to 24 hours and can damage the membranes"
+    ],
+    "expectedAction": "Operations Section Chief and IC decide (ERP 6.3, decision record ERP-D3); the OT Engineer states which safety functions can no longer be relied on; the decision and its rationale are recorded.",
+    "scenarioTitle": "Ghost Line — Chlorine Release at Rail Spot 2",
+    "injectId": "I-18"
+  },
+  "variant": "default",
+  "instructorNote": "This inject triggers the final decision point. The IC must lead the discussion on whether to trust the system or go manual. Watch for reliance on field evidence over screen data.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 2",
+      "quote": "1. **Process safety first.** A cyber incident in a chlorine plant is a process safety event until proven otherwise. The Incident Commander under the ERP is in charge; the OT Engineer advises. 2. **Fie",
+      "chunkId": 47
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 11",
+      "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 6 › 6.2 Entry and stopping the leak (ERT)",
+      "quote": "Entry only in pairs with SCBA and Level A suits, with a backup team ready. On a rail tank car, the ERT uses the Chlorine Institute Emergency Kit C. Manual isolation valves HV-311 to HV-314 at each rai",
+      "chunkId": 14
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJPGB8XXPNA1EYCDCSWJC",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSXYWWWEWMGCHBJ1TMW1EK/01M5QTJPGB8XXPNA1EYCDCSWJC.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "c75c3f6618a6ae7b234ca2707babcb03d1cb6e56f2a34beb0fe551d439860676",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scenario_update",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:31.830Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:34:19.593Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Incident Commander: Manual Closure Decision",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "2:35",
+          "scenarioTime": "11:35 AM",
+          "headline": "SIS Integrity Compromised — Manual Closure Decision",
+          "deliverTo": "All players",
+          "narration": "All hands, this is Darnell Hughes, Incident Commander. We have confirmation: the control system was manipulated. The SIS logic was changed without approval. The key switch was left in PROGRAM mode. The ERT is in Level A suits and ready to close HV-312. I need a decision: do we keep automation and risk another wrong command, or do we take ESD-310 offline and manually close HV-312?",
+          "keyFacts": [
+            "SIS logic was changed without an MOC",
+            "Triconex key switch is in PROGRAM mode",
+            "ERT is on-site and in Level A suits",
+            "HV-312 is still open and releasing chlorine",
+            "Field observation overrides screen data per C5 and C4"
+          ],
+          "expectedAction": "IC calls for a high-consequence decision. The OT Engineer must respond with a clear rationale based on SIS integrity and field authority. The Shift Supervisor must prepare to issue the manual order.",
+          "scenarioTitle": "Ghost Line — SCADA Deception & Chlorine Release",
+          "injectId": "I-18"
+        },
+        "instructorNote": "This inject triggers the final decision point. The IC must lead the discussion on whether to trust the system or go manual. Watch for reliance on field evidence over screen data.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.795Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Incident Commander: Manual Closure Decision",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "2:35",
+          "scenarioTime": "11:35 AM",
+          "headline": "Trip the cell room?",
+          "deliverTo": "All players",
+          "narration": "All hands, this is Darnell Hughes, Incident Commander. The SIS logic was changed without approval and the key switch is in PROGRAM. Until the logic is validated, the SIS cannot be trusted anywhere in the plant. Unit 100 is still making chlorine and the scrubber C-650 can take the full cell-room output for about 40 minutes. Do we trip the cell room now with SIF-110 out of trust, by tripping the rectifiers locally, and accept an 18 to 24 hour restart and membrane damage, or keep Unit 100 running with Unit 300 stopped and the hand valves manned?",
+          "keyFacts": [
+            "SIS logic was changed without an MOC; the key switch is in PROGRAM",
+            "Unit 100 is still making chlorine; Unit 300 is stopped",
+            "Scrubber C-650 can take the full cell-room output for about 40 minutes",
+            "A cell-room restart takes 18 to 24 hours and can damage the membranes"
+          ],
+          "expectedAction": "Operations Section Chief and IC decide (ERP 6.3, decision record ERP-D3); the OT Engineer states which safety functions can no longer be relied on; the decision and its rationale are recorded.",
+          "scenarioTitle": "Ghost Line — Chlorine Release at Rail Spot 2",
+          "injectId": "I-18"
+        },
+        "instructorNote": "This inject triggers the final decision point. The IC must lead the discussion on whether to trust the system or go manual. Watch for reliance on field evidence over screen data.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:32.167Z"
+}

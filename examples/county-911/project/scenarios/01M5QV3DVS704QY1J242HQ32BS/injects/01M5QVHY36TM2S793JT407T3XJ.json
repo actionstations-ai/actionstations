@@ -1,0 +1,331 @@
+{
+  "id": "01M5QVHY36TM2S793JT407T3XJ",
+  "mselRowId": "I-04",
+  "type": "system_log",
+  "title": "GateKeeper TDoS-Strict Rule Set Not Activated",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "GateKeeper Appliance",
+    "host": "RCECD-CYB-2026",
+    "ip": "10.72.30.15",
+    "os": "Linux (Ubuntu 22.04)",
+    "logSource": "/var/log/gatekeeper/tdos_alerts.log",
+    "exportedBy": "RCECD\\cyb.ops",
+    "exportedAt": "10/22/2026 19:15",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "19:14:22",
+        "level": "WARN",
+        "msg": "TDoS-strict rule set not active — manual override required. System default: TDoS-relaxed.",
+        "highlight": false
+      },
+      {
+        "ts": "19:14:30",
+        "level": "ALERT",
+        "msg": "17 silent calls received on 10-digit line 555-0100 in last 12 minutes. ANI 555-0100: 14, 555-0110: 2, 555-0103: 1",
+        "highlight": true
+      },
+      {
+        "ts": "19:14:31",
+        "level": "ALERT",
+        "msg": "TDoS-strict match detected for ANI 555-0100, 555-0110, 555-0103 — pattern matches recorded-audio spoofing signature (C1: T-2 Contain)",
+        "highlight": true
+      },
+      {
+        "ts": "19:14:32",
+        "level": "INFO",
+        "msg": "911 calls in queue: 9 (one over 70 seconds)",
+        "highlight": false
+      },
+      {
+        "ts": "19:14:33",
+        "level": "ERROR",
+        "msg": "SIP trunk group A: 32% call drop rate — 17 silent calls in 12 minutes",
+        "highlight": false
+      },
+      {
+        "ts": "19:14:34",
+        "level": "WARN",
+        "msg": "GateKeeper: Rule set override pending — manual activation required",
+        "highlight": false
+      },
+      {
+        "ts": "19:14:35",
+        "level": "INFO",
+        "msg": "911 ALI data for 555-0100 (555-0100) shows no location — likely spoofed",
+        "highlight": false
+      },
+      {
+        "ts": "19:14:36",
+        "level": "NOTICE",
+        "msg": "GateKeeper: TDoS-strict rule set not activated — alert level: CRITICAL",
+        "highlight": true
+      },
+      {
+        "ts": "19:14:37",
+        "level": "ALERT",
+        "msg": "SIP trunk group B: 911 call volume 22/24 — no overflow path active",
+        "highlight": false
+      },
+      {
+        "ts": "19:14:38",
+        "level": "INFO",
+        "msg": "System status: TDoS-strict not engaged — manual override required",
+        "highlight": false
+      },
+      {
+        "ts": "19:14:39",
+        "level": "ERROR",
+        "msg": "SIP trunk group A: 17 silent calls — 14 from ANI 555-0100 (10.72.30.15)",
+        "highlight": false
+      },
+      {
+        "ts": "19:14:40",
+        "level": "ALERT",
+        "msg": "GateKeeper: 30-minute window since last TDoS-strict activation — manual intervention required",
+        "highlight": true
+      }
+    ],
+    "terminalTitle": "GateKeeper Console — TDoS-Strict Monitoring",
+    "command": "tail -f /var/log/gatekeeper/tdos_alerts.log | grep -E 'TDoS-strict|silent|555-0100|555-0110|555-0103'",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "This inject confirms the TDoS-strict rule set has not been activated, as required by C1. The supervisor must manually enable it. Watch for delayed action or misidentification of the ANI pattern.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 5 › T-2 Contain",
+      "quote": "- **10-digit lines:** the GateKeeper call-screening appliance sits in front of the 10-digit lines (not the 911 trunks). The supervisor or Technical Lead turns on the stored \"TDoS-strict\" rule set (blo",
+      "chunkId": 8
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QW9XGCE4B2FDVDVRY4S536",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVHY36TM2S793JT407T3XJ/01M5QW9XGCE4B2FDVDVRY4S536.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 560,
+      "sha256": "d8b9d70e2c7050edeeef46dc3fd725a40e802c0a100156ff9e33cb83b6eb6d2f",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:41.329Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:02:48.799Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GateKeeper TDoS-Strict Rule Set Not Activated",
+        "type": "system_log",
+        "fields": {
+          "systemName": "GateKeeper Appliance",
+          "host": "RCECD-CYB-2026",
+          "ip": "10.72.30.15",
+          "os": "Linux (Ubuntu 22.04)",
+          "logSource": "/var/log/gatekeeper/tdos_alerts.log",
+          "exportedBy": "RCECD\\cyb.ops",
+          "exportedAt": "10/24/2026 19:15",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "19:14:22",
+              "level": "WARN",
+              "msg": "TDoS-strict rule set not active — manual override required. System default: TDoS-relaxed.",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:30",
+              "level": "ALERT",
+              "msg": "17 silent calls received on 10-digit line 555-0100 in last 12 minutes. ANI 555-0100: 14, 555-0101: 2, 555-0103: 1",
+              "highlight": true
+            },
+            {
+              "ts": "19:14:31",
+              "level": "ALERT",
+              "msg": "TDoS-strict match detected for ANI 555-0100, 555-0101, 555-0103 — pattern matches recorded-audio spoofing signature (C1: T-2 Contain)",
+              "highlight": true
+            },
+            {
+              "ts": "19:14:32",
+              "level": "INFO",
+              "msg": "911 calls in queue: 9 (one over 70 seconds)",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:33",
+              "level": "ERROR",
+              "msg": "SIP trunk group A: 32% call drop rate — 17 silent calls in 12 minutes",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:34",
+              "level": "WARN",
+              "msg": "GateKeeper: Rule set override pending — manual activation required",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:35",
+              "level": "INFO",
+              "msg": "911 ALI data for 555-0100 (555-0100) shows no location — likely spoofed",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:36",
+              "level": "NOTICE",
+              "msg": "GateKeeper: TDoS-strict rule set not activated — alert level: CRITICAL",
+              "highlight": true
+            },
+            {
+              "ts": "19:14:37",
+              "level": "ALERT",
+              "msg": "SIP trunk group B: 911 call volume 22/24 — no overflow path active",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:38",
+              "level": "INFO",
+              "msg": "System status: TDoS-strict not engaged — manual override required",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:39",
+              "level": "ERROR",
+              "msg": "SIP trunk group A: 17 silent calls — 14 from ANI 555-0100 (10.72.30.15)",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:40",
+              "level": "ALERT",
+              "msg": "GateKeeper: 30-minute window since last TDoS-strict activation — manual intervention required",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "GateKeeper Console — TDoS-Strict Monitoring",
+          "command": "tail -f /var/log/gatekeeper/tdos_alerts.log | grep -E 'TDoS-strict|silent|555-0100|555-0101|555-0103'",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the TDoS-strict rule set has not been activated, as required by C1. The supervisor must manually enable it. Watch for delayed action or misidentification of the ANI pattern.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.550Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "GateKeeper TDoS-Strict Rule Set Not Activated",
+        "type": "system_log",
+        "fields": {
+          "systemName": "GateKeeper Appliance",
+          "host": "RCECD-CYB-2026",
+          "ip": "10.72.30.15",
+          "os": "Linux (Ubuntu 22.04)",
+          "logSource": "/var/log/gatekeeper/tdos_alerts.log",
+          "exportedBy": "RCECD\\cyb.ops",
+          "exportedAt": "10/22/2026 19:15",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "19:14:22",
+              "level": "WARN",
+              "msg": "TDoS-strict rule set not active — manual override required. System default: TDoS-relaxed.",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:30",
+              "level": "ALERT",
+              "msg": "17 silent calls received on 10-digit line 555-0100 in last 12 minutes. ANI 555-0100: 14, 555-0110: 2, 555-0103: 1",
+              "highlight": true
+            },
+            {
+              "ts": "19:14:31",
+              "level": "ALERT",
+              "msg": "TDoS-strict match detected for ANI 555-0100, 555-0110, 555-0103 — pattern matches recorded-audio spoofing signature (C1: T-2 Contain)",
+              "highlight": true
+            },
+            {
+              "ts": "19:14:32",
+              "level": "INFO",
+              "msg": "911 calls in queue: 9 (one over 70 seconds)",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:33",
+              "level": "ERROR",
+              "msg": "SIP trunk group A: 32% call drop rate — 17 silent calls in 12 minutes",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:34",
+              "level": "WARN",
+              "msg": "GateKeeper: Rule set override pending — manual activation required",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:35",
+              "level": "INFO",
+              "msg": "911 ALI data for 555-0100 (555-0100) shows no location — likely spoofed",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:36",
+              "level": "NOTICE",
+              "msg": "GateKeeper: TDoS-strict rule set not activated — alert level: CRITICAL",
+              "highlight": true
+            },
+            {
+              "ts": "19:14:37",
+              "level": "ALERT",
+              "msg": "SIP trunk group B: 911 call volume 22/24 — no overflow path active",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:38",
+              "level": "INFO",
+              "msg": "System status: TDoS-strict not engaged — manual override required",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:39",
+              "level": "ERROR",
+              "msg": "SIP trunk group A: 17 silent calls — 14 from ANI 555-0100 (10.72.30.15)",
+              "highlight": false
+            },
+            {
+              "ts": "19:14:40",
+              "level": "ALERT",
+              "msg": "GateKeeper: 30-minute window since last TDoS-strict activation — manual intervention required",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "GateKeeper Console — TDoS-Strict Monitoring",
+          "command": "tail -f /var/log/gatekeeper/tdos_alerts.log | grep -E 'TDoS-strict|silent|555-0100|555-0110|555-0103'",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the TDoS-strict rule set has not been activated, as required by C1. The supervisor must manually enable it. Watch for delayed action or misidentification of the ANI pattern.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:41.542Z"
+}

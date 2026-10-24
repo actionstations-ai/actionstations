@@ -1,0 +1,46 @@
+{
+  "id": "chemical-rmp",
+  "title": "Teague Valley Chemical, Corbin Falls Works",
+  "domainProfile": "chemical",
+  "summary": "A chlor-alkali plant under the EPA Risk Management Program (Program 3, responding facility) with chlorine storage, rail tank car loading, a DeltaV DCS and a Triconex SIS beside a fence-line neighborhood and an elementary school, and the RMP tabletop exercise (40 CFR 68.96(b)(2)) generated from its simulated plans: a chlorine release at a rail spot while the safety system shows a valve closed that is still open.",
+  "notice": "EXERCISE MATERIAL — for training use. Teague Valley Chemical Company, the Corbin Falls Works, its people, neighbors, vendors and identifiers are simulated.",
+  "project": {
+    "name": "Teague Valley Chemical, Corbin Falls Works",
+    "orgName": "Teague Valley Chemical Company, Corbin Falls Works",
+    "orgType": "chemical",
+    "brand": {
+      "city": "Corbin Falls",
+      "region": "Teague County, West Virginia",
+      "aliases": {
+        "org": "Teague Valley Chemical Company",
+        "orgShort": "TVCC",
+        "orgDomain": "teaguevalleychem.example",
+        "localTv": "Channel 7",
+        "airport": "Corbin Falls Works"
+      }
+    }
+  },
+  "documents": { "dir": "reference/chemical-rmp", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "rail-spot-release",
+      "threatFamily": "cyber_physical",
+      "summary": "During morning loading of a chlorine rail tank car at Rail Spot 2 the loading-arm connection fails; ESD-310 shows the isolation valves closed while the loader still sees the cloud, the Triconex key switch is found in PROGRAM, and the Works must stop the leak by hand, ask the county to shelter the Riverside Addition and the elementary school, make the NRC, SERC and LEPC calls and decide whether to trip the cell room.",
+      "userPrompt": "At 08:58 the day shift is loading chlorine from TK-32 into a 90-ton rail tank car at Rail Spot 2 through loading arm LA-2. The flexible connection fails and chlorine detectors AT-313 and AT-314 alarm; the board operator trips ESD-310 from the CCR pushbutton and the DeltaV screen shows the remote-operated isolation valves closed, but the loader reports the yellow-green cloud still growing and the railcar scale WT-302 still changing. The ERT must close hand valve HV-312 in Level A suits; fence-line detectors AT-904 and AT-905 alarm as the cloud drifts east on a west-south-west wind toward the Riverside Addition and Corbin Falls Elementary School. Later the OT Engineer finds the Triconex key switch on TRI-1 in PROGRAM and an rl-support remote session from TVC-JMP-01 to TS-EWS-01 that has no entry in the remote-access log. The exercise covers the RMP tabletop scope of 40 CFR 68.96(b)(2): sirens S-1 to S-6 and the shelter-in-place request to Teague County OEM, the NRC, WV SERC, Teague County LEPC and WV DEP calls with a release estimate, OSHA reporting for an exposed loader, treatment and decontamination, TVIMA mutual aid and air monitoring, sheltering Corbin Falls Elementary School, which is in session, the cell-room trip decision (ERP 6.3), SIS integrity before any restart, CISA and the FBI, and media and neighbor pressure.",
+      "audience": [
+        "Site Command (Incident Commander)",
+        "Operations",
+        "Process Control / OT",
+        "EHS and Compliance",
+        "Security",
+        "Community Relations / PIO"
+      ],
+      "constraints": [
+        "Every email address of the Works uses the exercise domain teaguevalleychem.example; outside parties use fictional domains and fictional outlet names (Channel 7, the Corbin Falls Courier); never a real company or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (Teague County OEM, the fire department, the LEPC, the NRC, the SERC, the railroad, Ridgeline Automation, CISA, the FBI) are played by the SimCell, not seated as players.",
+        "The release is chlorine (CAS 7782-50-5) only; use the identifiers in the documents (TK-31 to TK-33, Rail Spot 1 to Rail Spot 4, ESD-310, ESD-320, SIF-110, SIF-650, AT-311 to AT-318, AT-901 to AT-906, Muster Point A to Muster Point C, Gate 1 to Gate 3) and no others."
+      ]
+    }
+  ]
+}

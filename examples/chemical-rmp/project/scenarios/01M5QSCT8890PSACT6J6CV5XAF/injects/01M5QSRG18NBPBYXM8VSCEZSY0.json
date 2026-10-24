@@ -1,0 +1,245 @@
+{
+  "id": "01M5QSRG18NBPBYXM8VSCEZSY0",
+  "mselRowId": "I-03",
+  "type": "system_log",
+  "title": "Unexplained Setpoint Change — WT-302",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "DeltaV Event Journal",
+    "host": "OWS-01",
+    "ip": "10.72.1.15",
+    "os": "Windows Server 2019",
+    "logSource": "DeltaV Event Journal (OWS-01)",
+    "exportedBy": "vanand",
+    "exportedAt": "10/22/2026 09:10 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "08:41:05",
+        "level": "INFO",
+        "msg": "Remote desktop logon to EWS-01 from TVC-JMP-01 (10.72.20.11), user rl-support",
+        "highlight": false
+      },
+      {
+        "ts": "08:57:59",
+        "level": "WARN",
+        "msg": "TRI-1 diagnostic: controller mode change event (no operator action logged)",
+        "highlight": true
+      },
+      {
+        "ts": "08:58:12",
+        "level": "ALERT",
+        "msg": "ESD-310 trip received (CCR pushbutton PB-310)",
+        "highlight": false
+      },
+      {
+        "ts": "08:58:13",
+        "level": "INFO",
+        "msg": "Modbus read TRI-1: ESD-310 outputs = CLOSED",
+        "highlight": false
+      },
+      {
+        "ts": "08:58:20",
+        "level": "WARN",
+        "msg": "No limit-switch change received from LA-2 isolation valves; WT-302 still changing",
+        "highlight": true
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Get-Content C:\\DeltaV\\Logs\\EventJournal_OWS-01.log -Tail 200 | Select-String -Pattern \"ESD-310|TRI-1|rl-support|WT-302\"",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This inject confirms the unexplained change in WT-302 setpoint. The OT Engineer must now initiate cyber-incident triage per Play 1 and check remote access logs on TVC-JMP-01.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 5",
+      "quote": "| Sign | Where it shows | First check | |---|---|---| | A setpoint, mode or valve command nobody on shift made | DeltaV event journal on OWS-01 to OWS-04 | Who was logged in; was a remote session open",
+      "chunkId": 50
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 1 — Unexplained DCS change",
+      "quote": "1. Operations puts the affected loop in MANUAL and confirms the field state. 2. Disable vendor remote access (Section 4). 3. Export the DeltaV event journal and the user-login history; photograph the ",
+      "chunkId": 51
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJGYH18AZ0WHAZ1VCPV8J",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSRG18NBPBYXM8VSCEZSY0/01M5QTJGYH18AZ0WHAZ1VCPV8J.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "3754f73aca2adf920f6780876b37efb896b46484b70b4f95376b8e2f02f864b9",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:26.183Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:31:18.986Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Unexplained Setpoint Change — WT-302",
+        "type": "system_log",
+        "fields": {
+          "systemName": "DeltaV Event Journal",
+          "host": "OWS-01",
+          "ip": "10.72.1.15",
+          "os": "Windows Server 2019",
+          "logSource": "DeltaV Event Journal (OWS-01)",
+          "exportedBy": "OT_Engineer_Victor_Mendez",
+          "exportedAt": "10/24/2026 09:10 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:58:12",
+              "level": "WARN",
+              "msg": "Setpoint for WT-302 changed from 32.4 tons to 38.1 tons. No operator logged in at time of change. No command in the audit trail. Last known operator: none.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\\\DeltaV\\\\Logs\\\\EventJournal_OWS-01.log -Tail 100 | Select-String -Pattern \"WT-302\" | Sort-Object -Property { $_.Timestamp }",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the unexplained change in WT-302 setpoint. The OT Engineer must now initiate cyber-incident triage per Play 1 and check remote access logs on TVC-JMP-01.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.658Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Unexplained Setpoint Change — WT-302",
+        "type": "system_log",
+        "fields": {
+          "systemName": "DeltaV Event Journal",
+          "host": "OWS-01",
+          "ip": "10.72.1.15",
+          "os": "Windows Server 2019",
+          "logSource": "DeltaV Event Journal (OWS-01)",
+          "exportedBy": "vanand",
+          "exportedAt": "10/22/2026 09:10 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:41:05",
+              "level": "INFO",
+              "msg": "Remote desktop logon to EWS-01 from TVC-JMP-01 (10.72.20.11), user rl-support",
+              "highlight": false
+            },
+            {
+              "ts": "08:57:59",
+              "level": "WARN",
+              "msg": "TRI-1 diagnostic: controller mode change event (no operator action logged)",
+              "highlight": true
+            },
+            {
+              "ts": "08:58:12",
+              "level": "ALARM",
+              "msg": "ESD-310 trip received (CCR pushbutton PB-310)",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:13",
+              "level": "INFO",
+              "msg": "Modbus read TRI-1: ESD-310 outputs = CLOSED",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:20",
+              "level": "WARN",
+              "msg": "No limit-switch change received from LA-2 isolation valves; WT-302 still changing",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\DeltaV\\Logs\\EventJournal_OWS-01.log -Tail 200 | Select-String -Pattern \"ESD-310|TRI-1|rl-support|WT-302\"",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the unexplained change in WT-302 setpoint. The OT Engineer must now initiate cyber-incident triage per Play 1 and check remote access logs on TVC-JMP-01.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:45:24.826Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Unexplained Setpoint Change — WT-302",
+        "type": "system_log",
+        "fields": {
+          "systemName": "DeltaV Event Journal",
+          "host": "OWS-01",
+          "ip": "10.72.1.15",
+          "os": "Windows Server 2019",
+          "logSource": "DeltaV Event Journal (OWS-01)",
+          "exportedBy": "vanand",
+          "exportedAt": "10/22/2026 09:10 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:41:05",
+              "level": "INFO",
+              "msg": "Remote desktop logon to EWS-01 from TVC-JMP-01 (10.72.20.11), user rl-support",
+              "highlight": false
+            },
+            {
+              "ts": "08:57:59",
+              "level": "WARN",
+              "msg": "TRI-1 diagnostic: controller mode change event (no operator action logged)",
+              "highlight": true
+            },
+            {
+              "ts": "08:58:12",
+              "level": "ALERT",
+              "msg": "ESD-310 trip received (CCR pushbutton PB-310)",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:13",
+              "level": "INFO",
+              "msg": "Modbus read TRI-1: ESD-310 outputs = CLOSED",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:20",
+              "level": "WARN",
+              "msg": "No limit-switch change received from LA-2 isolation valves; WT-302 still changing",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\DeltaV\\Logs\\EventJournal_OWS-01.log -Tail 200 | Select-String -Pattern \"ESD-310|TRI-1|rl-support|WT-302\"",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the unexplained change in WT-302 setpoint. The OT Engineer must now initiate cyber-incident triage per Play 1 and check remote access logs on TVC-JMP-01.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:26.527Z"
+}

@@ -1,0 +1,134 @@
+{
+  "id": "01M5QSTP2GM7TWEZCBCP4VPQWT",
+  "mselRowId": "I-10",
+  "type": "scenario_update",
+  "title": "Triconex Key Switch in PROGRAM Mode",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:15",
+    "scenarioTime": "10:15 AM",
+    "headline": "SIS Controller Key Switch in PROGRAM Mode",
+    "deliverTo": "IC, OT",
+    "narration": "Operations Supervisor enters the Control Room and confirms the Triconex key switch on TRI-1 is in PROGRAM mode. The switch was not in this position at 09:00, and no one on shift has authorized a change. The SIS is not in a safe operating state. The OT Engineer must now validate the controller’s status and isolate the SIS segment immediately.",
+    "keyFacts": [
+      "Triconex key switch on TRI-1 is in PROGRAM mode.",
+      "No operator on shift made this change.",
+      "SIS is not in RUN or MANUAL mode.",
+      "No log entry exists for the switch change.",
+      "The SIS must be isolated at FW-SIS and TS-EWS-01 disconnected from the network."
+    ],
+    "expectedAction": "IC orders the OT Engineer to immediately isolate the SIS segment at FW-SIS and disconnect TS-EWS-01 from the network; the OT Engineer confirms the switch position and logs it for forensic review.",
+    "facilitatorNote": "Pause after 'not in this position' to let the weight sink in. The switch state is a critical forensic indicator.",
+    "scenarioTitle": "Ghost Line — Chlorine Release at Rail Spot 2",
+    "injectId": "I-10"
+  },
+  "instructorNote": "This inject confirms the cyber intrusion: the key switch in PROGRAM mode is a hallmark of the TRITON/TRISIS attack pattern. The OT Engineer must now follow C1, step 2 and C2, step 4.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+      "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+      "chunkId": 52
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 7",
+      "quote": "| Level | Action | Effect | Authority | |---|---|---|---| | 1 | Disable vendor VPN group and shut down TVC-JMP-01 | No remote support | OT Engineer | | 2 | Open FW-OT2 (OT DMZ from business network) |",
+      "chunkId": 55
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 5",
+      "quote": "| Sign | Where it shows | First check | |---|---|---| | A setpoint, mode or valve command nobody on shift made | DeltaV event journal on OWS-01 to OWS-04 | Who was logged in; was a remote session open",
+      "chunkId": 50
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJK9H0ZVG0A42G6CNT8MD",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSTP2GM7TWEZCBCP4VPQWT/01M5QTJK9H0ZVG0A42G6CNT8MD.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "594e0399006865a23b3107c57be1724573116357ed429ee9e0555d55fa869f02",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scenario_update",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:28.545Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:32:31.460Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Triconex Key Switch in PROGRAM Mode",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "1:15",
+          "scenarioTime": "10:15 AM",
+          "headline": "SIS Controller Key Switch in PROGRAM Mode",
+          "deliverTo": "IC, OT",
+          "narration": "Operations Supervisor enters the Control Room and confirms the Triconex key switch on TRI-1 is in PROGRAM mode. The switch was not in this position at 09:00, and no one on shift has authorized a change. The SIS is not in a safe operating state. The OT Engineer must now validate the controller’s status and isolate the SIS segment immediately.",
+          "keyFacts": [
+            "Triconex key switch on TRI-1 is in PROGRAM mode.",
+            "No operator on shift made this change.",
+            "SIS is not in RUN or MANUAL mode.",
+            "No log entry exists for the switch change.",
+            "The SIS must be isolated at FW-SIS and TS-EWS-01 disconnected from the network."
+          ],
+          "expectedAction": "IC orders the OT Engineer to immediately isolate the SIS segment at FW-SIS and disconnect TS-EWS-01 from the network; the OT Engineer confirms the switch position and logs it for forensic review.",
+          "facilitatorNote": "Pause after 'not in this position' to let the weight sink in. The switch state is a critical forensic indicator.",
+          "scenarioTitle": "Ghost Line — SCADA Deception & Chlorine Release",
+          "injectId": "I-10"
+        },
+        "instructorNote": "This inject confirms the cyber intrusion: the key switch in PROGRAM mode is a hallmark of the TRITON/TRISIS attack pattern. The OT Engineer must now follow C1, step 2 and C2, step 4.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.716Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Triconex Key Switch in PROGRAM Mode",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "1:15",
+          "scenarioTime": "10:15 AM",
+          "headline": "SIS Controller Key Switch in PROGRAM Mode",
+          "deliverTo": "IC, OT",
+          "narration": "Operations Supervisor enters the Control Room and confirms the Triconex key switch on TRI-1 is in PROGRAM mode. The switch was not in this position at 09:00, and no one on shift has authorized a change. The SIS is not in a safe operating state. The OT Engineer must now validate the controller’s status and isolate the SIS segment immediately.",
+          "keyFacts": [
+            "Triconex key switch on TRI-1 is in PROGRAM mode.",
+            "No operator on shift made this change.",
+            "SIS is not in RUN or MANUAL mode.",
+            "No log entry exists for the switch change.",
+            "The SIS must be isolated at FW-SIS and TS-EWS-01 disconnected from the network."
+          ],
+          "expectedAction": "IC orders the OT Engineer to immediately isolate the SIS segment at FW-SIS and disconnect TS-EWS-01 from the network; the OT Engineer confirms the switch position and logs it for forensic review.",
+          "facilitatorNote": "Pause after 'not in this position' to let the weight sink in. The switch state is a critical forensic indicator.",
+          "scenarioTitle": "Ghost Line — Chlorine Release at Rail Spot 2",
+          "injectId": "I-10"
+        },
+        "instructorNote": "This inject confirms the cyber intrusion: the key switch in PROGRAM mode is a hallmark of the TRITON/TRISIS attack pattern. The OT Engineer must now follow C1, step 2 and C2, step 4.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:28.880Z"
+}

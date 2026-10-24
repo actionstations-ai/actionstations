@@ -1,0 +1,129 @@
+{
+  "id": "01M5QT0HZHQJDG8PTY3T44884V",
+  "mselRowId": "I-25",
+  "type": "scenario_update",
+  "title": "Control System Restoration on Hold",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:45",
+    "scenarioTime": "12:45 PM",
+    "headline": "Recovery, not resumption",
+    "deliverTo": "All players",
+    "narration": "All hands, this is Darnell Hughes, Incident Commander. The release is stopped, the shelter-in-place is in place for E-1 and E-2, and the SIS cannot be trusted until it is validated. No unit restarts until Section 10 of the OT plan and the PSSR are complete and the Plant Manager signs. We are in recovery, not resumption.",
+    "keyFacts": [
+      "Section 10 of TVCC-CFW-OTSEC-2026 must be fully completed before any restart.",
+      "PSSR is active and under review by the EHS Manager.",
+      "Vendor access remains restricted via per-session firewall rules (F-1 closed, F-3 closed).",
+      "No unit restarts will be authorized until EHS confirms no residual risk."
+    ],
+    "expectedAction": "The Incident Commander formally announces that no unit will be restarted until the PSSR is signed and all regulatory and technical checks are complete. This establishes a hold on any restart activity.",
+    "scenarioTitle": "Ghost Line — Chlorine Release at Rail Spot 2",
+    "injectId": "I-25"
+  },
+  "variant": "default",
+  "instructorNote": "This inject formalizes the hold on restarts. The players must now adhere strictly to Section 10 of TVCC-CFW-OTSEC-2026. Watch for any attempts to bypass the PSSR or restart units prematurely.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 10",
+      "quote": "1. Rebuild compromised workstations from known-good images; change all passwords and the `rl-support` account. 2. Download the SIS logic from the archived, approved file; the OT Engineer and Schneider",
+      "chunkId": 58
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 14",
+      "quote": "Restart of Unit 300 or Unit 100 after a General Emergency requires: the Incident Commander's termination of the emergency; a pre-startup safety review (PSSR) for any changed equipment or logic; the OT",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+      "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+      "chunkId": 54
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJT4GSGJ4P35AMZRRH4QS",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QT0HZHQJDG8PTY3T44884V/01M5QTJT4GSGJ4P35AMZRRH4QS.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "071c0912ecfd9938b6d20c4ba82868ba656d4de46ce191bcbcc8097382c5a263",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scenario_update",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:35.552Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:35:45.853Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Control System Restoration on Hold",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "3:45",
+          "scenarioTime": "12:45 PM",
+          "headline": "Restoration Delayed Until PSSR Complete",
+          "deliverTo": "All players",
+          "narration": "All hands, this is Darnell Hughes, Incident Commander. We have confirmed: the SIS logic is validated, the PSSR is underway, and vendor access is restricted under new firewall rules. I am officially declaring that control system restoration will not proceed until all checks in Section 10 of TVCC-CFW-OTSEC-2026 are complete. No unit restarts until the PSSR is signed and the EHS Manager confirms no residual risk. We are in recovery, not resumption.",
+          "keyFacts": [
+            "Section 10 of TVCC-CFW-OTSEC-2026 must be fully completed before any restart.",
+            "PSSR is active and under review by the EHS Manager.",
+            "Vendor access remains restricted via per-session firewall rules (F-1 closed, F-3 closed).",
+            "No unit restarts will be authorized until EHS confirms no residual risk."
+          ],
+          "expectedAction": "The Incident Commander formally announces that no unit will be restarted until the PSSR is signed and all regulatory and technical checks are complete. This establishes a hold on any restart activity.",
+          "scenarioTitle": "Ghost Line — SCADA Deception & Chlorine Release",
+          "injectId": "I-25"
+        },
+        "instructorNote": "This inject formalizes the hold on restarts. The players must now adhere strictly to Section 10 of TVCC-CFW-OTSEC-2026. Watch for any attempts to bypass the PSSR or restart units prematurely.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.873Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Control System Restoration on Hold",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "3:45",
+          "scenarioTime": "12:45 PM",
+          "headline": "Recovery, not resumption",
+          "deliverTo": "All players",
+          "narration": "All hands, this is Darnell Hughes, Incident Commander. The release is stopped, the shelter-in-place is in place for E-1 and E-2, and the SIS cannot be trusted until it is validated. No unit restarts until Section 10 of the OT plan and the PSSR are complete and the Plant Manager signs. We are in recovery, not resumption.",
+          "keyFacts": [
+            "Section 10 of TVCC-CFW-OTSEC-2026 must be fully completed before any restart.",
+            "PSSR is active and under review by the EHS Manager.",
+            "Vendor access remains restricted via per-session firewall rules (F-1 closed, F-3 closed).",
+            "No unit restarts will be authorized until EHS confirms no residual risk."
+          ],
+          "expectedAction": "The Incident Commander formally announces that no unit will be restarted until the PSSR is signed and all regulatory and technical checks are complete. This establishes a hold on any restart activity.",
+          "scenarioTitle": "Ghost Line — Chlorine Release at Rail Spot 2",
+          "injectId": "I-25"
+        },
+        "instructorNote": "This inject formalizes the hold on restarts. The players must now adhere strictly to Section 10 of TVCC-CFW-OTSEC-2026. Watch for any attempts to bypass the PSSR or restart units prematurely.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:35.886Z"
+}

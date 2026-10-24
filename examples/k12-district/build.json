@@ -1,0 +1,46 @@
+{
+  "id": "k12-district",
+  "title": "Halverson Unified School District",
+  "domainProfile": "k12_schools",
+  "summary": "A mid-size school district (about 9,100 students, fourteen schools, 30 bus routes, cloud SIS with on-premises file shares, payroll and building automation) and a tabletop exercise generated from its simulated plans: ransomware with data-theft extortion during the state assessment window, followed by an emailed threat and a swatting call against a high school.",
+  "notice": "Exercise material — for training use. The Halverson Unified School District, its schools, people, procedures, numbers, addresses and identifiers are simulated; the public sources consulted for realism are listed in reference/k12-district/SOURCES.md.",
+  "project": {
+    "name": "Halverson Unified School District",
+    "orgName": "Halverson Unified School District",
+    "orgType": "k12_schools",
+    "brand": {
+      "city": "Halverson",
+      "region": "Brandt County, Oregon",
+      "aliases": {
+        "org": "Halverson Unified School District",
+        "orgShort": "HUSD",
+        "orgDomain": "halversonusd.example",
+        "localTv": "Channel 6",
+        "airport": "Halverson High School"
+      }
+    }
+  },
+  "documents": { "dir": "reference/k12-district", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "testing-week-extortion",
+      "startWallClock": "06:30",
+      "threatFamily": "cyber",
+      "summary": "On the second morning of the state assessment window, ransomware encrypts the district's on-premises servers after data was stolen from the student-services file share; the actor emails staff and parents with sample IEP and health records, an emailed threat and a swatting call put Halverson High School into lockdown, and the district must decide on containment, testing, closures, notices and the ransom demand.",
+      "userPrompt": "Tuesday of the spring state assessment window at Halverson Unified School District. At 06:40 Tallgrass MDR calls Information Security Manager Priya Castellanos about Defender alerts on HUSD-FS02 and HUSD-VH02; by 07:30 file shares, Tyler Munis on HUSD-ERP01 and the hosted VoIP on HUSD-PBX01 are encrypted and a ransom note appears on staff laptops, while PowerSchool, Google Workspace and Chromebooks still work through the school internet breakouts. The intruder came in through the unpatched VPN appliance HUSD-VPN01 (CIRP-4) and the shared local-admin password (CIRP-3), and copied the HUSD-FS02 student-services shares (IEPs, health logs, threat-assessment and custody files) before encrypting. CTO Victor Han must choose between containment steps C-3, C-4 and C-5 while grade 11 testing runs in the Halverson High School library and Commons; the Assessment Coordinator needs a pause decision for the Oregon Department of Education. At midday the actor emails parents and staff from a lookalike domain with sample IEP pages and a leak-site deadline, and parents post screenshots in the Halverson Parents Facebook group; Channel 6 calls the PIO. At 13:15 an emailed threat names Halverson High School and, minutes later, a 911 caller reports a shooter in C Wing: Brandt County 911 dispatches Halverson Police, the school goes to LOCKDOWN via CENTEGIX, phones to the District Service Center are down, and students must be bused from the Stadium to the Reunification Site (primary): Brandt County Fairgrounds Exhibit Hall on Bus Route 1 to Bus Route 4 using the 05:00 offline rosters. The Policy Group must decide on closures for Wednesday, the ransom demand with counsel, the risk pool and the FBI Portland Field Office, CISA and MS-ISAC/K12 SIX reporting, the Oregon Department of Education report, and data-exposure notices to families.",
+      "audience": [
+        "District Command / School Safety",
+        "Policy Group",
+        "Technology / Information Security",
+        "Communications",
+        "School Site / Halverson High School",
+        "Student Services and Transportation"
+      ],
+      "constraints": [
+        "Every email address of the district and its schools uses the exercise domain halversonusd.example; outside parties use fictional domains and fictional outlet names (Channel 6, the Halverson Herald); never a real agency, company or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (Tallgrass MDR, the risk pool and its breach coach, Halverson Police, Brandt County 911, the FBI, CISA, the Oregon Department of Education, parents, the extortion actor) are played by the SimCell, not seated as players."
+      ]
+    }
+  ]
+}

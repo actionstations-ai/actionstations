@@ -1,0 +1,263 @@
+{
+  "id": "01M5QSXHTTQJRGZXKCPS72ST83",
+  "mselRowId": "I-17",
+  "type": "field_report",
+  "title": "Evidence Secured — EWS-01, TS-EWS-01, TVC-JMP-01",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Teague Valley Chemical Company — Site Control Room",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0412",
+    "date": "10/22/2026",
+    "time": "11:25",
+    "location": "Central Control Room (CCR) and rack room",
+    "inspector": "Lorna Pike, Operations Superintendent",
+    "unit": "Field Response Team · Unit 300",
+    "reportType": "security",
+    "weather": "Clear, 52°F, wind WSW 7 mph",
+    "summary": "TS-EWS-01 and EWS-01 are powered on and disconnected from the network; TVC-JMP-01 is shut down at its labelled power switch per Section 4 of the OT plan; the TRI-1 key switch is photographed and untouched. All items are on Form OT-3. The FBI will collect at 14:00.",
+    "findings": [
+      {
+        "item": "TS-EWS-01",
+        "condition": "ok",
+        "notes": "Powered on, network cable removed, screen photographed"
+      },
+      {
+        "item": "EWS-01",
+        "condition": "ok",
+        "notes": "Powered on, network cable removed"
+      },
+      {
+        "item": "TVC-JMP-01",
+        "condition": "failed",
+        "notes": "Shut down at the power switch at 10:52 (OT plan Section 4); memory lost"
+      },
+      {
+        "item": "TRI-1 key switch",
+        "condition": "ok",
+        "notes": "In PROGRAM, photographed, untouched"
+      },
+      {
+        "item": "Form OT-3",
+        "condition": "ok",
+        "notes": "Signed by FSO and OT Engineer"
+      }
+    ],
+    "actionsTaken": [
+      "Secured evidence locker with FSO key",
+      "Disconnected EWS-01 and TS-EWS-01 from network",
+      "Snipped network cable on TVC-JMP-01",
+      "Logged all devices on Form OT-3 with chain of custody",
+      "Confirmed FBI collection time (14:00) via secure call"
+    ],
+    "recommendations": [
+      "Maintain physical isolation of all OT devices until FBI handover",
+      "Do not power on any device until FBI and CISA clearance",
+      "Preserve all logs on TVC-JMP-01 and TS-EWS-01 for forensic review"
+    ],
+    "photosNote": "6 photos attached: IMG_FIR-2026-0412-01 (evidence locker), IMG_FIR-2026-0412-02 (EWS-01), IMG_FIR-2026-0412-03 (TS-EWS-01), IMG_FIR-2026-0412-04 (TVC-JMP-01), IMG_FIR-2026-0412-05 (Form OT-3), IMG_FIR-2026-0412-06 (key switch position)",
+    "signature": "Lorna Pike, Operations Superintendent",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "instructorNote": "This inject confirms that evidence is secured per CISA and FBI guidance. The FSO and OT Lead must verify the chain of custody on Form OT-3 and ensure no device is reconnected or powered on.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 8",
+      "quote": "Photograph screens and the Triconex key switch; export logs before any change; keep the jump host, EWS-01 and TS-EWS-01 powered and disconnected; record who touched what on Form OT-3 (chain of custody",
+      "chunkId": 56
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 4",
+      "quote": "- Ridgeline Automation (integrator for the DeltaV DCS and the Triconex SIS, Pittsburgh) is the only vendor with remote access. Emerson and Schneider Electric support work through Ridgeline or on site.",
+      "chunkId": 49
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJP59VZJ3WSW346W5FCA5",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSXHTTQJRGZXKCPS72ST83/01M5QTJP59VZJ3WSW346W5FCA5.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "5d4ee16af47b1abd0d514b8e9120f13c53e02bd814cb42063d6df31fd02041c5",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:31.494Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:34:12.501Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Evidence Secured — EWS-01, TS-EWS-01, TVC-JMP-01",
+        "type": "field_report",
+        "fields": {
+          "organization": "Teague Valley Chemical Company — Site Control Room",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412",
+          "date": "10/24/2026",
+          "time": "11:25",
+          "location": "Site Control Room (SCR), Evidence Locker, CCR Rack Room",
+          "inspector": "Lorna Pike, Operations Superintendent",
+          "unit": "Field Response Team · Unit 300",
+          "reportType": "security",
+          "weather": "Clear, 52°F, wind NW 7 mph",
+          "summary": "The evidence locker at the Site Control Room (SCR) is secured with the FSO’s key. EWS-01 and TS-EWS-01 are powered off and disconnected from the network. The jump host TVC-JMP-01 is physically isolated on the bench with the network cable severed. All devices are accounted for and logged on Form OT-3 (evidence custody). The FBI WMD Coordinator confirmed on-call collection at 14:00.",
+          "findings": [
+            {
+              "item": "Evidence locker locked",
+              "condition": "ok",
+              "notes": "FSO key in possession; no signs of forced entry"
+            },
+            {
+              "item": "EWS-01 status",
+              "condition": "ok",
+              "notes": "Power off, network disconnected, no active LEDs"
+            },
+            {
+              "item": "TS-EWS-01 status",
+              "condition": "ok",
+              "notes": "Power off, network disconnected, key switch in PROGRAM mode per field log"
+            },
+            {
+              "item": "TVC-JMP-01 status",
+              "condition": "ok",
+              "notes": "Power on, network cable snipped, no remote access possible"
+            },
+            {
+              "item": "Form OT-3 log",
+              "condition": "ok",
+              "notes": "All items listed, chain of custody signed by FSO and OT Lead"
+            },
+            {
+              "item": "SIS key switch position",
+              "condition": "ok",
+              "notes": "TRI-1 and TS-EWS-01 key switch confirmed in PROGRAM mode"
+            },
+            {
+              "item": "Network isolation",
+              "condition": "ok",
+              "notes": "FW-SIS and FW-OT1 traffic blocked; no external connectivity"
+            },
+            {
+              "item": "Field verification of devices",
+              "condition": "ok",
+              "notes": "All devices visually confirmed and accounted for"
+            },
+            {
+              "item": "FBI collection confirmation",
+              "condition": "ok",
+              "notes": "Agent Kline confirmed 14:00 pickup via secure line"
+            },
+            {
+              "item": "Log integrity",
+              "condition": "ok",
+              "notes": "No tampering detected on Form OT-3 or device labels"
+            }
+          ],
+          "actionsTaken": [
+            "Secured evidence locker with FSO key",
+            "Disconnected EWS-01 and TS-EWS-01 from network",
+            "Snipped network cable on TVC-JMP-01",
+            "Logged all devices on Form OT-3 with chain of custody",
+            "Confirmed FBI collection time (14:00) via secure call"
+          ],
+          "recommendations": [
+            "Maintain physical isolation of all OT devices until FBI handover",
+            "Do not power on any device until FBI and CISA clearance",
+            "Preserve all logs on TVC-JMP-01 and TS-EWS-01 for forensic review"
+          ],
+          "photosNote": "6 photos attached: IMG_FIR-2026-0412-01 (evidence locker), IMG_FIR-2026-0412-02 (EWS-01), IMG_FIR-2026-0412-03 (TS-EWS-01), IMG_FIR-2026-0412-04 (TVC-JMP-01), IMG_FIR-2026-0412-05 (Form OT-3), IMG_FIR-2026-0412-06 (key switch position)",
+          "signature": "Lorna Pike, Operations Superintendent",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms that evidence is secured per CISA and FBI guidance. The FSO and OT Lead must verify the chain of custody on Form OT-3 and ensure no device is reconnected or powered on.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.787Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Evidence Secured — EWS-01, TS-EWS-01, TVC-JMP-01",
+        "type": "field_report",
+        "fields": {
+          "organization": "Teague Valley Chemical Company — Site Control Room",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412",
+          "date": "10/22/2026",
+          "time": "11:25",
+          "location": "Central Control Room (CCR) and rack room",
+          "inspector": "Lorna Pike, Operations Superintendent",
+          "unit": "Field Response Team · Unit 300",
+          "reportType": "security",
+          "weather": "Clear, 52°F, wind WSW 7 mph",
+          "summary": "TS-EWS-01 and EWS-01 are powered on and disconnected from the network; TVC-JMP-01 is shut down at its labelled power switch per Section 4 of the OT plan; the TRI-1 key switch is photographed and untouched. All items are on Form OT-3. The FBI will collect at 14:00.",
+          "findings": [
+            {
+              "item": "TS-EWS-01",
+              "condition": "ok",
+              "notes": "Powered on, network cable removed, screen photographed"
+            },
+            {
+              "item": "EWS-01",
+              "condition": "ok",
+              "notes": "Powered on, network cable removed"
+            },
+            {
+              "item": "TVC-JMP-01",
+              "condition": "failed",
+              "notes": "Shut down at the power switch at 10:52 (OT plan Section 4); memory lost"
+            },
+            {
+              "item": "TRI-1 key switch",
+              "condition": "ok",
+              "notes": "In PROGRAM, photographed, untouched"
+            },
+            {
+              "item": "Form OT-3",
+              "condition": "ok",
+              "notes": "Signed by FSO and OT Engineer"
+            }
+          ],
+          "actionsTaken": [
+            "Secured evidence locker with FSO key",
+            "Disconnected EWS-01 and TS-EWS-01 from network",
+            "Snipped network cable on TVC-JMP-01",
+            "Logged all devices on Form OT-3 with chain of custody",
+            "Confirmed FBI collection time (14:00) via secure call"
+          ],
+          "recommendations": [
+            "Maintain physical isolation of all OT devices until FBI handover",
+            "Do not power on any device until FBI and CISA clearance",
+            "Preserve all logs on TVC-JMP-01 and TS-EWS-01 for forensic review"
+          ],
+          "photosNote": "6 photos attached: IMG_FIR-2026-0412-01 (evidence locker), IMG_FIR-2026-0412-02 (EWS-01), IMG_FIR-2026-0412-03 (TS-EWS-01), IMG_FIR-2026-0412-04 (TVC-JMP-01), IMG_FIR-2026-0412-05 (Form OT-3), IMG_FIR-2026-0412-06 (key switch position)",
+          "signature": "Lorna Pike, Operations Superintendent",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms that evidence is secured per CISA and FBI guidance. The FSO and OT Lead must verify the chain of custody on Form OT-3 and ensure no device is reconnected or powered on.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:31.819Z"
+}

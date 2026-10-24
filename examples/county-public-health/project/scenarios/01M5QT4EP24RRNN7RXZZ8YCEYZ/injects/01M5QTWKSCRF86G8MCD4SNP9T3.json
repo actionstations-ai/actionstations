@@ -1,0 +1,305 @@
+{
+  "id": "01M5QTWKSCRF86G8MCD4SNP9T3",
+  "mselRowId": "I-15",
+  "type": "field_report",
+  "title": "Outbreak Line List: Paper Record Confirmed as Current",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Marston County Health Department — Epidemiology Division",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-1022-0093",
+    "date": "10/22/2026",
+    "time": "11:30",
+    "location": "Epi Response Room, Level 2, MCHD Operations Center",
+    "inspector": "Colin Mercer, Epi Field Investigator",
+    "unit": "Epi Team — Zone 2",
+    "reportType": "incident",
+    "weather": "Clear, 61°F, wind E 5 mph",
+    "summary": "Verified that the paper outbreak line list (MCHD-F-12) remains the only trusted record for contact tracing. 37 paper line lists (MCHD-F-10, MCHD-F-12) were compared against the digital outbreak SharePoint site. Found 12 unassigned cases and 3 incorrectly assigned contacts. The digital site shows a version change at 10:18:47, but no updates were made to paper records after 08:50. The paper record is now the only valid source for contact tracing. Any digital data is not trusted.",
+    "findings": [
+      {
+        "item": "Paper line list (MCHD-F-12) up to date",
+        "condition": "ok",
+        "notes": "Last update: 08:50. No changes made since."
+      },
+      {
+        "item": "Digital outbreak site (SharePoint) reflects edits post-08:50",
+        "condition": "failed",
+        "notes": "Version change timestamp 10:18:47; no user log for account 'svc-iisexport@marstonhealth.example'."
+      },
+      {
+        "item": "Contact assignments match paper record",
+        "condition": "deficient",
+        "notes": "3 assignments incorrect; 12 cases unassigned."
+      },
+      {
+        "item": "Printed copy from last operational period available",
+        "condition": "ok",
+        "notes": "MCHD-F-12, version 2026-10-21, stored in DOC kit."
+      },
+      {
+        "item": "No edits made to paper record by Epi team after 08:50",
+        "condition": "ok",
+        "notes": "Confirmed by Epi team lead."
+      },
+      {
+        "item": "Paper record used in contact tracing",
+        "condition": "ok",
+        "notes": "All tracers have current copies."
+      },
+      {
+        "item": "Digital record not reconciled",
+        "condition": "failed",
+        "notes": "Not signed off by Informatics Lead or Epi team lead."
+      },
+      {
+        "item": "No new case data accepted from state system",
+        "condition": "ok",
+        "notes": "Awaiting DOC status board confirmation."
+      },
+      {
+        "item": "Paper record accessible to all team members",
+        "condition": "ok",
+        "notes": "DOC kit distributed to 12 tracers."
+      },
+      {
+        "item": "Paper record marked 'not trusted' on DOC status board",
+        "condition": "ok",
+        "notes": "Status updated at 10:00."
+      }
+    ],
+    "actionsTaken": [
+      "Confirmed paper line list (MCHD-F-12) as the only trusted source for contact tracing",
+      "Instructed all 37 contact tracers to use paper record only",
+      "Notified Informatics Lead (Wes Tran) and Epi team lead (Dr. Neha Raman) of discrepancy",
+      "Updated DOC status board to reflect paper record as current"
+    ],
+    "recommendations": [
+      "Reconcile digital outbreak site with paper record under MCHD-F-62 form",
+      "Hold digital record until signed off by Informatics Lead and Epi team lead",
+      "Resume digital data entry only after DOC status board is cleared",
+      "Conduct 30-minute review of all contact assignments before next shift"
+    ],
+    "photosNote": "2 photos attached: IMG_20261021-113001 (paper line list, MCHD-F-12, 08:50 version), IMG_20261021-113002 (digital SharePoint site, edit timestamp 10:18:47)",
+    "signature": "Colin Mercer, Epi Field Investigator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the paper record as the only valid source for contact tracing. Epi must now enforce paper-only use until reconciliation. Watch for attempts to use the digital record despite the warning.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 6",
+      "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 10",
+      "quote": "Paper mode is declared by the Incident Commander (decision record CYB-DR-1). In paper mode: - Disease reports are taken by phone on MCHD-F-10; investigators work cases in the state surveillance system",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+      "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+      "headingPath": "Marston County Health Department… › Annex B",
+      "quote": "MCHD-F-10 Disease report intake (paper) · MCHD-F-12 Outbreak line list · MCHD-F-20 Contact tracing worksheet · MCHD-F-31 School exclusion letter · MCHD-F-33 Quarantine order · MCHD-F-40 Paper vaccinat",
+      "chunkId": 51
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T20:51:13.612Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Outbreak Line List: Paper Record Confirmed as Current",
+        "type": "field_report",
+        "fields": {
+          "organization": "Marston County Health Department — Epidemiology Division",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1024-0093",
+          "date": "10/24/2026",
+          "time": "11:30",
+          "location": "Epi Response Room, Level 2, MCHD Operations Center",
+          "inspector": "Colin Mercer, Epi Field Investigator",
+          "unit": "Epi Team — Zone 2",
+          "reportType": "incident",
+          "weather": "Clear, 61°F, wind E 5 mph",
+          "summary": "Verified that the paper outbreak line list (MCHD-F-12) remains the only trusted record for contact tracing. 37 paper line lists (MCHD-F-10, MCHD-F-12) were compared against the digital outbreak SharePoint site. Found 12 unassigned cases and 3 incorrectly assigned contacts. The digital site shows a version change at 10:18:47, but no updates were made to paper records after 08:50. The paper record is now the only valid source for contact tracing. Any digital data is not trusted.",
+          "findings": [
+            {
+              "item": "Paper line list (MCHD-F-12) up to date",
+              "condition": "ok",
+              "notes": "Last update: 08:50. No changes made since."
+            },
+            {
+              "item": "Digital outbreak site (SharePoint) reflects edits post-08:50",
+              "condition": "failed",
+              "notes": "Version change timestamp 10:18:47; no user log for account 'svc-iisexport@marstonhealth.example'."
+            },
+            {
+              "item": "Contact assignments match paper record",
+              "condition": "deficient",
+              "notes": "3 assignments incorrect; 12 cases unassigned."
+            },
+            {
+              "item": "Printed copy from last operational period available",
+              "condition": "ok",
+              "notes": "MCHD-F-12, version 2026-04-01, stored in DOC kit."
+            },
+            {
+              "item": "No edits made to paper record by Epi team after 08:50",
+              "condition": "ok",
+              "notes": "Confirmed by Epi team lead."
+            },
+            {
+              "item": "Paper record used in contact tracing",
+              "condition": "ok",
+              "notes": "All tracers have current copies."
+            },
+            {
+              "item": "Digital record not reconciled",
+              "condition": "failed",
+              "notes": "Not signed off by Informatics Lead or Epi team lead."
+            },
+            {
+              "item": "No new case data accepted from state system",
+              "condition": "ok",
+              "notes": "Awaiting DOC status board confirmation."
+            },
+            {
+              "item": "Paper record accessible to all team members",
+              "condition": "ok",
+              "notes": "DOC kit distributed to 12 tracers."
+            },
+            {
+              "item": "Paper record marked 'not trusted' on DOC status board",
+              "condition": "ok",
+              "notes": "Status updated at 10:00."
+            }
+          ],
+          "actionsTaken": [
+            "Confirmed paper line list (MCHD-F-12) as the only trusted source for contact tracing",
+            "Instructed all 37 contact tracers to use paper record only",
+            "Notified Informatics Lead (Wes Tran) and Epi team lead (Dr. Neha Raman) of discrepancy",
+            "Updated DOC status board to reflect paper record as current"
+          ],
+          "recommendations": [
+            "Reconcile digital outbreak site with paper record under MCHD-F-62 form",
+            "Hold digital record until signed off by Informatics Lead and Epi team lead",
+            "Resume digital data entry only after DOC status board is cleared",
+            "Conduct 30-minute review of all contact assignments before next shift"
+          ],
+          "photosNote": "2 photos attached: IMG_20261024-113001 (paper line list, MCHD-F-12, 08:50 version), IMG_20261024-113002 (digital SharePoint site, edit timestamp 10:18:47)",
+          "signature": "Colin Mercer, Epi Field Investigator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the paper record as the only valid source for contact tracing. Epi must now enforce paper-only use until reconciliation. Watch for attempts to use the digital record despite the warning.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.248Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Outbreak Line List: Paper Record Confirmed as Current",
+        "type": "field_report",
+        "fields": {
+          "organization": "Marston County Health Department — Epidemiology Division",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1022-0093",
+          "date": "10/22/2026",
+          "time": "11:30",
+          "location": "Epi Response Room, Level 2, MCHD Operations Center",
+          "inspector": "Colin Mercer, Epi Field Investigator",
+          "unit": "Epi Team — Zone 2",
+          "reportType": "incident",
+          "weather": "Clear, 61°F, wind E 5 mph",
+          "summary": "Verified that the paper outbreak line list (MCHD-F-12) remains the only trusted record for contact tracing. 37 paper line lists (MCHD-F-10, MCHD-F-12) were compared against the digital outbreak SharePoint site. Found 12 unassigned cases and 3 incorrectly assigned contacts. The digital site shows a version change at 10:18:47, but no updates were made to paper records after 08:50. The paper record is now the only valid source for contact tracing. Any digital data is not trusted.",
+          "findings": [
+            {
+              "item": "Paper line list (MCHD-F-12) up to date",
+              "condition": "ok",
+              "notes": "Last update: 08:50. No changes made since."
+            },
+            {
+              "item": "Digital outbreak site (SharePoint) reflects edits post-08:50",
+              "condition": "failed",
+              "notes": "Version change timestamp 10:18:47; no user log for account 'svc-iisexport@marstonhealth.example'."
+            },
+            {
+              "item": "Contact assignments match paper record",
+              "condition": "deficient",
+              "notes": "3 assignments incorrect; 12 cases unassigned."
+            },
+            {
+              "item": "Printed copy from last operational period available",
+              "condition": "ok",
+              "notes": "MCHD-F-12, version 2026-10-21, stored in DOC kit."
+            },
+            {
+              "item": "No edits made to paper record by Epi team after 08:50",
+              "condition": "ok",
+              "notes": "Confirmed by Epi team lead."
+            },
+            {
+              "item": "Paper record used in contact tracing",
+              "condition": "ok",
+              "notes": "All tracers have current copies."
+            },
+            {
+              "item": "Digital record not reconciled",
+              "condition": "failed",
+              "notes": "Not signed off by Informatics Lead or Epi team lead."
+            },
+            {
+              "item": "No new case data accepted from state system",
+              "condition": "ok",
+              "notes": "Awaiting DOC status board confirmation."
+            },
+            {
+              "item": "Paper record accessible to all team members",
+              "condition": "ok",
+              "notes": "DOC kit distributed to 12 tracers."
+            },
+            {
+              "item": "Paper record marked 'not trusted' on DOC status board",
+              "condition": "ok",
+              "notes": "Status updated at 10:00."
+            }
+          ],
+          "actionsTaken": [
+            "Confirmed paper line list (MCHD-F-12) as the only trusted source for contact tracing",
+            "Instructed all 37 contact tracers to use paper record only",
+            "Notified Informatics Lead (Wes Tran) and Epi team lead (Dr. Neha Raman) of discrepancy",
+            "Updated DOC status board to reflect paper record as current"
+          ],
+          "recommendations": [
+            "Reconcile digital outbreak site with paper record under MCHD-F-62 form",
+            "Hold digital record until signed off by Informatics Lead and Epi team lead",
+            "Resume digital data entry only after DOC status board is cleared",
+            "Conduct 30-minute review of all contact assignments before next shift"
+          ],
+          "photosNote": "2 photos attached: IMG_20261021-113001 (paper line list, MCHD-F-12, 08:50 version), IMG_20261021-113002 (digital SharePoint site, edit timestamp 10:18:47)",
+          "signature": "Colin Mercer, Epi Field Investigator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the paper record as the only valid source for contact tracing. Epi must now enforce paper-only use until reconciliation. Watch for attempts to use the digital record despite the warning.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:11.165Z"
+}

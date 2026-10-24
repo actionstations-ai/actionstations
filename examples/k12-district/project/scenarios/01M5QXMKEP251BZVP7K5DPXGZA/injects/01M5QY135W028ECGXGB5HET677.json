@@ -1,0 +1,143 @@
+{
+  "id": "01M5QY135W028ECGXGB5HET677",
+  "mselRowId": "I-03",
+  "type": "email_forward",
+  "title": "SIS Threat Assessment Flag — Fake Record",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Jamie L.",
+    "fromEmail": "j.lee@halversonusd.example",
+    "senderInitials": "JL",
+    "to": "CTO",
+    "subject": "FW: New Threat Assessment Flag – Please review: Student Chloe Mendez – Pending review (24 hrs)",
+    "sentAt": "Tue 04/14/2026 07:00 AM",
+    "note": "This record was not in the system before 06:38. I didn’t create it. Is this real?",
+    "signature": "Jamie Lee\nSIS Admin\nHalverson High School",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "SIS Admin",
+    "original": {
+      "fromName": "SIS Admin (j.lee@halversonusd.example)",
+      "fromEmail": "j.lee@halversonusd.example",
+      "sentAt": "Tue 04/14/2026 06:39 AM",
+      "to": "BTA-2025",
+      "cc": "",
+      "subject": "New Threat Assessment Flag – Student Chloe Mendez – Pending review (24 hrs)",
+      "body": "SIS ID: HUSD-SIS-2026-01442\nUser: j.lee@halversonusd.example\nSource: HUSD-SIS cloud tenant (10.72.10.2)\nCreated: 06:39\n\nStatus: Pending review (24 hrs)\n\nNote: This record was not present in BTA-2025 audit trail prior to 06:39. No prior documentation found in Health Share folder (HUSD-FS02\\Health\\Share).\n\nPlease review and update classification. \n\n— SIS System"
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "This is a critical clue: the fake threat assessment was created by a compromised account. The CTO must immediately block j.lee@halversonusd.example and investigate the SIS cloud tenant as a potential attack vector.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQC6F6TW69TS15ZXQDZ",
+      "documentTitle": "Halverson Unified School District — Schools, Facilities and Systems Inventory",
+      "headingPath": "Halverson Unified School Distric… › Section 5",
+      "quote": "| System | Product | Hosting | Owner | Notes | |---|---|---|---|---| | Student information system | PowerSchool SIS | Vendor cloud (HUSD tenant) | Applications Lead | Attendance, grades, schedules, em",
+      "chunkId": 50
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 4",
+      "quote": "- Tallgrass MDR watches endpoint alerts (Microsoft Defender for Endpoint on servers and staff Windows laptops), firewall logs and Google Workspace audit logs 24/7 and calls the Technical Lead within 1",
+      "chunkId": 6
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYN7VJKH7STDCSJY4EFPM6",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QY135W028ECGXGB5HET677/01M5QYN7VJKH7STDCSJY4EFPM6.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 752,
+      "sha256": "8317ac1a250530659877da5706b6a1fc223727b7ee7a1389e828eea43023f4fa",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:49.534Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:45:57.367Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIS Threat Assessment Flag — Fake Record",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Jamie L.",
+          "fromEmail": "j.lee@halversonusd.example",
+          "senderInitials": "JL",
+          "to": "CTO",
+          "subject": "FW: New Threat Assessment Flag – Please review: Student Chloe Mendez – Pending review (24 hrs)",
+          "sentAt": "Sat 10/24/2026 07:00 AM",
+          "note": "This record was not in the system before 06:38. I didn’t create it. Is this real?",
+          "signature": "Jamie Lee\nSIS Admin\nHalverson High School",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "SIS Admin",
+          "original": {
+            "fromName": "SIS Admin (j.lee@halversonusd.example)",
+            "fromEmail": "j.lee@halversonusd.example",
+            "sentAt": "Sat 10/24/2026 06:39 AM",
+            "to": "BTA-2025",
+            "cc": "",
+            "subject": "New Threat Assessment Flag – Student Chloe Mendez – Pending review (24 hrs)",
+            "body": "SIS ID: HUSD-SIS-2026-01442\nUser: j.lee@halversonusd.example\nSource: HUSD-SIS cloud tenant (10.72.10.2)\nCreated: 06:39\n\nStatus: Pending review (24 hrs)\n\nNote: This record was not present in BTA-2025 audit trail prior to 06:39. No prior documentation found in Health Share folder (HUSD-FS02\\Health\\Share).\n\nPlease review and update classification. \n\n— SIS System"
+          }
+        },
+        "instructorNote": "This is a critical clue: the fake threat assessment was created by a compromised account. The CTO must immediately block j.lee@halversonusd.example and investigate the SIS cloud tenant as a potential attack vector.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.469Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIS Threat Assessment Flag — Fake Record",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Jamie L.",
+          "fromEmail": "j.lee@halversonusd.example",
+          "senderInitials": "JL",
+          "to": "CTO",
+          "subject": "FW: New Threat Assessment Flag – Please review: Student Chloe Mendez – Pending review (24 hrs)",
+          "sentAt": "Tue 04/14/2026 07:00 AM",
+          "note": "This record was not in the system before 06:38. I didn’t create it. Is this real?",
+          "signature": "Jamie Lee\nSIS Admin\nHalverson High School",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "SIS Admin",
+          "original": {
+            "fromName": "SIS Admin (j.lee@halversonusd.example)",
+            "fromEmail": "j.lee@halversonusd.example",
+            "sentAt": "Tue 04/14/2026 06:39 AM",
+            "to": "BTA-2025",
+            "cc": "",
+            "subject": "New Threat Assessment Flag – Student Chloe Mendez – Pending review (24 hrs)",
+            "body": "SIS ID: HUSD-SIS-2026-01442\nUser: j.lee@halversonusd.example\nSource: HUSD-SIS cloud tenant (10.72.10.2)\nCreated: 06:39\n\nStatus: Pending review (24 hrs)\n\nNote: This record was not present in BTA-2025 audit trail prior to 06:39. No prior documentation found in Health Share folder (HUSD-FS02\\Health\\Share).\n\nPlease review and update classification. \n\n— SIS System"
+          }
+        },
+        "instructorNote": "This is a critical clue: the fake threat assessment was created by a compromised account. The CTO must immediately block j.lee@halversonusd.example and investigate the SIS cloud tenant as a potential attack vector.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:49.737Z"
+}

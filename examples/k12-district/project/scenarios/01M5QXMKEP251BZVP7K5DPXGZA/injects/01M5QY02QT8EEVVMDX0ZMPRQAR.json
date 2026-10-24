@@ -1,0 +1,338 @@
+{
+  "id": "01M5QY02QT8EEVVMDX0ZMPRQAR",
+  "mselRowId": "I-01",
+  "type": "system_log",
+  "title": "HUSD-FS02: Unauthorized Access to Health Share Folder",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "HUSD-FS02 File Server Audit Log",
+    "host": "HUSD-FS02",
+    "ip": "10.72.10.2",
+    "os": "Windows Server 2022",
+    "logSource": "Security Auditing / Object Access",
+    "exportedBy": "admin_husd (HUSD-DC01)",
+    "exportedAt": "04/14/2026 06:42 AM",
+    "timezone": "PDT (UTC-7)",
+    "lines": [
+      {
+        "ts": "2026-04-14 06:42:17",
+        "level": "INFO",
+        "msg": "User: admin_husd (HUSD-DC01) – 147 files accessed in 89 seconds from Health Share folder (HUSD-FS02\\Health\\Share). Includes 23 IEPs, 12 medication logs, 3 custody orders. Source IP: 10.72.10.2 (trusted internal). No alert generated.",
+        "highlight": true
+      },
+      {
+        "ts": "2026-04-14 06:42:16",
+        "level": "INFO",
+        "msg": "File access: \\Health\\Share\\IEP-2026-0034.docx (24 KB) – Opened",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 06:42:15",
+        "level": "INFO",
+        "msg": "File access: \\Health\\Share\\MedLog-2026-0011.xlsx (18 KB) – Opened",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 06:42:14",
+        "level": "INFO",
+        "msg": "File access: \\Health\\Share\\Custody-2026-0005.pdf (12 KB) – Opened",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 06:42:13",
+        "level": "INFO",
+        "msg": "File access: \\Health\\Share\\IEP-2026-0019.docx (31 KB) – Opened",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 06:42:12",
+        "level": "INFO",
+        "msg": "File access: \\Health\\Share\\MedLog-2026-0009.docx (15 KB) – Opened",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 06:42:11",
+        "level": "INFO",
+        "msg": "File access: \\Health\\Share\\Custody-2026-0002.pdf (10 KB) – Opened",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 06:42:10",
+        "level": "INFO",
+        "msg": "File access: \\Health\\Share\\IEP-2026-0022.docx (28 KB) – Opened",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 06:42:09",
+        "level": "INFO",
+        "msg": "File access: \\Health\\Share\\MedLog-2026-0012.xlsx (19 KB) – Opened",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 06:42:08",
+        "level": "INFO",
+        "msg": "File access: \\Health\\Share\\IEP-2026-0007.docx (22 KB) – Opened",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 06:42:07",
+        "level": "INFO",
+        "msg": "File access: \\Health\\Share\\Custody-2026-0008.pdf (13 KB) – Opened",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 06:42:06",
+        "level": "INFO",
+        "msg": "File access: \\Health\\Share\\IEP-2026-0014.docx (26 KB) – Opened",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "File Server Audit Viewer",
+    "command": "Get-Content HUSD-FS02\\Logs\\Security\\2026-10-24\\audit-2026-04-14.log -Tail 12",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This is a critical inject; the CTO must recognize the anomalous pattern of bulk access to sensitive files. Watch for whether they immediately cross-reference the admin_husd account with AD and check for lateral movement.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+      "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M5QWTTQC6F6TW69TS15ZXQDZ",
+      "documentTitle": "Halverson Unified School District — Schools, Facilities and Systems Inventory",
+      "headingPath": "Halverson Unified School Distric… › Section 5",
+      "quote": "| System | Product | Hosting | Owner | Notes | |---|---|---|---|---| | Student information system | PowerSchool SIS | Vendor cloud (HUSD tenant) | Applications Lead | Attendance, grades, schedules, em",
+      "chunkId": 50
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYN79V1K53VYECCE1R9K62",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QY02QT8EEVVMDX0ZMPRQAR/01M5QYN79V1K53VYECCE1R9K62.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "b208ef32b977210d9fae5c7f826187131a730207f6170c48217f7ca0d0aa2679",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:48.923Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:45:31.640Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "HUSD-FS02: Unauthorized Access to Health Share Folder",
+        "type": "system_log",
+        "fields": {
+          "systemName": "HUSD-FS02 File Server Audit Log",
+          "host": "HUSD-FS02",
+          "ip": "10.72.10.2",
+          "os": "Windows Server 2022",
+          "logSource": "Security Auditing / Object Access",
+          "exportedBy": "admin_husd (HUSD-DC01)",
+          "exportedAt": "10/24/2026 06:42 AM",
+          "timezone": "PDT (UTC-7)",
+          "lines": [
+            {
+              "ts": "2026-08-15 06:42:17",
+              "level": "INFO",
+              "msg": "User: admin_husd (HUSD-DC01) – 147 files accessed in 89 seconds from Health Share folder (HUSD-FS02\\Health\\Share). Includes 23 IEPs, 12 medication logs, 3 custody orders. Source IP: 10.72.10.2 (trusted internal). No alert generated.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-08-15 06:42:16",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\IEP-2026-0034.docx (24 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 06:42:15",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\MedLog-2026-0011.xlsx (18 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 06:42:14",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\Custody-2026-0005.pdf (12 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 06:42:13",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\IEP-2026-0019.docx (31 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 06:42:12",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\MedLog-2026-0009.docx (15 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 06:42:11",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\Custody-2026-0002.pdf (10 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 06:42:10",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\IEP-2026-0022.docx (28 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 06:42:09",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\MedLog-2026-0012.xlsx (19 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 06:42:08",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\IEP-2026-0007.docx (22 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 06:42:07",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\Custody-2026-0008.pdf (13 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 06:42:06",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\IEP-2026-0014.docx (26 KB) – Opened",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "File Server Audit Viewer",
+          "command": "Get-Content HUSD-FS02\\Logs\\Security\\2026-10-24\\audit-2026-08-15.log -Tail 12",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a critical inject; the CTO must recognize the anomalous pattern of bulk access to sensitive files. Watch for whether they immediately cross-reference the admin_husd account with AD and check for lateral movement.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.459Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "HUSD-FS02: Unauthorized Access to Health Share Folder",
+        "type": "system_log",
+        "fields": {
+          "systemName": "HUSD-FS02 File Server Audit Log",
+          "host": "HUSD-FS02",
+          "ip": "10.72.10.2",
+          "os": "Windows Server 2022",
+          "logSource": "Security Auditing / Object Access",
+          "exportedBy": "admin_husd (HUSD-DC01)",
+          "exportedAt": "04/14/2026 06:42 AM",
+          "timezone": "PDT (UTC-7)",
+          "lines": [
+            {
+              "ts": "2026-04-14 06:42:17",
+              "level": "INFO",
+              "msg": "User: admin_husd (HUSD-DC01) – 147 files accessed in 89 seconds from Health Share folder (HUSD-FS02\\Health\\Share). Includes 23 IEPs, 12 medication logs, 3 custody orders. Source IP: 10.72.10.2 (trusted internal). No alert generated.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-04-14 06:42:16",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\IEP-2026-0034.docx (24 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 06:42:15",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\MedLog-2026-0011.xlsx (18 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 06:42:14",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\Custody-2026-0005.pdf (12 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 06:42:13",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\IEP-2026-0019.docx (31 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 06:42:12",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\MedLog-2026-0009.docx (15 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 06:42:11",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\Custody-2026-0002.pdf (10 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 06:42:10",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\IEP-2026-0022.docx (28 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 06:42:09",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\MedLog-2026-0012.xlsx (19 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 06:42:08",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\IEP-2026-0007.docx (22 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 06:42:07",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\Custody-2026-0008.pdf (13 KB) – Opened",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 06:42:06",
+              "level": "INFO",
+              "msg": "File access: \\Health\\Share\\IEP-2026-0014.docx (26 KB) – Opened",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "File Server Audit Viewer",
+          "command": "Get-Content HUSD-FS02\\Logs\\Security\\2026-10-24\\audit-2026-04-14.log -Tail 12",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a critical inject; the CTO must recognize the anomalous pattern of bulk access to sensitive files. Watch for whether they immediately cross-reference the admin_husd account with AD and check for lateral movement.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:49.173Z"
+}

@@ -1,0 +1,150 @@
+{
+  "id": "01M5QYCSVN01WHPSNAW28JWWWH",
+  "mselRowId": "END",
+  "type": "endex_card",
+  "title": "ENDEX: Incident Resolved — EOC Closure",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "4:00",
+    "endTime": "10:30",
+    "resolution": "ENDEX. It is 10:30. Halverson High School is cleared and families are being reunified at the Brandt County Fairgrounds Exhibit Hall. The network stays isolated; the domain controller is being rebuilt and backups verified. The ransom question is with the Policy Group, counsel, the risk pool and the FBI; the decision on Wednesday is due by 14:00. The hot wash will begin.",
+    "finalState": [
+      "Halverson High School cleared; reunification at the Fairgrounds.",
+      "Network isolated; HUSD-DC01 rebuild and backup verification in progress.",
+      "HUSD-VPN01 preserved as evidence.",
+      "Ransom question with the Policy Group, counsel, the risk pool and the FBI.",
+      "Decision on Wednesday due by 14:00."
+    ],
+    "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.",
+    "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+    "hotWashQuestions": [
+      "How did the EOC leadership balance trust in the 05:00 roster with public pressure?",
+      "What challenges did the technical team face in verifying system integrity without access to cloud logs?",
+      "How effective was the use of manual processes (e.g., paper rosters, physical checks) during recovery?",
+      "What role did CISA and external vendors play in enabling recovery, and what delays emerged?",
+      "How might the incident have changed the district’s long-term approach to backup verification and ransomware preparedness?"
+    ],
+    "scenarioTitle": "Digital Lockdown — Cyber Incident & School Continuity",
+    "injectId": "END"
+  },
+  "variant": "default",
+  "instructorNote": "Collect all ICS 201 forms and evaluator sheets before the break.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 11",
+      "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 5",
+      "quote": "1. Technical Lead confirms the alert with MDR; opens an incident record (CIRP Form 1) with times. 2. Incident Lead decides severity; for S3 or S4 calls the Director of School Safety and General Counse",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 2",
+      "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+      "chunkId": 4
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYNDRK2AQPY4GNS2H52EGM",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QYCSVN01WHPSNAW28JWWWH/01M5QYNDRK2AQPY4GNS2H52EGM.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "6dbe916b0d2d950e057b01cae2a60635c807b1a20fce12e7da05f95ba77e6bac",
+      "provenance": {
+        "provider": "template",
+        "templateId": "endex_card",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:55.556Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:52:26.726Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ENDEX: Incident Resolved — EOC Closure",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "4:00",
+          "endTime": "10:30",
+          "resolution": "ENDEX. The EOC lights dim and reset: all screens show 'SYSTEMS STANDBY — RECONNECT IN PROGRESS'. The network status board reads: 'Identity, Firewall, and VPN systems restored; controlled reconnection in progress'. CIRP Form 4 is confirmed signed by Victor Han (CTO) and Kiera Tran (DFIR Lead). The 05:00 offline roster is now officially declared the only trusted source for student accountability. The hot wash will begin immediately.",
+          "finalState": [
+            "CIRP Form 4 signed and submitted",
+            "HUSD-DC01 rebuilt and verified",
+            "Veeam backup from 05:00 restored and hash-verified",
+            "HUSD-VPN01 preserved as forensic evidence",
+            "No student was left behind; 05:00 roster confirmed accurate"
+          ],
+          "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.",
+          "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "How did the EOC leadership balance trust in the 05:00 roster with public pressure?",
+            "What challenges did the technical team face in verifying system integrity without access to cloud logs?",
+            "How effective was the use of manual processes (e.g., paper rosters, physical checks) during recovery?",
+            "What role did CISA and external vendors play in enabling recovery, and what delays emerged?",
+            "How might the incident have changed the district’s long-term approach to backup verification and ransomware preparedness?"
+          ],
+          "scenarioTitle": "Digital Lockdown — Cyber Incident & School Continuity",
+          "injectId": "END"
+        },
+        "instructorNote": "Collect all ICS 201 forms and evaluator sheets before the break.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.559Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "ENDEX: Incident Resolved — EOC Closure",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "4:00",
+          "endTime": "10:30",
+          "resolution": "ENDEX. It is 10:30. Halverson High School is cleared and families are being reunified at the Brandt County Fairgrounds Exhibit Hall. The network stays isolated; the domain controller is being rebuilt and backups verified. The ransom question is with the Policy Group, counsel, the risk pool and the FBI; the decision on Wednesday is due by 14:00. The hot wash will begin.",
+          "finalState": [
+            "Halverson High School cleared; reunification at the Fairgrounds.",
+            "Network isolated; HUSD-DC01 rebuild and backup verification in progress.",
+            "HUSD-VPN01 preserved as evidence.",
+            "Ransom question with the Policy Group, counsel, the risk pool and the FBI.",
+            "Decision on Wednesday due by 14:00."
+          ],
+          "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.",
+          "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "How did the EOC leadership balance trust in the 05:00 roster with public pressure?",
+            "What challenges did the technical team face in verifying system integrity without access to cloud logs?",
+            "How effective was the use of manual processes (e.g., paper rosters, physical checks) during recovery?",
+            "What role did CISA and external vendors play in enabling recovery, and what delays emerged?",
+            "How might the incident have changed the district’s long-term approach to backup verification and ransomware preparedness?"
+          ],
+          "scenarioTitle": "Digital Lockdown — Cyber Incident & School Continuity",
+          "injectId": "END"
+        },
+        "instructorNote": "Collect all ICS 201 forms and evaluator sheets before the break.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:55.780Z"
+}

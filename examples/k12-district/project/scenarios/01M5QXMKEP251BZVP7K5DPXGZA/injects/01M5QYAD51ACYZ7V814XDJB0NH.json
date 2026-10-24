@@ -1,0 +1,199 @@
+{
+  "id": "01M5QYAD51ACYZ7V814XDJB0NH",
+  "mselRowId": "I-19",
+  "type": "phone_call",
+  "title": "CISA: Preserve HUSD-VPN01 as Evidence",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "CISA",
+    "systemName": "CIRT-Call-Log-01",
+    "callId": "CR-20260414-094015-0022",
+    "direction": "Outbound",
+    "caller": {
+      "name": "Sarah Li, CISA Cyber Incident Response Team Lead",
+      "number": "(202) 555-0147",
+      "label": "CISA-CIRT-01"
+    },
+    "callee": {
+      "name": "CTO Victor Han, Halverson Unified School District",
+      "number": "(541) 555-0170",
+      "label": "CTO-HUSD"
+    },
+    "startTime": "04/14/2026 09:40:15",
+    "duration": "0:48",
+    "transcript": [
+      {
+        "speaker": "CISA-CIRT-01",
+        "offset": "0:00",
+        "text": "CTO, this is CISA Cyber Incident Response Team Lead, Sarah Li. We’ve confirmed the attacker used an unpatched vulnerability in HUSD-VPN01 that the vendor fixed in May. The exploit was present in the unpatched appliance since May. We’ve matched the C2 IP (104.214.192.47) to a known Rhysida group node. You must preserve HUSD-VPN01 as evidence for law enforcement. Do not wipe or reboot. We will dispatch a forensic team to collect the full device image within 24 hours. Confirm receipt and compliance.",
+        "prompt": false
+      },
+      {
+        "speaker": "CTO-HUSD",
+        "offset": "0:45",
+        "text": "Understood, CISA. We are preserving HUSD-VPN01 in its current state. I will notify the DFIR firm and Legal Counsel to initiate the evidence hold. Confirmation logged.",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-19"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms CISA’s forensic directive. The CTO must immediately notify DFIR and Legal to initiate the evidence hold. Monitor for any attempt to reboot or wipe HUSD-VPN01.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 8",
+      "quote": "Collect a memory image and disk image of at least one affected server before shutdown when safe; preserve firewall, VPN, Defender and Google Workspace logs (Google audit logs export to the evidence bu",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+      "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 9",
+      "quote": "| Who | When | By | Notes | |---|---|---|---| | Northwest Schools Risk Pool | Within 24 hours of discovery | CFO / Legal | Policy condition; breach coach assigned | | FBI Portland Field Office | S3/S4",
+      "chunkId": 13
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "CISA-CIRT-01",
+        "voiceStyle": "calm female dispatcher in her 40s, measured, slight Midwestern accent",
+        "text": "CTO, this is CISA Cyber Incident Response Team Lead, Sarah Li. We’ve confirmed the attacker used CVE-2023-4204 against HUSD-VPN01. The exploit was present in the unpatched appliance since May. We’ve matched the C2 IP (104.214.192.47) to a known Rhysida group node. You must preserve HUSD-VPN01 as evidence for law enforcement. Do not wipe or reboot. We will dispatch a forensic team to collect the full device image within 24 hours. Confirm receipt and compliance."
+      },
+      {
+        "speaker": "CTO-HUSD",
+        "voiceStyle": "tired male supervisor in his 50s, hurried, out of breath",
+        "text": "Understood, CISA. We are preserving HUSD-VPN01 in its current state. I will notify the DFIR firm and Legal Counsel to initiate the evidence hold. Confirmation logged."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYNCM97CPRR75KER8DMR4B",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QYAD51ACYZ7V814XDJB0NH/01M5QYNCM97CPRR75KER8DMR4B.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "9ee696e75fa23484de69dbe066707b5b3dc4a5bbce9177b161c07f74ef6446e9",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:54.413Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:51:08.471Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "CISA: Preserve HUSD-VPN01 as Evidence",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "CISA",
+          "systemName": "CIRT-Call-Log-01",
+          "callId": "CR-20261024-094015-0022",
+          "direction": "Outbound",
+          "caller": {
+            "name": "Sarah Li, CISA Cyber Incident Response Team Lead",
+            "number": "(202) 555-0147",
+            "label": "CISA-CIRT-01"
+          },
+          "callee": {
+            "name": "CTO Victor Han, Halverson Unified School District",
+            "number": "(541) 555-0170",
+            "label": "CTO-HUSD"
+          },
+          "startTime": "10/24/2026 09:40:15",
+          "duration": "0:48",
+          "transcript": [
+            {
+              "speaker": "CISA-CIRT-01",
+              "offset": "0:00",
+              "text": "CTO, this is CISA Cyber Incident Response Team Lead, Sarah Li. We’ve confirmed the attacker used CVE-2023-4204 against HUSD-VPN01. The exploit was present in the unpatched appliance since May. We’ve matched the C2 IP (104.214.192.47) to a known Rhysida group node. You must preserve HUSD-VPN01 as evidence for law enforcement. Do not wipe or reboot. We will dispatch a forensic team to collect the full device image within 24 hours. Confirm receipt and compliance.",
+              "prompt": false
+            },
+            {
+              "speaker": "CTO-HUSD",
+              "offset": "0:45",
+              "text": "Understood, CISA. We are preserving HUSD-VPN01 in its current state. I will notify the DFIR firm and Legal Counsel to initiate the evidence hold. Confirmation logged.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-19"
+        },
+        "instructorNote": "This inject confirms CISA’s forensic directive. The CTO must immediately notify DFIR and Legal to initiate the evidence hold. Monitor for any attempt to reboot or wipe HUSD-VPN01.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.541Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "CISA: Preserve HUSD-VPN01 as Evidence",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "CISA",
+          "systemName": "CIRT-Call-Log-01",
+          "callId": "CR-20260414-094015-0022",
+          "direction": "Outbound",
+          "caller": {
+            "name": "Sarah Li, CISA Cyber Incident Response Team Lead",
+            "number": "(202) 555-0147",
+            "label": "CISA-CIRT-01"
+          },
+          "callee": {
+            "name": "CTO Victor Han, Halverson Unified School District",
+            "number": "(541) 555-0170",
+            "label": "CTO-HUSD"
+          },
+          "startTime": "04/14/2026 09:40:15",
+          "duration": "0:48",
+          "transcript": [
+            {
+              "speaker": "CISA-CIRT-01",
+              "offset": "0:00",
+              "text": "CTO, this is CISA Cyber Incident Response Team Lead, Sarah Li. We’ve confirmed the attacker used an unpatched vulnerability in HUSD-VPN01 that the vendor fixed in May. The exploit was present in the unpatched appliance since May. We’ve matched the C2 IP (104.214.192.47) to a known Rhysida group node. You must preserve HUSD-VPN01 as evidence for law enforcement. Do not wipe or reboot. We will dispatch a forensic team to collect the full device image within 24 hours. Confirm receipt and compliance.",
+              "prompt": false
+            },
+            {
+              "speaker": "CTO-HUSD",
+              "offset": "0:45",
+              "text": "Understood, CISA. We are preserving HUSD-VPN01 in its current state. I will notify the DFIR firm and Legal Counsel to initiate the evidence hold. Confirmation logged.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-19"
+        },
+        "instructorNote": "This inject confirms CISA’s forensic directive. The CTO must immediately notify DFIR and Legal to initiate the evidence hold. Monitor for any attempt to reboot or wipe HUSD-VPN01.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:54.617Z"
+}

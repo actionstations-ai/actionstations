@@ -1,0 +1,158 @@
+{
+  "id": "01M5QZH7EHDYE7GYK4DRA77XZG",
+  "mselRowId": "I-17",
+  "type": "scenario_update",
+  "title": "END: Pressure District 7 Shutdown Complete",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "",
+    "scenarioTime": "19:30",
+    "headline": "District 7 shut in; nursing homes need heat",
+    "deliverTo": "All players",
+    "narration": "19:30. Pressure District 7 is shut in: 5,120 customers without gas at 12°F. Riverside Manor and Front Street Senior Residence have gas heat only; county EMA asks the company for a relight priority list and asks whether to move residents tonight. Corwin Fire reports the Canal Street basement fire is out.",
+    "keyFacts": [
+      "5,120 customers without gas",
+      "12°F",
+      "Two nursing homes on gas heat only",
+      "Canal Street fire out"
+    ],
+    "expectedAction": "The IC agrees the relight priorities (nursing homes first) and staffing with county EMA; the PIO announces the outage, warming centers and the no-self-relight message.",
+    "scenarioTitle": "Ghost Pressure",
+    "injectId": "I-17"
+  },
+  "variant": "default",
+  "instructorNote": "This inject closes the exercise. All roles must confirm incident closure and initiate post-incident review per EOP 11. The forensic chain of custody is now complete; no further action is required from the players.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 5",
+      "quote": "| District | Pressure | MAOP | Customers | Fed by | Notes | |---|---|---|---|---|---| | Pressure District 1 | 60 psig | 60 psig | 9,880 | RS-11, RS-12 | North Corwin, Ashby Township | | Pressure Distr",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 8",
+      "quote": "| Notice | Who | When | By | |---|---|---|---| | Potential rupture | Lake Haven County 911 Center | Immediately and directly | Gas Controller | | Incident (49 CFR 191.3) | National Response Center, 80",
+      "chunkId": 49
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe…",
+      "quote": "Document Control Number: CVG-CIRP-2026 · Revision 4.0 · Effective Date: 05/15/2026 · Owner: Anil Desai (OT/SCADA Manager, Cybersecurity Coordinator) · Alternate Cybersecurity Coordinator: Erin Mallory",
+      "chunkId": 1
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 10",
+      "quote": "1. Rebuild suspect OT hosts from the gold images; restore configurations from backups that predate the incident and match recorded hashes. 2. Compare every station RTU and pilot-controller configurati",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 9",
+      "quote": "| Report | To | When | By | |---|---|---|---| | Cybersecurity incident | CISA (report@cisa.gov or 888-282-0870) | As soon as practicable, no later than 72 hours after identification (SD Pipeline-2021-",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 3",
+      "quote": "| Line | Description | Size / material | MAOP | Route | |---|---|---|---|---| | Line 100 | Supply main from Harlan Road City Gate to the north and central system | 12-inch coated steel | 300 psig | Ha",
+      "chunkId": 22
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYNVDQ3PYG4VM136DYHSN",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZH7EHDYE7GYK4DRA77XZG/01M5QZYNVDQ3PYG4VM136DYHSN.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "eded89db2aa1d8242f41ea93ab9628a63518044daf4c9bc4931b31a7a50a84b7",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scenario_update",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:27.352Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:12:19.244Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "END: Pressure District 7 Shutdown Complete",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "endTime": "19:30",
+          "resolution": "ENDEX. It is now 19:30. The shutdown of Pressure District 7 has been completed. RCV-01 and RCV-04 are confirmed closed. Valve 11 and Valve 12 are closed on site. Field gauges at RS-21 and RS-22 now read 0 in. w.c. PR-7B is offline but pressure is stable. No further incidents have been reported. The EOC remains activated. Forensic teams have begun collecting evidence from CVG-OT-JMP01 and the RTUs. CISA has been notified and is reviewing the memory image. The IC has authorized the start of the phased return to control under C8. The hot wash will now begin.",
+          "finalState": [
+            "Pressure District 7 is fully isolated via RCV-01, RCV-04, Valve 11, and Valve 12.",
+            "Field gauges at RS-21 and RS-22 read 0 in. w.c. and are stable.",
+            "PR-7B is offline but pressure is not rising.",
+            "CVG-OT-JMP01 memory image (ID: 0x9A2F) has been collected and tagged.",
+            "CISA has received the forensic package and is conducting review under SD Pipeline-2021-02G."
+          ],
+          "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.",
+          "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "How did the team reconcile the discrepancy between SCADA and field data, and what safeguards could prevent this in the future?",
+            "What were the key decision points in authorizing manual isolation, and how could communication be improved under time pressure?",
+            "How effective was the coordination between field, control, and external agencies during the incident?",
+            "What lessons can be drawn from the fake social media post and public trust challenges?",
+            "How did the forensic process align with C4 and C9 requirements, and what would you change in a real incident?"
+          ],
+          "facilitatorNote": "Collect all ICS 201 forms, evaluator sheets, and evidence logs before the hot wash. Ensure CISA’s review status is noted in the master tracker.",
+          "scenarioTitle": "Ghost Pressure — SCADA vs. Field Gauges & Life Safety",
+          "injectId": "I-17"
+        },
+        "instructorNote": "This inject closes the exercise. All roles must confirm incident closure and initiate post-incident review per EOP 11. The forensic chain of custody is now complete; no further action is required from the players.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.489Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "END: Pressure District 7 Shutdown Complete",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "",
+          "scenarioTime": "19:30",
+          "headline": "District 7 shut in; nursing homes need heat",
+          "deliverTo": "All players",
+          "narration": "19:30. Pressure District 7 is shut in: 5,120 customers without gas at 12°F. Riverside Manor and Front Street Senior Residence have gas heat only; county EMA asks the company for a relight priority list and asks whether to move residents tonight. Corwin Fire reports the Canal Street basement fire is out.",
+          "keyFacts": [
+            "5,120 customers without gas",
+            "12°F",
+            "Two nursing homes on gas heat only",
+            "Canal Street fire out"
+          ],
+          "expectedAction": "The IC agrees the relight priorities (nursing homes first) and staffing with county EMA; the PIO announces the outage, warming centers and the no-self-relight message.",
+          "scenarioTitle": "Ghost Pressure",
+          "injectId": "I-17"
+        },
+        "instructorNote": "This inject closes the exercise. All roles must confirm incident closure and initiate post-incident review per EOP 11. The forensic chain of custody is now complete; no further action is required from the players.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:27.548Z"
+}

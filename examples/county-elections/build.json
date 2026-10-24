@@ -1,0 +1,47 @@
+{
+  "id": "county-elections",
+  "title": "Lisle County Board of Elections",
+  "domainProfile": "elections",
+  "summary": "A county board of elections (24 precincts at 12 polling locations, an Early Vote Center, one drop box, paper ballots on precinct scanners and electronic pollbooks loaded from the county voter registration system) and a tabletop exercise generated from its simulated plans: altered voter records from a phished staff account during early voting, a spoofed polling-location notice and false claims about the voting equipment.",
+  "notice": "EXERCISE MATERIAL — for training use. Lisle County, its board of elections, people, polling locations, contests and identifiers are simulated, and no real candidate, party or election result is depicted; the public sources consulted for realism are listed in reference/county-elections/SOURCES.md.",
+  "project": {
+    "name": "Lisle County Board of Elections",
+    "orgName": "Lisle County Board of Elections",
+    "orgType": "elections",
+    "brand": {
+      "city": "Carrow",
+      "region": "Lisle County, Ohio",
+      "aliases": {
+        "org": "Lisle County Board of Elections",
+        "orgShort": "LCBOE",
+        "orgDomain": "lislevotes.example",
+        "localTv": "Channel 9",
+        "airport": "Early Vote Center"
+      }
+    }
+  },
+  "documents": { "dir": "reference/county-elections", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "voter-records",
+      "startWallClock": "08:00",
+      "threatFamily": "cyber",
+      "summary": "Five days before Election Day, early voters are told their mail ballot was already issued; the audit trail shows overnight changes to 1,186 voter records from a phished clerk's account, a spoofed email tells poll workers that Polling Location 6 moved, and a viral video claims the county deleted voters and put the scanners online. The board must freeze changes, decide what to do with the final pollbook load and tell voters how to vote with confidence.",
+      "userPrompt": "Thursday 10/29/2026, the fourth-to-last day of early voting for the 2026 general election in Lisle County. At 08:10 three voters at the Early Vote Center (18 South Market Street, Carrow) are shown on their Poll Pads as 'mail ballot issued' though they never asked for one; by 10:00 there are 23 such voters and a line out the door. Voter Registration Manager Beth Saylor finds that 1,186 records in Precinct 104, Precinct 105 and Precinct 207 were changed in VoterTrack (LCBOE-VR01) between 02:05 and 02:40 Wednesday by the account of Voter Registration Clerk Nina Ruiz, who on Tuesday clicked a 'Secretary of State directive update' email and approved a multi-factor prompt; her mailbox has a forwarding rule. At 11:30 poll workers for Polling Location 6 (Carrow Community Church, Precinct 111 and Precinct 112) receive an email from her account saying their location moved back to Carrow Middle School. At 13:00 a video viewed 200,000 times says Lisle County 'deleted 10,000 voters' and that the DS200 scanners are connected to the internet. Decisions: disabling the account and preserving the evidence, freezing record changes (COOP-DR-5), whether to hold the 10/31 final pollbook load and rebuild it from the statewide voter registration database, provisional ballots for affected voters, correcting the spoofed notice, reports to the Ohio Secretary of State, CISA and the FBI, the 22-month records hold, Board notification, and a public statement (COOP-DR-6) that tells voters how to check their registration without naming any party or candidate.",
+      "audience": [
+        "Command (Director and Deputy Director)",
+        "Elections IT and County Security",
+        "Voter Registration and Mail Ballots",
+        "Voting Systems",
+        "Security and Sheriff's Liaison",
+        "Public Information"
+      ],
+      "constraints": [
+        "Every email address of the board and the county uses the exercise domain lislevotes.example; outside parties use fictional domains and fictional outlet names (Channel 9, The Carrow Courier); never a real agency, company or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (the Ohio Secretary of State's office, CISA, the FBI, vendors, the managed SOC, Board members, voters, reporters) are played by the SimCell, not seated as players.",
+        "Never name a real candidate or political party, never depict a real election result, and keep every contest fictional (Carrow City Council District 1 to District 4, Measure A, Measure B)."
+      ]
+    }
+  ]
+}

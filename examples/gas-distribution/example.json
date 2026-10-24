@@ -1,0 +1,16 @@
+{
+  "id": "gas-distribution",
+  "title": "Corwin Valley Gas Company",
+  "domainProfile": "gas_pipeline",
+  "summary": "A natural gas local distribution company (two city gates, fourteen district regulator stations, two low-pressure cast-iron districts, PipeView SCADA with an integrator remote-access path) under a TSA pipeline security directive, and a tabletop exercise generated from its simulated plans: an unauthorized SCADA session drives a low-pressure district toward overpressure while the screens show normal pressure.",
+  "fictional": true,
+  "notice": "Exercise material — for training use. Corwin Valley Gas Company, the City of Corwin, Lake Haven County, their people, procedures, numbers, addresses and identifiers are simulated; the public sources consulted for realism are listed in reference/gas-distribution/SOURCES.md.",
+  "scenarios": [
+    {
+      "id": "01M5QYY2EXGKMC50QJX3FSRYFB",
+      "title": "Ghost Pressure",
+      "threatFamily": "cyber_physical",
+      "summary": "On a cold January evening, odor and high-flame calls come in from downtown Corwin while SCADA shows RS-21 and RS-22 at normal outlet pressure; a district recorder and a technician's field gauge disagree, an integrator account is found writing setpoints to the electronic pilot controllers, and the company must decide whether to isolate OT, run stations locally and shut in Pressure District 7."
+    }
+  ]
+}

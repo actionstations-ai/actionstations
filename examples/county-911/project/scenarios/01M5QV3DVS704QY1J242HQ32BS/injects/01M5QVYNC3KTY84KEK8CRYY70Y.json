@@ -1,0 +1,302 @@
+{
+  "id": "01M5QVYNC3KTY84KEK8CRYY70Y",
+  "mselRowId": "I-08b",
+  "type": "system_log",
+  "title": "Malware Beaconing Detected — CAD-MDS01 to External C2",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "RCECD-CYB-2026",
+    "host": "CAD-MDS01",
+    "ip": "10.72.30.16",
+    "os": "Ubuntu 22.04 LTS",
+    "logSource": "syslog / auth.log",
+    "exportedBy": "Tech\\bharlow",
+    "exportedAt": "10/22/2026 20:00",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "20:00:03",
+        "level": "ALERT",
+        "msg": "Outbound connection from CAD-MDS01 (10.72.30.16) to 203.0.113.17 (port 443) detected",
+        "highlight": true
+      },
+      {
+        "ts": "20:00:03",
+        "level": "INFO",
+        "msg": "Connection duration: 18 seconds",
+        "highlight": false
+      },
+      {
+        "ts": "20:00:03",
+        "level": "INFO",
+        "msg": "Payload: base64-encoded string matching known C2 beacon pattern (TTP: T1071 - Application Layer Protocol)",
+        "highlight": false
+      },
+      {
+        "ts": "20:00:03",
+        "level": "WARN",
+        "msg": "Source: /opt/cad/agent/agent.py. No internal host matches this path.",
+        "highlight": false
+      },
+      {
+        "ts": "20:00:03",
+        "level": "ERROR",
+        "msg": "Alert logged in RCECD-CYB-2026, Section 5, T-2 Contain",
+        "highlight": false
+      },
+      {
+        "ts": "20:00:03",
+        "level": "NOTICE",
+        "msg": "Malware beaconing confirmed. Isolation of CAD-MDS01 recommended.",
+        "highlight": false
+      },
+      {
+        "ts": "20:00:03",
+        "level": "INFO",
+        "msg": "No matching process or service on internal host. Path not in standard RCECD-CAD-APP01 or CAD-DB01 baselines.",
+        "highlight": false
+      },
+      {
+        "ts": "20:00:03",
+        "level": "INFO",
+        "msg": "C2 beacon pattern matches known C2 signature from threat intelligence feed (TTP: T1071)",
+        "highlight": false
+      },
+      {
+        "ts": "20:00:03",
+        "level": "INFO",
+        "msg": "Forensic artifact captured on REC-01 (RCECD-F-21). File: ALI_20261022_193813",
+        "highlight": false
+      },
+      {
+        "ts": "20:00:03",
+        "level": "INFO",
+        "msg": "Chain-of-custody started: RCECD-F-21, Section 5, T-2 Contain",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Security Console: RCECD-CYB-2026",
+    "command": "grep -i 'T1071' /var/log/syslog | tail -10",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This inject confirms the malware beaconing from CAD-MDS01. The Technical Lead must isolate the system and begin chain-of-custody procedures. Watch for hesitation in reporting to County Security or CISA.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 5 › T-2 Contain",
+      "quote": "- **10-digit lines:** the GateKeeper call-screening appliance sits in front of the 10-digit lines (not the 911 trunks). The supervisor or Technical Lead turns on the stored \"TDoS-strict\" rule set (blo",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M5QV3BWAN3C0F4P06WRMQ0DA",
+      "documentTitle": "Rook County Emergency Communications District — Systems, Positions and Radio Description",
+      "headingPath": "Rook County Emergency Communicat… › Section 5",
+      "quote": "| Segment | Systems | Connection to county network | |---|---|---| | Call-handling network | CP-CORE01/02, position call-handling screens | None (vendor VPN for support only, enabled per ticket) | | C",
+      "chunkId": 46
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QWA0K9R4XFMDGVPPPP8R70",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVYNC3KTY84KEK8CRYY70Y/01M5QWA0K9R4XFMDGVPPPP8R70.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "f9c137f03139e256967162caa6b6286a52492db44460ee2dc2f6b08a0c182a2a",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:44.453Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:09:50.952Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Malware Beaconing Detected — CAD-MDS01 to External C2",
+        "type": "system_log",
+        "fields": {
+          "systemName": "RCECD-CYB-2026",
+          "host": "CAD-MDS01",
+          "ip": "10.72.30.16",
+          "os": "Ubuntu 22.04 LTS",
+          "logSource": "syslog / auth.log",
+          "exportedBy": "Tech\\bharlow",
+          "exportedAt": "10/24/2026 20:00",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "20:00:03",
+              "level": "ALERT",
+              "msg": "Outbound connection from CAD-MDS01 (10.72.30.16) to 203.0.113.17 (port 443) detected",
+              "highlight": true
+            },
+            {
+              "ts": "20:00:03",
+              "level": "INFO",
+              "msg": "Connection duration: 18 seconds",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "INFO",
+              "msg": "Payload: base64-encoded string matching known C2 beacon pattern (TTP: T1071 - Application Layer Protocol)",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "WARN",
+              "msg": "Source: /opt/cad/agent/agent.py. No internal host matches this path.",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "ERROR",
+              "msg": "Alert logged in RCECD-CYB-2026, Section 5, T-2 Contain",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "NOTICE",
+              "msg": "Malware beaconing confirmed. Isolation of CAD-MDS01 recommended.",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "INFO",
+              "msg": "No matching process or service on internal host. Path not in standard RCECD-CAD-APP01 or CAD-DB01 baselines.",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "INFO",
+              "msg": "C2 beacon pattern matches known C2 signature from threat intelligence feed (TTP: T1071)",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "INFO",
+              "msg": "Forensic artifact captured on REC-01 (RCECD-F-21). File: ALI_20261024_193813",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "INFO",
+              "msg": "Chain-of-custody started: RCECD-F-21, Section 5, T-2 Contain",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Security Console: RCECD-CYB-2026",
+          "command": "grep -i 'T1071' /var/log/syslog | tail -10",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the malware beaconing from CAD-MDS01. The Technical Lead must isolate the system and begin chain-of-custody procedures. Watch for hesitation in reporting to County Security or CISA.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.581Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Malware Beaconing Detected — CAD-MDS01 to External C2",
+        "type": "system_log",
+        "fields": {
+          "systemName": "RCECD-CYB-2026",
+          "host": "CAD-MDS01",
+          "ip": "10.72.30.16",
+          "os": "Ubuntu 22.04 LTS",
+          "logSource": "syslog / auth.log",
+          "exportedBy": "Tech\\bharlow",
+          "exportedAt": "10/22/2026 20:00",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "20:00:03",
+              "level": "ALERT",
+              "msg": "Outbound connection from CAD-MDS01 (10.72.30.16) to 203.0.113.17 (port 443) detected",
+              "highlight": true
+            },
+            {
+              "ts": "20:00:03",
+              "level": "INFO",
+              "msg": "Connection duration: 18 seconds",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "INFO",
+              "msg": "Payload: base64-encoded string matching known C2 beacon pattern (TTP: T1071 - Application Layer Protocol)",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "WARN",
+              "msg": "Source: /opt/cad/agent/agent.py. No internal host matches this path.",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "ERROR",
+              "msg": "Alert logged in RCECD-CYB-2026, Section 5, T-2 Contain",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "NOTICE",
+              "msg": "Malware beaconing confirmed. Isolation of CAD-MDS01 recommended.",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "INFO",
+              "msg": "No matching process or service on internal host. Path not in standard RCECD-CAD-APP01 or CAD-DB01 baselines.",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "INFO",
+              "msg": "C2 beacon pattern matches known C2 signature from threat intelligence feed (TTP: T1071)",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "INFO",
+              "msg": "Forensic artifact captured on REC-01 (RCECD-F-21). File: ALI_20261022_193813",
+              "highlight": false
+            },
+            {
+              "ts": "20:00:03",
+              "level": "INFO",
+              "msg": "Chain-of-custody started: RCECD-F-21, Section 5, T-2 Contain",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Security Console: RCECD-CYB-2026",
+          "command": "grep -i 'T1071' /var/log/syslog | tail -10",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the malware beaconing from CAD-MDS01. The Technical Lead must isolate the system and begin chain-of-custody procedures. Watch for hesitation in reporting to County Security or CISA.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:44.728Z"
+}

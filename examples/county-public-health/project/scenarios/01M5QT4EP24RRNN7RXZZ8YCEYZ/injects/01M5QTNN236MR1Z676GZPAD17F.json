@@ -1,0 +1,209 @@
+{
+  "id": "01M5QTNN236MR1Z676GZPAD17F",
+  "mselRowId": "I-01",
+  "type": "phone_call",
+  "title": "Vaccine Vault Breach — ClinicTrack Anomaly",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Marston County Health Department",
+    "systemName": "AOC Call Recorder - Console 2",
+    "callId": "CR-20261021-091522-0087",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Nurse Carla",
+      "number": "555-0214",
+      "label": "North District Clinic"
+    },
+    "callee": {
+      "name": "Dr. Neha Raman",
+      "number": "555-0123",
+      "label": "Lead Epidemiologist"
+    },
+    "startTime": "10/22/2026 09:15:22",
+    "duration": "0:52",
+    "transcript": [
+      {
+        "speaker": "Caller",
+        "offset": "0:00",
+        "text": "Dr. Raman, this is Nurse Carla at the North District Clinic. We just pulled up a patient in ClinicTrack — a 4-year-old named Eli Hernandez, from Brandt. The record shows an MMR dose administered today, but we didn’t see him. The lot number listed is MMR-26-8834, which isn’t in our inventory log. And the record was created 45 minutes ago — but we didn’t give any shots today. Is this a glitch?",
+        "prompt": false
+      },
+      {
+        "speaker": "Callee",
+        "offset": "0:48",
+        "text": "I’ll check ClinicTrack and get back to you in five. Hold on.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-01"
+  },
+  "variant": "default",
+  "instructorNote": "This is a core inject signaling data integrity failure. Watch for Epi to contact IT for verification, not immediate incident declaration.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 6",
+      "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Annex A",
+      "quote": "**A-1 Ransomware on the county network.** County IT isolates; MCHD declares Cyber 1, paper mode, pauses the IIS export, moves epidemiology to DOC laptops, notifies KDHE, prepares the outage message fo",
+      "chunkId": 15
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Caller",
+        "voiceStyle": "female, late 30s, urgent but controlled, slight rural accent, speaking clearly under pressure",
+        "text": "Dr. Raman, this is Nurse Carla at the North District Clinic. We just pulled up a patient in ClinicTrack — a 4-year-old named Eli Hernandez, from Brandt. The record shows an MMR dose administered today, but we didn’t see him. The lot number listed is MMR-26-8834, which isn’t in our inventory log. And the record was created 45 minutes ago — but we didn’t give any shots today. Is this a glitch?"
+      },
+      {
+        "speaker": "Callee",
+        "voiceStyle": "female, mid-40s, calm, precise, with a measured pace and slight hesitation at the end",
+        "text": "I’ll check ClinicTrack and get back to you in five. Hold on."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVA7WH884AJ08AXQ679JY6",
+      "kind": "audio",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTNN236MR1Z676GZPAD17F/01M5QVA7WH884AJ08AXQ679JY6.mp3",
+      "role": "generated",
+      "durationSec": 31.87,
+      "sha256": "374e537d50e0d934c75940d02dc0fd27480dad768b298d67bb3fc931145aca51",
+      "provenance": {
+        "provider": "local-tts-mlx-audio-ff07",
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+        "prompt": "Caller: Dr. Raman, this is Nurse Carla at the North District Clinic. We just pulled up a patient in ClinicTrack — a 4-year-old named Eli Hernandez, from Brandt. The record shows an MMR dose administered today, but we didn’t see him. The lot number listed is MMR-26-8834, which isn’t in our inventory log. And the record was created 45 minutes ago — but we didn’t give any shots today. Is this a glitch?\nCallee: I’ll check ClinicTrack and get back to you in five. Hold on.",
+        "postFx": [
+          "phone"
+        ],
+        "createdAt": "2026-10-24T20:58:23.508Z"
+      }
+    },
+    {
+      "id": "01M5QVBERNHK88E8K05VQS1MTG",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTNN236MR1Z676GZPAD17F/01M5QVBERNHK88E8K05VQS1MTG.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "884ef0ca5cba45c1d952eb372fbec3d71b78f0423768bfc32d248c0adff51c26",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:03.013Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:47:21.043Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Vaccine Vault Breach — ClinicTrack Anomaly",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Marston County Health Department",
+          "systemName": "AOC Call Recorder - Console 2",
+          "callId": "CR-20261024-091522-0087",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Nurse Carla",
+            "number": "555-0214",
+            "label": "North District Clinic"
+          },
+          "callee": {
+            "name": "Dr. Neha Raman",
+            "number": "555-0123",
+            "label": "Lead Epidemiologist"
+          },
+          "startTime": "10/24/2026 09:15:22",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "Caller",
+              "offset": "0:00",
+              "text": "Dr. Raman, this is Nurse Carla at the North District Clinic. We just pulled up a patient in ClinicTrack — a 4-year-old named Eli Hernandez, from Brandt. The record shows an MMR dose administered today, but we didn’t see him. The lot number listed is MMR-26-8834, which isn’t in our inventory log. And the record was created 45 minutes ago — but we didn’t give any shots today. Is this a glitch?",
+              "prompt": false
+            },
+            {
+              "speaker": "Callee",
+              "offset": "0:48",
+              "text": "I’ll check ClinicTrack and get back to you in five. Hold on.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-01"
+        },
+        "instructorNote": "This is a core inject signaling data integrity failure. Watch for Epi to contact IT for verification, not immediate incident declaration.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.121Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Vaccine Vault Breach — ClinicTrack Anomaly",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Marston County Health Department",
+          "systemName": "AOC Call Recorder - Console 2",
+          "callId": "CR-20261021-091522-0087",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Nurse Carla",
+            "number": "555-0214",
+            "label": "North District Clinic"
+          },
+          "callee": {
+            "name": "Dr. Neha Raman",
+            "number": "555-0123",
+            "label": "Lead Epidemiologist"
+          },
+          "startTime": "10/22/2026 09:15:22",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "Caller",
+              "offset": "0:00",
+              "text": "Dr. Raman, this is Nurse Carla at the North District Clinic. We just pulled up a patient in ClinicTrack — a 4-year-old named Eli Hernandez, from Brandt. The record shows an MMR dose administered today, but we didn’t see him. The lot number listed is MMR-26-8834, which isn’t in our inventory log. And the record was created 45 minutes ago — but we didn’t give any shots today. Is this a glitch?",
+              "prompt": false
+            },
+            {
+              "speaker": "Callee",
+              "offset": "0:48",
+              "text": "I’ll check ClinicTrack and get back to you in five. Hold on.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-01"
+        },
+        "instructorNote": "This is a core inject signaling data integrity failure. Watch for Epi to contact IT for verification, not immediate incident declaration.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:03.478Z"
+}

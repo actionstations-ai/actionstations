@@ -1,0 +1,359 @@
+{
+  "id": "01M5QY4ZBP8BVC6MKVR3KHWWT3",
+  "mselRowId": "I-07",
+  "type": "system_log",
+  "title": "HUSD-FS02: Ransomware Encryption Detected — Health and Special Ed Shares",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "HUSD-FS02",
+    "host": "HUSD-FS02",
+    "ip": "10.72.10.2",
+    "os": "Windows Server 2022",
+    "logSource": "Security / Windows Event Log (Event ID 4688)",
+    "exportedBy": "SYSTEM\\HUSD-FS02\\Admin",
+    "exportedAt": "04/14/2026 07:35 AM",
+    "timezone": "PDT (UTC-7)",
+    "lines": [
+      {
+        "ts": "2026-04-14 07:32:11",
+        "level": "CRIT",
+        "msg": "File encryption detected: 98% of files in HUSD-FS02\\Health\\Share and HUSD-FS02\\SpecialEd\\IEP\\ mapped to drive Z:. Process: hxd32.exe – PID 4012.",
+        "highlight": true
+      },
+      {
+        "ts": "2026-04-14 07:32:11",
+        "level": "ALERT",
+        "msg": "Source: HUSD-VPN01 (10.72.10.2). Authentication: NTLMv2 (HUSD\\admin_husd).",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 07:32:11",
+        "level": "ERROR",
+        "msg": "No response from HUSD-VMS01 (10.72.10.10). Visitor management system unresponsive.",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 07:32:11",
+        "level": "ERROR",
+        "msg": "HUSD-ERP01 (10.72.10.15) shows read-only access. Payroll data uneditable.",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 07:32:11",
+        "level": "NOTICE",
+        "msg": "Ransom note pushed to 32 staff laptops via HUSD-VPN01 (10.72.10.2) – payload: C:\\Windows\\Temp\\ransom_note.txt.",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 07:32:11",
+        "level": "INFO",
+        "msg": "Content: 'Your data is encrypted. Contact us at hudsonleak.333 for decryption. Do not contact law enforcement. Pay $2.4M in Bitcoin to unlock.'",
+        "highlight": true
+      },
+      {
+        "ts": "2026-04-14 07:32:11",
+        "level": "WARN",
+        "msg": "HUSD-VMS01 (10.72.10.10) failed to authenticate via Raptor. No badge prints in last 24 hours.",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 07:32:11",
+        "level": "INFO",
+        "msg": "Encrypted files: IEP-2026-0034.docx, MedLog-2026-0011.xlsx, Custody-2026-0005.pdf, IEP-2026-0019.docx, MedLog-2026-0009.docx, Custody-2026-0002.pdf, IEP-2026-0022.docx, MedLog-2026-0012.xlsx, IEP-2026-0007.docx, Custody-2026-0008.pdf, IEP-2026-0014.docx.",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 07:32:11",
+        "level": "INFO",
+        "msg": "File share integrity compromised. HUSD-FS02\\Health\\Share – 147 files encrypted. HUSD-FS02\\SpecialEd\\IEP\\ – 32 files encrypted.",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 07:32:11",
+        "level": "INFO",
+        "msg": "Process hxd32.exe not in HUSD-FS02 local whitelist. Known malicious binary (YARA: C77694).",
+        "highlight": false
+      },
+      {
+        "ts": "2026-04-14 07:32:11",
+        "level": "CRIT",
+        "msg": "HUSD-VPN01 (10.72.10.2) – Unpatched firmware (v2.1.0). Shared local-admin password used: 'Husd@2026!'.",
+        "highlight": true
+      },
+      {
+        "ts": "2026-04-14 07:32:11",
+        "level": "ALERT",
+        "msg": "Tallgrass MDR: No alert received from HUSD-VMS01 (10.72.10.10). Device unreachable.",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Get-Content C:\\Logs\\HUSD-FS02\\security_audit_20260414.log -Tail 12",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "This is a core inject confirming full system compromise. The CTO must declare S3 severity and activate EOP Section 7. Watch for delayed isolation of HUSD-FW01.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+      "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 2",
+      "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M5QWTTQC6F6TW69TS15ZXQDZ",
+      "documentTitle": "Halverson Unified School District — Schools, Facilities and Systems Inventory",
+      "headingPath": "Halverson Unified School Distric… › Section 5",
+      "quote": "| System | Product | Hosting | Owner | Notes | |---|---|---|---|---| | Student information system | PowerSchool SIS | Vendor cloud (HUSD tenant) | Applications Lead | Attendance, grades, schedules, em",
+      "chunkId": 50
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 3",
+      "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 6 › 6.1 Recognizing the pattern",
+      "quote": "Ransomware groups that hit schools commonly steal data before they encrypt, post a ransom note with a leak-site link and a deadline, and then pressure the district through direct emails to staff and p",
+      "chunkId": 8
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYN8RQ68AC3B41ARSZZQ9P",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QY4ZBP8BVC6MKVR3KHWWT3/01M5QYN8RQ68AC3B41ARSZZQ9P.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 710,
+      "sha256": "3345e92a3bddb4c827fdea3a3646ebabad6d0b752ecce59c03134eb26ded7be5",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:50.420Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:48:14.205Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "HUSD-FS02: Ransomware Encryption Detected — Health and Special Ed Shares",
+        "type": "system_log",
+        "fields": {
+          "systemName": "HUSD-FS02",
+          "host": "HUSD-FS02",
+          "ip": "10.72.10.2",
+          "os": "Windows Server 2022",
+          "logSource": "Security / Windows Event Log (Event ID 4688)",
+          "exportedBy": "SYSTEM\\HUSD-FS02\\Admin",
+          "exportedAt": "10/24/2026 07:35 AM",
+          "timezone": "PDT (UTC-7)",
+          "lines": [
+            {
+              "ts": "2026-08-15 07:32:11",
+              "level": "CRIT",
+              "msg": "File encryption detected: 98% of files in HUSD-FS02\\Health\\Share and HUSD-FS02\\SpecialEd\\IEP\\ mapped to drive Z:. Process: hxd32.exe – PID 4012.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-08-15 07:32:11",
+              "level": "ALERT",
+              "msg": "Source: HUSD-VPN01 (10.72.10.2). Authentication: NTLMv2 (HUSD\\admin_husd).",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 07:32:11",
+              "level": "ERROR",
+              "msg": "No response from HUSD-VMS01 (10.72.10.10). Visitor management system unresponsive.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 07:32:11",
+              "level": "ERROR",
+              "msg": "HUSD-ERP01 (10.72.10.15) shows read-only access. Payroll data uneditable.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 07:32:11",
+              "level": "NOTICE",
+              "msg": "Ransom note pushed to 32 staff laptops via HUSD-VPN01 (10.72.10.2) – payload: C:\\Windows\\Temp\\ransom_note.txt.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 07:32:11",
+              "level": "INFO",
+              "msg": "Content: 'Your data is encrypted. Contact us at hudsonleak.333 for decryption. Do not contact law enforcement. Pay $2.4M in Bitcoin to unlock.'",
+              "highlight": true
+            },
+            {
+              "ts": "2026-08-15 07:32:11",
+              "level": "WARN",
+              "msg": "HUSD-VMS01 (10.72.10.10) failed to authenticate via Raptor. No badge prints in last 24 hours.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 07:32:11",
+              "level": "INFO",
+              "msg": "Encrypted files: IEP-2026-0034.docx, MedLog-2026-0011.xlsx, Custody-2026-0005.pdf, IEP-2026-0019.docx, MedLog-2026-0009.docx, Custody-2026-0002.pdf, IEP-2026-0022.docx, MedLog-2026-0012.xlsx, IEP-2026-0007.docx, Custody-2026-0008.pdf, IEP-2026-0014.docx.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 07:32:11",
+              "level": "INFO",
+              "msg": "File share integrity compromised. HUSD-FS02\\Health\\Share – 147 files encrypted. HUSD-FS02\\SpecialEd\\IEP\\ – 32 files encrypted.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 07:32:11",
+              "level": "INFO",
+              "msg": "Process hxd32.exe not in HUSD-FS02 local whitelist. Known malicious binary (YARA: C77694).",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 07:32:11",
+              "level": "CRIT",
+              "msg": "HUSD-VPN01 (10.72.10.2) – Unpatched firmware (v2.1.0). Shared local-admin password used: 'Husd@2026!'.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-08-15 07:32:11",
+              "level": "ALERT",
+              "msg": "Tallgrass MDR: No alert received from HUSD-VMS01 (10.72.10.10). Device unreachable.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\Logs\\HUSD-FS02\\security_audit_20261024.log -Tail 12",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a core inject confirming full system compromise. The CTO must declare S3 severity and activate EOP Section 7. Watch for delayed isolation of HUSD-FW01.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.483Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "HUSD-FS02: Ransomware Encryption Detected — Health and Special Ed Shares",
+        "type": "system_log",
+        "fields": {
+          "systemName": "HUSD-FS02",
+          "host": "HUSD-FS02",
+          "ip": "10.72.10.2",
+          "os": "Windows Server 2022",
+          "logSource": "Security / Windows Event Log (Event ID 4688)",
+          "exportedBy": "SYSTEM\\HUSD-FS02\\Admin",
+          "exportedAt": "04/14/2026 07:35 AM",
+          "timezone": "PDT (UTC-7)",
+          "lines": [
+            {
+              "ts": "2026-04-14 07:32:11",
+              "level": "CRIT",
+              "msg": "File encryption detected: 98% of files in HUSD-FS02\\Health\\Share and HUSD-FS02\\SpecialEd\\IEP\\ mapped to drive Z:. Process: hxd32.exe – PID 4012.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-04-14 07:32:11",
+              "level": "ALERT",
+              "msg": "Source: HUSD-VPN01 (10.72.10.2). Authentication: NTLMv2 (HUSD\\admin_husd).",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 07:32:11",
+              "level": "ERROR",
+              "msg": "No response from HUSD-VMS01 (10.72.10.10). Visitor management system unresponsive.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 07:32:11",
+              "level": "ERROR",
+              "msg": "HUSD-ERP01 (10.72.10.15) shows read-only access. Payroll data uneditable.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 07:32:11",
+              "level": "NOTICE",
+              "msg": "Ransom note pushed to 32 staff laptops via HUSD-VPN01 (10.72.10.2) – payload: C:\\Windows\\Temp\\ransom_note.txt.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 07:32:11",
+              "level": "INFO",
+              "msg": "Content: 'Your data is encrypted. Contact us at hudsonleak.333 for decryption. Do not contact law enforcement. Pay $2.4M in Bitcoin to unlock.'",
+              "highlight": true
+            },
+            {
+              "ts": "2026-04-14 07:32:11",
+              "level": "WARN",
+              "msg": "HUSD-VMS01 (10.72.10.10) failed to authenticate via Raptor. No badge prints in last 24 hours.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 07:32:11",
+              "level": "INFO",
+              "msg": "Encrypted files: IEP-2026-0034.docx, MedLog-2026-0011.xlsx, Custody-2026-0005.pdf, IEP-2026-0019.docx, MedLog-2026-0009.docx, Custody-2026-0002.pdf, IEP-2026-0022.docx, MedLog-2026-0012.xlsx, IEP-2026-0007.docx, Custody-2026-0008.pdf, IEP-2026-0014.docx.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 07:32:11",
+              "level": "INFO",
+              "msg": "File share integrity compromised. HUSD-FS02\\Health\\Share – 147 files encrypted. HUSD-FS02\\SpecialEd\\IEP\\ – 32 files encrypted.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 07:32:11",
+              "level": "INFO",
+              "msg": "Process hxd32.exe not in HUSD-FS02 local whitelist. Known malicious binary (YARA: C77694).",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-14 07:32:11",
+              "level": "CRIT",
+              "msg": "HUSD-VPN01 (10.72.10.2) – Unpatched firmware (v2.1.0). Shared local-admin password used: 'Husd@2026!'.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-04-14 07:32:11",
+              "level": "ALERT",
+              "msg": "Tallgrass MDR: No alert received from HUSD-VMS01 (10.72.10.10). Device unreachable.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\Logs\\HUSD-FS02\\security_audit_20260414.log -Tail 12",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a core inject confirming full system compromise. The CTO must declare S3 severity and activate EOP Section 7. Watch for delayed isolation of HUSD-FW01.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:50.672Z"
+}

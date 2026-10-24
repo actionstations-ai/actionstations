@@ -1,0 +1,143 @@
+{
+  "id": "01M5QSWZ6JW4VGDF804R03RQ43",
+  "mselRowId": "I-15a",
+  "type": "email_forward",
+  "title": "Ridgeline Automation — SIS Logic Validation",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Ridgeline Automation Support",
+    "fromEmail": "support@ridgeline-automation.example",
+    "senderInitials": "R",
+    "to": "Victor Anand, OT Engineer",
+    "subject": "FW: Re: rl-support session on TVC-JMP-01",
+    "sentAt": "Thu 10/22/2026 11:05 AM",
+    "note": "From Ridgeline Automation Support to the OT Engineer: None of our engineers had a session open this morning. Our records show the last approved rl-support session was RA-26-0112 on 01/14. If TVC-JMP-01 shows an rl-support session at 08:41 today, it was not ours. Please do not download any logic to TRI-1 until we have compared the running logic with your archived file.",
+    "signature": "Ridgeline Automation Support\nSchneider Electric Partner\n1-800-555-0276",
+    "importance": "high",
+    "external": true,
+    "attachments": [],
+    "printedBy": "OT Engineer",
+    "original": {
+      "fromName": "Ridgeline Automation Support",
+      "fromEmail": "support@ridgeline-automation.example",
+      "sentAt": "Thu 10/22/2026 11:03 AM",
+      "to": "Victor Anand, OT Engineer",
+      "cc": "",
+      "subject": "Re: rl-support session on TVC-JMP-01",
+      "body": "From Ridgeline Automation Support to the OT Engineer: None of our engineers had a session open this morning. Our records show the last approved rl-support session was RA-26-0112 on 01/14. If TVC-JMP-01 shows an rl-support session at 08:41 today, it was not ours. Please do not download any logic to TRI-1 until we have compared the running logic with your archived file."
+    }
+  },
+  "variant": "print",
+  "instructorNote": "This inject confirms the cyber intrusion and triggers the OT Engineer to initiate manual closure under field authority. Watch for the OT to reference C4 and C5 for guidance.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+      "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+      "chunkId": 52
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 11",
+      "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+      "chunkId": 20
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJNH1G6K25CF91W2GX48H",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSWZ6JW4VGDF804R03RQ43/01M5QTJNH1G6K25CF91W2GX48H.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "496de7e7060bf6a9a08b7a53a975e4180ce18af720abb5aa34c3979de0e1516b",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:30.836Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:33:50.585Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Ridgeline Automation — SIS Logic Validation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Support@ridgelineautomation.com",
+          "fromEmail": "support@ridgelineautomation.com",
+          "senderInitials": "R",
+          "to": "Victor Anand, OT Engineer",
+          "subject": "FW: [URGENT] Remote SIS Logic Validation — TVC-JMP-02 Session",
+          "sentAt": "Sat 10/24/2026 11:05 AM",
+          "note": "Victor, we’ve accessed the TVC-JMP-02 terminal via the approved vendor VPN and confirmed: a command to close ESD-310 was issued from TVC-JMP-02 at 08:58:12. The SIS logic on TS-EWS-01 has not been updated from the archived v2.1.6 (approved file FPD-6.3-F-4). The running version (v2.1.7) was not approved in any MOC. This is a confirmed cyber intrusion. Do not reset. Begin isolation per TVCC-CFW-OTSEC-2026, Play 4.",
+          "signature": "Ridgeline Automation Support\nSchneider Electric Partner\n1-800-555-0276",
+          "importance": "high",
+          "external": true,
+          "attachments": [],
+          "printedBy": "OT Engineer",
+          "original": {
+            "fromName": "Ridgeline Automation Support",
+            "fromEmail": "support@ridgelineautomation.com",
+            "sentAt": "Sat 10/24/2026 11:03 AM",
+            "to": "Victor Anand, OT Engineer",
+            "cc": "",
+            "subject": "[URGENT] Remote SIS Logic Validation — TVC-JMP-02 Session",
+            "body": "Victor,\n\nWe have accessed the TVC-JMP-02 terminal via the approved vendor VPN and confirmed the following:\n\n- A command to close ESD-310 was issued from TVC-JMP-02 at 08:58:12.\n- The SIS logic on TS-EWS-01 has not been updated from the archived v2.1.6 (approved file FPD-6.3-F-4).\n- The running version (v2.1.7) was not approved in any MOC.\n\nThis is a confirmed cyber intrusion. Do not reset. Begin isolation per TVCC-CFW-OTSEC-2026, Play 4.\n\nFor immediate assistance, contact Schneider Electric Emergency Response at +1-800-555-0276 (24/7). Do not proceed without verification from your OT team.\n\nRegards,\n\nRidgeline Automation Support\nSchneider Electric Partner\n1-800-555-0276\nwww.ridgelineautomation.com"
+          }
+        },
+        "instructorNote": "This inject confirms the cyber intrusion and triggers the OT Engineer to initiate manual closure under field authority. Watch for the OT to reference C4 and C5 for guidance.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.773Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Ridgeline Automation — SIS Logic Validation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Ridgeline Automation Support",
+          "fromEmail": "support@ridgeline-automation.example",
+          "senderInitials": "R",
+          "to": "Victor Anand, OT Engineer",
+          "subject": "FW: Re: rl-support session on TVC-JMP-01",
+          "sentAt": "Thu 10/22/2026 11:05 AM",
+          "note": "From Ridgeline Automation Support to the OT Engineer: None of our engineers had a session open this morning. Our records show the last approved rl-support session was RA-26-0112 on 01/14. If TVC-JMP-01 shows an rl-support session at 08:41 today, it was not ours. Please do not download any logic to TRI-1 until we have compared the running logic with your archived file.",
+          "signature": "Ridgeline Automation Support\nSchneider Electric Partner\n1-800-555-0276",
+          "importance": "high",
+          "external": true,
+          "attachments": [],
+          "printedBy": "OT Engineer",
+          "original": {
+            "fromName": "Ridgeline Automation Support",
+            "fromEmail": "support@ridgeline-automation.example",
+            "sentAt": "Thu 10/22/2026 11:03 AM",
+            "to": "Victor Anand, OT Engineer",
+            "cc": "",
+            "subject": "Re: rl-support session on TVC-JMP-01",
+            "body": "From Ridgeline Automation Support to the OT Engineer: None of our engineers had a session open this morning. Our records show the last approved rl-support session was RA-26-0112 on 01/14. If TVC-JMP-01 shows an rl-support session at 08:41 today, it was not ours. Please do not download any logic to TRI-1 until we have compared the running logic with your archived file."
+          }
+        },
+        "instructorNote": "This inject confirms the cyber intrusion and triggers the OT Engineer to initiate manual closure under field authority. Watch for the OT to reference C4 and C5 for guidance.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:31.175Z"
+}

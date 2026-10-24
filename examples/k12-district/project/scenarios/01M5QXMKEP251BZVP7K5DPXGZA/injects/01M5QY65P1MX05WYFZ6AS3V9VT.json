@@ -1,0 +1,169 @@
+{
+  "id": "01M5QY65P1MX05WYFZ6AS3V9VT",
+  "mselRowId": "I-09",
+  "type": "radio_call",
+  "title": "Shooter in C Wing — Halverson High School",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Halverson Unified School District",
+    "centerName": "District Emergency Operations Center (EOC)",
+    "channel": "EOC-Talkgroup 03",
+    "frequency": "TG 4302 / 458.725 MHz",
+    "date": "04/14/2026",
+    "callsign": "911 Central",
+    "lines": [
+      {
+        "time": "07:38:02",
+        "from": "911 Central",
+        "to": "DSS, SRO",
+        "text": "EOC, this is 911 Central. A call came in from Halverson High School main office at 07:38:02. Caller ID: (541) 555-0140 (HUSD Main Office). Message: 'There's a shooter in C Wing, I can hear gunshots, someone's bleeding.' Call was received and recorded, but HUSD-PBX01 is now down—no callback possible. HPD and Brandt County Sheriff are en route."
+      }
+    ],
+    "background": "office",
+    "voiceStyle": "Young female, tense, breathless, urgent",
+    "audioFile": "I-09_radio.wav",
+    "duration": "0:17",
+    "injectId": "I-09"
+  },
+  "variant": "default",
+  "instructorNote": "This inject triggers full EOC activation and initiates the reunification protocol. The SRO must trace the spoofed PBX call to HUSD-PBX01 (10.72.10.15) and confirm it is not a valid internal line. The DSS must declare S4 Critical per EOP 6.4.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQC6F6TW69TS15ZXQDZ",
+      "documentTitle": "Halverson Unified School District — Schools, Facilities and Systems Inventory",
+      "headingPath": "Halverson Unified School Distric… › Section 3",
+      "quote": "Halverson High School is the largest school and the district's state-testing hub for grade 11. | Building / wing | Use | Key doors | |---|---|---| | Main Building, A Wing | Office, counseling, library",
+      "chunkId": 48
+    },
+    {
+      "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+      "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+      "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+      "quote": "At 05:00 each school day the SIS exports, for each school, the student roster with emergency contacts, authorized pick-up adults, medical alerts and bus assignments to an encrypted USB key in each pri",
+      "chunkId": 34
+    },
+    {
+      "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+      "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+      "headingPath": "EOP › Annex I",
+      "quote": "| Contact | Number | |---|---| | Brandt County 911 non-emergency | 541-555-0140 | | Halverson Police Department watch commander | 541-555-0142 | | Brandt County Sheriff's Office | 541-555-0145 | | Bra",
+      "chunkId": 42
+    },
+    {
+      "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+      "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+      "headingPath": "EOP › Annex F",
+      "quote": "Students are moved by bus to the reunification site; parents check in at a separate gate, show ID, and are matched against the offline roster (Section 6.3). Request and release cards (Form J-4) are us",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 3",
+      "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "911 Central",
+        "voiceStyle": "Young female, tense, breathless, urgent",
+        "text": "EOC, this is 911 Central. A call came in from Halverson High School main office at zero seven thirty-eight zero two. Caller ID: five four one five five five zero one four zero (HUSD Main Office). Message: 'There's a shooter in C Wing, I can hear gunshots, someone's bleeding.' Call was received and recorded, but HUSD-PBX01 is now down—no callback possible. HPD and Brandt County Sheriff are en route."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYN9KDVQAX5CTK5F9Q8E7E",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QY65P1MX05WYFZ6AS3V9VT/01M5QYN9KDVQAX5CTK5F9Q8E7E.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "de8ceb806945ac30ea9f9d870eb9d570b66e084d9d2a449c15d9ddeb38375be8",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:51.296Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:48:46.063Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Shooter in C Wing — Halverson High School",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Halverson Unified School District",
+          "centerName": "District Emergency Operations Center (EOC)",
+          "channel": "EOC-Talkgroup 03",
+          "frequency": "TG 4302 / 458.725 MHz",
+          "date": "10/24/2026",
+          "callsign": "911 Central",
+          "lines": [
+            {
+              "time": "07:38:02",
+              "from": "911 Central",
+              "to": "DSS, SRO",
+              "text": "EOC, this is 911 Central. A call came in from Halverson High School main office at 07:38:02. Caller ID: (541) 555-0140 (HUSD Main Office). Message: 'There's a shooter in C Wing, I can hear gunshots, someone's bleeding.' Call was received and recorded, but HUSD-PBX01 is now down—no callback possible. HPD and Brandt County Sheriff are en route."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Young female, tense, breathless, urgent",
+          "audioFile": "I-09_radio.wav",
+          "duration": "0:17",
+          "injectId": "I-09"
+        },
+        "instructorNote": "This inject triggers full EOC activation and initiates the reunification protocol. The SRO must trace the spoofed PBX call to HUSD-PBX01 (10.72.10.15) and confirm it is not a valid internal line. The DSS must declare S4 Critical per EOP 6.4.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.492Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Shooter in C Wing — Halverson High School",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Halverson Unified School District",
+          "centerName": "District Emergency Operations Center (EOC)",
+          "channel": "EOC-Talkgroup 03",
+          "frequency": "TG 4302 / 458.725 MHz",
+          "date": "04/14/2026",
+          "callsign": "911 Central",
+          "lines": [
+            {
+              "time": "07:38:02",
+              "from": "911 Central",
+              "to": "DSS, SRO",
+              "text": "EOC, this is 911 Central. A call came in from Halverson High School main office at 07:38:02. Caller ID: (541) 555-0140 (HUSD Main Office). Message: 'There's a shooter in C Wing, I can hear gunshots, someone's bleeding.' Call was received and recorded, but HUSD-PBX01 is now down—no callback possible. HPD and Brandt County Sheriff are en route."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Young female, tense, breathless, urgent",
+          "audioFile": "I-09_radio.wav",
+          "duration": "0:17",
+          "injectId": "I-09"
+        },
+        "instructorNote": "This inject triggers full EOC activation and initiates the reunification protocol. The SRO must trace the spoofed PBX call to HUSD-PBX01 (10.72.10.15) and confirm it is not a valid internal line. The DSS must declare S4 Critical per EOP 6.4.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:51.532Z"
+}

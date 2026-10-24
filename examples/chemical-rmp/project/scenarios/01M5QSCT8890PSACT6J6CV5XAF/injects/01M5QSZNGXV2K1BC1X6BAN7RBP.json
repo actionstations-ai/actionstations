@@ -1,0 +1,143 @@
+{
+  "id": "01M5QSZNGXV2K1BC1X6BAN7RBP",
+  "mselRowId": "I-22",
+  "type": "email_forward",
+  "title": "SIS Proof Test Confirmation — Final Validation",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Triconex specialist, Schneider Electric field service",
+    "fromEmail": "triconex.field@se-fieldservice.example",
+    "senderInitials": "SE",
+    "to": "Victor Anand, OT Engineer",
+    "subject": "FW: First look at the TRI-1 SOE export",
+    "sentAt": "Thu 10/22/2026 12:10 PM",
+    "note": "From the Schneider Electric Triconex specialist to the OT Engineer (first look at the SOE export): the running logic v2.1.7 differs from your archive in the ESD-310 output section; the status points that the DCS reads were forced to report CLOSED regardless of the limit switches. The change was downloaded from TS-EWS-01 at 08:57:59 while the key switch was in PROGRAM.",
+    "signature": "Schneider Electric – OT Systems Support\nGlobal Control Systems Division",
+    "importance": "high",
+    "external": true,
+    "attachments": [],
+    "printedBy": "OT Engineering",
+    "original": {
+      "fromName": "Triconex specialist, Schneider Electric field service",
+      "fromEmail": "triconex.field@se-fieldservice.example",
+      "sentAt": "Thu 10/22/2026 12:08 PM",
+      "to": "Victor Anand, OT Engineer",
+      "cc": "",
+      "subject": "First look at the TRI-1 SOE export",
+      "body": "From the Schneider Electric Triconex specialist to the OT Engineer (first look at the SOE export): the running logic v2.1.7 differs from your archive in the ESD-310 output section; the status points that the DCS reads were forced to report CLOSED regardless of the limit switches. The change was downloaded from TS-EWS-01 at 08:57:59 while the key switch was in PROGRAM."
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "This inject confirms the successful restoration of SIS integrity. The OT Engineer must now initiate the PSSR process under PSM and await EHS confirmation before proceeding to restart.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 10",
+      "quote": "1. Rebuild compromised workstations from known-good images; change all passwords and the `rl-support` account. 2. Download the SIS logic from the archived, approved file; the OT Engineer and Schneider",
+      "chunkId": 58
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 14",
+      "quote": "Restart of Unit 300 or Unit 100 after a General Emergency requires: the Incident Commander's termination of the emergency; a pre-startup safety review (PSSR) for any changed equipment or logic; the OT",
+      "chunkId": 25
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJS46R0V1R7CA4WV6YRC6",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSZNGXV2K1BC1X6BAN7RBP/01M5QTJS46R0V1R7CA4WV6YRC6.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 660,
+      "sha256": "1c4c66382b9e1cfc3624acb2af89cb5598f4c92bbefae62baba209cc6ede75fd",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:34.552Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:35:19.916Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIS Proof Test Confirmation — Final Validation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Schneider Electric Support",
+          "fromEmail": "support@schneider-electric.com",
+          "senderInitials": "SE",
+          "to": "Victor Anand, OT Engineer",
+          "subject": "FW: [URGENT] Final SIS Proof Test Confirmation — TS-EWS-01",
+          "sentAt": "Sat 10/24/2026 12:10 PM",
+          "note": "Victor, this is the final confirmation from our field team on-site at TVCC Corbin Falls Works. All SIFs on TS-EWS-01 have passed proof test under supervision. The running logic version (v2.1.6) matches the approved archive (FPD-6.3-F-4). No changes were made to the control logic. The EHS Manager must confirm no residual risk before any restart request is submitted. This completes the PSSR pre-restart validation. Please proceed with the PSSR process under PSM.",
+          "signature": "Schneider Electric – OT Systems Support\nGlobal Control Systems Division",
+          "importance": "high",
+          "external": true,
+          "attachments": [],
+          "printedBy": "OT Engineering",
+          "original": {
+            "fromName": "Schneider Electric – OT Systems Support",
+            "fromEmail": "support@schneider-electric.com",
+            "sentAt": "Sat 10/24/2026 12:08 PM",
+            "to": "Victor Anand, OT Engineer",
+            "cc": "",
+            "subject": "[URGENT] Final SIS Proof Test Confirmation — TS-EWS-01",
+            "body": "This is a final verification of the SIS logic integrity on TS-EWS-01 for Teague Valley Chemical Company, Corbin Falls Works.\n\nAll SIFs (SIF-110, SIF-120, SIF-210, SIF-301, SIF-302, SIF-510, SIF-650) have been tested under controlled conditions and passed. The system is now in a validated, pre-restart state.\n\nRunning logic version: v2.1.6\nApproved archive version: v2.1.6 (FPD-6.3-F-4)\nChecksum match: PASSED\n\nNo changes were made to the control logic. The EHS Manager must confirm no residual risk before any restart request is submitted.\n\nThis completes the pre-startup safety review (PSSR) for the SIS. The unit may not be restarted until the PSSR is signed and the Plant Manager has approved.\n\nContact: 1-800-424-8802 (Schneider Electric OT Support) — Reference: TVCC-OTSEC-2026-SIS-001\n\nSchneider Electric – OT Systems Support\nGlobal Control Systems Division\nVerified via TVC-JMP-02 and TS-EWS-01\nApproved by: S. Rostov, Lead Systems Engineer, 2026-1024-1208-0047"
+          }
+        },
+        "instructorNote": "This inject confirms the successful restoration of SIS integrity. The OT Engineer must now initiate the PSSR process under PSM and await EHS confirmation before proceeding to restart.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.854Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIS Proof Test Confirmation — Final Validation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Triconex specialist, Schneider Electric field service",
+          "fromEmail": "triconex.field@se-fieldservice.example",
+          "senderInitials": "SE",
+          "to": "Victor Anand, OT Engineer",
+          "subject": "FW: First look at the TRI-1 SOE export",
+          "sentAt": "Thu 10/22/2026 12:10 PM",
+          "note": "From the Schneider Electric Triconex specialist to the OT Engineer (first look at the SOE export): the running logic v2.1.7 differs from your archive in the ESD-310 output section; the status points that the DCS reads were forced to report CLOSED regardless of the limit switches. The change was downloaded from TS-EWS-01 at 08:57:59 while the key switch was in PROGRAM.",
+          "signature": "Schneider Electric – OT Systems Support\nGlobal Control Systems Division",
+          "importance": "high",
+          "external": true,
+          "attachments": [],
+          "printedBy": "OT Engineering",
+          "original": {
+            "fromName": "Triconex specialist, Schneider Electric field service",
+            "fromEmail": "triconex.field@se-fieldservice.example",
+            "sentAt": "Thu 10/22/2026 12:08 PM",
+            "to": "Victor Anand, OT Engineer",
+            "cc": "",
+            "subject": "First look at the TRI-1 SOE export",
+            "body": "From the Schneider Electric Triconex specialist to the OT Engineer (first look at the SOE export): the running logic v2.1.7 differs from your archive in the ESD-310 output section; the status points that the DCS reads were forced to report CLOSED regardless of the limit switches. The change was downloaded from TS-EWS-01 at 08:57:59 while the key switch was in PROGRAM."
+          }
+        },
+        "instructorNote": "This inject confirms the successful restoration of SIS integrity. The OT Engineer must now initiate the PSSR process under PSM and await EHS confirmation before proceeding to restart.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:34.880Z"
+}

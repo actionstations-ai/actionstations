@@ -1,0 +1,50 @@
+{
+  "id": "county-public-health",
+  "title": "Marston County Health Department",
+  "domainProfile": "public_health",
+  "summary": "A mid-size county health department (four health districts, three clinics, six POD sites, county-run IT and the state's surveillance and immunization systems) and a tabletop exercise generated from its simulated plans: a measles outbreak response while an intruder alters vaccination and case data in the department's systems.",
+  "notice": "EXERCISE MATERIAL — for training use. Marston County, its health department, people, partners and identifiers are simulated; the public sources consulted for realism are listed in reference/county-public-health/SOURCES.md.",
+  "project": {
+    "name": "Marston County Health Department",
+    "orgName": "Marston County Health Department",
+    "orgType": "public_health",
+    "brand": {
+      "city": "Ellery",
+      "region": "Marston County, Kansas",
+      "aliases": {
+        "org": "Marston County Health Department",
+        "orgShort": "MCHD",
+        "orgDomain": "marstonhealth.example",
+        "localTv": "Channel 7",
+        "airport": "Ellery Health Center"
+      }
+    }
+  },
+  "documents": {
+    "dir": "reference/county-public-health",
+    "exclude": ["SOURCES.md"]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 2
+  },
+  "scenarios": [
+    {
+      "key": "measles-ransomware",
+      "threatFamily": "cyber",
+      "summary": "In the second week of measles outbreak OB-2026-0147 in Health District 2, a script on the interface server MCHD-INT01 sends the state immunization registry 412 MMR doses nobody gave, false cases appear on the line list through the fax server, and the Saturday POD 2 appointments are cancelled from a phished account; the department must decide what to isolate, work on paper, keep the POD and answer a viral claim that children's records leaked.",
+      "userPrompt": "Measles outbreak OB-2026-0147 is in its second week in Health District 2 (Brandt): 9 confirmed cases, most linked to Grace Fellowship Academy, exposure sites at the North District Clinic waiting room and the St. Brigid Hospital emergency department, and an extra MMR clinic planned at POD 2 (Brandt Middle School gymnasium) for Saturday with 640 SlotWise bookings. At 06:50 Thursday County IT reports ransomware on the county network: the MCHD-FS01 shares are encrypted, ClinicTrack EHR (MCHD-EHR-APP01, MCHD-SQL02) and the Epi fax server MCHD-FAX01 are down, and the SharePoint line list shows edits from an unfamiliar account. The KDHE Immunization Program calls: last night's IIS-EXPORT-NIGHTLY file from MCHD-INT01 carried 412 MMR doses with lot numbers that are not in MCHD inventory. SlotWise shows the POD 2 appointments bulk-cancelled at 03:10 from Data Analyst Jenna Fowler's account after a phishing email, and a viral Facebook post says MCHD leaked children's vaccine records and cancelled the clinic. Paper mode (forms MCHD-F-10, MCHD-F-12, MCHD-F-40), pausing the state IIS export, whether to keep POD 2 open, exclusion and quarantine orders for Grace Fellowship Academy, the HIPAA hybrid-entity breach question for the clinic records, reports to KDHE, the FBI and CISA, and CERC messaging in English and Spanish.",
+      "audience": [
+        "Command / Health Officer",
+        "Epidemiology and Disease Investigation",
+        "Clinical Services and Medical Countermeasures",
+        "Informatics and County IT",
+        "Public Information"
+      ],
+      "constraints": [
+        "Every email address of the department and the county uses the exercise domain marstonhealth.example; outside parties use fictional domains and fictional outlet names (Channel 7, The Ellery Ledger); never a real agency, company or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (KDHE, the county's managed SOC, hospitals, schools, the FBI, CISA, vendors, reporters) are played by the SimCell, not seated as players."
+      ]
+    }
+  ]
+}

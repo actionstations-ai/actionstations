@@ -1,0 +1,285 @@
+{
+  "id": "01M5QSQW8KBR9Z9YDZYD3BVHNQ",
+  "mselRowId": "I-01",
+  "type": "field_report",
+  "title": "Rail Spot 2 Chlorine Release — Field Report",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Teague Valley Chemical Company — Loading Operations",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0412",
+    "date": "10/22/2026",
+    "time": "09:03",
+    "location": "Rail Spot 2, Chlorine Loading Rack",
+    "inspector": "Loader 1, Field Operator",
+    "unit": "Loading Crew 2",
+    "reportType": "incident",
+    "weather": "Clear, 58°F, wind WSW 6 mph",
+    "summary": "A visible yellow-green vapor cloud is rising from the railcar at Rail Spot 2. The scale WT-302 continues to climb. The hand valve HV-312 is confirmed open in the field. The DCS HMI shows ESD-310 as closed, but the field inspection confirms the valve is not physically closed. The ESD-310 status on the DeltaV HMI is inconsistent with on-site conditions.",
+    "findings": [
+      {
+        "item": "ESD-310 valve position (DCS HMI)",
+        "condition": "failed",
+        "notes": "Shows closed, but field inspection confirms open"
+      },
+      {
+        "item": "Hand valve HV-312 position",
+        "condition": "ok",
+        "notes": "Confirmed open in the field"
+      },
+      {
+        "item": "Vapor cloud visibility",
+        "condition": "failed",
+        "notes": "Visible yellow-green cloud over railcar"
+      },
+      {
+        "item": "WT-302 scale trend",
+        "condition": "failed",
+        "notes": "Continuing to rise; not stabilizing"
+      },
+      {
+        "item": "Fixed gas detector AT-313 (Rail Spot 2)",
+        "condition": "ok",
+        "notes": "Reading 4.2 ppm, alarm active"
+      },
+      {
+        "item": "Emergency scrubber C-650 status",
+        "condition": "not_inspected",
+        "notes": ""
+      },
+      {
+        "item": "Siren panel S-1 to S-6",
+        "condition": "not_inspected",
+        "notes": ""
+      },
+      {
+        "item": "Field safety equipment (SCBA, suit)",
+        "condition": "ok",
+        "notes": "All ERT gear is at the ERT staging point, ready for deployment"
+      }
+    ],
+    "actionsTaken": [
+      "Notified Shift Supervisor and Incident Commander via radio at 09:03",
+      "Confirmed ESD-310 status in the field",
+      "Initiated external call to EHS and OT Engineering as per SOP 7.2"
+    ],
+    "recommendations": [
+      "Immediately verify ESD-310 status on Triconex SIS and DeltaV HMI",
+      "Activate emergency call sequence per ERP-5.1",
+      "Dispatch ERT to Rail Spot 2 with SCBA and Level A suits"
+    ],
+    "photosNote": "2 photos attached: IMG_FIR-2026-0412-01 (yellow-green vapor over railcar), IMG_FIR-2026-0412-02 (hand valve HV-312, open, visible)",
+    "signature": "Loader 1, Field Operator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the core narrative: field and screen disagree. The OT Engineer must now be engaged to investigate the control-system inconsistency.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+      "headingPath": "Teague Valley Chemical Company,… › Section 3 › 3.3 Loading positions",
+      "quote": "| Position | Product | Equipment | Isolation | |---|---|---|---| | Rail Spot 1 | Liquid chlorine | Loading arm LA-1, railcar scale WT-301 | Remote-operated emergency isolation valves on the arm and th",
+      "chunkId": 35
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 6 › 6.1 First actions (board operator and Shift Supervisor)",
+      "quote": "1. Confirm by at least two of: fixed detectors, CCTV, outside operator report, railcar scale weight change. 2. Trip ESD-310 (rail spots) or ESD-320 (tank farm) from the hard-wired ESD pushbuttons on t",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+      "headingPath": "Teague Valley Chemical Company,… › Section 7",
+      "quote": "| Detectors | Location | Alarm / trip | |---|---|---| | AT-311 to AT-318 | Rail Spot 1 to Rail Spot 4 (two per spot) | 1 ppm alarm, 3 ppm ESD-310 | | AT-321 to AT-326 | Chlorine Storage Building and D",
+      "chunkId": 41
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJGD0Y7FGF99R5A0FZ1D5",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSQW8KBR9Z9YDZYD3BVHNQ/01M5QTJGD0Y7FGF99R5A0FZ1D5.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "cb24c666354b8bdb2245c35a7c58b8d15923429d5db3f12adc33fe4254197e98",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:25.342Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:31:02.984Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Rail Spot 2 Chlorine Release — Field Report",
+        "type": "field_report",
+        "fields": {
+          "organization": "Teague Valley Chemical Company — Loading Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412",
+          "date": "10/24/2026",
+          "time": "09:03",
+          "location": "Rail Spot 2, Chlorine Loading Rack",
+          "inspector": "Loader 1, Field Operator",
+          "unit": "Loading Crew 2",
+          "reportType": "incident",
+          "weather": "Clear, 58°F, wind NW 5 mph",
+          "summary": "A visible yellow-green vapor cloud is rising from the railcar at Rail Spot 2. The scale WT-302 continues to climb. The hand valve HV-312 is confirmed open in the field. The DCS HMI shows ESD-310 as closed, but the field inspection confirms the valve is not physically closed. The ESD-310 status on the DeltaV HMI is inconsistent with on-site conditions.",
+          "findings": [
+            {
+              "item": "ESD-310 valve position (DCS HMI)",
+              "condition": "failed",
+              "notes": "Shows closed, but field inspection confirms open"
+            },
+            {
+              "item": "Hand valve HV-312 position",
+              "condition": "ok",
+              "notes": "Confirmed open in the field"
+            },
+            {
+              "item": "Vapor cloud visibility",
+              "condition": "failed",
+              "notes": "Visible yellow-green cloud over railcar"
+            },
+            {
+              "item": "WT-302 scale trend",
+              "condition": "failed",
+              "notes": "Continuing to rise; not stabilizing"
+            },
+            {
+              "item": "Fixed gas detector AT-313 (Rail Spot 2)",
+              "condition": "ok",
+              "notes": "Reading 4.2 ppm, alarm active"
+            },
+            {
+              "item": "Emergency scrubber C-650 status",
+              "condition": "not_inspected",
+              "notes": ""
+            },
+            {
+              "item": "Siren panel S-1 to S-6",
+              "condition": "not_inspected",
+              "notes": ""
+            },
+            {
+              "item": "Field safety equipment (SCBA, suit)",
+              "condition": "ok",
+              "notes": "All ERT gear is at the ERT staging point, ready for deployment"
+            }
+          ],
+          "actionsTaken": [
+            "Notified Shift Supervisor and Incident Commander via radio at 09:03",
+            "Confirmed ESD-310 status in the field",
+            "Initiated external call to EHS and OT Engineering as per SOP 7.2"
+          ],
+          "recommendations": [
+            "Immediately verify ESD-310 status on Triconex SIS and DeltaV HMI",
+            "Activate emergency call sequence per ERP-5.1",
+            "Dispatch ERT to Rail Spot 2 with SCBA and Level A suits"
+          ],
+          "photosNote": "2 photos attached: IMG_FIR-2026-0412-01 (yellow-green vapor over railcar), IMG_FIR-2026-0412-02 (hand valve HV-312, open, visible)",
+          "signature": "Loader 1, Field Operator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the core narrative: field and screen disagree. The OT Engineer must now be engaged to investigate the control-system inconsistency.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.636Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Rail Spot 2 Chlorine Release — Field Report",
+        "type": "field_report",
+        "fields": {
+          "organization": "Teague Valley Chemical Company — Loading Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412",
+          "date": "10/22/2026",
+          "time": "09:03",
+          "location": "Rail Spot 2, Chlorine Loading Rack",
+          "inspector": "Loader 1, Field Operator",
+          "unit": "Loading Crew 2",
+          "reportType": "incident",
+          "weather": "Clear, 58°F, wind WSW 6 mph",
+          "summary": "A visible yellow-green vapor cloud is rising from the railcar at Rail Spot 2. The scale WT-302 continues to climb. The hand valve HV-312 is confirmed open in the field. The DCS HMI shows ESD-310 as closed, but the field inspection confirms the valve is not physically closed. The ESD-310 status on the DeltaV HMI is inconsistent with on-site conditions.",
+          "findings": [
+            {
+              "item": "ESD-310 valve position (DCS HMI)",
+              "condition": "failed",
+              "notes": "Shows closed, but field inspection confirms open"
+            },
+            {
+              "item": "Hand valve HV-312 position",
+              "condition": "ok",
+              "notes": "Confirmed open in the field"
+            },
+            {
+              "item": "Vapor cloud visibility",
+              "condition": "failed",
+              "notes": "Visible yellow-green cloud over railcar"
+            },
+            {
+              "item": "WT-302 scale trend",
+              "condition": "failed",
+              "notes": "Continuing to rise; not stabilizing"
+            },
+            {
+              "item": "Fixed gas detector AT-313 (Rail Spot 2)",
+              "condition": "ok",
+              "notes": "Reading 4.2 ppm, alarm active"
+            },
+            {
+              "item": "Emergency scrubber C-650 status",
+              "condition": "not_inspected",
+              "notes": ""
+            },
+            {
+              "item": "Siren panel S-1 to S-6",
+              "condition": "not_inspected",
+              "notes": ""
+            },
+            {
+              "item": "Field safety equipment (SCBA, suit)",
+              "condition": "ok",
+              "notes": "All ERT gear is at the ERT staging point, ready for deployment"
+            }
+          ],
+          "actionsTaken": [
+            "Notified Shift Supervisor and Incident Commander via radio at 09:03",
+            "Confirmed ESD-310 status in the field",
+            "Initiated external call to EHS and OT Engineering as per SOP 7.2"
+          ],
+          "recommendations": [
+            "Immediately verify ESD-310 status on Triconex SIS and DeltaV HMI",
+            "Activate emergency call sequence per ERP-5.1",
+            "Dispatch ERT to Rail Spot 2 with SCBA and Level A suits"
+          ],
+          "photosNote": "2 photos attached: IMG_FIR-2026-0412-01 (yellow-green vapor over railcar), IMG_FIR-2026-0412-02 (hand valve HV-312, open, visible)",
+          "signature": "Loader 1, Field Operator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the core narrative: field and screen disagree. The OT Engineer must now be engaged to investigate the control-system inconsistency.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:25.910Z"
+}

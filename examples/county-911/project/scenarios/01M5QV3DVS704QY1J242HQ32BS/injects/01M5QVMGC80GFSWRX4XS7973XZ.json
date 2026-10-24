@@ -1,0 +1,166 @@
+{
+  "id": "01M5QVMGC80GFSWRX4XS7973XZ",
+  "mselRowId": "I-09",
+  "type": "radio_call",
+  "title": "Cyber Emergency Activation — EOC Level 3",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Rook County Sheriff's Office",
+    "centerName": "Rook County Emergency Communications District",
+    "channel": "EOC landline",
+    "frequency": "TG 4001 / 450.700 MHz",
+    "date": "10/22/2026",
+    "callsign": "County EOC",
+    "lines": [
+      {
+        "time": "19:55:03",
+        "from": "EMA Director Brodsky",
+        "to": "911 Director",
+        "text": "Karen, this is Paul Brodsky at the county EOC. We have a tornado on the ground near Pine Ridge and Channel 12 is telling people 911 is down. Is 911 working or not? If you want alternate numbers published and a WEA sent, I need the numbers and the wording from you in the next 10 minutes."
+      }
+    ],
+    "background": "office",
+    "voiceStyle": "Female, mid-40s, urgent, controlled stress",
+    "audioFile": "I-09_radio.wav",
+    "duration": "0:21",
+    "injectId": "I-09"
+  },
+  "variant": "default",
+  "instructorNote": "This inject triggers the Level 1 declaration decision point. Watch for the Director to either declare Level 1 via OPS-DR-1 or initiate evacuation under emergency authority. Delay may force an unplanned ENDEX.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Annex C",
+      "quote": "| Record | Decision | Owner | |---|---|---| | OPS-DR-1 | Declare an incident level | Shift Supervisor / Director | | OPS-DR-2 | Reroute all 911 calls to Tamarack County Communications | Director | | O",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 5",
+      "quote": "| Level | Trigger | Actions | |---|---|---| | Level 3 — Watch | Severe weather watch; one system degraded with a workaround; nuisance-call pattern | Supervisor notifies Operations Manager; call-back s",
+      "chunkId": 27
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat…",
+      "quote": "Document Control Number: RCECD-CYB-2026 · Revision 2.1 · Effective Date: 03/01/2026 · Parent document: RCECD-OPS-2026 · Owners: Brent Harlow (911 Systems Manager) and Nadia Fenwick (County Information",
+      "chunkId": 1
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Deputy Haskins",
+        "voiceStyle": "Female, mid-40s, urgent, controlled stress",
+        "text": "Director, this is Deputy Mara Haskins, Rook County Sheriff’s Office. We have received a formal request from the County Emergency Management Director to activate EOC Level 3 and declare a cyber emergency under RC-CEMP-2024. The local TV station has confirmed the 911 outage, and the public is in high panic. We are forwarding the request for official declaration under OPS-DR-1 and must begin evacuation procedures within 10 minutes."
+      },
+      {
+        "speaker": "Deputy Haskins",
+        "voiceStyle": "Female, mid-40s, urgent, controlled stress",
+        "text": "The EMA Director is on standby for confirmation. We need a formal Level 1 declaration from you within the next five minutes. Failure to act will trigger emergency authority under OPS-DR-5 — evacuation to the backup PSAP at Level 3."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QWA0AT92HD2C6GF8XN3BN4",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVMGC80GFSWRX4XS7973XZ/01M5QWA0AT92HD2C6GF8XN3BN4.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "378ccc08c1b35249988b1b68cfcd944ad80a9f4517bdcbc463563309f11e96e1",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:44.204Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:04:13.338Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Cyber Emergency Activation — EOC Level 3",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Rook County Sheriff's Office",
+          "centerName": "Rook County Emergency Communications District",
+          "channel": "PD TAC 1",
+          "frequency": "TG 4001 / 450.700 MHz",
+          "date": "10/24/2026",
+          "callsign": "Deputy Haskins",
+          "lines": [
+            {
+              "time": "19:55:03",
+              "from": "Deputy Haskins",
+              "to": "911 Director",
+              "text": "Director, this is Deputy Mara Haskins, Rook County Sheriff’s Office. We have received a formal request from the County Emergency Management Director to activate EOC Level 3 and declare a cyber emergency under RC-CEMP-2024. The local TV station has confirmed the 911 outage, and the public is in high panic. We are forwarding the request for official declaration under OPS-DR-1 and must begin evacuation procedures within 10 minutes."
+            },
+            {
+              "time": "19:55:18",
+              "from": "Deputy Haskins",
+              "to": "911 Director",
+              "text": "The EMA Director is on standby for confirmation. We need a formal Level 1 declaration from you within the next five minutes. Failure to act will trigger emergency authority under OPS-DR-5 — evacuation to the backup PSAP at Level 3."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Female, mid-40s, urgent, controlled stress",
+          "audioFile": "I-09_radio.wav",
+          "duration": "0:21",
+          "injectId": "I-09"
+        },
+        "instructorNote": "This inject triggers the Level 1 declaration decision point. Watch for the Director to either declare Level 1 via OPS-DR-1 or initiate evacuation under emergency authority. Delay may force an unplanned ENDEX.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.576Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Cyber Emergency Activation — EOC Level 3",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Rook County Sheriff's Office",
+          "centerName": "Rook County Emergency Communications District",
+          "channel": "EOC landline",
+          "frequency": "TG 4001 / 450.700 MHz",
+          "date": "10/22/2026",
+          "callsign": "County EOC",
+          "lines": [
+            {
+              "time": "19:55:03",
+              "from": "EMA Director Brodsky",
+              "to": "911 Director",
+              "text": "Karen, this is Paul Brodsky at the county EOC. We have a tornado on the ground near Pine Ridge and Channel 12 is telling people 911 is down. Is 911 working or not? If you want alternate numbers published and a WEA sent, I need the numbers and the wording from you in the next 10 minutes."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Female, mid-40s, urgent, controlled stress",
+          "audioFile": "I-09_radio.wav",
+          "duration": "0:21",
+          "injectId": "I-09"
+        },
+        "instructorNote": "This inject triggers the Level 1 declaration decision point. Watch for the Director to either declare Level 1 via OPS-DR-1 or initiate evacuation under emergency authority. Delay may force an unplanned ENDEX.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:44.446Z"
+}

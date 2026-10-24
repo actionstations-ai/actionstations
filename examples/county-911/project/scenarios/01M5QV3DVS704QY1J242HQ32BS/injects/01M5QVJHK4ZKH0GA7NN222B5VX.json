@@ -1,0 +1,138 @@
+{
+  "id": "01M5QVJHK4ZKH0GA7NN222B5VX",
+  "mselRowId": "I-06",
+  "type": "time_jump_card",
+  "title": "Time Jump — 911 System Deterioration",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:00",
+    "newTime": "19:30",
+    "jumpLabel": "+60 minutes",
+    "narration": "It is now 19:30. At 19:22 the National Weather Service issued a tornado warning for western Rook County (Marlow, Pine Ridge) until 20:15 and the supervisor sounded the sirens from Position 11. Call volume is five times normal. The TDoS-strict rule set is on for the 10-digit lines, but silent calls now arrive on the 911 trunks (SIP trunk group A): 9 calls in queue, a Marlow fire call waiting 70 seconds.",
+    "worldState": [
+      "The 911 center is operating under sustained stress — 10 calls in queue, 2 exceeding 90 seconds in wait time.",
+      "The GateKeeper appliance is now running the TDoS-strict rule set, filtering repeated ANIs and invalid caller IDs.",
+      "RCECD-POS09 (10.12.200.102) remains isolated; its network traffic has been blocked at the firewall.",
+      "The Technical Lead has documented the isolation in the ICS 214 log under incident CR-20261022-183502-0014.",
+      "The PIO has activated the alternate emergency number protocol and is preparing to issue a public alert via WEA.",
+      "The Director has not yet declared an incident level, but is reviewing OPS-DR-1 and OPS-DR-2 in the RCECD-OPS-2026 playbook.",
+      "The state ESInet NOC has been contacted via 555-0119; a request for call-source analysis is pending.",
+      "The Mutual Call-Taking Agreement with Tamarack County Communications (MCTA-2025) is now on standby for activation."
+    ],
+    "facilitatorNote": "This is a critical decision point. The Director must decide whether to escalate to Level 1 and trigger rerouting or maintain current operations. Watch for any player attempt to initiate manual dispatch without confirming readiness.",
+    "scenarioTitle": "Silent Calls — CAD/AVL Integrity & Service Continuity",
+    "injectId": "I-06"
+  },
+  "variant": "default",
+  "instructorNote": "This time jump advances the scenario to a point of operational pressure. The shift must now decide whether to declare an incident and activate contingency plans. Monitor for premature manual dispatch decisions and verify that the TDoS-strict rule set’s impact is understood.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 5 › T-2 Contain",
+      "quote": "- **10-digit lines:** the GateKeeper call-screening appliance sits in front of the 10-digit lines (not the 911 trunks). The supervisor or Technical Lead turns on the stored \"TDoS-strict\" rule set (blo",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Annex C",
+      "quote": "| Record | Decision | Owner | |---|---|---| | OPS-DR-1 | Declare an incident level | Shift Supervisor / Director | | OPS-DR-2 | Reroute all 911 calls to Tamarack County Communications | Director | | O",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 4",
+      "quote": "First signs reported by the floor: a flood of calls with silence, ringing, recorded speech or the same caller conferencing several call takers; ANI numbers that repeat or are clearly invalid; CAD scre",
+      "chunkId": 6
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QW9XR32ET9P27NTEER8G4Q",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVJHK4ZKH0GA7NN222B5VX/01M5QW9XR32ET9P27NTEER8G4Q.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "8ac7202077440e178cd8dde5cac88b02dd77418c89547d615e38f3ad821020a0",
+      "provenance": {
+        "provider": "template",
+        "templateId": "time_jump_card",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:41.550Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:03:03.513Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump — 911 System Deterioration",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "1:00",
+          "newTime": "19:30",
+          "jumpLabel": "+60 minutes",
+          "narration": "It is now 1:00. The problem has spread to multiple 911 trunks and 10-digit lines. The floor cannot maintain call integrity — 10 calls in queue, 2 with 90-second wait times. The Director has not yet declared Level 1, but the Technical Lead has manually isolated RCECD-POS09 and blocked its traffic. The TDoS-strict rule set is now active, but silent calls continue to flood the 10-digit lines. The shift must decide whether to go manual or wait for a recovery that may not come.",
+          "worldState": [
+            "The 911 center is operating under sustained stress — 10 calls in queue, 2 exceeding 90 seconds in wait time.",
+            "The GateKeeper appliance is now running the TDoS-strict rule set, filtering repeated ANIs and invalid caller IDs.",
+            "RCECD-POS09 (10.12.200.102) remains isolated; its network traffic has been blocked at the firewall.",
+            "The Technical Lead has documented the isolation in the ICS 214 log under incident CR-20261024-183502-0014.",
+            "The PIO has activated the alternate emergency number protocol and is preparing to issue a public alert via WEA.",
+            "The Director has not yet declared an incident level, but is reviewing OPS-DR-1 and OPS-DR-2 in the RCECD-OPS-2026 playbook.",
+            "The state ESInet NOC has been contacted via 555-0119; a request for call-source analysis is pending.",
+            "The Mutual Call-Taking Agreement with Tamarack County Communications (MCTA-2025) is now on standby for activation."
+          ],
+          "facilitatorNote": "This is a critical decision point. The Director must decide whether to escalate to Level 1 and trigger rerouting or maintain current operations. Watch for any player attempt to initiate manual dispatch without confirming readiness.",
+          "scenarioTitle": "Silent Calls — CAD/AVL Integrity & Service Continuity",
+          "injectId": "I-06"
+        },
+        "instructorNote": "This time jump advances the scenario to a point of operational pressure. The shift must now decide whether to declare an incident and activate contingency plans. Monitor for premature manual dispatch decisions and verify that the TDoS-strict rule set’s impact is understood.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.556Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Time Jump — 911 System Deterioration",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "1:00",
+          "newTime": "19:30",
+          "jumpLabel": "+60 minutes",
+          "narration": "It is now 19:30. At 19:22 the National Weather Service issued a tornado warning for western Rook County (Marlow, Pine Ridge) until 20:15 and the supervisor sounded the sirens from Position 11. Call volume is five times normal. The TDoS-strict rule set is on for the 10-digit lines, but silent calls now arrive on the 911 trunks (SIP trunk group A): 9 calls in queue, a Marlow fire call waiting 70 seconds.",
+          "worldState": [
+            "The 911 center is operating under sustained stress — 10 calls in queue, 2 exceeding 90 seconds in wait time.",
+            "The GateKeeper appliance is now running the TDoS-strict rule set, filtering repeated ANIs and invalid caller IDs.",
+            "RCECD-POS09 (10.12.200.102) remains isolated; its network traffic has been blocked at the firewall.",
+            "The Technical Lead has documented the isolation in the ICS 214 log under incident CR-20261022-183502-0014.",
+            "The PIO has activated the alternate emergency number protocol and is preparing to issue a public alert via WEA.",
+            "The Director has not yet declared an incident level, but is reviewing OPS-DR-1 and OPS-DR-2 in the RCECD-OPS-2026 playbook.",
+            "The state ESInet NOC has been contacted via 555-0119; a request for call-source analysis is pending.",
+            "The Mutual Call-Taking Agreement with Tamarack County Communications (MCTA-2025) is now on standby for activation."
+          ],
+          "facilitatorNote": "This is a critical decision point. The Director must decide whether to escalate to Level 1 and trigger rerouting or maintain current operations. Watch for any player attempt to initiate manual dispatch without confirming readiness.",
+          "scenarioTitle": "Silent Calls — CAD/AVL Integrity & Service Continuity",
+          "injectId": "I-06"
+        },
+        "instructorNote": "This time jump advances the scenario to a point of operational pressure. The shift must now decide whether to declare an incident and activate contingency plans. Monitor for premature manual dispatch decisions and verify that the TDoS-strict rule set’s impact is understood.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:41.790Z"
+}

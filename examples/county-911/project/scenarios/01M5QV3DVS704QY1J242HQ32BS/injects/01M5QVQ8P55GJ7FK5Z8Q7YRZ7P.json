@@ -1,0 +1,132 @@
+{
+  "id": "01M5QVQ8P55GJ7FK5Z8Q7YRZ7P",
+  "mselRowId": "I-15",
+  "type": "time_jump_card",
+  "title": "Time Jump — 911 System Deterioration",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:00",
+    "newTime": "21:30",
+    "jumpLabel": "+60 minutes",
+    "narration": "It is now 21:30. The silent-call flood has dropped to 3 a minute. Tamarack County Communications still takes overflow; RCECD positions answer the rest. The floor has worked on cards since 20:55. Damage reports from Pine Ridge continue.",
+    "worldState": [
+      "The 911 center is operating under manual dispatch using RCECD-F-11 run cards and printed map book.",
+      "The GateKeeper appliance is filtering 10-digit lines using the TDoS-strict rule set.",
+      "The Technical Lead has isolated RCECD-POS09 (10.12.200.102) and blocked its traffic via CAD-FW01 (CYB-DR-1).",
+      "The state ESInet NOC has been notified and is analyzing call-source patterns.",
+      "Tamarack County Communications is on standby for overflow routing under MCTA-2025.",
+      "The Public Information Officer has issued a corrected alternate number: 555-0110.",
+      "The floor has confirmed manual dispatch operations via Supervisor Greene on Position 12.",
+      "The Director has not yet declared an incident level under OPS-DR-1.",
+      "The shift is continuing to monitor call queues, unit status, and ALI integrity via field radio and manual tracking."
+    ],
+    "facilitatorNote": "Time jump to 21:30; confirm all roles are operating under manual dispatch and verifying system state. Monitor for any attempt to resume CAD without verification.",
+    "scenarioTitle": "Silent Calls — CAD/AVL Integrity & Service Continuity",
+    "injectId": "I-15"
+  },
+  "variant": "default",
+  "instructorNote": "Time jump to 21:30; confirm all roles are operating under manual dispatch and verifying system state. Monitor for any attempt to resume CAD without verification.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 5 › T-2 Contain",
+      "quote": "- **10-digit lines:** the GateKeeper call-screening appliance sits in front of the 10-digit lines (not the 911 trunks). The supervisor or Technical Lead turns on the stored \"TDoS-strict\" rule set (blo",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 7",
+      "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Annex C",
+      "quote": "| Record | Decision | Owner | |---|---|---| | OPS-DR-1 | Declare an incident level | Shift Supervisor / Director | | OPS-DR-2 | Reroute all 911 calls to Tamarack County Communications | Director | | O",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 1",
+      "quote": "A cyber incident at a 911 center is a life-safety incident first. This playbook tells the floor and the technical staff how to keep calls answered and units dispatched while a technical attack or fail",
+      "chunkId": 3
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T21:05:39.386Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump — 911 System Deterioration",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "newTime": "21:30",
+          "jumpLabel": "+60 minutes",
+          "narration": "It is now 21:30. The problem has spread to multiple 911 trunks and 10-digit lines. The floor cannot maintain call integrity — 10 calls in queue, 2 with 90-second wait times. The Director has not yet declared Level 1, but the Technical Lead has manually isolated RCECD-POS09 and blocked its traffic. The TDoS-strict rule set is now active, but silent calls continue to flood the 10-digit lines. The shift must decide whether to go manual or wait for a recovery that may not come.",
+          "worldState": [
+            "The 911 center is operating under manual dispatch using RCECD-F-11 run cards and printed map book.",
+            "The GateKeeper appliance is filtering 10-digit lines using the TDoS-strict rule set.",
+            "The Technical Lead has isolated RCECD-POS09 (10.12.200.102) and blocked its traffic via CAD-FW01 (CYB-DR-1).",
+            "The state ESInet NOC has been notified and is analyzing call-source patterns.",
+            "Tamarack County Communications is on standby for overflow routing under MCTA-2025.",
+            "The Public Information Officer has issued a corrected alternate number: 555-0101.",
+            "The floor has confirmed manual dispatch operations via Supervisor Greene on Position 12.",
+            "The Director has not yet declared an incident level under OPS-DR-1.",
+            "The shift is continuing to monitor call queues, unit status, and ALI integrity via field radio and manual tracking."
+          ],
+          "facilitatorNote": "Time jump to 21:30; confirm all roles are operating under manual dispatch and verifying system state. Monitor for any attempt to resume CAD without verification.",
+          "scenarioTitle": "Silent Calls — CAD/AVL Integrity & Service Continuity",
+          "injectId": "I-15"
+        },
+        "instructorNote": "Time jump to 21:30; confirm all roles are operating under manual dispatch and verifying system state. Monitor for any attempt to resume CAD without verification.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.620Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Time Jump — 911 System Deterioration",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "newTime": "21:30",
+          "jumpLabel": "+60 minutes",
+          "narration": "It is now 21:30. The silent-call flood has dropped to 3 a minute. Tamarack County Communications still takes overflow; RCECD positions answer the rest. The floor has worked on cards since 20:55. Damage reports from Pine Ridge continue.",
+          "worldState": [
+            "The 911 center is operating under manual dispatch using RCECD-F-11 run cards and printed map book.",
+            "The GateKeeper appliance is filtering 10-digit lines using the TDoS-strict rule set.",
+            "The Technical Lead has isolated RCECD-POS09 (10.12.200.102) and blocked its traffic via CAD-FW01 (CYB-DR-1).",
+            "The state ESInet NOC has been notified and is analyzing call-source patterns.",
+            "Tamarack County Communications is on standby for overflow routing under MCTA-2025.",
+            "The Public Information Officer has issued a corrected alternate number: 555-0110.",
+            "The floor has confirmed manual dispatch operations via Supervisor Greene on Position 12.",
+            "The Director has not yet declared an incident level under OPS-DR-1.",
+            "The shift is continuing to monitor call queues, unit status, and ALI integrity via field radio and manual tracking."
+          ],
+          "facilitatorNote": "Time jump to 21:30; confirm all roles are operating under manual dispatch and verifying system state. Monitor for any attempt to resume CAD without verification.",
+          "scenarioTitle": "Silent Calls — CAD/AVL Integrity & Service Continuity",
+          "injectId": "I-15"
+        },
+        "instructorNote": "Time jump to 21:30; confirm all roles are operating under manual dispatch and verifying system state. Monitor for any attempt to resume CAD without verification.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:46.799Z"
+}

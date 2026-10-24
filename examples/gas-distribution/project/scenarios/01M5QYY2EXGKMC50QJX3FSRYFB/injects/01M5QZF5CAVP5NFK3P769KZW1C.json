@@ -1,0 +1,155 @@
+{
+  "id": "01M5QZF5CAVP5NFK3P769KZW1C",
+  "mselRowId": "I-14",
+  "type": "radio_call",
+  "title": "Field: Manual Isolation Complete — Pressure District 7",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "orgName": "Corwin Valley Gas Company",
+    "centerName": "Gas Control Center",
+    "channel": "Field Ops 3",
+    "frequency": "TG 301 / 450.100 MHz",
+    "date": "01/13/2027",
+    "callsign": "Supervisor Oyelowo (Field Lead)",
+    "lines": [
+      {
+        "time": "18:45",
+        "from": "Oyelowo",
+        "to": "IC",
+        "text": "IC, this is Supervisor Oyelowo. Valve 21 and Valve 22 are closed at RS-21 and RS-22, confirmed by two M&R techs and logged on paper trip sheets. Pressure District 7 is shut in. PR-7B is falling. We need servicepersons to start shutting off meters door to door before anyone tries to relight."
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+    "audioFile": "I-14_radio.wav",
+    "duration": "0:28",
+    "injectId": "I-14"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms full field isolation and readiness for shutdown. The IC must now authorize the full district shutdown and public alerting under CVG-CIRP-2026 Section 6.3. Watch for hesitation or delay in command authority.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 6 › 6.2 Local control of stations",
+      "quote": "When SCADA cannot be trusted, Gas Control moves stations to local control: | Station group | Local-control method | Staffing | |---|---|---| | Harlan Road City Gate, Millstream Gate Station | Station ",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 6 › 6.3 Actions",
+      "quote": "1. Gas Control dispatches M&R to the station and the nearest recorder with calibrated field gauges; field gauges govern over SCADA when they disagree. 2. If an overpressure is confirmed or cannot be r",
+      "chunkId": 47
+    },
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 3",
+      "quote": "| Line | Description | Size / material | MAOP | Route | |---|---|---|---|---| | Line 100 | Supply main from Harlan Road City Gate to the north and central system | 12-inch coated steel | 300 psig | Ha",
+      "chunkId": 22
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Supervisor Oyelowo (Field Lead)",
+        "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+        "text": "IC, this is Supervisor Oyelowo. All field crews are on site at RS-11 and RS-12. Valve 11 and Valve 12 are confirmed closed by two M&R techs. Paper trip sheets are signed and scanned. We have full manual isolation capability for Pressure District 7. All equipment is in local control. We are ready to begin evacuations and relight coordination. We need your authorization to proceed with the full shutdown and public alerting. The situation is not stable, and we cannot hold this district on local control any longer."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYMZWQYS72ZWN8N2566A1",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZF5CAVP5NFK3P769KZW1C/01M5QZYMZWQYS72ZWN8N2566A1.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "9156210cd8f5493f925d7a4416b2d34950430f47dad2b563ef2e585787f03a56",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:26.475Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:11:11.958Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Field: Manual Isolation Complete — Pressure District 7",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Corwin Valley Gas Company",
+          "centerName": "Gas Control Center",
+          "channel": "Field Ops 3",
+          "frequency": "TG 301 / 450.100 MHz",
+          "date": "10/24/2026",
+          "callsign": "Supervisor Oyelowo (Field Lead)",
+          "lines": [
+            {
+              "time": "18:45",
+              "from": "Supervisor Oyelowo (Field Lead)",
+              "to": "IC, GCM, CYB, SEC, PIO",
+              "text": "IC, this is Supervisor Oyelowo. All field crews are on site at RS-11 and RS-12. Valve 11 and Valve 12 are confirmed closed by two M&R techs. Paper trip sheets are signed and scanned. We have full manual isolation capability for Pressure District 7. All equipment is in local control. We are ready to begin evacuations and relight coordination. We need your authorization to proceed with the full shutdown and public alerting. The situation is not stable, and we cannot hold this district on local control any longer."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+          "audioFile": "I-14_radio.wav",
+          "duration": "0:28",
+          "injectId": "I-14"
+        },
+        "instructorNote": "This inject confirms full field isolation and readiness for shutdown. The IC must now authorize the full district shutdown and public alerting under CVG-CIRP-2026 Section 6.3. Watch for hesitation or delay in command authority.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.477Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field: Manual Isolation Complete — Pressure District 7",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Corwin Valley Gas Company",
+          "centerName": "Gas Control Center",
+          "channel": "Field Ops 3",
+          "frequency": "TG 301 / 450.100 MHz",
+          "date": "01/13/2027",
+          "callsign": "Supervisor Oyelowo (Field Lead)",
+          "lines": [
+            {
+              "time": "18:45",
+              "from": "Oyelowo",
+              "to": "IC",
+              "text": "IC, this is Supervisor Oyelowo. Valve 21 and Valve 22 are closed at RS-21 and RS-22, confirmed by two M&R techs and logged on paper trip sheets. Pressure District 7 is shut in. PR-7B is falling. We need servicepersons to start shutting off meters door to door before anyone tries to relight."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+          "audioFile": "I-14_radio.wav",
+          "duration": "0:28",
+          "injectId": "I-14"
+        },
+        "instructorNote": "This inject confirms full field isolation and readiness for shutdown. The IC must now authorize the full district shutdown and public alerting under CVG-CIRP-2026 Section 6.3. Watch for hesitation or delay in command authority.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:26.671Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "county-911",
+  "title": "Rook County Emergency Communications District",
+  "domainProfile": "emergency_communications",
+  "summary": "A consolidated county 911 center (twelve positions, NG911 call delivery over the state ESInet, a CAD on the county domain, a five-site P25 radio system and a backup PSAP) and a tabletop exercise generated from its simulated plans: a telephony denial-of-service flood and CAD malware during a tornado warning, with swatting calls.",
+  "notice": "EXERCISE MATERIAL — for training use. Rook County, its 911 center, people, agencies, products and identifiers are simulated; the public sources consulted for realism are listed in reference/county-911/SOURCES.md.",
+  "project": {
+    "name": "Rook County Emergency Communications District",
+    "orgName": "Rook County Emergency Communications District",
+    "orgType": "emergency_communications",
+    "brand": {
+      "city": "Halden",
+      "region": "Rook County, Indiana",
+      "aliases": {
+        "org": "Rook County Emergency Communications District",
+        "orgShort": "RCECD",
+        "orgDomain": "rookecd.example",
+        "localTv": "Channel 12",
+        "airport": "Rook County Public Safety Center"
+      }
+    }
+  },
+  "documents": { "dir": "reference/county-911", "exclude": ["SOURCES.md"] },
+  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "scenarios": [
+    {
+      "key": "storm-tdos",
+      "startWallClock": "18:30",
+      "threatFamily": "cyber",
+      "summary": "During a tornado warning, a robocall flood ties up the 10-digit lines and then the 911 trunks, RespondCAD starts freezing and showing unit status changes nobody made, and a calm caller reports a hostage situation at a county commissioner's home; the center must go to cards, decide whether to reroute 911 to Tamarack County and tell the public how to reach help.",
+      "userPrompt": "A Thursday evening in May: at 18:40 the National Weather Service issues a tornado warning for northern Rook County and B-shift supervisor Mike Delgado activates the North sirens from Position 11. At 18:52 the 10-digit lines fill with silent and recorded-message calls that conference several call takers at once; at 19:05 the same pattern appears on 911 over SIP trunk group A, the ACD wallboard shows 9 calls in queue and a real structure-fire call from Marlow waits 70 seconds. At 19:15 RespondCAD (CAD-APP01) freezes at Position 4 and Position 9, Hoosier Shield Managed Security reports malware beaconing from RCECD-POS09 and CAD-MDS01, and Medic 3 shows as available on CAD while on a call. At 19:30 a calm caller on a VoIP number reports a hostage situation at County Commissioner Ellen Strand's home, and a Facebook post says '911 is down, call 555-0177' (not an RCECD number). Turning on the GateKeeper TDoS-strict rules for the 10-digit lines, asking the state ESInet NOC for call-source analysis and whether to reroute all 911 to Tamarack County Communications (OPS-DR-2), going to cards (RCECD-F-11) and firewalling the CAD segment at CAD-FW01 (CYB-DR-1), storm reports on SO TAC 1, the swatting response posture, preserving REC-01 recordings, CJIS reporting to the Indiana State Police, and the PIO's alternate-number message and WEA with Rook County Emergency Management.",
+      "audience": [
+        "Command / 911 Director",
+        "Floor Operations",
+        "Technology / CAD and County IT",
+        "Radio",
+        "Field Agencies (Sheriff, Police, Fire/EMS)",
+        "Public Information"
+      ],
+      "constraints": [
+        "Every email address of the district and the county uses the exercise domain rookecd.example; outside parties use fictional domains and fictional outlet names (Channel 12, The Halden Herald); never a real agency, company or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (the state ESInet NOC, Tamarack County Communications, vendors, the managed SOC, the FBI, CISA, the Indiana State Police, reporters) are played by the SimCell, not seated as players."
+      ]
+    }
+  ]
+}

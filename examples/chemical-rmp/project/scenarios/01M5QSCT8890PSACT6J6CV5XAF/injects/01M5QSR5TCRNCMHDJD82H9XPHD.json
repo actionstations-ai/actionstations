@@ -1,0 +1,229 @@
+{
+  "id": "01M5QSR5TCRNCMHDJD82H9XPHD",
+  "mselRowId": "I-02",
+  "type": "phone_call",
+  "title": "Rail Spot 2 — Field-Screen Discrepancy",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Teague Valley Chemical Company",
+    "systemName": "Corporate Phone System - Main Line 1",
+    "callId": "CR-20261022-090512-0047",
+    "direction": "Internal",
+    "caller": {
+      "name": "Lorna Pike",
+      "number": "(304) 555-0142",
+      "label": "Operations Superintendent"
+    },
+    "callee": {
+      "name": "Victor Anand",
+      "number": "(304) 555-0163",
+      "label": "OT Engineer"
+    },
+    "startTime": "10/22/2026 09:05:12",
+    "duration": "0:58",
+    "transcript": [
+      {
+        "speaker": "Lorna Pike",
+        "offset": "0:00",
+        "text": "Victor, this is Lorna Pike, Operations Superintendent. We have a confirmed field-screen discrepancy on Rail Spot 2. ESD-310 shows closed on the DeltaV HMI, but the loader says the vapor is still rising and the hand valve is open. The scale WT-302 shows 38.1 tons and climbing. I need you to review the event journal and the logs on OWS-01 now.",
+        "prompt": false
+      },
+      {
+        "speaker": "Victor Anand",
+        "offset": "0:24",
+        "text": "Understood, Lorna. I’m on OWS-01 now. I’ll pull the event journal and check SIF-302 for any override flags. Stay on the line for status.",
+        "prompt": false
+      },
+      {
+        "speaker": "Lorna Pike",
+        "offset": "0:41",
+        "text": "Copy. I’m relaying to IC and EHS. We’re not confirming a release yet, but we’re treating it as active until you validate.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-02"
+  },
+  "variant": "default",
+  "instructorNote": "This call triggers OT triage under RMP Section 11 and TVCC-CFW-OTSEC-2026. Watch for the OT Engineer to initiate Play 2 if SIF-302 or ESD-310 override flags are found.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+      "headingPath": "Teague Valley Chemical Company,… › Section 3 › 3.3 Loading positions",
+      "quote": "| Position | Product | Equipment | Isolation | |---|---|---|---| | Rail Spot 1 | Liquid chlorine | Loading arm LA-1, railcar scale WT-301 | Remote-operated emergency isolation valves on the arm and th",
+      "chunkId": 35
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,…",
+      "quote": "Document Control Number: TVCC-CFW-OTSEC-2026 · Revision 2.0 · Effective Date: 02/01/2026 · Owner: Victor Anand (Process Control and OT Engineer) · Approved: Graham Pruitt (Plant Manager), Lena Fischer",
+      "chunkId": 44
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 3",
+      "quote": "| Role | Person | Alternate | Responsibilities | |---|---|---|---| | OT Incident Lead | Victor Anand, Process Control and OT Engineer | Megan Sorrell, Instrument and Electrical Lead | Triage of contro",
+      "chunkId": 48
+    },
+    {
+      "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+      "headingPath": "Teague Valley Chemical Company,… › Section 7",
+      "quote": "| Detectors | Location | Alarm / trip | |---|---|---| | AT-311 to AT-318 | Rail Spot 1 to Rail Spot 4 (two per spot) | 1 ppm alarm, 3 ppm ESD-310 | | AT-321 to AT-326 | Chlorine Storage Building and D",
+      "chunkId": 41
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Lorna Pike",
+        "voiceStyle": "calm female dispatcher in her 40s, measured, slight Midwestern accent",
+        "text": "Victor, this is Lorna Pike, Operations Superintendent. We have a confirmed field-screen discrepancy on Rail Spot 2. ESD-310 shows closed on the DeltaV HMI, but the loader says the vapor is still rising and the hand valve is open. The scale WT-302 shows 38.1 tons and climbing. I need you to review the event journal and the logs on OWS-01 now."
+      },
+      {
+        "speaker": "Victor Anand",
+        "voiceStyle": "tired male maintenance supervisor, hurried, out of breath",
+        "text": "Understood, Lorna. I’m on OWS-01 now. I’ll pull the event journal and check SIF-302 for any override flags. Stay on the line for status."
+      },
+      {
+        "speaker": "Lorna Pike",
+        "voiceStyle": "calm female dispatcher in her 40s, measured, slight Midwestern accent",
+        "text": "Copy. I’m relaying to IC and EHS. We’re not confirming a release yet, but we’re treating it as active until you validate."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJGNQT7V41CMQQHD759R2",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSR5TCRNCMHDJD82H9XPHD/01M5QTJGNQT7V41CMQQHD759R2.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "35ce3c97c1668e2dd5994dc2ff885cef9aafef826a8f79c91f44dfce1ffb1dbb",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:25.921Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:31:13.443Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Rail Spot 2 — Field-Screen Discrepancy",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Teague Valley Chemical Company",
+          "systemName": "Corporate Phone System - Main Line 1",
+          "callId": "CR-20261024-090512-0047",
+          "direction": "Internal",
+          "caller": {
+            "name": "Lorna Pike",
+            "number": "(304) 555-0142",
+            "label": "Operations Superintendent"
+          },
+          "callee": {
+            "name": "Victor Anand",
+            "number": "(304) 555-0163",
+            "label": "OT Engineer"
+          },
+          "startTime": "10/24/2026 09:05:12",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "Lorna Pike",
+              "offset": "0:00",
+              "text": "Victor, this is Lorna Pike, Operations Superintendent. We have a confirmed field-screen discrepancy on Rail Spot 2. ESD-310 shows closed on the DeltaV HMI, but the loader says the vapor is still rising and the hand valve is open. The scale WT-302 shows 38.1 tons and climbing. I need you to review the event journal and the logs on OWS-01 now.",
+              "prompt": false
+            },
+            {
+              "speaker": "Victor Anand",
+              "offset": "0:24",
+              "text": "Understood, Lorna. I’m on OWS-01 now. I’ll pull the event journal and check SIF-302 for any override flags. Stay on the line for status.",
+              "prompt": false
+            },
+            {
+              "speaker": "Lorna Pike",
+              "offset": "0:41",
+              "text": "Copy. I’m relaying to IC and EHS. We’re not confirming a release yet, but we’re treating it as active until you validate.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-02"
+        },
+        "instructorNote": "This call triggers OT triage under RMP Section 11 and TVCC-CFW-OTSEC-2026. Watch for the OT Engineer to initiate Play 2 if SIF-302 or ESD-310 override flags are found.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.645Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Rail Spot 2 — Field-Screen Discrepancy",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Teague Valley Chemical Company",
+          "systemName": "Corporate Phone System - Main Line 1",
+          "callId": "CR-20261022-090512-0047",
+          "direction": "Internal",
+          "caller": {
+            "name": "Lorna Pike",
+            "number": "(304) 555-0142",
+            "label": "Operations Superintendent"
+          },
+          "callee": {
+            "name": "Victor Anand",
+            "number": "(304) 555-0163",
+            "label": "OT Engineer"
+          },
+          "startTime": "10/22/2026 09:05:12",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "Lorna Pike",
+              "offset": "0:00",
+              "text": "Victor, this is Lorna Pike, Operations Superintendent. We have a confirmed field-screen discrepancy on Rail Spot 2. ESD-310 shows closed on the DeltaV HMI, but the loader says the vapor is still rising and the hand valve is open. The scale WT-302 shows 38.1 tons and climbing. I need you to review the event journal and the logs on OWS-01 now.",
+              "prompt": false
+            },
+            {
+              "speaker": "Victor Anand",
+              "offset": "0:24",
+              "text": "Understood, Lorna. I’m on OWS-01 now. I’ll pull the event journal and check SIF-302 for any override flags. Stay on the line for status.",
+              "prompt": false
+            },
+            {
+              "speaker": "Lorna Pike",
+              "offset": "0:41",
+              "text": "Copy. I’m relaying to IC and EHS. We’re not confirming a release yet, but we’re treating it as active until you validate.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-02"
+        },
+        "instructorNote": "This call triggers OT triage under RMP Section 11 and TVCC-CFW-OTSEC-2026. Watch for the OT Engineer to initiate Play 2 if SIF-302 or ESD-310 override flags are found.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:26.170Z"
+}

@@ -1,0 +1,277 @@
+{
+  "id": "01M5QZDK9VYD8MA0S6C7FE0BFQ",
+  "mselRowId": "I-11",
+  "type": "system_log",
+  "title": "Forensic Memory Image Collection — Jump Host CVG-OT-JMP01",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "OT Jump Host Forensics",
+    "host": "CVG-OT-JMP01",
+    "ip": "10.72.1.41",
+    "os": "Windows Server 2019",
+    "logSource": "Forensic Imaging Console (Local)",
+    "exportedBy": "CYB\\anil.desai",
+    "exportedAt": "01/13/2027 18:10",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "17:38:22",
+        "level": "INFO",
+        "msg": "Forensic imaging session initiated via local console. Volatility3 v2.12.1 launched from C:\\Tools\\vol3\\vol.py.",
+        "highlight": false
+      },
+      {
+        "ts": "17:38:24",
+        "level": "INFO",
+        "msg": "Memory dump command issued: 'vol.py -f C:\\memory_dump\\CVG-OT-JMP01.dmp --profile=Win2019x64' (source: CIRP Form 3, C9)",
+        "highlight": false
+      },
+      {
+        "ts": "17:39:03",
+        "level": "INFO",
+        "msg": "Memory image successfully extracted. Size: 16.4 GB. Hash verified: SHA256: 9a3f1e7b2c4d5e6f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f.",
+        "highlight": false
+      },
+      {
+        "ts": "17:39:11",
+        "level": "INFO",
+        "msg": "Image saved to encrypted USB drive (ID: 0x9A2F) with auto-labeling. Physical drive disconnected from host.",
+        "highlight": false
+      },
+      {
+        "ts": "17:39:15",
+        "level": "INFO",
+        "msg": "Red evidence tag (CIRP Form 3) applied to CVG-OT-JMP01. Tag ID: 2026-1024-1739-001. Host moved to locked cabinet in Gas Control, Level 1.",
+        "highlight": false
+      },
+      {
+        "ts": "17:39:20",
+        "level": "INFO",
+        "msg": "Switch port 24 (connected to CVG-OT-JMP01) disabled via OT Network Engineer. All remote access blocked.",
+        "highlight": false
+      },
+      {
+        "ts": "17:39:22",
+        "level": "INFO",
+        "msg": "All inbound and outbound traffic to CVG-OT-JMP01 blocked at CVG-OTFW01 (Annex A, Step I-1). Host now isolated.",
+        "highlight": false
+      },
+      {
+        "ts": "17:39:25",
+        "level": "WARN",
+        "msg": "Multiple failed login attempts detected from IP 203.0.113.14 (known-good external IP) — logged but ignored (no action required).",
+        "highlight": false
+      },
+      {
+        "ts": "17:39:30",
+        "level": "NOTICE",
+        "msg": "Forensic chain of custody established. All steps compliant with CVG-CIRP-2026 Section 8 and C9.",
+        "highlight": true
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "vol.py -f C:\\memory_dump\\CVG-OT-JMP01.dmp --profile=Win2019x64",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This inject confirms CYB’s compliance with forensic procedures. Watch for delayed response to CISA notification or failure to verify the locked cabinet status.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 6 › 6.1 Segregate devices",
+      "quote": "Remove the infected or suspect hosts from the network (switch port shutdown by the OT Network Engineer); segregate the other hosts that shared their network segment; **collect a memory image of each a",
+      "chunkId": 8
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYKXAYMDNPXRDRX3E5N75",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZDK9VYD8MA0S6C7FE0BFQ/01M5QZYKXAYMDNPXRDRX3E5N75.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "7440b70456e55045d5907d9b930f3633e23708878d726a5d21c5b7ebb39cf57f",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:25.330Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:10:20.492Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Forensic Memory Image Collection — Jump Host CVG-OT-JMP01",
+        "type": "system_log",
+        "fields": {
+          "systemName": "OT Jump Host Forensics",
+          "host": "CVG-OT-JMP01",
+          "ip": "10.72.1.41",
+          "os": "Windows Server 2019",
+          "logSource": "Forensic Imaging Console (Local)",
+          "exportedBy": "CYB\\anil.desai",
+          "exportedAt": "10/24/2026 18:10",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "17:38:22",
+              "level": "INFO",
+              "msg": "Forensic imaging session initiated via local console. Volatility3 v2.12.1 launched from C:\\Tools\\vol3\\vol.py.",
+              "highlight": false
+            },
+            {
+              "ts": "17:38:24",
+              "level": "INFO",
+              "msg": "Memory dump command issued: 'vol.py -f C:\\memory_dump\\CVG-OT-JMP01.dmp --profile=Win2019x64' (source: CIRP Form 3, C9)",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:03",
+              "level": "INFO",
+              "msg": "Memory image successfully extracted. Size: 16.4 GB. Hash verified: SHA256: 9a3f1e7b2c4d5e6f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f.",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:11",
+              "level": "INFO",
+              "msg": "Image saved to encrypted USB drive (ID: 0x9A2F) with auto-labeling. Physical drive disconnected from host.",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:15",
+              "level": "INFO",
+              "msg": "Red evidence tag (CIRP Form 3) applied to CVG-OT-JMP01. Tag ID: 2026-1024-1739-001. Host moved to locked cabinet in Gas Control, Level 1.",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:20",
+              "level": "INFO",
+              "msg": "Switch port 24 (connected to CVG-OT-JMP01) disabled via OT Network Engineer. All remote access blocked.",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:22",
+              "level": "INFO",
+              "msg": "All inbound and outbound traffic to CVG-OT-JMP01 blocked at CVG-OTFW01 (Annex A, Step I-1). Host now isolated.",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:25",
+              "level": "WARN",
+              "msg": "Multiple failed login attempts detected from IP 203.0.113.14 (known-good external IP) — logged but ignored (no action required).",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:30",
+              "level": "NOTICE",
+              "msg": "Forensic chain of custody established. All steps compliant with CVG-CIRP-2026 Section 8 and C9.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "vol.py -f C:\\memory_dump\\CVG-OT-JMP01.dmp --profile=Win2019x64",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms CYB’s compliance with forensic procedures. Watch for delayed response to CISA notification or failure to verify the locked cabinet status.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.466Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Forensic Memory Image Collection — Jump Host CVG-OT-JMP01",
+        "type": "system_log",
+        "fields": {
+          "systemName": "OT Jump Host Forensics",
+          "host": "CVG-OT-JMP01",
+          "ip": "10.72.1.41",
+          "os": "Windows Server 2019",
+          "logSource": "Forensic Imaging Console (Local)",
+          "exportedBy": "CYB\\anil.desai",
+          "exportedAt": "01/13/2027 18:10",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "17:38:22",
+              "level": "INFO",
+              "msg": "Forensic imaging session initiated via local console. Volatility3 v2.12.1 launched from C:\\Tools\\vol3\\vol.py.",
+              "highlight": false
+            },
+            {
+              "ts": "17:38:24",
+              "level": "INFO",
+              "msg": "Memory dump command issued: 'vol.py -f C:\\memory_dump\\CVG-OT-JMP01.dmp --profile=Win2019x64' (source: CIRP Form 3, C9)",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:03",
+              "level": "INFO",
+              "msg": "Memory image successfully extracted. Size: 16.4 GB. Hash verified: SHA256: 9a3f1e7b2c4d5e6f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f.",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:11",
+              "level": "INFO",
+              "msg": "Image saved to encrypted USB drive (ID: 0x9A2F) with auto-labeling. Physical drive disconnected from host.",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:15",
+              "level": "INFO",
+              "msg": "Red evidence tag (CIRP Form 3) applied to CVG-OT-JMP01. Tag ID: 2026-1024-1739-001. Host moved to locked cabinet in Gas Control, Level 1.",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:20",
+              "level": "INFO",
+              "msg": "Switch port 24 (connected to CVG-OT-JMP01) disabled via OT Network Engineer. All remote access blocked.",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:22",
+              "level": "INFO",
+              "msg": "All inbound and outbound traffic to CVG-OT-JMP01 blocked at CVG-OTFW01 (Annex A, Step I-1). Host now isolated.",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:25",
+              "level": "WARN",
+              "msg": "Multiple failed login attempts detected from IP 203.0.113.14 (known-good external IP) — logged but ignored (no action required).",
+              "highlight": false
+            },
+            {
+              "ts": "17:39:30",
+              "level": "NOTICE",
+              "msg": "Forensic chain of custody established. All steps compliant with CVG-CIRP-2026 Section 8 and C9.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "vol.py -f C:\\memory_dump\\CVG-OT-JMP01.dmp --profile=Win2019x64",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms CYB’s compliance with forensic procedures. Watch for delayed response to CISA notification or failure to verify the locked cabinet status.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:25.563Z"
+}

@@ -1,0 +1,171 @@
+{
+  "id": "01M5QTV0ZGCFWRS304X8Q774B9",
+  "mselRowId": "I-11",
+  "type": "email_forward",
+  "title": "IIS Export File Compromise Confirmed",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "County IT Forensics Lead",
+    "fromEmail": "it-forensics@marstoncounty.example",
+    "senderInitials": "C",
+    "to": "Dr. Joanna Pruitt (HO), Wes Tran (IT), Dr. Neha Raman (Epi)",
+    "subject": "FW: IIS Export File Compromise Confirmed",
+    "sentAt": "Thu Oct 22, 2026 11:00 AM",
+    "note": "After full forensic analysis of MCHD-INT01, we confirm: the unauthorized script auto_cleaner.py was used to alter the IIS export file for 10-21. It inserted 412 fake MMR doses with non-existent lot numbers (MMR-2026-0044 to MMR-2026-0045). The attacker used a phishing email to compromise Jenna Fowler’s SlotWise account (MCHD-SLOT-042) and then used her credentials to bulk-cancel 640 appointments for the POD clinic in Brandt. The fake entries were designed to mimic real dose records. The attacker has not yet accessed the ClinicTrack database, but the IIS export was altered to include the fake data. We recommend immediate isolation of MCHD-INT01 and the IIS export interface to prevent further corruption.",
+    "signature": "County IT Forensics Lead\nMarston County IT\nMC-IT-FOR-2026",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "County IT Forensics",
+    "original": {
+      "fromName": "County IT Forensics (MC-IT-FOR-2026)",
+      "fromEmail": "it-forensics@marstoncounty.example",
+      "sentAt": "Thu Oct 22, 2026 10:58 AM",
+      "to": "Wes Tran (IT), Pamela Ruiz (IT)",
+      "cc": "",
+      "subject": "Suspicious Script Execution on MCHD-INT01",
+      "body": "The script 'auto_cleaner.py' on MCHD-INT01 has been confirmed as malicious. It is actively deleting entries from the IIS export file. No digital signature. Not in approved software inventory (MCHD-FAC-SYS-2026, rev 2.0). File creation timestamp: 09:00:12. Host: MCHD-INT01. Alert level: Cyber 2. Forensic analysis in progress."
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "This is a definitive confirmation of data tampering. The Incident Commander must now declare Cyber 1 and activate EOP Level 1. The team must transition to paper mode immediately.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPNTVJQ6BJQJV2Y2B89",
+      "documentTitle": "Marston County Health Department — Facilities, Districts and Information Systems Description",
+      "headingPath": "Marston County Health Department… › Section 6",
+      "quote": "| System | Purpose | Hosted | Host / URL | Owner | Paper fallback | |---|---|---|---|---|---| | State disease surveillance system | Case investigation, ELR and eCR receipt, contact records | KDHE | st",
+      "chunkId": 24
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 3",
+      "quote": "| Level | Description | MCHD action | |---|---|---| | Cyber 3 | Single device or account; no essential function affected | Informatics Lead tracks; no activation | | Cyber 2 | One MCHD essential funct",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 10",
+      "quote": "Paper mode is declared by the Incident Commander (decision record CYB-DR-1). In paper mode: - Disease reports are taken by phone on MCHD-F-10; investigators work cases in the state surveillance system",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 2",
+      "quote": "| Role | Primary | Alternate | Decides | |---|---|---|---| | Incident Commander (MCHD) | Dr. Joanna Pruitt, Health Officer | Dr. Samuel Achebe | Paper mode for the department; public statements about ",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 1",
+      "quote": "Marston County IT runs the network, identity, email, file shares, backups and the managed security service for every county department, MCHD included. The county's Cyber Incident Response Plan (MC-CIR",
+      "chunkId": 3
+    },
+    {
+      "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+      "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+      "headingPath": "Marston County Health Department… › Section 1 › 1.4 Coordinated Documents",
+      "quote": "| Document | Number | Revision | |---|---|---| | Cyber Incident Response Annex | MCHD-CYB-ANX-2026 | 1.2 | | Facilities, Districts and Information Systems Description | MCHD-FAC-SYS-2026 | 2.0 | | Med",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVBMJZ04G7KD8W3SCQNZ69",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTV0ZGCFWRS304X8Q774B9/01M5QVBMJZ04G7KD8W3SCQNZ69.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 682,
+      "sha256": "bfe77befc1cdba8144d8a8f0938004a7a0e9dc3077d878513fae35f4d6719b52",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:09.085Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:50:15.585Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "IIS Export File Compromise Confirmed",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "County IT Forensics Lead",
+          "fromEmail": "mc-it-for-2026@marstonhealth.example",
+          "senderInitials": "C",
+          "to": "Dr. Joanna Pruitt (HO), Wes Tran (IT), Dr. Neha Raman (Epi)",
+          "subject": "FW: IIS Export File Compromise Confirmed",
+          "sentAt": "Sat Oct 24, 2026 11:00 AM",
+          "note": "After full forensic analysis of MCHD-INT01, we confirm: the unauthorized script auto_cleaner.py was used to alter the IIS export file for 04-01. It inserted 412 fake MMR doses with non-existent lot numbers (MMR-2026-0044 to MMR-2026-0045). The attacker used a phishing email to compromise Jenna Fowler’s SlotWise account (MCHD-SLOT-042) and then used her credentials to bulk-cancel 640 appointments for the POD clinic in Brandt. The fake entries were designed to mimic real dose records. The attacker has not yet accessed the ClinicTrack database, but the IIS export was altered to include the fake data. We recommend immediate isolation of MCHD-INT01 and the IIS export interface to prevent further corruption.",
+          "signature": "County IT Forensics Lead\nMarston County IT\nMC-IT-FOR-2026",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "County IT Forensics",
+          "original": {
+            "fromName": "County IT Forensics (MC-IT-FOR-2026)",
+            "fromEmail": "mc-it-for-2026@marstonhealth.example",
+            "sentAt": "Sat Oct 24, 2026 10:58 AM",
+            "to": "Wes Tran (IT), Pamela Ruiz (IT)",
+            "cc": "",
+            "subject": "Suspicious Script Execution on MCHD-INT01",
+            "body": "The script 'auto_cleaner.py' on MCHD-INT01 has been confirmed as malicious. It is actively deleting entries from the IIS export file. No digital signature. Not in approved software inventory (MCHD-FAC-SYS-2026, rev 2.0). File creation timestamp: 09:00:12. Host: MCHD-INT01. Alert level: Cyber 2. Forensic analysis in progress."
+          }
+        },
+        "instructorNote": "This is a definitive confirmation of data tampering. The Incident Commander must now declare Cyber 1 and activate EOP Level 1. The team must transition to paper mode immediately.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.220Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "IIS Export File Compromise Confirmed",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "County IT Forensics Lead",
+          "fromEmail": "it-forensics@marstoncounty.example",
+          "senderInitials": "C",
+          "to": "Dr. Joanna Pruitt (HO), Wes Tran (IT), Dr. Neha Raman (Epi)",
+          "subject": "FW: IIS Export File Compromise Confirmed",
+          "sentAt": "Thu Oct 22, 2026 11:00 AM",
+          "note": "After full forensic analysis of MCHD-INT01, we confirm: the unauthorized script auto_cleaner.py was used to alter the IIS export file for 10-21. It inserted 412 fake MMR doses with non-existent lot numbers (MMR-2026-0044 to MMR-2026-0045). The attacker used a phishing email to compromise Jenna Fowler’s SlotWise account (MCHD-SLOT-042) and then used her credentials to bulk-cancel 640 appointments for the POD clinic in Brandt. The fake entries were designed to mimic real dose records. The attacker has not yet accessed the ClinicTrack database, but the IIS export was altered to include the fake data. We recommend immediate isolation of MCHD-INT01 and the IIS export interface to prevent further corruption.",
+          "signature": "County IT Forensics Lead\nMarston County IT\nMC-IT-FOR-2026",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "County IT Forensics",
+          "original": {
+            "fromName": "County IT Forensics (MC-IT-FOR-2026)",
+            "fromEmail": "it-forensics@marstoncounty.example",
+            "sentAt": "Thu Oct 22, 2026 10:58 AM",
+            "to": "Wes Tran (IT), Pamela Ruiz (IT)",
+            "cc": "",
+            "subject": "Suspicious Script Execution on MCHD-INT01",
+            "body": "The script 'auto_cleaner.py' on MCHD-INT01 has been confirmed as malicious. It is actively deleting entries from the IIS export file. No digital signature. Not in approved software inventory (MCHD-FAC-SYS-2026, rev 2.0). File creation timestamp: 09:00:12. Host: MCHD-INT01. Alert level: Cyber 2. Forensic analysis in progress."
+          }
+        },
+        "instructorNote": "This is a definitive confirmation of data tampering. The Incident Commander must now declare Cyber 1 and activate EOP Level 1. The team must transition to paper mode immediately.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:09.406Z"
+}

@@ -1,0 +1,246 @@
+{
+  "id": "01M5QTTMV4VSQQQN6MEYDJK773",
+  "mselRowId": "I-10",
+  "type": "field_report",
+  "title": "HVAC Alarm and Unauthorized Remote Session — Room 114",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Marston County Health Department — Environmental Health",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-1022-0092",
+    "date": "10/22/2026",
+    "time": "10:48-10:50",
+    "location": "Room 114, Storage Room, Ellery Health Center",
+    "inspector": "Hector Ruiz, Environmental Health Specialist",
+    "unit": "EH-03",
+    "reportType": "incident",
+    "weather": "Clear, 62°F, wind SSW 5 mph",
+    "summary": "The West District Office reported a smoke alarm activation in Room 114 at 09:48. Fire marshal confirmed no fire, but the HVAC control HMI logged a sudden CO2 spike at 09:51. The system was not in maintenance mode. Logs show a remote session from MCHD-FS01 to the HVAC controller at 09:49. No EH staff authorized this access. The office remains closed for air quality testing; staff are requesting guidance on return.",
+    "findings": [
+      {
+        "item": "Smoke alarm activation",
+        "condition": "failed",
+        "notes": "No fire or heat source detected; false alarm confirmed by fire marshal"
+      },
+      {
+        "item": "HVAC control HMI status",
+        "condition": "failed",
+        "notes": "Sudden CO2 increase from 420 to 980 ppm at 09:51; no scheduled maintenance"
+      },
+      {
+        "item": "Remote access to HVAC controller",
+        "condition": "failed",
+        "notes": "Session from MCHD-FS01 (10.72.1.62) to HVAC-CTRL-01 at 09:49; no authorization in EH access log"
+      },
+      {
+        "item": "Room 114 entry and egress",
+        "condition": "not_inspected",
+        "notes": "Not inspected on-site due to air quality protocols"
+      },
+      {
+        "item": "HVAC system status",
+        "condition": "ok",
+        "notes": "No visible system damage or tampering"
+      },
+      {
+        "item": "Security camera coverage",
+        "condition": "ok",
+        "notes": "Camera 114-01 showed no unauthorized person in room"
+      },
+      {
+        "item": "Fire marshal report",
+        "condition": "ok",
+        "notes": "Report received via interdepartmental email (FIR-2026-1022-0091)"
+      }
+    ],
+    "actionsTaken": [
+      "Notified County IT via secure line at 10:49",
+      "Closed Room 114 to staff pending air quality clearance",
+      "Reviewed access logs from MCHD-FS01 and HVAC controller"
+    ],
+    "recommendations": [
+      "Verify remote session origin and user identity via IT logs",
+      "Conduct full cybersecurity review of HVAC control system",
+      "Hold all public advisories on air quality until IT confirms system integrity"
+    ],
+    "photosNote": "2 photos attached: IMG_20261021-104902 (HVAC HMI screen with CO2 spike), IMG_20261021-104905 (MCHD-FS01 session log from 09:49)",
+    "signature": "Hector Ruiz, Environmental Health Specialist",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "instructorNote": "This is a noise inject. The HVAC alarm and session were not caused by a physical event. The team should validate the remote session with IT and not issue any public advisories until system integrity is confirmed.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+      "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+      "headingPath": "Marston County Health Department… › Section 4",
+      "quote": "| Level | Trigger examples | Staffing | |---|---|---| | Level 3 — Enhanced monitoring | Single suspect case of an immediately reportable disease; KDHE health advisory affecting the county | Program st",
+      "chunkId": 37
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Annex A",
+      "quote": "**A-1 Ransomware on the county network.** County IT isolates; MCHD declares Cyber 1, paper mode, pauses the IIS export, moves epidemiology to DOC laptops, notifies KDHE, prepares the outage message fo",
+      "chunkId": 15
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T20:50:04.908Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "HVAC Alarm and Unauthorized Remote Session — Room 114",
+        "type": "field_report",
+        "fields": {
+          "organization": "Marston County Health Department — Environmental Health",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1024-0092",
+          "date": "10/24/2026",
+          "time": "10:48-10:50",
+          "location": "Room 114, Storage Room, Ellery Health Center",
+          "inspector": "Hector Ruiz, Environmental Health Specialist",
+          "unit": "EH-03",
+          "reportType": "incident",
+          "weather": "Clear, 62°F, wind SSW 5 mph",
+          "summary": "The West District Office reported a smoke alarm activation in Room 114 at 09:48. Fire marshal confirmed no fire, but the HVAC control HMI logged a sudden CO2 spike at 09:51. The system was not in maintenance mode. Logs show a remote session from MCHD-FS01 to the HVAC controller at 09:49. No EH staff authorized this access. The office remains closed for air quality testing; staff are requesting guidance on return.",
+          "findings": [
+            {
+              "item": "Smoke alarm activation",
+              "condition": "failed",
+              "notes": "No fire or heat source detected; false alarm confirmed by fire marshal"
+            },
+            {
+              "item": "HVAC control HMI status",
+              "condition": "failed",
+              "notes": "Sudden CO2 increase from 420 to 980 ppm at 09:51; no scheduled maintenance"
+            },
+            {
+              "item": "Remote access to HVAC controller",
+              "condition": "failed",
+              "notes": "Session from MCHD-FS01 (10.72.1.62) to HVAC-CTRL-01 at 09:49; no authorization in EH access log"
+            },
+            {
+              "item": "Room 114 entry and egress",
+              "condition": "not_inspected",
+              "notes": "Not inspected on-site due to air quality protocols"
+            },
+            {
+              "item": "HVAC system status",
+              "condition": "ok",
+              "notes": "No visible system damage or tampering"
+            },
+            {
+              "item": "Security camera coverage",
+              "condition": "ok",
+              "notes": "Camera 114-01 showed no unauthorized person in room"
+            },
+            {
+              "item": "Fire marshal report",
+              "condition": "ok",
+              "notes": "Report received via interdepartmental email (FIR-2026-1024-0091)"
+            }
+          ],
+          "actionsTaken": [
+            "Notified County IT via secure line at 10:49",
+            "Closed Room 114 to staff pending air quality clearance",
+            "Reviewed access logs from MCHD-FS01 and HVAC controller"
+          ],
+          "recommendations": [
+            "Verify remote session origin and user identity via IT logs",
+            "Conduct full cybersecurity review of HVAC control system",
+            "Hold all public advisories on air quality until IT confirms system integrity"
+          ],
+          "photosNote": "2 photos attached: IMG_20261024-104902 (HVAC HMI screen with CO2 spike), IMG_20261024-104905 (MCHD-FS01 session log from 09:49)",
+          "signature": "Hector Ruiz, Environmental Health Specialist",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This is a noise inject. The HVAC alarm and session were not caused by a physical event. The team should validate the remote session with IT and not issue any public advisories until system integrity is confirmed.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.214Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "HVAC Alarm and Unauthorized Remote Session — Room 114",
+        "type": "field_report",
+        "fields": {
+          "organization": "Marston County Health Department — Environmental Health",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1022-0092",
+          "date": "10/22/2026",
+          "time": "10:48-10:50",
+          "location": "Room 114, Storage Room, Ellery Health Center",
+          "inspector": "Hector Ruiz, Environmental Health Specialist",
+          "unit": "EH-03",
+          "reportType": "incident",
+          "weather": "Clear, 62°F, wind SSW 5 mph",
+          "summary": "The West District Office reported a smoke alarm activation in Room 114 at 09:48. Fire marshal confirmed no fire, but the HVAC control HMI logged a sudden CO2 spike at 09:51. The system was not in maintenance mode. Logs show a remote session from MCHD-FS01 to the HVAC controller at 09:49. No EH staff authorized this access. The office remains closed for air quality testing; staff are requesting guidance on return.",
+          "findings": [
+            {
+              "item": "Smoke alarm activation",
+              "condition": "failed",
+              "notes": "No fire or heat source detected; false alarm confirmed by fire marshal"
+            },
+            {
+              "item": "HVAC control HMI status",
+              "condition": "failed",
+              "notes": "Sudden CO2 increase from 420 to 980 ppm at 09:51; no scheduled maintenance"
+            },
+            {
+              "item": "Remote access to HVAC controller",
+              "condition": "failed",
+              "notes": "Session from MCHD-FS01 (10.72.1.62) to HVAC-CTRL-01 at 09:49; no authorization in EH access log"
+            },
+            {
+              "item": "Room 114 entry and egress",
+              "condition": "not_inspected",
+              "notes": "Not inspected on-site due to air quality protocols"
+            },
+            {
+              "item": "HVAC system status",
+              "condition": "ok",
+              "notes": "No visible system damage or tampering"
+            },
+            {
+              "item": "Security camera coverage",
+              "condition": "ok",
+              "notes": "Camera 114-01 showed no unauthorized person in room"
+            },
+            {
+              "item": "Fire marshal report",
+              "condition": "ok",
+              "notes": "Report received via interdepartmental email (FIR-2026-1022-0091)"
+            }
+          ],
+          "actionsTaken": [
+            "Notified County IT via secure line at 10:49",
+            "Closed Room 114 to staff pending air quality clearance",
+            "Reviewed access logs from MCHD-FS01 and HVAC controller"
+          ],
+          "recommendations": [
+            "Verify remote session origin and user identity via IT logs",
+            "Conduct full cybersecurity review of HVAC control system",
+            "Hold all public advisories on air quality until IT confirms system integrity"
+          ],
+          "photosNote": "2 photos attached: IMG_20261021-104902 (HVAC HMI screen with CO2 spike), IMG_20261021-104905 (MCHD-FS01 session log from 09:49)",
+          "signature": "Hector Ruiz, Environmental Health Specialist",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This is a noise inject. The HVAC alarm and session were not caused by a physical event. The team should validate the remote session with IT and not issue any public advisories until system integrity is confirmed.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:09.071Z"
+}

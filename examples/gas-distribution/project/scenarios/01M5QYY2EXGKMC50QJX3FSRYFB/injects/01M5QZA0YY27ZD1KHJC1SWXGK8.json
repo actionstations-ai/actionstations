@@ -1,0 +1,345 @@
+{
+  "id": "01M5QZA0YY27ZD1KHJC1SWXGK8",
+  "mselRowId": "I-03",
+  "type": "system_log",
+  "title": "Unauthorized Remote Session on Jump Host",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "CVG-OT-JMP01 Audit Log",
+    "host": "CVG-OT-JMP01",
+    "ip": "203.0.113.14",
+    "os": "Windows Server 2022",
+    "logSource": "System / Security Event Log",
+    "exportedBy": "CVG-OT-JMP01\\sysadmin",
+    "exportedAt": "01/13/2027 16:46",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "16:15:03",
+        "level": "ALERT",
+        "msg": "Remote session established from IP 203.0.113.14 (known-good external IP) using MFA token valid and previously issued.",
+        "highlight": false
+      },
+      {
+        "ts": "16:15:04",
+        "level": "ALERT",
+        "msg": "User 'halden-support' (Integrator account) authenticated via MFA and session established.",
+        "highlight": false
+      },
+      {
+        "ts": "16:15:05",
+        "level": "WARN",
+        "msg": "Session active; no commands executed from this host.",
+        "highlight": false
+      },
+      {
+        "ts": "16:15:06",
+        "level": "INFO",
+        "msg": "Audit trail: Session initiated from external IP 203.0.113.14 via RDP to CVG-OT-JMP01.",
+        "highlight": false
+      },
+      {
+        "ts": "16:27:12",
+        "level": "INFO",
+        "msg": "Session terminated normally by remote client.",
+        "highlight": false
+      },
+      {
+        "ts": "16:27:13",
+        "level": "NOTICE",
+        "msg": "Session duration: 12 minutes.",
+        "highlight": false
+      },
+      {
+        "ts": "16:27:14",
+        "level": "CRIT",
+        "msg": "No commands logged in session; no activity in PipeView, RTU, or engineering tools.",
+        "highlight": false
+      },
+      {
+        "ts": "16:27:15",
+        "level": "ALERT",
+        "msg": "Session closed. No known access to CVG-SCADA01, CVG-ENG01, or RTUs via this path.",
+        "highlight": false
+      },
+      {
+        "ts": "16:27:16",
+        "level": "INFO",
+        "msg": "Audit entry written to CVG-OT-JMP01 event log: 'Session from 203.0.113.14 (halden-support) terminated.'",
+        "highlight": false
+      },
+      {
+        "ts": "16:27:17",
+        "level": "NOTICE",
+        "msg": "No evidence of configuration change, command execution, or file transfer.",
+        "highlight": false
+      },
+      {
+        "ts": "16:27:18",
+        "level": "WARN",
+        "msg": "Integrator session not on baseline for access pattern; session was not preceded by a scheduled support window.",
+        "highlight": true
+      },
+      {
+        "ts": "16:27:19",
+        "level": "CRIT",
+        "msg": "Source IP 203.0.113.14 is external and not associated with any known integrator office location.",
+        "highlight": true
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Get-EventLog -LogName 'Security' -Newest 100 | Select-String -Pattern 'halden-support' | Format-List",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "This inject confirms a cyber-physical threat vector. The CYB must now declare a cyber incident and initiate containment per C2 and C1.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 5",
+      "quote": "1. Terminate the suspect session: disable the account in PipeView and in Active Directory (OT domain CVGOT), kill the session on CVG-OT-JMP01. 2. Disable all remote access to OT at CVG-OTFW01 (Annex A",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 4",
+      "quote": "- OT network monitoring (passive sensor on the OT control zone, alerts to the IT security operations team and the Cybersecurity Coordinator's phone) flags new remote sessions, configuration downloads ",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 3",
+      "quote": "| System | Hosts | Function | Network zone | |---|---|---|---| | PipeView SCADA servers | CVG-SCADA01 (active), CVG-SCADA02 (standby) | Polling, alarms, setpoints, remote valve commands | OT control z",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYHKDDGM8TGVJMGBBVJ1N",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZA0YY27ZD1KHJC1SWXGK8/01M5QZYHKDDGM8TGVJMGBBVJ1N.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 569,
+      "sha256": "6d97f2076c9fa1a95a5ce02d7e33b1e2a4c613e4f40d5502c7e09b4287723e0e",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:23.004Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:08:21.757Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Unauthorized Remote Session on Jump Host",
+        "type": "system_log",
+        "fields": {
+          "systemName": "CVG-OT-JMP01 Audit Log",
+          "host": "CVG-OT-JMP01",
+          "ip": "203.0.113.14",
+          "os": "Windows Server 2022",
+          "logSource": "System / Security Event Log",
+          "exportedBy": "CVG-OT-JMP01\\sysadmin",
+          "exportedAt": "10/24/2026 16:46",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "16:15:03",
+              "level": "ALERT",
+              "msg": "Remote session established from IP 203.0.113.14 (known-good external IP) using MFA token valid and previously issued.",
+              "highlight": false
+            },
+            {
+              "ts": "16:15:04",
+              "level": "ALERT",
+              "msg": "User 'halden-support' (Integrator account) authenticated via MFA and session established.",
+              "highlight": false
+            },
+            {
+              "ts": "16:15:05",
+              "level": "WARN",
+              "msg": "Session active; no commands executed from this host.",
+              "highlight": false
+            },
+            {
+              "ts": "16:15:06",
+              "level": "INFO",
+              "msg": "Audit trail: Session initiated from external IP 203.0.113.14 via RDP to CVG-OT-JMP01.",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:12",
+              "level": "INFO",
+              "msg": "Session terminated normally by remote client.",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:13",
+              "level": "NOTICE",
+              "msg": "Session duration: 12 minutes.",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:14",
+              "level": "CRIT",
+              "msg": "No commands logged in session; no activity in PipeView, RTU, or engineering tools.",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:15",
+              "level": "ALERT",
+              "msg": "Session closed. No known access to CVG-SCADA01, CVG-ENG01, or RTUs via this path.",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:16",
+              "level": "INFO",
+              "msg": "Audit entry written to CVG-OT-JMP01 event log: 'Session from 203.0.113.14 (halden-support) terminated.'",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:17",
+              "level": "NOTICE",
+              "msg": "No evidence of configuration change, command execution, or file transfer.",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:18",
+              "level": "WARN",
+              "msg": "Integrator session not on baseline for access pattern; session was not preceded by a scheduled support window.",
+              "highlight": true
+            },
+            {
+              "ts": "16:27:19",
+              "level": "CRIT",
+              "msg": "Source IP 203.0.113.14 is external and not associated with any known integrator office location.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-EventLog -LogName 'Security' -Newest 100 | Select-String -Pattern 'halden-support' | Format-List",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms a cyber-physical threat vector. The CYB must now declare a cyber incident and initiate containment per C2 and C1.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.430Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Unauthorized Remote Session on Jump Host",
+        "type": "system_log",
+        "fields": {
+          "systemName": "CVG-OT-JMP01 Audit Log",
+          "host": "CVG-OT-JMP01",
+          "ip": "203.0.113.14",
+          "os": "Windows Server 2022",
+          "logSource": "System / Security Event Log",
+          "exportedBy": "CVG-OT-JMP01\\sysadmin",
+          "exportedAt": "01/13/2027 16:46",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "16:15:03",
+              "level": "ALERT",
+              "msg": "Remote session established from IP 203.0.113.14 (known-good external IP) using MFA token valid and previously issued.",
+              "highlight": false
+            },
+            {
+              "ts": "16:15:04",
+              "level": "ALERT",
+              "msg": "User 'halden-support' (Integrator account) authenticated via MFA and session established.",
+              "highlight": false
+            },
+            {
+              "ts": "16:15:05",
+              "level": "WARN",
+              "msg": "Session active; no commands executed from this host.",
+              "highlight": false
+            },
+            {
+              "ts": "16:15:06",
+              "level": "INFO",
+              "msg": "Audit trail: Session initiated from external IP 203.0.113.14 via RDP to CVG-OT-JMP01.",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:12",
+              "level": "INFO",
+              "msg": "Session terminated normally by remote client.",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:13",
+              "level": "NOTICE",
+              "msg": "Session duration: 12 minutes.",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:14",
+              "level": "CRIT",
+              "msg": "No commands logged in session; no activity in PipeView, RTU, or engineering tools.",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:15",
+              "level": "ALERT",
+              "msg": "Session closed. No known access to CVG-SCADA01, CVG-ENG01, or RTUs via this path.",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:16",
+              "level": "INFO",
+              "msg": "Audit entry written to CVG-OT-JMP01 event log: 'Session from 203.0.113.14 (halden-support) terminated.'",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:17",
+              "level": "NOTICE",
+              "msg": "No evidence of configuration change, command execution, or file transfer.",
+              "highlight": false
+            },
+            {
+              "ts": "16:27:18",
+              "level": "WARN",
+              "msg": "Integrator session not on baseline for access pattern; session was not preceded by a scheduled support window.",
+              "highlight": true
+            },
+            {
+              "ts": "16:27:19",
+              "level": "CRIT",
+              "msg": "Source IP 203.0.113.14 is external and not associated with any known integrator office location.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-EventLog -LogName 'Security' -Newest 100 | Select-String -Pattern 'halden-support' | Format-List",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms a cyber-physical threat vector. The CYB must now declare a cyber incident and initiate containment per C2 and C1.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:23.190Z"
+}

@@ -1,0 +1,201 @@
+{
+  "id": "01M5QSTA17QAEWFNE0WP4GFYKC",
+  "mselRowId": "I-09",
+  "type": "radio_call",
+  "title": "ERT Medic: Rail Spot 2 Entry — Field Confirmation",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Teague Valley Chemical Company",
+    "centerName": "Operations Control Center (OCC)",
+    "channel": "ERT 1",
+    "frequency": "TG 7003 / 458.310 MHz",
+    "date": "10/22/2026",
+    "callsign": "Medic 3",
+    "lines": [
+      {
+        "time": "10:12:03",
+        "from": "Medic 3",
+        "to": "Control",
+        "text": "Control, this is Medic 3 from the ERT. We are at the perimeter of Rail Spot 2. The vapor is thick, and the hand valve HV-312 is still open. The ESD-310 status on the DeltaV HMI still shows closed, but the field sees the release continuing. The wind is pushing the cloud toward Corbin Falls Elementary School. We are starting entry procedures now."
+      },
+      {
+        "time": "10:12:17",
+        "from": "Control",
+        "to": "Medic 3",
+        "text": "Medic 3, copy. Maintain position and report when you reach the isolation point. Confirm SCBA and Level A suit integrity."
+      },
+      {
+        "time": "10:12:28",
+        "from": "Medic 3",
+        "to": "Control",
+        "text": "Roger, Control. We are proceeding to HV-312 now. Visual confirmation of valve open — no movement on the HMI. Proceeding to manual isolation."
+      }
+    ],
+    "background": "garage",
+    "voiceStyle": "Young female, calm, breathless, urgent",
+    "audioFile": "I-09_radio.wav",
+    "duration": "0:25",
+    "injectId": "I-09"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the field-screens discrepancy and escalates the threat to the school. Watch for the Operations Section Chief to order a field watch on HV-312 and the Incident Commander to activate CAER-Text.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+      "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 6 › 6.2 Entry and stopping the leak (ERT)",
+      "quote": "Entry only in pairs with SCBA and Level A suits, with a backup team ready. On a rail tank car, the ERT uses the Chlorine Institute Emergency Kit C. Manual isolation valves HV-311 to HV-314 at each rai",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+      "headingPath": "Teague Valley Chemical Company,… › Section 7",
+      "quote": "| Detectors | Location | Alarm / trip | |---|---|---| | AT-311 to AT-318 | Rail Spot 1 to Rail Spot 4 (two per spot) | 1 ppm alarm, 3 ppm ESD-310 | | AT-321 to AT-326 | Chlorine Storage Building and D",
+      "chunkId": 41
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Medic 3",
+        "voiceStyle": "Young female, calm, breathless, urgent",
+        "text": "Control, this is Medic 3 from the ERT. We are at the perimeter of Rail Spot 2. The vapor is thick, and the hand valve HV-312 is still open. The ESD-310 status on the DeltaV HMI still shows closed, but the field sees the release continuing. The wind is pushing the cloud toward Corbin Falls Elementary School. We are starting entry procedures now."
+      },
+      {
+        "speaker": "Control",
+        "voiceStyle": "Calm male dispatcher, mid-40s, steady pace, slight regional accent",
+        "text": "Medic 3, copy. Maintain position and report when you reach the isolation point. Confirm SCBA and Level A suit integrity."
+      },
+      {
+        "speaker": "Medic 3",
+        "voiceStyle": "Young female, calm, breathless, urgent",
+        "text": "Roger, Control. We are proceeding to HV-312 now. Visual confirmation of valve open — no movement on the HMI. Proceeding to manual isolation."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJJY4H0WSM8E3K9PD5RN4",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSTA17QAEWFNE0WP4GFYKC/01M5QTJJY4H0WSM8E3K9PD5RN4.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "3a7e4675fe6c24f6b7775a5947954c76a8838704c317ac9d966437997b63a4e5",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:28.221Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:32:25.160Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ERT Medic: Rail Spot 2 Entry — Field Confirmation",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Teague Valley Chemical Company",
+          "centerName": "Operations Control Center (OCC)",
+          "channel": "ERT 1",
+          "frequency": "TG 7003 / 458.310 MHz",
+          "date": "10/24/2026",
+          "callsign": "Medic 3",
+          "lines": [
+            {
+              "time": "10:12:03",
+              "from": "Medic 3",
+              "to": "Control",
+              "text": "Control, this is Medic 3 from the ERT. We are at the perimeter of Rail Spot 2. The vapor is thick, and the hand valve HV-312 is still open. The ESD-310 status on the DeltaV HMI still shows closed, but the field sees the release continuing. The wind is pushing the cloud toward Corbin Falls Elementary School. We are starting entry procedures now."
+            },
+            {
+              "time": "10:12:17",
+              "from": "Control",
+              "to": "Medic 3",
+              "text": "Medic 3, copy. Maintain position and report when you reach the isolation point. Confirm SCBA and Level A suit integrity."
+            },
+            {
+              "time": "10:12:28",
+              "from": "Medic 3",
+              "to": "Control",
+              "text": "Roger, Control. We are proceeding to HV-312 now. Visual confirmation of valve open — no movement on the HMI. Proceeding to manual isolation."
+            }
+          ],
+          "background": "garage",
+          "voiceStyle": "Young female, calm, breathless, urgent",
+          "audioFile": "I-09_radio.wav",
+          "duration": "0:25",
+          "injectId": "I-09"
+        },
+        "instructorNote": "This inject confirms the field-screens discrepancy and escalates the threat to the school. Watch for the Operations Section Chief to order a field watch on HV-312 and the Incident Commander to activate CAER-Text.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.710Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "ERT Medic: Rail Spot 2 Entry — Field Confirmation",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Teague Valley Chemical Company",
+          "centerName": "Operations Control Center (OCC)",
+          "channel": "ERT 1",
+          "frequency": "TG 7003 / 458.310 MHz",
+          "date": "10/22/2026",
+          "callsign": "Medic 3",
+          "lines": [
+            {
+              "time": "10:12:03",
+              "from": "Medic 3",
+              "to": "Control",
+              "text": "Control, this is Medic 3 from the ERT. We are at the perimeter of Rail Spot 2. The vapor is thick, and the hand valve HV-312 is still open. The ESD-310 status on the DeltaV HMI still shows closed, but the field sees the release continuing. The wind is pushing the cloud toward Corbin Falls Elementary School. We are starting entry procedures now."
+            },
+            {
+              "time": "10:12:17",
+              "from": "Control",
+              "to": "Medic 3",
+              "text": "Medic 3, copy. Maintain position and report when you reach the isolation point. Confirm SCBA and Level A suit integrity."
+            },
+            {
+              "time": "10:12:28",
+              "from": "Medic 3",
+              "to": "Control",
+              "text": "Roger, Control. We are proceeding to HV-312 now. Visual confirmation of valve open — no movement on the HMI. Proceeding to manual isolation."
+            }
+          ],
+          "background": "garage",
+          "voiceStyle": "Young female, calm, breathless, urgent",
+          "audioFile": "I-09_radio.wav",
+          "duration": "0:25",
+          "injectId": "I-09"
+        },
+        "instructorNote": "This inject confirms the field-screens discrepancy and escalates the threat to the school. Watch for the Operations Section Chief to order a field watch on HV-312 and the Incident Commander to activate CAER-Text.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:28.514Z"
+}

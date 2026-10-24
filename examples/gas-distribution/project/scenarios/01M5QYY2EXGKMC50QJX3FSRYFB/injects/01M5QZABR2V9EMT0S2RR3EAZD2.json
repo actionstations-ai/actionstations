@@ -1,0 +1,309 @@
+{
+  "id": "01M5QZABR2V9EMT0S2RR3EAZD2",
+  "mselRowId": "I-04",
+  "type": "system_log",
+  "title": "EOC Activation — Level 3 Incident Declared",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "CVG-EP-2026",
+    "host": "CVG-EP-2026",
+    "ip": "10.72.1.41",
+    "os": "Linux (RHEL 9)",
+    "logSource": "Emergency Operations Plan (EOP) 6.4 execution log",
+    "exportedBy": "corwinvalleygas.example\\vp.haskell",
+    "exportedAt": "01/13/2027 04:52 PM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "16:52:03",
+        "level": "ALERT",
+        "msg": "EOC activation confirmed in Room 140, Level 3. All emergency response roles now active.",
+        "highlight": false
+      },
+      {
+        "ts": "16:52:04",
+        "level": "CRIT",
+        "msg": "Level 3 incident declared per CVG-EP-2026 Decision Record EP-3: two or more odor or high-flame calls from one low-pressure district in 30 minutes.",
+        "highlight": true
+      },
+      {
+        "ts": "16:52:05",
+        "level": "INFO",
+        "msg": "Field Operations Supervisor Oyelowo confirms PR-7B pressure at 24 in. w.c. and rising; pilot regulator cycling. Field gauges confirm overpressure.",
+        "highlight": false
+      },
+      {
+        "ts": "16:52:06",
+        "level": "INFO",
+        "msg": "Gas Control Manager confirms SCADA HMI at RS-22 shows 10 in. w.c. — field data contradicts SCADA.",
+        "highlight": false
+      },
+      {
+        "ts": "16:52:07",
+        "level": "INFO",
+        "msg": "Cybersecurity Coordinator confirms unauthorized session on CVG-OT-JMP01 (halden-support) from IP 203.0.113.14 (valid MFA) at 16:15.",
+        "highlight": false
+      },
+      {
+        "ts": "16:52:08",
+        "level": "NOTICE",
+        "msg": "EOP 6.4 activated: voice dispatch to field, paper trip sheets for all roles, emergency contact list distributed.",
+        "highlight": false
+      },
+      {
+        "ts": "16:52:09",
+        "level": "NOTICE",
+        "msg": "Public Awareness Manager to issue evacuation advisory for downtown Corwin, including Riverside Manor and Front Street Senior Residence (Pressure District 7).",
+        "highlight": false
+      },
+      {
+        "ts": "16:52:10",
+        "level": "NOTICE",
+        "msg": "VP Gas Operations (IC) orders: no valve closures without IC authorization; field to verify pressure using calibrated field gauges and recorders.",
+        "highlight": false
+      },
+      {
+        "ts": "16:52:11",
+        "level": "NOTICE",
+        "msg": "IC to coordinate warming-center activation with Lake Haven County EMA (per EP-4); district shutdowns lasting past 18:00 require IC approval.",
+        "highlight": false
+      },
+      {
+        "ts": "16:52:12",
+        "level": "ALERT",
+        "msg": "Emergency Operations Center (Room 140, Level 3) now operational. All roles accountable.",
+        "highlight": true
+      }
+    ],
+    "terminalTitle": "Administrator: CVG-EP-2026 (EOP 6.4)",
+    "command": "tail -n 12 /var/log/cvg/ep-2026/execution.log",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This inject confirms the Level 3 declaration per EP-3 and activates EOP 6.4. The IC must now lead the response and enforce the no-valve-closure rule. Watch for unauthorized shutdown attempts.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 4 › 4.2 Classification",
+      "quote": "| Level | Meaning | Examples | Activation | |---|---|---|---| | Level 1 | Single location, handled by a serviceperson | Inside odor, leak at a meter set | Distribution Field Supervisor | | Level 2 | S",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Annex B",
+      "quote": "| Record | Decision | Date | |---|---|---| | EP-1 | The Gas Control Manager may shut in any single regulator station without IC approval when an overpressure cannot be ruled out | 02/15/2024 | | EP-2 ",
+      "chunkId": 55
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 1",
+      "quote": "This plan gives the specific measures CVG takes to reduce the risk of operational disruption when a cybersecurity incident affects its Critical Cyber Systems. It is organized around the four objective",
+      "chunkId": 3
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYHTNZ0NJK3J8JMM17PBC",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZABR2V9EMT0S2RR3EAZD2/01M5QZYHTNZ0NJK3J8JMM17PBC.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "9ecefe9c898e59d378ebfe4a2c503c2a5598c065e5da2b90bba0014119757922",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:23.195Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:08:32.907Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "EOC Activation — Level 3 Incident Declared",
+        "type": "system_log",
+        "fields": {
+          "systemName": "CVG-EP-2026",
+          "host": "CVG-EP-2026",
+          "ip": "10.72.1.41",
+          "os": "Linux (RHEL 9)",
+          "logSource": "Emergency Operations Plan (EOP) 6.4 execution log",
+          "exportedBy": "corwinvalleygas.example\\vp.haskell",
+          "exportedAt": "10/24/2026 04:52 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "16:52:03",
+              "level": "ALERT",
+              "msg": "EOC activation confirmed in Room 140, Level 3. All emergency response roles now active.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:04",
+              "level": "CRIT",
+              "msg": "Level 3 incident declared per CVG-EP-2026 Decision Record EP-3: two or more odor or high-flame calls from one low-pressure district in 30 minutes.",
+              "highlight": true
+            },
+            {
+              "ts": "16:52:05",
+              "level": "INFO",
+              "msg": "Field Operations Supervisor Oyelowo confirms PR-7B pressure at 15.2 in. w.c. and rising; pilot regulator cycling. Field gauges confirm overpressure.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:06",
+              "level": "INFO",
+              "msg": "Gas Control Manager confirms SCADA HMI at RS-22 shows 10 in. w.c. — field data contradicts SCADA.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:07",
+              "level": "INFO",
+              "msg": "Cybersecurity Coordinator confirms unauthorized session on CVG-OT-JMP01 (halden-support) from IP 203.0.113.14 (valid MFA) at 16:15.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:08",
+              "level": "NOTICE",
+              "msg": "EOP 6.4 activated: voice dispatch to field, paper trip sheets for all roles, emergency contact list distributed.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:09",
+              "level": "NOTICE",
+              "msg": "Public Awareness Manager to issue evacuation advisory for downtown Corwin, including Riverside Manor and Front Street Senior Residence (Pressure District 7).",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:10",
+              "level": "NOTICE",
+              "msg": "VP Gas Operations (IC) orders: no valve closures without IC authorization; field to verify pressure using calibrated field gauges and recorders.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:11",
+              "level": "NOTICE",
+              "msg": "IC to coordinate warming-center activation with Lake Haven County EMA (per EP-4); district shutdowns lasting past 18:00 require IC approval.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:12",
+              "level": "ALERT",
+              "msg": "Emergency Operations Center (Room 140, Level 3) now operational. All roles accountable.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: CVG-EP-2026 (EOP 6.4)",
+          "command": "tail -n 12 /var/log/cvg/ep-2026/execution.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the Level 3 declaration per EP-3 and activates EOP 6.4. The IC must now lead the response and enforce the no-valve-closure rule. Watch for unauthorized shutdown attempts.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.434Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "EOC Activation — Level 3 Incident Declared",
+        "type": "system_log",
+        "fields": {
+          "systemName": "CVG-EP-2026",
+          "host": "CVG-EP-2026",
+          "ip": "10.72.1.41",
+          "os": "Linux (RHEL 9)",
+          "logSource": "Emergency Operations Plan (EOP) 6.4 execution log",
+          "exportedBy": "corwinvalleygas.example\\vp.haskell",
+          "exportedAt": "01/13/2027 04:52 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "16:52:03",
+              "level": "ALERT",
+              "msg": "EOC activation confirmed in Room 140, Level 3. All emergency response roles now active.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:04",
+              "level": "CRIT",
+              "msg": "Level 3 incident declared per CVG-EP-2026 Decision Record EP-3: two or more odor or high-flame calls from one low-pressure district in 30 minutes.",
+              "highlight": true
+            },
+            {
+              "ts": "16:52:05",
+              "level": "INFO",
+              "msg": "Field Operations Supervisor Oyelowo confirms PR-7B pressure at 24 in. w.c. and rising; pilot regulator cycling. Field gauges confirm overpressure.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:06",
+              "level": "INFO",
+              "msg": "Gas Control Manager confirms SCADA HMI at RS-22 shows 10 in. w.c. — field data contradicts SCADA.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:07",
+              "level": "INFO",
+              "msg": "Cybersecurity Coordinator confirms unauthorized session on CVG-OT-JMP01 (halden-support) from IP 203.0.113.14 (valid MFA) at 16:15.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:08",
+              "level": "NOTICE",
+              "msg": "EOP 6.4 activated: voice dispatch to field, paper trip sheets for all roles, emergency contact list distributed.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:09",
+              "level": "NOTICE",
+              "msg": "Public Awareness Manager to issue evacuation advisory for downtown Corwin, including Riverside Manor and Front Street Senior Residence (Pressure District 7).",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:10",
+              "level": "NOTICE",
+              "msg": "VP Gas Operations (IC) orders: no valve closures without IC authorization; field to verify pressure using calibrated field gauges and recorders.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:11",
+              "level": "NOTICE",
+              "msg": "IC to coordinate warming-center activation with Lake Haven County EMA (per EP-4); district shutdowns lasting past 18:00 require IC approval.",
+              "highlight": false
+            },
+            {
+              "ts": "16:52:12",
+              "level": "ALERT",
+              "msg": "Emergency Operations Center (Room 140, Level 3) now operational. All roles accountable.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: CVG-EP-2026 (EOP 6.4)",
+          "command": "tail -n 12 /var/log/cvg/ep-2026/execution.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the Level 3 declaration per EP-3 and activates EOP 6.4. The IC must now lead the response and enforce the no-valve-closure rule. Watch for unauthorized shutdown attempts.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:23.443Z"
+}

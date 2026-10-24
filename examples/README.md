@@ -52,7 +52,7 @@ Strip these with a script, not by hand. Keep binary media to at most 6 MB per ex
 
 ## How the app uses it
 
-- Each example ships in its domain's bundled pack (ADR-0020, `packs/bundled.json`: `airport-ncia` → Airports, `city-water` → Water utilities, `uas-operations` → Unmanned systems). `examples:list` lists the examples of the enabled packs, bundled and installed (packaged: `<resources>/app-resources/packs/<pack>/examples/`; unpackaged: this folder, read in place; `TTX_EXAMPLES_DIR` lists a plain folder instead, for tests). A new example needs an entry in `packs/bundled.json`, or the build fails.
+- Each example ships in its domain's bundled pack (ADR-0020, `packs/bundled.json`: `airport-ncia` → Airports, `city-water` → Water utilities, `uas-operations` → Unmanned systems, `chemical-rmp` → Chemical facilities, `county-public-health` → Public health, `county-911` → Emergency communications, `county-elections` → Elections, `k12-district` → K-12 schools, `gas-distribution` → Gas utilities and pipelines). `examples:list` lists the examples of the enabled packs, bundled and installed (packaged: `<resources>/app-resources/packs/<pack>/examples/`; unpackaged: this folder, read in place; `TTX_EXAMPLES_DIR` lists a plain folder instead, for tests). A new example needs an entry in `packs/bundled.json`, or the build fails.
 - `examples:open { slug, parentDir? }` copies `project/` into a folder no one is using (`<title>.asproj`, then `-2`, `-3`…), writes `.example.json` (the banner text) into the copy, gives the copy a new project id and opens it. Symlinks and derived data are not copied.
 - `examples:marker { projectPath }` returns the banner text for a project opened from an example.
 

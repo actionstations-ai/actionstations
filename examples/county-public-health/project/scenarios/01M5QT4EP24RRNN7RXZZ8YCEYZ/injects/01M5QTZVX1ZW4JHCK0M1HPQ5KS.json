@@ -1,0 +1,118 @@
+{
+  "id": "01M5QTZVX1ZW4JHCK0M1HPQ5KS",
+  "mselRowId": "I-21",
+  "type": "email",
+  "title": "IIS Export File: Final Verification and System Restoration",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Dr. Joanna Pruitt, Health Officer",
+    "fromEmail": "joanna.pruitt@marstonhealth.example",
+    "senderInitials": "JP",
+    "to": "Incident Command staff; Wes Tran (IT); Dr. Neha Raman (Epi); Lena Abernathy (PIO); Frank Delaney (County Counselor)",
+    "subject": "Holds until further notice",
+    "sentAt": "Thu 10/22/2026 12:45 PM",
+    "body": "The IIS export stays paused; KDHE keeps the 412 invalid doses quarantined and nothing goes to the state until the Informatics Lead signs MCHD-F-62 against the paper records. POD 2 opens Saturday with re-booked appointments and paper screening. The County Counselor reviews the HIPAA hybrid-entity question for the clinic records before we say anything about a breach. Reports to the FBI and CISA today.",
+    "signature": "Dr. Joanna Pruitt, Health Officer\nMarston County Health Department\nMCHD-CYB-ANX-2026 | Decision Record: CYB-DR-1",
+    "attachments": [
+      {
+        "name": "MCHD-F-62-Verification-20261021-1245.pdf",
+        "size": "2.1 MB",
+        "kind": "pdf"
+      }
+    ],
+    "importance": "high",
+    "external": false,
+    "printedBy": "Incident Commander (HO)"
+  },
+  "variant": "screen",
+  "instructorNote": "This inject confirms the end of the cyber incident. The IC has signed off on the final verification. Players must now re-establish systems in the correct order per C1 and prepare for final reporting to KDHE.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 9",
+      "quote": "Systems return in this order unless the Incident Commander changes it: (1) phones and the fax server MCHD-FAX01, (2) email, (3) ClinicTrack EHR, (4) the file shares and the outbreak SharePoint site, (",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+      "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+      "headingPath": "Marston County Health Department… › Section 1 › 1.4 Coordinated Documents",
+      "quote": "| Document | Number | Revision | |---|---|---| | Cyber Incident Response Annex | MCHD-CYB-ANX-2026 | 1.2 | | Facilities, Districts and Information Systems Description | MCHD-FAC-SYS-2026 | 2.0 | | Med",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T20:52:55.645Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "IIS Export File: Final Verification and System Restoration",
+        "type": "email",
+        "fields": {
+          "fromName": "Dr. Joanna Pruitt, Health Officer",
+          "fromEmail": "joanna.pruitt@marstonhealth.example",
+          "senderInitials": "JP",
+          "to": "Incident Commander (HO), Informatics Lead (IT), Lead Epidemiologist (Epi), Public Information Officer (PIO), County Counselor (Legal)",
+          "subject": "Signed Verification Form for IIS Export — Cyber Incident Resolution",
+          "sentAt": "Sat 10/24/2026 12:45 PM",
+          "body": "Per Section 9 of the Marston County Health Department Cyber Incident Response Annex (MCHD-CYB-ANX-2026, rev 1.2) and the data-integrity verification protocol in C1, I, Dr. Joanna Pruitt, Health Officer, hereby verify that the IIS export file for 04-01 has been restored from an immutable cloud backup (04-01) and confirmed clean.\n\nAll 412 altered MMR dose records with non-existent lot numbers (MMR-2026-0044 to MMR-2026-0045) have been removed and replaced with the original, validated data. The file has been cross-checked against paper records (MCHD-F-40, MCHD-F-12), lab results (PHL-26-031882), and ColdSentry logs (VF-04, 10.72.14.08). No patient data was leaked. The system is now trusted for submission to KDHE.\n\nThis verification is authorized under MCHD-F-62 and the Cyber Incident Response Annex. All systems will now resume in the recovery order specified in C1: (1) phones and MCHD-FAX01, (2) email, (3) ClinicTrack EHR, (4) file shares and outbreak SharePoint, (5) SlotWise, (6) IIS export. The IIS-EXPORT-NIGHTLY job will restart once IT confirms network stability.\n\nI declare this cyber incident closed.",
+          "signature": "Dr. Joanna Pruitt, Health Officer\nMarston County Health Department\nMCHD-CYB-ANX-2026 | Decision Record: CYB-DR-1",
+          "attachments": [
+            {
+              "name": "MCHD-F-62-Verification-20261024-1245.pdf",
+              "size": "2.1 MB",
+              "kind": "pdf"
+            }
+          ],
+          "importance": "high",
+          "external": false,
+          "printedBy": "Incident Commander (HO)"
+        },
+        "instructorNote": "This inject confirms the end of the cyber incident. The IC has signed off on the final verification. Players must now re-establish systems in the correct order per C1 and prepare for final reporting to KDHE.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.304Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "IIS Export File: Final Verification and System Restoration",
+        "type": "email",
+        "fields": {
+          "fromName": "Dr. Joanna Pruitt, Health Officer",
+          "fromEmail": "joanna.pruitt@marstonhealth.example",
+          "senderInitials": "JP",
+          "to": "Incident Command staff; Wes Tran (IT); Dr. Neha Raman (Epi); Lena Abernathy (PIO); Frank Delaney (County Counselor)",
+          "subject": "Holds until further notice",
+          "sentAt": "Thu 10/22/2026 12:45 PM",
+          "body": "The IIS export stays paused; KDHE keeps the 412 invalid doses quarantined and nothing goes to the state until the Informatics Lead signs MCHD-F-62 against the paper records. POD 2 opens Saturday with re-booked appointments and paper screening. The County Counselor reviews the HIPAA hybrid-entity question for the clinic records before we say anything about a breach. Reports to the FBI and CISA today.",
+          "signature": "Dr. Joanna Pruitt, Health Officer\nMarston County Health Department\nMCHD-CYB-ANX-2026 | Decision Record: CYB-DR-1",
+          "attachments": [
+            {
+              "name": "MCHD-F-62-Verification-20261021-1245.pdf",
+              "size": "2.1 MB",
+              "kind": "pdf"
+            }
+          ],
+          "importance": "high",
+          "external": false,
+          "printedBy": "Incident Commander (HO)"
+        },
+        "instructorNote": "This inject confirms the end of the cyber incident. The IC has signed off on the final verification. Players must now re-establish systems in the correct order per C1 and prepare for final reporting to KDHE.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:13.510Z"
+}

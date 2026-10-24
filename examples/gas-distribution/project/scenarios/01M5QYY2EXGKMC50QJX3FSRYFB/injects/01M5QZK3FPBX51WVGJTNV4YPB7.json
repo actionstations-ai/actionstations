@@ -1,0 +1,289 @@
+{
+  "id": "01M5QZK3FPBX51WVGJTNV4YPB7",
+  "mselRowId": "I-20b",
+  "type": "field_report",
+  "title": "Field Meter Anomaly — 314 Oak Street",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Corwin Valley Gas Company — Distribution Operations",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-20270113-200515-0048",
+    "date": "01/13/2027",
+    "time": "20:05",
+    "location": "314 Oak Street, Corwin, PA",
+    "inspector": "Raymond Oyelowo, Field Operations Supervisor (M&R)",
+    "unit": "M&R Field Crew 7 · Vehicle 12",
+    "reportType": "incident",
+    "weather": "Clear, 14°F, wind ESE 8 mph",
+    "summary": "Customer on 314 Oak Street reported gas meter reading 14.5 in. w.c. and a clicking sound from the meter box. Meter is a 2003 model, not registered on SCADA, not linked to any field gauge or pressure recorder. No record exists for this meter in CVG-EP-2026 Section 7 or the Field Meter Log (CVG-FML-2026). Meter is not part of the pressure monitoring network. Customer instructed to call 911 if gas odor is detected.",
+    "findings": [
+      {
+        "item": "Meter ID and model",
+        "condition": "not_inspected",
+        "notes": "2003 model, not on SCADA register"
+      },
+      {
+        "item": "SCADA connectivity",
+        "condition": "failed",
+        "notes": "Not connected to SCADA or field gauge network"
+      },
+      {
+        "item": "Pressure reading consistency",
+        "condition": "not_inspected",
+        "notes": "No prior record of this meter's pressure"
+      },
+      {
+        "item": "Meter housing and seal integrity",
+        "condition": "ok",
+        "notes": "No visible damage or tampering"
+      },
+      {
+        "item": "Gas odor report",
+        "condition": "ok",
+        "notes": "Customer reports no odor"
+      },
+      {
+        "item": "Local field gauge comparison",
+        "condition": "not_inspected",
+        "notes": "No gauge in vicinity"
+      },
+      {
+        "item": "Meter location and access",
+        "condition": "ok",
+        "notes": "Accessible, no obstruction"
+      },
+      {
+        "item": "History of meter service",
+        "condition": "not_inspected",
+        "notes": "No service record in CVG-FML-2026"
+      },
+      {
+        "item": "External interference",
+        "condition": "ok",
+        "notes": "No evidence of tampering"
+      },
+      {
+        "item": "Customer communication",
+        "condition": "ok",
+        "notes": "Customer informed to call 911 if odor detected"
+      }
+    ],
+    "actionsTaken": [
+      "Notified Customer Service Manager (Yolanda Price) via internal phone at 20:08",
+      "Confirmed meter is not in CVG-EP-2026 Section 7 or CVG-FML-2026",
+      "Filed report under CVG-CIRP-2026 Section 4 (Cyber Incident Reporting) as non-impactful anomaly"
+    ],
+    "recommendations": [
+      "Add to field audit list for quarterly review of unregistered meters",
+      "Verify if meter was ever registered under old system (CVG-OLD-2000)"
+    ],
+    "photosNote": "1 photo attached: IMG_1024-2005-0048 (meter box, 314 Oak St, 20:05)",
+    "signature": "Raymond Oyelowo, Field Operations Supervisor (M&R)",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "Noise inject; the technical team should triage it as a non-impactful meter anomaly and not escalate. The FOS should log and close the report.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 3",
+      "quote": "| Line | Description | Size / material | MAOP | Route | |---|---|---|---|---| | Line 100 | Supply main from Harlan Road City Gate to the north and central system | 12-inch coated steel | 300 psig | Ha",
+      "chunkId": 22
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 3",
+      "quote": "CVG uses ICS. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander | Gordon Haskell, VP Gas ",
+      "chunkId": 37
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T22:13:22.959Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Field Meter Anomaly — 314 Oak Street",
+        "type": "field_report",
+        "fields": {
+          "organization": "Corwin Valley Gas Company — Distribution Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-20261024-200515-0048",
+          "date": "10/24/2026",
+          "time": "20:05",
+          "location": "314 Oak Street, Corwin, PA",
+          "inspector": "Raymond Oyelowo, Field Operations Supervisor (M&R)",
+          "unit": "M&R Field Crew 7 · Vehicle 12",
+          "reportType": "incident",
+          "weather": "Clear, 14°F, wind ESE 8 mph",
+          "summary": "Customer on 314 Oak Street reported gas meter reading 14.5 in. w.c. and a clicking sound from the meter box. Meter is a 2003 model, not registered on SCADA, not linked to any field gauge or pressure recorder. No record exists for this meter in CVG-EP-2026 Section 7 or the Field Meter Log (CVG-FML-2026). Meter is not part of the pressure monitoring network. Customer instructed to call 911 if gas odor is detected.",
+          "findings": [
+            {
+              "item": "Meter ID and model",
+              "condition": "not_inspected",
+              "notes": "2003 model, not on SCADA register"
+            },
+            {
+              "item": "SCADA connectivity",
+              "condition": "failed",
+              "notes": "Not connected to SCADA or field gauge network"
+            },
+            {
+              "item": "Pressure reading consistency",
+              "condition": "not_inspected",
+              "notes": "No prior record of this meter's pressure"
+            },
+            {
+              "item": "Meter housing and seal integrity",
+              "condition": "ok",
+              "notes": "No visible damage or tampering"
+            },
+            {
+              "item": "Gas odor report",
+              "condition": "ok",
+              "notes": "Customer reports no odor"
+            },
+            {
+              "item": "Local field gauge comparison",
+              "condition": "not_inspected",
+              "notes": "No gauge in vicinity"
+            },
+            {
+              "item": "Meter location and access",
+              "condition": "ok",
+              "notes": "Accessible, no obstruction"
+            },
+            {
+              "item": "History of meter service",
+              "condition": "not_inspected",
+              "notes": "No service record in CVG-FML-2026"
+            },
+            {
+              "item": "External interference",
+              "condition": "ok",
+              "notes": "No evidence of tampering"
+            },
+            {
+              "item": "Customer communication",
+              "condition": "ok",
+              "notes": "Customer informed to call 911 if odor detected"
+            }
+          ],
+          "actionsTaken": [
+            "Notified Customer Service Manager (Yolanda Price) via internal phone at 20:08",
+            "Confirmed meter is not in CVG-EP-2026 Section 7 or CVG-FML-2026",
+            "Filed report under CVG-CIRP-2026 Section 4 (Cyber Incident Reporting) as non-impactful anomaly"
+          ],
+          "recommendations": [
+            "Add to field audit list for quarterly review of unregistered meters",
+            "Verify if meter was ever registered under old system (CVG-OLD-2000)"
+          ],
+          "photosNote": "1 photo attached: IMG_1024-2005-0048 (meter box, 314 Oak St, 20:05)",
+          "signature": "Raymond Oyelowo, Field Operations Supervisor (M&R)",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it as a non-impactful meter anomaly and not escalate. The FOS should log and close the report.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.502Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field Meter Anomaly — 314 Oak Street",
+        "type": "field_report",
+        "fields": {
+          "organization": "Corwin Valley Gas Company — Distribution Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-20270113-200515-0048",
+          "date": "01/13/2027",
+          "time": "20:05",
+          "location": "314 Oak Street, Corwin, PA",
+          "inspector": "Raymond Oyelowo, Field Operations Supervisor (M&R)",
+          "unit": "M&R Field Crew 7 · Vehicle 12",
+          "reportType": "incident",
+          "weather": "Clear, 14°F, wind ESE 8 mph",
+          "summary": "Customer on 314 Oak Street reported gas meter reading 14.5 in. w.c. and a clicking sound from the meter box. Meter is a 2003 model, not registered on SCADA, not linked to any field gauge or pressure recorder. No record exists for this meter in CVG-EP-2026 Section 7 or the Field Meter Log (CVG-FML-2026). Meter is not part of the pressure monitoring network. Customer instructed to call 911 if gas odor is detected.",
+          "findings": [
+            {
+              "item": "Meter ID and model",
+              "condition": "not_inspected",
+              "notes": "2003 model, not on SCADA register"
+            },
+            {
+              "item": "SCADA connectivity",
+              "condition": "failed",
+              "notes": "Not connected to SCADA or field gauge network"
+            },
+            {
+              "item": "Pressure reading consistency",
+              "condition": "not_inspected",
+              "notes": "No prior record of this meter's pressure"
+            },
+            {
+              "item": "Meter housing and seal integrity",
+              "condition": "ok",
+              "notes": "No visible damage or tampering"
+            },
+            {
+              "item": "Gas odor report",
+              "condition": "ok",
+              "notes": "Customer reports no odor"
+            },
+            {
+              "item": "Local field gauge comparison",
+              "condition": "not_inspected",
+              "notes": "No gauge in vicinity"
+            },
+            {
+              "item": "Meter location and access",
+              "condition": "ok",
+              "notes": "Accessible, no obstruction"
+            },
+            {
+              "item": "History of meter service",
+              "condition": "not_inspected",
+              "notes": "No service record in CVG-FML-2026"
+            },
+            {
+              "item": "External interference",
+              "condition": "ok",
+              "notes": "No evidence of tampering"
+            },
+            {
+              "item": "Customer communication",
+              "condition": "ok",
+              "notes": "Customer informed to call 911 if odor detected"
+            }
+          ],
+          "actionsTaken": [
+            "Notified Customer Service Manager (Yolanda Price) via internal phone at 20:08",
+            "Confirmed meter is not in CVG-EP-2026 Section 7 or CVG-FML-2026",
+            "Filed report under CVG-CIRP-2026 Section 4 (Cyber Incident Reporting) as non-impactful anomaly"
+          ],
+          "recommendations": [
+            "Add to field audit list for quarterly review of unregistered meters",
+            "Verify if meter was ever registered under old system (CVG-OLD-2000)"
+          ],
+          "photosNote": "1 photo attached: IMG_1024-2005-0048 (meter box, 314 Oak St, 20:05)",
+          "signature": "Raymond Oyelowo, Field Operations Supervisor (M&R)",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it as a non-impactful meter anomaly and not escalate. The FOS should log and close the report.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:28.723Z"
+}

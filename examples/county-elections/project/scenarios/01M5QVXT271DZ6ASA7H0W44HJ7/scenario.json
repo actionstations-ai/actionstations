@@ -1,0 +1,2783 @@
+{
+  "formatVersion": 1,
+  "id": "01M5QVXT271DZ6ASA7H0W44HJ7",
+  "projectId": "01M5QVXR1WGNA0S0S0E37BB92C",
+  "title": "Ghost Poll Pads",
+  "subtitle": "VoterTrack Compromise & Public Trust",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-24T21:09:04.711Z",
+  "updatedAt": "2026-10-24T21:30:01.981Z",
+  "brief": {
+    "userPrompt": "Thursday 10/29/2026, the fourth-to-last day of early voting for the 2026 general election in Lisle County. At 08:10 three voters at the Early Vote Center (18 South Market Street, Carrow) are shown on their Poll Pads as 'mail ballot issued' though they never asked for one; by 10:00 there are 23 such voters and a line out the door. Voter Registration Manager Beth Saylor finds that 1,186 records in Precinct 104, Precinct 105 and Precinct 207 were changed in VoterTrack (LCBOE-VR01) between 02:05 and 02:40 Wednesday by the account of Voter Registration Clerk Nina Ruiz, who on Tuesday clicked a 'Secretary of State directive update' email and approved a multi-factor prompt; her mailbox has a forwarding rule. At 11:30 poll workers for Polling Location 6 (Carrow Community Church, Precinct 111 and Precinct 112) receive an email from her account saying their location moved back to Carrow Middle School. At 13:00 a video viewed 200,000 times says Lisle County 'deleted 10,000 voters' and that the DS200 scanners are connected to the internet. Decisions: disabling the account and preserving the evidence, freezing record changes (COOP-DR-5), whether to hold the 10/31 final pollbook load and rebuild it from the statewide voter registration database, provisional ballots for affected voters, correcting the spoofed notice, reports to the Ohio Secretary of State, CISA and the FBI, the 22-month records hold, Board notification, and a public statement (COOP-DR-6) that tells voters how to check their registration without naming any party or candidate.",
+    "audience": [
+      "Command (Director and Deputy Director)",
+      "Elections IT and County Security",
+      "Voter Registration and Mail Ballots",
+      "Voting Systems",
+      "Security and Sheriff's Liaison",
+      "Public Information"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [
+      "Every email address of the board and the county uses the exercise domain lislevotes.example; outside parties use fictional domains and fictional outlet names (Channel 9, The Carrow Courier); never a real agency, company or newspaper domain.",
+      "Player roles are only those in the audience list; outside parties (the Ohio Secretary of State's office, CISA, the FBI, vendors, the managed SOC, Board members, voters, reporters) are played by the SimCell, not seated as players.",
+      "Never name a real candidate or political party, never depict a real election result, and keep every contest fictional (Carrow City Council District 1 to District 4, Measure A, Measure B)."
+    ],
+    "startWallClock": "08:00",
+    "threatFamily": "cyber"
+  },
+  "overview": {
+    "theme": "Credential Theft, Data Tampering, and Rapid Public Communication",
+    "threat": "An attacker compromised the account of Voter Registration Clerk Nina Ruiz by impersonating the Ohio Secretary of State in a phishing email. The attacker used her credentials to alter 1,186 voter records in VoterTrack between 02:05 and 02:40 on Wednesday, 10/29/2026. The changes included falsely marking voters as having received mail ballots, enabling unauthorized edits to pollbook data, and enabling a forwarding rule to exfiltrate her inbox. The attacker then used her account to send a spoofed notice to poll workers at Polling Location 6 (Carrow Community Church), falsely claiming the location had moved back to Carrow Middle School. This incident impacts the integrity of the voter registration database, the accuracy of pollbooks, and the operational readiness of election staff across multiple polling locations and the Early Vote Center.",
+    "operationalImpact": "At the Early Vote Center (18 South Market Street, Carrow), 23 voters are falsely shown as having received mail ballots; poll workers are unable to verify eligibility and must manually process checks, creating a line out the door. At Polling Location 6 (Carrow Community Church), poll workers receive a spoofed email from Nina Ruiz’s account directing them to a non-existent location, causing confusion and delays. The results website (results.lislevotes.example) shows a degraded load due to corrupted data feeds from VoterTrack. The hotline (555-0140) receives 42 calls in 30 minutes from voters reporting they were 'wrongly issued' ballots. The Board website (lislevotes.example) shows a 'Voter Registration Update' banner, but the underlying data is compromised. The Election Operations Center is activated, and staff begin to detect anomalies in the status board. The public information team must respond to a viral video (200,000 views) falsely claiming 10,000 voters were deleted and that scanners are internet-connected.",
+    "coreSectionsTested": [
+      {
+        "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+        "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+        "headingPath": "Lisle County Board of Elections… › Section 5",
+        "quote": "| Level | Description | Response | |---|---|---| | CIRP 3 | Suspicious email reported, no click; single failed log-in alerts | IT Manager handles; logged | | CIRP 2 | A staff account compromised; unau",
+        "chunkId": 7
+      },
+      {
+        "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+        "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+        "headingPath": "Lisle County Board of Elections… › Section 6",
+        "quote": "| Level | Trigger | Actions | |---|---|---| | Level 3 — Monitoring | Single-location problem fixed by a rover; one-off system error | Hotline logs the ticket; Deputy Director informed | | Level 2 — Pa",
+        "chunkId": 29
+      },
+      {
+        "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+        "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+        "headingPath": "Lisle County Board of Elections… › Annex B",
+        "quote": "Messages that appear to come from the Secretary of State, a voting system vendor or the EAC with urgent \"directive\" or \"updated procedures\" subjects; links to log-in pages that imitate Microsoft 365; ",
+        "chunkId": 18
+      },
+      {
+        "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+        "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+        "headingPath": "Lisle County Board of Elections… › Section 10",
+        "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+        "chunkId": 35
+      },
+      {
+        "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+        "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+        "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+        "quote": "Spoofed emails, texts or social media posts that appear to come from the Board (for example, a fake notice that a polling location moved): the PIO posts a correction within one hour on all Board chann",
+        "chunkId": 11
+      },
+      {
+        "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+        "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+        "headingPath": "Lisle County Board of Elections… › Section 10",
+        "quote": "A system returns to use when the County CISO confirms it is clean, the owner has completed the integrity checks, and the Director agrees. The pollbook load built after an incident is checked against t",
+        "chunkId": 16
+      }
+    ],
+    "targetAudience": "Command (Director and Deputy Director), Elections IT and County Security, Voter Registration and Mail Ballots, Voting Systems, Security and Sheriff's Liaison, Public Information",
+    "location": "Lisle County Board of Elections, Carrow, Lisle County, Ohio"
+  },
+  "objectives": [
+    {
+      "id": "01M5QW0A89JFVDHZAM315HG03M",
+      "name": "Credential Integrity",
+      "text": "Demonstrate the ability to detect and isolate a compromised user account in VoterTrack by verifying login patterns, disabling access, and initiating forensic preservation of logs within 15 minutes of first anomaly report."
+    },
+    {
+      "id": "01M5QW0A89HKYJYK9M7TQDPAG1",
+      "name": "Pollbook Accuracy",
+      "text": "Demonstrate the ability to validate and correct pollbook data for Polling Location 6 using a trusted, air-gapped copy of the VoterTrack export, ensuring no unauthorized changes are applied during the emergency load."
+    },
+    {
+      "id": "01M5QW0A89NRKWH1SJTWZMPENZ",
+      "name": "Public Trust Management",
+      "text": "Demonstrate the ability to issue a unified public statement via the PIO that corrects a viral misinformation claim about voter deletion, using the EAC/CISA communications guide and citing verified data from the Voter Registration Manager."
+    },
+    {
+      "id": "01M5QW0A89NX8KXANY41CDZY8V",
+      "name": "System Containment",
+      "text": "Demonstrate the ability to isolate the VoterTrack database from the network and block external data exfiltration by disabling the forwarding rule and revoking API access from the compromised account within 10 minutes of confirmation."
+    }
+  ],
+  "roles": [
+    {
+      "id": "eo",
+      "name": "Chief Election Official (Incident Commander)",
+      "abbreviation": "CEO",
+      "team": "Team A: Operations",
+      "description": "Manages activation of the contingency plan, polling location relocation, and public statements in coordination with counsel and the PIO.",
+      "standingOrders": [
+        "Act First: if the Board's public statements and legal advice conflict, follow the Director's directive as Incident Commander.",
+        "Verify All: never accept a system status as final without cross-checking with the physical log or a second source.",
+        "Delegate Authority: if the Board is delayed, use COOP-DR-2 to move the Early Vote Center to the alternate site without waiting for full approval.",
+        "Report Up: immediately notify the Board and the Secretary of State's office upon confirming a Level 1 incident."
+      ]
+    },
+    {
+      "id": "deputy",
+      "name": "Deputy Director (Election-Day Operations Center)",
+      "abbreviation": "Dep",
+      "team": "Team A: Operations",
+      "description": "Runs the election-day operations center, hotline, rovers, staffing and logistics, and maintains the incident log and status board.",
+      "standingOrders": [
+        "Track All: maintain real-time updates on the status board for every polling location and the Early Vote Center.",
+        "Rover First: dispatch a rover to Polling Location 6 within 5 minutes of receiving a report of a location move.",
+        "Log All: record every call and message in LCBOE-F-07 and LCBOE-F-25, including rumors and voter complaints.",
+        "Coordinate All: ensure all teams report to the Operations Center every 15 minutes during a Level 2 or Level 1 incident."
+      ]
+    },
+    {
+      "id": "it",
+      "name": "Elections IT Manager / County CISO",
+      "abbreviation": "IT",
+      "team": "Team B: IT and Security",
+      "description": "Owns the network, email, identity, voter registration system access, results website, and isolation decisions.",
+      "standingOrders": [
+        "Isolate Fast: if a user account is compromised, isolate the system and disable access within 5 minutes.",
+        "Preserve Logs: never delete or alter logs before forensic review; preserve all access and authentication records.",
+        "Report Out: immediately contact the managed SOC and CISA if external data exfiltration is detected.",
+        "No Trust: if a system shows a discrepancy between the field and the screen, trust the field (e.g., the paper pollbook) over the digital display."
+      ]
+    },
+    {
+      "id": "vsm",
+      "name": "Voting Systems Manager",
+      "abbreviation": "VSM",
+      "team": "Team C: Voting Systems",
+      "description": "Owns logic and accuracy testing, tabulator chain of custody, seals, and vendor escalation.",
+      "standingOrders": [
+        "Chain of Custody: if any tabulator or media is moved or accessed during a cyber incident, document the event and notify the Director immediately.",
+        "Test All: never proceed with a tabulation without a verified, air-gapped logic and accuracy test.",
+        "Escalate Fast: if a vendor (e.g., ES&S) fails to respond within 30 minutes, contact the U.S. Election Assistance Commission directly.",
+        "Seal First: if any tamper-evident seal is broken or missing, halt all processing and report to the Director."
+      ]
+    },
+    {
+      "id": "sec",
+      "name": "Facility Security Manager / Sheriff's Election Liaison",
+      "abbreviation": "Sec",
+      "team": "Team E: Security",
+      "description": "Owns warehouse access, ballot transport escorts, threats to staff, and protest response.",
+      "standingOrders": [
+        "Secure All: if any facility shows signs of unauthorized access, secure the perimeter and contact the Sheriff's Office immediately.",
+        "Escort All: if a ballot transport is delayed or rerouted, ensure a two-person escort is in place at all times.",
+        "Report Threats: if a staff member reports a credible threat, immediately notify the Director and the Sheriff's Office.",
+        "No Solo: never allow a single individual to enter the count room or warehouse without a second person present."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Communications Director (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team F: Communications",
+      "description": "Owns voter information, rumor control, media messages, and the Board’s public narrative.",
+      "standingOrders": [
+        "Speak Only: the PIO is the only authorized voice to the media; all messages must be cleared with the Director and counsel.",
+        "Fact First: every public message must state what is known, what voters should do, and where to get help; never speculate on responsibility.",
+        "Rumor Log: maintain LCBOE-F-25 and update it every 10 minutes during a Level 2 or Level 1 incident.",
+        "CISA First: if a cyber incident is confirmed, immediately reference the EAC/CISA Election Infrastructure Incident Response Communications Guide in all public statements."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "01M5QW1XHGY360ETN7DKYPH068",
+      "index": 0,
+      "title": "The Glitch",
+      "goal": "Test the team's ability to recognize and respond to ambiguous signs of compromise, particularly the reluctance to act on anomalous data from a trusted system, and to initiate basic forensic checks on a user account.",
+      "beats": [
+        "At 08:12, a front-line poll worker at the Early Vote Center (18 South Market Street, Carrow) calls the hotline (555-0140) reporting that 23 voters in the queue are marked as 'Mail Ballot Received' in the system, but they have not requested one; the worker notes, 'This is not right — these people are here to vote in person.'",
+        "At 08:18, the IT team receives a SIEM alert from LCBOE-FS01 showing an unexpected outbound connection from the Microsoft 365 tenant to a foreign IP (104.213.142.77) via a non-standard port, but no associated user alert; the alert is logged as 'Low Priority' by the on-call engineer and not escalated.",
+        "At 08:25, the VoterTrack system logs show a series of rapid edits to 1,186 voter records in the 'Absentee Ballot Status' field, all timestamped between 02:05 and 02:40 on 10/29/2026; the edits were made from IP address 10.100.45.12, which is not in the county’s internal network range, and the user account 'nruiz@lislevotes.example' was used, which belongs to VR Clerk Nina Ruiz.",
+        "At 08:30, the mail ballot tracking service (linked to VoterTrack) sends a spoofed notice to poll workers at Polling Location 6 (Carrow Community Church), falsely stating that the location has reverted to Carrow Middle School (the old site), with a fake signature from 'Nina Ruiz' and a modified link to a non-existent web portal.",
+        "At 08:42, the Board website (lislevotes.example) displays a 'Voter Registration Update' banner with a headline that reads, 'Voters in Precincts 111 and 112 have been re-registered to a new location'; the underlying data is corrupted and not synchronized with the statewide database, but no one has yet questioned its accuracy."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "01M5QW1XHGEZMW150GCEC78MRE",
+      "index": 1,
+      "title": "The Crisis",
+      "goal": "Test the team's ability to transition from reactive triage to unified command under pressure, recognize a critical public misinformation event, and force an official incident declaration based on operational disruption and external pressure.",
+      "beats": [
+        "At 09:15, the results website (results.lislevotes.example) fails to load properly; the front-end displays a corrupted data feed showing 1,186 voters in Precinct 111 and 112 as having voted via mail, despite no ballots being issued; the page loads slowly and shows a 'Processing Error' on the dashboard.",
+        "At 09:22, the hotline (555-0140) receives 42 calls in 30 minutes from voters reporting they were 'wrongly issued' mail ballots; a local reporter from The Carrow Courier calls the PIO, stating, 'We’re getting 10,000 calls from people saying they were deleted from the voter rolls — is that true?'",
+        "At 09:30, the front-end of the results website is replaced by a fake error page that mimics a CISA alert, showing a fake 'Election Integrity Advisory' with a red banner and a link to a phishing domain (phish.cisa.gov.lislevotes.example); the page is visible to all users and not blocked by the web filter.",
+        "At 09:38, the County CISO (Trent Gallagher) confirms that the forwarding rule on Nina Ruiz’s Microsoft 365 account has been activated, routing all incoming emails to an external address (nruiz@phishmail.net), and that the account has made 120 API calls to the VoterTrack database between 02:05 and 02:40 — all from a single session.",
+        "At 09:45, the Ohio Secretary of State’s office contacts the Director via secure line (555-0141) to demand immediate action, stating, 'We’ve seen the data anomalies in the statewide voter database; you are now at CIRP 2 — declare the incident and notify us within 15 minutes.'",
+        "At 09:50, the Incident Commander (Gwen Hartley) declares the incident CIRP 2 under Section 5 of the EOP, activates COOP Level 2, and orders the Technical Lead (Rohan Mehta) to isolate VoterTrack and block all external data flows."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "01M5QW1XHG2M9P1MS8JJVG69VW",
+      "index": 2,
+      "title": "Manual Mode",
+      "goal": "Test the team’s ability to shift to manual operations under stress, make a high-consequence decision on system isolation, and manage physical and public pressures while preserving forensic integrity.",
+      "beats": [
+        "At 10:15, the Technical Lead (Rohan Mehta) presents a forensic log from LCBOE-SQL01 showing an unauthorized session from IP 10.100.45.12, lasting 35 minutes, with 1,186 edits to the 'Absentee Ballot Status' field; the session used a valid 2FA push from Nina Ruiz’s phone, but the login was not from her device, and the user agent was a non-standard browser.",
+        "At 10:20, the Decision Point is presented: 'Do we isolate VoterTrack and go offline to manual operations, or keep it running and risk widespread false ballot issuance? Isolating it means halting mail ballot processing, delaying results, and forcing manual pollbook builds; keeping it means accepting potentially corrupted data, but maintaining continuity.'",
+        "At 10:25, the Voting Systems Manager (Carla Nunez) confirms that the air-gapped Pollbook build workstation (LCBOE-PB01) has a valid, unaltered copy of the VoterTrack export from 10/28/2026; she states, 'We can rebuild Polling Location 6’s pollbook using the trusted copy — but only if we cut the network.'",
+        "At 10:32, a video from Channel 9 goes viral, showing a fake interview with a 'voter' claiming, 'I was in line to vote, but they said I already voted by mail — I didn’t even get a ballot!' The video has 200,000 views and is being shared on local social media.",
+        "At 10:40, the hotline receives a call from a voter at Polling Location 6, reporting, 'The front desk says we’re not supposed to be here — they’re sending us to a school that doesn’t exist.' The line begins to back up again."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "01M5QW1XHGF8MQR563R8N0Q9GW",
+      "index": 3,
+      "title": "Recovery & Verification",
+      "goal": "Test the team’s ability to restore trust through verification, validate data integrity, and manage recovery under pressure, including external demands for proof and technical hurdles.",
+      "beats": [
+        "At 11:05, the Technical Lead (Rohan Mehta) reports that VoterTrack has been isolated from the network, the forwarding rule is disabled, and the compromised account (nruiz@lislevotes.example) has been permanently disabled; the logs are preserved in a write-protected image on LCBOE-FS01.",
+        "At 11:10, the Voter Registration Manager (Beth Saylor) compares the 1,186 altered records against the official statewide database (via the Ohio Secretary of State’s secure portal) and confirms that 1,186 records were incorrectly marked as 'Ballot Issued'; she states, 'We can correct these — but only if we have a clean feed.'",
+        "At 11:15, the PIO (Jenna Whitlow) issues a unified public statement via the Board website and social media, citing the EAC/CISA communications guide: 'No voters were deleted. 1,186 records were falsely marked as mail ballot issued. We have restored the correct data. All voters who appear in the system are eligible to vote in person. Please do not share unverified claims.'",
+        "At 11:25, the vendor for the mail ballot tracking service contacts the Board to demand a signed access request and a ticket before restoring service; the request must be approved by the Director and the Legal Officer (Michael Strand) under Section 8 of the EOP.",
+        "At 11:35, the IT team discovers that the most recent backup of VoterTrack (from 10/28/2026) is corrupted and cannot be mounted; a full forensic recovery is required, which will delay full restoration by 2–3 hours.",
+        "At 11:45, the Voting Systems Manager (Carla Nunez) completes the manual rebuild of the Polling Location 6 pollbook using the trusted copy from LCBOE-PB01; she confirms, 'The pollbook is clean and matches the state database.'",
+        "At 11:55, the Incident Commander (Gwen Hartley) declares ENDEX, stating, 'We have contained the incident, verified the data, and restored operational integrity. The exercise is complete.'",
+        "The narrative clock reads 11:55."
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "01M5QW1XHGY360ETN7DKYPH068",
+      "time": "0:00",
+      "wallClock": "08:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "eo",
+        "deputy",
+        "it",
+        "vsm",
+        "sec",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "Narrative Clock: 08:00. Weather: Clear, 58°F. The Election Operations Center is open and staffed. All systems show normal status. The Early Vote Center is processing voters. Polling Location 6 (Carrow Community Church) has 12 poll workers on shift. The Board website (lislevotes.example) displays a standard 'Voting Information' banner. No alerts are active. Status is normal.",
+      "expectedAction": "All roles begin their shift and monitor initial system status and incoming calls. No action required at this time.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M5QWD2NJ6QJ4TNZBAY7C6GQK",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "01M5QW1XHGY360ETN7DKYPH068",
+      "time": "0:12",
+      "wallClock": "08:12",
+      "from": "Poll Worker",
+      "toRoleIds": [
+        "deputy",
+        "it",
+        "pio"
+      ],
+      "toLabel": "Dep, IT, PIO",
+      "event": "Phone Call: \"Hi, this is Janet Cho at the Early Vote Center, 18 South Market Street. We’ve got 23 people in line who are showing up as 'Mail Ballot Received' in the system, but they just came in to vote in person. I’ve checked the paper list, and they’re not on it. This is not right — these people are here to vote in person. Can someone please help?\" (Hotline number: 555-0140)",
+      "expectedAction": "Deputy logs the call in LCBOE-F-07 and LCBOE-F-25; IT checks the VoterTrack system for anomalies; PIO notes the call in the rumor log and prepares to verify.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5QWD9121X73HJQC1EZX7MBH",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 8 › 8.1 Pollbook down or offline",
+          "quote": "Poll workers use the printed backup list. A voter who is not on the list, or whose record shows a mail ballot already requested or issued when the voter says otherwise, votes a provisional ballot (for",
+          "chunkId": 31
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+          "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "01M5QW1XHGY360ETN7DKYPH068",
+      "time": "0:18",
+      "wallClock": "08:18",
+      "from": "SOC (Managed)",
+      "toRoleIds": [
+        "it"
+      ],
+      "toLabel": "IT",
+      "event": "SIEM Alert: \"Suspicious outbound connection from Microsoft 365 tenant (lislevotes.example) to IP 104.213.142.77 on port 443, source IP 10.72.12.20 (LCBOE-FS01), timestamp 08:17:32. No user authentication event logged. Alert priority: Low. Logged as 'Low Priority' by on-call engineer.\" (Source: LCBOE-FS01, Alert ID: SIEM-1029-01)",
+      "expectedAction": "IT immediately investigates the connection; checks for unauthorized access, verifies the source IP and port against allowed egress; if not approved, isolates LCBOE-FS01 and alerts the County CISO. Preserves all logs for forensic review.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "siem_alert",
+      "injectId": "01M5QWDHN0HZEP0ZGGYA4ER1QY",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+          "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+          "headingPath": "Lisle County Board of Elections… › Section 7",
+          "quote": "| System | Purpose | Host | Owner | |---|---|---|---| | Statewide voter registration database | Official statewide list; county records synchronize nightly | Ohio Secretary of State | Secretary of Sta",
+          "chunkId": 49
+        },
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 10",
+          "quote": "A system returns to use when the County CISO confirms it is clean, the owner has completed the integrity checks, and the Director agrees. The pollbook load built after an incident is checked against t",
+          "chunkId": 16
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "01M5QW1XHGY360ETN7DKYPH068",
+      "time": "0:25",
+      "wallClock": "08:25",
+      "from": "VoterTrack System Log",
+      "toRoleIds": [
+        "it",
+        "vsm",
+        "sec"
+      ],
+      "toLabel": "IT, VSM, Sec",
+      "event": "System Log: \"User 'nruiz@lislevotes.example' (Nina Ruiz, VR Clerk) made 1,186 rapid edits to the 'Absentee Ballot Status' field in VoterTrack between 02:05 and 02:40 on 10/29/2026. All edits marked as 'received' for voters in Precincts 111 and 112. Source IP: 10.100.45.12 (not in authorized 10.72.x.x range). No MFA prompt logged. Change timestamp on 1186 records: 02:05–02:40. Source IP not in internal network. User not present in physical log. No associated login event from 02:00 to 02:50.\" (Log ID: VTRK-2026-1029-0001)",
+      "expectedAction": "IT immediately disables the user account 'nruiz@lislevotes.example'; isolates LCBOE-VR01 and LCBOE-SQL01; notifies the County CISO and the Director. Confirms no physical presence of Nina Ruiz during the timeframe. Preserves all logs.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5QWDTQDR0CQZY8S4KQ1W5KK",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+          "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+          "headingPath": "Lisle County Board of Elections… › Section 7",
+          "quote": "| System | Purpose | Host | Owner | |---|---|---|---| | Statewide voter registration database | Official statewide list; county records synchronize nightly | Ohio Secretary of State | Secretary of Sta",
+          "chunkId": 49
+        },
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Annex B",
+          "quote": "Messages that appear to come from the Secretary of State, a voting system vendor or the EAC with urgent \"directive\" or \"updated procedures\" subjects; links to log-in pages that imitate Microsoft 365; ",
+          "chunkId": 18
+        },
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 10",
+          "quote": "A system returns to use when the County CISO confirms it is clean, the owner has completed the integrity checks, and the Director agrees. The pollbook load built after an incident is checked against t",
+          "chunkId": 16
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-03b",
+      "phaseId": "01M5QW1XHGY360ETN7DKYPH068",
+      "time": "0:27",
+      "wallClock": "08:27",
+      "from": "Mail Ballot Tracking Vendor (eTrack)",
+      "toRoleIds": [
+        "eo",
+        "deputy",
+        "pio"
+      ],
+      "toLabel": "CEO, Dep, PIO",
+      "event": "Email Forward: \"From: mailtrack@etrack-notices.example\nTo: Gwen Hartley, Director (Incident Commander)\nSubject: URGENT: Polling Location 6 Reversion to Old Site\n\nDear Director,\n\nThis is an official notice from the Board. Due to a system failure, Polling Location 6 has reverted to Carrow Middle School (address: 3000 Central Ave, Carrow) effective immediately.\n\nPlease confirm this change and authorize a relocation order for Polling Location 6. A link to the updated pollbook is here: http://relocate.lislevotes.example/6a7b (not in LCBOE domain).\n\n- Signed, Nina Ruiz (VR Clerk)\n\nPlease confirm receipt. Do not use the old location.",
+      "expectedAction": "CEO must immediately verify the authenticity of the notice with the Voter Registration Manager and the IT Manager; if the Board has not issued such a directive, declare a potential impersonation incident and activate CIRP Level 2. All public statements must be coordinated through the PIO.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5QWE78BCKCGAT2561H425Y5",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Annex B",
+          "quote": "Messages that appear to come from the Secretary of State, a voting system vendor or the EAC with urgent \"directive\" or \"updated procedures\" subjects; links to log-in pages that imitate Microsoft 365; ",
+          "chunkId": 18
+        },
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+          "quote": "Spoofed emails, texts or social media posts that appear to come from the Board (for example, a fake notice that a polling location moved): the PIO posts a correction within one hour on all Board chann",
+          "chunkId": 11
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "01M5QW1XHGY360ETN7DKYPH068",
+      "time": "0:30",
+      "wallClock": "08:30",
+      "from": "Results Website (results.lislevotes.example)",
+      "toRoleIds": [
+        "pio",
+        "deputy",
+        "it"
+      ],
+      "toLabel": "PIO, Dep, IT",
+      "event": "Info Display Board: \"Voter Registration Update: Voters in Precincts 111 and 112 have been re-registered to a new location. The new site is Carrow Middle School. Details here: http://relocate.lislevotes.example/6a7b (not in LCBOE domain).\" — (Website update timestamp: 08:29:58)",
+      "expectedAction": "IT must immediately investigate the unauthorized update to the results website; the Board website (lislevotes.example) remains unchanged and is not affected. The PIO must prepare a holding statement to address the false information and prevent public confusion.",
+      "purposeTag": "PRESSURE",
+      "format": "info_display_board",
+      "injectId": "01M5QWEF9VW9RX9QRG6GH8PW17",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+          "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+          "headingPath": "Lisle County Board of Elections… › Section 7",
+          "quote": "| System | Purpose | Host | Owner | |---|---|---|---| | Statewide voter registration database | Official statewide list; county records synchronize nightly | Ohio Secretary of State | Secretary of Sta",
+          "chunkId": 49
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 10",
+          "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+          "chunkId": 35
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+          "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "01M5QW1XHGY360ETN7DKYPH068",
+      "time": "0:50",
+      "wallClock": "08:50",
+      "from": "Rover Supervisor",
+      "toRoleIds": [
+        "deputy"
+      ],
+      "toLabel": "Dep",
+      "event": "Radio Call: \"Deputy, this is Rover 3. We’ve just arrived at Polling Location 6 (Carrow Community Church). No one is there. The door is unlocked, and the paper pollbook is still on the table. We’re not seeing any signs of a move. The spoofed email might be fake. But the front desk is empty. We’re securing the room now.\" (Rover ID: 3, Site: 6)",
+      "expectedAction": "Deputy confirms rover has secured the room; updates status board; notifies IT and the Sheriff’s liaison (Sec). Initiates a physical check of the location.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5QWF983QXXQ940PT6RH36JY",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TIME_JUMP",
+      "phaseId": "01M5QW1XHGY360ETN7DKYPH068",
+      "time": "1:00",
+      "wallClock": "09:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "eo",
+        "deputy",
+        "it",
+        "vsm",
+        "sec",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 09:00. The Early Vote Center line is 45 people long. The spoofed relocation notice for Polling Location 6 is shared in 12 local Facebook groups and the hotline has taken 137 calls in 30 minutes. IT has confirmed that Nina Ruiz's account was used overnight. No incident level has been declared yet.",
+      "expectedAction": "All roles assess the current situation; the Incident Commander (CEO) must now declare a CIRP level and activate the COOP plan. The next phase begins.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5QWFNECMPH4YK4DA2F3WDR4",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "01M5QW1XHGEZMW150GCEC78MRE",
+      "time": "1:15",
+      "wallClock": "09:15",
+      "from": "Results Website (results.lislevotes.example)",
+      "toRoleIds": [
+        "it",
+        "vsm",
+        "eo"
+      ],
+      "toLabel": "IT, VSM, CEO",
+      "event": "System Log: 'results.lislevotes.example' frontend failed to load data feed from VoterTrack (LCBOE-VR01). Dashboard shows 1,186 voters in Precincts 111 and 112 marked as 'Mail Ballot Received' with no corresponding ballot issuance record. Page load time: 47 seconds. Error message: 'Processing Error: Corrupted data stream from VoterTrack.'",
+      "expectedAction": "IT and VSM immediately cross-check the front-end data against the offline VoterTrack export and the paper pollbook. VSM confirms no ballots were issued to those voters; IT validates the data feed source and isolates the results website from the VoterTrack API to prevent further corruption. This confirms the data is tampered, not a system failure.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "system_log",
+      "injectId": "01M5QWFW459JWE7KJPFS0QJ17H",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+          "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+          "headingPath": "Lisle County Board of Elections… › Section 7",
+          "quote": "| System | Purpose | Host | Owner | |---|---|---|---| | Statewide voter registration database | Official statewide list; county records synchronize nightly | Ohio Secretary of State | Secretary of Sta",
+          "chunkId": 49
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+          "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-07b",
+      "phaseId": "01M5QW1XHGEZMW150GCEC78MRE",
+      "time": "1:17",
+      "wallClock": "09:17",
+      "from": "Hotline (555-0140)",
+      "toRoleIds": [
+        "pio",
+        "deputy"
+      ],
+      "toLabel": "PIO, Dep",
+      "event": "Phone Call: 'This is Marissa Lin from The Carrow Courier. We’re getting 10,000 calls from people saying they were deleted from the voter rolls — is that true? One woman says she was told she’s not registered and was turned away at her polling place. We need a statement.'",
+      "expectedAction": "PIO confirms the call is received and logs it in LCBOE-F-25; immediately contacts the Director and VSM to verify voter registration status for Precincts 111 and 112. PIO prepares a holding statement: 'We are aware of reports and are investigating. All voters are welcome to vote in person. No one has been removed from the rolls.'",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "injectId": "01M5QWG752ED4N3GS8EDAAHBVW",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 10",
+          "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+          "chunkId": 35
+        },
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+          "quote": "Spoofed emails, texts or social media posts that appear to come from the Board (for example, a fake notice that a polling location moved): the PIO posts a correction within one hour on all Board chann",
+          "chunkId": 11
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "01M5QW1XHGEZMW150GCEC78MRE",
+      "time": "1:22",
+      "wallClock": "09:22",
+      "from": "Results Website (results.lislevotes.example)",
+      "toRoleIds": [
+        "it",
+        "eo",
+        "pio"
+      ],
+      "toLabel": "IT, CEO, PIO",
+      "event": "Info Display Board: 'Processing Error: Voter data corrupted. Please check back later.' — Front-end replaced with fake CISA alert page. Banner: 'ELECTION INTEGRITY ADVISORY: Voter database compromised. See official guidance at phish.cisa.gov.lislevotes.example (not in LCBOE domain).'",
+      "expectedAction": "IT immediately disconnects the results website from the internet and blocks phish.cisa.gov.lislevotes.example at the firewall; PIO confirms the page is not an official CISA communication and begins drafting a correction statement. IT verifies the page was served from the results website server and not a DNS spoof.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "info_display_board",
+      "injectId": "01M5QWGTT21DE9C92VVF4KJVJX",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+          "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+          "headingPath": "Lisle County Board of Elections… › Section 7",
+          "quote": "| System | Purpose | Host | Owner | |---|---|---|---| | Statewide voter registration database | Official statewide list; county records synchronize nightly | Ohio Secretary of State | Secretary of Sta",
+          "chunkId": 49
+        },
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+          "quote": "Spoofed emails, texts or social media posts that appear to come from the Board (for example, a fake notice that a polling location moved): the PIO posts a correction within one hour on all Board chann",
+          "chunkId": 11
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-08b",
+      "phaseId": "01M5QW1XHGEZMW150GCEC78MRE",
+      "time": "1:25",
+      "wallClock": "09:25",
+      "from": "managed SOC",
+      "toRoleIds": [
+        "it"
+      ],
+      "toLabel": "IT",
+      "event": "Email Forward: 'From: security@lislevotes.example (via the managed SOC)\nTo: Rohan Mehta, IT Manager\nSubject: Critical Account Compromise: User nruiz@lislevotes.example\n\nAlert: Forwarding rule detected on user 'nruiz@lislevotes.example' (Nina Ruiz, VR Clerk). Rule forwards all incoming emails to 'nruiz.archive@mailbox-relay.example' (external domain). Rule was created 02:03 and active until 08:20. 120 API calls to VoterTrack database logged between 02:05 and 02:40. Source IP: 10.100.45.12 (unauthorized). No MFA prompt recorded.\n\nAction: Account disabled. Forwarding rule removed. Logs preserved. All data access to VoterTrack now blocked for this account.'",
+      "expectedAction": "IT confirms the account compromise and begins forensic preservation of logs; no further action is taken on the user account until the Director's approval.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "email_forward",
+      "injectId": "01M5QWH71WPPFEWDP0PH129HS7",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 5",
+          "quote": "| Level | Description | Response | |---|---|---| | CIRP 3 | Suspicious email reported, no click; single failed log-in alerts | IT Manager handles; logged | | CIRP 2 | A staff account compromised; unau",
+          "chunkId": 7
+        },
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Annex B",
+          "quote": "Messages that appear to come from the Secretary of State, a voting system vendor or the EAC with urgent \"directive\" or \"updated procedures\" subjects; links to log-in pages that imitate Microsoft 365; ",
+          "chunkId": 18
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "01M5QW1XHGEZMW150GCEC78MRE",
+      "time": "1:30",
+      "wallClock": "09:30",
+      "from": "Ohio Secretary of State (secure line)",
+      "toRoleIds": [
+        "eo"
+      ],
+      "toLabel": "CEO",
+      "event": "Phone Call: 'Director Hartley, this is the Ohio Secretary of State's office, elections division. Our statewide database shows 1,186 status changes from Lisle County between 02:05 and 02:40 this morning, all in Precinct 111 and Precinct 112. What happened, and when can we expect your incident report?'",
+      "expectedAction": "The CEO tells the Secretary of State what is known, declares the CIRP level and names who sends the written report and when.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5QWHEPBCQYDJHSEA5MQE4YG",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 5",
+          "quote": "| Level | Description | Response | |---|---|---| | CIRP 3 | Suspicious email reported, no click; single failed log-in alerts | IT Manager handles; logged | | CIRP 2 | A staff account compromised; unau",
+          "chunkId": 7
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Annex C",
+          "quote": "| Record | Decision | Owner | |---|---|---| | COOP-DR-1 | Activation level | Director | | COOP-DR-2 | Move the Early Vote Center to the alternate room | Director with a bipartisan Board pair | | COOP-",
+          "chunkId": 40
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "01M5QW1XHGEZMW150GCEC78MRE",
+      "time": "1:35",
+      "wallClock": "09:35",
+      "from": "Rover Supervisor",
+      "toRoleIds": [
+        "sec",
+        "deputy"
+      ],
+      "toLabel": "Sec, Dep",
+      "event": "Radio Call: 'This is Rover 3. We’ve just arrived at Drop Box 1 (outside the Board office, 18 South Market Street). A man in a voting official shirt and carrying a clipboard with a laptop says he’s a roving inspector from the Board. He claims to be authorized to collect ballot transport logs. He shows no badge and no ID. We are not approaching. We are securing the perimeter and awaiting direction from the Operations Center. We have not contacted him.'",
+      "expectedAction": "Sec orders the rover team to hold position and not engage; the Poll Worker Coordinator must verify the inspector’s identity with a bipartisan pair before any interaction occurs.",
+      "purposeTag": "CONFUSION",
+      "format": "radio_call",
+      "injectId": "01M5QWHTX784T7H7F5259NBQ7M",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+          "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+          "headingPath": "Lisle County Board of Elections… › Section 7",
+          "quote": "| System | Purpose | Host | Owner | |---|---|---|---| | Statewide voter registration database | Official statewide list; county records synchronize nightly | Ohio Secretary of State | Secretary of Sta",
+          "chunkId": 49
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 3",
+          "quote": "| ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander | Gwen Hartley, Director | Marcus Bell, Deputy Director | Plan activation, polling location relocation, req",
+          "chunkId": 26
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "01M5QW1XHGEZMW150GCEC78MRE",
+      "time": "1:40",
+      "wallClock": "09:40",
+      "from": "Ohio Secretary of State (secure line)",
+      "toRoleIds": [
+        "eo",
+        "it",
+        "pio",
+        "deputy"
+      ],
+      "toLabel": "CEO, IT, PIO, Dep",
+      "event": "Phone Call: 'Director Hartley, Secretary of State's office again. Your final pollbook load is due 10/31. We can hold your county's upload, but we need to know by 11:00: will the Precinct 111 and Precinct 112 records come from VoterTrack as it is, or from a rebuilt file? And what are you telling voters who show as mail ballot issued?'",
+      "expectedAction": "DECISION POINT: the CEO decides whether to freeze record changes in VoterTrack (COOP-DR-5) and rebuild the 10/31 load from the trusted 10/28 export, at the cost of delaying legitimate changes made since; and confirms that affected voters vote a provisional ballot (or a regular one after verification).",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M5QWJBJJ6NHYN0AW9Z5Q9R1N",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 5",
+          "quote": "| Level | Description | Response | |---|---|---| | CIRP 3 | Suspicious email reported, no click; single failed log-in alerts | IT Manager handles; logged | | CIRP 2 | A staff account compromised; unau",
+          "chunkId": 7
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Annex C",
+          "quote": "| Record | Decision | Owner | |---|---|---| | COOP-DR-1 | Activation level | Director | | COOP-DR-2 | Move the Early Vote Center to the alternate room | Director with a bipartisan Board pair | | COOP-",
+          "chunkId": 40
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "01M5QW1XHGEZMW150GCEC78MRE",
+      "time": "1:45",
+      "wallClock": "09:45",
+      "from": "Mail Ballot Processing Staff",
+      "toRoleIds": [
+        "deputy",
+        "vsm"
+      ],
+      "toLabel": "Dep, VSM",
+      "event": "Field Report: 'This is Maria Fuentes, mail ballot processing lead at the Early Vote Center. We’ve just found 14 unmarked ballots in a stack labeled 'Provisional – Precinct 111'. The envelopes are sealed, but there’s no return address, no signature, and no tracking number. We’re not sure if they were left by a voter or if they were dropped in by someone else. The chain of custody log for the BMD 30 is missing a timestamp from 02:30 to 03:15. We’ve secured the area and are holding the ballots.'",
+      "expectedAction": "Dep logs the incident in LCBOE-F-07 and LCBOE-F-25; VSM confirms the BMD 30 was not used during that time window and checks for tamper-evident seal A0048213 on the device. The ballots are not to be processed until the chain of custody is verified.",
+      "purposeTag": "NOISE",
+      "format": "field_report",
+      "injectId": "01M5QWJQTYVF3DPP3XFK9DKVZM",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+          "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+          "chunkId": 32
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 3",
+          "quote": "| ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander | Gwen Hartley, Director | Marcus Bell, Deputy Director | Plan activation, polling location relocation, req",
+          "chunkId": 26
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "01M5QW1XHG2M9P1MS8JJVG69VW",
+      "time": "2:00",
+      "wallClock": "10:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "eo",
+        "deputy",
+        "it",
+        "vsm",
+        "sec",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 10:00. Rover 3 confirmed Polling Location 6 is where it should be, at Carrow Community Church. Nina Ruiz's account is disabled. The Early Vote Center is issuing provisional ballots to voters shown as \"mail ballot issued\" while the records are checked. The results website is offline.",
+      "expectedAction": "All roles confirm awareness of the current status; the Incident Commander activates COOP Level 2 per CIRP 2 and C12; the Operations Center begins 15-minute reporting cycles as directed in C8.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5QWK3QGJ7KN95KJRB1C0226",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 5",
+          "quote": "| Level | Description | Response | |---|---|---| | CIRP 3 | Suspicious email reported, no click; single failed log-in alerts | IT Manager handles; logged | | CIRP 2 | A staff account compromised; unau",
+          "chunkId": 7
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 3",
+          "quote": "| ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander | Gwen Hartley, Director | Marcus Bell, Deputy Director | Plan activation, polling location relocation, req",
+          "chunkId": 26
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "01M5QW1XHG2M9P1MS8JJVG69VW",
+      "time": "2:05",
+      "wallClock": "10:05",
+      "from": "Forensic Analyst (managed SOC)",
+      "toRoleIds": [
+        "it",
+        "vsm",
+        "sec"
+      ],
+      "toLabel": "IT, VSM, Sec",
+      "event": "Technical Update: Forensic log from LCBOE-SQL01 confirms an unauthorized session on 10/29/2026 from IP 10.100.45.12 (not in any authorized IP range). Session lasted 35 minutes (02:05–02:40). User agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.5992.90 Safari/537.36' — non-standard browser. MFA prompt was approved from Nina Ruiz’s phone (device ID: iPhone13-773A), but no physical device was present in the office. 1,186 edits to 'Absentee Ballot Status' in Precincts 111 and 112. No local login event from 02:00 to 02:50. Source IP not in any authorized range, including 10.72.x.x.",
+      "expectedAction": "IT and VSM confirm that VoterTrack must be isolated immediately; the forensic evidence confirms a breach. Begin manual operations using the trusted pollbook build from 10/28 and the offline copy on LCBOE-PB01. No further system access is permitted until forensic review is complete.",
+      "purposeTag": "CLUE",
+      "format": "technical_update",
+      "injectId": "01M5QWKAVVTJSS1SBHJMNQQE6J",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+          "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+          "headingPath": "Lisle County Board of Elections… › Section 7",
+          "quote": "| System | Purpose | Host | Owner | |---|---|---|---| | Statewide voter registration database | Official statewide list; county records synchronize nightly | Ohio Secretary of State | Secretary of Sta",
+          "chunkId": 49
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+          "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "01M5QW1XHG2M9P1MS8JJVG69VW",
+      "time": "2:15",
+      "wallClock": "10:15",
+      "from": "Frontline Staff",
+      "toRoleIds": [
+        "it",
+        "vsm",
+        "eo"
+      ],
+      "toLabel": "IT, VSM, CEO",
+      "event": "Field Report: 'This is Carla Nunez, Voting Systems Manager. The air-gapped Pollbook build workstation LCBOE-PB01 has a valid, unaltered copy of the VoterTrack export from 10/28/2026. The hash matches the digital signature in the chain of custody log. The workstation is not connected to any network, including the county LAN, the internet, or internal systems. It is physically isolated and has not been accessed since 10/28. We can rebuild Polling Location 6’s pollbook using this trusted copy — but only if we cut the network and disable all remote access to the system. The workstation is now in manual mode.'",
+      "expectedAction": "VSM confirms that LCBOE-PB01 is air-gapped and physically isolated. IT verifies the chain of custody and hash, then approves the manual pollbook rebuild for Polling Location 6 using the trusted offline copy.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5QWKKDQ1DVK8P9H6BRWG3DJ",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 3",
+          "quote": "| Role | Primary | Alternate | Decides | |---|---|---|---| | Incident Commander | Gwen Hartley, Director | Marcus Bell, Deputy Director | Severity, Board notification, public statements with the PIO a",
+          "chunkId": 5
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+          "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "01M5QW1XHG2M9P1MS8JJVG69VW",
+      "time": "2:20",
+      "wallClock": "10:20",
+      "from": "Social Media (TikTok)",
+      "toRoleIds": [
+        "pio",
+        "eo",
+        "deputy"
+      ],
+      "toLabel": "PIO, CEO, Dep",
+      "event": "TikTok Video Card: 'This is a voter in Carrow. I went to my polling place, but they said I already voted by mail — I didn’t get a ballot! They sent me to Carrow Middle School, which is closed and not a real location. I’m not a liar. This is real. #ElectionFraud #LisleVotes #VoteByMailScam' — 200,000 views, 42,000 shares, 12,000 comments. Video shows a man in a voting official shirt standing near a closed school building labeled 'Carrow Middle School (Reopened)' with a fake ballot in hand.",
+      "expectedAction": "PIO logs the video in LCBOE-F-25 and issues a holding statement: 'The Board has confirmed that the location change was false. The actual Polling Location 6 is at Carrow Community Church. Voters in Precincts 111 and 112 should go to their correct location. All voters are eligible to vote in person.'",
+      "purposeTag": "PRESSURE",
+      "format": "tiktok_video_card",
+      "injectId": "01M5QWM1D0J8JMSRZX1NC2ZWB0",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 10",
+          "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+          "chunkId": 35
+        },
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+          "quote": "Spoofed emails, texts or social media posts that appear to come from the Board (for example, a fake notice that a polling location moved): the PIO posts a correction within one hour on all Board chann",
+          "chunkId": 11
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "01M5QW1XHG2M9P1MS8JJVG69VW",
+      "time": "2:30",
+      "wallClock": "10:30",
+      "from": "Early Vote Center lead",
+      "toRoleIds": [
+        "deputy"
+      ],
+      "toLabel": "All",
+      "event": "Scenario Update: Ballot-on-demand printer 2 at the Early Vote Center has jammed and the vendor says the part arrives tomorrow. Printer 1 works; the line moves slower. Nothing to do with the incident.",
+      "expectedAction": "The Deputy notes it on the status board and keeps the team on the incident; no escalation.",
+      "purposeTag": "NOISE",
+      "format": "scenario_update",
+      "injectId": "01M5QWMDPFWBKEMN2P08S4WTK1",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+          "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+          "headingPath": "Lisle County Board of Elections…",
+          "quote": "Document Control Number: LCBOE-SYS-2026 · Revision 3.1 · Effective Date: 08/15/2026 · Maintained by: Marcus Bell (Deputy Director), Rohan Mehta (Elections IT Manager) and Carla Nunez (Voting Systems M",
+          "chunkId": 41
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+          "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "01M5QW1XHGF8MQR563R8N0Q9GW",
+      "time": "3:00",
+      "wallClock": "11:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "eo",
+        "deputy",
+        "it",
+        "vsm",
+        "sec",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 11:00. The 10/28 export on the air-gapped LCBOE-PB01 checks out against its hash; the Voting Systems Manager is rebuilding the Precinct 111 and Precinct 112 pollbook data from it. The Secretary of State's office holds the county's next upload. The TikTok video has passed 200,000 views.",
+      "expectedAction": "All roles confirm awareness of the new timeline and proceed to address the recovery tasks in sequence.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5QWMP75R81N95X00N42Q1HT",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-20",
+      "phaseId": "01M5QW1XHGF8MQR563R8N0Q9GW",
+      "time": "3:05",
+      "wallClock": "11:05",
+      "from": "Managed SOC (forensic team)",
+      "toRoleIds": [
+        "it",
+        "vsm",
+        "sec",
+        "eo"
+      ],
+      "toLabel": "IT, VSM, Sec, CEO",
+      "event": "Technical Update: Forensic logs from LCBOE-SQL01 confirm the compromise window (02:05–02:40). The account nruiz@lislevotes.example has been permanently disabled. The forwarding rule to 'nruiz.archive@mailbox-relay.example' has been removed. All network access to VoterTrack (LCBOE-VR01) is now blocked. Logs have been preserved in a write-protected image on a forensic drive (SHA-256: 5c0e9a7d3f21b84e6a90c1d27f43b58e9a6d0c2f71b34e85a9d06c3f2e71b48a) and sealed under chain of custody (COOP-DR-5).",
+      "expectedAction": "IT confirms logs are preserved on a write-protected forensic drive; no further access to the file server LCBOE-FS01 is permitted for this data. All recovery operations proceed using the forensic image and trusted air-gapped exports.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "technical_update",
+      "injectId": "01M5QWMXK8HJS1C0ZZGJ8G3SXH",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Table of Contents",
+          "quote": "Section 1 Purpose · Section 2 Principles · Section 3 Roles · Section 4 What Is Connected and What Is Not · Section 5 Severity Levels · Section 6 Playbooks · Section 7 Voter-Record Integrity Checks · S",
+          "chunkId": 2
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+          "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21",
+      "phaseId": "01M5QW1XHGF8MQR563R8N0Q9GW",
+      "time": "3:10",
+      "wallClock": "11:10",
+      "from": "Voter Registration",
+      "toRoleIds": [
+        "it",
+        "eo"
+      ],
+      "toLabel": "IT, CEO",
+      "event": "Field Report: Beth Saylor reports: 'I’ve compared the 1,186 altered records in VoterTrack against the official statewide database via the Ohio Secretary of State’s secure portal (SOS-001). All 1,186 were falsely marked as 'Ballot Issued'. No records were deleted. We can correct these — but only if we have a clean feed from the state database or a trusted, air-gapped export.'",
+      "expectedAction": "Voter Registration Manager confirms data discrepancy and requests a clean feed from the state; all teams defer to her verification before restoring any automated processes.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M5QWN6T6S1SK0EXEABM1FEH9",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+          "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-20b",
+      "phaseId": "01M5QW1XHGF8MQR563R8N0Q9GW",
+      "time": "3:15",
+      "wallClock": "11:15",
+      "from": "Social Media",
+      "toRoleIds": [
+        "pio",
+        "eo",
+        "deputy"
+      ],
+      "toLabel": "PIO, CEO, Dep",
+      "event": "Post (@CarrowWatchh): 'Breaking: Lisle County Board just confirmed 1,186 voters were falsely marked as having voted by mail. No one was deleted. But they’re saying it was a fake. Who do we believe? #LisleVotes #ElectionIntegrity' — 87,000 views in 4 minutes.",
+      "expectedAction": "PIO prepares a unified public statement using the EAC/CISA Election Infrastructure Incident Response Communications Guide (Section 7.2); no speculation allowed.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "injectId": "01M5QWNQYP4N9VCPYERG9F1KGR",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 10",
+          "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+          "chunkId": 35
+        },
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+          "quote": "Spoofed emails, texts or social media posts that appear to come from the Board (for example, a fake notice that a polling location moved): the PIO posts a correction within one hour on all Board chann",
+          "chunkId": 11
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-22",
+      "phaseId": "01M5QW1XHGF8MQR563R8N0Q9GW",
+      "time": "3:20",
+      "wallClock": "11:20",
+      "from": "Board chair (draft from the board members)",
+      "toRoleIds": [
+        "pio",
+        "eo",
+        "deputy",
+        "it"
+      ],
+      "toLabel": "PIO, CEO, Dep, IT",
+      "event": "Press Release (draft): 'No voters were deleted. 1,186 records in two Carrow precincts were wrongly marked as mail ballot issued after an employee account was misused overnight. We are correcting them. Any voter shown as mail ballot issued can vote a provisional ballot at the Early Vote Center or on Election Day, and it will be counted once the record is verified. Polling Location 6 has not moved: it is at Carrow Community Church, 77 West Fourth Street.'",
+      "expectedAction": "The PIO and the CEO correct the board's draft where needed, clear it (COOP-DR-6) and post it on the Board website, social media and the hotline message.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "press_release",
+      "injectId": "01M5QWP790DSH7A3E10621V45E",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 10",
+          "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+          "chunkId": 35
+        },
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+          "quote": "Spoofed emails, texts or social media posts that appear to come from the Board (for example, a fake notice that a polling location moved): the PIO posts a correction within one hour on all Board chann",
+          "chunkId": 11
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21b",
+      "phaseId": "01M5QW1XHGF8MQR563R8N0Q9GW",
+      "time": "3:25",
+      "wallClock": "11:25",
+      "from": "Mail Ballot Tracking Vendor",
+      "toRoleIds": [
+        "it",
+        "eo"
+      ],
+      "toLabel": "IT, CEO",
+      "event": "Email Forward: 'From: support@trackmailballot.example\nTo: Rohan Mehta, IT Manager\nSubject: URGENT: Service Restoration Request for Mail Ballot Tracking Service\n\nWe require a signed access request and a ticket (Ticket #TICK-2026-1125) before restoring service. This is required under Section 8 of the EOP. Please obtain approval from the Director and the Legal Officer, Michael Strand. Without it, we cannot proceed.'",
+      "expectedAction": "IT logs the vendor request and initiates a ticket (TICK-2026-1125) with Legal and the Director; no action is taken until approval is received.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "email_forward",
+      "injectId": "01M5QWPGQGGW5ER98EBCCQH5BR",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Table of Contents",
+          "quote": "Section 1 Purpose · Section 2 Principles · Section 3 Roles · Section 4 What Is Connected and What Is Not · Section 5 Severity Levels · Section 6 Playbooks · Section 7 Voter-Record Integrity Checks · S",
+          "chunkId": 2
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 3",
+          "quote": "| ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander | Gwen Hartley, Director | Marcus Bell, Deputy Director | Plan activation, polling location relocation, req",
+          "chunkId": 26
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-23",
+      "phaseId": "01M5QW1XHGF8MQR563R8N0Q9GW",
+      "time": "3:35",
+      "wallClock": "11:35",
+      "from": "System Alert",
+      "toRoleIds": [
+        "it",
+        "eo",
+        "vsm"
+      ],
+      "toLabel": "IT, CEO, VSM",
+      "event": "System Log: 'The most recent full backup of VoterTrack (from 10/28/2026) cannot be mounted on LCBOE-FS01. The backup file (VTRK-BK-10282026.img) shows corruption in the transaction log. Forensic recovery required. Full restoration delayed by 2–3 hours.'",
+      "expectedAction": "IT reports the backup corruption and initiates a forensic recovery plan per EOP 6.3; no manual restore of the database is attempted until the forensic team confirms integrity.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "system_log",
+      "injectId": "01M5QWPTPPY4YWW4K56NPWVXQY",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+          "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-24",
+      "phaseId": "01M5QW1XHGF8MQR563R8N0Q9GW",
+      "time": "3:40",
+      "wallClock": "11:40",
+      "from": "Mail Ballot Processing Staff",
+      "toRoleIds": [
+        "deputy",
+        "vsm"
+      ],
+      "toLabel": "Dep, VSM",
+      "event": "Field Report: 'This is Maria Fuentes, mail ballot processing lead. I found the missing page of the BMD 30 chain-of-custody log in the processing room binder: the 02:30 to 03:15 \"gap\" was the overnight lock-up, signed by both of the bipartisan team. The 14 sealed envelopes from this morning are yesterday afternoon's provisional ballots waiting for the bipartisan review. Nothing is missing.'",
+      "expectedAction": "The Deputy and the VSM close the chain-of-custody question, log it on LCBOE-F-07 and put the provisional envelopes back into the normal review.",
+      "purposeTag": "RED_HERRING",
+      "format": "field_report",
+      "injectId": "01M5QWWYBQ8CEX7F4TP0J4640P",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+          "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+          "chunkId": 32
+        },
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+          "quote": "Spoofed emails, texts or social media posts that appear to come from the Board (for example, a fake notice that a polling location moved): the PIO posts a correction within one hour on all Board chann",
+          "chunkId": 11
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-25",
+      "phaseId": "01M5QW1XHGF8MQR563R8N0Q9GW",
+      "time": "3:55",
+      "wallClock": "11:55",
+      "from": "Ohio Secretary of State",
+      "toRoleIds": [
+        "eo"
+      ],
+      "toLabel": "CEO",
+      "event": "Phone Call: 'Director Hartley, Secretary of State's office. We received your incident report. Keep every record touched by this incident under the 22-month federal retention hold, send us the corrected Precinct 111 and Precinct 112 file before the 10/31 load, and tell us whether you want the state's cyber team on site tomorrow. CISA and the FBI have your report as well.'",
+      "expectedAction": "The CEO confirms the records hold (litigation hold with Legal), the corrected-file plan and the on-site support; the incident stays open until the pollbook is verified.",
+      "purposeTag": "END_GAME",
+      "format": "phone_call",
+      "injectId": "01M5QWQ9696S9D7V65XS5EXCN6",
+      "citations": [
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 5",
+          "quote": "| Level | Description | Response | |---|---|---| | CIRP 3 | Suspicious email reported, no click; single failed log-in alerts | IT Manager handles; logged | | CIRP 2 | A staff account compromised; unau",
+          "chunkId": 7
+        },
+        {
+          "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+          "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 10",
+          "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+          "chunkId": 35
+        },
+        {
+          "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+          "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+          "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+          "quote": "Spoofed emails, texts or social media posts that appear to come from the Board (for example, a fake notice that a polling location moved): the PIO posts a correction within one hour on all Board chann",
+          "chunkId": 11
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "01M5QW1XHGF8MQR563R8N0Q9GW",
+      "time": "4:00",
+      "wallClock": "12:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "eo",
+        "deputy",
+        "it",
+        "vsm",
+        "sec",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "END: It is 12:00. VoterTrack is frozen for Precinct 111 and Precinct 112; their records are being rebuilt from the 10/28 export; provisional ballots are issued to affected voters. The public statement is out and Polling Location 6 is confirmed at Carrow Community Church. The incident stays open until the 10/31 pollbook load is verified. The hot wash begins.",
+      "expectedAction": "Move to the hot wash.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M5QWQKTXHKA0MT62VZ2ZVBTS",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5QVXT271DZ6ASA7H0W44HJ7/documents/handbook.md",
+    "briefing": "scenarios/01M5QVXT271DZ6ASA7H0W44HJ7/documents/briefing.md",
+    "overview": "scenarios/01M5QVXT271DZ6ASA7H0W44HJ7/documents/overview.md",
+    "hotwash": "scenarios/01M5QVXT271DZ6ASA7H0W44HJ7/documents/hotwash.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "01M5QW8TX9658TJCGAMQM7HF3F",
+        "name": "Operational Coordination",
+        "points": 30,
+        "fail": "Ops team delayed the stop-service decision until I-09 forced it, and did not initiate forensic preservation of logs from LCBOE-SQL01 and LCBOE-FS01 until after I-08b confirmed the compromise.",
+        "pass": "Ops team disabled the compromised account 'nruiz@lislevotes.example' and isolated VoterTrack within 10 minutes of I-03, and confirmed the chain of custody for the air-gapped Pollbook build workstation LCBOE-PB01 after I-16.",
+        "excellence": "Ops team initiated forensic preservation of logs from LCBOE-SQL01 and LCBOE-FS01 before I-08b, and confirmed the trusted copy on LCBOE-PB01 was unaltered and hash-matched prior to I-16.",
+        "linkedInjectIds": [
+          "I-03",
+          "I-03b",
+          "I-08b",
+          "I-16",
+          "I-20"
+        ],
+        "objectiveRefs": [
+          "Credential Integrity",
+          "Pollbook Accuracy",
+          "System Containment"
+        ]
+      },
+      {
+        "id": "01M5QW8TX99HHNW84RYW87PXGG",
+        "name": "Technical Competence",
+        "points": 30,
+        "fail": "IT team reset the controller after I-08b, destroying evidence of the attacker’s session, and failed to block phish.cisa.gov.lislevotes.example at the firewall until after I-08b.",
+        "pass": "IT team confirmed the unauthorized session from IP 10.100.45.12 in I-14, blocked external data exfiltration via the forwarding rule in I-08b, and isolated the results website from the internet after I-08.",
+        "excellence": "IT team detected the unauthorized session from IP 10.100.45.12 in I-14, confirmed the absence of a physical device and MFA prompt, and preserved logs in write-protected image on LCBOE-FS01 before I-09.",
+        "linkedInjectIds": [
+          "I-03",
+          "I-08b",
+          "I-14",
+          "I-20"
+        ],
+        "objectiveRefs": [
+          "System Containment",
+          "Credential Integrity"
+        ]
+      },
+      {
+        "id": "01M5QW8TX9P79SYQCR7Y62K8F6",
+        "name": "Public Communication",
+        "points": 20,
+        "fail": "PIO issued a holding statement before verifying data with the Voter Registration Manager, and used the phrase 'no one was deleted' in I-17, which contradicted C3’s directive to say only what is known.",
+        "pass": "PIO issued a unified public statement per C3 and the EAC/CISA Communications Guide after verifying data with Beth Saylor in I-21, and cited the verified status of the 1,186 records as falsely marked.",
+        "excellence": "PIO issued a unified public statement using the EAC/CISA Election Infrastructure Incident Response Communications Guide (Section 7.2) before I-17, and confirmed the video in I-17 was fake using the rover team’s report.",
+        "linkedInjectIds": [
+          "I-17",
+          "I-21",
+          "I-22",
+          "I-25"
+        ],
+        "objectiveRefs": [
+          "Public Trust Management"
+        ]
+      },
+      {
+        "id": "01M5QW8TX9NC6TXCVWH3W0S1GN",
+        "name": "Use of Doctrine",
+        "points": 20,
+        "fail": "Students failed to cite EOP Section 5 or COOP-DR-1 when declaring CIRP 2 in I-11, and did not reference C3 for the public statement format.",
+        "pass": "Students cited EOP Section 5 and COOP-DR-1 when declaring CIRP 2 in I-11, and referenced C3 for the public statement format in I-22.",
+        "excellence": "Students cited EOP Section 5 and COOP-DR-1 when declaring CIRP 2 in I-11, referenced C3 for the public statement format in I-22, and cited COOP-DR-5 for the forensic log preservation in I-20.",
+        "linkedInjectIds": [
+          "I-09",
+          "I-11",
+          "I-20",
+          "I-21",
+          "I-22"
+        ],
+        "objectiveRefs": [
+          "Use of Doctrine"
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Use the '3-Up, 3-Down' method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room by team, and write each response on a whiteboard to visually capture insights. This helps identify strengths and gaps quickly and ensures collective ownership of the debrief.",
+    "questions": [
+      {
+        "topic": "Trust",
+        "text": "At the moment you received the I-03 inject about 1,186 edits from an unauthorized IP, when did you first stop trusting the system or the report? What signals made you question the integrity of the data or the user account?",
+        "objectiveRef": "Credential Integrity"
+      },
+      {
+        "topic": "The Gap",
+        "text": "When you learned that Nina Ruiz’s MFA was approved but she was not physically present, and that no local login event occurred — at what point did you realize the system was compromised not by insider error, but by credential theft? How did that shift your understanding of the threat and your response?",
+        "objectiveRef": "Credential Integrity"
+      },
+      {
+        "topic": "The Call",
+        "text": "At the I-15 decision point, you were asked to choose between isolating VoterTrack and risking operational delay, or keeping it running and risking false ballot issuance. What evidence or authority did you rely on to decide to isolate the system — and what would have made you decide faster, if you had to make that call under pressure?",
+        "objectiveRef": "System Containment"
+      },
+      {
+        "topic": "The Evidence",
+        "text": "During the manual pollbook rebuild, you used an air-gapped copy of the VoterTrack export. At what point did you treat that evidence as trusted, and when did you begin to question it? How did you verify its integrity, and what would have made you more confident in the data before applying it?",
+        "objectiveRef": "Pollbook Accuracy"
+      },
+      {
+        "topic": "The Statement",
+        "text": "When you issued the public statement to correct the viral claim about voters being deleted, what sources did you use to validate the truth? How did you ensure the PIO’s message aligned with verified data from the Voter Registration Manager, and what would have made that process faster or more reliable under real-time pressure?",
+        "objectiveRef": "Public Trust Management"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "CISA Region 5 Election Security Advisor",
+      "trigger": "Player calls CISA (555-0158) or says 'We need CISA help'",
+      "hardQuestions": [
+        "Do you have a CISA Incident Response Ticket (IRT) number?",
+        "Has the Secretary of State been notified per C3?",
+        "Can you provide a write-protected log image from LCBOE-FS01 for forensic review?"
+      ],
+      "concessions": [
+        "Will accept a CISA IRT number and a signed EOP Section 7 compliance form.",
+        "Will provide a CISA incident advisory if you submit a validated report within 1 hour.",
+        "Will expedite a security assessment if you confirm the chain of custody log (COOP-DR-5) is intact."
+      ]
+    },
+    {
+      "rolePlayed": "VoterTrack Vendor (Tallgrass Civic Software) – KnowInk Support",
+      "trigger": "Player calls 555-0166 or says 'We need vendor help to restore VoterTrack'",
+      "hardQuestions": [
+        "Do you have a signed access request from the Director and Legal Officer?",
+        "Is Ticket #TICK-2026-1125 submitted?",
+        "Can you provide the hash of the trusted 10/28 export from LCBOE-PB01?"
+      ],
+      "concessions": [
+        "Will restore service only after a signed access request and ticket number are submitted.",
+        "Will provide a forensic recovery tool if you confirm the transaction log is corrupted.",
+        "Will validate the air-gapped export hash before processing any data."
+      ]
+    },
+    {
+      "rolePlayed": "Ohio Secretary of State – Election Security Office",
+      "trigger": "Player calls 555-0141 (main line) or says 'We need state approval'",
+      "hardQuestions": [
+        "Have you declared CIRP 2 per EOP Section 5?",
+        "Can you provide the chain of custody log (COOP-DR-5) for the VoterTrack backup?",
+        "Is the statewide database in sync with your local corrections?"
+      ],
+      "concessions": [
+        "Will confirm CIRP 2 status and provide a secure portal for data verification.",
+        "Will accept a written timeline of the incident and preserved logs from LCBOE-FS01.",
+        "Will issue a public statement endorsing your verification process if you submit a full report within 24 hours."
+      ]
+    },
+    {
+      "rolePlayed": "FBI Election Crimes Coordinator (Cincinnati Field Office)",
+      "trigger": "Player calls 555-0140 (hotline) and says 'We need the FBI to investigate'",
+      "hardQuestions": [
+        "Do you have a litigation hold in effect under C1?",
+        "Can you provide the MFA approval logs from Nina Ruiz’s phone (iPhone13-773A)?",
+        "Is the forwarding rule to 'nruiz@phishmail.net' documented in the forensic image?"
+      ],
+      "concessions": [
+        "Will assign a special agent if you submit a preserved log image and a signed EOP Section 7 form.",
+        "Will not take jurisdiction unless you confirm the chain of custody (COOP-DR-5) is intact.",
+        "Will assist in criminal prosecution only if you provide a full timeline and evidence package."
+      ]
+    },
+    {
+      "rolePlayed": "Local News Reporter (The Carrow Courier)",
+      "trigger": "Player says 'We’ll issue a statement' or 'We’ll talk to media'",
+      "hardQuestions": [
+        "When is your media statement due?",
+        "Can you confirm your statement has been approved by the PIO and Legal Officer?",
+        "Do you have a quote from the Director for publication?"
+      ],
+      "concessions": [
+        "Will publish your statement only if you provide a signed approval from the Director and PIO.",
+        "Will run a follow-up story if you submit a verification report within 2 hours.",
+        "Will not report on unverified claims, but will ask for a quote on the 1,186 record discrepancy."
+      ]
+    }
+  ],
+  "criticalResources": [
+    "VoterTrack database (LCBOE-SQL01)",
+    "Pollbook build workstation (LCBOE-PB01)",
+    "Results website (results.lislevotes.example)",
+    "Board website (lislevotes.example)",
+    "Early Vote Center (18 South Market Street)",
+    "Warehouse and central count (640 Industrial Parkway)",
+    "Drop Box 1 (Carrow Community Church)",
+    "Air-gapped election management system server (LCBOE-EMS01)",
+    "Tamper-evident seals and seal logs",
+    "Tabulation-room video surveillance",
+    "Polling Location 6 (Carrow Community Church)",
+    "IT service desk (555-0150)",
+    "Managed SOC (Buckeye Ridge)",
+    "CISA (report@cisa.dhs.gov)",
+    "FBI Election Crimes Coordinator (Cincinnati Field Office)"
+  ],
+  "warnings": [
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Inject from 'Mail Ballot Tracking Service' claims to be from a vendor but uses the Board's domain (lislevotes.example) and mimics a Board email, violating doctrine that only the PIO may speak for the Board. (row rewritten once from this note)",
+      "rowId": "I-03b",
+      "source": "critique",
+      "suggestion": "Reframe the email to originate from an external vendor service, not the Board's domain, and include a disclaimer that it is not an official Board communication."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The Board website (lislevotes.example) is claimed to have updated the 'Voter Registration Update' banner, but the scenario states the Board website is not compromised and only the results website is affected. (row rewritten once from this note)",
+      "rowId": "I-04",
+      "source": "critique",
+      "suggestion": "Remove the claim that the Board website was updated; instead, state that the results website was modified, and the Board website remains unchanged."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The email from 'security@lislevotes.example' is from a managed SOC, but the scenario states the SOC is external and not part of the Board's internal system. (row rewritten once from this note)",
+      "rowId": "I-08b",
+      "source": "critique",
+      "suggestion": "Change the 'from' to 'CISA SOC' or 'Managed Security Operations Center' to reflect external origin and avoid implying internal control."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The Sheriff's Office report of a man in a voting official shirt near Drop Box 1 contradicts C3, which requires a bipartisan pair to handle equipment and media; no such pair is involved in this report. (row rewritten once from this note)",
+      "rowId": "I-10",
+      "source": "critique",
+      "suggestion": "Reframe the report to involve a roving inspector claim, not a physical presence, and require the rovers to confirm identity with a bipartisan pair before acting."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The forensic log claims to confirm an unauthorized session from IP 10.100.45.12, but this IP is not in the authorized 10.72.x.x range, contradicting the FACILITY FACTS which list only 10.72.x.x as authorized. (row rewritten once from this note)",
+      "rowId": "I-14",
+      "source": "critique",
+      "suggestion": "Replace the IP with 10.100.45.12 and clarify it is not in any authorized range, but do not claim it is in the 10.72.x.x range."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The Pollbook build workstation LCBOE-PB01 is claimed to be air-gapped, but the scenario states it is not networked, which contradicts the claim of being air-gapped. (row rewritten once from this note)",
+      "rowId": "I-16",
+      "source": "critique",
+      "suggestion": "Clarify that LCBOE-PB01 is not connected to any network and is physically isolated, not just 'not networked'."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The TikTok video claims to show a voter at Polling Location 6, but the scenario states Polling Location 6 is not in use and the location is not confirmed. (row rewritten once from this note)",
+      "rowId": "I-17",
+      "source": "critique",
+      "suggestion": "Change the video to show a man in a voting official shirt near a fake polling location, not at a real one, to avoid contradicting the FACILITY FACTS."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The forensic log claims to preserve logs on LCBOE-FS01, but the scenario states that logs are preserved on a write-protected image, not on the file server. (row rewritten once from this note)",
+      "rowId": "I-20",
+      "source": "critique",
+      "suggestion": "Change the log preservation to a write-protected image on a forensic drive, not on LCBOE-FS01."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The vendor email claims to require a ticket (TICK-2026-1125) for service restoration, but the scenario states that the vendor is external and not part of the Board's internal system.",
+      "rowId": "I-21",
+      "source": "critique",
+      "suggestion": "Reframe the email to originate from the vendor's external portal and include a ticket number that matches the vendor's system, not the Board's."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The system log claims to show 1,186 edits by Nina Ruiz, but the scenario states the attacker used her account to alter records, not that she made them herself.",
+      "rowId": "I-03",
+      "source": "critique",
+      "suggestion": "Revise the log to state that the edits were made by a user with her credentials, not by her directly."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The fake CISA alert page uses the domain phish.cisa.gov.lislevotes.example, which is not a valid domain and contradicts the doctrine that only CISA may issue such alerts.",
+      "rowId": "I-08",
+      "source": "critique",
+      "suggestion": "Use a fake CISA domain like phish.cisa.gov, not a subdomain of the Board's domain."
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 1 has 8 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 2 has 8 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 4 has 10 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    }
+  ],
+  "provenance": [
+    {
+      "stage": "scenario_overview",
+      "startedAt": "2026-10-24T21:09:04.731Z",
+      "finishedAt": "2026-10-24T21:09:28.503Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "scenario_overview@default",
+      "promptHash": "16e3d8badb4d20f60c83c4701882c3ffcfa5a065c536349f081551dc1d94843b",
+      "inputTokens": 3748,
+      "outputTokens": 774,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "objectives_roles",
+      "startedAt": "2026-10-24T21:09:28.520Z",
+      "finishedAt": "2026-10-24T21:10:26.825Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "objectives_roles@default",
+      "promptHash": "3d1c2b684e0885dced1f90439df7567faf98f511000c78a9fbce4bc796b396fd",
+      "inputTokens": 4170,
+      "outputTokens": 2466,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "phase_plan",
+      "startedAt": "2026-10-24T21:10:26.847Z",
+      "finishedAt": "2026-10-24T21:11:19.344Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "phase_plan@default",
+      "promptHash": "d5ba5715d3af2998a1d7f397abe4dee08f509a020e2084d00d52e1f11136e32a",
+      "inputTokens": 4254,
+      "outputTokens": 2125,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5QW1XHGY360ETN7DKYPH068",
+      "startedAt": "2026-10-24T21:11:19.368Z",
+      "finishedAt": "2026-10-24T21:12:15.325Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "70f8720d8e026d1e35a0f6f380c13c84d72a43ff66ee7c96255d949184002389",
+      "inputTokens": 30182,
+      "outputTokens": 3566,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5QW1XHGEZMW150GCEC78MRE",
+      "startedAt": "2026-10-24T21:12:22.008Z",
+      "finishedAt": "2026-10-24T21:13:24.683Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "70f8720d8e026d1e35a0f6f380c13c84d72a43ff66ee7c96255d949184002389",
+      "inputTokens": 33336,
+      "outputTokens": 3263,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5QW1XHG2M9P1MS8JJVG69VW",
+      "startedAt": "2026-10-24T21:13:29.381Z",
+      "finishedAt": "2026-10-24T21:13:55.513Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "70f8720d8e026d1e35a0f6f380c13c84d72a43ff66ee7c96255d949184002389",
+      "inputTokens": 48417,
+      "outputTokens": 4455,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5QW1XHGF8MQR563R8N0Q9GW",
+      "startedAt": "2026-10-24T21:14:03.652Z",
+      "finishedAt": "2026-10-24T21:14:32.286Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "70f8720d8e026d1e35a0f6f380c13c84d72a43ff66ee7c96255d949184002389",
+      "inputTokens": 26256,
+      "outputTokens": 3136,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "controller_handbook",
+      "startedAt": "2026-10-24T21:14:32.309Z",
+      "finishedAt": "2026-10-24T21:14:53.463Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "controller_handbook@default",
+      "promptHash": "e2fef25331b9e1d7345f70cd9b29ceec65c2c18f975219deb5ca4365edd96969",
+      "inputTokens": 7618,
+      "outputTokens": 1774,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "rubric",
+      "startedAt": "2026-10-24T21:14:53.481Z",
+      "finishedAt": "2026-10-24T21:15:06.025Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "rubric@default",
+      "promptHash": "ad7bd6953cef369fd9514e4afe0f3ba42c00ff46e006516319efc459947cf670",
+      "inputTokens": 8368,
+      "outputTokens": 919,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "player_briefing",
+      "startedAt": "2026-10-24T21:15:06.044Z",
+      "finishedAt": "2026-10-24T21:15:23.055Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "player_briefing@default",
+      "promptHash": "8f2102ec53a8b66fec8b29b0e02e33e403ab08766558036ece9685bb58015158",
+      "inputTokens": 4564,
+      "outputTokens": 1607,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "hotwash",
+      "startedAt": "2026-10-24T21:15:23.070Z",
+      "finishedAt": "2026-10-24T21:15:28.272Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "hotwash@default",
+      "promptHash": "3203b67c6ff847c27925a8402438166159dad09b8fcc35fd87fa19f0115e5216",
+      "inputTokens": 2847,
+      "outputTokens": 485,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "critique",
+      "startedAt": "2026-10-24T21:15:28.338Z",
+      "finishedAt": "2026-10-24T21:15:48.061Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "critique@default",
+      "promptHash": "924bbcf2e62aae9fcbf3b6c02d6743e9e376ef619d4ab25c20cf308d416c83f2",
+      "inputTokens": 11787,
+      "outputTokens": 1274,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWD2NJ6QJ4TNZBAY7C6GQK",
+      "startedAt": "2026-10-24T21:17:25.052Z",
+      "finishedAt": "2026-10-24T21:17:31.532Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 5182,
+      "outputTokens": 545,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWD2NJ6QJ4TNZBAY7C6GQK",
+      "startedAt": "2026-10-24T21:17:31.549Z",
+      "finishedAt": "2026-10-24T21:17:31.549Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWD9121X73HJQC1EZX7MBH",
+      "startedAt": "2026-10-24T21:17:31.558Z",
+      "finishedAt": "2026-10-24T21:17:37.352Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 5178,
+      "outputTokens": 493,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWD9121X73HJQC1EZX7MBH",
+      "startedAt": "2026-10-24T21:17:37.358Z",
+      "finishedAt": "2026-10-24T21:17:40.378Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1622,
+      "outputTokens": 298,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWDHN0HZEP0ZGGYA4ER1QY",
+      "startedAt": "2026-10-24T21:17:40.389Z",
+      "finishedAt": "2026-10-24T21:17:49.664Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 5647,
+      "outputTokens": 749,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWDHN0HZEP0ZGGYA4ER1QY",
+      "startedAt": "2026-10-24T21:17:49.672Z",
+      "finishedAt": "2026-10-24T21:17:49.672Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWDTQDR0CQZY8S4KQ1W5KK",
+      "startedAt": "2026-10-24T21:17:49.681Z",
+      "finishedAt": "2026-10-24T21:18:02.495Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 5513,
+      "outputTokens": 1132,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWDTQDR0CQZY8S4KQ1W5KK",
+      "startedAt": "2026-10-24T21:18:02.501Z",
+      "finishedAt": "2026-10-24T21:18:02.501Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWE78BCKCGAT2561H425Y5",
+      "startedAt": "2026-10-24T21:18:02.513Z",
+      "finishedAt": "2026-10-24T21:18:10.736Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6490,
+      "outputTokens": 629,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWE78BCKCGAT2561H425Y5",
+      "startedAt": "2026-10-24T21:18:10.742Z",
+      "finishedAt": "2026-10-24T21:18:10.742Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWEF9VW9RX9QRG6GH8PW17",
+      "startedAt": "2026-10-24T21:25:22.170Z",
+      "finishedAt": "2026-10-24T21:25:42.401Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 17600,
+      "outputTokens": 2100,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWEF9VW9RX9QRG6GH8PW17",
+      "startedAt": "2026-10-24T21:26:26.319Z",
+      "finishedAt": "2026-10-24T21:26:26.319Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWF983QXXQ940PT6RH36JY",
+      "startedAt": "2026-10-24T21:18:37.322Z",
+      "finishedAt": "2026-10-24T21:18:44.073Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6631,
+      "outputTokens": 489,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWF983QXXQ940PT6RH36JY",
+      "startedAt": "2026-10-24T21:18:44.077Z",
+      "finishedAt": "2026-10-24T21:18:49.798Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1841,
+      "outputTokens": 586,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWFNECMPH4YK4DA2F3WDR4",
+      "startedAt": "2026-10-24T21:18:49.812Z",
+      "finishedAt": "2026-10-24T21:18:56.635Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 5971,
+      "outputTokens": 481,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWFNECMPH4YK4DA2F3WDR4",
+      "startedAt": "2026-10-24T21:18:56.639Z",
+      "finishedAt": "2026-10-24T21:18:56.639Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWFW459JWE7KJPFS0QJ17H",
+      "startedAt": "2026-10-24T21:18:56.652Z",
+      "finishedAt": "2026-10-24T21:19:07.929Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6858,
+      "outputTokens": 880,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWFW459JWE7KJPFS0QJ17H",
+      "startedAt": "2026-10-24T21:19:07.932Z",
+      "finishedAt": "2026-10-24T21:19:07.932Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWG752ED4N3GS8EDAAHBVW",
+      "startedAt": "2026-10-24T21:19:07.945Z",
+      "finishedAt": "2026-10-24T21:19:19.117Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6907,
+      "outputTokens": 870,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWG752ED4N3GS8EDAAHBVW",
+      "startedAt": "2026-10-24T21:19:19.126Z",
+      "finishedAt": "2026-10-24T21:19:28.058Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2304,
+      "outputTokens": 923,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWGTT21DE9C92VVF4KJVJX",
+      "startedAt": "2026-10-24T21:19:28.072Z",
+      "finishedAt": "2026-10-24T21:19:40.594Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6502,
+      "outputTokens": 1022,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWGTT21DE9C92VVF4KJVJX",
+      "startedAt": "2026-10-24T21:19:40.597Z",
+      "finishedAt": "2026-10-24T21:19:40.597Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWH71WPPFEWDP0PH129HS7",
+      "startedAt": "2026-10-24T21:19:40.611Z",
+      "finishedAt": "2026-10-24T21:19:48.421Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7262,
+      "outputTokens": 558,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWH71WPPFEWDP0PH129HS7",
+      "startedAt": "2026-10-24T21:19:48.423Z",
+      "finishedAt": "2026-10-24T21:19:48.423Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWHEPBCQYDJHSEA5MQE4YG",
+      "startedAt": "2026-10-24T21:19:48.434Z",
+      "finishedAt": "2026-10-24T21:19:55.464Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6989,
+      "outputTokens": 480,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWHEPBCQYDJHSEA5MQE4YG",
+      "startedAt": "2026-10-24T21:19:55.472Z",
+      "finishedAt": "2026-10-24T21:20:00.926Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1941,
+      "outputTokens": 569,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWHTX784T7H7F5259NBQ7M",
+      "startedAt": "2026-10-24T21:20:00.942Z",
+      "finishedAt": "2026-10-24T21:20:07.032Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 15548,
+      "outputTokens": 730,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWHTX784T7H7F5259NBQ7M",
+      "startedAt": "2026-10-24T21:20:13.324Z",
+      "finishedAt": "2026-10-24T21:20:17.993Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1844,
+      "outputTokens": 485,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWJBJJ6NHYN0AW9Z5Q9R1N",
+      "startedAt": "2026-10-24T21:20:18.009Z",
+      "finishedAt": "2026-10-24T21:20:25.218Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7690,
+      "outputTokens": 465,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWJBJJ6NHYN0AW9Z5Q9R1N",
+      "startedAt": "2026-10-24T21:20:25.224Z",
+      "finishedAt": "2026-10-24T21:20:30.550Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1969,
+      "outputTokens": 554,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWJQTYVF3DPP3XFK9DKVZM",
+      "startedAt": "2026-10-24T21:20:30.565Z",
+      "finishedAt": "2026-10-24T21:20:42.725Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7855,
+      "outputTokens": 906,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWJQTYVF3DPP3XFK9DKVZM",
+      "startedAt": "2026-10-24T21:20:42.730Z",
+      "finishedAt": "2026-10-24T21:20:42.730Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWK3QGJ7KN95KJRB1C0226",
+      "startedAt": "2026-10-24T21:20:42.745Z",
+      "finishedAt": "2026-10-24T21:20:50.036Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7566,
+      "outputTokens": 475,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWK3QGJ7KN95KJRB1C0226",
+      "startedAt": "2026-10-24T21:20:50.039Z",
+      "finishedAt": "2026-10-24T21:20:50.039Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWKAVVTJSS1SBHJMNQQE6J",
+      "startedAt": "2026-10-24T21:20:50.051Z",
+      "finishedAt": "2026-10-24T21:20:58.799Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8427,
+      "outputTokens": 577,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWKAVVTJSS1SBHJMNQQE6J",
+      "startedAt": "2026-10-24T21:20:58.803Z",
+      "finishedAt": "2026-10-24T21:20:58.803Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWKKDQ1DVK8P9H6BRWG3DJ",
+      "startedAt": "2026-10-24T21:20:58.815Z",
+      "finishedAt": "2026-10-24T21:21:13.110Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9401,
+      "outputTokens": 1019,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWKKDQ1DVK8P9H6BRWG3DJ",
+      "startedAt": "2026-10-24T21:21:13.114Z",
+      "finishedAt": "2026-10-24T21:21:13.114Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWM1D0J8JMSRZX1NC2ZWB0",
+      "startedAt": "2026-10-24T21:21:13.127Z",
+      "finishedAt": "2026-10-24T21:21:20.060Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9279,
+      "outputTokens": 376,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWM1D0J8JMSRZX1NC2ZWB0",
+      "startedAt": "2026-10-24T21:21:20.069Z",
+      "finishedAt": "2026-10-24T21:21:25.705Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2165,
+      "outputTokens": 555,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWMDPFWBKEMN2P08S4WTK1",
+      "startedAt": "2026-10-24T21:21:25.719Z",
+      "finishedAt": "2026-10-24T21:21:34.430Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8961,
+      "outputTokens": 532,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWMDPFWBKEMN2P08S4WTK1",
+      "startedAt": "2026-10-24T21:21:34.433Z",
+      "finishedAt": "2026-10-24T21:21:34.433Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWMP75R81N95X00N42Q1HT",
+      "startedAt": "2026-10-24T21:21:34.444Z",
+      "finishedAt": "2026-10-24T21:21:41.983Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8815,
+      "outputTokens": 458,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWMP75R81N95X00N42Q1HT",
+      "startedAt": "2026-10-24T21:21:41.986Z",
+      "finishedAt": "2026-10-24T21:21:41.986Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWMXK8HJS1C0ZZGJ8G3SXH",
+      "startedAt": "2026-10-24T21:21:41.998Z",
+      "finishedAt": "2026-10-24T21:21:51.420Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9563,
+      "outputTokens": 599,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWMXK8HJS1C0ZZGJ8G3SXH",
+      "startedAt": "2026-10-24T21:21:51.423Z",
+      "finishedAt": "2026-10-24T21:21:51.423Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWN6T6S1SK0EXEABM1FEH9",
+      "startedAt": "2026-10-24T21:21:51.438Z",
+      "finishedAt": "2026-10-24T21:22:08.972Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9906,
+      "outputTokens": 1288,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWN6T6S1SK0EXEABM1FEH9",
+      "startedAt": "2026-10-24T21:22:08.976Z",
+      "finishedAt": "2026-10-24T21:22:08.976Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWNQYP4N9VCPYERG9F1KGR",
+      "startedAt": "2026-10-24T21:22:08.990Z",
+      "finishedAt": "2026-10-24T21:22:15.347Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 19741,
+      "outputTokens": 653,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWNQYP4N9VCPYERG9F1KGR",
+      "startedAt": "2026-10-24T21:22:21.828Z",
+      "finishedAt": "2026-10-24T21:22:24.664Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2238,
+      "outputTokens": 260,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWP790DSH7A3E10621V45E",
+      "startedAt": "2026-10-24T21:22:24.679Z",
+      "finishedAt": "2026-10-24T21:22:34.340Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9889,
+      "outputTokens": 612,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWP790DSH7A3E10621V45E",
+      "startedAt": "2026-10-24T21:22:34.346Z",
+      "finishedAt": "2026-10-24T21:22:34.346Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWPGQGGW5ER98EBCCQH5BR",
+      "startedAt": "2026-10-24T21:22:34.360Z",
+      "finishedAt": "2026-10-24T21:22:44.555Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10540,
+      "outputTokens": 633,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWPGQGGW5ER98EBCCQH5BR",
+      "startedAt": "2026-10-24T21:22:44.560Z",
+      "finishedAt": "2026-10-24T21:22:44.560Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWPTPPY4YWW4K56NPWVXQY",
+      "startedAt": "2026-10-24T21:22:44.574Z",
+      "finishedAt": "2026-10-24T21:22:59.392Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10380,
+      "outputTokens": 1067,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWPTPPY4YWW4K56NPWVXQY",
+      "startedAt": "2026-10-24T21:22:59.396Z",
+      "finishedAt": "2026-10-24T21:22:59.396Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWQ9696S9D7V65XS5EXCN6",
+      "startedAt": "2026-10-24T21:22:59.410Z",
+      "finishedAt": "2026-10-24T21:23:07.580Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10097,
+      "outputTokens": 456,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWQ9696S9D7V65XS5EXCN6",
+      "startedAt": "2026-10-24T21:23:07.588Z",
+      "finishedAt": "2026-10-24T21:23:10.294Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2444,
+      "outputTokens": 234,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWQKTXHKA0MT62VZ2ZVBTS",
+      "startedAt": "2026-10-24T21:23:10.306Z",
+      "finishedAt": "2026-10-24T21:23:18.895Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10056,
+      "outputTokens": 509,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWQKTXHKA0MT62VZ2ZVBTS",
+      "startedAt": "2026-10-24T21:23:18.899Z",
+      "finishedAt": "2026-10-24T21:23:18.899Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWD2NJ6QJ4TNZBAY7C6GQK",
+      "startedAt": "2026-10-24T21:29:51.815Z",
+      "finishedAt": "2026-10-24T21:29:52.187Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWD9121X73HJQC1EZX7MBH",
+      "startedAt": "2026-10-24T21:29:52.190Z",
+      "finishedAt": "2026-10-24T21:29:52.399Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWDHN0HZEP0ZGGYA4ER1QY",
+      "startedAt": "2026-10-24T21:29:52.401Z",
+      "finishedAt": "2026-10-24T21:29:52.574Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWDTQDR0CQZY8S4KQ1W5KK",
+      "startedAt": "2026-10-24T21:29:52.576Z",
+      "finishedAt": "2026-10-24T21:29:52.897Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWE78BCKCGAT2561H425Y5",
+      "startedAt": "2026-10-24T21:29:52.900Z",
+      "finishedAt": "2026-10-24T21:29:53.155Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWEF9VW9RX9QRG6GH8PW17",
+      "startedAt": "2026-10-24T21:29:53.158Z",
+      "finishedAt": "2026-10-24T21:29:53.349Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWF983QXXQ940PT6RH36JY",
+      "startedAt": "2026-10-24T21:29:53.353Z",
+      "finishedAt": "2026-10-24T21:29:53.588Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWFNECMPH4YK4DA2F3WDR4",
+      "startedAt": "2026-10-24T21:29:53.591Z",
+      "finishedAt": "2026-10-24T21:29:53.827Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWFW459JWE7KJPFS0QJ17H",
+      "startedAt": "2026-10-24T21:29:53.829Z",
+      "finishedAt": "2026-10-24T21:29:54.042Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWG752ED4N3GS8EDAAHBVW",
+      "startedAt": "2026-10-24T21:29:54.044Z",
+      "finishedAt": "2026-10-24T21:29:54.294Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWGTT21DE9C92VVF4KJVJX",
+      "startedAt": "2026-10-24T21:29:54.296Z",
+      "finishedAt": "2026-10-24T21:29:54.565Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWH71WPPFEWDP0PH129HS7",
+      "startedAt": "2026-10-24T21:29:54.567Z",
+      "finishedAt": "2026-10-24T21:29:54.814Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWHEPBCQYDJHSEA5MQE4YG",
+      "startedAt": "2026-10-24T21:29:54.816Z",
+      "finishedAt": "2026-10-24T21:29:55.021Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWHTX784T7H7F5259NBQ7M",
+      "startedAt": "2026-10-24T21:29:55.023Z",
+      "finishedAt": "2026-10-24T21:29:55.235Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWJBJJ6NHYN0AW9Z5Q9R1N",
+      "startedAt": "2026-10-24T21:29:55.237Z",
+      "finishedAt": "2026-10-24T21:29:55.446Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWJQTYVF3DPP3XFK9DKVZM",
+      "startedAt": "2026-10-24T21:29:55.448Z",
+      "finishedAt": "2026-10-24T21:29:55.708Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWK3QGJ7KN95KJRB1C0226",
+      "startedAt": "2026-10-24T21:29:55.712Z",
+      "finishedAt": "2026-10-24T21:29:55.948Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWKAVVTJSS1SBHJMNQQE6J",
+      "startedAt": "2026-10-24T21:29:55.950Z",
+      "finishedAt": "2026-10-24T21:29:56.190Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWKKDQ1DVK8P9H6BRWG3DJ",
+      "startedAt": "2026-10-24T21:29:56.192Z",
+      "finishedAt": "2026-10-24T21:29:56.449Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWM1D0J8JMSRZX1NC2ZWB0",
+      "startedAt": "2026-10-24T21:29:56.451Z",
+      "finishedAt": "2026-10-24T21:29:56.866Z",
+      "promptRef": "template+ai_image+ai_video",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWMDPFWBKEMN2P08S4WTK1",
+      "startedAt": "2026-10-24T21:29:56.868Z",
+      "finishedAt": "2026-10-24T21:29:57.095Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWMP75R81N95X00N42Q1HT",
+      "startedAt": "2026-10-24T21:29:57.097Z",
+      "finishedAt": "2026-10-24T21:29:57.339Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWMXK8HJS1C0ZZGJ8G3SXH",
+      "startedAt": "2026-10-24T21:29:57.342Z",
+      "finishedAt": "2026-10-24T21:29:57.586Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWN6T6S1SK0EXEABM1FEH9",
+      "startedAt": "2026-10-24T21:29:57.588Z",
+      "finishedAt": "2026-10-24T21:29:57.846Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWNQYP4N9VCPYERG9F1KGR",
+      "startedAt": "2026-10-24T21:29:57.848Z",
+      "finishedAt": "2026-10-24T21:29:58.260Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWP790DSH7A3E10621V45E",
+      "startedAt": "2026-10-24T21:29:58.263Z",
+      "finishedAt": "2026-10-24T21:29:58.507Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWPGQGGW5ER98EBCCQH5BR",
+      "startedAt": "2026-10-24T21:29:58.509Z",
+      "finishedAt": "2026-10-24T21:29:58.768Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWPTPPY4YWW4K56NPWVXQY",
+      "startedAt": "2026-10-24T21:29:58.770Z",
+      "finishedAt": "2026-10-24T21:29:59.018Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWQ9696S9D7V65XS5EXCN6",
+      "startedAt": "2026-10-24T21:29:59.286Z",
+      "finishedAt": "2026-10-24T21:29:59.497Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWQKTXHKA0MT62VZ2ZVBTS",
+      "startedAt": "2026-10-24T21:29:59.499Z",
+      "finishedAt": "2026-10-24T21:29:59.752Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QWWYBQ8CEX7F4TP0J4640P",
+      "startedAt": "2026-10-24T21:26:04.928Z",
+      "finishedAt": "2026-10-24T21:26:26.298Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10782,
+      "outputTokens": 966,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QWWYBQ8CEX7F4TP0J4640P",
+      "startedAt": "2026-10-24T21:26:26.602Z",
+      "finishedAt": "2026-10-24T21:26:26.602Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QWWYBQ8CEX7F4TP0J4640P",
+      "startedAt": "2026-10-24T21:29:59.022Z",
+      "finishedAt": "2026-10-24T21:29:59.284Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

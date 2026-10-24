@@ -1,0 +1,143 @@
+{
+  "id": "01M5QT0952AB5AEEH7K2FFFVXW",
+  "mselRowId": "I-24",
+  "type": "email_forward",
+  "title": "Vendor Access Restored — Per-Session Rules",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Kyle Brandt, IT Incident Lead",
+    "fromEmail": "kyle.brandt@teaguevalleychem.example",
+    "senderInitials": "KB",
+    "to": "Victor Anand, OT Engineer",
+    "subject": "FW: Which SIS logic file is the approved one?",
+    "sentAt": "Thu 10/22/2026 12:30 PM",
+    "note": "From Kyle Brandt, IT Incident Lead, to the OT Engineer: The offline USB archive in your safe holds two SIS logic files, v2.1.5 dated 01/2026 and an unlabeled copy dated 12/2025. Neither is named v2.1.6, the version your MOC-25-077 records as approved. Which one is the approved logic before Ridgeline compares it?",
+    "signature": "Kyle Brandt\nIT Incident Lead\nTeague Valley Chemical Company",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "IT Incident Lead",
+    "original": {
+      "fromName": "Kyle Brandt, IT Incident Lead",
+      "fromEmail": "kyle.brandt@teaguevalleychem.example",
+      "sentAt": "Thu 10/22/2026 12:28 PM",
+      "to": "IT Incident Lead",
+      "cc": "CISA Cyber Incident Response, FBI WMD Coordinator",
+      "subject": "Which SIS logic file is the approved one?",
+      "body": "From Kyle Brandt, IT Incident Lead, to the OT Engineer: The offline USB archive in your safe holds two SIS logic files, v2.1.5 dated 01/2026 and an unlabeled copy dated 12/2025. Neither is named v2.1.6, the version your MOC-25-077 records as approved. Which one is the approved logic before Ridgeline compares it?"
+    }
+  },
+  "variant": "print",
+  "instructorNote": "This inject confirms the completion of the vendor access hardening steps. The OT Engineer must verify the configuration and approve it before proceeding to any restart or PSSR steps.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 4",
+      "quote": "- Ridgeline Automation (integrator for the DeltaV DCS and the Triconex SIS, Pittsburgh) is the only vendor with remote access. Emerson and Schneider Electric support work through Ridgeline or on site.",
+      "chunkId": 49
+    },
+    {
+      "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+      "headingPath": "Teague Valley Chemical Company,… › Section 6 › 6.2 Network zones",
+      "quote": "| Zone | Contents | Connections | |---|---|---| | Level 1–2 Control network | DCS controllers, OWS-01 to OWS-04, EWS-01, TRI-1 and TS-EWS-01 (on a separate SIS segment through firewall FW-SIS) | Only ",
+      "chunkId": 39
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJSSKCSXAXTFFDBJNJH65",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QT0952AB5AEEH7K2FFFVXW/01M5QTJSSKCSXAXTFFDBJNJH65.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "68530ba034f84bb2023ae501f17f8ed3953ef5c3181d454f0ff7b279acb5cb9e",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:35.229Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:35:37.580Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Vendor Access Restored — Per-Session Rules",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Kyle Brandt, IT Incident Lead",
+          "fromEmail": "kyle.brandt@teaguevalleychem.example",
+          "senderInitials": "KB",
+          "to": "Victor Anand, OT Engineer",
+          "subject": "[Confirmation] Vendor Access Restored — Per-Session Rules Activated",
+          "sentAt": "Sat 10/24/2026 12:30 PM",
+          "note": "Victor, I’ve confirmed that FW-OT2 is now re-established with per-session firewall rules (F-1 closed). Vendor access to TVC-JMP-01 is now restricted to individual accounts (F-3 closed). The vendor VPN group remains disabled. All access is logged and auditable. No new remote sessions have been approved yet.",
+          "signature": "Kyle Brandt\nIT Incident Lead\nTeague Valley Chemical Company",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "IT Incident Lead",
+          "original": {
+            "fromName": "IT Operations Team",
+            "fromEmail": "itops@teaguevalleychem.example",
+            "sentAt": "Sat 10/24/2026 12:28 PM",
+            "to": "IT Incident Lead",
+            "cc": "CISA Cyber Incident Response, FBI WMD Coordinator",
+            "subject": "FW: Vendor Access Configuration — Per-Session Rules (F-1, F-3) — Final Approval",
+            "body": "Confirmed: Vendor access to TVC-JMP-01 is now restricted to individual accounts (F-3 closed) and per-session firewall rules (F-1 closed). The vendor VPN group remains disabled. All remote sessions require individual approval via the remote-access log (Annex A). No access has been granted since the security lockdown. Final verification completed at 12:27 PM.\n\n— IT Operations Team\nTeague Valley Chemical Company\nTVC-CFW-OTSEC-2026, Section 4.3 (Vendor Access Protocol)"
+          }
+        },
+        "instructorNote": "This inject confirms the completion of the vendor access hardening steps. The OT Engineer must verify the configuration and approve it before proceeding to any restart or PSSR steps.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.867Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Vendor Access Restored — Per-Session Rules",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Kyle Brandt, IT Incident Lead",
+          "fromEmail": "kyle.brandt@teaguevalleychem.example",
+          "senderInitials": "KB",
+          "to": "Victor Anand, OT Engineer",
+          "subject": "FW: Which SIS logic file is the approved one?",
+          "sentAt": "Thu 10/22/2026 12:30 PM",
+          "note": "From Kyle Brandt, IT Incident Lead, to the OT Engineer: The offline USB archive in your safe holds two SIS logic files, v2.1.5 dated 01/2026 and an unlabeled copy dated 12/2025. Neither is named v2.1.6, the version your MOC-25-077 records as approved. Which one is the approved logic before Ridgeline compares it?",
+          "signature": "Kyle Brandt\nIT Incident Lead\nTeague Valley Chemical Company",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "IT Incident Lead",
+          "original": {
+            "fromName": "Kyle Brandt, IT Incident Lead",
+            "fromEmail": "kyle.brandt@teaguevalleychem.example",
+            "sentAt": "Thu 10/22/2026 12:28 PM",
+            "to": "IT Incident Lead",
+            "cc": "CISA Cyber Incident Response, FBI WMD Coordinator",
+            "subject": "Which SIS logic file is the approved one?",
+            "body": "From Kyle Brandt, IT Incident Lead, to the OT Engineer: The offline USB archive in your safe holds two SIS logic files, v2.1.5 dated 01/2026 and an unlabeled copy dated 12/2025. Neither is named v2.1.6, the version your MOC-25-077 records as approved. Which one is the approved logic before Ridgeline compares it?"
+          }
+        },
+        "instructorNote": "This inject confirms the completion of the vendor access hardening steps. The OT Engineer must verify the configuration and approve it before proceeding to any restart or PSSR steps.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:35.540Z"
+}

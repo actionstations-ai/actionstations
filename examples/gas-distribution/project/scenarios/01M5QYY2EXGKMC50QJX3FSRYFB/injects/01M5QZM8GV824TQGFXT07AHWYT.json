@@ -1,0 +1,156 @@
+{
+  "id": "01M5QZM8GV824TQGFXT07AHWYT",
+  "mselRowId": "END",
+  "type": "endex_card",
+  "title": "END: Incident Resolved — Pressure District 7 Shutdown Confirmed",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "4:00",
+    "endTime": "20:30",
+    "resolution": "ENDEX. It is 20:30. Pressure District 7 is shut in and safe; the relight starts at 06:00 with the nursing homes first. OT isolation stays at I-4; SCADA is read-only; the evidence is preserved and CISA and TSA are informed. The hot wash will begin.",
+    "finalState": [
+      "Pressure District 7 shut in at Valve 21 and Valve 22.",
+      "Relight from 06:00, nursing homes first.",
+      "OT isolation at I-4; SCADA read-only; remote setpoints disabled.",
+      "Evidence preserved; CISA and TSA informed."
+    ],
+    "hotWashTransition": "Thank you, everyone. The exercise has concluded. Please gather your materials and prepare for the hot wash.",
+    "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+    "hotWashQuestions": [
+      "How did the team reconcile SCADA data with field evidence during the overpressure condition?",
+      "What challenges arose in verifying manual isolation when SCADA showed no change?",
+      "How did the organization balance life safety, service continuity, and cyber-incident response?",
+      "What improvements could be made to the verification process for field vs. SCADA pressure data?",
+      "How effective was the communication flow between control, field, and public affairs during the crisis?"
+    ],
+    "facilitatorNote": "Collect all ICS 201 forms, evaluator sheets, and inject logs before the hot wash begins.",
+    "scenarioTitle": "Ghost Pressure — SCADA vs. Field Gauges & Life Safety",
+    "injectId": "END"
+  },
+  "variant": "default",
+  "instructorNote": "This inject finalizes the exercise. Confirm that all evidence is collected and that the hot wash is ready to begin.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas…",
+      "quote": "Document Control Number: CVG-EP-2026 · Revision 7.0 · Effective Date: 03/01/2026 · Approved: Gordon Haskell (Vice President, Gas Operations) · Reviewed: Theresa Novak (Gas Control Manager), Luis Abern",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 6",
+      "quote": "PipeView SCADA 6 (Halden Automation, integrator of record since 2015) runs on CVG-SCADA01 (active) and CVG-SCADA02 (hot standby) in the Gas Control equipment room, with three controller consoles CVG-H",
+      "chunkId": 26
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe…",
+      "quote": "Document Control Number: CVG-CIRP-2026 · Revision 4.0 · Effective Date: 05/15/2026 · Owner: Anil Desai (OT/SCADA Manager, Cybersecurity Coordinator) · Alternate Cybersecurity Coordinator: Erin Mallory",
+      "chunkId": 1
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 6 › 6.1 Segregate devices",
+      "quote": "Remove the infected or suspect hosts from the network (switch port shutdown by the OT Network Engineer); segregate the other hosts that shared their network segment; **collect a memory image of each a",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 3",
+      "quote": "| Line | Description | Size / material | MAOP | Route | |---|---|---|---|---| | Line 100 | Supply main from Harlan Road City Gate to the north and central system | 12-inch coated steel | 300 psig | Ha",
+      "chunkId": 22
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 9",
+      "quote": "| Report | To | When | By | |---|---|---|---| | Cybersecurity incident | CISA (report@cisa.gov or 888-282-0870) | As soon as practicable, no later than 72 hours after identification (SD Pipeline-2021-",
+      "chunkId": 12
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T22:13:56.166Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "END: Incident Resolved — Pressure District 7 Shutdown Confirmed",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "4:00",
+          "endTime": "20:30",
+          "resolution": "ENDEX. The SCADA system confirms full isolation of Pressure District 7. All field gauges at RS-21 and RS-22 now read 0 in. w.c. and match the HMI. The forensic team has completed evidence collection from CVG-OT-JMP01 and the RTUs. CISA has confirmed the environment is secure. The IC has authorized full system restoration. This concludes the exercise.",
+          "finalState": [
+            ".SCADA system confirms RCV-01 and RCV-04 are closed.",
+            "Field gauges at RS-21 and RS-22 read 0 in. w.c. and match SCADA.",
+            "The halden-support account has been permanently revoked.",
+            "TSA and CISA have approved the forensic review and system restoration.",
+            "The EOC remains activated for final review."
+          ],
+          "hotWashTransition": "Thank you, everyone. The exercise has concluded. Please gather your materials and prepare for the hot wash.",
+          "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "How did the team reconcile SCADA data with field evidence during the overpressure condition?",
+            "What challenges arose in verifying manual isolation when SCADA showed no change?",
+            "How did the organization balance life safety, service continuity, and cyber-incident response?",
+            "What improvements could be made to the verification process for field vs. SCADA pressure data?",
+            "How effective was the communication flow between control, field, and public affairs during the crisis?"
+          ],
+          "facilitatorNote": "Collect all ICS 201 forms, evaluator sheets, and inject logs before the hot wash begins.",
+          "scenarioTitle": "Ghost Pressure — SCADA vs. Field Gauges & Life Safety",
+          "injectId": "END"
+        },
+        "instructorNote": "This inject finalizes the exercise. Confirm that all evidence is collected and that the hot wash is ready to begin.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.511Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "END: Incident Resolved — Pressure District 7 Shutdown Confirmed",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "4:00",
+          "endTime": "20:30",
+          "resolution": "ENDEX. It is 20:30. Pressure District 7 is shut in and safe; the relight starts at 06:00 with the nursing homes first. OT isolation stays at I-4; SCADA is read-only; the evidence is preserved and CISA and TSA are informed. The hot wash will begin.",
+          "finalState": [
+            "Pressure District 7 shut in at Valve 21 and Valve 22.",
+            "Relight from 06:00, nursing homes first.",
+            "OT isolation at I-4; SCADA read-only; remote setpoints disabled.",
+            "Evidence preserved; CISA and TSA informed."
+          ],
+          "hotWashTransition": "Thank you, everyone. The exercise has concluded. Please gather your materials and prepare for the hot wash.",
+          "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "How did the team reconcile SCADA data with field evidence during the overpressure condition?",
+            "What challenges arose in verifying manual isolation when SCADA showed no change?",
+            "How did the organization balance life safety, service continuity, and cyber-incident response?",
+            "What improvements could be made to the verification process for field vs. SCADA pressure data?",
+            "How effective was the communication flow between control, field, and public affairs during the crisis?"
+          ],
+          "facilitatorNote": "Collect all ICS 201 forms, evaluator sheets, and inject logs before the hot wash begins.",
+          "scenarioTitle": "Ghost Pressure — SCADA vs. Field Gauges & Life Safety",
+          "injectId": "END"
+        },
+        "instructorNote": "This inject finalizes the exercise. Confirm that all evidence is collected and that the hot wash is ready to begin.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:29.326Z"
+}

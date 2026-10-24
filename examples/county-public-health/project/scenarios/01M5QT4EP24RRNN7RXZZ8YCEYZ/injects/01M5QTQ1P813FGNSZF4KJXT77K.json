@@ -1,0 +1,325 @@
+{
+  "id": "01M5QTQ1P813FGNSZF4KJXT77K",
+  "mselRowId": "I-05",
+  "type": "siem_alert",
+  "title": "Suspicious Script Execution on MCHD-INT01",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "product": "Sentinel Point SIEM",
+    "tenant": "Marston County Health Department",
+    "alertId": "ALR-2026-10240955",
+    "severity": "high",
+    "riskScore": 89,
+    "rule": "Suspicious script execution in root directory with file deletion pattern",
+    "ruleDescription": "A script named 'auto_cleaner.py' executed every 15 minutes on MCHD-INT01, deleting entries from the nightly IIS export file. The script has no digital signature and is not in the approved software inventory.",
+    "status": "New",
+    "assignee": "Unassigned",
+    "firstSeen": "2026-10-22T09:00:12",
+    "lastSeen": "2026-10-22T09:55:14",
+    "eventCount": 23,
+    "source": {
+      "host": "MCHD-INT01",
+      "ip": "10.72.1.55",
+      "user": "root",
+      "zone": "Core Network"
+    },
+    "dest": {
+      "host": "IIS-EXPORT-NIGHTLY",
+      "ip": "10.72.1.62",
+      "service": "HL7 VXU export",
+      "zone": "Data Integration"
+    },
+    "tactics": [
+      "T1059 Command and Scripting Interpreter",
+      "T1078 Valid Accounts",
+      "T1485 Data Encrypted for Impact"
+    ],
+    "details": [
+      {
+        "key": "File Path",
+        "value": "/root/auto_cleaner.py"
+      },
+      {
+        "key": "Execution Frequency",
+        "value": "Every 15 minutes"
+      },
+      {
+        "key": "File Size",
+        "value": "2.7 KB"
+      },
+      {
+        "key": "Signature Check",
+        "value": "Failed"
+      },
+      {
+        "key": "Approved Inventory",
+        "value": "Not in MCHD-FAC-SYS-2026 (rev 2.0)"
+      },
+      {
+        "key": "Export File Modified",
+        "value": "IIS-EXPORT-NIGHTLY.v261024.hl7"
+      },
+      {
+        "key": "Last Modified",
+        "value": "2026-10-22 09:00:12"
+      },
+      {
+        "key": "Detected by",
+        "value": "File Integrity Monitor (FIM) on MCHD-INT01"
+      }
+    ],
+    "rawEvent": "2026-10-22T09:00:12-05:00 MCHD-INT01 /usr/bin/python3 auto_cleaner.py --delete-entries --from=IIS-EXPORT-NIGHTLY.v261024.hl7 --target=hl7_dose_records.json\n\n[INFO] Script execution successful. 412 records removed from export.\n\n[WARN] No digital signature detected on script.\n\n[ERROR] Script not listed in approved software inventory (MCHD-FAC-SYS-2026, rev 2.0).",
+    "relatedAlerts": [
+      {
+        "time": "2026-10-22T09:00:10",
+        "title": "Unauthorized File Write to IIS-EXPORT-NIGHTLY",
+        "severity": "high"
+      },
+      {
+        "time": "2026-10-22T09:00:11",
+        "title": "Unusual Process Execution: python3 on MCHD-INT01",
+        "severity": "medium"
+      }
+    ],
+    "analyst": "it.oncall"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the presence of malicious persistence on MCHD-INT01. The IT team must immediately initiate the interface pause procedure and begin forensic isolation of MCHD-INT01.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 5 › 5.2 Interface pause (decision record CYB-DR-2)",
+      "quote": "The nightly HL7 VXU export from ClinicTrack to the state IIS (job IIS-EXPORT-NIGHTLY on MCHD-INT01, 01:30) is paused when: - ClinicTrack or MCHD-INT01 is suspected compromised; or - the export file co",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department…",
+      "quote": "Document Control Number: MCHD-CYB-ANX-2026 · Revision 1.2 · Effective Date: 02/01/2026 · Parent document: MCHD-EOP-2026 · Owners: Wes Tran (Informatics Lead, MCHD) and Pamela Ruiz (Marston County IT D",
+      "chunkId": 1
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 10",
+      "quote": "Paper mode is declared by the Incident Commander (decision record CYB-DR-1). In paper mode: - Disease reports are taken by phone on MCHD-F-10; investigators work cases in the state surveillance system",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+      "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+      "headingPath": "Marston County Health Department… › Section 1 › 1.4 Coordinated Documents",
+      "quote": "| Document | Number | Revision | |---|---|---| | Cyber Incident Response Annex | MCHD-CYB-ANX-2026 | 1.2 | | Facilities, Districts and Information Systems Description | MCHD-FAC-SYS-2026 | 2.0 | | Med",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVBG8GPPMQH27H1K80J8EX",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTQ1P813FGNSZF4KJXT77K/01M5QVBG8GPPMQH27H1K80J8EX.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 970,
+      "sha256": "b58a9c24fe1f1cf51d86fe604eb0da4041e4b927e02bfeb88b02f146683a8d5d",
+      "provenance": {
+        "provider": "template",
+        "templateId": "siem_alert",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:04.611Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:48:06.735Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Suspicious Script Execution on MCHD-INT01",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Marston County Health Department",
+          "alertId": "ALR-2026-10240955",
+          "severity": "high",
+          "riskScore": 89,
+          "rule": "Suspicious script execution in root directory with file deletion pattern",
+          "ruleDescription": "A script named 'auto_cleaner.py' executed every 15 minutes on MCHD-INT01, deleting entries from the nightly IIS export file. The script has no digital signature and is not in the approved software inventory.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "2026-10-24T09:00:12",
+          "lastSeen": "2026-10-24T09:55:14",
+          "eventCount": 23,
+          "source": {
+            "host": "MCHD-INT01",
+            "ip": "10.72.1.55",
+            "user": "root",
+            "zone": "Core Network"
+          },
+          "dest": {
+            "host": "IIS-EXPORT-NIGHTLY",
+            "ip": "10.72.1.62",
+            "service": "HL7 VXU export",
+            "zone": "Data Integration"
+          },
+          "tactics": [
+            "T1059 Command and Scripting Interpreter",
+            "T1078 Valid Accounts",
+            "T1485 Data Encrypted for Impact"
+          ],
+          "details": [
+            {
+              "key": "File Path",
+              "value": "/root/auto_cleaner.py"
+            },
+            {
+              "key": "Execution Frequency",
+              "value": "Every 15 minutes"
+            },
+            {
+              "key": "File Size",
+              "value": "2.7 KB"
+            },
+            {
+              "key": "Signature Check",
+              "value": "Failed"
+            },
+            {
+              "key": "Approved Inventory",
+              "value": "Not in MCHD-FAC-SYS-2026 (rev 2.0)"
+            },
+            {
+              "key": "Export File Modified",
+              "value": "IIS-EXPORT-NIGHTLY.v261024.hl7"
+            },
+            {
+              "key": "Last Modified",
+              "value": "2026-10-24 09:00:12"
+            },
+            {
+              "key": "Detected by",
+              "value": "File Integrity Monitor (FIM) on MCHD-INT01"
+            }
+          ],
+          "rawEvent": "2026-10-24T09:00:12-05:00 MCHD-INT01 /usr/bin/python3 auto_cleaner.py --delete-entries --from=IIS-EXPORT-NIGHTLY.v261024.hl7 --target=hl7_dose_records.json\n\n[INFO] Script execution successful. 412 records removed from export.\n\n[WARN] No digital signature detected on script.\n\n[ERROR] Script not listed in approved software inventory (MCHD-FAC-SYS-2026, rev 2.0).",
+          "relatedAlerts": [
+            {
+              "time": "2026-10-24T09:00:10",
+              "title": "Unauthorized File Write to IIS-EXPORT-NIGHTLY",
+              "severity": "high"
+            },
+            {
+              "time": "2026-10-24T09:00:11",
+              "title": "Unusual Process Execution: python3 on MCHD-INT01",
+              "severity": "medium"
+            }
+          ],
+          "analyst": "it.oncall"
+        },
+        "instructorNote": "This inject confirms the presence of malicious persistence on MCHD-INT01. The IT team must immediately initiate the interface pause procedure and begin forensic isolation of MCHD-INT01.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.149Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Suspicious Script Execution on MCHD-INT01",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Marston County Health Department",
+          "alertId": "ALR-2026-10240955",
+          "severity": "high",
+          "riskScore": 89,
+          "rule": "Suspicious script execution in root directory with file deletion pattern",
+          "ruleDescription": "A script named 'auto_cleaner.py' executed every 15 minutes on MCHD-INT01, deleting entries from the nightly IIS export file. The script has no digital signature and is not in the approved software inventory.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "2026-10-22T09:00:12",
+          "lastSeen": "2026-10-22T09:55:14",
+          "eventCount": 23,
+          "source": {
+            "host": "MCHD-INT01",
+            "ip": "10.72.1.55",
+            "user": "root",
+            "zone": "Core Network"
+          },
+          "dest": {
+            "host": "IIS-EXPORT-NIGHTLY",
+            "ip": "10.72.1.62",
+            "service": "HL7 VXU export",
+            "zone": "Data Integration"
+          },
+          "tactics": [
+            "T1059 Command and Scripting Interpreter",
+            "T1078 Valid Accounts",
+            "T1485 Data Encrypted for Impact"
+          ],
+          "details": [
+            {
+              "key": "File Path",
+              "value": "/root/auto_cleaner.py"
+            },
+            {
+              "key": "Execution Frequency",
+              "value": "Every 15 minutes"
+            },
+            {
+              "key": "File Size",
+              "value": "2.7 KB"
+            },
+            {
+              "key": "Signature Check",
+              "value": "Failed"
+            },
+            {
+              "key": "Approved Inventory",
+              "value": "Not in MCHD-FAC-SYS-2026 (rev 2.0)"
+            },
+            {
+              "key": "Export File Modified",
+              "value": "IIS-EXPORT-NIGHTLY.v261024.hl7"
+            },
+            {
+              "key": "Last Modified",
+              "value": "2026-10-22 09:00:12"
+            },
+            {
+              "key": "Detected by",
+              "value": "File Integrity Monitor (FIM) on MCHD-INT01"
+            }
+          ],
+          "rawEvent": "2026-10-22T09:00:12-05:00 MCHD-INT01 /usr/bin/python3 auto_cleaner.py --delete-entries --from=IIS-EXPORT-NIGHTLY.v261024.hl7 --target=hl7_dose_records.json\n\n[INFO] Script execution successful. 412 records removed from export.\n\n[WARN] No digital signature detected on script.\n\n[ERROR] Script not listed in approved software inventory (MCHD-FAC-SYS-2026, rev 2.0).",
+          "relatedAlerts": [
+            {
+              "time": "2026-10-22T09:00:10",
+              "title": "Unauthorized File Write to IIS-EXPORT-NIGHTLY",
+              "severity": "high"
+            },
+            {
+              "time": "2026-10-22T09:00:11",
+              "title": "Unusual Process Execution: python3 on MCHD-INT01",
+              "severity": "medium"
+            }
+          ],
+          "analyst": "it.oncall"
+        },
+        "instructorNote": "This inject confirms the presence of malicious persistence on MCHD-INT01. The IT team must immediately initiate the interface pause procedure and begin forensic isolation of MCHD-INT01.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:04.851Z"
+}

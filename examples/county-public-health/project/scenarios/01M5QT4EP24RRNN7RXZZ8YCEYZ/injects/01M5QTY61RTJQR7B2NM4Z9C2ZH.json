@@ -1,0 +1,356 @@
+{
+  "id": "01M5QTY61RTJQR7B2NM4Z9C2ZH",
+  "mselRowId": "I-18b",
+  "type": "siem_alert",
+  "title": "SIEM Alert: Unauthorized Script Execution on MCHD-INT01",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "product": "Sentinel Point SIEM",
+    "tenant": "Marston County Health Department",
+    "alertId": "BSOC-26-1022-0144",
+    "severity": "critical",
+    "riskScore": 98,
+    "rule": "Unapproved scheduled task re-ran after restore on MCHD-INT01",
+    "ruleDescription": "After the restore from the 10-20 backup image, a scheduled task ran /opt/iisexport/auto_cleaner.py as svc-iisexport. The script is not in the approved software list (MCHD-FAC-SYS-2026, rev 2.0) and has no signature.",
+    "status": "New",
+    "assignee": "Unassigned",
+    "firstSeen": "2026-10-22T11:58:04",
+    "lastSeen": "2026-10-22T11:58:04",
+    "eventCount": 1,
+    "source": {
+      "host": "MCHD-INT01",
+      "ip": "10.72.14.22",
+      "user": "svc-iisexport@marstonhealth.example",
+      "zone": "Internal Network"
+    },
+    "dest": {
+      "host": "MCHD-INT01",
+      "ip": "10.72.14.22",
+      "service": "scheduled task",
+      "zone": "Internal Network"
+    },
+    "tactics": [
+      "T1055 Process Injection",
+      "T1566 Phishing",
+      "T1078 Valid Accounts"
+    ],
+    "details": [
+      {
+        "key": "Script Path",
+        "value": "/opt/iisexport/auto_cleaner.py"
+      },
+      {
+        "key": "File Hash",
+        "value": "9f1c2e7a4b3d5f60718293a4b5c6d7e8f9a0b1c2d3e4f5061728394a5b6c7d8e"
+      },
+      {
+        "key": "Execution Origin",
+        "value": "Temporary directory on MCHD-INT01"
+      },
+      {
+        "key": "Approved Software List",
+        "value": "MCHD-FAC-SYS-2026, rev 2.0"
+      },
+      {
+        "key": "Digital Signature",
+        "value": "None"
+      },
+      {
+        "key": "Alert Source",
+        "value": "Bluestem Managed Security (SOC)"
+      }
+    ],
+    "rawEvent": "2026-10-22T09:45:12-05:00 MCHD-INT01 Sentinel Point SIEM 1000000: Suspicious script execution detected. Process 'python /opt/iisexport/auto_cleaner.py' executed from 'svc-iisexport@marstonhealth.example' on host 'MCHD-INT01' (10.72.14.22). Script not in approved software list (MCHD-FAC-SYS-2026, rev 2.0). No digital signature found. Payload: base64-encoded script, likely to alter IIS export file.",
+    "relatedAlerts": [
+      {
+        "time": "2026-10-22T09:55:00",
+        "title": "Suspicious script execution detected: auto_cleaner.py",
+        "severity": "high"
+      }
+    ],
+    "analyst": "bluestem.soc"
+  },
+  "variant": "default",
+  "instructorNote": "This is a critical evidence inject confirming the attacker's use of a malicious script. IT must immediately validate the script's absence from the approved software list and escalate to the Incident Commander and County Information Security Officer per C2 and C11.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 5 › 5.3 What MCHD does not do",
+      "quote": "MCHD staff do not reset passwords for others, do not reinstall software, do not contact the attackers, and do not post about the incident on social media. Only the County Counselor and the Policy Grou",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 8",
+      "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 5 › 5.2 Interface pause (decision record CYB-DR-2)",
+      "quote": "The nightly HL7 VXU export from ClinicTrack to the state IIS (job IIS-EXPORT-NIGHTLY on MCHD-INT01, 01:30) is paused when: - ClinicTrack or MCHD-INT01 is suspected compromised; or - the export file co",
+      "chunkId": 8
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVCX5EBEN14V6XVYZFVWTA",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTY61RTJQR7B2NM4Z9C2ZH/01M5QVCX5EBEN14V6XVYZFVWTA.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 897,
+      "sha256": "09c92bcb60bfd58f8188d65ff1a1b23a2dc97cc1ad203ef68010a3c8e7cf2bc3",
+      "provenance": {
+        "provider": "template",
+        "templateId": "siem_alert",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:50.555Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:52:02.852Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIEM Alert: Unauthorized Script Execution on MCHD-INT01",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Marston County Health Department",
+          "alertId": "CYB-DR-1",
+          "severity": "critical",
+          "riskScore": 98,
+          "rule": "Suspicious script execution from temporary path on MCHD-INT01",
+          "ruleDescription": "A base64-encoded script, 'auto_cleaner.py', was executed from /opt/iisexport/ on MCHD-INT01. The script is not in the approved software list (MCHD-FAC-SYS-2026, rev 2.0), has no digital signature, and was not initiated from a known service account. The process was observed to delete entries from the IIS export file.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "2026-10-24T09:45:12",
+          "lastSeen": "2026-10-24T09:45:12",
+          "eventCount": 1,
+          "source": {
+            "host": "MCHD-INT01",
+            "ip": "10.72.14.22",
+            "user": "svc-iisexport@marstonhealth.example",
+            "zone": "Internal Network"
+          },
+          "dest": {
+            "host": "MCHD-INT01",
+            "ip": "10.72.14.22",
+            "service": "script execution",
+            "zone": "Internal Network"
+          },
+          "tactics": [
+            "T1055 Process Injection",
+            "T1566 Phishing",
+            "T1078 Valid Accounts"
+          ],
+          "details": [
+            {
+              "key": "Script Path",
+              "value": "/opt/iisexport/auto_cleaner.py"
+            },
+            {
+              "key": "File Hash",
+              "value": "a3b7c1f2e9d4a5b8c6d2e1f3a4b5c6d7e8f9g0h1i2j3k4l5m6n7o8p9q0r1s2t3"
+            },
+            {
+              "key": "Execution Origin",
+              "value": "Temporary directory on MCHD-INT01"
+            },
+            {
+              "key": "Approved Software List",
+              "value": "MCHD-FAC-SYS-2026, rev 2.0"
+            },
+            {
+              "key": "Digital Signature",
+              "value": "None"
+            },
+            {
+              "key": "Alert Source",
+              "value": "Bluestem Managed Security (SOC)"
+            }
+          ],
+          "rawEvent": "2026-10-24T09:45:12-05:00 MCHD-INT01 Sentinel Point SIEM 1000000: Suspicious script execution detected. Process 'python /opt/iisexport/auto_cleaner.py' executed from 'svc-iisexport@marstonhealth.example' on host 'MCHD-INT01' (10.72.14.22). Script not in approved software list (MCHD-FAC-SYS-2026, rev 2.0). No digital signature found. Payload: base64-encoded script, likely to alter IIS export file.",
+          "relatedAlerts": [
+            {
+              "time": "2026-10-24T09:55:00",
+              "title": "Suspicious script execution detected: auto_cleaner.py",
+              "severity": "high"
+            }
+          ],
+          "analyst": "bluestem.soc"
+        },
+        "instructorNote": "This is a critical evidence inject confirming the attacker's use of a malicious script. IT must immediately validate the script's absence from the approved software list and escalate to the Incident Commander and County Information Security Officer per C2 and C11.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.274Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIEM Alert: Unauthorized Script Execution on MCHD-INT01",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Marston County Health Department",
+          "alertId": "BSOC-26-1022-0144",
+          "severity": "critical",
+          "riskScore": 98,
+          "rule": "Unapproved scheduled task re-ran after restore on MCHD-INT01",
+          "ruleDescription": "After the restore from the 10-20 backup image, a scheduled task ran /opt/iisexport/auto_cleaner.py as svc-iisexport. The script is not in the approved software list (MCHD-FAC-SYS-2026, rev 2.0) and has no signature.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "2026-10-22T11:58:04",
+          "lastSeen": "2026-10-22T11:58:04",
+          "eventCount": 1,
+          "source": {
+            "host": "MCHD-INT01",
+            "ip": "10.72.14.22",
+            "user": "svc-iisexport@marstonhealth.example",
+            "zone": "Internal Network"
+          },
+          "dest": {
+            "host": "MCHD-INT01",
+            "ip": "10.72.14.22",
+            "service": "scheduled task",
+            "zone": "Internal Network"
+          },
+          "tactics": [
+            "T1055 Process Injection",
+            "T1566 Phishing",
+            "T1078 Valid Accounts"
+          ],
+          "details": [
+            {
+              "key": "Script Path",
+              "value": "/opt/iisexport/auto_cleaner.py"
+            },
+            {
+              "key": "File Hash",
+              "value": "9f1c2e7a4b3d5f60718293a4b5c6d7e8f9a0b1c2d3e4f5061728394a5b6c7d8e"
+            },
+            {
+              "key": "Execution Origin",
+              "value": "Temporary directory on MCHD-INT01"
+            },
+            {
+              "key": "Approved Software List",
+              "value": "MCHD-FAC-SYS-2026, rev 2.0"
+            },
+            {
+              "key": "Digital Signature",
+              "value": "None"
+            },
+            {
+              "key": "Alert Source",
+              "value": "Bluestem Managed Security (SOC)"
+            }
+          ],
+          "rawEvent": "2026-10-22T09:45:12-05:00 MCHD-INT01 Sentinel Point SIEM 1000000: Suspicious script execution detected. Process 'python /opt/iisexport/auto_cleaner.py' executed from 'svc-iisexport@marstonhealth.example' on host 'MCHD-INT01' (10.72.14.22). Script not in approved software list (MCHD-FAC-SYS-2026, rev 2.0). No digital signature found. Payload: base64-encoded script, likely to alter IIS export file.",
+          "relatedAlerts": [
+            {
+              "time": "2026-10-22T09:55:00",
+              "title": "Suspicious script execution detected: auto_cleaner.py",
+              "severity": "high"
+            }
+          ],
+          "analyst": "bluestem.soc"
+        },
+        "instructorNote": "This is a critical evidence inject confirming the attacker's use of a malicious script. IT must immediately validate the script's absence from the approved software list and escalate to the Incident Commander and County Information Security Officer per C2 and C11.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T20:59:50.496Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIEM Alert: Unauthorized Script Execution on MCHD-INT01",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Marston County Health Department",
+          "alertId": "BSOC-26-1022-0144",
+          "severity": "critical",
+          "riskScore": 98,
+          "rule": "Unapproved scheduled task re-ran after restore on MCHD-INT01",
+          "ruleDescription": "After the restore from the 10-20 backup image, a scheduled task ran /opt/iisexport/auto_cleaner.py as svc-iisexport. The script is not in the approved software list (MCHD-FAC-SYS-2026, rev 2.0) and has no signature.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "2026-10-22T11:58:04",
+          "lastSeen": "2026-10-22T11:58:04",
+          "eventCount": 1,
+          "source": {
+            "host": "MCHD-INT01",
+            "ip": "10.72.14.22",
+            "user": "svc-iisexport@marstonhealth.example",
+            "zone": "Internal Network"
+          },
+          "dest": {
+            "host": "MCHD-INT01",
+            "ip": "10.72.14.22",
+            "service": "scheduled task",
+            "zone": "Internal Network"
+          },
+          "tactics": [
+            "T1055 Process Injection",
+            "T1566 Phishing",
+            "T1078 Valid Accounts"
+          ],
+          "details": [
+            {
+              "key": "Script Path",
+              "value": "/opt/iisexport/auto_cleaner.py"
+            },
+            {
+              "key": "File Hash",
+              "value": "9f1c2e7a4b3d5f60718293a4b5c6d7e8f9a0b1c2d3e4f5061728394a5b6c7d8e"
+            },
+            {
+              "key": "Execution Origin",
+              "value": "Temporary directory on MCHD-INT01"
+            },
+            {
+              "key": "Approved Software List",
+              "value": "MCHD-FAC-SYS-2026, rev 2.0"
+            },
+            {
+              "key": "Digital Signature",
+              "value": "None"
+            },
+            {
+              "key": "Alert Source",
+              "value": "Bluestem Managed Security (SOC)"
+            }
+          ],
+          "rawEvent": "2026-10-22T09:45:12-05:00 MCHD-INT01 Sentinel Point SIEM 1000000: Suspicious script execution detected. Process 'python /opt/iisexport/auto_cleaner.py' executed from 'svc-iisexport@marstonhealth.example' on host 'MCHD-INT01' (10.72.14.22). Script not in approved software list (MCHD-FAC-SYS-2026, rev 2.0). No digital signature found. Payload: base64-encoded script, likely to alter IIS export file.",
+          "relatedAlerts": [
+            {
+              "time": "2026-10-22T09:55:00",
+              "title": "Suspicious script execution detected: auto_cleaner.py",
+              "severity": "high"
+            }
+          ],
+          "analyst": "bluestem.soc"
+        },
+        "instructorNote": "This is a critical evidence inject confirming the attacker's use of a malicious script. IT must immediately validate the script's absence from the approved software list and escalate to the Incident Commander and County Information Security Officer per C2 and C11.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:50.833Z"
+}

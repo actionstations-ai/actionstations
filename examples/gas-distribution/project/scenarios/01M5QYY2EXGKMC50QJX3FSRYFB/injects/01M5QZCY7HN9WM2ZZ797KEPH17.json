@@ -1,0 +1,175 @@
+{
+  "id": "01M5QZCY7HN9WM2ZZ797KEPH17",
+  "mselRowId": "I-09",
+  "type": "email_forward",
+  "title": "TSA Confirms Unauthorized Setpoint Change",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Halden Automation Support",
+    "fromEmail": "support@haldenautomation.example",
+    "senderInitials": "T",
+    "to": "Anil Desai (Cybersecurity Coordinator)",
+    "subject": "FW: halden-support account",
+    "sentAt": "Wed 01/13/2027 17:55",
+    "note": "None of our engineers used the halden-support account today. Our last authorized session on CVG-OT-JMP01 was ten days ago for the PC-21 firmware ticket. If your logs show halden-support writing PC-21 and PC-22 setpoints at 16:15, that was not us. We are disabling the account on our side and can send an engineer tomorrow.",
+    "signature": "CISA Central\nDepartment of Homeland Security",
+    "importance": "high",
+    "external": true,
+    "attachments": [
+      {
+        "name": "CVG-OT-JMP01_audit_trail_1615.pdf",
+        "size": "2.4 MB",
+        "kind": "pdf"
+      }
+    ],
+    "printedBy": "TSA Office of Pipeline Safety",
+    "original": {
+      "fromName": "Halden Automation Support",
+      "fromEmail": "support@haldenautomation.example",
+      "sentAt": "Wed 01/13/2027 17:55",
+      "to": "Anil Desai (Cybersecurity Coordinator)",
+      "cc": "",
+      "subject": "halden-support account",
+      "body": "None of our engineers used the halden-support account today. Our last authorized session on CVG-OT-JMP01 was ten days ago for the PC-21 firmware ticket. If your logs show halden-support writing PC-21 and PC-22 setpoints at 16:15, that was not us. We are disabling the account on our side and can send an engineer tomorrow."
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "This inject confirms the cyber-physical breach and triggers full incident response. The Cybersecurity Coordinator must now activate Section 9 of CVG-CIRP-2026 and isolate the OT network. Watch for delays in network segregation or failure to notify CISA.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 4",
+      "quote": "- OT network monitoring (passive sensor on the OT control zone, alerts to the IT security operations team and the Cybersecurity Coordinator's phone) flags new remote sessions, configuration downloads ",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe…",
+      "quote": "Document Control Number: CVG-CIRP-2026 · Revision 4.0 · Effective Date: 05/15/2026 · Owner: Anil Desai (OT/SCADA Manager, Cybersecurity Coordinator) · Alternate Cybersecurity Coordinator: Erin Mallory",
+      "chunkId": 1
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 3",
+      "quote": "| System | Hosts | Function | Network zone | |---|---|---|---| | PipeView SCADA servers | CVG-SCADA01 (active), CVG-SCADA02 (standby) | Polling, alarms, setpoints, remote valve commands | OT control z",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 8",
+      "quote": "| Notice | Who | When | By | |---|---|---|---| | Potential rupture | Lake Haven County 911 Center | Immediately and directly | Gas Controller | | Incident (49 CFR 191.3) | National Response Center, 80",
+      "chunkId": 49
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYKFKSS7STR6DAR5MYS5K",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZCY7HN9WM2ZZ797KEPH17/01M5QZYKFKSS7STR6DAR5MYS5K.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 704,
+      "sha256": "d7efb002bd02a06beb7b80ec28379394ca249671e4b96cd889e38ba9efd1b027",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:24.931Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:09:57.905Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "TSA Confirms Unauthorized Setpoint Change",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "TSA Pipeline Security Division",
+          "fromEmail": "tsp-ops@tsa.dhs.gov",
+          "senderInitials": "T",
+          "to": "Anil Desai (Cybersecurity Coordinator)",
+          "subject": "FW: Urgent: Cyber Incident Confirmation – Halden Automation Account Compromised",
+          "sentAt": "Sat 10/24/2026 17:55",
+          "note": "Anil,\n\nWe’ve reviewed the jump host logs from CVG-OT-JMP01 and can confirm: the integrator account 'halden-support' accessed the ROCLINK configuration for PC-21 and PC-22 at 16:15. A command to set both PC-21-SP and PC-22-SP to 13 in. w.c. was executed. The account has not been used in the past 72 hours. The command was not approved via the change control process in CVG-CRM-2025. This constitutes an unauthorized access to OT systems under SD Pipeline-2021-02G.\n\nTSA is now designating this a Level 2 cyber incident. Please initiate full network segregation and notify CISA immediately per CVG-CIRP-2026 Section 9.\n\n—TSA Contact: R. Thompson, Pipeline Security Division",
+          "signature": "TSA Pipeline Security Division\nDepartment of Homeland Security",
+          "importance": "high",
+          "external": true,
+          "attachments": [
+            {
+              "name": "CVG-OT-JMP01_audit_trail_1615.pdf",
+              "size": "2.4 MB",
+              "kind": "pdf"
+            }
+          ],
+          "printedBy": "TSA Office of Pipeline Safety",
+          "original": {
+            "fromName": "TSA Pipeline Security Division",
+            "fromEmail": "tsp-ops@tsa.dhs.gov",
+            "sentAt": "Sat 10/24/2026 17:55",
+            "to": "Anil Desai (Cybersecurity Coordinator)",
+            "cc": "",
+            "subject": "Urgent: Cyber Incident Confirmation – Halden Automation Account Compromised",
+            "body": "Hi Anil,\n\nWe’ve reviewed the jump host logs from CVG-OT-JMP01 and can confirm: the integrator account 'halden-support' accessed the ROCLINK configuration for PC-21 and PC-22 at 16:15. A command to set both PC-21-SP and PC-22-SP to 13 in. w.c. was executed. The account has not been used in the past 72 hours. The command was not approved via the change control process in CVG-CRM-2025. This constitutes an unauthorized access to OT systems under SD Pipeline-2021-02G.\n\nTSA is now designating this a Level 2 cyber incident. Please initiate full network segregation and notify CISA immediately per CVG-CIRP-2026 Section 9.\n\n—TSA Contact: R. Thompson, Pipeline Security Division\n\n(Attachment: CVG-OT-JMP01_audit_trail_1615.pdf)"
+          }
+        },
+        "instructorNote": "This inject confirms the cyber-physical breach and triggers full incident response. The Cybersecurity Coordinator must now activate Section 9 of CVG-CIRP-2026 and isolate the OT network. Watch for delays in network segregation or failure to notify CISA.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.460Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "TSA Confirms Unauthorized Setpoint Change",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Halden Automation Support",
+          "fromEmail": "support@haldenautomation.example",
+          "senderInitials": "T",
+          "to": "Anil Desai (Cybersecurity Coordinator)",
+          "subject": "FW: halden-support account",
+          "sentAt": "Wed 01/13/2027 17:55",
+          "note": "None of our engineers used the halden-support account today. Our last authorized session on CVG-OT-JMP01 was ten days ago for the PC-21 firmware ticket. If your logs show halden-support writing PC-21 and PC-22 setpoints at 16:15, that was not us. We are disabling the account on our side and can send an engineer tomorrow.",
+          "signature": "CISA Central\nDepartment of Homeland Security",
+          "importance": "high",
+          "external": true,
+          "attachments": [
+            {
+              "name": "CVG-OT-JMP01_audit_trail_1615.pdf",
+              "size": "2.4 MB",
+              "kind": "pdf"
+            }
+          ],
+          "printedBy": "TSA Office of Pipeline Safety",
+          "original": {
+            "fromName": "Halden Automation Support",
+            "fromEmail": "support@haldenautomation.example",
+            "sentAt": "Wed 01/13/2027 17:55",
+            "to": "Anil Desai (Cybersecurity Coordinator)",
+            "cc": "",
+            "subject": "halden-support account",
+            "body": "None of our engineers used the halden-support account today. Our last authorized session on CVG-OT-JMP01 was ten days ago for the PC-21 firmware ticket. If your logs show halden-support writing PC-21 and PC-22 setpoints at 16:15, that was not us. We are disabling the account on our side and can send an engineer tomorrow."
+          }
+        },
+        "instructorNote": "This inject confirms the cyber-physical breach and triggers full incident response. The Cybersecurity Coordinator must now activate Section 9 of CVG-CIRP-2026 and isolate the OT network. Watch for delays in network segregation or failure to notify CISA.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:25.125Z"
+}

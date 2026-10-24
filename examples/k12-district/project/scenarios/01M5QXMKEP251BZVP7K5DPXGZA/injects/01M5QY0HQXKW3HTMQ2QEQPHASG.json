@@ -1,0 +1,232 @@
+{
+  "id": "01M5QY0HQXKW3HTMQ2QEQPHASG",
+  "mselRowId": "I-02",
+  "type": "phone_call",
+  "title": "SIS Sync Failure — Halverson High School Nurse",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Halverson Unified School District",
+    "systemName": "District Call Recording System",
+    "callId": "CR-20260414-064817-0022",
+    "direction": "Internal",
+    "caller": {
+      "name": "Amanda Reyes",
+      "number": "541-555-0145",
+      "label": "Nurse, Halverson High School"
+    },
+    "callee": {
+      "name": "Marcus Delacroix",
+      "number": "541-555-0164",
+      "label": "Director of School Safety / District Emergency Manager"
+    },
+    "startTime": "04/14/2026 06:48:17",
+    "duration": "0:43",
+    "transcript": [
+      {
+        "speaker": "caller",
+        "offset": "0:00",
+        "text": "This is Nurse Amanda Reyes at Halverson High School. I just manually updated Chloe Mendez's attendance to 'present' in the paper log and the front office's attendance spreadsheet because she’s in the library for testing. But I just checked the SIS and it still shows her as absent. Is there a sync delay?",
+        "prompt": false
+      },
+      {
+        "speaker": "callee",
+        "offset": "0:22",
+        "text": "Understood, Amanda. We’re aware of system delays across multiple sites. Hold for a moment while I verify status with IT.",
+        "prompt": false
+      },
+      {
+        "speaker": "caller",
+        "offset": "0:35",
+        "text": "Yes, sir. I’ll keep the paper log updated for now. Chloe’s in the library, 104, front office has her name on the attendance sheet.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-02"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the SIS is not updating in real time. The technical team must validate whether the delay is due to network load or a broader failure. Watch for Prin to initiate headcount using the 05:00 offline roster.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+      "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+      "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+      "quote": "At 05:00 each school day the SIS exports, for each school, the student roster with emergency contacts, authorized pick-up adults, medical alerts and bus assignments to an encrypted USB key in each pri",
+      "chunkId": 34
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 3",
+      "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "caller",
+        "voiceStyle": "calm female nurse in her 30s, soft accent, measured pace, slightly concerned",
+        "text": "This is Nurse Amanda Reyes at Halverson High School. I just manually updated Chloe Mendez's attendance to 'present' in the paper log and the front office's attendance spreadsheet because she’s in the library for testing. But I just checked the SIS and it still shows her as absent. Is there a sync delay?"
+      },
+      {
+        "speaker": "callee",
+        "voiceStyle": "calm male director in his 40s, steady tone, Midwestern accent, professional and focused",
+        "text": "Understood, Amanda. We’re aware of system delays across multiple sites. Hold for a moment while I verify status with IT."
+      },
+      {
+        "speaker": "caller",
+        "voiceStyle": "calm female nurse in her 30s, soft accent, measured pace, slightly concerned",
+        "text": "Yes, sir. I’ll keep the paper log updated for now. Chloe’s in the library, 104, front office has her name on the attendance sheet."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYN7H6ZYAC684N80R9CDHV",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QY0HQXKW3HTMQ2QEQPHASG/01M5QYN7H6ZYAC684N80R9CDHV.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "abfbc65d32f95b276b3eff6415a06548de2791b2a7392a71ea89695364d17497",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:49.182Z"
+      }
+    },
+    {
+      "id": "01M5QYP3GER67V0C0Q3EMZB0A1",
+      "kind": "audio",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QY0HQXKW3HTMQ2QEQPHASG/01M5QYP3GER67V0C0Q3EMZB0A1.mp3",
+      "role": "generated",
+      "durationSec": 36.78,
+      "sha256": "475e4717350af03817440f38e41c0a1cbb9e17720f15f14926b1462f5e9add8c",
+      "provenance": {
+        "provider": "local-tts-mlx-audio-df4e",
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16 + mlx-community/VoxCPM2-8bit (clone)",
+        "prompt": "caller: This is Nurse Amanda Reyes at Halverson High School. I just manually updated Chloe Mendez's attendance to 'present' in the paper log and the front office's attendance spreadsheet because she’s in the library for testing. But I just checked the SIS and it still shows her as absent. Is there a sync delay?\ncallee: Understood, Amanda. We’re aware of system delays across multiple sites. Hold for a moment while I verify status with IT.\ncaller: Yes, sir. I’ll keep the paper log updated for now. Chloe’s in the library, 104, front office has her name on the attendance sheet.",
+        "postFx": [
+          "phone"
+        ],
+        "createdAt": "2026-10-24T21:57:17.969Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:45:42.862Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIS Sync Failure — Halverson High School Nurse",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Halverson Unified School District",
+          "systemName": "District Call Recording System",
+          "callId": "CR-20261024-064817-0022",
+          "direction": "Internal",
+          "caller": {
+            "name": "Amanda Reyes",
+            "number": "541-555-0145",
+            "label": "Nurse, Halverson High School"
+          },
+          "callee": {
+            "name": "Marcus Delacroix",
+            "number": "541-555-0164",
+            "label": "Director of School Safety / District Emergency Manager"
+          },
+          "startTime": "10/24/2026 06:48:17",
+          "duration": "0:43",
+          "transcript": [
+            {
+              "speaker": "caller",
+              "offset": "0:00",
+              "text": "This is Nurse Amanda Reyes at Halverson High School. I just manually updated Chloe Mendez's attendance to 'present' in the paper log and the front office's attendance spreadsheet because she’s in the library for testing. But I just checked the SIS and it still shows her as absent. Is there a sync delay?",
+              "prompt": false
+            },
+            {
+              "speaker": "callee",
+              "offset": "0:22",
+              "text": "Understood, Amanda. We’re aware of system delays across multiple sites. Hold for a moment while I verify status with IT.",
+              "prompt": false
+            },
+            {
+              "speaker": "caller",
+              "offset": "0:35",
+              "text": "Yes, sir. I’ll keep the paper log updated for now. Chloe’s in the library, 104, front office has her name on the attendance sheet.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-02"
+        },
+        "instructorNote": "This inject confirms the SIS is not updating in real time. The technical team must validate whether the delay is due to network load or a broader failure. Watch for Prin to initiate headcount using the 05:00 offline roster.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.464Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIS Sync Failure — Halverson High School Nurse",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Halverson Unified School District",
+          "systemName": "District Call Recording System",
+          "callId": "CR-20260414-064817-0022",
+          "direction": "Internal",
+          "caller": {
+            "name": "Amanda Reyes",
+            "number": "541-555-0145",
+            "label": "Nurse, Halverson High School"
+          },
+          "callee": {
+            "name": "Marcus Delacroix",
+            "number": "541-555-0164",
+            "label": "Director of School Safety / District Emergency Manager"
+          },
+          "startTime": "04/14/2026 06:48:17",
+          "duration": "0:43",
+          "transcript": [
+            {
+              "speaker": "caller",
+              "offset": "0:00",
+              "text": "This is Nurse Amanda Reyes at Halverson High School. I just manually updated Chloe Mendez's attendance to 'present' in the paper log and the front office's attendance spreadsheet because she’s in the library for testing. But I just checked the SIS and it still shows her as absent. Is there a sync delay?",
+              "prompt": false
+            },
+            {
+              "speaker": "callee",
+              "offset": "0:22",
+              "text": "Understood, Amanda. We’re aware of system delays across multiple sites. Hold for a moment while I verify status with IT.",
+              "prompt": false
+            },
+            {
+              "speaker": "caller",
+              "offset": "0:35",
+              "text": "Yes, sir. I’ll keep the paper log updated for now. Chloe’s in the library, 104, front office has her name on the attendance sheet.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-02"
+        },
+        "instructorNote": "This inject confirms the SIS is not updating in real time. The technical team must validate whether the delay is due to network load or a broader failure. Watch for Prin to initiate headcount using the 05:00 offline roster.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:57:17.969Z"
+}

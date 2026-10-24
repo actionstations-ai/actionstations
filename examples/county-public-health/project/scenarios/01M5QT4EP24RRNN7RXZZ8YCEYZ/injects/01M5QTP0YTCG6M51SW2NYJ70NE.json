@@ -1,0 +1,183 @@
+{
+  "id": "01M5QTP0YTCG6M51SW2NYJ70NE",
+  "mselRowId": "I-02",
+  "type": "helpdesk_ticket",
+  "title": "MCHD-FAX01: 12 Unexplained KDHE Faxes",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "IT-71842",
+    "priority": "Low",
+    "impact": "Medium",
+    "urgency": "High",
+    "status": "New",
+    "requester": "County IT Helpdesk",
+    "requesterContact": "x8000",
+    "contactType": "Monitoring",
+    "category": "Network & Security",
+    "subcategory": "Fax Server",
+    "location": "County Data Center – Room 108",
+    "configurationItem": "MCHD-FAX01",
+    "opened": "2026-10-22 09:22:17",
+    "assignmentGroup": "IT Security & Incident Response",
+    "subject": "MCHD-FAX01 shows 12 new inbound faxes from KDHE. No one in Epi sent a batch to state. Logs show no new email to the Epi inbox.",
+    "description": "MCHD-FAX01 shows 12 new inbound faxes from KDHE. No one in Epi sent a batch to state. Logs show no new email to the Epi inbox. All faxes were received between 08:45 and 08:55. No corresponding email or manual entry in the Epi inbox. No user action recorded on MCHD-F-10. The system shows no error, but the timing gap suggests a potential data injection. Verify integrity of the inbound stream and review MCHD-FAX01 logs for anomalies.",
+    "activity": [
+      {
+        "author": "System",
+        "time": "2026-10-22 09:22:17",
+        "kind": "system",
+        "text": "Ticket created from automated monitoring of MCHD-FAX01."
+      },
+      {
+        "author": "County IT Helpdesk",
+        "time": "2026-10-22 09:22:17",
+        "kind": "comment",
+        "text": "Confirmed: 12 faxes from KDHE received at 08:45–08:55. No Epi user initiated batch. No email in Epi inbox. No manual entry on MCHD-F-10. Requesting immediate forensic review."
+      }
+    ],
+    "systemName": "ServiceDesk",
+    "orgName": "Marston County Health Department"
+  },
+  "variant": "default",
+  "instructorNote": "This inject introduces a data integrity anomaly. IT must detect the gap in fax timestamps and recognize it as a potential attack vector. Watch for whether IT checks the fax log against known Epi workflows and flags the anomaly.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPNTVJQ6BJQJV2Y2B89",
+      "documentTitle": "Marston County Health Department — Facilities, Districts and Information Systems Description",
+      "headingPath": "Marston County Health Department… › Section 6",
+      "quote": "| System | Purpose | Hosted | Host / URL | Owner | Paper fallback | |---|---|---|---|---|---| | State disease surveillance system | Case investigation, ELR and eCR receipt, contact records | KDHE | st",
+      "chunkId": 24
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 10",
+      "quote": "Paper mode is declared by the Incident Commander (decision record CYB-DR-1). In paper mode: - Disease reports are taken by phone on MCHD-F-10; investigators work cases in the state surveillance system",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Annex A",
+      "quote": "**A-1 Ransomware on the county network.** County IT isolates; MCHD declares Cyber 1, paper mode, pauses the IIS export, moves epidemiology to DOC laptops, notifies KDHE, prepares the outage message fo",
+      "chunkId": 15
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVBF4P0W3PKYPVTH6HWXK9",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTP0YTCG6M51SW2NYJ70NE/01M5QVBF4P0W3PKYPVTH6HWXK9.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "ec7b28b21fa4c0474132355a9674b32c20aaea71bfce63e2a7b78fe4563aeac8",
+      "provenance": {
+        "provider": "template",
+        "templateId": "helpdesk_ticket",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:03.501Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:47:31.395Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "MCHD-FAX01: 12 Unexplained KDHE Faxes",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "IT-71842",
+          "priority": "Low",
+          "impact": "Medium",
+          "urgency": "High",
+          "status": "New",
+          "requester": "County IT Helpdesk",
+          "requesterContact": "x8000",
+          "contactType": "Monitoring",
+          "category": "Network & Security",
+          "subcategory": "Fax Server",
+          "location": "County Data Center – Room 108",
+          "configurationItem": "MCHD-FAX01",
+          "opened": "2026-10-24 09:22:17",
+          "assignmentGroup": "IT Security & Incident Response",
+          "subject": "MCHD-FAX01 shows 12 new inbound faxes from KDHE. No one in Epi sent a batch to state. Logs show no new email to the Epi inbox.",
+          "description": "MCHD-FAX01 shows 12 new inbound faxes from KDHE. No one in Epi sent a batch to state. Logs show no new email to the Epi inbox. All faxes were received between 08:45 and 08:55. No corresponding email or manual entry in the Epi inbox. No user action recorded on MCHD-F-10. The system shows no error, but the timing gap suggests a potential data injection. Verify integrity of the inbound stream and review MCHD-FAX01 logs for anomalies.",
+          "activity": [
+            {
+              "author": "System",
+              "time": "2026-10-24 09:22:17",
+              "kind": "system",
+              "text": "Ticket created from automated monitoring of MCHD-FAX01."
+            },
+            {
+              "author": "County IT Helpdesk",
+              "time": "2026-10-24 09:22:17",
+              "kind": "comment",
+              "text": "Confirmed: 12 faxes from KDHE received at 08:45–08:55. No Epi user initiated batch. No email in Epi inbox. No manual entry on MCHD-F-10. Requesting immediate forensic review."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Marston County Health Department"
+        },
+        "instructorNote": "This inject introduces a data integrity anomaly. IT must detect the gap in fax timestamps and recognize it as a potential attack vector. Watch for whether IT checks the fax log against known Epi workflows and flags the anomaly.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.127Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "MCHD-FAX01: 12 Unexplained KDHE Faxes",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "IT-71842",
+          "priority": "Low",
+          "impact": "Medium",
+          "urgency": "High",
+          "status": "New",
+          "requester": "County IT Helpdesk",
+          "requesterContact": "x8000",
+          "contactType": "Monitoring",
+          "category": "Network & Security",
+          "subcategory": "Fax Server",
+          "location": "County Data Center – Room 108",
+          "configurationItem": "MCHD-FAX01",
+          "opened": "2026-10-22 09:22:17",
+          "assignmentGroup": "IT Security & Incident Response",
+          "subject": "MCHD-FAX01 shows 12 new inbound faxes from KDHE. No one in Epi sent a batch to state. Logs show no new email to the Epi inbox.",
+          "description": "MCHD-FAX01 shows 12 new inbound faxes from KDHE. No one in Epi sent a batch to state. Logs show no new email to the Epi inbox. All faxes were received between 08:45 and 08:55. No corresponding email or manual entry in the Epi inbox. No user action recorded on MCHD-F-10. The system shows no error, but the timing gap suggests a potential data injection. Verify integrity of the inbound stream and review MCHD-FAX01 logs for anomalies.",
+          "activity": [
+            {
+              "author": "System",
+              "time": "2026-10-22 09:22:17",
+              "kind": "system",
+              "text": "Ticket created from automated monitoring of MCHD-FAX01."
+            },
+            {
+              "author": "County IT Helpdesk",
+              "time": "2026-10-22 09:22:17",
+              "kind": "comment",
+              "text": "Confirmed: 12 faxes from KDHE received at 08:45–08:55. No Epi user initiated batch. No email in Epi inbox. No manual entry on MCHD-F-10. Requesting immediate forensic review."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Marston County Health Department"
+        },
+        "instructorNote": "This inject introduces a data integrity anomaly. IT must detect the gap in fax timestamps and recognize it as a potential attack vector. Watch for whether IT checks the fax log against known Epi workflows and flags the anomaly.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:03.857Z"
+}

@@ -1,0 +1,305 @@
+{
+  "id": "01M5QZAYF6X3YA6P04BTVBZNR6",
+  "mselRowId": "I-05",
+  "type": "field_report",
+  "title": "Field Gauge Overpressure Alert — RS-21 and RS-22",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Corwin Valley Gas Company — Metering & Regulation",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-1024-1705",
+    "date": "01/13/2027",
+    "time": "17:05",
+    "location": "RS-21 and RS-22 Regulator Stations, Pressure District 7 — Downtown Corwin",
+    "inspector": "T. Oyelowo, Field Operations Supervisor (M&R)",
+    "unit": "Field Crew 7 · Vehicle 21",
+    "reportType": "incident",
+    "weather": "Clear, 12°F, wind ESE 8 mph",
+    "summary": "Confirmed field gauge readings at RS-21 and RS-22 show about 30 in. w.c. and rising. PR-7B reports 15.2 in. w.c. and continues to climb. SCADA shows nominal 10 in. w.c. at both outlets. No operational changes have been authorized. Call center reports 143 odor calls in 20 minutes, primarily from downtown Corwin. No shutdown authority has been issued. Field teams are observing but not acting.",
+    "findings": [
+      {
+        "item": "RS-21 outlet field gauge",
+        "condition": "failed",
+        "notes": "Reading: about 30 in. w.c. (1.1 psig), not fluctuating"
+      },
+      {
+        "item": "RS-22 outlet field gauge",
+        "condition": "failed",
+        "notes": "Reading: about 30 in. w.c. (1.1 psig), not fluctuating"
+      },
+      {
+        "item": "PR-7B recorder telemetry",
+        "condition": "failed",
+        "notes": "Reading: 15.2 in. w.c., rising, last update 17:03"
+      },
+      {
+        "item": "RS-21 pilot regulator status",
+        "condition": "failed",
+        "notes": "Cycling rapidly, not holding setpoint"
+      },
+      {
+        "item": "RS-22 pilot regulator status",
+        "condition": "failed",
+        "notes": "Cycling rapidly, not holding setpoint"
+      },
+      {
+        "item": "SCADA HMI RS21-PT-OUT",
+        "condition": "ok",
+        "notes": "Shows 10 in. w.c., no alarms"
+      },
+      {
+        "item": "SCADA HMI RS22-PT-OUT",
+        "condition": "ok",
+        "notes": "Shows 10 in. w.c., no alarms"
+      },
+      {
+        "item": "Control room communication",
+        "condition": "not_inspected",
+        "notes": "No direct contact with Gas Control since 16:52"
+      },
+      {
+        "item": "Remote access to RTU",
+        "condition": "not_inspected",
+        "notes": "No access attempted or confirmed"
+      },
+      {
+        "item": "Emergency shutdown protocol",
+        "condition": "not_inspected",
+        "notes": "Not initiated; no authority granted"
+      }
+    ],
+    "actionsTaken": [
+      "Confirmed readings with two field techs at RS-21 and RS-22",
+      "Verified PR-7B telemetry via local terminal at RS-22",
+      "Reported to Gas Control via radio at 17:05",
+      "Instructed all field crews to hold at manual verification and not initiate shutdown"
+    ],
+    "recommendations": [
+      "Immediately escalate pressure discrepancy to Gas Control Manager and Incident Commander",
+      "Verify all field gauges in Pressure District 7 within 30 minutes",
+      "Activate manual control at RS-21 and RS-22 per C2",
+      "Prepare for possible emergency shutdown order from IC"
+    ],
+    "photosNote": "2 photos attached: IMG_1024-1705-01 (RS-21 field gauge, 13.2 in. w.c.), IMG_1024-1705-02 (PR-7B local display, 15.2 in. w.c.)",
+    "signature": "T. Oyelowo, Field Operations Supervisor (M&R)",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "Noise inject; the field team confirms pressure readings but does not act. Observe if they escalate to GCM or IC without authority.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 5",
+      "quote": "| District | Pressure | MAOP | Customers | Fed by | Notes | |---|---|---|---|---|---| | Pressure District 1 | 60 psig | 60 psig | 9,880 | RS-11, RS-12 | North Corwin, Ashby Township | | Pressure Distr",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 6 › 6.2 Local control of stations",
+      "quote": "When SCADA cannot be trusted, Gas Control moves stations to local control: | Station group | Local-control method | Staffing | |---|---|---| | Harlan Road City Gate, Millstream Gate Station | Station ",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 7",
+      "quote": "| Point | Tag | Low | High | High-high | |---|---|---|---|---| | RS-21 outlet | RS21-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. w.c. | | RS-22 outlet | RS22-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. ",
+      "chunkId": 27
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T22:08:53.269Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Field Gauge Overpressure Alert — RS-21 and RS-22",
+        "type": "field_report",
+        "fields": {
+          "organization": "Corwin Valley Gas Company — Metering & Regulation",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1024-1705",
+          "date": "10/24/2026",
+          "time": "17:05",
+          "location": "RS-21 and RS-22 Regulator Stations, Pressure District 7 — Downtown Corwin",
+          "inspector": "T. Oyelowo, Field Operations Supervisor (M&R)",
+          "unit": "Field Crew 7 · Vehicle 21",
+          "reportType": "incident",
+          "weather": "Clear, 12°F, wind ESE 8 mph",
+          "summary": "Confirmed field gauge readings at RS-21 and RS-22 show 13.2 in. w.c. and rising. PR-7B reports 15.2 in. w.c. and continues to climb. SCADA shows nominal 10 in. w.c. at both outlets. No operational changes have been authorized. Call center reports 143 odor calls in 20 minutes, primarily from downtown Corwin. No shutdown authority has been issued. Field teams are observing but not acting.",
+          "findings": [
+            {
+              "item": "RS-21 outlet field gauge",
+              "condition": "failed",
+              "notes": "Reading: 13.2 in. w.c., stable, not fluctuating"
+            },
+            {
+              "item": "RS-22 outlet field gauge",
+              "condition": "failed",
+              "notes": "Reading: 13.2 in. w.c., stable, not fluctuating"
+            },
+            {
+              "item": "PR-7B recorder telemetry",
+              "condition": "failed",
+              "notes": "Reading: 15.2 in. w.c., rising, last update 17:03"
+            },
+            {
+              "item": "RS-21 pilot regulator status",
+              "condition": "failed",
+              "notes": "Cycling rapidly, not holding setpoint"
+            },
+            {
+              "item": "RS-22 pilot regulator status",
+              "condition": "failed",
+              "notes": "Cycling rapidly, not holding setpoint"
+            },
+            {
+              "item": "SCADA HMI RS21-PT-OUT",
+              "condition": "ok",
+              "notes": "Shows 10 in. w.c., no alarms"
+            },
+            {
+              "item": "SCADA HMI RS22-PT-OUT",
+              "condition": "ok",
+              "notes": "Shows 10 in. w.c., no alarms"
+            },
+            {
+              "item": "Control room communication",
+              "condition": "not_inspected",
+              "notes": "No direct contact with Gas Control since 16:52"
+            },
+            {
+              "item": "Remote access to RTU",
+              "condition": "not_inspected",
+              "notes": "No access attempted or confirmed"
+            },
+            {
+              "item": "Emergency shutdown protocol",
+              "condition": "not_inspected",
+              "notes": "Not initiated; no authority granted"
+            }
+          ],
+          "actionsTaken": [
+            "Confirmed readings with two field techs at RS-21 and RS-22",
+            "Verified PR-7B telemetry via local terminal at RS-22",
+            "Reported to Gas Control via radio at 17:05",
+            "Instructed all field crews to hold at manual verification and not initiate shutdown"
+          ],
+          "recommendations": [
+            "Immediately escalate pressure discrepancy to Gas Control Manager and Incident Commander",
+            "Verify all field gauges in Pressure District 7 within 30 minutes",
+            "Activate manual control at RS-21 and RS-22 per C2",
+            "Prepare for possible emergency shutdown order from IC"
+          ],
+          "photosNote": "2 photos attached: IMG_1024-1705-01 (RS-21 field gauge, 13.2 in. w.c.), IMG_1024-1705-02 (PR-7B local display, 15.2 in. w.c.)",
+          "signature": "T. Oyelowo, Field Operations Supervisor (M&R)",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise inject; the field team confirms pressure readings but does not act. Observe if they escalate to GCM or IC without authority.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.442Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field Gauge Overpressure Alert — RS-21 and RS-22",
+        "type": "field_report",
+        "fields": {
+          "organization": "Corwin Valley Gas Company — Metering & Regulation",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1024-1705",
+          "date": "01/13/2027",
+          "time": "17:05",
+          "location": "RS-21 and RS-22 Regulator Stations, Pressure District 7 — Downtown Corwin",
+          "inspector": "T. Oyelowo, Field Operations Supervisor (M&R)",
+          "unit": "Field Crew 7 · Vehicle 21",
+          "reportType": "incident",
+          "weather": "Clear, 12°F, wind ESE 8 mph",
+          "summary": "Confirmed field gauge readings at RS-21 and RS-22 show about 30 in. w.c. and rising. PR-7B reports 15.2 in. w.c. and continues to climb. SCADA shows nominal 10 in. w.c. at both outlets. No operational changes have been authorized. Call center reports 143 odor calls in 20 minutes, primarily from downtown Corwin. No shutdown authority has been issued. Field teams are observing but not acting.",
+          "findings": [
+            {
+              "item": "RS-21 outlet field gauge",
+              "condition": "failed",
+              "notes": "Reading: about 30 in. w.c. (1.1 psig), not fluctuating"
+            },
+            {
+              "item": "RS-22 outlet field gauge",
+              "condition": "failed",
+              "notes": "Reading: about 30 in. w.c. (1.1 psig), not fluctuating"
+            },
+            {
+              "item": "PR-7B recorder telemetry",
+              "condition": "failed",
+              "notes": "Reading: 15.2 in. w.c., rising, last update 17:03"
+            },
+            {
+              "item": "RS-21 pilot regulator status",
+              "condition": "failed",
+              "notes": "Cycling rapidly, not holding setpoint"
+            },
+            {
+              "item": "RS-22 pilot regulator status",
+              "condition": "failed",
+              "notes": "Cycling rapidly, not holding setpoint"
+            },
+            {
+              "item": "SCADA HMI RS21-PT-OUT",
+              "condition": "ok",
+              "notes": "Shows 10 in. w.c., no alarms"
+            },
+            {
+              "item": "SCADA HMI RS22-PT-OUT",
+              "condition": "ok",
+              "notes": "Shows 10 in. w.c., no alarms"
+            },
+            {
+              "item": "Control room communication",
+              "condition": "not_inspected",
+              "notes": "No direct contact with Gas Control since 16:52"
+            },
+            {
+              "item": "Remote access to RTU",
+              "condition": "not_inspected",
+              "notes": "No access attempted or confirmed"
+            },
+            {
+              "item": "Emergency shutdown protocol",
+              "condition": "not_inspected",
+              "notes": "Not initiated; no authority granted"
+            }
+          ],
+          "actionsTaken": [
+            "Confirmed readings with two field techs at RS-21 and RS-22",
+            "Verified PR-7B telemetry via local terminal at RS-22",
+            "Reported to Gas Control via radio at 17:05",
+            "Instructed all field crews to hold at manual verification and not initiate shutdown"
+          ],
+          "recommendations": [
+            "Immediately escalate pressure discrepancy to Gas Control Manager and Incident Commander",
+            "Verify all field gauges in Pressure District 7 within 30 minutes",
+            "Activate manual control at RS-21 and RS-22 per C2",
+            "Prepare for possible emergency shutdown order from IC"
+          ],
+          "photosNote": "2 photos attached: IMG_1024-1705-01 (RS-21 field gauge, 13.2 in. w.c.), IMG_1024-1705-02 (PR-7B local display, 15.2 in. w.c.)",
+          "signature": "T. Oyelowo, Field Operations Supervisor (M&R)",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise inject; the field team confirms pressure readings but does not act. Observe if they escalate to GCM or IC without authority.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:23.876Z"
+}

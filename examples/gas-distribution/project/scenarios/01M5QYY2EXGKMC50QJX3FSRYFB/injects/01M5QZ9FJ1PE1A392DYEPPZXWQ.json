@@ -1,0 +1,155 @@
+{
+  "id": "01M5QZ9FJ1PE1A392DYEPPZXWQ",
+  "mselRowId": "I-01b",
+  "type": "radio_call",
+  "title": "Field Gauge Overpressure Alert — RS-22",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Corwin Valley Gas Company",
+    "centerName": "Gas Control Room (GCR)",
+    "channel": "Field Operations Net",
+    "frequency": "TG 7001 / 458.330 MHz",
+    "date": "01/13/2027",
+    "callsign": "Field Supervisor Oyelowo",
+    "lines": [
+      {
+        "time": "16:38",
+        "from": "Field Supervisor Oyelowo",
+        "to": "Field Operations Supervisor",
+        "text": "Field, this is Supervisor Oyelowo. Tech Jones at RS-22 confirms 30 in. w.c. on the field gauge. PR-7B is showing 15 in. w.c. and rising, and PR-7A is offline. The pilot regulator at RS-22 is cycling rapidly and not holding pressure. We need to report this as a potential overpressure condition."
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+    "audioFile": "I-01b_radio.wav",
+    "duration": "0:18",
+    "injectId": "I-01b"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the overpressure condition on the ground. The field team has validated the SCADA discrepancy. Watch for whether the FOS reports to the GCM and IC, and whether they attempt manual isolation without authorization.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 4",
+      "quote": "| Station | Location | Inlet source | Outlet | Pressure district | Regulation | Telemetry | |---|---|---|---|---|---|---| | RS-11 | Quarry Road at Route 44 | Line 100 | 60 psig | Pressure District 1 |",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 6 › 6.2 Triggers",
+      "quote": "- High-pressure alarm at a low-pressure station outlet (alarm 12 in. w.c., high-high 14 in. w.c.) or at a district recorder. - Disagreement between a station's outlet reading and its district recorder",
+      "chunkId": 46
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 7",
+      "quote": "| Valve | Location | Type | Isolates | Operated by | |---|---|---|---|---| | RCV-01 | Harlan Road City Gate outlet | Remote-control | Line 100 from Harlan Road City Gate | Gas Control (SCADA), local |",
+      "chunkId": 48
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Field Supervisor Oyelowo",
+        "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+        "text": "Field, this is Supervisor Oyelowo. Tech Jones at RS-22 confirms 13.2 in. w.c. on the field gauge. PR-7B is showing 15 in. w.c. and rising, and PR-7A is offline. The pilot regulator at RS-22 is cycling rapidly and not holding pressure. We need to report this as a potential overpressure condition."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYH6T00Y2830A5Y2QEP16",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZ9FJ1PE1A392DYEPPZXWQ/01M5QZYH6T00Y2830A5Y2QEP16.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "a4c9febb2a646c31d7cd4cef0055a0333dff8cfba827be8f050090bc992847b1",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:22.617Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:08:02.530Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Field Gauge Overpressure Alert — RS-22",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Corwin Valley Gas Company",
+          "centerName": "Gas Control Room (GCR)",
+          "channel": "Field Operations Net",
+          "frequency": "TG 7001 / 458.330 MHz",
+          "date": "10/24/2026",
+          "callsign": "Field Supervisor Oyelowo",
+          "lines": [
+            {
+              "time": "16:38",
+              "from": "Field Supervisor Oyelowo",
+              "to": "Field Operations Supervisor",
+              "text": "Field, this is Supervisor Oyelowo. Tech Jones at RS-22 confirms 13.2 in. w.c. on the field gauge. PR-7B is showing 15 in. w.c. and rising, and PR-7A is offline. The pilot regulator at RS-22 is cycling rapidly and not holding pressure. We need to report this as a potential overpressure condition."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+          "audioFile": "I-01b_radio.wav",
+          "duration": "0:18",
+          "injectId": "I-01b"
+        },
+        "instructorNote": "This inject confirms the overpressure condition on the ground. The field team has validated the SCADA discrepancy. Watch for whether the FOS reports to the GCM and IC, and whether they attempt manual isolation without authorization.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.424Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field Gauge Overpressure Alert — RS-22",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Corwin Valley Gas Company",
+          "centerName": "Gas Control Room (GCR)",
+          "channel": "Field Operations Net",
+          "frequency": "TG 7001 / 458.330 MHz",
+          "date": "01/13/2027",
+          "callsign": "Field Supervisor Oyelowo",
+          "lines": [
+            {
+              "time": "16:38",
+              "from": "Field Supervisor Oyelowo",
+              "to": "Field Operations Supervisor",
+              "text": "Field, this is Supervisor Oyelowo. Tech Jones at RS-22 confirms 30 in. w.c. on the field gauge. PR-7B is showing 15 in. w.c. and rising, and PR-7A is offline. The pilot regulator at RS-22 is cycling rapidly and not holding pressure. We need to report this as a potential overpressure condition."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+          "audioFile": "I-01b_radio.wav",
+          "duration": "0:18",
+          "injectId": "I-01b"
+        },
+        "instructorNote": "This inject confirms the overpressure condition on the ground. The field team has validated the SCADA discrepancy. Watch for whether the FOS reports to the GCM and IC, and whether they attempt manual isolation without authorization.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:22.797Z"
+}

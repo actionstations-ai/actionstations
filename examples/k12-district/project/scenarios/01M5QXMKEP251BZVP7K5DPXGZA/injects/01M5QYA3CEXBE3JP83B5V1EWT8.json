@@ -1,0 +1,182 @@
+{
+  "id": "01M5QYA3CEXBE3JP83B5V1EWT8",
+  "mselRowId": "I-18b",
+  "type": "system_log",
+  "title": "HUSD-DC01: Domain Controller Rebuild and Data Verification",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "HUSD-DC01",
+    "host": "HUSD-DC01",
+    "ip": "10.72.10.1",
+    "os": "Windows Server 2022",
+    "logSource": "Security / Windows Event Log",
+    "exportedBy": "HUSD\\admin.cirp",
+    "exportedAt": "04/14/2026 09:35 AM",
+    "timezone": "PDT (UTC-7)",
+    "lines": [
+      {
+        "ts": "09:05:12",
+        "level": "INFO",
+        "msg": "HUSD-DC01 rebuild from clean media started",
+        "highlight": false
+      },
+      {
+        "ts": "09:20:40",
+        "level": "INFO",
+        "msg": "Veeam copy 05:00 restored to isolated HUSD-BK01 test environment",
+        "highlight": false
+      },
+      {
+        "ts": "09:34:58",
+        "level": "NOTICE",
+        "msg": "Hash verification HUSD-FS02 data set: 12% complete",
+        "highlight": true
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Get-Content C:\\Logs\\DC01_Rebuild_2026-10-24.log | Select-String -Pattern 'verified' -Context 2,2",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "This inject confirms the integrity of the pre-incident baseline. The CTO must now initiate the verification sign-off process using CIRP Form 4.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 11",
+      "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 5",
+      "quote": "1. Technical Lead confirms the alert with MDR; opens an incident record (CIRP Form 1) with times. 2. Incident Lead decides severity; for S3 or S4 calls the Director of School Safety and General Counse",
+      "chunkId": 7
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYNCDXGMJ5202M8FDYMYFX",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QYA3CEXBE3JP83B5V1EWT8/01M5QYNCDXGMJ5202M8FDYMYFX.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 560,
+      "sha256": "722d23f6b519759679af91144091dd3adab3221a494c3da3c548f90f3c304f87",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:54.230Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:50:54.620Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "HUSD-DC01: Domain Controller Rebuild and Data Verification",
+        "type": "system_log",
+        "fields": {
+          "systemName": "HUSD-DC01",
+          "host": "HUSD-DC01",
+          "ip": "10.72.10.1",
+          "os": "Windows Server 2022",
+          "logSource": "Security / Windows Event Log",
+          "exportedBy": "HUSD\\admin.cirp",
+          "exportedAt": "10/24/2026 09:35 AM",
+          "timezone": "PDT (UTC-7)",
+          "lines": [
+            {
+              "ts": "2026-08-15 08:59:03",
+              "level": "INFO",
+              "msg": "Rebuilt from clean media. krbtgt account reset twice. No active session.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 08:59:05",
+              "level": "INFO",
+              "msg": "Veeam backup from 05:00 (offline tape copy) restored to HUSD-BK01 test environment.",
+              "highlight": false
+            },
+            {
+              "ts": "2026-08-15 08:59:11",
+              "level": "INFO",
+              "msg": "Full hash verification of HUSD-FS02 data set (Z: drive) complete: 98,742,311 files matched.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-08-15 08:59:12",
+              "level": "INFO",
+              "msg": "No evidence of tampering. File timestamps verified against pre-incident baseline.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\Logs\\DC01_Rebuild_2026-10-24.log | Select-String -Pattern 'verified' -Context 2,2",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the integrity of the pre-incident baseline. The CTO must now initiate the verification sign-off process using CIRP Form 4.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.538Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "HUSD-DC01: Domain Controller Rebuild and Data Verification",
+        "type": "system_log",
+        "fields": {
+          "systemName": "HUSD-DC01",
+          "host": "HUSD-DC01",
+          "ip": "10.72.10.1",
+          "os": "Windows Server 2022",
+          "logSource": "Security / Windows Event Log",
+          "exportedBy": "HUSD\\admin.cirp",
+          "exportedAt": "04/14/2026 09:35 AM",
+          "timezone": "PDT (UTC-7)",
+          "lines": [
+            {
+              "ts": "09:05:12",
+              "level": "INFO",
+              "msg": "HUSD-DC01 rebuild from clean media started",
+              "highlight": false
+            },
+            {
+              "ts": "09:20:40",
+              "level": "INFO",
+              "msg": "Veeam copy 05:00 restored to isolated HUSD-BK01 test environment",
+              "highlight": false
+            },
+            {
+              "ts": "09:34:58",
+              "level": "NOTICE",
+              "msg": "Hash verification HUSD-FS02 data set: 12% complete",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\Logs\\DC01_Rebuild_2026-10-24.log | Select-String -Pattern 'verified' -Context 2,2",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the integrity of the pre-incident baseline. The CTO must now initiate the verification sign-off process using CIRP Form 4.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:54.409Z"
+}

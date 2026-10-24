@@ -1,0 +1,251 @@
+{
+  "id": "01M5QVS32Q7FCCFSQ3TAJN3MAQ",
+  "mselRowId": "I-17",
+  "type": "sitrep",
+  "title": "ALI Data Reconciliation Complete — Manual Dispatch Verified",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "number": "17",
+    "time": "10/22/2026 2150",
+    "organization": "Rook County Emergency Communications District",
+    "issuingOffice": "911 Operations Floor",
+    "incidentName": "Silent Calls — CAD/AVL Integrity & Service Continuity",
+    "period": "2130-2150",
+    "from": "Frontline Staff (Supervisor Greene, Call Takers 4 & 9, Dispatcher 7)",
+    "to": "Incident Commander (Dir), Floor Supervisor (Sup), Technical Lead (Tech)",
+    "summary": "All 17 calls with corrupted ALI data have been reconciled. Verification was completed using field radio logs (12), RCECD-F-11 run cards, and a 24-hour audit of unit movements. Medic 3 was on scene at the Marlow structure fire for 42 minutes; CAD had incorrectly shown them as available. Engine 4 was dispatched to a false address due to ALI spoofing but was corrected via field radio. All unit statuses now match field reports. Manual dispatch tracking on the whiteboard and printed map book is fully aligned with on-scene operations. No further data corruption is suspected.",
+    "keyStatus": [
+      {
+        "label": "Manual Dispatch",
+        "value": "Verified accurate"
+      },
+      {
+        "label": "ALI Data",
+        "value": "Reconciled"
+      },
+      {
+        "label": "Unit Status",
+        "value": "Field-confirmed"
+      },
+      {
+        "label": "911 System",
+        "value": "Manual operations ongoing"
+      },
+      {
+        "label": "TDoS-Strict",
+        "value": "Active on all 10-digit lines"
+      }
+    ],
+    "actions": [
+      {
+        "time": "2130",
+        "text": "Initiated 24-hour audit of unit movements across all active calls"
+      },
+      {
+        "time": "2135",
+        "text": "Cross-checked 12 ALI-corrupted calls against radio logs and RCECD-F-11 run cards"
+      },
+      {
+        "time": "2145",
+        "text": "Confirmed Medic 3's on-scene time and location at Marlow fire"
+      },
+      {
+        "time": "2150",
+        "text": "Verified Engine 4's correction via field radio report; dispatched to correct address"
+      }
+    ],
+    "planned": [
+      "Begin vendor access request for restore under RCECD-OPS-2026, Section 5, T-2 Contain"
+    ],
+    "issues": [],
+    "nextReport": "2200 or on significant change",
+    "preparedBy": "Supervisor Alicia Greene, Floor Supervisor",
+    "approvedBy": "Director Karen Voss, 911 Director",
+    "marking": "EXERCISE EXERCISE EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms full reconciliation of ALI data under manual operations. The team must now validate that manual tracking is stable before proceeding to restore.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 7",
+      "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 6 › C-3 Data that must not be trusted until checked",
+      "quote": "Unit status, unit recommendations (run cards), premise hazard notes, address points, and any incident changed during the suspected compromise window. Dispatchers confirm unit availability by radio.",
+      "chunkId": 12
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QWA3KQJ5PFF4EYZG5BH5AB",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVS32Q7FCCFSQ3TAJN3MAQ/01M5QWA3KQJ5PFF4EYZG5BH5AB.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "bc2ce2df964110692652a90f8fae94799ada90f9b579a1756dcc418b3318db5f",
+      "provenance": {
+        "provider": "template",
+        "templateId": "sitrep",
+        "templateVersion": "2",
+        "createdAt": "2026-10-24T21:15:47.551Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:06:40.386Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ALI Data Reconciliation Complete — Manual Dispatch Verified",
+        "type": "sitrep",
+        "fields": {
+          "number": "17",
+          "time": "10/24/2026 2150",
+          "organization": "Rook County Emergency Communications District",
+          "issuingOffice": "911 Operations Floor",
+          "incidentName": "Silent Calls — CAD/AVL Integrity & Service Continuity",
+          "period": "2130-2150",
+          "from": "Frontline Staff (Supervisor Greene, Call Takers 4 & 9, Dispatcher 7)",
+          "to": "Incident Commander (Dir), Floor Supervisor (Sup), Technical Lead (Tech)",
+          "summary": "All 17 calls with corrupted ALI data have been reconciled. Verification was completed using field radio logs (12), RCECD-F-11 run cards, and a 24-hour audit of unit movements. Medic 3 was on scene at the Marlow structure fire for 42 minutes; CAD had incorrectly shown them as available. Engine 4 was dispatched to a false address due to ALI spoofing but was corrected via field radio. All unit statuses now match field reports. Manual dispatch tracking on the whiteboard and printed map book is fully aligned with on-scene operations. No further data corruption is suspected.",
+          "keyStatus": [
+            {
+              "label": "Manual Dispatch",
+              "value": "Verified accurate"
+            },
+            {
+              "label": "ALI Data",
+              "value": "Reconciled"
+            },
+            {
+              "label": "Unit Status",
+              "value": "Field-confirmed"
+            },
+            {
+              "label": "911 System",
+              "value": "Manual operations ongoing"
+            },
+            {
+              "label": "TDoS-Strict",
+              "value": "Active on all 10-digit lines"
+            }
+          ],
+          "actions": [
+            {
+              "time": "2130",
+              "text": "Initiated 24-hour audit of unit movements across all active calls"
+            },
+            {
+              "time": "2135",
+              "text": "Cross-checked 12 ALI-corrupted calls against radio logs and RCECD-F-11 run cards"
+            },
+            {
+              "time": "2145",
+              "text": "Confirmed Medic 3's on-scene time and location at Marlow fire"
+            },
+            {
+              "time": "2150",
+              "text": "Verified Engine 4's correction via field radio report; dispatched to correct address"
+            }
+          ],
+          "planned": [
+            "Begin vendor access request for restore under RCECD-OPS-2026, Section 5, T-2 Contain"
+          ],
+          "issues": [],
+          "nextReport": "2200 or on significant change",
+          "preparedBy": "Supervisor Alicia Greene, Floor Supervisor",
+          "approvedBy": "Director Karen Voss, 911 Director",
+          "marking": "EXERCISE EXERCISE EXERCISE"
+        },
+        "instructorNote": "This inject confirms full reconciliation of ALI data under manual operations. The team must now validate that manual tracking is stable before proceeding to restore.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.641Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "ALI Data Reconciliation Complete — Manual Dispatch Verified",
+        "type": "sitrep",
+        "fields": {
+          "number": "17",
+          "time": "10/22/2026 2150",
+          "organization": "Rook County Emergency Communications District",
+          "issuingOffice": "911 Operations Floor",
+          "incidentName": "Silent Calls — CAD/AVL Integrity & Service Continuity",
+          "period": "2130-2150",
+          "from": "Frontline Staff (Supervisor Greene, Call Takers 4 & 9, Dispatcher 7)",
+          "to": "Incident Commander (Dir), Floor Supervisor (Sup), Technical Lead (Tech)",
+          "summary": "All 17 calls with corrupted ALI data have been reconciled. Verification was completed using field radio logs (12), RCECD-F-11 run cards, and a 24-hour audit of unit movements. Medic 3 was on scene at the Marlow structure fire for 42 minutes; CAD had incorrectly shown them as available. Engine 4 was dispatched to a false address due to ALI spoofing but was corrected via field radio. All unit statuses now match field reports. Manual dispatch tracking on the whiteboard and printed map book is fully aligned with on-scene operations. No further data corruption is suspected.",
+          "keyStatus": [
+            {
+              "label": "Manual Dispatch",
+              "value": "Verified accurate"
+            },
+            {
+              "label": "ALI Data",
+              "value": "Reconciled"
+            },
+            {
+              "label": "Unit Status",
+              "value": "Field-confirmed"
+            },
+            {
+              "label": "911 System",
+              "value": "Manual operations ongoing"
+            },
+            {
+              "label": "TDoS-Strict",
+              "value": "Active on all 10-digit lines"
+            }
+          ],
+          "actions": [
+            {
+              "time": "2130",
+              "text": "Initiated 24-hour audit of unit movements across all active calls"
+            },
+            {
+              "time": "2135",
+              "text": "Cross-checked 12 ALI-corrupted calls against radio logs and RCECD-F-11 run cards"
+            },
+            {
+              "time": "2145",
+              "text": "Confirmed Medic 3's on-scene time and location at Marlow fire"
+            },
+            {
+              "time": "2150",
+              "text": "Verified Engine 4's correction via field radio report; dispatched to correct address"
+            }
+          ],
+          "planned": [
+            "Begin vendor access request for restore under RCECD-OPS-2026, Section 5, T-2 Contain"
+          ],
+          "issues": [],
+          "nextReport": "2200 or on significant change",
+          "preparedBy": "Supervisor Alicia Greene, Floor Supervisor",
+          "approvedBy": "Director Karen Voss, 911 Director",
+          "marking": "EXERCISE EXERCISE EXERCISE"
+        },
+        "instructorNote": "This inject confirms full reconciliation of ALI data under manual operations. The team must now validate that manual tracking is stable before proceeding to restore.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:47.802Z"
+}

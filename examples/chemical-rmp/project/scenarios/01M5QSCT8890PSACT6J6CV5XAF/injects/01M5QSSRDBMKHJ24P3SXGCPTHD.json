@@ -1,0 +1,341 @@
+{
+  "id": "01M5QSSRDBMKHJ24P3SXGCPTHD",
+  "mselRowId": "I-08",
+  "type": "alarm_summary",
+  "title": "Fence-Line Detector AT-904 — Chlorine Alarm",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "UNIT 300 DCS — ALARM SUMMARY",
+    "site": "Teague Valley Chemical Company, Corbin Falls Works",
+    "clock": "09:55:12",
+    "date": "22-Oct-2026",
+    "operator": "BOARD_OP_3",
+    "filter": "All areas · Unacknowledged + Active",
+    "counts": {
+      "critical": 1,
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "alarms": [
+      {
+        "time": "09:55:12",
+        "priority": "critical",
+        "tag": "AT-904",
+        "source": "Fence-line detector (Riverside Addition)",
+        "description": "Chlorine concentration exceeds threshold",
+        "value": "1.2 ppm",
+        "state": "active"
+      },
+      {
+        "time": "09:54:07",
+        "priority": "high",
+        "tag": "ESD-310",
+        "source": "Rail Spot 2, Unit 300",
+        "description": "Emergency shutdown initiated",
+        "value": "Closed",
+        "state": "active"
+      },
+      {
+        "time": "09:53:11",
+        "priority": "high",
+        "tag": "WT-302",
+        "source": "Railcar scale (Unit 300)",
+        "description": "Setpoint exceeded",
+        "value": "38.1 tons",
+        "state": "active"
+      },
+      {
+        "time": "09:52:44",
+        "priority": "high",
+        "tag": "AT-313",
+        "source": "Rail Spot 2, Unit 300",
+        "description": "Gas detector alarm",
+        "value": "1.0 ppm",
+        "state": "active"
+      },
+      {
+        "time": "09:51:32",
+        "priority": "medium",
+        "tag": "HV-312",
+        "source": "Hand valve (Rail Spot 2)",
+        "description": "Manual valve status",
+        "value": "Open",
+        "state": "active"
+      },
+      {
+        "time": "09:50:18",
+        "priority": "low",
+        "tag": "SIF-302",
+        "source": "Clamp interlock (Unit 300)",
+        "description": "Vapor return line closed",
+        "value": "Open",
+        "state": "rtn"
+      },
+      {
+        "time": "09:49:05",
+        "priority": "low",
+        "tag": "AT-321",
+        "source": "Chlorine Storage Building",
+        "description": "Gas detector alarm",
+        "value": "0.8 ppm",
+        "state": "active"
+      },
+      {
+        "time": "09:48:22",
+        "priority": "low",
+        "tag": "AT-905",
+        "source": "Fence line (east)",
+        "description": "Gas detector alarm",
+        "value": "0.6 ppm",
+        "state": "active"
+      }
+    ],
+    "footer": "Alarm flood: 22 alarms in last 8 minutes — 17 from Unit 300 (Rail Spot 2)"
+  },
+  "variant": "light",
+  "instructorNote": "This is a critical verification point: the EHS team must confirm the fence-line alarm as valid and trigger reporting; the OT team must check the SIS SOE log on TS-EWS-01 to validate the alarm's authenticity and timing.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+      "headingPath": "Teague Valley Chemical Company,… › Section 7",
+      "quote": "| Detectors | Location | Alarm / trip | |---|---|---| | AT-311 to AT-318 | Rail Spot 1 to Rail Spot 4 (two per spot) | 1 ppm alarm, 3 ppm ESD-310 | | AT-321 to AT-326 | Chlorine Storage Building and D",
+      "chunkId": 41
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 4",
+      "quote": "| Class | Meaning | Examples | Actions | |---|---|---|---| | Alert | An abnormal condition that the shift is handling; no release beyond the unit | Gas detector at 1 ppm in a building, small leak isol",
+      "chunkId": 9
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJJDJQBA9WP8ANRTV83CB",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSSRDBMKHJ24P3SXGCPTHD/01M5QTJJDJQBA9WP8ANRTV83CB.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 669,
+      "sha256": "4a9d4cce053d2296ea1bea2217b1a4ffae25e5e00987f1096972c172d12a0626",
+      "provenance": {
+        "provider": "template",
+        "templateId": "alarm_summary",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:27.657Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:32:05.105Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Fence-Line Detector AT-904 — Chlorine Alarm",
+        "type": "alarm_summary",
+        "fields": {
+          "systemName": "UNIT 300 DCS — ALARM SUMMARY",
+          "site": "Teague Valley Chemical Company, Corbin Falls Works",
+          "clock": "09:55:12",
+          "date": "24-Oct-2026",
+          "operator": "BOARD_OP_3",
+          "filter": "All areas · Unacknowledged + Active",
+          "counts": {
+            "critical": 1,
+            "high": 0,
+            "medium": 0,
+            "low": 0
+          },
+          "alarms": [
+            {
+              "time": "09:55:12",
+              "priority": "critical",
+              "tag": "AT-904",
+              "source": "Fence-line detector (Riverside Addition)",
+              "description": "Chlorine concentration exceeds threshold",
+              "value": "1.2 ppm",
+              "state": "active"
+            },
+            {
+              "time": "09:54:07",
+              "priority": "high",
+              "tag": "ESD-310",
+              "source": "Rail Spot 2, Unit 300",
+              "description": "Emergency shutdown initiated",
+              "value": "Closed",
+              "state": "active"
+            },
+            {
+              "time": "09:53:11",
+              "priority": "high",
+              "tag": "WT-302",
+              "source": "Railcar scale (Unit 300)",
+              "description": "Setpoint exceeded",
+              "value": "38.1 tons",
+              "state": "active"
+            },
+            {
+              "time": "09:52:44",
+              "priority": "high",
+              "tag": "AT-313",
+              "source": "Rail Spot 2, Unit 300",
+              "description": "Gas detector alarm",
+              "value": "1.0 ppm",
+              "state": "active"
+            },
+            {
+              "time": "09:51:32",
+              "priority": "medium",
+              "tag": "HV-312",
+              "source": "Hand valve (Rail Spot 2)",
+              "description": "Manual valve status",
+              "value": "Open",
+              "state": "active"
+            },
+            {
+              "time": "09:50:18",
+              "priority": "low",
+              "tag": "SIF-302",
+              "source": "Clamp interlock (Unit 300)",
+              "description": "Vapor return line closed",
+              "value": "Open",
+              "state": "rtn"
+            },
+            {
+              "time": "09:49:05",
+              "priority": "low",
+              "tag": "AT-321",
+              "source": "Chlorine Storage Building",
+              "description": "Gas detector alarm",
+              "value": "0.8 ppm",
+              "state": "active"
+            },
+            {
+              "time": "09:48:22",
+              "priority": "low",
+              "tag": "AT-905",
+              "source": "Fence line (east)",
+              "description": "Gas detector alarm",
+              "value": "0.6 ppm",
+              "state": "active"
+            }
+          ],
+          "footer": "Alarm flood: 22 alarms in last 8 minutes — 17 from Unit 300 (Rail Spot 2)"
+        },
+        "instructorNote": "This is a critical verification point: the EHS team must confirm the fence-line alarm as valid and trigger reporting; the OT team must check the SIS SOE log on TS-EWS-01 to validate the alarm's authenticity and timing.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.694Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Fence-Line Detector AT-904 — Chlorine Alarm",
+        "type": "alarm_summary",
+        "fields": {
+          "systemName": "UNIT 300 DCS — ALARM SUMMARY",
+          "site": "Teague Valley Chemical Company, Corbin Falls Works",
+          "clock": "09:55:12",
+          "date": "22-Oct-2026",
+          "operator": "BOARD_OP_3",
+          "filter": "All areas · Unacknowledged + Active",
+          "counts": {
+            "critical": 1,
+            "high": 0,
+            "medium": 0,
+            "low": 0
+          },
+          "alarms": [
+            {
+              "time": "09:55:12",
+              "priority": "critical",
+              "tag": "AT-904",
+              "source": "Fence-line detector (Riverside Addition)",
+              "description": "Chlorine concentration exceeds threshold",
+              "value": "1.2 ppm",
+              "state": "active"
+            },
+            {
+              "time": "09:54:07",
+              "priority": "high",
+              "tag": "ESD-310",
+              "source": "Rail Spot 2, Unit 300",
+              "description": "Emergency shutdown initiated",
+              "value": "Closed",
+              "state": "active"
+            },
+            {
+              "time": "09:53:11",
+              "priority": "high",
+              "tag": "WT-302",
+              "source": "Railcar scale (Unit 300)",
+              "description": "Setpoint exceeded",
+              "value": "38.1 tons",
+              "state": "active"
+            },
+            {
+              "time": "09:52:44",
+              "priority": "high",
+              "tag": "AT-313",
+              "source": "Rail Spot 2, Unit 300",
+              "description": "Gas detector alarm",
+              "value": "1.0 ppm",
+              "state": "active"
+            },
+            {
+              "time": "09:51:32",
+              "priority": "medium",
+              "tag": "HV-312",
+              "source": "Hand valve (Rail Spot 2)",
+              "description": "Manual valve status",
+              "value": "Open",
+              "state": "active"
+            },
+            {
+              "time": "09:50:18",
+              "priority": "low",
+              "tag": "SIF-302",
+              "source": "Clamp interlock (Unit 300)",
+              "description": "Vapor return line closed",
+              "value": "Open",
+              "state": "rtn"
+            },
+            {
+              "time": "09:49:05",
+              "priority": "low",
+              "tag": "AT-321",
+              "source": "Chlorine Storage Building",
+              "description": "Gas detector alarm",
+              "value": "0.8 ppm",
+              "state": "active"
+            },
+            {
+              "time": "09:48:22",
+              "priority": "low",
+              "tag": "AT-905",
+              "source": "Fence line (east)",
+              "description": "Gas detector alarm",
+              "value": "0.6 ppm",
+              "state": "active"
+            }
+          ],
+          "footer": "Alarm flood: 22 alarms in last 8 minutes — 17 from Unit 300 (Rail Spot 2)"
+        },
+        "instructorNote": "This is a critical verification point: the EHS team must confirm the fence-line alarm as valid and trigger reporting; the OT team must check the SIS SOE log on TS-EWS-01 to validate the alarm's authenticity and timing.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:27.860Z"
+}

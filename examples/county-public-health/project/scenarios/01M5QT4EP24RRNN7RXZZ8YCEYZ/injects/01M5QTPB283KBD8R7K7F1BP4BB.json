@@ -1,0 +1,321 @@
+{
+  "id": "01M5QTPB283KBD8R7K7F1BP4BB",
+  "mselRowId": "I-03",
+  "type": "field_report",
+  "title": "Outbreak Line List: Unauthorized Edit Detected",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Marston County Health Department — Epidemiology Division",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0412",
+    "date": "10/22/2026",
+    "time": "09:33",
+    "location": "MCHD Epi Response SharePoint Site (https://sharepoint.marstonhealth.example/epi/2026-0412)",
+    "inspector": "Colin Mercer, Disease Investigator",
+    "unit": "Epi Field Team — Brandt POD",
+    "reportType": "incident",
+    "weather": "Clear, 62°F, light breeze",
+    "summary": "During routine review of the outbreak response site, a draft line list was discovered with 5 new cases added since 08:50. One case is from a child in Lindell who has no known exposure to a confirmed case. The exposure window is listed as 2026-10-24 to 2026-11-01, dates that have not happened yet. No user activity log shows a login from my account. The edit was not made by any Epi team member. The version history shows the last edit was made from IP address 10.72.1.147, which is not assigned to any Epi workstation.",
+    "findings": [
+      {
+        "item": "Line list version history",
+        "condition": "failed",
+        "notes": "Last edit from non-Epi team account (MCHD-F-62-2026-0412-0087)"
+      },
+      {
+        "item": "Last edit timestamp",
+        "condition": "failed",
+        "notes": "Edit occurred at 08:50, prior to known Epi team login times"
+      },
+      {
+        "item": "Case exposure window validity",
+        "condition": "failed",
+        "notes": "Window extends beyond current date (2026-10-21) and includes future-dated entries"
+      },
+      {
+        "item": "User account activity log",
+        "condition": "not_inspected",
+        "notes": "No Epi team account logged in during edit window"
+      },
+      {
+        "item": "SharePoint site access control",
+        "condition": "failed",
+        "notes": "Non-Epi team account (JFowler@marstonhealth.example) made edit without prior authorization"
+      },
+      {
+        "item": "Printed line list (MCHD-F-12) as reference",
+        "condition": "ok",
+        "notes": "Matches last operational version from 09:00"
+      },
+      {
+        "item": "IIS export file (MCHD-F-62)",
+        "condition": "not_inspected",
+        "notes": "Pending verification against paper record"
+      },
+      {
+        "item": "ClinicTrack dose log",
+        "condition": "not_inspected",
+        "notes": "Pending verification against paper sign-in sheets"
+      },
+      {
+        "item": "ColdSentry inventory",
+        "condition": "not_inspected",
+        "notes": "Pending verification against paper inventory"
+      },
+      {
+        "item": "State surveillance system (KDHE)",
+        "condition": "ok",
+        "notes": "No new case entries received from state system"
+      }
+    ],
+    "actionsTaken": [
+      "Notified Informatics Lead (IT) via secure internal chat at 09:33",
+      "Downloaded version history and audit log from SharePoint server (MCHD-F-62-2026-0412-0087)",
+      "Marked line list as 'not trusted' on DOC status board",
+      "Prepared paper copy of last operational version (MCHD-F-12) for use in case of paper mode"
+    ],
+    "recommendations": [
+      "Conduct full data integrity check on outbreak line list and SharePoint server logs",
+      "Verify all edits against paper version (MCHD-F-12) and signed-off reconciliation (MCHD-F-62)",
+      "Inform Incident Commander (HO) of potential data compromise",
+      "Initiate review of user account activity for Jenna Fowler (SlotWise), including external login attempts"
+    ],
+    "photosNote": "No photos attached; logs and version history exported as PDF",
+    "signature": "Colin Mercer, Disease Investigator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This is a core narrative inject; the Epi team must verify the line list's integrity and escalate to IT. Watch for whether they initiate a data integrity check or jump to paper mode too early.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 6",
+      "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 10",
+      "quote": "Paper mode is declared by the Incident Commander (decision record CYB-DR-1). In paper mode: - Disease reports are taken by phone on MCHD-F-10; investigators work cases in the state surveillance system",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Annex A",
+      "quote": "**A-1 Ransomware on the county network.** County IT isolates; MCHD declares Cyber 1, paper mode, pauses the IIS export, moves epidemiology to DOC laptops, notifies KDHE, prepares the outage message fo",
+      "chunkId": 15
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVBFHRQ5WRC7SGB7NM4MWJ",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTPB283KBD8R7K7F1BP4BB/01M5QVBFHRQ5WRC7SGB7NM4MWJ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "b8d9f02b028ed2d7075ccfd0ac620b9970e31c536bfb1f421ddef6c77b5b001e",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:03.877Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:47:44.139Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Outbreak Line List: Unauthorized Edit Detected",
+        "type": "field_report",
+        "fields": {
+          "organization": "Marston County Health Department — Epidemiology Division",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412",
+          "date": "10/24/2026",
+          "time": "09:33",
+          "location": "MCHD Epi Response SharePoint Site (https://sharepoint.marstonhealth.example/epi/2026-0412)",
+          "inspector": "Colin Mercer, Disease Investigator",
+          "unit": "Epi Field Team — Brandt POD",
+          "reportType": "incident",
+          "weather": "Clear, 62°F, light breeze",
+          "summary": "During routine review of the outbreak response site, a draft line list was discovered with 14 new cases added since 08:50. One case is from a child in Lindell who has no known exposure to a confirmed case. The exposure window is listed as 2026-04-03 to 2026-04-11, but today’s date is 2026-04-01. No user activity log shows a login from my account. The edit was not made by any Epi team member. The version history shows the last edit was made from IP address 10.72.1.147, which is not assigned to any Epi workstation.",
+          "findings": [
+            {
+              "item": "Line list version history",
+              "condition": "failed",
+              "notes": "Last edit from non-Epi team account (MCHD-F-62-2026-0412-0087)"
+            },
+            {
+              "item": "Last edit timestamp",
+              "condition": "failed",
+              "notes": "Edit occurred at 08:50, prior to known Epi team login times"
+            },
+            {
+              "item": "Case exposure window validity",
+              "condition": "failed",
+              "notes": "Window extends beyond current date (2026-04-01) and includes future-dated entries"
+            },
+            {
+              "item": "User account activity log",
+              "condition": "not_inspected",
+              "notes": "No Epi team account logged in during edit window"
+            },
+            {
+              "item": "SharePoint site access control",
+              "condition": "failed",
+              "notes": "Non-Epi team account (JFowler@marstonhealth.example) made edit without prior authorization"
+            },
+            {
+              "item": "Printed line list (MCHD-F-12) as reference",
+              "condition": "ok",
+              "notes": "Matches last operational version from 09:00"
+            },
+            {
+              "item": "IIS export file (MCHD-F-62)",
+              "condition": "not_inspected",
+              "notes": "Pending verification against paper record"
+            },
+            {
+              "item": "ClinicTrack dose log",
+              "condition": "not_inspected",
+              "notes": "Pending verification against paper sign-in sheets"
+            },
+            {
+              "item": "ColdSentry inventory",
+              "condition": "not_inspected",
+              "notes": "Pending verification against paper inventory"
+            },
+            {
+              "item": "State surveillance system (KDHE)",
+              "condition": "ok",
+              "notes": "No new case entries received from state system"
+            }
+          ],
+          "actionsTaken": [
+            "Notified Informatics Lead (IT) via secure internal chat at 09:33",
+            "Downloaded version history and audit log from SharePoint server (MCHD-F-62-2026-0412-0087)",
+            "Marked line list as 'not trusted' on DOC status board",
+            "Prepared paper copy of last operational version (MCHD-F-12) for use in case of paper mode"
+          ],
+          "recommendations": [
+            "Conduct full data integrity check on outbreak line list and SharePoint server logs",
+            "Verify all edits against paper version (MCHD-F-12) and signed-off reconciliation (MCHD-F-62)",
+            "Inform Incident Commander (HO) of potential data compromise",
+            "Initiate review of user account activity for Jenna Fowler (SlotWise), including external login attempts"
+          ],
+          "photosNote": "No photos attached; logs and version history exported as PDF",
+          "signature": "Colin Mercer, Disease Investigator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This is a core narrative inject; the Epi team must verify the line list's integrity and escalate to IT. Watch for whether they initiate a data integrity check or jump to paper mode too early.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.134Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Outbreak Line List: Unauthorized Edit Detected",
+        "type": "field_report",
+        "fields": {
+          "organization": "Marston County Health Department — Epidemiology Division",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412",
+          "date": "10/22/2026",
+          "time": "09:33",
+          "location": "MCHD Epi Response SharePoint Site (https://sharepoint.marstonhealth.example/epi/2026-0412)",
+          "inspector": "Colin Mercer, Disease Investigator",
+          "unit": "Epi Field Team — Brandt POD",
+          "reportType": "incident",
+          "weather": "Clear, 62°F, light breeze",
+          "summary": "During routine review of the outbreak response site, a draft line list was discovered with 5 new cases added since 08:50. One case is from a child in Lindell who has no known exposure to a confirmed case. The exposure window is listed as 2026-10-24 to 2026-11-01, dates that have not happened yet. No user activity log shows a login from my account. The edit was not made by any Epi team member. The version history shows the last edit was made from IP address 10.72.1.147, which is not assigned to any Epi workstation.",
+          "findings": [
+            {
+              "item": "Line list version history",
+              "condition": "failed",
+              "notes": "Last edit from non-Epi team account (MCHD-F-62-2026-0412-0087)"
+            },
+            {
+              "item": "Last edit timestamp",
+              "condition": "failed",
+              "notes": "Edit occurred at 08:50, prior to known Epi team login times"
+            },
+            {
+              "item": "Case exposure window validity",
+              "condition": "failed",
+              "notes": "Window extends beyond current date (2026-10-21) and includes future-dated entries"
+            },
+            {
+              "item": "User account activity log",
+              "condition": "not_inspected",
+              "notes": "No Epi team account logged in during edit window"
+            },
+            {
+              "item": "SharePoint site access control",
+              "condition": "failed",
+              "notes": "Non-Epi team account (JFowler@marstonhealth.example) made edit without prior authorization"
+            },
+            {
+              "item": "Printed line list (MCHD-F-12) as reference",
+              "condition": "ok",
+              "notes": "Matches last operational version from 09:00"
+            },
+            {
+              "item": "IIS export file (MCHD-F-62)",
+              "condition": "not_inspected",
+              "notes": "Pending verification against paper record"
+            },
+            {
+              "item": "ClinicTrack dose log",
+              "condition": "not_inspected",
+              "notes": "Pending verification against paper sign-in sheets"
+            },
+            {
+              "item": "ColdSentry inventory",
+              "condition": "not_inspected",
+              "notes": "Pending verification against paper inventory"
+            },
+            {
+              "item": "State surveillance system (KDHE)",
+              "condition": "ok",
+              "notes": "No new case entries received from state system"
+            }
+          ],
+          "actionsTaken": [
+            "Notified Informatics Lead (IT) via secure internal chat at 09:33",
+            "Downloaded version history and audit log from SharePoint server (MCHD-F-62-2026-0412-0087)",
+            "Marked line list as 'not trusted' on DOC status board",
+            "Prepared paper copy of last operational version (MCHD-F-12) for use in case of paper mode"
+          ],
+          "recommendations": [
+            "Conduct full data integrity check on outbreak line list and SharePoint server logs",
+            "Verify all edits against paper version (MCHD-F-12) and signed-off reconciliation (MCHD-F-62)",
+            "Inform Incident Commander (HO) of potential data compromise",
+            "Initiate review of user account activity for Jenna Fowler (SlotWise), including external login attempts"
+          ],
+          "photosNote": "No photos attached; logs and version history exported as PDF",
+          "signature": "Colin Mercer, Disease Investigator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This is a core narrative inject; the Epi team must verify the line list's integrity and escalate to IT. Watch for whether they initiate a data integrity check or jump to paper mode too early.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:04.270Z"
+}

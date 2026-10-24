@@ -1,0 +1,180 @@
+{
+  "id": "01M5QWJBJJ6NHYN0AW9Z5Q9R1N",
+  "mselRowId": "I-11",
+  "type": "phone_call",
+  "title": "Phone Call: Ohio Secretary of State Declares CIRP 2",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Ohio Secretary of State's Office",
+    "systemName": "Board office phone system",
+    "callId": "CR-20261029-094001-0011",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Ohio Secretary of State's Office",
+      "number": "555-0151",
+      "label": "Elections division"
+    },
+    "callee": {
+      "name": "Gwen Hartley, Director (Incident Commander)",
+      "number": "555-0141",
+      "label": "CEO"
+    },
+    "startTime": "10/29/2026 09:40:00",
+    "duration": "0:32",
+    "transcript": [
+      {
+        "speaker": "Ohio Secretary of State's Office",
+        "offset": "0:00",
+        "text": "Director Hartley, Secretary of State's office again. Your final pollbook load is due 10/31. We can hold your county's upload, but we need to know by 11:00: will the Precinct 111 and Precinct 112 records come from VoterTrack as it is, or from a rebuilt file? And what are you telling voters who show as mail ballot issued?",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-11"
+  },
+  "variant": "default",
+  "instructorNote": "This is a mandatory escalation point. The Incident Commander must declare CIRP 2 immediately; monitor for hesitation or confusion in response.",
+  "citations": [
+    {
+      "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+      "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 5",
+      "quote": "| Level | Description | Response | |---|---|---| | CIRP 3 | Suspicious email reported, no click; single failed log-in alerts | IT Manager handles; logged | | CIRP 2 | A staff account compromised; unau",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+      "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 8",
+      "quote": "| Who | When | By whom | |---|---|---| | County IT and the managed SOC (Buckeye Ridge Managed Security) | Immediately | Anyone who sees it | | Ohio Secretary of State's office (elections and security ",
+      "chunkId": 14
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Ohio Secretary of State's Office",
+        "voiceStyle": "calm male voice in his 50s, measured, neutral Mid-Atlantic accent, low and deliberate",
+        "text": "Director Hartley, this is the Ohio Secretary of State’s office. We’ve confirmed 1,186 unauthorized edits to the voter database in Precincts 111 and 112. The data integrity has been compromised. You must now declare CIRP 2 under Section 5 of the EOP. Failure to declare within 10 minutes will trigger a federal escalation. This is not a request — it is a directive."
+      },
+      {
+        "speaker": "Gwen Hartley, Director (Incident Commander)",
+        "voiceStyle": "firm female voice in her 50s, steady but strained, slight pause between words, deliberate",
+        "text": "Understood. I am activating CIRP 2 now. I will notify the Board and the Secretary of State’s office. I confirm the directive."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QX3ZCPNMCGEFNDR78Q14SZ",
+      "kind": "image",
+      "path": "scenarios/01M5QVXT271DZ6ASA7H0W44HJ7/media/01M5QWJBJJ6NHYN0AW9Z5Q9R1N/01M5QX3ZCPNMCGEFNDR78Q14SZ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "afebd152fbd01ae3c216378bbefb512b3e41c77fbb1d20461241c62b6f7f6dcd",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:29:55.238Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:20:30.550Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Phone Call: Ohio Secretary of State Declares CIRP 2",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ohio Secretary of State's Office",
+          "systemName": "Secure Line - State Election Security Hub",
+          "callId": "CR-20261024-094001-0011",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Ohio Secretary of State's Office",
+            "number": "(614) 466-2720",
+            "label": "State Security Directive"
+          },
+          "callee": {
+            "name": "Gwen Hartley, Director (Incident Commander)",
+            "number": "555-0141",
+            "label": "CEO"
+          },
+          "startTime": "10/24/2026 09:40:00",
+          "duration": "0:32",
+          "transcript": [
+            {
+              "speaker": "Ohio Secretary of State's Office",
+              "offset": "0:00",
+              "text": "Director Hartley, this is the Ohio Secretary of State’s office. We’ve confirmed 1,186 unauthorized edits to the voter database in Precincts 111 and 112. The data integrity has been compromised. You must now declare CIRP 2 under Section 5 of the EOP. Failure to declare within 10 minutes will trigger a federal escalation. This is not a request — it is a directive.",
+              "prompt": false
+            },
+            {
+              "speaker": "Gwen Hartley, Director (Incident Commander)",
+              "offset": "0:29",
+              "text": "Understood. I am activating CIRP 2 now. I will notify the Board and the Secretary of State’s office. I confirm the directive.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-11"
+        },
+        "instructorNote": "This is a mandatory escalation point. The Incident Commander must declare CIRP 2 immediately; monitor for hesitation or confusion in response.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T21:28:32.993Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone Call: Ohio Secretary of State Declares CIRP 2",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ohio Secretary of State's Office",
+          "systemName": "Board office phone system",
+          "callId": "CR-20261029-094001-0011",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Ohio Secretary of State's Office",
+            "number": "555-0151",
+            "label": "Elections division"
+          },
+          "callee": {
+            "name": "Gwen Hartley, Director (Incident Commander)",
+            "number": "555-0141",
+            "label": "CEO"
+          },
+          "startTime": "10/29/2026 09:40:00",
+          "duration": "0:32",
+          "transcript": [
+            {
+              "speaker": "Ohio Secretary of State's Office",
+              "offset": "0:00",
+              "text": "Director Hartley, Secretary of State's office again. Your final pollbook load is due 10/31. We can hold your county's upload, but we need to know by 11:00: will the Precinct 111 and Precinct 112 records come from VoterTrack as it is, or from a rebuilt file? And what are you telling voters who show as mail ballot issued?",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-11"
+        },
+        "instructorNote": "This is a mandatory escalation point. The Incident Commander must declare CIRP 2 immediately; monitor for hesitation or confusion in response.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:29:55.443Z"
+}

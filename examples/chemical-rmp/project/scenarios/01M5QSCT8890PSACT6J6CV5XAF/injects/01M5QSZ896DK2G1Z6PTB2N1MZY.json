@@ -1,0 +1,229 @@
+{
+  "id": "01M5QSZ896DK2G1Z6PTB2N1MZY",
+  "mselRowId": "I-21b",
+  "type": "field_report",
+  "title": "FBI Evidence Collection — Site Control Room",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Teague Valley Chemical Company — Security Operations",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0412-07",
+    "date": "10/22/2026",
+    "time": "12:05",
+    "location": "Gate 1",
+    "inspector": "Bryce Holloway, Facility Security Officer",
+    "unit": "Site Security",
+    "reportType": "security",
+    "weather": "Clear, 52°F, wind from the west-south-west at 6 mph",
+    "summary": "The FBI team called ahead: they will image TS-EWS-01, EWS-01 and TVC-JMP-01 on site at 14:00 instead of taking them, so the Works keeps its engineering workstations. They ask for the CCR access-card log and the Gate 2 CCTV for 08:00 to 09:00.",
+    "findings": [
+      {
+        "item": "FBI arrival",
+        "condition": "ok",
+        "notes": "Team expected 14:00 at Gate 1"
+      },
+      {
+        "item": "CCR access-card log 08:00 to 09:00",
+        "condition": "not_inspected",
+        "notes": "Export requested"
+      },
+      {
+        "item": "Gate 2 CCTV 08:00 to 09:00",
+        "condition": "not_inspected",
+        "notes": "Export requested"
+      }
+    ],
+    "actionsTaken": [
+      "Confirmed custody of TVC-JMP-01, TS-EWS-01, and OWS-01 under Form OT-3",
+      "Forensic team initiated on-site analysis at 12:00",
+      "No further access to engineering workstations or jump hosts authorized"
+    ],
+    "recommendations": [
+      "Await final forensic report from FBI before any system rebuild or restart",
+      "Maintain isolation of OT network and jump hosts",
+      "Do not restore remote access to TVC-JMP-01 until clearance from CISA and FBI"
+    ],
+    "photosNote": "4 photos attached: IMG_FIR-2026-0412-07-01 (evidence locker sealed), IMG_FIR-2026-0412-07-02 (FBI agent signing Form OT-3), IMG_FIR-2026-0412-07-03 (TVC-JMP-01 on bench), IMG_FIR-2026-0412-07-04 (TS-EWS-01 power status)",
+    "signature": "Agent Kline, FBI WMD Coordinator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the forensic handover and reinforces the no-rebuild rule. Watch for attempts to re-enable remote access or restart systems.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 11",
+      "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 9",
+      "quote": "| Who | When | Who calls | |---|---|---| | CISA (24/7 central, report@cisa.gov) | Any suspected cyber incident affecting the OT network or safety | OT Engineer | | FBI field office (cyber squad) | Sus",
+      "chunkId": 57
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 2",
+      "quote": "1. **Process safety first.** A cyber incident in a chlorine plant is a process safety event until proven otherwise. The Incident Commander under the ERP is in charge; the OT Engineer advises. 2. **Fie",
+      "chunkId": 47
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T20:35:08.439Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "FBI Evidence Collection — Site Control Room",
+        "type": "field_report",
+        "fields": {
+          "organization": "Teague Valley Chemical Company — Security Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412-07",
+          "date": "10/24/2026",
+          "time": "12:05",
+          "location": "Site Control Room (SCR), Level 1",
+          "inspector": "Agent Kline, FBI WMD Coordinator",
+          "unit": "FBI Cyber Incident Response Team — Field Unit 3",
+          "reportType": "security",
+          "weather": "Clear, 52°F, wind from the northwest at 6 mph",
+          "summary": "The FBI WMD Coordinator has arrived at the Site Control Room and collected the evidence locker containing TVC-JMP-01, TS-EWS-01, and OWS-01. All devices were secured under chain-of-custody Form OT-3. The forensic team has begun on-site analysis. No further access to the devices will be granted until the full forensic report is received.",
+          "findings": [
+            {
+              "item": "Evidence locker secured under chain of custody",
+              "condition": "ok",
+              "notes": "Form OT-3 signed by FSO and FBI agent"
+            },
+            {
+              "item": "TVC-JMP-01 (jump host)",
+              "condition": "ok",
+              "notes": "Cable snipped, powered off, logged on Form OT-3"
+            },
+            {
+              "item": "TS-EWS-01 (Triconex controller)",
+              "condition": "ok",
+              "notes": "Key switch remains in PROGRAM mode, no unauthorized access detected since log"
+            },
+            {
+              "item": "OWS-01 (operator workstation)",
+              "condition": "ok",
+              "notes": "Disconnected from network, no active sessions"
+            },
+            {
+              "item": "Control room access logs",
+              "condition": "ok",
+              "notes": "Last access: 11:45 via TVC-JMP-01; no new entries since"
+            },
+            {
+              "item": "Surveillance cameras near SCR",
+              "condition": "ok",
+              "notes": "No footage from 08:58 to 09:02"
+            },
+            {
+              "item": "Field hand valves at Rail Spot 2",
+              "condition": "ok",
+              "notes": "HV-312 confirmed closed via ERT report"
+            },
+            {
+              "item": "Siren panel status",
+              "condition": "ok",
+              "notes": "Sirens S-1 to S-6 not activated; awaiting command from CCR"
+            },
+            {
+              "item": "SIS logic integrity",
+              "condition": "ok",
+              "notes": "Confirmed via Ridgeline Automation: v2.1.6 restored, checksum matches"
+            },
+            {
+              "item": "Local ERT access to manual closure",
+              "condition": "ok",
+              "notes": "OP-300-11 procedure followed; closure confirmed at 11:15"
+            }
+          ],
+          "actionsTaken": [
+            "Confirmed custody of TVC-JMP-01, TS-EWS-01, and OWS-01 under Form OT-3",
+            "Forensic team initiated on-site analysis at 12:00",
+            "No further access to engineering workstations or jump hosts authorized"
+          ],
+          "recommendations": [
+            "Await final forensic report from FBI before any system rebuild or restart",
+            "Maintain isolation of OT network and jump hosts",
+            "Do not restore remote access to TVC-JMP-01 until clearance from CISA and FBI"
+          ],
+          "photosNote": "4 photos attached: IMG_FIR-2026-0412-07-01 (evidence locker sealed), IMG_FIR-2026-0412-07-02 (FBI agent signing Form OT-3), IMG_FIR-2026-0412-07-03 (TVC-JMP-01 on bench), IMG_FIR-2026-0412-07-04 (TS-EWS-01 power status)",
+          "signature": "Agent Kline, FBI WMD Coordinator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the forensic handover and reinforces the no-rebuild rule. Watch for attempts to re-enable remote access or restart systems.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.846Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "FBI Evidence Collection — Site Control Room",
+        "type": "field_report",
+        "fields": {
+          "organization": "Teague Valley Chemical Company — Security Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412-07",
+          "date": "10/22/2026",
+          "time": "12:05",
+          "location": "Gate 1",
+          "inspector": "Bryce Holloway, Facility Security Officer",
+          "unit": "Site Security",
+          "reportType": "security",
+          "weather": "Clear, 52°F, wind from the west-south-west at 6 mph",
+          "summary": "The FBI team called ahead: they will image TS-EWS-01, EWS-01 and TVC-JMP-01 on site at 14:00 instead of taking them, so the Works keeps its engineering workstations. They ask for the CCR access-card log and the Gate 2 CCTV for 08:00 to 09:00.",
+          "findings": [
+            {
+              "item": "FBI arrival",
+              "condition": "ok",
+              "notes": "Team expected 14:00 at Gate 1"
+            },
+            {
+              "item": "CCR access-card log 08:00 to 09:00",
+              "condition": "not_inspected",
+              "notes": "Export requested"
+            },
+            {
+              "item": "Gate 2 CCTV 08:00 to 09:00",
+              "condition": "not_inspected",
+              "notes": "Export requested"
+            }
+          ],
+          "actionsTaken": [
+            "Confirmed custody of TVC-JMP-01, TS-EWS-01, and OWS-01 under Form OT-3",
+            "Forensic team initiated on-site analysis at 12:00",
+            "No further access to engineering workstations or jump hosts authorized"
+          ],
+          "recommendations": [
+            "Await final forensic report from FBI before any system rebuild or restart",
+            "Maintain isolation of OT network and jump hosts",
+            "Do not restore remote access to TVC-JMP-01 until clearance from CISA and FBI"
+          ],
+          "photosNote": "4 photos attached: IMG_FIR-2026-0412-07-01 (evidence locker sealed), IMG_FIR-2026-0412-07-02 (FBI agent signing Form OT-3), IMG_FIR-2026-0412-07-03 (TVC-JMP-01 on bench), IMG_FIR-2026-0412-07-04 (TS-EWS-01 power status)",
+          "signature": "Agent Kline, FBI WMD Coordinator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the forensic handover and reinforces the no-rebuild rule. Watch for attempts to re-enable remote access or restart systems.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:34.541Z"
+}

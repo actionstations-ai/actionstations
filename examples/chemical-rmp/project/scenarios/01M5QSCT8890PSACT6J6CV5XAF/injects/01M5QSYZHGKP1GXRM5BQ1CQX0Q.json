@@ -1,0 +1,150 @@
+{
+  "id": "01M5QSYZHGKP1GXRM5BQ1CQX0Q",
+  "mselRowId": "I-21",
+  "type": "email_forward",
+  "title": "SIS Logic Validation — Final Confirmation",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Ridgeline Automation Support",
+    "fromEmail": "support@ridgeline-automation.example",
+    "senderInitials": "R",
+    "to": "Darnell Hughes, Incident Commander, Lorna Pike, Operations Superintendent",
+    "subject": "FW: SIS validation plan, Corbin Falls Works",
+    "sentAt": "Thu 10/22/2026 12:00 PM",
+    "note": "From Ridgeline Automation Support to the Incident Commander and the Operations Superintendent: Plan for SIS validation. Today 15:00 to 18:00: image TS-EWS-01 for the FBI, compare running logic v2.1.7 with the archive. Tomorrow: download the approved logic and proof-test ESD-310, ESD-320, SIF-301, SIF-302 and SIF-650 with your instrument technicians. No restart of Unit 300 before both are done and the PSSR is signed.",
+    "signature": "Ridgeline Automation Support\nService Request: R-2026-1024-0001",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Ridgeline Automation Support",
+    "original": {
+      "fromName": "Ridgeline Automation Support",
+      "fromEmail": "support@ridgeline-automation.example",
+      "sentAt": "Thu 10/22/2026 11:58 AM",
+      "to": "Victor Anand, OT Engineer",
+      "cc": "",
+      "subject": "SIS validation plan, Corbin Falls Works",
+      "body": "From Ridgeline Automation Support to the Incident Commander and the Operations Superintendent: Plan for SIS validation. Today 15:00 to 18:00: image TS-EWS-01 for the FBI, compare running logic v2.1.7 with the archive. Tomorrow: download the approved logic and proof-test ESD-310, ESD-320, SIF-301, SIF-302 and SIF-650 with your instrument technicians. No restart of Unit 300 before both are done and the PSSR is signed."
+    }
+  },
+  "variant": "print",
+  "instructorNote": "This inject confirms full SIS integrity and triggers the formal PSSR process. Watch for the IC to initiate the pre-startup safety review under PSM and confirm EHS's clearance before any restart attempt.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 10",
+      "quote": "1. Rebuild compromised workstations from known-good images; change all passwords and the `rl-support` account. 2. Download the SIS logic from the archived, approved file; the OT Engineer and Schneider",
+      "chunkId": 58
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+      "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+      "chunkId": 52
+    },
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 14",
+      "quote": "Restart of Unit 300 or Unit 100 after a General Emergency requires: the Incident Commander's termination of the emergency; a pre-startup safety review (PSSR) for any changed equipment or logic; the OT",
+      "chunkId": 25
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJRF9HQEGGRMV919Q0ZWN",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSYZHGKP1GXRM5BQ1CQX0Q/01M5QTJRF9HQEGGRMV919Q0ZWN.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "fce2dbb07af012b414412d8ff532a3fa7751c4ac1c2c07b919a5eaab0c764179",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:33.873Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:34:54.881Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIS Logic Validation — Final Confirmation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Support@ridgelineautomation.com",
+          "fromEmail": "support@ridgelineautomation.com",
+          "senderInitials": "R",
+          "to": "Darnell Hughes, Incident Commander, Lorna Pike, Operations Superintendent",
+          "subject": "[FINAL] SIS Logic Validation — TS-EWS-01",
+          "sentAt": "Sat 10/24/2026 12:00 PM",
+          "note": "This is the final confirmation from Ridgeline Automation and Schneider Electric. All SIS logic on TS-EWS-01 has been re-downloaded from the approved archive (v2.1.6). Checksum matches. All SIFs have passed proof test under supervision of Schneider Electric. Running logic now matches archive. No changes were made to operating logic. The system is ready for PSSR. Do not proceed to restart until PSSR is signed and EHS confirms no residual risk.",
+          "signature": "Ridgeline Automation Support\nService Request: R-2026-1024-0001",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Ridgeline Automation Support",
+          "original": {
+            "fromName": "Support@ridgelineautomation.com",
+            "fromEmail": "support@ridgelineautomation.com",
+            "sentAt": "Sat 10/24/2026 11:58 AM",
+            "to": "Victor Anand, OT Engineer",
+            "cc": "",
+            "subject": "[FINAL] SIS Logic Validation — TS-EWS-01",
+            "body": "This is the final confirmation from Ridgeline Automation and Schneider Electric.\n\nAll SIS logic on TS-EWS-01 has been re-downloaded from the approved archive (v2.1.6). Checksum matches. All SIFs have passed proof test under supervision of Schneider Electric. Running logic now matches archive. No changes were made to operating logic.\n\nThe system is ready for PSSR. Do not proceed to restart until PSSR is signed and EHS confirms no residual risk."
+          }
+        },
+        "instructorNote": "This inject confirms full SIS integrity and triggers the formal PSSR process. Watch for the IC to initiate the pre-startup safety review under PSM and confirm EHS's clearance before any restart attempt.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.839Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIS Logic Validation — Final Confirmation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Ridgeline Automation Support",
+          "fromEmail": "support@ridgeline-automation.example",
+          "senderInitials": "R",
+          "to": "Darnell Hughes, Incident Commander, Lorna Pike, Operations Superintendent",
+          "subject": "FW: SIS validation plan, Corbin Falls Works",
+          "sentAt": "Thu 10/22/2026 12:00 PM",
+          "note": "From Ridgeline Automation Support to the Incident Commander and the Operations Superintendent: Plan for SIS validation. Today 15:00 to 18:00: image TS-EWS-01 for the FBI, compare running logic v2.1.7 with the archive. Tomorrow: download the approved logic and proof-test ESD-310, ESD-320, SIF-301, SIF-302 and SIF-650 with your instrument technicians. No restart of Unit 300 before both are done and the PSSR is signed.",
+          "signature": "Ridgeline Automation Support\nService Request: R-2026-1024-0001",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Ridgeline Automation Support",
+          "original": {
+            "fromName": "Ridgeline Automation Support",
+            "fromEmail": "support@ridgeline-automation.example",
+            "sentAt": "Thu 10/22/2026 11:58 AM",
+            "to": "Victor Anand, OT Engineer",
+            "cc": "",
+            "subject": "SIS validation plan, Corbin Falls Works",
+            "body": "From Ridgeline Automation Support to the Incident Commander and the Operations Superintendent: Plan for SIS validation. Today 15:00 to 18:00: image TS-EWS-01 for the FBI, compare running logic v2.1.7 with the archive. Tomorrow: download the approved logic and proof-test ESD-310, ESD-320, SIF-301, SIF-302 and SIF-650 with your instrument technicians. No restart of Unit 300 before both are done and the PSSR is signed."
+          }
+        },
+        "instructorNote": "This inject confirms full SIS integrity and triggers the formal PSSR process. Watch for the IC to initiate the pre-startup safety review under PSM and confirm EHS's clearance before any restart attempt.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:34.197Z"
+}

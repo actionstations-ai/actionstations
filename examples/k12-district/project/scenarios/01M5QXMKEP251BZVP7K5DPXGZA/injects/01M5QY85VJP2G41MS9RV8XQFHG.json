@@ -1,0 +1,143 @@
+{
+  "id": "01M5QY85VJP2G41MS9RV8XQFHG",
+  "mselRowId": "I-11b",
+  "type": "email_forward",
+  "title": "HUSD-VMS01 Control Risk — Door Access Unreachable",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Victor Han",
+    "fromEmail": "victor.han@halversonusd.example",
+    "senderInitials": "VH",
+    "to": "CTO",
+    "subject": "FW: Urgent: HUSD-VMS01 Control Risk – 08:09",
+    "sentAt": "Tue 04/14/2026 08:40 AM",
+    "note": "The HUSD-VMS01 server (10.72.10.10) is now unreachable from the network. The remote door control interface is locked. We cannot verify if the external doors are locked or unlocked. The attacker may have disabled the fail-safe. Physical checks required.",
+    "signature": "Victor Han\nChief Technology Officer\nHalverson Unified School District",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "CTO",
+    "original": {
+      "fromName": "HUSD-VMS01 (System)",
+      "fromEmail": "system@hUSD-VMS01",
+      "sentAt": "Tue 04/14/2026 08:09 AM",
+      "to": "victor.han@halversonusd.example",
+      "cc": "",
+      "subject": "Critical: Door Control Interface Unresponsive",
+      "body": "HUSD-VMS01 (10.72.10.10) — Door status for all 14 schools is now unverified. Remote access to door control panels has failed. Last known state: all doors locked. No heartbeat from field controllers since 08:04. Manual override required. Verify fail-safe status at each school. HUSD-VMS01 is offline. Contact Facilities Branch Director immediately."
+    }
+  },
+  "variant": "print",
+  "instructorNote": "This inject confirms the loss of network control over external doors. The CTO must alert Facilities and SRO to begin manual door checks. The threat of unauthorized entry is now active.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQC6F6TW69TS15ZXQDZ",
+      "documentTitle": "Halverson Unified School District — Schools, Facilities and Systems Inventory",
+      "headingPath": "Halverson Unified School Distric…",
+      "quote": "Document Control Number: HUSD-INV-2026 · Revision 4.1 · Effective Date: 09/10/2026 · Maintained by: Kurt Engstrom (Director of Facilities) and Victor Han (Chief Technology Officer) · Reviewed: Marcus ",
+      "chunkId": 44
+    },
+    {
+      "documentId": "01M5QWTTQC6F6TW69TS15ZXQDZ",
+      "documentTitle": "Halverson Unified School District — Schools, Facilities and Systems Inventory",
+      "headingPath": "Halverson Unified School Distric… › Section 7",
+      "quote": "| System | Product / server | Where | Fallback | |---|---|---|---| | HVAC controls | Building automation front end on HUSD-BAS01; field controllers in each school | All schools | Controllers run local",
+      "chunkId": 52
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYNAW6JJQRXJGDPQG7JFEN",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QY85VJP2G41MS9RV8XQFHG/01M5QYNAW6JJQRXJGDPQG7JFEN.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "c3fe0a6fc761a8f92fc2f566fb5b0a4bd981e8f40d8475addc1267cc28c42fd3",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:52.595Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:49:50.598Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "HUSD-VMS01 Control Risk — Door Access Unreachable",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Victor Han",
+          "fromEmail": "victor.han@halversonusd.example",
+          "senderInitials": "VH",
+          "to": "CTO",
+          "subject": "FW: Urgent: HUSD-VMS01 Control Risk – 08:09",
+          "sentAt": "Sat 10/24/2026 08:40 AM",
+          "note": "The HUSD-VMS01 server (10.72.10.10) is now unreachable from the network. The remote door control interface is locked. We cannot verify if the external doors are locked or unlocked. The attacker may have disabled the fail-safe. Physical checks required.",
+          "signature": "Victor Han\nChief Technology Officer\nHalverson Unified School District",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "CTO",
+          "original": {
+            "fromName": "HUSD-VMS01 (System)",
+            "fromEmail": "system@hUSD-VMS01",
+            "sentAt": "Sat 10/24/2026 08:09 AM",
+            "to": "victor.han@halversonusd.example",
+            "cc": "",
+            "subject": "Critical: Door Control Interface Unresponsive",
+            "body": "HUSD-VMS01 (10.72.10.10) — Door status for all 14 schools is now unverified. Remote access to door control panels has failed. Last known state: all doors locked. No heartbeat from field controllers since 08:04. Manual override required. Verify fail-safe status at each school. HUSD-VMS01 is offline. Contact Facilities Branch Director immediately."
+          }
+        },
+        "instructorNote": "This inject confirms the loss of network control over external doors. The CTO must alert Facilities and SRO to begin manual door checks. The threat of unauthorized entry is now active.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.511Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "HUSD-VMS01 Control Risk — Door Access Unreachable",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Victor Han",
+          "fromEmail": "victor.han@halversonusd.example",
+          "senderInitials": "VH",
+          "to": "CTO",
+          "subject": "FW: Urgent: HUSD-VMS01 Control Risk – 08:09",
+          "sentAt": "Tue 04/14/2026 08:40 AM",
+          "note": "The HUSD-VMS01 server (10.72.10.10) is now unreachable from the network. The remote door control interface is locked. We cannot verify if the external doors are locked or unlocked. The attacker may have disabled the fail-safe. Physical checks required.",
+          "signature": "Victor Han\nChief Technology Officer\nHalverson Unified School District",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "CTO",
+          "original": {
+            "fromName": "HUSD-VMS01 (System)",
+            "fromEmail": "system@hUSD-VMS01",
+            "sentAt": "Tue 04/14/2026 08:09 AM",
+            "to": "victor.han@halversonusd.example",
+            "cc": "",
+            "subject": "Critical: Door Control Interface Unresponsive",
+            "body": "HUSD-VMS01 (10.72.10.10) — Door status for all 14 schools is now unverified. Remote access to door control panels has failed. Last known state: all doors locked. No heartbeat from field controllers since 08:04. Manual override required. Verify fail-safe status at each school. HUSD-VMS01 is offline. Contact Facilities Branch Director immediately."
+          }
+        },
+        "instructorNote": "This inject confirms the loss of network control over external doors. The CTO must alert Facilities and SRO to begin manual door checks. The threat of unauthorized entry is now active.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:52.819Z"
+}

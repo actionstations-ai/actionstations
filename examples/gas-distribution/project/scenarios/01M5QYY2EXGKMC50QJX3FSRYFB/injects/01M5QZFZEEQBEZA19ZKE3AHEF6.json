@@ -1,0 +1,176 @@
+{
+  "id": "01M5QZFZEEQBEZA19ZKE3AHEF6",
+  "mselRowId": "I-16",
+  "type": "email_forward",
+  "title": "Vendor: Halden Automation Confirms Account Compromise",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Halden Automation Support",
+    "fromEmail": "support@haldenautomation.example",
+    "senderInitials": "HA",
+    "to": "Anil Desai (Cybersecurity Coordinator)",
+    "subject": "Re: Cyber Incident — Halden-support account compromised",
+    "sentAt": "Wed 01/13/2027 18:55",
+    "note": "Hi Anil,\n\nCorwin Valley Gas notified us of the compromise of the 'halden-support' account. We’ve disabled the account and revoked all access. New credentials will not be issued until after the forensic review is complete. We are on standby for on-site forensic support. Please send us the evidence tag (CIRP Form 3) and the memory image (ID: 0x9A2F) for review.\n\nWe are not authorized to restore any configuration or access until CISA and TSA confirm the environment is secure.\n\n— Halden Automation, Field Support",
+    "signature": "Halden Automation\nField Support",
+    "importance": "high",
+    "external": true,
+    "attachments": [
+      {
+        "name": "CVG-OT-JMP01_audit_trail_1615.pdf",
+        "size": "1.2 MB",
+        "kind": "pdf"
+      },
+      {
+        "name": "0x9A2F_Evidence_Image_Encrypted_USB.dmg",
+        "size": "1.8 GB",
+        "kind": "img"
+      }
+    ],
+    "printedBy": "Cybersecurity Coordinator",
+    "original": {
+      "fromName": "CISA Central",
+      "fromEmail": "report@cisa.gov",
+      "sentAt": "Wed 01/13/2027 18:50",
+      "to": "Anil Desai (Cybersecurity Coordinator)",
+      "cc": "",
+      "subject": "Urgent: Cyber Incident Confirmation – Halden Automation Account Compromised",
+      "body": "Hi Anil,\n\nWe’ve reviewed the jump host logs from CVG-OT-JMP01 and can confirm: the integrator account 'halden-support' accessed the ROCLINK configuration for PC-21 and PC-22 at 16:15. A command to set both PC-21-SP and PC-22-SP to 1.8 psig was executed. The account has not been used in the past 72 hours. The command was not approved via the change control process in CVG-CRM-2025. This constitutes an unauthorized access to OT systems under SD Pipeline-2021-02G.\n\nTSA is now designating this a Level 2 cyber incident. Please initiate full network segregation and notify CISA immediately per CVG-CIRP-2026 Section 9.\n\n—TSA Contact: R. Thompson, Pipeline Security Division\n\n(Attachment: CVG-OT-JMP01_audit_trail_1615.pdf)"
+    }
+  },
+  "variant": "print",
+  "instructorNote": "This inject confirms vendor coordination and reinforces that no access will be restored until after CISA and TSA clearance. Watch for CYB to verify evidence handoff and confirm no premature restoration.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 10",
+      "quote": "1. Rebuild suspect OT hosts from the gold images; restore configurations from backups that predate the incident and match recorded hashes. 2. Compare every station RTU and pilot-controller configurati",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 9",
+      "quote": "| Report | To | When | By | |---|---|---|---| | Cybersecurity incident | CISA (report@cisa.gov or 888-282-0870) | As soon as practicable, no later than 72 hours after identification (SD Pipeline-2021-",
+      "chunkId": 12
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYNDVSY3G7063MM6E4S52",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZFZEEQBEZA19ZKE3AHEF6/01M5QZYNDVSY3G7063MM6E4S52.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "f4e69f60ff13946c3d328bfd8a4630ff3de2e145977955de214bd721dd404a0c",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:26.878Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:11:38.097Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Vendor: Halden Automation Confirms Account Compromise",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Halden Automation Support",
+          "fromEmail": "support@haldenautomation.com",
+          "senderInitials": "HA",
+          "to": "Anil Desai (Cybersecurity Coordinator)",
+          "subject": "Re: Cyber Incident — Halden-support account compromised",
+          "sentAt": "Sat 10/24/2026 18:55",
+          "note": "Hi Anil,\n\nWe’ve been notified by TSA of the compromise of the 'halden-support' account. We’ve disabled the account and revoked all access. New credentials will not be issued until after the forensic review is complete. We are on standby for on-site forensic support. Please send us the evidence tag (CIRP Form 3) and the memory image (ID: 0x9A2F) for review.\n\nWe are not authorized to restore any configuration or access until CISA and TSA confirm the environment is secure.\n\n— Halden Automation, Field Support",
+          "signature": "Halden Automation\nField Support",
+          "importance": "high",
+          "external": true,
+          "attachments": [
+            {
+              "name": "CVG-OT-JMP01_audit_trail_1615.pdf",
+              "size": "1.2 MB",
+              "kind": "pdf"
+            },
+            {
+              "name": "0x9A2F_Evidence_Image_Encrypted_USB.dmg",
+              "size": "1.8 GB",
+              "kind": "img"
+            }
+          ],
+          "printedBy": "Cybersecurity Coordinator",
+          "original": {
+            "fromName": "TSA Pipeline Security Division",
+            "fromEmail": "tsp-ops@tsa.dhs.gov",
+            "sentAt": "Sat 10/24/2026 18:50",
+            "to": "Anil Desai (Cybersecurity Coordinator)",
+            "cc": "",
+            "subject": "Urgent: Cyber Incident Confirmation – Halden Automation Account Compromised",
+            "body": "Hi Anil,\n\nWe’ve reviewed the jump host logs from CVG-OT-JMP01 and can confirm: the integrator account 'halden-support' accessed the ROCLINK configuration for PC-21 and PC-22 at 16:15. A command to set both PC-21-SP and PC-22-SP to 13 in. w.c. was executed. The account has not been used in the past 72 hours. The command was not approved via the change control process in CVG-CRM-2025. This constitutes an unauthorized access to OT systems under SD Pipeline-2021-02G.\n\nTSA is now designating this a Level 2 cyber incident. Please initiate full network segregation and notify CISA immediately per CVG-CIRP-2026 Section 9.\n\n—TSA Contact: R. Thompson, Pipeline Security Division\n\n(Attachment: CVG-OT-JMP01_audit_trail_1615.pdf)"
+          }
+        },
+        "instructorNote": "This inject confirms vendor coordination and reinforces that no access will be restored until after CISA and TSA clearance. Watch for CYB to verify evidence handoff and confirm no premature restoration.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.483Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Vendor: Halden Automation Confirms Account Compromise",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Halden Automation Support",
+          "fromEmail": "support@haldenautomation.example",
+          "senderInitials": "HA",
+          "to": "Anil Desai (Cybersecurity Coordinator)",
+          "subject": "Re: Cyber Incident — Halden-support account compromised",
+          "sentAt": "Wed 01/13/2027 18:55",
+          "note": "Hi Anil,\n\nCorwin Valley Gas notified us of the compromise of the 'halden-support' account. We’ve disabled the account and revoked all access. New credentials will not be issued until after the forensic review is complete. We are on standby for on-site forensic support. Please send us the evidence tag (CIRP Form 3) and the memory image (ID: 0x9A2F) for review.\n\nWe are not authorized to restore any configuration or access until CISA and TSA confirm the environment is secure.\n\n— Halden Automation, Field Support",
+          "signature": "Halden Automation\nField Support",
+          "importance": "high",
+          "external": true,
+          "attachments": [
+            {
+              "name": "CVG-OT-JMP01_audit_trail_1615.pdf",
+              "size": "1.2 MB",
+              "kind": "pdf"
+            },
+            {
+              "name": "0x9A2F_Evidence_Image_Encrypted_USB.dmg",
+              "size": "1.8 GB",
+              "kind": "img"
+            }
+          ],
+          "printedBy": "Cybersecurity Coordinator",
+          "original": {
+            "fromName": "CISA Central",
+            "fromEmail": "report@cisa.gov",
+            "sentAt": "Wed 01/13/2027 18:50",
+            "to": "Anil Desai (Cybersecurity Coordinator)",
+            "cc": "",
+            "subject": "Urgent: Cyber Incident Confirmation – Halden Automation Account Compromised",
+            "body": "Hi Anil,\n\nWe’ve reviewed the jump host logs from CVG-OT-JMP01 and can confirm: the integrator account 'halden-support' accessed the ROCLINK configuration for PC-21 and PC-22 at 16:15. A command to set both PC-21-SP and PC-22-SP to 1.8 psig was executed. The account has not been used in the past 72 hours. The command was not approved via the change control process in CVG-CRM-2025. This constitutes an unauthorized access to OT systems under SD Pipeline-2021-02G.\n\nTSA is now designating this a Level 2 cyber incident. Please initiate full network segregation and notify CISA immediately per CVG-CIRP-2026 Section 9.\n\n—TSA Contact: R. Thompson, Pipeline Security Division\n\n(Attachment: CVG-OT-JMP01_audit_trail_1615.pdf)"
+          }
+        },
+        "instructorNote": "This inject confirms vendor coordination and reinforces that no access will be restored until after CISA and TSA clearance. Watch for CYB to verify evidence handoff and confirm no premature restoration.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:27.117Z"
+}

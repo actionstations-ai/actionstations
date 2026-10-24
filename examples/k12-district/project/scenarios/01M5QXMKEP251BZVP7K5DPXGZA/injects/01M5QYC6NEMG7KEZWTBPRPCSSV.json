@@ -1,0 +1,186 @@
+{
+  "id": "01M5QYC6NEMG7KEZWTBPRPCSSV",
+  "mselRowId": "I-21",
+  "type": "memo",
+  "title": "CIRP Form 4: Verification Sign-Off – Recovery and Integrity Check",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "orgName": "Halverson Unified School District",
+    "department": "Technology Services (incident response)",
+    "to": "Victor Han, Chief Technology Officer",
+    "from": "DFIR lead (Kiera Tran), retained incident response firm",
+    "date": "April 14, 2026 · 10:20",
+    "subject": "Interim status",
+    "urgency": "urgent",
+    "body": "Done: HUSD-VPN01 preserved as evidence; leak sample matches files on HUSD-FS02. In progress: HUSD-DC01 rebuild, hash verification of backups. Not started: Munis restore (access request unsigned). No reconnection recommended before CIRP Form 4 sign-off."
+  },
+  "instructorNote": "This is the final recovery validation. The CTO must now submit this to the EOC for Policy Group review and prepare for network reintegration under controlled conditions.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 11",
+      "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 5",
+      "quote": "1. Technical Lead confirms the alert with MDR; opens an incident record (CIRP Form 1) with times. 2. Incident Lead decides severity; for S3 or S4 calls the Director of School Safety and General Counse",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+      "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+      "chunkId": 9
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYNDHFKMFDRRPMHSEFMA5R",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QYC6NEMG7KEZWTBPRPCSSV/01M5QYNDHFKMFDRRPMHSEFMA5R.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "aa679e9da3c11f4fcfad55855d823b229e349f8663d0f1a3488898c09bdfb976",
+      "provenance": {
+        "provider": "template",
+        "templateId": "memo",
+        "templateVersion": "2",
+        "createdAt": "2026-10-24T21:56:55.357Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:52:13.168Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "CIRP Form 4: Verification Sign-Off – Recovery and Integrity Check",
+        "type": "regulatory_report_form",
+        "fields": {
+          "agency": "Cybersecurity and Infrastructure Security Agency (CISA)",
+          "agencyOffice": "Office of the Chief Information Security Officer (CISO)",
+          "formName": "Cyber Incident Response Plan (CIRP) Form 4 – Verification Sign-Off",
+          "formNumber": "CIRP-2026-04",
+          "ombNumber": "OMB No. 1901-0288, Exp. 05/31/2028",
+          "reportType": "final",
+          "reportId": "CIRP-2026-04-1024-0012",
+          "submittedAt": "10/24/2026 10:20:17 UTC-7",
+          "submittedBy": {
+            "name": "Victor Han",
+            "title": "Chief Technology Officer, Halverson Unified School District",
+            "phone": "(541) 555-0170",
+            "email": "victor.han@halversonusd.example"
+          },
+          "organization": "Halverson Unified School District",
+          "facility": "Halverson Unified School District IT Infrastructure (HUSD-FS02, HUSD-DC01, HUSD-VPN01, HUSD-VMS01, HUSD-ERP01)",
+          "incidentStart": "10/24/2026 07:32:11 UTC-7",
+          "sections": [
+            {
+              "heading": "System Recovery Verification",
+              "items": [
+                {
+                  "label": "Domain Controller Rebuilt",
+                  "value": "HUSD-DC01 rebuilt from clean media; krbtgt account reset twice; no active sessions"
+                },
+                {
+                  "label": "Backup Restoration",
+                  "value": "Veeam backup from 05:00 (offline tape copy) restored to HUSD-BK01 test environment; full hash verification completed: 98,742,311 files matched"
+                },
+                {
+                  "label": "Data Integrity",
+                  "value": "No evidence of tampering; file timestamps verified against pre-incident baseline"
+                },
+                {
+                  "label": "Persistence Detection",
+                  "value": "No active persistence or backdoors detected; HUSD-VPN01 preserved as evidence"
+                }
+              ]
+            },
+            {
+              "heading": "Threat Intelligence and Attribution",
+              "items": [
+                {
+                  "label": "C2 IP Confirmed",
+                  "value": "104.214.192.47 matched to known Rhysida group node (CVE-2023-4204 exploit) in CISA threat feed"
+                },
+                {
+                  "label": "Attack Vector",
+                  "value": "Unpatched HUSD-VPN01 (CVE-2023-4204); shared local-admin password (admin_husd) on HUSD-DC01"
+                },
+                {
+                  "label": "Data Exfiltration",
+                  "value": "Confirmed: 147 files from HUSD-FS02\\\u0001Health\\Share, including 23 IEPs, 12 medication logs, 3 custody orders; exfiltrated prior to encryption"
+                },
+                {
+                  "label": "Ransomware Payload",
+                  "value": "hxd32.exe (PID 4012) used to encrypt files; ransom note pushed via HUSD-VPN01 (10.72.10.2) to 32 staff laptops"
+                }
+              ]
+            },
+            {
+              "heading": "Legal and Compliance Actions",
+              "items": [
+                {
+                  "label": "Evidence Preservation",
+                  "value": "HUSD-VPN01 not wiped, rebooted, or reimaged; forensic image pending CISA dispatch"
+                },
+                {
+                  "label": "Vendor Access Request",
+                  "value": "Tyler Munis payroll restore pending signed access request from legal team"
+                },
+                {
+                  "label": "Insurance Notification",
+                  "value": "Northwest Schools Risk Pool cyber claims line notified within 24 hours of discovery (per CIRP Section 4.2)"
+                },
+                {
+                  "label": "Law Enforcement Coordination",
+                  "value": "FBI Portland Field Office and CISA notified; MS-ISAC and K12 SIX shared indicators (per CIRP Section 5.2)"
+                }
+              ]
+            }
+          ],
+          "status": "Received by CISA. Your report has been forwarded to the E-ISAC.",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This is the final recovery validation. The CTO must now submit this to the EOC for Policy Group review and prepare for network reintegration under controlled conditions.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.556Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "CIRP Form 4: Verification Sign-Off – Recovery and Integrity Check",
+        "type": "memo",
+        "fields": {
+          "orgName": "Halverson Unified School District",
+          "department": "Technology Services (incident response)",
+          "to": "Victor Han, Chief Technology Officer",
+          "from": "DFIR lead (Kiera Tran), retained incident response firm",
+          "date": "April 14, 2026 · 10:20",
+          "subject": "Interim status",
+          "urgency": "urgent",
+          "body": "Done: HUSD-VPN01 preserved as evidence; leak sample matches files on HUSD-FS02. In progress: HUSD-DC01 rebuild, hash verification of backups. Not started: Munis restore (access request unsigned). No reconnection recommended before CIRP Form 4 sign-off."
+        },
+        "instructorNote": "This is the final recovery validation. The CTO must now submit this to the EOC for Policy Group review and prepare for network reintegration under controlled conditions.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:55.549Z"
+}

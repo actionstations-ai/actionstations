@@ -1,0 +1,495 @@
+{
+  "id": "01M5QWGTT21DE9C92VVF4KJVJX",
+  "mselRowId": "I-08",
+  "type": "info_display_board",
+  "title": "Results Website: Election Integrity Advisory",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "boardTitle": "ELECTION RESULTS",
+    "boardSubtitle": "Official Voter Data Dashboard",
+    "siteName": "Lisle County Board of Elections",
+    "location": "Main Operations Floor",
+    "clock": "09:22",
+    "date": "Thu 29 Oct",
+    "rows": [
+      {
+        "primary": "Precinct 111",
+        "secondary": "Voter data corrupted",
+        "time": "09:22",
+        "position": "1",
+        "status": "ERROR",
+        "remarks": "1,186 records altered",
+        "anomaly": true
+      },
+      {
+        "primary": "Precinct 112",
+        "secondary": "Voter data corrupted",
+        "time": "09:22",
+        "position": "2",
+        "status": "ERROR",
+        "remarks": "1,186 records altered",
+        "anomaly": true
+      },
+      {
+        "primary": "Polling Location 6",
+        "secondary": "Moved to Carrow Middle School",
+        "time": "09:22",
+        "position": "3",
+        "status": "UPDATE",
+        "remarks": "Confirmed via eTrack",
+        "anomaly": true
+      },
+      {
+        "primary": "Early Vote Center",
+        "secondary": "23 voters marked 'Mail Ballot Received'",
+        "time": "09:22",
+        "position": "4",
+        "status": "PENDING",
+        "remarks": "Manual verification in progress",
+        "anomaly": false
+      },
+      {
+        "primary": "Results Feed",
+        "secondary": "Failed to load from VoterTrack",
+        "time": "09:22",
+        "position": "5",
+        "status": "DOWN",
+        "remarks": "Corrupted data stream",
+        "anomaly": false
+      },
+      {
+        "primary": "Voter Registration",
+        "secondary": "Database integrity compromised",
+        "time": "09:22",
+        "position": "6",
+        "status": "CRITICAL",
+        "remarks": "See official guidance",
+        "anomaly": true
+      },
+      {
+        "primary": "Results Site",
+        "secondary": "Loading...",
+        "time": "09:22",
+        "position": "7",
+        "status": "ERROR",
+        "remarks": "Processing Error: Voter data corrupted",
+        "anomaly": true
+      },
+      {
+        "primary": "CISA Advisory",
+        "secondary": "Election Integrity Advisory",
+        "time": "09:22",
+        "position": "8",
+        "status": "WARNING",
+        "remarks": "See phish.cisa.gov.lislevotes.example",
+        "anomaly": true
+      },
+      {
+        "primary": "Rover 3",
+        "secondary": "At Polling Location 6",
+        "time": "09:22",
+        "position": "9",
+        "status": "SECURED",
+        "remarks": "No one present",
+        "anomaly": false
+      },
+      {
+        "primary": "Hotline",
+        "secondary": "137 calls in 30 min",
+        "time": "09:22",
+        "position": "10",
+        "status": "OVERLOAD",
+        "remarks": "Media inquiries spiking",
+        "anomaly": false
+      },
+      {
+        "primary": "Poll Worker Alert",
+        "secondary": "Location change verified",
+        "time": "09:22",
+        "position": "11",
+        "status": "IN PROGRESS",
+        "remarks": "Awaiting confirmation",
+        "anomaly": false
+      },
+      {
+        "primary": "Web Host",
+        "secondary": "No response to ping",
+        "time": "09:22",
+        "position": "12",
+        "status": "UNRESPONSIVE",
+        "remarks": "DNS check pending",
+        "anomaly": false
+      },
+      {
+        "primary": "IT Response",
+        "secondary": "Incident declared",
+        "time": "09:22",
+        "position": "13",
+        "status": "ACTIVE",
+        "remarks": "COOP Level 2 initiated",
+        "anomaly": false
+      },
+      {
+        "primary": "PIO Statement",
+        "secondary": "Drafting correction",
+        "time": "09:22",
+        "position": "14",
+        "status": "PENDING",
+        "remarks": "Awaiting legal review",
+        "anomaly": false
+      }
+    ],
+    "ticker": "Election Integrity Advisory: Voter database compromised. See official guidance at phish.cisa.gov.lislevotes.example. Do not trust external links.",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "transit_bus",
+  "instructorNote": "This is a core narrative inject; the fake CISA page is the attacker's final deception. IT must block phish.cisa.gov.lislevotes.example and verify the results website server was the source. The PIO must reject the fake advisory and begin correcting public perception.",
+  "citations": [
+    {
+      "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+      "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 5",
+      "quote": "| Level | Description | Response | |---|---|---| | CIRP 3 | Suspicious email reported, no click; single failed log-in alerts | IT Manager handles; logged | | CIRP 2 | A staff account compromised; unau",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+      "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 6 › 6.3 Results website attack or outage",
+      "quote": "Switch to the static mirror page; post results files at the Board office and give printed copies to observers and media; confirm with the web host that the attack is mitigated; publish the source of t",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+      "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 6 › 6.2 Unauthorized voter-record changes",
+      "quote": "1. Freeze edits in the affected precincts (COOP-DR-5). 2. Run the integrity checks in Section 7. 3. Hold the next pollbook load until the affected records are reconciled; tell the Early Vote Center an",
+      "chunkId": 9
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QX3YM24FK7S520K0W77TBG",
+      "kind": "image",
+      "path": "scenarios/01M5QVXT271DZ6ASA7H0W44HJ7/media/01M5QWGTT21DE9C92VVF4KJVJX/01M5QX3YM24FK7S520K0W77TBG.png",
+      "role": "rendered",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "6e526739c97dc264b261b2fa0d7280403fa380d5a371aedb3dfeeffa503463ee",
+      "provenance": {
+        "provider": "template",
+        "templateId": "info_display_board",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:29:54.298Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:19:40.598Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Results Website: Election Integrity Advisory",
+        "type": "info_display_board",
+        "fields": {
+          "boardTitle": "ELECTION RESULTS",
+          "boardSubtitle": "Official Voter Data Dashboard",
+          "siteName": "Lisle County Board of Elections",
+          "location": "Main Operations Floor",
+          "clock": "09:22",
+          "date": "Sat 24 Oct",
+          "rows": [
+            {
+              "primary": "Precinct 111",
+              "secondary": "Voter data corrupted",
+              "time": "09:22",
+              "position": "1",
+              "status": "ERROR",
+              "remarks": "1,186 records altered",
+              "anomaly": true
+            },
+            {
+              "primary": "Precinct 112",
+              "secondary": "Voter data corrupted",
+              "time": "09:22",
+              "position": "2",
+              "status": "ERROR",
+              "remarks": "1,186 records altered",
+              "anomaly": true
+            },
+            {
+              "primary": "Polling Location 6",
+              "secondary": "Moved to Carrow Middle School",
+              "time": "09:22",
+              "position": "3",
+              "status": "UPDATE",
+              "remarks": "Confirmed via eTrack",
+              "anomaly": true
+            },
+            {
+              "primary": "Early Vote Center",
+              "secondary": "23 voters marked 'Mail Ballot Received'",
+              "time": "09:22",
+              "position": "4",
+              "status": "PENDING",
+              "remarks": "Manual verification in progress",
+              "anomaly": false
+            },
+            {
+              "primary": "Results Feed",
+              "secondary": "Failed to load from VoterTrack",
+              "time": "09:22",
+              "position": "5",
+              "status": "DOWN",
+              "remarks": "Corrupted data stream",
+              "anomaly": false
+            },
+            {
+              "primary": "Voter Registration",
+              "secondary": "Database integrity compromised",
+              "time": "09:22",
+              "position": "6",
+              "status": "CRITICAL",
+              "remarks": "See official guidance",
+              "anomaly": true
+            },
+            {
+              "primary": "Results Site",
+              "secondary": "Loading...",
+              "time": "09:22",
+              "position": "7",
+              "status": "ERROR",
+              "remarks": "Processing Error: Voter data corrupted",
+              "anomaly": true
+            },
+            {
+              "primary": "CISA Advisory",
+              "secondary": "Election Integrity Advisory",
+              "time": "09:22",
+              "position": "8",
+              "status": "WARNING",
+              "remarks": "See phish.cisa.gov.lislevotes.example",
+              "anomaly": true
+            },
+            {
+              "primary": "Rover 3",
+              "secondary": "At Polling Location 6",
+              "time": "09:22",
+              "position": "9",
+              "status": "SECURED",
+              "remarks": "No one present",
+              "anomaly": false
+            },
+            {
+              "primary": "Hotline",
+              "secondary": "137 calls in 30 min",
+              "time": "09:22",
+              "position": "10",
+              "status": "OVERLOAD",
+              "remarks": "Media inquiries spiking",
+              "anomaly": false
+            },
+            {
+              "primary": "Poll Worker Alert",
+              "secondary": "Location change verified",
+              "time": "09:22",
+              "position": "11",
+              "status": "IN PROGRESS",
+              "remarks": "Awaiting confirmation",
+              "anomaly": false
+            },
+            {
+              "primary": "Web Host",
+              "secondary": "No response to ping",
+              "time": "09:22",
+              "position": "12",
+              "status": "UNRESPONSIVE",
+              "remarks": "DNS check pending",
+              "anomaly": false
+            },
+            {
+              "primary": "IT Response",
+              "secondary": "Incident declared",
+              "time": "09:22",
+              "position": "13",
+              "status": "ACTIVE",
+              "remarks": "COOP Level 2 initiated",
+              "anomaly": false
+            },
+            {
+              "primary": "PIO Statement",
+              "secondary": "Drafting correction",
+              "time": "09:22",
+              "position": "14",
+              "status": "PENDING",
+              "remarks": "Awaiting legal review",
+              "anomaly": false
+            }
+          ],
+          "ticker": "Election Integrity Advisory: Voter database compromised. See official guidance at phish.cisa.gov.lislevotes.example. Do not trust external links.",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a core narrative inject; the fake CISA page is the attacker's final deception. IT must block phish.cisa.gov.lislevotes.example and verify the results website server was the source. The PIO must reject the fake advisory and begin correcting public perception.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T21:28:32.946Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Results Website: Election Integrity Advisory",
+        "type": "info_display_board",
+        "fields": {
+          "boardTitle": "ELECTION RESULTS",
+          "boardSubtitle": "Official Voter Data Dashboard",
+          "siteName": "Lisle County Board of Elections",
+          "location": "Main Operations Floor",
+          "clock": "09:22",
+          "date": "Thu 29 Oct",
+          "rows": [
+            {
+              "primary": "Precinct 111",
+              "secondary": "Voter data corrupted",
+              "time": "09:22",
+              "position": "1",
+              "status": "ERROR",
+              "remarks": "1,186 records altered",
+              "anomaly": true
+            },
+            {
+              "primary": "Precinct 112",
+              "secondary": "Voter data corrupted",
+              "time": "09:22",
+              "position": "2",
+              "status": "ERROR",
+              "remarks": "1,186 records altered",
+              "anomaly": true
+            },
+            {
+              "primary": "Polling Location 6",
+              "secondary": "Moved to Carrow Middle School",
+              "time": "09:22",
+              "position": "3",
+              "status": "UPDATE",
+              "remarks": "Confirmed via eTrack",
+              "anomaly": true
+            },
+            {
+              "primary": "Early Vote Center",
+              "secondary": "23 voters marked 'Mail Ballot Received'",
+              "time": "09:22",
+              "position": "4",
+              "status": "PENDING",
+              "remarks": "Manual verification in progress",
+              "anomaly": false
+            },
+            {
+              "primary": "Results Feed",
+              "secondary": "Failed to load from VoterTrack",
+              "time": "09:22",
+              "position": "5",
+              "status": "DOWN",
+              "remarks": "Corrupted data stream",
+              "anomaly": false
+            },
+            {
+              "primary": "Voter Registration",
+              "secondary": "Database integrity compromised",
+              "time": "09:22",
+              "position": "6",
+              "status": "CRITICAL",
+              "remarks": "See official guidance",
+              "anomaly": true
+            },
+            {
+              "primary": "Results Site",
+              "secondary": "Loading...",
+              "time": "09:22",
+              "position": "7",
+              "status": "ERROR",
+              "remarks": "Processing Error: Voter data corrupted",
+              "anomaly": true
+            },
+            {
+              "primary": "CISA Advisory",
+              "secondary": "Election Integrity Advisory",
+              "time": "09:22",
+              "position": "8",
+              "status": "WARNING",
+              "remarks": "See phish.cisa.gov.lislevotes.example",
+              "anomaly": true
+            },
+            {
+              "primary": "Rover 3",
+              "secondary": "At Polling Location 6",
+              "time": "09:22",
+              "position": "9",
+              "status": "SECURED",
+              "remarks": "No one present",
+              "anomaly": false
+            },
+            {
+              "primary": "Hotline",
+              "secondary": "137 calls in 30 min",
+              "time": "09:22",
+              "position": "10",
+              "status": "OVERLOAD",
+              "remarks": "Media inquiries spiking",
+              "anomaly": false
+            },
+            {
+              "primary": "Poll Worker Alert",
+              "secondary": "Location change verified",
+              "time": "09:22",
+              "position": "11",
+              "status": "IN PROGRESS",
+              "remarks": "Awaiting confirmation",
+              "anomaly": false
+            },
+            {
+              "primary": "Web Host",
+              "secondary": "No response to ping",
+              "time": "09:22",
+              "position": "12",
+              "status": "UNRESPONSIVE",
+              "remarks": "DNS check pending",
+              "anomaly": false
+            },
+            {
+              "primary": "IT Response",
+              "secondary": "Incident declared",
+              "time": "09:22",
+              "position": "13",
+              "status": "ACTIVE",
+              "remarks": "COOP Level 2 initiated",
+              "anomaly": false
+            },
+            {
+              "primary": "PIO Statement",
+              "secondary": "Drafting correction",
+              "time": "09:22",
+              "position": "14",
+              "status": "PENDING",
+              "remarks": "Awaiting legal review",
+              "anomaly": false
+            }
+          ],
+          "ticker": "Election Integrity Advisory: Voter database compromised. See official guidance at phish.cisa.gov.lislevotes.example. Do not trust external links.",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a core narrative inject; the fake CISA page is the attacker's final deception. IT must block phish.cisa.gov.lislevotes.example and verify the results website server was the source. The PIO must reject the fake advisory and begin correcting public perception.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:29:54.563Z"
+}

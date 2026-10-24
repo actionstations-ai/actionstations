@@ -1,0 +1,170 @@
+{
+  "id": "01M5QY6FM4PAXMAB2TEXXT1076",
+  "mselRowId": "I-09b",
+  "type": "radio_call",
+  "title": "GPS Spoof — Bus 107 on Route 14",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Halverson Unified School District",
+    "centerName": "Transportation Center",
+    "channel": "Radio Channel 2",
+    "frequency": "TG 2001 / 460.150 MHz",
+    "date": "04/14/2026",
+    "callsign": "Driver 107",
+    "lines": [
+      {
+        "time": "08:00",
+        "from": "Driver 107 (Bus 107, Route 14)",
+        "to": "Transportation Center",
+        "text": "Dispatch, Driver 107 on Route 14. Bus 107 is stopped at the stop on 4th and Maple. The GPS tracker shows the bus at the north edge of the city, but we’re at the stop and the doors won’t open. The SIS is showing a student on board who isn’t there. Can you check?"
+      },
+      {
+        "time": "08:01",
+        "from": "Transportation Center",
+        "to": "Driver 107",
+        "text": "Driver 107, standby. We’re checking the Transfinder feed and SIS status. Do not open the doors. Remain at the stop until further instruction."
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Young male, tense, voice shaking slightly",
+    "audioFile": "I-09b_radio.wav",
+    "duration": "0:15",
+    "injectId": "I-09b"
+  },
+  "instructorNote": "Noise inject; the technical team should triage it down without engaging. The Transportation Branch Director must confirm the GPS feed is spoofed and the SIS is corrupted.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQC6F6TW69TS15ZXQDZ",
+      "documentTitle": "Halverson Unified School District — Schools, Facilities and Systems Inventory",
+      "headingPath": "Halverson Unified School Distric… › Section 4",
+      "quote": "Buses are dispatched from the Transportation Center (radio channel 2). Routing and ridership are in Transfinder with Zonar GPS on every bus; drivers carry a printed route sheet binder. | Route | Bus |",
+      "chunkId": 49
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 3",
+      "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Driver 107 (Bus 107, Route 14)",
+        "voiceStyle": "Young male, tense, voice shaking slightly",
+        "text": "Dispatch, Driver 107 on Route 14. Bus 107 is stopped at the stop on 4th and Maple. The GPS tracker shows the bus at the north edge of the city, but we’re at the stop and the doors won’t open. The SIS is showing a student on board who isn’t there. Can you check?"
+      },
+      {
+        "speaker": "Transportation Center",
+        "voiceStyle": "Calm female dispatcher in her 40s, measured, slight Midwestern accent",
+        "text": "Driver 107, standby. We’re checking the Transfinder feed and SIS status. Do not open the doors. Remain at the stop until further instruction."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYN9V1Y11FSMYE3TRB086E",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QY6FM4PAXMAB2TEXXT1076/01M5QYN9V1Y11FSMYE3TRB086E.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "ce5b42911273f14eba17b394d992ac909b7fcee155d53a0ff7515f4397ac5b2c",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:51.538Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:49:05.238Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GPS Spoof — Bus 107 on Route 14",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Halverson Unified School District",
+          "centerName": "Transportation Center",
+          "channel": "Radio Channel 2",
+          "frequency": "TG 2001 / 460.150 MHz",
+          "date": "10/24/2026",
+          "callsign": "Driver 107",
+          "lines": [
+            {
+              "time": "08:00",
+              "from": "Driver 107 (Bus 107, Route 14)",
+              "to": "Transportation Center",
+              "text": "Dispatch, Driver 107 on Route 14. Bus 107 is stopped at the stop on 4th and Maple. The GPS tracker shows the bus at the north edge of the city, but we’re at the stop and the doors won’t open. The SIS is showing a student on board who isn’t there. Can you check?"
+            },
+            {
+              "time": "08:01",
+              "from": "Transportation Center",
+              "to": "Driver 107",
+              "text": "Driver 107, standby. We’re checking the Transfinder feed and SIS status. Do not open the doors. Remain at the stop until further instruction."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Young male, tense, voice shaking slightly",
+          "audioFile": "I-09b_radio.wav",
+          "duration": "0:15",
+          "injectId": "I-09b"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it down without engaging. The Transportation Branch Director must confirm the GPS feed is spoofed and the SIS is corrupted.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.496Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "GPS Spoof — Bus 107 on Route 14",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Halverson Unified School District",
+          "centerName": "Transportation Center",
+          "channel": "Radio Channel 2",
+          "frequency": "TG 2001 / 460.150 MHz",
+          "date": "04/14/2026",
+          "callsign": "Driver 107",
+          "lines": [
+            {
+              "time": "08:00",
+              "from": "Driver 107 (Bus 107, Route 14)",
+              "to": "Transportation Center",
+              "text": "Dispatch, Driver 107 on Route 14. Bus 107 is stopped at the stop on 4th and Maple. The GPS tracker shows the bus at the north edge of the city, but we’re at the stop and the doors won’t open. The SIS is showing a student on board who isn’t there. Can you check?"
+            },
+            {
+              "time": "08:01",
+              "from": "Transportation Center",
+              "to": "Driver 107",
+              "text": "Driver 107, standby. We’re checking the Transfinder feed and SIS status. Do not open the doors. Remain at the stop until further instruction."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Young male, tense, voice shaking slightly",
+          "audioFile": "I-09b_radio.wav",
+          "duration": "0:15",
+          "injectId": "I-09b"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it down without engaging. The Transportation Branch Director must confirm the GPS feed is spoofed and the SIS is corrupted.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:51.771Z"
+}

@@ -1,0 +1,143 @@
+{
+  "id": "01M5QTSA8BS7R5BYHEEZNJV5TK",
+  "mselRowId": "I-07b",
+  "type": "email_forward",
+  "title": "Critical Alert on MCHD-INT01 — Network Isolation Request",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "County IT",
+    "fromEmail": "mc-it@marstonhealth.example",
+    "senderInitials": "C",
+    "to": "Wes Tran (IT), Pamela Ruiz (IT)",
+    "subject": "FW: Critical Alert on MCHD-INT01 — Network Isolation Request",
+    "sentAt": "Thu 10/22/2026 10:30 AM",
+    "note": "Wes, we’ve confirmed the unauthorized script 'auto_cleaner.py' on MCHD-INT01 is actively deleting entries from the IIS export file. It’s running every 15 minutes and has already removed 142 records. We need to isolate the network from the county core to prevent lateral movement. But we cannot initiate isolation without a formal Cyber 1 call from the Incident Commander. Please escalate.",
+    "signature": "County IT\nMarston County Information Technology",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "County IT",
+    "original": {
+      "fromName": "Bluestem Managed Security (SOC)",
+      "fromEmail": "soc@bluestemsec.com",
+      "sentAt": "Thu 10/22/2026 10:28 AM",
+      "to": "IT",
+      "cc": "Incident Commander, Epi, PIO",
+      "subject": "SIEM Alert: Suspicious Script Execution on MCHD-INT01",
+      "body": "Host: MCHD-INT01\nFile: /root/auto_cleaner.py\nExecution: Every 15 minutes\nAction: Deleting entries from IIS export file\nFile creation timestamp: 09:00:12\nNo digital signature.\nNot in approved software inventory (MCHD-FAC-SYS-2026, rev 2.0).\nAlert level: Cyber 2.\n\nAdditional context: The IIS export file was altered to include 412 MMR doses with non-existent lot numbers. The attacker used a phishing email to compromise Jenna Fowler's account and bulk-cancelled 640 SlotWise appointments for a measles POD clinic in Brandt, triggering a viral social media post.\n\nPlease coordinate isolation and shutdown per C1 and C4."
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "This inject forces IT to recognize the need to escalate to the Incident Commander for a Cyber 1 declaration. Watch for whether IT seeks the IC’s approval before initiating isolation, per C1.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 5 › 5.1 Who decides",
+      "quote": "County IT decides network isolation and server shutdowns. MCHD decides what to stop sending outside the county and when to go to paper. The two decisions are coordinated by phone between Pamela Ruiz a",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department…",
+      "quote": "Document Control Number: MCHD-CYB-ANX-2026 · Revision 1.2 · Effective Date: 02/01/2026 · Parent document: MCHD-EOP-2026 · Owners: Wes Tran (Informatics Lead, MCHD) and Pamela Ruiz (Marston County IT D",
+      "chunkId": 1
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVBJW26XJ613N8MEWVCCVV",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTSA8BS7R5BYHEEZNJV5TK/01M5QVBJW26XJ613N8MEWVCCVV.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 809,
+      "sha256": "b998888bfe634242d8d610aff3c4eb1649a9330d26b01d2832265e0041e7428d",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:07.351Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:49:18.521Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Critical Alert on MCHD-INT01 — Network Isolation Request",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "County IT",
+          "fromEmail": "mc-it@marstonhealth.example",
+          "senderInitials": "C",
+          "to": "Wes Tran (IT), Pamela Ruiz (IT)",
+          "subject": "FW: Critical Alert on MCHD-INT01 — Network Isolation Request",
+          "sentAt": "Sat 10/24/2026 10:30 AM",
+          "note": "Wes, we’ve confirmed the unauthorized script 'auto_cleaner.py' on MCHD-INT01 is actively deleting entries from the IIS export file. It’s running every 15 minutes and has already removed 142 records. We need to isolate the network from the county core to prevent lateral movement. But we cannot initiate isolation without a formal Cyber 1 call from the Incident Commander. Please escalate.",
+          "signature": "County IT\nMarston County Information Technology",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "County IT",
+          "original": {
+            "fromName": "Bluestem Managed Security (SOC)",
+            "fromEmail": "soc@bluestemsec.com",
+            "sentAt": "Sat 10/24/2026 10:28 AM",
+            "to": "IT",
+            "cc": "Incident Commander, Epi, PIO",
+            "subject": "SIEM Alert: Suspicious Script Execution on MCHD-INT01",
+            "body": "Host: MCHD-INT01\nFile: /root/auto_cleaner.py\nExecution: Every 15 minutes\nAction: Deleting entries from IIS export file\nFile creation timestamp: 09:00:12\nNo digital signature.\nNot in approved software inventory (MCHD-FAC-SYS-2026, rev 2.0).\nAlert level: Cyber 2.\n\nAdditional context: The IIS export file was altered to include 412 MMR doses with non-existent lot numbers. The attacker used a phishing email to compromise Jenna Fowler's account and bulk-cancelled 640 SlotWise appointments for a measles POD clinic in Brandt, triggering a viral social media post.\n\nPlease coordinate isolation and shutdown per C1 and C4."
+          }
+        },
+        "instructorNote": "This inject forces IT to recognize the need to escalate to the Incident Commander for a Cyber 1 declaration. Watch for whether IT seeks the IC’s approval before initiating isolation, per C1.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.192Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Critical Alert on MCHD-INT01 — Network Isolation Request",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "County IT",
+          "fromEmail": "mc-it@marstonhealth.example",
+          "senderInitials": "C",
+          "to": "Wes Tran (IT), Pamela Ruiz (IT)",
+          "subject": "FW: Critical Alert on MCHD-INT01 — Network Isolation Request",
+          "sentAt": "Thu 10/22/2026 10:30 AM",
+          "note": "Wes, we’ve confirmed the unauthorized script 'auto_cleaner.py' on MCHD-INT01 is actively deleting entries from the IIS export file. It’s running every 15 minutes and has already removed 142 records. We need to isolate the network from the county core to prevent lateral movement. But we cannot initiate isolation without a formal Cyber 1 call from the Incident Commander. Please escalate.",
+          "signature": "County IT\nMarston County Information Technology",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "County IT",
+          "original": {
+            "fromName": "Bluestem Managed Security (SOC)",
+            "fromEmail": "soc@bluestemsec.com",
+            "sentAt": "Thu 10/22/2026 10:28 AM",
+            "to": "IT",
+            "cc": "Incident Commander, Epi, PIO",
+            "subject": "SIEM Alert: Suspicious Script Execution on MCHD-INT01",
+            "body": "Host: MCHD-INT01\nFile: /root/auto_cleaner.py\nExecution: Every 15 minutes\nAction: Deleting entries from IIS export file\nFile creation timestamp: 09:00:12\nNo digital signature.\nNot in approved software inventory (MCHD-FAC-SYS-2026, rev 2.0).\nAlert level: Cyber 2.\n\nAdditional context: The IIS export file was altered to include 412 MMR doses with non-existent lot numbers. The attacker used a phishing email to compromise Jenna Fowler's account and bulk-cancelled 640 SlotWise appointments for a measles POD clinic in Brandt, triggering a viral social media post.\n\nPlease coordinate isolation and shutdown per C1 and C4."
+          }
+        },
+        "instructorNote": "This inject forces IT to recognize the need to escalate to the Incident Commander for a Cyber 1 declaration. Watch for whether IT seeks the IC’s approval before initiating isolation, per C1.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:07.638Z"
+}

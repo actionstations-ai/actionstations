@@ -1,0 +1,157 @@
+{
+  "id": "01M5QVRDWHT200E97JGPGJ37AY",
+  "mselRowId": "I-16",
+  "type": "email_forward",
+  "title": "Verification Plan Authorization Request",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Brent Harlow, 911 Systems Manager",
+    "fromEmail": "brent.harlow@rookecd.example",
+    "senderInitials": "BH",
+    "to": "Karen Voss, 911 Director",
+    "subject": "FW: Verification plan and vendor access for CAD restore",
+    "sentAt": "Thu 10/22/2026 21:40",
+    "note": "CAD-MDS01 is imaged and isolated. The CAD-DB01 backup from 02:00 today predates the 18:45 intrusion. Before any restore, the 17 calls with altered ALI or unit status must be reconciled against radio recordings and run cards. Please approve the verification plan and the Keystone vendor access request.",
+    "signature": "Brent Harlow\n911 Systems Manager\nRook County Emergency Communications District",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "911 Systems Manager",
+    "original": {
+      "fromName": "Brent Harlow, 911 Systems Manager",
+      "fromEmail": "brent.harlow@rookecd.example",
+      "sentAt": "Thu 10/22/2026 21:38",
+      "to": "Karen Voss, 911 Director",
+      "cc": "",
+      "subject": "Verification plan and vendor access for CAD restore",
+      "body": "CAD-MDS01 is imaged and isolated. The CAD-DB01 backup from 02:00 today predates the 18:45 intrusion. Before any restore, the 17 calls with altered ALI or unit status must be reconciled against radio recordings and run cards. Please approve the verification plan and the Keystone vendor access request."
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "This inject confirms the Technical Lead has completed forensic capture and is requesting formal approval to begin verification. The Incident Commander must review and authorize under EOP 5.2 to proceed to recovery.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 6 › 6.2 Rerouting 911 calls",
+      "quote": "When RCECD cannot answer, the Technical Lead asks the state ESInet network operations center to route overflow or all 911 calls to Tamarack County Communications under MCTA-2025. Tamarack answers, tak",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 1 › 1.4 Coordinated Documents",
+      "quote": "| Document | Number | Revision | |---|---|---| | Cyber Incident Response Playbook | RCECD-CYB-2026 | 2.1 | | Systems, Positions and Radio Description | RCECD-SYS-2026 | 3.0 | | Rook County Tactical In",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 1 › 1.1 Purpose",
+      "quote": "This plan tells the Rook County Emergency Communications District (RCECD) how to keep answering 911 calls and dispatching police, fire and EMS when call volume, weather, a technology failure, a cyber ",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Annex B",
+      "quote": "The TAC completes the security incident response form from the CJIS Security Policy appendix and sends it to the Indiana State Police information security officer through the IDACS channel or by the p",
+      "chunkId": 17
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QWA34EQ7Y4A4DT5G98SSHN",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVRDWHT200E97JGPGJ37AY/01M5QWA34EQ7Y4A4DT5G98SSHN.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 556,
+      "sha256": "86568af698ecaba7204cb286d7f0ac966a7f2da8be95acb313d574302475056f",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:47.094Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:06:18.926Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Verification Plan Authorization Request",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Brent Harlow, 911 Systems Manager",
+          "fromEmail": "brent.harlow@rookecd.example",
+          "senderInitials": "BH",
+          "to": "Karen Voss, 911 Director",
+          "subject": "FW: Request for approval to initiate verification plan per RCECD-OPS-2026, Section 5, T-2 Contain",
+          "sentAt": "Sat 10/24/2026 21:40",
+          "note": "Director, I’ve completed the forensic image capture of CAD-MDS01 and confirmed isolation via REC-01 (RCECD-F-21). The last clean backup (2025-12-31 23:59) is on the network share but blocked by firewall due to missing CJIS incident report submission. I’m requesting formal authorization to begin the verification plan under RCECD-OPS-2026, Section 5, T-2 Contain, and to approve the vendor access request for restore. The 17 calls with corrupted ALI data must be reconciled via radio logs, run cards, and 24-hour audit of unit movements before any restoration. This is time-sensitive — we cannot risk restoring unverified data.",
+          "signature": "Brent Harlow\n911 Systems Manager\nRook County Emergency Communications District",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "911 Systems Manager",
+          "original": {
+            "fromName": "Brent Harlow, 911 Systems Manager",
+            "fromEmail": "brent.harlow@rookecd.example",
+            "sentAt": "Sat 10/24/2026 21:38",
+            "to": "Karen Voss, 911 Director",
+            "cc": "",
+            "subject": "Request for approval to initiate verification plan per RCECD-OPS-2026, Section 5, T-2 Contain",
+            "body": "FROM: Brent Harlow, 911 Systems Manager\nTO: Karen Voss, 911 Director\nSUBJECT: Request for approval to initiate verification plan per RCECD-OPS-2026, Section 5, T-2 Contain\n\nBackground: CAD-MDS01 forensic image preserved on REC-01. Last clean backup (2025-12-31 23:59) exists but is blocked by firewall due to missing vendor access request. The 17 calls with corrupted ALI data must be reconciled via radio logs, run cards, and 24-hour audit of unit movements before any restoration.\n\nRequest: Authorization to begin verification plan and to approve vendor access request for restore."
+          }
+        },
+        "instructorNote": "This inject confirms the Technical Lead has completed forensic capture and is requesting formal approval to begin verification. The Incident Commander must review and authorize under EOP 5.2 to proceed to recovery.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.630Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Verification Plan Authorization Request",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Brent Harlow, 911 Systems Manager",
+          "fromEmail": "brent.harlow@rookecd.example",
+          "senderInitials": "BH",
+          "to": "Karen Voss, 911 Director",
+          "subject": "FW: Verification plan and vendor access for CAD restore",
+          "sentAt": "Thu 10/22/2026 21:40",
+          "note": "CAD-MDS01 is imaged and isolated. The CAD-DB01 backup from 02:00 today predates the 18:45 intrusion. Before any restore, the 17 calls with altered ALI or unit status must be reconciled against radio recordings and run cards. Please approve the verification plan and the Keystone vendor access request.",
+          "signature": "Brent Harlow\n911 Systems Manager\nRook County Emergency Communications District",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "911 Systems Manager",
+          "original": {
+            "fromName": "Brent Harlow, 911 Systems Manager",
+            "fromEmail": "brent.harlow@rookecd.example",
+            "sentAt": "Thu 10/22/2026 21:38",
+            "to": "Karen Voss, 911 Director",
+            "cc": "",
+            "subject": "Verification plan and vendor access for CAD restore",
+            "body": "CAD-MDS01 is imaged and isolated. The CAD-DB01 backup from 02:00 today predates the 18:45 intrusion. Before any restore, the 17 calls with altered ALI or unit status must be reconciled against radio recordings and run cards. Please approve the verification plan and the Keystone vendor access request."
+          }
+        },
+        "instructorNote": "This inject confirms the Technical Lead has completed forensic capture and is requesting formal approval to begin verification. The Incident Commander must review and authorize under EOP 5.2 to proceed to recovery.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:47.311Z"
+}

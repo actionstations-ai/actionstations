@@ -1,0 +1,130 @@
+{
+  "id": "01M5QTXX8Q7APJNPBZGFMGCZBE",
+  "mselRowId": "I-18",
+  "type": "email",
+  "title": "IIS Export Interface Restored and Verified",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "County IT",
+    "fromEmail": "it-helpdesk@marstoncounty.example",
+    "senderInitials": "MC",
+    "to": "Dr. Joanna Pruitt (HO); Wes Tran (IT); Dr. Neha Raman (Epi); Lena Abernathy (PIO)",
+    "subject": "MCHD-INT01 restored",
+    "sentAt": "Thu 10/22/2026 12:00 PM",
+    "body": "MCHD-INT01 has been restored from the immutable backup of 10-20 and is back on the network. We believe it is clean. A catch-up export for 10-21 can be generated whenever you are ready.",
+    "signature": "County IT (MC-IT-2026)\nMarston County Health Department\nNetwork Operations Center | x2011",
+    "attachments": [],
+    "importance": "high",
+    "external": false,
+    "printedBy": "County IT (MC-IT-2026)"
+  },
+  "variant": "screen",
+  "instructorNote": "This inject confirms the system recovery and initiates the data-integrity verification process. The team must now follow Section 6 and complete the MCHD-F-62 form to trust the IIS export data again.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPNTVJQ6BJQJV2Y2B89",
+      "documentTitle": "Marston County Health Department — Facilities, Districts and Information Systems Description",
+      "headingPath": "Marston County Health Department… › Section 6",
+      "quote": "| System | Purpose | Hosted | Host / URL | Owner | Paper fallback | |---|---|---|---|---|---| | State disease surveillance system | Case investigation, ELR and eCR receipt, contact records | KDHE | st",
+      "chunkId": 24
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 9",
+      "quote": "Systems return in this order unless the Incident Commander changes it: (1) phones and the fax server MCHD-FAX01, (2) email, (3) ClinicTrack EHR, (4) the file shares and the outbreak SharePoint site, (",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 6",
+      "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 5 › 5.2 Interface pause (decision record CYB-DR-2)",
+      "quote": "The nightly HL7 VXU export from ClinicTrack to the state IIS (job IIS-EXPORT-NIGHTLY on MCHD-INT01, 01:30) is paused when: - ClinicTrack or MCHD-INT01 is suspected compromised; or - the export file co",
+      "chunkId": 8
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVBQ754E65C31B5EC2XBR6",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTXX8Q7APJNPBZGFMGCZBE/01M5QVBQ754E65C31B5EC2XBR6.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 351,
+      "sha256": "1166bfd2d0cfd4deb41336d8dd7ebe68fce3cb3113160531925563b8b615c730",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:11.851Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:51:48.404Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "IIS Export Interface Restored and Verified",
+        "type": "email",
+        "fields": {
+          "fromName": "County IT (MC-IT-2026)",
+          "fromEmail": "mc-it-2026@marstonhealth.example",
+          "senderInitials": "MC",
+          "to": "Dr. Joanna Pruitt (HO); Wes Tran (IT); Dr. Neha Raman (Epi); Lena Abernathy (PIO)",
+          "subject": "IIS Export Interface Restored and Verified",
+          "sentAt": "Sat 10/24/2026 12:00 PM",
+          "body": "Per forensic recovery, MCHD-INT01 has been restored from the immutable cloud backup (04-01) and confirmed clean. The original IIS export file is intact and unaltered. The catch-up file for 04-01 has been generated. No further corruption was found in the backup. All data in the original IIS export file matches the paper records and the ColdSentry logs. The system is now ready for verification.\n\nWe recommend proceeding to data-integrity check under Section 6.",
+          "signature": "County IT (MC-IT-2026)\nMarston County Health Department\nNetwork Operations Center | x2011",
+          "attachments": [],
+          "importance": "high",
+          "external": false,
+          "printedBy": "County IT (MC-IT-2026)"
+        },
+        "instructorNote": "This inject confirms the system recovery and initiates the data-integrity verification process. The team must now follow Section 6 and complete the MCHD-F-62 form to trust the IIS export data again.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.267Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "IIS Export Interface Restored and Verified",
+        "type": "email",
+        "fields": {
+          "fromName": "County IT",
+          "fromEmail": "it-helpdesk@marstoncounty.example",
+          "senderInitials": "MC",
+          "to": "Dr. Joanna Pruitt (HO); Wes Tran (IT); Dr. Neha Raman (Epi); Lena Abernathy (PIO)",
+          "subject": "MCHD-INT01 restored",
+          "sentAt": "Thu 10/22/2026 12:00 PM",
+          "body": "MCHD-INT01 has been restored from the immutable backup of 10-20 and is back on the network. We believe it is clean. A catch-up export for 10-21 can be generated whenever you are ready.",
+          "signature": "County IT (MC-IT-2026)\nMarston County Health Department\nNetwork Operations Center | x2011",
+          "attachments": [],
+          "importance": "high",
+          "external": false,
+          "printedBy": "County IT (MC-IT-2026)"
+        },
+        "instructorNote": "This inject confirms the system recovery and initiates the data-integrity verification process. The team must now follow Section 6 and complete the MCHD-F-62 form to trust the IIS export data again.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:12.130Z"
+}

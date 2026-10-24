@@ -1,0 +1,318 @@
+{
+  "id": "01M5QTRFYW5ZH2YXG4Y2EFHQ71",
+  "mselRowId": "I-06b",
+  "type": "field_report",
+  "title": "Outbreak Line List: Missing Contact Assignments",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Marston County Health Department — Epidemiology",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-1022-0087",
+    "date": "10/22/2026",
+    "time": "10:18-10:20",
+    "location": "MCHD Epi Response SharePoint site (https://marstonhealth.example/sites/MCHD-Epi-Response)",
+    "inspector": "Colin Mercer, Epi Field Analyst",
+    "unit": "Epi Team — Zone 2",
+    "reportType": "incident",
+    "weather": "Clear, 62°F, light wind",
+    "summary": "Attempted to assign contact tracer for Case 26-04412 (child in Lindell) but found no contact list in the line list. The case shows a 'completed' status with no notes, lab result, or assignment. Paper line list (MCHD-F-12) confirms no contact assignments were made. Version history shows a modification at 10:18:47 by 'svc-iisexport@marstonhealth.example'. No user activity log entry for that account.",
+    "findings": [
+      {
+        "item": "Contact tracing assignment status",
+        "condition": "failed",
+        "notes": "No assignment recorded in line list; paper version confirms no action taken."
+      },
+      {
+        "item": "Case status update",
+        "condition": "failed",
+        "notes": "Case marked 'completed' without evidence of investigation or lab confirmation."
+      },
+      {
+        "item": "System access log",
+        "condition": "failed",
+        "notes": "No user activity log entry for svc-iisexport@marstonhealth.example."
+      },
+      {
+        "item": "Line list version control",
+        "condition": "failed",
+        "notes": "Unauthorized edit detected; timestamped 10:18:47."
+      },
+      {
+        "item": "Paper backup integrity",
+        "condition": "ok",
+        "notes": "MCHD-F-12 shows no contact assignments; consistent with digital version."
+      },
+      {
+        "item": "Case 26-04412 lab result",
+        "condition": "not_inspected",
+        "notes": "No lab data present in digital or paper record."
+      },
+      {
+        "item": "Case 26-04412 exposure window",
+        "condition": "failed",
+        "notes": "Listed as 2026-10-24 to 2026-11-01 — invalid for current date (2026-10-22)."
+      },
+      {
+        "item": "IIS export file integrity",
+        "condition": "failed",
+        "notes": "Corrupted export may have overwritten case data; file modified by svc-iisexport@marstonhealth.example."
+      },
+      {
+        "item": "SharePoint edit history",
+        "condition": "failed",
+        "notes": "Version change attributed to service account with no audit trail."
+      },
+      {
+        "item": "DOC kit access",
+        "condition": "ok",
+        "notes": "DOC kit available at Level 2; used to verify paper line list."
+      }
+    ],
+    "actionsTaken": [
+      "Verified paper line list (MCHD-F-12) against printed master",
+      "Marked Case 26-04412 as 'unverified' on DOC status board",
+      "Reported anomaly to IT and Incident Commander via secure email"
+    ],
+    "recommendations": [
+      "Do not assign contact tracers until data integrity is confirmed",
+      "Audit all case updates in the line list against paper master and logs",
+      "Freeze svc-iisexport@marstonhealth.example account pending investigation",
+      "Declare paper mode for Epi team if digital data remains untrustworthy"
+    ],
+    "photosNote": "1 photo attached: Screenshot of SharePoint version history showing edit by svc-iisexport@marstonhealth.example at 10:18:47",
+    "signature": "Colin Mercer, Epi Field Analyst",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the data breach has altered case status and removed contact assignments. Epi must now verify all line list entries against paper and halt assignments. Watch for attempts to override paper mode.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+      "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+      "headingPath": "Marston County Health Department… › Section 5 › 5.2 Outbreak numbers and line lists",
+      "quote": "The Lead Epidemiologist assigns an outbreak number (format OB-2026-0147) and opens the line list from template MCHD-F-12. The working line list lives on the county SharePoint site \"MCHD Epi Response\";",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 10",
+      "quote": "Paper mode is declared by the Incident Commander (decision record CYB-DR-1). In paper mode: - Disease reports are taken by phone on MCHD-F-10; investigators work cases in the state surveillance system",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Annex A",
+      "quote": "**A-1 Ransomware on the county network.** County IT isolates; MCHD declares Cyber 1, paper mode, pauses the IIS export, moves epidemiology to DOC laptops, notifies KDHE, prepares the outage message fo",
+      "chunkId": 15
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVBJ04Z1NP6PK83XAWKY77",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTRFYW5ZH2YXG4Y2EFHQ71/01M5QVBJ04Z1NP6PK83XAWKY77.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "2274746f7a04c3bf93f64c6eae92b0d7e3fdc7e5eb4a4a094edee6a6ba931c56",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:06.431Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:48:56.304Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Outbreak Line List: Missing Contact Assignments",
+        "type": "field_report",
+        "fields": {
+          "organization": "Marston County Health Department — Epidemiology",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1024-0087",
+          "date": "10/24/2026",
+          "time": "10:18-10:20",
+          "location": "MCHD Epi Response SharePoint site (https://marstonhealth.example/sites/MCHD-Epi-Response)",
+          "inspector": "Colin Mercer, Epi Field Analyst",
+          "unit": "Epi Team — Zone 2",
+          "reportType": "incident",
+          "weather": "Clear, 62°F, light wind",
+          "summary": "Attempted to assign contact tracer for Case 26-04412 (child in Lindell) but found no contact list in the line list. The case shows a 'completed' status with no notes, lab result, or assignment. Paper line list (MCHD-F-12) confirms no contact assignments were made. Version history shows a modification at 10:18:47 by 'svc-iisexport@marstonhealth.example'. No user activity log entry for that account.",
+          "findings": [
+            {
+              "item": "Contact tracing assignment status",
+              "condition": "failed",
+              "notes": "No assignment recorded in line list; paper version confirms no action taken."
+            },
+            {
+              "item": "Case status update",
+              "condition": "failed",
+              "notes": "Case marked 'completed' without evidence of investigation or lab confirmation."
+            },
+            {
+              "item": "System access log",
+              "condition": "failed",
+              "notes": "No user activity log entry for svc-iisexport@marstonhealth.example."
+            },
+            {
+              "item": "Line list version control",
+              "condition": "failed",
+              "notes": "Unauthorized edit detected; timestamped 10:18:47."
+            },
+            {
+              "item": "Paper backup integrity",
+              "condition": "ok",
+              "notes": "MCHD-F-12 shows no contact assignments; consistent with digital version."
+            },
+            {
+              "item": "Case 26-04412 lab result",
+              "condition": "not_inspected",
+              "notes": "No lab data present in digital or paper record."
+            },
+            {
+              "item": "Case 26-04412 exposure window",
+              "condition": "failed",
+              "notes": "Listed as 2026-04-03 to 2026-04-11 — invalid for current date (2026-10-24)."
+            },
+            {
+              "item": "IIS export file integrity",
+              "condition": "failed",
+              "notes": "Corrupted export may have overwritten case data; file modified by svc-iisexport@marstonhealth.example."
+            },
+            {
+              "item": "SharePoint edit history",
+              "condition": "failed",
+              "notes": "Version change attributed to service account with no audit trail."
+            },
+            {
+              "item": "DOC kit access",
+              "condition": "ok",
+              "notes": "DOC kit available at Level 2; used to verify paper line list."
+            }
+          ],
+          "actionsTaken": [
+            "Verified paper line list (MCHD-F-12) against printed master",
+            "Marked Case 26-04412 as 'unverified' on DOC status board",
+            "Reported anomaly to IT and Incident Commander via secure email"
+          ],
+          "recommendations": [
+            "Do not assign contact tracers until data integrity is confirmed",
+            "Audit all case updates in the line list against paper master and logs",
+            "Freeze svc-iisexport@marstonhealth.example account pending investigation",
+            "Declare paper mode for Epi team if digital data remains untrustworthy"
+          ],
+          "photosNote": "1 photo attached: Screenshot of SharePoint version history showing edit by svc-iisexport@marstonhealth.example at 10:18:47",
+          "signature": "Colin Mercer, Epi Field Analyst",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the data breach has altered case status and removed contact assignments. Epi must now verify all line list entries against paper and halt assignments. Watch for attempts to override paper mode.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.178Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Outbreak Line List: Missing Contact Assignments",
+        "type": "field_report",
+        "fields": {
+          "organization": "Marston County Health Department — Epidemiology",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1022-0087",
+          "date": "10/22/2026",
+          "time": "10:18-10:20",
+          "location": "MCHD Epi Response SharePoint site (https://marstonhealth.example/sites/MCHD-Epi-Response)",
+          "inspector": "Colin Mercer, Epi Field Analyst",
+          "unit": "Epi Team — Zone 2",
+          "reportType": "incident",
+          "weather": "Clear, 62°F, light wind",
+          "summary": "Attempted to assign contact tracer for Case 26-04412 (child in Lindell) but found no contact list in the line list. The case shows a 'completed' status with no notes, lab result, or assignment. Paper line list (MCHD-F-12) confirms no contact assignments were made. Version history shows a modification at 10:18:47 by 'svc-iisexport@marstonhealth.example'. No user activity log entry for that account.",
+          "findings": [
+            {
+              "item": "Contact tracing assignment status",
+              "condition": "failed",
+              "notes": "No assignment recorded in line list; paper version confirms no action taken."
+            },
+            {
+              "item": "Case status update",
+              "condition": "failed",
+              "notes": "Case marked 'completed' without evidence of investigation or lab confirmation."
+            },
+            {
+              "item": "System access log",
+              "condition": "failed",
+              "notes": "No user activity log entry for svc-iisexport@marstonhealth.example."
+            },
+            {
+              "item": "Line list version control",
+              "condition": "failed",
+              "notes": "Unauthorized edit detected; timestamped 10:18:47."
+            },
+            {
+              "item": "Paper backup integrity",
+              "condition": "ok",
+              "notes": "MCHD-F-12 shows no contact assignments; consistent with digital version."
+            },
+            {
+              "item": "Case 26-04412 lab result",
+              "condition": "not_inspected",
+              "notes": "No lab data present in digital or paper record."
+            },
+            {
+              "item": "Case 26-04412 exposure window",
+              "condition": "failed",
+              "notes": "Listed as 2026-10-24 to 2026-11-01 — invalid for current date (2026-10-22)."
+            },
+            {
+              "item": "IIS export file integrity",
+              "condition": "failed",
+              "notes": "Corrupted export may have overwritten case data; file modified by svc-iisexport@marstonhealth.example."
+            },
+            {
+              "item": "SharePoint edit history",
+              "condition": "failed",
+              "notes": "Version change attributed to service account with no audit trail."
+            },
+            {
+              "item": "DOC kit access",
+              "condition": "ok",
+              "notes": "DOC kit available at Level 2; used to verify paper line list."
+            }
+          ],
+          "actionsTaken": [
+            "Verified paper line list (MCHD-F-12) against printed master",
+            "Marked Case 26-04412 as 'unverified' on DOC status board",
+            "Reported anomaly to IT and Incident Commander via secure email"
+          ],
+          "recommendations": [
+            "Do not assign contact tracers until data integrity is confirmed",
+            "Audit all case updates in the line list against paper master and logs",
+            "Freeze svc-iisexport@marstonhealth.example account pending investigation",
+            "Declare paper mode for Epi team if digital data remains untrustworthy"
+          ],
+          "photosNote": "1 photo attached: Screenshot of SharePoint version history showing edit by svc-iisexport@marstonhealth.example at 10:18:47",
+          "signature": "Colin Mercer, Epi Field Analyst",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the data breach has altered case status and removed contact assignments. Epi must now verify all line list entries against paper and halt assignments. Watch for attempts to override paper mode.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:06.750Z"
+}

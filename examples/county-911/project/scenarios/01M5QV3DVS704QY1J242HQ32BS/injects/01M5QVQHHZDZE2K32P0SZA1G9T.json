@@ -1,0 +1,307 @@
+{
+  "id": "01M5QVQHHZDZE2K32P0SZA1G9T",
+  "mselRowId": "I-15b",
+  "type": "system_log",
+  "title": "Forensic Image Capture — CAD-MDS01",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "RCECD-OPS-2026",
+    "host": "CAD-MDS01",
+    "ip": "10.72.30.200",
+    "os": "Windows Server 2022",
+    "logSource": "Forensic Imaging Module (FIM)",
+    "exportedBy": "RCECD\\tech.admin",
+    "exportedAt": "10/22/2026 21:35",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "21:35:01",
+        "level": "INFO",
+        "msg": "Forensic image of CAD-MDS01 captured and verified (SHA-256 recorded on RCECD-F-21)",
+        "highlight": false
+      },
+      {
+        "ts": "21:35:20",
+        "level": "NOTICE",
+        "msg": "Restore request CAD-DB01 from backup 10-22 02:00 queued",
+        "highlight": false
+      },
+      {
+        "ts": "21:35:22",
+        "level": "WARN",
+        "msg": "Vendor connection refused: signed access request and County IT isolation confirmation required (Keystone Public Safety)",
+        "highlight": true
+      },
+      {
+        "ts": "21:35:30",
+        "level": "WARN",
+        "msg": "CJIS security incident report to Indiana State Police (IDACS): not filed",
+        "highlight": true
+      }
+    ],
+    "terminalTitle": "RCECD-F-21 Forensic Console",
+    "command": "Invoke-ForensicImage -Target CAD-MDS01 -Output \\10.72.30.200\\forensics\\cad_mds01_20261022_2135.img",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This inject confirms forensic containment and triggers the CJIS reporting requirement. Watch for the TAC to initiate the CJIS form submission before approving vendor access.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Annex B",
+      "quote": "The TAC completes the security incident response form from the CJIS Security Policy appendix and sends it to the Indiana State Police information security officer through the IDACS channel or by the p",
+      "chunkId": 17
+    },
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 1 › 1.4 Coordinated Documents",
+      "quote": "| Document | Number | Revision | |---|---|---| | Cyber Incident Response Playbook | RCECD-CYB-2026 | 2.1 | | Systems, Positions and Radio Description | RCECD-SYS-2026 | 3.0 | | Rook County Tactical In",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Table of Contents",
+      "quote": "Section 1 Purpose · Section 2 What Sits Where · Section 3 Roles · Section 4 Detection and First Report · Section 5 Playbook T — Telephony Denial of Service · Section 6 Playbook C — CAD or County Netwo",
+      "chunkId": 2
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 9",
+      "quote": "| Who | When | By whom | |---|---|---| | County IT and the managed SOC (Hoosier Shield Managed Security) | Immediately | Supervisor or Technical Lead | | State ESInet network operations center | Any 9",
+      "chunkId": 15
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QWA2WMBYSF54H4W2F5WPQ8",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVQHHZDZE2K32P0SZA1G9T/01M5QWA2WMBYSF54H4W2F5WPQ8.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "9f2876b6dbbd55540556f289cb74ad46a222472a9309f293bf9910596b9e15d2",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:46.805Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:06:08.396Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Forensic Image Capture — CAD-MDS01",
+        "type": "system_log",
+        "fields": {
+          "systemName": "RCECD-OPS-2026",
+          "host": "RCECD-F-21",
+          "ip": "10.72.30.200",
+          "os": "Windows Server 2022",
+          "logSource": "Forensic Imaging Module (FIM)",
+          "exportedBy": "RCECD\\tech.admin",
+          "exportedAt": "10/24/2026 21:35",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "21:35:01",
+              "level": "INFO",
+              "msg": "Forensic image of CAD-MDS01 (10.72.30.20) captured via RCECD-F-21 (10.72.30.200) and stored on \\10.72.30.200\\forensics\\cad_mds01_20261024_2135.img",
+              "highlight": false
+            },
+            {
+              "ts": "21:35:03",
+              "level": "INFO",
+              "msg": "Image verified: SHA-256 hash matches baseline from RCECD-F-21 (RCECD-F-21, ALI_20261024_193510)",
+              "highlight": false
+            },
+            {
+              "ts": "21:35:05",
+              "level": "NOTICE",
+              "msg": "Isolation confirmed: CAD-MDS01 (10.72.30.20) isolated from CAD-FW01 (10.72.30.10) via CYB-DR-1 (OPS-DR-1)",
+              "highlight": false
+            },
+            {
+              "ts": "21:35:07",
+              "level": "INFO",
+              "msg": "Backup restore request initiated: last clean backup (2025-12-31 23:59) on network share \\10.72.30.200\\backup\\cad\\",
+              "highlight": false
+            },
+            {
+              "ts": "21:35:09",
+              "level": "ERROR",
+              "msg": "Access denied: missing CJIS incident report submission for 2026-10-24. Required for vendor access and restore approval.",
+              "highlight": true
+            },
+            {
+              "ts": "21:35:11",
+              "level": "ALERT",
+              "msg": "CJIS incident report (RCECD-CYB-2026, C2) must be submitted to Indiana State Police via IDACS before any restore can proceed. TAC must complete the CJIS Security Incident Reporting form and send to state CSA.",
+              "highlight": true
+            },
+            {
+              "ts": "21:35:13",
+              "level": "INFO",
+              "msg": "Audit trail: RCECD-OPS-2026, Section 5, T-2 Contain — manual isolation and imaging completed per playbook",
+              "highlight": false
+            },
+            {
+              "ts": "21:35:15",
+              "level": "INFO",
+              "msg": "Image retention: 90 days per RCECD-F-21 policy (RCECD-SYS-2026, C3)",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "RCECD-F-21 Forensic Console",
+          "command": "Invoke-ForensicImage -Target CAD-MDS01 -Output \\10.72.30.200\\forensics\\cad_mds01_20261024_2135.img",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms forensic containment and reveals the compliance barrier to restore. The Tech must recognize that CJIS reporting must be completed before any vendor access or restore is permitted.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:10:35.667Z",
+      "by": "ai",
+      "note": "regenerated",
+      "snapshot": {
+        "title": "Forensic Image Capture — CAD-MDS01",
+        "type": "system_log",
+        "fields": {
+          "systemName": "RCECD-OPS-2026",
+          "host": "RCECD-F-21",
+          "ip": "10.72.30.200",
+          "os": "Windows Server 2022",
+          "logSource": "Forensic Imaging Module (FIM)",
+          "exportedBy": "RCECD\\tech.admin",
+          "exportedAt": "10/24/2026 21:35",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "21:35:01",
+              "level": "INFO",
+              "msg": "Forensic image of CAD-MDS01 (10.72.30.16) captured via RCECD-F-21 (10.72.30.200) and stored on \\10.72.30.200\\forensics\\cad_mds01_20261024_2135.img",
+              "highlight": false
+            },
+            {
+              "ts": "21:35:03",
+              "level": "INFO",
+              "msg": "Image verified: SHA-256 hash matches baseline from RCECD-F-21 (RCECD-F-21, ALI_20261024_193510)",
+              "highlight": false
+            },
+            {
+              "ts": "21:35:05",
+              "level": "NOTICE",
+              "msg": "Isolation confirmed: CAD-MDS01 (10.72.30.16) isolated from CAD-FW01 (10.72.30.10) via CYB-DR-1 (OPS-DR-1)",
+              "highlight": false
+            },
+            {
+              "ts": "21:35:07",
+              "level": "INFO",
+              "msg": "Backup restore request initiated: last clean backup (2025-12-31 23:59) on network share \\10.72.30.200\\backup\\cad\\",
+              "highlight": false
+            },
+            {
+              "ts": "21:35:09",
+              "level": "ERROR",
+              "msg": "Access denied: missing CJIS incident report submission for 2026-10-24. Required for vendor access and restore approval.",
+              "highlight": true
+            },
+            {
+              "ts": "21:35:11",
+              "level": "ALERT",
+              "msg": "CJIS incident report (RCECD-CYB-2026, C2) must be submitted to Indiana State Police via IDACS before any restore can proceed. TAC must complete the CJIS Security Incident Reporting form and send to state CSA.",
+              "highlight": true
+            },
+            {
+              "ts": "21:35:13",
+              "level": "INFO",
+              "msg": "Audit trail: RCECD-OPS-2026, Section 5, T-2 Contain — manual isolation and imaging completed per playbook",
+              "highlight": false
+            },
+            {
+              "ts": "21:35:15",
+              "level": "INFO",
+              "msg": "Image retention: 90 days per RCECD-F-21 policy (RCECD-SYS-2026, C3)",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "RCECD-F-21 Forensic Console",
+          "command": "Invoke-ForensicImage -Target CAD-MDS01 -Output \\10.72.30.200\\forensics\\cad_mds01_20261024_2135.img",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms forensic containment and triggers the CJIS reporting requirement. Watch for the TAC to initiate the CJIS form submission before approving vendor access.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.625Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Forensic Image Capture — CAD-MDS01",
+        "type": "system_log",
+        "fields": {
+          "systemName": "RCECD-OPS-2026",
+          "host": "CAD-MDS01",
+          "ip": "10.72.30.200",
+          "os": "Windows Server 2022",
+          "logSource": "Forensic Imaging Module (FIM)",
+          "exportedBy": "RCECD\\tech.admin",
+          "exportedAt": "10/22/2026 21:35",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "21:35:01",
+              "level": "INFO",
+              "msg": "Forensic image of CAD-MDS01 captured and verified (SHA-256 recorded on RCECD-F-21)",
+              "highlight": false
+            },
+            {
+              "ts": "21:35:20",
+              "level": "NOTICE",
+              "msg": "Restore request CAD-DB01 from backup 10-22 02:00 queued",
+              "highlight": false
+            },
+            {
+              "ts": "21:35:22",
+              "level": "WARN",
+              "msg": "Vendor connection refused: signed access request and County IT isolation confirmation required (Keystone Public Safety)",
+              "highlight": true
+            },
+            {
+              "ts": "21:35:30",
+              "level": "WARN",
+              "msg": "CJIS security incident report to Indiana State Police (IDACS): not filed",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "RCECD-F-21 Forensic Console",
+          "command": "Invoke-ForensicImage -Target CAD-MDS01 -Output \\10.72.30.200\\forensics\\cad_mds01_20261022_2135.img",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms forensic containment and triggers the CJIS reporting requirement. Watch for the TAC to initiate the CJIS form submission before approving vendor access.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:47.081Z"
+}

@@ -1,0 +1,178 @@
+{
+  "id": "01M5QW2QHZFCH0EF2PQNTVWJ7G",
+  "mselRowId": "I-18c",
+  "type": "radio_call",
+  "title": "Manual Dispatch Discrepancy — ALI Mismatch on Fire Card",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Rook County Emergency Communications District",
+    "centerName": "Rook County 911 Emergency Communications Center",
+    "channel": "FD TAC 1",
+    "frequency": "TG 4201 / 450.375 MHz",
+    "date": "10/22/2026",
+    "callsign": "Engine 4",
+    "lines": [
+      {
+        "time": "22:10",
+        "from": "Engine 4",
+        "to": "Sup",
+        "text": "Sup, this is Engine 4. I just received a manual dispatch card for a structure fire at 123 S. Main St, Halden — but the ALI on the card shows 456 E. Oak St. The GPS on my MDT shows I’m already on route to the correct location. The card says 'Engine 1 dispatched'. I’m on scene and need a new unit to confirm if they’re en route."
+      },
+      {
+        "time": "22:11",
+        "from": "Sup",
+        "to": "Engine 4",
+        "text": "Engine 4, copy. We’re confirming unit status on the whiteboard. Stand by for verification."
+      },
+      {
+        "time": "22:12",
+        "from": "Engine 4",
+        "to": "Sup",
+        "text": "Copy, Sup. I’m on scene. No other units reported en route. Requesting immediate confirmation from the floor."
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Young male, urgent, strained",
+    "audioFile": "I-18c_radio.wav",
+    "duration": "0:18",
+    "injectId": "I-18c"
+  },
+  "variant": "default",
+  "instructorNote": "Noise inject; the technical team should not engage. The manual dispatch process remains active, and the discrepancy must be logged, not corrected.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 7",
+      "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 6 › C-3 Data that must not be trusted until checked",
+      "quote": "Unit status, unit recommendations (run cards), premise hazard notes, address points, and any incident changed during the suspected compromise window. Dispatchers confirm unit availability by radio.",
+      "chunkId": 12
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Engine 4",
+        "voiceStyle": "Young male, urgent, strained",
+        "text": "Sup, this is Engine 4. I just received a manual dispatch card for a structure fire at 123 S. Main St, Halden — but the ALI on the card shows 456 E. Oak St. The GPS on my MDT shows I’m already on route to the correct location. The card says 'Engine 1 dispatched'. I’m on scene and need a new unit to confirm if they’re en route."
+      },
+      {
+        "speaker": "Sup",
+        "voiceStyle": "Calm female dispatcher in her 40s, measured, slight Midwestern accent",
+        "text": "Engine 4, copy. We’re confirming unit status on the whiteboard. Stand by for verification."
+      },
+      {
+        "speaker": "Engine 4",
+        "voiceStyle": "Young male, urgent, strained",
+        "text": "Copy, Sup. I’m on scene. No other units reported en route. Requesting immediate confirmation from the floor."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T21:12:09.984Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Manual Dispatch Discrepancy — ALI Mismatch on Fire Card",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Rook County Emergency Communications District",
+          "centerName": "Rook County 911 Emergency Communications Center",
+          "channel": "FD TAC 1",
+          "frequency": "TG 4201 / 450.375 MHz",
+          "date": "10/24/2026",
+          "callsign": "Engine 4",
+          "lines": [
+            {
+              "time": "22:10",
+              "from": "Engine 4",
+              "to": "Sup",
+              "text": "Sup, this is Engine 4. I just received a manual dispatch card for a structure fire at 123 S. Main St, Halden — but the ALI on the card shows 456 E. Oak St. The GPS on my MDT shows I’m already on route to the correct location. The card says 'Engine 1 dispatched'. I’m on scene and need a new unit to confirm if they’re en route."
+            },
+            {
+              "time": "22:11",
+              "from": "Sup",
+              "to": "Engine 4",
+              "text": "Engine 4, copy. We’re confirming unit status on the whiteboard. Stand by for verification."
+            },
+            {
+              "time": "22:12",
+              "from": "Engine 4",
+              "to": "Sup",
+              "text": "Copy, Sup. I’m on scene. No other units reported en route. Requesting immediate confirmation from the floor."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Young male, urgent, strained",
+          "audioFile": "I-18c_radio.wav",
+          "duration": "0:18",
+          "injectId": "I-18c"
+        },
+        "instructorNote": "Noise inject; the technical team should not engage. The manual dispatch process remains active, and the discrepancy must be logged, not corrected.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.661Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Manual Dispatch Discrepancy — ALI Mismatch on Fire Card",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Rook County Emergency Communications District",
+          "centerName": "Rook County 911 Emergency Communications Center",
+          "channel": "FD TAC 1",
+          "frequency": "TG 4201 / 450.375 MHz",
+          "date": "10/22/2026",
+          "callsign": "Engine 4",
+          "lines": [
+            {
+              "time": "22:10",
+              "from": "Engine 4",
+              "to": "Sup",
+              "text": "Sup, this is Engine 4. I just received a manual dispatch card for a structure fire at 123 S. Main St, Halden — but the ALI on the card shows 456 E. Oak St. The GPS on my MDT shows I’m already on route to the correct location. The card says 'Engine 1 dispatched'. I’m on scene and need a new unit to confirm if they’re en route."
+            },
+            {
+              "time": "22:11",
+              "from": "Sup",
+              "to": "Engine 4",
+              "text": "Engine 4, copy. We’re confirming unit status on the whiteboard. Stand by for verification."
+            },
+            {
+              "time": "22:12",
+              "from": "Engine 4",
+              "to": "Sup",
+              "text": "Copy, Sup. I’m on scene. No other units reported en route. Requesting immediate confirmation from the floor."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Young male, urgent, strained",
+          "audioFile": "I-18c_radio.wav",
+          "duration": "0:18",
+          "injectId": "I-18c"
+        },
+        "instructorNote": "Noise inject; the technical team should not engage. The manual dispatch process remains active, and the discrepancy must be logged, not corrected.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:16:56.310Z"
+}

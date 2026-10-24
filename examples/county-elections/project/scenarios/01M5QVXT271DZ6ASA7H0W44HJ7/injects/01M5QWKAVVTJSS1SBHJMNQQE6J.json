@@ -1,0 +1,156 @@
+{
+  "id": "01M5QWKAVVTJSS1SBHJMNQQE6J",
+  "mselRowId": "I-14",
+  "type": "scenario_update",
+  "title": "Forensic Confirmation of Unauthorized VoterTrack Session",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:05",
+    "scenarioTime": "10:05",
+    "headline": "CISA Forensic Log Confirms Breach",
+    "deliverTo": "IT, VSM, Sec",
+    "narration": "A forensic log from LCBOE-SQL01 has been received from the managed SOC. The log confirms an unauthorized session on October 29, 2026, from IP address 10.100.45.12, which is not in any authorized IP range. The session lasted 35 minutes, from 02:05 to 02:40, and used a non-standard browser user agent. MFA was approved from Nina Ruiz’s iPhone13-773A, but no physical device was present in the office. The session modified 1,186 records in Precincts 111 and 112, changing the 'Absentee Ballot Status' field to 'received'. No local login event was recorded between 02:00 and 02:50.",
+    "keyFacts": [
+      ".10.100.45.12 is not in any authorized IP range.",
+      "MFA was approved but no device was present.",
+      "1,186 records in Precincts 111 and 112 were edited.",
+      "Session occurred 02:05–02:40 on 10/29/2026.",
+      "No local login event from 02:00 to 02:50."
+    ],
+    "expectedAction": "IT and VSM confirm that VoterTrack must be isolated immediately; the forensic evidence confirms a breach. Begin manual operations using the trusted pollbook build from 10/28 and the offline copy on LCBOE-PB01. No further system access is permitted until forensic review is complete.",
+    "facilitatorNote": "This inject confirms the attacker's access was not local and used stolen credentials. Watch for players to initiate isolation and switch to manual procedures.",
+    "scenarioTitle": "Ghost Poll Pads — VoterTrack Compromise & Public Trust",
+    "injectId": "I-14"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the breach and forces players to act on manual procedures. Monitor for IT and VSM to isolate VoterTrack and initiate the manual response plan.",
+  "citations": [
+    {
+      "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+      "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 7",
+      "quote": "| Check | Method | Owner | |---|---|---| | Audit-trail review | All VoterTrack changes in the window, by user, record and field | Beth Saylor with Rohan Mehta | | Statewide comparison | Affected recor",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+      "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+      "headingPath": "Lisle County Board of Elections… › Section 7",
+      "quote": "| System | Purpose | Host | Owner | |---|---|---|---| | Statewide voter registration database | Official statewide list; county records synchronize nightly | Ohio Secretary of State | Secretary of Sta",
+      "chunkId": 49
+    },
+    {
+      "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+      "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+      "headingPath": "Lisle County Board of Elections…",
+      "quote": "Document Control Number: LCBOE-SYS-2026 · Revision 3.1 · Effective Date: 08/15/2026 · Maintained by: Marcus Bell (Deputy Director), Rohan Mehta (Elections IT Manager) and Carla Nunez (Voting Systems M",
+      "chunkId": 41
+    },
+    {
+      "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+      "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 5",
+      "quote": "| Date | Milestone | |---|---| | 09/19/2026 | Military and overseas ballots sent | | 10/05/2026 | Voter registration deadline | | 10/06/2026 | Early in-person voting and mail ballot issue begin | | 10",
+      "chunkId": 28
+    },
+    {
+      "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+      "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 6 › 6.5 Insider concerns",
+      "quote": "Unexplained access to the count room, copying of voting system media, or a staff member acting outside their duties: Voting Systems Manager and Director secure the equipment and the camera footage; co",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+      "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 1 › 1.4 Coordinated Documents",
+      "quote": "| Document | Number | Revision | |---|---|---| | Cybersecurity Incident Response Plan | LCBOE-CIRP-2026 | 2.0 | | Facilities, Precincts and Systems Description | LCBOE-SYS-2026 | 3.1 | | Poll Worker M",
+      "chunkId": 24
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QX4044AF6XEDSK2RT62HFD",
+      "kind": "image",
+      "path": "scenarios/01M5QVXT271DZ6ASA7H0W44HJ7/media/01M5QWKAVVTJSS1SBHJMNQQE6J/01M5QX4044AF6XEDSK2RT62HFD.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "4cae90bdf5552679554c400078d5b4d98828e31e4bae7eb2e62f93ee48b1a11e",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scenario_update",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:29:55.954Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:20:58.803Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Forensic Confirmation of Unauthorized VoterTrack Session",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "2:05",
+          "scenarioTime": "10:05",
+          "headline": "CISA Forensic Log Confirms Breach",
+          "deliverTo": "IT, VSM, Sec",
+          "narration": "A forensic log from LCBOE-SQL01 has been received from the CISA SOC. The log confirms an unauthorized session on October 29, 2026, from IP address 10.100.45.12, which is not in any authorized IP range. The session lasted 35 minutes, from 02:05 to 02:40, and used a non-standard browser user agent. MFA was approved from Nina Ruiz’s iPhone13-773A, but no physical device was present in the office. The session modified 1,186 records in Precincts 111 and 112, changing the 'Absentee Ballot Status' field to 'received'. No local login event was recorded between 02:00 and 02:50.",
+          "keyFacts": [
+            ".10.100.45.12 is not in any authorized IP range.",
+            "MFA was approved but no device was present.",
+            "1,186 records in Precincts 111 and 112 were edited.",
+            "Session occurred 02:05–02:40 on 10/29/2026.",
+            "No local login event from 02:00 to 02:50."
+          ],
+          "expectedAction": "IT and VSM confirm that VoterTrack must be isolated immediately; the forensic evidence confirms a breach. Begin manual operations using the trusted pollbook build from 10/28 and the offline copy on LCBOE-PB01. No further system access is permitted until forensic review is complete.",
+          "facilitatorNote": "This inject confirms the attacker's access was not local and used stolen credentials. Watch for players to initiate isolation and switch to manual procedures.",
+          "scenarioTitle": "Ghost Poll Pads — VoterTrack Compromise & Public Trust",
+          "injectId": "I-14"
+        },
+        "instructorNote": "This inject confirms the breach and forces players to act on manual procedures. Monitor for IT and VSM to isolate VoterTrack and initiate the manual response plan.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T21:28:33.009Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Forensic Confirmation of Unauthorized VoterTrack Session",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "2:05",
+          "scenarioTime": "10:05",
+          "headline": "CISA Forensic Log Confirms Breach",
+          "deliverTo": "IT, VSM, Sec",
+          "narration": "A forensic log from LCBOE-SQL01 has been received from the managed SOC. The log confirms an unauthorized session on October 29, 2026, from IP address 10.100.45.12, which is not in any authorized IP range. The session lasted 35 minutes, from 02:05 to 02:40, and used a non-standard browser user agent. MFA was approved from Nina Ruiz’s iPhone13-773A, but no physical device was present in the office. The session modified 1,186 records in Precincts 111 and 112, changing the 'Absentee Ballot Status' field to 'received'. No local login event was recorded between 02:00 and 02:50.",
+          "keyFacts": [
+            ".10.100.45.12 is not in any authorized IP range.",
+            "MFA was approved but no device was present.",
+            "1,186 records in Precincts 111 and 112 were edited.",
+            "Session occurred 02:05–02:40 on 10/29/2026.",
+            "No local login event from 02:00 to 02:50."
+          ],
+          "expectedAction": "IT and VSM confirm that VoterTrack must be isolated immediately; the forensic evidence confirms a breach. Begin manual operations using the trusted pollbook build from 10/28 and the offline copy on LCBOE-PB01. No further system access is permitted until forensic review is complete.",
+          "facilitatorNote": "This inject confirms the attacker's access was not local and used stolen credentials. Watch for players to initiate isolation and switch to manual procedures.",
+          "scenarioTitle": "Ghost Poll Pads — VoterTrack Compromise & Public Trust",
+          "injectId": "I-14"
+        },
+        "instructorNote": "This inject confirms the breach and forces players to act on manual procedures. Monitor for IT and VSM to isolate VoterTrack and initiate the manual response plan.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:29:56.187Z"
+}

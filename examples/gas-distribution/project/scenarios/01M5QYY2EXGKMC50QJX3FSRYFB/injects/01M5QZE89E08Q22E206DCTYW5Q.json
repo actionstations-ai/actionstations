@@ -1,0 +1,166 @@
+{
+  "id": "01M5QZE89E08Q22E206DCTYW5Q",
+  "mselRowId": "I-12b",
+  "type": "radio_call",
+  "title": "Field: Request to Shut In Pressure District 7",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Corwin Valley Gas Company",
+    "centerName": "Gas Control Room",
+    "channel": "Field Ops 1",
+    "frequency": "TG 4201 / 460.310 MHz",
+    "date": "01/13/2027",
+    "callsign": "Field Supervisor Oyelowo",
+    "lines": [
+      {
+        "time": "18:35",
+        "from": "Oyelowo",
+        "to": "IC",
+        "text": "IC, this is Supervisor Oyelowo. Both stations are on mechanical pilots, but PR-7B still reads 18 in. w.c. and we have high-flame calls on Canal Street. I have techs at Valve 21 and Valve 22. Do we shut in Pressure District 7 now — 5,120 customers at 12 degrees, two nursing homes — or hold on local control and watch the recorders?"
+      }
+    ],
+    "background": "garage",
+    "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+    "audioFile": "I-12b_radio.wav",
+    "duration": "0:23",
+    "injectId": "I-12b"
+  },
+  "variant": "default",
+  "instructorNote": "This is the critical life-safety decision point. The IC must authorize the shutdown based on field evidence. Watch for hesitation or attempts to validate via SCADA.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 7",
+      "quote": "| Point | Tag | Low | High | High-high | |---|---|---|---|---| | RS-21 outlet | RS21-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. w.c. | | RS-22 outlet | RS22-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. ",
+      "chunkId": 27
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 7",
+      "quote": "| Valve | Location | Type | Isolates | Operated by | |---|---|---|---|---| | RCV-01 | Harlan Road City Gate outlet | Remote-control | Line 100 from Harlan Road City Gate | Gas Control (SCADA), local |",
+      "chunkId": 48
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 6 › 6.3 Actions",
+      "quote": "1. Gas Control dispatches M&R to the station and the nearest recorder with calibrated field gauges; field gauges govern over SCADA when they disagree. 2. If an overpressure is confirmed or cannot be r",
+      "chunkId": 47
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Field Supervisor Oyelowo",
+        "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+        "text": "IC, this is Supervisor Oyelowo. All field verification is complete. RS-21 and RS-22 are confirmed at thirteen point two inches water column on calibrated field gauges. PR-7B is at fifteen point four inches water column and still rising. The pilot regulators are manually locked in mechanical mode and holding pressure. We have two independent field confirmations. The district is now in local control. I am requesting immediate authorization to shut in Pressure District Seven. This is not a drill. We have a resident on Canal Street who says they saw a flash. The situation is deteriorating. I need a decision now."
+      },
+      {
+        "speaker": "Field Supervisor Oyelowo",
+        "voiceStyle": "Same as above",
+        "text": "GCM, I’m sending a paper trip sheet for manual isolation authorization. Confirm receipt and action."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYMGANJ474B1VB6CM7HDV",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZE89E08Q22E206DCTYW5Q/01M5QZYMGANJ474B1VB6CM7HDV.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "64f44dd59b32151399cda00b012c859d8f7bd5ced3ff6673c2915e761774df49",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:25.978Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:10:43.199Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Field: Request to Shut In Pressure District 7",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Corwin Valley Gas Company",
+          "centerName": "Gas Control Room",
+          "channel": "Field Ops 1",
+          "frequency": "TG 4201 / 460.310 MHz",
+          "date": "10/24/2026",
+          "callsign": "Field Supervisor Oyelowo",
+          "lines": [
+            {
+              "time": "18:35",
+              "from": "Field Supervisor Oyelowo",
+              "to": "Incident Commander, Gas Control Manager, Cybersecurity Coordinator, Corporate Security Manager, Public Information Officer",
+              "text": "IC, this is Supervisor Oyelowo. All field verification is complete. RS-21 and RS-22 are confirmed at 13.2 in. w.c. on calibrated field gauges. PR-7B is at 15.4 in. w.c. and still rising. The pilot regulators are manually locked in mechanical mode and holding pressure. We have two independent field confirmations. The district is now in local control. I am requesting immediate authorization to shut in Pressure District 7. This is not a drill. We have a resident on Canal Street who says they saw a flash. The situation is deteriorating. I need a decision now."
+            },
+            {
+              "time": "18:35",
+              "from": "Field Supervisor Oyelowo",
+              "to": "Gas Control Manager",
+              "text": "GCM, I’m sending a paper trip sheet for manual isolation authorization. Confirm receipt and action."
+            }
+          ],
+          "background": "garage",
+          "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+          "audioFile": "I-12b_radio.wav",
+          "duration": "0:23",
+          "injectId": "I-12b"
+        },
+        "instructorNote": "This is the critical life-safety decision point. The IC must authorize the shutdown based on field evidence. Watch for hesitation or attempts to validate via SCADA.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.475Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field: Request to Shut In Pressure District 7",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Corwin Valley Gas Company",
+          "centerName": "Gas Control Room",
+          "channel": "Field Ops 1",
+          "frequency": "TG 4201 / 460.310 MHz",
+          "date": "01/13/2027",
+          "callsign": "Field Supervisor Oyelowo",
+          "lines": [
+            {
+              "time": "18:35",
+              "from": "Oyelowo",
+              "to": "IC",
+              "text": "IC, this is Supervisor Oyelowo. Both stations are on mechanical pilots, but PR-7B still reads 18 in. w.c. and we have high-flame calls on Canal Street. I have techs at Valve 21 and Valve 22. Do we shut in Pressure District 7 now — 5,120 customers at 12 degrees, two nursing homes — or hold on local control and watch the recorders?"
+            }
+          ],
+          "background": "garage",
+          "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+          "audioFile": "I-12b_radio.wav",
+          "duration": "0:23",
+          "injectId": "I-12b"
+        },
+        "instructorNote": "This is the critical life-safety decision point. The IC must authorize the shutdown based on field evidence. Watch for hesitation or attempts to validate via SCADA.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:26.169Z"
+}

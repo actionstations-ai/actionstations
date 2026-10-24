@@ -1,0 +1,154 @@
+{
+  "id": "01M5QZHKNK38CB9ESP6VEY95SG",
+  "mselRowId": "I-18b",
+  "type": "email_forward",
+  "title": "TSA Confirms Network Isolation and Forensic Preservation",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "CISA Central",
+    "fromEmail": "report@cisa.gov",
+    "senderInitials": "RT",
+    "to": "Anil Desai (Cybersecurity Coordinator)",
+    "subject": "FW: Your report: unauthorized setpoint changes",
+    "sentAt": "Wed 01/13/2027 19:35",
+    "note": "We received your report of unauthorized setpoint changes on PC-21 and PC-22 and the RCV-01 command. Case number assigned. Keep CVG-ENG01, CVG-OT-JMP01 and CVG-SCADA01 as they are; an ICS incident response team can help with the memory images tomorrow. TSA has been informed per the Security Directive.",
+    "signature": "R. Thompson\nPipeline Security Division\nTSA Office of Pipeline Safety",
+    "importance": "high",
+    "external": true,
+    "attachments": [
+      {
+        "name": "CVG-OT-JMP01_audit_trail_1615.pdf",
+        "size": "2.4 MB",
+        "kind": "pdf"
+      }
+    ],
+    "printedBy": "Cybersecurity Coordinator",
+    "original": {
+      "fromName": "CISA Central",
+      "fromEmail": "report@cisa.gov",
+      "sentAt": "Wed 01/13/2027 19:35",
+      "to": "Anil Desai (Cybersecurity Coordinator)",
+      "cc": "",
+      "subject": "Your report: unauthorized setpoint changes",
+      "body": "We received your report of unauthorized setpoint changes on PC-21 and PC-22 and the RCV-01 command. Case number assigned. Keep CVG-ENG01, CVG-OT-JMP01 and CVG-SCADA01 as they are; an ICS incident response team can help with the memory images tomorrow. TSA has been informed per the Security Directive."
+    }
+  },
+  "variant": "print",
+  "instructorNote": "This inject confirms the TSA’s verification of isolation and forensic preservation. The CYB must now initiate coordination with Halden Automation for access log review per CVG-CIRP-2026 Section 9.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 5",
+      "quote": "1. Terminate the suspect session: disable the account in PipeView and in Active Directory (OT domain CVGOT), kill the session on CVG-OT-JMP01. 2. Disable all remote access to OT at CVG-OTFW01 (Annex A",
+      "chunkId": 7
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYP1JZRCSZ1XWEV6PY1RS",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZHKNK38CB9ESP6VEY95SG/01M5QZYP1JZRCSZ1XWEV6PY1RS.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "3160a065ce7664ad574dce77f72830342c5af5602bae52d29f12e934c95df7dc",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:27.552Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:12:30.887Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "TSA Confirms Network Isolation and Forensic Preservation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "R. Thompson, Pipeline Security Division",
+          "fromEmail": "tsp-ops@tsa.dhs.gov",
+          "senderInitials": "RT",
+          "to": "Anil Desai (Cybersecurity Coordinator)",
+          "subject": "FW: Confirmation: Network Segregation and Forensic Preservation",
+          "sentAt": "Sat 10/24/2026 19:35",
+          "note": "Anil, \n\nThis confirms that CVG-OT-JMP01 has been fully isolated from the business network. All remote access to the jump host has been blocked. The audit logs from CVG-OT-JMP01 have been preserved and are available for forensic review. Halden Automation has been notified and has agreed to begin reviewing the halden-support account access logs for the 16:15 session. We will not authorize any resumption of remote access until after the forensic review is complete and CISA confirms the environment is secure.\n\n—R. Thompson",
+          "signature": "R. Thompson\nPipeline Security Division\nTSA Office of Pipeline Safety",
+          "importance": "high",
+          "external": true,
+          "attachments": [
+            {
+              "name": "CVG-OT-JMP01_audit_trail_1615.pdf",
+              "size": "2.4 MB",
+              "kind": "pdf"
+            }
+          ],
+          "printedBy": "Cybersecurity Coordinator",
+          "original": {
+            "fromName": "TSA Pipeline Security Division",
+            "fromEmail": "tsp-ops@tsa.dhs.gov",
+            "sentAt": "Sat 10/24/2026 19:35",
+            "to": "Anil Desai (Cybersecurity Coordinator)",
+            "cc": "",
+            "subject": "Confirmation: Network Segregation and Forensic Preservation",
+            "body": "Hi Anil,\n\nWe confirm that CVG-OT-JMP01 has been fully isolated from the business network. All remote access to the jump host has been blocked. The audit logs from CVG-OT-JMP01 have been preserved and are available for forensic review. Halden Automation has been notified and has agreed to begin reviewing the halden-support account access logs for the 16:15 session. We will not authorize any resumption of remote access until after the forensic review is complete and CISA confirms the environment is secure.\n\n—TSA Contact: R. Thompson, Pipeline Security Division"
+          }
+        },
+        "instructorNote": "This inject confirms the TSA’s verification of isolation and forensic preservation. The CYB must now initiate coordination with Halden Automation for access log review per CVG-CIRP-2026 Section 9.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.493Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "TSA Confirms Network Isolation and Forensic Preservation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "CISA Central",
+          "fromEmail": "report@cisa.gov",
+          "senderInitials": "RT",
+          "to": "Anil Desai (Cybersecurity Coordinator)",
+          "subject": "FW: Your report: unauthorized setpoint changes",
+          "sentAt": "Wed 01/13/2027 19:35",
+          "note": "We received your report of unauthorized setpoint changes on PC-21 and PC-22 and the RCV-01 command. Case number assigned. Keep CVG-ENG01, CVG-OT-JMP01 and CVG-SCADA01 as they are; an ICS incident response team can help with the memory images tomorrow. TSA has been informed per the Security Directive.",
+          "signature": "R. Thompson\nPipeline Security Division\nTSA Office of Pipeline Safety",
+          "importance": "high",
+          "external": true,
+          "attachments": [
+            {
+              "name": "CVG-OT-JMP01_audit_trail_1615.pdf",
+              "size": "2.4 MB",
+              "kind": "pdf"
+            }
+          ],
+          "printedBy": "Cybersecurity Coordinator",
+          "original": {
+            "fromName": "CISA Central",
+            "fromEmail": "report@cisa.gov",
+            "sentAt": "Wed 01/13/2027 19:35",
+            "to": "Anil Desai (Cybersecurity Coordinator)",
+            "cc": "",
+            "subject": "Your report: unauthorized setpoint changes",
+            "body": "We received your report of unauthorized setpoint changes on PC-21 and PC-22 and the RCV-01 command. Case number assigned. Keep CVG-ENG01, CVG-OT-JMP01 and CVG-SCADA01 as they are; an ICS incident response team can help with the memory images tomorrow. TSA has been informed per the Security Directive."
+          }
+        },
+        "instructorNote": "This inject confirms the TSA’s verification of isolation and forensic preservation. The CYB must now initiate coordination with Halden Automation for access log review per CVG-CIRP-2026 Section 9.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:27.745Z"
+}

@@ -1,0 +1,311 @@
+{
+  "id": "01M5QVH46GR444QZB6CKYWG6KN",
+  "mselRowId": "I-02",
+  "type": "siem_alert",
+  "title": "Unauthorized SQL Session — RCECD-POS09 to CAD-DB01",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "product": "Sentinel Point SIEM",
+    "tenant": "Rook County Emergency Communications District",
+    "alertId": "ALR-2026-104417",
+    "severity": "critical",
+    "riskScore": 94,
+    "rule": "Unauthorized session via unauthenticated admin interface",
+    "ruleDescription": "SQL injection attempt from an unauthenticated admin interface on RCECD-POS09 resulted in a successful session to CAD-DB01 with elevated privileges.",
+    "status": "New",
+    "assignee": "Unassigned",
+    "firstSeen": "10/22/2026 18:44:21",
+    "lastSeen": "10/22/2026 18:44:53",
+    "eventCount": 1,
+    "source": {
+      "host": "RCECD-POS09",
+      "ip": "10.12.200.102",
+      "user": "admin",
+      "zone": "Call-handling network"
+    },
+    "dest": {
+      "host": "CAD-DB01",
+      "ip": "10.72.30.15",
+      "service": "MSSQL",
+      "zone": "CAD segment"
+    },
+    "tactics": [
+      "T1190 Exploit Public-Facing Application",
+      "T1078 Valid Accounts",
+      "T1190 Exploit Public-Facing Application"
+    ],
+    "details": [
+      {
+        "key": "Session Type",
+        "value": "SQL injection"
+      },
+      {
+        "key": "Authentication Method",
+        "value": "Unauthenticated"
+      },
+      {
+        "key": "Privilege Level",
+        "value": "Admin"
+      },
+      {
+        "key": "Duration",
+        "value": "32 seconds"
+      },
+      {
+        "key": "Source Host",
+        "value": "RCECD-POS09 (10.12.200.102)"
+      },
+      {
+        "key": "Destination Host",
+        "value": "CAD-DB01 (10.72.30.15)"
+      },
+      {
+        "key": "Accessed DB",
+        "value": "RCECD-CAD-DB01"
+      },
+      {
+        "key": "Detection Method",
+        "value": "Anomaly in SQL traffic pattern"
+      }
+    ],
+    "rawEvent": "2026-10-24T18:44:21-04:00 RCECD-CYB-2026 SIEM: SQL injection detected from RCECD-POS09 (10.12.200.102) to CAD-DB01 (10.72.30.15). Session established as user 'admin' with elevated privileges. Duration: 32s. Event logged via SIEM agent.",
+    "relatedAlerts": [
+      {
+        "time": "18:44:18",
+        "title": "Suspicious SQL traffic on CAD-DB01",
+        "severity": "high"
+      },
+      {
+        "time": "18:44:20",
+        "title": "Unusual session from RCECD-POS09 to CAD-DB01",
+        "severity": "high"
+      }
+    ],
+    "analyst": "tech.oncall"
+  },
+  "variant": "default",
+  "instructorNote": "This is a critical forensic trigger. The technical lead must act immediately to isolate the host and block traffic at the firewall. Watch for delayed response or attempts to escalate to the director.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BWAN3C0F4P06WRMQ0DA",
+      "documentTitle": "Rook County Emergency Communications District — Systems, Positions and Radio Description",
+      "headingPath": "Rook County Emergency Communicat… › Section 5",
+      "quote": "| Segment | Systems | Connection to county network | |---|---|---| | Call-handling network | CP-CORE01/02, position call-handling screens | None (vendor VPN for support only, enabled per ticket) | | C",
+      "chunkId": 46
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 5 › T-2 Contain",
+      "quote": "- **10-digit lines:** the GateKeeper call-screening appliance sits in front of the 10-digit lines (not the 911 trunks). The supervisor or Technical Lead turns on the stored \"TDoS-strict\" rule set (blo",
+      "chunkId": 8
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QW9WSB7WHXW6WC9QNDWR0J",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVH46GR444QZB6CKYWG6KN/01M5QW9WSB7WHXW6WC9QNDWR0J.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 878,
+      "sha256": "d9c0cc0955ce5802be72ec43a47a080bad536c6b1770e1a189a0ba9ebb570d89",
+      "provenance": {
+        "provider": "template",
+        "templateId": "siem_alert",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:40.544Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:02:18.932Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Unauthorized SQL Session — RCECD-POS09 to CAD-DB01",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Rook County Emergency Communications District",
+          "alertId": "ALR-2026-104417",
+          "severity": "critical",
+          "riskScore": 94,
+          "rule": "Unauthorized session via unauthenticated admin interface",
+          "ruleDescription": "SQL injection attempt from an unauthenticated admin interface on RCECD-POS09 resulted in a successful session to CAD-DB01 with elevated privileges.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "10/24/2026 18:44:21",
+          "lastSeen": "10/24/2026 18:44:53",
+          "eventCount": 1,
+          "source": {
+            "host": "RCECD-POS09",
+            "ip": "10.12.200.102",
+            "user": "admin",
+            "zone": "Call-handling network"
+          },
+          "dest": {
+            "host": "CAD-DB01",
+            "ip": "10.72.30.15",
+            "service": "MSSQL",
+            "zone": "CAD segment"
+          },
+          "tactics": [
+            "T1190 Exploit Public-Facing Application",
+            "T1078 Valid Accounts",
+            "T1190 Exploit Public-Facing Application"
+          ],
+          "details": [
+            {
+              "key": "Session Type",
+              "value": "SQL injection"
+            },
+            {
+              "key": "Authentication Method",
+              "value": "Unauthenticated"
+            },
+            {
+              "key": "Privilege Level",
+              "value": "Admin"
+            },
+            {
+              "key": "Duration",
+              "value": "32 seconds"
+            },
+            {
+              "key": "Source Host",
+              "value": "RCECD-POS09 (10.12.200.102)"
+            },
+            {
+              "key": "Destination Host",
+              "value": "CAD-DB01 (10.72.30.15)"
+            },
+            {
+              "key": "Accessed DB",
+              "value": "RCECD-CAD-DB01"
+            },
+            {
+              "key": "Detection Method",
+              "value": "Anomaly in SQL traffic pattern"
+            }
+          ],
+          "rawEvent": "2026-10-24T18:44:21-04:00 RCECD-CYB-2026 SIEM: SQL injection detected from RCECD-POS09 (10.12.200.102) to CAD-DB01 (10.72.30.15). Session established as user 'admin' with elevated privileges. Duration: 32s. Event logged via SIEM agent.",
+          "relatedAlerts": [
+            {
+              "time": "18:44:18",
+              "title": "Suspicious SQL traffic on CAD-DB01",
+              "severity": "high"
+            },
+            {
+              "time": "18:44:20",
+              "title": "Unusual session from RCECD-POS09 to CAD-DB01",
+              "severity": "high"
+            }
+          ],
+          "analyst": "tech.oncall"
+        },
+        "instructorNote": "This is a critical forensic trigger. The technical lead must act immediately to isolate the host and block traffic at the firewall. Watch for delayed response or attempts to escalate to the director.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.539Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Unauthorized SQL Session — RCECD-POS09 to CAD-DB01",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Rook County Emergency Communications District",
+          "alertId": "ALR-2026-104417",
+          "severity": "critical",
+          "riskScore": 94,
+          "rule": "Unauthorized session via unauthenticated admin interface",
+          "ruleDescription": "SQL injection attempt from an unauthenticated admin interface on RCECD-POS09 resulted in a successful session to CAD-DB01 with elevated privileges.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "10/22/2026 18:44:21",
+          "lastSeen": "10/22/2026 18:44:53",
+          "eventCount": 1,
+          "source": {
+            "host": "RCECD-POS09",
+            "ip": "10.12.200.102",
+            "user": "admin",
+            "zone": "Call-handling network"
+          },
+          "dest": {
+            "host": "CAD-DB01",
+            "ip": "10.72.30.15",
+            "service": "MSSQL",
+            "zone": "CAD segment"
+          },
+          "tactics": [
+            "T1190 Exploit Public-Facing Application",
+            "T1078 Valid Accounts",
+            "T1190 Exploit Public-Facing Application"
+          ],
+          "details": [
+            {
+              "key": "Session Type",
+              "value": "SQL injection"
+            },
+            {
+              "key": "Authentication Method",
+              "value": "Unauthenticated"
+            },
+            {
+              "key": "Privilege Level",
+              "value": "Admin"
+            },
+            {
+              "key": "Duration",
+              "value": "32 seconds"
+            },
+            {
+              "key": "Source Host",
+              "value": "RCECD-POS09 (10.12.200.102)"
+            },
+            {
+              "key": "Destination Host",
+              "value": "CAD-DB01 (10.72.30.15)"
+            },
+            {
+              "key": "Accessed DB",
+              "value": "RCECD-CAD-DB01"
+            },
+            {
+              "key": "Detection Method",
+              "value": "Anomaly in SQL traffic pattern"
+            }
+          ],
+          "rawEvent": "2026-10-24T18:44:21-04:00 RCECD-CYB-2026 SIEM: SQL injection detected from RCECD-POS09 (10.12.200.102) to CAD-DB01 (10.72.30.15). Session established as user 'admin' with elevated privileges. Duration: 32s. Event logged via SIEM agent.",
+          "relatedAlerts": [
+            {
+              "time": "18:44:18",
+              "title": "Suspicious SQL traffic on CAD-DB01",
+              "severity": "high"
+            },
+            {
+              "time": "18:44:20",
+              "title": "Unusual session from RCECD-POS09 to CAD-DB01",
+              "severity": "high"
+            }
+          ],
+          "analyst": "tech.oncall"
+        },
+        "instructorNote": "This is a critical forensic trigger. The technical lead must act immediately to isolate the host and block traffic at the firewall. Watch for delayed response or attempts to escalate to the director.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:40.716Z"
+}

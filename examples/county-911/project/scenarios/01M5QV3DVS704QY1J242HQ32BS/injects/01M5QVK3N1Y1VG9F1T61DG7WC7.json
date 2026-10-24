@@ -1,0 +1,244 @@
+{
+  "id": "01M5QVK3N1Y1VG9F1T61DG7WC7",
+  "mselRowId": "I-07",
+  "type": "system_log",
+  "title": "Manual Firewalling at CAD-FW01",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "RCECD-OPS-2026",
+    "host": "CYB-DR-1",
+    "ip": "10.72.30.10",
+    "os": "Linux (Ubuntu 22.04)",
+    "logSource": "Security Operations / Firewall Management",
+    "exportedBy": "Tech\\b.harlow",
+    "exportedAt": "10/22/2026 07:40 PM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "19:10:03",
+        "level": "INFO",
+        "msg": "Manual firewall rule applied to CAD-FW01: block traffic from RCECD-POS09 (10.12.200.102) to CAD-DB01 (10.72.30.15)",
+        "highlight": true
+      },
+      {
+        "ts": "19:10:04",
+        "level": "NOTICE",
+        "msg": "Firewall policy updated on CAD-FW01 (10.72.30.10); rule ID: T-2-CYB-0014-001",
+        "highlight": false
+      },
+      {
+        "ts": "19:10:05",
+        "level": "INFO",
+        "msg": "Traffic from RCECD-POS09 to CAD-DB01 now blocked; no further packets permitted",
+        "highlight": false
+      },
+      {
+        "ts": "19:10:06",
+        "level": "INFO",
+        "msg": "Log entry created in RCECD-OPS-2026, Section 5, T-2 Contain: 'Firewalling activated per CYB-DR-1, 19:10:03.'",
+        "highlight": false
+      },
+      {
+        "ts": "19:10:07",
+        "level": "INFO",
+        "msg": "Evidence preserved on REC-01 (10.72.30.20); all inbound traffic from RCECD-POS09 routed to local buffer",
+        "highlight": false
+      },
+      {
+        "ts": "19:10:08",
+        "level": "ALERT",
+        "msg": "Lateral movement from RCECD-POS09 to CAD-DB01 terminated; session was active for 32 seconds",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Security Console: CYB-DR-1 (RCECD-OPS-2026)",
+    "command": "sudo iptables -A INPUT -s 10.12.200.102 -d 10.72.30.15 -j DROP",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This inject confirms the Technical Lead’s containment action. Watch for confirmation that the team logs the action in RCECD-OPS-2026 and acknowledges that lateral movement is now stopped.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 6 › C-2 Decide (decision record CYB-DR-1)",
+      "quote": "The Technical Lead, County security and the Director decide together, within 15 minutes, whether to: | Option | Gain | Cost | |---|---|---| | Keep CAD up and watch | Floor keeps CAD; no back-entry lat",
+      "chunkId": 11
+    },
+    {
+      "documentId": "01M5QV3BWAN3C0F4P06WRMQ0DA",
+      "documentTitle": "Rook County Emergency Communications District — Systems, Positions and Radio Description",
+      "headingPath": "Rook County Emergency Communicat… › Section 5",
+      "quote": "| Segment | Systems | Connection to county network | |---|---|---| | Call-handling network | CP-CORE01/02, position call-handling screens | None (vendor VPN for support only, enabled per ticket) | | C",
+      "chunkId": 46
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 2",
+      "quote": "Knowing which systems depend on the county network decides what a county-network incident takes away from the floor. | System | Network | Depends on county AD / email? | If the county network is isola",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 5 › T-2 Contain",
+      "quote": "- **10-digit lines:** the GateKeeper call-screening appliance sits in front of the 10-digit lines (not the 911 trunks). The supervisor or Technical Lead turns on the stored \"TDoS-strict\" rule set (blo",
+      "chunkId": 8
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QW9ZB13D0TJ5SA9MGRZPN9",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVK3N1Y1VG9F1T61DG7WC7/01M5QW9ZB13D0TJ5SA9MGRZPN9.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "cffa42588a7fe14c446604f42f888a971df6cb9c49c05a4e8c8217edb6fc3740",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:43.168Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:03:23.947Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Manual Firewalling at CAD-FW01",
+        "type": "system_log",
+        "fields": {
+          "systemName": "RCECD-OPS-2026",
+          "host": "CYB-DR-1",
+          "ip": "10.72.30.10",
+          "os": "Linux (Ubuntu 22.04)",
+          "logSource": "Security Operations / Firewall Management",
+          "exportedBy": "Tech\\b.harlow",
+          "exportedAt": "10/24/2026 07:40 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "19:10:03",
+              "level": "INFO",
+              "msg": "Manual firewall rule applied to CAD-FW01: block traffic from RCECD-POS09 (10.12.200.102) to CAD-DB01 (10.72.30.15)",
+              "highlight": true
+            },
+            {
+              "ts": "19:10:04",
+              "level": "NOTICE",
+              "msg": "Firewall policy updated on CAD-FW01 (10.72.30.10); rule ID: T-2-CYB-0014-001",
+              "highlight": false
+            },
+            {
+              "ts": "19:10:05",
+              "level": "INFO",
+              "msg": "Traffic from RCECD-POS09 to CAD-DB01 now blocked; no further packets permitted",
+              "highlight": false
+            },
+            {
+              "ts": "19:10:06",
+              "level": "INFO",
+              "msg": "Log entry created in RCECD-OPS-2026, Section 5, T-2 Contain: 'Firewalling activated per CYB-DR-1, 19:10:03.'",
+              "highlight": false
+            },
+            {
+              "ts": "19:10:07",
+              "level": "INFO",
+              "msg": "Evidence preserved on REC-01 (10.72.30.20); all inbound traffic from RCECD-POS09 routed to local buffer",
+              "highlight": false
+            },
+            {
+              "ts": "19:10:08",
+              "level": "ALERT",
+              "msg": "Lateral movement from RCECD-POS09 to CAD-DB01 terminated; session was active for 32 seconds",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Security Console: CYB-DR-1 (RCECD-OPS-2026)",
+          "command": "sudo iptables -A INPUT -s 10.12.200.102 -d 10.72.30.15 -j DROP",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the Technical Lead’s containment action. Watch for confirmation that the team logs the action in RCECD-OPS-2026 and acknowledges that lateral movement is now stopped.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.566Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Manual Firewalling at CAD-FW01",
+        "type": "system_log",
+        "fields": {
+          "systemName": "RCECD-OPS-2026",
+          "host": "CYB-DR-1",
+          "ip": "10.72.30.10",
+          "os": "Linux (Ubuntu 22.04)",
+          "logSource": "Security Operations / Firewall Management",
+          "exportedBy": "Tech\\b.harlow",
+          "exportedAt": "10/22/2026 07:40 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "19:10:03",
+              "level": "INFO",
+              "msg": "Manual firewall rule applied to CAD-FW01: block traffic from RCECD-POS09 (10.12.200.102) to CAD-DB01 (10.72.30.15)",
+              "highlight": true
+            },
+            {
+              "ts": "19:10:04",
+              "level": "NOTICE",
+              "msg": "Firewall policy updated on CAD-FW01 (10.72.30.10); rule ID: T-2-CYB-0014-001",
+              "highlight": false
+            },
+            {
+              "ts": "19:10:05",
+              "level": "INFO",
+              "msg": "Traffic from RCECD-POS09 to CAD-DB01 now blocked; no further packets permitted",
+              "highlight": false
+            },
+            {
+              "ts": "19:10:06",
+              "level": "INFO",
+              "msg": "Log entry created in RCECD-OPS-2026, Section 5, T-2 Contain: 'Firewalling activated per CYB-DR-1, 19:10:03.'",
+              "highlight": false
+            },
+            {
+              "ts": "19:10:07",
+              "level": "INFO",
+              "msg": "Evidence preserved on REC-01 (10.72.30.20); all inbound traffic from RCECD-POS09 routed to local buffer",
+              "highlight": false
+            },
+            {
+              "ts": "19:10:08",
+              "level": "ALERT",
+              "msg": "Lateral movement from RCECD-POS09 to CAD-DB01 terminated; session was active for 32 seconds",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Security Console: CYB-DR-1 (RCECD-OPS-2026)",
+          "command": "sudo iptables -A INPUT -s 10.12.200.102 -d 10.72.30.15 -j DROP",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the Technical Lead’s containment action. Watch for confirmation that the team logs the action in RCECD-OPS-2026 and acknowledges that lateral movement is now stopped.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:43.437Z"
+}

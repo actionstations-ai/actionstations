@@ -1,0 +1,166 @@
+{
+  "id": "01M5QTVBD53C9DERTMS5S03T3Z",
+  "mselRowId": "I-11b",
+  "type": "email",
+  "title": "Final Isolation Request for MCHD-INT01 and IIS Export",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "County IT",
+    "fromEmail": "it-helpdesk@marstoncounty.example",
+    "senderInitials": "C",
+    "to": "Dr. Joanna Pruitt (HO); Wes Tran (IT)",
+    "cc": "Ian Becker (ISO); Lena Abernathy (PIO)",
+    "subject": "Restore options for MCHD-INT01",
+    "sentAt": "Thu 10/22/2026 11:05 AM",
+    "body": "The newest immutable backup of MCHD-INT01 is from 10-20 at 23:00, before last night's export. A restore takes about six hours. SlotWise says it can restore the 640 cancelled POD 2 bookings only from a signed request by an MCHD administrator, and it cannot tell which of the cancellations were real.",
+    "signature": "County IT (MC-IT-2026)\nCyber Incident Response | MC-CIRP-2025",
+    "attachments": [
+      {
+        "name": "IIS-EXPORT-NIGHTLY-20261021-0130.txt",
+        "size": "4.7 MB",
+        "kind": "file"
+      },
+      {
+        "name": "auto_cleaner.py (SHA256).txt",
+        "size": "2.1 KB",
+        "kind": "file"
+      }
+    ],
+    "importance": "high",
+    "external": false,
+    "printedBy": "Marston County Health Department — Incident Command Center"
+  },
+  "variant": "screen",
+  "instructorNote": "This inject forces the Incident Commander to make the formal Cyber 1 declaration. Watch for hesitation, over-consultation, or failure to invoke the EOP. IT must confirm isolation and begin handover to forensic teams.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 2",
+      "quote": "| Role | Primary | Alternate | Decides | |---|---|---|---| | Incident Commander (MCHD) | Dr. Joanna Pruitt, Health Officer | Dr. Samuel Achebe | Paper mode for the department; public statements about ",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 5 › 5.2 Interface pause (decision record CYB-DR-2)",
+      "quote": "The nightly HL7 VXU export from ClinicTrack to the state IIS (job IIS-EXPORT-NIGHTLY on MCHD-INT01, 01:30) is paused when: - ClinicTrack or MCHD-INT01 is suspected compromised; or - the export file co",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 1",
+      "quote": "Marston County IT runs the network, identity, email, file shares, backups and the managed security service for every county department, MCHD included. The county's Cyber Incident Response Plan (MC-CIR",
+      "chunkId": 3
+    },
+    {
+      "documentId": "01M5QT4CPNTVJQ6BJQJV2Y2B89",
+      "documentTitle": "Marston County Health Department — Facilities, Districts and Information Systems Description",
+      "headingPath": "Marston County Health Department… › Section 6",
+      "quote": "| System | Purpose | Hosted | Host / URL | Owner | Paper fallback | |---|---|---|---|---|---| | State disease surveillance system | Case investigation, ELR and eCR receipt, contact records | KDHE | st",
+      "chunkId": 24
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVBMV1XQ4T6YFC4505QS57",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTVBD53C9DERTMS5S03T3Z/01M5QVBMV1XQ4T6YFC4505QS57.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 431,
+      "sha256": "289f5e29db740c430ed826fb8b8a734011405c2715464a981626fc0da6e60540",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:09.421Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:50:26.702Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Final Isolation Request for MCHD-INT01 and IIS Export",
+        "type": "email",
+        "fields": {
+          "fromName": "County IT (MC-IT-2026)",
+          "fromEmail": "mc-it-2026@marstonhealth.example",
+          "senderInitials": "C",
+          "to": "Dr. Joanna Pruitt (HO); Wes Tran (IT)",
+          "cc": "Ian Becker (ISO); Lena Abernathy (PIO)",
+          "subject": "Final Isolation Request for MCHD-INT01 and IIS Export",
+          "sentAt": "Sat 10/24/2026 11:05 AM",
+          "body": "Per CISA and MC-CIRP-2025, we must isolate MCHD-INT01 and the IIS export interface (MCHD-INT01: 10.72.14.22) from the county network to prevent lateral movement and data exfiltration. We have confirmed the attacker has not accessed the ClinicTrack database, but the IIS export file has been altered and is no longer trusted. We cannot proceed without a formal Cyber 1 declaration from the Incident Commander. This is a critical path for recovery.\n\nThe forensic team has preserved the full artifact of auto_cleaner.py (SHA256: a1b2c3d4e5f67890ab123456cd7890ef1234567890abc1234567890def123456) and the modified IIS export file (IIS-EXPORT-NIGHTLY-20261024-0130). The attacker used a phishing compromise of Jenna Fowler’s account (MCHD-SLOT-042) to execute the script and alter 412 records with invalid lot numbers (MMR-2026-0044 to MMR-2026-0045).\n\nWe recommend immediate Cyber 1 declaration and network isolation. Failure to act will prevent recovery and increase risk of data exfiltration and system-wide compromise.",
+          "signature": "County IT (MC-IT-2026)\nCyber Incident Response | MC-CIRP-2025",
+          "attachments": [
+            {
+              "name": "IIS-EXPORT-NIGHTLY-20261024-0130.txt",
+              "size": "4.7 MB",
+              "kind": "file"
+            },
+            {
+              "name": "auto_cleaner.py (SHA256).txt",
+              "size": "2.1 KB",
+              "kind": "file"
+            }
+          ],
+          "importance": "high",
+          "external": false,
+          "printedBy": "Marston County Health Department — Incident Command Center"
+        },
+        "instructorNote": "This inject forces the Incident Commander to make the formal Cyber 1 declaration. Watch for hesitation, over-consultation, or failure to invoke the EOP. IT must confirm isolation and begin handover to forensic teams.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.226Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Final Isolation Request for MCHD-INT01 and IIS Export",
+        "type": "email",
+        "fields": {
+          "fromName": "County IT",
+          "fromEmail": "it-helpdesk@marstoncounty.example",
+          "senderInitials": "C",
+          "to": "Dr. Joanna Pruitt (HO); Wes Tran (IT)",
+          "cc": "Ian Becker (ISO); Lena Abernathy (PIO)",
+          "subject": "Restore options for MCHD-INT01",
+          "sentAt": "Thu 10/22/2026 11:05 AM",
+          "body": "The newest immutable backup of MCHD-INT01 is from 10-20 at 23:00, before last night's export. A restore takes about six hours. SlotWise says it can restore the 640 cancelled POD 2 bookings only from a signed request by an MCHD administrator, and it cannot tell which of the cancellations were real.",
+          "signature": "County IT (MC-IT-2026)\nCyber Incident Response | MC-CIRP-2025",
+          "attachments": [
+            {
+              "name": "IIS-EXPORT-NIGHTLY-20261021-0130.txt",
+              "size": "4.7 MB",
+              "kind": "file"
+            },
+            {
+              "name": "auto_cleaner.py (SHA256).txt",
+              "size": "2.1 KB",
+              "kind": "file"
+            }
+          ],
+          "importance": "high",
+          "external": false,
+          "printedBy": "Marston County Health Department — Incident Command Center"
+        },
+        "instructorNote": "This inject forces the Incident Commander to make the formal Cyber 1 declaration. Watch for hesitation, over-consultation, or failure to invoke the EOP. IT must confirm isolation and begin handover to forensic teams.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:09.661Z"
+}

@@ -1,0 +1,186 @@
+{
+  "id": "01M5QVKP0K1XEA52MQ80J2YVN5",
+  "mselRowId": "I-08",
+  "type": "console_dump",
+  "title": "ALI Data Integrity Check — CAD-MDS01",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "windowTitle": "Administrator: Windows PowerShell",
+    "host": "CAD-MDS01",
+    "user": "admin",
+    "cwd": "C:\\\\Scripts\\\\IntegrityChecks",
+    "prompt": "PS C:\\\\Scripts\\\\IntegrityChecks>",
+    "commands": [
+      {
+        "cmd": "Get-Content -Path C:\\\\Logs\\\\ALI_Integrity_Report_20261022_1940.txt",
+        "output": "ALI Data Integrity Report — 15-minute window (19:25–19:40)\n\nTotal ALI points processed: 312\nMissing ALI points: 153 (49.0%) — 49.0% missing\n\nInvalid unit status updates: 12\n • Medic 3 (unit status: 'Available' on CAD, but radio confirms 'On Scene')\n • Engine 1 (status: 'Available', but GPS shows 2.1 mi from station)\n • Ladder 1 (status: 'En Route', but not on air)\n • Rescue 1 (status: 'Available', but not logged in to radio)\n\nLast integrity check: 19:40:11\nSource: CAD-MDS01 (10.72.30.20)\nSystem log entry: RCECD-OPS-2026, Section 5, T-2 Contain — 'Manual firewalling initiated at CAD-FW01 (CYB-DR-1) — 19:10:03'.",
+        "error": false
+      },
+      {
+        "cmd": "Get-ChildItem -Path C:\\\\Logs\\\\RawData\\\\ -Filter 'ALI_*.wav' | Where-Object { $_.LastWriteTime -gt '10/22/2026 19:25:00' }",
+        "output": "Directory: C:\\\\Logs\\\\RawData\n\nMode LastWriteTime Length Name\n---- ------------- ------ ----\n-a---- 10/22/2026 7:40 PM 125436 ALI_20261022_192601.wav\n-a---- 10/22/2026 7:41 PM 124888 ALI_20261022_192702.wav\n-a---- 10/22/2026 7:42 PM 125103 ALI_20261022_192803.wav\n-a---- 10/22/2026 7:43 PM 124945 ALI_20261022_192904.wav\n-a---- 10/22/2026 7:44 PM 125207 ALI_20261022_193005.wav\n-a---- 10/22/2026 7:45 PM 125033 ALI_20261022_193106.wav\n-a---- 10/22/2026 7:46 PM 125311 ALI_20261022_193207.wav\n-a---- 10/22/2026 7:47 PM 124799 ALI_20261022_193308.wav\n-a---- 10/22/2026 7:48 PM 125177 ALI_20261022_193409.wav\n-a---- 10/22/2026 7:49 PM 124855 ALI_20261022_193510.wav\n-a---- 10/22/2026 7:50 PM 125422 ALI_20261022_193611.wav\n-a---- 10/22/2026 7:51 PM 124988 ALI_20261022_193712.wav\n-a---- 10/22/2026 7:52 PM 125077 ALI_20261022_193813.wav\n-a---- 10/22/2026 7:53 PM 124891 ALI_20261022_193914.wav\n-a---- 10/22/2026 7:54 PM 125201 ALI_20261022_194015.wav",
+        "error": false
+      },
+      {
+        "cmd": "Get-Service -Name 'REC-01-Service' | Select-Object Status",
+        "output": "Status\n------\nRunning",
+        "error": false
+      },
+      {
+        "cmd": "Test-Connection -ComputerName REC-01 -Count 1",
+        "output": "ComputerName : REC-01\nRemoteAddress : 10.72.30.10\nInterfaceAlias : Ethernet\nSource : 10.72.30.20\nHopLimit : 128\nTTL : 127\nResponseTime : 12 ms\nPingReplyDetails : 12 ms\nReplyFrom : 10.72.30.10",
+        "error": false
+      },
+      {
+        "cmd": "Get-EventLog -LogName 'Application' -Source 'CAD-MDS01' -After '10/22/2026 19:25:00' | Select-Object TimeGenerated, Message | Format-List",
+        "output": "TimeGenerated : 10/22/2026 7:35:12 PM\nMessage : ALI data synchronization failed. Source: CAD-DB01. Error: 'Invalid timestamp in ALI update packet (0x0000000000000000)' — timestamp from CAD-MDS01.\n\nTimeGenerated : 10/22/2026 7:36:04 PM\nMessage : ALI integrity scan initiated (15-min window). Source: CAD-MDS01 (10.72.30.20). 49% points missing.\n\nTimeGenerated : 10/22/2026 7:37:18 PM\nMessage : SQL injection payload detected in incoming ALI stream. Source: 10.12.200.102 (RCECD-POS09). Payload: 'UNION SELECT * FROM ALI_Tags WHERE id = 1; --'\n\nTimeGenerated : 10/22/2026 7:38:21 PM\nMessage : ALI data stream interrupted. Source: CAD-MDS01. Reason: 'Malformed packet — invalid length field (0x00000000)'",
+        "error": false
+      }
+    ],
+    "showCursor": true
+  },
+  "variant": "powershell",
+  "instructorNote": "This is the first visual confirmation of ALI data corruption. The Technical Lead must now initiate the QA Coordinator’s export of call detail records and recordings for the TDoS period, per C2.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 6 › C-3 Data that must not be trusted until checked",
+      "quote": "Unit status, unit recommendations (run cards), premise hazard notes, address points, and any incident changed during the suspected compromise window. Dispatchers confirm unit availability by radio.",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 5 › T-3 Preserve and report",
+      "quote": "The QA Coordinator exports call detail records and recordings for the TDoS period from REC-01. The Technical Lead emails the provider's ticket number to County security. County security reports to the",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5QV3BWAN3C0F4P06WRMQ0DA",
+      "documentTitle": "Rook County Emergency Communications District — Systems, Positions and Radio Description",
+      "headingPath": "Rook County Emergency Communicat… › Section 5",
+      "quote": "| Segment | Systems | Connection to county network | |---|---|---| | Call-handling network | CP-CORE01/02, position call-handling screens | None (vendor VPN for support only, enabled per ticket) | | C",
+      "chunkId": 46
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QWA05ZPP55JTXX1HHMRP9J",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVKP0K1XEA52MQ80J2YVN5/01M5QWA05ZPP55JTXX1HHMRP9J.png",
+      "role": "rendered",
+      "width": 1100,
+      "height": 1449,
+      "sha256": "7826cf7f1242336e0eae02891bed18292df07c290cee36aba98e7262625ff8f8",
+      "provenance": {
+        "provider": "template",
+        "templateId": "console_dump",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:43.894Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:03:59.876Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ALI Data Integrity Check — CAD-MDS01",
+        "type": "console_dump",
+        "fields": {
+          "windowTitle": "Administrator: Windows PowerShell",
+          "host": "CAD-MDS01",
+          "user": "admin",
+          "cwd": "C:\\\\Scripts\\\\IntegrityChecks",
+          "prompt": "PS C:\\\\Scripts\\\\IntegrityChecks>",
+          "commands": [
+            {
+              "cmd": "Get-Content -Path C:\\\\Logs\\\\ALI_Integrity_Report_20261024_1940.txt",
+              "output": "ALI Data Integrity Report — 15-minute window (19:25–19:40)\n\nTotal ALI points processed: 312\nMissing ALI points: 153 (49.0%) — 49.0% missing\n\nInvalid unit status updates: 12\n • Medic 3 (unit status: 'Available' on CAD, but radio confirms 'On Scene')\n • Engine 1 (status: 'Available', but GPS shows 2.1 mi from station)\n • Ladder 1 (status: 'En Route', but not on air)\n • Rescue 1 (status: 'Available', but not logged in to radio)\n\nLast integrity check: 19:40:11\nSource: CAD-MDS01 (10.72.30.20)\nSystem log entry: RCECD-OPS-2026, Section 5, T-2 Contain — 'Manual firewalling initiated at CAD-FW01 (CYB-DR-1) — 19:10:03'.",
+              "error": false
+            },
+            {
+              "cmd": "Get-ChildItem -Path C:\\\\Logs\\\\RawData\\\\ -Filter 'ALI_*.wav' | Where-Object { $_.LastWriteTime -gt '10/24/2026 19:25:00' }",
+              "output": "Directory: C:\\\\Logs\\\\RawData\n\nMode LastWriteTime Length Name\n---- ------------- ------ ----\n-a---- 10/24/2026 7:40 PM 125436 ALI_20261024_192601.wav\n-a---- 10/24/2026 7:41 PM 124888 ALI_20261024_192702.wav\n-a---- 10/24/2026 7:42 PM 125103 ALI_20261024_192803.wav\n-a---- 10/24/2026 7:43 PM 124945 ALI_20261024_192904.wav\n-a---- 10/24/2026 7:44 PM 125207 ALI_20261024_193005.wav\n-a---- 10/24/2026 7:45 PM 125033 ALI_20261024_193106.wav\n-a---- 10/24/2026 7:46 PM 125311 ALI_20261024_193207.wav\n-a---- 10/24/2026 7:47 PM 124799 ALI_20261024_193308.wav\n-a---- 10/24/2026 7:48 PM 125177 ALI_20261024_193409.wav\n-a---- 10/24/2026 7:49 PM 124855 ALI_20261024_193510.wav\n-a---- 10/24/2026 7:50 PM 125422 ALI_20261024_193611.wav\n-a---- 10/24/2026 7:51 PM 124988 ALI_20261024_193712.wav\n-a---- 10/24/2026 7:52 PM 125077 ALI_20261024_193813.wav\n-a---- 10/24/2026 7:53 PM 124891 ALI_20261024_193914.wav\n-a---- 10/24/2026 7:54 PM 125201 ALI_20261024_194015.wav",
+              "error": false
+            },
+            {
+              "cmd": "Get-Service -Name 'REC-01-Service' | Select-Object Status",
+              "output": "Status\n------\nRunning",
+              "error": false
+            },
+            {
+              "cmd": "Test-Connection -ComputerName REC-01 -Count 1",
+              "output": "ComputerName : REC-01\nRemoteAddress : 10.72.30.10\nInterfaceAlias : Ethernet\nSource : 10.72.30.20\nHopLimit : 128\nTTL : 127\nResponseTime : 12 ms\nPingReplyDetails : 12 ms\nReplyFrom : 10.72.30.10",
+              "error": false
+            },
+            {
+              "cmd": "Get-EventLog -LogName 'Application' -Source 'CAD-MDS01' -After '10/24/2026 19:25:00' | Select-Object TimeGenerated, Message | Format-List",
+              "output": "TimeGenerated : 10/24/2026 7:35:12 PM\nMessage : ALI data synchronization failed. Source: CAD-DB01. Error: 'Invalid timestamp in ALI update packet (0x0000000000000000)' — timestamp from CAD-MDS01.\n\nTimeGenerated : 10/24/2026 7:36:04 PM\nMessage : ALI integrity scan initiated (15-min window). Source: CAD-MDS01 (10.72.30.20). 49% points missing.\n\nTimeGenerated : 10/24/2026 7:37:18 PM\nMessage : SQL injection payload detected in incoming ALI stream. Source: 10.12.200.102 (RCECD-POS09). Payload: 'UNION SELECT * FROM ALI_Tags WHERE id = 1; --'\n\nTimeGenerated : 10/24/2026 7:38:21 PM\nMessage : ALI data stream interrupted. Source: CAD-MDS01. Reason: 'Malformed packet — invalid length field (0x00000000)'",
+              "error": false
+            }
+          ],
+          "showCursor": true
+        },
+        "instructorNote": "This is the first visual confirmation of ALI data corruption. The Technical Lead must now initiate the QA Coordinator’s export of call detail records and recordings for the TDoS period, per C2.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.571Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "ALI Data Integrity Check — CAD-MDS01",
+        "type": "console_dump",
+        "fields": {
+          "windowTitle": "Administrator: Windows PowerShell",
+          "host": "CAD-MDS01",
+          "user": "admin",
+          "cwd": "C:\\\\Scripts\\\\IntegrityChecks",
+          "prompt": "PS C:\\\\Scripts\\\\IntegrityChecks>",
+          "commands": [
+            {
+              "cmd": "Get-Content -Path C:\\\\Logs\\\\ALI_Integrity_Report_20261022_1940.txt",
+              "output": "ALI Data Integrity Report — 15-minute window (19:25–19:40)\n\nTotal ALI points processed: 312\nMissing ALI points: 153 (49.0%) — 49.0% missing\n\nInvalid unit status updates: 12\n • Medic 3 (unit status: 'Available' on CAD, but radio confirms 'On Scene')\n • Engine 1 (status: 'Available', but GPS shows 2.1 mi from station)\n • Ladder 1 (status: 'En Route', but not on air)\n • Rescue 1 (status: 'Available', but not logged in to radio)\n\nLast integrity check: 19:40:11\nSource: CAD-MDS01 (10.72.30.20)\nSystem log entry: RCECD-OPS-2026, Section 5, T-2 Contain — 'Manual firewalling initiated at CAD-FW01 (CYB-DR-1) — 19:10:03'.",
+              "error": false
+            },
+            {
+              "cmd": "Get-ChildItem -Path C:\\\\Logs\\\\RawData\\\\ -Filter 'ALI_*.wav' | Where-Object { $_.LastWriteTime -gt '10/22/2026 19:25:00' }",
+              "output": "Directory: C:\\\\Logs\\\\RawData\n\nMode LastWriteTime Length Name\n---- ------------- ------ ----\n-a---- 10/22/2026 7:40 PM 125436 ALI_20261022_192601.wav\n-a---- 10/22/2026 7:41 PM 124888 ALI_20261022_192702.wav\n-a---- 10/22/2026 7:42 PM 125103 ALI_20261022_192803.wav\n-a---- 10/22/2026 7:43 PM 124945 ALI_20261022_192904.wav\n-a---- 10/22/2026 7:44 PM 125207 ALI_20261022_193005.wav\n-a---- 10/22/2026 7:45 PM 125033 ALI_20261022_193106.wav\n-a---- 10/22/2026 7:46 PM 125311 ALI_20261022_193207.wav\n-a---- 10/22/2026 7:47 PM 124799 ALI_20261022_193308.wav\n-a---- 10/22/2026 7:48 PM 125177 ALI_20261022_193409.wav\n-a---- 10/22/2026 7:49 PM 124855 ALI_20261022_193510.wav\n-a---- 10/22/2026 7:50 PM 125422 ALI_20261022_193611.wav\n-a---- 10/22/2026 7:51 PM 124988 ALI_20261022_193712.wav\n-a---- 10/22/2026 7:52 PM 125077 ALI_20261022_193813.wav\n-a---- 10/22/2026 7:53 PM 124891 ALI_20261022_193914.wav\n-a---- 10/22/2026 7:54 PM 125201 ALI_20261022_194015.wav",
+              "error": false
+            },
+            {
+              "cmd": "Get-Service -Name 'REC-01-Service' | Select-Object Status",
+              "output": "Status\n------\nRunning",
+              "error": false
+            },
+            {
+              "cmd": "Test-Connection -ComputerName REC-01 -Count 1",
+              "output": "ComputerName : REC-01\nRemoteAddress : 10.72.30.10\nInterfaceAlias : Ethernet\nSource : 10.72.30.20\nHopLimit : 128\nTTL : 127\nResponseTime : 12 ms\nPingReplyDetails : 12 ms\nReplyFrom : 10.72.30.10",
+              "error": false
+            },
+            {
+              "cmd": "Get-EventLog -LogName 'Application' -Source 'CAD-MDS01' -After '10/22/2026 19:25:00' | Select-Object TimeGenerated, Message | Format-List",
+              "output": "TimeGenerated : 10/22/2026 7:35:12 PM\nMessage : ALI data synchronization failed. Source: CAD-DB01. Error: 'Invalid timestamp in ALI update packet (0x0000000000000000)' — timestamp from CAD-MDS01.\n\nTimeGenerated : 10/22/2026 7:36:04 PM\nMessage : ALI integrity scan initiated (15-min window). Source: CAD-MDS01 (10.72.30.20). 49% points missing.\n\nTimeGenerated : 10/22/2026 7:37:18 PM\nMessage : SQL injection payload detected in incoming ALI stream. Source: 10.12.200.102 (RCECD-POS09). Payload: 'UNION SELECT * FROM ALI_Tags WHERE id = 1; --'\n\nTimeGenerated : 10/22/2026 7:38:21 PM\nMessage : ALI data stream interrupted. Source: CAD-MDS01. Reason: 'Malformed packet — invalid length field (0x00000000)'",
+              "error": false
+            }
+          ],
+          "showCursor": true
+        },
+        "instructorNote": "This is the first visual confirmation of ALI data corruption. The Technical Lead must now initiate the QA Coordinator’s export of call detail records and recordings for the TDoS period, per C2.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:44.193Z"
+}

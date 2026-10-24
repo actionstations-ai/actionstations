@@ -1164,50 +1164,54 @@
     {
       "id": "ai.actionstations.gas-pipeline",
       "name": "Gas utilities and pipelines",
-      "summary": "Natural gas distribution, transmission and pipeline domain: profile.",
+      "summary": "Natural gas distribution, transmission and pipeline domain: profile and the Corwin Valley Gas example.",
       "tags": ["gas", "pipeline", "energy"],
       "domains": ["gas_pipeline"],
-      "contents": { "domains": ["gas_pipeline"] }
+      "contents": { "domains": ["gas_pipeline"], "examples": ["gas-distribution"] }
     },
     {
       "id": "ai.actionstations.chemical",
       "name": "Chemical facilities",
-      "summary": "Chemical plant, distributor and fertilizer site domain (RMP / PSM): profile.",
+      "summary": "Chemical plant, distributor and fertilizer site domain (RMP / PSM): profile and the Corbin Falls Works RMP tabletop example.",
       "tags": ["chemical", "hazmat"],
       "domains": ["chemical"],
-      "contents": { "domains": ["chemical"] }
+      "contents": { "domains": ["chemical"], "examples": ["chemical-rmp"] }
     },
     {
       "id": "ai.actionstations.public-health",
       "name": "Public health departments",
-      "summary": "Local and state health department domain: profile.",
+      "summary": "Local and state health department domain: profile and the Marston County Health Department example.",
       "tags": ["public-health", "health"],
       "domains": ["public_health"],
-      "contents": { "domains": ["public_health"] }
+      "contents": { "domains": ["public_health"], "examples": ["county-public-health"] }
     },
     {
       "id": "ai.actionstations.emergency-communications",
       "name": "911 and emergency communications",
-      "summary": "PSAP / emergency communications center domain: profile.",
+      "summary": "PSAP / emergency communications center domain: profile and the Rook County 911 example.",
       "tags": ["911", "dispatch", "public-safety"],
       "domains": ["emergency_communications"],
-      "contents": { "domains": ["emergency_communications"] }
+      "contents": { "domains": ["emergency_communications"], "examples": ["county-911"] }
     },
     {
       "id": "ai.actionstations.elections",
       "name": "Election offices",
-      "summary": "County and state election office domain: profile and the election night results page template.",
+      "summary": "County and state election office domain: profile, the election night results page template and the Lisle County Board of Elections example.",
       "tags": ["elections", "government"],
       "domains": ["elections"],
-      "contents": { "templates": ["election_results_page"], "domains": ["elections"] }
+      "contents": {
+        "templates": ["election_results_page"],
+        "domains": ["elections"],
+        "examples": ["county-elections"]
+      }
     },
     {
       "id": "ai.actionstations.k12-schools",
       "name": "K-12 schools",
-      "summary": "School district domain (elementary, middle and high schools, buses, nutrition, athletics): profile.",
+      "summary": "School district domain (elementary, middle and high schools, buses, nutrition, athletics): profile and the Halverson Unified School District example.",
       "tags": ["k12", "education", "schools"],
       "domains": ["k12_schools"],
-      "contents": { "domains": ["k12_schools"] }
+      "contents": { "domains": ["k12_schools"], "examples": ["k12-district"] }
     },
     {
       "id": "ai.actionstations.commercial-facilities",

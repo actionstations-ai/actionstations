@@ -1,0 +1,133 @@
+{
+  "id": "01M5QZDZPKMNX62HF2DVXCMNWH",
+  "mselRowId": "I-12",
+  "type": "time_jump_card",
+  "title": "Time Jump: Field Confirmation and Manual Control — Pressure District 7",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:00",
+    "newTime": "18:30",
+    "jumpLabel": "+30 minutes",
+    "narration": "It is now 18:30. RS-21 and RS-22 run on mechanical pilots and their outlets read near 10 in. w.c., but PR-7B still shows 18 in. w.c., above the district MAOP of 14 in. w.c. Two nursing homes and a school are in Pressure District 7. SCADA is in local-control mode and cannot be trusted. The shut-in decision is due under EP Section 6.",
+    "worldState": [
+      "Field crews have completed manual verification at RS-21 and RS-22.",
+      "RS-21 and RS-22 field gauges read about 30 in. w.c. and are holding.",
+      "PR-7B now reads 15.4 in. w.c. and is still rising.",
+      "Both RS-21 and RS-22 are operating in local control per C1.",
+      "SCADA continues to show nominal pressure and no alarms.",
+      "All remote access to OT systems is disabled; CVG-OT-JMP01 is in forensic quarantine.",
+      "The district remains under elevated overpressure with no evidence of rupture or fire.",
+      "The EOC remains at Level 3 with OT isolation I-4; full evidence preservation is in progress."
+    ],
+    "scenarioTitle": "Ghost Pressure — SCADA vs. Field Gauges & Life Safety",
+    "injectId": "I-12"
+  },
+  "variant": "default",
+  "instructorNote": "This jump confirms that field data has been validated and manual control is in place. The IC must now decide whether to proceed with isolation despite SCADA's lack of alarms. Watch for hesitation in issuing the shutdown order.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 6 › 6.2 Local control of stations",
+      "quote": "When SCADA cannot be trusted, Gas Control moves stations to local control: | Station group | Local-control method | Staffing | |---|---|---| | Harlan Road City Gate, Millstream Gate Station | Station ",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 4 › 4.2 Classification",
+      "quote": "| Level | Meaning | Examples | Activation | |---|---|---|---| | Level 1 | Single location, handled by a serviceperson | Inside odor, leak at a meter set | Distribution Field Supervisor | | Level 2 | S",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 6 › 6.3 Actions",
+      "quote": "1. Gas Control dispatches M&R to the station and the nearest recorder with calibrated field gauges; field gauges govern over SCADA when they disagree. 2. If an overpressure is confirmed or cannot be r",
+      "chunkId": 47
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 8",
+      "quote": "| Isolation level | What it means | Who may order it | Consequence | |---|---|---|---| | I-1 | Remote access to OT disabled | Cybersecurity Coordinator (either) | No vendor support; on-call engineers ",
+      "chunkId": 11
+    },
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 3",
+      "quote": "| Line | Description | Size / material | MAOP | Route | |---|---|---|---|---| | Line 100 | Supply main from Harlan Road City Gate to the north and central system | 12-inch coated steel | 300 psig | Ha",
+      "chunkId": 22
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T22:10:29.288Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: Field Confirmation and Manual Control — Pressure District 7",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "2:00",
+          "newTime": "18:30",
+          "jumpLabel": "+30 minutes",
+          "narration": "All hands, this is the facilitator. It is now 18:30. Field crews have completed manual verification across Pressure District 7. RS-21 and RS-22 are confirmed at 13.2 in. w.c. on field gauges, with pressure still rising. PR-7B now reads 15.4 in. w.c. and shows no sign of stabilization. Both stations are operating in local control: mechanical pilots engaged, field gauges verified, and technician reports confirmed via radio. SCADA still shows nominal pressure and no alarms. The control room remains isolated from remote access. The shift cannot wait for verification—life safety is at risk.",
+          "worldState": [
+            "Field crews have completed manual verification at RS-21 and RS-22.",
+            "RS-21 and RS-22 field gauges read 13.2 in. w.c. and are holding.",
+            "PR-7B now reads 15.4 in. w.c. and is still rising.",
+            "Both RS-21 and RS-22 are operating in local control per C1.",
+            "SCADA continues to show nominal pressure and no alarms.",
+            "All remote access to OT systems is disabled; CVG-OT-JMP01 is in forensic quarantine.",
+            "The district remains under elevated overpressure with no evidence of rupture or fire.",
+            "The EOC remains at Level 4; full evidence preservation is in progress."
+          ],
+          "scenarioTitle": "Ghost Pressure — SCADA vs. Field Gauges & Life Safety",
+          "injectId": "I-12"
+        },
+        "instructorNote": "This jump confirms that field data has been validated and manual control is in place. The IC must now decide whether to proceed with isolation despite SCADA's lack of alarms. Watch for hesitation in issuing the shutdown order.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.472Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Time Jump: Field Confirmation and Manual Control — Pressure District 7",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "2:00",
+          "newTime": "18:30",
+          "jumpLabel": "+30 minutes",
+          "narration": "It is now 18:30. RS-21 and RS-22 run on mechanical pilots and their outlets read near 10 in. w.c., but PR-7B still shows 18 in. w.c., above the district MAOP of 14 in. w.c. Two nursing homes and a school are in Pressure District 7. SCADA is in local-control mode and cannot be trusted. The shut-in decision is due under EP Section 6.",
+          "worldState": [
+            "Field crews have completed manual verification at RS-21 and RS-22.",
+            "RS-21 and RS-22 field gauges read about 30 in. w.c. and are holding.",
+            "PR-7B now reads 15.4 in. w.c. and is still rising.",
+            "Both RS-21 and RS-22 are operating in local control per C1.",
+            "SCADA continues to show nominal pressure and no alarms.",
+            "All remote access to OT systems is disabled; CVG-OT-JMP01 is in forensic quarantine.",
+            "The district remains under elevated overpressure with no evidence of rupture or fire.",
+            "The EOC remains at Level 3 with OT isolation I-4; full evidence preservation is in progress."
+          ],
+          "scenarioTitle": "Ghost Pressure — SCADA vs. Field Gauges & Life Safety",
+          "injectId": "I-12"
+        },
+        "instructorNote": "This jump confirms that field data has been validated and manual control is in place. The IC must now decide whether to proceed with isolation despite SCADA's lack of alarms. Watch for hesitation in issuing the shutdown order.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:25.974Z"
+}

@@ -1,0 +1,203 @@
+{
+  "id": "01M5QVRR5K7W4C8A27NHHD7053",
+  "mselRowId": "I-16b",
+  "type": "phone_call",
+  "title": "Tamarack County Communications: 911 Rerouting Confirmation",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Tamarack County Communications",
+    "systemName": "Ring-Down Line 555-0108",
+    "callId": "CR-20261022-214510-0017",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Tamarack County Communications",
+      "number": "555-0108",
+      "label": "Ring-Down Line"
+    },
+    "callee": {
+      "name": "Director Voss",
+      "number": "555-0111",
+      "label": "RCECD supervisor desk"
+    },
+    "startTime": "10/22/2026 21:45:10",
+    "duration": "0:42",
+    "transcript": [
+      {
+        "speaker": "Tamarack County Communications",
+        "offset": "0:00",
+        "text": "This is Tamarack County Communications on the ring-down line. We have taken your 911 overflow since 20:05 under MCTA-2025 and relayed every call to your floor.",
+        "prompt": false
+      },
+      {
+        "speaker": "Tamarack County Communications",
+        "offset": "0:14",
+        "text": "The silent calls on our side dropped to 3 a minute. We can keep the overflow through the night. Do you want it?",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-16b"
+  },
+  "variant": "default",
+  "instructorNote": "This call confirms Tamarack is operational and not compromised. The Incident Commander must validate that Tamarack’s role in rerouting is legitimate and not spoofed.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BWAN3C0F4P06WRMQ0DA",
+      "documentTitle": "Rook County Emergency Communications District — Systems, Positions and Radio Description",
+      "headingPath": "Rook County Emergency Communicat… › Section 2",
+      "quote": "| Path | What it carries | Detail | |---|---|---| | SIP trunk group A | 911 voice and text-to-911 from the state ESInet (primary) | 24 simultaneous calls; diverse fiber entrance (north) | | SIP trunk ",
+      "chunkId": 43
+    },
+    {
+      "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+      "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+      "headingPath": "Rook County Emergency Communicat… › Section 6 › 6.2 Rerouting 911 calls",
+      "quote": "When RCECD cannot answer, the Technical Lead asks the state ESInet network operations center to route overflow or all 911 calls to Tamarack County Communications under MCTA-2025. Tamarack answers, tak",
+      "chunkId": 29
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Tamarack County Communications",
+        "voiceStyle": "calm male dispatcher in his 50s, measured, slight Midwestern accent, steady pace",
+        "text": "This is Tamarack County Communications. The ring-down line to RCECD via copper circuit (five five five zero one zero eight) has been active since nineteen hundred under MCTA two zero two five."
+      },
+      {
+        "speaker": "Tamarack County Communications",
+        "voiceStyle": "same as above",
+        "text": "We’ve been taking nine one one calls on SIP trunk group A since nineteen hundred. The silent call flood has dropped to three per minute; pattern matches known TDoS behavior."
+      },
+      {
+        "speaker": "Tamarack County Communications",
+        "voiceStyle": "same as above",
+        "text": "We’ve verified no data corruption on our end. We are continuing to route calls to your backup PSAP at the Highway Garage."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QWA3BFZK9ZPGMQY7CK47VG",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVRR5K7W4C8A27NHHD7053/01M5QWA3BFZK9ZPGMQY7CK47VG.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "94999eb7b2212c3bc2024a82b20e3a7c2f847f41cdd04f6b9cdb268d634d3b67",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:47.318Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:06:30.094Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Tamarack County Communications: 911 Rerouting Confirmation",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Tamarack County Communications",
+          "systemName": "Ring-Down Line 555-0108",
+          "callId": "CR-20261024-214510-0017",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Tamarack County Communications",
+            "number": "555-0108",
+            "label": "Ring-Down Line"
+          },
+          "callee": {
+            "name": "Director Voss",
+            "number": "555-0100",
+            "label": "911 Director"
+          },
+          "startTime": "10/24/2026 21:45:10",
+          "duration": "0:42",
+          "transcript": [
+            {
+              "speaker": "Tamarack County Communications",
+              "offset": "0:00",
+              "text": "This is Tamarack County Communications. The ring-down line to RCECD via copper circuit (555-0108) has been active since 19:00 under MCTA-2025.",
+              "prompt": false
+            },
+            {
+              "speaker": "Tamarack County Communications",
+              "offset": "0:12",
+              "text": "We’ve been taking 911 calls on SIP trunk group A since 19:00. The silent call flood has dropped to 3 per minute; pattern matches known TDoS behavior.",
+              "prompt": false
+            },
+            {
+              "speaker": "Tamarack County Communications",
+              "offset": "0:25",
+              "text": "We’ve verified no data corruption on our end. We are continuing to route calls to your backup PSAP at the Highway Garage.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-16b"
+        },
+        "instructorNote": "This call confirms Tamarack is operational and not compromised. The Incident Commander must validate that Tamarack’s role in rerouting is legitimate and not spoofed.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.635Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Tamarack County Communications: 911 Rerouting Confirmation",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Tamarack County Communications",
+          "systemName": "Ring-Down Line 555-0108",
+          "callId": "CR-20261022-214510-0017",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Tamarack County Communications",
+            "number": "555-0108",
+            "label": "Ring-Down Line"
+          },
+          "callee": {
+            "name": "Director Voss",
+            "number": "555-0111",
+            "label": "RCECD supervisor desk"
+          },
+          "startTime": "10/22/2026 21:45:10",
+          "duration": "0:42",
+          "transcript": [
+            {
+              "speaker": "Tamarack County Communications",
+              "offset": "0:00",
+              "text": "This is Tamarack County Communications on the ring-down line. We have taken your 911 overflow since 20:05 under MCTA-2025 and relayed every call to your floor.",
+              "prompt": false
+            },
+            {
+              "speaker": "Tamarack County Communications",
+              "offset": "0:14",
+              "text": "The silent calls on our side dropped to 3 a minute. We can keep the overflow through the night. Do you want it?",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-16b"
+        },
+        "instructorNote": "This call confirms Tamarack is operational and not compromised. The Incident Commander must validate that Tamarack’s role in rerouting is legitimate and not spoofed.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:15:47.539Z"
+}

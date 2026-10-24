@@ -1,0 +1,325 @@
+{
+  "id": "01M5QTYM58WDHHMSW0EYJAJGDF",
+  "mselRowId": "I-19",
+  "type": "field_report",
+  "title": "Outbreak Line List: 3 Fake Cases Identified",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Marston County Health Department",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-1022-0093",
+    "date": "10/22/2026",
+    "time": "12:15",
+    "location": "Epi Response Room, Departmental Operations Center, Ellery",
+    "inspector": "Colin Mercer, Disease Investigator",
+    "unit": "Epi Team · DOC-03",
+    "reportType": "incident",
+    "weather": "Clear, 62°F, light breeze",
+    "summary": "I have checked all 14 cases now on the line list (the 9 confirmed and the 5 added this morning) against the paper forms (MCHD-F-10, MCHD-F-12), the lab results and the clinic logs. Three of the added cases came from a report by a \"Brandt Pediatric Clinic\" that does not exist, faxed through MCHD-FAX01, with a forged lab result PHL-26-031882. They come off the line list; the other two added cases need lab confirmation.",
+    "findings": [
+      {
+        "item": "Case 26-04412 (Lindell) — Exposure window",
+        "condition": "ok",
+        "notes": "Matches paper record; no contact assigned"
+      },
+      {
+        "item": "Case 26-04413 (Brandt) — Clinic visit",
+        "condition": "failed",
+        "notes": "Reported from 'Brandt Pediatric Clinic' — not in MCHD clinic list. No record in MCHD-F-40. Lab result PHL-26-031882 not verified against paper log."
+      },
+      {
+        "item": "Case 26-04414 (Brandt) — Symptom onset",
+        "condition": "failed",
+        "notes": "Reported via MCHD-FAX01; no corresponding intake form in MCHD-F-10. Paper record shows no contact. Lab result PHL-26-031882 used as sole evidence."
+      },
+      {
+        "item": "Case 26-04415 (Lindell) — Contact trace",
+        "condition": "ok",
+        "notes": "Contact assigned; paper record matches MCHD-F-20"
+      },
+      {
+        "item": "Case 26-04416 (North District) — Dose record",
+        "condition": "ok",
+        "notes": "Matches MCHD-F-40 and cold storage log"
+      },
+      {
+        "item": "Case 26-04417 (West District) — Lab result",
+        "condition": "ok",
+        "notes": "PHL-26-031882 confirmed in lab database"
+      },
+      {
+        "item": "Case 26-04418 (Brandt) — Exposure report",
+        "condition": "failed",
+        "notes": "Reported from MCHD-FAX01; no clinic visit in paper log. No contact assigned. Lab result PHL-26-031882 forged."
+      },
+      {
+        "item": "Case 26-04419 (South District) — Contact trace",
+        "condition": "ok",
+        "notes": "Contact assigned; paper record matches MCHD-F-20"
+      },
+      {
+        "item": "Case 26-04420 (Brandt) — Dose record",
+        "condition": "failed",
+        "notes": "Reported via MCHD-FAX01; no record in MCHD-F-40. No contact. Lab result PHL-26-031882 not in original lab batch"
+      },
+      {
+        "item": "Case 26-04421 (Lindell) — Exposure window",
+        "condition": "ok",
+        "notes": "Matches paper record; contact assigned"
+      }
+    ],
+    "actionsTaken": [
+      "Removed 3 invalid cases from official line list (OB-2026-0147)",
+      "Notified IT and Legal of data integrity compromise via MCHD-F-62",
+      "Updated DOC status board: 'Line List: 11 valid, 3 invalid'",
+      "Initiated new contact-tracing assignment for 11 remaining cases"
+    ],
+    "recommendations": [
+      "Re-verify all case data against original paper forms (MCHD-F-10, MCHD-F-12) before release",
+      "Flag all MCHD-FAX01 entries for review under C4",
+      "Submit formal data integrity report to the Incident Commander and Legal"
+    ],
+    "photosNote": "3 photos attached: IMG_20261021-121501 (paper line list, page 3), IMG_20261021-121502 (MCHD-FAX01 inbound fax log), IMG_20261021-121503 (forged lab result PHL-26-031882) — all marked 'Not Trusted' per C4",
+    "signature": "Colin Mercer, Disease Investigator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the fake cases are not in the paper record, validating the need to trust the paper version. The Epi team must now correct the official line list and restart contact tracing.",
+  "citations": [
+    {
+      "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+      "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+      "headingPath": "Marston County Health Department… › Section 5 › 5.2 Outbreak numbers and line lists",
+      "quote": "The Lead Epidemiologist assigns an outbreak number (format OB-2026-0147) and opens the line list from template MCHD-F-12. The working line list lives on the county SharePoint site \"MCHD Epi Response\";",
+      "chunkId": 39
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 10",
+      "quote": "Paper mode is declared by the Incident Commander (decision record CYB-DR-1). In paper mode: - Disease reports are taken by phone on MCHD-F-10; investigators work cases in the state surveillance system",
+      "chunkId": 14
+    },
+    {
+      "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+      "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+      "headingPath": "Marston County Health Department… › Annex B",
+      "quote": "MCHD-F-10 Disease report intake (paper) · MCHD-F-12 Outbreak line list · MCHD-F-20 Contact tracing worksheet · MCHD-F-31 School exclusion letter · MCHD-F-33 Quarantine order · MCHD-F-40 Paper vaccinat",
+      "chunkId": 51
+    },
+    {
+      "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+      "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+      "headingPath": "Marston County Health Department… › Section 6",
+      "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+      "chunkId": 10
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QVBQW129ES5GNWDX7184CE",
+      "kind": "image",
+      "path": "scenarios/01M5QT4EP24RRNN7RXZZ8YCEYZ/media/01M5QTYM58WDHHMSW0EYJAJGDF/01M5QVBQW129ES5GNWDX7184CE.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "3557883f49911128b1d1953b83c60f832965a22ad72a865c63acdeed194eb09e",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:59:12.427Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:52:22.148Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Outbreak Line List: 3 Fake Cases Identified",
+        "type": "field_report",
+        "fields": {
+          "organization": "Marston County Health Department",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1024-0093",
+          "date": "10/24/2026",
+          "time": "12:15",
+          "location": "Epi Response Room, Departmental Operations Center, Ellery",
+          "inspector": "Colin Mercer, Disease Investigator",
+          "unit": "Epi Team · DOC-03",
+          "reportType": "incident",
+          "weather": "Clear, 62°F, light breeze",
+          "summary": "Verified 14 cases in the outbreak line list using original paper forms (MCHD-F-10, MCHD-F-12), lab results (PHL-26-031882), and clinic logs. Three cases were based on a report from a non-existent clinic — 'Brandt Pediatric Clinic' — entered via the compromised Epi fax server (MCHD-FAX01). The lab result (PHL-26-031882) was forged. These cases were not in the original paper line list and have no contact assignments. The paper records show no contact for these cases. The digital line list must be corrected to reflect only valid cases.",
+          "findings": [
+            {
+              "item": "Case 26-04412 (Lindell) — Exposure window",
+              "condition": "ok",
+              "notes": "Matches paper record; no contact assigned"
+            },
+            {
+              "item": "Case 26-04413 (Brandt) — Clinic visit",
+              "condition": "failed",
+              "notes": "Reported from 'Brandt Pediatric Clinic' — not in MCHD clinic list. No record in MCHD-F-40. Lab result PHL-26-031882 not verified against paper log."
+            },
+            {
+              "item": "Case 26-04414 (Brandt) — Symptom onset",
+              "condition": "failed",
+              "notes": "Reported via MCHD-FAX01; no corresponding intake form in MCHD-F-10. Paper record shows no contact. Lab result PHL-26-031882 used as sole evidence."
+            },
+            {
+              "item": "Case 26-04415 (Lindell) — Contact trace",
+              "condition": "ok",
+              "notes": "Contact assigned; paper record matches MCHD-F-20"
+            },
+            {
+              "item": "Case 26-04416 (North District) — Dose record",
+              "condition": "ok",
+              "notes": "Matches MCHD-F-40 and cold storage log"
+            },
+            {
+              "item": "Case 26-04417 (West District) — Lab result",
+              "condition": "ok",
+              "notes": "PHL-26-031882 confirmed in lab database"
+            },
+            {
+              "item": "Case 26-04418 (Brandt) — Exposure report",
+              "condition": "failed",
+              "notes": "Reported from MCHD-FAX01; no clinic visit in paper log. No contact assigned. Lab result PHL-26-031882 forged."
+            },
+            {
+              "item": "Case 26-04419 (South District) — Contact trace",
+              "condition": "ok",
+              "notes": "Contact assigned; paper record matches MCHD-F-20"
+            },
+            {
+              "item": "Case 26-04420 (Brandt) — Dose record",
+              "condition": "failed",
+              "notes": "Reported via MCHD-FAX01; no record in MCHD-F-40. No contact. Lab result PHL-26-031882 not in original lab batch"
+            },
+            {
+              "item": "Case 26-04421 (Lindell) — Exposure window",
+              "condition": "ok",
+              "notes": "Matches paper record; contact assigned"
+            }
+          ],
+          "actionsTaken": [
+            "Removed 3 invalid cases from official line list (OB-2026-0147)",
+            "Notified IT and Legal of data integrity compromise via MCHD-F-62",
+            "Updated DOC status board: 'Line List: 11 valid, 3 invalid'",
+            "Initiated new contact-tracing assignment for 11 remaining cases"
+          ],
+          "recommendations": [
+            "Re-verify all case data against original paper forms (MCHD-F-10, MCHD-F-12) before release",
+            "Flag all MCHD-FAX01 entries for review under C4",
+            "Submit formal data integrity report to the Incident Commander and Legal"
+          ],
+          "photosNote": "3 photos attached: IMG_20261024-121501 (paper line list, page 3), IMG_20261024-121502 (MCHD-FAX01 inbound fax log), IMG_20261024-121503 (forged lab result PHL-26-031882) — all marked 'Not Trusted' per C4",
+          "signature": "Colin Mercer, Disease Investigator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the fake cases are not in the paper record, validating the need to trust the paper version. The Epi team must now correct the official line list and restart contact tracing.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:57:57.284Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Outbreak Line List: 3 Fake Cases Identified",
+        "type": "field_report",
+        "fields": {
+          "organization": "Marston County Health Department",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1022-0093",
+          "date": "10/22/2026",
+          "time": "12:15",
+          "location": "Epi Response Room, Departmental Operations Center, Ellery",
+          "inspector": "Colin Mercer, Disease Investigator",
+          "unit": "Epi Team · DOC-03",
+          "reportType": "incident",
+          "weather": "Clear, 62°F, light breeze",
+          "summary": "I have checked all 14 cases now on the line list (the 9 confirmed and the 5 added this morning) against the paper forms (MCHD-F-10, MCHD-F-12), the lab results and the clinic logs. Three of the added cases came from a report by a \"Brandt Pediatric Clinic\" that does not exist, faxed through MCHD-FAX01, with a forged lab result PHL-26-031882. They come off the line list; the other two added cases need lab confirmation.",
+          "findings": [
+            {
+              "item": "Case 26-04412 (Lindell) — Exposure window",
+              "condition": "ok",
+              "notes": "Matches paper record; no contact assigned"
+            },
+            {
+              "item": "Case 26-04413 (Brandt) — Clinic visit",
+              "condition": "failed",
+              "notes": "Reported from 'Brandt Pediatric Clinic' — not in MCHD clinic list. No record in MCHD-F-40. Lab result PHL-26-031882 not verified against paper log."
+            },
+            {
+              "item": "Case 26-04414 (Brandt) — Symptom onset",
+              "condition": "failed",
+              "notes": "Reported via MCHD-FAX01; no corresponding intake form in MCHD-F-10. Paper record shows no contact. Lab result PHL-26-031882 used as sole evidence."
+            },
+            {
+              "item": "Case 26-04415 (Lindell) — Contact trace",
+              "condition": "ok",
+              "notes": "Contact assigned; paper record matches MCHD-F-20"
+            },
+            {
+              "item": "Case 26-04416 (North District) — Dose record",
+              "condition": "ok",
+              "notes": "Matches MCHD-F-40 and cold storage log"
+            },
+            {
+              "item": "Case 26-04417 (West District) — Lab result",
+              "condition": "ok",
+              "notes": "PHL-26-031882 confirmed in lab database"
+            },
+            {
+              "item": "Case 26-04418 (Brandt) — Exposure report",
+              "condition": "failed",
+              "notes": "Reported from MCHD-FAX01; no clinic visit in paper log. No contact assigned. Lab result PHL-26-031882 forged."
+            },
+            {
+              "item": "Case 26-04419 (South District) — Contact trace",
+              "condition": "ok",
+              "notes": "Contact assigned; paper record matches MCHD-F-20"
+            },
+            {
+              "item": "Case 26-04420 (Brandt) — Dose record",
+              "condition": "failed",
+              "notes": "Reported via MCHD-FAX01; no record in MCHD-F-40. No contact. Lab result PHL-26-031882 not in original lab batch"
+            },
+            {
+              "item": "Case 26-04421 (Lindell) — Exposure window",
+              "condition": "ok",
+              "notes": "Matches paper record; contact assigned"
+            }
+          ],
+          "actionsTaken": [
+            "Removed 3 invalid cases from official line list (OB-2026-0147)",
+            "Notified IT and Legal of data integrity compromise via MCHD-F-62",
+            "Updated DOC status board: 'Line List: 11 valid, 3 invalid'",
+            "Initiated new contact-tracing assignment for 11 remaining cases"
+          ],
+          "recommendations": [
+            "Re-verify all case data against original paper forms (MCHD-F-10, MCHD-F-12) before release",
+            "Flag all MCHD-FAX01 entries for review under C4",
+            "Submit formal data integrity report to the Incident Commander and Legal"
+          ],
+          "photosNote": "3 photos attached: IMG_20261021-121501 (paper line list, page 3), IMG_20261021-121502 (MCHD-FAX01 inbound fax log), IMG_20261021-121503 (forged lab result PHL-26-031882) — all marked 'Not Trusted' per C4",
+          "signature": "Colin Mercer, Disease Investigator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the fake cases are not in the paper record, validating the need to trust the paper version. The Epi team must now correct the official line list and restart contact tracing.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:59:12.758Z"
+}

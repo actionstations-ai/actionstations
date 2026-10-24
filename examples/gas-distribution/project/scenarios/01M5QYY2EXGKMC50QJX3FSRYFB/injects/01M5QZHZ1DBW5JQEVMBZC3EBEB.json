@@ -1,0 +1,284 @@
+{
+  "id": "01M5QZHZ1DBW5JQEVMBZC3EBEB",
+  "mselRowId": "I-19",
+  "type": "system_log",
+  "title": "RTU Configuration Restoration — RS-21 and RS-22",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "CVG-ENG01",
+    "host": "CVG-ENG01",
+    "ip": "10.72.1.41",
+    "os": "Windows Server 2022",
+    "logSource": "ROCLINK / Configuration Audit",
+    "exportedBy": "CVG-ENG01\\cyber.ops",
+    "exportedAt": "01/13/2027 19:40",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "19:39:58",
+        "level": "INFO",
+        "msg": "Initiating RTU configuration restore for RS-21 and RS-22 from nightly backup CVG-OTBK01.",
+        "highlight": false
+      },
+      {
+        "ts": "19:40:01",
+        "level": "INFO",
+        "msg": "Backup file: CVG-OTBK01\\OT_Backups\\20270113\\RS-21_RS-22_Config.bin",
+        "highlight": false
+      },
+      {
+        "ts": "19:40:03",
+        "level": "INFO",
+        "msg": "SHA-256 hash verification in progress for restored configuration.",
+        "highlight": false
+      },
+      {
+        "ts": "19:40:06",
+        "level": "INFO",
+        "msg": "Match found: 7b1e04c9a2f35d86e0c4b7a19f2d63e85a0c7f4b1e9d26a3c58f07b4e1d9a62c",
+        "highlight": true
+      },
+      {
+        "ts": "19:40:07",
+        "level": "NOTICE",
+        "msg": "Configuration hash matches recorded value on RS-21 and RS-22 station drawings (CIRP Form 3).",
+        "highlight": true
+      },
+      {
+        "ts": "19:40:08",
+        "level": "INFO",
+        "msg": "Configuration successfully restored to ROC800 RTUs at RS-21 and RS-22.",
+        "highlight": false
+      },
+      {
+        "ts": "19:40:09",
+        "level": "INFO",
+        "msg": "ROCLINK sync complete. New configuration saved and tagged with timestamp: 20270113-194009.",
+        "highlight": false
+      },
+      {
+        "ts": "19:40:10",
+        "level": "INFO",
+        "msg": "No anomalies detected in restored configuration. System integrity confirmed.",
+        "highlight": false
+      },
+      {
+        "ts": "19:40:11",
+        "level": "NOTICE",
+        "msg": "Configuration change logged to CVG-SCADA01 HMI under operator ID: CVG-ENG01\\cyber.ops.",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Restore-RtuConfig -Host RS-21,RS-22 -Backup CVG-OTBK01\\20270113\\RS-21_RS-22_Config.bin -VerifyHash",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This inject confirms the forensic team has restored known-good RTU configurations. GCM and CYB must now verify that the field data aligns with the restored SCADA state before any return to remote control.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 7",
+      "quote": "PipeView configuration, the historian database and every RTU and pilot-controller configuration are backed up nightly to CVG-OTBK01 in the OT DMZ and weekly to an offline encrypted drive kept in the O",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 10",
+      "quote": "1. Rebuild suspect OT hosts from the gold images; restore configurations from backups that predate the incident and match recorded hashes. 2. Compare every station RTU and pilot-controller configurati",
+      "chunkId": 13
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYP7Q3GK7HJGZPHGTM4V2",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZHZ1DBW5JQEVMBZC3EBEB/01M5QZYP7Q3GK7HJGZPHGTM4V2.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "d538bbb25ddb7eaff020c549262d5366fc41e5a892005f51d8b7d72b85658518",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:27.749Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:12:44.016Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "RTU Configuration Restoration — RS-21 and RS-22",
+        "type": "system_log",
+        "fields": {
+          "systemName": "CVG-ENG01",
+          "host": "CVG-ENG01",
+          "ip": "10.72.1.41",
+          "os": "Windows Server 2022",
+          "logSource": "ROCLINK / Configuration Audit",
+          "exportedBy": "CVG-ENG01\\cyber.ops",
+          "exportedAt": "10/24/2026 19:40",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "19:39:58",
+              "level": "INFO",
+              "msg": "Initiating RTU configuration restore for RS-21 and RS-22 from nightly backup CVG-OTBK01.",
+              "highlight": false
+            },
+            {
+              "ts": "19:40:01",
+              "level": "INFO",
+              "msg": "Backup file: CVG-OTBK01\\OT_Backups\\20261024\\RS-21_RS-22_Config.bin",
+              "highlight": false
+            },
+            {
+              "ts": "19:40:03",
+              "level": "INFO",
+              "msg": "SHA-256 hash verification in progress for restored configuration.",
+              "highlight": false
+            },
+            {
+              "ts": "19:40:06",
+              "level": "INFO",
+              "msg": "Match found: f3a1b9c2d4e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7",
+              "highlight": true
+            },
+            {
+              "ts": "19:40:07",
+              "level": "NOTICE",
+              "msg": "Configuration hash matches recorded value on RS-21 and RS-22 station drawings (CIRP Form 3).",
+              "highlight": true
+            },
+            {
+              "ts": "19:40:08",
+              "level": "INFO",
+              "msg": "Configuration successfully restored to ROC800 RTUs at RS-21 and RS-22.",
+              "highlight": false
+            },
+            {
+              "ts": "19:40:09",
+              "level": "INFO",
+              "msg": "ROCLINK sync complete. New configuration saved and tagged with timestamp: 20261024-194009.",
+              "highlight": false
+            },
+            {
+              "ts": "19:40:10",
+              "level": "INFO",
+              "msg": "No anomalies detected in restored configuration. System integrity confirmed.",
+              "highlight": false
+            },
+            {
+              "ts": "19:40:11",
+              "level": "NOTICE",
+              "msg": "Configuration change logged to CVG-SCADA01 HMI under operator ID: CVG-ENG01\\cyber.ops.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Restore-RtuConfig -Host RS-21,RS-22 -Backup CVG-OTBK01\\20261024\\RS-21_RS-22_Config.bin -VerifyHash",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the forensic team has restored known-good RTU configurations. GCM and CYB must now verify that the field data aligns with the restored SCADA state before any return to remote control.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.496Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "RTU Configuration Restoration — RS-21 and RS-22",
+        "type": "system_log",
+        "fields": {
+          "systemName": "CVG-ENG01",
+          "host": "CVG-ENG01",
+          "ip": "10.72.1.41",
+          "os": "Windows Server 2022",
+          "logSource": "ROCLINK / Configuration Audit",
+          "exportedBy": "CVG-ENG01\\cyber.ops",
+          "exportedAt": "01/13/2027 19:40",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "19:39:58",
+              "level": "INFO",
+              "msg": "Initiating RTU configuration restore for RS-21 and RS-22 from nightly backup CVG-OTBK01.",
+              "highlight": false
+            },
+            {
+              "ts": "19:40:01",
+              "level": "INFO",
+              "msg": "Backup file: CVG-OTBK01\\OT_Backups\\20270113\\RS-21_RS-22_Config.bin",
+              "highlight": false
+            },
+            {
+              "ts": "19:40:03",
+              "level": "INFO",
+              "msg": "SHA-256 hash verification in progress for restored configuration.",
+              "highlight": false
+            },
+            {
+              "ts": "19:40:06",
+              "level": "INFO",
+              "msg": "Match found: 7b1e04c9a2f35d86e0c4b7a19f2d63e85a0c7f4b1e9d26a3c58f07b4e1d9a62c",
+              "highlight": true
+            },
+            {
+              "ts": "19:40:07",
+              "level": "NOTICE",
+              "msg": "Configuration hash matches recorded value on RS-21 and RS-22 station drawings (CIRP Form 3).",
+              "highlight": true
+            },
+            {
+              "ts": "19:40:08",
+              "level": "INFO",
+              "msg": "Configuration successfully restored to ROC800 RTUs at RS-21 and RS-22.",
+              "highlight": false
+            },
+            {
+              "ts": "19:40:09",
+              "level": "INFO",
+              "msg": "ROCLINK sync complete. New configuration saved and tagged with timestamp: 20270113-194009.",
+              "highlight": false
+            },
+            {
+              "ts": "19:40:10",
+              "level": "INFO",
+              "msg": "No anomalies detected in restored configuration. System integrity confirmed.",
+              "highlight": false
+            },
+            {
+              "ts": "19:40:11",
+              "level": "NOTICE",
+              "msg": "Configuration change logged to CVG-SCADA01 HMI under operator ID: CVG-ENG01\\cyber.ops.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Restore-RtuConfig -Host RS-21,RS-22 -Backup CVG-OTBK01\\20270113\\RS-21_RS-22_Config.bin -VerifyHash",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the forensic team has restored known-good RTU configurations. GCM and CYB must now verify that the field data aligns with the restored SCADA state before any return to remote control.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:27.951Z"
+}

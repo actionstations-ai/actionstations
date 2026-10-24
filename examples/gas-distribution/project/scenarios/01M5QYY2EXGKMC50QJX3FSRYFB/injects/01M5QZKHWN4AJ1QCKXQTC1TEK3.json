@@ -1,0 +1,195 @@
+{
+  "id": "01M5QZKHWN4AJ1QCKXQTC1TEK3",
+  "mselRowId": "I-22",
+  "type": "system_log",
+  "title": "SCADA Remote Control Re-enabled — RS-21 and RS-22",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "PipeView SCADA",
+    "host": "CVG-SCADA01",
+    "ip": "10.72.1.55",
+    "os": "Windows Server 2022",
+    "logSource": "PipeView / Control Layer / Remote Commands",
+    "exportedBy": "CVG\\scada.ops",
+    "exportedAt": "01/13/2027 08:15 PM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "20:12:40",
+        "level": "INFO",
+        "msg": "Read-only polling restored: RS-21, RS-22",
+        "highlight": false
+      },
+      {
+        "ts": "20:12:41",
+        "level": "NOTICE",
+        "msg": "Remote setpoint writes PC-21, PC-22: DISABLED",
+        "highlight": true
+      },
+      {
+        "ts": "20:13:05",
+        "level": "INFO",
+        "msg": "RS22-PT-OUT 0.0 in. w.c. (district shut in)",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: PipeView SCADA Console (CVG-SCADA01)",
+    "command": "Get-Content C:\\PipeView\\Logs\\ctrl_status.log -Tail 10",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "This inject confirms the restoration of remote control after forensic recovery. The GCM must now enforce field verification via paper trip sheets and voice dispatch to validate the new baseline. The false normalcy in SCADA is now active again—players must not assume it is trustworthy.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 10",
+      "quote": "1. Rebuild suspect OT hosts from the gold images; restore configurations from backups that predate the incident and match recorded hashes. 2. Compare every station RTU and pilot-controller configurati",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 3",
+      "quote": "| System | Hosts | Function | Network zone | |---|---|---|---| | PipeView SCADA servers | CVG-SCADA01 (active), CVG-SCADA02 (standby) | Polling, alarms, setpoints, remote valve commands | OT control z",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 7",
+      "quote": "| Point | Tag | Low | High | High-high | |---|---|---|---|---| | RS-21 outlet | RS21-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. w.c. | | RS-22 outlet | RS22-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. ",
+      "chunkId": 27
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYQ5WG6W0GTN64PG0K1PZ",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZKHWN4AJ1QCKXQTC1TEK3/01M5QZYQ5WG6W0GTN64PG0K1PZ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 560,
+      "sha256": "6b66d32e812b6f0c535c9461df2526f0df945edbaf767d4d01835db20fc1fe88",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:28.727Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:13:34.938Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SCADA Remote Control Re-enabled — RS-21 and RS-22",
+        "type": "system_log",
+        "fields": {
+          "systemName": "PipeView SCADA",
+          "host": "CVG-SCADA01",
+          "ip": "10.72.1.55",
+          "os": "Windows Server 2022",
+          "logSource": "PipeView / Control Layer / Remote Commands",
+          "exportedBy": "CVG\\scada.ops",
+          "exportedAt": "10/24/2026 08:15 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/24/2026 08:15:02 PM",
+              "level": "INFO",
+              "msg": "Remote control re-enabled for RS-21 and RS-22. All operator commands and remote setpoint updates are now active.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 08:15:03 PM",
+              "level": "NOTICE",
+              "msg": "Alarms restored: RS21-PT-OUT and RS22-PT-OUT now show 10 in. w.c. on HMI.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 08:15:04 PM",
+              "level": "INFO",
+              "msg": "Polling and telemetry resumed for all RTUs in Pressure District 7. RS-21 and RS-22 now receiving remote setpoint updates.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 08:15:05 PM",
+              "level": "INFO",
+              "msg": "Field gauge at RS-22 confirms 10 in. w.c. — no discrepancy with SCADA. All remote commands are enabled.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 08:15:06 PM",
+              "level": "ALERT",
+              "msg": "System status: Remote control active. Wait for next instruction before any further action.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: PipeView SCADA Console (CVG-SCADA01)",
+          "command": "Get-Content C:\\PipeView\\Logs\\ctrl_status.log -Tail 10",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the restoration of remote control after forensic recovery. The GCM must now enforce field verification via paper trip sheets and voice dispatch to validate the new baseline. The false normalcy in SCADA is now active again—players must not assume it is trustworthy.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.505Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SCADA Remote Control Re-enabled — RS-21 and RS-22",
+        "type": "system_log",
+        "fields": {
+          "systemName": "PipeView SCADA",
+          "host": "CVG-SCADA01",
+          "ip": "10.72.1.55",
+          "os": "Windows Server 2022",
+          "logSource": "PipeView / Control Layer / Remote Commands",
+          "exportedBy": "CVG\\scada.ops",
+          "exportedAt": "01/13/2027 08:15 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "20:12:40",
+              "level": "INFO",
+              "msg": "Read-only polling restored: RS-21, RS-22",
+              "highlight": false
+            },
+            {
+              "ts": "20:12:41",
+              "level": "NOTICE",
+              "msg": "Remote setpoint writes PC-21, PC-22: DISABLED",
+              "highlight": true
+            },
+            {
+              "ts": "20:13:05",
+              "level": "INFO",
+              "msg": "RS22-PT-OUT 0.0 in. w.c. (district shut in)",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: PipeView SCADA Console (CVG-SCADA01)",
+          "command": "Get-Content C:\\PipeView\\Logs\\ctrl_status.log -Tail 10",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the restoration of remote control after forensic recovery. The GCM must now enforce field verification via paper trip sheets and voice dispatch to validate the new baseline. The false normalcy in SCADA is now active again—players must not assume it is trustworthy.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:28.905Z"
+}

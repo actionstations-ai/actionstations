@@ -1,0 +1,143 @@
+{
+  "id": "01M5QSY5TFVDW18T2F862275H0",
+  "mselRowId": "I-18b",
+  "type": "email_forward",
+  "title": "SIS Integrity Confirmation — Manual Closure Directive",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Ridgeline Automation Support",
+    "fromEmail": "support@ridgeline-automation.example",
+    "senderInitials": "RA",
+    "to": "Darnell Hughes, Incident Commander; Victor Anand, OT Engineer",
+    "subject": "FW: On-site support 15:00 today",
+    "sentAt": "Thu 10/22/2026 11:40 AM",
+    "note": "From Ridgeline Automation Support to the Incident Commander and the OT Engineer: We can be on site at 15:00 with a Schneider Electric Triconex specialist. We recommend no download, bypass or reset until the running logic has been compared with your archive, and that every SIS-protected operation stays stopped or under field watch until then.",
+    "signature": "Ridgeline Automation Support\nEngineering Response Team\nridgeline-automation.example",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Ridgeline Automation Support",
+    "original": {
+      "fromName": "Ridgeline Automation Support",
+      "fromEmail": "support@ridgeline-automation.example",
+      "sentAt": "Thu 10/22/2026 11:40 AM",
+      "to": "Darnell Hughes, Incident Commander; Victor Anand, OT Engineer",
+      "cc": "",
+      "subject": "On-site support 15:00 today",
+      "body": "From Ridgeline Automation Support to the Incident Commander and the OT Engineer: We can be on site at 15:00 with a Schneider Electric Triconex specialist. We recommend no download, bypass or reset until the running logic has been compared with your archive, and that every SIS-protected operation stays stopped or under field watch until then."
+    }
+  },
+  "variant": "print",
+  "instructorNote": "This inject confirms the SIS compromise and mandates manual closure. Watch for the IC to authorize the ERT to proceed under field authority, per C1 and C4.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 11",
+      "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+      "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+      "chunkId": 52
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJPT708Z8PHRG22NGGQ9Y",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSY5TFVDW18T2F862275H0/01M5QTJPT708Z8PHRG22NGGQ9Y.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "d88317451ab1219d2aa27942451d2d36006f6e9d388a2da52dff644df99ae9a4",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:32.178Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:34:28.521Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIS Integrity Confirmation — Manual Closure Directive",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Ridgeline Automation Support",
+          "fromEmail": "support@ridgelineautomation.com",
+          "senderInitials": "RA",
+          "to": "Darnell Hughes, Incident Commander; Victor Anand, OT Engineer",
+          "subject": "FW: [URGENT] SIS Integrity Confirmation — TVC-JMP-02 Session",
+          "sentAt": "Sat 10/24/2026 11:40 AM",
+          "note": "This is a direct confirmation from Ridgeline Automation. CISA and FBI have validated the compromise. The SIS logic was modified without MOC approval. The remote session from TVC-JMP-02 was not logged. The Triconex key switch was in PROGRAM mode. The system is compromised. Do not reset. The ERT has confirmed the hand valve HV-312 is open and the release continues. We recommend: manually close HV-312 via local panel at Rail Spot 2. All automated commands must be disabled.",
+          "signature": "Ridgeline Automation Support\nEngineering Response Team\nwww.ridgelineautomation.com",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Ridgeline Automation Support",
+          "original": {
+            "fromName": "Ridgeline Automation Support",
+            "fromEmail": "support@ridgelineautomation.com",
+            "sentAt": "Sat 10/24/2026 11:40 AM",
+            "to": "Darnell Hughes, Incident Commander; Victor Anand, OT Engineer",
+            "cc": "",
+            "subject": "[URGENT] SIS Integrity Confirmation — TVC-JMP-02 Session",
+            "body": "CISA and FBI have confirmed: the SIS logic was modified without approval. The remote session from TVC-JMP-02 was not logged. The Triconex key switch was in PROGRAM mode. The system is compromised. Do not reset. The ERT has confirmed the hand valve HV-312 is open and the release continues. We recommend: manually close HV-312 via local panel at Rail Spot 2. All automated commands must be disabled."
+          }
+        },
+        "instructorNote": "This inject confirms the SIS compromise and mandates manual closure. Watch for the IC to authorize the ERT to proceed under field authority, per C1 and C4.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.802Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIS Integrity Confirmation — Manual Closure Directive",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Ridgeline Automation Support",
+          "fromEmail": "support@ridgeline-automation.example",
+          "senderInitials": "RA",
+          "to": "Darnell Hughes, Incident Commander; Victor Anand, OT Engineer",
+          "subject": "FW: On-site support 15:00 today",
+          "sentAt": "Thu 10/22/2026 11:40 AM",
+          "note": "From Ridgeline Automation Support to the Incident Commander and the OT Engineer: We can be on site at 15:00 with a Schneider Electric Triconex specialist. We recommend no download, bypass or reset until the running logic has been compared with your archive, and that every SIS-protected operation stays stopped or under field watch until then.",
+          "signature": "Ridgeline Automation Support\nEngineering Response Team\nridgeline-automation.example",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Ridgeline Automation Support",
+          "original": {
+            "fromName": "Ridgeline Automation Support",
+            "fromEmail": "support@ridgeline-automation.example",
+            "sentAt": "Thu 10/22/2026 11:40 AM",
+            "to": "Darnell Hughes, Incident Commander; Victor Anand, OT Engineer",
+            "cc": "",
+            "subject": "On-site support 15:00 today",
+            "body": "From Ridgeline Automation Support to the Incident Commander and the OT Engineer: We can be on site at 15:00 with a Schneider Electric Triconex specialist. We recommend no download, bypass or reset until the running logic has been compared with your archive, and that every SIS-protected operation stays stopped or under field watch until then."
+          }
+        },
+        "instructorNote": "This inject confirms the SIS compromise and mandates manual closure. Watch for the IC to authorize the ERT to proceed under field authority, per C1 and C4.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:32.512Z"
+}

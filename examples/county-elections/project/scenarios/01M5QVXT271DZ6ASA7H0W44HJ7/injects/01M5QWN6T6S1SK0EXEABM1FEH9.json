@@ -1,0 +1,320 @@
+{
+  "id": "01M5QWN6T6S1SK0EXEABM1FEH9",
+  "mselRowId": "I-21",
+  "type": "field_report",
+  "title": "Voter Record Discrepancy — Statewide Database Comparison",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Lisle County Board of Elections — Voter Registration",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-1029-1110",
+    "date": "10/29/2026",
+    "time": "11:10",
+    "location": "VoterTrack Operations Center, Level 2, Room 210",
+    "inspector": "Beth Saylor, Voter Registration Manager",
+    "unit": "Voter Registration Team",
+    "reportType": "incident",
+    "weather": "Clear, 58°F, wind SE 5 mph",
+    "summary": "I have completed a direct comparison of the 1,186 altered voter records in VoterTrack (LCBOE-VR01) against the official statewide voter registration database via the Ohio Secretary of State’s secure portal (SOS-001). All 1,186 records were falsely marked as 'Ballot Issued' in the county system. No records were deleted or altered in the statewide database. The discrepancy confirms unauthorized edits in VoterTrack. A clean feed from the state database is required to correct these entries. The last good export from LCBOE-FS01 (10/28/2026) is intact and matches the state database. The air-gapped copy from LCBOE-PB01 is ready for use.",
+    "findings": [
+      {
+        "item": "Statewide database consistency",
+        "condition": "ok",
+        "notes": "All 1,186 records match the official statewide database; no deletions, no changes"
+      },
+      {
+        "item": "Last good export integrity",
+        "condition": "ok",
+        "notes": "Nightly export on LCBOE-FS01 (10/28/2026) matches state database and was not altered"
+      },
+      {
+        "item": "Air-gapped pollbook build workstation",
+        "condition": "ok",
+        "notes": "LCBOE-PB01 confirmed unaltered; hash matches digital signature"
+      },
+      {
+        "item": "VoterTrack access logs",
+        "condition": "failed",
+        "notes": "No MFA prompt logged for user nruiz@lislevotes.example during compromise window"
+      },
+      {
+        "item": "Mail ballot issuance records",
+        "condition": "deficient",
+        "notes": "1,186 records show 'issued' status with no corresponding ballot in the mailing log"
+      },
+      {
+        "item": "Forwarding rule in user inbox",
+        "condition": "failed",
+        "notes": "Rule to nruiz.archive@mailbox-relay.example was detected and removed"
+      },
+      {
+        "item": "System-wide data consistency",
+        "condition": "deficient",
+        "notes": "Pollbook data feed from VoterTrack corrupted; results website failed to load"
+      },
+      {
+        "item": "Public communication integrity",
+        "condition": "failed",
+        "notes": "Spurious relocation notice and CISA alert page were posted to results.lislevotes.example"
+      },
+      {
+        "item": "Manual verification process",
+        "condition": "ok",
+        "notes": "Poll workers in Precincts 111 and 112 are using paper lists and provisional ballots"
+      },
+      {
+        "item": "Chain of custody for forensic evidence",
+        "condition": "ok",
+        "notes": "COOP-DR-5 and SHA-256: 5c0e9a7d3f21b84e6a90c1d27f43b58e9a6d0c2f71b34e85a9d06c3f2e71b48a are preserved"
+      }
+    ],
+    "actionsTaken": [
+      "Verified 1,186 records against the Ohio Secretary of State’s secure portal (SOS-001)",
+      "Confirmed integrity of the 10/28/2026 export on LCBOE-FS01",
+      "Reviewed logs from LCBOE-SQL01 and confirmed unauthorized session from IP 10.100.45.12",
+      "Notified IT, CEO, and VSM of verification results",
+      "Prepared to initiate pollbook rebuild using trusted air-gapped copy from LCBOE-PB01"
+    ],
+    "recommendations": [
+      "Immediately request a clean data feed from the Ohio Secretary of State’s secure portal (SOS-001) for Precincts 111 and 112",
+      "Do not push any new pollbook load until verification is complete",
+      "Rebuild Polling Location 6’s pollbook using the trusted air-gapped export from LCBOE-PB01",
+      "Declare CIRP 2 under Section 5 of the EOP; all automated processes remain suspended until verification is complete",
+      "Communicate verification status to the Public Information Officer for unified messaging"
+    ],
+    "photosNote": "6 photos attached: IMG_1024-1110-01 (SOS-001 portal), IMG_1024-1110-02 (VoterTrack export diff), IMG_1024-1110-03 (LCBOE-PB01 terminal), IMG_1024-1110-04 (COOP-DR-5 seal), IMG_1024-1110-05 (SOS-001 login screen), IMG_1024-1110-06 (state database comparison table)",
+    "signature": "Beth Saylor, Voter Registration Manager",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the data discrepancy and validates the path to recovery via the trusted export. The Voter Registration Manager now has authority to direct the correction process. Watch for teams to defer to her verification before restoring automated systems.",
+  "citations": [
+    {
+      "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+      "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+      "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+      "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 7",
+      "quote": "| Check | Method | Owner | |---|---|---| | Audit-trail review | All VoterTrack changes in the window, by user, record and field | Beth Saylor with Rohan Mehta | | Statewide comparison | Affected recor",
+      "chunkId": 13
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QX41QJVTSFD2SA41E0KNB1",
+      "kind": "image",
+      "path": "scenarios/01M5QVXT271DZ6ASA7H0W44HJ7/media/01M5QWN6T6S1SK0EXEABM1FEH9/01M5QX41QJVTSFD2SA41E0KNB1.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "56ade9b5773c9a7ea01e4e24adfd8c2362372e17623e4c99c8823dd29f5b0196",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:29:57.589Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:22:08.976Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Voter Record Discrepancy — Statewide Database Comparison",
+        "type": "field_report",
+        "fields": {
+          "organization": "Lisle County Board of Elections — Voter Registration",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1024-1110",
+          "date": "10/24/2026",
+          "time": "11:10",
+          "location": "VoterTrack Operations Center, Level 2, Room 210",
+          "inspector": "Beth Saylor, Voter Registration Manager",
+          "unit": "Voter Registration Team",
+          "reportType": "incident",
+          "weather": "Clear, 58°F, wind SE 5 mph",
+          "summary": "I have completed a direct comparison of the 1,186 altered voter records in VoterTrack (LCBOE-VR01) against the official statewide voter registration database via the Ohio Secretary of State’s secure portal (SOS-001). All 1,186 records were falsely marked as 'Ballot Issued' in the county system. No records were deleted or altered in the statewide database. The discrepancy confirms unauthorized edits in VoterTrack. A clean feed from the state database is required to correct these entries. The last good export from LCBOE-FS01 (10/28/2026) is intact and matches the state database. The air-gapped copy from LCBOE-PB01 is ready for use.",
+          "findings": [
+            {
+              "item": "Statewide database consistency",
+              "condition": "ok",
+              "notes": "All 1,186 records match the official statewide database; no deletions, no changes"
+            },
+            {
+              "item": "Last good export integrity",
+              "condition": "ok",
+              "notes": "Nightly export on LCBOE-FS01 (10/28/2026) matches state database and was not altered"
+            },
+            {
+              "item": "Air-gapped pollbook build workstation",
+              "condition": "ok",
+              "notes": "LCBOE-PB01 confirmed unaltered; hash matches digital signature"
+            },
+            {
+              "item": "VoterTrack access logs",
+              "condition": "failed",
+              "notes": "No MFA prompt logged for user nruiz@lislevotes.example during compromise window"
+            },
+            {
+              "item": "Mail ballot issuance records",
+              "condition": "deficient",
+              "notes": "1,186 records show 'issued' status with no corresponding ballot in the mailing log"
+            },
+            {
+              "item": "Forwarding rule in user inbox",
+              "condition": "failed",
+              "notes": "Rule to nruiz@phishmail.net was detected and removed"
+            },
+            {
+              "item": "System-wide data consistency",
+              "condition": "deficient",
+              "notes": "Pollbook data feed from VoterTrack corrupted; results website failed to load"
+            },
+            {
+              "item": "Public communication integrity",
+              "condition": "failed",
+              "notes": "Spurious relocation notice and CISA alert page were posted to results.lislevotes.example"
+            },
+            {
+              "item": "Manual verification process",
+              "condition": "ok",
+              "notes": "Poll workers in Precincts 111 and 112 are using paper lists and provisional ballots"
+            },
+            {
+              "item": "Chain of custody for forensic evidence",
+              "condition": "ok",
+              "notes": "COOP-DR-5 and SHA-256: a3f9e7c1d8b4a2f0e6c5b3d7a1f9e8c2b4d6e7f8a9c0b1d2e3f4a5b6c7d8e9f are preserved"
+            }
+          ],
+          "actionsTaken": [
+            "Verified 1,186 records against the Ohio Secretary of State’s secure portal (SOS-001)",
+            "Confirmed integrity of the 10/28/2026 export on LCBOE-FS01",
+            "Reviewed logs from LCBOE-SQL01 and confirmed unauthorized session from IP 10.100.45.12",
+            "Notified IT, CEO, and VSM of verification results",
+            "Prepared to initiate pollbook rebuild using trusted air-gapped copy from LCBOE-PB01"
+          ],
+          "recommendations": [
+            "Immediately request a clean data feed from the Ohio Secretary of State’s secure portal (SOS-001) for Precincts 111 and 112",
+            "Do not push any new pollbook load until verification is complete",
+            "Rebuild Polling Location 6’s pollbook using the trusted air-gapped export from LCBOE-PB01",
+            "Declare CIRP 2 under Section 5 of the EOP; all automated processes remain suspended until verification is complete",
+            "Communicate verification status to the Public Information Officer for unified messaging"
+          ],
+          "photosNote": "6 photos attached: IMG_1024-1110-01 (SOS-001 portal), IMG_1024-1110-02 (VoterTrack export diff), IMG_1024-1110-03 (LCBOE-PB01 terminal), IMG_1024-1110-04 (COOP-DR-5 seal), IMG_1024-1110-05 (SOS-001 login screen), IMG_1024-1110-06 (state database comparison table)",
+          "signature": "Beth Saylor, Voter Registration Manager",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the data discrepancy and validates the path to recovery via the trusted export. The Voter Registration Manager now has authority to direct the correction process. Watch for teams to defer to her verification before restoring automated systems.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T21:28:33.034Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Voter Record Discrepancy — Statewide Database Comparison",
+        "type": "field_report",
+        "fields": {
+          "organization": "Lisle County Board of Elections — Voter Registration",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1029-1110",
+          "date": "10/29/2026",
+          "time": "11:10",
+          "location": "VoterTrack Operations Center, Level 2, Room 210",
+          "inspector": "Beth Saylor, Voter Registration Manager",
+          "unit": "Voter Registration Team",
+          "reportType": "incident",
+          "weather": "Clear, 58°F, wind SE 5 mph",
+          "summary": "I have completed a direct comparison of the 1,186 altered voter records in VoterTrack (LCBOE-VR01) against the official statewide voter registration database via the Ohio Secretary of State’s secure portal (SOS-001). All 1,186 records were falsely marked as 'Ballot Issued' in the county system. No records were deleted or altered in the statewide database. The discrepancy confirms unauthorized edits in VoterTrack. A clean feed from the state database is required to correct these entries. The last good export from LCBOE-FS01 (10/28/2026) is intact and matches the state database. The air-gapped copy from LCBOE-PB01 is ready for use.",
+          "findings": [
+            {
+              "item": "Statewide database consistency",
+              "condition": "ok",
+              "notes": "All 1,186 records match the official statewide database; no deletions, no changes"
+            },
+            {
+              "item": "Last good export integrity",
+              "condition": "ok",
+              "notes": "Nightly export on LCBOE-FS01 (10/28/2026) matches state database and was not altered"
+            },
+            {
+              "item": "Air-gapped pollbook build workstation",
+              "condition": "ok",
+              "notes": "LCBOE-PB01 confirmed unaltered; hash matches digital signature"
+            },
+            {
+              "item": "VoterTrack access logs",
+              "condition": "failed",
+              "notes": "No MFA prompt logged for user nruiz@lislevotes.example during compromise window"
+            },
+            {
+              "item": "Mail ballot issuance records",
+              "condition": "deficient",
+              "notes": "1,186 records show 'issued' status with no corresponding ballot in the mailing log"
+            },
+            {
+              "item": "Forwarding rule in user inbox",
+              "condition": "failed",
+              "notes": "Rule to nruiz.archive@mailbox-relay.example was detected and removed"
+            },
+            {
+              "item": "System-wide data consistency",
+              "condition": "deficient",
+              "notes": "Pollbook data feed from VoterTrack corrupted; results website failed to load"
+            },
+            {
+              "item": "Public communication integrity",
+              "condition": "failed",
+              "notes": "Spurious relocation notice and CISA alert page were posted to results.lislevotes.example"
+            },
+            {
+              "item": "Manual verification process",
+              "condition": "ok",
+              "notes": "Poll workers in Precincts 111 and 112 are using paper lists and provisional ballots"
+            },
+            {
+              "item": "Chain of custody for forensic evidence",
+              "condition": "ok",
+              "notes": "COOP-DR-5 and SHA-256: 5c0e9a7d3f21b84e6a90c1d27f43b58e9a6d0c2f71b34e85a9d06c3f2e71b48a are preserved"
+            }
+          ],
+          "actionsTaken": [
+            "Verified 1,186 records against the Ohio Secretary of State’s secure portal (SOS-001)",
+            "Confirmed integrity of the 10/28/2026 export on LCBOE-FS01",
+            "Reviewed logs from LCBOE-SQL01 and confirmed unauthorized session from IP 10.100.45.12",
+            "Notified IT, CEO, and VSM of verification results",
+            "Prepared to initiate pollbook rebuild using trusted air-gapped copy from LCBOE-PB01"
+          ],
+          "recommendations": [
+            "Immediately request a clean data feed from the Ohio Secretary of State’s secure portal (SOS-001) for Precincts 111 and 112",
+            "Do not push any new pollbook load until verification is complete",
+            "Rebuild Polling Location 6’s pollbook using the trusted air-gapped export from LCBOE-PB01",
+            "Declare CIRP 2 under Section 5 of the EOP; all automated processes remain suspended until verification is complete",
+            "Communicate verification status to the Public Information Officer for unified messaging"
+          ],
+          "photosNote": "6 photos attached: IMG_1024-1110-01 (SOS-001 portal), IMG_1024-1110-02 (VoterTrack export diff), IMG_1024-1110-03 (LCBOE-PB01 terminal), IMG_1024-1110-04 (COOP-DR-5 seal), IMG_1024-1110-05 (SOS-001 login screen), IMG_1024-1110-06 (state database comparison table)",
+          "signature": "Beth Saylor, Voter Registration Manager",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the data discrepancy and validates the path to recovery via the trusted export. The Voter Registration Manager now has authority to direct the correction process. Watch for teams to defer to her verification before restoring automated systems.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:29:57.842Z"
+}

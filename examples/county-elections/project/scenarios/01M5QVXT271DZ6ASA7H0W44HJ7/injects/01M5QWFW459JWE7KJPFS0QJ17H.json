@@ -1,0 +1,237 @@
+{
+  "id": "01M5QWFW459JWE7KJPFS0QJ17H",
+  "mselRowId": "I-07",
+  "type": "system_log",
+  "title": "Results Website: Data Feed Corruption from VoterTrack",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "results.lislevotes.example",
+    "host": "results.lislevotes.example",
+    "ip": "10.72.15.22",
+    "os": "Ubuntu 22.04 LTS",
+    "logSource": "/var/log/nginx/access.log",
+    "exportedBy": "rohan.mehta@lislevotes.example",
+    "exportedAt": "10/29/2026 09:15 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "10/29/2026 09:14:58",
+        "level": "ERROR",
+        "msg": "Failed to fetch voter data feed from VoterTrack (LCBOE-VR01). Source API returned HTTP 500. Response body: 'Corrupted data stream: 1186 records in precincts 111 and 112 show 'Mail Ballot Received' without issuance record.'",
+        "highlight": false
+      },
+      {
+        "ts": "10/29/2026 09:14:59",
+        "level": "WARN",
+        "msg": "Data feed from VoterTrack (LCBOE-VR01) contains 1,186 records with invalid state. 'Absentee Ballot Status' field set to 'received' for voters not in ballot issuance database. No record found in mail ballot application file (file: /data/issuance/20261029_0200.csv).",
+        "highlight": true
+      },
+      {
+        "ts": "10/29/2026 09:15:00",
+        "level": "ERROR",
+        "msg": "Frontend dashboard failed to render due to malformed JSON from data feed. Page load time: 47 seconds. Error: 'Invalid field type in 'absentee_status': expected 'issued', 'requested', or 'not_requested'; received 'received'.'",
+        "highlight": false
+      },
+      {
+        "ts": "10/29/2026 09:15:01",
+        "level": "INFO",
+        "msg": "Data feed source verified: VoterTrack (LCBOE-VR01) — last sync: 10/23/2026 02:00 AM. No known system error on LCBOE-VR01.",
+        "highlight": false
+      },
+      {
+        "ts": "10/29/2026 09:15:02",
+        "level": "CRIT",
+        "msg": "System integrity compromised: Data feed from VoterTrack contains unverified edits made 10/29/2026 02:05–02:40. Audit trail shows no valid MFA prompt for user 'nruiz@lislevotes.example'. Source IP 10.100.45.12 not in authorized range.",
+        "highlight": true
+      },
+      {
+        "ts": "10/29/2026 09:15:03",
+        "level": "ALERT",
+        "msg": "Manual override required: Feed disabled from VoterTrack (LCBOE-VR01) to prevent further corruption. Results website now showing cached pre-incident data.",
+        "highlight": true
+      }
+    ],
+    "terminalTitle": "root@results.lislevotes.example:~$",
+    "command": "tail -n 10 /var/log/nginx/access.log | grep -i 'corrupted data stream'",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "This inject confirms the data tampering in VoterTrack has reached the public-facing results website. IT and VSM must now validate the feed against offline sources and isolate the compromised interface.",
+  "citations": [
+    {
+      "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+      "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+      "headingPath": "Lisle County Board of Elections… › Section 7",
+      "quote": "| System | Purpose | Host | Owner | |---|---|---|---| | Statewide voter registration database | Official statewide list; county records synchronize nightly | Ohio Secretary of State | Secretary of Sta",
+      "chunkId": 49
+    },
+    {
+      "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+      "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 4",
+      "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+      "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 7",
+      "quote": "| Check | Method | Owner | |---|---|---| | Audit-trail review | All VoterTrack changes in the window, by user, record and field | Beth Saylor with Rohan Mehta | | Statewide comparison | Affected recor",
+      "chunkId": 13
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QX3Y0YKX8HX4VEDK1W4R9F",
+      "kind": "image",
+      "path": "scenarios/01M5QVXT271DZ6ASA7H0W44HJ7/media/01M5QWFW459JWE7KJPFS0QJ17H/01M5QX3Y0YKX8HX4VEDK1W4R9F.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 560,
+      "sha256": "1bafff0496587faf8cda1fbd421a0781ec1f0986db0e742980686ab6055130b7",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:29:53.831Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:19:07.932Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Results Website: Data Feed Corruption from VoterTrack",
+        "type": "system_log",
+        "fields": {
+          "systemName": "results.lislevotes.example",
+          "host": "results.lislevotes.example",
+          "ip": "10.72.15.22",
+          "os": "Ubuntu 22.04 LTS",
+          "logSource": "/var/log/nginx/access.log",
+          "exportedBy": "rohan.mehta@lislevotes.example",
+          "exportedAt": "10/24/2026 09:15 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/24/2026 09:14:58",
+              "level": "ERROR",
+              "msg": "Failed to fetch voter data feed from VoterTrack (LCBOE-VR01). Source API returned HTTP 500. Response body: 'Corrupted data stream: 1186 records in precincts 111 and 112 show 'Mail Ballot Received' without issuance record.'",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 09:14:59",
+              "level": "WARN",
+              "msg": "Data feed from VoterTrack (LCBOE-VR01) contains 1,186 records with invalid state. 'Absentee Ballot Status' field set to 'received' for voters not in ballot issuance database. No record found in mail ballot application file (file: /data/issuance/20261024_0200.csv).",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 09:15:00",
+              "level": "ERROR",
+              "msg": "Frontend dashboard failed to render due to malformed JSON from data feed. Page load time: 47 seconds. Error: 'Invalid field type in 'absentee_status': expected 'issued', 'requested', or 'not_requested'; received 'received'.'",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 09:15:01",
+              "level": "INFO",
+              "msg": "Data feed source verified: VoterTrack (LCBOE-VR01) — last sync: 10/23/2026 02:00 AM. No known system error on LCBOE-VR01.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 09:15:02",
+              "level": "CRIT",
+              "msg": "System integrity compromised: Data feed from VoterTrack contains unverified edits made 10/29/2026 02:05–02:40. Audit trail shows no valid MFA prompt for user 'nruiz@lislevotes.example'. Source IP 10.100.45.12 not in authorized range.",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 09:15:03",
+              "level": "ALERT",
+              "msg": "Manual override required: Feed disabled from VoterTrack (LCBOE-VR01) to prevent further corruption. Results website now showing cached pre-incident data.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "root@results.lislevotes.example:~$",
+          "command": "tail -n 10 /var/log/nginx/access.log | grep -i 'corrupted data stream'",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the data tampering in VoterTrack has reached the public-facing results website. IT and VSM must now validate the feed against offline sources and isolate the compromised interface.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T21:28:32.934Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Results Website: Data Feed Corruption from VoterTrack",
+        "type": "system_log",
+        "fields": {
+          "systemName": "results.lislevotes.example",
+          "host": "results.lislevotes.example",
+          "ip": "10.72.15.22",
+          "os": "Ubuntu 22.04 LTS",
+          "logSource": "/var/log/nginx/access.log",
+          "exportedBy": "rohan.mehta@lislevotes.example",
+          "exportedAt": "10/29/2026 09:15 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/29/2026 09:14:58",
+              "level": "ERROR",
+              "msg": "Failed to fetch voter data feed from VoterTrack (LCBOE-VR01). Source API returned HTTP 500. Response body: 'Corrupted data stream: 1186 records in precincts 111 and 112 show 'Mail Ballot Received' without issuance record.'",
+              "highlight": false
+            },
+            {
+              "ts": "10/29/2026 09:14:59",
+              "level": "WARN",
+              "msg": "Data feed from VoterTrack (LCBOE-VR01) contains 1,186 records with invalid state. 'Absentee Ballot Status' field set to 'received' for voters not in ballot issuance database. No record found in mail ballot application file (file: /data/issuance/20261029_0200.csv).",
+              "highlight": true
+            },
+            {
+              "ts": "10/29/2026 09:15:00",
+              "level": "ERROR",
+              "msg": "Frontend dashboard failed to render due to malformed JSON from data feed. Page load time: 47 seconds. Error: 'Invalid field type in 'absentee_status': expected 'issued', 'requested', or 'not_requested'; received 'received'.'",
+              "highlight": false
+            },
+            {
+              "ts": "10/29/2026 09:15:01",
+              "level": "INFO",
+              "msg": "Data feed source verified: VoterTrack (LCBOE-VR01) — last sync: 10/23/2026 02:00 AM. No known system error on LCBOE-VR01.",
+              "highlight": false
+            },
+            {
+              "ts": "10/29/2026 09:15:02",
+              "level": "CRIT",
+              "msg": "System integrity compromised: Data feed from VoterTrack contains unverified edits made 10/29/2026 02:05–02:40. Audit trail shows no valid MFA prompt for user 'nruiz@lislevotes.example'. Source IP 10.100.45.12 not in authorized range.",
+              "highlight": true
+            },
+            {
+              "ts": "10/29/2026 09:15:03",
+              "level": "ALERT",
+              "msg": "Manual override required: Feed disabled from VoterTrack (LCBOE-VR01) to prevent further corruption. Results website now showing cached pre-incident data.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "root@results.lislevotes.example:~$",
+          "command": "tail -n 10 /var/log/nginx/access.log | grep -i 'corrupted data stream'",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the data tampering in VoterTrack has reached the public-facing results website. IT and VSM must now validate the feed against offline sources and isolate the compromised interface.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:29:54.040Z"
+}

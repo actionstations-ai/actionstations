@@ -1,0 +1,158 @@
+{
+  "id": "01M5QY9SX3J6TMZXMX31YE3MHF",
+  "mselRowId": "I-17",
+  "type": "scenario_update",
+  "title": "ENDEX: Incident Resolved — EOC Closure",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:00",
+    "scenarioTime": "09:30",
+    "headline": "Halverson High School cleared; reunification at the Fairgrounds",
+    "deliverTo": "All players",
+    "narration": "09:30. Halverson PD clears Halverson High School: no shooter, no injuries. The lockdown ends. About 110 students who were evacuated from C Wing are already on buses to the Brandt County Fairgrounds Exhibit Hall; parents are arriving there and at the school. Police ask the district to reunify at the Fairgrounds only.",
+    "keyFacts": [
+      "No shooter, no injuries",
+      "Lockdown over",
+      "About 110 students on buses to the Fairgrounds",
+      "Police ask for one reunification site"
+    ],
+    "expectedAction": "The DSS and the principal run reunification at the Reunification Site (primary) with the offline rosters; the PIO sends one message to parents with the location; the SRO coordinates traffic with Halverson PD.",
+    "scenarioTitle": "Digital Lockdown",
+    "injectId": "I-17"
+  },
+  "variant": "default",
+  "instructorNote": "This is the final inject. The EOC has closed. All roles must transition to hot wash. No further player actions are expected.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQC6F6TW69TS15ZXQDZ",
+      "documentTitle": "Halverson Unified School District — Schools, Facilities and Systems Inventory",
+      "headingPath": "Halverson Unified School Distric… › Section 7",
+      "quote": "| System | Product / server | Where | Fallback | |---|---|---|---| | HVAC controls | Building automation front end on HUSD-BAS01; field controllers in each school | All schools | Controllers run local",
+      "chunkId": 52
+    },
+    {
+      "documentId": "01M5QWTTQC6F6TW69TS15ZXQDZ",
+      "documentTitle": "Halverson Unified School District — Schools, Facilities and Systems Inventory",
+      "headingPath": "Halverson Unified School Distric…",
+      "quote": "Document Control Number: HUSD-INV-2026 · Revision 4.1 · Effective Date: 09/10/2026 · Maintained by: Kurt Engstrom (Director of Facilities) and Victor Han (Chief Technology Officer) · Reviewed: Marcus ",
+      "chunkId": 44
+    },
+    {
+      "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+      "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+      "headingPath": "EOP",
+      "quote": "Document Control Number: HUSD-EOP-2026 · Revision 3.2 · Effective Date: 08/15/2026 · Approved: Dr. Renata Solberg (Superintendent) · Marcus Delacroix (Director of School Safety and District Emergency ",
+      "chunkId": 19
+    },
+    {
+      "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+      "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+      "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+      "quote": "At 05:00 each school day the SIS exports, for each school, the student roster with emergency contacts, authorized pick-up adults, medical alerts and bus assignments to an encrypted USB key in each pri",
+      "chunkId": 34
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 3",
+      "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 7",
+      "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+      "chunkId": 11
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYNC85TE5752VYXJDE8FEQ",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QY9SX3J6TMZXMX31YE3MHF/01M5QYNC85TE5752VYXJDE8FEQ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "dc820609793445c14ebc7435d3801a0d072cedc4b40522e9cd385f7f735902d2",
+      "provenance": {
+        "provider": "template",
+        "templateId": "scenario_update",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:54.028Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:50:44.617Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ENDEX: Incident Resolved — EOC Closure",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "endTime": "09:30",
+          "resolution": "ENDEX. The network has been fully isolated. HUSD-VMS01 is powered down. The HVAC controllers are running on local winter-occupied schedules. The 05:00 offline roster is confirmed as accurate. All 110 students have been safely evacuated to the Fairgrounds Exhibit Hall. The EOC is now operating under Manual Mode. All systems are in recovery status. The exercise concludes.",
+          "finalState": [
+            "HUSD-VMS01 is powered off and unresponsive.",
+            "The 05:00 offline roster is the only trusted source for student accountability.",
+            "Evacuation to the Fairgrounds Exhibit Hall is complete.",
+            "The EOC is operating under Manual Mode with no network dependencies.",
+            "CISA has declared the incident resolved and the EOC may now close."
+          ],
+          "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will now begin the hot wash.",
+          "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "What elements of the 05:00 roster trust model were critical to the response?",
+            "How did the manual mode shift impact coordination between roles?",
+            "What was the most effective verification method for student accountability during the incident?",
+            "How did the fake 911 call affect decision-making, and what could have prevented the delay?",
+            "What changes would you recommend to the CIRP or EOP based on this exercise?"
+          ],
+          "facilitatorNote": "Collect all ICS 201 forms, evaluator sheets, and inject logs before the hot wash. Confirm CISA and EOC closure status with the master document.",
+          "scenarioTitle": "Digital Lockdown — Cyber Incident & School Continuity",
+          "injectId": "I-17"
+        },
+        "instructorNote": "This is the final inject. The EOC has closed. All roles must transition to hot wash. No further player actions are expected.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T21:56:48.534Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "ENDEX: Incident Resolved — EOC Closure",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "3:00",
+          "scenarioTime": "09:30",
+          "headline": "Halverson High School cleared; reunification at the Fairgrounds",
+          "deliverTo": "All players",
+          "narration": "09:30. Halverson PD clears Halverson High School: no shooter, no injuries. The lockdown ends. About 110 students who were evacuated from C Wing are already on buses to the Brandt County Fairgrounds Exhibit Hall; parents are arriving there and at the school. Police ask the district to reunify at the Fairgrounds only.",
+          "keyFacts": [
+            "No shooter, no injuries",
+            "Lockdown over",
+            "About 110 students on buses to the Fairgrounds",
+            "Police ask for one reunification site"
+          ],
+          "expectedAction": "The DSS and the principal run reunification at the Reunification Site (primary) with the offline rosters; the PIO sends one message to parents with the location; the SRO coordinates traffic with Halverson PD.",
+          "scenarioTitle": "Digital Lockdown",
+          "injectId": "I-17"
+        },
+        "instructorNote": "This is the final inject. The EOC has closed. All roles must transition to hot wash. No further player actions are expected.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:54.224Z"
+}

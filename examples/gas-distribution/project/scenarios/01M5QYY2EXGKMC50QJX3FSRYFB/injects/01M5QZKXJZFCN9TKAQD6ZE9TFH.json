@@ -1,0 +1,142 @@
+{
+  "id": "01M5QZKXJZFCN9TKAQD6ZE9TFH",
+  "mselRowId": "I-23",
+  "type": "scenario_update",
+  "title": "END: Incident Resolved — Pressure District 7 Shutdown Confirmed",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "",
+    "scenarioTime": "20:00",
+    "headline": "Relight plan for Pressure District 7",
+    "deliverTo": "All players",
+    "narration": "20:00. Relight plan for Pressure District 7: every meter shut off and checked before purge and relight; 40 servicepersons from mutual aid arrive tomorrow at 06:00; about two days to relight 5,120 customers; Riverside Manor and Front Street Senior Residence first.",
+    "keyFacts": [
+      "Every meter shut off and checked first",
+      "Mutual-aid crews at 06:00",
+      "About two days",
+      "Nursing homes first"
+    ],
+    "expectedAction": "The IC approves the relight plan and the order of priority; the PIO publishes it with the warming centers.",
+    "scenarioTitle": "Ghost Pressure",
+    "injectId": "I-23"
+  },
+  "variant": "default",
+  "instructorNote": "This inject closes the exercise. All roles must now finalize logs and prepare for the hot wash. No further actions are allowed.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Table of Contents",
+      "quote": "Section 1 Purpose, Authority and Scope · Section 2 System Summary · Section 3 Emergency Organization · Section 4 Receiving, Identifying and Classifying Notices · Section 5 Response Procedures by Emerg",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 6 › 6.3 Actions",
+      "quote": "1. Gas Control dispatches M&R to the station and the nearest recorder with calibrated field gauges; field gauges govern over SCADA when they disagree. 2. If an overpressure is confirmed or cannot be r",
+      "chunkId": 47
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe…",
+      "quote": "Document Control Number: CVG-CIRP-2026 · Revision 4.0 · Effective Date: 05/15/2026 · Owner: Anil Desai (OT/SCADA Manager, Cybersecurity Coordinator) · Alternate Cybersecurity Coordinator: Erin Mallory",
+      "chunkId": 1
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 12",
+      "quote": "Annual review of this plan with every controller, M&R technician and serviceperson; one tabletop per year that also counts as the annual exercise of CVG-CIRP-2026 when it tests at least two of that pl",
+      "chunkId": 53
+    },
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 3",
+      "quote": "| Line | Description | Size / material | MAOP | Route | |---|---|---|---|---| | Line 100 | Supply main from Harlan Road City Gate to the north and central system | 12-inch coated steel | 300 psig | Ha",
+      "chunkId": 22
+    },
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Table of Contents",
+      "quote": "Section 1 Purpose and Scope · Section 2 Positions Responsible · Section 3 Critical Cyber Systems · Section 4 Detection and Declaration · Section 5 Objective A: Containment · Section 6 Objective B: Seg",
+      "chunkId": 2
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T22:13:46.132Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "END: Incident Resolved — Pressure District 7 Shutdown Confirmed",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "4:00",
+          "endTime": "20:00",
+          "resolution": "ENDEX. It is now 20:00. The shutdown of Pressure District 7 has been confirmed. RCV-01 and RCV-04 are closed. Valve 11 and Valve 12 are confirmed closed on site. Field gauges now read 0 in. w.c. at RS-21 and RS-22. PR-7B is offline, but pressure is stable. No further incidents have been reported. The EOC remains activated. The forensic team has completed evidence collection from CVG-OT-JMP01 and the RTUs. CISA has been notified and is reviewing the memory image. The IC has authorized the start of the phased return to control under C8. The hot wash will now begin.",
+          "finalState": [
+            "Pressure District 7 is fully isolated; RCV-01 and RCV-04 closed.",
+            "Valve 11 and Valve 12 confirmed closed by field crews.",
+            "Field gauges at RS-21 and RS-22 read 0 in. w.c.",
+            "SCADA remote control re-enabled for RS-21 and RS-22; no discrepancies.",
+            "The halden-support account has been permanently revoked by TSA."
+          ],
+          "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.",
+          "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "How did the team reconcile trust in SCADA data versus field evidence?",
+            "What was the impact of delayed verification on public trust and media response?",
+            "How did the manual override process align with CVG-CIRP-2026 and EOP 6.4?",
+            "What were the key challenges in maintaining command authority during conflicting data streams?",
+            "How could future drills better prepare for cyber-physical overpressure incidents with delayed detection?"
+          ],
+          "facilitatorNote": "Collect all ICS 201 forms and evaluator sheets before the break. Confirm CISA and TSA have received the final forensic package.",
+          "scenarioTitle": "Ghost Pressure — SCADA vs. Field Gauges & Life Safety",
+          "injectId": "I-23"
+        },
+        "instructorNote": "This inject closes the exercise. All roles must now finalize logs and prepare for the hot wash. No further actions are allowed.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.508Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "END: Incident Resolved — Pressure District 7 Shutdown Confirmed",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "",
+          "scenarioTime": "20:00",
+          "headline": "Relight plan for Pressure District 7",
+          "deliverTo": "All players",
+          "narration": "20:00. Relight plan for Pressure District 7: every meter shut off and checked before purge and relight; 40 servicepersons from mutual aid arrive tomorrow at 06:00; about two days to relight 5,120 customers; Riverside Manor and Front Street Senior Residence first.",
+          "keyFacts": [
+            "Every meter shut off and checked first",
+            "Mutual-aid crews at 06:00",
+            "About two days",
+            "Nursing homes first"
+          ],
+          "expectedAction": "The IC approves the relight plan and the order of priority; the PIO publishes it with the warming centers.",
+          "scenarioTitle": "Ghost Pressure",
+          "injectId": "I-23"
+        },
+        "instructorNote": "This inject closes the exercise. All roles must now finalize logs and prepare for the hot wash. No further actions are allowed.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:29.103Z"
+}

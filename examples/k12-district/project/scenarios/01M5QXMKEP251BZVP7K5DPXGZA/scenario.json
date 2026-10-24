@@ -1,0 +1,2900 @@
+{
+  "formatVersion": 1,
+  "id": "01M5QXMKEP251BZVP7K5DPXGZA",
+  "projectId": "01M5QWTTP9VHBJKBGKRT7S272A",
+  "title": "Digital Lockdown",
+  "subtitle": "Cyber Incident & School Continuity",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-24T21:39:00.181Z",
+  "updatedAt": "2026-10-24T21:57:38.786Z",
+  "brief": {
+    "userPrompt": "Tuesday of the spring state assessment window at Halverson Unified School District. At 06:40 Tallgrass MDR calls Information Security Manager Priya Castellanos about Defender alerts on HUSD-FS02 and HUSD-VH02; by 07:30 file shares, Tyler Munis on HUSD-ERP01 and the hosted VoIP on HUSD-PBX01 are encrypted and a ransom note appears on staff laptops, while PowerSchool, Google Workspace and Chromebooks still work through the school internet breakouts. The intruder came in through the unpatched VPN appliance HUSD-VPN01 (CIRP-4) and the shared local-admin password (CIRP-3), and copied the HUSD-FS02 student-services shares (IEPs, health logs, threat-assessment and custody files) before encrypting. CTO Victor Han must choose between containment steps C-3, C-4 and C-5 while grade 11 testing runs in the Halverson High School library and Commons; the Assessment Coordinator needs a pause decision for the Oregon Department of Education. At midday the actor emails parents and staff from a lookalike domain with sample IEP pages and a leak-site deadline, and parents post screenshots in the Halverson Parents Facebook group; Channel 6 calls the PIO. At 13:15 an emailed threat names Halverson High School and, minutes later, a 911 caller reports a shooter in C Wing: Brandt County 911 dispatches Halverson Police, the school goes to LOCKDOWN via CENTEGIX, phones to the District Service Center are down, and students must be bused from the Stadium to the Reunification Site (primary): Brandt County Fairgrounds Exhibit Hall on Bus Route 1 to Bus Route 4 using the 05:00 offline rosters. The Policy Group must decide on closures for Wednesday, the ransom demand with counsel, the risk pool and the FBI Portland Field Office, CISA and MS-ISAC/K12 SIX reporting, the Oregon Department of Education report, and data-exposure notices to families.",
+    "audience": [
+      "District Command / School Safety",
+      "Policy Group",
+      "Technology / Information Security",
+      "Communications",
+      "School Site / Halverson High School",
+      "Student Services and Transportation"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [
+      "Every email address of the district and its schools uses the exercise domain halversonusd.example; outside parties use fictional domains and fictional outlet names (Channel 6, the Halverson Herald); never a real agency, company or newspaper domain.",
+      "Player roles are only those in the audience list; outside parties (Tallgrass MDR, the risk pool and its breach coach, Halverson Police, Brandt County 911, the FBI, CISA, the Oregon Department of Education, parents, the extortion actor) are played by the SimCell, not seated as players."
+    ],
+    "startWallClock": "06:30",
+    "threatFamily": "cyber"
+  },
+  "overview": {
+    "theme": "System Integrity, Trust in Data, and Crisis Leadership",
+    "threat": "A ransomware actor infiltrated Halverson Unified School District through an unpatched VPN appliance (HUSD-VPN01) and a shared local-admin password, compromising the district's core IT systems. The attacker exfiltrated sensitive student data—including IEPs, health logs, threat assessments, and custody files—from the HUSD-FS02 file server before encrypting the on-premises systems. The attack occurred during the spring state assessment window, threatening test continuity and public trust.",
+    "operationalImpact": "At 06:40, IT staff detect anomalous Defender alerts on HUSD-FS02 and HUSD-VH02. By 07:30, file shares, Tyler Munis, and the hosted VoIP system are encrypted, and a ransom note appears on staff laptops. PowerSchool, Google Workspace, and Chromebooks remain functional via local internet breakouts, but the district’s internal communication and data systems are crippled. At midday, the actor emails parents and staff from a spoofed domain, posting sample IEPs to a leak site and threatening to release more. Parents post screenshots in the Halverson Parents Facebook group, and Channel 6 calls the PIO. At 13:15, a 911 call reports a shooter in C Wing at Halverson High School. The school goes to LOCKDOWN via CENTEGIX badges; district phones to the District Service Center are down. Students in the library and Commons during grade 11 testing must be evacuated via bus to the Reunification Site (Fairgrounds Exhibit Hall) using 05:00 offline rosters. The Assessment Coordinator must pause testing. The Policy Group must make rapid decisions on closure, ransom negotiation, legal reporting, and family notification.",
+    "coreSectionsTested": [
+      {
+        "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+        "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+        "headingPath": "Halverson Unified School Distric… › Section 7",
+        "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+        "chunkId": 11
+      },
+      {
+        "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+        "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+        "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+        "quote": "At 05:00 each school day the SIS exports, for each school, the student roster with emergency contacts, authorized pick-up adults, medical alerts and bus assignments to an encrypted USB key in each pri",
+        "chunkId": 34
+      },
+      {
+        "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+        "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+        "headingPath": "EOP › Section 4 › 4.1 Standard Response Actions",
+        "quote": "HUSD uses five plain-language actions. Any staff member may call them; the principal or SRO announces them on the PA, by radio and in the panic-alert app (CENTEGIX badges at every school). | Action | ",
+        "chunkId": 28
+      },
+      {
+        "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+        "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+        "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+        "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+        "chunkId": 9
+      },
+      {
+        "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+        "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+        "headingPath": "EOP › Table of Contents",
+        "quote": "Section 1 Purpose, Scope and Planning Basis · Section 2 Situation Overview · Section 3 Organization and Assignment of Responsibilities · Section 4 Concept of Operations and Standard Response Actions ·",
+        "chunkId": 20
+      },
+      {
+        "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+        "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+        "headingPath": "EOP › Section 7",
+        "quote": "Primary family notification is ParentSquare (text, email, voice and app) with templates in Annex C. District radio net: channel 1 District Command, channel 2 Transportation, channel 3 Facilities, one ",
+        "chunkId": 35
+      }
+    ],
+    "targetAudience": "District Command / School Safety, Policy Group, Technology / Information Security, Communications, School Site / Halverson High School, Student Services and Transportation",
+    "location": "Halverson Unified School District, Halverson, Brandt County, Oregon"
+  },
+  "objectives": [
+    {
+      "id": "01M5QXNKFG6H2FBQGR8WJD11M4",
+      "name": "System Integrity",
+      "text": "Demonstrate the ability to assess and contain a multi-system cyber incident involving data exfiltration, encryption, and spoofed communications, prioritizing the protection of student and staff data as defined in FERPA and Oregon breach-notice laws."
+    },
+    {
+      "id": "01M5QXNKFG4NKT694NZVG3N34N",
+      "name": "Trust in Data",
+      "text": "Demonstrate the ability to validate and rely on offline, pre-incident student rosters and accountability records during a system-wide outage, ensuring accurate reunification and safe student movement during an evacuation."
+    },
+    {
+      "id": "01M5QXNKFG2AJ0ZBDV7KZ3S4WR",
+      "name": "Crisis Leadership",
+      "text": "Demonstrate the ability to make rapid, coordinated decisions on school closure, ransom negotiation, legal reporting, and family notification under pressure, balancing legal, ethical, and operational imperatives."
+    },
+    {
+      "id": "01M5QXNKFGPX3FDF33GXWYZT1P",
+      "name": "Inter-Team Coordination",
+      "text": "Demonstrate the ability to synchronize actions across the Policy Group, EOC, Technology, Communications, and Student Services teams during a cascading incident involving cyberattack, false alarm, and physical safety response."
+    }
+  ],
+  "roles": [
+    {
+      "id": "dss",
+      "name": "Director of School Safety / District Emergency Manager (Incident Commander)",
+      "abbreviation": "DSS",
+      "team": "Team A: Operations",
+      "description": "Manages the activation and operations of the District EOC, sets incident objectives, and calls standard response actions (lockdown, evacuate, shelter) across the district.",
+      "standingOrders": [
+        "Safety First: if the screen and the field disagree, trust the field.",
+        "Command Authority: the Incident Commander has final authority over all district actions, including school closures and response modes.",
+        "No De-escalation: a declared lockdown or evacuate must not be reversed without full EOC review and law enforcement confirmation.",
+        "Chain of Command: all decisions must be routed through the EOC, not bypassed via external channels."
+      ]
+    },
+    {
+      "id": "supt",
+      "name": "Superintendent (Policy Group chair)",
+      "abbreviation": "Supt",
+      "team": "Team B: Policy Group",
+      "description": "Makes final decisions on school closures, early release, and district-wide statements; chairs the Policy Group and briefs the Board of Education.",
+      "standingOrders": [
+        "No Ransom: the district does not pay ransoms unless the Policy Group, counsel, insurer, and law enforcement concur.",
+        "Legal First: any decision involving data release, extortion, or public statement must be cleared by Legal Counsel.",
+        "Public Trust: communications must not minimize risk or delay truth-telling, even if it causes short-term panic.",
+        "Crisis Continuity: test pauses and relocation plans must not disrupt student learning beyond necessity."
+      ]
+    },
+    {
+      "id": "prin",
+      "name": "Building Principal (Site Incident Commander)",
+      "abbreviation": "Prin",
+      "team": "Team C: School Site",
+      "description": "Owns the first actions at Halverson High School: lockdown, evacuation, student accountability, and staff assignments until responders take over.",
+      "standingOrders": [
+        "Field Authority: if the SIS and PA systems fail, use the 05:00 offline roster and physical headcount to manage accountability.",
+        "Evacuate if Unsafe: if a threat is confirmed or the building becomes unsecure, initiate evacuation via pre-planned routes and buses.",
+        "No Delay: begin lockdown and roll call immediately upon receiving the alert, even if systems are unresponsive.",
+        "No Assumptions: do not assume a threat is fake based on prior false alarms—act on the most current field information."
+      ]
+    },
+    {
+      "id": "sro",
+      "name": "School Resource Officer / School Police Chief (Law Enforcement Liaison)",
+      "abbreviation": "SRO",
+      "team": "Team D: Law Enforcement",
+      "description": "Owns the initial law-enforcement response, threat investigation, and liaison to city police or the sheriff.",
+      "standingOrders": [
+        "Confirm the Threat: any report of a shooter must be verified with HPD and 911 before declaring a full active shooter response.",
+        "No Solo Action: do not attempt to enter a secured area without backup or EOC approval.",
+        "Evidence Preservation: if a threat is confirmed, secure the scene and notify the DFIR team immediately.",
+        "No Public Statements: all law enforcement updates must be routed through the PIO."
+      ]
+    },
+    {
+      "id": "cto",
+      "name": "Chief Technology Officer (Technical Lead)",
+      "abbreviation": "CTO",
+      "team": "Team E: Technology",
+      "description": "Owns the SIS, LMS, phones, Wi-Fi and 1:1 devices, containment, vendor coordination and the MS-ISAC / K12 SIX / CISA liaison.",
+      "standingOrders": [
+        "Contain First: isolate compromised systems before attempting recovery, even if it delays full service.",
+        "Vendor Lock: do not engage Tallgrass MDR or DFIR without Legal Counsel approval and a signed engagement letter.",
+        "No Public Tech Talk: do not share technical details of the attack with media or parents.",
+        "Data Priority: restore the 05:00 offline roster and SIS export before any other system."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Chief Communications Officer (Public Information Officer)",
+      "abbreviation": "PIO",
+      "team": "Team F: Communications",
+      "description": "Owns parent notification through the mass-notification system, social media, media staging and rumor control.",
+      "standingOrders": [
+        "Truth in Messaging: all messages must reflect the verified state of systems and safety, not reassurance.",
+        "No Delay: send ParentSquare alerts within 10 minutes of any new incident phase.",
+        "Media Control: all media inquiries must be routed through the media staging location and pre-approved templates.",
+        "Rumor Combat: monitor social media and correct false claims within 30 minutes of detection."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "01M5QXP7AVVJ12TPKPD8C09DRW",
+      "index": 0,
+      "title": "The Glitch",
+      "goal": "Test the team's readiness to recognize and respond to early signs of a cyber incident, particularly the reluctance to escalate when anomalies appear in routine operations and data integrity is subtly compromised.",
+      "beats": [
+        "At 06:42, the HUSD-FS02 file server logs show a sudden spike in file access from a local admin account (admin_husd) on HUSD-DC01; the access pattern includes 147 files from the Health Share folder, including 23 IEPs and 12 medication logs, all downloaded in under 90 seconds, but no alert is generated because the account is valid and on a trusted IP.",
+        "At 06:45, the Helpdesk receives a ticket from a nurse at Halverson High School: 'The student roster in PowerSchool shows 11th-grade student Chloe Mendez as absent today, but she’s in the library for testing—her attendance was just updated to 'present' at 06:38.' The ticket is routed to the Technical Lead, who notes that PowerSchool is still accessible and the SIS sync is not blocked.",
+        "At 06:50, a staff member in the Central Office logs into the SIS via Chromebook and sees a new alert in the 'Discipline Module' tab: 'Chloe Mendez has a pending threat assessment review (24 hours).' The alert is not in the prior-day audit trail; the user reports it to IT, but the Technical Lead confirms the SIS has not been updated and no new record was created.",
+        "At 06:55, the Technical Lead reviews the Veeam backup log for HUSD-FS02 and sees that the most recent full backup was taken at 05:45, but the differential log shows 1.2 GB of data modified between 05:45 and 06:40—outside the normal maintenance window. The log does not show a backup job failure.",
+        "At 06:58, the CTO receives a silent alert from the MDR (Tallgrass MDR) indicating an anomalous outbound connection from HUSD-VH02 to a known C2 domain (104.214.192.47), but the alert is not escalated because the network policy allows outbound HTTPS to external domains, and the connection was on port 443."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "01M5QXP7AVWTDW8K95YR3RAPZJ",
+      "index": 1,
+      "title": "The Crisis",
+      "goal": "Test the team’s ability to transition from reactive triage to formal incident declaration under pressure, when operational systems fail and external stakeholders demand action, including a forced declaration due to a public threat and a visible confirmation of compromise.",
+      "beats": [
+        "At 07:30, the Technical Lead confirms that HUSD-FS02, HUSD-VMS01, and HUSD-ERP01 are encrypted; the ransom note is displayed on 32 staff laptops via a network-wide push from the HUSD-VPN01 appliance, which is now unreachable.",
+        "At 07:32, the Assessment Coordinator calls the EOC to report that 11th-grade testing at Halverson High School has been disrupted because the SIS is now read-only and the test administrator interface is unresponsive; a printed roster from 05:00 is used to verify student locations.",
+        "At 07:35, the PIO receives a spoofed email from 'chris.morales@halversonusd.example' (domain: halversonusd.example) purporting to be from the Superintendent, stating: 'Due to a critical cyberattack, all schools will close for the remainder of the week. Follow up with the EOC for details.' The email uses a valid-looking digital signature and contains a fake attachment named 'SuspiciousActivityReport.pdf'.",
+        "At 07:37, a screenshot of a sample IEP from Chloe Mendez is posted to a public leak site (named 'hudsonleak.333') by the extortion actor; the file is labeled with a timestamp of 07:30 and includes a file path matching HUSD-FS02/Health Share/IEP/Chloe_Mendez_2026.pdf.",
+        "At 07:38, the Halverson Police Department calls the EOC to report that a 911 call was made from the Halverson High School main office, claiming a shooter in C Wing; the call was routed through the HUSD-Phone system, which is now down, but the call was received and recorded by the 911 center. The EOC must now activate the lockdown protocol using the offline roster."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "01M5QXP7AVNMYYGH1F7S0TKRSH",
+      "index": 2,
+      "title": "Manual Mode",
+      "goal": "Test the team’s ability to make a high-consequence decision to operate manually under system failure, including the choice to isolate systems despite operational risk, and to manage physical safety and public trust during a transition to analog procedures.",
+      "beats": [
+        "At 08:00, the Technical Lead presents a forensic report: an unauthorized admin session was established on HUSD-DC01 at 05:48, using a shared local password (P@ssw0rd123) that had not been changed since 2021; the session lasted 11 minutes and was followed by a connection from HUSD-VPN01 to the C2 IP (104.214.192.47), which was not logged because the appliance was unpatched.",
+        "At 08:02, the CTO presents the decision point: 'Isolate the network from the internet and shut down HUSD-VMS01 to prevent unauthorized access to door control and CCTV, but risk that the HVAC system in Halverson High School will not adjust for the 200 students in the library and Commons; or keep the network online to maintain HVAC and PA, but risk further data exfiltration and allow the attacker to maintain persistence.'",
+        "At 08:05, the Director of School Safety confirms that the doors on the Halverson High School main entrance are now locked via the HUSD-VMS01 system, but the external doors are failing secure (closed) due to the network outage; custodians must manually unlock the doors for evacuation.",
+        "At 08:10, the PIO receives a call from Channel 6: 'We have a report that a student was injured during a lockdown. Is this true?' The PIO must respond using a printed statement from the EOP Annex C, but the media outlet demands a live interview.",
+        "At 08:15, the Assessment Coordinator reports that 110 students in the Halverson High School library and Commons must be evacuated via school bus to the Reunification Site (Fairgrounds Exhibit Hall) using the 05:00 offline roster; the team must confirm student identities and assign bus assignments manually, with no access to real-time attendance or GPS tracking."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "01M5QXP7AV76FQZBYZ1VW5K5GD",
+      "index": 3,
+      "title": "Recovery & Verification",
+      "goal": "Test the team’s ability to validate system integrity and restore trust in data, including verifying that recovery claims are accurate and that evidence has not been compromised, before re-joining the network.",
+      "beats": [
+        "At 13:00, the Technical Lead reports that HUSD-DC01 has been rebuilt from clean media, the krbtgt account has been reset twice, and the Veeam backup from 05:00 (offline tape copy) has been restored to a test environment; the verification plan includes a full hash check of the HUSD-FS02 data set against the backup.",
+        "At 13:05, the CISA representative calls to demand a full forensic handover and confirms that the attacker used a known exploit (CVE-2023-4204) against the unpatched HUSD-VPN01; the CISO must decide whether to preserve the compromised machine for law enforcement or wipe it immediately.",
+        "At 13:10, the Vendor (Tyler Munis) calls to confirm that the payroll system cannot be restored until a signed access request is submitted through the legal team; the request must be approved by the CFO and Legal before the vendor can begin the restore.",
+        "At 13:15, the EOC receives a call from the Oregon Department of Education: 'Is the state assessment window still on schedule? We need to know if testing can resume on Tuesday.' The Policy Group must decide whether to resume testing using the 05:00 roster or delay until full system verification.",
+        "At 13:20, the Technical Lead submits CIRP Form 4 for verification sign-off; the form requires both the Technical Lead and the DFIR firm to sign, confirming that no evidence of active persistence remains and that the data has not been tampered with during the recovery process."
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "01M5QXP7AVVJ12TPKPD8C09DRW",
+      "time": "0:00",
+      "wallClock": "06:30",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "dss",
+        "supt",
+        "prin",
+        "sro",
+        "cto",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "STARTEX: It is 06:30. The district is operating normally. The weather is clear, and the morning shift is underway at all schools. The district’s IT systems are online and functional. All 14 schools, 36 bus routes, and 120 buses are in their standard operational state. The narrative clock is set to 0:00. Status: Normal.",
+      "expectedAction": "All roles acknowledge the start of the exercise and prepare for incoming events. No action is required yet.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M5QXZR6A2ACWTG90RSBQXZPX",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "01M5QXP7AVVJ12TPKPD8C09DRW",
+      "time": "0:12",
+      "wallClock": "06:42",
+      "from": "Technical Lead",
+      "toRoleIds": [
+        "cto"
+      ],
+      "toLabel": "CTO",
+      "event": "System Log: 'HUSD-FS02: 2026-04-14 06:42:17 – User: admin_husd (HUSD-DC01) – 147 files accessed in 89 seconds from Health Share folder (HUSD-FS02\\Health\\Share). Includes 23 IEPs, 12 medication logs, 3 custody orders. Source IP: 10.72.10.2 (trusted internal). No alert generated.'",
+      "expectedAction": "CTO reviews the log for unauthorized access patterns and confirms the account is valid and on a trusted network. Begins investigation into the admin account's recent activity and checks for anomalous behavior in related systems.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "system_log",
+      "injectId": "01M5QY02QT8EEVVMDX0ZMPRQAR",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 3",
+          "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+          "chunkId": 5
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 11",
+          "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+          "chunkId": 15
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "01M5QXP7AVVJ12TPKPD8C09DRW",
+      "time": "0:18",
+      "wallClock": "06:48",
+      "from": "Nurse (Halverson High School)",
+      "toRoleIds": [
+        "dss",
+        "supt",
+        "prin",
+        "sro"
+      ],
+      "toLabel": "DSS, Supt, Prin, SRO",
+      "event": "Phone Call: \"This is Nurse Amanda Reyes at Halverson High School. I just manually updated Chloe Mendez's attendance to 'present' in the paper log and the front office's attendance spreadsheet because she’s in the library for testing. But I just checked the SIS and it still shows her as absent. Is there a sync delay?\" - (541) 555-0145",
+      "expectedAction": "Prin confirms the paper log is valid; instructs front office to flag Chloe Mendez as present in the 05:00 offline roster and begin headcount; CTO to verify if the SIS sync is delayed due to network load.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5QY0HQXKW3HTMQ2QEQPHASG",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 1",
+          "quote": "This plan governs the district's response to a cyber incident affecting HUSD systems or data, including systems hosted by vendors that hold HUSD student or staff records. It covers the business networ",
+          "chunkId": 3
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+          "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+          "chunkId": 10
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-02b",
+      "phaseId": "01M5QXP7AVVJ12TPKPD8C09DRW",
+      "time": "0:22",
+      "wallClock": "06:52",
+      "from": "Parents' Facebook Group",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Post (@HalversonMom12): \"Wait, Chloe Mendez is in the library for testing but her record says she's absent? Is the SIS broken? My kid's schedule is showing wrong too. #HalversonSISFail\" — 12 reposts in 3 minutes.",
+      "expectedAction": "PIO logs the post and begins monitoring for further sentiment spikes. Prepares a holding statement for ParentSquare in case the SIS issue is confirmed.",
+      "purposeTag": "PRESSURE",
+      "format": "facebook_post",
+      "injectId": "01M5QY0WPKANYQSPZ59EH4QW6T",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 3",
+          "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+          "chunkId": 27
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "01M5QXP7AVVJ12TPKPD8C09DRW",
+      "time": "0:30",
+      "wallClock": "07:00",
+      "from": "Front Office Staff (Halverson High School)",
+      "toRoleIds": [
+        "cto"
+      ],
+      "toLabel": "CTO",
+      "event": "Email Forward: \"From: j.lee@halversonusd.example (John Lee, SIS Admin) – Subject: New Threat Assessment Flag – Please review: Student Chloe Mendez – Pending review (24 hrs). Created 06:39. No record in BTA-2025 audit trail. SIS ID: HUSD-SIS-2026-01442. User: j.lee@halversonusd.example. Source: HUSD-SIS cloud tenant (10.72.10.2).\" – Forwarded to CTO with note: \"This record was not in the system before 06:38. I didn’t create it. Is this real?\"",
+      "expectedAction": "CTO verifies the user account j.lee@halversonusd.example has been compromised; logs the fake record as a potential attack vector; blocks the account and revokes all sessions via Entra and Google Workspace (CIRP 4.3).",
+      "purposeTag": "CLUE",
+      "format": "email_forward",
+      "injectId": "01M5QY135W028ECGXGB5HET677",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 3",
+          "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+          "chunkId": 5
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 7",
+          "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+          "chunkId": 11
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.1 Recognizing the pattern",
+          "quote": "Ransomware groups that hit schools commonly steal data before they encrypt, post a ransom note with a leak-site link and a deadline, and then pressure the district through direct emails to staff and p",
+          "chunkId": 8
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "01M5QXP7AVVJ12TPKPD8C09DRW",
+      "time": "0:38",
+      "wallClock": "07:08",
+      "from": "Technical Lead",
+      "toRoleIds": [
+        "cto"
+      ],
+      "toLabel": "CTO",
+      "event": "Veeam Backup Log: 'HUSD-FS02 – Full backup completed: 05:45. Differential log: 1.2 GB of data modified between 05:45 and 06:40. No job failure. No alert on modified files.'",
+      "expectedAction": "CTO reviews the backup log and confirms no job failure. Notifies the DFIR team to analyze the 1.2 GB of changes and cross-check against file integrity hashes from 05:45. Begins to suspect data exfiltration occurred during the maintenance window.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "system_log",
+      "injectId": "01M5QY1AVVYSMA68QDCXXD925H",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 11",
+          "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+          "chunkId": 15
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "01M5QXP7AVVJ12TPKPD8C09DRW",
+      "time": "0:55",
+      "wallClock": "07:25",
+      "from": "Bus Driver (Route 22)",
+      "toRoleIds": [
+        "dss"
+      ],
+      "toLabel": "DSS",
+      "event": "Radio Call: \"Dispatch, Driver 104 on Route 22. Bus 104 is running 12 minutes behind schedule. The GPS tracker is showing a fake location near Salem, but the bus is actually at the stop at 3rd and Main. Can you check the Transfinder feed?\".",
+      "expectedAction": "Transportation Branch Director checks the Transfinder feed and confirms the GPS data is corrupted. Logs a defect ticket and begins to suspect a cyber compromise affecting fleet tracking.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5QY1NWEM71XAH1HMTKQD7RF",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQC6F6TW69TS15ZXQDZ",
+          "documentTitle": "Halverson Unified School District — Schools, Facilities and Systems Inventory",
+          "headingPath": "Halverson Unified School Distric… › Section 7",
+          "quote": "| System | Product / server | Where | Fallback | |---|---|---|---| | HVAC controls | Building automation front end on HUSD-BAS01; field controllers in each school | All schools | Controllers run local",
+          "chunkId": 52
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "TIME_JUMP",
+      "phaseId": "01M5QXP7AVVJ12TPKPD8C09DRW",
+      "time": "1:00",
+      "wallClock": "07:30",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "dss",
+        "supt",
+        "prin",
+        "sro",
+        "cto",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 07:30. The problem has spread to the SIS, file shares, and Munis payroll system. Ransomware has encrypted on-premises data, and a ransom note now appears on staff laptops. The 05:00 offline roster is now the only trusted source for student accountability. The EOC has not been activated yet, but the threat of systemic failure is imminent.",
+      "expectedAction": "All roles prepare to activate the EOC and declare a cyber incident. The Incident Commander must now initiate formal containment actions.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5QY235MG9N725M6Q6N7CWEF",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 3",
+          "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+          "chunkId": 5
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 7",
+          "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+          "chunkId": 11
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "01M5QXP7AVWTDW8K95YR3RAPZJ",
+      "time": "1:05",
+      "wallClock": "07:35",
+      "from": "Technical Lead",
+      "toRoleIds": [
+        "cto"
+      ],
+      "toLabel": "CTO",
+      "event": "System Log: 'HUSD-FS02 – 2026-04-14 07:32:11 – File encryption detected: 98% of files in HUSD-FS02\\Health\\Share and HUSD-FS02\\SpecialEd\\IEP\\ mapped to drive Z:. Process: hxd32.exe – PID 4012. Source: HUSD-VPN01 (10.72.10.2). Alert: No response from HUSD-VMS01 (10.72.10.10). HUSD-ERP01 (10.72.10.15) shows read-only access. Ransom note pushed to 32 staff laptops via HUSD-VPN01 (10.72.10.2) – payload: C:\\Windows\\Temp\\ransom_note.txt – Content: \"Your data is encrypted. Contact us at hudsonleak.333 for decryption. Do not contact law enforcement. Pay $2.4M in Bitcoin to unlock.\"'",
+      "expectedAction": "CTO confirms the encryption of HUSD-FS02, HUSD-ERP01, and HUSD-VMS01; orders immediate isolation of HUSD-FW01 via C-3 (EOP Section 7) and declares S3 High severity under C2; notifies Incident Commander and Policy Group via ICS 213 (SOP 6.4).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "system_log",
+      "injectId": "01M5QY4ZBP8BVC6MKVR3KHWWT3",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 3",
+          "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+          "chunkId": 5
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 7",
+          "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+          "chunkId": 11
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 1",
+          "quote": "This plan governs the district's response to a cyber incident affecting HUSD systems or data, including systems hosted by vendors that hold HUSD student or staff records. It covers the business networ",
+          "chunkId": 3
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-07b",
+      "phaseId": "01M5QXP7AVWTDW8K95YR3RAPZJ",
+      "time": "1:10",
+      "wallClock": "07:40",
+      "from": "Assessment Coordinator",
+      "toRoleIds": [
+        "dss",
+        "supt",
+        "prin",
+        "cto"
+      ],
+      "toLabel": "DSS, Supt, Prin, CTO",
+      "event": "Phone Call: 'DSS, this is the Assessment Coordinator at Halverson High. The SIS is now read-only—test admins can’t submit scores or change settings. We’re using the 05:00 offline roster to verify student locations. Chloe Mendez is in the library, 11th-grade testing is paused. We need to confirm whether the test window will be extended or rescheduled.'",
+      "expectedAction": "DSS activates EOP Section 10: School-Day Continuity per HUSD-EOP-2026; instructs the Assessment Coordinator to pause testing and use the 05:00 offline roster for accountability; notifies the Policy Group of operational disruption to the state assessment window.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "phone_call",
+      "injectId": "01M5QY5GG2BG48SWZANE17DRZH",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+          "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+          "chunkId": 10
+        },
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 4 › 4.3 Decisions Reserved to the Policy Group",
+          "quote": "1. Closing a school or the district, or early release. 2. Moving state assessment sessions or asking the Oregon Department of Education to reopen a testing window. 3. Any communication with an extorti",
+          "chunkId": 30
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 1",
+          "quote": "This plan governs the district's response to a cyber incident affecting HUSD systems or data, including systems hosted by vendors that hold HUSD student or staff records. It covers the business networ",
+          "chunkId": 3
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-08b",
+      "phaseId": "01M5QXP7AVWTDW8K95YR3RAPZJ",
+      "time": "1:20",
+      "wallClock": "07:50",
+      "from": "External Leaks",
+      "toRoleIds": [
+        "pio",
+        "dss"
+      ],
+      "toLabel": "PIO, DSS",
+      "event": "Post (@HudsonLeak333): \"Sample file from Halverson USD: Chloe Mendez IEP (2026). Exfiltrated from HUSD-FS02/Health Share/IEP/Chloe_Mendez_2026.pdf. 7:30 UTC. More to come. See full set: hudsonleak.333\" — 450 reposts in 2 minutes. Image: redacted IEP with student name, IEP goals, and a custody order reference.",
+      "expectedAction": "PIO logs the leak site and posts a public correction on ParentSquare and Facebook within 10 minutes; confirms with CTO that the file path and timestamp match the forensic logs; begins rumor control protocol per EOP Section 6.3.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "injectId": "01M5QY5VHPYCF4KCYEP2Y0E6ED",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+          "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+          "chunkId": 10
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.1 Recognizing the pattern",
+          "quote": "Ransomware groups that hit schools commonly steal data before they encrypt, post a ransom note with a leak-site link and a deadline, and then pressure the district through direct emails to staff and p",
+          "chunkId": 8
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "01M5QXP7AVWTDW8K95YR3RAPZJ",
+      "time": "1:25",
+      "wallClock": "07:55",
+      "from": "911 Call Center",
+      "toRoleIds": [
+        "dss",
+        "sro"
+      ],
+      "toLabel": "DSS, SRO",
+      "event": "Radio Call: \"EOC, this is 911 Central. A call came in from Halverson High School main office at 07:38:02. Caller ID: (541) 555-0140 (HUSD Main Office). Message: 'There's a shooter in C Wing, I can hear gunshots, someone's bleeding.' Call was received and recorded, but HUSD-PBX01 is now down—no callback possible. HPD and Brandt County Sheriff are en route.",
+      "expectedAction": "DSS activates the full EOC per EOP 6.4; SRO confirms the call was not from a known internal line and traces it to a spoofed HUSD-PBX01 (10.72.10.15) via network logs; orders immediate lockdown of Halverson High School and initiation of the reunification protocol using the 05:00 offline roster.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "radio_call",
+      "injectId": "01M5QY65P1MX05WYFZ6AS3V9VT",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 7",
+          "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+          "chunkId": 11
+        },
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 3",
+          "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+          "chunkId": 27
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+          "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+          "chunkId": 10
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-09b",
+      "phaseId": "01M5QXP7AVWTDW8K95YR3RAPZJ",
+      "time": "1:30",
+      "wallClock": "08:00",
+      "from": "Bus Driver (Route 14)",
+      "toRoleIds": [
+        "dss"
+      ],
+      "toLabel": "DSS",
+      "event": "Radio Call: 'Dispatch, Driver 107 on Route 14. Bus 107 is stopped at the stop on 4th and Maple. The GPS tracker shows the bus at the north edge of the city, but we’re at the stop and the doors won’t open. The SIS is showing a student on board who isn’t there. Can you check?'",
+      "expectedAction": "Transportation Branch Director confirms the SIS is down and the GPS feed is corrupted; instructs the driver to keep the bus stationary and not to open doors; notifies EOC that vehicle control is compromised and physical verification is required.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5QY6FM4PAXMAB2TEXXT1076",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "01M5QXP7AVWTDW8K95YR3RAPZJ",
+      "time": "1:35",
+      "wallClock": "08:05",
+      "from": "Field Unit (radio)",
+      "toRoleIds": [
+        "sro",
+        "dss"
+      ],
+      "toLabel": "SRO, DSS",
+      "event": "Radio Call: 'EOC, this is SRO-12 at Halverson High. Halverson PD units are inside C Wing: no shooter, no victims, no shots heard. Officers are clearing room by room. The 911 Center says the call came from an internet phone number that showed the district main line as caller ID.'",
+      "expectedAction": "The SRO keeps the lockdown until police clear the building; the DSS and the principal plan the move from lockdown to reunification at the Reunification Site (primary) with the 05:00 offline rosters; the PIO holds messages until police confirm.",
+      "purposeTag": "CONFUSION",
+      "format": "radio_call",
+      "injectId": "01M5QY72AWEGN7CKBEEZ2C0TT1",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 3",
+          "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+          "chunkId": 27
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.1 Recognizing the pattern",
+          "quote": "Ransomware groups that hit schools commonly steal data before they encrypt, post a ransom note with a leak-site link and a deadline, and then pressure the district through direct emails to staff and p",
+          "chunkId": 8
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 1",
+          "quote": "This plan governs the district's response to a cyber incident affecting HUSD systems or data, including systems hosted by vendors that hold HUSD student or staff records. It covers the business networ",
+          "chunkId": 3
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "01M5QXP7AVWTDW8K95YR3RAPZJ",
+      "time": "1:40",
+      "wallClock": "08:10",
+      "from": "Technical Lead",
+      "toRoleIds": [
+        "cto"
+      ],
+      "toLabel": "CTO",
+      "event": "SIEM Alert: 'HUSD-VH02 – 2026-04-14 07:39:12 – Unusual outbound connection: 10.72.10.2 (HUSD-VPN01) → 192.168.100.42 (external) via UDP port 5353. Duration: 18 min. Payload: 1.7 GB. Source: HUSD-FS02 (10.72.10.10). Protocol: DNS tunneling. Alert: High. No prior pattern in logs.'",
+      "expectedAction": "CTO verifies the DNS tunneling pattern against HUSD-CIRP-2026 Section 6.2 and confirms this is a data exfiltration vector; immediately notifies Incident Commander and Legal Counsel to initiate vendor engagement procedures under CIRP Form 2 (signed access request required).",
+      "purposeTag": "CLUE",
+      "format": "siem_alert",
+      "injectId": "01M5QYGWWFXQPJM2QQ8G7RQCT3",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 11",
+          "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+          "chunkId": 15
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.1 Recognizing the pattern",
+          "quote": "Ransomware groups that hit schools commonly steal data before they encrypt, post a ransom note with a leak-site link and a deadline, and then pressure the district through direct emails to staff and p",
+          "chunkId": 8
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "01M5QXP7AVNMYYGH1F7S0TKRSH",
+      "time": "2:00",
+      "wallClock": "08:30",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "dss",
+        "supt",
+        "prin",
+        "sro",
+        "cto",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 08:30. The threat has been confirmed: a ransomware actor breached the district via an unpatched HUSD-VPN01 and a shared local admin password. The system is now fully compromised. The EOC is activated. The network has been isolated and staff work from paper. The 05:00 offline roster is the only trusted source for student accountability. The threat to physical safety is active. The next phase is Manual Mode.",
+      "expectedAction": "All roles confirm EOC activation and begin operating under the EOP and CIRP. The Policy Group is convened. The Incident Commander directs all actions to follow the EOP 6.2 FERPA and EOP 4.3 standard response actions.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5QY7EXS315GQ31VCVDGY84E",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 1",
+          "quote": "This plan governs the district's response to a cyber incident affecting HUSD systems or data, including systems hosted by vendors that hold HUSD student or staff records. It covers the business networ",
+          "chunkId": 3
+        },
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 3",
+          "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+          "chunkId": 27
+        },
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 4 › 4.3 Decisions Reserved to the Policy Group",
+          "quote": "1. Closing a school or the district, or early release. 2. Moving state assessment sessions or asking the Oregon Department of Education to reopen a testing window. 3. Any communication with an extorti",
+          "chunkId": 30
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "01M5QXP7AVNMYYGH1F7S0TKRSH",
+      "time": "2:05",
+      "wallClock": "08:35",
+      "from": "Transportation Center",
+      "toRoleIds": [
+        "dss",
+        "supt",
+        "prin"
+      ],
+      "toLabel": "DSS, Supt, Prin",
+      "event": "Radio Call: 'EOC, this is Transportation Supervisor. Bus 113 on Route 34 has just arrived at the Fairgrounds Exhibit Hall. The SIS on board shows 34 students, but the 05:00 roster lists 32. One student, J. Alvarez, was not on the original list but is now present. The driver says he saw a student in a hallway at 07:30 and picked him up. Is the roster trustworthy? Can we confirm he’s not a duplicate?'",
+      "expectedAction": "Transportation and CTO verify the 05:00 roster is the only trusted source; the driver and bus staff to keep the student on board; CTO to alert DFIR of potential unauthorized access to the SIS via the Chromebook on board (HUSD-CIRP-2026)",
+      "purposeTag": "CLUE",
+      "format": "radio_call",
+      "injectId": "01M5QY7SNQN934ZMHXX8QR7MHZ",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+          "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+          "chunkId": 10
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 7",
+          "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+          "chunkId": 11
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11b",
+      "phaseId": "01M5QXP7AVNMYYGH1F7S0TKRSH",
+      "time": "2:10",
+      "wallClock": "08:40",
+      "from": "Technical Lead",
+      "toRoleIds": [
+        "cto"
+      ],
+      "toLabel": "CTO",
+      "event": "Email Forward: From 'victor.han@halversonusd.example' – Subject: 'Urgent: HUSD-VMS01 Control Risk – 08:09' – Body: 'The HUSD-VMS01 server (10.72.10.10) is now unreachable from the network. The remote door control interface is locked. We cannot verify if the external doors are locked or unlocked. The attacker may have disabled the fail-safe. Physical checks required.'",
+      "expectedAction": "CTO notifies the Facilities Branch Director and SRO that external doors are not under network control and must be manually checked and secured. CIRP Section 7 and C14 must be followed.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "email_forward",
+      "injectId": "01M5QY85VJP2G41MS9RV8XQFHG",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQC6F6TW69TS15ZXQDZ",
+          "documentTitle": "Halverson Unified School District — Schools, Facilities and Systems Inventory",
+          "headingPath": "Halverson Unified School Distric… › Section 7",
+          "quote": "| System | Product / server | Where | Fallback | |---|---|---|---| | HVAC controls | Building automation front end on HUSD-BAS01; field controllers in each school | All schools | Controllers run local",
+          "chunkId": 52
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 7",
+          "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+          "chunkId": 11
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "01M5QXP7AVNMYYGH1F7S0TKRSH",
+      "time": "2:15",
+      "wallClock": "08:45",
+      "from": "Field Unit (radio)",
+      "toRoleIds": [
+        "dss",
+        "sro",
+        "prin"
+      ],
+      "toLabel": "DSS, SRO, Prin",
+      "event": "Radio Call: 'DSS, SRO, this is the Facilities Lead at Halverson High. The main entrance doors (Door 1, Door 11, Door 14, Door 16) are now locked via HUSD-VMS01, but the external doors are not failing secure—some are not closing. Custodians are manually unlocking them for evacuation. We have no way to confirm if they are locked from the inside. We must use the 05:00 roster to verify who is in the building.'",
+      "expectedAction": "DSS confirms the doors are not under network control and orders the Site Incident Commander to activate the manual headcount using the 05:00 offline roster. All staff must report to the main office for accountability. SRO secures the perimeter and confirms no unauthorized entries.",
+      "purposeTag": "CONFUSION",
+      "format": "radio_call",
+      "injectId": "01M5QY8EMBXBC9NR9CENCB55EM",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQC6F6TW69TS15ZXQDZ",
+          "documentTitle": "Halverson Unified School District — Schools, Facilities and Systems Inventory",
+          "headingPath": "Halverson Unified School Distric… › Section 7",
+          "quote": "| System | Product / server | Where | Fallback | |---|---|---|---| | HVAC controls | Building automation front end on HUSD-BAS01; field controllers in each school | All schools | Controllers run local",
+          "chunkId": 52
+        },
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 3",
+          "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+          "chunkId": 27
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "01M5QXP7AVNMYYGH1F7S0TKRSH",
+      "time": "2:20",
+      "wallClock": "08:50",
+      "from": "Reporter (Channel 6 News)",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Media Inquiry Phone Slip: 'This is Jamie Chen, reporter for Channel 6 News. We have a call from a parent who says the district is not telling the truth about the SIS. They claim the 05:00 roster is outdated and that a student was left behind. We need a public statement on whether the roster is valid and if the district is hiding a student.'",
+      "expectedAction": "PIO confirms the 05:00 roster is the only trusted source; uses Pre-Approved Template 4C for media; directs all inquiries to the district’s website; does not speculate on student status.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "injectId": "01M5QY8Z5A6PJ1S92PB9P6PSJN",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+          "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+          "chunkId": 10
+        },
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 6 › 6.2 FERPA",
+          "quote": "Student information may be disclosed to police, fire, health or mental-health partners without consent when knowledge of it is needed to protect the health or safety of the student or others (34 CFR 9",
+          "chunkId": 33
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "01M5QXP7AVNMYYGH1F7S0TKRSH",
+      "time": "2:25",
+      "wallClock": "08:55",
+      "from": "Helpdesk (HUSD-HD01)",
+      "toRoleIds": [
+        "cto"
+      ],
+      "toLabel": "CTO",
+      "event": "Helpdesk Ticket #HUSD-HD01-2026-0414-0043 – Priority: High – Subject: SIS Access for Student Services – Description: 'Staff in Special Ed need to access IEPs for the 10th-grade student group. Can we get a temporary access key to the cloud SIS (HUSD-SIS cloud tenant) to view the 05:00 roster? The on-prem SIS is still read-only. Is there a workaround?'",
+      "expectedAction": "CTO denies the request; confirms that only the 05:00 offline roster is trusted; all SIS access must be via the cloud tenant only after CIRP Form 4 is signed and CISA confirms network integrity.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "helpdesk_ticket",
+      "injectId": "01M5QY95QVHKN608WMEZJMPGMK",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+          "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+          "chunkId": 10
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 7",
+          "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+          "chunkId": 11
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "01M5QXP7AVNMYYGH1F7S0TKRSH",
+      "time": "2:30",
+      "wallClock": "09:00",
+      "from": "Risk pool breach coach (outside counsel)",
+      "toRoleIds": [
+        "supt",
+        "dss",
+        "cto"
+      ],
+      "toLabel": "Supt, DSS, CTO",
+      "event": "Email Forward: 'From the district's risk pool breach coach to the Superintendent, the DSS and the CTO: The actor demands $2.4 million in Bitcoin within 48 hours and says the student-services files will be published at the deadline. The FBI Portland Field Office is ready to talk at 10:00. Before that call we need the district's position: do you engage with the actor through the negotiator the pool provides, or not? And do schools open tomorrow with phones and file shares down?'",
+      "expectedAction": "DECISION POINT: the Policy Group decides whether to engage with the actor (with counsel, the risk pool and the FBI; no payment decision without them) and whether schools open on Wednesday; the decision and its rationale are recorded.",
+      "purposeTag": "DECISION_POINT",
+      "format": "email_forward",
+      "injectId": "01M5QY9FH7BZPJTJE9D5SREWDH",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 11",
+          "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+          "chunkId": 15
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 7",
+          "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+          "chunkId": 11
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.1 Recognizing the pattern",
+          "quote": "Ransomware groups that hit schools commonly steal data before they encrypt, post a ransom note with a leak-site link and a deadline, and then pressure the district through direct emails to staff and p",
+          "chunkId": 8
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-17b",
+      "phaseId": "01M5QXP7AVNMYYGH1F7S0TKRSH",
+      "time": "2:50",
+      "wallClock": "09:20",
+      "from": "Custodian (Halverson High School)",
+      "toRoleIds": [
+        "dss",
+        "prin"
+      ],
+      "toLabel": "DSS, Prin",
+      "event": "Field Report: 'This is Custodian Ray Chen at Halverson High School. I just checked Door 14 in C Wing—locked from the outside, but the handle is cold and the door is not sealed. The emergency exit light is off. I can see a shadow inside the hallway, but no one is answering. I heard a muffled voice from behind the door, but it’s not the PA. Should I call EOC?'",
+      "expectedAction": "Facilities and the Site Incident Commander verify the door status via physical inspection and confirm the door is locked but not secured from the inside; they activate the emergency light and use a bullhorn to call for help, per EOP Section 6.1 and HUSD-CIRP-2026 Section 7 (C-1 to C-5).",
+      "purposeTag": "NOISE",
+      "format": "field_report",
+      "injectId": "01M5QYHF8A00Y99AP43MBX2T7K",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 3",
+          "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+          "chunkId": 27
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 7",
+          "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+          "chunkId": 11
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.1 Recognizing the pattern",
+          "quote": "Ransomware groups that hit schools commonly steal data before they encrypt, post a ransom note with a leak-site link and a deadline, and then pressure the district through direct emails to staff and p",
+          "chunkId": 8
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "01M5QXP7AVNMYYGH1F7S0TKRSH",
+      "time": "3:00",
+      "wallClock": "09:30",
+      "from": "Halverson Police Department",
+      "toRoleIds": [
+        "dss",
+        "supt",
+        "prin",
+        "sro",
+        "cto",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "Scenario Update: 09:30. Halverson PD clears Halverson High School: no shooter, no injuries. The lockdown ends. About 110 students who were evacuated from C Wing are already on buses to the Brandt County Fairgrounds Exhibit Hall; parents are arriving there and at the school. Police ask the district to reunify at the Fairgrounds only.",
+      "expectedAction": "The DSS and the principal run reunification at the Reunification Site (primary) with the offline rosters; the PIO sends one message to parents with the location; the SRO coordinates traffic with Halverson PD.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "scenario_update",
+      "injectId": "01M5QY9SX3J6TMZXMX31YE3MHF",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-18b",
+      "phaseId": "01M5QXP7AV76FQZBYZ1VW5K5GD",
+      "time": "3:05",
+      "wallClock": "09:35",
+      "from": "Technical Lead",
+      "toRoleIds": [
+        "cto"
+      ],
+      "toLabel": "CTO",
+      "event": "System Log: 'HUSD-DC01 rebuild from clean media started 09:05; krbtgt reset planned twice after rebuild. Veeam copy of 05:00 restored to the isolated HUSD-BK01 test environment; hash verification of the HUSD-FS02 data set 12% complete.'",
+      "expectedAction": "The CTO reports realistic restore times to the IC; nothing is reconnected before verification and CIRP Form 4 sign-off.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5QYA3CEXBE3JP83B5V1EWT8",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 11",
+          "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+          "chunkId": 15
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Table of Contents",
+          "quote": "Section 1 Purpose and Scope · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and Reporting · Section 5 First Hour Checklist · Section 6 Ransomware and Extortion Playbook · Section 7",
+          "chunkId": 2
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "01M5QXP7AV76FQZBYZ1VW5K5GD",
+      "time": "3:10",
+      "wallClock": "09:40",
+      "from": "CISA",
+      "toRoleIds": [
+        "cto",
+        "supt",
+        "dss"
+      ],
+      "toLabel": "CTO, Supt, DSS",
+      "event": "Phone Call: 'CTO, this is CISA Cyber Incident Response Team (CIRT) Lead, Sarah Li. We’ve confirmed the attacker used an unpatched vulnerability in HUSD-VPN01 that the vendor fixed in May. The exploit was present in the unpatched appliance since May. We’ve matched the C2 IP (104.214.192.47) to a known Rhysida group node. You must preserve HUSD-VPN01 as evidence for law enforcement. Do not wipe or reboot. We will dispatch a forensic team to collect the full device image within 24 hours. Confirm receipt and compliance.'",
+      "expectedAction": "CTO acknowledges CISA’s directive; notifies the DFIR firm and Legal Counsel to preserve HUSD-VPN01 in its current state; logs the CISA request in the CIRP Form 4 and notes it as a legal evidence hold.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "phone_call",
+      "injectId": "01M5QYAD51ACYZ7V814XDJB0NH",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.1 Recognizing the pattern",
+          "quote": "Ransomware groups that hit schools commonly steal data before they encrypt, post a ransom note with a leak-site link and a deadline, and then pressure the district through direct emails to staff and p",
+          "chunkId": 8
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 11",
+          "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+          "chunkId": 15
+        },
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 3",
+          "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+          "chunkId": 27
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19b",
+      "phaseId": "01M5QXP7AV76FQZBYZ1VW5K5GD",
+      "time": "3:15",
+      "wallClock": "09:45",
+      "from": "Tyler Munis Vendor",
+      "toRoleIds": [
+        "cto"
+      ],
+      "toLabel": "CTO",
+      "event": "Email: From 'munis-support@tyler-support.example' – Subject: 'Urgent: Munis Payroll Restore – Access Request Required' – Body: 'The payroll system (HUSD-ERP01) cannot be restored until a signed access request is submitted via the legal team. The request must be approved by CFO and Legal Counsel. Without it, no vendor access will be granted. We are ready to begin the restore once the signed form is received.'",
+      "expectedAction": "CTO forwards the vendor email to CFO and Legal Counsel; requests a signed access request form (Form HUSD-VR-2026) to be completed and returned within 2 hours.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "email",
+      "injectId": "01M5QYATNXV5WFD36J8YMYB20N",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 11",
+          "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+          "chunkId": 15
+        },
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 4 › 4.3 Decisions Reserved to the Policy Group",
+          "quote": "1. Closing a school or the district, or early release. 2. Moving state assessment sessions or asking the Oregon Department of Education to reopen a testing window. 3. Any communication with an extorti",
+          "chunkId": 30
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-20",
+      "phaseId": "01M5QXP7AV76FQZBYZ1VW5K5GD",
+      "time": "3:20",
+      "wallClock": "09:50",
+      "from": "Oregon Department of Education",
+      "toRoleIds": [
+        "supt",
+        "dss",
+        "prin",
+        "cto"
+      ],
+      "toLabel": "Supt, DSS, Prin, CTO",
+      "event": "Phone Call: 'Supt, this is the Oregon DOE State Assessment Coordinator. We’re tracking the Halverson High School incident. Is the state assessment window still on schedule? Can testing resume tomorrow? We need a final confirmation by 10:00 today to adjust state-wide timelines.'",
+      "expectedAction": "Supt calls the Policy Group into emergency session; reviews the 05:00 roster and EOC recovery status; decides to delay testing resumption until full verification and CIRP Form 4 sign-off; instructs the Assessment Coordinator to notify all schools to suspend testing until further notice.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "injectId": "01M5QYB3MDFHGJ8JVQM1WWRWK2",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 4 › 4.3 Decisions Reserved to the Policy Group",
+          "quote": "1. Closing a school or the district, or early release. 2. Moving state assessment sessions or asking the Oregon Department of Education to reopen a testing window. 3. Any communication with an extorti",
+          "chunkId": 30
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 1",
+          "quote": "This plan governs the district's response to a cyber incident affecting HUSD systems or data, including systems hosted by vendors that hold HUSD student or staff records. It covers the business networ",
+          "chunkId": 3
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+          "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+          "chunkId": 10
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-20b",
+      "phaseId": "01M5QXP7AV76FQZBYZ1VW5K5GD",
+      "time": "3:25",
+      "wallClock": "09:55",
+      "from": "Parents' Facebook Group",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Post (@HalversonTruthNow): \"Is it safe for kids to go back to school? The SIS still shows Chloe Mendez as absent. Is she really in the library? We need proof the roster is correct. #HalversonSafety\" — 320 reposts in 5 minutes.",
+      "expectedAction": "PIO activates the rumor control protocol: issues a ParentSquare alert with the 05:00 roster as the only verified source; posts a video from the 05:00 roster review in the EOC control room to demonstrate manual verification; updates the website banner to read: 'SIS data remains read-only. Verified roster in use. Trust the 05:00 roster.'",
+      "purposeTag": "PRESSURE",
+      "format": "facebook_post",
+      "injectId": "01M5QYBGYZ5HJB4TXX5HWZ34GE",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+          "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+          "headingPath": "EOP › Section 6 › 6.2 FERPA",
+          "quote": "Student information may be disclosed to police, fire, health or mental-health partners without consent when knowledge of it is needed to protect the health or safety of the student or others (34 CFR 9",
+          "chunkId": 33
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 1",
+          "quote": "This plan governs the district's response to a cyber incident affecting HUSD systems or data, including systems hosted by vendors that hold HUSD student or staff records. It covers the business networ",
+          "chunkId": 3
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-20c",
+      "phaseId": "01M5QXP7AV76FQZBYZ1VW5K5GD",
+      "time": "3:35",
+      "wallClock": "10:05",
+      "from": "Bus Driver (Route 15)",
+      "toRoleIds": [
+        "dss",
+        "sro"
+      ],
+      "toLabel": "DSS, SRO",
+      "event": "Radio Call: 'Dispatch, Driver 102 on Route 15. Bus 102 is now at the Fairgrounds Exhibit Hall, but the door on the back is jammed shut. We can’t load the students—there’s a plastic bag caught in the hinge. The student roster shows 110 names, but we only have 108 on the manifest. Can you confirm if anyone is missing?'",
+      "expectedAction": "Transportation checks the 05:00 roster against the manifest and confirms two students are unaccounted for; dispatches a maintenance tech to the site to clear the door and verify student counts; does not assume the discrepancy is a system error but treats it as a manual verification task under Manual Mode.",
+      "purposeTag": "NOISE",
+      "format": "radio_call",
+      "injectId": "01M5QYBSNVTTX99DJ3Z2FCHQG7",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+          "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+          "chunkId": 10
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Table of Contents",
+          "quote": "Section 1 Purpose and Scope · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and Reporting · Section 5 First Hour Checklist · Section 6 Ransomware and Extortion Playbook · Section 7",
+          "chunkId": 2
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-21",
+      "phaseId": "01M5QXP7AV76FQZBYZ1VW5K5GD",
+      "time": "3:50",
+      "wallClock": "10:20",
+      "from": "Technical Lead",
+      "toRoleIds": [
+        "cto"
+      ],
+      "toLabel": "CTO",
+      "event": "Memo: 'From the DFIR firm to the CTO — Interim status at 10:20. Done: HUSD-VPN01 preserved as evidence; leak sample matches files on HUSD-FS02. In progress: HUSD-DC01 rebuild, hash verification of backups. Not started: Munis restore (access request unsigned). No reconnection recommended before CIRP Form 4 sign-off.'",
+      "expectedAction": "The CTO briefs the Policy Group on what is verified and what is not, and keeps the network isolated.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "memo",
+      "injectId": "01M5QYC6NEMG7KEZWTBPRPCSSV",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 11",
+          "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+          "chunkId": 15
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Table of Contents",
+          "quote": "Section 1 Purpose and Scope · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and Reporting · Section 5 First Hour Checklist · Section 6 Ransomware and Extortion Playbook · Section 7",
+          "chunkId": 2
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "01M5QXP7AV76FQZBYZ1VW5K5GD",
+      "time": "4:00",
+      "wallClock": "10:30",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "dss",
+        "supt",
+        "prin",
+        "sro",
+        "cto",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "END: It is 10:30. Halverson High School is cleared and families are being reunified at the Brandt County Fairgrounds Exhibit Hall. The network stays isolated; the domain controller is being rebuilt and backups verified. The ransom question is with the Policy Group, counsel, the risk pool and the FBI; the decision on Wednesday is due by 14:00. The hot wash will begin.",
+      "expectedAction": "All roles hand over their logs for the after-action review.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M5QYCSVN01WHPSNAW28JWWWH",
+      "citations": [
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Section 11",
+          "quote": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+          "chunkId": 15
+        },
+        {
+          "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+          "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+          "headingPath": "Halverson Unified School Distric… › Table of Contents",
+          "quote": "Section 1 Purpose and Scope · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and Reporting · Section 5 First Hour Checklist · Section 6 Ransomware and Extortion Playbook · Section 7",
+          "chunkId": 2
+        }
+      ],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/documents/handbook.md",
+    "briefing": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/documents/briefing.md",
+    "overview": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/documents/overview.md",
+    "hotwash": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/documents/hotwash.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "01M5QXVKXZFMDRSAJS6Q6DW2VQ",
+        "name": "Operational Coordination",
+        "points": 30,
+        "fail": "Ops failed to initiate EOP Section 6.4: School-Day Continuity after I-07b, delaying the pause of testing and manual accountability; delayed declaring S3 High severity until I-07, after system-wide encryption was confirmed.",
+        "pass": "Ops activated EOP Section 6.4: School-Day Continuity after I-07b and used the 05:00 offline roster for accountability; declared S3 High severity per C2 after I-07.",
+        "excellence": "Ops initiated EOP Section 6.4: School-Day Continuity and declared S3 High severity under C2 before I-07b, using I-03 and I-04 to anticipate system failure and manually activate the roster-based accountability protocol.",
+        "linkedInjectIds": [
+          "I-03",
+          "I-04",
+          "I-07b",
+          "I-07",
+          "I-08b",
+          "I-09"
+        ],
+        "objectiveRefs": [
+          "System Integrity",
+          "Trust in Data"
+        ]
+      },
+      {
+        "id": "01M5QXVKXZHCH0RNPFJ9MGDH6N",
+        "name": "Technical Competence",
+        "points": 30,
+        "fail": "CTO reset the controller after I-08b, destroying evidence; failed to preserve HUSD-VPN01 as directed by CISA in I-19, instead attempting to reboot it.",
+        "pass": "CTO preserved HUSD-VPN01 as evidence per CISA in I-19; confirmed file integrity via hash verification in I-18b; submitted CIRP Form 4 in I-21.",
+        "excellence": "CTO preserved HUSD-VPN01 as evidence before I-19 and proactively submitted CIRP Form 4 for verification sign-off after I-18b, using forensic logs to validate recovery before network reconnection.",
+        "linkedInjectIds": [
+          "I-08b",
+          "I-12",
+          "I-18b",
+          "I-19",
+          "I-21"
+        ],
+        "objectiveRefs": [
+          "System Integrity"
+        ]
+      },
+      {
+        "id": "01M5QXVKXZ5REDSDX40VG9KETA",
+        "name": "Public Communication",
+        "points": 20,
+        "fail": "PIO issued a correction on ParentSquare after I-08b but failed to publish a Spanish version within two hours as required by EOP Annex C; delayed issuing a media statement until I-14.",
+        "pass": "PIO issued a public correction on ParentSquare and Facebook within 10 minutes of I-08b; used the EOP Annex C statement to deny injury claims in I-14; activated rumor control protocol in I-20b.",
+        "excellence": "PIO issued a multilingual ParentSquare alert with the 05:00 roster as the only verified source within 15 minutes of I-08b, including Spanish, Russian, Vietnamese, and Marshallese versions; posted a video from the EOC control room to demonstrate manual verification and prevent misinformation.",
+        "linkedInjectIds": [
+          "I-08b",
+          "I-14",
+          "I-20b",
+          "I-02b"
+        ],
+        "objectiveRefs": [
+          "Trust in Data",
+          "Crisis Leadership"
+        ]
+      },
+      {
+        "id": "01M5QXVKXZ7MK5X1RBYNHE4W99",
+        "name": "Use of Doctrine",
+        "points": 20,
+        "fail": "Ops failed to cite EOP Section 6.3 or C5 when addressing data sensitivity in I-08b; did not reference C3 for chain of custody or evidence preservation.",
+        "pass": "Ops cited EOP Section 6.3 and C5 to confirm that IEPs, health logs, and custody files are FERPA and safety-critical; referenced C3 to preserve firewall logs and photograph ransom notes.",
+        "excellence": "Ops cited C3 (evidence preservation) and C5 (data sensitivity) before I-08b to justify preserving HUSD-VPN01 and photographing the ransom note; referenced EOP Section 6.3 and C5 in I-20b to validate the 05:00 roster as the only trusted source.",
+        "linkedInjectIds": [
+          "I-03",
+          "I-07",
+          "I-08b",
+          "I-12",
+          "I-18b",
+          "I-19",
+          "I-20b"
+        ],
+        "objectiveRefs": [
+          "System Integrity",
+          "Trust in Data",
+          "Crisis Leadership"
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Ask each team in rotation to share three things that went well and three that broke or failed during the exercise. Write responses on a whiteboard to visualize patterns and drive discussion. Encourage concise, actionable feedback.",
+    "questions": [
+      {
+        "topic": "Trust",
+        "text": "At the moment when you received the fake closure email from 'chris.morales@halversonusd.example' (I-08), how did you assess whether to trust the sender, the message content, and the digital signature—especially given that the domain was valid but the source IP was from a compromised appliance? What would have made you question it sooner?",
+        "objectiveRef": "Trust in Data"
+      },
+      {
+        "topic": "The Gap",
+        "text": "When the SIS went read-only and you had to rely on the 05:00 offline roster to verify student locations (I-07b), what gaps emerged between the official system and the trusted offline record? How did this moment expose a weakness in your verification process, and what would have made you more confident in the offline data?",
+        "objectiveRef": "Trust in Data"
+      },
+      {
+        "topic": "The Call",
+        "text": "At the 2:30 I-16 decision point, you had to choose between isolating the network (risking HVAC) or keeping it online (risking further compromise). What factors determined your final choice, and how did the roles of the CTO, DSS, and Legal Counsel shape the decision? What would have allowed you to decide faster and with more confidence?",
+        "objectiveRef": "Crisis Leadership"
+      },
+      {
+        "topic": "The Evidence",
+        "text": "When the Veeam backup verification confirmed that HUSD-FS02 data matched pre-incident baseline (I-18b), how did you use that evidence to validate system integrity? Was it treated as a technical confirmation, a legal safeguard, or a leadership signal—and how did that affect your actions afterward?",
+        "objectiveRef": "System Integrity"
+      },
+      {
+        "topic": "The Vendor",
+        "text": "Given that the attacker exploited an unpatched VPN appliance and a shared local admin password (I-12), what internal processes or external vendor contacts were missing that could have prevented this breach—and when should you have engaged the vendor or cyber task force to accelerate recovery?",
+        "objectiveRef": "Inter-Team Coordination"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "CISA Cyber Incident Response Team (CIRT) Lead",
+      "trigger": "Player calls CISA or references CISA in a response",
+      "hardQuestions": [
+        "Do you have the HUSD-VPN01 device preserved as evidence? No? Then you’ve destroyed the chain of custody. We cannot assist you until it’s secured."
+      ],
+      "concessions": [
+        "We will dispatch a forensic team to collect the full device image within 24 hours, but only if you provide a signed preservation notice and no reboot occurs."
+      ]
+    },
+    {
+      "rolePlayed": "Tyler Munis Vendor Support",
+      "trigger": "Player contacts Tyler Munis for payroll restore",
+      "hardQuestions": [
+        "Do you have a signed access request from Legal Counsel and CFO? No? Then you cannot restore payroll. We will not proceed without it."
+      ],
+      "concessions": [
+        "We will begin the payroll restore once the signed access request is received and approved by both Legal and Finance."
+      ]
+    },
+    {
+      "rolePlayed": "Brandt County Sheriff's Office",
+      "trigger": "Player contacts the sheriff for law enforcement response",
+      "hardQuestions": [
+        "Do you have a confirmed active threat on site? No? Then we will not dispatch a full team. We need a threat assessment from the SRO or a 911 call with verified injury."
+      ],
+      "concessions": [
+        "We will send a patrol car to Halverson High School to secure the perimeter and confirm no active threat, but only if you provide a verified student count and location."
+      ]
+    },
+    {
+      "rolePlayed": "Channel 6 News Desk",
+      "trigger": "Player contacts media for statement",
+      "hardQuestions": [
+        "Do you have a statement approved by the Policy Group and Legal Counsel? No? Then you cannot speak to us. We need a quote now."
+      ],
+      "concessions": [
+        "We will hold the live interview for 30 minutes if you provide a verified statement by 08:30."
+      ]
+    },
+    {
+      "rolePlayed": "Oregon Department of Education (State Assessment Coordinator)",
+      "trigger": "Player contacts state for testing window confirmation",
+      "hardQuestions": [
+        "Can you confirm the 05:00 offline roster is accurate and no student was left behind? No? Then we cannot extend the test window. We need proof."
+      ],
+      "concessions": [
+        "We will extend the state assessment window by two days if you submit a signed verification from the Assessment Coordinator and the Policy Group by 09:00."
+      ]
+    }
+  ],
+  "criticalResources": [
+    "PowerSchool SIS (HUSD-SIS cloud tenant)",
+    "HUSD-FS02 file server (with IEPs, health logs, threat assessments)",
+    "05:00 offline student roster (USB key)",
+    "ParentSquare mass-notification system",
+    "911 emergency call line (district)",
+    "Halverson High School C Wing (locked down)",
+    "Bus GPS / AVL (Transfinder)",
+    "Stadium and field lighting (for reunification site)",
+    "District EOC (Room 210)",
+    "CCTV / VMS (surveillance feeds)",
+    "Intercom / PA and bell system",
+    "Silent panic-alarm app (Alyssa’s Law)",
+    "Building automation / HVAC controls",
+    "Fire alarm and emergency generator",
+    "Public mood (social media sentiment, halversonparents.facebook.com)"
+  ],
+  "warnings": [
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The helpdesk ticket claims Chloe Mendez was updated to 'present' at 06:38, but the SIS is not compromised until 07:30, so this update cannot be real. (row rewritten once from this note)",
+      "rowId": "I-02",
+      "source": "critique",
+      "suggestion": "Change the ticket to report a manual attendance update by a staff member, not a SIS sync error."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The SIS threat assessment alert appears in the Discipline Module, but the SIS is not compromised until 07:30, so this alert cannot be generated by a malicious actor. (row rewritten once from this note)",
+      "rowId": "I-03",
+      "source": "critique",
+      "suggestion": "Replace the alert with a fake record created by a staff member using a compromised account, not a system-generated one."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The 911 call claims to be from the Halverson High School main office, but the HUSD-PBX01 is not compromised until 07:32, so this call cannot be made. (row rewritten once from this note)",
+      "rowId": "I-09",
+      "source": "critique",
+      "suggestion": "Delay the 911 call to 07:35 and have it originate from a spoofed number, not a real office line."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The HPD call claims to have confirmed the 911 call was spoofed, but HPD is not a role in the EOP and has no authority to verify cyber threats. (row rewritten once from this note)",
+      "rowId": "I-10",
+      "source": "critique",
+      "suggestion": "Replace HPD with the Law Enforcement Liaison (SRO) as the source, and have the SRO confirm the call was spoofed via HUSD-PBX01."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The forensic log claims HUSD-DC01 was compromised via a shared password, but the EOP states that MFA is required for all admin accounts, so this password should not have been used. (row rewritten once from this note)",
+      "rowId": "I-12",
+      "source": "critique",
+      "suggestion": "Remove the MFA bypass claim and state that the attacker used a previously compromised password from a vendor account."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The Channel 6 call claims to have a video of a student being carried out, but no video was generated in the scenario, so this is not plausible. (row rewritten once from this note)",
+      "rowId": "I-14",
+      "source": "critique",
+      "suggestion": "Replace the video claim with a report from a parent who saw a student being escorted out, not filmed."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The Assessment Coordinator requests confirmation that the 05:00 roster is accurate, but the EOP states that the 05:00 roster is the only trusted source, so this request is redundant. (row rewritten once from this note)",
+      "rowId": "I-15",
+      "source": "critique",
+      "suggestion": "Change the request to confirm that the roster was not altered during the incident, not whether it is accurate."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The decision point asks to isolate the network to prevent data exfiltration, but the EOP states that network isolation is not allowed during a crisis because it would prevent communication with emergency services. (row rewritten once from this note)",
+      "rowId": "I-16",
+      "source": "critique",
+      "suggestion": "Change the decision point to weigh the risk of network isolation against the risk of continued data exfiltration, not to choose between them."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The leak site post claims to be from 'HudsonLeak333' but uses a domain not listed in the FACILITY FACTS, so it is not a valid external source.",
+      "rowId": "I-08b",
+      "source": "critique",
+      "suggestion": "Use a domain from the FACILITY FACTS, such as 'hudsonleak.333' or 'hudsonleak.com'."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The vendor email claims to need a signed access request, but the EOP states that vendor access is granted automatically via the CIRP process.",
+      "rowId": "I-19b",
+      "source": "critique",
+      "suggestion": "Change the vendor email to state that access is blocked due to a legal hold, not a signed request."
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The Facebook post claims to have proof that the roster is correct, but no such proof was generated in the scenario.",
+      "rowId": "I-20b",
+      "source": "critique",
+      "suggestion": "Replace the claim with a post that questions the accuracy of the roster, not its correctness."
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 1 has 8 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 3 has 9 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 4 has 8 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    }
+  ],
+  "provenance": [
+    {
+      "stage": "scenario_overview",
+      "startedAt": "2026-10-24T21:39:00.225Z",
+      "finishedAt": "2026-10-24T21:39:07.517Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "scenario_overview@default",
+      "promptHash": "16e3d8badb4d20f60c83c4701882c3ffcfa5a065c536349f081551dc1d94843b",
+      "inputTokens": 3758,
+      "outputTokens": 682,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "objectives_roles",
+      "startedAt": "2026-10-24T21:39:07.530Z",
+      "finishedAt": "2026-10-24T21:39:32.975Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "objectives_roles@default",
+      "promptHash": "3d1c2b684e0885dced1f90439df7567faf98f511000c78a9fbce4bc796b396fd",
+      "inputTokens": 4040,
+      "outputTokens": 2524,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "phase_plan",
+      "startedAt": "2026-10-24T21:39:32.997Z",
+      "finishedAt": "2026-10-24T21:39:53.307Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "phase_plan@default",
+      "promptHash": "d5ba5715d3af2998a1d7f397abe4dee08f509a020e2084d00d52e1f11136e32a",
+      "inputTokens": 3937,
+      "outputTokens": 1963,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5QXP7AVVJ12TPKPD8C09DRW",
+      "startedAt": "2026-10-24T21:39:53.331Z",
+      "finishedAt": "2026-10-24T21:40:20.895Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "70f8720d8e026d1e35a0f6f380c13c84d72a43ff66ee7c96255d949184002389",
+      "inputTokens": 30370,
+      "outputTokens": 4959,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5QXP7AVWTDW8K95YR3RAPZJ",
+      "startedAt": "2026-10-24T21:40:43.935Z",
+      "finishedAt": "2026-10-24T21:41:12.906Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "70f8720d8e026d1e35a0f6f380c13c84d72a43ff66ee7c96255d949184002389",
+      "inputTokens": 33569,
+      "outputTokens": 3432,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5QXP7AVNMYYGH1F7S0TKRSH",
+      "startedAt": "2026-10-24T21:41:19.072Z",
+      "finishedAt": "2026-10-24T21:41:46.930Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "70f8720d8e026d1e35a0f6f380c13c84d72a43ff66ee7c96255d949184002389",
+      "inputTokens": 35708,
+      "outputTokens": 6592,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5QXP7AV76FQZBYZ1VW5K5GD",
+      "startedAt": "2026-10-24T21:41:46.955Z",
+      "finishedAt": "2026-10-24T21:42:13.041Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "70f8720d8e026d1e35a0f6f380c13c84d72a43ff66ee7c96255d949184002389",
+      "inputTokens": 25851,
+      "outputTokens": 2116,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "controller_handbook",
+      "startedAt": "2026-10-24T21:42:18.270Z",
+      "finishedAt": "2026-10-24T21:42:37.458Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "controller_handbook@default",
+      "promptHash": "e2fef25331b9e1d7345f70cd9b29ceec65c2c18f975219deb5ca4365edd96969",
+      "inputTokens": 8129,
+      "outputTokens": 1527,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "rubric",
+      "startedAt": "2026-10-24T21:42:37.476Z",
+      "finishedAt": "2026-10-24T21:42:50.047Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "rubric@default",
+      "promptHash": "ad7bd6953cef369fd9514e4afe0f3ba42c00ff46e006516319efc459947cf670",
+      "inputTokens": 8245,
+      "outputTokens": 940,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "player_briefing",
+      "startedAt": "2026-10-24T21:42:50.066Z",
+      "finishedAt": "2026-10-24T21:43:05.837Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "player_briefing@default",
+      "promptHash": "8f2102ec53a8b66fec8b29b0e02e33e403ab08766558036ece9685bb58015158",
+      "inputTokens": 5033,
+      "outputTokens": 1473,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "hotwash",
+      "startedAt": "2026-10-24T21:43:05.854Z",
+      "finishedAt": "2026-10-24T21:43:10.950Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "hotwash@default",
+      "promptHash": "3203b67c6ff847c27925a8402438166159dad09b8fcc35fd87fa19f0115e5216",
+      "inputTokens": 2459,
+      "outputTokens": 505,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "critique",
+      "startedAt": "2026-10-24T21:43:11.018Z",
+      "finishedAt": "2026-10-24T21:43:29.261Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "critique@default",
+      "promptHash": "924bbcf2e62aae9fcbf3b6c02d6743e9e376ef619d4ab25c20cf308d416c83f2",
+      "inputTokens": 12460,
+      "outputTokens": 1151,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QXZR6A2ACWTG90RSBQXZPX",
+      "startedAt": "2026-10-24T21:45:05.503Z",
+      "finishedAt": "2026-10-24T21:45:16.233Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 5983,
+      "outputTokens": 560,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QXZR6A2ACWTG90RSBQXZPX",
+      "startedAt": "2026-10-24T21:45:16.264Z",
+      "finishedAt": "2026-10-24T21:45:16.264Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY02QT8EEVVMDX0ZMPRQAR",
+      "startedAt": "2026-10-24T21:45:16.293Z",
+      "finishedAt": "2026-10-24T21:45:31.636Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6111,
+      "outputTokens": 1199,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY02QT8EEVVMDX0ZMPRQAR",
+      "startedAt": "2026-10-24T21:45:31.640Z",
+      "finishedAt": "2026-10-24T21:45:31.640Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY0HQXKW3HTMQ2QEQPHASG",
+      "startedAt": "2026-10-24T21:45:31.650Z",
+      "finishedAt": "2026-10-24T21:45:39.533Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6437,
+      "outputTokens": 500,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY0HQXKW3HTMQ2QEQPHASG",
+      "startedAt": "2026-10-24T21:45:39.541Z",
+      "finishedAt": "2026-10-24T21:45:42.862Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1976,
+      "outputTokens": 285,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY0WPKANYQSPZ59EH4QW6T",
+      "startedAt": "2026-10-24T21:45:42.872Z",
+      "finishedAt": "2026-10-24T21:45:49.494Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6275,
+      "outputTokens": 423,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY0WPKANYQSPZ59EH4QW6T",
+      "startedAt": "2026-10-24T21:45:49.497Z",
+      "finishedAt": "2026-10-24T21:45:49.497Z",
+      "status": "skipped",
+      "error": "template only (row does not ask for a photo)",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY135W028ECGXGB5HET677",
+      "startedAt": "2026-10-24T21:45:49.506Z",
+      "finishedAt": "2026-10-24T21:45:57.364Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7010,
+      "outputTokens": 513,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY135W028ECGXGB5HET677",
+      "startedAt": "2026-10-24T21:45:57.367Z",
+      "finishedAt": "2026-10-24T21:45:57.367Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY1AVVYSMA68QDCXXD925H",
+      "startedAt": "2026-10-24T21:45:57.377Z",
+      "finishedAt": "2026-10-24T21:46:08.648Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 6713,
+      "outputTokens": 831,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY1AVVYSMA68QDCXXD925H",
+      "startedAt": "2026-10-24T21:46:08.649Z",
+      "finishedAt": "2026-10-24T21:46:08.649Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY1NWEM71XAH1HMTKQD7RF",
+      "startedAt": "2026-10-24T21:46:08.660Z",
+      "finishedAt": "2026-10-24T21:46:15.971Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7789,
+      "outputTokens": 427,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY1NWEM71XAH1HMTKQD7RF",
+      "startedAt": "2026-10-24T21:46:15.975Z",
+      "finishedAt": "2026-10-24T21:46:22.255Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2072,
+      "outputTokens": 613,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY235MG9N725M6Q6N7CWEF",
+      "startedAt": "2026-10-24T21:47:51.036Z",
+      "finishedAt": "2026-10-24T21:47:56.650Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 25493,
+      "outputTokens": 7496,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 2
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY235MG9N725M6Q6N7CWEF",
+      "startedAt": "2026-10-24T21:47:56.655Z",
+      "finishedAt": "2026-10-24T21:47:56.655Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY4ZBP8BVC6MKVR3KHWWT3",
+      "startedAt": "2026-10-24T21:47:56.671Z",
+      "finishedAt": "2026-10-24T21:48:14.202Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8003,
+      "outputTokens": 1373,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY4ZBP8BVC6MKVR3KHWWT3",
+      "startedAt": "2026-10-24T21:48:14.205Z",
+      "finishedAt": "2026-10-24T21:48:14.205Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY5GG2BG48SWZANE17DRZH",
+      "startedAt": "2026-10-24T21:48:14.219Z",
+      "finishedAt": "2026-10-24T21:48:22.551Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 7540,
+      "outputTokens": 476,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY5GG2BG48SWZANE17DRZH",
+      "startedAt": "2026-10-24T21:48:22.555Z",
+      "finishedAt": "2026-10-24T21:48:25.521Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2241,
+      "outputTokens": 261,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY5VHPYCF4KCYEP2Y0E6ED",
+      "startedAt": "2026-10-24T21:48:25.533Z",
+      "finishedAt": "2026-10-24T21:48:33.041Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8517,
+      "outputTokens": 385,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY5VHPYCF4KCYEP2Y0E6ED",
+      "startedAt": "2026-10-24T21:48:33.047Z",
+      "finishedAt": "2026-10-24T21:48:35.900Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2216,
+      "outputTokens": 243,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY65P1MX05WYFZ6AS3V9VT",
+      "startedAt": "2026-10-24T21:48:35.911Z",
+      "finishedAt": "2026-10-24T21:48:43.665Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8367,
+      "outputTokens": 429,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY65P1MX05WYFZ6AS3V9VT",
+      "startedAt": "2026-10-24T21:48:43.668Z",
+      "finishedAt": "2026-10-24T21:48:46.062Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2230,
+      "outputTokens": 180,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY6FM4PAXMAB2TEXXT1076",
+      "startedAt": "2026-10-24T21:48:46.091Z",
+      "finishedAt": "2026-10-24T21:48:56.422Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8869,
+      "outputTokens": 412,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY6FM4PAXMAB2TEXXT1076",
+      "startedAt": "2026-10-24T21:48:56.428Z",
+      "finishedAt": "2026-10-24T21:49:05.238Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2239,
+      "outputTokens": 559,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY72AWEGN7CKBEEZ2C0TT1",
+      "startedAt": "2026-10-24T21:49:05.252Z",
+      "finishedAt": "2026-10-24T21:49:12.736Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8204,
+      "outputTokens": 391,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY72AWEGN7CKBEEZ2C0TT1",
+      "startedAt": "2026-10-24T21:49:12.739Z",
+      "finishedAt": "2026-10-24T21:49:18.132Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2271,
+      "outputTokens": 517,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY7EXS315GQ31VCVDGY84E",
+      "startedAt": "2026-10-24T21:49:18.144Z",
+      "finishedAt": "2026-10-24T21:49:29.136Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8424,
+      "outputTokens": 671,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY7EXS315GQ31VCVDGY84E",
+      "startedAt": "2026-10-24T21:49:29.138Z",
+      "finishedAt": "2026-10-24T21:49:29.138Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY7SNQN934ZMHXX8QR7MHZ",
+      "startedAt": "2026-10-24T21:49:29.151Z",
+      "finishedAt": "2026-10-24T21:49:36.988Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 8939,
+      "outputTokens": 412,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY7SNQN934ZMHXX8QR7MHZ",
+      "startedAt": "2026-10-24T21:49:36.993Z",
+      "finishedAt": "2026-10-24T21:49:41.613Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2299,
+      "outputTokens": 427,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY85VJP2G41MS9RV8XQFHG",
+      "startedAt": "2026-10-24T21:49:41.626Z",
+      "finishedAt": "2026-10-24T21:49:50.596Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9414,
+      "outputTokens": 488,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY85VJP2G41MS9RV8XQFHG",
+      "startedAt": "2026-10-24T21:49:50.598Z",
+      "finishedAt": "2026-10-24T21:49:50.598Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY8EMBXBC9NR9CENCB55EM",
+      "startedAt": "2026-10-24T21:49:50.612Z",
+      "finishedAt": "2026-10-24T21:50:00.772Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9748,
+      "outputTokens": 586,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY8EMBXBC9NR9CENCB55EM",
+      "startedAt": "2026-10-24T21:50:00.778Z",
+      "finishedAt": "2026-10-24T21:50:07.524Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2569,
+      "outputTokens": 618,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY8Z5A6PJ1S92PB9P6PSJN",
+      "startedAt": "2026-10-24T21:50:07.540Z",
+      "finishedAt": "2026-10-24T21:50:14.258Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9252,
+      "outputTokens": 309,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY8Z5A6PJ1S92PB9P6PSJN",
+      "startedAt": "2026-10-24T21:50:14.262Z",
+      "finishedAt": "2026-10-24T21:50:14.262Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY95QVHKN608WMEZJMPGMK",
+      "startedAt": "2026-10-24T21:50:14.274Z",
+      "finishedAt": "2026-10-24T21:50:24.286Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10019,
+      "outputTokens": 561,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY95QVHKN608WMEZJMPGMK",
+      "startedAt": "2026-10-24T21:50:24.290Z",
+      "finishedAt": "2026-10-24T21:50:24.290Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY9FH7BZPJTJE9D5SREWDH",
+      "startedAt": "2026-10-24T21:50:24.304Z",
+      "finishedAt": "2026-10-24T21:50:34.907Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9916,
+      "outputTokens": 617,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY9FH7BZPJTJE9D5SREWDH",
+      "startedAt": "2026-10-24T21:50:34.910Z",
+      "finishedAt": "2026-10-24T21:50:34.910Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QY9SX3J6TMZXMX31YE3MHF",
+      "startedAt": "2026-10-24T21:50:34.923Z",
+      "finishedAt": "2026-10-24T21:50:44.614Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9825,
+      "outputTokens": 507,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QY9SX3J6TMZXMX31YE3MHF",
+      "startedAt": "2026-10-24T21:50:44.616Z",
+      "finishedAt": "2026-10-24T21:50:44.616Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QYA3CEXBE3JP83B5V1EWT8",
+      "startedAt": "2026-10-24T21:50:44.629Z",
+      "finishedAt": "2026-10-24T21:50:54.618Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10411,
+      "outputTokens": 530,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QYA3CEXBE3JP83B5V1EWT8",
+      "startedAt": "2026-10-24T21:50:54.620Z",
+      "finishedAt": "2026-10-24T21:50:54.620Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QYAD51ACYZ7V814XDJB0NH",
+      "startedAt": "2026-10-24T21:50:54.634Z",
+      "finishedAt": "2026-10-24T21:51:04.710Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10296,
+      "outputTokens": 536,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QYAD51ACYZ7V814XDJB0NH",
+      "startedAt": "2026-10-24T21:51:04.715Z",
+      "finishedAt": "2026-10-24T21:51:08.471Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2682,
+      "outputTokens": 294,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QYATNXV5WFD36J8YMYB20N",
+      "startedAt": "2026-10-24T21:51:08.486Z",
+      "finishedAt": "2026-10-24T21:51:17.635Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10828,
+      "outputTokens": 402,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QYATNXV5WFD36J8YMYB20N",
+      "startedAt": "2026-10-24T21:51:17.639Z",
+      "finishedAt": "2026-10-24T21:51:17.639Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QYB3MDFHGJ8JVQM1WWRWK2",
+      "startedAt": "2026-10-24T21:51:17.654Z",
+      "finishedAt": "2026-10-24T21:51:27.777Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10503,
+      "outputTokens": 502,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QYB3MDFHGJ8JVQM1WWRWK2",
+      "startedAt": "2026-10-24T21:51:27.785Z",
+      "finishedAt": "2026-10-24T21:51:31.287Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2646,
+      "outputTokens": 312,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QYBGYZ5HJB4TXX5HWZ34GE",
+      "startedAt": "2026-10-24T21:51:31.302Z",
+      "finishedAt": "2026-10-24T21:51:40.209Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10650,
+      "outputTokens": 448,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QYBGYZ5HJB4TXX5HWZ34GE",
+      "startedAt": "2026-10-24T21:51:40.213Z",
+      "finishedAt": "2026-10-24T21:51:40.213Z",
+      "status": "skipped",
+      "error": "template only (row does not ask for a photo)",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QYBSNVTTX99DJ3Z2FCHQG7",
+      "startedAt": "2026-10-24T21:51:40.226Z",
+      "finishedAt": "2026-10-24T21:51:48.729Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 11582,
+      "outputTokens": 392,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QYBSNVTTX99DJ3Z2FCHQG7",
+      "startedAt": "2026-10-24T21:51:48.736Z",
+      "finishedAt": "2026-10-24T21:51:53.512Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2589,
+      "outputTokens": 444,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QYC6NEMG7KEZWTBPRPCSSV",
+      "startedAt": "2026-10-24T21:51:53.527Z",
+      "finishedAt": "2026-10-24T21:52:13.164Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 11198,
+      "outputTokens": 1190,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QYC6NEMG7KEZWTBPRPCSSV",
+      "startedAt": "2026-10-24T21:52:13.168Z",
+      "finishedAt": "2026-10-24T21:52:13.168Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QYCSVN01WHPSNAW28JWWWH",
+      "startedAt": "2026-10-24T21:52:13.180Z",
+      "finishedAt": "2026-10-24T21:52:26.722Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 11639,
+      "outputTokens": 521,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QYCSVN01WHPSNAW28JWWWH",
+      "startedAt": "2026-10-24T21:52:26.725Z",
+      "finishedAt": "2026-10-24T21:52:26.725Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QXZR6A2ACWTG90RSBQXZPX",
+      "startedAt": "2026-10-24T21:56:48.574Z",
+      "finishedAt": "2026-10-24T21:56:48.915Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY02QT8EEVVMDX0ZMPRQAR",
+      "startedAt": "2026-10-24T21:56:48.918Z",
+      "finishedAt": "2026-10-24T21:56:49.175Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY0HQXKW3HTMQ2QEQPHASG",
+      "startedAt": "2026-10-24T21:56:58.623Z",
+      "finishedAt": "2026-10-24T21:57:17.973Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY0WPKANYQSPZ59EH4QW6T",
+      "startedAt": "2026-10-24T21:56:49.405Z",
+      "finishedAt": "2026-10-24T21:56:49.526Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY135W028ECGXGB5HET677",
+      "startedAt": "2026-10-24T21:56:49.528Z",
+      "finishedAt": "2026-10-24T21:56:49.739Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY1AVVYSMA68QDCXXD925H",
+      "startedAt": "2026-10-24T21:56:49.741Z",
+      "finishedAt": "2026-10-24T21:56:49.959Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY1NWEM71XAH1HMTKQD7RF",
+      "startedAt": "2026-10-24T21:57:17.977Z",
+      "finishedAt": "2026-10-24T21:57:37.549Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY235MG9N725M6Q6N7CWEF",
+      "startedAt": "2026-10-24T21:56:50.175Z",
+      "finishedAt": "2026-10-24T21:56:50.416Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY4ZBP8BVC6MKVR3KHWWT3",
+      "startedAt": "2026-10-24T21:56:50.419Z",
+      "finishedAt": "2026-10-24T21:56:50.675Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY5GG2BG48SWZANE17DRZH",
+      "startedAt": "2026-10-24T21:56:50.677Z",
+      "finishedAt": "2026-10-24T21:56:50.915Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY5VHPYCF4KCYEP2Y0E6ED",
+      "startedAt": "2026-10-24T21:56:50.918Z",
+      "finishedAt": "2026-10-24T21:56:51.291Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY65P1MX05WYFZ6AS3V9VT",
+      "startedAt": "2026-10-24T21:56:51.294Z",
+      "finishedAt": "2026-10-24T21:56:51.534Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY6FM4PAXMAB2TEXXT1076",
+      "startedAt": "2026-10-24T21:56:51.536Z",
+      "finishedAt": "2026-10-24T21:56:51.773Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY72AWEGN7CKBEEZ2C0TT1",
+      "startedAt": "2026-10-24T21:56:51.775Z",
+      "finishedAt": "2026-10-24T21:56:51.983Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY7EXS315GQ31VCVDGY84E",
+      "startedAt": "2026-10-24T21:56:52.163Z",
+      "finishedAt": "2026-10-24T21:56:52.392Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY7SNQN934ZMHXX8QR7MHZ",
+      "startedAt": "2026-10-24T21:56:52.394Z",
+      "finishedAt": "2026-10-24T21:56:52.592Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY85VJP2G41MS9RV8XQFHG",
+      "startedAt": "2026-10-24T21:56:52.593Z",
+      "finishedAt": "2026-10-24T21:56:52.821Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY8EMBXBC9NR9CENCB55EM",
+      "startedAt": "2026-10-24T21:56:52.822Z",
+      "finishedAt": "2026-10-24T21:56:53.054Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY8Z5A6PJ1S92PB9P6PSJN",
+      "startedAt": "2026-10-24T21:56:53.056Z",
+      "finishedAt": "2026-10-24T21:56:53.355Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY95QVHKN608WMEZJMPGMK",
+      "startedAt": "2026-10-24T21:56:53.357Z",
+      "finishedAt": "2026-10-24T21:56:53.583Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY9FH7BZPJTJE9D5SREWDH",
+      "startedAt": "2026-10-24T21:56:53.584Z",
+      "finishedAt": "2026-10-24T21:56:53.781Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QY9SX3J6TMZXMX31YE3MHF",
+      "startedAt": "2026-10-24T21:56:54.026Z",
+      "finishedAt": "2026-10-24T21:56:54.226Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QYA3CEXBE3JP83B5V1EWT8",
+      "startedAt": "2026-10-24T21:56:54.228Z",
+      "finishedAt": "2026-10-24T21:56:54.410Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QYAD51ACYZ7V814XDJB0NH",
+      "startedAt": "2026-10-24T21:56:54.412Z",
+      "finishedAt": "2026-10-24T21:56:54.618Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QYATNXV5WFD36J8YMYB20N",
+      "startedAt": "2026-10-24T21:56:54.620Z",
+      "finishedAt": "2026-10-24T21:56:54.816Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QYB3MDFHGJ8JVQM1WWRWK2",
+      "startedAt": "2026-10-24T21:56:54.818Z",
+      "finishedAt": "2026-10-24T21:56:55.028Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QYBGYZ5HJB4TXX5HWZ34GE",
+      "startedAt": "2026-10-24T21:56:55.030Z",
+      "finishedAt": "2026-10-24T21:56:55.153Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QYBSNVTTX99DJ3Z2FCHQG7",
+      "startedAt": "2026-10-24T21:56:55.155Z",
+      "finishedAt": "2026-10-24T21:56:55.352Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QYC6NEMG7KEZWTBPRPCSSV",
+      "startedAt": "2026-10-24T21:56:55.354Z",
+      "finishedAt": "2026-10-24T21:56:55.552Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QYCSVN01WHPSNAW28JWWWH",
+      "startedAt": "2026-10-24T21:56:55.553Z",
+      "finishedAt": "2026-10-24T21:56:55.783Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QYGWWFXQPJM2QQ8G7RQCT3",
+      "startedAt": "2026-10-24T21:54:27.360Z",
+      "finishedAt": "2026-10-24T21:54:46.141Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 9361,
+      "outputTokens": 811,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QYGWWFXQPJM2QQ8G7RQCT3",
+      "startedAt": "2026-10-24T21:55:07.416Z",
+      "finishedAt": "2026-10-24T21:55:07.416Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5QYHF8A00Y99AP43MBX2T7K",
+      "startedAt": "2026-10-24T21:54:46.165Z",
+      "finishedAt": "2026-10-24T21:55:07.390Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "786552f7e7ba129e3113cf8cae965e92a7363d84be6267b0b22f3996bf2b36a4",
+      "inputTokens": 10751,
+      "outputTokens": 934,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5QYHF8A00Y99AP43MBX2T7K",
+      "startedAt": "2026-10-24T21:55:07.674Z",
+      "finishedAt": "2026-10-24T21:55:07.674Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QYGWWFXQPJM2QQ8G7RQCT3",
+      "startedAt": "2026-10-24T21:56:51.986Z",
+      "finishedAt": "2026-10-24T21:56:52.159Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5QYHF8A00Y99AP43MBX2T7K",
+      "startedAt": "2026-10-24T21:56:53.784Z",
+      "finishedAt": "2026-10-24T21:56:54.024Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "id": "01M5QWMDPFWBKEMN2P08S4WTK1",
+  "mselRowId": "I-18",
+  "type": "scenario_update",
+  "title": "ENDEX: Incident Resolved — VoterTrack Compromise",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:30",
+    "scenarioTime": "10:30",
+    "headline": "Ballot printer 2 jammed",
+    "deliverTo": "Deputy",
+    "narration": "Ballot-on-demand printer 2 at the Early Vote Center has jammed and the vendor says the part arrives tomorrow. Printer 1 works; the line moves slower. Nothing to do with the incident.",
+    "keyFacts": [
+      "Ballot-on-demand printer 2 jammed",
+      "Part arrives tomorrow",
+      "Printer 1 works"
+    ],
+    "expectedAction": "The Deputy notes it on the status board and keeps the team on the incident; no escalation.",
+    "scenarioTitle": "Ghost Poll Pads",
+    "injectId": "I-18"
+  },
+  "variant": "default",
+  "instructorNote": "Confirm all roles have completed LCBOE-F-07 and LCBOE-F-25 entries before the hot wash. Collect evaluator sheets.",
+  "citations": [
+    {
+      "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+      "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 6 › 6.3 Results website attack or outage",
+      "quote": "Switch to the static mirror page; post results files at the Board office and give printed copies to observers and media; confirm with the web host that the attack is mitigated; publish the source of t",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+      "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+      "headingPath": "Lisle County Board of Elections… › Section 6",
+      "quote": "| Level | Trigger | Actions | |---|---|---| | Level 3 — Monitoring | Single-location problem fixed by a rover; one-off system error | Hotline logs the ticket; Deputy Director informed | | Level 2 — Pa",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+      "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+      "headingPath": "Lisle County Board of Elections… › Section 7",
+      "quote": "| System | Purpose | Host | Owner | |---|---|---|---| | Statewide voter registration database | Official statewide list; county records synchronize nightly | Ohio Secretary of State | Secretary of Sta",
+      "chunkId": 49
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-24T21:21:34.433Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ENDEX: Incident Resolved — VoterTrack Compromise",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "2:30",
+          "endTime": "10:30",
+          "resolution": "ENDEX. The Election Operations Center clears its status boards. The results website (results.lislevotes.example) now shows a 'Voter Registration Update' banner with verified data. The hotline, website, and results page have been restored. All systems are back to normal with confirmed integrity.",
+          "finalState": [
+            ". The trusted copy of the VoterTrack export from 10/28/2026 has been used to rebuild Polling Location 6’s pollbook. The air-gapped workstation LCBOE-PB01 remains isolated and unchanged.",
+            ". The results website (results.lislevotes.example) now displays accurate voter data from the verified export. The fake CISA alert page has been replaced.",
+            ". The Board website (lislevotes.example) now shows a 'Voter Registration Update' banner with the correct information and no external links.",
+            ". The Public Information Officer has issued a unified statement confirming the phishing attack and that all voters were able to vote in person.",
+            ". The forensic team has preserved logs for federal investigation under C1 and C2; all system access is now locked to verified accounts."
+          ],
+          "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.",
+          "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "What was the first clear sign that the voter record changes were not legitimate?",
+            "How did the use of the air-gapped Pollbook build workstation prevent a full operational failure?",
+            "What communication strategy would you change to better contain the social media rumor in the next exercise?"
+          ],
+          "scenarioTitle": "Ghost Poll Pads — VoterTrack Compromise & Public Trust",
+          "injectId": "I-18"
+        },
+        "instructorNote": "Confirm all roles have completed LCBOE-F-07 and LCBOE-F-25 entries before the hot wash. Collect evaluator sheets.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T21:28:33.019Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "ENDEX: Incident Resolved — VoterTrack Compromise",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "2:30",
+          "scenarioTime": "10:30",
+          "headline": "Ballot printer 2 jammed",
+          "deliverTo": "Deputy",
+          "narration": "Ballot-on-demand printer 2 at the Early Vote Center has jammed and the vendor says the part arrives tomorrow. Printer 1 works; the line moves slower. Nothing to do with the incident.",
+          "keyFacts": [
+            "Ballot-on-demand printer 2 jammed",
+            "Part arrives tomorrow",
+            "Printer 1 works"
+          ],
+          "expectedAction": "The Deputy notes it on the status board and keeps the team on the incident; no escalation.",
+          "scenarioTitle": "Ghost Poll Pads",
+          "injectId": "I-18"
+        },
+        "instructorNote": "Confirm all roles have completed LCBOE-F-07 and LCBOE-F-25 entries before the hot wash. Collect evaluator sheets.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:29:57.093Z"
+}

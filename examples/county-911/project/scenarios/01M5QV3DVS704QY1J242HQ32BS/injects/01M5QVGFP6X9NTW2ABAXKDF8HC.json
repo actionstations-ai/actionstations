@@ -1,0 +1,209 @@
+{
+  "id": "01M5QVGFP6X9NTW2ABAXKDF8HC",
+  "mselRowId": "I-01",
+  "type": "phone_call",
+  "title": "Silent 911 Call — SIP Trunk Group A",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Rook County Emergency Communications District",
+    "systemName": "CallPoint Voice Recorder - SIP Trunk Group A",
+    "callId": "CR-20261022-183502-0014",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Call Taker 9 (Position 9)",
+      "number": "555-0110",
+      "label": "Caller"
+    },
+    "callee": {
+      "name": "Supervisor (Sup)",
+      "number": "555-0100",
+      "label": "Supervisor"
+    },
+    "startTime": "10/22/2026 18:35:02",
+    "duration": "0:45",
+    "transcript": [
+      {
+        "speaker": "Caller",
+        "offset": "0:00",
+        "text": "Sup, this is Call Taker on Position 3. I just took a 911 call on SIP trunk group A — it was completely silent. No audio, no background noise, just dead air. It lasted 45 seconds and then dropped. The ANI shows 555-0199. I've never seen anything like it.",
+        "prompt": false
+      },
+      {
+        "speaker": "Supervisor",
+        "offset": "0:05",
+        "text": "Got it. Confirm it was on SIP trunk group A, not B. Mark the call as 'Silent' in CAD, and log it using form RCECD-F-11. I'll notify Tech to check for TDoS indicators.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-01"
+  },
+  "variant": "default",
+  "instructorNote": "This is the first silent call from a spoofed number. The supervisor must initiate SOP 5.2 and alert Tech to monitor for TDoS patterns. Watch for delayed escalation or incorrect form use.",
+  "citations": [
+    {
+      "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+      "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+      "headingPath": "Rook County Emergency Communicat… › Section 5 › T-1 Recognize",
+      "quote": "Call takers are often the first to notice. They may feel they cannot hang up on a 911 call. RCECD policy: after 10 seconds of silence, ringing or recorded audio with no response to two prompts, and no",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M5QV3BWAN3C0F4P06WRMQ0DA",
+      "documentTitle": "Rook County Emergency Communications District — Systems, Positions and Radio Description",
+      "headingPath": "Rook County Emergency Communicat… › Section 2",
+      "quote": "| Path | What it carries | Detail | |---|---|---| | SIP trunk group A | 911 voice and text-to-911 from the state ESInet (primary) | 24 simultaneous calls; diverse fiber entrance (north) | | SIP trunk ",
+      "chunkId": 43
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Caller",
+        "voiceStyle": "young male dispatcher, urgent but controlled, Mid-Atlantic accent, slightly faster than normal",
+        "text": "Sup, this is Call Taker 9 on Position 9. I just took a 911 call on SIP trunk group A — it was completely silent. No audio, no background noise, just dead air. It lasted 45 seconds and then dropped. The ANI shows 555-0110. I've never seen anything like it."
+      },
+      {
+        "speaker": "Supervisor",
+        "voiceStyle": "calm female supervisor in her 50s, deliberate, clear enunciation, neutral Midwest tone",
+        "text": "Got it. Confirm it was on SIP trunk group A, not B. Mark the call as 'Silent' in CAD, and log it using form RCECD-F-11. I'll notify Tech to check for TDoS indicators."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QW9W9HRSKPQTRTSW0TBRW1",
+      "kind": "image",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVGFP6X9NTW2ABAXKDF8HC/01M5QW9W9HRSKPQTRTSW0TBRW1.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "9dcdb76ddc8ef770291f5ebae3f14549d264e2111884363ce42fec06e04d3477",
+      "provenance": {
+        "provider": "template",
+        "templateId": "phone_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:15:40.091Z"
+      }
+    },
+    {
+      "id": "01M5QWAP1KDPAZPKSZ50ZASHAS",
+      "kind": "audio",
+      "path": "scenarios/01M5QV3DVS704QY1J242HQ32BS/media/01M5QVGFP6X9NTW2ABAXKDF8HC/01M5QWAP1KDPAZPKSZ50ZASHAS.mp3",
+      "role": "generated",
+      "durationSec": 34.35,
+      "sha256": "8f344319482f90acc0bd65ef070a95f56c42c0f358c55aeffd927757256478ff",
+      "provenance": {
+        "provider": "local-tts-mlx-audio-55f8",
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+        "prompt": "Caller: Sup, this is Call Taker 9 on Position 9. I just took a 911 call on SIP trunk group A — it was completely silent. No audio, no background noise, just dead air. It lasted 45 seconds and then dropped. The ANI shows 555-0110. I've never seen anything like it.\nSupervisor: Got it. Confirm it was on SIP trunk group A, not B. Mark the call as 'Silent' in CAD, and log it using form RCECD-F-11. I'll notify Tech to check for TDoS indicators.",
+        "postFx": [
+          "phone"
+        ],
+        "createdAt": "2026-10-24T21:16:06.581Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:01:56.837Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Silent 911 Call — SIP Trunk Group A",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Rook County Emergency Communications District",
+          "systemName": "CallPoint Voice Recorder - SIP Trunk Group A",
+          "callId": "CR-20261024-183502-0014",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Call Taker 9 (Position 9)",
+            "number": "555-0110",
+            "label": "Caller"
+          },
+          "callee": {
+            "name": "Supervisor (Sup)",
+            "number": "555-0100",
+            "label": "Supervisor"
+          },
+          "startTime": "10/24/2026 18:35:02",
+          "duration": "0:45",
+          "transcript": [
+            {
+              "speaker": "Caller",
+              "offset": "0:00",
+              "text": "Sup, this is Call Taker 9 on Position 9. I just took a 911 call on SIP trunk group A — it was completely silent. No audio, no background noise, just dead air. It lasted 45 seconds and then dropped. The ANI shows 555-0110. I've never seen anything like it.",
+              "prompt": false
+            },
+            {
+              "speaker": "Supervisor",
+              "offset": "0:05",
+              "text": "Got it. Confirm it was on SIP trunk group A, not B. Mark the call as 'Silent' in CAD, and log it using form RCECD-F-11. I'll notify Tech to check for TDoS indicators.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-01"
+        },
+        "instructorNote": "This is the first silent call from a spoofed number. The supervisor must initiate SOP 5.2 and alert Tech to monitor for TDoS patterns. Watch for delayed escalation or incorrect form use.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-24T21:15:39.527Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Silent 911 Call — SIP Trunk Group A",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Rook County Emergency Communications District",
+          "systemName": "CallPoint Voice Recorder - SIP Trunk Group A",
+          "callId": "CR-20261022-183502-0014",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Call Taker 9 (Position 9)",
+            "number": "555-0110",
+            "label": "Caller"
+          },
+          "callee": {
+            "name": "Supervisor (Sup)",
+            "number": "555-0100",
+            "label": "Supervisor"
+          },
+          "startTime": "10/22/2026 18:35:02",
+          "duration": "0:45",
+          "transcript": [
+            {
+              "speaker": "Caller",
+              "offset": "0:00",
+              "text": "Sup, this is Call Taker on Position 3. I just took a 911 call on SIP trunk group A — it was completely silent. No audio, no background noise, just dead air. It lasted 45 seconds and then dropped. The ANI shows 555-0199. I've never seen anything like it.",
+              "prompt": false
+            },
+            {
+              "speaker": "Supervisor",
+              "offset": "0:05",
+              "text": "Got it. Confirm it was on SIP trunk group A, not B. Mark the call as 'Silent' in CAD, and log it using form RCECD-F-11. I'll notify Tech to check for TDoS indicators.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-01"
+        },
+        "instructorNote": "This is the first silent call from a spoofed number. The supervisor must initiate SOP 5.2 and alert Tech to monitor for TDoS patterns. Watch for delayed escalation or incorrect form use.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:16:06.582Z"
+}

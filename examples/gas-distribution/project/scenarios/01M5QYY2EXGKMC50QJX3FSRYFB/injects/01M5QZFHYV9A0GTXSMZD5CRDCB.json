@@ -1,0 +1,201 @@
+{
+  "id": "01M5QZFHYV9A0GTXSMZD5CRDCB",
+  "mselRowId": "I-15",
+  "type": "system_log",
+  "title": "SCADA Auto-Isolation — RCV-01 and RCV-04 Confirmed Closed",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "CVG-SCADA01",
+    "host": "CVG-SCADA01",
+    "ip": "10.72.1.41",
+    "os": "Linux Ubuntu 22.04 LTS",
+    "logSource": "SCADA System / Command Execution Log",
+    "exportedBy": "CVG-SCADA01\\sysadmin",
+    "exportedAt": "01/13/2027 18:50",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "18:13:02",
+        "level": "WARN",
+        "msg": "Command CLOSE RCV-01 issued (source CVG-SCADA01, no operator session)",
+        "highlight": true
+      },
+      {
+        "ts": "18:13:04",
+        "level": "INFO",
+        "msg": "RCV-01 in LOCAL mode: command not executed",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: CVG-SCADA01 Terminal",
+    "command": "tail -n 10 /var/log/scada/execution.log",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This is a core narrative inject confirming the system-wide isolation. The IC must now authorize public notification and phased return to control. Watch for delayed confirmation or hesitation due to trust in SCADA data.",
+  "citations": [
+    {
+      "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+      "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+      "headingPath": "Corwin Valley Gas Company — Cybe… › Section 8",
+      "quote": "| Isolation level | What it means | Who may order it | Consequence | |---|---|---|---| | I-1 | Remote access to OT disabled | Cybersecurity Coordinator (either) | No vendor support; on-call engineers ",
+      "chunkId": 11
+    },
+    {
+      "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+      "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+      "headingPath": "Corwin Valley Gas Company — Gas… › Section 6 › 6.3 Actions",
+      "quote": "1. Gas Control dispatches M&R to the station and the nearest recorder with calibrated field gauges; field gauges govern over SCADA when they disagree. 2. If an overpressure is confirmed or cannot be r",
+      "chunkId": 47
+    },
+    {
+      "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+      "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+      "headingPath": "Corwin Valley Gas Company — Dist… › Section 3",
+      "quote": "| Line | Description | Size / material | MAOP | Route | |---|---|---|---|---| | Line 100 | Supply main from Harlan Road City Gate to the north and central system | 12-inch coated steel | 300 psig | Ha",
+      "chunkId": 22
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QZYN61CDTFAVBNAV7YA4ZJ",
+      "kind": "image",
+      "path": "scenarios/01M5QYY2EXGKMC50QJX3FSRYFB/media/01M5QZFHYV9A0GTXSMZD5CRDCB/01M5QZYN61CDTFAVBNAV7YA4ZJ.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "775378cbc95d7ca6a7ff9f8e6d63a96c389fef00183e16edc01a7fa3fbaef949",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T22:19:26.675Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T22:11:25.768Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SCADA Auto-Isolation — RCV-01 and RCV-04 Confirmed Closed",
+        "type": "system_log",
+        "fields": {
+          "systemName": "CVG-SCADA01",
+          "host": "CVG-SCADA01",
+          "ip": "10.72.1.41",
+          "os": "Linux Ubuntu 22.04 LTS",
+          "logSource": "SCADA System / Command Execution Log",
+          "exportedBy": "CVG-SCADA01\\sysadmin",
+          "exportedAt": "10/24/2026 18:50",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "18:13:17",
+              "level": "INFO",
+              "msg": "Command received: 'close RCV-01' from internal source. Command ID: CVG-SCADA01-CMD-9912. Authorization token: IC-20261024-180015-0043 (valid for 15 min).",
+              "highlight": false
+            },
+            {
+              "ts": "18:13:18",
+              "level": "INFO",
+              "msg": "RCV-01 status updated to 'CLOSED'. Confirmation sent to HMI01, HMI02, HMI03, and field radio network (CH-07).",
+              "highlight": false
+            },
+            {
+              "ts": "18:14:02",
+              "level": "INFO",
+              "msg": "Command received: 'close RCV-04' from internal source. Command ID: CVG-SCADA01-CMD-9913. Authorization token: IC-20261024-180015-0043 (valid for 15 min).",
+              "highlight": false
+            },
+            {
+              "ts": "18:14:03",
+              "level": "INFO",
+              "msg": "RCV-04 status updated to 'CLOSED'. Confirmation sent to HMI01, HMI02, HMI03, and field radio network (CH-07).",
+              "highlight": false
+            },
+            {
+              "ts": "18:14:05",
+              "level": "NOTICE",
+              "msg": "All remote-control valves in Pressure District 7 (RCV-01, RCV-04) now confirmed closed. System-wide isolation of Line 100 and Lateral 7 complete.",
+              "highlight": true
+            },
+            {
+              "ts": "18:14:06",
+              "level": "INFO",
+              "msg": "Pressure at RS-21 and RS-22: 0 in. w.c. on SCADA HMI. Field gauges read 0 in. w.c. (confirmed via radio report from RS-21 tech).",
+              "highlight": false
+            },
+            {
+              "ts": "18:14:07",
+              "level": "INFO",
+              "msg": "Isolation status: FULL. No upstream flow to Pressure District 7. SCADA shows stable zero pressure. No further action required unless a return to control is authorized.",
+              "highlight": false
+            },
+            {
+              "ts": "18:14:08",
+              "level": "ALERT",
+              "msg": "Warning: SCADA HMI01 shows no field gauge connectivity for PR-7B (last update: 17:48). PR-7B telemetry not received since 17:48.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: CVG-SCADA01 Terminal",
+          "command": "tail -n 10 /var/log/scada/execution.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a core narrative inject confirming the system-wide isolation. The IC must now authorize public notification and phased return to control. Watch for delayed confirmation or hesitation due to trust in SCADA data.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-24T22:18:03.480Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SCADA Auto-Isolation — RCV-01 and RCV-04 Confirmed Closed",
+        "type": "system_log",
+        "fields": {
+          "systemName": "CVG-SCADA01",
+          "host": "CVG-SCADA01",
+          "ip": "10.72.1.41",
+          "os": "Linux Ubuntu 22.04 LTS",
+          "logSource": "SCADA System / Command Execution Log",
+          "exportedBy": "CVG-SCADA01\\sysadmin",
+          "exportedAt": "01/13/2027 18:50",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "18:13:02",
+              "level": "WARN",
+              "msg": "Command CLOSE RCV-01 issued (source CVG-SCADA01, no operator session)",
+              "highlight": true
+            },
+            {
+              "ts": "18:13:04",
+              "level": "INFO",
+              "msg": "RCV-01 in LOCAL mode: command not executed",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: CVG-SCADA01 Terminal",
+          "command": "tail -n 10 /var/log/scada/execution.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a core narrative inject confirming the system-wide isolation. The IC must now authorize public notification and phased return to control. Watch for delayed confirmation or hesitation due to trust in SCADA data.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T22:19:26.873Z"
+}

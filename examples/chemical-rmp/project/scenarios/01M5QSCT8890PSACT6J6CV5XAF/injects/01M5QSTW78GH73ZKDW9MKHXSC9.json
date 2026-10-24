@@ -1,0 +1,354 @@
+{
+  "id": "01M5QSTW78GH73ZKDW9MKHXSC9",
+  "mselRowId": "I-11",
+  "type": "system_log",
+  "title": "Triconex SOE Log — ESD-310 Command Mismatch",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "Triconex SIS SOE Log",
+    "host": "TS-EWS-01",
+    "ip": "10.72.1.55",
+    "os": "Windows 10 LTSC (TriStation 1131)",
+    "logSource": "SOE Log / TRI-1 Controller",
+    "exportedBy": "vanand",
+    "exportedAt": "10/22/2026 10:20 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "08:41:22",
+        "level": "INFO",
+        "msg": "TriStation session opened on TS-EWS-01 by rl-support (remote desktop from TVC-JMP-01)",
+        "highlight": true
+      },
+      {
+        "ts": "08:57:59",
+        "level": "WARN",
+        "msg": "TRI-1 key switch position: PROGRAM. Download accepted: application version 2.1.7",
+        "highlight": true
+      },
+      {
+        "ts": "08:57:59",
+        "level": "WARN",
+        "msg": "Running application 2.1.7 differs from archived 2.1.6; no MOC reference",
+        "highlight": true
+      },
+      {
+        "ts": "08:58:12",
+        "level": "ALERT",
+        "msg": "ESD-310 demand from PB-310 (CCR)",
+        "highlight": false
+      },
+      {
+        "ts": "08:58:12",
+        "level": "ERROR",
+        "msg": "ESD-310 output coils: no change of state; status points forced CLOSED",
+        "highlight": true
+      },
+      {
+        "ts": "08:58:40",
+        "level": "ALERT",
+        "msg": "AT-313 3.1 ppm, AT-314 3.4 ppm (Rail Spot 2)",
+        "highlight": false
+      },
+      {
+        "ts": "08:59:05",
+        "level": "INFO",
+        "msg": "SIF-650 not demanded (no building detector above 3 ppm); scrubber C-650 idle",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell — TS-EWS-01",
+    "command": "Get-Content D:\\TriStation\\SOE\\TRI-1_20261022.csv | Select-String \"ESD-310|SIF-650|AT-31|rl-support|2.1.7\"",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "This inject confirms the cyber-attack on the SIS. The OT Engineer must now initiate isolation per C1 and C2, Level 3.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+      "quote": "1. **Do not reset, bypass or download.** Put the affected unit in a safe state by field action: close the hand valves (HV-311 to HV-314 at the rail spots, tank outlet hand valves in the Chlorine Stora",
+      "chunkId": 52
+    },
+    {
+      "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+      "headingPath": "Teague Valley Chemical Company,… › Section 7",
+      "quote": "| Level | Action | Effect | Authority | |---|---|---|---| | 1 | Disable vendor VPN group and shut down TVC-JMP-01 | No remote support | OT Engineer | | 2 | Open FW-OT2 (OT DMZ from business network) |",
+      "chunkId": 55
+    },
+    {
+      "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+      "headingPath": "Teague Valley Chemical Company,… › Section 6 › 6.2 Network zones",
+      "quote": "| Zone | Contents | Connections | |---|---|---| | Level 1–2 Control network | DCS controllers, OWS-01 to OWS-04, EWS-01, TRI-1 and TS-EWS-01 (on a separate SIS segment through firewall FW-SIS) | Only ",
+      "chunkId": 39
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTJKJW38DPJ0YKATMKG8W4",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSTW78GH73ZKDW9MKHXSC9/01M5QTJKJW38DPJ0YKATMKG8W4.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 560,
+      "sha256": "11edd41881714f42bff891fc991f55cecc2720046f54a9882ece23017d5e9fbb",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:28.891Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:32:44.610Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Triconex SOE Log — ESD-310 Command Mismatch",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Triconex SIS SOE Log",
+          "host": "TS-EWS-01",
+          "ip": "10.72.1.55",
+          "os": "Linux (Triconex Real-Time OS)",
+          "logSource": "SOE Log / TRI-1 Controller",
+          "exportedBy": "OT Engineer (TVC-OTSEC-2026)",
+          "exportedAt": "10/24/2026 10:20 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:57:59",
+              "level": "WARN",
+              "msg": "SIF-650: Control path for ESD-310 changed. Running logic v2.1.7 differs from archived v2.1.6. No MOC on file.",
+              "highlight": true
+            },
+            {
+              "ts": "08:58:12",
+              "level": "ERROR",
+              "msg": "ESD-310 command issued to close. Output not detected. SIF-650 did not trigger.",
+              "highlight": true
+            },
+            {
+              "ts": "08:58:12",
+              "level": "ALERT",
+              "msg": "SIF-650: Safety interlock not activated on ESD-310 closure. Output status: OPEN.",
+              "highlight": true
+            },
+            {
+              "ts": "08:58:12",
+              "level": "INFO",
+              "msg": "ESD-310: Manual override disabled. Control path now in software-managed state.",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:12",
+              "level": "INFO",
+              "msg": "SIF-650: Interlock delay timer active. 15-second hold on command execution.",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:12",
+              "level": "NOTICE",
+              "msg": "SOE: ESD-310 command received from DeltaV HMI (OWS-01). Origin: 10.72.1.15.",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:12",
+              "level": "DEBUG",
+              "msg": "SOE: No operator session logged for ESD-310 command. No user ID in audit trail.",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:12",
+              "level": "CRIT",
+              "msg": "SIF-650: Interlock failure detected. Abnormal state: ESD-310 closed in logic but open in field.",
+              "highlight": true
+            },
+            {
+              "ts": "08:58:12",
+              "level": "INFO",
+              "msg": "SIF-650: Control path integrity compromised. No MOC on file for v2.1.7.",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:12",
+              "level": "INFO",
+              "msg": "SIF-650: Controller diagnostics show no hardware fault. All I/O confirmed active.",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:12",
+              "level": "INFO",
+              "msg": "SIF-650: No external network access logged for TS-EWS-01 between 08:57:00 and 08:59:00.",
+              "highlight": false
+            },
+            {
+              "ts": "10:20:00",
+              "level": "INFO",
+              "msg": "SOE export initiated by OT Engineer (TVC-OTSEC-2026) via clean laptop (TVC-OTSEC-2026-001).",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Triconex SIS SOE Log — TS-EWS-01 (TRI-1)",
+          "command": "cat /var/log/sis/soe/20261024/soe-20261024-085812.log | grep -i 'esd-310\\|sif-650\\|mismatch\\|no moc'",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the cyber-attack on the SIS. The OT Engineer must now initiate isolation per C1 and C2, Level 3.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.725Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Triconex SOE Log — ESD-310 Command Mismatch",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Triconex SIS SOE Log",
+          "host": "TS-EWS-01",
+          "ip": "10.72.1.55",
+          "os": "Windows 10 LTSC (TriStation 1131)",
+          "logSource": "SOE Log / TRI-1 Controller",
+          "exportedBy": "OT Engineer (TVC-OTSEC-2026)",
+          "exportedAt": "10/22/2026 10:20 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:41:22",
+              "level": "INFO",
+              "msg": "TriStation session opened on TS-EWS-01 by rl-support (remote desktop from TVC-JMP-01)",
+              "highlight": true
+            },
+            {
+              "ts": "08:57:59",
+              "level": "WARN",
+              "msg": "TRI-1 key switch position: PROGRAM. Download accepted: application version 2.1.7",
+              "highlight": true
+            },
+            {
+              "ts": "08:57:59",
+              "level": "WARN",
+              "msg": "Running application 2.1.7 differs from archived 2.1.6; no MOC reference",
+              "highlight": true
+            },
+            {
+              "ts": "08:58:12",
+              "level": "ALARM",
+              "msg": "ESD-310 demand from PB-310 (CCR)",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:12",
+              "level": "ERROR",
+              "msg": "ESD-310 output coils: no change of state; status points forced CLOSED",
+              "highlight": true
+            },
+            {
+              "ts": "08:58:40",
+              "level": "ALARM",
+              "msg": "AT-313 3.1 ppm, AT-314 3.4 ppm (Rail Spot 2)",
+              "highlight": false
+            },
+            {
+              "ts": "08:59:05",
+              "level": "INFO",
+              "msg": "SIF-650 not demanded (no building detector above 3 ppm); scrubber C-650 idle",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Triconex SIS SOE Log — TS-EWS-01 (TRI-1)",
+          "command": "cat /var/log/sis/soe/20261022/soe-20261022-085812.log | grep -i 'esd-310\\|sif-650\\|mismatch\\|no moc'",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the cyber-attack on the SIS. The OT Engineer must now initiate isolation per C1 and C2, Level 3.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-24T20:45:24.835Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Triconex SOE Log — ESD-310 Command Mismatch",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Triconex SIS SOE Log",
+          "host": "TS-EWS-01",
+          "ip": "10.72.1.55",
+          "os": "Windows 10 LTSC (TriStation 1131)",
+          "logSource": "SOE Log / TRI-1 Controller",
+          "exportedBy": "vanand",
+          "exportedAt": "10/22/2026 10:20 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:41:22",
+              "level": "INFO",
+              "msg": "TriStation session opened on TS-EWS-01 by rl-support (remote desktop from TVC-JMP-01)",
+              "highlight": true
+            },
+            {
+              "ts": "08:57:59",
+              "level": "WARN",
+              "msg": "TRI-1 key switch position: PROGRAM. Download accepted: application version 2.1.7",
+              "highlight": true
+            },
+            {
+              "ts": "08:57:59",
+              "level": "WARN",
+              "msg": "Running application 2.1.7 differs from archived 2.1.6; no MOC reference",
+              "highlight": true
+            },
+            {
+              "ts": "08:58:12",
+              "level": "ALERT",
+              "msg": "ESD-310 demand from PB-310 (CCR)",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:12",
+              "level": "ERROR",
+              "msg": "ESD-310 output coils: no change of state; status points forced CLOSED",
+              "highlight": true
+            },
+            {
+              "ts": "08:58:40",
+              "level": "ALERT",
+              "msg": "AT-313 3.1 ppm, AT-314 3.4 ppm (Rail Spot 2)",
+              "highlight": false
+            },
+            {
+              "ts": "08:59:05",
+              "level": "INFO",
+              "msg": "SIF-650 not demanded (no building detector above 3 ppm); scrubber C-650 idle",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell — TS-EWS-01",
+          "command": "Get-Content D:\\TriStation\\SOE\\TRI-1_20261022.csv | Select-String \"ESD-310|SIF-650|AT-31|rl-support|2.1.7\"",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the cyber-attack on the SIS. The OT Engineer must now initiate isolation per C1 and C2, Level 3.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:29.174Z"
+}

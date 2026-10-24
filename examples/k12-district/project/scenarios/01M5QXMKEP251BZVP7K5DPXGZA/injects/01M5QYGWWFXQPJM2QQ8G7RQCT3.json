@@ -1,0 +1,202 @@
+{
+  "id": "01M5QYGWWFXQPJM2QQ8G7RQCT3",
+  "mselRowId": "I-18",
+  "type": "siem_alert",
+  "title": "DNS Tunneling — HUSD-VPN01 to External IP",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "product": "Sentinel Point SIEM",
+    "tenant": "Halverson Unified School District",
+    "alertId": "ALR-2026-10240810",
+    "severity": "high",
+    "riskScore": 89,
+    "rule": "DNS Tunneling — Large Outbound Data Transfer via UDP Port 5353",
+    "ruleDescription": "A sustained, high-volume DNS query pattern from HUSD-FS02 (10.72.10.10) to external IP 192.168.100.42 via UDP port 5353, lasting 18 minutes and transferring 1.7 GB of data, indicates a potential data exfiltration attempt using DNS tunneling.",
+    "status": "New",
+    "assignee": "Unassigned",
+    "firstSeen": "2026-10-24 07:39:12",
+    "lastSeen": "2026-10-24 07:57:12",
+    "eventCount": 1427,
+    "source": {
+      "host": "HUSD-FS02",
+      "ip": "10.72.10.10",
+      "user": "admin_husd",
+      "zone": "Internal"
+    },
+    "dest": {
+      "host": "192.168.100.42",
+      "ip": "192.168.100.42",
+      "service": "DNS Tunnel",
+      "zone": "External"
+    },
+    "tactics": [
+      "T1071 Application Layer Protocol",
+      "T1048 Exfiltration Over Command and Control Channel"
+    ],
+    "details": [
+      {
+        "key": "Protocol",
+        "value": "UDP"
+      },
+      {
+        "key": "Port",
+        "value": "5353"
+      },
+      {
+        "key": "Payload Size",
+        "value": "1.7 GB"
+      },
+      {
+        "key": "Duration",
+        "value": "18 min"
+      },
+      {
+        "key": "Source Zone",
+        "value": "Internal"
+      },
+      {
+        "key": "Destination Zone",
+        "value": "External"
+      }
+    ],
+    "rawEvent": "2026-10-24T07:39:12Z HUSD-VH02 SIEM: DNS tunneling detected - HUSD-FS02 (10.72.10.10) → 192.168.100.42 (external) via UDP port 5353. 1.7 GB transferred over 18 min. Source: HUSD-FS02 (10.72.10.10). Protocol: DNS tunneling. Alert: High.",
+    "relatedAlerts": [
+      {
+        "time": "2026-10-24 07:32:11",
+        "title": "Ransomware Encryption Detected — HUSD-FS02",
+        "severity": "high"
+      },
+      {
+        "time": "2026-10-24 07:38:02",
+        "title": "Spoofed 911 Call — Halverson High School",
+        "severity": "critical"
+      }
+    ],
+    "analyst": "it.oncall"
+  },
+  "instructorNote": "This alert confirms data exfiltration via DNS tunneling, a key indicator of a sustained breach. The CTO must immediately validate this pattern against HUSD-CIRP-2026 Section 6.2 and initiate legal and DFIR engagement procedures.",
+  "citations": [
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+      "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+      "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+      "headingPath": "Halverson Unified School Distric… › Section 5",
+      "quote": "1. Technical Lead confirms the alert with MDR; opens an incident record (CIRP Form 1) with times. 2. Incident Lead decides severity; for S3 or S4 calls the Director of School Safety and General Counse",
+      "chunkId": 7
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QYNA9VMT4QJ3D242RPG6TK",
+      "kind": "image",
+      "path": "scenarios/01M5QXMKEP251BZVP7K5DPXGZA/media/01M5QYGWWFXQPJM2QQ8G7RQCT3/01M5QYNA9VMT4QJ3D242RPG6TK.png",
+      "role": "rendered",
+      "width": 1280,
+      "height": 829,
+      "sha256": "242f50bb1aa913a440821d78556ffc88125c5dbd34f0475569ce0e96f6a4c2a5",
+      "provenance": {
+        "provider": "template",
+        "templateId": "siem_alert",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T21:56:51.991Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T21:54:46.148Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "DNS Tunneling — HUSD-VPN01 to External IP",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Halverson Unified School District",
+          "alertId": "ALR-2026-10240810",
+          "severity": "high",
+          "riskScore": 89,
+          "rule": "DNS Tunneling — Large Outbound Data Transfer via UDP Port 5353",
+          "ruleDescription": "A sustained, high-volume DNS query pattern from HUSD-FS02 (10.72.10.10) to external IP 192.168.100.42 via UDP port 5353, lasting 18 minutes and transferring 1.7 GB of data, indicates a potential data exfiltration attempt using DNS tunneling.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "2026-10-24 07:39:12",
+          "lastSeen": "2026-10-24 07:57:12",
+          "eventCount": 1427,
+          "source": {
+            "host": "HUSD-FS02",
+            "ip": "10.72.10.10",
+            "user": "admin_husd",
+            "zone": "Internal"
+          },
+          "dest": {
+            "host": "192.168.100.42",
+            "ip": "192.168.100.42",
+            "service": "DNS Tunnel",
+            "zone": "External"
+          },
+          "tactics": [
+            "T1071 Application Layer Protocol",
+            "T1048 Exfiltration Over Command and Control Channel"
+          ],
+          "details": [
+            {
+              "key": "Protocol",
+              "value": "UDP"
+            },
+            {
+              "key": "Port",
+              "value": "5353"
+            },
+            {
+              "key": "Payload Size",
+              "value": "1.7 GB"
+            },
+            {
+              "key": "Duration",
+              "value": "18 min"
+            },
+            {
+              "key": "Source Zone",
+              "value": "Internal"
+            },
+            {
+              "key": "Destination Zone",
+              "value": "External"
+            }
+          ],
+          "rawEvent": "2026-10-24T07:39:12Z HUSD-VH02 SIEM: DNS tunneling detected - HUSD-FS02 (10.72.10.10) → 192.168.100.42 (external) via UDP port 5353. 1.7 GB transferred over 18 min. Source: HUSD-FS02 (10.72.10.10). Protocol: DNS tunneling. Alert: High.",
+          "relatedAlerts": [
+            {
+              "time": "2026-10-24 07:32:11",
+              "title": "Ransomware Encryption Detected — HUSD-FS02",
+              "severity": "high"
+            },
+            {
+              "time": "2026-10-24 07:38:02",
+              "title": "Spoofed 911 Call — Halverson High School",
+              "severity": "critical"
+            }
+          ],
+          "analyst": "it.oncall"
+        },
+        "instructorNote": "This alert confirms data exfiltration via DNS tunneling, a key indicator of a sustained breach. The CTO must immediately validate this pattern against HUSD-CIRP-2026 Section 6.2 and initiate legal and DFIR engagement procedures.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T21:56:52.157Z"
+}

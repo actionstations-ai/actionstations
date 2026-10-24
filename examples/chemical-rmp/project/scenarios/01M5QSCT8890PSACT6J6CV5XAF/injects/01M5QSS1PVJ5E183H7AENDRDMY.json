@@ -1,0 +1,188 @@
+{
+  "id": "01M5QSS1PVJ5E183H7AENDRDMY",
+  "mselRowId": "I-06",
+  "type": "radio_call",
+  "title": "Gate 1 Entry Attempt — Unauthorized Truck",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Teague Valley Chemical Company",
+    "centerName": "Corbin Falls Works Operations Center",
+    "channel": "SEC 2",
+    "frequency": "TG 7003 / 450.120 MHz",
+    "date": "10/22/2026",
+    "callsign": "Gate 1",
+    "lines": [
+      {
+        "time": "09:35",
+        "from": "Gate 1 Officer",
+        "to": "FSO",
+        "text": "FSO, this is Gate 1 Officer. A truck driver in a 2017 Peterbilt with a Virginia license plate is trying to enter with a no-authorization sticker on his manifest. He says he's from 'ClearFlow Logistics' and needs to deliver to Dock 1. His ID doesn't match the system."
+      },
+      {
+        "time": "09:35",
+        "from": "FSO",
+        "to": "Gate 1 Officer",
+        "text": "Copy, Gate 1. Hold the vehicle. I'm checking the manifest against the pre-approval list now."
+      }
+    ],
+    "background": "ramp",
+    "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+    "audioFile": "I-06_radio.wav",
+    "duration": "0:12",
+    "injectId": "I-06"
+  },
+  "variant": "default",
+  "instructorNote": "Noise inject; the FSO should verify the manifest and deny entry, but not escalate unless challenged.",
+  "citations": [
+    {
+      "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+      "headingPath": "RMP › Section 5 › 5.2 What the first call says",
+      "quote": "\"This is the Teague Valley Chemical Corbin Falls Works, 2200 River Terminal Road. We have a chlorine release at [location] since [time]. Wind is from [direction] at [speed]. We are sounding the commun",
+      "chunkId": 11
+    },
+    {
+      "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+      "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+      "headingPath": "Teague Valley Chemical Company,… › Section 7",
+      "quote": "| Detectors | Location | Alarm / trip | |---|---|---| | AT-311 to AT-318 | Rail Spot 1 to Rail Spot 4 (two per spot) | 1 ppm alarm, 3 ppm ESD-310 | | AT-321 to AT-326 | Chlorine Storage Building and D",
+      "chunkId": 41
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Gate 2 Supervisor",
+        "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+        "text": "FSO, this is Gate 2 Supervisor. A truck driver in a 2017 Peterbilt with a Virginia license plate is trying to enter with a no-authorization sticker on his manifest. He says he's from 'ClearFlow Logistics' and needs to deliver to Dock 1. His ID doesn't match the system."
+      },
+      {
+        "speaker": "FSO",
+        "voiceStyle": "Calm female dispatcher in her 40s, measured, slight Midwestern accent",
+        "text": "Copy, Gate 2. Hold the vehicle. I'm checking the manifest against the pre-approval list now."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5QTGSVHS8XSSDB3GGK12A8V",
+      "kind": "audio",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSS1PVJ5E183H7AENDRDMY/01M5QTGSVHS8XSSDB3GGK12A8V.mp3",
+      "role": "generated",
+      "durationSec": 25.55,
+      "sha256": "a06f422fd4089b4248d7b3080f2e398a757dc658c042ec82f25f4b8b7cf1ff2c",
+      "provenance": {
+        "provider": "local-tts-mlx-audio-b2c3",
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16",
+        "prompt": "Gate 2 Supervisor: FSO, this is Gate 2 Supervisor. A truck driver in a 2017 Peterbilt with a Virginia license plate is trying to enter with a no-authorization sticker on his manifest. He says he's from 'ClearFlow Logistics' and needs to deliver to Dock 1. His ID doesn't match the system.\nFSO: Copy, Gate 2. Hold the vehicle. I'm checking the manifest against the pre-approval list now.",
+        "postFx": [
+          "radio"
+        ],
+        "createdAt": "2026-10-24T20:44:29.941Z"
+      }
+    },
+    {
+      "id": "01M5QTJHSA8476DH5QKXJBG5K7",
+      "kind": "image",
+      "path": "scenarios/01M5QSCT8890PSACT6J6CV5XAF/media/01M5QSS1PVJ5E183H7AENDRDMY/01M5QTJHSA8476DH5QKXJBG5K7.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "25e94b696e258683babbc1e593fcb5d6011e5bd397b2c6ab112736ff4f15fb71",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-24T20:45:27.058Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-24T20:31:47.786Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Gate 2 Entry Attempt — Unauthorized Truck",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Teague Valley Chemical Company",
+          "centerName": "Corbin Falls Works Operations Center",
+          "channel": "SEC 2",
+          "frequency": "TG 7003 / 450.120 MHz",
+          "date": "10/24/2026",
+          "callsign": "Gate 2 Supv",
+          "lines": [
+            {
+              "time": "09:35",
+              "from": "Gate 2 Supervisor",
+              "to": "FSO",
+              "text": "FSO, this is Gate 2 Supervisor. A truck driver in a 2017 Peterbilt with a Virginia license plate is trying to enter with a no-authorization sticker on his manifest. He says he's from 'ClearFlow Logistics' and needs to deliver to Dock 1. His ID doesn't match the system."
+            },
+            {
+              "time": "09:35",
+              "from": "FSO",
+              "to": "Gate 2 Supervisor",
+              "text": "Copy, Gate 2. Hold the vehicle. I'm checking the manifest against the pre-approval list now."
+            }
+          ],
+          "background": "ramp",
+          "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+          "audioFile": "I-06_radio.wav",
+          "duration": "0:12",
+          "injectId": "I-06"
+        },
+        "instructorNote": "Noise inject; the FSO should verify the manifest and deny entry, but not escalate unless challenged.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-24T20:43:38.677Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Gate 1 Entry Attempt — Unauthorized Truck",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Teague Valley Chemical Company",
+          "centerName": "Corbin Falls Works Operations Center",
+          "channel": "SEC 2",
+          "frequency": "TG 7003 / 450.120 MHz",
+          "date": "10/22/2026",
+          "callsign": "Gate 1",
+          "lines": [
+            {
+              "time": "09:35",
+              "from": "Gate 1 Officer",
+              "to": "FSO",
+              "text": "FSO, this is Gate 1 Officer. A truck driver in a 2017 Peterbilt with a Virginia license plate is trying to enter with a no-authorization sticker on his manifest. He says he's from 'ClearFlow Logistics' and needs to deliver to Dock 1. His ID doesn't match the system."
+            },
+            {
+              "time": "09:35",
+              "from": "FSO",
+              "to": "Gate 1 Officer",
+              "text": "Copy, Gate 1. Hold the vehicle. I'm checking the manifest against the pre-approval list now."
+            }
+          ],
+          "background": "ramp",
+          "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+          "audioFile": "I-06_radio.wav",
+          "duration": "0:12",
+          "injectId": "I-06"
+        },
+        "instructorNote": "Noise inject; the FSO should verify the manifest and deny entry, but not escalate unless challenged.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-24T20:45:27.331Z"
+}
