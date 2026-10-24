@@ -11,7 +11,7 @@ import {
   registerAppScheme,
   rendererRoot,
 } from './lib/app-protocol'
-import { openPathsFromArgv, requestOpen } from './lib/open-requests'
+import { openPathsFromArgv, openSecondInstancePaths, requestOpen } from './lib/open-requests'
 import { registerMediaProtocol, registerMediaScheme } from './lib/media-protocol'
 import { appDataDir, documentsDir, resourcesDir } from './lib/paths'
 import { APP_NAME, migrateUserData } from './lib/rename-migration'
@@ -125,7 +125,21 @@ app.on('open-file', (e, path) => {
 })
 for (const path of openPathsFromArgv(process.argv.slice(1))) requestOpen(path)
 
+// One instance per user-data folder (#297): on Windows and Linux, opening a project folder or
+// an .aspack while the app runs starts a second process with the path in argv; it hands the
+// path to the running window and quits. Isolated runs (TTX_USER_DATA) each hold their own lock.
+const isPrimaryInstance = app.requestSingleInstanceLock()
+if (!isPrimaryInstance) app.exit(0)
+app.on('second-instance', (_e, argv) => {
+  openSecondInstancePaths(argv, () => {
+    if (!mainWindow) return
+    if (mainWindow.isMinimized()) mainWindow.restore()
+    if (!process.env.TTX_HEADLESS) mainWindow.focus()
+  })
+})
+
 void app.whenReady().then(async () => {
+  if (!isPrimaryInstance) return
   // No camera/mic/geolocation/notifications etc. for any web content.
   session.defaultSession.setPermissionRequestHandler((_wc, _perm, cb) => cb(false))
   session.defaultSession.setPermissionCheckHandler(() => false)

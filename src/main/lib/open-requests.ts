@@ -42,6 +42,15 @@ export function requestOpen(path: string): void {
   else projects.pending.push(path)
 }
 
+/**
+ * A second launch (#297) handed its command line to this instance: open what it names and
+ * bring the window forward. Electron passes the second process's full argv, executable first.
+ */
+export function openSecondInstancePaths(argv: readonly string[], focus: () => void): void {
+  for (const path of openPathsFromArgv(argv.slice(1))) requestOpen(path)
+  focus()
+}
+
 /** The renderer calls this once at start: returns the queued folders and listens from now. */
 export function takePendingOpens(): string[] {
   projects.listening = true

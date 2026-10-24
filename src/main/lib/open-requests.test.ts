@@ -14,6 +14,7 @@ const {
   isPackFilePath,
   isProjectFolderPath,
   openPathsFromArgv,
+  openSecondInstancePaths,
   projectPathsFromArgv,
   requestOpen,
   resetOpenRequests,
@@ -68,5 +69,27 @@ describe('open requests', () => {
     expect(takePendingPackOpens()).toEqual(['/d/rail.aspack', '/d/second.aspack'])
     requestOpen('/d/third.aspack')
     expect(sent).toEqual([['event:app:open-pack', { path: '/d/third.aspack' }]])
+  })
+
+  it('opens what a second launch names in this window and focuses it (#297)', () => {
+    takePendingOpens()
+    takePendingPackOpens()
+    const focus = vi.fn()
+    openSecondInstancePaths(
+      ['/Applications/Action Stations', '/d/rail.aspack', '/p/A.asproj'],
+      focus,
+    )
+    expect(sent).toEqual([
+      ['event:app:open-pack', { path: '/d/rail.aspack' }],
+      ['event:app:open-project', { path: '/p/A.asproj' }],
+    ])
+    expect(focus).toHaveBeenCalledOnce()
+  })
+
+  it('a second launch with nothing to open only focuses the window', () => {
+    const focus = vi.fn()
+    openSecondInstancePaths(['/Applications/Action Stations', '--flag'], focus)
+    expect(takePendingOpens()).toEqual([])
+    expect(focus).toHaveBeenCalledOnce()
   })
 })
