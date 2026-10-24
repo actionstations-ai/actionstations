@@ -3,6 +3,11 @@ import { channel } from './define'
 import { SafeId } from '../schemas/common'
 import { Brand } from '../schemas/project'
 import { MediaAsset } from '../schemas/media'
+import { PackCopyState } from '../schemas/project-packs'
+
+/** Template layer (ADR-0018): project > user > pack > built-in. */
+export const TemplateSource = z.enum(['project', 'user', 'pack', 'builtin'])
+export type TemplateSource = z.infer<typeof TemplateSource>
 
 export const TemplateInfo = z.object({
   type: z.string(),
@@ -15,11 +20,25 @@ export const TemplateInfo = z.object({
   variants: z.array(z.string()).default([]),
   width: z.number().int(),
   height: z.number().int().optional(),
+  /** Layer the template comes from. */
+  source: TemplateSource,
+  /** A pack template, or a project copy of one: the pack it came from. */
+  packId: z.string().optional(),
+  packVersion: z.string().optional(),
+  packName: z.string().optional(),
+  /** The lower layer this template shadows ("replaces built-in tweet template"). */
+  replaces: TemplateSource.optional(),
+  /** Project copies of pack templates: edited / pack missing / update available. */
+  copy: PackCopyState.optional(),
 })
 export type TemplateInfo = z.infer<typeof TemplateInfo>
 
 export const renderChannels = {
-  'templates:list': channel(z.void(), z.array(TemplateInfo)),
+  /** Templates as a project sees them (projectPath) or without a project: user, packs, built-in. */
+  'templates:list': channel(
+    z.object({ projectPath: z.string().optional() }).optional(),
+    z.array(TemplateInfo),
+  ),
   'render:preview': channel(
     z.object({
       type: z.string(),

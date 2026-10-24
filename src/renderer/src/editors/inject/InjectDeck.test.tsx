@@ -67,6 +67,7 @@ const TEMPLATES: TemplateInfo[] = [
   {
     type: 'tweet',
     label: 'Social post (X-style)',
+    source: 'builtin',
     version: '1',
     schema: tweetSchema as Record<string, unknown>,
     preview: {},

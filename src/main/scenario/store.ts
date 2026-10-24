@@ -16,6 +16,7 @@ import { emit } from '../lib/events'
 import { ensureDir, exists, readJson, safeJoin, writeFileAtomic, writeJsonAtomic } from '../lib/fs'
 import { newId, nowIso } from '../lib/ids'
 import { loadProject, updateProject } from '../project/store'
+import { adoptPackTemplateQuietly } from '../render/template-copies'
 import { assertNotGenerating } from './busy'
 import { appendHistory } from './history'
 import { scenarioLayout, withScenarioLock } from './layout'
@@ -236,6 +237,8 @@ export async function saveInject(
     const parsed = Inject.safeParse(withVersion({ ...inject, updatedAt: at }, opts, at))
     if (!parsed.success) throw new AppError('VALIDATION', 'Invalid inject', parsed.error.issues)
     await writeJsonAtomic(layout.inject(parsed.data.id), parsed.data)
+    // Copy-on-use: an inject of a pack template type takes the template into the project.
+    await adoptPackTemplateQuietly(projectPath, parsed.data.type)
     emit('project:changed', { path: projectPath, what: 'injects', scenarioId })
     return parsed.data
   })

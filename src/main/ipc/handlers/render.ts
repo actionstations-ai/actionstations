@@ -4,7 +4,8 @@ import { loadProject } from '../../project/store'
 import { brandLogoFile } from '../../project/logo'
 import { composeDocument } from '../../render/compose'
 import { injectSlotFiles, renderAndSaveInject } from '../../render/inject'
-import { listTemplateTypes, loadTemplate, templateInfo } from '../../render/templates'
+import { ensurePacksLoaded } from '../../packs/state'
+import { listTemplateInfos } from '../../render/template-copies'
 import { renderPng } from '../../render/window'
 import { assertNotGenerating } from '../../scenario/busy'
 
@@ -20,18 +21,21 @@ interface PreviewContext {
  * Slots without an AI image keep the template's sample image.
  */
 async function previewContext(req: PreviewContext) {
-  if (!req.projectPath) return { brand: undefined, logo: undefined, assets: {} }
+  if (!req.projectPath) return { brand: undefined, logo: undefined, assets: {}, root: undefined }
   const root = await requireProject(req.projectPath)
   const brand = (await loadProject(root)).brand
   const assets =
     req.scenarioId && req.injectId
       ? await injectSlotFiles(root, req.scenarioId, req.injectId, req.type)
       : {}
-  return { brand, logo: await brandLogoFile(root, brand), assets }
+  return { brand, logo: await brandLogoFile(root, brand), assets, root }
 }
 
 export default defineHandlers({
-  'templates:list': () => listTemplateTypes().map((t) => templateInfo(loadTemplate(t))),
+  'templates:list': async (req) => {
+    await ensurePacksLoaded()
+    return listTemplateInfos(req?.projectPath ? await requireProject(req.projectPath) : undefined)
+  },
 
   'render:preview': async (req) => {
     const { type, fields, brand, variant, scale } = req
@@ -45,6 +49,8 @@ export default defineHandlers({
         ...(ctx.logo ? { logo: ctx.logo } : {}),
         ...(variant ? { variant } : {}),
         assets: ctx.assets,
+        // The project's layer applies (its copies of pack templates, its own folders).
+        ...(ctx.root ? { projectRoot: ctx.root } : {}),
       },
       { previewAssets: true },
     )

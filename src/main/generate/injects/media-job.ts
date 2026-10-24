@@ -132,10 +132,10 @@ async function replaceAssets(
  */
 function fieldsForRender(step: StepContext, current: Inject, out: RenderOutcome): Inject {
   const { templates } = step.deps
-  if (!templates.listTemplateTypes().includes(current.type)) return current
+  if (!templates.listTemplateTypes(step.root).includes(current.type)) return current
   const fields = structuredClone(current.fields)
-  const repairs = templates.validateFields(current.type, fields).length
-    ? repairFields(templates.loadTemplate(current.type).schema, fields)
+  const repairs = templates.validateFields(current.type, fields, step.root).length
+    ? repairFields(templates.loadTemplate(current.type, step.root).schema, fields)
     : []
   if (repairs.length) {
     out.repairs.push(...repairs)
@@ -145,7 +145,7 @@ function fieldsForRender(step: StepContext, current: Inject, out: RenderOutcome)
       { stage: 'media_render', itemId: current.id },
     )
   }
-  const issues = templates.validateFields(current.type, fields)
+  const issues = templates.validateFields(current.type, fields, step.root)
   if (issues.length) {
     const list = issues.map((i) => `fields${i.path}: ${i.message}`).join('; ')
     throw new AppError(
@@ -300,9 +300,9 @@ interface InjectWork {
 }
 
 function imageSlotFor(env: InjectEnv, inject: Inject, scenario: Scenario): string | undefined {
-  const types = env.deps.templates.listTemplateTypes()
+  const types = env.deps.templates.listTemplateTypes(env.root)
   const template = types.includes(inject.type)
-    ? env.deps.templates.loadTemplate(inject.type)
+    ? env.deps.templates.loadTemplate(inject.type, env.root)
     : undefined
   return planMedia(inject, rowOf(scenario, inject), template).imageSlot
 }

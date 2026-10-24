@@ -41,6 +41,7 @@ const inject = (type: string, mselRowId: string, fields: Record<string, unknown>
 const template = (type: string, imageSlots: string[] = []): LoadedTemplate =>
   ({
     dir: '/tmp/x',
+    source: 'builtin',
     meta: {
       type,
       label: type,

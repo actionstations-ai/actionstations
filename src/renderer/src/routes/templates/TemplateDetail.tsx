@@ -4,6 +4,7 @@ import type { TemplateInfo } from '@shared/ipc'
 import { Badge, Button } from '../../components/ui'
 import { CATEGORY_LABELS, categoryOf, schemaFields, variantsOf } from './gallery'
 import { TemplatePreview } from './TemplatePreview'
+import { templateProvenance } from '../../lib/template-source'
 
 function VariantSwitcher(props: {
   variants: string[]
@@ -87,6 +88,12 @@ export function TemplateDetail(props: { template: TemplateInfo; onBack: () => vo
             <Badge>v{template.version}</Badge>
           </div>
           <dl className="tpl-meta">
+            {templateProvenance(template) && (
+              <div>
+                <dt>Source</dt>
+                <dd>{templateProvenance(template)}</dd>
+              </div>
+            )}
             <div>
               <dt>Type id</dt>
               <dd>

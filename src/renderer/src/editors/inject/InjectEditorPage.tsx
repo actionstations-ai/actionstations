@@ -189,7 +189,7 @@ export default function InjectEditorPage() {
     { projectPath, scenarioId },
     { enabled: !!scenarioId },
   )
-  const templates = useIpcQuery('templates:list', undefined, { staleTime: Infinity })
+  const templates = useIpcQuery('templates:list', { projectPath }, { staleTime: Infinity })
   const error = inject.error ?? scenario.error ?? templates.error
   if (error)
     return (

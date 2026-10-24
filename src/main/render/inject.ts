@@ -29,6 +29,7 @@ import { loadProject, projectPaths } from '../project/store'
 import { scenarioLayout } from '../scenario/layout'
 import { saveInject } from '../scenario/store'
 import { composeDocument } from './compose'
+import { adoptPackTemplate } from './template-copies'
 import { loadTemplate, validateFields, type TemplateMeta } from './templates'
 import { renderPdf, renderPng } from './window'
 
@@ -129,11 +130,11 @@ export async function injectSlotFiles(
   const file = scenarioLayout(root, scenarioId).inject(injectId)
   if (!(await exists(file))) return {}
   const inject = await readJson(file, Inject)
-  return resolveSlotFiles(root, slotAssets(inject.assets, loadTemplate(type).meta))
+  return resolveSlotFiles(root, slotAssets(inject.assets, loadTemplate(type, root).meta))
 }
 
-function assertValidFields(inject: Inject): void {
-  const issues = validateFields(inject.type, inject.fields)
+function assertValidFields(root: string, inject: Inject): void {
+  const issues = validateFields(inject.type, inject.fields, root)
   if (!issues.length) return
   const list = issues.map((i) => `${i.path} ${i.message}`).join('; ')
   throw new AppError(
@@ -165,13 +166,16 @@ export async function renderInjectAssets(
   inject: Inject,
   opts: RenderInjectOptions = {},
 ): Promise<RenderedInject> {
-  const template = loadTemplate(inject.type)
-  assertValidFields(inject)
+  // Copy-on-use: rendering a pack template type takes the template into the project first.
+  await adoptPackTemplate(root, inject.type)
+  const template = loadTemplate(inject.type, root)
+  assertValidFields(root, inject)
   const slotFiles = await resolveSlotFiles(root, slotAssets(inject.assets, template.meta))
   const variant = variantFor(template.meta, inject.variant)
   const logo = await brandLogoFile(root, opts.brand)
   const doc = composeDocument({
     type: inject.type,
+    projectRoot: root,
     fields: inject.fields,
     ...(opts.brand ? { brand: opts.brand } : {}),
     ...(logo ? { logo } : {}),

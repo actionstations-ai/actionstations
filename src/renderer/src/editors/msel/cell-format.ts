@@ -2,7 +2,8 @@
 import type { Role } from '@shared/schemas/project'
 import { exerciseMinutes, type Citation } from '@shared/schemas/common'
 import type { LintWarning, MselRow } from '@shared/schemas/scenario'
-import { INJECT_TYPES, injectTypeInfo } from '@shared/taxonomy'
+import { injectTypeInfo, injectTypes, type InjectTypeInfo } from '@shared/taxonomy'
+import { injectTypeSourceLabel } from '../../lib/template-source'
 import type { CitationItem, ListOption } from './CellEditors'
 import { parseExerciseTime } from './model'
 
@@ -54,14 +55,21 @@ export const roleOptions = (roles: Role[]): ListOption[] => [
   })),
 ]
 
-export const FORMAT_OPTIONS: ListOption[] = [
-  { value: '', label: 'None' },
-  ...INJECT_TYPES.map((t) => ({
-    value: t.id,
-    label: t.label,
-    hint: `${t.category} · ${t.render.includes('template') ? 'template' : t.render.join(', ')}`,
-  })),
-]
+/** Format choices: built-in types, then those user and pack templates add (#261). */
+export function formatOptions(types: readonly InjectTypeInfo[] = injectTypes()): ListOption[] {
+  return [
+    { value: '', label: 'None' },
+    ...types.map((t) => {
+      const source = injectTypeSourceLabel(t)
+      const render = t.render.includes('template') ? 'template' : t.render.join(', ')
+      return {
+        value: t.id,
+        label: t.label,
+        hint: `${t.category} · ${render}${source ? ` · ${source}` : ''}`,
+      }
+    }),
+  ]
+}
 
 export const formatLabel = (format?: string): string =>
   format ? (injectTypeInfo(format)?.label ?? format) : '—'

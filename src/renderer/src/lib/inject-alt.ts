@@ -1,10 +1,10 @@
 // Text alternatives for rendered inject media (#49): the inject title and its type, so a
 // screen-reader user hears "Gate B4 shows Miami — FIDS board" rather than "Inject".
-import { INJECT_TYPES } from '@shared/taxonomy'
+import { injectTypeInfo } from '@shared/taxonomy'
 
 export function injectTypeLabel(type: string | undefined): string | undefined {
   if (!type) return undefined
-  return INJECT_TYPES.find((t) => t.id === type)?.label ?? type
+  return injectTypeInfo(type)?.label ?? type
 }
 
 /** "<title> — <type label>[, <detail>]"; falls back to the MSEL row id when untitled. */

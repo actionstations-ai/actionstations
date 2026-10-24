@@ -26,6 +26,7 @@ const TIME_JUMP: TemplateInfo = {
   variants: ['default'],
   width: 816,
   height: 1056,
+  source: 'builtin',
 }
 
 const TWEET: TemplateInfo = {
@@ -37,6 +38,7 @@ const TWEET: TemplateInfo = {
   paper: false,
   variants: ['light', 'dark'],
   width: 600,
+  source: 'builtin',
 }
 
 const FIDS: TemplateInfo = { ...TWEET, type: 'fids_board', label: 'FIDS board', variants: [] }
@@ -99,6 +101,49 @@ describe('TemplatesPage', () => {
     expect(img.getAttribute('src')).toContain('tweet-dark')
     await user.click(within(detail).getByRole('button', { name: /All templates/ }))
     expect(await screen.findByRole('list', { name: '2 templates' })).toBeTruthy()
+  })
+
+  it('lists pack and project templates with a plain text source (#261)', async () => {
+    useProjectUi.setState({ projectPath: PROJECT })
+    const PACK_TWEET: TemplateInfo = {
+      ...TWEET,
+      source: 'pack',
+      packId: 'org.example.social',
+      packVersion: '1.0.0',
+      packName: 'Social Extras',
+      replaces: 'builtin',
+    }
+    const BOARD: TemplateInfo = {
+      ...TWEET,
+      type: 'rail_dispatch_board',
+      label: 'Rail dispatch board',
+      variants: [],
+      source: 'project',
+      packId: 'ai.actionstations.freight-rail',
+      packVersion: '1.0.0',
+      packName: 'Freight Rail Operations',
+      copy: { edited: true, packMissing: true, updateAvailable: false },
+    }
+    const ttx = mockTtx({
+      'templates:list': () => [PACK_TWEET, BOARD],
+      'render:preview': () => ({ dataUrl: 'data:image/png;base64,x', width: 1, height: 1 }),
+      'project:get': () => ({ path: PROJECT, project: { orgType: 'airport' } }) as never,
+    })
+    renderAt('/templates', '/templates', TemplatesPage)
+    const grid = await screen.findByRole('list', { name: '2 templates' })
+    expect(within(grid).getByText('Social Extras pack · replaces built-in')).toBeTruthy()
+    expect(
+      within(grid).getByText(
+        'project copy from Freight Rail Operations, edited, pack not installed',
+      ),
+    ).toBeTruthy()
+    expect(ttx.calls('templates:list')).toContainEqual({ projectPath: PROJECT })
+    // The project's template previews through the project's layer.
+    await waitFor(() =>
+      expect(ttx.calls('render:preview')).toContainEqual(
+        expect.objectContaining({ type: 'rail_dispatch_board', projectPath: PROJECT }),
+      ),
+    )
   })
 
   it('shows render errors in place of the preview', async () => {

@@ -3,7 +3,7 @@
 import type { MselRow, Project, Role, Scenario, ScenarioIdea } from '@shared/schemas'
 import type { DomainProfile } from '@shared/domains'
 import {
-  INJECT_TYPES,
+  injectTypes,
   injectTypesForDomain,
   PURPOSE_TAG_INFO,
   PURPOSE_TAGS,
@@ -55,7 +55,10 @@ const typeVars = (types: readonly InjectTypeInfo[]) =>
 
 export const taxonomyVars = {
   purposeTags: PURPOSE_TAGS.map((tag) => ({ tag, ...PURPOSE_TAG_INFO[tag] })),
-  injectTypes: typeVars(INJECT_TYPES),
+  /** Built-in types plus those user and pack templates register (ADR-0018). */
+  get injectTypes() {
+    return typeVars(injectTypes())
+  },
 }
 
 /** The taxonomy as a domain sees it: its preferred types first, other-domain types left out. */

@@ -142,7 +142,7 @@ function templateVars(env: InjectEnv, choice: TypeChoice) {
   if (!choice.hasTemplate) {
     return { hasTemplate: false, fieldSchema: '', keyFields: KEY_FIELDS[choice.type] ?? 'text' }
   }
-  const t = env.deps.templates.loadTemplate(choice.type)
+  const t = env.deps.templates.loadTemplate(choice.type, env.root)
   return {
     hasTemplate: true,
     fieldSchema: schemaHints(t.schema),
@@ -242,7 +242,7 @@ function finalType(
 ): TypeChoice {
   const wanted = out.type.trim()
   if (!wanted || wanted === choice.type) return choice
-  if (env.deps.templates.listTemplateTypes().includes(wanted)) {
+  if (env.deps.templates.listTemplateTypes(env.root).includes(wanted)) {
     env.ctx.log(
       `inject_text ${rowId}: model chose type ${wanted} instead of ${choice.type}`,
       'info',
@@ -283,7 +283,9 @@ function checkDraft(
 ): Checked {
   const { env, row, scenario, priorInjects } = input
   const extra = { stage: 'inject_text' as const, itemId: injectId }
-  const template = choice.hasTemplate ? env.deps.templates.loadTemplate(choice.type) : undefined
+  const template = choice.hasTemplate
+    ? env.deps.templates.loadTemplate(choice.type, env.root)
+    : undefined
   const schema = (template?.schema ?? {}) as Record<string, unknown>
   if (template) {
     const dropped = dropUnknownFields(out, Object.keys((schema.properties ?? {}) as object))
@@ -311,7 +313,7 @@ function checkDraft(
     env.ctx.log(`inject_text ${row.id}: repaired ${formatRepairs(repairs)}`, 'info', extra)
   const issues = template
     ? env.deps.templates
-        .validateFields(choice.type, out.fields)
+        .validateFields(choice.type, out.fields, env.root)
         .map((i) => ({ path: `fields${i.path}`, message: i.message }))
     : []
   const content = contentIssues({
@@ -480,7 +482,7 @@ function variantOf(
   wanted: string | undefined,
 ): string | undefined {
   if (!choice.hasTemplate) return undefined
-  const { variants } = input.env.deps.templates.loadTemplate(choice.type).meta
+  const { variants } = input.env.deps.templates.loadTemplate(choice.type, input.env.root).meta
   const picked = chooseVariant(variants, wanted, input.existing?.variant)
   if (picked.rejected) {
     const kept = picked.variant ? `kept ${picked.variant}` : 'the default is used'
@@ -640,12 +642,15 @@ function controlFallback(
   if (!choice.hasTemplate || !Object.values(CONTROL_TYPES).includes(choice.type)) return undefined
   const fields = controlCardFields(choice.type, row, input.scenario.title)
   if (!fields) return undefined
-  const schema = env.deps.templates.loadTemplate(choice.type).schema as Record<string, unknown>
+  const schema = env.deps.templates.loadTemplate(choice.type, env.root).schema as Record<
+    string,
+    unknown
+  >
   const known = Object.keys((schema.properties ?? {}) as object)
   for (const k of Object.keys(fields)) if (known.length && !known.includes(k)) delete fields[k]
   const repairs = repairFields(schema, fields)
   const issues = env.deps.templates
-    .validateFields(choice.type, fields)
+    .validateFields(choice.type, fields, env.root)
     .map((i) => ({ path: `fields${i.path}`, message: i.message }))
   const warnings: LintWarning[] = [
     {
@@ -672,7 +677,7 @@ export async function runInjectText(input: InjectTextInput): Promise<InjectTextR
   const injectId = existing?.id ?? newId()
   const chosen = chooseInjectType(
     row,
-    env.deps.templates.listTemplateTypes(),
+    env.deps.templates.listTemplateTypes(env.root),
     env.domain.profile.id,
   )
   const extra = { stage: 'inject_text' as const, itemId: injectId }
@@ -727,7 +732,9 @@ export interface InjectRecheck {
  * code repair fixes are left to the media job, which repairs and saves before it renders.
  */
 export function recheckInject(input: InjectTextInput, inject: Inject): InjectRecheck {
-  const hasTemplate = input.env.deps.templates.listTemplateTypes().includes(inject.type)
+  const hasTemplate = input.env.deps.templates
+    .listTemplateTypes(input.env.root)
+    .includes(inject.type)
   const choice: TypeChoice = { type: inject.type, hasTemplate }
   const copy = {
     type: inject.type,

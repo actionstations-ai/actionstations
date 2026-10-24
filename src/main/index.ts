@@ -22,6 +22,7 @@ import { createQuitGuard, resetRendererReady } from './lib/quit-guard'
 import { listAdapterKinds } from './providers/registry'
 import { shutdownRenderPool } from './render/window'
 import { initPacks } from './packs/state'
+import { initTemplateRegistry } from './render/template-registry'
 
 // Must run before app ready.
 registerMediaScheme()
@@ -140,6 +141,8 @@ void app.whenReady().then(async () => {
     )
   // Installed packs (#260): clear leftover staging files, verify each pack, register the
   // enabled packs' domains. Never fetches. A failure leaves the app running without packs.
+  // Inject types from user and pack templates (#261): registered now and after every pack change.
+  initTemplateRegistry()
   await initPacks().catch((e: unknown) => console.error('[packs]', e))
   createMainWindow()
   app.on('activate', () => {

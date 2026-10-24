@@ -15,6 +15,7 @@ import { changeFromEvent, changeFromJob, createInvalidator } from './state/inval
 import { useJobsStore } from './state/jobs'
 import { OpenRequests } from './routes/projects/OpenRequests'
 import { DomainsSync } from './state/domains'
+import { InjectTypesSync } from './state/inject-types'
 
 function ThemeSync() {
   const settings = useIpcQuery('settings:get', undefined)
@@ -101,6 +102,7 @@ export function App() {
         <ThemeSync />
         <EventBridge />
         <DomainsSync />
+        <InjectTypesSync />
         <AutoContinue />
         <RouteFocus />
         <ChromeFor

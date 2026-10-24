@@ -18,6 +18,8 @@ export interface ComposeInput {
   assets?: Record<string, string>
   /** The project logo (absolute path or data: URL); templates read it as `brand.logo`. */
   logo?: string
+  /** Project root: its templates layer applies (ADR-0018 layers, #261). */
+  projectRoot?: string
 }
 
 /** "Karen Smith" → "KS"; skips words that start with punctuation ("Kyle (Summer Intern – Ops)" → "KS"). */
@@ -89,7 +91,8 @@ hb.registerHelper({
 const compiled = new Map<string, Handlebars.TemplateDelegate>()
 
 function compile(t: LoadedTemplate): Handlebars.TemplateDelegate {
-  const key = `${t.meta.type}@${t.html.length}:${t.html.slice(0, 64)}`
+  // The same type can come from several layers (project copy, user, pack, built-in).
+  const key = `${t.dir}\n${t.html}`
   let fn = compiled.get(key)
   if (!fn) {
     try {
@@ -129,7 +132,7 @@ export function composeDocument(
   input: ComposeInput,
   opts: { previewAssets?: boolean } = {},
 ): ComposedDocument {
-  const t = loadTemplate(input.type)
+  const t = loadTemplate(input.type, input.projectRoot)
   const variant = input.variant ?? t.meta.variants[0] ?? 'default'
   const body = compile(t)({
     fields: input.fields,

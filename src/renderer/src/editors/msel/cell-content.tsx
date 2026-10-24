@@ -13,7 +13,7 @@ import {
   type Move,
 } from './CellEditors'
 import {
-  FORMAT_OPTIONS,
+  formatOptions,
   citationItems,
   formatLabel,
   roleOptions,
@@ -113,7 +113,7 @@ function listEditorFor(
           {...common}
           label={`Format for ${row.id}`}
           initial={[row.format ?? '']}
-          options={FORMAT_OPTIONS}
+          options={formatOptions()}
           filterable
         />
       )

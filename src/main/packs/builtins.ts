@@ -4,7 +4,7 @@ import { promises as fs } from 'node:fs'
 import { listExamples } from '../examples/catalog'
 import { resourcePath } from '../lib/paths'
 import { listDefaultNames } from '../prompts/layers'
-import { listTemplateTypes } from '../render/templates'
+import { listBuiltinTemplateTypes } from '../render/templates'
 
 export interface PackBuiltins {
   templates: readonly string[]
@@ -28,7 +28,7 @@ export async function loadBuiltins(): Promise<PackBuiltins> {
     listExamples().catch(() => []),
   ])
   return {
-    templates: listTemplateTypes(),
+    templates: listBuiltinTemplateTypes(),
     prompts,
     workflows,
     examples: examples.map((e) => e.slug),

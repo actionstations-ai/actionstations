@@ -28,10 +28,11 @@ export interface InjectStoreDeps {
   ): Promise<Scenario>
 }
 
+/** Template access; `projectRoot` applies the project's template layer (ADR-0018, #261). */
 export interface TemplateDeps {
-  listTemplateTypes(): string[]
-  loadTemplate(type: string): LoadedTemplate
-  validateFields(type: string, fields: unknown): FieldIssue[]
+  listTemplateTypes(projectRoot?: string): string[]
+  loadTemplate(type: string, projectRoot?: string): LoadedTemplate
+  validateFields(type: string, fields: unknown, projectRoot?: string): FieldIssue[]
 }
 
 /**

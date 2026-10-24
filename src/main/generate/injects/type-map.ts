@@ -4,7 +4,7 @@
 // When nothing in the chain is installed the row keeps its taxonomy type with no template:
 // the model then fills the taxonomy's key fields and the page is listed as text-only.
 import type { MselRow } from '@shared/schemas'
-import { INJECT_TYPE_IDS, injectTypeFitsDomain, injectTypeInfo } from '@shared/taxonomy'
+import { injectTypeFitsDomain, injectTypeInfo, isInjectTypeId } from '@shared/taxonomy'
 
 export const CONTROL_TYPES: Partial<Record<MselRow['purposeTag'], string>> = {
   STARTEX: 'startex_card',
@@ -144,7 +144,12 @@ export interface TypeChoice {
   note?: string
 }
 
-const isKnownType = (id: string): boolean => INJECT_TYPE_IDS.includes(id)
+/**
+ * A built-in type, one the registry has from user or pack templates (ADR-0018), or one the
+ * project has a template for (a project copy of a pack template after the pack is gone).
+ */
+const isKnownType = (id: string, installed: ReadonlySet<string>): boolean =>
+  isInjectTypeId(id) || installed.has(id)
 
 /** A caller the media phone slip is for: a newsroom, a reporter, an outlet. */
 const MEDIA_SOURCE =
@@ -180,10 +185,11 @@ export function chooseInjectType(
   installed: Iterable<string>,
   domainId?: string,
 ): TypeChoice {
-  const have = new Set([...installed].filter((t) => fitsDomain(t, domainId)))
+  const all = new Set(installed)
+  const have = new Set([...all].filter((t) => fitsDomain(t, domainId)))
   const control = CONTROL_TYPES[row.purposeTag]
   const format = row.format?.trim() ?? ''
-  const wanted = control ?? (isKnownType(format) ? format : 'scenario_update')
+  const wanted = control ?? (isKnownType(format, all) ? format : 'scenario_update')
   const { format: requested, note: sourceNote } = control
     ? { format: wanted }
     : formatForSource(row, wanted)

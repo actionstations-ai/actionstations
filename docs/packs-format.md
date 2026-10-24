@@ -126,6 +126,10 @@ Templates render in a sandboxed window with no network and a `default-src 'none'
 
 The checker is `checkTemplateFiles` in `src/main/packs/template-check.ts`; every built-in template passes it.
 
+In the app, templates resolve through four layers, first match wins: `<project>/templates/injects/<type>/`, `userData/templates/injects/<type>/`, enabled packs, built-in (`src/main/render/templates.ts`). The checker runs on every non-built-in layer when a template is loaded; a refused template is skipped (the next layer applies) and listed by `templates:refused`. When an inject of a pack template's type is created, saved or rendered, the template is copied into the project and recorded in `<project>/packs.json`; "Update from pack" (`templates:updateFromPack`) replaces the copy only on request and refuses an edited copy unless confirmed.
+
+Pack authors can check their templates' goldens with the app's renderer: `pnpm build:app && pnpm test:templates --pack <unpacked pack folder>` renders every `templates/<type>/preview.json` × variant through the user template layer (so the load-time checker runs too) and compares it with `templates/<type>/__golden__/<variant>.png` in the pack folder (`UPDATE_GOLDENS=1` writes them).
+
 ### Example (minimal templates pack)
 
 <!-- example:pack -->

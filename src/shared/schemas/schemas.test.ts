@@ -45,10 +45,13 @@ describe('schemas', () => {
     expect(() => MselRow.parse({ ...row, purposeTag: 'NOT_A_TAG' })).toThrow()
   })
 
-  it('validates inject types against the taxonomy', () => {
+  it('validates inject types as template type ids', () => {
     const base = { id: 'i1', mselRowId: 'I-04', title: 'Tweet', fields: {} }
     expect(Inject.parse({ ...base, type: 'tweet' }).deliveryMode).toBe('hand_to_role')
-    expect(() => Inject.parse({ ...base, type: 'carrier_pigeon' })).toThrow()
+    // A pack type (or a project copy of one after the pack is gone) still loads (#261).
+    expect(Inject.parse({ ...base, type: 'rail_dispatch_board' }).type).toBe('rail_dispatch_board')
+    expect(() => Inject.parse({ ...base, type: 'Carrier Pigeon' })).toThrow()
+    expect(() => Inject.parse({ ...base, type: '../etc' })).toThrow()
   })
 
   it('builds a minimal scenario', () => {

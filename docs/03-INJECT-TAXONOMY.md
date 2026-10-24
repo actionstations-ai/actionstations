@@ -113,6 +113,10 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 
 An inject type may carry `domains: ['airport', …]` in `src/shared/taxonomy.ts`. A tagged type is offered only to projects whose domain profile has one of those ids: the MSEL prompt lists the domain's types (the profile's preferred types first), and `chooseInjectType` treats a tagged type as unavailable elsewhere and follows the fallback chain to the generic equivalent (`fids_board` → `info_display_board`, `bhs_scada_screen` → `scada_hmi`). Untagged types belong to every domain.
 
+## Types from packs and user templates (ADR-0018)
+
+`INJECT_TYPES` in `src/shared/taxonomy.ts` is the built-in list. A template in the user layer (`userData/templates/injects/<type>/`) or in an enabled pack whose type is not built in joins the taxonomy through the `taxonomy` block of its `meta.json` (`category`, `render`, `defaultDelivery`, optional `domains` and `paper`; a user template without the block joins as a hand-to-role document). Main registers these with `registerInjectTypes` (`src/main/render/template-registry.ts`) at startup and after every pack change; `injectTypeInfo`, `injectTypes()`, `injectTypesForDomain`, `chooseInjectType` and the prompts' taxonomy variables read the registry, so domain tags apply to pack types too. The renderer keeps its own copy from `templates:taxonomy` and refetches on `templates:changed`. A registered type never replaces a built-in entry: a pack template that shadows a built-in type keeps the built-in taxonomy. A project's own templates (including copies of pack templates kept after the pack is uninstalled) are listed by `templates:taxonomy { projectPath }`, and an inject's stored `type` is any type id (`^[a-z0-9_]+$`) so such injects keep loading.
+
 ## Rendering rules
 
 1. Text that players must read exactly (handles, flight numbers, IPs, timestamps) is **always** template-rendered. AI imagery is backgrounds, people, places, screens-from-a-distance.

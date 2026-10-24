@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import type { TemplateInfo } from '@shared/ipc'
 import { Inject } from '@shared/schemas/inject'
 import { Scenario } from '@shared/schemas/scenario'
+import { registerInjectTypes } from '@shared/taxonomy'
 import fixture from '../../../../../tests/fixtures/scenarios/scenario-3.json'
 import ticketSchema from '../../../../../templates/injects/helpdesk_ticket/schema.json'
 import tweetSchema from '../../../../../templates/injects/tweet/schema.json'
@@ -27,6 +28,7 @@ const scenario: Scenario = {
 const template = (type: string, label: string, schema: unknown): TemplateInfo => ({
   type,
   label,
+  source: 'builtin',
   version: '1',
   schema: schema as Record<string, unknown>,
   preview: {},
@@ -168,6 +170,46 @@ describe('InjectEditorPage', () => {
       'The Coke machines spit out all their cans.',
     )
     expect(screen.getByText('2 field issue(s)')).toBeTruthy()
+  })
+
+  it('the type picker lists pack templates and registered pack types (#261)', async () => {
+    registerInjectTypes([
+      {
+        id: 'yard_radio_log',
+        label: 'Yard radio log',
+        category: 'voice',
+        render: ['tts'],
+        paper: false,
+        mvp: false,
+        defaultDelivery: 'play_audio',
+        source: 'pack',
+        pack: { id: 'ai.actionstations.freight-rail', version: '1.0.0', name: 'Freight Rail' },
+      },
+    ])
+    try {
+      const ttx = setup({
+        'templates:list': () => [
+          ...TEMPLATES,
+          {
+            ...TEMPLATES[0]!,
+            type: 'rail_dispatch_board',
+            label: 'Rail dispatch board',
+            source: 'pack',
+            packId: 'ai.actionstations.freight-rail',
+            packName: 'Freight Rail',
+          },
+        ],
+      })
+      const type = await screen.findByLabelText('Type')
+      const labels = within(type)
+        .getAllByRole('option')
+        .map((o) => o.textContent)
+      expect(labels).toContain('Rail dispatch board (Freight Rail pack)')
+      expect(labels).toContain('Yard radio log (no template)')
+      expect(ttx.calls('templates:list')).toContainEqual({ projectPath: PROJECT })
+    } finally {
+      registerInjectTypes([])
+    }
   })
 
   it('restores a version from the versions panel', async () => {

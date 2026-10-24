@@ -3,7 +3,7 @@ import { clsx } from 'clsx'
 import { AudioLines, MessageSquare } from 'lucide-react'
 import type { Inject } from '@shared/schemas/inject'
 import type { MselRow, Phase } from '@shared/schemas/scenario'
-import { INJECT_TYPES } from '@shared/taxonomy'
+import { injectTypeInfo } from '@shared/taxonomy'
 import { Badge, Button, TagChip } from '../../components/ui'
 import { groupByPhase } from '../../lib/msel'
 
@@ -27,8 +27,7 @@ export interface TimelineProps {
   onUndo: (rowId: string) => void
 }
 
-const typeLabel = (type: string | undefined) =>
-  INJECT_TYPES.find((t) => t.id === type)?.label ?? type ?? '—'
+const typeLabel = (type: string | undefined) => (type && injectTypeInfo(type)?.label) || type || '—'
 
 function Thumb({ entry }: { entry: TimelineEntry }) {
   if (entry.thumbUrl)

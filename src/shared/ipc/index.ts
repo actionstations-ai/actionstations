@@ -18,6 +18,7 @@ import { facilitatorChannels, PresentChangedEvent } from './facilitator'
 import { exampleChannels } from './examples'
 import { domainChannels, DomainsChangedEvent } from './domains'
 import { packChannels, PacksChangedEvent } from './packs'
+import { templateChannels, TemplatesChangedEvent } from './templates'
 import { packDocumentChannels } from './pack-documents'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
@@ -26,7 +27,8 @@ import type { ChannelDef } from './define'
 export { JobLogEntry } from './jobs'
 export { HistoryEntry } from './scenario'
 export { LibraryItem } from './injects'
-export { TemplateInfo } from './render'
+export { TemplateInfo, TemplateSource } from './render'
+export { ListedInjectType, RefusedTemplateView } from './templates'
 export { WorkflowBinding, WorkflowEntry, MediaType } from './comfy'
 export { ExportTarget, EXPORT_TARGETS } from './export'
 export { FacilitatorState } from './facilitator'
@@ -88,6 +90,7 @@ export const channels = mergeChannels(
   exampleChannels,
   domainChannels,
   packChannels,
+  templateChannels,
   packDocumentChannels,
 )
 
@@ -111,6 +114,8 @@ export const events = {
   'domains:changed': DomainsChangedEvent,
   /** Installed packs changed (install, enable, disable, update, uninstall): refetch packs:list (#260). */
   'packs:changed': PacksChangedEvent,
+  /** Inject types added by user or pack templates changed: refetch templates:taxonomy / list (#261). */
+  'templates:changed': TemplatesChangedEvent,
   'project:changed': z.object({
     path: z.string(),
     what: z.enum([

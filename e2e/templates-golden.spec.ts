@@ -5,11 +5,25 @@
 // (pixelmatch threshold 0.1, ≤ 0.1 % differing pixels). Mismatches write actual + diff
 // images to .tmp/golden-diff/. UPDATE_GOLDENS=1 rewrites the goldens.
 //   pnpm build:app && pnpm test:templates
+//
+// Pack templates (#261): with TTX_GOLDEN_PACK=<unpacked pack folder> (`pnpm test:templates
+// --pack <folder>`), the pack's templates/<type>/ folders are placed in the app's user
+// template layer (so they pass the same load-time checker) and only they are rendered, against
+// <pack>/templates/<type>/__golden__/<variant>.png.
 import { expect, test } from '@playwright/test'
-import { rmSync } from 'node:fs'
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join, resolve } from 'node:path'
 import pixelmatch from 'pixelmatch'
 import pngjs from 'pngjs'
-import { resolve } from 'node:path'
 import {
   compareWithGolden,
   GOLDEN_DEFAULTS,
@@ -34,16 +48,42 @@ interface TemplateInfo {
   type: string
   preview: Record<string, unknown>
   variants: string[]
+  source?: string
 }
 
-const TEMPLATES = resolve('templates/injects')
+const PACK = process.env.TTX_GOLDEN_PACK ? resolve(process.env.TTX_GOLDEN_PACK) : undefined
+const TEMPLATES = PACK ? join(PACK, 'templates') : resolve('templates/injects')
 const DIFF_DIR = resolve('.tmp/golden-diff')
 const UPDATE = process.env.UPDATE_GOLDENS === '1'
+
+/** The pack's template types (folders with a template.html). */
+const packTypes = (): string[] =>
+  readdirSync(TEMPLATES, { withFileTypes: true })
+    .filter((d) => d.isDirectory() && existsSync(join(TEMPLATES, d.name, 'template.html')))
+    .map((d) => d.name)
+    .sort()
+
+/** A userData folder whose user template layer holds the pack's templates. */
+function packUserData(types: string[]): string {
+  const userData = mkdtempSync(join(tmpdir(), 'ttx-golden-pack-'))
+  writeFileSync(join(userData, 'settings.json'), JSON.stringify({ onboardingComplete: true }))
+  const layer = join(userData, 'templates', 'injects')
+  mkdirSync(layer, { recursive: true })
+  for (const type of types)
+    cpSync(join(TEMPLATES, type), join(layer, type), {
+      recursive: true,
+      filter: (src) => !src.includes('__golden__'),
+    })
+  return userData
+}
 
 test('every template × variant matches its golden PNG and renders deterministically', async () => {
   test.setTimeout(180_000)
   rmSync(DIFF_DIR, { recursive: true, force: true })
-  const { app, page } = await launch()
+  const types = PACK ? packTypes() : []
+  if (PACK) expect(types.length, `no templates in ${TEMPLATES}`).toBeGreaterThan(0)
+  const userData = PACK ? packUserData(types) : undefined
+  const { app, page } = await launch({}, userData ? { userData } : {})
   const invoke = invoker(page)
   const render = async (t: TemplateInfo, variant: string): Promise<Buffer> => {
     const r = await invoke<{ dataUrl: string }>('render:preview', {
@@ -57,8 +97,22 @@ test('every template × variant matches its golden PNG and renders deterministic
   const failures: string[] = []
   const report: string[] = []
   try {
-    const templates = await invoke<TemplateInfo[]>('templates:list')
-    expect(templates.length).toBeGreaterThan(0)
+    let templates = await invoke<TemplateInfo[]>('templates:list')
+    if (PACK) {
+      const refused =
+        await invoke<{ type: string; problems: { path?: string; message: string }[] }[]>(
+          'templates:refused',
+        )
+      for (const r of refused)
+        failures.push(
+          `${r.type}: refused by the template checker: ${r.problems.map((p) => `${p.path ?? ''} ${p.message}`).join('; ')}`,
+        )
+      templates = templates.filter((t) => types.includes(t.type) && t.source === 'user')
+      for (const type of types)
+        if (!templates.some((t) => t.type === type) && !refused.some((r) => r.type === type))
+          failures.push(`${type}: not loaded from the pack folder`)
+    }
+    if (!PACK) expect(templates.length).toBeGreaterThan(0)
     for (const t of templates) {
       for (const variant of t.variants.length ? t.variants : ['default']) {
         const name = goldenName(t.type, variant)
@@ -82,6 +136,7 @@ test('every template × variant matches its golden PNG and renders deterministic
     }
   } finally {
     await app.close()
+    if (userData) rmSync(userData, { recursive: true, force: true })
   }
   console.log(report.join('\n'))
   expect(failures, failures.join('\n')).toEqual([])

@@ -6,12 +6,29 @@
 //   e2e/templates-preview.spec.ts  writes test-results/templates/<type>[--variant].png and
 //                                  checks the render pool (concurrency, crash recovery)
 // UPDATE_GOLDENS=1 pnpm test:templates rewrites the goldens; commit them with the template.
+//
+// Pack templates (ADR-0018, #261): `pnpm test:templates --pack <unpacked pack folder>` renders
+// the pack's templates/<type>/preview.json instead (through the app's user template layer, so
+// the template checker runs too) and compares with <pack>/templates/<type>/__golden__/.
 import { spawnSync } from 'node:child_process'
 import { existsSync } from 'node:fs'
+import { resolve } from 'node:path'
 if (!existsSync('out/main/index.js')) {
   console.error('Build the app first: pnpm build:app')
   process.exit(1)
 }
-const specs = ['e2e/templates-golden.spec.ts', 'e2e/templates-preview.spec.ts']
-const r = spawnSync('pnpm', ['exec', 'playwright', 'test', ...specs], { stdio: 'inherit' })
+const args = process.argv.slice(2)
+const at = args.indexOf('--pack')
+const env = { ...process.env }
+let specs = ['e2e/templates-golden.spec.ts', 'e2e/templates-preview.spec.ts']
+if (at >= 0) {
+  const dir = args[at + 1]
+  if (!dir || !existsSync(resolve(dir, 'templates'))) {
+    console.error('Usage: pnpm test:templates --pack <pack folder with templates/>')
+    process.exit(1)
+  }
+  env.TTX_GOLDEN_PACK = resolve(dir)
+  specs = ['e2e/templates-golden.spec.ts']
+}
+const r = spawnSync('pnpm', ['exec', 'playwright', 'test', ...specs], { stdio: 'inherit', env })
 process.exit(r.status ?? 1)

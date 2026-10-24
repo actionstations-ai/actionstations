@@ -71,6 +71,12 @@ export interface InjectTypeInfo {
    * A domain-tagged type is offered only to projects of those domains (type-map.ts).
    */
   domains?: string[]
+  /**
+   * Where a type that is not built in comes from (ADR-0018 template layers): its template's
+   * layer and, for packs and project copies of pack templates, the pack. Absent = built-in.
+   */
+  source?: 'project' | 'user' | 'pack'
+  pack?: { id: string; version: string; name?: string }
 }
 
 const t = (
@@ -202,14 +208,61 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
   t('simcell_script', 'SimCell script', 'control', ['template'], { paper: true }),
 ] as const
 
+/** The built-in type ids (pack, user and project types are in the registry below). */
 export const INJECT_TYPE_IDS = INJECT_TYPES.map((x) => x.id)
-export const InjectType = z.string().refine((v) => INJECT_TYPE_IDS.includes(v), {
-  message: 'Unknown inject type',
-})
+const TYPE_ID = /^[a-z0-9_]+$/
+/**
+ * A stored inject's type: a type id in the template-folder format. Not limited to the
+ * registry: an inject of a pack type must still load after the pack is uninstalled (its
+ * template lives on as a project copy), and an unknown type already falls back to a
+ * built-in one when it is generated (type-map.ts) and to its id as a label.
+ */
+export const InjectType = z.string().regex(TYPE_ID, { message: 'Unknown inject type' })
 export type InjectType = string
 
+// ---- registry (ADR-0018, #261) ---------------------------------------------------------------
+// INJECT_TYPES stays the built-in list. Main registers the types that templates of the user
+// layer and of enabled packs add through the `taxonomy` block of their meta.json; the renderer
+// keeps its own copy filled over IPC (templates:taxonomy). A registered id never shadows a
+// built-in entry: a pack template that replaces a built-in type keeps the built-in taxonomy.
+
+let registered: readonly InjectTypeInfo[] = []
+let all: readonly InjectTypeInfo[] = INJECT_TYPES
+let revision = 0
+const listeners = new Set<() => void>()
+
+/** Replace the registered (non-built-in) types. Built-in ids and repeated ids are skipped. */
+export function registerInjectTypes(types: readonly InjectTypeInfo[]): void {
+  const seen = new Set(INJECT_TYPE_IDS)
+  const next: InjectTypeInfo[] = []
+  for (const t of types) {
+    if (!TYPE_ID.test(t.id) || seen.has(t.id)) continue
+    seen.add(t.id)
+    next.push(t)
+  }
+  registered = Object.freeze(next)
+  all = Object.freeze([...INJECT_TYPES, ...registered])
+  revision++
+  for (const l of listeners) l()
+}
+
+/** Built-in types followed by the registered ones. */
+export const injectTypes = (): readonly InjectTypeInfo[] => all
+/** The registered (pack, user, project) types only. */
+export const registeredInjectTypes = (): readonly InjectTypeInfo[] => registered
+export const injectTypesRevision = (): number => revision
+export function subscribeInjectTypes(listener: () => void): () => void {
+  listeners.add(listener)
+  return () => {
+    listeners.delete(listener)
+  }
+}
+
+/** A built-in or registered type id. */
+export const isInjectTypeId = (id: string): boolean => all.some((x) => x.id === id)
+
 export function injectTypeInfo(id: string): InjectTypeInfo | undefined {
-  return INJECT_TYPES.find((x) => x.id === id)
+  return all.find((x) => x.id === id)
 }
 
 /** A type is offered to a domain unless it is tagged for other domains only. */
@@ -222,5 +275,5 @@ export function injectTypeFitsDomain(
 
 /** Inject types a project of `domainId` may use (untagged types plus those tagged for it). */
 export function injectTypesForDomain(domainId: string): InjectTypeInfo[] {
-  return INJECT_TYPES.filter((x) => injectTypeFitsDomain(x, domainId))
+  return all.filter((x) => injectTypeFitsDomain(x, domainId))
 }

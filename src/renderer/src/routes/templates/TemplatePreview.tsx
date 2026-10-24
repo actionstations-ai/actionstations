@@ -1,6 +1,7 @@
 import type { TemplateInfo } from '@shared/ipc'
 import { useIpcQuery } from '../../lib/query'
 import { errorText } from '../../lib/errors'
+import { useProjectUi } from '../../state/project'
 
 /** A template's preview.json rendered by the main-process renderer (render:preview). */
 export function TemplatePreview(props: {
@@ -10,9 +11,18 @@ export function TemplatePreview(props: {
   alt: string
 }) {
   const { template, variant, scale } = props
+  // A project template renders from the project's layer (main needs the project for that).
+  const projectPath = useProjectUi((s) => s.projectPath)
+  const scope = template.source === 'project' && projectPath ? { projectPath } : {}
   const preview = useIpcQuery(
     'render:preview',
-    { type: template.type, fields: template.preview, scale, ...(variant ? { variant } : {}) },
+    {
+      type: template.type,
+      fields: template.preview,
+      scale,
+      ...(variant ? { variant } : {}),
+      ...scope,
+    },
     { staleTime: Infinity },
   )
   const ratio = `${template.width} / ${template.height ?? Math.round(template.width * 0.75)}`

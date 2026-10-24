@@ -141,10 +141,10 @@ export const trimVersions = (inject: Inject): Inject => ({
 })
 
 /** True when the inject's fields match its template (false when there is no template). */
-async function fieldsValid(inject: Inject): Promise<boolean> {
+async function fieldsValid(root: string, inject: Inject): Promise<boolean> {
   const { templates } = await injectDeps()
-  if (!templates.listTemplateTypes().includes(inject.type)) return false
-  return templates.validateFields(inject.type, inject.fields).length === 0
+  if (!templates.listTemplateTypes(root).includes(inject.type)) return false
+  return templates.validateFields(inject.type, inject.fields, root).length === 0
 }
 
 /** Warnings that say the fields do not match the template; stale once they validate. */
@@ -162,7 +162,7 @@ export async function clearFixedFieldWarnings(
 ): Promise<void> {
   const stale = (w: LintWarning) => w.injectId === inject.id && FIELD_WARNINGS.has(w.code)
   const scenario = await getScenario(root, scenarioId)
-  if (!scenario.warnings.some(stale) || !(await fieldsValid(inject))) return
+  if (!scenario.warnings.some(stale) || !(await fieldsValid(root, inject))) return
   await updateScenario(
     root,
     scenarioId,

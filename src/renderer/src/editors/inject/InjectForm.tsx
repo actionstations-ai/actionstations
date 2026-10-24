@@ -4,7 +4,8 @@ import { X } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import type { TemplateInfo } from '@shared/ipc'
 import { DeliveryMode } from '@shared/schemas/inject'
-import { INJECT_TYPES, injectTypeInfo } from '@shared/taxonomy'
+import { injectTypeInfo, injectTypes } from '@shared/taxonomy'
+import { templateSourceLabel } from '../../lib/template-source'
 import { Button, Dialog, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import type { InjectDraft } from './draft'
@@ -34,12 +35,18 @@ export interface FormProps {
 function typeOptions(templates: TemplateInfo[], current: string) {
   const installed = new Set(templates.map((t) => t.type))
   const withTemplate = templates
-    .map((t) => ({ id: t.type, label: t.label }))
+    .map((t) => {
+      // Plain text provenance for pack, user and project templates (badges: #269).
+      const source = templateSourceLabel(t)
+      return { id: t.type, label: source ? `${t.label} (${source})` : t.label }
+    })
     .sort((a, b) => a.label.localeCompare(b.label))
-  const without = INJECT_TYPES.filter((t) => !installed.has(t.id)).map((t) => ({
-    id: t.id,
-    label: `${t.label} (no template)`,
-  }))
+  const without = injectTypes()
+    .filter((t) => !installed.has(t.id))
+    .map((t) => ({
+      id: t.id,
+      label: `${t.label} (no template)`,
+    }))
   if (!installed.has(current) && !without.some((t) => t.id === current))
     without.push({ id: current, label: current })
   return { withTemplate, without }

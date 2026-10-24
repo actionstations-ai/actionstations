@@ -37,8 +37,8 @@ export interface MediaBriefResult {
 }
 
 function templateFor(env: InjectEnv, type: string): LoadedTemplate | undefined {
-  return env.deps.templates.listTemplateTypes().includes(type)
-    ? env.deps.templates.loadTemplate(type)
+  return env.deps.templates.listTemplateTypes(env.root).includes(type)
+    ? env.deps.templates.loadTemplate(type, env.root)
     : undefined
 }
 

@@ -97,7 +97,7 @@ function DeckCards(props: Parameters<typeof DeckGrid>[0]) {
 function useDeckModel(props: DeckProps) {
   const { projectPath, scenario } = props
   const injects = useIpcQuery('injects:list', { projectPath, scenarioId: scenario.id })
-  const templatesQ = useIpcQuery('templates:list', undefined, { staleTime: Infinity })
+  const templatesQ = useIpcQuery('templates:list', { projectPath }, { staleTime: Infinity })
   const scenarioJob = useScenarioJob(projectPath, scenario.id)
   const jobs = useDeckJobs(projectPath, scenario.id, scenarioJob.track, props.onJob)
   const templates: TemplateInfo[] = useMemo(() => templatesQ.data ?? [], [templatesQ.data])
