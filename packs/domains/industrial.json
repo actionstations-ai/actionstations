@@ -1,7 +1,7 @@
 {
   "id": "industrial",
   "label": "Industrial / manufacturing",
-  "description": "A manufacturing or process plant: production lines and process units, a DCS/SCADA control room, safety systems, hazardous materials, a plant emergency response team and the surrounding community.",
+  "description": "A manufacturing or process plant: production lines and process units, a DCS/SCADA control room, safety systems, hazardous materials, a plant emergency response team and the surrounding community. Plans: the emergency action plan (29 CFR 1910.38), PSM (1910.119), the RMP emergency response program (40 CFR 68, tabletop exercise before 21 Dec 2026 and every 3 years), HAZWOPER (1910.120(q)) and an OT cyber incident response plan.",
   "aliases": ["plant", "factory", "manufacturing", "chemical", "refinery", "process"],
   "vocabulary": {
     "facility": "the plant (process units, lines, tank farm, control room)",
@@ -53,7 +53,13 @@
       "helpdesk / ITSM",
       "SIEM",
       "historian (IT side)",
-      "website"
+      "website",
+      "WMS and shipping / weighbridge ticketing",
+      "LIMS and QMS",
+      "CMMS / EAM",
+      "label and serialization printing",
+      "Active Directory shared with OT",
+      "supplier and customer EDI portals"
     ],
     "ot": [
       "DCS / SCADA and HMIs",
@@ -62,7 +68,15 @@
       "fire and gas detection",
       "PACS and CCTV",
       "tank gauging",
-      "building automation"
+      "building automation",
+      "engineering workstations and OT jump hosts",
+      "OT DMZ and vendor remote-access broker",
+      "OT network monitoring / IDS",
+      "burner management systems",
+      "robots, AGVs and CNC machines",
+      "continuous emissions monitoring (CEMS)",
+      "boilers, compressed air and the plant substation",
+      "muster accountability (badge-reader headcount)"
     ]
   },
   "roles": [
@@ -100,19 +114,54 @@
       "abbreviation": "PIO",
       "team": "Team E: Communications",
       "description": "Owns community messaging, social media and the press."
+    },
+    {
+      "key": "controls",
+      "name": "Process Control / Automation Engineer",
+      "abbreviation": "PCE",
+      "team": "Team F: OT / Controls",
+      "description": "Owns DCS, PLC and SIS configuration, isolating the control network and logic checks before restart."
+    },
+    {
+      "key": "psm",
+      "name": "Process Safety Engineer (PSM Coordinator)",
+      "abbreviation": "PSE",
+      "team": "Team G: Process Safety",
+      "description": "Owns management of change for any workaround and the pre-startup safety review."
+    },
+    {
+      "key": "ert",
+      "name": "Emergency Response Team Chief",
+      "abbreviation": "ERT",
+      "team": "Team H: Emergency Response",
+      "description": "Owns the plant ERT, PPE level, rescue and unified command with the fire department."
+    },
+    {
+      "key": "security",
+      "name": "Site Security Manager",
+      "abbreviation": "Sec",
+      "team": "Team I: Security",
+      "description": "Owns gate lockdown, badge control, CCTV review and the law-enforcement liaison."
     }
   ],
   "outsideParties": [
     "the local fire department and HAZMAT team",
     "county emergency management (LEPC)",
-    "OSHA",
+    "OSHA Area Office (fatality within 8 hours, hospitalization within 24)",
     "EPA and the state environmental agency",
     "FBI and CISA",
     "the DCS vendor and system integrator",
     "the corporate security operations center",
     "the union local",
     "neighboring facilities (mutual aid)",
-    "the insurer"
+    "the insurer",
+    "the National Response Center (reportable-quantity releases, immediately)",
+    "the SERC",
+    "the Chemical Safety Board (8-hour report)",
+    "the 911 PSAP and nearby hospitals",
+    "MFG-ISAC",
+    "key customers and suppliers",
+    "fenceline neighbors, schools and a nursing home in the evacuation zone"
   ],
   "mediaChannels": [
     "a neighbor's Facebook post with a photo of the flare",
@@ -169,11 +218,13 @@
     "a rumor of a chemical release on Nextdoor",
     "a reporter asking if the plant was hacked",
     "the fire chief asking whether to evacuate the neighborhood",
-    "corporate asking for a production estimate"
+    "corporate asking for a production estimate",
+    "the EHS manager running the NRC, SERC and LEPC notification clock",
+    "OSHA expecting the 8-hour fatality report"
   ],
   "rolePatterns": {
     "technical": "ot\\b|dcs|scada|controls",
     "operations": "shift supervisor|plant"
   },
-  "agencyPattern": "OSHA|EPA|LEPC|CSB|state environmental"
+  "agencyPattern": "OSHA|EPA|LEPC|SERC|CSB|state environmental"
 }

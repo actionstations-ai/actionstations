@@ -1,7 +1,7 @@
 {
   "id": "airport",
   "label": "Airport",
-  "description": "A commercial-service airport: terminal, airfield, airlines and tenants, TSA/CBP, FIDS/AODB/BHS/PACS and airfield systems.",
+  "description": "A commercial-service airport (14 CFR Part 139 certificate, TSA Airport Security Program under 49 CFR 1542): terminal, airfield, airlines and tenants, TSA/CBP, FIDS/AODB/CUPPS/BHS/PACS and airfield systems. Plans: the Airport Emergency Plan (139.325, with UAS response instructions), the Airport Certification Manual, the ASP and its cybersecurity amendments, and the SMS.",
   "aliases": [],
   "vocabulary": {
     "facility": "the terminal and airfield",
@@ -44,16 +44,34 @@
     }
   ],
   "systems": {
-    "it": ["AODB", "FIDS", "airport website and app", "email", "helpdesk / ITSM", "SIEM", "Wi-Fi"],
+    "it": [
+      "AODB",
+      "FIDS",
+      "airport website and app",
+      "email",
+      "helpdesk / ITSM",
+      "SIEM",
+      "Wi-Fi",
+      "resource management system (gates, stands, belts)",
+      "CUPPS / CUSS common-use check-in and kiosks",
+      "badging and identity management system (IDMS)",
+      "radio and dispatch CAD",
+      "lease and billing"
+    ],
     "ot": [
       "BHS SCADA",
       "PACS",
       "CCTV / VMS",
-      "airfield lighting control (ALCS)",
+      "airfield lighting control and monitoring (ALCMS)",
       "fuel farm SCADA",
       "PA system",
       "HVAC/BAS",
-      "parking revenue control"
+      "parking revenue control",
+      "passenger boarding bridges, pre-conditioned air and 400 Hz ground power",
+      "standby generators and power distribution",
+      "elevators, escalators and moving walks",
+      "fire alarm",
+      "UAS detection sensors"
     ]
   },
   "roles": [
@@ -91,19 +109,46 @@
       "abbreviation": "Airline",
       "team": "Team E: Airlines / Tenants",
       "description": "Owns the flights, the passengers at the gates and the airline staff."
+    },
+    {
+      "key": "em",
+      "name": "Emergency Manager (AEP Coordinator)",
+      "abbreviation": "EM",
+      "team": "Team F: Emergency Management",
+      "description": "Owns the Airport Emergency Plan, the EOC and the triennial full-scale exercise."
+    },
+    {
+      "key": "arff",
+      "name": "ARFF Chief",
+      "abbreviation": "ARFF",
+      "team": "Team G: Fire / EMS",
+      "description": "Owns aircraft rescue and firefighting, its index and staffing, and mutual-aid calls."
+    },
+    {
+      "key": "fac",
+      "name": "Facilities / Maintenance Director",
+      "abbreviation": "FAC",
+      "team": "Team H: Facilities / OT",
+      "description": "Owns airfield lighting, the BHS, power, HVAC and the fuel farm coordination."
     }
   ],
   "outsideParties": [
-    "TSA",
-    "FAA / ATCT",
+    "TSA (Federal Security Director, the TSOC)",
+    "FAA (ATCT, Airports District Office, Part 139 inspector)",
     "CBP",
-    "FBI cyber task force",
+    "FBI (JTTF, cyber task force)",
     "CISA",
     "airline station managers and corporate operations",
     "ground handlers",
-    "system vendors (AODB, BHS, PACS)",
+    "system vendors (AODB, CUPPS, BHS, PACS, ALCMS)",
     "local police and fire",
-    "county emergency management"
+    "county emergency management",
+    "NTSB (accidents)",
+    "the 911 PSAP and area hospitals",
+    "the fuel consortium",
+    "the National Weather Service",
+    "Aviation ISAC (A-ISAC)",
+    "a certified state or local counter-UAS law-enforcement team (SAFER SKIES Act authority, in effect since 1 Jul 2026)"
   ],
   "mediaChannels": [
     "passenger posts on X/Twitter and Instagram",
@@ -158,11 +203,12 @@
     "a passenger tweet with a photo of the wrong gate",
     "a community Facebook rumor about a terror attack",
     "a TV assignment desk going live in 15 minutes",
-    "an airline station manager threatening to pull staff"
+    "an airline station manager threatening to pull staff",
+    "a drone reported off the approach end with the tower holding arrivals and no one sure who may act against it"
   ],
   "rolePatterns": {
     "security": "asc|airport security",
     "operations": "airport operations|aoc"
   },
-  "agencyPattern": "TSA|FAA|CBP|ATCT|NTSB"
+  "agencyPattern": "TSA|FAA|CBP|ATCT|NTSB|A-ISAC"
 }

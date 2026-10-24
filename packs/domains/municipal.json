@@ -1,7 +1,7 @@
 {
   "id": "municipal",
   "label": "Municipal government",
-  "description": "A city or county: the emergency operations center, public works, police and fire, 911 dispatch, city IT and the public services residents depend on.",
+  "description": "A city or county: the emergency operations center, public works, police and fire, 911 dispatch, city IT and the public services residents depend on. Plans: the emergency operations plan (FEMA CPG 101 v3.1), a cyber incident annex, COOP/COG and the hazard mitigation plan; the 911 service provider must notify the PSAP of an outage within 30 minutes (47 CFR 4.9(h)).",
   "aliases": ["city", "county", "government", "municipality"],
   "vocabulary": {
     "facility": "the city (its facilities, districts and services)",
@@ -46,7 +46,12 @@
       "email",
       "helpdesk / ITSM",
       "SIEM",
-      "mass-notification system"
+      "mass-notification system",
+      "property tax, assessor and recorder systems",
+      "municipal court case management",
+      "police CAD / RMS and evidence storage",
+      "WebEOC-type EOC software",
+      "council meeting streaming and agendas"
     ],
     "ot": [
       "traffic signal control",
@@ -54,7 +59,10 @@
       "public-safety radio",
       "building automation",
       "PACS and CCTV at city facilities",
-      "outdoor warning sirens"
+      "outdoor warning sirens",
+      "stormwater pumps and levee gates",
+      "street lighting control",
+      "fleet fuel management and EV chargers"
     ]
   },
   "roles": [
@@ -92,6 +100,27 @@
       "abbreviation": "PD",
       "team": "Team E: Public Safety",
       "description": "Owns police and the coordination with fire and EMS."
+    },
+    {
+      "key": "exec",
+      "name": "Mayor / County Executive (Policy Group)",
+      "abbreviation": "CEO",
+      "team": "Team F: Policy Group",
+      "description": "Owns the local emergency declaration and the request for state assistance."
+    },
+    {
+      "key": "fire",
+      "name": "Fire Chief",
+      "abbreviation": "FD",
+      "team": "Team G: Fire / EMS",
+      "description": "Owns fire, EMS, hazmat and fire-station alerting."
+    },
+    {
+      "key": "finance",
+      "name": "Finance Director",
+      "abbreviation": "Fin",
+      "team": "Team H: Finance / Admin",
+      "description": "Owns payroll continuity, emergency procurement, wire-fraud holds and FEMA reimbursement."
     }
   ],
   "outsideParties": [
@@ -104,7 +133,13 @@
     "the school district",
     "the hospital",
     "the CAD and ERP vendors",
-    "the city council and the mayor's office"
+    "the city council and the mayor's office",
+    "the 911 service provider (PSAP outage notice within 30 minutes)",
+    "FEMA region",
+    "the state fusion center and National Guard cyber unit",
+    "MS-ISAC",
+    "the cyber insurer and breach coach",
+    "Red Cross / VOAD"
   ],
   "mediaChannels": [
     "resident posts on Facebook and Nextdoor",
@@ -163,11 +198,12 @@
     "the newspaper asking why 311 is down",
     "a council member demanding a briefing",
     "the school district asking whether to dismiss early",
-    "a TV crew at city hall"
+    "a TV crew at city hall",
+    "the 911 carrier calling with a late outage notice while calls are failing"
   ],
   "rolePatterns": {
     "security": "police|sheriff|public safety",
     "operations": "emergency manag|public works"
   },
-  "agencyPattern": "FEMA|State EMA|NWS|National Weather Service|state police"
+  "agencyPattern": "FEMA|State EMA|NWS|National Weather Service|state police|MS-ISAC"
 }

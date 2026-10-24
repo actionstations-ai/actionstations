@@ -1,7 +1,7 @@
 {
   "id": "transit",
   "label": "Transit (bus / rail)",
-  "description": "A public transit agency: bus routes, light-rail lines, depots and yards, an operations control center with CAD/AVL, fare collection, transit police.",
+  "description": "A public transit agency: bus routes, light-rail lines, depots and yards, an operations control center with CAD/AVL, fare collection, transit police. Plans: the PTASP (49 CFR 673), State Safety Oversight notification (49 CFR 674), and for rail systems the TSA cybersecurity directive (SD 1582-21-01E: Cybersecurity Coordinator, incident response plan exercised annually, CISA report within 72 hours).",
   "aliases": ["bus", "rail", "transit_agency"],
   "vocabulary": {
     "facility": "the transit system (routes, lines, stops, stations, depots and the control center)",
@@ -61,16 +61,25 @@
       "website",
       "email",
       "helpdesk / ITSM",
-      "SIEM"
+      "SIEM",
+      "scheduling and runcutting",
+      "paratransit scheduling and dispatch",
+      "maintenance management (EAM)",
+      "rider alert system (SMS / email)"
     ],
     "ot": [
       "on-board vehicle logic units and AVL radios",
-      "rail signalling and train control",
+      "rail signalling and train control (wayside signals, CBTC, PTC)",
       "traction power SCADA",
       "passenger information displays (PIDS)",
       "station PACS and CCTV",
       "fuel management and depot building automation",
-      "traffic-signal priority"
+      "traffic-signal priority",
+      "tunnel ventilation and fire life safety",
+      "fare gates and ticket vending machines",
+      "P25 / LMR radio",
+      "battery-electric bus charging management",
+      "elevator and escalator monitoring"
     ]
   },
   "roles": [
@@ -108,12 +117,26 @@
       "abbreviation": "Fleet",
       "team": "Team E: Maintenance",
       "description": "Owns the vehicles, the depots and the mechanics."
+    },
+    {
+      "key": "cso",
+      "name": "Chief Safety Officer",
+      "abbreviation": "CSO",
+      "team": "Team F: Safety",
+      "description": "Owns safety event classification, the two-hour FTA / SSOA notification and stop-work authority."
+    },
+    {
+      "key": "cyber",
+      "name": "Cybersecurity Coordinator (CISO)",
+      "abbreviation": "CISO",
+      "team": "Team G: Cybersecurity",
+      "description": "The TSA-designated coordinator: declares the cyber incident, reports to CISA, runs the incident response plan."
     }
   ],
   "outsideParties": [
-    "FTA (Federal Transit Administration)",
+    "FTA (Federal Transit Administration; two-hour notification of qualifying rail safety events)",
     "NTSB",
-    "TSA surface division",
+    "TSA Surface Operations (significant security concerns within 24 hours)",
     "state DOT",
     "city and county emergency management",
     "local police and fire",
@@ -121,7 +144,14 @@
     "the fare-system vendor",
     "the transit union local",
     "city traffic management center",
-    "school districts and major employers"
+    "school districts and major employers",
+    "the State Safety Oversight Agency (SSOA)",
+    "CISA (TSA-required cyber incident report within 72 hours)",
+    "FBI (JTTF) and the regional fusion center",
+    "the 911 PSAP",
+    "neighboring transit agencies (mutual-aid buses)",
+    "the paratransit contractor",
+    "the signaling / CBTC supplier"
   ],
   "mediaChannels": [
     "rider posts on X/Twitter with photos of stuck buses",
@@ -177,11 +207,13 @@
     "a Facebook post claiming a bus was hijacked",
     "a reporter asking why the real-time app shows ghost buses",
     "a city council aide asking for a statement before the evening news",
-    "the union steward demanding operators be pulled in"
+    "the union steward demanding operators be pulled in",
+    "the TSA 72-hour clock for the CISA cyber incident report running",
+    "the two-hour FTA and SSOA notification after a derailment"
   ],
   "rolePatterns": {
     "security": "transit police|tpd|police",
     "operations": "transportation|occ|dispatch"
   },
-  "agencyPattern": "FTA|NTSB|TSA|DOT|MPO"
+  "agencyPattern": "FTA|NTSB|TSA|DOT|MPO|SSOA"
 }

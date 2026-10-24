@@ -1,7 +1,7 @@
 {
   "id": "water_dam",
   "label": "Dam / water authority",
-  "description": "A dam, reservoir and powerhouse (hydro and/or flood control) operated by a regional water authority: spillway gates, intakes, penstocks and units, SCADA, dam safety, downstream communities.",
+  "description": "A dam, reservoir and powerhouse (hydro and/or flood control) operated by a regional water authority: spillway gates, intakes, penstocks and units, SCADA, dam safety, downstream communities. Plans: the Emergency Action Plan (FEMA P-64 emergency levels; 18 CFR Part 12 for FERC-licensed projects) with its notification flowchart and inundation maps.",
   "aliases": ["dam", "water", "hydro", "reservoir", "water_utility"],
   "vocabulary": {
     "facility": "the dam, reservoir and powerhouse",
@@ -88,7 +88,11 @@
       "website and public notification sign-up",
       "helpdesk / ITSM",
       "SIEM",
-      "engineering document system"
+      "engineering document system",
+      "dam safety instrumentation database and ADAS server",
+      "asset management / CMMS",
+      "GIS with inundation maps",
+      "energy scheduling and outage management"
     ],
     "ot": [
       "dam SCADA / HMI",
@@ -98,7 +102,13 @@
       "piezometer and seepage instrumentation",
       "PACS and CCTV at the dam",
       "siren and mass-notification system",
-      "radio system"
+      "radio system",
+      "plant historian",
+      "switchyard protection relays",
+      "reservoir level and tailwater gauges, seismic accelerometers",
+      "telemetry links (licensed radio, GOES satellite, cellular)",
+      "backup diesel generators for the gates",
+      "waterside barrier booms and UAS detection"
     ]
   },
   "roles": [
@@ -143,20 +153,41 @@
       "abbreviation": "EMA",
       "team": "Team F: County EMA",
       "description": "Owns downstream warning and evacuation."
+    },
+    {
+      "key": "eapc",
+      "name": "EAP Coordinator",
+      "abbreviation": "EAPC",
+      "team": "Team G: Dam Safety",
+      "description": "Owns the notification flowchart, the inundation maps and the annual EAP drill."
+    },
+    {
+      "key": "wcm",
+      "name": "Reservoir / Water Control Manager",
+      "abbreviation": "WCM",
+      "team": "Team H: Water Control",
+      "description": "Owns release schedules, flood routing and coordination with the River Forecast Center and other dams."
     }
   ],
   "outsideParties": [
     "FERC (dam safety)",
     "USACE",
     "the state dam safety program",
-    "National Weather Service",
+    "National Weather Service (flash flood and dam-failure warnings)",
     "county emergency management and the sheriff",
     "downstream city and town officials",
     "the SCADA vendor",
     "the regional grid operator / balancing authority",
     "FBI and CISA",
     "state police",
-    "recreation concessionaires and marinas"
+    "recreation concessionaires and marinas",
+    "the FERC Regional Engineer (safety-related incidents reported as soon as practicable, preferably within 72 hours)",
+    "the NWS River Forecast Center and USGS stream gauges",
+    "FEMA (National Dam Safety Program)",
+    "the 911 PSAP",
+    "hospitals and schools in the inundation zone",
+    "upstream and downstream dam owners",
+    "E-ISAC or WaterISAC"
   ],
   "mediaChannels": [
     "downstream residents on Facebook and Nextdoor",
@@ -212,7 +243,8 @@
     "a boater's photo of water over the spillway with a wrong caption",
     "a county commissioner asking whether to evacuate",
     "the regional TV station asking if the dam is failing",
-    "a marina owner demanding the lake level be held"
+    "a marina owner demanding the lake level be held",
+    "the FERC Regional Engineer asking for the initial safety incident report"
   ],
   "rolePatterns": {
     "technical": "scada|ot\\b",

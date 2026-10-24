@@ -314,12 +314,13 @@ export const THREAT_FAMILIES: readonly ThreatFamily[] = [
     decisionPointExamples: [
       'halt operations in the overflown area (stopping service or work, moving people) or continue under the drone, coordinated with law enforcement and the airspace authority',
       'request a law-enforcement response to find the operator, knowing the organization itself may not interfere with the aircraft',
+      'ask law enforcement to bring in a certified state or local counter-UAS team (SAFER SKIES Act authority, in effect since 1 Jul 2026) or wait for federal partners, knowing the organization itself may only detect and report',
       'evacuate or shelter an area over a possible payload',
     ],
     clueKinds:
       'a Remote ID broadcast, a detection-system track, an operator location estimate, a witness photo, a repeated flight pattern, a social media post by the pilot',
     hurdleKinds:
-      'a detection system that shows no track, no legal counter-UAS option, an operator in a public park beyond the fence, a restart with no written criteria',
+      'a detection system that shows no track, no counter-UAS option for the organization itself (mitigation is for federal agencies and certified state or local law enforcement), an operator in a public park beyond the fence, a restart with no written criteria',
     keyCoordination: 'local law enforcement and the airspace authority (the FAA or its equivalent)',
     lint: {
       clueRequired: false,

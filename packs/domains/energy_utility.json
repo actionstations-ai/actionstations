@@ -1,7 +1,7 @@
 {
   "id": "energy_utility",
   "label": "Energy utility",
-  "description": "An electric or gas utility: substations, feeders, a control center with SCADA/EMS, field crews, customers and regulators.",
+  "description": "An electric utility: substations, feeders, a control center with SCADA/EMS, field crews, customers and regulators. Plans: the NERC CIP-008 cyber incident response plan (E-ISAC and CISA within 1 hour of a reportable incident), EOP-004 event reporting, DOE OE-417 (1-hour emergency alert), restoration and backup control center plans.",
   "aliases": ["utility", "electric", "power", "gas", "energy"],
   "vocabulary": {
     "facility": "the service territory, substations and control center",
@@ -51,7 +51,10 @@
       "email",
       "helpdesk / ITSM",
       "SIEM",
-      "GIS"
+      "GIS",
+      "meter data management",
+      "IVR and call center",
+      "work and mobile workforce management"
     ],
     "ot": [
       "SCADA / EMS / DMS",
@@ -60,7 +63,13 @@
       "distribution automation",
       "generation plant DCS",
       "PACS and CCTV at substations",
-      "mobile radio"
+      "mobile radio",
+      "ADMS / DERMS",
+      "ICCP links between control centers",
+      "reclosers, capacitor banks and FLISR",
+      "backup control center",
+      "telecom (microwave, fiber, private LTE) and GPS time",
+      "transformer oil and temperature monitoring"
     ]
   },
   "roles": [
@@ -98,6 +107,20 @@
       "abbreviation": "Field",
       "team": "Team E: Field Operations",
       "description": "Owns the crews, the trucks and what is actually happening at the pole."
+    },
+    {
+      "key": "cip",
+      "name": "CIP Senior Manager (Compliance)",
+      "abbreviation": "CIP",
+      "team": "Team F: Compliance",
+      "description": "Owns the CIP-008 reporting determination and NERC / DOE filings."
+    },
+    {
+      "key": "cust",
+      "name": "Customer Operations Director",
+      "abbreviation": "Cust",
+      "team": "Team G: Customer",
+      "description": "Owns ETRs, the outage map, medical-baseline customers and IVR messages."
     }
   ],
   "outsideParties": [
@@ -110,7 +133,13 @@
     "local police and fire",
     "the SCADA / OMS vendor",
     "large customers (a hospital, a water plant)",
-    "mutual-assistance utilities"
+    "mutual-assistance utilities (RMAGs)",
+    "the Reliability Coordinator and Balancing Authority",
+    "DOE (OE-417 emergency alert within 1 hour)",
+    "FERC",
+    "the state energy office",
+    "the 911 PSAP",
+    "regional mutual assistance groups"
   ],
   "mediaChannels": [
     "customer posts on X/Twitter and the outage map",
@@ -165,7 +194,9 @@
     "a Facebook rumor that the utility was hacked",
     "a reporter asking how many customers are out",
     "a hospital facilities manager asking how long the outage will last",
-    "the mayor's office asking for a statement"
+    "the mayor's office asking for a statement",
+    "the one-hour CIP-008 and OE-417 reporting clocks after a reportable cyber incident",
+    "the Reliability Coordinator issuing an Energy Emergency Alert"
   ],
   "rolePatterns": {
     "technical": "scada|ot\\b|ems",

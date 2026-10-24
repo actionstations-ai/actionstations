@@ -1,7 +1,7 @@
 {
   "id": "healthcare",
   "label": "Healthcare",
-  "description": "A hospital or health system: emergency department, inpatient units, operating rooms, the EHR and medical devices, a hospital command center under HICS.",
+  "description": "A hospital or health system: emergency department, inpatient units, operating rooms, the EHR and medical devices, a hospital command center under HICS. Plans: the CMS emergency preparedness program (42 CFR 482.15: all-hazards risk assessment, testing twice a year, one exercise of which may be a facilitated tabletop), the HVA, EHR downtime procedures, and HIPAA breach notification (individuals within 60 days of discovery).",
   "aliases": ["hospital", "health", "clinic", "health_system"],
   "vocabulary": {
     "facility": "the hospital campus",
@@ -47,7 +47,12 @@
       "email",
       "helpdesk / ITSM",
       "SIEM",
-      "nurse-call and paging"
+      "nurse-call and paging",
+      "interface engine (HL7 / FHIR)",
+      "revenue cycle and claims clearinghouse",
+      "bed management and patient flow board",
+      "secure messaging and paging",
+      "identity and badge-tap SSO"
     ],
     "ot": [
       "building automation (HVAC, medical gas, generators)",
@@ -55,7 +60,10 @@
       "CCTV",
       "elevators",
       "medical devices on the network (pumps, monitors, imaging)",
-      "pneumatic tube system"
+      "pneumatic tube system",
+      "fire alarm panels",
+      "water treatment for dialysis",
+      "duress buttons"
     ]
   },
   "roles": [
@@ -93,6 +101,27 @@
       "abbreviation": "CNO",
       "team": "Team E: Clinical Operations",
       "description": "Owns patient care, bed capacity, diversion and the units."
+    },
+    {
+      "key": "privacy",
+      "name": "Chief Privacy Officer (Compliance)",
+      "abbreviation": "CPO",
+      "team": "Team F: Compliance",
+      "description": "Owns the HIPAA breach risk assessment and OCR / state notification timing."
+    },
+    {
+      "key": "facilities",
+      "name": "Director of Facilities (Infrastructure Branch Director)",
+      "abbreviation": "Fac",
+      "team": "Team G: Infrastructure",
+      "description": "Owns generators, medical gas, HVAC, water and elevators."
+    },
+    {
+      "key": "biomed",
+      "name": "Director of Clinical Engineering (Biomed)",
+      "abbreviation": "CE",
+      "team": "Team H: Clinical Engineering",
+      "description": "Owns networked medical devices and their isolation."
     }
   ],
   "outsideParties": [
@@ -105,7 +134,13 @@
     "the EHR vendor",
     "medical-device vendors",
     "the blood supplier and pharmacy wholesaler",
-    "neighboring hospitals (diversion)"
+    "neighboring hospitals (diversion)",
+    "HHS Office for Civil Rights (HIPAA breach reports)",
+    "FDA (device safety communications)",
+    "DEA (controlled-substance loss)",
+    "Health-ISAC",
+    "the cyber insurer and incident response firm",
+    "the state attorney general"
   ],
   "mediaChannels": [
     "a patient-family post on Facebook",
@@ -161,7 +196,8 @@
     "a rumor that patient records were leaked",
     "a health reporter asking if the ED is on diversion",
     "the state health department asking for a status report",
-    "a surgeon demanding the OR schedule be restored"
+    "a surgeon demanding the OR schedule be restored",
+    "counsel asking when the 60-day HIPAA notification clock started"
   ],
   "rolePatterns": {
     "technical": "ciso|biomed",

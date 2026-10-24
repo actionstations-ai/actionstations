@@ -75,7 +75,11 @@
       "campus or corporate email and identity",
       "helpdesk / ITSM",
       "SIEM",
-      "sponsor data-sharing portals"
+      "sponsor data-sharing portals",
+      "fleet management and flight logging",
+      "LAANC / airspace authorization client",
+      "the vendor cloud (telemetry and imagery sync)",
+      "evidence management (public safety)"
     ],
     "ot": [
       "ground control stations (GCS)",
@@ -86,7 +90,9 @@
       "battery chargers and battery management",
       "Remote ID modules",
       "detect-and-avoid / ADS-B receivers",
-      "hangar PACS and CCTV"
+      "hangar PACS and CCTV",
+      "docking stations / drone-in-a-box",
+      "UAS detection systems (RF, radar, Remote ID receivers)"
     ]
   },
   "roles": [
@@ -124,11 +130,32 @@
       "abbreviation": "Sec",
       "team": "Team E: Security",
       "description": "Owns the hangar, the test site perimeter and the law-enforcement liaison."
+    },
+    {
+      "key": "cp",
+      "name": "Chief Remote Pilot",
+      "abbreviation": "CP",
+      "team": "Team F: Flight Operations",
+      "description": "Owns crew qualification, mission go/no-go and the lost-link procedure."
+    },
+    {
+      "key": "mx",
+      "name": "Maintenance / Airworthiness Lead",
+      "abbreviation": "MX",
+      "team": "Team G: Maintenance",
+      "description": "Owns inspections, parts traceability and return to service after an anomaly."
+    },
+    {
+      "key": "risk",
+      "name": "Risk Manager / General Counsel",
+      "abbreviation": "Risk",
+      "team": "Team H: Legal / Risk",
+      "description": "Owns insurance notice, privacy complaints and the legal limits on detection and mitigation."
     }
   ],
   "outsideParties": [
-    "the FAA (Flight Standards, the local FSDO, the nearby Class C tower)",
-    "the FCC (spectrum)",
+    "the FAA (Flight Standards, the local FSDO, the nearby Class C tower; 107.9 safety event reports within 10 days)",
+    "the FCC (spectrum, equipment authorization, the Covered List)",
     "local law enforcement and campus safety",
     "research sponsors and funding agencies",
     "the university or corporate export-control office",
@@ -136,7 +163,12 @@
     "the airframe manufacturer",
     "neighboring landowners under the flight areas",
     "NTSB (for an accident)",
-    "CISA and the FBI"
+    "CISA and the FBI",
+    "DHS Program Executive Office for Drones and C-UAS",
+    "the FBI National Counter-UAS Training Center",
+    "the state fusion center",
+    "the IRB (imagery of people)",
+    "a certified state or local counter-UAS law-enforcement team (SAFER SKIES Act authority, in effect since 1 Jul 2026)"
   ],
   "mediaChannels": [
     "a neighbor's post about a drone over their yard",
@@ -194,7 +226,9 @@
     "the Class C tower calling about an unidentified track",
     "the sponsor's program manager asking whether research data leaked",
     "the student newspaper asking about a crash",
-    "the FAA FSDO asking for the flight logs"
+    "the FAA FSDO asking for the flight logs",
+    "the 10-day FAA 107.9 report deadline after a flyaway that damaged a car",
+    "a rogue drone over the test site with police asking whether to call in a certified counter-UAS team"
   ],
   "rolePatterns": {
     "technical": "systems|gcs|cyber",

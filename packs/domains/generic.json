@@ -1,7 +1,7 @@
 {
   "id": "generic",
   "label": "Generic organization",
-  "description": "Any organization whose documents describe its facilities, systems and procedures. No built-in identifier categories: the project's documents are the only source.",
+  "description": "Any organization whose documents describe its facilities, systems and procedures. No built-in identifier categories: the project's documents are the only source. Plans: an emergency operations plan (FEMA CPG 101 v3.1), an emergency action plan (OSHA 1910.38), COOP, a cyber incident response plan (NIST SP 800-61r3) and a crisis communications plan.",
   "aliases": ["other", "organization"],
   "vocabulary": {
     "facility": "the organization's facilities",
@@ -11,8 +11,27 @@
   },
   "factCategories": [],
   "systems": {
-    "it": ["email", "website", "helpdesk / ITSM", "SIEM", "business applications"],
-    "ot": ["building automation", "PACS and CCTV", "the operational systems the documents name"]
+    "it": [
+      "email",
+      "website",
+      "helpdesk / ITSM",
+      "SIEM",
+      "business applications",
+      "identity provider and directory",
+      "endpoint protection / EDR",
+      "backup and recovery",
+      "ERP / finance and payroll",
+      "VPN and remote access",
+      "phone system / VoIP",
+      "mass-notification system"
+    ],
+    "ot": [
+      "building automation",
+      "PACS and CCTV",
+      "the operational systems the documents name",
+      "fire alarm panel",
+      "generator / UPS"
+    ]
   },
   "roles": [
     {
@@ -49,15 +68,41 @@
       "abbreviation": "Liaison",
       "team": "Team E: Partners",
       "description": "Owns the partners, tenants or customers the incident affects."
+    },
+    {
+      "key": "exec",
+      "name": "Executive (Policy Group)",
+      "abbreviation": "Exec",
+      "team": "Team F: Policy Group",
+      "description": "Owns delegation of authority, spending limits, and the closure and ransom decisions."
+    },
+    {
+      "key": "legal",
+      "name": "Legal Counsel / Compliance",
+      "abbreviation": "Legal",
+      "team": "Team G: Legal",
+      "description": "Owns notification obligations, privilege and the law-enforcement engagement."
+    },
+    {
+      "key": "finance",
+      "name": "Finance / Admin Section Chief",
+      "abbreviation": "FSC",
+      "team": "Team H: Finance / Admin",
+      "description": "Owns cost tracking, the cyber insurer and emergency procurement."
     }
   ],
   "outsideParties": [
     "local police and fire",
     "county emergency management",
-    "FBI and CISA",
+    "FBI (field office, IC3) and CISA",
     "the system vendors the documents name",
     "the regulator the documents name",
-    "partners, tenants and major customers"
+    "partners, tenants and major customers",
+    "the state fusion center",
+    "the cyber insurer and breach coach",
+    "a digital forensics and incident response firm",
+    "the sector ISAC (or MS-ISAC for governments)",
+    "the bank (wire recall)"
   ],
   "mediaChannels": [
     "posts on X/Twitter and Facebook",
@@ -111,7 +156,8 @@
     "a community rumor",
     "a reporter with a deadline",
     "a partner demanding a written update",
-    "a board member calling the director"
+    "a board member calling the director",
+    "counsel asking whether a state breach-notification clock has started"
   ],
   "rolePatterns": {}
 }

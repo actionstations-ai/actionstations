@@ -1,7 +1,7 @@
 {
   "id": "campus",
   "label": "Campus",
-  "description": "A university or school campus: academic buildings, residence halls, a campus police department, student systems, research labs and large events.",
+  "description": "A college or university campus: academic buildings, residence halls, a campus police department, student systems, research labs and large events. Plans: the emergency operations plan, Clery Act emergency notification and timely warning (34 CFR 668.46), the GLBA Safeguards incident response plan (FTC notice within 30 days for 500 or more consumers) and FSA breach reporting.",
   "aliases": ["university", "college", "school"],
   "vocabulary": {
     "facility": "the campus",
@@ -44,7 +44,11 @@
       "helpdesk / ITSM",
       "SIEM",
       "research computing",
-      "campus Wi-Fi"
+      "campus Wi-Fi",
+      "ERP / HR / finance",
+      "financial aid systems (FSA access)",
+      "campus card / one-card system",
+      "athletics ticketing"
     ],
     "ot": [
       "building automation (HVAC, labs)",
@@ -53,7 +57,12 @@
       "blue-light emergency phones",
       "mass-notification and sirens",
       "utility plant SCADA",
-      "lab safety systems"
+      "lab safety systems",
+      "central utility plant (steam, chilled water, cogeneration)",
+      "outdoor warning sirens",
+      "fire alarm panels",
+      "residence hall door locks",
+      "emergency generators"
     ]
   },
   "roles": [
@@ -91,6 +100,27 @@
       "abbreviation": "DoS",
       "team": "Team E: Student Affairs",
       "description": "Owns residence halls, student welfare and parents."
+    },
+    {
+      "key": "clery",
+      "name": "Clery Compliance Officer",
+      "abbreviation": "Clery",
+      "team": "Team F: Compliance",
+      "description": "Owns whether a timely warning or emergency notification is required, and the crime log."
+    },
+    {
+      "key": "fac",
+      "name": "Associate VP for Facilities",
+      "abbreviation": "Fac",
+      "team": "Team G: Facilities",
+      "description": "Owns the central plant, building automation, generators and damage assessment."
+    },
+    {
+      "key": "ehs",
+      "name": "EHS Director (Responsible Official)",
+      "abbreviation": "EHS",
+      "team": "Team H: Lab Safety",
+      "description": "Owns lab hazards and the select-agent theft, loss or release notice."
     }
   ],
   "outsideParties": [
@@ -98,11 +128,17 @@
     "county emergency management",
     "FBI and CISA",
     "the state system office or board",
-    "the Department of Education (Clery)",
+    "the Department of Education (Clery, FSA cybersecurity)",
     "parents and the student newspaper",
     "the LMS / SIS vendor",
     "research sponsors",
-    "neighboring hospitals"
+    "neighboring hospitals",
+    "the FTC (Safeguards Rule notice)",
+    "Federal Student Aid (breach reports)",
+    "the Federal Select Agent Program (CDC / APHIS)",
+    "REN-ISAC",
+    "the state attorney general",
+    "the cyber insurer and breach coach"
   ],
   "mediaChannels": [
     "student posts on Instagram, X/Twitter and an anonymous campus app",
@@ -158,7 +194,8 @@
     "a parents' Facebook group demanding answers",
     "the student newspaper asking for comment",
     "a trustee's office calling the president",
-    "a professor refusing to cancel an exam"
+    "a professor refusing to cancel an exam",
+    "the Clery Officer asking whether to send an emergency notification now"
   ],
   "rolePatterns": {
     "security": "campus police|cpd|police",

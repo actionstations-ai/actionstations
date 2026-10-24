@@ -1,7 +1,7 @@
 {
   "id": "port_maritime",
   "label": "Port / maritime",
-  "description": "A seaport or terminal: berths and piers, cranes and yard equipment, the terminal operating system, gate operations, vessels, the Coast Guard and the facility security plan.",
+  "description": "A seaport or terminal: berths and piers, cranes and yard equipment, the terminal operating system, gate operations, vessels, the Coast Guard and the facility security plan. Plans: the Facility Security Plan (33 CFR 105; drills every 3 months, an annual exercise that may be a tabletop), the USCG cyber rule (33 CFR 101 subpart F: Cybersecurity Officer, Cybersecurity Plan, cyber incident response plan, reportable cyber incidents to the National Response Center without delay), and the Area Maritime Security Plan.",
   "aliases": ["port", "seaport", "harbor", "harbour", "maritime", "terminal_operator"],
   "vocabulary": {
     "facility": "the port (berths, piers, yard, gates and the operations center)",
@@ -59,16 +59,24 @@
       "email",
       "helpdesk / ITSM",
       "SIEM",
-      "website"
+      "website",
+      "gate OCR / RFID and kiosks",
+      "berth scheduling",
+      "billing and tariff",
+      "CBP-facing systems (ACE)"
     ],
     "ot": [
-      "crane and yard-equipment control systems",
+      "yard-equipment control systems (gantries, straddle carriers)",
       "PACS / TWIC readers and CCTV",
       "vessel traffic and AIS feeds",
       "reefer monitoring",
       "fuel and bunkering control",
       "mooring and lock controls",
-      "radio and VHF"
+      "radio and VHF",
+      "ship-to-shore crane PLCs and vendor remote access",
+      "liquid bulk terminal SCADA (tank gauging, valves)",
+      "shore power and port substations",
+      "radar and harbor lighting"
     ]
   },
   "roles": [
@@ -106,10 +114,31 @@
       "abbreviation": "TO",
       "team": "Team E: Terminal Operator",
       "description": "Owns the stevedores, the shipping-line customers and the equipment."
+    },
+    {
+      "key": "cyso",
+      "name": "Cybersecurity Officer",
+      "abbreviation": "CySO",
+      "team": "Team F: Cyber",
+      "description": "Owns the Cybersecurity Plan and cyber incident response plan, and reports cyber incidents to the Coast Guard."
+    },
+    {
+      "key": "police",
+      "name": "Port Police Chief (Harbor Patrol)",
+      "abbreviation": "PPD",
+      "team": "Team G: Port Police",
+      "description": "Owns waterside and landside response and unified command with the USCG and CBP."
+    },
+    {
+      "key": "em",
+      "name": "Emergency Manager",
+      "abbreviation": "EM",
+      "team": "Team H: Emergency Management",
+      "description": "Owns the port EOP, heavy-weather plan and Area Maritime Security Plan coordination."
     }
   ],
   "outsideParties": [
-    "US Coast Guard (Captain of the Port)",
+    "US Coast Guard (Captain of the Port, Sector command center)",
     "CBP",
     "TSA (TWIC)",
     "the shipping lines and vessel agents",
@@ -119,7 +148,13 @@
     "county emergency management",
     "the TOS vendor",
     "the railroad and trucking associations",
-    "FBI and CISA"
+    "FBI and CISA",
+    "the National Response Center (security and cyber incidents without delay)",
+    "the Area Maritime Security Committee",
+    "USCG Cyber Command",
+    "NOAA and the US Army Corps of Engineers",
+    "the crane OEM and its remote service",
+    "a certified state or local counter-UAS law-enforcement team (SAFER SKIES Act authority, in effect since 1 Jul 2026)"
   ],
   "mediaChannels": [
     "a trucker's post about gate queues on Facebook",
@@ -177,7 +212,9 @@
     "a shipping line threatening to divert a vessel",
     "a trade reporter asking if the port was hacked",
     "the Captain of the Port asking for a status report",
-    "the mayor's office calling about the traffic"
+    "the mayor's office calling about the traffic",
+    "the Captain of the Port weighing a COTP order to close the channel",
+    "drones over the tank farm and nobody sure whether the Coast Guard or a certified local counter-UAS team acts"
   ],
   "rolePatterns": {
     "security": "fso|facility security|harbor patrol",

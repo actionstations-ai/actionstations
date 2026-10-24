@@ -1,7 +1,7 @@
 {
   "id": "water_utility",
   "label": "Water utility",
-  "description": "A city or regional drinking-water utility: treatment plants with chemical feed (chlorine, sodium hydroxide, fluoride), filters and clearwells, pump and booster stations, storage tanks and pressure zones, SCADA/HMI with PLCs, RTUs and telemetry, LIMS, billing/CIS and AMI meters, and the regulators and public notices (boil-water, do-not-drink) that go with them.",
+  "description": "A city or regional drinking-water utility: treatment plants with chemical feed (chlorine, sodium hydroxide, fluoride), filters and clearwells, pump and booster stations, storage tanks and pressure zones, SCADA/HMI with PLCs, RTUs and telemetry, LIMS, billing/CIS and AMI meters, and the regulators and public notices (boil-water, do-not-drink) that go with them. Plans: the AWIA Risk and Resilience Assessment and Emergency Response Plan (SDWA 1433), Tier 1 public notice within 24 hours (40 CFR 141.202).",
   "aliases": ["water_department", "drinking_water", "wastewater", "water_treatment"],
   "vocabulary": {
     "facility": "the water system (treatment plants, pump stations, tanks and the distribution network)",
@@ -86,7 +86,10 @@
       "email",
       "helpdesk / ITSM",
       "SIEM",
-      "GIS"
+      "GIS",
+      "AMI head-end and meter data management",
+      "hydraulic model",
+      "customer portal, payments and IVR call center"
     ],
     "ot": [
       "plant SCADA / HMI",
@@ -96,7 +99,11 @@
       "online analyzers (chlorine residual, turbidity, pH)",
       "AMI meters and head-end",
       "PACS and CCTV at tanks and pump stations",
-      "remote-access gateway for the integrator"
+      "remote-access gateway for the integrator",
+      "plant historian",
+      "small integrated HMI/PLCs at booster stations",
+      "VFDs, high-service and booster pumps",
+      "UV disinfection and membrane skids"
     ]
   },
   "roles": [
@@ -134,10 +141,31 @@
       "abbreviation": "Sec",
       "team": "Team E: Security",
       "description": "Owns site security, the law-enforcement liaison and the emergency response plan."
+    },
+    {
+      "key": "wtp",
+      "name": "Water Treatment Plant Superintendent (Chief Operator)",
+      "abbreviation": "WTP",
+      "team": "Team F: Treatment",
+      "description": "Owns manual operation, treatment-train shutdowns and whether finished water leaves the plant."
+    },
+    {
+      "key": "dist",
+      "name": "Distribution Superintendent",
+      "abbreviation": "Dist",
+      "team": "Team G: Field Operations",
+      "description": "Owns valve isolation, flushing, main breaks and pressure zones."
+    },
+    {
+      "key": "cs",
+      "name": "Customer Service Manager",
+      "abbreviation": "CS",
+      "team": "Team H: Customer",
+      "description": "Owns call-center scripts, billing workarounds and the critical-customer list."
     }
   ],
   "outsideParties": [
-    "EPA (Region office)",
+    "EPA (Region office and the Water Security Division)",
     "the state drinking-water program",
     "the county or state health department",
     "WaterISAC",
@@ -147,7 +175,12 @@
     "the SCADA integrator and chemical suppliers",
     "the hospital and large customers",
     "neighboring utilities (mutual aid / WARN)",
-    "the city council and the mayor's office"
+    "the city council and the mayor's office",
+    "the National Response Center (chlorine releases)",
+    "the LEPC",
+    "dialysis centers and schools",
+    "bottled-water and tanker vendors",
+    "the cyber insurer and breach coach"
   ],
   "mediaChannels": [
     "customer posts on Facebook and Nextdoor about water taste, smell or color",
@@ -207,7 +240,8 @@
     "the hospital asking whether to switch to bottled water",
     "a reporter asking if the plant was hacked",
     "the state drinking-water program asking for a status report",
-    "the mayor's office asking whether to issue a boil-water advisory"
+    "the mayor's office asking whether to issue a boil-water advisory",
+    "the 24-hour Tier 1 public notice clock after a positive E. coli sample"
   ],
   "rolePatterns": {
     "technical": "scada|ot\\b",

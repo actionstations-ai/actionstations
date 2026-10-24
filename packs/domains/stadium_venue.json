@@ -1,7 +1,7 @@
 {
   "id": "stadium_venue",
   "label": "Stadium / venue",
-  "description": "A stadium, arena or convention venue: entry gates and sections, ticketing and credentialing, a command post with CCTV, the promoter or tenant team, EMS and police on event day.",
+  "description": "A stadium, arena or convention venue: entry gates and sections, ticketing and credentialing, a command post with CCTV, the promoter or tenant team, EMS and police on event day. Plans: the venue emergency action / operations plan and event security plan; the venue may detect drones but not mitigate them, which falls to federal or certified state and local law enforcement.",
   "aliases": ["stadium", "arena", "venue", "event"],
   "vocabulary": {
     "facility": "the venue (seating bowl, concourses, gates, lots)",
@@ -53,7 +53,10 @@
       "email",
       "helpdesk / ITSM",
       "SIEM",
-      "credentialing"
+      "credentialing",
+      "venue Wi-Fi and DAS",
+      "IPTV / digital signage",
+      "event command post incident log"
     ],
     "ot": [
       "turnstiles and access control (PACS)",
@@ -62,7 +65,13 @@
       "PA and emergency voice evacuation",
       "building automation and lighting",
       "elevators and escalators",
-      "crowd-counting and queue sensors"
+      "crowd-counting and queue sensors",
+      "vehicle barriers and bollards",
+      "fire alarm and smoke control",
+      "screening equipment (walk-through and weapons detection)",
+      "field lighting and generators",
+      "counter-UAS detection sensors",
+      "P25 radio interoperable with police"
     ]
   },
   "roles": [
@@ -100,6 +109,27 @@
       "abbreviation": "IT",
       "team": "Team E: Technology",
       "description": "Owns ticketing, networks, displays and the investigation."
+    },
+    {
+      "key": "gm",
+      "name": "General Manager (Policy)",
+      "abbreviation": "GM",
+      "team": "Team F: Policy",
+      "description": "Owns postponement or cancellation with the tenant, league and promoter."
+    },
+    {
+      "key": "guest",
+      "name": "Guest Services Manager",
+      "abbreviation": "GS",
+      "team": "Team G: Guest Services",
+      "description": "Owns ushers, ADA services, lost children and guest relocation."
+    },
+    {
+      "key": "eng",
+      "name": "Facilities / Building Engineer",
+      "abbreviation": "Eng",
+      "team": "Team H: Facilities",
+      "description": "Owns power, generators, smoke control, the roof and field lighting."
     }
   ],
   "outsideParties": [
@@ -108,11 +138,17 @@
     "county emergency management",
     "the promoter or home team",
     "the league or sanctioning body",
-    "FBI and DHS (special event)",
+    "FBI (special events coordinator, JTTF) and DHS",
     "the ticketing vendor",
     "the transit agency and traffic management",
-    "the FAA (temporary flight restriction)",
-    "the contracted security company"
+    "the FAA (stadium temporary flight restriction, UAS reports)",
+    "the contracted security company",
+    "the fire marshal",
+    "CISA Protective Security Advisor",
+    "USSS (NSSE) and ATF",
+    "the state fusion center",
+    "the counter-UAS detection vendor",
+    "a certified state or local counter-UAS law-enforcement team (SAFER SKIES Act authority, in effect since 1 Jul 2026)"
   ],
   "mediaChannels": [
     "fan posts on X/Twitter and Instagram with video",
@@ -168,11 +204,12 @@
     "a rumor on X that the game is cancelled",
     "the broadcaster asking for an on-air statement",
     "the promoter refusing to delay the show",
-    "the mayor's office calling"
+    "the mayor's office calling",
+    "a drone hovering over the bowl with play on hold while police decide whether a certified counter-UAS team can act"
   ],
   "rolePatterns": {
     "security": "security|police",
     "operations": "event operations|venue"
   },
-  "agencyPattern": "DHS|FAA|league"
+  "agencyPattern": "DHS|FAA|CISA|league"
 }
