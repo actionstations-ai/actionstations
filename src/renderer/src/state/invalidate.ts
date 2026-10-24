@@ -37,6 +37,7 @@ const BY_KIND: Record<JobKind, string[]> = {
   'render-media': SCENARIO_WORK,
   'repair-scenario': SCENARIO_WORK,
   export: [],
+  'pack-download': [],
 }
 
 export interface Change {

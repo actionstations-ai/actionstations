@@ -153,7 +153,7 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 
 | File | Contents |
 |---|---|
-| `settings.json` | `AppSettings`: recent projects, provider configs (no keys), default routing, embedding mode, UI theme |
+| `settings.json` | `AppSettings`: recent projects, provider configs (no keys), default routing, embedding mode, UI theme, pack catalog URLs (`packs.catalogs`) |
 | `secrets.json` | `{ [providerId]: base64(safeStorage.encryptString(apiKey)) }` — ciphertext only, mode 0600 |
 | `prompts/<name>.md` | Global prompt overrides (project overrides live in `<project>/prompts/`) |
 | `models/` | Downloaded local embedding models (only via the explicit download action) |

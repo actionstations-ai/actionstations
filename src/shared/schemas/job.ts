@@ -13,6 +13,7 @@ export const JobKind = z.enum([
   'render-media',
   'repair-scenario',
   'export',
+  'pack-download',
 ])
 export type JobKind = z.infer<typeof JobKind>
 

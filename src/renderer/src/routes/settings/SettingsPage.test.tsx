@@ -69,4 +69,56 @@ describe('SettingsPage', () => {
       }),
     )
   })
+
+  it('adds the official catalog with one click and lists catalogs with their status (#267)', async () => {
+    const official = 'https://actionstations.ai/packs/index.json'
+    let catalogs: AppSettings['packs']['catalogs'] = []
+    const ttx = setup({
+      'settings:get': () => AppSettings.parse({ packs: { catalogs } }),
+      'packs:catalogAdd': (req: { url: string }) => {
+        catalogs = [...catalogs, { url: req.url, addedAt: '2026-10-24T00:00:00Z' }]
+        return catalogs
+      },
+    })
+    expect(await screen.findByText('No catalogs added.')).toBeTruthy()
+    await userEvent
+      .setup()
+      .click(screen.getByRole('button', { name: 'Add the official catalog (actionstations.ai)' }))
+    await waitFor(() => expect(ttx.calls('packs:catalogAdd')).toEqual([{ url: official }]))
+    expect(await screen.findByText(official)).toBeTruthy()
+    expect(screen.getByText('Not fetched yet')).toBeTruthy()
+    expect(
+      screen.queryByRole('button', { name: 'Add the official catalog (actionstations.ai)' }),
+    ).toBeNull()
+  })
+
+  it('refuses plain http off this computer and removes a catalog (#267)', async () => {
+    const url = 'https://packs.example.org/index.json'
+    const ttx = setup({
+      'settings:get': () =>
+        AppSettings.parse({
+          packs: {
+            catalogs: [
+              {
+                url,
+                name: 'Example Packs',
+                addedAt: '2026-10-24T00:00:00Z',
+                lastError: 'HTTP 404',
+              },
+            ],
+          },
+        }),
+      'packs:catalogRemove': () => [],
+    })
+    const user = userEvent.setup()
+    expect(await screen.findByText('Last refresh failed: HTTP 404')).toBeTruthy()
+    const input = screen.getByLabelText('Catalog URL')
+    await user.type(input, 'http://packs.example.org/index.json')
+    expect(screen.getByRole('alert').textContent).toMatch(/https/)
+    expect(
+      (screen.getByRole('button', { name: 'Add catalog' }) as HTMLButtonElement).disabled,
+    ).toBe(true)
+    await user.click(screen.getByRole('button', { name: 'Remove Example Packs' }))
+    await waitFor(() => expect(ttx.calls('packs:catalogRemove')).toEqual([{ url }]))
+  })
 })

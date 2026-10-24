@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { IsoDateTime } from './common'
 import { RecentProject } from './project'
 import { ProviderConfig, ProviderRouting } from './provider'
 
@@ -31,6 +32,27 @@ export const KeyReentry = z.object({
 })
 export type KeyReentry = z.infer<typeof KeyReentry>
 
+/**
+ * A pack catalog the user added (ADR-0018). None by default: the app fetches a catalog only
+ * when the user opens Browse or presses Refresh. The url is checked against PackFetchUrl when
+ * it is added; here it stays a plain string so one odd entry cannot reset all settings.
+ */
+export const PackCatalogSource = z.object({
+  url: z.string().min(1).max(2048),
+  /** The catalog's own name, from the last successful fetch. */
+  name: z.string().max(100).optional(),
+  addedAt: IsoDateTime,
+  lastFetchedAt: IsoDateTime.optional(),
+  /** Why the last refresh failed; cleared by a successful one. */
+  lastError: z.string().max(1000).optional(),
+})
+export type PackCatalogSource = z.infer<typeof PackCatalogSource>
+
+export const PackSettings = z.object({
+  catalogs: z.array(PackCatalogSource).max(50).default([]),
+})
+export type PackSettings = z.infer<typeof PackSettings>
+
 export const AppSettings = z.object({
   recentProjects: z.array(RecentProject).default([]),
   providers: z.array(ProviderConfig).default([]),
@@ -42,5 +64,6 @@ export const AppSettings = z.object({
   onboardingComplete: z.boolean().default(false),
   defaultProjectsDir: z.string().optional(),
   keyReentry: KeyReentry.optional(),
+  packs: PackSettings.default({ catalogs: [] }),
 })
 export type AppSettings = z.infer<typeof AppSettings>

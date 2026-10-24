@@ -122,6 +122,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   path, file-type, size and sha256 rules in `src/shared/schemas/pack.ts`; implementation
   tracked in epic #274.
 
+#### Packs
+
+- Pack catalogs in **Settings → Pack catalogs**: none by default, one click adds the official catalog (`https://actionstations.ai/packs/index.json`), any https URL (http only on this computer) can be added or removed. Catalogs are fetched only on an explicit refresh (`packs:catalogRefresh`), never at startup or in the background: 5 MB cap counted on the bytes, timeout, redirects must stay on https, invalid entries skipped and counted, cached in `userData/packs/catalogs/` for offline display. `packs:download` streams an archive into `userData/packs/.staging/` as a cancellable job, capped at the entry's size (200 MB for Install from URL), and refuses a sha256 mismatch (#267).
+
 #### Editors and saving
 
 - Confirm before quitting or closing the window with unsaved work (#196): main asks the renderer (with a timeout, so a hung page never blocks quitting), which saves pending autosaves first and reports inject drafts, edits parked during generation and editors whose save was refused or failed; a native dialog offers "Quit and discard" or "Cancel".

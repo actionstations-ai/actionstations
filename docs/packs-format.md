@@ -205,6 +205,8 @@ Pack entry:
 
 Several versions of one pack may be listed; the app offers the highest version whose `minAppVersion` and `formatVersion` it supports. The app skips an invalid entry and says how many it skipped instead of refusing the whole catalog; a publisher's validator should refuse it (`PackCatalog` in the schema module).
 
+How the app fetches (`src/main/packs/catalog.ts`, `download.ts`): catalog URLs live in `settings.json` (`packs.catalogs`, empty by default; added in Settings → Pack catalogs). `index.json` is fetched only on an explicit Refresh or when Browse opens, with a 5 MB cap counted on the received bytes, a 30 s idle timeout and at most 5 redirects, each of which must pass the same https rule (and may not move from a remote host to a loopback one). The last good copy is kept in `userData/packs/catalogs/<sha256 of the URL>.json` for offline display, and each catalog records `lastFetchedAt` / `lastError`. An archive download streams into `userData/packs/.staging/`, capped at the entry's `size` (200 MB for Install from URL), hashed while streaming, and removed on a sha256 mismatch, timeout or cancel.
+
 <!-- example:catalog -->
 
 ```json

@@ -91,6 +91,8 @@ const LOOPBACK = new Set(['127.0.0.1', 'localhost', '[::1]'])
 /** Where an archive or catalog is fetched from: https, or http on loopback (local testing). */
 export const PackFetchUrl = z.url({ protocol: /^https?$/ }).refine(
   (u) => {
+    // Refinements still run after z.url() fails, so an unparsable string lands here too.
+    if (!URL.canParse(u)) return false
     const url = new URL(u)
     return url.protocol === 'https:' || LOOPBACK.has(url.hostname)
   },
