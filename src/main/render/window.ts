@@ -1,6 +1,7 @@
 // Render composed inject HTML to PNG/PDF in hidden, sandboxed, offscreen windows with no
-// network (ADR-0008). Offscreen rendering has a fixed device scale factor of 1, so output
-// is identical on retina and non-retina machines; `scale` sets the zoom (2 = crisp @2x).
+// network (ADR-0008); each job may load only its document and the files it needs, and no
+// navigation (./sandbox.ts, #301). Offscreen rendering has a fixed device scale factor of 1,
+// so output is identical on retina and non-retina machines; `scale` sets the zoom (2 = @2x).
 //
 // Windows come from a small pool (./pool.ts): warm windows are reused per zoom factor,
 // reset to a blank page between jobs, recycled after `maxUses` renders or a renderer
@@ -10,9 +11,11 @@ import { BrowserWindow, session, type Session } from 'electron'
 import { promises as fs } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { newId } from '../lib/ids'
 import type { ComposedDocument } from './compose'
 import { WorkerPool, type PoolDriver, type PoolOptions, type PoolStats } from './pool'
+import { clearWindowPolicy, filePolicy, guardWindow, lockSession, setWindowPolicy } from './sandbox'
 
 const PARTITION = 'render-sandbox'
 /** Empty the previous document so nothing from one inject can show up in the next. */
@@ -24,12 +27,9 @@ let renderSession: Session | null = null
 
 function sandboxSession(): Session {
   if (renderSession) return renderSession
-  renderSession = session.fromPartition(PARTITION)
-  // Only local files and inline data may load; templates never touch the network.
-  renderSession.webRequest.onBeforeRequest((details, cb) => {
-    cb({ cancel: !/^(file|data):/.test(details.url) })
-  })
-  renderSession.setPermissionRequestHandler((_wc, _p, cb) => cb(false))
+  // Only the job's document, its allowed files and inline data may load (./sandbox.ts);
+  // templates never touch the network.
+  renderSession = lockSession(session.fromPartition(PARTITION))
   return renderSession
 }
 
@@ -62,6 +62,7 @@ function createWindow(key: string): Promise<BrowserWindow> {
       backgroundThrottling: false,
     },
   })
+  guardWindow(win)
   return Promise.resolve(win)
 }
 
@@ -143,28 +144,27 @@ async function loadDocument(
   win: BrowserWindow,
   doc: ComposedDocument,
   scale: number,
+  file: string,
 ): Promise<{ width: number; height: number }> {
-  const file = join(tmpdir(), `ttx-render-${newId()}.html`)
-  // Inject <base> so relative URLs (template images) resolve to the template folder.
-  const html = doc.html.replace('<head>', `<head><base href="file://${doc.baseDir}/">`)
-  await fs.writeFile(file, html)
   const width = doc.meta.width
-  try {
-    win.setContentSize(Math.ceil(width * scale), Math.ceil((doc.meta.height ?? 1200) * scale))
-    await win.loadFile(file)
-    await win.webContents.executeJavaScript(READY_JS)
-    const height =
-      doc.meta.height ??
-      Math.ceil(
-        (await win.webContents.executeJavaScript(
-          'Math.ceil(document.querySelector(".inject-root").getBoundingClientRect().height)',
-        )) as number,
-      )
-    await resizeAndSettle(win, Math.ceil(width * scale), Math.ceil(height * scale))
-    return { width, height }
-  } finally {
-    await fs.rm(file, { force: true })
-  }
+  win.setContentSize(Math.ceil(width * scale), Math.ceil((doc.meta.height ?? 1200) * scale))
+  await win.loadFile(file)
+  await win.webContents.executeJavaScript(READY_JS)
+  const height =
+    doc.meta.height ??
+    Math.ceil(
+      (await win.webContents.executeJavaScript(
+        'Math.ceil(document.querySelector(".inject-root").getBoundingClientRect().height)',
+      )) as number,
+    )
+  await resizeAndSettle(win, Math.ceil(width * scale), Math.ceil(height * scale))
+  return { width, height }
+}
+
+/** file:// URL of the template folder, with a trailing slash, for <base href>. */
+function baseHref(dir: string): string {
+  const href = pathToFileURL(dir).href
+  return href.endsWith('/') ? href : `${href}/`
 }
 
 function withDocument<T>(
@@ -172,7 +172,23 @@ function withDocument<T>(
   scale: number,
   fn: (win: BrowserWindow, size: { width: number; height: number }) => Promise<T>,
 ): Promise<T> {
-  return pool.run(String(scale), async (win) => fn(win, await loadDocument(win, doc, scale)))
+  return pool.run(String(scale), async (win) => {
+    const file = join(tmpdir(), `ttx-render-${newId()}.html`)
+    // Inject <base> so relative URLs (template images) resolve to the template folder.
+    await fs.writeFile(
+      file,
+      doc.html.replace('<head>', `<head><base href="${baseHref(doc.baseDir)}">`),
+    )
+    try {
+      // This job may load its document, then only files under the document's read roots
+      // (template folder, templates/_shared, the media files it shows).
+      setWindowPolicy(win, filePolicy(file, doc.readRoots))
+      return await fn(win, await loadDocument(win, doc, scale, file))
+    } finally {
+      clearWindowPolicy(win)
+      await fs.rm(file, { force: true })
+    }
+  })
 }
 
 export interface PngResult {

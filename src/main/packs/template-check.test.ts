@@ -96,6 +96,87 @@ describe('checkTemplateFiles', () => {
     expect(out).toContain('hosts.css: links are not allowed in a template')
   })
 
+  // Security review of #274 (#301): each of these passed the regex checker and rendered
+  // dangerous HTML. The checker now judges the Handlebars AST and a real HTML parse.
+  it.each([
+    ['comment splitting a tag name', '<div><scr{{!}}ipt>alert(1)</scr{{!}}ipt></div>', /tag name/],
+    ['value splitting a tag name', '<div><scr{{nope}}ipt>x</scr{{nope}}ipt></div>', /tag name/],
+    ['comment before an attribute', '<img src="a.png" {{!}}onerror="alert(1)">', /attribute name/],
+    ['comment inside an attribute name', '<img src="a.png" o{{!}}nerror="x()">', /attribute name/],
+    ['comment before src', '<img {{!}}src="https://evil.example/b.png">', /attribute name/],
+    ['abruptly closed comment', '<!--><img src="a.png">-->', /plain HTML comments/],
+    ['comment closed with --!>', '<!-- --!><img src="a.png"> -->', /plain HTML comments/],
+    [
+      'meta refresh behind a comment',
+      '<meta {{!}}http-equiv="refresh" content="0;url=file:///etc/hosts">',
+      /attribute name/,
+    ],
+    ['style tag split by a comment', '<sty{{!}}le>@import url(x.css);</sty{{!}}le>', /tag name/],
+    ['CSS escape in @import', '<style>@\\69mport "https://evil.example/e.css";</style>', /@import/],
+    [
+      'CSS escape in url( in style=""',
+      '<div style="background:u\\72l(https://evil.example/f.png)"></div>',
+      /CSS url\(\)/,
+    ],
+    [
+      'CSS escape in url( in <style>',
+      '<style>.a{background:\\75rl(https://evil.example/g.png)}</style>',
+      /CSS url\(\)/,
+    ],
+    ['entity-encoded scheme', '<img src="&#x68;ttps://evil.example/h.png">', /is not allowed/],
+    ['tab inside a scheme', '<img src="jav&#9;ascript:x()">', /is not allowed/],
+    ['expression right after <', '<{{fields.tag}}>', /right after "<"/],
+    ['expression right after </', '<p></{{fields.tag}}>', /right after "<"/],
+    ['expression in an unquoted value', '<img alt={{fields.alt}} src="a.png">', /must be quoted/],
+    ['expression inside an HTML comment', '<!-- {{fields.x}} -->', /inside an HTML comment/],
+    ['expression inside <style>', '<style>.a{color:{{fields.c}} }</style>', /inside <style>/],
+    [
+      'block whose branches change quote parity',
+      '<img alt="{{#if fields.a}}">{{/if}}<b title=" x=1 onerror=alert(1) ">',
+      /same element or attribute value/,
+    ],
+    [
+      'block opening a raw-text element',
+      '{{#if fields.a}}<title>{{/if}}<b>x</b></title>',
+      /inside <title>|same element/,
+    ],
+    ['unescaped {{& }}', '<p>{{& fields.x}}</p>', /unescaped output/],
+    ['inline partial', '{{#*inline "x"}}<p></p>{{/inline}}', /partials/],
+    ['script in SVG', '<svg><script href="a.js"></script></svg>', /<script> is not allowed/],
+  ])('refuses %s (#301)', (_name, html, re) => {
+    expect(messages(html)).toMatch(re)
+  })
+
+  it('refuses a style.css that closes its <style> element (#301)', () => {
+    const css =
+      '.x{color:red}</style><meta http-equiv="refresh" content="0;url=../../.aws/credentials"><style>'
+    expect(messages('<div>ok</div>', { 'style.css': css })).toMatch(
+      /style.css: "<" is not allowed in CSS/,
+    )
+  })
+
+  it.each([
+    ['@\\69mport "x.css";', /@import/],
+    ['.a{background:u\\72l(https://x.test/a.png)}', /CSS url\(\)/],
+    ['.a{background:url("https://x.test/a.png")}', /CSS url\(\)/],
+    ['.a{background:image-set("https://x.test/a.png" 1x)}', /image-set\(\)/],
+    ['.a{width:ex\\70ression(alert(1))}', /expression\(\)/],
+    ['.a{-moz-bind\\69ng:url(a.xml)}', /-moz-binding/],
+    ['.a{background:url(https://x.test/a.png', /CSS url\(\)/],
+  ])('refuses CSS %s after resolving escapes (#301)', (css, re) => {
+    expect(messages('<p></p>', { 'style.css': css })).toMatch(re)
+  })
+
+  it('accepts blocks that stay inside one element or attribute value', () => {
+    expect(
+      check(
+        '<div class="a {{#if fields.x}}on{{else}}off{{/if}}">' +
+          '{{#each fields.items}}<p title="{{this}}">{{@index}}</p>{{else}}<p>none</p>{{/each}}' +
+          '{{#if fields.y}}<span>{{fields.y}}</span>{{/if}}</div><!-- plain note -->',
+      ),
+    ).toEqual([])
+  })
+
   it('templateUrlProblem judges only the literal parts of a Handlebars value', () => {
     expect(templateUrlProblem('{{assets.photo}}')).toBeUndefined()
     expect(templateUrlProblem('https://x.test/{{id}}.png')).toMatch(/not allowed/)

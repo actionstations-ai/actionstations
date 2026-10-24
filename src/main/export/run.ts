@@ -116,14 +116,22 @@ async function writeHandouts(
 ): Promise<void> {
   if (!state.model.docs[doc].trim()) return
   const html = buildDocumentHtml(state.model, doc, 'pdf')
-  await writeOut(state, state.names[file], await htmlToPdf(html, EXPORT_DOC_LABELS[doc]))
+  await writeOut(
+    state,
+    state.names[file],
+    await htmlToPdf(html, EXPORT_DOC_LABELS[doc], [state.model.root]),
+  )
 }
 
 async function runTarget(state: RunState, target: ExportTarget, outDir: string): Promise<void> {
   const pdf = PDF_DOCS[target]
   if (pdf) {
     const html = buildDocumentHtml(state.model, pdf.doc, 'pdf')
-    await writeOut(state, state.names[pdf.file], await htmlToPdf(html, EXPORT_DOC_LABELS[pdf.doc]))
+    await writeOut(
+      state,
+      state.names[pdf.file],
+      await htmlToPdf(html, EXPORT_DOC_LABELS[pdf.doc], [state.model.root]),
+    )
     if (target === 'briefing_pdf') {
       await writeBlankForms(state)
       await writeHandouts(state, 'handouts', 'handouts')

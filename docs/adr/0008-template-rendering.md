@@ -25,3 +25,14 @@ Text-bearing injects (tweets, tickets, emails, logs, FIDS boards) must render fr
 - Pool: 2 warm windows by default, one zoom factor per window (the zoom is a window preference), emptied with a script between jobs rather than navigated, recycled after 50 renders, on renderer crash, or on a 15 s timeout. Measured on 50 renders of the time_jump_card preview at 2× (M-series Mac): sequential p50 208 → 75 ms, p95 234 → 83 ms; 50 parallel requests 9.9 s → 2.6 s wall (pool size 1: 3.4 s, size 4: 2.1 s).
 - Goldens live beside each template (`__golden__/<variant>.png`). Each run also renders twice and requires identical bytes. Windows rendering in parallel can differ by a few anti-aliased pixels, which the pixelmatch threshold absorbs.
 - AI images reach composite slots through the asset id convention `<slot>-<ULID>` (docs/09), so the MediaAsset schema did not change.
+
+## Addendum: file and navigation lock (#301)
+
+Context: with user, project and pack templates (ADR-0018), template HTML is a shared file. A security review found that "every `file:` URL may load" let a template's meta refresh load any local file into the render window and capture it into the PNG/PDF, and that the source-text template checker could be bypassed.
+
+Decision: two independent layers, either of which alone stops a template from reading local files.
+
+- Window (`src/main/render/sandbox.ts`, used by the render pool and `export/pdf.ts`): per-job policy keyed by webContents. The main frame loads only the document file the app wrote; sub-resources load only from `data:` or files whose realpath is inside the job's read roots (template folder, `templates/_shared`, the exact media files and logo bound into the render; the project folder for export PDFs). Frames, other schemes, `will-navigate` / `will-frame-navigate` / `will-redirect`, popups and webviews are refused. A window between jobs loads nothing. The CSP adds `frame-src`, `child-src`, `form-action`, `base-uri 'none'`.
+- Checker (`src/main/packs/template-check.ts`): structural; Handlebars AST + parse5 + CSS tokenizer (docs/packs-format.md "Template HTML and CSS").
+
+Consequences: built-in templates and goldens are unchanged. `e2e/render-sandbox.spec.ts` runs attacking built-in templates (not checked) to prove the window layer alone blocks a meta refresh and an `<img src="file:///…">` outside the roots.

@@ -44,6 +44,25 @@ describe('template composition', () => {
       /url\('file:\/\/.*templates\/_shared\/fonts\/inter-latin-400-normal\.woff2'\)/,
     )
     expect(doc.html).not.toMatch(/https?:\/\//)
+    for (const directive of ["frame-src 'none'", "form-action 'none'", "base-uri 'none'"])
+      expect(doc.html).toContain(directive)
+  })
+
+  it('lists what the render window may read: template, _shared and bound media (#301)', () => {
+    const logo = resolve('templates/injects/tweet/sample-avatar.jpg')
+    const poster = resolve('templates/injects/tiktok_video_card/sample-poster.jpg')
+    const doc = composeDocument({
+      type: 'tiktok_video_card',
+      fields: { handle: 'a.b', caption: 'x' },
+      assets: { poster, other: 'data:image/png;base64,AAAA' },
+      logo,
+    })
+    expect(doc.readRoots).toEqual([
+      resolve('templates/injects/tiktok_video_card'),
+      resolve('templates/_shared'),
+      poster,
+      logo,
+    ])
   })
 
   it('initials skip punctuation-led words', () => {

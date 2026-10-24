@@ -126,7 +126,26 @@ export interface ComposedDocument {
   meta: LoadedTemplate['meta']
   /** Folder the document must be loaded from (relative font/asset URLs resolve here). */
   baseDir: string
+  /**
+   * Folders and files the render window may read (#301): the template folder,
+   * templates/_shared (fonts) and the exact media files bound in (slot images, logo).
+   */
+  readRoots: string[]
 }
+
+/**
+ * The render document's CSP: no script, no frames, no forms, no <base> from the template
+ * (the window's own <base> comes first); images and fonts from files or data: only.
+ * The render window enforces which files (render/sandbox.ts).
+ */
+export const RENDER_CSP =
+  "default-src 'none'; img-src file: data:; font-src file: data:; style-src 'unsafe-inline'; " +
+  "script-src 'none'; object-src 'none'; frame-src 'none'; child-src 'none'; " +
+  "form-action 'none'; base-uri 'none'"
+
+/** Absolute files bound into a document (data: URLs need no read access). */
+const boundFiles = (paths: (string | undefined)[]): string[] =>
+  paths.filter((p): p is string => !!p && !p.startsWith('data:'))
 
 export function composeDocument(
   input: ComposeInput,
@@ -151,8 +170,13 @@ export function composeDocument(
   const baseCss = readFileSync(join(shared, 'base.css'), 'utf8')
   const height = t.meta.height ? `height:${t.meta.height}px;` : ''
   const html = `<!doctype html><html><head><meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src file: data:; font-src file: data:; style-src 'unsafe-inline'">
+<meta http-equiv="Content-Security-Policy" content="${RENDER_CSP}">
 <style>${fontsCss}\n${baseCss}\nhtml,body{background:${t.meta.background}}\n${t.css}</style></head>
 <body class="variant-${variant}"><main class="inject-root inject-${t.meta.type}" style="width:${t.meta.width}px;${height}">${body}</main></body></html>`
-  return { html, meta: t.meta, baseDir: t.dir }
+  const readRoots = [
+    t.dir,
+    shared,
+    ...boundFiles([...Object.values(input.assets ?? {}), input.logo]),
+  ]
+  return { html, meta: t.meta, baseDir: t.dir, readRoots }
 }
