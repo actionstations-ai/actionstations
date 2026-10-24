@@ -276,7 +276,7 @@ Pressure examples: "is my money safe?" posts with an error screenshot; a reporte
 | `cash_position_report`            | Liquidity / cash-on-hand report (vault, branches, Fed account balance, correspondent line)                           | location, opening cash, withdrawals, projected need, armored-car order, Fed account / daylight overdraft note                                                                                                                              |
 | `leak_site_post`                  | Ransomware data-leak site entry naming the institution or its vendor                                                 | group name (fictional), victim name, countdown timer, data sample list, "price"                                                                                                                                                            |
 
-Rendering note: every one of these is text-critical, so per hard rule 5 they need HTML templates, never AI pixels. Use fictional RTNs (fail the ABA checksum) and masked account numbers. Do not reproduce Visa / Mastercard / Nacha / Fed logos; the Fedwire and Nacha message layouts can be generic.
+Rendering note: every one of these is text-critical, so per Project rules 5 in CONTRIBUTING.md they need HTML templates, never AI pixels. Use fictional RTNs (fail the ABA checksum) and masked account numbers. Do not reproduce Visa / Mastercard / Nacha / Fed logos; the Fedwire and Nacha message layouts can be generic.
 
 ---
 

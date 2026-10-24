@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Orchestrator merge gate: check a PR *merged onto current main* before squashing it.
+# Merge gate: check a PR *merged onto current main* before squashing it.
 # Two PRs can each pass ci:local on their own branches and still break main together
 # (e.g. one deletes a module the other imports). Usage: scripts/pr-gate.sh <pr-number>
 set -euo pipefail

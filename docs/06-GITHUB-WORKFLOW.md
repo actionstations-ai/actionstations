@@ -1,61 +1,54 @@
-# 06 — GitHub Workflow (no Actions)
+# 06 — Contributor workflow
 
-Repo: `https://github.com/mdcrowley/actionstations` · public · default branch `main`.
+How work moves from an issue to `main` on `https://github.com/mdcrowley/actionstations` (default branch `main`). [CONTRIBUTING.md](../CONTRIBUTING.md) has the short version and the [project rules](../CONTRIBUTING.md#project-rules) every change follows; this page has the detail.
 
-## Why no Actions
+## No GitHub Actions
 
-The owner does not want to pay for GitHub-hosted compute. **Nothing under `.github/workflows/` — ever.** All checks run on the developer machine (or Claude Code's machine) via `scripts/local-ci.sh`, wired as a Husky `pre-push` hook. Branch protection on `main` is set to *require a PR* but **not** required status checks (there are none). Reviewers (human or Claude) confirm `ci:local` output is pasted in the PR description.
+Nothing goes under `.github/workflows/`, and the project uses no Dependabot or other GitHub-hosted compute ([ADR-0002](adr/0002-local-ci-no-actions.md)). Every check runs on the contributor's machine through `scripts/local-ci.sh` (`pnpm ci:local`), which the Husky `pre-push` hook also runs. Branch protection on `main` requires a pull request but no status checks, because there are none on GitHub. Reviewers look for the pasted `ci:local` output in the PR description.
 
 ## Issues are the task tracker
 
-- Everything is an issue before it is a branch. Use the templates in `.github/ISSUE_TEMPLATE/`.
-- One issue = one PR where practical. Epics are issues labeled `epic` with a task list of child issue links.
-- Commit messages reference issues: `feat(ingest): pptx parser (#23)`. Closing keywords (`Closes #23`) in the PR body.
-- When Claude Code discovers work, it creates an issue immediately (`gh issue create --title … --body … --label …`), even if it does it right away.
-- Decisions that change scope are recorded as a comment on the issue *and* as an ADR if architectural.
+- Every change starts as an issue, created from a template in `.github/ISSUE_TEMPLATE/` (feature, bug, new inject type).
+- One issue maps to one pull request where practical. An epic is an issue labelled `epic` with a task list of its child issues.
+- Commit messages reference the issue (`feat(ingest): pptx parser (#23)`), and the PR body closes it (`Closes #23`).
+- If you find more work while you are on an issue, open a new issue for it rather than leaving a placeholder comment in the code.
+- A decision that changes scope is recorded as a comment on the issue, and as an ADR in `docs/adr/` if it is architectural.
+- When the PR is merged, close the issue with a comment that says what shipped.
 
 ### Labels
 
 | Label | Use |
 |---|---|
-| `area:scaffold` `area:ipc` `area:ingest` `area:retrieval` `area:providers` `area:comfy` `area:templates` `area:generate` `area:editor` `area:export` `area:facilitator` `area:tests` `area:docs` `area:packs` | component |
-| `type:feature` `type:bug` `type:chore` `type:refactor` `type:spike` | kind |
-| `inject-type` | new inject template request (has its own issue form) |
-| `epic` | parent tracking issue |
-| `good-first-issue` | small, well-specified |
-| `blocked` `needs-decision` | waiting on something / on the owner |
-| `P0` `P1` `P2` | priority |
+| `area:scaffold` `area:ipc` `area:ingest` `area:retrieval` `area:providers` `area:comfy` `area:templates` `area:generate` `area:editor` `area:export` `area:facilitator` `area:tests` `area:docs` `area:packs` | Component |
+| `type:feature` `type:bug` `type:chore` `type:refactor` `type:spike` | Kind of work |
+| `inject-type` | Request for a new inject template (it has its own issue form) |
+| `epic` | Parent tracking issue |
+| `good-first-issue` | Small and well specified |
+| `blocked` `needs-decision` | Waiting on something else, or on a decision from the maintainer |
+| `P0` `P1` `P2` | Priority |
 
 ### Milestones
 
-`M0 Scaffold` → `M1 Projects & Ingestion` → `M2 Providers & Generation` → `M3 Injects & Media` → `M4 Editing` → `M5 Export & Facilitator` → `M6 Polish & Release 0.1`. See `08-ROADMAP.md`. `scripts/bootstrap-github.sh` creates labels, milestones and the seed backlog.
+The first release was built through milestones `M0 Scaffold` to `M6 Polish & Release 0.1` (see [08-ROADMAP.md](08-ROADMAP.md)); those are closed. Later work is grouped by release (`0.2.0 Review fixes`, `0.3.0 Packs`, `0.4.0 Domain packs`) plus `Backlog` for anything not yet scheduled. `scripts/bootstrap-github.sh` creates the labels, the original milestones and the seed backlog on a fresh repository.
 
-## Branching & merging
+## Branching and merging
 
-- `main`: always builds, always launches. Tagged `v0.x.y` at milestone ends.
-- `feat/<issue>-<slug>`, `fix/<issue>-<slug>`, `chore/<issue>-<slug>`, `spike/<issue>-<slug>`.
-- Rebase on `main` before PR; squash-merge (`gh pr merge --squash --delete-branch`).
-- PR template requires: linked issue, what/why, how tested, `ci:local` output, screenshots for UI.
-- Parallel subagents each own a branch and a non-overlapping set of paths; the orchestrator merges in dependency order (see `07-AGENT-ORCHESTRATION.md`).
+- `main` always builds and always launches. Releases are tagged `vX.Y.Z`.
+- Branch names: `feat/<issue>-<slug>`, `fix/<issue>-<slug>`, `chore/<issue>-<slug>`, `docs/<issue>-<slug>`, `spike/<issue>-<slug>`.
+- Rebase on `main` before opening the PR, then squash-merge (`gh pr merge --squash --delete-branch`).
+- The PR template asks for the linked issue, what and why, how you tested it, the `ci:local` output, and screenshots for UI or template changes.
+- Two PRs can each pass on their own branch and still break `main` together, for example when one deletes a module the other imports. Before squashing, `scripts/pr-gate.sh <pr-number>` merges the PR onto the current `main` in a temporary checkout and runs typecheck, lint, unit tests, the app build and the launch smoke test there.
 
 ## Local CI
 
-`scripts/local-ci.sh` (also `pnpm ci:local`):
+`scripts/local-ci.sh` (`pnpm ci:local`) is the only CI. The full list of steps, with what each one checks, is in [CONTRIBUTING.md](../CONTRIBUTING.md#local-ci). In short: frozen install, lint, format check, Markdown link check, typecheck, unit tests with mock providers, build check, template golden tests, a launch smoke test of the built app and a gitleaks scan. `E2E=1` adds the full Playwright suite.
 
-1. `pnpm install --frozen-lockfile`
-2. `pnpm lint` (ESLint) and `pnpm format:check` (Prettier)
-3. `pnpm typecheck` (tsc -b)
-4. `pnpm test` (Vitest, with mock providers)
-5. `pnpm test:templates` (golden PNG snapshot tests for inject templates)
-6. `pnpm build:check` (vite build + electron-builder `--dir` for the host platform)
-7. Optional `E2E=1` → `pnpm e2e` (Playwright Electron)
-
-Husky: `pre-commit` → lint-staged (eslint --fix, prettier); `pre-push` → `scripts/local-ci.sh`. `--no-verify` is allowed only for WIP pushes to feature branches and must be noted in the PR.
+Husky runs lint-staged (ESLint `--fix` and Prettier) on `pre-commit` and `scripts/local-ci.sh` on `pre-push`. `git push --no-verify` is allowed only for work-in-progress pushes to feature branches, and the PR must say so.
 
 ## Releases
 
-`pnpm build` locally → `gh release create v0.x.y dist/*.{exe,dmg,AppImage} --notes-file CHANGELOG.md`. CHANGELOG via `git-cliff` or hand-maintained Keep-a-Changelog. No release automation.
+Installers are built on a developer machine and attached to a draft GitHub release with `gh`; there is no release automation. The steps are in [RELEASING.md](RELEASING.md). The CHANGELOG is maintained by hand in Keep a Changelog format.
 
 ## Dependency hygiene
 
-No Dependabot (would create PRs but it's free — still, it's noisy; skip for now). `pnpm outdated` / `pnpm audit` run inside `local-ci.sh` as warnings, not failures.
+There is no Dependabot. `pnpm audit --prod` runs inside `local-ci.sh` as a warning that never fails the run; `pnpm outdated` is run by hand when updating dependencies.

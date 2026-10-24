@@ -9,7 +9,7 @@ step() { printf '\n\033[1;32m▶ %s\033[0m\n' "$*"; }
 
 step "guard: no GitHub Actions workflows"
 if [[ -d .github/workflows ]] && [[ -n "$(ls -A .github/workflows 2>/dev/null)" ]]; then
-  echo "✖ .github/workflows/ must not exist (CLAUDE.md hard rule 1)"; exit 1
+  echo "✖ .github/workflows/ must not exist (CONTRIBUTING.md, Project rules 1)"; exit 1
 fi
 
 step "install (frozen lockfile)";   pnpm install --frozen-lockfile

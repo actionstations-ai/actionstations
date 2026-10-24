@@ -33,7 +33,7 @@ export default tseslint.config(
     },
   },
   {
-    // Vendor SDKs / raw network only inside provider adapters (CLAUDE.md rule 4).
+    // Vendor SDKs / raw network only inside provider adapters (CONTRIBUTING.md, Project rules 4).
     files: ['src/**/*.{ts,tsx}'],
     ignores: ['src/main/providers/**'],
     rules: {

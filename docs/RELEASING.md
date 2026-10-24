@@ -66,8 +66,8 @@ The largest single item is `onnxruntime-web` (121 MB inside `app.asar`), which
 
 Note for `electron-builder.yml`: a platform-level `files` list (`mac.files`, `win.files`,
 `linux.files`) must contain at least one positive pattern. A list with only exclusions makes
-electron-builder copy the whole repository (sources, `reference/`, `CLAUDE.md`) into
-`app.asar`, which is why each one restates `out/**/*`.
+electron-builder copy the whole repository (sources, `reference/`, and any untracked local
+files in the checkout) into `app.asar`, which is why each one restates `out/**/*`.
 
 ## Electron fuses (#55)
 

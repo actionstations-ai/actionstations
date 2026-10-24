@@ -357,10 +357,10 @@ Every URL below was fetched with a full GET this session (HTTP 200). `curl -I` o
 
 **Repo**
 
-- /Users/matt/Code/actionstations/src/shared/domains/schema.ts
-- /Users/matt/Code/actionstations/src/shared/domains/profiles/industrial.ts
-- /Users/matt/Code/actionstations/src/shared/domains/profiles/airport.ts
-- /Users/matt/Code/actionstations/templates/injects/ (meta.json of all 53 types)
+- src/shared/domains/schema.ts
+- src/shared/domains/profiles/industrial.ts
+- src/shared/domains/profiles/airport.ts
+- templates/injects/ (meta.json of all 53 types)
 
 **NIST**
 

@@ -4,7 +4,7 @@ Date: 2026-10-21 · Status: Accepted · Issue: #8
 
 ## Context
 
-Action Stations is a local-first desktop app that parses documents, runs a multi-stage LLM pipeline, renders HTML templates to PNG/PDF, and edits large structured artifacts (MSEL grids, inject forms, long markdown documents). CLAUDE.md fixes the top-level stack (Electron + React + TypeScript + Vite + pnpm, `better-sqlite3` + `sqlite-vec`, Vitest + Playwright, ESLint + Prettier, `electron-builder`). This ADR fixes the libraries inside that stack so parallel workstreams build on the same foundations.
+Action Stations is a local-first desktop app that parses documents, runs a multi-stage LLM pipeline, renders HTML templates to PNG/PDF, and edits large structured artifacts (MSEL grids, inject forms, long markdown documents). The project rules ([CONTRIBUTING.md, Project rules 6](../../CONTRIBUTING.md#project-rules)) fix the top-level stack (Electron + React + TypeScript + Vite + pnpm, `better-sqlite3` + `sqlite-vec`, Vitest + Playwright, ESLint + Prettier, `electron-builder`). This ADR fixes the libraries inside that stack so parallel workstreams build on the same foundations.
 
 ## Decision
 

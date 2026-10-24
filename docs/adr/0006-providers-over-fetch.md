@@ -4,7 +4,7 @@ Date: 2026-10-21 · Status: Accepted · Issue: #18
 
 ## Context
 
-The app talks to Anthropic, OpenAI-compatible servers (LM Studio, Ollama `/v1`, vLLM, OpenRouter, OpenAI), Ollama's native API and ComfyUI. CLAUDE.md requires every call to go through `src/main/providers/*` and every adapter to have a recorded-fixture contract test plus an opt-in live test. Vendor SDKs differ in streaming, retry and transport behavior, and they make fixtures harder to record and replay.
+The app talks to Anthropic, OpenAI-compatible servers (LM Studio, Ollama `/v1`, vLLM, OpenRouter, OpenAI), Ollama's native API and ComfyUI. The project rules require every call to go through `src/main/providers/*` ([CONTRIBUTING.md, Project rules 4](../../CONTRIBUTING.md#project-rules)) and every adapter to have a recorded-fixture contract test plus an opt-in live test. Vendor SDKs differ in streaming, retry and transport behavior, and they make fixtures harder to record and replay.
 
 ## Decision
 

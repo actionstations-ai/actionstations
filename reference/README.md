@@ -1,42 +1,57 @@
-# reference/ — CSAAP source material and gold-standard outputs
+# reference: sample plans and the hand-written exercises
 
-Everything the CSAAP Tabletops project held, as text, plus a slot for the original binaries. Claude Code should read all of this before generating anything: `ncia/` is what an end user would *upload* to a project; `scenario-3/` is what the app must be able to *produce*; `course/` is where learning objectives come from.
+This folder holds two kinds of material, all as Markdown text:
 
-## Included (text, extracted and lightly formatted)
+- **Sample plans**: the documents a user of each kind of organization would import into a project. The app's example projects are built from them, and the [getting started guide](../docs/guides/getting-started.md) uses the airport set.
+- **The hand-written exercises**: eight airport cybersecurity tabletops written by hand for CSAAP, the Cybersecurity for Airports course, before the app existed. The app's output is measured against them, and `scenario-3/` is the main benchmark. If a generated MSEL would look weak next to that one, the generator has more work to do.
 
-| Path | Original project file | Role in the app |
+If you work on generation, prompts or inject templates, read `ncia/` (what a user uploads), `scenario-3/` (what the app has to be able to produce) and `course/` (where learning objectives come from) first.
+
+Every organization, person, phone number, address, IP address and hostname in these documents is simulated for training use. Most sets outside the airport have a `SOURCES.md` that lists the public guidance (regulations, federal advisories) their plans paraphrase; it is not a project document.
+
+## The airport set and the CSAAP exercises
+
+| Path | What it is | Role in the app |
 |---|---|---|
-| `ncia/airport-emergency-plan-AEP.md` | North Coast International Airport NCIA Airport Emergency Plan AEP.pdf | Sample project document (plan) |
-| `ncia/airport-security-program-ASP.md` | …Airport Security Program ASP.pdf | Sample project document (plan, "SSI") |
-| `ncia/terminal-incident-response-plan-TIRP.md` | …Terminal Incident Response Plan TIRP.pdf | Sample project document (plan) — Section 13 is the cyber section |
-| `ncia/terminal-map.md` | NCIA Terminal Map.pdf (image-only; facts summarized) | Sample project document (map) |
-| `ics-forms/ICS-201-incident-briefing.md` | ICS Form 201 – Incident Briefing v3.pdf | Form template basis |
-| `ics-forms/ICS-203-organization-assignment-list.md` | ICS Form 203 – Organization Assignment List v3.pdf | Form template basis |
-| `scenario-3/msel.md` | Scenario 3 – Master Scenario Events List MSEL.pdf | **Gold-standard output** |
-| `scenario-3/master-inject-deck.md` | Scenario 3 – Master Inject Deck.pdf | **Gold-standard output** |
-| `scenario-3/controller-handbook.md` | Scenario 3 – Controller Handbook.pdf | **Gold-standard output** |
-| `scenario-3/player-briefing.md` | Scenario 3 – Player Briefing Packet.pdf | **Gold-standard output** |
-| `scenario-3/injects/README.md` | the five Inject PNGs (described) | Visual targets for templates |
-| `course/course-outline.md` | Module 1–6 Presentation.pdf (condensed) | Learning objectives / outcome IDs |
+| `ncia/airport-emergency-plan-AEP.md` | North Coast International Airport (NCIA) Airport Emergency Plan | Sample project document (plan) |
+| `ncia/airport-security-program-ASP.md` | NCIA Airport Security Program; its "SSI" banner is part of the fiction | Sample project document (plan) |
+| `ncia/terminal-incident-response-plan-TIRP.md` | NCIA Terminal Incident Response Plan; Section 13 is the cyber section | Sample project document (plan) |
+| `ncia/terminal-map.md` | NCIA terminal map (the original is an image; its facts are summarized) | Sample project document (map) |
+| `ics-forms/ICS-201-incident-briefing.md` | FEMA ICS Form 201, Incident Briefing | Basis for the form template |
+| `ics-forms/ICS-203-organization-assignment-list.md` | FEMA ICS Form 203, Organization Assignment List | Basis for the form template |
+| `course/course-outline.md` | The CSAAP course modules, condensed | Learning objectives and outcome IDs |
+| `scenario-1/` … `scenario-8/` | The eight CSAAP exercises: MSEL, controller handbook and player briefing for each | Gold-standard output |
+| `scenario-3/` | "Flight to Nowhere": MSEL, master inject deck, controller handbook, player briefing | The primary benchmark |
+| `scenario-3/injects/README.md` | Descriptions of the scenario's five inject images | Visual targets for templates |
 
-## Other domains (ADR-0014)
+Scenarios 1 to 7 also have a master inject deck. Every scenario except 3 has player material: a reference card or an evidence packet. Scenario 8, "Countdown", uses an action menu and clue cards in place of an inject deck. The example project `examples/airport-ncia/` holds all eight, seeded from these folders.
 
-Two more fictional document sets exercise the domain-neutral generator; each is what a user of that kind of organization would upload. They follow the NCIA pattern: section-numbered plans with deliberate hooks, consistent identifiers, invented people, phone numbers, hostnames and addresses, and a short map-of-record file.
+## Other domains
+
+These sets exercise the domain-neutral generator ([ADR-0014](../docs/adr/0014-domain-profiles.md)). They follow the NCIA pattern: section-numbered plans with deliberate hooks for scenarios, consistent identifiers across documents, invented people, numbers, hostnames and addresses, and a short map or system description.
 
 | Path | Organization | Documents |
 |---|---|---|
-| `transit/` | Riverbend Regional Transit Authority (bus + light rail; Harlan County, Ohio) | Emergency Operations Plan (EOP), System Security & Emergency Preparedness Plan (SSEPP), CAD/AVL & fare-system cyber annex, system map |
-| `dam/` | Cedar Ridge Dam, Cedar Valley Water Authority (hydro + flood control; Pike County, Ohio) | Emergency Action Plan (EAP, inundation zones + notification flowchart), Security Plan (physical + SCADA), O&M manual excerpt, site map |
-| `city-water/` | City of Millbrook Department of Water & Sewer, a simulated mid-size city water department (surface-water treatment plant + wells, 3 tanks, 4 pump stations, SCADA with vendor remote access; Carver County, Ohio) (#158). Each document opens with a standard exercise marking; `SOURCES.md` lists the public guidance the plans paraphrase (AWIA §1433, 40 CFR 141.202, CISA/EPA/FBI water-sector advisories) and is not a project document. The bundled example `examples/city-water/` is generated from this set | AWIA-style Emergency Response Plan (incident levels, Tier 1 public notice, boil-water / do-not-drink decisions, OHWARN), OT / Cybersecurity Plan + incident response playbook (segmentation, vendor remote access, manual operations, backups), SCADA system description (tags, setpoint limits, alarm philosophy), Public Communications Plan (advisory templates, critical customers, rumor control), system map / asset sheet |
-| `uas-ops/` | Harwick UAS Operations Group (HUOG), a simulated regional unmanned-aircraft operator — infrastructure inspection, agricultural and environmental survey, public-safety support — flying under Part 107 beside a Class C airport (#157). Each document opens with a standard exercise marking; `SOURCES.md` lists the public material consulted for realism and is not a project document (the example builder and the acceptance test skip it). The bundled example `examples/uas-operations/` is generated from this set | UAS Flight Operations & Safety Manual (FOM), Emergency Response Plan for flight operations (ERP), Information Security Plan for the GCS fleet and data pipeline (ISP), site & airspace sheet |
+| `transit/` | Riverbend Regional Transit Authority, a bus and light-rail agency | Emergency Operations Plan (EOP); System Security and Emergency Preparedness Plan (SSEPP); CAD/AVL and fare-system cyber annex; system map |
+| `dam/` | Cedar Ridge Dam, Cedar Valley Water Authority (hydro and flood control) | Emergency Action Plan (EAP) with inundation zones and notification flowchart; security plan (physical and SCADA); O&M manual excerpt; site map |
+| `city-water/` | City of Millbrook Department of Water & Sewer: a treatment plant and wells, three tanks, four pump stations, SCADA with vendor remote access | AWIA-style Emergency Response Plan; OT / cybersecurity plan and incident response playbook; SCADA system description; public communications plan; system map and asset sheet |
+| `uas-ops/` | Harwick UAS Operations Group, a drone operator flying under Part 107 beside a Class C airport | Flight Operations and Safety Manual (FOM); Emergency Response Plan for flight operations (ERP); Information Security Plan for the ground-control fleet and data pipeline (ISP); site and airspace sheet |
+| `chemical-rmp/` | Teague Valley Chemical Company, Corbin Falls Works | Emergency Response Plan (40 CFR 68.95); facility and process description; process control and cybersecurity plan |
+| `county-911/` | Rook County Emergency Communications District, a county 911 center | ECC operations and continuity plan; cyber incident response playbook; systems, positions and radio description |
+| `county-elections/` | Lisle County Board of Elections | Cybersecurity incident response plan; election contingency and continuity plan; facilities, precincts and systems description |
+| `county-public-health/` | Marston County Health Department | All-hazards public health emergency operations plan; cyber incident response annex; facilities, districts and information systems description |
+| `gas-distribution/` | Corwin Valley Gas Company, a natural gas distribution utility | Gas emergency plan (49 CFR 192.615); distribution system and SCADA description; cybersecurity incident response plan |
+| `k12-district/` | Halverson Unified School District | District Emergency Operations Plan; cyber incident response plan; schools, facilities and systems inventory |
 
-## NOT included — copyright
+The example projects in [`examples/`](../examples/README.md) are generated from these sets (all but `transit/` and `dam/`).
 
-The project also contains the four **AAAE Certified Member (C.M.) Body of Knowledge** modules (7th ed., © 2022 American Association of Airport Executives, "All Rights Reserved"): Module 1 Finance and Administration of Airports; Module 2 Planning, Construction, and Environmental; Module 3 Airport Operations, Security and Maintenance; Module 4 Communications and Community Relations. They are licensed course texts and must **not** be committed to a public repository. They are summarized by topic in `course/course-outline.md`. If you want them available to the app locally for testing ingestion, put them in `reference/originals/private/` which is gitignored.
+## Not included: copyrighted course texts
 
-## `originals/` — add these by hand
+The CSAAP course also used the four AAAE Certified Member (C.M.) Body of Knowledge modules (7th edition, © 2022 American Association of Airport Executives, all rights reserved). They are licensed course texts and are not in this repository; `course/course-outline.md` summarizes them by topic. To test ingestion with them locally, put your own copies in `reference/originals/private/`, which git ignores.
 
-Binary files could not be exported from the project automatically. Copy them from the CSAAP project into `reference/originals/` (they are useful as realistic ingestion test fixtures and as visual targets):
+## `originals/`: the source files, added by hand
+
+The original PDFs and PNGs are not committed. If you have them, copy them into `reference/originals/`; they make realistic ingestion test files and visual targets:
 
 ```
 originals/
@@ -56,10 +71,7 @@ originals/
   Scenario 3  Inject I06b.png
   Scenario 3  Inject I10b.png
   Module 1  Presentation.pdf … Module 6  Presentation.pdf
-  private/            (gitignored) AAAE Module 1–4 PDFs if desired
+  private/            (ignored by git) AAAE Module 1–4 PDFs, if you have them
 ```
 
-External link kept from the project: FEMA ICS forms — https://training.fema.gov/icsresource/icsforms.aspx
-
-## Everything here is fictional
-NCIA, NCRAA, every named person, phone number, IP address and hostname are invented for teaching. The ASP's "SSI" banner is part of the fiction.
+The blank ICS forms are published by FEMA: https://training.fema.gov/icsresource/icsforms.aspx

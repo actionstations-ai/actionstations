@@ -4,7 +4,7 @@ Date: 2026-10-21 · Status: Accepted · Issue: #30
 
 ## Context
 
-Text-bearing injects (tweets, tickets, emails, logs, FIDS boards) must render from HTML templates so their text is exact and legible (CLAUDE.md rule 5). Renders must be reproducible for golden tests and must not reach the network, since template data comes from model output and user documents.
+Text-bearing injects (tweets, tickets, emails, logs, FIDS boards) must render from HTML templates so their text is exact and legible ([CONTRIBUTING.md, Project rules 5](../../CONTRIBUTING.md#project-rules)). Renders must be reproducible for golden tests and must not reach the network, since template data comes from model output and user documents.
 
 ## Decision
 

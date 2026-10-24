@@ -338,7 +338,7 @@ Excluded: NIST SP 1800-26 and SP 1800-11 (ransomware / destructive-event data in
 
 ## 11. Sources
 
-- /Users/matt/Code/actionstations/src/shared/domains/schema.ts, profiles/industrial.ts, templates/injects/ (local)
+- src/shared/domains/schema.ts, profiles/industrial.ts, templates/injects/ (local)
 - https://csrc.nist.gov/pubs/sp/800/61/r3/final
 - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r3.pdf
 - https://content.govdelivery.com/accounts/USNIST/bulletins/3d9dba1

@@ -2,7 +2,7 @@
 
 <p align="center"><img src="src/renderer/src/assets/action-stations-logo.png" alt="Action Stations logo" width="480"></p>
 
-**Turn your organization's own plans into a complete, editable tabletop exercise, on your own machine.**
+**Tabletop exercises written from the plans you already have, on your own computer.**
 
 [![local CI](docs/badges/ci.svg)](CONTRIBUTING.md#local-ci)
 [![unit tests](docs/badges/unit-tests.svg)](CONTRIBUTING.md#tests-in-more-detail)
@@ -10,191 +10,133 @@
 [![version](docs/badges/version.svg)](CHANGELOG.md)
 [![license](docs/badges/license.svg)](#license)
 [![Electron](docs/badges/electron.svg)](docs/adr/0001-stack.md)
-[![platforms](docs/badges/platforms.svg)](#prerequisites)
-[![telemetry: none](docs/badges/telemetry.svg)](#connecting-providers)
-[![local-first](docs/badges/local-first.svg)](#non-negotiables-also-in-claudemd)
+[![platforms](docs/badges/platforms.svg)](#download-and-install)
+[![telemetry: none](docs/badges/telemetry.svg)](#privacy-and-local-first)
+[![local-first](docs/badges/local-first.svg)](#privacy-and-local-first)
 
-**[Download](https://github.com/mdcrowley/actionstations/releases)** · [Guides](#guides) · [Packs](docs/guides/packs.md) · [License](#license) · [Contributing](CONTRIBUTING.md) · [Support](SUPPORT.md) · [Security](SECURITY.md)
+[Download](#download-and-install) · [Quick start](#quick-start) · [Guides](#docs-and-guides) · [Packs](docs/guides/packs.md) · [License](#license) · [Contributing](CONTRIBUTING.md) · [Support](SUPPORT.md) · [Security](SECURITY.md)
+
+Action Stations is a desktop app for macOS, Windows and Linux that writes discussion-based tabletop exercises from your organization's own documents. You import your emergency plans, security programs and procedures; a language model you choose drafts the scenario, the Master Scenario Events List (MSEL), the inject deck with its media, the controller handbook and the player briefing, and every event cites the section of your plans it came from. You read the draft, fix it, run the exercise from the app and export the package. The app started as a set of airport cybersecurity tabletops written by hand for CSAAP, the Cybersecurity for Airports course, and now covers 24 kinds of organization, from transit agencies and water utilities to county 911 centers and school districts.
 
 ![The MSEL editor for a generated scenario: phases, timed events, expected actions and citations into the source plans](docs/guides/images/scenario-msel.png)
 
-The badges are SVG files that local CI writes to `docs/badges/` after a full green run with `BADGES=1` (`pnpm badges`) (the repository is private, so no badge service can read it); see [Badges](CONTRIBUTING.md#badges).
+## Download and install
 
-## What it does
+Installers are not published yet. When they are, they will be on the [releases page](https://github.com/mdcrowley/actionstations/releases) for macOS (Apple Silicon `.dmg`), Windows (64-bit installer `.exe`) and Linux (64-bit `.AppImage`). Until then, run the app from source: see [Building from source](#building-from-source). It takes Node.js, pnpm and four commands.
 
-Action Stations is a local-first Electron desktop app that turns an organization's source documents (emergency plans, security programs, course material) into complete, editable, exportable tabletop exercises: scenario narrative, Master Scenario Events List (MSEL), inject deck with realistic media (tweets, helpdesk tickets, emails, log files, information boards and HMI screens, radio and phone audio, short video), controller handbook, and player briefing. You connect the LLM, image, voice and video providers you choose (local models via LM Studio, Ollama and ComfyUI, or Anthropic), and every generated item cites the section of your own documents it came from. It generalizes the hand-built CSAAP airport-cybersecurity tabletops in `reference/` to any cyber-physical, emergency-management or operations domain (transit, dams and water utilities, energy, healthcare, campuses, venues, ports, cities, plants, drone operators) through domain profiles (ADR-0014).
+## Quick start
 
-Repository: https://github.com/mdcrowley/actionstations
+1. Launch the app. The setup wizard opens on the first run. Every step can be skipped and changed later.
+2. Choose where models run: **Cloud APIs only**, **Local tools** or **A mix** (see [Models and providers](#models-and-providers)).
+3. Pick a text model. The wizard finds LM Studio or Ollama on this computer, or takes an Anthropic API key.
+4. Create a project, or open one of the example projects under **Projects → Examples** to see a finished exercise first.
+5. Import your plans on **Documents**: PDF, Word, PowerPoint, Excel, Markdown, HTML, plain text, and images with OCR.
+6. Check the **Facility facts**, then ask for scenario ideas on **Generate** and generate the one you want.
+7. Edit the MSEL and documents, write the injects and render their media, then run the exercise in **Facilitate** or **Export** it.
 
-**Settings and projects.** Settings live in `~/Library/Application Support/Action Stations` (macOS), `%APPDATA%\Action Stations` (Windows) or `~/.config/Action Stations` (Linux); new projects default to `~/Documents/Action Stations` and are folders named `<name>.asproj`. The app was called Tabletop Generator before 0.2.0: on the first launch after updating, it moves the old `Tabletop Generator` settings and projects folders to the new names, and projects named `<name>.ttxproj` keep opening as they are (see the CHANGELOG).
+The [getting started guide](docs/guides/getting-started.md) walks through every step with screenshots, using the sample airport plans in [`reference/ncia/`](reference/ncia/) and LM Studio. With `qwen3-30b-a3b-2507` on that setup, scenario ideas took 13 seconds and a full scenario took 5 minutes 40 seconds.
 
-## Prerequisites
+## What you get
 
-- **OS:** macOS, Windows or Linux.
-- **Node.js 22+** and **pnpm 10** (`corepack enable && corepack prepare pnpm@10 --activate`).
-- **Native build tools** for `better-sqlite3` (only needed when no prebuilt binary matches your platform):
-  - macOS: Xcode Command Line Tools (`xcode-select --install`)
-  - Windows: Visual Studio Build Tools with the "Desktop development with C++" workload
-  - Linux: `build-essential` and `python3`
-- Optional, for generation: a local model server (LM Studio or Ollama) and/or an Anthropic API key; ComfyUI for image and video media; mlx-audio (Apple Silicon) or the built-in system voice for TTS.
+For each scenario, the app writes:
 
-## Commands
+- an overview with objectives, roles and phases, following the HSEEP pattern for a discussion-based exercise;
+- a timed MSEL with expected actions and citations into your plans, checked by lint rules for pacing, the mix of injects, roles left without an inject and citations that do not resolve;
+- an inject deck: tweets and posts, helpdesk tickets, emails, log files, information boards and HMI screens rendered from HTML templates so their text is exact, photographs and short video from an image or video model, and radio, phone and PA audio from a voice model;
+- a controller and evaluator handbook with the rubric, hot wash questions and SimCell scripts;
+- a player briefing packet with blank ICS 201 and ICS 203 forms.
 
-```bash
-pnpm install                  # install deps; builds native modules for Electron
-pnpm dev                      # launch the app (electron-vite, HMR)
-scripts/dev-bundle.sh         # macOS: .dev-app/Action Stations.app, a renamed Electron so the menu bar and Dock say Action Stations
-pnpm test                     # Vitest unit tests (run under Electron-as-Node, mock providers)
-pnpm lint && pnpm typecheck   # ESLint + tsc
-pnpm ci:local                 # full local CI: scripts/local-ci.sh
-pnpm badges                   # full local CI, then refresh the README badges in docs/badges/
-pnpm e2e                      # Playwright end-to-end tests against the Electron app
-LIVE=1 pnpm test -- tests/live/pipeline.live.test.ts   # full generation run against LM Studio (writes tests/fixtures/generate/sample-run/)
-LIVE=1 pnpm test -- tests/live/injects.live.test.ts    # Scenario 3 inject deck + media on LM Studio, ComfyUI and mlx-audio (writes tests/fixtures/injects/sample-run/)
-pnpm build                    # electron-builder installers (dmg / nsis / AppImage)
-```
+Everything is editable in the app. **Facilitate** runs the exercise: an exercise clock with time jumps, the MSEL timeline with due injects, a presentation window for a second display, and notes for the hot wash. **Export** writes PDFs (MSEL, master inject deck, controller handbook, player briefing, a combined exercise plan), Word copies of the handbook and briefing, the media files, the scenario as JSON and Markdown, and a distribution ZIP that keeps controller material apart from what players see.
 
-`pnpm ci:local` runs a frozen install, lint, format check, a Markdown link check, typecheck, unit tests, a build check, the template golden tests, a launch smoke test of the built app and a gitleaks scan. Set `E2E=1` to include the full Playwright suite. See [CONTRIBUTING](CONTRIBUTING.md#local-ci) for what each step does and how to run the live tests.
+Nine example projects ship with the app, each built from a simulated organization's plans: North Coast International Airport (the eight original CSAAP scenarios), a city water department, a drone operator, a chemical plant, a county health department, a county 911 center, a county board of elections, a school district and a gas utility.
 
-## Guides
+The model writes a first draft. A person who knows the organization still has to read it, correct it and decide what reaches the room.
 
-| Guide                                                               | For                                                                                                                                                                                                                                                                                           |
-| ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Getting started](docs/guides/getting-started.md)                   | Install, create a project, import and search documents, connect a model, generate a scenario.                                                                                                                                                                                                 |
-| [Provider setup](docs/guides/providers/README.md)                   | Routing, embeddings, and step-by-step setup for [LM Studio](docs/guides/providers/lm-studio.md), [Ollama](docs/guides/providers/ollama.md), [Anthropic](docs/guides/providers/anthropic.md), [ComfyUI](docs/guides/providers/comfyui.md) and [local TTS](docs/guides/providers/local-tts.md). |
-| [How a good tabletop exercise is built](docs/guides/methodology.md) | The exercise design the generator follows.                                                                                                                                                                                                                                                    |
-| [Prompts](docs/guides/prompts.md)                                   | How prompts are layered, what each stage can use, and how to change them safely.                                                                                                                                                                                                              |
-| [Template authoring](docs/guides/templates.md)                      | Writing inject templates, golden images, and adding a new inject type.                                                                                                                                                                                                                        |
-| [Packs](docs/guides/packs.md)                                       | Installing packs of templates, prompts, domains, workflows, documents and examples; the review; exporting and sharing your own.                                                                                                                                                               |
+## Models and providers
+
+Action Stations does not include a language model. You connect the ones you want under **Providers**, and each task (ideation, drafting, critique, embeddings, image, video, audio) can go to a different one. A project can override the routing for itself.
+
+| Provider     | What it does                      | Where it runs                                                                            |
+| ------------ | --------------------------------- | ---------------------------------------------------------------------------------------- |
+| LM Studio    | Text (OpenAI-compatible)          | Your computer, `http://localhost:1234/v1`                                                |
+| Ollama       | Text and embeddings               | Your computer, `http://localhost:11434`                                                  |
+| Anthropic    | Text, with Claude models          | Anthropic's API. Prompts and excerpts from your documents leave your computer.           |
+| ComfyUI      | Images and video                  | Your computer, `http://127.0.0.1:8188`, with the default workflows in `comfy/workflows/` |
+| Local TTS    | Speech (mlx-audio, Apple Silicon) | Your computer, `http://127.0.0.1:8765`                                                   |
+| System voice | Speech                            | Your computer: macOS `say`, Windows SAPI, or `espeak-ng` on Linux. No setup.             |
+
+**Detect local services** on the Providers page finds LM Studio, Ollama, ComfyUI and the system voice on this computer and adds them in one click.
+
+Setting up local tools is optional. The wizard step **Where models run**, also under **Settings → Local tools**, offers three choices:
+
+- **Cloud APIs only**: nothing is detected, downloaded or installed. You add an API key.
+- **Local tools**: LM Studio, Ollama, ComfyUI and local voice are each shown as detected, installed but not running (with **Start**), or not installed. **Download and install** fetches the vendor's own installer only when you click it, and checks the publisher's signature (macOS, Windows) or Ollama's published sha256 (Linux, installed in your home folder without sudo) before anything runs. Recommended models for this computer's memory are separate, optional downloads.
+- **A mix** of both.
+
+Without any provider the app still imports and searches documents, using a built-in keyword embedder that works offline. The [provider guides](docs/guides/providers/README.md) have setup steps, measured timings, costs for the Anthropic models and troubleshooting.
 
 ## Packs
 
-A pack (`.aspack`) adds inject templates, prompts, domain profiles, ComfyUI workflows, reference documents or example projects without a new app release. Open **Packs** in the sidebar to install one from a file, a URL or a catalog; every pack is reviewed before it installs (licenses, custom ComfyUI nodes, archive sha256). No catalog is added by default and nothing is fetched until you add one. Projects copy the pack items they use, so they keep working after a pack is updated or uninstalled. **Export as pack…** builds a pack from your own templates, prompts, workflows and a project. Pack authors validate archives with `node scripts/pack-validate.mjs <file>.aspack` (add `--app-version 0.3.0` while `package.json` is older than 0.3.0). The app's own content ships the same way: **Action Stations Core** and one pack per domain, listed under **Included with the app**, where a domain you never exercise can be turned off ([ADR-0020](docs/adr/0020-bundled-packs.md)). See the [Packs guide](docs/guides/packs.md), the [format](docs/packs-format.md) and [ADR-0018](docs/adr/0018-packs.md).
+A pack (`.aspack` file) adds inject templates, prompts, domain profiles, ComfyUI workflows, reference documents or example projects without a new app release. The app's own content ships the same way: **Action Stations Core** and one pack per domain appear under **Included with the app** on the **Packs** screen, where you can turn off a domain you never exercise.
 
-## Connecting providers
+You can install a pack from a file, a URL or a catalog. No catalog is set up by default, and nothing is fetched until you add one and refresh it. Every pack shows a review before it installs: its licenses, any custom ComfyUI nodes it needs, and the archive's sha256. Packs are checked by SHA-256, not signed. A project keeps its own copy of the pack items it uses, so it still opens after the pack is updated or removed. **Export as pack…** builds a pack from your own templates, prompts, workflows and a project. See the [Packs guide](docs/guides/packs.md).
 
-Providers are configured in the app under **Providers** (sidebar). **Detect local services** finds LM Studio, Ollama and ComfyUI on localhost, plus the operating system's own voice when one is installed, and adds them in one click. API keys are encrypted with the OS keychain via Electron `safeStorage` into `<userData>/secrets.json` (ciphertext only, owner-only permissions) — never in project files, `settings.json` or logs; if the OS can't encrypt (e.g. Linux without a keyring) the app refuses to store keys. No network calls are made except to providers you configure.
+## Privacy and local-first
 
-| Provider     | Kind                              | Base URL                                              | Notes                                                                                                                                                    |
-| ------------ | --------------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| LM Studio    | OpenAI-compatible                 | `http://localhost:1234/v1`                            | Start the local server in LM Studio (Developer tab) or `lms server start`, then load a model.                                                            |
-| Ollama       | Ollama native / OpenAI-compatible | `http://localhost:11434` (OpenAI-compatible at `/v1`) | `ollama serve`, then `ollama pull <model>`. `nomic-embed-text` works as the embedding model.                                                             |
-| ComfyUI      | Media (image, video)              | `http://127.0.0.1:8188`                               | Default workflows live in `comfy/workflows/` (no audio default; import a TTS workflow to use one). Missing custom nodes are reported via `/object_info`. |
-| Anthropic    | Text                              | `https://api.anthropic.com`                           | Paste an API key in Providers.                                                                                                                           |
-| Local TTS    | OpenAI-compatible (audio)         | `http://127.0.0.1:8765`                               | `mlx_audio.server --port 8765` serves VoxCPM2 / Qwen3-TTS on Apple Silicon via `/v1/audio/speech`.                                                       |
-| System voice | System voice (audio, offline)     | none                                                  | Fallback TTS on any OS: macOS `say`, Windows SAPI (PowerShell `System.Speech`) or `espeak-ng` / `espeak` on Linux. Detected when installed.              |
+- There is no account, no sign-in and no telemetry. The app makes network calls only to the providers and pack catalogs you add, and to download sites when you click a download or install button (local tools, recommended models, the local embedding model).
+- With local models (LM Studio, Ollama, ComfyUI and a local or system voice) it works without an internet connection. A cloud provider such as Anthropic receives your prompts and the document excerpts used to ground them.
+- A project is a folder of JSON, Markdown and media files (`<name>.asproj`) on your disk, by default in `~/Documents/Action Stations`. You can copy it, back it up or put it in version control.
+- API keys are encrypted with your operating system's keychain (Electron `safeStorage`) and stored as ciphertext in `secrets.json` in the settings folder. They never go into project files, `settings.json` or logs. If the operating system cannot encrypt them (for example Linux without a keyring), the app refuses to store keys.
+- Settings live in `~/Library/Application Support/Action Stations` (macOS), `%APPDATA%\Action Stations` (Windows) or `~/.config/Action Stations` (Linux).
 
-Each generation task (ideate, draft, critique, embed, image, video, audio) can be routed to a different provider on the Providers page; a project can override any task on its own Provider routing page. Setup steps, measured timings and troubleshooting for each provider are in the [provider guides](docs/guides/providers/README.md). Without any provider configured the app still ingests and searches documents with a deterministic offline embedder. For offline development and e2e, launch with `TTX_MOCK_PROVIDERS=1` to route every task to a built-in mock provider that returns schema-valid output.
+The app was called Tabletop Generator before version 0.2.0. The first launch after updating moves the old settings and projects folders to the new names, and projects named `<name>.ttxproj` keep opening as they are.
 
-## Repository layout
+## Docs and guides
 
+| Guide                                                               | What it covers                                                                                                                                                                                                                                                                                                   |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Getting started](docs/guides/getting-started.md)                   | Install, create a project, import and search documents, connect a model, generate, edit, facilitate and export a scenario.                                                                                                                                                                                       |
+| [Provider setup](docs/guides/providers/README.md)                   | Routing, embeddings, local tools setup, and step-by-step setup for [LM Studio](docs/guides/providers/lm-studio.md), [Ollama](docs/guides/providers/ollama.md), [Anthropic](docs/guides/providers/anthropic.md), [ComfyUI](docs/guides/providers/comfyui.md) and [local TTS](docs/guides/providers/local-tts.md). |
+| [How a good tabletop exercise is built](docs/guides/methodology.md) | The exercise design the app follows.                                                                                                                                                                                                                                                                             |
+| [Prompts](docs/guides/prompts.md)                                   | How prompts are layered, what each stage can use, and how to change them safely.                                                                                                                                                                                                                                 |
+| [Template authoring](docs/guides/templates.md)                      | Writing inject templates and golden images, and adding a new inject type.                                                                                                                                                                                                                                        |
+| [Packs](docs/guides/packs.md)                                       | Installing packs, reading the review, and exporting and sharing your own.                                                                                                                                                                                                                                        |
+
+The [CHANGELOG](CHANGELOG.md) lists what changed in each version. Design documents, the architecture and the decision records are listed in [CONTRIBUTING.md](CONTRIBUTING.md#design-documents).
+
+## Building from source
+
+### Prerequisites
+
+- macOS, Windows or Linux.
+- Node.js 22.12 or later and pnpm 10 (`corepack enable && corepack prepare pnpm@10 --activate`).
+- Native build tools, in case a native module (`better-sqlite3`) has no prebuilt binary for your platform:
+  - macOS: Xcode Command Line Tools (`xcode-select --install`)
+  - Windows: Visual Studio Build Tools with the "Desktop development with C++" workload
+  - Linux: `build-essential` and `python3`
+
+### Build and run
+
+```bash
+git clone https://github.com/mdcrowley/actionstations.git
+cd actionstations
+pnpm install      # installs dependencies and rebuilds native modules for Electron
+pnpm dev          # runs the app with hot reload
+pnpm test         # unit tests
+pnpm build        # installers for this operating system in release/<version>/
 ```
-src/main/            Electron main: ipc/, providers/, ingest/, generate/, render/, export/, db/
-src/renderer/        React app: routes/, components/, editors/, state/
-src/shared/          Types, zod schemas, IPC contracts
-templates/injects/   HTML/CSS templates per inject type
-prompts/             Default prompt files (markdown with frontmatter)
-comfy/workflows/     Default ComfyUI workflow JSON per media type
-docs/                PRD, architecture, taxonomy, methodology, ADRs
-reference/           Sample input documents per domain + the CSAAP scenario 1–8 gold-standard outputs
-examples/            Example projects that ship with the app (Projects → Examples)
-packs/               bundled.json (repo folders → bundled packs), domains/<id>.json profiles, documents/
-scripts/             local-ci.sh, bootstrap-github.sh, dev helpers
-e2e/                 Playwright tests
-```
 
-## Documentation
+`pnpm build:app && pnpm start` runs the production build without packaging it.
 
-| Doc                                                                  | Purpose                                                                       |
-| -------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| [`docs/01-PRD.md`](docs/01-PRD.md)                                   | Product requirements                                                          |
-| [`docs/02-ARCHITECTURE.md`](docs/02-ARCHITECTURE.md)                 | Processes, storage, providers, rendering, export                              |
-| [`docs/03-INJECT-TAXONOMY.md`](docs/03-INJECT-TAXONOMY.md)           | Supported inject types, fields and render targets                             |
-| [`docs/04-TABLETOP-METHODOLOGY.md`](docs/04-TABLETOP-METHODOLOGY.md) | HSEEP-style exercise structure the generator reproduces                       |
-| [`docs/05-DATA-MODEL.md`](docs/05-DATA-MODEL.md)                     | Project / Scenario / Inject / Asset schema                                    |
-| [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md)           | Issues, labels, milestones, branching, local CI                               |
-| [`docs/07-AGENT-ORCHESTRATION.md`](docs/07-AGENT-ORCHESTRATION.md)   | How parallel work is split                                                    |
-| [`docs/08-ROADMAP.md`](docs/08-ROADMAP.md)                           | Milestones M0 to M6                                                           |
-| [`docs/adr/`](docs/adr/)                                             | Architecture Decision Records, listed [below](#architecture-decision-records) |
-| [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md)         | How handlers, routes, adapters and templates are wired                        |
-| [`docs/guides/`](docs/guides/)                                       | User and contributor guides (see [Guides](#guides))                           |
-| [`CONTRIBUTING.md`](CONTRIBUTING.md)                                 | How to contribute                                                             |
-| [`SUPPORT.md`](SUPPORT.md)                                           | Where to ask questions and file bugs                                          |
-| [`SECURITY.md`](SECURITY.md)                                         | How to report a vulnerability                                                 |
-| [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)                           | Contributor Covenant 2.1                                                      |
+### Pointing the app at LM Studio and ComfyUI
 
-### Architecture decision records
+- **LM Studio:** start the server (Developer tab, or `lms server start`) and load a model with at least 32K context, for example `lms load qwen/qwen3-30b-a3b-2507 --context-length 32768 -y`. In the app, open **Providers**, click **Detect local services** and **Add** LM Studio, then route **Ideation**, **Drafting** and **Critique** to it. See the [LM Studio guide](docs/guides/providers/lm-studio.md).
+- **ComfyUI:** start ComfyUI on `http://127.0.0.1:8188` (ComfyUI Desktop on port 8000 is also found) with the SDXL and LTX-Video models, then **Detect local services** and route **Image** and **Video** to it. The app reports any custom nodes a workflow needs that ComfyUI is missing. See the [ComfyUI guide](docs/guides/providers/comfyui.md).
 
-| ADR                                               | Decision                                                                        |
-| ------------------------------------------------- | ------------------------------------------------------------------------------- |
-| [0001](docs/adr/0001-stack.md)                    | Application stack: Electron, React, TypeScript, Vite, pnpm, SQLite + sqlite-vec |
-| [0002](docs/adr/0002-local-ci-no-actions.md)      | Local CI only, no GitHub Actions                                                |
-| [0003](docs/adr/0003-project-folder-format.md)    | Project folder format                                                           |
-| [0004](docs/adr/0004-native-modules-and-tests.md) | Native modules and the test runtime                                             |
-| [0005](docs/adr/0005-embeddings.md)               | Embeddings                                                                      |
-| [0006](docs/adr/0006-providers-over-fetch.md)     | Provider adapters over fetch                                                    |
-| [0007](docs/adr/0007-structured-output.md)        | Structured output from LLMs                                                     |
-| [0008](docs/adr/0008-template-rendering.md)       | Template rendering to PNG and PDF                                               |
-| [0009](docs/adr/0009-audio-tts.md)                | Audio and TTS (amended by 0010)                                                 |
-| [0010](docs/adr/0010-local-tts-openai-speech.md)  | Local TTS through the OpenAI-compatible speech API                              |
-| [0011](docs/adr/0011-video-model-ltxv.md)         | LTX-Video as the default local video model                                      |
-| [0012](docs/adr/0012-inject-stages.md)            | Inject stages: schema-guided text, deterministic media plan, keep-with-warning  |
-| [0013](docs/adr/0013-app-protocol.md)             | Serve the renderer from `app://bundle/`                                         |
-| [0014](docs/adr/0014-domain-profiles.md)          | Domain profiles: domain-neutral generation as data                              |
-| [0015](docs/adr/0015-repair-in-place.md)          | Repair a finished scenario in place                                             |
-| [0016](docs/adr/0016-forward-compatible-files.md) | Forward-compatible project files                                                |
-| [0017](docs/adr/0017-windowed-lists.md)           | Memoized rows and windowed long lists (MSEL grid, inject deck)                  |
-| [0018](docs/adr/0018-packs.md)                    | Packs: installable content bundles                                              |
-| [0019](docs/adr/0019-rename-action-stations.md)   | Rename to Action Stations; migrate old settings, projects and keys              |
+## Contributing
 
-New ADRs start from [`docs/adr/0000-template.md`](docs/adr/0000-template.md).
-
-## `reference/`
-
-`reference/` holds the material the app was modeled on and is measured against, as text. All organizations in it are fictional. See [`reference/README.md`](reference/README.md) for the file-by-file list.
-
-- **Input documents** (what a user would import into a project), one folder per domain:
-  - `reference/ncia/` - North Coast International Airport (AEP, ASP, TIRP, terminal map).
-  - `reference/transit/` - Riverbend Regional Transit Authority, a bus + light-rail agency.
-  - `reference/dam/` - Cedar Ridge Dam, a hydro / flood-control dam.
-  - `reference/city-water/` - City of Millbrook Department of Water & Sewer (emergency response plan, OT / cybersecurity plan, SCADA description, public communications plan, system map).
-  - `reference/uas-ops/` - Harwick UAS Operations Group, a drone operator flying under Part 107 (flight operations manual, emergency response plan, information security plan, site and airspace sheet).
-- **Gold-standard outputs**, the CSAAP airport tabletops: `reference/scenario-1/` to `reference/scenario-8/` each hold the MSEL, controller handbook and player briefing. Scenarios 1–7 also have a master inject deck, and every scenario but 3 has player material (a reference card or evidence packet; scenario 8 "Countdown" has an action menu and clue cards in place of an inject deck). `reference/scenario-3/` ("Flight to Nowhere") is the primary benchmark and describes its inject visuals in `injects/README.md`. Generated output is measured against these.
-- `reference/ics-forms/` - ICS-201 and ICS-203 form bases.
-- `reference/course/` - course outline used for learning objectives.
-- `reference/originals/` - slot for original PDFs/PNGs added by hand; `reference/originals/private/` is gitignored for licensed material.
-
-## `examples/`
-
-`examples/` holds the example projects the app ships, opened from **Projects → Examples** or the setup wizard's first-project step. Opening one copies its `project/` folder to a folder you choose; the shipped files are never changed. Each has an `example.json` manifest and a normal project folder. See [`examples/README.md`](examples/README.md) for the format and the rules for adding one.
-
-| Example                    | Organization (fictional)          | Built from              | Scenarios                                                                       |
-| -------------------------- | --------------------------------- | ----------------------- | ------------------------------------------------------------------------------- |
-| `examples/airport-ncia/`   | North Coast International Airport | `reference/ncia/`       | The eight CSAAP scenarios, seeded from `reference/scenario-1/` to `scenario-8/` |
-| `examples/city-water/`     | City of Millbrook Water           | `reference/city-water/` | pH on the Edge                                                                  |
-| `examples/uas-operations/` | Harwick UAS Operations Group      | `reference/uas-ops/`    | Ghost Flight at Birch Hollow                                                    |
-
-## No GitHub Actions
-
-This repository has no GitHub Actions, by design. There is nothing under `.github/workflows/`, and there never will be. CI is `scripts/local-ci.sh` (`pnpm ci:local`) plus Husky hooks (`pre-commit`: lint-staged; `pre-push`: local CI and gitleaks). PRs include the pasted `ci:local` output. The README badges come from the same script: `pnpm badges` (local CI with `BADGES=1`) rewrites the SVGs in `docs/badges/` after a full green run (see [Badges](CONTRIBUTING.md#badges)). See [ADR-0002](docs/adr/0002-local-ci-no-actions.md).
-
-## Non-negotiables (also in CLAUDE.md)
-
-- **No GitHub Actions.** Nothing under `.github/workflows/`. Checks run locally via `scripts/local-ci.sh` and git hooks.
-- **Issues are tracked in GitHub Issues** on `mdcrowley/actionstations`. Every unit of work maps to an issue; commits reference issue numbers.
-- **Local-first.** Projects, documents, prompts and generated media live on the user's disk. Remote APIs are opt-in per provider.
-- **Provider-agnostic.** LM Studio / Ollama / OpenAI-compatible and Anthropic for text; ComfyUI for image/video, mlx-audio or the system voice for speech, with the abstraction ready for others.
-
-## Help, conduct and security
-
-- Questions, bugs and feature requests: [SUPPORT.md](SUPPORT.md).
-- Report a vulnerability privately by email, never in a public issue: [SECURITY.md](SECURITY.md).
-- Everyone taking part follows the [Code of Conduct](CODE_OF_CONDUCT.md) (Contributor Covenant 2.1).
+Bug reports, feature requests and pull requests are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) has the project rules, the workflow, the local CI and the test commands. Questions and bugs go through [SUPPORT.md](SUPPORT.md). Report a vulnerability privately by email, never in a public issue: see [SECURITY.md](SECURITY.md). Everyone taking part follows the [Code of Conduct](CODE_OF_CONDUCT.md) (Contributor Covenant 2.1).
 
 ## License
 
 Source-available under the [PolyForm Internal Use License 1.0.0](LICENSE.md): any organization may use and change Action Stations for free for its own internal operations, including running exercises for its own people. Schools, colleges and universities, their faculty, staff and students, may also use it for teaching, coursework, research and student exercises under the [Additional Permission for Education](LICENSE-EDUCATION.md). Selling or redistributing it, hosting it for others, and consulting, training or facilitation for other organizations need a commercial license; see [COMMERCIAL.md](COMMERCIAL.md). Contributions are accepted under the [CLA](CLA.md). Third-party dependencies keep their own licenses, and packs carry the license their author chose.
-
-## History
-
-The repository started as a handoff package (docs, reference material, templates, bootstrap scripts). That setup is complete: labels, milestones and the seed backlog exist on GitHub, and the original kickoff prompt is not needed to work on the project. `CLAUDE.md` at the repo root carries the standing instructions for Claude Code sessions.

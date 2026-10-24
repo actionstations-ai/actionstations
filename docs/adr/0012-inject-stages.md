@@ -4,7 +4,7 @@ Date: 2026-10-21 · Status: Accepted · Issue: #34
 
 ## Context
 
-The MSEL gives each row a format (taxonomy type) and a one-paragraph event. Turning rows into deck pages needs (a) fields that fit a template's JSON Schema exactly (`additionalProperties: false`), (b) identifiers that stay consistent across 25 pages written in separate model calls, and (c) a media plan that respects CLAUDE.md rule 5 (text-bearing media is template-rendered; AI pixels only for photographic content). Local 30B models fill schemas well when shown the schema, but still drift on field names and invent second hostnames when they cannot see what earlier pages said.
+The MSEL gives each row a format (taxonomy type) and a one-paragraph event. Turning rows into deck pages needs (a) fields that fit a template's JSON Schema exactly (`additionalProperties: false`), (b) identifiers that stay consistent across 25 pages written in separate model calls, and (c) a media plan that respects [CONTRIBUTING.md, Project rules 5](../../CONTRIBUTING.md#project-rules) (text-bearing media is template-rendered; AI pixels only for photographic content). Local 30B models fill schemas well when shown the schema, but still drift on field names and invent second hostnames when they cannot see what earlier pages said.
 
 ## Decision
 

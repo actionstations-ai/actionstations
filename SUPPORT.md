@@ -5,7 +5,7 @@
 - [Getting started](docs/guides/getting-started.md): install, create a project, import documents, connect a model, generate a scenario.
 - [Provider setup](docs/guides/providers/README.md): LM Studio, Ollama, Anthropic, ComfyUI and local TTS, with troubleshooting for each.
 - [Packs](docs/guides/packs.md): installing, reviewing and exporting packs.
-- The other [guides](README.md#guides) and the [CHANGELOG](CHANGELOG.md) for what changed in each release.
+- The other [guides](README.md#docs-and-guides) and the [CHANGELOG](CHANGELOG.md) for what changed in each release.
 
 ## Bugs and feature requests
 

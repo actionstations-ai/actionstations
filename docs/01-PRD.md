@@ -16,7 +16,7 @@ Building a good tabletop exercise by hand takes days: read the organization's pl
 2. Generated content cites the user's own documents (section numbers) so players are forced into the doctrine.
 3. Media injects look real enough to provoke a reaction in the room.
 4. Everything is editable; the AI drafts, the human finishes.
-5. Runs entirely on a laptop with local models when desired; can use Claude when quality matters.
+5. Runs entirely on a laptop with local models when desired; can use a cloud model (for example Anthropic's Claude) when quality matters.
 
 ## Non-goals (v1)
 

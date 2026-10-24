@@ -9,7 +9,7 @@ Action Stations generates exercises with a text model and, optionally, images, v
 1. setup makes sure these dependencies are installed, or can be installed automatically;
 2. the user decides whether anything is installed at all. Cloud APIs only is a first-class path.
 
-Constraints from CLAUDE.md: local-first and privacy-first (no telemetry, no network calls except on the user's action), keys in the OS keychain, provider calls only through adapters. The electron-builder installers must not bundle these tools: they are large, licensed separately, and differ per platform.
+Constraints from the project rules ([CONTRIBUTING.md, Project rules 3 and 4](../../CONTRIBUTING.md#project-rules)): local-first and privacy-first (no telemetry, no network calls except on the user's action), keys in the OS keychain, provider calls only through adapters. The electron-builder installers must not bundle these tools: they are large, licensed separately, and differ per platform.
 
 ## Research (measured 2026-10-24)
 

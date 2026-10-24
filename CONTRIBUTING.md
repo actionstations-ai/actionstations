@@ -1,6 +1,18 @@
 # Contributing
 
-Thanks for helping build Action Stations. This page covers the workflow, the local CI, and the live tests. The longer version of the workflow is [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md); how the code is wired (handlers, routes, adapters, templates) is in [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md).
+Thanks for helping build Action Stations. This page covers the project rules, the workflow, the local CI, the tests and where the design documents are. The longer version of the workflow is [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md); how the code is wired (handlers, routes, adapters, templates) is in [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md).
+
+## Project rules
+
+Every change follows these rules, and a pull request that breaks one is not merged. Code comments and documents refer to them by number, for example "CONTRIBUTING.md, Project rules 5".
+
+1. **No GitHub Actions.** Nothing goes under `.github/workflows/`, and the project uses no Dependabot workflows or other paid GitHub compute. CI is `scripts/local-ci.sh` (`pnpm ci:local`) plus the Husky hooks. If a new check is needed, add it there ([ADR-0002](docs/adr/0002-local-ci-no-actions.md)).
+2. **GitHub Issues are the task tracker.** Every piece of work has an issue, created from a template in `.github/ISSUE_TEMPLATE/` with the labels and milestone described in [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md). Every commit message references its issue (`#NN`). When the work ships, close the issue with a comment that says what shipped.
+3. **Local-first and private.** No telemetry, and no network calls except to providers the user configured or downloads the user started. API keys are encrypted by the OS keychain through Electron `safeStorage`; they never go into project files or logs.
+4. **Providers only through adapters.** Every model and media call goes through the interfaces in `src/main/providers/`. No vendor SDK or direct vendor call outside an adapter; ESLint enforces the import rule.
+5. **Templates for text, AI for scenes.** Tweets, posts, tickets, emails, logs and information boards such as FIDS render from HTML templates, so their text is exact and legible. Image and video generation is for photographic content. An inject whose critical text is AI-rendered pixels does not ship.
+6. **The stack is fixed:** Electron, React, TypeScript, Vite and pnpm; `better-sqlite3` with `sqlite-vec`; Vitest and Playwright; ESLint and Prettier; `electron-builder`. Don't swap any of them for another framework ([ADR-0001](docs/adr/0001-stack.md)).
+7. **`main` always builds and launches.** Work happens on `feat/<issue>-<slug>` or `fix/<issue>-<slug>` branches (see [The loop](#the-loop) for the others) and is squash-merged through a pull request after `pnpm ci:local` passes.
 
 ## Set up
 
@@ -13,6 +25,41 @@ pnpm test             # unit tests
 ```
 
 For a guided tour of the app itself, see [Getting started](docs/guides/getting-started.md).
+
+### Commands
+
+```bash
+pnpm install                  # install deps; builds native modules for Electron
+pnpm dev                      # launch the app (electron-vite, HMR)
+scripts/dev-bundle.sh         # macOS: .dev-app/Action Stations.app, a renamed Electron so the menu bar and Dock say Action Stations
+pnpm test                     # Vitest unit tests (run under Electron-as-Node, mock providers)
+pnpm lint && pnpm typecheck   # ESLint + tsc
+pnpm ci:local                 # full local CI: scripts/local-ci.sh
+pnpm badges                   # full local CI, then refresh the README badges in docs/badges/
+pnpm e2e                      # Playwright end-to-end tests against the Electron app
+pnpm build                    # electron-builder installers (dmg / nsis / AppImage)
+```
+
+The live generation tests are listed under [Live tests](#live-tests). Releasing is described in [`docs/RELEASING.md`](docs/RELEASING.md).
+
+### Repository layout
+
+```
+src/main/            Electron main: ipc/, providers/, ingest/, generate/, render/, export/, db/
+src/renderer/        React app: routes/, components/, editors/, state/
+src/shared/          Types, zod schemas, IPC contracts
+templates/injects/   HTML/CSS templates per inject type
+prompts/             Default prompt files (markdown with frontmatter)
+comfy/workflows/     Default ComfyUI workflow JSON per media type
+docs/                PRD, architecture, taxonomy, methodology, ADRs, guides
+reference/           Sample plans per domain + the CSAAP scenario 1–8 gold-standard outputs
+examples/            Example projects that ship with the app (Projects → Examples)
+packs/               bundled.json (repo folders → bundled packs), domains/<id>.json profiles, documents/
+scripts/             local-ci.sh, release, pack and example builders, dev helpers
+e2e/                 Playwright tests
+```
+
+[`reference/`](reference/README.md) holds the sample plans a user would import and the eight hand-written CSAAP airport exercises the output is measured against; `reference/scenario-3/` is the primary benchmark. [`examples/`](examples/README.md) holds the example projects built from those plans, with the manifest format and the rules for adding one.
 
 ## License and contributor agreement
 
@@ -111,12 +158,56 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 - Keep [`README.md`](README.md) runnable and the guides in [`docs/guides/`](docs/guides/) accurate when behaviour changes. Guide screenshots live in `docs/guides/images/`; retake them from the built app when a screen changes with `pnpm build:app && GUIDE_SHOTS=1 pnpm exec playwright test e2e/guide-screenshots.spec.ts` (mock provider, 1440 × 900), then look at each changed image before committing it. The Packs screenshots in `docs/guides/images/packs/` come from `GUIDE_SHOTS=1 pnpm exec playwright test e2e/packs.spec.ts`.
 - Any architectural choice (a new library, a storage format change, a new process boundary) gets an ADR in `docs/adr/NNNN-title.md`, copied from [`docs/adr/0000-template.md`](docs/adr/0000-template.md): context, decision, consequences, kept short. To reverse a decision, write a new ADR and mark the old one `Superseded by ADR-XXXX`.
 
-## Ground rules
+## Design documents
 
-- Model and media calls go only through `src/main/providers/*` adapters; no vendor SDKs elsewhere.
-- No secrets in code, project folders or logs; API keys go through Electron `safeStorage`.
-- No telemetry and no network calls except to providers the user configured.
-- Text-bearing injects render from HTML templates, never from AI-generated pixels.
+| Doc                                                                  | Purpose                                                 |
+| -------------------------------------------------------------------- | ------------------------------------------------------- |
+| [`docs/01-PRD.md`](docs/01-PRD.md)                                   | Product requirements                                    |
+| [`docs/02-ARCHITECTURE.md`](docs/02-ARCHITECTURE.md)                 | Processes, storage, providers, rendering, export        |
+| [`docs/03-INJECT-TAXONOMY.md`](docs/03-INJECT-TAXONOMY.md)           | Supported inject types, fields and render targets       |
+| [`docs/04-TABLETOP-METHODOLOGY.md`](docs/04-TABLETOP-METHODOLOGY.md) | HSEEP-style exercise structure the generator reproduces |
+| [`docs/05-DATA-MODEL.md`](docs/05-DATA-MODEL.md)                     | Project / Scenario / Inject / Asset schema              |
+| [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md)           | Issues, labels, milestones, branching, local CI         |
+| [`docs/08-ROADMAP.md`](docs/08-ROADMAP.md)                           | Milestones M0 to M6 of the first release                |
+| [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md)         | How handlers, routes, adapters and templates are wired  |
+| [`docs/packs-format.md`](docs/packs-format.md)                       | The `.aspack` format, `pack.json` and catalogs          |
+| [`docs/RELEASING.md`](docs/RELEASING.md)                             | Building installers and cutting a release               |
+| [`docs/research/domains/`](docs/research/domains/README.md)          | Research notes behind each domain profile and pack      |
+
+### Architecture decision records
+
+| ADR                                               | Decision                                                                        |
+| ------------------------------------------------- | ------------------------------------------------------------------------------- |
+| [0001](docs/adr/0001-stack.md)                    | Application stack: Electron, React, TypeScript, Vite, pnpm, SQLite + sqlite-vec |
+| [0002](docs/adr/0002-local-ci-no-actions.md)      | Local CI only, no GitHub Actions                                                |
+| [0003](docs/adr/0003-project-folder-format.md)    | Project folder format                                                           |
+| [0004](docs/adr/0004-native-modules-and-tests.md) | Native modules and the test runtime                                             |
+| [0005](docs/adr/0005-embeddings.md)               | Embeddings                                                                      |
+| [0006](docs/adr/0006-providers-over-fetch.md)     | Provider adapters over fetch                                                    |
+| [0007](docs/adr/0007-structured-output.md)        | Structured output from LLMs                                                     |
+| [0008](docs/adr/0008-template-rendering.md)       | Template rendering to PNG and PDF                                               |
+| [0009](docs/adr/0009-audio-tts.md)                | Audio and TTS (amended by 0010)                                                 |
+| [0010](docs/adr/0010-local-tts-openai-speech.md)  | Local TTS through the OpenAI-compatible speech API                              |
+| [0011](docs/adr/0011-video-model-ltxv.md)         | LTX-Video as the default local video model                                      |
+| [0012](docs/adr/0012-inject-stages.md)            | Inject stages: schema-guided text, deterministic media plan, keep-with-warning  |
+| [0013](docs/adr/0013-app-protocol.md)             | Serve the renderer from `app://bundle/`                                         |
+| [0014](docs/adr/0014-domain-profiles.md)          | Domain profiles: domain-neutral generation as data                              |
+| [0015](docs/adr/0015-repair-in-place.md)          | Repair a finished scenario in place                                             |
+| [0016](docs/adr/0016-forward-compatible-files.md) | Forward-compatible project files                                                |
+| [0017](docs/adr/0017-windowed-lists.md)           | Memoized rows and windowed long lists (MSEL grid, inject deck)                  |
+| [0018](docs/adr/0018-packs.md)                    | Packs: installable content bundles                                              |
+| [0019](docs/adr/0019-rename-action-stations.md)   | Rename to Action Stations; migrate old settings, projects and keys              |
+| [0020](docs/adr/0020-bundled-packs.md)            | Built-in content ships as bundled packs                                         |
+| [0021](docs/adr/0021-local-tools-setup.md)        | Optional setup of local model tools, or cloud APIs only                         |
+
+New ADRs start from [`docs/adr/0000-template.md`](docs/adr/0000-template.md).
+
+## Code conventions
+
+These sit alongside the [project rules](#project-rules):
+
+- No secrets in code, project folders or logs.
 - Persisted JSON is defined by zod schemas in `src/shared/schemas/`.
 - IPC goes through typed channels in `src/shared/ipc/`; no raw `ipcRenderer` in components.
 - UI uses `src/renderer/src/components/ui.tsx` and the design tokens in `styles/tokens.css`; every action must work from the keyboard, and colour contrast must meet WCAG AA.
+- Generated output is measured against the hand-written exercises in `reference/scenario-3/`. A change to prompts or generation that makes the MSEL read worse next to that one is not finished.

@@ -1,6 +1,6 @@
 # Template authoring guide
 
-Inject templates turn the structured fields of an inject (a tweet's handle and text, a ticket's number and description, a FIDS board's rows) into a PNG and, for paper injects, a PDF page. Every text-bearing inject is rendered from a template so its text is exact and legible; AI image models are only used for photographic scenes, which a template can then frame (CLAUDE.md rule 5).
+Inject templates turn the structured fields of an inject (a tweet's handle and text, a ticket's number and description, a FIDS board's rows) into a PNG and, for paper injects, a PDF page. Every text-bearing inject is rendered from a template so its text is exact and legible; AI image models are only used for photographic scenes, which a template can then frame ([CONTRIBUTING.md, Project rules 5](../../CONTRIBUTING.md#project-rules)).
 
 This guide covers the folder contract, the day-to-day loop, golden images, and adding a new inject type end to end. The reference implementation is [`templates/injects/time_jump_card/`](../../templates/injects/time_jump_card/) (simple, paper) and [`templates/injects/tweet/`](../../templates/injects/tweet/) (variants, image slots). The design decisions are in [ADR-0008](../adr/0008-template-rendering.md); the inject types are listed in [docs/03-INJECT-TAXONOMY.md](../03-INJECT-TAXONOMY.md).
 

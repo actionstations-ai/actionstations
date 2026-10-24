@@ -45,7 +45,7 @@ photojournalism realism. Core nodes only.
 - Measured (ComfyUI 0.42.0, Apple Silicon, MPS): **15.6 s** per image with the model loaded.
 - SDXL cannot render legible text and ignores negation ("no screens"). Describe the scene
   positively ("departure boards powered off and dark"); text-bearing media is always
-  template-rendered (CLAUDE.md rule 5).
+  template-rendered ([CONTRIBUTING.md, Project rules 5](../../CONTRIBUTING.md#project-rules)).
 
 ## `image-to-video` — LTX-Video 2B distilled (video)
 
