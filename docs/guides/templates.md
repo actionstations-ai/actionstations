@@ -55,7 +55,7 @@ JSON Schema 2020-12 for `fields`, with `"additionalProperties": false`. Renderin
 - newTime (string, required) — Wall-clock time players jump to — e.g. "10:00 AM"
 ```
 
-That line is built from the property name, type, `required`, `description` and the first of `examples`. Write descriptions and examples for the model as much as for people: they are how a local model learns that a flight number is `DL1245` and not `Delta flight 1245`. Keep the fields the facilitator needs to read aloud or hand over; leave layout decisions to the template.
+That line is built from the property name, type, `required`, `description` and the first of `examples`. Write descriptions and examples for the model as much as for people: they are how a local model learns that a flight number is `SX1245` and not `Skyline flight 1245`. Keep the fields the facilitator needs to read aloud or hand over; leave layout decisions to the template.
 
 ### `preview.json`
 

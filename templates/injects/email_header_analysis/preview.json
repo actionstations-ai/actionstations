@@ -4,29 +4,33 @@
     "caseId": "IR-2026-031",
     "analyst": "J. Okafor",
     "analyzedAt": "10/21/2026 11:52",
-    "subject": "Congratulations! Claim your FREE Browns Tickets",
-    "displayFrom": "Browns Fan Rewards <rewards@clevelandbrowns-tix.com>",
+    "subject": "Congratulations! Claim your FREE Ironclads Tickets",
+    "displayFrom": "Ironclads Fan Rewards <rewards@lakeport-ironclads-tix.com>",
     "recipient": "kyle.m@ncia-airport.org",
     "verdict": "malicious",
     "checks": [
       {
         "label": "SPF",
         "result": "fail",
-        "detail": "203.0.113.45 not permitted by clevelandbrowns-tix.com"
+        "detail": "203.0.113.45 not permitted by lakeport-ironclads-tix.com"
       },
       { "label": "DKIM", "result": "none", "detail": "No signature" },
       { "label": "DMARC", "result": "fail", "detail": "p=none (domain registered 10/18/2026)" },
-      { "label": "Link", "result": "warn", "detail": "hxxp://browns-tix-claim[.]top/claim.pdf.exe" }
+      {
+        "label": "Link",
+        "result": "warn",
+        "detail": "hxxp://ironclads-tix-claim[.]top/claim.pdf.exe"
+      }
     ],
     "hops": [
       {
         "from": "vps-41.hostnode.example [203.0.113.45]",
-        "by": "mail.clevelandbrowns-tix.com",
+        "by": "mail.lakeport-ironclads-tix.com",
         "time": "10/20 16:38:49",
         "flag": true
       },
       {
-        "from": "mail.clevelandbrowns-tix.com [203.0.113.45]",
+        "from": "mail.lakeport-ironclads-tix.com [203.0.113.45]",
         "by": "mx1.ncia-airport.org",
         "time": "10/20 16:38:52"
       },
@@ -41,21 +45,21 @@
       },
       {
         "name": "Received",
-        "value": "from vps-41.hostnode.example ([203.0.113.45]) by mail.clevelandbrowns-tix.com; Mon, 20 Oct 2026 16:38:49 -0400"
+        "value": "from vps-41.hostnode.example ([203.0.113.45]) by mail.lakeport-ironclads-tix.com; Mon, 20 Oct 2026 16:38:49 -0400"
       },
       {
         "name": "Received-SPF",
-        "value": "Fail (protection.outlook.example: domain of clevelandbrowns-tix.com does not designate 203.0.113.45 as permitted sender)",
+        "value": "Fail (protection.outlook.example: domain of lakeport-ironclads-tix.com does not designate 203.0.113.45 as permitted sender)",
         "flag": true,
         "note": "Sending IP is not authorized for the domain"
       },
       {
         "name": "Authentication-Results",
-        "value": "spf=fail smtp.mailfrom=clevelandbrowns-tix.com; dkim=none; dmarc=fail action=none header.from=clevelandbrowns-tix.com"
+        "value": "spf=fail smtp.mailfrom=lakeport-ironclads-tix.com; dkim=none; dmarc=fail action=none header.from=lakeport-ironclads-tix.com"
       },
       {
         "name": "From",
-        "value": "\"Browns Fan Rewards\" <rewards@clevelandbrowns-tix.com>",
+        "value": "\"Ironclads Fan Rewards\" <rewards@lakeport-ironclads-tix.com>",
         "flag": true,
         "note": "Look-alike domain registered 3 days before delivery"
       },
@@ -66,12 +70,12 @@
         "note": "Replies go to a free webmail account"
       },
       { "name": "To", "value": "kyle.m@ncia-airport.org" },
-      { "name": "Subject", "value": "Congratulations! Claim your FREE Browns Tickets" },
+      { "name": "Subject", "value": "Congratulations! Claim your FREE Ironclads Tickets" },
       { "name": "Date", "value": "Mon, 20 Oct 2026 16:38:47 -0400" },
       { "name": "Message-ID", "value": "<20261020203847.4471.qmail@vps-41.hostnode.example>" },
       { "name": "X-Mailer", "value": "PHPMailer 5.2.9" },
       { "name": "X-Originating-IP", "value": "[203.0.113.45]" }
     ],
-    "conclusion": "Look-alike sender domain, failed SPF/DMARC and a link to a double-extension executable. User OPS_INTERN_03 (kyle.m) opened the link at 16:41 per proxy logs. Treat 203.0.113.45 and browns-tix-claim[.]top as IOCs; block and search all mailboxes for the same Message-ID pattern."
+    "conclusion": "Look-alike sender domain, failed SPF/DMARC and a link to a double-extension executable. User OPS_INTERN_03 (kyle.m) opened the link at 16:41 per proxy logs. Treat 203.0.113.45 and ironclads-tix-claim[.]top as IOCs; block and search all mailboxes for the same Message-ID pattern."
   }
 }

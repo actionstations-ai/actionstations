@@ -12,20 +12,20 @@
       "BHS Manual Encode pier (basement): belts 1-3 E-Stopped",
       "TSA checkpoint: line past atrium, crush risk"
     ],
-    "situationSummary": "Since 0900 the AODB has been feeding false gate, destination and status data to FIDS, the BHS sortation controller and the automated PA. At 1015 the PA announced \"Flight 666 to Purgatory now boarding at all gates.\" BHS is routing all Concourse A bags to the Manual Encode pier; belts 1-3 are E-Stopped. A viral Facebook post claims ISIS has taken the control tower (false). Airlines report pilots refusing pushback because EFBs are syncing bad gate data. IT suspects unauthorized access via workstation OPS_INTERN_03 (phishing, 05/21).",
+    "situationSummary": "Since 0900 the AODB has been feeding false gate, destination and status data to FIDS, the BHS sortation controller and the automated PA. At 1015 the PA announced \"Flight 666 to Purgatory now boarding at all gates.\" BHS is routing all Concourse A bags to the Manual Encode pier; belts 1-3 are E-Stopped. A viral Facebook post claims a terrorist group has taken the control tower (false). Airlines report pilots refusing pushback because EFBs are syncing bad gate data. IT suspects unauthorized access via workstation OPS_INTERN_03 (phishing, 05/21).",
     "safetyBriefing": "Crowding at airline counters, Gate C4 and the TSA checkpoint: crush risk. Manual bag handling in the BHS basement: lifting and belt-pinch hazards; lock out belts before entry. Do not trust any screen or PA message until IT verifies it.",
     "objectives": [
       "Protect passengers and staff from crowd crush at counters, gates and the checkpoint",
       "Stop false information reaching the public: silence automated PA, take FIDS dark on IC order",
       "Stand up manual operations (whiteboard teams, megaphones) per TIRP 13.6 / 13.7",
       "Contain the AODB compromise and preserve evidence for law enforcement",
-      "Issue holding statement and counter the ISIS rumor within 15 minutes",
+      "Issue holding statement and counter the terrorist-takeover rumor within 15 minutes",
       "Keep airlines informed through the Airline Liaison; restore verified flight data"
     ],
     "actions": [
       {
         "time": "0915",
-        "action": "Delta (Gate B4) reports wrong destination; Ops opens IT ticket"
+        "action": "Skyline (Gate B4) reports wrong destination; Ops opens IT ticket"
       },
       { "time": "0930", "action": "IT confirms AODB source data changed, not a display fault" },
       { "time": "0955", "action": "PIO begins social monitoring after @TravelGuy99 post" },
@@ -35,12 +35,15 @@
       },
       { "time": "1015", "action": "Automated PA silenced; PA server disconnected from network" },
       { "time": "1020", "action": "PIO posts myth-busting statement: no threat to aircraft" },
-      { "time": "1030", "action": "Manual baggage handling with Delta/United ground crews" },
+      { "time": "1030", "action": "Manual baggage handling with Skyline/HWK Air ground crews" },
       { "time": "1040", "action": "IT isolates OPS_INTERN_03 from network; images disk" },
       { "time": "1045", "action": "Incident declared; Unified Command established in EOC" },
       { "time": "1100", "action": "PLANNED: Decision on full FIDS shutdown after IT log review" },
       { "time": "1100", "action": "PLANNED: Whiteboard teams to atrium, A and B concourses" },
-      { "time": "1130", "action": "PLANNED: Notify FBI Cleveland and TSA FSD; preserve AODB logs" }
+      {
+        "time": "1130",
+        "action": "PLANNED: Notify the FBI field office and TSA FSD; preserve AODB logs"
+      }
     ],
     "orgChart": {
       "incidentCommanders": [

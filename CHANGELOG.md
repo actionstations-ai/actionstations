@@ -81,6 +81,15 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
   or the folder last chosen for that project; the folder, Export button and a readiness summary
   (events without injects, unrendered injects, lint errors) sit in a pinned action bar (#238).
 
+#### Templates
+
+- Template schema examples and previews use simulated organizations only: airlines (Skyline Air,
+  HWK Air, Lakeshore and others, with their own flight codes), news outlets, the sports team in
+  the phishing lure, community groups, the FBI field office and street addresses no longer name
+  real ones, and the misinformation rumor no longer names a real extremist group. Generic
+  government roles (TSA, FAA, FBI, CISA) stay. A test fails on a deny-list of real names in
+  `templates/**` and the generation fixtures (#278).
+
 #### Documentation
 
 - README: the Documentation section lists every ADR (0001–0016), the `reference/` section

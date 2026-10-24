@@ -28,12 +28,12 @@
     "subject": {
       "type": "string",
       "description": "Email subject line.",
-      "examples": ["Congratulations! Claim your FREE Browns Tickets"]
+      "examples": ["Congratulations! Claim your FREE Ironclads Tickets"]
     },
     "displayFrom": {
       "type": "string",
       "description": "From header as the user saw it.",
-      "examples": ["Browns Fan Rewards <rewards@clevelandbrowns-tix.com>"]
+      "examples": ["Ironclads Fan Rewards <rewards@lakeport-ironclads-tix.com>"]
     },
     "recipient": {
       "type": "string",
@@ -62,7 +62,7 @@
           },
           "detail": {
             "type": "string",
-            "examples": ["185.220.101.47 not permitted for clevelandbrowns-tix.com"]
+            "examples": ["185.220.101.47 not permitted for lakeport-ironclads-tix.com"]
           }
         }
       }
@@ -75,7 +75,10 @@
         "additionalProperties": false,
         "required": ["from", "by"],
         "properties": {
-          "from": { "type": "string", "examples": ["mail.clevelandbrowns-tix.com [203.0.113.45]"] },
+          "from": {
+            "type": "string",
+            "examples": ["mail.lakeport-ironclads-tix.com [203.0.113.45]"]
+          },
           "by": { "type": "string", "examples": ["mx1.ncia-airport.org"] },
           "time": { "type": "string", "examples": ["10/20 16:38:52"] },
           "flag": {

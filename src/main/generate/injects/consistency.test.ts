@@ -44,7 +44,7 @@ describe('exampleCopies (#105)', () => {
     const fields = {
       role: 'FBI Cyber Duty Agent',
       persona: 'Special Agent Smith',
-      organization: 'FBI Cleveland Field Office, Cyber Squad',
+      organization: 'FBI field office, Cyber Squad',
       trigger: 'Players call the airline station manager.',
       hardQuestions: ['Do you have a PCAP capture of the traffic?', 'Why are the boards wrong?'],
     }

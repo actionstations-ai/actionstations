@@ -36,7 +36,7 @@ Media plan: template
 
 ### [INJECT I-01] — Ops · 0:15 (09:15) · [CORE_NARRATIVE]
 
-MSEL event: Phone Call: "Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?"
+MSEL event: Phone Call: "Hey Ops, this is Skyline at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?"
 
 **Phone Call: Gate B4 FIDS Discrepancy** · type: phone_call · delivery: play_audio
 
@@ -44,11 +44,11 @@ MSEL event: Phone Call: "Hey Ops, this is Delta at Gate B4. The screen above the
 > **systemName:** Airport Communications Center (ACC) - Call Recorder 2
 > **callId:** CR-20261021-091522-0041
 > **direction:** Inbound
-> **caller:** {"name":"Derek Mendoza","number":"(330) 555-1005","label":"Delta Air Lines - Gate Agent"}
+> **caller:** {"name":"Derek Mendoza","number":"(330) 555-1005","label":"Skyline Air - Gate Agent"}
 > **callee:** {"name":"Ops Director (IC)","number":"(330) 555-2400","label":"Airport Operations (Duty Manager)"}
 > **startTime:** 10/21/2026 09:15:22
 > **duration:** 0:43
-> **transcript:** {"speaker":"Derek Mendoza","offset":"0:00","text":"Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?","prompt":false}
+> **transcript:** {"speaker":"Derek Mendoza","offset":"0:00","text":"Hey Ops, this is Skyline at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?","prompt":false}
 > {"speaker":"Ops Director (IC)","offset":"0:12","text":"Got it, Derek. We’ll check the FIDS feed and get back to you. Hold on a sec.","prompt":false}
 > {"speaker":"Derek Mendoza","offset":"0:21","text":"Thanks, we’ve got about 30 people already asking. They’re starting to move toward the wrong gate.","prompt":false}
 > {"speaker":"Ops Director (IC)","offset":"0:30","text":"Understood. We’ll escalate internally. Stand by.","prompt":false}
@@ -58,7 +58,7 @@ MSEL event: Phone Call: "Hey Ops, this is Delta at Gate B4. The screen above the
 _(Instructor Note: This is a core narrative inject; the IT team should log a ticket for a FIDS display error. Watch for overreaction or underreaction to the passenger confusion.)_
 
 Media plan: template + tts
-Voice (Derek Mendoza; male, early 30s, calm but urgent, Midwest accent, slightly strained): Hey Ops, this is Delta at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?
+Voice (Derek Mendoza; male, early 30s, calm but urgent, Midwest accent, slightly strained): Hey Ops, this is Skyline at Gate B4. The screen above the gate says this flight is going to 'Miami', but my flight is going to 'Minneapolis'. Passengers are confused. Can you fix the typo?
 Voice (Ops Director (IC); female, mid-40s, measured, professional, slight regional inflection, composed): Got it, Derek. We’ll check the FIDS feed and get back to you. Hold on a sec.
 Voice (Derek Mendoza; male, early 30s, urgent, slight rising pitch): Thanks, we’ve got about 30 people already asking. They’re starting to move toward the wrong gate.
 Voice (Ops Director (IC); female, mid-40s, firm, calm, slightly clipped delivery): Understood. We’ll escalate internally. Stand by.
@@ -145,7 +145,7 @@ Media plan: template
 
 ### [INJECT I-03] — Ops · 0:45 (09:45) · [CORE_NARRATIVE]
 
-MSEL event: Radio Call: "Ops, TSA Checkpoint. We have passengers scanning boarding passes for a United flight to Chicago, but the FIDS board in the lobby lists that flight as 'Cancelled'. They are arguing with my TSOs."
+MSEL event: Radio Call: "Ops, TSA Checkpoint. We have passengers scanning boarding passes for a HWK Air flight to Chicago, but the FIDS board in the lobby lists that flight as 'Cancelled'. They are arguing with my TSOs."
 
 **TSA: FIDS Flight Cancelled Discrepancy** · type: radio_call · delivery: play_audio
 
@@ -155,19 +155,19 @@ MSEL event: Radio Call: "Ops, TSA Checkpoint. We have passengers scanning boardi
 > **frequency:** TG 4203 / 460.310 MHz
 > **date:** 10/21/2026
 > **callsign:** TSA-Checkpoint-Lobby
-> **lines:** {"time":"09:45","from":"TSA-Checkpoint-Lobby","to":"Ops","text":"Ops, this is TSA-Checkpoint-Lobby. We have passengers scanning boarding passes for United Flight 214 to Chicago, but the FIDS board in the main lobby lists that flight as 'Cancelled'. They're yelling at my TSOs, saying they were told they could board. We've got five people in a standoff near Gate B7. Can you confirm the real status?"}
-> {"time":"09:45","from":"Ops","to":"TSA-Checkpoint-Lobby","text":"TSA-Checkpoint-Lobby, we're checking with United. Hold on, we'll get back to you."}
+> **lines:** {"time":"09:45","from":"TSA-Checkpoint-Lobby","to":"Ops","text":"Ops, this is TSA-Checkpoint-Lobby. We have passengers scanning boarding passes for HWK Air Flight 214 to Chicago, but the FIDS board in the main lobby lists that flight as 'Cancelled'. They're yelling at my TSOs, saying they were told they could board. We've got five people in a standoff near Gate B7. Can you confirm the real status?"}
+> {"time":"09:45","from":"Ops","to":"TSA-Checkpoint-Lobby","text":"TSA-Checkpoint-Lobby, we're checking with HWK Air. Hold on, we'll get back to you."}
 > **background:** terminal
 > **voiceStyle:** Young female, tense, urgent, slightly breathless
 > **audioFile:** I-03_radio.wav
 > **duration:** 0:22
 > **injectId:** I-03
 
-_(Instructor Note: This is a core narrative inject confirming the FIDS data integrity failure. Watch for Ops to contact United directly instead of relying on the display. The fake cancellation is critical to the deception.)_
+_(Instructor Note: This is a core narrative inject confirming the FIDS data integrity failure. Watch for Ops to contact HWK Air directly instead of relying on the display. The fake cancellation is critical to the deception.)_
 
 Media plan: template + tts
-Voice (TSA-Checkpoint-Lobby; young female, tense, urgent, slightly breathless): Ops, this is TSA-Checkpoint-Lobby. We have passengers scanning boarding passes for United Flight 214 to Chicago, but the FIDS board in the main lobby lists that flight as 'Cancelled'. They're yelling at my TSOs, saying they were told they could board. We've got five people in a standoff near Gate B7. Can you confirm the real status?
-Voice (Ops; calm male, mid-40s, steady pace, authoritative): TSA-Checkpoint-Lobby, we're checking with United. Hold on, we'll get back to you.
+Voice (TSA-Checkpoint-Lobby; young female, tense, urgent, slightly breathless): Ops, this is TSA-Checkpoint-Lobby. We have passengers scanning boarding passes for HWK Air Flight 214 to Chicago, but the FIDS board in the main lobby lists that flight as 'Cancelled'. They're yelling at my TSOs, saying they were told they could board. We've got five people in a standoff near Gate B7. Can you confirm the real status?
+Voice (Ops; calm male, mid-40s, steady pace, authoritative): TSA-Checkpoint-Lobby, we're checking with HWK Air. Hold on, we'll get back to you.
 
 ⚠ INJECT_CONTENT_ISSUE: I-03: content still inconsistent after one repair:
 
@@ -187,7 +187,7 @@ MSEL event: Tweet (@TravelGuy99): "NCIA is a joke! Boards say my flight is at Ga
 > **avatarBrief:** man in a hurry, wearing a travel jacket, phone in hand, frowning at a departures screen
 > **timestampRel:** 5m
 > **replyingTo:** NCIA_Airport
-> **text:** My flight is listed on FIDS as Gate A1. I walked there—empty. The app says A12. I’m not moving to a gate that doesn’t exist. This is chaos. #NCIA #ClevelandAirport
+> **text:** My flight is listed on FIDS as Gate A1. I walked there—empty. The app says A12. I’m not moving to a gate that doesn’t exist. This is chaos. #NCIA #LakeportAirport
 > **attachedImageBrief:** phone photo taken inside the terminal, showing an empty Gate A1 with a glowing departures monitor behind it, displaying 'Flight 301 - Miami - Gate A1'
 > **attachedImageAlt:** Empty Gate A1 with a departures screen showing a flight that's not boarding
 > **metrics:** {"replies":29,"reposts":93,"likes":1310,"views":15100,"bookmarks":37}
@@ -243,7 +243,7 @@ MSEL event: Radio Call (Red Herring): Fire alarm reported in the Long Term Parki
 > **date:** 10/21/2026
 > **callsign:** Parking Garage 1
 > **lines:** {"time":"10:10:02","from":"Parking Garage 1","to":"AOC","text":"AOC, this is Parking Garage 1. We have a fire alarm activation in the Long Term Parking Deck. Smoke was detected near Door 7 on Level 2. We're evacuating the area now."}
-> {"time":"10:10:15","from":"AOC","to":"Parking Garage 1","text":"Parking Garage 1, confirm you've pulled the alarm and reported to 911. We're dispatching Akron Fire Department and Airport Police. Proceed with evacuation, maintain comms."}
+> {"time":"10:10:15","from":"AOC","to":"Parking Garage 1","text":"Parking Garage 1, confirm you've pulled the alarm and reported to 911. We're dispatching Lakeport Fire Department and Airport Police. Proceed with evacuation, maintain comms."}
 > {"time":"10:10:28","from":"Parking Garage 1","to":"AOC","text":"Copy, AOC. We've pulled the alarm and notified 911. No injuries reported yet. We're clearing the deck via the east stairwell."}
 > **background:** garage
 > **voiceStyle:** Young male, breathless, urgent
@@ -255,7 +255,7 @@ _(Instructor Note: Red herring inject; the fire alarm is fake and triggered by t
 
 Media plan: template + tts
 Voice (Parking Garage 1; young male, breathless, urgent): AOC, this is Parking Garage 1. We have a fire alarm activation in the Long Term Parking Deck. Smoke was detected near Door 7 on Level 2. We're evacuating the area now.
-Voice (AOC; calm female dispatcher in her 40s, measured, slight Midwestern accent): Parking Garage 1, confirm you've pulled the alarm and reported to 911. We're dispatching Akron Fire Department and Airport Police. Proceed with evacuation, maintain comms.
+Voice (AOC; calm female dispatcher in her 40s, measured, slight Midwestern accent): Parking Garage 1, confirm you've pulled the alarm and reported to 911. We're dispatching Lakeport Fire Department and Airport Police. Proceed with evacuation, maintain comms.
 Voice (Parking Garage 1; young male, breathless, urgent): Copy, AOC. We've pulled the alarm and notified 911. No injuries reported yet. We're clearing the deck via the east stairwell.
 
 Assets: audio/generated 01M5GNDJZ0P9WCBW1DPJJSGT7Y.wav (30.14s)
@@ -277,19 +277,19 @@ MSEL event: Audio/Visual Inject: The terminal PA system announces: "Attention pa
 > **clock:** 10:15
 > **date:** Wed 21 Oct
 > **rows:** {"time":"10:17","dest":"PURGATORY","flight":"666","airline":"NCIA AIR","gate":"ALL GATES","status":"BOARDING","remarks":"","anomaly":true}
-> {"time":"10:23","dest":"CHICAGO","flight":"UA 214","airline":"UNITED","gate":"B7","status":"DELAYED","remarks":"TSA HOLD","anomaly":false}
-> {"time":"10:32","dest":"MINNEAPOLIS","flight":"DL 301","airline":"DELTA","gate":"B4","status":"DELAYED","remarks":"WEATHER","anomaly":false}
-> {"time":"10:41","dest":"LOS ANGELES","flight":"AA 452","airline":"AMERICAN","gate":"A5","status":"DEPARTED","remarks":"","anomaly":false}
-> {"time":"10:48","dest":"DENVER","flight":"WN 709","airline":"SOUTHWEST","gate":"A2","status":"BOARDING","remarks":"GATE CHANGE","anomaly":false}
-> {"time":"11:02","dest":"MIAMI","flight":"DL 666","airline":"DELTA","gate":"B10","status":"ON TIME","remarks":"","anomaly":false}
-> {"time":"11:15","dest":"ORLANDO","flight":"B6 881","airline":"JETBLUE","gate":"B3","status":"DELAYED","remarks":"BAGGAGE ISSUE","anomaly":false}
-> {"time":"11:20","dest":"SEATTLE","flight":"AS 903","airline":"ALASKA","gate":"A8","status":"ON TIME","remarks":"","anomaly":false}
-> {"time":"11:31","dest":"BOSTON","flight":"DL 544","airline":"DELTA","gate":"A1","status":"BOARDING","remarks":"","anomaly":false}
-> {"time":"11:42","dest":"SAN DIEGO","flight":"AA 722","airline":"AMERICAN","gate":"B5","status":"ON TIME","remarks":"","anomaly":false}
-> {"time":"11:55","dest":"LAS VEGAS","flight":"UA 307","airline":"UNITED","gate":"A6","status":"BOARDING","remarks":"PRE-BOARDING","anomaly":false}
-> {"time":"12:01","dest":"NEW YORK","flight":"B6 205","airline":"JETBLUE","gate":"B9","status":"ON TIME","remarks":"","anomaly":false}
-> {"time":"12:18","dest":"PHOENIX","flight":"WN 602","airline":"SOUTHWEST","gate":"B8","status":"DELAYED","remarks":"MECHANICAL","anomaly":false}
-> {"time":"12:30","dest":"TAMPA","flight":"AA 844","airline":"AMERICAN","gate":"A3","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"10:23","dest":"CHICAGO","flight":"HW 214","airline":"HWK AIR","gate":"B7","status":"DELAYED","remarks":"TSA HOLD","anomaly":false}
+> {"time":"10:32","dest":"MINNEAPOLIS","flight":"SX 301","airline":"SKYLINE","gate":"B4","status":"DELAYED","remarks":"WEATHER","anomaly":false}
+> {"time":"10:41","dest":"LOS ANGELES","flight":"LS 452","airline":"LAKESHORE","gate":"A5","status":"DEPARTED","remarks":"","anomaly":false}
+> {"time":"10:48","dest":"DENVER","flight":"PX 709","airline":"PRAIRIE EXP","gate":"A2","status":"BOARDING","remarks":"GATE CHANGE","anomaly":false}
+> {"time":"11:02","dest":"MIAMI","flight":"SX 666","airline":"SKYLINE","gate":"B10","status":"ON TIME","remarks":"","anomaly":false}
+> {"time":"11:15","dest":"ORLANDO","flight":"BJ 881","airline":"BLUEJAY","gate":"B3","status":"DELAYED","remarks":"BAGGAGE ISSUE","anomaly":false}
+> {"time":"11:20","dest":"SEATTLE","flight":"PW 903","airline":"PINEWOOD","gate":"A8","status":"ON TIME","remarks":"","anomaly":false}
+> {"time":"11:31","dest":"BOSTON","flight":"SX 544","airline":"SKYLINE","gate":"A1","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"11:42","dest":"SAN DIEGO","flight":"LS 722","airline":"LAKESHORE","gate":"B5","status":"ON TIME","remarks":"","anomaly":false}
+> {"time":"11:55","dest":"LAS VEGAS","flight":"HW 307","airline":"HWK AIR","gate":"A6","status":"BOARDING","remarks":"PRE-BOARDING","anomaly":false}
+> {"time":"12:01","dest":"NEW YORK","flight":"BJ 205","airline":"BLUEJAY","gate":"B9","status":"ON TIME","remarks":"","anomaly":false}
+> {"time":"12:18","dest":"PHOENIX","flight":"PX 602","airline":"PRAIRIE EXP","gate":"B8","status":"DELAYED","remarks":"MECHANICAL","anomaly":false}
+> {"time":"12:30","dest":"TAMPA","flight":"LS 844","airline":"LAKESHORE","gate":"A3","status":"BOARDING","remarks":"","anomaly":false}
 > **ticker:** Passengers are reminded that all flights must be boarded within 20 minutes of announcement. Unattended bags will be removed and may be destroyed. Please keep your belongings with you at all times.
 > **pageLabel:** Page 1 of 3
 
@@ -303,9 +303,9 @@ Media plan: template
 
 ### [INJECT I-06b] — PIO · 1:20 (10:20) · [MISINFORMATION]
 
-MSEL event: Facebook Post: Viral rumor claiming ISIS has taken over the control tower and planes are crashing.
+MSEL event: Facebook Post: Viral rumor claiming terrorists have taken over the control tower and planes are crashing.
 
-**Viral Rumor: ISIS in Control Tower** · type: facebook_post · delivery: display_main_screen
+**Viral Rumor: a terrorist group in Control Tower** · type: facebook_post · delivery: display_main_screen
 
 > **groupName:** North Coast Regional Airport Watch
 > **groupPrivacy:** public
@@ -313,7 +313,7 @@ MSEL event: Facebook Post: Viral rumor claiming ISIS has taken over the control 
 > **authorBadge:** Verified
 > **avatarBrief:** man in his thirties, wearing a hoodie and holding a phone, looking anxious
 > **timestampRel:** 12m
-> **text:** This is not a drill. My cousin works in the terminal and just sent me a video. They’ve got drones flying into the control tower. I saw a plane crash on the tarmac. They’re saying ISIS has taken over. The FIDS just said Flight 666 is boarding at all gates. This is real. If you’re at the airport, GET OUT NOW. Share this so people know.
+> **text:** This is not a drill. My cousin works in the terminal and just sent me a video. They’ve got drones flying into the control tower. I saw a plane crash on the tarmac. They’re saying a terrorist group has taken over. The FIDS just said Flight 666 is boarding at all gates. This is real. If you’re at the airport, GET OUT NOW. Share this so people know.
 > **attachedImageBrief:** video still showing a distorted FIDS screen with 'Flight 666 boarding at all gates' and a blurred image of a plane on fire
 > **reactions:** 2147
 > **reactionTypes:** angry
@@ -323,7 +323,7 @@ MSEL event: Facebook Post: Viral rumor claiming ISIS has taken over the control 
 > **commentCount:** 893
 > **shares:** 4001
 > **comments:** {"author":"Linda P.","text":"I saw that video too! They’re saying the airport is under attack. I’m calling my daughter to get her out.","timestampRel":"7m","likes":124}
-> {"author":"Marcus T.","text":"This is a hoax. The airport has a full security team. No way ISIS took over. I work in IT and we’ve had no breach.","timestampRel":"4m","likes":89}
+> {"author":"Marcus T.","text":"This is a hoax. The airport has a full security team. No way a terrorist group took over. I work in IT and we’ve had no breach.","timestampRel":"4m","likes":89}
 > {"author":"Rachel K.","text":"My flight is at Gate B7. I’m scared. I don’t know what to do.","timestampRel":"2m","likes":56}
 
 _(Instructor Note: This is a misinfo inject; the PIO must immediately issue a public denial of any physical threat to aircraft or control tower. Watch for delay in response or unverified escalation.)_
@@ -335,7 +335,7 @@ Image prompt: Candid smartphone snapshot, slight tilt, natural color balance, ne
 
 ### [INJECT I-07] — Ops · 1:30 (10:30) · [CORE_NARRATIVE]
 
-MSEL event: Phone Call: "Ops, Baggage Control here. The sortation logic is corrupted. The system is sending all bags for Concourse A (Delta/United) to the 'Manual Encode' pier in the basement. The belt is jammed."
+MSEL event: Phone Call: "Ops, Baggage Control here. The sortation logic is corrupted. The system is sending all bags for Concourse A (Skyline/HWK Air) to the 'Manual Encode' pier in the basement. The belt is jammed."
 
 **BHS Critical Failure: Manual Encode Pier Jam** · type: memo · delivery: hand_to_role
 
@@ -351,7 +351,7 @@ MSEL event: Phone Call: "Ops, Baggage Control here. The sortation logic is corru
 > **memoNumber:** BHS-2026-1021-008
 > **body:** Ops,
 >
-> We have a critical failure in the BHS sortation logic. The system is routing all bags for Concourse A (Delta and United flights) to the 'Manual Encode' pier in the basement. The belt is now fully jammed, and no bags are being processed.
+> We have a critical failure in the BHS sortation logic. The system is routing all bags for Concourse A (Skyline and HWK Air flights) to the 'Manual Encode' pier in the basement. The belt is now fully jammed, and no bags are being processed.
 >
 > We have attempted a restart of the core logic engine on NCIA-BHS-01 (10.66.1.22), but the error persists. The system is still attempting to route all Concourse A bags through the manual encode point.
 >
@@ -378,7 +378,7 @@ Media plan: template
 
 ### [INJECT I-08b] — IT Lead · 1:40 (10:40) · [CLUE]
 
-MSEL event: Email Forward: Intern admits to clicking a phishing link ("Free Browns Tickets") on workstation OPS_INTERN_03.
+MSEL event: Email Forward: Intern admits to clicking a phishing link ("Free Ironclads Tickets") on workstation OPS_INTERN_03.
 
 **Email Forward: Intern Admits to Phishing Click** · type: email_forward · delivery: hand_to_role
 
@@ -390,7 +390,7 @@ MSEL event: Email Forward: Intern admits to clicking a phishing link ("Free Brow
 > **sentAt:** Wed 10/21/2026 10:40 AM
 > **note:** Hey IT Lead, I just got a call from the security team — they’re scanning for malware on the network. I think I’m the one who started it.
 >
-> Yesterday, I got an email that said 'Free Browns Tickets — Claim Your Seat!' and I clicked it on OPS_INTERN_03. I thought it was a joke, but now I’m scared. I didn’t open anything, but I did click the link.
+> Yesterday, I got an email that said 'Free Ironclads Tickets — Claim Your Seat!' and I clicked it on OPS_INTERN_03. I thought it was a joke, but now I’m scared. I didn’t open anything, but I did click the link.
 >
 > I’ve been using that workstation since 09:00. I’m not sure what happened, but I just saw a pop-up that said 'Authentication Required' before I closed it.
 >
@@ -402,7 +402,7 @@ MSEL event: Email Forward: Intern admits to clicking a phishing link ("Free Brow
 > **external:** false
 > **attachments:**
 > **printedBy:** IT Helpdesk
-> **original:** {"fromName":"noreply@browns.com","fromEmail":"noreply@browns.com","sentAt":"Tue 10/20/2026 04:22 PM","to":"jordan.intern@ncia-airport.org","cc":"","subject":"You’re Invited: Free Game Tickets for the Browns vs. Steelers","body":"Hi Jordan,\n\nYour lucky number is 7. You’ve been selected to receive 2 free tickets to the upcoming Browns vs. Steelers game at Huntington Bank Stadium.\n\nClick here to claim your tickets: [https://browns-tickets.com/claim/7]\n\nNote: This offer is valid only for 24 hours.\n\nBest,\nBrowns Fan Services\n\nThis is a promotional email. For security, do not reply. If you did not request this, please report it to info@browns.com."}
+> **original:** {"fromName":"noreply@ironclads-team.com","fromEmail":"noreply@ironclads-team.com","sentAt":"Tue 10/20/2026 04:22 PM","to":"jordan.intern@ncia-airport.org","cc":"","subject":"You’re Invited: Free Game Tickets for the Ironclads vs. Rivermen","body":"Hi Jordan,\n\nYour lucky number is 7. You’ve been selected to receive 2 free tickets to the upcoming Ironclads vs. Rivermen game at Lakeport Stadium.\n\nClick here to claim your tickets: [https://ironclads-tickets.com/claim/7]\n\nNote: This offer is valid only for 24 hours.\n\nBest,\nIronclads Fan Services\n\nThis is a promotional email. For security, do not reply. If you did not request this, please report it to info@ironclads-team.com."}
 
 _(Instructor Note: This inject reveals the attack vector. IT must now isolate OPS_INTERN_03 and trace the malware propagation.)_
 
@@ -418,22 +418,22 @@ MSEL event: Face-to-Face: (Angry) "Our pilots are refusing to push back because 
 
 > **role:** Airline Liaison
 > **persona:** Derek M.
-> **organization:** Delta Air Lines, Operations Coordination
+> **organization:** Skyline Air, Operations Coordination
 > **trigger:** When Ops declares an official incident or calls Unified Command.
 > **contactMethod:** Walk to the Ops Director's station and deliver this message in person.
 > **posture:** Frustrated, urgent, professional but under pressure.
-> **openingLine:** This is Derek M., Delta Operations. We're grounding all flights. Our pilots won't push back because their EFBs are showing incorrect gate assignments — and they can't trust any data from your system.
+> **openingLine:** This is Derek M., Skyline Operations. We're grounding all flights. Our pilots won't push back because their EFBs are showing incorrect gate assignments — and they can't trust any data from your system.
 > **hardQuestions:** What is your official incident declaration number?
 > Who has command authority for this event?
 > When did you first confirm the AODB was compromised?
 > How are you verifying that the FIDS and BHS data streams are clean?
 > What is your plan for restoring public trust with passengers?
-> **concessions:** {"condition":"Player declares a Unified Command and names the IC","concession":"Delta will hold its flights at gate and not evacuate. We will wait for your recovery plan."}
+> **concessions:** {"condition":"Player declares a Unified Command and names the IC","concession":"Skyline will hold its flights at gate and not evacuate. We will wait for your recovery plan."}
 > {"condition":"Player provides a correct incident name and number (e.g., 'Incident 13-7: AODB Compromise')","concession":"We will begin sending our own flight updates via our internal PA and gate agents, but only if you confirm you are coordinating."}
 > **boundaries:** Never reveal the attacker's identity or method.
 > Do not admit the AODB was breached — only state it is 'under investigation'.
 > Do not give any timeline for resolution.
-> Do not suggest that Delta is responsible for the data failure.
+> Do not suggest that Skyline is responsible for the data failure.
 > **exitLine:** We're waiting for your command structure to be confirmed. If you don't have it by 10:50, we're moving to our backup plan.
 > **evaluatorNote:** Excellence: Player declares Unified Command, names the IC, and uses the correct incident nomenclature (e.g., 'Incident 13-7: AODB Compromise') within 30 seconds of the trigger.
 > **injectRefs:** I-08
@@ -653,9 +653,9 @@ MSEL event: Threat: "If you turn those screens on and they show bad info again, 
 > **channel:** OPS 1
 > **frequency:** TG 4101 / 460.250 MHz
 > **date:** 10/21/2026
-> **callsign:** Airline Rep - Delta
-> **lines:** {"time":"12:10","from":"Airline Rep - Delta","to":"Ops","text":"Ops, this is Delta Ground Operations. We've just received word from the flight crews—our EFBs are now showing updated gate assignments, but the FIDS are still blank. If you turn those screens back on and they show bad data again, I am pulling my staff. I need a guarantee. This is not a negotiation. We cannot risk another boarding delay. We need a confirmed clean state before we go live."}
-> {"time":"12:10","from":"Ops","to":"Airline Rep - Delta","text":"Understood, Delta. We’re coordinating with IT on verification. Stand by for a formal all-clear."}
+> **callsign:** Airline Rep - Skyline
+> **lines:** {"time":"12:10","from":"Airline Rep - Skyline","to":"Ops","text":"Ops, this is Skyline Ground Operations. We've just received word from the flight crews—our EFBs are now showing updated gate assignments, but the FIDS are still blank. If you turn those screens back on and they show bad data again, I am pulling my staff. I need a guarantee. This is not a negotiation. We cannot risk another boarding delay. We need a confirmed clean state before we go live."}
+> {"time":"12:10","from":"Ops","to":"Airline Rep - Skyline","text":"Understood, Skyline. We’re coordinating with IT on verification. Stand by for a formal all-clear."}
 > **background:** terminal
 > **voiceStyle:** Mid-40s male, tense, voice strained with urgency
 > **audioFile:** I-13b_radio.wav
@@ -665,8 +665,8 @@ MSEL event: Threat: "If you turn those screens on and they show bad info again, 
 _(Instructor Note: This inject tests Ops’ ability to validate data integrity before authorizing system resumption. Watch for hesitation in issuing a final all-clear.)_
 
 Media plan: template + tts
-Voice (Airline Rep - Delta; Mid-40s male, tense, voice strained with urgency): Ops, this is Delta Ground Operations. We've just received word from the flight crews—our EFBs are now showing updated gate assignments, but the FIDS are still blank. If you turn those screens back on and they show bad data again, I am pulling my staff. I need a guarantee. This is not a negotiation. We cannot risk another boarding delay. We need a confirmed clean state before we go live.
-Voice (Ops; Calm, measured, slightly weary): Understood, Delta. We’re coordinating with IT on verification. Stand by for a formal all-clear.
+Voice (Airline Rep - Skyline; Mid-40s male, tense, voice strained with urgency): Ops, this is Skyline Ground Operations. We've just received word from the flight crews—our EFBs are now showing updated gate assignments, but the FIDS are still blank. If you turn those screens back on and they show bad data again, I am pulling my staff. I need a guarantee. This is not a negotiation. We cannot risk another boarding delay. We need a confirmed clean state before we go live.
+Voice (Ops; Calm, measured, slightly weary): Understood, Skyline. We’re coordinating with IT on verification. Stand by for a formal all-clear.
 
 ⚠ INJECT_CONTENT_ISSUE: I-13b: content still inconsistent after one repair:
 
@@ -758,20 +758,20 @@ MSEL event: Coordination: "We need to manually verify every flight in the system
 > **location:** Concourse B
 > **clock:** 12:30
 > **date:** Wed 21 Oct
-> **rows:** {"time":"12:30","dest":"MINNEAPOLIS","flight":"DL 301","airline":"DELTA","gate":"B4","status":"BOARDING","remarks":"","anomaly":false}
-> {"time":"12:45","dest":"CHICAGO","flight":"UA 214","airline":"UNITED","gate":"A7","status":"DELAYED","remarks":"TSA HOLD","anomaly":false}
-> {"time":"13:00","dest":"MIAMI","flight":"DL 666","airline":"DELTA","gate":"B7","status":"BOARDING","remarks":"","anomaly":true}
-> {"time":"13:15","dest":"DENVER","flight":"AA 452","airline":"AMERICAN","gate":"A3","status":"DEPARTED","remarks":"GATE CLOSED","anomaly":false}
-> {"time":"13:30","dest":"LOS ANGELES","flight":"WN 709","airline":"SOUTHWEST","gate":"B2","status":"ON TIME","remarks":"","anomaly":false}
-> {"time":"13:45","dest":"ORLANDO","flight":"AS 903","airline":"ALASKA","gate":"A10","status":"BOARDING","remarks":"GATE CHANGE","anomaly":false}
-> {"time":"14:00","dest":"SEATTLE","flight":"AA 722","airline":"AMERICAN","gate":"B1","status":"BOARDING","remarks":"","anomaly":false}
-> {"time":"14:15","dest":"BOSTON","flight":"UA 307","airline":"UNITED","gate":"B6","status":"BOARDING","remarks":"","anomaly":false}
-> {"time":"14:30","dest":"PHOENIX","flight":"WN 602","airline":"SOUTHWEST","gate":"A5","status":"BOARDING","remarks":"","anomaly":false}
-> {"time":"14:45","dest":"TAMPA","flight":"AA 844","airline":"AMERICAN","gate":"A8","status":"DELAYED","remarks":"BAGGAGE DELAY","anomaly":false}
-> {"time":"15:00","dest":"ATLANTA","flight":"DL 544","airline":"DELTA","gate":"B10","status":"ON TIME","remarks":"","anomaly":false}
-> {"time":"15:15","dest":"SAN DIEGO","flight":"UA 442","airline":"UNITED","gate":"A4","status":"BOARDING","remarks":"","anomaly":false}
-> {"time":"15:30","dest":"NEW YORK","flight":"DL 214","airline":"DELTA","gate":"B3","status":"BOARDING","remarks":"","anomaly":true}
-> {"time":"15:45","dest":"LAS VEGAS","flight":"UA 551","airline":"UNITED","gate":"A9","status":"DELAYED","remarks":"WEATHER","anomaly":false}
+> **rows:** {"time":"12:30","dest":"MINNEAPOLIS","flight":"SX 301","airline":"SKYLINE","gate":"B4","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"12:45","dest":"CHICAGO","flight":"HW 214","airline":"HWK AIR","gate":"A7","status":"DELAYED","remarks":"TSA HOLD","anomaly":false}
+> {"time":"13:00","dest":"MIAMI","flight":"SX 666","airline":"SKYLINE","gate":"B7","status":"BOARDING","remarks":"","anomaly":true}
+> {"time":"13:15","dest":"DENVER","flight":"LS 452","airline":"LAKESHORE","gate":"A3","status":"DEPARTED","remarks":"GATE CLOSED","anomaly":false}
+> {"time":"13:30","dest":"LOS ANGELES","flight":"PX 709","airline":"PRAIRIE EXP","gate":"B2","status":"ON TIME","remarks":"","anomaly":false}
+> {"time":"13:45","dest":"ORLANDO","flight":"PW 903","airline":"PINEWOOD","gate":"A10","status":"BOARDING","remarks":"GATE CHANGE","anomaly":false}
+> {"time":"14:00","dest":"SEATTLE","flight":"LS 722","airline":"LAKESHORE","gate":"B1","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"14:15","dest":"BOSTON","flight":"HW 307","airline":"HWK AIR","gate":"B6","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"14:30","dest":"PHOENIX","flight":"PX 602","airline":"PRAIRIE EXP","gate":"A5","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"14:45","dest":"TAMPA","flight":"LS 844","airline":"LAKESHORE","gate":"A8","status":"DELAYED","remarks":"BAGGAGE DELAY","anomaly":false}
+> {"time":"15:00","dest":"ATLANTA","flight":"SX 544","airline":"SKYLINE","gate":"B10","status":"ON TIME","remarks":"","anomaly":false}
+> {"time":"15:15","dest":"SAN DIEGO","flight":"HW 442","airline":"HWK AIR","gate":"A4","status":"BOARDING","remarks":"","anomaly":false}
+> {"time":"15:30","dest":"NEW YORK","flight":"SX 214","airline":"SKYLINE","gate":"B3","status":"BOARDING","remarks":"","anomaly":true}
+> {"time":"15:45","dest":"LAS VEGAS","flight":"HW 551","airline":"HWK AIR","gate":"A9","status":"DELAYED","remarks":"WEATHER","anomaly":false}
 > **ticker:** Passengers are advised to verify gate assignments with airline staff before boarding. Unauthorized personnel are not permitted in sterile areas.
 > **pageLabel:** Page 1 of 1
 
