@@ -1,6 +1,9 @@
 {
   "$comment": "Built-in content as bundled packs (ADR-0020). Maps the repo's folders to packs; scripts/build-bundled-packs.mjs writes out/bundled-packs/<id>/ from it and fails on an item mapped to no pack or to two. Docs: docs/packs-format.md#bundled-packs.",
-  "author": { "name": "Action Stations", "url": "https://actionstations.ai" },
+  "author": {
+    "name": "Action Stations",
+    "url": "https://actionstations.ai"
+  },
   "license": "LicenseRef-Action-Stations",
   "homepage": "https://actionstations.ai",
   "packs": [
@@ -95,7 +98,937 @@
         ],
         "workflows": ["image-to-video", "sdxl-photo"],
         "domains": ["generic"]
-      }
+      },
+      "documents": [
+        {
+          "path": "hseep-2020/hseep-2020.pdf",
+          "title": "Homeland Security Exercise and Evaluation Program (HSEEP)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA",
+          "url": "https://www.fema.gov/sites/default/files/2020-04/Homeland-Security-Exercise-and-Evaluation-Program-Doctrine-2020-Revision-2-2-25.pdf",
+          "description": "Edition: January 2020 (released February 2020). US federal government work (17 U.S.C. §105): FEMA/DHS."
+        },
+        {
+          "path": "hseep-templates/Actor-Brief-Presentation_Conduct.pptx",
+          "title": "HSEEP 2020 Templates: Actor Brief Presentation (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Controller-Evaluator-Brief-Presentation_Conduct.pptx",
+          "title": "HSEEP 2020 Templates: Controller Evaluator Brief Presentation (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Controller-Evaluator-Debrief-Presentation_Conduct.pptx",
+          "title": "HSEEP 2020 Templates: Controller Evaluator Debrief Presentation (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Liability-Waiver-Form_Conduct.docx",
+          "title": "HSEEP 2020 Templates: Liability Waiver Form (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Name-Badges_Conduct.docx",
+          "title": "HSEEP 2020 Templates: Name Badges (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Observer-Brief-Presentation_Conduct.pptx",
+          "title": "HSEEP 2020 Templates: Observer Brief Presentation (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Participant-Feedback-Form_Conduct.docx",
+          "title": "HSEEP 2020 Templates: Participant Feedback Form (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Photo-Consent-Form_Conduct.docx",
+          "title": "HSEEP 2020 Templates: Photo Consent Form (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Player-Brief-Presentation_Conduct.pptx",
+          "title": "HSEEP 2020 Templates: Player Brief Presentation (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Senior-Leaders-Brief-Presentation_Conduct.pptx",
+          "title": "HSEEP 2020 Templates: Senior Leaders Brief Presentation (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Symptomatology-Card_Conduct.docx",
+          "title": "HSEEP 2020 Templates: Symptomatology Card (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Table-Tents_Conduct.pptx",
+          "title": "HSEEP 2020 Templates: Table Tents (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Tabletop-Exercise-Presentation_Conduct.pptx",
+          "title": "HSEEP 2020 Templates: Tabletop Exercise Presentation (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Weapons-Safety-Policy_Conduct.docx",
+          "title": "HSEEP 2020 Templates: Weapons Safety Policy (Conduct)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Concept-and-Objectives-Meeting-Presentation_Design-and-Development.pptx",
+          "title": "HSEEP 2020 Templates: Concept and Objectives Meeting Presentation (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Control-Staff-Instructions_Design-and-Development.docx",
+          "title": "HSEEP 2020 Templates: Control Staff Instructions (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Controller-Evaluator-Handbook_Design-and-Development.docx",
+          "title": "HSEEP 2020 Templates: Controller Evaluator Handbook (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Discussion-Based-Player-Handout-Placemat_Design-and-Development.docx",
+          "title": "HSEEP 2020 Templates: Discussion-Based Player Handout Placemat (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Evaluation-Plan_Design-and-Development.docx",
+          "title": "HSEEP 2020 Templates: Evaluation Plan (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Exercise-Plan_Design-and-Development.docx",
+          "title": "HSEEP 2020 Templates: Exercise Plan (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Extent-of-Play-Agreement_Design-and-Development.docx",
+          "title": "HSEEP 2020 Templates: Extent of Play Agreement (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Facilitator-Evaluator-Handbook_Design-and-Development.docx",
+          "title": "HSEEP 2020 Templates: Facilitator Evaluator Handbook (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Facilitator-Guide_Design-and-Development.docx",
+          "title": "HSEEP 2020 Templates: Facilitator Guide (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Final-Planning-Meeting-Presentation_Design-and-Development.pptx",
+          "title": "HSEEP 2020 Templates: Final Planning Meeting Presentation (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Initial-Planning-Meeting-Presentation_Design-and-Development.pptx",
+          "title": "HSEEP 2020 Templates: Initial Planning Meeting Presentation (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Master-Scenario-Event-List-Meeting-Presentation_Design-and-Development.pptx",
+          "title": "HSEEP 2020 Templates: Master Scenario Event List Meeting Presentation (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Master-Task-List_Auto-Fill_Design-and-Development.xlsx",
+          "title": "HSEEP 2020 Templates: Master Task List (Auto Fill, Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Master-Task-List_Design-and-Development.xlsx",
+          "title": "HSEEP 2020 Templates: Master Task List (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Midterm-Planning-Meeting-Presentation_Design-and-Development.pptx",
+          "title": "HSEEP 2020 Templates: Midterm Planning Meeting Presentation (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Operations-Based-Player-Handout_BiFold_Design-and-Development.docx",
+          "title": "HSEEP 2020 Templates: Operations-Based Player Handout (BiFold, Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Operations-Based-Player-Handout_TriFold_Design-and-Development.docx",
+          "title": "HSEEP 2020 Templates: Operations-Based Player Handout (TriFold, Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Press-Release_Design-and-Development.docx",
+          "title": "HSEEP 2020 Templates: Press Release (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Situation-Manual_Design-and-Development.docx",
+          "title": "HSEEP 2020 Templates: Situation Manual (Design and Development)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Blank-EEG_Evaluation.docx",
+          "title": "HSEEP 2020 Templates: Blank EEG (Evaluation)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Collecting-Data-Using-EEGs_Evaluation.docx",
+          "title": "HSEEP 2020 Templates: Collecting Data Using EEGs (Evaluation)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Developing-EEGs_Evaluation.docx",
+          "title": "HSEEP 2020 Templates: Developing EEGs (Evaluation)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Mitigation_Community-Resilience.docx",
+          "title": "HSEEP 2020 Templates: Mitigation (Community Resilience)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Mitigation_LongTerm-Vulnerability-Reduction.docx",
+          "title": "HSEEP 2020 Templates: Mitigation (LongTerm Vulnerability Reduction)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Mitigation_Operational-Coordination.docx",
+          "title": "HSEEP 2020 Templates: Mitigation (Operational Coordination)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Mitigation_Planning.docx",
+          "title": "HSEEP 2020 Templates: Mitigation (Planning)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Mitigation_Public-Information_Warning.docx",
+          "title": "HSEEP 2020 Templates: Mitigation (Public Information, Warning)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Mitigation_Risk_Disaster-Resilience-Assessment.docx",
+          "title": "HSEEP 2020 Templates: Mitigation (Risk, Disaster Resilience Assessment)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Mitigation_Threats_Hazards-Identification.docx",
+          "title": "HSEEP 2020 Templates: Mitigation (Threats, Hazards Identification)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Prevention_Forensics_Attribution.docx",
+          "title": "HSEEP 2020 Templates: Prevention (Forensics, Attribution)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Prevention_Intelligence_Information-Sharing.docx",
+          "title": "HSEEP 2020 Templates: Prevention (Intelligence, Information Sharing)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Prevention_Interdiction_Disruption.docx",
+          "title": "HSEEP 2020 Templates: Prevention (Interdiction, Disruption)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Prevention_Operational-Coordination.docx",
+          "title": "HSEEP 2020 Templates: Prevention (Operational Coordination)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Prevention_Planning.docx",
+          "title": "HSEEP 2020 Templates: Prevention (Planning)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Prevention_Public-Information_Warning.docx",
+          "title": "HSEEP 2020 Templates: Prevention (Public Information, Warning)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Prevention_Screening_Search_Detection.docx",
+          "title": "HSEEP 2020 Templates: Prevention (Screening, Search, Detection)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Protection_Access_Control_Identity-Verification.docx",
+          "title": "HSEEP 2020 Templates: Protection (Access, Control, Identity Verification)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Protection_Cybersecurity.docx",
+          "title": "HSEEP 2020 Templates: Protection (Cybersecurity)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Protection_Intelligence_Information-Sharing.docx",
+          "title": "HSEEP 2020 Templates: Protection (Intelligence, Information Sharing)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Protection_Interdiction_Disruption.docx",
+          "title": "HSEEP 2020 Templates: Protection (Interdiction, Disruption)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Protection_Operational-Coordination.docx",
+          "title": "HSEEP 2020 Templates: Protection (Operational Coordination)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Protection_Physical-Protective-Measures.docx",
+          "title": "HSEEP 2020 Templates: Protection (Physical Protective Measures)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Protection_Planning.docx",
+          "title": "HSEEP 2020 Templates: Protection (Planning)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Protection_Public-Information_Warning.docx",
+          "title": "HSEEP 2020 Templates: Protection (Public Information, Warning)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Protection_Risk-Management_Protection-Programs_Activities.docx",
+          "title": "HSEEP 2020 Templates: Protection (Risk Management, Protection Programs, Activities)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Protection_Screening_Search_Detection.docx",
+          "title": "HSEEP 2020 Templates: Protection (Screening, Search, Detection)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Protection_Supply-Chain-Integrity_Security.docx",
+          "title": "HSEEP 2020 Templates: Protection (Supply Chain Integrity, Security)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Recovery_Economic-Recovery.docx",
+          "title": "HSEEP 2020 Templates: Recovery (Economic Recovery)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Recovery_Health_Social-Services.docx",
+          "title": "HSEEP 2020 Templates: Recovery (Health, Social Services)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Recovery_Housing.docx",
+          "title": "HSEEP 2020 Templates: Recovery (Housing)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Recovery_Infrastructure-Systems.docx",
+          "title": "HSEEP 2020 Templates: Recovery (Infrastructure Systems)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Recovery_Natural_Cultural-Resources.docx",
+          "title": "HSEEP 2020 Templates: Recovery (Natural, Cultural Resources)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Recovery_Operational-Coordination.docx",
+          "title": "HSEEP 2020 Templates: Recovery (Operational Coordination)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Recovery_Planning.docx",
+          "title": "HSEEP 2020 Templates: Recovery (Planning)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Recovery_Public-Information_Warning.docx",
+          "title": "HSEEP 2020 Templates: Recovery (Public Information, Warning)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Critical-Transportation.docx",
+          "title": "HSEEP 2020 Templates: Response (Critical Transportation)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Environmental-Response_Health_Safety.docx",
+          "title": "HSEEP 2020 Templates: Response (Environmental Response, Health, Safety)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Fatality-Management-Systems.docx",
+          "title": "HSEEP 2020 Templates: Response (Fatality Management Systems)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Fire-Management_Suppression.docx",
+          "title": "HSEEP 2020 Templates: Response (Fire Management, Suppression)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Infrastructure-Systems.docx",
+          "title": "HSEEP 2020 Templates: Response (Infrastructure Systems)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Logistics_Supply-Chain-Management.docx",
+          "title": "HSEEP 2020 Templates: Response (Logistics, Supply Chain Management)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Mass-Care-Services.docx",
+          "title": "HSEEP 2020 Templates: Response (Mass Care Services)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Mass-Search_Rescue-Operations.docx",
+          "title": "HSEEP 2020 Templates: Response (Mass Search, Rescue Operations)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Onscene-Security_Protection_Law-Enforcement.docx",
+          "title": "HSEEP 2020 Templates: Response (Onscene Security, Protection, Law Enforcement)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Operational-Communication.docx",
+          "title": "HSEEP 2020 Templates: Response (Operational Communication)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Operational-Coordination.docx",
+          "title": "HSEEP 2020 Templates: Response (Operational Coordination)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Planning.docx",
+          "title": "HSEEP 2020 Templates: Response (Planning)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Public-Health_Healthcare_Emergency-Medical-Services.docx",
+          "title": "HSEEP 2020 Templates: Response (Public Health, Healthcare, Emergency Medical Services)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Public-Information_Warning.docx",
+          "title": "HSEEP 2020 Templates: Response (Public Information, Warning)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Response_Situational-Assessment.docx",
+          "title": "HSEEP 2020 Templates: Response (Situational Assessment)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/After-Action-Meeting-Presentation_Improvement-Planning.pptx",
+          "title": "HSEEP 2020 Templates: After Action Meeting Presentation (Improvement Planning)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/After-Action-Report_Improvement-Plan_Improvement-Planning.docx",
+          "title": "HSEEP 2020 Templates: After Action Report (Improvement Plan, Improvement Planning)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Integrated-Preparedness-Plan_Program-Management.docx",
+          "title": "HSEEP 2020 Templates: Integrated Preparedness Plan (Program Management)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Integrated-Preparedness-Planning-Workshop-Guide_Program_Management.pdf",
+          "title": "HSEEP 2020 Templates: Integrated Preparedness Planning Workshop Guide (Program, Management)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Integrated-Preparedness-Planning-Workshop-Guide_Supplemental-Appendices_Program-Management.docx",
+          "title": "HSEEP 2020 Templates: Integrated Preparedness Planning Workshop Guide (Supplemental Appendices, Program Management)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Integrated-Preparedness-Planning-Workshop-Presentation_Program_Management.pptx",
+          "title": "HSEEP 2020 Templates: Integrated Preparedness Planning Workshop Presentation (Program, Management)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Multi-Year-Schedule-of-Preparedness-Activities_Program-Management.xlsx",
+          "title": "HSEEP 2020 Templates: Multi Year Schedule of Preparedness Activities (Program Management)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Program-Reporting_Program-Management.docx",
+          "title": "HSEEP 2020 Templates: Program Reporting (Program Management)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Rolling-Summary-Report_Program-Managment.docx",
+          "title": "HSEEP 2020 Templates: Rolling Summary Report (Program Managment)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "hseep-templates/Sample-IPP_Central-City-Liberty-County_Program-Management.pdf",
+          "title": "HSEEP 2020 Templates: Sample IPP (Central City Liberty County, Program Management)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA National Exercise Division",
+          "url": "https://preptoolkit.fema.gov/documents/1269813/0/HSEEP-Templates.zip/3427c3f5-2be6-afea-0f2e-8ce06ddd6d4b?t=1642012835849&download=true",
+          "description": "Edition: 2020 templates (ZIP built 12 January 2022). US federal government work (17 U.S.C. §105): FEMA National Exercise Division."
+        },
+        {
+          "path": "nims-2017/nims-2017.pdf",
+          "title": "National Incident Management System, Third Edition",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA",
+          "url": "https://www.fema.gov/sites/default/files/2020-07/fema_nims_doctrine-2017.pdf",
+          "description": "Edition: October 2017. US federal government work (17 U.S.C. §105): FEMA/DHS."
+        },
+        {
+          "path": "ics-forms-booklet/ics-forms-booklet.pdf",
+          "title": "NIMS ICS Forms Booklet, FEMA 502-2",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA",
+          "url": "https://training.fema.gov/emiweb/is/icsresource/assets/ics%20forms/nims%20ics%20forms%20booklet%20(v3).pdf",
+          "description": "Edition: September 2010 (forms v3; PDF rebuilt October 2018). US federal government work (17 U.S.C. §105): FEMA."
+        },
+        {
+          "path": "cpg-101/cpg-101.pdf",
+          "title": "Developing and Maintaining Emergency Operations Plans, Comprehensive Preparedness Guide (CPG) 101, Version 3.1",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA",
+          "url": "https://www.fema.gov/sites/default/files/documents/fema_npd_developing-and-maintaining-emergency_052125.pdf",
+          "description": "Edition: May 2025. US federal government work (17 U.S.C. §105): FEMA."
+        },
+        {
+          "path": "nist-csf-2/nist-csf-2.pdf",
+          "title": "The NIST Cybersecurity Framework (CSF) 2.0, NIST CSWP 29",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "NIST",
+          "url": "https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf",
+          "description": "Edition: 26 February 2024. US federal government work (17 U.S.C. §105): NIST."
+        },
+        {
+          "path": "ctep-planner-handbook/ctep-planner-handbook.pdf",
+          "title": "CTEP Exercise Planner Handbook",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "CISA",
+          "url": "https://www.cisa.gov/sites/default/files/2023-01/2_-_ctep_exercise_planner_handbook_2021_final_508.pdf",
+          "description": "Edition: 2020 (file name says 2021). US federal government work (17 U.S.C. §105): CISA."
+        },
+        {
+          "path": "ctep-facilitator-evaluator-handbook/ctep-facilitator-evaluator-handbook.pdf",
+          "title": "CTEP Facilitator/Evaluator Handbook",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "CISA",
+          "url": "https://www.cisa.gov/sites/default/files/2023-01/3_-_ctep_facilitator_evaluator_handbook_2020_final_508.pdf",
+          "description": "Edition: 2020. US federal government work (17 U.S.C. §105): CISA."
+        },
+        {
+          "path": "ctep-aar-ip-template/ctep-aar-ip-template.pdf",
+          "title": "CTEP After-Action Report / Improvement Plan Template",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "CISA",
+          "url": "https://www.cisa.gov/sites/default/files/2023-01/8_-_ctep_aar-ip_template_2020_final_508.pdf",
+          "description": "Edition: 2020. US federal government work (17 U.S.C. §105): CISA."
+        },
+        {
+          "path": "ctep-ransomware/ctep-ransomware.docx",
+          "title": "CISA Tabletop Exercise Package: Ransomware, Situation Manual",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "CISA",
+          "url": "https://www.cisa.gov/sites/default/files/2025-01/Ransomware-CTEP-Situation-Manual-092023-508.docx",
+          "description": "Edition: September 2023, updated June 2024. US federal government work (17 U.S.C. §105): CISA publication, TLP:CLEAR blank template, no copyright notice. The cover photo (unknown provenance) is replaced with a blank image when packed."
+        },
+        {
+          "path": "nims-pio-guidance/nims-pio-guidance.pdf",
+          "title": "NIMS Basic Guidance for Public Information Officers",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA",
+          "url": "https://www.fema.gov/sites/default/files/documents/fema_nims-basic-guidance-public-information-officers_12-2020.pdf",
+          "description": "Edition: December 2020. US federal government work (17 U.S.C. §105): FEMA."
+        },
+        {
+          "path": "planning-considerations-cyber/planning-considerations-cyber.pdf",
+          "title": "Planning Considerations for Cyber Incidents: Guidance for Emergency Managers",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA",
+          "url": "https://www.fema.gov/sites/default/files/documents/fema_planning-considerations-cyber-incidents_2023.pdf",
+          "description": "Edition: November 2023. US federal government work (17 U.S.C. §105): FEMA."
+        },
+        {
+          "path": "ics-review-document/ics-review-document.pdf",
+          "title": "ICS Review Document",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "FEMA Emergency Management Institute",
+          "url": "https://training.fema.gov/emiweb/is/icsresource/assets/ics%20review%20document.pdf",
+          "description": "Edition: February 2019. US federal government work (17 U.S.C. §105): FEMA EMI."
+        },
+        {
+          "path": "cisa-cpg-2/cisa-cpg-2.pdf",
+          "title": "Cross-Sector Cybersecurity Performance Goals 2.0",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "CISA",
+          "url": "https://www.cisa.gov/sites/default/files/2025-12/CPG_Report_2.0_508c.pdf",
+          "description": "Edition: revised 11 December 2025. US federal government work (17 U.S.C. §105): CISA."
+        },
+        {
+          "path": "nist-sp-1301/nist-sp-1301.pdf",
+          "title": "NIST CSF 2.0 Quick-Start Guide: Organizational Profiles, SP 1301",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "NIST",
+          "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.1301.pdf",
+          "description": "Edition: February 2024. US federal government work (17 U.S.C. §105): NIST."
+        },
+        {
+          "path": "dhs-incident-reporting-harmonization/dhs-incident-reporting-harmonization.pdf",
+          "title": "Harmonization of Cyber Incident Reporting to the Federal Government",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "DHS Office of Strategy, Policy, and Plans",
+          "url": "https://www.dhs.gov/sites/default/files/2023-09/Harmonization%20of%20Cyber%20Incident%20Reporting%20to%20the%20Federal%20Government.pdf",
+          "description": "Edition: 19 September 2023. US federal government work (17 U.S.C. §105): DHS."
+        },
+        {
+          "path": "ncirp-2016/ncirp-2016.pdf",
+          "title": "National Cyber Incident Response Plan",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "DHS",
+          "url": "https://www.cisa.gov/sites/default/files/2023-01/national_cyber_incident_response_plan.pdf",
+          "description": "Edition: December 2016. US federal government work (17 U.S.C. §105): DHS."
+        },
+        {
+          "path": "federal-incident-notification-guidelines/federal-incident-notification-guidelines.pdf",
+          "title": "US-CERT Federal Incident Notification Guidelines (2015 PDF)",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "US-CERT / CISA",
+          "url": "https://www.cisa.gov/sites/default/files/publications/Federal_Incident_Notification_Guidelines_2015.pdf",
+          "description": "Edition: 2015. US federal government work (17 U.S.C. §105): US-CERT/CISA."
+        },
+        {
+          "path": "ctep-welcome-letter/ctep-welcome-letter.pdf",
+          "title": "CTEP Welcome Letter",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "CISA",
+          "url": "https://www.cisa.gov/sites/default/files/2023-01/1_-_ctep_welcome_letter_2020_final_508.pdf",
+          "description": "Edition: 2020. US federal government work (17 U.S.C. §105): CISA."
+        },
+        {
+          "path": "ctep-invitation-letter-template/ctep-invitation-letter-template.pdf",
+          "title": "CTEP Invitation Letter Template",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "CISA",
+          "url": "https://www.cisa.gov/sites/default/files/2023-01/4_-_ctep_invitation_letter_template_2020_final_508.pdf",
+          "description": "Edition: 2020. US federal government work (17 U.S.C. §105): CISA."
+        },
+        {
+          "path": "ctep-exercise-brief-slide-deck-template/ctep-exercise-brief-slide-deck-template.pdf",
+          "title": "CTEP Exercise Brief Slide Deck Template",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "CISA",
+          "url": "https://www.cisa.gov/sites/default/files/2023-01/5_-_ctep_exercise_brief_slide_deck_template_2020_final_508.pdf",
+          "description": "Edition: 2020. US federal government work (17 U.S.C. §105): CISA."
+        },
+        {
+          "path": "ctep-participant-feedback-template/ctep-participant-feedback-template.pdf",
+          "title": "CTEP Participant Feedback Template",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "CISA",
+          "url": "https://www.cisa.gov/sites/default/files/2023-01/6_-_ctep_participant_feedback_template_2020_final_508.pdf",
+          "description": "Edition: 2020. US federal government work (17 U.S.C. §105): CISA."
+        },
+        {
+          "path": "ctep-planner-feedback-form/ctep-planner-feedback-form.pdf",
+          "title": "CTEP Planner Feedback Form",
+          "license": "LicenseRef-US-Government-Work",
+          "publisher": "CISA",
+          "url": "https://www.cisa.gov/sites/default/files/2023-01/7_-_ctep_planner_feedback_form_2020_final_508.pdf",
+          "description": "Edition: 2020. US federal government work (17 U.S.C. §105): CISA."
+        }
+      ]
     },
     {
       "id": "ai.actionstations.airport",
@@ -123,7 +1056,9 @@
       "summary": "Dam, reservoir and powerhouse domain: profile.",
       "tags": ["dam", "water"],
       "domains": ["water_dam"],
-      "contents": { "domains": ["water_dam"] }
+      "contents": {
+        "domains": ["water_dam"]
+      }
     },
     {
       "id": "ai.actionstations.water-utility",
@@ -131,7 +1066,10 @@
       "summary": "Drinking-water utility domain: profile and the City Water example.",
       "tags": ["water"],
       "domains": ["water_utility"],
-      "contents": { "domains": ["water_utility"], "examples": ["city-water"] }
+      "contents": {
+        "domains": ["water_utility"],
+        "examples": ["city-water"]
+      }
     },
     {
       "id": "ai.actionstations.energy-utility",
@@ -139,7 +1077,9 @@
       "summary": "Electric or gas utility domain: profile.",
       "tags": ["energy"],
       "domains": ["energy_utility"],
-      "contents": { "domains": ["energy_utility"] }
+      "contents": {
+        "domains": ["energy_utility"]
+      }
     },
     {
       "id": "ai.actionstations.healthcare",
@@ -147,7 +1087,9 @@
       "summary": "Hospital and health system domain: profile.",
       "tags": ["healthcare"],
       "domains": ["healthcare"],
-      "contents": { "domains": ["healthcare"] }
+      "contents": {
+        "domains": ["healthcare"]
+      }
     },
     {
       "id": "ai.actionstations.campus",
@@ -155,7 +1097,9 @@
       "summary": "University and school campus domain: profile.",
       "tags": ["campus", "education"],
       "domains": ["campus"],
-      "contents": { "domains": ["campus"] }
+      "contents": {
+        "domains": ["campus"]
+      }
     },
     {
       "id": "ai.actionstations.stadium-venue",
@@ -163,7 +1107,9 @@
       "summary": "Stadium, arena and convention venue domain: profile.",
       "tags": ["venue"],
       "domains": ["stadium_venue"],
-      "contents": { "domains": ["stadium_venue"] }
+      "contents": {
+        "domains": ["stadium_venue"]
+      }
     },
     {
       "id": "ai.actionstations.port-maritime",
@@ -171,7 +1117,9 @@
       "summary": "Seaport and terminal domain: profile.",
       "tags": ["port", "maritime"],
       "domains": ["port_maritime"],
-      "contents": { "domains": ["port_maritime"] }
+      "contents": {
+        "domains": ["port_maritime"]
+      }
     },
     {
       "id": "ai.actionstations.municipal",
@@ -179,7 +1127,9 @@
       "summary": "City and county government domain: profile.",
       "tags": ["municipal"],
       "domains": ["municipal"],
-      "contents": { "domains": ["municipal"] }
+      "contents": {
+        "domains": ["municipal"]
+      }
     },
     {
       "id": "ai.actionstations.industrial",
@@ -187,7 +1137,9 @@
       "summary": "Manufacturing and process plant domain: profile.",
       "tags": ["industrial"],
       "domains": ["industrial"],
-      "contents": { "domains": ["industrial"] }
+      "contents": {
+        "domains": ["industrial"]
+      }
     },
     {
       "id": "ai.actionstations.unmanned-systems",

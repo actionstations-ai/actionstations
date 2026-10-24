@@ -90,11 +90,24 @@ beforeEach(async () => {
   setIndexFactory(async () => index)
 })
 
+/** The documents of installed packs (the core pack included with the app has its own, #325). */
+const installedDocuments = async (req?: unknown): Promise<{ bundled?: boolean }[]> =>
+  (await call<{ bundled?: boolean }[]>('packs:documents', req)).filter((d) => !d.bundled)
+
 describe('packs:documents', () => {
+  it('lists the core pack documents included with the app', async () => {
+    const list = await call<{ packId: string; slug: string; license: string }[]>('packs:documents')
+    const core = list.filter((d) => d.packId === 'ai.actionstations.core')
+    expect(core.map((d) => d.slug)).toEqual(
+      expect.arrayContaining(['hseep-2020', 'hseep-templates', 'nims-2017', 'cpg-101']),
+    )
+    expect(new Set(core.map((d) => d.license))).toEqual(new Set(['LicenseRef-US-Government-Work']))
+  })
+
   it('lists the documents of enabled packs with title, source and license', async () => {
-    expect(await call('packs:documents')).toEqual([])
+    expect(await installedDocuments()).toEqual([])
     await installRail()
-    const list = await call<{ path: string }[]>('packs:documents', { projectPath: root })
+    const list = await installedDocuments({ projectPath: root })
     expect(list).toEqual([
       {
         packId: RAIL,
@@ -116,7 +129,7 @@ describe('packs:documents', () => {
       },
     ])
     await call('packs:setEnabled', { id: RAIL, enabled: false })
-    expect(await call('packs:documents')).toEqual([])
+    expect(await installedDocuments()).toEqual([])
   })
 })
 

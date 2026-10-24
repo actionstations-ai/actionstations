@@ -53,6 +53,14 @@ Where the code made the decision concrete, or had to differ:
 - **An installed pack may not take a bundled pack's id**, in addition to the bundled domain ids.
 - **Examples.** A bundled example is opened like an installed pack's, by `{ slug, packId }` (a bare slug finds the enabled bundled pack that has it), and its copies never show "Update available".
 
+## Implementation notes (#325)
+
+- **One manifest pins every document.** `packs/documents/manifest.json` lists the core documents and every library document with source URL, sha256, size, license and public-domain basis, plus the link-only references each pack README names. A fetch script fills a gitignored cache and refuses a file whose sha256 differs; the library builder works only from that cache. A changed hash means a new edition: the owner checks it and re-pins.
+- **The core documents are committed** under `packs/documents/core/` (the build reads the repo, and `build:check` runs without network). The libraries are not: they are built from the cache and published to the site catalog.
+- **CTEP cover photos are blanked**, not shipped: the first body image of a CISA CTEP `.docx` is replaced with a small grey image of the same format. The rest of the document is unchanged.
+- **ZIPs are unpacked** into their pack-format files. Legacy `.doc`/`.xls`/`.ppt` files are left out and listed as links unless a faithful conversion is available; none was when the packs were first built, so the HSEEP MSEL `.xls` is a link.
+- **Owner decisions on borderline items:** ASPR TRACIE, DOE C2M2, NERC, the ERG, MS-ISAC co-authored work, joint advisories with non-US co-sealers that say "subject to standard copyright rules", and the FEMA Power Outage Incident Annex are link-only. CISA CTEP situation manuals are bundled without their cover photos.
+
 ## Consequences
 
 - One mechanism for all content. The Packs screen shows what the app includes, provenance badges work for everything, and a domain can be switched off.

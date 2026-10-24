@@ -312,6 +312,32 @@ out/bundled-packs/                 → app-resources/packs/ in a release (electr
 - **Disabled domain pack**: its profile leaves the domain picker (`domains:list` source `{ kind: "bundled", enabled: false }`), its templates are marked `hidden` in `templates:list` and `templates:taxonomy` (left out of the gallery and the inject type pickers, and of new generation), its example leaves the gallery and its documents leave **Add from pack**. A project already on the domain keeps resolving the profile, rendering the templates and linting as before; its prompts stop applying.
 - **Provenance**: bundled items report their pack (`source: "pack"`, `packId`, `packName`, `bundled: true`) and show **Included: <pack name>**. An example copied from a bundled pack never shows "Update available".
 
+## Reference documents and library packs
+
+Public-domain reference documents (ADR-0020, #325) are pinned in `packs/documents/manifest.json` (schema `DocumentsManifest`, `src/main/packs/documents/manifest.ts`), transcribed from section 9 of each research dossier (`docs/research/domains/`). The core pack carries the cross-sector set (HSEEP doctrine and templates, NIMS, CPG 101, the ICS forms and similar) inside the installer. Every domain's documents go into a catalog-only `ai.actionstations.<domain>-library` pack that is never bundled. The repository commits the core documents under `packs/documents/core/` and nothing of the libraries.
+
+| Manifest field                  | Rules                                                                                                                            |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `libraries.<pack>`              | `name`, `summary`, `domain` (profile id), `version`: bump the version whenever the library's documents change                    |
+| `documents[].pack`              | `core` or `<domain>-library`; `alsoIn` lists other libraries that carry it too (each library installs on its own)                |
+| `slug`, `file`                  | document id (`documents/<slug>/` in the pack); `file` is `<slug>.<ext>`, ext `pdf`, `docx`, `pptx`, `xlsx`, `md`, `txt` or `zip` |
+| `title`, `publisher`, `edition` | as the document states them                                                                                                      |
+| `url`, `mirrors`, `landing`     | the source file, fallbacks tried in order (Wayback `id_` captures, agency mirrors), and the page that lists it                   |
+| `sha256`, `size`, `pinned`      | the pinned bytes and the date they were pinned; `null` until first pinned                                                        |
+| `license`, `basis`              | `LicenseRef-US-Government-Work` or `CC0-1.0`, and why the document is public domain                                              |
+| `process`                       | `strip-cover`: a CISA CTEP `.docx` whose cover photo (unknown provenance) becomes a blank image; `extract`: a `.zip`, see below  |
+| `links[]`                       | references a pack README names with a link but does not carry: `pack`, `title`, `publisher`, `url`, `reason`                     |
+
+**Fetch.** `node scripts/fetch-documents.mjs` downloads every document into the gitignored `.cache/documents/<slug>/<file>`. It sends browser-like headers and `Range: bytes=0-` (fema.gov serves a stub otherwise), retries 429 and 5xx, rejects an HTML page served in place of the file, and refuses any file whose sha256 differs from the manifest: nothing is written. It prints each document it could not get with its URL and target path, and writes `.cache/documents/fetch-report.json`. Download those in a browser (ffiec.gov serves a CAPTCHA to scripts) and save them at the target path, or drop them in `.cache/documents/inbox/` under any name; the next run moves a file whose sha256 matches into place. `--pin` records the hash of documents that have none yet. When a source publishes a new edition, the mismatch report names the new hash: check the file, then `--repin <slug>` accepts it and bump the library's `version`. `--only <slug,…>` limits a run, `--offline` uses only the cache and the inbox. sec.gov asks scripts to declare a contact: set `DOCUMENTS_CONTACT=<email>`.
+
+**Build.** `node scripts/build-library-packs.mjs` builds one `ai.actionstations.<domain>-library-<version>.aspack` per library into `out/library-packs/`, with `catalog-entries.json` (base URL `https://actionstations.ai/packs/files`, `--url` to change; `updated` is the newest `pinned` date) for the site's catalog. Each cached file is checked against its pinned sha256 first. The archive uses the export path's deterministic zip and is validated with `readPack` before it is written, so the same cache always gives the same archive sha256. A pinned document missing from the cache fails the build; `--allow-missing` builds without it and lists it in the README as a link. `--only <pack,…>` limits the build. Each pack's `README.md` lists every document with publisher, edition and source URL, the cover photos that were blanked, the archive members left out, and the link-only references.
+
+`node scripts/build-library-packs.mjs --core` writes the core documents to `packs/documents/core/<slug>/` and rewrites the core entry's `documents[]` in `packs/bundled.json` from the manifest; `pnpm build:packs` then enforces the 60 MB installer budget as for any bundled document.
+
+**Archives.** `extract` packs the members in a pack format (`.pdf`, `.docx`, `.pptx`, `.xlsx`, `.md`, `.txt`) under flattened, pack-safe names. Legacy `.doc`, `.xls` and `.ppt` members are left out and listed: they are converted only where a faithful conversion is available, which this build does not have (the HSEEP MSEL template is an `.xls` and stays a link to the ZIP).
+
+**Link only.** Copyrighted references (ACRP, NFPA, AWWA, ISO), joint advisories with non-US co-sealers ("subject to standard copyright rules"), work co-authored with MS-ISAC, ASPR TRACIE products, DOE C2M2, NERC standards, the Emergency Response Guidebook, the FEMA Power Outage Incident Annex, drafts, files over about 20 MB and web pages or tools appear only in `links[]`.
+
 ## Exporting a pack from the app
 
 **Packs → Export as pack** (`/packs/export`, #271; `src/main/packs/export.ts`) builds a pack from the user's own content:

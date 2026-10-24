@@ -9,7 +9,6 @@
 // same reader install uses) before anyone can save it; a pack the reader refuses is never
 // written, and the reader's problems are returned as they are.
 import { createHash } from 'node:crypto'
-import JSZip from 'jszip'
 import type { z } from 'zod'
 import {
   PackExportRequest,
@@ -19,7 +18,6 @@ import {
 import { ExampleMarker } from '@shared/ipc/examples'
 import {
   PACK_KINDS,
-  compareSemver,
   PACK_MANIFEST_FILE,
   packArchiveName,
   type PackContents,
@@ -28,6 +26,7 @@ import {
 } from '@shared/schemas/pack'
 import type { Project } from '@shared/schemas/project'
 import { readJsonOr } from '../lib/fs'
+import { EXPORT_ZIP_DATE, PACKS_SINCE_VERSION, packMinAppVersion, zipTree } from './archive'
 import { join } from 'node:path'
 import { loadProject } from '../project/store'
 import { MARKER_FILE } from '../examples/open'
@@ -49,10 +48,7 @@ import {
   type Collected,
 } from './export-collect'
 
-/** Packs need the app's pack support (0.3.0); a pack never asks for less, even from a dev build. */
-export const PACKS_SINCE_VERSION = '0.3.0'
-export const packMinAppVersion = (appVersion: string): string =>
-  compareSemver(appVersion, PACKS_SINCE_VERSION) < 0 ? PACKS_SINCE_VERSION : appVersion
+export { EXPORT_ZIP_DATE, PACKS_SINCE_VERSION, packMinAppVersion, zipTree }
 
 export type ParsedExportRequest = z.output<typeof PackExportRequest>
 
@@ -63,10 +59,6 @@ export interface ExportContext {
 
 export type ExportOutcome =
   { ok: true; buffer: Buffer; built: PackExportBuilt } | { ok: false; problems: PackProblem[] }
-
-/** One fixed timestamp for every entry (DOS time has no zone; jszip writes UTC fields). */
-export const EXPORT_ZIP_DATE = new Date('2000-01-01T00:00:00Z')
-const FILE_MODE = 0o100644
 
 const sha256 = (b: Buffer): string => createHash('sha256').update(b).digest('hex')
 const byPath = (a: string, b: string): number => (a < b ? -1 : a > b ? 1 : 0)
@@ -99,23 +91,6 @@ export async function exportSources(
     appVersion: ctx.appVersion,
     suggestedUser: suggestedUser(),
   }
-}
-
-/** The deterministic zip: sorted entries, fixed date and mode, deflate. */
-export async function zipTree(entries: ReadonlyMap<string, Buffer>): Promise<Buffer> {
-  const zip = new JSZip()
-  for (const name of [...entries.keys()].sort(byPath))
-    zip.file(name, entries.get(name)!, {
-      date: EXPORT_ZIP_DATE,
-      createFolders: false,
-      unixPermissions: FILE_MODE,
-    })
-  return zip.generateAsync({
-    type: 'nodebuffer',
-    compression: 'DEFLATE',
-    compressionOptions: { level: 9 },
-    platform: 'UNIX',
-  })
 }
 
 function contentsOf(req: ParsedExportRequest): PackContents {
