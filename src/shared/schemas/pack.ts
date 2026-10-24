@@ -100,6 +100,61 @@ export const PackFetchUrl = z.url({ protocol: /^https?$/ }).refine(
   { message: 'Pack and catalog URLs must use https' },
 )
 
+/** Whether a dotted IPv4 address is loopback, unspecified, private or link-local. */
+function isLocalIpv4(h: string): boolean {
+  const m = /^(\d+)\.(\d+)\.\d+\.\d+$/.exec(h)
+  if (!m) return false
+  const [a, b] = [Number(m[1]), Number(m[2])]
+  return (
+    a === 127 ||
+    a === 0 ||
+    a === 10 ||
+    (a === 172 && b >= 16 && b <= 31) ||
+    (a === 192 && b === 168) ||
+    (a === 169 && b === 254)
+  )
+}
+
+/** Whether a bracketed IPv6 host is loopback, unspecified, unique-local, link-local or a mapped local IPv4. */
+function isLocalIpv6(h: string): boolean {
+  const v6 = h.slice(1, -1)
+  if (v6 === '::1' || v6 === '::') return true
+  if (/^f[cd]/.test(v6) || /^fe[89ab]/.test(v6)) return true
+  // WHATWG URL writes ::ffff:127.0.0.1 as ::ffff:7f00:1.
+  const mapped = /^::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/.exec(v6)
+  if (!mapped) return false
+  const [hi, lo] = [parseInt(mapped[1]!, 16), parseInt(mapped[2]!, 16)]
+  return isLocalIpv4(`${hi >> 8}.${hi & 0xff}.${lo >> 8}.${lo & 0xff}`)
+}
+
+/**
+ * Whether a URL points at this computer or the local network (loopback, `localhost`, private
+ * and link-local addresses), where ComfyUI, LM Studio or Ollama may listen. Literal hosts
+ * only: a public name that resolves to a local address is not detected here.
+ */
+export function isLocalNetworkUrl(url: string | URL): boolean {
+  let u: URL
+  try {
+    u = typeof url === 'string' ? new URL(url) : url
+  } catch {
+    return false
+  }
+  const h = u.hostname.toLowerCase().replace(/\.$/, '')
+  if (h === 'localhost' || h.endsWith('.localhost')) return true
+  return h.startsWith('[') ? isLocalIpv6(h) : isLocalIpv4(h)
+}
+
+/**
+ * Why a catalog entry's archive URL may not be fetched for this catalog, or undefined. A
+ * catalog may point at this computer or the local network only when it is served from there
+ * itself; otherwise a remote catalog could make Install send a request to a local service.
+ */
+export function catalogEntryUrlProblem(entryUrl: string, catalogUrl: string): string | undefined {
+  if (isLocalNetworkUrl(entryUrl) && !isLocalNetworkUrl(catalogUrl))
+    return 'The archive URL points at this computer or the local network, but the catalog does not'
+  return undefined
+}
+
 // ---- paths inside a pack ------------------------------------------------------------------
 
 const WINDOWS_RESERVED = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i
@@ -543,8 +598,13 @@ export type CatalogParseResult =
 /**
  * What the app does with a fetched catalog: the envelope must be valid; an invalid or
  * duplicate entry is skipped (and reported), not fatal, so one bad entry does not hide the rest.
+ * With `catalogUrl` (where the index came from), an entry whose archive URL is on this computer
+ * or the local network is skipped unless the catalog is too (catalogEntryUrlProblem).
  */
-export function parseCatalog(data: unknown): CatalogParseResult {
+export function parseCatalog(
+  data: unknown,
+  opts: { catalogUrl?: string } = {},
+): CatalogParseResult {
   const version = z.object({ catalogVersion: z.number().int() }).safeParse(data)
   if (version.success && version.data.catalogVersion > CATALOG_FORMAT_VERSION)
     return { ok: false, reason: 'This catalog needs a newer version of the app' }
@@ -565,6 +625,11 @@ export function parseCatalog(data: unknown): CatalogParseResult {
     const entry = PackCatalogEntry.safeParse(raw)
     if (!entry.success) {
       skipped.push({ index, ...named, reason: entry.error.issues[0]?.message ?? 'invalid' })
+      continue
+    }
+    const local = opts.catalogUrl && catalogEntryUrlProblem(entry.data.url, opts.catalogUrl)
+    if (local) {
+      skipped.push({ index, ...named, reason: local })
       continue
     }
     const key = `${entry.data.id}@${entry.data.version}`

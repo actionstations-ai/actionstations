@@ -197,6 +197,71 @@ describe('refreshCatalog', () => {
     expect(await refreshCatalogs(undefined)).toEqual([])
   })
 
+  it('skips archive URLs on this computer or the local network from a remote catalog', async () => {
+    const remote = 'https://packs.example.org/index.json'
+    const body = catalogBody([
+      catalogEntry(),
+      catalogEntry({ version: '1.1.0', url: 'http://127.0.0.1:8188/api/prompt' }),
+      catalogEntry({ version: '1.2.0', url: 'https://192.168.1.5/x.aspack' }),
+    ])
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(body), { status: 200 }))
+    const r = await fetchCatalog(remote, { fetchImpl })
+    expect(r.catalog.packs.map((p) => p.version)).toEqual(['1.0.0'])
+    expect(r.skipped.map((s) => [s.index, s.reason])).toEqual([
+      [1, expect.stringMatching(/local network, but the catalog does not/)],
+      [2, expect.stringMatching(/local network, but the catalog does not/)],
+    ])
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps local archive URLs in a catalog served from this computer', async () => {
+    const url = server.url('/local/index.json')
+    server.route(
+      '/local/index.json',
+      json(catalogBody([catalogEntry({ url: server.url('/local/rail.aspack') })])),
+    )
+    await addCatalog(url)
+    expect(await refreshCatalog(url)).toMatchObject({ ok: true, entries: 1, skipped: 0 })
+    expect((await findCatalogEntry(url, 'org.example.rail', '1.0.0')).url).toBe(
+      server.url('/local/rail.aspack'),
+    )
+  })
+
+  it('judges by where the index was served from after redirects', async () => {
+    const local = 'http://127.0.0.1:9/index.json'
+    const body = catalogBody([catalogEntry({ url: 'http://127.0.0.1:8188/x.aspack' })])
+    const fetchImpl = vi.fn(async (href: string | URL | Request) =>
+      String(href) === local
+        ? new Response(null, {
+            status: 302,
+            headers: { location: 'https://packs.example.org/index.json' },
+          })
+        : new Response(JSON.stringify(body), { status: 200 }),
+    )
+    const r = await fetchCatalog(local, { fetchImpl: fetchImpl as unknown as typeof fetch })
+    expect(r.catalog.packs).toEqual([])
+    expect(r.skipped[0]!.reason).toMatch(/local network/)
+  })
+
+  it('never hands out a local archive URL a hand-edited cache of a remote catalog lists', async () => {
+    const url = 'https://packs.example.org/index.json'
+    await addCatalog(url)
+    mkdirSync(dirname(catalogCachePath(url)), { recursive: true })
+    writeFileSync(
+      catalogCachePath(url),
+      JSON.stringify({
+        url,
+        fetchedAt: '2026-10-23T00:00:00Z',
+        skipped: [],
+        catalog: catalogBody([catalogEntry({ url: 'http://localhost:11434/api/pull' })]),
+      }),
+    )
+    expect((await readCachedCatalog(url))!.catalog.packs).toEqual([])
+    await expect(findCatalogEntry(url, 'org.example.rail', '1.0.0')).rejects.toMatchObject({
+      code: 'NOT_FOUND',
+    })
+  })
+
   it('treats a damaged cache file as not fetched', async () => {
     const url = 'https://packs.example.org/index.json'
     await addCatalog(url)

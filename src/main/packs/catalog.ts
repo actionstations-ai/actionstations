@@ -8,6 +8,7 @@ import {
   PACK_FORMAT_VERSION,
   PACK_LIMITS,
   PackFetchUrl,
+  catalogEntryUrlProblem,
   compareSemver,
   isAppCompatible,
   parseCatalog,
@@ -102,8 +103,12 @@ export async function fetchCatalog(
   const max = PACK_LIMITS.maxCatalogBytes
   const idle = idleAbort(opts.timeoutMs ?? DEFAULT_TIMEOUT_MS, opts.signal)
   const chunks: Uint8Array[] = []
+  // Where the index really came from: a redirect can leave this computer but never return to
+  // it (fetch.ts), so the final URL is local only when every hop was.
+  let servedFrom: string
   try {
     const res = await packGet(url, max, idle.signal, opts.fetchImpl)
+    servedFrom = res.url
     await readCapped(res, max, (c) => void chunks.push(c), idle.touch)
   } catch (err) {
     if (idle.signal.aborted) throw abortError(idle.timedOut, url)
@@ -117,7 +122,7 @@ export async function fetchCatalog(
   } catch {
     throw new AppError('VALIDATION', 'The catalog is not valid JSON')
   }
-  const parsed = parseCatalog(data)
+  const parsed = parseCatalog(data, { catalogUrl: servedFrom })
   if (!parsed.ok) throw new AppError('VALIDATION', parsed.reason)
   return { catalog: parsed.catalog, skipped: parsed.skipped }
 }
@@ -141,7 +146,7 @@ export async function readCachedCatalog(url: string): Promise<CachedCatalog | un
     .catch(() => null)
   if (!file || file.url !== url) return undefined
   // Re-parse: the cache was written by an older app or edited by hand.
-  const parsed = parseCatalog(file.catalog)
+  const parsed = parseCatalog(file.catalog, { catalogUrl: url })
   if (!parsed.ok) return undefined
   return {
     url,
@@ -226,6 +231,8 @@ export async function findCatalogEntry(
   const cached = await readCachedCatalog(catalogUrl)
   const entry = cached?.catalog.packs.find((p) => p.id === id && p.version === version)
   if (!entry) throw new AppError('NOT_FOUND', `${id} ${version} is not in that catalog`)
+  const local = catalogEntryUrlProblem(entry.url, catalogUrl)
+  if (local) throw new AppError('VALIDATION', local)
   return entry
 }
 

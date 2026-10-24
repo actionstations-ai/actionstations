@@ -10,9 +10,11 @@ import {
   PackManifest,
   PackManifestHeader,
   SemVer,
+  catalogEntryUrlProblem,
   classifyPackPath,
   compareSemver,
   isAppCompatible,
+  isLocalNetworkUrl,
   packArchiveName,
   packPathProblem,
   parseCatalog,
@@ -371,6 +373,65 @@ describe('parseCatalog (what the app does with a fetched index)', () => {
     expect(parseCatalog({ hello: 'world' }).ok).toBe(false)
     expect(parseCatalog(null).ok).toBe(false)
     expect(parseCatalog({ ...catalog(), packs: 'nope' }).ok).toBe(false)
+  })
+})
+
+describe('local archive URLs in catalogs (#303)', () => {
+  it('recognizes this computer and the local network by literal host', () => {
+    for (const u of [
+      'http://127.0.0.1:8188/x',
+      'http://127.9.9.9/x',
+      'https://localhost/x',
+      'https://LOCALHOST./x',
+      'https://comfy.localhost/x',
+      'http://[::1]:11434/x',
+      'https://[::ffff:127.0.0.1]/x',
+      'https://0.0.0.0/x',
+      'https://10.1.2.3/x',
+      'https://172.20.0.1/x',
+      'https://192.168.1.5/x',
+      'https://169.254.169.254/x',
+      'https://[fd00::1]/x',
+      'https://[fe80::1]/x',
+      'https://2130706433/x', // 127.0.0.1 written as one number
+      'https://0x7f.1/x',
+    ])
+      expect(isLocalNetworkUrl(u), u).toBe(true)
+    for (const u of [
+      'https://actionstations.ai/packs/index.json',
+      'https://172.32.0.1/x',
+      'https://8.8.8.8/x',
+      'https://[2001:db8::1]/x',
+      'https://localhost.example.org/x',
+      'not a url',
+    ])
+      expect(isLocalNetworkUrl(u), u).toBe(false)
+  })
+
+  it('allows a local archive URL only from a local catalog', () => {
+    const remote = 'https://packs.example.org/index.json'
+    const local = 'http://127.0.0.1:9000/index.json'
+    expect(catalogEntryUrlProblem('http://127.0.0.1:8188/prompt', remote)).toMatch(
+      /this computer or the local network, but the catalog does not/,
+    )
+    expect(catalogEntryUrlProblem('https://192.168.1.5/x.aspack', remote)).toBeDefined()
+    expect(catalogEntryUrlProblem('http://localhost:8188/x.aspack', local)).toBeUndefined()
+    expect(catalogEntryUrlProblem('https://packs.example.org/x.aspack', local)).toBeUndefined()
+    expect(catalogEntryUrlProblem('https://packs.example.org/x.aspack', remote)).toBeUndefined()
+  })
+
+  it('parseCatalog skips local entries of a remote catalog and keeps them for a local one', () => {
+    const c = catalog()
+    c.packs.push({ ...c.packs[0], version: '9.0.0', url: 'http://127.0.0.1:8188/view' })
+    const remote = parseCatalog(c, { catalogUrl: 'https://packs.example.org/index.json' })
+    expect(remote.ok && remote.skipped).toEqual([
+      expect.objectContaining({
+        index: c.packs.length - 1,
+        reason: expect.stringMatching(/local network/),
+      }),
+    ])
+    const local = parseCatalog(c, { catalogUrl: 'http://localhost:9000/index.json' })
+    expect(local.ok && local.skipped).toEqual([])
   })
 })
 

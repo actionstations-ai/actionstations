@@ -1,8 +1,8 @@
 // The one network path for packs (ADR-0018): GET with manual redirects (every hop must pass
-// PackFetchUrl, so https only, http on loopback only, and never from a remote host to a
-// loopback one), a byte cap measured on the bytes received, an idle timeout, and cancellation.
+// PackFetchUrl, so https only, http on loopback only, and never from a remote host to this
+// computer or the local network), a byte cap measured on the bytes received, an idle timeout, and cancellation.
 // Callers: catalog.ts (index.json) and download.ts (archives), both only on user actions.
-import { PackFetchUrl } from '@shared/schemas/pack'
+import { PackFetchUrl, isLocalNetworkUrl } from '@shared/schemas/pack'
 import { AppError } from '../lib/errors'
 
 export const MAX_REDIRECTS = 5
@@ -16,9 +16,6 @@ export interface PackFetchOptions {
   fetchImpl?: typeof fetch
 }
 
-const LOOPBACK = new Set(['127.0.0.1', 'localhost', '[::1]'])
-const isLoopback = (u: URL): boolean => LOOPBACK.has(u.hostname)
-
 /** Throws VALIDATION unless `url` may be fetched (after `from`, when it is a redirect). */
 export function assertFetchUrl(url: string, from?: URL): URL {
   if (!PackFetchUrl.safeParse(url).success)
@@ -26,7 +23,7 @@ export function assertFetchUrl(url: string, from?: URL): URL {
   const u = new URL(url)
   if (u.username || u.password)
     throw new AppError('VALIDATION', 'Refused a URL with a user name or password in it')
-  if (from && isLoopback(u) && !isLoopback(from))
+  if (from && isLocalNetworkUrl(u) && !isLocalNetworkUrl(from))
     throw new AppError('VALIDATION', `Refused a redirect from ${from.host} to a local address`)
   return u
 }

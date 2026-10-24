@@ -10,9 +10,10 @@
 //   error → { problems: [{ path?, message }] }; a newer formatVersion or minAppVersion gives
 //           one "update the app" problem before anything else in pack.json is read.
 //
-// Order: archive size → central directory (names, encryption, links, duplicates, count) →
-// pack.json (header, then PackManifest) → archive entries = files[] → inflate every file
-// with byte limits, sha256 and size → per-kind content checks. Nothing touches the disk
+// Order: archive size → zip layout (one reading only, see zip.ts) → central directory
+// (names, encryption, links, duplicates, count) → jszip agrees with the scan → pack.json
+// (header, then PackManifest) → archive entries = files[] → inflate every file from its
+// scanned bytes with byte limits, sha256 and size → per-kind content checks. Nothing touches the disk
 // except reading `source.path`; extractPack (extract.ts) writes the verified files.
 import { createHash } from 'node:crypto'
 import { promises as fs } from 'node:fs'
@@ -103,7 +104,6 @@ function checkEntries(entries: RawZipEntry[], maxFiles: number): PackProblem[] {
       problems.push({ path, message: `unsafe path: ${unsafe}` })
       continue
     }
-    if (e.dir) continue
     const key = path.toLowerCase()
     const other = seen.get(key)
     if (other !== undefined)
@@ -119,24 +119,50 @@ function checkEntries(entries: RawZipEntry[], maxFiles: number): PackProblem[] {
   return problems
 }
 
-/** Open the zip with jszip and map each raw entry to its object (names must agree). */
-async function openZip(
+/** jszip's compressed object for a loaded entry (`_data`, not part of its typings). */
+interface JSZipCompressed {
+  compressedSize?: number
+  uncompressedSize?: number
+  /** Read as a signed 32-bit integer. */
+  crc32?: number
+  compressedContent?: Uint8Array
+}
+
+/** Whether jszip's object for an entry has the sizes, CRC and data length the scan found. */
+function sameAsScan(obj: JSZip.JSZipObject | undefined, e: RawZipEntry): boolean {
+  const data = (obj as unknown as { _data?: JSZipCompressed } | undefined)?._data
+  return (
+    data?.compressedSize === e.compressedSize &&
+    data.uncompressedSize === e.uncompressedSize &&
+    data.crc32 !== undefined &&
+    data.crc32 >>> 0 === e.crc32 &&
+    data.compressedContent?.length === e.compressedSize
+  )
+}
+
+/**
+ * Cross-check: jszip must read the same entries the scan proved (same names, same count, same
+ * sizes and CRC). jszip names an entry from its local header and reads every central record
+ * up to the first bad signature, so any disagreement means the archive has two readings.
+ */
+async function crossCheckJszip(
   buf: Buffer,
   entries: RawZipEntry[],
-): Promise<Map<string, JSZip.JSZipObject> | PackProblem> {
+): Promise<PackProblem | undefined> {
   let zip: JSZip
   try {
     zip = await JSZip.loadAsync(buf)
   } catch (e) {
     return { message: `The archive cannot be opened: ${(e as Error).message}` }
   }
-  const objects = new Map<string, JSZip.JSZipObject>()
-  for (const obj of Object.values(zip.files))
-    if (!obj.dir) objects.set(obj.unsafeOriginalName ?? obj.name, obj)
-  const names = entries.filter((e) => !e.dir).map((e) => e.name)
-  if (objects.size !== names.length || names.some((n) => !objects.has(n)))
-    return { message: 'The archive’s file table is inconsistent' }
-  return objects
+  const inconsistent = { message: 'The archive’s file table is inconsistent' }
+  const all = Object.values(zip.files)
+  const files = all.filter((o) => !o.dir)
+  const rawFiles = entries.filter((e) => !e.dir)
+  if (all.length !== entries.length || files.length !== rawFiles.length) return inconsistent
+  const byName = new Map(files.map((o) => [o.unsafeOriginalName ?? o.name, o]))
+  if (rawFiles.some((e) => !sameAsScan(byName.get(e.name), e))) return inconsistent
+  return undefined
 }
 
 function checkHeader(data: unknown, appVersion: string): PackProblem | undefined {
@@ -162,20 +188,15 @@ function checkHeader(data: unknown, appVersion: string): PackProblem | undefined
 }
 
 async function readManifest(
-  objects: Map<string, JSZip.JSZipObject>,
+  buf: Buffer,
   raw: Map<string, RawZipEntry>,
   budget: InflateBudget,
   appVersion: string,
 ): Promise<{ manifest: PackManifest; bytes: Buffer } | PackProblem[]> {
-  const obj = objects.get(PACK_MANIFEST_FILE)
-  if (!obj)
+  const entry = raw.get(PACK_MANIFEST_FILE)
+  if (!entry)
     return [{ path: PACK_MANIFEST_FILE, message: 'missing: a pack has pack.json at its root' }]
-  const bytes = await inflateEntry(
-    obj,
-    raw.get(PACK_MANIFEST_FILE)!,
-    budget.limits.maxManifestBytes,
-    budget,
-  )
+  const bytes = await inflateEntry(buf, entry, budget.limits.maxManifestBytes, budget)
   if (!Buffer.isBuffer(bytes)) return [bytes]
   let data: unknown
   try {
@@ -193,17 +214,14 @@ async function readManifest(
   }))
 }
 
-function compareEntries(
-  manifest: PackManifest,
-  objects: Map<string, JSZip.JSZipObject>,
-): PackProblem[] {
+function compareEntries(manifest: PackManifest, raw: Map<string, RawZipEntry>): PackProblem[] {
   const listed = new Set(manifest.files.map((f) => f.path))
   const problems: PackProblem[] = []
-  for (const name of objects.keys())
+  for (const name of raw.keys())
     if (name !== PACK_MANIFEST_FILE && !listed.has(name))
       problems.push({ path: name, message: 'in the archive but not listed in pack.json files' })
   for (const f of manifest.files)
-    if (!objects.has(f.path))
+    if (!raw.has(f.path))
       problems.push({
         path: f.path,
         message: 'listed in pack.json files but missing from the archive',
@@ -212,20 +230,15 @@ function compareEntries(
 }
 
 async function readFiles(
+  buf: Buffer,
   manifest: PackManifest,
-  objects: Map<string, JSZip.JSZipObject>,
   raw: Map<string, RawZipEntry>,
   budget: InflateBudget,
 ): Promise<Map<string, Buffer> | PackProblem[]> {
   const files = new Map<string, Buffer>()
   const problems: PackProblem[] = []
   for (const f of manifest.files) {
-    const bytes = await inflateEntry(
-      objects.get(f.path)!,
-      raw.get(f.path)!,
-      budget.limits.maxFileBytes,
-      budget,
-    )
+    const bytes = await inflateEntry(buf, raw.get(f.path)!, budget.limits.maxFileBytes, budget)
     if (!Buffer.isBuffer(bytes)) return [...problems, bytes] // a byte limit stops the read
     if (bytes.length !== f.size)
       problems.push({
@@ -261,16 +274,16 @@ export async function readPack(source: PackSource, opts: ReadPackOptions): Promi
   }
   const entryProblems = checkEntries(entries, limits.maxFiles)
   if (entryProblems.length) return fail(entryProblems)
-  const objects = await openZip(buf, entries)
-  if (!(objects instanceof Map)) return fail([objects])
+  const disagreement = await crossCheckJszip(buf, entries)
+  if (disagreement) return fail([disagreement])
   const raw = new Map(entries.filter((e) => !e.dir).map((e) => [e.name, e]))
   const budget: InflateBudget = { total: 0, limits }
-  const read = await readManifest(objects, raw, budget, opts.appVersion)
+  const read = await readManifest(buf, raw, budget, opts.appVersion)
   if (Array.isArray(read)) return fail(read)
   const { manifest } = read
-  const mismatch = compareEntries(manifest, objects)
+  const mismatch = compareEntries(manifest, raw)
   if (mismatch.length) return fail(mismatch)
-  const files = await readFiles(manifest, objects, raw, budget)
+  const files = await readFiles(buf, manifest, raw, budget)
   if (Array.isArray(files)) return fail(files)
   const content = checkPackContent(manifest, files, opts.builtins ?? (await loadBuiltins()))
   if (content.problems.length) return fail(content.problems)

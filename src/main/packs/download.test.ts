@@ -88,6 +88,27 @@ describe('downloadArchive', () => {
     expect(staged()).toEqual([])
   })
 
+  it('refuses a redirect from a remote host to this computer or the local network', async () => {
+    for (const location of [
+      'http://127.0.0.1:8188/view',
+      'https://127.0.0.2/x.aspack',
+      'https://[::1]/x.aspack',
+      'https://192.168.1.5/x.aspack',
+    ]) {
+      const fetchImpl = vi.fn(
+        async () => new Response(null, { status: 302, headers: { location } }),
+      )
+      await expect(
+        downloadArchive(
+          { url: 'https://packs.example.org/p.aspack', maxBytes: 1024 },
+          { fetchImpl: fetchImpl as unknown as typeof fetch },
+        ),
+      ).rejects.toThrow(/redirect from packs.example.org to a local address/)
+      expect(fetchImpl).toHaveBeenCalledTimes(1)
+    }
+    expect(staged()).toEqual([])
+  })
+
   it('times out when the body stops arriving', async () => {
     await expect(
       downloadArchive(
