@@ -4,9 +4,13 @@
 // copyState compares a record with the files on disk and the installed pack, for the
 // "edited" / "not installed" / "Update available" badges (#269). Updating a copy is always
 // an explicit action: copyPackItem refuses to replace an edited copy unless `replaceEdited`.
+//
+// packs.json comes with a shared project, so its record paths are not trusted (#302): each one
+// must sit in its kind's own folder (copyPath), and no folder on the way to it, nor the file
+// itself, may be a symlink before it is read, written or removed.
 import { createHash } from 'node:crypto'
 import { promises as fs } from 'node:fs'
-import { dirname } from 'node:path'
+import { dirname, join } from 'node:path'
 import {
   PROJECT_PACKS_FILE,
   ProjectPacks,
@@ -20,6 +24,71 @@ import { ensureDir, readJsonOr, safeJoin, writeFileAtomic, writeJsonAtomic } fro
 import { nowIso } from '../lib/ids'
 
 const sha256 = (b: Uint8Array): string => createHash('sha256').update(b).digest('hex')
+
+const SEGMENT = /^(?!\.\.?$)[^/\\\0:]+$/
+const segments = (rel: string): string[] | undefined => {
+  const parts = rel.split('/')
+  return parts.every((s) => SEGMENT.test(s)) ? parts : undefined
+}
+
+/** Whether a record path of `kind` + `id` sits in that kind's folder of the project. */
+export function isCopyPathAllowed(kind: CopiedPackKind, id: string, rel: string): boolean {
+  const parts = segments(rel)
+  if (!parts) return false
+  switch (kind) {
+    case 'templates': // templates/injects/<type>/<file or sub/file>
+      return (
+        parts.length >= 4 && parts[0] === 'templates' && parts[1] === 'injects' && parts[2] === id
+      )
+    case 'workflows': // comfy/workflows/<id>.json | <id>.bindings.json
+      return (
+        parts.length === 3 &&
+        parts[0] === 'comfy' &&
+        parts[1] === 'workflows' &&
+        (parts[2] === `${id}.json` || parts[2] === `${id}.bindings.json`)
+      )
+    case 'documents': // documents/<docId>/<file>
+      return parts.length === 3 && parts[0] === 'documents'
+    default: // domains and examples are not copied into a project yet
+      return false
+  }
+}
+
+/** Refuse when any existing component of `rel` under the project (or the file) is a symlink. */
+async function assertNoLinks(projectRoot: string, rel: string): Promise<void> {
+  let at = projectRoot
+  for (const part of rel.split('/')) {
+    at = join(at, part)
+    const st = await fs.lstat(at).catch(() => null)
+    if (!st) return // the rest does not exist yet
+    if (st.isSymbolicLink())
+      throw new AppError('PATH_ESCAPE', `packs.json path "${rel}" goes through a symlink`)
+  }
+}
+
+/**
+ * Absolute path of a packs.json record path, checked: inside the kind's folder (PATH_ESCAPE
+ * otherwise) and with no symlink on the way. Call it right before each read, write or delete.
+ */
+export async function copyPath(
+  projectRoot: string,
+  kind: CopiedPackKind,
+  id: string,
+  rel: string,
+): Promise<string> {
+  if (!isCopyPathAllowed(kind, id, rel))
+    throw new AppError('PATH_ESCAPE', `packs.json path "${rel}" is not a ${kind} path of "${id}"`)
+  const abs = safeJoin(projectRoot, rel)
+  await assertNoLinks(projectRoot, rel)
+  return abs
+}
+
+/** A source file to copy: a regular file, not a link. */
+async function readSource(path: string): Promise<Buffer> {
+  const st = await fs.lstat(path)
+  if (!st.isFile()) throw new AppError('PATH_ESCAPE', `Not a regular file: ${path}`)
+  return fs.readFile(path)
+}
 
 export async function readProjectPacks(projectRoot: string): Promise<ProjectPacks> {
   return readJsonOr(safeJoin(projectRoot, PROJECT_PACKS_FILE), ProjectPacks, () => ({
@@ -40,7 +109,8 @@ export async function findCopy(
 export async function isCopyEdited(projectRoot: string, copy: ProjectPackCopy): Promise<boolean> {
   for (const f of copy.files) {
     try {
-      if (sha256(await fs.readFile(safeJoin(projectRoot, f.path))) !== f.sha256) return true
+      const abs = await copyPath(projectRoot, copy.kind, copy.id, f.path)
+      if (sha256(await readSource(abs)) !== f.sha256) return true
     } catch {
       return true
     }
@@ -75,15 +145,22 @@ export async function copyPackItem(
     )
   const files: ProjectPackCopy['files'] = []
   for (const f of src.files) {
-    const bytes = await fs.readFile(f.from)
-    const dest = safeJoin(projectRoot, f.to)
+    const bytes = await readSource(f.from)
+    const dest = await copyPath(projectRoot, src.kind, src.id, f.to)
     await ensureDir(dirname(dest))
+    await assertNoLinks(projectRoot, f.to) // a link swapped in while the folders were made
     await writeFileAtomic(dest, bytes)
     files.push({ path: f.to, sha256: sha256(bytes) })
   }
   const kept = new Set(files.map((f) => f.path))
-  for (const old of previous?.files ?? [])
-    if (!kept.has(old.path)) await fs.rm(safeJoin(projectRoot, old.path), { force: true })
+  for (const old of previous?.files ?? []) {
+    if (kept.has(old.path)) continue
+    // A record path outside the kind's folder or through a link is left alone, never removed.
+    const abs = await copyPath(projectRoot, previous!.kind, previous!.id, old.path).catch(
+      () => undefined,
+    )
+    if (abs) await fs.rm(abs, { force: true })
+  }
   const copy: ProjectPackCopy = {
     kind: src.kind,
     id: src.id,

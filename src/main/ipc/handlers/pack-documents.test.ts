@@ -2,7 +2,15 @@
 // pack is installed into a temp userData, its documents are listed, imported into a project and
 // indexed (FakeIndex, as in the ingest pipeline tests), and the copy outlives the pack.
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { existsSync, lstatSync, mkdtempSync, readFileSync, statSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  lstatSync,
+  mkdtempSync,
+  readFileSync,
+  statSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { basename, join, resolve } from 'node:path'
 import type { DocumentMeta } from '@shared/schemas'
@@ -177,6 +185,31 @@ describe('packs:importDocuments', () => {
     const again = await importAndWait([MD])
     const files = readCopies()[0]!.files.map((f) => f.path)
     expect(files).toEqual([`documents/${again.documents[0]!.id}/original.md`])
+  })
+
+  it('drops packs.json paths outside documents/<id>/ or through a symlink (#302)', async () => {
+    await installRail()
+    await importAndWait([MD])
+    // A shared project: documents/evil links outside, and packs.json names files there and
+    // elsewhere in the project.
+    const outside = mkdtempSync(join(tmpdir(), 'ttx-outside-'))
+    writeFileSync(join(outside, 'original.md'), 'secret outside the project')
+    symlinkSync(outside, join(root, 'documents', 'evil'))
+    const doc = JSON.parse(readFileSync(join(root, 'packs.json'), 'utf8'))
+    const sha = '0'.repeat(64)
+    doc.copies[0].files.push(
+      { path: 'documents/evil/original.md', sha256: sha },
+      { path: 'project.json', sha256: sha },
+      { path: '../outside.md', sha256: sha },
+    )
+    writeFileSync(join(root, 'packs.json'), JSON.stringify(doc))
+
+    await importAndWait([PDF])
+    const files = readCopies()[0]!.files.map((f) => f.path)
+    expect(files).toHaveLength(2)
+    expect(files.every((f) => /^documents\/[^/]+\/original\.(md|pdf)$/.test(f))).toBe(true)
+    expect(files).not.toContain('documents/evil/original.md')
+    expect(readFileSync(join(outside, 'original.md'), 'utf8')).toBe('secret outside the project')
   })
 
   it('imports the same group slug from two packs side by side', async () => {

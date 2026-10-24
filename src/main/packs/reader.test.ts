@@ -205,6 +205,22 @@ describe('readPack: content checks', () => {
     expect(out).toMatch(/preview.json: fields:/)
   })
 
+  it('refuses a backtracking pattern, patternProperties and format in schema.json (#302)', async () => {
+    const out = await problemsFor((t) => {
+      t[`${T}/schema.json`] = JSON.stringify({
+        type: 'object',
+        properties: {
+          headline: { type: 'string', pattern: '^(\\w+\\s?)*$' },
+          when: { type: 'string', format: 'date-time' },
+        },
+        patternProperties: { '^x': { type: 'string' } },
+      })
+    })
+    expect(out).toMatch(/schema.json: \/properties\/headline\/pattern: pattern .* uses groups/)
+    expect(out).toMatch(/schema.json: \/properties\/when\/format: format "date-time"/)
+    expect(out).toMatch(/schema.json: \/patternProperties: patternProperties is not allowed/)
+  })
+
   it('refuses a prompt name the app does not ship', async () => {
     const out = await problemsFor(
       (t) => {

@@ -11,10 +11,11 @@
 //   user      userData/templates/injects/<type>/
 //   pack      enabled packs (two enabled packs never provide the same type)
 //   builtin   templates/injects/<type>/              (resources)
-// Every layer but the built-in one passes the template checker (packs/template-check.ts) when
-// it is loaded; a refused template is skipped (the next layer applies) and reported by
+// Every layer but the built-in one passes the template checker (packs/template-check.ts) and
+// the schema regex rule (packs/schema-regex.ts) when it is loaded, and a project whose
+// templates/ or templates/injects/ folder is a symlink has no project layer; a refused template is skipped (the next layer applies) and reported by
 // refusedTemplates(). With no lower layer, loading the type throws VALIDATION.
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
+import { existsSync, lstatSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import Ajv2020 from 'ajv/dist/2020.js'
 import { z } from 'zod'
@@ -25,6 +26,7 @@ import { AppError } from '../lib/errors'
 import { safeJoin, safeJoinReal } from '../lib/fs'
 import { resourcePath, userDataPath } from '../lib/paths'
 import { enabledPacks, packItemPath } from '../packs/layers'
+import { schemaRegexProblems } from '../packs/schema-regex'
 import { checkTemplateFiles } from '../packs/template-check'
 
 export const TemplateMeta = z.object({
@@ -112,6 +114,22 @@ function userRoot(): string | undefined {
 export const projectTemplatesRoot = (projectRoot: string): string =>
   join(projectRoot, 'templates', 'injects')
 
+/**
+ * The project layer's root, or undefined when <project>/templates or templates/injects is a
+ * symlink: a shared project must not point its layer (or copy-on-use writes) elsewhere.
+ */
+function projectRootDir(projectRoot: string | undefined): string | undefined {
+  if (!projectRoot) return undefined
+  for (const rel of ['templates', join('templates', 'injects')]) {
+    try {
+      if (lstatSync(join(projectRoot, rel)).isSymbolicLink()) return undefined
+    } catch {
+      return undefined // missing: no project layer
+    }
+  }
+  return projectTemplatesRoot(projectRoot)
+}
+
 const TYPE_RE = /^[a-z0-9_]+$/
 
 // ---- layers --------------------------------------------------------------------------------
@@ -130,7 +148,8 @@ function layerDir(root: string, type: string): string | undefined {
 export function templateLayers(type: string, projectRoot?: string): TemplateLayer[] {
   if (!TYPE_RE.test(type)) throw new AppError('VALIDATION', `Invalid template type "${type}"`)
   const out: TemplateLayer[] = []
-  const project = projectRoot ? layerDir(projectTemplatesRoot(projectRoot), type) : undefined
+  const projectDir = projectRootDir(projectRoot)
+  const project = projectDir ? layerDir(projectDir, type) : undefined
   if (project) out.push({ source: 'project', dir: project })
   const userDir = userRoot()
   const user = userDir ? layerDir(userDir, type) : undefined
@@ -181,7 +200,11 @@ function readLayer(type: string, layer: TemplateLayer): CacheEntry {
   if (problems.length) entry = { mtime, ok: false, problems }
   else {
     try {
-      entry = { mtime, ok: true, t: parseLayer(type, layer) }
+      const t = parseLayer(type, layer)
+      const regex = layer.source === 'builtin' ? [] : schemaRegexProblems(t.schema)
+      entry = regex.length
+        ? { mtime, ok: false, problems: regex.map((p) => ({ path: 'schema.json', ...p })) }
+        : { mtime, ok: true, t }
     } catch (e) {
       if (layer.source === 'builtin') throw e
       const problems =
@@ -285,7 +308,7 @@ export function listTemplateTypes(projectRoot?: string): string[] {
   const builtin = listBuiltinTemplateTypes()
   const names = new Set(builtin)
   const extra = new Set<string>([
-    ...(projectRoot ? typeFolders(projectTemplatesRoot(projectRoot)) : []),
+    ...typeFolders(projectRootDir(projectRoot)),
     ...typeFolders(userRoot()),
     ...enabledPacks().flatMap((p) => p.manifest.contents.templates),
   ])
@@ -299,7 +322,7 @@ export function listTemplateTypes(projectRoot?: string): string[] {
 /** Templates refused by the checker (or unreadable) in the non-built-in layers. */
 export function refusedTemplates(projectRoot?: string): RefusedTemplate[] {
   const types = new Set<string>([
-    ...(projectRoot ? typeFolders(projectTemplatesRoot(projectRoot)) : []),
+    ...typeFolders(projectRootDir(projectRoot)),
     ...typeFolders(userRoot()),
     ...enabledPacks().flatMap((p) => p.manifest.contents.templates),
   ])

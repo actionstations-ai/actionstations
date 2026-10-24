@@ -23,6 +23,7 @@ import { parsePromptRaw, type PromptIssue } from '../prompts/format'
 import { TemplateMeta, TemplatePreview } from '../render/templates'
 import type { PackBuiltins } from './builtins'
 import { customNodeClasses } from './comfy-core-nodes'
+import { schemaRegexProblems } from './schema-regex'
 import { checkTemplateFiles } from './template-check'
 
 export type PackFiles = ReadonlyMap<string, Buffer>
@@ -104,6 +105,8 @@ function checkTemplate(ctx: Ctx, id: string): ItemResult {
   }
   const schema = json(ctx, `${dir}/schema.json`)
   if (schema !== undefined) {
+    for (const p of schemaRegexProblems(schema))
+      ctx.problems.push({ path: `${dir}/schema.json`, message: p.message })
     try {
       ajv.compile(schema as object)
     } catch (e) {

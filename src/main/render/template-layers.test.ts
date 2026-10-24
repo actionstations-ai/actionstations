@@ -4,7 +4,15 @@
 // dispatcher; each test gets its own TTX_USER_DATA. The render window is replaced by a fake that
 // records the composed document (no Electron).
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { basename, join, resolve } from 'node:path'
 import type { Channel, ChannelRequest, ChannelResponse } from '@shared/ipc'
@@ -46,8 +54,14 @@ const { createProject } = await import('../project/store')
 const { createScenario, updateScenario } = await import('../scenario/store')
 const { chooseInjectType } = await import('../generate/injects/type-map')
 const { readProjectPacks } = await import('../packs/project-copies')
-const { clearTemplateCache, listTemplateTypes, loadTemplate, refusedTemplates, userTemplatesRoot } =
-  await import('./templates')
+const {
+  clearTemplateCache,
+  listTemplateTypes,
+  loadTemplate,
+  refusedTemplates,
+  userTemplatesRoot,
+  validateFields,
+} = await import('./templates')
 const { syncInjectTypes } = await import('./template-registry')
 
 type Handlers = Parameters<typeof dispatch>[0]
@@ -245,6 +259,51 @@ describe('template checker at load', () => {
     tweetFolder(userTemplatesRoot(), 'Handler', '<div onclick="x()">{{fields.text}}</div>')
     expect(loadTemplate('tweet').source).toBe('builtin')
     expect(refusedTemplates()[0]).toMatchObject({ type: 'tweet', source: 'user' })
+  })
+})
+
+describe('schema regex rule and symlinked layer roots at load (#302)', () => {
+  const redosSchema = (dir: string) => {
+    const schema = JSON.parse(readFileSync(join(dir, 'schema.json'), 'utf8'))
+    schema.properties.text.pattern = '^(\\w+\\s?)*$'
+    writeFileSync(join(dir, 'schema.json'), JSON.stringify(schema))
+  }
+
+  it('refuses a user or project schema.json with a backtracking pattern', () => {
+    redosSchema(tweetFolder(userTemplatesRoot(), 'Slow'))
+    redosSchema(tweetFolder(projectLayer(), 'Slow too'))
+    expect(loadTemplate('tweet', root).source).toBe('builtin')
+    const refused = refusedTemplates(root)
+    expect(refused.map((r) => r.source)).toEqual(['project', 'user'])
+    expect(refused[0]!.problems[0]).toMatchObject({
+      path: 'schema.json',
+      message: expect.stringMatching(/\/properties\/text\/pattern: .* uses groups/),
+    })
+    // validateFields therefore never compiles the slow pattern.
+    const t = Date.now()
+    validateFields('tweet', { text: 'Airport ops team reports delay!' }, root)
+    expect(Date.now() - t).toBeLessThan(200)
+  })
+
+  it('keeps a user copy of a built-in schema (its simple patterns are allowed)', () => {
+    tweetFolder(userTemplatesRoot(), 'Mine')
+    expect(loadTemplate('tweet').source).toBe('user')
+  })
+
+  it('ignores a project whose templates folder is a symlink', () => {
+    const elsewhere = mkdtempSync(join(tmpdir(), 'ttx-elsewhere-'))
+    tweetFolder(join(elsewhere, 'injects'), 'Linked')
+    symlinkSync(elsewhere, join(root, 'templates'))
+    expect(loadTemplate('tweet', root).source).toBe('builtin')
+    expect(refusedTemplates(root)).toEqual([])
+  })
+
+  it('ignores a project whose templates/injects folder is a symlink', () => {
+    const elsewhere = mkdtempSync(join(tmpdir(), 'ttx-elsewhere-'))
+    tweetFolder(elsewhere, 'Linked')
+    mkdirSync(join(root, 'templates'), { recursive: true })
+    symlinkSync(elsewhere, projectLayer())
+    expect(loadTemplate('tweet', root).source).toBe('builtin')
   })
 })
 

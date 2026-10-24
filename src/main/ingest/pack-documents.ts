@@ -11,10 +11,10 @@
 import type { DocumentMeta } from '@shared/schemas'
 import type { PackDocumentRef, PackDocumentView } from '@shared/ipc/pack-documents'
 import { AppError } from '../lib/errors'
-import { exists, safeJoin } from '../lib/fs'
+import { exists } from '../lib/fs'
 import { loadProject } from '../project/store'
 import { enabledPacks, packById, packFilePath, type InstalledPack } from '../packs/layers'
-import { copyPackItem, findCopy, forgetCopy } from '../packs/project-copies'
+import { copyPackItem, copyPath, findCopy, forgetCopy } from '../packs/project-copies'
 import { importSources, type ImportSource } from './pipeline'
 import { documentFiles } from './storage'
 
@@ -93,8 +93,9 @@ async function recordCopy(
   const previous = await findCopy(root, 'documents', id)
   if (previous)
     for (const f of previous.files) {
-      const abs = safeJoin(root, f.path)
-      if (await exists(abs)) files.set(f.path, abs)
+      // packs.json is not trusted: a path outside documents/<docId>/ or through a link is dropped.
+      const abs = await copyPath(root, 'documents', id, f.path).catch(() => undefined)
+      if (abs && (await exists(abs))) files.set(f.path, abs)
     }
   for (const d of docs) files.set(documentFiles(root, d.meta).originalRel, d.from)
   // Re-recorded from scratch: removed documents drop out instead of reading as "edited".

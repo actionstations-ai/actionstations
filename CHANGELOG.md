@@ -204,6 +204,18 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 - Prompt files are YAML-only: a `---js` (or other non-YAML) frontmatter fence is refused on line 1 and never evaluated, so a prompt arriving with a shared project or a pack can't run code in the app (#257).
 
+#### Packs
+
+- Template `schema.json` files from packs, the user folder and projects may only use simple
+  `pattern`s (anchored with `^`, single-character atoms, at most one variable repeat, as every
+  built-in uses) and no `patternProperties` or `format`, so model output cannot stall the app on
+  a backtracking regex; the pack reader and template loading refuse other schemas with the JSON
+  pointer of the keyword (#302).
+- `<project>/packs.json` record paths must sit in their item's folder (`templates/injects/<type>/`,
+  `comfy/workflows/<id>.json`, `documents/<docId>/`) and copy-on-use never reads, writes or removes
+  through a symlink; a project whose `templates/` or `templates/injects/` folder is a symlink has
+  no project template layer (#302).
+
 #### Guided workflow and plain language
 
 - The "narrates a player decision" lint matches role names as whole words, so "IC" no longer matches inside "RPIC", and its quote keeps the space after the role name (no more "ICcannot") (#251).
