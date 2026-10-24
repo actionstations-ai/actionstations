@@ -17,9 +17,19 @@ export function loadNames(file = NAMES_FILE) {
   return replace.map(([pattern, to]) => [new RegExp(pattern, 'g'), to])
 }
 
+// JSON string escapes (\n, \t, \r) are swapped for control characters while matching, so
+// "\nDelta" in a JSON file still starts a word for \b (#283).
+const ESCAPES = [
+  ['\\n', '\u0001'],
+  ['\\t', '\u0002'],
+  ['\\r', '\u0003'],
+]
+const hideEscapes = (t) => ESCAPES.reduce((s, [esc, c]) => s.replaceAll(esc, c), t)
+const showEscapes = (t) => ESCAPES.reduce((s, [esc, c]) => s.replaceAll(c, esc), t)
+
 /** `text` with every pair applied in order. */
 export function simulateNames(text, names = loadNames()) {
-  return names.reduce((s, [re, to]) => s.replace(re, to), text)
+  return showEscapes(names.reduce((s, [re, to]) => s.replace(re, to), hideEscapes(text)))
 }
 
 const TEXT = new Set(['.json', '.md', '.txt'])
@@ -33,7 +43,8 @@ function walk(path) {
 export function simulateFiles(paths, names = loadNames()) {
   const changed = []
   for (const file of paths.flatMap(walk)) {
-    if (!TEXT.has(extname(file))) continue
+    // The map names what it replaces; rewriting it would turn every pair into a no-op.
+    if (!TEXT.has(extname(file)) || resolve(file) === NAMES_FILE) continue
     const before = readFileSync(file, 'utf8')
     const after = simulateNames(before, names)
     if (after === before) continue

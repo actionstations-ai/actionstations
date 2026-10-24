@@ -39,7 +39,7 @@ const DENY: RegExp[] = [
   /\b(Browns|browns|Steelers|Raiders|Huntington Bank)\b/,
   /\b(Plain Dealer|Beacon Journal|Fox 8|WKYC|WEWS)\b/,
   // Regional utilities, national consumer brands and cargo carriers
-  /\b(Dominion Energy|FirstEnergy|Starbucks|Hudson News|FedEx)\b/,
+  /\b(Dominion Energy|FirstEnergy|Starbucks|Hudson News|FedEx|Coke|Pepsi|Coca-Cola|PepsiCo)\b/,
 ]
 
 function files(dir: string): string[] {
@@ -51,7 +51,9 @@ function files(dir: string): string[] {
 }
 
 function hits(path: string): string[] {
+  // JSON escapes count as breaks, so "\nDelta" inside a JSON string is still caught.
   return readFileSync(path, 'utf8')
+    .replace(/\\[ntr]/g, ' ')
     .split('\n')
     .flatMap((line, i) =>
       DENY.flatMap((re) => {
@@ -76,6 +78,7 @@ describe('simulated names in released content', () => {
       'Cleveland Moms Group',
       'Free Browns Tickets',
       'Starbucks line',
+      'The Coke machines',
     ]
     for (const s of caught) expect(DENY.some((re) => re.test(s))).toBe(true)
   })

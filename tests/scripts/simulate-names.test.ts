@@ -6,7 +6,7 @@ import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { simulateFiles, simulateNames } from '../../scripts/simulate-names.mjs'
+import { NAMES_FILE, simulateFiles, simulateNames } from '../../scripts/simulate-names.mjs'
 import { seedMarkdown, simulatedCopies } from '../../scripts/make-example.mjs'
 
 describe('simulateNames', () => {
@@ -44,6 +44,12 @@ describe('simulateNames', () => {
     expect(simulateNames(text)).toBe(text)
   })
 
+  it('treats JSON escapes as word breaks', () => {
+    expect(simulateNames('"James Morrison\\nVP\\nDelta Regional\\n(330) 555-7700"')).toBe(
+      '"James Morrison\\nVP\\nSkyline Regional\\n(330) 555-7700"',
+    )
+  })
+
   it('is idempotent', () => {
     const once = simulateNames('Delta and United at Akron; #Cleveland; Starbucks; DL 666')
     expect(simulateNames(once)).toBe(once)
@@ -59,6 +65,12 @@ describe('applying the map to files', () => {
     expect(simulateFiles([dir]).map((f) => f.split('/').pop())).toEqual(['a.md'])
     expect(readFileSync(join(dir, 'a.md'), 'utf8')).toBe('Skyline at Gate B4')
     expect(readFileSync(join(dir, 'c.png'), 'utf8')).toBe('Delta')
+  })
+
+  it('never rewrites the names map itself', () => {
+    const before = readFileSync(NAMES_FILE, 'utf8')
+    expect(simulateFiles([NAMES_FILE])).toEqual([])
+    expect(readFileSync(NAMES_FILE, 'utf8')).toBe(before)
   })
 
   it('make-example imports simulated copies and seeds simulated markdown', () => {

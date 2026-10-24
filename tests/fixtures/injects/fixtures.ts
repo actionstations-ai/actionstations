@@ -45,7 +45,7 @@ export const FIELDS: Record<string, Record<string, unknown>> = {
     requester: 'Concourse B Maintenance',
     subject: 'Vending Machines in Concourse B',
     description:
-      'The Coke machines at Gate B2 and B6 just spit out all their cans. Is this a cyber thing?',
+      'The soda machines at Gate B2 and B6 just spit out all their cans. Is this a cyber thing?',
     status: 'Open',
     assignee: 'IT Helpdesk',
   },
