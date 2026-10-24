@@ -1,13 +1,14 @@
 import { useSearchParams } from 'react-router'
 import type { TemplateInfo } from '@shared/ipc'
 import { Badge, EmptyState, PageHeader } from '../../components/ui'
-import { DOMAIN_PROFILES, resolveProfile } from '@shared/domains'
+import { listProfiles, resolveProfile } from '@shared/domains'
 import { useIpcQuery } from '../../lib/query'
 import { profileLabel } from '../../lib/domains'
 import { templateNote, templateProvenanceOf } from '../../lib/template-source'
 import { ProvenanceBadge } from '../../components/ProvenanceBadge'
 import { useInjectTypes } from '../../state/inject-types'
 import { useProjectUi } from '../../state/project'
+import { useDomainRegistry } from '../../state/domains'
 import {
   CATEGORY_LABELS,
   categoriesPresent,
@@ -52,7 +53,8 @@ function DomainFilter(props: {
   projectDomain: string | undefined
   onChange: (d: string) => void
 }) {
-  const options = ['all', ...DOMAIN_PROFILES.map((p) => p.id)]
+  useDomainRegistry() // installed packs add their domain profiles (#263)
+  const options = ['all', ...listProfiles().map((p) => p.profile.id)]
   return (
     <div className="stack tpl-domain">
       <div className="tpl-filter" role="group" aria-label="Domain">

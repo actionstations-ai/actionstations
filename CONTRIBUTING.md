@@ -75,6 +75,7 @@ If a new check is needed, add it to `scripts/local-ci.sh`. Never add files under
 
 - **Unit tests:** `pnpm test`, or one file with `pnpm test -- path/to/file.test.ts`; `pnpm test:watch` to re-run on change. Code that imports `electron` needs `vi.mock('electron', …)`. Renderer component tests start with `// @vitest-environment happy-dom`.
 - **End-to-end:** `pnpm e2e` builds the app and runs Playwright against it. `e2e/helpers.ts` `launch()` gives each test an isolated data folder. Playwright empties `test-results/` at the start of every run; copy anything you want to keep elsewhere first.
+- **Packs end to end:** `pnpm build:app && TTX_HEADLESS=1 pnpm exec playwright test e2e/packs.spec.ts` installs, uses, updates, refuses, uninstalls and exports packs against a local catalog on 127.0.0.1, and fails if the app sends any request to a non-loopback host (main-process traffic from `e2e/net-recorder.cjs`, Chromium's from `--log-net-log`).
 - **Screenshot tour:** `pnpm build:app && TOUR=1 pnpm exec playwright test e2e/tour.spec.ts` captures every screen in light and dark themes into `test-results/tour/`.
 - **Offline app:** `TTX_MOCK_PROVIDERS=1 pnpm dev` routes every task to a built-in mock provider that returns schema-valid output.
 
@@ -98,7 +99,7 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 
 ## Documentation
 
-- Keep [`README.md`](README.md) runnable and the guides in [`docs/guides/`](docs/guides/) accurate when behaviour changes. Guide screenshots live in `docs/guides/images/`; retake them from the built app when a screen changes with `pnpm build:app && GUIDE_SHOTS=1 pnpm exec playwright test e2e/guide-screenshots.spec.ts` (mock provider, 1440 × 900), then look at each changed image before committing it.
+- Keep [`README.md`](README.md) runnable and the guides in [`docs/guides/`](docs/guides/) accurate when behaviour changes. Guide screenshots live in `docs/guides/images/`; retake them from the built app when a screen changes with `pnpm build:app && GUIDE_SHOTS=1 pnpm exec playwright test e2e/guide-screenshots.spec.ts` (mock provider, 1440 × 900), then look at each changed image before committing it. The Packs screenshots in `docs/guides/images/packs/` come from `GUIDE_SHOTS=1 pnpm exec playwright test e2e/packs.spec.ts`.
 - Any architectural choice (a new library, a storage format change, a new process boundary) gets an ADR in `docs/adr/NNNN-title.md`, copied from [`docs/adr/0000-template.md`](docs/adr/0000-template.md): context, decision, consequences, kept short. To reverse a decision, write a new ADR and mark the old one `Superseded by ADR-XXXX`.
 
 ## Ground rules

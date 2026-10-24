@@ -27,9 +27,9 @@ const PNG_1PX = Buffer.from(
 )
 
 const TEMPLATE_HTML = `<div class="board {{variant}}">
-  <header><img src="logo.png" alt=""><h1>{{desk}} dispatch</h1></header>
+  <header><img src="logo.png" alt=""><h1>{{fields.desk}} dispatch</h1></header>
   <table>
-    {{#each trains}}
+    {{#each fields.trains}}
     <tr class="{{#if late}}late{{/if}}"><td>{{symbol}}</td><td>{{track}}</td><td>{{status}}</td></tr>
     {{/each}}
   </table>

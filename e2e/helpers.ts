@@ -19,6 +19,8 @@ export interface LaunchOptions {
   userData?: string
   /** Fresh installs open the setup wizard; specs skip it unless they test it. */
   onboarding?: boolean
+  /** Electron / Node switches placed before the app path (e.g. `-r <file>`, `--log-net-log=`). */
+  args?: string[]
 }
 
 /** Launch the built app (out/) with an isolated userData dir. */
@@ -30,7 +32,7 @@ export async function launch(
   if (!opts.userData && !opts.onboarding)
     writeFileSync(join(userData, 'settings.json'), JSON.stringify({ onboardingComplete: true }))
   const app = await electron.launch({
-    args: [resolve('out/main/index.js')],
+    args: [...(opts.args ?? []), resolve('out/main/index.js')],
     env: {
       ...process.env,
       TTX_USER_DATA: userData,

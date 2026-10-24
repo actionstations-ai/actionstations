@@ -3,6 +3,7 @@ import { cleanup, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it } from 'vitest'
 import type { TemplateInfo } from '@shared/ipc'
+import { DOMAIN_PROFILES, registerPackProfiles } from '@shared/domains'
 import TemplatesPage from './TemplatesPage'
 import { categoriesPresent, filterTemplates, fitsDomain, schemaFields } from './gallery'
 import { mockTtx, PROJECT, renderAt } from '../documents/test-utils'
@@ -147,6 +148,27 @@ describe('TemplatesPage', () => {
         expect.objectContaining({ type: 'rail_dispatch_board', projectPath: PROJECT }),
       ),
     )
+  })
+
+  it('offers the domain profiles of installed packs as domain filters (#273)', async () => {
+    const transit = DOMAIN_PROFILES.find((d) => d.id === 'transit')!
+    registerPackProfiles([
+      {
+        profile: { ...transit, id: 'freight_rail', label: 'Freight rail', aliases: [] },
+        packId: 'ai.actionstations.freight-rail',
+        packVersion: '1.0.0',
+        packName: 'Freight Rail Operations',
+      },
+    ])
+    try {
+      setup()
+      renderAt('/templates', '/templates', TemplatesPage)
+      const domains = await screen.findByRole('group', { name: 'Domain' })
+      expect(within(domains).getByRole('button', { name: 'Freight rail' })).toBeTruthy()
+      expect(within(domains).getByRole('button', { name: 'Airport' })).toBeTruthy()
+    } finally {
+      registerPackProfiles([])
+    }
   })
 
   it('shows render errors in place of the preview', async () => {
