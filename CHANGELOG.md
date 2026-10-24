@@ -115,6 +115,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Added
 
+#### Repository
+
+- README header with the logo, a one-line description, a row of badges, quick links and a screenshot. The badges are SVG files that `pnpm badges` (local CI with `BADGES=1`; off by default, so feature branches never touch them) writes to `docs/badges/` with `scripts/make-badges.mjs` after a full green run (local CI, unit-test and e2e counts, version, license, Electron, platforms, no telemetry, local-first); no badge service and no GitHub Actions, since the repository is private. A run that measures the same values leaves the files untouched; `pnpm release` refreshes and commits them before the version bump. `SECURITY.md` (report vulnerabilities by email, never in a public issue), `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1), `SUPPORT.md`, issue-template contact links, and a 1280 × 640 social preview image (`docs/social-preview.png`, built by `scripts/make-social-preview.mjs`). The guide screenshots were retaken from the shipped airport example, so they show its simulated names (Skyline, Lakeport) and the Packs sidebar entry (#317).
+
 #### Packs (specification)
 
 - Packs design for 0.3.0: PRD FR-9, ADR-0018, `docs/packs-format.md` (`.aspack` archive with

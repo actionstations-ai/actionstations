@@ -104,7 +104,18 @@ if [[ $SKIP_CI == 1 ]]; then
   step "local CI skipped (--skip-ci)"
 else
   step "local CI"
-  pnpm ci:local
+  # BADGES=1 refreshes docs/badges/. On --publish the changes are committed here, so the tree is
+  # clean again before `pnpm version`; a dry run leaves them uncommitted for you to inspect.
+  BADGES=1 pnpm ci:local
+  if [[ -n "$(git status --porcelain -- docs/badges)" ]]; then
+    if [[ $PUBLISH == 1 ]]; then
+      git add docs/badges
+      git commit --quiet --no-verify -m "chore(badges): refresh for v${VERSION} (#${ISSUE})"
+      echo "committed refreshed badges"
+    else
+      echo "note: docs/badges/ changed (dry run: not committed)"
+    fi
+  fi
 fi
 
 step "version bump → ${VERSION}"

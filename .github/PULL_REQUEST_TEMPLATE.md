@@ -21,3 +21,4 @@ Closes #
 - [ ] No secrets in project folder or logs
 - [ ] Text-bearing media is template-rendered
 - [ ] Docs / ADR updated if behavior or architecture changed
+- [ ] Follows the [Code of Conduct](../CODE_OF_CONDUCT.md); security fixes were reported privately first ([SECURITY.md](../SECURITY.md))

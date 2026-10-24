@@ -64,10 +64,19 @@ There is no hosted CI. `scripts/local-ci.sh` (`pnpm ci:local`) is the CI, and it
 | Full e2e (opt-in)     | `E2E=1 pnpm ci:local`                         | Every Playwright spec in `e2e/` against the built app with the mock provider.                                                                                                                                   |
 | Secrets scan          | `gitleaks git --redact .`                     | No secrets in the git history. Skipped with a notice if gitleaks is not installed (`brew install gitleaks`).                                                                                                    |
 | Audit (warning only)  | `pnpm audit --prod`                           | Known vulnerabilities in production dependencies. Never fails the run.                                                                                                                                          |
+| Badges                | `node scripts/make-badges.mjs`                | Off by default. With `BADGES=1` (`pnpm badges`), the last step after everything else passed: rewrites the README badges in `docs/badges/` (see [Badges](#badges)).                                              |
 
 `bash scripts/local-ci.sh --quick` stops after the unit tests (guard, install, lint, format, doc links, typecheck, tests), for fast iteration. Run the full version before you push.
 
 `git push --no-verify` is acceptable only for work-in-progress pushes to feature branches, and the PR must say so.
+
+### Badges
+
+The repository is private, so shields.io and other badge services cannot read it. The README badges are SVG files in `docs/badges/`, written offline by `scripts/make-badges.mjs` as the last step of a full local CI run with `BADGES=1` (`pnpm badges`), so they only ever say "passing" after a green run. The step is off by default: `pnpm ci:local` and the pre-push hook never touch `docs/badges/`, so feature branches do not conflict over them. The values come from the run itself and the repository: the unit-test count from the Vitest summary, the e2e count from `playwright test --list`, the version and Electron version from `package.json`, the license from `LICENSE.md` and `LICENSE-EDUCATION.md`, the platforms from `electron-builder.yml`.
+
+The files are deterministic. `docs/badges/badges.json` holds the current values and the date on the "local CI" badge. A run that measures the same values keeps the old date and leaves the files untouched, so the tree stays clean. When a value changes (a test was added, the version moved) every changed badge is rewritten and the date becomes today's. Badges are refreshed in two places only: `pnpm badges` on an up-to-date `main`, committed in a small `chore(badges)` pull request, and `pnpm release`, which runs local CI with `BADGES=1` and on `--publish` commits the refreshed badges before `pnpm version`, so the tree is clean for the version bump.
+
+The GitHub social preview image (`docs/social-preview.png`, 1280 × 640) is built from the logo and a guide screenshot with `pnpm exec electron scripts/make-social-preview.mjs`. GitHub only takes it through the web UI: **Settings → General → Social preview → Edit → Upload an image**.
 
 If a new check is needed, add it to `scripts/local-ci.sh`. Never add files under `.github/workflows/`, Dependabot configuration, or anything else that runs on GitHub's compute ([ADR-0002](docs/adr/0002-local-ci-no-actions.md)).
 

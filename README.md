@@ -1,5 +1,27 @@
 # Action Stations
 
+<p align="center"><img src="src/renderer/src/assets/action-stations-logo.png" alt="Action Stations logo" width="480"></p>
+
+**Turn your organization's own plans into a complete, editable tabletop exercise, on your own machine.**
+
+[![local CI](docs/badges/ci.svg)](CONTRIBUTING.md#local-ci)
+[![unit tests](docs/badges/unit-tests.svg)](CONTRIBUTING.md#tests-in-more-detail)
+[![e2e](docs/badges/e2e.svg)](e2e/)
+[![version](docs/badges/version.svg)](CHANGELOG.md)
+[![license](docs/badges/license.svg)](#license)
+[![Electron](docs/badges/electron.svg)](docs/adr/0001-stack.md)
+[![platforms](docs/badges/platforms.svg)](#prerequisites)
+[![telemetry: none](docs/badges/telemetry.svg)](#connecting-providers)
+[![local-first](docs/badges/local-first.svg)](#non-negotiables-also-in-claudemd)
+
+**[Download](https://github.com/mdcrowley/actionstations/releases)** · [Guides](#guides) · [Packs](docs/guides/packs.md) · [License](#license) · [Contributing](CONTRIBUTING.md) · [Support](SUPPORT.md) · [Security](SECURITY.md)
+
+![The MSEL editor for a generated scenario: phases, timed events, expected actions and citations into the source plans](docs/guides/images/scenario-msel.png)
+
+The badges are SVG files that local CI writes to `docs/badges/` after a full green run with `BADGES=1` (`pnpm badges`) (the repository is private, so no badge service can read it); see [Badges](CONTRIBUTING.md#badges).
+
+## What it does
+
 Action Stations is a local-first Electron desktop app that turns an organization's source documents (emergency plans, security programs, course material) into complete, editable, exportable tabletop exercises: scenario narrative, Master Scenario Events List (MSEL), inject deck with realistic media (tweets, helpdesk tickets, emails, log files, information boards and HMI screens, radio and phone audio, short video), controller handbook, and player briefing. You connect the LLM, image, voice and video providers you choose (local models via LM Studio, Ollama and ComfyUI, or Anthropic), and every generated item cites the section of your own documents it came from. It generalizes the hand-built CSAAP airport-cybersecurity tabletops in `reference/` to any cyber-physical, emergency-management or operations domain (transit, dams and water utilities, energy, healthcare, campuses, venues, ports, cities, plants, drone operators) through domain profiles (ADR-0014).
 
 Repository: https://github.com/mdcrowley/actionstations
@@ -25,6 +47,7 @@ scripts/dev-bundle.sh         # macOS: .dev-app/Action Stations.app, a renamed E
 pnpm test                     # Vitest unit tests (run under Electron-as-Node, mock providers)
 pnpm lint && pnpm typecheck   # ESLint + tsc
 pnpm ci:local                 # full local CI: scripts/local-ci.sh
+pnpm badges                   # full local CI, then refresh the README badges in docs/badges/
 pnpm e2e                      # Playwright end-to-end tests against the Electron app
 LIVE=1 pnpm test -- tests/live/pipeline.live.test.ts   # full generation run against LM Studio (writes tests/fixtures/generate/sample-run/)
 LIVE=1 pnpm test -- tests/live/injects.live.test.ts    # Scenario 3 inject deck + media on LM Studio, ComfyUI and mlx-audio (writes tests/fixtures/injects/sample-run/)
@@ -95,6 +118,9 @@ e2e/                 Playwright tests
 | [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md)         | How handlers, routes, adapters and templates are wired                        |
 | [`docs/guides/`](docs/guides/)                                       | User and contributor guides (see [Guides](#guides))                           |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md)                                 | How to contribute                                                             |
+| [`SUPPORT.md`](SUPPORT.md)                                           | Where to ask questions and file bugs                                          |
+| [`SECURITY.md`](SECURITY.md)                                         | How to report a vulnerability                                                 |
+| [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)                           | Contributor Covenant 2.1                                                      |
 
 ### Architecture decision records
 
@@ -149,7 +175,7 @@ New ADRs start from [`docs/adr/0000-template.md`](docs/adr/0000-template.md).
 
 ## No GitHub Actions
 
-This repository has no GitHub Actions, by design. There is nothing under `.github/workflows/`, and there never will be. CI is `scripts/local-ci.sh` (`pnpm ci:local`) plus Husky hooks (`pre-commit`: lint-staged; `pre-push`: local CI and gitleaks). PRs include the pasted `ci:local` output. See [ADR-0002](docs/adr/0002-local-ci-no-actions.md).
+This repository has no GitHub Actions, by design. There is nothing under `.github/workflows/`, and there never will be. CI is `scripts/local-ci.sh` (`pnpm ci:local`) plus Husky hooks (`pre-commit`: lint-staged; `pre-push`: local CI and gitleaks). PRs include the pasted `ci:local` output. The README badges come from the same script: `pnpm badges` (local CI with `BADGES=1`) rewrites the SVGs in `docs/badges/` after a full green run (see [Badges](CONTRIBUTING.md#badges)). See [ADR-0002](docs/adr/0002-local-ci-no-actions.md).
 
 ## Non-negotiables (also in CLAUDE.md)
 
@@ -157,6 +183,12 @@ This repository has no GitHub Actions, by design. There is nothing under `.githu
 - **Issues are tracked in GitHub Issues** on `mdcrowley/actionstations`. Every unit of work maps to an issue; commits reference issue numbers.
 - **Local-first.** Projects, documents, prompts and generated media live on the user's disk. Remote APIs are opt-in per provider.
 - **Provider-agnostic.** LM Studio / Ollama / OpenAI-compatible and Anthropic for text; ComfyUI for image/video, mlx-audio or the system voice for speech, with the abstraction ready for others.
+
+## Help, conduct and security
+
+- Questions, bugs and feature requests: [SUPPORT.md](SUPPORT.md).
+- Report a vulnerability privately by email, never in a public issue: [SECURITY.md](SECURITY.md).
+- Everyone taking part follows the [Code of Conduct](CODE_OF_CONDUCT.md) (Contributor Covenant 2.1).
 
 ## License
 
