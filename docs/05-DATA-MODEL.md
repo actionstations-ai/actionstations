@@ -168,5 +168,6 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 | `provider-calls.jsonl` | One line per model call: provider, model, tokens, cost, duration — no prompt text, no keys |
 | `jobs.json` | Persisted job records so interrupted generation shows as resumable |
 | `packs/<id>/<version>/` | Installed packs, verified against their `pack.json` hashes, read-only (ADR-0018) |
-| `packs/registry.json` | Installed packs: version, enabled, source (file / url / catalog), archive and content sha256 |
+| `packs/registry.json` | `PackRegistry`: installed packs with version, enabled, source (file / url / catalog), archive and content sha256, item list (see docs/packs-format.md "Installed packs") |
+| `packs/.staging/` | Downloads and extractions in progress; emptied at every startup |
 | `templates/injects/<type>/` | User inject templates, the layer between project and pack templates (ADR-0018) |

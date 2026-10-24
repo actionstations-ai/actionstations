@@ -36,7 +36,7 @@ Everything the app generates with comes from files it already loads in layers: i
 
 - Ids are the existing ones: template `type`, prompt name, workflow id, domain id, example slug. A pack item with a built-in id shadows the built-in (the review says "replaces built-in tweet template"), except domains: a pack may not reuse a built-in domain id or alias, because that would silently change fact extraction and lints of existing projects; per-project changes already have `domainProfileOverrides`.
 - Pack prompts may only use names of prompts the app ships (each is a pipeline stage); they apply only to projects in the pack's `domains`, so a rail pack does not change a hospital exercise.
-- Two enabled packs may not provide the same kind and id. The second installs disabled and the Packs screen names the conflict ("Disable Freight Rail to enable this pack"); there is no hidden ordering between packs.
+- Two enabled packs may not provide the same kind and id (templates, prompts, workflows, domains; documents and examples are always addressed with their pack id and never conflict, #260). The second installs disabled and the Packs screen names the conflict ("Disable Freight Rail to enable this pack"); there is no hidden ordering between packs.
 - A new template type joins the inject taxonomy through a `taxonomy` block in its `meta.json`; the taxonomy becomes a registry that main fills and the renderer reads over IPC.
 - Pack domain profiles may use only the built-in threat families (they carry code-level lint rules).
 

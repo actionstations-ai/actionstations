@@ -17,7 +17,7 @@ import { exportChannels } from './export'
 import { facilitatorChannels, PresentChangedEvent } from './facilitator'
 import { exampleChannels } from './examples'
 import { domainChannels, DomainsChangedEvent } from './domains'
-import { packChannels } from './packs'
+import { packChannels, PacksChangedEvent } from './packs'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -37,6 +37,17 @@ export {
   CatalogRefreshResult,
   PackDownloadRequest,
   PackDownloadResult,
+  InstalledPackView,
+  PackConflictView,
+  PackInspectRequest,
+  PackInspectResult,
+  PackInstallAction,
+  PackInstallRequest,
+  PackInstallResult,
+  PackReview,
+  PackUpdateView,
+  PackVerifyResult,
+  PacksChangedEvent,
 } from './packs'
 
 /** Merge domain channel maps, refusing duplicate names (a spread would silently overwrite). */
@@ -95,6 +106,8 @@ export const events = {
   'facilitator:present-changed': PresentChangedEvent,
   /** The pack domain profiles changed: refetch domains:list (#263). */
   'domains:changed': DomainsChangedEvent,
+  /** Installed packs changed (install, enable, disable, update, uninstall): refetch packs:list (#260). */
+  'packs:changed': PacksChangedEvent,
   'project:changed': z.object({
     path: z.string(),
     what: z.enum([

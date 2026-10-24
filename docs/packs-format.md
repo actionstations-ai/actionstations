@@ -206,7 +206,7 @@ Pack entry:
 | `homepage`                                                                                  | string   | no                | http/https URL                                                                                                   |
 | `updated`                                                                                   | string   | yes               | ISO 8601 date-time                                                                                               |
 
-Several versions of one pack may be listed; the app offers the highest version whose `minAppVersion` and `formatVersion` it supports. The app skips an invalid entry and says how many it skipped instead of refusing the whole catalog; a publisher's validator should refuse it (`PackCatalog` in the schema module).
+Several versions of one pack may be listed; the app offers, among the versions whose `minAppVersion` and `formatVersion` it supports: for a pack that is not installed, the highest stable version, or the highest prerelease (`1.3.0-beta.1`) when the pack has no stable version; for a pack installed at a stable version, the highest stable version (never a prerelease); for a pack installed at a prerelease, the highest version including prereleases (a beta install moves on to the next beta or to the release). The app skips an invalid entry and says how many it skipped instead of refusing the whole catalog; a publisher's validator should refuse it (`PackCatalog` in the schema module).
 
 How the app fetches (`src/main/packs/catalog.ts`, `download.ts`): catalog URLs live in `settings.json` (`packs.catalogs`, empty by default; added in Settings → Pack catalogs). `index.json` is fetched only on an explicit Refresh or when Browse opens, with a 5 MB cap counted on the received bytes, a 30 s idle timeout and at most 5 redirects, each of which must pass the same https rule (and may not move from a remote host to a loopback one). The last good copy is kept in `userData/packs/catalogs/<sha256 of the URL>.json` for offline display, and each catalog records `lastFetchedAt` / `lastError`. An archive download streams into `userData/packs/.staging/`, capped at the entry's `size` (200 MB for Install from URL), hashed while streaming, and removed on a sha256 mismatch, timeout or cancel.
 
@@ -240,6 +240,18 @@ How the app fetches (`src/main/packs/catalog.ts`, `download.ts`): catalog URLs l
   ]
 }
 ```
+
+## Installed packs
+
+How the app installs (`src/main/packs/install.ts`, #260). Nothing here uses the network: a URL or catalog install takes the archive `packs:download` already put in `userData/packs/.staging/`.
+
+- **Review** (`packs:inspect`): the reader verifies the archive and the app shows the manifest fields, the items and what each replaces, the pack and document licenses, custom ComfyUI nodes, the archive sha256, conflicts with installed packs, and what Install will do: `install`, `reinstall` (same version), `update` (newer) or `downgrade` (older; needs a second confirmation).
+- **Install** (`packs:install`): verify → extract into `.staging/<ulid>/` → files made read-only → rename to `userData/packs/<id>/<version>/` → `registry.json` written atomically → the previous version's folder removed. One version per pack is kept. A failure puts the previous folder back and leaves no new folder or registry entry. A downloaded archive is deleted after the install, whether it worked or not; a file the user picked is left where it is.
+- **Registry** (`userData/packs/registry.json`, schema `PackRegistry`): per pack `id`, `version`, `enabled`, `installedAt`, `source` (`file` with the file name, `url`, `catalog` with the catalog URL, or `unknown`), `archiveSha256` (or `unknown`), `contentSha256` and the review's item list. A registry that cannot be read is moved to `registry.json.damaged-<time>`; when it is damaged or missing, the entries are rebuilt from the pack folders: each `<id>/<version>/` that passes the startup check becomes a disabled entry with source and archive sha256 `unknown` (the highest valid version per id), so no installed pack is lost.
+- **Conflicts**: two enabled packs may not provide the same template, prompt, workflow or domain id, and pack domains may not share an id or alias. Documents and examples never conflict: they are always looked up with their pack id. A pack that would conflict installs disabled, with a reason naming the pack in the way ("Disable Freight Rail Operations to enable this pack"); enabling it checks again. A reinstall or update keeps a pack the user disabled disabled.
+- **Startup**: everything left in `.staging/` is deleted, folders under `userData/packs/` that the registry does not list are removed (only when `registry.json` was read cleanly), and each pack is checked: `pack.json` matches the registry's content hash, every listed file exists with its size, and files up to 256 KB are re-hashed. A pack that fails is shown as broken and not loaded; reinstalling repairs it. `packs:verify` re-hashes every file. Then the enabled packs' domain profiles are registered.
+- **Uninstall** removes the folder and the registry entry; projects keep the copies they made (ADR-0018).
+- Each change sends `packs:changed` to the renderer and calls the main-process listeners of `onPacksChanged` (`src/main/packs/layers.ts`), which the template, prompt, workflow, document and example layers read from.
 
 ## Publishing to the official catalog
 

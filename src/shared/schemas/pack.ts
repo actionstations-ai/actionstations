@@ -578,6 +578,51 @@ export function parseCatalog(data: unknown): CatalogParseResult {
   return { ok: true, catalog: { ...envelope.data, packs }, skipped }
 }
 
+// ---- installed packs: userData/packs/registry.json (#260) ---------------------------------
+
+/** Where an installed pack came from (shown on the Packs screen). */
+export const PackInstallSource = z.discriminatedUnion('kind', [
+  /** Install from file: the file's base name (not its full path). */
+  z.object({ kind: z.literal('file'), name: z.string().min(1).max(255) }),
+  /** Install from URL: the archive URL the user pasted. */
+  z.object({ kind: z.literal('url'), url: z.string().min(1).max(2048) }),
+  /** Install or update from a catalog the user added: the catalog's index.json URL. */
+  z.object({ kind: z.literal('catalog'), url: z.string().min(1).max(2048) }),
+  /** Rebuilt from the pack folder after registry.json was damaged: the origin is not known. */
+  z.object({ kind: z.literal('unknown') }),
+])
+export type PackInstallSource = z.infer<typeof PackInstallSource>
+
+/** An archive sha256, or "unknown" for an entry rebuilt from its folder (no archive left). */
+export const ArchiveSha256 = z.union([Sha256Hex, z.literal('unknown')])
+
+/** One installed pack. Its files are in userData/packs/<id>/<version>/ (read-only). */
+export const PackRegistryEntry = z.object({
+  id: PackId,
+  version: SemVer,
+  enabled: z.boolean(),
+  installedAt: IsoDateTime,
+  source: PackInstallSource,
+  archiveSha256: ArchiveSha256,
+  /** sha256 of the sorted "<sha256>  <path>\n" lines of pack.json files[]. */
+  contentSha256: Sha256Hex,
+  /** The review's item list, kept so the Packs screen and layers need not re-read content. */
+  items: z.array(PackItemSummary).max(PACK_LIMITS.maxFiles).default([]),
+})
+export type PackRegistryEntry = z.infer<typeof PackRegistryEntry>
+
+export const PACK_REGISTRY_VERSION = 1
+/** userData/packs/registry.json, written atomically; one entry per pack id. */
+export const PackRegistry = z
+  .object({
+    registryVersion: z.literal(PACK_REGISTRY_VERSION),
+    packs: z.array(PackRegistryEntry),
+  })
+  .refine((r) => new Set(r.packs.map((p) => p.id)).size === r.packs.length, {
+    message: 'Duplicate pack id in the registry',
+  })
+export type PackRegistry = z.infer<typeof PackRegistry>
+
 // ---- versions -----------------------------------------------------------------------------
 
 function comparePre(a: string | undefined, b: string | undefined): number {

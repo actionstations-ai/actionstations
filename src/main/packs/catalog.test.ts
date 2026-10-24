@@ -217,12 +217,55 @@ describe('update detection', () => {
     entry({ id: 'org.example.other', version: '0.1.0' }),
   ]
 
-  it('picks the highest installable version per id', () => {
+  it('picks the highest installable stable version per id', () => {
     const latest = latestInstallable(entries, '0.3.0')
-    expect(latest.get('org.example.rail')!.version).toBe('1.3.0-beta.1')
+    expect(latest.get('org.example.rail')!.version).toBe('1.2.0')
     expect(latest.get('org.example.other')!.version).toBe('0.1.0')
     expect(latestInstallable(entries, '1.0.0').get('org.example.rail')!.version).toBe('2.0.0')
     expect(latestInstallable(entries, '0.2.0').size).toBe(0)
+  })
+
+  it('offers a prerelease only when the installed version is a prerelease', () => {
+    const onBeta = [{ id: 'org.example.rail', version: '1.1.0-beta.2' }]
+    const rail = (installed: { id: string; version: string }[]) =>
+      latestInstallable(entries, '0.3.0', installed).get('org.example.rail')?.version
+    expect(rail(onBeta)).toBe('1.3.0-beta.1')
+    expect(rail([{ id: 'org.example.rail', version: '1.0.0' }])).toBe('1.2.0')
+    // Another pack on a prerelease does not open prereleases for this one.
+    expect(rail([{ id: 'org.example.other', version: '0.0.9-rc.1' }])).toBe('1.2.0')
+  })
+
+  it('offers a pack with only prereleases at its highest prerelease when not installed', () => {
+    const onlyBeta = [
+      entry({ id: 'org.example.beta', version: '0.1.0-beta.1' }),
+      entry({ id: 'org.example.beta', version: '0.1.0-beta.2' }),
+      entry({ id: 'org.example.beta', version: '0.2.0-beta.1', minAppVersion: '9.0.0' }),
+    ]
+    expect(latestInstallable(onlyBeta, '0.3.0').get('org.example.beta')!.version).toBe(
+      '0.1.0-beta.2',
+    )
+    // Once a stable version exists, a new install gets that instead.
+    const withStable = [...onlyBeta, entry({ id: 'org.example.beta', version: '0.0.9' })]
+    expect(latestInstallable(withStable, '0.3.0').get('org.example.beta')!.version).toBe('0.0.9')
+    // Installed at a stable version: no prerelease, even when no newer stable exists.
+    const stableInstall = [{ id: 'org.example.beta', version: '0.0.9' }]
+    expect(
+      latestInstallable(withStable, '0.3.0', stableInstall).get('org.example.beta')!.version,
+    ).toBe('0.0.9')
+    expect(findUpdates(withStable, stableInstall, '0.3.0')).toEqual([])
+  })
+
+  it('updates a prerelease install to a newer prerelease or to the release', () => {
+    const alpha = [{ id: 'org.example.rail', version: '1.3.0-alpha.1' }]
+    expect(findUpdates(entries, alpha, '0.3.0').map((u) => u.latest.version)).toEqual([
+      '1.3.0-beta.1',
+    ])
+    const released = [...entries, entry({ version: '1.3.0' })]
+    const beta = [{ id: 'org.example.rail', version: '1.3.0-beta.1' }]
+    expect(findUpdates(released, beta, '0.3.0').map((u) => u.latest.version)).toEqual(['1.3.0'])
+    // A stable install is never offered a prerelease, even a higher one.
+    const stable = [{ id: 'org.example.rail', version: '1.2.0' }]
+    expect(findUpdates(entries, stable, '0.3.0')).toEqual([])
   })
 
   it('compares against installed versions', () => {
@@ -236,7 +279,7 @@ describe('update detection', () => {
       '0.3.0',
     )
     expect(updates.map((u) => [u.id, u.installed, u.latest.version])).toEqual([
-      ['org.example.rail', '1.0.0', '1.3.0-beta.1'],
+      ['org.example.rail', '1.0.0', '1.2.0'],
     ])
   })
 })

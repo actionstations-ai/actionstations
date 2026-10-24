@@ -21,6 +21,7 @@ import { createQuitGuard, resetRendererReady } from './lib/quit-guard'
 // instead of crashing later on first use.
 import { listAdapterKinds } from './providers/registry'
 import { shutdownRenderPool } from './render/window'
+import { initPacks } from './packs/state'
 
 // Must run before app ready.
 registerMediaScheme()
@@ -137,6 +138,9 @@ void app.whenReady().then(async () => {
     await finishRenameMigration(app.getPath('userData'), documentsDir()).catch((e: unknown) =>
       console.error('[migration]', e),
     )
+  // Installed packs (#260): clear leftover staging files, verify each pack, register the
+  // enabled packs' domains. Never fetches. A failure leaves the app running without packs.
+  await initPacks().catch((e: unknown) => console.error('[packs]', e))
   createMainWindow()
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createMainWindow()

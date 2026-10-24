@@ -249,16 +249,39 @@ export function isEntryInstallable(entry: PackCatalogEntry, appVersion: string):
   )
 }
 
-/** The highest installable entry per pack id across `entries`. */
+/** Whether a semantic version has a prerelease part ("1.2.0-beta.1"). */
+export const isPrerelease = (version: string): boolean => version.includes('-')
+
+/**
+ * The entry to offer per pack id across `entries` (owner decision, #260), among installable
+ * entries only:
+ * - installed at a prerelease: the highest version, prereleases included;
+ * - installed at a stable version: the highest stable version (never a prerelease);
+ * - not installed: the highest stable version, or the highest prerelease when the pack has
+ *   no stable version.
+ */
 export function latestInstallable(
   entries: readonly PackCatalogEntry[],
   appVersion: string,
+  installed: readonly InstalledPackRef[] = [],
 ): Map<string, PackCatalogEntry> {
-  const best = new Map<string, PackCatalogEntry>()
+  const higher = (m: Map<string, PackCatalogEntry>, e: PackCatalogEntry) => {
+    const cur = m.get(e.id)
+    if (!cur || compareSemver(e.version, cur.version) > 0) m.set(e.id, e)
+  }
+  const stable = new Map<string, PackCatalogEntry>()
+  const any = new Map<string, PackCatalogEntry>()
   for (const e of entries) {
     if (!isEntryInstallable(e, appVersion)) continue
-    const cur = best.get(e.id)
-    if (!cur || compareSemver(e.version, cur.version) > 0) best.set(e.id, e)
+    higher(any, e)
+    if (!isPrerelease(e.version)) higher(stable, e)
+  }
+  const installedVersion = new Map(installed.map((p) => [p.id, p.version]))
+  const best = new Map<string, PackCatalogEntry>()
+  for (const [id, top] of any) {
+    const v = installedVersion.get(id)
+    const pick = v === undefined ? (stable.get(id) ?? top) : isPrerelease(v) ? top : stable.get(id)
+    if (pick) best.set(id, pick)
   }
   return best
 }
@@ -269,7 +292,7 @@ export function findUpdates(
   installed: readonly InstalledPackRef[],
   appVersion: string,
 ): PackUpdate[] {
-  const latest = latestInstallable(entries, appVersion)
+  const latest = latestInstallable(entries, appVersion, installed)
   const out: PackUpdate[] = []
   for (const p of installed) {
     const l = latest.get(p.id)
