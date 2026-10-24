@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Security advisory",
+  "description": "Cybersecurity advisory as players receive it. Variant 'agency' is a CISA / sector ISAC advisory with Traffic Light Protocol (TLP 2.0) banners at top and bottom, summary, technical details, indicators of compromise and mitigations. Variant 'vendor' is a vendor PSIRT advisory with a header table (ID, severity, CVSS, CVEs), affected and fixed versions and workarounds. Indicators use documentation IP ranges (192.0.2.x, 198.51.100.x, 203.0.113.x) and .example domains. One Letter page: keep the text short.",
+  "type": "object",
+  "required": ["publisher", "advisoryId", "title", "tlp", "released", "summary"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "publisher": {
+      "type": "string",
+      "description": "Issuing agency, ISAC or vendor PSIRT",
+      "examples": ["Cybersecurity and Infrastructure Security Agency", "E-ISAC", "FS-ISAC"]
+    },
+    "coAuthors": {
+      "type": "string",
+      "description": "Co-sealing agencies (agency variant)",
+      "examples": ["FBI · MS-ISAC"]
+    },
+    "advisoryId": {
+      "type": "string",
+      "description": "Advisory identifier",
+      "examples": ["AA26-294A", "HRN-SA-2026-0117"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Advisory title",
+      "examples": ["Threat Actors Exploit Remote Access Gateway Vulnerability to Deploy Ransomware"]
+    },
+    "tlp": {
+      "type": "string",
+      "enum": ["CLEAR", "GREEN", "AMBER", "AMBER+STRICT", "RED"],
+      "description": "Traffic Light Protocol 2.0 marking",
+      "examples": ["CLEAR"]
+    },
+    "released": {
+      "type": "string",
+      "description": "Release date",
+      "examples": ["October 21, 2026"]
+    },
+    "updated": {
+      "type": "string",
+      "description": "Last revised date",
+      "examples": ["October 22, 2026"]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["Critical", "High", "Medium", "Low"],
+      "description": "Severity rating",
+      "examples": ["Critical"]
+    },
+    "cvss": { "type": "string", "description": "CVSS v3.1 or v4 base score", "examples": ["9.8"] },
+    "cves": {
+      "type": "array",
+      "description": "CVE identifiers",
+      "maxItems": 4,
+      "items": { "type": "string", "description": "CVE id" },
+      "examples": [["CVE-2026-41877"]]
+    },
+    "affectedProducts": {
+      "type": "array",
+      "description": "Affected products and versions",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["product", "versions"],
+        "properties": {
+          "product": {
+            "type": "string",
+            "description": "Product name",
+            "examples": ["Halyard Remote Access Gateway"]
+          },
+          "versions": {
+            "type": "string",
+            "description": "Affected versions",
+            "examples": ["7.2.0 – 7.4.3"]
+          },
+          "fixed": { "type": "string", "description": "First fixed version", "examples": ["7.4.4"] }
+        }
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "Summary paragraph",
+      "examples": ["CISA and FBI are aware of active exploitation of CVE-2026-41877."]
+    },
+    "technicalDetails": {
+      "type": "string",
+      "description": "Technical details paragraph (attack chain, ATT&CK techniques)",
+      "examples": ["Actors send a crafted request to /api/v1/session that bypasses authentication."]
+    },
+    "iocs": {
+      "type": "array",
+      "description": "Indicators of compromise",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "value"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Indicator type",
+            "examples": ["IPv4", "Domain", "SHA-256", "File path"]
+          },
+          "value": { "type": "string", "description": "Indicator", "examples": ["203.0.113.47"] },
+          "note": { "type": "string", "description": "Context", "examples": ["C2 server"] }
+        }
+      }
+    },
+    "mitigations": {
+      "type": "array",
+      "description": "Recommended actions",
+      "maxItems": 7,
+      "items": { "type": "string", "description": "Action" },
+      "examples": [["Upgrade to version 7.4.4 immediately."]]
+    },
+    "contact": {
+      "type": "string",
+      "description": "How to report",
+      "examples": ["Report incidents to CISA at report.cisa.gov or (888) 282-0870."]
+    }
+  },
+  "additionalProperties": false
+}

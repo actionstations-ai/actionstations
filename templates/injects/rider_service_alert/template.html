@@ -1,0 +1,99 @@
+<div class="phone v-{{default variant 'web'}}">
+  <div class="statusbar">
+    <b>{{default fields.clock "9:41"}}</b>
+    <span class="sb-icons" aria-hidden="true"
+      ><svg viewBox="0 0 18 12">
+        <rect x="0" y="8" width="3" height="4" />
+        <rect x="5" y="5" width="3" height="7" />
+        <rect x="10" y="2.5" width="3" height="9.5" />
+        <rect x="15" y="0" width="3" height="12" /></svg
+      ><svg viewBox="0 0 26 12">
+        <rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" />
+        <rect x="2.5" y="2.5" width="14" height="7" rx="1.5" />
+        <rect x="23.5" y="4" width="2" height="4" rx="1" /></svg
+    ></span>
+  </div>
+
+  {{#if (eq variant "app")}}
+  <div class="app-nav">
+    <span class="back">‹ Back</span>
+    <span class="app-title">Service alert</span>
+    <span class="share">Share</span>
+  </div>
+  {{else}}
+  <div class="web-head">
+    <span class="web-logo"
+      ><i>{{initials (default fields.agency brand.aliases.org)}}</i>{{default fields.agency (default
+      brand.aliases.org "Transit")}}</span
+    >
+    <span class="menu" aria-hidden="true"><i></i><i></i><i></i></span>
+  </div>
+  <div class="crumbs">Rider Tools › Service Alerts</div>
+  {{/if}}
+
+  <article class="alert eff-{{fields.effect}}">
+    <div class="routes">
+      {{#each fields.routes}}
+      <span class="route m-{{default mode 'bus'}}" style="--rc: {{default color '#3d4752'}}"
+        >{{id}}</span
+      >
+      {{/each}}
+      <span class="effect">
+        {{#if (eq fields.effect "NO_SERVICE")}}Suspended{{else if (eq fields.effect
+        "REDUCED_SERVICE")}}Reduced service{{else if (eq fields.effect
+        "SIGNIFICANT_DELAYS")}}Delays{{else if (eq fields.effect "DETOUR")}}Detour{{else if (eq
+        fields.effect "ADDITIONAL_SERVICE")}}Additional service{{else if (eq fields.effect
+        "MODIFIED_SERVICE")}}Service change{{else if (eq fields.effect "STOP_MOVED")}}Stop
+        moved{{else if (eq fields.effect "SHUTTLE")}}Shuttle bus{{else if (eq fields.effect
+        "ACCESSIBILITY_ISSUE")}}Accessibility{{else}}Alert{{/if}}
+      </span>
+    </div>
+
+    <h1>{{fields.headline}}</h1>
+
+    {{#if fields.activePeriod}}
+    <div class="when">
+      <svg viewBox="0 0 16 16" aria-hidden="true">
+        <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.4" />
+        <path d="M8 4.5V8l2.5 1.5" fill="none" stroke="currentColor" stroke-width="1.4" />
+      </svg>
+      {{fields.activePeriod}}
+    </div>
+    {{/if}} {{#if fields.description}}
+    <p class="desc">{{fields.description}}</p>
+    {{/if}} {{#if fields.alternatives}}
+    <h2>Travel alternatives</h2>
+    <ul class="alts">
+      {{#each fields.alternatives}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    {{/if}}
+
+    <div class="foot">
+      {{#if fields.cause}}<span
+        >Cause: {{#if (eq fields.cause "TECHNICAL_PROBLEM")}}Technical problem{{else if (eq
+        fields.cause "POLICE_ACTIVITY")}}Police activity{{else if (eq fields.cause
+        "MEDICAL_EMERGENCY")}}Medical emergency{{else if (eq fields.cause
+        "ACCIDENT")}}Accident{{else if (eq fields.cause "WEATHER")}}Weather{{else if (eq
+        fields.cause "MAINTENANCE")}}Maintenance{{else if (eq fields.cause
+        "CONSTRUCTION")}}Construction{{else if (eq fields.cause "STRIKE")}}Labor action{{else if (eq
+        fields.cause "DEMONSTRATION")}}Demonstration{{else if (eq fields.cause
+        "HOLIDAY")}}Holiday{{else}}Under investigation{{/if}}</span
+      >{{/if}} {{#if fields.updatedAt}}<span>Updated {{fields.updatedAt}}</span>{{/if}} {{#if
+      fields.alertId}}<span class="id">{{fields.alertId}}</span>{{/if}}
+    </div>
+  </article>
+
+  {{#if (eq variant "app")}}
+  <div class="app-actions">
+    <span class="btn primary">Plan a new trip</span>
+    <span class="btn">Get alerts for these lines</span>
+  </div>
+  {{else}}
+  <div class="web-actions">
+    <span>Sign up for text and email alerts</span>
+    <span>See all alerts ›</span>
+  </div>
+  {{/if}}
+</div>

@@ -1,0 +1,110 @@
+<!-- FEMA ICS Form 214 (Activity Log), page 1 on one US Letter page. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="row hdr">
+      <div class="cell form-title">ACTIVITY LOG (ICS 214)</div>
+      <div class="cell h-name">
+        <b>1. Incident Name:</b>
+        <span class="v blk">{{fields.incidentName}}</span>
+      </div>
+      <div class="cell h-op">
+        <b>2. Operational Period:</b>
+        <div class="op">
+          <span>From:</span
+          ><span class="line"><span class="v">{{fields.opPeriod.from}}</span></span>
+        </div>
+        <div class="op">
+          <span>To:</span><span class="line"><span class="v">{{fields.opPeriod.to}}</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell w3">
+        <b>3. Name:</b>
+        <span class="v blk">{{fields.name}}</span>
+      </div>
+      <div class="cell w3">
+        <b>4. ICS Position:</b>
+        <span class="v blk">{{fields.icsPosition}}</span>
+      </div>
+      <div class="cell w3">
+        <b>5. Home Agency (and Unit):</b>
+        <span class="v blk">{{fields.homeAgency}}</span>
+      </div>
+    </div>
+    <div class="sec-cap"><b>6. Resources Assigned:</b></div>
+    <div class="wrap res-wrap">
+      <table class="grid res">
+        <thead>
+          <tr>
+            <th class="c-name">Name</th>
+            <th class="c-pos">ICS Position</th>
+            <th>Home Agency (and Unit)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.resources}}
+          <tr>
+            <td><span class="v">{{this.name}}</span></td>
+            <td><span class="v">{{this.position}}</span></td>
+            <td><span class="v">{{this.agency}}</span></td>
+          </tr>
+          {{/each}} {{#times 6}}
+          <tr class="empty">
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </div>
+    <div class="sec-cap"><b>7. Activity Log:</b></div>
+    <div class="wrap log-wrap">
+      <table class="grid log">
+        <thead>
+          <tr>
+            <th class="c-time">Date/Time</th>
+            <th>Notable Activities</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.entries}}
+          <tr>
+            <td><span class="v">{{this.time}}</span></td>
+            <td><span class="v">{{this.activity}}</span></td>
+          </tr>
+          {{/each}} {{#times 24}}
+          <tr class="empty">
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </div>
+    <div class="row sign">
+      <div class="cell s">
+        <b>8. Prepared by:</b> Name:
+        <span class="line"><span class="v">{{fields.preparedBy.name}}</span></span>
+      </div>
+      <div class="cell s">
+        Position/Title:
+        <span class="line"><span class="v">{{fields.preparedBy.position}}</span></span>
+      </div>
+      <div class="cell s">
+        Signature:
+        <span class="line"><span class="v hand">{{fields.preparedBy.signature}}</span></span>
+      </div>
+    </div>
+    <div class="row foot">
+      <div class="cell formid"><b>ICS 214, Page 1</b></div>
+      <div class="cell fdt">
+        Date/Time:
+        <span class="line"><span class="v">{{fields.preparedBy.dateTime}}</span></span>
+      </div>
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

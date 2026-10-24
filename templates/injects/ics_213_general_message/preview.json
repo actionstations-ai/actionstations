@@ -1,0 +1,24 @@
+{
+  "variant": "default",
+  "fields": {
+    "incidentName": "Milford Water - SCADA Intrusion",
+    "to": { "name": "Dana Whitfield", "position": "Incident Commander" },
+    "from": { "name": "Luis Ortega", "position": "Operations Section Chief" },
+    "subject": "Request: manual chlorine feed at Pump Station 3 and second field crew",
+    "date": "10/21/2026",
+    "time": "1420",
+    "message": "At 1405 the HMI at Pump Station 3 showed the sodium hypochlorite feed setpoint changed from 1.8 to 0.0 mg/L. Nobody on shift made the change. Field crew (Unit W-12) confirms free chlorine residual at the PS-3 discharge is 0.2 mg/L and falling.\n\nRequest approval to:\n1. Take PS-3 chemical feed off SCADA and run it in local/manual.\n2. Send a second crew with a portable analyzer to sample at Hillcrest Reservoir and the Elm St. tank.\n3. Notify the State Drinking Water Program duty officer if residual drops below 0.2 mg/L at any entry point.\n\nIT has isolated the plant HMI workstation from the business network. Do not reboot it; forensics needed.",
+    "approvedBy": {
+      "name": "Luis Ortega",
+      "signature": "L. Ortega",
+      "position": "Operations Section Chief"
+    },
+    "reply": "Approved items 1 and 2. Hold item 3 until the 1500 sample results are in. PIO to draft a precautionary notice in case we need it.",
+    "repliedBy": {
+      "name": "Dana Whitfield",
+      "position": "Incident Commander",
+      "signature": "D. Whitfield",
+      "dateTime": "10/21/2026 1431"
+    }
+  }
+}

@@ -1,0 +1,322 @@
+/* Public status page (hosted Statuspage-style layout) and the organization's own site with an
+   outage banner. 900 px browser window. */
+.browser {
+  width: 900px;
+  background: #fff;
+  color: #333;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+}
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 42px;
+  padding: 0 14px;
+  background: #e8eaed;
+  border-bottom: 1px solid #cfd3d8;
+}
+.dots {
+  display: flex;
+  gap: 7px;
+}
+.dots i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #c4c8cd;
+}
+.addr {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  padding: 0 12px;
+  background: #fff;
+  border-radius: 14px;
+  color: #3c4043;
+  font-size: 13.5px;
+}
+.addr svg {
+  width: 13px;
+  height: 13px;
+  color: #5f6368;
+}
+/* colours per status */
+.st-operational,
+.cs-operational {
+  --c: #2fcc66;
+}
+.st-degraded,
+.cs-degraded {
+  --c: #f1c40f;
+}
+.st-partial_outage,
+.cs-partial_outage {
+  --c: #e67e22;
+}
+.st-major_outage,
+.cs-major_outage {
+  --c: #e74c3c;
+}
+.st-maintenance,
+.cs-maintenance {
+  --c: #3498db;
+}
+.cs-degraded {
+  --c: #b08900;
+}
+.cs {
+  color: var(--c);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* ---- status page ---- */
+.page {
+  padding: 34px 60px 26px;
+  background: #fff;
+}
+.sp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 34px;
+}
+.sp-logo,
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 22px;
+  color: #1d3557;
+}
+.sp-logo i,
+.site-logo i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #1d3557;
+  color: #fff;
+  font-style: normal;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+.subscribe {
+  padding: 9px 16px;
+  background: #1d3557;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.overall {
+  padding: 16px 20px;
+  background: var(--c);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 4px;
+  margin-bottom: 26px;
+}
+.incident {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+.incident h2 {
+  margin: 0;
+  padding: 14px 20px;
+  background: var(--c);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+}
+.update {
+  display: flex;
+  gap: 18px;
+  padding: 14px 20px;
+  border-top: 1px solid #ececec;
+}
+.update:first-of-type {
+  border-top: 0;
+}
+.u-label {
+  flex: 0 0 104px;
+  font-weight: 700;
+  color: #333;
+}
+.u-body p {
+  margin: 0 0 5px;
+  line-height: 1.5;
+}
+.u-body small {
+  color: #999;
+  font-size: 12.5px;
+}
+.components {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+.group {
+  padding: 13px 20px;
+  font-weight: 600;
+  border-bottom: 1px solid #e0e0e0;
+  background: #fafafa;
+}
+.comp {
+  display: flex;
+  justify-content: space-between;
+  padding: 13px 20px;
+  border-top: 1px solid #ececec;
+}
+.group + .comp,
+.components > .comp:first-child {
+  border-top: 0;
+}
+.sp-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 26px;
+  color: #999;
+  font-size: 13px;
+}
+
+/* ---- site banner ---- */
+.site {
+  background: #f5f7fa;
+  padding-bottom: 26px;
+}
+.outage-banner {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px 28px;
+  background: #b42318;
+  color: #fff;
+}
+.outage-banner.st-degraded,
+.outage-banner.st-maintenance {
+  background: #b54708;
+}
+.outage-banner svg {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  margin-top: 2px;
+}
+.outage-banner strong {
+  display: block;
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+.outage-banner p {
+  margin: 0 0 4px;
+  line-height: 1.45;
+  font-size: 14.5px;
+}
+.outage-banner small {
+  opacity: 0.85;
+  font-size: 12.5px;
+}
+.site-head {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 16px 28px;
+  background: #fff;
+  border-bottom: 1px solid #e3e7ec;
+}
+.site-logo {
+  font-size: 18px;
+}
+.site-head nav {
+  flex: 1;
+  display: flex;
+  gap: 22px;
+  color: #475467;
+  font-size: 14px;
+}
+.login {
+  padding: 8px 18px;
+  border: 1px solid #1d3557;
+  color: #1d3557;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 34px 28px;
+  background: #1d3557;
+  color: #fff;
+}
+.hero h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  max-width: 380px;
+}
+.login-card {
+  width: 320px;
+  padding: 20px;
+  background: #fff;
+  color: #344054;
+  border-radius: 6px;
+}
+.login-card label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+.input {
+  height: 34px;
+  border: 1px solid #d0d5dd;
+  border-radius: 4px;
+  background: #f2f4f7;
+  margin-bottom: 12px;
+}
+.disabled {
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+  border-radius: 4px;
+  background: #d0d5dd;
+  color: #fff;
+  font-weight: 600;
+}
+.unavail {
+  margin: 10px 0 0;
+  color: #b42318;
+  font-size: 13px;
+  font-weight: 600;
+}
+.site-list {
+  margin: 24px 28px 0;
+  background: #fff;
+  border: 1px solid #e3e7ec;
+  border-radius: 6px;
+  padding: 6px 20px 8px;
+}
+.site-list h3 {
+  margin: 10px 0 6px;
+  font-size: 16px;
+}
+.site-list .row {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-top: 1px solid #f0f2f5;
+  font-size: 14px;
+}

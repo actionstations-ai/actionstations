@@ -1,0 +1,125 @@
+<div class="browser">
+  <div class="chrome">
+    <span class="dots"><i></i><i></i><i></i></span>
+    <span class="addr"
+      ><svg viewBox="0 0 16 16" aria-hidden="true">
+        <rect x="3.5" y="7" width="9" height="6.5" rx="1" fill="currentColor" />
+        <path
+          d="M5.5 7V5a2.5 2.5 0 015 0v2"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+        /></svg
+      >{{default fields.url (default brand.aliases.orgDomain "status.example")}}</span
+    >
+  </div>
+
+  {{#if (eq variant "site_banner")}}
+  <div class="site">
+    <div class="outage-banner st-{{fields.overallStatus}}">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2.5l10 18H2z" fill="#fff" />
+        <path d="M12 9v5.5M12 16.8v1.6" stroke="#b42318" stroke-width="2.2" />
+      </svg>
+      <div>
+        <strong>{{fields.incidentTitle}}</strong>
+        <p>{{fields.updates.0.text}}</p>
+        <small>Updated {{fields.updates.0.time}}</small>
+      </div>
+    </div>
+    <header class="site-head">
+      <span class="site-logo"
+        ><i>{{initials (default fields.orgName brand.aliases.org)}}</i>{{default fields.orgName
+        (default brand.aliases.org "Our Organization")}}</span
+      >
+      <nav>
+        <span>Accounts</span><span>Services</span><span>Locations</span><span>Help</span
+        ><span>About</span>
+      </nav>
+      <span class="login">Log in</span>
+    </header>
+    <div class="hero">
+      <h2>{{default fields.serviceName "Online services"}}</h2>
+      <div class="login-card">
+        <label>Username</label>
+        <div class="input"></div>
+        <label>Password</label>
+        <div class="input"></div>
+        <div class="disabled">Sign in</div>
+        <p class="unavail">Sign-in is temporarily unavailable.</p>
+      </div>
+    </div>
+    {{#if fields.components}}
+    <div class="site-list">
+      <h3>Service status</h3>
+      {{#each fields.components}}
+      <div class="row">
+        <span>{{name}}</span
+        ><b class="cs cs-{{status}}"
+          >{{#if (eq status "operational")}}Available{{else if (eq status "degraded")}}Slow /
+          intermittent{{else if (eq status "partial_outage")}}Partly unavailable{{else if (eq status
+          "maintenance")}}Maintenance{{else}}Unavailable{{/if}}</b
+        >
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
+  </div>
+  {{else}}
+  <div class="page">
+    <header class="sp-head">
+      <span class="sp-logo"
+        ><i>{{initials (default fields.orgName brand.aliases.org)}}</i>{{default fields.orgName
+        (default brand.aliases.org "Status")}}</span
+      >
+      <span class="subscribe">Subscribe to updates</span>
+    </header>
+
+    <div class="overall st-{{fields.overallStatus}}">
+      {{#if (eq fields.overallStatus "operational")}}All Systems Operational{{else if (eq
+      fields.overallStatus "degraded")}}Degraded Performance{{else if (eq fields.overallStatus
+      "partial_outage")}}Partial System Outage{{else if (eq fields.overallStatus
+      "maintenance")}}Scheduled Maintenance in Progress{{else}}Major System Outage{{/if}}
+    </div>
+
+    <section class="incident st-{{fields.overallStatus}}">
+      <h2>{{fields.incidentTitle}}</h2>
+      {{#each fields.updates}}
+      <div class="update">
+        <div class="u-label">
+          {{#if (eq status "investigating")}}Investigating{{else if (eq status
+          "identified")}}Identified{{else if (eq status "monitoring")}}Monitoring{{else if (eq
+          status "resolved")}}Resolved{{else}}Update{{/if}}
+        </div>
+        <div class="u-body">
+          <p>{{text}}</p>
+          <small>Posted {{time}}</small>
+        </div>
+      </div>
+      {{/each}}
+    </section>
+
+    {{#if fields.components}}
+    <section class="components">
+      {{#if fields.serviceName}}
+      <div class="group">{{fields.serviceName}}</div>
+      {{/if}} {{#each fields.components}}
+      <div class="comp">
+        <span>{{name}}</span>
+        <b class="cs cs-{{status}}"
+          >{{#if (eq status "operational")}}Operational{{else if (eq status "degraded")}}Degraded
+          Performance{{else if (eq status "partial_outage")}}Partial Outage{{else if (eq status
+          "maintenance")}}Under Maintenance{{else}}Major Outage{{/if}}</b
+        >
+      </div>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    <footer class="sp-foot">
+      <span>← Incident History</span>
+      <span>Powered by Statuspage</span>
+    </footer>
+  </div>
+  {{/if}}
+</div>

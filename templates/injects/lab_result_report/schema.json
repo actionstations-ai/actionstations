@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Laboratory result report",
+  "description": "Certified laboratory analytical report / certificate of analysis: lab letterhead with certification number, client and sample details, a results table with limits, methods and flags, comments and the reviewer's approval. Drinking-water compliance samples (total coliform / E. coli, chlorine, nitrate), food certificates of analysis, environmental or public-health specimens. Lab and client are simulated; methods (EPA, SM, AOAC, FDA BAM) are real.",
+  "type": "object",
+  "required": ["labName", "results"],
+  "properties": {
+    "labName": {
+      "type": "string",
+      "description": "Laboratory name (simulated)",
+      "examples": ["Great Lakes Analytical Laboratories"]
+    },
+    "labAddress": {
+      "type": "string",
+      "description": "Laboratory address and phone",
+      "examples": ["4100 Industrial Pkwy, Riverbend · (555) 013-7720"]
+    },
+    "labCertId": {
+      "type": "string",
+      "description": "State certification or accreditation number",
+      "examples": ["State Cert. No. 4127 · NELAP E87701"]
+    },
+    "reportTitle": {
+      "type": "string",
+      "description": "Report title",
+      "examples": ["Analytical Report", "Certificate of Analysis"]
+    },
+    "reportNo": {
+      "type": "string",
+      "description": "Lab work order or report number",
+      "examples": ["WO 26-10-3381"]
+    },
+    "client": {
+      "type": "string",
+      "description": "Client the report is for (the exercising organization)",
+      "examples": ["City of Milford Water Department"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Facility, system or lot (for drinking water include the PWS ID)",
+      "examples": ["Milford PWS ID OH5500412"]
+    },
+    "sampleId": {
+      "type": "string",
+      "description": "Lab sample ID",
+      "examples": ["26J2104-03"]
+    },
+    "sampleLocation": {
+      "type": "string",
+      "description": "Where the sample was taken",
+      "examples": ["Site RT-14, 812 Elm St (routine distribution sample)"]
+    },
+    "matrix": {
+      "type": "string",
+      "description": "Sample matrix",
+      "examples": ["Drinking water", "Ready-to-eat deli meat"]
+    },
+    "sampledBy": {
+      "type": "string",
+      "description": "Who collected the sample",
+      "examples": ["J. Alvarez (client)"]
+    },
+    "sampledAt": {
+      "type": "string",
+      "description": "Date and time collected",
+      "examples": ["10/20/2026 08:15"]
+    },
+    "receivedAt": {
+      "type": "string",
+      "description": "Date and time received at the lab (and temperature)",
+      "examples": ["10/20/2026 10:40 (4.1 °C)"]
+    },
+    "reportedAt": {
+      "type": "string",
+      "description": "Date the report was issued",
+      "examples": ["10/21/2026 13:05"]
+    },
+    "results": {
+      "type": "array",
+      "description": "Analytical results, one row per analyte (1-10)",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "properties": {
+          "analyte": {
+            "type": "string",
+            "description": "Analyte or test",
+            "examples": ["Total coliform"]
+          },
+          "result": {
+            "type": "string",
+            "description": "Result as reported",
+            "examples": ["Present", "0.12", "<0.05"]
+          },
+          "units": { "type": "string", "description": "Units", "examples": ["P/A", "mg/L"] },
+          "limit": {
+            "type": "string",
+            "description": "Regulatory limit (MCL / action level / specification)",
+            "examples": ["Absent", "10", "0.2 min"]
+          },
+          "method": {
+            "type": "string",
+            "description": "Analytical method",
+            "examples": ["SM 9223 B", "EPA 300.0"]
+          },
+          "flag": {
+            "type": "string",
+            "description": "Qualifier: POS (positive), H (exceeds limit), L (below minimum), J (estimated), or empty",
+            "examples": ["POS"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "comments": {
+      "type": "string",
+      "description": "Lab comments (positive notification, repeat sampling required, holding times)",
+      "examples": [
+        "E. coli positive. Client notified by phone 10/21/2026 12:50 (spoke with J. Alvarez)."
+      ]
+    },
+    "approvedBy": {
+      "type": "string",
+      "description": "Reviewer who approved the report (name, title)",
+      "examples": ["Helen Marsh, Laboratory Director"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above and below the report",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    }
+  },
+  "additionalProperties": false
+}

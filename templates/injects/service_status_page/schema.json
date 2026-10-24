@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Public status page / outage banner",
+  "description": "What customers see when a service is down. Variant 'status_page' renders a hosted public status page (incident box with timestamped updates, component list); variant 'site_banner' renders the organization's own website or portal with an outage banner on top, using incidentTitle and the newest update. Used by data centers / SaaS, carriers, banks (online banking), hospitals (patient portal), cities and campuses.",
+  "type": "object",
+  "required": ["orgName", "overallStatus", "incidentTitle", "updates"],
+  "additionalProperties": false,
+  "properties": {
+    "orgName": {
+      "type": "string",
+      "description": "Organization that runs the service",
+      "examples": ["Lakeshore Federal Credit Union", "Northline Data Centers"]
+    },
+    "serviceName": {
+      "type": "string",
+      "description": "Service or product name shown on the page",
+      "examples": ["Online & Mobile Banking", "MyChart patient portal"]
+    },
+    "overallStatus": {
+      "type": "string",
+      "enum": ["operational", "degraded", "partial_outage", "major_outage", "maintenance"],
+      "description": "Overall status shown in the status bar",
+      "examples": ["major_outage"]
+    },
+    "incidentTitle": {
+      "type": "string",
+      "description": "Title of the open incident",
+      "examples": ["Online and mobile banking unavailable"]
+    },
+    "components": {
+      "type": "array",
+      "description": "Components and their status (up to 8)",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Component name",
+            "examples": ["Mobile app login"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["operational", "degraded", "partial_outage", "major_outage", "maintenance"],
+            "description": "Component status",
+            "examples": ["major_outage"]
+          }
+        }
+      }
+    },
+    "updates": {
+      "type": "array",
+      "description": "Incident updates, newest first (up to 5)",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "time", "text"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["investigating", "identified", "monitoring", "update", "resolved"],
+            "description": "Update label",
+            "examples": ["investigating"]
+          },
+          "time": {
+            "type": "string",
+            "description": "When the update was posted",
+            "examples": ["Oct 21, 2026 - 07:42 EDT"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Update text as posted",
+            "examples": [
+              "We are investigating reports that members cannot log in to online or mobile banking."
+            ]
+          }
+        }
+      }
+    },
+    "url": {
+      "type": "string",
+      "description": "Address shown in the browser bar",
+      "examples": ["status.lakeshorefcu.example"]
+    }
+  }
+}

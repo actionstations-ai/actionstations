@@ -1,0 +1,104 @@
+{
+  "variant": "dark",
+  "fields": {
+    "systemName": "UNIT 2 DCS — ALARM SUMMARY",
+    "site": "Lakeshore Chemical · Milford Works · Unit 2 Control Room",
+    "clock": "03:17:42",
+    "date": "21-Oct-2026",
+    "operator": "BOARD_OP_2",
+    "filter": "All areas · Active + Unacknowledged · Sorted by time",
+    "counts": { "critical": 3, "high": 9, "medium": 17, "low": 22 },
+    "alarms": [
+      {
+        "time": "03:17:21",
+        "priority": "critical",
+        "tag": "TI-2104",
+        "source": "U2 REACTOR",
+        "description": "REACTOR R-201 OUTLET TEMP HI-HI",
+        "value": "412.6 °F",
+        "state": "active"
+      },
+      {
+        "time": "03:17:19",
+        "priority": "critical",
+        "tag": "XV-2110",
+        "source": "U2 REACTOR",
+        "description": "EMERGENCY VENT VALVE FAILED TO OPEN",
+        "value": "CLOSED",
+        "state": "active"
+      },
+      {
+        "time": "03:17:02",
+        "priority": "high",
+        "tag": "FIC-2031",
+        "source": "U2 COOLING",
+        "description": "COOLING WATER FLOW LO — CONTROLLER IN MAN",
+        "value": "212 gpm",
+        "state": "active"
+      },
+      {
+        "time": "03:16:48",
+        "priority": "critical",
+        "tag": "SIS-2-01",
+        "source": "U2 SIS",
+        "description": "SIS LOGIC SOLVER COMM FAULT — BYPASS ACTIVE",
+        "value": "BYPASS",
+        "state": "acked"
+      },
+      {
+        "time": "03:16:31",
+        "priority": "high",
+        "tag": "PI-2207",
+        "source": "U2 REACTOR",
+        "description": "R-201 PRESSURE HI",
+        "value": "148.2 psig",
+        "state": "active"
+      },
+      {
+        "time": "03:15:57",
+        "priority": "medium",
+        "tag": "TV-2104",
+        "source": "U2 COOLING",
+        "description": "SETPOINT CHANGE FROM REMOTE SESSION ENG-WS-07",
+        "value": "SP 95 → 140",
+        "state": "acked"
+      },
+      {
+        "time": "03:15:40",
+        "priority": "medium",
+        "tag": "LI-2302",
+        "source": "U2 FEED",
+        "description": "FEED DRUM D-230 LEVEL LO",
+        "value": "22.4 %",
+        "state": "rtn"
+      },
+      {
+        "time": "03:14:12",
+        "priority": "high",
+        "tag": "HS-NET-02",
+        "source": "CONTROL NET",
+        "description": "CONTROLLER C300-2B REDUNDANCY LOST",
+        "value": "PRI ONLY",
+        "state": "acked"
+      },
+      {
+        "time": "03:12:05",
+        "priority": "low",
+        "tag": "AI-2501",
+        "source": "U2 FLARE",
+        "description": "FLARE PILOT ANALYZER DIAGNOSTIC",
+        "value": "BAD PV",
+        "state": "shelved"
+      },
+      {
+        "time": "03:09:44",
+        "priority": "low",
+        "tag": "ENG-WS-07",
+        "source": "SYSTEM",
+        "description": "ENGINEERING WORKSTATION LOGIN — VENDOR REMOTE ACCESS",
+        "state": "acked"
+      }
+    ],
+    "footer": "Alarm flood: 38 alarms in the last 10 min (target ≤ 10)"
+  }
+}

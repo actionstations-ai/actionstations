@@ -1,0 +1,102 @@
+<section class="console">
+  <header class="title">
+    <span class="mark" aria-hidden="true"
+      ><svg viewBox="0 0 24 24">
+        <path d="M12 3l9 16H3z" fill="none" stroke="currentColor" stroke-width="2" />
+        <path d="M12 9v5M12 16.5v1.5" stroke="currentColor" stroke-width="2" /></svg
+    ></span>
+    <h1>{{default fields.systemName "ALARM SUMMARY"}}</h1>
+    <!-- prettier-ignore -->
+    <span class="site">{{default fields.site (default brand.aliases.org "Control Room")}}</span>
+    <span class="spacer"></span>
+    {{#if fields.operator}}<span class="op">Operator <b>{{fields.operator}}</b></span
+    >{{/if}}
+    <span class="clock"
+      ><b>{{fields.clock}}</b>{{#if fields.date}}<small>{{fields.date}}</small>{{/if}}</span
+    >
+  </header>
+
+  <nav class="menu">
+    <span>Overview</span><span class="on">Alarm Summary</span><span>Events</span><span>Shelved</span
+    ><span>Trends</span><span>Reports</span>
+  </nav>
+
+  {{#if fields.counts}}
+  <div class="tiles">
+    <div class="tile p-critical">
+      <i class="pri p-critical"><b>1</b></i
+      ><span>Critical</span><strong>{{default fields.counts.critical 0}}</strong>
+    </div>
+    <div class="tile p-high">
+      <i class="pri p-high"><b>2</b></i
+      ><span>High</span><strong>{{default fields.counts.high 0}}</strong>
+    </div>
+    <div class="tile p-medium">
+      <i class="pri p-medium"><b>3</b></i
+      ><span>Medium</span><strong>{{default fields.counts.medium 0}}</strong>
+    </div>
+    <div class="tile p-low">
+      <i class="pri p-low"><b>4</b></i
+      ><span>Low</span><strong>{{default fields.counts.low 0}}</strong>
+    </div>
+  </div>
+  {{/if}}
+
+  <div class="toolbar">
+    <span class="filter">Filter: {{default fields.filter "All areas · All priorities"}}</span>
+    <span class="spacer"></span>
+    <span class="btn">Acknowledge Page</span><span class="btn">Silence</span
+    ><span class="btn">Shelve…</span><span class="btn">Detail</span>
+  </div>
+
+  <table class="list">
+    <thead>
+      <tr>
+        <th class="c-ack"></th>
+        <th class="c-pri">Pri</th>
+        <th class="c-time">Time</th>
+        <th class="c-tag">Tag</th>
+        <th class="c-src">Area / Source</th>
+        <th>Description</th>
+        <th class="c-val">Value</th>
+        <th class="c-state">State</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.alarms}}
+      <tr class="s-{{default state 'active'}} p-{{priority}}">
+        <td class="c-ack">
+          {{#if (eq (default state 'active') 'active')}}<span
+            class="bell"
+            aria-label="unacknowledged"
+          ></span
+          >{{/if}}
+        </td>
+        <td class="c-pri">
+          <i class="pri p-{{priority}}"
+            ><b
+              >{{#if (eq priority 'critical')}}1{{else if (eq priority 'high')}}2{{else if (eq
+              priority 'medium')}}3{{else}}4{{/if}}</b
+            ></i
+          >
+        </td>
+        <td class="c-time">{{time}}</td>
+        <td class="c-tag">{{tag}}</td>
+        <td class="c-src">{{source}}</td>
+        <td class="c-desc">{{description}}</td>
+        <td class="c-val">{{value}}</td>
+        <td class="c-state">
+          {{#if (eq state 'acked')}}ACK{{else if (eq state 'rtn')}}RTN{{else if (eq state
+          'shelved')}}SHELVED{{else}}UNACK{{/if}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <footer class="status">
+    <span>{{default fields.footer "Alarm system healthy"}}</span>
+    <span class="spacer"></span>
+    <span>Showing {{fields.alarms.length}} alarms</span>
+  </footer>
+</section>

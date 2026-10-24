@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Chain of custody form",
+  "description": "Evidence chain of custody form (NIST sample form style): case header, item descriptions, collection details, and a transfer log of who released and received the items, signed by hand. Used for digital evidence (drives, workstations, logs), election materials (memory cards, ballot containers), and recovered drones.",
+  "type": "object",
+  "required": ["caseNo", "items"],
+  "properties": {
+    "org": {
+      "type": "string",
+      "description": "Organization keeping custody (defaults to the project's organization)",
+      "examples": ["Lakeshore County Board of Elections"]
+    },
+    "formTitle": {
+      "type": "string",
+      "description": "Form title",
+      "examples": ["Evidence Chain of Custody Tracking Form"]
+    },
+    "caseNo": {
+      "type": "string",
+      "description": "Case or incident number",
+      "examples": ["IR-2026-0142"]
+    },
+    "items": {
+      "type": "array",
+      "description": "Items in custody (1-4)",
+      "minItems": 1,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "properties": {
+          "itemNo": { "type": "string", "description": "Item number", "examples": ["001"] },
+          "description": {
+            "type": "string",
+            "description": "What the item is, with make and model",
+            "examples": ["Dell OptiPlex 7090 workstation, HMI-02, black tower"]
+          },
+          "serial": {
+            "type": "string",
+            "description": "Serial number or other unique identifier",
+            "examples": ["SN 7XK2Q93"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "collectedBy": {
+      "type": "string",
+      "description": "Who collected the items (name, title)",
+      "examples": ["Tom Reyes, IT Security Analyst"]
+    },
+    "collectedAt": {
+      "type": "string",
+      "description": "Date and time collected",
+      "examples": ["10/21/2026 1512"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Where the items were collected",
+      "examples": ["Water Treatment Plant control room, 1200 River Rd, Milford"]
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason the items were obtained",
+      "examples": ["Suspected unauthorized remote access to plant HMI"]
+    },
+    "sealNo": {
+      "type": "string",
+      "description": "Tamper-evident bag or seal number",
+      "examples": ["TE-0048813"]
+    },
+    "transfers": {
+      "type": "array",
+      "description": "Custody transfers, oldest first (up to 8)",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "properties": {
+          "dateTime": {
+            "type": "string",
+            "description": "Date and time of transfer",
+            "examples": ["10/21/2026 1540"]
+          },
+          "releasedBy": {
+            "type": "string",
+            "description": "Person releasing the items (signed by hand)",
+            "examples": ["T. Reyes"]
+          },
+          "receivedBy": {
+            "type": "string",
+            "description": "Person receiving the items (signed by hand)",
+            "examples": ["SA K. Morrow"]
+          },
+          "purpose": {
+            "type": "string",
+            "description": "Reason for transfer or storage location",
+            "examples": ["Forensic imaging - FBI Cleveland Field Office"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Remarks (condition, power state, who else handled it)",
+      "examples": ["Collected powered on; RAM capture taken before shutdown."]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above and below the form",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    }
+  },
+  "additionalProperties": false
+}

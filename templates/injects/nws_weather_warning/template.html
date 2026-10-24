@@ -1,0 +1,87 @@
+<div class="wx">
+  <header class="nws">
+    <svg class="seal" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="20" cy="20" r="19" fill="#fff" />
+      <circle cx="20" cy="20" r="16" fill="#0b4b8c" />
+      <path d="M9 23c4-7 8-10 11-10s7 3 11 10" fill="none" stroke="#fff" stroke-width="2.2" />
+      <path d="M12 27h16" stroke="#fff" stroke-width="2" />
+      <circle cx="20" cy="13" r="2.5" fill="#fff" />
+    </svg>
+    <div>
+      <div class="agency">National Weather Service</div>
+      <div class="tag">
+        {{#if fields.officeCity}}{{fields.officeCity}} Weather Forecast
+        Office{{else}}{{fields.office}}{{/if}}
+      </div>
+    </div>
+  </header>
+  <div class="crumb">Text Products › {{default fields.awipsId "Product"}} › {{fields.product}}</div>
+
+  <div class="product">
+    {{#if fields.wmoHeader}}
+    <div class="ln">{{fields.wmoHeader}}</div>
+    {{/if}} {{#if fields.awipsId}}
+    <div class="ln">{{fields.awipsId}}</div>
+    {{/if}} {{#if fields.ugc}}
+    <div class="ln">{{fields.ugc}}</div>
+    {{/if}} {{#if fields.vtec}}
+    <div class="ln">{{fields.vtec}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.bulletin}}
+    <div class="ln">{{fields.bulletin}}</div>
+    {{/if}}
+    <div class="ln">{{fields.product}}</div>
+    <div class="ln">{{fields.office}}</div>
+    <div class="ln">{{fields.issued}}</div>
+    <div class="gap"></div>
+    <!-- prettier-ignore -->
+    <div class="p">{{#if fields.officeCity}}The National Weather Service in {{fields.officeCity}} has issued a{{else}}The {{fields.office}} has issued a{{/if}}</div>
+    <div class="gap"></div>
+    <div class="b">* {{fields.product}} for...</div>
+    {{#each fields.warningFor}}
+    <div class="i">{{this}}</div>
+    {{/each}}
+    <div class="gap"></div>
+    <div class="b">* Until {{fields.until}}.</div>
+    <div class="gap"></div>
+    <div class="b hang">* {{fields.at}}</div>
+    {{#if fields.hazard}}
+    <div class="gap"></div>
+    <div class="kv">HAZARD...<span>{{fields.hazard}}</span></div>
+    {{/if}} {{#if fields.source}}
+    <div class="gap"></div>
+    <div class="kv">SOURCE...<span>{{fields.source}}</span></div>
+    {{/if}} {{#if fields.impact}}
+    <div class="gap"></div>
+    <div class="kv">IMPACT...<span>{{fields.impact}}</span></div>
+    {{/if}} {{#if fields.locations}}
+    <div class="gap"></div>
+    <!-- prettier-ignore -->
+    <div class="b hang">* {{#if (eq fields.product "Flash Flood Warning")}}Some locations that will experience flash flooding include...{{else}}Locations impacted include...{{/if}}</div>
+    <div class="i">{{join fields.locations ", "}}.</div>
+    {{/if}} {{#if fields.actions}}
+    <div class="gap"></div>
+    <div class="ln">PRECAUTIONARY/PREPAREDNESS ACTIONS...</div>
+    {{#each fields.actions}}
+    <div class="gap"></div>
+    <div class="p">{{this}}</div>
+    {{/each}} {{/if}}
+    <div class="gap"></div>
+    <div class="ln">&amp;&amp;</div>
+    {{#if fields.latLon}}
+    <div class="gap"></div>
+    <div class="p">{{fields.latLon}}</div>
+    {{/if}} {{#if fields.tags}}
+    <div class="gap"></div>
+    {{#each fields.tags}}
+    <div class="ln">{{upper name}}...{{upper value}}</div>
+    {{/each}} {{/if}}
+    <div class="gap"></div>
+    <div class="ln">$$</div>
+    {{#if fields.forecaster}}
+    <div class="gap"></div>
+    <div class="ln">{{fields.forecaster}}</div>
+    {{/if}}
+  </div>
+</div>

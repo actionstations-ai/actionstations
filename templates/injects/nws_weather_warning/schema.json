@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NWS warning (text product)",
+  "description": "A National Weather Service short-fuse warning text product as shown on weather.gov (monospace bulletin: WMO header, AWIPS id, UGC and VTEC lines, '* Flash Flood Warning for...', '* Until...', '* At...' with HAZARD/SOURCE/IMPACT, locations, precautionary actions, && tags $$). The office is a real NWS office; counties and places come from the scenario.",
+  "type": "object",
+  "required": ["office", "product", "issued", "warningFor", "until", "at"],
+  "additionalProperties": false,
+  "properties": {
+    "office": {
+      "type": "string",
+      "description": "Issuing office as printed (real NWS office)",
+      "examples": ["National Weather Service Wilmington OH"]
+    },
+    "officeCity": {
+      "type": "string",
+      "description": "Office city as used in 'The National Weather Service in <city> has issued a'",
+      "examples": ["Wilmington"]
+    },
+    "product": {
+      "type": "string",
+      "description": "Product name",
+      "examples": ["Flash Flood Warning", "Severe Thunderstorm Warning", "Tornado Warning"]
+    },
+    "bulletin": {
+      "type": "string",
+      "description": "Bulletin line above the product name",
+      "examples": ["BULLETIN - EAS ACTIVATION REQUESTED"]
+    },
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM",
+      "examples": ["WGUS51 KILN 211814"]
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["FFWILN"]
+    },
+    "ugc": {
+      "type": "string",
+      "description": "UGC line (state, county codes, expiry DDHHMM-)",
+      "examples": ["OHC035-093-212115-"]
+    },
+    "vtec": {
+      "type": "string",
+      "description": "P-VTEC line",
+      "examples": ["/O.NEW.KILN.FF.W.0042.261021T1814Z-261021T2115Z/"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance time line",
+      "examples": ["214 PM EDT Tue Oct 21 2026"]
+    },
+    "warningFor": {
+      "type": "array",
+      "description": "Areas under the warning, one line each (up to 6)",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Area",
+        "examples": ["Central Haldane County in southwestern Ohio..."]
+      }
+    },
+    "until": {
+      "type": "string",
+      "description": "Expiry time",
+      "examples": ["515 PM EDT"]
+    },
+    "at": {
+      "type": "string",
+      "description": "The '* At ...' situation paragraph, without the bullet",
+      "examples": [
+        "At 213 PM EDT, Doppler radar and automated rain gauges indicated thunderstorms producing heavy rain across the warned area. Between 2 and 3 inches of rain have fallen. Flash flooding is ongoing or expected to begin shortly."
+      ]
+    },
+    "hazard": {
+      "type": "string",
+      "description": "HAZARD... text",
+      "examples": ["Flash flooding caused by thunderstorms."]
+    },
+    "source": {
+      "type": "string",
+      "description": "SOURCE... text",
+      "examples": ["Radar and automated rain gauges."]
+    },
+    "impact": {
+      "type": "string",
+      "description": "IMPACT... text",
+      "examples": [
+        "Flooding of small creeks and streams, urban areas, highways, streets and underpasses."
+      ]
+    },
+    "locations": {
+      "type": "array",
+      "description": "Places that will be affected (up to 12)",
+      "maxItems": 12,
+      "items": {
+        "type": "string",
+        "description": "Place name",
+        "examples": ["Milford"]
+      }
+    },
+    "actions": {
+      "type": "array",
+      "description": "Precautionary/preparedness action paragraphs (up to 3)",
+      "maxItems": 3,
+      "items": {
+        "type": "string",
+        "description": "One paragraph",
+        "examples": [
+          "Turn around, don't drown when encountering flooded roads. Most flood deaths occur in vehicles."
+        ]
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Impact-based tags after the && line (up to 4)",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "value"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Tag name",
+            "examples": ["FLASH FLOOD"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Tag value",
+            "examples": ["RADAR INDICATED"]
+          }
+        }
+      }
+    },
+    "latLon": {
+      "type": "string",
+      "description": "LAT...LON polygon line",
+      "examples": ["LAT...LON 4148 8166 4139 8139 4121 8144 4125 8172"]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname or initials after $$",
+      "examples": ["Kowalski"]
+    }
+  }
+}

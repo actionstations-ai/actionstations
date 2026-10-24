@@ -1,0 +1,61 @@
+{
+  "fields": {
+    "agency": "U.S. Department of Energy",
+    "agencyOffice": "Office of Cybersecurity, Energy Security, and Emergency Response (CESER)",
+    "formName": "Electric Emergency Incident and Disturbance Report",
+    "formNumber": "Form OE-417",
+    "ombNumber": "OMB No. 1901-0288",
+    "reportType": "initial",
+    "reportId": "OE-417-2026-10-21-0457",
+    "submittedAt": "10/21/2026 15:38 EDT",
+    "submittedBy": {
+      "name": "Karen Whitlock",
+      "title": "Manager, System Operations",
+      "phone": "(555) 014-2290",
+      "email": "kwhitlock@lakeshorepower.example"
+    },
+    "organization": "Lakeshore Power & Light Cooperative",
+    "facility": "Eastside 138 kV Substation; Energy Management System (EMS)",
+    "incidentStart": "10/21/2026 14:52 EDT",
+    "sections": [
+      {
+        "heading": "Schedule 1 - Alert Criteria",
+        "items": [
+          {
+            "label": "Criterion",
+            "value": "Cyber event that causes interruptions of electrical system operations"
+          },
+          {
+            "label": "Also met",
+            "value": "Uncontrolled loss of 200 MW or more of firm system load for 15 minutes or more"
+          },
+          { "label": "Emergency alert (within 1 hour)", "value": "Yes" }
+        ]
+      },
+      {
+        "heading": "Schedule 1 - Incident and Impact",
+        "items": [
+          {
+            "label": "Event type",
+            "value": "Cyber event; physical equipment operated without authorization"
+          },
+          { "label": "Demand tripped (MW)", "value": "212" },
+          { "label": "Customers affected", "value": "38,400" },
+          { "label": "Counties affected", "value": "Lakeshore County, Harbor County" },
+          { "label": "Restoration (est.)", "value": "10/21/2026 19:00 EDT" },
+          { "label": "Reliability coordinator notified", "value": "Yes, 10/21/2026 15:02 EDT" }
+        ]
+      },
+      {
+        "heading": "Notifications made",
+        "items": [
+          { "label": "E-ISAC", "value": "10/21/2026 15:20 EDT, portal report" },
+          { "label": "FBI", "value": "10/21/2026 15:31 EDT, Cleveland Field Office" },
+          { "label": "State PUC", "value": "Pending" }
+        ]
+      }
+    ],
+    "narrative": "At 14:52 EDT system operators observed open commands issued from the EMS to breakers 4 and 7 at the Eastside 138 kV substation that no operator had issued. 212 MW of load was lost. Operators moved the substation to local control at 15:05 and disconnected the EMS from the corporate network at 15:11. A field crew is closing breakers manually. Investigation is in progress; this report will be updated within 72 hours.",
+    "status": "Received. A confirmation has been sent to the submitter. Submit an updated report within 72 hours and a final report when the event is resolved."
+  }
+}

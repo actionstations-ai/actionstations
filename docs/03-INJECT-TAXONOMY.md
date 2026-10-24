@@ -72,6 +72,9 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `email_header_analysis` | raw headers, highlights[] | T | phishing CLUE |
 | `ransom_note` | text, wallet, timer, style | T | |
 | `screenshot_generic` | appName, windowTitle, imageBrief | AI or T | |
+| `service_status_page` | orgName, serviceName, overallStatus, incidentTitle, components[{name,status}], updates[{status,time,text}] | T | Public status page; variant `site_banner` puts the outage banner on the org's own site or portal (#324) |
+| `leak_site_post` | siteName, victimName, victimDomain, dataSize, deadline, countdown, status, description, fileList[{name,size}] | T | Ransomware data-leak site listing with countdown (#324) |
+| `security_advisory` | publisher, advisoryId, title, tlp, released, severity, cves[], affectedProducts[], summary, iocs[], mitigations[] | T (PDF) | CISA / ISAC advisory with TLP 2.0 marking; variant `vendor` for a PSIRT advisory (#324) |
 
 ### Operational displays & physical
 | Type | Key fields | Render | Notes |
@@ -88,6 +91,10 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `scene_photo` | sceneBrief, style(phone/press), caption, credit | AI + T | I-10 crowded terminal, blank screens; photo framed by the `scene_photo` template (phone or press variant) |
 | `map_annotation` | baseMapAsset, markers[], labels[] | T over image | Uses project's terminal map |
 | `signage_photo` | text, placement | AI + T | Whiteboard at gate, etc. |
+| `alarm_summary` | systemName, site, clock, operator, counts, alarms[{time,priority,tag,source,description,value,state}] | T | Alarm list of a DCS, NOC or BMS console; variants `dark`, `light` (#324) |
+| `nws_weather_warning` | office, product, issued, warningFor[], until, at, hazard, source, impact, locations[], actions[] | T (mono) | National Weather Service warning text product (#324) |
+| `notam` | notamNumber, facility, location, effectiveStart, effectiveEnd, text, tfr{type,reason,radiusNm,floor,ceiling,restrictions[]} | T | NOTAM text or TFR detail; variants `text`, `tfr`. **Airport, stadium and unmanned systems** (#324) |
+| `rider_service_alert` | agency, routes[{id,mode}], effect, cause, headline, description, activePeriod, alternatives[] | T | Rider alert (GTFS-Realtime cause / effect); variants `web`, `app`. **Transit only**, in the transit pack (#324) |
 
 ### Documents & forms
 | Type | Key fields | Render | Notes |
@@ -99,6 +106,14 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `status_board` | resources[{name,status,notes}] | T | Player briefing resource table |
 | `sitrep` | number, time, summary, actions | T | |
 | `field_report` | organization, reportNo, date, location, inspector, reportType, summary, findings[{item,condition,notes}], actionsTaken[], recommendations[] | T (PDF) | Field / inspection / patrol report |
+| `ics_213_general_message` | incidentName, to, from, subject, date, time, message, approvedBy, reply | T (PDF, FEMA layout) | Blank version for players (#324) |
+| `ics_214_activity_log` | incidentName, opPeriod, name, icsPosition, homeAgency, resources[], entries[{time,activity}] | T (PDF, FEMA layout) | Blank version for players (#324) |
+| `chain_of_custody_form` | org, caseNo, items[{itemNo,description,serial}], collectedBy, collectedAt, location, transfers[{dateTime,releasedBy,receivedBy,purpose}] | T (PDF) | Evidence, election material, downed UAS (#324) |
+| `regulatory_report_form` | agency, formName, reportType, reportId, submittedAt, organization, sections[{heading,items[{label,value}]}], narrative | T (PDF) | Filed incident report: OE-417, NRC, NORS, PHMSA, CIRCIA, FAA 107.9, bank notice (#324) |
+| `lab_result_report` | labName, client, sampleId, sampleLocation, sampledAt, reportedAt, results[{analyte,result,units,limit,method,flag}], comments | T (PDF) | Certified lab report / certificate of analysis (#324) |
+| `breach_notification_letter` | org, date, recipientName, whatHappened, whatInformation, whatWeAreDoing, whatYouCanDo, forMoreInformation, signerName | T (PDF) | Model-form breach notice to individuals (#324) |
+| `downtime_notice` | org, systemName, status, startedAt, expectedRestore, affected[], procedures[], contact | T (PDF) | EHR / MES / SIS downtime notice; variants `unplanned`, `planned` (#324) |
+| `boil_water_notice` | utility, pwsId, noticeType, issuedAt, affectedArea, whatHappened, whatToDo[], whatIsBeingDone, expectedResolution, contact | T (PDF) | EPA Tier 1 public notice; variants `boil_water`, `do_not_drink`. **Water utility, public health, municipal** (#324) |
 
 ### Facilitator control
 | Type | Key fields | Render | Notes |

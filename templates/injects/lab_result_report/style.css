@@ -1,0 +1,195 @@
+/* Certified lab analytical report: letterhead with certification number, sample information grid,
+   results table with flagged rows, qualifier legend, comments and reviewer approval.
+   One US Letter page. */
+.page {
+  height: 1056px;
+  padding: 28px 52px 26px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: #1a1a1a;
+}
+.marking {
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #9b1c14;
+}
+.lab {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #0f5c63;
+}
+.mark {
+  width: 42px;
+  height: 42px;
+  flex: none;
+}
+.lab-id {
+  flex: 1;
+}
+.lab-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f5c63;
+}
+.lab-sub {
+  font-size: 10.5px;
+  color: #4a4a4a;
+}
+.rep {
+  text-align: right;
+}
+.rep-title {
+  font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.rep-no {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #333;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.info {
+  margin-top: 12px;
+}
+.info th,
+.info td {
+  border: 1px solid #b9c4c5;
+  padding: 4px 7px;
+  text-align: left;
+  vertical-align: top;
+}
+.info th {
+  width: 112px;
+  background: #eef4f4;
+  font-weight: 600;
+  font-size: 10.5px;
+  color: #234;
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+}
+h2 {
+  margin: 16px 0 5px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0f5c63;
+}
+.res th {
+  background: #0f5c63;
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-align: left;
+  padding: 5px 7px;
+}
+.res td {
+  border-bottom: 1px solid #c9d3d4;
+  padding: 6px 7px;
+  vertical-align: top;
+}
+.res tbody tr:nth-child(even) td {
+  background: #f6f9f9;
+}
+.res tr.flagged td {
+  font-weight: 700;
+}
+.res tr.flagged td.flag {
+  color: #b3170f;
+}
+.c-an {
+  width: 30%;
+}
+.c-r {
+  width: 13%;
+}
+.c-u {
+  width: 11%;
+}
+.c-l {
+  width: 13%;
+}
+.c-m {
+  width: 23%;
+}
+.flag {
+  text-align: center;
+}
+.legend {
+  margin: 6px 0 0;
+  font-size: 9.5px;
+  color: #555;
+}
+.comments {
+  margin-top: 14px;
+  border: 1px solid #b9c4c5;
+  border-left: 4px solid #b3170f;
+  padding: 7px 10px;
+}
+.comments .lbl {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.comments p {
+  margin: 3px 0 0;
+  line-height: 1.45;
+}
+.spacer {
+  flex: 1;
+}
+.approve {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+  margin-bottom: 10px;
+}
+.sig {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: #12307a;
+  border-bottom: 1px solid #333;
+  min-width: 260px;
+  padding: 0 4px;
+}
+.sig-line {
+  font-size: 10px;
+  color: #444;
+  margin-top: 2px;
+}
+.disc {
+  margin: 0;
+  max-width: 300px;
+  font-size: 9.5px;
+  color: #555;
+  text-align: right;
+}
+.foot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  color: #555;
+  border-top: 1px solid #ccc;
+  padding-top: 4px;
+  margin-bottom: 6px;
+}

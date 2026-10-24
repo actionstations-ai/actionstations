@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Data breach notification letter",
+  "description": "Notice of Data Breach letter mailed to affected individuals by a bank, hospital, retailer, school or city, using the US state model-form headings (What Happened? / What Information Was Involved? / What We Are Doing. / What You Can Do. / For More Information.). One Letter page: keep each section to two or three sentences.",
+  "type": "object",
+  "required": [
+    "org",
+    "date",
+    "recipientName",
+    "whatHappened",
+    "whatInformation",
+    "whatWeAreDoing",
+    "whatYouCanDo",
+    "forMoreInformation",
+    "signerName"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "org": {
+      "type": "string",
+      "description": "Organization sending the notice (usually the exercising organization)",
+      "examples": ["Lakeshore Community Bank"]
+    },
+    "orgAddress": {
+      "type": "array",
+      "description": "Return address lines",
+      "maxItems": 3,
+      "items": { "type": "string", "description": "Address line" },
+      "examples": [["P.O. Box 4410", "Lakeport, OH 44905"]]
+    },
+    "mailingId": {
+      "type": "string",
+      "description": "Mail-house reference printed above the recipient block",
+      "examples": ["LCB-0426-118742"]
+    },
+    "date": { "type": "string", "description": "Letter date", "examples": ["November 14, 2026"] },
+    "recipientName": { "type": "string", "description": "Addressee", "examples": ["Maria Okafor"] },
+    "recipientAddress": {
+      "type": "array",
+      "description": "Addressee street, city, state and ZIP lines",
+      "maxItems": 3,
+      "items": { "type": "string", "description": "Address line" },
+      "examples": [["1182 Elm Hollow Rd", "Lakeport, OH 44906"]]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Letter heading",
+      "examples": ["Notice of Data Breach"]
+    },
+    "intro": {
+      "type": "string",
+      "description": "Opening paragraph after the salutation (one or two sentences)",
+      "examples": [
+        "We are writing to tell you about a data security incident that may have involved some of your personal information."
+      ]
+    },
+    "whatHappened": {
+      "type": "string",
+      "description": "What happened and when it was discovered",
+      "examples": [
+        "On October 21, 2026, we detected unusual activity on a file server used by our loan operations team."
+      ]
+    },
+    "whatInformation": {
+      "type": "string",
+      "description": "Data elements involved",
+      "examples": ["Your name, address, Social Security number and loan account number."]
+    },
+    "whatWeAreDoing": {
+      "type": "string",
+      "description": "Containment, investigation, law-enforcement and regulator notice",
+      "examples": ["We took the server offline, engaged a forensic firm and notified the FBI."]
+    },
+    "whatYouCanDo": {
+      "type": "string",
+      "description": "Steps the reader should take (credit monitoring, fraud alert, security freeze)",
+      "examples": ["Enroll in the free credit monitoring below and review your account statements."]
+    },
+    "forMoreInformation": {
+      "type": "string",
+      "description": "Call-center hours and how to reach the organization",
+      "examples": ["Call our dedicated line, Monday–Friday 8 a.m.–8 p.m. ET."]
+    },
+    "enrollmentCode": {
+      "type": "string",
+      "description": "Credit-monitoring activation code (shows the enrollment box)",
+      "examples": ["LCB7Q2X9M4"]
+    },
+    "enrollBy": {
+      "type": "string",
+      "description": "Enrollment deadline",
+      "examples": ["February 28, 2027"]
+    },
+    "monitoringProvider": {
+      "type": "string",
+      "description": "Credit-monitoring service named in the enrollment box",
+      "examples": ["Experian IdentityWorks"]
+    },
+    "callCenter": {
+      "type": "string",
+      "description": "Toll-free number of the call center",
+      "examples": ["1-855-555-0142"]
+    },
+    "signerName": { "type": "string", "description": "Signer", "examples": ["Daniel Reyes"] },
+    "signerTitle": {
+      "type": "string",
+      "description": "Signer's title",
+      "examples": ["President and Chief Executive Officer"]
+    }
+  },
+  "additionalProperties": false
+}

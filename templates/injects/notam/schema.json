@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOTAM / TFR",
+  "description": "A single FAA Notice to Air Missions. Variant 'text' is a NOTAM Search result with the raw NOTAM text in monospace (domestic/FDC format, upper case, '..' separators). Variant 'tfr' is the TFR detail page for a Temporary Flight Restriction (14 CFR 99.7 special security instructions over a stadium, 91.137 disaster/hazard area, 91.145 airshow), with the tfr block filled. Places and venues are simulated; the FAA and its facility identifiers stay real.",
+  "type": "object",
+  "required": ["notamNumber", "facility", "location", "effectiveStart", "effectiveEnd", "text"],
+  "properties": {
+    "notamNumber": {
+      "type": "string",
+      "description": "NOTAM number as published (FDC NOTAMs are M/NNNN)",
+      "examples": ["6/4012", "10/412"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Issuing facility / accountability (ARTCC or airport identifier, or FDC)",
+      "examples": ["ZOB", "FDC"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Location the NOTAM applies to, upper case, as in the NOTAM",
+      "examples": ["LAKEPORT, OH"]
+    },
+    "classification": {
+      "type": "string",
+      "description": "NOTAM class / keyword",
+      "examples": ["FDC — Security", "Domestic — Airspace"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issue date/time (UTC)",
+      "examples": ["10/20/2026 2135 UTC"]
+    },
+    "effectiveStart": {
+      "type": "string",
+      "description": "Effective start (UTC)",
+      "examples": ["10/26/2026 1600 UTC"]
+    },
+    "effectiveEnd": {
+      "type": "string",
+      "description": "Effective end (UTC)",
+      "examples": ["10/26/2026 2300 UTC"]
+    },
+    "text": {
+      "type": "string",
+      "description": "Full raw NOTAM text, upper case, as the FAA publishes it (keep newlines out; use '..' between parts)",
+      "examples": [
+        "!FDC 6/4012 ZOB OH..AIRSPACE LAKEPORT, OH..TEMPORARY FLIGHT RESTRICTIONS WI AN AREA DEFINED AS 3NM RADIUS OF 412823N0814252W SFC-2999FT AGL EFFECTIVE 2610261600 UTC UNTIL 2610262300 UTC."
+      ]
+    },
+    "tfr": {
+      "type": "object",
+      "description": "TFR details (tfr variant)",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "TFR type and regulation",
+          "examples": ["SECURITY — 99.7 Special Security Instructions", "HAZARDS — 91.137(a)(1)"]
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why the TFR exists",
+          "examples": ["Stadium event — Lakeport Ironclads home game, Lakeport Stadium"]
+        },
+        "center": {
+          "type": "string",
+          "description": "Center point (lat/long) or a description",
+          "examples": ["41°28'23\"N 081°42'52\"W"]
+        },
+        "radiusNm": {
+          "type": "string",
+          "description": "Radius in nautical miles",
+          "examples": ["3"]
+        },
+        "floor": { "type": "string", "description": "Lower altitude", "examples": ["Surface"] },
+        "ceiling": {
+          "type": "string",
+          "description": "Upper altitude",
+          "examples": ["2,999 ft AGL"]
+        },
+        "restrictions": {
+          "type": "array",
+          "description": "Operating restrictions and requirements, one per line",
+          "maxItems": 6,
+          "items": { "type": "string", "description": "Restriction" },
+          "examples": [["No UAS operations without an FAA waiver or authorization."]]
+        },
+        "pointOfContact": {
+          "type": "string",
+          "description": "Controlling / coordinating facility contact",
+          "examples": ["FAA System Operations Support Center, 202-267-8276"]
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

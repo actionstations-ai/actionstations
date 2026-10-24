@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ICS 214 Activity Log",
+  "description": "FEMA ICS Form 214 Activity Log: one person's or unit's log of notable activities during an operational period (blocks 1-8). Every field is optional: the 'blank' variant prints the empty form; the default variant shows the values as typed entries. Up to 6 resources and about 16 log entries fit on the page.",
+  "type": "object",
+  "properties": {
+    "incidentName": {
+      "type": "string",
+      "description": "Block 1. Incident name",
+      "examples": ["Riverbend Stadium - Ticketing Outage"]
+    },
+    "opPeriod": {
+      "type": "object",
+      "description": "Block 2. Operational period start and end",
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "Start date and time, MM/DD/YYYY HHMM",
+          "examples": ["10/21/2026 0700"]
+        },
+        "to": {
+          "type": "string",
+          "description": "End date and time, MM/DD/YYYY HHMM",
+          "examples": ["10/21/2026 1900"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "name": {
+      "type": "string",
+      "description": "Block 3. Name of the person keeping the log",
+      "examples": ["Priya Natarajan"]
+    },
+    "icsPosition": {
+      "type": "string",
+      "description": "Block 4. ICS position",
+      "examples": ["Planning Section Chief"]
+    },
+    "homeAgency": {
+      "type": "string",
+      "description": "Block 5. Home agency and unit",
+      "examples": ["City of Milford / Emergency Management"]
+    },
+    "resources": {
+      "type": "array",
+      "description": "Block 6. Resources assigned (people or units working for this position)",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Name", "examples": ["Marcus Bell"] },
+          "position": {
+            "type": "string",
+            "description": "ICS position",
+            "examples": ["Situation Unit Leader"]
+          },
+          "agency": {
+            "type": "string",
+            "description": "Home agency and unit",
+            "examples": ["Milford IT"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "entries": {
+      "type": "array",
+      "description": "Block 7. Activity log: time-stamped notable activities, oldest first (terse, log style)",
+      "maxItems": 18,
+      "items": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Date/time, 24-hour clock (date optional)",
+            "examples": ["0915"]
+          },
+          "activity": {
+            "type": "string",
+            "description": "Notable activity, one line (at most about 110 characters)",
+            "examples": ["IC briefing; objectives set for OP 1. Situation report due 1100."]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "preparedBy": {
+      "type": "object",
+      "description": "Block 8. Prepared by",
+      "properties": {
+        "name": { "type": "string", "description": "Name", "examples": ["Priya Natarajan"] },
+        "position": {
+          "type": "string",
+          "description": "Position or title",
+          "examples": ["Planning Section Chief"]
+        },
+        "signature": {
+          "type": "string",
+          "description": "Signature as handwritten",
+          "examples": ["P. Natarajan"]
+        },
+        "dateTime": {
+          "type": "string",
+          "description": "Date and time signed",
+          "examples": ["10/21/2026 1300"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above and below the form",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    }
+  },
+  "additionalProperties": false
+}

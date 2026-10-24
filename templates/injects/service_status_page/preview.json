@@ -1,0 +1,35 @@
+{
+  "variant": "status_page",
+  "fields": {
+    "orgName": "Lakeshore Federal Credit Union",
+    "serviceName": "Digital Banking",
+    "overallStatus": "major_outage",
+    "incidentTitle": "Online and mobile banking unavailable",
+    "components": [
+      { "name": "Online banking (web)", "status": "major_outage" },
+      { "name": "Mobile app", "status": "major_outage" },
+      { "name": "Bill pay", "status": "major_outage" },
+      { "name": "Debit and credit card transactions", "status": "degraded" },
+      { "name": "ATMs", "status": "partial_outage" },
+      { "name": "Branches and call center", "status": "operational" }
+    ],
+    "updates": [
+      {
+        "status": "identified",
+        "time": "Oct 21, 2026 - 09:15 EDT",
+        "text": "We have identified a problem with a third-party core processing system. Our branches are open and can help with deposits and withdrawals. Card purchases may be declined intermittently. We will post the next update by 10:30 AM."
+      },
+      {
+        "status": "update",
+        "time": "Oct 21, 2026 - 08:20 EDT",
+        "text": "We are continuing to investigate. Some ATMs in the Milford and Riverbend areas are out of service. We will never ask for your password or one-time code by phone, text or email."
+      },
+      {
+        "status": "investigating",
+        "time": "Oct 21, 2026 - 07:42 EDT",
+        "text": "We are investigating reports that members cannot log in to online or mobile banking."
+      }
+    ],
+    "url": "status.lakeshorefcu.example"
+  }
+}

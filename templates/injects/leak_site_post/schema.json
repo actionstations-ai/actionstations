@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ransomware leak-site post",
+  "description": "A data-extortion group's leak-site entry as seen in Tor Browser: victim card with countdown timer to publication, data size, a short taunting description and a sample file tree. The group may be a real threat group; the victim is the exercising organization (simulated).",
+  "type": "object",
+  "required": ["siteName", "victimName", "description"],
+  "additionalProperties": false,
+  "properties": {
+    "siteName": {
+      "type": "string",
+      "description": "Leak blog name as shown in its header",
+      "examples": ["Qilin Blog", "Akira", "INC Ransom"]
+    },
+    "onionUrl": {
+      "type": "string",
+      "description": "Onion address in the address bar (invent one; 56 characters before .onion)",
+      "examples": ["kbsqoivihgdmwczmxkbovk7ss2dcynitwhhfu5yw725dboqo5kthfaad.onion"]
+    },
+    "victimName": {
+      "type": "string",
+      "description": "Victim organization name as the group writes it",
+      "examples": ["Riverbend Regional Medical Center"]
+    },
+    "victimDomain": {
+      "type": "string",
+      "description": "Victim website",
+      "examples": ["riverbendrmc.example"]
+    },
+    "sector": {
+      "type": "string",
+      "description": "Sector label the group gives the victim",
+      "examples": ["Healthcare"]
+    },
+    "country": {
+      "type": "string",
+      "description": "Country label",
+      "examples": ["USA"]
+    },
+    "revenue": {
+      "type": "string",
+      "description": "Revenue the group claims for the victim",
+      "examples": ["$412M"]
+    },
+    "dataSize": {
+      "type": "string",
+      "description": "Size of the stolen data the group claims",
+      "examples": ["1.2 TB"]
+    },
+    "deadline": {
+      "type": "string",
+      "description": "Publication date and time",
+      "examples": ["2026-10-27 18:00 UTC"]
+    },
+    "countdown": {
+      "type": "object",
+      "description": "Countdown timer frozen at the moment of the screenshot",
+      "additionalProperties": false,
+      "properties": {
+        "days": { "type": "integer", "description": "Days", "examples": [5] },
+        "hours": { "type": "integer", "description": "Hours", "examples": [11] },
+        "minutes": { "type": "integer", "description": "Minutes", "examples": [42] },
+        "seconds": { "type": "integer", "description": "Seconds", "examples": [7] }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["countdown", "published", "negotiating"],
+      "description": "countdown = timer running, published = data released (download links), negotiating = listing paused",
+      "examples": ["countdown"]
+    },
+    "description": {
+      "type": "string",
+      "description": "The group's text about the victim (broken English is typical)",
+      "examples": [
+        "Riverbend Regional Medical Center ignored us. We have patient records, HR files, financial documents. If no contact the data will be published."
+      ]
+    },
+    "fileList": {
+      "type": "array",
+      "description": "Sample of the stolen file tree (up to 8 entries)",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "File or folder path (end folders with /)",
+            "examples": ["Finance/2026_Budget_FINAL.xlsx"]
+          },
+          "size": {
+            "type": "string",
+            "description": "File or folder size",
+            "examples": ["4.1 MB"]
+          }
+        }
+      }
+    },
+    "views": {
+      "type": "integer",
+      "description": "View counter on the post",
+      "examples": [1874]
+    },
+    "postedAt": {
+      "type": "string",
+      "description": "When the post went up",
+      "examples": ["2026-10-22"]
+    }
+  }
+}

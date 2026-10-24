@@ -141,6 +141,13 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
     defaultDelivery: 'display_main_screen',
   }),
   t('screenshot_generic', 'Generic screenshot', 'technical', ['template', 'ai_image']),
+  t('service_status_page', 'Public status page / outage banner', 'technical', ['template']),
+  t('leak_site_post', 'Ransomware leak-site post', 'technical', ['template'], {
+    defaultDelivery: 'display_main_screen',
+  }),
+  t('security_advisory', 'Security advisory (CISA / ISAC / vendor)', 'technical', ['template'], {
+    paper: true,
+  }),
   // Operational displays & physical
   t('fids_board', 'FIDS board', 'operational', ['template'], {
     mvp: true,
@@ -174,6 +181,16 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
   }),
   t('map_annotation', 'Annotated map', 'operational', ['template']),
   t('signage_photo', 'Signage photo', 'operational', ['ai_image', 'template']),
+  t('alarm_summary', 'Alarm summary (DCS / NOC / BMS)', 'operational', ['template'], {
+    defaultDelivery: 'display_main_screen',
+  }),
+  t('nws_weather_warning', 'NWS weather warning', 'operational', ['template']),
+  t('notam', 'NOTAM / TFR', 'operational', ['template'], {
+    domains: ['airport', 'stadium_venue', 'unmanned_systems'],
+  }),
+  t('rider_service_alert', 'Rider service alert', 'operational', ['template'], {
+    domains: ['transit'],
+  }),
   // Documents & forms
   t('official_letter', 'Official letter', 'documents', ['template'], { paper: true }),
   t('regulatory_notice', 'Regulatory notice', 'documents', ['template'], { paper: true }),
@@ -185,6 +202,23 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
   t('status_board', 'Status board', 'documents', ['template']),
   t('sitrep', 'SITREP', 'documents', ['template'], { paper: true }),
   t('field_report', 'Field / inspection report', 'documents', ['template'], { paper: true }),
+  t('ics_213_general_message', 'ICS 213 General Message', 'documents', ['template'], {
+    paper: true,
+  }),
+  t('ics_214_activity_log', 'ICS 214 Activity Log', 'documents', ['template'], { paper: true }),
+  t('chain_of_custody_form', 'Chain of custody form', 'documents', ['template'], { paper: true }),
+  t('regulatory_report_form', 'Regulatory incident report', 'documents', ['template'], {
+    paper: true,
+  }),
+  t('lab_result_report', 'Laboratory result report', 'documents', ['template'], { paper: true }),
+  t('breach_notification_letter', 'Breach notification letter', 'documents', ['template'], {
+    paper: true,
+  }),
+  t('downtime_notice', 'System downtime notice', 'documents', ['template'], { paper: true }),
+  t('boil_water_notice', 'Boil water / do not drink notice', 'documents', ['template'], {
+    paper: true,
+    domains: ['water_utility', 'public_health', 'municipal'],
+  }),
   // Facilitator control
   t('startex_card', 'STARTEX card', 'control', ['template'], {
     paper: true,

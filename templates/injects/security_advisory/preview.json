@@ -1,0 +1,40 @@
+{
+  "variant": "agency",
+  "fields": {
+    "publisher": "Cybersecurity and Infrastructure Security Agency",
+    "coAuthors": "FBI · MS-ISAC",
+    "advisoryId": "AA26-294A",
+    "title": "Threat Actors Exploit Remote Access Gateway Vulnerability to Deploy Ransomware",
+    "tlp": "CLEAR",
+    "released": "October 21, 2026",
+    "updated": "October 22, 2026",
+    "severity": "Critical",
+    "cvss": "9.8",
+    "cves": ["CVE-2026-41877"],
+    "affectedProducts": [
+      { "product": "Halyard Remote Access Gateway", "versions": "7.2.0 – 7.4.3", "fixed": "7.4.4" },
+      { "product": "Halyard Policy Server", "versions": "3.1.x", "fixed": "3.1.9" }
+    ],
+    "summary": "CISA, FBI and MS-ISAC are releasing this advisory in response to active exploitation of CVE-2026-41877, an authentication bypass in Halyard Remote Access Gateway. Since October 14, 2026, actors have used the flaw to gain access to water, transit and local government networks, harvest credentials, and deploy ransomware within 72 hours of initial access.",
+    "technicalDetails": "Actors send a crafted request to /api/v1/session that bypasses authentication (T1190), create a local administrator, and use the gateway's saved credentials to move laterally over RDP (T1021.001). Before encryption they disable backups (T1490) and copy data to cloud storage (T1567.002).",
+    "iocs": [
+      { "type": "IPv4", "value": "203.0.113.47", "note": "Exploitation source" },
+      { "type": "IPv4", "value": "198.51.100.212", "note": "C2 over HTTPS" },
+      { "type": "Domain", "value": "update-halyard-cdn.example", "note": "Payload staging" },
+      { "type": "File", "value": "/var/tmp/.hsvc/hgwd", "note": "Web shell loader" },
+      {
+        "type": "SHA-256",
+        "value": "9f2c41d07be6a8a3c51e0d4f7b2a96e3d18c0f5a27b4e9d6c3a1f8e05b7d2c94",
+        "note": "Ransomware binary"
+      }
+    ],
+    "mitigations": [
+      "Upgrade Remote Access Gateway to 7.4.4 or later immediately; if you cannot, disconnect the appliance from the internet.",
+      "Hunt for the indicators above and for local administrator accounts created since October 14, 2026.",
+      "Reset all credentials stored on or used through the gateway.",
+      "Keep offline, tested backups of critical systems and OT configuration.",
+      "Require phishing-resistant MFA for all remote access."
+    ],
+    "contact": "Report incidents and anomalous activity to CISA at report.cisa.gov or (888) 282-0870, or to your local FBI field office."
+  }
+}

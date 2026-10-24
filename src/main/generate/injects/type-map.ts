@@ -68,6 +68,22 @@ export const TYPE_FALLBACKS: Record<string, string[]> = {
   scenario_update: ['time_jump_card', 'memo'],
   endex_card: ['scenario_update', 'time_jump_card'],
   simcell_script: ['scenario_update', 'memo'],
+  // Domain templates proposed by the research dossiers (#324)
+  service_status_page: ['error_dialog', 'screenshot_generic', 'tweet'],
+  leak_site_post: ['ransom_note', 'screenshot_generic', 'reddit_post'],
+  security_advisory: ['regulatory_notice', 'email', 'memo'],
+  alarm_summary: ['scada_hmi', 'system_log', 'siem_alert'],
+  nws_weather_warning: ['incident_alert_notification', 'regulatory_notice', 'memo'],
+  notam: ['regulatory_notice', 'official_letter', 'memo'],
+  rider_service_alert: ['incident_alert_notification', 'text_message', 'tweet'],
+  ics_213_general_message: ['memo', 'ics_201_prefill', 'email'],
+  ics_214_activity_log: ['system_log', 'sitrep', 'memo'],
+  chain_of_custody_form: ['field_report', 'memo', 'system_log'],
+  regulatory_report_form: ['regulatory_notice', 'official_letter', 'memo'],
+  lab_result_report: ['field_report', 'memo', 'official_letter'],
+  breach_notification_letter: ['official_letter', 'memo', 'email'],
+  downtime_notice: ['memo', 'email', 'helpdesk_ticket'],
+  boil_water_notice: ['incident_alert_notification', 'press_release', 'official_letter'],
 }
 
 /** Key fields per type for rows whose type has no installed template (docs/03 table). */
@@ -132,6 +148,36 @@ export const KEY_FIELDS: Record<string, string> = {
   scenario_update: 'narration',
   endex_card: 'resolution, transition',
   simcell_script: 'rolePlayed, hardQuestions[], concessions[]',
+  service_status_page:
+    'orgName, serviceName, overallStatus, incidentTitle, components[{name,status}], updates[{status,time,text}]',
+  leak_site_post:
+    'siteName, victimName, victimDomain, dataSize, deadline, status, description, fileList[{name,size}]',
+  security_advisory:
+    'publisher, advisoryId, title, tlp, released, severity, cves[], affectedProducts[{product,versions}], summary, iocs[{type,value}], mitigations[]',
+  alarm_summary:
+    'systemName, site, clock, operator, counts, alarms[{time,priority,tag,source,description,value,state}]',
+  nws_weather_warning:
+    'office, product, issued, warningFor[], until, at, hazard, source, impact, locations[], actions[]',
+  notam:
+    'notamNumber, facility, location, effectiveStart, effectiveEnd, text, tfr{type,reason,radiusNm,floor,ceiling,restrictions[]}',
+  rider_service_alert:
+    'agency, routes[{id,mode}], effect, cause, headline, description, activePeriod, alternatives[]',
+  ics_213_general_message:
+    'incidentName, to, from, subject, date, time, message, approvedBy, reply',
+  ics_214_activity_log:
+    'incidentName, opPeriod, name, icsPosition, homeAgency, resources[], entries[{time,activity}]',
+  chain_of_custody_form:
+    'org, caseNo, items[{itemNo,description,serial}], collectedBy, collectedAt, location, transfers[{dateTime,releasedBy,receivedBy,purpose}]',
+  regulatory_report_form:
+    'agency, formName, reportType, reportId, submittedAt, organization, sections[{heading,items[{label,value}]}], narrative',
+  lab_result_report:
+    'labName, client, sampleId, sampleLocation, sampledAt, reportedAt, results[{analyte,result,units,limit,method,flag}], comments',
+  breach_notification_letter:
+    'org, date, recipientName, whatHappened, whatInformation, whatWeAreDoing, whatYouCanDo, forMoreInformation, signerName',
+  downtime_notice:
+    'org, systemName, status, startedAt, expectedRestore, affected[], procedures[], contact',
+  boil_water_notice:
+    'utility, pwsId, noticeType, issuedAt, affectedArea, whatHappened, whatToDo[], whatIsBeingDone, expectedResolution, contact',
 }
 
 export interface TypeChoice {

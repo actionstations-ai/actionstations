@@ -1,0 +1,78 @@
+<div class="tor">
+  <div class="chrome">
+    <span class="tabs"><span class="tab">{{fields.siteName}}</span></span>
+    <div class="bar">
+      <span class="onion" aria-hidden="true"
+        ><svg viewBox="0 0 16 16">
+          <circle cx="8" cy="9" r="6" fill="none" stroke="#7d4698" stroke-width="1.6" />
+          <circle cx="8" cy="9" r="3.6" fill="none" stroke="#7d4698" stroke-width="1.3" />
+          <circle cx="8" cy="9" r="1.4" fill="#7d4698" /></svg
+      ></span>
+      <span class="url">{{default fields.onionUrl "leakblog.onion"}}</span>
+    </div>
+  </div>
+
+  <div class="blog">
+    <header class="head">
+      <span class="brand">{{upper fields.siteName}}</span>
+      <nav><span>Home</span><span>Press</span><span>Contact</span><span>Rules</span></nav>
+    </header>
+
+    <article class="post">
+      <div class="top">
+        <div class="who">
+          <h1>{{fields.victimName}}</h1>
+          {{#if fields.victimDomain}}<span class="dom">{{fields.victimDomain}}</span>{{/if}}
+          <div class="meta">
+            {{#if fields.sector}}<span>Sector: <b>{{fields.sector}}</b></span
+            >{{/if}} {{#if fields.country}}<span>Country: <b>{{fields.country}}</b></span
+            >{{/if}} {{#if fields.revenue}}<span>Revenue: <b>{{fields.revenue}}</b></span
+            >{{/if}} {{#if fields.dataSize}}<span>Data: <b>{{fields.dataSize}}</b></span
+            >{{/if}}
+          </div>
+        </div>
+        <div class="timer st-{{default fields.status 'countdown'}}">
+          {{#if (eq fields.status "published")}}
+          <div class="pub">PUBLISHED</div>
+          <small>All files available</small>
+          {{else if (eq fields.status "negotiating")}}
+          <div class="pub neg">IN PROGRESS</div>
+          <small>Timer paused</small>
+          {{else}}
+          <div class="boxes">
+            <span><b>{{default fields.countdown.days 0}}</b><i>D</i></span>
+            <span><b>{{default fields.countdown.hours 0}}</b><i>H</i></span>
+            <span><b>{{default fields.countdown.minutes 0}}</b><i>M</i></span>
+            <span><b>{{default fields.countdown.seconds 0}}</b><i>S</i></span>
+          </div>
+          <small>until publication</small>
+          {{/if}} {{#if fields.deadline}}
+          <div class="dl">{{fields.deadline}}</div>
+          {{/if}}
+        </div>
+      </div>
+
+      <p class="desc">{{nl2br fields.description}}</p>
+
+      {{#if fields.fileList}}
+      <div class="files">
+        <div class="files-h">
+          <span>{{#if (eq fields.status "published")}}Download{{else}}Proof of data{{/if}}</span>
+          <span>Size</span>
+        </div>
+        {{#each fields.fileList}}
+        <div class="file">
+          <span class="fname"><i class="ico" aria-hidden="true"></i>{{name}}</span>
+          <span class="fsize">{{size}}</span>
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+
+      <footer class="foot">
+        {{#if fields.postedAt}}<span>Published: {{fields.postedAt}}</span>{{/if}} {{#if
+        fields.views}}<span>Views: {{fields.views}}</span>{{/if}}
+      </footer>
+    </article>
+  </div>
+</div>

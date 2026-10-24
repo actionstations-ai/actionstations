@@ -1,0 +1,101 @@
+<!-- Chain of custody form (NIST sample evidence form style), one US Letter page. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div class="issuer">
+      <span class="org"
+        >{{default fields.org (default brand.aliases.org "Incident Response Team")}}</span
+      >
+      <h1>{{default fields.formTitle "Evidence Chain of Custody Tracking Form"}}</h1>
+    </div>
+    <div class="case">
+      <span>CASE NUMBER</span>
+      <strong>{{fields.caseNo}}</strong>
+    </div>
+  </header>
+
+  <h2>Description of evidence</h2>
+  <table class="items">
+    <thead>
+      <tr>
+        <th class="c-no">Item #</th>
+        <th>Description (make, model, condition)</th>
+        <th class="c-sn">Serial no. / identifier</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.items}}
+      <tr>
+        <td class="mono">{{this.itemNo}}</td>
+        <td>{{this.description}}</td>
+        <td class="mono">{{this.serial}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <table class="coll">
+    <tr>
+      <th>Collected by</th>
+      <td>{{fields.collectedBy}}</td>
+      <th class="narrow">Date / time</th>
+      <td class="mono dt">{{fields.collectedAt}}</td>
+    </tr>
+    <tr>
+      <th>Location</th>
+      <td colspan="3">{{fields.location}}</td>
+    </tr>
+    <tr>
+      <th>Reason obtained</th>
+      <td colspan="3">{{fields.reason}}</td>
+    </tr>
+    <tr>
+      <th>Seal / bag no.</th>
+      <td colspan="3" class="mono">{{fields.sealNo}}</td>
+    </tr>
+  </table>
+
+  <h2>Chain of custody</h2>
+  <div class="cwrap">
+    <table class="chain">
+      <thead>
+        <tr>
+          <th class="c-n">#</th>
+          <th class="c-dt">Date / time</th>
+          <th class="c-sig">Released by (signature)</th>
+          <th class="c-sig">Received by (signature)</th>
+          <th>Reason for change of custody / location</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.transfers}}
+        <tr>
+          <td class="n">{{inc @index}}</td>
+          <td class="mono">{{this.dateTime}}</td>
+          <td class="hand">{{this.releasedBy}}</td>
+          <td class="hand">{{this.receivedBy}}</td>
+          <td class="purpose">{{this.purpose}}</td>
+        </tr>
+        {{/each}} {{#times 8}}
+        <tr class="empty">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        {{/times}}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="notes">
+    <span class="lbl">Notes</span>
+    <p>{{fields.notes}}</p>
+  </div>
+  <p class="foot">
+    Every person who handles these items signs on receipt and on release. Do not break a seal
+    without recording it here.
+  </p>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

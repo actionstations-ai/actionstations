@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Regulatory incident report",
+  "description": "Printout of an incident report submitted to a federal agency's online reporting system: DOE Form OE-417, a National Response Center report, FCC NORS outage report, PHMSA incident report, CISA incident report, FAA Part 107 accident report, or a bank's notice to its federal regulator. Agency header, report type, submission receipt, sections of labelled answers and a narrative. The agency is real; the organization and people are simulated.",
+  "type": "object",
+  "required": ["agency", "formName"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency the report goes to",
+      "examples": [
+        "U.S. Department of Energy",
+        "National Response Center",
+        "Federal Communications Commission"
+      ]
+    },
+    "agencyOffice": {
+      "type": "string",
+      "description": "Office or program within the agency",
+      "examples": ["Office of Cybersecurity, Energy Security, and Emergency Response (CESER)"]
+    },
+    "formName": {
+      "type": "string",
+      "description": "Name of the form or reporting system",
+      "examples": [
+        "Electric Emergency Incident and Disturbance Report",
+        "Network Outage Reporting System (NORS)"
+      ]
+    },
+    "formNumber": {
+      "type": "string",
+      "description": "Form number",
+      "examples": ["Form OE-417", "PHMSA F 7100.1"]
+    },
+    "ombNumber": {
+      "type": "string",
+      "description": "OMB control number and expiry printed on the form",
+      "examples": ["OMB No. 1901-0288, Exp. 05/31/2028"]
+    },
+    "reportType": {
+      "type": "string",
+      "enum": ["initial", "update", "final"],
+      "description": "Initial (emergency alert / notification), update, or final report",
+      "examples": ["initial"]
+    },
+    "reportId": {
+      "type": "string",
+      "description": "Report or confirmation number the agency assigned",
+      "examples": ["OE-417-2026-1021-0457", "NRC #1412873"]
+    },
+    "submittedAt": {
+      "type": "string",
+      "description": "When it was submitted, with time zone",
+      "examples": ["10/21/2026 15:38 EDT"]
+    },
+    "submittedBy": {
+      "type": "object",
+      "description": "Person who submitted the report",
+      "properties": {
+        "name": { "type": "string", "description": "Name", "examples": ["Karen Whitlock"] },
+        "title": {
+          "type": "string",
+          "description": "Title",
+          "examples": ["Manager, System Operations"]
+        },
+        "phone": { "type": "string", "description": "Phone", "examples": ["(555) 014-2290"] },
+        "email": {
+          "type": "string",
+          "description": "Email (use an .example domain)",
+          "examples": ["kwhitlock@lakeshorepower.example"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Reporting organization (simulated)",
+      "examples": ["Lakeshore Power & Light Cooperative"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Facility, system or location affected",
+      "examples": ["Eastside 138 kV Substation and Energy Management System"]
+    },
+    "incidentStart": {
+      "type": "string",
+      "description": "When the incident began, with time zone",
+      "examples": ["10/21/2026 14:52 EDT"]
+    },
+    "sections": {
+      "type": "array",
+      "description": "Sections of the form, each a list of labelled answers (2-4 sections, 2-8 items each)",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Section heading as on the form",
+            "examples": ["Schedule 1 - Alert Criteria", "Incident and Impact"]
+          },
+          "items": {
+            "type": "array",
+            "maxItems": 10,
+            "description": "Labelled answers",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Form question or field",
+                  "examples": ["Demand tripped (MW)"]
+                },
+                "value": {
+                  "type": "string",
+                  "description": "Answer as entered",
+                  "examples": ["212"]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "narrative": {
+      "type": "string",
+      "description": "Narrative description of the event as entered (3-6 sentences)",
+      "examples": [
+        "At 14:52 EDT operators observed unauthorized breaker commands issued from the EMS to the Eastside substation."
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Submission status line printed by the system",
+      "examples": ["Received by DOE. Your report has been forwarded to the E-ISAC."]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above and below the form",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    }
+  },
+  "additionalProperties": false
+}

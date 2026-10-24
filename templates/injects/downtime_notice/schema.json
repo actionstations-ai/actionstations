@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "System downtime notice",
+  "description": "Internal downtime notice posted on units and sent to staff when a core system is down: hospital EHR downtime, plant MES, school SIS, core banking. Variant 'unplanned' is the red 'downtime procedures in effect' notice; 'planned' is a scheduled-maintenance notice. Big status band, what is and is not available, numbered downtime procedures, where the paper forms are, and who to call.",
+  "type": "object",
+  "required": ["org", "systemName", "status", "startedAt", "affected", "procedures"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "org": {
+      "type": "string",
+      "description": "Organization (the exercising organization)",
+      "examples": ["Riverbend Regional Medical Center"]
+    },
+    "department": {
+      "type": "string",
+      "description": "Issuing department",
+      "examples": ["Information Services — Clinical Applications"]
+    },
+    "systemName": {
+      "type": "string",
+      "description": "System that is down, with the plain-language name staff use",
+      "examples": ["Electronic Health Record (EHR)", "Manufacturing Execution System (MES)"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["DOWN", "DEGRADED", "RESTORED"],
+      "description": "Current state of the system",
+      "examples": ["DOWN"]
+    },
+    "startedAt": {
+      "type": "string",
+      "description": "When the downtime started (or is scheduled to start)",
+      "examples": ["Tue 10/21/2026 06:42"]
+    },
+    "expectedRestore": {
+      "type": "string",
+      "description": "Expected restoration time, or 'Unknown'",
+      "examples": ["Unknown — next update 09:00"]
+    },
+    "affected": {
+      "type": "array",
+      "description": "Functions NOT available",
+      "maxItems": 8,
+      "items": { "type": "string", "description": "Function" },
+      "examples": [["Order entry (CPOE)", "eMAR / barcode medication administration"]]
+    },
+    "unaffected": {
+      "type": "array",
+      "description": "Functions still available",
+      "maxItems": 8,
+      "items": { "type": "string", "description": "Function" },
+      "examples": [["Read-only downtime viewer (BCA PCs)", "Phones, pagers and email"]]
+    },
+    "procedures": {
+      "type": "array",
+      "description": "Numbered downtime procedures staff must follow now",
+      "maxItems": 8,
+      "items": { "type": "string", "description": "Procedure step" },
+      "examples": [
+        ["Switch to paper downtime forms immediately.", "Do not re-enter data until told to by IS."]
+      ]
+    },
+    "forms": {
+      "type": "array",
+      "description": "Where the paper downtime forms and reports are",
+      "maxItems": 5,
+      "items": { "type": "string", "description": "Location or form" },
+      "examples": [["Red downtime binders at every nursing station"]]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Who to call",
+      "examples": ["IS Service Desk ext. 4357 (HELP) · Command Center ext. 2200"]
+    },
+    "issuedBy": {
+      "type": "string",
+      "description": "Who issued the notice",
+      "examples": ["Clinical Informatics on behalf of the Incident Commander"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "When the notice was issued",
+      "examples": ["10/21/2026 07:05"]
+    },
+    "refNo": {
+      "type": "string",
+      "description": "Notice or incident reference number",
+      "examples": ["DT-2026-0147"]
+    }
+  },
+  "additionalProperties": false
+}

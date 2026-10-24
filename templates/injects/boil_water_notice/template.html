@@ -1,0 +1,63 @@
+<article class="pn">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <p class="lang">
+    {{default fields.languageNote "Este informe contiene información muy importante sobre su agua de
+    beber. Tradúzcalo o hable con alguien que lo entienda bien."}}
+  </p>
+
+  <h1>Drinking Water Warning</h1>
+  <p class="sub">
+    {{fields.utility}} water {{#if fields.contaminant}}is contaminated with
+    {{fields.contaminant}}{{else}}may be unsafe to drink{{/if}}
+  </p>
+  <div class="action">
+    <p class="act act-boil">Boil your water before using</p>
+    <p class="act act-dnd">
+      {{#if (eq fields.noticeType "do_not_use")}}Do not use your water{{else}}Do not drink your
+      water{{/if}}
+    </p>
+  </div>
+
+  <p class="area"><strong>Affected area:</strong> {{fields.affectedArea}}</p>
+
+  <h2>What should I do?</h2>
+  <ul>
+    {{#each fields.whatToDo}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+
+  <h2>What happened? What is being done?</h2>
+  <p>{{fields.whatHappened}}</p>
+  {{#if fields.whatIsBeingDone}}
+  <p class="gap">{{fields.whatIsBeingDone}}</p>
+  {{/if}} {{#if fields.expectedResolution}}
+  <p class="gap">{{fields.expectedResolution}}</p>
+  {{/if}}
+
+  <p class="contact">
+    For more information, please contact {{default fields.contact.name fields.utility}}{{#if
+    fields.contact.phone}} at
+    <strong>{{fields.contact.phone}}</strong>{{/if}}{{#if fields.contact.address}} or
+    {{fields.contact.address}}{{/if}}.{{#if fields.contact.web}} Updates:
+    <strong>{{fields.contact.web}}</strong>{{/if}}
+  </p>
+
+  <p class="share">
+    <em
+      >Please share this information with all the other people who drink this water, especially
+      those who may not have received this notice directly (for example, people in apartments,
+      nursing homes, schools, and businesses). You can do this by posting this notice in a public
+      place or distributing copies by hand or mail.</em
+    >
+  </p>
+
+  <footer class="foot">
+    <p>This notice is being sent to you by {{fields.utility}}.</p>
+    <p>
+      State Water System ID#: <strong>{{fields.pwsId}}</strong> &nbsp;·&nbsp; Issued:
+      {{fields.issuedAt}} &nbsp;·&nbsp; Date distributed: {{default fields.dateDistributed
+      fields.issuedAt}}
+    </p>
+  </footer>
+</article>

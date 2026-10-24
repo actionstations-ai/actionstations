@@ -1,0 +1,131 @@
+<div class="page">
+  <header class="site">
+    <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="20" cy="20" r="19" class="m-fill" />
+      <path d="M8 22 L32 16 L33 18 L22 22 L24 30 L21 31 L17 23 L10 25 Z" class="m-plane" />
+    </svg>
+    <div>
+      <p class="site-agency">Federal Aviation Administration</p>
+      <p class="site-app">
+        <span class="app-text">NOTAM Search</span
+        ><span class="app-tfr">Temporary Flight Restrictions</span>
+      </p>
+    </div>
+    <p class="site-ex">EXERCISE · EXERCISE</p>
+  </header>
+
+  <!-- ===== text: NOTAM search result ===== -->
+  <section class="v-text">
+    <div class="query">
+      <span>Search: <strong>Location {{fields.facility}}</strong></span>
+      <span>1 NOTAM returned</span>
+    </div>
+    <table class="results">
+      <tr>
+        <th>Location</th>
+        <th>Number</th>
+        <th>Class</th>
+        <th>Issue Date (UTC)</th>
+        <th>Effective (UTC)</th>
+        <th>Expiration (UTC)</th>
+      </tr>
+      <tr>
+        <td><strong>{{fields.facility}}</strong><br />{{fields.location}}</td>
+        <td class="num">{{fields.notamNumber}}</td>
+        <td>{{default fields.classification "—"}}</td>
+        <td>{{default fields.issued "—"}}</td>
+        <td>{{fields.effectiveStart}}</td>
+        <td>{{fields.effectiveEnd}}</td>
+      </tr>
+      <tr>
+        <td colspan="6" class="raw">{{fields.text}}</td>
+      </tr>
+    </table>
+    <p class="note">
+      NOTAM text is shown as issued. Times are UTC. Check for amendments before flight.
+    </p>
+  </section>
+
+  <!-- ===== tfr: TFR detail page ===== -->
+  <section class="v-tfr">
+    <p class="crumb">TFR List › Details</p>
+    <h1>NOTAM {{fields.notamNumber}} — {{fields.location}}</h1>
+    <div class="tfr-grid">
+      <table class="details">
+        <tr>
+          <th>NOTAM Number</th>
+          <td>{{fields.notamNumber}}</td>
+        </tr>
+        <tr>
+          <th>Type</th>
+          <td>{{default fields.tfr.type "—"}}</td>
+        </tr>
+        <tr>
+          <th>Facility</th>
+          <td>{{fields.facility}}</td>
+        </tr>
+        <tr>
+          <th>Location</th>
+          <td>{{fields.location}}</td>
+        </tr>
+        <tr>
+          <th>Beginning</th>
+          <td>{{fields.effectiveStart}}</td>
+        </tr>
+        <tr>
+          <th>Ending</th>
+          <td>{{fields.effectiveEnd}}</td>
+        </tr>
+        <tr>
+          <th>Reason</th>
+          <td>{{default fields.tfr.reason "—"}}</td>
+        </tr>
+        <tr>
+          <th>Altitude</th>
+          <td>
+            From {{default fields.tfr.floor "Surface"}} up to and including {{default
+            fields.tfr.ceiling "—"}}
+          </td>
+        </tr>
+        <tr>
+          <th>Center / Radius</th>
+          <td>
+            {{default fields.tfr.center "—"}}{{#if fields.tfr.radiusNm}} · {{fields.tfr.radiusNm}}
+            NM radius{{/if}}
+          </td>
+        </tr>
+      </table>
+      <svg class="chart" viewBox="0 0 240 240" aria-hidden="true">
+        <rect x="0" y="0" width="240" height="240" class="c-bg" />
+        <path
+          d="M0 60 H240 M0 120 H240 M0 180 H240 M60 0 V240 M120 0 V240 M180 0 V240"
+          class="c-grid"
+        />
+        <path d="M0 150 C40 140 70 170 110 158 S190 120 240 132" class="c-shore" />
+        <path d="M30 210 L200 40" class="c-road" />
+        <circle cx="120" cy="120" r="78" class="c-tfr" />
+        <circle cx="120" cy="120" r="4" class="c-dot" />
+        <path d="M120 120 H198" class="c-radius" />
+        <text x="159" y="114" class="c-label" text-anchor="middle">
+          {{default fields.tfr.radiusNm "3"}} NM
+        </text>
+        <text x="120" y="226" class="c-label" text-anchor="middle">
+          {{default fields.tfr.floor "SFC"}} – {{default fields.tfr.ceiling ""}}
+        </text>
+      </svg>
+    </div>
+    {{#if fields.tfr.restrictions}}
+    <h2>Operating Restrictions and Requirements</h2>
+    <ul>
+      {{#each fields.tfr.restrictions}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    {{/if}} {{#if fields.tfr.pointOfContact}}
+    <h2>Other Information</h2>
+    <p>Point of contact: {{fields.tfr.pointOfContact}}</p>
+    {{/if}}
+    <h2>NOTAM Text</h2>
+    <p class="raw">{{fields.text}}</p>
+  </section>
+</div>

@@ -1,0 +1,81 @@
+<article class="letter">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="top">
+    <div class="return">
+      <div class="org-line">
+        {{#if brand.logo}}<img class="logo" src="{{brand.logo}}" alt="" />{{else}}
+        <svg class="emblem" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="1" y="1" width="30" height="30" rx="5" class="e-fill" />
+          <path d="M16 6 L25 11 L7 11 Z" class="e-white" />
+          <rect x="9" y="13" width="2.4" height="8" class="e-white" />
+          <rect x="14.8" y="13" width="2.4" height="8" class="e-white" />
+          <rect x="20.6" y="13" width="2.4" height="8" class="e-white" />
+          <rect x="7" y="23" width="18" height="2.6" class="e-white" />
+        </svg>
+        {{/if}}
+        <span class="org">{{fields.org}}</span>
+      </div>
+      {{#each fields.orgAddress}}
+      <p>{{this}}</p>
+      {{/each}}
+    </div>
+    <div class="indicia">
+      <p>PRESORTED</p>
+      <p>FIRST-CLASS MAIL</p>
+      <p>U.S. POSTAGE PAID</p>
+    </div>
+  </header>
+
+  <section class="addressee">
+    {{#if fields.mailingId}}
+    <p class="mailid">{{fields.mailingId}}</p>
+    {{/if}}
+    <div class="imb" aria-hidden="true">{{#times 65}}<i></i>{{/times}}</div>
+    <p>{{upper fields.recipientName}}</p>
+    {{#each fields.recipientAddress}}
+    <p>{{upper this}}</p>
+    {{/each}}
+  </section>
+
+  <p class="date">{{fields.date}}</p>
+  <h1>{{default fields.subject "Notice of Data Breach"}}</h1>
+  <p class="salute">Dear {{fields.recipientName}}:</p>
+  {{#if fields.intro}}
+  <p class="para">{{fields.intro}}</p>
+  {{/if}}
+
+  <h2>What Happened?</h2>
+  <p class="para">{{fields.whatHappened}}</p>
+  <h2>What Information Was Involved?</h2>
+  <p class="para">{{fields.whatInformation}}</p>
+  <h2>What We Are Doing.</h2>
+  <p class="para">{{fields.whatWeAreDoing}}</p>
+  <h2>What You Can Do.</h2>
+  <p class="para">{{fields.whatYouCanDo}}</p>
+  {{#if fields.enrollmentCode}}
+  <div class="enroll">
+    <div>
+      <p class="e-head">
+        {{default fields.monitoringProvider "Credit monitoring"}}: complimentary enrollment
+      </p>
+      <p>Activation code: <strong class="code">{{fields.enrollmentCode}}</strong></p>
+    </div>
+    {{#if fields.enrollBy}}
+    <p class="by">Enroll by<br /><strong>{{fields.enrollBy}}</strong></p>
+    {{/if}}
+  </div>
+  {{/if}}
+  <h2>For More Information.</h2>
+  <p class="para">
+    {{fields.forMoreInformation}}{{#if fields.callCenter}} Call toll-free
+    <strong>{{fields.callCenter}}</strong>.{{/if}}
+  </p>
+
+  <p class="close">Sincerely,</p>
+  <p class="sig">{{fields.signerName}}</p>
+  <p class="signer">{{fields.signerName}}</p>
+  {{#if fields.signerTitle}}
+  <p class="signer-title">{{fields.signerTitle}}, {{fields.org}}</p>
+  {{/if}}
+  <p class="marking bottom">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</article>

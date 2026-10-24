@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rider service alert",
+  "description": "A transit agency's rider alert as published to its website and transit apps (fields follow GTFS-Realtime service alerts: affected routes, cause, effect, active period, header and description). Variant 'web' renders the agency website's alerts page on a phone; 'app' renders a trip-planning app's alert detail screen.",
+  "type": "object",
+  "required": ["agency", "routes", "effect", "headline"],
+  "additionalProperties": false,
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Transit agency name",
+      "examples": ["Riverbend Transit"]
+    },
+    "alertId": {
+      "type": "string",
+      "description": "Alert id",
+      "examples": ["RT-ALERT-26-4471"]
+    },
+    "routes": {
+      "type": "array",
+      "description": "Affected routes or lines (up to 6)",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Route short name shown in the route badge",
+            "examples": ["Red", "22"]
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "bus",
+              "rail",
+              "light_rail",
+              "subway",
+              "commuter_rail",
+              "ferry",
+              "paratransit"
+            ],
+            "description": "Mode (sets the badge shape)",
+            "examples": ["light_rail"]
+          },
+          "color": {
+            "type": "string",
+            "description": "Route colour as a hex code, e.g. #d6322a",
+            "examples": ["#d6322a"]
+          }
+        }
+      }
+    },
+    "effect": {
+      "type": "string",
+      "enum": [
+        "NO_SERVICE",
+        "REDUCED_SERVICE",
+        "SIGNIFICANT_DELAYS",
+        "DETOUR",
+        "ADDITIONAL_SERVICE",
+        "MODIFIED_SERVICE",
+        "STOP_MOVED",
+        "SHUTTLE",
+        "ACCESSIBILITY_ISSUE",
+        "OTHER_EFFECT",
+        "UNKNOWN_EFFECT"
+      ],
+      "description": "GTFS-Realtime effect (SHUTTLE = bus bridge)",
+      "examples": ["SHUTTLE"]
+    },
+    "cause": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN_CAUSE",
+        "OTHER_CAUSE",
+        "TECHNICAL_PROBLEM",
+        "STRIKE",
+        "DEMONSTRATION",
+        "ACCIDENT",
+        "HOLIDAY",
+        "WEATHER",
+        "MAINTENANCE",
+        "CONSTRUCTION",
+        "POLICE_ACTIVITY",
+        "MEDICAL_EMERGENCY"
+      ],
+      "description": "GTFS-Realtime cause",
+      "examples": ["TECHNICAL_PROBLEM"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Short header text",
+      "examples": ["Red Line: no trains between Union Station and Airport, shuttle buses running"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Description text",
+      "examples": [
+        "Due to a signal system problem, Red Line trains are not running between Union Station and Airport. Free shuttle buses are running every 10 minutes."
+      ]
+    },
+    "activePeriod": {
+      "type": "string",
+      "description": "When the alert applies",
+      "examples": ["Since 6:52 AM · until further notice"]
+    },
+    "alternatives": {
+      "type": "array",
+      "description": "Travel alternatives, one line each (up to 5)",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "description": "One alternative",
+        "examples": ["Board shuttle buses at the Union Station bus bay C"]
+      }
+    },
+    "updatedAt": {
+      "type": "string",
+      "description": "Last update time",
+      "examples": ["7:18 AM"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "Phone status-bar time (app variant)",
+      "examples": ["7:21"]
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ICS 213 General Message",
+  "description": "FEMA ICS Form 213 General Message: a written message between incident personnel (blocks 1-8 and the reply). Every field is optional: the 'blank' variant prints the empty form; the default variant shows the values as typed entries with handwritten signatures and reply.",
+  "type": "object",
+  "properties": {
+    "incidentName": {
+      "type": "string",
+      "description": "Block 1. Incident name (optional on the real form)",
+      "examples": ["Milford Water - SCADA Intrusion"]
+    },
+    "to": {
+      "type": "object",
+      "description": "Block 2. Recipient name and ICS position",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Recipient name",
+          "examples": ["Dana Whitfield"]
+        },
+        "position": {
+          "type": "string",
+          "description": "Recipient ICS position or title",
+          "examples": ["Incident Commander"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "from": {
+      "type": "object",
+      "description": "Block 3. Sender name and ICS position",
+      "properties": {
+        "name": { "type": "string", "description": "Sender name", "examples": ["Luis Ortega"] },
+        "position": {
+          "type": "string",
+          "description": "Sender ICS position or title",
+          "examples": ["Operations Section Chief"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "subject": {
+      "type": "string",
+      "description": "Block 4. Subject line",
+      "examples": ["Request: manual chlorine feed at Pump Station 3"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Block 5. Date, MM/DD/YYYY",
+      "examples": ["10/21/2026"]
+    },
+    "time": {
+      "type": "string",
+      "description": "Block 6. Time, 24-hour clock",
+      "examples": ["1420"]
+    },
+    "message": {
+      "type": "string",
+      "description": "Block 7. The message (2-10 short sentences or a numbered list; plain and specific; line breaks kept; at most about 900 characters)",
+      "examples": [
+        "Field crew confirms chlorine residual at PS-3 is 0.2 mg/L and falling. Request approval to run PS-3 chemical feed in local/manual."
+      ]
+    },
+    "approvedBy": {
+      "type": "object",
+      "description": "Block 8. Who approved the message",
+      "properties": {
+        "name": { "type": "string", "description": "Approver name", "examples": ["Luis Ortega"] },
+        "signature": {
+          "type": "string",
+          "description": "Signature as handwritten (usually initial and surname)",
+          "examples": ["L. Ortega"]
+        },
+        "position": {
+          "type": "string",
+          "description": "Approver position or title",
+          "examples": ["Operations Section Chief"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "reply": {
+      "type": "string",
+      "description": "Block 9. Reply handwritten by the recipient (leave empty when players are to write the reply; at most about 300 characters)",
+      "examples": ["Approved. Second crew dispatched from Central Yard, ETA 1500."]
+    },
+    "repliedBy": {
+      "type": "object",
+      "description": "Block 10. Who wrote the reply",
+      "properties": {
+        "name": { "type": "string", "description": "Name", "examples": ["Dana Whitfield"] },
+        "position": {
+          "type": "string",
+          "description": "Position or title",
+          "examples": ["Incident Commander"]
+        },
+        "signature": {
+          "type": "string",
+          "description": "Signature as handwritten",
+          "examples": ["D. Whitfield"]
+        },
+        "dateTime": {
+          "type": "string",
+          "description": "Date and time of the reply",
+          "examples": ["10/21/2026 1431"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above and below the form",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    }
+  },
+  "additionalProperties": false
+}

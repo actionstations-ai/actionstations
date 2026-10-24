@@ -1,0 +1,153 @@
+/* FEMA ICS 213 (General Message), one US Letter page. Labels follow the FEMA form; values (.v)
+   are typed entries, signatures and the reply are handwritten (Caveat). variant-blank hides
+   every value so the packet gets the empty form. */
+.page {
+  height: 1056px;
+  padding: 30px 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 1.3;
+  color: #000;
+}
+.marking {
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #9b1c14;
+}
+.form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid #000;
+  min-height: 0;
+}
+b {
+  font-weight: 700;
+}
+.title {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 8px 0 7px;
+  border-bottom: 1px solid #000;
+  letter-spacing: 0.02em;
+}
+.row {
+  display: flex;
+  border-bottom: 1px solid #000;
+}
+.cell {
+  padding: 6px 7px 7px;
+  border-right: 1px solid #000;
+  min-height: 34px;
+}
+.cell:last-child {
+  border-right: 0;
+}
+.full,
+.subj {
+  flex: 1;
+}
+.date {
+  width: 150px;
+}
+.time {
+  width: 110px;
+}
+.cell > .v {
+  margin-left: 4px;
+}
+.subj .v,
+.date .v,
+.time .v {
+  display: block;
+  margin: 3px 0 0;
+}
+.v {
+  font-family: 'Courier Prime', 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #10204a;
+}
+.block {
+  padding: 6px 7px 8px;
+  border-bottom: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+.msg {
+  flex: 1.7;
+}
+.reply {
+  flex: 1;
+}
+.body {
+  margin-top: 6px;
+  line-height: 1.45;
+}
+.hand,
+.hand-body {
+  font-family: 'Caveat', cursive;
+  color: #12307a;
+}
+.hand-body {
+  font-size: 21px;
+  line-height: 1.25;
+}
+.sign .cell {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  white-space: nowrap;
+}
+.sign .s-name {
+  flex: 1.3;
+}
+.line {
+  flex: 1;
+  display: inline-block;
+  border-bottom: 1px solid #000;
+  min-height: 17px;
+  padding: 0 3px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.line .v {
+  font-size: 12px;
+}
+.line .hand {
+  font-size: 19px;
+  line-height: 1;
+}
+.foot {
+  border-bottom: 0;
+  background: #f1f1f1;
+}
+.foot .cell {
+  min-height: 30px;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+.formid {
+  width: 30%;
+}
+.fdt {
+  flex: 1;
+}
+.fdt .line {
+  max-width: 260px;
+}
+
+/* Blank variant: keep every box and rule, drop the values. */
+body.variant-blank .v {
+  visibility: hidden;
+}

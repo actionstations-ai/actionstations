@@ -1,0 +1,217 @@
+/* Transit rider alert on a phone: the agency's mobile website ('web') or a trip-planning app's
+   alert detail ('app'). Fields follow GTFS-Realtime service alerts. */
+.phone {
+  width: 480px;
+  background: #fff;
+  color: #1b1f24;
+  font-family: 'Inter', sans-serif;
+  padding-bottom: 22px;
+}
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  padding: 0 26px;
+  font-size: 15px;
+}
+.sb-icons {
+  display: flex;
+  gap: 6px;
+}
+.sb-icons svg {
+  height: 12px;
+  width: auto;
+  fill: currentColor;
+}
+.web-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: #13294b;
+  color: #fff;
+}
+.web-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 18px;
+}
+.web-logo i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f2b705;
+  color: #13294b;
+  font-style: normal;
+  font-size: 13px;
+}
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.menu i {
+  width: 22px;
+  height: 2.5px;
+  background: #fff;
+}
+.crumbs {
+  padding: 12px 20px 0;
+  font-size: 13px;
+  color: #5b6570;
+}
+.app-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 18px 12px;
+  border-bottom: 1px solid #e6e8eb;
+  font-size: 16px;
+}
+.back,
+.share {
+  color: #0a66c2;
+}
+.app-title {
+  font-weight: 600;
+}
+.alert {
+  margin: 14px 18px 0;
+  padding: 18px 18px 14px;
+  border: 1px solid #e1e4e8;
+  border-left: 6px solid #e5a000;
+  border-radius: 6px;
+}
+.alert.eff-NO_SERVICE,
+.alert.eff-SHUTTLE {
+  border-left-color: #c8102e;
+}
+.v-app .alert {
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+  padding: 18px 20px 12px;
+}
+.routes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.route {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 30px;
+  padding: 0 10px;
+  background: var(--rc);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 15px;
+}
+.route.m-bus,
+.route.m-paratransit {
+  border-radius: 4px;
+}
+.effect {
+  margin-left: 4px;
+  padding: 4px 10px;
+  background: #fff4d6;
+  color: #7a4d00;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.eff-NO_SERVICE .effect,
+.eff-SHUTTLE .effect {
+  background: #fde7ea;
+  color: #a00d25;
+}
+.alert h1 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+.when {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  color: #4a535c;
+  margin-bottom: 12px;
+}
+.when svg {
+  width: 15px;
+  height: 15px;
+}
+.desc {
+  margin: 0 0 14px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.alert h2 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.alts {
+  margin: 0 0 14px;
+  padding-left: 20px;
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+.alts li {
+  margin-bottom: 5px;
+}
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  padding-top: 10px;
+  border-top: 1px solid #eceef1;
+  font-size: 12.5px;
+  color: #6a737d;
+}
+.foot .id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+}
+.web-actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 18px 0;
+  font-size: 14px;
+  color: #0a66c2;
+  font-weight: 600;
+}
+.app-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px 20px 0;
+}
+.btn {
+  text-align: center;
+  padding: 13px;
+  border: 1.5px solid #0a66c2;
+  color: #0a66c2;
+  border-radius: 24px;
+  font-weight: 600;
+  font-size: 15px;
+}
+.btn.primary {
+  background: #0a66c2;
+  color: #fff;
+}

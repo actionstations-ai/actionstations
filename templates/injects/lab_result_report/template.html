@@ -1,0 +1,114 @@
+<!-- Certified laboratory analytical report / certificate of analysis, one US Letter page. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="lab">
+    <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+      <rect x="1" y="1" width="38" height="38" rx="6" fill="#0f5c63" />
+      <path
+        d="M15 8 h10 M17 8 v10 l-7 13 a3 3 0 0 0 3 4 h14 a3 3 0 0 0 3 -4 l-7 -13 v-10"
+        stroke="#fff"
+        stroke-width="2"
+        fill="none"
+      />
+      <path d="M12.5 27 h15" stroke="#9fe0d8" stroke-width="2" />
+    </svg>
+    <div class="lab-id">
+      <div class="lab-name">{{fields.labName}}</div>
+      {{#if fields.labAddress}}
+      <div class="lab-sub">{{fields.labAddress}}</div>
+      {{/if}} {{#if fields.labCertId}}
+      <div class="lab-sub">{{fields.labCertId}}</div>
+      {{/if}}
+    </div>
+    <div class="rep">
+      <div class="rep-title">{{default fields.reportTitle "Analytical Report"}}</div>
+      {{#if fields.reportNo}}
+      <div class="rep-no">{{fields.reportNo}}</div>
+      {{/if}}
+    </div>
+  </header>
+
+  <table class="info">
+    <tr>
+      <th>Client</th>
+      <td>{{fields.client}}</td>
+      <th>Lab sample ID</th>
+      <td class="mono">{{fields.sampleId}}</td>
+    </tr>
+    <tr>
+      <th>Facility / system</th>
+      <td>{{fields.facility}}</td>
+      <th>Matrix</th>
+      <td>{{fields.matrix}}</td>
+    </tr>
+    <tr>
+      <th>Sample location</th>
+      <td>{{fields.sampleLocation}}</td>
+      <th>Collected by</th>
+      <td>{{fields.sampledBy}}</td>
+    </tr>
+    <tr>
+      <th>Collected</th>
+      <td class="mono">{{fields.sampledAt}}</td>
+      <th>Received</th>
+      <td class="mono">{{fields.receivedAt}}</td>
+    </tr>
+    <tr>
+      <th>Reported</th>
+      <td class="mono" colspan="3">{{fields.reportedAt}}</td>
+    </tr>
+  </table>
+
+  <h2>Results</h2>
+  <table class="res">
+    <thead>
+      <tr>
+        <th class="c-an">Analyte</th>
+        <th class="c-r">Result</th>
+        <th class="c-u">Units</th>
+        <th class="c-l">Limit / MCL</th>
+        <th class="c-m">Method</th>
+        <th class="c-f">Qual.</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.results}}
+      <tr class="{{#if this.flag}}flagged{{/if}}">
+        <td>{{this.analyte}}</td>
+        <td class="mono num">{{this.result}}</td>
+        <td class="mono">{{this.units}}</td>
+        <td class="mono">{{this.limit}}</td>
+        <td class="mono">{{this.method}}</td>
+        <td class="flag">{{this.flag}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p class="legend">
+    Qualifiers: POS positive / present · H exceeds limit · L below required minimum · J estimated
+    value · P/A presence/absence · MCL maximum contaminant level
+  </p>
+
+  {{#if fields.comments}}
+  <div class="comments">
+    <span class="lbl">Comments</span>
+    <p>{{nl2br fields.comments}}</p>
+  </div>
+  {{/if}}
+
+  <div class="spacer"></div>
+  <div class="approve">
+    <div>
+      <div class="sig">{{fields.approvedBy}}</div>
+      <div class="sig-line">Reviewed and approved by</div>
+    </div>
+    <p class="disc">
+      Results relate only to the sample as received. This report may not be reproduced except in
+      full without written approval of the laboratory.
+    </p>
+  </div>
+  <div class="foot">
+    <span>{{fields.reportNo}} · {{fields.sampleId}}</span><span>Page 1 of 1</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

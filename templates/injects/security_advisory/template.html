@@ -1,0 +1,130 @@
+<article
+  class="adv {{#if (eq fields.tlp 'RED')}}tlp-red{{else if (eq fields.tlp 'CLEAR')}}tlp-clear{{else if (eq fields.tlp 'GREEN')}}tlp-green{{else}}tlp-amber{{/if}}"
+>
+  <p class="tlp-row top"><span class="tlp">TLP:{{fields.tlp}}</span></p>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+
+  <!-- ===== agency (CISA / ISAC) ===== -->
+  <header class="a-head">
+    <svg class="seal" viewBox="0 0 60 60" aria-hidden="true">
+      <circle cx="30" cy="30" r="29" class="s-fill" />
+      <circle cx="30" cy="30" r="25" class="s-ring" />
+      <path d="M30 13 L44 19 L44 30 Q44 41 30 48 Q16 41 16 30 L16 19 Z" class="s-shield" />
+      <path d="M23 30 L28 35 L38 24" class="s-check" />
+    </svg>
+    <div class="a-names">
+      <p class="a-pub">{{fields.publisher}}</p>
+      {{#if fields.coAuthors}}
+      <p class="a-co">Co-authored with {{fields.coAuthors}}</p>
+      {{/if}}
+    </div>
+    <p class="a-kind">Cybersecurity<br />Advisory</p>
+  </header>
+
+  <!-- ===== vendor PSIRT ===== -->
+  <header class="v-head">
+    <p class="v-pub">{{fields.publisher}}</p>
+    <p class="v-kind">Security Advisory</p>
+  </header>
+
+  <h1>{{fields.title}}</h1>
+
+  <table class="meta">
+    <tr>
+      <th>Advisory ID</th>
+      <td>{{fields.advisoryId}}</td>
+      <th>Released</th>
+      <td>{{fields.released}}</td>
+    </tr>
+    <tr>
+      {{#if fields.severity}}
+      <th>Severity</th>
+      <td>
+        <span class="sev sev-{{lower fields.severity}}">{{fields.severity}}</span>{{#if
+        fields.cvss}} &nbsp;CVSS {{fields.cvss}}{{/if}}
+      </td>
+      {{else}}
+      <th>Severity</th>
+      <td>—</td>
+      {{/if}}
+      <th>Updated</th>
+      <td>{{default fields.updated "—"}}</td>
+    </tr>
+    {{#if fields.cves}}
+    <tr>
+      <th>CVE</th>
+      <td colspan="3" class="mono">{{join fields.cves ", "}}</td>
+    </tr>
+    {{/if}}
+  </table>
+
+  <div class="cols">
+    <div class="main">
+      <h2>Summary</h2>
+      <p>{{fields.summary}}</p>
+      {{#if fields.technicalDetails}}
+      <h2>Technical Details</h2>
+      <p>{{fields.technicalDetails}}</p>
+      {{/if}} {{#if fields.affectedProducts}}
+      <h2>Affected Products</h2>
+      <table class="grid">
+        <tr>
+          <th>Product</th>
+          <th>Affected versions</th>
+          <th>Fixed in</th>
+        </tr>
+        {{#each fields.affectedProducts}}
+        <tr>
+          <td>{{this.product}}</td>
+          <td>{{this.versions}}</td>
+          <td>{{default this.fixed "No fix yet"}}</td>
+        </tr>
+        {{/each}}
+      </table>
+      {{/if}} {{#if fields.iocs}}
+      <h2>Indicators of Compromise</h2>
+      <table class="grid iocs">
+        <tr>
+          <th>Type</th>
+          <th>Indicator</th>
+          <th>Notes</th>
+        </tr>
+        {{#each fields.iocs}}
+        <tr>
+          <td>{{this.type}}</td>
+          <td class="mono">{{this.value}}</td>
+          <td>{{this.note}}</td>
+        </tr>
+        {{/each}}
+      </table>
+      {{/if}}
+    </div>
+    {{#if fields.mitigations}}
+    <aside class="actions">
+      <h2 class="a-only">Actions to take today</h2>
+      <h2 class="v-only">Remediation and workarounds</h2>
+      <ul>
+        {{#each fields.mitigations}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </aside>
+    {{/if}}
+  </div>
+
+  <footer class="foot">
+    {{#if fields.contact}}
+    <p class="contact">{{fields.contact}}</p>
+    {{/if}}
+    <p class="disc">
+      This document is marked TLP:{{fields.tlp}}. {{#if (eq fields.tlp 'CLEAR')}}Recipients may
+      share it without restriction.{{else if (eq fields.tlp 'GREEN')}}Recipients may share it within
+      their community, but not publicly.{{else if (eq fields.tlp 'RED')}}For the eyes and ears of
+      individual recipients only; no further disclosure.{{else}}Recipients may share it on a
+      need-to-know basis within their organization{{#if (eq fields.tlp 'AMBER')}} and its
+      clients{{/if}} only.{{/if}}
+    </p>
+    <p class="pageno">{{fields.advisoryId}} · Page 1 of 1</p>
+    <p class="tlp-row"><span class="tlp">TLP:{{fields.tlp}}</span></p>
+  </footer>
+</article>

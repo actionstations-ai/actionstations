@@ -1,0 +1,87 @@
+<!-- FEMA ICS Form 213 (General Message), one US Letter page. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">GENERAL MESSAGE (ICS 213)</div>
+    <div class="row">
+      <div class="cell full">
+        <b>1. Incident Name (Optional):</b>
+        <span class="v">{{fields.incidentName}}</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell full">
+        <b>2. To (Name and Position):</b>
+        <span class="v"
+          >{{fields.to.name}}{{#if fields.to.position}}, {{fields.to.position}}{{/if}}</span
+        >
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell full">
+        <b>3. From (Name and Position):</b>
+        <span class="v"
+          >{{fields.from.name}}{{#if fields.from.position}}, {{fields.from.position}}{{/if}}</span
+        >
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell subj">
+        <b>4. Subject:</b>
+        <span class="v">{{fields.subject}}</span>
+      </div>
+      <div class="cell date">
+        <b>5. Date:</b>
+        <span class="v">{{fields.date}}</span>
+      </div>
+      <div class="cell time">
+        <b>6. Time:</b>
+        <span class="v">{{fields.time}}</span>
+      </div>
+    </div>
+    <div class="block msg">
+      <b>7. Message:</b>
+      <div class="v body">{{nl2br fields.message}}</div>
+    </div>
+    <div class="row sign">
+      <div class="cell s-name">
+        <b>8. Approved by:</b> Name:
+        <span class="line"><span class="v">{{fields.approvedBy.name}}</span></span>
+      </div>
+      <div class="cell s-sig">
+        Signature:
+        <span class="line"><span class="v hand">{{fields.approvedBy.signature}}</span></span>
+      </div>
+      <div class="cell s-pos">
+        Position/Title:
+        <span class="line"><span class="v">{{fields.approvedBy.position}}</span></span>
+      </div>
+    </div>
+    <div class="block reply">
+      <b>9. Reply:</b>
+      <div class="v body hand-body">{{nl2br fields.reply}}</div>
+    </div>
+    <div class="row sign">
+      <div class="cell s-name">
+        <b>10. Replied by:</b> Name:
+        <span class="line"><span class="v">{{fields.repliedBy.name}}</span></span>
+      </div>
+      <div class="cell s-pos">
+        Position/Title:
+        <span class="line"><span class="v">{{fields.repliedBy.position}}</span></span>
+      </div>
+      <div class="cell s-sig">
+        Signature:
+        <span class="line"><span class="v hand">{{fields.repliedBy.signature}}</span></span>
+      </div>
+    </div>
+    <div class="row foot">
+      <div class="cell formid"><b>ICS 213</b></div>
+      <div class="cell fdt">
+        Date/Time:
+        <span class="line"><span class="v">{{fields.repliedBy.dateTime}}</span></span>
+      </div>
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

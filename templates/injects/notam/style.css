@@ -1,0 +1,202 @@
+/* NOTAM / TFR, screen 900 px wide.
+   variant-text: NOTAM Search result row with the raw NOTAM in monospace.
+   variant-tfr: TFR detail page (details table, schematic chart, restrictions, NOTAM text). */
+.page {
+  background: #fff;
+  color: #1b1b1b;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  padding-bottom: 18px;
+}
+p {
+  margin: 0;
+}
+.site {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  background: #112e51;
+  color: #fff;
+}
+.mark {
+  width: 38px;
+  height: 38px;
+}
+.m-fill {
+  fill: #fff;
+}
+.m-plane {
+  fill: #112e51;
+}
+.site-agency {
+  font-size: 12px;
+  opacity: 0.85;
+}
+.site-app {
+  font-size: 18px;
+  font-weight: 700;
+}
+.site-ex {
+  margin-left: auto;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #ffb4a8;
+}
+.app-tfr,
+.v-tfr {
+  display: none;
+}
+body.variant-tfr .app-text,
+body.variant-tfr .v-text {
+  display: none;
+}
+body.variant-tfr .app-tfr {
+  display: inline;
+}
+body.variant-tfr .v-tfr {
+  display: block;
+}
+.v-text,
+.v-tfr {
+  padding: 14px 20px 0;
+}
+.query {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 10px;
+  background: #f1f1f1;
+  border: 1px solid #d6d7d9;
+  font-size: 12.5px;
+}
+.results {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.results th {
+  padding: 6px 8px;
+  background: #e1e7f1;
+  border: 1px solid #c3cbd6;
+  text-align: left;
+  font-weight: 700;
+}
+.results td {
+  padding: 6px 8px;
+  border: 1px solid #d6d7d9;
+  vertical-align: top;
+}
+.num {
+  font-weight: 700;
+  color: #205493;
+}
+.raw {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: #fafafa;
+}
+p.raw {
+  padding: 10px 12px;
+  border: 1px solid #d6d7d9;
+}
+.note {
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: #5b616b;
+}
+.crumb {
+  font-size: 12px;
+  color: #205493;
+}
+h1 {
+  margin: 4px 0 10px;
+  font-size: 21px;
+  font-weight: 700;
+  color: #112e51;
+}
+.tfr-grid {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 16px;
+  align-items: start;
+}
+.details {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.details th,
+.details td {
+  padding: 5px 8px;
+  border: 1px solid #d6d7d9;
+  text-align: left;
+  vertical-align: top;
+}
+.details th {
+  width: 128px;
+  background: #f1f1f1;
+  font-weight: 700;
+}
+.chart {
+  width: 240px;
+  height: 240px;
+  border: 1px solid #c3cbd6;
+}
+.c-bg {
+  fill: #eef3e6;
+}
+.c-grid {
+  stroke: #d2dac4;
+  stroke-width: 1;
+  fill: none;
+}
+.c-shore {
+  fill: none;
+  stroke: #6a9fd4;
+  stroke-width: 6;
+}
+.c-road {
+  stroke: #c9a227;
+  stroke-width: 3;
+}
+.c-tfr {
+  fill: rgba(205, 32, 38, 0.15);
+  stroke: #cd2026;
+  stroke-width: 2.5;
+  stroke-dasharray: 7 4;
+}
+.c-dot {
+  fill: #cd2026;
+}
+.c-radius {
+  stroke: #cd2026;
+  stroke-width: 1.5;
+}
+.c-label {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  fill: #8b1116;
+}
+h2 {
+  margin: 14px 0 4px;
+  padding-bottom: 3px;
+  border-bottom: 2px solid #112e51;
+  font-size: 14px;
+  font-weight: 700;
+  color: #112e51;
+}
+ul {
+  margin: 0;
+  padding-left: 20px;
+}
+li {
+  margin: 3px 0;
+}

@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Alarm summary",
+  "description": "Operator alarm summary list (ISA-18.2 style) of a control-room console: an industrial DCS, a telecom NOC, a data-center DCIM/BMS, a campus building automation system. Variant 'dark' draws a DCS / NOC console, 'light' a web BMS/DCIM console. Newest alarm first.",
+  "type": "object",
+  "required": ["systemName", "alarms"],
+  "additionalProperties": false,
+  "properties": {
+    "systemName": {
+      "type": "string",
+      "description": "Console or system name shown in the title bar",
+      "examples": ["UNIT 2 DCS — ALARM SUMMARY", "NOC Fault Management", "DCIM Alarm Console"]
+    },
+    "site": {
+      "type": "string",
+      "description": "Plant, facility or network the console monitors",
+      "examples": ["Lakeshore Chemical — Unit 2 Control Room"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "Console clock, HH:MM:SS",
+      "examples": ["03:17:42"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Console date",
+      "examples": ["21-Oct-2026"]
+    },
+    "operator": {
+      "type": "string",
+      "description": "Logged-in operator or console position",
+      "examples": ["BOARD_OP_2"]
+    },
+    "filter": {
+      "type": "string",
+      "description": "Active filter shown above the list",
+      "examples": ["All areas · Unacknowledged + Active"]
+    },
+    "counts": {
+      "type": "object",
+      "description": "Totals by priority shown in the summary tiles (omit to hide the tiles)",
+      "additionalProperties": false,
+      "properties": {
+        "critical": {
+          "type": "integer",
+          "description": "Critical (priority 1) alarms",
+          "examples": [3]
+        },
+        "high": { "type": "integer", "description": "High (priority 2) alarms", "examples": [11] },
+        "medium": {
+          "type": "integer",
+          "description": "Medium (priority 3) alarms",
+          "examples": [24]
+        },
+        "low": { "type": "integer", "description": "Low (priority 4) alarms", "examples": [40] }
+      }
+    },
+    "alarms": {
+      "type": "array",
+      "description": "Alarm rows, newest first (up to 16)",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "priority", "description"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Alarm time, HH:MM:SS",
+            "examples": ["03:17:21"]
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"],
+            "description": "Alarm priority",
+            "examples": ["critical"]
+          },
+          "tag": {
+            "type": "string",
+            "description": "Point tag, device or network element",
+            "examples": ["TI-2104", "CRAH-07", "rtr-core-02"]
+          },
+          "source": {
+            "type": "string",
+            "description": "Area, unit or node the alarm comes from",
+            "examples": ["U2 REACTOR"]
+          },
+          "description": {
+            "type": "string",
+            "description": "Alarm text as the system prints it",
+            "examples": ["REACTOR OUTLET TEMP HI-HI"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Current value with units",
+            "examples": ["412.6 °F"]
+          },
+          "state": {
+            "type": "string",
+            "enum": ["active", "acked", "rtn", "shelved"],
+            "description": "active = unacknowledged, acked = acknowledged, rtn = returned to normal, shelved = suppressed by an operator",
+            "examples": ["active"]
+          }
+        }
+      }
+    },
+    "footer": {
+      "type": "string",
+      "description": "Status line at the bottom of the console",
+      "examples": ["Alarm flood: 38 alarms in last 10 min"]
+    }
+  }
+}

@@ -1,0 +1,124 @@
+<!-- Printout of a federal online incident report submission (OE-417 / NRC / NORS / PHMSA / CISA
+     style), one US Letter page. Generic emblem, never a real agency seal. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="govbar">
+    <svg class="flag" viewBox="0 0 16 11" aria-hidden="true">
+      <rect width="16" height="11" fill="#fff" />
+      <rect y="0" width="16" height="1.6" fill="#b22234" />
+      <rect y="3.1" width="16" height="1.6" fill="#b22234" />
+      <rect y="6.2" width="16" height="1.6" fill="#b22234" />
+      <rect y="9.4" width="16" height="1.6" fill="#b22234" />
+      <rect width="7" height="6" fill="#3c3b6e" />
+    </svg>
+    An official website of the United States government
+  </div>
+  <header class="agency">
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" fill="#162e51" />
+      <circle cx="24" cy="24" r="17" fill="none" stroke="#fff" stroke-width="1.2" />
+      <path
+        d="M24 12 L27 21 L36 21 L29 27 L32 36 L24 30 L16 36 L19 27 L12 21 L21 21 Z"
+        fill="#fff"
+      />
+    </svg>
+    <div>
+      <div class="ag-name">{{fields.agency}}</div>
+      {{#if fields.agencyOffice}}
+      <div class="ag-office">{{fields.agencyOffice}}</div>
+      {{/if}}
+    </div>
+  </header>
+
+  <div class="titlebar">
+    <div>
+      {{#if fields.formNumber}}
+      <div class="fnum">{{fields.formNumber}}</div>
+      {{/if}}
+      <h1>{{fields.formName}}</h1>
+    </div>
+    {{#if fields.ombNumber}}
+    <div class="omb">{{fields.ombNumber}}</div>
+    {{/if}}
+  </div>
+
+  <div class="rtype">
+    <span class="lbl">Report type</span>
+    <span class="opt"
+      ><span class="box{{#if (eq fields.reportType 'initial')}} on{{/if}}"></span>Initial /
+      emergency alert</span
+    >
+    <span class="opt"
+      ><span class="box{{#if (eq fields.reportType 'update')}} on{{/if}}"></span>Update</span
+    >
+    <span class="opt"
+      ><span class="box{{#if (eq fields.reportType 'final')}} on{{/if}}"></span>Final</span
+    >
+  </div>
+
+  {{#if fields.reportId}}
+  <div class="receipt">
+    <svg viewBox="0 0 20 20" aria-hidden="true">
+      <circle cx="10" cy="10" r="9" fill="#00a91c" />
+      <path d="M5.5 10.5 L8.5 13.5 L14.5 7" stroke="#fff" stroke-width="2" fill="none" />
+    </svg>
+    <div>
+      <div class="r-head">Submission received <span class="r-id">{{fields.reportId}}</span></div>
+      <div class="r-sub">
+        Submitted {{fields.submittedAt}}{{#if fields.status}}. {{fields.status}}{{/if}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
+
+  <h2>Reporting entity</h2>
+  <table class="kv">
+    <tr>
+      <th>Organization</th>
+      <td colspan="3">{{fields.organization}}</td>
+    </tr>
+    <tr>
+      <th>Facility / system</th>
+      <td colspan="3">{{fields.facility}}</td>
+    </tr>
+    <tr>
+      <th>Incident began</th>
+      <td>{{fields.incidentStart}}</td>
+      <th>Submitted</th>
+      <td>{{fields.submittedAt}}</td>
+    </tr>
+    <tr>
+      <th>Contact</th>
+      <td>
+        {{fields.submittedBy.name}}{{#if fields.submittedBy.title}},
+        {{fields.submittedBy.title}}{{/if}}
+      </td>
+      <th>Phone / email</th>
+      <td>
+        {{fields.submittedBy.phone}}{{#if fields.submittedBy.email}}<br />{{fields.submittedBy.email}}{{/if}}
+      </td>
+    </tr>
+  </table>
+
+  {{#each fields.sections}}
+  <h2>{{this.heading}}</h2>
+  <table class="kv">
+    {{#each this.items}}
+    <tr>
+      <th>{{this.label}}</th>
+      <td colspan="3">{{this.value}}</td>
+    </tr>
+    {{/each}}
+  </table>
+  {{/each}} {{#if fields.narrative}}
+  <h2>Narrative</h2>
+  <div class="narr">{{nl2br fields.narrative}}</div>
+  {{/if}}
+
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{default fields.formNumber "Incident report"}} · {{fields.reportId}}</span>
+    <span>Page 1 of 1</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>
