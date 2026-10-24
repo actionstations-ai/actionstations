@@ -155,6 +155,42 @@ describe('scenarios:* handlers', () => {
     for (const w of out) expect(w).toHaveProperty('severity')
   })
 
+  it('save marks a review note stale when its row changes, not when another row does (#342)', async () => {
+    const s = await createEmpty()
+    const [a, b] = FIXTURE.msel.slice(1, 3).map((r) => r.id)
+    const note = (rowId: string) => ({
+      code: 'CRITIQUE',
+      severity: 'warning' as const,
+      message: `${rowId} quotes the old text`,
+      source: 'critique' as const,
+      rowId,
+    })
+    const reviewed = await invoke('scenarios:save', {
+      projectPath,
+      scenario: {
+        ...s,
+        phases: FIXTURE.phases,
+        msel: FIXTURE.msel,
+        warnings: [note(a!), note(b!)],
+      },
+    })
+    const edit = (sc: Scenario, rowId: string) => ({
+      ...sc,
+      msel: sc.msel.map((r) => (r.id === rowId ? { ...r, event: `${r.event} (corrected)` } : r)),
+    })
+    const first = await invoke('scenarios:save', { projectPath, scenario: edit(reviewed, b!) })
+    expect(first.warnings.map((w) => [w.rowId, !!w.stale])).toEqual([
+      [a, false],
+      [b, true],
+    ])
+    // The stale note stays stale through a later save that leaves its row alone.
+    const second = await invoke('scenarios:save', {
+      projectPath,
+      scenario: { ...first, title: 'Renamed' },
+    })
+    expect(second.warnings.map((w) => !!w.stale)).toEqual([false, true])
+  })
+
   it('save with a stale baseUpdatedAt answers CONFLICT and keeps the newer copy (#199)', async () => {
     const s = await createEmpty()
     // A later millisecond, so updatedAt differs.

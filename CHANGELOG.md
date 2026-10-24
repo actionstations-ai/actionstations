@@ -309,6 +309,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 #### Generation and checks
 
+- Warnings no longer go stale after hand fixes (#342): a user save of an inject, or the relint of **Repair**, drops the "fields repaired to fit the template" warning (and the other field warnings) once the inject's fields validate; a review (critique) note whose row or inject changed after the review ran is marked stale. The Warnings tab now lists the review notes under **Review notes**, with the stale ones folded away under a count. New critique notes record a fingerprint of the row they cite; older notes are compared with the stored MSEL on save and with the inject's version history. The bundled examples were refreshed so their stored notes carry the marks.
 - Re-running an MSEL phase, the phase plan or the critique (or repairing the MSEL) now marks the injects of rows whose event, expected action or format changed, or that were removed, as stale, so "Write all injects" writes them again; injects whose row is gone are left out of the export as they are from the deck (#207).
 - The critique and hot wash steps write their documents only after the step's checkpoint: a failed or cancelled step leaves `overview.md`, the handbook and the hot wash as they were (#209).
 - An END_GAME or ENDEX inject never gets a glitch template variant (the recovery board shows normal); a bare-number gate in a flight context ("AC 444 at Gate 14") is checked against the concourse gates when the facts number gates per concourse (#222).

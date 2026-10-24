@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T22:01:39.036Z",
-  "updatedAt": "2026-10-24T22:19:32.246Z",
+  "updatedAt": "2026-10-24T22:43:50.428Z",
   "brief": {
     "userPrompt": "A January weekday at Corwin Valley Gas Company, 16:50, outdoor temperature 14 °F. The call center logs three high-flame and pilot-outage calls from downtown Corwin in Pressure District 7 within 25 minutes, while the PipeView Low Pressure screen shows RS-21 and RS-22 outlets steady at 10 in. w.c. District recorder PR-7B reads 15 in. w.c. and climbing, but PR-7A shows communication loss. The shift controller calls Gas Control Manager Theresa Novak; M&R Supervisor Raymond Oyelowo sends a technician to RS-22, whose field gauge reads 1.1 psig at the outlet. The PipeView audit trail shows PC-21 and PC-22 setpoints written to 1.8 psig at 16:22 from CVG-ENG01 by the integrator account halden-support, through the OT jump host CVG-OT-JMP01, during a session no one at Halden Automation will claim; the CIRP-5 setpoint-change page never reached the Gas Control Manager, and the outlet transmitter values on the RTUs appear frozen. A red herring: a construction crew near Front Street worked on a main that afternoon (CP-17 sensing-line question). Corwin Fire reports a basement fire on Canal Street and Riverside Manor nursing home reports a stove flare-up. Players must decide whether to order isolation levels I-1 to I-4 under CVG-CIRP-2026, switch RS-21 and RS-22 to mechanical pilots, close Valve 21 and Valve 22 and shut in Pressure District 7 (5,120 customers, two nursing homes, 14 °F night) per CVG-EP-2026 Section 6, notify the Lake Haven County 911 Center, the National Response Center within an hour of confirmed discovery, the Pennsylvania PUC, CISA within 72 hours and TSA, preserve CVG-ENG01 and the jump host with memory images, staff manual operation at every station with eleven M&R technicians, and tell the public through the PIO while Channel 16 and the Corwin Courier report explosions that have not happened.",
     "audience": [
@@ -1487,7 +1487,8 @@
       "message": "Inject I-04 uses player voice ('I am declaring a Level 3 incident')—this must be from an external source like Facilitator or System Alert. (row rewritten once from this note)",
       "rowId": "I-04",
       "source": "critique",
-      "suggestion": "Rewrite I-04 as a System Alert from the EOC activation system, not a player announcement."
+      "suggestion": "Rewrite I-04 as a System Alert from the EOC activation system, not a player announcement.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1495,7 +1496,8 @@
       "message": "Inject I-14 uses player voice ('GCM Novak'): a player role cannot announce its own decision as an inject. (row rewritten once from this note)",
       "rowId": "I-14",
       "source": "critique",
-      "suggestion": "Change I-14 to a phone call from the Field Operations Supervisor to the IC, reporting on field readiness, not a GCM announcement."
+      "suggestion": "Change I-14 to a phone call from the Field Operations Supervisor to the IC, reporting on field readiness, not a GCM announcement.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1503,7 +1505,8 @@
       "message": "Inject I-15 uses player voice ('I am authorizing the shutdown'): a player's own decision must not be framed as an external inject. (row rewritten once from this note)",
       "rowId": "I-15",
       "source": "critique",
-      "suggestion": "Rewrite I-15 as a System Alert from CVG-SCADA01 confirming remote command status, not a player's declaration."
+      "suggestion": "Rewrite I-15 as a System Alert from CVG-SCADA01 confirming remote command status, not a player's declaration.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1511,7 +1514,8 @@
       "message": "Inject I-22 uses player voice ('GCM Novak'): a player role cannot report its own action as an external inject. (row rewritten once from this note)",
       "rowId": "I-22",
       "source": "critique",
-      "suggestion": "Rewrite I-22 as a System Log from CVG-SCADA01 confirming remote control re-enablement, not a GCM statement."
+      "suggestion": "Rewrite I-22 as a System Log from CVG-SCADA01 confirming remote control re-enablement, not a GCM statement.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1519,7 +1523,8 @@
       "message": "Inject I-03 claims a remote session from '203.0.113.14'—this IP is not in the documented authorized ranges for Halden Automation.",
       "rowId": "I-03",
       "source": "critique",
-      "suggestion": "Replace the source IP with a documented external IP from C4, such as 203.0.113.10, to match the authorized vendor range."
+      "suggestion": "Replace the source IP with a documented external IP from C4, such as 203.0.113.10, to match the authorized vendor range.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1527,7 +1532,8 @@
       "message": "Inject I-07 claims a configuration change via ROCLINK on CVG-ENG01—this host is not listed in C4 as having ROCLINK access.",
       "rowId": "I-07",
       "source": "critique",
-      "suggestion": "Change the host to CVG-ENG01 only if it is explicitly listed as having ROCLINK; otherwise, use CVG-OT-JMP01 as the access point."
+      "suggestion": "Change the host to CVG-ENG01 only if it is explicitly listed as having ROCLINK; otherwise, use CVG-OT-JMP01 as the access point.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1543,7 +1549,8 @@
       "message": "Inject I-18b claims TSA sent an email confirming network segregation—this must be from a known external contact, not a generic 'TSA Pipeline Security Division'.",
       "rowId": "I-18b",
       "source": "critique",
-      "suggestion": "Use the exact email address from C5: tsp-ops@tsa.dhs.gov, and confirm the sender matches the documented contact."
+      "suggestion": "Use the exact email address from C5: tsp-ops@tsa.dhs.gov, and confirm the sender matches the documented contact.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1559,7 +1566,8 @@
       "message": "Inject I-21 claims TSA revoked the halden-support account—this must be confirmed via a formal email from the TSA contact in C5.",
       "rowId": "I-21",
       "source": "critique",
-      "suggestion": "Use the exact contact name and number from C5 to validate the sender and ensure consistency with documented procedures."
+      "suggestion": "Use the exact contact name and number from C5 to validate the sender and ensure consistency with documented procedures.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1567,7 +1575,8 @@
       "message": "Inject I-04b claims a customer service email with 143 odor calls—this must be from a known external source, not a direct internal email.",
       "rowId": "I-04b",
       "source": "critique",
-      "suggestion": "Rewrite I-04b as a phone call from the call center to the PIO, not an internal email forward."
+      "suggestion": "Rewrite I-04b as a phone call from the call center to the PIO, not an internal email forward.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1575,7 +1584,8 @@
       "message": "Inject I-08 claims a press release was drafted—this must be from a known external system, not a direct system alert.",
       "rowId": "I-08",
       "source": "critique",
-      "suggestion": "Change I-08 to a System Alert from the emergency alert system, not a direct PIO action."
+      "suggestion": "Change I-08 to a System Alert from the emergency alert system, not a direct PIO action.",
+      "stale": true
     },
     {
       "code": "DENSITY_DENSE",

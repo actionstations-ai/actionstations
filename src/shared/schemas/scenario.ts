@@ -159,6 +159,13 @@ export const LintWarning = z.object({
   injectId: z.string().optional(),
   source: z.enum(['lint', 'critique']).default('lint'),
   suggestion: z.string().optional(),
+  /**
+   * Critique notes (#342): when the review wrote the note and a fingerprint of the cited row's
+   * text then. Notes written before #342 have none; their time is the critique run's.
+   */
+  basis: z.object({ at: IsoDateTime, row: z.string().optional() }).optional(),
+  /** Critique notes (#342): the cited row or its inject changed after the review ran. */
+  stale: z.boolean().optional(),
 })
 export type LintWarning = z.infer<typeof LintWarning>
 

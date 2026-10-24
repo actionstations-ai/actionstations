@@ -224,6 +224,35 @@ describe('ScenarioPage — guided flow (#227, #228, #229)', () => {
     expect(document.activeElement?.closest('tr')?.textContent).toContain('I-03')
   })
 
+  it('lists live review notes and folds stale ones away under a count (#342)', async () => {
+    const note = (rowId: string, stale?: boolean) => ({
+      code: 'CRITIQUE',
+      severity: 'warning' as const,
+      message: `Row ${rowId} contradicts the plan`,
+      source: 'critique' as const,
+      rowId,
+      ...(stale ? { stale } : {}),
+    })
+    const reviewed = {
+      ...scenario,
+      warnings: [note('I-02'), note('I-03', true), note('I-04', true)],
+    }
+    setup({ 'scenarios:get': () => reviewed, 'injects:list': () => [], 'scenarios:lint': () => [] })
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('tab', { name: /^Warnings/ }))
+    const notes = await screen.findByRole('region', { name: 'Review notes' })
+    const open = within(notes).getByRole('list', { name: 'Open review notes' })
+    expect(within(open).getAllByRole('listitem')).toHaveLength(1)
+    expect(within(open).getByText(/Row I-02 contradicts the plan/)).toBeTruthy()
+    // The stale ones sit apart, behind a summary that counts them.
+    const summary = within(notes).getByText('2 older notes on rows changed since the review')
+    const details = summary.closest('details')!
+    expect(details.open).toBe(false)
+    const stale = within(details).getByRole('list', { name: 'Stale review notes', hidden: true })
+    expect(within(stale).getAllByRole('listitem', { hidden: true })).toHaveLength(2)
+    expect(within(open).queryByText(/Row I-03/)).toBeNull()
+  })
+
   it('explains glossary terms in a popover', async () => {
     setup({ 'injects:list': () => [], 'scenarios:lint': () => [] })
     const user = userEvent.setup()

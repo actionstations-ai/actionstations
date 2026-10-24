@@ -44,6 +44,7 @@ import {
   lintRowFacility,
   type FacilityFacts,
 } from './facility'
+import { CRITIQUE, withBasis } from './critique-notes'
 import { findIdea } from './ideas'
 import { describeStaleInjects, markInjectsStale } from './inject-stale'
 import {
@@ -938,14 +939,22 @@ async function stepCritique(input: StepInput): Promise<StageRun> {
   const rewritten = await reviseFromCritique(input, [...issues, ...structuralIssues(s, env)], r.run)
   await reviseStructureAgain(input, r.run, rewritten, repaired)
   pruneRubricLinks(s, env.ctx)
-  const critique: LintWarning[] = issues.map((i) => ({
-    code: 'CRITIQUE',
-    severity: i.severity,
-    message: i.message + (i.rowId && rewritten.has(i.rowId) ? REVISION_NOTE : ''),
-    suggestion: i.suggestion,
-    source: 'critique',
-    ...(i.rowId ? { rowId: i.rowId } : {}),
-  }))
+  // Each note carries what its row read after the revision, so a later edit marks it stale.
+  const at = nowIso()
+  const critique: LintWarning[] = issues.map((i) =>
+    withBasis(
+      {
+        code: CRITIQUE,
+        severity: i.severity,
+        message: i.message + (i.rowId && rewritten.has(i.rowId) ? REVISION_NOTE : ''),
+        suggestion: i.suggestion,
+        source: 'critique',
+        ...(i.rowId ? { rowId: i.rowId } : {}),
+      },
+      s,
+      at,
+    ),
+  )
   // Pipeline warnings about rows that no longer exist go; the lints are recomputed.
   const rowIds = new Set(s.msel.map((x) => x.id))
   const live = (w: LintWarning): boolean =>

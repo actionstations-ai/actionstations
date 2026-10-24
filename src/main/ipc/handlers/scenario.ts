@@ -5,6 +5,7 @@ import { syncInjectRowIds } from '../../scenario/inject-links'
 import { requireProject } from '../../project/guard'
 import { loadProject } from '../../project/store'
 import { domainContext, type DomainContext } from '../../generate/domain'
+import { markStaleCritique } from '../../generate/critique-notes'
 import { lintFacilityIds } from '../../generate/facility'
 import { loadFacilityFacts } from '../../generate/facility-file'
 import { z } from 'zod'
@@ -13,6 +14,7 @@ import { readHistory } from '../../scenario/history'
 import {
   createScenario,
   getScenario,
+  listInjects,
   readScenarioDoc,
   requireScenarioDir,
   saveScenario,
@@ -51,6 +53,18 @@ export async function lintOrStored(scenario: Scenario, root?: string): Promise<L
   return [...fresh, ...lintFacilityIds(scenario, facts)]
 }
 
+/**
+ * Critique notes on rows this save changes (against the stored scenario) or whose inject
+ * changed after the review are marked stale (#342). A new scenario has nothing to compare.
+ */
+async function markEditedNotes(root: string, scenario: Scenario): Promise<void> {
+  if (!scenario.warnings.some((w) => w.source === 'critique')) return
+  const stored = await getScenario(root, scenario.id).catch(() => undefined)
+  if (!stored) return
+  const injects = await listInjects(root, scenario.id)
+  markStaleCritique(scenario, { before: stored.msel, injects })
+}
+
 export default defineHandlers({
   'scenarios:list': async ({ projectPath }) => listScenarios(await requireProject(projectPath)),
 
@@ -59,6 +73,7 @@ export default defineHandlers({
 
   'scenarios:save': async ({ projectPath, scenario, note, baseUpdatedAt }) => {
     const root = await requireProject(projectPath)
+    await markEditedNotes(root, scenario)
     const saved = await saveScenario(root, scenario, {
       by: 'user',
       ...(note ? { note } : {}),

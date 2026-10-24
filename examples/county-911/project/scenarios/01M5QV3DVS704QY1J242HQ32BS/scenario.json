@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T20:54:40.249Z",
-  "updatedAt": "2026-10-24T21:16:56.789Z",
+  "updatedAt": "2026-10-24T22:43:50.278Z",
   "brief": {
     "userPrompt": "A Thursday evening in May: at 18:40 the National Weather Service issues a tornado warning for northern Rook County and B-shift supervisor Mike Delgado activates the North sirens from Position 11. At 18:52 the 10-digit lines fill with silent and recorded-message calls that conference several call takers at once; at 19:05 the same pattern appears on 911 over SIP trunk group A, the ACD wallboard shows 9 calls in queue and a real structure-fire call from Marlow waits 70 seconds. At 19:15 RespondCAD (CAD-APP01) freezes at Position 4 and Position 9, Hoosier Shield Managed Security reports malware beaconing from RCECD-POS09 and CAD-MDS01, and Medic 3 shows as available on CAD while on a call. At 19:30 a calm caller on a VoIP number reports a hostage situation at County Commissioner Ellen Strand's home, and a Facebook post says '911 is down, call 555-0177' (not an RCECD number). Turning on the GateKeeper TDoS-strict rules for the 10-digit lines, asking the state ESInet NOC for call-source analysis and whether to reroute all 911 to Tamarack County Communications (OPS-DR-2), going to cards (RCECD-F-11) and firewalling the CAD segment at CAD-FW01 (CYB-DR-1), storm reports on SO TAC 1, the swatting response posture, preserving REC-01 recordings, CJIS reporting to the Indiana State Police, and the PIO's alternate-number message and WEA with Rook County Emergency Management.",
     "audience": [
@@ -1464,7 +1464,8 @@
       "message": "Call Taker 4 reports Medic 3 as available but on scene, but the ALI shows 'Unknown' — contradicts C4, which states ALI data is shown where carrier supplies it, so 'Unknown' should not occur for a known unit. (row rewritten once from this note)",
       "rowId": "I-01b",
       "source": "critique",
-      "suggestion": "Replace 'Unknown' with a valid address from the RCECD ALI database or clarify that ALI data was not received from the carrier."
+      "suggestion": "Replace 'Unknown' with a valid address from the RCECD ALI database or clarify that ALI data was not received from the carrier.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1472,7 +1473,8 @@
       "message": "The 911 call from ANI 555-0105 is reported as silent, but C4 states 911 calls arrive on SIP trunk group A and B, not on 10-digit lines — ANI 555-0105 is a 10-digit line number, not a 911 call. (row rewritten once from this note)",
       "rowId": "I-01",
       "source": "critique",
-      "suggestion": "Change ANI 555-0105 to a valid 911 call ANI (e.g., 555-0110) or reassign the call to the 10-digit line 555-0100."
+      "suggestion": "Change ANI 555-0105 to a valid 911 call ANI (e.g., 555-0110) or reassign the call to the 10-digit line 555-0100.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1480,7 +1482,8 @@
       "message": "The GateKeeper appliance is not activated, but C1 states the supervisor or Technical Lead must activate the TDoS-strict rule set — the Technical Lead is not authorized to do so alone. (row rewritten once from this note)",
       "rowId": "I-04",
       "source": "critique",
-      "suggestion": "Require the Supervisor to activate the rule set, not the Technical Lead, per C1."
+      "suggestion": "Require the Supervisor to activate the rule set, not the Technical Lead, per C1.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1496,7 +1499,8 @@
       "message": "The Decision Point asks to keep CAD online or switch to manual, but C7 states CAD servers depend on the county Active Directory — a full isolation would break AD access, making manual dispatch impossible. (row rewritten once from this note)",
       "rowId": "I-12",
       "source": "critique",
-      "suggestion": "Clarify that manual dispatch uses only local run cards and field radio, not AD-dependent systems, and that CAD is not used for dispatch during manual mode."
+      "suggestion": "Clarify that manual dispatch uses only local run cards and field radio, not AD-dependent systems, and that CAD is not used for dispatch during manual mode.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1504,7 +1508,8 @@
       "message": "The PIO issues a correction to 'call 555-0100' but C4 states 555-0100 is the non-emergency number — not the alternate 911 number. (row rewritten once from this note)",
       "rowId": "I-14",
       "source": "critique",
-      "suggestion": "Change the alternate number to 555-0101 (a valid 10-digit emergency number) or use a different number not in C4."
+      "suggestion": "Change the alternate number to 555-0101 (a valid 10-digit emergency number) or use a different number not in C4.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1512,7 +1517,8 @@
       "message": "The backup restore is blocked due to missing vendor access request, but C2 states the TAC must complete the CJIS incident form and send it to the state CSA — not a vendor access request. (row rewritten once from this note)",
       "rowId": "I-15b",
       "source": "critique",
-      "suggestion": "Replace 'missing vendor access request' with 'missing CJIS incident report submission' per C2."
+      "suggestion": "Replace 'missing vendor access request' with 'missing CJIS incident report submission' per C2.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1520,7 +1526,8 @@
       "message": "The Sheriff's Office declares Level 1 — but C1 states only the Incident Commander (Director) can declare an incident under OPS-DR-1. (row rewritten once from this note)",
       "rowId": "I-09",
       "source": "critique",
-      "suggestion": "Reassign the declaration to the Director, not the Sheriff, and have the Sheriff report the situation to the Director."
+      "suggestion": "Reassign the declaration to the Director, not the Sheriff, and have the Sheriff report the situation to the Director.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1528,7 +1535,8 @@
       "message": "The Director calls the state ESInet NOC at 555-0119 — but C1 states the NOC is located at 555-0119, not a local number — this is not a valid call path.",
       "rowId": "I-11",
       "source": "critique",
-      "suggestion": "Ensure the NOC number is correctly cited as 555-0119 and that the call is made from a known emergency line."
+      "suggestion": "Ensure the NOC number is correctly cited as 555-0119 and that the call is made from a known emergency line.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1536,7 +1544,8 @@
       "message": "The Supervisor opens Position 12 and moves the Position 7 police dispatcher — but C8 states Position 7 is a police dispatcher, not a call taker, and C4 states 10-digit lines are not routed to CAD.",
       "rowId": "I-13",
       "source": "critique",
-      "suggestion": "Reassign the move to a non-911 position or clarify that the move is for non-911 call handling only."
+      "suggestion": "Reassign the move to a non-911 position or clarify that the move is for non-911 call handling only.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1544,7 +1553,8 @@
       "message": "The Technical Lead requests approval to begin verification — but C2 states the TAC must complete the CJIS form and send it to the state CSA — not the Director.",
       "rowId": "I-16",
       "source": "critique",
-      "suggestion": "Require the TAC to submit the CJIS form to the state CSA, not the Director, for incident reporting."
+      "suggestion": "Require the TAC to submit the CJIS form to the state CSA, not the Director, for incident reporting.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1552,7 +1562,8 @@
       "message": "The vendor access request is approved — but C2 states the TAC must send the CJIS form to the state CSA, not approve access to the backup.",
       "rowId": "I-17b",
       "source": "critique",
-      "suggestion": "Replace vendor access with CJIS form submission and state that the form must be sent to the state CSA before any restore."
+      "suggestion": "Replace vendor access with CJIS form submission and state that the form must be sent to the state CSA before any restore.",
+      "stale": true
     },
     {
       "code": "DENSITY_DENSE",

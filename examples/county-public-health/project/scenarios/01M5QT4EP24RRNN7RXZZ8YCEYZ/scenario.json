@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T20:37:45.282Z",
-  "updatedAt": "2026-10-24T20:59:55.687Z",
+  "updatedAt": "2026-10-24T22:43:50.229Z",
   "brief": {
     "userPrompt": "Measles outbreak OB-2026-0147 is in its second week in Health District 2 (Brandt): 9 confirmed cases, most linked to Grace Fellowship Academy, exposure sites at the North District Clinic waiting room and the St. Brigid Hospital emergency department, and an extra MMR clinic planned at POD 2 (Brandt Middle School gymnasium) for Saturday with 640 SlotWise bookings. At 06:50 Thursday County IT reports ransomware on the county network: the MCHD-FS01 shares are encrypted, ClinicTrack EHR (MCHD-EHR-APP01, MCHD-SQL02) and the Epi fax server MCHD-FAX01 are down, and the SharePoint line list shows edits from an unfamiliar account. The KDHE Immunization Program calls: last night's IIS-EXPORT-NIGHTLY file from MCHD-INT01 carried 412 MMR doses with lot numbers that are not in MCHD inventory. SlotWise shows the POD 2 appointments bulk-cancelled at 03:10 from Data Analyst Jenna Fowler's account after a phishing email, and a viral Facebook post says MCHD leaked children's vaccine records and cancelled the clinic. Paper mode (forms MCHD-F-10, MCHD-F-12, MCHD-F-40), pausing the state IIS export, whether to keep POD 2 open, exclusion and quarantine orders for Grace Fellowship Academy, the HIPAA hybrid-entity breach question for the clinic records, reports to KDHE, the FBI and CISA, and CERC messaging in English and Spanish.",
     "audience": [
@@ -1468,7 +1468,8 @@
       "message": "The script 'auto_cleaner.py' is not in the approved software list, but the row claims it was created at 08:45 — a time before the exercise started at 09:00, violating timeline consistency. (row rewritten once from this note)",
       "rowId": "I-05",
       "source": "critique",
-      "suggestion": "Adjust the script creation timestamp to 09:00 or later to match the exercise start time."
+      "suggestion": "Adjust the script creation timestamp to 09:00 or later to match the exercise start time.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1476,7 +1477,8 @@
       "message": "The Facebook post claims MCHD leaked children's health data, but the scenario states no data was actually exfiltrated — this contradicts the forensic report and creates a false narrative. (row rewritten once from this note)",
       "rowId": "I-05b",
       "source": "critique",
-      "suggestion": "Revise the post to claim a data breach based on altered records, not leaked data, to align with the actual incident type."
+      "suggestion": "Revise the post to claim a data breach based on altered records, not leaked data, to align with the actual incident type.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1484,7 +1486,8 @@
       "message": "The email from County IT claims the attacker has not accessed ClinicTrack, but I-11 states the attacker used a phishing email to compromise Jenna Fowler’s account — a contradiction in the timeline of access. (row rewritten once from this note)",
       "rowId": "I-08b",
       "source": "critique",
-      "suggestion": "Clarify that the attacker did not access ClinicTrack, only the IIS export and SlotWise, to maintain consistency with the forensic report."
+      "suggestion": "Clarify that the attacker did not access ClinicTrack, only the IIS export and SlotWise, to maintain consistency with the forensic report.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1492,7 +1495,8 @@
       "message": "The decision point asks whether to isolate MCHD-FAX01 and the IIS export interface, but MCHD-FAX01 is not listed in the approved hostnames in C4, making it an invented system. (row rewritten once from this note)",
       "rowId": "I-12",
       "source": "critique",
-      "suggestion": "Replace 'MCHD-FAX01' with a valid hostname from C4, such as 'MCHD-FAX01' (which is listed) and confirm it's not a fake."
+      "suggestion": "Replace 'MCHD-FAX01' with a valid hostname from C4, such as 'MCHD-FAX01' (which is listed) and confirm it's not a fake.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1500,7 +1504,8 @@
       "message": "The media inquiry demands a CERC-approved response, but CERC is not mentioned in the documents, and the scenario uses 'CERC-approved script' without defining it. (row rewritten once from this note)",
       "rowId": "I-14",
       "source": "critique",
-      "suggestion": "Replace 'CERC-approved' with 'MCHD-Approved Public Statement' and reference MCHD-F-10, Appendix C for the correct procedure."
+      "suggestion": "Replace 'CERC-approved' with 'MCHD-Approved Public Statement' and reference MCHD-F-10, Appendix C for the correct procedure.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1508,7 +1513,8 @@
       "message": "The Epi team reports a paper form error in the DOC kit, but C4 states the DOC kit is a fallback for paper mode — it cannot be the source of a form error if it's not used during the incident. (row rewritten once from this note)",
       "rowId": "I-15",
       "source": "critique",
-      "suggestion": "Change the error to a misalignment between paper and digital records, not a flaw in the DOC kit itself."
+      "suggestion": "Change the error to a misalignment between paper and digital records, not a flaw in the DOC kit itself.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1516,7 +1522,8 @@
       "message": "The SIEM alert claims the script was not signed and not in the approved software list, but the scenario states the script was not in the approved list — this contradicts the claim that it was not signed, as that would be a separate issue. (row rewritten once from this note)",
       "rowId": "I-18b",
       "source": "critique",
-      "suggestion": "Remove the claim about signing and focus on the script's absence from the approved list to avoid redundancy."
+      "suggestion": "Remove the claim about signing and focus on the script's absence from the approved list to avoid redundancy.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1524,7 +1531,8 @@
       "message": "The County Emergency Management email claims a mandatory closure due to a confirmed outbreak, but no case has been verified in Brandt — this contradicts C7, which states data must be verified before any action. (row rewritten once from this note)",
       "rowId": "I-20",
       "source": "critique",
-      "suggestion": "Revise the email to state the closure is based on public panic, not a confirmed case, to reflect the actual state of data integrity."
+      "suggestion": "Revise the email to state the closure is based on public panic, not a confirmed case, to reflect the actual state of data integrity.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1532,7 +1540,8 @@
       "message": "The row claims the script was not in the approved backup set, but C3 states the system inventory is maintained by Travis Lindqvist and Wes Tran — the row should reference the actual document control number. (row rewritten once from this note)",
       "rowId": "I-05",
       "source": "critique",
-      "suggestion": "Cite C3, Document Control Number: MCHD-FAC-SYS-2026, to validate the software list."
+      "suggestion": "Cite C3, Document Control Number: MCHD-FAC-SYS-2026, to validate the software list.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1540,7 +1549,8 @@
       "message": "The email from County IT claims to follow CISA and MS-ISAC protocols, but C7 does not mention either — this is a borrowed term from another industry.",
       "rowId": "I-08",
       "source": "critique",
-      "suggestion": "Replace 'CISA and MS-ISAC protocols' with 'MC-CIRP-2025 and EOP 2026 protocols' to match the actual doctrine."
+      "suggestion": "Replace 'CISA and MS-ISAC protocols' with 'MC-CIRP-2025 and EOP 2026 protocols' to match the actual doctrine.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1548,7 +1558,8 @@
       "message": "The forensic report claims the attacker used a phishing email to compromise Jenna Fowler’s account, but no phishing email is provided as a clue — this weakens the inject.",
       "rowId": "I-11",
       "source": "critique",
-      "suggestion": "Add a phishing email header as a clue in I-05b or I-08b to support the claim."
+      "suggestion": "Add a phishing email header as a clue in I-05b or I-08b to support the claim.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1556,7 +1567,8 @@
       "message": "The Facebook post uses a fake domain 'marstonhealth.example' — but C4 states the MCHD website is hosted outside the county network, so this is plausible. (row rewritten once from this note)",
       "rowId": "I-05b",
       "source": "critique",
-      "suggestion": "Confirm that 'marstonhealth.example' is a valid external domain in the scenario state."
+      "suggestion": "Confirm that 'marstonhealth.example' is a valid external domain in the scenario state.",
+      "stale": true
     },
     {
       "code": "DENSITY_DENSE",

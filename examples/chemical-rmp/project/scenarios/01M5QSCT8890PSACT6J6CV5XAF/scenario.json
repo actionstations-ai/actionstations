@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T20:24:50.696Z",
-  "updatedAt": "2026-10-24T20:45:40.101Z",
+  "updatedAt": "2026-10-24T22:43:50.177Z",
   "brief": {
     "userPrompt": "At 23:40 the night shift is loading chlorine from TK-32 into a 90-ton rail tank car at Rail Spot 2 through loading arm LA-2. The flexible connection fails and chlorine detectors AT-313 and AT-314 alarm; the board operator trips ESD-310 from the CCR pushbutton and the DeltaV screen shows the remote-operated isolation valves closed, but the loader reports the yellow-green cloud still growing and the railcar scale WT-302 still changing. The ERT must close hand valve HV-312 in Level A suits; fence-line detectors AT-904 and AT-905 alarm as the cloud drifts east on a west-south-west wind toward the Riverside Addition and Corbin Falls Elementary School. Later the OT Engineer finds the Triconex key switch on TRI-1 in PROGRAM and an rl-support remote session from TVC-JMP-01 to TS-EWS-01 that has no entry in the remote-access log. The exercise covers the RMP tabletop scope of 40 CFR 68.96(b)(2): sirens S-1 to S-6 and the shelter-in-place request to Teague County OEM, the NRC, WV SERC, Teague County LEPC and WV DEP calls with a release estimate, OSHA reporting for an exposed loader, treatment and decontamination, TVIMA mutual aid and air monitoring, the school-opening question at 06:30, the cell-room trip decision (ERP 6.3), SIS integrity before any restart, CISA and the FBI, and media and neighbor pressure.",
     "audience": [
@@ -1507,7 +1507,8 @@
       "message": "Field report from loader at Rail Spot 2 contradicts FACILITY FACTS: 'Rail Spot 2' is not in the list of valid rail spots (Rail Spot 1, 2, 3, 4). (row rewritten once from this note)",
       "rowId": "I-01",
       "source": "critique",
-      "suggestion": "Replace 'Rail Spot 2' with 'Rail Spot 1' to match the FACILITY FACTS list."
+      "suggestion": "Replace 'Rail Spot 2' with 'Rail Spot 1' to match the FACILITY FACTS list.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1515,7 +1516,8 @@
       "message": "Setpoint change for WT-302 from 32.4 to 38.1 tons lacks units, violating C1's requirement for units on all values. (row rewritten once from this note)",
       "rowId": "I-03",
       "source": "critique",
-      "suggestion": "Add units to the setpoint value: '32.4 to 38.1 tons' must be '32.4 tons to 38.1 tons'."
+      "suggestion": "Add units to the setpoint value: '32.4 to 38.1 tons' must be '32.4 tons to 38.1 tons'.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1523,7 +1525,8 @@
       "message": "Social media post from 'RiversideRiser' uses a fake handle and unverified location; must match a real community reference in FACILITY FACTS. (row rewritten once from this note)",
       "rowId": "I-05b",
       "source": "critique",
-      "suggestion": "Replace '@RiversideRiser' with a real local reference, e.g., '@RiversideAdditionResident'."
+      "suggestion": "Replace '@RiversideRiser' with a real local reference, e.g., '@RiversideAdditionResident'.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1531,7 +1534,8 @@
       "message": "Security gate 2 reports a truck driver with a West Virginia license plate, but WV is not in the FACILITY FACTS list of valid states. (row rewritten once from this note)",
       "rowId": "I-06",
       "source": "critique",
-      "suggestion": "Change 'West Virginia' to 'Virginia' to match the state list in FACILITY FACTS."
+      "suggestion": "Change 'West Virginia' to 'Virginia' to match the state list in FACILITY FACTS.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1539,7 +1543,8 @@
       "message": "Fence-line detector AT-905 alarms, but AT-905 is not in the FACILITY FACTS list of valid detectors (AT-901 to AT-906). (row rewritten once from this note)",
       "rowId": "I-08",
       "source": "critique",
-      "suggestion": "Correct to AT-904 or AT-906 to match the valid detector list."
+      "suggestion": "Correct to AT-904 or AT-906 to match the valid detector list.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1547,7 +1552,8 @@
       "message": "Triconex key switch in PROGRAM mode contradicts C7: 'Do not reset the SIS after an unexplained trip' — but the switch was not in RUN or MANUAL, violating SOP 6.3. (row rewritten once from this note)",
       "rowId": "I-10",
       "source": "critique",
-      "suggestion": "Reframe the switch state as 'in PROGRAM mode' only if it was not previously in RUN or MANUAL; otherwise, state it was 'not in RUN or MANUAL'."
+      "suggestion": "Reframe the switch state as 'in PROGRAM mode' only if it was not previously in RUN or MANUAL; otherwise, state it was 'not in RUN or MANUAL'.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1555,7 +1561,8 @@
       "message": "SIF-650 not triggered during ESD-310 command execution contradicts C7: 'Field over screen' — but the ERT confirms the release continues, so the SIS must have failed to trip. (row rewritten once from this note)",
       "rowId": "I-11",
       "source": "critique",
-      "suggestion": "Clarify that ESD-310 was commanded to close but failed to act, per C7's 'failure to trip' clause."
+      "suggestion": "Clarify that ESD-310 was commanded to close but failed to act, per C7's 'failure to trip' clause.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1563,7 +1570,8 @@
       "message": "EHS Manager calls CISA via hotline (1-800-627-7997), but CISA's official number is not in FACILITY FACTS; must use the documented contact. (row rewritten once from this note)",
       "rowId": "I-12",
       "source": "critique",
-      "suggestion": "Replace hotline with CISA’s official number from RMP Annex A."
+      "suggestion": "Replace hotline with CISA’s official number from RMP Annex A.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1571,7 +1579,8 @@
       "message": "FSO calls FBI Charleston Field Office (304-555-0160), but 304-555-0160 is not in FACILITY FACTS list of valid phone numbers. (row rewritten once from this note)",
       "rowId": "I-13",
       "source": "critique",
-      "suggestion": "Replace with a valid number from the list, e.g., (304) 555-0161."
+      "suggestion": "Replace with a valid number from the list, e.g., (304) 555-0161.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1579,7 +1588,8 @@
       "message": "School district calls about opening at 06:30, but the exercise starts at 09:00 and ends at 13:00 — 06:30 is before the exercise began. (row rewritten once from this note)",
       "rowId": "I-14",
       "source": "critique",
-      "suggestion": "Change to 14:30 to match the exercise timeline and avoid temporal contradiction."
+      "suggestion": "Change to 14:30 to match the exercise timeline and avoid temporal contradiction.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1587,7 +1597,8 @@
       "message": "Ridgeline Automation email claims to have accessed TVC-JMP-01 via vendor VPN, but TVC-JMP-01 is not in FACILITY FACTS list of valid hostnames. (row rewritten once from this note)",
       "rowId": "I-15a",
       "source": "critique",
-      "suggestion": "Replace 'TVC-JMP-01' with 'TVC-JMP-02' to match the valid hostnames in FACILITY FACTS."
+      "suggestion": "Replace 'TVC-JMP-01' with 'TVC-JMP-02' to match the valid hostnames in FACILITY FACTS.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1595,7 +1606,8 @@
       "message": "OT Engineer's phone call is written in player voice, violating inject hygiene: 'Victor Anand' is a player role, not an outside party. (row rewritten once from this note)",
       "rowId": "I-18b",
       "source": "critique",
-      "suggestion": "Rewrite as a system alert from Ridgeline Automation: 'Ridgeline Automation: Confirmed cyber intrusion via TVC-JMP-01; do not reset.'"
+      "suggestion": "Rewrite as a system alert from Ridgeline Automation: 'Ridgeline Automation: Confirmed cyber intrusion via TVC-JMP-01; do not reset.'",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1603,7 +1615,8 @@
       "message": "OT Engineer confirms SIS integrity in a narrative inject, but this is a player decision — must be in expected action. (row rewritten once from this note)",
       "rowId": "I-21",
       "source": "critique",
-      "suggestion": "Move the confirmation to the expected action; inject should only state: 'SIS logic validated and checksum matches.'"
+      "suggestion": "Move the confirmation to the expected action; inject should only state: 'SIS logic validated and checksum matches.'",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1611,7 +1624,8 @@
       "message": "OT Engineer not named in FACILITY FACTS; must use a name from the list or a documented contact.",
       "rowId": "I-02",
       "source": "critique",
-      "suggestion": "Use 'Victor Anand' only if listed in RMP Annex A; otherwise, use a documented contact name."
+      "suggestion": "Use 'Victor Anand' only if listed in RMP Annex A; otherwise, use a documented contact name.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1619,7 +1633,8 @@
       "message": "EHS Manager estimates 15 tons release, but CAS number 7664-93-9 (chlorine) has no mass unit specified.",
       "rowId": "I-07",
       "source": "critique",
-      "suggestion": "Add units: '15 tons' must be '15 tons (7664-93-9)'."
+      "suggestion": "Add units: '15 tons' must be '15 tons (7664-93-9)'.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1627,7 +1642,8 @@
       "message": "Maintenance technician reports a man in a grey hoodie, but no description matches any known personnel in FACILITY FACTS.",
       "rowId": "I-14b",
       "source": "critique",
-      "suggestion": "Replace with a known description, e.g., 'man in grey hoodie, no badge, not on manifest' — but only if a match exists."
+      "suggestion": "Replace with a known description, e.g., 'man in grey hoodie, no badge, not on manifest' — but only if a match exists.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1635,7 +1651,8 @@
       "message": "Reporter calls PIO with 'Channel 7 is on-site' — but Channel 7 is not in FACILITY FACTS list of valid media outlets.",
       "rowId": "I-20",
       "source": "critique",
-      "suggestion": "Replace with 'WCFT7' to match the documented media contact."
+      "suggestion": "Replace with 'WCFT7' to match the documented media contact.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1643,7 +1660,8 @@
       "message": "IT Incident Lead confirms firewall rules, but 'FW-OT2' and 'F-1' are not in FACILITY FACTS list of valid network devices.",
       "rowId": "I-24",
       "source": "critique",
-      "suggestion": "Replace with 'FW-OT1' and 'F-2' to match the documented network schema."
+      "suggestion": "Replace with 'FW-OT1' and 'F-2' to match the documented network schema.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1651,7 +1669,8 @@
       "message": "Reporter calls for a statement at 13:45, but the exercise ends at 13:00 — 13:45 is after the end.",
       "rowId": "I-25b",
       "source": "critique",
-      "suggestion": "Change to 12:45 to stay within exercise timeline."
+      "suggestion": "Change to 12:45 to stay within exercise timeline.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1659,7 +1678,8 @@
       "message": "TIME_JUMP at 1:00 (10:00) contradicts the timeline: the exercise started at 09:00, so 1:00 is 10:00, not 10:00 a.m.",
       "rowId": "I-04",
       "source": "critique",
-      "suggestion": "Confirm that all times are in 24-hour format and match the exercise clock."
+      "suggestion": "Confirm that all times are in 24-hour format and match the exercise clock.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1667,7 +1687,8 @@
       "message": "TIME_JUMP at 2:00 (11:00) is correct, but the ERT is said to be 'in Level A suits and en route' — but Level A suits are not in FACILITY FACTS list.",
       "rowId": "I-15",
       "source": "critique",
-      "suggestion": "Replace 'Level A suits' with 'Level A (SCBA)' to match the documented equipment list."
+      "suggestion": "Replace 'Level A suits' with 'Level A (SCBA)' to match the documented equipment list.",
+      "stale": true
     },
     {
       "code": "DENSITY_DENSE",

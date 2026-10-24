@@ -9,6 +9,7 @@
 // row whose text changed, so only their injects are regenerated (repair.ts).
 import {
   exerciseMinutes,
+  type Inject,
   type LintWarning,
   type MselPhaseOutput,
   type MselRow,
@@ -37,6 +38,7 @@ import {
   type Env,
   type StepInput,
 } from './engine'
+import { markStaleCritique } from './critique-notes'
 import { FACILITY_UNKNOWN_ID, lintFacilityIds } from './facility'
 import { describeStaleInjects, markInjectsStale } from './inject-stale'
 import {
@@ -50,7 +52,9 @@ import {
 import { applyMselPhase, resolveToRoles } from './mappers'
 import { repairStructure, sortMsel } from './mappers-structure'
 import { renderMselMarkdown } from './docs'
+import { FIELD_WARNINGS, settledFieldInjects } from './injects/store'
 import { INJECT_TEXT_FAILED } from './injects/text-job'
+import { listInjects } from '../scenario/store'
 import { StageFailure } from './stage'
 import { rowVars } from './vars'
 
@@ -236,17 +240,33 @@ async function fillAllMixGaps(env: Env, s: Scenario): Promise<string[]> {
   return written
 }
 
-/** The lints recomputed; critique notes, pipeline notes and inject warnings of live rows kept. */
-function relint(s: Scenario, env: Env): void {
+/** What a relint learns from outside the scenario (#342). */
+interface RelintEvidence {
+  /** The rows the repair started from. */
+  before: MselRow[]
+  injects: Inject[]
+  /** Injects whose field warnings go: saved by the user last, fields valid. */
+  settled: Set<string>
+}
+
+/**
+ * The lints recomputed; critique notes, pipeline notes and inject warnings of live rows kept,
+ * except the field warnings of settled injects. Critique notes whose row or inject changed
+ * since the review are marked stale.
+ */
+function relint(s: Scenario, env: Env, evidence: RelintEvidence): void {
   const rowIds = new Set(s.msel.map((x) => x.id))
   const live = (w: LintWarning): boolean =>
     !w.rowId || w.rowId === OVERVIEW_ROW || rowIds.has(w.rowId)
   const recomputed = new Set([ROLE_KEY_UNKNOWN, FACILITY_UNKNOWN_ID])
   // Row-level lint codes (INJECT_SCRIPTS_PLAYERS, INJECT_PLAYER_VOICE …) are recomputed;
   // only inject warnings and the injects job's row failures are carried over.
+  const settled = (w: LintWarning): boolean =>
+    !!w.injectId && evidence.settled.has(w.injectId) && FIELD_WARNINGS.has(w.code)
   const kept = s.warnings.filter(
     (w) =>
       live(w) &&
+      !settled(w) &&
       (w.source === 'critique' ||
         !!w.injectId ||
         w.code === INJECT_TEXT_FAILED ||
@@ -258,6 +278,7 @@ function relint(s: Scenario, env: Env): void {
     ...lintFacilityIds(s, env.facility),
     ...lintScenario(s, env.domain),
   ]
+  markStaleCritique(s, { before: evidence.before, injects: evidence.injects })
 }
 
 function revisionRun(): StageRun {
@@ -366,7 +387,9 @@ export async function repairMsel(
       stage: 'critique',
     })
   pruneRubricLinks(s, ctx)
-  relint(s, env)
+  const injects = await listInjects(root, scenarioId)
+  const settled = await settledFieldInjects(root, injects, s.warnings)
+  relint(s, env, { before: beforeRows, injects, settled })
   const after = new Map(s.msel.map((r) => [r.id, textOf(r)]))
   const textChanged = [...after].filter(([id, t]) => before.get(id) !== t).map(([id]) => id)
   const removed = [...before.keys()].filter((id) => !after.has(id))

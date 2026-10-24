@@ -239,6 +239,55 @@ describe('generate:injects (text + media brief)', () => {
     expect(after.warnings.length).toBe(s.warnings.length - 1)
   })
 
+  it('a user save clears the fields-repaired warning and marks the review note on its row stale (#342)', async () => {
+    const { injects } = await generateInjects(['I-04', 'I-06'])
+    const tweet = byRow(injects, 'I-04')
+    const other = byRow(injects, 'I-06')
+    const reviewedAt = new Date(Date.now() - 60_000).toISOString()
+    const note = (rowId: string) => ({
+      code: 'CRITIQUE',
+      severity: 'warning' as const,
+      message: `${rowId}: quotes old text`,
+      source: 'critique' as const,
+      rowId,
+      basis: { at: reviewedAt },
+    })
+    const current = await getScenario(projectPath, scenarioId)
+    await saveScenario(
+      projectPath,
+      {
+        ...current,
+        warnings: [
+          ...current.warnings,
+          {
+            code: 'INJECT_FIELDS_REPAIRED',
+            severity: 'warning',
+            message: 'I-04: fields/text repaired to fit the template — trimmed',
+            source: 'lint',
+            rowId: 'I-04',
+            injectId: tweet.id,
+          },
+          note('I-04'),
+          note('I-06'),
+        ],
+      },
+      { by: 'user' },
+    )
+    // Saving an inject unchanged leaves the review note live; the repaired fields validate.
+    await invoke('injects:save', { ...S(), inject: other })
+    let s = await getScenario(projectPath, scenarioId)
+    expect(s.warnings.find((w) => w.rowId === 'I-06' && w.code === 'CRITIQUE')?.stale).toBe(
+      undefined,
+    )
+    await invoke('injects:save', { ...S(), inject: { ...tweet, title: 'Corrected by hand' } })
+    s = await getScenario(projectPath, scenarioId)
+    expect(s.warnings.some((w) => w.code === 'INJECT_FIELDS_REPAIRED')).toBe(false)
+    expect(s.warnings.find((w) => w.rowId === 'I-04' && w.code === 'CRITIQUE')?.stale).toBe(true)
+    expect(s.warnings.find((w) => w.rowId === 'I-06' && w.code === 'CRITIQUE')?.stale).toBe(
+      undefined,
+    )
+  })
+
   it('skips locked rows and locked injects; regenerate-text refuses a locked inject', async () => {
     const first = await generateInjects(['I-01', 'I-02a'])
     const locked = byRow(first.injects, 'I-02a')

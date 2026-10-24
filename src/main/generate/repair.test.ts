@@ -8,7 +8,7 @@ import { mkdtempSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, relative, resolve } from 'node:path'
 import type { Channel, ChannelRequest, ChannelResponse } from '@shared/ipc'
-import type { MselPhaseOutput, Scenario } from '@shared/schemas'
+import type { Inject, MselPhaseOutput, Scenario } from '@shared/schemas'
 import type { ChatRequest } from '../providers/types'
 import { FakeNciaIndex } from '../../../tests/fixtures/generate/fakes'
 import {
@@ -38,7 +38,7 @@ const { resetResolveState } = await import('../providers/resolve')
 const { clearMockResponses, setMockResponse } = await import('../providers/mock/adapter')
 const { setPipelineDeps } = await import('./deps')
 const { setInjectDeps } = await import('./injects/deps')
-const { createScenario, getScenario, saveScenario, updateScenario } =
+const { createScenario, getScenario, saveInject, saveScenario, updateScenario } =
   await import('../scenario/store')
 const { deleteInject } = await import('./injects/store')
 
@@ -251,6 +251,61 @@ describe('generate:repair', () => {
     const now = hashTree(scenarioDir())
     for (const [rel, h] of hashes)
       if (/^(injects|media)\//.test(rel)) expect(now.get(rel), rel).toBe(h)
+  })
+
+  it('the relint drops field warnings of injects fixed by hand and marks their review notes stale (#342)', async () => {
+    await finishedScenario()
+    const injects = await invoke('injects:list', { projectPath, scenarioId })
+    const fixed = injects.find((i) => i.mselRowId === 'I-04')!
+    const untouched = injects.find((i) => i.mselRowId === 'I-06')!
+    const reviewedAt = new Date(Date.now() - 60_000).toISOString()
+    // The hand fix is recorded first (no warnings yet to settle), then the warnings arrive as
+    // if from older runs: a relint is what has to clear and mark them.
+    await saveInject(
+      projectPath,
+      scenarioId,
+      { ...fixed, title: 'Corrected by hand' },
+      { by: 'user' },
+    )
+    const repaired = (inject: Inject) => ({
+      code: 'INJECT_FIELDS_REPAIRED',
+      severity: 'warning' as const,
+      message: `${inject.mselRowId}: fields/text repaired to fit the template`,
+      source: 'lint' as const,
+      rowId: inject.mselRowId,
+      injectId: inject.id,
+    })
+    const note = (rowId: string) => ({
+      code: 'CRITIQUE',
+      severity: 'warning' as const,
+      message: `${rowId}: quotes old text`,
+      source: 'critique' as const,
+      rowId,
+    })
+    await updateScenario(
+      projectPath,
+      scenarioId,
+      (s) => {
+        s.provenance.push({
+          stage: 'critique',
+          startedAt: reviewedAt,
+          finishedAt: reviewedAt,
+          status: 'ok',
+          repairAttempts: 0,
+        })
+        s.warnings.push(repaired(fixed), repaired(untouched), note('I-04'), note('I-06'))
+      },
+      { by: 'ai', snapshot: false },
+    )
+    await wait((await invoke('generate:repair', { projectPath, scenarioId, aiStills: 0 })).jobId)
+    const after = await getScenario(projectPath, scenarioId)
+    const left = after.warnings.filter((w) => w.code === 'INJECT_FIELDS_REPAIRED')
+    expect(left.map((w) => w.injectId)).toEqual([untouched.id])
+    const notes = after.warnings.filter((w) => w.code === 'CRITIQUE')
+    expect(notes.map((w) => [w.rowId, !!w.stale])).toEqual([
+      ['I-04', true],
+      ['I-06', false],
+    ])
   })
 
   it('refuses while another generation job owns the scenario', async () => {

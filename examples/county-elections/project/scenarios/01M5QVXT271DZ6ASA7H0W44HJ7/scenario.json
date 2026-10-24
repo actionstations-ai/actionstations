@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T21:09:04.711Z",
-  "updatedAt": "2026-10-24T21:30:01.981Z",
+  "updatedAt": "2026-10-24T22:43:50.327Z",
   "brief": {
     "userPrompt": "Thursday 10/29/2026, the fourth-to-last day of early voting for the 2026 general election in Lisle County. At 08:10 three voters at the Early Vote Center (18 South Market Street, Carrow) are shown on their Poll Pads as 'mail ballot issued' though they never asked for one; by 10:00 there are 23 such voters and a line out the door. Voter Registration Manager Beth Saylor finds that 1,186 records in Precinct 104, Precinct 105 and Precinct 207 were changed in VoterTrack (LCBOE-VR01) between 02:05 and 02:40 Wednesday by the account of Voter Registration Clerk Nina Ruiz, who on Tuesday clicked a 'Secretary of State directive update' email and approved a multi-factor prompt; her mailbox has a forwarding rule. At 11:30 poll workers for Polling Location 6 (Carrow Community Church, Precinct 111 and Precinct 112) receive an email from her account saying their location moved back to Carrow Middle School. At 13:00 a video viewed 200,000 times says Lisle County 'deleted 10,000 voters' and that the DS200 scanners are connected to the internet. Decisions: disabling the account and preserving the evidence, freezing record changes (COOP-DR-5), whether to hold the 10/31 final pollbook load and rebuild it from the statewide voter registration database, provisional ballots for affected voters, correcting the spoofed notice, reports to the Ohio Secretary of State, CISA and the FBI, the 22-month records hold, Board notification, and a public statement (COOP-DR-6) that tells voters how to check their registration without naming any party or candidate.",
     "audience": [
@@ -1477,7 +1477,8 @@
       "message": "Inject from 'Mail Ballot Tracking Service' claims to be from a vendor but uses the Board's domain (lislevotes.example) and mimics a Board email, violating doctrine that only the PIO may speak for the Board. (row rewritten once from this note)",
       "rowId": "I-03b",
       "source": "critique",
-      "suggestion": "Reframe the email to originate from an external vendor service, not the Board's domain, and include a disclaimer that it is not an official Board communication."
+      "suggestion": "Reframe the email to originate from an external vendor service, not the Board's domain, and include a disclaimer that it is not an official Board communication.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1485,7 +1486,8 @@
       "message": "The Board website (lislevotes.example) is claimed to have updated the 'Voter Registration Update' banner, but the scenario states the Board website is not compromised and only the results website is affected. (row rewritten once from this note)",
       "rowId": "I-04",
       "source": "critique",
-      "suggestion": "Remove the claim that the Board website was updated; instead, state that the results website was modified, and the Board website remains unchanged."
+      "suggestion": "Remove the claim that the Board website was updated; instead, state that the results website was modified, and the Board website remains unchanged.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1493,7 +1495,8 @@
       "message": "The email from 'security@lislevotes.example' is from a managed SOC, but the scenario states the SOC is external and not part of the Board's internal system. (row rewritten once from this note)",
       "rowId": "I-08b",
       "source": "critique",
-      "suggestion": "Change the 'from' to 'CISA SOC' or 'Managed Security Operations Center' to reflect external origin and avoid implying internal control."
+      "suggestion": "Change the 'from' to 'CISA SOC' or 'Managed Security Operations Center' to reflect external origin and avoid implying internal control.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1501,7 +1504,8 @@
       "message": "The Sheriff's Office report of a man in a voting official shirt near Drop Box 1 contradicts C3, which requires a bipartisan pair to handle equipment and media; no such pair is involved in this report. (row rewritten once from this note)",
       "rowId": "I-10",
       "source": "critique",
-      "suggestion": "Reframe the report to involve a roving inspector claim, not a physical presence, and require the rovers to confirm identity with a bipartisan pair before acting."
+      "suggestion": "Reframe the report to involve a roving inspector claim, not a physical presence, and require the rovers to confirm identity with a bipartisan pair before acting.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1509,7 +1513,8 @@
       "message": "The forensic log claims to confirm an unauthorized session from IP 10.100.45.12, but this IP is not in the authorized 10.72.x.x range, contradicting the FACILITY FACTS which list only 10.72.x.x as authorized. (row rewritten once from this note)",
       "rowId": "I-14",
       "source": "critique",
-      "suggestion": "Replace the IP with 10.100.45.12 and clarify it is not in any authorized range, but do not claim it is in the 10.72.x.x range."
+      "suggestion": "Replace the IP with 10.100.45.12 and clarify it is not in any authorized range, but do not claim it is in the 10.72.x.x range.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1517,7 +1522,8 @@
       "message": "The Pollbook build workstation LCBOE-PB01 is claimed to be air-gapped, but the scenario states it is not networked, which contradicts the claim of being air-gapped. (row rewritten once from this note)",
       "rowId": "I-16",
       "source": "critique",
-      "suggestion": "Clarify that LCBOE-PB01 is not connected to any network and is physically isolated, not just 'not networked'."
+      "suggestion": "Clarify that LCBOE-PB01 is not connected to any network and is physically isolated, not just 'not networked'.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1533,7 +1539,8 @@
       "message": "The forensic log claims to preserve logs on LCBOE-FS01, but the scenario states that logs are preserved on a write-protected image, not on the file server. (row rewritten once from this note)",
       "rowId": "I-20",
       "source": "critique",
-      "suggestion": "Change the log preservation to a write-protected image on a forensic drive, not on LCBOE-FS01."
+      "suggestion": "Change the log preservation to a write-protected image on a forensic drive, not on LCBOE-FS01.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1541,7 +1548,8 @@
       "message": "The vendor email claims to require a ticket (TICK-2026-1125) for service restoration, but the scenario states that the vendor is external and not part of the Board's internal system.",
       "rowId": "I-21",
       "source": "critique",
-      "suggestion": "Reframe the email to originate from the vendor's external portal and include a ticket number that matches the vendor's system, not the Board's."
+      "suggestion": "Reframe the email to originate from the vendor's external portal and include a ticket number that matches the vendor's system, not the Board's.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1549,7 +1557,8 @@
       "message": "The system log claims to show 1,186 edits by Nina Ruiz, but the scenario states the attacker used her account to alter records, not that she made them herself.",
       "rowId": "I-03",
       "source": "critique",
-      "suggestion": "Revise the log to state that the edits were made by a user with her credentials, not by her directly."
+      "suggestion": "Revise the log to state that the edits were made by a user with her credentials, not by her directly.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",
@@ -1557,7 +1566,8 @@
       "message": "The fake CISA alert page uses the domain phish.cisa.gov.lislevotes.example, which is not a valid domain and contradicts the doctrine that only CISA may issue such alerts.",
       "rowId": "I-08",
       "source": "critique",
-      "suggestion": "Use a fake CISA domain like phish.cisa.gov, not a subdomain of the Board's domain."
+      "suggestion": "Use a fake CISA domain like phish.cisa.gov, not a subdomain of the Board's domain.",
+      "stale": true
     },
     {
       "code": "DENSITY_DENSE",

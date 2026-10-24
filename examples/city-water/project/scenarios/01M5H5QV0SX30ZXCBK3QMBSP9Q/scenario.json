@@ -1,4 +1,5 @@
 {
+  "formatVersion": 1,
   "id": "01M5H5QV0SX30ZXCBK3QMBSP9Q",
   "projectId": "01M5H5QTHACSJFBXSQQ5JNP6RG",
   "title": "pH on the Edge",
@@ -6,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-22T06:45:53.817Z",
-  "updatedAt": "2026-10-23T19:43:42.096Z",
+  "updatedAt": "2026-10-24T22:43:50.034Z",
   "brief": {
     "userPrompt": "At 02:40 a remote-support session through the DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building raises the Caustic Feed System dose setpoint (NAOH-FC-203) step by step toward 40 mg/L while the single night operator is on rounds; finished-water pH climbs on AIT-302, the hard-wired high-high switch PSH-302 and a grab sample disagree with what the HMI trend shows. Vendor remote access, manual chemical feed, isolating the control network, Ohio EPA notification and the Do Not Drink decision for Zone 1.",
     "audience": [
@@ -1801,7 +1802,8 @@
       "message": "The Director declares a Level 3 under ERP Section 4.4, but the lab result (09:18) is not yet confirmed by WQ, and the advisory decision clock has not been triggered. (row rewritten once from this note)",
       "rowId": "I-06",
       "source": "critique",
-      "suggestion": "Delay the Level 3 declaration until after WQ confirms the lab result and triggers the advisory clock per Section 5.3."
+      "suggestion": "Delay the Level 3 declaration until after WQ confirms the lab result and triggers the advisory clock per Section 5.3.",
+      "stale": true
     },
     {
       "code": "CRITIQUE",

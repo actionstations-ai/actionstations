@@ -16,7 +16,8 @@ import { newId } from '../../lib/ids'
 import { scenarioLayout } from '../../scenario/layout'
 import { getScenario, saveInject, updateScenario, type SaveOptions } from '../../scenario/store'
 import { injectDeps } from './deps'
-import { INJECT_FIELDS_INVALID, INJECT_RENDER_INVALID } from './text-stage'
+import { markStaleCritique } from '../critique-notes'
+import { INJECT_FIELDS_INVALID, INJECT_FIELDS_REPAIRED, INJECT_RENDER_INVALID } from './text-stage'
 import { defaultDelivery } from './type-map'
 
 export async function getInject(
@@ -147,29 +148,63 @@ async function fieldsValid(root: string, inject: Inject): Promise<boolean> {
   return templates.validateFields(inject.type, inject.fields, root).length === 0
 }
 
-/** Warnings that say the fields do not match the template; stale once they validate. */
-const FIELD_WARNINGS = new Set([INJECT_FIELDS_INVALID, INJECT_RENDER_INVALID])
+/**
+ * Warnings about the inject's fields: they did not match the template (text job, media job)
+ * or were repaired in code to fit it (#342). Stale once the fields validate after a user edit.
+ */
+export const FIELD_WARNINGS = new Set([
+  INJECT_FIELDS_INVALID,
+  INJECT_RENDER_INVALID,
+  INJECT_FIELDS_REPAIRED,
+])
+
+const fieldWarning =
+  (injectId: string) =>
+  (w: LintWarning): boolean =>
+    w.injectId === injectId && FIELD_WARNINGS.has(w.code)
 
 /**
- * After a user save: drop the INJECT_FIELDS_INVALID (text job) and INJECT_RENDER_INVALID
- * (media job) warnings on this inject once its fields validate. Writes scenario.json only
- * when there is a warning to drop.
+ * Ids of the injects whose field warnings a relint drops: the user saved them last (a model
+ * run after that writes its own warnings again) and their fields validate.
+ */
+export async function settledFieldInjects(
+  root: string,
+  injects: Inject[],
+  warnings: LintWarning[],
+): Promise<Set<string>> {
+  const settled = new Set<string>()
+  for (const inject of injects) {
+    if (inject.versions.at(-1)?.by !== 'user') continue
+    if (!warnings.some(fieldWarning(inject.id))) continue
+    if (await fieldsValid(root, inject)) settled.add(inject.id)
+  }
+  return settled
+}
+
+/**
+ * After a user save of `inject`: drop its field warnings (INJECT_FIELDS_INVALID,
+ * INJECT_RENDER_INVALID, INJECT_FIELDS_REPAIRED) once its fields validate, and mark the
+ * critique notes on its row stale when the save changed it after the review (#342). Writes
+ * scenario.json only when a warning changes.
  */
 export async function clearFixedFieldWarnings(
   root: string,
   scenarioId: string,
   inject: Inject,
 ): Promise<void> {
-  const stale = (w: LintWarning) => w.injectId === inject.id && FIELD_WARNINGS.has(w.code)
+  const stale = fieldWarning(inject.id)
   const scenario = await getScenario(root, scenarioId)
-  if (!scenario.warnings.some(stale) || !(await fieldsValid(root, inject))) return
+  const fixed = scenario.warnings.some(stale) && (await fieldsValid(root, inject))
+  const noted = markStaleCritique(structuredClone(scenario), { injects: [inject] }).length > 0
+  if (!fixed && !noted) return
   await updateScenario(
     root,
     scenarioId,
     (s) => {
-      s.warnings = s.warnings.filter((w) => !stale(w))
+      if (fixed) s.warnings = s.warnings.filter((w) => !stale(w))
+      markStaleCritique(s, { injects: [inject] })
     },
-    { by: 'user', snapshot: false, note: `fixed fields of inject ${inject.mselRowId}` },
+    { by: 'user', snapshot: false, note: `checked warnings of inject ${inject.mselRowId}` },
   )
 }
 

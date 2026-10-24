@@ -123,6 +123,7 @@ function ScenarioTabs(props: {
         <WarningsSection
           projectPath={projectPath}
           scenarioId={scenario.id}
+          stored={scenario.warnings}
           onGoToRow={props.onGoToRow}
         />
       </Tabs.Content>
