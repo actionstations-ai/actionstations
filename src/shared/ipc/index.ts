@@ -20,6 +20,7 @@ import { domainChannels, DomainsChangedEvent } from './domains'
 import { packChannels, PacksChangedEvent } from './packs'
 import { templateChannels, TemplatesChangedEvent } from './templates'
 import { packDocumentChannels } from './pack-documents'
+import { packExportChannels } from './pack-export'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -35,6 +36,14 @@ export { FacilitatorState } from './facilitator'
 export { ExampleInfo, ExampleManifest, ExampleMarker, ExampleMarkerView } from './examples'
 export { ListedDomainProfile } from './domains'
 export { PackDocumentRef, PackDocumentView } from './pack-documents'
+export {
+  PACK_CONTRIBUTION_URL,
+  COMMON_PACK_LICENSES,
+  PackExportRequest,
+  PackExportSources,
+  PackExportCheckResult,
+  PackExportSaveResult,
+} from './pack-export'
 export {
   OFFICIAL_CATALOG_URL,
   CachedCatalogView,
@@ -92,6 +101,7 @@ export const channels = mergeChannels(
   packChannels,
   templateChannels,
   packDocumentChannels,
+  packExportChannels,
 )
 
 export type Channels = typeof channels

@@ -1,7 +1,7 @@
 // Packs screen (#268, ADR-0018): Installed and Browse tabs, and the review every install goes
 // through (catalog, URL, file picker, drag and drop, or an .aspack opened from the OS).
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router'
+import { useNavigate, useSearchParams } from 'react-router'
 import { Tabs } from 'radix-ui'
 import type { PackUpdateView } from '@shared/ipc'
 import { Button, PageHeader, ProgressBar } from '../../components/ui'
@@ -16,6 +16,7 @@ import { PackReviewView } from './PackReview'
 import { reviewFile, usePackReview } from './review-store'
 import { usePackDownload } from './use-pack-download'
 import type { BrowseEntry } from './pack-format'
+import { PACK_EXPORT_PATH } from '../pack-export'
 import '../scenarios/scenarios.css'
 import './packs.css'
 
@@ -72,6 +73,7 @@ export default function PacksPage() {
   const closeReview = usePackReview((s) => s.closeReview)
   const { download, job, start } = usePackDownload()
   const [urlOpen, setUrlOpen] = useState(false)
+  const navigate = useNavigate()
   usePacksChanged()
 
   const reviewEntry = ({ entry, catalogUrl }: BrowseEntry) =>
@@ -94,6 +96,7 @@ export default function PacksPage() {
           <>
             <Button onClick={() => void pickFile()}>Install from file…</Button>
             <Button onClick={() => setUrlOpen(true)}>Install from URL…</Button>
+            <Button onClick={() => navigate(PACK_EXPORT_PATH)}>Export as pack…</Button>
           </>
         }
       />

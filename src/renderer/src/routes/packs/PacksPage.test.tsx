@@ -134,6 +134,12 @@ describe('PacksPage empty states', () => {
     expect(within(empty).getByRole('button', { name: 'Install from file…' })).toBeTruthy()
   })
 
+  it('offers Export as pack in the header', async () => {
+    mockTtx(base)
+    renderAt('/packs', '/packs', PacksPage)
+    expect(await screen.findByRole('button', { name: 'Export as pack…' })).toBeTruthy()
+  })
+
   it('offers the official catalog on Browse with no catalogs, and fetches nothing', async () => {
     const ttx = mockTtx(base)
     renderAt('/packs?tab=browse', '/packs', PacksPage)

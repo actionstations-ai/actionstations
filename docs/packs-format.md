@@ -259,6 +259,23 @@ How the app installs (`src/main/packs/install.ts`, #260). Nothing here uses the 
 - **Packs screen** (sidebar → **Packs**, #268): **Installed** lists each pack with its version, source, an Enabled switch, Update available (from the cached catalogs), broken and conflict states, Details and Uninstall (a confirmation explains that projects keep their copies). **Browse** lists the newest version of each pack in the catalogs you added, filtered by search text, kind, domain and tag; with no catalogs it shows the catalog editor from Settings. Every install goes through the same review (Install / Update appears only there): from a catalog entry or an update (downloaded as a job first), **Install from URL…** (optional expected sha256), **Install from file…**, an `.aspack` dropped anywhere on the window, or an `.aspack` opened from Finder / Explorer (file association; macOS `open-file`, a launch argument on Windows and Linux). Opening a file never installs it. The description is rendered as text-only Markdown: raw HTML shows as text, images as their alt text, links as text plus the address. A source of `unknown` and an archive sha256 of `unknown` read "Not recorded".
 - Each change sends `packs:changed` to the renderer and calls the main-process listeners of `onPacksChanged` (`src/main/packs/layers.ts`), which the template, prompt, workflow, document and example layers read from.
 
+## Exporting a pack from the app
+
+**Packs → Export as pack** (`/packs/export`, #271; `src/main/packs/export.ts`) builds a pack from the user's own content:
+
+| Item             | Taken from                                                        | In the pack                                                   |
+| ---------------- | ----------------------------------------------------------------- | ------------------------------------------------------------- |
+| Inject templates | `userData/templates/injects/<type>/` (hidden files left out)      | `templates/<type>/…`                                          |
+| Prompt overrides | `userData/prompts/<name>.md`, names the app ships only            | `prompts/<name>.md`                                           |
+| Workflows        | `userData/comfy/workflows/<id>.json` + `<id>.bindings.json`       | `workflows/…` (a workflow without bindings is refused)        |
+| Domain profile   | the project's resolved profile (snapshot or registry + overrides) | `domains/<new id>.json`, new id and label, no aliases         |
+| Documents        | `<project>/documents/<docId>/original.<ext>`                      | `documents/<slug of the title>/<file name>`, license required |
+| Example          | the project folder                                                | `examples/<slug>/example.json` + `project/…`                  |
+
+The example copy uses the `examples:open` filter (no `index.sqlite*`, no `.cache/`, no `.example.json` marker, no links) and also leaves out `exports/`, `packs.json`, project templates and any file whose name or type a pack cannot carry (listed in the review). JSON files lose provider ids (`providerId`, `providerRef`, `providerIds`), credential-like fields (`apiKey`, `token`, `secret`, `password`, `authorization`), `providerRouting` (emptied) and the provider of media provenance (kept only when it is `template`); the project folder, the settings folder and the home folder are removed from every text. A text file that still matches a key or local-path pattern blocks the export. `example.json` gets `fictional: true`, the notice the author wrote and `id` = the slug; `domainProfile` is the exported domain (the project's `orgType` is rewritten to it and its overrides and snapshot dropped) or the project's built-in domain. A project on a pack domain must export its domain profile too.
+
+`pack.json` gets `minAppVersion` = the running app's version and lists every file with sha256 and size. The zip is deterministic: entries sorted by path, one fixed timestamp (2000-01-01), mode `0644`, deflate, no folder entries, so the same content always gives the same archive sha256. The archive is checked with `readPack` before it can be saved; a pack the reader refuses is never written, and its problems are shown. The save dialog runs in main. The last step shows the archive sha256 and the pull-request steps below, and opens the site repository in the browser only when the user clicks.
+
 ## Publishing to the official catalog
 
 1. Build the pack in the app (**Packs → Export as pack**) or by hand, then validate it (#259):
