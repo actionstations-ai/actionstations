@@ -32,7 +32,7 @@ export const FIELDS: Record<string, Record<string, unknown>> = {
     imageBrief: 'A FIDS screen listing SX 1245 Atlanta Gate A1 next to an empty gate area',
   },
   facebook_post: {
-    groupName: 'Lakeport Moms Group',
+    groupName: 'Cleveland Moms Group',
     authorName: 'Karen S.',
     text: 'My sister works at the airport. ISIS has the control tower! GET OUT NOW!',
     shares: 400,

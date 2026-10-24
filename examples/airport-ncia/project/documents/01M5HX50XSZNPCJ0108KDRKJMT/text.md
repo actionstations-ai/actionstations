@@ -28,7 +28,7 @@ Actions required to manage passengers, employees (airport, airline, concessionai
 | Airport Security Program (ASP) | 4.5 | 07/01/2025 |
 | NCIA Cybersecurity Incident Response Plan (CSIRP) | 1.0 | 09/30/2025 |
 | Airport Irregular Operations (IROPS) Plan | 1.2 | 06/01/2025 |
-| City of Lakeport Fire Dept. Mutual Aid Agreement | N/A | 03/01/2024 |
+| City of Akron Fire Dept. Mutual Aid Agreement | N/A | 03/01/2024 |
 
 ### 1.4 Guidance Applicable for All Incident Plans
 
@@ -165,7 +165,7 @@ Fire/EMS assumes IC, identifies material and correct response. Ops relays IC ord
 
 ### 8.2 Operations
 
-Pull nearest alarm, report to 911 or the ACC. Fire alarm activation mandates full immediate EVACUATION (Section 3). Lakeport Fire Department (AFD) assumes IC on arrival.
+Pull nearest alarm, report to 911 or the ACC. Fire alarm activation mandates full immediate EVACUATION (Section 3). Akron Fire Department (AFD) assumes IC on arrival.
 
 ### 8.4 Checklist: Structural Fire
 
@@ -282,8 +282,8 @@ All calls routed through the Airport Communications Center (ACC) at (330) 555-24
 | External | Contact |
 |---|---|
 | EMERGENCY (Fire, Police, EMS) | 911 |
-| Lakeport Fire Department (Dispatch) | (330) 555-1212 |
-| Lakeport Police Department (Dispatch) | (330) 555-1313 |
+| Akron Fire Department (Dispatch) | (330) 555-1212 |
+| Akron Police Department (Dispatch) | (330) 555-1313 |
 | National Weather Service | (216) 555-2000 |
 | FBI (Cleveland Field Office) | (216) 555-1000 |
 | TSA (Coordination Center) | (800) 555-TSA1 |

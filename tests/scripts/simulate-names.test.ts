@@ -1,6 +1,7 @@
-// examples/simulated-names.json (#283): released examples simulate the exercising
-// organization's world (city, local government, airlines, local businesses, brands, carriers);
-// vendors, sector organizations, federal and state agencies and threat groups stay real.
+// examples/simulated-names.json (#283, #335): released examples simulate the exercising
+// organization, airlines, private businesses (media, teams, venues, utilities, brands,
+// carriers) and real street addresses; real places, city and county agencies, vendors, sector
+// organizations, federal and state agencies and threat groups stay real.
 // make-example applies the map to documents and seeds on the way in.
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -15,10 +16,7 @@ describe('simulateNames', () => {
     ['"airline": "DELTA", "flight": "DL 301"', '"airline": "SKYLINE", "flight": "SX 301"'],
     ['United Airlines Cargo Facility (Bldg 4)', 'HWK Air Cargo Facility (Bldg 4)'],
     ['Delta, United, and American flights', 'Skyline, HWK Air, and Lakeshore flights'],
-    ['Akron Fire Department (AFD)', 'Lakeport Fire Department (AFD)'],
-    ['Summit County EMS', 'Haldane County EMS'],
-    ['#NCIA #Cleveland', '#NCIA #Lakeport'],
-    ['5300 Riverside Drive · Cleveland, Ohio 44135', '5400 Airport Parkway · Lakeport, Ohio 44905'],
+    ['5300 Riverside Drive · Cleveland, Ohio 44135', '5400 Airport Parkway · Akron, Ohio 44312'],
     ['Free Browns Tickets', 'Free Ironclads Tickets'],
     ['The Starbucks line', 'The Harbor Coffee line'],
     ['Primary: FirstEnergy', 'Primary: Northcoast Electric'],
@@ -40,6 +38,13 @@ describe('simulateNames', () => {
     'the WaterISAC portal and OHWARN',
     'She said ISIS has taken over',
     'American Red Cross',
+    'Akron Fire Department (AFD)',
+    'Summit County EMS',
+    '#NCIA #Cleveland',
+    'diverted to Cleveland Hopkins International',
+    'Akron-Canton Travelers',
+    '35 miles south of Cleveland',
+    'CISA advisory AA22-103A and AA25-239A',
   ])('leaves "%s" alone', (text) => {
     expect(simulateNames(text)).toBe(text)
   })
@@ -51,7 +56,7 @@ describe('simulateNames', () => {
   })
 
   it('is idempotent', () => {
-    const once = simulateNames('Delta and United at Akron; #Cleveland; Starbucks; DL 666')
+    const once = simulateNames('Delta and United at Akron; #Cleveland; Starbucks; DL 666; AA 12')
     expect(simulateNames(once)).toBe(once)
   })
 })
@@ -76,11 +81,11 @@ describe('applying the map to files', () => {
   it('make-example imports simulated copies and seeds simulated markdown', () => {
     const dir = mkdtempSync(join(tmpdir(), 'names-'))
     const source = join(dir, 'plan.md')
-    writeFileSync(source, 'Mutual aid: City of Akron Fire Dept.')
+    writeFileSync(source, 'Mutual aid: City of Akron Fire Dept.; ramp: Delta')
     const copy = simulatedCopies([source], join(dir, 'sources'))[0] ?? ''
     expect(copy.endsWith('sources/plan.md')).toBe(true)
-    expect(readFileSync(copy, 'utf8')).toBe('Mutual aid: City of Lakeport Fire Dept.')
-    expect(readFileSync(source, 'utf8')).toContain('Akron')
-    expect(seedMarkdown('plan.md', dir)).toBe('Mutual aid: City of Lakeport Fire Dept.')
+    expect(readFileSync(copy, 'utf8')).toBe('Mutual aid: City of Akron Fire Dept.; ramp: Skyline')
+    expect(readFileSync(source, 'utf8')).toContain('Delta')
+    expect(seedMarkdown('plan.md', dir)).toBe('Mutual aid: City of Akron Fire Dept.; ramp: Skyline')
   })
 })

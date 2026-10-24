@@ -104,9 +104,9 @@ versions are kept in `.cache/facility-facts-history/`).
 <!-- category: agencies -->
 
 - FAA
-- Lakeport Fire Department
-- Lakeport Police Department
-- Haldane County Emergency Management Agency
+- Akron Fire Department
+- Akron Police Department
+- Summit County Emergency Management Agency
 - FBI
 - Airport Police Department
 - The Fire Department

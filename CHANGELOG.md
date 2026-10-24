@@ -84,20 +84,27 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 #### Templates
 
 - Released content follows one naming rule. Simulated: the exercising organization and its
-  people, its city, county and local government, airlines (Skyline Air, HWK Air, Lakeshore and
-  others, with their own flight codes), local businesses (news outlets, the sports team in the
-  phishing lure, venues, regional utilities), national consumer brands in the facility and cargo
-  carriers. Real: products and vendors (Cisco, Lenel, Palo Alto…), sector organizations
+  people, airlines (Skyline Air, HWK Air, Lakeshore and others, with their own flight codes),
+  private businesses (news outlets, the sports team and stadium in the phishing lure, regional
+  utilities, national consumer brands in the facility, cargo carriers, banks) and the street
+  addresses of real properties. Real: cities, counties, regions, geography and coordinates; city
+  and county government agencies as outside parties and responders (Akron Fire Department,
+  Summit County EMS), and airports run by local government as outside parties (a diversion to
+  Cleveland Hopkins); products and vendors (Cisco, Lenel, Palo Alto…), sector organizations
   (WaterISAC, OHWARN, the Red Cross), federal and state agencies (the FBI Cleveland Field Office
-  included) and real threat groups. Users' own projects can use any names (#278, #283).
-- Template schema examples and previews follow the rule (#278); the shipped airport example
-  does too: its city, county, local departments, airlines, regional utility, concessions and
-  cargo carriers are simulated, the affected inject cards are re-rendered and the phone-call
-  clip is re-voiced. The water and UAS examples already complied (#283).
+  included) and real threat groups. Users' own projects can use any names (#278, #283, #335).
+- Template schema examples and previews follow the rule (#278, #335); the shipped airport
+  example does too: North Coast International Airport, its people, airlines, regional utility,
+  concessions and cargo carriers are simulated, while its city (Akron), county (Summit County),
+  the Akron fire and police departments and Summit County EMA are real again (#335). Its street
+  address is simulated and kept off Cleveland Hopkins' address and ZIP. The affected inject
+  cards are re-rendered and the phone-call clip is re-voiced. The water and UAS examples use
+  fictional towns and are unchanged (#283, #335).
 - `examples/simulated-names.json` is applied by `make-example` to imported documents, seed
   scenarios and seed documents, so rebuilding an example from `reference/` stays simulated, and
   `scripts/simulate-names.mjs` applies it to files in place. `tests/content/real-org-names.test.ts`
-  checks templates, examples, prompts, domain profiles and the generation fixtures (#283).
+  checks templates, examples, prompts, domain profiles and the generation fixtures (#283). The
+  map's flight-code rules no longer touch CISA advisory ids such as `AA22-103A` (#335).
 - `make-example refresh --voices` re-voices edited injects that carry a voice clip with the local
   TTS; `package` keeps a clip that is already MP3 (#283).
 
@@ -133,7 +140,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 #### Repository
 
-- README header with the logo, a one-line description, a row of badges, quick links and a screenshot. The badges are SVG files that `pnpm badges` (local CI with `BADGES=1`; off by default, so feature branches never touch them) writes to `docs/badges/` with `scripts/make-badges.mjs` after a full green run (local CI, unit-test and e2e counts, version, license, Electron, platforms, no telemetry, local-first); no badge service and no GitHub Actions, since the repository is private. A run that measures the same values leaves the files untouched; `pnpm release` refreshes and commits them before the version bump. `SECURITY.md` (report vulnerabilities by email, never in a public issue), `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1), `SUPPORT.md`, issue-template contact links, and a 1280 × 640 social preview image (`docs/social-preview.png`, built by `scripts/make-social-preview.mjs`). The guide screenshots were retaken from the shipped airport example, so they show its simulated names (Skyline, Lakeport) and the Packs sidebar entry (#317).
+- README header with the logo, a one-line description, a row of badges, quick links and a screenshot. The badges are SVG files that `pnpm badges` (local CI with `BADGES=1`; off by default, so feature branches never touch them) writes to `docs/badges/` with `scripts/make-badges.mjs` after a full green run (local CI, unit-test and e2e counts, version, license, Electron, platforms, no telemetry, local-first); no badge service and no GitHub Actions, since the repository is private. A run that measures the same values leaves the files untouched; `pnpm release` refreshes and commits them before the version bump. `SECURITY.md` (report vulnerabilities by email, never in a public issue), `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1), `SUPPORT.md`, issue-template contact links, and a 1280 × 640 social preview image (`docs/social-preview.png`, built by `scripts/make-social-preview.mjs`). The guide screenshots were retaken from the shipped airport example, so they show its simulated names (Skyline) and the Packs sidebar entry (#317); the inject deck shot was retaken for the restored real places (#Cleveland, Akron Fire Department) (#335).
 
 #### Packs (specification)
 

@@ -243,7 +243,7 @@ MSEL event: Radio Call (Red Herring): Fire alarm reported in the Long Term Parki
 > **date:** 10/21/2026
 > **callsign:** Parking Garage 1
 > **lines:** {"time":"10:10:02","from":"Parking Garage 1","to":"AOC","text":"AOC, this is Parking Garage 1. We have a fire alarm activation in the Long Term Parking Deck. Smoke was detected near Door 7 on Level 2. We're evacuating the area now."}
-> {"time":"10:10:15","from":"AOC","to":"Parking Garage 1","text":"Parking Garage 1, confirm you've pulled the alarm and reported to 911. We're dispatching Lakeport Fire Department and Airport Police. Proceed with evacuation, maintain comms."}
+> {"time":"10:10:15","from":"AOC","to":"Parking Garage 1","text":"Parking Garage 1, confirm you've pulled the alarm and reported to 911. We're dispatching Akron Fire Department and Airport Police. Proceed with evacuation, maintain comms."}
 > {"time":"10:10:28","from":"Parking Garage 1","to":"AOC","text":"Copy, AOC. We've pulled the alarm and notified 911. No injuries reported yet. We're clearing the deck via the east stairwell."}
 > **background:** garage
 > **voiceStyle:** Young male, breathless, urgent
@@ -255,7 +255,7 @@ _(Instructor Note: Red herring inject; the fire alarm is fake and triggered by t
 
 Media plan: template + tts
 Voice (Parking Garage 1; young male, breathless, urgent): AOC, this is Parking Garage 1. We have a fire alarm activation in the Long Term Parking Deck. Smoke was detected near Door 7 on Level 2. We're evacuating the area now.
-Voice (AOC; calm female dispatcher in her 40s, measured, slight Midwestern accent): Parking Garage 1, confirm you've pulled the alarm and reported to 911. We're dispatching Lakeport Fire Department and Airport Police. Proceed with evacuation, maintain comms.
+Voice (AOC; calm female dispatcher in her 40s, measured, slight Midwestern accent): Parking Garage 1, confirm you've pulled the alarm and reported to 911. We're dispatching Akron Fire Department and Airport Police. Proceed with evacuation, maintain comms.
 Voice (Parking Garage 1; young male, breathless, urgent): Copy, AOC. We've pulled the alarm and notified 911. No injuries reported yet. We're clearing the deck via the east stairwell.
 
 Assets: audio/generated 01M5GNDJZ0P9WCBW1DPJJSGT7Y.wav (30.14s)

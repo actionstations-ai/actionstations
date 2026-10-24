@@ -24,7 +24,7 @@ The preservation of life and property is an inherent responsibility of the Airpo
 
 Effective this date, January 15, 2025, this plan is adopted as the official emergency response doctrine for North Coast International Airport. All previous editions are hereby rescinded.
 
-Signed: Jane R. Doe, A.A.E., Airport Director, NCIA · Chief Robert Smith, Lakeport Fire Department · Chief James Miller, Lakeport Police Department · Sarah Connor, Director, Haldane County Emergency Management Agency
+Signed: Jane R. Doe, A.A.E., Airport Director, NCIA · Chief Robert Smith, Akron Fire Department · Chief James Miller, Akron Police Department · Sarah Connor, Director, Summit County Emergency Management Agency
 
 ### SECTION 2: PURPOSE AND SCOPE
 
@@ -47,13 +47,13 @@ This plan applies to all emergencies, hazards, and critical incidents occurring 
 
 #### 2.3 Limitations
 
-This plan does not supersede the specific tactical Standard Operating Procedures (SOPs) of mutual aid agencies (e.g., Lakeport Fire Department firefighting tactics or FBI hostage negotiation tactics). Rather, it provides the coordination interface between those agencies and the Airport Authority.
+This plan does not supersede the specific tactical Standard Operating Procedures (SOPs) of mutual aid agencies (e.g., Akron Fire Department firefighting tactics or FBI hostage negotiation tactics). Rather, it provides the coordination interface between those agencies and the Airport Authority.
 
 ### SECTION 3: SITUATION AND ASSUMPTIONS
 
 #### 3.1 Situation Overview
 
-**A. General Location and Description.** North Coast International Airport (NCIA) is a public-use airport owned and operated by the North Coast Regional Airport Authority (NCRAA). Location: Haldane County, Ohio, approximately 10 miles southeast of the City of Lakeport and 35 miles south of Port Lakeview. Coordinates: 41° 02' N / 81° 28' W. Elevation: 1,228 feet MSL. Certification: Class I Airport Operating Certificate under 14 CFR Part 139, authorizing scheduled passenger operations of large air carrier aircraft.
+**A. General Location and Description.** North Coast International Airport (NCIA) is a public-use airport owned and operated by the North Coast Regional Airport Authority (NCRAA). Location: Summit County, Ohio, approximately 10 miles southeast of the City of Akron and 35 miles south of Cleveland. Coordinates: 41° 02' N / 81° 28' W. Elevation: 1,228 feet MSL. Certification: Class I Airport Operating Certificate under 14 CFR Part 139, authorizing scheduled passenger operations of large air carrier aircraft.
 
 **B. Airside Facilities.** The AOA encompasses 1,800 acres enclosed by an 8-foot chain-link security perimeter fence topped with 3-strand barbed wire.
 
@@ -75,9 +75,9 @@ This plan does not supersede the specific tactical Standard Operating Procedures
 - Gen-3 (500 kW): ARFF Station and Emergency Operations Center (EOC).
 - **Gap:** Terminal HVAC and general concourse power outlets are NOT on backup power.
 
-**Communications.** Voice: Haldane County 800 MHz P25 Digital Radio System. Data: redundant fiber optic loops from AT&T and Spectrum Enterprise. Notification: the "Crash Phone" (Red Phone) hardlines the Control Tower to ARFF, AOC, and Dispatch.
+**Communications.** Voice: Summit County 800 MHz P25 Digital Radio System. Data: redundant fiber optic loops from AT&T and Spectrum Enterprise. Notification: the "Crash Phone" (Red Phone) hardlines the Control Tower to ARFF, AOC, and Dispatch.
 
-**Water/Sanitation.** City of Lakeport Water Department; a 24-inch main feeds the terminal and the fire hydrant loop.
+**Water/Sanitation.** City of Akron Water Department; a 24-inch main feeds the terminal and the fire hydrant loop.
 
 #### 3.3 Hazard Identification and Risk Assessment (HIRA)
 
@@ -98,9 +98,9 @@ This plan does not supersede the specific tactical Standard Operating Procedures
 
 | Need | Description | Support Required |
 |---|---|---|
-| Structural Fire | ARFF vehicles are not designed for terminal building fires | Lakeport Fire Dept. |
-| Mass Casualty | Airport has supplies for 100 patients; a major crash requires county/regional stockpiles | Haldane County EMS |
-| Tactical/SWAT | Airport Police do not have a tactical team or bomb squad | Lakeport Police / FBI |
+| Structural Fire | ARFF vehicles are not designed for terminal building fires | Akron Fire Dept. |
+| Mass Casualty | Airport has supplies for 100 patients; a major crash requires county/regional stockpiles | Summit County EMS |
+| Tactical/SWAT | Airport Police do not have a tactical team or bomb squad | Akron Police / FBI |
 
 #### 3.5 Planning Assumptions
 
@@ -121,11 +121,11 @@ This plan does not supersede the specific tactical Standard Operating Procedures
 
 #### 4.2 National Incident Management System (NIMS)
 
-NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** "10-codes" are prohibited during multi-agency response. **Span of Control:** No supervisor shall manage more than 5–7 subordinates. **Integrated Communications:** All agencies use the Haldane County 800 MHz Interoperability Talkgroups.
+NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** "10-codes" are prohibited during multi-agency response. **Span of Control:** No supervisor shall manage more than 5–7 subordinates. **Integrated Communications:** All agencies use the Summit County 800 MHz Interoperability Talkgroups.
 
 #### 4.3 Direction and Control
 
-**A. Incident Commander (IC).** Jurisdiction determined by the primary threat: Fire/HAZMAT/Aircraft Crash → Lakeport Fire Department (Battalion Chief). Security/Terrorism/Criminal Act → Lakeport Police Department (Watch Commander). Airfield Operations/Snow/Power → Airport Operations (Duty Manager).
+**A. Incident Commander (IC).** Jurisdiction determined by the primary threat: Fire/HAZMAT/Aircraft Crash → Akron Fire Department (Battalion Chief). Security/Terrorism/Criminal Act → Akron Police Department (Watch Commander). Airfield Operations/Snow/Power → Airport Operations (Duty Manager).
 
 **B. Unified Command (UC).** For complex incidents involving overlapping jurisdictions, a Unified Command is established at the ICP. Example: an aircraft crash (Fire) caused by a hijacking (FBI/Police) on the runway (Airport).
 
@@ -147,7 +147,7 @@ NCIA utilizes NIMS for all emergency events. All responding agencies must utiliz
 
 #### 4.6 Alert and Notification
 
-**A. The "Crash Phone" (Red Phone).** Dedicated hardline connecting the ATCT to ARFF Station 9, AOC, Lakeport Fire Dispatch (911), and Airport Police Dispatch.
+**A. The "Crash Phone" (Red Phone).** Dedicated hardline connecting the ATCT to ARFF Station 9, AOC, Akron Fire Dispatch (911), and Airport Police Dispatch.
 
 **B. Alert Classifications (Aircraft).** Alert 1 (Local Standby): minor defect; ARFF stands by at station. Alert 2 (Full Emergency): defect affecting flight safety; ARFF deploys to standby positions. Alert 3 (Aircraft Accident): full response.
 
@@ -157,7 +157,7 @@ NCIA utilizes NIMS for all emergency events. All responding agencies must utiliz
 
 #### 5.1 Airport Authority Departments
 
-**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releases and media interviews. Liaises with the Mayor of Lakeport and Haldane County Executive.
+**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releases and media interviews. Liaises with the Mayor of Akron and Summit County Executive.
 
 **B. Airport Operations Department.** Compliance with 14 CFR Part 139. Issue NOTAMs closing runways/taxiways. Coordinate aircraft movements with ATCT. Escort mutual aid vehicles on the movement area. Runway friction testing and snow removal. Primary liaison to the NTSB IIC.
 
@@ -176,7 +176,7 @@ NCIA utilizes NIMS for all emergency events. All responding agencies must utiliz
 
 #### 5.2 Mutual Aid Agencies
 
-**A. Lakeport Fire Department (AFD):** fire suppression, rescue, HAZMAT mitigation; Incident Command for fire/crash/medical; staffs ARFF Station 9 per agreement; triage/treatment/transport; hazardous materials spills. **B. Lakeport Police Department (APD):** tactical law enforcement and investigation; SWAT; Bomb Squad (EOD); criminal investigations. **C. Haldane County Emergency Management Agency (EMA):** resource coordination; state/federal assets (Ohio National Guard, FEMA); Family Assistance Center (off-site); mass casualty transport.
+**A. Akron Fire Department (AFD):** fire suppression, rescue, HAZMAT mitigation; Incident Command for fire/crash/medical; staffs ARFF Station 9 per agreement; triage/treatment/transport; hazardous materials spills. **B. Akron Police Department (APD):** tactical law enforcement and investigation; SWAT; Bomb Squad (EOD); criminal investigations. **C. Summit County Emergency Management Agency (EMA):** resource coordination; state/federal assets (Ohio National Guard, FEMA); Family Assistance Center (off-site); mass casualty transport.
 
 #### 5.3 Federal Agencies
 
@@ -190,7 +190,7 @@ NCIA utilizes NIMS for all emergency events. All responding agencies must utiliz
 
 #### 6.2 Agreements and Mutual Aid
 
-MOUs/MAAs with: City of Lakeport (Fire/Police), Haldane County (EMS and EMA), American Red Cross (Family Assistance Center), Local Hospital Consortium (patient distribution during MCI), Regional Transit Authority (buses during terminal evacuations).
+MOUs/MAAs with: City of Akron (Fire/Police), Summit County (EMS and EMA), American Red Cross (Family Assistance Center), Local Hospital Consortium (patient distribution during MCI), Regional Transit Authority (buses during terminal evacuations).
 
 ### SECTION 7: PLAN DEVELOPMENT AND MAINTENANCE
 
@@ -222,7 +222,7 @@ Primary compliance document for 14 CFR Part 139.325(b).
 
 #### 1.3 Operational Procedures
 
-**A. Communications.** ARFF Discrete Frequency (121.9 MHz) or Haldane County 800 MHz Fireground Channel. Upon Alert 3, ATC silences non-emergency ground traffic. **B. Grid Maps.** All agencies use the NCIA Emergency Grid Map ("Crash site is located in Grid E-5"). **C. ARFF Priorities.** 1 — survivable evacuation path; 2 — rescue of trapped occupants; 3 — protection of evidence (NTSB). **D. Triage and Medical.** Triage Area upwind, minimum 300 ft. Green → Passenger Collection Point (bus). Red/Yellow → stabilize and transport. Black → do not move; cover in place.
+**A. Communications.** ARFF Discrete Frequency (121.9 MHz) or Summit County 800 MHz Fireground Channel. Upon Alert 3, ATC silences non-emergency ground traffic. **B. Grid Maps.** All agencies use the NCIA Emergency Grid Map ("Crash site is located in Grid E-5"). **C. ARFF Priorities.** 1 — survivable evacuation path; 2 — rescue of trapped occupants; 3 — protection of evidence (NTSB). **D. Triage and Medical.** Triage Area upwind, minimum 300 ft. Green → Passenger Collection Point (bus). Red/Yellow → stabilize and transport. Black → do not move; cover in place.
 
 ### APPENDIX 2: NATURAL HAZARDS
 
@@ -242,7 +242,7 @@ Rupture of the Buckeye Pipeline spur or catastrophic tank failure (2.5M gallons)
 
 #### 3.2 Cargo Aircraft HAZMAT
 
-Aircraft directed to the Designated Isolated Parking Position (DIPP) on the remote De-icing Pad. Engines shut down. Crew evacuates upwind. Lakeport Fire HAZMAT Team assumes entry/mitigation.
+Aircraft directed to the Designated Isolated Parking Position (DIPP) on the remote De-icing Pad. Engines shut down. Crew evacuates upwind. Akron Fire HAZMAT Team assumes entry/mitigation.
 
 ### APPENDIX 4: SECURITY INCIDENTS
 

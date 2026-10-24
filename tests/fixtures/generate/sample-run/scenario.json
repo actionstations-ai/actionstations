@@ -165,7 +165,7 @@
       "id": "01M5GD0JTKCZQQ7EYFD3BNP801",
       "index": 1,
       "title": "The Crisis",
-      "goal": "Test the team's ability to manage a cascading failure, declare an incident under pressure, and synchronize technical and operational commands amid misinformation, public pressure, and conflicting signals.\n\nKey beats: At 10:03, the ATCT receives a garbled radio call from a ramp supervisor: 'The lights are doing a random dance—some are on, some are off, and they keep changing.' The AOC confirms this on the main monitor: ALCS status map shows 67% of lights in 'uncontrolled' mode.; At 10:15, a pilot on final approach to Runway 17 reports to ATC: 'I can't see the runway lights—there’s no continuity on the approach path. I’m going to full stop on the taxiway.' The flight is diverted to a neighboring airport, and the AOC receives a formal notification from the airline.; At 10:22, the Fuel SCADA system logs a false overfill alert on Tank 4 at the Fuel Farm. The alarm sounds, but no one confirms a physical overflow. The AOC is pressured by the airline to explain why fueling operations were suspended.; At 10:30, the Public Information Officer (PIO) issues a pre-scripted alert via Everbridge to Group B (tenants): 'System-wide anomaly detected. Flight operations under review.' This triggers panic in the terminal, and the airline station manager demands an official incident declaration.; At 10:45, the Airport Director (as Incident Commander) declares a Level 2 Alert (Full Emergency) via the Crash Phone (Red Phone) to ARFF Station 9, AOC, Lakeport Fire Dispatch, and Airport Police. The Technical Incident Command (IT Director) and Operational Incident Command (Ops Manager) are now formally unified under the AOC..",
+      "goal": "Test the team's ability to manage a cascading failure, declare an incident under pressure, and synchronize technical and operational commands amid misinformation, public pressure, and conflicting signals.\n\nKey beats: At 10:03, the ATCT receives a garbled radio call from a ramp supervisor: 'The lights are doing a random dance—some are on, some are off, and they keep changing.' The AOC confirms this on the main monitor: ALCS status map shows 67% of lights in 'uncontrolled' mode.; At 10:15, a pilot on final approach to Runway 17 reports to ATC: 'I can't see the runway lights—there’s no continuity on the approach path. I’m going to full stop on the taxiway.' The flight is diverted to a neighboring airport, and the AOC receives a formal notification from the airline.; At 10:22, the Fuel SCADA system logs a false overfill alert on Tank 4 at the Fuel Farm. The alarm sounds, but no one confirms a physical overflow. The AOC is pressured by the airline to explain why fueling operations were suspended.; At 10:30, the Public Information Officer (PIO) issues a pre-scripted alert via Everbridge to Group B (tenants): 'System-wide anomaly detected. Flight operations under review.' This triggers panic in the terminal, and the airline station manager demands an official incident declaration.; At 10:45, the Airport Director (as Incident Commander) declares a Level 2 Alert (Full Emergency) via the Crash Phone (Red Phone) to ARFF Station 9, AOC, Akron Fire Dispatch, and Airport Police. The Technical Incident Command (IT Director) and Operational Incident Command (Ops Manager) are now formally unified under the AOC..",
       "startTime": "1:00",
       "endTime": "2:00"
     },
@@ -503,7 +503,7 @@
       "from": "Pilot (Flight 742)",
       "toRoleIds": ["ops"],
       "toLabel": "IC",
-      "event": "Radio Call: \"ATC, this is Flight 742, final approach to Runway 17. I can't see the runway lights—there’s no continuity on the approach path. The lights are flashing in a random pattern. I’m going to full stop on the taxiway. I cannot complete this landing. Request alternate airport.\"\n\n[Official Notification: Airline (NCIA Air) sends formal message: 'Flight 742 (Cargo) has been diverted to Lakeport Municipal Airport due to unsafe runway lighting conditions. Request for explanation and status update required.']",
+      "event": "Radio Call: \"ATC, this is Flight 742, final approach to Runway 17. I can't see the runway lights—there’s no continuity on the approach path. The lights are flashing in a random pattern. I’m going to full stop on the taxiway. I cannot complete this landing. Request alternate airport.\"\n\n[Official Notification: Airline (NCIA Air) sends formal message: 'Flight 742 (Cargo) has been diverted to Cleveland Hopkins International due to unsafe runway lighting conditions. Request for explanation and status update required.']",
       "expectedAction": "Ops confirms the pilot's report and logs it in the manual log; notifies IT and security immediately; informs the airline station manager (AIR) of the diversion and begins coordinating with the receiving airport.",
       "purposeTag": "CORE_NARRATIVE",
       "format": "radio_call",
@@ -609,7 +609,7 @@
       "from": "Airport Director",
       "toRoleIds": ["ops", "it"],
       "toLabel": "IC, TIC",
-      "event": "Phone Call (Crash Phone - Red Phone): \"AOC, this is the Airport Director. I am declaring a Level 2 Alert (Full Emergency) per AEP 4.6. ARFF Station 9, Lakeport Fire Dispatch, and Airport Police are now on alert. All agencies under Unified Command. I am designating Ops Manager as Incident Commander and IT Director as Technical Incident Command. This is now a formal incident.\"\n\n[Confirmed: Alert 2 (Full Emergency) activated. AOC now holds Unified Command. All roles must report to AOC for coordination.]",
+      "event": "Phone Call (Crash Phone - Red Phone): \"AOC, this is the Airport Director. I am declaring a Level 2 Alert (Full Emergency) per AEP 4.6. ARFF Station 9, Akron Fire Dispatch, and Airport Police are now on alert. All agencies under Unified Command. I am designating Ops Manager as Incident Commander and IT Director as Technical Incident Command. This is now a formal incident.\"\n\n[Confirmed: Alert 2 (Full Emergency) activated. AOC now holds Unified Command. All roles must report to AOC for coordination.]",
       "expectedAction": "Ops and IT confirm Unified Command structure; activate TIRP 13.3 and AEP 4.1; begin formal incident reporting; assign roles for communication, operations, and technical response. All future actions must be approved through the AOC.",
       "purposeTag": "DECISION_POINT",
       "format": "phone_call",
@@ -618,7 +618,7 @@
           "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
           "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
           "headingPath": "AEP › Part I › Section 4 › 4.6 Alert and Notification",
-          "quote": "**A. The \"Crash Phone\" (Red Phone).** Dedicated hardline connecting the ATCT to ARFF Station 9, AOC, Lakeport Fire Dispatch (911), and Airport Police Dispatch. **B. Alert Classifications (Aircraft).** Al",
+          "quote": "**A. The \"Crash Phone\" (Red Phone).** Dedicated hardline connecting the ATCT to ARFF Station 9, AOC, Akron Fire Dispatch (911), and Airport Police Dispatch. **B. Alert Classifications (Aircraft).** Al",
           "chunkId": 18
         },
         {
@@ -909,7 +909,7 @@
           "documentId": "01M5GCZ7C41F5WYYW2T6V8HA6X",
           "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
           "headingPath": "AEP › Part I › Section 4 › 4.6 Alert and Notification",
-          "quote": "**A. The \"Crash Phone\" (Red Phone).** Dedicated hardline connecting the ATCT to ARFF Station 9, AOC, Lakeport Fire Dispatch (911), and Airport Police Dispatch. **B. Alert Classifications (Aircraft).** Al",
+          "quote": "**A. The \"Crash Phone\" (Red Phone).** Dedicated hardline connecting the ATCT to ARFF Station 9, AOC, Akron Fire Dispatch (911), and Airport Police Dispatch. **B. Alert Classifications (Aircraft).** Al",
           "chunkId": 18
         },
         {
@@ -1417,7 +1417,7 @@
       ]
     },
     {
-      "rolePlayed": "Haldane County Emergency Management Agency (EMA)",
+      "rolePlayed": "Summit County Emergency Management Agency (EMA)",
       "trigger": "Player says 'We need federal aid' or 'We need EMA on the scene'",
       "hardQuestions": [
         "Do you have a Unified Command activation notice?",

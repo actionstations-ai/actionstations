@@ -126,7 +126,7 @@ export const MSEL_PHASES: MselPhaseOutput[] = [
         '1:20',
         'Social Media',
         ['pio'],
-        'Facebook post in Lakeport Moms Group: "ISIS has the control tower, planes are crashing!"',
+        'Facebook post in Cleveland Moms Group: "ISIS has the control tower, planes are crashing!"',
         'PIO issues a myth-busting statement.',
         'MISINFORMATION',
         'facebook_post',

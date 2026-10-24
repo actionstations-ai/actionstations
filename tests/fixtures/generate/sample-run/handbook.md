@@ -75,7 +75,7 @@ You are the SimCell: you play everyone outside the AOC. If a player says 'I call
   - Ask: "Do you have a statement from the Airport Director on the cyberattack?"
   - Concede only when: Will publish the official statement if it is received via the PIO.
   - Concede only when: Will not report on internal decisions unless a formal statement is issued.
-- **Haldane County Emergency Management Agency (EMA)** — _Trigger: Player says 'We need federal aid' or 'We need EMA on the scene'_
+- **Summit County Emergency Management Agency (EMA)** — _Trigger: Player says 'We need federal aid' or 'We need EMA on the scene'_
   - Ask: "Do you have a Unified Command activation notice?"
   - Ask: "Is the Airport Director in control of the emergency?"
   - Ask: "Can you provide the AEP 4.6 activation record?"

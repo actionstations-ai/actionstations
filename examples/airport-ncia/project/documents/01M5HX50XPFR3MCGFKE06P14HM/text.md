@@ -112,7 +112,7 @@ Lost/stolen badges reported within 24 hours and deactivated immediately. If more
 
 ### 5.1 General (49 CFR § 1542.215)
 
-Contract with the **Lakeport Police Department (APD)**; permanent detail known as the Airport Police Bureau. Officers are sworn Ohio LEOs with arrest authority, firearms, and ASP training.
+Contract with the **Akron Police Department (APD)**; permanent detail known as the Airport Police Bureau. Officers are sworn Ohio LEOs with arrest authority, firearms, and ASP training.
 
 ### 5.2 Response Capability (49 CFR § 1542.217)
 
@@ -158,7 +158,7 @@ HWK Air Cargo solely responsible for access control at its cargo facility; Airpo
 
 - **Attachment A: Security Areas Map** — [Placeholder: red/blue/green zones overlaying the terminal and airfield diagram.]
 - **Attachment B: Access Control Points Inventory** — classified list of all 142 monitored doors: Door ID (e.g., T1-104), location, hardware type, fail mode.
-- **Attachment C: Law Enforcement MOU** — agreement between NCRAA and the City of Lakeport funding and staffing the Airport Police Bureau.
+- **Attachment C: Law Enforcement MOU** — agreement between NCRAA and the City of Akron funding and staffing the Airport Police Bureau.
 
 ## APPENDIX D: SECURITY SYSTEMS ARCHITECTURE
 
