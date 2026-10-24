@@ -74,7 +74,7 @@ Every path in the archive and in `pack.json`:
 | Compression ratio of one entry | 100 : 1            |
 | Catalog `index.json`           | 5 MB, 5000 entries |
 
-The reader counts actual bytes while inflating and stops at a limit; declared sizes in the zip headers and in `pack.json` are not trusted.
+The reader counts actual bytes while inflating and stops at a limit; declared sizes in the zip headers and in `pack.json` are not trusted. The compression-ratio limit compares an entry's inflated bytes with its compressed size once the entry passes 1 MB (small text files legitimately compress better than 100 : 1). Entries are stored or deflated (no other compression method), not encrypted, and not links or other special files; ZIP64 and multi-part archives are refused (no pack needs them under these limits). Directory entries are allowed and ignored.
 
 ## pack.json
 
@@ -106,9 +106,9 @@ Unknown top-level fields are ignored, so a later format can add optional fields 
 
 ### Per-kind content checks
 
-The reader validates content with the same code the app uses for its own files:
+The reader (`readPack` in `src/main/packs/reader.ts`) validates content with the same code the app uses for its own files:
 
-- **templates**: `meta.json` with `TemplateMeta` (its `type` equals the folder name), `schema.json` compiles as JSON Schema, `preview.json` with `TemplatePreview`, and the template HTML/CSS checks below. A template whose type is not in the built-in taxonomy needs a `taxonomy` block in `meta.json` (`category`, `render`, `defaultDelivery`, optional `domains`, `paper`).
+- **templates**: `meta.json` with `TemplateMeta` (its `type` equals the folder name), `schema.json` compiles as JSON Schema, `preview.json` with `TemplatePreview`, and the template HTML/CSS checks below. A template whose type is not in the built-in taxonomy needs a `taxonomy` block in `meta.json` (`category`, `render`, `defaultDelivery`, optional `domains`, `paper`; schema `TemplateTaxonomy`).
 - **prompts**: frontmatter is YAML (a `---js` or other non-YAML engine is refused), parsed with `PromptFrontmatter`; `name` equals the file stem and names a prompt the app ships.
 - **domains**: `DomainProfile`; the id is not a built-in id or alias; `threatFamilies` use the built-in families.
 - **workflows**: the workflow parses as ComfyUI API format, the sidecar as `WorkflowSidecar`; node classes outside ComfyUI core are listed in the review as "needs custom nodes".
@@ -119,9 +119,12 @@ The reader validates content with the same code the app uses for its own files:
 Templates render in a sandboxed window with no network and a `default-src 'none'` content security policy (ADR-0008). Pack templates are also checked on install and again on load, and a template that fails is refused, not cleaned up:
 
 - no `<script>`, `<iframe>`, `<frame>`, `<object>`, `<embed>`, `<base>`, `<form>`, `<link>`, `<meta http-equiv>`; no attribute whose name starts with `on`;
-- `src`, `href`, `srcset`, `poster` and CSS `url()` point to a file of the same template folder or to `data:image/…` / `data:font/…`; no `http:`, `https:`, `//`, `file:`, `javascript:` or other scheme;
-- CSS has no `@import` and no `expression(`;
-- Handlebars: no triple-stash `{{{ }}}` (unescaped output) and no partials (`{{> }}`); helpers are only the app's.
+- `src`, `href`, `srcset`, `poster` (and `action`, `data`, `background`), CSS `url()` / `image-set()` and `preview.json` `assets` point to a file of the same template folder (no `..`, no leading `/`), a `#fragment`, or `data:image/…` / `data:font/…`; no `http:`, `https:`, `//`, `file:`, `javascript:` or other scheme. A value filled by Handlebars (`src="{{assets.photo}}"`) is the app's; only its literal parts are checked;
+- CSS (in `.css` files, `<style>` and `style=""`) has no `@import`, `expression(`, `behavior:` or `-moz-binding`;
+- Handlebars: no triple-stash `{{{ }}}` (unescaped output) and no partials (`{{> }}`, `{{#> }}`, `{{#*inline}}`); helpers are only the app's;
+- the folder holds only the template file types listed above, and the only HTML file is `template.html`.
+
+The checker is `checkTemplateFiles` in `src/main/packs/template-check.ts`; every built-in template passes it.
 
 ### Example (minimal templates pack)
 

@@ -5,6 +5,7 @@
 // catalog. Pure zod + string checks, no Node imports, so the renderer and scripts can use it.
 import { z } from 'zod'
 import { HttpUrl, IsoDateTime } from './common'
+import { INJECT_CATEGORIES, type InjectTypeInfo, type RenderPath } from '../taxonomy'
 
 export const PACK_FORMAT_VERSION = 1
 export const CATALOG_FORMAT_VERSION = 1
@@ -432,6 +433,54 @@ export const PackManifestHeader = z.object({
   version: z.string().optional(),
   minAppVersion: z.string().optional(),
 })
+
+// ---- reader results (src/main/packs/reader.ts) ------------------------------------------
+
+/** One reason a pack was refused; `path` is the archive path it concerns, when there is one. */
+export const PackProblem = z.object({ path: z.string().optional(), message: z.string() })
+export type PackProblem = z.infer<typeof PackProblem>
+
+/** What the review screen lists for one item of a pack. */
+export const PackItemSummary = z.object({
+  kind: PackKind,
+  id: z.string(),
+  title: z.string(),
+  /** A built-in template, prompt, workflow or example with this id is shadowed by the item. */
+  replacesBuiltin: z.boolean(),
+  /** The pack license, or for a document group the license(s) of its files. */
+  license: z.string(),
+  /** Workflows only: node classes outside ComfyUI core ("needs custom nodes"). */
+  customNodes: z.array(z.string()).optional(),
+  /** Uncompressed bytes of the item's files. */
+  size: z.number().int().nonnegative(),
+})
+export type PackItemSummary = z.infer<typeof PackItemSummary>
+
+const RENDER_PATHS = [
+  'template',
+  'ai_image',
+  'ai_video',
+  'tts',
+] as const satisfies readonly RenderPath[]
+const DELIVERIES = [
+  'hand_to_role',
+  'display_main_screen',
+  'play_audio',
+  'read_aloud',
+] as const satisfies readonly InjectTypeInfo['defaultDelivery'][]
+
+/**
+ * `taxonomy` block of a template meta.json whose type is not in the built-in inject taxonomy
+ * (src/shared/taxonomy.ts): how the new type joins it (ADR-0018).
+ */
+export const TemplateTaxonomy = z.object({
+  category: z.enum(INJECT_CATEGORIES),
+  render: z.array(z.enum(RENDER_PATHS)).min(1),
+  defaultDelivery: z.enum(DELIVERIES),
+  domains: z.array(PackDomainId).optional(),
+  paper: z.boolean().optional(),
+})
+export type TemplateTaxonomy = z.infer<typeof TemplateTaxonomy>
 
 // ---- catalog index.json -------------------------------------------------------------------
 

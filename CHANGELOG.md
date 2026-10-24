@@ -115,6 +115,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Added
 
+#### Packs
+
+- Pack reader and validator in main (`src/main/packs/`): `readPack` verifies an `.aspack` (central directory scanned from the raw bytes so encrypted entries, symbolic links, unsafe or duplicate names and case collisions are refused by name; bytes counted while inflating against the per-file, total and compression-ratio limits; archive entries equal `files[]` with matching sha256 and size; per-kind content checks with the app's own schemas) and returns item summaries for the review screen; `extractPack` writes to a staging folder through `safeJoin` with a `realpath` re-check and removes it on any error; `checkTemplateFiles` refuses templates with script, event handlers, remote URLs, CSS `@import`/`expression(`, triple-stash or partials. Fixture archives for every refusal are built at test time (`tests/fixtures/packs/build.ts`) (#258).
+
 #### Packs (specification)
 
 - Packs design for 0.3.0: PRD FR-9, ADR-0018, `docs/packs-format.md` (`.aspack` archive with

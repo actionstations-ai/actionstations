@@ -1,0 +1,54 @@
+// Node classes that ship with ComfyUI itself (nodes.py and comfy_extras/). A pack workflow
+// that uses any other class needs custom nodes, which run code on the user's ComfyUI server,
+// so the review lists them (ADR-0018). The list errs on the side of naming a node as custom:
+// a core node missing here only adds a line to the review, it never refuses a pack.
+const CORE = `
+KSampler KSamplerAdvanced SamplerCustom SamplerCustomAdvanced KSamplerSelect BasicScheduler
+KarrasScheduler ExponentialScheduler PolyexponentialScheduler VPScheduler BetaSamplingScheduler
+SDTurboScheduler AlignYourStepsScheduler LaplaceScheduler GITSScheduler SplitSigmas
+SplitSigmasDenoise FlipSigmas RandomNoise DisableNoise BasicGuider CFGGuider DualCFGGuider
+SamplerEulerAncestral SamplerEulerAncestralCFGPP SamplerLMS SamplerDPMPP_2M_SDE SamplerDPMPP_SDE
+SamplerDPMPP_2S_Ancestral SamplerDPMPP_3M_SDE SamplerDPMAdaptative AddNoise
+CheckpointLoaderSimple CheckpointLoader unCLIPCheckpointLoader ImageOnlyCheckpointLoader
+DiffusersLoader UNETLoader CLIPLoader DualCLIPLoader TripleCLIPLoader QuadrupleCLIPLoader
+VAELoader LoraLoader LoraLoaderModelOnly CLIPVisionLoader StyleModelLoader GLIGENLoader
+ControlNetLoader DiffControlNetLoader UpscaleModelLoader HypernetworkLoader PhotoMakerLoader
+CLIPTextEncode CLIPTextEncodeSDXL CLIPTextEncodeSDXLRefiner CLIPTextEncodeFlux CLIPTextEncodeSD3
+CLIPTextEncodeHunyuanDiT CLIPSetLastLayer CLIPVisionEncode StyleModelApply unCLIPConditioning
+ConditioningCombine ConditioningAverage ConditioningConcat ConditioningSetArea
+ConditioningSetAreaPercentage ConditioningSetAreaStrength ConditioningSetMask
+ConditioningSetTimestepRange ConditioningZeroOut ConditioningSetMaskAndCombine FluxGuidance
+ControlNetApply ControlNetApplyAdvanced ControlNetApplySD3 SetUnionControlNetType
+GLIGENTextBoxApply InpaintModelConditioning
+EmptyLatentImage EmptySD3LatentImage EmptyHunyuanLatentVideo EmptyLTXVLatentVideo
+EmptyMochiLatentVideo EmptyCosmosLatentVideo EmptyLatentAudio LatentUpscale LatentUpscaleBy
+LatentFromBatch RepeatLatentBatch LatentComposite LatentBlend LatentCompositeMasked LatentRotate
+LatentFlip LatentCrop LatentAdd LatentSubtract LatentMultiply LatentInterpolate LatentBatch
+LatentBatchSeedBehavior SetLatentNoiseMask VAEDecode VAEEncode VAEEncodeForInpaint VAEDecodeTiled
+VAEEncodeTiled VAEDecodeAudio VAEEncodeAudio
+LoadImage LoadImageMask LoadImageOutput SaveImage PreviewImage SaveAnimatedWEBP SaveAnimatedPNG
+SaveWEBM SaveVideo CreateVideo GetVideoComponents LoadVideo SaveAudio PreviewAudio LoadAudio
+ImageScale ImageScaleBy ImageScaleToTotalPixels ImageUpscaleWithModel ImageInvert ImageBatch
+ImagePadForOutpaint ImageCrop ImageBlend ImageBlur ImageQuantize ImageSharpen ImageCompositeMasked
+ImageFromBatch RepeatImageBatch ImageToMask MaskToImage SolidMask InvertMask CropMask MaskComposite
+FeatherMask GrowMask ThresholdMask JoinImageWithAlpha SplitImageWithAlpha PorterDuffImageComposite
+EmptyImage ImageStitch ResizeAndPadImage GetImageSize
+ModelSamplingDiscrete ModelSamplingContinuousEDM ModelSamplingContinuousV ModelSamplingStableCascade
+ModelSamplingSD3 ModelSamplingAuraFlow ModelSamplingFlux ModelSamplingLTXV RescaleCFG
+ModelMergeSimple ModelMergeBlocks ModelMergeSubtract ModelMergeAdd CLIPMergeSimple CheckpointSave
+PerturbedAttentionGuidance SelfAttentionGuidance FreeU FreeU_V2 HyperTile PatchModelAddDownscale
+TomePatchModel DifferentialDiffusion
+LTXVConditioning LTXVImgToVideo LTXVScheduler LTXVAddGuide LTXVCropGuides LTXVPreprocess
+WanImageToVideo WanFunControlToVideo WanFirstLastFrameToVideo WanVaceToVideo HunyuanImageToVideo
+SVD_img2vid_Conditioning VideoLinearCFGGuidance VideoTriangleCFGGuidance CosmosImageToVideoLatent
+StableZero123_Conditioning StableZero123_Conditioning_Batched SV3D_Conditioning
+PrimitiveNode PrimitiveString PrimitiveStringMultiline PrimitiveInt PrimitiveFloat PrimitiveBoolean
+StringConcatenate StringReplace Note MarkdownNote Reroute
+`
+
+/** ComfyUI core node class names. */
+export const COMFY_CORE_NODES: ReadonlySet<string> = new Set(CORE.split(/\s+/).filter(Boolean))
+
+/** Node classes of a workflow that are not part of ComfyUI core, sorted. */
+export const customNodeClasses = (classes: readonly string[]): string[] =>
+  [...new Set(classes.filter((c) => !COMFY_CORE_NODES.has(c)))].sort()
