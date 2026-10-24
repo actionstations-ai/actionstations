@@ -349,11 +349,19 @@ describe('DocumentsPage — add from pack (#265)', () => {
       projectPath: PROJECT,
       documents: [{ packId: RAIL, path: 'documents/rail-emergency-plan/hazmat.md' }],
     })
-    ttx.setDocs([makeDoc(), imported])
+    // documents:list adds the copy state (#269); the row shows it on the ProvenanceBadge.
+    const listed = {
+      ...imported,
+      copy: { edited: true, packMissing: true, updateAvailable: false },
+    }
+    ttx.setDocs([makeDoc(), listed as typeof imported])
     act(() => ttx.emit('project:changed', { path: PROJECT, what: 'documents' }))
-    expect(
-      await screen.findByText(/From pack Freight Rail Operations 1\.0\.0 · CC0-1\.0/),
-    ).toBeTruthy()
+    const badge = await screen.findByRole('img', { name: /Freight Rail Operations/ })
+    expect(badge.getAttribute('aria-label')).toBe(
+      'Project copy from pack Freight Rail Operations 1.0.0, edited, pack not installed',
+    )
+    expect(badge.textContent).toBe('From Freight Rail Operations 1.0.0editednot installed')
+    expect(badge.parentElement?.textContent).toMatch(/License CC0-1\.0$/)
   })
 
   it('hides the button when no enabled pack has documents', async () => {

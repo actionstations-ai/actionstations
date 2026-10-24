@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
-// Gallery cards for built-in and pack examples (#266).
-import { cleanup, render, screen } from '@testing-library/react'
+// Gallery cards for built-in and pack examples (#266), with provenance badges (#269).
+import { cleanup, render, screen, within } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 import type { ExampleInfo } from '@shared/ipc'
 import { ExampleCard } from './ExamplesSection'
-import { exampleKey, packLabel } from './example-label'
+import { exampleKey, exampleProvenance } from './example-label'
 
 afterEach(() => cleanup())
 
@@ -33,16 +33,17 @@ describe('example gallery cards', () => {
     expect(exampleKey(fromPack)).toBe('ai.actionstations.freight-rail/mini-transit')
   })
 
-  it('labels a pack example with the pack and its license; a built-in gets no label', () => {
-    expect(packLabel(builtin)).toBeNull()
-    expect(packLabel(fromPack)).toBe(
-      'From the Freight Rail Operations pack (1.0.0) · License CC-BY-4.0',
-    )
-    const { packName: _n, packVersion: _v, ...bare } = fromPack
-    expect(packLabel(bare)).toBe('From the ai.actionstations.freight-rail pack · License CC-BY-4.0')
+  it('gives a pack example badge data; a built-in gets none', () => {
+    expect(exampleProvenance(builtin)).toBeUndefined()
+    expect(exampleProvenance(fromPack)).toEqual({
+      origin: 'pack',
+      packId: 'ai.actionstations.freight-rail',
+      packName: 'Freight Rail Operations',
+      version: '1.0.0',
+    })
   })
 
-  it('renders both cards with distinct headings and the pack line on the pack one only', () => {
+  it('renders both cards with distinct headings and the pack badge on the pack one only', () => {
     render(
       <ul>
         <ExampleCard example={builtin} onOpen={() => {}} />
@@ -54,8 +55,12 @@ describe('example gallery cards', () => {
       'example-mini-transit',
       'example-ai-actionstations-freight-rail-mini-transit',
     ])
-    expect(screen.getAllByTestId('example-pack').map((p) => p.textContent)).toEqual([
-      'From the Freight Rail Operations pack (1.0.0) · License CC-BY-4.0',
-    ])
+    const [line] = screen.getAllByTestId('example-pack')
+    expect(screen.getAllByTestId('example-pack')).toHaveLength(1)
+    const badge = within(line!).getByRole('img', {
+      name: 'From pack Freight Rail Operations 1.0.0',
+    })
+    expect(badge.textContent).toBe('Pack: Freight Rail Operations 1.0.0')
+    expect(line!.textContent).toMatch(/License CC-BY-4\.0$/)
   })
 })

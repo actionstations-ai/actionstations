@@ -205,7 +205,9 @@ describe('PromptsPage (pack layer, #262)', () => {
     expect(area.value).toBe(packRaw)
     const list = screen.getByRole('navigation', { name: 'Prompts by stage' })
     const item = within(list).getByRole('button', { name: /msel_phase/ })
-    expect(within(item).getByText('Pack: Freight Rail')).toBeTruthy()
+    // The ProvenanceBadge (#269) names the pack and its version.
+    const badge = within(item).getByRole('img', { name: 'From pack Freight Rail 1.0.0' })
+    expect(badge.textContent).toBe('Pack: Freight Rail 1.0.0')
     expect(within(item).queryByText('Default')).toBeNull()
     expect(screen.getByText('Using Freight Rail pack')).toBeTruthy()
   })

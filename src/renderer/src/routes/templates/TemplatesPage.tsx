@@ -4,7 +4,8 @@ import { Badge, EmptyState, PageHeader } from '../../components/ui'
 import { DOMAIN_PROFILES, resolveProfile } from '@shared/domains'
 import { useIpcQuery } from '../../lib/query'
 import { profileLabel } from '../../lib/domains'
-import { templateProvenance } from '../../lib/template-source'
+import { templateNote, templateProvenanceOf } from '../../lib/template-source'
+import { ProvenanceBadge } from '../../components/ProvenanceBadge'
 import { useInjectTypes } from '../../state/inject-types'
 import { useProjectUi } from '../../state/project'
 import {
@@ -94,14 +95,15 @@ function useProjectDomain(): string | undefined {
 
 function TemplateCard(props: { template: TemplateInfo; onOpen: () => void }) {
   const { template } = props
-  // Plain text provenance for pack, user and project templates (badges: #269).
-  const source = templateProvenance(template)
+  const provenance = templateProvenanceOf(template)
+  const note = templateNote(template)
   return (
     <li>
       <button type="button" className="card card--interactive tpl-card" onClick={props.onOpen}>
         <TemplatePreview template={template} scale={0.5} alt="" />
         <span className="tpl-card__title">{template.label}</span>
-        {source && <span className="muted tpl-card__source">{source}</span>}
+        {provenance && <ProvenanceBadge provenance={provenance} className="tpl-card__source" />}
+        {note && <span className="muted tpl-card__source">{note}</span>}
         <span className="row tpl-badges">
           <Badge>{CATEGORY_LABELS[categoryOf(template.type)]}</Badge>
           {template.paper && <Badge tone="info">Paper</Badge>}

@@ -1,15 +1,21 @@
-// Labels for example gallery cards (#266): built-in and pack examples side by side.
+// Labels for example gallery cards (#266): built-in and pack examples side by side. A pack
+// example shows a ProvenanceBadge (#269) and its pack's license.
 import type { ExampleInfo } from '@shared/ipc'
+import type { Provenance } from '../../lib/provenance'
 
 /** A built-in and a pack example may share a slug; this tells them apart. */
 export const exampleKey = (e: Pick<ExampleInfo, 'slug' | 'packId'>): string =>
   e.packId ? `${e.packId}/${e.slug}` : e.slug
 
-/** "From the Freight Rail Operations pack (1.0.0) · License CC-BY-4.0", or null for a built-in. */
-export function packLabel(e: ExampleInfo): string | null {
-  if (!e.packId) return null
-  const name = e.packName ?? e.packId
-  const version = e.packVersion ? ` (${e.packVersion})` : ''
-  const license = e.packLicense ? ` · License ${e.packLicense}` : ''
-  return `From the ${name} pack${version}${license}`
+/** Badge data for an example of an enabled pack; undefined for a built-in one. */
+export function exampleProvenance(
+  e: Pick<ExampleInfo, 'packId' | 'packName' | 'packVersion'>,
+): Provenance | undefined {
+  if (!e.packId) return undefined
+  return {
+    origin: 'pack',
+    packId: e.packId,
+    ...(e.packName ? { packName: e.packName } : {}),
+    ...(e.packVersion ? { version: e.packVersion } : {}),
+  }
 }

@@ -5,7 +5,8 @@ import { useMemo, useState } from 'react'
 import type { TemplateInfo } from '@shared/ipc'
 import { DeliveryMode } from '@shared/schemas/inject'
 import { injectTypeInfo, injectTypes } from '@shared/taxonomy'
-import { templateSourceLabel } from '../../lib/template-source'
+import { templateProvenanceOf, templateSourceLabel } from '../../lib/template-source'
+import { ProvenanceBadge } from '../../components/ProvenanceBadge'
 import { Button, Dialog, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import type { InjectDraft } from './draft'
@@ -36,7 +37,7 @@ function typeOptions(templates: TemplateInfo[], current: string) {
   const installed = new Set(templates.map((t) => t.type))
   const withTemplate = templates
     .map((t) => {
-      // Plain text provenance for pack, user and project templates (badges: #269).
+      // Native options hold text only; the chosen type's ProvenanceBadge sits in the hint.
       const source = templateSourceLabel(t)
       return { id: t.type, label: source ? `${t.label} (${source})` : t.label }
     })
@@ -94,8 +95,21 @@ function TypeSelect(props: {
     () => typeOptions(props.templates, props.value),
     [props.templates, props.value],
   )
+  const current = props.templates.find((t) => t.type === props.value)
+  const provenance = current && templateProvenanceOf(current)
+  const hint = (
+    <>
+      Switching keeps fields whose names match.
+      {provenance && (
+        <>
+          {' '}
+          <ProvenanceBadge provenance={provenance} />
+        </>
+      )}
+    </>
+  )
   return (
-    <Field label="Type" hint="Switching keeps fields whose names match.">
+    <Field label="Type" hint={hint}>
       {({ id, describedBy }) => (
         <select
           id={id}

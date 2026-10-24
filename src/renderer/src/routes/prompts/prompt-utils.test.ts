@@ -8,7 +8,6 @@ import {
   insertIndent,
   issuesFrom,
   layerBelow,
-  layerLabel,
   lineDiff,
   offsetOfLine,
   startingText,
@@ -47,7 +46,6 @@ describe('pack layer (#262)', () => {
     expect(startingText('global', raw)).toBe('K')
   })
   it('names the pack in labels', () => {
-    expect(layerLabel('pack', 'Freight Rail')).toBe('Pack: Freight Rail')
     expect(basePhrase('pack', 'Freight Rail')).toBe('Freight Rail pack')
     expect(basePhrase('global')).toBe('global override')
   })

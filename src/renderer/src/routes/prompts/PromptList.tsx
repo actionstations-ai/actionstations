@@ -1,17 +1,24 @@
 import { clsx } from 'clsx'
 import type { PromptEntry } from '@shared/schemas/prompt'
 import { Badge } from '../../components/ui'
-import { groupByStage, LAYER_LABEL, layerLabel, stageLabel } from './prompt-utils'
+import { ProvenanceBadge } from '../../components/ProvenanceBadge'
+import { provenanceOf } from '../../lib/provenance'
+import { groupByStage, LAYER_LABEL, stageLabel } from './prompt-utils'
+
+/** The pack layer of a prompt (#269); prompts are never copied, so always "Pack: …". */
+function PackLayerBadge({ entry }: { entry: PromptEntry }) {
+  const provenance = provenanceOf({ ...entry, source: 'pack' })
+  if (provenance) return <ProvenanceBadge provenance={provenance} />
+  return (
+    <Badge tone={entry.effectiveSource === 'pack' ? 'info' : 'neutral'}>{LAYER_LABEL.pack}</Badge>
+  )
+}
 
 function SourceBadges({ entry, showProject }: { entry: PromptEntry; showProject: boolean }) {
   return (
     <span className="prompt-list__badges">
       {entry.effectiveSource === 'default' && <Badge>{LAYER_LABEL.default}</Badge>}
-      {entry.hasPackLayer && (
-        <Badge tone={entry.effectiveSource === 'pack' ? 'info' : 'neutral'}>
-          {layerLabel('pack', entry.packName)}
-        </Badge>
-      )}
+      {entry.hasPackLayer && <PackLayerBadge entry={entry} />}
       {entry.hasGlobalOverride && (
         <Badge tone={entry.effectiveSource === 'global' ? 'info' : 'neutral'}>
           {LAYER_LABEL.global}

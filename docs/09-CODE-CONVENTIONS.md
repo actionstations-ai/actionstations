@@ -34,7 +34,7 @@ How the codebase is wired so parallel workstreams never edit the same file.
 ## Renderer (`src/renderer/src/`)
 - **Routes:** a feature folder `routes/<feature>/index.ts` exports `routes: RouteDef[]` (path, lazy component, optional nav entry). Project-scoped routes use `/p/:projectKey/...` (`projectKey(path)` encodes the folder path).
 - **Data:** `useIpcQuery(channel, req)` / `useIpcMutation(channel, { invalidates })` from `lib/query.ts`; `call()` / `subscribe()` from `lib/api.ts`. No `ipcRenderer`, Node modules or `@main/*` imports (ESLint enforces).
-- **UI kit:** `components/ui.tsx` (Button, PageHeader, EmptyState, Field, TagChip, Badge, ProgressBar, Dialog), `components/toast.tsx`. Colors, spacing and type come from `styles/tokens.css` only — no raw hex values in components.
+- **UI kit:** `components/ui.tsx` (Button, PageHeader, EmptyState, Field, TagChip, Badge, ProgressBar, Dialog), `components/toast.tsx`, and `components/ProvenanceBadge.tsx` for anything that can come from a pack (data from `lib/provenance.ts`: `provenanceOf` maps an IPC item's `source`/`packId`/`packVersion`/`packName`/`copy`). Colors, spacing and type come from `styles/tokens.css` only — no raw hex values in components.
 - Component tests opt into the DOM with a `// @vitest-environment happy-dom` first line.
 
 ## Tests

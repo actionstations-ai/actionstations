@@ -3,7 +3,7 @@
 import { defineHandlers } from '../registry'
 import { requireProject } from '../../project/guard'
 import { listAllExamples } from '../../examples/catalog'
-import { readMarker } from '../../examples/marker'
+import { markerView, readMarker } from '../../examples/marker'
 import { openExample } from '../../examples/open'
 
 export default defineHandlers({
@@ -14,6 +14,7 @@ export default defineHandlers({
 
   'examples:marker': async ({ projectPath }) => {
     const root = await requireProject(projectPath)
-    return readMarker(root)
+    const marker = await readMarker(root)
+    return marker && markerView(marker)
   },
 })

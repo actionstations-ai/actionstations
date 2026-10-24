@@ -3,16 +3,24 @@ import { channel } from './define'
 import { SafeId } from '../schemas/common'
 import { DocumentKind, DocumentMeta } from '../schemas/project'
 import { Chunk, EmbeddingStatus, SearchHit } from '../schemas/document'
+import { PackCopyState } from '../schemas/project-packs'
 
 const P = z.object({ projectPath: z.string().min(1) })
 const JobRef = z.object({ jobId: SafeId })
+
+/**
+ * A listed document. One imported from a pack (`source`) also carries its copy state against
+ * <project>/packs.json and the installed pack (edited / pack missing / update available, #269).
+ */
+export const DocumentListItem = DocumentMeta.extend({ copy: PackCopyState.optional() })
+export type DocumentListItem = z.infer<typeof DocumentListItem>
 
 export const documentChannels = {
   'documents:import': channel(
     P.extend({ filePaths: z.array(z.string()).min(1) }),
     z.object({ jobId: SafeId, documents: z.array(DocumentMeta) }),
   ),
-  'documents:list': channel(P, z.array(DocumentMeta)),
+  'documents:list': channel(P, z.array(DocumentListItem)),
   'documents:update': channel(
     P.extend({
       documentId: SafeId,

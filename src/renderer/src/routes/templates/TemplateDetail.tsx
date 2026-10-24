@@ -4,7 +4,8 @@ import type { TemplateInfo } from '@shared/ipc'
 import { Badge, Button } from '../../components/ui'
 import { CATEGORY_LABELS, categoryOf, schemaFields, variantsOf } from './gallery'
 import { TemplatePreview } from './TemplatePreview'
-import { templateProvenance } from '../../lib/template-source'
+import { templateNote, templateProvenanceOf } from '../../lib/template-source'
+import { ProvenanceBadge } from '../../components/ProvenanceBadge'
 
 function VariantSwitcher(props: {
   variants: string[]
@@ -63,6 +64,8 @@ export function TemplateDetail(props: { template: TemplateInfo; onBack: () => vo
   const variants = variantsOf(template)
   const [variant, setVariant] = useState(variants[0]!)
   const size = `${template.width} × ${template.height ?? 'auto'} px`
+  const provenance = templateProvenanceOf(template)
+  const note = templateNote(template)
   return (
     <section className="tpl-detail" aria-label={template.label}>
       <div className="row">
@@ -88,10 +91,14 @@ export function TemplateDetail(props: { template: TemplateInfo; onBack: () => vo
             <Badge>v{template.version}</Badge>
           </div>
           <dl className="tpl-meta">
-            {templateProvenance(template) && (
+            {(provenance || note) && (
               <div>
                 <dt>Source</dt>
-                <dd>{templateProvenance(template)}</dd>
+                <dd>
+                  {provenance && <ProvenanceBadge provenance={provenance} />}
+                  {provenance && note && ' '}
+                  {note}
+                </dd>
               </div>
             )}
             <div>

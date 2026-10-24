@@ -103,7 +103,7 @@ describe('TemplatesPage', () => {
     expect(await screen.findByRole('list', { name: '2 templates' })).toBeTruthy()
   })
 
-  it('lists pack and project templates with a plain text source (#261)', async () => {
+  it('badges pack templates and project copies with their provenance (#261, #269)', async () => {
     useProjectUi.setState({ projectPath: PROJECT })
     const PACK_TWEET: TemplateInfo = {
       ...TWEET,
@@ -131,12 +131,15 @@ describe('TemplatesPage', () => {
     })
     renderAt('/templates', '/templates', TemplatesPage)
     const grid = await screen.findByRole('list', { name: '2 templates' })
-    expect(within(grid).getByText('Social Extras pack · replaces built-in')).toBeTruthy()
-    expect(
-      within(grid).getByText(
-        'project copy from Freight Rail Operations, edited, pack not installed',
-      ),
-    ).toBeTruthy()
+    const pack = within(grid).getByRole('img', { name: /Social Extras/ })
+    expect(pack.getAttribute('aria-label')).toBe('From pack Social Extras 1.0.0')
+    expect(pack.textContent).toBe('Pack: Social Extras 1.0.0')
+    expect(within(grid).getByText('replaces built-in')).toBeTruthy()
+    const copy = within(grid).getByRole('img', { name: /Freight Rail Operations/ })
+    expect(copy.getAttribute('aria-label')).toBe(
+      'Project copy from pack Freight Rail Operations 1.0.0, edited, pack not installed',
+    )
+    expect(copy.textContent).toBe('From Freight Rail Operations 1.0.0editednot installed')
     expect(ttx.calls('templates:list')).toContainEqual({ projectPath: PROJECT })
     // The project's template previews through the project's layer.
     await waitFor(() =>

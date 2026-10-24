@@ -7,6 +7,7 @@ import { OpenProject } from '../schemas/project'
 import { SafeId } from '../schemas/common'
 import { isDomainId } from '../domains'
 import { ThreatFamilyId } from '../domains/schema'
+import { PackCopyState } from '../schemas/project-packs'
 
 export const ExampleScenario = z.object({
   id: SafeId,
@@ -75,6 +76,16 @@ export const ExampleMarker = z.object({
 })
 export type ExampleMarker = z.infer<typeof ExampleMarker>
 
+/**
+ * The marker as examples:marker answers it: a pack example also says whether its pack is still
+ * installed and whether the installed pack has a newer version (#269 badges). An example copy
+ * is meant to be changed, so there is no "edited" state.
+ */
+export const ExampleMarkerView = ExampleMarker.extend({
+  packState: PackCopyState.omit({ edited: true }).optional(),
+})
+export type ExampleMarkerView = z.infer<typeof ExampleMarkerView>
+
 export const exampleChannels = {
   /**
    * Examples shipped with the app plus those of enabled packs (#266), ordered by title.
@@ -97,6 +108,6 @@ export const exampleChannels = {
   /** The example a project was opened from, or null for an ordinary project. */
   'examples:marker': channel(
     z.object({ projectPath: z.string().min(1) }),
-    ExampleMarker.nullable(),
+    ExampleMarkerView.nullable(),
   ),
 }

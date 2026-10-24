@@ -165,9 +165,30 @@ describe('WorkflowsPage', () => {
     setup({ 'comfy:workflows:list': () => [photo, yard, video] })
     renderAt('/workflows', '/workflows', WorkflowsPage)
     const card = await screen.findByRole('button', { name: /Yard CCTV still/ })
-    expect(within(card).getByText('Pack')).toBeTruthy()
-    expect(within(card).getByText('From Freight Rail Operations 1.0.0')).toBeTruthy()
+    const badge = within(card).getByRole('img', { name: /Freight Rail Operations/ })
+    expect(badge.textContent).toBe('Pack: Freight Rail Operations 1.0.0')
     await userEvent.click(card)
     expect(await screen.findByRole('button', { name: 'Reset bindings to pack' })).toBeTruthy()
+  })
+
+  it('badges a project copy of a pack workflow with its copy state (#269)', async () => {
+    const copy: WorkflowEntry = {
+      ...photo,
+      id: 'yard-cctv-still',
+      name: 'Yard CCTV still',
+      source: 'project',
+      packId: 'ai.actionstations.freight-rail',
+      packVersion: '1.0.0',
+      packName: 'Freight Rail Operations',
+      copy: { edited: true, packMissing: false, updateAvailable: true, installedVersion: '1.1.0' },
+    }
+    setup({ 'comfy:workflows:list': () => [photo, copy, video] })
+    renderAt('/workflows', '/workflows', WorkflowsPage)
+    const card = await screen.findByRole('button', { name: /Yard CCTV still/ })
+    const badge = within(card).getByRole('img', { name: /Freight Rail Operations/ })
+    expect(badge.getAttribute('aria-label')).toBe(
+      'Project copy from pack Freight Rail Operations 1.0.0, edited, update available (1.1.0 installed)',
+    )
+    expect(badge.textContent).toBe('From Freight Rail Operations 1.0.0editedUpdate available')
   })
 })

@@ -204,12 +204,33 @@ describe('InjectEditorPage', () => {
       const labels = within(type)
         .getAllByRole('option')
         .map((o) => o.textContent)
-      expect(labels).toContain('Rail dispatch board (Freight Rail pack)')
+      expect(labels).toContain('Rail dispatch board (Pack: Freight Rail)')
       expect(labels).toContain('Yard radio log (no template)')
       expect(ttx.calls('templates:list')).toContainEqual({ projectPath: PROJECT })
     } finally {
       registerInjectTypes([])
     }
+  })
+
+  it("shows the chosen type's provenance badge next to the type picker (#269)", async () => {
+    const copy = {
+      ...TEMPLATES[0]!,
+      source: 'project' as const,
+      packId: 'ai.actionstations.freight-rail',
+      packVersion: '1.0.0',
+      packName: 'Freight Rail',
+      copy: { edited: false, packMissing: false, updateAvailable: true, installedVersion: '1.2.0' },
+    }
+    setup({ 'templates:list': () => [copy, TEMPLATES[1]!] })
+    const type = await screen.findByLabelText('Type')
+    const badge = await screen.findByRole('img', { name: /Freight Rail/ })
+    expect(badge.getAttribute('aria-label')).toBe(
+      'Project copy from pack Freight Rail 1.0.0, update available (1.2.0 installed)',
+    )
+    expect(type.getAttribute('aria-describedby')).toBeTruthy()
+    expect(document.getElementById(type.getAttribute('aria-describedby')!)?.contains(badge)).toBe(
+      true,
+    )
   })
 
   it('restores a version from the versions panel', async () => {

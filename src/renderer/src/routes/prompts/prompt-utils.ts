@@ -23,10 +23,6 @@ export const LAYER_LABEL: Record<Layer, string> = {
 export const basePhrase = (layer: Layer, packName?: string): string =>
   layer === 'pack' ? (packName ? `${packName} pack` : 'pack') : LAYER_LABEL[layer].toLowerCase()
 
-/** A layer's badge label; the pack layer names its pack ("Pack: Freight Rail Operations"). */
-export const layerLabel = (layer: Layer, packName?: string): string =>
-  layer === 'pack' && packName ? `${LAYER_LABEL.pack}: ${packName}` : LAYER_LABEL[layer]
-
 /**
  * The layer an edit in `scope` is compared against (and falls back to on reset):
  * project > global > pack > default (#262).

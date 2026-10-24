@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react'
 import type { ExampleInfo } from '@shared/ipc'
 import type { OpenProject } from '@shared/schemas'
 import { Badge, Button } from '../../components/ui'
+import { ProvenanceBadge } from '../../components/ProvenanceBadge'
 import { profileLabel, threatLabel } from '../../lib/domains'
 import { subscribe } from '../../lib/api'
 import { queryClient, useIpcQuery } from '../../lib/query'
-import { exampleKey, packLabel } from './example-label'
+import { exampleKey, exampleProvenance } from './example-label'
 import { OpenExampleDialog } from './OpenExampleDialog'
 
 export function ExampleCard(props: {
@@ -19,7 +20,7 @@ export function ExampleCard(props: {
   const { example } = props
   const Heading = props.headingLevel ?? 'h3'
   const headingId = `example-${exampleKey(example).replace(/[^A-Za-z0-9_-]/g, '-')}`
-  const fromPack = packLabel(example)
+  const provenance = exampleProvenance(example)
   return (
     <li className="card project-card example-card" aria-labelledby={headingId}>
       <div className="project-card__title">
@@ -28,9 +29,10 @@ export function ExampleCard(props: {
         <Badge tone="warn">Fictional</Badge>
       </div>
       <p>{example.summary}</p>
-      {fromPack && (
+      {provenance && (
         <p className="muted example-card__pack" data-testid="example-pack">
-          {fromPack}
+          <ProvenanceBadge provenance={provenance} />
+          {example.packLicense ? ` License ${example.packLicense}` : ''}
         </p>
       )}
       {example.scenarios.length > 0 && (

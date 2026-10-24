@@ -12,7 +12,7 @@ import {
   PROFILE_GROUP_IDS,
   ideaFamily,
   profileGroups,
-  profileOrigin,
+  profileProvenance,
   resolveOrgType,
   suggestThreat,
   suggestionWhy,
@@ -80,14 +80,22 @@ describe('pack profiles in the picker (#263)', () => {
     registerPackProfiles([freightRailEntry()])
     expect(packGroup()?.profiles.map((p) => p.id)).toEqual(['freight_rail'])
     expect(packGroup('railroad')?.profiles).toHaveLength(1)
-    expect(profileOrigin('freight_rail')).toBe('from Freight Rail')
-    expect(profileOrigin('transit')).toBeUndefined()
+    expect(profileProvenance('freight_rail')).toMatchObject({
+      origin: 'pack',
+      packName: 'Freight Rail',
+    })
+    expect(profileProvenance('transit')).toBeUndefined()
     expect(resolveOrgType('railroad')).toMatchObject({ unknown: false, differs: true })
   })
 
   it('keeps a project snapshot whose pack is gone, marked not installed', () => {
     expect(packGroup('', snapshot)?.profiles.map((p) => p.id)).toEqual(['freight_rail'])
-    expect(profileOrigin('freight_rail', snapshot)).toBe('from Freight Rail (not installed)')
+    expect(profileProvenance('freight_rail', snapshot)).toMatchObject({
+      origin: 'copy',
+      packName: 'Freight Rail',
+      packMissing: true,
+      updateAvailable: false,
+    })
     const r = resolveOrgType('freight_rail', snapshot)
     expect(r.profile.label).toBe('Freight railroad')
     expect(r.unknown).toBe(false)

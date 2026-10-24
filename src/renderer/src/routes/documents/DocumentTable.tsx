@@ -1,9 +1,10 @@
+import type { DocumentListItem } from '@shared/ipc/documents'
 import type { DocumentMeta } from '@shared/schemas/project'
 import { DocumentRow, type DocumentPatch } from './DocumentRow'
 import type { LiveMap } from './job-progress'
 
 export function DocumentTable(props: {
-  docs: DocumentMeta[]
+  docs: DocumentListItem[]
   live: LiveMap
   selectedId: string | null
   onSelect: (doc: DocumentMeta) => void

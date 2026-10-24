@@ -8,6 +8,7 @@ import {
   chooseThreatFamily,
   domainKey,
   packProfileEntries,
+  snapshotStatus,
   threatFamily,
   type DomainProfile,
   type DomainProfileSnapshot,
@@ -15,6 +16,7 @@ import {
   type ThreatFamilyId,
 } from '@shared/domains'
 import type { ScenarioIdea } from '@shared/schemas/scenario'
+import type { Provenance } from './provenance'
 
 export interface ProfileGroup {
   label: string
@@ -78,18 +80,36 @@ export function profileGroups(query = '', snapshot?: DomainProfileSnapshot): Pro
 }
 
 /**
- * Where a non-built-in profile comes from, for the picker: "from Freight Rail", or "from
- * Freight Rail (not installed)" for a project's snapshot whose pack is gone.
+ * Where a non-built-in profile comes from, for its ProvenanceBadge (#269): "Pack: Freight Rail
+ * 1.0.0" for an enabled pack's profile; for the project's own snapshot (its copy, #263) "From
+ * Freight Rail 1.0.0", marked not installed when the pack is gone or update available when the
+ * installed pack has another version of the profile.
  */
-export function profileOrigin(
+export function profileProvenance(
   profileId: string,
   snapshot?: DomainProfileSnapshot,
-): string | undefined {
+): Provenance | undefined {
+  if (snapshot?.profile.id === profileId) {
+    const status = snapshotStatus(snapshot)
+    const packName = snapshot.packName ?? status.entry?.packName
+    return {
+      origin: 'copy',
+      packId: snapshot.packId,
+      ...(packName ? { packName } : {}),
+      version: snapshot.version,
+      packMissing: !status.installed,
+      updateAvailable: status.updateAvailable,
+      ...(status.entry ? { installedVersion: status.entry.packVersion } : {}),
+    }
+  }
   const entry = packProfileEntries().find((e) => e.profile.id === profileId)
-  if (entry) return `from ${entry.packName}`
-  if (snapshot?.profile.id === profileId)
-    return `from ${snapshot.packName ?? snapshot.packId} (not installed)`
-  return undefined
+  if (!entry) return undefined
+  return {
+    origin: 'pack',
+    packId: entry.packId,
+    packName: entry.packName,
+    version: entry.packVersion,
+  }
 }
 
 export interface ResolvedOrgType {

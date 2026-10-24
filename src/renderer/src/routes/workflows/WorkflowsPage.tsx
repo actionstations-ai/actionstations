@@ -4,6 +4,8 @@ import { Link } from 'react-router'
 import { useEffect, useState } from 'react'
 import type { WorkflowEntry } from '@shared/ipc'
 import { Badge, Button, Dialog, EmptyState, PageHeader } from '../../components/ui'
+import { ProvenanceBadge } from '../../components/ProvenanceBadge'
+import { provenanceOf } from '../../lib/provenance'
 import { toast } from '../../components/toast-store'
 import { queryClient, useIpcMutation, useIpcQuery } from '../../lib/query'
 import { BindingEditor } from './BindingEditor'
@@ -18,14 +20,6 @@ const SOURCE_LABEL: Record<WorkflowEntry['source'], string> = {
   global: 'Imported',
   pack: 'Pack',
   project: 'Project',
-}
-
-/** Plain-text provenance for pack workflows and project copies (badges come in #269). */
-function packLabel(w: WorkflowEntry): string | undefined {
-  if (!w.packId) return undefined
-  const name = w.packName ?? w.packId
-  const from = w.source === 'pack' ? `From ${name}` : `Copied from ${name}`
-  return w.packVersion ? `${from} ${w.packVersion}` : from
 }
 
 function StatusCard(props: { providerId: string | undefined }) {
@@ -111,6 +105,7 @@ function DefaultsCard({ list }: { list: WorkflowEntry[] }) {
 function WorkflowCard(props: { workflow: WorkflowEntry; selected: boolean; onSelect: () => void }) {
   const w = props.workflow
   const missing = missingSummary(w)
+  const provenance = provenanceOf(w)
   return (
     <li>
       <button
@@ -121,9 +116,10 @@ function WorkflowCard(props: { workflow: WorkflowEntry; selected: boolean; onSel
       >
         <span className="row wf-card__head">
           <span className="wf-card__name">{w.name}</span>
-          <Badge tone="info">{SOURCE_LABEL[w.source]}</Badge>
+          {/* A pack workflow or a project copy of one: the ProvenanceBadge names the layer. */}
+          {!provenance && <Badge tone="info">{SOURCE_LABEL[w.source]}</Badge>}
         </span>
-        {packLabel(w) && <span className="muted">{packLabel(w)}</span>}
+        {provenance && <ProvenanceBadge provenance={provenance} />}
         <span className="muted wf-card__desc">{w.description}</span>
         <span className="row">
           <Badge>{w.bindings.length} bindings</Badge>

@@ -32,7 +32,7 @@ export { ListedInjectType, RefusedTemplateView } from './templates'
 export { WorkflowBinding, WorkflowEntry, MediaType } from './comfy'
 export { ExportTarget, EXPORT_TARGETS } from './export'
 export { FacilitatorState } from './facilitator'
-export { ExampleInfo, ExampleManifest, ExampleMarker } from './examples'
+export { ExampleInfo, ExampleManifest, ExampleMarker, ExampleMarkerView } from './examples'
 export { ListedDomainProfile } from './domains'
 export { PackDocumentRef, PackDocumentView } from './pack-documents'
 export {

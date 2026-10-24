@@ -3,8 +3,10 @@
 import type { ReactNode } from 'react'
 import type { Role } from '@shared/schemas/project'
 import type { MselRow, Phase } from '@shared/schemas/scenario'
-import { PURPOSE_TAGS, PURPOSE_TAG_INFO } from '@shared/taxonomy'
+import { PURPOSE_TAGS, PURPOSE_TAG_INFO, injectTypes } from '@shared/taxonomy'
 import { TagChip } from '../../components/ui'
+import { ProvenanceBadge } from '../../components/ProvenanceBadge'
+import { injectTypeProvenance } from '../../lib/template-source'
 import {
   CitationsEditor,
   ListCellEditor,
@@ -32,6 +34,24 @@ const TAG_OPTIONS: ListOption[] = PURPOSE_TAGS.map((t) => ({
   render: <TagChip tag={t} />,
   hint: PURPOSE_TAG_INFO[t].meaning,
 }))
+
+/** Format choices; a type a pack template adds shows its ProvenanceBadge (#269). */
+export function formatListOptions(): ListOption[] {
+  const types = new Map(injectTypes().map((t) => [t.id, t]))
+  return formatOptions().map((o) => {
+    const type = types.get(o.value)
+    const provenance = type && injectTypeProvenance(type)
+    if (!provenance) return o
+    return {
+      ...o,
+      render: (
+        <span>
+          {o.label} <ProvenanceBadge provenance={provenance} />
+        </span>
+      ),
+    }
+  })
+}
 
 /** Columns whose editor is a popover anchored to the read-mode view. */
 export const POPOVER_COLS = new Set<ColumnId>(['to', 'tag', 'format', 'citations'])
@@ -113,7 +133,7 @@ function listEditorFor(
           {...common}
           label={`Format for ${row.id}`}
           initial={[row.format ?? '']}
-          options={formatOptions()}
+          options={formatListOptions()}
           filterable
         />
       )

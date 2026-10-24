@@ -1,0 +1,16 @@
+/* Provenance badge (#269): the source chip and one chip per copy state, wrapping as a unit. */
+.provenance {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  max-width: 100%;
+  vertical-align: middle;
+}
+.provenance .badge {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.provenance .badge svg {
+  flex: none;
+}

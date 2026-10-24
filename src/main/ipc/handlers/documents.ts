@@ -11,6 +11,7 @@ import {
   updateDocument,
 } from '../../ingest/pipeline'
 import { loadMeta, readText } from '../../ingest/storage'
+import { withDocumentCopyStates } from '../../ingest/document-provenance'
 
 export default defineHandlers({
   'documents:import': async ({ projectPath, filePaths }) => {
@@ -19,7 +20,7 @@ export default defineHandlers({
   },
   'documents:list': async ({ projectPath }) => {
     const root = await requireProject(projectPath)
-    return (await loadProject(root)).documents
+    return withDocumentCopyStates(root, (await loadProject(root)).documents)
   },
   'documents:update': async ({ projectPath, documentId, patch }) => {
     const root = await requireProject(projectPath)

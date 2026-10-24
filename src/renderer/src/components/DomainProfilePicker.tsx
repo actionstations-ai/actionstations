@@ -13,7 +13,9 @@ import {
 import { clsx } from 'clsx'
 import { Check } from 'lucide-react'
 import type { DomainProfileSnapshot } from '@shared/domains'
-import { profileGroups, profileOrigin, resolveOrgType } from '../lib/domains'
+import { profileGroups, profileProvenance, resolveOrgType } from '../lib/domains'
+import type { Provenance } from '../lib/provenance'
+import { ProvenanceBadge } from './ProvenanceBadge'
 import { useDomainRegistry } from '../state/domains'
 import './domain.css'
 
@@ -75,7 +77,12 @@ function keyHandler(
   }
 }
 
-function PickerHead(props: { id: string; label: string; current: string }) {
+function PickerHead(props: {
+  id: string
+  label: string
+  current: string
+  provenance?: Provenance | undefined
+}) {
   return (
     <div className="domain-picker__head">
       <label className="field__label" htmlFor={props.id}>
@@ -86,6 +93,12 @@ function PickerHead(props: { id: string; label: string; current: string }) {
         <Check size={14} aria-hidden />
         <span className="sr-only">Selected: </span>
         {props.current}
+        {props.provenance && (
+          <>
+            {' '}
+            <ProvenanceBadge provenance={props.provenance} />
+          </>
+        )}
       </span>
     </div>
   )
@@ -95,10 +108,10 @@ function ProfileOption(props: {
   p: Profile
   optionId: string
   selected: boolean
-  origin?: string
+  provenance?: Provenance | undefined
   onPick: () => void
 }) {
-  const { p, selected, origin } = props
+  const { p, selected, provenance } = props
   return (
     <div
       id={props.optionId}
@@ -110,10 +123,10 @@ function ProfileOption(props: {
     >
       <span className="domain-picker__label">
         {p.label}
-        {origin && (
+        {provenance && (
           <span className="domain-picker__origin" data-testid="domain-origin">
             {' '}
-            {origin}
+            <ProvenanceBadge provenance={provenance} />
           </span>
         )}
       </span>
@@ -162,7 +175,7 @@ function ProfileList({
               p={p}
               optionId={`${id}-opt-${p.id}`}
               selected={p.id === selected}
-              origin={profileOrigin(p.id, snapshot)}
+              provenance={profileProvenance(p.id, snapshot)}
               onPick={() => onChange(p.id)}
             />
           ))}
@@ -193,7 +206,7 @@ export function DomainProfilePicker(props: {
   const revision = useDomainRegistry()
   const current = resolveOrgType(props.value, snapshot).profile
   const selected = current.id
-  const origin = profileOrigin(selected, snapshot)
+  const provenance = profileProvenance(selected, snapshot)
   const groups = useMemo(
     () => profileGroups(query, snapshot),
     // revision: pack profiles were registered or removed.
@@ -206,11 +219,7 @@ export function DomainProfilePicker(props: {
 
   return (
     <div className="field domain-picker">
-      <PickerHead
-        id={id}
-        label={label}
-        current={origin ? `${current.label} ${origin}` : current.label}
-      />
+      <PickerHead id={id} label={label} current={current.label} provenance={provenance} />
       <input
         id={id}
         className="input"

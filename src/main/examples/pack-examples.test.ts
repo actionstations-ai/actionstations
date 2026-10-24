@@ -136,6 +136,7 @@ describe('examples from packs', () => {
       packVersion: '1.0.0',
       packName: 'Freight Rail Operations',
       domainProfile: 'freight_rail',
+      packState: { packMissing: false, updateAvailable: false, installedVersion: '1.0.0' },
     })
   })
 
@@ -156,6 +157,27 @@ describe('examples from packs', () => {
       domainProfileSnapshot?: { packId: string }
     }
     expect(saved.domainProfileSnapshot?.packId).toBe(RAIL)
+    // The banner badge (#269): the pack is gone.
+    expect((await call('examples:marker', { projectPath: opened.path }))?.packState).toEqual({
+      packMissing: true,
+      updateAvailable: false,
+    })
+  })
+
+  it('reports an update when the installed pack is newer than the copy (#269)', async () => {
+    await install(buildPack())
+    const opened = await call('examples:open', {
+      slug: 'harbor-junction',
+      packId: RAIL,
+      parentDir: parent,
+    })
+    await call('packs:uninstall', { id: RAIL })
+    await install(buildPack(undefined, { manifest: (m) => void (m.version = '1.1.0') }))
+    expect((await call('examples:marker', { projectPath: opened.path }))?.packState).toEqual({
+      packMissing: false,
+      updateAvailable: true,
+      installedVersion: '1.1.0',
+    })
   })
 
   it('keeps a built-in and a pack example with the same slug apart', async () => {

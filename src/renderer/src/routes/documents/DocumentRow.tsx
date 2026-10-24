@@ -1,7 +1,9 @@
 import { clsx } from 'clsx'
 import { PanelRightOpen, RotateCcw, Trash2 } from 'lucide-react'
-import type { DocumentMeta } from '@shared/schemas/project'
+import type { DocumentListItem } from '@shared/ipc/documents'
 import { Badge, Button, ProgressBar } from '../../components/ui'
+import { ProvenanceBadge } from '../../components/ProvenanceBadge'
+import type { Provenance } from '../../lib/provenance'
 import { InlineText } from './InlineText'
 import { TagEditor } from './TagEditor'
 import type { LiveProgress } from './job-progress'
@@ -22,7 +24,7 @@ export type DocumentPatch = {
 }
 
 export interface DocumentRowProps {
-  doc: DocumentMeta
+  doc: DocumentListItem
   live: LiveProgress | undefined
   selected: boolean
   onSelect: () => void
@@ -62,6 +64,18 @@ function StatusCell({
   )
 }
 
+/** A document imported from a pack is always the project's copy (#265, #269). */
+function documentProvenance(doc: DocumentListItem): Provenance {
+  const source = doc.source!
+  return {
+    origin: 'copy',
+    packId: source.packId,
+    ...(source.packName ? { packName: source.packName } : {}),
+    version: source.version,
+    ...(doc.copy ?? {}),
+  }
+}
+
 export function DocumentRow(props: DocumentRowProps) {
   const { doc } = props
   return (
@@ -75,8 +89,8 @@ export function DocumentRow(props: DocumentRowProps) {
         <span className="doc-row__file mono">{doc.filename}</span>
         {doc.source && (
           <span className="doc-row__pack">
-            From pack {doc.source.packName ?? doc.source.packId} {doc.source.version}
-            {doc.license ? ` · ${doc.license}` : ''}
+            <ProvenanceBadge provenance={documentProvenance(doc)} />
+            {doc.license ? ` License ${doc.license}` : ''}
           </span>
         )}
       </td>
