@@ -16,7 +16,6 @@ const SKIP_DIRS = new Set([
   'playwright-report',
   '.git',
   '.tmp',
-  '.claude',
   '__golden__',
 ])
 const EXTERNAL = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i
@@ -26,7 +25,9 @@ export function findMarkdown(dir) {
   const out = []
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     if (entry.isDirectory()) {
-      if (!SKIP_DIRS.has(entry.name)) out.push(...findMarkdown(join(dir, entry.name)))
+      // Dot folders hold tool state (except .github, whose templates are docs).
+      const hidden = entry.name.startsWith('.') && entry.name !== '.github'
+      if (!hidden && !SKIP_DIRS.has(entry.name)) out.push(...findMarkdown(join(dir, entry.name)))
     } else if (entry.name.endsWith('.md')) {
       out.push(join(dir, entry.name))
     }

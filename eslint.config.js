@@ -15,7 +15,8 @@ export default tseslint.config(
       'coverage',
       'reference',
       '.tmp',
-      '.claude',
+      // Top-level dot folders (local tool state, hooks): nothing to lint.
+      '.*/**',
       'test-results',
       'playwright-report',
     ],
