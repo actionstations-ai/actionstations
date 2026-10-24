@@ -23,6 +23,11 @@ Project {
   scenarios: ScenarioMeta[]
 }
 
+// packs.json (ADR-0018): pack items this project copied into its own layer on first use
+ProjectPacks { copies: [{ kind: 'templates'|'workflows'|'documents'|'domains'|'examples', id,
+  packId, version, packName?, copiedAt, files: [{ path /* project-relative */, sha256 }] }] }
+  // a file whose sha256 differs shows the copy as "edited"; updating a copy is explicit
+
 DocumentMeta { id, title, filename, kind: 'plan'|'policy'|'map'|'form'|'course'|'prior_exercise'|'other',
   pages, ingestedAt, status: 'pending'|'ok'|'error', tags[], headingsPreview[] }
 
