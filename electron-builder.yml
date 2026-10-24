@@ -20,6 +20,12 @@ fileAssociations:
     description: Action Stations project (older format name)
     role: Editor
     isPackage: true
+  # Content packs (#268). Opening one shows its review on the Packs screen; it never installs.
+  - ext: aspack
+    name: Action Stations Pack
+    description: Action Stations content pack
+    role: Viewer
+    mimeType: application/vnd.actionstations.pack+zip
 files:
   - out/**/*
   - package.json

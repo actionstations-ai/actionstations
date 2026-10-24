@@ -6,6 +6,7 @@ import {
   FolderOpen,
   LayoutList,
   MessageSquareText,
+  Package,
   Plug,
   Presentation,
   Settings,
@@ -25,4 +26,5 @@ export const NAV_ICONS: Record<string, LucideIcon> = {
   facilitate: Presentation,
   library: BookOpen,
   providers: Plug,
+  packs: Package,
 }

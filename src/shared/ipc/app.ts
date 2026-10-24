@@ -49,6 +49,8 @@ export const appChannels = {
   ),
   /** Project folders the OS asked to open before the window was listening (#277). */
   'app:pending-opens': channel(z.void(), z.array(z.string())),
+  /** .aspack files the OS asked to open before the window was listening (#268): review only. */
+  'app:pending-pack-opens': channel(z.void(), z.array(z.string())),
   'shell:show-item': channel(z.object({ path: z.string() }), z.void()),
   'settings:get': channel(z.void(), AppSettings),
   'settings:update': channel(

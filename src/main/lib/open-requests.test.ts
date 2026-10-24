@@ -11,11 +11,14 @@ vi.mock('electron', () => ({
 }))
 
 const {
+  isPackFilePath,
   isProjectFolderPath,
+  openPathsFromArgv,
   projectPathsFromArgv,
   requestOpen,
   resetOpenRequests,
   takePendingOpens,
+  takePendingPackOpens,
 } = await import('./open-requests')
 
 describe('open requests', () => {
@@ -43,5 +46,27 @@ describe('open requests', () => {
     expect(takePendingOpens()).toEqual([])
     requestOpen('/p/B.asproj')
     expect(sent).toEqual([['event:app:open-project', { path: '/p/B.asproj' }]])
+  })
+
+  it('recognizes pack archives', () => {
+    expect(isPackFilePath('/Users/a/Downloads/org.example.rail-1.0.0.aspack')).toBe(true)
+    expect(isPackFilePath('C:\\Users\\a\\RAIL.ASPACK')).toBe(true)
+    expect(isPackFilePath('/Users/a/rail.aspack.zip')).toBe(false)
+  })
+
+  it('picks project folders and packs out of a command line, in order', () => {
+    const argv = ['out/main/index.js', '/d/rail.aspack', '--flag', '/p/A.asproj', '/x/notes.md']
+    expect(openPathsFromArgv(argv)).toEqual(['/d/rail.aspack', '/p/A.asproj'])
+  })
+
+  it('queues packs apart from projects and forwards them as app:open-pack', () => {
+    requestOpen('/d/rail.aspack')
+    requestOpen('/p/A.asproj')
+    expect(takePendingOpens()).toEqual(['/p/A.asproj'])
+    requestOpen('/d/second.aspack')
+    expect(sent).toEqual([])
+    expect(takePendingPackOpens()).toEqual(['/d/rail.aspack', '/d/second.aspack'])
+    requestOpen('/d/third.aspack')
+    expect(sent).toEqual([['event:app:open-pack', { path: '/d/third.aspack' }]])
   })
 })

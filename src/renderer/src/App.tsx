@@ -14,6 +14,7 @@ import { installQuitGuard } from './editors/unsaved-work'
 import { changeFromEvent, changeFromJob, createInvalidator } from './state/invalidate'
 import { useJobsStore } from './state/jobs'
 import { OpenRequests } from './routes/projects/OpenRequests'
+import { PackOpenRequests } from './routes/packs/PackOpenRequests'
 import { DomainsSync } from './state/domains'
 import { InjectTypesSync } from './state/inject-types'
 
@@ -110,6 +111,7 @@ export function App() {
             <>
               <SkipLink />
               <OpenRequests />
+              <PackOpenRequests />
               <div className="shell">
                 <Sidebar />
                 <main className="main" id="main">

@@ -38,7 +38,8 @@ export function useFileDrop(onPaths: (paths: string[]) => void, enabled = true):
       setOver(false)
       const paths = Array.from(e.dataTransfer?.files ?? [])
         .map((f) => pathForFile(f))
-        .filter(Boolean)
+        // .aspack packs open the pack review instead (packs/PackOpenRequests, #268).
+        .filter((p) => p && !/\.aspack$/i.test(p))
       if (paths.length) cb.current(paths)
     }
     window.addEventListener('dragenter', onEnter)

@@ -3,7 +3,7 @@ import { defineHandlers } from '../registry'
 import { getSettings, updateSettings } from '../../settings/store'
 import { userDataDir } from '../../lib/paths'
 import { onUnsavedReport } from '../../lib/quit-guard'
-import { takePendingOpens } from '../../lib/open-requests'
+import { takePendingOpens, takePendingPackOpens } from '../../lib/open-requests'
 
 const focused = (): BrowserWindow | undefined =>
   BrowserWindow.getFocusedWindow() ?? BrowserWindow.getAllWindows()[0]
@@ -52,6 +52,8 @@ export default defineHandlers({
   },
 
   'app:pending-opens': () => takePendingOpens(),
+
+  'app:pending-pack-opens': () => takePendingPackOpens(),
 
   'shell:show-item': ({ path }) => {
     shell.showItemInFolder(path)

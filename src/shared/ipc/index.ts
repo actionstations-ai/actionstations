@@ -109,6 +109,8 @@ export const events = {
   'app:quit-check': z.object({ requestId: z.string() }),
   /** The OS asked the app to open a project folder (double-clicked .asproj, #277). */
   'app:open-project': z.object({ path: z.string() }),
+  /** The OS asked the app to open an .aspack file (#268): show its review, never install. */
+  'app:open-pack': z.object({ path: z.string() }),
   'facilitator:present-changed': PresentChangedEvent,
   /** The pack domain profiles changed: refetch domains:list (#263). */
   'domains:changed': DomainsChangedEvent,

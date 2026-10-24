@@ -11,7 +11,7 @@ import {
   registerAppScheme,
   rendererRoot,
 } from './lib/app-protocol'
-import { projectPathsFromArgv, requestOpen } from './lib/open-requests'
+import { openPathsFromArgv, requestOpen } from './lib/open-requests'
 import { registerMediaProtocol, registerMediaScheme } from './lib/media-protocol'
 import { appDataDir, documentsDir, resourcesDir } from './lib/paths'
 import { APP_NAME, migrateUserData } from './lib/rename-migration'
@@ -117,12 +117,13 @@ app.setName(APP_NAME)
 const userDataOverride = process.env.TTX_USER_DATA
 app.setPath('userData', userDataOverride ?? migrateUserData(appDataDir()).userData)
 
-// Project folders opened from Finder / Explorer (#277). 'open-file' can fire before ready.
+// Project folders (#277) and .aspack packs (#268) opened from Finder / Explorer; a pack opens
+// the review screen, never an install. 'open-file' can fire before ready.
 app.on('open-file', (e, path) => {
   e.preventDefault()
   requestOpen(path)
 })
-for (const path of projectPathsFromArgv(process.argv.slice(1))) requestOpen(path)
+for (const path of openPathsFromArgv(process.argv.slice(1))) requestOpen(path)
 
 void app.whenReady().then(async () => {
   // No camera/mic/geolocation/notifications etc. for any web content.

@@ -11,6 +11,7 @@ import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { invoker, launch } from './helpers'
+import { buildPack } from '../tests/fixtures/packs/build'
 
 test.setTimeout(600_000)
 
@@ -39,13 +40,34 @@ interface Seeded {
   key: string
   scenarioId: string
   injectId: string
+  /** An .aspack on disk (a newer version of the installed rail pack) for the review screen. */
+  packPath: string
+}
+
+// Fixture packs need app 0.3.0 (unpackaged runs only); the Packs screens (#268) are audited
+// with one pack installed, one installed disabled by a conflict, and a review open.
+const A11Y_ENV = { TTX_MOCK_PROVIDERS: '1', TTX_APP_VERSION: '0.3.0' }
+/** The app the current test launched (the pack review is opened from main). */
+let activeApp: ElectronApplication | undefined
+
+async function launchA11y() {
+  const launched = await launch(A11Y_ENV)
+  activeApp = launched.app
+  return launched
+}
+
+/** Close a pack review left open by an earlier screen. */
+async function packsHome(page: Page) {
+  if (await page.getByText('Review before installing').isVisible())
+    await page.getByRole('button', { name: 'Cancel' }).click()
+  await page.getByRole('tablist', { name: 'Packs' }).waitFor()
 }
 
 interface Screen {
   name: string
   hash: (s: Seeded) => string
   /** Wait for / open the state to audit after navigation. */
-  prepare?: (page: Page) => Promise<void>
+  prepare?: (page: Page, s: Seeded) => Promise<void>
 }
 
 const tab = (name: RegExp) => async (page: Page) => {
@@ -113,6 +135,34 @@ const SCREENS: Screen[] = [
   { name: 'workflows', hash: () => '#/workflows' },
   { name: 'templates', hash: () => '#/templates' },
   { name: 'settings', hash: () => '#/settings' },
+  {
+    name: 'packs-installed',
+    hash: () => '#/packs',
+    prepare: async (page) => {
+      await packsHome(page)
+      await page.getByRole('listitem', { name: /Rail Twin/ }).waitFor()
+    },
+  },
+  {
+    name: 'packs-browse',
+    hash: () => '#/packs?tab=browse',
+    prepare: async (page) => {
+      await packsHome(page)
+      await page.getByRole('region', { name: 'Add a catalog to browse packs' }).waitFor()
+    },
+  },
+  {
+    name: 'packs-review',
+    hash: () => '#/packs',
+    prepare: async (page, s) => {
+      // As if the .aspack were double-clicked in Finder: main forwards it as app:open-pack.
+      await activeApp!.evaluate(({ BrowserWindow }, p) => {
+        for (const w of BrowserWindow.getAllWindows())
+          w.webContents.send('event:app:open-pack', { path: p })
+      }, s.packPath)
+      await page.getByRole('button', { name: /^Update to / }).waitFor()
+    },
+  },
   { name: 'welcome', hash: () => '#/welcome' },
 ]
 
@@ -121,6 +171,35 @@ async function goTo(page: Page, hash: string) {
     ;(globalThis as unknown as { location: { hash: string } }).location.hash = h
   }, hash)
   await page.waitForTimeout(700)
+}
+
+/** Install the rail pack and a conflicting twin; write rail 1.1.0 for the review screen. */
+async function seedPacks(invoke: Invoke, dir: string): Promise<string> {
+  const write = async (name: string, buf: Promise<Buffer>) => {
+    const path = join(dir, name)
+    writeFileSync(path, await buf)
+    return path
+  }
+  const rail = await write('rail-1.0.0.aspack', buildPack())
+  const twin = await write(
+    'rail-twin.aspack',
+    buildPack(undefined, {
+      manifest: (m) => {
+        m.id = 'org.example.rail-twin'
+        m.name = 'Rail Twin'
+      },
+    }),
+  )
+  for (const path of [rail, twin])
+    await invoke('packs:install', { path, source: { kind: 'file', name: path.split('/').pop() } })
+  return write(
+    'rail-1.1.0.aspack',
+    buildPack(undefined, {
+      manifest: (m) => {
+        m.version = '1.1.0'
+      },
+    }),
+  )
 }
 
 async function seed(invoke: Invoke): Promise<Seeded> {
@@ -165,7 +244,9 @@ async function seed(invoke: Invoke): Promise<Seeded> {
     inject: { ...created, fields },
   })
   await invoke('render:inject', { projectPath, scenarioId: empty.id, injectId: created.id })
+  const packPath = await seedPacks(invoke, parentDir)
   return {
+    packPath,
     projectPath,
     key: encodeURIComponent(projectPath),
     scenarioId: empty.id,
@@ -212,7 +293,7 @@ function formatFindings(findings: Finding[]): string {
 
 test('a11y: axe on every screen in light and dark', async () => {
   mkdirSync(OUT, { recursive: true })
-  const { app, page } = await launch({ TTX_MOCK_PROVIDERS: '1' })
+  const { app, page } = await launchA11y()
   const invoke = invoker(page)
   await page.setViewportSize({ width: 1280, height: 860 })
   const findings: Finding[] = []
@@ -223,7 +304,7 @@ test('a11y: axe on every screen in light and dark', async () => {
       for (const screen of SCREENS) {
         await goTo(page, '#/projects')
         await goTo(page, screen.hash(seeded))
-        await screen.prepare?.(page)
+        await screen.prepare?.(page, seeded)
         await page.screenshot({ path: join(OUT, `${theme}-${screen.name}.png`) })
         findings.push(...(await audit(page, screen.name, theme)))
       }
@@ -326,7 +407,7 @@ async function walkTabStops(page: Page, screen: string, max = 80): Promise<Keybo
 
 test('a11y: keyboard focus is visible on every tab stop', async () => {
   mkdirSync(OUT, { recursive: true })
-  const { app, page } = await launch({ TTX_MOCK_PROVIDERS: '1' })
+  const { app, page } = await launchA11y()
   const invoke = invoker(page)
   await page.setViewportSize({ width: 1280, height: 860 })
   const findings: KeyboardFinding[] = []
@@ -336,7 +417,7 @@ test('a11y: keyboard focus is visible on every tab stop', async () => {
     for (const screen of SCREENS) {
       await goTo(page, '#/projects')
       await goTo(page, screen.hash(seeded))
-      await screen.prepare?.(page)
+      await screen.prepare?.(page, seeded)
       findings.push(...(await walkTabStops(page, screen.name)))
     }
   } finally {
@@ -408,7 +489,7 @@ async function setZoom(app: ElectronApplication, factor: number) {
 
 test('a11y: 200 % zoom keeps every control reachable', async () => {
   mkdirSync(OUT, { recursive: true })
-  const { app, page } = await launch({ TTX_MOCK_PROVIDERS: '1' })
+  const { app, page } = await launchA11y()
   const invoke = invoker(page)
   await page.setViewportSize({ width: 1280, height: 860 })
   const findings: ZoomFinding[] = []
@@ -418,7 +499,7 @@ test('a11y: 200 % zoom keeps every control reachable', async () => {
     for (const screen of SCREENS) {
       await goTo(page, '#/projects')
       await goTo(page, screen.hash(seeded))
-      await screen.prepare?.(page)
+      await screen.prepare?.(page, seeded)
       await page.screenshot({ path: join(OUT, `zoom200-${screen.name}.png`) })
       findings.push(...(await clippedControls(page, screen.name)))
     }
