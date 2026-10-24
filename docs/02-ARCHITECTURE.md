@@ -64,11 +64,25 @@ userData/
   comfy/workflows/             # user ComfyUI workflows and bindings
   comfy/overrides/             # edited bindings; packs/<packId>/ for pack workflows (pack files stay read-only)
   packs/
-    registry.json              # installed packs: id, version, enabled, source, archive and content sha256
+    registry.json              # installed packs: id, version, enabled, source, archive and content sha256;
+                               # bundledDisabled: the packs included with the app that the user turned off
     <id>/<version>/            # one installed pack, verified files, read-only
     catalogs/<sha256 of URL>.json   # last good copy of each catalog index.json
     .staging/                  # downloads and extractions in progress; emptied at startup
 ```
+
+### Bundled packs (ADR-0020)
+
+The app's own content ships as packs: `ai.actionstations.core` (the cross-domain inject templates, every prompt, the default ComfyUI workflows, the `generic` domain) and one `ai.actionstations.<domain>` pack per domain (its profile, the templates whose taxonomy tags limit them to that domain, its example and, later, public-domain documents). The sources stay where they are; `packs/bundled.json` maps them to packs:
+
+```
+packs/
+  bundled.json                 # which templates, prompts, workflows, domains, examples, documents go where
+  domains/<id>.json            # the domain profiles, as data
+  documents/<pack>/<slug>/     # public-domain reference documents (US government works, CC0)
+```
+
+`scripts/build-bundled-packs.mjs` (part of `pnpm build` / `build:check`) assembles each pack into `out/bundled-packs/<id>/` with a full `pack.json`, validates it with the app's own reader, and fails on an item mapped to no pack or to two; electron-builder ships the folder as `app-resources/packs/` (beside `app-resources/templates/_shared` and `templates/export`, which are not pack items). At startup `src/main/packs/state.ts` loads them before the installed packs: packaged builds read and quick-check `app-resources/packs/`, unpackaged runs read the repo folders in place (`src/main/packs/bundled.ts`, "source mode"), and `TTX_BUNDLED_PACKS` points tests at a built folder. They are never copied to `userData`. Layer precedence is project > user > installed packs > bundled packs; an installed pack may replace a bundled template, prompt or workflow but never take a bundled domain id or a bundled pack id. A disabled bundled pack leaves the pickers and galleries, while projects that use its domain, templates or examples keep resolving them.
 
 SQLite (`better-sqlite3`) tables: `documents`, `chunks(doc_id, heading_path, page, text)`, `chunks_fts` (FTS5), `chunk_vec` (sqlite-vec), `jobs`, `provider_calls` (token/cost log). Everything in SQLite is derivable from the folder; `Rebuild index` is a menu item.
 
@@ -118,8 +132,8 @@ interface MediaProvider {
 - **Anthropic adapter:** Messages API, streaming, tool-use for JSON, prompt caching for the big doctrine context where supported.
 - **OpenAI-compatible adapter:** covers LM Studio (`http://localhost:1234/v1`), Ollama (`/v1`), vLLM, OpenRouter, OpenAI. Handles `response_format` when advertised, else fallback.
 - **Ollama native adapter:** for model listing/pull and embeddings.
-- **ComfyUI adapter:** `POST /prompt`, `GET /history/{id}`, `ws://…/ws` progress, `GET /view` for outputs. Workflow JSON (API format) with `{{bindings}}` — a mapping from inject fields to node inputs (`["6", "inputs", "text"]`). Ship default workflows under `comfy/workflows/` and a binding editor UI. Support image, image-to-video, and TTS nodes (document which custom nodes are expected; detect missing nodes via `/object_info`).
-- **Template renderer:** `templates/injects/<type>/{template.html, style.css, schema.json, preview.json}`. Handlebars-style data binding. Renders at 2× for crisp PNG; PDF for paper injects.
+- **ComfyUI adapter:** `POST /prompt`, `GET /history/{id}`, `ws://…/ws` progress, `GET /view` for outputs. Workflow JSON (API format) with `{{bindings}}` — a mapping from inject fields to node inputs (`["6", "inputs", "text"]`). Ship default workflows under `comfy/workflows/` (the core bundled pack's `workflows/` in a release) and a binding editor UI. Support image, image-to-video, and TTS nodes (document which custom nodes are expected; detect missing nodes via `/object_info`).
+- **Template renderer:** `templates/injects/<type>/{template.html, style.css, schema.json, preview.json}` (shipped inside the bundled packs, ADR-0020). Handlebars-style data binding. Renders at 2× for crisp PNG; PDF for paper injects.
 
 Routing: `project.json → providerRouting: { ideate: 'anthropic:claude-…', draft: 'lmstudio:…', critique: …, embed: 'local', image: 'comfy', video: 'comfy', audio: 'comfy' }`.
 

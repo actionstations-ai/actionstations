@@ -31,6 +31,12 @@ function OrgTypeNote({ value, snapshot }: { value: string; snapshot?: DomainProf
   )
 }
 
+/** Options carry a badge for installed packs only; "Included: …" shows for the choice. */
+function optionProvenance(id: string, snapshot?: DomainProfileSnapshot): Provenance | undefined {
+  const p = profileProvenance(id, snapshot)
+  return p?.bundled ? undefined : p
+}
+
 type Groups = ReturnType<typeof profileGroups>
 type Profile = Groups[number]['profiles'][number]
 
@@ -175,7 +181,7 @@ function ProfileList({
               p={p}
               optionId={`${id}-opt-${p.id}`}
               selected={p.id === selected}
-              provenance={profileProvenance(p.id, snapshot)}
+              provenance={optionProvenance(p.id, snapshot)}
               onPick={() => onChange(p.id)}
             />
           ))}
@@ -208,10 +214,10 @@ export function DomainProfilePicker(props: {
   const selected = current.id
   const provenance = profileProvenance(selected, snapshot)
   const groups = useMemo(
-    () => profileGroups(query, snapshot),
+    () => profileGroups(query, snapshot, selected),
     // revision: pack profiles were registered or removed.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [query, snapshot, revision],
+    [query, snapshot, selected, revision],
   )
   const flat = groups.flatMap((g) => g.profiles)
   const active = flat.some((p) => p.id === selected) ? selected : undefined

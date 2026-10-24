@@ -27,7 +27,11 @@ const refetch = () => {
 export function InjectTypesSync() {
   const list = useIpcQuery('templates:taxonomy', undefined, { staleTime: Infinity })
   useEffect(() => {
-    if (list.data) registerInjectTypes(registeredOf(list.data))
+    if (list.data)
+      registerInjectTypes(
+        registeredOf(list.data),
+        list.data.filter((t) => t.hidden).map((t) => t.id),
+      )
   }, [list.data])
   useEffect(() => {
     const offs = [subscribe('templates:changed', refetch), subscribe('packs:changed', refetch)]

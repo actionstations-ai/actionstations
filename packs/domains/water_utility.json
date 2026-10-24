@@ -1,0 +1,218 @@
+{
+  "id": "water_utility",
+  "label": "Water utility",
+  "description": "A city or regional drinking-water utility: treatment plants with chemical feed (chlorine, sodium hydroxide, fluoride), filters and clearwells, pump and booster stations, storage tanks and pressure zones, SCADA/HMI with PLCs, RTUs and telemetry, LIMS, billing/CIS and AMI meters, and the regulators and public notices (boil-water, do-not-drink) that go with them.",
+  "aliases": ["water_department", "drinking_water", "wastewater", "water_treatment"],
+  "vocabulary": {
+    "facility": "the water system (treatment plants, pump stations, tanks and the distribution network)",
+    "public": "customers and residents",
+    "frontline": "plant operators, distribution crews, SCADA technicians, lab analysts, meter technicians, customer-service agents",
+    "operationsCenter": "the treatment plant control room and the utility's operations center"
+  },
+  "factCategories": [
+    {
+      "id": "plants",
+      "label": "Treatment plants",
+      "pattern": "\\b([A-Z][a-z]+(?: [A-Z][a-z]+)? (?:Water Treatment Plant|Treatment Plant|WTP|WWTP|Filtration Plant))\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "pump_stations",
+      "label": "Pump / booster stations",
+      "pattern": "\\b([A-Z][a-z]+(?: [A-Z][a-z]+)? (?:Pump Station|Booster Station|Booster|Lift Station)|(?:Pump|Booster) Station [A-Z]?\\d{1,3})\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "tanks",
+      "label": "Storage tanks / reservoirs",
+      "pattern": "\\b([A-Z][a-z]+(?: [A-Z][a-z]+)? (?:Tank|Standpipe|Elevated Tank|Reservoir|Clearwell)|Tank [A-Z]?\\d{1,3})\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "zones",
+      "label": "Pressure zones",
+      "noun": "Pressure Zones?|Pressure Planes?|Service Zones?",
+      "genericNoun": "Zones?",
+      "context": "pressure|\\bpsi\\b|hydraulic|distribution|booster|boil|storage|tank|reservoir|pump|water main|feed",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "filters",
+      "label": "Filters",
+      "noun": "Filters?",
+      "idShape": "number",
+      "lint": false,
+      "complete": true
+    },
+    {
+      "id": "pumps",
+      "label": "Pumps",
+      "pattern": "\\b((?:Pump|P|HSP|BP|BW)-\\d{1,3}[A-Z]?|Pump \\d{1,3})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "controllers",
+      "label": "PLCs / RTUs",
+      "pattern": "\\b((?:PLC|RTU)-\\d{1,3})\\b(?!\\.\\d)",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "chemicals",
+      "label": "Chemical feed systems",
+      "pattern": "\\b((?:Chlorine|Sodium Hypochlorite|Hypochlorite|Sodium Hydroxide|Caustic|Fluoride|Alum|Ferric|Polymer|Ammonia|Permanganate) (?:Feed|Dosing|Metering)(?: Pump| System)?)\\b",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "customer information and billing system (CIS)",
+      "laboratory information management system (LIMS)",
+      "work-order / asset management",
+      "website and customer portal",
+      "email",
+      "helpdesk / ITSM",
+      "SIEM",
+      "GIS"
+    ],
+    "ot": [
+      "plant SCADA / HMI",
+      "PLCs at the plant and RTUs at remote sites",
+      "telemetry radio / cellular links",
+      "chemical feed and dosing controls",
+      "online analyzers (chlorine residual, turbidity, pH)",
+      "AMI meters and head-end",
+      "PACS and CCTV at tanks and pump stations",
+      "remote-access gateway for the integrator"
+    ]
+  },
+  "roles": [
+    {
+      "key": "ops",
+      "name": "Director of Water Operations (Incident Commander)",
+      "abbreviation": "Ops",
+      "team": "Team A: Water Operations",
+      "description": "Owns the plants, the distribution system and the operators."
+    },
+    {
+      "key": "it",
+      "name": "SCADA / IT Security Manager (Technical Lead)",
+      "abbreviation": "IT",
+      "team": "Team B: SCADA / IT",
+      "description": "Owns the control system, remote access, the business network and the investigation."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team C: Public Information",
+      "description": "Owns customer notices, boil-water advisories, social media and the press."
+    },
+    {
+      "key": "wq",
+      "name": "Water Quality Manager (Compliance)",
+      "abbreviation": "WQ",
+      "team": "Team D: Water Quality / Lab",
+      "description": "Owns sampling, the lab, regulatory reporting and public-notice triggers."
+    },
+    {
+      "key": "security",
+      "name": "Security & Emergency Manager",
+      "abbreviation": "Sec",
+      "team": "Team E: Security",
+      "description": "Owns site security, the law-enforcement liaison and the emergency response plan."
+    }
+  ],
+  "outsideParties": [
+    "EPA (Region office)",
+    "the state drinking-water program",
+    "the county or state health department",
+    "WaterISAC",
+    "CISA and the FBI",
+    "local police and fire",
+    "county emergency management",
+    "the SCADA integrator and chemical suppliers",
+    "the hospital and large customers",
+    "neighboring utilities (mutual aid / WARN)",
+    "the city council and the mayor's office"
+  ],
+  "mediaChannels": [
+    "customer posts on Facebook and Nextdoor about water taste, smell or color",
+    "a neighborhood group chat",
+    "the local TV assignment desk",
+    "a city council member's office",
+    "the utility's own outage and advisory alerts"
+  ],
+  "sceneAnchors": {
+    "public": "a residential street with a utility crew around an open excavation, water running along the curb, a backhoe, neighbors watching, daylight",
+    "control": "inside a water treatment plant control room: an operator at a console with dark monitors, a wall of pipes and valves visible through a window, fluorescent light",
+    "exterior": "at a water treatment plant: open filter basins with clear water, a chemical-feed building with a roll-up door, an elevated storage tank on the horizon, overcast daylight"
+  },
+  "injectTypes": [
+    "scada_hmi",
+    "radio_call",
+    "phone_call",
+    "field_report",
+    "incident_alert_notification",
+    "helpdesk_ticket",
+    "system_log",
+    "siem_alert",
+    "error_dialog",
+    "console_dump",
+    "pacs_alarm_panel",
+    "cctv_still",
+    "scene_photo",
+    "tweet",
+    "facebook_post",
+    "media_inquiry_phone_slip",
+    "press_release",
+    "memo",
+    "email_forward",
+    "regulatory_notice",
+    "official_letter",
+    "status_board"
+  ],
+  "threatFamilies": [
+    "cyber_physical",
+    "cyber",
+    "insider",
+    "physical_security",
+    "infrastructure_failure",
+    "natural_hazard",
+    "uas_drone"
+  ],
+  "noiseExamples": [
+    "a customer reporting a hydrant leaking",
+    "a meter technician locked out of a backyard",
+    "a lab refrigerator temperature alarm",
+    "a billing portal password reset",
+    "a contractor asking for a hydrant permit"
+  ],
+  "pressureExamples": [
+    "a Nextdoor thread saying the water smells like a swimming pool",
+    "a Facebook post claiming the water is poisoned",
+    "the hospital asking whether to switch to bottled water",
+    "a reporter asking if the plant was hacked",
+    "the state drinking-water program asking for a status report",
+    "the mayor's office asking whether to issue a boil-water advisory"
+  ],
+  "rolePatterns": {
+    "technical": "scada|ot\\b",
+    "operations": "water operations|plant",
+    "security": "security|police"
+  },
+  "agencyPattern": "EPA|WaterISAC|state drinking[- ]water|health department|WARN"
+}

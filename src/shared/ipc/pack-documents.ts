@@ -11,6 +11,8 @@ export const PackDocumentView = z.object({
   packId: PackId,
   packVersion: SemVer,
   packName: z.string(),
+  /** The pack is included with the app (ADR-0020). */
+  bundled: z.boolean().optional(),
   /** The document group (contents.documents id) the file belongs to. */
   slug: z.string(),
   /** Path inside the pack: documents/<slug>/<file>. */

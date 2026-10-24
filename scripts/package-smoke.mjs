@@ -42,7 +42,12 @@ export const EXPECTED_FUSES = {
 }
 /** Top-level app.asar entries a release may contain. */
 export const ALLOWED_ASAR_ROOTS = ['out', 'node_modules', 'package.json']
-const FORBIDDEN_IN_ASAR = [/(^|\/)__golden__\//, /^node_modules\/[^/]+\/(test|tests|fixtures)\//]
+const FORBIDDEN_IN_ASAR = [
+  /(^|\/)__golden__\//,
+  /^node_modules\/[^/]+\/(test|tests|fixtures)\//,
+  // The bundled packs ship beside app.asar, in app-resources/packs (ADR-0020).
+  /^out\/bundled-packs\//,
+]
 
 /** Every fuse wire in an Electron binary (universal mac binaries hold two). */
 export function readFuseWires(binary) {
@@ -166,8 +171,26 @@ export function killLeftovers(executable) {
   return pids
 }
 
-function staticChecks(layout) {
+/** The bundled packs (ADR-0020) are in app-resources/packs; the old per-kind folders are gone. */
+export function bundledPackProblems(resources) {
+  const root = join(resources, 'app-resources')
   const problems = []
+  const indexPath = join(root, 'packs', 'index.json')
+  if (!existsSync(indexPath)) return [`${indexPath} is missing (scripts/build-bundled-packs.mjs)`]
+  const index = JSON.parse(readFileSync(indexPath, 'utf8'))
+  const ids = index.packs.map((p) => p.id)
+  if (!ids.includes('ai.actionstations.core')) problems.push('the core pack is not bundled')
+  for (const id of ids)
+    if (!existsSync(join(root, 'packs', id, 'pack.json')))
+      problems.push(`${id}/pack.json is missing`)
+  for (const old of ['templates/injects', 'prompts', 'comfy', 'examples'])
+    if (existsSync(join(root, old))) problems.push(`app-resources/${old} still ships`)
+  console.log(`bundled packs: ${ids.length} (${ids.join(', ')})`)
+  return problems
+}
+
+function staticChecks(layout) {
+  const problems = [...bundledPackProblems(layout.resources)]
   const wires = readFuseWires(readFileSync(layout.fuseBinary))
   if (wires.length === 0) problems.push('no fuse wire found in the Electron binary')
   for (const wire of wires) problems.push(...fuseProblems(wire))
@@ -195,7 +218,7 @@ function main() {
     console.log(`packaged app: ${appPath}`)
     const problems = staticChecks(layout)
     if (problems.length) throw new Error(`static checks failed:\n  ${problems.join('\n  ')}`)
-    console.log('static checks passed (fuses, asar integrity, asar contents)')
+    console.log('static checks passed (fuses, asar integrity, asar contents, bundled packs)')
     const started = Date.now()
     const run = spawnSync('pnpm', ['exec', 'playwright', 'test', 'e2e/packaged.spec.ts'], {
       cwd: ROOT,

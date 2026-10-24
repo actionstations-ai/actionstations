@@ -1,0 +1,117 @@
+{
+  "id": "generic",
+  "label": "Generic organization",
+  "description": "Any organization whose documents describe its facilities, systems and procedures. No built-in identifier categories: the project's documents are the only source.",
+  "aliases": ["other", "organization"],
+  "vocabulary": {
+    "facility": "the organization's facilities",
+    "public": "customers, visitors and the public",
+    "frontline": "front-line supervisors, dispatchers, help-desk staff, security officers",
+    "operationsCenter": "the operations center"
+  },
+  "factCategories": [],
+  "systems": {
+    "it": ["email", "website", "helpdesk / ITSM", "SIEM", "business applications"],
+    "ot": ["building automation", "PACS and CCTV", "the operational systems the documents name"]
+  },
+  "roles": [
+    {
+      "key": "ops",
+      "name": "Director of Operations (Incident Commander)",
+      "abbreviation": "Ops",
+      "team": "Team A: Operations",
+      "description": "Owns the facility, the service and the people."
+    },
+    {
+      "key": "it",
+      "name": "IT Director (Technical Lead)",
+      "abbreviation": "IT",
+      "team": "Team B: IT / Security",
+      "description": "Owns the systems and the investigation."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team C: Public Information",
+      "description": "Owns the narrative: social media, press, the website."
+    },
+    {
+      "key": "security",
+      "name": "Security Manager",
+      "abbreviation": "Sec",
+      "team": "Team D: Security",
+      "description": "Owns physical security and the law-enforcement liaison."
+    },
+    {
+      "key": "liaison",
+      "name": "Partner / Tenant Liaison",
+      "abbreviation": "Liaison",
+      "team": "Team E: Partners",
+      "description": "Owns the partners, tenants or customers the incident affects."
+    }
+  ],
+  "outsideParties": [
+    "local police and fire",
+    "county emergency management",
+    "FBI and CISA",
+    "the system vendors the documents name",
+    "the regulator the documents name",
+    "partners, tenants and major customers"
+  ],
+  "mediaChannels": [
+    "posts on X/Twitter and Facebook",
+    "a community group",
+    "the local TV assignment desk",
+    "a trade reporter"
+  ],
+  "sceneAnchors": {
+    "public": "inside an organization's main lobby: a reception desk, a few visitors, glass doors, daylight",
+    "control": "inside an operations center: a table of laptops and phones, a whiteboard, staff in lanyards, fluorescent light",
+    "exterior": "outside an office building entrance: a parking lot with a few cars, a flagpole, overcast daylight"
+  },
+  "injectTypes": [
+    "phone_call",
+    "radio_call",
+    "email",
+    "email_forward",
+    "helpdesk_ticket",
+    "memo",
+    "system_log",
+    "siem_alert",
+    "error_dialog",
+    "tweet",
+    "facebook_post",
+    "media_inquiry_phone_slip",
+    "press_release",
+    "scene_photo",
+    "cctv_still",
+    "status_board",
+    "sitrep"
+  ],
+  "threatFamilies": [
+    "cyber",
+    "physical_security",
+    "cyber_physical",
+    "infrastructure_failure",
+    "natural_hazard",
+    "insider",
+    "uas_drone",
+    "mass_gathering"
+  ],
+  "noiseExamples": [
+    "a jammed printer",
+    "a password-reset request",
+    "a stuck parking-gate arm",
+    "a broken elevator",
+    "a vendor asking for a visitor badge"
+  ],
+  "pressureExamples": [
+    "a customer post with a photo",
+    "a community rumor",
+    "a reporter with a deadline",
+    "a partner demanding a written update",
+    "a board member calling the director"
+  ],
+  "rolePatterns": {}
+}

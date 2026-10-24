@@ -1,0 +1,178 @@
+{
+  "id": "stadium_venue",
+  "label": "Stadium / venue",
+  "description": "A stadium, arena or convention venue: entry gates and sections, ticketing and credentialing, a command post with CCTV, the promoter or tenant team, EMS and police on event day.",
+  "aliases": ["stadium", "arena", "venue", "event"],
+  "vocabulary": {
+    "facility": "the venue (seating bowl, concourses, gates, lots)",
+    "public": "fans and guests",
+    "frontline": "gate supervisors, ushers, ticket-takers, security contractors, concessions managers, medical staff",
+    "operationsCenter": "the venue command post"
+  },
+  "factCategories": [
+    {
+      "id": "gates",
+      "label": "Entry gates",
+      "noun": "Gates?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "sections",
+      "label": "Seating sections",
+      "noun": "Seating Sections?",
+      "genericNoun": "Sections?",
+      "context": "\\bseat|fans?\\b|crowd|\\brows?\\b|bowl|stands\\b|spectator|usher|evacuat|upper deck|lower deck|lower bowl|upper bowl",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": false
+    },
+    {
+      "id": "concourses",
+      "label": "Concourses / levels",
+      "noun": "Concourses?|Club Levels?|Suite Levels?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "lots",
+      "label": "Parking lots",
+      "noun": "Lots?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "ticketing and mobile entry",
+      "point-of-sale and concessions",
+      "website and app",
+      "email",
+      "helpdesk / ITSM",
+      "SIEM",
+      "credentialing"
+    ],
+    "ot": [
+      "turnstiles and access control (PACS)",
+      "CCTV / VMS",
+      "videoboard and ribbon displays",
+      "PA and emergency voice evacuation",
+      "building automation and lighting",
+      "elevators and escalators",
+      "crowd-counting and queue sensors"
+    ]
+  },
+  "roles": [
+    {
+      "key": "ops",
+      "name": "Director of Event Operations (Incident Commander)",
+      "abbreviation": "Ops",
+      "team": "Team A: Event Operations",
+      "description": "Owns the event, the building and the staff in it."
+    },
+    {
+      "key": "security",
+      "name": "Director of Security",
+      "abbreviation": "Sec",
+      "team": "Team B: Security",
+      "description": "Owns gates, screening, crowd control and the police liaison."
+    },
+    {
+      "key": "pio",
+      "name": "Vice President of Communications (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team C: Communications",
+      "description": "Owns fan messaging, the videoboard, social media and the press."
+    },
+    {
+      "key": "medical",
+      "name": "Event Medical Director (EMS Liaison)",
+      "abbreviation": "Med",
+      "team": "Team D: Medical",
+      "description": "Owns first-aid stations, EMS and transport."
+    },
+    {
+      "key": "it",
+      "name": "Director of Venue Technology (Technical Lead)",
+      "abbreviation": "IT",
+      "team": "Team E: Technology",
+      "description": "Owns ticketing, networks, displays and the investigation."
+    }
+  ],
+  "outsideParties": [
+    "city police and fire",
+    "EMS and the regional hospitals",
+    "county emergency management",
+    "the promoter or home team",
+    "the league or sanctioning body",
+    "FBI and DHS (special event)",
+    "the ticketing vendor",
+    "the transit agency and traffic management",
+    "the FAA (temporary flight restriction)",
+    "the contracted security company"
+  ],
+  "mediaChannels": [
+    "fan posts on X/Twitter and Instagram with video",
+    "the home team's subreddit",
+    "the local TV station broadcasting live",
+    "a sports-radio host",
+    "the venue's own app and videoboard"
+  ],
+  "sceneAnchors": {
+    "public": "inside a stadium concourse during an event: a dense crowd in team colors, concession counters, dark screens as plain rectangles, bright lighting",
+    "control": "inside a stadium command post: staff in polo shirts watching a wall of dark CCTV monitors, radios on the desk, a window over the seating bowl",
+    "exterior": "outside stadium entry gates: long queues at turnstiles, security staff in high-visibility vests, floodlights, evening"
+  },
+  "injectTypes": [
+    "radio_call",
+    "phone_call",
+    "cctv_still",
+    "scene_photo",
+    "tweet",
+    "instagram_post",
+    "social_video",
+    "facebook_post",
+    "media_inquiry_phone_slip",
+    "pa_announcement",
+    "incident_alert_notification",
+    "pacs_alarm_panel",
+    "uas_detection_alert",
+    "helpdesk_ticket",
+    "error_dialog",
+    "memo",
+    "status_board",
+    "text_message"
+  ],
+  "threatFamilies": [
+    "mass_gathering",
+    "physical_security",
+    "uas_drone",
+    "cyber",
+    "infrastructure_failure",
+    "natural_hazard",
+    "cyber_physical",
+    "insider"
+  ],
+  "noiseExamples": [
+    "a concession stand out of change",
+    "a suite elevator slow to respond",
+    "a lost child at a first-aid station",
+    "a vendor truck in the wrong lot",
+    "a scanner battery dead at one gate"
+  ],
+  "pressureExamples": [
+    "a fan video of a crush at a gate going viral",
+    "a rumor on X that the game is cancelled",
+    "the broadcaster asking for an on-air statement",
+    "the promoter refusing to delay the show",
+    "the mayor's office calling"
+  ],
+  "rolePatterns": {
+    "security": "security|police",
+    "operations": "event operations|venue"
+  },
+  "agencyPattern": "DHS|FAA|league"
+}

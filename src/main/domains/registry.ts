@@ -5,7 +5,10 @@
 // domains:list on the domains:changed event.
 import {
   listProfiles,
+  packProfileEntries,
+  registerBundledProfiles,
   registerPackProfiles,
+  type BundledProfileEntry,
   type ListedProfile,
   type PackProfileEntry,
 } from '@shared/domains'
@@ -23,7 +26,16 @@ export function setPackDomainProfiles(entries: readonly PackProfileEntry[]): voi
   emit('domains:changed', { packProfiles: entries.length })
 }
 
-/** Built-in then pack profiles with their source (the domains:list answer). */
+/** Bundled then installed pack profiles with their source (the domains:list answer). */
 export function listDomainProfiles(): ListedProfile[] {
   return listProfiles()
+}
+
+/**
+ * Replace the bundled profiles (every bundled pack's, enabled or not) and tell the renderer.
+ * state.ts calls this before it checks any installed pack against the bundled domain ids.
+ */
+export function setBundledDomainProfiles(entries: readonly BundledProfileEntry[]): void {
+  registerBundledProfiles(entries)
+  emit('domains:changed', { packProfiles: packProfileEntries().length })
 }

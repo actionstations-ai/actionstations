@@ -18,7 +18,16 @@ export const ListedInjectType = z.object({
   domains: z.array(z.string()).optional(),
   /** Absent for built-in types. */
   source: z.enum(['project', 'user', 'pack']).optional(),
-  pack: z.object({ id: z.string(), version: z.string(), name: z.string().optional() }).optional(),
+  pack: z
+    .object({
+      id: z.string(),
+      version: z.string(),
+      name: z.string().optional(),
+      bundled: z.boolean().optional(),
+    })
+    .optional(),
+  /** Its template comes from a bundled pack the user disabled: not offered for new use. */
+  hidden: z.boolean().optional(),
 })
 export type ListedInjectType = z.infer<typeof ListedInjectType>
 

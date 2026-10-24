@@ -3,6 +3,7 @@ import type { PromptEntry } from '@shared/schemas/prompt'
 import { Badge } from '../../components/ui'
 import { ProvenanceBadge } from '../../components/ProvenanceBadge'
 import { provenanceOf } from '../../lib/provenance'
+import { useCorePackProvenance } from '../../state/core-pack'
 import { groupByStage, LAYER_LABEL, stageLabel } from './prompt-utils'
 
 /** The pack layer of a prompt (#269); prompts are never copied, so always "Pack: …". */
@@ -14,10 +15,16 @@ function PackLayerBadge({ entry }: { entry: PromptEntry }) {
   )
 }
 
+/** The default layer is the core pack included with the app (ADR-0020). */
+function DefaultBadge() {
+  const core = useCorePackProvenance()
+  return core ? <ProvenanceBadge provenance={core} /> : <Badge>{LAYER_LABEL.default}</Badge>
+}
+
 function SourceBadges({ entry, showProject }: { entry: PromptEntry; showProject: boolean }) {
   return (
     <span className="prompt-list__badges">
-      {entry.effectiveSource === 'default' && <Badge>{LAYER_LABEL.default}</Badge>}
+      {entry.effectiveSource === 'default' && <DefaultBadge />}
       {entry.hasPackLayer && <PackLayerBadge entry={entry} />}
       {entry.hasGlobalOverride && (
         <Badge tone={entry.effectiveSource === 'global' ? 'info' : 'neutral'}>

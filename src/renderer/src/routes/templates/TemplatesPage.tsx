@@ -54,7 +54,15 @@ function DomainFilter(props: {
   onChange: (d: string) => void
 }) {
   useDomainRegistry() // installed packs add their domain profiles (#263)
-  const options = ['all', ...listProfiles().map((p) => p.profile.id)]
+  // Domains of disabled bundled packs are not offered, except the current choice (ADR-0020).
+  const offered = listProfiles().filter(
+    (p) =>
+      p.source.kind !== 'bundled' ||
+      p.source.enabled ||
+      p.profile.id === props.value ||
+      p.profile.id === props.projectDomain,
+  )
+  const options = ['all', ...offered.map((p) => p.profile.id)]
   return (
     <div className="stack tpl-domain">
       <div className="tpl-filter" role="group" aria-label="Domain">
@@ -125,7 +133,8 @@ export default function TemplatesPage() {
   // With a project open, its own templates (and copies of pack templates) are listed too.
   const list = useIpcQuery('templates:list', projectPath ? { projectPath } : undefined)
   useInjectTypes() // categories and domain tags of pack types come from the registry
-  const templates = list.data ?? []
+  // Templates of a bundled pack the user disabled are not offered (ADR-0020).
+  const templates = (list.data ?? []).filter((t) => !t.hidden)
   const category = (params.get('category') ?? 'all') as GalleryCategory | 'all'
   const projectDomain = useProjectDomain()
   const domain = params.get('domain') ?? projectDomain ?? 'all'

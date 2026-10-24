@@ -1,10 +1,11 @@
 // Renderer helpers for domain profiles and threat families (ADR-0014, #169): picker groups and
 // search, how a stored orgType resolves, and the threat family a brief would get and why.
 import {
-  DOMAIN_PROFILES,
   THREAT_FAMILIES,
   baseProfile,
   builtinProfile,
+  bundledProfileEntries,
+  bundledProfiles,
   chooseThreatFamily,
   domainKey,
   packProfileEntries,
@@ -23,7 +24,10 @@ export interface ProfileGroup {
   profiles: DomainProfile[]
 }
 
-/** Picker sections; every built-in profile appears in exactly one. */
+/**
+ * Picker sections for the bundled profiles (ADR-0020); a bundled profile no section names
+ * (a domain pack added later) is listed under "More domains".
+ */
 export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[] }[] = [
   { label: 'Transportation', ids: ['airport', 'transit', 'port_maritime', 'unmanned_systems'] },
   {
@@ -51,6 +55,7 @@ export function profileMatches(profile: DomainProfile, query: string): boolean {
 }
 
 export const PACK_GROUP_LABEL = 'From packs'
+export const MORE_GROUP_LABEL = 'More domains'
 
 /**
  * The profiles of the "From packs" group: every enabled pack's, plus the project's snapshot
@@ -63,20 +68,38 @@ function packGroupProfiles(snapshot?: DomainProfileSnapshot): DomainProfile[] {
   return installed
 }
 
-/** Groups with the profiles that match `query`; empty groups are dropped. */
-export function profileGroups(query = '', snapshot?: DomainProfileSnapshot): ProfileGroup[] {
-  const byId = new Map(DOMAIN_PROFILES.map((p) => [p.id, p]))
+/**
+ * Groups with the profiles that match `query`; empty groups are dropped. Only the profiles of
+ * enabled bundled packs are offered, plus `keep` (the current choice) when its pack is off.
+ */
+export function profileGroups(
+  query = '',
+  snapshot?: DomainProfileSnapshot,
+  keep?: string,
+): ProfileGroup[] {
+  const offered = bundledProfiles().filter(
+    (p) => p.id === keep || bundledProfiles({ enabledOnly: true }).includes(p),
+  )
+  const byId = new Map(offered.map((p) => [p.id, p]))
+  const grouped = new Set(PROFILE_GROUP_IDS.flatMap((g) => g.ids))
+  const matches = (p: DomainProfile | undefined): p is DomainProfile =>
+    !!p && profileMatches(p, query)
   const builtin = PROFILE_GROUP_IDS.map((g) => ({
     label: g.label,
-    profiles: g.ids
-      .map((id) => byId.get(id))
-      .filter((p): p is DomainProfile => !!p && profileMatches(p, query)),
+    profiles: g.ids.map((id) => byId.get(id)).filter(matches),
   }))
+  const more = {
+    label: MORE_GROUP_LABEL,
+    profiles: offered.filter((p) => !grouped.has(p.id)).filter(matches),
+  }
   const packs = {
     label: PACK_GROUP_LABEL,
     profiles: packGroupProfiles(snapshot).filter((p) => profileMatches(p, query)),
   }
-  return [...builtin, packs].filter((g) => g.profiles.length > 0)
+  // "More domains" sits before "Any organization"; installed packs' profiles come last.
+  return [...builtin.slice(0, -1), more, ...builtin.slice(-1), packs].filter(
+    (g) => g.profiles.length > 0,
+  )
 }
 
 /**
@@ -103,12 +126,20 @@ export function profileProvenance(
     }
   }
   const entry = packProfileEntries().find((e) => e.profile.id === profileId)
-  if (!entry) return undefined
+  if (entry)
+    return {
+      origin: 'pack',
+      packId: entry.packId,
+      packName: entry.packName,
+      version: entry.packVersion,
+    }
+  const bundled = bundledProfileEntries().find((e) => e.profile.id === profileId)
+  if (!bundled) return undefined
   return {
     origin: 'pack',
-    packId: entry.packId,
-    packName: entry.packName,
-    version: entry.packVersion,
+    bundled: true,
+    packId: bundled.packId,
+    packName: bundled.packName,
   }
 }
 

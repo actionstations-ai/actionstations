@@ -1,0 +1,187 @@
+{
+  "$comment": "Built-in content as bundled packs (ADR-0020). Maps the repo's folders to packs; scripts/build-bundled-packs.mjs writes out/bundled-packs/<id>/ from it and fails on an item mapped to no pack or to two. Docs: docs/packs-format.md#bundled-packs.",
+  "author": { "name": "Action Stations", "url": "https://actionstations.ai" },
+  "license": "LicenseRef-Action-Stations",
+  "homepage": "https://actionstations.ai",
+  "packs": [
+    {
+      "id": "ai.actionstations.core",
+      "name": "Action Stations Core",
+      "summary": "The inject templates, prompts, ComfyUI workflows and generic domain profile every exercise uses.",
+      "description": "Included with the app and always on. Domain packs add the profile, templates and example of one kind of organization on top of it.",
+      "core": true,
+      "tags": ["core"],
+      "contents": {
+        "templates": [
+          "911_cad_entry",
+          "avl_fleet_map",
+          "cctv_still",
+          "chat_transcript",
+          "console_dump",
+          "email",
+          "email_forward",
+          "email_header_analysis",
+          "endex_card",
+          "error_dialog",
+          "facebook_post",
+          "field_report",
+          "helpdesk_ticket",
+          "ics_201_prefill",
+          "ics_203_prefill",
+          "incident_alert_notification",
+          "info_display_board",
+          "instagram_post",
+          "map_annotation",
+          "media_inquiry_phone_slip",
+          "memo",
+          "network_diagram",
+          "news_article",
+          "news_chyron_still",
+          "official_letter",
+          "pa_announcement",
+          "pacs_alarm_panel",
+          "phone_call",
+          "press_release",
+          "radio_call",
+          "ransom_note",
+          "reddit_post",
+          "regulatory_notice",
+          "reporter_email",
+          "scada_hmi",
+          "scenario_update",
+          "scene_photo",
+          "screenshot_generic",
+          "siem_alert",
+          "signage_photo",
+          "simcell_script",
+          "sitrep",
+          "startex_card",
+          "status_board",
+          "system_log",
+          "text_message",
+          "tiktok_video_card",
+          "time_jump_card",
+          "tweet",
+          "uas_detection_alert",
+          "voicemail"
+        ],
+        "prompts": [
+          "controller_handbook",
+          "critique",
+          "hotwash",
+          "ideate",
+          "inject_media_brief",
+          "inject_text",
+          "msel_phase",
+          "objectives_roles",
+          "phase_plan",
+          "player_briefing",
+          "rubric",
+          "scenario_overview"
+        ],
+        "workflows": ["image-to-video", "sdxl-photo"],
+        "domains": ["generic"]
+      }
+    },
+    {
+      "id": "ai.actionstations.airport",
+      "name": "Airports",
+      "summary": "Commercial-service airport domain: profile, FIDS and baggage-system templates, and the North Coast International Airport example.",
+      "tags": ["airport", "aviation"],
+      "domains": ["airport"],
+      "contents": {
+        "templates": ["bhs_scada_screen", "fids_board"],
+        "domains": ["airport"],
+        "examples": ["airport-ncia"]
+      }
+    },
+    {
+      "id": "ai.actionstations.transit",
+      "name": "Transit",
+      "summary": "Public transit agency domain (bus and rail): profile.",
+      "tags": ["transit"],
+      "domains": ["transit"],
+      "contents": { "domains": ["transit"] }
+    },
+    {
+      "id": "ai.actionstations.water-dam",
+      "name": "Dams and water authorities",
+      "summary": "Dam, reservoir and powerhouse domain: profile.",
+      "tags": ["dam", "water"],
+      "domains": ["water_dam"],
+      "contents": { "domains": ["water_dam"] }
+    },
+    {
+      "id": "ai.actionstations.water-utility",
+      "name": "Water utilities",
+      "summary": "Drinking-water utility domain: profile and the City Water example.",
+      "tags": ["water"],
+      "domains": ["water_utility"],
+      "contents": { "domains": ["water_utility"], "examples": ["city-water"] }
+    },
+    {
+      "id": "ai.actionstations.energy-utility",
+      "name": "Energy utilities",
+      "summary": "Electric or gas utility domain: profile.",
+      "tags": ["energy"],
+      "domains": ["energy_utility"],
+      "contents": { "domains": ["energy_utility"] }
+    },
+    {
+      "id": "ai.actionstations.healthcare",
+      "name": "Healthcare",
+      "summary": "Hospital and health system domain: profile.",
+      "tags": ["healthcare"],
+      "domains": ["healthcare"],
+      "contents": { "domains": ["healthcare"] }
+    },
+    {
+      "id": "ai.actionstations.campus",
+      "name": "Campuses",
+      "summary": "University and school campus domain: profile.",
+      "tags": ["campus", "education"],
+      "domains": ["campus"],
+      "contents": { "domains": ["campus"] }
+    },
+    {
+      "id": "ai.actionstations.stadium-venue",
+      "name": "Stadiums and venues",
+      "summary": "Stadium, arena and convention venue domain: profile.",
+      "tags": ["venue"],
+      "domains": ["stadium_venue"],
+      "contents": { "domains": ["stadium_venue"] }
+    },
+    {
+      "id": "ai.actionstations.port-maritime",
+      "name": "Ports and maritime",
+      "summary": "Seaport and terminal domain: profile.",
+      "tags": ["port", "maritime"],
+      "domains": ["port_maritime"],
+      "contents": { "domains": ["port_maritime"] }
+    },
+    {
+      "id": "ai.actionstations.municipal",
+      "name": "Municipal government",
+      "summary": "City and county government domain: profile.",
+      "tags": ["municipal"],
+      "domains": ["municipal"],
+      "contents": { "domains": ["municipal"] }
+    },
+    {
+      "id": "ai.actionstations.industrial",
+      "name": "Industrial and manufacturing",
+      "summary": "Manufacturing and process plant domain: profile.",
+      "tags": ["industrial"],
+      "domains": ["industrial"],
+      "contents": { "domains": ["industrial"] }
+    },
+    {
+      "id": "ai.actionstations.unmanned-systems",
+      "name": "Unmanned systems",
+      "summary": "Drone and unmanned systems operator domain: profile and the UAS operations example.",
+      "tags": ["uas", "drones"],
+      "domains": ["unmanned_systems"],
+      "contents": { "domains": ["unmanned_systems"], "examples": ["uas-operations"] }
+    }
+  ]
+}

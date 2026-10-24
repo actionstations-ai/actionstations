@@ -76,7 +76,7 @@ export interface InjectTypeInfo {
    * layer and, for packs and project copies of pack templates, the pack. Absent = built-in.
    */
   source?: 'project' | 'user' | 'pack'
-  pack?: { id: string; version: string; name?: string }
+  pack?: { id: string; version: string; name?: string; bundled?: boolean }
 }
 
 const t = (
@@ -228,11 +228,20 @@ export type InjectType = string
 
 let registered: readonly InjectTypeInfo[] = []
 let all: readonly InjectTypeInfo[] = INJECT_TYPES
+let hidden: ReadonlySet<string> = new Set()
 let revision = 0
 const listeners = new Set<() => void>()
 
-/** Replace the registered (non-built-in) types. Built-in ids and repeated ids are skipped. */
-export function registerInjectTypes(types: readonly InjectTypeInfo[]): void {
+/**
+ * Replace the registered (non-built-in) types. Built-in ids and repeated ids are skipped.
+ * `hiddenIds`: types whose template comes from a bundled pack the user disabled (ADR-0020);
+ * they stay known (labels, existing injects) but are not offered for new use.
+ */
+export function registerInjectTypes(
+  types: readonly InjectTypeInfo[],
+  hiddenIds: Iterable<string> = [],
+): void {
+  hidden = new Set(hiddenIds)
   const seen = new Set(INJECT_TYPE_IDS)
   const next: InjectTypeInfo[] = []
   for (const t of types) {
@@ -258,6 +267,11 @@ export function subscribeInjectTypes(listener: () => void): () => void {
   }
 }
 
+/** Whether a type is hidden from new use (its bundled pack is disabled). */
+export const isInjectTypeHidden = (id: string): boolean => hidden.has(id)
+/** The hidden type ids. */
+export const hiddenInjectTypes = (): readonly string[] => [...hidden]
+
 /** A built-in or registered type id. */
 export const isInjectTypeId = (id: string): boolean => all.some((x) => x.id === id)
 
@@ -273,7 +287,10 @@ export function injectTypeFitsDomain(
   return !info.domains || info.domains.includes(domainId)
 }
 
-/** Inject types a project of `domainId` may use (untagged types plus those tagged for it). */
+/**
+ * Inject types a project of `domainId` may use for new injects (untagged types plus those
+ * tagged for it), leaving out types hidden with their disabled bundled pack.
+ */
 export function injectTypesForDomain(domainId: string): InjectTypeInfo[] {
-  return all.filter((x) => injectTypeFitsDomain(x, domainId))
+  return all.filter((x) => injectTypeFitsDomain(x, domainId) && !hidden.has(x.id))
 }

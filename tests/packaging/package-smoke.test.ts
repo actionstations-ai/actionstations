@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { load as loadYaml } from 'js-yaml'
@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest'
 import {
   asarFileList,
   asarLeaks,
+  bundledPackProblems,
   EXPECTED_FUSES,
   FUSE_SENTINEL,
   fuseProblems,
@@ -106,5 +107,32 @@ describe('packagedLayout', () => {
     const linux = packagedLayout('/r/linux-unpacked/actionstations', 'linux')
     expect(linux.fuseBinary).toBe(linux.executable)
     expect(linux.resources).toBe('/r/linux-unpacked/resources')
+  })
+})
+
+describe('bundledPackProblems (ADR-0020)', () => {
+  const resources = (packs: string[], extra: string[] = []) => {
+    const dir = mkdtempSync(join(tmpdir(), 'ttx-res-'))
+    const root = join(dir, 'app-resources')
+    mkdirSync(join(root, 'packs'), { recursive: true })
+    writeFileSync(
+      join(root, 'packs', 'index.json'),
+      JSON.stringify({ packs: packs.map((id) => ({ id })) }),
+    )
+    for (const id of packs) {
+      mkdirSync(join(root, 'packs', id))
+      writeFileSync(join(root, 'packs', id, 'pack.json'), '{}')
+    }
+    for (const old of extra) mkdirSync(join(root, old), { recursive: true })
+    return dir
+  }
+  it('passes app-resources/packs with the core pack and no per-kind folders', () => {
+    expect(bundledPackProblems(resources(['ai.actionstations.core']))).toEqual([])
+  })
+  it('flags a missing core pack and the old per-kind folders', () => {
+    expect(bundledPackProblems(resources(['ai.actionstations.airport'], ['prompts']))).toEqual([
+      'the core pack is not bundled',
+      'app-resources/prompts still ships',
+    ])
   })
 })

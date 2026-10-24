@@ -1,0 +1,171 @@
+{
+  "id": "healthcare",
+  "label": "Healthcare",
+  "description": "A hospital or health system: emergency department, inpatient units, operating rooms, the EHR and medical devices, a hospital command center under HICS.",
+  "aliases": ["hospital", "health", "clinic", "health_system"],
+  "vocabulary": {
+    "facility": "the hospital campus",
+    "public": "patients, families and visitors",
+    "frontline": "charge nurses, ED physicians, unit clerks, security officers, biomedical technicians, registration staff",
+    "operationsCenter": "the Hospital Command Center (HCC)"
+  },
+  "factCategories": [
+    {
+      "id": "units",
+      "label": "Units / wards",
+      "noun": "Wards?|Nursing Units?|Care Units?",
+      "genericNoun": "Units?",
+      "context": "patient|nurs|\\bbeds?\\b|ward|clinical|census|\\bICU\\b|med-?surg|telemetry|admission|discharge|inpatient",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "towers",
+      "label": "Towers / buildings / pavilions",
+      "noun": "Towers?|Buildings?|Pavilions?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "ors",
+      "label": "Operating rooms",
+      "noun": "ORs?|Operating Rooms?",
+      "idShape": "number",
+      "lint": true,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "electronic health record (EHR)",
+      "PACS / radiology imaging",
+      "laboratory information system",
+      "pharmacy and medication dispensing cabinets",
+      "patient portal and website",
+      "email",
+      "helpdesk / ITSM",
+      "SIEM",
+      "nurse-call and paging"
+    ],
+    "ot": [
+      "building automation (HVAC, medical gas, generators)",
+      "PACS access control and infant security",
+      "CCTV",
+      "elevators",
+      "medical devices on the network (pumps, monitors, imaging)",
+      "pneumatic tube system"
+    ]
+  },
+  "roles": [
+    {
+      "key": "ic",
+      "name": "Administrator on Call (Incident Commander)",
+      "abbreviation": "IC",
+      "team": "Team A: Command",
+      "description": "Owns the hospital, the HICS activation and the big decisions."
+    },
+    {
+      "key": "it",
+      "name": "Chief Information Security Officer (Technical Lead)",
+      "abbreviation": "IT",
+      "team": "Team B: IT / Security",
+      "description": "Owns the EHR, the network, the devices and the investigation."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team C: Public Information",
+      "description": "Owns patient and family messaging, social media and the press."
+    },
+    {
+      "key": "security",
+      "name": "Director of Security",
+      "abbreviation": "Sec",
+      "team": "Team D: Security",
+      "description": "Owns access control, visitor management and the police liaison."
+    },
+    {
+      "key": "clinical",
+      "name": "Chief Nursing Officer (Operations Section Chief)",
+      "abbreviation": "CNO",
+      "team": "Team E: Clinical Operations",
+      "description": "Owns patient care, bed capacity, diversion and the units."
+    }
+  ],
+  "outsideParties": [
+    "CMS and the state department of health",
+    "HHS / ASPR and the healthcare coalition",
+    "the Joint Commission",
+    "FBI and CISA",
+    "local EMS and the regional trauma system",
+    "local police and fire",
+    "the EHR vendor",
+    "medical-device vendors",
+    "the blood supplier and pharmacy wholesaler",
+    "neighboring hospitals (diversion)"
+  ],
+  "mediaChannels": [
+    "a patient-family post on Facebook",
+    "a nurse's anonymous Reddit post",
+    "the local TV assignment desk",
+    "a health reporter's email",
+    "the hospital's own patient-portal banner"
+  ],
+  "sceneAnchors": {
+    "public": "inside a hospital emergency department waiting area: rows of chairs, families waiting, a registration desk, dark wall-mounted monitors, bright even lighting",
+    "control": "inside a hospital command center: a conference room with a whiteboard, laptops and phones on the table, staff in scrubs and lanyards wearing colored vests",
+    "exterior": "a hospital ambulance bay: two ambulances with doors open, sliding glass doors, paramedics with a stretcher, overcast daylight"
+  },
+  "injectTypes": [
+    "phone_call",
+    "radio_call",
+    "helpdesk_ticket",
+    "error_dialog",
+    "system_log",
+    "siem_alert",
+    "pa_announcement",
+    "tweet",
+    "facebook_post",
+    "media_inquiry_phone_slip",
+    "memo",
+    "email_forward",
+    "pacs_alarm_panel",
+    "cctv_still",
+    "scene_photo",
+    "status_board",
+    "official_letter",
+    "regulatory_notice",
+    "sitrep"
+  ],
+  "threatFamilies": [
+    "cyber",
+    "infrastructure_failure",
+    "physical_security",
+    "cyber_physical",
+    "natural_hazard",
+    "insider",
+    "mass_gathering"
+  ],
+  "noiseExamples": [
+    "a visitor elevator stuck between floors",
+    "a cafeteria point-of-sale terminal down",
+    "a parking garage gate stuck up",
+    "a badge printer out of cards",
+    "a nurse asking for a password reset"
+  ],
+  "pressureExamples": [
+    "a family member's Facebook post about a cancelled surgery",
+    "a rumor that patient records were leaked",
+    "a health reporter asking if the ED is on diversion",
+    "the state health department asking for a status report",
+    "a surgeon demanding the OR schedule be restored"
+  ],
+  "rolePatterns": {
+    "technical": "ciso|biomed",
+    "operations": "nursing|clinical|cno"
+  },
+  "agencyPattern": "CMS|HHS|ASPR|Joint Commission|state department of health|FDA"
+}

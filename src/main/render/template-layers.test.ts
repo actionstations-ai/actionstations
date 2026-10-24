@@ -177,13 +177,19 @@ beforeEach(async () => {
 afterAll(() => registerInjectTypes([]))
 
 describe('precedence: project > user > pack > built-in', () => {
-  it('uses the built-in template when no other layer has the type', async () => {
+  it('uses the bundled core template when no other layer has the type (ADR-0020)', async () => {
     const t = loadTemplate('tweet', root)
     expect(t.source).toBe('builtin')
+    expect(t.pack).toMatchObject({ id: 'ai.actionstations.core', bundled: true, enabled: true })
     expect(t.replaces).toBeUndefined()
     const info = (await call('templates:list', undefined)).find((x) => x.type === 'tweet')
-    expect(info).toMatchObject({ source: 'builtin' })
-    expect(info?.packId).toBeUndefined()
+    expect(info).toMatchObject({
+      source: 'pack',
+      packId: 'ai.actionstations.core',
+      packName: 'Action Stations Core',
+      bundled: true,
+    })
+    expect(info?.hidden).toBeUndefined()
   })
 
   it('a pack template shadowing a built-in reports replaces: builtin', async () => {
@@ -197,6 +203,7 @@ describe('precedence: project > user > pack > built-in', () => {
       packVersion: '1.0.0',
       packName: 'Social Extras',
       replaces: 'builtin',
+      replacesPackName: 'Action Stations Core',
     })
   })
 

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import {
   builtinProfile,
+  bundledDomainIds,
+  bundledProfiles,
   chooseThreatFamily,
-  DOMAIN_IDS,
-  DOMAIN_PROFILES,
   DomainProfile,
   inferThreatFamily,
   isThreatFamilyId,
@@ -16,9 +16,12 @@ import {
 import { ORG_TYPE_IDS } from '../schemas/project'
 import { INJECT_TYPE_IDS, injectTypeInfo, injectTypesForDomain } from '../taxonomy'
 
+// The bundled profiles (packs/domains/*.json, ADR-0020) as tests/setup registers them.
+const DOMAIN_PROFILES = bundledProfiles()
+
 describe('built-in domain profiles', () => {
   it('ships the profiles the brief asks for, each valid against the schema', () => {
-    expect(DOMAIN_IDS).toEqual([
+    expect(bundledDomainIds()).toEqual([
       'airport',
       'transit',
       'water_dam',

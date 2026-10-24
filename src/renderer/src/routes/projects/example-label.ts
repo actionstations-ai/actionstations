@@ -9,11 +9,13 @@ export const exampleKey = (e: Pick<ExampleInfo, 'slug' | 'packId'>): string =>
 
 /** Badge data for an example of an enabled pack; undefined for a built-in one. */
 export function exampleProvenance(
-  e: Pick<ExampleInfo, 'packId' | 'packName' | 'packVersion'>,
+  e: Pick<ExampleInfo, 'packId' | 'packName' | 'packVersion'> &
+    Pick<Partial<ExampleInfo>, 'bundled'>,
 ): Provenance | undefined {
   if (!e.packId) return undefined
   return {
     origin: 'pack',
+    ...(e.bundled ? { bundled: true } : {}),
     packId: e.packId,
     ...(e.packName ? { packName: e.packName } : {}),
     ...(e.packVersion ? { version: e.packVersion } : {}),

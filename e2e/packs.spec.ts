@@ -24,7 +24,7 @@ import {
 } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { goTo, invoker, launch, waitForJob } from './helpers'
+import { goTo, invoker, launch, openProjectSettings, waitForJob } from './helpers'
 import { PACK_FIXTURES, buildPack, validPackTree } from '../tests/fixtures/packs/build'
 import {
   bytes,
@@ -193,6 +193,11 @@ const railPack = (version = '1.0.0') =>
 async function openPacks(page: Page) {
   await goTo(page, '#/packs')
   await expect(page.getByRole('heading', { level: 1, name: 'Packs' })).toBeVisible()
+}
+
+/** packs:list without the packs included with the app (ADR-0020). */
+async function installedPacks<T>(invoke: Invoke): Promise<T[]> {
+  return (await invoke<(T & { bundled?: boolean })[]>('packs:list')).filter((p) => !p.bundled)
 }
 
 async function installByIpc(invoke: Invoke, file: string) {
@@ -364,7 +369,7 @@ test('a project uses the pack template and still renders it after the pack is un
     const confirm = p.page.getByRole('dialog', { name: `Uninstall ${PACK_NAME}?` })
     await confirm.getByRole('button', { name: 'Uninstall', exact: true }).click()
     await expect(p.page.getByText('No packs installed')).toBeVisible()
-    expect(await p.invoke<unknown[]>('packs:list')).toEqual([])
+    expect(await installedPacks(p.invoke)).toEqual([])
 
     const after = await render()
     expect(after.length).toBeGreaterThan(0)
@@ -435,7 +440,7 @@ test('a local catalog: add, refresh, install, update; no request leaves 127.0.0.
     await card.getByRole('button', { name: /^Review update to 1\.1\.0/ }).click()
     await review.getByRole('button', { name: 'Update to 1.1.0' }).click({ timeout: 15_000 })
     await expect(row).toContainText('1.1.0')
-    const list = await p.invoke<{ id: string; version: string }[]>('packs:list')
+    const list = await installedPacks<{ id: string; version: string }>(p.invoke)
     expect(list.map((x) => `${x.id}@${x.version}`)).toEqual([`${PACK_ID}@1.1.0`])
 
     // The project's copy shows Update available; Update from pack replaces it (#310).
@@ -491,7 +496,7 @@ for (const name of ['zip-slip', 'template-script'] as const) {
       await expect(p.page.getByRole('button', { name: 'Install', exact: true })).toHaveCount(0)
       await refused.getByRole('button', { name: 'Back' }).click()
       await expect(p.page.getByText('No packs installed')).toBeVisible()
-      expect(await p.invoke<unknown[]>('packs:list')).toEqual([])
+      expect(await installedPacks(p.invoke)).toEqual([])
       const packsDir = join(p.userData, 'packs')
       const left = existsSync(packsDir) ? readdirSync(packsDir) : []
       expect(left.filter((f) => f.startsWith('ai.'))).toEqual([])
@@ -502,6 +507,64 @@ for (const name of ['zip-slip', 'template-script'] as const) {
     }
   })
 }
+
+test('included packs: the airport pack turns off, the core cannot; an airport project still renders', async () => {
+  const p = await launchPacks('included')
+  try {
+    // A project on the airport domain, created while the Airports pack is on.
+    const airport = await newProject(p.invoke, 'North Coast International Airport', 'airport')
+    await openPacks(p.page)
+    const included = p.page.getByRole('region', { name: 'Included with the app' })
+    const core = included.getByRole('listitem', { name: /Action Stations Core/ })
+    await expect(core.getByRole('switch', { name: 'Enabled' })).toBeDisabled()
+    await expect(core).toContainText('Always on')
+    await expect(core.getByRole('button', { name: /Uninstall/ })).toHaveCount(0)
+    const row = included.getByRole('listitem', { name: /^Airports/ })
+    await expect(row).toContainText('Included with the app')
+    await row.getByRole('switch', { name: 'Enabled' }).click()
+    await expect(row).toContainText('Disabled')
+    await shot(p.page, 'packs-included')
+
+    // Gone from the domain picker of a new project…
+    await goTo(p.page, '#/projects')
+    await p.page.getByRole('button', { name: 'New project' }).click()
+    const dialog = p.page.getByRole('dialog', { name: 'New project' })
+    await dialog.getByRole('combobox', { name: 'Domain' }).fill('airport')
+    await expect(dialog.getByRole('option', { name: /^Unmanned/ })).toHaveCount(1)
+    await expect(dialog.getByRole('option', { name: /^Airport/ })).toHaveCount(0)
+    await dialog.getByRole('button', { name: 'Cancel' }).click()
+    // …and from the Templates gallery and the examples.
+    const templates = await p.invoke<{ type: string; hidden?: boolean }[]>('templates:list')
+    expect(templates.find((t) => t.type === 'fids_board')?.hidden).toBe(true)
+    const examples = await p.invoke<{ slug: string }[]>('examples:list')
+    expect(examples.map((e) => e.slug)).not.toContain('airport-ncia')
+
+    // The airport project keeps its profile and still renders the airport templates.
+    const got = await p.invoke<{ project: { orgType: string } }>('project:get', {
+      path: airport.path,
+    })
+    expect(got.project.orgType).toBe('airport')
+    const fids = (
+      await p.invoke<{ type: string; preview: Record<string, unknown>; packId?: string }[]>(
+        'templates:list',
+        { projectPath: airport.path },
+      )
+    ).find((t) => t.type === 'fids_board')!
+    expect(fids.packId).toBe('ai.actionstations.airport')
+    const shot2 = await p.invoke<{ dataUrl: string; width: number }>('render:preview', {
+      type: 'fids_board',
+      fields: fids.preview,
+      projectPath: airport.path,
+    })
+    expect(shot2.dataUrl).toMatch(/^data:image\/png;base64,/)
+    expect(shot2.width).toBeGreaterThan(0)
+    await goTo(p.page, `#/p/${airport.key}`)
+    await openProjectSettings(p.page)
+    await expect(p.page.getByRole('option', { selected: true })).toHaveText(/^Airport/)
+  } finally {
+    await p.close()
+  }
+})
 
 test('an example from a pack opens as a project with its pack shown', async () => {
   const dir = fresh('example')
@@ -608,10 +671,11 @@ test('export as pack: the wizard builds a pack that installs back', async () => 
     await expect(p.page.getByRole('listitem', { name: /Lakeshore Ferry Starter/ })).toContainText(
       'Enabled',
     )
-    const list =
-      await p.invoke<{ id: string; license?: string; items: { kind: string; id: string }[] }[]>(
-        'packs:list',
-      )
+    const list = await installedPacks<{
+      id: string
+      license?: string
+      items: { kind: string; id: string }[]
+    }>(p.invoke)
     expect(list).toHaveLength(1)
     expect(list[0]).toMatchObject({ id: 'org.example.lakeshore-ferry', license: 'CC-BY-4.0' })
     expect(list[0]!.items.map((i) => i.kind).sort()).toEqual(['documents', 'prompts'])

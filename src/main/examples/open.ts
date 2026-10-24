@@ -119,7 +119,7 @@ async function rename(target: string, n: number): Promise<void> {
 export async function openExample(
   ref: ExampleRef,
   parentDir?: string,
-  dir = examplesDir(),
+  dir: string | undefined = examplesDir(),
 ): Promise<OpenProject> {
   const { slug, folder, manifest, pack } = await resolveExample(ref, dir)
   const source = join(folder, PROJECT_DIR)

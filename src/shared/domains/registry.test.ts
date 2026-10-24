@@ -4,7 +4,7 @@ import { freightRailEntry, freightRailProfile } from './pack-fixtures'
 import {
   baseProfile,
   builtinProfile,
-  DOMAIN_IDS,
+  bundledDomainIds,
   isDomainId,
   listProfiles,
   nextDomainSnapshot,
@@ -36,10 +36,11 @@ describe('registerPackProfiles', () => {
     expect(isDomainId('freight_rail')).toBe(true)
     expect(isDomainId('Freight Rail')).toBe(true)
     expect(builtinProfile('railroad').id).toBe('freight_rail')
+    const DOMAIN_IDS = bundledDomainIds()
     expect(DOMAIN_IDS).not.toContain('freight_rail')
     const listed = listProfiles()
     expect(listed.slice(0, DOMAIN_IDS.length).map((l) => l.source.kind)).toEqual(
-      DOMAIN_IDS.map(() => 'builtin'),
+      DOMAIN_IDS.map(() => 'bundled'),
     )
     expect(listed.at(-1)).toMatchObject({
       profile: { id: 'freight_rail' },
@@ -59,7 +60,7 @@ describe('registerPackProfiles', () => {
     registerPackProfiles([freightRailEntry()])
     registerPackProfiles([])
     expect(isDomainId('freight_rail')).toBe(false)
-    expect(listProfiles().every((l) => l.source.kind === 'builtin')).toBe(true)
+    expect(listProfiles().every((l) => l.source.kind === 'bundled')).toBe(true)
     expect(listener).toHaveBeenCalledTimes(2)
     expect(profilesRevision()).toBe(before + 2)
     off()

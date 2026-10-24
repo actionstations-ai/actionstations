@@ -17,13 +17,35 @@ The file format is specified in [docs/packs-format.md](../packs-format.md) and t
 
 A pack carries data only. It cannot contain programs, scripts or plugins (see [Security](#security)).
 
+The app's own content is packs too: see [Included with the app](#included-with-the-app).
+
 ## The Packs screen
 
-Open **Packs** in the sidebar. **Installed** lists what you have; **Browse** lists the packs in the catalogs you added. **Install from file…**, **Install from URL…** and **Export as pack…** are at the top right.
+Open **Packs** in the sidebar. **Installed** lists the packs that come with the app (**Included with the app**) and the ones you installed; **Browse** lists the packs in the catalogs you added. **Install from file…**, **Install from URL…** and **Export as pack…** are at the top right.
 
 ![The Packs screen with nothing installed](images/packs/packs-installed-empty.png)
 
 Nothing is contacted until you add a catalog. The app ships with no catalog, never checks for packs at startup or in the background, and fetches a catalog only when you open **Browse** or press **Refresh**. An archive is downloaded only when you choose to review it for installing.
+
+## Included with the app
+
+Everything the app ships is a pack (ADR-0020), listed at the top of **Installed** under **Included with the app**:
+
+| Pack                                                                                                                                                                                                         | What it holds                                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| **Action Stations Core**                                                                                                                                                                                     | The inject templates every domain uses, all prompts, the default ComfyUI workflows, the Generic organization domain. Always on. |
+| **Airports**                                                                                                                                                                                                 | The Airport domain, the FIDS board and BHS SCADA screen templates, and the North Coast International Airport example.           |
+| **Water utilities**                                                                                                                                                                                          | The Water utility domain and the City Water example.                                                                            |
+| **Unmanned systems**                                                                                                                                                                                         | The Unmanned systems operator domain and the UAS operations example.                                                            |
+| **Transit**, **Dams and water authorities**, **Energy utilities**, **Healthcare**, **Campuses**, **Stadiums and venues**, **Ports and maritime**, **Municipal government**, **Industrial and manufacturing** | One domain profile each.                                                                                                        |
+
+![Included with the app, with Airports turned off](images/packs/packs-included.png)
+
+Items from these packs show **Included: <pack name>**, for example **Included: Action Stations Core** on a template, prompt or workflow, and **Included: Airports** on the airport example. They update with the app, so there is no Uninstall and no update badge.
+
+Turn a domain off with its **Enabled** switch if your organization never runs that kind of exercise. Its domain leaves the domain picker, its templates leave the Templates screen and the inject type lists, its example leaves **Projects → Examples**, and its reference documents leave **Add from pack**. Projects you already made on that domain keep working: they keep their domain profile, still render its templates and lint the same way. Turn it back on at any time. **Action Stations Core** cannot be turned off.
+
+An installed pack can replace an included template, prompt or workflow (the review says, for example, **Replaces Action Stations Core: tweet**), but it cannot reuse an included domain's id or name, or an included pack's id.
 
 ## Install a pack
 
@@ -65,7 +87,7 @@ The review shows everything the pack would add before anything is installed.
 - **Archive sha256**: see [What the hashes prove](#what-the-hashes-prove).
 - **Domains**: the domain profiles the pack is for. A pack's prompts only apply to projects in these domains.
 - **Needs custom ComfyUI nodes**: the pack's workflows use node classes that are not part of ComfyUI itself. Custom nodes run code on your ComfyUI server. The pack does not install them; you install them in ComfyUI yourself, so get them only from sources you trust. A workflow without its nodes fails in ComfyUI; nothing else in the pack is affected.
-- **Contents**: every item by kind. **Replaces built-in template** (or prompt, or workflow) means the pack's version will be used instead of the one the app ships.
+- **Contents**: every item by kind. **Replaces Action Stations Core: tweet** (or another included pack and item) means the pack's version will be used instead of the one the app ships.
 - **Document licenses**: the title, source and license of every reference document. Check them before you share anything made from those documents.
 - **Conflicts**: another enabled pack already provides an item with the same id. The pack then installs disabled, with a note such as "Disable Freight Rail Operations to enable this pack".
 
@@ -95,7 +117,7 @@ Installed packs live in the app's data folder, `userData/packs/<id>/<version>/`,
 
 ## Using pack content in a project
 
-Pack items show a badge naming the pack, for example **Pack: Freight Rail Operations 1.0.0**, on the Templates, Prompts and Workflows screens, in the domain picker, in the inject type lists and on example projects.
+Pack items show a badge naming the pack, for example **Pack: Freight Rail Operations 1.0.0** (or **Included: Airports** for a pack that comes with the app), on the Templates, Prompts and Workflows screens, in the domain picker, in the inject type lists and on example projects.
 
 ![A pack template on the Templates screen](images/packs/templates-pack-badge.png)
 

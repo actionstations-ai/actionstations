@@ -70,7 +70,7 @@ describe('pack domain profiles', () => {
     off()
     expect(events).toEqual([{ packProfiles: 1 }])
     const list = await invoke('domains:list')
-    expect(list.filter((l) => l.source.kind === 'builtin')).toHaveLength(13)
+    expect(list.filter((l) => l.source.kind === 'bundled')).toHaveLength(13)
     expect(list.at(-1)).toMatchObject({
       profile: { id: 'freight_rail' },
       source: { kind: 'pack', packId: 'org.example.freight-rail', packVersion: '1.0.0' },

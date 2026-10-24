@@ -502,6 +502,8 @@ export const PackItemSummary = z.object({
   title: z.string(),
   /** A built-in template, prompt, workflow or example with this id is shadowed by the item. */
   replacesBuiltin: z.boolean(),
+  /** The pack included with the app that ships the shadowed item (ADR-0020). */
+  replacesPack: z.object({ id: z.string(), name: z.string() }).optional(),
   /** The pack license, or for a document group the license(s) of its files. */
   license: z.string(),
   /** Workflows only: node classes outside ComfyUI core ("needs custom nodes"). */
@@ -655,6 +657,8 @@ export const PackInstallSource = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('catalog'), url: z.string().min(1).max(2048) }),
   /** Rebuilt from the pack folder after registry.json was damaged: the origin is not known. */
   z.object({ kind: z.literal('unknown') }),
+  /** Included with the app (ADR-0020): read from the app's resources, never in the registry. */
+  z.object({ kind: z.literal('bundled') }),
 ])
 export type PackInstallSource = z.infer<typeof PackInstallSource>
 
@@ -682,6 +686,8 @@ export const PackRegistry = z
   .object({
     registryVersion: z.literal(PACK_REGISTRY_VERSION),
     packs: z.array(PackRegistryEntry),
+    /** Packs included with the app that the user turned off (ADR-0020); default: all on. */
+    bundledDisabled: z.array(PackId).max(PACK_LIMITS.maxFiles).default([]),
   })
   .refine((r) => new Set(r.packs.map((p) => p.id)).size === r.packs.length, {
     message: 'Duplicate pack id in the registry',

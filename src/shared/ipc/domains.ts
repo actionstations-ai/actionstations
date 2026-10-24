@@ -1,11 +1,18 @@
-// Domain profiles over IPC (ADR-0018, #263): the renderer lists built-in and pack profiles
-// from main, which fills the registry from the enabled packs.
+// Domain profiles over IPC (ADR-0018 #263, ADR-0020 #314): the renderer lists the bundled and
+// installed pack profiles from main, which fills the registry from the packs.
 import { z } from 'zod'
 import { channel } from './define'
 import { DomainProfile } from '../domains/schema'
 
 export const ProfileSourceSchema = z.discriminatedUnion('kind', [
-  z.object({ kind: z.literal('builtin') }),
+  /** A pack included with the app; `enabled` false: hidden from the picker, still resolves. */
+  z.object({
+    kind: z.literal('bundled'),
+    packId: z.string(),
+    packVersion: z.string(),
+    packName: z.string(),
+    enabled: z.boolean(),
+  }),
   z.object({
     kind: z.literal('pack'),
     packId: z.string(),
@@ -21,6 +28,6 @@ export type ListedDomainProfile = z.infer<typeof ListedDomainProfile>
 export const DomainsChangedEvent = z.object({ packProfiles: z.number().int().nonnegative() })
 
 export const domainChannels = {
-  /** Built-in profiles (picker order), then the profiles of enabled packs, with their source. */
+  /** Bundled profiles (picker order, enabled or not), then enabled installed packs', with source. */
   'domains:list': channel(z.void(), z.array(ListedDomainProfile)),
 }

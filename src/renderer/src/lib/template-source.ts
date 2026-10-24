@@ -9,13 +9,14 @@ import { provenanceOf, provenanceText, type Provenance } from './provenance'
 type TemplateSourceFields = Pick<
   TemplateInfo,
   'source' | 'packId' | 'packVersion' | 'packName' | 'replaces' | 'copy'
->
+> &
+  Partial<Pick<TemplateInfo, 'bundled' | 'replacesPackName'>>
 
 /** Badge data for a pack template or a project copy of one; undefined otherwise. */
 export const templateProvenanceOf = (t: TemplateSourceFields): Provenance | undefined =>
   t.source === 'builtin' || t.source === 'user' ? undefined : provenanceOf(t)
 
-/** One line of text: "" for built-in, else e.g. "Pack: Freight Rail Operations 1.0.0". */
+/** One line of text: "" for built-in, else e.g. "Pack: Freight Rail Operations 1.0.0" or "Included: Airports". */
 export function templateSourceLabel(t: TemplateSourceFields): string {
   const p = templateProvenanceOf(t)
   if (p) return provenanceText(p)
@@ -24,14 +25,18 @@ export function templateSourceLabel(t: TemplateSourceFields): string {
   return ''
 }
 
-/** What the badge does not say: "user template", "project template", "replaces built-in". */
+/**
+ * What the badge does not say: "user template", "project template", "replaces Action Stations
+ * Core" (the bundled pack the template shadows, ADR-0020).
+ */
 export function templateNote(t: TemplateSourceFields): string {
   const parts: string[] = []
   if (!templateProvenanceOf(t)) {
     if (t.source === 'user') parts.push('user template')
     if (t.source === 'project') parts.push('project template')
   }
-  if (t.source !== 'builtin' && t.replaces === 'builtin') parts.push('replaces built-in')
+  if (t.source !== 'builtin' && t.replaces === 'builtin')
+    parts.push(`replaces ${t.replacesPackName ?? 'built-in'}`)
   return parts.join(' · ')
 }
 
@@ -45,6 +50,7 @@ export function injectTypeProvenance(
     packId: t.pack.id,
     packVersion: t.pack.version,
     ...(t.pack.name ? { packName: t.pack.name } : {}),
+    ...(t.pack.bundled ? { bundled: true } : {}),
   })
 }
 

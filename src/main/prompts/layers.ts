@@ -1,5 +1,5 @@
 // Where each prompt layer lives on disk:
-//   default  <resources>/prompts/<name>.md         (shipped, read-only)
+//   default  the core pack's prompts/<name>.md     (bundled with the app, read-only; ADR-0020)
 //   pack     <userData>/packs/<id>/<version>/prompts/<name>.md (read-only; see pack-layer.ts)
 //   global   <userData>/prompts/<name>.md          (user override for every project)
 //   project  <project>/prompts/<name>.md           (override for one project)
@@ -7,7 +7,8 @@ import { promises as fs } from 'node:fs'
 import { SafeId } from '@shared/schemas'
 import { AppError } from '../lib/errors'
 import { safeJoin } from '../lib/fs'
-import { resourcePath, userDataPath } from '../lib/paths'
+import { userDataPath } from '../lib/paths'
+import { coreFolder } from '../packs/bundled'
 
 /** File-backed layers this module resolves; the pack layer lives in pack-layer.ts. */
 export type PromptLayer = 'default' | 'global' | 'project'
@@ -21,7 +22,7 @@ export function assertPromptName(name: string): string {
   return name
 }
 
-export const defaultsDir = (): string => resourcePath('prompts')
+export const defaultsDir = (): string => coreFolder('prompts')
 export const globalDir = (): string => userDataPath('prompts')
 export const projectDir = (root: string): string => safeJoin(root, 'prompts')
 

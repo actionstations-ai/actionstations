@@ -1,12 +1,22 @@
-// In-memory view of the installed packs (#260), shared by the installer (install.ts), the
-// read-only layer API (layers.ts) and the packs:* handlers. Every change goes through
-// `withPacksLock` (one mutation at a time) and ends in `commitLoaded`, which recomputes
-// conflicts, registers the enabled packs' domain profiles, and tells layers and the renderer.
+// In-memory view of the installed packs (#260) and of the packs included with the app
+// (bundled, ADR-0020), shared by the installer (install.ts), the read-only layer API
+// (layers.ts) and the packs:* handlers. Every change goes through `withPacksLock` (one
+// mutation at a time) and ends in `commitLoaded`, which recomputes conflicts, registers the
+// bundled and the enabled packs' domain profiles, and tells layers and the renderer. Bundled
+// packs load first, so their domain ids are reserved before any installed pack is checked.
 import { promises as fs } from 'node:fs'
 import { join } from 'node:path'
 import type { DomainProfile } from '@shared/domains'
 import { PackId, type PackManifest, type PackRegistryEntry } from '@shared/schemas/pack'
-import { setPackDomainProfiles } from '../domains/registry'
+import { setBundledDomainProfiles, setPackDomainProfiles } from '../domains/registry'
+import { resourcesDir } from '../lib/paths'
+import {
+  BUNDLED_SOURCE_VERSION,
+  bundledPacksDir,
+  loadBundledPacks,
+  loadSourcePacks,
+  type LoadedBundledPack,
+} from './bundled'
 import { emit } from '../lib/events'
 import {
   builtinDomainConflicts,
@@ -16,6 +26,7 @@ import {
   type PackConflict,
 } from './conflicts'
 import {
+  disabledBundledIds,
   packIdDir,
   packVersionDir,
   packsRoot,
@@ -51,7 +62,15 @@ export const subjectOf = (p: {
     ? { id: p.entry.id, name: p.manifest.name, manifest: p.manifest, domains: p.domains }
     : undefined
 
+/** A bundled pack with the user's choice applied (core is always enabled). */
+export interface BundledState extends LoadedBundledPack {
+  enabled: boolean
+}
+
 let loaded: LoadedPack[] = []
+let bundled: BundledState[] = []
+let bundledLoaded = false
+let bundledCache: { key: string; packs: LoadedBundledPack[] } | undefined
 let loadedFrom: string | undefined
 let revision = 0
 const listeners = new Set<() => void>()
@@ -65,7 +84,82 @@ export function withPacksLock<T>(fn: () => Promise<T>): Promise<T> {
 }
 
 export const loadedPacks = (): readonly LoadedPack[] => loaded
+/**
+ * Every bundled pack (enabled or not, broken ones included), in map order. In source mode a
+ * caller that runs before the packs load (a unit test without loadPacks) gets the repo's
+ * packs, all enabled; main always loads them at startup.
+ */
+export function loadedBundled(): readonly BundledState[] {
+  if (!bundledLoaded && !bundledPacksDir()) {
+    bundledLoaded = true
+    bundled = loadSourcePacks(BUNDLED_SOURCE_VERSION).map((p) => ({ ...p, enabled: true }))
+  }
+  return bundled
+}
 export const packsRevision = (): number => revision
+
+/** Where the bundled packs come from (cache key: built folder, or the source root). */
+function bundledKey(): string {
+  const dir = bundledPacksDir()
+  if (dir) return `built:${dir}`
+  try {
+    return `source:${resourcesDir()}`
+  } catch {
+    return 'source:'
+  }
+}
+
+/** Load the bundled packs once per source (they ship with the app and never change). */
+async function bundledPacksCached(): Promise<LoadedBundledPack[]> {
+  const key = bundledKey()
+  if (bundledCache?.key !== key) bundledCache = { key, packs: await loadBundledPacks() }
+  return bundledCache.packs
+}
+
+/** Apply the disabled list (core cannot be off) and register the bundled domain profiles. */
+function applyBundled(packs: readonly LoadedBundledPack[], disabled: readonly string[]): void {
+  bundled = packs.map((p) => ({ ...p, enabled: p.core || !disabled.includes(p.id) }))
+  bundledLoaded = true
+  registerBundledDomains()
+}
+
+function registerBundledDomains(): void {
+  try {
+    setBundledDomainProfiles(
+      bundled
+        .filter((p) => !p.broken)
+        .flatMap((p) =>
+          p.domains.map((profile) => ({
+            profile,
+            packId: p.id,
+            packVersion: p.version,
+            packName: p.name,
+            enabled: p.enabled,
+          })),
+        )
+        // Picker order: domain packs in map order, the core's generic last.
+        .sort((a, b) => Number(a.profile.id === 'generic') - Number(b.profile.id === 'generic')),
+    )
+  } catch (e) {
+    console.error('[packs] bundled domain profiles not registered:', (e as Error).message)
+  }
+}
+
+/**
+ * Turn a bundled pack on or off (registry.json keeps only the disabled ids). The caller holds
+ * the packs lock and refuses the core pack.
+ */
+export async function saveBundledEnabled(id: string, enabled: boolean): Promise<void> {
+  const disabled = new Set(disabledBundledIds())
+  if (enabled) disabled.delete(id)
+  else disabled.add(id)
+  await writeRegistry(
+    loaded.map((p) => p.entry),
+    [...disabled],
+  )
+  bundled = bundled.map((p) => (p.id === id ? { ...p, enabled: p.core || enabled } : p))
+  commitLoaded(loaded)
+}
 
 export function onLoadedChange(listener: () => void): () => void {
   listeners.add(listener)
@@ -88,6 +182,7 @@ export function conflictsFor(
 export const conflictText = (p: LoadedPack): string | undefined => conflictReason(p.conflicts)
 
 function applyDomains(active: readonly LoadedPack[]): void {
+  registerBundledDomains()
   try {
     setPackDomainProfiles(
       active.flatMap((p) =>
@@ -179,6 +274,7 @@ async function removeUnregistered(entries: readonly PackRegistryEntry[]): Promis
  */
 async function loadUnlocked(removeOrphans: boolean): Promise<void> {
   const { registry, status } = await readRegistryState()
+  applyBundled(await bundledPacksCached(), registry.bundledDisabled)
   let entries = registry.packs
   if (status === 'clean') {
     if (removeOrphans) await removeUnregistered(entries)

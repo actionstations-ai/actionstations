@@ -6,6 +6,7 @@ import type { WorkflowEntry } from '@shared/ipc'
 import { Badge, Button, Dialog, EmptyState, PageHeader } from '../../components/ui'
 import { ProvenanceBadge } from '../../components/ProvenanceBadge'
 import { provenanceOf } from '../../lib/provenance'
+import { useCorePackProvenance } from '../../state/core-pack'
 import { toast } from '../../components/toast-store'
 import { queryClient, useIpcMutation, useIpcQuery } from '../../lib/query'
 import { PackCopyUpdate } from '../../components/PackCopyUpdate'
@@ -109,7 +110,9 @@ function DefaultsCard() {
 function WorkflowCard(props: { workflow: WorkflowEntry; selected: boolean; onSelect: () => void }) {
   const w = props.workflow
   const missing = missingSummary(w)
-  const provenance = provenanceOf(w)
+  const core = useCorePackProvenance()
+  // A default workflow is the core pack's, included with the app (ADR-0020).
+  const provenance = provenanceOf(w) ?? (w.source === 'default' ? core : undefined)
   return (
     <li>
       <button

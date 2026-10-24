@@ -1,5 +1,5 @@
 // Workflow store (#33, packs #264). Four layers, looked up project → global → pack → default:
-//   default  <resources>/comfy/workflows/<id>.json + <id>.bindings.json (shipped, read-only;
+//   default  the core pack's workflows/<id>.json + <id>.bindings.json (bundled, read-only;
 //            edited bindings go to userData/comfy/overrides/<id>.bindings.json)
 //   pack     workflows/<id>.json + <id>.bindings.json of an enabled pack (read-only; edited
 //            bindings go to userData/comfy/overrides/packs/<packId>/<id>.bindings.json)
@@ -16,7 +16,8 @@ import { z } from 'zod'
 import { MediaType, type WorkflowBinding, type WorkflowEntry } from '@shared/ipc/comfy'
 import { AppError } from '../lib/errors'
 import { exists, readJson, readJsonOr, safeJoin, slugify, writeJsonAtomic } from '../lib/fs'
-import { resourcePath, userDataPath } from '../lib/paths'
+import { userDataPath } from '../lib/paths'
+import { coreFolder } from '../packs/bundled'
 import { customNodeClasses } from '../packs/comfy-core-nodes'
 import {
   enabledItems,
@@ -55,7 +56,7 @@ export const BUILTIN_DEFAULTS: Partial<Record<MediaTypeT, string>> = {
   video: 'image-to-video',
 }
 
-const defaultDir = (): string => resourcePath('comfy', 'workflows')
+const defaultDir = (): string => coreFolder('workflows')
 const globalDir = (): string => userDataPath('comfy', 'workflows')
 const overridesDir = (): string => userDataPath('comfy', 'overrides')
 const defaultsFile = (): string => userDataPath('comfy', 'defaults.json')

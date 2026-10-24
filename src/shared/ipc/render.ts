@@ -26,8 +26,17 @@ export const TemplateInfo = z.object({
   packId: z.string().optional(),
   packVersion: z.string().optional(),
   packName: z.string().optional(),
+  /** Served from a pack included with the app (ADR-0020): "Included: <pack name>". */
+  bundled: z.boolean().optional(),
+  /**
+   * From a bundled pack the user disabled: it still renders for projects that use it, but the
+   * gallery and the type pickers leave it out.
+   */
+  hidden: z.boolean().optional(),
   /** The lower layer this template shadows ("replaces built-in tweet template"). */
   replaces: TemplateSource.optional(),
+  /** The pack of that lower layer ("replaces Action Stations Core"). */
+  replacesPackName: z.string().optional(),
   /** Project copies of pack templates: edited / pack missing / update available. */
   copy: PackCopyState.optional(),
 })

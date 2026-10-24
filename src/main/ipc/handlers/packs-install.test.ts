@@ -66,6 +66,9 @@ async function call<C extends Channel>(
       code: r.error.code,
       details: r.error.details,
     })
+  // These tests are about installed packs; the bundled ones (ADR-0020) have their own tests.
+  if (channel === 'packs:list')
+    return (r.data as { bundled?: boolean }[]).filter((p) => !p.bundled) as ChannelResponse<C>
   return r.data as ChannelResponse<C>
 }
 

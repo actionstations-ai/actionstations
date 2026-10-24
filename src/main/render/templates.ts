@@ -9,9 +9,10 @@
 // Layers (ADR-0018, #261), first match wins:
 //   project   <project>/templates/injects/<type>/   (pack templates are copied here on use)
 //   user      userData/templates/injects/<type>/
-//   pack      enabled packs (two enabled packs never provide the same type)
-//   builtin   templates/injects/<type>/              (resources)
-// Every layer but the built-in one passes the template checker (packs/template-check.ts) and
+//   pack      enabled installed packs (two enabled packs never provide the same type)
+//   builtin   the bundled packs (ADR-0020: core and domain packs included with the app,
+//             enabled or not, so a project keeps rendering a disabled pack's types)
+// Every layer but the built-in (bundled) one passes the template checker (packs/template-check.ts) and
 // the schema regex rule (packs/schema-regex.ts) when it is loaded, and a project whose
 // templates/ or templates/injects/ folder is a symlink has no project layer; a refused template is skipped (the next layer applies) and reported by
 // refusedTemplates(). With no lower layer, loading the type throws VALIDATION.
@@ -23,9 +24,9 @@ import type { TemplateInfo } from '@shared/ipc'
 import { TemplateTaxonomy, type PackProblem } from '@shared/schemas/pack'
 import type { PackCopyState, ProjectPackCopy } from '@shared/schemas/project-packs'
 import { AppError } from '../lib/errors'
-import { safeJoin, safeJoinReal } from '../lib/fs'
+import { safeJoinReal } from '../lib/fs'
 import { resourcePath, userDataPath } from '../lib/paths'
-import { enabledPacks, packItemPath } from '../packs/layers'
+import { bundledItem, bundledPacks, enabledPacks, packItemPath } from '../packs/layers'
 import { schemaRegexProblems } from '../packs/schema-regex'
 import { checkTemplateFiles } from '../packs/template-check'
 
@@ -68,6 +69,10 @@ export interface TemplatePackRef {
   id: string
   version: string
   name: string
+  /** A pack included with the app (ADR-0020). */
+  bundled?: boolean
+  /** Bundled packs: whether the user has it on (off = hidden from new use). */
+  enabled?: boolean
 }
 
 /** One layer's folder for a type, before it is loaded. */
@@ -90,6 +95,8 @@ export interface LoadedTemplate {
   pack?: TemplatePackRef
   /** The next lower layer that also has this type (shadowed by this one). */
   replaces?: TemplateSource
+  /** That lower layer's pack, when it is a pack (installed or bundled). */
+  replacesPack?: TemplatePackRef
 }
 
 export interface RefusedTemplate {
@@ -100,7 +107,6 @@ export interface RefusedTemplate {
   problems: PackProblem[]
 }
 
-export const templatesRoot = (): string => resourcePath('templates', 'injects')
 export const sharedDir = (): string => resourcePath('templates', '_shared')
 export const userTemplatesRoot = (): string => userDataPath('templates', 'injects')
 /** The user layer, or undefined where there is no userData folder (unit tests without one). */
@@ -168,8 +174,19 @@ export function templateLayers(type: string, projectRoot?: string): TemplateLaye
       // listed but unreadable: verifyPacks reports it; the next layer applies
     }
   }
-  const builtin = safeJoin(templatesRoot(), type)
-  if (existsSync(join(builtin, 'template.html'))) out.push({ source: 'builtin', dir: builtin })
+  const bundled = bundledItem('templates', type)
+  if (bundled && existsSync(join(bundled.path, 'template.html')))
+    out.push({
+      source: 'builtin',
+      dir: bundled.path,
+      pack: {
+        id: bundled.pack.id,
+        version: bundled.pack.version,
+        name: bundled.pack.name,
+        bundled: true,
+        enabled: bundled.pack.enabled !== false,
+      },
+    })
   return out
 }
 
@@ -241,7 +258,7 @@ const SOURCE_LABEL: Record<TemplateSource, string> = {
   project: 'project folder',
   user: 'user templates folder',
   pack: 'pack',
-  builtin: 'built-in templates',
+  builtin: 'included pack',
 }
 
 const refusedText = (r: { source: TemplateSource; pack?: TemplatePackRef }, p: PackProblem[]) =>
@@ -263,7 +280,11 @@ export function loadTemplate(type: string, projectRoot?: string): LoadedTemplate
       continue
     }
     const below = layers[i + 1]
-    return below ? { ...entry.t, replaces: below.source } : entry.t
+    // The cache is per folder; the layer's pack (a bundled pack's enabled state) is current.
+    const t = layer.pack ? { ...entry.t, pack: layer.pack } : entry.t
+    return below
+      ? { ...t, replaces: below.source, ...(below.pack ? { replacesPack: below.pack } : {}) }
+      : t
   }
   throw new AppError(
     'VALIDATION',
@@ -300,8 +321,25 @@ function typeFolders(root: string | undefined): string[] {
     .map((d) => d.name)
 }
 
-/** Built-in template types only (what pack items may shadow). */
-export const listBuiltinTemplateTypes = (): string[] => typeFolders(templatesRoot()).sort()
+/**
+ * Template types of the bundled packs (what installed pack items may shadow); with
+ * `enabledOnly`, only those of enabled bundled packs (offered for new use).
+ */
+export const listBuiltinTemplateTypes = (opts: { enabledOnly?: boolean } = {}): string[] =>
+  [
+    ...new Set(
+      bundledPacks()
+        .filter((p) => !opts.enabledOnly || p.enabled !== false)
+        .flatMap((p) => p.manifest.contents.templates),
+    ),
+  ].sort()
+
+/**
+ * Whether a resolved template comes from a bundled pack the user disabled: it still renders
+ * for projects that use it, but the gallery and the type pickers leave it out (ADR-0020).
+ */
+export const isHiddenTemplate = (t: { source: TemplateSource; pack?: TemplatePackRef }): boolean =>
+  t.source === 'builtin' && t.pack?.enabled === false
 
 /** Every template type the project can render, across all layers (refused-only types left out). */
 export function listTemplateTypes(projectRoot?: string): string[] {
@@ -352,7 +390,13 @@ export interface TemplateCopyInfo {
 
 export function templateInfo(t: LoadedTemplate, copy?: TemplateCopyInfo): TemplateInfo {
   const pack = t.pack
-    ? { packId: t.pack.id, packVersion: t.pack.version, packName: t.pack.name }
+    ? {
+        packId: t.pack.id,
+        packVersion: t.pack.version,
+        packName: t.pack.name,
+        ...(t.pack.bundled ? { bundled: true } : {}),
+        ...(t.pack.enabled === false ? { hidden: true } : {}),
+      }
     : copy
       ? {
           packId: copy.copy.packId,
@@ -370,9 +414,11 @@ export function templateInfo(t: LoadedTemplate, copy?: TemplateCopyInfo): Templa
     variants: t.meta.variants,
     width: t.meta.width,
     ...(t.meta.height ? { height: t.meta.height } : {}),
-    source: t.source,
+    // A bundled template is a pack item (ADR-0020): "Included: <pack>" in the UI.
+    source: t.source === 'builtin' && t.pack ? 'pack' : t.source,
     ...pack,
     ...(t.replaces ? { replaces: t.replaces } : {}),
+    ...(t.replacesPack ? { replacesPackName: t.replacesPack.name } : {}),
     ...(copy ? { copy: copy.state } : {}),
   }
 }

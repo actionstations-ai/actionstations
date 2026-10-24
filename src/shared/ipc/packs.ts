@@ -65,7 +65,7 @@ export type PackDownloadResult = z.infer<typeof PackDownloadResult>
 
 // ---- installed packs (#260) ----------------------------------------------------------------
 
-/** An item that an enabled pack (or a built-in domain, packId "builtin") already provides. */
+/** An item that an enabled pack (or a bundled pack's domain, ADR-0020) already provides. */
 export const PackConflictView = z.object({
   kind: PackKind,
   id: z.string(),
@@ -98,6 +98,10 @@ export const InstalledPackView = z.object({
   /** A pack that is not active: what blocks enabling it, one sentence naming the other pack. */
   conflict: z.string().optional(),
   conflicts: z.array(PackConflictView),
+  /** Included with the app (ADR-0020): no Uninstall; source is { kind: 'bundled' }. */
+  bundled: z.boolean().optional(),
+  /** The core pack: always enabled. */
+  core: z.boolean().optional(),
 })
 export type InstalledPackView = z.infer<typeof InstalledPackView>
 
@@ -195,14 +199,17 @@ export const PacksChangedEvent = z.object({
 const PackRef = z.object({ id: PackId })
 
 export const packChannels = {
-  /** Installed packs (sorted by id) with state, items and conflicts. */
+  /** Bundled packs (included with the app, map order), then installed packs (by id). */
   'packs:list': channel(z.void(), z.array(InstalledPackView)),
   /** Verify an archive and return the review data; installs nothing. */
   'packs:inspect': channel(PackInspectRequest, PackInspectResult),
   'packs:install': channel(PackInstallRequest, PackInstallResult),
-  /** Enabling checks conflicts again (CONFLICT error naming the other pack). */
+  /**
+   * Enabling checks conflicts again (CONFLICT error naming the other pack). Also turns a
+   * bundled pack on or off (the core pack refuses: VALIDATION).
+   */
   'packs:setEnabled': channel(PackRef.extend({ enabled: z.boolean() }), InstalledPackView),
-  /** Remove the pack's folder and registry entry; projects keep their copies. */
+  /** Remove the pack's folder and registry entry; projects keep their copies. Not bundled packs. */
   'packs:uninstall': channel(PackRef, z.void()),
   /** Re-hash every file of one pack (or of all packs); a mismatch marks the pack broken. */
   'packs:verify': channel(PackRef.partial(), z.array(PackVerifyResult)),

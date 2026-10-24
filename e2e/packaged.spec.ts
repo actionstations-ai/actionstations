@@ -242,6 +242,37 @@ test.describe('packaged app', () => {
     }
   })
 
+  test('loads the bundled packs from app-resources/packs (ADR-0020)', async () => {
+    test.setTimeout(120_000)
+    const app = await launchPackaged()
+    const invoke = invoker(app.page)
+    try {
+      const packs =
+        await invoke<
+          { id: string; bundled?: boolean; core?: boolean; enabled: boolean; broken?: string }[]
+        >('packs:list')
+      const bundled = packs.filter((p) => p.bundled)
+      expect(bundled.map((p) => p.id)).toContain('ai.actionstations.core')
+      expect(bundled.length).toBe(13)
+      expect(bundled.filter((p) => p.broken)).toEqual([])
+      const tweet = (await invoke<{ type: string; packId?: string }[]>('templates:list')).find(
+        (t) => t.type === 'tweet',
+      )
+      expect(tweet?.packId).toBe('ai.actionstations.core')
+      const examples = await invoke<{ slug: string; packId?: string }[]>('examples:list')
+      expect(examples.find((e) => e.slug === 'airport-ncia')?.packId).toBe(
+        'ai.actionstations.airport',
+      )
+      const domains =
+        await invoke<{ profile: { id: string }; source: { kind: string } }[]>('domains:list')
+      expect(domains.find((d) => d.profile.id === 'water_utility')?.source.kind).toBe('bundled')
+      const prompts = await invoke<{ name: string }[]>('prompts:list', {})
+      expect(prompts.length).toBeGreaterThanOrEqual(12)
+    } finally {
+      await close(app)
+    }
+  })
+
   test('renders every template preview to match its golden', async () => {
     test.setTimeout(240_000)
     const app = await launchPackaged()

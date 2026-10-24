@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import {
-  DOMAIN_PROFILES,
+  bundledProfiles,
   builtinProfile,
   chooseThreatFamily,
   registerPackProfiles,
@@ -36,7 +36,11 @@ const idea = (over: Partial<ScenarioIdea> = {}): ScenarioIdea => ({
 describe('profile picker groups', () => {
   it('puts every built-in profile in exactly one group', () => {
     const grouped = PROFILE_GROUP_IDS.flatMap((g) => g.ids)
-    expect([...grouped].sort()).toEqual(DOMAIN_PROFILES.map((p) => p.id).sort())
+    expect([...grouped].sort()).toEqual(
+      bundledProfiles()
+        .map((p) => p.id)
+        .sort(),
+    )
   })
 
   it('searches labels, descriptions and aliases', () => {
@@ -84,7 +88,12 @@ describe('pack profiles in the picker (#263)', () => {
       origin: 'pack',
       packName: 'Freight Rail',
     })
-    expect(profileProvenance('transit')).toBeUndefined()
+    expect(profileProvenance('transit')).toEqual({
+      origin: 'pack',
+      bundled: true,
+      packId: 'ai.actionstations.transit',
+      packName: 'Transit',
+    })
     expect(resolveOrgType('railroad')).toMatchObject({ unknown: false, differs: true })
   })
 

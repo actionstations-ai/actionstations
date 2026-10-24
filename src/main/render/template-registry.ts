@@ -7,6 +7,7 @@
 // per project: listInjectTypes(projectRoot) adds them.
 import {
   INJECT_TYPE_IDS,
+  hiddenInjectTypes,
   injectTypes,
   registerInjectTypes,
   registeredInjectTypes,
@@ -16,7 +17,13 @@ import type { TemplateTaxonomy } from '@shared/schemas/pack'
 import { emit } from '../lib/events'
 import { onPacksChanged } from '../packs/layers'
 import { readProjectPacks } from '../packs/project-copies'
-import { listTemplateTypes, loadTemplate, type LoadedTemplate } from './templates'
+import {
+  isHiddenTemplate,
+  listTemplateTypes,
+  loadTemplate,
+  resolveTemplateLayer,
+  type LoadedTemplate,
+} from './templates'
 
 /** A template of a new type without a taxonomy block (user or project folders) joins as this. */
 const DEFAULT_TAXONOMY: TemplateTaxonomy = {
@@ -42,8 +49,25 @@ export function injectTypeOfTemplate(
     defaultDelivery: tax.defaultDelivery,
     ...(tax.domains ? { domains: [...tax.domains] } : {}),
     source: t.source === 'builtin' ? 'pack' : t.source,
-    ...(from ? { pack: from } : {}),
+    ...(from
+      ? {
+          pack: {
+            id: from.id,
+            version: from.version,
+            ...(from.name ? { name: from.name } : {}),
+            ...('bundled' in from && from.bundled ? { bundled: true } : {}),
+          },
+        }
+      : {}),
   }
+}
+
+/** Types whose template (as `projectRoot` sees it) comes from a disabled bundled pack. */
+export function hiddenTypes(projectRoot?: string): string[] {
+  return listTemplateTypes(projectRoot).filter((type) => {
+    const layer = resolveTemplateLayer(type, projectRoot)
+    return !!layer && isHiddenTemplate(layer)
+  })
 }
 
 /** Types the layers add to the built-in taxonomy, as the project (or no project) sees them. */
@@ -78,17 +102,21 @@ export async function layerInjectTypes(projectRoot?: string): Promise<InjectType
   return out
 }
 
-const signature = (types: readonly InjectTypeInfo[]): string =>
-  JSON.stringify(types.map((t) => [t.id, t.label, t.source, t.pack?.id, t.pack?.version]))
+const signature = (types: readonly InjectTypeInfo[], hidden: readonly string[]): string =>
+  JSON.stringify([
+    types.map((t) => [t.id, t.label, t.source, t.pack?.id, t.pack?.version]),
+    [...hidden].sort(),
+  ])
 
 /**
- * Register the user-layer and pack types (no project) in the shared registry. Emits
- * `templates:changed` when the set changed.
+ * Register the user-layer and pack types (no project) and the hidden types in the shared
+ * registry. Emits `templates:changed` when either changed.
  */
 export async function syncInjectTypes(): Promise<readonly InjectTypeInfo[]> {
   const next = await layerInjectTypes()
-  if (signature(next) !== signature(registeredInjectTypes())) {
-    registerInjectTypes(next)
+  const hidden = hiddenTypes()
+  if (signature(next, hidden) !== signature(registeredInjectTypes(), hiddenInjectTypes())) {
+    registerInjectTypes(next, hidden)
     emit('templates:changed', { types: next.length })
   }
   return registeredInjectTypes()
@@ -105,15 +133,22 @@ export function initTemplateRegistry(): void {
   syncInjectTypes().catch((e: unknown) => console.error('[templates] registry:', e))
 }
 
-/** Built-in types, then the ones the layers add (with the project's own when given). */
-export async function listInjectTypes(projectRoot?: string): Promise<InjectTypeInfo[]> {
+/**
+ * Built-in types, then the ones the layers add (with the project's own when given); types of
+ * a disabled bundled pack carry `hidden` (the pickers leave them out).
+ */
+export async function listInjectTypes(
+  projectRoot?: string,
+): Promise<(InjectTypeInfo & { hidden?: boolean })[]> {
   await syncInjectTypes()
-  if (!projectRoot) return [...injectTypes()]
+  const hidden = new Set(hiddenTypes(projectRoot))
+  const mark = (t: InjectTypeInfo) => (hidden.has(t.id) ? { ...t, hidden: true } : t)
+  if (!projectRoot) return injectTypes().map(mark)
   const seen = new Set(INJECT_TYPE_IDS)
   const extra = (await layerInjectTypes(projectRoot)).filter((t) => {
     if (seen.has(t.id)) return false
     seen.add(t.id)
     return true
   })
-  return [...injectTypes().filter((t) => !t.source), ...extra]
+  return [...injectTypes().filter((t) => !t.source), ...extra].map(mark)
 }

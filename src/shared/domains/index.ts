@@ -1,6 +1,7 @@
 // Domain profiles (ADR-0014). `resolveProfile(orgType, overrides, snapshot)` is what the
 // pipeline, the lints, the facility-fact extractor and the media planner all go through.
-// Profiles come from the built-ins and from enabled packs (registry.ts, ADR-0018 #263).
+// Profiles come from the bundled packs (ADR-0020) and from enabled installed packs
+// (registry.ts, ADR-0018 #263).
 import { GENERIC_PROFILE } from './builtins'
 import { builtinByKey, packEntryByKey } from './registry'
 import {
@@ -15,15 +16,21 @@ import { inferThreatFamily, isThreatFamilyId, threatFamily } from './threats'
 
 export * from './schema'
 export { THREAT_FAMILIES, inferThreatFamily, isThreatFamilyId, threatFamily } from './threats'
-export { DOMAIN_IDS, DOMAIN_PROFILES, domainKey } from './builtins'
+export { GENERIC_PROFILE, domainKey } from './builtins'
 export {
   builtinByKey,
+  bundledDomainIds,
+  bundledEntryByKey,
+  bundledProfileEntries,
+  bundledProfiles,
   listProfiles,
   packEntryByKey,
   packProfileEntries,
   profilesRevision,
+  registerBundledProfiles,
   registerPackProfiles,
   subscribeProfiles,
+  type BundledProfileEntry,
   type ListedProfile,
   type PackProfileEntry,
   type ProfileSource,
@@ -39,14 +46,14 @@ export {
 } from './snapshot'
 
 /**
- * The registered profile an orgType names (a built-in or an enabled pack's, by id or alias,
- * case-insensitive); generic otherwise.
+ * The registered profile an orgType names (a bundled pack's, enabled or not, or an enabled
+ * installed pack's, by id or alias, case-insensitive); generic otherwise.
  */
 export function builtinProfile(orgType: string | undefined): DomainProfile {
   return builtinByKey(orgType) ?? packEntryByKey(orgType)?.profile ?? GENERIC_PROFILE
 }
 
-/** Whether a value names a registered profile (built-in or enabled pack) by id or alias. */
+/** Whether a value names a registered profile (bundled or enabled pack) by id or alias. */
 export const isDomainId = (v: unknown): v is string =>
   typeof v === 'string' && (!!builtinByKey(v) || !!packEntryByKey(v))
 

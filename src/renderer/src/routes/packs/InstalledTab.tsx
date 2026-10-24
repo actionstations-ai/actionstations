@@ -1,5 +1,7 @@
 // Installed packs (#268): version, source, enabled switch, update, broken and conflict state,
-// details and uninstall. Updates come from the cached catalogs (no network here).
+// details and uninstall. Updates come from the cached catalogs (no network here). Above them,
+// "Included with the app" lists the bundled packs (ADR-0020): an enabled switch (the core pack
+// is always on) and details, no Uninstall or update (they update with the app).
 import { useState } from 'react'
 import type { InstalledPackView, PackUpdateView } from '@shared/ipc'
 import { Badge, Button, Dialog, EmptyState } from '../../components/ui'
@@ -12,6 +14,7 @@ import {
   archiveShaText,
   countsText,
   itemsByKind,
+  replacesText,
   sourceText,
   updateFor,
 } from './pack-format'
@@ -37,22 +40,31 @@ function PackDetails({ pack }: { pack: InstalledPackView }) {
             <dd>{pack.license}</dd>
           </>
         )}
-        <dt>Installed</dt>
-        <dd>{new Date(pack.installedAt).toLocaleString()}</dd>
-        <dt>Archive sha256</dt>
-        <dd className="mono pack-break">{archiveShaText(pack.archiveSha256)}</dd>
+        {pack.bundled ? (
+          <>
+            <dt>Version</dt>
+            <dd>{pack.version} (updates with the app)</dd>
+          </>
+        ) : (
+          <>
+            <dt>Installed</dt>
+            <dd>{new Date(pack.installedAt).toLocaleString()}</dd>
+            <dt>Archive sha256</dt>
+            <dd className="mono pack-break">{archiveShaText(pack.archiveSha256)}</dd>
+          </>
+        )}
       </dl>
       {itemsByKind(pack.items).map(([kind, items]) => (
         <div key={kind} className="stack pack-kind">
-          <h3>
+          <h4>
             {KIND_LABEL[kind].many} ({items.length})
-          </h3>
+          </h4>
           <ul className="pack-items">
             {items.map((i) => (
               <li key={i.id}>
                 <span>{i.title}</span> <span className="mono muted">{i.id}</span>
                 {i.replacesBuiltin && (
-                  <Badge tone="info">Replaces built-in {KIND_LABEL[kind].one}</Badge>
+                  <Badge tone="info">{replacesText(i, KIND_LABEL[kind].one)}</Badge>
                 )}
               </li>
             ))}
@@ -64,8 +76,11 @@ function PackDetails({ pack }: { pack: InstalledPackView }) {
 }
 
 function EnabledSwitch({ pack }: { pack: InstalledPackView }) {
-  const set = useIpcMutation('packs:setEnabled', { invalidates: [...INVALIDATES] })
+  const set = useIpcMutation('packs:setEnabled', {
+    invalidates: [...INVALIDATES, 'domains:list', 'templates:list', 'templates:taxonomy'],
+  })
   const id = `pack-enabled-${pack.id}`
+  const hintId = `${id}-hint`
   return (
     <span className="row pack-switch">
       <input
@@ -73,7 +88,8 @@ function EnabledSwitch({ pack }: { pack: InstalledPackView }) {
         type="checkbox"
         role="switch"
         checked={pack.enabled}
-        disabled={set.isPending || !!pack.broken}
+        aria-describedby={pack.core ? hintId : undefined}
+        disabled={set.isPending || !!pack.broken || !!pack.core}
         onChange={(e) =>
           set.mutate(
             { id: pack.id, enabled: e.target.checked },
@@ -82,6 +98,11 @@ function EnabledSwitch({ pack }: { pack: InstalledPackView }) {
         }
       />
       <label htmlFor={id}>Enabled</label>
+      {pack.core && (
+        <span id={hintId} className="muted">
+          Always on: the app needs it.
+        </span>
+      )}
     </span>
   )
 }
@@ -90,7 +111,8 @@ function PackRow(props: {
   pack: InstalledPackView
   update: PackUpdateView | undefined
   onUpdate: (u: PackUpdateView, name: string) => void
-  onUninstall: (p: InstalledPackView) => void
+  /** Absent for bundled packs: they have no Uninstall. */
+  onUninstall?: ((p: InstalledPackView) => void) | undefined
   updating: boolean
 }) {
   const { pack, update } = props
@@ -100,9 +122,9 @@ function PackRow(props: {
     <li className="card stack pack-row" aria-labelledby={`${detailsId}-name`}>
       <div className="row pack-row__head">
         <div className="stack pack-row__text">
-          <h2 id={`${detailsId}-name`} className="pack-row__name">
+          <h3 id={`${detailsId}-name`} className="pack-row__name">
             {pack.name} <span className="muted">{pack.version}</span>
-          </h2>
+          </h3>
           <p className="muted">{pack.summary}</p>
           <p className="pack-row__meta">
             <span>{countsText(pack.items) || 'No items'}</span>
@@ -124,7 +146,8 @@ function PackRow(props: {
       </div>
       {pack.broken && (
         <p className="pack-callout pack-callout--error">
-          {pack.broken} Reinstall the pack or uninstall it.
+          {pack.broken}{' '}
+          {pack.bundled ? 'Reinstall the app to repair it.' : 'Reinstall the pack or uninstall it.'}
         </p>
       )}
       {pack.conflict && <p className="pack-callout pack-callout--warn">{pack.conflict}</p>}
@@ -149,9 +172,11 @@ function PackRow(props: {
           {open ? 'Hide details' : 'Details'}
           <span className="sr-only"> for {pack.name}</span>
         </Button>
-        <Button size="sm" variant="danger" onClick={() => props.onUninstall(pack)}>
-          Uninstall<span className="sr-only"> {pack.name}</span>
-        </Button>
+        {props.onUninstall && (
+          <Button size="sm" variant="danger" onClick={() => props.onUninstall?.(pack)}>
+            Uninstall<span className="sr-only"> {pack.name}</span>
+          </Button>
+        )}
       </div>
       <div id={detailsId} hidden={!open}>
         {open && <PackDetails pack={pack} />}
@@ -199,6 +224,27 @@ function UninstallDialog(props: { pack: InstalledPackView | null; onClose: () =>
   )
 }
 
+/** "Included with the app": the bundled packs (ADR-0020). */
+function IncludedSection({ packs }: { packs: InstalledPackView[] }) {
+  if (packs.length === 0) return null
+  return (
+    <section className="stack" aria-labelledby="packs-included-title">
+      <h2 id="packs-included-title" className="pack-section__title">
+        Included with the app
+      </h2>
+      <p className="muted">
+        Turn off a domain you never exercise: it leaves the pickers and galleries. Projects that
+        already use it keep working.
+      </p>
+      <ul className="stack pack-list" aria-label="Included with the app">
+        {packs.map((p) => (
+          <PackRow key={p.id} pack={p} update={undefined} onUpdate={() => {}} updating={false} />
+        ))}
+      </ul>
+    </section>
+  )
+}
+
 export function InstalledTab(props: {
   onUpdate: (u: PackUpdateView, name: string) => void
   onBrowse: () => void
@@ -217,24 +263,31 @@ export function InstalledTab(props: {
         {errorText(list.error)}
       </p>
     )
-  const packs = list.data
+  const included = list.data.filter((p) => p.bundled)
+  const packs = list.data.filter((p) => !p.bundled)
+  const includedSection = <IncludedSection packs={included} />
   if (packs.length === 0)
     return (
-      <EmptyState
-        title="No packs installed"
-        body="Packs add templates, prompts, domain profiles, ComfyUI workflows, reference documents and example projects. Browse a catalog or install an .aspack file; every pack is reviewed before it installs."
-        actions={
-          <>
-            <Button variant="primary" onClick={props.onBrowse}>
-              Browse catalogs
-            </Button>
-            <Button onClick={props.onInstallFile}>Install from file…</Button>
-          </>
-        }
-      />
+      <div className="stack">
+        {includedSection}
+        <EmptyState
+          title="No packs installed"
+          body="Packs add templates, prompts, domain profiles, ComfyUI workflows, reference documents and example projects. Browse a catalog or install an .aspack file; every pack is reviewed before it installs."
+          actions={
+            <>
+              <Button variant="primary" onClick={props.onBrowse}>
+                Browse catalogs
+              </Button>
+              <Button onClick={props.onInstallFile}>Install from file…</Button>
+            </>
+          }
+        />
+      </div>
     )
   return (
     <div className="stack">
+      {includedSection}
+      <h2 className="pack-section__title">Installed</h2>
       <div className="row pack-toolbar">
         <p className="muted">
           {packs.length} installed, {packs.filter((p) => p.enabled).length} enabled

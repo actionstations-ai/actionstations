@@ -40,6 +40,8 @@ export function sourceText(source: PackInstallSource): string {
       return `Catalog: ${source.url}`
     case 'unknown':
       return 'Not recorded (the pack list was rebuilt from the installed files)'
+    case 'bundled':
+      return 'Included with the app'
   }
 }
 
@@ -156,4 +158,14 @@ export function actionLabel(action: PackInstallAction, version: string): string 
     case 'downgrade':
       return `Downgrade to ${version}`
   }
+}
+
+/** "Replaces Action Stations Core: tweet" (ADR-0020), or the older "Replaces built-in …". */
+export function replacesText(
+  item: Pick<PackItemSummary, 'id' | 'replacesPack'>,
+  kindOne: string,
+): string {
+  return item.replacesPack
+    ? `Replaces ${item.replacesPack.name}: ${item.id}`
+    : `Replaces built-in ${kindOne}`
 }

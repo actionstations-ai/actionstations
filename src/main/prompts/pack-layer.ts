@@ -2,6 +2,9 @@
 //
 //   project > global > pack > default
 //
+// The pack layer is the enabled installed packs, then the enabled bundled domain packs
+// (ADR-0020; the core pack's prompts are the default layer, see layers.ts).
+//
 // Only enabled packs whose manifest `domains` is empty or lists the project's resolved domain
 // id contribute; with no project, only packs with empty `domains`. The domain id is resolved
 // through the domain registry (snapshot first, then built-in / pack profiles by id or alias),
@@ -14,6 +17,7 @@
 import { promises as fs } from 'node:fs'
 import { baseProfile } from '@shared/domains'
 import {
+  bundledPacks,
   enabledItems,
   packAppliesToDomain,
   packItemPath,
@@ -52,14 +56,21 @@ export async function projectDomainId(root: string): Promise<string> {
   return baseProfile(project.orgType, project.domainProfileSnapshot).id
 }
 
+/** Prompt items of the pack layer: installed packs first, then enabled bundled domain packs. */
+function promptItems(): { pack: InstalledPack; id: string }[] {
+  const bundled = bundledPacks()
+    .filter((p) => p.enabled !== false && !p.core)
+    .flatMap((pack) => pack.manifest.contents.prompts.map((id) => ({ pack, id })))
+  return [...enabledItems('prompts'), ...bundled]
+}
+
 /** The enabled pack that provides prompt `name` for `domainId`, if any. */
 export function packForPrompt(
   name: string,
   domainId: string | undefined,
 ): InstalledPack | undefined {
-  return enabledItems('prompts').find(
-    (item) => item.id === name && packAppliesToDomain(item.pack, domainId),
-  )?.pack
+  return promptItems().find((item) => item.id === name && packAppliesToDomain(item.pack, domainId))
+    ?.pack
 }
 
 export const packSourceOf = (pack: InstalledPack): PackPromptSource => ({
@@ -77,7 +88,7 @@ export async function readPackLayer(
   name: string,
   root: string | undefined,
 ): Promise<PackPromptLayer | undefined> {
-  if (enabledItems('prompts').length === 0) return undefined
+  if (promptItems().length === 0) return undefined
   const domainId = root ? await projectDomainId(root) : undefined
   const pack = packForPrompt(name, domainId)
   if (!pack) return undefined

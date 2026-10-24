@@ -82,19 +82,17 @@ async function readDomains(
   return out
 }
 
-/** Check one installed pack folder against its registry entry. Never throws. */
-export async function verifyInstall(
+/**
+ * Check a pack folder against its pack.json: every listed file exists with its size, is a
+ * regular file inside the folder, and (small files, or all with `deep`) has its sha256; then
+ * read its domain profiles. Never throws. Bundled packs (ADR-0020) use this directly.
+ */
+export async function verifyPackFolder(
   dir: string,
-  entry: PackRegistryEntry,
+  manifest: PackManifestT,
   opts: { deep?: boolean } = {},
 ): Promise<VerifiedInstall> {
   try {
-    const manifest = await readManifest(dir)
-    if (typeof manifest === 'string') return { ok: false, problem: manifest }
-    if (manifest.id !== entry.id || manifest.version !== entry.version)
-      return { ok: false, problem: 'pack.json does not match the installed id and version' }
-    if (contentSha256(manifest.files) !== entry.contentSha256)
-      return { ok: false, problem: 'pack.json changed since the pack was installed' }
     const realDir = await fs.realpath(dir)
     for (const f of manifest.files) {
       const problem = await checkFile(realDir, dir, f, !!opts.deep)
@@ -106,4 +104,23 @@ export async function verifyInstall(
   } catch (e) {
     return { ok: false, problem: `The pack folder cannot be read: ${(e as Error).message}` }
   }
+}
+
+/** Read and parse pack.json of a pack folder; a string says what is wrong. */
+export const readFolderManifest = (dir: string): Promise<PackManifestT | string> =>
+  readManifest(dir)
+
+/** Check one installed pack folder against its registry entry. Never throws. */
+export async function verifyInstall(
+  dir: string,
+  entry: PackRegistryEntry,
+  opts: { deep?: boolean } = {},
+): Promise<VerifiedInstall> {
+  const manifest = await readManifest(dir)
+  if (typeof manifest === 'string') return { ok: false, problem: manifest }
+  if (manifest.id !== entry.id || manifest.version !== entry.version)
+    return { ok: false, problem: 'pack.json does not match the installed id and version' }
+  if (contentSha256(manifest.files) !== entry.contentSha256)
+    return { ok: false, problem: 'pack.json changed since the pack was installed' }
+  return verifyPackFolder(dir, manifest, opts)
 }

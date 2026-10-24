@@ -14,6 +14,7 @@ import {
   archiveShaText,
   formatBytes,
   itemsByKind,
+  replacesText,
   sourceText,
 } from './pack-format'
 
@@ -84,7 +85,7 @@ function Contents({ r }: { r: PackReview }) {
               <li key={i.id}>
                 <span>{i.title}</span> <span className="mono muted">{i.id}</span>
                 {i.replacesBuiltin && (
-                  <Badge tone="info">Replaces built-in {KIND_LABEL[kind].one}</Badge>
+                  <Badge tone="info">{replacesText(i, KIND_LABEL[kind].one)}</Badge>
                 )}
                 {i.customNodes && i.customNodes.length > 0 && (
                   <Badge tone="warn">Needs custom nodes</Badge>

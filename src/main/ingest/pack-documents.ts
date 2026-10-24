@@ -1,5 +1,5 @@
-// Reference documents from installed packs (ADR-0018, #265). Listing reads manifest.documents of
-// the enabled packs; importing resolves each chosen file inside userData/packs with packFilePath
+// Reference documents from installed packs (ADR-0018, #265) and from the enabled packs included
+// with the app (ADR-0020). Listing reads manifest.documents of those packs; importing resolves each chosen file inside userData/packs with packFilePath
 // (realpath-guarded, listed in pack.json only), hands it to the normal ingest pipeline with the
 // pack title, source and license, and records the copy in <project>/packs.json.
 //
@@ -13,7 +13,7 @@ import type { PackDocumentRef, PackDocumentView } from '@shared/ipc/pack-documen
 import { AppError } from '../lib/errors'
 import { exists } from '../lib/fs'
 import { loadProject } from '../project/store'
-import { enabledPacks, packById, packFilePath, type InstalledPack } from '../packs/layers'
+import { contentPacks, packById, packFilePath, type InstalledPack } from '../packs/layers'
 import { copyPackItem, copyPath, findCopy, forgetCopy } from '../packs/project-copies'
 import { importSources, type ImportSource } from './pipeline'
 import { documentFiles } from './storage'
@@ -23,14 +23,17 @@ const slugOf = (path: string): string => path.split('/')[1] ?? ''
 
 const importedKey = (packId: string, path: string) => `${packId}\u0000${path}`
 
-/** Every document file of the enabled packs; with project documents, marks the imported ones. */
+/**
+ * Every document file of the enabled installed and bundled packs; with project documents,
+ * marks the imported ones.
+ */
 export function listPackDocuments(projectDocs: readonly DocumentMeta[] = []): PackDocumentView[] {
   const imported = new Map(
     projectDocs
       .filter((d) => d.source)
       .map((d) => [importedKey(d.source!.packId, d.source!.path), d.id]),
   )
-  return enabledPacks().flatMap((pack) =>
+  return contentPacks().flatMap((pack) =>
     [...pack.manifest.documents]
       .sort((a, b) => a.path.localeCompare(b.path))
       .map((d) => {
@@ -39,6 +42,7 @@ export function listPackDocuments(projectDocs: readonly DocumentMeta[] = []): Pa
           packId: pack.id,
           packVersion: pack.version,
           packName: pack.name,
+          ...(pack.bundled ? { bundled: true } : {}),
           slug: slugOf(d.path),
           path: d.path,
           title: d.title,

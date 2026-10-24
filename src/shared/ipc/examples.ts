@@ -60,6 +60,8 @@ export const ExampleInfo = ExampleManifest.extend({
   packName: z.string().min(1).optional(),
   /** The pack's SPDX license expression (pack.json `license`). */
   packLicense: z.string().min(1).optional(),
+  /** The pack is included with the app (ADR-0020): "Included: <pack name>". */
+  bundled: z.boolean().optional(),
 })
 export type ExampleInfo = z.infer<typeof ExampleInfo>
 
@@ -83,6 +85,8 @@ export type ExampleMarker = z.infer<typeof ExampleMarker>
  */
 export const ExampleMarkerView = ExampleMarker.extend({
   packState: PackCopyState.omit({ edited: true }).optional(),
+  /** The example's pack is included with the app (ADR-0020). */
+  bundled: z.boolean().optional(),
 })
 export type ExampleMarkerView = z.infer<typeof ExampleMarkerView>
 

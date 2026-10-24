@@ -39,6 +39,20 @@ Everything a project already uses still resolves from the disabled pack: its dom
 
 **Existing installs.** Projects on built-in domains keep working unchanged: their `orgType` resolves to the bundled pack profile with the same id. Template sources reported as `builtin` become `pack` with `packId` set to a bundled pack; the badge shows "Included: <pack name>" rather than "Pack: …" so users can tell app content from content they installed.
 
+## Implementation notes (#314)
+
+Where the code made the decision concrete, or had to differ:
+
+- **Domain profiles are data in the repo.** The thirteen TS profiles were converted once to `packs/domains/<id>.json` and the TS files removed, rather than compiled to JSON at build time. `generic` is compiled in from `packs/domains/generic.json`. `DOMAIN_IDS` / `DOMAIN_PROFILES` became `bundledDomainIds()` / `bundledProfiles()`; the registry keeps every bundled profile, enabled or not, and an id wins over another profile's alias (water_dam's old `water utility` alias).
+- **Unpackaged runs read the repo in place.** Dev, unit tests and e2e assemble the packs from `packs/bundled.json` over the repo folders at startup ("source mode", same assembler as the build), so editing a template or prompt needs no rebuild. Only packaged builds read `app-resources/packs/`; `TTX_BUNDLED_PACKS` points a run at a built folder for tests. The build also writes `index.json` (pack order, core flag, the reader's item summaries).
+- **`templates/_shared` and `templates/export` still ship as extraResources.** They are the fonts and CSS every inject template uses and the export page templates, not pack items.
+- **Workflows are core-only.** The domain-pack list above names none; the build refuses a workflow in a domain pack, which keeps "a project keeps its workflows" true without copies.
+- **Registry field.** The disabled bundled packs are `bundledDisabled` in `registry.json`.
+- **Disabled templates are hidden, not removed.** `templates:list` and `templates:taxonomy` keep a disabled pack's types with `hidden: true`, so an existing inject of that type still loads its schema and renders; the gallery, the inject type pickers and new generation (`injectTypesForDomain`) leave them out.
+- **Documents.** A bundled document names `publisher` and `url` in `packs/bundled.json`; its `pack.json` entry carries them as `source: "<publisher>, <url>"`.
+- **An installed pack may not take a bundled pack's id**, in addition to the bundled domain ids.
+- **Examples.** A bundled example is opened like an installed pack's, by `{ slug, packId }` (a bare slug finds the enabled bundled pack that has it), and its copies never show "Update available".
+
 ## Consequences
 
 - One mechanism for all content. The Packs screen shows what the app includes, provenance badges work for everything, and a domain can be switched off.

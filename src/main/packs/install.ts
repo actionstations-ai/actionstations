@@ -11,6 +11,10 @@
 // Same id: same version = reinstall; newer = update (one version is kept); older = downgrade,
 // refused unless confirmed. A pack whose items an enabled pack already provides installs
 // disabled; enabling it checks again.
+//
+// Bundled packs (ADR-0020) are listed too (source "bundled"): they can be enabled and disabled
+// (except the core), never installed over, uninstalled, verified or updated here. An installed
+// pack may not take a bundled pack's id.
 import { promises as fs } from 'node:fs'
 import { basename, dirname, isAbsolute, join, relative, sep } from 'node:path'
 import { DomainProfile } from '@shared/domains'
@@ -30,7 +34,7 @@ import { AppError } from '../lib/errors'
 import { newId, nowIso } from '../lib/ids'
 import { cachedCatalogs, findUpdates } from './catalog'
 import { extractPack } from './extract'
-import { readPack, type PackBuiltins, type VerifiedPack } from './reader'
+import { contentSha256, readPack, type PackBuiltins, type VerifiedPack } from './reader'
 import { packIdDir, packVersionDir, packsStagingDir, writeRegistry } from './registry'
 import {
   commitLoaded,
@@ -38,13 +42,17 @@ import {
   conflictsFor,
   ensurePacksLoaded,
   loadEntry,
+  loadedBundled,
   loadedPacks,
+  saveBundledEnabled,
   withPacksLock,
+  type BundledState,
   type LoadedPack,
 } from './state'
 import { makeReadOnly, removeTree } from './tree'
 import { verifyInstall } from './verify'
 import { conflictReason } from './conflicts'
+import { isBundledPackId, isCorePackId } from './bundled-map'
 
 /** What the installer needs from its caller (the IPC boundary passes the app version). */
 export interface PackContext {
@@ -72,8 +80,16 @@ async function assertStaged(path: string): Promise<void> {
     throw new AppError('FORBIDDEN', 'A downloaded pack must be in the packs staging folder')
 }
 
+/** An installed pack may not use the id of a pack included with the app. */
+const bundledIdProblem = (id: string): string | undefined =>
+  isBundledPackId(id)
+    ? `${id} is the id of a pack included with the app; an installed pack needs its own id`
+    : undefined
+
 async function readOrFail(path: string, ctx: PackContext): Promise<VerifiedPack> {
   const read = await readPack({ path }, { appVersion: ctx.appVersion, builtins: ctx.builtins })
+  const taken = read.ok ? bundledIdProblem(read.pack.manifest.id) : undefined
+  if (taken) throw new AppError('VALIDATION', `This pack cannot be installed: ${taken}`)
   if (read.ok) return read.pack
   const first = read.problems[0]
   throw new AppError(
@@ -161,6 +177,37 @@ export function viewOf(p: LoadedPack): InstalledPackView {
   }
 }
 
+const bundledSha = new WeakMap<object, string>()
+
+/** A bundled pack on the Packs screen ("Included with the app"). */
+export function bundledViewOf(p: BundledState): InstalledPackView {
+  const m = p.manifest
+  let sha = bundledSha.get(m)
+  if (!sha) bundledSha.set(m, (sha = contentSha256(m.files)))
+  return {
+    id: p.id,
+    version: p.version,
+    name: p.name,
+    summary: m.summary,
+    description: m.description,
+    author: m.author,
+    license: m.license,
+    ...(m.homepage ? { homepage: m.homepage } : {}),
+    domains: m.domains,
+    tags: m.tags,
+    enabled: p.enabled,
+    installedAt: '',
+    source: { kind: 'bundled' },
+    archiveSha256: 'unknown',
+    contentSha256: sha,
+    items: [...p.items],
+    bundled: true,
+    core: p.core,
+    ...(p.broken ? { broken: p.broken } : {}),
+    conflicts: [],
+  }
+}
+
 // ---- review -------------------------------------------------------------------------------
 
 function reviewOf(pack: VerifiedPack, size: number, source: PackInstallSource): PackReview {
@@ -215,9 +262,13 @@ export async function inspectPack(
     'filePath' in req ? { kind: 'file', name: basename(req.filePath) } : req.source
   if ('downloadedPath' in req) await assertStaged(path)
   const read = await readPack({ path }, { appVersion: ctx.appVersion, builtins: ctx.builtins })
-  if (!read.ok) {
+  const taken = read.ok ? bundledIdProblem(read.pack.manifest.id) : undefined
+  if (!read.ok || taken) {
     if ('downloadedPath' in req) await fs.rm(path, { force: true })
-    return { ok: false, problems: read.problems }
+    return {
+      ok: false,
+      problems: read.ok ? [{ path: 'pack.json', message: taken! }] : read.problems,
+    }
   }
   const size = (await fs.stat(path)).size
   return { ok: true, review: reviewOf(read.pack, size, source) }
@@ -309,9 +360,23 @@ async function saveEntries(next: readonly LoadedPack[]): Promise<void> {
   commitLoaded(next)
 }
 
+const bundledOf = (id: string): BundledState | undefined => loadedBundled().find((p) => p.id === id)
+
+/** Turn a bundled pack on or off; the core cannot be turned off. */
+async function setBundledEnabled(p: BundledState, enabled: boolean): Promise<InstalledPackView> {
+  if (isCorePackId(p.id) && !enabled)
+    throw new AppError('VALIDATION', `${p.name} is always on: the app needs it`)
+  if (enabled && p.broken)
+    throw new AppError('CONFLICT', `${p.name} is damaged (${p.broken}); reinstall the app`)
+  await saveBundledEnabled(p.id, enabled)
+  return bundledViewOf(bundledOf(p.id)!)
+}
+
 export async function setPackEnabled(id: string, enabled: boolean): Promise<InstalledPackView> {
   await ensurePacksLoaded()
   return withPacksLock(async () => {
+    const bundled = bundledOf(id)
+    if (bundled) return setBundledEnabled(bundled, enabled)
     const p = requireInstalled(id)
     if (enabled && p.broken)
       throw new AppError('CONFLICT', `${id} is damaged (${p.broken}); reinstall it to enable it`)
@@ -329,6 +394,8 @@ export async function setPackEnabled(id: string, enabled: boolean): Promise<Inst
 export async function uninstallPack(id: string): Promise<void> {
   await ensurePacksLoaded()
   await withPacksLock(async () => {
+    if (bundledOf(id))
+      throw new AppError('FORBIDDEN', `${id} is included with the app; disable it instead`)
     requireInstalled(id)
     await saveEntries(loadedPacks().filter((p) => p.entry.id !== id))
     await removeTree(packIdDir(id))
@@ -362,9 +429,10 @@ export async function verifyPacks(id?: string): Promise<PackVerifyResult[]> {
   })
 }
 
+/** Bundled packs (map order), then installed packs (by id). */
 export async function listInstalled(): Promise<InstalledPackView[]> {
   await ensurePacksLoaded()
-  return loadedPacks().map(viewOf)
+  return [...loadedBundled().map(bundledViewOf), ...loadedPacks().map(viewOf)]
 }
 
 /** Updates offered by the cached catalogs for the installed packs (no network). */

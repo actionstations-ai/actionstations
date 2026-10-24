@@ -21,7 +21,10 @@ test('edit a global prompt override, see the diff, reset to default', async () =
 
   const list = page.getByRole('navigation', { name: 'Prompts by stage' })
   await expect(list.getByRole('heading', { name: 'Scenario overview' })).toBeVisible()
-  await expect(list.getByRole('button', { name: new RegExp(NAME) })).toContainText('Default')
+  // The default layer is the core pack included with the app (ADR-0020).
+  await expect(list.getByRole('button', { name: new RegExp(NAME) })).toContainText(
+    'Included: Action Stations Core',
+  )
 
   const editor = page.getByRole('textbox', { name: new RegExp(NAME) })
   await expect(editor).toHaveValue(/<!-- @system -->/)

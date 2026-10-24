@@ -244,7 +244,7 @@ describe('pack prompt layer: YAML-only frontmatter (#257)', () => {
 
   it('refuses to install a pack whose prompt has ---js frontmatter', async () => {
     await expect(installRail(undefined, jsPrompt)).rejects.toThrow(/YAML/)
-    expect(await call('packs:list')).toEqual([])
+    expect((await call('packs:list')).filter((p) => !p.bundled)).toEqual([])
   })
 
   it('refuses a ---js pack prompt at load time too (file changed after install)', async () => {

@@ -33,7 +33,8 @@ function PackDocumentItem(props: {
           {added && <span className="muted"> (already in this project)</span>}
         </span>
         <span className="pack-doc__meta">
-          {doc.packName} {doc.packVersion} · License {doc.license}
+          {doc.bundled ? `Included: ${doc.packName}` : `${doc.packName} ${doc.packVersion}`} ·
+          License {doc.license}
           {doc.source ? ` · Source: ${doc.source}` : ''}
         </span>
         {doc.description && <span className="pack-doc__desc">{doc.description}</span>}

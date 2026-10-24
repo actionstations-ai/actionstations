@@ -10,7 +10,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import JSZip from 'jszip'
-import { DOMAIN_PROFILES } from '../../../src/shared/domains'
+import { DomainProfile } from '../../../src/shared/domains/schema'
 
 export type PackTree = Record<string, string | Buffer>
 export type Manifest = Record<string, unknown> & {
@@ -44,7 +44,11 @@ const TEMPLATE_CSS = `@font-face { font-family: Board; src: url('fonts/board.wof
 `
 
 function domainProfile(): Record<string, unknown> {
-  const transit = structuredClone(DOMAIN_PROFILES.find((p) => p.id === 'transit')!)
+  // The bundled transit profile (ADR-0020), read as data so every runner (Vitest, Playwright)
+  // builds the same fixture whether or not the bundled profiles are registered.
+  const transit = DomainProfile.parse(
+    JSON.parse(readFileSync(join(ROOT, 'packs', 'domains', 'transit.json'), 'utf8')),
+  )
   return {
     ...transit,
     id: 'freight_rail',

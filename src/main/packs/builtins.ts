@@ -1,10 +1,8 @@
-// Ids the app ships, which pack items may shadow (templates, prompts, workflows, examples)
-// or must name (prompts). Read from the resources folder through the existing loaders.
-import { promises as fs } from 'node:fs'
-import { listExamples } from '../examples/catalog'
-import { resourcePath } from '../lib/paths'
-import { listDefaultNames } from '../prompts/layers'
-import { listBuiltinTemplateTypes } from '../render/templates'
+// Ids the app ships in its bundled packs (ADR-0020), which installed pack items may shadow
+// (templates, prompts, workflows, examples) or must name (prompts), with the bundled pack that
+// ships each one ("replaces Action Stations Core: tweet" in the review).
+import type { PackKind } from '@shared/schemas/pack'
+import { bundledPacks } from './layers'
 
 export interface PackBuiltins {
   templates: readonly string[]
@@ -12,25 +10,28 @@ export interface PackBuiltins {
   prompts: readonly string[]
   workflows: readonly string[]
   examples: readonly string[]
+  /** The bundled pack that ships each id, by kind. */
+  owners?: Partial<Record<PackKind, Record<string, { id: string; name: string }>>>
 }
 
-async function builtinWorkflowIds(): Promise<string[]> {
-  const names = await fs.readdir(resourcePath('comfy', 'workflows')).catch(() => [] as string[])
-  return names
-    .filter((n) => n.endsWith('.json') && !n.endsWith('.bindings.json'))
-    .map((n) => n.slice(0, -'.json'.length))
-}
+const KINDS = ['templates', 'prompts', 'workflows', 'examples'] as const
 
+/** From the loaded bundled packs (in source mode, the repo's when nothing loaded yet). */
 export async function loadBuiltins(): Promise<PackBuiltins> {
-  const [prompts, workflows, examples] = await Promise.all([
-    listDefaultNames(),
-    builtinWorkflowIds(),
-    listExamples().catch(() => []),
-  ])
-  return {
-    templates: listBuiltinTemplateTypes(),
-    prompts,
-    workflows,
-    examples: examples.map((e) => e.slug),
+  const packs = bundledPacks()
+  const owners: NonNullable<PackBuiltins['owners']> = {}
+  const ids = (kind: (typeof KINDS)[number]): string[] => {
+    const own: Record<string, { id: string; name: string }> = {}
+    for (const p of packs)
+      for (const id of p.manifest.contents[kind]) own[id] = { id: p.id, name: p.name }
+    owners[kind] = own
+    return Object.keys(own).sort()
   }
+  const [templates, prompts, workflows, examples] = KINDS.map(ids) as [
+    string[],
+    string[],
+    string[],
+    string[],
+  ]
+  return { templates, prompts, workflows, examples, owners }
 }

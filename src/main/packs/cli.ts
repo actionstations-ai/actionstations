@@ -19,6 +19,8 @@ import {
   type PackProblem,
 } from '@shared/schemas/pack'
 import { readPack, type PackBuiltins, type VerifiedPack } from './reader'
+import { bundledProfileEntries, registerBundledProfiles } from '@shared/domains'
+import { sourceBundledProfileEntries } from './bundled-map'
 
 export interface CliIo {
   out(line: string): void
@@ -177,6 +179,9 @@ export async function runCli(
   io: CliIo,
 ): Promise<number> {
   if (argv.includes('--help') || argv.includes('-h')) return (io.out(USAGE), 0)
+  // Plain Node: reserve the bundled domain ids (ADR-0020) as the app does at startup.
+  if (!bundledProfileEntries().length)
+    registerBundledProfiles(sourceBundledProfileEntries(opts.appVersion))
   const args = parseArgs(argv)
   if (typeof args === 'string') {
     io.err(args)

@@ -33,7 +33,14 @@ export function packIdDir(id: string): string {
   return safeJoin(packsRoot(), id)
 }
 
-const empty = (): PackRegistry => ({ registryVersion: PACK_REGISTRY_VERSION, packs: [] })
+const empty = (): PackRegistry => ({
+  registryVersion: PACK_REGISTRY_VERSION,
+  packs: [],
+  bundledDisabled: [],
+})
+
+/** The disabled bundled packs as last read or written (writeRegistry keeps them). */
+let bundledDisabled: string[] = []
 
 /**
  * How registry.json read: `clean` (parsed), `missing` (no file) or `damaged` (moved to
@@ -49,8 +56,10 @@ export async function readRegistryState(): Promise<{
   try {
     raw = await fs.readFile(registryPath(), 'utf8')
   } catch (e) {
-    if ((e as NodeJS.ErrnoException).code === 'ENOENT')
+    if ((e as NodeJS.ErrnoException).code === 'ENOENT') {
+      bundledDisabled = []
       return { registry: empty(), status: 'missing' }
+    }
     throw e
   }
   let parsed: ReturnType<typeof PackRegistry.safeParse>
@@ -59,7 +68,11 @@ export async function readRegistryState(): Promise<{
   } catch {
     parsed = PackRegistry.safeParse(undefined)
   }
-  if (parsed.success) return { registry: parsed.data, status: 'clean' }
+  if (parsed.success) {
+    bundledDisabled = parsed.data.bundledDisabled
+    return { registry: parsed.data, status: 'clean' }
+  }
+  bundledDisabled = []
   const aside = `${registryPath()}.damaged-${Date.now()}`
   await fs.rename(registryPath(), aside).catch(() => undefined)
   console.error(`[packs] registry.json could not be read; moved to ${aside}`)
@@ -71,7 +84,22 @@ export async function readRegistry(): Promise<PackRegistry> {
   return (await readRegistryState()).registry
 }
 
-export async function writeRegistry(packs: readonly PackRegistryEntry[]): Promise<void> {
-  const registry = PackRegistry.parse({ registryVersion: PACK_REGISTRY_VERSION, packs })
+/**
+ * Write the installed packs and the disabled bundled packs (default: unchanged since the last
+ * read or write).
+ */
+export async function writeRegistry(
+  packs: readonly PackRegistryEntry[],
+  disabled: readonly string[] = bundledDisabled,
+): Promise<void> {
+  const registry = PackRegistry.parse({
+    registryVersion: PACK_REGISTRY_VERSION,
+    packs,
+    bundledDisabled: [...new Set(disabled)].sort(),
+  })
   await writeJsonAtomic(registryPath(), registry)
+  bundledDisabled = registry.bundledDisabled
 }
+
+/** Bundled pack ids the user disabled, as last read or written. */
+export const disabledBundledIds = (): readonly string[] => bundledDisabled

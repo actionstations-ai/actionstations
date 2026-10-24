@@ -69,7 +69,7 @@ pnpm build                    # electron-builder installers (dmg / nsis / AppIma
 
 ## Packs
 
-A pack (`.aspack`) adds inject templates, prompts, domain profiles, ComfyUI workflows, reference documents or example projects without a new app release. Open **Packs** in the sidebar to install one from a file, a URL or a catalog; every pack is reviewed before it installs (licenses, custom ComfyUI nodes, archive sha256). No catalog is added by default and nothing is fetched until you add one. Projects copy the pack items they use, so they keep working after a pack is updated or uninstalled. **Export as pack…** builds a pack from your own templates, prompts, workflows and a project. Pack authors validate archives with `node scripts/pack-validate.mjs <file>.aspack` (add `--app-version 0.3.0` while `package.json` is older than 0.3.0). See the [Packs guide](docs/guides/packs.md), the [format](docs/packs-format.md) and [ADR-0018](docs/adr/0018-packs.md).
+A pack (`.aspack`) adds inject templates, prompts, domain profiles, ComfyUI workflows, reference documents or example projects without a new app release. Open **Packs** in the sidebar to install one from a file, a URL or a catalog; every pack is reviewed before it installs (licenses, custom ComfyUI nodes, archive sha256). No catalog is added by default and nothing is fetched until you add one. Projects copy the pack items they use, so they keep working after a pack is updated or uninstalled. **Export as pack…** builds a pack from your own templates, prompts, workflows and a project. Pack authors validate archives with `node scripts/pack-validate.mjs <file>.aspack` (add `--app-version 0.3.0` while `package.json` is older than 0.3.0). The app's own content ships the same way: **Action Stations Core** and one pack per domain, listed under **Included with the app**, where a domain you never exercise can be turned off ([ADR-0020](docs/adr/0020-bundled-packs.md)). See the [Packs guide](docs/guides/packs.md), the [format](docs/packs-format.md) and [ADR-0018](docs/adr/0018-packs.md).
 
 ## Connecting providers
 
@@ -98,6 +98,7 @@ comfy/workflows/     Default ComfyUI workflow JSON per media type
 docs/                PRD, architecture, taxonomy, methodology, ADRs
 reference/           Sample input documents per domain + the CSAAP scenario 1–8 gold-standard outputs
 examples/            Example projects that ship with the app (Projects → Examples)
+packs/               bundled.json (repo folders → bundled packs), domains/<id>.json profiles, documents/
 scripts/             local-ci.sh, bootstrap-github.sh, dev helpers
 e2e/                 Playwright tests
 ```

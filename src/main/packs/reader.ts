@@ -67,6 +67,11 @@ export type PackSource = { path: string } | { buffer: Buffer }
 export interface ReadPackOptions {
   appVersion: string
   builtins?: PackBuiltins
+  /**
+   * A bundled pack assembled from the repo (scripts/build-bundled-packs.mjs, ADR-0020): it may
+   * provide the built-in domain ids. Never set for a pack a user installs.
+   */
+  trusted?: boolean
   /** Override some byte limits (tests; defaults are PACK_LIMITS). */
   limits?: Partial<PackReadLimits>
 }
@@ -285,7 +290,9 @@ export async function readPack(source: PackSource, opts: ReadPackOptions): Promi
   if (mismatch.length) return fail(mismatch)
   const files = await readFiles(buf, manifest, raw, budget)
   if (Array.isArray(files)) return fail(files)
-  const content = checkPackContent(manifest, files, opts.builtins ?? (await loadBuiltins()))
+  const content = checkPackContent(manifest, files, opts.builtins ?? (await loadBuiltins()), {
+    trusted: !!opts.trusted,
+  })
   if (content.problems.length) return fail(content.problems)
   return {
     ok: true,

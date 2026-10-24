@@ -15,7 +15,7 @@ import { changeFromEvent, changeFromJob, createInvalidator } from './state/inval
 import { useJobsStore } from './state/jobs'
 import { OpenRequests } from './routes/projects/OpenRequests'
 import { PackOpenRequests } from './routes/packs/PackOpenRequests'
-import { DomainsSync } from './state/domains'
+import { DomainsGate, DomainsSync } from './state/domains'
 import { InjectTypesSync } from './state/inject-types'
 
 function ThemeSync() {
@@ -115,14 +115,18 @@ export function App() {
               <div className="shell">
                 <Sidebar />
                 <main className="main" id="main">
-                  <AppRoutes />
+                  <DomainsGate>
+                    <AppRoutes />
+                  </DomainsGate>
                 </main>
               </div>
             </>
           }
           bare={
             <main id="main">
-              <AppRoutes />
+              <DomainsGate>
+                <AppRoutes />
+              </DomainsGate>
             </main>
           }
         />

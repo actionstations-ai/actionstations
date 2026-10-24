@@ -4,7 +4,7 @@ import { X } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import type { TemplateInfo } from '@shared/ipc'
 import { DeliveryMode } from '@shared/schemas/inject'
-import { injectTypeInfo, injectTypes } from '@shared/taxonomy'
+import { injectTypeInfo, injectTypes, isInjectTypeHidden } from '@shared/taxonomy'
 import { templateProvenanceOf, templateSourceLabel } from '../../lib/template-source'
 import { ProvenanceBadge } from '../../components/ProvenanceBadge'
 import { Button, Dialog, Field } from '../../components/ui'
@@ -33,8 +33,10 @@ export interface FormProps {
   issues: Map<string, string>
 }
 
-function typeOptions(templates: TemplateInfo[], current: string) {
-  const installed = new Set(templates.map((t) => t.type))
+function typeOptions(all: TemplateInfo[], current: string) {
+  // Types of a disabled bundled pack stay only as the inject's current type (ADR-0020).
+  const templates = all.filter((t) => !t.hidden || t.type === current)
+  const installed = new Set(all.map((t) => t.type))
   const withTemplate = templates
     .map((t) => {
       // Native options hold text only; the chosen type's ProvenanceBadge sits in the hint.
@@ -43,7 +45,7 @@ function typeOptions(templates: TemplateInfo[], current: string) {
     })
     .sort((a, b) => a.label.localeCompare(b.label))
   const without = injectTypes()
-    .filter((t) => !installed.has(t.id))
+    .filter((t) => !installed.has(t.id) && !isInjectTypeHidden(t.id))
     .map((t) => ({
       id: t.id,
       label: `${t.label} (no template)`,

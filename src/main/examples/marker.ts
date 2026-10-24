@@ -4,7 +4,7 @@ import { ExampleMarker, type ExampleMarkerView } from '@shared/ipc/examples'
 import { compareSemver } from '@shared/schemas/pack'
 import { exists, readJson } from '../lib/fs'
 import { MARKER_FILE } from './open'
-import { packById } from '../packs/layers'
+import { bundledPackById, packById } from '../packs/layers'
 
 /** The marker of a project root, or null when it is not an example copy or the file is bad. */
 export async function readMarker(root: string): Promise<ExampleMarker | null> {
@@ -24,14 +24,18 @@ export async function readMarker(root: string): Promise<ExampleMarker | null> {
  */
 export function markerView(marker: ExampleMarker): ExampleMarkerView {
   if (!marker.packId) return marker
-  const pack = packById(marker.packId)
+  // A bundled pack the user disabled still ships the example (ADR-0020): not "not installed".
+  const pack = packById(marker.packId) ?? bundledPackById(marker.packId)
   const provides = pack?.manifest.contents.examples.includes(marker.slug) ? pack : undefined
   return {
     ...marker,
+    ...(pack?.bundled ? { bundled: true } : {}),
     packState: {
       packMissing: !provides,
+      // A bundled pack updates with the app; its examples are never "out of date".
       updateAvailable:
         !!provides &&
+        !provides.bundled &&
         !!marker.packVersion &&
         compareSemver(provides.version, marker.packVersion) > 0,
       ...(provides ? { installedVersion: provides.version } : {}),

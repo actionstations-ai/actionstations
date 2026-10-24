@@ -14,6 +14,8 @@ export default defineConfig({
     exclude: ['**/node_modules/**', 'e2e/**', 'out/**'],
     // Renderer component tests opt in with a `// @vitest-environment happy-dom` header.
     environment: 'node',
+    // Bundled domain profiles (ADR-0020) registered as main does at startup.
+    setupFiles: ['tests/setup/bundled-domains.ts'],
     testTimeout: 20000,
     pool: 'forks',
     // The persistent transform cache keeps stale import.meta.glob results when files are

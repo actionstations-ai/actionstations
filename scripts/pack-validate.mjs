@@ -33,6 +33,8 @@ function newestSource() {
   walk(join(root, 'src', 'main'))
   walk(join(root, 'src', 'shared'))
   walk(join(root, 'scripts', 'pack-validate'))
+  // The bundled-pack map and domain profiles are compiled in (ADR-0020).
+  walk(join(root, 'packs'))
   return newest
 }
 

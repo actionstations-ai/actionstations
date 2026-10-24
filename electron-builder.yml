@@ -28,6 +28,8 @@ fileAssociations:
     mimeType: application/vnd.actionstations.pack+zip
 files:
   - out/**/*
+  # The bundled packs ship as extraResources (app-resources/packs), not inside app.asar.
+  - '!out/bundled-packs/**'
   - package.json
   - '!**/*.{map,ts,tsx,mts,cts}'
   - '!**/*.d.{ts,mts,cts}'
@@ -38,17 +40,16 @@ files:
   # better-sqlite3 ships Node-API prebuilds for every platform; its C sources are build-only.
   - '!**/node_modules/better-sqlite3/{deps,src}/**'
 extraResources:
-  - from: templates
-    to: app-resources/templates
-    filter: ['**/*', '!**/__golden__/**', '!**/*.test.*']
-  - from: prompts
-    to: app-resources/prompts
-  - from: comfy
-    to: app-resources/comfy
-  # Example projects (#169): examples/<slug>/{example.json,project/}. Never the derived index.
-  - from: examples
-    to: app-resources/examples
-    filter: ['**/*', '!**/index.sqlite*', '!**/.cache/**', '!README.md']
+  # Built-in content ships as bundled packs (ADR-0020): templates, prompts, ComfyUI workflows,
+  # domain profiles, examples and documents, assembled and validated by
+  # scripts/build-bundled-packs.mjs into out/bundled-packs/ (run by `pnpm build`).
+  - from: out/bundled-packs
+    to: app-resources/packs
+  # Not pack items: the fonts and CSS every inject template shares, and the export page templates.
+  - from: templates/_shared
+    to: app-resources/templates/_shared
+  - from: templates/export
+    to: app-resources/templates/export
 # Native code and data files read with real fs paths must live outside app.asar.
 asarUnpack:
   - node_modules/better-sqlite3/**
@@ -89,6 +90,7 @@ mac:
   # project into app.asar, so each one restates the positive pattern.
   files:
     - out/**/*
+    - '!out/bundled-packs/**'
     - '!**/node_modules/onnxruntime-node/bin/napi-*/{linux,win32}/**'
 dmg:
   title: ${productName} ${version}
@@ -101,6 +103,7 @@ win:
   # project into app.asar, so each one restates the positive pattern.
   files:
     - out/**/*
+    - '!out/bundled-packs/**'
     - '!**/node_modules/onnxruntime-node/bin/napi-*/{linux,darwin}/**'
     - '!**/node_modules/onnxruntime-node/bin/napi-*/win32/arm64/**'
 nsis:
@@ -119,5 +122,6 @@ linux:
   # project into app.asar, so each one restates the positive pattern.
   files:
     - out/**/*
+    - '!out/bundled-packs/**'
     - '!**/node_modules/onnxruntime-node/bin/napi-*/{darwin,win32}/**'
     - '!**/node_modules/onnxruntime-node/bin/napi-*/linux/arm64/**'

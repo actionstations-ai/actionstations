@@ -2,7 +2,12 @@
 import type { Role } from '@shared/schemas/project'
 import { exerciseMinutes, type Citation } from '@shared/schemas/common'
 import type { LintWarning, MselRow } from '@shared/schemas/scenario'
-import { injectTypeInfo, injectTypes, type InjectTypeInfo } from '@shared/taxonomy'
+import {
+  injectTypeInfo,
+  injectTypes,
+  isInjectTypeHidden,
+  type InjectTypeInfo,
+} from '@shared/taxonomy'
 import { injectTypeSourceLabel } from '../../lib/template-source'
 import type { CitationItem, ListOption } from './CellEditors'
 import { parseExerciseTime } from './model'
@@ -55,8 +60,13 @@ export const roleOptions = (roles: Role[]): ListOption[] => [
   })),
 ]
 
-/** Format choices: built-in types, then those user and pack templates add (#261). */
-export function formatOptions(types: readonly InjectTypeInfo[] = injectTypes()): ListOption[] {
+/**
+ * Format choices: built-in types, then those user and pack templates add (#261); types of a
+ * disabled bundled pack are left out (ADR-0020).
+ */
+export function formatOptions(
+  types: readonly InjectTypeInfo[] = injectTypes().filter((t) => !isInjectTypeHidden(t.id)),
+): ListOption[] {
   return [
     { value: '', label: 'None' },
     ...types.map((t) => {

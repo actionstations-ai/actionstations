@@ -1,27 +1,33 @@
-// Example-project catalog (#169): `<resources>/examples/<slug>/example.json` + `project/`.
-// Packaged builds read app-resources/examples (electron-builder extraResources); unpackaged
-// runs read the repo's examples/ folder. TTX_EXAMPLES_DIR overrides both (tests, e2e).
-// Enabled packs add theirs from userData/packs/<id>/<version>/examples/<slug>/ (#266); those
-// are addressed by { slug, packId }, so a pack example may share a built-in example's slug.
+// Example-project catalog (#169): `<folder>/<slug>/example.json` + `project/`.
+// The app's own examples ship in its bundled domain packs (ADR-0020): an enabled bundled pack
+// lists them like an installed pack (#266), from app-resources/packs/<id>/examples/<slug>/
+// (packaged) or the repo's examples/ folder (unpackaged). Every pack example is addressed by
+// { slug, packId }; a bare { slug } finds the enabled bundled pack that has it.
+// TTX_EXAMPLES_DIR (tests, e2e) lists a plain folder of examples instead of the bundled ones.
 import { promises as fs } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { ExampleManifest, type ExampleInfo } from '@shared/ipc/examples'
 import { SafeId } from '@shared/schemas/common'
 import { AppError, toAppError } from '../lib/errors'
 import { exists, readJson, safeJoin } from '../lib/fs'
-import { resourcePath } from '../lib/paths'
-import { enabledItems, packById, packItemPath, type InstalledPack } from '../packs/layers'
+import {
+  bundledPacks,
+  contentPacks,
+  packById,
+  packItemPath,
+  type InstalledPack,
+} from '../packs/layers'
 
 export const MANIFEST_FILE = 'example.json'
 export const PROJECT_DIR = 'project'
 
-export function examplesDir(): string {
-  if (process.env.TTX_EXAMPLES_DIR) return resolve(process.env.TTX_EXAMPLES_DIR)
-  return resourcePath('examples')
+/** A plain examples folder (TTX_EXAMPLES_DIR, tests and e2e), or undefined: bundled packs. */
+export function examplesDir(): string | undefined {
+  return process.env.TTX_EXAMPLES_DIR ? resolve(process.env.TTX_EXAMPLES_DIR) : undefined
 }
 
 /** The folder of one example; the slug must be a SafeId naming a real directory. */
-export async function exampleFolder(slug: string, dir = examplesDir()): Promise<string> {
+export async function exampleFolder(slug: string, dir: string): Promise<string> {
   if (!SafeId.safeParse(slug).success) throw new AppError('VALIDATION', `Invalid example: ${slug}`)
   const folder = safeJoin(dir, slug)
   const stat = await fs.lstat(folder).catch(() => null)
@@ -30,7 +36,7 @@ export async function exampleFolder(slug: string, dir = examplesDir()): Promise<
 }
 
 /** Read and validate one example's manifest. */
-export async function readManifest(slug: string, dir = examplesDir()): Promise<ExampleManifest> {
+export async function readManifest(slug: string, dir: string): Promise<ExampleManifest> {
   const folder = await exampleFolder(slug, dir)
   return readJson(join(folder, MANIFEST_FILE), ExampleManifest)
 }
@@ -49,8 +55,8 @@ async function listOne(slug: string, dir: string): Promise<ExampleInfo | null> {
 
 const byTitle = (a: ExampleInfo, b: ExampleInfo): number => a.title.localeCompare(b.title)
 
-/** Every valid built-in example, ordered by title. Folders without a valid manifest are skipped. */
-export async function listExamples(dir = examplesDir()): Promise<ExampleInfo[]> {
+/** Every valid example of a folder, ordered by title. Folders without a valid manifest are skipped. */
+export async function listExamples(dir: string): Promise<ExampleInfo[]> {
   const entries = await fs.readdir(dir, { withFileTypes: true }).catch(() => [])
   const slugs = entries
     .filter((e) => e.isDirectory() && SafeId.safeParse(e.name).success)
@@ -59,7 +65,7 @@ export async function listExamples(dir = examplesDir()): Promise<ExampleInfo[]> 
   return found.filter((e): e is ExampleInfo => e !== null).sort(byTitle)
 }
 
-/** Which example to open: a built-in one by slug, or one of an enabled pack. */
+/** Which example to open: one of an enabled pack (installed or bundled), or by slug alone. */
 export interface ExampleRef {
   slug: string
   packId?: string | undefined
@@ -78,16 +84,27 @@ function packFolder(pack: InstalledPack, slug: string): string {
   return packItemPath(pack, 'examples', slug)
 }
 
-/** Find an example; a pack example needs its pack installed and enabled. Throws NOT_FOUND. */
+/** The enabled bundled pack that ships example `slug` (a ref without packId). */
+const bundledExamplePack = (slug: string): InstalledPack | undefined =>
+  bundledPacks().find((p) => p.enabled !== false && p.manifest.contents.examples.includes(slug))
+
+/**
+ * Find an example; a pack example needs its pack installed (or bundled) and enabled. A ref
+ * without packId names an example of the `dir` folder (TTX_EXAMPLES_DIR), else of an enabled
+ * bundled pack. Throws NOT_FOUND.
+ */
 export async function resolveExample(
   ref: ExampleRef,
-  dir = examplesDir(),
+  dir: string | undefined = examplesDir(),
 ): Promise<ResolvedExample> {
-  const { slug, packId } = ref
-  if (packId === undefined) {
+  const { slug } = ref
+  let packId = ref.packId
+  if (packId === undefined && dir !== undefined) {
     const folder = await exampleFolder(slug, dir)
     return { slug, folder, manifest: await readManifest(slug, dir) }
   }
+  packId ??= bundledExamplePack(slug)?.id
+  if (packId === undefined) throw new AppError('NOT_FOUND', `No example named ${slug}`)
   const pack = packById(packId)
   if (!pack) throw new AppError('NOT_FOUND', `Pack ${packId} is not installed or is disabled`)
   const folder = packFolder(pack, slug)
@@ -98,11 +115,12 @@ export async function resolveExample(
 /** The gallery fields of a pack example: where it comes from and under which license. */
 export const packFields = (
   pack: InstalledPack,
-): Pick<ExampleInfo, 'packId' | 'packVersion' | 'packName' | 'packLicense'> => ({
+): Pick<ExampleInfo, 'packId' | 'packVersion' | 'packName' | 'packLicense' | 'bundled'> => ({
   packId: pack.id,
   packVersion: pack.version,
   packName: pack.name,
   packLicense: pack.manifest.license,
+  ...(pack.bundled ? { bundled: true } : {}),
 })
 
 async function listPackOne(pack: InstalledPack, slug: string): Promise<ExampleInfo | null> {
@@ -117,15 +135,23 @@ async function listPackOne(pack: InstalledPack, slug: string): Promise<ExampleIn
   }
 }
 
-/** The examples of every enabled pack (invalid ones skipped and logged). */
+/**
+ * The examples of every enabled installed pack and enabled bundled pack (invalid ones skipped
+ * and logged). With a TTX_EXAMPLES_DIR folder, that folder stands in for the bundled ones.
+ */
 export async function listPackExamples(): Promise<ExampleInfo[]> {
-  const found = await Promise.all(enabledItems('examples').map((i) => listPackOne(i.pack, i.id)))
+  const packs = contentPacks().filter((p) => !(p.bundled && examplesDir()))
+  const items = packs.flatMap((pack) => pack.manifest.contents.examples.map((id) => ({ pack, id })))
+  const found = await Promise.all(items.map((i) => listPackOne(i.pack, i.id)))
   return found.filter((e): e is ExampleInfo => e !== null)
 }
 
-/** The gallery: built-in examples plus those of enabled packs, ordered by title. */
+/** The gallery: the examples folder (tests) plus those of enabled packs, ordered by title. */
 export async function listAllExamples(dir = examplesDir()): Promise<ExampleInfo[]> {
-  const [builtin, fromPacks] = await Promise.all([listExamples(dir), listPackExamples()])
+  const [builtin, fromPacks] = await Promise.all([
+    dir ? listExamples(dir) : Promise.resolve([]),
+    listPackExamples(),
+  ])
   return [...builtin, ...fromPacks].sort(
     (a, b) => byTitle(a, b) || (a.packId ?? '').localeCompare(b.packId ?? ''),
   )

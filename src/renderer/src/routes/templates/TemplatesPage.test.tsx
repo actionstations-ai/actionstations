@@ -3,7 +3,7 @@ import { cleanup, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it } from 'vitest'
 import type { TemplateInfo } from '@shared/ipc'
-import { DOMAIN_PROFILES, registerPackProfiles } from '@shared/domains'
+import { builtinProfile, registerPackProfiles } from '@shared/domains'
 import TemplatesPage from './TemplatesPage'
 import { categoriesPresent, filterTemplates, fitsDomain, schemaFields } from './gallery'
 import { mockTtx, PROJECT, renderAt } from '../documents/test-utils'
@@ -195,7 +195,7 @@ describe('TemplatesPage', () => {
   })
 
   it('offers the domain profiles of installed packs as domain filters (#273)', async () => {
-    const transit = DOMAIN_PROFILES.find((d) => d.id === 'transit')!
+    const transit = builtinProfile('transit')
     registerPackProfiles([
       {
         profile: { ...transit, id: 'freight_rail', label: 'Freight rail', aliases: [] },
