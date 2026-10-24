@@ -51,6 +51,25 @@ MyAirport.asproj/
   index.sqlite                 # rebuildable: chunks, embeddings, fts5 (gitignored)
 ```
 
+Copies of pack items a project uses (ADR-0018) sit in the project's own layers: `templates/injects/<type>/`, `comfy/workflows/`, `documents/<docId>/`, the domain profile snapshot in `project.json`, and the record of each copy (pack, version, file sha256) in `packs.json`.
+
+App data folder (Electron `userData`; `TTX_USER_DATA` points tests elsewhere):
+
+```
+userData/
+  settings.json                # app settings, including packs.catalogs (catalog URLs, empty by default)
+  secrets.json                 # API keys, safeStorage ciphertext only
+  prompts/                     # global prompt overrides
+  templates/injects/<type>/    # user inject templates
+  comfy/workflows/             # user ComfyUI workflows and bindings
+  comfy/overrides/             # edited bindings; packs/<packId>/ for pack workflows (pack files stay read-only)
+  packs/
+    registry.json              # installed packs: id, version, enabled, source, archive and content sha256
+    <id>/<version>/            # one installed pack, verified files, read-only
+    catalogs/<sha256 of URL>.json   # last good copy of each catalog index.json
+    .staging/                  # downloads and extractions in progress; emptied at startup
+```
+
 SQLite (`better-sqlite3`) tables: `documents`, `chunks(doc_id, heading_path, page, text)`, `chunks_fts` (FTS5), `chunk_vec` (sqlite-vec), `jobs`, `provider_calls` (token/cost log). Everything in SQLite is derivable from the folder; `Rebuild index` is a menu item.
 
 ## Ingestion

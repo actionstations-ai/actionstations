@@ -235,10 +235,10 @@ The example below adds a hypothetical `notam` (Notice to Air Missions) type.
 
 ## Sharing a template in a pack
 
-A template can be shared with other users in a pack (`.aspack`; format in [docs/packs-format.md](../packs-format.md)). The app refuses a pack template that fails the checks above: no scripts, no event handler attributes, no remote URLs, no CSS `@import`, no triple-stash and no partials. A type that is not in the built-in taxonomy also needs a `taxonomy` block in `meta.json`. Before publishing, validate the archive with the same reader the app uses:
+A template can be shared with other users in a pack (`.aspack`; installing and exporting packs is covered in the [Packs guide](packs.md), the format in [docs/packs-format.md](../packs-format.md)). The app refuses a pack template that fails the checks above: no scripts, no event handler attributes, no remote URLs, no CSS `@import`, no triple-stash and no partials. Its `schema.json` may only use simple `pattern`s (anchored with `^`, single characters or classes with at most one repeat, like every built-in schema) and no `patternProperties` or `format`; the same rule applies to your own and project templates when they load. A type that is not in the built-in taxonomy also needs a `taxonomy` block in `meta.json`. Before publishing, validate the archive with the same reader the app uses:
 
 ```
 node scripts/pack-validate.mjs my-pack-1.0.0.aspack
 ```
 
-It prints `ok`, or one line per problem naming the file inside the pack, and exits 1 when anything is wrong.
+It prints `ok`, or one line per problem naming the file inside the pack, and exits 1 when anything is wrong. While the checkout's `package.json` version is older than 0.3.0, add `--app-version 0.3.0` so a pack that needs 0.3.0 is not refused for that alone.

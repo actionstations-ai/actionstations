@@ -2,7 +2,7 @@
 
 Status: format version 1 · Decision record: [ADR-0018](adr/0018-packs.md) · Schemas: [`src/shared/schemas/pack.ts`](../src/shared/schemas/pack.ts)
 
-A **pack** is a zip archive named `<id>-<version>.aspack` with a `pack.json` manifest at its root. It carries content for Action Stations: inject templates, prompts, domain profiles, ComfyUI workflows, reference documents and example projects. A **catalog** is a JSON index (`index.json`) listing packs and where to download them. The official catalog is `https://actionstations.ai/packs/index.json`; anyone can publish another one.
+A **pack** is a zip archive named `<id>-<version>.aspack` with a `pack.json` manifest at its root. It carries content for Action Stations: inject templates, prompts, domain profiles, ComfyUI workflows, reference documents and example projects. A **catalog** is a JSON index (`index.json`) listing packs and where to download them. The official catalog is `https://actionstations.ai/packs/index.json`; anyone can publish another one. Installing and exporting packs in the app is covered in the [Packs guide](guides/packs.md).
 
 Integrity is **hashes only**: `pack.json` lists the sha256 and size of every file, and a catalog entry carries the sha256 of the archive. Nothing is signed. A hash proves the bytes are the ones the catalog (or the person who sent you the file) described, not who made them.
 
@@ -46,8 +46,8 @@ Every path in the archive and in `pack.json`:
 
 - is relative POSIX (`/` separators), at most 240 characters, at most 12 segments, each at most 100 characters;
 - has no empty, `.` or `..` segment, no backslash, no control character, no drive letter, no leading `/`;
-- uses only `A–Z a–z 0–9 _ - .` per segment, does not start with `.` (except `.gitignore` in an example project) and does not end with `.`;
-- is not a Windows reserved name (`CON`, `PRN`, `AUX`, `NUL`, `COM1`–`COM9`, `LPT1`–`LPT9`);
+- uses only `A–Z a–z 0–9 _ - .` per segment, starts with a letter, digit or `_` (not `.` or `-`; the one exception is `.gitignore` in an example project) and does not end with `.`;
+- is not a Windows reserved name (`CON`, `PRN`, `AUX`, `NUL`, `COM1`–`COM9`, `LPT1`–`LPT9`, in any case and with or without an extension, so `con.txt` is refused too);
 - is unique ignoring case (two files that differ only in case are refused, because macOS and Windows folders would merge them);
 - is NFC-normalized.
 
@@ -80,23 +80,23 @@ An archive must have exactly one reading, so that every zip tool sees the same f
 
 ## pack.json
 
-| Field           | Type     | Required                  | Rules                                                                                                                                                                                                 |
-| --------------- | -------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `formatVersion` | integer  | yes                       | `1`. A larger value is refused with "this pack needs a newer version of the app".                                                                                                                     |
-| `id`            | string   | yes                       | reverse-DNS, two or more labels of `[a-z0-9]` with inner `-`, dot-separated, ≤ 128 (`ai.actionstations.freight-rail`, `org.example.my-pack`). Use a domain you control, or `io.github.<user>.<name>`. |
-| `name`          | string   | yes                       | 1–100 characters                                                                                                                                                                                      |
-| `version`       | string   | yes                       | semantic version, prerelease allowed, no build metadata (`1.0.0`, `1.1.0-beta.1`)                                                                                                                     |
-| `summary`       | string   | yes                       | one line, ≤ 200                                                                                                                                                                                       |
-| `description`   | string   | no                        | Markdown, ≤ 20 000; shown as text-only Markdown (raw HTML is not rendered)                                                                                                                            |
-| `author`        | object   | yes                       | `name` (required), `url` (http/https), `email`                                                                                                                                                        |
-| `license`       | string   | yes                       | SPDX expression for the pack's own content (`CC-BY-4.0`, `MIT OR Apache-2.0`, `LicenseRef-…`)                                                                                                         |
-| `homepage`      | string   | no                        | http/https URL                                                                                                                                                                                        |
-| `minAppVersion` | string   | yes                       | semantic version; the app refuses to install when it is older. Packs need the app's pack support, so in practice `0.3.0` or later.                                                                    |
-| `domains`       | string[] | no                        | domain profile ids the pack is for (built-in or added by a pack). Empty = any domain. Also limits where the pack's prompts apply (ADR-0018).                                                          |
-| `tags`          | string[] | no                        | ≤ 20, `^[a-z0-9][a-z0-9-]{0,31}$`                                                                                                                                                                     |
-| `contents`      | object   | yes                       | keys `templates`, `prompts`, `domains`, `workflows`, `documents`, `examples`, each a list of item ids (default empty). Unknown keys are refused. At least one item overall.                           |
-| `documents`     | object[] | if the pack has documents | one entry per file under `documents/`: `path`, `title`, `license` (SPDX, required), `source`, `description`                                                                                           |
-| `files`         | object[] | yes                       | every file in the archive except `pack.json`, exactly once: `path`, `sha256` (64 lowercase hex), `size` (bytes)                                                                                       |
+| Field           | Type     | Required                  | Rules                                                                                                                                                                                                    |
+| --------------- | -------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `formatVersion` | integer  | yes                       | `1`. A larger value is refused with "this pack needs a newer version of the app".                                                                                                                        |
+| `id`            | string   | yes                       | reverse-DNS, two or more labels of `[a-z0-9]` with inner `-`, dot-separated, ≤ 128 (`ai.actionstations.freight-rail`, `org.example.my-pack`). Use a domain you control, or `io.github.<user>.<name>`.    |
+| `name`          | string   | yes                       | 1–100 characters                                                                                                                                                                                         |
+| `version`       | string   | yes                       | semantic version, prerelease allowed, no build metadata (`1.0.0`, `1.1.0-beta.1`)                                                                                                                        |
+| `summary`       | string   | yes                       | one line, ≤ 200                                                                                                                                                                                          |
+| `description`   | string   | no                        | Markdown, ≤ 20 000; shown as text-only Markdown (raw HTML is not rendered)                                                                                                                               |
+| `author`        | object   | yes                       | `name` (required), `url` (http/https), `email`                                                                                                                                                           |
+| `license`       | string   | yes                       | SPDX expression for the pack's own content (`CC-BY-4.0`, `MIT OR Apache-2.0`, `LicenseRef-…`)                                                                                                            |
+| `homepage`      | string   | no                        | http/https URL                                                                                                                                                                                           |
+| `minAppVersion` | string   | yes                       | semantic version; the app refuses to install when it is older. Packs need the app's pack support, so in practice `0.3.0` or later.                                                                       |
+| `domains`       | string[] | no                        | domain profile ids the pack is for (built-in or added by a pack). Empty = any domain. At most 50. Also limits where the pack's prompts apply (ADR-0018).                                                 |
+| `tags`          | string[] | no                        | ≤ 20, `^[a-z0-9][a-z0-9-]{0,31}$`                                                                                                                                                                        |
+| `contents`      | object   | yes                       | keys `templates`, `prompts`, `domains`, `workflows`, `documents`, `examples`, each a list of unique item ids (default empty, at most 500 per kind). Unknown keys are refused. At least one item overall. |
+| `documents`     | object[] | if the pack has documents | one entry per file under `documents/`: `path` (listed in `files`), `title` (≤ 300), `license` (SPDX, required), `source` (≤ 500), `description` (≤ 2000)                                                 |
+| `files`         | object[] | yes                       | every file in the archive except `pack.json`, exactly once: `path`, `sha256` (64 lowercase hex), `size` (bytes)                                                                                          |
 
 Cross-checks:
 
@@ -110,7 +110,7 @@ Unknown top-level fields are ignored, so a later format can add optional fields 
 
 The reader (`readPack` in `src/main/packs/reader.ts`) validates content with the same code the app uses for its own files:
 
-- **templates**: `meta.json` with `TemplateMeta` (its `type` equals the folder name), `schema.json` compiles as JSON Schema and follows the regex rule (`src/main/packs/schema-regex.ts`, also applied to user and project templates at load: field validation runs Ajv on model output in the main process, so a backtracking regex could stall the app): no `patternProperties`, no `format`, and each `pattern` anchored with `^`, made of single-character atoms (literal, escape such as `\d` `\w` `\s`, class `[…]`, `.`) with at most one variable repeat (`?` `*` `+` `{n,}` `{n,m}`, counts up to 1000), no groups, alternation or back-references, at most 200 characters — the shape every built-in pattern has, `preview.json` with `TemplatePreview`, and the template HTML/CSS checks below. A template whose type is not in the built-in taxonomy needs a `taxonomy` block in `meta.json` (`category`, `render`, `defaultDelivery`, optional `domains`, `paper`; schema `TemplateTaxonomy`).
+- **templates**: `meta.json` with `TemplateMeta` (its `type` equals the folder name), `schema.json` compiles as JSON Schema and follows the regex rule (`src/main/packs/schema-regex.ts`, also applied to user and project templates at load: field validation runs Ajv on model output in the main process, so a backtracking regex could stall the app): no `patternProperties`, no `format`, and each `pattern` anchored with `^`, made of single-character atoms (literal, escape such as `\d` `\w` `\s`, class `[…]`, `.`) with at most one variable repeat (`?` `*` `+` `{n,}` `{n,m}`, counts up to 1000; other atoms single or fixed `{n}`), no groups, alternation, back-references or look-arounds, at most 200 characters — the shape every built-in pattern has, `preview.json` with `TemplatePreview`, and the template HTML/CSS checks below. A template whose type is not in the built-in taxonomy needs a `taxonomy` block in `meta.json` (`category`, `render`, `defaultDelivery`, optional `domains`, `paper`; schema `TemplateTaxonomy`).
 - **prompts**: frontmatter is YAML (a `---js` or other non-YAML engine is refused), parsed with `PromptFrontmatter`; `name` equals the file stem and names a prompt the app ships.
 - **domains**: `DomainProfile`; the id is not a built-in id or alias; `threatFamilies` use the built-in families.
 - **workflows**: the workflow parses as ComfyUI API format, the sidecar as `WorkflowSidecar`; node classes outside ComfyUI core are listed in the review as "needs custom nodes".
@@ -290,7 +290,7 @@ The example copy uses the `examples:open` filter (no `index.sqlite*`, no `.cache
    node scripts/pack-validate.mjs <file>.aspack
    ```
 
-   It runs the app's own reader (`readPack`, `src/main/packs/`), not a copy of its rules: archive limits, path rules, allowed files, every size and sha256, and the per-kind content checks. Valid packs print `<file>: ok (<id> <version>, <n> files, sha256 <hash>)`. Otherwise each problem prints as `<file>: <path inside the pack>: <message>` on stderr. The exit code is 0 when every file is valid and 1 otherwise. Several files can be given at once. `--app-version <v>` sets the version the `minAppVersion` gate compares with; it defaults to the `package.json` version of the checkout.
+   It runs the app's own reader (`readPack`, `src/main/packs/`), not a copy of its rules: archive limits, path rules, allowed files, every size and sha256, and the per-kind content checks. Valid packs print `<file>: ok (<id> <version>, <n> files, sha256 <hash>)`. Otherwise each problem prints as `<file>: <path inside the pack>: <message>` on stderr. The exit code is 0 when every file is valid and 1 otherwise. Several files can be given at once. `--app-version <v>` sets the version the `minAppVersion` gate compares with; it defaults to the `package.json` version of the checkout. While that is older than 0.3.0, pass `--app-version 0.3.0` to check packs that need 0.3.0. (The app itself takes `TTX_APP_VERSION` for the same purpose in unpackaged runs, `src/main/packs/app-version.ts`.)
 
 2. Print the catalog entry for a pack:
 
