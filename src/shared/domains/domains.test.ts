@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   builtinProfile,
   bundledDomainIds,
+  domainKey,
   bundledProfiles,
   chooseThreatFamily,
   DomainProfile,
@@ -34,6 +35,12 @@ describe('built-in domain profiles', () => {
       'municipal',
       'industrial',
       'unmanned_systems',
+      'k12_schools',
+      'commercial_facilities',
+      'food_agriculture',
+      'telecom',
+      'data_center_it',
+      'financial_services',
       'generic',
     ])
     for (const p of DOMAIN_PROFILES) expect(() => DomainProfile.parse(p)).not.toThrow()
@@ -60,6 +67,33 @@ describe('built-in domain profiles', () => {
       const foreign = p.injectTypes.filter((t) => !allowed.has(t))
       expect(foreign, `${p.id} prefers ${foreign.join(', ')}`).toEqual([])
     }
+  })
+
+  it('gives every bundled profile its own id and aliases (#322)', () => {
+    const owner = new Map<string, string>()
+    for (const p of DOMAIN_PROFILES)
+      for (const key of new Set([p.id, ...p.aliases.map(domainKey)])) {
+        expect(owner.get(key), `"${key}" of ${p.id}`).toBeUndefined()
+        owner.set(key, p.id)
+      }
+  })
+
+  it('resolves the sector aliases and the moved water and school aliases (#322)', () => {
+    expect(builtinProfile('water').id).toBe('water_utility')
+    expect(builtinProfile('water_utility').id).toBe('water_utility')
+    expect(builtinProfile('dam').id).toBe('water_dam')
+    expect(builtinProfile('school').id).toBe('k12_schools')
+    expect(builtinProfile('School District').id).toBe('k12_schools')
+    expect(builtinProfile('K-12').id).toBe('k12_schools')
+    expect(builtinProfile('university').id).toBe('campus')
+    expect(builtinProfile('casino').id).toBe('commercial_facilities')
+    expect(builtinProfile('hotel').id).toBe('commercial_facilities')
+    expect(builtinProfile('grain elevator').id).toBe('food_agriculture')
+    expect(builtinProfile('ISP').id).toBe('telecom')
+    expect(builtinProfile('colocation').id).toBe('data_center_it')
+    expect(builtinProfile('MSP').id).toBe('data_center_it')
+    expect(builtinProfile('credit union').id).toBe('financial_services')
+    expect(builtinProfile('bank').id).toBe('financial_services')
   })
 
   it('resolves legacy orgType values and aliases, and falls back to generic', () => {

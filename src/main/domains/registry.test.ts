@@ -8,6 +8,7 @@ import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Channel, ChannelRequest, ChannelResponse } from '@shared/ipc'
 import type { Scenario } from '@shared/schemas'
+import { bundledProfiles } from '@shared/domains'
 import { freightRailEntry } from '@shared/domains/pack-fixtures'
 
 vi.mock('electron', () => ({
@@ -70,7 +71,7 @@ describe('pack domain profiles', () => {
     off()
     expect(events).toEqual([{ packProfiles: 1 }])
     const list = await invoke('domains:list')
-    expect(list.filter((l) => l.source.kind === 'bundled')).toHaveLength(13)
+    expect(list.filter((l) => l.source.kind === 'bundled')).toHaveLength(bundledProfiles().length)
     expect(list.at(-1)).toMatchObject({
       profile: { id: 'freight_rail' },
       source: { kind: 'pack', packId: 'org.example.freight-rail', packVersion: '1.0.0' },

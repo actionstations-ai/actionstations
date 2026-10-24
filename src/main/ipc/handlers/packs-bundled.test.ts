@@ -177,7 +177,7 @@ describe('assembling the bundled packs', () => {
     const r = assembleBundledPacks(BUNDLED_MAP, { root: REPO, appVersion: '0.1.0', strict: true })
     expect(r.problems).toEqual([])
     const ids = r.packs.map((p) => p.manifest.id)
-    expect(ids).toHaveLength(13)
+    expect(ids).toHaveLength(BUNDLED_MAP.packs.length)
     expect(ids[0]).toBe(CORE)
     const airport = r.packs.find((p) => p.manifest.id === AIRPORT)!.manifest.contents
     expect(airport).toMatchObject({
@@ -342,9 +342,9 @@ describe('built bundled packs (TTX_BUNDLED_PACKS stands in for app-resources/pac
 // ---- source mode (the repo in place) ---------------------------------------------------------
 
 describe('bundled packs read from the repo (unpackaged runs)', () => {
-  it('lists the core and the twelve domain packs, enabled', async () => {
+  it('lists the core and every domain pack, enabled', async () => {
     const list = (await call<View[]>('packs:list')).filter((p) => p.bundled)
-    expect(list).toHaveLength(13)
+    expect(list).toHaveLength(BUNDLED_MAP.packs.length)
     expect(list[0]).toMatchObject({ id: CORE, core: true, enabled: true })
     expect(list.every((p) => p.enabled && p.source.kind === 'bundled')).toBe(true)
     const airport = list.find((p) => p.id === AIRPORT)!

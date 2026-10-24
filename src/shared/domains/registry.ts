@@ -84,8 +84,8 @@ function packKeyMap(entries: readonly PackProfileEntry[]): Map<string, PackProfi
 
 /**
  * Replace the bundled profiles (every bundled pack's, enabled or not, in picker order). An id
- * wins over another profile's alias (water_dam keeps its old "water utility" alias, but
- * "water_utility" names the water utility profile). Throws (and keeps the previous set) when
+ * wins over another profile's alias (an alias that spells another profile's id is ignored
+ * for that key). Throws (and keeps the previous set) when
  * two bundled profiles share an id, or two share an alias. Installed pack profiles that now
  * reuse a bundled key are dropped (main marks those packs broken).
  */

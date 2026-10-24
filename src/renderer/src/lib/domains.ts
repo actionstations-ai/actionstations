@@ -32,9 +32,23 @@ export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[]
   { label: 'Transportation', ids: ['airport', 'transit', 'port_maritime', 'unmanned_systems'] },
   {
     label: 'Utilities and industry',
-    ids: ['water_dam', 'water_utility', 'energy_utility', 'industrial'],
+    ids: ['water_dam', 'water_utility', 'energy_utility', 'industrial', 'food_agriculture'],
   },
-  { label: 'Public and community', ids: ['healthcare', 'campus', 'stadium_venue', 'municipal'] },
+  {
+    label: 'Public and community',
+    ids: [
+      'healthcare',
+      'campus',
+      'k12_schools',
+      'stadium_venue',
+      'commercial_facilities',
+      'municipal',
+    ],
+  },
+  {
+    label: 'Communications, IT and finance',
+    ids: ['telecom', 'data_center_it', 'financial_services'],
+  },
   { label: 'Any organization', ids: ['generic'] },
 ]
 

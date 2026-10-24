@@ -1,0 +1,283 @@
+{
+  "id": "commercial_facilities",
+  "label": "Commercial facilities (retail, lodging, casino)",
+  "description": "Places people shop, stay and gamble: enclosed and open-air malls with their tenants, big-box, grocery and department-store chains, hotels and resorts, commercial and tribal casinos and integrated resorts, and mixed-use towers run by property managers, with their corporate security and loss-prevention operations. Point-of-sale and payment systems, property management and keycards, casino management and slot systems, surveillance rooms, and the regulators, card brands and tenants that go with them. Stadiums, arenas and outdoor events belong to the stadium/venue domain.",
+  "aliases": [
+    "retail",
+    "store",
+    "big_box",
+    "mall",
+    "shopping_center",
+    "outlet",
+    "grocery",
+    "supermarket",
+    "department_store",
+    "hotel",
+    "motel",
+    "resort",
+    "lodging",
+    "casino",
+    "gaming",
+    "integrated_resort",
+    "tribal_casino",
+    "racino",
+    "property_management",
+    "office_tower",
+    "mixed_use"
+  ],
+  "vocabulary": {
+    "facility": "the property (stores and tenant spaces, hotel towers, the casino floor, entrances, garages and back-of-house)",
+    "public": "shoppers, hotel guests and casino patrons",
+    "frontline": "security officers, loss-prevention agents, front-desk agents, cashiers, casino cage and surveillance staff, housekeepers, engineering technicians",
+    "operationsCenter": "the security command center / surveillance room"
+  },
+  "factCategories": [
+    {
+      "id": "stores",
+      "label": "Stores",
+      "noun": "Stores?",
+      "idShape": "number",
+      "lint": true,
+      "complete": false
+    },
+    {
+      "id": "tenant_spaces",
+      "label": "Tenant spaces",
+      "noun": "Tenant Spaces?|Spaces?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "entrances",
+      "label": "Entrances",
+      "noun": "Mall Entrances?|Entrances?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "levels",
+      "label": "Levels / floors",
+      "noun": "Levels?|Floors?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "towers",
+      "label": "Hotel towers",
+      "pattern": "\\b((?!(?:The|A|An|Each|Every|This|That|Our|Control|Cooling|Water|Cell|Radio|Light|Lighting|Clock|Office|Parking) Tower)[A-Z][a-z]+ Tower|Tower [1-9]\\d?[A-Z]?)\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "garages",
+      "label": "Garages / parking lots",
+      "noun": "Parking Garages?|Garages?|Parking Lots?|Lots?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": false
+    },
+    {
+      "id": "pits",
+      "label": "Table-game pits",
+      "noun": "Pits?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "slot_banks",
+      "label": "Slot banks",
+      "noun": "Slot Banks?",
+      "genericNoun": "Banks?",
+      "context": "slot|carousel|gaming floor|casino|TITO",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "guest_rooms",
+      "label": "Guest rooms",
+      "noun": "Guest Rooms?|Rooms?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "point-of-sale (Oracle Xstore/MICROS, NCR, Toshiba) and payment terminals with processor links (PCI scope)",
+      "e-commerce, loyalty program and gift-card systems",
+      "inventory / warehouse management and self-checkout",
+      "hotel property management system (Oracle OPERA, Infor HMS), central reservations and channel managers",
+      "keycard / door-lock system (ASSA ABLOY Vostio, dormakaba)",
+      "casino management system: slot accounting and player tracking (IGT Advantage, Konami SYNKROS, Aristocrat Oasis)",
+      "cage and count systems, ticket-in/ticket-out kiosks and the sportsbook platform",
+      "AML / Title 31 compliance software",
+      "identity provider and help desk",
+      "email, ERP / finance, HR / payroll",
+      "SIEM / managed detection and response",
+      "guest and store Wi-Fi"
+    ],
+    "ot": [
+      "CCTV / VMS and the surveillance room (regulator-mandated retention in casinos)",
+      "PACS and employee badges",
+      "fire alarm, mass notification and PA",
+      "elevators and escalators",
+      "BAS / HVAC",
+      "parking garage gates and license-plate readers",
+      "loading-dock doors",
+      "refrigeration and freezer monitoring (grocery)",
+      "slot machines on the slot data network",
+      "EAS anti-theft gates",
+      "staff panic buttons"
+    ]
+  },
+  "roles": [
+    {
+      "key": "gm",
+      "name": "General Manager / Property GM (Incident Commander)",
+      "abbreviation": "GM",
+      "team": "Team A: Property Command",
+      "description": "Decides property closure, lockdown or evacuation, guest relocation, and coordination with tenants or the brand."
+    },
+    {
+      "key": "sec",
+      "name": "Director of Security / Asset Protection",
+      "abbreviation": "Sec",
+      "team": "Team B: Security",
+      "description": "Owns security officers, CCTV, access control, the police liaison, active-assailant response and trespass."
+    },
+    {
+      "key": "ciso",
+      "name": "Chief Information Security Officer (Technical Lead)",
+      "abbreviation": "CISO",
+      "team": "Team C: Technology",
+      "description": "Owns containment, the IR firm, the FBI/CISA liaison, the PCI forensic investigator and any regulator cyber notice; works with IT on restoring POS, PMS and the casino management system."
+    },
+    {
+      "key": "pio",
+      "name": "Director of Communications (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team D: Communications",
+      "description": "Owns media, social, guest and customer statements, and coordination with the franchisor or tenants."
+    },
+    {
+      "key": "coo",
+      "name": "Corporate Crisis Management Team Lead / Chief Operating Officer",
+      "abbreviation": "COO",
+      "team": "Team E: Corporate Policy Group",
+      "description": "Owns enterprise decisions across properties, ransom and disclosure with counsel, and brand or franchisor obligations."
+    },
+    {
+      "key": "comp",
+      "name": "Compliance Officer / BSA-AML Officer",
+      "abbreviation": "Comp",
+      "team": "Team F: Compliance",
+      "description": "Owns gaming-regulator notifications, FinCEN SAR and CTR decisions and the regulator liaison."
+    },
+    {
+      "key": "lp",
+      "name": "Director of Loss Prevention",
+      "abbreviation": "LP",
+      "team": "Team G: Loss Prevention",
+      "description": "Owns theft and fraud investigations, the organized retail crime task-force liaison, evidence and gift-card fraud."
+    },
+    {
+      "key": "eng",
+      "name": "Director of Engineering / Facilities",
+      "abbreviation": "Eng",
+      "team": "Team H: Engineering",
+      "description": "Owns fire and life-safety systems, power, HVAC, elevators, garages and the generator."
+    }
+  ],
+  "outsideParties": [
+    "police and fire, and county emergency management",
+    "the FBI field office and CISA (Protective Security Advisors, Commercial Facilities sector team)",
+    "the U.S. Secret Service (payment-card fraud, Cyber Fraud Task Force)",
+    "HSI and the state organized retail crime task force",
+    "the state gaming control board or commission and the tribal gaming commission",
+    "FinCEN (casino SARs) and the state attorney general (breach)",
+    "the health department and the fire marshal",
+    "RH-ISAC and the Real Estate ISAC",
+    "the payment processor, acquiring bank and card brands, and a PCI forensic investigator",
+    "POS, PMS and casino management system vendors",
+    "the franchisor or brand, mall tenants and anchor stores",
+    "the contract security company, the cyber insurer and the DFIR firm"
+  ],
+  "mediaChannels": [
+    "guest videos on X/Twitter, TikTok and Instagram",
+    "city and travel subreddits",
+    "TripAdvisor and Google reviews from frustrated guests",
+    "the local TV assignment desk with a live shot from the parking lot",
+    "national business press for a chain or casino operator",
+    "a ransomware leak-site listing"
+  ],
+  "sceneAnchors": {
+    "public": "inside a two-level enclosed shopping mall on a busy Saturday: shoppers with bags walking past store fronts, a food court with tables, escalators, a glass skylight, bright daylight from above",
+    "control": "inside a casino surveillance room: an operator at a desk with joystick camera controllers and dark monitors, radios, a binder of procedures, dim light",
+    "exterior": "a resort hotel and casino entrance: a covered porte-cochere with valet stands and luggage carts, a high-rise hotel tower behind, palm trees, a parking garage to the side, late-afternoon light"
+  },
+  "injectTypes": [
+    "pa_announcement",
+    "cctv_still",
+    "pacs_alarm_panel",
+    "911_cad_entry",
+    "radio_call",
+    "phone_call",
+    "text_message",
+    "email",
+    "email_header_analysis",
+    "helpdesk_ticket",
+    "siem_alert",
+    "system_log",
+    "error_dialog",
+    "ransom_note",
+    "info_display_board",
+    "signage_photo",
+    "scene_photo",
+    "tweet",
+    "tiktok_video_card",
+    "reddit_post",
+    "news_chyron_still",
+    "media_inquiry_phone_slip",
+    "press_release",
+    "regulatory_notice",
+    "memo",
+    "status_board",
+    "incident_alert_notification"
+  ],
+  "threatFamilies": [
+    "cyber",
+    "physical_security",
+    "insider",
+    "cyber_physical",
+    "natural_hazard",
+    "infrastructure_failure"
+  ],
+  "noiseExamples": [
+    "a shoplifter detained at an anchor store",
+    "an escalator stopped for a maintenance call",
+    "a guest locked out after a keycard demagnetized",
+    "a slot machine tilt on the casino floor",
+    "a tenant asking about after-hours HVAC",
+    "a lost child at guest services"
+  ],
+  "pressureExamples": [
+    "a TikTok video of guests in a check-in line that wraps around the lobby",
+    "a review site flooded with complaints about rooms that will not open",
+    "a reporter asking whether card data was stolen",
+    "the gaming control board asking when the incident response plan was activated",
+    "an anchor tenant threatening to close its gates and call the press",
+    "a viral post claiming shots were fired in the food court"
+  ],
+  "rolePatterns": {
+    "technical": "ciso|technology",
+    "security": "security / asset|asset protection|loss prevention|surveillance",
+    "operations": "general manager|\\bgm\\b|property"
+  },
+  "agencyPattern": "Gaming Control Board|Gaming Commission|NIGC|FinCEN|RH-ISAC|Real Estate ISAC|InfraGard|fire marshal"
+}

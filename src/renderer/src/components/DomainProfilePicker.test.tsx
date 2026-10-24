@@ -3,6 +3,7 @@ import { cleanup, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { bundledProfiles } from '@shared/domains'
 import { DomainProfilePicker } from './DomainProfilePicker'
 
 afterEach(() => cleanup())
@@ -27,7 +28,7 @@ describe('DomainProfilePicker', () => {
   it('lists every profile in labelled groups with the current one selected', () => {
     render(<Harness initial="water_dam" />)
     const list = screen.getByRole('listbox', { name: 'Domain' })
-    expect(within(list).getAllByRole('option')).toHaveLength(13)
+    expect(within(list).getAllByRole('option')).toHaveLength(bundledProfiles().length)
     expect(within(list).getByRole('group', { name: 'Utilities and industry' })).toBeTruthy()
     const selected = within(list).getByRole('option', { selected: true })
     expect(selected.textContent).toMatch(/^Dam \/ water authority/)

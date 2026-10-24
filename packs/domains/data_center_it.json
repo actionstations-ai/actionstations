@@ -1,0 +1,264 @@
+{
+  "id": "data_center_it",
+  "label": "Data center / IT service provider",
+  "description": "A managed service provider (MSP / MSSP), a colocation or hosting provider, or an enterprise data center and IT operations group: RMM, PSA and remote-access tools that reach every customer, identity and delegated admin, hypervisor clusters, storage and backup / DR; and the critical facility behind them (utility service and switchgear, generators and fuel, UPS and batteries, chillers and CRAHs, BMS / DCIM, clean-agent suppression and EPO, PACS and mantraps). Tenants and customers in every sector bring their own notice clocks.",
+  "aliases": [
+    "msp",
+    "mssp",
+    "managed_services",
+    "managed_service_provider",
+    "it_provider",
+    "it_services",
+    "colo",
+    "colocation",
+    "data_center",
+    "datacenter",
+    "data_centre",
+    "hosting",
+    "cloud_provider",
+    "private_cloud",
+    "enterprise_it",
+    "server_room",
+    "hyperscale"
+  ],
+  "vocabulary": {
+    "facility": "the data center and managed platform (data halls, cages and racks, the power and cooling plant, the RMM / PSA, hypervisor clusters and backups)",
+    "public": "tenants, managed customers and their users",
+    "frontline": "NOC and SOC analysts, platform engineers, critical-facilities engineers, remote-hands technicians, security officers, service-desk agents",
+    "operationsCenter": "the NOC / SOC and the major-incident bridge"
+  },
+  "factCategories": [
+    {
+      "id": "halls",
+      "label": "Data halls / computer rooms",
+      "noun": "Data Halls?|Computer Rooms?",
+      "genericNoun": "Suites?|Halls?|Pods?",
+      "context": "rack|cage|white space|CRAH|\\bkW\\b|tenant|data center|cooling",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "cages",
+      "label": "Cages / rows / racks",
+      "pattern": "\\b((?:Cage|Row|Rack|Cabinet|CAB)[- ]?[A-Z]?\\d{1,4}[A-Z]?)\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": false
+    },
+    {
+      "id": "power",
+      "label": "UPS / generators / switchgear / PDUs",
+      "pattern": "\\b((?:UPS|GEN|ATS|STS|PDU|RPP|MSB|SWGR)[- ]?\\d{1,2}[A-Z]?|Generator \\d{1,2})\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "cooling",
+      "label": "Cooling units",
+      "pattern": "\\b((?:CRAH|CRAC|CDU|AHU)[- ]?\\d{1,3}|(?:CH|CT)-\\d{1,2})\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "clusters",
+      "label": "Clusters / hosts / datastores",
+      "pattern": "\\b((?:Cluster|cluster) [A-Z][A-Z0-9]*-\\d{1,3}|esxi?-[a-z]+-\\d{1,3}|DS-[A-Z0-9]+-\\d{1,3})\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "sites",
+      "label": "Sites / regions",
+      "pattern": "\\b(DC\\d{1,2}|(?<=(?:[Ss]ite|[Ff]acility|[Cc]ampus|[Rr]egion) )[A-Z]{2,4}\\d{1,2})\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "tickets",
+      "label": "Ticket / change numbers",
+      "pattern": "\\b((?:INC|CHG|PRB|RITM|REQ)\\d{5,8})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "RMM (ConnectWise Automate, N-able N-central, NinjaOne, Datto RMM, Kaseya VSA)",
+      "PSA / ITSM ticketing (ConnectWise PSA, Autotask, ServiceNow, Jira Service Management)",
+      "remote and privileged access (ScreenConnect, TeamViewer, BeyondTrust, CyberArk), jump hosts and VPN",
+      "identity: Active Directory, Entra ID / Okta, MFA, GDAP delegated admin into customer Microsoft 365 tenants",
+      "virtualization: VMware vCenter / ESXi, Hyper-V, Nutanix, Proxmox",
+      "SAN / NAS and object storage with snapshots and replication",
+      "backup / DR / DRaaS (Veeam, Commvault, Rubrik, Cohesity, Datto BCDR) and immutable copies",
+      "EDR / XDR, SIEM and SOAR",
+      "core and edge routers, firewalls, DNS / DHCP, BGP to transit carriers and DDoS scrubbing",
+      "monitoring, the public status page and on-call paging",
+      "billing, CRM, customer portal, documentation vault and password vault",
+      "AWS / Azure / GCP accounts"
+    ],
+    "ot": [
+      "utility service, medium-voltage switchgear and ATS / STS",
+      "standby diesel generators with day tanks, bulk fuel and fuel polishing",
+      "UPS systems and battery strings with battery monitoring",
+      "PDUs, RPPs, busway and rack PDUs",
+      "EPMS power monitoring",
+      "chillers, cooling towers, CRAC / CRAH units, in-row cooling and liquid-cooling CDUs",
+      "BMS / BAS and DCIM",
+      "VESDA smoke detection, pre-action sprinklers, clean-agent suppression and EPO",
+      "leak detection and temperature / humidity sensors",
+      "PACS, mantraps, CCTV, perimeter and loading dock"
+    ]
+  },
+  "roles": [
+    {
+      "key": "ic",
+      "name": "Major Incident Manager (Incident Commander)",
+      "abbreviation": "MIM",
+      "team": "Team A: Incident Command",
+      "description": "Runs the bridge, sets severity, assigns workstreams and the update cadence, and decides when to escalate to the executive crisis team."
+    },
+    {
+      "key": "physec",
+      "name": "Physical Security Manager / GSOC Lead",
+      "abbreviation": "PSM",
+      "team": "Team B: Physical Security",
+      "description": "Owns badge access, CCTV, guards, mantraps, visitor and remote-hands escort, and insider and intrusion response."
+    },
+    {
+      "key": "ciso",
+      "name": "Chief Information Security Officer (Technical Lead)",
+      "abbreviation": "CISO",
+      "team": "Team C: Cyber Security",
+      "description": "Owns the security incident: containment (disconnect the RMM, disable federation, isolate a cluster), the IR retainer, law enforcement and evidence."
+    },
+    {
+      "key": "infra",
+      "name": "Platform / Virtualization Lead",
+      "abbreviation": "INFRA",
+      "team": "Team D: IT Operations",
+      "description": "Owns hypervisors, storage, backup and identity; answers 'can we restore, and how long?'"
+    },
+    {
+      "key": "dcops",
+      "name": "Data Center Operations Manager / Facilities Manager",
+      "abbreviation": "DCOM",
+      "team": "Team E: Critical Facilities",
+      "description": "Owns power, cooling, fire suppression, EPO and BMS / EPMS; decides load shedding, generator transfer and controlled shutdown of a data hall."
+    },
+    {
+      "key": "comms",
+      "name": "Communications Director (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team F: Customer & Communications",
+      "description": "Owns the status page, press, social media and analyst inquiries."
+    },
+    {
+      "key": "csm",
+      "name": "Director of Customer Success / Service Delivery Manager",
+      "abbreviation": "CSM",
+      "team": "Team F: Customer & Communications",
+      "description": "Owns tenant notification, SLA credit exposure and the list of affected customers."
+    },
+    {
+      "key": "legal",
+      "name": "General Counsel / Privacy Officer",
+      "abbreviation": "GC",
+      "team": "Team G: Legal & Compliance",
+      "description": "Owns breach-law analysis, contract notice clauses, SEC / DFARS / FedRAMP / HIPAA business-associate clocks, privilege and the cyber-insurance notice."
+    }
+  ],
+  "outsideParties": [
+    "CISA and the FBI field office (IC3); the U.S. Secret Service where payment data is involved",
+    "tenants' regulators: SEC, HHS OCR, FTC and state attorneys general",
+    "DoD Cyber Crime Center (DIBNet) for defense-contractor tenants",
+    "the FedRAMP PMO and agency customers' SOCs",
+    "the fire department, local emergency management and the state environmental agency (fuel spill)",
+    "the electric utility's key-account desk and the water utility",
+    "tenants and managed customers, especially the most regulated",
+    "the RMM / PSA, hypervisor, EDR and backup vendors",
+    "UPS, generator and chiller service engineers and the fuel supplier",
+    "carriers, transit providers, the IXP and the cloud provider",
+    "the IR retainer firm, breach counsel, the cyber insurer and the ransomware negotiator",
+    "IT-ISAC, MS-ISAC, FS-ISAC and Health-ISAC (tenants' sectors)",
+    "the SOC 2 / ISO auditor and the landlord or property manager"
+  ],
+  "mediaChannels": [
+    "the provider's public status page and its subscriber feed",
+    "r/msp and r/sysadmin threads",
+    "infosec researchers posting IOCs on X, Mastodon and Bluesky",
+    "a ransomware leak-site listing",
+    "trade press (data-center and channel publications)",
+    "customer LinkedIn posts and a downstream business's Facebook post",
+    "local TV for a generator fire or fuel spill"
+  ],
+  "sceneAnchors": {
+    "public": "a small business front counter on a weekday morning: a cashier and a customer looking at a point-of-sale screen showing an error, a line of customers waiting, a printed sign taped to the register, bright store lighting",
+    "control": "inside a network operations center: engineers at a row of desks with headsets and laptops, a wall of dark monitors, coffee cups and notebooks, dim cool light",
+    "exterior": "a windowless data center building behind a tall steel fence with bollards: a row of generator enclosures and a fuel tank on a concrete pad, rooftop cooling units, a security guard booth at the gate, overcast daylight"
+  },
+  "injectTypes": [
+    "siem_alert",
+    "helpdesk_ticket",
+    "system_log",
+    "console_dump",
+    "error_dialog",
+    "email",
+    "email_forward",
+    "email_header_analysis",
+    "chat_transcript",
+    "ransom_note",
+    "network_diagram",
+    "status_board",
+    "incident_alert_notification",
+    "reddit_post",
+    "tweet",
+    "news_article",
+    "press_release",
+    "reporter_email",
+    "phone_call",
+    "voicemail",
+    "memo",
+    "official_letter",
+    "regulatory_notice",
+    "pacs_alarm_panel",
+    "cctv_still",
+    "scada_hmi",
+    "screenshot_generic"
+  ],
+  "threatFamilies": [
+    "cyber",
+    "infrastructure_failure",
+    "insider",
+    "natural_hazard",
+    "cyber_physical",
+    "physical_security"
+  ],
+  "noiseExamples": [
+    "a customer asking for a password reset at 7 a.m.",
+    "a cross-connect order stuck in provisioning",
+    "a scheduled generator load test",
+    "a backup job warning for a single customer server",
+    "a remote-hands request to reseat a cable",
+    "a vendor renewal quote landing in the shared inbox"
+  ],
+  "pressureExamples": [
+    "an r/msp thread naming the provider within the hour",
+    "the largest customer's CFO threatening to invoke the termination clause",
+    "a reporter asking whether customer data was stolen",
+    "the status page subscriber count climbing while the page still says Operational",
+    "a federal agency customer asking for its one-hour incident report",
+    "a downstream business posting that its registers are down because its IT company was hacked"
+  ],
+  "rolePatterns": {
+    "technical": "ciso|soc\\b|infra|platform|virtualization|engineer",
+    "security": "physical security|gsoc|psm",
+    "operations": "major incident|mim|data center operations|facilities"
+  },
+  "agencyPattern": "FedRAMP|DIBNet|DC3|IT-ISAC|MS-ISAC|FS-ISAC|Health-ISAC|SEC|HHS OCR|FTC|OFAC"
+}

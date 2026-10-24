@@ -1,0 +1,263 @@
+{
+  "id": "k12_schools",
+  "label": "K-12 school district",
+  "description": "A public school district, charter network or private school system: elementary, middle and high schools, district transportation (school buses), nutrition services and athletics; student information, learning and parent-notification systems, 1:1 devices, panic-alarm and visitor-management apps, building automation and door access; and the state education agency, police and parents it answers to.",
+  "aliases": [
+    "school",
+    "school_district",
+    "k_12",
+    "k12",
+    "public_schools",
+    "isd",
+    "usd",
+    "unified_school_district",
+    "lea",
+    "charter_school",
+    "elementary_school",
+    "middle_school",
+    "high_school",
+    "boces",
+    "county_office_of_education",
+    "school_board"
+  ],
+  "vocabulary": {
+    "facility": "the district (its schools, bus routes, central office and stadium)",
+    "public": "students, parents and families, staff and visitors",
+    "frontline": "building principals, teachers, school resource officers, bus drivers, front-office staff, school nurses, custodians",
+    "operationsCenter": "the district emergency operations center (EOC) at the central office"
+  },
+  "factCategories": [
+    {
+      "id": "schools",
+      "label": "Schools",
+      "pattern": "\\b((?!(?:The|A|An|Each|Every|All|Our|Any|Nearest|Neighboring|Public|Charter|Private) )[A-Z][a-z]+(?: [A-Z][a-z]+)? (?:Elementary School|Elementary|Middle School|High School|Junior High School|Junior High|Intermediate School|Academy|Early Learning Center))\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "bus_routes",
+      "label": "Bus routes",
+      "noun": "Bus Routes?",
+      "genericNoun": "Routes?",
+      "context": "\\bbus|transportation|driver|ridership|dismissal|pick-?up|AVL|bus stop",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "buses",
+      "label": "Buses",
+      "noun": "Bus(?:es)?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "doors",
+      "label": "Numbered doors",
+      "noun": "Exterior Doors?|Doors?",
+      "idShape": "number",
+      "lint": true,
+      "complete": false
+    },
+    {
+      "id": "wings",
+      "label": "Buildings / wings / portables",
+      "noun": "Wings?|Portables?|Buildings?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "rooms",
+      "label": "Rooms",
+      "noun": "Classrooms?|Rooms?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "reunification_sites",
+      "label": "Reunification / relocation sites",
+      "pattern": "\\b(?:[Rr]eunification|[Rr]elocation) [Ss]ites?(?: \\((?:primary|alternate|secondary)\\))?\\s*[:\\u2013\\u2014-]\\s*((?:[A-Z][\\w']*)(?: (?:[A-Z][\\w']*|of|the)){0,4})",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "student information system (SIS): PowerSchool, Infinite Campus, Skyward, Aeries or Synergy",
+      "learning management: Google Classroom / Workspace for Education, Canvas, Schoology or Seesaw",
+      "identity and SSO rostering (Google Workspace or Entra ID, Clever or ClassLink)",
+      "1:1 Chromebooks and iPads with MDM (Google Admin, Jamf) and a content filter",
+      "parent mass-notification (ParentSquare, SchoolMessenger, Finalsite, Remind)",
+      "district website / CMS and the VoIP phone system",
+      "ERP / finance / HR / payroll and the nutrition point-of-sale",
+      "special-education case management (IEP system)",
+      "visitor management, anonymous tip line and threat-assessment case management",
+      "transportation routing (Transfinder, Edulog) and student ridership card scans",
+      "helpdesk / ITSM"
+    ],
+    "ot": [
+      "building automation / HVAC controls",
+      "PACS card access and door-lock status",
+      "CCTV / VMS",
+      "intercom, PA and bell system",
+      "silent panic-alarm app linked to 911 (Alyssa's Law type)",
+      "weapons detection at entrances",
+      "fire alarm and emergency generator",
+      "vape and sound sensors",
+      "bus GPS / AVL",
+      "stadium and field lighting"
+    ]
+  },
+  "roles": [
+    {
+      "key": "dss",
+      "name": "Director of School Safety / District Emergency Manager (Incident Commander)",
+      "abbreviation": "DSS",
+      "team": "Team A: District Command",
+      "description": "Activates the district EOC, sets incident objectives, calls lockdown, secure, hold, evacuate or shelter, and liaises with police and fire."
+    },
+    {
+      "key": "supt",
+      "name": "Superintendent (Policy Group chair)",
+      "abbreviation": "Supt",
+      "team": "Team B: Policy Group",
+      "description": "Decides closures and early release, district-wide statements, the board briefing and, with counsel and the insurer, any ransom question."
+    },
+    {
+      "key": "prin",
+      "name": "Building Principal (site incident commander)",
+      "abbreviation": "Prin",
+      "team": "Team C: School Site",
+      "description": "Owns the first actions at the school: lockdown, evacuation, student accountability and staff assignments until responders take over."
+    },
+    {
+      "key": "sro",
+      "name": "School Resource Officer / School Police Chief",
+      "abbreviation": "SRO",
+      "team": "Team D: Law Enforcement",
+      "description": "Owns the initial law-enforcement response, threat investigation and the liaison to city police or the sheriff."
+    },
+    {
+      "key": "cto",
+      "name": "Chief Technology Officer (Technical Lead)",
+      "abbreviation": "CTO",
+      "team": "Team E: Technology",
+      "description": "Owns the SIS, LMS, phones, Wi-Fi and 1:1 devices, containment, vendor coordination and the MS-ISAC / K12 SIX / CISA liaison."
+    },
+    {
+      "key": "pio",
+      "name": "Chief Communications Officer (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team F: Communications",
+      "description": "Owns parent notification through the mass-notification system, social media, media staging and rumor control."
+    },
+    {
+      "key": "ss",
+      "name": "Assistant Superintendent for Student Services",
+      "abbreviation": "SS",
+      "team": "Team G: Student Services",
+      "description": "Owns student accountability and reunification, IEP and 504 accommodations, health services, counseling and the crisis team."
+    },
+    {
+      "key": "trans",
+      "name": "Director of Transportation",
+      "abbreviation": "Trans",
+      "team": "Team H: Transportation",
+      "description": "Owns buses, routes, driver accountability, AVL and the buses for relocation and reunification."
+    }
+  ],
+  "outsideParties": [
+    "city police, the county sheriff, fire and EMS",
+    "county emergency management and the public-health department",
+    "the state education agency and its school-safety center",
+    "the state fusion center and the state tip line",
+    "the FBI field office and CISA (K-12 cybersecurity and protective security advisors)",
+    "the U.S. Secret Service National Threat Assessment Center",
+    "the Department of Education (REMS TA Center, Student Privacy Policy Office)",
+    "MS-ISAC and K12 SIX",
+    "the SIS vendor, the mass-notification vendor and the managed IT provider",
+    "the cyber insurer (often a state school-insurance pool) and the DFIR firm",
+    "the bus contractor and neighboring districts (buses and sites under mutual aid)",
+    "the school board and the teachers' union",
+    "USDA FNS (school meal flexibilities)"
+  ],
+  "mediaChannels": [
+    "a parents' Facebook group and Nextdoor",
+    "student TikTok, Snapchat and Instagram posts (threat screenshots, rumors)",
+    "the city subreddit",
+    "the local TV assignment desk and the local newspaper",
+    "the school board meeting livestream",
+    "the district's own mass-notification messages and website banner"
+  ],
+  "sceneAnchors": {
+    "public": "outside a suburban elementary school at afternoon dismissal: yellow school buses lined up in the loop, parents in a pickup line, children with backpacks, a crossing guard with a stop sign, brick building with a flagpole, daylight",
+    "control": "inside a school district emergency operations center: staff at folding tables with laptops and radios, a wall map of school locations and bus routes, binders of emergency plans, fluorescent light",
+    "exterior": "a high school campus from the parking lot: a brick two-story building with a covered main entrance and visitor vestibule, a football stadium with light towers behind it, a police SUV at the curb, overcast daylight"
+  },
+  "injectTypes": [
+    "incident_alert_notification",
+    "pa_announcement",
+    "911_cad_entry",
+    "radio_call",
+    "phone_call",
+    "voicemail",
+    "text_message",
+    "email",
+    "email_forward",
+    "helpdesk_ticket",
+    "siem_alert",
+    "ransom_note",
+    "error_dialog",
+    "pacs_alarm_panel",
+    "cctv_still",
+    "avl_fleet_map",
+    "facebook_post",
+    "instagram_post",
+    "tiktok_video_card",
+    "reddit_post",
+    "news_article",
+    "media_inquiry_phone_slip",
+    "press_release",
+    "memo",
+    "official_letter",
+    "regulatory_notice",
+    "status_board",
+    "field_report"
+  ],
+  "threatFamilies": [
+    "cyber",
+    "physical_security",
+    "mass_gathering",
+    "natural_hazard",
+    "infrastructure_failure",
+    "insider",
+    "uas_drone"
+  ],
+  "noiseExamples": [
+    "a bus running twenty minutes late on a morning route",
+    "a teacher locked out of Google Classroom",
+    "a fire alarm from a science-lab experiment",
+    "a parent disputing an absence in the parent portal",
+    "a Chromebook cart that will not charge",
+    "a lunch-line POS that will not read student IDs"
+  ],
+  "pressureExamples": [
+    "a Snapchat screenshot of a threat that names 'tomorrow' and a high school",
+    "a parents' Facebook group saying the district is hiding something",
+    "a reporter asking whether student IEP and health records were stolen",
+    "a board member demanding to know why schools are open",
+    "parents arriving at a locked school to take their children home",
+    "the state education agency asking for an incident report"
+  ],
+  "rolePatterns": {
+    "technical": "cto|technology",
+    "security": "sro|school resource|school police",
+    "operations": "dss|school safety|emergency manager|principal"
+  },
+  "agencyPattern": "Department of Education|REMS TA Center|state education agency|K12 SIX|MS-ISAC|National Threat Assessment Center|NTAC|USDA FNS"
+}

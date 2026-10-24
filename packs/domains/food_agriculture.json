@@ -1,0 +1,280 @@
+{
+  "id": "food_agriculture",
+  "label": "Food and agriculture",
+  "description": "A food processor or an agricultural enterprise: meat and poultry plants under USDA FSIS inspection, FDA-regulated food and beverage manufacturers, cold storage and food distribution, feed mills, and grain and farm-supply cooperatives with elevators, scales and agronomy dispatch, plus the farms, feedlots, dairies and poultry houses they serve. PLC-controlled lines, ammonia refrigeration, grain dryers and bin monitoring, ERP and grain accounting, lot traceability, and the food-defense plan, recall and animal-health obligations that go with them.",
+  "aliases": [
+    "farm",
+    "ranch",
+    "agriculture",
+    "ag",
+    "agribusiness",
+    "dairy",
+    "feedlot",
+    "poultry",
+    "grain_elevator",
+    "co_op",
+    "cooperative",
+    "farmer_cooperative",
+    "grain",
+    "feed_mill",
+    "food_processor",
+    "food_plant",
+    "meatpacking",
+    "packing_plant",
+    "slaughter_plant",
+    "food_manufacturer",
+    "beverage_plant",
+    "cold_storage",
+    "food_distribution",
+    "produce_packer",
+    "food"
+  ],
+  "vocabulary": {
+    "facility": "the plant and its sites (processing lines, coolers and freezers, the ammonia engine room, elevators, bins and scale houses)",
+    "public": "consumers, farmer members and customers, and the surrounding rural community",
+    "frontline": "line operators, sanitation crews, maintenance technicians, scale-house operators, QA technicians, truck drivers, herd managers",
+    "operationsCenter": "the plant manager's office / co-op headquarters, with the engine-room and line control rooms"
+  },
+  "factCategories": [
+    {
+      "id": "lines",
+      "label": "Processing / packaging lines",
+      "noun": "Packaging Lines?|Production Lines?|Processing Lines?|Bottling Lines?|Kill Lines?",
+      "genericNoun": "Lines?",
+      "context": "production|packag|processing|sanitation|batch|filler|conveyor|metal detector|HACCP|checkweigher|line speed",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "cold_rooms",
+      "label": "Coolers / freezers / rooms",
+      "noun": "Blast Freezers?|Freezers?|Coolers?|Rooms?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "sites",
+      "label": "Elevator sites",
+      "noun": "Elevator Sites?|Grain Elevators?|Elevators?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "bins",
+      "label": "Bins / silos",
+      "noun": "Grain Bins?|Bins?|Silos?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "tanks",
+      "label": "Tanks",
+      "noun": "Storage Tanks?|Tanks?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "barns",
+      "label": "Barns / houses / pens",
+      "noun": "Barns?|Poultry Houses?|Broiler Houses?",
+      "genericNoun": "Houses?|Pens?",
+      "context": "poultry|broiler|layer|flock|barn|hog|swine|cattle|livestock|ventilation|feedlot",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "establishments",
+      "label": "USDA establishment numbers",
+      "pattern": "\\b(?:Est\\.|EST\\.|Establishment(?: No\\.| Number)?)\\s*(?:#\\s*)?((?:[PMVG]-?)?\\d{2,5}[A-Z]?)\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "lot_codes",
+      "label": "Lot codes",
+      "pattern": "\\b[Ll]ot (?:[Cc]ode|[Nn]o\\.|#)\\s*:?\\s*([A-Z0-9]*\\d[-A-Z0-9]*)\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "ERP and accounting (SAP, Microsoft Dynamics, JD Edwards)",
+      "grain accounting, agronomy dispatch and patronage (Agvance, AgTrax, Merchant Ag)",
+      "scale-house software, truck scales and grain grading analyzers",
+      "manufacturing execution (MES) and warehouse management (WMS)",
+      "lot / batch traceability and label printing",
+      "LIMS and HACCP / food-safety records software",
+      "EDI and customer portals with retailers",
+      "precision-ag platforms and equipment telematics",
+      "email, identity and payroll for seasonal labor",
+      "MSP-managed network and backups"
+    ],
+    "ot": [
+      "PLC / HMI-controlled processing lines (Allen-Bradley, Siemens)",
+      "batching and mixing systems, feed-mill micro-ingredient dosing",
+      "pasteurizers (HTST) with recorder-controllers and clean-in-place (CIP) systems",
+      "metal detectors, X-ray inspection and checkweighers",
+      "ammonia refrigeration: compressors, evaporators, ammonia detectors and emergency shutdown",
+      "grain elevator controls: bucket elevators, conveyors, dryers, bin temperature cables, aeration fans",
+      "dust-collection and hazard monitors (bearing temperature, belt alignment)",
+      "livestock barn environment controllers with alarm dialers",
+      "wastewater pretreatment and boilers",
+      "CCTV and access control"
+    ]
+  },
+  "roles": [
+    {
+      "key": "gm",
+      "name": "Plant Manager / Co-op General Manager (Incident Commander)",
+      "abbreviation": "GM",
+      "team": "Team A: Plant Command",
+      "description": "Decides to shut down lines or stop receiving at elevators, ransom and insurer questions with counsel, and member and customer communications."
+    },
+    {
+      "key": "fsqa",
+      "name": "Director of Food Safety and Quality Assurance",
+      "abbreviation": "FSQA",
+      "team": "Team B: Food Safety",
+      "description": "Owns product holds, recall decision support, lab testing and HACCP / preventive-controls deviations."
+    },
+    {
+      "key": "fdc",
+      "name": "Food Defense Coordinator (qualified individual)",
+      "abbreviation": "FDC",
+      "team": "Team B: Food Safety",
+      "description": "Owns the food defense plan, the vulnerability assessment, mitigation strategies at actionable process steps, corrective actions and reanalysis."
+    },
+    {
+      "key": "sec",
+      "name": "Plant Security Manager",
+      "abbreviation": "Sec",
+      "team": "Team C: Security",
+      "description": "Owns access control, visitor and contractor screening, the perimeter, CCTV and insider-threat indicators."
+    },
+    {
+      "key": "it",
+      "name": "IT Director / Cybersecurity Lead (Technical Lead)",
+      "abbreviation": "IT",
+      "team": "Team D: IT / OT",
+      "description": "Owns ERP, grain accounting, scale-house systems, backups, the MSP and the FBI/CISA liaison."
+    },
+    {
+      "key": "eng",
+      "name": "Maintenance / Engineering Manager",
+      "abbreviation": "Eng",
+      "team": "Team D: IT / OT",
+      "description": "Owns ammonia refrigeration, PLC-controlled lines, boilers, wastewater and dryers."
+    },
+    {
+      "key": "pio",
+      "name": "Communications / Member Relations Manager (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team E: Communications",
+      "description": "Owns media, farm press and ag radio, member and farmer communications, and customer and retailer notices."
+    },
+    {
+      "key": "ehs",
+      "name": "Environmental Health & Safety Manager / PSM Coordinator",
+      "abbreviation": "EHS",
+      "team": "Team F: Safety",
+      "description": "Owns ammonia releases (PSM / RMP), grain-dust hazards, OSHA reporting and evacuation."
+    }
+  ],
+  "outsideParties": [
+    "the USDA FSIS District Office and the Inspector-in-Charge on site",
+    "USDA APHIS and the state veterinarian",
+    "FDA (Human Foods Program, Reportable Food Registry) and CDC",
+    "the state department of agriculture and the state public-health food-safety program",
+    "EPA, OSHA and the National Response Center (ammonia releases)",
+    "the FBI (WMD coordinator, cyber) and CISA",
+    "Food and Ag-ISAC",
+    "local fire / hazmat, the sheriff and county emergency management",
+    "retail and food-service customers, ingredient suppliers and grain buyers",
+    "the ethanol plant, rail carriers and cold-storage operators",
+    "the land-grant extension service",
+    "the cyber insurer, the DFIR firm and the MSP"
+  ],
+  "mediaChannels": [
+    "farm press and local ag radio",
+    "Facebook farmer groups",
+    "consumer posts on X/Twitter and Reddit about a recall",
+    "local TV and the rural newspaper",
+    "commodity-market news wires",
+    "an activist undercover video post"
+  ],
+  "sceneAnchors": {
+    "public": "a country grain elevator at harvest: a line of grain trucks and tractors with trailers waiting on the road shoulder, tall concrete silos and steel bins, a scale house with a small window, farmers talking beside their pickups, golden late-afternoon light",
+    "control": "inside a food plant engine room: an operator at a refrigeration control panel with dark screens, large ammonia compressors and insulated piping, a yellow ammonia detector on the wall, bright industrial light",
+    "exterior": "outside a meat processing plant: a long low building with a loading dock and refrigerated trailers backed in, a guard shack at the gate, a wastewater pretreatment tank, overcast daylight"
+  },
+  "injectTypes": [
+    "scada_hmi",
+    "system_log",
+    "siem_alert",
+    "helpdesk_ticket",
+    "error_dialog",
+    "ransom_note",
+    "email",
+    "phone_call",
+    "voicemail",
+    "text_message",
+    "radio_call",
+    "911_cad_entry",
+    "cctv_still",
+    "pacs_alarm_panel",
+    "uas_detection_alert",
+    "scene_photo",
+    "field_report",
+    "memo",
+    "official_letter",
+    "regulatory_notice",
+    "press_release",
+    "news_article",
+    "media_inquiry_phone_slip",
+    "facebook_post",
+    "tweet",
+    "status_board",
+    "avl_fleet_map"
+  ],
+  "threatFamilies": [
+    "cyber",
+    "insider",
+    "cyber_physical",
+    "physical_security",
+    "natural_hazard",
+    "infrastructure_failure",
+    "mass_gathering",
+    "uas_drone"
+  ],
+  "noiseExamples": [
+    "a metal detector rejecting a run of good product",
+    "a farmer disputing a moisture reading at the scale house",
+    "a forklift battery charger fault",
+    "a seasonal worker whose badge does not open the locker room",
+    "a retailer's EDI order with the wrong ship date",
+    "a bin aeration fan running after its schedule"
+  ],
+  "pressureExamples": [
+    "trucks backed up onto the state highway at the elevator",
+    "a retailer asking whether to pull the product from shelves",
+    "a Facebook farmer group saying the co-op lost their grain tickets",
+    "a reporter asking whether the plant was hacked",
+    "an activist video from inside a poultry house",
+    "the FSIS Inspector-in-Charge asking where the product went"
+  ],
+  "rolePatterns": {
+    "technical": "it director|cybersecurity|engineering",
+    "security": "plant security|security manager",
+    "operations": "plant manager|general manager|\\bgm\\b"
+  },
+  "agencyPattern": "FSIS|APHIS|USDA|FDA|Reportable Food Registry|state veterinarian|Food and Ag-ISAC|National Response Center|OSHA"
+}

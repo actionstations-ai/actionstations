@@ -38,6 +38,7 @@ Everything the app ships is a pack (ADR-0020), listed at the top of **Installed*
 | **Water utilities**                                                                                                                                                                                          | The Water utility domain and the City Water example.                                                                            |
 | **Unmanned systems**                                                                                                                                                                                         | The Unmanned systems operator domain and the UAS operations example.                                                            |
 | **Transit**, **Dams and water authorities**, **Energy utilities**, **Healthcare**, **Campuses**, **Stadiums and venues**, **Ports and maritime**, **Municipal government**, **Industrial and manufacturing** | One domain profile each.                                                                                                        |
+| **K-12 schools**, **Commercial facilities**, **Food and agriculture**, **Telecommunications**, **Data centers and IT services**, **Financial services**                                                      | One domain profile each, with a README naming the plans, reporting deadlines and copyrighted references the domain relies on.   |
 
 ![Included with the app, with Airports turned off](images/packs/packs-included.png)
 

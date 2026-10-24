@@ -1,0 +1,281 @@
+{
+  "id": "telecom",
+  "label": "Telecommunications carrier / ISP",
+  "description": "A regional communications service provider: an incumbent or competitive local exchange carrier or telephone cooperative, a regional mobile network operator, a cable operator (HFC / DOCSIS), a fiber or fixed-wireless ISP, an interconnected VoIP provider, or a covered 911 service provider (selective routers, ALI, ESInet / NGCS). Central offices, cell sites, headends, fiber rings and the NOC; OSS / NMS, the IP/MPLS core, mobile and voice cores, DNS and CPE management; billing and care systems holding CPNI; and the FCC outage, 911-notification and CPNI-breach clocks that go with them.",
+  "aliases": [
+    "telco",
+    "carrier",
+    "phone_company",
+    "isp",
+    "internet_provider",
+    "broadband",
+    "cable_company",
+    "cable_operator",
+    "mso",
+    "wireless_carrier",
+    "mobile_operator",
+    "mno",
+    "cellular",
+    "cell_provider",
+    "fiber_provider",
+    "ftth",
+    "wisp",
+    "voip_provider",
+    "lec",
+    "ilec",
+    "clec",
+    "rlec",
+    "telephone_cooperative",
+    "communications_provider",
+    "telecommunications"
+  ],
+  "vocabulary": {
+    "facility": "the network (central offices, cell sites, headends and hubs, fiber routes, the core and the NOC)",
+    "public": "subscribers and customers, and the PSAPs and public-safety users that depend on the network",
+    "frontline": "NOC technicians, outside-plant splicers, cell-site technicians, care agents, retail store staff, network engineers",
+    "operationsCenter": "the Network Operations Center (NOC)"
+  },
+  "factCategories": [
+    {
+      "id": "central_offices",
+      "label": "Central offices / switches (CLLI)",
+      "pattern": "\\b((?!(?:The|A|An|Each|Every|This|That|Our|Serving|Remote|Nearest) )[A-Z][a-z]+(?: [A-Z][a-z]+)? (?:Central Office|Wire Center)|[A-Z]{6}[A-Z0-9]{2}\\d{2}[A-Z0-9])\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "cell_sites",
+      "label": "Cell sites",
+      "pattern": "\\b(?:Cell )?Sites? #?((?:[A-Z]{2,3}-)?\\d{2,5})\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": false
+    },
+    {
+      "id": "rings",
+      "label": "Fiber rings",
+      "noun": "Fiber Rings?|SONET Rings?|Rings?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "cables",
+      "label": "Fiber cables",
+      "pattern": "\\b(CBL-\\d{3,5})\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": false
+    },
+    {
+      "id": "hubs",
+      "label": "Headends / hubs / nodes",
+      "pattern": "\\b(Hub \\d{1,3}[A-Z]?|Headend [A-Z][a-z]+|(?!(?:The|A|An|Video|Cable|Digital|Each|This|That|Our) Headend)[A-Z][a-z]+ Headend|Node \\d{1,2}[A-Z]?-\\d{1,3})\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "psaps",
+      "label": "PSAPs served",
+      "pattern": "\\b((?!(?:The|A|An|Dial|Call|Text|Enhanced|Legacy|Next|Generation|Wireless|Basic|To|For|No|Each|Every|Our|Any) )[A-Z][a-z]+(?: [A-Z][a-z]+)? (?:911|9-1-1|E911|Emergency Communications Center)|PSAP \\d{1,3})\\b",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "asns",
+      "label": "Autonomous system numbers",
+      "pattern": "\\b(AS\\d{1,10})\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "pops",
+      "label": "POPs / MTSOs",
+      "pattern": "\\b((?:POP|MTSO) [A-Z][A-Za-z0-9]{1,6})\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "billing, CRM and order management (BSS)",
+      "retail point-of-sale and care-agent desktop (SIM change, eSIM provisioning, port-out authorization)",
+      "number portability / LNP gateway",
+      "customer portal, mobile app and the outage map / status page",
+      "email, identity (AD / SSO / MFA), VPN and privileged access management",
+      "SIEM / SOC, EDR, NetFlow collectors and DDoS detection and scrubbing",
+      "ITSM / trouble ticketing",
+      "lawful-intercept / CALEA mediation and legal-demand case management",
+      "data warehouse with CPNI (call detail records, location history)",
+      "IVR / contact-center platform and outbound SMS / email notification"
+    ],
+    "ot": [
+      "OSS / NMS / EMS: fault management, performance, inventory and provisioning",
+      "NOC video wall and alarm correlation",
+      "IP/MPLS core and edge routers, route reflectors, BGP peering and RPKI validators",
+      "optical transport: DWDM, ROADMs, SONET rings, metro Ethernet",
+      "mobile core (EPC and 5G core), SMSC, SS7 / Diameter signaling and the signaling firewall",
+      "RAN: eNodeB / gNodeB at cell sites, microwave backhaul",
+      "voice: IMS core, softswitch, SBCs and TDM tandems",
+      "cable access: CMTS / vCMTS, headends, hubs and fiber nodes, DOCSIS provisioning",
+      "fiber access: OLTs and ONTs",
+      "CPE fleet management (TR-069 / ACS)",
+      "DNS resolvers, DHCP and AAA / RADIUS",
+      "911: selective routers / E911 tandems, ALI database, ESInet and NGCS",
+      "GPS-disciplined timing (PTP / SyncE)",
+      "central-office power plants (rectifiers, batteries, generators), HVAC, PACS and CCTV"
+    ]
+  },
+  "roles": [
+    {
+      "key": "coo",
+      "name": "Chief Operating Officer (Incident Commander / Crisis Management Team lead)",
+      "abbreviation": "COO",
+      "team": "Team A: Crisis Management",
+      "description": "Declares a major incident, approves service-affecting actions (isolating the core, taking a route down), the public statement and emergency spend."
+    },
+    {
+      "key": "ciso",
+      "name": "Chief Information Security Officer",
+      "abbreviation": "CISO",
+      "team": "Team B: Security",
+      "description": "Owns the cyber investigation, the SOC, containment of compromised routers or OSS, FBI/CISA engagement and the threat-hunt scope."
+    },
+    {
+      "key": "noc",
+      "name": "Director, Network Operations Center",
+      "abbreviation": "NOC",
+      "team": "Team C: Network Operations",
+      "description": "Owns the alarm picture, outage classification, restoration priority (TSP circuits first), change freezes and the NORS discovery time."
+    },
+    {
+      "key": "core",
+      "name": "Director, Core / IP Network Engineering",
+      "abbreviation": "Core",
+      "team": "Team C: Network Operations",
+      "description": "Owns routing (BGP, MPLS), the mobile and voice cores; decides to filter, de-peer, roll back configurations or re-route."
+    },
+    {
+      "key": "field",
+      "name": "Director, Field Operations / Outside Plant",
+      "abbreviation": "Field",
+      "team": "Team D: Field Operations",
+      "description": "Owns splicing crews, cell-site technicians, generator deployment and fueling, portable cell sites, 811 locates and right-of-way access."
+    },
+    {
+      "key": "e911",
+      "name": "911 / Public Safety Services Manager",
+      "abbreviation": "911",
+      "team": "Team E: Public Safety Services",
+      "description": "Owns PSAP relationships, the 30-minute 911 outage notification, ALI and selective-router health and ESInet / NGCS status."
+    },
+    {
+      "key": "reg",
+      "name": "Regulatory Compliance Director (FCC / PUC liaison)",
+      "abbreviation": "Reg",
+      "team": "Team F: Legal & Regulatory",
+      "description": "Files NORS notification, initial and final reports, DIRS daily reports and state PUC outage reports; decides reportability with counsel (CPNI breach clock, SEC 8-K)."
+    },
+    {
+      "key": "pio",
+      "name": "Director, Corporate Communications (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team G: Communications",
+      "description": "Owns press, social media, outage-map messaging and statements to elected officials."
+    }
+  ],
+  "outsideParties": [
+    "the FCC Public Safety and Homeland Security Bureau and the FCC Operations Center",
+    "the state public utility commission and the state 911 board",
+    "PSAP directors and county 911 coordinators",
+    "CISA (National Coordinating Center for Communications / Comm-ISAC, Priority Telecommunications Services Center)",
+    "the FBI field office and the U.S. Secret Service (CPNI breach, SIM-swap fraud)",
+    "FEMA and the state and county EOC ESF-2 desks",
+    "the state fusion center and the state attorney general",
+    "local law enforcement (fiber vandalism, copper theft, cell-site break-ins) and the 811 locate center",
+    "the electric utility (power restoration for central offices and cell sites)",
+    "other carriers (disaster roaming, mutual aid), interconnecting carriers and upstream transit providers",
+    "tower companies, fiber contractors and generator fuel vendors",
+    "equipment vendors' TAC, the DDoS mitigation provider and the IR retainer firm",
+    "ARIN (RPKI / ROA)"
+  ],
+  "mediaChannels": [
+    "outage-tracker spikes and 'is it down?' posts",
+    "neighborhood Facebook groups and Nextdoor ('is anyone else's internet out?')",
+    "the city subreddit and the carrier's customer subreddit",
+    "X/Twitter replies to the support handle and a TikTok of a cut fiber vault",
+    "a telecom trade-press reporter",
+    "county emergency management posts ('911 may be unavailable, text 911 or call the 10-digit line')",
+    "the local TV assignment desk with a live shot outside a central office"
+  ],
+  "sceneAnchors": {
+    "public": "a neighborhood street at dusk: residents standing outside with phones held up looking for signal, a cable-company bucket truck at a utility pole, a green fiber cabinet on the sidewalk, warm porch lights",
+    "control": "inside a telecom network operations center: technicians at rows of desks with headsets, a large video wall with dark panels, a network map printed on the wall, dim blue light",
+    "exterior": "a cell tower compound in a rural field: a lattice tower with antenna panels, a chain-link fence with a locked gate, an equipment shelter and a generator on a concrete pad, a technician's pickup truck, overcast daylight"
+  },
+  "injectTypes": [
+    "siem_alert",
+    "system_log",
+    "console_dump",
+    "network_diagram",
+    "helpdesk_ticket",
+    "status_board",
+    "incident_alert_notification",
+    "email",
+    "email_header_analysis",
+    "chat_transcript",
+    "phone_call",
+    "text_message",
+    "911_cad_entry",
+    "regulatory_notice",
+    "official_letter",
+    "memo",
+    "press_release",
+    "news_article",
+    "reporter_email",
+    "tweet",
+    "reddit_post",
+    "facebook_post",
+    "tiktok_video_card",
+    "field_report",
+    "scene_photo",
+    "pacs_alarm_panel",
+    "map_annotation"
+  ],
+  "threatFamilies": [
+    "cyber",
+    "infrastructure_failure",
+    "physical_security",
+    "insider",
+    "natural_hazard",
+    "mass_gathering",
+    "uas_drone"
+  ],
+  "noiseExamples": [
+    "a cell-site door alarm from a technician who forgot to call in",
+    "a customer escalation about a billing credit",
+    "a routine maintenance window on a metro ring",
+    "a backhoe locate request for a construction project",
+    "a CPE firmware push that is running slow",
+    "a tower obstruction light outage report to the FAA"
+  ],
+  "pressureExamples": [
+    "an outage-tracker spike and a TV reporter asking how long service will be down",
+    "a county emergency manager asking whether 911 calls are getting through",
+    "a state PUC commissioner's office calling for a status update",
+    "a hospital account demanding its circuits be restored first",
+    "a trade-press reporter asking whether a nation-state is inside the network",
+    "a viral post claiming the outage is a cyberattack"
+  ],
+  "rolePatterns": {
+    "technical": "ciso|network|core|noc",
+    "security": "ciso|security",
+    "operations": "chief operating|incident command|field operations|noc"
+  },
+  "agencyPattern": "FCC|PSHSB|NCC|Comm-ISAC|public utility commission|PUC|state 911 board|Secret Service|USSS|FirstNet|ARIN|Team Telecom"
+}

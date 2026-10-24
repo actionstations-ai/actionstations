@@ -7,7 +7,9 @@ Zod schemas in `src/shared/schemas/` are canonical; this is the human-readable s
 Project {
   id, name, orgName,
   orgType: 'airport'|'transit'|'water_dam'|'water_utility'|'energy_utility'|'healthcare'|'campus'
-         |'stadium_venue'|'port_maritime'|'municipal'|'industrial'|'unmanned_systems'|'generic'|string,
+         |'stadium_venue'|'port_maritime'|'municipal'|'industrial'|'unmanned_systems'|'k12_schools'
+         |'commercial_facilities'|'food_agriculture'|'telecom'|'data_center_it'|'financial_services'
+         |'generic'|string,
          // selects the domain profile (src/shared/domains, ADR-0014); 'hospital', 'utility' and other
          // aliases resolve to a profile; unknown values are the generic profile
   domainProfileOverrides?: Partial<DomainProfile>,   // per-project edits; a field replaces the built-in one
