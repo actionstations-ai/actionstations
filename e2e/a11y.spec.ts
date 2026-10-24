@@ -136,6 +136,16 @@ const SCREENS: Screen[] = [
   { name: 'templates', hash: () => '#/templates' },
   { name: 'settings', hash: () => '#/settings' },
   {
+    // Local tools rows (#334): states, sizes, licenses and recommended models.
+    name: 'settings-local-tools',
+    hash: () => '#/settings',
+    prepare: async (page) => {
+      await page.getByRole('radio', { name: /A mix/ }).check()
+      await page.getByRole('list', { name: 'Local tools' }).getByRole('listitem').first().waitFor()
+      await page.getByRole('heading', { name: 'Recommended models' }).waitFor()
+    },
+  },
+  {
     name: 'packs-installed',
     hash: () => '#/packs',
     prepare: async (page) => {

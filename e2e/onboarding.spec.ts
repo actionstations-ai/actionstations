@@ -97,6 +97,16 @@ test('fresh install runs the setup wizard, persists completion and relaunches to
     await snap(page, 'welcome')
     await page.getByRole('button', { name: 'Get started' }).click()
 
+    // Where models run (#334): Cloud APIs only installs nothing and shows no tool rows.
+    await expect(stepHeading(page, 'Where should models run?')).toBeVisible()
+    await page.getByRole('radio', { name: /Cloud APIs only/ }).check()
+    await expect(page.getByText('Nothing will be installed.', { exact: false })).toBeVisible()
+    await expect(page.getByRole('list', { name: 'Local tools' })).toHaveCount(0)
+    await expect
+      .poll(() => JSON.parse(readFileSync(join(userData, 'settings.json'), 'utf8')).setup?.mode)
+      .toBe('cloud')
+    await page.getByRole('button', { name: 'Continue' }).click()
+
     await textStep(page, lmStudio)
     await mediaStep(page, comfy, voice)
 

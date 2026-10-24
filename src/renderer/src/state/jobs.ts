@@ -57,6 +57,7 @@ export const JOB_LABEL: Record<JobKind, string> = {
   'repair-scenario': 'Repairing the scenario',
   export: 'Exporting',
   'pack-download': 'Downloading a pack',
+  'tool-install': 'Installing a local tool',
 }
 const MAX_FINISHED = 50
 const MAX_ITEMS = 500

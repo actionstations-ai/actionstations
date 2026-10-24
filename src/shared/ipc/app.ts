@@ -3,6 +3,7 @@ import { channel } from './define'
 import { AppSettings, EmbeddingSettings, GenerationSettings, UiSettings } from '../schemas/settings'
 import { patchOf } from '../schemas/common'
 import { ProviderRouting } from '../schemas/provider'
+import { SetupMode, ToolId } from '../schemas/setup'
 
 const FileFilter = z.object({ name: z.string(), extensions: z.array(z.string()) })
 
@@ -63,6 +64,10 @@ export const appChannels = {
       defaultProjectsDir: z.string().optional(),
       /** Hide the "re-enter API keys" notice shown after the settings-folder move (#277). */
       keyReentryDismissed: z.boolean().optional(),
+      /** How models run and which local tools were skipped (#334). */
+      setup: z
+        .object({ mode: SetupMode.optional(), skipped: z.array(ToolId).optional() })
+        .optional(),
     }),
     AppSettings,
   ),

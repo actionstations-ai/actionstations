@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { IsoDateTime } from './common'
 import { RecentProject } from './project'
 import { ProviderConfig, ProviderRouting } from './provider'
+import { SetupSettings } from './setup'
 
 export const EmbeddingSettings = z.object({
   mode: z.enum(['local-onnx', 'hash', 'provider']).default('hash'),
@@ -65,5 +66,7 @@ export const AppSettings = z.object({
   defaultProjectsDir: z.string().optional(),
   keyReentry: KeyReentry.optional(),
   packs: PackSettings.default({ catalogs: [] }),
+  /** Cloud APIs only, local tools or a mix, and skipped tools (ADR-0021, #334). */
+  setup: SetupSettings.default({ skipped: [] }),
 })
 export type AppSettings = z.infer<typeof AppSettings>

@@ -29,7 +29,7 @@ const BY_KIND: Record<JobKind, string[]> = {
   ingest: BY_WHAT.documents.concat('project:facility-facts'),
   reindex: BY_WHAT.documents,
   'embed-model-download': ['embeddings:status', 'settings:'],
-  'model-pull': ['providers:'],
+  'model-pull': ['providers:', 'setup:'],
   ideate: ['generate:ideas-result'],
   'generate-scenario': SCENARIO_WORK,
   'rerun-stage': SCENARIO_WORK,
@@ -38,6 +38,7 @@ const BY_KIND: Record<JobKind, string[]> = {
   'repair-scenario': SCENARIO_WORK,
   export: [],
   'pack-download': [],
+  'tool-install': ['setup:', 'providers:'],
 }
 
 export interface Change {

@@ -8,6 +8,7 @@ import { useIpcMutation, useIpcQuery } from '../../lib/query'
 import './settings.css'
 import { errorText } from '../../lib/errors'
 import { PackCatalogsSection } from './PackCatalogsSection'
+import { LocalToolsSection } from './LocalToolsSection'
 
 const THEMES: { value: UiSettings['theme']; label: string }[] = [
   { value: 'system', label: 'Match system' },
@@ -216,6 +217,7 @@ export default function SettingsPage() {
       {settings.data && (
         <>
           <GeneralSection settings={settings.data} />
+          <LocalToolsSection settings={settings.data} />
           <GenerationSection settings={settings.data} />
           <EmbeddingsSection settings={settings.data} />
           <PackCatalogsSection settings={settings.data} />

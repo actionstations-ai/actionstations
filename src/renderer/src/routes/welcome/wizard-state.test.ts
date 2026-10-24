@@ -49,9 +49,11 @@ describe('shouldOnboard', () => {
 
 describe('step order and resume', () => {
   it('walks forward to done and back to the start', () => {
-    expect(nextStep('welcome')).toBe('text')
+    expect(nextStep('welcome')).toBe('runtime')
+    expect(nextStep('runtime')).toBe('text')
     expect(nextStep('project')).toBe('done')
-    expect(previousStep('text')).toBe('welcome')
+    expect(previousStep('text')).toBe('runtime')
+    expect(previousStep('runtime')).toBe('welcome')
     expect(previousStep('welcome')).toBe('welcome')
     expect(previousStep('done')).toBe('project')
   })

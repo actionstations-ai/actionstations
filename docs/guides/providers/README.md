@@ -17,12 +17,31 @@ You need at least one text provider to generate scenarios. Everything else is op
 
 Open **Providers** in the sidebar.
 
-- **Detect local services** probes LM Studio (`127.0.0.1:1234`), Ollama (`127.0.0.1:11434`) and ComfyUI (`127.0.0.1:8188`) on this computer only, with an 800 ms budget each, checks whether the operating system has a voice engine ([System voice](local-tts.md#system-voice-any-platform)), and offers **Add** for each one it finds.
+- **Detect local services** probes LM Studio (`127.0.0.1:1234`), Ollama (`127.0.0.1:11434`) and ComfyUI (`127.0.0.1:8188`, then ComfyUI Desktop's `127.0.0.1:8000`) on this computer only, with an 800 ms budget each, checks whether the operating system has a voice engine ([System voice](local-tts.md#system-voice-any-platform)), and offers **Add** for each one it finds.
 - **Add provider** opens a form: **Type** (LM Studio, Ollama, Anthropic, OpenAI-compatible, ComfyUI, System voice), **Name**, **Base URL** (none for the system voice), **Default model** (**Default voice** for the system voice), **API key** (Anthropic and OpenAI-compatible only) and **Enabled**.
 
 ![Detect local services](../images/detect-local.png)
 
 Each provider card shows its reachability and latency, and has **Test** (a one-line chat request for text providers), **Edit** and **Remove**.
+
+## Local tools setup
+
+**Settings → Local tools** (and the setup wizard's **Where models run** step) asks how models run: **Cloud APIs only**, **Local tools** or **A mix**. Cloud APIs only shows no tool rows and never detects, downloads or installs anything. For local tools, each tool is its own row with what it does, its download and disk size, its license, and its state:
+
+- **Detected**: installed and answering on `127.0.0.1` (ComfyUI Desktop on port 8000 is found too).
+- **Installed, not running**: found on disk, with **Start** where the app can start it. LM Studio starts with `lms server start`, Ollama and ComfyUI Desktop by opening their app, and the voice server with `mlx_audio.server --host 127.0.0.1 --port 8765`.
+- **Not installed**: **Download and install**, **Open the download page**, or **Skip**. Skip is remembered and can be undone with **Show skipped tools**.
+
+**Download and install** runs as a job with progress and **Cancel**:
+
+1. It fetches the vendor's latest installer from its official host only. Every redirect must stay on the vendor's https hosts.
+2. It checks the vendor's sha256 where one is published (Ollama).
+3. It verifies the publisher signature before anything runs. On macOS that is the pinned Developer ID Team ID plus Gatekeeper; on Windows, the pinned Authenticode signer.
+4. On macOS it copies the app out of the disk image into Applications. On Windows it opens the installer, and Windows asks for administrator rights itself if the installer needs them.
+
+The app never elevates silently and never downloads in the background. On Linux, and for the mlx-audio voice server, only the download page or the exact command is offered: there is no signed installer to verify. See [ADR-0021](../../adr/0021-local-tools-setup.md) for the publisher identities, the per-OS support matrix and what happens when a vendor moves its downloads.
+
+**Recommended models** follow the tools. They are chosen for this computer's memory: 70 % of RAM on Apple Silicon, VRAM on an NVIDIA GPU, otherwise half of RAM on the CPU. You get a text model per tool (from `qwen3.5:4b` up to `gpt-oss:120b`), `nomic-embed-text` for Ollama, and SDXL and LTX-Video for ComfyUI's default workflows. Each has its size and license and is its own **Download**. Downloads go through the tool's own pull: Ollama's pull API, `lms get`, or a sha256-checked file in the checkpoint folder of the running ComfyUI.
 
 ## Routing
 

@@ -13,7 +13,7 @@ import {
 const START_HINTS: Record<string, string> = {
   'LM Studio': 'Start the local server in LM Studio (Developer → Start server), then detect again.',
   Ollama: 'Run "ollama serve", then detect again.',
-  ComfyUI: 'Start ComfyUI on port 8188, then detect again.',
+  ComfyUI: 'Start ComfyUI (port 8188, or 8000 for ComfyUI Desktop), then detect again.',
 }
 
 function ModelSelect(props: {

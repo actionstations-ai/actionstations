@@ -10,6 +10,7 @@ import { queryClient } from '../../lib/query'
 import { DoneStep } from './steps/DoneStep'
 import { MediaStep } from './steps/MediaStep'
 import { ProjectStep } from './steps/ProjectStep'
+import { RuntimeStep } from './steps/RuntimeStep'
 import { SearchStep } from './steps/SearchStep'
 import { TextModelStep } from './steps/TextModelStep'
 import { WelcomeStep } from './steps/WelcomeStep'
@@ -108,6 +109,7 @@ export default function WelcomePage() {
       />
       <Stepper current={step} onJump={goTo} />
       {step === 'welcome' && <WelcomeStep onNext={nav.onNext} />}
+      {step === 'runtime' && <RuntimeStep {...nav} />}
       {step === 'text' && <TextModelStep {...nav} />}
       {step === 'media' && <MediaStep {...nav} />}
       {step === 'search' && <SearchStep {...nav} />}

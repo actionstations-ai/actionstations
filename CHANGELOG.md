@@ -115,6 +115,22 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Added
 
+#### Setup
+
+- Optional local tools setup, or cloud APIs only (ADR-0021, #334). A new setup-wizard step, **Where models run**, also available in **Settings → Local tools**, offers **Cloud APIs only** (nothing detected, downloaded or installed), **Local tools** or **A mix**.
+  - **Tool rows.** LM Studio, Ollama, ComfyUI and local voice (mlx-audio) each show what they do, their size and license, and a state:
+    - **Detected**;
+    - **Installed, not running**, with **Start**;
+    - **Not installed**, with **Download and install**, **Open the download page** or **Skip**.
+  - **Download and install** is a cancellable `tool-install` job:
+    - it fetches only from the vendor's pinned https hosts and checks Ollama's published sha256;
+    - before anything runs, it verifies the pinned publisher. macOS needs Team ID `D65G88RHWN` (LM Studio), `3MU9H2V9Y9` (Ollama) or `6FXBT88W8J` (Comfy Desktop), plus Gatekeeper. Windows needs Authenticode signer `Element Labs Inc.`, `Ollama Inc.` or `Drip Artificial Inc`;
+    - macOS copies the app from the read-only disk image into Applications. Windows opens the vendor installer and leaves admin rights to UAC.
+  - **Other platforms.** Linux is download-page only. mlx-audio is guided: the row shows its exact command.
+  - **Recommended models.** Models are picked by RAM, VRAM or Apple Silicon. Each is its own **Download** with its size, pulled through Ollama's API, `lms get`, or a sha256-pinned Hugging Face file into ComfyUI's checkpoint folder.
+  - **Detect local services** also finds ComfyUI Desktop on `127.0.0.1:8000` when nothing answers on 8188.
+  - **Under the hood.** IPC `setup:status`, `setup:install`, `setup:start`, `setup:open-page` and `setup:pull-model`. Settings gain `setup.mode` and `setup.skipped`.
+
 #### Repository
 
 - README header with the logo, a one-line description, a row of badges, quick links and a screenshot. The badges are SVG files that `pnpm badges` (local CI with `BADGES=1`; off by default, so feature branches never touch them) writes to `docs/badges/` with `scripts/make-badges.mjs` after a full green run (local CI, unit-test and e2e counts, version, license, Electron, platforms, no telemetry, local-first); no badge service and no GitHub Actions, since the repository is private. A run that measures the same values leaves the files untouched; `pnpm release` refreshes and commits them before the version bump. `SECURITY.md` (report vulnerabilities by email, never in a public issue), `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1), `SUPPORT.md`, issue-template contact links, and a 1280 × 640 social preview image (`docs/social-preview.png`, built by `scripts/make-social-preview.mjs`). The guide screenshots were retaken from the shipped airport example, so they show its simulated names (Skyline, Lakeport) and the Packs sidebar entry (#317).

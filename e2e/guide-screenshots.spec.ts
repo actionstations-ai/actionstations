@@ -80,6 +80,7 @@ test('setup wizard', async () => {
       .getByRole('button', { name: /^(Next|Get started|Continue)/ })
       .first()
       .click()
+    await page.getByRole('button', { name: 'Decide later' }).click()
     await expect(page.getByText('qwen3-30b-a3b-2507').first()).toBeVisible({ timeout: 15_000 })
     await shot(page, 'wizard-text-model')
   } finally {

@@ -69,6 +69,8 @@ userData/
     <id>/<version>/            # one installed pack, verified files, read-only
     catalogs/<sha256 of URL>.json   # last good copy of each catalog index.json
     .staging/                  # downloads and extractions in progress; emptied at startup
+  setup/downloads/             # local tool installers (ADR-0021): deleted after a macOS install or a
+                               # refused check; a Windows installer stays until the next attempt
 ```
 
 ### Bundled packs (ADR-0020)

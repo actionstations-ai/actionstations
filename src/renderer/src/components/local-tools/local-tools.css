@@ -1,0 +1,115 @@
+/* Local tools setup (ADR-0021, #334): the run-mode choice, tool rows and model rows. */
+.lt-choice {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.lt-choice__legend {
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-2);
+}
+.lt-choice__option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+.lt-choice__option:has(input:checked) {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+.lt-choice__option:has(input:focus-visible) {
+  box-shadow: var(--focus-ring);
+}
+.lt-choice__option input {
+  margin-top: 0.2rem;
+  accent-color: var(--color-accent);
+}
+.lt-choice__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.lt-panel__head {
+  justify-content: space-between;
+}
+.lt-tools,
+.lt-models {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.lt-tool {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) 0;
+  border-top: var(--border-width) solid var(--color-border);
+}
+.lt-tool:first-child {
+  border-top: none;
+}
+.lt-tool__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.lt-tool__name {
+  margin: 0;
+  font-size: var(--text-md);
+}
+.lt-facts {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  font-size: var(--text-sm);
+}
+.lt-facts dt {
+  color: var(--color-text-muted);
+}
+.lt-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.lt-actions {
+  flex-wrap: wrap;
+}
+.lt-progress {
+  gap: var(--space-1);
+}
+.lt-ok {
+  font-size: var(--text-sm);
+}
+.lt-model {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: var(--border-width) solid var(--color-border);
+}
+.lt-model:first-child {
+  border-top: none;
+}
+.lt-model__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+}
+.lt-skipped {
+  flex-wrap: wrap;
+}

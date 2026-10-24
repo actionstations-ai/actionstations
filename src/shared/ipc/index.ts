@@ -21,6 +21,7 @@ import { packChannels, PacksChangedEvent } from './packs'
 import { templateChannels, TemplatesChangedEvent } from './templates'
 import { packDocumentChannels } from './pack-documents'
 import { packExportChannels } from './pack-export'
+import { setupChannels } from './setup'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -36,6 +37,7 @@ export { FacilitatorState } from './facilitator'
 export { ExampleInfo, ExampleManifest, ExampleMarker, ExampleMarkerView } from './examples'
 export { ListedDomainProfile } from './domains'
 export { PackDocumentRef, PackDocumentView } from './pack-documents'
+export { SetupInstallResult } from './setup'
 export {
   PACK_CONTRIBUTION_URL,
   COMMON_PACK_LICENSES,
@@ -102,6 +104,7 @@ export const channels = mergeChannels(
   templateChannels,
   packDocumentChannels,
   packExportChannels,
+  setupChannels,
 )
 
 export type Channels = typeof channels

@@ -69,6 +69,7 @@ export default defineHandlers({
       if (patch.defaultRouting) s.defaultRouting = patch.defaultRouting
       if (patch.onboardingComplete !== undefined) s.onboardingComplete = patch.onboardingComplete
       if (patch.defaultProjectsDir !== undefined) s.defaultProjectsDir = patch.defaultProjectsDir
+      if (patch.setup) s.setup = { ...s.setup, ...patch.setup }
       if (patch.keyReentryDismissed !== undefined && s.keyReentry)
         s.keyReentry.dismissed = patch.keyReentryDismissed
     }),

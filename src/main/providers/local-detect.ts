@@ -1,4 +1,4 @@
-// Probe well-known localhost services (LM Studio, Ollama, ComfyUI) so the Providers page can
+// Probe well-known localhost services (LM Studio, Ollama, ComfyUI on 8188 or 8000) so the Providers page can
 // offer one-click setup. Only runs when the user presses "Detect local services"; only ever
 // talks to 127.0.0.1.
 import type { ProviderKind } from '@shared/schemas'
@@ -31,6 +31,8 @@ interface Probe {
   models: (body: unknown) => string[]
   /** Optional second probe that reports loaded models and model types. */
   details?: { url: string; parse: (body: unknown) => Details }
+  /** Tried in order when `probeUrl` does not answer (ComfyUI Desktop serves on 8000). */
+  fallbacks?: { baseUrl: string; probeUrl: string }[]
   /** Chat models from the probe body, best first; `getJson` reaches the same server. */
   chat?: (
     body: unknown,
@@ -96,6 +98,11 @@ export const LOCAL_PROBES: Probe[] = [
     label: 'ComfyUI',
     baseUrl: 'http://127.0.0.1:8188',
     probeUrl: 'http://127.0.0.1:8188/system_stats',
+    // ComfyUI Desktop's default port (Comfy-Org/desktop DEFAULT_SERVER_ARGS); a source or
+    // portable install uses 8188 (#334).
+    fallbacks: [
+      { baseUrl: 'http://127.0.0.1:8000', probeUrl: 'http://127.0.0.1:8000/system_stats' },
+    ],
     models: () => [],
   },
 ]
@@ -143,7 +150,18 @@ async function chatModels(
   }
 }
 
+/** The primary address, else the first fallback that answers; down when none does. */
 async function probe(p: Probe, fetchImpl: typeof fetch): Promise<LocalService> {
+  const first = await probeAt(p, fetchImpl)
+  if (first.reachable) return first
+  for (const alt of p.fallbacks ?? []) {
+    const found = await probeAt({ ...p, ...alt, fallbacks: [] }, fetchImpl)
+    if (found.reachable) return found
+  }
+  return first
+}
+
+async function probeAt(p: Probe, fetchImpl: typeof fetch): Promise<LocalService> {
   const base = { kind: p.kind, label: p.label, baseUrl: p.baseUrl }
   const down = { ...base, reachable: false, models: [], loadedModels: [], chatModels: [] }
   try {

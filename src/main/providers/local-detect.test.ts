@@ -61,6 +61,32 @@ describe('detectLocalServices', () => {
     ])
   })
 
+  it('finds ComfyUI Desktop on port 8000 when nothing answers on 8188 (#334)', async () => {
+    const seen: string[] = []
+    const fakeFetch = (async (url: string | URL | Request) => {
+      seen.push(String(url))
+      if (String(url) === 'http://127.0.0.1:8000/system_stats') return json({ system: {} })
+      throw new TypeError('fetch failed')
+    }) as typeof fetch
+    const comfy = (await detectLocalServices(fakeFetch)).find((s) => s.label === 'ComfyUI')
+    expect(comfy).toMatchObject({ reachable: true, baseUrl: 'http://127.0.0.1:8000' })
+    expect(seen.indexOf('http://127.0.0.1:8188/system_stats')).toBeLessThan(
+      seen.indexOf('http://127.0.0.1:8000/system_stats'),
+    )
+  })
+
+  it('prefers 8188 and does not probe 8000 when 8188 answers', async () => {
+    const seen: string[] = []
+    const fakeFetch = (async (url: string | URL | Request) => {
+      seen.push(String(url))
+      if (String(url).includes(':8188') || String(url).includes(':8000')) return json({})
+      throw new TypeError('fetch failed')
+    }) as typeof fetch
+    const comfy = (await detectLocalServices(fakeFetch)).find((s) => s.label === 'ComfyUI')
+    expect(comfy?.baseUrl).toBe('http://127.0.0.1:8188')
+    expect(seen).not.toContain('http://127.0.0.1:8000/system_stats')
+  })
+
   it('marks refused connections and HTTP errors unreachable', async () => {
     const fakeFetch = (async (url: string | URL | Request) => {
       if (String(url).includes(':1234')) throw new TypeError('fetch failed')

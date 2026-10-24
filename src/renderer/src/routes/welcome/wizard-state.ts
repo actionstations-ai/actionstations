@@ -14,6 +14,7 @@ export type LocalService = ChannelResponse<'providers:detect-local'>[number]
 
 export const STEPS = [
   { id: 'welcome', label: 'Welcome' },
+  { id: 'runtime', label: 'Where models run' },
   { id: 'text', label: 'Text model' },
   { id: 'media', label: 'Media' },
   { id: 'search', label: 'Search quality' },

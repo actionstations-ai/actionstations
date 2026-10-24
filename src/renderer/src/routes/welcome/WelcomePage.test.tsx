@@ -166,6 +166,8 @@ describe('welcome step', () => {
       'step',
     )
     await userEvent.setup().click(screen.getByRole('button', { name: 'Get started' }))
+    expect(await heading('Where should models run?')).toBeTruthy()
+    await userEvent.setup().click(await screen.findByRole('button', { name: 'Decide later' }))
     expect(await heading('Choose a text model')).toBeTruthy()
   })
   it('Skip setup marks onboarding complete and opens Projects', async () => {
