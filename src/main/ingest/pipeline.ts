@@ -288,21 +288,27 @@ async function validateSource(filePath: string): Promise<void> {
     throw new AppError('VALIDATION', `File is too large (max 512 MB): ${filePath}`)
 }
 
+/** One file to import, with metadata a pack import supplies (title, source, license). */
+export interface ImportSource {
+  path: string
+  meta?: Pick<Partial<DocumentMeta>, 'title' | 'source' | 'license'>
+}
+
 /** Copy a new file into the project; identical content (sha256) returns the existing document. */
 async function addDocument(
   root: string,
-  filePath: string,
+  src: ImportSource,
   known: Map<string, DocumentMeta>,
 ): Promise<{ meta: DocumentMeta; isNew: boolean }> {
-  const sha256 = await sha256File(filePath)
+  const sha256 = await sha256File(src.path)
   const existing = known.get(sha256)
   if (existing) return { meta: existing, isNew: false }
-  const filename = basename(filePath)
+  const filename = basename(src.path)
   const meta: DocumentMeta = {
     id: newId(),
     title: titleFromFilename(filename),
     filename,
-    mimeType: mimeTypeFor(filePath),
+    mimeType: mimeTypeFor(src.path),
     kind: guessKind(filename),
     pages: 0,
     status: 'pending',
@@ -310,28 +316,43 @@ async function addDocument(
     headingsPreview: [],
     sha256,
     chunkCount: 0,
+    ...src.meta,
   }
   const files = documentFiles(root, meta)
   await fs.mkdir(files.dir, { recursive: true })
-  await fs.copyFile(filePath, files.original)
+  await fs.copyFile(src.path, files.original)
   const saved = await saveMeta(root, meta)
   known.set(sha256, saved)
   return { meta: saved, isNew: true }
 }
 
-export async function importDocuments(
+/**
+ * Copy files into the project and start one ingest job for the new ones. Shared by
+ * documents:import and the pack import (#265); a file already in the project (same sha256)
+ * returns its existing document unchanged.
+ */
+export async function importSources(
   root: string,
-  filePaths: string[],
+  sources: readonly ImportSource[],
 ): Promise<{ jobId: string; documents: DocumentMeta[] }> {
-  for (const p of filePaths) await validateSource(p)
+  for (const s of sources) await validateSource(s.path)
   const project = await loadProject(root)
   const known = new Map(project.documents.filter((d) => d.sha256).map((d) => [d.sha256!, d]))
   const added: { meta: DocumentMeta; isNew: boolean }[] = []
-  for (const p of filePaths) added.push(await addDocument(root, p, known))
+  for (const s of sources) added.push(await addDocument(root, s, known))
   const fresh = added.filter((a) => a.isNew).map((a) => a.meta.id)
   const job = startIngestJob(root, fresh)
   return { jobId: job.id, documents: added.map((a) => a.meta) }
 }
+
+export const importDocuments = (
+  root: string,
+  filePaths: string[],
+): Promise<{ jobId: string; documents: DocumentMeta[] }> =>
+  importSources(
+    root,
+    filePaths.map((path) => ({ path })),
+  )
 
 export async function removeDocument(root: string, documentId: string): Promise<void> {
   await loadMeta(root, documentId)

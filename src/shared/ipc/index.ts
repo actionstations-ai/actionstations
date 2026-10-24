@@ -18,6 +18,7 @@ import { facilitatorChannels, PresentChangedEvent } from './facilitator'
 import { exampleChannels } from './examples'
 import { domainChannels, DomainsChangedEvent } from './domains'
 import { packChannels, PacksChangedEvent } from './packs'
+import { packDocumentChannels } from './pack-documents'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -31,6 +32,7 @@ export { ExportTarget, EXPORT_TARGETS } from './export'
 export { FacilitatorState } from './facilitator'
 export { ExampleInfo, ExampleManifest, ExampleMarker } from './examples'
 export { ListedDomainProfile } from './domains'
+export { PackDocumentRef, PackDocumentView } from './pack-documents'
 export {
   OFFICIAL_CATALOG_URL,
   CachedCatalogView,
@@ -86,6 +88,7 @@ export const channels = mergeChannels(
   exampleChannels,
   domainChannels,
   packChannels,
+  packDocumentChannels,
 )
 
 export type Channels = typeof channels

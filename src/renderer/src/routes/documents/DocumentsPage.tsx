@@ -1,4 +1,4 @@
-import { FileUp, RefreshCw } from 'lucide-react'
+import { FileUp, Package, RefreshCw } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import type { DocumentMeta } from '@shared/schemas/project'
@@ -8,6 +8,7 @@ import { toast } from '../../components/toast-store'
 import { subscribe } from '../../lib/api'
 import { queryClient, useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
+import { AddFromPackDialog } from './AddFromPackDialog'
 import { DocumentDetail } from './DocumentDetail'
 import { DocumentTable } from './DocumentTable'
 import { DocumentsEmpty } from './DocumentsEmpty'
@@ -17,6 +18,7 @@ import { INDEX_TARGET } from './job-progress'
 import { useDocumentActions, useImportDocuments } from './use-document-actions'
 import { useFileDrop } from './use-file-drop'
 import { useJobProgress } from './use-job-progress'
+import { usePackDocuments } from './use-pack-documents'
 import './documents.css'
 import { errorText } from '../../lib/errors'
 
@@ -25,6 +27,7 @@ const DOC_QUERIES = [
   'documents:chunks',
   'documents:text',
   'embeddings:status',
+  'packs:documents',
 ] as const
 
 function refreshDocuments() {
@@ -99,6 +102,8 @@ export default function DocumentsPage() {
   const dragging = useFileDrop((paths) => void importer.importPaths(paths), !!projectPath)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [pendingRemove, setPendingRemove] = useState<DocumentMeta | null>(null)
+  const [packDialogOpen, setPackDialogOpen] = useState(false)
+  const packDocs = usePackDocuments(projectPath).data ?? []
   useDocumentsChanged(projectPath)
 
   const list = docs.data ?? []
@@ -120,6 +125,11 @@ export default function DocumentsPage() {
             <Button onClick={actions.rebuildIndex} disabled={!!live[INDEX_TARGET] || !list.length}>
               <RefreshCw size={16} aria-hidden /> Rebuild index
             </Button>
+            {packDocs.length > 0 && (
+              <Button onClick={() => setPackDialogOpen(true)}>
+                <Package size={16} aria-hidden /> Add from pack…
+              </Button>
+            )}
             <Button variant="primary" onClick={importer.pickFiles} disabled={importer.importing}>
               <FileUp size={16} aria-hidden /> Import documents…
             </Button>
@@ -159,6 +169,13 @@ export default function DocumentsPage() {
         doc={pendingRemove}
         onCancel={() => setPendingRemove(null)}
         onConfirm={confirmRemove}
+      />
+      <AddFromPackDialog
+        open={packDialogOpen}
+        onOpenChange={setPackDialogOpen}
+        projectPath={projectPath}
+        docs={packDocs}
+        track={track}
       />
       {dragging && <DropOverlay />}
     </div>

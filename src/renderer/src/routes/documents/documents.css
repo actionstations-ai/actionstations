@@ -94,6 +94,12 @@
 .doc-row__title {
   min-width: 12rem;
 }
+.doc-row__pack {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  padding: 0 var(--space-1);
+}
 .doc-row__file {
   display: block;
   font-size: var(--text-xs);
@@ -375,4 +381,39 @@
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+/* Add from pack (#265) */
+.pack-doc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+.pack-doc {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.pack-doc input {
+  margin-top: var(--space-1);
+}
+.pack-doc__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+}
+.pack-doc__title {
+  font-weight: var(--weight-semibold);
+}
+.pack-doc__meta,
+.pack-doc__desc {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
 }

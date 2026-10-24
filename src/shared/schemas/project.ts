@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { DomainProfileOverrides, DomainProfileSnapshot } from '../domains/schema'
 import { Id, IsoDateTime, RelPath } from './common'
+import { PackId, PackPath, SemVer } from './pack'
 import { ProviderRouting } from './provider'
 
 export const PROJECT_FORMAT_VERSION = 1
@@ -68,6 +69,17 @@ export type DocumentKind = z.infer<typeof DocumentKind>
 
 export const DocumentStatus = z.enum(['pending', 'parsing', 'embedding', 'ok', 'error'])
 
+/** Where a document imported from an installed pack came from (ADR-0018, #265). */
+export const DocumentPackSource = z.object({
+  packId: PackId,
+  version: SemVer,
+  /** The file's path inside the pack, e.g. documents/<slug>/<file>. */
+  path: PackPath,
+  /** Pack display name at import time, for the label after the pack is gone. */
+  packName: z.string().max(100).optional(),
+})
+export type DocumentPackSource = z.infer<typeof DocumentPackSource>
+
 export const DocumentMeta = z.looseObject({
   id: Id,
   title: z.string(),
@@ -84,6 +96,10 @@ export const DocumentMeta = z.looseObject({
   headingsPreview: z.array(z.string()).default([]),
   sha256: z.string().optional(),
   chunkCount: z.number().int().nonnegative().default(0),
+  /** Set when the document was added from an installed pack; the copy is the project's own. */
+  source: DocumentPackSource.optional(),
+  /** SPDX license of a pack document (from the pack's documents[] entry). */
+  license: z.string().max(200).optional(),
 })
 export type DocumentMeta = z.infer<typeof DocumentMeta>
 

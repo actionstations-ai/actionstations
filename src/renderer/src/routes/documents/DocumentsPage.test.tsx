@@ -289,3 +289,76 @@ describe('DocumentsPage — index', () => {
     expect(await screen.findByText('Status unavailable.')).toBeTruthy()
   })
 })
+
+describe('DocumentsPage — add from pack (#265)', () => {
+  const RAIL = 'ai.actionstations.freight-rail'
+  const packDoc = (path: string, title: string, license: string, imported?: string) => ({
+    packId: RAIL,
+    packVersion: '1.0.0',
+    packName: 'Freight Rail Operations',
+    slug: 'rail-emergency-plan',
+    path,
+    title,
+    license,
+    source: 'FRA, fra.dot.gov',
+    ...(imported ? { importedDocumentId: imported } : {}),
+  })
+
+  it('lists pack documents with source and license, imports the chosen ones', async () => {
+    const imported = makeDoc({
+      id: 'doc2',
+      title: 'Hazmat release quick reference',
+      status: 'pending',
+      license: 'CC0-1.0',
+      source: {
+        packId: RAIL,
+        version: '1.0.0',
+        path: 'documents/rail-emergency-plan/hazmat.md',
+        packName: 'Freight Rail Operations',
+      },
+    })
+    const ttx = setup([makeDoc()], {
+      'packs:documents': () => [
+        packDoc(
+          'documents/rail-emergency-plan/erp.pdf',
+          'Emergency Response Plan',
+          'CC-BY-4.0',
+          'doc1',
+        ),
+        packDoc(
+          'documents/rail-emergency-plan/hazmat.md',
+          'Hazmat release quick reference',
+          'CC0-1.0',
+        ),
+      ],
+      'packs:importDocuments': () => ({ jobId: 'JOB2', documents: [imported] }),
+    })
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: /Add from pack/ }))
+    const dialog = await screen.findByRole('dialog', { name: 'Add documents from packs' })
+    expect(dialog.textContent).toMatch(
+      /Freight Rail Operations 1\.0\.0 · License CC0-1\.0 · Source: FRA/,
+    )
+    const done = within(dialog).getByRole('checkbox', { name: /Emergency Response Plan/ })
+    expect((done as HTMLInputElement).disabled).toBe(true)
+    await user.click(within(dialog).getByRole('checkbox', { name: /Hazmat release/ }))
+    await user.click(within(dialog).getByRole('button', { name: /^Add 1/ }))
+
+    await waitFor(() => expect(ttx.calls('packs:importDocuments')).toHaveLength(1))
+    expect(ttx.calls('packs:importDocuments')[0]).toEqual({
+      projectPath: PROJECT,
+      documents: [{ packId: RAIL, path: 'documents/rail-emergency-plan/hazmat.md' }],
+    })
+    ttx.setDocs([makeDoc(), imported])
+    act(() => ttx.emit('project:changed', { path: PROJECT, what: 'documents' }))
+    expect(
+      await screen.findByText(/From pack Freight Rail Operations 1\.0\.0 · CC0-1\.0/),
+    ).toBeTruthy()
+  })
+
+  it('hides the button when no enabled pack has documents', async () => {
+    setup([makeDoc()], { 'packs:documents': () => [] })
+    await screen.findAllByRole('button', { name: /Import documents/ })
+    expect(screen.queryByRole('button', { name: /Add from pack/ })).toBeNull()
+  })
+})

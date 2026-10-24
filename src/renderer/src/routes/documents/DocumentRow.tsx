@@ -73,6 +73,12 @@ export function DocumentRow(props: DocumentRowProps) {
           onCommit={(title) => props.onPatch({ title })}
         />
         <span className="doc-row__file mono">{doc.filename}</span>
+        {doc.source && (
+          <span className="doc-row__pack">
+            From pack {doc.source.packName ?? doc.source.packId} {doc.source.version}
+            {doc.license ? ` · ${doc.license}` : ''}
+          </span>
+        )}
       </td>
       <td onClick={(e) => e.stopPropagation()}>
         <InlineText

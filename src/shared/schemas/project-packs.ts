@@ -15,8 +15,12 @@ export type CopiedPackKind = z.infer<typeof CopiedPackKind>
 
 export const ProjectPackCopy = z.object({
   kind: CopiedPackKind,
-  /** The item id in the pack (template type, workflow id, document slug, domain id, example slug). */
-  id: z.string().min(1).max(128),
+  /**
+   * The item id in the pack (template type, workflow id, domain id, example slug). Documents use
+   * `<packId>/<slug>` because document groups never conflict between packs (two packs may both
+   * carry a "fema" group): up to 128 (pack id) + 1 + 64 (slug) characters, hence 200.
+   */
+  id: z.string().min(1).max(200),
   packId: PackId,
   version: SemVer,
   /** Pack display name when copied, for badges after the pack is gone. */
