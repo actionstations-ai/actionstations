@@ -9,7 +9,7 @@ import './prompts.css'
 import { errorText } from '../../lib/errors'
 
 const GLOBAL_DESC =
-  'Prompts the generator sends at each stage. A global override applies to every project; reset it to return to the shipped default.'
+  'Prompts the generator sends at each stage. A global override applies to every project; reset it to return to the version an enabled pack provides, or else the shipped default.'
 const PROJECT_DESC =
   'Overrides saved here apply to this project only, on top of any global override.'
 

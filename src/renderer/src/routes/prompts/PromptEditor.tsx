@@ -11,9 +11,9 @@ import {
   issuesFrom,
   LAYER_LABEL,
   layerBelow,
+  basePhrase,
   startingText,
   type EditScope,
-  type Layer,
   type LineIssue,
 } from './prompt-utils'
 import { errorText } from '../../lib/errors'
@@ -40,7 +40,7 @@ function ResetDialog(props: {
       open={props.open}
       onOpenChange={(open) => !open && props.onCancel()}
       title={`Reset ${props.name}?`}
-      description={`Deletes the ${props.scope} override. The ${props.baseLabel.toLowerCase()} takes effect again. This cannot be undone.`}
+      description={`Deletes the ${props.scope} override. The ${props.baseLabel} takes effect again. This cannot be undone.`}
       footer={
         <>
           <Button onClick={props.onCancel}>Cancel</Button>
@@ -81,7 +81,7 @@ function IssueList(props: { id: string; issues: LineIssue[]; onGoTo: (line: numb
 function EditorToolbar(props: {
   name: string
   scopeLabel: string
-  baseLayer: Layer
+  baseLabel: string
   overridden: boolean
   dirty: boolean
   showDiff: boolean
@@ -91,7 +91,7 @@ function EditorToolbar(props: {
   onReset: () => void
   onSave: () => void
 }) {
-  const baseLabel = LAYER_LABEL[props.baseLayer].toLowerCase()
+  const baseLabel = props.baseLabel
   return (
     <header className="prompt-editor__header">
       <div>
@@ -160,7 +160,7 @@ function EditorForm(props: EditorProps & { layers: Layers }) {
   const issuesId = useId()
   const { save, reset, target } = useSaveReset(props)
   const dirty = draft !== initial
-  const baseLabel = LAYER_LABEL[base.layer]
+  const baseLabel = basePhrase(base.layer, props.layers.pack?.packName)
 
   const onSave = () => {
     if (!dirty || save.isPending) return
@@ -181,7 +181,7 @@ function EditorForm(props: EditorProps & { layers: Layers }) {
   const onReset = () => {
     setConfirmReset(false)
     reset.mutate(target, {
-      onSuccess: () => toast.success(`${props.name} reset to ${baseLabel.toLowerCase()}`),
+      onSuccess: () => toast.success(`${props.name} reset to ${baseLabel}`),
       onError: (err) => toast.error('Could not reset prompt', err),
     })
   }
@@ -192,7 +192,7 @@ function EditorForm(props: EditorProps & { layers: Layers }) {
       <EditorToolbar
         name={props.name}
         scopeLabel={scopeLabel}
-        baseLayer={base.layer}
+        baseLabel={baseLabel}
         overridden={overridden}
         dirty={dirty}
         showDiff={showDiff}

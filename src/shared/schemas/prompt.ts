@@ -19,12 +19,25 @@ export const PromptFrontmatter = z.object({
 })
 export type PromptFrontmatter = z.infer<typeof PromptFrontmatter>
 
+/** Where a prompt layer comes from: project > global > pack > default (#262). */
+export const PromptSource = z.enum(['default', 'pack', 'global', 'project'])
+export type PromptSource = z.infer<typeof PromptSource>
+
+/** The pack a pack-layer prompt comes from (provenance, #262 / #269). */
+const PackProvenance = {
+  packId: z.string().optional(),
+  packVersion: z.string().optional(),
+  packName: z.string().optional(),
+}
+
 export const PromptFile = z.object({
   /** File stem, e.g. "msel_phase". */
   name: z.string(),
   frontmatter: PromptFrontmatter,
   body: z.string(),
-  source: z.enum(['default', 'global', 'project']),
+  source: PromptSource,
+  /** Set when source is 'pack'. */
+  ...PackProvenance,
 })
 export type PromptFile = z.infer<typeof PromptFile>
 
@@ -32,8 +45,12 @@ export const PromptEntry = z.object({
   name: z.string(),
   stage: Stage,
   description: z.string().optional(),
-  effectiveSource: z.enum(['default', 'global', 'project']),
+  effectiveSource: PromptSource,
   hasGlobalOverride: z.boolean(),
   hasProjectOverride: z.boolean(),
+  /** An enabled pack provides this prompt for the project's domain (overridden or not). */
+  hasPackLayer: z.boolean(),
+  /** The pack of that layer, when hasPackLayer. */
+  ...PackProvenance,
 })
 export type PromptEntry = z.infer<typeof PromptEntry>

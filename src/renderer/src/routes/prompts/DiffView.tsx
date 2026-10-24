@@ -9,7 +9,7 @@ const SPOKEN: Record<DiffKind, string> = { add: 'added', del: 'removed', same: '
 export function DiffView(props: { before: string; after: string; baseLabel: string }) {
   const lines = useMemo(() => lineDiff(props.before, props.after), [props.before, props.after])
   const stats = diffStats(lines)
-  const title = `Changes vs ${props.baseLabel.toLowerCase()}`
+  const title = `Changes vs ${props.baseLabel}`
   return (
     <section className="prompt-diff" aria-label={title}>
       <h3 className="prompt-diff__title">

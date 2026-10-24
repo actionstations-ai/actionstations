@@ -59,6 +59,7 @@ describe('prompt layering', () => {
         effectiveSource: 'default',
         hasGlobalOverride: false,
         hasProjectOverride: false,
+        hasPackLayer: false,
       },
     ])
   })

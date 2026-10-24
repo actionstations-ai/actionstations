@@ -11,12 +11,15 @@ export const promptChannels = {
     z.object({ name: SafeId, projectPath: z.string().optional() }),
     z.object({
       default: PromptFile,
+      /** The enabled pack's version for the project's domain (#262), below the overrides. */
+      pack: PromptFile.optional(),
       global: PromptFile.optional(),
       project: PromptFile.optional(),
       effective: PromptFile,
       /** Raw markdown (frontmatter + body) of each layer, for the editor and diff view. */
       raw: z.object({
         default: z.string(),
+        pack: z.string().optional(),
         global: z.string().optional(),
         project: z.string().optional(),
       }),

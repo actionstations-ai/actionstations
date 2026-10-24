@@ -1,12 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import type { PromptEntry } from '@shared/schemas/prompt'
 import {
+  basePhrase,
   diffStats,
   firstPromptName,
   groupByStage,
   insertIndent,
   issuesFrom,
   layerBelow,
+  layerLabel,
   lineDiff,
   offsetOfLine,
   startingText,
@@ -18,6 +20,7 @@ const entry = (name: string, stage: PromptEntry['stage']): PromptEntry => ({
   effectiveSource: 'default',
   hasGlobalOverride: false,
   hasProjectOverride: false,
+  hasPackLayer: false,
 })
 
 describe('layers', () => {
@@ -32,6 +35,21 @@ describe('layers', () => {
     expect(layerBelow('project', { default: 'D' })).toEqual({ layer: 'default', text: 'D' })
     expect(startingText('project', raw)).toBe('P')
     expect(startingText('project', { default: 'D', global: 'G' })).toBe('G')
+  })
+})
+
+describe('pack layer (#262)', () => {
+  it('sits between the global override and the default', () => {
+    const raw = { default: 'D', pack: 'K' }
+    expect(layerBelow('global', raw)).toEqual({ layer: 'pack', text: 'K' })
+    expect(layerBelow('project', raw)).toEqual({ layer: 'pack', text: 'K' })
+    expect(layerBelow('project', { ...raw, global: 'G' })).toEqual({ layer: 'global', text: 'G' })
+    expect(startingText('global', raw)).toBe('K')
+  })
+  it('names the pack in labels', () => {
+    expect(layerLabel('pack', 'Freight Rail')).toBe('Pack: Freight Rail')
+    expect(basePhrase('pack', 'Freight Rail')).toBe('Freight Rail pack')
+    expect(basePhrase('global')).toBe('global override')
   })
 })
 

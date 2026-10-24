@@ -35,8 +35,16 @@ const file = (source: PromptFile['source']): PromptFile => ({
 })
 
 interface Store {
+  /** An enabled pack's version of the prompt (read-only layer under the overrides). */
+  pack?: string
   global?: string
   project?: string
+}
+
+const PACK = {
+  packId: 'ai.actionstations.freight-rail',
+  packVersion: '1.0.0',
+  packName: 'Freight Rail',
 }
 
 type Reply = { ok: true; data: unknown } | { ok: false; error: Record<string, unknown> }
@@ -47,17 +55,28 @@ function mockPrompts(store: Store, saveError?: Record<string, unknown>) {
     name: NAME,
     stage: 'msel_phase',
     description: 'One MSEL phase',
-    effectiveSource: projectPath && store.project ? 'project' : store.global ? 'global' : 'default',
+    effectiveSource:
+      projectPath && store.project
+        ? 'project'
+        : store.global
+          ? 'global'
+          : store.pack
+            ? 'pack'
+            : 'default',
     hasGlobalOverride: store.global !== undefined,
     hasProjectOverride: !!projectPath && store.project !== undefined,
+    hasPackLayer: store.pack !== undefined,
+    ...(store.pack !== undefined ? PACK : {}),
   })
   const handlers: Record<string, (req: never) => unknown> = {
     'prompts:list': (req: { projectPath?: string }) => [entry(req.projectPath)],
     'prompts:get': (req: { projectPath?: string }) => ({
       default: file('default'),
+      ...(store.pack !== undefined ? { pack: { ...file('pack'), ...PACK } } : {}),
       effective: file(entry(req.projectPath).effectiveSource),
       raw: {
         default: DEFAULT_RAW,
+        ...(store.pack !== undefined ? { pack: store.pack } : {}),
         ...(store.global !== undefined ? { global: store.global } : {}),
         ...(req.projectPath && store.project !== undefined ? { project: store.project } : {}),
       },
@@ -173,6 +192,34 @@ describe('PromptsPage (global)', () => {
     expect(screen.getByRole('button', { name: 'Reset to default' }).hasAttribute('disabled')).toBe(
       true,
     )
+  })
+})
+
+describe('PromptsPage (pack layer, #262)', () => {
+  const packRaw = DEFAULT_RAW + '\nRail rule.'
+
+  it('starts from the pack version and labels the list entry with the pack', async () => {
+    mockPrompts({ pack: packRaw })
+    renderAt('/prompts', '/prompts', PromptsPage)
+    const area = (await editor()) as HTMLTextAreaElement
+    expect(area.value).toBe(packRaw)
+    const list = screen.getByRole('navigation', { name: 'Prompts by stage' })
+    const item = within(list).getByRole('button', { name: /msel_phase/ })
+    expect(within(item).getByText('Pack: Freight Rail')).toBeTruthy()
+    expect(within(item).queryByText('Default')).toBeNull()
+    expect(screen.getByText('Using Freight Rail pack')).toBeTruthy()
+  })
+
+  it('resets a global override to the pack layer, not the default', async () => {
+    const calls = mockPrompts({ pack: packRaw, global: DEFAULT_RAW + '\nExtra.' })
+    renderAt('/prompts', '/prompts', PromptsPage)
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Reset to Freight Rail pack' }))
+    const dialog = await screen.findByRole('dialog', { name: `Reset ${NAME}?` })
+    expect(dialog.textContent).toContain('The Freight Rail pack takes effect again')
+    await user.click(within(dialog).getByRole('button', { name: 'Reset' }))
+    await waitFor(() => expect(calls('prompts:reset')).toEqual([{ name: NAME, scope: 'global' }]))
+    await waitFor(async () => expect(((await editor()) as HTMLTextAreaElement).value).toBe(packRaw))
   })
 })
 

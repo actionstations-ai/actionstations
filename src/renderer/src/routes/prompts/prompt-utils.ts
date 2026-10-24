@@ -3,23 +3,37 @@ import { STAGES, type Stage } from '@shared/schemas/scenario'
 import type { PromptEntry } from '@shared/schemas/prompt'
 
 export type EditScope = 'global' | 'project'
-export type Layer = 'default' | 'global' | 'project'
+export type Layer = 'default' | 'pack' | 'global' | 'project'
 
 export interface RawLayers {
   default: string
+  pack?: string
   global?: string
   project?: string
 }
 
 export const LAYER_LABEL: Record<Layer, string> = {
   default: 'Default',
+  pack: 'Pack',
   global: 'Global override',
   project: 'Project override',
 }
 
-/** The layer an edit in `scope` is compared against (and falls back to on reset). */
+/** A layer's label in running text ("default", "Freight Rail Operations pack"). */
+export const basePhrase = (layer: Layer, packName?: string): string =>
+  layer === 'pack' ? (packName ? `${packName} pack` : 'pack') : LAYER_LABEL[layer].toLowerCase()
+
+/** A layer's badge label; the pack layer names its pack ("Pack: Freight Rail Operations"). */
+export const layerLabel = (layer: Layer, packName?: string): string =>
+  layer === 'pack' && packName ? `${LAYER_LABEL.pack}: ${packName}` : LAYER_LABEL[layer]
+
+/**
+ * The layer an edit in `scope` is compared against (and falls back to on reset):
+ * project > global > pack > default (#262).
+ */
 export function layerBelow(scope: EditScope, raw: RawLayers): { layer: Layer; text: string } {
   if (scope === 'project' && raw.global !== undefined) return { layer: 'global', text: raw.global }
+  if (raw.pack !== undefined) return { layer: 'pack', text: raw.pack }
   return { layer: 'default', text: raw.default }
 }
 

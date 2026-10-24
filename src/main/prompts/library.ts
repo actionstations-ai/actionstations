@@ -1,6 +1,6 @@
-// Layered prompt library: shipped default < global override < project override.
+// Layered prompt library: shipped default < pack (#262) < global override < project override.
 import { promises as fs } from 'node:fs'
-import type { PromptEntry, PromptFile } from '@shared/schemas'
+import type { PromptEntry, PromptFile, PromptSource } from '@shared/schemas'
 import { AppError } from '../lib/errors'
 import { emit } from '../lib/events'
 import { writeFileAtomic } from '../lib/fs'
@@ -14,8 +14,8 @@ import {
   promptFileName,
   readLayer,
   type OverrideScope,
-  type PromptLayer,
 } from './layers'
+import { packLayerLabel, readPackLayer, type PackPromptSource } from './pack-layer'
 
 /** sha256 of the raw file each loaded PromptFile came from (RenderedPrompt.hash). */
 const rawHashes = new WeakMap<PromptFile, string>()
@@ -24,23 +24,40 @@ const parsedByHash = new Map<string, ParsedPrompt>()
 
 export const hashOfLoaded = (file: PromptFile): string | undefined => rawHashes.get(file)
 
-function parseCached(raw: string, name: string, layer: PromptLayer): ParsedPrompt {
+const labelFor = (layer: PromptSource, name: string, pack?: PackPromptSource): string =>
+  layer === 'pack' ? packLayerLabel(pack!, name) : layerLabel(layer, name)
+
+function parseCached(
+  raw: string,
+  name: string,
+  layer: PromptSource,
+  pack?: PackPromptSource,
+): ParsedPrompt {
   const hash = hashRaw(raw)
   const hit = parsedByHash.get(hash)
   if (hit && hit.frontmatter.name === name) return hit
-  const parsed = parsePromptRaw(raw, name, layerLabel(layer, name))
+  const parsed = parsePromptRaw(raw, name, labelFor(layer, name, pack))
   parsedByHash.set(hash, parsed)
   return parsed
 }
 
-/** Parse one layer's raw text into a PromptFile (throws VALIDATION naming the file). */
-export function toPromptFile(raw: string, name: string, layer: PromptLayer): PromptFile {
-  const parsed = parseCached(raw, name, layer)
+/**
+ * Parse one layer's raw text into a PromptFile (throws VALIDATION naming the file). Pack
+ * prompts go through the same YAML-only parser: non-YAML frontmatter (`---js`) is refused.
+ */
+export function toPromptFile(
+  raw: string,
+  name: string,
+  layer: PromptSource,
+  pack?: PackPromptSource,
+): PromptFile {
+  const parsed = parseCached(raw, name, layer, pack)
   const file: PromptFile = {
     name,
     frontmatter: structuredClone(parsed.frontmatter),
     body: parsed.body,
     source: layer,
+    ...(layer === 'pack' && pack ? { ...pack } : {}),
   }
   rawHashes.set(file, hashRaw(raw))
   return file
@@ -48,41 +65,65 @@ export function toPromptFile(raw: string, name: string, layer: PromptLayer): Pro
 
 export interface RawLayers {
   default: string
+  pack?: string
   global?: string
   project?: string
 }
 
-async function readAllLayers(name: string, root?: string): Promise<RawLayers> {
+interface ReadLayers {
+  raw: RawLayers
+  /** The pack of the pack layer, when one applies. */
+  pack?: PackPromptSource
+}
+
+async function readAllLayers(name: string, root?: string): Promise<ReadLayers> {
   const def = await readLayer('default', name)
   if (def === undefined) throw new AppError('NOT_FOUND', `No prompt named "${name}"`)
+  const packLayer = await readPackLayer(name, root)
   const global = await readLayer('global', name)
   const project = root ? await readLayer('project', name, root) : undefined
-  return {
+  const raw: RawLayers = {
     default: def,
+    ...(packLayer ? { pack: packLayer.raw } : {}),
     ...(global !== undefined ? { global } : {}),
     ...(project !== undefined ? { project } : {}),
   }
+  if (!packLayer) return { raw }
+  const { packId, packVersion, packName } = packLayer
+  return { raw, pack: { packId, packVersion, packName } }
 }
 
-const effectiveLayer = (raw: RawLayers): PromptLayer =>
-  raw.project !== undefined ? 'project' : raw.global !== undefined ? 'global' : 'default'
+/** project > global > pack > default. */
+const effectiveLayer = (raw: RawLayers): PromptSource =>
+  raw.project !== undefined
+    ? 'project'
+    : raw.global !== undefined
+      ? 'global'
+      : raw.pack !== undefined
+        ? 'pack'
+        : 'default'
 
 const guardOptional = async (projectPath?: string): Promise<string | undefined> =>
   projectPath ? requireProject(projectPath) : undefined
 
-/** Effective prompt: project override > global override > shipped default. */
+/** Effective prompt: project override > global override > pack > shipped default. */
 export async function loadEffectivePrompt(name: string, projectPath?: string): Promise<PromptFile> {
   const root = await guardOptional(projectPath)
-  const raw = await readAllLayers(name, root)
+  const { raw, pack } = await readAllLayers(name, root)
   const layer = effectiveLayer(raw)
-  return toPromptFile(raw[layer]!, name, layer)
+  return toPromptFile(raw[layer]!, name, layer, pack)
 }
 
 /** Parse a layer for display, or undefined if it is invalid on disk (edited outside the app). */
-function tryPromptFile(raw: string | undefined, name: string, layer: PromptLayer) {
+function tryPromptFile(
+  raw: string | undefined,
+  name: string,
+  layer: PromptSource,
+  pack?: PackPromptSource,
+) {
   if (raw === undefined) return undefined
   try {
-    return toPromptFile(raw, name, layer)
+    return toPromptFile(raw, name, layer, pack)
   } catch {
     return undefined
   }
@@ -91,15 +132,17 @@ function tryPromptFile(raw: string | undefined, name: string, layer: PromptLayer
 /** Every layer of one prompt, parsed and raw, for the editor. */
 export async function getPromptLayers(name: string, projectPath?: string) {
   const root = await guardOptional(projectPath)
-  const raw = await readAllLayers(name, root)
+  const { raw, pack: packSource } = await readAllLayers(name, root)
   const def = toPromptFile(raw.default, name, 'default')
+  const pack = tryPromptFile(raw.pack, name, 'pack', packSource)
   const global = tryPromptFile(raw.global, name, 'global')
   const project = tryPromptFile(raw.project, name, 'project')
   return {
     default: def,
+    ...(pack ? { pack } : {}),
     ...(global ? { global } : {}),
     ...(project ? { project } : {}),
-    effective: project ?? global ?? def,
+    effective: project ?? global ?? pack ?? def,
     raw,
   }
 }
@@ -109,7 +152,7 @@ export async function listPrompts(projectPath?: string): Promise<PromptEntry[]> 
   const root = await guardOptional(projectPath)
   const entries: PromptEntry[] = []
   for (const name of await listDefaultNames()) {
-    const raw = await readAllLayers(name, root)
+    const { raw, pack } = await readAllLayers(name, root)
     const def = tryPromptFile(raw.default, name, 'default')
     if (!def) continue
     const description = def.frontmatter.description
@@ -120,6 +163,8 @@ export async function listPrompts(projectPath?: string): Promise<PromptEntry[]> 
       effectiveSource: effectiveLayer(raw),
       hasGlobalOverride: raw.global !== undefined,
       hasProjectOverride: raw.project !== undefined,
+      hasPackLayer: pack !== undefined,
+      ...(pack ?? {}),
     })
   }
   return entries
@@ -156,7 +201,10 @@ export async function savePromptOverride(input: {
   return file
 }
 
-/** Delete an override so the layer below takes effect again. Missing overrides are a no-op. */
+/**
+ * Delete an override so the layer below takes effect again (global > pack > default).
+ * Missing overrides are a no-op. Pack and default layers are read-only.
+ */
 export async function resetPromptOverride(input: {
   name: string
   scope: OverrideScope

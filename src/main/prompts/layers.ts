@@ -1,5 +1,6 @@
 // Where each prompt layer lives on disk:
 //   default  <resources>/prompts/<name>.md         (shipped, read-only)
+//   pack     <userData>/packs/<id>/<version>/prompts/<name>.md (read-only; see pack-layer.ts)
 //   global   <userData>/prompts/<name>.md          (user override for every project)
 //   project  <project>/prompts/<name>.md           (override for one project)
 import { promises as fs } from 'node:fs'
@@ -8,6 +9,7 @@ import { AppError } from '../lib/errors'
 import { safeJoin } from '../lib/fs'
 import { resourcePath, userDataPath } from '../lib/paths'
 
+/** File-backed layers this module resolves; the pack layer lives in pack-layer.ts. */
 export type PromptLayer = 'default' | 'global' | 'project'
 export type OverrideScope = Exclude<PromptLayer, 'default'>
 
