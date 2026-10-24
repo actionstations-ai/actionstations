@@ -1,8 +1,10 @@
 /* Federal online incident report, printed from the browser (USWDS-like agency portal):
    gov banner, agency header, form title with OMB number, report type, submission receipt,
-   labelled answer tables per section, narrative. One US Letter page. */
+   labelled answer tables per section, narrative. US Letter pages: sections and the narrative
+   continue on later pages (one .page per Letter page, each its own PDF page). */
 .page {
   height: 1056px;
+  break-after: page;
   padding: 26px 48px 24px;
   display: flex;
   flex-direction: column;
@@ -190,4 +192,41 @@ h2 {
   border-top: 1px solid #dfe1e2;
   padding-top: 4px;
   margin-bottom: 6px;
+}
+.page:last-child {
+  break-after: auto;
+}
+.contbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: 4px solid #162e51;
+}
+.contbar .ag-name {
+  font-size: 15px;
+}
+.cont-title {
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #3d4551;
+}
+.cont-id {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 11px;
+  color: #3d4551;
+}
+.cont-id .r-id {
+  margin: 2px 0 0;
+}
+.narr p {
+  margin: 0;
+}
+.narr p + p {
+  margin-top: 6px;
 }

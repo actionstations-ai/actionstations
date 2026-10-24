@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UAS ground control station screen",
+  "description": "1280x720 ground control station Fly view (QGroundControl / Mission Planner style): top status toolbar with GNSS, battery, link and flight mode, a dark schematic map with the flight path, home marker, geofence ring and aircraft, red warning banners, the message console, and the instrument panel (attitude, compass, telemetry values). Units are metric. The map is schematic: positions are shown as text, not plotted.",
+  "type": "object",
+  "required": ["mode", "altitudeAgl", "battery", "gnss", "link"],
+  "additionalProperties": false,
+  "properties": {
+    "software": {
+      "type": "string",
+      "description": "Ground control software shown in the toolbar. A real product name is fine.",
+      "examples": ["QGroundControl", "Mission Planner"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "Local time on the GCS laptop, HH:MM:SS.",
+      "examples": ["15:42:08"]
+    },
+    "aircraft": {
+      "type": "object",
+      "description": "The connected aircraft.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Vehicle name / call sign shown on the map and in the toolbar.",
+          "examples": ["CRD-INSPECT-2"]
+        },
+        "type": {
+          "type": "string",
+          "description": "Airframe type and autopilot.",
+          "examples": ["Hexacopter · ArduCopter 4.5", "Quadcopter · PX4"]
+        },
+        "registration": {
+          "type": "string",
+          "description": "FAA registration number (simulated).",
+          "examples": ["FA3XK7R2PL"]
+        }
+      }
+    },
+    "mode": {
+      "type": "string",
+      "description": "Flight mode as the autopilot reports it.",
+      "examples": ["RTL", "AUTO", "LOITER", "GUIDED", "LAND", "MANUAL", "POSHOLD"]
+    },
+    "armed": {
+      "type": "boolean",
+      "description": "Motors armed.",
+      "examples": [true]
+    },
+    "altitudeAgl": {
+      "type": "number",
+      "description": "Altitude above the home point, metres.",
+      "examples": [87.4]
+    },
+    "groundSpeed": {
+      "type": "number",
+      "description": "Ground speed, m/s.",
+      "examples": [9.8]
+    },
+    "verticalSpeed": {
+      "type": "number",
+      "description": "Climb rate, m/s (negative = descending).",
+      "examples": [-0.4]
+    },
+    "heading": {
+      "type": "number",
+      "description": "Heading in degrees (0 = north). Rotates the compass and the aircraft icon.",
+      "examples": [212]
+    },
+    "pitch": {
+      "type": "number",
+      "description": "Pitch in degrees for the attitude indicator (nose up positive).",
+      "examples": [-6]
+    },
+    "roll": {
+      "type": "number",
+      "description": "Roll in degrees for the attitude indicator (right wing down positive).",
+      "examples": [14]
+    },
+    "battery": {
+      "type": "object",
+      "description": "Flight battery.",
+      "additionalProperties": false,
+      "required": ["percent"],
+      "properties": {
+        "percent": {
+          "type": "number",
+          "description": "Remaining charge, 0 to 100. Below 30 the indicator turns amber, below 15 red.",
+          "examples": [27]
+        },
+        "voltage": {
+          "type": "number",
+          "description": "Pack voltage, volts.",
+          "examples": [21.6]
+        },
+        "remainingMin": {
+          "type": "number",
+          "description": "Estimated minutes of flight left.",
+          "examples": [6]
+        }
+      }
+    },
+    "gnss": {
+      "type": "object",
+      "description": "GNSS receiver state.",
+      "additionalProperties": false,
+      "required": ["satellites"],
+      "properties": {
+        "satellites": {
+          "type": "integer",
+          "description": "Satellites used.",
+          "examples": [5]
+        },
+        "hdop": {
+          "type": "number",
+          "description": "Horizontal dilution of precision.",
+          "examples": [3.9]
+        },
+        "fix": {
+          "type": "string",
+          "description": "Fix type.",
+          "examples": ["3D Fix", "2D Fix", "No Fix", "RTK Float"]
+        }
+      }
+    },
+    "link": {
+      "type": "object",
+      "description": "Telemetry / C2 link.",
+      "additionalProperties": false,
+      "properties": {
+        "rssi": {
+          "type": "number",
+          "description": "Telemetry RSSI, dBm.",
+          "examples": [-97]
+        },
+        "quality": {
+          "type": "number",
+          "description": "Link quality percent, 0 to 100 (drives the signal bars).",
+          "examples": [12]
+        },
+        "lost": {
+          "type": "boolean",
+          "description": "Communication lost: telemetry values are stale and the toolbar says so.",
+          "examples": [true]
+        }
+      }
+    },
+    "distanceHome": {
+      "type": "number",
+      "description": "Horizontal distance to home, metres.",
+      "examples": [1240]
+    },
+    "flightTime": {
+      "type": "string",
+      "description": "Flight time, MM:SS or HH:MM:SS.",
+      "examples": ["18:37"]
+    },
+    "position": {
+      "type": "object",
+      "description": "Aircraft position (decimal degrees).",
+      "additionalProperties": false,
+      "properties": {
+        "lat": {
+          "type": "number",
+          "description": "Latitude.",
+          "examples": [47.5927]
+        },
+        "lon": {
+          "type": "number",
+          "description": "Longitude.",
+          "examples": [-91.9615]
+        }
+      }
+    },
+    "home": {
+      "type": "object",
+      "description": "Home / launch point (decimal degrees).",
+      "additionalProperties": false,
+      "properties": {
+        "lat": {
+          "type": "number",
+          "description": "Latitude.",
+          "examples": [47.6013]
+        },
+        "lon": {
+          "type": "number",
+          "description": "Longitude.",
+          "examples": [-91.9488]
+        }
+      }
+    },
+    "geofence": {
+      "type": "string",
+      "description": "Geofence description shown by the ring on the map.",
+      "examples": ["Circle 1,500 m · max alt 120 m · breach action RTL"]
+    },
+    "warnings": {
+      "type": "array",
+      "description": "Red warning banners across the top of the map, most severe first (up to 3).",
+      "maxItems": 3,
+      "items": {
+        "type": "string",
+        "description": "Warning text.",
+        "examples": ["Communication lost — vehicle executing RTL", "GPS Glitch", "EKF variance"]
+      }
+    },
+    "messages": {
+      "type": "array",
+      "description": "Vehicle message console, newest first (up to 7).",
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "text"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time, HH:MM:SS.",
+            "examples": ["15:41:52"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["info", "notice", "warning", "critical", "emergency"],
+            "description": "MAVLink STATUSTEXT severity; drives the colour.",
+            "examples": ["critical"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Message as the autopilot sends it.",
+            "examples": [
+              "PreArm: GPS horiz error 4.2m",
+              "EKF3 IMU0 is using GPS",
+              "Failsafe: GCS, RTL"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,11 @@
 <!-- Printout of a federal online incident report submission (OE-417 / NRC / NORS / PHMSA / CISA
-     style), one US Letter page. Generic emblem, never a real agency seal. -->
-<section class="page">
+     style) on US Letter pages: answer sections and the narrative continue on later pages as the
+     browser prints them (#331). Generic emblem, never a real agency seal. -->
+{{#each (paginate (rows @root.fields.sections key="sec" nested="items" heading=37 min=23 line=15.5
+pad=7 wrap="label:24,value:84") (rows @root.fields.narrative key="narr" heading=52 line=16.7 pad=8
+wrap="104") first=520 rest=840)}}
+<section class="page{{#unless first}} cont{{/unless}}">
+  {{#if first}} {{#with @root}}
   <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
   <div class="govbar">
     <svg class="flag" viewBox="0 0 16 11" aria-hidden="true">
@@ -100,25 +105,44 @@
     </tr>
   </table>
 
-  {{#each fields.sections}}
-  <h2>{{this.heading}}</h2>
+  {{/with}} {{else}} {{#with @root}}
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="contbar">
+    <div>
+      <div class="ag-name">{{fields.agency}}</div>
+      <div class="cont-title">
+        {{#if fields.formNumber}}{{fields.formNumber}} · {{/if}}{{fields.formName}} (continued)
+      </div>
+    </div>
+    <div class="cont-id">
+      <span>{{fields.organization}}</span>
+      <span class="r-id">{{fields.reportId}}</span>
+    </div>
+  </header>
+  {{/with}} {{/if}} {{#each groups}} {{#if (eq key "sec")}}
+  <h2>{{section.heading}}{{#if continued}} (continued){{/if}}</h2>
   <table class="kv">
-    {{#each this.items}}
+    {{#each rows}}
     <tr>
-      <th>{{this.label}}</th>
-      <td colspan="3">{{this.value}}</td>
+      <th>{{item.label}}</th>
+      <td colspan="3">{{item.value}}</td>
     </tr>
     {{/each}}
   </table>
-  {{/each}} {{#if fields.narrative}}
-  <h2>Narrative</h2>
-  <div class="narr">{{nl2br fields.narrative}}</div>
-  {{/if}}
+  {{/if}} {{#if (eq key "narr")}}
+  <h2>Narrative{{#if continued}} (continued){{/if}}</h2>
+  <div class="narr">
+    {{#each rows}}
+    <p>{{nl2br item}}</p>
+    {{/each}}
+  </div>
+  {{/if}} {{/each}}
 
   <div class="spacer"></div>
   <div class="foot">
-    <span>{{default fields.formNumber "Incident report"}} · {{fields.reportId}}</span>
-    <span>Page 1 of 1</span>
+    <span>{{default @root.fields.formNumber "Incident report"}} · {{@root.fields.reportId}}</span>
+    <span>Page {{number}} of {{total}}</span>
   </div>
-  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <p class="marking">{{default @root.fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
 </section>
+{{/each}}

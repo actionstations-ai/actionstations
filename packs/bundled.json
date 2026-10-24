@@ -29,6 +29,7 @@
           "email",
           "email_forward",
           "email_header_analysis",
+          "emergency_declaration",
           "endex_card",
           "error_dialog",
           "facebook_post",
@@ -62,10 +63,12 @@
           "regulatory_notice",
           "regulatory_report_form",
           "reporter_email",
+          "reunification_notice",
           "scada_hmi",
           "scenario_update",
           "scene_photo",
           "screenshot_generic",
+          "sds_excerpt",
           "security_advisory",
           "service_status_page",
           "siem_alert",
@@ -80,7 +83,8 @@
           "time_jump_card",
           "tweet",
           "uas_detection_alert",
-          "voicemail"
+          "voicemail",
+          "wire_transfer_request"
         ],
         "prompts": [
           "controller_handbook",
@@ -1084,12 +1088,10 @@
     {
       "id": "ai.actionstations.healthcare",
       "name": "Healthcare",
-      "summary": "Hospital and health system domain: profile.",
+      "summary": "Hospital and health system domain: profile and the HL7 interface monitor template.",
       "tags": ["healthcare"],
       "domains": ["healthcare"],
-      "contents": {
-        "domains": ["healthcare"]
-      }
+      "contents": { "templates": ["hl7_interface_monitor"], "domains": ["healthcare"] }
     },
     {
       "id": "ai.actionstations.campus",
@@ -1114,12 +1116,10 @@
     {
       "id": "ai.actionstations.port-maritime",
       "name": "Ports and maritime",
-      "summary": "Seaport and terminal domain: profile.",
+      "summary": "Seaport and terminal domain: profile and the USCG MSIB / Captain of the Port order template.",
       "tags": ["port", "maritime"],
       "domains": ["port_maritime"],
-      "contents": {
-        "domains": ["port_maritime"]
-      }
+      "contents": { "templates": ["msib_cotp_order"], "domains": ["port_maritime"] }
     },
     {
       "id": "ai.actionstations.municipal",
@@ -1144,18 +1144,22 @@
     {
       "id": "ai.actionstations.unmanned-systems",
       "name": "Unmanned systems",
-      "summary": "Drone and unmanned systems operator domain: profile and the UAS operations example.",
+      "summary": "Drone and unmanned systems operator domain: profile, the ground control station screen template and the UAS operations example.",
       "tags": ["uas", "drones"],
       "domains": ["unmanned_systems"],
-      "contents": { "domains": ["unmanned_systems"], "examples": ["uas-operations"] }
+      "contents": {
+        "templates": ["gcs_telemetry_screen"],
+        "domains": ["unmanned_systems"],
+        "examples": ["uas-operations"]
+      }
     },
     {
       "id": "ai.actionstations.freight-rail",
       "name": "Freight railroads",
-      "summary": "Freight railroad domain (Class I, regional, short line): profile.",
+      "summary": "Freight railroad domain (Class I, regional, short line): profile and the track bulletin / track warrant template.",
       "tags": ["rail", "freight", "hazmat"],
       "domains": ["freight_rail"],
-      "contents": { "domains": ["freight_rail"] }
+      "contents": { "templates": ["track_bulletin"], "domains": ["freight_rail"] }
     },
     {
       "id": "ai.actionstations.gas-pipeline",
@@ -1192,10 +1196,10 @@
     {
       "id": "ai.actionstations.elections",
       "name": "Election offices",
-      "summary": "County and state election office domain: profile.",
+      "summary": "County and state election office domain: profile and the election night results page template.",
       "tags": ["elections", "government"],
       "domains": ["elections"],
-      "contents": { "domains": ["elections"] }
+      "contents": { "templates": ["election_results_page"], "domains": ["elections"] }
     },
     {
       "id": "ai.actionstations.k12-schools",

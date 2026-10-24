@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HL7 interface engine monitor",
+  "description": "Interface engine monitoring dashboard (Rhapsody / Cloverleaf / Corepoint / Mirth Connect style), 1280 px wide: status counters, alert strip, the table of HL7 v2 connections between the EHR and the lab, radiology, pharmacy and billing systems (red / amber rows, queue depth climbing), and the message log of the selected interface. The selected interface's row is highlighted.",
+  "type": "object",
+  "required": ["engine", "interfaces"],
+  "additionalProperties": false,
+  "properties": {
+    "engine": {
+      "type": "string",
+      "description": "Interface engine product and console name shown in the title bar. A real product name is fine.",
+      "examples": [
+        "Rhapsody Management Console",
+        "Mirth Connect Dashboard",
+        "Cloverleaf Global Monitor"
+      ]
+    },
+    "site": {
+      "type": "string",
+      "description": "Hospital or health system and engine environment. Falls back to brand.aliases.org.",
+      "examples": ["Harbor County Medical Center — PROD engine HCMC-IE01"]
+    },
+    "clock": {
+      "type": "string",
+      "description": "Console date and time as the engine shows it.",
+      "examples": ["2026-10-21 02:47:13"]
+    },
+    "user": {
+      "type": "string",
+      "description": "Logged-in integration analyst.",
+      "examples": ["jtran (Integration Services)"]
+    },
+    "counts": {
+      "type": "object",
+      "description": "Connection counters in the summary tiles. Omit to hide the tiles.",
+      "additionalProperties": false,
+      "properties": {
+        "up": {
+          "type": "integer",
+          "description": "Connections running normally.",
+          "examples": [41]
+        },
+        "queued": {
+          "type": "integer",
+          "description": "Connections running with a growing queue (amber).",
+          "examples": [3]
+        },
+        "stopped": {
+          "type": "integer",
+          "description": "Connections stopped by an operator or by the engine.",
+          "examples": [1]
+        },
+        "error": {
+          "type": "integer",
+          "description": "Connections in error (red).",
+          "examples": [2]
+        }
+      }
+    },
+    "interfaces": {
+      "type": "array",
+      "description": "Connections in the monitor table, worst first (up to 12).",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Connection / route name as configured in the engine.",
+            "examples": ["EPIC_ADT_OUT_LAB", "LIS_ORU_IN", "PYXIS_RDE_OUT"]
+          },
+          "direction": {
+            "type": "string",
+            "enum": ["inbound", "outbound"],
+            "description": "Inbound (to the engine) or outbound (from the engine).",
+            "examples": ["outbound"]
+          },
+          "source": {
+            "type": "string",
+            "description": "Sending system.",
+            "examples": ["Epic EHR"]
+          },
+          "destination": {
+            "type": "string",
+            "description": "Receiving system.",
+            "examples": ["Sunquest LIS", "PACS", "Pharmacy cabinets"]
+          },
+          "messageType": {
+            "type": "string",
+            "description": "HL7 v2 message type and trigger event.",
+            "examples": ["ADT^A01", "ORU^R01", "ORM^O01", "SIU^S12", "RDE^O11", "DFT^P03"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["up", "queued", "stopped", "error"],
+            "description": "Connection state; drives the row colour.",
+            "examples": ["error"]
+          },
+          "queueDepth": {
+            "type": "integer",
+            "description": "Messages waiting in the outbound / inbound queue.",
+            "examples": [1842]
+          },
+          "lastMessage": {
+            "type": "string",
+            "description": "Time the last message was processed, HH:MM:SS.",
+            "examples": ["02:11:56"]
+          },
+          "error": {
+            "type": "string",
+            "description": "Last error text shown in the row.",
+            "examples": ["ACK timeout (30 s) — 3 retries exhausted"]
+          }
+        }
+      }
+    },
+    "selected": {
+      "type": "object",
+      "description": "Interface shown in the bottom message-log pane.",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the selected interface (should match a row in interfaces).",
+          "examples": ["EPIC_ADT_OUT_LAB"]
+        },
+        "messages": {
+          "type": "array",
+          "description": "Message log of the selected interface, newest first (up to 8).",
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["time", "status"],
+            "properties": {
+              "time": {
+                "type": "string",
+                "description": "Time, HH:MM:SS.",
+                "examples": ["02:47:02"]
+              },
+              "controlId": {
+                "type": "string",
+                "description": "MSH-10 message control id.",
+                "examples": ["HCMC2610210247021183"]
+              },
+              "type": {
+                "type": "string",
+                "description": "Message type^event.",
+                "examples": ["ADT^A01"]
+              },
+              "status": {
+                "type": "string",
+                "enum": ["sent", "queued", "error", "filtered", "retry"],
+                "description": "Message status.",
+                "examples": ["error"]
+              },
+              "text": {
+                "type": "string",
+                "description": "Log text or error detail. Use documentation IPs (192.0.2.x, 198.51.100.x, 203.0.113.x).",
+                "examples": ["Connection refused 192.0.2.17:6661"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "alerts": {
+      "type": "array",
+      "description": "Engine alerts in the strip above the table, most severe first (up to 3).",
+      "maxItems": 3,
+      "items": {
+        "type": "string",
+        "description": "Alert text.",
+        "examples": ["Queue threshold exceeded: EPIC_ADT_OUT_LAB 1,842 msgs (limit 500)"]
+      }
+    }
+  }
+}

@@ -18,7 +18,7 @@ export function TemplatePreview(props: {
     'render:preview',
     {
       type: template.type,
-      fields: template.preview,
+      fields: (variant && template.previewVariants?.[variant]) || template.preview,
       scale,
       ...(variant ? { variant } : {}),
       ...scope,

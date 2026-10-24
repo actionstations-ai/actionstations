@@ -37,5 +37,45 @@
     "issuedBy": "Clinical Informatics on behalf of the Incident Commander",
     "issuedAt": "10/21/2026 07:05",
     "refNo": "DT-2026-0147"
+  },
+  "variants": {
+    "planned": {
+      "fields": {
+        "department": "Information Services — Clinical Applications",
+        "systemName": "Electronic Health Record (EHR) upgrade",
+        "status": "DOWN",
+        "startedAt": "Sun 11/08/2026 01:00",
+        "expectedRestore": "Sun 11/08/2026 05:00 (4 hours)",
+        "affected": [
+          "Order entry (CPOE) and results review",
+          "eMAR / barcode medication administration",
+          "Nursing documentation and flowsheets",
+          "Patient portal and online scheduling",
+          "Lab and radiology result interfaces (results queue and post after)"
+        ],
+        "unaffected": [
+          "Read-only downtime viewer on BCA PCs (data as of 00:45)",
+          "PACS image viewing",
+          "Phones, pagers, Vocera and email",
+          "Pyxis cabinets (override mode)"
+        ],
+        "procedures": [
+          "Before 00:45: print the BCA downtime report for your unit and check the red downtime binder is stocked.",
+          "At 01:00 switch to paper forms. Write the date and time on every page.",
+          "Hand-carry STAT lab and radiology requisitions during the window. Results will be phoned to the unit.",
+          "Do not log in to the EHR until IS announces it is available; you will see a maintenance banner.",
+          "After restore: back-enter medications given and vital signs within 4 hours, oldest first.",
+          "Charge nurses confirm with the IS command post (ext. 4357) that the unit is back up."
+        ],
+        "forms": [
+          "Red downtime binders at every nursing station and in the ED",
+          "Back-entry guide: intranet > IS > Downtime"
+        ],
+        "contact": "IS Service Desk ext. 4357 (HELP) · IS command post on site 00:30–06:00",
+        "issuedBy": "Clinical Informatics · approved by the Chief Nursing Officer",
+        "issuedAt": "10/26/2026 09:00",
+        "refNo": "CHG-2026-1188"
+      }
+    }
   }
 }

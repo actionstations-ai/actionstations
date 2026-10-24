@@ -47,6 +47,8 @@ function renderNoise(a: Buffer, b: Buffer): { differing: number; allowed: number
 interface TemplateInfo {
   type: string
   preview: Record<string, unknown>
+  /** preview.json per-variant sample data, merged (#331). */
+  previewVariants?: Record<string, Record<string, unknown>>
   variants: string[]
   source?: string
 }
@@ -88,7 +90,7 @@ test('every template × variant matches its golden PNG and renders deterministic
   const render = async (t: TemplateInfo, variant: string): Promise<Buffer> => {
     const r = await invoke<{ dataUrl: string }>('render:preview', {
       type: t.type,
-      fields: t.preview,
+      fields: t.previewVariants?.[variant] ?? t.preview,
       variant,
       scale: 2,
     })

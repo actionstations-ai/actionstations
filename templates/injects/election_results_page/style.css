@@ -1,0 +1,363 @@
+/* County election-night results website (Clarity / ENR-style summary page) in a 1100 px browser
+   window: tab and address bar, county header with a generic seal, menu, UNOFFICIAL banner,
+   summary boxes and two-column contest cards with percentage bars. variant-spoofed: "Not
+   secure" address bar, header blue a shade off and the seal missing its inner ring. */
+.browser {
+  width: 1100px;
+  background: #fff;
+  color: #1b1f24;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+}
+.spacer {
+  flex: 1;
+}
+.tabs {
+  display: flex;
+  height: 36px;
+  padding: 6px 10px 0;
+  background: #dee1e6;
+}
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 360px;
+  padding: 0 14px;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: #fff;
+  border-radius: 8px 8px 0 0;
+}
+.tab svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 42px;
+  padding: 0 12px;
+  background: #fff;
+  border-bottom: 1px solid #d5d8dc;
+}
+.nav {
+  display: flex;
+  gap: 10px;
+  color: #5f6368;
+}
+.nav svg {
+  width: 16px;
+  height: 16px;
+}
+.addr {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 14px;
+  background: #f1f3f4;
+  border-radius: 15px;
+  color: #5f6368;
+}
+.lock {
+  width: 14px;
+  height: 14px;
+}
+.insecure {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-right: 8px;
+  font-size: 13px;
+  color: #c5221f;
+  border-right: 1px solid #c9ccd0;
+}
+.insecure svg {
+  width: 14px;
+  height: 14px;
+}
+.url {
+  font-size: 14px;
+  color: #202124;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 28px;
+  background: #1d3f72;
+  color: #fff;
+}
+.seal {
+  width: 56px;
+  height: 56px;
+}
+.org {
+  display: flex;
+  flex-direction: column;
+}
+.org b {
+  font-family: 'Source Serif 4', serif;
+  font-size: 24px;
+  font-weight: 600;
+}
+.org span {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c9d6ea;
+}
+.lang {
+  font-size: 13px;
+  color: #c9d6ea;
+}
+.menu {
+  display: flex;
+  gap: 4px;
+  padding: 0 28px;
+  background: #f2f5f9;
+  border-bottom: 1px solid #d0d8e2;
+}
+.menu span {
+  padding: 11px 14px;
+  font-size: 14px;
+  color: #3b4a5c;
+}
+.menu .on {
+  font-weight: 700;
+  color: #1d3f72;
+  box-shadow: inset 0 -3px 0 #1d3f72;
+}
+.main {
+  padding: 18px 28px 6px;
+}
+.titlerow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #1d3f72;
+}
+.upd {
+  font-size: 13px;
+  color: #4a5562;
+  white-space: nowrap;
+}
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 10px 14px;
+  font-weight: 700;
+  color: #5c3c00;
+  background: #fff3c4;
+  border: 1px solid #e8c95c;
+  border-left: 6px solid #d9a400;
+}
+.banner svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.status {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border: 1px solid;
+}
+.st-error {
+  color: #8c1d18;
+  background: #fdecea;
+  border-color: #eaa29c;
+}
+.st-maint {
+  color: #3b4a5c;
+  background: #eef1f4;
+  border-color: #c3cbd4;
+}
+.summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  background: #f7f9fb;
+  border: 1px solid #d6dde5;
+  border-top: 4px solid #1d3f72;
+}
+.k {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #4a5562;
+}
+.box b {
+  font-size: 26px;
+  font-weight: 700;
+}
+.box b small {
+  font-size: 15px;
+  font-weight: 400;
+  color: #4a5562;
+}
+.prog {
+  height: 8px;
+  background: #dfe5ec;
+}
+.prog i {
+  display: block;
+  height: 100%;
+  width: calc(var(--r) / var(--t) * 100%);
+  background: #1d3f72;
+}
+.contests {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 16px;
+  align-items: start;
+}
+.card {
+  border: 1px solid #d0d8e2;
+  border-radius: 3px;
+}
+.card header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #e9eef4;
+  border-bottom: 1px solid #d0d8e2;
+}
+h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #14325c;
+}
+.card header span {
+  font-size: 12px;
+  color: #4a5562;
+  white-space: nowrap;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+th.num {
+  width: 92px;
+}
+th {
+  padding: 6px 14px 4px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #4a5562;
+  border-bottom: 1px solid #e1e6ec;
+}
+td {
+  padding: 7px 14px;
+  vertical-align: top;
+  border-bottom: 1px solid #eef1f4;
+}
+.num {
+  text-align: right;
+  white-space: nowrap;
+}
+.pty {
+  width: 64px;
+  color: #4a5562;
+}
+.pct {
+  width: 84px;
+  font-weight: 700;
+}
+.cn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+.win .cn {
+  font-weight: 700;
+}
+.chk {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.bar {
+  display: block;
+  height: 10px;
+  margin-top: 5px;
+  background: #edf0f3;
+}
+.bar i {
+  display: block;
+  height: 100%;
+  background: var(--bc);
+}
+.c0 {
+  --bc: #1f5fa8;
+}
+.c1 {
+  --bc: #e07b00;
+}
+.c2 {
+  --bc: #4f8a3a;
+}
+.c3 {
+  --bc: #7a4ea3;
+}
+.c4 {
+  --bc: #7d868f;
+}
+.card footer {
+  padding: 7px 14px;
+  font-size: 12px;
+  color: #4a5562;
+}
+.foot {
+  margin-top: 14px;
+  padding: 14px 28px 18px;
+  background: #f2f5f9;
+  border-top: 1px solid #d0d8e2;
+}
+.foot p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #3b4a5c;
+}
+.foot .small {
+  margin-top: 6px;
+  color: #66717d;
+}
+
+body.variant-spoofed .head {
+  background: #22467d;
+}
+body.variant-spoofed .seal .ring {
+  display: none;
+}

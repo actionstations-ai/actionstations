@@ -8,6 +8,7 @@ import type { Brand } from '@shared/schemas'
 import { AppError } from '../lib/errors'
 import { safeJoin } from '../lib/fs'
 import { loadTemplate, sharedDir, type LoadedTemplate } from './templates'
+import { paginate, rowGroups, type RowGroup } from './paginate'
 
 export interface ComposeInput {
   type: string
@@ -75,6 +76,20 @@ hb.registerHelper({
   join: (list: unknown, sep: unknown) =>
     Array.isArray(list) ? list.join(typeof sep === 'string' ? sep : ', ') : '',
   json: (v: unknown) => JSON.stringify(v),
+  /**
+   * Row groups for `paginate`: (rows list key="items" heading=60 min=24 line=15 pad=9
+   * wrap="description:62") — estimated row heights from text length (see paginate.ts).
+   */
+  rows: (list: unknown, options: Handlebars.HelperOptions) =>
+    rowGroups(list, (options.hash ?? {}) as Record<string, never>),
+  /** Pages of row groups: (paginate (rows …) (rows …) first=730 rest=860). See paginate.ts. */
+  paginate: (...args: unknown[]) => {
+    const options = args.pop() as Handlebars.HelperOptions
+    const groups = args.flatMap((a) => (Array.isArray(a) ? (a as RowGroup[]) : []))
+    const hash = (options.hash ?? {}) as Record<string, unknown>
+    const first = Number(hash.first ?? 860)
+    return paginate(groups, first, Number(hash.rest ?? first))
+  },
   /** Repeat a block n times: {{#times 5}}…{{/times}} (index as @index). */
   times(n: number, options: Handlebars.HelperOptions) {
     let out = ''

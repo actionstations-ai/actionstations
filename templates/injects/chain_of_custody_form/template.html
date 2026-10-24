@@ -1,20 +1,45 @@
-<!-- Chain of custody form (NIST sample evidence form style), one US Letter page. -->
-<section class="page">
-  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+<!-- Chain of custody form (NIST sample evidence form style) on US Letter pages. Page 1 is the
+     form; long item lists, transfer logs or notes continue on continuation sheets (#331). -->
+{{#each (paginate (rows @root.fields.items key="items" heading=60 min=26 line=16.2 pad=9
+wrap="description:62,serial:24" keep=true) (rows @root.fields.transfers key="transfers" heading=82
+min=38 line=14.3 pad=10 wrap="purpose:36,releasedBy:18,receivedBy:18,dateTime:10" keep=true) (rows
+@root.fields.notes key="notes" heading=42 line=15.5 pad=4 wrap="104" keep=true) first=780
+rest=880)}}
+<section class="page{{#unless first}} cont{{/unless}}">
+  <p class="marking">{{default @root.fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  {{#if first}}
   <header class="head">
     <div class="issuer">
       <span class="org"
-        >{{default fields.org (default brand.aliases.org "Incident Response Team")}}</span
+        >{{default @root.fields.org (default @root.brand.aliases.org "Incident Response
+        Team")}}</span
       >
-      <h1>{{default fields.formTitle "Evidence Chain of Custody Tracking Form"}}</h1>
+      <h1>{{default @root.fields.formTitle "Evidence Chain of Custody Tracking Form"}}</h1>
     </div>
     <div class="case">
       <span>CASE NUMBER</span>
-      <strong>{{fields.caseNo}}</strong>
+      <strong>{{@root.fields.caseNo}}</strong>
     </div>
   </header>
-
-  <h2>Description of evidence</h2>
+  {{else}}
+  <header class="head head--cont">
+    <div class="issuer">
+      <span class="org"
+        >{{default @root.fields.org (default @root.brand.aliases.org "Incident Response
+        Team")}}</span
+      >
+      <h1>
+        {{default @root.fields.formTitle "Evidence Chain of Custody Tracking Form"}}: continuation
+        sheet
+      </h1>
+    </div>
+    <div class="case">
+      <span>CASE NUMBER</span>
+      <strong>{{@root.fields.caseNo}}</strong>
+    </div>
+  </header>
+  {{/if}} {{#each groups}} {{#if (eq key "items")}}
+  <h2>Description of evidence{{#if continued}} (continued){{/if}}</h2>
   <table class="items">
     <thead>
       <tr>
@@ -24,39 +49,39 @@
       </tr>
     </thead>
     <tbody>
-      {{#each fields.items}}
+      {{#each rows}}
       <tr>
-        <td class="mono">{{this.itemNo}}</td>
-        <td>{{this.description}}</td>
-        <td class="mono">{{this.serial}}</td>
+        <td class="mono">{{item.itemNo}}</td>
+        <td>{{item.description}}</td>
+        <td class="mono">{{item.serial}}</td>
       </tr>
       {{/each}}
     </tbody>
   </table>
-
+  {{#unless continued}}
   <table class="coll">
     <tr>
       <th>Collected by</th>
-      <td>{{fields.collectedBy}}</td>
+      <td>{{@root.fields.collectedBy}}</td>
       <th class="narrow">Date / time</th>
-      <td class="mono dt">{{fields.collectedAt}}</td>
+      <td class="mono dt">{{@root.fields.collectedAt}}</td>
     </tr>
     <tr>
       <th>Location</th>
-      <td colspan="3">{{fields.location}}</td>
+      <td colspan="3">{{@root.fields.location}}</td>
     </tr>
     <tr>
       <th>Reason obtained</th>
-      <td colspan="3">{{fields.reason}}</td>
+      <td colspan="3">{{@root.fields.reason}}</td>
     </tr>
     <tr>
       <th>Seal / bag no.</th>
-      <td colspan="3" class="mono">{{fields.sealNo}}</td>
+      <td colspan="3" class="mono">{{@root.fields.sealNo}}</td>
     </tr>
   </table>
-
-  <h2>Chain of custody</h2>
-  <div class="cwrap">
+  {{/unless}} {{/if}} {{#if (eq key "transfers")}}
+  <h2>Chain of custody{{#if continued}} (continued){{/if}}</h2>
+  <div class="cwrap{{#if continues}} full{{/if}}">
     <table class="chain">
       <thead>
         <tr>
@@ -68,15 +93,15 @@
         </tr>
       </thead>
       <tbody>
-        {{#each fields.transfers}}
+        {{#each rows}}
         <tr>
-          <td class="n">{{inc @index}}</td>
-          <td class="mono">{{this.dateTime}}</td>
-          <td class="hand">{{this.releasedBy}}</td>
-          <td class="hand">{{this.receivedBy}}</td>
-          <td class="purpose">{{this.purpose}}</td>
+          <td class="n">{{number}}</td>
+          <td class="mono">{{item.dateTime}}</td>
+          <td class="hand">{{item.releasedBy}}</td>
+          <td class="hand">{{item.receivedBy}}</td>
+          <td class="purpose">{{item.purpose}}</td>
         </tr>
-        {{/each}} {{#times 8}}
+        {{/each}} {{#unless continues}} {{#times 20}}
         <tr class="empty">
           <td></td>
           <td></td>
@@ -84,18 +109,26 @@
           <td></td>
           <td></td>
         </tr>
-        {{/times}}
+        {{/times}} {{/unless}}
       </tbody>
     </table>
   </div>
-
+  {{/if}} {{#if (eq key "notes")}}
   <div class="notes">
-    <span class="lbl">Notes</span>
-    <p>{{fields.notes}}</p>
+    <span class="lbl">Notes{{#if continued}} (continued){{/if}}</span>
+    {{#each rows}}
+    <p>{{item}}</p>
+    {{/each}}
   </div>
-  <p class="foot">
-    Every person who handles these items signs on receipt and on release. Do not break a seal
-    without recording it here.
-  </p>
-  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  {{/if}} {{/each}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <p>
+      Every person who handles these items signs on receipt and on release. Do not break a seal
+      without recording it here.
+    </p>
+    <span class="pg">Page {{number}} of {{total}}</span>
+  </div>
+  <p class="marking">{{default @root.fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
 </section>
+{{/each}}

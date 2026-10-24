@@ -1,0 +1,175 @@
+{
+  "fields": {
+    "engine": "Rhapsody Management Console",
+    "site": "Harbor County Medical Center — PROD engine HCMC-IE01",
+    "clock": "2026-10-21 02:47:13",
+    "user": "jtran (Integration Services)",
+    "counts": { "up": 41, "queued": 3, "stopped": 1, "error": 2 },
+    "alerts": [
+      "Connection error: EPIC_ADT_OUT_LAB — Connection refused 192.0.2.17:6661 (since 02:12:04)",
+      "Queue threshold exceeded: EPIC_ORM_OUT_LAB 1,207 msgs (limit 500)"
+    ],
+    "interfaces": [
+      {
+        "name": "EPIC_ADT_OUT_LAB",
+        "direction": "outbound",
+        "source": "Epic EHR",
+        "destination": "Sunquest LIS",
+        "messageType": "ADT^A01",
+        "status": "error",
+        "queueDepth": 1842,
+        "lastMessage": "02:11:56",
+        "error": "Connection refused 192.0.2.17:6661"
+      },
+      {
+        "name": "LIS_ORU_IN",
+        "direction": "inbound",
+        "source": "Sunquest LIS",
+        "destination": "Epic EHR",
+        "messageType": "ORU^R01",
+        "status": "error",
+        "queueDepth": 0,
+        "lastMessage": "02:12:01",
+        "error": "No inbound traffic 35 min (threshold 10)"
+      },
+      {
+        "name": "EPIC_ORM_OUT_LAB",
+        "direction": "outbound",
+        "source": "Epic EHR",
+        "destination": "Sunquest LIS",
+        "messageType": "ORM^O01",
+        "status": "queued",
+        "queueDepth": 1207,
+        "lastMessage": "02:12:03",
+        "error": "ACK timeout (30 s) — retrying"
+      },
+      {
+        "name": "EPIC_ADT_OUT_PYXIS",
+        "direction": "outbound",
+        "source": "Epic EHR",
+        "destination": "Pharmacy cabinets",
+        "messageType": "ADT^A02",
+        "status": "queued",
+        "queueDepth": 214,
+        "lastMessage": "02:44:37",
+        "error": "Slow ACK — avg 11.8 s"
+      },
+      {
+        "name": "BLOODBANK_ORU_IN",
+        "direction": "inbound",
+        "source": "Blood bank",
+        "destination": "Epic EHR",
+        "messageType": "ORU^R01",
+        "status": "queued",
+        "queueDepth": 37,
+        "lastMessage": "02:41:10"
+      },
+      {
+        "name": "REF_LAB_ORU_IN",
+        "direction": "inbound",
+        "source": "Reference lab (VPN)",
+        "destination": "Epic EHR",
+        "messageType": "ORU^R01",
+        "status": "stopped",
+        "queueDepth": 0,
+        "lastMessage": "01:58:22",
+        "error": "Stopped by jtran 02:20:41"
+      },
+      {
+        "name": "EPIC_ORM_OUT_RIS",
+        "direction": "outbound",
+        "source": "Epic EHR",
+        "destination": "Radiology RIS",
+        "messageType": "ORM^O01",
+        "status": "up",
+        "queueDepth": 0,
+        "lastMessage": "02:46:58"
+      },
+      {
+        "name": "RIS_ORU_IN",
+        "direction": "inbound",
+        "source": "Radiology RIS",
+        "destination": "Epic EHR",
+        "messageType": "ORU^R01",
+        "status": "up",
+        "queueDepth": 0,
+        "lastMessage": "02:46:31"
+      },
+      {
+        "name": "EPIC_RDE_OUT_PHARM",
+        "direction": "outbound",
+        "source": "Epic EHR",
+        "destination": "Pharmacy system",
+        "messageType": "RDE^O11",
+        "status": "up",
+        "queueDepth": 2,
+        "lastMessage": "02:47:05"
+      },
+      {
+        "name": "EPIC_SIU_OUT_PACS",
+        "direction": "outbound",
+        "source": "Epic EHR",
+        "destination": "PACS",
+        "messageType": "SIU^S12",
+        "status": "up",
+        "queueDepth": 0,
+        "lastMessage": "02:39:44"
+      },
+      {
+        "name": "EPIC_DFT_OUT_BILLING",
+        "direction": "outbound",
+        "source": "Epic EHR",
+        "destination": "Billing",
+        "messageType": "DFT^P03",
+        "status": "up",
+        "queueDepth": 0,
+        "lastMessage": "02:46:12"
+      }
+    ],
+    "selected": {
+      "name": "EPIC_ADT_OUT_LAB",
+      "messages": [
+        {
+          "time": "02:47:02",
+          "controlId": "HCMC2610210247021183",
+          "type": "ADT^A01",
+          "status": "queued",
+          "text": "Queued — destination connection down (position 1,842)"
+        },
+        {
+          "time": "02:46:30",
+          "type": "TCP",
+          "status": "retry",
+          "text": "Reconnect attempt 34 to 192.0.2.17:6661 — Connection refused"
+        },
+        {
+          "time": "02:45:51",
+          "controlId": "HCMC2610210245511179",
+          "type": "ADT^A08",
+          "status": "queued",
+          "text": "Queued — destination connection down"
+        },
+        {
+          "time": "02:12:04",
+          "type": "TCP",
+          "status": "error",
+          "text": "java.net.ConnectException: Connection refused 192.0.2.17:6661"
+        },
+        {
+          "time": "02:11:56",
+          "controlId": "HCMC2610210211560871",
+          "type": "ADT^A01",
+          "status": "error",
+          "text": "ACK timeout (30 s) — no MSA received, 3 retries exhausted"
+        },
+        {
+          "time": "02:11:09",
+          "controlId": "HCMC2610210211090866",
+          "type": "ADT^A03",
+          "status": "sent",
+          "text": "ACK AA received in 0.4 s"
+        }
+      ]
+    }
+  }
+}

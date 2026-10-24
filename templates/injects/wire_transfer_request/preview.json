@@ -1,0 +1,104 @@
+{
+  "variant": "wire_request",
+  "fields": {
+    "org": "City of Milford",
+    "department": "Department of Finance · Treasury Division",
+    "formTitle": "Outgoing Wire Transfer Request",
+    "formNo": "FIN-TR-104 (Rev. 03/2025)",
+    "requestNo": "WT-2026-0418",
+    "requestedAt": "10/22/2026 10:14 AM",
+    "originator": {
+      "name": "City of Milford - General Operating",
+      "account": "XXXX-XX-4471"
+    },
+    "amount": "487,250.00",
+    "amountWords": "Four hundred eighty-seven thousand two hundred fifty and 00/100",
+    "currency": "USD",
+    "valueDate": "10/22/2026",
+    "beneficiary": {
+      "name": "Riverbend Paving & Excavation LLC",
+      "address": "4120 Industrial Pkwy, Riverbend",
+      "bank": "Harbor County Savings Bank, Port Lakeview",
+      "aba": "071925508",
+      "account": "XXXXXX8812"
+    },
+    "reference": "Inv. 22-1187 / PO 26-00412",
+    "purpose": "Progress payment 3, Elm Street reconstruction contract C-2026-14",
+    "initiatedBy": "Karen Liu, Treasury Analyst",
+    "approvals": [
+      { "role": "Prepared by", "name": "K. Liu", "dateTime": "10/22/2026 10:31" },
+      {
+        "role": "Approved by (Treasurer)",
+        "name": "R. Castellano",
+        "dateTime": "10/22/2026 11:02"
+      },
+      { "role": "Released by", "name": "", "dateTime": "" }
+    ],
+    "callback": {
+      "verified": true,
+      "number": "(555) 0147",
+      "source": "Vendor master file",
+      "contact": "Dale Hoffman, Controller",
+      "by": "M. Ortega",
+      "dateTime": "10/22/2026 10:40",
+      "note": "Confirmed amount and account ending 8812 with D. Hoffman."
+    },
+    "cutoff": "3:00 PM ET",
+    "status": "PENDING RELEASE",
+    "imad": "",
+    "notes": "Release after second approval. Contract file C-2026-14 holds the signed pay application."
+  },
+  "variants": {
+    "vendor_bank_change": {
+      "fields": {
+        "org": "Harbor County Public Schools",
+        "department": "Business Office · Accounts Payable",
+        "formTitle": "Vendor Banking Information Change Request",
+        "formNo": "AP-17 (Rev. 08/2024)",
+        "requestNo": "VBC-2026-0093",
+        "requestedAt": "10/21/2026 4:52 PM",
+        "vendor": {
+          "name": "Lakeshore Office Supply Co.",
+          "number": "V-004417",
+          "contact": "\"Brian Kessler, AR Manager\" <b.kessler@lakeshore-officesuppIy.example>"
+        },
+        "requestedVia": "Email with PDF letter on vendor letterhead, replying to an open invoice thread",
+        "oldBank": {
+          "bank": "First Lakeshore Bank",
+          "aba": "041215664",
+          "account": "XXXXX3390",
+          "type": "Checking"
+        },
+        "newBank": {
+          "bank": "Cedar Ridge Digital Bank, N.A.",
+          "aba": "124303129",
+          "account": "XXXXXX7021",
+          "type": "Checking"
+        },
+        "effectiveDate": "Next payment run, 10/24/2026",
+        "purpose": "Vendor states the current account is frozen during a bank audit and asks that all open invoices (est. $212,480.16) be paid to the new account.",
+        "initiatedBy": "Tanya Brooks, AP Specialist",
+        "approvals": [
+          { "role": "Entered by (AP)", "name": "T. Brooks", "dateTime": "10/22/2026 08:47" },
+          {
+            "role": "Approved (AP Supervisor)",
+            "name": "G. Whitman",
+            "dateTime": "10/22/2026 09:15"
+          },
+          { "role": "Vendor master update", "name": "", "dateTime": "" }
+        ],
+        "callback": {
+          "verified": true,
+          "number": "(555) 0186",
+          "source": "Signature block of the requesting email",
+          "contact": "\"Brian\"",
+          "by": "T. Brooks",
+          "dateTime": "10/22/2026 08:40",
+          "note": "Caller confirmed the new account. Number differs from vendor master ((555) 0133)."
+        },
+        "status": "ENTERED IN ERP",
+        "notes": "Letter PDF attached to ticket AP-55102. Sender domain not checked against vendor file."
+      }
+    }
+  }
+}

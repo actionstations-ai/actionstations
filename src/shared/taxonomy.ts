@@ -148,6 +148,14 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
   t('security_advisory', 'Security advisory (CISA / ISAC / vendor)', 'technical', ['template'], {
     paper: true,
   }),
+  t('hl7_interface_monitor', 'HL7 interface engine monitor', 'technical', ['template'], {
+    defaultDelivery: 'display_main_screen',
+    domains: ['healthcare'],
+  }),
+  t('election_results_page', 'Election night results page', 'technical', ['template'], {
+    defaultDelivery: 'display_main_screen',
+    domains: ['elections'],
+  }),
   // Operational displays & physical
   t('fids_board', 'FIDS board', 'operational', ['template'], {
     mvp: true,
@@ -191,6 +199,14 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
   t('rider_service_alert', 'Rider service alert', 'operational', ['template'], {
     domains: ['transit'],
   }),
+  t('gcs_telemetry_screen', 'UAS ground control station screen', 'operational', ['template'], {
+    defaultDelivery: 'display_main_screen',
+    domains: ['unmanned_systems'],
+  }),
+  t('track_bulletin', 'Track bulletin / track warrant', 'operational', ['template'], {
+    paper: true,
+    domains: ['freight_rail'],
+  }),
   // Documents & forms
   t('official_letter', 'Official letter', 'documents', ['template'], { paper: true }),
   t('regulatory_notice', 'Regulatory notice', 'documents', ['template'], { paper: true }),
@@ -218,6 +234,20 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
   t('boil_water_notice', 'Boil water / do not drink notice', 'documents', ['template'], {
     paper: true,
     domains: ['water_utility', 'public_health', 'municipal'],
+  }),
+  t('wire_transfer_request', 'Wire transfer / payment change request', 'documents', ['template'], {
+    paper: true,
+  }),
+  t('sds_excerpt', 'Safety Data Sheet excerpt', 'documents', ['template'], { paper: true }),
+  t('emergency_declaration', 'Local emergency declaration', 'documents', ['template'], {
+    paper: true,
+  }),
+  t('reunification_notice', 'Family reunification notice / card', 'documents', ['template'], {
+    paper: true,
+  }),
+  t('msib_cotp_order', 'USCG MSIB / Captain of the Port order', 'documents', ['template'], {
+    paper: true,
+    domains: ['port_maritime'],
   }),
   // Facilitator control
   t('startex_card', 'STARTEX card', 'control', ['template'], {

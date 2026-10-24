@@ -22,9 +22,9 @@
     },
     "items": {
       "type": "array",
-      "description": "Items in custody (1-4)",
+      "description": "Items in custody (1-4 typical; a longer list continues on a continuation sheet)",
       "minItems": 1,
-      "maxItems": 4,
+      "maxItems": 30,
       "items": {
         "type": "object",
         "properties": {
@@ -70,8 +70,8 @@
     },
     "transfers": {
       "type": "array",
-      "description": "Custody transfers, oldest first (up to 8)",
-      "maxItems": 8,
+      "description": "Custody transfers, oldest first (8 fit on page 1; more continue on continuation sheets)",
+      "maxItems": 40,
       "items": {
         "type": "object",
         "properties": {

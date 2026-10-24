@@ -1,0 +1,272 @@
+<!-- Wire transfer / payment change request, one US Letter page. Variant wire_request: treasury
+     outgoing wire request (Fedwire-style) with dual-control approvals and callback box.
+     Variant vendor_bank_change: accounts-payable vendor banking change request (BEC artifact). -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div class="issuer">
+      {{#if brand.logo}}<img class="logo" src="{{brand.logo}}" alt="" />{{else}}<svg
+        class="emblem"
+        viewBox="0 0 40 40"
+        aria-hidden="true"
+      >
+        <circle cx="20" cy="20" r="19" fill="#1f3a5f" />
+        <path d="M9 16 L20 9 L31 16 Z" fill="#fff" />
+        <rect x="11" y="17.5" width="3" height="10" fill="#fff" />
+        <rect x="18.5" y="17.5" width="3" height="10" fill="#fff" />
+        <rect x="26" y="17.5" width="3" height="10" fill="#fff" />
+        <rect x="9" y="28.5" width="22" height="2.5" fill="#fff" /></svg
+      >{{/if}}
+      <div>
+        <div class="org">
+          {{default fields.org (default brand.aliases.org "Finance Department")}}
+        </div>
+        {{#if fields.department}}
+        <div class="dept">{{fields.department}}</div>
+        {{/if}}
+      </div>
+    </div>
+    <table class="reqbox">
+      <tr>
+        <th>Request no.</th>
+        <td class="mono">{{fields.requestNo}}</td>
+      </tr>
+      <tr>
+        <th>Submitted</th>
+        <td class="mono">{{fields.requestedAt}}</td>
+      </tr>
+    </table>
+  </header>
+
+  {{#if (eq variant "vendor_bank_change")}}
+  <h1>{{default fields.formTitle "Vendor Banking Information Change Request"}}</h1>
+  <p class="policy">
+    Changes to vendor payment instructions must be verified by calling the vendor at a number
+    already on file (vendor master, contract or prior invoice), never a number supplied with the
+    request. Two staff members sign before the vendor master is updated.
+  </p>
+
+  <h2><span>1</span>Vendor information</h2>
+  <table class="grid">
+    <tr>
+      <th>Vendor name</th>
+      <td>{{fields.vendor.name}}</td>
+      <th class="w-s">Vendor no.</th>
+      <td class="mono w-m">{{fields.vendor.number}}</td>
+    </tr>
+    <tr>
+      <th>Requested by</th>
+      <td colspan="3" class="mono sm">{{fields.vendor.contact}}</td>
+    </tr>
+    <tr>
+      <th>Received via</th>
+      <td colspan="3">{{fields.requestedVia}}</td>
+    </tr>
+  </table>
+
+  <h2><span>2</span>Banking information</h2>
+  <table class="grid bank">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Current (on file)</th>
+        <th>New (requested)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Bank name</th>
+        <td>{{fields.oldBank.bank}}</td>
+        <td class="new">{{fields.newBank.bank}}</td>
+      </tr>
+      <tr>
+        <th>ABA routing no.</th>
+        <td class="mono">{{fields.oldBank.aba}}</td>
+        <td class="mono new">{{fields.newBank.aba}}</td>
+      </tr>
+      <tr>
+        <th>Account no.</th>
+        <td class="mono">{{fields.oldBank.account}}</td>
+        <td class="mono new">{{fields.newBank.account}}</td>
+      </tr>
+      <tr>
+        <th>Account type</th>
+        <td>{{fields.oldBank.type}}</td>
+        <td class="new">{{fields.newBank.type}}</td>
+      </tr>
+      <tr>
+        <th>Effective</th>
+        <td colspan="2">{{fields.effectiveDate}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span>3</span>Reason for change</h2>
+  <div class="textbox">{{fields.purpose}}</div>
+  {{else}}
+  <h1>{{default fields.formTitle "Outgoing Wire Transfer Request"}}</h1>
+  <p class="policy">
+    Domestic Fedwire funds transfer. Requests received after the cutoff are sent the next business
+    day. Dual control applies: the preparer may not approve or release the same wire.
+  </p>
+
+  <h2><span>1</span>Debit account (originator)</h2>
+  <table class="grid">
+    <tr>
+      <th>Account name</th>
+      <td>{{fields.originator.name}}</td>
+      <th class="w-s">Account no.</th>
+      <td class="mono w-m">{{fields.originator.account}}</td>
+    </tr>
+  </table>
+
+  <h2><span>2</span>Transfer</h2>
+  <div class="amount-row">
+    <div class="amount">
+      <span class="lbl">Amount</span>
+      <span class="val"
+        ><span class="cur">$</span>{{fields.amount}}
+        <span class="ccy">{{default fields.currency "USD"}}</span></span
+      >
+    </div>
+    <div class="vd">
+      <span class="lbl">Value date</span>
+      <span class="mono">{{fields.valueDate}}</span>
+    </div>
+    <div class="vd">
+      <span class="lbl">Cutoff</span>
+      <span class="mono">{{default fields.cutoff "4:00 PM ET"}}</span>
+    </div>
+  </div>
+  {{#if fields.amountWords}}
+  <div class="words"><span class="lbl">In words</span>{{fields.amountWords}} dollars</div>
+  {{/if}}
+
+  <h2><span>3</span>Beneficiary</h2>
+  <table class="grid">
+    <colgroup>
+      <col class="k" />
+      <col />
+      <col class="k2" />
+      <col class="v2" />
+    </colgroup>
+    <tr>
+      <th>Beneficiary name</th>
+      <td colspan="3">{{fields.beneficiary.name}}</td>
+    </tr>
+    <tr>
+      <th>Address</th>
+      <td colspan="3">{{fields.beneficiary.address}}</td>
+    </tr>
+    <tr>
+      <th>Receiving bank</th>
+      <td colspan="3">{{fields.beneficiary.bank}}</td>
+    </tr>
+    <tr>
+      <th>ABA routing no.</th>
+      <td class="mono">{{fields.beneficiary.aba}}</td>
+      <th class="w-s">Account no.</th>
+      <td class="mono w-m">{{fields.beneficiary.account}}</td>
+    </tr>
+  </table>
+
+  <h2><span>4</span>Payment details</h2>
+  <table class="grid">
+    <tr>
+      <th>Reference (OBI)</th>
+      <td class="mono">{{fields.reference}}</td>
+    </tr>
+    <tr>
+      <th>Purpose</th>
+      <td>{{fields.purpose}}</td>
+    </tr>
+  </table>
+  {{/if}}
+
+  <h2>
+    <span>{{#if (eq variant "vendor_bank_change")}}4{{else}}5{{/if}}</span>Callback verification
+  </h2>
+  <div class="callback">
+    <div class="cb-check">
+      <span class="opt"
+        ><span class="box">{{#if fields.callback.verified}}✓{{/if}}</span>Verified</span
+      >
+      <span class="opt"
+        ><span class="box"
+          >{{#if fields.callback.dateTime}}{{#unless fields.callback.verified
+          }}✓{{/unless}}{{/if}}</span
+        >Not verified</span
+      >
+    </div>
+    <table class="grid cb">
+      <tr>
+        <th>Number called</th>
+        <td class="mono">{{fields.callback.number}}</td>
+        <th class="w-s">Source of no.</th>
+        <td class="w-l">{{fields.callback.source}}</td>
+      </tr>
+      <tr>
+        <th>Person reached</th>
+        <td>{{fields.callback.contact}}</td>
+        <th class="w-s">Called by</th>
+        <td class="w-l">
+          <span class="hand">{{fields.callback.by}}</span
+          ><span class="mono dt">{{fields.callback.dateTime}}</span>
+        </td>
+      </tr>
+      <tr>
+        <th>Result</th>
+        <td colspan="3">{{fields.callback.note}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <h2><span>{{#if (eq variant "vendor_bank_change")}}5{{else}}6{{/if}}</span>Authorization</h2>
+  {{#if fields.initiatedBy}}
+  <div class="init"><span class="lbl">Initiated by</span>{{fields.initiatedBy}}</div>
+  {{/if}}
+  <div class="sigs">
+    {{#each fields.approvals}}
+    <div class="sig">
+      <div class="sig-line"><span class="hand">{{this.name}}</span></div>
+      <div class="sig-meta">
+        <span>{{this.role}}</span><span class="mono">{{this.dateTime}}</span>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="office">
+    <div class="office-h">
+      {{#if (eq variant "vendor_bank_change")}}Accounts payable use only{{else}}Treasury / bank use
+      only{{/if}}
+    </div>
+    <div class="office-b">
+      {{#if (eq variant "vendor_bank_change")}}
+      <div class="of"><span class="lbl">Vendor master updated</span><span class="fill"></span></div>
+      <div class="of">
+        <span class="lbl">Confirmation letter sent</span><span class="fill"></span>
+      </div>
+      {{else}}
+      <div class="of">
+        <span class="lbl">IMAD</span><span class="fill mono">{{fields.imad}}</span>
+      </div>
+      <div class="of"><span class="lbl">Time sent</span><span class="fill"></span></div>
+      {{/if}} {{#if fields.status}}
+      <div class="stamp">{{upper fields.status}}</div>
+      {{/if}}
+    </div>
+  </div>
+
+  {{#if fields.notes}}
+  <div class="notes"><span class="lbl">Notes</span>{{fields.notes}}</div>
+  {{/if}}
+
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{default fields.formNo "Payment control form"}} · {{fields.requestNo}}</span>
+    <span>Confidential: contains account information</span>
+    <span>Page 1 of 1</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

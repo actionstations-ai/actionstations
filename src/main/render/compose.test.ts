@@ -4,7 +4,8 @@ import { resolve } from 'node:path'
 vi.mock('electron', () => ({ app: { isPackaged: false, getAppPath: () => resolve('.') } }))
 process.env.TTX_RESOURCES = resolve('.')
 const { composeDocument, initials } = await import('./compose')
-const { listTemplateTypes, loadTemplate, validateFields } = await import('./templates')
+const { listTemplateTypes, loadTemplate, previewFields, templateInfo, validateFields } =
+  await import('./templates')
 
 describe('template composition', () => {
   it('lists shipped templates and skips _shared', () => {
@@ -12,10 +13,55 @@ describe('template composition', () => {
     expect(listTemplateTypes().some((t) => t.startsWith('_'))).toBe(false)
   })
 
-  it('every template preview validates against its own schema', () => {
+  it('every template preview validates against its own schema, per variant too', () => {
     for (const type of listTemplateTypes()) {
-      expect(validateFields(type, loadTemplate(type).preview.fields), type).toEqual([])
+      const t = loadTemplate(type)
+      expect(validateFields(type, t.preview.fields), type).toEqual([])
+      for (const v of Object.keys(t.preview.variants)) {
+        expect(t.meta.variants, `${type}: preview variant ${v} is not in meta.json`).toContain(v)
+        expect(validateFields(type, previewFields(t.preview, v)), `${type}--${v}`).toEqual([])
+      }
     }
+  })
+
+  it('per-variant preview data replaces top-level fields for that variant only (#331)', () => {
+    const t = loadTemplate('security_advisory')
+    expect(previewFields(t.preview, 'agency')).toBe(t.preview.fields)
+    const vendor = previewFields(t.preview, 'vendor')
+    expect(vendor.publisher).toMatch(/PSIRT/)
+    expect(vendor.summary).not.toBe(t.preview.fields.summary)
+    const info = templateInfo(t)
+    expect(info.preview).toBe(t.preview.fields)
+    expect(info.previewVariants?.vendor).toEqual(vendor)
+    expect(info.previewVariants?.agency).toBeUndefined()
+  })
+
+  it('splits long paper forms into Letter pages with continuation headers (#331)', () => {
+    const base = loadTemplate('chain_of_custody_form').preview.fields as {
+      transfers: Record<string, string>[]
+    }
+    const html = (type: string, fields: Record<string, unknown>) =>
+      composeDocument({ type, fields }).html
+    const pageCount = (h: string) => h.match(/<section class="page/g)?.length
+    expect(pageCount(html('chain_of_custody_form', base))).toBe(1)
+    const transfers = Array.from(
+      { length: 40 },
+      (_, i) => base.transfers[i % base.transfers.length],
+    )
+    const long = html('chain_of_custody_form', { ...base, transfers })
+    expect(pageCount(long)).toBe(3)
+    expect(long).toContain('Page 3 of 3')
+    expect(long).toContain('Chain of custody (continued)')
+    // Every transfer is printed exactly once, numbered 1 to 40.
+    const numbers = [...long.matchAll(/<td class="n">(\d+)<\/td>/g)].map((m) => Number(m[1]))
+    expect(numbers).toEqual(Array.from({ length: 40 }, (_, i) => i + 1))
+    const reg = html(
+      'regulatory_report_form',
+      loadTemplate('regulatory_report_form').preview.fields,
+    )
+    expect(pageCount(reg)).toBe(2)
+    expect(reg).toContain('Page 2 of 2')
+    expect(reg).toContain('(continued)')
   })
 
   it('reports schema violations with paths', () => {

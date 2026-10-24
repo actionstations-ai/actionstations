@@ -1,0 +1,105 @@
+<!-- Declaration of local emergency (proclamation / executive order by a mayor or county
+     executive), one US Letter page: generic municipal seal, WHEREAS clauses, NOW, THEREFORE
+     paragraph, numbered powers, duration and ratification, signature and clerk's attestation. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+      <defs>
+        <path id="decl-seal-top" d="M 18 60 A 42 42 0 0 1 102 60" />
+        <path id="decl-seal-bottom" d="M 22 62 A 38 38 0 0 0 98 62" />
+      </defs>
+      <circle cx="60" cy="60" r="57" fill="#fff" stroke="#1d2b4a" stroke-width="2.5" />
+      <circle cx="60" cy="60" r="52" fill="none" stroke="#1d2b4a" stroke-width="0.8" />
+      <circle cx="60" cy="60" r="32" fill="none" stroke="#1d2b4a" stroke-width="1.2" />
+      <text class="seal-txt" text-anchor="middle">
+        <textPath href="#decl-seal-top" startOffset="50%" text-anchor="middle">
+          {{upper (default fields.jurisdiction (default brand.aliases.org "The County"))}}
+        </textPath>
+      </text>
+      <text class="seal-txt sm" text-anchor="middle">
+        <textPath href="#decl-seal-bottom" startOffset="50%" text-anchor="middle">
+          ★ OFFICIAL SEAL ★
+        </textPath>
+      </text>
+      <path d="M44 58 L60 46 L76 58 Z" fill="#1d2b4a" />
+      <rect x="46" y="60" width="4" height="13" fill="#1d2b4a" />
+      <rect x="54" y="60" width="4" height="13" fill="#1d2b4a" />
+      <rect x="62" y="60" width="4" height="13" fill="#1d2b4a" />
+      <rect x="70" y="60" width="4" height="13" fill="#1d2b4a" />
+      <rect x="43" y="74" width="34" height="3" fill="#1d2b4a" />
+    </svg>
+    <div class="office">{{default fields.office "Office of the Chief Executive"}}</div>
+    <div class="juris">
+      {{default fields.jurisdiction (default brand.aliases.org "The County")}}
+    </div>
+  </header>
+
+  <h1>{{default fields.title "Declaration of Local Emergency"}}</h1>
+  <div class="docline">
+    {{#if fields.declarationNo}}<span>{{fields.declarationNo}}</span>{{/if}}{{#if fields.issuedAt
+    }}<span>{{fields.issuedAt}}</span>{{/if}}
+  </div>
+
+  <div class="body">
+    {{#each fields.whereas}}
+    <p class="wh"><strong>WHEREAS,</strong> {{this}}</p>
+    {{/each}}
+    <p class="now"><strong>NOW, THEREFORE,</strong> {{fields.declaration}}</p>
+
+    {{#if fields.powers}}
+    <p class="further">
+      <strong>IT IS FURTHER ORDERED</strong> that, for the duration of this emergency:
+    </p>
+    <ol class="powers">
+      {{#each fields.powers}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ol>
+    {{/if}}
+
+    <p class="dur">
+      This declaration is issued under {{default fields.authority "the emergency management
+      provisions of the local code"}}. It takes effect {{default fields.effective "immediately upon
+      signing"}} and remains in effect for {{default fields.expires "seven (7) days"}}, unless
+      terminated earlier or extended. {{fields.ratification}}
+    </p>
+    <p class="witness">
+      <strong>IN WITNESS WHEREOF,</strong>{{#if fields.issuedAt}} on {{fields.issuedAt}},{{/if}} I
+      have hereunto set my hand and caused the seal of {{default fields.jurisdiction (default
+      brand.aliases.org "the County")}} to be affixed.
+    </p>
+  </div>
+
+  <div class="sigs">
+    <div class="sig">
+      <div class="line"><span class="hand">{{fields.signer.name}}</span></div>
+      <div class="nm">{{fields.signer.name}}</div>
+      <div class="tt">{{fields.signer.title}}</div>
+    </div>
+    <div class="emboss" aria-hidden="true">
+      <svg viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="37" fill="none" stroke="#b9bec8" stroke-width="2" />
+        <circle
+          cx="40"
+          cy="40"
+          r="30"
+          fill="none"
+          stroke="#b9bec8"
+          stroke-width="1"
+          stroke-dasharray="2 2"
+        />
+        <text x="40" y="44" text-anchor="middle" class="emb-txt">SEAL</text>
+      </svg>
+    </div>
+    <div class="sig">
+      <div class="att">ATTEST:</div>
+      <div class="line"><span class="hand">{{fields.attest.name}}</span></div>
+      <div class="nm">{{fields.attest.name}}</div>
+      <div class="tt">{{fields.attest.title}}</div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

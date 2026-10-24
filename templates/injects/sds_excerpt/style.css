@@ -1,0 +1,245 @@
+/* Safety Data Sheet excerpt (OSHA HazCom 2012 / GHS 16-section format), one US Letter page:
+   title block, black "SECTION n:" bars, label/value tables, GHS label elements with red-bordered
+   pictogram diamonds, two-column statement lists and a property grid. */
+.page {
+  height: 1056px;
+  padding: 22px 46px 20px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  font-size: 10px;
+  line-height: 1.25;
+  color: #111;
+  overflow: hidden;
+}
+.marking {
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #9b1c14;
+}
+.head {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 3px solid #111;
+  padding-bottom: 6px;
+}
+h1 {
+  margin: 0;
+  font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+.prod {
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.docbox {
+  border-collapse: collapse;
+  font-size: 10.5px;
+}
+.docbox th,
+.docbox td {
+  border: 1px solid #111;
+  padding: 2px 7px;
+  text-align: left;
+}
+.docbox th {
+  background: #eee;
+  font-weight: 700;
+}
+.docbox td {
+  min-width: 110px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+}
+.std {
+  margin: 2px 0 0;
+  font-size: 9.5px;
+  color: #444;
+}
+h2 {
+  margin: 6px 0 0;
+  background: #111;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 2px 7px;
+}
+.kv,
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.kv th,
+.kv td,
+.tbl th,
+.tbl td {
+  border: 1px solid #9a9a9a;
+  padding: 2px 6px;
+  text-align: left;
+  vertical-align: top;
+}
+.kv th {
+  width: 118px;
+  background: #f2f2f2;
+  font-weight: 700;
+}
+.kv th.w-s {
+  width: 102px;
+}
+.kv td.w-m {
+  width: 128px;
+}
+.kv .em {
+  background: #fdecea;
+  color: #8a1010;
+}
+.tbl thead th {
+  background: #f2f2f2;
+  font-weight: 700;
+}
+.c-cas {
+  width: 130px;
+}
+.c-pct {
+  width: 170px;
+}
+.c-src {
+  width: 92px;
+}
+.sub {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1px;
+}
+.haz {
+  display: flex;
+  border: 1px solid #9a9a9a;
+  border-top: none;
+}
+.haz-class {
+  flex: 1;
+  padding: 4px 7px;
+  border-right: 1px solid #9a9a9a;
+}
+.haz-class ul,
+.codes {
+  margin: 0;
+  padding-left: 14px;
+}
+.label-el {
+  width: 340px;
+  padding: 4px 7px;
+}
+.signal {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.signal .lbl {
+  font-size: 10px;
+  color: #444;
+}
+.word {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #c00000;
+}
+.word.warn {
+  color: #111;
+}
+.picts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+.pict {
+  width: 56px;
+  height: 56px;
+}
+.stmts {
+  display: flex;
+  border: 1px solid #9a9a9a;
+  border-top: none;
+}
+.stmts > div {
+  flex: 1;
+  padding: 4px 7px;
+}
+.stmts > div:first-child {
+  border-right: 1px solid #9a9a9a;
+}
+.codes li {
+  margin: 0;
+}
+.s8 {
+  display: flex;
+}
+.s8 .tbl {
+  flex: 1;
+  width: auto;
+}
+.s8 .tbl th,
+.s8 .tbl td {
+  border-top: none;
+}
+.controls {
+  width: 270px;
+  border: 1px solid #9a9a9a;
+  border-top: none;
+  border-left: none;
+  padding: 3px 7px;
+}
+.props {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-left: 1px solid #9a9a9a;
+}
+.prop {
+  display: flex;
+  border-right: 1px solid #9a9a9a;
+  border-bottom: 1px solid #9a9a9a;
+}
+.pn {
+  flex: none;
+  width: 140px;
+  background: #f2f2f2;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-right: 1px solid #9a9a9a;
+}
+.pv {
+  flex: 1;
+  padding: 2px 6px;
+}
+.spacer {
+  flex: 1;
+}
+.foot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  color: #555;
+  border-top: 1px solid #999;
+  padding-top: 3px;
+  margin-bottom: 5px;
+}
+.nw {
+  white-space: nowrap;
+}

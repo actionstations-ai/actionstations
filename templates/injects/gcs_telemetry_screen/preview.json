@@ -1,0 +1,53 @@
+{
+  "fields": {
+    "software": "QGroundControl",
+    "clock": "15:42:08",
+    "aircraft": {
+      "id": "CRD-INSPECT-2",
+      "type": "Hexacopter · ArduCopter 4.5",
+      "registration": "FA3XK7R2PL"
+    },
+    "mode": "RTL",
+    "armed": true,
+    "altitudeAgl": 87.4,
+    "groundSpeed": 9.8,
+    "verticalSpeed": -0.4,
+    "heading": 52,
+    "pitch": -6,
+    "roll": 12,
+    "battery": { "percent": 27, "voltage": 21.6, "remainingMin": 6 },
+    "gnss": { "satellites": 5, "hdop": 3.9, "fix": "2D Fix" },
+    "link": { "rssi": -101, "quality": 8, "lost": true },
+    "distanceHome": 1240,
+    "flightTime": "18:37",
+    "position": { "lat": 47.5927, "lon": -91.9615 },
+    "home": { "lat": 47.6013, "lon": -91.9488 },
+    "geofence": "Cedar Ridge Dam inspection · circle 1,500 m · max 120 m · breach RTL",
+    "warnings": [
+      "Communication lost — vehicle executing RTL",
+      "GPS Glitch: horizontal error 6.8 m",
+      "EKF variance: position, compass"
+    ],
+    "messages": [
+      { "time": "15:41:58", "severity": "critical", "text": "Failsafe: GCS — RTL" },
+      { "time": "15:41:52", "severity": "critical", "text": "GPS Glitch or Compass error" },
+      {
+        "time": "15:41:49",
+        "severity": "warning",
+        "text": "EKF3 IMU1 variance: pos 0.82 mag 0.91"
+      },
+      {
+        "time": "15:41:44",
+        "severity": "warning",
+        "text": "GPS 1: sats 5, HDOP 3.9 (was 17 / 0.7)"
+      },
+      { "time": "15:41:31", "severity": "notice", "text": "Telemetry RSSI -101 dBm, link 8%" },
+      {
+        "time": "15:39:10",
+        "severity": "info",
+        "text": "Mission: 7 WP reached, spillway gate 3 pass"
+      },
+      { "time": "15:23:31", "severity": "info", "text": "Armed · Mode AUTO · Takeoff to 80 m" }
+    ]
+  }
+}

@@ -1,0 +1,131 @@
+<!-- HL7 interface engine monitor (Rhapsody / Cloverleaf / Corepoint / Mirth Connect style
+     dashboard), 1280 px wide, height to content. Product name comes from the field. -->
+<section class="ie">
+  <header class="title">
+    <svg class="mark" viewBox="0 0 28 28" aria-hidden="true">
+      <rect x="1" y="1" width="26" height="26" rx="5" fill="#2f7fd1" />
+      <circle cx="8" cy="9" r="3" fill="#fff" />
+      <circle cx="8" cy="19" r="3" fill="#fff" />
+      <circle cx="20" cy="14" r="3.4" fill="#fff" />
+      <path d="M10.5 10.4 17 13M10.5 17.6 17 15" stroke="#fff" stroke-width="1.8" />
+    </svg>
+    <h1>{{default fields.engine "Interface Engine Monitor"}}</h1>
+    <!-- prettier-ignore -->
+    <span class="site">{{default fields.site (default brand.aliases.org "Production interface engine")}}</span>
+    <span class="spacer"></span>
+    {{#if fields.user}}<span class="user"
+      ><svg viewBox="0 0 16 16" aria-hidden="true">
+        <circle cx="8" cy="5.5" r="3" fill="currentColor" />
+        <path d="M2 15c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5z" fill="currentColor" /></svg
+      >{{fields.user}}</span
+    >{{/if}} {{#if fields.clock}}<span class="clock">{{fields.clock}}</span>{{/if}}
+  </header>
+
+  <nav class="tabs">
+    <span class="on">Dashboard</span><span>Communication points</span><span>Routes</span
+    ><span>Message tracking</span><span>Alerts</span><span>Error queue</span><span>Lockers</span>
+    <span class="spacer"></span>
+    <span class="refresh">Auto-refresh 15 s</span>
+  </nav>
+
+  <div class="toolbar">
+    <span class="btn"><i class="tri"></i>Start</span><span class="btn"><i class="sq"></i>Stop</span
+    ><span class="btn">Restart</span><span class="btn">Resend</span><span class="btn">Purge</span>
+    <span class="sep"></span>
+    <span class="search">Filter: all folders · all states</span>
+  </div>
+
+  {{#if fields.counts}}
+  <div class="tiles">
+    <div class="tile t-up"><b>{{default fields.counts.up 0}}</b><span>Running</span></div>
+    <div class="tile t-queued">
+      <b>{{default fields.counts.queued 0}}</b><span>Queue warning</span>
+    </div>
+    <div class="tile t-stopped"><b>{{default fields.counts.stopped 0}}</b><span>Stopped</span></div>
+    <div class="tile t-error"><b>{{default fields.counts.error 0}}</b><span>In error</span></div>
+  </div>
+  {{/if}} {{#if fields.alerts.length}}
+  <ul class="alerts">
+    {{#each fields.alerts}}
+    <li class="{{#if @first}}a-red{{else}}a-amber{{/if}}">
+      <svg viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M8 1 15.5 14.5H.5z" fill="currentColor" />
+        <path d="M7.2 6h1.6v4.5H7.2zM7.2 11.6h1.6v1.6H7.2z" fill="#fff" />
+      </svg>
+      <span>{{this}}</span>
+    </li>
+    {{/each}}
+  </ul>
+  {{/if}}
+
+  <table class="grid">
+    <thead>
+      <tr>
+        <th class="c-st">State</th>
+        <th>Connection</th>
+        <th class="c-dir">Dir</th>
+        <th>Source → Destination</th>
+        <th>Message</th>
+        <th class="num">Queue</th>
+        <th>Last msg</th>
+        <th>Last error</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.interfaces}}
+      <tr class="s-{{status}}{{#if (eq name @root.fields.selected.name)}} sel{{/if}}">
+        <td class="c-st"><i class="led"></i>{{upper status}}</td>
+        <td class="mono name">{{name}}</td>
+        <td class="c-dir">
+          {{#if (eq direction "inbound")}}<span class="dir in" title="inbound">IN</span>{{else if
+          (eq direction "outbound")}}<span class="dir out" title="outbound">OUT</span>{{/if}}
+        </td>
+        <td>{{source}}{{#if destination}} <span class="arrow">→</span> {{destination}}{{/if}}</td>
+        <td class="mono">{{messageType}}</td>
+        <td class="num mono q">{{default queueDepth 0}}</td>
+        <td class="mono">{{default lastMessage "—"}}</td>
+        <td class="err">{{error}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  {{#if fields.selected}}
+  <section class="pane">
+    <div class="ph">
+      <span>Message log</span><b class="mono">{{fields.selected.name}}</b>
+      <span class="spacer"></span
+      ><span class="hint">Newest first · showing last {{fields.selected.messages.length}}</span>
+    </div>
+    <table class="log">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Control ID (MSH-10)</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.selected.messages}}
+        <tr class="m-{{status}}">
+          <td class="mono">{{time}}</td>
+          <td class="mono">{{default controlId "—"}}</td>
+          <td class="mono">{{type}}</td>
+          <td><span class="pill">{{upper status}}</span></td>
+          <td class="mono detail">{{text}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{/if}}
+
+  <footer class="statusbar">
+    <span><i class="led ok"></i>Engine running</span>
+    <span>{{fields.interfaces.length}} connections shown</span>
+    <span class="spacer"></span>
+    <span>HL7 v2.5.1 · MLLP</span>
+  </footer>
+</section>

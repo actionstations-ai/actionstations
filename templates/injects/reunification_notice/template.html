@@ -1,0 +1,222 @@
+<!-- Family reunification notice / card, one US Letter page.
+     notice: the notice to families (headline, do-not-go box, where to go, what to expect,
+     bring / do not, transport, contact, translated line).
+     card: two-part reunification request / release card; the requester fills the top half by
+     hand (Caveat), staff complete the release half below the tear line. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" class="e-ring" />
+      <path d="M24 9 L37 15 V25 C37 32 31 37 24 40 C17 37 11 32 11 25 V15 Z" class="e-shield" />
+      <path d="M17 24 L22 29 L31 19" class="e-check" />
+    </svg>
+    <div class="issuer">
+      <span class="org">{{default fields.org (default brand.aliases.org "School District")}}</span>
+      {{#if (eq variant "card")}}
+      <h1>{{default fields.headline "Student Reunification Card"}}</h1>
+      {{else}}
+      <h1>Family Reunification Notice</h1>
+      {{/if}}
+    </div>
+    <div class="when">
+      {{#if (eq variant "card")}}
+      <span>CARD NO.</span>
+      <strong class="mono">{{default fields.cardNo "____"}}</strong>
+      <em>{{fields.issuedAt}}</em>
+      {{else}}
+      <span>ISSUED</span>
+      <strong>{{fields.issuedAt}}</strong>
+      {{/if}}
+    </div>
+  </header>
+
+  {{#if (eq variant "card")}}
+  <!-- ===== card: part 1, requester ===== -->
+  <div class="part">
+    <p class="part-h">
+      <b>PART 1</b> Completed by parent / guardian. One card per student. Print clearly.
+    </p>
+    <p class="sec">Student</p>
+    <div class="row">
+      <label class="f w-wide"
+        ><span>Student name (last, first)</span><i class="hand">{{fields.student.name}}</i></label
+      >
+      <label class="f w-sm"><span>Grade</span><i class="hand">{{fields.student.grade}}</i></label>
+    </div>
+    <div class="row">
+      <label class="f"
+        ><span>Teacher at time of incident</span
+        ><i class="hand">{{fields.student.teacher}}</i></label
+      >
+      <label class="f w-md"
+        ><span>Homeroom / room</span><i class="hand">{{fields.student.homeroom}}</i></label
+      >
+    </div>
+    <p class="sec">Person requesting release</p>
+    <div class="row">
+      <label class="f w-wide"
+        ><span>Name (print)</span><i class="hand">{{fields.requester.name}}</i></label
+      >
+      <label class="f w-md"
+        ><span>Relationship to student</span
+        ><i class="hand">{{fields.requester.relationship}}</i></label
+      >
+    </div>
+    <div class="row">
+      <label class="f"><span>Phone</span><i class="hand">{{fields.requester.phone}}</i></label>
+      <label class="f"
+        ><span>Photo ID type</span><i class="hand">{{fields.requester.idType}}</i></label
+      >
+    </div>
+    <div class="row">
+      <label class="f w-wide"
+        ><span>Signature</span><i class="hand sig">{{fields.requester.name}}</i></label
+      >
+      <label class="f w-md"><span>Date</span><i class="hand">{{fields.issuedAt}}</i></label>
+    </div>
+    <p class="fine">
+      I am the parent, legal guardian or an adult listed on this student's emergency contact record.
+      I will show photo ID and wait at the release door.
+    </p>
+  </div>
+
+  <div class="tear" aria-hidden="true">
+    <svg viewBox="0 0 24 24" class="scissors">
+      <circle cx="6" cy="7" r="3" />
+      <circle cx="6" cy="17" r="3" />
+      <path d="M8.5 8.5 L20 17 M8.5 15.5 L20 7" />
+    </svg>
+    <span
+      >Staff: tear here. Runner takes the top half to find the student; keep the bottom half at the
+      release door.</span
+    >
+  </div>
+
+  <!-- ===== card: part 2, staff release ===== -->
+  <div class="part staff">
+    <p class="part-h"><b>PART 2</b> Completed by staff only</p>
+    <div class="checks">
+      <p class="chk">
+        <span class="box">{{#if fields.requester.idChecked}}<i class="hand x">✓</i>{{/if}}</span>
+        Photo ID checked and matches requester
+      </p>
+      <p class="chk">
+        <span class="box">{{#if fields.authorized}}<i class="hand x">✓</i>{{/if}}</span>
+        Requester listed on emergency contact / release record
+      </p>
+      <p class="chk">
+        <span class="box">{{#if (eq fields.authorized false)}}<i class="hand x">✓</i>{{/if}}</span>
+        NOT listed: refer to reunification lead, do not release
+      </p>
+      <p class="chk">
+        <span class="box"></span>
+        Custody restriction on file: see lead before release
+      </p>
+    </div>
+    <div class="row">
+      <label class="f"><span>Runner</span><i class="hand">{{fields.release.runner}}</i></label>
+      <label class="f"
+        ><span>Release point</span><i class="hand">{{fields.release.location}}</i></label
+      >
+      <label class="f w-md"
+        ><span>Time released</span><i class="hand">{{fields.release.releasedAt}}</i></label
+      >
+      <label class="f w-sm"
+        ><span>Staff initials</span><i class="hand">{{fields.release.staffInitials}}</i></label
+      >
+    </div>
+    <div class="notes">
+      <span>Notes (student not located, sent to medical / counseling, custody flag)</span>
+      <i class="hand">{{fields.release.notes}}</i>
+    </div>
+    <div class="row">
+      <label class="f w-wide"
+        ><span>Released to (signature)</span
+        ><i class="hand sig">{{fields.requester.name}}</i></label
+      >
+      <label class="f w-md"
+        ><span>Student present</span
+        ><i class="hand">{{#if fields.release.releasedAt}}Yes{{/if}}</i></label
+      >
+    </div>
+  </div>
+  <p class="foot">
+    Return completed cards to the reunification lead. Cards are kept with the incident records.
+  </p>
+  {{else}}
+  <!-- ===== notice: to families ===== -->
+  <p class="lang">
+    {{default fields.languageNote "Información importante sobre la reunificación familiar.
+    Tradúzcalo o hable con alguien que lo entienda bien."}}
+  </p>
+  <h2 class="headline">{{fields.headline}}</h2>
+  {{#if fields.situation}}
+  <p class="situation">{{fields.situation}}</p>
+  {{/if}}
+
+  <div class="dont-go">
+    <strong>Do not go to {{fields.site}}.</strong>
+    <span>Students will only be released at the reunification site below.</span>
+  </div>
+
+  <div class="where">
+    <div>
+      <span class="lbl">Reunification site</span>
+      <p class="wname">{{fields.reunificationSite.name}}</p>
+      <p>{{fields.reunificationSite.address}}</p>
+    </div>
+    {{#if fields.opensAt}}
+    <div class="opens">
+      <span class="lbl">Opens to families</span>
+      <p class="wname">{{fields.opensAt}}</p>
+    </div>
+    {{/if}}
+  </div>
+
+  {{#if fields.steps.length}}
+  <h3>What to expect</h3>
+  <ol class="steps">
+    {{#each fields.steps}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{/if}}
+
+  <div class="cols">
+    <div class="col">
+      <h3>Bring</h3>
+      <ul>
+        {{#each fields.bring}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    <div class="col no">
+      <h3>Please do not</h3>
+      <ul>
+        {{#each fields.doNot}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+
+  {{#if fields.transport}}
+  <h3>Parking and transportation</h3>
+  <p>{{fields.transport}}</p>
+  {{/if}}
+
+  <div class="contact">
+    <span class="lbl">{{default fields.contact.name "Family information"}}</span>
+    {{#if fields.contact.phone}}<strong>{{fields.contact.phone}}</strong>{{/if}} {{#if
+    fields.contact.web}}<span>Updates: <strong>{{fields.contact.web}}</strong></span
+    >{{/if}}
+  </div>
+  <p class="foot">
+    {{default fields.org (default brand.aliases.org "School District")}} will send the next update
+    by text, email and phone. Please share this notice with other families.
+  </p>
+  {{/if}}
+  <p class="marking bottom">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

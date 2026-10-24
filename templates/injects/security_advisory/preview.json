@@ -12,16 +12,40 @@
     "cvss": "9.8",
     "cves": ["CVE-2026-41877"],
     "affectedProducts": [
-      { "product": "Halyard Remote Access Gateway", "versions": "7.2.0 – 7.4.3", "fixed": "7.4.4" },
-      { "product": "Halyard Policy Server", "versions": "3.1.x", "fixed": "3.1.9" }
+      {
+        "product": "Halyard Remote Access Gateway",
+        "versions": "7.2.0 – 7.4.3",
+        "fixed": "7.4.4"
+      },
+      {
+        "product": "Halyard Policy Server",
+        "versions": "3.1.x",
+        "fixed": "3.1.9"
+      }
     ],
     "summary": "CISA, FBI and MS-ISAC are releasing this advisory in response to active exploitation of CVE-2026-41877, an authentication bypass in Halyard Remote Access Gateway. Since October 14, 2026, actors have used the flaw to gain access to water, transit and local government networks, harvest credentials, and deploy ransomware within 72 hours of initial access.",
     "technicalDetails": "Actors send a crafted request to /api/v1/session that bypasses authentication (T1190), create a local administrator, and use the gateway's saved credentials to move laterally over RDP (T1021.001). Before encryption they disable backups (T1490) and copy data to cloud storage (T1567.002).",
     "iocs": [
-      { "type": "IPv4", "value": "203.0.113.47", "note": "Exploitation source" },
-      { "type": "IPv4", "value": "198.51.100.212", "note": "C2 over HTTPS" },
-      { "type": "Domain", "value": "update-halyard-cdn.example", "note": "Payload staging" },
-      { "type": "File", "value": "/var/tmp/.hsvc/hgwd", "note": "Web shell loader" },
+      {
+        "type": "IPv4",
+        "value": "203.0.113.47",
+        "note": "Exploitation source"
+      },
+      {
+        "type": "IPv4",
+        "value": "198.51.100.212",
+        "note": "C2 over HTTPS"
+      },
+      {
+        "type": "Domain",
+        "value": "update-halyard-cdn.example",
+        "note": "Payload staging"
+      },
+      {
+        "type": "File",
+        "value": "/var/tmp/.hsvc/hgwd",
+        "note": "Web shell loader"
+      },
       {
         "type": "SHA-256",
         "value": "9f2c41d07be6a8a3c51e0d4f7b2a96e3d18c0f5a27b4e9d6c3a1f8e05b7d2c94",
@@ -36,5 +60,48 @@
       "Require phishing-resistant MFA for all remote access."
     ],
     "contact": "Report incidents and anomalous activity to CISA at report.cisa.gov or (888) 282-0870, or to your local FBI field office."
+  },
+  "variants": {
+    "vendor": {
+      "fields": {
+        "publisher": "Halyard Networks Product Security (PSIRT)",
+        "coAuthors": "",
+        "advisoryId": "HSA-2026-0041",
+        "title": "Remote Access Gateway Authentication Bypass in the Session API (CVE-2026-41877)",
+        "tlp": "CLEAR",
+        "released": "2026-10-15",
+        "updated": "2026-10-21 (revision 3: exploitation confirmed, Policy Server fix released)",
+        "severity": "Critical",
+        "cvss": "9.8 (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H)",
+        "cves": ["CVE-2026-41877"],
+        "affectedProducts": [
+          {
+            "product": "Remote Access Gateway (hardware and virtual)",
+            "versions": "7.2.0 – 7.4.3",
+            "fixed": "7.4.4"
+          },
+          {
+            "product": "Remote Access Gateway",
+            "versions": "7.0.x – 7.1.x (end of support)"
+          },
+          {
+            "product": "Policy Server",
+            "versions": "3.1.0 – 3.1.8",
+            "fixed": "3.1.9"
+          }
+        ],
+        "summary": "A flaw in the session API of Remote Access Gateway allows an unauthenticated remote attacker to obtain an administrative session by sending a crafted request to /api/v1/session. Halyard is aware of active exploitation of this vulnerability against a limited number of customers.",
+        "technicalDetails": "The session endpoint accepts a client-supplied authentication context when the X-HSV-Relay header is present. An attacker who can reach the management or user portal can create a local administrator account and read stored credentials. Appliances whose portals are reachable only from internal networks are exposed to attackers already inside the network.",
+        "iocs": [],
+        "mitigations": [
+          "Upgrade to Remote Access Gateway 7.4.4 or Policy Server 3.1.9. Fixed images are on the support portal.",
+          "If you cannot upgrade now, apply mitigation file HSA-2026-0041-mit.xml, which blocks the X-HSV-Relay header, then restart the gateway service.",
+          "Run the Integrity Checker Tool (ICT) 2.3 or later and report any new or mismatched files to support.",
+          "Versions 7.0 and 7.1 are past end of support and will not be fixed; replace them or disconnect them from the internet.",
+          "After patching, reset local administrator passwords and any credentials stored on the appliance."
+        ],
+        "contact": "Report suspected exploitation to Halyard PSIRT at psirt@halyard-networks.example (PGP key on the advisory page) or through your support case. Customers: support.halyard-networks.example, case priority P1."
+      }
+    }
   }
 }

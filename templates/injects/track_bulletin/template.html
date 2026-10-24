@@ -1,0 +1,309 @@
+<!-- Track bulletin / track warrant on a neutral form of a simulated railroad, one US Letter page.
+     bulletin: typed track bulletin (header block, numbered restrictions table, notes, dispatcher
+     and OK-time lines). warrant: the crew's hand-copied track warrant, numbered boxes with the
+     applicable ones marked X and the blanks filled in by hand (Caveat). -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" class="e-ring" />
+      <path d="M17 9 L13 39 M31 9 L35 39" class="e-rail" />
+      <path d="M14 14 H34 M13.5 21 H34.5 M12.5 28 H35.5 M12 35 H36" class="e-tie" />
+    </svg>
+    <div class="issuer">
+      <span class="rr">{{fields.railroad}}</span>
+      <h1>{{#if (eq variant "warrant")}}Track Warrant{{else}}Track Bulletin{{/if}}</h1>
+      <span class="sub">{{fields.subdivision}}</span>
+    </div>
+    <div class="num">
+      <span>NO.</span>
+      <strong>{{fields.number}}</strong>
+      <em>{{#if (eq variant "warrant")}}Crew copy{{else}}Form LW-TB{{/if}}</em>
+    </div>
+  </header>
+
+  {{#if (eq variant "warrant")}}
+  <!-- ===== warrant: hand-copied numbered boxes ===== -->
+  <div class="boxes">
+    <div class="bx first">
+      <span class="no">1</span>
+      <span class="cb"><i class="hand x">X</i></span>
+      <p>
+        Track Warrant No. <span class="bl s"><i class="hand">{{fields.number}}</i></span> Date
+        <span class="bl s"><i class="hand">{{fields.date}}</i></span
+        ><br />
+        To <span class="bl l"><i class="hand">{{fields.issuedTo}}</i></span> At
+        <span class="bl m"><i class="hand">{{fields.atLocation}}</i></span>
+      </p>
+    </div>
+    <div class="bx">
+      <span class="no">2</span>
+      <span class="cb"
+        >{{#each fields.items}}{{#if (eq this.type "void")}}<i class="hand x">X</i
+        >{{/if}}{{/each}}</span
+      >
+      <p>
+        Track Warrant No.
+        <span class="bl s"
+          >{{#each fields.items}}{{#if (eq this.type "void")}}<i class="hand"
+            >{{this.restriction}}</i
+          >{{/if}}{{/each}}</span
+        >
+        is cancelled.
+      </p>
+    </div>
+    <div class="bx">
+      <span class="no">3</span>
+      <span class="cb"
+        >{{#each fields.items}}{{#if (eq this.type "proceed")}}<i class="hand x">X</i
+        >{{/if}}{{/each}}</span
+      >
+      <p>
+        Proceed from
+        <span class="bl m"
+          >{{#each fields.items}}{{#if (eq this.type "proceed")}}<i class="hand">{{this.from}}</i
+          >{{/if}}{{/each}}</span
+        >
+        to
+        <span class="bl m"
+          >{{#each fields.items}}{{#if (eq this.type "proceed")}}<i class="hand">{{this.to}}</i
+          >{{/if}}{{/each}}</span
+        >
+        on
+        <span class="bl s"
+          >{{#each fields.items}}{{#if (eq this.type "proceed")}}<i class="hand">{{this.track}}</i
+          >{{/if}}{{/each}}</span
+        >
+        track.
+      </p>
+    </div>
+    <div class="bx">
+      <span class="no">4</span>
+      <span class="cb"
+        >{{#each fields.items}}{{#if (eq this.type "work_between")}}<i class="hand x">X</i
+        >{{/if}}{{/each}}</span
+      >
+      <p>
+        Work between
+        <span class="bl m"
+          >{{#each fields.items}}{{#if (eq this.type "work_between")}}<i class="hand"
+            >{{this.from}}</i
+          >{{/if}}{{/each}}</span
+        >
+        and
+        <span class="bl m"
+          >{{#each fields.items}}{{#if (eq this.type "work_between")}}<i class="hand">{{this.to}}</i
+          >{{/if}}{{/each}}</span
+        >
+        on
+        <span class="bl s"
+          >{{#each fields.items}}{{#if (eq this.type "work_between")}}<i class="hand"
+            >{{this.track}}</i
+          >{{/if}}{{/each}}</span
+        >
+        track.
+      </p>
+    </div>
+    <div class="bx">
+      <span class="no">5</span>
+      <span class="cb"
+        >{{#each fields.items}}{{#if (eq this.type "not_in_effect_until")}}<i class="hand x">X</i
+        >{{/if}}{{/each}}</span
+      >
+      <p>
+        This authority is not effective until
+        <span class="bl s"
+          >{{#each fields.items}}{{#if (eq this.type "not_in_effect_until")}}<i class="hand"
+            >{{this.restriction}}</i
+          >{{/if}}{{/each}}</span
+        >.
+      </p>
+    </div>
+    <div class="bx">
+      <span class="no">6</span>
+      <span class="cb"
+        >{{#each fields.items}}{{#if (eq this.type "expires")}}<i class="hand x">X</i
+        >{{/if}}{{/each}}</span
+      >
+      <p>
+        This authority ends at
+        <span class="bl s"
+          >{{#each fields.items}}{{#if (eq this.type "expires")}}<i class="hand"
+            >{{this.restriction}}</i
+          >{{/if}}{{/each}}</span
+        >.
+      </p>
+    </div>
+    <div class="bx">
+      <span class="no">7</span>
+      <span class="cb"
+        >{{#each fields.items}}{{#if (eq this.type "hold_main")}}<i class="hand x">X</i
+        >{{/if}}{{/each}}</span
+      >
+      <p>Hold main track at last named point.</p>
+    </div>
+    <div class="bx">
+      <span class="no">8</span>
+      <span class="cb"
+        >{{#each fields.items}}{{#if (eq this.type "clear_main")}}<i class="hand x">X</i
+        >{{/if}}{{/each}}</span
+      >
+      <p>Clear main track at last named point.</p>
+    </div>
+    <div class="bx">
+      <span class="no">9</span>
+      <span class="cb"
+        >{{#each fields.items}}{{#if (eq this.type "do_not_foul")}}<i class="hand x">X</i
+        >{{/if}}{{/each}}</span
+      >
+      <p>
+        Do not foul limits ahead of
+        <span class="bl m"
+          >{{#each fields.items}}{{#if (eq this.type "do_not_foul")}}<i class="hand"
+            >{{this.restriction}}</i
+          >{{/if}}{{/each}}</span
+        >.
+      </p>
+    </div>
+    <div class="bx">
+      <span class="no">10</span>
+      <span class="cb"
+        >{{#each fields.items}}{{#if (eq this.type "restricted_speed")}}<i class="hand x">X</i
+        >{{/if}}{{/each}}</span
+      >
+      <p>
+        Between
+        <span class="bl m"
+          >{{#each fields.items}}{{#if (eq this.type "restricted_speed")}}<i class="hand"
+            >{{this.from}}</i
+          >{{/if}}{{/each}}</span
+        >
+        and
+        <span class="bl m"
+          >{{#each fields.items}}{{#if (eq this.type "restricted_speed")}}<i class="hand"
+            >{{this.to}}</i
+          >{{/if}}{{/each}}</span
+        >
+        make all movements at restricted speed.
+      </p>
+    </div>
+    <div class="bx">
+      <span class="no">11</span>
+      <span class="cb"
+        >{{#each fields.items}}{{#if (eq this.type "bulletins_in_effect")}}<i class="hand x">X</i
+        >{{/if}}{{/each}}</span
+      >
+      <p>
+        Track bulletins in effect:
+        <span class="bl l"
+          >{{#each fields.items}}{{#if (eq this.type "bulletins_in_effect")}}<i class="hand"
+            >{{this.restriction}}</i
+          >{{/if}}{{/each}}</span
+        >
+      </p>
+    </div>
+    <div class="bx">
+      <span class="no">12</span>
+      <span class="cb"
+        >{{#each fields.items}}{{#if (eq this.type "other")}}<i class="hand x">X</i
+        >{{/if}}{{/each}}</span
+      >
+      <p>
+        Other instructions:
+        <span class="bl full"
+          >{{#each fields.items}}{{#if (eq this.type "other")}}<i class="hand"
+            >{{this.restriction}}</i
+          >{{/if}}{{/each}}</span
+        >
+      </p>
+    </div>
+  </div>
+
+  <div class="okrow">
+    <div class="ok"><span>OK</span><i class="hand">{{fields.okTime}}</i></div>
+    <div class="ok"><span>Time issued</span><i class="hand">{{fields.timeIssued}}</i></div>
+    <div class="ok"><span>Dispatcher</span><i class="hand">{{fields.dispatcher}}</i></div>
+    <div class="ok wide"><span>Copied by</span><i class="hand">{{fields.copiedBy}}</i></div>
+  </div>
+  <div class="okrow">
+    <div class="ok wide">
+      <span>Limits released / reported clear at</span><i class="hand">{{fields.relievedAt}}</i>
+    </div>
+    <div class="ok wide"><span>Employee releasing</span><i class="hand"></i></div>
+  </div>
+  {{#if fields.notes}}
+  <p class="wnote"><b>Note:</b> {{fields.notes}}</p>
+  {{/if}}
+  <p class="foot">
+    Copy in full and repeat to the train dispatcher. This warrant is not in effect until OK and time
+    are given. Keep this copy until the authority is released.
+  </p>
+  {{else}}
+  <!-- ===== bulletin: typed restrictions ===== -->
+  <table class="meta">
+    <tr>
+      <th>To</th>
+      <td>{{fields.issuedTo}}</td>
+      <th>At</th>
+      <td>{{fields.atLocation}}</td>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <td>{{fields.date}}</td>
+      <th>Issued</th>
+      <td>{{fields.timeIssued}} &nbsp;by dispatcher {{fields.dispatcher}}</td>
+    </tr>
+  </table>
+
+  <table class="items">
+    <thead>
+      <tr>
+        <th class="c-n">Item</th>
+        <th class="c-t">Type</th>
+        <th class="c-l">Limits</th>
+        <th>Restriction</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.items}}
+      <tr>
+        <td class="n">{{inc @index}}</td>
+        <td class="t">
+          {{#if (eq this.type "speed_restriction")}}Speed restriction{{else if (eq this.type
+          "track_out_of_service")}}Track out of service{{else if (eq this.type
+          "protect_workers")}}Protect workers{{else if (eq this.type
+          "signal_out_of_service")}}Signal out of service{{else}}General{{/if}}
+        </td>
+        <td class="l">
+          {{#if this.limits}}{{this.limits}}{{else}}{{this.from}} to {{this.to}}
+          {{this.track}}{{/if}}
+        </td>
+        <td class="r">{{this.restriction}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  {{#if fields.notes}}
+  <div class="notice">
+    <span>General notice</span>
+    <p>{{fields.notes}}</p>
+  </div>
+  {{/if}}
+
+  <div class="sign">
+    <div class="ok"><span>Dispatcher</span><i class="type">{{fields.dispatcher}}</i></div>
+    <div class="ok"><span>OK time</span><i class="hand">{{fields.okTime}}</i></div>
+    <div class="ok wide">
+      <span>Copied and repeated by</span><i class="hand">{{fields.copiedBy}}</i>
+    </div>
+    <div class="ok"><span>Relieved at</span><i class="hand">{{fields.relievedAt}}</i></div>
+  </div>
+  <p class="foot">
+    Crews must have a copy of every track bulletin in effect on the subdivision before occupying
+    main track. Report any discrepancy to the train dispatcher at once. End of bulletin
+    {{fields.number}}.
+  </p>
+  {{/if}}
+  <p class="marking bottom">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

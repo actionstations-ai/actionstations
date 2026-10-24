@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "USCG MSIB / Captain of the Port order",
+  "description": "U.S. Coast Guard Sector paperwork for a port incident. Variant 'msib': a Marine Safety Information Bulletin as Sectors publish them (U.S. Coast Guard header, 'COTP <zone> MSIB Number', date, contact, bold subject, MARSEC level / port condition, paragraphs, measures in effect, signature of the Captain of the Port, public-information footer). Variant 'cotp_order': a Captain of the Port Order to a named vessel or facility (letterhead, serial number, To / Authority lines, 'you are hereby ordered to' numbered requirements, reconsideration paragraph, signature, copy distribution). The USCG is real, but a generic emblem replaces its seal; the Sector zone, port, vessels and facilities are simulated. One Letter page.",
+  "type": "object",
+  "required": ["sector", "number", "issuedAt", "subject", "body", "signer"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "sector": {
+      "type": "string",
+      "description": "Issuing Coast Guard unit (simulated zone)",
+      "examples": ["Sector North Coast"]
+    },
+    "cotpZone": {
+      "type": "string",
+      "description": "Captain of the Port zone name, used in 'COTP <zone>' and the signature (defaults to the sector without 'Sector')",
+      "examples": ["North Coast"]
+    },
+    "unitAddress": {
+      "type": "string",
+      "description": "Sector street address (letterhead)",
+      "examples": ["1 Harbor Point Rd, Port Lakeview"]
+    },
+    "number": {
+      "type": "string",
+      "description": "MSIB number or COTP order serial number",
+      "examples": ["07-26", "COTP 26-031"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Date (and time) issued",
+      "examples": ["October 21, 2026"]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject line",
+      "examples": ["Cyber incident affecting Port Lakeview container terminals; MARSEC Level 2"]
+    },
+    "marsecLevel": {
+      "type": "string",
+      "enum": ["1", "2", "3"],
+      "description": "Maritime Security (MARSEC) level in effect for the zone",
+      "examples": ["2"]
+    },
+    "portCondition": {
+      "type": "string",
+      "description": "Port condition, if set (hurricane or other port conditions)",
+      "examples": ["Normal", "YANKEE", "ZULU"]
+    },
+    "recipient": {
+      "type": "string",
+      "description": "Who the COTP order is addressed to (vessel master / owner, facility security officer); each line separated by a newline",
+      "examples": [
+        "Facility Security Officer\nLakeview Container Terminal, Berths 4–7 (Facility ID 0123456)\n2400 Pier Rd, Port Lakeview"
+      ]
+    },
+    "authority": {
+      "type": "string",
+      "description": "Legal authority cited (COTP order)",
+      "examples": ["46 U.S.C. 70011; 33 CFR Part 105"]
+    },
+    "body": {
+      "type": "array",
+      "description": "Paragraphs of the bulletin or order (the COTP order's last paragraph should lead into the requirements, ending in 'you are hereby ordered to:')",
+      "maxItems": 5,
+      "items": { "type": "string", "description": "Paragraph" },
+      "examples": [
+        [
+          "On October 21, 2026, the Captain of the Port was notified of a cyber incident affecting terminal operating systems at Port Lakeview."
+        ]
+      ]
+    },
+    "restrictions": {
+      "type": "array",
+      "description": "Measures in effect (MSIB) or numbered requirements (COTP order)",
+      "maxItems": 7,
+      "items": { "type": "string", "description": "Measure or requirement" },
+      "examples": [
+        [
+          "Suspend all cargo operations at Berths 4–7 until the terminal operating system is restored and verified."
+        ]
+      ]
+    },
+    "effective": {
+      "type": "string",
+      "description": "When the measures or order take effect",
+      "examples": ["Immediately upon receipt", "0600 local, October 21, 2026"]
+    },
+    "until": {
+      "type": "string",
+      "description": "When they end",
+      "examples": ["Until rescinded by the Captain of the Port"]
+    },
+    "poc": {
+      "type": "object",
+      "description": "Point of contact",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name and office",
+          "examples": ["LT Dana Reyes, Sector North Coast Prevention Department"]
+        },
+        "phone": { "type": "string", "description": "Phone", "examples": ["(555) 014-8800"] },
+        "email": {
+          "type": "string",
+          "description": "Email (.example)",
+          "examples": ["sectornorthcoast.prevention@uscg.example"]
+        }
+      }
+    },
+    "signer": {
+      "type": "object",
+      "description": "Signing officer",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name as signed (rank omitted; the title line carries it)",
+          "examples": ["M. T. CALLOWAY"]
+        },
+        "title": {
+          "type": "string",
+          "description": "Title (defaults to 'Captain, U.S. Coast Guard' + 'Captain of the Port <zone>')",
+          "examples": ["Captain, U.S. Coast Guard\nCaptain of the Port North Coast"]
+        }
+      }
+    },
+    "distribution": {
+      "type": "string",
+      "description": "Copy / distribution line",
+      "examples": [
+        "Port Lakeview Harbor Master; Lakeshore County EMA; CISA Region 5; AMSC North Coast"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

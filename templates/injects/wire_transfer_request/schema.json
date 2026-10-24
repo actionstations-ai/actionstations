@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wire transfer / payment change request",
+  "description": "Internal payment control form. Variant wire_request is a treasury outgoing wire transfer request (Fedwire-style funds transfer: debit account, amount, value date, beneficiary and bank, dual-control approvals, callback verification, bank-use box with IMAD). Variant vendor_bank_change is an accounts-payable vendor banking information change request (the business email compromise artifact: current and new bank details masked, how the change was requested, callback verification box). Used by banks, credit unions, municipalities, school districts and any organization's accounts payable.",
+  "type": "object",
+  "required": ["requestNo"],
+  "properties": {
+    "org": {
+      "type": "string",
+      "description": "Organization that owns the form (defaults to the project's organization)",
+      "examples": ["City of Milford"]
+    },
+    "department": {
+      "type": "string",
+      "description": "Department line under the organization name",
+      "examples": ["Department of Finance · Treasury Division"]
+    },
+    "formTitle": {
+      "type": "string",
+      "description": "Form title (defaults by variant: Outgoing Wire Transfer Request / Vendor Banking Information Change Request)",
+      "examples": ["Outgoing Wire Transfer Request"]
+    },
+    "formNo": {
+      "type": "string",
+      "description": "Form number and revision printed in the footer",
+      "examples": ["FIN-TR-104 (Rev. 03/2025)"]
+    },
+    "requestNo": {
+      "type": "string",
+      "description": "Request or ticket number",
+      "examples": ["WT-2026-0418", "VBC-2026-0093"]
+    },
+    "requestedAt": {
+      "type": "string",
+      "description": "Date and time the request was submitted",
+      "examples": ["10/22/2026 10:14 AM"]
+    },
+    "originator": {
+      "type": "object",
+      "description": "Debit (originator) account for a wire",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Account name",
+          "examples": ["City of Milford - General Operating"]
+        },
+        "account": {
+          "type": "string",
+          "description": "Debit account number, masked",
+          "examples": ["XXXX-XX-4471"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "amount": {
+      "type": "string",
+      "description": "Amount with separators, no currency symbol",
+      "examples": ["487,250.00"]
+    },
+    "amountWords": {
+      "type": "string",
+      "description": "Amount written out, as on a check",
+      "examples": ["Four hundred eighty-seven thousand two hundred fifty and 00/100"]
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO currency code",
+      "examples": ["USD"]
+    },
+    "valueDate": {
+      "type": "string",
+      "description": "Date the funds should settle",
+      "examples": ["10/22/2026"]
+    },
+    "beneficiary": {
+      "type": "object",
+      "description": "Who receives the funds and where",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Beneficiary name as on the account",
+          "examples": ["Riverbend Paving & Excavation LLC"]
+        },
+        "address": {
+          "type": "string",
+          "description": "Beneficiary street address",
+          "examples": ["4120 Industrial Pkwy, Riverbend"]
+        },
+        "bank": {
+          "type": "string",
+          "description": "Beneficiary bank name and city",
+          "examples": ["Harbor County Savings Bank, Port Lakeview"]
+        },
+        "aba": {
+          "type": "string",
+          "description": "Beneficiary bank ABA routing number (fictional; must not be a real routing number)",
+          "examples": ["071925508"]
+        },
+        "account": {
+          "type": "string",
+          "description": "Beneficiary account number, masked",
+          "examples": ["XXXXXX8812"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "reference": {
+      "type": "string",
+      "description": "Reference for the beneficiary (invoice, contract, PO)",
+      "examples": ["Inv. 22-1187 / PO 26-00412"]
+    },
+    "purpose": {
+      "type": "string",
+      "description": "Purpose of payment or reason for the change",
+      "examples": ["Progress payment 3, Elm Street reconstruction contract C-2026-14"]
+    },
+    "initiatedBy": {
+      "type": "string",
+      "description": "Who prepared the request (name, title)",
+      "examples": ["Karen Liu, Treasury Analyst"]
+    },
+    "approvals": {
+      "type": "array",
+      "description": "Approval signatures in order (dual control: preparer, approver, releaser). Empty name leaves the line blank.",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "Approval role",
+            "examples": ["Prepared by", "Approved by (Treasurer)", "Released by"]
+          },
+          "name": {
+            "type": "string",
+            "description": "Approver name (shown as a handwritten signature)",
+            "examples": ["K. Liu"]
+          },
+          "dateTime": {
+            "type": "string",
+            "description": "Date and time signed",
+            "examples": ["10/22/2026 10:31"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "callback": {
+      "type": "object",
+      "description": "Callback verification to a known number on file. Leave verified false and the rest empty to show a blank box.",
+      "properties": {
+        "verified": {
+          "type": "boolean",
+          "description": "Whether the callback confirmed the instructions",
+          "examples": [true]
+        },
+        "number": {
+          "type": "string",
+          "description": "Number called",
+          "examples": ["(555) 0147"]
+        },
+        "source": {
+          "type": "string",
+          "description": "Where the number came from (vendor master file, contract, the requesting email)",
+          "examples": ["Vendor master file"]
+        },
+        "contact": {
+          "type": "string",
+          "description": "Person reached on the callback",
+          "examples": ["Dale Hoffman, Controller"]
+        },
+        "by": {
+          "type": "string",
+          "description": "Staff member who made the call",
+          "examples": ["M. Ortega"]
+        },
+        "dateTime": {
+          "type": "string",
+          "description": "Date and time of the call",
+          "examples": ["10/22/2026 10:40"]
+        },
+        "note": {
+          "type": "string",
+          "description": "Result of the call",
+          "examples": ["Confirmed amount and account ending 8812."]
+        }
+      },
+      "additionalProperties": false
+    },
+    "cutoff": {
+      "type": "string",
+      "description": "Wire cutoff time",
+      "examples": ["3:00 PM ET"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Processing status, stamped on the form",
+      "examples": ["RELEASED", "ON HOLD", "PENDING CALLBACK", "ENTERED IN ERP"]
+    },
+    "imad": {
+      "type": "string",
+      "description": "Fedwire IMAD (input message accountability data) once sent",
+      "examples": ["20261022QMGFT015000412"]
+    },
+    "vendor": {
+      "type": "object",
+      "description": "Vendor whose banking details change (vendor_bank_change)",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Vendor legal name",
+          "examples": ["Lakeshore Office Supply Co."]
+        },
+        "number": {
+          "type": "string",
+          "description": "Vendor number in the ERP",
+          "examples": ["V-004417"]
+        },
+        "contact": {
+          "type": "string",
+          "description": "Who asked for the change (name, title, email)",
+          "examples": ["\"Brian Kessler, AR Manager\" <b.kessler@lakeshore-officesupply.example>"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "oldBank": {
+      "type": "object",
+      "description": "Current banking details on file (vendor_bank_change)",
+      "properties": {
+        "bank": {
+          "type": "string",
+          "description": "Bank name",
+          "examples": ["First Lakeshore Bank"]
+        },
+        "aba": {
+          "type": "string",
+          "description": "ABA routing number (fictional)",
+          "examples": ["041215664"]
+        },
+        "account": {
+          "type": "string",
+          "description": "Account number, masked",
+          "examples": ["XXXXX3390"]
+        },
+        "type": {
+          "type": "string",
+          "description": "Account type",
+          "examples": ["Checking"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "newBank": {
+      "type": "object",
+      "description": "Requested new banking details (vendor_bank_change)",
+      "properties": {
+        "bank": {
+          "type": "string",
+          "description": "Bank name",
+          "examples": ["Cedar Ridge Digital Bank, N.A."]
+        },
+        "aba": {
+          "type": "string",
+          "description": "ABA routing number (fictional)",
+          "examples": ["124303129"]
+        },
+        "account": {
+          "type": "string",
+          "description": "Account number, masked",
+          "examples": ["XXXXXX7021"]
+        },
+        "type": {
+          "type": "string",
+          "description": "Account type",
+          "examples": ["Checking"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "effectiveDate": {
+      "type": "string",
+      "description": "Date the new details take effect (vendor_bank_change)",
+      "examples": ["Next payment run, 10/24/2026"]
+    },
+    "requestedVia": {
+      "type": "string",
+      "description": "How the change was requested (email, letter, phone, portal)",
+      "examples": ["Email with PDF letter on vendor letterhead"]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Remarks",
+      "examples": [
+        "Vendor says the old account is closed for an audit; asked that the next payment go to the new account."
+      ]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above and below the form",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    }
+  },
+  "additionalProperties": false
+}

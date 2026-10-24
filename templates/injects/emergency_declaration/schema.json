@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local emergency declaration",
+  "description": "Declaration (proclamation) of a local emergency signed by a mayor, county executive or board chair: WHEREAS clauses stating the facts, a NOW, THEREFORE operative paragraph, the numbered emergency powers invoked (procurement, curfew, mutual aid, price gouging, evacuation), duration and council ratification, signature and the clerk's attestation under a municipal seal. Statutory authority is a plausible local placeholder (for example a chapter of the county code), not a real state statute number.",
+  "type": "object",
+  "required": ["jurisdiction", "whereas", "declaration"],
+  "properties": {
+    "jurisdiction": {
+      "type": "string",
+      "description": "Jurisdiction declaring the emergency (defaults to the project's organization)",
+      "examples": ["Lakeshore County"]
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office shown above the title",
+      "examples": ["Office of the County Executive"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Document title",
+      "examples": ["Declaration of Local Emergency", "Proclamation of Local Disaster Emergency"]
+    },
+    "declarationNo": {
+      "type": "string",
+      "description": "Executive order or proclamation number",
+      "examples": ["Executive Order No. 2026-07"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Date and time signed",
+      "examples": ["October 22, 2026, 6:45 p.m."]
+    },
+    "whereas": {
+      "type": "array",
+      "description": "WHEREAS clauses, one fact each, without the leading 'WHEREAS,' (2-6)",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "One WHEREAS clause",
+        "examples": [
+          "on October 22, 2026, a cyberattack disabled the computer-aided dispatch system serving the Lakeshore County 911 Center; and"
+        ]
+      }
+    },
+    "declaration": {
+      "type": "string",
+      "description": "Operative paragraph, the text that follows 'NOW, THEREFORE,'",
+      "examples": [
+        "I, Dana Whitfield, County Executive of Lakeshore County, do hereby declare that a local state of emergency exists throughout Lakeshore County."
+      ]
+    },
+    "powers": {
+      "type": "array",
+      "description": "Emergency powers and orders invoked, one per item (up to 6)",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "One power or order",
+        "examples": [
+          "The Director of Emergency Management is authorized to activate the Emergency Operations Center and request mutual aid."
+        ]
+      }
+    },
+    "authority": {
+      "type": "string",
+      "description": "Legal authority cited (a local code chapter or generic state law reference)",
+      "examples": ["Chapter 12 (Emergency Management) of the Lakeshore County Code"]
+    },
+    "effective": {
+      "type": "string",
+      "description": "When the declaration takes effect",
+      "examples": ["immediately upon signing"]
+    },
+    "expires": {
+      "type": "string",
+      "description": "When it expires unless extended",
+      "examples": ["seven (7) days from signing, at 6:45 p.m. on October 29, 2026"]
+    },
+    "ratification": {
+      "type": "string",
+      "description": "Ratification or extension by the legislative body",
+      "examples": [
+        "This declaration shall be presented to the County Council for ratification at its next regular or special meeting and may be extended only by Council resolution."
+      ]
+    },
+    "signer": {
+      "type": "object",
+      "description": "Official who signs",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name (also shown as a handwritten signature)",
+          "examples": ["Dana Whitfield"]
+        },
+        "title": {
+          "type": "string",
+          "description": "Title",
+          "examples": ["County Executive"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "attest": {
+      "type": "object",
+      "description": "Clerk who attests the signature",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name (also shown as a handwritten signature)",
+          "examples": ["Marisol Reyes"]
+        },
+        "title": {
+          "type": "string",
+          "description": "Title",
+          "examples": ["Clerk of the County Council"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above and below the document",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    }
+  },
+  "additionalProperties": false
+}

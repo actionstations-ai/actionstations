@@ -1,0 +1,263 @@
+<!-- Safety Data Sheet excerpt (OSHA HazCom 2012 / GHS 16-section format): sections 1, 2, 3, 4, 8
+     and 9 on one US Letter page. GHS pictograms are drawn as inline SVG diamonds. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <h1>Safety Data Sheet</h1>
+      <div class="prod">{{fields.product}}</div>
+      <p class="std">
+        OSHA HazCom 2012 (29 CFR 1910.1200) / GHS. Excerpt: sections 5-7 and 10-16 not reproduced.
+      </p>
+    </div>
+    <table class="docbox">
+      <tr>
+        <th>SDS no.</th>
+        <td>{{fields.sdsNo}}</td>
+      </tr>
+      <tr>
+        <th>Revision</th>
+        <td>{{fields.revisionDate}}</td>
+      </tr>
+    </table>
+  </header>
+
+  <h2>Section 1: Identification</h2>
+  <table class="kv">
+    <tr>
+      <th>Product identifier</th>
+      <td><strong>{{fields.product}}</strong></td>
+      <th class="w-s">Product code</th>
+      <td class="w-m">{{fields.productCode}}</td>
+    </tr>
+    {{#if fields.synonyms}}
+    <tr>
+      <th>Other names</th>
+      <td colspan="3">{{fields.synonyms}}</td>
+    </tr>
+    {{/if}}
+    <tr>
+      <th>Recommended use</th>
+      <td colspan="3">{{fields.recommendedUse}}</td>
+    </tr>
+    <tr>
+      <th>Supplier</th>
+      <td>
+        {{fields.supplier.name}}{{#if fields.supplier.address}},
+        {{fields.supplier.address}}{{/if}}{{#if fields.supplier.phone}}
+        <span class="nw">Tel {{fields.supplier.phone}}</span>{{/if}}
+      </td>
+      <th class="w-s em">Emergency phone</th>
+      <td class="w-m em"><strong>{{fields.supplier.emergencyPhone}}</strong></td>
+    </tr>
+  </table>
+
+  <h2>Section 2: Hazard(s) identification</h2>
+  <div class="haz">
+    <div class="haz-class">
+      <div class="sub">Classification</div>
+      <ul>
+        {{#each fields.hazardClasses}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    <div class="label-el">
+      <div class="sub">Label elements</div>
+      <div class="signal">
+        <span class="lbl">Signal word</span>
+        <span class="word{{#if (eq fields.signalWord 'Warning')}} warn{{/if}}"
+          >{{upper fields.signalWord}}</span
+        >
+      </div>
+      <div class="picts">
+        {{#each fields.pictograms}}
+        <svg class="pict" viewBox="0 0 100 100" aria-label="{{this}}">
+          <path
+            d="M50 4 L96 50 L50 96 L4 50 Z"
+            fill="#fff"
+            stroke="#e3000f"
+            stroke-width="7"
+            stroke-linejoin="miter"
+          />
+          {{#if (eq this "GHS01")}}
+          <circle cx="44" cy="58" r="12" fill="#000" />
+          <path d="M52 47 L57 41" stroke="#000" stroke-width="3" />
+          <path
+            d="M60 32 L63 40 M68 36 L64 42 M70 46 L62 45 M58 26 L58 34 M48 36 L54 40"
+            stroke="#000"
+            stroke-width="3"
+          />
+          <path d="M30 70 L36 64 M62 66 L56 62 M28 52 L33 53" stroke="#000" stroke-width="3" />
+          {{/if}} {{#if (eq this "GHS02")}}
+          <path
+            d="M50 24 C58 36 64 42 63 54 C62 64 56 68 50 68 C42 68 36 62 37 53 C38 46 42 44 44 38 C46 44 47 47 50 48 C52 42 52 32 50 24 Z"
+            fill="#000"
+          />
+          <rect x="31" y="70" width="38" height="4" fill="#000" />
+          {{/if}} {{#if (eq this "GHS03")}}
+          <path
+            d="M50 22 C57 32 61 37 60 46 C59 52 55 55 50 55 C44 55 40 51 41 45 C42 40 45 38 46 34 C48 39 48 41 50 42 C52 37 52 30 50 22 Z"
+            fill="#000"
+          />
+          <circle cx="50" cy="62" r="9" fill="none" stroke="#000" stroke-width="5" />
+          <rect x="31" y="74" width="38" height="4" fill="#000" />
+          {{/if}} {{#if (eq this "GHS04")}}
+          <g transform="rotate(-35 50 52)">
+            <rect x="40" y="30" width="20" height="44" rx="9" fill="#000" />
+            <rect x="46" y="23" width="8" height="8" fill="#000" />
+          </g>
+          {{/if}} {{#if (eq this "GHS05")}}
+          <path d="M28 26 L36 22 L44 38 L36 42 Z" fill="#000" />
+          <path d="M56 22 L64 26 L56 42 L48 38 Z" fill="#000" />
+          <circle cx="40" cy="48" r="2.5" fill="#000" />
+          <circle cx="53" cy="48" r="2.5" fill="#000" />
+          <path d="M28 58 L46 58 L48 64 L28 64 Z" fill="#000" />
+          <path d="M53 58 L70 58 L72 64 L52 64 Z" fill="#000" />
+          <rect x="24" y="68" width="52" height="5" fill="#000" />
+          {{/if}} {{#if (eq this "GHS06")}}
+          <path
+            d="M30 70 L70 58 M30 58 L70 70"
+            stroke="#000"
+            stroke-width="6"
+            stroke-linecap="round"
+          />
+          <path
+            d="M50 26 C39 26 34 33 34 41 C34 47 37 50 40 51 L40 57 L60 57 L60 51 C63 50 66 47 66 41 C66 33 61 26 50 26 Z"
+            fill="#000"
+          />
+          <circle cx="43.5" cy="42" r="4.5" fill="#fff" />
+          <circle cx="56.5" cy="42" r="4.5" fill="#fff" />
+          <path d="M50 47 L47.5 51 L52.5 51 Z" fill="#fff" />
+          {{/if}} {{#if (eq this "GHS07")}}
+          <rect x="45" y="24" width="10" height="34" rx="3" fill="#000" />
+          <circle cx="50" cy="68" r="6" fill="#000" />
+          {{/if}} {{#if (eq this "GHS08")}}
+          <circle cx="50" cy="31" r="7" fill="#000" />
+          <path d="M33 74 C33 52 38 41 50 41 C62 41 67 52 67 74 Z" fill="#000" />
+          <path
+            d="M50 47 L52.5 54 L60 54 L54 58.5 L56.5 66 L50 61.5 L43.5 66 L46 58.5 L40 54 L47.5 54 Z"
+            fill="#fff"
+          />
+          {{/if}} {{#if (eq this "GHS09")}}
+          <path
+            d="M34 66 L34 36 M34 44 L26 34 M34 50 L42 38 M34 40 L30 28"
+            stroke="#000"
+            stroke-width="3.5"
+          />
+          <rect x="22" y="66" width="56" height="3.5" fill="#000" />
+          <path d="M46 59 C52 52 62 52 68 59 C62 65 52 65 46 59 Z" fill="#000" />
+          <path d="M68 59 L75 54 L75 64 Z" fill="#000" />
+          <circle cx="51" cy="58" r="1.6" fill="#fff" />
+          {{/if}}
+        </svg>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  <div class="stmts">
+    <div>
+      <div class="sub">Hazard statements</div>
+      <ul class="codes">
+        {{#each fields.hazardStatements}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    <div>
+      <div class="sub">Precautionary statements</div>
+      <ul class="codes">
+        {{#each fields.precautionaryStatements}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+
+  <h2>Section 3: Composition / information on ingredients</h2>
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>Chemical name</th>
+        <th class="c-cas">CAS no.</th>
+        <th class="c-pct">Concentration (% w/w)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.ingredients}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.cas}}</td>
+        <td>{{this.percent}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <h2>Section 4: First-aid measures</h2>
+  <table class="kv">
+    <tr>
+      <th>Inhalation</th>
+      <td>{{fields.firstAid.inhalation}}</td>
+    </tr>
+    <tr>
+      <th>Skin contact</th>
+      <td>{{fields.firstAid.skin}}</td>
+    </tr>
+    <tr>
+      <th>Eye contact</th>
+      <td>{{fields.firstAid.eyes}}</td>
+    </tr>
+    <tr>
+      <th>Ingestion</th>
+      <td>{{fields.firstAid.ingestion}}</td>
+    </tr>
+    {{#if fields.firstAid.notes}}
+    <tr>
+      <th>Symptoms / notes</th>
+      <td>{{fields.firstAid.notes}}</td>
+    </tr>
+    {{/if}}
+  </table>
+
+  <h2>Section 8: Exposure controls / personal protection</h2>
+  <div class="s8">
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Limit</th>
+          <th class="c-src">Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.exposureLimits}}
+        <tr>
+          <td>{{this.component}}</td>
+          <td>{{this.limit}}</td>
+          <td>{{this.source}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{#if fields.controls}}
+    <div class="controls">{{fields.controls}}</div>
+    {{/if}}
+  </div>
+
+  <h2>Section 9: Physical and chemical properties</h2>
+  <div class="props">
+    {{#each fields.properties}}
+    <div class="prop">
+      <span class="pn">{{this.property}}</span><span class="pv">{{this.value}}</span>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.supplier.name}} · {{fields.product}}</span>
+    <span>Excerpt: sections 1-4, 8, 9 of 16 · Rev. {{fields.revisionDate}}</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -2,7 +2,8 @@
 //   meta.json    { type, label, version, width, height?, paper, variants[], background?,
 //                  taxonomy? }  (taxonomy: how a type that is not built in joins the taxonomy)
 //   schema.json  JSON Schema for the inject's `fields`
-//   preview.json { fields, variant?, assets? } — realistic sample data (golden tests use it)
+//   preview.json { fields, variant?, assets?, variants? } — realistic sample data (golden tests
+//                use it); variants.<name>.fields overrides top-level fields for that variant
 //   template.html  Handlebars body (HTML-escaped by default)
 //   style.css      template styles (bundled fonts from templates/_shared/fonts.css)
 //
@@ -60,7 +61,24 @@ export const TemplatePreview = z.object({
   variant: z.string().optional(),
   /** slot → path relative to the template folder (sample images for previews/goldens). */
   assets: z.record(z.string(), z.string()).default({}),
+  /**
+   * Per-variant sample data (#331): variant → top-level fields that replace those in `fields`
+   * when that variant is previewed, so each golden shows content that fits its variant.
+   */
+  variants: z
+    .record(z.string(), z.object({ fields: z.record(z.string(), z.unknown()) }))
+    .default({}),
 })
+export type TemplatePreview = z.infer<typeof TemplatePreview>
+
+/** The preview fields for one variant: `fields` with that variant's overrides on top. */
+export function previewFields(
+  preview: Pick<TemplatePreview, 'fields' | 'variants'>,
+  variant?: string,
+): Record<string, unknown> {
+  const over = variant ? preview.variants?.[variant]?.fields : undefined
+  return over ? { ...preview.fields, ...over } : preview.fields
+}
 
 export type TemplateSource = 'project' | 'user' | 'pack' | 'builtin'
 export const TEMPLATE_SOURCES: readonly TemplateSource[] = ['project', 'user', 'pack', 'builtin']
@@ -410,6 +428,13 @@ export function templateInfo(t: LoadedTemplate, copy?: TemplateCopyInfo): Templa
     version: t.meta.version,
     schema: t.schema,
     preview: t.preview.fields,
+    ...(Object.keys(t.preview.variants).length
+      ? {
+          previewVariants: Object.fromEntries(
+            Object.keys(t.preview.variants).map((v) => [v, previewFields(t.preview, v)]),
+          ),
+        }
+      : {}),
     paper: t.meta.paper,
     variants: t.meta.variants,
     width: t.meta.width,

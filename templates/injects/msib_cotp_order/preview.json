@@ -1,0 +1,58 @@
+{
+  "variant": "msib",
+  "fields": {
+    "sector": "Sector North Coast",
+    "cotpZone": "North Coast",
+    "unitAddress": "1 Harbor Point Rd, Port Lakeview",
+    "number": "07-26",
+    "issuedAt": "October 21, 2026",
+    "subject": "Cyber Incident Affecting Port Lakeview Container Terminals; MARSEC Level 2 for Port Lakeview",
+    "marsecLevel": "2",
+    "portCondition": "Normal",
+    "body": [
+      "On October 21, 2026, at approximately 0430 local, the Captain of the Port (COTP) North Coast was notified of a cyber incident affecting the terminal operating system and gate automation at Lakeview Container Terminal and the Port Lakeview Intermodal Yard. Container moves, gate transactions and electronic access control at the affected facilities are degraded.",
+      "To protect the port and the public, the COTP has set Maritime Security (MARSEC) Level 2 for Port Lakeview, effective immediately. All vessels and facilities regulated under 33 CFR Parts 104 and 105 in the Port Lakeview area must implement the MARSEC Level 2 measures in their approved security plans.",
+      "Vessels and facilities that detect suspicious activity, a breach of security or a cyber incident affecting their operations must report it to the National Response Center at (800) 424-8802 and to the Sector North Coast Command Center. The Coast Guard is coordinating with CISA and the port's operators."
+    ],
+    "restrictions": [
+      "Facilities with interfaces to the affected terminal operating system shall verify access control and screening manually and log every person and vehicle granted access.",
+      "Vessels scheduled to arrive at Berths 4–7 shall contact the Sector North Coast Waterways Management Division at least 12 hours before arrival.",
+      "Cargo transfer at Berths 4–7 is suspended until the COTP approves its resumption."
+    ],
+    "effective": "Immediately",
+    "until": "Until rescinded by the Captain of the Port",
+    "poc": {
+      "name": "LT Dana Reyes, Sector North Coast Prevention Department",
+      "phone": "(555) 014-8800",
+      "email": "sectornorthcoast.prevention@uscg.example"
+    },
+    "signer": {
+      "name": "M. T. CALLOWAY"
+    }
+  },
+  "variants": {
+    "cotp_order": {
+      "fields": {
+        "number": "COTP 26-031",
+        "issuedAt": "October 21, 2026, 0915 local",
+        "subject": "Captain of the Port Order: Suspension of Cargo Operations and Additional Security Measures, Lakeview Container Terminal",
+        "recipient": "Facility Security Officer\nLakeview Container Terminal, Berths 4–7 (Facility ID 0123456)\n2400 Pier Rd, Port Lakeview",
+        "authority": "46 U.S.C. 70011; 33 CFR Part 105",
+        "body": [
+          "At approximately 0430 local today your facility reported a cyber incident affecting the terminal operating system, gate automation and electronic access control systems. Your facility cannot presently confirm the identity of persons and vehicles entering restricted areas or the location of containers within the terminal.",
+          "Based on these conditions, I have determined that this order is necessary to ensure the safety and security of the port. Pursuant to the authority listed above, you are hereby ordered to:"
+        ],
+        "restrictions": [
+          "Immediately suspend all cargo operations, including vessel loading and discharge and all gate transactions, at Berths 4–7.",
+          "Implement the MARSEC Level 2 measures of your approved Facility Security Plan and control access to restricted areas by manual credential checks with a written log.",
+          "Disconnect the affected systems from any network connected to vessels at berth or to other facilities until a qualified responder verifies them.",
+          "Submit a written report of the incident, the systems affected and the measures taken to the Captain of the Port by 1700 local today.",
+          "Do not resume cargo operations until the Captain of the Port has approved in writing a plan for verified restoration."
+        ],
+        "effective": "Immediately upon receipt",
+        "until": "Until rescinded in writing by the Captain of the Port",
+        "distribution": "Port Lakeview Harbor Master; Lakeshore County Emergency Management; CISA Region 5; Area Maritime Security Committee North Coast"
+      }
+    }
+  }
+}

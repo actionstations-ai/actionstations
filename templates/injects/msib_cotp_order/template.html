@@ -1,0 +1,140 @@
+<!-- USCG Marine Safety Information Bulletin / Captain of the Port order, one US Letter page.
+     msib: Sector MSIB layout (U.S. Coast Guard header, "Marine Safety Information Bulletin",
+     COTP zone MSIB number, date, contact, subject, paragraphs, measures, signature, footer).
+     cotp_order: letterhead, serial, To / Authority, "you are hereby ordered to" numbered
+     requirements, reconsideration paragraph, signature and copy line. Generic anchor emblem,
+     never the real seal. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="lh">
+    <svg class="emblem" viewBox="0 0 64 64" aria-hidden="true">
+      <circle cx="32" cy="32" r="30" class="e-ring" />
+      <circle cx="32" cy="32" r="25" class="e-inner" />
+      <circle cx="32" cy="17" r="4" class="e-line" />
+      <path d="M32 21 V50 M23 28 H41 M17 38 C18 47 25 51 32 51 C39 51 46 47 47 38" class="e-line" />
+      <path d="M14 39 L17 35 L21 39 M43 39 L47 35 L50 39" class="e-line" />
+    </svg>
+    <div class="lh-text">
+      <p class="dept">U.S. Department of Homeland Security</p>
+      <p class="uscg">United States Coast Guard</p>
+    </div>
+    <div class="lh-unit">
+      <p class="u-name">Commander<br />U.S. Coast Guard {{fields.sector}}</p>
+      {{#if fields.unitAddress}}
+      <p>{{fields.unitAddress}}</p>
+      {{/if}} {{#if fields.poc.phone}}
+      <p>Phone: {{fields.poc.phone}}</p>
+      {{/if}}
+    </div>
+  </header>
+
+  {{#if (eq variant "cotp_order")}}
+  <!-- ===== cotp_order ===== -->
+  <div class="ser">
+    <p>{{fields.number}}</p>
+    <p>{{fields.issuedAt}}</p>
+  </div>
+  <h1 class="order-h">Captain of the Port Order</h1>
+  <table class="hdr">
+    <tr>
+      <th>To:</th>
+      <td>{{nl2br fields.recipient}}</td>
+    </tr>
+    <tr>
+      <th>Subj:</th>
+      <td><strong>{{fields.subject}}</strong></td>
+    </tr>
+    {{#if fields.authority}}
+    <tr>
+      <th>Ref:</th>
+      <td>{{fields.authority}}</td>
+    </tr>
+    {{/if}}
+  </table>
+  <ol class="paras">
+    {{#each fields.body}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  <ol class="reqs" type="a">
+    {{#each fields.restrictions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  <p class="eff">
+    <b>Effective:</b> {{default fields.effective "Immediately upon receipt"}}.
+    <b>Duration:</b> {{default fields.until "Until rescinded by the Captain of the Port"}}.
+  </p>
+  <p class="eff">
+    Failure to comply may result in civil penalties under 46 U.S.C. 70036 or further control
+    measures. You may request reconsideration of this order in accordance with 33 CFR 160.7; the
+    order remains in effect while a request is considered.
+  </p>
+  {{#if fields.poc.name}}
+  <p class="eff">
+    Direct questions to {{fields.poc.name}}{{#if fields.poc.phone}},
+    {{fields.poc.phone}}{{/if}}{{#if fields.poc.email}}, {{fields.poc.email}}{{/if}}.
+  </p>
+  {{/if}} {{else}}
+  <!-- ===== msib ===== -->
+  <h1 class="msib-h">Marine Safety Information Bulletin</h1>
+  <div class="msib-meta">
+    <div>
+      <p><b>COTP {{default fields.cotpZone fields.sector}} MSIB Number:</b> {{fields.number}}</p>
+      <p><b>Date:</b> {{fields.issuedAt}}</p>
+    </div>
+    <div>
+      {{#if fields.poc.name}}
+      <p><b>Contact:</b> {{fields.poc.name}}</p>
+      {{/if}} {{#if fields.poc.phone}}
+      <p><b>Phone:</b> {{fields.poc.phone}}</p>
+      {{/if}} {{#if fields.poc.email}}
+      <p><b>E-Mail:</b> {{fields.poc.email}}</p>
+      {{/if}}
+    </div>
+  </div>
+  <h2 class="subj">{{fields.subject}}</h2>
+  {{#if (or fields.marsecLevel fields.portCondition)}}
+  <div class="levels">
+    {{#if fields.marsecLevel}}
+    <span class="lv m{{fields.marsecLevel}}">MARSEC Level {{fields.marsecLevel}}</span>
+    {{/if}} {{#if fields.portCondition}}
+    <span class="lv pc">Port Condition: {{upper fields.portCondition}}</span>
+    {{/if}} {{#if fields.effective}}
+    <span class="lv-txt"
+      >Effective: {{fields.effective}}{{#if fields.until}} · {{fields.until}}{{/if}}</span
+    >
+    {{/if}}
+  </div>
+  {{/if}} {{#each fields.body}}
+  <p class="para">{{this}}</p>
+  {{/each}} {{#if fields.restrictions.length}}
+  <p class="para">The following measures are in effect:</p>
+  <ol class="reqs">
+    {{#each fields.restrictions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{/if}} {{/if}}
+
+  <div class="sig">
+    <p class="sig-hand">{{lower fields.signer.name}}</p>
+    <p class="sig-name">{{fields.signer.name}}</p>
+    {{#if fields.signer.title}}
+    <p class="sig-title">{{nl2br fields.signer.title}}</p>
+    {{else}}
+    <p class="sig-title">
+      Captain, U.S. Coast Guard<br />Captain of the Port {{default fields.cotpZone fields.sector}}
+    </p>
+    {{/if}}
+  </div>
+
+  {{#if (eq variant "cotp_order")}} {{#if fields.distribution}}
+  <p class="copy"><b>Copy:</b> {{fields.distribution}}</p>
+  {{/if}} {{else}}
+  <p class="pub">
+    This release has been issued for public information and notification purposes only.
+  </p>
+  {{/if}}
+  <p class="marking bottom">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

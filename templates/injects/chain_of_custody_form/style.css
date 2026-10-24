@@ -1,7 +1,9 @@
-/* Chain of custody form (NIST sample evidence form style), one US Letter page. Typed header and
-   item table; the transfer log is signed by hand (Caveat), with empty ruled rows below. */
+/* Chain of custody form (NIST sample evidence form style) on US Letter pages. Typed header and
+   item table; the transfer log is signed by hand (Caveat), with empty ruled rows below. Long
+   lists continue on continuation sheets: one .page per Letter page, each its own PDF page. */
 .page {
   height: 1056px;
+  break-after: page;
   padding: 32px 52px 30px;
   display: flex;
   flex-direction: column;
@@ -111,8 +113,14 @@ thead th {
 .coll td.dt {
   width: 130px;
 }
+.page:last-child {
+  break-after: auto;
+}
+.head--cont h1 {
+  font-size: 19px;
+}
 .cwrap {
-  flex: 1;
+  flex: 1000 1 auto;
   min-height: 0;
   overflow: hidden;
   border-bottom: 1px solid #111;
@@ -160,9 +168,26 @@ thead th {
   margin: 3px 0 0;
   font-size: 11.5px;
 }
+.cwrap.full {
+  flex: none;
+}
+.spacer {
+  flex: 1;
+}
 .foot {
   margin: 8px 0 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
   font-size: 10px;
   color: #444;
+}
+.foot p {
+  margin: 0;
   font-style: italic;
+}
+.foot .pg {
+  flex: none;
+  font-weight: 600;
 }

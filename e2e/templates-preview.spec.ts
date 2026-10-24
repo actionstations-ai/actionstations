@@ -23,6 +23,8 @@ interface TemplateInfo {
   type: string
   width: number
   preview: Record<string, unknown>
+  /** preview.json per-variant sample data, merged (#331). */
+  previewVariants?: Record<string, Record<string, unknown>>
   variants: string[]
 }
 
@@ -65,7 +67,7 @@ test('every template renders its preview to PNG', async () => {
       for (const variant of t.variants.length ? t.variants : ['default']) {
         const r = await invoke<Preview>('render:preview', {
           type: t.type,
-          fields: t.preview,
+          fields: t.previewVariants?.[variant] ?? t.preview,
           variant,
           scale: 2,
         })

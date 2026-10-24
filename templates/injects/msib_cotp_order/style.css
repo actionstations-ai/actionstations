@@ -1,0 +1,231 @@
+/* USCG MSIB / Captain of the Port order, US Letter (816 × 1056). Federal correspondence look:
+   generic anchor emblem (never the real seal), DHS / Coast Guard letterhead with the Sector block
+   on the right, serif body (Source Serif 4). msib: centred bulletin title, number and contact
+   block, bold subject, MARSEC / port condition tags. cotp_order: SSIC / serial / date block,
+   To / Subj / Ref table, numbered paragraphs and lettered requirements. */
+.page {
+  height: 1056px;
+  padding: 30px 68px 28px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Source Serif 4', serif;
+  font-size: 13px;
+  line-height: 1.42;
+  color: #111;
+  overflow: hidden;
+}
+p {
+  margin: 0;
+}
+.marking {
+  margin: 0;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #9b1c14;
+}
+.marking.bottom {
+  margin-top: auto;
+  padding-top: 8px;
+}
+.lh {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #12284b;
+}
+.emblem {
+  width: 64px;
+  height: 64px;
+  flex: none;
+}
+.e-ring {
+  fill: #12284b;
+}
+.e-inner {
+  fill: #fff;
+}
+.e-line {
+  fill: none;
+  stroke: #12284b;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.lh-text {
+  flex: 1;
+}
+.dept {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #333;
+}
+.uscg {
+  font-family: 'Inter', sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: #12284b;
+}
+.lh-unit {
+  text-align: right;
+  font-family: 'Inter', sans-serif;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: #333;
+  max-width: 260px;
+}
+.u-name {
+  font-weight: 700;
+  color: #111;
+}
+
+/* ===== msib ===== */
+.msib-h {
+  margin: 14px 0 8px;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #12284b;
+}
+.msib-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 6px 0;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.msib-meta > div:last-child {
+  text-align: right;
+}
+.subj {
+  margin: 12px 0 6px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.3;
+  font-weight: 700;
+  text-decoration: underline;
+}
+.levels {
+  margin: 4px 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'Inter', sans-serif;
+}
+.lv {
+  padding: 3px 10px;
+  border: 1.5px solid #12284b;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.lv.m2 {
+  background: #f5c400;
+  border-color: #8a6d00;
+}
+.lv.m3 {
+  background: #b3121f;
+  border-color: #b3121f;
+  color: #fff;
+}
+.lv-txt {
+  font-size: 11px;
+  color: #333;
+}
+.para {
+  margin-top: 8px;
+  text-align: justify;
+}
+.reqs {
+  margin: 6px 0 0;
+  padding-left: 30px;
+}
+.reqs li {
+  margin: 4px 0;
+}
+
+/* ===== cotp_order ===== */
+.ser {
+  margin: 12px 0 0 auto;
+  width: 220px;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+.order-h {
+  margin: 10px 0 8px;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #12284b;
+}
+.hdr {
+  border-collapse: collapse;
+  width: 100%;
+}
+.hdr th {
+  width: 48px;
+  padding: 2px 0;
+  vertical-align: top;
+  text-align: left;
+  font-weight: 400;
+}
+.hdr td {
+  padding: 2px 0 4px;
+}
+.paras {
+  margin: 8px 0 0;
+  padding-left: 22px;
+}
+.paras li {
+  margin: 6px 0;
+}
+.eff {
+  margin-top: 8px;
+}
+
+/* ===== signature ===== */
+.sig {
+  margin: 14px 0 0 auto;
+  width: 280px;
+}
+.sig-hand {
+  font-family: 'Caveat', cursive;
+  font-size: 30px;
+  line-height: 30px;
+  color: #1a2f8a;
+  text-transform: capitalize;
+}
+.sig-name {
+  font-weight: 700;
+}
+.sig-title {
+  line-height: 1.35;
+}
+.copy {
+  margin-top: 10px;
+  font-size: 11.5px;
+}
+.pub {
+  margin-top: 12px;
+  text-align: center;
+  font-style: italic;
+  font-size: 12px;
+}

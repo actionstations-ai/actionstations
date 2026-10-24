@@ -14,10 +14,10 @@ const schemas = import.meta.glob<JsonSchema>('../../../../../../templates/inject
   eager: true,
   import: 'default',
 })
-const previews = import.meta.glob<{ fields: Record<string, unknown> }>(
-  '../../../../../../templates/injects/*/preview.json',
-  { eager: true, import: 'default' },
-)
+const previews = import.meta.glob<{
+  fields: Record<string, unknown>
+  variants?: Record<string, { fields: Record<string, unknown> }>
+}>('../../../../../../templates/injects/*/preview.json', { eager: true, import: 'default' })
 const typeOf = (p: string) => p.split('/').at(-2)!
 const SCHEMAS = Object.fromEntries(Object.entries(schemas).map(([p, s]) => [typeOf(p), s]))
 const PREVIEWS = Object.fromEntries(Object.entries(previews).map(([p, s]) => [typeOf(p), s]))
@@ -126,6 +126,18 @@ describe('validateFields mirrors the template contract', () => {
       .filter((t) => PREVIEWS[t])
       .map((t) => [t, validateFields(SCHEMAS[t]!, PREVIEWS[t]!.fields)] as const)
       .filter(([, issues]) => issues.length)
+    expect(failures).toEqual([])
+  })
+
+  it('every per-variant preview (preview.json variants) validates cleanly', () => {
+    const failures = Object.keys(SCHEMAS)
+      .flatMap((t) =>
+        Object.entries(PREVIEWS[t]?.variants ?? {}).map(([v, over]) => [
+          `${t}--${v}`,
+          validateFields(SCHEMAS[t]!, { ...PREVIEWS[t]!.fields, ...over.fields }),
+        ]),
+      )
+      .filter(([, issues]) => issues!.length)
     expect(failures).toEqual([])
   })
 

@@ -53,7 +53,7 @@ const template = (type: string, imageSlots: string[] = []): LoadedTemplate =>
       imageSlots,
     },
     schema: {},
-    preview: { fields: {}, assets: {} },
+    preview: { fields: {}, assets: {}, variants: {} },
     html: '',
     css: '',
   }) as LoadedTemplate

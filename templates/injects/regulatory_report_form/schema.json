@@ -89,8 +89,8 @@
     },
     "sections": {
       "type": "array",
-      "description": "Sections of the form, each a list of labelled answers (2-4 sections, 2-8 items each)",
-      "maxItems": 5,
+      "description": "Sections of the form, each a list of labelled answers (2-6 sections, 2-10 items each). A long report continues on further pages.",
+      "maxItems": 10,
       "items": {
         "type": "object",
         "properties": {
@@ -101,7 +101,7 @@
           },
           "items": {
             "type": "array",
-            "maxItems": 10,
+            "maxItems": 20,
             "description": "Labelled answers",
             "items": {
               "type": "object",
@@ -126,7 +126,7 @@
     },
     "narrative": {
       "type": "string",
-      "description": "Narrative description of the event as entered (3-6 sentences)",
+      "description": "Narrative description of the event as entered (3-6 sentences; blank lines separate paragraphs)",
       "examples": [
         "At 14:52 EDT operators observed unauthorized breaker commands issued from the EMS to the Eastside substation."
       ]

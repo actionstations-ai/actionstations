@@ -75,6 +75,8 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `service_status_page` | orgName, serviceName, overallStatus, incidentTitle, components[{name,status}], updates[{status,time,text}] | T | Public status page; variant `site_banner` puts the outage banner on the org's own site or portal (#324) |
 | `leak_site_post` | siteName, victimName, victimDomain, dataSize, deadline, countdown, status, description, fileList[{name,size}] | T | Ransomware data-leak site listing with countdown (#324) |
 | `security_advisory` | publisher, advisoryId, title, tlp, released, severity, cves[], affectedProducts[], summary, iocs[], mitigations[] | T (PDF) | CISA / ISAC advisory with TLP 2.0 marking; variant `vendor` for a PSIRT advisory (#324) |
+| `hl7_interface_monitor` | engine, site, clock, interfaces[{name,direction,source,destination,messageType,status,queueDepth,lastMessage,error}], alerts[] | T | Interface engine dashboard with stalled HL7 feeds. **Healthcare only**, in the healthcare pack (#331) |
+| `election_results_page` | jurisdiction, electionName, lastUpdated, url, precinctsReporting, contests[{name,choices[{name,party,votes,percent}]}], pageStatus, banner | T | Election night results site; variants `official`, `spoofed` (lookalike copy). **Elections only**, in the elections pack (#331) |
 
 ### Operational displays & physical
 | Type | Key fields | Render | Notes |
@@ -95,6 +97,8 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `nws_weather_warning` | office, product, issued, warningFor[], until, at, hazard, source, impact, locations[], actions[] | T (mono) | National Weather Service warning text product (#324) |
 | `notam` | notamNumber, facility, location, effectiveStart, effectiveEnd, text, tfr{type,reason,radiusNm,floor,ceiling,restrictions[]} | T | NOTAM text or TFR detail; variants `text`, `tfr`. **Airport, stadium and unmanned systems** (#324) |
 | `rider_service_alert` | agency, routes[{id,mode}], effect, cause, headline, description, activePeriod, alternatives[] | T | Rider alert (GTFS-Realtime cause / effect); variants `web`, `app`. **Transit only**, in the transit pack (#324) |
+| `gcs_telemetry_screen` | aircraft{id,type}, mode, altitudeAgl, groundSpeed, battery, gnss{satellites,hdop,fix}, link{rssi,quality}, warnings[], messages[] | T | UAS ground control station screen. **Unmanned systems only**, in the unmanned systems pack (#331) |
+| `track_bulletin` | railroad, subdivision, number, date, issuedTo, items[{type,limits,restriction}], dispatcher, okTime | T (PDF) | Track bulletin or track warrant (neutral form); variants `bulletin`, `warrant`. **Freight rail only**, in the freight rail pack (#331) |
 
 ### Documents & forms
 | Type | Key fields | Render | Notes |
@@ -108,12 +112,17 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `field_report` | organization, reportNo, date, location, inspector, reportType, summary, findings[{item,condition,notes}], actionsTaken[], recommendations[] | T (PDF) | Field / inspection / patrol report |
 | `ics_213_general_message` | incidentName, to, from, subject, date, time, message, approvedBy, reply | T (PDF, FEMA layout) | Blank version for players (#324) |
 | `ics_214_activity_log` | incidentName, opPeriod, name, icsPosition, homeAgency, resources[], entries[{time,activity}] | T (PDF, FEMA layout) | Blank version for players (#324) |
-| `chain_of_custody_form` | org, caseNo, items[{itemNo,description,serial}], collectedBy, collectedAt, location, transfers[{dateTime,releasedBy,receivedBy,purpose}] | T (PDF) | Evidence, election material, downed UAS (#324) |
-| `regulatory_report_form` | agency, formName, reportType, reportId, submittedAt, organization, sections[{heading,items[{label,value}]}], narrative | T (PDF) | Filed incident report: OE-417, NRC, NORS, PHMSA, CIRCIA, FAA 107.9, bank notice (#324) |
+| `chain_of_custody_form` | org, caseNo, items[{itemNo,description,serial}], collectedBy, collectedAt, location, transfers[{dateTime,releasedBy,receivedBy,purpose}] | T (PDF) | Evidence, election material, downed UAS (#324). Long lists continue on continuation sheets (#331) |
+| `regulatory_report_form` | agency, formName, reportType, reportId, submittedAt, organization, sections[{heading,items[{label,value}]}], narrative | T (PDF) | Filed incident report: OE-417, NRC, NORS, PHMSA, CIRCIA, FAA 107.9, bank notice (#324). Long reports print on several pages (#331) |
 | `lab_result_report` | labName, client, sampleId, sampleLocation, sampledAt, reportedAt, results[{analyte,result,units,limit,method,flag}], comments | T (PDF) | Certified lab report / certificate of analysis (#324) |
 | `breach_notification_letter` | org, date, recipientName, whatHappened, whatInformation, whatWeAreDoing, whatYouCanDo, forMoreInformation, signerName | T (PDF) | Model-form breach notice to individuals (#324) |
 | `downtime_notice` | org, systemName, status, startedAt, expectedRestore, affected[], procedures[], contact | T (PDF) | EHR / MES / SIS downtime notice; variants `unplanned`, `planned` (#324) |
 | `boil_water_notice` | utility, pwsId, noticeType, issuedAt, affectedArea, whatHappened, whatToDo[], whatIsBeingDone, expectedResolution, contact | T (PDF) | EPA Tier 1 public notice; variants `boil_water`, `do_not_drink`. **Water utility, public health, municipal** (#324) |
+| `wire_transfer_request` | org, requestNo, requestedAt, amount, beneficiary{name,bank,aba,account}, purpose, initiatedBy, approvals[], callback | T (PDF) | Outgoing wire request or vendor bank change request (BEC); variants `wire_request`, `vendor_bank_change` (#331) |
+| `sds_excerpt` | product, supplier, signalWord, pictograms[], hazardStatements[], ingredients[], firstAid, properties[], exposureLimits[] | T (PDF) | Safety Data Sheet, sections 1–4, 8, 9 (#331) |
+| `emergency_declaration` | jurisdiction, declarationNo, issuedAt, whereas[], declaration, powers[], effective, expires, signer | T (PDF) | Local declaration of emergency (#331) |
+| `reunification_notice` | org, site, headline, issuedAt, situation, reunificationSite, steps[], bring[], contact | T (PDF) | Family reunification notice; variant `card` for the request / release card (#331) |
+| `msib_cotp_order` | sector, number, issuedAt, subject, marsecLevel, portCondition, body, restrictions[], effective, until, poc, signer | T (PDF) | USCG Marine Safety Information Bulletin or Captain of the Port order; variants `msib`, `cotp_order`. **Port and maritime only**, in the port pack (#331) |
 
 ### Facilitator control
 | Type | Key fields | Render | Notes |

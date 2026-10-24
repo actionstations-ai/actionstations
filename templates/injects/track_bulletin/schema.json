@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Track bulletin / track warrant",
+  "description": "Railroad movement authority paperwork on a neutral form of a simulated railroad (not a copy of any rulebook form). Variant 'bulletin': a typed track bulletin listing restrictions in effect (speed restrictions, track out of service, protect workers and machines between mileposts, signals out of service) with the dispatcher, OK time and crew copy lines. Variant 'warrant': the crew's hand-copied track warrant, numbered boxes with the applicable ones checked and the blanks filled in by hand. Item 'type' selects the box (warrant) or the label (bulletin). FRA may be named. One Letter page.",
+  "type": "object",
+  "required": ["railroad", "subdivision", "number", "date", "issuedTo", "items", "dispatcher"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "railroad": {
+      "type": "string",
+      "description": "Railroad name (simulated)",
+      "examples": ["Lakeshore & Western Railway"]
+    },
+    "subdivision": {
+      "type": "string",
+      "description": "Subdivision the authority applies to",
+      "examples": ["Harbor Subdivision"]
+    },
+    "number": {
+      "type": "string",
+      "description": "Track bulletin or track warrant number",
+      "examples": ["4127", "2317"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["10/21/2026"]
+    },
+    "issuedTo": {
+      "type": "string",
+      "description": "Train, engine or employee in charge the authority is addressed to",
+      "examples": ["Q412-21 Eng LW 4410", "EIC B. Ruiz, Track Dept."]
+    },
+    "atLocation": {
+      "type": "string",
+      "description": "Where the recipient is when it is issued",
+      "examples": ["Riverbend Yard"]
+    },
+    "items": {
+      "type": "array",
+      "description": "Restrictions (bulletin) or checked boxes (warrant). Bulletin types: speed_restriction, track_out_of_service, protect_workers, signal_out_of_service, other. Warrant types: void, proceed, work_between, not_in_effect_until, expires, hold_main, clear_main, do_not_foul, restricted_speed, bulletins_in_effect, other.",
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "description": "One restriction or one warrant box",
+        "additionalProperties": false,
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "speed_restriction",
+              "track_out_of_service",
+              "protect_workers",
+              "signal_out_of_service",
+              "void",
+              "proceed",
+              "work_between",
+              "not_in_effect_until",
+              "expires",
+              "hold_main",
+              "clear_main",
+              "do_not_foul",
+              "restricted_speed",
+              "bulletins_in_effect",
+              "other"
+            ],
+            "description": "Kind of restriction or warrant box",
+            "examples": ["speed_restriction", "proceed"]
+          },
+          "limits": {
+            "type": "string",
+            "description": "Where it applies, as written (mileposts, control points, track)",
+            "examples": ["MP 112.4 to MP 113.1, Main 1"]
+          },
+          "from": {
+            "type": "string",
+            "description": "From point (warrant blanks: proceed, work between, restricted speed)",
+            "examples": ["CP Riverbend"]
+          },
+          "to": {
+            "type": "string",
+            "description": "To point",
+            "examples": ["CP Cedar Ridge"]
+          },
+          "track": {
+            "type": "string",
+            "description": "Track",
+            "examples": ["Main 1"]
+          },
+          "restriction": {
+            "type": "string",
+            "description": "The restriction or the value written in the box (speed, times, number voided, instructions)",
+            "examples": ["10 MPH passenger and freight. Track geometry defect.", "0845"]
+          }
+        }
+      }
+    },
+    "dispatcher": {
+      "type": "string",
+      "description": "Train dispatcher (name or initials)",
+      "examples": ["K. Morrow"]
+    },
+    "timeIssued": {
+      "type": "string",
+      "description": "Time issued",
+      "examples": ["0612"]
+    },
+    "okTime": {
+      "type": "string",
+      "description": "OK time given by the dispatcher after the repeat",
+      "examples": ["0832"]
+    },
+    "copiedBy": {
+      "type": "string",
+      "description": "Employee who copied and repeated it",
+      "examples": ["R. Haines, Conductor"]
+    },
+    "relievedAt": {
+      "type": "string",
+      "description": "Time and point the authority was released / limits reported clear (blank while in effect)",
+      "examples": ["1122 at CP Cedar Ridge"]
+    },
+    "notes": {
+      "type": "string",
+      "description": "General notice or crew notes printed under the items",
+      "examples": [
+        "Dispatching system on manual operation. Bulletins issued by radio and repeated in full."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

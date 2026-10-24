@@ -1,0 +1,390 @@
+/* HL7 interface engine monitor, 1280 px wide (height to content). Light enterprise console:
+   navy title bar, tabs, toolbar, state tiles, alert strip, connection grid with red (error) /
+   amber (queue warning) / grey (stopped) rows, and the selected connection's message log. */
+.ie {
+  width: 1280px;
+  display: flex;
+  flex-direction: column;
+  background: #eef1f5;
+  color: #1d2733;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+.spacer {
+  flex: 1;
+}
+.title {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  background: #18304d;
+  color: #fff;
+}
+.mark {
+  width: 26px;
+  height: 26px;
+}
+.title h1 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+}
+.site {
+  padding-left: 12px;
+  border-left: 1px solid #3c5878;
+  color: #b9c9db;
+  font-size: 13px;
+}
+.user {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #b9c9db;
+}
+.user svg {
+  width: 14px;
+  height: 14px;
+}
+.clock {
+  padding: 3px 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  background: #10233a;
+  border: 1px solid #2c4664;
+}
+.tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 36px;
+  padding: 0 16px;
+  background: #dfe5ec;
+  border-bottom: 1px solid #b8c3cf;
+}
+.tabs span {
+  padding: 8px 14px;
+  color: #475769;
+}
+.tabs .on {
+  background: #fff;
+  color: #18304d;
+  font-weight: 700;
+  border: 1px solid #b8c3cf;
+  border-bottom-color: #fff;
+  margin-bottom: -1px;
+}
+.tabs .spacer {
+  padding: 0;
+}
+.tabs .refresh {
+  align-self: center;
+  padding: 0;
+  font-size: 12px;
+  color: #5d6e80;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #fff;
+  border-bottom: 1px solid #d3dae2;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  font-size: 12px;
+  background: #f4f6f9;
+  border: 1px solid #b5c0cc;
+  border-radius: 3px;
+}
+.tri {
+  width: 0;
+  height: 0;
+  border-left: 8px solid #1f8a3c;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+.sq {
+  width: 9px;
+  height: 9px;
+  background: #c62828;
+}
+.sep {
+  width: 1px;
+  height: 20px;
+  margin: 0 6px;
+  background: #d3dae2;
+}
+.search {
+  padding: 4px 10px;
+  min-width: 260px;
+  font-size: 12px;
+  color: #5d6e80;
+  border: 1px solid #c4ccd6;
+  border-radius: 3px;
+}
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 12px 16px 0;
+}
+.tile {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 14px;
+  background: #fff;
+  border: 1px solid #d3dae2;
+  border-left: 6px solid var(--c);
+}
+.tile b {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--c);
+}
+.tile span {
+  font-size: 13px;
+  color: #475769;
+}
+.t-up {
+  --c: #1f8a3c;
+}
+.t-queued {
+  --c: #c77700;
+}
+.t-stopped {
+  --c: #6b7785;
+}
+.t-error {
+  --c: #c62828;
+}
+.alerts {
+  list-style: none;
+  margin: 10px 16px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.alerts li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  font-weight: 500;
+  border: 1px solid;
+}
+.alerts svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.a-red {
+  background: #fdecea;
+  border-color: #efb3ad;
+  color: #a51d1d;
+}
+.a-amber {
+  background: #fff4e0;
+  border-color: #f0cf91;
+  color: #8a5300;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.grid {
+  margin: 10px 16px 0;
+  width: calc(100% - 32px);
+  background: #fff;
+  border: 1px solid #c4ccd6;
+}
+th {
+  padding: 6px 8px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #475769;
+  background: #e6ebf0;
+  border-bottom: 1px solid #c4ccd6;
+}
+td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #e3e8ee;
+  white-space: nowrap;
+}
+.num {
+  text-align: right;
+}
+.c-st {
+  width: 92px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.c-dir {
+  width: 44px;
+}
+.name {
+  font-weight: 700;
+}
+.led {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+  vertical-align: -1px;
+  border-radius: 50%;
+  background: var(--c, #1f8a3c);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+.led.ok {
+  --c: #1f8a3c;
+}
+.grid tr.s-up {
+  --c: #1f8a3c;
+}
+.grid tr.s-queued {
+  --c: #d98200;
+  background: #fff6e5;
+}
+.grid tr.s-stopped {
+  --c: #8a949f;
+  background: #f1f3f5;
+  color: #5d6e80;
+}
+.grid tr.s-error {
+  --c: #d32f2f;
+  background: #fdeceb;
+}
+.grid tr.s-error .c-st,
+.grid tr.s-error .err,
+.grid tr.s-error .q {
+  color: #b71c1c;
+}
+.grid tr.s-queued .c-st,
+.grid tr.s-queued .q {
+  color: #9a5b00;
+}
+.grid tr.s-queued .q,
+.grid tr.s-error .q {
+  font-weight: 700;
+}
+.grid tr.sel td {
+  border-top: 2px solid #2f7fd1;
+  border-bottom: 2px solid #2f7fd1;
+}
+.grid tr.sel td:first-child {
+  border-left: 2px solid #2f7fd1;
+}
+.grid tr.sel td:last-child {
+  border-right: 2px solid #2f7fd1;
+}
+.dir {
+  display: inline-block;
+  width: 34px;
+  padding: 1px 0;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 2px;
+}
+.dir.in {
+  background: #dcebfa;
+  color: #1c5a9c;
+}
+.dir.out {
+  background: #e4e0f5;
+  color: #4b3a99;
+}
+.arrow {
+  color: #8a949f;
+}
+.err {
+  max-width: 330px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pane {
+  margin: 12px 16px 0;
+  background: #fff;
+  border: 1px solid #c4ccd6;
+}
+.ph {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  background: #18304d;
+  color: #fff;
+  font-weight: 500;
+}
+.ph b {
+  font-size: 13px;
+  color: #ffd27a;
+}
+.ph .hint {
+  font-size: 12px;
+  font-weight: 400;
+  color: #b9c9db;
+}
+.log td {
+  padding: 4px 8px;
+}
+.log td.detail {
+  white-space: normal;
+}
+.pill {
+  display: inline-block;
+  min-width: 64px;
+  padding: 1px 6px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 2px;
+  background: #e3e8ee;
+  color: #475769;
+}
+.m-sent .pill {
+  background: #dff1e4;
+  color: #1b6e33;
+}
+.m-queued .pill {
+  background: #ffedc9;
+  color: #8a5300;
+}
+.m-retry .pill {
+  background: #ffe0b3;
+  color: #8a4a00;
+}
+.m-error .pill {
+  background: #d32f2f;
+  color: #fff;
+}
+.m-error td.detail {
+  color: #b71c1c;
+  font-weight: 700;
+}
+.statusbar {
+  display: flex;
+  gap: 18px;
+  margin-top: 12px;
+  padding: 5px 16px;
+  font-size: 12px;
+  color: #475769;
+  background: #dfe5ec;
+  border-top: 1px solid #b8c3cf;
+}

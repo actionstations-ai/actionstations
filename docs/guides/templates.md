@@ -69,6 +69,18 @@ That line is built from the property name, type, `required`, `description` and t
 
 `fields` must validate against `schema.json`. Use realistic, specific sample data (the Scenario 3 material in `reference/scenario-3/` is a good source); the preview is what reviewers see on the Templates page and what the golden image is made from. `assets` maps image slots to files inside the template folder.
 
+A template with variants can give a variant its own sample data, so each golden shows content that fits it (a vendor advisory from a vendor, a planned downtime notice with a scheduled window). `variants.<name>.fields` replaces those top-level fields of `fields` when that variant is previewed; the merged fields must validate too, and the variant must be listed in `meta.json`:
+
+```json
+{
+  "variant": "agency",
+  "fields": { "publisher": "Cybersecurity and Infrastructure Security Agency", "...": "..." },
+  "variants": {
+    "vendor": { "fields": { "publisher": "Halyard Networks PSIRT", "iocs": [] } }
+  }
+}
+```
+
 ## Writing `template.html`
 
 The template is a Handlebars body. The composer wraps it in a full document:
@@ -125,6 +137,40 @@ Templates render in a sandboxed, offscreen window with no network and no scripts
 ### Paper sizing
 
 Paper injects are US Letter at 96 dpi: `"width": 816, "height": 1056`, `"paper": true`. Lay the page out inside that box (the time jump card uses `height: 1056px; padding: 72px 80px`). The PNG is 1632 × 2112; the PDF is one Letter page. Screen injects (posts, dialogs, boards) set only `width` unless they imitate a fixed-size screen.
+
+#### Forms longer than one page
+
+A form whose lists can outgrow a page (the chain of custody form's transfers, the regulatory report's sections) omits `height` and prints one `<section class="page">` per Letter page, each `height: 1056px` with `break-after: page`. The PNG is then the pages stacked (1632 × 2112 per page) and the PDF has one Letter page per section. Templates cannot measure text, so two helpers split the lists by estimated height (`src/main/render/paginate.ts`):
+
+```handlebars
+{{#each
+  (paginate
+    (rows
+      @root.fields.transfers
+      key='transfers'
+      heading=82
+      min=38
+      line=14.3
+      pad=10
+      wrap='purpose:36'
+      keep=true
+    )
+    (rows @root.fields.notes key='notes' heading=42 line=15.5 wrap='104')
+    first=780
+    rest=880
+  )
+}}
+  <section class='page'>…
+    {{#each groups}}{{#if (eq key 'transfers')}}{{#each rows}}{{number}}
+          {{item.purpose}}{{/each}}{{/if}}{{/each}}
+    Page
+    {{number}}
+    of
+    {{total}}</section>
+{{/each}}
+```
+
+`rows` turns a list (or a text, split into paragraphs) into a row group: each row costs `max(min, pad + line × wrapped lines)` pixels, the wrapped lines estimated from the longest `field:characters-per-line` in `wrap`; `heading` is charged on every page the group starts on, `nested="items"` makes one group per section, `keep=true` prints the group even when empty. `paginate` packs the groups into pages of `first` (page 1) and `rest` pixels, repeats a split group with `continued` set and `continues` on the page before, and never starts a group with fewer than two rows at the bottom of a page. Inside the block, `first`, `last`, `number` and `total` describe the page and the fields are at `@root.fields`. Keep the budgets a little under the real space: rows that wrap less than estimated leave white space, rows that wrap more are clipped.
 
 ### Brand aliases
 

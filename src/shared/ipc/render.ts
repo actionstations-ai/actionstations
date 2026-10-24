@@ -16,6 +16,8 @@ export const TemplateInfo = z.object({
   /** JSON Schema (draft 2020-12) for the inject's fields. */
   schema: z.record(z.string(), z.unknown()),
   preview: z.record(z.string(), z.unknown()),
+  /** Variants with their own sample data (preview.json `variants`): the full fields per variant. */
+  previewVariants: z.record(z.string(), z.record(z.string(), z.unknown())).optional(),
   paper: z.boolean(),
   variants: z.array(z.string()).default([]),
   width: z.number().int(),

@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Family reunification notice / card",
+  "description": "Family reunification after an evacuation or lockdown at a school, campus, venue or workplace. Variant 'notice': the one-page notice to families (where to go, when it opens, what to bring, what to expect, do not come to the incident site, translated line). Variant 'card': the two-part reunification request / release card (parent or guardian fills the top half by hand, staff complete the release half below the tear line). Neutral layout, not any copyrighted card. The organization and places are simulated. One Letter page.",
+  "type": "object",
+  "required": ["org", "site", "headline", "issuedAt", "reunificationSite"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "org": {
+      "type": "string",
+      "description": "Issuing organization (school district, university, venue operator, employer)",
+      "examples": ["Riverbend Unified School District"]
+    },
+    "site": {
+      "type": "string",
+      "description": "The incident site families must not go to",
+      "examples": ["Riverbend High School, 2200 Mill River Rd"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline of the notice, or the card title for the card variant",
+      "examples": ["All students are safe and have been moved to a reunification site"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Date and time issued",
+      "examples": ["Tuesday, October 21, 2026, 11:42 a.m."]
+    },
+    "situation": {
+      "type": "string",
+      "description": "Short, factual statement of what happened (no speculation)",
+      "examples": [
+        "At 10:15 a.m. Riverbend High School was evacuated after a reported threat. Police are at the school."
+      ]
+    },
+    "reunificationSite": {
+      "type": "object",
+      "description": "Where families go to pick up",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Reunification site name",
+          "examples": ["Riverbend Community Center, Gymnasium"]
+        },
+        "address": {
+          "type": "string",
+          "description": "Street address and entrance",
+          "examples": ["1200 Lake Ave, Riverbend (enter from the north lot on Elm St)"]
+        }
+      }
+    },
+    "opensAt": {
+      "type": "string",
+      "description": "When the reunification site opens to families",
+      "examples": ["12:30 p.m."]
+    },
+    "steps": {
+      "type": "array",
+      "description": "'What to expect' steps, in order",
+      "maxItems": 6,
+      "items": { "type": "string", "description": "Step" },
+      "examples": [
+        [
+          "Check in at the request tables and fill out one reunification card per student.",
+          "Wait in the family area while a runner brings your student to the release door."
+        ]
+      ]
+    },
+    "bring": {
+      "type": "array",
+      "description": "What to bring",
+      "maxItems": 5,
+      "items": { "type": "string", "description": "Item" },
+      "examples": [["Government-issued photo ID (driver's license, passport, state ID)"]]
+    },
+    "doNot": {
+      "type": "array",
+      "description": "What not to do",
+      "maxItems": 5,
+      "items": { "type": "string", "description": "Instruction" },
+      "examples": [["Do not go to Riverbend High School. Roads around the school are closed."]]
+    },
+    "transport": {
+      "type": "string",
+      "description": "Parking, shuttle or bus information",
+      "examples": ["Park at the Lakeshore Plaza lot; a free shuttle runs every 10 minutes."]
+    },
+    "contact": {
+      "type": "object",
+      "description": "Family information line and updates",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Line or office name",
+          "examples": ["Family Information Line"]
+        },
+        "phone": { "type": "string", "description": "Phone", "examples": ["(555) 014-3300"] },
+        "web": {
+          "type": "string",
+          "description": "Updates web address (.example)",
+          "examples": ["riverbendusd.example/alerts"]
+        }
+      }
+    },
+    "languageNote": {
+      "type": "string",
+      "description": "Translated line for non-English-speaking families (defaults to a Spanish line)",
+      "examples": [
+        "Todos los estudiantes están a salvo. Recoja a su estudiante en el centro de reunificación con una identificación con foto."
+      ]
+    },
+    "cardNo": {
+      "type": "string",
+      "description": "Card serial number (card variant)",
+      "examples": ["0417"]
+    },
+    "student": {
+      "type": "object",
+      "description": "Student (or employee, attendee) to be released, written by the requester (card variant)",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "Student name", "examples": ["Maya Okafor"] },
+        "grade": { "type": "string", "description": "Grade or year", "examples": ["10"] },
+        "teacher": {
+          "type": "string",
+          "description": "Teacher at the time of the incident",
+          "examples": ["Mr. Delgado"]
+        },
+        "homeroom": { "type": "string", "description": "Homeroom or room", "examples": ["B-214"] }
+      }
+    },
+    "requester": {
+      "type": "object",
+      "description": "Parent or guardian asking for release (card variant)",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Requester name",
+          "examples": ["Grace Okafor"]
+        },
+        "relationship": {
+          "type": "string",
+          "description": "Relationship to the student",
+          "examples": ["Mother"]
+        },
+        "phone": { "type": "string", "description": "Phone", "examples": ["(555) 014-7781"] },
+        "idType": {
+          "type": "string",
+          "description": "ID shown",
+          "examples": ["OH driver's license"]
+        },
+        "idChecked": {
+          "type": "boolean",
+          "description": "Staff checked the photo ID against the requester",
+          "examples": [true]
+        }
+      }
+    },
+    "authorized": {
+      "type": "boolean",
+      "description": "Requester is listed on the student's emergency card / release authorization",
+      "examples": [true]
+    },
+    "release": {
+      "type": "object",
+      "description": "Release half completed by staff (card variant)",
+      "additionalProperties": false,
+      "properties": {
+        "runner": {
+          "type": "string",
+          "description": "Runner who brought the student",
+          "examples": ["J. Pham"]
+        },
+        "releasedAt": {
+          "type": "string",
+          "description": "Time released",
+          "examples": ["1:52 p.m."]
+        },
+        "staffInitials": {
+          "type": "string",
+          "description": "Initials of the releasing staff member",
+          "examples": ["LM"]
+        },
+        "location": {
+          "type": "string",
+          "description": "Release point",
+          "examples": ["Door 3"]
+        },
+        "notes": {
+          "type": "string",
+          "description": "Notes (custody flags, student not located, sent to counseling)",
+          "examples": ["Student escorted from counseling area."]
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

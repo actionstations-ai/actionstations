@@ -1,0 +1,75 @@
+{
+  "variant": "bulletin",
+  "fields": {
+    "railroad": "Lakeshore & Western Railway",
+    "subdivision": "Harbor Subdivision",
+    "number": "4127",
+    "date": "10/21/2026",
+    "issuedTo": "Q412-21 Eng LW 4410",
+    "atLocation": "Riverbend Yard",
+    "items": [
+      {
+        "type": "speed_restriction",
+        "limits": "MP 112.4 to MP 113.1, Main 1",
+        "restriction": "10 MPH passenger and freight. Track geometry defect, crosslevel. Effective until further notice."
+      },
+      {
+        "type": "track_out_of_service",
+        "limits": "MP 116.2 to MP 116.9, Main 2",
+        "restriction": "Track out of service 0800 until 1700. Tie renewal. EIC B. Ruiz, radio channel 46, (555) 014-6620."
+      },
+      {
+        "type": "protect_workers",
+        "limits": "MP 118.0 to MP 118.6, Main 1",
+        "restriction": "Protect men and machines 0700 until 1600. Stop and contact EIC J. Vance on channel 46 before entering limits. Do not exceed 20 MPH within limits."
+      },
+      {
+        "type": "signal_out_of_service",
+        "limits": "CP Cedar Ridge, MP 121.4",
+        "restriction": "Controlled signals at CP Cedar Ridge displaying Stop. Do not pass without verbal permission from the dispatcher. Hand-operate switches as instructed."
+      },
+      {
+        "type": "speed_restriction",
+        "limits": "MP 124.0 to MP 124.3, both mains",
+        "restriction": "25 MPH. Mill River bridge, inspection pending (FRA notified)."
+      },
+      {
+        "type": "other",
+        "limits": "Harbor Subdivision, all",
+        "restriction": "Wayside defect detector at MP 119.8 not reporting. Crews observe passing trains and report by radio."
+      }
+    ],
+    "dispatcher": "K. Morrow",
+    "timeIssued": "0612",
+    "okTime": "0614",
+    "copiedBy": "R. Haines, Conductor",
+    "relievedAt": "",
+    "notes": "Dispatching system on manual operation since 0455. Track bulletins and warrants are issued by radio only and must be repeated in full. Disregard any bulletin received by printer or message terminal until further notice."
+  },
+  "variants": {
+    "warrant": {
+      "fields": {
+        "number": "2317",
+        "date": "10/21/26",
+        "items": [
+          { "type": "void", "restriction": "2309" },
+          { "type": "proceed", "from": "CP Riverbend", "to": "CP Cedar Ridge", "track": "Main 1" },
+          { "type": "not_in_effect_until", "restriction": "0845" },
+          { "type": "hold_main" },
+          { "type": "do_not_foul", "restriction": "MP 118.0" },
+          { "type": "restricted_speed", "from": "MP 112.4", "to": "MP 113.1" },
+          { "type": "bulletins_in_effect", "restriction": "4127, 4128" },
+          {
+            "type": "other",
+            "restriction": "Signals at CP Cedar Ridge dark. Stop, hand throw switch, call DS before moving."
+          }
+        ],
+        "dispatcher": "KM",
+        "timeIssued": "0829",
+        "okTime": "0832",
+        "copiedBy": "R. Haines",
+        "relievedAt": ""
+      }
+    }
+  }
+}

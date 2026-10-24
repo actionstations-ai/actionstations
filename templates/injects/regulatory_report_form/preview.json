@@ -29,7 +29,10 @@
             "label": "Also met",
             "value": "Uncontrolled loss of 200 MW or more of firm system load for 15 minutes or more"
           },
-          { "label": "Emergency alert (within 1 hour)", "value": "Yes" }
+          {
+            "label": "Emergency alert (within 1 hour)",
+            "value": "Yes"
+          }
         ]
       },
       {
@@ -39,23 +42,85 @@
             "label": "Event type",
             "value": "Cyber event; physical equipment operated without authorization"
           },
-          { "label": "Demand tripped (MW)", "value": "212" },
-          { "label": "Customers affected", "value": "38,400" },
-          { "label": "Counties affected", "value": "Lakeshore County, Harbor County" },
-          { "label": "Restoration (est.)", "value": "10/21/2026 19:00 EDT" },
-          { "label": "Reliability coordinator notified", "value": "Yes, 10/21/2026 15:02 EDT" }
+          {
+            "label": "Demand tripped (MW)",
+            "value": "212"
+          },
+          {
+            "label": "Customers affected",
+            "value": "38,400"
+          },
+          {
+            "label": "Counties affected",
+            "value": "Lakeshore County, Harbor County"
+          },
+          {
+            "label": "Restoration (est.)",
+            "value": "10/21/2026 19:00 EDT"
+          },
+          {
+            "label": "Reliability coordinator notified",
+            "value": "Yes, 10/21/2026 15:02 EDT"
+          }
+        ]
+      },
+      {
+        "heading": "Schedule 1 - Cyber Event Attributes",
+        "items": [
+          {
+            "label": "Functional impact",
+            "value": "Unauthorized control actions on two 138 kV breakers; EMS supervisory control unavailable while isolated"
+          },
+          {
+            "label": "Attack vector",
+            "value": "Under investigation; vendor remote access path to the EMS suspected"
+          },
+          {
+            "label": "Level of intrusion",
+            "value": "Control systems (EMS) and corporate network; no evidence yet in substation relays"
+          },
+          {
+            "label": "Systems isolated",
+            "value": "EMS servers and consoles disconnected from the corporate network at 15:11 EDT"
+          }
         ]
       },
       {
         "heading": "Notifications made",
         "items": [
-          { "label": "E-ISAC", "value": "10/21/2026 15:20 EDT, portal report" },
-          { "label": "FBI", "value": "10/21/2026 15:31 EDT, Cleveland Field Office" },
-          { "label": "State PUC", "value": "Pending" }
+          {
+            "label": "E-ISAC",
+            "value": "10/21/2026 15:20 EDT, portal report"
+          },
+          {
+            "label": "FBI",
+            "value": "10/21/2026 15:31 EDT, Cleveland Field Office"
+          },
+          {
+            "label": "State PUC",
+            "value": "Pending"
+          }
+        ]
+      },
+      {
+        "heading": "Schedule 2 - Restoration",
+        "items": [
+          {
+            "label": "Load restored (MW)",
+            "value": "94 of 212 as of 15:35 EDT"
+          },
+          {
+            "label": "Method",
+            "value": "Manual breaker operation by field crews; substation in local control"
+          },
+          {
+            "label": "Mutual assistance",
+            "value": "Requested from Harbor County Electric for switching crews"
+          }
         ]
       }
     ],
-    "narrative": "At 14:52 EDT system operators observed open commands issued from the EMS to breakers 4 and 7 at the Eastside 138 kV substation that no operator had issued. 212 MW of load was lost. Operators moved the substation to local control at 15:05 and disconnected the EMS from the corporate network at 15:11. A field crew is closing breakers manually. Investigation is in progress; this report will be updated within 72 hours.",
+    "narrative": "At 14:52 EDT system operators observed open commands issued from the EMS to breakers 4 and 7 at the Eastside 138 kV substation that no operator had issued. 212 MW of load was lost. Operators moved the substation to local control at 15:05 and disconnected the EMS from the corporate network at 15:11. A field crew is closing breakers manually. Investigation is in progress; this report will be updated within 72 hours.\n\nThe vendor's remote support account was disabled at 15:14 EDT and its credentials are being rotated. The cooperative has engaged its incident response retainer. Customers are being restored by circuit priority, hospitals and water pumping first.",
     "status": "Received. A confirmation has been sent to the submitter. Submit an updated report within 72 hours and a final report when the event is resolved."
   }
 }

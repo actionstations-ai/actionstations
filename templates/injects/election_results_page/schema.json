@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Election night results page",
+  "description": "County election-night results website in a 1100 px browser window: URL bar, county header, UNOFFICIAL RESULTS banner, summary bar (precincts reporting, ballots cast, registered voters, turnout) and contest cards with horizontal percentage bars. Variant 'official' is the county's own site; 'spoofed' is a lookalike on a typo-squatted domain (put the lookalike URL and the altered numbers in the fields; the variant adds small visual tells). Contests and candidates are fictional.",
+  "type": "object",
+  "required": ["jurisdiction", "electionName", "contests"],
+  "additionalProperties": false,
+  "properties": {
+    "jurisdiction": {
+      "type": "string",
+      "description": "Election office as shown in the header. Falls back to brand.aliases.org.",
+      "examples": ["Harbor County Board of Elections", "Lakeshore County Elections Office"]
+    },
+    "electionName": {
+      "type": "string",
+      "description": "Election name and date.",
+      "examples": ["November 3, 2026 General Election"]
+    },
+    "lastUpdated": {
+      "type": "string",
+      "description": "Time stamp of the latest results upload as the site prints it.",
+      "examples": ["11/03/2026 10:42:17 PM EST"]
+    },
+    "url": {
+      "type": "string",
+      "description": "Address in the URL bar. Official: the county domain; spoofed: a lookalike. Use .example domains.",
+      "examples": [
+        "results.harborcountyvotes.example/2026-general",
+        "harborcounty-votes.example/results"
+      ]
+    },
+    "precinctsReporting": {
+      "type": "object",
+      "description": "Precincts (or vote centers) fully reported.",
+      "additionalProperties": false,
+      "required": ["reported", "total"],
+      "properties": {
+        "reported": {
+          "type": "integer",
+          "description": "Precincts reported.",
+          "examples": [87]
+        },
+        "total": {
+          "type": "integer",
+          "description": "Total precincts.",
+          "examples": [112]
+        }
+      }
+    },
+    "ballotsCast": {
+      "type": "string",
+      "description": "Ballots cast so far, formatted with thousands separators.",
+      "examples": ["96,418"]
+    },
+    "registeredVoters": {
+      "type": "string",
+      "description": "Registered voters, formatted with thousands separators.",
+      "examples": ["231,507"]
+    },
+    "turnout": {
+      "type": "number",
+      "description": "Voter turnout percent (ballots cast / registered voters).",
+      "examples": [41.65]
+    },
+    "contests": {
+      "type": "array",
+      "description": "Contest cards, in ballot order (up to 6).",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "choices"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Contest title as on the ballot.",
+            "examples": ["County Executive", "Proposed Tax Levy (Renewal) — Harbor County Library"]
+          },
+          "voteFor": {
+            "type": "integer",
+            "description": "Number of choices a voter may select.",
+            "examples": [1]
+          },
+          "choices": {
+            "type": "array",
+            "description": "Candidates or Yes/No options, leader first (up to 5).",
+            "minItems": 1,
+            "maxItems": 5,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "votes", "percent"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Candidate name or option (fictional).",
+                  "examples": ["Dana M. Whitfield", "YES", "Write-in"]
+                },
+                "party": {
+                  "type": "string",
+                  "description": "Party abbreviation, or blank for nonpartisan contests and issues.",
+                  "examples": ["DEM", "REP", "LIB", "NP"]
+                },
+                "votes": {
+                  "type": "string",
+                  "description": "Vote total, formatted with thousands separators.",
+                  "examples": ["48,213"]
+                },
+                "percent": {
+                  "type": "number",
+                  "description": "Share of the contest's votes, 0 to 100 (drives the bar).",
+                  "examples": [51.37]
+                },
+                "winner": {
+                  "type": "boolean",
+                  "description": "Marked as leading / projected winner (check mark).",
+                  "examples": [false]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "pageStatus": {
+      "type": "string",
+      "enum": ["normal", "error", "maintenance"],
+      "description": "normal shows results; error adds a red error box (results feed unavailable); maintenance adds a grey maintenance notice.",
+      "examples": ["normal"]
+    },
+    "banner": {
+      "type": "string",
+      "description": "Notice text in the banner under the header (default: unofficial results notice).",
+      "examples": ["UNOFFICIAL RESULTS — Results are not certified until the official canvass."]
+    },
+    "disclaimer": {
+      "type": "string",
+      "description": "Footer disclaimer.",
+      "examples": [
+        "Results posted on election night are unofficial and subject to change during the official canvass. Provisional and late-arriving mail ballots are not included."
+      ]
+    }
+  }
+}

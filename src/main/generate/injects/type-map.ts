@@ -84,6 +84,16 @@ export const TYPE_FALLBACKS: Record<string, string[]> = {
   breach_notification_letter: ['official_letter', 'memo', 'email'],
   downtime_notice: ['memo', 'email', 'helpdesk_ticket'],
   boil_water_notice: ['incident_alert_notification', 'press_release', 'official_letter'],
+  // Second batch (#331)
+  wire_transfer_request: ['email', 'official_letter', 'memo'],
+  sds_excerpt: ['field_report', 'memo', 'official_letter'],
+  emergency_declaration: ['official_letter', 'press_release', 'memo'],
+  reunification_notice: ['incident_alert_notification', 'press_release', 'memo'],
+  track_bulletin: ['field_report', 'radio_call', 'memo'],
+  msib_cotp_order: ['regulatory_notice', 'official_letter', 'memo'],
+  hl7_interface_monitor: ['alarm_summary', 'system_log', 'siem_alert'],
+  gcs_telemetry_screen: ['uas_detection_alert', 'system_log', 'error_dialog'],
+  election_results_page: ['service_status_page', 'screenshot_generic', 'tweet'],
 }
 
 /** Key fields per type for rows whose type has no installed template (docs/03 table). */
@@ -178,6 +188,24 @@ export const KEY_FIELDS: Record<string, string> = {
     'org, systemName, status, startedAt, expectedRestore, affected[], procedures[], contact',
   boil_water_notice:
     'utility, pwsId, noticeType, issuedAt, affectedArea, whatHappened, whatToDo[], whatIsBeingDone, expectedResolution, contact',
+  wire_transfer_request:
+    'org, requestNo, requestedAt, amount, beneficiary{name,bank,aba,account}, purpose, initiatedBy, approvals[{role,name,dateTime}], callback{verified,number,by}',
+  sds_excerpt:
+    'product, supplier{name,emergencyPhone}, signalWord, pictograms[], hazardStatements[], ingredients[{name,cas,percent}], firstAid{inhalation,skin,eyes,ingestion}, properties[{property,value}], exposureLimits[{component,limit,source}]',
+  emergency_declaration:
+    'jurisdiction, declarationNo, issuedAt, whereas[], declaration, powers[], effective, expires, signer{name,title}',
+  reunification_notice:
+    'org, site, headline, issuedAt, situation, reunificationSite{name,address}, steps[], bring[], contact',
+  track_bulletin:
+    'railroad, subdivision, number, date, issuedTo, items[{type,limits,restriction}], dispatcher, okTime',
+  msib_cotp_order:
+    'sector, number, issuedAt, subject, marsecLevel, portCondition, body, restrictions[], effective, until, poc, signer{name,title}',
+  hl7_interface_monitor:
+    'engine, site, clock, interfaces[{name,direction,source,destination,messageType,status,queueDepth,lastMessage,error}], alerts[]',
+  gcs_telemetry_screen:
+    'aircraft{id,type}, mode, altitudeAgl, groundSpeed, battery{percent,voltage}, gnss{satellites,hdop,fix}, link{rssi,quality}, warnings[], messages[{time,severity,text}]',
+  election_results_page:
+    'jurisdiction, electionName, lastUpdated, url, precinctsReporting{reported,total}, contests[{name,choices[{name,party,votes,percent}]}], pageStatus, banner',
 }
 
 export interface TypeChoice {

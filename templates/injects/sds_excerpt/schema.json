@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Safety Data Sheet excerpt",
+  "description": "Excerpt of an OSHA HazCom 2012 / GHS 16-section Safety Data Sheet: sections 1 (Identification), 2 (Hazard identification, with GHS pictograms, signal word, H and P statements), 3 (Composition), 4 (First-aid measures), 8 (Exposure controls) and 9 (Physical and chemical properties). Handed to responders, safety officers or hospital staff during a chemical release. Use real chemical properties and GHS classifications; the product and supplier names are simulated.",
+  "type": "object",
+  "required": ["product", "signalWord", "hazardStatements"],
+  "properties": {
+    "product": {
+      "type": "string",
+      "description": "Product identifier as on the label",
+      "examples": ["Chlorine, Liquefied (1-ton container)"]
+    },
+    "productCode": {
+      "type": "string",
+      "description": "Supplier product code",
+      "examples": ["GLC-CL2-2000"]
+    },
+    "synonyms": {
+      "type": "string",
+      "description": "Other names for the product",
+      "examples": ["Liquid chlorine, Cl2, molecular chlorine"]
+    },
+    "supplier": {
+      "type": "object",
+      "description": "Manufacturer or supplier (simulated name)",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Company name",
+          "examples": ["Great Lakes Process Chemicals, Inc."]
+        },
+        "address": {
+          "type": "string",
+          "description": "Street address",
+          "examples": ["900 Terminal Rd, Port Lakeview"]
+        },
+        "phone": {
+          "type": "string",
+          "description": "Business phone",
+          "examples": ["(555) 0130"]
+        },
+        "emergencyPhone": {
+          "type": "string",
+          "description": "24-hour emergency phone",
+          "examples": ["(555) 0199 (24 h)"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "recommendedUse": {
+      "type": "string",
+      "description": "Recommended use and restrictions",
+      "examples": ["Water and wastewater disinfection. Industrial use only."]
+    },
+    "signalWord": {
+      "type": "string",
+      "description": "GHS signal word",
+      "enum": ["Danger", "Warning"],
+      "examples": ["Danger"]
+    },
+    "pictograms": {
+      "type": "array",
+      "description": "GHS pictogram codes: GHS01 exploding bomb, GHS02 flame, GHS03 flame over circle (oxidizer), GHS04 gas cylinder, GHS05 corrosion, GHS06 skull and crossbones, GHS07 exclamation mark, GHS08 health hazard, GHS09 environment",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "description": "GHS pictogram code",
+        "enum": ["GHS01", "GHS02", "GHS03", "GHS04", "GHS05", "GHS06", "GHS07", "GHS08", "GHS09"]
+      },
+      "examples": [["GHS03", "GHS04", "GHS06", "GHS09"]]
+    },
+    "hazardClasses": {
+      "type": "array",
+      "description": "GHS classification, one hazard class and category per line (up to 7)",
+      "maxItems": 7,
+      "items": {
+        "type": "string",
+        "description": "Hazard class and category",
+        "examples": ["Acute toxicity, inhalation - Category 2"]
+      }
+    },
+    "hazardStatements": {
+      "type": "array",
+      "description": "Hazard statements with H codes (up to 7)",
+      "maxItems": 7,
+      "items": {
+        "type": "string",
+        "description": "Hazard statement",
+        "examples": ["H330 Fatal if inhaled."]
+      }
+    },
+    "precautionaryStatements": {
+      "type": "array",
+      "description": "Key precautionary statements with P codes (up to 8)",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Precautionary statement",
+        "examples": ["P260 Do not breathe gas."]
+      }
+    },
+    "ingredients": {
+      "type": "array",
+      "description": "Hazardous ingredients (up to 4)",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Chemical name",
+            "examples": ["Chlorine"]
+          },
+          "cas": {
+            "type": "string",
+            "description": "CAS number",
+            "examples": ["7782-50-5"]
+          },
+          "percent": {
+            "type": "string",
+            "description": "Concentration (% by weight)",
+            "examples": ["≥ 99.5"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "firstAid": {
+      "type": "object",
+      "description": "Section 4 first-aid measures by route of exposure",
+      "properties": {
+        "inhalation": {
+          "type": "string",
+          "description": "Inhalation",
+          "examples": [
+            "Remove to fresh air. Give oxygen if breathing is difficult. Get immediate medical attention."
+          ]
+        },
+        "skin": {
+          "type": "string",
+          "description": "Skin contact",
+          "examples": ["Flush with lukewarm water for at least 15 minutes."]
+        },
+        "eyes": {
+          "type": "string",
+          "description": "Eye contact",
+          "examples": ["Rinse cautiously with water for at least 15 minutes, holding eyelids open."]
+        },
+        "ingestion": {
+          "type": "string",
+          "description": "Ingestion",
+          "examples": ["Not an expected route of exposure for a gas."]
+        },
+        "notes": {
+          "type": "string",
+          "description": "Most important symptoms and notes to the physician",
+          "examples": ["Pulmonary edema may be delayed up to 48 hours."]
+        }
+      },
+      "additionalProperties": false
+    },
+    "exposureLimits": {
+      "type": "array",
+      "description": "Section 8 occupational exposure limits (up to 5)",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "string",
+            "description": "Component",
+            "examples": ["Chlorine"]
+          },
+          "limit": {
+            "type": "string",
+            "description": "Limit value and type (TWA, STEL, Ceiling, IDLH)",
+            "examples": ["Ceiling 1 ppm (3 mg/m³)"]
+          },
+          "source": {
+            "type": "string",
+            "description": "Source (OSHA PEL, NIOSH REL, ACGIH TLV, NIOSH IDLH)",
+            "examples": ["OSHA PEL"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "controls": {
+      "type": "string",
+      "description": "Section 8 engineering controls and PPE, one short paragraph",
+      "examples": [
+        "Use in a closed system with local exhaust and leak detection. Respirator: SCBA above 10 ppm or unknown concentrations."
+      ]
+    },
+    "properties": {
+      "type": "array",
+      "description": "Section 9 physical and chemical properties (up to 12)",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "properties": {
+          "property": {
+            "type": "string",
+            "description": "Property name",
+            "examples": ["Boiling point"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Value with units",
+            "examples": ["-34 °C (-29 °F)"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "revisionDate": {
+      "type": "string",
+      "description": "Revision date",
+      "examples": ["03/14/2025"]
+    },
+    "sdsNo": {
+      "type": "string",
+      "description": "SDS document number and version",
+      "examples": ["SDS-0042 v6.1"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above and below the sheet",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    }
+  },
+  "additionalProperties": false
+}

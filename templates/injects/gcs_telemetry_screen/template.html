@@ -1,0 +1,327 @@
+<!-- UAS ground control station Fly view (QGroundControl / Mission Planner style), 1280 × 720.
+     The map is a schematic inline SVG; positions are printed, not plotted. -->
+<section
+  class="gcs{{#if fields.link.lost}} lost{{/if}}"
+  style="--hdg: {{default fields.heading 0}}; --pitch: {{default fields.pitch 0}}; --roll: {{default fields.roll 0}}"
+>
+  <header class="tb">
+    <span class="app"
+      ><svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M2 12 22 3l-6 18-4-7z" fill="#e9b000" />
+        <path d="M12 14 22 3" stroke="#222" stroke-width="1.2" /></svg
+      ><b>{{default fields.software "Ground Control"}}</b></span
+    >
+    {{#if fields.link.lost}}
+    <span class="state bad">Communication Lost</span>
+    {{else if fields.armed}}
+    <span class="state ok">Flying</span>
+    {{else}}
+    <span class="state ok">Ready To Fly</span>
+    {{/if}}
+
+    <span class="ind{{#if fields.warnings.length}} warn{{/if}}" title="messages"
+      ><svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2 23 21H1z" fill="currentColor" />
+        <path d="M11 9h2v6h-2zM11 16.5h2v2h-2z" fill="#222" /></svg
+    ></span>
+
+    <span class="ind{{#if (gt 6 fields.gnss.satellites)}} warn{{/if}}"
+      ><svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m5 9 4-4 4 4-4 4z" fill="currentColor" />
+        <path d="m11 15 4-4 4 4-4 4z" fill="currentColor" />
+        <path d="M10 10 14 14" stroke="currentColor" stroke-width="2" />
+        <path
+          d="M3 17a6 6 0 0 0 4 4M3 13.5a9.5 9.5 0 0 0 7.5 7.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        /></svg
+      ><span class="stack"
+        ><b>{{fields.gnss.satellites}}</b
+        ><small>{{#if fields.gnss.hdop}}{{fields.gnss.hdop}}{{else}}—{{/if}}</small></span
+      ></span
+    >
+
+    <span
+      class="ind batt{{#if (gt 15 fields.battery.percent)}} bad{{else if (gt 30 fields.battery.percent)}} warn{{/if}}"
+      ><span class="cell"><i style="width: {{fields.battery.percent}}%"></i></span
+      ><b>{{fields.battery.percent}}%</b></span
+    >
+
+    <span class="ind rssi{{#if fields.link.lost}} bad{{/if}}"
+      ><span class="bars"
+        ><i class="{{#if (gt fields.link.quality 10)}}on{{/if}}"></i
+        ><i class="{{#if (gt fields.link.quality 35)}}on{{/if}}"></i
+        ><i class="{{#if (gt fields.link.quality 60)}}on{{/if}}"></i
+        ><i class="{{#if (gt fields.link.quality 85)}}on{{/if}}"></i></span
+      ><span class="stack"
+        ><b>{{#if fields.link.quality}}{{fields.link.quality}}%{{else}}0%{{/if}}</b
+        ><small>{{#if fields.link.rssi}}{{fields.link.rssi}} dBm{{else}}—{{/if}}</small></span
+      ></span
+    >
+
+    <span class="mode">{{upper fields.mode}}<i class="caret"></i></span>
+    <span class="armed{{#if fields.armed}} on{{/if}}"
+      >{{#if fields.armed}}Armed{{else}}Disarmed{{/if}}</span
+    >
+
+    <span class="spacer"></span>
+    {{#if fields.aircraft.id}}<span class="veh"
+      ><b>{{fields.aircraft.id}}</b>{{#if
+      fields.aircraft.type}}<small>{{fields.aircraft.type}}</small>{{/if}}</span
+    >{{/if}} {{#if fields.clock}}<span class="clock">{{fields.clock}}</span>{{/if}}
+  </header>
+
+  <div class="map">
+    <svg class="terrain" viewBox="0 0 1280 676" preserveAspectRatio="none" aria-hidden="true">
+      <rect width="1280" height="676" fill="#1d2620" />
+      <path d="M0 0h340l-40 180-300 40z" fill="#223024" />
+      <path d="M340 0h330l-60 150-310 30z" fill="#26301f" />
+      <path d="M670 0h610v120l-380 70-290-40z" fill="#20291f" />
+      <path d="M0 220l300-40 30 200-330 60z" fill="#28321f" />
+      <path d="M330 380 300 180l310-30 40 210z" fill="#1f2b22" />
+      <path d="M650 360 610 150l290 40 40 220z" fill="#2a3123" />
+      <path d="M940 410l-40-220 380-70v260z" fill="#232c21" />
+      <path d="M0 440l330-60 30 296H0z" fill="#212b22" />
+      <path d="M360 676 330 380l320-20 30 316z" fill="#283023" />
+      <path d="M680 676 650 360l290 50 40 266z" fill="#1f2a21" />
+      <path d="M980 676 940 410l340-30v296z" fill="#262e20" />
+      <path
+        d="M1280 250c-120 30-170 110-260 140s-160-10-230 50-90 150-170 190-150 30-190 46"
+        fill="none"
+        stroke="#1b3f57"
+        stroke-width="34"
+      />
+      <path
+        d="M1280 250c-120 30-170 110-260 140s-160-10-230 50-90 150-170 190-150 30-190 46"
+        fill="none"
+        stroke="#235273"
+        stroke-width="20"
+      />
+      <path
+        d="M1040 120c80-20 170 0 240 30v100c-110 10-170 60-230 20s-90-130-10-150z"
+        fill="#1b4462"
+      />
+      <path
+        d="M0 560c200-20 380-110 560-120s420 40 720-60"
+        fill="none"
+        stroke="#4b5257"
+        stroke-width="5"
+      />
+      <path
+        d="M210 0c20 200 60 420 30 676M820 0c-30 160 40 300 0 676"
+        fill="none"
+        stroke="#3f464b"
+        stroke-width="3"
+      />
+      <path
+        d="M0 300c180 10 400-40 620-30"
+        fill="none"
+        stroke="#3f464b"
+        stroke-width="2"
+        stroke-dasharray="8 6"
+      />
+      <circle
+        cx="520"
+        cy="420"
+        r="300"
+        fill="rgba(46, 204, 113, 0.05)"
+        stroke="#2ecc71"
+        stroke-width="2"
+        stroke-dasharray="10 7"
+      />
+      <path
+        d="M520 420 600 300 700 250 820 220 900 260 930 330 860 330"
+        fill="none"
+        stroke="#f39c12"
+        stroke-width="2.5"
+      />
+      <path
+        d="M520 420 590 320 680 262 800 228 880 250 915 300 890 320 840 300 800 270"
+        fill="none"
+        stroke="#e74c3c"
+        stroke-width="2"
+        opacity="0.9"
+      />
+      <path
+        d="M800 270 520 420"
+        stroke="#ffffff"
+        stroke-width="2"
+        stroke-dasharray="6 6"
+        opacity="0.7"
+      />
+      <g font-family="Roboto, sans-serif" font-size="12" font-weight="700" text-anchor="middle">
+        <circle cx="600" cy="300" r="10" fill="#f39c12" />
+        <text x="600" y="304" fill="#111">1</text>
+        <circle cx="700" cy="250" r="10" fill="#f39c12" />
+        <text x="700" y="254" fill="#111">2</text>
+        <circle cx="820" cy="220" r="10" fill="#f39c12" />
+        <text x="820" y="224" fill="#111">3</text>
+        <circle cx="900" cy="260" r="10" fill="#f39c12" />
+        <text x="900" y="264" fill="#111">4</text>
+        <circle cx="930" cy="330" r="10" fill="#f39c12" />
+        <text x="930" y="334" fill="#111">5</text>
+        <circle cx="860" cy="330" r="10" fill="#f39c12" />
+        <text x="860" y="334" fill="#111">6</text>
+      </g>
+    </svg>
+
+    <span class="home" aria-hidden="true">H</span>
+    <span class="fence-lbl">GEOFENCE{{#if fields.geofence}} · {{fields.geofence}}{{/if}}</span>
+    <div class="ac">
+      <svg class="ac-icon" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 3 33 35 20 28 7 35z" fill="#e74c3c" stroke="#fff" stroke-width="2" />
+      </svg>
+      <span class="ac-lbl"
+        >{{default fields.aircraft.id "Vehicle 1"}} · {{fields.altitudeAgl}} m</span
+      >
+    </div>
+
+    <nav class="tools">
+      <span
+        ><svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M4 4h16v16H4z M4 9h16M9 9v11"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          /></svg
+        >Plan</span
+      >
+      <span
+        ><svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M12 3v14M6 9l6-6 6 6M5 21h14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          /></svg
+        >Takeoff</span
+      >
+      <span class="on"
+        ><svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M12 21V7M6 13l6 6 6-6M5 3h14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          /></svg
+        >Return</span
+      >
+      <span
+        ><svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="3" /></svg
+        >Pause</span
+      >
+      <span
+        ><svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8" />
+          <path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" /></svg
+        >Action</span
+      >
+    </nav>
+
+    {{#if fields.warnings.length}}
+    <div class="warns">
+      {{#each fields.warnings}}
+      <div class="wb">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2 23 21H1z" fill="#fff" />
+          <path d="M11 9h2v6h-2zM11 16.5h2v2h-2z" fill="#c0392b" />
+        </svg>
+        <span>{{this}}</span>
+      </div>
+      {{/each}}
+    </div>
+    {{/if}} {{#if fields.messages.length}}
+    <section class="console">
+      <div class="ch">Vehicle Messages</div>
+      {{#each fields.messages}}
+      <div class="msg sev-{{default severity 'info'}}">
+        <span class="t">[{{time}}]</span><span class="sv">{{upper (default severity "info")}}</span
+        ><span class="tx">{{text}}</span>
+      </div>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    <section class="inst">
+      <div class="dials">
+        <div class="att">
+          <div class="horizon"><i class="sky"></i><i class="gnd"></i></div>
+          <svg class="att-fix" viewBox="0 0 120 120" aria-hidden="true">
+            <path
+              d="M22 60h28l6 8 4-8 4 8 6-8h28"
+              fill="none"
+              stroke="#f5c400"
+              stroke-width="4"
+              stroke-linejoin="round"
+            />
+            <circle cx="60" cy="60" r="58" fill="none" stroke="#111" stroke-width="3" />
+          </svg>
+        </div>
+        <div class="cmp">
+          <div class="rose">
+            <span class="n">N</span><span class="e">E</span><span class="s">S</span
+            ><span class="w">W</span>
+          </div>
+          <svg class="cmp-fix" viewBox="0 0 120 120" aria-hidden="true">
+            <path d="M60 30 74 84 60 76 46 84z" fill="#e74c3c" stroke="#fff" stroke-width="2" />
+          </svg>
+          <b class="hdg">HDG {{default fields.heading 0}}°</b>
+        </div>
+      </div>
+      <dl class="vals">
+        <div>
+          <dt>Alt (Rel)</dt>
+          <dd>{{fields.altitudeAgl}}<small> m</small></dd>
+        </div>
+        <div>
+          <dt>Ground Speed</dt>
+          <dd>{{default fields.groundSpeed "—"}}<small> m/s</small></dd>
+        </div>
+        <div>
+          <dt>Climb Rate</dt>
+          <dd>{{default fields.verticalSpeed "—"}}<small> m/s</small></dd>
+        </div>
+        <div>
+          <dt>Flight Time</dt>
+          <dd>{{default fields.flightTime "00:00"}}</dd>
+        </div>
+        <div>
+          <dt>Dist to Home</dt>
+          <dd>{{default fields.distanceHome "—"}}<small> m</small></dd>
+        </div>
+        <div>
+          <dt>Battery</dt>
+          <dd>
+            {{#if fields.battery.voltage}}{{fields.battery.voltage}}<small> V</small
+            >{{else}}{{fields.battery.percent}}<small> %</small>{{/if}}{{#if
+            fields.battery.remainingMin}}<small> · {{fields.battery.remainingMin}} min</small
+            >{{/if}}
+          </dd>
+        </div>
+        <div class="wide">
+          <dt>GPS</dt>
+          <dd class="sm">
+            {{default fields.gnss.fix "—"}} · {{fields.gnss.satellites}} sats{{#if
+            fields.gnss.hdop}} · HDOP {{fields.gnss.hdop}}{{/if}}
+          </dd>
+        </div>
+        {{#if fields.position}}
+        <div class="wide">
+          <dt>Vehicle</dt>
+          <dd class="sm">{{fields.position.lat}}, {{fields.position.lon}}</dd>
+        </div>
+        {{/if}} {{#if fields.home}}
+        <div class="wide">
+          <dt>Home</dt>
+          <dd class="sm">{{fields.home.lat}}, {{fields.home.lon}}</dd>
+        </div>
+        {{/if}}
+      </dl>
+    </section>
+
+    <div class="scale"><i></i><span>200 m</span></div>
+  </div>
+</section>
