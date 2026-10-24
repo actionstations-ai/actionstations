@@ -176,6 +176,15 @@ describe('DocumentsPage — document list', () => {
     expect(await screen.findByRole('progressbar', { name: /Ingest progress/ })).toBeTruthy()
   })
 
+  it('offers Retry for a document whose import was interrupted (#309)', async () => {
+    const ttx = setup([makeDoc({ status: 'error', error: 'Import interrupted — retry' })], {
+      'documents:reingest': () => ({ jobId: 'JOB4' }),
+    })
+    expect(await screen.findByText('Import interrupted — retry')).toBeTruthy()
+    await userEvent.setup().click(screen.getByRole('button', { name: /Retry/ }))
+    await waitFor(() => expect(ttx.calls('documents:reingest')).toHaveLength(1))
+  })
+
   it('asks for confirmation before removing', async () => {
     const ttx = setup([makeDoc()], { 'documents:remove': () => undefined })
     const user = userEvent.setup()

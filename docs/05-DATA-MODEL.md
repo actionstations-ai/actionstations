@@ -29,7 +29,9 @@ ProjectPacks { copies: [{ kind: 'templates'|'workflows'|'documents'|'domains'|'e
   // a file whose sha256 differs shows the copy as "edited"; updating a copy is explicit
 
 DocumentMeta { id, title, filename, kind: 'plan'|'policy'|'map'|'form'|'course'|'prior_exercise'|'other',
-  pages, ingestedAt, status: 'pending'|'ok'|'error', tags[], headingsPreview[] }
+  pages, ingestedAt, status: 'pending'|'parsing'|'embedding'|'ok'|'error', tags[], headingsPreview[] }
+  // A busy status with no live ingest job (app exit mid-import) becomes 'error' with
+  // "Import interrupted — retry" when the project opens or documents are listed (#309).
 
 Role { id, name, abbreviation, team, description, standingOrders: string[] }   // "Ops Director (IC)" …
 

@@ -206,6 +206,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 ### Fixed
 
 - Prompt files are YAML-only: a `---js` (or other non-YAML) frontmatter fence is refused on line 1 and never evaluated, so a prompt arriving with a shared project or a pack can't run code in the app (#257).
+- A document left at pending, parsing or embedding by an app exit during its import is shown as an error, "Import interrupted — retry", with **Retry**, when the project opens or its documents are listed; a document a running import still covers keeps its status. The rename migration (#277) now also points `jobs.json` job records at `Documents/Action Stations`, and installs that were already migrated are caught up on the next start (#309).
 
 #### Packs
 

@@ -4,6 +4,7 @@ import { createProject, loadProject, openProject, updateProject } from '../../pr
 import { forgetRecent, listRecent, syncRecent } from '../../project/recent'
 import { duplicateProject } from '../../project/duplicate'
 import { ensureIndex } from '../../project/ensure-index'
+import { markInterruptedDocuments } from '../../ingest/interrupted'
 import { applyProjectPatch } from '../../project/patch'
 import { clearLogo, importLogo } from '../../project/logo'
 import {
@@ -22,7 +23,9 @@ export default defineHandlers({
   'project:open': async ({ path }) => {
     const opened = await openProject(path)
     await ensureIndex(opened.path, opened.project)
-    return opened
+    // After ensureIndex, so documents its rebuild covers stay as they are (#309).
+    const documents = await markInterruptedDocuments(opened.path, opened.project.documents)
+    return { ...opened, project: { ...opened.project, documents } }
   },
 
   'project:facility-facts': async ({ path }) => {

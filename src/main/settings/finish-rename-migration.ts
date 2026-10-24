@@ -1,12 +1,16 @@
 // Second half of the rename migration (#277), run once after app ready: move the default
-// projects folder, point recent projects at it, and check that migrated API keys still
-// decrypt. Driven by the marker the first half wrote; does nothing without one.
+// projects folder, point recent projects and job records at it, and check that migrated API
+// keys still decrypt. Driven by the marker the first half wrote; does nothing without one.
+import { join } from 'node:path'
 import {
+  JOBS_FILE,
   migrateProjectsFolder,
   readMarker,
   rebase,
+  rebaseJobsFile,
   writeMarker,
   type Log,
+  type MigrationMarker,
 } from '../lib/rename-migration'
 import { setAsideUndecryptableSecrets } from '../secrets'
 import { updateSettings } from './store'
@@ -20,6 +24,22 @@ async function rebaseProjectPaths(from: string, to: string): Promise<void> {
     if (s.defaultProjectsDir)
       s.defaultProjectsDir = rebase(s.defaultProjectsDir, from, to) ?? s.defaultProjectsDir
   })
+}
+
+/**
+ * Job records still pointing into the old projects folder follow it (#309). Runs on every
+ * start after a projects move, so installs migrated before this fix are caught up; the
+ * rewrite is idempotent and writes nothing once the paths are moved.
+ */
+function rebaseJobPaths(userData: string, marker: MigrationMarker, log: Log): void {
+  const moved = marker.projects
+  if (!moved || (moved.status !== 'renamed' && moved.status !== 'copied')) return
+  try {
+    const count = rebaseJobsFile(join(userData, JOBS_FILE), moved.from, moved.to)
+    if (count > 0) log(`${count} job record(s) now point at ${moved.to}`)
+  } catch (e) {
+    log(`job records not updated: ${e instanceof Error ? e.message : String(e)}`)
+  }
 }
 
 async function checkSecrets(log: Log): Promise<void> {
@@ -49,6 +69,7 @@ export async function finishRenameMigration(
         log(`recent projects not updated: ${e instanceof Error ? e.message : String(e)}`),
       )
   }
+  rebaseJobPaths(userData, marker, log)
   if (marker.secretsCheck === 'pending') {
     try {
       await checkSecrets(log)

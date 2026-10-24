@@ -135,6 +135,71 @@ describe('finishRenameMigration', () => {
     expect((await getSettings()).keyReentry).toBeUndefined()
   })
 
+  function writeJobs(projectPaths: (string | undefined)[]): void {
+    const jobs = projectPaths.map((projectPath, i) => ({
+      id: `job${i}`,
+      kind: 'ingest',
+      status: 'paused',
+      progress: 0.4,
+      createdAt: '2026-10-22T00:00:00Z',
+      updatedAt: '2026-10-22T00:00:00Z',
+      future: { kept: true },
+      ...(projectPath ? { projectPath } : {}),
+    }))
+    writeFileSync(join(userData, 'jobs.json'), JSON.stringify({ jobs }))
+  }
+  const readJobs = () =>
+    (
+      JSON.parse(readFileSync(join(userData, 'jobs.json'), 'utf8')) as {
+        jobs: { projectPath?: string; future?: unknown }[]
+      }
+    ).jobs
+
+  it('points job records at the moved projects folder (#309)', async () => {
+    seed()
+    writeJobs([
+      join(documents, 'Tabletop Generator', 'Airport.ttxproj'),
+      '/Volumes/Share/Dam.ttxproj',
+      undefined,
+    ])
+    await finishRenameMigration(userData, documents, quiet)
+    const jobs = readJobs()
+    expect(jobs.map((j) => j.projectPath)).toEqual([
+      join(documents, 'Action Stations', 'Airport.ttxproj'),
+      '/Volumes/Share/Dam.ttxproj',
+      undefined,
+    ])
+    expect(jobs[0]!.future).toEqual({ kept: true })
+  })
+
+  it('catches up job records on installs migrated before the fix, idempotently', async () => {
+    seed()
+    await finishRenameMigration(userData, documents, quiet)
+    // Already migrated: the marker has projects, but jobs.json still has the old paths.
+    writeJobs([join(documents, 'Tabletop Generator', 'Airport.ttxproj')])
+    const log = vi.fn()
+    await finishRenameMigration(userData, documents, log)
+    const moved = join(documents, 'Action Stations', 'Airport.ttxproj')
+    expect(readJobs()[0]!.projectPath).toBe(moved)
+    expect(log).toHaveBeenCalledWith(expect.stringContaining('1 job record'))
+
+    const before = readFileSync(join(userData, 'jobs.json'), 'utf8')
+    log.mockClear()
+    await finishRenameMigration(userData, documents, log)
+    expect(readFileSync(join(userData, 'jobs.json'), 'utf8')).toBe(before)
+    expect(log).not.toHaveBeenCalled()
+  })
+
+  it('leaves job records alone when the projects folder did not move', async () => {
+    seed()
+    mkdirSync(join(documents, 'Action Stations'))
+    const old = join(documents, 'Tabletop Generator', 'Airport.ttxproj')
+    writeJobs([old])
+    await finishRenameMigration(userData, documents, quiet)
+    expect(readMarker(userData)?.projects?.status).toBe('skipped')
+    expect(readJobs()[0]!.projectPath).toBe(old)
+  })
+
   it('does nothing without a marker (no migration happened)', async () => {
     mkdirSync(join(documents, 'Tabletop Generator'))
     await finishRenameMigration(userData, documents, quiet)

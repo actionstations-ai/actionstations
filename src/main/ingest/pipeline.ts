@@ -13,6 +13,7 @@ import { loadProject } from '../project/store'
 import { refreshFacilityFile } from '../generate/facility-file'
 import { openIndex, type IndexedDocument, type IndexStore } from '../retrieve'
 import { chunkSections } from './chunker'
+import { withImportInFlight } from './interrupted'
 import { cleanHeadingText, deriveShortName } from './headings'
 import { mimeTypeFor, parserKindFor } from './parsers'
 import {
@@ -336,13 +337,17 @@ export async function importSources(
   sources: readonly ImportSource[],
 ): Promise<{ jobId: string; documents: DocumentMeta[] }> {
   for (const s of sources) await validateSource(s.path)
-  const project = await loadProject(root)
-  const known = new Map(project.documents.filter((d) => d.sha256).map((d) => [d.sha256!, d]))
-  const added: { meta: DocumentMeta; isNew: boolean }[] = []
-  for (const s of sources) added.push(await addDocument(root, s, known))
-  const fresh = added.filter((a) => a.isNew).map((a) => a.meta.id)
-  const job = startIngestJob(root, fresh)
-  return { jobId: job.id, documents: added.map((a) => a.meta) }
+  // New documents sit at 'pending' until the job starts; listing them meanwhile must not
+  // mark them interrupted (#309).
+  return withImportInFlight(root, async () => {
+    const project = await loadProject(root)
+    const known = new Map(project.documents.filter((d) => d.sha256).map((d) => [d.sha256!, d]))
+    const added: { meta: DocumentMeta; isNew: boolean }[] = []
+    for (const s of sources) added.push(await addDocument(root, s, known))
+    const fresh = added.filter((a) => a.isNew).map((a) => a.meta.id)
+    const job = startIngestJob(root, fresh)
+    return { jobId: job.id, documents: added.map((a) => a.meta) }
+  })
 }
 
 export const importDocuments = (

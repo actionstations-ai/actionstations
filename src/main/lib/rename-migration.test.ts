@@ -20,6 +20,7 @@ import {
   moveFolder,
   readMarker,
   rebase,
+  rebaseJobsFile,
   type MoveOps,
 } from './rename-migration'
 
@@ -193,5 +194,36 @@ describe('projects folder', () => {
     expect(rebase(from, from, to)).toBe(to)
     expect(rebase(join(tmpdir(), 'Tabletop Generator 2', 'A'), from, to)).toBeUndefined()
     expect(rebase('/elsewhere/A.asproj', from, to)).toBeUndefined()
+  })
+})
+
+describe('rebaseJobsFile (#309)', () => {
+  const from = join(tmpdir(), 'Tabletop Generator')
+  const to = join(tmpdir(), 'Action Stations')
+
+  it('rewrites job project paths under the old folder, once', () => {
+    const file = join(home(), 'jobs.json')
+    const jobs = [
+      { id: 'a', projectPath: join(from, 'A.ttxproj') },
+      { id: 'b', projectPath: '/elsewhere/B.ttxproj' },
+      { id: 'c' },
+    ]
+    writeFileSync(file, JSON.stringify({ jobs }))
+    expect(rebaseJobsFile(file, from, to)).toBe(1)
+    const after = JSON.parse(readFileSync(file, 'utf8')) as { jobs: typeof jobs }
+    expect(after.jobs.map((j) => j.projectPath)).toEqual([
+      join(to, 'A.ttxproj'),
+      '/elsewhere/B.ttxproj',
+      undefined,
+    ])
+    expect(rebaseJobsFile(file, from, to)).toBe(0)
+  })
+
+  it('leaves a missing or unreadable file alone', () => {
+    const dir = home()
+    expect(rebaseJobsFile(join(dir, 'jobs.json'), from, to)).toBe(0)
+    writeFileSync(join(dir, 'jobs.json'), '{not json')
+    expect(rebaseJobsFile(join(dir, 'jobs.json'), from, to)).toBe(0)
+    expect(readFileSync(join(dir, 'jobs.json'), 'utf8')).toBe('{not json')
   })
 })

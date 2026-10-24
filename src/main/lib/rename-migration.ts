@@ -193,3 +193,35 @@ export function migrateProjectsFolder(
   log(`projects folder ${moved.method} from ${from} to ${to}`)
   return { status: moved.method, from, to }
 }
+
+/** userData/jobs.json, the job records file (src/main/jobs/persist.ts). */
+export const JOBS_FILE = 'jobs.json'
+
+/**
+ * Point job records at the moved projects folder (#309): every `projectPath` under `from`
+ * is rewritten to `to`. Works on the raw JSON so fields this code does not know survive.
+ * Idempotent: rewritten paths are no longer under `from`. Returns how many records changed;
+ * the file is written (atomically) only when one did. A missing or unreadable file is left.
+ */
+export function rebaseJobsFile(file: string, from: string, to: string): number {
+  let data: { jobs?: unknown }
+  try {
+    data = JSON.parse(nodeFs.readFileSync(file, 'utf8')) as { jobs?: unknown }
+  } catch {
+    return 0
+  }
+  if (!data || !Array.isArray(data.jobs)) return 0
+  let changed = 0
+  for (const job of data.jobs as { projectPath?: unknown }[]) {
+    if (!job || typeof job.projectPath !== 'string') continue
+    const moved = rebase(job.projectPath, from, to)
+    if (moved === undefined || moved === job.projectPath) continue
+    job.projectPath = moved
+    changed++
+  }
+  if (changed === 0) return 0
+  const tmp = `${file}.migrating-${process.pid}`
+  nodeFs.writeFileSync(tmp, JSON.stringify(data, null, 2) + '\n')
+  nodeFs.renameSync(tmp, file)
+  return changed
+}
