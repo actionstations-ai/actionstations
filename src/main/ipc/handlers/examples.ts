@@ -1,15 +1,16 @@
-// Example projects (#169): list the shipped examples, open a copy of one, read the marker.
+// Example projects (#169): list the shipped examples and those of enabled packs (#266), open a
+// copy of one, read the marker.
 import { defineHandlers } from '../registry'
 import { requireProject } from '../../project/guard'
-import { listExamples } from '../../examples/catalog'
+import { listAllExamples } from '../../examples/catalog'
 import { readMarker } from '../../examples/marker'
 import { openExample } from '../../examples/open'
 
 export default defineHandlers({
-  'examples:list': () => listExamples(),
+  'examples:list': () => listAllExamples(),
 
   // No project guard: the copy does not exist yet; openExample registers it like project:create.
-  'examples:open': ({ slug, parentDir }) => openExample(slug, parentDir),
+  'examples:open': ({ slug, packId, parentDir }) => openExample({ slug, packId }, parentDir),
 
   'examples:marker': async ({ projectPath }) => {
     const root = await requireProject(projectPath)

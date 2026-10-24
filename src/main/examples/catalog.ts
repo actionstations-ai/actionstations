@@ -1,6 +1,8 @@
 // Example-project catalog (#169): `<resources>/examples/<slug>/example.json` + `project/`.
 // Packaged builds read app-resources/examples (electron-builder extraResources); unpackaged
 // runs read the repo's examples/ folder. TTX_EXAMPLES_DIR overrides both (tests, e2e).
+// Enabled packs add theirs from userData/packs/<id>/<version>/examples/<slug>/ (#266); those
+// are addressed by { slug, packId }, so a pack example may share a built-in example's slug.
 import { promises as fs } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { ExampleManifest, type ExampleInfo } from '@shared/ipc/examples'
@@ -8,6 +10,7 @@ import { SafeId } from '@shared/schemas/common'
 import { AppError, toAppError } from '../lib/errors'
 import { exists, readJson, safeJoin } from '../lib/fs'
 import { resourcePath } from '../lib/paths'
+import { enabledItems, packById, packItemPath, type InstalledPack } from '../packs/layers'
 
 export const MANIFEST_FILE = 'example.json'
 export const PROJECT_DIR = 'project'
@@ -44,14 +47,86 @@ async function listOne(slug: string, dir: string): Promise<ExampleInfo | null> {
   }
 }
 
-/** Every valid example, ordered by title. Folders without a valid manifest are skipped. */
+const byTitle = (a: ExampleInfo, b: ExampleInfo): number => a.title.localeCompare(b.title)
+
+/** Every valid built-in example, ordered by title. Folders without a valid manifest are skipped. */
 export async function listExamples(dir = examplesDir()): Promise<ExampleInfo[]> {
   const entries = await fs.readdir(dir, { withFileTypes: true }).catch(() => [])
   const slugs = entries
     .filter((e) => e.isDirectory() && SafeId.safeParse(e.name).success)
     .map((e) => e.name)
   const found = await Promise.all(slugs.map((s) => listOne(s, dir)))
-  return found
-    .filter((e): e is ExampleInfo => e !== null)
-    .sort((a, b) => a.title.localeCompare(b.title))
+  return found.filter((e): e is ExampleInfo => e !== null).sort(byTitle)
+}
+
+/** Which example to open: a built-in one by slug, or one of an enabled pack. */
+export interface ExampleRef {
+  slug: string
+  packId?: string | undefined
+}
+
+/** An example's folder (holding example.json and project/), its manifest and its pack. */
+export interface ResolvedExample {
+  slug: string
+  folder: string
+  manifest: ExampleManifest
+  pack?: InstalledPack
+}
+
+function packFolder(pack: InstalledPack, slug: string): string {
+  if (!SafeId.safeParse(slug).success) throw new AppError('VALIDATION', `Invalid example: ${slug}`)
+  return packItemPath(pack, 'examples', slug)
+}
+
+/** Find an example; a pack example needs its pack installed and enabled. Throws NOT_FOUND. */
+export async function resolveExample(
+  ref: ExampleRef,
+  dir = examplesDir(),
+): Promise<ResolvedExample> {
+  const { slug, packId } = ref
+  if (packId === undefined) {
+    const folder = await exampleFolder(slug, dir)
+    return { slug, folder, manifest: await readManifest(slug, dir) }
+  }
+  const pack = packById(packId)
+  if (!pack) throw new AppError('NOT_FOUND', `Pack ${packId} is not installed or is disabled`)
+  const folder = packFolder(pack, slug)
+  const manifest = await readJson(join(folder, MANIFEST_FILE), ExampleManifest)
+  return { slug, folder, manifest, pack }
+}
+
+/** The gallery fields of a pack example: where it comes from and under which license. */
+export const packFields = (
+  pack: InstalledPack,
+): Pick<ExampleInfo, 'packId' | 'packVersion' | 'packName' | 'packLicense'> => ({
+  packId: pack.id,
+  packVersion: pack.version,
+  packName: pack.name,
+  packLicense: pack.manifest.license,
+})
+
+async function listPackOne(pack: InstalledPack, slug: string): Promise<ExampleInfo | null> {
+  try {
+    const { folder, manifest } = await resolveExample({ slug, packId: pack.id })
+    if (!(await exists(join(folder, PROJECT_DIR, 'project.json'))))
+      throw new AppError('NOT_FOUND', `${slug} has no ${PROJECT_DIR}/project.json`)
+    return { ...manifest, slug, ...packFields(pack) }
+  } catch (err) {
+    console.warn(`[examples] skipping ${pack.id}/${slug}: ${toAppError(err).message}`)
+    return null
+  }
+}
+
+/** The examples of every enabled pack (invalid ones skipped and logged). */
+export async function listPackExamples(): Promise<ExampleInfo[]> {
+  const found = await Promise.all(enabledItems('examples').map((i) => listPackOne(i.pack, i.id)))
+  return found.filter((e): e is ExampleInfo => e !== null)
+}
+
+/** The gallery: built-in examples plus those of enabled packs, ordered by title. */
+export async function listAllExamples(dir = examplesDir()): Promise<ExampleInfo[]> {
+  const [builtin, fromPacks] = await Promise.all([listExamples(dir), listPackExamples()])
+  return [...builtin, ...fromPacks].sort(
+    (a, b) => byTitle(a, b) || (a.packId ?? '').localeCompare(b.packId ?? ''),
+  )
 }

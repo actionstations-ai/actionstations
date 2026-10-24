@@ -46,8 +46,20 @@ export const exampleManifestFor = (packDomainIds: readonly string[]) =>
     }),
   })
 
-/** A listed example: its manifest plus the folder name it is opened by. */
-export const ExampleInfo = ExampleManifest.extend({ slug: SafeId })
+/**
+ * A listed example: its manifest plus the folder name it is opened by. Pack examples (#266)
+ * also carry the pack they come from; `slug` is unique per source (`packId` or built-in), so a
+ * built-in and a pack example may share a slug.
+ */
+export const ExampleInfo = ExampleManifest.extend({
+  slug: SafeId,
+  /** Set for an example of an installed, enabled pack; absent for a built-in one. */
+  packId: z.string().min(1).optional(),
+  packVersion: z.string().min(1).optional(),
+  packName: z.string().min(1).optional(),
+  /** The pack's SPDX license expression (pack.json `license`). */
+  packLicense: z.string().min(1).optional(),
+})
 export type ExampleInfo = z.infer<typeof ExampleInfo>
 
 /** What a project opened from an example remembers (its `.example.json` marker file). */
@@ -56,18 +68,30 @@ export const ExampleMarker = z.object({
   title: z.string(),
   notice: z.string(),
   domainProfile: z.string(),
+  /** The pack the example was copied from (#266); absent for a built-in example. */
+  packId: z.string().min(1).optional(),
+  packVersion: z.string().min(1).optional(),
+  packName: z.string().min(1).optional(),
 })
 export type ExampleMarker = z.infer<typeof ExampleMarker>
 
 export const exampleChannels = {
-  /** Examples shipped with the app (invalid manifests are skipped and logged). */
+  /**
+   * Examples shipped with the app plus those of enabled packs (#266), ordered by title.
+   * Invalid manifests are skipped and logged.
+   */
   'examples:list': channel(z.void(), z.array(ExampleInfo)),
   /**
    * Copy an example's project into `parentDir` (default: the projects folder from Settings,
    * else ~/Documents/Action Stations) under a name no existing folder has, then open it.
    */
   'examples:open': channel(
-    z.object({ slug: SafeId, parentDir: z.string().min(1).optional() }),
+    z.object({
+      slug: SafeId,
+      /** Open the example of this enabled pack instead of the built-in one with that slug. */
+      packId: z.string().min(1).optional(),
+      parentDir: z.string().min(1).optional(),
+    }),
     OpenProject,
   ),
   /** The example a project was opened from, or null for an ordinary project. */

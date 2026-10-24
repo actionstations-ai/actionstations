@@ -32,6 +32,7 @@ function OpenExampleForm(props: {
       props.onOpened(
         await call('examples:open', {
           slug: props.example.slug,
+          ...(props.example.packId ? { packId: props.example.packId } : {}),
           ...(dir ? { parentDir: dir } : {}),
         }),
       )

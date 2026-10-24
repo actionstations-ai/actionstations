@@ -34,7 +34,8 @@ DocumentMeta { id, title, filename, kind: 'plan'|'policy'|'map'|'form'|'course'|
 Role { id, name, abbreviation, team, description, standingOrders: string[] }   // "Ops Director (IC)" …
 
 // .example.json (#169) — only in a project opened from an example (examples:open writes it):
-ExampleMarker { slug, title, notice, domainProfile }   // the app shows `notice` as a banner
+ExampleMarker { slug, title, notice, domainProfile,
+  packId?, packVersion?, packName? }   // the app shows `notice` as a banner; pack* set for a pack example (#266)
 // examples/<slug>/example.json (shipped, read-only) — ExampleManifest in src/shared/ipc/examples.ts:
 ExampleManifest { id, title, domainProfile, summary, fictional: true, notice,
   scenarios: [{ id, title, threatFamily, summary }] }   // examples/<slug>/project/ is the project

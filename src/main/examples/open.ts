@@ -1,6 +1,8 @@
 // Open an example (#169): copy `examples/<slug>/project` to a new folder the user owns, mark
 // it with `.example.json` (the banner text) and open the copy. Never overwrites a folder:
 // the target name is claimed with a non-recursive mkdir, which fails if anything is there.
+// Pack examples (#266) are copied the same way from the installed (read-only) pack folder; the
+// marker records the pack, and a pack domain is snapshotted into the copy.
 import { promises as fs } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
 import type { OpenProject } from '@shared/schemas'
@@ -15,7 +17,8 @@ import { isDerivedPath } from '../project/duplicate'
 import { openProject, PROJECT_EXT, updateProject } from '../project/store'
 import { ensureIndex } from '../project/ensure-index'
 import { applyDomainSnapshot } from '../project/patch'
-import { exampleFolder, examplesDir, PROJECT_DIR, readManifest } from './catalog'
+import type { InstalledPack } from '../packs/layers'
+import { examplesDir, PROJECT_DIR, resolveExample, type ExampleRef } from './catalog'
 
 export const MARKER_FILE = '.example.json'
 const MAX_SUFFIX = 99
@@ -58,13 +61,30 @@ export async function shouldCopy(sourceRoot: string, src: string): Promise<boole
   return stat.isDirectory() || stat.isFile()
 }
 
-export function markerFor(slug: string, manifest: ExampleManifest): ExampleMarker {
+export function markerFor(
+  slug: string,
+  manifest: ExampleManifest,
+  pack?: Pick<InstalledPack, 'id' | 'version' | 'name'>,
+): ExampleMarker {
   return ExampleMarker.parse({
     slug,
     title: manifest.title,
     notice: manifest.notice,
     domainProfile: manifest.domainProfile,
+    ...(pack ? { packId: pack.id, packVersion: pack.version, packName: pack.name } : {}),
   })
+}
+
+/** Installed pack files are read-only (0444); the user's copy must be editable. */
+async function makeWritable(dir: string): Promise<void> {
+  for (const e of await fs.readdir(dir, { withFileTypes: true })) {
+    const path = join(dir, e.name)
+    if (e.isDirectory()) await makeWritable(path)
+    else if (e.isFile()) {
+      const { mode } = await fs.stat(path)
+      if ((mode & 0o200) === 0) await fs.chmod(path, (mode & 0o777) | 0o200)
+    }
+  }
 }
 
 async function copyInto(source: string, target: string): Promise<void> {
@@ -79,6 +99,7 @@ async function copyInto(source: string, target: string): Promise<void> {
       filter: (src) => shouldCopy(source, src),
     })
   }
+  await makeWritable(target)
 }
 
 /** Give the copy its own identity; a numbered folder gets a numbered name. */
@@ -94,18 +115,19 @@ async function rename(target: string, n: number): Promise<void> {
   })
 }
 
+/** Copy a built-in example (`{ slug }`) or a pack example (`{ slug, packId }`) and open it. */
 export async function openExample(
-  slug: string,
+  ref: ExampleRef,
   parentDir?: string,
   dir = examplesDir(),
 ): Promise<OpenProject> {
-  const manifest = await readManifest(slug, dir)
-  const source = join(await exampleFolder(slug, dir), PROJECT_DIR)
+  const { slug, folder, manifest, pack } = await resolveExample(ref, dir)
+  const source = join(folder, PROJECT_DIR)
   const parent = resolve(parentDir ?? (await defaultExampleParent()))
   const { path: target, n } = await claimFolder(parent, manifest.title)
   try {
     await copyInto(source, target)
-    await writeJsonAtomic(join(target, MARKER_FILE), markerFor(slug, manifest))
+    await writeJsonAtomic(join(target, MARKER_FILE), markerFor(slug, manifest, pack))
     await rename(target, n)
   } catch (err) {
     await fs.rm(target, { recursive: true, force: true })

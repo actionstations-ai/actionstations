@@ -1,11 +1,14 @@
 // Example projects gallery (#169): fictional, ready-made projects to explore. Opening one
-// copies it to a new folder and opens the copy.
-import { useState } from 'react'
+// copies it to a new folder and opens the copy. Examples of enabled packs (#266) are listed
+// too, labelled with their pack and its license; the list refreshes on packs:changed.
+import { useEffect, useState } from 'react'
 import type { ExampleInfo } from '@shared/ipc'
 import type { OpenProject } from '@shared/schemas'
 import { Badge, Button } from '../../components/ui'
 import { profileLabel, threatLabel } from '../../lib/domains'
-import { useIpcQuery } from '../../lib/query'
+import { subscribe } from '../../lib/api'
+import { queryClient, useIpcQuery } from '../../lib/query'
+import { exampleKey, packLabel } from './example-label'
 import { OpenExampleDialog } from './OpenExampleDialog'
 
 export function ExampleCard(props: {
@@ -15,7 +18,8 @@ export function ExampleCard(props: {
 }) {
   const { example } = props
   const Heading = props.headingLevel ?? 'h3'
-  const headingId = `example-${example.slug}`
+  const headingId = `example-${exampleKey(example).replace(/[^A-Za-z0-9_-]/g, '-')}`
+  const fromPack = packLabel(example)
   return (
     <li className="card project-card example-card" aria-labelledby={headingId}>
       <div className="project-card__title">
@@ -24,6 +28,11 @@ export function ExampleCard(props: {
         <Badge tone="warn">Fictional</Badge>
       </div>
       <p>{example.summary}</p>
+      {fromPack && (
+        <p className="muted example-card__pack" data-testid="example-pack">
+          {fromPack}
+        </p>
+      )}
       {example.scenarios.length > 0 && (
         <div className="stack example-card__scenarios">
           <span className="field__label">
@@ -61,6 +70,13 @@ export function ExamplesList(props: {
 }) {
   const examples = useIpcQuery('examples:list', undefined)
   const [opening, setOpening] = useState<ExampleInfo | null>(null)
+  useEffect(
+    () =>
+      subscribe('packs:changed', () => {
+        void queryClient.invalidateQueries({ queryKey: ['examples:list'] })
+      }),
+    [],
+  )
   const list = examples.data ?? []
   if (list.length === 0) return null
   const Heading = props.headingLevel ?? 'h2'
@@ -76,7 +92,7 @@ export function ExamplesList(props: {
       <ul className="grid-cards project-list">
         {list.map((e) => (
           <ExampleCard
-            key={e.slug}
+            key={exampleKey(e)}
             example={e}
             onOpen={() => setOpening(e)}
             headingLevel={Heading === 'h3' ? 'h4' : 'h3'}
