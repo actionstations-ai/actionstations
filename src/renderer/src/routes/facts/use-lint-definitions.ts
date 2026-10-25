@@ -7,13 +7,20 @@ import { toast } from '../../components/toast-store'
 import { errorText } from '../../lib/errors'
 import { queryClient, useIpcMutation, useIpcQuery } from '../../lib/query'
 import { useDomainRegistry } from '../../state/domains'
-import { isCustomized, overridesWith, overridesWithDefault } from './lint-definition'
+import {
+  domainDefinition,
+  isCustomized,
+  overridesWith,
+  overridesWithDefault,
+} from './lint-definition'
 import { QUERY } from './use-facts-file'
 
 export interface LintDefinitions {
   /** The effective definition of a category, when the domain profile defines it. */
   spec: (id: string) => FactCategory | undefined
   customized: (id: string) => boolean
+  /** The domain profile defines this category (else the user added it, #350). */
+  fromDomain: (id: string) => boolean
   save: (spec: FactCategory) => Promise<boolean>
   restore: (id: string, label: string) => Promise<boolean>
   saving: boolean
@@ -50,6 +57,7 @@ export function useLintDefinitions(path: string, relint: () => unknown): LintDef
   return {
     spec: (id) => categories.find((c) => c.id === id),
     customized: (id) => !!project && isCustomized(project, categories, id),
+    fromDomain: (id) => !!project && !!domainDefinition(project, id),
     save: async (spec) =>
       !!project &&
       write(overridesWith(project, categories, spec), `Lint definition for ${spec.label} saved`),
@@ -57,7 +65,9 @@ export function useLintDefinitions(path: string, relint: () => unknown): LintDef
       !!project &&
       write(
         overridesWithDefault(project, categories, id),
-        `${label} uses the domain’s lint definition again`,
+        domainDefinition(project, id)
+          ? `${label} uses the domain’s lint definition again`
+          : `Lint definition for ${label} removed`,
       ),
     saving: update.isPending,
     announce,

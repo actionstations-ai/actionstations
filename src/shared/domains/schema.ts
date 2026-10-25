@@ -25,8 +25,16 @@ export type ThreatFamilyId = z.infer<typeof ThreatFamilyId>
  * them). Either `noun` + `idShape` ("Routes? 14, 22 and 41") or a custom `pattern` whose
  * first capture group is the identifier ("\b([A-Z][a-z]+) Line\b" → "Blue").
  */
+/**
+ * A fact category id. Domain profiles use underscores ("pump_stations"); categories a user adds
+ * in the facts editor get hyphenated slugs ("pump-stations", "3rd-floor"). Both shapes are
+ * accepted, unchanged, so the id in facility-facts.md (`<!-- category: … -->`) is the same key
+ * as the definition in `domainProfileOverrides.factCategories` (#350): nothing is renamed.
+ */
+export const FactCategoryId = z.string().regex(/^[a-z0-9][a-z0-9_-]{0,63}$/)
+
 export const FactCategory = z.object({
-  id: z.string().regex(/^[a-z][a-z0-9_]*$/),
+  id: FactCategoryId,
   /** Sheet label shown to the model and in lint messages, e.g. "Routes". */
   label: z.string(),
   /** Regex source (case-insensitive) for the noun(s) before an identifier list, e.g. "Routes?". */

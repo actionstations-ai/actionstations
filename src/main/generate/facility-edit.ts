@@ -9,6 +9,7 @@ import type {
   FacilityFactCategoryInput,
   FacilityFactsFile,
 } from '@shared/ipc/project'
+import { FactCategoryId } from '@shared/domains'
 import { AppError } from '../lib/errors'
 import { emit } from '../lib/events'
 import { ensureDir, safeJoin, writeFileAtomic } from '../lib/fs'
@@ -140,6 +141,7 @@ function categoryView(
     extracted: extracted.categories.find((c) => c.id === id)?.entries ?? [],
     sources: sources.get(id) ?? {},
     linted: !!(def?.mentions && def.noun),
+    definable: !def && FactCategoryId.safeParse(id).success,
   }
 }
 

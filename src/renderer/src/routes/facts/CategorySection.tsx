@@ -135,7 +135,7 @@ export function CategorySection(props: {
   category: FacilityFactCategory | undefined
   errors: Map<number, string>
   actions: CategoryActions
-  /** The lint definition editor (#180), for categories the domain profile defines. */
+  /** The lint definition editor (#180): domain categories and ones the user added (#350). */
   definition?: ReactNode
 }) {
   const { draft, category, actions } = props

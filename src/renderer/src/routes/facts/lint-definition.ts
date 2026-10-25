@@ -4,9 +4,9 @@
 // is written, and the other overrides the project has are kept.
 import {
   baseProfile,
+  FactCategory,
   factCategoryProblems,
   type DomainProfileOverrides,
-  type FactCategory,
   type FactCategoryField,
 } from '@shared/domains'
 import type { Project } from '@shared/schemas'
@@ -93,26 +93,45 @@ function withCategories(
   return Object.keys(next).length ? next : null
 }
 
-/** Overrides that save `spec` in place of its category in the effective list `current`. */
+/**
+ * A starting definition for a category the user added (#350): no noun yet, so the form asks
+ * for one. Its id is the one in facility-facts.md, unchanged ("pump-stations").
+ */
+export const newDefinition = (id: string, label: string): FactCategory =>
+  FactCategory.parse({ id, label, noun: '' })
+
+/**
+ * Overrides that save `spec` in place of its category in the effective list `current`, or
+ * after the list when it is a user-added category the list does not have yet.
+ */
 export function overridesWith(
   project: Project,
   current: FactCategory[],
   spec: FactCategory,
 ): DomainProfileOverrides | null {
+  const known = current.some((c) => c.id === spec.id)
   return withCategories(
     project,
-    current.map((c) => (c.id === spec.id ? spec : c)),
+    known ? current.map((c) => (c.id === spec.id ? spec : c)) : [...current, spec],
   )
 }
 
-/** Overrides that put the domain's definition of `id` back. */
+/**
+ * Overrides that put the domain's definition of `id` back; for a user-added category, which
+ * the domain does not define, its definition is removed and it is shown to the model only.
+ */
 export function overridesWithDefault(
   project: Project,
   current: FactCategory[],
   id: string,
 ): DomainProfileOverrides | null {
   const original = domainDefinition(project, id)
-  return original ? overridesWith(project, current, original) : withCategories(project, current)
+  return original
+    ? overridesWith(project, current, original)
+    : withCategories(
+        project,
+        current.filter((c) => c.id !== id),
+      )
 }
 
 /** True when the project's definition of `id` differs from the domain's. */

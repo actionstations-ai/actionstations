@@ -6,7 +6,7 @@
 import { createHash } from 'node:crypto'
 import { createReadStream, promises as fs } from 'node:fs'
 import { isAbsolute, relative, sep } from 'node:path'
-import { DomainProfile } from '@shared/domains'
+import { DomainProfile, domainProfileRegexProblems } from '@shared/domains'
 import {
   PACK_MANIFEST_FILE,
   PackManifest,
@@ -72,12 +72,17 @@ async function readDomains(
 ): Promise<DomainProfile[] | string> {
   const out: DomainProfile[] = []
   for (const id of manifest.contents.domains) {
+    let profile: DomainProfile
     try {
       const raw = await fs.readFile(safeJoin(dir, 'domains', `${id}.json`), 'utf8')
-      out.push(DomainProfile.parse(JSON.parse(raw)))
+      profile = DomainProfile.parse(JSON.parse(raw))
     } catch {
       return `domains/${id}.json cannot be read`
     }
+    // A pack installed by a build without the regex check (#351) is broken, not loaded.
+    const [bad] = domainProfileRegexProblems(profile)
+    if (bad) return `domains/${id}.json: ${bad.path}: ${bad.message}`
+    out.push(profile)
   }
   return out
 }
@@ -85,7 +90,8 @@ async function readDomains(
 /**
  * Check a pack folder against its pack.json: every listed file exists with its size, is a
  * regular file inside the folder, and (small files, or all with `deep`) has its sha256; then
- * read its domain profiles. Never throws. Bundled packs (ADR-0020) use this directly.
+ * read its domain profiles, each of which must pass the regex check (#351). Never throws.
+ * Bundled packs (ADR-0020) use this directly.
  */
 export async function verifyPackFolder(
   dir: string,
