@@ -5,6 +5,7 @@
 // FACILITY_UNKNOWN_ID warnings is visible right away.
 import { useEffect, useMemo } from 'react'
 import { useParams } from 'react-router'
+import type { FacilityFactsFile } from '@shared/ipc/project'
 import { EmptyState } from '../../components/ui'
 import { LiveStatus } from '../../components/LiveStatus'
 import { errorText } from '../../lib/errors'
@@ -23,6 +24,7 @@ import {
   StatusLine,
 } from './FactsParts'
 import { LintDefinition } from './LintDefinition'
+import { newDefinition } from './lint-definition'
 import { useFacilityLint } from './use-facility-lint'
 import { useLintDefinitions, type LintDefinitions } from './use-lint-definitions'
 import {
@@ -42,15 +44,21 @@ function useBaselineLint(ready: boolean, lint: ReturnType<typeof useFacilityLint
   }, [ready, lint.baseline, lint.running, lint.error, runLint])
 }
 
-/** The lint definition editor for one category, when the domain profile defines it (#180). */
-function definitionEditor(defs: LintDefinitions, view: { edited: boolean }, dirty: boolean) {
+/**
+ * The lint definition editor for one category: the domain profile's (#180), or one the user
+ * added, which starts without a definition (#350).
+ */
+function definitionEditor(defs: LintDefinitions, view: FacilityFactsFile, dirty: boolean) {
   const DefinitionFor = (id: string, label: string) => {
-    const spec = defs.spec(id)
+    const definable = view.categories.find((c) => c.id === id)?.definable
+    const spec = defs.spec(id) ?? (definable ? newDefinition(id, label) : undefined)
     if (!spec) return null
     return (
       <LintDefinition
         label={label}
         spec={spec}
+        userCategory={!defs.fromDomain(id)}
+        defined={!!defs.spec(id)}
         customized={defs.customized(id)}
         editedFile={view.edited}
         blocked={dirty ? 'Save or discard your changes to the entries first.' : undefined}

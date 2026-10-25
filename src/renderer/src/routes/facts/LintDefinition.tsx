@@ -18,6 +18,10 @@ import {
 export interface LintDefinitionProps {
   label: string
   spec: FactCategory
+  /** A category the user added, which the domain profile does not define (#350). */
+  userCategory?: boolean
+  /** The project has a definition (false: a user category with none yet; `spec` is a blank start). */
+  defined?: boolean
   /** The project's definition differs from the domain's. */
   customized: boolean
   /** facility-facts.md has the designer's edits (re-extraction then goes to the .generated file). */
@@ -29,7 +33,8 @@ export interface LintDefinitionProps {
   onRestore: () => Promise<boolean>
 }
 
-function summary(spec: FactCategory): string {
+function summary(spec: FactCategory, defined: boolean): string {
+  if (!defined) return 'No lint definition: shown to the model, not linted'
   const shape = ID_SHAPES.find((s) => s.value === spec.idShape)?.label.split(':')[0]
   const parts = [
     spec.pattern ? 'Custom pattern' : `Noun ${spec.noun ?? ''}`,
@@ -202,6 +207,8 @@ export function LintDefinition(props: LintDefinitionProps) {
     focus(`${id}-toggle`)
   }
   const form = useDefinitionForm(props, close)
+  const defined = props.defined ?? true
+  const removable = props.userCategory ? defined : props.customized
   const onKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
     if (e.key !== 'Escape') return
     e.preventDefault()
@@ -215,8 +222,12 @@ export function LintDefinition(props: LintDefinitionProps) {
   return (
     <div className="facts-def">
       <div className="facts-def__summary">
-        <span className="mono facts-def__text">{summary(props.spec)}</span>
-        {props.customized && <Badge tone="info">Changed for this project</Badge>}
+        <span className={defined ? 'mono facts-def__text' : 'muted facts-def__text'}>
+          {summary(props.spec, defined)}
+        </span>
+        {props.userCategory
+          ? defined && <Badge tone="info">Defined for this project</Badge>
+          : props.customized && <Badge tone="info">Changed for this project</Badge>}
         <Button
           size="sm"
           id={`${id}-toggle`}
@@ -224,7 +235,7 @@ export function LintDefinition(props: LintDefinitionProps) {
           aria-controls={`${id}-form`}
           onClick={() => (open ? close() : show())}
         >
-          {open ? 'Close lint definition' : 'Edit lint definition'}
+          {open ? 'Close lint definition' : defined ? 'Edit lint definition' : 'Define for lint'}
         </Button>
       </div>
       {open && (
@@ -261,13 +272,13 @@ export function LintDefinition(props: LintDefinitionProps) {
             <Button type="button" onClick={close}>
               Cancel
             </Button>
-            {props.customized && (
+            {removable && (
               <Button
                 type="button"
                 disabled={!!props.blocked || props.saving}
                 onClick={() => void props.onRestore().then((ok) => ok && close())}
               >
-                Use the domain’s definition
+                {props.userCategory ? 'Remove the lint definition' : 'Use the domain’s definition'}
               </Button>
             )}
           </div>
