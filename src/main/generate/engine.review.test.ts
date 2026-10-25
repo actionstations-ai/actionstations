@@ -488,3 +488,31 @@ describe('earlier model output in later prompts (#90 second-order injection, M2 
     expect(critiques[0]!.system).toMatch(/never 2:34 a\.m\./)
   })
 })
+
+describe('critique with a context window too small (#347)', () => {
+  it('retries once with a shorter request when the model returns no JSON', async () => {
+    const critiques: ChatRequest[] = []
+    setMockResponse('CritiqueOutput', (req: ChatRequest) => {
+      critiques.push(req)
+      // The full request and its repair round get an empty reply; the compact one fits.
+      return critiques.length <= 2 ? '' : { issues: [], summary: 'ok' }
+    })
+    const { job, scenario: s } = await generate()
+    expect(job.status, job.error).toBe('done')
+    expect(critiques).toHaveLength(3)
+    const log = jobs.logOf(job.id).entries.map((e) => e.message)
+    expect(log.some((m) => m.includes('retrying with a shorter request'))).toBe(true)
+    expect(userOf(critiques[2]!).length).toBeLessThan(userOf(critiques[0]!).length)
+    expect(runFor(s, { stage: 'critique' })?.status).toBe('ok')
+  })
+
+  it('fails with a reason and a fix when the shorter request gets no JSON either', async () => {
+    setMockResponse('CritiqueOutput', () => '')
+    const { job, scenario: s } = await generate()
+    expect(job.status).toBe('error')
+    const run = runFor(s, { stage: 'critique' })
+    expect(run?.status).toBe('error')
+    expect(run?.error).toMatch(/context window/)
+    expect(run?.error).toMatch(/empty reply/)
+  })
+})

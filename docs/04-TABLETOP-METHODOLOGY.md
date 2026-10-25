@@ -102,6 +102,18 @@ A scenario generated before a generator fix does not have to be regenerated to g
 
 Everything else stays byte-identical, and the job's result lists each row and inject it changed. `scripts/make-example.mjs repair` drives the job for the bundled examples and writes the before/after warning counts and the file diff to `review/<key>/repair.json`.
 
+## 4c. Brief, clock and realism checks (#347)
+
+Building the 0.4.0 examples with a local model showed defects that passed every structural lint. The Scenario check now flags them, each warning with a fix hint, and the prompts state the same rules:
+
+- **Structure and clock.** Every row after an ENDEX in the middle (`ENDEX_LAST` per row); a second TIME_JUMP in a phase, at the same time or with the same text (`TIME_JUMP_REPEATED`); a STARTEX card whose clock is not the brief's start time (`START_TIME_MISMATCH`); a TIME_JUMP or ENDEX card whose clock is not the start time plus its row time, within five minutes (`CLOCK_MISMATCH`); a row that states another day or date than the STARTEX card without a time jump moving it, or a weekday that does not match its calendar date (`DATE_DRIFT`). A request whose times of day all fall outside the exercise window (or the three hours before STARTEX) gets an info tip, `BRIEF_TIME_OUTSIDE`: the brief's start time most likely ignores it.
+- **Authority, pace and physics.** An outside agency or regulator that closes the incident, approves restoration or gives the all-clear (`OUTSIDE_AGENCY_DECIDES`; a sentence with a negation, such as "no regulator approves the restart", is not flagged); a full restore of encrypted or compromised systems within 60 minutes of the row that broke them (`RESTORE_TOO_FAST`); a quantity above a bound in the facility facts' `## Limits` section (`QUANTITY_OVER_LIMIT`).
+- **Contact details and roles.** Email and web domains other than reserved `.example` ones, real federal and state agency domains and public mail services; 555 numbers outside 555-0100–0199; geographic numbers with a real-looking exchange (toll-free hotlines are allowed) (`CONTACT_REAL_LOOKING`). More player roles than the brief's audience plus one (`ROLES_EXCEED_AUDIENCE`), and a role that is one of the outside parties the brief says the SimCell plays (`OUTSIDE_PARTY_ROLE`).
+
+The row-level ones (clock, date, authority, pace, contact details) go to the revision pass with the structural lints. Scenario drift from the brief (item 5) and identifiers close to a real one (item 6) are left to the prompts and the critique: `msel_phase` now receives the designer's request and constraints as binding.
+
+When the critique gets no JSON from the model (a 32k context the full request overflows), it retries once with a shorter request: every row kept but its event and expected action cut short, the 20 most severe lints and three plan sections. If that also has no JSON the step fails with an error that says the context is likely too small and how to load the model with a larger one.
+
 ## 5. Known gaps in Scenario 3 (so the generator does better)
 
 - Some MSEL rows (I-01, I-02, I-03, I-05, I-08, I-10, I-11, I-13, I-14) have no deck page — the generator should default to a deck page for every row and let the user turn some off.

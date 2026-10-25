@@ -65,8 +65,8 @@ export interface ShippedPng {
 }
 
 export function isDerived(rel: string): boolean
-export function findLeaks(text: string): string[]
-export function leaksIn(dest: string): string[]
+export function findLeaks(text: string, roots?: readonly string[]): string[]
+export function leaksIn(dest: string, roots?: readonly string[]): string[]
 export function scrub<T>(value: T, absolute: string[]): T
 export function shippedPng(buffer: Buffer): ShippedPng
 export function chooseAssets(

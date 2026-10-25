@@ -20,6 +20,13 @@ import {
   lintDuplicateEvents,
   lintPlayerVoice,
 } from './lint-structure'
+import { CLOCK_MISMATCH, DATE_DRIFT, lintBrief, START_TIME_MISMATCH } from './lint-brief'
+import {
+  CONTACT_REAL_LOOKING,
+  lintRealism,
+  OUTSIDE_AGENCY_DECIDES,
+  RESTORE_TOO_FAST,
+} from './lint-realism'
 
 export const DENSITY_MIN_MINUTES = 5
 export const DENSITY_MAX_MINUTES = 20
@@ -446,18 +453,36 @@ function lintBoundaries(s: Scenario): W[] {
     out.push(
       warn('STARTEX_FIRST', `First row ${first.id} is ${first.purposeTag}, expected STARTEX`, {
         rowId: first.id,
+        suggestion:
+          'Open the MSEL with one STARTEX card at 0:00 that sets the clock, day and conditions',
       }),
     )
-  if (last.purposeTag !== 'ENDEX')
+  // Rows after an ENDEX in the middle name themselves (#347); without one, the last row does.
+  const after = rowsAfterEndex(s)
+  if (last.purposeTag !== 'ENDEX' && !after.length)
     out.push(
       warn('ENDEX_LAST', `Last row ${last.id} is ${last.purposeTag}, expected ENDEX`, {
         rowId: last.id,
+        suggestion: 'Close the MSEL with one ENDEX card at the end of the last phase',
       }),
     )
-  const starts = s.msel.filter((r) => r.purposeTag === 'STARTEX').length
-  const ends = s.msel.filter((r) => r.purposeTag === 'ENDEX').length
-  if (starts > 1) out.push(warn('STARTEX_MULTIPLE', `${starts} STARTEX rows`))
-  if (ends > 1) out.push(warn('ENDEX_MULTIPLE', `${ends} ENDEX rows`))
+  out.push(...after)
+  const starts = s.msel.filter((r) => r.purposeTag === 'STARTEX')
+  const ends = s.msel.filter((r) => r.purposeTag === 'ENDEX')
+  if (starts.length > 1)
+    out.push(
+      warn('STARTEX_MULTIPLE', `${starts.length} STARTEX rows`, {
+        rowId: starts[1]!.id,
+        suggestion: 'Keep the first STARTEX card and turn the others into injects or delete them',
+      }),
+    )
+  if (ends.length > 1)
+    out.push(
+      warn('ENDEX_MULTIPLE', `${ends.length} ENDEX rows`, {
+        rowId: ends[0]!.id,
+        suggestion: 'Keep one ENDEX card, as the last row; delete the others',
+      }),
+    )
   return out
 }
 
@@ -542,6 +567,8 @@ export function lintScenario(scenario: Scenario, domainIn?: DomainContext): Lint
     ...lintPlayerVoice(scenario),
     ...lintDuplicateEvents(scenario),
     ...lintReferenceLeak(scenario),
+    ...lintBrief(scenario),
+    ...lintRealism(scenario),
     ...lintPhaseMix(scenario, domain),
     ...lintDecisionPoint(scenario),
     ...lintDecisionScope(scenario, domain),
@@ -699,6 +726,13 @@ export const STRUCTURAL_CODES = new Set([
   INJECT_PLAYER_VOICE,
   'INJECT_SCRIPTS_PLAYERS',
   'FROM_PLAYER_ROLE',
+  // Row text the revision can correct (#347).
+  START_TIME_MISMATCH,
+  CLOCK_MISMATCH,
+  DATE_DRIFT,
+  OUTSIDE_AGENCY_DECIDES,
+  RESTORE_TOO_FAST,
+  CONTACT_REAL_LOOKING,
 ])
 
 /** Rows placed after the ENDEX row: the exercise is over before they are delivered. */

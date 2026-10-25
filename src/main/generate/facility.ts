@@ -14,6 +14,7 @@ import {
 } from './facility-categories'
 
 import { nearestEntry } from './facility-near-miss'
+import { lintQuantityLimits } from './facility-limits'
 
 export { compressIds, gateList } from './facility-categories'
 
@@ -197,9 +198,15 @@ export const describeUnknownId = (u: UnknownId): string =>
     u.didYouMean ? `did you mean ${u.didYouMean}?` : `the documents list ${u.known}`
   })`
 
-/** Rows that name facility identifiers (runways, gates …) the facts do not have. */
+/**
+ * Rows that name facility identifiers (runways, gates …) the facts do not have, and rows
+ * whose quantities exceed a limit the facts state (QUANTITY_OVER_LIMIT, #347).
+ */
 export function lintFacilityIds(s: Scenario, f: FacilityFacts): LintWarning[] {
-  return s.msel.flatMap((row): LintWarning[] => lintRowFacility(row, f))
+  return [
+    ...s.msel.flatMap((row): LintWarning[] => lintRowFacility(row, f)),
+    ...lintQuantityLimits(s, f),
+  ]
 }
 
 export function lintRowFacility(row: MselRow, f: FacilityFacts): LintWarning[] {

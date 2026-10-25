@@ -6,6 +6,7 @@ import {
   bundledProfiles,
   chooseThreatFamily,
   DomainProfile,
+  DomainProfileOverrides,
   inferThreatFamily,
   isThreatFamilyId,
   resolveProfile,
@@ -130,6 +131,14 @@ describe('built-in domain profiles', () => {
     expect(p.noiseExamples).toEqual(['a vending machine at the transit center'])
     expect(p.roles).toEqual(builtinProfile('transit').roles)
     expect(resolveProfile('transit', undefined)).toEqual(builtinProfile('transit'))
+  })
+
+  it('stores overrides without filling the fields they leave out (#180)', () => {
+    const stored = DomainProfileOverrides.parse({ outsideParties: ['County OEM'] })
+    expect(stored).toEqual({ outsideParties: ['County OEM'] })
+    const p = resolveProfile('airport', stored)
+    expect(p.factCategories).toEqual(builtinProfile('airport').factCategories)
+    expect(p.rolePatterns).toEqual(builtinProfile('airport').rolePatterns)
   })
 
   it('tags airport-only inject types so other domains do not get them', () => {
