@@ -431,10 +431,13 @@
       "x": 0,
       "y": 0,
       "resize_source": false,
-      "mask": ["47", 0]
+      "mask": ["108", 0]
     },
     "_meta": {
-      "title": "Signs filled dark (lighting: screens-off)"
+      "title": "Signs filled dark (lighting: screens-off)",
+      "fallback": {
+        "mask": ["47", 0]
+      }
     }
   },
   "50": {
@@ -451,10 +454,13 @@
     "class_type": "SetLatentNoiseMask",
     "inputs": {
       "samples": ["50", 0],
-      "mask": ["47", 0]
+      "mask": ["108", 0]
     },
     "_meta": {
-      "title": "Repaint only the signs (lighting: screens-off)"
+      "title": "Repaint only the signs (lighting: screens-off)",
+      "fallback": {
+        "mask": ["47", 0]
+      }
     }
   },
   "52": {
@@ -493,10 +499,13 @@
       "x": 0,
       "y": 0,
       "resize_source": false,
-      "mask": ["47", 0]
+      "mask": ["108", 0]
     },
     "_meta": {
-      "title": "Repainted signs over the image (lighting: screens-off)"
+      "title": "Repainted signs over the image (lighting: screens-off)",
+      "fallback": {
+        "mask": ["47", 0]
+      }
     }
   },
   "8": {
@@ -517,6 +526,777 @@
     },
     "_meta": {
       "title": "Save"
+    }
+  },
+  "60": {
+    "class_type": "Florence2ModelLoader",
+    "inputs": {
+      "model": "Florence-2-large",
+      "precision": "fp32"
+    },
+    "_meta": {
+      "title": "Load Florence-2 large (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "61": {
+    "class_type": "SolidMask",
+    "inputs": {
+      "value": 0.0,
+      "width": 1216,
+      "height": 832
+    },
+    "_meta": {
+      "title": "Empty mask (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "62": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "image": ["8", 0],
+      "width": 352,
+      "height": 208,
+      "x": 0,
+      "y": 0
+    },
+    "_meta": {
+      "title": "Top band tile 1 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "63": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["62", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "signboard,television,street sign,traffic sign,scoreboard,banner,billboard,computer monitor,display device,poster,computer,laptop,whiteboard,flat panel display,digital clock,clock,light box,lightbox,sign,screen,monitor,display,board,advertising",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find signs, tile 1 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "64": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 0,
+      "y": 0,
+      "destination": ["61", 0],
+      "source": ["63", 1]
+    },
+    "_meta": {
+      "title": "Signs found, tile 1 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "65": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["62", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "person,man,woman,boy,girl,child,human,human face,human head,human hair,human body,human eye,human nose,human mouth,human ear,human arm,human hand,human leg,human beard,clothing,jacket,coat,hat,cap,fedora,sun hat,cowboy hat,helmet,fancy dress,scarf,backpack,handbag,glasses,sunglasses,goggles,suit,shirt,dress,sweater,jeans,trousers,footwear,mobile phone,tie,bag",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find people, tile 1 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "66": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 0,
+      "y": 0,
+      "destination": ["61", 0],
+      "source": ["65", 1]
+    },
+    "_meta": {
+      "title": "People found, tile 1 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "67": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "image": ["8", 0],
+      "width": 352,
+      "height": 208,
+      "x": 288,
+      "y": 0
+    },
+    "_meta": {
+      "title": "Top band tile 2 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "68": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["67", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "signboard,television,street sign,traffic sign,scoreboard,banner,billboard,computer monitor,display device,poster,computer,laptop,whiteboard,flat panel display,digital clock,clock,light box,lightbox,sign,screen,monitor,display,board,advertising",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find signs, tile 2 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "69": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 288,
+      "y": 0,
+      "destination": ["64", 0],
+      "source": ["68", 1]
+    },
+    "_meta": {
+      "title": "Signs found, tile 2 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "70": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["67", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "person,man,woman,boy,girl,child,human,human face,human head,human hair,human body,human eye,human nose,human mouth,human ear,human arm,human hand,human leg,human beard,clothing,jacket,coat,hat,cap,fedora,sun hat,cowboy hat,helmet,fancy dress,scarf,backpack,handbag,glasses,sunglasses,goggles,suit,shirt,dress,sweater,jeans,trousers,footwear,mobile phone,tie,bag",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find people, tile 2 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "71": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 288,
+      "y": 0,
+      "destination": ["66", 0],
+      "source": ["70", 1]
+    },
+    "_meta": {
+      "title": "People found, tile 2 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "72": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "image": ["8", 0],
+      "width": 352,
+      "height": 208,
+      "x": 576,
+      "y": 0
+    },
+    "_meta": {
+      "title": "Top band tile 3 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "73": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["72", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "signboard,television,street sign,traffic sign,scoreboard,banner,billboard,computer monitor,display device,poster,computer,laptop,whiteboard,flat panel display,digital clock,clock,light box,lightbox,sign,screen,monitor,display,board,advertising",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find signs, tile 3 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "74": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 576,
+      "y": 0,
+      "destination": ["69", 0],
+      "source": ["73", 1]
+    },
+    "_meta": {
+      "title": "Signs found, tile 3 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "75": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["72", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "person,man,woman,boy,girl,child,human,human face,human head,human hair,human body,human eye,human nose,human mouth,human ear,human arm,human hand,human leg,human beard,clothing,jacket,coat,hat,cap,fedora,sun hat,cowboy hat,helmet,fancy dress,scarf,backpack,handbag,glasses,sunglasses,goggles,suit,shirt,dress,sweater,jeans,trousers,footwear,mobile phone,tie,bag",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find people, tile 3 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "76": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 576,
+      "y": 0,
+      "destination": ["71", 0],
+      "source": ["75", 1]
+    },
+    "_meta": {
+      "title": "People found, tile 3 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "77": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "image": ["8", 0],
+      "width": 352,
+      "height": 208,
+      "x": 864,
+      "y": 0
+    },
+    "_meta": {
+      "title": "Top band tile 4 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "78": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["77", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "signboard,television,street sign,traffic sign,scoreboard,banner,billboard,computer monitor,display device,poster,computer,laptop,whiteboard,flat panel display,digital clock,clock,light box,lightbox,sign,screen,monitor,display,board,advertising",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find signs, tile 4 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "79": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 864,
+      "y": 0,
+      "destination": ["74", 0],
+      "source": ["78", 1]
+    },
+    "_meta": {
+      "title": "Signs found, tile 4 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "80": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["77", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "person,man,woman,boy,girl,child,human,human face,human head,human hair,human body,human eye,human nose,human mouth,human ear,human arm,human hand,human leg,human beard,clothing,jacket,coat,hat,cap,fedora,sun hat,cowboy hat,helmet,fancy dress,scarf,backpack,handbag,glasses,sunglasses,goggles,suit,shirt,dress,sweater,jeans,trousers,footwear,mobile phone,tie,bag",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find people, tile 4 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "81": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 864,
+      "y": 0,
+      "destination": ["76", 0],
+      "source": ["80", 1]
+    },
+    "_meta": {
+      "title": "People found, tile 4 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "82": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "image": ["8", 0],
+      "width": 352,
+      "height": 208,
+      "x": 0,
+      "y": 144
+    },
+    "_meta": {
+      "title": "Top band tile 5 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "83": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["82", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "signboard,television,street sign,traffic sign,scoreboard,banner,billboard,computer monitor,display device,poster,computer,laptop,whiteboard,flat panel display,digital clock,clock,light box,lightbox,sign,screen,monitor,display,board,advertising",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find signs, tile 5 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "84": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 0,
+      "y": 144,
+      "destination": ["79", 0],
+      "source": ["83", 1]
+    },
+    "_meta": {
+      "title": "Signs found, tile 5 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "85": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["82", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "person,man,woman,boy,girl,child,human,human face,human head,human hair,human body,human eye,human nose,human mouth,human ear,human arm,human hand,human leg,human beard,clothing,jacket,coat,hat,cap,fedora,sun hat,cowboy hat,helmet,fancy dress,scarf,backpack,handbag,glasses,sunglasses,goggles,suit,shirt,dress,sweater,jeans,trousers,footwear,mobile phone,tie,bag",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find people, tile 5 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "86": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 0,
+      "y": 144,
+      "destination": ["81", 0],
+      "source": ["85", 1]
+    },
+    "_meta": {
+      "title": "People found, tile 5 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "87": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "image": ["8", 0],
+      "width": 352,
+      "height": 208,
+      "x": 288,
+      "y": 144
+    },
+    "_meta": {
+      "title": "Top band tile 6 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "88": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["87", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "signboard,television,street sign,traffic sign,scoreboard,banner,billboard,computer monitor,display device,poster,computer,laptop,whiteboard,flat panel display,digital clock,clock,light box,lightbox,sign,screen,monitor,display,board,advertising",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find signs, tile 6 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "89": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 288,
+      "y": 144,
+      "destination": ["84", 0],
+      "source": ["88", 1]
+    },
+    "_meta": {
+      "title": "Signs found, tile 6 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "90": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["87", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "person,man,woman,boy,girl,child,human,human face,human head,human hair,human body,human eye,human nose,human mouth,human ear,human arm,human hand,human leg,human beard,clothing,jacket,coat,hat,cap,fedora,sun hat,cowboy hat,helmet,fancy dress,scarf,backpack,handbag,glasses,sunglasses,goggles,suit,shirt,dress,sweater,jeans,trousers,footwear,mobile phone,tie,bag",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find people, tile 6 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "91": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 288,
+      "y": 144,
+      "destination": ["86", 0],
+      "source": ["90", 1]
+    },
+    "_meta": {
+      "title": "People found, tile 6 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "92": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "image": ["8", 0],
+      "width": 352,
+      "height": 208,
+      "x": 576,
+      "y": 144
+    },
+    "_meta": {
+      "title": "Top band tile 7 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "93": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["92", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "signboard,television,street sign,traffic sign,scoreboard,banner,billboard,computer monitor,display device,poster,computer,laptop,whiteboard,flat panel display,digital clock,clock,light box,lightbox,sign,screen,monitor,display,board,advertising",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find signs, tile 7 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "94": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 576,
+      "y": 144,
+      "destination": ["89", 0],
+      "source": ["93", 1]
+    },
+    "_meta": {
+      "title": "Signs found, tile 7 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "95": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["92", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "person,man,woman,boy,girl,child,human,human face,human head,human hair,human body,human eye,human nose,human mouth,human ear,human arm,human hand,human leg,human beard,clothing,jacket,coat,hat,cap,fedora,sun hat,cowboy hat,helmet,fancy dress,scarf,backpack,handbag,glasses,sunglasses,goggles,suit,shirt,dress,sweater,jeans,trousers,footwear,mobile phone,tie,bag",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find people, tile 7 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "96": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 576,
+      "y": 144,
+      "destination": ["91", 0],
+      "source": ["95", 1]
+    },
+    "_meta": {
+      "title": "People found, tile 7 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "97": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "image": ["8", 0],
+      "width": 352,
+      "height": 208,
+      "x": 864,
+      "y": 144
+    },
+    "_meta": {
+      "title": "Top band tile 8 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "98": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["97", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "signboard,television,street sign,traffic sign,scoreboard,banner,billboard,computer monitor,display device,poster,computer,laptop,whiteboard,flat panel display,digital clock,clock,light box,lightbox,sign,screen,monitor,display,board,advertising",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find signs, tile 8 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "99": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 864,
+      "y": 144,
+      "destination": ["94", 0],
+      "source": ["98", 1]
+    },
+    "_meta": {
+      "title": "Signs found, tile 8 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "100": {
+    "class_type": "Florence2Run",
+    "inputs": {
+      "image": ["97", 0],
+      "florence2_model": ["60", 0],
+      "text_input": "",
+      "task": "region_caption",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": false,
+      "output_mask_select": "person,man,woman,boy,girl,child,human,human face,human head,human hair,human body,human eye,human nose,human mouth,human ear,human arm,human hand,human leg,human beard,clothing,jacket,coat,hat,cap,fedora,sun hat,cowboy hat,helmet,fancy dress,scarf,backpack,handbag,glasses,sunglasses,goggles,suit,shirt,dress,sweater,jeans,trousers,footwear,mobile phone,tie,bag",
+      "seed": 1
+    },
+    "_meta": {
+      "title": "Find people, tile 8 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "101": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 864,
+      "y": 144,
+      "destination": ["96", 0],
+      "source": ["100", 1]
+    },
+    "_meta": {
+      "title": "People found, tile 8 (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "102": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "add",
+      "x": 0,
+      "y": 0,
+      "destination": ["99", 0],
+      "source": ["46", 0]
+    },
+    "_meta": {
+      "title": "Signs found or colour-matched (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "103": {
+    "class_type": "GrowMask",
+    "inputs": {
+      "mask": ["102", 0],
+      "expand": 4,
+      "tapered_corners": true
+    },
+    "_meta": {
+      "title": "Signs, grown (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "104": {
+    "class_type": "SolidMask",
+    "inputs": {
+      "value": 1.0,
+      "width": 1216,
+      "height": 832
+    },
+    "_meta": {
+      "title": "Full mask (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "105": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "multiply",
+      "x": 0,
+      "y": 352,
+      "destination": ["104", 0],
+      "source": ["61", 0]
+    },
+    "_meta": {
+      "title": "Top band (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "106": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "multiply",
+      "x": 0,
+      "y": 0,
+      "destination": ["103", 0],
+      "source": ["105", 0]
+    },
+    "_meta": {
+      "title": "Signs in the top band (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "107": {
+    "class_type": "GrowMask",
+    "inputs": {
+      "mask": ["101", 0],
+      "expand": 10,
+      "tapered_corners": false
+    },
+    "_meta": {
+      "title": "People, grown (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "108": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "operation": "subtract",
+      "x": 0,
+      "y": 0,
+      "destination": ["106", 0],
+      "source": ["107", 0]
+    },
+    "_meta": {
+      "title": "Signs without people (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
     }
   }
 }

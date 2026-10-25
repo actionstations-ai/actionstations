@@ -22,7 +22,7 @@ import {
 } from '@shared/schemas/pack'
 import { INJECT_TYPE_IDS } from '@shared/taxonomy'
 import { WorkflowSidecar } from '../comfy/sidecar'
-import { parseApiWorkflow, requiredNodes } from '../comfy/workflow'
+import { optionalNodes, parseApiWorkflow, requiredNodes } from '../comfy/workflow'
 import { toAppError } from '../lib/errors'
 import { parsePromptRaw, type PromptIssue } from '../prompts/format'
 import { TemplateMeta, TemplatePreview } from '../render/templates'
@@ -47,6 +47,7 @@ interface ItemResult {
   replacesBuiltin: boolean
   license?: string
   customNodes?: string[]
+  optionalNodes?: string[]
 }
 
 // Same options as the template field validator (src/main/render/templates.ts).
@@ -172,8 +173,11 @@ function checkDomain(ctx: Ctx, id: string): ItemResult {
 function checkWorkflow(ctx: Ctx, id: string): ItemResult {
   const path = `workflows/${id}.json`
   let customNodes: string[] = []
+  let optional: string[] = []
   try {
-    customNodes = customNodeClasses(requiredNodes(parseApiWorkflow(text(ctx, path) ?? '')))
+    const workflow = parseApiWorkflow(text(ctx, path) ?? '')
+    customNodes = customNodeClasses(requiredNodes(workflow))
+    optional = customNodeClasses(optionalNodes(workflow))
   } catch (e) {
     ctx.problems.push({ path, message: toAppError(e).message })
   }
@@ -182,6 +186,7 @@ function checkWorkflow(ctx: Ctx, id: string): ItemResult {
     title: sidecar?.name ?? id,
     replacesBuiltin: ctx.builtins.workflows.includes(id),
     customNodes,
+    ...(optional.length ? { optionalNodes: optional } : {}),
   }
 }
 
@@ -263,6 +268,7 @@ export function checkPackContent(
         ...(owner ? { replacesPack: owner } : {}),
         license: r.license || manifest.license,
         ...(r.customNodes ? { customNodes: r.customNodes } : {}),
+        ...(r.optionalNodes ? { optionalNodes: r.optionalNodes } : {}),
         size,
       })
     }

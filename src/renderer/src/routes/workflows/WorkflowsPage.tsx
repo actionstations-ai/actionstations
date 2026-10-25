@@ -14,7 +14,7 @@ import { useProjectUi } from '../../state/project'
 import { BindingEditor } from './BindingEditor'
 import { ImportDialog } from './ImportDialog'
 import { TestRender } from './TestRender'
-import { MEDIA_TYPES, groupByMedia, missingSummary } from './workflow-utils'
+import { MEDIA_TYPES, groupByMedia, missingSummary, optionalSummary } from './workflow-utils'
 import './workflows.css'
 import { errorText } from '../../lib/errors'
 
@@ -110,6 +110,7 @@ function DefaultsCard() {
 function WorkflowCard(props: { workflow: WorkflowEntry; selected: boolean; onSelect: () => void }) {
   const w = props.workflow
   const missing = missingSummary(w)
+  const optional = optionalSummary(w)
   const core = useCorePackProvenance()
   // A default workflow is the core pack's, included with the app (ADR-0020).
   const provenance = provenanceOf(w) ?? (w.source === 'default' ? core : undefined)
@@ -135,6 +136,7 @@ function WorkflowCard(props: { workflow: WorkflowEntry; selected: boolean; onSel
           ) : w.missingNodes ? (
             <Badge tone="ok">All nodes available</Badge>
           ) : null}
+          {optional && <Badge tone="info">{optional}</Badge>}
         </span>
       </button>
     </li>

@@ -18,6 +18,15 @@ input folder), `text` / `voiceStyle` / `speaker` (voice lines), `referenceAudio`
 none: `{ "dark": 0.92 }`; the value may be a node link such as `["11", 0]`, so a dark scene can
 be wired through extra nodes). A source with no value leaves the workflow's own value in place.
 
+**Optional nodes** (ADR-0022): a node whose `_meta.optional` names a group runs only when the
+ComfyUI server can run every node of that group. Before queueing, the app asks
+`/object_info/<class>` for each class in the group; if a class is not installed, or a literal
+choice input (a model folder, for example) names a value the server does not list, the group's
+nodes are removed. An input that linked into a removed node then takes the value its node's
+`_meta.fallback` names (`{ "mask": ["47", 0] }`); without a fallback the render fails. Optional
+classes are not counted as missing nodes; the Workflows card lists them as **Optional, not
+installed**, and pack review lists optional custom nodes separately.
+
 Where workflows live (looked up in this order):
 
 | Layer   | Folder                                                                                                                   | Notes                                                           |
@@ -33,14 +42,14 @@ is copied into `<project>/comfy/workflows/` and recorded in `<project>/packs.jso
 The default workflow per media type is stored in `<userData>/comfy/defaults.json`
 (built-in: image → `sdxl-photo`, video → `image-to-video`; no audio default).
 
-Every render records `provenance.workflowHash` (SHA-256 of the bound workflow, key-order
+Every render records `provenance.workflowHash` (SHA-256 of the bound workflow as sent, after optional groups were removed, key-order
 independent), `model` (first checkpoint / diffusion model named in it) and `seed`.
 
 ## `sdxl-photo` — documentary photo (image)
 
 SDXL base 1.0 text-to-image, 1216×832, `dpmpp_2m` / `karras`, 25 steps, CFG 6.5. Style
 suffixes for `phone`, `press`, `cctv`, `screen` and `portrait` push towards phone-photo and
-photojournalism realism. Core nodes only.
+photojournalism realism. Core nodes only, plus an optional sign detector (below).
 
 - Model: `models/checkpoints/sd_xl_base_1.0.safetensors`
   ([stabilityai/stable-diffusion-xl-base-1.0](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0)).
@@ -84,6 +93,31 @@ photojournalism realism. Core nodes only.
   shows some lit signage: small far-off screens, pale-blue signs, and black boards with
   white lettering, which these colour rules do not separate from windows, sky or clothing.
   The opt-in live test checks luma > 60 and lit-sign pixels < 0.3% of the top 40%.
+- Optional sign detector (#356, ADR-0022): nodes 60–108 form the optional group
+  `sign-detector`. They need the [ComfyUI-Florence2](https://github.com/kijai/ComfyUI-Florence2)
+  custom nodes (MIT) and `models/LLM/Florence-2-large/` from
+  [microsoft/Florence-2-large](https://huggingface.co/microsoft/Florence-2-large) (MIT); see the
+  [ComfyUI guide](../../docs/guides/providers/comfyui.md#optional-sign-detector-for-blank-screen-scenes)
+  for the install. Florence-2 object detection runs over eight overlapping tiles of the top 352 px
+  (4 × 2, 352 × 208 px each, sized for 1216 × 832), twice per tile: once keeping sign labels
+  (signboard, television, street sign, scoreboard, banner, billboard, computer monitor and similar),
+  once keeping people (person, man, woman, human face or head, clothing, bags and similar). The
+  repaint mask is the sign boxes plus the colour mask, grown 4 px, cut to the top 352 px, minus the
+  people boxes grown 10 px. Nodes 49, 51 and 54 take that mask; their `_meta.fallback` points them
+  at the colour mask (node 47) when the group is left out, which gives exactly the colour-only
+  render. Florence-2 phrase grounding ("illuminated sign. display screen. …") was tried as a third
+  pass: it found white-lettered black boards and more small signs, but it also returned tile-sized
+  boxes when nothing matched and, in seed 1001, a box over a screen that included the head of a
+  person in front of it, which the repaint replaced. It is not used.
+  Measured on sample-run I-10, seeds 1001–1006, through the app (ComfyUI 0.42.0, Apple Silicon;
+  ComfyUI runs this node pack's Florence-2 on the CPU): 109–139 s per image instead of about
+  45 s; mean luma 86–115 (lit render 91–116); changed pixels 0.1–5.6% of the frame, all in rows
+  32–320 and all on signs; faces and people identical to the lit render in 6 of 6. Compared with
+  the colour mask alone, the detector also darkens the FIDS board and the board row in 1005, the
+  signs over the shops in 1003 and 1004 and a far-left sign in 1001. Every seed still keeps some
+  lit signage the detector does not label: small screens far down the hall (1002, 1004, 1005),
+  white-lettered black boards (1003), a blue-lit shop fascia (1006), small far-left signs and a
+  cyan screen behind the crowd (1001).
 
 ## `image-to-video` — LTX-Video 2B distilled (video)
 

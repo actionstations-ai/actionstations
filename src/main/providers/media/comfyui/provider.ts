@@ -30,6 +30,7 @@ import {
   type BindContext,
 } from './bind'
 import { ComfyClient, outputFiles, type ComfyFile } from './client'
+import { runnableWorkflow } from './optional'
 import { ExecutionWatcher, waitForCompletion } from './watch'
 
 const MIME: Record<string, { kind: MediaCapability; mime: string }> = {
@@ -131,7 +132,11 @@ export class ComfyMediaProvider implements MediaProvider {
     const { workflow, sidecar } = await workflowForRender(workflowId, projectRoot)
     const ctx = await this.bindContext(job, sidecar)
     assertJobFits(sidecar.bindings, ctx)
-    const bound = applyBindings(workflow, sidecar.bindings, ctx)
+    const bound = await this.runnable(
+      applyBindings(workflow, sidecar.bindings, ctx),
+      job,
+      onProgress,
+    )
     onProgress?.({ progress: 0.02, message: `Queueing ${sidecar.name}` })
     const entry = await this.run(bound, job, onProgress)
     const files = outputFiles(entry).filter((f) => MIME[extname(f.filename).toLowerCase()])
@@ -151,6 +156,23 @@ export class ComfyMediaProvider implements MediaProvider {
     const outputs = await this.saveOutputs(files, job, provenance, boundDurationSec(bound, sidecar))
     onProgress?.({ progress: 1, message: 'Media ready' })
     return outputs
+  }
+
+  /** Leave out optional node groups the server cannot run (#356) and say so. */
+  private async runnable(
+    bound: ApiWorkflow,
+    job: MediaJob,
+    onProgress?: (p: MediaProgress) => void,
+  ): Promise<ApiWorkflow> {
+    const { workflow, unavailable } = await runnableWorkflow(bound, (cls) =>
+      this.client.nodeInfo(cls, job.signal),
+    )
+    for (const u of unavailable)
+      onProgress?.({
+        progress: 0.01,
+        message: `Optional nodes "${u.group}" left out (${u.reason}); using the workflow's fallback`,
+      })
+    return workflow
   }
 
   private async bindContext(job: MediaJob, sidecar: WorkflowSidecar): Promise<BindContext> {

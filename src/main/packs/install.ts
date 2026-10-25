@@ -233,6 +233,7 @@ function reviewOf(pack: VerifiedPack, size: number, source: PackInstallSource): 
     items: pack.items,
     documents: m.documents,
     customNodes: [...new Set(pack.items.flatMap((i) => i.customNodes ?? []))].sort(),
+    optionalNodes: [...new Set(pack.items.flatMap((i) => i.optionalNodes ?? []))].sort(),
     conflicts: plan.candidate.conflicts,
     ...(conflict ? { conflict } : {}),
     ...(plan.installed

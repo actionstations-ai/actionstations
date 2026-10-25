@@ -236,7 +236,7 @@ describe('workflow store with packs', () => {
 
     const [first] = await provider.generate(job())
     expect(first!.mimeType).toBe('image/png')
-    expect(fake.prompts[0]!.prompt['99']!.class_type).toBe('UltimateSDUpscale')
+    expect(fake.prompts[0]!.prompt['900']!.class_type).toBe('UltimateSDUpscale')
     expect(existsSync(join(root, 'comfy', 'workflows', `${WF}.json`))).toBe(true)
 
     await packs.uninstallPack(RAIL)

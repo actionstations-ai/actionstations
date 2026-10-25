@@ -169,6 +169,7 @@ describe('packs:inspect', () => {
     })
     expect(r.archiveSha256).toMatch(/^[0-9a-f]{64}$/)
     expect(r.customNodes).toEqual(['UltimateSDUpscale'])
+    expect(r.optionalNodes).toEqual(['Florence2ModelLoader', 'Florence2Run'])
     expect(r.documents.map((d) => d.license)).toEqual(['CC-BY-4.0', 'CC0-1.0'])
     expect(r.items.find((i) => i.kind === 'prompts')).toMatchObject({
       id: 'inject_text',

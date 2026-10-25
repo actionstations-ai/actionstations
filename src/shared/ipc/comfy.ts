@@ -47,6 +47,10 @@ export const WorkflowEntry = z.object({
   missingNodes: z.array(z.string()).optional(),
   /** Node classes outside ComfyUI core ("needs custom nodes"). */
   customNodes: z.array(z.string()).optional(),
+  /** Node classes the workflow uses only when the server has them; it runs without (#356). */
+  optionalNodes: z.array(z.string()).optional(),
+  /** Optional node classes this ComfyUI lacks (known once the server was asked). */
+  missingOptionalNodes: z.array(z.string()).optional(),
   sha256: z.string(),
   /** The pack this workflow is from: source `pack`, or a project copy of a pack workflow. */
   packId: z.string().optional(),

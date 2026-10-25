@@ -4,7 +4,9 @@
 // LIVE_COMFY_VIDEO_WORKFLOW picks the video workflow (default: the configured default).
 // Outputs land in LIVE_COMFY_OUT (default: a temp dir) so they can be inspected.
 // LIVE_COMFY_DARK_SEEDS (default 1001,1002,1003) are the seeds of the dark-screens checks
-// (#162 power loss, #356 blank screens with the power on).
+// (#162 power loss, #356 blank screens with the power on). LIVE_COMFY_DETECTOR=1 requires the
+// optional Florence-2 sign detector of sdxl-photo (#356) to be installed and used; without it the
+// test logs whether it ran.
 import { mkdtempSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
@@ -19,6 +21,7 @@ const URL = process.env.LIVE_COMFY_URL ?? 'http://127.0.0.1:8188'
 const VIDEO = process.env.LIVE_COMFY_VIDEO !== '0'
 const VIDEO_WORKFLOW = process.env.LIVE_COMFY_VIDEO_WORKFLOW
 const DARK_SEEDS = (process.env.LIVE_COMFY_DARK_SEEDS ?? '1001,1002,1003').split(',').map(Number)
+const DETECTOR = process.env.LIVE_COMFY_DETECTOR === '1'
 /** Most lit-sign pixels (% of the top 40%) a screens-off render may keep (#356). */
 const LIT_SIGN_MAX = 0.3
 
@@ -162,17 +165,26 @@ describe.skipIf(!LIVE)('ComfyUI live', () => {
 
   it(
     'renders blank boards with the power on in a lit room with unlit signs (#162, #356)',
-    { timeout: 1_800_000 },
+    { timeout: 3_600_000 },
     async () => {
       const { ComfyMediaProvider } = await import('./provider')
       const p = new ComfyMediaProvider(config)
       const brief = await darkScreensBrief(false)
       expect(brief.lighting).toBe('screens-off')
       for (const seed of DARK_SEEDS) {
+        const messages: string[] = []
+        const started = Date.now()
         const [out] = await p.generate(
           { kind: 'image', injectId: `live-blank-${seed}`, outDir, seed, brief },
-          () => {},
+          (pr) => pr.message && messages.push(pr.message),
         )
+        const leftOut = messages.find((m) => m.includes('"sign-detector" left out'))
+        console.log(
+          '[live] sign detector',
+          leftOut ? `left out: ${leftOut}` : 'used',
+          `${Date.now() - started} ms`,
+        )
+        if (DETECTOR) expect(leftOut).toBeUndefined()
         const luma = meanLuma(out!.filePath)
         const lit = litSignShare(out!.filePath)
         console.log(

@@ -1,6 +1,9 @@
 // ComfyUI workflow JSON helpers: API-format validation, UI-format detection, node listing.
 // API format = { "<nodeId>": { class_type, inputs, _meta? } } — what POST /prompt accepts.
 // UI format  = { nodes: [...], links: [...] } — what "Save" in the ComfyUI editor writes.
+// Optional nodes (#356): `_meta.optional` names a group of nodes the workflow uses only when
+// the server has them; `_meta.fallback` on another node gives the input value to use instead
+// of a link into a group that is left out. ComfyUI ignores `_meta`.
 import { createHash } from 'node:crypto'
 import { z } from 'zod'
 import { AppError } from '../lib/errors'
@@ -8,7 +11,15 @@ import { AppError } from '../lib/errors'
 export const ApiNode = z.looseObject({
   class_type: z.string().min(1),
   inputs: z.record(z.string(), z.unknown()).default({}),
-  _meta: z.looseObject({ title: z.string().optional() }).optional(),
+  _meta: z
+    .looseObject({
+      title: z.string().optional(),
+      /** Optional group this node belongs to (#356): left out when the server cannot run it. */
+      optional: z.string().min(1).optional(),
+      /** Input → value used when the input's link points into a group that was left out. */
+      fallback: z.record(z.string(), z.unknown()).optional(),
+    })
+    .optional(),
 })
 export type ApiNode = z.infer<typeof ApiNode>
 
@@ -61,9 +72,64 @@ export function parseApiWorkflow(text: string): ApiWorkflow {
   return ApiWorkflow.parse(json)
 }
 
-/** Node class names the workflow needs, sorted and unique. */
+const sortedUnique = (values: Iterable<string>): string[] => [...new Set(values)].sort()
+
+/** Node class names the workflow needs, sorted and unique. Optional groups are not counted. */
 export function requiredNodes(workflow: ApiWorkflow): string[] {
-  return [...new Set(Object.values(workflow).map((n) => n.class_type))].sort()
+  return sortedUnique(
+    Object.values(workflow)
+      .filter((n) => !n._meta?.optional)
+      .map((n) => n.class_type),
+  )
+}
+
+/** Node classes only optional groups use (#356): the workflow runs without them. */
+export function optionalNodes(workflow: ApiWorkflow): string[] {
+  const required = new Set(requiredNodes(workflow))
+  return sortedUnique(
+    Object.values(workflow)
+      .filter((n) => n._meta?.optional && !required.has(n.class_type))
+      .map((n) => n.class_type),
+  )
+}
+
+/** Optional groups → their node ids. */
+export function optionalGroups(workflow: ApiWorkflow): Map<string, string[]> {
+  const groups = new Map<string, string[]>()
+  for (const [id, node] of Object.entries(workflow)) {
+    const group = node._meta?.optional
+    if (group) groups.set(group, [...(groups.get(group) ?? []), id])
+  }
+  return groups
+}
+
+/**
+ * Copy of the workflow without the nodes of `groups`. An input linked to a removed node takes
+ * its node's `_meta.fallback` value; without one the workflow cannot run and this throws.
+ */
+export function withoutGroups(workflow: ApiWorkflow, groups: Iterable<string>): ApiWorkflow {
+  const drop = new Set(groups)
+  if (!drop.size) return workflow
+  const out: ApiWorkflow = {}
+  const removed = new Set<string>()
+  for (const [id, node] of Object.entries(workflow)) {
+    const group = node._meta?.optional
+    if (group && drop.has(group)) removed.add(id)
+    else out[id] = structuredClone(node)
+  }
+  for (const [id, node] of Object.entries(out)) {
+    for (const [input, value] of Object.entries(node.inputs)) {
+      if (!isLink(value) || !removed.has((value as [string, number])[0])) continue
+      const fallback = node._meta?.fallback
+      if (!fallback || !Object.hasOwn(fallback, input))
+        throw new AppError(
+          'VALIDATION',
+          `Workflow node "${id}" input "${input}" needs optional nodes that are not available and names no fallback`,
+        )
+      node.inputs[input] = fallback[input]
+    }
+  }
+  return out
 }
 
 export function missingNodes(required: string[], available: Set<string>): string[] {

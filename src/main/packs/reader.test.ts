@@ -89,6 +89,8 @@ describe('readPack: valid pack with all six kinds', () => {
     expect(byKind['workflows:yard-cctv-still']).toMatchObject({
       title: 'Yard CCTV still',
       customNodes: ['UltimateSDUpscale'],
+      // sdxl-photo's sign detector is optional (#356): listed apart from the required custom node.
+      optionalNodes: ['Florence2ModelLoader', 'Florence2Run'],
     })
     expect(byKind['documents:rail-emergency-plan']!.license).toBe('CC-BY-4.0, CC0-1.0')
     expect(byKind['examples:harbor-junction']!.title).toBe('Harbor Junction Terminal Railroad')

@@ -253,11 +253,34 @@ describe('sdxl-photo screens-off lighting (#356)', () => {
       latent_image: ['51', 0],
     })
     // Only the masked signs change: the repaint goes back over the first decode.
-    expect(out['54']!.inputs).toMatchObject({
-      destination: ['8', 0],
-      source: ['53', 0],
-      mask: ['47', 0],
+    // The mask is the optional sign detector's (node 108); without it, the colour mask (47).
+    for (const id of ['49', '51', '54']) {
+      expect(out[id]!.inputs.mask).toEqual(['108', 0])
+      expect(workflow[id]!._meta?.fallback).toEqual({ mask: ['47', 0] })
+    }
+    expect(out['54']!.inputs).toMatchObject({ destination: ['8', 0], source: ['53', 0] })
+  })
+
+  it('marks the Florence-2 sign detector optional and keeps people out of its mask', () => {
+    const group = Object.entries(workflow).filter(([, n]) => n._meta?.optional === 'sign-detector')
+    const classes = new Set(group.map(([, n]) => n.class_type))
+    expect(classes.has('Florence2Run')).toBe(true)
+    // Every node that runs Florence-2 or a custom loader is in the group.
+    for (const n of Object.values(workflow))
+      if (n.class_type.startsWith('Florence2')) expect(n._meta?.optional).toBe('sign-detector')
+    // The final mask subtracts the grown people mask from the signs in the top band.
+    expect(out['108']!.inputs).toMatchObject({
+      operation: 'subtract',
+      destination: ['106', 0],
+      source: ['107', 0],
     })
+    expect(out['107']!.class_type).toBe('GrowMask')
+    // Masks follow the job size.
+    expect(out['61']!.inputs).toMatchObject({ width: 1024, height: 768 })
+    expect(out['104']!.inputs).toMatchObject({ width: 1024, height: 768 })
+    const runs = group.filter(([, n]) => n.class_type === 'Florence2Run').map(([, n]) => n.inputs)
+    expect(runs).toHaveLength(16)
+    expect(runs.every((r) => r.task === 'region_caption' && r.do_sample === false)).toBe(true)
   })
 
   it('builds the sign mask at the job size from stock mask nodes', () => {

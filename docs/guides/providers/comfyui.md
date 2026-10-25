@@ -34,7 +34,7 @@ Open `http://127.0.0.1:8188` once to confirm the UI loads.
 
 ## 2. Download the model files
 
-The app ships two default workflows in [`comfy/workflows/`](../../../comfy/workflows/README.md). Both use ComfyUI core nodes only, so no custom node packs are needed.
+The app ships two default workflows in [`comfy/workflows/`](../../../comfy/workflows/README.md). Both use ComfyUI core nodes only, so no custom node packs are needed. `sdxl-photo` can also use one optional custom node pack, the sign detector below.
 
 | Workflow         | Media | File                                  | Folder (inside `~/ComfyUI/models/`) | Size   | Source                                                                                                      |
 | ---------------- | ----- | ------------------------------------- | ----------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------- |
@@ -48,6 +48,33 @@ What the defaults do and how long they take on Apple Silicon (MPS):
 
 - **`sdxl-photo`**: SDXL base 1.0 text-to-image at 1216 × 832, 25 steps. Style suffixes push towards phone photos, press photos, CCTV frames and portraits. Measured through the app's **Test render**: 18.7 s per image with the model loaded.
 - **`image-to-video`**: LTX-Video 2B distilled animates the inject's scene image into an H.264 MP4 at 1024 × 576, 24 fps, up to 5 seconds. Measured: 29.6 s for a 3-second clip. Wan 2.2 was evaluated and produced broken frames on MPS, so it is not a default; with a CUDA GPU you can import Wan's official API-format workflow yourself. See [ADR-0011](../../adr/0011-video-model-ltxv.md).
+
+### Optional: sign detector for blank-screen scenes
+
+Scenes whose screens are blank while the building has power (a cyber-only outage, **Lighting** `screens-off`) are rendered lit, and then `sdxl-photo` repaints the lit signs it finds as dark boards. Without extra nodes it finds signs by colour: large blue or amber boards. With the optional Florence-2 detector it also finds signs and screens by what they are, and it finds people so the repaint leaves them alone. It is optional: without it the workflow runs with the colour rule only, and the Workflows card shows **Optional, not installed**.
+
+| Part        | Where                                                                                                                                          | License | Size   |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ------ |
+| Custom node | [kijai/ComfyUI-Florence2](https://github.com/kijai/ComfyUI-Florence2) in `custom_nodes/ComfyUI-Florence2` (tested at v1.1.0, commit `9ece3de`) | MIT     | small  |
+| Model       | [microsoft/Florence-2-large](https://huggingface.co/microsoft/Florence-2-large) in `models/LLM/Florence-2-large/`                              | MIT     | 1.6 GB |
+
+Install it the usual way for ComfyUI custom nodes (the app never installs it for you). Custom nodes run code on your ComfyUI server, so install only from sources you trust.
+
+```bash
+cd ~/ComfyUI/custom_nodes
+git clone https://github.com/kijai/ComfyUI-Florence2.git
+cd ~/ComfyUI
+.venv/bin/python -m pip install -r custom_nodes/ComfyUI-Florence2/requirements.txt
+mkdir -p models/LLM/Florence-2-large && cd models/LLM/Florence-2-large
+for f in LICENSE config.json generation_config.json preprocessor_config.json tokenizer.json tokenizer_config.json vocab.json model.safetensors; do
+  curl -fLO "https://huggingface.co/microsoft/Florence-2-large/resolve/21a599d414c4d928c9032694c424fb94458e3594/$f"
+done
+shasum -a 256 model.safetensors   # 4f38ce741c6b71188fe2b3419a55e11917a8a7b321ae2e63c61da0191b0ebad7
+```
+
+A ComfyUI environment made with `uv` has no `pip`; use `uv pip install --python .venv/bin/python -r custom_nodes/ComfyUI-Florence2/requirements.txt` instead. Restart ComfyUI, then **Recheck nodes** on the Workflows page. Only `model.safetensors` and the JSON files are needed; the model repository's `.py` files are not used by this node pack.
+
+What it costs: the node pack runs Florence-2 on the CPU on Apple Silicon, so a screens-off image takes about 2 minutes instead of about 45 s (16 detector passes over the top of the frame). Lit and power-loss scenes never run it. What it finds and misses is measured in [`comfy/workflows/README.md`](../../../comfy/workflows/README.md).
 
 ## 3. Connect it in the app
 
@@ -65,7 +92,7 @@ The **Defaults** row picks the workflow each media type uses when an inject does
 The media brief stage writes the image prompt; when you edit a brief or a prompt, keep these in mind:
 
 - **Describe things positively.** SDXL ignores negation: "no screens" produces screens. Write "departure boards powered off and dark".
-- **Dark screens: set Lighting.** SDXL lights any screen it draws, even "powered off" ones. A brief that says the screens are dark or blank gets **Lighting** `screens-off` (power on: the room stays lit and `sdxl-photo` repaints the large lit background signs it finds as dark boards, leaving people untouched) or `dark` (a power loss: dim room). You can change it in the inject's media brief.
+- **Dark screens: set Lighting.** SDXL lights any screen it draws, even "powered off" ones. A brief that says the screens are dark or blank gets **Lighting** `screens-off` (power on: the room stays lit and `sdxl-photo` repaints the lit background signs it finds as dark boards, leaving people untouched; the optional sign detector above finds more of them) or `dark` (a power loss: dim room). You can change it in the inject's media brief.
 - **Never rely on text in the image.** Signs, screens and documents come out garbled. Text belongs in a template; a photo can sit inside a template's image slot (see the [template guide](../templates.md#image-slots)).
 - **Name the camera.** "Phone photo", "security camera still, high angle, timestamp overlay" or "press photo" changes the look more than adjectives do.
 
@@ -75,11 +102,12 @@ Any workflow exported from ComfyUI with **Workflow → Export (API)** can be imp
 
 ## Troubleshooting
 
-| Symptom                                                       | Fix                                                                                                                  |
-| ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| Detect says ComfyUI "Not found"                               | ComfyUI is not running, or listens elsewhere. Start it with `--listen 127.0.0.1 --port 8188`.                        |
-| A workflow card lists missing nodes                           | Install the node pack that provides them (for imported workflows), restart ComfyUI, then **Recheck nodes**.          |
-| Render fails with a missing model / "value not in list" error | The model file is not in the folder the workflow expects (table above) or ComfyUI was not restarted after adding it. |
-| Renders are very slow on a Mac                                | Check `torch.backends.mps.is_available()` is `True`; without MPS, ComfyUI runs on the CPU.                           |
-| Video frames smear into colour after the first frame          | A model that does not work on MPS (seen with Wan 2.2). Use the built-in LTX-Video workflow.                          |
-| Images show garbled signs or screens                          | Expected for diffusion models. Describe screens as dark or off, and put text in a template.                          |
+| Symptom                                                       | Fix                                                                                                                    |
+| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Detect says ComfyUI "Not found"                               | ComfyUI is not running, or listens elsewhere. Start it with `--listen 127.0.0.1 --port 8188`.                          |
+| A workflow card lists missing nodes                           | Install the node pack that provides them (for imported workflows), restart ComfyUI, then **Recheck nodes**.            |
+| Render fails with a missing model / "value not in list" error | The model file is not in the folder the workflow expects (table above) or ComfyUI was not restarted after adding it.   |
+| Renders are very slow on a Mac                                | Check `torch.backends.mps.is_available()` is `True`; without MPS, ComfyUI runs on the CPU.                             |
+| Video frames smear into colour after the first frame          | A model that does not work on MPS (seen with Wan 2.2). Use the built-in LTX-Video workflow.                            |
+| A screens-off image still shows small lit signs               | Expected without the optional sign detector, and for small far-off screens even with it. Install the detector (above). |
+| Images show garbled signs or screens                          | Expected for diffusion models. Describe screens as dark or off, and put text in a template.                            |

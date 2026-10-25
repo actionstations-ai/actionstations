@@ -508,6 +508,8 @@ export const PackItemSummary = z.object({
   license: z.string(),
   /** Workflows only: node classes outside ComfyUI core ("needs custom nodes"). */
   customNodes: z.array(z.string()).optional(),
+  /** Workflows only: custom node classes used only when installed; it runs without (#356). */
+  optionalNodes: z.array(z.string()).optional(),
   /** Uncompressed bytes of the item's files. */
   size: z.number().int().nonnegative(),
 })
