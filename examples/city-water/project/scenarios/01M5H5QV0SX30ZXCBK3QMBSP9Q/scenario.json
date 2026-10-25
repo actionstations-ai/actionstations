@@ -7,9 +7,9 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-22T06:45:53.817Z",
-  "updatedAt": "2026-10-24T22:43:50.034Z",
+  "updatedAt": "2026-10-25T03:45:30.537Z",
   "brief": {
-    "userPrompt": "At 02:40 a remote-support session through the DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building raises the Caustic Feed System dose setpoint (NAOH-FC-203) step by step toward 40 mg/L while the single night operator is on rounds; finished-water pH climbs on AIT-302, the hard-wired high-high switch PSH-302 and a grab sample disagree with what the HMI trend shows. Vendor remote access, manual chemical feed, isolating the control network, Ohio EPA notification and the Do Not Drink decision for Zone 1.",
+    "userPrompt": "Shortly after 08:30 a remote-support session through the DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building raises the Caustic Feed System dose setpoint (NAOH-FC-203) step by step toward 40 mg/L while the single duty operator is on rounds; finished-water pH climbs on AIT-302, the hard-wired high-high switch PSH-302 and a grab sample disagree with what the HMI trend shows. Vendor remote access, manual chemical feed, isolating the control network, Ohio EPA notification and the Do Not Drink decision for Zone 1.",
     "audience": [
       "Water Operations",
       "SCADA / IT",
@@ -27,7 +27,7 @@
   "overview": {
     "theme": "Trust in the Data, Control System Integrity, and Public Health Decision-Making",
     "threat": "A remote-support session through the unapproved DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building results in a stepwise increase of the NAOH-FC-203 caustic dose setpoint toward the PLC hard limit of 40 mg/L. The HMI displays normal operation, but field instruments (AIT-302, PSH-302) and grab samples indicate finished-water pH is rising toward 9.5, creating a mismatch between screen and reality. This cyber-physical compromise of the chemical feed system triggers a public health emergency.",
-    "operationalImpact": "The night operator on rounds observes a rising pH trend on the HMI but notes that the local high-high switch PSH-302 has not tripped and that grab samples show pH above 9.5. The chemical feed pump continues to run. The Control Room receives conflicting data: HMI shows 14 mg/L (within normal band), but lab results show 9.3 pH and 38 mg/L caustic. The operator attempts to manually override the feed via the local panel but finds the PLC is still issuing commands. The distribution system in Zone 1 experiences a sudden rise in pH, triggering customer calls to the surge line about bitter-tasting water and chemical odors. The Water Quality Manager confirms the lab results, and the Director must decide whether to issue a Do Not Drink advisory. The SCADA team isolates the control network to stop remote access, but the network is already compromised. The Ohio EPA is notified under Section 12, and the Carver County EOC is activated.",
+    "operationalImpact": "The duty operator on rounds observes a rising pH trend on the HMI but notes that the local high-high switch PSH-302 has not tripped and that grab samples show pH above 9.5. The chemical feed pump continues to run. The Control Room receives conflicting data: HMI shows 14 mg/L (within normal band), but lab results show 9.3 pH and 38 mg/L caustic. The operator attempts to manually override the feed via the local panel but finds the PLC is still issuing commands. The distribution system in Zone 1 experiences a sudden rise in pH, triggering customer calls to the surge line about bitter-tasting water and chemical odors. The Water Quality Manager confirms the lab results, and the Director must decide whether to issue a Do Not Drink advisory. The SCADA team isolates the control network to stop remote access, but the network is already compromised. The Ohio EPA is notified under Section 12, and the Carver County EOC is activated.",
     "coreSectionsTested": [
       {
         "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
@@ -184,7 +184,7 @@
       "title": "The Sighting",
       "goal": "Test the team's ability to recognize and validate a mismatch between HMI data and physical evidence, and to initiate a cyber-physical incident investigation by identifying anomalous behavior in the caustic feed system.",
       "beats": [
-        "At 09:15, the night operator on rounds at the Chemical Building notes that AIT-302 shows a finished-water pH of 9.3, but the HMI for NAOH-FC-203 displays 14 mg/L (within normal band), and PSH-302 has not tripped.",
+        "At 09:15, the duty operator on rounds at the Chemical Building notes that AIT-302 shows a finished-water pH of 9.3, but the HMI for NAOH-FC-203 displays 14 mg/L (within normal band), and PSH-302 has not tripped.",
         "At 09:22, a grab sample from the finished water line at the plant effluent point confirms a pH of 9.3 and a caustic dose of 38 mg/L, exceeding the PLC clamp of 40 mg/L and triggering a red flag in the lab report system.",
         "At 09:28, the Control Room operator attempts to manually override NAOH-FC-203 on the local panel at PLC-02, but the pump continues to run and the HMI shows no change in command status, indicating a loss of local control.",
         "At 09:35, the Water Quality Manager (wq) confirms the lab results and reports to the Director that the pH is above 9.5 and the caustic dose is at 38 mg/L — both outside the safe operating band — and that PSH-302 has not tripped, suggesting a failure in the digital control chain.",
@@ -259,7 +259,7 @@
         "regulator"
       ],
       "toLabel": "All",
-      "event": "STARTEX: It is 09:00. The plant is operating under normal conditions. The load is 7.2 MGD, and the weather is clear and dry. All system statuses are green on the HMI. The night shift is in progress, and the control room is manned by a certified operator. The screen shows a pH of 8.3, and all chemical feed setpoints are within their normal bands. No alarms are active. The narrative clock begins.",
+      "event": "STARTEX: It is 09:00. The plant is operating under normal conditions. The load is 7.2 MGD, and the weather is clear and dry. All system statuses are green on the HMI. The day shift is in progress, and the control room is manned by a certified operator. The screen shows a pH of 8.3, and all chemical feed setpoints are within their normal bands. No alarms are active. The narrative clock begins.",
       "expectedAction": "All roles acknowledge the normal state and begin monitoring their assigned systems per standing procedures.",
       "purposeTag": "STARTEX",
       "format": "startex_card",
@@ -272,12 +272,12 @@
       "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
       "time": "0:15",
       "wallClock": "09:15",
-      "from": "Night Operator",
+      "from": "Duty Operator",
       "toRoleIds": [
         "ops"
       ],
       "toLabel": "IC",
-      "event": "Field Report: \"Control, this is Night Operator Chen, on rounds at the Chemical Building. AIT-302 shows finished-water pH at 9.3 — that's way above the normal 7.4–7.8 range. The HMI for NAOH-FC-203 still says 14 mg/L, which is in the normal range. But PSH-302 hasn't tripped, and I can hear the caustic pump running at full speed. The tank level is dropping. I don't know what to trust — the screen says normal, but the water tastes like lye.\"",
+      "event": "Field Report: \"Control, this is Duty Operator Chen, on rounds at the Chemical Building. AIT-302 shows finished-water pH at 9.3 — that's way above the normal 7.4–7.8 range. The HMI for NAOH-FC-203 still says 14 mg/L, which is in the normal range. But PSH-302 hasn't tripped, and I can hear the caustic pump running at full speed. The tank level is dropping. I don't know what to trust — the screen says normal, but the water tastes like lye.\"",
       "expectedAction": "Ops orders the operator to trust the bench reading and hold the manual valve position; opens a ticket with IT and starts a paper log (SOP 7.2).",
       "purposeTag": "CORE_NARRATIVE",
       "format": "field_report",
@@ -1860,6 +1860,34 @@
       "rowId": "I-09",
       "source": "critique",
       "suggestion": "Update the HMI status to reflect that the local manual stop was successful, and the pump is off, to match the physical state."
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 1 has 11 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 2 has 12 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 3 has 11 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 4 has 9 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
     }
   ],
   "provenance": [
@@ -3052,8 +3080,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H64GRE22QRSEQWYEWZ2EQ0",
-      "startedAt": "2026-10-22T07:14:36.006Z",
-      "finishedAt": "2026-10-22T07:14:36.338Z",
+      "startedAt": "2026-10-25T03:45:24.998Z",
+      "finishedAt": "2026-10-25T03:45:25.467Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3061,8 +3089,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H64Y524ZKSRYDKAEZ7Y122",
-      "startedAt": "2026-10-22T07:14:36.345Z",
-      "finishedAt": "2026-10-22T07:14:36.570Z",
+      "startedAt": "2026-10-25T03:45:25.472Z",
+      "finishedAt": "2026-10-25T03:45:25.812Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3079,8 +3107,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H668A6GWFE7FG58YS8GPHZ",
-      "startedAt": "2026-10-22T07:14:37.204Z",
-      "finishedAt": "2026-10-22T07:14:37.492Z",
+      "startedAt": "2026-10-25T03:34:41.163Z",
+      "finishedAt": "2026-10-25T03:34:41.459Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3088,8 +3116,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H670MWTNK31BZVQV2Y054E",
-      "startedAt": "2026-10-22T07:14:37.715Z",
-      "finishedAt": "2026-10-22T07:14:37.935Z",
+      "startedAt": "2026-10-25T03:34:41.462Z",
+      "finishedAt": "2026-10-25T03:34:41.686Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3106,8 +3134,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H67Y9575AY4CNS5W783HX4",
-      "startedAt": "2026-10-22T07:14:38.249Z",
-      "finishedAt": "2026-10-22T07:14:38.466Z",
+      "startedAt": "2026-10-25T03:34:41.688Z",
+      "finishedAt": "2026-10-25T03:34:41.912Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3115,8 +3143,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H687MZHAZDPC84VXKED27W",
-      "startedAt": "2026-10-22T07:14:38.468Z",
-      "finishedAt": "2026-10-22T07:14:38.690Z",
+      "startedAt": "2026-10-25T03:34:41.915Z",
+      "finishedAt": "2026-10-25T03:34:42.153Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3124,8 +3152,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H68KZVQHBB6PZ3NWPR0NQN",
-      "startedAt": "2026-10-22T13:24:25.791Z",
-      "finishedAt": "2026-10-22T13:24:26.035Z",
+      "startedAt": "2026-10-25T03:34:42.156Z",
+      "finishedAt": "2026-10-25T03:34:42.408Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3187,8 +3215,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6BA5SEWJ2Z38MB9SXWFVW",
-      "startedAt": "2026-10-22T07:14:40.376Z",
-      "finishedAt": "2026-10-22T07:14:40.570Z",
+      "startedAt": "2026-10-25T03:34:42.589Z",
+      "finishedAt": "2026-10-25T03:34:42.794Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -3196,8 +3224,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6BQ2W0KFTBNHHEP1XHP03",
-      "startedAt": "2026-10-22T13:24:07.969Z",
-      "finishedAt": "2026-10-22T13:24:25.443Z",
+      "startedAt": "2026-10-25T03:34:42.797Z",
+      "finishedAt": "2026-10-25T03:34:42.996Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -3214,8 +3242,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6CVFCQVNGKQWCQTJD97SQ",
-      "startedAt": "2026-10-22T07:14:41.267Z",
-      "finishedAt": "2026-10-22T07:14:41.478Z",
+      "startedAt": "2026-10-25T03:34:42.998Z",
+      "finishedAt": "2026-10-25T03:34:43.215Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3223,8 +3251,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6D33FWCBDTPJB5XCR7Q1B",
-      "startedAt": "2026-10-22T07:14:41.480Z",
-      "finishedAt": "2026-10-22T07:14:41.690Z",
+      "startedAt": "2026-10-25T03:34:43.218Z",
+      "finishedAt": "2026-10-25T03:34:43.437Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3259,8 +3287,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6EF09XW2RYJ2JRXB52K0D",
-      "startedAt": "2026-10-22T07:14:42.298Z",
-      "finishedAt": "2026-10-22T07:14:42.574Z",
+      "startedAt": "2026-10-25T03:34:43.439Z",
+      "finishedAt": "2026-10-25T03:34:43.726Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3268,8 +3296,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6ENVF8BZFAE0Y0F8RBAEW",
-      "startedAt": "2026-10-22T07:14:42.575Z",
-      "finishedAt": "2026-10-22T07:14:42.795Z",
+      "startedAt": "2026-10-25T03:34:43.729Z",
+      "finishedAt": "2026-10-25T03:34:43.967Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3277,8 +3305,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6EZZXR77NSQPRJPX7CHB6",
-      "startedAt": "2026-10-22T07:14:42.797Z",
-      "finishedAt": "2026-10-22T07:14:43.009Z",
+      "startedAt": "2026-10-25T03:34:43.969Z",
+      "finishedAt": "2026-10-25T03:34:44.198Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3286,8 +3314,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6F8HE4ZVTRS0H0M5RWSYH",
-      "startedAt": "2026-10-22T07:14:43.011Z",
-      "finishedAt": "2026-10-22T07:14:43.241Z",
+      "startedAt": "2026-10-25T03:34:44.205Z",
+      "finishedAt": "2026-10-25T03:34:44.442Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3295,8 +3323,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6FK77M6ASD0RFSTEKX42K",
-      "startedAt": "2026-10-22T07:14:43.243Z",
-      "finishedAt": "2026-10-22T07:14:43.432Z",
+      "startedAt": "2026-10-25T03:34:44.444Z",
+      "finishedAt": "2026-10-25T03:34:44.638Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -3304,8 +3332,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6FZPX6XMF9QXT1N79S9NW",
-      "startedAt": "2026-10-22T07:14:43.434Z",
-      "finishedAt": "2026-10-22T07:14:43.660Z",
+      "startedAt": "2026-10-25T03:34:44.640Z",
+      "finishedAt": "2026-10-25T03:34:44.890Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3313,8 +3341,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6GD6Z572QJ0D03PV23FKF",
-      "startedAt": "2026-10-22T07:14:43.662Z",
-      "finishedAt": "2026-10-22T07:14:43.875Z",
+      "startedAt": "2026-10-25T03:34:44.892Z",
+      "finishedAt": "2026-10-25T03:34:45.110Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3322,8 +3350,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6GP542NJ6NYREEN4P2ME6",
-      "startedAt": "2026-10-22T07:14:43.877Z",
-      "finishedAt": "2026-10-22T07:14:44.090Z",
+      "startedAt": "2026-10-25T03:34:45.112Z",
+      "finishedAt": "2026-10-25T03:34:45.337Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3331,8 +3359,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6GYKZ9588N3ZGVP91RTPG",
-      "startedAt": "2026-10-22T07:14:44.092Z",
-      "finishedAt": "2026-10-22T07:14:44.329Z",
+      "startedAt": "2026-10-25T03:34:45.339Z",
+      "finishedAt": "2026-10-25T03:34:45.585Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3349,8 +3377,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6JB9P6GPHE8F731YCPZHB",
-      "startedAt": "2026-10-22T07:14:44.544Z",
-      "finishedAt": "2026-10-22T07:14:44.770Z",
+      "startedAt": "2026-10-25T03:34:45.587Z",
+      "finishedAt": "2026-10-25T03:34:45.826Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3358,8 +3386,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6JRGQ23NZATM2BNTNMR3R",
-      "startedAt": "2026-10-22T07:14:44.772Z",
-      "finishedAt": "2026-10-22T07:14:44.987Z",
+      "startedAt": "2026-10-25T03:34:45.828Z",
+      "finishedAt": "2026-10-25T03:34:46.057Z",
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
@@ -3367,8 +3395,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6K9NBW2D1SYN7WRYTSA0Z",
-      "startedAt": "2026-10-22T07:14:44.989Z",
-      "finishedAt": "2026-10-22T07:14:45.211Z",
+      "startedAt": "2026-10-25T03:34:46.059Z",
+      "finishedAt": "2026-10-25T03:34:46.300Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3376,8 +3404,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6KPGMXXXMGPZ9HYVX0T8M",
-      "startedAt": "2026-10-22T07:14:45.212Z",
-      "finishedAt": "2026-10-22T07:14:45.426Z",
+      "startedAt": "2026-10-25T03:34:46.302Z",
+      "finishedAt": "2026-10-25T03:34:46.540Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3385,8 +3413,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H6M1JD1ACYEZCC4E2SF993",
-      "startedAt": "2026-10-22T07:14:45.428Z",
-      "finishedAt": "2026-10-22T07:14:45.643Z",
+      "startedAt": "2026-10-25T03:34:46.543Z",
+      "finishedAt": "2026-10-25T03:34:46.791Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
@@ -3430,8 +3458,8 @@
     {
       "stage": "media_render",
       "itemId": "01M5H71D0J5DE42TEAR7NDQ90H",
-      "startedAt": "2026-10-23T19:43:37.412Z",
-      "finishedAt": "2026-10-23T19:43:37.586Z",
+      "startedAt": "2026-10-25T03:34:42.410Z",
+      "finishedAt": "2026-10-25T03:34:42.582Z",
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0

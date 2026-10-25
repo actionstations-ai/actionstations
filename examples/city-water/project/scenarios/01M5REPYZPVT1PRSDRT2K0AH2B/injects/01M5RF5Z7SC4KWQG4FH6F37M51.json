@@ -1,0 +1,259 @@
+{
+  "id": "01M5RF5Z7SC4KWQG4FH6F37M51",
+  "mselRowId": "I-01",
+  "type": "field_report",
+  "title": "Field Report: overnight alarm summary — Orchard Standpipe",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "City of Millbrook Department of Water & Sewer — RWTP Operations",
+    "formTitle": "Shift Log Review",
+    "reportNo": "SLR-2026-1025-01",
+    "time": "07:15",
+    "date": "10/25/2026",
+    "location": "RWTP Control Room (review of Orchard Standpipe, 870 Orchard Road)",
+    "inspector": "Day Operator, RWTP Control Room",
+    "unit": "RWTP Operations",
+    "reportType": "security",
+    "weather": "Clear, 52°F",
+    "summary": "Overnight alarm summary shows ZS-612 (gate contact) open/close at 01:52 and 02:31, both acknowledged as wind by the night shift. RTU-02 reports the roof hatch closed, but ZS-611 has been out of service since 07/2024. A CAM-13 clip at 02:29 shows a figure with a flashlight at the edge of the frame walking from the gate toward the ladder cage.",
+    "findings": [
+      {
+        "item": "ZS-612 gate contact",
+        "condition": "deficient",
+        "notes": "Open/close 01:52 and 02:31; acknowledged as nuisance"
+      },
+      {
+        "item": "ZS-611 hatch switch",
+        "condition": "failed",
+        "notes": "Out of service since 07/2024 (WO-24-1187); RTU-02 shows closed"
+      },
+      {
+        "item": "CAM-13 (gate only)",
+        "condition": "deficient",
+        "notes": "Figure at the edge of frame at 02:29"
+      },
+      {
+        "item": "LIT-611 level",
+        "condition": "ok",
+        "notes": "Steady at 84 ft"
+      }
+    ],
+    "actionsTaken": [
+      "Bookmarked the 02:29 clip on MBW-NVR-01",
+      "Called the Superintendent’s cell"
+    ],
+    "recommendations": [
+      "Send the Distribution on-call crew and request Millbrook Police",
+      "Check AIT-611"
+    ],
+    "photosNote": "Screen photo of the alarm summary and the 02:29 CAM-13 frame",
+    "signature": "Day Operator"
+  },
+  "variant": "default",
+  "instructorNote": "The first look. Watch whether anyone dismisses the trips because the night shift did.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 11 › 11.4 Site Security Links",
+      "quote": "PACS and CCTV at the remote sites (CAM-11 to CAM-17) run on the business security VLAN, not the control network; Orchard Standpipe's hatch switch ZS-611 has been out of service since 07/2024 (WO-24-11",
+      "chunkId": 92
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 6 › 6.4 Security Systems",
+      "quote": "PACS and camera coverage are described in MDWS-OTSEC-2026 Section 3 and MDWS-SCADA-APP-A A.5. Note the known limitation at Orchard Standpipe: the roof hatch switch ZS-611 has been out of service since",
+      "chunkId": 22
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 5 › 5.3 External Reporting Clocks",
+      "quote": "| Event | Report to | Time limit | By | |---|---|---|---| | Any Tier 1 public-notice situation (Section 9.2) | Ohio EPA DDAGW Central District (district engineer Paul Grieve; 24-h line (555) 037-1555)",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 3",
+      "quote": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+      "chunkId": 9
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5RJGAZFRCGW6TVCZCN3T0CA",
+      "kind": "image",
+      "path": "scenarios/01M5REPYZPVT1PRSDRT2K0AH2B/media/01M5RF5Z7SC4KWQG4FH6F37M51/01M5RJGAZFRCGW6TVCZCN3T0CA.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "49d9897056bc2f1226c3e4e6500a5d8e82f2acb08e36f2b2d9fabdc644b0c878",
+      "provenance": {
+        "provider": "template",
+        "templateId": "field_report",
+        "templateVersion": "1",
+        "createdAt": "2026-10-25T03:43:40.383Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-25T02:45:49.176Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Orchard Standpipe Gate Contact Trip — Field Report",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412",
+          "date": "10/24/2026",
+          "time": "07:15",
+          "location": "Orchard Standpipe, Site Access Zone",
+          "inspector": "RWTP Control Room Operator, Plant Operations",
+          "unit": "OCC-WS-03 (10.72.1.55)",
+          "reportType": "security",
+          "weather": "Clear, 72°F, light wind",
+          "summary": "Reviewing the overnight RTU-02 event log for Orchard Standpipe, two gate contact trips were recorded: ZS-612 at 02:15 and 04:30. ZS-611 (hatch switch) remains inactive per MDWS-OTSEC-2026 Section 3 and WO-24-1187; RTU-02 continues to report the hatch as closed. CAM-13 video from 03:42 shows a person in dark clothing near the ladder cage, not visible at the gate. No system alarms, no feed or pressure changes. Proceeding to verify AIT-611 status.",
+          "findings": [
+            {
+              "item": "Fence integrity",
+              "condition": "ok",
+              "notes": "No visible breach"
+            },
+            {
+              "item": "Gate contact ZS-612",
+              "condition": "failed",
+              "notes": "Tripped twice overnight (02:15, 04:30)"
+            },
+            {
+              "item": "Hatch switch ZS-611",
+              "condition": "not_inspected",
+              "notes": "Confirmed inactive since 07/2024 (WO-24-1187)"
+            },
+            {
+              "item": "CAM-13 coverage",
+              "condition": "ok",
+              "notes": "Captured figure near ladder cage at 03:42"
+            },
+            {
+              "item": "AIT-611 residual",
+              "condition": "not_inspected",
+              "notes": "Pending field verification"
+            },
+            {
+              "item": "RTU-02 status",
+              "condition": "ok",
+              "notes": "Reports hatch as closed; no fault logs"
+            },
+            {
+              "item": "Access point integrity",
+              "condition": "failed",
+              "notes": "Unverified access point; figure observed near ladder cage"
+            },
+            {
+              "item": "Alarms on SCADA",
+              "condition": "ok",
+              "notes": "No active alarms"
+            },
+            {
+              "item": "Chemical feed stability",
+              "condition": "ok",
+              "notes": "No changes in feed rates or residuals"
+            },
+            {
+              "item": "Site personnel visit",
+              "condition": "not_inspected",
+              "notes": "Next scheduled visit is Tuesday"
+            }
+          ],
+          "actionsTaken": [
+            "Reviewed RTU-02 event log for Orchard Standpipe",
+            "Pulled CAM-13 video for 02:00–05:00",
+            "Confirmed ZS-611 inoperative per WO-24-1187",
+            "Timestamped and stored 12-second clip (03:42) on MBW-NVR-01",
+            "Initiated AIT-611 field verification"
+          ],
+          "recommendations": [
+            "Notify Security & Emergency Manager to secure site and contact Millbrook Police (555) 032-7000",
+            "Initiate field sampling at AIT-611 per ERP Section 8.3",
+            "Review PACS and CCTV archives for full site coverage",
+            "Assess need for temporary access barrier until site clearance"
+          ],
+          "photosNote": "1 video clip attached: CAM-13_0342_12sec (figure near ladder cage, dark clothing)",
+          "signature": "RWTP Control Room Operator, Plant Operations",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the physical intrusion and delayed detection. The team must act on the camera evidence and ZS-612 trips despite the hatch switch failure. Watch for the WQ Manager to request sampling and the Security Officer to contact law enforcement.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:43:39.967Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field Report: overnight alarm summary — Orchard Standpipe",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — RWTP Operations",
+          "formTitle": "Shift Log Review",
+          "reportNo": "SLR-2026-1025-01",
+          "time": "07:15",
+          "date": "10/25/2026",
+          "location": "RWTP Control Room (review of Orchard Standpipe, 870 Orchard Road)",
+          "inspector": "Day Operator, RWTP Control Room",
+          "unit": "RWTP Operations",
+          "reportType": "security",
+          "weather": "Clear, 52°F",
+          "summary": "Overnight alarm summary shows ZS-612 (gate contact) open/close at 01:52 and 02:31, both acknowledged as wind by the night shift. RTU-02 reports the roof hatch closed, but ZS-611 has been out of service since 07/2024. A CAM-13 clip at 02:29 shows a figure with a flashlight at the edge of the frame walking from the gate toward the ladder cage.",
+          "findings": [
+            {
+              "item": "ZS-612 gate contact",
+              "condition": "deficient",
+              "notes": "Open/close 01:52 and 02:31; acknowledged as nuisance"
+            },
+            {
+              "item": "ZS-611 hatch switch",
+              "condition": "failed",
+              "notes": "Out of service since 07/2024 (WO-24-1187); RTU-02 shows closed"
+            },
+            {
+              "item": "CAM-13 (gate only)",
+              "condition": "deficient",
+              "notes": "Figure at the edge of frame at 02:29"
+            },
+            {
+              "item": "LIT-611 level",
+              "condition": "ok",
+              "notes": "Steady at 84 ft"
+            }
+          ],
+          "actionsTaken": [
+            "Bookmarked the 02:29 clip on MBW-NVR-01",
+            "Called the Superintendent’s cell"
+          ],
+          "recommendations": [
+            "Send the Distribution on-call crew and request Millbrook Police",
+            "Check AIT-611"
+          ],
+          "photosNote": "Screen photo of the alarm summary and the 02:29 CAM-13 frame",
+          "signature": "Day Operator"
+        },
+        "instructorNote": "The first look. Watch whether anyone dismisses the trips because the night shift did.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:43:40.618Z"
+}

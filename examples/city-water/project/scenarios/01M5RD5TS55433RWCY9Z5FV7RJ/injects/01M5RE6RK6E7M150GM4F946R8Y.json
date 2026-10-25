@@ -1,0 +1,165 @@
+{
+  "id": "01M5RE6RK6E7M150GM4F946R8Y",
+  "mselRowId": "I-01",
+  "type": "radio_call",
+  "title": "Radio: Distribution Office — ransom note on every desktop",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "centerName": "RWTP Control Room",
+    "channel": "DWS-1",
+    "frequency": "DWS-1 / 453.450 MHz",
+    "date": "10/26/2026",
+    "callsign": "Distribution Office",
+    "lines": [
+      {
+        "time": "09:07",
+        "from": "Distribution Office",
+        "to": "Control",
+        "text": "Control, Distribution Office on DWS-1. Our work-order screen and the AMI tablets won’t load, every file on the S: drive is renamed with a .rptd extension, and there’s a RESTORE-MILLBROOK.txt on every desktop."
+      },
+      {
+        "time": "09:07",
+        "from": "Distribution Office",
+        "to": "Control",
+        "text": "Customer Service at City Hall says the billing screens show the same thing. Do you see anything on the plant side?"
+      }
+    ],
+    "background": "office",
+    "voiceStyle": "Middle-aged man, steady but uneasy, office noise behind",
+    "audioFile": "I-01_radio.wav",
+    "duration": "0:16",
+    "injectId": "I-01"
+  },
+  "variant": "default",
+  "instructorNote": "The first sign is on the business side. Watch whether the IC moves coordination to phone and radio and whether anyone checks the plant against field instruments.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 11 › 11.1 CODE CLEARWATER",
+      "quote": "\"CODE CLEARWATER\" announced on radio DWS-1 means a suspected cyber attack on, or unauthorized operation of, the control system. Every operator compares HMI values with local instruments and field read",
+      "chunkId": 44
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.3 Pressure Zones",
+      "quote": "| Zone | HGL | Storage | Supply | Critical customers | |---|---|---|---|---| | **Zone 1** (Valley) | 940 ft | None (Clearwells at the plant) | High Service Pump Station | Millbrook General Hospital, C",
+      "chunkId": 165
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Distribution Office",
+        "voiceStyle": "Middle-aged man, steady but uneasy, office noise behind",
+        "text": "Control, Distribution Office on DWS-1. Our work-order screen and the AMI tablets won’t load, every file on the S: drive is renamed with a .rptd extension, and there’s a RESTORE-MILLBROOK.txt on every desktop."
+      },
+      {
+        "speaker": "Distribution Office",
+        "voiceStyle": "Middle-aged man, steady but uneasy, office noise behind",
+        "text": "Customer Service at City Hall says the billing screens show the same thing. Do you see anything on the plant side?"
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5RJBE5RPPKD7WFQVR1Q87DV",
+      "kind": "image",
+      "path": "scenarios/01M5RD5TS55433RWCY9Z5FV7RJ/media/01M5RE6RK6E7M150GM4F946R8Y/01M5RJBE5RPPKD7WFQVR1Q87DV.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "d0aee017eacd5a0791e25f2bed5916bbb267c4777af563d06dde9d095d79e447",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-25T03:40:59.774Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-25T02:29:09.681Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Radio: DWS-1 — RTU-03 Telemetry Loss & Pressure Drop",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "DWS-1",
+          "frequency": "TG 101 / 460.150 MHz",
+          "date": "10/24/2026",
+          "callsign": "DWS-1",
+          "lines": [
+            {
+              "time": "09:07",
+              "from": "DWS-1",
+              "to": "Control",
+              "text": "Control, this is DWS-1. RTU-03 (Hilltop Transmission Main) shows 'No Connection' on the HMI. The pressure trend in Zone 3 has dropped to 18 psi—below the 20 psi threshold. I'm seeing a flat line on the trend and no updates. I can't verify it from the field yet, but the feed has been dead for 3 minutes."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Young male, urgent, breathless",
+          "audioFile": "I-01_radio.wav",
+          "duration": "0:12",
+          "injectId": "I-01"
+        },
+        "instructorNote": "This inject triggers the core narrative: a cyber-induced telemetry loss with a pressure drop below threshold. Watch for the IC to order field verification before acting on the advisory. The IT team must begin root-cause analysis immediately.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.200Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Radio: Distribution Office — ransom note on every desktop",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "DWS-1",
+          "frequency": "DWS-1 / 453.450 MHz",
+          "date": "10/26/2026",
+          "callsign": "Distribution Office",
+          "lines": [
+            {
+              "time": "09:07",
+              "from": "Distribution Office",
+              "to": "Control",
+              "text": "Control, Distribution Office on DWS-1. Our work-order screen and the AMI tablets won’t load, every file on the S: drive is renamed with a .rptd extension, and there’s a RESTORE-MILLBROOK.txt on every desktop."
+            },
+            {
+              "time": "09:07",
+              "from": "Distribution Office",
+              "to": "Control",
+              "text": "Customer Service at City Hall says the billing screens show the same thing. Do you see anything on the plant side?"
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Middle-aged man, steady but uneasy, office noise behind",
+          "audioFile": "I-01_radio.wav",
+          "duration": "0:16",
+          "injectId": "I-01"
+        },
+        "instructorNote": "The first sign is on the business side. Watch whether the IC moves coordination to phone and radio and whether anyone checks the plant against field instruments.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:54.783Z"
+}

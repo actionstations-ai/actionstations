@@ -6,9 +6,8 @@
 // and that the tag mix and decision point fit the threat family. Opt-in, slow:
 //   LIVE=1 pnpm exec playwright test e2e/domains-acceptance.spec.ts
 //   DOMAINS=transit,dam,uas,uas-ops   (default: all four)   MEDIA=0 skips image/TTS rendering
-//   DOMAINS=water             the City of Millbrook pack (#158) as shipped: water-chem.
-//                             The other Millbrook runs (water-ransomware, water-tank,
-//                             water-main) are defined below and selectable by id.
+//   DOMAINS=water             the City of Millbrook pack (#158, #171) as shipped: water-chem,
+//                             water-ransomware, water-tank and water-main (each selectable by id).
 //   PROJECT_DIR=<folder>      reuse one project folder across runs (documents imported once;
 //                             every run adds its scenario) — how example packs are built
 //   EXPORT_DIR=<folder>       after each run, export every target to <folder>/<run>/
@@ -35,7 +34,7 @@ const OUT = resolve('.tmp/domains-acceptance')
 const FIXTURES = resolve('tests/fixtures/domains')
 /** Group names that stand for several runs. */
 const GROUPS: Record<string, string[]> = {
-  water: ['water-chem'],
+  water: ['water-chem', 'water-ransomware', 'water-tank', 'water-main'],
 }
 const WANT = (process.env.DOMAINS ?? 'transit,dam,uas,uas-ops')
   .split(',')

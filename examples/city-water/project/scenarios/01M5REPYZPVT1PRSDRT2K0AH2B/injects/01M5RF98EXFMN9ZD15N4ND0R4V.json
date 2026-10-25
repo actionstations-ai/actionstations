@@ -1,0 +1,140 @@
+{
+  "id": "01M5RF98EXFMN9ZD15N4ND0R4V",
+  "mselRowId": "I-06",
+  "type": "email_forward",
+  "title": "Email: ERP-3 field results at 08:10",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Marcus Oyelaran",
+    "fromEmail": "moyelaran@millbrook-oh.example",
+    "senderInitials": "MO",
+    "to": "Denise Albrecht",
+    "subject": "FW: Orchard Standpipe field results 08:10",
+    "sentAt": "Sun 10/25/2026 8:15 AM",
+    "note": "Denise — first field results below. Outlet low, conductivity up a little, downstream normal so far. Lab samples are in. I am calling DDAGW. — Marcus",
+    "signature": "Marcus Oyelaran\nWater Quality Manager",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Marcus Oyelaran",
+    "original": {
+      "cc": "",
+      "fromName": "Lab sampling team",
+      "fromEmail": "lab@millbrook-oh.example",
+      "to": "moyelaran@millbrook-oh.example",
+      "subject": "Orchard Standpipe — ERP-3 field results",
+      "body": "Field tests 08:10\n\nStandpipe outlet tap (outside fence): free chlorine 0.62 mg/L · pH 7.5 · conductivity 412 µS/cm (baseline ~380) · temp 14 °C · no odor\nFirst hydrant downstream: free chlorine 0.95 mg/L · pH 7.6 · 384 µS/cm\nSecond hydrant downstream: free chlorine 1.02 mg/L · pH 7.6 · 381 µS/cm\n\nTotal coliform / E. coli and HPC in the incubator: 18–24 h.\nChemical screen bottles filled for the Ohio EPA contract laboratory: 48–72 h.",
+      "sentAt": "Sun 10/25/2026 8:12 AM"
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "Something at the standpipe is consuming chlorine and raising conductivity; it has not spread far yet. Watch for an isolation recommendation and the DDAGW call.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+      "quote": "| Failure | What Still Works | What Is Lost | Required Action | |---|---|---|---| | MBW-SCADA-SRV01 and SRV02 down | PLCs hold last setpoints; local HOA; PSH-302 | All remote control; HMI displays; Al",
+      "chunkId": 79
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+      "quote": "| Statement type | Drafted by | Facts approved by | Released by | |---|---|---|---| | Boil Water / Do Not Drink / Do Not Use / Precautionary advisory | PIO | Director + Water Quality Manager; City Man",
+      "chunkId": 106
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 5 › 5.1 Targets",
+      "quote": "| Step | Target from the Director's decision | Who | |---|---|---| | Critical-customer phone calls complete | 60 minutes (hospital and Carver Kidney Center within 15 minutes) | Customer Service Lead a",
+      "chunkId": 111
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:47:32.201Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "AIT-611 Chlorine Residual Drift — Lab Confirmation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Marcus Oyelaran",
+          "fromEmail": "marcus.oyelaran@millbrook-oh.example",
+          "senderInitials": "MO",
+          "to": "ops, pio",
+          "subject": "FW: Confirmation of AIT-611 drift and field site",
+          "sentAt": "Sat 10/24/2026 08:15 AM",
+          "note": "The lab results from the manual grab sample taken at the outlet point (03:45 AM) confirm the residual is 0.7 mg/L. No calibration changes to AIT-611 since 07/15/2025. No control-system anomalies in the HMI or PLC logs. The drift is not due to instrument error or a system fault. A malevolent act is suspected. Recommend immediate precautionary boil-water advisory for Zone 2, Hilltop area.",
+          "signature": "Marcus Oyelaran\nWater Quality Manager",
+          "importance": "high",
+          "external": false,
+          "attachments": [
+            {
+              "name": "LAB-002-2025.pdf",
+              "size": "248 KB",
+              "kind": "pdf"
+            }
+          ],
+          "printedBy": "Water Quality Manager",
+          "original": {
+            "fromName": "Marcus Oyelaran",
+            "fromEmail": "marcus.oyelaran@millbrook-oh.example",
+            "sentAt": "Sat 10/24/2026 08:12 AM",
+            "to": "ops, pio",
+            "cc": "",
+            "subject": "Confirmation of AIT-611 drift and field site",
+            "body": "The lab results from the manual grab sample taken at the outlet point (03:45 AM) confirm the residual is 0.7 mg/L. No calibration changes to AIT-611 since 07/15/2025. No control-system anomalies in the HMI or PLC logs. The drift is not due to instrument error or a system fault. A malevolent act is suspected. Recommend immediate precautionary boil-water advisory for Zone 2, Hilltop area."
+          }
+        },
+        "instructorNote": "This inject triggers the advisory decision point. Watch for the Director to consult the Water Quality Manager and the PIO to begin the release sequence per C4 and C2.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:43:40.011Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email: ERP-3 field results at 08:10",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Marcus Oyelaran",
+          "fromEmail": "moyelaran@millbrook-oh.example",
+          "senderInitials": "MO",
+          "to": "Denise Albrecht",
+          "subject": "FW: Orchard Standpipe field results 08:10",
+          "sentAt": "Sun 10/25/2026 8:15 AM",
+          "note": "Denise — first field results below. Outlet low, conductivity up a little, downstream normal so far. Lab samples are in. I am calling DDAGW. — Marcus",
+          "signature": "Marcus Oyelaran\nWater Quality Manager",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Marcus Oyelaran",
+          "original": {
+            "cc": "",
+            "fromName": "Lab sampling team",
+            "fromEmail": "lab@millbrook-oh.example",
+            "to": "moyelaran@millbrook-oh.example",
+            "subject": "Orchard Standpipe — ERP-3 field results",
+            "body": "Field tests 08:10\n\nStandpipe outlet tap (outside fence): free chlorine 0.62 mg/L · pH 7.5 · conductivity 412 µS/cm (baseline ~380) · temp 14 °C · no odor\nFirst hydrant downstream: free chlorine 0.95 mg/L · pH 7.6 · 384 µS/cm\nSecond hydrant downstream: free chlorine 1.02 mg/L · pH 7.6 · 381 µS/cm\n\nTotal coliform / E. coli and HPC in the incubator: 18–24 h.\nChemical screen bottles filled for the Ohio EPA contract laboratory: 48–72 h.",
+            "sentAt": "Sun 10/25/2026 8:12 AM"
+          }
+        },
+        "instructorNote": "Something at the standpipe is consuming chlorine and raising conductivity; it has not spread far yet. Watch for an isolation recommendation and the DDAGW call.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:43:43.002Z"
+}

@@ -1,0 +1,145 @@
+{
+  "id": "01M5RGVA8XETB2MMQFNRYZQ6MD",
+  "mselRowId": "I-06",
+  "type": "radio_call",
+  "title": "Radio: Hilltop Tank — cabinet dark, level falling",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "centerName": "RWTP Control Room",
+    "channel": "DWS-1",
+    "frequency": "DWS-1 / 453.450 MHz",
+    "date": "07/14/2026",
+    "callsign": "Distribution 2",
+    "lines": [
+      {
+        "time": "06:25",
+        "from": "Distribution 2",
+        "to": "Control",
+        "text": "Control, Distribution 2 at Hilltop Tank. The radio cabinet is dark — no lights on RP-1 or the RTU."
+      },
+      {
+        "time": "06:25",
+        "from": "Distribution 2",
+        "to": "Control",
+        "text": "Sight gauge reads thirty point four feet and you can see it moving. It was thirty-three at five-thirty."
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Woman in her 30s, steady, birds and wind",
+    "duration": "0:14"
+  },
+  "variant": "default",
+  "instructorNote": "About 8 ft an hour: roughly four hours to empty. Watch for an IC-1 trigger level.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 6 › 6.4 Security Systems",
+      "quote": "PACS and camera coverage are described in MDWS-OTSEC-2026 Section 3 and MDWS-SCADA-APP-A A.5. Note the known limitation at Orchard Standpipe: the roof hatch switch ZS-611 has been out of service since",
+      "chunkId": 22
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 8 › 8.1 Facilities",
+      "quote": "| Site | Access control | Intrusion detection | Water-quality instrument | Routine visit | |---|---|---|---|---| | Hilltop Tank | Fence, locked gate, ladder cage lock | ZS-601 hatch switch; CAM-11, CA",
+      "chunkId": 34
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Distribution 2",
+        "voiceStyle": "Woman in her 30s, steady, birds and wind",
+        "text": "Control, Distribution 2 at Hilltop Tank. The radio cabinet is dark — no lights on RP-1 or the RTU."
+      },
+      {
+        "speaker": "Distribution 2",
+        "voiceStyle": "Woman in her 30s, steady, birds and wind",
+        "text": "Sight gauge reads thirty point four feet and you can see it moving. It was thirty-three at five-thirty."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:15:25.352Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Radio Call: Hilltop Tank Hatch Alarm",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "Millbrook Water Operations Center (MWOC)",
+          "channel": "SEC 1",
+          "frequency": "TG 7001 / 450.120 MHz",
+          "date": "10/24/2026",
+          "callsign": "SEC-01",
+          "lines": [
+            {
+              "time": "06:25",
+              "from": "SEC-01",
+              "to": "Control",
+              "text": "Control, this is Security. I’ve just received a report from the Hilltop Tank site. A maintenance worker found the roof hatch switch ZS-601 was triggered — the hatch had been manually opened. No sign of forced entry. The site is secured, but the switch is now closed. I’ve locked the door and am posting a guard. I recommend a full site inspection under C1."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Mid-50s male, steady and measured, with a hint of urgency",
+          "audioFile": "I-06_radio.wav",
+          "duration": "0:18",
+          "injectId": "I-06"
+        },
+        "instructorNote": "This inject introduces a physical intrusion indicator. The security team reports a confirmed hatch activation, which contradicts the telemetry failure. Watch for the team to validate the integrity of the control network and confirm no remote access was made before the physical check.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.441Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Radio: Hilltop Tank — cabinet dark, level falling",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "DWS-1",
+          "frequency": "DWS-1 / 453.450 MHz",
+          "date": "07/14/2026",
+          "callsign": "Distribution 2",
+          "lines": [
+            {
+              "time": "06:25",
+              "from": "Distribution 2",
+              "to": "Control",
+              "text": "Control, Distribution 2 at Hilltop Tank. The radio cabinet is dark — no lights on RP-1 or the RTU."
+            },
+            {
+              "time": "06:25",
+              "from": "Distribution 2",
+              "to": "Control",
+              "text": "Sight gauge reads thirty point four feet and you can see it moving. It was thirty-three at five-thirty."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Woman in her 30s, steady, birds and wind",
+          "duration": "0:14"
+        },
+        "instructorNote": "About 8 ft an hour: roughly four hours to empty. Watch for an IC-1 trigger level.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:46:54.131Z"
+}

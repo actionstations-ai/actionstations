@@ -1,0 +1,191 @@
+{
+  "id": "01M5RFC1SK19J378S5PVN9REY0",
+  "mselRowId": "I-11",
+  "type": "phone_call",
+  "title": "Phone: detective — residue on the hatch frame",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "systemName": "Recorded Line",
+    "callId": "CR-20261025-091508-038",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Detective, Millbrook Police",
+      "number": "(555) 032-7000",
+      "label": "Millbrook Police Detective"
+    },
+    "callee": {
+      "name": "Luis Ferreira",
+      "number": "(555) 031-2290",
+      "label": "Security & Emergency Manager"
+    },
+    "startTime": "10/25/2026 09:15:08",
+    "duration": "0:51",
+    "transcript": [
+      {
+        "speaker": "Millbrook Police Detective",
+        "offset": "0:00",
+        "text": "There’s a white crystalline residue on the hatch frame and a second cap from the same kind of jug inside the hatch rim."
+      },
+      {
+        "speaker": "Millbrook Police Detective",
+        "offset": "0:14",
+        "text": "We’re treating this as a possible contamination and we’ve called the FBI. Nobody drains that tank, and we’ll need your sample results and your logs."
+      },
+      {
+        "speaker": "Security & Emergency Manager",
+        "text": "",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Millbrook Police Detective": "Woman in her 40s, careful, wind on the roof"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "The threat is now credible. Watch for the FBI notification by Security (ERP Section 5) and nothing drained.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of…",
+      "quote": "Document Control Number: MDWS-OTSEC-2026 · Revision 1.3 · Effective Date: 03/01/2026 · Classification: DWS RESTRICTED — Protected Critical Infrastructure Information *(fictional marking)* Approved: Pr",
+      "chunkId": 53
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.7 Evidence Preservation",
+      "quote": "Do not power off, reimage or \"clean\" MBW-SCADA-SRV01/02, MBW-HMI-01/02/03 or MBW-EWS-01 unless life safety requires it. Export the AquaSight audit log and historian trends for the window; copy MBW-JUM",
+      "chunkId": 88
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+      "quote": "| Failure | What Still Works | What Is Lost | Required Action | |---|---|---|---| | MBW-SCADA-SRV01 and SRV02 down | PLCs hold last setpoints; local HOA; PSH-302 | All remote control; HMI displays; Al",
+      "chunkId": 79
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Millbrook Police Detective",
+        "voiceStyle": "Woman in her 40s, careful, wind on the roof",
+        "text": "There’s a white crystalline residue on the hatch frame and a second cap from the same kind of jug inside the hatch rim."
+      },
+      {
+        "speaker": "Millbrook Police Detective",
+        "voiceStyle": "Woman in her 40s, careful, wind on the roof",
+        "text": "We’re treating this as a possible contamination and we’ve called the FBI. Nobody drains that tank, and we’ll need your sample results and your logs."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:49:09.171Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "IT: HMI and PLC-02 Status Verification",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "OCC-WS-03 (10.72.1.55) — Control Room Voice Recorder",
+          "callId": "CR-20261024-091512-0044",
+          "direction": "Internal",
+          "caller": {
+            "name": "Denise Albrecht",
+            "number": "(555) 031-2244",
+            "label": "ops"
+          },
+          "callee": {
+            "name": "Priya Nandakumar",
+            "number": "(555) 034-1199",
+            "label": "it"
+          },
+          "startTime": "10/24/2026 09:15:12",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "ops",
+              "offset": "0:00",
+              "text": "IT, this is ops. I need you to confirm the status of the MBW-HMI-01 system. Is the manual override on IC-2 locked in? And can you verify that no remote session has modified the HMI or PLC-02 during the process? We need to preserve the chain of custody and ensure no unauthorized access occurred during isolation.",
+              "prompt": false
+            },
+            {
+              "speaker": "it",
+              "offset": "0:15",
+              "text": "Confirmed, Director. MBW-HMI-01 is in local mode. The manual override on IC-2 is locked in and tagged per Section 8.1. No remote session on MBW-HMI-01, MBW-JUMP-01, or MBW-FW-01 has been detected since 07:00. All access logs, including MBW-JUMP-01 session recordings and MBW-FW-01 firewall logs (FW-R-09, FW-R-17, FW-R-22, FW-R-31), show no anomalies. PLC-02 program integrity is confirmed. Chain of custody remains intact.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-11"
+        },
+        "instructorNote": "This inject confirms that the manual override is locked and no remote access occurred during isolation. The IT team must validate log integrity and prevent any rollback without full audit.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:43:40.054Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone: detective — residue on the hatch frame",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "Recorded Line",
+          "callId": "CR-20261025-091508-038",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Detective, Millbrook Police",
+            "number": "(555) 032-7000",
+            "label": "Millbrook Police Detective"
+          },
+          "callee": {
+            "name": "Luis Ferreira",
+            "number": "(555) 031-2290",
+            "label": "Security & Emergency Manager"
+          },
+          "startTime": "10/25/2026 09:15:08",
+          "duration": "0:51",
+          "transcript": [
+            {
+              "speaker": "Millbrook Police Detective",
+              "offset": "0:00",
+              "text": "There’s a white crystalline residue on the hatch frame and a second cap from the same kind of jug inside the hatch rim."
+            },
+            {
+              "speaker": "Millbrook Police Detective",
+              "offset": "0:14",
+              "text": "We’re treating this as a possible contamination and we’ve called the FBI. Nobody drains that tank, and we’ll need your sample results and your logs."
+            },
+            {
+              "speaker": "Security & Emergency Manager",
+              "text": "",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Millbrook Police Detective": "Woman in her 40s, careful, wind on the roof"
+          }
+        },
+        "instructorNote": "The threat is now credible. Watch for the FBI notification by Security (ERP Section 5) and nothing drained.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:45:10.933Z"
+}

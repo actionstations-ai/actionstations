@@ -1,0 +1,134 @@
+{
+  "id": "01M5REJSGWS9NYT6JKZBDRVXTX",
+  "mselRowId": "I-22",
+  "type": "email_forward",
+  "title": "Email Forward: Kessler Controls — on site at 15:00 with the only other copy",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Priya Nandakumar",
+    "fromEmail": "pnandakumar@millbrook-oh.example",
+    "senderInitials": "PN",
+    "to": "Denise Albrecht",
+    "subject": "FW: PLC-02 program — Kessler on site at 15:00?",
+    "sentAt": "Mon 10/26/2026 12:30 PM",
+    "note": "Denise — printing this for the table. Jared’s laptop is the only other copy of the August logic, and it touched MBW-EWS-01 on Thursday.",
+    "signature": "Priya Nandakumar\nSCADA / IT Security Manager",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Priya Nandakumar",
+    "original": {
+      "fromName": "Jared Molina",
+      "fromEmail": "jmolina@kesslercontrols.example",
+      "sentAt": "Mon 10/26/2026 12:24 PM",
+      "to": "pnandakumar@millbrook-oh.example",
+      "cc": "",
+      "subject": "PLC-02 program",
+      "body": "Priya,\n\nI can be on site at 15:00 to read the PLC-02 program at the cabinet. My laptop has the August flow-pacing revision, which I understand is not on your backup server.\n\nOur procedure is a ticketed session through MBW-JUMP-01. I know that is down. My laptop last connected to MBW-EWS-01 on Thursday for the alarm-text change.\n\nTell me how you want to do this.\n\nJared Molina\nKessler Controls"
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "The hurdle: the only other copy of the logic sits on a laptop that touched the compromised workstation. Good play: on-site work under supervision, the laptop checked first, a direct cable at the cabinet, nothing on the islanded network.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 9",
+      "quote": "- Nightly: MBW-EWS-01 copies the HMI application, PLC programs and historian exports to **MBW-BKP-01** on the business LAN under **FW-R-17**. MBW-BKP-01 also holds the CIS, AMI, GIS and LIMS backups —",
+      "chunkId": 81
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+      "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+      "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+      "chunkId": 70
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:35:24.652Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Forensic Update — PLC-02 Logic Backup Integrity",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Kevin Marsh (City IT Director)",
+          "fromEmail": "kmarsh@millbrook-oh.example",
+          "senderInitials": "KM",
+          "to": "pnandakumar@millbrook-oh.example",
+          "subject": "FW: Forensic Update — MBW-BKP-01 Backup Integrity Check",
+          "sentAt": "Sat 10/24/2026 12:30 PM",
+          "note": "The forensic team has completed the full image of MBW-BKP-01. The 2025 backup set (08/2025) for PLC-02 logic was not retained due to a failed backup job on 07/2025. The only copy of PLC-02-LOGIC-2025.bin is live in the PLC. The 2024 and 2023 backups are clean and unencrypted, but the 2025 version was overwritten by the attack. No restore from backup is possible.\n\nWe are now attempting to extract the PLC-02 program via direct read from the PLC using the engineering workstation (MBW-EWS-01), but the Kessler Controls laptop (Jared Molina) was not authorized to modify the program. We are working with the integrator to validate the extracted file against the original design (MDWS-SCADA-APP-A).",
+          "signature": "Kevin Marsh\nCity IT Director",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "City IT Department",
+          "original": {
+            "fromName": "Forensic Team — MBW-BKP-01",
+            "fromEmail": "forensics@millbrook-oh.example",
+            "sentAt": "Sat 10/24/2026 12:25 PM",
+            "to": "kmarsh@millbrook-oh.example",
+            "cc": "cisa-ohio@isac.example",
+            "subject": "Forensic Report: MBW-BKP-01 Backup Set Integrity",
+            "body": "Final forensic analysis of MBW-BKP-01 (10.72.10.30) confirms: \n\n- The 2025 backup set (08/2025) for PLC-02 logic was not retained due to a failed backup job on 07/2025. \n- The only current copy of PLC-02-LOGIC-2025.bin resides in the live PLC-02. \n- The 2024 and 2023 backup sets are clean and unencrypted, but the 2025 version was overwritten by the attack. \n- No restore from backup is possible. \n- The forensic image of MBW-BKP-01 has been preserved and uploaded to the CISA incident portal (Case ID: Riptide-01-FB). \n\nNext step: direct read of PLC-02 via MBW-EWS-01. The Kessler Controls laptop (Jared Molina) was not authorized to modify the program. The integrator (Kessler Controls) must be engaged under a signed access request and ticket (MDWS-OTSEC-2026) to perform any write operation. \n\n— Forensic Team, City of Millbrook IT\n\nCitations: C1 (Section 9), C2 (Section 10.3, Finding F-2), C4 (Section 7.4, Change Management)"
+          }
+        },
+        "instructorNote": "This inject confirms the irreversible loss of the 2025 PLC logic backup. The SCADA / IT Security Manager must now validate the live PLC program against the original design using the engineering workstation and initiate a formal access request to Kessler Controls. The team must not proceed with any PLC write operations until the integrator is on-site under a signed ticket.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.384Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email Forward: Kessler Controls — on site at 15:00 with the only other copy",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Priya Nandakumar",
+          "fromEmail": "pnandakumar@millbrook-oh.example",
+          "senderInitials": "PN",
+          "to": "Denise Albrecht",
+          "subject": "FW: PLC-02 program — Kessler on site at 15:00?",
+          "sentAt": "Mon 10/26/2026 12:30 PM",
+          "note": "Denise — printing this for the table. Jared’s laptop is the only other copy of the August logic, and it touched MBW-EWS-01 on Thursday.",
+          "signature": "Priya Nandakumar\nSCADA / IT Security Manager",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Priya Nandakumar",
+          "original": {
+            "fromName": "Jared Molina",
+            "fromEmail": "jmolina@kesslercontrols.example",
+            "sentAt": "Mon 10/26/2026 12:24 PM",
+            "to": "pnandakumar@millbrook-oh.example",
+            "cc": "",
+            "subject": "PLC-02 program",
+            "body": "Priya,\n\nI can be on site at 15:00 to read the PLC-02 program at the cabinet. My laptop has the August flow-pacing revision, which I understand is not on your backup server.\n\nOur procedure is a ticketed session through MBW-JUMP-01. I know that is down. My laptop last connected to MBW-EWS-01 on Thursday for the alarm-text change.\n\nTell me how you want to do this.\n\nJared Molina\nKessler Controls"
+          }
+        },
+        "instructorNote": "The hurdle: the only other copy of the logic sits on a laptop that touched the compromised workstation. Good play: on-site work under supervision, the laptop checked first, a direct cable at the cabinet, nothing on the islanded network.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:08.897Z"
+}

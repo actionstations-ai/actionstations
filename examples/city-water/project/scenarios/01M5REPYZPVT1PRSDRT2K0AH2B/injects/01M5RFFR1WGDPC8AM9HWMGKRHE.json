@@ -1,0 +1,238 @@
+{
+  "id": "01M5RFFR1WGDPC8AM9HWMGKRHE",
+  "mselRowId": "I-16",
+  "type": "field_report",
+  "title": "Field Report: standpipe isolated, Hilltop Tank falling",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "City of Millbrook Department of Water & Sewer — Distribution",
+    "formTitle": "Field Status Report",
+    "reportNo": "FSR-2026-1025-03",
+    "date": "10/25/2026",
+    "time": "10:35",
+    "location": "Orchard Standpipe and Zone 2",
+    "inspector": "Distribution 2 crew leader",
+    "unit": "Distribution 2",
+    "reportType": "routine",
+    "summary": "Orchard Standpipe isolated since 09:34; wells W-1 to W-3 off. Hilltop Tank 25.4 ft and falling about 0.4 ft an hour. Zone 2 pressure at the Summit Drive gauge 58 psi. Flushing the two downstream hydrants after sampling.",
+    "findings": [
+      {
+        "item": "Outlet valve",
+        "condition": "ok",
+        "notes": "Closed 09:34, police escort"
+      },
+      {
+        "item": "Wells W-1 to W-3",
+        "condition": "ok",
+        "notes": "Off on RTU-06"
+      },
+      {
+        "item": "Hilltop Tank",
+        "condition": "deficient",
+        "notes": "25.4 ft, falling ~0.4 ft/h"
+      },
+      {
+        "item": "Zone 2 pressure",
+        "condition": "ok",
+        "notes": "58 psi at Summit Drive"
+      }
+    ],
+    "actionsTaken": [
+      "Valve closure logged",
+      "Downstream hydrants sampled, then flushed"
+    ],
+    "recommendations": [
+      "Set the Hilltop Tank level for starting Mill Road Booster Station"
+    ],
+    "signature": "Distribution 2 crew leader",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "Isolation has a cost by the evening. Watch for a booster trigger level.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 3",
+      "quote": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of…",
+      "quote": "Document Control Number: MDWS-MAP-2026 · Revision 4.0 · Effective Date: 02/01/2026 · Maintained by: Tom Okonkwo (Distribution Superintendent) and Priya Nandakumar (SCADA / IT Security Manager) > **EXE",
+      "chunkId": 160
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.7 Contamination Threat",
+      "quote": "A threat (call, letter, social post) or the discovery of a suspicious container, open hatch or unusual residue triggers the Water Contamination Threat procedure: assess credibility with Millbrook Poli",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+      "quote": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:51:36.650Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Orchard Standpipe Site Re-Screening — Manual Operation Readiness",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — Operations & Maintenance",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1024-001",
+          "date": "10/24/2026",
+          "time": "10:35",
+          "location": "Orchard Standpipe Site (Zone 2), Hilltop Zone",
+          "inspector": "RWTP Control Room Operator, Plant Operations",
+          "unit": "Control Room — Shift 3",
+          "reportType": "security",
+          "weather": "Clear, 74°F, wind SSW 5 mph",
+          "summary": "Re-screening for manual operation per ERP Section 9.1. Hilltop Tank level at 14.2 ft (within normal range, C3). Northgate Reservoir at 11.8 ft (within normal range, C3). No pressure drops in Zone 2. All other HMIs and RTUs are stable. No new alarms. Site remains isolated via IC-2 and under FBI forensic hold. No system restarts authorized. All actions follow C2 and C4.",
+          "findings": [
+            {
+              "item": "Hatch switch ZS-611 status",
+              "condition": "failed",
+              "notes": "Inactive since 07/2024 per MDWS-OTSEC-2026 Section 3 and C7. Continues to report as closed."
+            },
+            {
+              "item": "Gate contact ZS-612 status",
+              "condition": "ok",
+              "notes": "Tripped at 02:15 and 04:30; remains open. Lockout/Tagout applied."
+            },
+            {
+              "item": "CAM-13 video feed",
+              "condition": "ok",
+              "notes": "Stream preserved on MBW-NVR-01. No further tampering observed."
+            },
+            {
+              "item": "AIT-611 residual",
+              "condition": "ok",
+              "notes": "0.7 mg/L. Manual grab sample confirmed. No change since 03:45 AM."
+            },
+            {
+              "item": "IC-2 isolation status",
+              "condition": "ok",
+              "notes": "Confirmed via PIT-501 pressure trend. No flow to Zone 2."
+            },
+            {
+              "item": "PLC-02 program integrity",
+              "condition": "failed",
+              "notes": "No newer backup than MDWS-BKP-PLC-02-032025. Program live on PLC-02 and on MBW-DEV-LT01 (user jmolina). Not in official archive."
+            },
+            {
+              "item": "MBW-HMI-01 manual override",
+              "condition": "ok",
+              "notes": "IC-2 locked in. No remote access attempts detected."
+            },
+            {
+              "item": "FBI forensic hold status",
+              "condition": "ok",
+              "notes": "Confirmed via FBI liaison (555-034-1101). No system access authorized."
+            },
+            {
+              "item": "Field sampling schedule",
+              "condition": "ok",
+              "notes": "Hourly grab samples at AIT-611 in progress. Lab results to be submitted via MDWS-ERP-2026 Section 8.3."
+            },
+            {
+              "item": "Control room HMI status",
+              "condition": "ok",
+              "notes": "All HMIs stable. No new alarms since 10:00."
+            }
+          ],
+          "actionsTaken": [
+            "Verified Hilltop Tank and Northgate Reservoir levels via HMI and manual gauge",
+            "Confirmed IC-2 isolation status via PIT-501 pressure trend",
+            "Reviewed RTU-02 event log for 02:00–05:00; no anomalies",
+            "Initiated hourly grab sampling at AIT-611 per ERP Section 8.3",
+            "Notified Incident Commander and SCADA / IT Security Manager of readiness for manual supervision"
+          ],
+          "recommendations": [
+            "Await formal verification of PLC-02 program integrity from SCADA / IT Security Manager and FBI liaison before any return-to-service actions",
+            "Continue hourly grab sampling and pressure monitoring until formal all-clear is issued",
+            "Do not initiate any system restarts or manual overrides until FBI forensic team provides clearance"
+          ],
+          "photosNote": "3 photos attached: ORCH-001_Photo_1.jpg (ladder cage door, padlock cut), ORCH-001_Photo_2.jpg (gate contact, forced open), ORCH-001_Photo_3.jpg (HMI-01 screen, IC-2 locked in)",
+          "signature": "RWTP Control Room Operator, Plant Operations",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the Control Room Operator’s status as the primary on-site monitor. The operator must not initiate any return-to-service steps. Watch for any attempt to bypass verification or restart systems without FBI clearance.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:43:40.100Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field Report: standpipe isolated, Hilltop Tank falling",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — Distribution",
+          "formTitle": "Field Status Report",
+          "reportNo": "FSR-2026-1025-03",
+          "date": "10/25/2026",
+          "time": "10:35",
+          "location": "Orchard Standpipe and Zone 2",
+          "inspector": "Distribution 2 crew leader",
+          "unit": "Distribution 2",
+          "reportType": "routine",
+          "summary": "Orchard Standpipe isolated since 09:34; wells W-1 to W-3 off. Hilltop Tank 25.4 ft and falling about 0.4 ft an hour. Zone 2 pressure at the Summit Drive gauge 58 psi. Flushing the two downstream hydrants after sampling.",
+          "findings": [
+            {
+              "item": "Outlet valve",
+              "condition": "ok",
+              "notes": "Closed 09:34, police escort"
+            },
+            {
+              "item": "Wells W-1 to W-3",
+              "condition": "ok",
+              "notes": "Off on RTU-06"
+            },
+            {
+              "item": "Hilltop Tank",
+              "condition": "deficient",
+              "notes": "25.4 ft, falling ~0.4 ft/h"
+            },
+            {
+              "item": "Zone 2 pressure",
+              "condition": "ok",
+              "notes": "58 psi at Summit Drive"
+            }
+          ],
+          "actionsTaken": [
+            "Valve closure logged",
+            "Downstream hydrants sampled, then flushed"
+          ],
+          "recommendations": [
+            "Set the Hilltop Tank level for starting Mill Road Booster Station"
+          ],
+          "signature": "Distribution 2 crew leader",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Isolation has a cost by the evening. Watch for a booster trigger level.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:43:47.912Z"
+}

@@ -1,0 +1,107 @@
+{
+  "id": "01M5REGKEWQ07WMA3D6Y8MDWNK",
+  "mselRowId": "I-17",
+  "type": "time_jump_card",
+  "title": "Time Jump: 12:00 — the scheduled task",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:00",
+    "newTime": "12:00 PM",
+    "jumpLabel": "+60 minutes",
+    "narration": "It is now 12:00, the time the scheduled task on MBW-SCADA-SRV02 was set to run. MBW-CIS-01 and MBW-FS-01 remain encrypted and the October 1 tapes are the newest offline copy. Channel 4 is live outside City Hall.",
+    "worldState": [
+      "It is 12:00, the trigger time of the task on MBW-SCADA-SRV02.",
+      "MBW-CIS-01 and MBW-FS-01 remain encrypted.",
+      "The October 1 tapes in the City Hall vault are the newest offline copy.",
+      "Channel 4 is live outside City Hall."
+    ],
+    "facilitatorNote": "Ask each team for the plant’s mode, which servers are isolated and what it would say on camera. Then deliver I-18 according to what they isolated.",
+    "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+    "injectId": "I-17"
+  },
+  "variant": "default",
+  "instructorNote": "Reset the clock at the trigger time.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 6 › 6.2 Online Water-Quality Instruments",
+      "quote": "| Instrument | Location | Normal | Alarm | Action | |---|---|---|---|---| | AIT-301 finished chlorine residual | Clearwell outlet | 1.0–2.0 mg/L | < 0.5 or > 3.5 | Verify with grab sample within 15 mi",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 4 › 4.1 Types",
+      "quote": "| Type | When used (ERP Section 9 decides) | What the public is told to do | |---|---|---| | **Boil Water Advisory** | Loss of pressure below 20 psi in an area; a main break that depressurizes an area",
+      "chunkId": 108
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:34:05.933Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 12:00 PM — Lab Sample Verification",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "newTime": "12:00 PM",
+          "jumpLabel": "+60 minutes",
+          "narration": "Facilitator reads aloud: 'It is now 12:00 PM on Saturday, October 24, 2026. The team has completed manual verification of Zone 3 water quality using grab samples. The lab has confirmed no overfeed and no contamination. The Public Information Officer is preparing to issue the Boil Water Advisory. The Director of Water Operations has authorized the next phase of recovery.'",
+          "worldState": [
+            "The lab has completed manual grab sampling from Zone 3.",
+            "Chlorine residual is 0.3 mg/L, turbidity is 0.1 NTU — within normal limits.",
+            "No overfeed detected in any chemical system.",
+            "Chain of custody for all samples is recorded on paper per SOP 8.3.",
+            "The lab has sent the paper lab sheet to the Control Room via secure fax.",
+            "The Public Information Officer has the Boil Water Advisory draft and is preparing to publish.",
+            "The Control Room has confirmed that all manual readings match the original setpoint limits in MDWS-SCADA-APP-A.",
+            "The emergency response phase is now transitioning to public notification and verification."
+          ],
+          "facilitatorNote": "This time jump confirms that the lab's manual verification has been completed and accepted. The team must now confirm that the advisory is issued correctly and that no system integrity issues remain before restoring full operations.",
+          "scenarioTitle": "Ransomware Riptide — SCADA Isolation & Public Trust",
+          "injectId": "I-17"
+        },
+        "instructorNote": "This time jump confirms the lab’s manual verification. The team must now validate the advisory issuance and prepare for a full system audit before restoration.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.348Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Time Jump: 12:00 — the scheduled task",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "newTime": "12:00 PM",
+          "jumpLabel": "+60 minutes",
+          "narration": "It is now 12:00, the time the scheduled task on MBW-SCADA-SRV02 was set to run. MBW-CIS-01 and MBW-FS-01 remain encrypted and the October 1 tapes are the newest offline copy. Channel 4 is live outside City Hall.",
+          "worldState": [
+            "It is 12:00, the trigger time of the task on MBW-SCADA-SRV02.",
+            "MBW-CIS-01 and MBW-FS-01 remain encrypted.",
+            "The October 1 tapes in the City Hall vault are the newest offline copy.",
+            "Channel 4 is live outside City Hall."
+          ],
+          "facilitatorNote": "Ask each team for the plant’s mode, which servers are isolated and what it would say on camera. Then deliver I-18 according to what they isolated.",
+          "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+          "injectId": "I-17"
+        },
+        "instructorNote": "Reset the clock at the trigger time.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:07.044Z"
+}

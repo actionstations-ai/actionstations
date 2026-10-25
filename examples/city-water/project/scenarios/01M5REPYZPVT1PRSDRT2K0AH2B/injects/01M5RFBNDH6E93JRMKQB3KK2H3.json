@@ -1,0 +1,152 @@
+{
+  "id": "01M5RFBNDH6E93JRMKQB3KK2H3",
+  "mselRowId": "I-09b",
+  "type": "radio_call",
+  "title": "Radio: Distribution 2 — closing the outlet valve",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "centerName": "RWTP Control Room",
+    "channel": "DWS-1",
+    "frequency": "DWS-1 / 453.450 MHz",
+    "date": "10/25/2026",
+    "callsign": "Distribution 2",
+    "lines": [
+      {
+        "time": "09:10",
+        "from": "Distribution 2",
+        "to": "Control",
+        "text": "Control, Distribution 2 at Orchard. Police will walk one of us into the valve vault. The outlet valve is a 12-inch gate valve, about sixty turns, so twenty minutes."
+      },
+      {
+        "time": "09:10",
+        "from": "Distribution 2",
+        "to": "Control",
+        "text": "Confirm the wells are off before we start, or we’ll overflow the standpipe onto their crime scene."
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Man in his 40s, practical, truck idling",
+    "duration": "0:16"
+  },
+  "variant": "default",
+  "instructorNote": "Watch for the wells confirmed off on RTU-06 before the valve is closed.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 3",
+      "quote": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Annex B",
+      "quote": "Code word **CODE CLEARWATER** on DWS-1 (Section 10.1) · Island steps: FW-R-17, FW-R-22, FW-R-09 off → break MBWSCADA trust → DMZ uplink out → vendor accounts and `dosatech_svc` off → PLCs LOCAL (Secti",
+      "chunkId": 99
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+      "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+      "chunkId": 112
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Distribution 2",
+        "voiceStyle": "Man in his 40s, practical, truck idling",
+        "text": "Control, Distribution 2 at Orchard. Police will walk one of us into the valve vault. The outlet valve is a 12-inch gate valve, about sixty turns, so twenty minutes."
+      },
+      {
+        "speaker": "Distribution 2",
+        "voiceStyle": "Man in his 40s, practical, truck idling",
+        "text": "Confirm the wells are off before we start, or we’ll overflow the standpipe onto their crime scene."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:48:54.312Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Orchard Standpipe Isolation — Pressure Stability Confirmed",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "Distribution Operations",
+          "frequency": "TG 4001 / 460.300 MHz",
+          "date": "10/24/2026",
+          "callsign": "Distribution Lead 1",
+          "lines": [
+            {
+              "time": "09:10",
+              "from": "Distribution Lead 1",
+              "to": "Control",
+              "text": "Control, this is Distribution Lead, Tom Okonkwo. I’ve just confirmed with PIT-501 on the Zone 2 pressure trend. It’s at 24.3 psi and stable. No drop below 20 psi. No customers report loss of pressure. We can isolate Orchard Standpipe via IC-2 without affecting service. Recommend proceeding with isolation per ERP Section 7.1."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Middle-aged male, calm but urgent, slight pause after 'stable'",
+          "audioFile": "I-09b_radio.wav",
+          "duration": "0:15",
+          "injectId": "I-09b"
+        },
+        "instructorNote": "This inject confirms operational feasibility of isolation. Watch for the IC to validate the go-ahead based on ERP Section 7.1 and the absence of pressure impact.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-25T03:43:40.048Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Radio: Distribution 2 — closing the outlet valve",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "DWS-1",
+          "frequency": "DWS-1 / 453.450 MHz",
+          "date": "10/25/2026",
+          "callsign": "Distribution 2",
+          "lines": [
+            {
+              "time": "09:10",
+              "from": "Distribution 2",
+              "to": "Control",
+              "text": "Control, Distribution 2 at Orchard. Police will walk one of us into the valve vault. The outlet valve is a 12-inch gate valve, about sixty turns, so twenty minutes."
+            },
+            {
+              "time": "09:10",
+              "from": "Distribution 2",
+              "to": "Control",
+              "text": "Confirm the wells are off before we start, or we’ll overflow the standpipe onto their crime scene."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Man in his 40s, practical, truck idling",
+          "duration": "0:16"
+        },
+        "instructorNote": "Watch for the wells confirmed off on RTU-06 before the valve is closed.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:44:47.647Z"
+}

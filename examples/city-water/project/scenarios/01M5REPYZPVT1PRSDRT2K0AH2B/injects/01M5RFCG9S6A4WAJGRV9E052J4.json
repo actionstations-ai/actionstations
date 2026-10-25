@@ -1,0 +1,232 @@
+{
+  "id": "01M5RFCG9S6A4WAJGRV9E052J4",
+  "mselRowId": "I-10b",
+  "type": "field_report",
+  "title": "Field Report: no Sunday courier for the chemical screen",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "City of Millbrook Department of Water & Sewer — Laboratory",
+    "formTitle": "Sampling Field Report",
+    "reportNo": "SFR-2026-1025-02",
+    "date": "10/25/2026",
+    "time": "09:20",
+    "location": "Orchard Standpipe and downstream hydrants",
+    "inspector": "Lab sampling team",
+    "unit": "Laboratory",
+    "reportType": "incident",
+    "summary": "The standpipe interior cannot be sampled while it is a crime scene. The Ohio EPA contract laboratory courier does not run on Sunday; the chemical screen bottles cannot leave Millbrook before Monday 08:00, so results are not due before Wednesday. Bottles are on ice under chain of custody.",
+    "findings": [
+      {
+        "item": "Standpipe interior sample",
+        "condition": "not_inspected",
+        "notes": "Crime scene"
+      },
+      {
+        "item": "Outlet tap and downstream hydrants",
+        "condition": "ok",
+        "notes": "Sampled; next round 10:10"
+      },
+      {
+        "item": "Chemical screen courier",
+        "condition": "failed",
+        "notes": "No Sunday service; Monday 08:00 pickup"
+      },
+      {
+        "item": "Chain of custody",
+        "condition": "ok",
+        "notes": "Bottles on ice, custody form ERP-3 attached"
+      }
+    ],
+    "actionsTaken": [
+      "Bottles on ice with custody forms",
+      "Two-hour hydrant sampling scheduled"
+    ],
+    "recommendations": [
+      "Ask DDAGW about a weekend drop-off",
+      "Plan for an advisory lasting at least to Wednesday"
+    ],
+    "signature": "Lab sampling team",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "The lab timeline is longer than anyone wants. Watch for it shaping what the PIO promises.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 11 › 11.2 Evidence",
+      "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+      "chunkId": 45
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+      "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+      "chunkId": 35
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+      "quote": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:49:26.295Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Orchard Standpipe Site Security — Video and Log Preservation",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — Security & Emergency Management",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "MDWS-SEC-001",
+          "date": "10/24/2026",
+          "time": "09:20",
+          "location": "Orchard Standpipe Site, Gate and Ladder Cage Access Point",
+          "inspector": "Luis Ferreira, Security & Emergency Manager",
+          "unit": "Security Patrol 3 · Vehicle 07",
+          "reportType": "security",
+          "weather": "Clear, 68°F, light breeze",
+          "summary": "Millbrook Police Investigator Officer T. Latham (555) 038-7100 has assumed command of the Orchard Standpipe site. He confirms the FBI Cyber-Physical Incident Team will arrive within 90 minutes. He issued explicit instructions: do not reset any systems, do not access HMIs or servers, and do not allow anyone to enter the facility until scene security is confirmed. The gate and ladder cage have been secured with a locked security tag. The video export from MBW-NVR-01 is complete and stored on a write-protected USB drive. Chain of custody for the evidence is initiated on Form SEC-4.",
+          "findings": [
+            {
+              "item": "Gate contact ZS-612",
+              "condition": "failed",
+              "notes": "Tripped at 02:15 and 04:30; gate forced open with bolt cutters"
+            },
+            {
+              "item": "Ladder cage door",
+              "condition": "failed",
+              "notes": "Ajar; padlock cut; no internal damage observed"
+            },
+            {
+              "item": "Hatch switch ZS-611",
+              "condition": "not_inspected",
+              "notes": "Inactive since 07/2024 per MDWS-OTSEC-2026 Section 3 and C7"
+            },
+            {
+              "item": "Camera CAM-13",
+              "condition": "ok",
+              "notes": "Footage from 03:42 shows figure near ladder cage; timestamped and stored on MBW-NVR-01"
+            },
+            {
+              "item": "RTU-02 event log",
+              "condition": "ok",
+              "notes": "Full log exported to write-protected USB drive; stored under event ID ORCH-001"
+            },
+            {
+              "item": "MBW-NVR-01 storage",
+              "condition": "ok",
+              "notes": "Video preserved; 30-day overwrite policy in effect"
+            },
+            {
+              "item": "Site perimeter",
+              "condition": "failed",
+              "notes": "Fence breach confirmed at gate; no signs of forced entry elsewhere"
+            },
+            {
+              "item": "Sampling point near AIT-611",
+              "condition": "not_inspected",
+              "notes": "Accessible but not entered; pending FBI clearance"
+            },
+            {
+              "item": "SCADA system access",
+              "condition": "ok",
+              "notes": "No remote sessions detected; HMI and PLC logs unchanged"
+            },
+            {
+              "item": "Chain of custody",
+              "condition": "ok",
+              "notes": "Form SEC-4 completed and handed to Millbrook Police Investigator on scene"
+            }
+          ],
+          "actionsTaken": [
+            "Secured gate and ladder cage with locked security tag (ID: SEC-2026-1024-04)",
+            "Exported full RTU-02 event log and MBW-NVR-01 video to write-protected USB drive (MDWS-SEC-001)",
+            "Initiated chain of custody on Form SEC-4 and handed to Officer T. Latham, Millbrook Police",
+            "Confirmed FBI on-site arrival time: within 90 minutes"
+          ],
+          "recommendations": [
+            "Preserve all digital evidence per C2; do not power off or reboot any system",
+            "Await FBI forensic team for any further access to RTU-02 or HMI-01",
+            "Maintain site isolation until formal clearance is issued"
+          ],
+          "photosNote": "1 photo attached: ORCH-001_Photo_1.jpg (ladder cage door, padlock cut, security tag applied)",
+          "signature": "Luis Ferreira, Security & Emergency Manager",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the chain-of-custody protocol has been followed. The security team has preserved evidence as required by C2. The FBI is now in control. Watch for players to confirm the USB drive is write-protected and SEC-4 is signed.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:43:40.061Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field Report: no Sunday courier for the chemical screen",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — Laboratory",
+          "formTitle": "Sampling Field Report",
+          "reportNo": "SFR-2026-1025-02",
+          "date": "10/25/2026",
+          "time": "09:20",
+          "location": "Orchard Standpipe and downstream hydrants",
+          "inspector": "Lab sampling team",
+          "unit": "Laboratory",
+          "reportType": "incident",
+          "summary": "The standpipe interior cannot be sampled while it is a crime scene. The Ohio EPA contract laboratory courier does not run on Sunday; the chemical screen bottles cannot leave Millbrook before Monday 08:00, so results are not due before Wednesday. Bottles are on ice under chain of custody.",
+          "findings": [
+            {
+              "item": "Standpipe interior sample",
+              "condition": "not_inspected",
+              "notes": "Crime scene"
+            },
+            {
+              "item": "Outlet tap and downstream hydrants",
+              "condition": "ok",
+              "notes": "Sampled; next round 10:10"
+            },
+            {
+              "item": "Chemical screen courier",
+              "condition": "failed",
+              "notes": "No Sunday service; Monday 08:00 pickup"
+            },
+            {
+              "item": "Chain of custody",
+              "condition": "ok",
+              "notes": "Bottles on ice, custody form ERP-3 attached"
+            }
+          ],
+          "actionsTaken": [
+            "Bottles on ice with custody forms",
+            "Two-hour hydrant sampling scheduled"
+          ],
+          "recommendations": [
+            "Ask DDAGW about a weekend drop-off",
+            "Plan for an advisory lasting at least to Wednesday"
+          ],
+          "signature": "Lab sampling team",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "The lab timeline is longer than anyone wants. Watch for it shaping what the PIO promises.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:43:45.679Z"
+}

@@ -1,0 +1,260 @@
+{
+  "id": "01M5RGNBN02V1V9KA7JE9F30JG",
+  "mselRowId": "I-01",
+  "type": "system_log",
+  "title": "System Log: five sites stale at once",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "AquaSight alarm journal",
+    "host": "MBW-SCADA-SRV01",
+    "ip": "10.72.10.10",
+    "logSource": "Communication alarms",
+    "exportedBy": "Duty operator",
+    "exportedAt": "07/14/2026 05:34 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "05:30:12",
+        "level": "WARN",
+        "msg": "RTU-02 Orchard Standpipe COMM FAIL — STALE",
+        "highlight": true
+      },
+      {
+        "ts": "05:30:12",
+        "level": "WARN",
+        "msg": "RTU-03 Northgate COMM FAIL — STALE",
+        "highlight": true
+      },
+      {
+        "ts": "05:30:12",
+        "level": "WARN",
+        "msg": "RTU-04 Mill Road Booster COMM FAIL — STALE",
+        "highlight": true
+      },
+      {
+        "ts": "05:30:12",
+        "level": "WARN",
+        "msg": "RTU-06 Orchard Wellfield COMM FAIL — STALE",
+        "highlight": true
+      },
+      {
+        "ts": "05:30:40",
+        "level": "ERROR",
+        "msg": "RTU-01 Hilltop Tank radio lost; cellular failover not established — STALE (last LIT-601 33.1 ft at 05:29)",
+        "highlight": true
+      },
+      {
+        "ts": "05:31:00",
+        "level": "INFO",
+        "msg": "RTU-05 Eastfield (cellular) OK · RTU-07 Intake OK",
+        "highlight": false
+      }
+    ],
+    "classification": "INTERNAL",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "The plant is now blind to Zone 2 storage. Watch for stale values treated as unknown and for Hilltop Tank checked first.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 11 › 11.1 Radio Network",
+      "quote": "Licensed 900 MHz radio from the plant mast to the **Hilltop Tank repeater RP-1**; RTU-02 (Orchard Standpipe), RTU-06 (Orchard Wellfield), RTU-03 (Northgate) and RTU-04 (Mill Road) are reached only thr",
+      "chunkId": 89
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 2",
+      "quote": "The Millbrook system is described in full in MDWS-MAP-2026. In summary: the Riverside Water Treatment Plant (RWTP, 1400 River Road, rated 16.0 MGD) treats Millbrook River water drawn at Intake Structu",
+      "chunkId": 8
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5RJKVYX3R9346BGWBZA0KYS",
+      "kind": "image",
+      "path": "scenarios/01M5RFRYHYCSZ57DGS15TC4NF9/media/01M5RGNBN02V1V9KA7JE9F30JG/01M5RJKVYX3R9346BGWBZA0KYS.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 560,
+      "sha256": "febe7537f23f369a136b4e816c34a1fcd208c601c0d23ce9aea3ee5e88f5b29e",
+      "provenance": {
+        "provider": "template",
+        "templateId": "system_log",
+        "templateVersion": "1",
+        "createdAt": "2026-10-25T03:45:36.084Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-25T03:11:42.214Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Stale Signal — RTU Communication Failures",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MBW-HMI-01",
+          "host": "MBW-HMI-01",
+          "ip": "10.72.20.10",
+          "os": "Linux (Ubuntu 22.04)",
+          "logSource": "/var/log/scada/hmi_alerts.log",
+          "exportedBy": "SCADA\\ops.oncall",
+          "exportedAt": "10/24/2026 05:35 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/24/2026 05:35:02 AM",
+              "level": "WARN",
+              "msg": "RTU-01 (Hilltop Tank) — COMM FAIL: 3 consecutive polls missed",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 05:35:02 AM",
+              "level": "WARN",
+              "msg": "RTU-02 (Orchard Standpipe) — COMM FAIL: 3 consecutive polls missed",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 05:35:02 AM",
+              "level": "WARN",
+              "msg": "RTU-03 (Northgate Reservoir / Booster Station) — COMM FAIL: 3 consecutive polls missed",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 05:35:02 AM",
+              "level": "WARN",
+              "msg": "RTU-04 (Mill Road Booster Station) — COMM FAIL: 3 consecutive polls missed",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 05:35:02 AM",
+              "level": "INFO",
+              "msg": "RTU-05 (Eastfield Pump Station) — Online via cellular modem",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 05:35:02 AM",
+              "level": "INFO",
+              "msg": "RTU-07 (Intake Structure 1) — Online, no telemetry loss",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 05:35:02 AM",
+              "level": "ALERT",
+              "msg": "All RTUs on RP-1 repeater path (RTU-01 to RTU-04) now STALE",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 05:35:02 AM",
+              "level": "CRIT",
+              "msg": "Telemetry for Orchard Standpipe, Northgate Reservoir, Mill Road Booster, and Hilltop Tank — now STALE on HMI trend screens",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 05:35:02 AM",
+              "level": "INFO",
+              "msg": "RP-1 (Hilltop Tank repeater) not responding to pings from MBW-HMI-01",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 05:35:02 AM",
+              "level": "INFO",
+              "msg": "No active remote access sessions at time of failure",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 05:35:02 AM",
+              "level": "INFO",
+              "msg": "No recent configuration changes to RTU or radio path",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 05:35:02 AM",
+              "level": "INFO",
+              "msg": "System state: 4 RTUs lost, 3 operational, 1 cell-only",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "MBW-HMI-01: SCADA HMI Console (Primary)",
+          "command": "tail -n 12 /var/log/scada/hmi_alerts.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms telemetry loss on RP-1-reliant RTUs. The technical team should begin verifying the repeater and path integrity immediately. Watch for overreliance on HMI status without field confirmation.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.379Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "System Log: five sites stale at once",
+        "type": "system_log",
+        "fields": {
+          "systemName": "AquaSight alarm journal",
+          "host": "MBW-SCADA-SRV01",
+          "ip": "10.72.10.10",
+          "logSource": "Communication alarms",
+          "exportedBy": "Duty operator",
+          "exportedAt": "07/14/2026 05:34 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "05:30:12",
+              "level": "WARN",
+              "msg": "RTU-02 Orchard Standpipe COMM FAIL — STALE",
+              "highlight": true
+            },
+            {
+              "ts": "05:30:12",
+              "level": "WARN",
+              "msg": "RTU-03 Northgate COMM FAIL — STALE",
+              "highlight": true
+            },
+            {
+              "ts": "05:30:12",
+              "level": "WARN",
+              "msg": "RTU-04 Mill Road Booster COMM FAIL — STALE",
+              "highlight": true
+            },
+            {
+              "ts": "05:30:12",
+              "level": "WARN",
+              "msg": "RTU-06 Orchard Wellfield COMM FAIL — STALE",
+              "highlight": true
+            },
+            {
+              "ts": "05:30:40",
+              "level": "ERROR",
+              "msg": "RTU-01 Hilltop Tank radio lost; cellular failover not established — STALE (last LIT-601 33.1 ft at 05:29)",
+              "highlight": true
+            },
+            {
+              "ts": "05:31:00",
+              "level": "INFO",
+              "msg": "RTU-05 Eastfield (cellular) OK · RTU-07 Intake OK",
+              "highlight": false
+            }
+          ],
+          "classification": "INTERNAL",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "The plant is now blind to Zone 2 storage. Watch for stale values treated as unknown and for Hilltop Tank checked first.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:45:36.377Z"
+}

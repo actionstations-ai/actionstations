@@ -23,7 +23,7 @@ The Riverside Water Treatment Plant (RWTP) is operating at a weekday peak load o
 - Security Systems (MBW-PACS-01, MBW-NVR-01, CAM-01 to CAM-18): Normal / Green
 - Staffing (Control Room, on-site, on-call): Normal / Green
 
-**The Anomaly:** 09:18 — Night Operator Chen reports via radio from the Chemical Building: 'Control, this is Night Operator Chen, on rounds at the Chemical Building. AIT-302 shows finished-water pH at 9.3 — that's way above the normal 7.4–7.8 range. The HMI for NAOH-FC-203 still says 14 mg/L, which is in the normal range. But PSH-302 hasn't tripped, and I can hear the caustic pump running at full speed. I don't know what to trust — the screen says normal, but the water tastes like lye.'
+**The Anomaly:** 09:18 — Duty Operator Chen reports via radio from the Chemical Building: 'Control, this is Duty Operator Chen, on rounds at the Chemical Building. AIT-302 shows finished-water pH at 9.3 — that's way above the normal 7.4–7.8 range. The HMI for NAOH-FC-203 still says 14 mg/L, which is in the normal range. But PSH-302 hasn't tripped, and I can hear the caustic pump running at full speed. I don't know what to trust — the screen says normal, but the water tastes like lye.'
 
 **YOUR MISSION:** Maintain continuous, safe water delivery to the public while investigating and resolving the unexpected caustic overfeed and control-system anomaly, balancing immediate public health risk with operational continuity and system integrity.
 

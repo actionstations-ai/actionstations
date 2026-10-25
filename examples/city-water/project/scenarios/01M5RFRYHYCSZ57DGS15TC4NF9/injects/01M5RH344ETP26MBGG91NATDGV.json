@@ -1,0 +1,190 @@
+{
+  "id": "01M5RH344ETP26MBGG91NATDGV",
+  "mselRowId": "I-11",
+  "type": "phone_call",
+  "title": "Phone: Channel 4 at the geyser",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "systemName": "Recorded Line",
+    "callId": "CR-20260714-071502-024",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Reporter",
+      "number": "(555) 039-0400",
+      "label": "Channel 4"
+    },
+    "callee": {
+      "name": "Hannah Weiss",
+      "number": "(555) 031-2100",
+      "label": "Public Information Officer"
+    },
+    "startTime": "07/14/2026 07:15:02",
+    "duration": "0:40",
+    "transcript": [
+      {
+        "speaker": "Channel 4",
+        "offset": "0:00",
+        "text": "We’re live with the geyser on Summit Drive at seven-thirty. People on Ridge Road have no water."
+      },
+      {
+        "speaker": "Channel 4",
+        "offset": "0:12",
+        "text": "Is it safe to drink when it comes back? Should they boil it?"
+      },
+      {
+        "speaker": "Public Information Officer",
+        "text": "",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Channel 4": "Woman in her 30s, energetic, water and traffic noise"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "Watch for no advisory announced before it is decided, and a next-update time.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+      "quote": "- Loss of disinfection (finished chlorine residual below 0.2 mg/L entering distribution) or any confirmed or credible contamination of source, plant or distribution water. - A Boil Water, Do Not Drink",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 9 › 9.3 Advisory Types",
+      "quote": "| Advisory | When | Customer instruction | |---|---|---| | **Boil Water Advisory** | Pressure loss, main break, treatment interruption, microbial result, suspected microbial contamination | Boil for o",
+      "chunkId": 39
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Channel 4",
+        "voiceStyle": "Woman in her 30s, energetic, water and traffic noise",
+        "text": "We’re live with the geyser on Summit Drive at seven-thirty. People on Ridge Road have no water."
+      },
+      {
+        "speaker": "Channel 4",
+        "voiceStyle": "Woman in her 30s, energetic, water and traffic noise",
+        "text": "Is it safe to drink when it comes back? Should they boil it?"
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:19:19.701Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Ohio EPA DDAGW: Boil Water Advisory Mandate",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ohio EPA",
+          "systemName": "EPA Emergency Line - DDAGW Console",
+          "callId": "CR-20261024-071500-0031",
+          "direction": "Inbound",
+          "caller": {
+            "name": "DDAGW Liaison",
+            "number": "(555) 038-6000",
+            "label": "Ohio EPA DDAGW"
+          },
+          "callee": {
+            "name": "Incident Commander",
+            "number": "(555) 032-4000",
+            "label": "IC"
+          },
+          "startTime": "10/24/2026 07:15:00",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "DDAGW Liaison",
+              "offset": "00:00",
+              "text": "This is the Ohio EPA DDAGW Liaison. We have received an emergency report from the Carver County Health Commissioner. The pressure in Zone 2 has dropped below 20 psi, and the chlorine residual at the Orchard Standpipe outlet has been confirmed at 0.0 mg/L.",
+              "prompt": false
+            },
+            {
+              "speaker": "DDAGW Liaison",
+              "offset": "00:18",
+              "text": "Per Section 4.4 Level 3 of the MDWS-ERP-2026, you must issue a Boil Water Advisory within 30 minutes. The City Manager has been notified and will not approve any delay.",
+              "prompt": false
+            },
+            {
+              "speaker": "DDAGW Liaison",
+              "offset": "00:34",
+              "text": "You must begin the advisory protocol immediately. The advisory must cover all customers in Zone 2 and parts of Zone 3 affected by the depressurized network. Confirm your action within 5 minutes.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-11"
+        },
+        "instructorNote": "This inject triggers the official Boil Water Advisory activation. The IC must declare Level 3, initiate the protocol per MDWS-PCP-2026, and assign roles to WQ and PIO. Watch for delays in protocol initiation or incorrect advisory type selection.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.499Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone: Channel 4 at the geyser",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "Recorded Line",
+          "callId": "CR-20260714-071502-024",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Reporter",
+            "number": "(555) 039-0400",
+            "label": "Channel 4"
+          },
+          "callee": {
+            "name": "Hannah Weiss",
+            "number": "(555) 031-2100",
+            "label": "Public Information Officer"
+          },
+          "startTime": "07/14/2026 07:15:02",
+          "duration": "0:40",
+          "transcript": [
+            {
+              "speaker": "Channel 4",
+              "offset": "0:00",
+              "text": "We’re live with the geyser on Summit Drive at seven-thirty. People on Ridge Road have no water."
+            },
+            {
+              "speaker": "Channel 4",
+              "offset": "0:12",
+              "text": "Is it safe to drink when it comes back? Should they boil it?"
+            },
+            {
+              "speaker": "Public Information Officer",
+              "text": "",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Channel 4": "Woman in her 30s, energetic, water and traffic noise"
+          }
+        },
+        "instructorNote": "Watch for no advisory announced before it is decided, and a next-update time.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:45:40.181Z"
+}

@@ -1,0 +1,194 @@
+{
+  "id": "01M5RHA43X86NFQCSPGF0XPRER",
+  "mselRowId": "I-17",
+  "type": "system_log",
+  "title": "System Log: telemetry back — the first live values",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "systemName": "AquaSight alarm journal",
+    "host": "MBW-SCADA-SRV01",
+    "ip": "10.72.10.10",
+    "logSource": "Communication and process alarms",
+    "exportedBy": "Duty operator",
+    "exportedAt": "07/14/2026 08:24 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "08:20:41",
+        "level": "INFO",
+        "msg": "RTU-01 Hilltop Tank COMM OK (radio)",
+        "highlight": false
+      },
+      {
+        "ts": "08:20:55",
+        "level": "INFO",
+        "msg": "RTU-02, RTU-03, RTU-04, RTU-06 COMM OK",
+        "highlight": false
+      },
+      {
+        "ts": "08:21:10",
+        "level": "WARN",
+        "msg": "LIT-601 Hilltop Tank 14.2 ft (falling)",
+        "highlight": true
+      },
+      {
+        "ts": "08:21:10",
+        "level": "WARN",
+        "msg": "PIT-631 Mill Road suction (Zone 1) 34 psi — BP lockout at 30",
+        "highlight": true
+      },
+      {
+        "ts": "08:21:10",
+        "level": "WARN",
+        "msg": "LIT-621 Northgate Reservoir falling",
+        "highlight": true
+      },
+      {
+        "ts": "08:21:10",
+        "level": "INFO",
+        "msg": "LIT-611 Orchard Standpipe 78 ft",
+        "highlight": false
+      }
+    ],
+    "classification": "INTERNAL",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "default",
+  "instructorNote": "The picture is worse than the field readings suggested. Watch for the values checked against the field before they are trusted.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 2",
+      "quote": "| Role | Name | Responsibilities | |---|---|---| | Public Information Officer (PIO) | Hannah Weiss, City Communications Director | Owns this plan; approves and releases all public statements; spokespe",
+      "chunkId": 105
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.1 Boil Water Advisory",
+      "quote": "> **BOIL WATER ADVISORY — City of Millbrook Department of Water & Sewer (PWS ID OH-CARVER-0418)** > Issued [date] at [time]. > > **What happened.** At [time] on [date], [a water main break / a loss of",
+      "chunkId": 125
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+      "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+      "chunkId": 112
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+      "quote": "| Statement type | Drafted by | Facts approved by | Released by | |---|---|---|---| | Boil Water / Do Not Drink / Do Not Use / Precautionary advisory | PIO | Director + Water Quality Manager; City Man",
+      "chunkId": 106
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:23:27.386Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Boil Water Advisory — Zone 2",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "2:55",
+          "endTime": "08:25",
+          "resolution": "ENDEX. The Director of Water Operations has confirmed the Boil Water Advisory is ready for release. The City Manager has approved the public statement. The Public Information Officer will now release the advisory via MillbrookAlert, the website, and social media. All systems remain isolated; manual operations are verified. The advisory will stay in place until two rounds of samples, taken 24 hours apart, show the water meets standards.",
+          "finalState": [
+            "The Boil Water Advisory for Zone 2 has been officially released via MillbrookAlert, the website, and social media.",
+            "The media log and rumor log are now active under the Deputy PIO’s oversight.",
+            "The advisory remains in effect; two rounds of sampling are scheduled for 08:25 and 08:25 the next day.",
+            "The control network remains isolated; no restoration to SCADA or IT systems has been initiated.",
+            "The Incident Commander confirms the advisory is approved and the protocol is complete."
+          ],
+          "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.",
+          "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "How did the team validate the telemetry failure versus a real loss of disinfection?",
+            "What was the impact of the delayed public release on rumor control and customer trust?",
+            "How did the team balance the need for speed with the requirement to follow the approval chain in C6?",
+            "What role did the manual operations at Mill Road play in preventing further pressure loss?",
+            "How could the system’s isolation have been better managed to prevent cascading failures?"
+          ],
+          "facilitatorNote": "Collect all ICS 201 forms and evaluator sheets before the break.",
+          "scenarioTitle": "Stale Signal — Radio Failure & Transmission Break",
+          "injectId": "I-17"
+        },
+        "instructorNote": "This is the final event. The team has completed the Boil Water Advisory release and all required documentation. The hot wash should focus on process gaps, decision timing, and communication flow.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.568Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "System Log: telemetry back — the first live values",
+        "type": "system_log",
+        "fields": {
+          "systemName": "AquaSight alarm journal",
+          "host": "MBW-SCADA-SRV01",
+          "ip": "10.72.10.10",
+          "logSource": "Communication and process alarms",
+          "exportedBy": "Duty operator",
+          "exportedAt": "07/14/2026 08:24 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:20:41",
+              "level": "INFO",
+              "msg": "RTU-01 Hilltop Tank COMM OK (radio)",
+              "highlight": false
+            },
+            {
+              "ts": "08:20:55",
+              "level": "INFO",
+              "msg": "RTU-02, RTU-03, RTU-04, RTU-06 COMM OK",
+              "highlight": false
+            },
+            {
+              "ts": "08:21:10",
+              "level": "WARN",
+              "msg": "LIT-601 Hilltop Tank 14.2 ft (falling)",
+              "highlight": true
+            },
+            {
+              "ts": "08:21:10",
+              "level": "WARN",
+              "msg": "PIT-631 Mill Road suction (Zone 1) 34 psi — BP lockout at 30",
+              "highlight": true
+            },
+            {
+              "ts": "08:21:10",
+              "level": "WARN",
+              "msg": "LIT-621 Northgate Reservoir falling",
+              "highlight": true
+            },
+            {
+              "ts": "08:21:10",
+              "level": "INFO",
+              "msg": "LIT-611 Orchard Standpipe 78 ft",
+              "highlight": false
+            }
+          ],
+          "classification": "INTERNAL",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "The picture is worse than the field readings suggested. Watch for the values checked against the field before they are trusted.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:45:43.101Z"
+}

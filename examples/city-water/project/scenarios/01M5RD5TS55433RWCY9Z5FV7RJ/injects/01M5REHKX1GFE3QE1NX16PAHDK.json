@@ -1,0 +1,149 @@
+{
+  "id": "01M5REHKX1GFE3QE1NX16PAHDK",
+  "mselRowId": "I-19",
+  "type": "radio_call",
+  "title": "Radio: Lab — noon grab samples normal",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "centerName": "RWTP Control Room",
+    "channel": "DWS-1",
+    "frequency": "DWS-1 / 453.450 MHz",
+    "date": "10/26/2026",
+    "callsign": "Lab",
+    "lines": [
+      {
+        "time": "12:10",
+        "from": "Lab",
+        "to": "Water Quality Manager",
+        "text": "Marcus, lab. Noon grab samples: Clearwell 1 outlet free chlorine 1.3, High Service discharge 1.3, River Road tap 1.1 milligrams per liter; pH 7.6; turbidity 0.08 NTU. All in the normal bands and on the ERP-3 bench sheet."
+      },
+      {
+        "time": "12:10",
+        "from": "Lab",
+        "to": "Water Quality Manager",
+        "text": "The October operating report for DDAGW is due Friday, and LIMS holds the first three weeks of data."
+      }
+    ],
+    "background": "office",
+    "voiceStyle": "Woman in her 20s, precise, lab equipment humming",
+    "audioFile": "I-19_radio.wav",
+    "duration": "0:19",
+    "injectId": "I-19"
+  },
+  "variant": "default",
+  "instructorNote": "This is the evidence for “is the water safe?”. Watch whether it reaches the PIO and the IC, and for the DDAGW notification.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 6 › 6.2 Online Water-Quality Instruments",
+      "quote": "| Instrument | Location | Normal | Alarm | Action | |---|---|---|---|---| | AIT-301 finished chlorine residual | Clearwell outlet | 1.0–2.0 mg/L | < 0.5 or > 3.5 | Verify with grab sample within 15 mi",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.4 Suspected Setpoint Tampering Checklist",
+      "quote": "- [ ] Operator: read the current dose and setpoint for every chemical feed on MBW-HMI-02; compare with the dose table and the last grab sample; note any value above the normal band in Section 7.1 - [ ",
+      "chunkId": 85
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Lab",
+        "voiceStyle": "Woman in her 20s, precise, lab equipment humming",
+        "text": "Marcus, lab. Noon grab samples: Clearwell 1 outlet free chlorine 1.3, High Service discharge 1.3, River Road tap 1.1 milligrams per liter; pH 7.6; turbidity 0.08 NTU. All in the normal bands and on the ERP-3 bench sheet."
+      },
+      {
+        "speaker": "Lab",
+        "voiceStyle": "Woman in her 20s, precise, lab equipment humming",
+        "text": "The October operating report for DDAGW is due Friday, and LIMS holds the first three weeks of data."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:34:45.009Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Radio Call: Lab Sample Verification — Zone 3",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room Dispatch",
+          "channel": "DWS 3",
+          "frequency": "TG 3002 / 458.725 MHz",
+          "date": "10/24/2026",
+          "callsign": "WQ-1",
+          "lines": [
+            {
+              "time": "12:10",
+              "from": "WQ-1",
+              "to": "IC, WQ",
+              "text": "Control, this is WQ-1. I’ve reviewed the manual grab samples from Zone 3 taken over the past four hours. Chlorine residual is 0.3 mg/L — within target range. Turbidity is 0.1 NTU — below 0.3 NTU. No overfeed detected. The lab cannot verify the chain of custody because LIMS (MBW-LIMS-01) is still offline. I need verification that all manual readings are accurate and that the original setpoint limits (MDWS-SCADA-APP-A) have not been altered. I cannot confirm 'safe to drink' until the lab re-runs the samples and the Control Room re-verifies all manual operations against the original limits."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Middle-aged male, calm but urgent, slight hesitation",
+          "audioFile": "I-19_radio.wav",
+          "duration": "0:21",
+          "injectId": "I-19"
+        },
+        "instructorNote": "This inject confirms the lab’s verification of water quality under manual control. The Water Quality Manager must now request formal verification from the SCADA / IT Security Manager and confirm alignment with original setpoints before issuing any public safety statement.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.363Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Radio: Lab — noon grab samples normal",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "DWS-1",
+          "frequency": "DWS-1 / 453.450 MHz",
+          "date": "10/26/2026",
+          "callsign": "Lab",
+          "lines": [
+            {
+              "time": "12:10",
+              "from": "Lab",
+              "to": "Water Quality Manager",
+              "text": "Marcus, lab. Noon grab samples: Clearwell 1 outlet free chlorine 1.3, High Service discharge 1.3, River Road tap 1.1 milligrams per liter; pH 7.6; turbidity 0.08 NTU. All in the normal bands and on the ERP-3 bench sheet."
+            },
+            {
+              "time": "12:10",
+              "from": "Lab",
+              "to": "Water Quality Manager",
+              "text": "The October operating report for DDAGW is due Friday, and LIMS holds the first three weeks of data."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Woman in her 20s, precise, lab equipment humming",
+          "audioFile": "I-19_radio.wav",
+          "duration": "0:19",
+          "injectId": "I-19"
+        },
+        "instructorNote": "This is the evidence for “is the water safe?”. Watch whether it reaches the PIO and the IC, and for the DDAGW notification.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:07.768Z"
+}

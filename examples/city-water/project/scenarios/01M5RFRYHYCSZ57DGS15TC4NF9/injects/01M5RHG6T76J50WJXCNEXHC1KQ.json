@@ -1,0 +1,193 @@
+{
+  "id": "01M5RHG6T76J50WJXCNEXHC1KQ",
+  "mselRowId": "I-24",
+  "type": "field_report",
+  "title": "Field Report: packing leak on P-502",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "City of Millbrook Department of Water & Sewer — Distribution",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0714-04",
+    "date": "07/14/2026",
+    "time": "09:00",
+    "location": "Eastfield Pump Station",
+    "inspector": "Meter technician",
+    "unit": "Distribution 4",
+    "reportType": "routine",
+    "summary": "Packing leak on P-502, about a cup a minute. Pump running normally.",
+    "findings": [
+      {
+        "item": "P-502 packing",
+        "condition": "deficient",
+        "notes": "Leaking about a cup a minute"
+      }
+    ],
+    "actionsTaken": [
+      "Placed a drip pan"
+    ],
+    "recommendations": [
+      "Repack P-502 this week"
+    ],
+    "signature": "Meter technician",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "Noise.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.2 Remote Sites",
+      "quote": "| Site | Address | Assets and tags | Telemetry | |---|---|---|---| | **Hilltop Tank** | 2200 Summit Drive | Elevated tank 1.0 MG, overflow el. 1,012 ft; level LIT-601 (radar) and LIT-602 (pressure, ba",
+      "chunkId": 164
+    },
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A › A.4.5 Remote Sites (RTU-01 to RTU-06)",
+      "quote": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | FIT-631 | Carver County Water District inte",
+      "chunkId": 147
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:27:08.209Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Field Report: Eastfield Pump Station Pump Anomaly",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — Field Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1187",
+          "date": "10/24/2026",
+          "time": "09:00",
+          "location": "Eastfield Pump Station, Eastfield Boulevard",
+          "inspector": "T. Madsen, Meter Technician",
+          "unit": "Field Crew 3 · Vehicle 11",
+          "reportType": "incident",
+          "weather": "Clear, 82°F, wind SSW 5 mph",
+          "summary": "The local HMI at the Eastfield Pump Station shows P-501 and P-502 running in AUTO mode, but the discharge pressure PIT-641 is stuck at 22 psi. The pumps are vibrating and producing a loud, increasing mechanical noise. The bearing sensor on P-501 reads 110°F, but the HMI shows 85°F. The site radio is dead, and I am calling from my personal cell. No visible leaks or smoke. The pressure-sustaining valve PSV-501 is fully open and not cycling.",
+          "findings": [
+            {
+              "item": "Pump P-501 running status",
+              "condition": "failed",
+              "notes": "Vibrating, loud noise, bearing temp 110°F (HMI shows 85°F)"
+            },
+            {
+              "item": "Pump P-502 running status",
+              "condition": "failed",
+              "notes": "Vibrating, noise level increasing, no visible abnormalities"
+            },
+            {
+              "item": "Discharge pressure PIT-641",
+              "condition": "failed",
+              "notes": "Stuck at 22 psi; no change since 08:45"
+            },
+            {
+              "item": "PSV-501 valve position",
+              "condition": "ok",
+              "notes": "Fully open, no movement"
+            },
+            {
+              "item": "Local HMI display",
+              "condition": "failed",
+              "notes": "Shows stable values but contradicts on-site bearing sensor"
+            },
+            {
+              "item": "Site radio (RTU-05)",
+              "condition": "failed",
+              "notes": "No signal, dead"
+            },
+            {
+              "item": "Pressure-sustaining valve PSV-501",
+              "condition": "ok",
+              "notes": "Position 70%, not cycling"
+            },
+            {
+              "item": "Pump house ventilation",
+              "condition": "ok",
+              "notes": "No hot air or smoke detected"
+            },
+            {
+              "item": "Flow meter FIT-641",
+              "condition": "not_inspected",
+              "notes": "Not accessible from current location"
+            },
+            {
+              "item": "Emergency shutdown switch (E-SD-01)",
+              "condition": "ok",
+              "notes": "Located on wall, no damage"
+            }
+          ],
+          "actionsTaken": [
+            "Confirmed pump vibration and noise on-site",
+            "Checked bearing sensor on P-501 (110°F)",
+            "Verified HMI pressure reading (22 psi) against local gauge (same value)",
+            "Attempted radio call to Control — no response",
+            "Initiated manual shutdown via local control panel on P-501 (confirmed)"
+          ],
+          "recommendations": [
+            "Shut down P-501 and P-502 via local HOA switches immediately",
+            "Dispatch maintenance crew to Eastfield for mechanical inspection and bearing replacement",
+            "Verify HMI data integrity on RTU-05; isolate if telemetry is corrupted",
+            "Report any additional anomalies to Control via personal cell until radio restored"
+          ],
+          "photosNote": "4 photos attached: IMG_EFS-01 (P-501 vibration), IMG_EFS-02 (bearing sensor), IMG_EFS-03 (local HMI), IMG_EFS-04 (noise source near coupling) — all timestamped 09:00",
+          "signature": "T. Madsen, Meter Technician",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it down without engaging. The HMI is still unreliable, so validate on-site.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.611Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field Report: packing leak on P-502",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — Distribution",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0714-04",
+          "date": "07/14/2026",
+          "time": "09:00",
+          "location": "Eastfield Pump Station",
+          "inspector": "Meter technician",
+          "unit": "Distribution 4",
+          "reportType": "routine",
+          "summary": "Packing leak on P-502, about a cup a minute. Pump running normally.",
+          "findings": [
+            {
+              "item": "P-502 packing",
+              "condition": "deficient",
+              "notes": "Leaking about a cup a minute"
+            }
+          ],
+          "actionsTaken": [
+            "Placed a drip pan"
+          ],
+          "recommendations": [
+            "Repack P-502 this week"
+          ],
+          "signature": "Meter technician",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:45:44.539Z"
+}

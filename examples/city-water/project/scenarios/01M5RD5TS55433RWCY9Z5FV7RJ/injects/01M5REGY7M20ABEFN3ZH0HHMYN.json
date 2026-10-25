@@ -1,0 +1,257 @@
+{
+  "id": "01M5REGY7M20ABEFN3ZH0HHMYN",
+  "mselRowId": "I-18",
+  "type": "system_log",
+  "title": "System Log: MBW-SCADA-SRV02 at 12:00",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "Local console log",
+    "host": "MBW-SCADA-SRV02",
+    "ip": "10.72.10.11",
+    "os": "Windows Server 2019",
+    "logSource": "Task Scheduler and file audit",
+    "exportedBy": "Halberd Incident Response (on site)",
+    "exportedAt": "10/26/2026 12:04 PM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "12:00:03",
+        "level": "WARN",
+        "msg": "Task \"\\Microsoft\\Windows\\Sync\\Daily\" started WinSyncSvc",
+        "highlight": true
+      },
+      {
+        "ts": "12:00:41",
+        "level": "CRIT",
+        "msg": "D:\\AquaSight\\Projects: 2,318 files renamed *.rptd",
+        "highlight": true
+      },
+      {
+        "ts": "12:01:05",
+        "level": "ERROR",
+        "msg": "SMB to 10.72.10.10 (MBW-SCADA-SRV01): network unreachable",
+        "highlight": false
+      },
+      {
+        "ts": "12:01:05",
+        "level": "ERROR",
+        "msg": "SMB to 10.72.10.21–23 (MBW-HMI-01 to 03): network unreachable",
+        "highlight": false
+      },
+      {
+        "ts": "12:01:06",
+        "level": "ERROR",
+        "msg": "SMB to 10.72.10.30 (MBW-EWS-01): network unreachable",
+        "highlight": false
+      },
+      {
+        "ts": "12:02:10",
+        "level": "INFO",
+        "msg": "WinSyncSvc exited",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: Command Prompt",
+    "command": "wevtutil qe Microsoft-Windows-TaskScheduler/Operational /c:50 /f:text",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "Deliver as written if the players disconnected MBW-SCADA-SRV02. If they did not, read the three SMB lines as “connected” and tell the SCADA / IT Security Manager that MBW-HMI-03 is now showing renamed project files.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 9",
+      "quote": "- Nightly: MBW-EWS-01 copies the HMI application, PLC programs and historian exports to **MBW-BKP-01** on the business LAN under **FW-R-17**. MBW-BKP-01 also holds the CIS, AMI, GIS and LIMS backups —",
+      "chunkId": 81
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+      "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A",
+      "quote": "| Path | Endpoint reached | Authentication | Logging / recording | Approver | Status | |---|---|---|---|---|---| | MBW-JUMP-01 (RDP gateway in the SCADA DMZ) | MBW-EWS-01, MBW-SCADA-SRV01/02 | Named K",
+      "chunkId": 151
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:34:28.124Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Forensic Log: PLC-02 Logic Integrity Confirmed",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MBW-JUMP-01 Forensic Image",
+          "host": "MBW-JUMP-01",
+          "ip": "10.72.30.44",
+          "os": "Linux (Ubuntu 22.04)",
+          "logSource": "Forensic Image (01-07-2025-12-05)",
+          "exportedBy": "SCADA / IT Security Manager (Priya Nandakumar)",
+          "exportedAt": "10/24/2026 12:05 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "12:04:17",
+              "level": "INFO",
+              "msg": "Forensic image loaded: /mnt/forensics/01-07-2025-12-05.img",
+              "highlight": false
+            },
+            {
+              "ts": "12:04:18",
+              "level": "INFO",
+              "msg": "Mounting image read-only at /mnt/forensics/mnt",
+              "highlight": false
+            },
+            {
+              "ts": "12:04:19",
+              "level": "INFO",
+              "msg": "Analyzing SMB session logs: 10.72.20.15 → 10.72.30.44 via FW-R-17",
+              "highlight": false
+            },
+            {
+              "ts": "12:04:20",
+              "level": "WARN",
+              "msg": "Unapproved session from Kessler Controls laptop (Jared Molina): 10.72.20.15",
+              "highlight": true
+            },
+            {
+              "ts": "12:04:21",
+              "level": "INFO",
+              "msg": "User: Kessler-Remote-01 (password: K3ssler#2025)",
+              "highlight": false
+            },
+            {
+              "ts": "12:04:22",
+              "level": "ERROR",
+              "msg": "Attempted write to PLC-02 program file: PLC-02-LOGIC-2025.bin",
+              "highlight": true
+            },
+            {
+              "ts": "12:04:23",
+              "level": "CRIT",
+              "msg": "File not found in backup (MBW-BKP-01). No copy of 08/2025 logic revision exists on backup server.",
+              "highlight": true
+            },
+            {
+              "ts": "12:04:24",
+              "level": "INFO",
+              "msg": "Only live copy of PLC-02-LOGIC-2025.bin resides in PLC-02 (10.72.40.22)",
+              "highlight": false
+            },
+            {
+              "ts": "12:04:25",
+              "level": "ALERT",
+              "msg": "Integrator (Jared Molina) on-site and preparing for re-commissioning. No restoration from backup possible.",
+              "highlight": true
+            },
+            {
+              "ts": "12:04:26",
+              "level": "INFO",
+              "msg": "Session terminated by host auto-kill (09:09:15). No session persistence.",
+              "highlight": false
+            },
+            {
+              "ts": "12:04:27",
+              "level": "INFO",
+              "msg": "Authentication via MFA not enforced on Kessler-Remote-01 account. No ticket logged.",
+              "highlight": false
+            },
+            {
+              "ts": "12:04:28",
+              "level": "INFO",
+              "msg": "All evidence preserved in /mnt/forensics/01-07-2025-12-05.export",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Forensic Analysis Terminal",
+          "command": "sudo mount /dev/sdb1 /mnt/forensics/mnt && grep -i 'PLC-02' /mnt/forensics/mnt/smb_logs.txt",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the forensic reality of the PLC logic gap. The team must now confront that no clean backup exists and that re-commissioning must proceed under strict controls. Watch for hesitation in approving integrator access or attempts to restore from MBW-BKP-01.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.356Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "System Log: MBW-SCADA-SRV02 at 12:00",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Local console log",
+          "host": "MBW-SCADA-SRV02",
+          "ip": "10.72.10.11",
+          "os": "Windows Server 2019",
+          "logSource": "Task Scheduler and file audit",
+          "exportedBy": "Halberd Incident Response (on site)",
+          "exportedAt": "10/26/2026 12:04 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "12:00:03",
+              "level": "WARN",
+              "msg": "Task \"\\Microsoft\\Windows\\Sync\\Daily\" started WinSyncSvc",
+              "highlight": true
+            },
+            {
+              "ts": "12:00:41",
+              "level": "CRIT",
+              "msg": "D:\\AquaSight\\Projects: 2,318 files renamed *.rptd",
+              "highlight": true
+            },
+            {
+              "ts": "12:01:05",
+              "level": "ERROR",
+              "msg": "SMB to 10.72.10.10 (MBW-SCADA-SRV01): network unreachable",
+              "highlight": false
+            },
+            {
+              "ts": "12:01:05",
+              "level": "ERROR",
+              "msg": "SMB to 10.72.10.21–23 (MBW-HMI-01 to 03): network unreachable",
+              "highlight": false
+            },
+            {
+              "ts": "12:01:06",
+              "level": "ERROR",
+              "msg": "SMB to 10.72.10.30 (MBW-EWS-01): network unreachable",
+              "highlight": false
+            },
+            {
+              "ts": "12:02:10",
+              "level": "INFO",
+              "msg": "WinSyncSvc exited",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Command Prompt",
+          "command": "wevtutil qe Microsoft-Windows-TaskScheduler/Operational /c:50 /f:text",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "Deliver as written if the players disconnected MBW-SCADA-SRV02. If they did not, read the three SMB lines as “connected” and tell the SCADA / IT Security Manager that MBW-HMI-03 is now showing renamed project files.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:07.410Z"
+}

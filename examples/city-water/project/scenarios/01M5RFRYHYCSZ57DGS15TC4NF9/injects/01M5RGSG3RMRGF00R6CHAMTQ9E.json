@@ -1,0 +1,227 @@
+{
+  "id": "01M5RGSG3RMRGF00R6CHAMTQ9E",
+  "mselRowId": "I-05",
+  "type": "system_log",
+  "title": "System Log: the main-break signature at the plant",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "AquaSight trend export",
+    "host": "MBW-SCADA-SRV01",
+    "ip": "10.72.10.10",
+    "logSource": "FIT-501, PIT-501, HSP status",
+    "exportedBy": "Duty operator",
+    "exportedAt": "07/14/2026 06:12 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "06:09:00",
+        "level": "INFO",
+        "msg": "FIT-501 13.8 MGD · PIT-501 72 psi",
+        "highlight": false
+      },
+      {
+        "ts": "06:10:30",
+        "level": "WARN",
+        "msg": "FIT-501 16.4 MGD · PIT-501 64 psi",
+        "highlight": true
+      },
+      {
+        "ts": "06:11:30",
+        "level": "WARN",
+        "msg": "FIT-501 17.9 MGD · PIT-501 58 psi",
+        "highlight": true
+      },
+      {
+        "ts": "06:11:45",
+        "level": "NOTICE",
+        "msg": "HSP-3 auto-start on low discharge pressure",
+        "highlight": true
+      },
+      {
+        "ts": "06:12:00",
+        "level": "INFO",
+        "msg": "LIT-601, PIT-632, LIT-621: STALE",
+        "highlight": false
+      }
+    ],
+    "classification": "INTERNAL",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "ERP 6.6 in the plant’s own numbers. Watch for “main break” said out loud.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+      "quote": "| Failure | What Still Works | What Is Lost | Required Action | |---|---|---|---| | MBW-SCADA-SRV01 and SRV02 down | PLCs hold last setpoints; local HOA; PSH-302 | All remote control; HMI displays; Al",
+      "chunkId": 79
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.1 Policy",
+      "quote": "No person or vendor has standing remote access to the control network. All interactive remote access is through MBW-JUMP-01 under FW-R-09 and FW-R-11, with MFA, a named account, a ticket and a session",
+      "chunkId": 69
+    },
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A",
+      "quote": "| Organization | Scope | Contact | |---|---|---| | Kessler Controls | AquaSight servers, HMIs, PLC logic, MBW-JUMP-01 access | Support (555) 039-4400 (business hours); escalation (555) 039-4411 (24 h)",
+      "chunkId": 159
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:14:43.093Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Business Network Down — Ransomware Isolation",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MBW-CIS-01 (Customer Information System)",
+          "host": "MBW-CIS-01",
+          "ip": "10.73.0.10",
+          "os": "Windows Server 2022",
+          "logSource": "CIS Application / System Health Monitor",
+          "exportedBy": "IT\\system.monitor",
+          "exportedAt": "10/24/2026 06:15 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/24/2026 06:15:02 AM",
+              "level": "CRIT",
+              "msg": "Service shutdown: MBW-CIS-01 (Customer Portal) unreachable via HTTP(S). All endpoints return 503. No response from port 443.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 06:15:03 AM",
+              "level": "CRIT",
+              "msg": "Service shutdown: MBW-AMI-01 (AMI Metering) unreachable via TCP 5000. No telemetry received since 05:30.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 06:15:04 AM",
+              "level": "WARN",
+              "msg": "Security alert: MBW-NVR-01 (Video Recorder) logs show no access to Control Room entry point (CAM-01, CAM-02, CAM-03) since 05:30. Last access recorded: 05:29:48.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 06:15:05 AM",
+              "level": "ALERT",
+              "msg": "Network isolation triggered: MBW-FW-01 (Firewall) has blocked all inbound and outbound traffic from business LAN (10.73.x.x) to control network (10.72.x.x) per CISA and FBI incident response directive.",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 06:15:06 AM",
+              "level": "INFO",
+              "msg": "Business network status: DOWN. All systems on 10.73.x.x are unreachable. Email (mail.millbrook-oh.example), web portal, and AMI data paths are disabled.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 06:15:07 AM",
+              "level": "INFO",
+              "msg": "Ransomware event confirmed: Malware signature CISA-2026-1024-RW01 detected on MBW-BKP-01 and propagated to MBW-LIMS-01. Full business network isolation enforced.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 06:15:08 AM",
+              "level": "INFO",
+              "msg": "IT Director (Kevin Marsh) confirmed: All external access to business systems is now blocked. No remote access to control network via jump host (MBW-JUMP-01) permitted until further notice.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 06:15:09 AM",
+              "level": "INFO",
+              "msg": "Control Room must use paper forms and landlines (555-031-2244) for all external communication. All customer contact and media reporting must be handled via manual process.",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 06:15:10 AM",
+              "level": "INFO",
+              "msg": "FW-R-22 (business-LAN exception) has been disabled. No further bypasses allowed.",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 06:15:11 AM",
+              "level": "INFO",
+              "msg": "All remote access paths are now blocked. Operations must rely on manual procedures and on-site verification.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content .\\cisa_alerts.log -Tail 10",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the business network is fully isolated due to ransomware. The technical team must now operate without email, web, or AMI data. Watch for attempts to use MBW-JUMP-01 or unapproved remote access.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.430Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "System Log: the main-break signature at the plant",
+        "type": "system_log",
+        "fields": {
+          "systemName": "AquaSight trend export",
+          "host": "MBW-SCADA-SRV01",
+          "ip": "10.72.10.10",
+          "logSource": "FIT-501, PIT-501, HSP status",
+          "exportedBy": "Duty operator",
+          "exportedAt": "07/14/2026 06:12 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "06:09:00",
+              "level": "INFO",
+              "msg": "FIT-501 13.8 MGD · PIT-501 72 psi",
+              "highlight": false
+            },
+            {
+              "ts": "06:10:30",
+              "level": "WARN",
+              "msg": "FIT-501 16.4 MGD · PIT-501 64 psi",
+              "highlight": true
+            },
+            {
+              "ts": "06:11:30",
+              "level": "WARN",
+              "msg": "FIT-501 17.9 MGD · PIT-501 58 psi",
+              "highlight": true
+            },
+            {
+              "ts": "06:11:45",
+              "level": "NOTICE",
+              "msg": "HSP-3 auto-start on low discharge pressure",
+              "highlight": true
+            },
+            {
+              "ts": "06:12:00",
+              "level": "INFO",
+              "msg": "LIT-601, PIT-632, LIT-621: STALE",
+              "highlight": false
+            }
+          ],
+          "classification": "INTERNAL",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "ERP 6.6 in the plant’s own numbers. Watch for “main break” said out loud.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:45:38.191Z"
+}

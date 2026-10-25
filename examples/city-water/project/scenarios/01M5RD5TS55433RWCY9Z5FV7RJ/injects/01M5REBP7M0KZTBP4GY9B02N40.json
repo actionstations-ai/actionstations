@@ -1,0 +1,193 @@
+{
+  "id": "01M5REBP7M0KZTBP4GY9B02N40",
+  "mselRowId": "I-08",
+  "type": "phone_call",
+  "title": "Phone: Mayor — is the water safe?",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "systemName": "City of Millbrook Phone System",
+    "callId": "CR-20261026-102509-007",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Robert Kline",
+      "number": "(555) 031-2001",
+      "label": "Mayor"
+    },
+    "callee": {
+      "name": "Denise Albrecht",
+      "number": "(555) 031-2200",
+      "label": "Director of Water Operations"
+    },
+    "startTime": "10/26/2026 10:25:09",
+    "duration": "0:44",
+    "transcript": [
+      {
+        "speaker": "Mayor",
+        "offset": "0:00",
+        "text": "Denise, Robert Kline. Channel 4 wants me on camera at noon and the first question will be whether the water is safe."
+      },
+      {
+        "speaker": "Mayor",
+        "offset": "0:14",
+        "text": "Gloria tells me the hackers are in the plant computers. I need a yes or no, and I need to know whether to tell people to buy bottled water."
+      },
+      {
+        "speaker": "Director of Water Operations",
+        "text": "",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Caller": "Male in his 50s, calm but urgent, background city noise",
+      "Callee": "Female in her 40s, composed, measured, professional",
+      "Mayor": "Man in his 60s, measured politician under pressure"
+    },
+    "injectId": "I-08"
+  },
+  "variant": "default",
+  "instructorNote": "The answer has to come from grab samples and the advisory triggers in ERP Section 9, not from the absence of alarms. Watch for over-reassurance and for an unnecessary advisory.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 5 › 5.2 Internal Call-Down",
+      "quote": "| Step | From | To | Time limit | |---|---|---|---| | 1 | Person observing | RWTP Control Room (555) 031-2244 | Immediately (radio DWS-1 or phone) | | 2 | Duty operator | Plant Superintendent (Ray Cas",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+      "quote": "- Do not confirm or deny that an intrusion occurred until the SCADA / IT Security Manager and the City IT Director agree on the facts and the FBI/CISA liaison (when engaged) has been consulted on what",
+      "chunkId": 117
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Mayor",
+        "voiceStyle": "Man in his 60s, measured politician under pressure",
+        "text": "Denise, Robert Kline. Channel 4 wants me on camera at noon and the first question will be whether the water is safe."
+      },
+      {
+        "speaker": "Mayor",
+        "voiceStyle": "Man in his 60s, measured politician under pressure",
+        "text": "Gloria tells me the hackers are in the plant computers. I need a yes or no, and I need to know whether to tell people to buy bottled water."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:31:27.823Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Phone Call: Mayor — Water Safety Inquiry",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "City Central Phone System",
+          "callId": "CR-20261024-102518-007",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Robert Kline",
+            "number": "(555) 037-9000",
+            "label": "Mayor"
+          },
+          "callee": {
+            "name": "Denise Albrecht",
+            "number": "(555) 031-2244",
+            "label": "Director of Water Operations"
+          },
+          "startTime": "10/24/2026 10:25:18",
+          "duration": "0:42",
+          "transcript": [
+            {
+              "speaker": "Caller",
+              "offset": "0:00",
+              "text": "Denise, this is Robert Kline, the Mayor. I’ve just been asked by a reporter whether the water is safe. The city’s official channels are down. I need a yes or no answer. Is the water safe to drink?",
+              "prompt": false
+            },
+            {
+              "speaker": "Callee",
+              "offset": "0:23",
+              "text": "The City is investigating a technology issue affecting the control system. We are running the plant manually and testing water quality every two hours. We will issue a public advisory when the facts are confirmed.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Caller": "Male in his 50s, calm but urgent, background city noise",
+            "Callee": "Female in her 40s, composed, measured, professional"
+          },
+          "injectId": "I-08"
+        },
+        "instructorNote": "This inject tests the IC's adherence to approved messaging under pressure. Watch for any deviation from the scripted response or premature disclosure of water safety.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.272Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone: Mayor — is the water safe?",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "City of Millbrook Phone System",
+          "callId": "CR-20261026-102509-007",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Robert Kline",
+            "number": "(555) 031-2001",
+            "label": "Mayor"
+          },
+          "callee": {
+            "name": "Denise Albrecht",
+            "number": "(555) 031-2200",
+            "label": "Director of Water Operations"
+          },
+          "startTime": "10/26/2026 10:25:09",
+          "duration": "0:44",
+          "transcript": [
+            {
+              "speaker": "Mayor",
+              "offset": "0:00",
+              "text": "Denise, Robert Kline. Channel 4 wants me on camera at noon and the first question will be whether the water is safe."
+            },
+            {
+              "speaker": "Mayor",
+              "offset": "0:14",
+              "text": "Gloria tells me the hackers are in the plant computers. I need a yes or no, and I need to know whether to tell people to buy bottled water."
+            },
+            {
+              "speaker": "Director of Water Operations",
+              "text": "",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Caller": "Male in his 50s, calm but urgent, background city noise",
+            "Callee": "Female in her 40s, composed, measured, professional",
+            "Mayor": "Man in his 60s, measured politician under pressure"
+          },
+          "injectId": "I-08"
+        },
+        "instructorNote": "The answer has to come from grab samples and the advisory triggers in ERP Section 9, not from the absence of alarms. Watch for over-reassurance and for an unnecessary advisory.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:03.471Z"
+}

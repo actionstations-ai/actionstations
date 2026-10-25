@@ -1,0 +1,115 @@
+{
+  "id": "01M5RE94J1D0230EJZEX9S79P8",
+  "mselRowId": "I-05",
+  "type": "scenario_update",
+  "title": "Situation Update: four-minute dip on chlorine analyzer AIT-301",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "0:30",
+    "scenarioTime": "09:30",
+    "headline": "AIT-301 dipped from 1.4 to 0.7 mg/L for four minutes",
+    "deliverTo": "Water Quality Manager, Incident Commander",
+    "narration": "At 09:28 the finished-water chlorine analyzer AIT-301 on MBW-HMI-01 dropped from 1.4 to 0.7 mg/L, held for four minutes and came back to 1.4. No other analyzer moved. With LIMS (MBW-LIMS-01) down, the lab cannot look up whether any work was scheduled on the analyzer this morning.",
+    "keyFacts": [
+      "AIT-301 returned to 1.4 mg/L at 09:32",
+      "AIT-302 (pH), AIT-303 (fluoride) and AIT-304 (turbidity) did not change",
+      "The lab’s calibration schedule is in LIMS, which is unavailable"
+    ],
+    "expectedAction": "The Water Quality Manager orders a grab sample at the Clearwell 1 outlet, records it on the paper bench sheet and checks the paper calibration log; the IC does not change the plant’s mode on this reading alone.",
+    "facilitatorNote": "Red herring: the lab technician was doing the Monday calibration on AIT-301. If asked, the grab sample reads 1.4 mg/L and the paper log in the lab shows the calibration. Do not volunteer it.",
+    "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+    "injectId": "I-05"
+  },
+  "variant": "default",
+  "instructorNote": "A plausible false lead at the worst moment. Good play: verify with a grab sample before linking it to the attack.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 4 › 4.2 Level 1 — Monitor",
+      "quote": "- Pressure dip below 35 psi in part of one zone, recovering within 30 minutes. - Loss of telemetry from a single remote site; a single SCADA alarm that cannot be explained; a stale-data flag that pers",
+      "chunkId": 11
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 6 › 6.1 Control-System Alarms",
+      "quote": "SCADA priority 1 and 2 alarms (MDWS-SCADA-APP-A, A.5) reach the duty operator on MBW-HMI-01 and, after hours, the on-call phones through the AlarmCall autodialer. Operators are required to investigate",
+      "chunkId": 19
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+      "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+      "chunkId": 84
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:30:00.939Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "RTU-03 Telemetry Loss — Zone 3 Isolation",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "0:30",
+          "scenarioTime": "09:30",
+          "headline": "RTU-03 Telemetry Loss Confirmed",
+          "deliverTo": "All players",
+          "narration": "The Plant Superintendent, Ray Castellano, stands at the control room console. He taps the HMI screen, but the Zone 3 telemetry feed remains unresponsive. 'I’ve reviewed the HMI and all chemical feed pumps are still running. No alarms have triggered. The PLCs are not showing any fault states. The SCADA server (MBW-SCADA-SRV01) is online. I don’t see any reason to go to manual mode yet. But the telemetry loss on RTU-03 is real. We’re not getting any updates from Zone 3, and the lab is down. I’m worried we’re not seeing the full picture.'",
+          "keyFacts": [
+            "RTU-03 remains offline with no data updates",
+            "All chemical feed pumps are still running",
+            "No SCADA alarms have triggered on the HMI",
+            "MBW-SCADA-SRV01 shows as online",
+            "The lab in Zone 3 has not confirmed water quality"
+          ],
+          "expectedAction": "Ops confirms that the control system is still running, but that telemetry has failed on a critical remote site; instructs Ray Castellano to begin manual site verification in Zone 3 and to monitor for any signs of overfeed or pressure drop below 15 psi; orders the SCADA / IT Security Manager (it) to begin forensic analysis on MBW-JUMP-01 and MBW-BKP-01.",
+          "facilitatorNote": "Read the narration with a tone of cautious urgency. The plant superintendent is confident in the system, but the lack of data is a growing concern. Watch for hesitation in the IC’s response to manual verification.",
+          "scenarioTitle": "Ransomware Riptide — SCADA Isolation & Public Trust",
+          "injectId": "I-05"
+        },
+        "instructorNote": "This inject confirms the operational friction from I-01 and I-02. The system appears stable, but telemetry loss is confirmed. The IC must now decide whether to isolate Zone 3 or maintain automated operation. The IT team must begin forensic work on the jump host and backup server.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.230Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Situation Update: four-minute dip on chlorine analyzer AIT-301",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "0:30",
+          "scenarioTime": "09:30",
+          "headline": "AIT-301 dipped from 1.4 to 0.7 mg/L for four minutes",
+          "deliverTo": "Water Quality Manager, Incident Commander",
+          "narration": "At 09:28 the finished-water chlorine analyzer AIT-301 on MBW-HMI-01 dropped from 1.4 to 0.7 mg/L, held for four minutes and came back to 1.4. No other analyzer moved. With LIMS (MBW-LIMS-01) down, the lab cannot look up whether any work was scheduled on the analyzer this morning.",
+          "keyFacts": [
+            "AIT-301 returned to 1.4 mg/L at 09:32",
+            "AIT-302 (pH), AIT-303 (fluoride) and AIT-304 (turbidity) did not change",
+            "The lab’s calibration schedule is in LIMS, which is unavailable"
+          ],
+          "expectedAction": "The Water Quality Manager orders a grab sample at the Clearwell 1 outlet, records it on the paper bench sheet and checks the paper calibration log; the IC does not change the plant’s mode on this reading alone.",
+          "facilitatorNote": "Red herring: the lab technician was doing the Monday calibration on AIT-301. If asked, the grab sample reads 1.4 mg/L and the paper log in the lab shows the calibration. Do not volunteer it.",
+          "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+          "injectId": "I-05"
+        },
+        "instructorNote": "A plausible false lead at the worst moment. Good play: verify with a grab sample before linking it to the attack.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:01.376Z"
+}

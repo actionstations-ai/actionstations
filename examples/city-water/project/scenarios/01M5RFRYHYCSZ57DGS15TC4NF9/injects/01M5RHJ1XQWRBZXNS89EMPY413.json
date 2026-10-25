@@ -1,0 +1,185 @@
+{
+  "id": "01M5RHJ1XQWRBZXNS89EMPY413",
+  "mselRowId": "I-21",
+  "type": "system_log",
+  "title": "System Log: Northgate Reservoir falling",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "AquaSight trend export",
+    "host": "MBW-SCADA-SRV01",
+    "ip": "10.72.10.10",
+    "logSource": "RTU-03 Northgate",
+    "exportedBy": "Duty operator",
+    "exportedAt": "07/14/2026 09:04 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "06:00",
+        "level": "INFO",
+        "msg": "LIT-621 18.2 ft · ALV-301 modulating",
+        "highlight": false
+      },
+      {
+        "ts": "08:21",
+        "level": "WARN",
+        "msg": "LIT-621 16.4 ft · ALV-301 100 % open",
+        "highlight": true
+      },
+      {
+        "ts": "09:00",
+        "level": "WARN",
+        "msg": "LIT-621 15.6 ft · ALV-301 100 % open · inflow ~0",
+        "highlight": true
+      },
+      {
+        "ts": "09:00",
+        "level": "INFO",
+        "msg": "PIT-622 Zone 3 pressure 54 psi (normal)",
+        "highlight": false
+      }
+    ],
+    "classification": "INTERNAL",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "Zone 3 has hours, not days. Watch for a warning level for Zone 3 customers.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Remote Sites in Manual",
+      "quote": "Hilltop Tank level is read from the sight gauge, Northgate Reservoir from the float board, Orchard Standpipe from the level gauge at the base; distribution crews phone readings to the Control Room **e",
+      "chunkId": 78
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+      "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+      "quote": "| Failure | What Still Works | What Is Lost | Required Action | |---|---|---|---| | MBW-SCADA-SRV01 and SRV02 down | PLCs hold last setpoints; local HOA; PSH-302 | All remote control; HMI displays; Al",
+      "chunkId": 79
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:27:52.130Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "System Log: Northgate Booster Station Overload Trip",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MBW-HMI-01",
+          "host": "MBW-HMI-01",
+          "ip": "10.72.20.10",
+          "os": "Windows Server 2019",
+          "logSource": "SCADA / HMI Event Log",
+          "exportedBy": "MBW-SCADA-APP-A\\ops.oncall",
+          "exportedAt": "10/24/2026 09:05 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:20:12",
+              "level": "ALERT",
+              "msg": "RTU-03 (Northgate Booster Station) — PIT-622 (Zone 3 pressure) — ALARM: OVERLOAD TRIP",
+              "highlight": true
+            },
+            {
+              "ts": "08:20:13",
+              "level": "ERROR",
+              "msg": "BP-301/302/303: OFF — VFDs locked out due to surge event",
+              "highlight": false
+            },
+            {
+              "ts": "08:20:14",
+              "level": "WARN",
+              "msg": "Manual mode engaged at RTU-03. No remote control path available.",
+              "highlight": false
+            },
+            {
+              "ts": "08:20:15",
+              "level": "INFO",
+              "msg": "PIT-622 (Zone 3 pressure) shows 20 psi. Local pressure-switch control failed due to surge when Zone 2 pressure recovered.",
+              "highlight": false
+            },
+            {
+              "ts": "08:20:16",
+              "level": "INFO",
+              "msg": "Site remains in manual mode. No remote access path to RTU-03.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\\\SCADA\\Logs\\HMI_Event_20261024.log -Tail 10",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the cascading impact of Zone 2 recovery on Zone 3. IT must validate that RTU-03 is truly isolated and cannot be remotely controlled. Ops must reaffirm that the Boil Water Advisory remains in effect until two full 24-hour sampling cycles are complete.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.621Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "System Log: Northgate Reservoir falling",
+        "type": "system_log",
+        "fields": {
+          "systemName": "AquaSight trend export",
+          "host": "MBW-SCADA-SRV01",
+          "ip": "10.72.10.10",
+          "logSource": "RTU-03 Northgate",
+          "exportedBy": "Duty operator",
+          "exportedAt": "07/14/2026 09:04 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "06:00",
+              "level": "INFO",
+              "msg": "LIT-621 18.2 ft · ALV-301 modulating",
+              "highlight": false
+            },
+            {
+              "ts": "08:21",
+              "level": "WARN",
+              "msg": "LIT-621 16.4 ft · ALV-301 100 % open",
+              "highlight": true
+            },
+            {
+              "ts": "09:00",
+              "level": "WARN",
+              "msg": "LIT-621 15.6 ft · ALV-301 100 % open · inflow ~0",
+              "highlight": true
+            },
+            {
+              "ts": "09:00",
+              "level": "INFO",
+              "msg": "PIT-622 Zone 3 pressure 54 psi (normal)",
+              "highlight": false
+            }
+          ],
+          "classification": "INTERNAL",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "Zone 3 has hours, not days. Watch for a warning level for Zone 3 customers.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:45:44.915Z"
+}

@@ -1,0 +1,152 @@
+{
+  "id": "01M5RH7B3Z8WFJB7EV03ZM2CCE",
+  "mselRowId": "I-15",
+  "type": "radio_call",
+  "title": "Radio: V-2410 closed, V-2418 will not turn",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "centerName": "RWTP Control Room",
+    "channel": "DWS-1",
+    "frequency": "DWS-1 / 453.450 MHz",
+    "date": "07/14/2026",
+    "callsign": "Distribution 3",
+    "lines": [
+      {
+        "time": "08:05",
+        "from": "Distribution 3",
+        "to": "Control",
+        "text": "Control, Distribution 3. V-2410 is closed at zero seven fifty-eight. V-2418 won’t move — the stem is binding even with the machine."
+      },
+      {
+        "time": "08:05",
+        "from": "Distribution 3",
+        "to": "Control",
+        "text": "The next valve upstream is V-2422 on Crestview. Closing that instead puts another eighteen hundred customers off the main."
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Man in his 50s, frustrated, machine noise",
+    "duration": "0:17"
+  },
+  "variant": "default",
+  "instructorNote": "Watch for the trade-off stated by street, and for the PIO told before any wider shutoff.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 2. Map of Record (described)",
+      "quote": "The system map (sheet MDWS-MAP-2026-1, 36 × 48 in, in the Control Room, the Distribution Office and every DWS truck) shows: - **Riverside Water Treatment Plant**, 1400 River Road, on the west bank of ",
+      "chunkId": 162
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+      "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+      "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
+      "chunkId": 29
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Distribution 3",
+        "voiceStyle": "Man in his 50s, frustrated, machine noise",
+        "text": "Control, Distribution 3. V-2410 is closed at zero seven fifty-eight. V-2418 won’t move — the stem is binding even with the machine."
+      },
+      {
+        "speaker": "Distribution 3",
+        "voiceStyle": "Man in his 50s, frustrated, machine noise",
+        "text": "The next valve upstream is V-2422 on Crestview. Closing that instead puts another eighteen hundred customers off the main."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:22:09.274Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Radio Call: Interconnect IC-1 Opened — Mill Road Booster Station",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "Riverside Water Treatment Plant Control Room",
+          "channel": "DWS-OPS 2",
+          "frequency": "TG 5201 / 460.300 MHz",
+          "date": "10/24/2026",
+          "callsign": "Field Crew 4",
+          "lines": [
+            {
+              "time": "08:05",
+              "from": "Field Crew 4",
+              "to": "Control",
+              "text": "Control, this is Field Crew 4 at the Mill Road Booster Station. We’ve arrived and performed the two-person valve operation on IC-1. The valve is fully open. The IC-1 meter FIT-631 shows flow at 2.5 MGD into Zone 2. The boosters BP-401 and BP-402 are now in AUTO mode. I’ve confirmed the manual override lever is now free and the HMI shows pressure rising. I’m calling from the site radio."
+            }
+          ],
+          "background": "garage",
+          "voiceStyle": "Young male, steady, confident, with slight static on line",
+          "audioFile": "I-15_radio.wav",
+          "duration": "0:18",
+          "injectId": "I-15"
+        },
+        "instructorNote": "This is a core narrative inject confirming the manual interconnect operation. The IC must log IC-1 activation on Form ERP-2; the TL must verify control system isolation remains intact.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.549Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Radio: V-2410 closed, V-2418 will not turn",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "DWS-1",
+          "frequency": "DWS-1 / 453.450 MHz",
+          "date": "07/14/2026",
+          "callsign": "Distribution 3",
+          "lines": [
+            {
+              "time": "08:05",
+              "from": "Distribution 3",
+              "to": "Control",
+              "text": "Control, Distribution 3. V-2410 is closed at zero seven fifty-eight. V-2418 won’t move — the stem is binding even with the machine."
+            },
+            {
+              "time": "08:05",
+              "from": "Distribution 3",
+              "to": "Control",
+              "text": "The next valve upstream is V-2422 on Crestview. Closing that instead puts another eighteen hundred customers off the main."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Man in his 50s, frustrated, machine noise",
+          "duration": "0:17"
+        },
+        "instructorNote": "Watch for the trade-off stated by street, and for the PIO told before any wider shutoff.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:45:42.272Z"
+}

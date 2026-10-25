@@ -1,0 +1,229 @@
+{
+  "id": "01M5REG3EBHDGT9DXV54TD5JXA",
+  "mselRowId": "I-15",
+  "type": "field_report",
+  "title": "Field Report: Chemical Building door accepts a revoked badge",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "City of Millbrook Department of Water & Sewer — RWTP Operations",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-1026-03",
+    "date": "10/26/2026",
+    "time": "11:35",
+    "location": "RWTP Chemical Building, east door",
+    "inspector": "Operator on Chemical Building watch",
+    "unit": "RWTP Operations",
+    "reportType": "security",
+    "weather": "Clear, 61°F",
+    "summary": "With MBW-PACS-01 administration down, the Chemical Building door controller is granting from its cached list. A contractor badge revoked last week still opens the east door. The access log on the controller shows no use of that badge today.",
+    "findings": [
+      {
+        "item": "Door controller mode",
+        "condition": "failed",
+        "notes": "Granting from cached list; no updates from MBW-PACS-01"
+      },
+      {
+        "item": "Revoked contractor badge",
+        "condition": "failed",
+        "notes": "Still accepted at the east door"
+      },
+      {
+        "item": "Controller access log",
+        "condition": "ok",
+        "notes": "No use of the revoked badge today"
+      },
+      {
+        "item": "Door hardware",
+        "condition": "ok",
+        "notes": "Closes and latches"
+      }
+    ],
+    "actionsTaken": [
+      "Tested the revoked badge once with the Superintendent present",
+      "Started a paper access log at the east door"
+    ],
+    "recommendations": [
+      "Post an operator or guard at the Chemical Building and Control Room doors",
+      "Revoke the badge when PACS administration returns"
+    ],
+    "photosNote": "2 photos: controller display, revoked badge",
+    "signature": "Chemical Building watch operator",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "A physical consequence of losing a business-side system (OT Plan 10.5). Watch for a guard and a paper access log.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.2 Remote Sites",
+      "quote": "| Site | Address | Assets and tags | Telemetry | |---|---|---|---| | **Hilltop Tank** | 2200 Summit Drive | Elevated tank 1.0 MG, overflow el. 1,012 ft; level LIT-601 (radar) and LIT-602 (pressure, ba",
+      "chunkId": 164
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+      "quote": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:33:54.903Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Field Report: Hilltop Transmission Main Valve Pit — Tampering Suspicion",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — Field Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-104418",
+          "date": "10/24/2026",
+          "time": "11:35",
+          "location": "Hilltop Transmission Main Valve Pit, Zone 3 isolation line (V-307)",
+          "inspector": "Meter Tech 4, Field Technician",
+          "unit": "Field Crew 7 · Vehicle 3",
+          "reportType": "security",
+          "weather": "Clear, 62°F, light breeze",
+          "summary": "Found broken padlock on isolation valve V-307 (Hilltop Main Isolation) for Zone 3. Seal on valve body is cracked. Handle is cold—no recent operation. No log entry for the valve’s status change. No surveillance coverage at the site. I am holding the location and awaiting instructions before opening or disturbing the valve.",
+          "findings": [
+            {
+              "item": "Valve V-307 (Hilltop Main Isolation) lock integrity",
+              "condition": "failed",
+              "notes": "Padlock (30mm, red cable) is broken; evidence of forced entry"
+            },
+            {
+              "item": "Valve V-307 handle temperature",
+              "condition": "not_inspected",
+              "notes": "Cold to touch—no recent manual operation"
+            },
+            {
+              "item": "Seal integrity on valve body",
+              "condition": "failed",
+              "notes": "Cracked seal—no recent maintenance"
+            },
+            {
+              "item": "Lockout/Tagout (LOTO) status",
+              "condition": "not_inspected",
+              "notes": "No LOTO tag present"
+            },
+            {
+              "item": "Site surveillance coverage",
+              "condition": "failed",
+              "notes": "No camera in proximity; site is unmarked"
+            },
+            {
+              "item": "Valve logbook entry",
+              "condition": "failed",
+              "notes": "No record of status change or maintenance"
+            },
+            {
+              "item": "Access route and perimeter",
+              "condition": "ok",
+              "notes": "No footprints or vehicle tracks near pit"
+            },
+            {
+              "item": "Valve stem position",
+              "condition": "not_inspected",
+              "notes": "Cannot confirm stem position due to closed pit cover"
+            },
+            {
+              "item": "Emergency contact signage",
+              "condition": "ok",
+              "notes": "Signage is intact and visible"
+            },
+            {
+              "item": "Local operator contact",
+              "condition": "ok",
+              "notes": "Verified via radio that Control Room is aware"
+            }
+          ],
+          "actionsTaken": [
+            "Secured site perimeter using temporary barrier",
+            "Notified Security & Emergency Manager via radio at 11:35",
+            "Documented location and condition with photo and video",
+            "Not opened or operated the valve"
+          ],
+          "recommendations": [
+            "Do not open or operate valve V-307 until Millbrook Police confirm site clearance per C1",
+            "Conduct forensic review of the broken lock and seal",
+            "Verify no prior tampering in RTU-01 or RTU-03 logs for Zone 3"
+          ],
+          "photosNote": "4 photos attached: IMG_104418-01 (padlock break), IMG_104418-02 (cracked seal), IMG_104418-03 (valve pit view), IMG_104418-04 (photo of site marker)",
+          "signature": "Meter Tech 4, Field Technician",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it down without engaging. The lock is a red herring—no physical intrusion has been confirmed. The valve has not been opened. Security must confirm law enforcement status before any action.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.341Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field Report: Chemical Building door accepts a revoked badge",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — RWTP Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1026-03",
+          "date": "10/26/2026",
+          "time": "11:35",
+          "location": "RWTP Chemical Building, east door",
+          "inspector": "Operator on Chemical Building watch",
+          "unit": "RWTP Operations",
+          "reportType": "security",
+          "weather": "Clear, 61°F",
+          "summary": "With MBW-PACS-01 administration down, the Chemical Building door controller is granting from its cached list. A contractor badge revoked last week still opens the east door. The access log on the controller shows no use of that badge today.",
+          "findings": [
+            {
+              "item": "Door controller mode",
+              "condition": "failed",
+              "notes": "Granting from cached list; no updates from MBW-PACS-01"
+            },
+            {
+              "item": "Revoked contractor badge",
+              "condition": "failed",
+              "notes": "Still accepted at the east door"
+            },
+            {
+              "item": "Controller access log",
+              "condition": "ok",
+              "notes": "No use of the revoked badge today"
+            },
+            {
+              "item": "Door hardware",
+              "condition": "ok",
+              "notes": "Closes and latches"
+            }
+          ],
+          "actionsTaken": [
+            "Tested the revoked badge once with the Superintendent present",
+            "Started a paper access log at the east door"
+          ],
+          "recommendations": [
+            "Post an operator or guard at the Chemical Building and Control Room doors",
+            "Revoke the badge when PACS administration returns"
+          ],
+          "photosNote": "2 photos: controller display, revoked badge",
+          "signature": "Chemical Building watch operator",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "A physical consequence of losing a business-side system (OT Plan 10.5). Watch for a guard and a paper access log.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:06.724Z"
+}

@@ -1,0 +1,236 @@
+{
+  "id": "01M5RF6YBX81FH3JVNK0JNJ9P2",
+  "mselRowId": "I-02",
+  "type": "system_log",
+  "title": "Historian: AIT-611 falling against a full-output trim pump",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "AquaSight Historian trend export",
+    "host": "MBW-HIST-01",
+    "logSource": "AIT-611, CL2-FC-611, LIT-611",
+    "exportedBy": "Day Operator",
+    "exportedAt": "10/25/2026 07:24 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "00:00",
+        "level": "INFO",
+        "msg": "AIT-611 1.12 mg/L · CL2-FC-611 46 % · LIT-611 84.1 ft",
+        "highlight": false
+      },
+      {
+        "ts": "02:00",
+        "level": "INFO",
+        "msg": "AIT-611 1.08 mg/L · CL2-FC-611 49 % · LIT-611 84.0 ft",
+        "highlight": false
+      },
+      {
+        "ts": "03:00",
+        "level": "NOTICE",
+        "msg": "AIT-611 0.96 mg/L · CL2-FC-611 78 % · LIT-611 83.9 ft",
+        "highlight": true
+      },
+      {
+        "ts": "03:40",
+        "level": "WARN",
+        "msg": "CL2-FC-611 at 100 % (trim limit)",
+        "highlight": true
+      },
+      {
+        "ts": "05:00",
+        "level": "WARN",
+        "msg": "AIT-611 0.86 mg/L · CL2-FC-611 100 %",
+        "highlight": false
+      },
+      {
+        "ts": "07:00",
+        "level": "WARN",
+        "msg": "AIT-611 0.78 mg/L · CL2-FC-611 100 %",
+        "highlight": true
+      },
+      {
+        "ts": "07:20",
+        "level": "WARN",
+        "msg": "AIT-611 0.74 mg/L · CL2-FC-611 100 % · LIT-611 84.0 ft",
+        "highlight": true
+      }
+    ],
+    "classification": "INTERNAL",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "The residual is falling while the trim pump runs flat out: something is consuming chlorine. Watch for ERP-3 sampling being ordered.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 6 › 6.2 Online Water-Quality Instruments",
+      "quote": "| Instrument | Location | Normal | Alarm | Action | |---|---|---|---|---| | AIT-301 finished chlorine residual | Clearwell outlet | 1.0–2.0 mg/L | < 0.5 or > 3.5 | Verify with grab sample within 15 mi",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 8 › 8.3 Sampling Plan (ERP-3)",
+      "quote": "| Sample point | Tests | Turnaround | |---|---|---| | Facility outlet (tank or standpipe) and the first two hydrants downstream | Field: free chlorine, pH, conductivity, temperature; lab: total colifo",
+      "chunkId": 36
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:46:18.775Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "AIT-611 Chlorine Residual Drift — Orchard Standpipe",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MDWS-SCADA-APP-A",
+          "host": "RTU-02",
+          "ip": "10.72.250.12",
+          "os": "Linux Ubuntu 22.04 LTS",
+          "logSource": "/var/log/scada/ait-611.log",
+          "exportedBy": "scada.ops@millbrook-oh.example",
+          "exportedAt": "10/24/2026 07:25 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/24/2026 01:15 AM",
+              "level": "INFO",
+              "msg": "AIT-611 outlet chlorine residual: 1.20 mg/L (normal range 0.6–1.2)",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 02:15 AM",
+              "level": "INFO",
+              "msg": "AIT-611 outlet chlorine residual: 1.15 mg/L",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 03:15 AM",
+              "level": "INFO",
+              "msg": "AIT-611 outlet chlorine residual: 1.05 mg/L",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 04:15 AM",
+              "level": "INFO",
+              "msg": "AIT-611 outlet chlorine residual: 0.95 mg/L",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 05:15 AM",
+              "level": "INFO",
+              "msg": "AIT-611 outlet chlorine residual: 0.85 mg/L",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 06:15 AM",
+              "level": "WARN",
+              "msg": "AIT-611 outlet chlorine residual: 0.80 mg/L — below normal range (0.6–1.2), sustained over 6 hours",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 06:15 AM",
+              "level": "ALERT",
+              "msg": "Pre-alarmed condition triggered per ERP Section 8.3 Sampling Plan. Field sampling required within 15 minutes.",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 06:15 AM",
+              "level": "NOTICE",
+              "msg": "Sampling point: Orchard Standpipe (Outlet) — AIT-611",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 06:15 AM",
+              "level": "INFO",
+              "msg": "System notification routed to WQ, IC, and TL via MDWS-PCP-2026 Emergency Channel",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "RTU-02: SCADA Log Monitor (Terminal)",
+          "command": "tail -n 10 /var/log/scada/ait-611.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a critical trigger for the sampling plan and advisory process. Watch for WQ to initiate Section 8.3 immediately and for the team to assess the pre-alarm status before proceeding to lab verification.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:43:39.977Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Historian: AIT-611 falling against a full-output trim pump",
+        "type": "system_log",
+        "fields": {
+          "systemName": "AquaSight Historian trend export",
+          "host": "MBW-HIST-01",
+          "logSource": "AIT-611, CL2-FC-611, LIT-611",
+          "exportedBy": "Day Operator",
+          "exportedAt": "10/25/2026 07:24 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "00:00",
+              "level": "INFO",
+              "msg": "AIT-611 1.12 mg/L · CL2-FC-611 46 % · LIT-611 84.1 ft",
+              "highlight": false
+            },
+            {
+              "ts": "02:00",
+              "level": "INFO",
+              "msg": "AIT-611 1.08 mg/L · CL2-FC-611 49 % · LIT-611 84.0 ft",
+              "highlight": false
+            },
+            {
+              "ts": "03:00",
+              "level": "NOTICE",
+              "msg": "AIT-611 0.96 mg/L · CL2-FC-611 78 % · LIT-611 83.9 ft",
+              "highlight": true
+            },
+            {
+              "ts": "03:40",
+              "level": "WARN",
+              "msg": "CL2-FC-611 at 100 % (trim limit)",
+              "highlight": true
+            },
+            {
+              "ts": "05:00",
+              "level": "WARN",
+              "msg": "AIT-611 0.86 mg/L · CL2-FC-611 100 %",
+              "highlight": false
+            },
+            {
+              "ts": "07:00",
+              "level": "WARN",
+              "msg": "AIT-611 0.78 mg/L · CL2-FC-611 100 %",
+              "highlight": true
+            },
+            {
+              "ts": "07:20",
+              "level": "WARN",
+              "msg": "AIT-611 0.74 mg/L · CL2-FC-611 100 % · LIT-611 84.0 ft",
+              "highlight": true
+            }
+          ],
+          "classification": "INTERNAL",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "The residual is falling while the trim pump runs flat out: something is consuming chlorine. Watch for ERP-3 sampling being ordered.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:43:41.079Z"
+}
