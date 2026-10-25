@@ -176,6 +176,29 @@ export const DomainProfileOverrides = DomainProfile.omit({ id: true, aliases: tr
 export type DomainProfileOverrides = z.infer<typeof DomainProfileOverrides>
 
 /**
+ * Overrides as stored by builds before #180, which wrote `factCategories: []` and
+ * `rolePatterns: {}` with every override and so switched the profile's categories and role
+ * words off. Those empty values are dropped on load (non-empty ones are kept); nothing left
+ * means no overrides.
+ */
+export function withoutLegacyEmptyOverrides(value: unknown): unknown {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return value
+  const { factCategories, rolePatterns, ...rest } = value as Record<string, unknown>
+  const emptyList = Array.isArray(factCategories) && factCategories.length === 0
+  const emptyPatterns =
+    !!rolePatterns &&
+    typeof rolePatterns === 'object' &&
+    !Array.isArray(rolePatterns) &&
+    Object.keys(rolePatterns).length === 0
+  const kept: Record<string, unknown> = {
+    ...rest,
+    ...(factCategories !== undefined && !emptyList ? { factCategories } : {}),
+    ...(rolePatterns !== undefined && !emptyPatterns ? { rolePatterns } : {}),
+  }
+  return Object.keys(kept).length ? kept : undefined
+}
+
+/**
  * A pack domain profile copied into project.json when the project picks it (ADR-0018, #263):
  * the project keeps linting and extracting facts with it after the pack is updated or gone.
  * Updating it from a newer pack version is an explicit action.

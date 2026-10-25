@@ -210,7 +210,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 #### Generation and checks
 
 - Facility facts: **Edit lint definition** on each category the domain profile defines (#180) edits its noun, generic noun and context, identifier shape, Checked by lint and Complete list. Saving writes `domainProfileOverrides.factCategories` (the whole list) through `project:update`, which refuses invalid or catastrophic regexes (capturing groups, look-arounds, back-references, nested quantifiers, empty matches, over-long sources) and extracts the facts again (an edited `facility-facts.md` is kept; the extraction goes to `facility-facts.generated.md`); the Scenario check then re-runs.
-- Fix: saving any domain profile override no longer stores empty `factCategories` and `rolePatterns` with it, which switched off the profile's facility-fact categories and role words for that project (#180).
+- Fix: saving any domain profile override no longer stores empty `factCategories` and `rolePatterns` with it, which switched off the profile's facility-fact categories and role words for that project; projects saved that way drop those empty values when they load (non-empty overrides are kept) (#180).
 - Organization-name check for injects (#221): a name that starts like the organization's but is not the project name, `orgName` or `brand.aliases.org` ("North Coast Regional Airport") goes back to the model in the repair round, and becomes an inject warning if it survives.
 
 #### Media, templates and providers

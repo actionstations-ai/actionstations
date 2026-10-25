@@ -1,5 +1,9 @@
 import { z } from 'zod'
-import { DomainProfileOverrides, DomainProfileSnapshot } from '../domains/schema'
+import {
+  DomainProfileOverrides,
+  DomainProfileSnapshot,
+  withoutLegacyEmptyOverrides,
+} from '../domains/schema'
 import { Id, IsoDateTime, RelPath } from './common'
 import { PackId, PackPath, SemVer } from './pack'
 import { ProviderRouting } from './provider'
@@ -124,7 +128,11 @@ export const Project = z.looseObject({
   orgName: z.string().default(''),
   orgType: OrgType.default('generic'),
   /** Project-level edits to the built-in domain profile orgType selects (ADR-0014). */
-  domainProfileOverrides: DomainProfileOverrides.optional(),
+  /** Empty values written by builds before #180 are dropped on load. */
+  domainProfileOverrides: z.preprocess(
+    withoutLegacyEmptyOverrides,
+    DomainProfileOverrides.optional(),
+  ),
   /** The pack domain profile orgType names, copied when it was chosen (ADR-0018, #263). */
   domainProfileSnapshot: DomainProfileSnapshot.optional(),
   createdAt: IsoDateTime,
