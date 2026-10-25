@@ -99,6 +99,9 @@ export interface SceneContext {
   anchors?: SceneAnchors
   /** The brief says the screens are dark: describe the scene without them (#141). */
   screensDark?: boolean
+  /** The brief says the power is out: the room is dim too (#162). Without it the room keeps
+   *  its normal light and only the screens are left out. */
+  powerOut?: boolean
 }
 
 /** The profile's anchor for a prompt; the generic profile adds none (the model's own words stand). */
@@ -109,8 +112,13 @@ function settingAnchor(prompt: string, scene?: SceneContext): string | undefined
   const kind = sceneKind(prompt)
   const text = anchors[kind]
   if (!scene?.screensDark) return text
-  if (kind === 'public' && anchors.publicScreensDark) return anchors.publicScreensDark
-  return withoutScreens(text)
+  const screenless =
+    kind === 'public' && anchors.publicScreensDark
+      ? anchors.publicScreensDark
+      : withoutScreens(text)
+  // A cyber-only outage (blank boards, power on) keeps the room lit (#162).
+  if (scene.powerOut) return screenless
+  return screenless.replace(/\ba dim\s+(?=[aeiou])/gi, 'an ').replace(/\bdim\s+/gi, '')
 }
 
 /** Styles that depict a place (and so take the setting anchor). */
@@ -273,7 +281,24 @@ const DARK_WORDS =
 
 /** Negative-prompt entries for a scene whose screens must stay dark. */
 export const LIT_SCREEN_NEGATIVE =
-  'illuminated screens, glowing displays, lit departure boards, bright monitors, backlit signs, text'
+  'illuminated screens, glowing displays, lit departure boards, bright monitors, backlit signs, text, ' +
+  'neon signs, digital signage, information screens, glowing signs, lightbox advertising'
+
+/**
+ * Light words for a scene whose screens are dark (#162). Prompts alone leave small lit signs
+ * in the background, so the brief also gets `lighting: 'dark'`, which workflows bind to a dark
+ * start latent and a dark-ceiling area prompt (comfy/workflows/sdxl-photo).
+ */
+export const DARK_SCENE_LIGHTING =
+  'during a power outage, blackout, emergency lighting only, dim low light'
+
+const POWER_LOSS_WORDS =
+  /\b(?:(?:power|electrical|electricity|grid|utility power|mains)[- ](?:outage|failure|failed|fails|loss|lost|cut|cuts|out|down|goes out|went out)|(?:outage|blackout|black-out|brownout)s?|lost power|loses power|losing power|loss of power|no power|without power|no electricity|lights? (?:go |went |are )?out|lights (?:fail|failed|off)|backup generators?|generators? (?:kick|kicks|kicked|running|start|starts|started|fail|failed)|on generator power|emergency lighting|emergency lights|darkened (?:room|hall|terminal|concourse|building|corridor)|plunged into darkness|in darkness|pitch (?:black|dark))\b/i
+
+/** True when the text says the power is out (the room goes dim, not just the screens). */
+export function describesPowerLoss(...texts: (string | undefined)[]): boolean {
+  return texts.some((t) => POWER_LOSS_WORDS.test(t ?? ''))
+}
 
 /** True when a clause of the text says the screens/boards/displays are dark or off. */
 export function describesDarkScreens(...texts: (string | undefined)[]): boolean {
@@ -375,16 +400,19 @@ export function normalizeBrief(
   if (wantsImage) {
     const style = out?.imageStyle ?? plan.imageStyle ?? 'phone'
     const source = out?.imagePrompt ?? imageBriefField(inject.fields) ?? ''
-    const dark = describesDarkScreens(
-      source,
-      imageBriefField(inject.fields),
-      asText(inject.fields.caption),
-    )
+    const texts = [source, imageBriefField(inject.fields), asText(inject.fields.caption)]
+    const powerOut = describesPowerLoss(...texts)
+    const dark = describesDarkScreens(...texts)
     const positive = positivePrompt(source)
     const prompt = dark ? withoutScreens(positive) : positive
-    if (prompt) brief.imagePrompt = anchoredPrompt(prompt, style, { ...scene, screensDark: dark })
-    brief.negativePrompt = mergeNegative(out?.negativePrompt, style, dark)
+    const anchored = prompt
+      ? anchoredPrompt(prompt, style, { ...scene, screensDark: dark, powerOut })
+      : ''
+    if (anchored) brief.imagePrompt = powerOut ? `${anchored}, ${DARK_SCENE_LIGHTING}` : anchored
+    brief.negativePrompt = mergeNegative(out?.negativePrompt, style, dark || powerOut)
     brief.imageStyle = style
+    // Only a power loss dims the room; blank screens with the power on keep normal light.
+    if (powerOut) brief.lighting = 'dark'
   }
   if (plan.paths.includes('ai_video')) {
     const v = positivePrompt(out?.videoPrompt ?? out?.imagePrompt ?? '')

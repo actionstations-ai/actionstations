@@ -39,7 +39,11 @@ export function tinyPng(width = 64, height = 48): Buffer {
 const DEFAULT_NODES = [
   'CheckpointLoaderSimple',
   'EmptyLatentImage',
+  'EmptyImage',
+  'VAEEncode',
   'CLIPTextEncode',
+  'ConditioningSetAreaPercentage',
+  'ConditioningCombine',
   'KSampler',
   'VAEDecode',
   'SaveImage',

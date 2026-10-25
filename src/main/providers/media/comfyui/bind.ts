@@ -64,6 +64,18 @@ function durationValue(ctx: BindContext, inputName: string): number | undefined 
   return framesFor(sec, ctx.sidecar.fps ?? DEFAULT_FPS, ctx.sidecar.frameStep ?? 1)
 }
 
+/**
+ * A `lighting` binding's value for the brief's lighting (`normal` when unset): the binding
+ * value is a map such as { "dark": ["21", 0] }; a lighting it does not name keeps the
+ * workflow's own input (#162).
+ */
+export function lightingValue(binding: WorkflowBinding, ctx: BindContext): unknown {
+  const map = binding.value
+  if (!map || typeof map !== 'object' || Array.isArray(map)) return undefined
+  const lighting = ctx.job.brief.lighting ?? 'normal'
+  return Object.hasOwn(map, lighting) ? (map as Record<string, unknown>)[lighting] : undefined
+}
+
 function firstLine(ctx: BindContext) {
   return ctx.job.brief.voiceLines?.find((l) => l.text.trim())
 }
@@ -99,6 +111,8 @@ export function sourceValue(binding: WorkflowBinding, ctx: BindContext): unknown
       return undefined
     case 'literal':
       return binding.value
+    case 'lighting':
+      return lightingValue(binding, ctx)
   }
 }
 

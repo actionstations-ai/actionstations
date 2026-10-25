@@ -26,7 +26,12 @@ export const SOURCE_OPTIONS: { id: BindingSource | ''; label: string }[] = [
   { id: 'speaker', label: 'Speaker' },
   { id: 'referenceAudio', label: 'Reference audio' },
   { id: 'literal', label: 'Fixed value…' },
+  { id: 'lighting', label: 'By lighting…' },
 ]
+
+/** Sources whose binding carries a value the user types (JSON). */
+export const hasTypedValue = (source: BindingSource | ''): boolean =>
+  source === 'literal' || source === 'lighting'
 
 export interface InputRow {
   nodeId: string
@@ -38,7 +43,8 @@ export interface InputRow {
 
 export interface RowBinding {
   source: BindingSource | ''
-  /** Text of a fixed value (literal); parsed as JSON when possible. */
+  /** Text of a fixed value (literal) or of the per-lighting map ({"dark": 0.92}); parsed as
+   *  JSON when possible. */
   literal: string
 }
 
@@ -50,6 +56,20 @@ export function formatValue(value: unknown): string {
   return JSON.stringify(value)
 }
 
+/** Value text when a row switches source: the workflow value, as `{"dark": …}` for lighting. */
+export function initialValueText(
+  source: BindingSource | '',
+  previous: RowBinding,
+  workflowValue: unknown,
+): string {
+  if (source === 'lighting')
+    return previous.source === 'lighting' && previous.literal
+      ? previous.literal
+      : JSON.stringify({ dark: workflowValue })
+  if (previous.source === 'lighting') return formatValue(workflowValue)
+  return previous.literal || formatValue(workflowValue)
+}
+
 /** Binding state per row, from the saved bindings. */
 export function rowsFromBindings(bindings: WorkflowBinding[]): Record<string, RowBinding> {
   const out: Record<string, RowBinding> = {}
@@ -57,7 +77,7 @@ export function rowsFromBindings(bindings: WorkflowBinding[]): Record<string, Ro
     const key = rowKey({ nodeId: b.target[0], inputName: b.target[2] })
     out[key] = {
       source: b.source,
-      literal: b.source === 'literal' ? formatValue(b.value) : '',
+      literal: hasTypedValue(b.source) ? formatValue(b.value) : '',
     }
   }
   return out
@@ -82,7 +102,7 @@ export function bindingsFromRows(rows: Record<string, RowBinding>): WorkflowBind
     out.push({
       target: [nodeId, 'inputs', inputName],
       source: row.source,
-      ...(row.source === 'literal' ? { value: parseLiteral(row.literal) } : {}),
+      ...(hasTypedValue(row.source) ? { value: parseLiteral(row.literal) } : {}),
     })
   }
   return out.sort(

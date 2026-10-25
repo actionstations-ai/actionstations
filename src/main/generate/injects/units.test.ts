@@ -311,8 +311,9 @@ describe('normalizeBrief', () => {
       { orgType: 'airport' },
     )
     expect(airport.imagePrompt).toMatch(
-      /^Press photograph, level horizon.*inside a dim airport terminal concourse: crowds.*\. Crowd$/,
+      /^Press photograph, level horizon.*inside an airport terminal concourse: crowds.*\. Crowd$/,
     )
+    expect(airport.lighting).toBeUndefined() // blank screens, power on: the room stays lit
     // Portraits and screens are not places: no setting anchor, no scene negatives.
     const portrait = normalizeBrief(
       plan,
