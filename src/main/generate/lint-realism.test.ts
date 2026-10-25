@@ -127,3 +127,63 @@ describe('real-looking contact details (#347 item 10)', () => {
     expect(w?.suggestion).toContain('teaguevalleychem.example')
   })
 })
+
+describe('outside agencies ordering, forbidding and taking over (#364 item 3)', () => {
+  const flagged = (event: string): (string | undefined)[] => {
+    const s = clone()
+    byId(s, 'I-03').event = event
+    return hits(s, OUTSIDE_AGENCY_DECIDES)
+  }
+
+  it.each([
+    // city-water tank: the FBI holding the return to service.
+    'Phone Call: "No return to service at Orchard Standpipe until the FBI issues a formal release."',
+    'Email: The FBI forbids return to service of the standpipe while evidence is collected.',
+    'Phone Call: "This is the FBI. We are taking jurisdiction; the utility is to stand down."',
+    // city-water main: the state drinking-water office ordering the advisory.
+    'Phone Call: "DDAGW here. You must issue the boil advisory within 30 minutes."',
+    'Email: Ohio EPA orders the city to issue a Do Not Drink notice by 12:00.',
+    'Phone Call: "The state drinking-water program requires the utility to flush Zone 1 now."',
+    'Radio: The FAA prohibits further flights from the Lakeshore Flight Area today.',
+    'Phone Call: "Coast Guard: Captain of the Port directs the terminal operators to close the berth."',
+  ])('flags %s', (event) => {
+    expect(flagged(event)).toEqual(['I-03'])
+  })
+
+  it.each([
+    'Phone Call: "DDAGW recommends you issue the advisory within 30 minutes."',
+    'Email: The FBI asks the utility to preserve the HMI images and requests a copy.',
+    'Phone Call: "The FBI has taken over the criminal investigation; you run the response."',
+    'Email: The FBI does not order the city to do anything; restart is your call.',
+    'Phone Call: "Ohio EPA: please call us before you restart the plant."',
+    'Email: The state requires a report within 24 hours; CISA should get a copy.',
+    'Radio: The crew will not restart until the FBI has photographed the panel.',
+  ])('accepts advice, requests and negations: %s', (event) => {
+    expect(flagged(event)).toEqual([])
+  })
+
+  it('reads an order from the row source, but not the players own expected action', () => {
+    const s = clone()
+    const row = byId(s, 'I-03')
+    row.from = 'Ohio EPA DDAGW (district office)'
+    row.event = 'Phone Call: "The city must keep Zone 1 on the boil order until we sign off."'
+    row.expectedAction = 'The incident commander must decide on the boil order.'
+    expect(hits(s, OUTSIDE_AGENCY_DECIDES)).toEqual(['I-03'])
+    row.event =
+      'Phone Call: "Call us when the samples are back; the city must report the results by 17:00."'
+    expect(hits(s, OUTSIDE_AGENCY_DECIDES)).toEqual([])
+  })
+
+  it('accepts an agency asking for evidence or a decision (the shipped k12 and uas rows)', () => {
+    const s = clone()
+    const row = byId(s, 'I-03')
+    row.from = 'CISA'
+    row.event =
+      "Phone Call: 'CTO, this is CISA. You must preserve HUSD-VPN01 as evidence for law enforcement. Do not wipe or reboot.'"
+    expect(hits(s, OUTSIDE_AGENCY_DECIDES)).toEqual([])
+    row.from = 'FSDO'
+    row.event =
+      "Phone Call: 'ASO, this is the FAA FSDO. You must submit the flight logs within 24 hours. You must now decide: keep automation or switch to attitude mode.'"
+    expect(hits(s, OUTSIDE_AGENCY_DECIDES)).toEqual([])
+  })
+})

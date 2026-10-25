@@ -2,7 +2,7 @@
 
 **Vaccine Vault Breach** (Data Integrity & Public Trust)
 Location: Marston County Health Department, Ellery, Marston County, Kansas · Duration: 4 Hours
-Target Audience: Command / Health Officer, Epidemiology and Disease Investigation, Clinical Services and Medical Countermeasures, Informatics and County IT, Public Information
+Target Audience: Command / Health Officer, Epidemiology and Disease Investigation, Environmental Health, Informatics and County IT, Public Information
 
 ## Scenario Overview
 

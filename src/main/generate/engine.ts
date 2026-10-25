@@ -315,7 +315,7 @@ function capToAudience(input: StepInput): void {
   const { scenario: s, env } = input
   const cap = s.brief.audience.length
   const before = s.roles.length
-  const dropped = capRoles(s, cap, roleHeuristics(env.domain.profile))
+  const dropped = capRoles(s, cap, roleHeuristics(env.domain.profile), env.domain.profile)
   if (!dropped.length) return
   env.ctx.log(
     `objectives_roles: ${before} roles for a ${cap}-entry audience; dropped ${dropped.map((r) => `"${r.name}"`).join(', ')}`,

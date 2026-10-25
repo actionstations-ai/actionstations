@@ -21,6 +21,7 @@ import {
   lintPlayerVoice,
 } from './lint-structure'
 import { CLOCK_MISMATCH, DATE_DRIFT, lintBrief, START_TIME_MISMATCH } from './lint-brief'
+import { BRIEF_THREAT_ADDED, ENDEX_EARLY, lintDrift } from './lint-drift'
 import {
   CONTACT_REAL_LOOKING,
   lintRealism,
@@ -567,7 +568,8 @@ export function lintScenario(scenario: Scenario, domainIn?: DomainContext): Lint
     ...lintPlayerVoice(scenario),
     ...lintDuplicateEvents(scenario),
     ...lintReferenceLeak(scenario),
-    ...lintBrief(scenario),
+    ...lintBrief(scenario, domain.profile),
+    ...lintDrift(scenario),
     ...lintRealism(scenario),
     ...lintPhaseMix(scenario, domain),
     ...lintDecisionPoint(scenario),
@@ -733,6 +735,9 @@ export const STRUCTURAL_CODES = new Set([
   OUTSIDE_AGENCY_DECIDES,
   RESTORE_TOO_FAST,
   CONTACT_REAL_LOOKING,
+  // Rows the revision can correct (#364).
+  ENDEX_EARLY,
+  BRIEF_THREAT_ADDED,
 ])
 
 /** Rows placed after the ENDEX row: the exercise is over before they are delivered. */

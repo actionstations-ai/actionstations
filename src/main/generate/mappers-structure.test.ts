@@ -141,6 +141,22 @@ describe('capRoles (#174: nine roles for a six-entry audience)', () => {
     expect(dropped.map((r) => r.id)).toEqual(['maint', 'legal', 'hr'])
   })
 
+  it('keeps the roles that play an audience entry before the core roles (#364)', () => {
+    const s = structuredClone(FIXTURE)
+    s.brief.audience = ['Flight Operations', 'Leadership', 'Fleet & Logistics']
+    s.roles = [
+      role('dom', 'Director of Flight Operations (Incident Commander)', 'Ops'),
+      role('it', 'Systems & Cybersecurity Lead (Technical Lead)', 'IT'),
+      role('pio', 'Communications Lead (PIO)', 'PIO'),
+      role('security', 'Security / Campus Safety Liaison', 'Sec'),
+      role('gm', 'General Manager (Leadership)', 'GM'),
+      role('fleet', 'Fleet & Logistics Manager', 'F&L'),
+    ]
+    const dropped = capRoles(s, 4, roleHeuristics())
+    expect(s.roles.map((r) => r.id)).toEqual(['dom', 'it', 'gm', 'fleet'])
+    expect(dropped.map((r) => r.id)).toEqual(['pio', 'security'])
+  })
+
   it('leaves the roles alone without an audience list or within the cap', () => {
     const s = structuredClone(FIXTURE)
     const before = s.roles.map((r) => r.id)

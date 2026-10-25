@@ -33,11 +33,17 @@ const PLAIN: Record<string, string> = {
     'A time jump or end card states a clock that does not match its place in the timeline.',
   BRIEF_TIME_OUTSIDE: 'Your request describes events at a time of day the exercise never reaches.',
   TIME_JUMP_REPEATED: 'A time jump repeats another one.',
-  DATE_DRIFT: 'The day or date changes between events without a time jump.',
+  DATE_DRIFT:
+    'The day or date changes between events without a time jump, or a weekday does not match its date.',
   ROLES_EXCEED_AUDIENCE: 'The scenario seats more player roles than the brief has audience groups.',
   OUTSIDE_PARTY_ROLE: 'An outside party the facilitator should play is seated as a player.',
+  AUDIENCE_NOT_SEATED: 'A group in the brief’s audience has no player role.',
+  ENDEX_EARLY: 'An event ends the exercise, but more events come after it.',
+  BRIEF_IDS_MISSING:
+    'The events leave out most of the systems, places and plan steps your request names.',
+  BRIEF_THREAT_ADDED: 'An event brings in a kind of attack your request never mentions.',
   OUTSIDE_AGENCY_DECIDES:
-    'An outside agency closes the incident or approves recovery; that is your organization’s call.',
+    'An outside agency closes the incident, orders or forbids a step, or approves recovery; that is your organization’s call.',
   RESTORE_TOO_FAST: 'Systems are fully restored implausibly soon after they broke.',
   CONTACT_REAL_LOOKING: 'An email address, web address or phone number may belong to someone real.',
   QUANTITY_OVER_LIMIT: 'An event names a quantity larger than a limit in your facility facts.',

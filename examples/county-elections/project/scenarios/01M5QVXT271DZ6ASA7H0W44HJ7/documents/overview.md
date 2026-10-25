@@ -2,7 +2,7 @@
 
 **Ghost Poll Pads** (VoterTrack Compromise & Public Trust)
 Location: Lisle County Board of Elections, Carrow, Lisle County, Ohio · Duration: 4 Hours
-Target Audience: Command (Director and Deputy Director), Elections IT and County Security, Voter Registration and Mail Ballots, Voting Systems, Security and Sheriff's Liaison, Public Information
+Target Audience: Command (Director and Deputy Director), Elections IT and County Security, Election-Day Operations (Voter Registration and Mail Ballots), Voting Systems, Security and Sheriff's Liaison, Public Information
 
 ## Scenario Overview
 
