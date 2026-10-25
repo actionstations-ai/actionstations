@@ -164,7 +164,7 @@ describe('lint definition editor', () => {
     expect(within(section).getByText(/goes to facility-facts\.generated\.md/)).toBeTruthy()
   })
 
-  it('waits for unsaved entry edits, and offers no editor for categories the domain lacks', async () => {
+  it('waits for unsaved entry edits, and offers no editor for built-in categories the domain lacks', async () => {
     setup()
     const user = userEvent.setup()
     const section = await gates()
@@ -201,5 +201,122 @@ describe('lint definition editor', () => {
     }
     expect(patch.domainProfileOverrides).toEqual({ outsideParties: ['County OEM'] })
     await waitFor(() => expect(within(section).queryByText('Changed for this project')).toBeNull())
+  })
+})
+
+describe('lint definition for a category the user added (#350)', () => {
+  const PUMPS = { id: 'pump-stations', label: 'Pump stations' }
+  const ROWS_350 = ['Pump Station 7 trips offline.', 'Crews reset Pump Station 2 by hand.']
+
+  function setupUserCategory() {
+    let stored = project({ outsideParties: ['County OEM'] })
+    const pumps = () =>
+      resolveProfile('airport', stored.domainProfileOverrides).factCategories.find(
+        (c) => c.id === PUMPS.id,
+      )
+    // A row counts when the defined noun names a pump station the list (1, 2) lacks.
+    const warnings = (): LintWarning[] => {
+      const noun = pumps()?.noun
+      if (!noun) return []
+      return ROWS_350.flatMap((text, i) => {
+        const id = new RegExp(String.raw`\b(?:${noun})\s+(\d+)`, 'i').exec(text)?.[1]
+        return id && !['1', '2'].includes(id)
+          ? [
+              {
+                code: 'FACILITY_UNKNOWN_ID',
+                severity: 'warning',
+                message: `Row I-0${i + 1} names an unknown pump station`,
+                source: 'lint',
+                rowId: `I-0${i + 1}`,
+              } satisfies LintWarning,
+            ]
+          : []
+      })
+    }
+    const base = view()
+    const ttx = mockTtx({
+      'project:get': () => ({ path: '/p', project: stored }),
+      'project:update': (req: {
+        patch: { domainProfileOverrides: DomainProfileOverrides | null }
+      }) => {
+        stored = project(req.patch.domainProfileOverrides ?? undefined)
+        return { path: '/p', project: stored }
+      },
+      'project:facility-facts': () => ({
+        ...base,
+        edited: true,
+        categories: [
+          ...base.categories,
+          {
+            ...PUMPS,
+            entries: ['1', '2'],
+            extracted: [],
+            sources: {},
+            linted: !!pumps(),
+            definable: !pumps(),
+          },
+        ],
+      }),
+      'scenarios:list': () => [{ id: 'S1', title: 'Storm', status: 'draft', updatedAt: now }],
+      'scenarios:lint': warnings,
+    })
+    renderAt(projectUrl('facts'), ROUTE, FactsPage)
+    return ttx
+  }
+
+  it('defines a noun from the editor, and the Scenario check gains then loses the warning', async () => {
+    const ttx = setupUserCategory()
+    const user = userEvent.setup()
+    expect(
+      await screen.findByText(/0 unknown-identifier warnings across 1 scenario\./),
+    ).toBeTruthy()
+    const section = await screen.findByRole('region', { name: 'Pump stations' })
+    expect(within(section).getByText(/No lint definition/)).toBeTruthy()
+
+    await user.click(within(section).getByRole('button', { name: 'Define for lint' }))
+    const noun = within(section).getByRole('textbox', { name: 'Noun' })
+    await waitFor(() => expect(document.activeElement).toBe(noun))
+    expect(noun).toHaveProperty('value', '')
+    await user.click(within(section).getByRole('button', { name: 'Save definition' }))
+    expect((await within(section).findByRole('alert')).textContent).toMatch(/Give a noun/)
+    expect(ttx.calls('project:update')).toHaveLength(0)
+
+    await user.selectOptions(
+      within(section).getByRole('combobox', { name: 'Identifier shape' }),
+      'number',
+    )
+    await user.type(noun, 'Pump Stations?{Enter}')
+    await waitFor(() => expect(ttx.calls('project:update')).toHaveLength(1))
+    const { patch } = ttx.calls('project:update')[0] as {
+      patch: { domainProfileOverrides: DomainProfileOverrides }
+    }
+    const airport = resolveProfile('airport').factCategories
+    expect(patch.domainProfileOverrides.outsideParties).toEqual(['County OEM'])
+    expect(patch.domainProfileOverrides.factCategories?.map((c) => c.id)).toEqual([
+      ...airport.map((c) => c.id),
+      'pump-stations',
+    ])
+    expect(patch.domainProfileOverrides.factCategories?.at(-1)).toMatchObject({
+      ...PUMPS,
+      noun: 'Pump Stations?',
+      idShape: 'number',
+      lint: true,
+    })
+    expect(
+      await screen.findByText(/1 unknown-identifier warning across 1 scenario \(1 more/),
+    ).toBeTruthy()
+    expect(within(section).getByText('Defined for this project')).toBeTruthy()
+
+    await user.click(within(section).getByRole('button', { name: 'Edit lint definition' }))
+    await user.click(within(section).getByRole('button', { name: 'Remove the lint definition' }))
+    await waitFor(() => expect(ttx.calls('project:update')).toHaveLength(2))
+    const removed = ttx.calls('project:update')[1] as {
+      patch: { domainProfileOverrides: DomainProfileOverrides }
+    }
+    expect(removed.patch.domainProfileOverrides).toEqual({ outsideParties: ['County OEM'] })
+    expect(
+      await screen.findByText(/0 unknown-identifier warnings across 1 scenario\./),
+    ).toBeTruthy()
+    expect(await within(section).findByRole('button', { name: 'Define for lint' })).toBeTruthy()
   })
 })

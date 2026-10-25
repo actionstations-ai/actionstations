@@ -322,6 +322,60 @@ describe('project:update with fact category overrides (#180)', () => {
   })
 })
 
+describe('a lint definition for a category the user added (#350)', () => {
+  const PUMPS = { id: 'pump-stations', label: 'Pump stations' }
+  const definition = { ...PUMPS, noun: 'Pump Stations?', idShape: 'number' as const }
+  const withPumps = async () => {
+    const view = await invoke('project:facility-facts', { path })
+    await invoke('project:facility-facts-save', {
+      path,
+      categories: [...edited(view, 'gates', (e) => e), { ...PUMPS, entries: ['1', '2'] }],
+    })
+  }
+
+  it('offers a definition only where neither the domain nor the built-ins define one', async () => {
+    await withPumps()
+    const view = await invoke('project:facility-facts', { path })
+    const byId = (id: string) => view.categories.find((c) => c.id === id)
+    expect(byId('pump-stations')).toMatchObject({ linted: false, definable: true })
+    expect(byId('gates')).toMatchObject({ linted: true, definable: false })
+    expect(byId('hosts')?.definable).toBe(false)
+  })
+
+  it('keeps the file and its hyphenated id, and lints the category once it is defined', async () => {
+    await withPumps()
+    const scenarioId = await scenarioWithRows(path, [
+      row('I-01', 'Pump Station 7 trips offline during the storm.'),
+      row('I-02', 'Crews reset Pump Station 2 by hand.'),
+    ])
+    expect(await facilityWarnings(path, scenarioId)).toEqual([])
+    const file = readFileSync(join(path, FACILITY_FILE), 'utf8')
+    expect(file).toContain('## Pump stations\n<!-- category: pump-stations -->')
+
+    const airport = resolveProfile('airport').factCategories
+    await invoke('project:update', {
+      path,
+      patch: { domainProfileOverrides: { factCategories: [...airport, definition] } },
+    })
+    expect(readFileSync(join(path, FACILITY_FILE), 'utf8')).toBe(file)
+    const stored = JSON.parse(readFileSync(join(path, 'project.json'), 'utf8')) as {
+      domainProfileOverrides: { factCategories: { id: string }[] }
+    }
+    expect(stored.domainProfileOverrides.factCategories.at(-1)?.id).toBe('pump-stations')
+    const view = await invoke('project:facility-facts', { path })
+    expect(view.categories.find((c) => c.id === 'pump-stations')).toMatchObject({
+      entries: ['1', '2'],
+      linted: true,
+      definable: false,
+    })
+    const warnings = await facilityWarnings(path, scenarioId)
+    expect(warnings.map((w) => w.rowId)).toEqual(['I-01'])
+
+    await invoke('project:update', { path, patch: { domainProfileOverrides: null } })
+    expect(await facilityWarnings(path, scenarioId)).toEqual([])
+  })
+})
+
 describe('splitSections', () => {
   it('splits Markdown at headings and keeps text before the first one', () => {
     expect(splitSections('intro\n# **A**\none\n## B ##\ntwo\n### C\n')).toEqual([
