@@ -3,7 +3,8 @@
 // listed in comfy/workflows/README.md. LIVE_COMFY_VIDEO=0 skips the (slow) video test;
 // LIVE_COMFY_VIDEO_WORKFLOW picks the video workflow (default: the configured default).
 // Outputs land in LIVE_COMFY_OUT (default: a temp dir) so they can be inspected.
-// LIVE_COMFY_DARK_SEEDS (default 1001,1002,1003) are the seeds of the dark-screens check (#162).
+// LIVE_COMFY_DARK_SEEDS (default 1001,1002,1003) are the seeds of the dark-screens checks
+// (#162 power loss, #356 blank screens with the power on).
 import { mkdtempSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
@@ -18,6 +19,8 @@ const URL = process.env.LIVE_COMFY_URL ?? 'http://127.0.0.1:8188'
 const VIDEO = process.env.LIVE_COMFY_VIDEO !== '0'
 const VIDEO_WORKFLOW = process.env.LIVE_COMFY_VIDEO_WORKFLOW
 const DARK_SEEDS = (process.env.LIVE_COMFY_DARK_SEEDS ?? '1001,1002,1003').split(',').map(Number)
+/** Most lit-sign pixels (% of the top 40%) a screens-off render may keep (#356). */
+const LIT_SIGN_MAX = 0.3
 
 /** Mean Rec. 601 luma (0–255) of a PNG file. */
 function meanLuma(file: string): number {
@@ -26,6 +29,24 @@ function meanLuma(file: string): number {
   for (let i = 0; i < png.data.length; i += 4)
     sum += 0.299 * png.data[i]! + 0.587 * png.data[i + 1]! + 0.114 * png.data[i + 2]!
   return sum / (png.width * png.height)
+}
+
+/**
+ * Share (%) of the top 40% of a PNG whose pixels look like a lit sign: the colour rules of
+ * sdxl-photo's screens-off mask (saturated blue: b - r > 0.3, b > 0.35, r and g <= 0.35;
+ * amber: r > 0.85, r - b > 0.55, g > 0.55), without its clean-up (#356).
+ */
+function litSignShare(file: string): number {
+  const png = PNG.sync.read(readFileSync(file))
+  const rows = Math.floor(png.height * 0.4)
+  let lit = 0
+  for (let i = 0; i < rows * png.width * 4; i += 4) {
+    const [r, g, b] = [png.data[i]! / 255, png.data[i + 1]! / 255, png.data[i + 2]! / 255]
+    const blue = b - r > 0.3 && b > 0.35 && r <= 0.35 && g <= 0.35
+    const amber = r > 0.85 && r - b > 0.55 && g > 0.55
+    if (blue || amber) lit++
+  }
+  return (lit / (rows * png.width)) * 100
 }
 
 /** The #141 brief: sample-run I-10, whose departure boards go dark; `powerLoss` adds a power
@@ -140,21 +161,32 @@ describe.skipIf(!LIVE)('ComfyUI live', () => {
   )
 
   it(
-    'renders blank boards with the power on in a lit room (#162)',
-    { timeout: 900_000 },
+    'renders blank boards with the power on in a lit room with unlit signs (#162, #356)',
+    { timeout: 1_800_000 },
     async () => {
       const { ComfyMediaProvider } = await import('./provider')
       const p = new ComfyMediaProvider(config)
       const brief = await darkScreensBrief(false)
-      expect(brief.lighting).toBeUndefined()
+      expect(brief.lighting).toBe('screens-off')
       for (const seed of DARK_SEEDS) {
         const [out] = await p.generate(
           { kind: 'image', injectId: `live-blank-${seed}`, outDir, seed, brief },
           () => {},
         )
         const luma = meanLuma(out!.filePath)
-        console.log('[live] power on', out!.filePath, 'seed', seed, 'mean luma', luma.toFixed(1))
+        const lit = litSignShare(out!.filePath)
+        console.log(
+          '[live] power on',
+          out!.filePath,
+          'seed',
+          seed,
+          'mean luma',
+          luma.toFixed(1),
+          'lit-sign pixels in the top 40%',
+          `${lit.toFixed(2)}%`,
+        )
         expect(luma).toBeGreaterThan(60)
+        expect(lit).toBeLessThan(LIT_SIGN_MAX)
       }
     },
   )

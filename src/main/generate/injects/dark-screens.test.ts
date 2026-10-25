@@ -79,11 +79,11 @@ describe('dark screens in scene prompts (#141)', () => {
     expect(describesPowerLoss('fluorescent lighting, mid-morning light')).toBe(false)
   })
 
-  it('sample run I-10, boards blank with the power on: the room keeps its light (#162)', () => {
+  it('sample run I-10, boards blank with the power on: lit room, signs off (#162, #356)', () => {
     const inject = sampleInject('I-10')
     const plan = planMedia(inject, row('I-10', 'Photo of the concourse as the FIDS go dark'))
     const brief = normalizeBrief(plan, undefined, inject, { orgType: 'airport' })
-    expect(brief.lighting).toBeUndefined()
+    expect(brief.lighting).toBe('screens-off')
     expect(brief.imagePrompt).not.toMatch(/\bdim\b|power outage|blackout/i)
     expect(brief.imagePrompt).not.toMatch(/screen|board|display|monitor/i)
     expect(brief.negativePrompt).toContain(LIT_SCREEN_NEGATIVE)

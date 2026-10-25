@@ -1,7 +1,7 @@
 {
   "name": "SDXL documentary photo",
   "mediaType": "image",
-  "description": "SDXL base text-to-image tuned for documentary / phone-photo realism: 1216×832, dpmpp_2m karras, 25 steps, CFG 6.5. Briefs with lighting \"dark\" (an outage) start from a dark latent at denoise 0.92 with a dark-ceiling area prompt over the top 40%. Needs sd_xl_base_1.0.safetensors in models/checkpoints.",
+  "description": "SDXL base text-to-image tuned for documentary / phone-photo realism: 1216×832, dpmpp_2m karras, 25 steps, CFG 6.5. Briefs with lighting \"dark\" (an outage) start from a dark latent at denoise 0.92 with a dark-ceiling area prompt over the top 40%. Briefs with lighting \"screens-off\" (blank screens, power on) render as lit scenes, then repaint only the lit blue or amber signs found in the top 40% as dark, unlit boards (denoise 0.55); the rest of the image is kept as rendered. Needs sd_xl_base_1.0.safetensors in models/checkpoints.",
   "bindings": [
     { "target": ["6", "inputs", "text"], "source": "imagePrompt" },
     { "target": ["7", "inputs", "text"], "source": "negativePrompt" },
@@ -16,7 +16,17 @@
       "value": { "dark": ["11", 0] }
     },
     { "target": ["3", "inputs", "denoise"], "source": "lighting", "value": { "dark": 0.92 } },
-    { "target": ["3", "inputs", "positive"], "source": "lighting", "value": { "dark": ["14", 0] } }
+    { "target": ["3", "inputs", "positive"], "source": "lighting", "value": { "dark": ["14", 0] } },
+    { "target": ["41", "inputs", "width"], "source": "width" },
+    { "target": ["41", "inputs", "height"], "source": "height" },
+    { "target": ["48", "inputs", "width"], "source": "width" },
+    { "target": ["48", "inputs", "height"], "source": "height" },
+    { "target": ["52", "inputs", "seed"], "source": "seed" },
+    {
+      "target": ["9", "inputs", "images"],
+      "source": "lighting",
+      "value": { "screens-off": ["54", 0] }
+    }
   ],
   "styles": {
     "phone": "candid smartphone photo, handheld, slightly tilted framing, natural available light, mild motion blur, smartphone camera noise, unedited, everyday realism",

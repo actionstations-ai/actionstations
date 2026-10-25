@@ -1,18 +1,33 @@
 {
   "4": {
     "class_type": "CheckpointLoaderSimple",
-    "inputs": { "ckpt_name": "sd_xl_base_1.0.safetensors" },
-    "_meta": { "title": "Load SDXL base" }
+    "inputs": {
+      "ckpt_name": "sd_xl_base_1.0.safetensors"
+    },
+    "_meta": {
+      "title": "Load SDXL base"
+    }
   },
   "5": {
     "class_type": "EmptyLatentImage",
-    "inputs": { "width": 1216, "height": 832, "batch_size": 1 },
-    "_meta": { "title": "Image size" }
+    "inputs": {
+      "width": 1216,
+      "height": 832,
+      "batch_size": 1
+    },
+    "_meta": {
+      "title": "Image size"
+    }
   },
   "6": {
     "class_type": "CLIPTextEncode",
-    "inputs": { "text": "documentary photograph", "clip": ["4", 1] },
-    "_meta": { "title": "Positive prompt" }
+    "inputs": {
+      "text": "documentary photograph",
+      "clip": ["4", 1]
+    },
+    "_meta": {
+      "title": "Positive prompt"
+    }
   },
   "7": {
     "class_type": "CLIPTextEncode",
@@ -20,7 +35,9 @@
       "text": "illustration, painting, cartoon, 3d render, cgi, oversaturated, watermark, logo, blurry, deformed hands, extra fingers",
       "clip": ["4", 1]
     },
-    "_meta": { "title": "Negative prompt" }
+    "_meta": {
+      "title": "Negative prompt"
+    }
   },
   "3": {
     "class_type": "KSampler",
@@ -36,17 +53,31 @@
       "negative": ["7", 0],
       "latent_image": ["5", 0]
     },
-    "_meta": { "title": "Sampler" }
+    "_meta": {
+      "title": "Sampler"
+    }
   },
   "10": {
     "class_type": "EmptyImage",
-    "inputs": { "width": 1216, "height": 832, "batch_size": 1, "color": 4210752 },
-    "_meta": { "title": "Dark start image (lighting: dark)" }
+    "inputs": {
+      "width": 1216,
+      "height": 832,
+      "batch_size": 1,
+      "color": 4210752
+    },
+    "_meta": {
+      "title": "Dark start image (lighting: dark)"
+    }
   },
   "11": {
     "class_type": "VAEEncode",
-    "inputs": { "pixels": ["10", 0], "vae": ["4", 2] },
-    "_meta": { "title": "Dark start latent (lighting: dark)" }
+    "inputs": {
+      "pixels": ["10", 0],
+      "vae": ["4", 2]
+    },
+    "_meta": {
+      "title": "Dark start latent (lighting: dark)"
+    }
   },
   "12": {
     "class_type": "CLIPTextEncode",
@@ -54,7 +85,9 @@
       "text": "dark unlit ceiling in deep shadow, black, power outage",
       "clip": ["4", 1]
     },
-    "_meta": { "title": "Dark ceiling prompt (lighting: dark)" }
+    "_meta": {
+      "title": "Dark ceiling prompt (lighting: dark)"
+    }
   },
   "13": {
     "class_type": "ConditioningSetAreaPercentage",
@@ -66,21 +99,424 @@
       "y": 0,
       "strength": 1
     },
-    "_meta": { "title": "Dark ceiling area, top 40% (lighting: dark)" }
+    "_meta": {
+      "title": "Dark ceiling area, top 40% (lighting: dark)"
+    }
   },
   "14": {
     "class_type": "ConditioningCombine",
-    "inputs": { "conditioning_1": ["6", 0], "conditioning_2": ["13", 0] },
-    "_meta": { "title": "Positive + dark ceiling (lighting: dark)" }
+    "inputs": {
+      "conditioning_1": ["6", 0],
+      "conditioning_2": ["13", 0]
+    },
+    "_meta": {
+      "title": "Positive + dark ceiling (lighting: dark)"
+    }
+  },
+  "21": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["8", 0],
+      "channel": "red"
+    },
+    "_meta": {
+      "title": "Red (lighting: screens-off)"
+    }
+  },
+  "22": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["8", 0],
+      "channel": "green"
+    },
+    "_meta": {
+      "title": "Green (lighting: screens-off)"
+    }
+  },
+  "23": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["8", 0],
+      "channel": "blue"
+    },
+    "_meta": {
+      "title": "Blue (lighting: screens-off)"
+    }
+  },
+  "24": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["23", 0],
+      "source": ["21", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "subtract"
+    },
+    "_meta": {
+      "title": "Blue minus red (lighting: screens-off)"
+    }
+  },
+  "25": {
+    "class_type": "ThresholdMask",
+    "inputs": {
+      "mask": ["24", 0],
+      "value": 0.3
+    },
+    "_meta": {
+      "title": "Blue - red > 0.3 (lighting: screens-off)"
+    }
+  },
+  "26": {
+    "class_type": "ThresholdMask",
+    "inputs": {
+      "mask": ["23", 0],
+      "value": 0.35
+    },
+    "_meta": {
+      "title": "Blue > 0.35 (lighting: screens-off)"
+    }
+  },
+  "27": {
+    "class_type": "ThresholdMask",
+    "inputs": {
+      "mask": ["21", 0],
+      "value": 0.35
+    },
+    "_meta": {
+      "title": "Red > 0.35 (lighting: screens-off)"
+    }
+  },
+  "28": {
+    "class_type": "InvertMask",
+    "inputs": {
+      "mask": ["27", 0]
+    },
+    "_meta": {
+      "title": "Red <= 0.35 (lighting: screens-off)"
+    }
+  },
+  "29": {
+    "class_type": "ThresholdMask",
+    "inputs": {
+      "mask": ["22", 0],
+      "value": 0.35
+    },
+    "_meta": {
+      "title": "Green > 0.35 (lighting: screens-off)"
+    }
+  },
+  "30": {
+    "class_type": "InvertMask",
+    "inputs": {
+      "mask": ["29", 0]
+    },
+    "_meta": {
+      "title": "Green <= 0.35 (lighting: screens-off)"
+    }
+  },
+  "31": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["25", 0],
+      "source": ["26", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "multiply"
+    },
+    "_meta": {
+      "title": "Blue screen (lighting: screens-off)"
+    }
+  },
+  "32": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["31", 0],
+      "source": ["28", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "multiply"
+    },
+    "_meta": {
+      "title": "Blue screen (lighting: screens-off)"
+    }
+  },
+  "33": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["32", 0],
+      "source": ["30", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "multiply"
+    },
+    "_meta": {
+      "title": "Lit blue screens and signs (lighting: screens-off)"
+    }
+  },
+  "34": {
+    "class_type": "ThresholdMask",
+    "inputs": {
+      "mask": ["21", 0],
+      "value": 0.85
+    },
+    "_meta": {
+      "title": "Red > 0.85 (lighting: screens-off)"
+    }
+  },
+  "35": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["21", 0],
+      "source": ["23", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "subtract"
+    },
+    "_meta": {
+      "title": "Red minus blue (lighting: screens-off)"
+    }
+  },
+  "36": {
+    "class_type": "ThresholdMask",
+    "inputs": {
+      "mask": ["35", 0],
+      "value": 0.55
+    },
+    "_meta": {
+      "title": "Red - blue > 0.55 (lighting: screens-off)"
+    }
+  },
+  "37": {
+    "class_type": "ThresholdMask",
+    "inputs": {
+      "mask": ["22", 0],
+      "value": 0.55
+    },
+    "_meta": {
+      "title": "Green > 0.55 (lighting: screens-off)"
+    }
+  },
+  "38": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["34", 0],
+      "source": ["36", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "multiply"
+    },
+    "_meta": {
+      "title": "Amber sign (lighting: screens-off)"
+    }
+  },
+  "39": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["38", 0],
+      "source": ["37", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "multiply"
+    },
+    "_meta": {
+      "title": "Lit amber signs (lighting: screens-off)"
+    }
+  },
+  "40": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["33", 0],
+      "source": ["39", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "add"
+    },
+    "_meta": {
+      "title": "Lit signs (lighting: screens-off)"
+    }
+  },
+  "41": {
+    "class_type": "SolidMask",
+    "inputs": {
+      "value": 0,
+      "width": 1216,
+      "height": 832
+    },
+    "_meta": {
+      "title": "Lower frame (lighting: screens-off)"
+    }
+  },
+  "42": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["40", 0],
+      "source": ["41", 0],
+      "x": 0,
+      "y": 333,
+      "operation": "multiply"
+    },
+    "_meta": {
+      "title": "Lit signs in the top 40% (lighting: screens-off)"
+    }
+  },
+  "43": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": ["42", 0]
+    },
+    "_meta": {
+      "title": "Lit signs as image (lighting: screens-off)"
+    }
+  },
+  "44": {
+    "class_type": "Morphology",
+    "inputs": {
+      "image": ["43", 0],
+      "operation": "close",
+      "kernel_size": 15
+    },
+    "_meta": {
+      "title": "Join sign text into boards (lighting: screens-off)"
+    }
+  },
+  "45": {
+    "class_type": "Morphology",
+    "inputs": {
+      "image": ["44", 0],
+      "operation": "open",
+      "kernel_size": 7
+    },
+    "_meta": {
+      "title": "Drop specks (lighting: screens-off)"
+    }
+  },
+  "46": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["45", 0],
+      "channel": "red"
+    },
+    "_meta": {
+      "title": "Sign mask (lighting: screens-off)"
+    }
+  },
+  "47": {
+    "class_type": "GrowMask",
+    "inputs": {
+      "mask": ["46", 0],
+      "expand": 8,
+      "tapered_corners": true
+    },
+    "_meta": {
+      "title": "Sign mask, grown (lighting: screens-off)"
+    }
+  },
+  "48": {
+    "class_type": "EmptyImage",
+    "inputs": {
+      "width": 1216,
+      "height": 832,
+      "batch_size": 1,
+      "color": 1710618
+    },
+    "_meta": {
+      "title": "Unlit board fill #1a1a1a (lighting: screens-off)"
+    }
+  },
+  "49": {
+    "class_type": "ImageCompositeMasked",
+    "inputs": {
+      "destination": ["8", 0],
+      "source": ["48", 0],
+      "x": 0,
+      "y": 0,
+      "resize_source": false,
+      "mask": ["47", 0]
+    },
+    "_meta": {
+      "title": "Signs filled dark (lighting: screens-off)"
+    }
+  },
+  "50": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": ["49", 0],
+      "vae": ["4", 2]
+    },
+    "_meta": {
+      "title": "Encode filled image (lighting: screens-off)"
+    }
+  },
+  "51": {
+    "class_type": "SetLatentNoiseMask",
+    "inputs": {
+      "samples": ["50", 0],
+      "mask": ["47", 0]
+    },
+    "_meta": {
+      "title": "Repaint only the signs (lighting: screens-off)"
+    }
+  },
+  "52": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 0,
+      "steps": 25,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 0.55,
+      "model": ["4", 0],
+      "positive": ["6", 0],
+      "negative": ["7", 0],
+      "latent_image": ["51", 0]
+    },
+    "_meta": {
+      "title": "Repaint sampler (lighting: screens-off)"
+    }
+  },
+  "53": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["52", 0],
+      "vae": ["4", 2]
+    },
+    "_meta": {
+      "title": "Decode repaint (lighting: screens-off)"
+    }
+  },
+  "54": {
+    "class_type": "ImageCompositeMasked",
+    "inputs": {
+      "destination": ["8", 0],
+      "source": ["53", 0],
+      "x": 0,
+      "y": 0,
+      "resize_source": false,
+      "mask": ["47", 0]
+    },
+    "_meta": {
+      "title": "Repainted signs over the image (lighting: screens-off)"
+    }
   },
   "8": {
     "class_type": "VAEDecode",
-    "inputs": { "samples": ["3", 0], "vae": ["4", 2] },
-    "_meta": { "title": "Decode" }
+    "inputs": {
+      "samples": ["3", 0],
+      "vae": ["4", 2]
+    },
+    "_meta": {
+      "title": "Decode"
+    }
   },
   "9": {
     "class_type": "SaveImage",
-    "inputs": { "filename_prefix": "ttx/sdxl-photo", "images": ["8", 0] },
-    "_meta": { "title": "Save" }
+    "inputs": {
+      "filename_prefix": "ttx/sdxl-photo",
+      "images": ["8", 0]
+    },
+    "_meta": {
+      "title": "Save"
+    }
   }
 }

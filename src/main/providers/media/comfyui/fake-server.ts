@@ -48,6 +48,17 @@ const DEFAULT_NODES = [
   'VAEDecode',
   'SaveImage',
   'LoadImage',
+  // sdxl-photo screens-off sign repaint (#356)
+  'ImageToMask',
+  'MaskComposite',
+  'ThresholdMask',
+  'InvertMask',
+  'SolidMask',
+  'MaskToImage',
+  'Morphology',
+  'GrowMask',
+  'ImageCompositeMasked',
+  'SetLatentNoiseMask',
 ]
 
 function readBody(req: IncomingMessage): Promise<Buffer> {
