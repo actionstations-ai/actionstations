@@ -1,6 +1,6 @@
 import type { ChannelRequestParsed } from '@shared/ipc'
 import type { Brand, Project } from '@shared/schemas'
-import { nextDomainSnapshot, packSnapshotFor } from '@shared/domains'
+import { factCategoryProblems, nextDomainSnapshot, packSnapshotFor } from '@shared/domains'
 import { AppError } from '../lib/errors'
 
 export type ProjectPatch = ChannelRequestParsed<'project:update'>['patch']
@@ -38,6 +38,17 @@ export function refreshDomainSnapshot(draft: Project): Project {
   return draft
 }
 
+/**
+ * Refuse fact categories whose regex sources are invalid or could backtrack without end
+ * (#180): they run in this process over every document and generated row.
+ */
+export function assertSafeFactCategories(overrides: ProjectPatch['domainProfileOverrides']): void {
+  for (const c of overrides?.factCategories ?? []) {
+    const [problem] = factCategoryProblems(c)
+    if (problem) throw new AppError('VALIDATION', `${c.label}: ${problem.message}`)
+  }
+}
+
 /** Apply a project:update patch to a draft project (mutates and returns it). */
 export function applyProjectPatch(draft: Project, patch: ProjectPatch): Project {
   if (patch.name !== undefined) draft.name = patch.name
@@ -47,6 +58,7 @@ export function applyProjectPatch(draft: Project, patch: ProjectPatch): Project 
     applyDomainSnapshot(draft)
   }
   if (patch.refreshDomainProfileSnapshot) refreshDomainSnapshot(draft)
+  assertSafeFactCategories(patch.domainProfileOverrides)
   if (patch.domainProfileOverrides === null) delete draft.domainProfileOverrides
   else if (patch.domainProfileOverrides) draft.domainProfileOverrides = patch.domainProfileOverrides
   if (patch.brand) draft.brand = mergeBrand(draft.brand, patch.brand)
