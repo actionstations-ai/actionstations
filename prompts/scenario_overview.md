@@ -1,7 +1,7 @@
 ---
 name: scenario_overview
 stage: scenario_overview
-version: 2
+version: 3
 description: Title, theme, threat, operational impact and the core plan sections the exercise tests.
 outputSchema: OverviewOutput
 task: draft
@@ -51,6 +51,7 @@ Style, modeled on strong hand-written overviews (illustrations from other organi
 - threat: who or what did what to which system, place or process, in 2–3 sentences, naming it as the documents name it and the downstream systems or operations it affects.
 - operationalImpact: what {{domain.vocabulary.public}} and {{domain.vocabulary.frontline}} experience in {{domain.vocabulary.facility}}, in concrete terms (what stops, what shows wrong values, who is stuck where, who is calling).
 - coreSectionsTested: 3–6 entries. Each cites one key from <documents> and says in one clause WHY the exercise tests it ("manual gate operation when SCADA is lost", "voice dispatch when CAD/AVL fails"). Prefer the most specific sections: a checklist, a scenario sub-section, a failure-mode matrix, an authority to act, a notification requirement. If <documents> has no sections (no citation keys are available), return an empty list rather than inventing a key.
+- The designer's request is binding: keep every system, place, threat and time it names (a county-wide ransomware attack stays county-wide; a release at 23:40 happens at night) and add no places it does not name. If its times do not fit the narrative start clock, the start clock wins for the MSEL, and the threat says what happened before STARTEX.
 - targetAudience: the disciplines in the room. location: the facility exactly as the documents name it, with the city, county and state the documents give (copy them from the retrieved text; if the documents do not state geography, use the organization name alone). Never invent or guess a city, state or country.
 
 Return JSON only, matching the schema.

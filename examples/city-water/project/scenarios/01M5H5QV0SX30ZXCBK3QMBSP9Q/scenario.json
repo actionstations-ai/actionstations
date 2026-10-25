@@ -935,7 +935,7 @@
         "regulator"
       ],
       "toLabel": "All",
-      "event": "TIME_JUMP: It is now 11:00. The problem has spread to Zone 1, where customers are reporting chemical taste, nausea, and vomiting. The lab has confirmed a pH of 9.3 and a caustic dose of 38 mg/L — both well above safe limits. The control system has been isolated, but the HMI continues to display normal values. The SCADA / IT Security Manager has confirmed unauthorized remote access via DosaTech ScreenBridge. The Ohio EPA DDAGW has been notified, and the public is demanding answers. The shift cannot restore trust in the system without verification. The next phase begins.",
+      "event": "TIME_JUMP: It is now 11:00. The control system remains isolated. The HMI on MBW-HMI-02 still shows NAOH-FC-203 at 14 mg/L, but grab samples collected at 10:30, 10:45 and 11:00 confirm finished-water pH 9.6 and a caustic dose of 38 mg/L. No new remote sessions have been detected on MBW-HMI-02. The Do Not Drink advisory for Zone 1 stays in effect, the public is still demanding answers, and no return to automatic control is authorized.",
       "expectedAction": "All roles resume operations under the new narrative context. The Incident Commander confirms the system remains in manual control; no return to automatic is authorized until full verification. The ICS team activates the manual operations protocol.",
       "purposeTag": "TIME_JUMP",
       "format": "time_jump_card",
