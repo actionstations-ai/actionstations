@@ -1,7 +1,7 @@
 ---
 name: inject_text
 stage: inject_text
-version: 7
+version: 8
 description: Expand one MSEL row into a full inject page - title, delivery mode, the template's fields filled exactly, instructor note.
 outputSchema: InjectTextOutput
 task: draft
@@ -78,13 +78,13 @@ WRITING THE CONTENT
 - Realism devices: ticket numbers, named workstations, servers and controllers, a script or file name, a command line or setpoint, local references (the city, the local TV station, a community group), named front-line people with a role ({{domain.vocabulary.frontline}}). Humour in the attacker's data is fine and memorable; the players' own data stays plausible.
 - Length: a ticket 2–4 sentences; an email or memo 80–160 words; a log 6–12 lines; a post under 280 characters; a radio call 2–4 short transmissions; a PA announcement one or two sentences; a phone slip 2–4 sentences with a deadline; a display board, HMI or map 8–14 rows/tiles/vehicles with 2–4 wrong ones that stand out only to someone who knows the system.
 - Social posts: a believable handle and display name for THIS city; metrics that match the tag (a viral rumor has hundreds of shares; a lone complaint has a dozen). Posts never mention the exercise.
-- Control cards (STARTEX, TIME JUMP, ENDEX): write what the facilitator reads aloud plus the world-state bullets players must now accept; include the new clock time.
+- Control cards (STARTEX, TIME JUMP, ENDEX): write what the facilitator reads aloud plus the world-state bullets players must now accept; include the new clock time. Only the ENDEX card ends the exercise or announces the hot wash.
 - Voice types (radio, phone, PA, voicemail): the transcript is what is said, with natural pauses as punctuation. No sound-effect notes, no "[static]".
 - Technical evidence must be forensically coherent: the timestamps run forward, a failed login precedes the success, the host that runs the script is the one named earlier, the rows affected match the impact seen by operations.
 - Nothing in the content may reveal the hidden threat earlier than the MSEL does; clues stay as subtle as the row says.
 - Dates and clocks: every date shown is the exercise date above (or an earlier one for something that happened before), with the weekday that matches it; never a different day for "today". A control card's new clock is the row's clock.
 - Contact details are fictional: the organization's addresses use its email domain (or end in .example), outside companies and media outlets get fictional .example domains, and phone numbers use 555-0100 to 555-0199. A real agency's own published address or hotline is the only exception.
-- Outside agencies and regulators advise, assist, investigate and receive reports; on the page they never close the incident, approve restoration or give the all-clear. A restore of encrypted or compromised systems is shown as started, partial or scheduled, never finished minutes after the attack. Quantities stay physically possible (no release larger than the largest container, no pressure above what the system is rated for).
+- Outside agencies and regulators advise, assist, investigate and receive reports; on the page they never close the incident, approve restoration, give the all-clear, or order, forbid or take over the organization's own steps (they recommend or request instead). A restore of encrypted or compromised systems is shown as started, partial or scheduled, never finished minutes after the attack. Quantities stay physically possible (no release larger than the largest container, no pressure above what the system is rated for).
 
 {{#if repairIssues}}
 REPAIR: your previous reply (below) did not pass validation. Fix every listed issue and return the complete corrected JSON object. Keep the content that was not flagged; change what the issues require (field names, types, missing or extra fields, copied examples, contradicting identifiers).

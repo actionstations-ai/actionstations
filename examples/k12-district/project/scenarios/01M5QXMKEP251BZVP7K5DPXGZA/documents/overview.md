@@ -2,7 +2,7 @@
 
 **Digital Lockdown** (Cyber Incident & School Continuity)
 Location: Halverson Unified School District, Halverson, Brandt County, Oregon · Duration: 4 Hours
-Target Audience: District Command / School Safety, Policy Group, Technology / Information Security, Communications, School Site / Halverson High School, Student Services and Transportation
+Target Audience: District Command / School Safety, Policy Group, Technology / Information Security, Communications, School Site / Halverson High School, Law Enforcement (School Resource Officer)
 
 ## Scenario Overview
 

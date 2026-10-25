@@ -1,7 +1,7 @@
 ---
 name: critique
 stage: critique
-version: 4
+version: 5
 description: Editorial review of the finished scenario - continuity, plausibility, doctrine alignment, role coverage, realism.
 outputSchema: CritiqueOutput
 task: critique
@@ -20,6 +20,7 @@ variables:
     domain,
     threat,
     scenario,
+    brief,
     roles,
     phases,
     lints,
@@ -51,8 +52,9 @@ Check, in this order:
 5. Realism devices: concrete artifacts (ticket numbers, hostnames consistent with the documents, place and equipment identifiers that exist, local references). Flag invented infrastructure that contradicts the FACILITY FACTS listed in the scenario state (an identifier of a listed kind, a room or an IP range the documents do not have), unless the row itself frames it as the attacker's fake data.
    5a. Identity and geography: the organization name, facility name, city, county and state in the overview, briefing and injects must match the documents; flag any invented or contradicting geography. Technical claims must be internally consistent (an address called unauthorized must be outside the ranges listed as authorized; hostnames follow the documented schema; a setpoint or reading has units).
    5b. Inject hygiene: an inject's "from" must be the outside world, never a player role announcing its own decision (that belongs in the expected action). Judge this ONLY by the row's "from" column against the player roles listed (their keys, abbreviations and names): "Facilitator", "SimCell", a helpdesk, "Social Media", a vendor, a partner, a reporter, a dispatcher, a field unit and any automated system, alarm or log are outside parties by definition, whatever system or team the event concerns — a system log delivered by "Facilitator" or "System Alert" about the technical team's servers is NOT from a player role. Also flag rows that repeat an earlier row; times outside the phase; a phase whose public-information role gets nothing to do{{#if threat.technicalClue}}; a phase whose technical role gets no clue or hurdle{{/if}}.
-   5c. The brief and the clock: the STARTEX clock, day and date match the designer's request and the start clock; every TIME_JUMP moves to a new time (never two identical jumps) and the day does not change without one; ENDEX is the last row. Flag places, systems or threats the request named that the MSEL dropped, and places it added that the request and documents do not have.
-   5d. Authority and physics: an outside agency or regulator never closes the incident or approves restoration (it advises, assists and receives reports); encrypted or compromised systems are not fully restored within an hour; quantities, pressures and flows are possible at this facility and add up. Contact details are fictional (.example domains, 555-0100 to 555-0199) unless they are a real agency's own.
+   5c. The brief and the clock: the STARTEX clock, day and date match the designer's request and the start clock; every TIME_JUMP moves to a new time (never two identical jumps) and the day does not change without one; ENDEX is the last row, and no earlier row ends the exercise or starts the hot wash under another tag; a weekday matches its date on every card. Flag places, systems or threats the request named that the MSEL dropped, and places it added that the request and documents do not have.
+   5d. Authority and physics: an outside agency or regulator never closes the incident or approves restoration, and never orders, forbids or takes over the organization's own steps (it advises, assists, requests and receives reports); encrypted or compromised systems are not fully restored within an hour; quantities, pressures and flows are possible at this facility and add up. Contact details are fictional (.example domains, 555-0100 to 555-0199) unless they are a real agency's own.
+   5e. Drift from the brief and the plans: the MSEL tells the story the designer's request describes (the same kind of incident, on the systems, places and plan steps it names) and never contradicts the organization's own plans in the retrieved documents (step order, who decides, what a system or an interconnect does, where a facility is). Flag each row that drifts (an attack the request never mentions, a step used for the wrong purpose, a facility placed in the wrong zone) as an error with the request's or the plan's version as the fix. The player roles are the audience list: flag an audience entry that has no role, and a role no audience entry asks for.
 6. The deterministic lint results provided: confirm, dismiss with a reason, or extend them.
 
 severity: "error" for something that breaks play (contradiction, impossible timing, wrong procedure), "warning" for quality problems, "info" for polish. Do not pad: 3–12 issues is typical for a decent draft and 15 is the maximum; each message is one sentence (under 40 words) and each suggestion one sentence. summary: 2–4 sentences on overall quality and the two or three changes that matter most. Start your reply with the opening brace of the JSON object; no prose before or after it.
@@ -70,7 +72,10 @@ Threat: {{scenario.overview.threat}}
 Operational impact: {{scenario.overview.operationalImpact}}
 Plan sections tested: {{join scenario.overview.coreSectionsTested "; "}}
 Objectives: {{#each scenario.objectives}}{{name}}{{#unless @last}}; {{/unless}}{{/each}}
-Player roles (key = name, abbreviation): {{#each roles}}{{key}} = {{name}}{{#if abbreviation}}, {{abbreviation}}{{/if}}{{#unless @last}}; {{/unless}}{{/each}}
+{{#if brief.userPrompt}}Designer's request: {{brief.userPrompt}}
+{{/if}}{{#if brief.audience.length}}Audience (the player roles): {{join brief.audience "; "}}
+{{/if}}{{#if brief.constraints.length}}Constraints from the designer: {{join brief.constraints "; "}}
+{{/if}}Player roles (key = name, abbreviation): {{#each roles}}{{key}} = {{name}}{{#if abbreviation}}, {{abbreviation}}{{/if}}{{#unless @last}}; {{/unless}}{{/each}}
 {{#if facility.length}}FACILITY FACTS (from the documents; the only identifiers of these kinds that exist):
 {{#each facility}}- {{this}}
 {{/each}}

@@ -1,9 +1,13 @@
 // Lints that hold the MSEL to the brief and to its own clock and calendar (#347): the
 // STARTEX card states the brief's start time, every TIME_JUMP / ENDEX card states the clock the
 // MSEL's own times give, one TIME_JUMP per phase, the day and date do not change between rows
-// without a time jump, a weekday matches its calendar date, and the player roles stay within
-// the brief's audience. Pure; lint.ts adds them to lintScenario.
+// without a time jump, a weekday matches its calendar date (on the STARTEX and time-jump cards
+// too, and the STARTEX day matches a date the request names, #364), and the player roles stay
+// within the brief's audience and seat every entry of it (lint-audience.ts). Pure; lint.ts
+// adds them to lintScenario.
+import type { DomainProfile } from '@shared/domains'
 import { exerciseMinutes, type LintWarning, type MselRow, type Scenario } from '@shared/schemas'
+import { lintAudience } from './lint-audience'
 
 export const START_TIME_MISMATCH = 'START_TIME_MISMATCH'
 export const CLOCK_MISMATCH = 'CLOCK_MISMATCH'
@@ -195,9 +199,10 @@ const MONTHS = [
   'december',
 ]
 const WEEKDAY = `(${WEEKDAYS.join('|')})`
-const MONTH = `(${MONTHS.join('|')})`
-/** "October 22, 2026" or "10/22/2026". */
-const DATE = String.raw`(?:${MONTH}\.? (\d{1,2}),? (\d{4})|(\d{1,2})/(\d{1,2})/(\d{4}))`
+const MONTH = `(?:${MONTHS.join('|')})`
+const ORD = '(?:st|nd|rd|th)?'
+/** "October 22, 2026", "October 22nd 2026", "22 October 2026", "10/22/2026", "2026-10-22". */
+const DATE = String.raw`(?:${MONTH}\.? \d{1,2}${ORD},? \d{4}|\d{1,2}${ORD} ${MONTH},? \d{4}|\d{1,2}/\d{1,2}/\d{4}|\d{4}-\d{2}-\d{2})`
 
 interface Day {
   weekday?: number
@@ -206,23 +211,46 @@ interface Day {
   quote: string
 }
 
-function dateKey(m: RegExpExecArray, at: number): string | undefined {
-  const [month, day, year] = m[at]
-    ? [MONTHS.indexOf(m[at]!.toLowerCase()) + 1, Number(m[at + 1]), Number(m[at + 2])]
-    : [Number(m[at + 3]), Number(m[at + 4]), Number(m[at + 5])]
-  if (month < 1 || month > 12 || day < 1 || day > 31) return undefined
-  return `${year}-${pad(month)}-${pad(day)}`
+/** The calendar date a DATE match names, as "2026-10-22". */
+export function dateKey(text: string): string | undefined {
+  const t = text.toLowerCase().replace(/(\d)(?:st|nd|rd|th)\b/g, '$1')
+  const month = (name: string): number => MONTHS.indexOf(name) + 1
+  const forms: [RegExp, (m: RegExpExecArray) => [number, number, number]][] = [
+    [/^(\d{4})-(\d{2})-(\d{2})$/, (m) => [+m[1]!, +m[2]!, +m[3]!]],
+    [/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/, (m) => [+m[3]!, +m[1]!, +m[2]!]],
+    [/^([a-z]+)\.? (\d{1,2}),? (\d{4})$/, (m) => [+m[3]!, month(m[1]!), +m[2]!]],
+    [/^(\d{1,2}) ([a-z]+),? (\d{4})$/, (m) => [+m[3]!, month(m[2]!), +m[1]!]],
+  ]
+  for (const [re, read] of forms) {
+    const m = re.exec(t)
+    if (!m) continue
+    const [year, mon, day] = read(m)
+    if (mon < 1 || mon > 12 || day < 1 || day > 31) return undefined
+    return `${year}-${pad(mon)}-${pad(day)}`
+  }
+  return undefined
 }
 
 const weekdayOf = (key: string): number => new Date(`${key}T12:00:00Z`).getUTCDay()
+const weekdayIndex = (name: string): number => WEEKDAYS.indexOf(name.toLowerCase())
+const capital = (w: string): string => `${w[0]!.toUpperCase()}${w.slice(1)}`
+/** "2026-04-02" → "Thursday, April 2, 2026". */
+const longDate = (key: string): string => {
+  const [y, m, d] = key.split('-').map(Number) as [number, number, number]
+  return `${capital(WEEKDAYS[weekdayOf(key)]!)}, ${capital(MONTHS[m - 1]!)} ${d}, ${y}`
+}
 
-/** "Thursday, October 22, 2026" where October 22, 2026 is not a Thursday. */
+/** "Thursday, October 22, 2026" or "October 22, 2026 (Thursday)" where the 22nd is not a Thursday. */
 function weekdayDateMismatch(text: string): string | undefined {
-  const re = new RegExp(String.raw`\b${WEEKDAY},? ${DATE}`, 'gi')
-  for (const m of text.matchAll(re)) {
-    const key = dateKey(m as RegExpExecArray, 2)
-    if (key && weekdayOf(key) !== WEEKDAYS.indexOf(m[1]!.toLowerCase())) return m[0]
-  }
+  const forms: [RegExp, number, number][] = [
+    [new RegExp(String.raw`\b${WEEKDAY},? (?:the )?(${DATE})`, 'gi'), 1, 2],
+    [new RegExp(String.raw`\b(${DATE}),? \(${WEEKDAY}\)`, 'gi'), 2, 1],
+  ]
+  for (const [re, wd, dt] of forms)
+    for (const m of text.matchAll(re)) {
+      const key = dateKey(m[dt]!)
+      if (key && weekdayOf(key) !== weekdayIndex(m[wd]!)) return m[0]
+    }
   return undefined
 }
 
@@ -236,14 +264,52 @@ function statedDay(row: MselRow): Day | undefined {
   // The STARTEX card sets the day wherever it names it; other rows must state it.
   const lead = row.purposeTag === 'STARTEX' ? '' : ASSERT + within
   const wd = new RegExp(String.raw`${lead}\b${WEEKDAY}\b`, 'i').exec(text)
-  const dt = new RegExp(String.raw`${lead}\b${DATE}`, 'i').exec(text)
+  const dt = new RegExp(String.raw`${lead}\b(${DATE})`, 'i').exec(text)
   if (!wd && !dt) return undefined
-  const date = dt ? dateKey(dt, 1) : undefined
+  const date = dt ? dateKey(dt[1]!) : undefined
   return {
-    ...(wd ? { weekday: WEEKDAYS.indexOf(wd[1]!.toLowerCase()) } : {}),
+    ...(wd ? { weekday: weekdayIndex(wd[1]!) } : {}),
     ...(date ? { date } : {}),
     quote: (wd ?? dt)![0].trim(),
   }
+}
+
+/**
+ * A control card (STARTEX, TIME_JUMP, ENDEX) that sets a weekday and a date apart ("It is
+ * Wednesday, 09:00 … April 2, 2026") that do not agree (#364 item 4).
+ */
+function cardDayMismatch(row: MselRow, day: Day): W | undefined {
+  if (!CONTROL.has(row.purposeTag) || day.weekday === undefined || !day.date) return undefined
+  if (weekdayOf(day.date) === day.weekday) return undefined
+  return warn(
+    DATE_DRIFT,
+    `Row ${row.id} sets the day as "${day.quote}", but its date, ${longDate(day.date).replace(/^\w+, /, '')}, is a ${capital(WEEKDAYS[weekdayOf(day.date)]!)}`,
+    { rowId: row.id, suggestion: `Use "${longDate(day.date)}", or the date of the weekday meant` },
+  )
+}
+
+/** The one full date the brief's request names, if it names exactly one. */
+function briefDate(s: Scenario): string | undefined {
+  const text = [s.brief?.userPrompt ?? '', ...(s.brief?.constraints ?? [])].join('\n')
+  const keys = new Set(
+    [...text.matchAll(new RegExp(String.raw`\b(${DATE})`, 'gi'))]
+      .map((m) => dateKey(m[1]!))
+      .filter((k): k is string => !!k),
+  )
+  return keys.size === 1 ? [...keys][0] : undefined
+}
+
+/** The STARTEX card's day against the one date the brief names (#364 item 4). */
+function startexAgainstBrief(s: Scenario, row: MselRow, day: Day): W | undefined {
+  const want = row.purposeTag === 'STARTEX' ? briefDate(s) : undefined
+  if (!want) return undefined
+  const off = day.date ? day.date !== want : day.weekday !== weekdayOf(want)
+  if (!off) return undefined
+  return warn(
+    DATE_DRIFT,
+    `The STARTEX row says "${day.quote}", but the brief sets the exercise on ${longDate(want)}`,
+    { rowId: row.id, suggestion: `Set the STARTEX card on ${longDate(want)}` },
+  )
 }
 
 /** The exercise day and date stay the same between rows unless a time jump moves them (#347 item 3). */
@@ -264,6 +330,11 @@ function lintDates(s: Scenario): W[] {
     const control = row.purposeTag === 'STARTEX' || row.purposeTag === 'TIME_JUMP'
     const day = statedDay(row)
     if (!day) continue
+    const card = cardDayMismatch(row, day) ?? startexAgainstBrief(s, row, day)
+    if (card) {
+      out.push(card)
+      continue
+    }
     if (control || !current) {
       current = { ...current, ...day }
       continue
@@ -347,8 +418,8 @@ function lintRoles(s: Scenario): W[] {
   return out
 }
 
-/** Every brief, clock and calendar lint. */
-export function lintBrief(s: Scenario): LintWarning[] {
+/** Every brief, clock and calendar lint; `profile` gives the role words the audience check uses. */
+export function lintBrief(s: Scenario, profile?: DomainProfile): LintWarning[] {
   return [
     ...lintStartTime(s),
     ...lintControlClocks(s),
@@ -356,6 +427,7 @@ export function lintBrief(s: Scenario): LintWarning[] {
     ...lintTimeJumps(s),
     ...lintDates(s),
     ...lintRoles(s),
+    ...lintAudience(s, profile),
   ]
 }
 

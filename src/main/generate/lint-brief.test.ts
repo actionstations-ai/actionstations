@@ -180,3 +180,58 @@ describe('ENDEX in the middle (#347 item 1)', () => {
     expect(w).toMatchObject({ rowId: 'END-early' })
   })
 })
+
+describe('the weekday on control cards (#364 item 4)', () => {
+  const startex = (event: string, prompt = ''): Scenario => {
+    const s = clone()
+    byId(s, 'START').event = event
+    s.brief.userPrompt = prompt
+    return s
+  }
+  const drift = (s: Scenario): (string | undefined)[] =>
+    lintBrief(s)
+      .filter((w) => w.code === DATE_DRIFT)
+      .map((w) => w.rowId)
+
+  it.each([
+    'STARTEX: It is Wednesday, 09:00, April 2, 2026. Clear skies.',
+    'STARTEX: Date: April 2, 2026 (Wednesday). It is 09:00.',
+    'STARTEX: It is 09:00 on Wednesday the 2nd of April. Date: 2026-04-02.',
+    'STARTEX: Wednesday, April 2nd, 2026, 09:00.',
+    'STARTEX: Wednesday 2 April 2026, 09:00.',
+  ])('flags a STARTEX weekday that does not match its date (a Thursday): %s', (event) => {
+    expect(drift(startex(event))).toEqual(['START'])
+  })
+
+  it('names the real weekday of the date in the message and the fix', () => {
+    const w = lintBrief(startex('STARTEX: It is Wednesday, 09:00, April 2, 2026.')).find(
+      (x) => x.code === DATE_DRIFT,
+    )
+    expect(w?.message).toContain('Thursday')
+    expect(w?.suggestion).toContain('Thursday, April 2, 2026')
+  })
+
+  it('flags a time jump card whose weekday and date disagree', () => {
+    const s = startex('STARTEX: It is 09:00 on Thursday, April 2, 2026.')
+    byId(s, 'I-05').event = 'TIME JUMP: It is now Friday 10:00, April 2, 2026. Crews are out.'
+    expect(drift(s)).toEqual(['I-05'])
+  })
+
+  it('flags a STARTEX day other than the one date the brief names', () => {
+    const prompt =
+      'On Thursday 10/29/2026, the fourth-to-last day of early voting, the poll pads fail.'
+    expect(drift(startex('STARTEX: It is 08:00 on Wednesday.', prompt))).toEqual(['START'])
+    expect(drift(startex('STARTEX: It is 08:00 on October 28, 2026.', prompt))).toEqual(['START'])
+    expect(drift(startex('STARTEX: It is 08:00 on Thursday, October 29, 2026.', prompt))).toEqual(
+      [],
+    )
+    expect(drift(startex('STARTEX: It is 08:00. Early voting is busy.', prompt))).toEqual([])
+  })
+
+  it('accepts matching cards and a brief that names more than one date', () => {
+    expect(drift(startex('STARTEX: It is Thursday, 09:00, April 2, 2026.'))).toEqual([])
+    const prompt =
+      'The backups from October 20, 2026 are clean; the attack starts October 22, 2026.'
+    expect(drift(startex('STARTEX: It is 09:00 on Wednesday.', prompt))).toEqual([])
+  })
+})

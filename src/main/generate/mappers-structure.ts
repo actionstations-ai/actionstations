@@ -10,7 +10,9 @@ import {
   type Role,
   type Scenario,
 } from '@shared/schemas'
+import type { DomainProfile } from '@shared/domains'
 import type { RoleHeuristics } from './domain'
+import { roleSeats } from './lint-audience'
 import { normalizedEvent, sameInject } from './lint-structure'
 import { DEFAULT_START_WALL_CLOCK, wallClockAt } from './mappers'
 
@@ -154,17 +156,26 @@ export function repairStructure(s: Scenario): StructureRepair {
 }
 
 /**
- * At most `cap` player roles (#174: nine roles for a six-entry audience). The operational,
- * technical, public-information and security roles are kept first, then the others in the
+ * At most `cap` player roles (#174: nine roles for a six-entry audience). A role that plays
+ * an audience entry is kept first (#364: the audience list is the role list), then the
+ * operational, technical, public-information and security roles, then the others in the
  * model's order; the kept roles keep that order. Returns the dropped roles.
  */
-export function capRoles(s: Scenario, cap: number, heur: RoleHeuristics): Role[] {
+export function capRoles(
+  s: Scenario,
+  cap: number,
+  heur: RoleHeuristics,
+  profile?: DomainProfile,
+): Role[] {
   if (cap < 2 || s.roles.length <= cap) return []
   const text = (r: Role): string => `${r.id} ${r.abbreviation} ${r.name}`
+  const seated = (s.brief?.audience ?? [])
+    .map((entry) => s.roles.find((r) => roleSeats(entry, r, heur, profile)))
+    .filter((r): r is Role => !!r)
   const core = [heur.operations, heur.technical, heur.public, heur.security]
     .map((re) => s.roles.find((r) => re.test(text(r))))
     .filter((r): r is Role => !!r)
-  const priority = [...new Set([...core, ...s.roles])]
+  const priority = [...new Set([...seated, ...core, ...s.roles])]
   const keep = new Set(priority.slice(0, cap))
   const dropped = s.roles.filter((r) => !keep.has(r))
   s.roles = s.roles.filter((r) => keep.has(r))

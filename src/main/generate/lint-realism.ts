@@ -27,7 +27,7 @@ const clip = (s: string): string => (s.length > 80 ? `${s.slice(0, 77)}…` : s)
 // ---- outside agencies decide ----------------------------------------------------------------
 
 /** Outside agencies and regulators that advise, assist and receive reports. */
-const AGENCY = String.raw`(?:CISA|FBI|TSA|DHS|FAA|FEMA|EPA|PHMSA|NTSB|OSHA|NRC|USCG|Coast Guard|Secret Service|Secretary of State|state police|state regulator|regulators?|(?:the )?state (?:EOC|emergency management)|PUC|public utilit(?:y|ies) commission)`
+const AGENCY = String.raw`(?:CISA|FBI|TSA|DHS|FAA|FSDO|FEMA|EPA|PHMSA|NTSB|OSHA|NRC|USCG|Coast Guard|Captain of the Port|Secret Service|Secretary of State|state police|state regulator|regulators?|(?:the )?state (?:EOC|emergency management)|PUC|public utilit(?:y|ies) commission|FERC|NERC|FCC|CSB|Chemical Safety Board|DDAGW|primacy agency|(?:the )?state (?:drinking[- ]water|health|public health|environmental|education|dam safety) (?:office|program|department|agency|division|board)|(?:the )?state department of (?:health|education|environmental \w+)|Department of Education)`
 /** What only the exercising organization decides: closing the incident, restoring, restarting. */
 const RESUME = String.raw`(?:restor\w*|restart\w*|resum\w*|return(?:ing)? to (?:service|normal|operations)|reopen\w*|re-?energi[sz]\w*|recovery)`
 const DECIDES = String.raw`(?:clos(?:e|es|ed|ing) (?:the |this |our )?(?:incident|event)|declar\w* (?:the )?(?:incident|event) (?:closed|over|resolved)|(?:gives?|gave|giving) (?:the )?all[- ]clear|(?:approv|authori[sz]|clear|sign\w* off on)\w* (?:the |a |full )?(?:system |network |plant |site )?${RESUME})`
@@ -46,26 +46,94 @@ const AGENCY_DECIDES = [
     'i',
   ),
 ]
+/**
+ * An outside agency forbidding, ordering or taking over (#364 item 3): "the FBI forbids return
+ * to service", "DDAGW orders the city to issue the advisory", "Ohio EPA: you must issue a boil
+ * order within 30 minutes", "the FBI is taking jurisdiction". The organization decides.
+ */
+const SUBJECT = String.raw`(?:you|us|them|the (?:[\w'’&-]+ ){0,3}(?:city|utility|county|district|group|company|airport|plant|operators?|organi[sz]ation|team|players?|commander|staff|crews?|department|authority|port|airline|hospital|school|board|agency|pilots?|fleet))`
+/** Response steps the organization owns: an order to take one is a decision made for it. */
+const STEP = String.raw`(?:issue|shut|close|stop|ground|evacuate|keep|stay|remain|stand down|cease|halt|suspend|isolate|disconnect|restart|restore|resume|return|reopen|lift|declare|activate|flush|pay|cancel|delay)\b`
+const MUST = String.raw`(?:must|shall|(?:are|is) (?:required|ordered|directed|to)(?: to)?)`
+const TAKES_OVER = String.raw`(?:command|control|charge|jurisdiction)\b(?! (?:of|over) (?:the |this )?(?:criminal |federal )?(?:investigation|case|evidence|crime|scene))`
+const ORDERS = String.raw`(?:(?:forbid|prohibit|bar|block|ban)\w* (?:the |any |a |all |further )?(?:system |network |plant |site |fleet |flight )?(?:${RESUME}|flights?|operations)|(?:order|direct|requir|instruct|mandat|tell|told|compel)\w* ${SUBJECT} to (?:now |immediately )?${STEP}|(?:tak\w*|took|assum\w*) (?:over )?(?:incident )?${TAKES_OVER})`
+const MUST_STEP = String.raw`${SUBJECT} ${MUST} (?:now |immediately )?${STEP}`
+const AGENCY_ORDERS = [
+  new RegExp(String.raw`\b(${AGENCY})\b(?:'s)?([^.!?;\n]{0,80}?)\b${ORDERS}`, 'i'),
+  new RegExp(String.raw`\b(${AGENCY})\b(?:'s)?([^.!?;\n]{0,80}?)\b${MUST_STEP}`, 'i'),
+]
+/** "No return to service until the FBI issues a release": a gate the agency holds. */
+const GATE_VERB = String.raw`(?:(?:issu|giv)\w* (?:a |an |the |its |you |us )?(?:formal |written |final )?(?:release|clearance|approval|authori[sz]ation|permission|go-ahead|ok|okay|green light|all[- ]clear)|approv\w*|releas\w* (?:the |it\b|them\b)|clear\w* (?:the |it\b|them\b)|sign\w* off|authori[sz]\w*|lift\w*|permit\w*)`
+const AGENCY_GATES = [
+  new RegExp(
+    String.raw`\b${RESUME}\b([^.!?;\n]{0,60}?)\b(?:until|unless|without)\b (?:the )?(${AGENCY})\b(?:'s)?([^.!?;\n]{0,30}?)\b${GATE_VERB}`,
+    'i',
+  ),
+  new RegExp(
+    String.raw`\b${RESUME}\b([^.!?;\n]{0,60}?)\bonly (?:after|once|when|if) (?:the )?(${AGENCY})\b(?:'s)?([^.!?;\n]{0,30}?)\b${GATE_VERB}`,
+    'i',
+  ),
+]
+/** An order with the agency named just before it, in the row's source or a short lead sentence. */
+const BARE_ORDERS = [
+  new RegExp(String.raw`\b${ORDERS}`, 'i'),
+  new RegExp(String.raw`\b${MUST_STEP}`, 'i'),
+]
+/** A reporting duty the law gives the agency is not an order about the response. */
+const REPORTING = /\b(?:report\w*|notif\w*|submit\w*|file|filing)\b/i
 const NEGATION = /\b(?:no|not|never|without|neither|nor|nobody|none)\b|n't\b/i
+/** Notice names that carry a "not": "Do Not Drink", "Do Not Use". */
+const NOTICE_NAME = /\bdo not (?:drink|use|consume|boil)\b/gi
+/** Advice is not an order: "CISA recommends", "DDAGW suggests you should". */
+const ADVISORY =
+  /\b(?:recommend\w*|advis(?:e|es|ed|ing)|suggest\w*|request\w*|ask\w*|urg(?:e|es|ed|ing)|encourag\w*|may|might|could|should|consider\w*|guidance|offer\w*|please)\b/i
+const AGENCY_RE = new RegExp(String.raw`\b${AGENCY}\b`, 'i')
 
-/** The first sentence where an outside agency closes the incident or approves the restore. */
-function agencyDecision(text: string): { agency: string; quote: string } | undefined {
+interface AgencyHit {
+  agency: string
+  quote: string
+}
+
+/** The first sentence where an outside agency closes the incident, orders a step or approves the restore. */
+function agencyDecision(text: string, from = ''): AgencyHit | undefined {
+  const hit = (m: RegExpExecArray, agency?: string): AgencyHit => ({
+    agency: agency ?? AGENCY_RE.exec(m[0])?.[0] ?? 'an outside agency',
+    quote: m[0],
+  })
+  let speaker = AGENCY_RE.exec(from)?.[0]
   for (const sentence of sentences(text)) {
-    for (const re of AGENCY_DECIDES) {
-      const m = re.exec(sentence)
-      if (!m) continue
-      // "No regulator approves the restart", "no access is restored until …": not a decision.
-      if (NEGATION.test(sentence)) continue
-      const agency = new RegExp(String.raw`\b${AGENCY}\b`, 'i').exec(m[0])?.[0]
-      return { agency: agency ?? 'an outside agency', quote: m[0] }
+    const plain = sentence.replace(NOTICE_NAME, 'notice')
+    // The gate carries its own negation ("no restart until the FBI releases the site").
+    for (const re of AGENCY_GATES) {
+      const m = re.exec(plain)
+      if (m && !ADVISORY.test(plain)) return hit(m)
     }
+    // "No regulator approves the restart", "no access is restored until …": not a decision.
+    const negated = NEGATION.test(plain)
+    const advisory = ADVISORY.test(plain) || REPORTING.test(plain)
+    for (const re of negated ? [] : AGENCY_DECIDES) {
+      const m = re.exec(plain)
+      if (m) return hit(m)
+    }
+    for (const re of negated || advisory ? [] : AGENCY_ORDERS) {
+      const m = re.exec(plain)
+      if (m) return hit(m)
+    }
+    // "DDAGW here. You must issue …": the speaker is the agency.
+    for (const re of negated || advisory || !speaker ? [] : BARE_ORDERS) {
+      const m = re.exec(plain)
+      if (m) return hit(m, speaker)
+    }
+    const lead = plain.split(/\s+/).length <= 6 ? AGENCY_RE.exec(plain)?.[0] : undefined
+    speaker = lead ?? AGENCY_RE.exec(from)?.[0]
   }
   return undefined
 }
 
 function lintAgencyDecisions(s: Scenario): W[] {
   return s.msel.flatMap((row): W[] => {
-    const hit = agencyDecision(`${row.event}\n${row.expectedAction}`)
+    // The row's source speaks the event; the expected action is the players' own.
+    const hit = agencyDecision(row.event, row.from) ?? agencyDecision(row.expectedAction)
     if (!hit) return []
     return [
       warn(
