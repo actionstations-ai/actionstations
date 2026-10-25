@@ -48,15 +48,18 @@ photojournalism realism. Core nodes only.
 - SDXL cannot render legible text and ignores negation ("no screens"); it also lights any
   screen it is asked to draw, "dark powered-off boards" included. Text-bearing media is always
   template-rendered ([CONTRIBUTING.md, Project rules 5](../../CONTRIBUTING.md#project-rules)).
-- Dark scenes (#162): a brief whose screens are dark leaves them out of the prompt and has
-  `lighting: "dark"`. Three `lighting` bindings then switch the sampler to the dark start latent
+- Dark scenes (#162): a brief that describes a power loss (outage, blackout, power failure,
+  generators, emergency lighting) has `lighting: "dark"`. A brief whose screens are only blank
+  (power on, e.g. a cyber attack) leaves them out of the prompt but keeps normal lighting. Three `lighting` bindings then switch the sampler to the dark start latent
   (node 11: a #404040 `EmptyImage` through `VAEEncode`, so the sampler starts dark) at denoise
   0.92, and to a positive prompt combined with "dark unlit ceiling in deep shadow" over the top
   40% of the frame (`ConditioningSetAreaPercentage`, node 13), where SDXL otherwise paints lit
   departure boards and signs. Lit scenes do not reach those nodes and render as before.
   Measured on the #141 brief (sample-run I-10), seeds 1001–1003: mean luma 87–116 with lit
   boards and signs before; 29–40 and no lit screens after. Prompt and negative-prompt changes
-  alone (with a dark start latent) still left a lit board in 2 of 3 seeds.
+  alone (with a dark start latent) still left a lit board in 2 of 3 seeds. With the power on
+  (no lighting set) the room stays lit (mean luma 91–116), but SDXL still paints lit signs in
+  the background of all 3 seeds.
 
 ## `image-to-video` — LTX-Video 2B distilled (video)
 

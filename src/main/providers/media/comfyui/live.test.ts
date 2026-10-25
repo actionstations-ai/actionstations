@@ -28,13 +28,18 @@ function meanLuma(file: string): number {
   return sum / (png.width * png.height)
 }
 
-/** The #141 brief: sample-run I-10, whose departure boards go dark. */
-async function darkScreensBrief() {
+/** The #141 brief: sample-run I-10, whose departure boards go dark; `powerLoss` adds a power
+ *  failure to it (#162). */
+async function darkScreensBrief(powerLoss: boolean) {
   const { normalizeBrief, planMedia } = await import('../../../generate/injects/media-plan')
   const injects = JSON.parse(
     readFileSync(resolve('tests/fixtures/injects/sample-run/injects.json'), 'utf8'),
   ) as Inject[]
-  const inject = injects.find((i) => i.mselRowId === 'I-10')!
+  const i10 = injects.find((i) => i.mselRowId === 'I-10')!
+  const loss = 'A power failure has cut the terminal lights; emergency lighting only.'
+  const inject = powerLoss
+    ? { ...i10, fields: { ...i10.fields, sceneBrief: `${String(i10.fields.sceneBrief)} ${loss}` } }
+    : i10
   const row: MselRow = {
     id: 'I-10',
     phaseId: 'p1',
@@ -113,22 +118,46 @@ describe.skipIf(!LIVE)('ComfyUI live', () => {
     )
   })
 
-  it('renders the dark-screens brief dim (#162)', { timeout: 900_000 }, async () => {
-    const { ComfyMediaProvider } = await import('./provider')
-    const p = new ComfyMediaProvider(config)
-    const brief = await darkScreensBrief()
-    expect(brief.lighting).toBe('dark')
-    for (const seed of DARK_SEEDS) {
-      const [out] = await p.generate(
-        { kind: 'image', injectId: `live-dark-${seed}`, outDir, seed, brief },
-        () => {},
-      )
-      const luma = meanLuma(out!.filePath)
-      console.log('[live] dark screens', out!.filePath, 'seed', seed, 'mean luma', luma.toFixed(1))
-      // Lit concourse renders of this brief measure 87–116; the dark-lighting path 30–40.
-      expect(luma).toBeLessThan(60)
-    }
-  })
+  it(
+    'renders the dark-screens brief with a power loss dim (#162)',
+    { timeout: 900_000 },
+    async () => {
+      const { ComfyMediaProvider } = await import('./provider')
+      const p = new ComfyMediaProvider(config)
+      const brief = await darkScreensBrief(true)
+      expect(brief.lighting).toBe('dark')
+      for (const seed of DARK_SEEDS) {
+        const [out] = await p.generate(
+          { kind: 'image', injectId: `live-dark-${seed}`, outDir, seed, brief },
+          () => {},
+        )
+        const luma = meanLuma(out!.filePath)
+        console.log('[live] power out', out!.filePath, 'seed', seed, 'mean luma', luma.toFixed(1))
+        // Lit concourse renders of this brief measure 87–116; the dark-lighting path 30–40.
+        expect(luma).toBeLessThan(60)
+      }
+    },
+  )
+
+  it(
+    'renders blank boards with the power on in a lit room (#162)',
+    { timeout: 900_000 },
+    async () => {
+      const { ComfyMediaProvider } = await import('./provider')
+      const p = new ComfyMediaProvider(config)
+      const brief = await darkScreensBrief(false)
+      expect(brief.lighting).toBeUndefined()
+      for (const seed of DARK_SEEDS) {
+        const [out] = await p.generate(
+          { kind: 'image', injectId: `live-blank-${seed}`, outDir, seed, brief },
+          () => {},
+        )
+        const luma = meanLuma(out!.filePath)
+        console.log('[live] power on', out!.filePath, 'seed', seed, 'mean luma', luma.toFixed(1))
+        expect(luma).toBeGreaterThan(60)
+      }
+    },
+  )
 
   it.skipIf(!VIDEO)(
     'renders the image-to-video default workflow',

@@ -19,7 +19,7 @@ export const MEDIA_BRIEF_SCHEMA: JsonSchema = {
       title: 'Image prompt',
       description:
         'Describe the photo positively (SDXL ignores "no …"). SDXL lights any screen it is ' +
-        'asked to draw: for an outage leave screens out and set Lighting to dark.',
+        'asked to draw: leave dark screens out; for a power loss set Lighting to dark.',
       maxLength: LONG,
     },
     negativePrompt: { type: 'string', title: 'Negative prompt', maxLength: LONG },
@@ -31,7 +31,8 @@ export const MEDIA_BRIEF_SCHEMA: JsonSchema = {
     lighting: {
       type: 'string',
       title: 'Lighting',
-      description: 'dark = an outage: displays off, dim room (workflows with lighting bindings).',
+      description:
+        'dark = a power loss: displays off, dim room (workflows with lighting bindings).',
       enum: ['normal', 'dark'],
     },
     videoPrompt: { type: 'string', title: 'Video prompt', maxLength: LONG },

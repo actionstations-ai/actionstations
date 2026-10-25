@@ -343,7 +343,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 #### Media, templates and providers
 
-- Scene photos whose screens are dark (an outage) are dim and free of lit screens and signs (#162): the media brief gets `lighting: "dark"` (editable in the inject's media brief) and outage light words, and the default `sdxl-photo` workflow binds it through a new `lighting` binding source to a dark start latent (denoise 0.92) and a dark-ceiling area prompt over the top 40% of the frame (ComfyUI core nodes, no new models). Measured on the #141 brief with seeds 1001–1003: mean luma 87–116 with lit boards before, 29–40 with no lit screens after.
+- Scene photos of a power loss (outage, blackout, power failure, generators, emergency lighting) are dim and free of lit screens and signs (#162): the media brief gets `lighting: "dark"` (editable in the inject's media brief) and outage light words, and the default `sdxl-photo` workflow binds it through a new `lighting` binding source to a dark start latent (denoise 0.92) and a dark-ceiling area prompt over the top 40% of the frame (ComfyUI core nodes, no new models). Measured on the #141 brief with seeds 1001–1003: mean luma 87–116 with lit boards before, 29–40 with no lit screens after. Screens that are dark or blank with the power on (a cyber-only outage) keep the room's normal light: the screens are left out of the prompt and lit signage is in the negative prompt, but no lighting is set.
 - Inject media (#177): a generated still is kept when the template step fails and the job log
   names the failing step; over-long strings and pattern violations (a 19-character tweet
   handle) and undeclared nested keys are repaired before validation; the model can choose a

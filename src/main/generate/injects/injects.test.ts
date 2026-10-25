@@ -423,7 +423,9 @@ describe('generate:media', () => {
     })
     // The style/setting anchors lead; the model's own prompt follows.
     // The brief's screens are dark (#141): screenless setting, no screens named at all.
-    expect(photo.provenance.prompt).toMatch(/^Candid smartphone snapshot.*dim airport terminal/)
+    expect(photo.provenance.prompt).toMatch(
+      /^Candid smartphone snapshot.*inside an airport terminal/,
+    )
     expect(photo.provenance.prompt).toContain('Phone snapshot')
     expect(photo.provenance.prompt).not.toMatch(/screen|board|display/i)
     expect(photo.provenance.negativePrompt).toContain('illuminated screens')
