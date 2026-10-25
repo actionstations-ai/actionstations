@@ -1,0 +1,283 @@
+{
+  "id": "01M5RE7WXR15TQQ8D5E2XWC7A7",
+  "mselRowId": "I-02",
+  "type": "siem_alert",
+  "title": "SIEM: backup account encrypting files and logging on to MBW-EWS-01",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "product": "Sentinel Point SIEM",
+    "tenant": "City of Millbrook",
+    "alertId": "ALR-2026-104418",
+    "severity": "critical",
+    "riskScore": 94,
+    "rule": "Mass file rename by a service account, followed by a logon to a control-network host",
+    "ruleDescription": "MILLBROOK\\svc-backup renamed about 41,000 files on MBW-FS-01 and MBW-CIS-01 from MBW-BKP-01 between 08:52 and 09:06, then logged on over SMB to MBW-EWS-01 in the control network at 09:04.",
+    "status": "New",
+    "assignee": "Unassigned",
+    "firstSeen": "10/26/2026 08:52:10",
+    "lastSeen": "10/26/2026 09:06:44",
+    "eventCount": 41212,
+    "source": {
+      "host": "MBW-BKP-01",
+      "ip": "10.73.4.15",
+      "user": "MILLBROOK\\svc-backup",
+      "zone": "Business LAN"
+    },
+    "dest": {
+      "host": "MBW-EWS-01",
+      "ip": "10.72.10.30",
+      "service": "SMB (445)",
+      "zone": "Control network"
+    },
+    "tactics": [
+      "T1486 Data Encrypted for Impact",
+      "T1078 Valid Accounts",
+      "T1021.002 SMB/Windows Admin Shares"
+    ],
+    "details": [
+      {
+        "key": "Files renamed",
+        "value": "41,000+ (.rptd)"
+      },
+      {
+        "key": "Ransom note",
+        "value": "RESTORE-MILLBROOK.txt"
+      },
+      {
+        "key": "Control-network logon",
+        "value": "MBW-EWS-01 at 09:04:37 (first in 90 days)"
+      },
+      {
+        "key": "Path",
+        "value": "FW-R-17 session (MBW-EWS-01 ↔ MBW-BKP-01, SMB)"
+      },
+      {
+        "key": "Open finding",
+        "value": "F-5: FW-R-17 and the MBWSCADA → MILLBROOK trust"
+      }
+    ],
+    "rawEvent": "2026-10-26T09:04:37-04:00 MBW-FW-01 FW-R-17 allow tcp 10.73.4.15 -> 10.72.10.30:445 user=MILLBROOK\\svc-backup",
+    "relatedAlerts": [
+      {
+        "time": "08:52:10",
+        "title": "Mass file rename on MBW-FS-01",
+        "severity": "critical"
+      },
+      {
+        "time": "08:58:31",
+        "title": "Mass file rename on MBW-CIS-01",
+        "severity": "critical"
+      },
+      {
+        "time": "09:04:37",
+        "title": "Business account logon to MBW-EWS-01",
+        "severity": "high"
+      }
+    ],
+    "analyst": "city-it.oncall"
+  },
+  "instructorNote": "The clue that matters is the 09:04 logon to MBW-EWS-01. Watch whether the SCADA / IT Security Manager asks for FW-R-17, FW-R-22 and FW-R-14 to be disabled before the full islanding decision.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 4 › 4.2 Firewall Rule Table (MBW-FW-01, excerpt)",
+      "quote": "| Rule | From | To | Service | Purpose | Owner / Note | |---|---|---|---|---|---| | FW-R-05 | Business LAN | MBW-HIST-01 | HTTPS | Read-only historian dashboards for management and the lab | Nandakuma",
+      "chunkId": 62
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 4. Control System Summary",
+      "quote": "| Element | Identifier | Location / notes | |---|---|---| | SCADA servers | MBW-SCADA-SRV01 (primary), MBW-SCADA-SRV02 (hot standby) | Control Room server rack; AquaSight 7.2 | | HMIs | MBW-HMI-01 (Co",
+      "chunkId": 166
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 2",
+      "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+      "chunkId": 59
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:29:22.821Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SMB Session from CIS Server to Jump Host",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "City of Millbrook - Water & Sewer",
+          "alertId": "ALR-2026-104418",
+          "severity": "high",
+          "riskScore": 89,
+          "rule": "Unauthorized SMB Session from Business LAN to SCADA Jump Host via Open Firewall Rule",
+          "ruleDescription": "An SMB session from the business network server MBW-CIS-01 (10.72.20.12) to the SCADA jump host MBW-JUMP-01 (10.72.30.44) was detected via firewall rule FW-R-17. The session was not initiated from an approved engineering workstation, is not tied to a vendor ticket, and is not recorded in the jump host’s audit trail.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "10/24/2026 09:07:42",
+          "lastSeen": "10/24/2026 09:12:00",
+          "eventCount": 12,
+          "source": {
+            "host": "MBW-CIS-01",
+            "ip": "10.72.20.12",
+            "user": "SYSTEM",
+            "zone": "Business LAN"
+          },
+          "dest": {
+            "host": "MBW-JUMP-01",
+            "ip": "10.72.30.44",
+            "service": "SMB (445)",
+            "zone": "SCADA DMZ"
+          },
+          "tactics": [
+            "T1078 Valid Accounts",
+            "T1566 Phishing",
+            "T1564 Scanning"
+          ],
+          "details": [
+            {
+              "key": "Firewall Rule",
+              "value": "FW-R-17"
+            },
+            {
+              "key": "Session Origin",
+              "value": "Internal (Business LAN)"
+            },
+            {
+              "key": "Expected Source",
+              "value": "MBW-EWS-01 or ticketed vendor workstation"
+            },
+            {
+              "key": "Audit Trail",
+              "value": "Not logged on MBW-JUMP-01"
+            },
+            {
+              "key": "Rule Owner",
+              "value": "Kevin Marsh (IT Director)"
+            },
+            {
+              "key": "Rule Status",
+              "value": "Open Finding F-5 (SCADA-to-business SMB)"
+            },
+            {
+              "key": "Rule Purpose",
+              "value": "Nightly HMI application and PLC program backup to MBW-BKP-01"
+            }
+          ],
+          "rawEvent": "2026-10-24T09:07:42-04:00 MBW-FW-01 FW-R-17: SMB session from 10.72.20.12 (MBW-CIS-01) to 10.72.30.44 (MBW-JUMP-01) established. No vendor ticket or MFA auth observed. Session not logged in MBW-JUMP-01 audit trail.",
+          "relatedAlerts": [
+            {
+              "time": "09:07:38",
+              "title": "RTU-03 Telemetry Loss Detected",
+              "severity": "high"
+            },
+            {
+              "time": "09:07:45",
+              "title": "Unusual SMB Traffic from MBW-CIS-01",
+              "severity": "medium"
+            }
+          ],
+          "analyst": "it.oncall"
+        },
+        "instructorNote": "This is a critical triage event. The technical lead must immediately isolate the SMB path and confirm the session is not a legitimate backup. Watch for over-reliance on the business network for control decisions.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.207Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIEM: backup account encrypting files and logging on to MBW-EWS-01",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "City of Millbrook",
+          "alertId": "ALR-2026-104418",
+          "severity": "critical",
+          "riskScore": 94,
+          "rule": "Mass file rename by a service account, followed by a logon to a control-network host",
+          "ruleDescription": "MILLBROOK\\svc-backup renamed about 41,000 files on MBW-FS-01 and MBW-CIS-01 from MBW-BKP-01 between 08:52 and 09:06, then logged on over SMB to MBW-EWS-01 in the control network at 09:04.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "10/26/2026 08:52:10",
+          "lastSeen": "10/26/2026 09:06:44",
+          "eventCount": 41212,
+          "source": {
+            "host": "MBW-BKP-01",
+            "ip": "10.73.4.15",
+            "user": "MILLBROOK\\svc-backup",
+            "zone": "Business LAN"
+          },
+          "dest": {
+            "host": "MBW-EWS-01",
+            "ip": "10.72.10.30",
+            "service": "SMB (445)",
+            "zone": "Control network"
+          },
+          "tactics": [
+            "T1486 Data Encrypted for Impact",
+            "T1078 Valid Accounts",
+            "T1021.002 SMB/Windows Admin Shares"
+          ],
+          "details": [
+            {
+              "key": "Files renamed",
+              "value": "41,000+ (.rptd)"
+            },
+            {
+              "key": "Ransom note",
+              "value": "RESTORE-MILLBROOK.txt"
+            },
+            {
+              "key": "Control-network logon",
+              "value": "MBW-EWS-01 at 09:04:37 (first in 90 days)"
+            },
+            {
+              "key": "Path",
+              "value": "FW-R-17 session (MBW-EWS-01 ↔ MBW-BKP-01, SMB)"
+            },
+            {
+              "key": "Open finding",
+              "value": "F-5: FW-R-17 and the MBWSCADA → MILLBROOK trust"
+            }
+          ],
+          "rawEvent": "2026-10-26T09:04:37-04:00 MBW-FW-01 FW-R-17 allow tcp 10.73.4.15 -> 10.72.10.30:445 user=MILLBROOK\\svc-backup",
+          "relatedAlerts": [
+            {
+              "time": "08:52:10",
+              "title": "Mass file rename on MBW-FS-01",
+              "severity": "critical"
+            },
+            {
+              "time": "08:58:31",
+              "title": "Mass file rename on MBW-CIS-01",
+              "severity": "critical"
+            },
+            {
+              "time": "09:04:37",
+              "title": "Business account logon to MBW-EWS-01",
+              "severity": "high"
+            }
+          ],
+          "analyst": "city-it.oncall"
+        },
+        "instructorNote": "The clue that matters is the 09:04 logon to MBW-EWS-01. Watch whether the SCADA / IT Security Manager asks for FW-R-17, FW-R-22 and FW-R-14 to be disabled before the full islanding decision.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:00.369Z"
+}

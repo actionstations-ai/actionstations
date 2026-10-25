@@ -1,0 +1,139 @@
+{
+  "id": "01M5RJV516DRYDR14RJFJBB8ZK",
+  "mselRowId": "I-01",
+  "type": "email_forward",
+  "title": "Email: D-3 folders renamed, ransom note on the share",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Hannah Whitlock",
+    "fromEmail": "hwhitlock@huog.example",
+    "senderInitials": "HW",
+    "to": "Tomás Reyes",
+    "subject": "FW: D-3 folders — all renamed, ransom note",
+    "sentAt": "Mon 10/05/2026 9:05 AM",
+    "note": "Tomás — stopping all processing now. Calling you. — Hannah",
+    "signature": "Hannah Whitlock\nPayload & Calibration Lead",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Hannah Whitlock",
+    "original": {
+      "cc": "",
+      "fromName": "Processing analyst",
+      "fromEmail": "processing@huog.example",
+      "to": "hwhitlock@huog.example",
+      "subject": "D-3 folders",
+      "body": "Every file under \\\\HUOG-NAS01\\campaigns\\cpl-d3\\ now ends in .lck0 and there is a README-RECOVER.txt in every folder. PROC01 has the same note as its desktop background. The processing script fails the manifest check on the first folder.\n\nI have not touched anything else.",
+      "sentAt": "Mon 10/05/2026 9:03 AM"
+    }
+  },
+  "instructorNote": "Watch for processing stopped, the phone used, and HUOG-ISP 9.3 started.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.3 Integrity",
+      "quote": "Raw data folders get a manifest of SHA-256 hashes when copied to the NAS; processing scripts verify the manifest before they start; deliverables carry a manifest the client can verify. A product gener",
+      "chunkId": 116
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 7 › 7.2 Data classes",
+      "quote": "| Class | Examples | Handling | |---|---|---| | **Public** | Published papers, demo imagery of Horton Field | No restriction | | **Internal** | Flight logs, maintenance records, most trainee projects ",
+      "chunkId": 118
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:49:44.928Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "CP&L D-3 Manifest Hash Mismatch — Processing Script Failure",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "M. Rostova (Processing Team Lead)",
+          "fromEmail": "processing@huog.example",
+          "senderInitials": "MR",
+          "to": "ops@huog.example",
+          "subject": "FW: CP&L D-3 manifest hash mismatch and script failure",
+          "sentAt": "Tue 10/24/2026 09:05 AM",
+          "note": "Hi Ops,\n\nWe just started up HUOG-PROC01 and ran the pre-flight manifest check for CP&L Campaign D-3. The hash for the latest raw data folder (\\HUOG-NAS01\\projects\\cp&l\\d3\\raw\\2026-04-10-1430) does not match the manifest.json entry. The processing script failed with 'invalid data' and won't proceed. No changes were made to the data on our end. I've checked the NAS logs—no known edits. This is unexpected. Can you confirm if the NAS is still healthy?\n\nBest,\n\nM. Rostova",
+          "signature": "M. Rostova\nProcessing Team Lead",
+          "importance": "high",
+          "external": false,
+          "attachments": [
+            {
+              "name": "manifest.json",
+              "size": "2.1 KB",
+              "kind": "file"
+            }
+          ],
+          "printedBy": "Processing Team Lead",
+          "original": {
+            "fromName": "Processing Team Lead (processing@huog.example)",
+            "fromEmail": "processing@huog.example",
+            "sentAt": "Tue 10/24/2026 09:03 AM",
+            "to": "ops@huog.example",
+            "cc": "",
+            "subject": "CP&L D-3 manifest hash mismatch and script failure",
+            "body": "Hi Ops,\n\nWe just started up HUOG-PROC01 and ran the pre-flight manifest check for CP&L Campaign D-3. The hash for the latest raw data folder (\\HUOG-NAS01\\projects\\cp&l\\d3\\raw\\2026-04-10-1430) does not match the manifest.json entry. The processing script failed with 'invalid data' and won't proceed. No changes were made to the data on our end. I've checked the NAS logs—no known edits. This is unexpected. Can you confirm if the NAS is still healthy?\n\nBest,\n\nM. Rostova"
+          }
+        },
+        "instructorNote": "This inject confirms the first technical indicator of the attack: a manifest hash mismatch. The technical team must now triage whether the NAS is compromised or if the data was altered externally. Watch for overreaction or misdiagnosis of the NAS as a failed server.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.327Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email: D-3 folders renamed, ransom note on the share",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Hannah Whitlock",
+          "fromEmail": "hwhitlock@huog.example",
+          "senderInitials": "HW",
+          "to": "Tomás Reyes",
+          "subject": "FW: D-3 folders — all renamed, ransom note",
+          "sentAt": "Mon 10/05/2026 9:05 AM",
+          "note": "Tomás — stopping all processing now. Calling you. — Hannah",
+          "signature": "Hannah Whitlock\nPayload & Calibration Lead",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Hannah Whitlock",
+          "original": {
+            "cc": "",
+            "fromName": "Processing analyst",
+            "fromEmail": "processing@huog.example",
+            "to": "hwhitlock@huog.example",
+            "subject": "D-3 folders",
+            "body": "Every file under \\\\HUOG-NAS01\\campaigns\\cpl-d3\\ now ends in .lck0 and there is a README-RECOVER.txt in every folder. PROC01 has the same note as its desktop background. The processing script fails the manifest check on the first folder.\n\nI have not touched anything else.",
+            "sentAt": "Mon 10/05/2026 9:03 AM"
+          }
+        },
+        "instructorNote": "Watch for processing stopped, the phone used, and HUOG-ISP 9.3 started.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:28.927Z"
+}

@@ -1,0 +1,213 @@
+{
+  "id": "01M5RP04WV3A7TEW5CJ63PWSAN",
+  "mselRowId": "I-02",
+  "type": "system_log",
+  "title": "GCS-01 event log: a field firmware update at 08:52",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "GCS-01 event log",
+    "host": "HUOG-GCS01 (10.17.40.11)",
+    "logSource": "Update and configuration events",
+    "exportedBy": "GSO, Crew 1",
+    "exportedAt": "09/15/2026 9:07 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "08:52:10",
+        "level": "WARN",
+        "msg": "OEM update prompt accepted by user crew1",
+        "highlight": true
+      },
+      {
+        "ts": "08:53:02",
+        "level": "INFO",
+        "msg": "Aircraft firmware 03.2026-C transferred to UAS-02",
+        "highlight": true
+      },
+      {
+        "ts": "08:55:40",
+        "level": "INFO",
+        "msg": "UAS-02 firmware install complete; aircraft rebooted",
+        "highlight": false
+      },
+      {
+        "ts": "08:55:41",
+        "level": "WARN",
+        "msg": "No hash verification recorded",
+        "highlight": true
+      },
+      {
+        "ts": "08:57:05",
+        "level": "INFO",
+        "msg": "UAS-02 armed and launched",
+        "highlight": false
+      }
+    ],
+    "classification": "INTERNAL - INCIDENT RECORD",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "The cause is in the log. Watch for GCS-01 kept powered and untouched.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Annex B",
+      "quote": "FOM-1 Campaign Plan · FOM-2 Daily Flight Plan and Log · FOM-3 Site Survey · FOM-4 Incident Report (shared with HUOG-ERP) · FOM-5 Battery Log Sheet · FOM-6 Parameter Change Record",
+      "chunkId": 93
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+      "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP",
+      "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. Hostnames, addresses, vendors, clients and",
+      "chunkId": 95
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:44:54.640Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Firmware Update Acceptance — UAS-02",
+        "type": "system_log",
+        "fields": {
+          "systemName": "GCS-01 Event Log",
+          "host": "GCS-01",
+          "ip": "10.17.40.15",
+          "os": "Linux (Ubuntu 22.04)",
+          "logSource": "/var/log/gcs-01/flight_events.log",
+          "exportedBy": "huog\\sysadmin",
+          "exportedAt": "10/25/2026 09:08 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:55:12",
+              "level": "INFO",
+              "msg": "Firmware Update Accepted — UAS-02 received and applied firmware version 2.4.11a (SHA-256: d4e9a1f7b2c8e6d1a3f4b5c6e7f8a9b0c1d2e3f4g5h6i7j8k9l0m) from GCS-01",
+              "highlight": true
+            },
+            {
+              "ts": "08:55:13",
+              "level": "WARN",
+              "msg": "Update not listed in current campaign’s pre-flight checklist (FOM-1 Annex B)",
+              "highlight": false
+            },
+            {
+              "ts": "08:55:14",
+              "level": "WARN",
+              "msg": "No approval record in Campaign Plan (FOM-1) for firmware version 2.4.11a",
+              "highlight": false
+            },
+            {
+              "ts": "08:55:15",
+              "level": "ERROR",
+              "msg": "Firmware update not signed or verified per HUOG-ISP Section 4.4",
+              "highlight": false
+            },
+            {
+              "ts": "08:55:16",
+              "level": "ERROR",
+              "msg": "Update file not in approved path: /opt/huog/firmware/signed/2.4.11a.bin",
+              "highlight": false
+            },
+            {
+              "ts": "08:55:17",
+              "level": "INFO",
+              "msg": "Update accepted via 915 MHz downlink (GCS-01 → UAS-02)",
+              "highlight": false
+            },
+            {
+              "ts": "08:55:18",
+              "level": "NOTICE",
+              "msg": "Firmware version 2.4.11a not in GCS-01 configuration baseline (HUOG-ISP Section 4)",
+              "highlight": false
+            },
+            {
+              "ts": "08:55:19",
+              "level": "NOTICE",
+              "msg": "Firmware update not confirmed by hover test at Horton Field (per FOM-4)",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "GCS-01: Flight Event Terminal",
+          "command": "tail -n 10 /var/log/gcs-01/flight_events.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This log reveals the unauthorized firmware update that triggered the loss of control. The ASO must halt all operations on UAS-02 and any aircraft running version 2.4.11a, while the SCL confirms the update was not approved or verified.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.670Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "GCS-01 event log: a field firmware update at 08:52",
+        "type": "system_log",
+        "fields": {
+          "systemName": "GCS-01 event log",
+          "host": "HUOG-GCS01 (10.17.40.11)",
+          "logSource": "Update and configuration events",
+          "exportedBy": "GSO, Crew 1",
+          "exportedAt": "09/15/2026 9:07 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:52:10",
+              "level": "WARN",
+              "msg": "OEM update prompt accepted by user crew1",
+              "highlight": true
+            },
+            {
+              "ts": "08:53:02",
+              "level": "INFO",
+              "msg": "Aircraft firmware 03.2026-C transferred to UAS-02",
+              "highlight": true
+            },
+            {
+              "ts": "08:55:40",
+              "level": "INFO",
+              "msg": "UAS-02 firmware install complete; aircraft rebooted",
+              "highlight": false
+            },
+            {
+              "ts": "08:55:41",
+              "level": "WARN",
+              "msg": "No hash verification recorded",
+              "highlight": true
+            },
+            {
+              "ts": "08:57:05",
+              "level": "INFO",
+              "msg": "UAS-02 armed and launched",
+              "highlight": false
+            }
+          ],
+          "classification": "INTERNAL - INCIDENT RECORD",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "The cause is in the log. Watch for GCS-01 kept powered and untouched.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:59.404Z"
+}

@@ -1,0 +1,138 @@
+{
+  "id": "01M5REKX7APJ3Y7PEH9ZE1QJ2X",
+  "mselRowId": "END",
+  "type": "endex_card",
+  "title": "ENDEX: the exercise ends, the incident does not",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "4:00",
+    "endTime": "13:00",
+    "resolution": "ENDEX. It is now 13:00. The exercise ends here; the incident does not. The business systems remain encrypted, the plant is running, and the rebuild, the reports and the customer workarounds continue after today.",
+    "finalState": [
+      "MBW-CIS-01, MBW-AMI-01, MBW-FS-01 and MBW-BKP-01 remain encrypted.",
+      "The plant is running; the noon grab samples were within the normal bands.",
+      "The SCADA rebuild, the PLC-02 program copy and the reports to CISA, the FBI, Ohio EPA DDAGW, WaterISAC and the insurance carrier continue after today."
+    ],
+    "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.",
+    "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+    "hotWashQuestions": [
+      "When did you decide to island the control network, and what told you to?",
+      "Who on your team could say which plant logons depended on the MILLBROOK domain, and how long did it take to find out?",
+      "How did you answer “is the water safe?”, and what evidence did you use?",
+      "What did Customer Service need from the rest of you that it did not get?",
+      "What would you change in OT Plan 10.5 after today?"
+    ],
+    "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+    "injectId": "END"
+  },
+  "variant": "default",
+  "instructorNote": "Collect the ERP-1 logs and decision records before the hot wash.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.2 Do Not Drink Notice",
+      "quote": "> **DO NOT DRINK THE TAP WATER — City of Millbrook Department of Water & Sewer (PWS ID OH-CARVER-0418)** > Issued [date] at [time]. > > **What happened.** At [time] on [date], the City identified [a c",
+      "chunkId": 126
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 13",
+      "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+      "chunkId": 48
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Annex B",
+      "quote": "| Incident type | Key message 1 | Key message 2 | Key message 3 | |---|---|---|---| | Main break / pressure loss | Here is the area and what to do | Crews are repairing; here is the expected timeline ",
+      "chunkId": 133
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Annex C",
+      "quote": "- **ERP-1 Incident Log** — time, event, action, who, notifications made. - **ERP-2 Advisory Decision Record** — condition, Tier, advisory type, area (zone and streets), population, DDAGW contact and t",
+      "chunkId": 52
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:35:56.626Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ENDEX: Ransomware Riptide — Final Verification and Closure",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "4:00",
+          "endTime": "13:00",
+          "resolution": "ENDEX. It is now 13:00. The control network has been verified as clean. All manual operations have been sustained for 72 hours. The lab has re-verified all samples, and no contamination has been detected. The Carver County EMA has dispatched two potable water tankers to Zone 3. The Director of Water Operations declares the exercise closed and issues a final public statement: 'The water is not confirmed safe, but no contamination has been detected. We are restoring trust through verification.' The team has completed all recovery steps and is ready for the hot wash.",
+          "finalState": [
+            "All manual operations have been maintained for 72 hours.",
+            "The lab has re-verified all samples from Zone 3 and confirmed no contamination.",
+            "The control system has been verified, and all setpoints are within original limits (MDWS-SCADA-APP-A).",
+            "The firewall rule FW-R-17 has been permanently disabled and isolated.",
+            "The FBI, CISA, and WaterISAC follow-up reports have been sent.",
+            "The cyber-insurance carrier has been notified of close-out."
+          ],
+          "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.",
+          "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "What key actions prevented a full loss of control during the manual operations phase?",
+            "How did the team balance public trust with operational verification under pressure?",
+            "What would have changed if the lab had detected a contamination during manual sampling?",
+            "How effective was the use of pre-printed templates and paper logs in maintaining continuity?",
+            "What lessons can be drawn from the forensic gap in the PLC-02 logic backup?"
+          ],
+          "scenarioTitle": "Ransomware Riptide — SCADA Isolation & Public Trust",
+          "injectId": "END"
+        },
+        "instructorNote": "Confirm all logs (ERP-1, ERP-2, ERP-3) are filed and the CISA/FBI/WaterISAC reports are sent before the hot wash begins.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.402Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "ENDEX: the exercise ends, the incident does not",
+        "type": "endex_card",
+        "fields": {
+          "exerciseTime": "4:00",
+          "endTime": "13:00",
+          "resolution": "ENDEX. It is now 13:00. The exercise ends here; the incident does not. The business systems remain encrypted, the plant is running, and the rebuild, the reports and the customer workarounds continue after today.",
+          "finalState": [
+            "MBW-CIS-01, MBW-AMI-01, MBW-FS-01 and MBW-BKP-01 remain encrypted.",
+            "The plant is running; the noon grab samples were within the normal bands.",
+            "The SCADA rebuild, the PLC-02 program copy and the reports to CISA, the FBI, Ohio EPA DDAGW, WaterISAC and the insurance carrier continue after today."
+          ],
+          "hotWashTransition": "Thank you, everyone. Put down your phones and radios. We will take ten minutes, then start the hot wash.",
+          "hotWashMethod": "3-Up, 3-Down: three things that went well, three things that broke",
+          "hotWashQuestions": [
+            "When did you decide to island the control network, and what told you to?",
+            "Who on your team could say which plant logons depended on the MILLBROOK domain, and how long did it take to find out?",
+            "How did you answer “is the water safe?”, and what evidence did you use?",
+            "What did Customer Service need from the rest of you that it did not get?",
+            "What would you change in OT Plan 10.5 after today?"
+          ],
+          "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+          "injectId": "END"
+        },
+        "instructorNote": "Collect the ERP-1 logs and decision records before the hot wash.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:09.540Z"
+}

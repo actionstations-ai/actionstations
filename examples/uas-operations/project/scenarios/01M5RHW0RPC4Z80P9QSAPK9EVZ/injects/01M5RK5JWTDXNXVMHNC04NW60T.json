@@ -1,0 +1,127 @@
+{
+  "id": "01M5RK5JWTDXNXVMHNC04NW60T",
+  "mselRowId": "I-15b",
+  "type": "email_forward",
+  "title": "Email: the missing days are on the SSDs — but their calibration log is not",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Hannah Whitlock",
+    "fromEmail": "hwhitlock@huog.example",
+    "senderInitials": "HW",
+    "to": "Marguerite Ostrowski",
+    "subject": "FW: SSD read — 09/17, 09/22, 09/24",
+    "sentAt": "Mon 10/05/2026 12:20 PM",
+    "note": "We can rebuild the three days from the paper sheets. Realistic D-3 delivery: October 19, not the 15th. — Hannah",
+    "signature": "Hannah Whitlock\nPayload & Calibration Lead",
+    "importance": "normal",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Hannah Whitlock",
+    "original": {
+      "cc": "",
+      "fromName": "Calibration technician",
+      "fromEmail": "calibration@huog.example",
+      "to": "hwhitlock@huog.example",
+      "subject": "SSD read",
+      "body": "Read SSD-A, SSD-B and SSD-C on the clean laptop: raw cubes for 09/17, 09/22 and 09/24 are intact.\n\nProblem: the downwelling-light and ground-panel readings for those days were entered only in the NAS calibration log, which is not on OB-1. The paper field sheets are in the Lakeshore kit in Hangar 3.",
+      "sentAt": "Mon 10/05/2026 12:16 PM"
+    }
+  },
+  "variant": "print",
+  "instructorNote": "Watch for the realistic delivery date going into the client notice.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.2 Backups",
+      "quote": "- NAS → the offline backup drives OB-1 and OB-2 (rotated weekly; the one not in use is in the General Manager's office safe); and → the off-site backup service nightly. - DC-HPC project storage is bac",
+      "chunkId": 115
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:55:28.366Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Off-site Backup Service — Recovery Limitation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "MSSP Incident Response",
+          "fromEmail": "soc@huog-mssp.example",
+          "senderInitials": "M",
+          "to": "it@huog.example",
+          "subject": "FW: Off-site Backup Service - Recovery Limitation",
+          "sentAt": "Sat 10/24/2026 12:20 PM",
+          "note": "The off-site backup service has confirmed that its last good snapshot is from 2026-03-20, prior to the infection window. The service cannot restore data from any point after that date. Access requires a signed authorization from the Data Center Operations lead and a ticket in the ITSM system. The vendor will not process any request without both. This is a hard stop to recovery via the off-site service. We must proceed with the offline drive OB-1 under HUOG-ISP Section 9.3.",
+          "signature": "MSSP Incident Response\nSecureWatch Managed Security Provider",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Systems & Cybersecurity Lead",
+          "original": {
+            "fromName": "SecureWatch MSSP SOC",
+            "fromEmail": "soc@securewatch.example",
+            "sentAt": "Sat 10/24/2026 12:20 PM",
+            "to": "it@huog.example",
+            "cc": "",
+            "subject": "Off-site Backup Service - Recovery Limitation",
+            "body": "The off-site backup service’s last good snapshot is from 2026-03-20, before the infection window. The service cannot restore from any point after that date. The drive is not mounted. Access requires a signed access request from the Data Center Operations lead and a ticket from the ITSM system. The vendor will not process any request without a signed authorization and a ticket number."
+          }
+        },
+        "instructorNote": "This inject enforces the recovery timeline constraint. The SL must initiate a ticket and request a signed access form—no recovery from off-site service is possible until this is completed.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.422Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email: the missing days are on the SSDs — but their calibration log is not",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Hannah Whitlock",
+          "fromEmail": "hwhitlock@huog.example",
+          "senderInitials": "HW",
+          "to": "Marguerite Ostrowski",
+          "subject": "FW: SSD read — 09/17, 09/22, 09/24",
+          "sentAt": "Mon 10/05/2026 12:20 PM",
+          "note": "We can rebuild the three days from the paper sheets. Realistic D-3 delivery: October 19, not the 15th. — Hannah",
+          "signature": "Hannah Whitlock\nPayload & Calibration Lead",
+          "importance": "normal",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Hannah Whitlock",
+          "original": {
+            "cc": "",
+            "fromName": "Calibration technician",
+            "fromEmail": "calibration@huog.example",
+            "to": "hwhitlock@huog.example",
+            "subject": "SSD read",
+            "body": "Read SSD-A, SSD-B and SSD-C on the clean laptop: raw cubes for 09/17, 09/22 and 09/24 are intact.\n\nProblem: the downwelling-light and ground-panel readings for those days were entered only in the NAS calibration log, which is not on OB-1. The paper field sheets are in the Lakeshore kit in Hangar 3.",
+            "sentAt": "Mon 10/05/2026 12:16 PM"
+          }
+        },
+        "instructorNote": "Watch for the realistic delivery date going into the client notice.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:34.324Z"
+}

@@ -1,0 +1,114 @@
+{
+  "id": "01M5RNZX9AR5C380Y7WH77647B",
+  "mselRowId": "I-01b",
+  "type": "helpdesk_ticket",
+  "title": "Ticket: license renewal reminder",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "HUOG IT helpdesk",
+    "orgName": "Harwick UAS Operations Group",
+    "ticketNo": "HUOG-IT-2026-0915-01",
+    "subject": "Mission-planning license renews in 14 days",
+    "description": "The license server reports that the Group’s mission-planning license renews in 14 days.",
+    "priority": "Low",
+    "status": "New",
+    "contactType": "Self-service",
+    "opened": "09/15/2026 09:04"
+  },
+  "variant": "default",
+  "instructorNote": "Noise.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+      "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+      "headingPath": "SITE › 5. Ground control stations and field kit",
+      "quote": "| Id | Description | Hostname / address | Used with | |---|---|---|---| | GCS-01 | Ruggedized laptop, Windows, mission-planning and OEM flight software, dual C2 radios | HUOG-GCS01 · 10.17.40.11 | UAS",
+      "chunkId": 143
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 5 › 5.5 Field Wi-Fi and hotspots",
+      "quote": "FIELD-RTR-1 provides the field LAN; its admin password is the purchase default (hazard HL-29, Annex C). Personal hotspots are banned at the launch point after the HL-24 lost-link event. DAA-1 and PAY-",
+      "chunkId": 113
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:44:44.309Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "DAA-1 Video Feed Loss — GCS-01 Hangar 2",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "HUOG-IT-2026-00045",
+          "priority": "Low",
+          "impact": "Low",
+          "urgency": "Medium",
+          "status": "New",
+          "requester": "Field Technician – Hangar 2",
+          "requesterContact": "x1120",
+          "contactType": "Phone",
+          "category": "Network & Systems",
+          "subcategory": "Field Communications",
+          "location": "Hangar 2 – GCS-01 Console",
+          "configurationItem": "FIELD-RTR-1 (192.168.88.1)",
+          "opened": "2026-10-25 09:05:17",
+          "assignmentGroup": "Field Systems Support",
+          "subject": "DAA-1 video feed missing on GCS-01",
+          "description": "GCS-01 on Hangar 2 console shows no video feed from DAA-1. Field camera is live, but video stream to GCS-01 is dropped. Rebooting the FIELD-RTR-1 router (192.168.88.1) may fix it.",
+          "activity": [
+            {
+              "author": "Field Technician – Hangar 2",
+              "time": "2026-10-25 09:05:17",
+              "kind": "work_note",
+              "text": "Reported to IT via phone. DAA-1 is showing a live feed on the local monitor, but not reaching GCS-01. FIELD-RTR-1 is the only network node between DAA-1 and GCS-01. Reboot suggested."
+            },
+            {
+              "author": "ServiceDesk System",
+              "time": "2026-10-25 09:05:17",
+              "kind": "system",
+              "text": "Ticket created from incoming call."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Harwick UAS Operations Group"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it down without engaging, as the DAA-1 feed is not critical to control recovery.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.666Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Ticket: license renewal reminder",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "systemName": "HUOG IT helpdesk",
+          "orgName": "Harwick UAS Operations Group",
+          "ticketNo": "HUOG-IT-2026-0915-01",
+          "subject": "Mission-planning license renews in 14 days",
+          "description": "The license server reports that the Group’s mission-planning license renews in 14 days.",
+          "priority": "Low",
+          "status": "New",
+          "contactType": "Self-service",
+          "opened": "09/15/2026 09:04"
+        },
+        "instructorNote": "Noise.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:59.229Z"
+}

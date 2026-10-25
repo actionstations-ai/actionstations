@@ -1,0 +1,225 @@
+{
+  "id": "01M5RP0EZPS1DV04JTE8NYQ8Z1",
+  "mselRowId": "I-03",
+  "type": "system_log",
+  "title": "Remote ID track: above 400 ft, heading for the Class C",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "GCS-01 Remote ID / telemetry track",
+    "host": "HUOG-GCS01 (10.17.40.11)",
+    "logSource": "Remote ID receiver",
+    "exportedBy": "GSO, Crew 1",
+    "exportedAt": "09/15/2026 9:12 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "09:08:30",
+        "level": "WARN",
+        "msg": "UAS-02 · 330 ft AGL · climbing 3 m/s · hdg 095°",
+        "highlight": false
+      },
+      {
+        "ts": "09:11:50",
+        "level": "CRIT",
+        "msg": "UAS-02 · 412 ft AGL · climbing · hdg 095°",
+        "highlight": true
+      },
+      {
+        "ts": "09:11:50",
+        "level": "CRIT",
+        "msg": "Distance to HWK Class C surface area: 3.6 km",
+        "highlight": true
+      },
+      {
+        "ts": "09:11:50",
+        "level": "WARN",
+        "msg": "Battery estimate (last telemetry): 14 min",
+        "highlight": true
+      }
+    ],
+    "classification": "INTERNAL - INCIDENT RECORD",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "HWK Tower now. Watch for the call and the Level 3 declaration.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 9 › 9.1 Lost link",
+      "quote": "Each aircraft's failsafe is set to **return-to-launch after 10 seconds of lost C2 link at the site's RTL altitude** (Horton Field 45 m; Birch Hollow Range 60 m), then land at the home point. The RPIC ",
+      "chunkId": 80
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+      "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+      "chunkId": 54
+    },
+    {
+      "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+      "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+      "headingPath": "SITE › 3. Airspace and authorizations",
+      "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+      "chunkId": 141
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:45:09.209Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "UAS-02: RTL Not Triggered — Altitude 402 ft AGL",
+        "type": "system_log",
+        "fields": {
+          "systemName": "GCS-01 Telemetry Monitor",
+          "host": "GCS-01",
+          "ip": "10.17.40.15",
+          "os": "Linux (Ubuntu 22.04)",
+          "logSource": "/var/log/gcs-01/telemetry.log",
+          "exportedBy": "huog\\scl",
+          "exportedAt": "10/25/2026 09:12 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/25/2026 09:12:03 AM",
+              "level": "ERROR",
+              "msg": "Link Loss: No uplink from UAS-02 (GCS-01) — 120 seconds elapsed",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:12:04 AM",
+              "level": "ALERT",
+              "msg": "Failsafe Action: RTL Not Triggered — UAS-02 has not initiated return-to-launch after 100 seconds of link loss",
+              "highlight": true
+            },
+            {
+              "ts": "10/25/2026 09:12:05 AM",
+              "level": "WARN",
+              "msg": "UAS-02: Altitude 402 ft AGL, rising — 2.1 km WNW of Horton Field",
+              "highlight": true
+            },
+            {
+              "ts": "10/25/2026 09:12:06 AM",
+              "level": "ERROR",
+              "msg": "Manual RTL Command (channel 4, 462.2625 MHz) — No response from UAS-02",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:12:07 AM",
+              "level": "CRIT",
+              "msg": "Airspace Violation: UAS-02 exceeds 400 ft AGL ceiling — approaching Class C airspace boundary (HWK)",
+              "highlight": true
+            },
+            {
+              "ts": "10/25/2026 09:12:08 AM",
+              "level": "INFO",
+              "msg": "Failsafe: Return-to-Launch Altitude — Horton Field (45 m / 148 ft) — UAS-02 not at target",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:12:09 AM",
+              "level": "NOTICE",
+              "msg": "Geofence: 200 ft AGL boundary at Horton Field — UAS-02 outside limits",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:12:10 AM",
+              "level": "INFO",
+              "msg": "Last Known Position: 1.3 km WNW of Horton Field — 39.9278°N, 75.4611°W",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:12:11 AM",
+              "level": "ERROR",
+              "msg": "No telemetry heartbeat from UAS-02 — 140 seconds since last packet",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:12:12 AM",
+              "level": "WARN",
+              "msg": "Payload: DAA-1 (SAR) — still active, not paused",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:12:13 AM",
+              "level": "INFO",
+              "msg": "Remote ID: RID-BM-11 — active, broadcasting (01:23:45:67:89:AB)",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:12:14 AM",
+              "level": "CRIT",
+              "msg": "Status: Aircraft Uncontrolled — Flyaway Protocol Initiated (FOM 9.2)",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "GCS-01 Telemetry Console — UAS-02 Incident",
+          "command": "tail -n 15 /var/log/gcs-01/telemetry.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the aircraft is unresponsive and has breached the 400 ft AGL ceiling. The IC must activate the flyaway protocol. Watch for delayed recognition of the airspace violation.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.673Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Remote ID track: above 400 ft, heading for the Class C",
+        "type": "system_log",
+        "fields": {
+          "systemName": "GCS-01 Remote ID / telemetry track",
+          "host": "HUOG-GCS01 (10.17.40.11)",
+          "logSource": "Remote ID receiver",
+          "exportedBy": "GSO, Crew 1",
+          "exportedAt": "09/15/2026 9:12 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "09:08:30",
+              "level": "WARN",
+              "msg": "UAS-02 · 330 ft AGL · climbing 3 m/s · hdg 095°",
+              "highlight": false
+            },
+            {
+              "ts": "09:11:50",
+              "level": "CRIT",
+              "msg": "UAS-02 · 412 ft AGL · climbing · hdg 095°",
+              "highlight": true
+            },
+            {
+              "ts": "09:11:50",
+              "level": "CRIT",
+              "msg": "Distance to HWK Class C surface area: 3.6 km",
+              "highlight": true
+            },
+            {
+              "ts": "09:11:50",
+              "level": "WARN",
+              "msg": "Battery estimate (last telemetry): 14 min",
+              "highlight": true
+            }
+          ],
+          "classification": "INTERNAL - INCIDENT RECORD",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "HWK Tower now. Watch for the call and the Level 3 declaration.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:59.618Z"
+}

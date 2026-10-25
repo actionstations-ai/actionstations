@@ -1,0 +1,117 @@
+{
+  "id": "01M5RE9EZG05Y7FTAQEVJ90VSN",
+  "mselRowId": "TIME_JUMP",
+  "type": "time_jump_card",
+  "title": "Time Jump: 10:00",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:00",
+    "newTime": "10:00 AM",
+    "jumpLabel": "+60 minutes",
+    "narration": "It is now 10:00. MBW-CIS-01, MBW-AMI-01 and MBW-FS-01 are encrypted and MBW-BKP-01 is off the network. Customer Service is on paper and the surge line is busy. The plant is running in automatic and MBW-HMI-01 values match the field readings.",
+    "worldState": [
+      "MBW-CIS-01, MBW-AMI-01 and MBW-FS-01 are encrypted.",
+      "MBW-BKP-01 is disconnected and the backup jobs are stopped.",
+      "The domain controllers MBW-DC-01 and MBW-DC-02 are running.",
+      "Customer Service is using paper intake forms and the printed critical-customer list.",
+      "The plant is in automatic; MBW-HMI-01 values match the field readings."
+    ],
+    "facilitatorNote": "Ask each team for its status, then ask the SCADA / IT Security Manager directly: is the control network islanded, and if not, why not?",
+    "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+    "injectId": "TIME_JUMP"
+  },
+  "variant": "default",
+  "instructorNote": "Reset the clock. The open question for phase 2 is the islanding decision.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 3",
+      "quote": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+      "quote": "- [ ] City IT: isolate affected hosts; disable FW-R-17, FW-R-22 and FW-R-14 immediately (do not wait for the full Section 10.3 decision); stop backup jobs so MBW-BKP-01 is not overwritten; pull the MB",
+      "chunkId": 86
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 1 › 1.2 Scope",
+      "quote": "Covers: boil water advisories, do-not-drink and do-not-use notices, precautionary advisories, outage and pressure notices, planned-work notices during an emergency, media relations, social-media monit",
+      "chunkId": 103
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:30:11.594Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 10:00 AM — Emergency Activation",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "1:00",
+          "newTime": "10:00 AM",
+          "jumpLabel": "+60 minutes",
+          "narration": "Facilitator: It is now 10:00 AM. The situation has escalated. The lab cannot process new samples. Customer service is operating on paper forms. The AMI outage map remains down. The public alert system is unable to issue any notices. The control network remains isolated from the business LAN. Telemetry from RTU-03 to RTU-07 is still unresponsive. The Mayor has contacted the City Manager to confirm whether the water is safe to drink. The Public Information Officer cannot draft a public advisory. The time has come to act. The Incident Commander must now declare a Level 3 emergency and activate the Incident Command System under the Emergency Response Plan.",
+          "worldState": [
+            "The clock now reads 10:00 AM.",
+            "The lab cannot process new samples. Paper forms are in use.",
+            "Customer service is operating on paper intake forms and printed critical-customer list. MBW-CIS-01 and the customer portal are unavailable.",
+            "The AMI outage map remains down; no new data since 09:00.",
+            "Telemetry from RTU-03 to RTU-07 remains unresponsive.",
+            "The Public Information Officer cannot draft a public advisory due to system unavailability.",
+            "The City Manager has been informed by the Mayor that the public is demanding confirmation on water safety.",
+            "The Incident Command System is now activated under ERP Section 4.",
+            "The Incident Commander has the authority to appoint ICS roles per C2, Section 3."
+          ],
+          "facilitatorNote": "This is a forced activation of ICS. The Incident Commander must now appoint the ICS roles from C2, Section 3. Watch for whether the IC declares a Level 3 emergency and correctly assigns the Technical Specialist, Water Quality Manager, and Public Information Officer.",
+          "scenarioTitle": "Ransomware Riptide — SCADA Isolation & Public Trust",
+          "injectId": "TIME_JUMP"
+        },
+        "instructorNote": "This is a forced activation of ICS. The Incident Commander must now appoint the ICS roles from C2, Section 3. Watch for whether the IC declares a Level 3 emergency and correctly assigns the Technical Specialist, Water Quality Manager, and Public Information Officer.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.236Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Time Jump: 10:00",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "1:00",
+          "newTime": "10:00 AM",
+          "jumpLabel": "+60 minutes",
+          "narration": "It is now 10:00. MBW-CIS-01, MBW-AMI-01 and MBW-FS-01 are encrypted and MBW-BKP-01 is off the network. Customer Service is on paper and the surge line is busy. The plant is running in automatic and MBW-HMI-01 values match the field readings.",
+          "worldState": [
+            "MBW-CIS-01, MBW-AMI-01 and MBW-FS-01 are encrypted.",
+            "MBW-BKP-01 is disconnected and the backup jobs are stopped.",
+            "The domain controllers MBW-DC-01 and MBW-DC-02 are running.",
+            "Customer Service is using paper intake forms and the printed critical-customer list.",
+            "The plant is in automatic; MBW-HMI-01 values match the field readings."
+          ],
+          "facilitatorNote": "Ask each team for its status, then ask the SCADA / IT Security Manager directly: is the control network islanded, and if not, why not?",
+          "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+          "injectId": "TIME_JUMP"
+        },
+        "instructorNote": "Reset the clock. The open question for phase 2 is the islanding decision.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:01.711Z"
+}

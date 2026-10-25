@@ -1,0 +1,133 @@
+{
+  "id": "01M5RJY28XSSAC3DE8WFXZS0EQ",
+  "mselRowId": "I-06b",
+  "type": "email_forward",
+  "title": "Email: SecureWatch flags restart_proc.py",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Tomás Reyes",
+    "fromEmail": "treyes@huog.example",
+    "senderInitials": "TR",
+    "to": "Hannah Whitlock",
+    "subject": "FW: restart_proc.py on PROC01 — yours?",
+    "sentAt": "Mon 10/05/2026 10:08 AM",
+    "note": "Hannah — is this one of yours? — Tomás",
+    "signature": "Tomás Reyes\nSystems & Cybersecurity Lead",
+    "importance": "normal",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Tomás Reyes",
+    "original": {
+      "cc": "",
+      "fromName": "SecureWatch SOC",
+      "fromEmail": "soc@securewatch-mssp.example",
+      "to": "treyes@huog.example",
+      "subject": "Script modified on HUOG-PROC01",
+      "body": "restart_proc.py in C:\\Processing\\scripts\\ on HUOG-PROC01 was modified today at 09:10. It is not in your baseline. Please confirm whether it is related to the attack. Do not run it.",
+      "sentAt": "Mon 10/05/2026 10:04 AM"
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "Red herring: the analyst edited it at 09:10. Watch for it answered quickly and the MSSP told.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.3 Integrity",
+      "quote": "Raw data folders get a manifest of SHA-256 hashes when copied to the NAS; processing scripts verify the manifest before they start; deliverables carry a manifest the client can verify. A product gener",
+      "chunkId": 116
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:51:22.360Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Suspicious Script Detected on HUOG-PROC01",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "MSSP Operations Lead",
+          "fromEmail": "securewatch@securewatch.example",
+          "senderInitials": "M",
+          "to": "it@huog.example",
+          "subject": "Critical Alert: Suspicious Script Detected on HUOG-PROC01",
+          "sentAt": "Sat 10/24/2026 10:05 AM",
+          "note": "Hi IT,\n\nWe’ve detected a script named backup_fix_temp.py in /tmp/scripts/ on HUOG-PROC01 (10.17.41.11). It was modified at 09:10:17 and contains commands to re-enable the NAS snapshot cron job. However, the script was not part of the approved system baseline and has no known signature in our threat intelligence. We’ve blocked execution and quarantined the file. Do not run it.\n\nSource: HUOG-PROC01\nAlert: Unauthorized script execution\n\nBest,\n\nMSSP SOC",
+          "signature": "MSSP SOC\nManaged Security Provider",
+          "importance": "high",
+          "external": false,
+          "attachments": [
+            {
+              "name": "backup_fix_temp.py",
+              "size": "1.2 KB",
+              "kind": "file"
+            }
+          ],
+          "printedBy": "SecureWatch MSSP",
+          "original": {
+            "fromName": "Managed Security Provider (SecureWatch MSSP)",
+            "fromEmail": "security@securewatch.example",
+            "sentAt": "Sat 10/24/2026 09:10 AM",
+            "to": "it@huog.example",
+            "cc": "incident@securewatch.example",
+            "subject": "Alert: Unauthorized Script Execution Detected on HUOG-PROC01",
+            "body": "Alert: Unauthorized script execution detected on HUOG-PROC01 (10.17.41.11).\n\nFile: /tmp/scripts/backup_fix_temp.py\nModified: 2026-10-24 09:10:17\n\nContent summary:\n- Attempts to restore cron job for NAS snapshots (schedule: /etc/cron.d/huog-nas-backup)\n- Modifies /etc/cron.d/huog-nas-backup to re-enable daily snapshot at 08:00\n- Uses 'crontab' to replace system cron without verification\n- No digital signature or hash verification\n\nThis script is not in the approved baseline (GCS baseline 03.2026-B, Section 4.2). No known threat intelligence matches its pattern. The file has been quarantined and execution blocked.\n\nAction required: Do not execute. Report to incident team via \\HUOG-NAS01\\ops\\incident-log\\2026-10-24-\\.\n\n— MSSP Threat Response Team\nSecureWatch, Inc."
+          }
+        },
+        "instructorNote": "Red herring inject; the script is malicious and mimics recovery actions. The SL must reject it as unauthorized and block all execution to prevent compromise.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.369Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email: SecureWatch flags restart_proc.py",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Tomás Reyes",
+          "fromEmail": "treyes@huog.example",
+          "senderInitials": "TR",
+          "to": "Hannah Whitlock",
+          "subject": "FW: restart_proc.py on PROC01 — yours?",
+          "sentAt": "Mon 10/05/2026 10:08 AM",
+          "note": "Hannah — is this one of yours? — Tomás",
+          "signature": "Tomás Reyes\nSystems & Cybersecurity Lead",
+          "importance": "normal",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Tomás Reyes",
+          "original": {
+            "cc": "",
+            "fromName": "SecureWatch SOC",
+            "fromEmail": "soc@securewatch-mssp.example",
+            "to": "treyes@huog.example",
+            "subject": "Script modified on HUOG-PROC01",
+            "body": "restart_proc.py in C:\\Processing\\scripts\\ on HUOG-PROC01 was modified today at 09:10. It is not in your baseline. Please confirm whether it is related to the attack. Do not run it.",
+            "sentAt": "Mon 10/05/2026 10:04 AM"
+          }
+        },
+        "instructorNote": "Red herring: the analyst edited it at 09:10. Watch for it answered quickly and the MSSP told.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:30.669Z"
+}

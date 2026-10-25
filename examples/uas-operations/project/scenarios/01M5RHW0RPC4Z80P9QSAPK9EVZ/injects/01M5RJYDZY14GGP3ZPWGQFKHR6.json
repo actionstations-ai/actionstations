@@ -1,0 +1,260 @@
+{
+  "id": "01M5RJYDZY14GGP3ZPWGQFKHR6",
+  "mselRowId": "I-07",
+  "type": "status_board",
+  "title": "Status Board: today’s flights and the GCS fleet",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "organization": "Harwick UAS Operations Group",
+    "facility": "Flight Operations Desk, Hangar 2",
+    "title": "Fleet and Flight Status",
+    "incidentName": "NAS ransomware",
+    "asOf": "10:15",
+    "operationalPeriod": "10/05/2026 1000–1100",
+    "preparedBy": "Flight Operations Desk",
+    "resources": [
+      {
+        "name": "GCS-02",
+        "status": "red",
+        "notes": "Infected; grounded with UAS-03 and UAS-11",
+        "owner": "Flight Ops",
+        "updated": "0930"
+      },
+      {
+        "name": "GCS-03",
+        "status": "unknown",
+        "notes": "Docked in Hangar 2 over the weekend; NAS mount since Sat 22:15 unknown",
+        "owner": "Systems",
+        "updated": "1010"
+      },
+      {
+        "name": "GCS-01",
+        "status": "unknown",
+        "notes": "Docked in Hangar 2 over the weekend; NAS mount unknown",
+        "owner": "Systems",
+        "updated": "1010"
+      },
+      {
+        "name": "GCS-04",
+        "status": "yellow",
+        "notes": "In the field kit since Thursday; not yet checked",
+        "owner": "Systems",
+        "updated": "1010"
+      },
+      {
+        "name": "GCS-05 / GCS-06 (tablets)",
+        "status": "green",
+        "notes": "Never mount the NAS",
+        "owner": "Flight Ops",
+        "updated": "1010"
+      },
+      {
+        "name": "CVAC collection 10:30",
+        "status": "yellow",
+        "notes": "Planned on GCS-03 with UAS-04",
+        "owner": "Flight Ops",
+        "updated": "1015"
+      }
+    ],
+    "legend": {
+      "green": "Cleared",
+      "yellow": "At risk / not yet checked",
+      "red": "Grounded"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "Watch for no flight on a GCS of unknown status.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 3 › 3.1 Networks",
+      "quote": "| Network | Range | Hosts | Egress | |---|---|---|---| | Flight Ops VLAN | 10.17.40.0/24 | GCS-01 to GCS-04, RTK-1/2, PAY-01, HUOG-CAL01 when docked | Through HUOG-FW01; Internet only to the OEM updat",
+      "chunkId": 101
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 6 › 6.1 Notification order",
+      "quote": "| Order | Who | When | By whom | |---|---|---|---| | 1 | 911 (fire, EMS, law enforcement) | Immediately for Level 3 with injury, fire or a public hazard | Anyone | | 2 | HWK Air Traffic Control Tower ",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+      "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+      "headingPath": "SITE",
+      "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this document are simulated. Public sources consulted for realism a",
+      "chunkId": 138
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:51:39.013Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GCS-02 Network Isolation Status",
+        "type": "status_board",
+        "fields": {
+          "organization": "Harwick UAS Operations Group",
+          "facility": "Operations Console",
+          "title": "Critical Resource Status",
+          "incidentName": "Silent Lockdown — NAS Ransomware & Client Data Exposure",
+          "asOf": "10:15 AM",
+          "operationalPeriod": "10/24/2026 1000-1100",
+          "preparedBy": "Incident Commander (IC)",
+          "resources": [
+            {
+              "name": "GCS-02 (10.17.40.17)",
+              "status": "red",
+              "notes": "Offline (Isolated) — Network isolation confirmed by HUOG-FW01 (10.17.41.1). No access to Flight Ops VLAN. Mount point corrupted. Treated as infected.",
+              "owner": "GCS Fleet",
+              "updated": "10:15 AM"
+            },
+            {
+              "name": "HUOG-NAS01",
+              "status": "yellow",
+              "notes": "Access restricted. Snapshot schedule disabled. Processing scripts failing. PL-02 and PL-06 data accessed during unauthorized window.",
+              "owner": "Data Operations",
+              "updated": "10:14 AM"
+            },
+            {
+              "name": "HUOG-PROC01",
+              "status": "yellow",
+              "notes": "Unauthorized script 'backup_fix_temp.py' detected in /tmp/scripts/. Quarantined by MSSP. No active processing.",
+              "owner": "Processing Team",
+              "updated": "10:10 AM"
+            },
+            {
+              "name": "Flight Ops VLAN",
+              "status": "red",
+              "notes": "Isolated at HUOG-FW01. All GCS devices blocked from accessing NAS and processing workstations.",
+              "owner": "Network Security",
+              "updated": "10:00 AM"
+            },
+            {
+              "name": "CP&L Campaign D-3 (raw data)",
+              "status": "red",
+              "notes": "Data integrity compromised. Hash mismatch confirmed. Delivery deadline at risk. Client notification required within 4 hours.",
+              "owner": "Client Program Office",
+              "updated": "10:08 AM"
+            },
+            {
+              "name": "Offline Backup OB-1",
+              "status": "red",
+              "notes": "Last good snapshot: 03/20/2026. Three weeks outdated. Not usable for recovery.",
+              "owner": "Backup Management",
+              "updated": "10:05 AM"
+            },
+            {
+              "name": "Field LAN (192.168.88.0/24)",
+              "status": "yellow",
+              "notes": "DAA-1 and FIELD-RTR-1 still operational. No evidence of compromise. Monitoring for lateral movement.",
+              "owner": "Field Operations",
+              "updated": "10:12 AM"
+            },
+            {
+              "name": "Data VLAN (10.17.41.0/24)",
+              "status": "red",
+              "notes": "Isolated from office network. All shares blocked. No access to NAS, PROC, or CAL01.",
+              "owner": "Network Security",
+              "updated": "10:00 AM"
+            }
+          ],
+          "legend": {
+            "green": "Operational",
+            "yellow": "Degraded or Monitored",
+            "red": "Out of Service or Compromised"
+          }
+        },
+        "instructorNote": "This inject confirms the network isolation of GCS-02 and escalates the status of critical systems. The IC must log the event in the hazard log per FOM 11.1 and reaffirm the fleet's avoidance of GCS-02.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.373Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Status Board: today’s flights and the GCS fleet",
+        "type": "status_board",
+        "fields": {
+          "organization": "Harwick UAS Operations Group",
+          "facility": "Flight Operations Desk, Hangar 2",
+          "title": "Fleet and Flight Status",
+          "incidentName": "NAS ransomware",
+          "asOf": "10:15",
+          "operationalPeriod": "10/05/2026 1000–1100",
+          "preparedBy": "Flight Operations Desk",
+          "resources": [
+            {
+              "name": "GCS-02",
+              "status": "red",
+              "notes": "Infected; grounded with UAS-03 and UAS-11",
+              "owner": "Flight Ops",
+              "updated": "0930"
+            },
+            {
+              "name": "GCS-03",
+              "status": "unknown",
+              "notes": "Docked in Hangar 2 over the weekend; NAS mount since Sat 22:15 unknown",
+              "owner": "Systems",
+              "updated": "1010"
+            },
+            {
+              "name": "GCS-01",
+              "status": "unknown",
+              "notes": "Docked in Hangar 2 over the weekend; NAS mount unknown",
+              "owner": "Systems",
+              "updated": "1010"
+            },
+            {
+              "name": "GCS-04",
+              "status": "yellow",
+              "notes": "In the field kit since Thursday; not yet checked",
+              "owner": "Systems",
+              "updated": "1010"
+            },
+            {
+              "name": "GCS-05 / GCS-06 (tablets)",
+              "status": "green",
+              "notes": "Never mount the NAS",
+              "owner": "Flight Ops",
+              "updated": "1010"
+            },
+            {
+              "name": "CVAC collection 10:30",
+              "status": "yellow",
+              "notes": "Planned on GCS-03 with UAS-04",
+              "owner": "Flight Ops",
+              "updated": "1015"
+            }
+          ],
+          "legend": {
+            "green": "Cleared",
+            "yellow": "At risk / not yet checked",
+            "red": "Grounded"
+          }
+        },
+        "instructorNote": "Watch for no flight on a GCS of unknown status.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:30.880Z"
+}

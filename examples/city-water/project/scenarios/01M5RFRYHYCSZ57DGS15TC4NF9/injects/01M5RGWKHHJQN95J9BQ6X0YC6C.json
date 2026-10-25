@@ -1,0 +1,163 @@
+{
+  "id": "01M5RGWKHHJQN95J9BQ6X0YC6C",
+  "mselRowId": "I-07b",
+  "type": "radio_call",
+  "title": "Radio: Summit Drive — 24-inch break confirmed",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "centerName": "RWTP Control Room",
+    "channel": "DWS-1",
+    "frequency": "DWS-1 / 453.450 MHz",
+    "date": "07/14/2026",
+    "callsign": "Distribution 3",
+    "lines": [
+      {
+        "time": "06:35",
+        "from": "Distribution 3",
+        "to": "Control",
+        "text": "Control, Distribution 3 at Summit Drive. Confirmed: the 24-inch is open under the eastbound lane, water across the road and into two yards, the pavement is undermined. Police are closing Summit Drive."
+      },
+      {
+        "time": "06:35",
+        "from": "Distribution 3",
+        "to": "Control",
+        "text": "We’re going to V-2410 first. Somebody pull the card on V-2418 — it hasn’t been turned since 2023."
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Man in his 50s, loud over rushing water",
+    "duration": "0:19"
+  },
+  "instructorNote": "Watch for the fewest-valves isolation and the second crew sent to V-2418 early.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+      "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.2 Remote Sites",
+      "quote": "| Site | Address | Assets and tags | Telemetry | |---|---|---|---| | **Hilltop Tank** | 2200 Summit Drive | Elevated tank 1.0 MG, overflow el. 1,012 ft; level LIT-601 (radar) and LIT-602 (pressure, ba",
+      "chunkId": 164
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+      "quote": "| Failure | What Still Works | What Is Lost | Required Action | |---|---|---|---| | MBW-SCADA-SRV01 and SRV02 down | PLCs hold last setpoints; local HOA; PSH-302 | All remote control; HMI displays; Al",
+      "chunkId": 79
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Distribution 3",
+        "voiceStyle": "Man in his 50s, loud over rushing water",
+        "text": "Control, Distribution 3 at Summit Drive. Confirmed: the 24-inch is open under the eastbound lane, water across the road and into two yards, the pavement is undermined. Police are closing Summit Drive."
+      },
+      {
+        "speaker": "Distribution 3",
+        "voiceStyle": "Man in his 50s, loud over rushing water",
+        "text": "We’re going to V-2410 first. Somebody pull the card on V-2418 — it hasn’t been turned since 2023."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:16:28.883Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Radio Call: Mill Road Booster Station Manual Override Attempt",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "Water Operations Control Center (WOCC)",
+          "channel": "OPS 2",
+          "frequency": "TG 4203 / 460.300 MHz",
+          "date": "10/24/2026",
+          "callsign": "Field Crew 4",
+          "lines": [
+            {
+              "time": "06:35",
+              "from": "Field Crew 4",
+              "to": "Control",
+              "text": "Control, this is Field Crew 4 at the Mill Road Booster Station. The local HMI shows BP-401 and BP-402 in HAND mode, but the switches are not engaged. The manual override lever is frozen. We’re calling for a second technician to assist with the override. The main break has caused the zone to lose pressure, and we need to start the boosters manually to hold Zone 2."
+            },
+            {
+              "time": "06:36",
+              "from": "Control",
+              "to": "Field Crew 4",
+              "text": "Field Crew 4, copy. We are not seeing any remote HMI access to RTU-04. Confirm the override lever is physically frozen, not just stuck in position."
+            },
+            {
+              "time": "06:37",
+              "from": "Field Crew 4",
+              "to": "Control",
+              "text": "Affirmative. The lever is frozen solid. We’ve tried the wrench and the lever pliers — no movement. We’re requesting immediate backup from the maintenance team. We cannot proceed alone."
+            }
+          ],
+          "background": "garage",
+          "voiceStyle": "Young male, urgent, slightly strained",
+          "audioFile": "I-07b_radio.wav",
+          "duration": "0:21",
+          "injectId": "I-07b"
+        },
+        "instructorNote": "Noise inject; the technical team should triage the manual override issue and not attempt remote control. The frozen lever is a physical failure, not a software glitch.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.451Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Radio: Summit Drive — 24-inch break confirmed",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "DWS-1",
+          "frequency": "DWS-1 / 453.450 MHz",
+          "date": "07/14/2026",
+          "callsign": "Distribution 3",
+          "lines": [
+            {
+              "time": "06:35",
+              "from": "Distribution 3",
+              "to": "Control",
+              "text": "Control, Distribution 3 at Summit Drive. Confirmed: the 24-inch is open under the eastbound lane, water across the road and into two yards, the pavement is undermined. Police are closing Summit Drive."
+            },
+            {
+              "time": "06:35",
+              "from": "Distribution 3",
+              "to": "Control",
+              "text": "We’re going to V-2410 first. Somebody pull the card on V-2418 — it hasn’t been turned since 2023."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Man in his 50s, loud over rushing water",
+          "duration": "0:19"
+        },
+        "instructorNote": "Watch for the fewest-valves isolation and the second crew sent to V-2418 early.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:47:10.082Z"
+}

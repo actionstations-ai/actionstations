@@ -1,0 +1,188 @@
+{
+  "id": "01M5RP772XB6HTHY00NCMWK6H2",
+  "mselRowId": "I-15b",
+  "type": "system_log",
+  "title": "Fleet parameter audit",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "Fleet parameter audit",
+    "host": "Hangar 2",
+    "logSource": "Readback vs baseline 03.2026-B",
+    "exportedBy": "Tomás Reyes",
+    "exportedAt": "09/15/2026 12:04 PM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "11:40",
+        "level": "INFO",
+        "msg": "UAS-01, UAS-03 to UAS-10: firmware 03.2026-B; parameters match baseline",
+        "highlight": true
+      },
+      {
+        "ts": "11:52",
+        "level": "WARN",
+        "msg": "GCS-03: 03.2026-C package staged, not installed — deleted; GCS-03 re-checked against 03.2026-B",
+        "highlight": true
+      },
+      {
+        "ts": "11:55",
+        "level": "INFO",
+        "msg": "GCS-02, GCS-05, GCS-06: no staged package",
+        "highlight": false
+      },
+      {
+        "ts": "11:58",
+        "level": "WARN",
+        "msg": "GCS-01: remains quarantined",
+        "highlight": false
+      }
+    ],
+    "classification": "INTERNAL - INCIDENT RECORD",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "The verified aircraft can return under whatever condition the team set.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+      "quote": "Parameter sets (failsafe actions, lost-link timers, RTL altitude, geofence) are exported after every change to `\\\\HUOG-NAS01\\ops\\param-log.md` with the hash of the parameter file. The pre-flight check",
+      "chunkId": 107
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 10 › 10.2 Records",
+      "quote": "| Record | Where | Retention | |---|---|---| | Flight logs (telemetry, GCS logs) | GCS → `\\\\HUOG-NAS01\\flightlogs\\<year>\\<tail>\\` | 5 years | | FOM-2 flight plans and FOM-1 campaign plans | `\\\\HUOG-NA",
+      "chunkId": 86
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:48:48.552Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Firmware Patch Validation — GCS-01 Sandbox",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Firmware Validation Console",
+          "host": "HUOG-ISP-2026",
+          "ip": "10.17.40.15",
+          "os": "Ubuntu 22.04 LTS",
+          "logSource": "/var/log/firmware-patch-sandbox.log",
+          "exportedBy": "SCL\\it.security",
+          "exportedAt": "10/25/2026 12:05 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "12:05:12",
+              "level": "INFO",
+              "msg": "Patch v2.3.2 (SHA-256: a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6) applied to GCS-01 sandbox environment.",
+              "highlight": false
+            },
+            {
+              "ts": "12:05:14",
+              "level": "INFO",
+              "msg": "Failover logic restored: 'failover_logic = ON' in default profile.",
+              "highlight": false
+            },
+            {
+              "ts": "12:05:16",
+              "level": "INFO",
+              "msg": "Control authority transfer now triggers on 2.4 GHz link loss.",
+              "highlight": false
+            },
+            {
+              "ts": "12:05:18",
+              "level": "INFO",
+              "msg": "Test flight simulation (UAS-11) successfully initiated under patch v2.3.2. RTL executed at 400 ft AGL.",
+              "highlight": false
+            },
+            {
+              "ts": "12:05:20",
+              "level": "NOTICE",
+              "msg": "Parameter export to \\HUOG-NAS01\\ops\\param-log.md completed. Hash matches expected.",
+              "highlight": true
+            },
+            {
+              "ts": "12:05:22",
+              "level": "INFO",
+              "msg": "Pre-flight verification protocol for UAS-11 and UAS-12 initiated by CRP (UAS-02-FW-2).",
+              "highlight": false
+            },
+            {
+              "ts": "12:05:24",
+              "level": "INFO",
+              "msg": "Patch v2.3.2 signed by Chief Remote Pilot and Aviation Safety Officer.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "SCL: Firmware Validation Terminal (GCS-01 Sandbox)",
+          "command": "sudo ./patch-validate.sh v2.3.2",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the patch is valid and ready for deployment. The SCL must verify the hash in the parameter log, and the CRP must begin pre-flight checks on UAS-11 and UAS-12.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.732Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Fleet parameter audit",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Fleet parameter audit",
+          "host": "Hangar 2",
+          "logSource": "Readback vs baseline 03.2026-B",
+          "exportedBy": "Tomás Reyes",
+          "exportedAt": "09/15/2026 12:04 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "11:40",
+              "level": "INFO",
+              "msg": "UAS-01, UAS-03 to UAS-10: firmware 03.2026-B; parameters match baseline",
+              "highlight": true
+            },
+            {
+              "ts": "11:52",
+              "level": "WARN",
+              "msg": "GCS-03: 03.2026-C package staged, not installed — deleted; GCS-03 re-checked against 03.2026-B",
+              "highlight": true
+            },
+            {
+              "ts": "11:55",
+              "level": "INFO",
+              "msg": "GCS-02, GCS-05, GCS-06: no staged package",
+              "highlight": false
+            },
+            {
+              "ts": "11:58",
+              "level": "WARN",
+              "msg": "GCS-01: remains quarantined",
+              "highlight": false
+            }
+          ],
+          "classification": "INTERNAL - INCIDENT RECORD",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "The verified aircraft can return under whatever condition the team set.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:03:03.577Z"
+}

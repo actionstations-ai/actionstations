@@ -2,7 +2,7 @@
   "id": "city-water",
   "title": "City of Millbrook Water",
   "domainProfile": "water_utility",
-  "summary": "A mid-size city water department (surface-water treatment plant with chemical feed, wells, three storage tanks, four pump stations, SCADA with vendor remote access) and a tabletop exercise generated from its simulated plans: chemical-feed setpoint tampering through vendor remote access.",
+  "summary": "A mid-size city water department (surface-water treatment plant with chemical feed, wells, three storage tanks, four pump stations, SCADA with vendor remote access) and four tabletop exercises generated from its simulated plans: chemical-feed setpoint tampering, ransomware reaching toward the control network, tampering at a storage standpipe, and a transmission-main break during a telemetry outage.",
   "notice": "EXERCISE MATERIAL — for training use. The City of Millbrook, its people, vendors and identifiers are simulated.",
   "project": {
     "name": "City of Millbrook Water",
@@ -20,20 +20,79 @@
       }
     }
   },
-  "documents": { "dir": "reference/city-water", "exclude": ["SOURCES.md"] },
-  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 4 },
+  "documents": {
+    "dir": "reference/city-water",
+    "exclude": ["SOURCES.md"]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 4
+  },
   "scenarios": [
     {
       "key": "chem",
       "threatFamily": "cyber_physical",
-      "summary": "A vendor remote-support session on the Chemical Building HMI raises the caustic dose setpoint at night; the operator, the hard-wired pH trip and the grab samples disagree with the screen, and the department must go to manual, isolate the control network and decide on a Do Not Drink notice.",
-      "userPrompt": "At 02:40 a remote-support session through the DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building raises the Caustic Feed System dose setpoint (NAOH-FC-203) step by step toward 40 mg/L while the single night operator is on rounds; finished-water pH climbs on AIT-302, the hard-wired high-high switch PSH-302 and a grab sample disagree with what the HMI trend shows. Vendor remote access, manual chemical feed, isolating the control network, Ohio EPA notification and the Do Not Drink decision for Zone 1.",
+      "summary": "A vendor remote-support session on the Chemical Building HMI raises the caustic dose setpoint while the single duty operator is on rounds; the operator, the hard-wired pH trip and the grab samples disagree with the screen, and the department must go to manual, isolate the control network and decide on a Do Not Drink notice.",
+      "userPrompt": "Shortly after 08:30 a remote-support session through the DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building raises the Caustic Feed System dose setpoint (NAOH-FC-203) step by step toward 40 mg/L while the single duty operator is on rounds; finished-water pH climbs on AIT-302, the hard-wired high-high switch PSH-302 and a grab sample disagree with what the HMI trend shows. Vendor remote access, manual chemical feed, isolating the control network, Ohio EPA notification and the Do Not Drink decision for Zone 1.",
       "audience": [
         "Water Operations",
         "SCADA / IT",
         "Public Information",
         "Water Quality / Lab",
         "Security"
+      ]
+    },
+    {
+      "key": "ransomware",
+      "threatFamily": "cyber",
+      "summary": "Ransomware encrypts billing, the AMI head-end, the file server and the backup server at City Hall and reaches toward SCADA through the FW-R-17 backup rule and the domain trust; the department must decide within 30 minutes whether to island the control network, run the plant without the City’s systems, recommend against paying and answer “is the water safe?” from grab samples.",
+      "userPrompt": "Ransomware detonates on the business network at City Hall on a Monday morning: the billing system MBW-CIS-01, the AMI head-end MBW-AMI-01 and the file server MBW-FS-01 are encrypted and a ransom note names the city. The SCADA domain MBWSCADA trusts the business domain and firewall rule FW-R-17 carries SMB from the engineering workstation to the backup server MBW-BKP-01, so City IT wants to island the control network while the plant decides whether to go to manual operations, customer service loses billing and the outage map, and the mayor asks whether the water is safe.",
+      "audience": [
+        "Water Operations",
+        "SCADA / IT",
+        "Public Information",
+        "Water Quality / Lab",
+        "Customer Service"
+      ],
+      "constraints": [
+        "Every email address of the City and the department uses the exercise domain millbrook-oh.example; outside parties use fictional domains and the fictional outlets of the communications plan (Channel 4, the Millbrook Courier); never a real agency, company or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (City IT's vendors, the FBI, CISA, Ohio EPA DDAGW, the Carver County Health Commissioner, the media) are played by the SimCell, not seated as players."
+      ]
+    },
+    {
+      "key": "tank",
+      "threatFamily": "physical_security",
+      "startWallClock": "07:00",
+      "summary": "Overnight someone cuts into Orchard Standpipe, where the hatch switch has been out of service for two years; the Sunday day operator finds the gate trips and a falling chlorine residual, and the department must sample before conclusions, isolate the standpipe without losing Zone 2 pressure inside a police scene, and decide on a precautionary advisory within two hours.",
+      "userPrompt": "Overnight on Saturday the fence-gate contact ZS-612 at Orchard Standpipe tripped and cleared twice and CAM-13 caught a figure near the ladder cage; the roof hatch switch ZS-611 has been out of service since 2024, so RTU-02 still reports the hatch closed, and the site is not due for a visit until Tuesday. The exercise opens on Sunday morning, when the day operator reviews the overnight alarm log and sees the outlet chlorine residual AIT-611 drifting down; the crew sent to the site finds the hatch padlock cut. Sampling under ERP-3, isolating the standpipe from Zone 2, Millbrook police and the FBI, Ohio EPA DDAGW consultation and the precautionary boil-water advisory for the Hilltop area.",
+      "audience": [
+        "Water Operations",
+        "Distribution",
+        "Water Quality / Lab",
+        "Public Information",
+        "Security"
+      ],
+      "constraints": [
+        "Every email address of the City and the department uses the exercise domain millbrook-oh.example; outside parties use fictional domains and the fictional outlets of the communications plan (Channel 4, the Millbrook Courier); never a real agency, company or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (police, the FBI, Ohio EPA DDAGW, the Carver County Health Commissioner, the media) are played by the SimCell, not seated as players."
+      ]
+    },
+    {
+      "key": "main",
+      "threatFamily": "infrastructure_failure",
+      "startWallClock": "05:30",
+      "summary": "In a July heat wave one failed power supply blinds the plant to Hilltop Tank and four remote sites, then the 1968 Hilltop Transmission Main breaks near Summit Drive; the department must isolate it with a stuck valve, hold Zone 2 without starving the hospital in Zone 1, decide on IC-1 and draw a boil-water area without pressure data.",
+      "userPrompt": "During a July heat wave with demand near 14 MGD the Hilltop Tank radio repeater RP-1 fails at 05:30, so Orchard Standpipe, Northgate and Mill Road telemetry go stale on the HMI and the operators acknowledge the stale-data flags; at 06:10 the 24-inch Hilltop Transmission Main breaks near Summit Drive and Hilltop Tank begins to drain with no remote levels visible. Isolation valves V-2410 and V-2418, Mill Road Booster Station, the Carver County Water District interconnect IC-1, pressure at Millbrook General Hospital, and the boil-water decision for the depressurized part of Zone 2.",
+      "audience": [
+        "Water Operations",
+        "Distribution",
+        "SCADA / IT",
+        "Water Quality / Lab",
+        "Public Information"
+      ],
+      "constraints": [
+        "Every email address of the City and the department uses the exercise domain millbrook-oh.example; outside parties use fictional domains and the fictional outlets of the communications plan (Channel 4, the Millbrook Courier); never a real agency, company or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (Carver County Water District, Millbrook General Hospital, Ohio EPA DDAGW, the Carver County Health Commissioner, the media) are played by the SimCell, not seated as players."
       ]
     }
   ]

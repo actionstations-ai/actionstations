@@ -1,0 +1,232 @@
+{
+  "id": "01M5RP1S90YBV4DKSCVZNSVPTP",
+  "mselRowId": "I-05",
+  "type": "system_log",
+  "title": "Telemetry export: 618 ft, 0.6 nm, and reset parameters",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "GCS-01 telemetry export",
+    "host": "HUOG-GCS01 (10.17.40.11)",
+    "logSource": "Flight log and parameter readback",
+    "exportedBy": "Tomás Reyes",
+    "exportedAt": "09/15/2026 10:03 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "09:10:02",
+        "level": "CRIT",
+        "msg": "Max altitude 618 ft AGL",
+        "highlight": true
+      },
+      {
+        "ts": "09:14:20",
+        "level": "CRIT",
+        "msg": "Closest approach: 0.6 nm outside the HWK Class C surface area",
+        "highlight": true
+      },
+      {
+        "ts": "09:16:05",
+        "level": "ERROR",
+        "msg": "Battery critical — forced descent",
+        "highlight": false
+      },
+      {
+        "ts": "09:17:12",
+        "level": "INFO",
+        "msg": "Ground contact (last Remote ID position, off Stony Creek Road)",
+        "highlight": false
+      },
+      {
+        "ts": "08:55:41",
+        "level": "WARN",
+        "msg": "Readback after install: LOST_LINK_ACTION = CONTINUE_MISSION (baseline RTL)",
+        "highlight": true
+      },
+      {
+        "ts": "08:55:41",
+        "level": "WARN",
+        "msg": "Readback after install: ALT_FENCE = DISABLED (baseline 120 m)",
+        "highlight": true
+      }
+    ],
+    "classification": "INTERNAL - INCIDENT RECORD",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "The update reset the safety parameters. Watch for GCS-01 staying quarantined.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 6 › 6.1 Classes and ceilings",
+      "quote": "Horton Field is under the HWK Class C airspace with a UAS Facility Map grid ceiling of 200 ft AGL. The Birch Hollow Range flight areas are in Class G airspace below the Class C shelf with the Part 107",
+      "chunkId": 62
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+      "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+      "chunkId": 21
+    },
+    {
+      "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+      "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+      "headingPath": "SITE › 3. Airspace and authorizations",
+      "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+      "chunkId": 141
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 10 › 10.3 Reporting",
+      "quote": "- To the FOM and ASO, same day: any lost link, flyaway, hard landing, prop strike, geofence breach, LAANC lapse, abort for traffic, public complaint, or a drone of unknown origin over a Group site. - ",
+      "chunkId": 87
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:45:49.764Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "DAA-1 GPS Spoofing Alert — UAS-02",
+        "type": "system_log",
+        "fields": {
+          "systemName": "DAA-1 Event Buffer",
+          "host": "UAS-02",
+          "ip": "10.17.40.15",
+          "os": "Linux (uOS-2.1)",
+          "logSource": "DAA-1 / GPS-Spoof-Alert",
+          "exportedBy": "UAS-02@huog.example",
+          "exportedAt": "10/25/2026 10:05 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:58:12",
+              "level": "ALERT",
+              "msg": "GPS signal anomaly detected: 300 ms jitter in pseudorange from PRN 13, 24.7 deg elevation",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:14",
+              "level": "CRIT",
+              "msg": "DAA-1: GPS spoofing confirmed — fake GNSS signal pulse (0.9s duration) injected at 420 ft AGL, bearing 287 deg",
+              "highlight": true
+            },
+            {
+              "ts": "08:58:14",
+              "level": "INFO",
+              "msg": "Position jump: 178 ft AGL → 420 ft AGL (delta +242 ft) in 6.3 sec",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:18",
+              "level": "ALERT",
+              "msg": "Class C airspace boundary crossed (HWK Class C, 200 ft AGL grid ceiling)",
+              "highlight": true
+            },
+            {
+              "ts": "08:58:18",
+              "level": "WARN",
+              "msg": "Geofence breach: UAS-02 entered restricted airspace (zone H-7), status: unresponsive",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:18",
+              "level": "INFO",
+              "msg": "Link status: uplink lost at 08:58:15 (GCS-01), 3.2 sec after spoofing event",
+              "highlight": false
+            },
+            {
+              "ts": "08:58:18",
+              "level": "INFO",
+              "msg": "Firmware version 2.4.11a (SHA-256: d4e9a1f7b2c8e6d1a3f4b5c6e7f8a9b0c1d2e3f4g5h6i7j8k9l0m) active; no known override",
+              "highlight": false
+            },
+            {
+              "ts": "10:05:00",
+              "level": "INFO",
+              "msg": "Log export initiated by SCL (huog.example/it.scl)",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "root@UAS-02:~#",
+          "command": "cat /var/log/daa1/evtbuf-20261025-1005.log | grep -i 'spoof\\|geofence\\|class c'",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the GPS spoofing event that initiated the flyaway. The SCL must now cross-reference the firmware hash with the OEM's known-good baseline.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.686Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Telemetry export: 618 ft, 0.6 nm, and reset parameters",
+        "type": "system_log",
+        "fields": {
+          "systemName": "GCS-01 telemetry export",
+          "host": "HUOG-GCS01 (10.17.40.11)",
+          "logSource": "Flight log and parameter readback",
+          "exportedBy": "Tomás Reyes",
+          "exportedAt": "09/15/2026 10:03 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "09:10:02",
+              "level": "CRIT",
+              "msg": "Max altitude 618 ft AGL",
+              "highlight": true
+            },
+            {
+              "ts": "09:14:20",
+              "level": "CRIT",
+              "msg": "Closest approach: 0.6 nm outside the HWK Class C surface area",
+              "highlight": true
+            },
+            {
+              "ts": "09:16:05",
+              "level": "ERROR",
+              "msg": "Battery critical — forced descent",
+              "highlight": false
+            },
+            {
+              "ts": "09:17:12",
+              "level": "INFO",
+              "msg": "Ground contact (last Remote ID position, off Stony Creek Road)",
+              "highlight": false
+            },
+            {
+              "ts": "08:55:41",
+              "level": "WARN",
+              "msg": "Readback after install: LOST_LINK_ACTION = CONTINUE_MISSION (baseline RTL)",
+              "highlight": true
+            },
+            {
+              "ts": "08:55:41",
+              "level": "WARN",
+              "msg": "Readback after install: ALT_FENCE = DISABLED (baseline 120 m)",
+              "highlight": true
+            }
+          ],
+          "classification": "INTERNAL - INCIDENT RECORD",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "The update reset the safety parameters. Watch for GCS-01 staying quarantined.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:03:00.309Z"
+}

@@ -1,0 +1,141 @@
+{
+  "id": "01M5RH0V4VYVS7E8DPQVZAKG5P",
+  "mselRowId": "I-09",
+  "type": "email_forward",
+  "title": "Email: failed power supply in the Hilltop cabinet",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Priya Nandakumar",
+    "fromEmail": "pnandakumar@millbrook-oh.example",
+    "senderInitials": "PN",
+    "to": "Denise Albrecht",
+    "subject": "FW: Hilltop cabinet — PS-1 failed",
+    "sentAt": "Tue 07/14/2026 6:55 AM",
+    "note": "Denise — explains every stale site. Not a cyber event. Spare is coming from the shop. — Priya",
+    "signature": "Priya Nandakumar\nSCADA / IT Security Manager",
+    "importance": "normal",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Priya Nandakumar",
+    "original": {
+      "cc": "",
+      "fromName": "SCADA technician",
+      "fromEmail": "scada.oncall@millbrook-oh.example",
+      "to": "pnandakumar@millbrook-oh.example",
+      "subject": "Hilltop cabinet",
+      "body": "PS-1 (24 VDC) in the Hilltop radio cabinet has no output and smells burnt. RP-1 and RTU-01’s cellular modem are both on it, which is why the failover never came up.\n\nSpare is on the shelf in the Distribution shop on Mill Road. About 20 minutes to swap once it gets here.",
+      "sentAt": "Tue 07/14/2026 6:51 AM"
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "Clears the cyber question. Watch for CODE CLEARWATER being closed and the spare sent.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 6 › 6.2 Online Water-Quality Instruments",
+      "quote": "| Instrument | Location | Normal | Alarm | Action | |---|---|---|---|---| | AIT-301 finished chlorine residual | Clearwell outlet | 1.0–2.0 mg/L | < 0.5 or > 3.5 | Verify with grab sample within 15 mi",
+      "chunkId": 20
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 4 › 4.1 Types",
+      "quote": "| Type | When used (ERP Section 9 decides) | What the public is told to do | |---|---|---| | **Boil Water Advisory** | Loss of pressure below 20 psi in an area; a main break that depressurizes an area",
+      "chunkId": 108
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Precautionary Advisory (tampering suspected at a storage facility)",
+      "quote": "> **PRECAUTIONARY BOIL WATER ADVISORY — [Zone / neighborhood] — City of Millbrook Department of Water & Sewer** > Issued [date] at [time]. > > Early today the City found evidence that someone may have",
+      "chunkId": 127
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+      "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+      "chunkId": 112
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:18:19.604Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Emergency Sampling Confirms Loss of Disinfection — Orchard Standpipe",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Marcus Oyelaran",
+          "fromEmail": "marcus.oyelaran@millbrook-oh.example",
+          "senderInitials": "MO",
+          "to": "wq, ops",
+          "subject": "FW: Emergency Sampling Result — AIT-611 (Orchard Standpipe Outlet) — 06:40",
+          "sentAt": "Sat 10/24/2026 06:55 AM",
+          "note": "Per Section 4.4 Level 3, the loss of disinfection must trigger a Boil Water Advisory. The grab sample confirms no residual. I recommend activating the advisory protocol immediately.",
+          "signature": "Marcus Oyelaran\nWater Quality Manager",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Water Quality Department",
+          "original": {
+            "fromName": "Marcus Oyelaran",
+            "fromEmail": "marcus.oyelaran@millbrook-oh.example",
+            "sentAt": "Sat 10/24/2026 06:40 AM",
+            "to": "ops, wq",
+            "cc": "",
+            "subject": "Emergency Sampling Result — AIT-611 (Orchard Standpipe Outlet) — 06:40",
+            "body": "The grab sample taken at the Orchard Standpipe outlet (AIT-611) at 06:40 shows no detectable chlorine residual. The last sample was taken at 05:30 (0.3 mg/L). The system has been without disinfection for 40 minutes. Per Section 4.4 Level 3, a Boil Water Advisory must be issued. I recommend activating the advisory protocol immediately."
+          }
+        },
+        "instructorNote": "This inject confirms the loss of disinfection and triggers the Boil Water Advisory decision. Watch for the WQ to declare a Level 3 event and the IC to initiate the advisory protocol via the PIO.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.472Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email: failed power supply in the Hilltop cabinet",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Priya Nandakumar",
+          "fromEmail": "pnandakumar@millbrook-oh.example",
+          "senderInitials": "PN",
+          "to": "Denise Albrecht",
+          "subject": "FW: Hilltop cabinet — PS-1 failed",
+          "sentAt": "Tue 07/14/2026 6:55 AM",
+          "note": "Denise — explains every stale site. Not a cyber event. Spare is coming from the shop. — Priya",
+          "signature": "Priya Nandakumar\nSCADA / IT Security Manager",
+          "importance": "normal",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Priya Nandakumar",
+          "original": {
+            "cc": "",
+            "fromName": "SCADA technician",
+            "fromEmail": "scada.oncall@millbrook-oh.example",
+            "to": "pnandakumar@millbrook-oh.example",
+            "subject": "Hilltop cabinet",
+            "body": "PS-1 (24 VDC) in the Hilltop radio cabinet has no output and smells burnt. RP-1 and RTU-01’s cellular modem are both on it, which is why the failover never came up.\n\nSpare is on the shelf in the Distribution shop on Mill Road. About 20 minutes to swap once it gets here.",
+            "sentAt": "Tue 07/14/2026 6:51 AM"
+          }
+        },
+        "instructorNote": "Clears the cyber question. Watch for CODE CLEARWATER being closed and the spare sent.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:45:39.521Z"
+}

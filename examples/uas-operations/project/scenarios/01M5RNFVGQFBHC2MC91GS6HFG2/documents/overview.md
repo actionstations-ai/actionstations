@@ -1,0 +1,101 @@
+# Master Scenario Events List (MSEL)
+
+**Lost Link Toward the Class C** (A flyaway after a field firmware update)
+Location: Horton Field and the Millbrook Road hangar complex, Harwick, Calder County, New York · Duration: 4 Hours
+Target Audience: Flight Operations, Aviation Safety, Systems / Cybersecurity, Fleet & Logistics, Leadership, Corporate Communications
+
+## Scenario Overview
+
+**Theme:** A flyaway toward controlled airspace, the calls that must be made in the first minutes, recovery on someone else’s property, and grounding a fleet by firmware
+
+**The Threat:** On Tuesday, September 15, during pre-flight for a routine site-survey flight at Horton Field, the crew accepts an OEM update prompt on GCS-01 that pushes aircraft firmware 03.2026-C to UAS-02. The update is not in the 03.2026-B baseline and has not been hash-checked. Five minutes after launch UAS-02 loses its C2 link; the update has reset the lost-link action from return-to-launch to “continue mission” and cleared the altitude geofence, so the aircraft climbs through 400 ft AGL toward the HWK Class C surface area with about 14 minutes of battery.
+
+**The Operational Impact:** The RPIC must call HWK Tower at once (HUOG-FOM 9.2) while DAA-1 watches for manned traffic on the approach. When the battery runs out the aircraft comes down in a backyard off Stony Creek Road, outside the Group’s property, and breaks a greenhouse; recovery is only with a CCSO deputy present and the homeowner’s consent. The ASO must call the FSDO the same day and decide whether NTSB or Part 107.9 reporting applies; the Systems & Cybersecurity Lead quarantines GCS-01 and works out what the update changed; the Director of Flight Operations and the General Manager must decide which aircraft stay grounded — only UAS-02, every aircraft on the OEM firmware, or the whole fleet — with client flights due this week. A neighbor’s post with a photo is spreading.
+
+**Core Plan Sections Tested:**
+- FOM › Section 6 › 6.4 ATC coordination
+- ISP › Section 5 › 5.2 Link monitoring
+- ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)
+- ERP › Section 11 › 11.3 Records
+- FOM › Section 9 › 9.3 GNSS degradation or spoofing suspicion
+- ERP › Section 2 › 2.4 Incident log
+
+**Exercise Objectives:**
+- **Communication:** Make the HUOG-FOM 9.2 and HUOG-ERP Section 6 calls in order — HWK Tower first, then the flight operations desk, the ASO, CCSO and Corporate Communications — and keep the six teams on one timeline.
+- **Decision Making:** Decide, with the evidence available, which aircraft and ground control stations stay grounded and on what condition they return (decision point).
+- **Technical Analysis:** Preserve the telemetry and link logs, quarantine GCS-01, and establish what the field update changed against the 03.2026-B baseline.
+- **Use of Doctrine:** Follow HUOG-FOM 9.2, HUOG-ERP 8.1 and 6 and HUOG-ISP 9.4: recovery on private property only with a deputy, the FSDO the same day, and the NTSB and Part 107.9 determinations made on the facts.
+
+## Roles & Responsibilities (For Students)
+
+- **Director of Flight Operations (Flight Operations) (FOM):** Incident Commander when aircraft are involved; owns the flight schedule, crews and the fleet register; decides with the ASO which aircraft stay grounded.
+- **Systems & Cybersecurity Lead (Systems / Cybersecurity) (SCL):** Owns the GCS fleet, firmware and radio configuration; quarantines the GCS and retrieves telemetry and link logs before power-off (HUOG-ISP 9.4).
+- **Aviation Safety Officer (Aviation Safety) (ASO):** Owns the safety case, the hazard log and regulator reporting; calls the FSDO the same day and decides the NTSB and Part 107.9 questions.
+- **Corporate Communications (Communications) (COMMS):** Owns all external messaging under UC-CP-2025; the Group never speaks to the media directly.
+- **Fleet & Logistics Manager (Fleet & Logistics) (F&L):** Owns Hangar 1, batteries, vehicles and recovery kits; liaison to CCSO and Harwick Police; recovers aircraft found off Group property only with a deputy present.
+- **General Manager (Leadership) (GM):** Accountable executive; decides on client notification and with Flight Operations on the fleet’s return to service; spokesperson with Corporate Communications.
+
+## Phase 1: Lost Link (Hour 0:00 – 1:00)
+
+Goal: Recognize a flyaway toward controlled airspace and make the first calls in the right order while there is still battery left.
+
+Beats: At 09:03 GCS-01 loses the C2 link to UAS-02 and the lost-link timer runs out without return-to-launch.; At 09:08 the GCS event log shows the field firmware update accepted at 08:52.; At 09:12 UAS-02 is above 400 ft and heading toward the HWK Class C surface area; at 09:15 DAA-1 shows a regional jet on approach.; At 09:18 a neighbor posts about a drone climbing over Stony Creek Road..
+
+| Time | Inject ID | From | To | Event / Message | Expected Action | Tag |
+|---|---|---|---|---|---|---|
+| 0:00 (09:00) | START | Facilitator | All | STARTEX: It is 09:00 on Tuesday, September 15. Crew 1 launched UAS-02 (heavy-lift hexacopter with the PL-05 lidar) from Horton Field at 08:57 on GCS-01 for a site survey along the field’s south edge, under a LAANC authorization to 200 ft AGL. The weather is clear, 64°F, wind light from the west. DAA-1 is on. The rest of the fleet is in Hangar 1; client flights for CP&L and CVAC are scheduled this week. | Each team states where it is and how it would hear about a problem with a flight. | STARTEX |
+| 0:03 (09:03) | I-01 | GCS-01 telemetry | FOM, SCL | System Log: GCS-01: C2 link to UAS-02 lost at 09:02:41 at 180 ft AGL, 300 m south of the launch point. The lost-link timer expired at 09:03:11 and no return-to-launch was logged. Remote ID shows UAS-02 still flying and climbing. | The RPIC calls “FLYAWAY, UAS-02” on Crew Ch 1 and tries RTL, land and the backup link (HUOG-FOM 9.2); the GSO starts the written timeline; the Director of Flight Operations is called; the Systems & Cybersecurity Lead is told immediately (HUOG-ERP Section 6). | Core narrative |
+| 0:05 (09:05) | I-01b | IT helpdesk | SCL | Helpdesk Ticket: The mission-planning software license server reports that the Group’s license renews in 14 days. | The Systems & Cybersecurity Lead leaves it for later; it is routine. | Noise |
+| 0:08 (09:08) | I-02 | GCS-01 event log | SCL, ASO | System Log: GCS-01 event log: at 08:52:10 an OEM update prompt was accepted by the crew account; aircraft firmware 03.2026-C was transferred to UAS-02 at 08:53 and installed at 08:55. The fleet register and the configuration baseline list UAS-02 on 03.2026-B. No hash check is recorded. | The Systems & Cybersecurity Lead recognizes an unapproved field update (HUOG-FOM: crews do not accept update prompts in the field) and has GCS-01 kept powered and untouched for the log copy; the ASO records the update in the timeline. | Clue |
+| 0:12 (09:12) | I-03 | GCS-01 telemetry (Remote ID track) | FOM, ASO, GM | System Log: UAS-02 on the Remote ID track: 412 ft AGL and climbing about 3 m/s, heading 095° toward the HWK Class C surface area, 3.6 km away. Battery estimated at 14 minutes from the last telemetry. | The RPIC calls HWK Tower at once with position, altitude, heading and battery time (HUOG-FOM 9.2 step 4); the Director of Flight Operations declares Level 3 (HUOG-ERP Section 3); the ASO and the General Manager are told within 15 minutes. | Core narrative |
+| 0:15 (09:15) | I-04 | Visual observer (DAA-1) | FOM, F&L | Radio Call: The visual observer on Crew Ch 1: “TRAFFIC — DAA-1 shows a regional jet on the HWK approach, four miles east at 2,300 feet, descending. I’ve lost sight of UAS-02 to the east-southeast.” | The RPIC passes the traffic and the last track to HWK Tower and keeps the Tower updated; the crew follows by vehicle on the last track if safe; the Director of Flight Operations logs the times. | Core narrative |
+| 0:18 (09:18) | I-04b | Social media | COMMS | Post: “Big drone just went straight up over Stony Creek Rd and kept going toward the airport. Is that the drone company?? @HarwickPD” — 70 likes in ten minutes. | Corporate Communications logs the post, tells the General Manager the public is already watching, and prepares a holding statement; no one from the crew posts or comments. | Pressure |
+| 1:00 (10:00) | TIME_JUMP | Facilitator | All | TIME_JUMP: It is now 10:00. The Remote ID track ended at 09:17 about 1.8 km east of Horton Field, off Stony Creek Road. A resident has called 911 to report a drone in her backyard. A CCSO deputy is on the way. GCS-01 is in Hangar 2, still powered on. | Each team states which calls have been made and when, and what it is doing now. | Time jump |
+
+## Phase 2: Down in a Backyard (Hour 1:00 – 2:00)
+
+Goal: Find and recover the aircraft lawfully, preserve the evidence and find out what the update changed.
+
+Beats: At 10:05 the GCS-01 telemetry shows the aircraft came down at 09:17 and that the update reset the lost-link action and the geofence.; At 10:07 the OEM portal shows the same update offered to other aircraft; at 10:10 the FSDO calls.; At 10:12 the neighbor’s photo spreads; at 10:22 the week’s client flights are on the board; at 10:24 the recovery team reaches the backyard..
+
+| Time | Inject ID | From | To | Event / Message | Expected Action | Tag |
+|---|---|---|---|---|---|---|
+| 1:05 (10:05) | I-05 | GCS-01 telemetry export | SCL, ASO | System Log: The telemetry copied from GCS-01: maximum altitude 618 ft AGL at 09:10; closest approach 0.6 nm outside the HWK Class C surface area at 09:14; battery critical at 09:16 and descent to the ground at 09:17. The aircraft’s parameter readback after the 08:55 install shows the lost-link action set to CONTINUE MISSION (baseline: RTL) and the altitude geofence disabled (baseline: 120 m). | The Systems & Cybersecurity Lead reports that the update reset safety parameters to factory defaults; the ASO records the maximum altitude and the closest approach for the FSDO; GCS-01 stays quarantined. | Core narrative |
+| 1:07 (10:07) | I-05b | OEM fleet portal | SCL, FOM | Helpdesk Ticket: The OEM fleet portal shows firmware 03.2026-C offered to every OEM aircraft (UAS-01 to UAS-10) since 07:30 today, with automatic download enabled on GCS-03, which has it staged but not installed. | The Systems & Cybersecurity Lead disables the automatic download and quarantines GCS-03 until checked; the Director of Flight Operations keeps every OEM aircraft on the ground until its parameters are read back. | Tech hurdle |
+| 1:10 (10:10) | I-06 | FAA Harwick FSDO | ASO | Phone Call: The FSDO duty inspector: “HWK Tower reported your UAS above 400 feet near the approach this morning. I need a written statement, the RPIC’s certificate number, your LAANC authorization and the telemetry. Was anyone hurt? Was there damage?” | The ASO gives the facts known, commits to the written statement and the records, and does not guess at the cause; the call is logged as the same-day FAA notification (HUOG-ERP Section 6). | Core narrative |
+| 1:12 (10:12) | I-06b | Social media | COMMS | Post: A neighbor on Stony Creek Road posts a photo of a white drone over her yard: “This thing flew over my kids’ swing set and crashed next door. Who do we call when the drone company loses one?” — 450 likes. | Corporate Communications answers with the approved statement and a contact number, and does not argue. | Pressure |
+| 1:18 (10:18) | I-07 | Calder Business Journal | COMMS | Media Inquiry: The Calder Business Journal wants to interview the General Manager next week for a feature on local technology employers. | Corporate Communications schedules it for later; it is not related. | Noise |
+| 1:22 (10:22) | I-08 | Flight Operations Desk | FOM, GM | Situation Update: The desk lists this week’s client flights: CP&L substation inspections tomorrow on UAS-01 and UAS-03; a CVAC collection Thursday on UAS-04 and UAS-05; a CP&L line patrol Friday on UAS-11. All of them are OEM aircraft except UAS-11. | The Director of Flight Operations and the General Manager note which flights depend on aircraft that may carry the same update and prepare to tell the clients once the grounding is decided. | Operational friction |
+| 1:24 (10:24) | I-08b | Recovery team (Fleet & Logistics) | F&L, FOM | Field Report: The recovery team is at the Stony Creek Road property. UAS-02 is on its side through the roof of a backyard greenhouse; one battery pack is swollen and warm. The homeowner is upset and has not agreed to let anyone in; the CCSO deputy arrives in about 20 minutes. | The Fleet & Logistics Manager keeps the team on the road side of the fence until the deputy arrives and the owner agrees, photographs from there, and has the sand bag and gloves ready for the pack (HUOG-ERP 7). | Clue |
+| 2:00 (11:00) | I-09 | Facilitator | All | TIME_JUMP: It is now 11:00. The CCSO deputy is at the Stony Creek Road property with the homeowner. HWK Tower has filed its report of the event. The neighbor’s post has passed 2,000 shares. | Each team states what it knows about the cause, what is grounded and what has been reported. | Time jump |
+
+## Phase 3: What Stays Grounded (Hour 2:00 – 3:00)
+
+Goal: Decide the grounding and the reporting from the evidence, with client flights waiting.
+
+Beats: At 11:03 the aircraft is recovered with a deputy present; at 11:05 the parameter comparison confirms the cause.; At 11:15 CP&L asks whether tomorrow’s substation flights will go — the decision point.; At 11:18 the Harwick Daily News asks whether a plane had to divert; at 11:25 the homeowner’s greenhouse estimate arrives..
+
+| Time | Inject ID | From | To | Event / Message | Expected Action | Tag |
+|---|---|---|---|---|---|---|
+| 2:03 (11:03) | I-10 | Recovery team (Fleet & Logistics) | F&L, ASO | Field Report: With the deputy present and the homeowner’s consent, the team recovered UAS-02: two arms broken, PL-05 intact, the swollen pack bagged in sand and watched for 30 minutes. The greenhouse roof panels and a raised bed are broken. No one was hurt. | The Fleet & Logistics Manager records the recovery and the damage with photographs, gives the homeowner the Group’s contact and the claim process, and hands the aircraft and media to the ASO for the investigation. | Core narrative |
+| 2:05 (11:05) | I-11 | Parameter comparison | SCL, FOM, ASO | System Log: The Systems & Cybersecurity Lead’s comparison of the UAS-02 parameter readback with the 03.2026-B baseline: lost-link action, RTL altitude, altitude geofence and the backup-link failover all reset to factory defaults by the 03.2026-C install. The OEM release notes say “some parameters may be reset after installation.” No sign of an outside party. | The Systems & Cybersecurity Lead reports the cause as an unapproved update that reset safety parameters, not a link compromise, and recommends that no OEM aircraft flies until its parameters are read back against the baseline. | Clue |
+| 2:15 (11:15) | I-12 | Calder Power & Light | GM, FOM, ASO | Phone Call: CP&L’s program manager: “Tomorrow’s substation inspections are on UAS-01 and UAS-03. Our outage window is fixed — if you don’t fly tomorrow, the next window is three weeks out. Are you flying?” | DECISION POINT: The Director of Flight Operations and the General Manager, with the ASO, decide the grounding — UAS-02 only, every OEM aircraft until its parameters are read back and confirmed on 03.2026-B, or the whole fleet — and the condition for return to service; they tell CP&L the facts and the decision, and record the basis (HUOG-ERP 8.1). | Decision point |
+| 2:18 (11:18) | I-14 | Harwick Daily News | COMMS | Media Inquiry: The Harwick Daily News asks whether a passenger plane had to divert because of the Group’s drone, and whether the drone was hacked. | Corporate Communications says what is confirmed (an aircraft lost its link, the Group notified HWK Tower and the FAA, the aircraft came down on private property, no one was hurt), does not speak for the Tower, and says the cause is being investigated. | Pressure |
+| 2:20 (11:20) | I-14b | IT helpdesk | SCL | Helpdesk Ticket: The Hangar 2 printer is out of toner. | The Systems & Cybersecurity Lead ignores it for now; it is not related. | Noise |
+| 2:25 (11:25) | I-13 | Homeowner (via email) | ASO, GM | Email Forward: The homeowner sends a contractor’s estimate of $1,240 to replace the greenhouse roof panels and the raised bed, and asks who pays. | The ASO records that property damage over $500 makes this a Part 107.9 accident report to the FAA within 10 days, and that NTSB notification does not apply (no injury; the aircraft is far below the 49 CFR 830.5 weight threshold); the General Manager handles the claim through the Group’s insurer. | Core narrative |
+
+## Phase 4: Back to Baseline (Hour 3:00 – 4:00)
+
+Goal: Verify the rest of the fleet, close the reports and deal with the property owner and the public.
+
+Beats: At 12:05 the parameter audit of the fleet comes back; at 12:10 the Systems & Cybersecurity Lead proposes how to return to baseline.; At 12:25 CCSO follows up for the homeowner’s report; at 12:30 Channel 10 asks whether the Group will fly near homes again..
+
+| Time | Inject ID | From | To | Event / Message | Expected Action | Tag |
+|---|---|---|---|---|---|---|
+| 3:00 (12:00) | I-15 | Facilitator | All | TIME_JUMP: It is now 12:00. UAS-02 and GCS-01 are in the quarantine cabinet in Hangar 2. The parameter audit of the rest of the fleet is under way. CP&L is waiting for an answer about tomorrow. | Each team states the grounding in effect, what has been told to CP&L, and what remains to report. | Time jump |
+| 3:05 (12:05) | I-15b | Fleet parameter audit | SCL, FOM | System Log: Parameter readback for the OEM fleet: UAS-01 and UAS-03 to UAS-10 are on 03.2026-B with baseline parameters; none installed 03.2026-C. GCS-03 had 03.2026-C staged but not installed; it has been deleted and GCS-03 re-checked against 03.2026-B. GCS-01 remains quarantined. | The Director of Flight Operations returns the verified aircraft to service under the decided conditions (or keeps them down if that was the decision), and the Systems & Cybersecurity Lead records each readback. | Clue |
+| 3:10 (12:10) | I-16 | Fleet systems review | SCL, GM | Situation Update: The Systems & Cybersecurity Lead proposes: block the OEM update endpoint at HUOG-FW01 outside the Tuesday window, disable update prompts on every GCS, reinstall 03.2026-B on UAS-02 after repair with a parameter readback, and file the HUOG-ISP 9.4 report recording the cause as an unapproved field update. | The General Manager approves or amends the measures; the Director of Flight Operations adds a pre-flight check that the firmware on the GCS status page matches the register. | Core narrative |
+| 3:15 (12:15) | I-16b | IT helpdesk | SCL | Helpdesk Ticket: A crew member asks for a password reset on the LAANC application. | The Systems & Cybersecurity Lead handles it later; it is routine. | Noise |
+| 3:25 (12:25) | I-18 | CCSO deputy | F&L, ASO | Radio Call: The CCSO deputy: “The homeowner wants a report number for her insurance. I need your company contact, your insurance carrier and whether the FAA has been notified. She also says nobody told her what was going on for the first half hour.” | The Fleet & Logistics Manager gives the contact and insurance details; the ASO confirms the FAA notification and the Part 107.9 report to come; the General Manager is told about the homeowner’s complaint. | Core narrative |
+| 3:30 (12:30) | I-19 | Channel 10 | COMMS | Media Inquiry: Channel 10 asks whether the Group will keep flying near homes and the airport, and what it has changed since this morning. | Corporate Communications gives the measures the General Manager has approved and the return-to-service condition, without technical guesses, and offers a follow-up. | Pressure |
+| 4:00 (13:00) | END | Facilitator | All | ENDEX: It is now 13:00. The exercise ends here. UAS-02 and GCS-01 are quarantined, the fleet is on its decided grounding, and the FSDO statement, the Part 107.9 report and the homeowner’s claim continue. | Teams hand in the timeline, the incident log and the decision record; the facilitator opens the hot wash. | ENDEX |

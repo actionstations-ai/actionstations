@@ -1,0 +1,199 @@
+{
+  "id": "01M5RGP6B65XNFW0F2XJXERFJA",
+  "mselRowId": "I-02",
+  "type": "phone_call",
+  "title": "Phone: Buckeye Telemetry — check the shared 24-volt supply",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "systemName": "Recorded Line",
+    "callId": "CR-20260714-055012-004",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Support technician",
+      "number": "(555) 038-2290",
+      "label": "Buckeye Telemetry"
+    },
+    "callee": {
+      "name": "Priya Nandakumar",
+      "number": "(555) 034-1140",
+      "label": "SCADA / IT Security Manager"
+    },
+    "startTime": "07/14/2026 05:50:12",
+    "duration": "0:44",
+    "transcript": [
+      {
+        "speaker": "Buckeye Telemetry",
+        "offset": "0:00",
+        "text": "We can’t get a technician to Millbrook before ten."
+      },
+      {
+        "speaker": "Buckeye Telemetry",
+        "offset": "0:06",
+        "text": "If RTU-01’s modem and RP-1 dropped at the same moment, check the 24-volt supply in the Hilltop radio cabinet. They share it."
+      },
+      {
+        "speaker": "Buckeye Telemetry",
+        "offset": "0:19",
+        "text": "Do you have a spare on the shelf?"
+      },
+      {
+        "speaker": "SCADA / IT Security Manager",
+        "text": "",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Buckeye Telemetry": "Man in his 30s, helpful, call-center background"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "The cause is simple; the delay is the problem. Watch for someone sent with a spare and the Control Room told what to watch meanwhile.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+      "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.3 Pressure Zones",
+      "quote": "| Zone | HGL | Storage | Supply | Critical customers | |---|---|---|---|---| | **Zone 1** (Valley) | 940 ft | None (Clearwells at the plant) | High Service Pump Station | Millbrook General Hospital, C",
+      "chunkId": 165
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Buckeye Telemetry",
+        "voiceStyle": "Man in his 30s, helpful, call-center background",
+        "text": "We can’t get a technician to Millbrook before ten."
+      },
+      {
+        "speaker": "Buckeye Telemetry",
+        "voiceStyle": "Man in his 30s, helpful, call-center background",
+        "text": "If RTU-01’s modem and RP-1 dropped at the same moment, check the 24-volt supply in the Hilltop radio cabinet. They share it."
+      },
+      {
+        "speaker": "Buckeye Telemetry",
+        "voiceStyle": "Man in his 30s, helpful, call-center background",
+        "text": "Do you have a spare on the shelf?"
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:12:35.373Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Chlorine Residual Alarm — Clearwell 2",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "SCADA Call Recorder - Line 2",
+          "callId": "CR-20261024-055012-0023",
+          "direction": "Internal",
+          "caller": {
+            "name": "Distribution On-Call",
+            "number": "(555) 034-1199",
+            "label": "Distribution On-Call"
+          },
+          "callee": {
+            "name": "Director of Water Operations",
+            "number": "(555) 031-2244",
+            "label": "IC"
+          },
+          "startTime": "10/24/2026 05:50:12",
+          "duration": "0:42",
+          "transcript": [
+            {
+              "speaker": "Distribution On-Call",
+              "offset": "0:00",
+              "text": "Control, this is Distribution On-Call. I’ve just arrived at Millbrook General Hospital. The pressure gauge PIT-600 shows 18 psi — it was 24 psi at 05:00. The facility’s water safety officer says they’ve had no water for 15 minutes. I’ve confirmed the main break is not visible on the street, but the pressure has dropped sharply.",
+              "prompt": false
+            },
+            {
+              "speaker": "IC",
+              "offset": "0:32",
+              "text": "Understood. Confirm the break location with the field team. Begin manual isolation of the Hilltop Transmission Main. Initiate Zone 2 pressure alert per Section 9.2. Notify the PIO and WQ.",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-02"
+        },
+        "instructorNote": "This call triggers the public advisory decision process. Watch for the team to validate the pressure drop and initiate the Boil Water Advisory protocol.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.400Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone: Buckeye Telemetry — check the shared 24-volt supply",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "Recorded Line",
+          "callId": "CR-20260714-055012-004",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Support technician",
+            "number": "(555) 038-2290",
+            "label": "Buckeye Telemetry"
+          },
+          "callee": {
+            "name": "Priya Nandakumar",
+            "number": "(555) 034-1140",
+            "label": "SCADA / IT Security Manager"
+          },
+          "startTime": "07/14/2026 05:50:12",
+          "duration": "0:44",
+          "transcript": [
+            {
+              "speaker": "Buckeye Telemetry",
+              "offset": "0:00",
+              "text": "We can’t get a technician to Millbrook before ten."
+            },
+            {
+              "speaker": "Buckeye Telemetry",
+              "offset": "0:06",
+              "text": "If RTU-01’s modem and RP-1 dropped at the same moment, check the 24-volt supply in the Hilltop radio cabinet. They share it."
+            },
+            {
+              "speaker": "Buckeye Telemetry",
+              "offset": "0:19",
+              "text": "Do you have a spare on the shelf?"
+            },
+            {
+              "speaker": "SCADA / IT Security Manager",
+              "text": "",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Buckeye Telemetry": "Man in his 30s, helpful, call-center background"
+          }
+        },
+        "instructorNote": "The cause is simple; the delay is the problem. Watch for someone sent with a spare and the Control Room told what to watch meanwhile.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:46:23.313Z"
+}

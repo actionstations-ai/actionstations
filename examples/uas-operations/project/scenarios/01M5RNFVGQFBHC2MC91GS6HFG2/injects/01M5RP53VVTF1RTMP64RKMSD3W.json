@@ -1,0 +1,237 @@
+{
+  "id": "01M5RP53VVTF1RTMP64RKMSD3W",
+  "mselRowId": "I-11",
+  "type": "system_log",
+  "title": "Parameter comparison: factory defaults after the install",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "Parameter comparison",
+    "host": "Clean workstation (offline)",
+    "logSource": "UAS-02 readback vs baseline 03.2026-B",
+    "exportedBy": "Tomás Reyes",
+    "exportedAt": "09/15/2026 11:04 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "—",
+        "level": "WARN",
+        "msg": "LOST_LINK_ACTION: CONTINUE_MISSION (baseline RTL)",
+        "highlight": true
+      },
+      {
+        "ts": "—",
+        "level": "WARN",
+        "msg": "RTL_ALT: 0 (baseline 60 m)",
+        "highlight": true
+      },
+      {
+        "ts": "—",
+        "level": "WARN",
+        "msg": "ALT_FENCE: DISABLED (baseline 120 m)",
+        "highlight": true
+      },
+      {
+        "ts": "—",
+        "level": "WARN",
+        "msg": "BACKUP_LINK_FAILOVER: OFF (baseline ON)",
+        "highlight": true
+      },
+      {
+        "ts": "—",
+        "level": "INFO",
+        "msg": "OEM release notes 03.2026-C: \"some parameters may be reset after installation\"",
+        "highlight": false
+      },
+      {
+        "ts": "—",
+        "level": "INFO",
+        "msg": "No sign of access by an outside party in GCS-01 or HUOG-FW01 logs",
+        "highlight": false
+      }
+    ],
+    "classification": "INTERNAL - INCIDENT RECORD",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "The cause is an unapproved update, not an attack. Watch for the recommendation to read back every OEM aircraft.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+      "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+      "chunkId": 21
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.4 Flyaway or unplanned flight with a suspected cyber cause",
+      "quote": "Runs under the HUOG-ERP Incident Commander. The Systems & Cybersecurity Lead quarantines the GCS, the controller and any radio; retrieves telemetry, link logs, parameter files and the OEM app logs bef",
+      "chunkId": 130
+    },
+    {
+      "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+      "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+      "headingPath": "SITE",
+      "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this document are simulated. Public sources consulted for realism a",
+      "chunkId": 138
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:47:44.129Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Forensic Analysis: Firmware 2.4.11a Root Cause",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Forensic Analysis Console",
+          "host": "HUOG-ISP-2026",
+          "ip": "10.17.40.15",
+          "os": "Ubuntu 22.04 LTS",
+          "logSource": "/var/log/forensic/analysis-2026-10-25-1105.log",
+          "exportedBy": "SCL\\it.sec",
+          "exportedAt": "10/25/2026 11:05 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "11:04:32",
+              "level": "INFO",
+              "msg": "Loading firmware image: UAS-02-FW-2.4.11a (SHA-256: d4e9a1f7b2c8e6d1a3f4b5c6e7f8a9b0c1d2e3f4g5h6i7j8k9l0m)",
+              "highlight": false
+            },
+            {
+              "ts": "11:04:33",
+              "level": "WARN",
+              "msg": "Control authority transfer logic: disabled in profile 2.3.1 (parameter: 'failover_logic = OFF')",
+              "highlight": false
+            },
+            {
+              "ts": "11:04:34",
+              "level": "ERROR",
+              "msg": "Link loss detected at 08:55:12 (2.4 GHz); attempting re-establishment via unapproved protocol (RTP-07X) not in HUOG-FOM-1 Annex B",
+              "highlight": true
+            },
+            {
+              "ts": "11:04:35",
+              "level": "CRIT",
+              "msg": "UAS-02 entered stalled state: no failover to 461.0375 MHz; attempting to re-authenticate via rogue channel (915 MHz band, unencrypted)",
+              "highlight": true
+            },
+            {
+              "ts": "11:04:36",
+              "level": "ALERT",
+              "msg": "GPS-071 spoofing event detected at 08:58:14 — 4.3 ms signal jitter, position jump from 178 ft AGL to 420 ft AGL",
+              "highlight": true
+            },
+            {
+              "ts": "11:04:37",
+              "level": "INFO",
+              "msg": "Class C airspace boundary crossed at 08:58:18 (1.1 km WNW of Horton Field), 400 ft AGL",
+              "highlight": false
+            },
+            {
+              "ts": "11:04:38",
+              "level": "CRIT",
+              "msg": "Firmware 2.4.11a introduced a bug in control authority transfer: failed to trigger RTL or fallback to backup link; instead, initiated unapproved protocol (RTP-07X) causing climb into controlled airspace",
+              "highlight": true
+            },
+            {
+              "ts": "11:04:39",
+              "level": "INFO",
+              "msg": "OEM fleet portal shows no geofence unlock or firmware push from Group; update was not approved via HUOG-FOM-1 or HUOG-ISP-2026",
+              "highlight": false
+            },
+            {
+              "ts": "11:04:40",
+              "level": "INFO",
+              "msg": "Parameter change log: 'failover_logic = OFF' was not manually set; appears in 2.3.1 profile imported from HUOG-FOM-1 v1.3 (2026-09-01)",
+              "highlight": false
+            },
+            {
+              "ts": "11:04:41",
+              "level": "INFO",
+              "msg": "Root cause confirmed: firmware 2.4.11a contains unpatched bug in control authority transfer logic. The 2.3.1 profile (used in pre-flight) disables failover; update did not correct it.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Forensic Analysis Console (SCL-03)",
+          "command": "cat /var/log/forensic/analysis-2026-10-25-1105.log | grep -i 'critical' | sort -t ' ' -k 1",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the root cause of the flyaway. The team must now decide whether to resume operations under risk thresholds, knowing the firmware bug is not patched.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.715Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Parameter comparison: factory defaults after the install",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Parameter comparison",
+          "host": "Clean workstation (offline)",
+          "logSource": "UAS-02 readback vs baseline 03.2026-B",
+          "exportedBy": "Tomás Reyes",
+          "exportedAt": "09/15/2026 11:04 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "—",
+              "level": "WARN",
+              "msg": "LOST_LINK_ACTION: CONTINUE_MISSION (baseline RTL)",
+              "highlight": true
+            },
+            {
+              "ts": "—",
+              "level": "WARN",
+              "msg": "RTL_ALT: 0 (baseline 60 m)",
+              "highlight": true
+            },
+            {
+              "ts": "—",
+              "level": "WARN",
+              "msg": "ALT_FENCE: DISABLED (baseline 120 m)",
+              "highlight": true
+            },
+            {
+              "ts": "—",
+              "level": "WARN",
+              "msg": "BACKUP_LINK_FAILOVER: OFF (baseline ON)",
+              "highlight": true
+            },
+            {
+              "ts": "—",
+              "level": "INFO",
+              "msg": "OEM release notes 03.2026-C: \"some parameters may be reset after installation\"",
+              "highlight": false
+            },
+            {
+              "ts": "—",
+              "level": "INFO",
+              "msg": "No sign of access by an outside party in GCS-01 or HUOG-FW01 logs",
+              "highlight": false
+            }
+          ],
+          "classification": "INTERNAL - INCIDENT RECORD",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "The cause is an unapproved update, not an attack. Watch for the recommendation to read back every OEM aircraft.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:03:02.354Z"
+}

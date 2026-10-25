@@ -1,0 +1,115 @@
+{
+  "id": "01M5RP81DH9JKXQW6RYGWGN6W6",
+  "mselRowId": "I-16b",
+  "type": "helpdesk_ticket",
+  "title": "Ticket: LAANC password reset",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "HUOG IT helpdesk",
+    "orgName": "Harwick UAS Operations Group",
+    "ticketNo": "HUOG-IT-2026-0915-04",
+    "subject": "LAANC app password reset",
+    "description": "A crew member asks for a password reset on the LAANC application.",
+    "priority": "Low",
+    "status": "New",
+    "contactType": "Self-service",
+    "opened": "09/15/2026 12:14"
+  },
+  "variant": "default",
+  "instructorNote": "Noise.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 3 › 3.1 Networks",
+      "quote": "| Network | Range | Hosts | Egress | |---|---|---|---| | Flight Ops VLAN | 10.17.40.0/24 | GCS-01 to GCS-04, RTK-1/2, PAY-01, HUOG-CAL01 when docked | Through HUOG-FW01; Internet only to the OEM updat",
+      "chunkId": 101
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:49:15.699Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "DAA-1 Log File Recovery — Hangar 2",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "HUOG-IT-2026-00048",
+          "priority": "Low",
+          "impact": "Low",
+          "urgency": "Medium",
+          "status": "Resolved",
+          "requester": "Field Technician",
+          "requesterContact": "x141",
+          "contactType": "Monitoring",
+          "category": "Systems",
+          "subcategory": "Telemetry / Data Integrity",
+          "location": "Hangar 2, Field Ops Console",
+          "configurationItem": "DAA-1 (192.168.88.40)",
+          "opened": "2026-10-25 12:15:03",
+          "assignmentGroup": "Systems & Cybersecurity",
+          "assignee": "SCL-03",
+          "subject": "DAA-1 Telemetry Log Recovered — Corrupted File Restored",
+          "description": "The DAA-1 device at Hangar 2 (192.168.88.40) has been reconnected to the NAS. The previously zero-byte log file (DAA-1-20261015-0900.log) now shows a valid 1.2 MB file. The checksum now matches the manifest in \\HUOG-NAS01\\ops\\link-logs\\2026-10-15\\manifest.json. The file was corrupted during the firmware update window (08:55–09:00), but the system auto-recovered upon reconnection. No manual intervention was required. The log confirms the GPS-071 alert occurred at 08:58:14 and the aircraft climbed to 420 ft AGL in 6.3 seconds.",
+          "activity": [
+            {
+              "author": "SCL-03",
+              "time": "2026-10-25 12:15:17",
+              "kind": "work_note",
+              "text": "Verified the log file integrity against the manifest. File is valid and timestamps match the incident timeline. No evidence of tampering."
+            },
+            {
+              "author": "Field Technician",
+              "time": "2026-10-25 12:15:03",
+              "kind": "system",
+              "text": "Automated alert: DAA-1 device at 192.168.88.40 reconnected to NAS and resumed file sync."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Harwick UAS Operations Group"
+        },
+        "instructorNote": "Noise inject; the technical team should acknowledge the log recovery but not over-investigate, as it confirms prior findings.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.738Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Ticket: LAANC password reset",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "systemName": "HUOG IT helpdesk",
+          "orgName": "Harwick UAS Operations Group",
+          "ticketNo": "HUOG-IT-2026-0915-04",
+          "subject": "LAANC app password reset",
+          "description": "A crew member asks for a password reset on the LAANC application.",
+          "priority": "Low",
+          "status": "New",
+          "contactType": "Self-service",
+          "opened": "09/15/2026 12:14"
+        },
+        "instructorNote": "Noise.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:03:03.986Z"
+}

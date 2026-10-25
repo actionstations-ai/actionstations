@@ -1,0 +1,209 @@
+{
+  "id": "01M5RECRFCGFVJ2HFNRJX08D79",
+  "mselRowId": "I-10",
+  "type": "system_log",
+  "title": "System Log: scheduled task on MBW-SCADA-SRV02",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "Windows Event Log export",
+    "host": "MBW-SCADA-SRV02",
+    "ip": "10.72.10.11",
+    "os": "Windows Server 2019",
+    "logSource": "System and Task Scheduler logs",
+    "exportedBy": "MBWSCADA\\pnandakumar",
+    "exportedAt": "10/26/2026 11:03 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "09:47:12",
+        "level": "INFO",
+        "msg": "Logon type 3 from 10.73.4.15, account MILLBROOK\\svc-backup",
+        "highlight": true
+      },
+      {
+        "ts": "09:47:55",
+        "level": "INFO",
+        "msg": "Logon type 3 from 10.73.4.15, account MILLBROOK\\svc-backup",
+        "highlight": false
+      },
+      {
+        "ts": "09:48:20",
+        "level": "WARN",
+        "msg": "Service Control Manager 7045: service \"WinSyncSvc\" installed, start type auto, image C:\\ProgramData\\sync\\winsync.exe",
+        "highlight": true
+      },
+      {
+        "ts": "09:50:02",
+        "level": "WARN",
+        "msg": "Task Scheduler 106: task \"\\Microsoft\\Windows\\Sync\\Daily\" registered by MILLBROOK\\svc-backup; trigger daily 12:00; targets group MBWSCADA\\Plant Servers",
+        "highlight": true
+      },
+      {
+        "ts": "10:58:40",
+        "level": "INFO",
+        "msg": "No further logons from the business LAN since 09:48",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Administrator: Windows PowerShell",
+    "command": "Get-WinEvent -LogName System,Microsoft-Windows-TaskScheduler/Operational -MaxEvents 200 | Export-Csv srv02.csv",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "A payload is staged for noon. Good play: disconnect MBW-SCADA-SRV02 from the network without powering it off, check the other hosts for the task, and make the CISA report now.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 9",
+      "quote": "- Nightly: MBW-EWS-01 copies the HMI application, PLC programs and historian exports to **MBW-BKP-01** on the business LAN under **FW-R-17**. MBW-BKP-01 also holds the CIS, AMI, GIS and LIMS backups —",
+      "chunkId": 81
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.4 ScreenBridge Exception (DosaTech)",
+      "quote": "During the 11/2024 commissioning of the replacement chemical metering pumps and VFDs, DosaTech Metering Systems installed its **ScreenBridge** remote-support agent on **MBW-HMI-02** in the Chemical Bu",
+      "chunkId": 72
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+      "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
+      "chunkId": 29
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:32:02.343Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Unauthorized PLC-02 Logic Access Attempt",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MBW-BKP-01 Audit Log",
+          "host": "MBW-BKP-01",
+          "ip": "10.72.30.44",
+          "os": "Windows Server 2019",
+          "logSource": "Windows Security Audit (Event ID 4624)",
+          "exportedBy": "MBW\\sysadmin",
+          "exportedAt": "10/24/2026 11:05 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "09:08:12",
+              "level": "ALERT",
+              "msg": "Session from 10.72.20.12 (MBW-CIS-01) to 10.72.30.44 (MBW-JUMP-01) via FW-R-17. User: Kessler-Remote-01. Source: 10.72.20.15 (Jared Molina’s Kessler Controls laptop). Password: K3ssler#2025.",
+              "highlight": true
+            },
+            {
+              "ts": "09:08:12",
+              "level": "ERROR",
+              "msg": "Attempted write to PLC-02 program file (PLC-02-LOGIC-2025.bin). Copy not in backup.",
+              "highlight": true
+            },
+            {
+              "ts": "09:08:12",
+              "level": "INFO",
+              "msg": "Only current copy of the updated logic exists in PLC-02. No copy in MBW-BKP-01.",
+              "highlight": false
+            },
+            {
+              "ts": "09:09:15",
+              "level": "NOTICE",
+              "msg": "Session terminated by host auto-kill (09:09:15). No ticket in MBW-JUMP-01 audit log.",
+              "highlight": false
+            },
+            {
+              "ts": "09:09:15",
+              "level": "WARN",
+              "msg": "User Kessler-Remote-01 not listed in approved vendor access window (Section 6.2). No authorization for remote session.",
+              "highlight": false
+            },
+            {
+              "ts": "09:09:15",
+              "level": "CRIT",
+              "msg": "Unapproved session from Kessler Controls laptop (10.72.20.15) to jump host. Attempted modification of SCADA PLC program.",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\Logs\\Audit\\MBW-BKP-01\\2026-10-24\\audit.log -Tail 100",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the unauthorized remote session from a Kessler Controls laptop using a default password. The session attempted to write to the PLC-02 logic file, which is not backed up. IT must report this to the Incident Commander and FBI liaison immediately.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.292Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "System Log: scheduled task on MBW-SCADA-SRV02",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Windows Event Log export",
+          "host": "MBW-SCADA-SRV02",
+          "ip": "10.72.10.11",
+          "os": "Windows Server 2019",
+          "logSource": "System and Task Scheduler logs",
+          "exportedBy": "MBWSCADA\\pnandakumar",
+          "exportedAt": "10/26/2026 11:03 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "09:47:12",
+              "level": "INFO",
+              "msg": "Logon type 3 from 10.73.4.15, account MILLBROOK\\svc-backup",
+              "highlight": true
+            },
+            {
+              "ts": "09:47:55",
+              "level": "INFO",
+              "msg": "Logon type 3 from 10.73.4.15, account MILLBROOK\\svc-backup",
+              "highlight": false
+            },
+            {
+              "ts": "09:48:20",
+              "level": "WARN",
+              "msg": "Service Control Manager 7045: service \"WinSyncSvc\" installed, start type auto, image C:\\ProgramData\\sync\\winsync.exe",
+              "highlight": true
+            },
+            {
+              "ts": "09:50:02",
+              "level": "WARN",
+              "msg": "Task Scheduler 106: task \"\\Microsoft\\Windows\\Sync\\Daily\" registered by MILLBROOK\\svc-backup; trigger daily 12:00; targets group MBWSCADA\\Plant Servers",
+              "highlight": true
+            },
+            {
+              "ts": "10:58:40",
+              "level": "INFO",
+              "msg": "No further logons from the business LAN since 09:48",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-WinEvent -LogName System,Microsoft-Windows-TaskScheduler/Operational -MaxEvents 200 | Export-Csv srv02.csv",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "A payload is staged for noon. Good play: disconnect MBW-SCADA-SRV02 from the network without powering it off, check the other hosts for the task, and make the CISA report now.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:04.562Z"
+}

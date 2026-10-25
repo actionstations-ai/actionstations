@@ -1,0 +1,95 @@
+{
+  "id": "01M5RFE3K8F2YSD32K7FC7K1HT",
+  "mselRowId": "I-14",
+  "type": "time_jump_card",
+  "title": "Time Jump: 10:00",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "newTime": "10:00",
+    "narration": "It is now 10:00. An FBI agent has joined the detectives at Orchard Standpipe. Hilltop Tank reads 25.6 feet. The first coliform results are due Monday morning and the chemical screen not before Wednesday. Customer Service has logged 63 calls since 08:30.",
+    "worldState": [
+      "An FBI agent is at Orchard Standpipe with the detectives.",
+      "Hilltop Tank reads 25.6 ft.",
+      "Coliform results are due Monday morning; the chemical screen not before Wednesday.",
+      "Customer Service has logged 63 calls since 08:30."
+    ],
+    "facilitatorNote": "Ask for the advisory in effect, the isolation, the sampling plan and who has been told what."
+  },
+  "variant": "default",
+  "instructorNote": "Reset the clock.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 13",
+      "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+      "chunkId": 48
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+      "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
+      "chunkId": 29
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:50:11.755Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 10:00 — Recovery Phase Initiation",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "newTime": "10:00",
+          "jumpLabel": "+60 minutes",
+          "narration": "Facilitator → All: It is now 10:00. The FBI has confirmed site security, the Water Quality Manager has submitted the formal report, and the SCADA / IT Security Manager has discovered a critical gap in the PLC backup. The Control Room must now begin re-screening for manual operation, and the Incident Commander must decide whether to declare an all-clear. The shift cannot afford delays.",
+          "worldState": [
+            "The FBI has confirmed the site is secure and evidence is preserved under chain of custody.",
+            "The lab has submitted the formal report for MDWS-ERP-2026 Section 13; all findings are filed under ERP-3.",
+            "The SCADA / IT Security Manager has confirmed that the most recent PLC-02 program backup (from 03/2025) does not include the 08/2025 chemical-feed logic change. Re-commissioning requires on-site support from Kessler Controls.",
+            "The Control Room is now responsible for verifying system status per ERP Section 9.1.",
+            "The Incident Commander has full authority to initiate the return-to-service checklist under MDWS-ERP-2026 Section 13."
+          ],
+          "scenarioTitle": "Cut Lock, Drifting Residual — Orchard Standpipe Intrusion & Precautionary Advisory",
+          "injectId": "I-14"
+        },
+        "instructorNote": "This time jump triggers the recovery phase. The Incident Commander must now lead the return-to-service process, beginning with verification of control system integrity and coordination with Kessler Controls for PLC re-commissioning.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:43:40.080Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Time Jump: 10:00",
+        "type": "time_jump_card",
+        "fields": {
+          "newTime": "10:00",
+          "narration": "It is now 10:00. An FBI agent has joined the detectives at Orchard Standpipe. Hilltop Tank reads 25.6 feet. The first coliform results are due Monday morning and the chemical screen not before Wednesday. Customer Service has logged 63 calls since 08:30.",
+          "worldState": [
+            "An FBI agent is at Orchard Standpipe with the detectives.",
+            "Hilltop Tank reads 25.6 ft.",
+            "Coliform results are due Monday morning; the chemical screen not before Wednesday.",
+            "Customer Service has logged 63 calls since 08:30."
+          ],
+          "facilitatorNote": "Ask for the advisory in effect, the isolation, the sampling plan and who has been told what."
+        },
+        "instructorNote": "Reset the clock.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:43:46.764Z"
+}

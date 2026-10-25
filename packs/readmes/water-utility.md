@@ -7,7 +7,7 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 ## What is in the pack
 
 - **Domain profile `water_utility`:** plants, pump stations, tanks, pressure zones, filters, pumps, PLCs/RTUs and chemical feeds as fact categories. Systems: plant SCADA and historian, PLCs and booster-station HMIs, chemical feed, analyzers, VFDs, AMI and MDM, LIMS, CIS and the hydraulic model. Player roles: Water Operations, SCADA/IT, PIO, Water Quality, Security & Emergency Manager, Treatment Plant Superintendent, Distribution Superintendent and Customer Service.
-- **Example:** City Water (`city-water`).
+- **Example:** City Water (`city-water`), four tabletops: chemical-feed setpoint tampering, ransomware reaching toward the control network, tampering at a storage standpipe, and a transmission-main break during a telemetry outage.
 
 ## Plans and clocks the profile knows
 

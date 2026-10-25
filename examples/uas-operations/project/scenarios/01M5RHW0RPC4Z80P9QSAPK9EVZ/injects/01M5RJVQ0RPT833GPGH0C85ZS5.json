@@ -1,0 +1,241 @@
+{
+  "id": "01M5RJVQ0RPT833GPGH0C85ZS5",
+  "mselRowId": "I-02",
+  "type": "system_log",
+  "title": "System Log: HUOG-NAS01 — snapshots disabled, GCS-02 mounted the NAS",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "HUOG-NAS01 event log",
+    "host": "HUOG-NAS01",
+    "ip": "10.17.41.5",
+    "os": "NAS OS 7.2",
+    "logSource": "System and SMB events",
+    "exportedBy": "tomas.reyes",
+    "exportedAt": "10/05/2026 9:11 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "10/03 22:15:07",
+        "level": "WARN",
+        "msg": "Snapshot schedule \"nightly-14d\" disabled by svc-backup",
+        "highlight": true
+      },
+      {
+        "ts": "10/05 08:41:12",
+        "level": "CRIT",
+        "msg": "Mass rename *.lck0 started on share campaigns from 10.17.41.11 (HUOG-PROC01)",
+        "highlight": true
+      },
+      {
+        "ts": "10/05 08:43:50",
+        "level": "CRIT",
+        "msg": "Mass rename continuing on shares flightlogs, ops",
+        "highlight": false
+      },
+      {
+        "ts": "10/05 08:44:31",
+        "level": "WARN",
+        "msg": "SMB mount \\\\HUOG-NAS01\\flightlogs from 10.17.40.12 (GCS-02), user crew2",
+        "highlight": true
+      },
+      {
+        "ts": "10/05 08:52:09",
+        "level": "INFO",
+        "msg": "README-RECOVER.txt created in 1,846 folders",
+        "highlight": false
+      }
+    ],
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "Watch for svc-backup disabled, GCS-02 treated as infected, and the question “who else mounted the NAS?”",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.1 Storage",
+      "quote": "| Store | Contents | Protection | |---|---|---| | GCS and payload drives | Current campaign's raw data until copied | Encrypted; copied to the NAS the same day, wiped after verification | | HUOG-NAS01",
+      "chunkId": 114
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.2 Backups",
+      "quote": "- NAS → the offline backup drives OB-1 and OB-2 (rotated weekly; the one not in use is in the General Manager's office safe); and → the off-site backup service nightly. - DC-HPC project storage is bac",
+      "chunkId": 115
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 8 › 8.2 Vendors and remote access",
+      "quote": "The OEM has no remote access to the Group's systems; support is by exported logs. The mission-planning software vendor's license server is reached outbound only. The GCS vendor's remote-support tool w",
+      "chunkId": 123
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:50:05.907Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Unauthorized NAS Access — GCS-02 Scan Pattern",
+        "type": "system_log",
+        "fields": {
+          "systemName": "HUOG-NAS01",
+          "host": "HUOG-NAS01",
+          "ip": "10.17.41.5",
+          "os": "Linux Ubuntu 22.04 LTS",
+          "logSource": "/var/log/audit/audit.log",
+          "exportedBy": "SL\\huog-isp-2026",
+          "exportedAt": "10/24/2026 09:12 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:42:11",
+              "level": "INFO",
+              "msg": "Session established: GCS-02 (10.17.41.17) mounted \\HUOG-NAS01\\controlled\\calibration\\",
+              "highlight": false
+            },
+            {
+              "ts": "08:42:12",
+              "level": "WARN",
+              "msg": "Scan initiated: 147 read operations on \\HUOG-NAS01\\controlled\\calibration\\ in 1m 15s",
+              "highlight": true
+            },
+            {
+              "ts": "08:42:13",
+              "level": "INFO",
+              "msg": "Access pattern: 300ms bursts, 100ms intervals — automated sequence",
+              "highlight": true
+            },
+            {
+              "ts": "08:42:14",
+              "level": "INFO",
+              "msg": "Files accessed: PL-02 (calibration), PL-06 (calibration), CVAC-2026-03-15-metadata.json",
+              "highlight": true
+            },
+            {
+              "ts": "08:57:22",
+              "level": "INFO",
+              "msg": "Session terminated: 147 reads completed, no writes or deletes",
+              "highlight": false
+            },
+            {
+              "ts": "08:57:23",
+              "level": "NOTICE",
+              "msg": "No authentication record for GCS-02 in NAS audit trail for session",
+              "highlight": true
+            },
+            {
+              "ts": "08:57:24",
+              "level": "INFO",
+              "msg": "Last successful mount: 08:41:05",
+              "highlight": false
+            },
+            {
+              "ts": "08:57:25",
+              "level": "ALERT",
+              "msg": "No active mission or login in GCS-02 flight log during session",
+              "highlight": true
+            },
+            {
+              "ts": "08:57:26",
+              "level": "ERROR",
+              "msg": "NAS snapshot schedule interrupted at 08:45:00 — no new snapshots since 08:40:00",
+              "highlight": true
+            },
+            {
+              "ts": "08:57:27",
+              "level": "INFO",
+              "msg": "Session closed: GCS-02 disconnected from NAS",
+              "highlight": false
+            },
+            {
+              "ts": "08:57:28",
+              "level": "INFO",
+              "msg": "Mount point unmounted: \\HUOG-NAS01\\controlled\\calibration\\",
+              "highlight": false
+            },
+            {
+              "ts": "08:57:29",
+              "level": "NOTICE",
+              "msg": "No alert generated for unauthorized access to controlled calibration files",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Root: /var/log/audit",
+          "command": "grep -i 'GCS-02' /var/log/audit/audit.log | tail -n 15",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This log confirms unauthorized, automated access to controlled calibration data via GCS-02. The technical lead must trace the root cause and assess compromise impact.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.334Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "System Log: HUOG-NAS01 — snapshots disabled, GCS-02 mounted the NAS",
+        "type": "system_log",
+        "fields": {
+          "systemName": "HUOG-NAS01 event log",
+          "host": "HUOG-NAS01",
+          "ip": "10.17.41.5",
+          "os": "NAS OS 7.2",
+          "logSource": "System and SMB events",
+          "exportedBy": "tomas.reyes",
+          "exportedAt": "10/05/2026 9:11 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/03 22:15:07",
+              "level": "WARN",
+              "msg": "Snapshot schedule \"nightly-14d\" disabled by svc-backup",
+              "highlight": true
+            },
+            {
+              "ts": "10/05 08:41:12",
+              "level": "CRIT",
+              "msg": "Mass rename *.lck0 started on share campaigns from 10.17.41.11 (HUOG-PROC01)",
+              "highlight": true
+            },
+            {
+              "ts": "10/05 08:43:50",
+              "level": "CRIT",
+              "msg": "Mass rename continuing on shares flightlogs, ops",
+              "highlight": false
+            },
+            {
+              "ts": "10/05 08:44:31",
+              "level": "WARN",
+              "msg": "SMB mount \\\\HUOG-NAS01\\flightlogs from 10.17.40.12 (GCS-02), user crew2",
+              "highlight": true
+            },
+            {
+              "ts": "10/05 08:52:09",
+              "level": "INFO",
+              "msg": "README-RECOVER.txt created in 1,846 folders",
+              "highlight": false
+            }
+          ],
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "Watch for svc-backup disabled, GCS-02 treated as infected, and the question “who else mounted the NAS?”",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:29.524Z"
+}

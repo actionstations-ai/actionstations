@@ -1,0 +1,214 @@
+{
+  "id": "01M5RHBA932MSNCW0F6JZWN3K4",
+  "mselRowId": "I-18b",
+  "type": "system_log",
+  "title": "System Log: BP-401 trips on low suction",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "AquaSight alarm journal",
+    "host": "MBW-SCADA-SRV01",
+    "ip": "10.72.10.10",
+    "logSource": "RTU-04 Mill Road Booster Station",
+    "exportedBy": "Duty operator",
+    "exportedAt": "07/14/2026 08:34 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "08:30:50",
+        "level": "WARN",
+        "msg": "PIT-631 suction 29 psi — below lockout",
+        "highlight": true
+      },
+      {
+        "ts": "08:31:02",
+        "level": "ERROR",
+        "msg": "BP-401 TRIP — low suction lockout",
+        "highlight": true
+      },
+      {
+        "ts": "08:31:02",
+        "level": "INFO",
+        "msg": "BP-402 running",
+        "highlight": false
+      },
+      {
+        "ts": "08:33:00",
+        "level": "WARN",
+        "msg": "PIT-632 discharge 64 psi (was 78)",
+        "highlight": true
+      }
+    ],
+    "classification": "INTERNAL",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "Zone 1 and Zone 2 are now fighting each other. Watch for IC-1 or a plant pressure change, and the hospital kept informed.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+      "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.2 Remote Sites",
+      "quote": "| Site | Address | Assets and tags | Telemetry | |---|---|---|---| | **Hilltop Tank** | 2200 Summit Drive | Elevated tank 1.0 MG, overflow el. 1,012 ft; level LIT-601 (radar) and LIT-602 (pressure, ba",
+      "chunkId": 164
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:24:34.282Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "System Log: Mill Road Booster Station — Booster Pumps Running",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MBW-HMI-01",
+          "host": "MBW-HMI-01",
+          "ip": "10.72.20.10",
+          "os": "Windows Server 2022",
+          "logSource": "SCADA / HMI Application",
+          "exportedBy": "OPS_SHIFT_B",
+          "exportedAt": "10/24/2026 08:35 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/24/2026 08:35:02 AM",
+              "level": "INFO",
+              "msg": "RTU-04 (Mill Road Booster Station) — BP-401 and BP-402: Local start confirmed at 07:50. Both pumps now running.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 08:35:03 AM",
+              "level": "INFO",
+              "msg": "BP-401: STATUS = RUNNING, ALARM = NONE",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 08:35:04 AM",
+              "level": "INFO",
+              "msg": "BP-402: STATUS = RUNNING, ALARM = NONE",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 08:35:05 AM",
+              "level": "INFO",
+              "msg": "PIT-632 (discharge pressure): 45 psi — rising, stable",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 08:35:06 AM",
+              "level": "INFO",
+              "msg": "FIT-631 (IC-1 meter): 2.5 MGD inflow to Zone 2 — confirmed",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 08:35:07 AM",
+              "level": "INFO",
+              "msg": "RTU-04 telemetry status: ONLINE, NO ALARMS",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 08:35:08 AM",
+              "level": "INFO",
+              "msg": "All status lights on RTU-04 HMI: GREEN",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 08:35:09 AM",
+              "level": "NOTICE",
+              "msg": "Manual override lever on BP-401/402 now free — confirmed by Field Crew 4 (CR-20261024-075500-0024)",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 08:35:10 AM",
+              "level": "NOTICE",
+              "msg": "Two-person valve operation on IC-1 completed and verified at 07:50 (log ID: DWS-OPS)",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 08:35:11 AM",
+              "level": "INFO",
+              "msg": "HMI trend screen updated: Zone 2 pressure (PIT-632) trending upward from 14 psi to 45 psi",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 08:35:12 AM",
+              "level": "INFO",
+              "msg": "No anomalies detected in RTU-04 control loop or communication path",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Administrator: Windows PowerShell",
+          "command": "Get-Content C:\\SCADA\\Logs\\MBW-HMI-01-20261024.log -Tail 10",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This log confirms the manual operations at Mill Road Booster Station have taken effect. The IT team should validate that the HMI update matches the field report and that no unexpected control changes occurred. The Ops team must now verify pressure stability and authorize advisory issuance.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.579Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "System Log: BP-401 trips on low suction",
+        "type": "system_log",
+        "fields": {
+          "systemName": "AquaSight alarm journal",
+          "host": "MBW-SCADA-SRV01",
+          "ip": "10.72.10.10",
+          "logSource": "RTU-04 Mill Road Booster Station",
+          "exportedBy": "Duty operator",
+          "exportedAt": "07/14/2026 08:34 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:30:50",
+              "level": "WARN",
+              "msg": "PIT-631 suction 29 psi — below lockout",
+              "highlight": true
+            },
+            {
+              "ts": "08:31:02",
+              "level": "ERROR",
+              "msg": "BP-401 TRIP — low suction lockout",
+              "highlight": true
+            },
+            {
+              "ts": "08:31:02",
+              "level": "INFO",
+              "msg": "BP-402 running",
+              "highlight": false
+            },
+            {
+              "ts": "08:33:00",
+              "level": "WARN",
+              "msg": "PIT-632 discharge 64 psi (was 78)",
+              "highlight": true
+            }
+          ],
+          "classification": "INTERNAL",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "Zone 1 and Zone 2 are now fighting each other. Watch for IC-1 or a plant pressure change, and the hospital kept informed.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:45:43.517Z"
+}

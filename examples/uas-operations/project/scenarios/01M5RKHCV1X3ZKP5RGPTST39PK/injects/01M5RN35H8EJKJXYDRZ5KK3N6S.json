@@ -1,0 +1,185 @@
+{
+  "id": "01M5RN35H8EJKJXYDRZ5KK3N6S",
+  "mselRowId": "I-02",
+  "type": "phone_call",
+  "title": "Phone: flight operations desk — twelve of twelve in Hangar 1",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Harwick UAS Operations Group",
+    "systemName": "Recorded Line",
+    "callId": "HUOG-20260919-110904",
+    "direction": "Internal",
+    "caller": {
+      "name": "Flight operations desk",
+      "number": "585-555-0140",
+      "label": "Flight Operations Desk"
+    },
+    "callee": {
+      "name": "Devin Alcott",
+      "number": "585-555-0141",
+      "label": "Director of Flight Operations"
+    },
+    "startTime": "09/19/2026 11:09:04",
+    "duration": "0:40",
+    "transcript": [
+      {
+        "speaker": "Flight Operations Desk",
+        "offset": "0:00",
+        "text": "Devin, desk. 0800 count was twelve of twelve in Hangar 1, UAS-01 to UAS-12. Nothing on the schedule today, no keys signed out, and the hangar alarm hasn’t been unset since last night."
+      },
+      {
+        "speaker": "Flight Operations Desk",
+        "offset": "0:21",
+        "text": "None of our Remote ID serials on the register is anything like that one. Do you want to call police or shall I?"
+      },
+      {
+        "speaker": "Director of Flight Operations",
+        "text": "",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Flight Operations Desk": "Young man, careful, reading from the register"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "The negative is provable. Watch for the time of the count and the serial comparison going to police.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 8 › 8.5 No-uplink procedure",
+      "quote": "When FIELD-RTR-1 has no cellular uplink, the crew flies the pre-loaded plan without cloud services: no OEM fleet-portal check-in, no map tiles beyond the cache, no live weather. The GSO phones the fli",
+      "chunkId": 78
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 10 › 10.2 Records",
+      "quote": "| Record | Where | Retention | |---|---|---| | Flight logs (telemetry, GCS logs) | GCS → `\\\\HUOG-NAS01\\flightlogs\\<year>\\<tail>\\` | 5 years | | FOM-2 flight plans and FOM-1 campaign plans | `\\\\HUOG-NA",
+      "chunkId": 86
+    },
+    {
+      "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+      "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+      "headingPath": "SITE",
+      "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this document are simulated. Public sources consulted for realism a",
+      "chunkId": 138
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Flight Operations Desk",
+        "voiceStyle": "Young man, careful, reading from the register",
+        "text": "Devin, desk. 0800 count was twelve of twelve in Hangar 1, UAS-01 to UAS-12. Nothing on the schedule today, no keys signed out, and the hangar alarm hasn’t been unset since last night."
+      },
+      {
+        "speaker": "Flight Operations Desk",
+        "voiceStyle": "Young man, careful, reading from the register",
+        "text": "None of our Remote ID serials on the register is anything like that one. Do you want to call police or shall I?"
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:29:03.335Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Phone Call: Fleet Status Confirmation — Hangar 1",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "systemName": "AOC Console 3 (Call Recorder)",
+          "callId": "CR-20261025-110702-0034",
+          "direction": "Internal",
+          "caller": {
+            "name": "Site Operations Lead",
+            "number": "(585) 555-0141",
+            "label": "SOL"
+          },
+          "callee": {
+            "name": "Director of Flight Operations",
+            "number": "(585) 555-0140",
+            "label": "DCO"
+          },
+          "startTime": "10/25/2026 11:07:02",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "SOL",
+              "offset": "0:00",
+              "text": "Ops, this is the Site Operations Lead. Confirming all twelve Group aircraft are grounded in Hangar 1 per the daily schedule (FOM-102) and fleet register (FOM-101). No flights were launched today. UAS-12 (RID-BM-12-004) is confirmed as ground-locked at Hangar 1. All pre-flight checklists are complete and stored on HUOG-NAS01. No anomalies in the parameter log.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-02"
+        },
+        "instructorNote": "This call confirms fleet status and grounds the aircraft. The IC must verify the fleet register and daily schedule are synchronized. Watch for over-reliance on verbal confirmation without cross-checking the NAS.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T04:59:53.361Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone: flight operations desk — twelve of twelve in Hangar 1",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "systemName": "Recorded Line",
+          "callId": "HUOG-20260919-110904",
+          "direction": "Internal",
+          "caller": {
+            "name": "Flight operations desk",
+            "number": "585-555-0140",
+            "label": "Flight Operations Desk"
+          },
+          "callee": {
+            "name": "Devin Alcott",
+            "number": "585-555-0141",
+            "label": "Director of Flight Operations"
+          },
+          "startTime": "09/19/2026 11:09:04",
+          "duration": "0:40",
+          "transcript": [
+            {
+              "speaker": "Flight Operations Desk",
+              "offset": "0:00",
+              "text": "Devin, desk. 0800 count was twelve of twelve in Hangar 1, UAS-01 to UAS-12. Nothing on the schedule today, no keys signed out, and the hangar alarm hasn’t been unset since last night."
+            },
+            {
+              "speaker": "Flight Operations Desk",
+              "offset": "0:21",
+              "text": "None of our Remote ID serials on the register is anything like that one. Do you want to call police or shall I?"
+            },
+            {
+              "speaker": "Director of Flight Operations",
+              "text": "",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Flight Operations Desk": "Young man, careful, reading from the register"
+          }
+        },
+        "instructorNote": "The negative is provable. Watch for the time of the count and the serial comparison going to police.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:44.127Z"
+}

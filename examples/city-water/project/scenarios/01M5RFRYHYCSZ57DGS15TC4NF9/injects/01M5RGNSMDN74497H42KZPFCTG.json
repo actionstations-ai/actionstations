@@ -1,0 +1,208 @@
+{
+  "id": "01M5RGNSMDN74497H42KZPFCTG",
+  "mselRowId": "I-01b",
+  "type": "field_report",
+  "title": "Field Report: cracked sight glass at Eastfield",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "City of Millbrook Department of Water & Sewer — Distribution",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0714-01",
+    "date": "07/14/2026",
+    "time": "05:40",
+    "location": "Eastfield Pump Station",
+    "inspector": "Meter technician",
+    "unit": "Distribution 4",
+    "reportType": "routine",
+    "summary": "Sight glass on the local discharge gauge is cracked. Transmitter PIT-641 and the HMI value agree. Tagged for replacement.",
+    "findings": [
+      {
+        "item": "Local discharge gauge sight glass",
+        "condition": "deficient",
+        "notes": "Cracked"
+      },
+      {
+        "item": "PIT-641 transmitter",
+        "condition": "ok",
+        "notes": "Matches HMI"
+      }
+    ],
+    "actionsTaken": [
+      "Tagged the gauge"
+    ],
+    "recommendations": [
+      "Replace the sight glass this week"
+    ],
+    "signature": "Meter technician",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "Noise.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Remote Sites in Manual",
+      "quote": "Hilltop Tank level is read from the sight gauge, Northgate Reservoir from the float board, Orchard Standpipe from the level gauge at the base; distribution crews phone readings to the Control Room **e",
+      "chunkId": 78
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 6. Quick Reference",
+      "quote": "Plant: Riverside Water Treatment Plant (RWTP), 1400 River Road · Zones 1, 2, 3 · Tanks: Hilltop Tank, Orchard Standpipe, Northgate Reservoir, Clearwell 1, Clearwell 2 · Pump stations: High Service Pum",
+      "chunkId": 168
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+      "quote": "| Failure | What Still Works | What Is Lost | Required Action | |---|---|---|---| | MBW-SCADA-SRV01 and SRV02 down | PLCs hold last setpoints; local HOA; PSH-302 | All remote control; HMI displays; Al",
+      "chunkId": 79
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:11:55.232Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Field Report: Eastfield Pump Station Pressure Anomaly",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — Field Operations",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1187",
+          "date": "10/24/2026",
+          "time": "05:40",
+          "location": "Eastfield Pump Station, Zone 2, Level 73",
+          "inspector": "J. Martinez, Meter Technician",
+          "unit": "Field Crew 4 · Vehicle 7",
+          "reportType": "incident",
+          "weather": "Clear, 89°F, light breeze",
+          "summary": "At 05:40, I arrived at Eastfield Pump Station to verify the HMI status reported by Control Room. The on-site HMI shows all values flat-lining. The main discharge pump (BP-302) is running, but pressure at PIT-641 has not changed in 10 minutes. The local pressure gauge sight glass is cracked, so I cannot confirm the actual reading. I am unable to access the field panel due to the lockout being engaged. I am calling from my personal cell as the radio is not responding.",
+          "findings": [
+            {
+              "item": "Pump BP-302 running status",
+              "condition": "ok",
+              "notes": "Running light active, no vibration or noise"
+            },
+            {
+              "item": "PIT-641 discharge pressure",
+              "condition": "not_inspected",
+              "notes": "Sight glass cracked; cannot read value"
+            },
+            {
+              "item": "HMI display at Eastfield site",
+              "condition": "failed",
+              "notes": "All values frozen; no update since 05:30"
+            },
+            {
+              "item": "Local pressure gauge",
+              "condition": "deficient",
+              "notes": "Sight glass cracked; fluid level obscured"
+            },
+            {
+              "item": "Field control panel access",
+              "condition": "failed",
+              "notes": "Lockout engaged; cannot open"
+            },
+            {
+              "item": "Valve status (V-701, V-702)",
+              "condition": "not_inspected",
+              "notes": "No access to field station"
+            },
+            {
+              "item": "SCADA telemetry status",
+              "condition": "failed",
+              "notes": "RTU-07 shows 'STALE' on HMI; no new data since 05:30"
+            },
+            {
+              "item": "Emergency manual override",
+              "condition": "not_inspected",
+              "notes": "Not attempted due to lockout"
+            },
+            {
+              "item": "Site perimeter and access",
+              "condition": "ok",
+              "notes": "No signs of intrusion; gate locked"
+            },
+            {
+              "item": "Backup power status",
+              "condition": "ok",
+              "notes": "UPS active; no power loss detected"
+            }
+          ],
+          "actionsTaken": [
+            "Notified Control Room via personal cell at 05:40",
+            "Attempted to access field panel; lockout engaged",
+            "Photographed cracked sight glass and HMI screen (no image attached)"
+          ],
+          "recommendations": [
+            "Assign a technician to manually verify PIT-641 pressure using portable gauge",
+            "Inspect and repair cracked sight glass at Eastfield Pump Station",
+            "Verify lockout status and access procedures for field control panels",
+            "Update HMI status log for Zone 2 sites"
+          ],
+          "photosNote": "1 photo attached: IMG_EFS-01 (cracked sight glass on PIT-641, HMI flat-lining)",
+          "signature": "J. Martinez, Meter Technician",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it down without engaging. The cracked gauge is a red herring; the real issue is the stale telemetry and loss of pressure feedback.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:45:35.389Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field Report: cracked sight glass at Eastfield",
+        "type": "field_report",
+        "fields": {
+          "organization": "City of Millbrook Department of Water & Sewer — Distribution",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0714-01",
+          "date": "07/14/2026",
+          "time": "05:40",
+          "location": "Eastfield Pump Station",
+          "inspector": "Meter technician",
+          "unit": "Distribution 4",
+          "reportType": "routine",
+          "summary": "Sight glass on the local discharge gauge is cracked. Transmitter PIT-641 and the HMI value agree. Tagged for replacement.",
+          "findings": [
+            {
+              "item": "Local discharge gauge sight glass",
+              "condition": "deficient",
+              "notes": "Cracked"
+            },
+            {
+              "item": "PIT-641 transmitter",
+              "condition": "ok",
+              "notes": "Matches HMI"
+            }
+          ],
+          "actionsTaken": [
+            "Tagged the gauge"
+          ],
+          "recommendations": [
+            "Replace the sight glass this week"
+          ],
+          "signature": "Meter technician",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:45:36.707Z"
+}

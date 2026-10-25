@@ -1,0 +1,140 @@
+{
+  "id": "01M5RFD10YTRWA1PEPBTWN1F2Y",
+  "mselRowId": "I-12",
+  "type": "email_forward",
+  "title": "Email: critical customers in the standpipe service area",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Renee Dupree",
+    "fromEmail": "rdupree@millbrook-oh.example",
+    "senderInitials": "RD",
+    "to": "Hannah Weiss; Denise Albrecht",
+    "subject": "Annex B customers in the Orchard Standpipe area",
+    "sentAt": "Sun 10/25/2026 9:25 AM",
+    "note": "Hannah, Denise — the critical customers in the streets the standpipe feeds are below. We have not called anyone yet; waiting for the advisory type. — Renee",
+    "signature": "Renee Dupree\nCustomer Service Supervisor",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Renee Dupree",
+    "original": {
+      "cc": "",
+      "fromName": "Customer Service",
+      "fromEmail": "customerservice@millbrook-oh.example",
+      "to": "rdupree@millbrook-oh.example",
+      "subject": "Annex B lookup — Orchard Standpipe service area",
+      "body": "Summit Care nursing home — 120 residents; kitchen open Sunday\nMillbrook High School — closed on Sundays; classes start at 07:30 on school days\nHome-dialysis patients on the medical-needs list — 2\n\nNot in the area: Millbrook General Hospital and the Carver Kidney Center (Zone 1).",
+      "sentAt": "Sun 10/25/2026 9:21 AM"
+    }
+  },
+  "variant": "print",
+  "instructorNote": "Critical customers before the public (ERP 9.5). Watch for the calls and for bottled water if the advisory is Do Not Drink.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 2",
+      "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+      "chunkId": 59
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 3",
+      "quote": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+      "quote": "- Do not confirm or deny that an intrusion occurred until the SCADA / IT Security Manager and the City IT Director agree on the facts and the FBI/CISA liaison (when engaged) has been consulted on what",
+      "chunkId": 117
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:49:40.840Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "FBI Notification: Orchard Standpipe Incident",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Priya Nandakumar",
+          "fromEmail": "priya.nandakumar@millbrook-oh.example",
+          "senderInitials": "PN",
+          "to": "Denise Albrecht, Director of Water Operations; Luis Ferreira, Security & Emergency Manager; Hannah Weiss, City Communications Director",
+          "subject": "FW: FBI Notification — Orchard Standpipe Incident",
+          "sentAt": "Sat 10/24/2026 09:25 AM",
+          "note": "The FBI has been formally notified via secure line (555-034-1101) and has confirmed they are treating this as a potential malevolent act. They have instructed that no systems be reset or accessed until their forensic team arrives. They are sending a cyber-forensics unit to MBW-SCADA-SRV01 and MBW-FW-01 for evidence collection. They have asked for a full export of the historian trends, HMI audit logs, and PACS session recordings. All access to these systems must be blocked until further notice.",
+          "signature": "Priya Nandakumar\nSCADA / IT Security Manager",
+          "importance": "high",
+          "external": false,
+          "attachments": [
+            {
+              "name": "FBI-ORD-2025-0720-001.pdf",
+              "size": "1.2 MB",
+              "kind": "pdf"
+            }
+          ],
+          "printedBy": "SCADA / IT Security Manager",
+          "original": {
+            "fromName": "FBI Cyber-Physical Division",
+            "fromEmail": "cyber-physical@fbi.gov",
+            "sentAt": "Sat 10/24/2026 09:18 AM",
+            "to": "Priya Nandakumar, SCADA / IT Security Manager",
+            "cc": "CISA, WaterISAC",
+            "subject": "Formal Notification — Orchard Standpipe Incident",
+            "body": "This is an official notification from the FBI Cyber-Physical Division. The incident at the Orchard Standpipe site is under active investigation as a potential malevolent act. The FBI has assigned case number FBI-ORD-2025-0720-001. We have confirmed the chain of custody and have begun forensic acquisition of MBW-SCADA-SRV01 and MBW-FW-01. All system access must be suspended. We require the following exports:\n\n- Full historian trend data (02:00–05:00) for RTU-02, PLC-02, and HMI-01\n- HMI audit logs from MBW-HMI-01 (02:00–05:00)\n- PACS session recordings from MBW-NVR-01 (02:00–05:00)\n- RTU-02 event log (02:00–05:00), including ZS-612 and ZS-611\n\nAll exports must be delivered via encrypted USB drive to FBI Field Agent Elena Torres (555-037-9000) at the Orchard Standpipe site. Do not use email, cloud, or network transfer. All access to the control system and network must be blocked until further notice. This case is designated as a federal-level incident under CISA’s Critical Infrastructure Protection Protocol."
+          }
+        },
+        "instructorNote": "This inject confirms the FBI's formal involvement and enforces the chain-of-custody rules. Watch for any attempt to access MBW-HMI-01 or MBW-FW-01 after this point.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:43:40.066Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email: critical customers in the standpipe service area",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Renee Dupree",
+          "fromEmail": "rdupree@millbrook-oh.example",
+          "senderInitials": "RD",
+          "to": "Hannah Weiss; Denise Albrecht",
+          "subject": "Annex B customers in the Orchard Standpipe area",
+          "sentAt": "Sun 10/25/2026 9:25 AM",
+          "note": "Hannah, Denise — the critical customers in the streets the standpipe feeds are below. We have not called anyone yet; waiting for the advisory type. — Renee",
+          "signature": "Renee Dupree\nCustomer Service Supervisor",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Renee Dupree",
+          "original": {
+            "cc": "",
+            "fromName": "Customer Service",
+            "fromEmail": "customerservice@millbrook-oh.example",
+            "to": "rdupree@millbrook-oh.example",
+            "subject": "Annex B lookup — Orchard Standpipe service area",
+            "body": "Summit Care nursing home — 120 residents; kitchen open Sunday\nMillbrook High School — closed on Sundays; classes start at 07:30 on school days\nHome-dialysis patients on the medical-needs list — 2\n\nNot in the area: Millbrook General Hospital and the Carver Kidney Center (Zone 1).",
+            "sentAt": "Sun 10/25/2026 9:21 AM"
+          }
+        },
+        "instructorNote": "Critical customers before the public (ERP 9.5). Watch for the calls and for bottled water if the advisory is Do Not Drink.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:43:46.028Z"
+}

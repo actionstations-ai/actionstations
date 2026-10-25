@@ -1,0 +1,133 @@
+{
+  "id": "01M5RK3GH4TBX78JW44TE8H5ZN",
+  "mselRowId": "I-12b",
+  "type": "email_forward",
+  "title": "Email: Data Center Operations — Saturday maintenance",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Tomás Reyes",
+    "fromEmail": "treyes@huog.example",
+    "senderInitials": "TR",
+    "to": "Tomás Reyes",
+    "subject": "FW: DC-HPC maintenance Saturday",
+    "sentAt": "Mon 10/05/2026 11:35 AM",
+    "note": "For the recovery plan.",
+    "signature": "Tomás Reyes",
+    "importance": "normal",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Tomás Reyes",
+    "original": {
+      "cc": "",
+      "fromName": "Lin Zhou",
+      "fromEmail": "lzhou@dcops.example",
+      "to": "treyes@huog.example",
+      "subject": "DC-HPC maintenance window",
+      "body": "Reminder: DC-HPC routine maintenance this Saturday, 06:00–12:00. Project storage will be read-only during the window.",
+      "sentAt": "Mon 10/05/2026 11:30 AM"
+    }
+  },
+  "variant": "print",
+  "instructorNote": "Noise.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.2 Backups",
+      "quote": "- NAS → the offline backup drives OB-1 and OB-2 (rotated weekly; the one not in use is in the General Manager's office safe); and → the off-site backup service nightly. - DC-HPC project storage is bac",
+      "chunkId": 115
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:54:22.957Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Final Environment Cleanse Confirmed — NAS & GCS-02",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "MSSP Incident Response",
+          "fromEmail": "soc@huog.example",
+          "senderInitials": "M",
+          "to": "it@huog.example",
+          "subject": "FW: HUOG-NAS01 and HUOG-PROC01 - Final Environment Cleanse Confirmation",
+          "sentAt": "Sat 10/24/2026 11:35 AM",
+          "note": "The threat actor’s persistence mechanism has been fully contained. All access points to the Data VLAN have been blocked at HUOG-FW01. The offline backup drive OB-1 (10.17.60.17) has been verified as unmounted and not infected. The off-site backup service's last good snapshot is from 2026-04-10 22:15 (before the snapshot schedule was disabled). The environment is clean. You may proceed with recovery under HUOG-ISP Section 9.3.\n\nAction: Confirm that OB-1 is not connected until the Systems & Cybersecurity Lead verifies the drive’s integrity and the recovery plan is approved by the General Manager.",
+          "signature": "Managed Security Provider\nSecureWatch MSSP",
+          "importance": "high",
+          "external": false,
+          "attachments": [
+            {
+              "name": "SOC-2026-0420-001",
+              "size": "2.1 MB",
+              "kind": "file"
+            }
+          ],
+          "printedBy": "IT Helpdesk",
+          "original": {
+            "fromName": "MSSP Incident Response",
+            "fromEmail": "soc@huog.example",
+            "sentAt": "Sat 10/24/2026 11:35 AM",
+            "to": "it@huog.example",
+            "cc": "",
+            "subject": "HUOG-NAS01 and HUOG-PROC01 - Final Environment Cleanse Confirmation",
+            "body": "The threat actor's persistence mechanism has been fully contained. All access points to the Data VLAN have been blocked at HUOG-FW01. The offline backup drive OB-1 (10.17.60.17) has been verified as unmounted and not infected. The off-site backup service's last good snapshot is from 2026-04-10 22:15 (before the snapshot schedule was disabled). The environment is clean. You may proceed with recovery under HUOG-ISP Section 9.3.\n\nAction: Confirm that OB-1 is not connected until the Systems & Cybersecurity Lead verifies the drive’s integrity and the recovery plan is approved by the General Manager.\n\nAttachment: SOC-2026-0420-001 (cleanse report)"
+          }
+        },
+        "instructorNote": "This inject confirms the environment is clean and recovery may begin. The IT lead must now verify OB-1's integrity and initiate recovery in the correct order. Watch for premature connection of OB-1 or bypass of GM approval.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.407Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email: Data Center Operations — Saturday maintenance",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Tomás Reyes",
+          "fromEmail": "treyes@huog.example",
+          "senderInitials": "TR",
+          "to": "Tomás Reyes",
+          "subject": "FW: DC-HPC maintenance Saturday",
+          "sentAt": "Mon 10/05/2026 11:35 AM",
+          "note": "For the recovery plan.",
+          "signature": "Tomás Reyes",
+          "importance": "normal",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Tomás Reyes",
+          "original": {
+            "cc": "",
+            "fromName": "Lin Zhou",
+            "fromEmail": "lzhou@dcops.example",
+            "to": "treyes@huog.example",
+            "subject": "DC-HPC maintenance window",
+            "body": "Reminder: DC-HPC routine maintenance this Saturday, 06:00–12:00. Project storage will be read-only during the window.",
+            "sentAt": "Mon 10/05/2026 11:30 AM"
+          }
+        },
+        "instructorNote": "Noise.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:33.237Z"
+}

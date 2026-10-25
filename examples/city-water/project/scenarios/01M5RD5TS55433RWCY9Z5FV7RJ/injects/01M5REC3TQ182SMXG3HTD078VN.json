@@ -1,0 +1,117 @@
+{
+  "id": "01M5REC3TQ182SMXG3HTD078VN",
+  "mselRowId": "I-08b",
+  "type": "scenario_update",
+  "title": "Situation Update: what manual operations will cost",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "1:30",
+    "scenarioTime": "10:30",
+    "headline": "Manual operations: two operators per shift, sight gauges, no meter reads",
+    "deliverTo": "Incident Commander, Water Quality Manager, Customer Service Lead",
+    "narration": "Ray Castellano sets out what islanding and manual operations will cost. Two operators per shift for as long as the control network stays islanded means call-ins from all three crews tonight and OHWARN if it runs past Wednesday. Grab samples go to every two hours on ERP-3; Hilltop Tank and Northgate Reservoir are read by sight gauge and float board; meter reads stop with MBW-AMI-01.",
+    "keyFacts": [
+      "The plant can run in manual for 72 hours with two operators per shift (ERP Section 8)",
+      "OHWARN can supply certified operators within 12 hours",
+      "AMI meters store 45 days of interval data",
+      "Grab samples every 2 hours on ERP-3"
+    ],
+    "expectedAction": "The IC decides staffing (call-ins and an OHWARN standby request) and records it on ERP-1; the Water Quality Manager sets the ERP-3 schedule; Customer Service confirms billing can wait and that no disconnections run while billing is down.",
+    "facilitatorNote": "Play Ray as reluctant but practical. If the players have not islanded yet, he asks why they would put him through this for a City Hall problem.",
+    "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+    "injectId": "I-08b"
+  },
+  "variant": "default",
+  "instructorNote": "Friction: the cost of the safe choice. Watch for a concrete staffing plan rather than “we’ll manage”.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+      "quote": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+      "chunkId": 70
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+      "quote": "| Failure | What Still Works | What Is Lost | Required Action | |---|---|---|---| | MBW-SCADA-SRV01 and SRV02 down | PLCs hold last setpoints; local HOA; PSH-302 | All remote control; HMI displays; Al",
+      "chunkId": 79
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 9 › 9.1 Authority",
+      "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+      "chunkId": 37
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:31:38.142Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Manual Mode Initiation — PLC-02 Chemical Feed Override",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "1:30",
+          "scenarioTime": "10:30 AM",
+          "headline": "Manual Mode Activated — Chemical Feed Override",
+          "deliverTo": "All players",
+          "narration": "The Plant Superintendent, Ray, stands at the control room console. 'Control, I’ve confirmed the override on PLC-02 — the hypochlorite feed pump is still running at 100% stroke and 100% speed. No setpoint is active. The session from Kessler-Remote-01 on MBW-EWS-01 has not been terminated. The SCADA / IT Security Manager confirms the jump host was compromised via an unpatched vulnerability. I’m initiating manual mode per Section 7.4. The operator will now take the feed pumps offline and begin manual chemical feed checks using the dose tables from MDWS-SCADA-APP-A, Section 8.4. The lab is down, but we’ll rely on historical data and operator judgment to maintain disinfection. The Water Quality Manager must be notified immediately.",
+          "keyFacts": [
+            "PLC-02 hypochlorite feed pump remains at 100% stroke and 100% speed",
+            "Override was not initiated by a local operator",
+            "Jump host (MBW-JUMP-01) compromised via unpatched vulnerability",
+            "Manual mode initiated per Section 7.4",
+            "Water Quality Manager must be notified for manual sampling"
+          ],
+          "expectedAction": "Ops must authorize the manual operation of the plant per SOP 7.4; confirm that the Water Quality Manager is notified and that sampling will begin immediately using manual logs.",
+          "facilitatorNote": "Read with urgency. Emphasize that manual mode has been activated and that the lab is offline — this is a critical operational shift.",
+          "scenarioTitle": "Ransomware Riptide — SCADA Isolation & Public Trust",
+          "injectId": "I-08b"
+        },
+        "instructorNote": "This inject confirms the transition to manual operations. The technical team must now validate that all manual procedures are initiated and that the Water Quality Manager is actively engaged in verification. Watch for any delay in authorizing manual mode or failing to assign a sampling lead.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.279Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Situation Update: what manual operations will cost",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "1:30",
+          "scenarioTime": "10:30",
+          "headline": "Manual operations: two operators per shift, sight gauges, no meter reads",
+          "deliverTo": "Incident Commander, Water Quality Manager, Customer Service Lead",
+          "narration": "Ray Castellano sets out what islanding and manual operations will cost. Two operators per shift for as long as the control network stays islanded means call-ins from all three crews tonight and OHWARN if it runs past Wednesday. Grab samples go to every two hours on ERP-3; Hilltop Tank and Northgate Reservoir are read by sight gauge and float board; meter reads stop with MBW-AMI-01.",
+          "keyFacts": [
+            "The plant can run in manual for 72 hours with two operators per shift (ERP Section 8)",
+            "OHWARN can supply certified operators within 12 hours",
+            "AMI meters store 45 days of interval data",
+            "Grab samples every 2 hours on ERP-3"
+          ],
+          "expectedAction": "The IC decides staffing (call-ins and an OHWARN standby request) and records it on ERP-1; the Water Quality Manager sets the ERP-3 schedule; Customer Service confirms billing can wait and that no disconnections run while billing is down.",
+          "facilitatorNote": "Play Ray as reluctant but practical. If the players have not islanded yet, he asks why they would put him through this for a City Hall problem.",
+          "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+          "injectId": "I-08b"
+        },
+        "instructorNote": "Friction: the cost of the safe choice. Watch for a concrete staffing plan rather than “we’ll manage”.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:03.830Z"
+}

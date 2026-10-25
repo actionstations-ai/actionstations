@@ -1,0 +1,195 @@
+{
+  "id": "01M5RN9DM6S6KGX4063XZKT80R",
+  "mselRowId": "I-14c",
+  "type": "field_report",
+  "title": "Field Report: keys locked in a car",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Harwick UAS Operations Group — Fleet & Logistics",
+    "formTitle": "Site Report",
+    "date": "09/19/2026",
+    "reportNo": "SR-2026-0919-02",
+    "time": "13:18",
+    "location": "Visitor lot, Hangar 2",
+    "inspector": "Fleet & Logistics",
+    "unit": "Hangar 2",
+    "reportType": "routine",
+    "summary": "A festival visitor locked her keys in her car in the Group’s visitor lot.",
+    "findings": [
+      {
+        "item": "Request",
+        "condition": "ok",
+        "notes": "Referred to the fair’s roadside-assistance tent"
+      }
+    ],
+    "actionsTaken": [
+      "Referred"
+    ],
+    "recommendations": [
+      "None"
+    ],
+    "signature": "Fleet & Logistics"
+  },
+  "variant": "default",
+  "instructorNote": "Noise.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 5 › 5.4 Risk assessment",
+      "quote": "The Campaign Plan includes a hazard list using the Group's risk matrix (likelihood 1–5 × severity 1–5). Any hazard scored 12 or higher needs a mitigation approved by the ASO. Standing hazards: people ",
+      "chunkId": 61
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 7 › 7.5 Creek Test Area (Birch Hollow Range)",
+      "quote": "- Launch point TP-CTA-LP1 at the creek meadow gate; the SSL staffs the gate because Millstone County Park trail users can walk in. - No flight across the park boundary (the geofence stops 20 m short).",
+      "chunkId": 71
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+      "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+      "chunkId": 21
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:32:35.395Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Drone Sighting — Creek Test Area Perimeter",
+        "type": "field_report",
+        "fields": {
+          "organization": "Harwick UAS Operations Group — Security & Safety",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1025-131802",
+          "date": "10/25/2026",
+          "time": "13:18",
+          "location": "Creek Test Area, edge of woods near TP-CTA-LP1 (creek meadow gate)",
+          "inspector": "Local Resident, Birch Hollow Range",
+          "reportType": "security",
+          "weather": "Partly cloudy, 68°F, wind ESE 8 mph",
+          "summary": "A drone with a red light on top was observed flying low over the residential backyard at 12:30 near the Creek Test Area perimeter. The aircraft made a circular pattern, altitude estimated at 200 ft AGL. A pilot was heard on a walkie-talkie near the woods, saying, 'We’re clear, go again.' No person was seen, but the noise was louder than standard flight. The resident is concerned for public safety and has not approached the area.",
+          "findings": [
+            {
+              "item": "Perimeter fence integrity",
+              "condition": "ok",
+              "notes": "No visible damage or breach."
+            },
+            {
+              "item": "Visual observer presence",
+              "condition": "not_inspected",
+              "notes": "No on-site observer visible."
+            },
+            {
+              "item": "Remote ID broadcast detected",
+              "condition": "failed",
+              "notes": "Unregistered aircraft (RID-BM-12-004) detected via local receiver (RDR-CTA-01)."
+            },
+            {
+              "item": "Radar or detection system alert",
+              "condition": "failed",
+              "notes": "No alert triggered in HWP-DETECT-01 console."
+            },
+            {
+              "item": "Audio from ground crew",
+              "condition": "deficient",
+              "notes": "Audio recorded from walkie-talkie (CH 462.2625 MHz) contains 'We’re clear, go again' — no known Group operator on frequency."
+            },
+            {
+              "item": "Unidentified aircraft in flight path",
+              "condition": "failed",
+              "notes": "Drone observed over public event area during NO FLY day."
+            },
+            {
+              "item": "Proximity to manned aircraft",
+              "condition": "ok",
+              "notes": "No aircraft in vicinity per FAA flight data."
+            },
+            {
+              "item": "Public access point status",
+              "condition": "ok",
+              "notes": "Creek Test Area gate (TP-CTA-LP1) is secured and locked."
+            },
+            {
+              "item": "Security personnel on site",
+              "condition": "not_inspected",
+              "notes": "No security officer visible at perimeter."
+            },
+            {
+              "item": "Operator location estimate",
+              "condition": "failed",
+              "notes": "Estimated 1.2 km west of Hangar 1, in public park near woods."
+            }
+          ],
+          "actionsTaken": [
+            "Reported to Security (SEC) via mobile phone at 13:18",
+            "Instructed resident not to approach the area",
+            "Forwarded report to Harwick Police Command and ASO for incident log entry"
+          ],
+          "recommendations": [
+            "Verify if any Group personnel were operating near Creek Test Area at 12:30",
+            "Review GCS-01 telemetry and link logs from 12:30 for anomalies",
+            "Coordinate with Harwick Police for on-site investigation of pilot location",
+            "Update incident folder on HUOG-NAS01 with new evidence (FIR-2026-1025-131802)"
+          ],
+          "photosNote": "1 photo attached: IMG-20261025-131802-0044 (drone shadow over backyard, red light visible)",
+          "signature": "Local Resident, Birch Hollow Range",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it down without engaging. The resident's report confirms an unauthorized operator near the test area and adds verbal confirmation of a pilot, increasing the threat of intentional evasion.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:59:53.436Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field Report: keys locked in a car",
+        "type": "field_report",
+        "fields": {
+          "organization": "Harwick UAS Operations Group — Fleet & Logistics",
+          "formTitle": "Site Report",
+          "date": "09/19/2026",
+          "reportNo": "SR-2026-0919-02",
+          "time": "13:18",
+          "location": "Visitor lot, Hangar 2",
+          "inspector": "Fleet & Logistics",
+          "unit": "Hangar 2",
+          "reportType": "routine",
+          "summary": "A festival visitor locked her keys in her car in the Group’s visitor lot.",
+          "findings": [
+            {
+              "item": "Request",
+              "condition": "ok",
+              "notes": "Referred to the fair’s roadside-assistance tent"
+            }
+          ],
+          "actionsTaken": [
+            "Referred"
+          ],
+          "recommendations": [
+            "None"
+          ],
+          "signature": "Fleet & Logistics"
+        },
+        "instructorNote": "Noise.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:47.294Z"
+}

@@ -1,0 +1,150 @@
+{
+  "id": "01M5RED5HDJPQVEV0WCZB9RN0D",
+  "mselRowId": "I-11",
+  "type": "email_forward",
+  "title": "Email Forward: the actor’s offer and the backup picture — recommendation by 11:30",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Kevin Marsh",
+    "fromEmail": "kmarsh@millbrook-oh.example",
+    "senderInitials": "KM",
+    "to": "Denise Albrecht; Priya Nandakumar",
+    "subject": "FW: Recovery options — DWS recommendation needed by 11:30",
+    "sentAt": "Mon 10/26/2026 11:10 AM",
+    "note": "Denise, Priya — Gloria wants DWS’s recommendation by 11:30. Forwarding the firm’s summary. I am not contacting the actor; that is Gloria’s and counsel’s call. — Kevin",
+    "signature": "Kevin Marsh\nCity IT Director, City of Millbrook",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Denise Albrecht",
+    "original": {
+      "fromName": "Corinne Vale",
+      "fromEmail": "cvale@halberd-ir.example",
+      "sentAt": "Mon 10/26/2026 11:02 AM",
+      "to": "kmarsh@millbrook-oh.example",
+      "cc": "",
+      "subject": "Recovery options",
+      "body": "Kevin,\n\n1. The actor’s portal offers a decryptor for MBW-CIS-01 and MBW-FS-01 for 38 BTC and one free test file. We have not engaged.\n2. MBW-BKP-01 is encrypted. The newest offline copy is the October 1 tape set in the City Hall vault. It does not include the August PLC-02 logic (your finding F-2); that exists only in PLC-02 and on the integrator’s laptop.\n3. MBW-SCADA-SRV02 has a staged payload. We recommend the SCADA servers and MBW-EWS-01 are rebuilt from clean media, not restored from anything on the network. That keeps the plant islanded and in manual for three to five days.\n4. Reconnecting the existing servers sooner is possible but we cannot tell you they are clean.\n\nCorinne Vale\nHalberd Incident Response (engaged through the City’s insurance carrier)"
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "The decision point. Both choices cost something: days of two-operator manual shifts and paper billing, or reconnecting servers no one can vouch for. Payment is not DWS’s decision, but DWS must give a recommendation. Watch for the basis recorded on ERP-1.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+      "quote": "- [ ] City IT: isolate affected hosts; disable FW-R-17, FW-R-22 and FW-R-14 immediately (do not wait for the full Section 10.3 decision); stop backup jobs so MBW-BKP-01 is not overwritten; pull the MB",
+      "chunkId": 86
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 12",
+      "quote": "| Event | Report to | Clock | |---|---|---| | Any confirmed or strongly suspected cyber intrusion on the control network, or unauthorized operation of equipment | CISA (24/7) | Within 24 hours; immedi",
+      "chunkId": 93
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+      "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
+      "chunkId": 29
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5RJBJWHHFTYBTGWJN7T67J9",
+      "kind": "image",
+      "path": "scenarios/01M5RD5TS55433RWCY9Z5FV7RJ/media/01M5RED5HDJPQVEV0WCZB9RN0D/01M5RJBJWHHFTYBTGWJN7T67J9.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 748,
+      "sha256": "b6578b2324ab0108e2bd042f64c18be2a8dbebcf386a5697a9edff72bf53e714",
+      "provenance": {
+        "provider": "template",
+        "templateId": "email_forward",
+        "templateVersion": "1",
+        "createdAt": "2026-10-25T03:41:04.578Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-25T02:32:17.166Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "FBI Alert: Threat Actor 'Ransomware Riptide' Identified",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Special Agent Lisa Chen",
+          "fromEmail": "fbi-ohio-cyber-taskforce@fbi.gov",
+          "senderInitials": "LC",
+          "to": "Director of Water Operations, SCADA / IT Security Manager, Water Quality Manager",
+          "subject": "URGENT: FBI Alert — Threat Actor Identified as 'Ransomware Riptide' (Known as 'Riptide')",
+          "sentAt": "Sat 10/24/2026 11:10 AM",
+          "note": "This is a critical alert from the FBI Cyber Task Force. The threat actor behind the attack on the City of Millbrook's water system has been confirmed as 'Ransomware Riptide'. The group uses double-extortion tactics and has already contacted a local news outlet to threaten a data dump. We are on high alert and must act immediately to preserve evidence and prevent further compromise.",
+          "signature": "Special Agent Lisa Chen\nFBI Cyber Task Force — Ohio Division",
+          "importance": "high",
+          "external": true,
+          "attachments": [],
+          "printedBy": "FBI Cyber Task Force",
+          "original": {
+            "fromName": "FBI Cyber Task Force — Ohio Division",
+            "fromEmail": "fbi-ohio-cyber-taskforce@fbi.gov",
+            "sentAt": "Sat 10/24/2026 11:10 AM",
+            "to": "security@millbrook-oh.example",
+            "cc": "",
+            "subject": "URGENT: FBI Alert — Threat Actor Identified as 'Ransomware Riptide' (Known as 'Riptide')",
+            "body": "Dear Security & Emergency Manager,\n\nThe FBI has identified the threat actor behind the recent attack on the City of Millbrook as 'Ransomware Riptide'. This group has previously targeted municipal water systems in the Midwest using a double-extortion tactic: encrypting systems and threatening to leak stolen data. We have confirmed that the attacker used a compromised Kessler Controls laptop (Jared Molina) to initiate the SMB session to MBW-JUMP-01 via FW-R-17, as reported in your logs.\n\nThe attacker has not yet released any stolen data. However, they have made contact with a local news outlet (Channel 4) to threaten a data dump if the ransom is not paid. We advise you to:\n\n- Do not engage with the actor or make any payments.\n- Preserve all logs and forensic evidence (including MBW-JUMP-01 session logs and MBW-BKP-01 audit trails).\n- Contact the FBI's Water Security Division via the 24-hour hotline: (555) 038-7100 (use code 'Riptide-01').\n\nWe are dispatching a field agent to the city within 4 hours. Please coordinate with the local CISA representative (contact: cisa-ohio@isac.example) and keep us updated.\n\nSincerely,\n\nSpecial Agent Lisa Chen\nFBI Cyber Task Force — Ohio Division"
+          }
+        },
+        "instructorNote": "This is a critical decision point. The Incident Commander must now authorize the immediate disablement of firewall rule FW-R-17 to fully isolate the control network. The team must resist pressure to restore access for vendor support. Watch for attempts to bypass the chain of command or invoke emergency access.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.299Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email Forward: the actor’s offer and the backup picture — recommendation by 11:30",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Kevin Marsh",
+          "fromEmail": "kmarsh@millbrook-oh.example",
+          "senderInitials": "KM",
+          "to": "Denise Albrecht; Priya Nandakumar",
+          "subject": "FW: Recovery options — DWS recommendation needed by 11:30",
+          "sentAt": "Mon 10/26/2026 11:10 AM",
+          "note": "Denise, Priya — Gloria wants DWS’s recommendation by 11:30. Forwarding the firm’s summary. I am not contacting the actor; that is Gloria’s and counsel’s call. — Kevin",
+          "signature": "Kevin Marsh\nCity IT Director, City of Millbrook",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Denise Albrecht",
+          "original": {
+            "fromName": "Corinne Vale",
+            "fromEmail": "cvale@halberd-ir.example",
+            "sentAt": "Mon 10/26/2026 11:02 AM",
+            "to": "kmarsh@millbrook-oh.example",
+            "cc": "",
+            "subject": "Recovery options",
+            "body": "Kevin,\n\n1. The actor’s portal offers a decryptor for MBW-CIS-01 and MBW-FS-01 for 38 BTC and one free test file. We have not engaged.\n2. MBW-BKP-01 is encrypted. The newest offline copy is the October 1 tape set in the City Hall vault. It does not include the August PLC-02 logic (your finding F-2); that exists only in PLC-02 and on the integrator’s laptop.\n3. MBW-SCADA-SRV02 has a staged payload. We recommend the SCADA servers and MBW-EWS-01 are rebuilt from clean media, not restored from anything on the network. That keeps the plant islanded and in manual for three to five days.\n4. Reconnecting the existing servers sooner is possible but we cannot tell you they are clean.\n\nCorinne Vale\nHalberd Incident Response (engaged through the City’s insurance carrier)"
+          }
+        },
+        "instructorNote": "The decision point. Both choices cost something: days of two-operator manual shifts and paper billing, or reconnecting servers no one can vouch for. Payment is not DWS’s decision, but DWS must give a recommendation. Watch for the basis recorded on ERP-1.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:04.961Z"
+}

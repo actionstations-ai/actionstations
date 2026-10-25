@@ -1,0 +1,151 @@
+{
+  "id": "01M5REE2Q34TMKKGPYRW982EY4",
+  "mselRowId": "I-12b",
+  "type": "radio_call",
+  "title": "Radio: Distribution 3 — hydrant knocked over at Summit Drive",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "centerName": "RWTP Control Room",
+    "channel": "DWS-1",
+    "frequency": "DWS-1 / 453.450 MHz",
+    "date": "10/26/2026",
+    "callsign": "Distribution 3",
+    "lines": [
+      {
+        "time": "11:20",
+        "from": "Distribution 3",
+        "to": "Control",
+        "text": "Control, Distribution 3. The hydrant at Summit Drive and Fifth was knocked over by a delivery truck overnight. We’ve closed the hydrant valve; no pressure change on the gauge at the corner. We’ll set a new barrel tomorrow."
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Man in his 40s, routine, truck idling",
+    "audioFile": "I-12b_radio.wav",
+    "duration": "0:12",
+    "injectId": "I-12b"
+  },
+  "variant": "default",
+  "instructorNote": "Noise. It should be logged and left alone.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+      "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.3 Pressure Zones",
+      "quote": "| Zone | HGL | Storage | Supply | Critical customers | |---|---|---|---|---| | **Zone 1** (Valley) | 940 ft | None (Clearwells at the plant) | High Service Pump Station | Millbrook General Hospital, C",
+      "chunkId": 165
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.4 Suspected Setpoint Tampering Checklist",
+      "quote": "- [ ] Operator: read the current dose and setpoint for every chemical feed on MBW-HMI-02; compare with the dose table and the last grab sample; note any value above the normal band in Section 7.1 - [ ",
+      "chunkId": 85
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Distribution 3",
+        "voiceStyle": "Man in his 40s, routine, truck idling",
+        "text": "Control, Distribution 3. The hydrant at Summit Drive and Fifth was knocked over by a delivery truck overnight. We’ve closed the hydrant valve; no pressure change on the gauge at the corner. We’ll set a new barrel tomorrow."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:33:02.418Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Radio: DWS-3 — Zone 3 Pressure Drop & Sampling Plan Unavailable",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "DISTRIBUTION 2",
+          "frequency": "TG 5103 / 462.175 MHz",
+          "date": "10/24/2026",
+          "callsign": "DWS-3",
+          "lines": [
+            {
+              "time": "11:20",
+              "from": "DWS-3",
+              "to": "Control",
+              "text": "Control, this is DWS-3. We’re at the Hilltop Transmission Main site. Pressure in Zone 3 has dropped to 12 psi. Customers are beginning to queue at fire hydrants. We’ve seen a few residents carrying jugs and bottles. No flushing has been done yet. The sampling plan (Section 8.3) cannot be accessed — the file server is down. We need to start flushing and disinfecting, but we don’t have the protocol. We’re holding until we get direction."
+            },
+            {
+              "time": "11:21",
+              "from": "Control",
+              "to": "DWS-3",
+              "text": "DWS-3, Control copies. Stand by for instructions. We are confirming the protocol via paper log. Do not begin flushing until authorized."
+            },
+            {
+              "time": "11:22",
+              "from": "DWS-3",
+              "to": "Control",
+              "text": "Copy, Control. We are holding at the site. We will not initiate flushing without confirmation. DWS-3 out."
+            }
+          ],
+          "background": "ramp",
+          "voiceStyle": "Young male, tense, voice breaking slightly",
+          "audioFile": "I-12b_radio.wav",
+          "duration": "0:22",
+          "injectId": "I-12b"
+        },
+        "instructorNote": "This inject tests the team’s ability to fall back on paper-based procedures under degraded IT conditions. Watch for the Operations Section Chief — Distribution to direct the crew to Section 8.3 of the Operations Manual and for the Water Quality Manager to confirm the plan via radio.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.314Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Radio: Distribution 3 — hydrant knocked over at Summit Drive",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "DWS-1",
+          "frequency": "DWS-1 / 453.450 MHz",
+          "date": "10/26/2026",
+          "callsign": "Distribution 3",
+          "lines": [
+            {
+              "time": "11:20",
+              "from": "Distribution 3",
+              "to": "Control",
+              "text": "Control, Distribution 3. The hydrant at Summit Drive and Fifth was knocked over by a delivery truck overnight. We’ve closed the hydrant valve; no pressure change on the gauge at the corner. We’ll set a new barrel tomorrow."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Man in his 40s, routine, truck idling",
+          "audioFile": "I-12b_radio.wav",
+          "duration": "0:12",
+          "injectId": "I-12b"
+        },
+        "instructorNote": "Noise. It should be logged and left alone.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:05.665Z"
+}

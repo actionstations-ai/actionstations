@@ -1,0 +1,104 @@
+{
+  "id": "01M5RECDX4W0CNM6XY57HMRYNA",
+  "mselRowId": "I-09",
+  "type": "time_jump_card",
+  "title": "Time Jump: 11:00",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "2:00",
+    "newTime": "11:00 AM",
+    "jumpLabel": "+60 minutes",
+    "narration": "It is now 11:00. The business network is still down and City Hall is answering phones by hand. The latest grab samples at the Clearwell 1 outlet are within the normal bands. Channel 4 and the Millbrook Courier both want an on-camera statement at noon.",
+    "worldState": [
+      "The business network is down; City Hall is answering phones by hand.",
+      "The latest grab samples at the Clearwell 1 outlet are within the normal bands.",
+      "Channel 4 and the Millbrook Courier want an on-camera statement at noon."
+    ],
+    "facilitatorNote": "Ask each team for the plant’s mode, the state of the control network, the samples and the reports made so far.",
+    "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+    "injectId": "I-09"
+  },
+  "variant": "default",
+  "instructorNote": "Reset the clock. Do not tell the players what they decided; ask them.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+      "quote": "- [ ] City IT: isolate affected hosts; disable FW-R-17, FW-R-22 and FW-R-14 immediately (do not wait for the full Section 10.3 decision); stop backup jobs so MBW-BKP-01 is not overwritten; pull the MB",
+      "chunkId": 86
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+      "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
+      "chunkId": 29
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:31:48.966Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump: 11:00 AM — Control Network Isolation Confirmed",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "2:00",
+          "newTime": "11:00 AM",
+          "jumpLabel": "+60 minutes",
+          "narration": "Facilitator: All hands, this is a time jump. It is now 11:00 AM. The team has initiated manual operations and must now verify system integrity. The lab remains offline, the AMI map is still inaccessible, and the Public Information Officer has no access to the digital advisory templates. The Director of Water Operations has authorized manual control of the plant, but the SCADA / IT Security Manager has not yet confirmed that the control network is fully isolated from the compromised business network.",
+          "worldState": [
+            "The control network is now confirmed isolated from the business network via firewall rule FW-R-17, which has been disabled and locked by the SCADA / IT Security Manager.",
+            "The jump host MBW-JUMP-01 has been physically disconnected and is no longer accessible.",
+            "The SCADA / IT Security Manager has confirmed that no unauthorized sessions are active on MBW-EWS-01 or MBW-SCADA-SRV01.",
+            "The control network is operating in manual mode with continuous operator oversight. No remote access is permitted until the integrity of the backup system (MBW-BKP-01) is validated.",
+            "The lab has not resumed operations; paper logs are in use for water quality data.",
+            "The Public Information Officer has been directed to use the cyber holding statement (MDWS-PCP-2026, Section 10) for all public messaging until further notice.",
+            "The City Manager has been updated and has authorized the use of the holding statement for media inquiries."
+          ],
+          "facilitatorNote": "This jump confirms isolation of the control network. The SCADA / IT Security Manager must now validate the integrity of the backup server (MBW-BKP-01) and ensure no residual malware persists in the DMZ. Watch for attempts to restore from compromised backups.",
+          "scenarioTitle": "Ransomware Riptide — SCADA Isolation & Public Trust",
+          "injectId": "I-09"
+        },
+        "instructorNote": "This jump confirms isolation of the control network. The SCADA / IT Security Manager must now validate the integrity of the backup server (MBW-BKP-01) and ensure no residual malware persists in the DMZ. Watch for attempts to restore from compromised backups.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.286Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Time Jump: 11:00",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "2:00",
+          "newTime": "11:00 AM",
+          "jumpLabel": "+60 minutes",
+          "narration": "It is now 11:00. The business network is still down and City Hall is answering phones by hand. The latest grab samples at the Clearwell 1 outlet are within the normal bands. Channel 4 and the Millbrook Courier both want an on-camera statement at noon.",
+          "worldState": [
+            "The business network is down; City Hall is answering phones by hand.",
+            "The latest grab samples at the Clearwell 1 outlet are within the normal bands.",
+            "Channel 4 and the Millbrook Courier want an on-camera statement at noon."
+          ],
+          "facilitatorNote": "Ask each team for the plant’s mode, the state of the control network, the samples and the reports made so far.",
+          "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+          "injectId": "I-09"
+        },
+        "instructorNote": "Reset the clock. Do not tell the players what they decided; ask them.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:04.179Z"
+}

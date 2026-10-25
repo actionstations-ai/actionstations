@@ -1,0 +1,253 @@
+{
+  "id": "01M5REAAQ1K312TBJ45F5NEG72",
+  "mselRowId": "I-06b",
+  "type": "phone_call",
+  "title": "Phone: City IT Director — logons to MBW-SCADA-SRV02",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "systemName": "City of Millbrook Phone System",
+    "callId": "CR-20261026-100811-021",
+    "direction": "Internal",
+    "caller": {
+      "name": "Kevin Marsh",
+      "number": "(555) 034-1188",
+      "label": "City IT Director"
+    },
+    "callee": {
+      "name": "Priya Nandakumar",
+      "number": "(555) 031-2240",
+      "label": "SCADA / IT Security Manager"
+    },
+    "startTime": "10/26/2026 10:08:11",
+    "duration": "1:04",
+    "transcript": [
+      {
+        "speaker": "City IT Director",
+        "offset": "0:00",
+        "text": "Priya, Kevin again. The response firm our insurance carrier sent pulled the MBW-FW-01 logs."
+      },
+      {
+        "speaker": "City IT Director",
+        "offset": "0:09",
+        "text": "There was SMB from MBW-BKP-01 back to MBW-EWS-01 on the FW-R-17 session at 09:04 and again at 09:41, and two logons from the MILLBROOK domain to MBW-SCADA-SRV02 at 09:47, through the trust on FW-R-14."
+      },
+      {
+        "speaker": "City IT Director",
+        "offset": "0:38",
+        "text": "FW-R-17 has been off since 09:50. FW-R-14 is still open unless you’ve told my team otherwise. What do you want done?"
+      },
+      {
+        "speaker": "SCADA / IT Security Manager",
+        "text": "",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "City IT Director": "Man in his 40s, tired, reading from notes"
+    },
+    "injectId": "I-06b"
+  },
+  "variant": "default",
+  "instructorNote": "The business-side account reached the hot-standby SCADA server. If the players already had FW-R-14 blocked, the logons at 09:47 still happened; the question is what was left behind.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+      "quote": "| Statement type | Drafted by | Facts approved by | Released by | |---|---|---|---| | Boil Water / Do Not Drink / Do Not Use / Precautionary advisory | PIO | Director + Water Quality Manager; City Man",
+      "chunkId": 106
+    },
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A › A.7.3 Behaviour on Telemetry Loss",
+      "quote": "- Each RTU keeps running its local loops on the last setpoints received (tank fill bands, booster pressure setpoints, well start/stop on LIT-611). - The HMI holds last values with the STALE flag (A.5.",
+      "chunkId": 154
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 12",
+      "quote": "| Resource | Source | Lead time | Notes | |---|---|---|---| | Emergency supply up to 4.0 MGD into Zone 2 | Carver County Water District through IC-1 at Mill Road Booster Station | 1 hour | Phone their",
+      "chunkId": 47
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 2",
+      "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+      "chunkId": 59
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "City IT Director",
+        "voiceStyle": "Man in his 40s, tired, reading from notes",
+        "text": "Priya, Kevin again. The response firm our insurance carrier sent pulled the MBW-FW-01 logs."
+      },
+      {
+        "speaker": "City IT Director",
+        "voiceStyle": "Man in his 40s, tired, reading from notes",
+        "text": "There was SMB from MBW-BKP-01 back to MBW-EWS-01 on the FW-R-17 session at 09:04 and again at 09:41, and two logons from the MILLBROOK domain to MBW-SCADA-SRV02 at 09:47, through the trust on FW-R-14."
+      },
+      {
+        "speaker": "City IT Director",
+        "voiceStyle": "Man in his 40s, tired, reading from notes",
+        "text": "FW-R-17 has been off since 09:50. FW-R-14 is still open unless you’ve told my team otherwise. What do you want done?"
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:30:52.721Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Phone Call: City IT Director — Business Network Isolation",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "Voice Mail System - Main Office",
+          "callId": "CR-20261024-100817-021",
+          "direction": "Internal",
+          "caller": {
+            "name": "Kevin Marsh",
+            "number": "(555) 032-4000",
+            "label": "City IT Director"
+          },
+          "callee": {
+            "name": "Priya Nandakumar",
+            "number": "(555) 038-7100",
+            "label": "SCADA / IT Security Manager"
+          },
+          "startTime": "10/24/2026 10:08:17",
+          "duration": "2:14",
+          "transcript": [
+            {
+              "speaker": "Kevin Marsh",
+              "offset": "00:00",
+              "text": "Priya, it's Kevin. I'm on the business LAN. The domain controllers, MBW-DC-01 and MBW-DC-02, are unreachable. Active Directory is failing across the board."
+            },
+            {
+              "speaker": "Kevin Marsh",
+              "offset": "00:12",
+              "text": "The ransomware has encrypted MBW-CIS-01, MBW-AMI-01, and MBW-FS-01. I’ve just seen the ransom note on a control room desktop: 'Pay $2.4M in Bitcoin or lose your water.'"
+            },
+            {
+              "speaker": "Kevin Marsh",
+              "offset": "00:28",
+              "text": "The file server is down. The backup, MBW-BKP-01, is not mounting. We’ve pulled the network cable. The business network is now physically isolated."
+            },
+            {
+              "speaker": "Kevin Marsh",
+              "offset": "00:42",
+              "text": "The lab cannot process new samples. I need to know if we can still run the plant manually — and if the control network is still clean."
+            },
+            {
+              "speaker": "Priya Nandakumar",
+              "offset": "00:54",
+              "text": "Understood, Kevin. I’ve confirmed the control network remains isolated from the business LAN. No traffic from MBW-CIS-01 to MBW-SCADA-SRV01 has been observed on the firewall."
+            },
+            {
+              "speaker": "Priya Nandakumar",
+              "offset": "01:08",
+              "text": "We’re still in the process of verifying the integrity of the SCADA DMZ. I’ve initiated a full network audit on MBW-FW-01. I’ll notify you if any unauthorized session is detected."
+            },
+            {
+              "speaker": "Kevin Marsh",
+              "offset": "01:21",
+              "text": "Good. The lab’s LIMS is down. We can’t file new results. The public can’t access outage maps. I’m not getting any updates from customer service. We need to activate unified command now."
+            },
+            {
+              "speaker": "Priya Nandakumar",
+              "offset": "01:37",
+              "text": "Roger. I’ll confirm with the Director. We’re at Level 3 emergency. I’ll initiate the unified command structure per ERP Section 4."
+            },
+            {
+              "speaker": "Kevin Marsh",
+              "offset": "01:51",
+              "text": "Copy that. I’ll keep you posted on the business side. Let’s keep the plant running on manual control until we’re sure."
+            },
+            {
+              "speaker": "Priya Nandakumar",
+              "offset": "02:02",
+              "text": "Affirmative. I’ll update the Incident Commander immediately."
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-06b"
+        },
+        "instructorNote": "This inject confirms the business network is fully isolated and the control network remains intact. The IT Director confirms the ransomware has encrypted key systems, triggering the need to activate unified command under ERP Section 4. Watch for the Director to declare Level 3 emergency and invoke Section 10.3 if manual control is not already assumed.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.250Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone: City IT Director — logons to MBW-SCADA-SRV02",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "City of Millbrook Phone System",
+          "callId": "CR-20261026-100811-021",
+          "direction": "Internal",
+          "caller": {
+            "name": "Kevin Marsh",
+            "number": "(555) 034-1188",
+            "label": "City IT Director"
+          },
+          "callee": {
+            "name": "Priya Nandakumar",
+            "number": "(555) 031-2240",
+            "label": "SCADA / IT Security Manager"
+          },
+          "startTime": "10/26/2026 10:08:11",
+          "duration": "1:04",
+          "transcript": [
+            {
+              "speaker": "City IT Director",
+              "offset": "0:00",
+              "text": "Priya, Kevin again. The response firm our insurance carrier sent pulled the MBW-FW-01 logs."
+            },
+            {
+              "speaker": "City IT Director",
+              "offset": "0:09",
+              "text": "There was SMB from MBW-BKP-01 back to MBW-EWS-01 on the FW-R-17 session at 09:04 and again at 09:41, and two logons from the MILLBROOK domain to MBW-SCADA-SRV02 at 09:47, through the trust on FW-R-14."
+            },
+            {
+              "speaker": "City IT Director",
+              "offset": "0:38",
+              "text": "FW-R-17 has been off since 09:50. FW-R-14 is still open unless you’ve told my team otherwise. What do you want done?"
+            },
+            {
+              "speaker": "SCADA / IT Security Manager",
+              "text": "",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "City IT Director": "Man in his 40s, tired, reading from notes"
+          },
+          "injectId": "I-06b"
+        },
+        "instructorNote": "The business-side account reached the hot-standby SCADA server. If the players already had FW-R-14 blocked, the logons at 09:47 still happened; the question is what was left behind.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:02.376Z"
+}

@@ -1,0 +1,131 @@
+{
+  "id": "01M5REJD01DRD9RNBP94YEC2DJ",
+  "mselRowId": "I-20",
+  "type": "scenario_update",
+  "title": "Situation Update: Customer Service — 214 calls, disconnections due Tuesday",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:25",
+    "scenarioTime": "12:25",
+    "headline": "214 calls on paper; disconnection list due Tuesday; a closing needs a final bill",
+    "deliverTo": "Customer Service Lead, Incident Commander",
+    "narration": "Customer Service has taken 214 calls since 09:00 on paper intake forms and the surge line is backed up. The weekly disconnection list for non-payment is scheduled to run Tuesday, and a title company needs a final water bill for a house closing on Wednesday.",
+    "keyFacts": [
+      "214 calls since 09:00, all on paper",
+      "Weekly disconnection list scheduled for Tuesday",
+      "A final bill is needed for a Wednesday closing",
+      "MBW-CIS-01 and the portal remain unavailable"
+    ],
+    "expectedAction": "Customer Service suspends disconnections for non-payment, sets a manual final-bill process from the last read and asks the IC for more call takers; the PIO posts the Customer Service number and hours.",
+    "facilitatorNote": "Play the title company as polite but firm: the closing date will not move.",
+    "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+    "injectId": "I-20"
+  },
+  "variant": "default",
+  "instructorNote": "The business side of a ransomware event lasts longer than the technical side. Watch for the disconnection hold.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+      "quote": "| Statement type | Drafted by | Facts approved by | Released by | |---|---|---|---| | Boil Water / Do Not Drink / Do Not Use / Precautionary advisory | PIO | Director + Water Quality Manager; City Man",
+      "chunkId": 106
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+      "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+      "chunkId": 112
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+      "quote": "- Do not confirm or deny that an intrusion occurred until the SCADA / IT Security Manager and the City IT Director agree on the facts and the FBI/CISA liaison (when engaged) has been consulted on what",
+      "chunkId": 117
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 3",
+      "quote": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+      "quote": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:35:06.647Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Verification Order — Final Confirmation Required",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "3:25",
+          "scenarioTime": "12:25 PM",
+          "headline": "Final Verification Mandate Issued",
+          "deliverTo": "IC, TL, WQ, PIO",
+          "narration": "Denise Albrecht, Director of Water Operations, stands at the head of the command table. 'This is not a review. This is a final verification order. All manual operations must be re-verified against the original setpoint limits in MDWS-SCADA-APP-A. The lab must re-run all grab samples from Zone 3. The SCADA / IT Security Manager must confirm that firewall rule FW-R-17 has been permanently disabled and that the jump host MBW-JUMP-01 is isolated and imaged for law enforcement. The Water Quality Manager must confirm no overfeed occurred and that all manual readings are within limits. The Public Information Officer must issue a 'Not Safe to Drink' advisory via MillbrookAlert, website, and social media. We are not lifting any advisory until every verification step is complete and documented.'",
+          "keyFacts": [
+            "FW-R-17 permanently disabled",
+            "MBW-JUMP-01 isolated and imaged",
+            "All manual grab samples re-verified against MDWS-SCADA-APP-A",
+            "No overfeed detected in Zone 3",
+            "Public advisory 'Not Safe to Drink' issued via all channels"
+          ],
+          "expectedAction": "The Incident Commander (ops) issues the final verification order under ERP Section 4.3. The SCADA / IT Security Manager confirms that FW-R-17 has been permanently disabled and that MBW-JUMP-01 has been imaged and isolated. The Water Quality Manager (wq) confirms that all manual grab samples have been re-verified and that no overfeed has occurred. The Public Information Officer (pio) confirms that the 'Not Safe to Drink' advisory has been issued via MillbrookAlert, website, and social media.",
+          "facilitatorNote": "This inject confirms the final verification step. The team must now validate that all actions are complete before moving to advisory lifting.",
+          "scenarioTitle": "Ransomware Riptide — SCADA Isolation & Public Trust",
+          "injectId": "I-20"
+        },
+        "instructorNote": "This inject finalizes the verification chain. The team must confirm all actions are complete and documented before proceeding to advisory lifting. Watch for over-reliance on paper logs and failure to confirm digital dissemination of the advisory.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.377Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Situation Update: Customer Service — 214 calls, disconnections due Tuesday",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "3:25",
+          "scenarioTime": "12:25",
+          "headline": "214 calls on paper; disconnection list due Tuesday; a closing needs a final bill",
+          "deliverTo": "Customer Service Lead, Incident Commander",
+          "narration": "Customer Service has taken 214 calls since 09:00 on paper intake forms and the surge line is backed up. The weekly disconnection list for non-payment is scheduled to run Tuesday, and a title company needs a final water bill for a house closing on Wednesday.",
+          "keyFacts": [
+            "214 calls since 09:00, all on paper",
+            "Weekly disconnection list scheduled for Tuesday",
+            "A final bill is needed for a Wednesday closing",
+            "MBW-CIS-01 and the portal remain unavailable"
+          ],
+          "expectedAction": "Customer Service suspends disconnections for non-payment, sets a manual final-bill process from the last read and asks the IC for more call takers; the PIO posts the Customer Service number and hours.",
+          "facilitatorNote": "Play the title company as polite but firm: the closing date will not move.",
+          "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision",
+          "injectId": "I-20"
+        },
+        "instructorNote": "The business side of a ransomware event lasts longer than the technical side. Watch for the disconnection hold.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:08.544Z"
+}

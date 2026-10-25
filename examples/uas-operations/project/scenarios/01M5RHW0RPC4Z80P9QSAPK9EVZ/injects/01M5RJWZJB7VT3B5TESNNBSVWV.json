@@ -1,0 +1,206 @@
+{
+  "id": "01M5RJWZJB7VT3B5TESNNBSVWV",
+  "mselRowId": "I-05",
+  "type": "siem_alert",
+  "title": "SecureWatch: off-site backups failing; OB-1 is three weeks old",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "product": "SecureWatch MSSP SIEM",
+    "tenant": "Harwick UAS Operations Group",
+    "alertId": "SW-2026-100541",
+    "severity": "high",
+    "riskScore": 82,
+    "rule": "Backup job failures and offline media age",
+    "ruleDescription": "The nightly off-site backup job has failed since September 26 (service credential expired). OB-1 was last written on September 14. OB-2 was connected to HUOG-NAS01 this morning.",
+    "status": "New",
+    "assignee": "Tomás Reyes",
+    "firstSeen": "09/26/2026 01:00:12",
+    "lastSeen": "10/05/2026 01:00:09",
+    "eventCount": 10,
+    "source": {
+      "host": "HUOG-NAS01",
+      "ip": "10.17.41.5",
+      "user": "svc-backup",
+      "zone": "Data VLAN"
+    },
+    "dest": {
+      "host": "Off-site backup service",
+      "zone": "Internet"
+    },
+    "details": [
+      {
+        "key": "Off-site job",
+        "value": "Failing since 09/26 (credential expired)"
+      },
+      {
+        "key": "OB-1",
+        "value": "Last written 09/14; in the General Manager’s safe"
+      },
+      {
+        "key": "OB-2",
+        "value": "Connected to the NAS this morning — treat as infected"
+      }
+    ],
+    "analyst": "securewatch.soc"
+  },
+  "variant": "default",
+  "instructorNote": "The newest clean copy is three weeks old. Watch for OB-1 left in the safe until the MSSP clears the environment.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.2 Backups",
+      "quote": "- NAS → the offline backup drives OB-1 and OB-2 (rotated weekly; the one not in use is in the General Manager's office safe); and → the off-site backup service nightly. - DC-HPC project storage is bac",
+      "chunkId": 115
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:50:49.342Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "NAS Snapshot Schedule Disabled — Critical Backup Failure",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Harwick UAS Operations Group",
+          "alertId": "ALR-2026-104418",
+          "severity": "critical",
+          "riskScore": 92,
+          "rule": "Daily NAS Snapshot Schedule Disabled — No Runs Since 03/2026",
+          "ruleDescription": "The cron job for daily backups on HUOG-NAS01 has been disabled since 2026-04-10, and no snapshots have been taken since 2026-03-20. The system has not executed a backup in over three weeks.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "2026-10-24T09:30:00-04:00",
+          "lastSeen": "2026-10-24T09:30:00-04:00",
+          "eventCount": 1,
+          "source": {
+            "host": "HUOG-FW01",
+            "ip": "10.17.41.1",
+            "user": "sysadmin",
+            "zone": "Data Center"
+          },
+          "dest": {
+            "host": "HUOG-NAS01",
+            "ip": "10.17.41.5",
+            "service": "snapshot scheduler",
+            "zone": "Storage"
+          },
+          "tactics": [
+            "T1480 Data Encrypted for Impact",
+            "T1566 Data Encrypted for Impact"
+          ],
+          "details": [
+            {
+              "key": "Last Good Snapshot",
+              "value": "2026-03-20 08:00"
+            },
+            {
+              "key": "Snapshot Job Status",
+              "value": "Disabled"
+            },
+            {
+              "key": "Last Change to Job",
+              "value": "2026-04-10 22:15"
+            },
+            {
+              "key": "Backup Type",
+              "value": "Daily (incremental)"
+            },
+            {
+              "key": "Offline Backup",
+              "value": "OB-1 (in GM's safe, 3 weeks outdated)"
+            },
+            {
+              "key": "Affected Shares",
+              "value": "\\\\HUOG-NAS01\\projects\\, \\\\HUOG-NAS01\\controlled\\, \\\\HUOG-NAS01\\campaigns\\"
+            }
+          ],
+          "rawEvent": "2026-10-24T09:30:00-04:00 HUOG-FW01 (10.17.41.1) SIEM: Alert on HUOG-NAS01\\schedules\\snapshot.log — last run: 2026-03-20 08:00; disabled since 2026-04-10 22:15. No activity since. Status: disabled (no runs since 03/2026).",
+          "relatedAlerts": [
+            {
+              "time": "2026-10-24T09:25:00-04:00",
+              "title": "Unauthorized NAS Access — GCS-02 Scan Pattern",
+              "severity": "high"
+            },
+            {
+              "time": "2026-10-24T09:20:00-04:00",
+              "title": "GCS-02 Offline — Field Tech Alert",
+              "severity": "high"
+            }
+          ],
+          "analyst": "it.oncall"
+        },
+        "instructorNote": "This alert confirms the NAS has no recent backups—critical for recovery. The technical team must now assess the impact of a 3-week-old backup window and decide how to proceed with the offline drive OB-1.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.359Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SecureWatch: off-site backups failing; OB-1 is three weeks old",
+        "type": "siem_alert",
+        "fields": {
+          "product": "SecureWatch MSSP SIEM",
+          "tenant": "Harwick UAS Operations Group",
+          "alertId": "SW-2026-100541",
+          "severity": "high",
+          "riskScore": 82,
+          "rule": "Backup job failures and offline media age",
+          "ruleDescription": "The nightly off-site backup job has failed since September 26 (service credential expired). OB-1 was last written on September 14. OB-2 was connected to HUOG-NAS01 this morning.",
+          "status": "New",
+          "assignee": "Tomás Reyes",
+          "firstSeen": "09/26/2026 01:00:12",
+          "lastSeen": "10/05/2026 01:00:09",
+          "eventCount": 10,
+          "source": {
+            "host": "HUOG-NAS01",
+            "ip": "10.17.41.5",
+            "user": "svc-backup",
+            "zone": "Data VLAN"
+          },
+          "dest": {
+            "host": "Off-site backup service",
+            "zone": "Internet"
+          },
+          "details": [
+            {
+              "key": "Off-site job",
+              "value": "Failing since 09/26 (credential expired)"
+            },
+            {
+              "key": "OB-1",
+              "value": "Last written 09/14; in the General Manager’s safe"
+            },
+            {
+              "key": "OB-2",
+              "value": "Connected to the NAS this morning — treat as infected"
+            }
+          ],
+          "analyst": "securewatch.soc"
+        },
+        "instructorNote": "The newest clean copy is three weeks old. Watch for OB-1 left in the safe until the MSSP clears the environment.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:30.073Z"
+}

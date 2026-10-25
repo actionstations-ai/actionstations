@@ -1,0 +1,226 @@
+{
+  "id": "01M5RE5KD125R02NQRR78KCJ3W",
+  "mselRowId": "START",
+  "type": "startex_card",
+  "title": "STARTEX: Monday morning at the Riverside Water Treatment Plant",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "startTime": "09:00 AM",
+    "day": "Monday, October 26, 2026",
+    "location": "Riverside Water Treatment Plant (RWTP)",
+    "weather": "Clear and mild, 58°F, light wind",
+    "load": "Normal: about 9 MGD, plant in automatic",
+    "staffing": "One certified operator in the RWTP Control Room; Plant Superintendent on site; Distribution crews out; City Hall open since 08:00",
+    "narration": "STARTEX. This is an exercise. It is 09:00 on Monday, October 26, 2026. Demand is normal at about 9 MGD and the Riverside Water Treatment Plant is in automatic, with one certified operator in the Control Room and the Plant Superintendent on site. City Hall opened at 08:00 and Customer Service is taking calls on the billing system. No alarms are active.",
+    "status": [
+      {
+        "name": "Treatment process",
+        "status": "green",
+        "note": "Filters 1–6 in service; chemical feeds in automatic"
+      },
+      {
+        "name": "Finished water",
+        "status": "green",
+        "note": "Chlorine and pH within normal bands at the 08:00 sample"
+      },
+      {
+        "name": "Control network (MBW-HMI-01/02/03, SCADA servers)",
+        "status": "green",
+        "note": "No alarms; all RTUs reporting"
+      },
+      {
+        "name": "Business network (MBW-CIS-01, MBW-AMI-01, MBW-FS-01, LIMS)",
+        "status": "green",
+        "note": "All responsive"
+      },
+      {
+        "name": "Distribution and storage",
+        "status": "green",
+        "note": "Zones 1–3 at normal pressure; Hilltop Tank, Northgate Reservoir and Orchard Standpipe in their bands"
+      }
+    ],
+    "facilitatorNote": "Read aloud. No action is required yet; let each team describe its normal posture.",
+    "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision"
+  },
+  "variant": "default",
+  "instructorNote": "Opening card. Establish the baseline: the plant runs in automatic and the City’s business systems are working.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 3",
+      "quote": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A › A.5.1 Priorities",
+      "quote": "| Priority | Meaning | Operator response | After-hours callout | |---|---|---|---| | P1 Critical | Immediate risk to public health or supply: loss of disinfection (AIT-301 < 0.3), AIT-310 > 1.0, pH ou",
+      "chunkId": 148
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of…",
+      "quote": "Document Control Number: MDWS-MAP-2026 · Revision 4.0 · Effective Date: 02/01/2026 · Maintained by: Tom Okonkwo (Distribution Superintendent) and Priya Nandakumar (SCADA / IT Security Manager) > **EXE",
+      "chunkId": 160
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 5 › 5.2 Internal Call-Down",
+      "quote": "| Step | From | To | Time limit | |---|---|---|---| | 1 | Person observing | RWTP Control Room (555) 031-2244 | Immediately (radio DWS-1 or phone) | | 2 | Duty operator | Plant Superintendent (Ray Cas",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+      "quote": "- [ ] City IT: isolate affected hosts; disable FW-R-17, FW-R-22 and FW-R-14 immediately (do not wait for the full Section 10.3 decision); stop backup jobs so MBW-BKP-01 is not overwritten; pull the MB",
+      "chunkId": 86
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+      "quote": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5RJBDSFGXH5A4WKYXAMCVGE",
+      "kind": "image",
+      "path": "scenarios/01M5RD5TS55433RWCY9Z5FV7RJ/media/01M5RE5KD125R02NQRR78KCJ3W/01M5RJBDSFGXH5A4WKYXAMCVGE.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "5ef32c8eec296bdabcc4f23ae96af60c82e1f18f188f54eb0d3591946c05f561",
+      "provenance": {
+        "provider": "template",
+        "templateId": "startex_card",
+        "templateVersion": "1",
+        "createdAt": "2026-10-25T03:40:59.310Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-25T02:28:32.472Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "STARTEX: Ransomware Riptide — SCADA Isolation & Public Trust",
+        "type": "startex_card",
+        "fields": {
+          "startTime": "09:00 AM",
+          "day": "Monday, October 24, 2026",
+          "location": "Riverside Water Treatment Plant (RWTP)",
+          "weather": "Clear, 58°F. Winds calm.",
+          "load": "Normal: full treatment capacity, steady demand",
+          "staffing": "On-shift: 1 certified operator in Control Room; 2 on-site for Plant Operations; 1 on-call for Distribution",
+          "narration": "STARTEX. This is an exercise. It is 09:00 AM on a clear Monday, October 24, 2026, at the Riverside Water Treatment Plant. The Millbrook water system is operating normally. All system statuses show green. Control Room operations are on the 0600–1800 shift. The Director of Water Operations, SCADA / IT Security Manager, Public Information Officer, Water Quality Manager, and Security & Emergency Manager are all at their desks. No alarms are active. All network and control system checks are normal. The city’s business network is healthy. The system is ready for the day.",
+          "status": [
+            {
+              "name": "Main Treatment Process",
+              "status": "green",
+              "note": "All filters 1–6 in service, flow 12.4 MGD"
+            },
+            {
+              "name": "Chemical Feed Systems",
+              "status": "green",
+              "note": "Alum, Caustic, Fluoride, Hypochlorite, Permanganate, Polymer all in automatic"
+            },
+            {
+              "name": "Clearwell 2 (Treated Water Storage)",
+              "status": "green",
+              "note": "Level 72%, residual 0.45 mg/L"
+            },
+            {
+              "name": "SCADA Network",
+              "status": "green",
+              "note": "MBW-HMI-01 and MBW-HMI-02 online, no telemetry gaps"
+            },
+            {
+              "name": "Business Network",
+              "status": "green",
+              "note": "MBW-FS-01, MBW-CIS-01, MBW-AMI-01 all responsive"
+            },
+            {
+              "name": "Distribution Network",
+              "status": "green",
+              "note": "Pressure zones 1–3, S all within normal range"
+            },
+            {
+              "name": "Emergency Operations",
+              "status": "green",
+              "note": "All ICS roles on standby; no active incidents"
+            }
+          ],
+          "facilitatorNote": "Confirm all roles have their briefing packets and ICS forms. No action required yet; the exercise has started.",
+          "scenarioTitle": "Ransomware Riptide — SCADA Isolation & Public Trust"
+        },
+        "instructorNote": "This is the opening inject. All roles must acknowledge readiness. No action is required. The system state is baseline normal.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.192Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "STARTEX: Monday morning at the Riverside Water Treatment Plant",
+        "type": "startex_card",
+        "fields": {
+          "startTime": "09:00 AM",
+          "day": "Monday, October 26, 2026",
+          "location": "Riverside Water Treatment Plant (RWTP)",
+          "weather": "Clear and mild, 58°F, light wind",
+          "load": "Normal: about 9 MGD, plant in automatic",
+          "staffing": "One certified operator in the RWTP Control Room; Plant Superintendent on site; Distribution crews out; City Hall open since 08:00",
+          "narration": "STARTEX. This is an exercise. It is 09:00 on Monday, October 26, 2026. Demand is normal at about 9 MGD and the Riverside Water Treatment Plant is in automatic, with one certified operator in the Control Room and the Plant Superintendent on site. City Hall opened at 08:00 and Customer Service is taking calls on the billing system. No alarms are active.",
+          "status": [
+            {
+              "name": "Treatment process",
+              "status": "green",
+              "note": "Filters 1–6 in service; chemical feeds in automatic"
+            },
+            {
+              "name": "Finished water",
+              "status": "green",
+              "note": "Chlorine and pH within normal bands at the 08:00 sample"
+            },
+            {
+              "name": "Control network (MBW-HMI-01/02/03, SCADA servers)",
+              "status": "green",
+              "note": "No alarms; all RTUs reporting"
+            },
+            {
+              "name": "Business network (MBW-CIS-01, MBW-AMI-01, MBW-FS-01, LIMS)",
+              "status": "green",
+              "note": "All responsive"
+            },
+            {
+              "name": "Distribution and storage",
+              "status": "green",
+              "note": "Zones 1–3 at normal pressure; Hilltop Tank, Northgate Reservoir and Orchard Standpipe in their bands"
+            }
+          ],
+          "facilitatorNote": "Read aloud. No action is required yet; let each team describe its normal posture.",
+          "scenarioTitle": "Ransomware Riptide — Ransomware at City Hall and the Island Decision"
+        },
+        "instructorNote": "Opening card. Establish the baseline: the plant runs in automatic and the City’s business systems are working.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:40:59.761Z"
+}

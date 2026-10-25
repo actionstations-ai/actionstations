@@ -1,0 +1,2449 @@
+{
+  "formatVersion": 1,
+  "id": "01M5RKHCV1X3ZKP5RGPTST39PK",
+  "projectId": "01M5H3BY1EV4BBVDCB8DC08A56",
+  "title": "Over the Fairgrounds",
+  "subtitle": "A drone over the Harwick Fairgrounds crowd on a NO FLY day",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-25T04:01:43.777Z",
+  "updatedAt": "2026-10-25T05:04:03.825Z",
+  "brief": {
+    "userPrompt": "A 6,000-person public event is under way at the Harwick Fairgrounds beside Horton Field on a NO FLY day: the flight operations desk logged all twelve aircraft in Hangar 1 at 0800. Harwick Police's contracted detection vendor shows a drone with a Remote ID track circling over the crowd, and a bystander post with a photo blames the Group because its hangar is next door. The Group must prove from the schedule and the fleet register that every aircraft is grounded, lend an RPIC to the Harwick Police command post to interpret Remote ID data if asked, never launch, interfere with or chase the aircraft, coordinate with Harwick Police, CCSO and the FAA, and answer the post through Corporate Communications only.",
+    "audience": [
+      "Flight Operations",
+      "Aviation Safety",
+      "Leadership",
+      "Corporate Communications",
+      "Security / Harwick Police liaison"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [
+      "Every email address of the Group and its units uses the exercise domain huog.example; outside parties use fictional domains and fictional outlet names (Channel 10, the Harwick Daily News); never a real agency, company or newspaper domain.",
+      "Player roles are only those in the audience list; outside parties (Harwick Police, its detection vendor, CCSO, the FAA, event organizers, the media) are played by the SimCell, not seated as players."
+    ],
+    "startWallClock": "11:00",
+    "threatFamily": "uas_drone"
+  },
+  "overview": {
+    "theme": "Proving a negative fast, helping the police without touching another aircraft, and telling the truth when the operator turns out to be one of your own people",
+    "threat": "On Saturday, September 19, the Harwick Fall Festival draws about 6,000 people to the Harwick Fairgrounds beside Horton Field. It is a NO FLY day for the Group: the flight operations desk logged all twelve aircraft in Hangar 1 at 0800. Shortly after 11:00 Harwick Police’s contracted detection vendor shows a small quadcopter broadcasting Remote ID and circling over the crowd at about 240 ft. Its operator position sits in the north lot by the Group’s fence, a bystander post blames “the drone company next door”, and the aircraft looks like the Group’s own small quadcopters.",
+    "operationalImpact": "The Group has no counter-UAS capability and must not launch, chase, jam or interfere with the aircraft (HUOG-ERP 8.4). Its job is to prove within five minutes from the schedule and the fleet register that every Group aircraft is grounded, lend an RPIC to Harwick Police’s command post if asked to read the Remote ID data, and say only true things through Corporate Communications. The incident turns when police find the operator: a part-time visual observer of the Group flying his personal drone on his day off. The Group then has to decide what to say publicly, what to tell the FAA and its clients, and what to do about the crew member, without letting “no Group aircraft were flying” become a misleading answer.",
+    "coreSectionsTested": [
+      {
+        "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+        "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+        "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+        "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+        "chunkId": 24
+      },
+      {
+        "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+        "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+        "headingPath": "SITE › 9. Contacts (exercise numbers)",
+        "quote": "| Party | Role | Number | |---|---|---| | Harwick Police Department | City police, first response, public event at the adjacent Harwick Fairgrounds control | 585-555-0111 | | Calder County Sheriff's O",
+        "chunkId": 147
+      },
+      {
+        "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+        "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+        "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+        "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager fo",
+        "chunkId": 32
+      },
+      {
+        "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+        "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+        "headingPath": "ERP › Section 11 › 11.3 Records",
+        "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+        "chunkId": 36
+      },
+      {
+        "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+        "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+        "headingPath": "ERP › Section 2 › 2.4 Incident log",
+        "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+        "chunkId": 9
+      },
+      {
+        "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+        "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+        "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+        "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+        "chunkId": 99
+      }
+    ],
+    "targetAudience": "Flight Operations, Aviation Safety, Leadership, Corporate Communications, Security / Harwick Police liaison",
+    "location": "Millbrook Road hangar complex and Horton Field, beside the Harwick Fairgrounds, Harwick, Calder County, New York"
+  },
+  "objectives": [
+    {
+      "id": "01M5RKMS2BTT7WEXA7MFAQYQXN",
+      "name": "Communication",
+      "text": "Answer Harwick Police within five minutes from the schedule and the fleet register, and keep Flight Operations, Aviation Safety, Leadership, the police liaison and Corporate Communications on one set of facts."
+    },
+    {
+      "id": "01M5RKMS2BVV56YKKA96HHSAME",
+      "name": "Decision Making",
+      "text": "Decide what the Group says publicly once its own crew member is identified as the operator, and how the Group handles him, without misleading statements (decision point)."
+    },
+    {
+      "id": "01M5RKMS2BC81CKX66K17JHD2N",
+      "name": "Use of Doctrine",
+      "text": "Help Harwick Police interpret the Remote ID data and compare it with the fleet register, without launching, tracking with Group aircraft or interfering with the drone (HUOG-ERP 8.4)."
+    },
+    {
+      "id": "01M5RKMS2B7B7A83DDVBPJ61ZS",
+      "name": "Technical Analysis",
+      "text": "Follow HUOG-ERP 8.4 and HUOG-FOM 7.6, the Section 6 notifications (Harwick Police, the FSDO, Corporate Communications) and the UC-CP-2025 rule that only Corporate Communications speaks to the media."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ops",
+      "name": "Director of Flight Operations (Flight Operations)",
+      "abbreviation": "FOM",
+      "team": "Team A: Flight Operations",
+      "description": "Owns the flight schedule, the fleet register and crew rosters; Incident Commander when aircraft are involved; answers whether any Group aircraft is airborne.",
+      "standingOrders": [
+        "Answer Harwick Police within five minutes from the schedule and the fleet register (HUOG-ERP 8.4).",
+        "No Group aircraft launches to look for, follow or identify another drone.",
+        "Lend an RPIC to the police command post only to read Remote ID data.",
+        "Record every call and decision in the incident log."
+      ]
+    },
+    {
+      "id": "gm",
+      "name": "General Manager (Leadership)",
+      "abbreviation": "GM",
+      "team": "Team C: Leadership",
+      "description": "Accountable executive and spokesperson with Corporate Communications; joins the Harwick Police call when a reported drone is suspected to be a Group aircraft; decides on client and regulator notification.",
+      "standingOrders": [
+        "Join the Harwick Police call when the drone is suspected to be a Group aircraft (HUOG-ERP 8.4).",
+        "Only the General Manager may ask Harwick Police for an exception to a NO FLY day.",
+        "Decide what clients and the public are told, with facts.",
+        "Personnel decisions follow the facts and the FSDO’s view, not the headlines."
+      ]
+    },
+    {
+      "id": "safety",
+      "name": "Aviation Safety Officer (Aviation Safety)",
+      "abbreviation": "ASO",
+      "team": "Team B: Aviation Safety",
+      "description": "Owns the safety case, regulator reporting and the event record; the Group’s contact with the FSDO.",
+      "standingOrders": [
+        "Preserve every record: the 0800 fleet count, the register extract, Remote ID data and photographs.",
+        "Report to the FSDO what the Group knows, the same day.",
+        "Interfering with an aircraft is a federal offense, whoever flies it.",
+        "Recommend crew actions from facts, not from the press."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Corporate Communications (Communications)",
+      "abbreviation": "COMMS",
+      "team": "Team D: Corporate Communications",
+      "description": "Owns all external messaging under UC-CP-2025; the Group never speaks to the media directly.",
+      "standingOrders": [
+        "Only Corporate Communications speaks to the media; crews and staff refer every question.",
+        "Say only what is true and complete enough not to mislead.",
+        "Coordinate with the Harwick Police PIO before naming anyone.",
+        "Give a time for the next update every time."
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Fleet & Logistics Manager (Security / Harwick Police liaison)",
+      "abbreviation": "LIAISON",
+      "team": "Team E: Security / Police liaison",
+      "description": "Owns Hangar 1 and the physical security of the hangars, keys and the perimeter road; liaison to Harwick Police and CCSO.",
+      "standingOrders": [
+        "Count and photograph the aircraft and batteries in Hangar 1 when asked to prove the fleet is grounded.",
+        "Keep the Group’s people away from the drone, the operator and any evidence; that is police work.",
+        "Pass every police request to the Incident Commander and log it.",
+        "Know who has access to the perimeter road and the hangar keys."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "01M5RKR63KDHYA96H73972YCVC",
+      "index": 0,
+      "title": "Is It Ours?",
+      "goal": "Prove within minutes that every Group aircraft is grounded and give Harwick Police what it needs, while the crowd and the internet blame the Group.",
+      "beats": [
+        "At 11:05 Harwick Police’s detection console shows a Remote ID drone circling the crowd; police ask whether any Group aircraft is airborne.",
+        "At 11:10 the flight operations desk confirms the 0800 count from the register; at 11:15 police ask for an RPIC at the command post.",
+        "At 11:30 the console photo shows a quadcopter that looks like the Group’s small aircraft, with a serial not on the register.",
+        "At 11:40 the fair organizer demands the Group “get its drone down”; at 11:50 a bystander post blames the Group."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "01M5RKR63K8T0K52P3KJFX3ZGS",
+      "index": 1,
+      "title": "The Operator by the Fence",
+      "goal": "Support the police command post with Remote ID expertise as the drone returns and its operator position moves next to the Group’s fence.",
+      "beats": [
+        "At 12:05 the drone is back and its operator position is on the perimeter road beside Hangar 1.",
+        "At 12:10 Channel 10 has video it says shows a launch from behind the hangar.",
+        "At 12:15 Hangar 1 is counted and photographed; at 12:25 the police sergeant asks who can use the perimeter road."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "01M5RKR63K4WG0KWD1JQA14HE6",
+      "index": 2,
+      "title": "One of Ours",
+      "goal": "Decide what to say, and what to do, when the operator turns out to be a Group crew member flying his own drone.",
+      "beats": [
+        "At 13:05 police stop the operator in the north lot: he says he is one of the Group’s part-time visual observers.",
+        "At 13:10 the FSDO asks whether the flight was a Group operation; at 13:15 the Harwick Police PIO is about to issue a statement — the decision point.",
+        "At 13:20 Flight Operations finds him on Monday’s CP&L roster; at 13:25 the post spreads."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "01M5RKR63K6ANJ18Y4P4BBRV9P",
+      "index": 3,
+      "title": "Telling It Straight",
+      "goal": "Close the day with accurate records, an FSDO report, a client answer and a public statement that does not mislead.",
+      "beats": [
+        "At 14:05 police keep the drone and controller as evidence and ask for the Group’s records.",
+        "At 14:15 CP&L asks whether Monday’s inspection is still on; at 14:20 the Harwick Daily News asks about the Group’s policy on personal flights.",
+        "At 14:25 the ASO drafts the event record and the FSDO follow-up."
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "01M5RKR63KDHYA96H73972YCVC",
+      "time": "0:00",
+      "wallClock": "11:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ops",
+        "safety",
+        "gm",
+        "pio",
+        "security"
+      ],
+      "toLabel": "All",
+      "event": "STARTEX: It is 11:00 on Saturday, September 19. The Harwick Fall Festival is under way next door with about 6,000 people. Today is a NO FLY day for the Group: at 0800 the flight operations desk logged all twelve aircraft in Hangar 1. The weather is clear, 68°F, light wind. The desk is staffed; the Director of Flight Operations, the ASO and the General Manager are on call.",
+      "expectedAction": "Each team states who is on duty, where the fleet register and the 0800 log are, and how Harwick Police would reach the Group.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M5RN2J8DEMFQCV2J3N46Y3M2",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "01M5RKR63KDHYA96H73972YCVC",
+      "time": "0:05",
+      "wallClock": "11:05",
+      "from": "Harwick Police detection console",
+      "toRoleIds": [
+        "security",
+        "ops"
+      ],
+      "toLabel": "LIAISON, FOM",
+      "event": "System Log: Harwick Police’s detection vendor console, shared with the Group’s liaison: a small quadcopter broadcasting standard Remote ID, serial 1F7Q-ZX43-0915, has circled the fairgrounds crowd at about 240 ft AGL since 11:01. The broadcast operator position is in the fairgrounds north lot, next to the Group’s perimeter fence. The sergeant at the command post asks whether any Group aircraft is airborne.",
+      "expectedAction": "The liaison passes the request to the flight operations desk at once; the Director of Flight Operations answers within five minutes from the schedule and the fleet register (HUOG-ERP 8.4); no Group aircraft is launched to look.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "system_log",
+      "injectId": "01M5RN2S5KZKBMZRYG83WW2AJV",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 6 › 6.1 Classes and ceilings",
+          "quote": "Horton Field is under the HWK Class C airspace with a UAS Facility Map grid ceiling of 200 ft AGL. The Birch Hollow Range flight areas are in Class G airspace below the Class C shelf with the Part 107",
+          "chunkId": 62
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 11 › 11.1 Hazard log",
+          "quote": "The ASO keeps the hazard log; any crew member may add an entry anonymously through the safety form on the Group intranet. Entries are reviewed monthly at the safety meeting (FOM, ASO, Systems & Cybers",
+          "chunkId": 88
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "01M5RKR63KDHYA96H73972YCVC",
+      "time": "0:10",
+      "wallClock": "11:10",
+      "from": "Flight Operations Desk",
+      "toRoleIds": [
+        "ops"
+      ],
+      "toLabel": "FOM",
+      "event": "Phone Call: The flight operations desk confirms: “0800 count was twelve of twelve in Hangar 1, UAS-01 to UAS-12. Nothing on the schedule today, no keys signed out, the hangar alarm hasn’t been unset since last night. None of our Remote ID serials on the register is anything like that one.”",
+      "expectedAction": "The Director of Flight Operations tells Harwick Police, with the time of the 0800 count, that no Group aircraft is airborne and that 1F7Q-ZX43-0915 is not on the Group’s register; logs the call; tells the General Manager and Corporate Communications.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5RN35H8EJKJXYDRZ5KK3N6S",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+          "quote": "Parameter sets (failsafe actions, lost-link timers, RTL altitude, geofence) are exported after every change to `\\\\HUOG-NAS01\\ops\\param-log.md` with the hash of the parameter file. The pre-flight check",
+          "chunkId": 107
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "01M5RKR63KDHYA96H73972YCVC",
+      "time": "0:15",
+      "wallClock": "11:15",
+      "from": "Harwick Police",
+      "toRoleIds": [
+        "security",
+        "ops"
+      ],
+      "toLabel": "LIAISON, FOM",
+      "event": "Phone Call: The sergeant at the event command post: “Thanks. The operator position on the console is right by your fence in the north lot. Can you lend us somebody who reads this Remote ID data for a living? We’ve got officers looking but the lot is packed.”",
+      "expectedAction": "The Director of Flight Operations sends an RPIC to the command post to interpret the Remote ID data only (HUOG-ERP 8.4); the liaison briefs the RPIC that the Group does not approach the operator or the aircraft.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5RN3DZDA9P4RVDE8SF5E457",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+          "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+          "chunkId": 24
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-03b",
+      "phaseId": "01M5RKR63KDHYA96H73972YCVC",
+      "time": "0:22",
+      "wallClock": "11:22",
+      "from": "Hangar 3",
+      "toRoleIds": [
+        "security"
+      ],
+      "toLabel": "LIAISON",
+      "event": "Field Report: A food-truck vendor at the fairgrounds edge asks to plug into the Hangar 3 outdoor outlet because his generator has failed.",
+      "expectedAction": "The liaison declines politely and points him to the fair organizers; it is not related to the drone.",
+      "purposeTag": "NOISE",
+      "format": "field_report",
+      "injectId": "01M5RN3TBC1NYS29BJ1Q193CGR",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "01M5RKR63KDHYA96H73972YCVC",
+      "time": "0:30",
+      "wallClock": "11:30",
+      "from": "Harwick Police detection console",
+      "toRoleIds": [
+        "ops",
+        "safety"
+      ],
+      "toLabel": "FOM, ASO",
+      "event": "Screenshot: The console’s track panel shared by police (no camera image yet); officers describe a small white quadcopter with a red strobe, the same general shape as the Group’s UAS-07 to UAS-10. The panel shows serial 1F7Q-ZX43-0915, an operator position in the north lot and a takeoff point beside the Group’s perimeter road.",
+      "expectedAction": "The ASO compares the serial with the register and records that it is not a Group aircraft, saves the screenshot with the time; the Director of Flight Operations explains to the police RPIC why the look-alike is not proof either way.",
+      "purposeTag": "CLUE",
+      "format": "screenshot_generic",
+      "injectId": "01M5RN47A8MMF6E3TKCMANTXVV",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 10 › 10.1 Remote ID",
+          "quote": "All aircraft broadcast Remote ID (standard, or the broadcast modules RID-BM-11 on UAS-11 and RID-BM-12 on UAS-12). The RPIC confirms the broadcast on the GCS status page at pre-flight. UAS-12 flies on",
+          "chunkId": 85
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "01M5RKR63KDHYA96H73972YCVC",
+      "time": "0:40",
+      "wallClock": "11:40",
+      "from": "Harwick Fall Festival organizer",
+      "toRoleIds": [
+        "pio",
+        "gm"
+      ],
+      "toLabel": "COMMS, GM",
+      "event": "Email Forward: The festival chair writes to Corporate Communications and the General Manager: “Your drone is buzzing six thousand people. Get it down now or we call the FAA and the newspaper.”",
+      "expectedAction": "The General Manager replies, after checking with Flight Operations, that every Group aircraft is grounded and logged, that the Group is helping Harwick Police, and that Harwick Police leads; Corporate Communications keeps the same words for the press.",
+      "purposeTag": "PRESSURE",
+      "format": "email_forward",
+      "injectId": "01M5RN4MQ3SJ7XMJW7W5AV0MGB",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+          "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+          "chunkId": 99
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager fo",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "01M5RKR63KDHYA96H73972YCVC",
+      "time": "0:50",
+      "wallClock": "11:50",
+      "from": "Social media",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "COMMS",
+      "event": "Post: “Drone buzzing the crowd at the Harwick Fair — it’s from the drone company next door, saw it go up from behind their hangar!! @HarwickPD” — with a phone photo of the drone over the grandstand.",
+      "expectedAction": "Corporate Communications posts or prepares the approved statement — Group aircraft are grounded today and the Group is helping Harwick Police — without guessing who the operator is, and logs the post.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "injectId": "01M5RN4XR6CBX51H7ZCRS63KTV",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager fo",
+          "chunkId": 32
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 11 › 11.1 Hazard log",
+          "quote": "The ASO keeps the hazard log; any crew member may add an entry anonymously through the safety form on the Group intranet. Entries are reviewed monthly at the safety meeting (FOM, ASO, Systems & Cybers",
+          "chunkId": 88
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "01M5RKR63K8T0K52P3KJFX3ZGS",
+      "time": "1:00",
+      "wallClock": "12:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ops",
+        "safety",
+        "gm",
+        "pio",
+        "security"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 12:00. The drone landed out of sight at 11:41 and has been quiet for twenty minutes. The festival’s noon parade is forming on the midway. The bystander post has passed 900 shares.",
+      "expectedAction": "Each team states what it has told whom, and what it is waiting for.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5RN5D6XD8ZRYKRC7ADS2R95",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "01M5RKR63K8T0K52P3KJFX3ZGS",
+      "time": "1:05",
+      "wallClock": "12:05",
+      "from": "Harwick Police detection console",
+      "toRoleIds": [
+        "security",
+        "ops"
+      ],
+      "toLabel": "LIAISON, FOM",
+      "event": "System Log: At 12:02 serial 1F7Q-ZX43-0915 is airborne again, circling the parade route at 220 ft. This time the broadcast operator position is on the Group’s perimeter road, inside the outer gate, 40 m from Hangar 1. Police ask who can get onto that road.",
+      "expectedAction": "The liaison answers who has gate access (Group staff, the fuel vendor, fair parking crews with a temporary code) and sends nobody to approach the operator; the Director of Flight Operations keeps the RPIC at the command post and the hangar closed.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5RN5MR7BRNKQQFMP37WJPRN",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+          "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+          "chunkId": 24
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 11 › 11.1 Hazard log",
+          "quote": "The ASO keeps the hazard log; any crew member may add an entry anonymously through the safety form on the Group intranet. Entries are reviewed monthly at the safety meeting (FOM, ASO, Systems & Cybers",
+          "chunkId": 88
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-07b",
+      "phaseId": "01M5RKR63K8T0K52P3KJFX3ZGS",
+      "time": "1:10",
+      "wallClock": "12:10",
+      "from": "Channel 10",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "COMMS",
+      "event": "Media Inquiry: Channel 10 has bystander video it says shows the drone taking off from behind the Harwick UAS hangar. “Is it yours? We go live at 12:30.”",
+      "expectedAction": "Corporate Communications says Group aircraft are grounded and logged, that the Group is helping Harwick Police, and that police will say more about the operator; it does not deny that the launch was near the hangar.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "injectId": "01M5RN626C80F77RY0Y18Q039V",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+          "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+          "chunkId": 24
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager fo",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "01M5RKR63K8T0K52P3KJFX3ZGS",
+      "time": "1:15",
+      "wallClock": "12:15",
+      "from": "Hangar 1",
+      "toRoleIds": [
+        "security",
+        "safety",
+        "ops"
+      ],
+      "toLabel": "LIAISON, ASO, FOM",
+      "event": "Situation Update: The liaison has counted Hangar 1: twelve aircraft on their racks, props off, batteries B-001 to B-048 all in the fire cabinet, the hangar alarm set since last night. He has photographed each rack with the time showing.",
+      "expectedAction": "The ASO adds the photographs and the count to the event record; the Director of Flight Operations sends them to the police command post; the General Manager is told the Group can prove its fleet was grounded.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "scenario_update",
+      "injectId": "01M5RN6ETGBCJSC6C4DDQ4QZG8",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+          "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+          "chunkId": 24
+        },
+        {
+          "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+          "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+          "headingPath": "SITE › 3. Airspace and authorizations",
+          "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+          "chunkId": 141
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-08b",
+      "phaseId": "01M5RKR63K8T0K52P3KJFX3ZGS",
+      "time": "1:20",
+      "wallClock": "12:20",
+      "from": "Insurance broker",
+      "toRoleIds": [
+        "gm"
+      ],
+      "toLabel": "GM",
+      "event": "Email: The Group’s aviation insurance broker reminds the General Manager that the hull and liability renewal documents are due by the end of the month.",
+      "expectedAction": "The General Manager files it for next week; it is not related.",
+      "purposeTag": "NOISE",
+      "format": "email",
+      "injectId": "01M5RN6TT42K1009627JAPFAYV",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager fo",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "01M5RKR63K8T0K52P3KJFX3ZGS",
+      "time": "1:25",
+      "wallClock": "12:25",
+      "from": "Harwick Police command post",
+      "toRoleIds": [
+        "security",
+        "safety"
+      ],
+      "toLabel": "LIAISON, ASO",
+      "event": "Situation Update: From the command post, the Group’s RPIC reports that the sergeant now believes the operator is on or near the Group’s perimeter road and is sending two officers there. The FAA duty officer has called the sergeant and wants to know who reported the drone and whether it is a commercial operation.",
+      "expectedAction": "The liaison keeps Group staff away from the officers’ approach and logs it; the ASO prepares what the Group will tell the FSDO (the 0800 count, the register, the photographs, the Remote ID data seen at the command post).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "scenario_update",
+      "injectId": "01M5RN7C878DWRVNTGA39QKE26",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+          "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+          "chunkId": 24
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 11 › 11.1 Hazard log",
+          "quote": "The ASO keeps the hazard log; any crew member may add an entry anonymously through the safety form on the Group intranet. Entries are reviewed monthly at the safety meeting (FOM, ASO, Systems & Cybers",
+          "chunkId": 88
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "01M5RKR63K4WG0KWD1JQA14HE6",
+      "time": "2:00",
+      "wallClock": "13:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ops",
+        "safety",
+        "gm",
+        "pio",
+        "security"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 13:00. The drone landed at 12:31 and has not flown since. Two officers are in the north lot and on the perimeter road. Channel 10 ran its video at 12:30 with the line “launched from behind a local drone company’s hangar.”",
+      "expectedAction": "Each team states what it has said publicly and what it would say if the operator were found on Group property.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5RN7MZXH5C0Q4PZRN9HZNSJ",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "01M5RKR63K4WG0KWD1JQA14HE6",
+      "time": "2:05",
+      "wallClock": "13:05",
+      "from": "Harwick Police",
+      "toRoleIds": [
+        "gm",
+        "security",
+        "ops"
+      ],
+      "toLabel": "GM, LIAISON, FOM",
+      "event": "Phone Call: The sergeant: “We’ve got him. White quad, controller in his hand, sitting on the tailgate of a pickup on your perimeter road. Says his name is Kyle Brandt and that he’s one of your part-time visual observers, off today, flying his own drone to film the fair for his channel. He has a Group gate code. Is he yours?”",
+      "expectedAction": "The General Manager joins the call (HUOG-ERP 8.4); the Director of Flight Operations confirms from the roster that Kyle Brandt is a part-time visual observer and that the drone is not a Group aircraft; the liaison asks how he got the gate code and has it changed; nobody from the Group touches the drone or the controller.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5RN7YNN19E7J5NEWRNFYADX",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+          "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+          "chunkId": 24
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "01M5RKR63K4WG0KWD1JQA14HE6",
+      "time": "2:10",
+      "wallClock": "13:10",
+      "from": "FAA Harwick FSDO",
+      "toRoleIds": [
+        "safety"
+      ],
+      "toLabel": "ASO",
+      "event": "Phone Call: The FSDO duty inspector: “I understand the operator works for you. Was this a Group operation under your Part 107 program, or his own recreational or Part 107 flight? Does he hold a remote pilot certificate? Did anyone at the Group know he was flying?”",
+      "expectedAction": "The ASO answers with what the Group knows — not a Group aircraft, not scheduled, a NO FLY day, he is a visual observer — and does not speculate about his certificate or intent; commits to a written follow-up with the records.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5RN8DFS9C6NTDCZH1FS2RS2",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+          "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+          "chunkId": 24
+        },
+        {
+          "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+          "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+          "headingPath": "SITE › 3. Airspace and authorizations",
+          "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+          "chunkId": 141
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "01M5RKR63K4WG0KWD1JQA14HE6",
+      "time": "2:15",
+      "wallClock": "13:15",
+      "from": "Harwick Police PIO",
+      "toRoleIds": [
+        "gm",
+        "pio",
+        "safety"
+      ],
+      "toLabel": "GM, COMMS, ASO",
+      "event": "Phone Call: The Harwick Police PIO: “We’re putting out a statement at 13:30. It will say the operator was identified, cited for flying over people at a public event, and is ‘associated with a local drone company.’ It won’t name the company. You’ve been saying ‘no Group aircraft were flying’ all morning. Do you want to say something before we do?”",
+      "expectedAction": "DECISION POINT: The General Manager, with Corporate Communications and the ASO, decides what the Group says publicly — acknowledging that the operator is a part-time crew member flying his own drone off duty, or holding to “no Group aircraft were flying” — and how it will handle him (removing him from flight duties pending review), and records the decision and its basis.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M5RN8WWZPD98Q71A5T7FNX7B",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+          "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+          "chunkId": 24
+        },
+        {
+          "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+          "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+          "headingPath": "SITE › 3. Airspace and authorizations",
+          "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+          "chunkId": 141
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14c",
+      "phaseId": "01M5RKR63K4WG0KWD1JQA14HE6",
+      "time": "2:18",
+      "wallClock": "13:18",
+      "from": "Hangar 2",
+      "toRoleIds": [
+        "security"
+      ],
+      "toLabel": "LIAISON",
+      "event": "Field Report: A festival visitor has locked her keys in her car in the Group’s visitor lot and asks for help.",
+      "expectedAction": "The liaison points her to the fair’s roadside-assistance tent; it is not related.",
+      "purposeTag": "NOISE",
+      "format": "field_report",
+      "injectId": "01M5RN9DM6S6KGX4063XZKT80R",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+          "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+          "chunkId": 24
+        },
+        {
+          "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+          "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+          "headingPath": "SITE › 3. Airspace and authorizations",
+          "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+          "chunkId": 141
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "01M5RKR63K4WG0KWD1JQA14HE6",
+      "time": "2:20",
+      "wallClock": "13:20",
+      "from": "Flight Operations Desk",
+      "toRoleIds": [
+        "ops",
+        "safety"
+      ],
+      "toLabel": "FOM, ASO",
+      "event": "Situation Update: The desk finds Kyle Brandt on Monday’s CP&L transmission-line inspection roster as the visual observer for UAS-02. There is no spare VO certified on UAS-02 for Monday; the flight is a client deliverable.",
+      "expectedAction": "The Director of Flight Operations removes him from Monday’s roster pending review and finds a replacement or moves the flight; the ASO records the change.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "scenario_update",
+      "injectId": "01M5RN9X28CT86HCHFBDNV5F1X",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+          "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+          "chunkId": 24
+        },
+        {
+          "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+          "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+          "headingPath": "SITE › 3. Airspace and authorizations",
+          "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+          "chunkId": 141
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14b",
+      "phaseId": "01M5RKR63K4WG0KWD1JQA14HE6",
+      "time": "2:25",
+      "wallClock": "13:25",
+      "from": "Social media",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "COMMS",
+      "event": "Post: “So it WAS the drone company. Their guy, their gate, their road. ‘No Group aircraft’ my foot. #HarwickFair” — 1,400 shares, with a photo of the pickup on the perimeter road behind police tape.",
+      "expectedAction": "Corporate Communications answers with the Group’s decided statement, consistent with the Harwick Police statement, and does not argue in the comments.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "injectId": "01M5RNA7D4RWEH6NQAA5BG38RE",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager fo",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "01M5RKR63K6ANJ18Y4P4BBRV9P",
+      "time": "3:00",
+      "wallClock": "14:00",
+      "from": "Hangar 1",
+      "toRoleIds": [
+        "security"
+      ],
+      "toLabel": "LIAISON",
+      "event": "Field Report: The hangar alarm contractor confirms Monday’s 07:00 routine test of the Hangar 1 door contacts.",
+      "expectedAction": "The liaison acknowledges; it is routine.",
+      "purposeTag": "NOISE",
+      "format": "field_report",
+      "injectId": "01M5RNAG2QVPK0152WG1DMN5J3",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+          "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+          "chunkId": 24
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "01M5RKR63K6ANJ18Y4P4BBRV9P",
+      "time": "3:05",
+      "wallClock": "14:05",
+      "from": "Harwick Police",
+      "toRoleIds": [
+        "security",
+        "safety"
+      ],
+      "toLabel": "LIAISON, ASO",
+      "event": "Phone Call: The sergeant: “We’re keeping the drone, the controller and the memory card as evidence. We’d like copies of your 0800 fleet log, the register extract with your Remote ID serials and your RPIC’s notes from the command post, by Monday.”",
+      "expectedAction": "The liaison agrees and logs the request; the ASO assembles the copies from the event record; the Group keeps its originals and takes nothing of the operator’s.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5RNAT58DAAXZHJKC8C5Z0J7",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "01M5RKR63K6ANJ18Y4P4BBRV9P",
+      "time": "3:15",
+      "wallClock": "14:15",
+      "from": "Calder Power & Light",
+      "toRoleIds": [
+        "gm",
+        "ops"
+      ],
+      "toLabel": "GM, FOM",
+      "event": "Phone Call: CP&L’s program manager saw the Channel 10 story: “Is Monday’s line inspection still on? Is your company in trouble with the FAA? We can’t have a crew under investigation on our right-of-way.”",
+      "expectedAction": "The General Manager answers with facts (a part-time crew member flew his own drone off duty; not a Group operation; he is off the roster pending review) and the Director of Flight Operations confirms Monday’s crew.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5RNB5E7W78E8Y4EJPD616C7",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.1 Return to flight",
+          "quote": "An aircraft involved in a Level 2 or 3 event is DOWN until the post-incident inspection (HUOG-FOM 4.3), the Systems & Cybersecurity Lead's link and parameter review, and the ASO's sign-off. The site i",
+          "chunkId": 34
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "01M5RKR63K6ANJ18Y4P4BBRV9P",
+      "time": "3:20",
+      "wallClock": "14:20",
+      "from": "Harwick Daily News",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "COMMS",
+      "event": "Email Forward: The Harwick Daily News asks for the Group’s policy on staff flying personal drones near Horton Field and the fairgrounds, and whether the operator will keep his job. Deadline 16:00.",
+      "expectedAction": "Corporate Communications gives the Group’s statement, says the Group does not discuss individual personnel matters, and describes the existing NO FLY rule for Group operations; the policy question goes to the General Manager.",
+      "purposeTag": "PRESSURE",
+      "format": "email_forward",
+      "injectId": "01M5RNBQCRHVMG3A5PGANJ8DYW",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 7 › 7.5 Client notification",
+          "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrume",
+          "chunkId": 121
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-20",
+      "phaseId": "01M5RKR63K6ANJ18Y4P4BBRV9P",
+      "time": "3:25",
+      "wallClock": "14:25",
+      "from": "Event record (draft)",
+      "toRoleIds": [
+        "safety",
+        "gm",
+        "ops"
+      ],
+      "toLabel": "ASO, GM, FOM",
+      "event": "Situation Update: The ASO’s draft event record lists the times, the 0800 count, the Remote ID data seen at the command post, the photographs and the calls. One question is open: the Group has no rule on staff flying personal drones near Horton Field during public events, and the gate code he used was the fair-week temporary code.",
+      "expectedAction": "The ASO completes the record and the FSDO follow-up; the General Manager and the Director of Flight Operations decide on an interim rule for personal flights near Group sites during public events and on how gate codes are handled for fair week.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "scenario_update",
+      "injectId": "01M5RNC0V5SPBJVHTKKS87SH99",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+          "quote": "Parameter sets (failsafe actions, lost-link timers, RTL altitude, geofence) are exported after every change to `\\\\HUOG-NAS01\\ops\\param-log.md` with the hash of the parameter file. The pre-flight check",
+          "chunkId": 107
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "01M5RKR63K6ANJ18Y4P4BBRV9P",
+      "time": "4:00",
+      "wallClock": "15:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ops",
+        "safety",
+        "gm",
+        "pio",
+        "security"
+      ],
+      "toLabel": "All",
+      "event": "ENDEX: It is now 15:00. The exercise ends here. The drone is with Harwick Police, the FSDO has the Group’s account, Monday’s crew is set, and the review of the crew member and the gate codes continues.",
+      "expectedAction": "Teams hand in their incident logs and the decision record; the facilitator opens the hot wash.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M5RNCAQ7CQ7MP1WYTVCTK16B",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5RKHCV1X3ZKP5RGPTST39PK/documents/handbook.md",
+    "briefing": "scenarios/01M5RKHCV1X3ZKP5RGPTST39PK/documents/briefing.md",
+    "overview": "scenarios/01M5RKHCV1X3ZKP5RGPTST39PK/documents/overview.md",
+    "hotwash": "scenarios/01M5RKHCV1X3ZKP5RGPTST39PK/documents/hotwash.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "01M5RMFDBQ8ZEYJRD7M4J2EY06",
+        "name": "Proving the Fleet Was Grounded",
+        "points": 25,
+        "fail": "The Group answered Harwick Police late or from memory, or launched an aircraft to look.",
+        "pass": "The desk answered within five minutes from the register and the 0800 log (I-02), the serial was compared (I-04) and Hangar 1 was counted and photographed (I-09).",
+        "excellence": "The answer to police carried times and evidence, and the photographs reached the command post before the press asked.",
+        "linkedInjectIds": [
+          "I-01",
+          "I-02",
+          "I-04",
+          "I-09"
+        ],
+        "objectiveRefs": [
+          "Communication",
+          "Technical Analysis"
+        ]
+      },
+      {
+        "id": "01M5RMFDBRBQK1SPSTY26TVRJ2",
+        "name": "Supporting Police Without Interfering",
+        "points": 20,
+        "fail": "Group staff approached the operator, the drone or the evidence, or tried to follow it.",
+        "pass": "An RPIC went to the command post with a clear brief (I-03); gate access was answered at I-08; staff stayed away at I-10 and I-12; records were copied for police at I-17.",
+        "excellence": "The gate code was changed at I-12 and the RPIC’s notes were preserved for the record.",
+        "linkedInjectIds": [
+          "I-03",
+          "I-08",
+          "I-10",
+          "I-12",
+          "I-17"
+        ],
+        "objectiveRefs": [
+          "Use of Doctrine"
+        ]
+      },
+      {
+        "id": "01M5RMFDBRG1YBFWSHKEB8P143",
+        "name": "The Public Statement Decision",
+        "points": 35,
+        "fail": "The Group kept repeating “no Group aircraft were flying” after I-12 without saying who the operator was, or named him to the press.",
+        "pass": "At I-14 the General Manager decided what to say with Corporate Communications and the ASO, consistent with the police statement, and recorded the basis; the crew member was taken off flight duties pending review (I-15).",
+        "excellence": "The Group spoke before or with the police, without naming him, and gave CP&L (I-18) and the press (I-19) the same facts.",
+        "linkedInjectIds": [
+          "I-12",
+          "I-14",
+          "I-14b",
+          "I-15",
+          "I-18",
+          "I-19"
+        ],
+        "objectiveRefs": [
+          "Decision Making",
+          "Communication"
+        ]
+      },
+      {
+        "id": "01M5RMFDBR4Z09K8KGGB9B2Z0E",
+        "name": "Records and Regulator",
+        "points": 20,
+        "fail": "The FSDO heard nothing from the Group, or heard speculation about the employee.",
+        "pass": "The ASO answered the FSDO with facts (I-13) and drafted the event record and follow-up (I-20).",
+        "excellence": "The team agreed an interim rule on personal flights near Group sites and fair-week gate codes at I-20.",
+        "linkedInjectIds": [
+          "I-13",
+          "I-17",
+          "I-20"
+        ],
+        "objectiveRefs": [
+          "Use of Doctrine"
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Each team names three things that went well and three that did not; the facilitator writes them up and looks for the same issue in more than one team.",
+    "questions": [
+      {
+        "topic": "Proving a Negative",
+        "text": "How long did it take to tell Harwick Police that every Group aircraft was grounded, and what evidence backed it?",
+        "objectiveRef": "Communication"
+      },
+      {
+        "topic": "The Line",
+        "text": "Was “no Group aircraft were flying” still the right public line once the operator was found? What did you decide to say, and why?",
+        "objectiveRef": "Decision Making"
+      },
+      {
+        "topic": "Hands Off",
+        "text": "Did anyone want to launch, follow or approach the drone or its operator? What stopped them?",
+        "objectiveRef": "Use of Doctrine"
+      },
+      {
+        "topic": "Our Own People",
+        "text": "What should the Group’s rule be on staff flying their own drones near Horton Field and during public events?",
+        "objectiveRef": "Use of Doctrine"
+      },
+      {
+        "topic": "Clients",
+        "text": "What did CP&L hear, from whom, and before or after the news?",
+        "objectiveRef": "Communication"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "Harwick Police sergeant (event command post)",
+      "trigger": "The Group calls the command post, or the liaison is asked for anything.",
+      "hardQuestions": [
+        "Is it yours? I need a yes or no with a time on it.",
+        "Who can open the gate on your perimeter road?",
+        "Can your pilot tell me whether that Remote ID is real or spoofed?"
+      ],
+      "concessions": [
+        "Accepts the 0800 count and the register as proof the fleet is grounded.",
+        "Keeps the drone and controller as evidence; asks only for copies of Group records."
+      ]
+    },
+    {
+      "rolePlayed": "FAA Harwick FSDO duty inspector",
+      "trigger": "The ASO calls, or no one has by 13:10.",
+      "hardQuestions": [
+        "Was this a Group operation? How do you know?",
+        "What is your policy on employees flying their own aircraft near your sites?"
+      ],
+      "concessions": [
+        "Accepts a written follow-up with the records; does not tell the Group what to do with the employee."
+      ]
+    },
+    {
+      "rolePlayed": "Kyle Brandt (part-time visual observer)",
+      "trigger": "Any Group manager calls him.",
+      "hardQuestions": [
+        "I was off duty with my own drone. Why is this the company’s business?",
+        "Am I fired?"
+      ],
+      "concessions": [
+        "Accepts being taken off Monday’s roster pending review if told plainly why."
+      ]
+    }
+  ],
+  "criticalResources": [
+    "Fleet register (Remote ID serials) and the 0800 fleet log",
+    "Hangar 1: aircraft, batteries and alarm",
+    "Perimeter road gate and its codes",
+    "Group RPIC at the Harwick Police command post",
+    "Harwick Police detection console (police-owned)",
+    "Event record and photographs",
+    "FAA Harwick FSDO contact",
+    "Corporate Communications statements",
+    "Monday CP&L crew roster",
+    "Public mood (posts, press)"
+  ],
+  "warnings": [
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The IC calls Harwick Police at 585-555-0155, but that number is not in the contacts list; the correct number is 585-555-0111. (row rewritten once from this note)",
+      "rowId": "I-12",
+      "source": "critique",
+      "suggestion": "Change the phone number in I-12 to 585-555-0111, as listed in C5.",
+      "basis": {
+        "at": "2026-10-25T04:28:30.965Z",
+        "row": "afc3205cd5e61817"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The Field Operations Lead reports a sighting at 11:45, but that time is before the first detection at 11:03, making the timeline impossible. (row rewritten once from this note)",
+      "rowId": "I-14c",
+      "source": "critique",
+      "suggestion": "Move the field report in I-14c to a later time, such as 12:30, to maintain chronological consistency.",
+      "basis": {
+        "at": "2026-10-25T04:28:30.965Z",
+        "row": "e05c42bfc000dbaf"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The ASO is instructed to file a preliminary event report (ERP-1001), but ERP-1001 is not listed in the documents as a valid report type. (row rewritten once from this note)",
+      "rowId": "I-10",
+      "source": "critique",
+      "suggestion": "Replace ERP-1001 with a valid report number from the documents, such as a standard incident report under HUOG-ERP Section 11.3.",
+      "basis": {
+        "at": "2026-10-25T04:28:30.965Z",
+        "row": "db2247d03048a39a"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The technical update claims the Remote ID broadcast matches UAS-12's test protocol, but UAS-12 is confirmed grounded in Hangar 1 and cannot be broadcasting. (row rewritten once from this note)",
+      "rowId": "I-09",
+      "source": "critique",
+      "suggestion": "Revise the technical update to state that the broadcast matches a known test pattern but is not registered to any active Group aircraft.",
+      "basis": {
+        "at": "2026-10-25T04:28:30.965Z",
+        "row": "cbb3c903ca8300c1"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The GCS at Hangar 1 (GCS-01) is said to display a live Remote ID overlay, but GCS-01 is not listed as a GCS with remote ID capability in the documents.",
+      "rowId": "I-01",
+      "source": "critique",
+      "suggestion": "Replace GCS-01 with GCS-04, which is listed in the hostnames and consistent with the GCS list in C6.",
+      "basis": {
+        "at": "2026-10-25T04:28:30.965Z",
+        "row": "35db276d1251b321"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The field observer reports a drone with a red light, but 'red light' is not a standard UAS identifier and may mislead players about the threat.",
+      "rowId": "I-03b",
+      "source": "critique",
+      "suggestion": "Replace 'red light' with a more technical description, such as 'red LED on the nose' or 'persistent red strobe'.",
+      "basis": {
+        "at": "2026-10-25T04:28:30.965Z",
+        "row": "7d46507f3a123d9f"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The public statement is said to be approved by the General Manager, but the GM is not listed as having approval authority in the documents.",
+      "rowId": "I-05",
+      "source": "critique",
+      "suggestion": "Change the approval to the Incident Commander or ASO, as per HUOG-ERP Section 7.2.",
+      "basis": {
+        "at": "2026-10-25T04:28:30.965Z",
+        "row": "8ba90f9e58e4490f"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The IC requests a state-level counter-UAS team under the SAFER SKIES Act, but that law is not referenced in any document and has no known authority over local law enforcement.",
+      "rowId": "I-15",
+      "source": "critique",
+      "suggestion": "Replace the SAFER SKIES Act reference with a documented authority, such as the FAA’s emergency coordination protocol under HUOG-ERP Section 8.4.",
+      "basis": {
+        "at": "2026-10-25T04:28:30.965Z",
+        "row": "1a37056534e83a30"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The IC claims to file under the SAFER SKIES Act, but that law is not in the documents and is not a valid federal reporting mechanism.",
+      "rowId": "I-13",
+      "source": "critique",
+      "suggestion": "Replace the reference with a valid reporting mechanism, such as the FAA’s UAS Incident Reporting System (FIRIS) as per HUOG-ERP Section 8.4.",
+      "basis": {
+        "at": "2026-10-25T04:28:30.965Z",
+        "row": "0133dad6b8bbd8ed"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "The time jump to 12:00 is not justified by any new event or data; it introduces a gap in the narrative.",
+      "rowId": "I-07",
+      "source": "critique",
+      "suggestion": "Add a brief inject, such as a media alert or a new social media post, to justify the time jump.",
+      "basis": {
+        "at": "2026-10-25T04:28:30.965Z",
+        "row": "56c642e4817cd7af"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "info",
+      "message": "The social media post uses a fake handle (@HarwickNeighbor12), which contradicts the real-world social media policy in C3.",
+      "rowId": "I-06",
+      "source": "critique",
+      "suggestion": "Use a real or plausible handle, such as @HarwickResident1, to maintain realism.",
+      "basis": {
+        "at": "2026-10-25T04:28:30.965Z",
+        "row": "95edd2018392500f"
+      },
+      "stale": true
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 1 has 8 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    }
+  ],
+  "provenance": [
+    {
+      "stage": "scenario_overview",
+      "startedAt": "2026-10-25T04:01:43.816Z",
+      "finishedAt": "2026-10-25T04:02:24.839Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "scenario_overview@default",
+      "promptHash": "9f8944d1974755faf8b65a50618e8d9a4e9dafdbb5f15a80ea8e7fc6d6f52e11",
+      "inputTokens": 3180,
+      "outputTokens": 702,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "objectives_roles",
+      "startedAt": "2026-10-25T04:02:24.857Z",
+      "finishedAt": "2026-10-25T04:03:34.603Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "objectives_roles@default",
+      "promptHash": "2064d9112b27190e19fcffce58cc7d1b661679cd560ac948f322de6e766dbe18",
+      "inputTokens": 3690,
+      "outputTokens": 1170,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "phase_plan",
+      "startedAt": "2026-10-25T04:03:34.620Z",
+      "finishedAt": "2026-10-25T04:05:26.259Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "phase_plan@default",
+      "promptHash": "d5ba5715d3af2998a1d7f397abe4dee08f509a020e2084d00d52e1f11136e32a",
+      "inputTokens": 4102,
+      "outputTokens": 2016,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5RKR63KDHYA96H73972YCVC",
+      "startedAt": "2026-10-25T04:05:26.281Z",
+      "finishedAt": "2026-10-25T04:07:43.493Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "15a53dbfad3cec72bb6091c023023396b351b89ab62507360c5acc14b87b020e",
+      "inputTokens": 41579,
+      "outputTokens": 9311,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5RKR63K8T0K52P3KJFX3ZGS",
+      "startedAt": "2026-10-25T04:08:32.488Z",
+      "finishedAt": "2026-10-25T04:10:21.675Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "15a53dbfad3cec72bb6091c023023396b351b89ab62507360c5acc14b87b020e",
+      "inputTokens": 34165,
+      "outputTokens": 3689,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5RKR63K4WG0KWD1JQA14HE6",
+      "startedAt": "2026-10-25T04:10:51.562Z",
+      "finishedAt": "2026-10-25T04:12:38.862Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "15a53dbfad3cec72bb6091c023023396b351b89ab62507360c5acc14b87b020e",
+      "inputTokens": 47205,
+      "outputTokens": 6052,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5RKR63K6ANJ18Y4P4BBRV9P",
+      "startedAt": "2026-10-25T04:13:01.541Z",
+      "finishedAt": "2026-10-25T04:14:47.581Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "15a53dbfad3cec72bb6091c023023396b351b89ab62507360c5acc14b87b020e",
+      "inputTokens": 25382,
+      "outputTokens": 2775,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "controller_handbook",
+      "startedAt": "2026-10-25T04:14:47.602Z",
+      "finishedAt": "2026-10-25T04:16:56.376Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "controller_handbook@default",
+      "promptHash": "e2fef25331b9e1d7345f70cd9b29ceec65c2c18f975219deb5ca4365edd96969",
+      "inputTokens": 7120,
+      "outputTokens": 2169,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "rubric",
+      "startedAt": "2026-10-25T04:16:56.391Z",
+      "finishedAt": "2026-10-25T04:18:07.351Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "rubric@default",
+      "promptHash": "ad7bd6953cef369fd9514e4afe0f3ba42c00ff46e006516319efc459947cf670",
+      "inputTokens": 7519,
+      "outputTokens": 1099,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "player_briefing",
+      "startedAt": "2026-10-25T04:18:07.369Z",
+      "finishedAt": "2026-10-25T04:19:45.377Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "player_briefing@default",
+      "promptHash": "8f2102ec53a8b66fec8b29b0e02e33e403ab08766558036ece9685bb58015158",
+      "inputTokens": 4883,
+      "outputTokens": 1622,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "hotwash",
+      "startedAt": "2026-10-25T04:19:45.390Z",
+      "finishedAt": "2026-10-25T04:20:12.343Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "hotwash@default",
+      "promptHash": "3203b67c6ff847c27925a8402438166159dad09b8fcc35fd87fa19f0115e5216",
+      "inputTokens": 1887,
+      "outputTokens": 467,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "critique",
+      "startedAt": "2026-10-25T04:20:12.404Z",
+      "finishedAt": "2026-10-25T04:21:05.766Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "critique@default",
+      "promptHash": "810ac6a39a9ac414c87c6ce3569bf8653d59e19a4e1a74d4ea60d15367877310",
+      "inputTokens": 11182,
+      "outputTokens": 1154,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN2J8DEMFQCV2J3N46Y3M2",
+      "startedAt": "2026-10-25T04:28:34.977Z",
+      "finishedAt": "2026-10-25T04:28:42.011Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 5310,
+      "outputTokens": 567,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN2J8DEMFQCV2J3N46Y3M2",
+      "startedAt": "2026-10-25T04:28:42.030Z",
+      "finishedAt": "2026-10-25T04:28:42.030Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN2S5KZKBMZRYG83WW2AJV",
+      "startedAt": "2026-10-25T04:28:42.041Z",
+      "finishedAt": "2026-10-25T04:28:54.687Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 5650,
+      "outputTokens": 992,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN2S5KZKBMZRYG83WW2AJV",
+      "startedAt": "2026-10-25T04:28:54.691Z",
+      "finishedAt": "2026-10-25T04:28:54.691Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN35H8EJKJXYDRZ5KK3N6S",
+      "startedAt": "2026-10-25T04:28:54.703Z",
+      "finishedAt": "2026-10-25T04:29:00.928Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 5744,
+      "outputTokens": 418,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN35H8EJKJXYDRZ5KK3N6S",
+      "startedAt": "2026-10-25T04:29:00.939Z",
+      "finishedAt": "2026-10-25T04:29:03.335Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1695,
+      "outputTokens": 194,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN3DZDA9P4RVDE8SF5E457",
+      "startedAt": "2026-10-25T04:29:03.347Z",
+      "finishedAt": "2026-10-25T04:29:10.318Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 5908,
+      "outputTokens": 450,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN3DZDA9P4RVDE8SF5E457",
+      "startedAt": "2026-10-25T04:29:10.321Z",
+      "finishedAt": "2026-10-25T04:29:16.007Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1735,
+      "outputTokens": 506,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN3TBC1NYS29BJ1Q193CGR",
+      "startedAt": "2026-10-25T04:29:16.019Z",
+      "finishedAt": "2026-10-25T04:29:29.279Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 6227,
+      "outputTokens": 922,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN3TBC1NYS29BJ1Q193CGR",
+      "startedAt": "2026-10-25T04:29:29.282Z",
+      "finishedAt": "2026-10-25T04:29:29.282Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN47A8MMF6E3TKCMANTXVV",
+      "startedAt": "2026-10-25T04:29:29.295Z",
+      "finishedAt": "2026-10-25T04:29:37.694Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 6280,
+      "outputTokens": 436,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN47A8MMF6E3TKCMANTXVV",
+      "startedAt": "2026-10-25T04:29:37.700Z",
+      "finishedAt": "2026-10-25T04:29:43.001Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1957,
+      "outputTokens": 295,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN4MQ3SJ7XMJW7W5AV0MGB",
+      "startedAt": "2026-10-25T04:29:43.025Z",
+      "finishedAt": "2026-10-25T04:29:52.245Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 6703,
+      "outputTokens": 445,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN4MQ3SJ7XMJW7W5AV0MGB",
+      "startedAt": "2026-10-25T04:29:52.252Z",
+      "finishedAt": "2026-10-25T04:29:52.252Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN4XR6CBX51H7ZCRS63KTV",
+      "startedAt": "2026-10-25T04:29:52.274Z",
+      "finishedAt": "2026-10-25T04:29:58.767Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 14133,
+      "outputTokens": 679,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN4XR6CBX51H7ZCRS63KTV",
+      "startedAt": "2026-10-25T04:30:05.273Z",
+      "finishedAt": "2026-10-25T04:30:08.086Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1844,
+      "outputTokens": 219,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN5D6XD8ZRYKRC7ADS2R95",
+      "startedAt": "2026-10-25T04:30:08.100Z",
+      "finishedAt": "2026-10-25T04:30:15.808Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 7300,
+      "outputTokens": 410,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN5D6XD8ZRYKRC7ADS2R95",
+      "startedAt": "2026-10-25T04:30:15.811Z",
+      "finishedAt": "2026-10-25T04:30:15.811Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN5MR7BRNKQQFMP37WJPRN",
+      "startedAt": "2026-10-25T04:30:15.824Z",
+      "finishedAt": "2026-10-25T04:30:29.572Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 7230,
+      "outputTokens": 885,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN5MR7BRNKQQFMP37WJPRN",
+      "startedAt": "2026-10-25T04:30:29.575Z",
+      "finishedAt": "2026-10-25T04:30:29.575Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN626C80F77RY0Y18Q039V",
+      "startedAt": "2026-10-25T04:30:29.589Z",
+      "finishedAt": "2026-10-25T04:30:35.765Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 15234,
+      "outputTokens": 624,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN626C80F77RY0Y18Q039V",
+      "startedAt": "2026-10-25T04:30:42.506Z",
+      "finishedAt": "2026-10-25T04:30:42.506Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN6ETGBCJSC6C4DDQ4QZG8",
+      "startedAt": "2026-10-25T04:30:42.522Z",
+      "finishedAt": "2026-10-25T04:30:54.777Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 7788,
+      "outputTokens": 747,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN6ETGBCJSC6C4DDQ4QZG8",
+      "startedAt": "2026-10-25T04:30:54.780Z",
+      "finishedAt": "2026-10-25T04:30:54.780Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN6TT42K1009627JAPFAYV",
+      "startedAt": "2026-10-25T04:30:54.798Z",
+      "finishedAt": "2026-10-25T04:31:03.320Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 15688,
+      "outputTokens": 999,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN6TT42K1009627JAPFAYV",
+      "startedAt": "2026-10-25T04:31:12.639Z",
+      "finishedAt": "2026-10-25T04:31:12.639Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN7C878DWRVNTGA39QKE26",
+      "startedAt": "2026-10-25T04:31:12.656Z",
+      "finishedAt": "2026-10-25T04:31:21.589Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 7382,
+      "outputTokens": 525,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN7C878DWRVNTGA39QKE26",
+      "startedAt": "2026-10-25T04:31:21.591Z",
+      "finishedAt": "2026-10-25T04:31:21.591Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN7MZXH5C0Q4PZRN9HZNSJ",
+      "startedAt": "2026-10-25T04:31:21.608Z",
+      "finishedAt": "2026-10-25T04:31:31.501Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 7977,
+      "outputTokens": 566,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN7MZXH5C0Q4PZRN9HZNSJ",
+      "startedAt": "2026-10-25T04:31:31.503Z",
+      "finishedAt": "2026-10-25T04:31:31.503Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN7YNN19E7J5NEWRNFYADX",
+      "startedAt": "2026-10-25T04:31:31.521Z",
+      "finishedAt": "2026-10-25T04:31:46.669Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 8511,
+      "outputTokens": 914,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN7YNN19E7J5NEWRNFYADX",
+      "startedAt": "2026-10-25T04:31:46.675Z",
+      "finishedAt": "2026-10-25T04:31:46.675Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN8DFS9C6NTDCZH1FS2RS2",
+      "startedAt": "2026-10-25T04:31:46.692Z",
+      "finishedAt": "2026-10-25T04:31:57.723Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 8656,
+      "outputTokens": 589,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN8DFS9C6NTDCZH1FS2RS2",
+      "startedAt": "2026-10-25T04:31:57.731Z",
+      "finishedAt": "2026-10-25T04:32:02.457Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2346,
+      "outputTokens": 355,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN8WWZPD98Q71A5T7FNX7B",
+      "startedAt": "2026-10-25T04:32:02.474Z",
+      "finishedAt": "2026-10-25T04:32:14.329Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 8592,
+      "outputTokens": 657,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN8WWZPD98Q71A5T7FNX7B",
+      "startedAt": "2026-10-25T04:32:14.338Z",
+      "finishedAt": "2026-10-25T04:32:19.583Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2422,
+      "outputTokens": 406,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN9DM6S6KGX4063XZKT80R",
+      "startedAt": "2026-10-25T04:32:19.600Z",
+      "finishedAt": "2026-10-25T04:32:35.392Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 8691,
+      "outputTokens": 942,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN9DM6S6KGX4063XZKT80R",
+      "startedAt": "2026-10-25T04:32:35.394Z",
+      "finishedAt": "2026-10-25T04:32:35.394Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RN9X28CT86HCHFBDNV5F1X",
+      "startedAt": "2026-10-25T04:32:35.410Z",
+      "finishedAt": "2026-10-25T04:32:45.978Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 8916,
+      "outputTokens": 517,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RN9X28CT86HCHFBDNV5F1X",
+      "startedAt": "2026-10-25T04:32:45.981Z",
+      "finishedAt": "2026-10-25T04:32:45.981Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RNA7D4RWEH6NQAA5BG38RE",
+      "startedAt": "2026-10-25T04:32:45.996Z",
+      "finishedAt": "2026-10-25T04:32:54.859Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 8964,
+      "outputTokens": 413,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RNA7D4RWEH6NQAA5BG38RE",
+      "startedAt": "2026-10-25T04:32:54.863Z",
+      "finishedAt": "2026-10-25T04:32:54.863Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RNAG2QVPK0152WG1DMN5J3",
+      "startedAt": "2026-10-25T04:32:54.883Z",
+      "finishedAt": "2026-10-25T04:33:05.182Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 9245,
+      "outputTokens": 541,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RNAG2QVPK0152WG1DMN5J3",
+      "startedAt": "2026-10-25T04:33:05.188Z",
+      "finishedAt": "2026-10-25T04:33:05.188Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RNAT58DAAXZHJKC8C5Z0J7",
+      "startedAt": "2026-10-25T04:33:05.201Z",
+      "finishedAt": "2026-10-25T04:33:14.005Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 9156,
+      "outputTokens": 403,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RNAT58DAAXZHJKC8C5Z0J7",
+      "startedAt": "2026-10-25T04:33:14.011Z",
+      "finishedAt": "2026-10-25T04:33:16.737Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2361,
+      "outputTokens": 189,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RNB5E7W78E8Y4EJPD616C7",
+      "startedAt": "2026-10-25T04:33:16.752Z",
+      "finishedAt": "2026-10-25T04:33:29.688Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 9682,
+      "outputTokens": 500,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RNB5E7W78E8Y4EJPD616C7",
+      "startedAt": "2026-10-25T04:33:29.703Z",
+      "finishedAt": "2026-10-25T04:33:35.095Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2491,
+      "outputTokens": 277,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RNBQCRHVMG3A5PGANJ8DYW",
+      "startedAt": "2026-10-25T04:33:35.141Z",
+      "finishedAt": "2026-10-25T04:33:44.798Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 9714,
+      "outputTokens": 421,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RNBQCRHVMG3A5PGANJ8DYW",
+      "startedAt": "2026-10-25T04:33:44.800Z",
+      "finishedAt": "2026-10-25T04:33:44.800Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RNC0V5SPBJVHTKKS87SH99",
+      "startedAt": "2026-10-25T04:33:44.814Z",
+      "finishedAt": "2026-10-25T04:33:54.910Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 9642,
+      "outputTokens": 472,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RNC0V5SPBJVHTKKS87SH99",
+      "startedAt": "2026-10-25T04:33:54.913Z",
+      "finishedAt": "2026-10-25T04:33:54.913Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RNCAQ7CQ7MP1WYTVCTK16B",
+      "startedAt": "2026-10-25T04:33:54.930Z",
+      "finishedAt": "2026-10-25T04:34:08.470Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 9846,
+      "outputTokens": 712,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RNCAQ7CQ7MP1WYTVCTK16B",
+      "startedAt": "2026-10-25T04:34:08.472Z",
+      "finishedAt": "2026-10-25T04:34:08.472Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN2J8DEMFQCV2J3N46Y3M2",
+      "startedAt": "2026-10-25T05:02:43.525Z",
+      "finishedAt": "2026-10-25T05:02:43.739Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN2S5KZKBMZRYG83WW2AJV",
+      "startedAt": "2026-10-25T05:02:43.742Z",
+      "finishedAt": "2026-10-25T05:02:43.919Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN35H8EJKJXYDRZ5KK3N6S",
+      "startedAt": "2026-10-25T05:02:43.921Z",
+      "finishedAt": "2026-10-25T05:02:44.129Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN3DZDA9P4RVDE8SF5E457",
+      "startedAt": "2026-10-25T05:02:44.131Z",
+      "finishedAt": "2026-10-25T05:02:44.341Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN3TBC1NYS29BJ1Q193CGR",
+      "startedAt": "2026-10-25T05:02:44.344Z",
+      "finishedAt": "2026-10-25T05:02:44.553Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN47A8MMF6E3TKCMANTXVV",
+      "startedAt": "2026-10-25T05:02:44.555Z",
+      "finishedAt": "2026-10-25T05:02:44.674Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN4MQ3SJ7XMJW7W5AV0MGB",
+      "startedAt": "2026-10-25T05:02:44.677Z",
+      "finishedAt": "2026-10-25T05:02:44.861Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN4XR6CBX51H7ZCRS63KTV",
+      "startedAt": "2026-10-25T05:02:44.863Z",
+      "finishedAt": "2026-10-25T05:02:44.967Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN5D6XD8ZRYKRC7ADS2R95",
+      "startedAt": "2026-10-25T05:02:44.968Z",
+      "finishedAt": "2026-10-25T05:02:45.173Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN5MR7BRNKQQFMP37WJPRN",
+      "startedAt": "2026-10-25T05:02:45.176Z",
+      "finishedAt": "2026-10-25T05:02:45.368Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN626C80F77RY0Y18Q039V",
+      "startedAt": "2026-10-25T05:02:45.372Z",
+      "finishedAt": "2026-10-25T05:02:45.657Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN6ETGBCJSC6C4DDQ4QZG8",
+      "startedAt": "2026-10-25T05:02:45.659Z",
+      "finishedAt": "2026-10-25T05:02:45.871Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN6TT42K1009627JAPFAYV",
+      "startedAt": "2026-10-25T05:02:45.873Z",
+      "finishedAt": "2026-10-25T05:02:46.065Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN7C878DWRVNTGA39QKE26",
+      "startedAt": "2026-10-25T05:02:46.068Z",
+      "finishedAt": "2026-10-25T05:02:46.279Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN7MZXH5C0Q4PZRN9HZNSJ",
+      "startedAt": "2026-10-25T05:02:46.280Z",
+      "finishedAt": "2026-10-25T05:02:46.480Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN7YNN19E7J5NEWRNFYADX",
+      "startedAt": "2026-10-25T05:02:46.482Z",
+      "finishedAt": "2026-10-25T05:02:46.685Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN8DFS9C6NTDCZH1FS2RS2",
+      "startedAt": "2026-10-25T05:02:46.687Z",
+      "finishedAt": "2026-10-25T05:02:46.884Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN8WWZPD98Q71A5T7FNX7B",
+      "startedAt": "2026-10-25T05:02:46.886Z",
+      "finishedAt": "2026-10-25T05:02:47.084Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN9DM6S6KGX4063XZKT80R",
+      "startedAt": "2026-10-25T05:02:47.087Z",
+      "finishedAt": "2026-10-25T05:02:47.295Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RN9X28CT86HCHFBDNV5F1X",
+      "startedAt": "2026-10-25T05:02:47.297Z",
+      "finishedAt": "2026-10-25T05:02:47.552Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RNA7D4RWEH6NQAA5BG38RE",
+      "startedAt": "2026-10-25T05:02:47.554Z",
+      "finishedAt": "2026-10-25T05:02:47.655Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RNAG2QVPK0152WG1DMN5J3",
+      "startedAt": "2026-10-25T05:02:47.657Z",
+      "finishedAt": "2026-10-25T05:02:47.859Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RNAT58DAAXZHJKC8C5Z0J7",
+      "startedAt": "2026-10-25T05:02:47.861Z",
+      "finishedAt": "2026-10-25T05:02:48.064Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RNB5E7W78E8Y4EJPD616C7",
+      "startedAt": "2026-10-25T05:02:48.066Z",
+      "finishedAt": "2026-10-25T05:02:48.274Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RNBQCRHVMG3A5PGANJ8DYW",
+      "startedAt": "2026-10-25T05:02:48.277Z",
+      "finishedAt": "2026-10-25T05:02:48.529Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RNC0V5SPBJVHTKKS87SH99",
+      "startedAt": "2026-10-25T05:02:48.531Z",
+      "finishedAt": "2026-10-25T05:02:48.741Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RNCAQ7CQ7MP1WYTVCTK16B",
+      "startedAt": "2026-10-25T05:02:48.743Z",
+      "finishedAt": "2026-10-25T05:02:48.952Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

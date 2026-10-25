@@ -1,0 +1,210 @@
+{
+  "id": "01M5RK4A9HTD7Y45JATRW3F2KA",
+  "mselRowId": "I-14a",
+  "type": "system_log",
+  "title": "System Log: restore from OB-1, verified",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "Restore and verification log",
+    "host": "HUOG-PROC02 (rebuilt)",
+    "ip": "10.17.41.12",
+    "os": "Workstation 2026.1",
+    "logSource": "restore + verify_manifest",
+    "exportedBy": "tomas.reyes",
+    "exportedAt": "10/05/2026 12:04 PM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "12:00:40",
+        "level": "INFO",
+        "msg": "Restore order: calibration → ops records → cpl-d3 → others",
+        "highlight": false
+      },
+      {
+        "ts": "12:02:10",
+        "level": "INFO",
+        "msg": "calibration: 1,312 files restored; all match repository hashes",
+        "highlight": true
+      },
+      {
+        "ts": "12:03:05",
+        "level": "INFO",
+        "msg": "ops records restored",
+        "highlight": false
+      },
+      {
+        "ts": "12:03:58",
+        "level": "INFO",
+        "msg": "cpl-d3: 6 collection days restored; manifests match",
+        "highlight": true
+      }
+    ],
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "Watch for processing released only after the manifest checks.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.2 Backups",
+      "quote": "- NAS → the offline backup drives OB-1 and OB-2 (rotated weekly; the one not in use is in the General Manager's office safe); and → the off-site backup service nightly. - DC-HPC project storage is bac",
+      "chunkId": 115
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.3 Integrity",
+      "quote": "Raw data folders get a manifest of SHA-256 hashes when copied to the NAS; processing scripts verify the manifest before they start; deliverables carry a manifest the client can verify. A product gener",
+      "chunkId": 116
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:54:54.934Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Calibration File Integrity Verified — No Corruption Detected",
+        "type": "system_log",
+        "fields": {
+          "systemName": "AODB_SQL_MASTER",
+          "host": "DC-LOGIN01",
+          "ip": "10.17.60.1",
+          "os": "Ubuntu 22.04 LTS",
+          "logSource": "/opt/scripts/verify_manifest.py",
+          "exportedBy": "svc-nas-01",
+          "exportedAt": "10/24/2026 12:05 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "2026-10-24 12:05:12",
+              "level": "INFO",
+              "msg": "Starting verification of 147 calibration files in \\HUOG-NAS01\\controlled\\calibration\\",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 12:05:13",
+              "level": "INFO",
+              "msg": "Loading hash repository: \\HUOG-NAS01\\controlled\\calibration\\repo_hashes.json",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 12:05:14",
+              "level": "INFO",
+              "msg": "File PL-02.cal: SHA-256 matched (a3f9e1c7b2d8f4a1e6c5b3d7a9f2e1c4b6d8e0f3a5c7b1d9e2f4a6b8c0d1e2f3)",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 12:05:15",
+              "level": "INFO",
+              "msg": "File PL-06.cal: SHA-256 matched (b4e8d2a6c1f3e5b7d9a0c2f4e6d8b1c3a5f7e9d0b2c4a6f8e1d3c5b7a9f2e4d1)",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 12:05:16",
+              "level": "INFO",
+              "msg": "File CVAC-2026-03-15.cal: SHA-256 matched (c5f7e3d1a9b2c4e6f8d0a1b3c5d7e9f1a2b4c6d8e0f3a5b7c9d1e2f4a6b8c0d2)",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 12:05:17",
+              "level": "INFO",
+              "msg": "File ALR-2026-104418.cal: SHA-256 matched (d6a4b2c8e1f3d5a7b9c0d2e4f6a8b0c1d3e5f7a9b2c4d6e8f0a1b3c5d7e9f2a1)",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 12:05:18",
+              "level": "INFO",
+              "msg": "All 147 files verified. No hash mismatches found.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-24 12:05:19",
+              "level": "INFO",
+              "msg": "Verification complete on clean machine (DC-LOGIN01, 10.17.60.1). No corruption detected.",
+              "highlight": true
+            },
+            {
+              "ts": "2026-10-24 12:05:20",
+              "level": "INFO",
+              "msg": "Output: /var/log/verify_manifest.log (verified)",
+              "highlight": false
+            },
+            {
+              "ts": "2026-10-24 12:05:21",
+              "level": "INFO",
+              "msg": "Exit code: 0 (success)",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Terminal: DC-LOGIN01 (10.17.60.1)",
+          "command": "/opt/scripts/verify_manifest.py --source \\HUOG-NAS01\\controlled\\calibration\\ --repo \\HUOG-NAS01\\controlled\\calibration\\repo_hashes.json",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the integrity of the calibration share, a critical first step in recovery. The IC must now decide whether to proceed to ops records verification, as no further corruption was found.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.413Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "System Log: restore from OB-1, verified",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Restore and verification log",
+          "host": "HUOG-PROC02 (rebuilt)",
+          "ip": "10.17.41.12",
+          "os": "Workstation 2026.1",
+          "logSource": "restore + verify_manifest",
+          "exportedBy": "tomas.reyes",
+          "exportedAt": "10/05/2026 12:04 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "12:00:40",
+              "level": "INFO",
+              "msg": "Restore order: calibration → ops records → cpl-d3 → others",
+              "highlight": false
+            },
+            {
+              "ts": "12:02:10",
+              "level": "INFO",
+              "msg": "calibration: 1,312 files restored; all match repository hashes",
+              "highlight": true
+            },
+            {
+              "ts": "12:03:05",
+              "level": "INFO",
+              "msg": "ops records restored",
+              "highlight": false
+            },
+            {
+              "ts": "12:03:58",
+              "level": "INFO",
+              "msg": "cpl-d3: 6 collection days restored; manifests match",
+              "highlight": true
+            }
+          ],
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "Watch for processing released only after the manifest checks.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:33.626Z"
+}

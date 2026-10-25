@@ -1,0 +1,199 @@
+{
+  "id": "01M5RP2FE9MP4CRCGBCRQJP5YY",
+  "mselRowId": "I-06",
+  "type": "phone_call",
+  "title": "Phone: FAA Harwick FSDO",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Harwick UAS Operations Group",
+    "systemName": "Recorded Line",
+    "callId": "HUOG-20260915-101004",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Duty inspector",
+      "number": "585-555-0188",
+      "label": "FAA Harwick FSDO"
+    },
+    "callee": {
+      "name": "Priya Natarajan",
+      "number": "585-555-0142",
+      "label": "Aviation Safety Officer"
+    },
+    "startTime": "09/15/2026 10:10:04",
+    "duration": "0:58",
+    "transcript": [
+      {
+        "speaker": "FAA Harwick FSDO",
+        "offset": "0:00",
+        "text": "HWK Tower reported your UAS above four hundred feet near the approach this morning."
+      },
+      {
+        "speaker": "FAA Harwick FSDO",
+        "offset": "0:09",
+        "text": "I need a written statement, the remote pilot’s certificate number, your LAANC authorization and the telemetry."
+      },
+      {
+        "speaker": "FAA Harwick FSDO",
+        "offset": "0:22",
+        "text": "Was anyone hurt? Was there damage?"
+      },
+      {
+        "speaker": "Aviation Safety Officer",
+        "text": "",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "FAA Harwick FSDO": "Man in his 50s, neutral and methodical"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "Watch for facts only and a written statement promised.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 6 › 6.2 Regulatory notifications (ASO)",
+      "quote": "- **NTSB** (exercise line 585-555-0177): immediately, by telephone, for an unmanned-aircraft accident meeting 49 CFR 830.5 (death or serious injury, or substantial damage to the aircraft when it weigh",
+      "chunkId": 16
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 9 › 9.2 Flyaway (aircraft not responding and leaving the flight area)",
+      "quote": "1. RPIC: \"FLYAWAY, UAS-xx\" on Crew Ch 1; attempt RTL, then land, then motor cut-off if below 30 ft over clear ground. 2. GSO: note last position, altitude, heading, speed and battery time remaining fr",
+      "chunkId": 81
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "FAA Harwick FSDO",
+        "voiceStyle": "Man in his 50s, neutral and methodical",
+        "text": "HWK Tower reported your UAS above four hundred feet near the approach this morning."
+      },
+      {
+        "speaker": "FAA Harwick FSDO",
+        "voiceStyle": "Man in his 50s, neutral and methodical",
+        "text": "I need a written statement, the remote pilot’s certificate number, your LAANC authorization and the telemetry."
+      },
+      {
+        "speaker": "FAA Harwick FSDO",
+        "voiceStyle": "Man in his 50s, neutral and methodical",
+        "text": "Was anyone hurt? Was there damage?"
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:46:22.294Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "FAA FSDO: NTSB Reportable Event — UAS-02 Class C Incursion",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "FAA Harwick Field Office",
+          "systemName": "FAA-Comms-2026",
+          "callId": "CR-20261025-101022-0031",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Deborah Kline",
+            "number": "585-555-0188",
+            "label": "FSDO Aviation Safety Specialist"
+          },
+          "callee": {
+            "name": "Miguel Rios",
+            "number": "585-555-0160",
+            "label": "ASO"
+          },
+          "startTime": "10/25/2026 10:10:22",
+          "duration": "0:57",
+          "transcript": [
+            {
+              "speaker": "FAA FSDO",
+              "offset": "0:00",
+              "text": "ASO, this is the FAA Harwick FSDO. We’ve received a report of an unauthorized aircraft in Class C airspace near Harwick. The NTSB has been notified under 49 CFR 800.5. You must begin an NTSB reportable event assessment per HUOG-ERP Section 11.3. Confirm if UAS-02 was airborne above 400 ft AGL and whether it entered controlled airspace. We need a preliminary report by 16:00.",
+              "prompt": false
+            },
+            {
+              "speaker": "ASO",
+              "offset": "0:35",
+              "text": "Understood. We confirm UAS-02 exceeded 400 ft AGL and entered Class C airspace. We are initiating the NTSB reportable event assessment now and will submit the preliminary report by 16:00.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-06"
+        },
+        "instructorNote": "This inject confirms regulatory escalation. The ASO must initiate the NTSB assessment and confirm reporting timelines to the FSDO. Watch for delays in documentation or confusion over reporting thresholds.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.694Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone: FAA Harwick FSDO",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "systemName": "Recorded Line",
+          "callId": "HUOG-20260915-101004",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Duty inspector",
+            "number": "585-555-0188",
+            "label": "FAA Harwick FSDO"
+          },
+          "callee": {
+            "name": "Priya Natarajan",
+            "number": "585-555-0142",
+            "label": "Aviation Safety Officer"
+          },
+          "startTime": "09/15/2026 10:10:04",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "FAA Harwick FSDO",
+              "offset": "0:00",
+              "text": "HWK Tower reported your UAS above four hundred feet near the approach this morning."
+            },
+            {
+              "speaker": "FAA Harwick FSDO",
+              "offset": "0:09",
+              "text": "I need a written statement, the remote pilot’s certificate number, your LAANC authorization and the telemetry."
+            },
+            {
+              "speaker": "FAA Harwick FSDO",
+              "offset": "0:22",
+              "text": "Was anyone hurt? Was there damage?"
+            },
+            {
+              "speaker": "Aviation Safety Officer",
+              "text": "",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "FAA Harwick FSDO": "Man in his 50s, neutral and methodical"
+          }
+        },
+        "instructorNote": "Watch for facts only and a written statement promised.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:03:00.711Z"
+}

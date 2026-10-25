@@ -1,0 +1,232 @@
+{
+  "id": "01M5RF79WX24C9QETXDM3A0S1C",
+  "mselRowId": "I-03",
+  "type": "siem_alert",
+  "title": "NVR alert: CAM-13 recording gap 02:33–03:11",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "product": "City Security Monitoring",
+    "tenant": "City of Millbrook",
+    "alertId": "NVR-2026-1025-004",
+    "severity": "medium",
+    "rule": "Camera video loss",
+    "ruleDescription": "CAM-13 (Orchard Standpipe gate) lost video from 02:33 to 03:11 after the PoE switch at the gate cabinet power-cycled. Recording before and after the gap is intact.",
+    "status": "New",
+    "firstSeen": "10/25/2026 02:33:08",
+    "lastSeen": "10/25/2026 03:11:40",
+    "eventCount": 2,
+    "source": {
+      "host": "CAM-13",
+      "zone": "Orchard Standpipe gate"
+    },
+    "dest": {
+      "host": "MBW-NVR-01",
+      "zone": "Security VLAN"
+    },
+    "details": [
+      {
+        "key": "Gap",
+        "value": "38 minutes"
+      },
+      {
+        "key": "Cause logged",
+        "value": "PoE switch power cycle at the gate cabinet"
+      },
+      {
+        "key": "Retention",
+        "value": "30 days, then overwritten"
+      }
+    ],
+    "analyst": "unassigned"
+  },
+  "instructorNote": "A gap in the evidence that may itself be evidence. Watch for an export before anything else.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 2",
+      "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+      "chunkId": 59
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+      "quote": "- [ ] City IT: isolate affected hosts; disable FW-R-17, FW-R-22 and FW-R-14 immediately (do not wait for the full Section 10.3 decision); stop backup jobs so MBW-BKP-01 is not overwritten; pull the MB",
+      "chunkId": 86
+    },
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A",
+      "quote": "| Path | Endpoint reached | Authentication | Logging / recording | Approver | Status | |---|---|---|---|---|---| | MBW-JUMP-01 (RDP gateway in the SCADA DMZ) | MBW-EWS-01, MBW-SCADA-SRV01/02 | Named K",
+      "chunkId": 151
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.1 Policy",
+      "quote": "No person or vendor has standing remote access to the control network. All interactive remote access is through MBW-JUMP-01 under FW-R-09 and FW-R-11, with MFA, a named account, a ticket and a session",
+      "chunkId": 69
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:46:34.107Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIEM Alert: RTU-02 — No Unauthorized Access Detected",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "City of Millbrook Department of Water & Sewer",
+          "alertId": "ALR-2026-104417",
+          "severity": "info",
+          "riskScore": 12,
+          "rule": "No anomalous access or configuration changes on RTU-02 or SCADA hosts",
+          "ruleDescription": "Multiple access logs and system integrity checks across SCADA hosts and the historian backup show no evidence of unauthorized access, remote session, or configuration change. The AIT-611 residual drift is not attributable to a cyber intrusion.",
+          "status": "Triage Complete",
+          "assignee": "Unassigned",
+          "firstSeen": "10/24/2026 07:30:15",
+          "lastSeen": "10/24/2026 07:34:22",
+          "eventCount": 14,
+          "source": {
+            "host": "MBW-JUMP-01",
+            "ip": "10.72.250.12",
+            "user": "kessler_jmolina",
+            "zone": "SCADA DMZ"
+          },
+          "dest": {
+            "host": "RTU-02",
+            "ip": "10.72.10.22",
+            "service": "Modbus TCP",
+            "zone": "OT Control Network"
+          },
+          "tactics": [
+            "T1078 Valid Accounts",
+            "T1057 Process Injection",
+            "T1190 Exploit Public-Facing Application"
+          ],
+          "details": [
+            {
+              "key": "Rule ID",
+              "value": "SIEM-RTU-02-SECURE-001"
+            },
+            {
+              "key": "Approved Access Window",
+              "value": "WO-24-1187 (Kessler Controls, 07:00–09:00, 10/24/2026)"
+            },
+            {
+              "key": "Session Type",
+              "value": "Remote Desktop (RDP)"
+            },
+            {
+              "key": "Authentication",
+              "value": "MFA + named account (kessler_jmolina)"
+            },
+            {
+              "key": "Historian Backup",
+              "value": "MBW-BKP-01 (last verified 11/2025)"
+            },
+            {
+              "key": "PLC Program Check",
+              "value": "PLC-02 (RTU-02) unchanged per MDWS-SCADA-APP-A"
+            },
+            {
+              "key": "No New Services",
+              "value": "MBW-HMI-01, MBW-JUMP-01, MBW-EWS-01 all clean"
+            },
+            {
+              "key": "Access Log",
+              "value": "All access events match approved Kessler window (WO-24-1187) and are recorded in MBW-JUMP-01 logs"
+            },
+            {
+              "key": "Field Verification",
+              "value": "ZS-612 gate contact tripped at 02:15 and 04:30 (CAM-13 clip 03:42)"
+            },
+            {
+              "key": "Chlorine Residual Trend",
+              "value": "AIT-611: 1.2 mg/L → 0.8 mg/L over 6 hours (pre-alarmed)"
+            },
+            {
+              "key": "Reference Document",
+              "value": "MDWS-OTSEC-2026 Section 6.2 (Kessler remote access policy)"
+            }
+          ],
+          "rawEvent": "2026-10-24T07:30:15-04:00 MBW-JUMP-01 SIEM-RTU-02-SECURE-001: All access logs, system integrity checks, and historian exports (MBW-BKP-01) show no anomalies. RTU-02 (10.72.10.22) and connected hosts (MBW-HMI-01, MBW-EWS-01) are clean. No unauthorized session or configuration change detected. All events match approved Kessler window WO-24-1187. AIT-611 drift not linked to cyber intrusion.",
+          "relatedAlerts": [
+            {
+              "time": "07:18",
+              "title": "Customer Complaint: Chlorine Smell, Off-Taste",
+              "severity": "medium"
+            },
+            {
+              "time": "07:25",
+              "title": "AIT-611 Chlorine Residual Drift — Orchard Standpipe",
+              "severity": "high"
+            }
+          ],
+          "analyst": "it.oncall"
+        },
+        "instructorNote": "This inject confirms no cyber intrusion is indicated; the technical team must now focus on physical and process root causes. Watch for over-reliance on clean logs to dismiss the anomaly.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:43:39.983Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "NVR alert: CAM-13 recording gap 02:33–03:11",
+        "type": "siem_alert",
+        "fields": {
+          "product": "City Security Monitoring",
+          "tenant": "City of Millbrook",
+          "alertId": "NVR-2026-1025-004",
+          "severity": "medium",
+          "rule": "Camera video loss",
+          "ruleDescription": "CAM-13 (Orchard Standpipe gate) lost video from 02:33 to 03:11 after the PoE switch at the gate cabinet power-cycled. Recording before and after the gap is intact.",
+          "status": "New",
+          "firstSeen": "10/25/2026 02:33:08",
+          "lastSeen": "10/25/2026 03:11:40",
+          "eventCount": 2,
+          "source": {
+            "host": "CAM-13",
+            "zone": "Orchard Standpipe gate"
+          },
+          "dest": {
+            "host": "MBW-NVR-01",
+            "zone": "Security VLAN"
+          },
+          "details": [
+            {
+              "key": "Gap",
+              "value": "38 minutes"
+            },
+            {
+              "key": "Cause logged",
+              "value": "PoE switch power cycle at the gate cabinet"
+            },
+            {
+              "key": "Retention",
+              "value": "30 days, then overwritten"
+            }
+          ],
+          "analyst": "unassigned"
+        },
+        "instructorNote": "A gap in the evidence that may itself be evidence. Watch for an export before anything else.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:43:41.246Z"
+}

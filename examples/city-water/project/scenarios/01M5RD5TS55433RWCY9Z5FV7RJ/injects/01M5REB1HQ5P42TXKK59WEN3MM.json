@@ -1,0 +1,192 @@
+{
+  "id": "01M5REB1HQ5P42TXKK59WEN3MM",
+  "mselRowId": "I-07",
+  "type": "phone_call",
+  "title": "Phone: customer on Linden Street — brown water",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "systemName": "Customer Service Surge Line",
+    "callId": "CR-20261026-101203-044",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Walt Brenner",
+      "number": "(555) 036-4417",
+      "label": "Customer, Linden Street"
+    },
+    "callee": {
+      "name": "Renee Dupree",
+      "number": "(555) 031-2223",
+      "label": "Customer Service Lead"
+    },
+    "startTime": "10/26/2026 10:12:03",
+    "duration": "0:36",
+    "transcript": [
+      {
+        "speaker": "Customer, Linden Street",
+        "offset": "0:00",
+        "text": "This is Walt Brenner on Linden Street. There’s a crew opening the hydrant at the corner and my water’s gone brown. Nobody told me."
+      },
+      {
+        "speaker": "Customer, Linden Street",
+        "offset": "0:17",
+        "text": "Is this the hack I heard about on the radio?"
+      },
+      {
+        "speaker": "Customer Service Lead",
+        "text": "",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Customer, Linden Street": "Older man, irritated but polite, kitchen sounds"
+    },
+    "injectId": "I-07"
+  },
+  "variant": "default",
+  "instructorNote": "Noise: scheduled hydrant flushing, posted last week. Good play is the flushing script and a paper log entry, not escalation.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 11 › 11.4 Site Security Links",
+      "quote": "PACS and CCTV at the remote sites (CAM-11 to CAM-17) run on the business security VLAN, not the control network; Orchard Standpipe's hatch switch ZS-611 has been out of service since 07/2024 (WO-24-11",
+      "chunkId": 92
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+      "quote": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Customer, Linden Street",
+        "voiceStyle": "Older man, irritated but polite, kitchen sounds",
+        "text": "This is Walt Brenner on Linden Street. There’s a crew opening the hydrant at the corner and my water’s gone brown. Nobody told me."
+      },
+      {
+        "speaker": "Customer, Linden Street",
+        "voiceStyle": "Older man, irritated but polite, kitchen sounds",
+        "text": "Is this the hack I heard about on the radio?"
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:31:06.460Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Phone Call: Millbrook Police — Suspicious Person at Intake Structure 1",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Millbrook Police Department",
+          "systemName": "Police Dispatch Console 2",
+          "callId": "CR-20261024-101218-004",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Sgt. Tanya Reed",
+            "number": "(555) 038-7100",
+            "label": "Sergeant, Millbrook PD"
+          },
+          "callee": {
+            "name": "Security & Emergency Manager",
+            "number": "(555) 032-6000",
+            "label": "SEC"
+          },
+          "startTime": "10/24/2026 10:12:18",
+          "duration": "0:51",
+          "transcript": [
+            {
+              "speaker": "Sgt. Tanya Reed",
+              "offset": "0:00",
+              "text": "This is Sgt. Tanya Reed, Millbrook PD. We received a call from a resident at 09:45 reporting a suspicious individual near the Intake Structure 1 camera (CAM-03). The person was seen walking toward the intake gate, wearing a dark hoodie and carrying a backpack.",
+              "prompt": false
+            },
+            {
+              "speaker": "Sgt. Tanya Reed",
+              "offset": "0:22",
+              "text": "The site is not secured by PACS (MBW-PACS-01), and the NVR (MBW-NVR-01) is offline—no video exists. We have dispatched a unit to the site, but no confirmation yet.",
+              "prompt": false
+            },
+            {
+              "speaker": "Sgt. Tanya Reed",
+              "offset": "0:38",
+              "text": "Do you have any other camera feeds or access logs to check?",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-07"
+        },
+        "instructorNote": "This inject confirms that the control network is isolated from PACS and NVR. Security must validate site access status and activate physical intrusion protocol immediately.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.258Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone: customer on Linden Street — brown water",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "Customer Service Surge Line",
+          "callId": "CR-20261026-101203-044",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Walt Brenner",
+            "number": "(555) 036-4417",
+            "label": "Customer, Linden Street"
+          },
+          "callee": {
+            "name": "Renee Dupree",
+            "number": "(555) 031-2223",
+            "label": "Customer Service Lead"
+          },
+          "startTime": "10/26/2026 10:12:03",
+          "duration": "0:36",
+          "transcript": [
+            {
+              "speaker": "Customer, Linden Street",
+              "offset": "0:00",
+              "text": "This is Walt Brenner on Linden Street. There’s a crew opening the hydrant at the corner and my water’s gone brown. Nobody told me."
+            },
+            {
+              "speaker": "Customer, Linden Street",
+              "offset": "0:17",
+              "text": "Is this the hack I heard about on the radio?"
+            },
+            {
+              "speaker": "Customer Service Lead",
+              "text": "",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Customer, Linden Street": "Older man, irritated but polite, kitchen sounds"
+          },
+          "injectId": "I-07"
+        },
+        "instructorNote": "Noise: scheduled hydrant flushing, posted last week. Good play is the flushing script and a paper log entry, not escalation.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:41:02.695Z"
+}

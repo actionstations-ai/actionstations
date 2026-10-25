@@ -2,7 +2,7 @@
   "id": "uas-operations",
   "title": "Harwick UAS Operations Group",
   "domainProfile": "unmanned_systems",
-  "summary": "A regional unmanned-aircraft operator (infrastructure inspection, agricultural and environmental survey, public-safety support) flying under Part 107 beside a Class C airport: a C2-link hijack and GNSS spoofing during a multispectral sensor campaign at its leased range.",
+  "summary": "A regional unmanned-aircraft operator (infrastructure inspection, agricultural and environmental survey, public-safety support) flying under Part 107 beside a Class C airport, with four tabletops: a C2-link hijack and GNSS spoofing at its leased range, ransomware on its mission data before a client deadline, a rogue drone over a public event next door, and a flyaway toward the Class C boundary.",
   "fictional": true,
   "notice": "Exercise material — for training use. The organization, people, procedures, numbers, frequencies, addresses and identifiers in this example are simulated; the public sources consulted for realism are listed in reference/uas-ops/SOURCES.md.",
   "scenarios": [
@@ -11,6 +11,24 @@
       "title": "Ghost Flight at Birch Hollow",
       "threatFamily": "cyber_physical",
       "summary": "During a multispectral and hyperspectral campaign at Birch Hollow Range, UAS-01 and UAS-11 start receiving commands the crew did not send while GNSS positions drift; the Group must land safely, preserve the GCS state, re-key links and decide what to tell the client and the FAA."
+    },
+    {
+      "id": "01M5RHW0RPC4Z80P9QSAPK9EVZ",
+      "title": "Ten Days Before D-3",
+      "threatFamily": "cyber",
+      "summary": "Ten days before CP&L Deliverable D-3, the NAS and a processing workstation are found encrypted, a ground control station that mounted the NAS is infected, the newest clean backup is three weeks old and the controlled share was read overnight; the Group must ground what touched the NAS, decide within four hours what to tell its clients, recover in order and record the decision not to pay."
+    },
+    {
+      "id": "01M5RKHCV1X3ZKP5RGPTST39PK",
+      "title": "Over the Fairgrounds",
+      "threatFamily": "uas_drone",
+      "summary": "On a NO FLY day a Remote ID drone circles 6,000 people at the Harwick Fairgrounds next door and a post blames the Group; it must prove from the register that its fleet is grounded and help Harwick Police without touching the aircraft, then decide what to say when the operator turns out to be one of its own part-time crew flying his personal drone."
+    },
+    {
+      "id": "01M5RNFVGQFBHC2MC91GS6HFG2",
+      "title": "Lost Link Toward the Class C",
+      "threatFamily": "infrastructure_failure",
+      "summary": "After a crew accepts a field firmware update, UAS-02 loses its link, does not return and climbs past 400 ft toward the HWK Class C surface area before coming down in a backyard greenhouse; the Group must call HWK Tower, recover lawfully with a CCSO deputy, find what the update changed, decide what stays grounded with a client window at stake, and settle the FSDO, NTSB and Part 107.9 questions."
     }
   ]
 }

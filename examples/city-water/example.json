@@ -2,7 +2,7 @@
   "id": "city-water",
   "title": "City of Millbrook Water",
   "domainProfile": "water_utility",
-  "summary": "A mid-size city water department (surface-water treatment plant with chemical feed, wells, three storage tanks, four pump stations, SCADA with vendor remote access) and a tabletop exercise generated from its simulated plans: chemical-feed setpoint tampering through vendor remote access.",
+  "summary": "A mid-size city water department (surface-water treatment plant with chemical feed, wells, three storage tanks, four pump stations, SCADA with vendor remote access) and four tabletop exercises generated from its simulated plans: chemical-feed setpoint tampering, ransomware reaching toward the control network, tampering at a storage standpipe, and a transmission-main break during a telemetry outage.",
   "fictional": true,
   "notice": "EXERCISE MATERIAL — for training use. The City of Millbrook, its people, vendors and identifiers are simulated.",
   "scenarios": [
@@ -10,7 +10,25 @@
       "id": "01M5H5QV0SX30ZXCBK3QMBSP9Q",
       "title": "pH on the Edge",
       "threatFamily": "cyber_physical",
-      "summary": "A vendor remote-support session on the Chemical Building HMI raises the caustic dose setpoint at night; the operator, the hard-wired pH trip and the grab samples disagree with the screen, and the department must go to manual, isolate the control network and decide on a Do Not Drink notice."
+      "summary": "A vendor remote-support session on the Chemical Building HMI raises the caustic dose setpoint while the single duty operator is on rounds; the operator, the hard-wired pH trip and the grab samples disagree with the screen, and the department must go to manual, isolate the control network and decide on a Do Not Drink notice."
+    },
+    {
+      "id": "01M5RD5TS55433RWCY9Z5FV7RJ",
+      "title": "Ransomware Riptide",
+      "threatFamily": "cyber",
+      "summary": "Ransomware encrypts billing, the AMI head-end, the file server and the backup server at City Hall and reaches toward SCADA through the FW-R-17 backup rule and the domain trust; the department must decide within 30 minutes whether to island the control network, run the plant without the City’s systems, recommend against paying and answer “is the water safe?” from grab samples."
+    },
+    {
+      "id": "01M5REPYZPVT1PRSDRT2K0AH2B",
+      "title": "Cut Lock, Drifting Residual",
+      "threatFamily": "physical_security",
+      "summary": "Overnight someone cuts into Orchard Standpipe, where the hatch switch has been out of service for two years; the Sunday day operator finds the gate trips and a falling chlorine residual, and the department must sample before conclusions, isolate the standpipe without losing Zone 2 pressure inside a police scene, and decide on a precautionary advisory within two hours."
+    },
+    {
+      "id": "01M5RFRYHYCSZ57DGS15TC4NF9",
+      "title": "Stale Signal",
+      "threatFamily": "infrastructure_failure",
+      "summary": "In a July heat wave one failed power supply blinds the plant to Hilltop Tank and four remote sites, then the 1968 Hilltop Transmission Main breaks near Summit Drive; the department must isolate it with a stuck valve, hold Zone 2 without starving the hospital in Zone 1, decide on IC-1 and draw a boil-water area without pressure data."
     }
   ]
 }

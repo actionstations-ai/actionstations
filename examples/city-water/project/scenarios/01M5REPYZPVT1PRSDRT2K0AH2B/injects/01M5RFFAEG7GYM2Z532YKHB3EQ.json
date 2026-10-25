@@ -1,0 +1,220 @@
+{
+  "id": "01M5RFFAEG7GYM2Z532YKHB3EQ",
+  "mselRowId": "I-15b",
+  "type": "system_log",
+  "title": "System Log: RTU-02 events, Saturday night",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "RTU-02 event buffer export",
+    "host": "RTU-02 (Orchard Standpipe)",
+    "ip": "10.72.30.102",
+    "logSource": "Buckeye BT-R2 event buffer (72 h)",
+    "exportedBy": "Day Operator",
+    "exportedAt": "10/25/2026 10:18 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "01:52:14",
+        "level": "WARN",
+        "msg": "ZS-612 GATE OPEN",
+        "highlight": true
+      },
+      {
+        "ts": "01:52:51",
+        "level": "INFO",
+        "msg": "ZS-612 GATE CLOSED",
+        "highlight": false
+      },
+      {
+        "ts": "02:31:02",
+        "level": "WARN",
+        "msg": "ZS-612 GATE OPEN",
+        "highlight": true
+      },
+      {
+        "ts": "02:31:40",
+        "level": "INFO",
+        "msg": "ZS-612 GATE CLOSED",
+        "highlight": false
+      },
+      {
+        "ts": "02:33:05",
+        "level": "ERROR",
+        "msg": "ETH1 link down",
+        "highlight": true
+      },
+      {
+        "ts": "03:11:22",
+        "level": "INFO",
+        "msg": "ETH1 link up",
+        "highlight": false
+      },
+      {
+        "ts": "—",
+        "level": "NOTICE",
+        "msg": "ZS-611 HATCH CLOSED (no change all night; input out of service, WO-24-1187)",
+        "highlight": true
+      }
+    ],
+    "classification": "INTERNAL - EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "The link loss matches the camera gap. Watch for chain of custody and for the ZS-611 fault going into the after-action report.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 9",
+      "quote": "- Nightly: MBW-EWS-01 copies the HMI application, PLC programs and historian exports to **MBW-BKP-01** on the business LAN under **FW-R-17**. MBW-BKP-01 also holds the CIS, AMI, GIS and LIMS backups —",
+      "chunkId": 81
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 6 › 6.4 ScreenBridge Exception (DosaTech)",
+      "quote": "During the 11/2024 commissioning of the replacement chemical metering pumps and VFDs, DosaTech Metering Systems installed its **ScreenBridge** remote-support agent on **MBW-HMI-02** in the Chemical Bu",
+      "chunkId": 72
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:50:55.411Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "PLC-02 Program Integrity Check Failed — Backup Gap",
+        "type": "system_log",
+        "fields": {
+          "systemName": "MBW-SCADA-SRV01",
+          "host": "MBW-SCADA-SRV01",
+          "ip": "10.72.250.12",
+          "os": "Linux Ubuntu 22.04 LTS",
+          "logSource": "/var/log/scada/plc_integrity_check.log",
+          "exportedBy": "scada_tech",
+          "exportedAt": "10/24/2026 10:20 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/24/2026 10:20:14 AM",
+              "level": "ERROR",
+              "msg": "PLC-02 program integrity check failed. Hash mismatch: expected 3a7f2c9d, found 1b4e5a2c.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 10:20:15 AM",
+              "level": "WARN",
+              "msg": "Backup source MDWS-BKP-PLC-02-032025 (March 2025) does not match current live PLC-02 program.",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 10:20:16 AM",
+              "level": "ERROR",
+              "msg": "No verified backup of PLC-02 program exists from after 08/2025. The 08/2025 flow-pacing revision was never archived.",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 10:20:17 AM",
+              "level": "INFO",
+              "msg": "Current live program is stored only on PLC-02 and on user laptop MBW-DEV-LT01 (jmolina@millbrook-oh.example).",
+              "highlight": false
+            },
+            {
+              "ts": "10/24/2026 10:20:18 AM",
+              "level": "ALERT",
+              "msg": "Initiate recovery via OHWARN under Section 11.3. No newer backup exists. Do not attempt manual reload.",
+              "highlight": true
+            },
+            {
+              "ts": "10/24/2026 10:20:19 AM",
+              "level": "INFO",
+              "msg": "Audit trail confirms no access to PLC-02 from external network. No unauthorized session detected.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "SCADA-SEC: PLC-02 Integrity Check (10:20)",
+          "command": "scada_check --plc PLC-02 --backup-source MDWS-BKP-PLC-02-032025",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject reveals a critical gap in the backup strategy for the hypochlorite feed control logic. The IT team must immediately initiate recovery via OHWARN, as no up-to-date backup exists. Watch for delays in escalation or confusion over the recovery path.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T03:43:40.095Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "System Log: RTU-02 events, Saturday night",
+        "type": "system_log",
+        "fields": {
+          "systemName": "RTU-02 event buffer export",
+          "host": "RTU-02 (Orchard Standpipe)",
+          "ip": "10.72.30.102",
+          "logSource": "Buckeye BT-R2 event buffer (72 h)",
+          "exportedBy": "Day Operator",
+          "exportedAt": "10/25/2026 10:18 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "01:52:14",
+              "level": "WARN",
+              "msg": "ZS-612 GATE OPEN",
+              "highlight": true
+            },
+            {
+              "ts": "01:52:51",
+              "level": "INFO",
+              "msg": "ZS-612 GATE CLOSED",
+              "highlight": false
+            },
+            {
+              "ts": "02:31:02",
+              "level": "WARN",
+              "msg": "ZS-612 GATE OPEN",
+              "highlight": true
+            },
+            {
+              "ts": "02:31:40",
+              "level": "INFO",
+              "msg": "ZS-612 GATE CLOSED",
+              "highlight": false
+            },
+            {
+              "ts": "02:33:05",
+              "level": "ERROR",
+              "msg": "ETH1 link down",
+              "highlight": true
+            },
+            {
+              "ts": "03:11:22",
+              "level": "INFO",
+              "msg": "ETH1 link up",
+              "highlight": false
+            },
+            {
+              "ts": "—",
+              "level": "NOTICE",
+              "msg": "ZS-611 HATCH CLOSED (no change all night; input out of service, WO-24-1187)",
+              "highlight": true
+            }
+          ],
+          "classification": "INTERNAL - EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "The link loss matches the camera gap. Watch for chain of custody and for the ZS-611 fault going into the after-action report.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:43:47.615Z"
+}

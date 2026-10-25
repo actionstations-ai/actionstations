@@ -1,0 +1,200 @@
+{
+  "id": "01M5RNZJ3G20VCEH4ZFJDPYEXN",
+  "mselRowId": "I-01",
+  "type": "system_log",
+  "title": "GCS-01: C2 link lost, no return-to-launch",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "GCS-01 telemetry and event console",
+    "host": "HUOG-GCS01 (10.17.40.11)",
+    "logSource": "C2 link and failsafe events",
+    "exportedBy": "GSO, Crew 1",
+    "exportedAt": "09/15/2026 9:03 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "09:02:41",
+        "level": "CRIT",
+        "msg": "C2 LINK LOST — UAS-02 · 180 ft AGL · 300 m S of launch",
+        "highlight": true
+      },
+      {
+        "ts": "09:02:41",
+        "level": "INFO",
+        "msg": "Lost-link timer started (30 s)",
+        "highlight": false
+      },
+      {
+        "ts": "09:03:11",
+        "level": "ERROR",
+        "msg": "Lost-link timer expired — no RTL command logged",
+        "highlight": true
+      },
+      {
+        "ts": "09:03:12",
+        "level": "WARN",
+        "msg": "Remote ID: UAS-02 still transmitting · 205 ft AGL · climbing",
+        "highlight": true
+      }
+    ],
+    "classification": "INTERNAL - INCIDENT RECORD",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "The flyaway starts. Watch for the FOM 9.2 sequence and the Systems & Cybersecurity Lead told at once.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 5 › 5.2 Link monitoring",
+      "quote": "The GSO watches link quality (RSSI, packet loss) on the GCS; link quality below 50 % for 10 seconds is an abort criterion (HUOG-FOM 9.5). Telemetry logs for every flight are kept with the flight log. ",
+      "chunkId": 110
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 9 › 9.1 Lost link",
+      "quote": "Each aircraft's failsafe is set to **return-to-launch after 10 seconds of lost C2 link at the site's RTL altitude** (Horton Field 45 m; Birch Hollow Range 60 m), then land at the home point. The RPIC ",
+      "chunkId": 80
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:44:36.517Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GCS-01 Telemetry Log — Link Loss UAS-02",
+        "type": "system_log",
+        "fields": {
+          "systemName": "GCS-01 Telemetry Monitor",
+          "host": "GCS-01",
+          "ip": "10.17.40.15",
+          "os": "Ubuntu 22.04 LTS",
+          "logSource": "/var/log/gcs/telemetry/flight-02.log",
+          "exportedBy": "huog\\gso.01",
+          "exportedAt": "10/25/2026 09:03 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/25/2026 09:03:12 AM",
+              "level": "ALERT",
+              "msg": "Link Loss: No uplink from UAS-02 (GCS-01)",
+              "highlight": true
+            },
+            {
+              "ts": "10/25/2026 09:03:12 AM",
+              "level": "ALERT",
+              "msg": "Control Authority: Lost",
+              "highlight": true
+            },
+            {
+              "ts": "10/25/2026 09:03:12 AM",
+              "level": "WARN",
+              "msg": "Last telemetry heartbeat from UAS-02 received at 09:01:11 AM; 121 seconds since last packet",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:03:12 AM",
+              "level": "INFO",
+              "msg": "2.4 GHz local monitor shows stable signal (RSSI: -52 dBm, packet loss: 0.0%)",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:03:12 AM",
+              "level": "ERROR",
+              "msg": "No response to 3 repeated command packets sent to UAS-02 (command: RTL, seq: 11942)",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:03:12 AM",
+              "level": "NOTICE",
+              "msg": "UAS-02 status: Unresponsive; failsafe not confirmed",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:03:12 AM",
+              "level": "INFO",
+              "msg": "RPIC has not issued RTL command; command not received from aircraft",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 09:03:12 AM",
+              "level": "CRIT",
+              "msg": "Failsafe state unknown; aircraft not returning to launch within 10-second timeout",
+              "highlight": true
+            },
+            {
+              "ts": "10/25/2026 09:03:12 AM",
+              "level": "ALERT",
+              "msg": "System: UAS-02 not responding to any C2 commands or telemetry requests",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "GCS-01 | Telemetry Monitor (UAS-02 Flight)",
+          "command": "tail -n 10 /var/log/gcs/telemetry/flight-02.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This is a core narrative inject. The SCL must immediately begin forensic analysis of the GCS-01 radio interface and telemetry pipeline. The DCO and CRP must confirm no RTL command was sent and initiate the 9.1 lost-link protocol.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.662Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "GCS-01: C2 link lost, no return-to-launch",
+        "type": "system_log",
+        "fields": {
+          "systemName": "GCS-01 telemetry and event console",
+          "host": "HUOG-GCS01 (10.17.40.11)",
+          "logSource": "C2 link and failsafe events",
+          "exportedBy": "GSO, Crew 1",
+          "exportedAt": "09/15/2026 9:03 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "09:02:41",
+              "level": "CRIT",
+              "msg": "C2 LINK LOST — UAS-02 · 180 ft AGL · 300 m S of launch",
+              "highlight": true
+            },
+            {
+              "ts": "09:02:41",
+              "level": "INFO",
+              "msg": "Lost-link timer started (30 s)",
+              "highlight": false
+            },
+            {
+              "ts": "09:03:11",
+              "level": "ERROR",
+              "msg": "Lost-link timer expired — no RTL command logged",
+              "highlight": true
+            },
+            {
+              "ts": "09:03:12",
+              "level": "WARN",
+              "msg": "Remote ID: UAS-02 still transmitting · 205 ft AGL · climbing",
+              "highlight": true
+            }
+          ],
+          "classification": "INTERNAL - INCIDENT RECORD",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "The flyaway starts. Watch for the FOM 9.2 sequence and the Systems & Cybersecurity Lead told at once.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:59.028Z"
+}

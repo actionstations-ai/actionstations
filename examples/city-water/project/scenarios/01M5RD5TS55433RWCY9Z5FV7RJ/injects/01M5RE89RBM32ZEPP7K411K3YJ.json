@@ -1,0 +1,216 @@
+{
+  "id": "01M5RE89RBM32ZEPP7K411K3YJ",
+  "mselRowId": "I-03",
+  "type": "phone_call",
+  "title": "Phone: City IT Director — before the domain reset",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "systemName": "City of Millbrook Phone System",
+    "callId": "CR-20261026-091502-011",
+    "direction": "Internal",
+    "caller": {
+      "name": "Kevin Marsh",
+      "number": "(555) 034-1188",
+      "label": "City IT Director"
+    },
+    "callee": {
+      "name": "Priya Nandakumar",
+      "number": "(555) 031-2240",
+      "label": "SCADA / IT Security Manager"
+    },
+    "startTime": "10/26/2026 09:15:02",
+    "duration": "0:58",
+    "transcript": [
+      {
+        "speaker": "City IT Director",
+        "offset": "0:00",
+        "text": "Priya, it’s Kevin. The note on the file server names the City and asks for 38 bitcoin within 72 hours. I’m pulling MBW-BKP-01’s cable and stopping the backup jobs."
+      },
+      {
+        "speaker": "City IT Director",
+        "offset": "0:18",
+        "text": "I want to reset every MILLBROOK domain admin password and disable svc-backup in the next ten minutes — but your MBWSCADA domain trusts ours."
+      },
+      {
+        "speaker": "City IT Director",
+        "offset": "0:34",
+        "text": "Does anything on the plant side log in with a MILLBROOK account? If I’m about to break something you need, tell me now."
+      },
+      {
+        "speaker": "SCADA / IT Security Manager",
+        "text": "",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "City IT Director": "Man in his 40s, fast and tense, keyboard clatter behind"
+    },
+    "injectId": "I-03"
+  },
+  "variant": "default",
+  "instructorNote": "City IT is doing the right things fast. The hurdle is the trust: the SCADA / IT Security Manager has to know what depends on it. Push for the trust to be broken or FW-R-14 blocked, and for MBW-EWS-01 to stay powered on.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A › A.5.2 Rules",
+      "quote": "- Every P1 and P2 alarm must be acknowledged by a named operator account; **acknowledging an alarm does not clear it** and does not change the equipment state. - Operators may not disable or shelve a ",
+      "chunkId": 149
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+      "quote": "- Loss of disinfection (finished chlorine residual below 0.2 mg/L entering distribution) or any confirmed or credible contamination of source, plant or distribution water. - A Boil Water, Do Not Drink",
+      "chunkId": 13
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of…",
+      "quote": "Document Control Number: MDWS-MAP-2026 · Revision 4.0 · Effective Date: 02/01/2026 · Maintained by: Tom Okonkwo (Distribution Superintendent) and Priya Nandakumar (SCADA / IT Security Manager) > **EXE",
+      "chunkId": 160
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 2",
+      "quote": "| Role | Name | Responsibilities | |---|---|---| | Public Information Officer (PIO) | Hannah Weiss, City Communications Director | Owns this plan; approves and releases all public statements; spokespe",
+      "chunkId": 105
+    },
+    {
+      "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+      "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Response Matrix",
+      "quote": "| Rumor or claim | Typical form | Response | Who | |---|---|---|---| | \"The water is poisoned\" | Facebook post, often with a photo of discolored water | Reply with the current advisory, what the lab i",
+      "chunkId": 120
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "City IT Director",
+        "voiceStyle": "Man in his 40s, fast and tense, keyboard clatter behind",
+        "text": "Priya, it’s Kevin. The note on the file server names the City and asks for 38 bitcoin within 72 hours. I’m pulling MBW-BKP-01’s cable and stopping the backup jobs."
+      },
+      {
+        "speaker": "City IT Director",
+        "voiceStyle": "Man in his 40s, fast and tense, keyboard clatter behind",
+        "text": "I want to reset every MILLBROOK domain admin password and disable svc-backup in the next ten minutes — but your MBWSCADA domain trusts ours."
+      },
+      {
+        "speaker": "City IT Director",
+        "voiceStyle": "Man in his 40s, fast and tense, keyboard clatter behind",
+        "text": "Does anything on the plant side log in with a MILLBROOK account? If I’m about to break something you need, tell me now."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:29:34.461Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Phone Call: Lab LIMS Unreachable — Water Quality Manager",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "CallLog-03",
+          "callId": "CR-20261024-091503-009",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Marcus Oyelaran",
+            "number": "(555) 038-7100",
+            "label": "Water Quality Manager"
+          },
+          "callee": {
+            "name": "Marcus Oyelaran",
+            "number": "(555) 038-7100",
+            "label": "Water Quality Manager"
+          },
+          "startTime": "10/24/2026 09:15:03",
+          "duration": "0:37",
+          "transcript": [
+            {
+              "speaker": "caller",
+              "offset": "0:00",
+              "text": "Marcus here. LIMS (MBW-LIMS-01) is down—can't reach the server. The daily chlorine sampling log for Zone 3 was due at 09:00 and I can't access it. The local lab database is still running, but the central archive on MBW-FS-01 is unreachable. I’m using paper sheets to record the results, but I can’t file them. I’m not sure if the lab has been hit or if it’s a network issue.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-03"
+        },
+        "instructorNote": "This inject confirms a cascading failure in data integrity. The Water Quality Manager is now operating manually, which increases risk of error and delays in reporting. Watch for whether he contacts Ohio EPA DDAGW or declares a Level 3 incident based on the ERP.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.215Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone: City IT Director — before the domain reset",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "systemName": "City of Millbrook Phone System",
+          "callId": "CR-20261026-091502-011",
+          "direction": "Internal",
+          "caller": {
+            "name": "Kevin Marsh",
+            "number": "(555) 034-1188",
+            "label": "City IT Director"
+          },
+          "callee": {
+            "name": "Priya Nandakumar",
+            "number": "(555) 031-2240",
+            "label": "SCADA / IT Security Manager"
+          },
+          "startTime": "10/26/2026 09:15:02",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "City IT Director",
+              "offset": "0:00",
+              "text": "Priya, it’s Kevin. The note on the file server names the City and asks for 38 bitcoin within 72 hours. I’m pulling MBW-BKP-01’s cable and stopping the backup jobs."
+            },
+            {
+              "speaker": "City IT Director",
+              "offset": "0:18",
+              "text": "I want to reset every MILLBROOK domain admin password and disable svc-backup in the next ten minutes — but your MBWSCADA domain trusts ours."
+            },
+            {
+              "speaker": "City IT Director",
+              "offset": "0:34",
+              "text": "Does anything on the plant side log in with a MILLBROOK account? If I’m about to break something you need, tell me now."
+            },
+            {
+              "speaker": "SCADA / IT Security Manager",
+              "text": "",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "City IT Director": "Man in his 40s, fast and tense, keyboard clatter behind"
+          },
+          "injectId": "I-03"
+        },
+        "instructorNote": "City IT is doing the right things fast. The hurdle is the trust: the SCADA / IT Security Manager has to know what depends on it. Push for the trust to be broken or FW-R-14 blocked, and for MBW-EWS-01 to stay powered on.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:42:34.771Z"
+}

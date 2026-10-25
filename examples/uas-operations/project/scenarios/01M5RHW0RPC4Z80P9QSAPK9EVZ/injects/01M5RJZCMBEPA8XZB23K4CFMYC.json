@@ -1,0 +1,162 @@
+{
+  "id": "01M5RJZCMBEPA8XZB23K4CFMYC",
+  "mselRowId": "I-08",
+  "type": "system_log",
+  "title": "System Log: the controlled share was read on Sunday night",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "HUOG-NAS01 SMB audit and HUOG-FW01 export",
+    "host": "HUOG-NAS01 / HUOG-FW01",
+    "ip": "10.17.41.5",
+    "os": "NAS OS 7.2",
+    "logSource": "SMB audit; firewall session log",
+    "exportedBy": "tomas.reyes",
+    "exportedAt": "10/05/2026 10:24 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "10/04 03:10:44",
+        "level": "WARN",
+        "msg": "svc-backup opened \\\\HUOG-NAS01\\controlled\\cpl-taskorder\\ (read)",
+        "highlight": true
+      },
+      {
+        "ts": "10/04 03:31:02",
+        "level": "WARN",
+        "msg": "svc-backup opened \\\\HUOG-NAS01\\controlled\\pl02-calibration\\ (read)",
+        "highlight": true
+      },
+      {
+        "ts": "10/04 03:55:18",
+        "level": "INFO",
+        "msg": "2,140 files read; 0 written",
+        "highlight": false
+      },
+      {
+        "ts": "10/04 03:12–03:58",
+        "level": "CRIT",
+        "msg": "HUOG-FW01: 4.1 GB outbound from 10.17.41.11 to an unknown external address over HTTPS",
+        "highlight": true
+      }
+    ],
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "Read and probably copied, not only encrypted: CP&L’s 24-hour notice applies. Watch for the General Manager told at once.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 4 › 4.2 Hardening",
+      "quote": "- Local administrator accounts disabled for crews; crews sign in with corporate accounts in the \"HUOG-Pilots\" group; the Systems & Cybersecurity Lead holds the local admin credential in the corporate ",
+      "chunkId": 105
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:52:03.178Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Unauthorized Root Session on HUOG-PROC01",
+        "type": "system_log",
+        "fields": {
+          "systemName": "AODB_SQL_MASTER",
+          "host": "HUOG-PROC01",
+          "ip": "10.17.41.11",
+          "os": "Ubuntu 22.04 LTS",
+          "logSource": "/var/log/audit/audit.log",
+          "exportedBy": "it@huog.example",
+          "exportedAt": "10/24/2026 10:25 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "2026-04-20 08:55:12",
+              "level": "ALERT",
+              "msg": "User: admin, Host: HUOG-PROC01 (10.17.41.11), Source IP: 10.200.4.17 (GCS-02), Action: sudo su -, Session ID: 0x1a2b3c, Authentication: none (no valid login prior to session), Command: /bin/bash",
+              "highlight": true
+            },
+            {
+              "ts": "2026-04-20 08:55:12",
+              "level": "CRIT",
+              "msg": "Context: No prior login in auth.log. Session initiated from a previously unknown source (GCS-02) and used a cached service account credential (account: svc-nas-01).",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Administrator: Ubuntu Terminal",
+          "command": "tail -n 2 /var/log/audit/audit.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This inject confirms the root-level compromise of HUOG-PROC01 via a stolen service account. The technical team must trace the vector to GCS-02’s NAS mount session and report to the MSSP immediately.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.379Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "System Log: the controlled share was read on Sunday night",
+        "type": "system_log",
+        "fields": {
+          "systemName": "HUOG-NAS01 SMB audit and HUOG-FW01 export",
+          "host": "HUOG-NAS01 / HUOG-FW01",
+          "ip": "10.17.41.5",
+          "os": "NAS OS 7.2",
+          "logSource": "SMB audit; firewall session log",
+          "exportedBy": "tomas.reyes",
+          "exportedAt": "10/05/2026 10:24 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/04 03:10:44",
+              "level": "WARN",
+              "msg": "svc-backup opened \\\\HUOG-NAS01\\controlled\\cpl-taskorder\\ (read)",
+              "highlight": true
+            },
+            {
+              "ts": "10/04 03:31:02",
+              "level": "WARN",
+              "msg": "svc-backup opened \\\\HUOG-NAS01\\controlled\\pl02-calibration\\ (read)",
+              "highlight": true
+            },
+            {
+              "ts": "10/04 03:55:18",
+              "level": "INFO",
+              "msg": "2,140 files read; 0 written",
+              "highlight": false
+            },
+            {
+              "ts": "10/04 03:12–03:58",
+              "level": "CRIT",
+              "msg": "HUOG-FW01: 4.1 GB outbound from 10.17.41.11 to an unknown external address over HTTPS",
+              "highlight": true
+            }
+          ],
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "Read and probably copied, not only encrypted: CP&L’s 24-hour notice applies. Watch for the General Manager told at once.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:31.364Z"
+}

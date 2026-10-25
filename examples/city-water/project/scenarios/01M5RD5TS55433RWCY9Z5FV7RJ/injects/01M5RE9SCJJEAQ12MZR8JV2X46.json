@@ -1,0 +1,172 @@
+{
+  "id": "01M5RE9SCJJEAQ12MZR8JV2X46",
+  "mselRowId": "I-06",
+  "type": "radio_call",
+  "title": "Radio: Control Room — command window on MBW-EWS-01",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "City of Millbrook Department of Water & Sewer",
+    "centerName": "RWTP Control Room",
+    "channel": "DWS-1",
+    "frequency": "DWS-1 / 453.450 MHz",
+    "date": "10/26/2026",
+    "callsign": "RWTP Control Room",
+    "lines": [
+      {
+        "time": "10:05",
+        "from": "Control Room",
+        "to": "Superintendent, SCADA",
+        "text": "Superintendent and SCADA, Control Room on DWS-1. MBW-EWS-01 in the server room has a black command window that opens and closes every minute or so, and the AquaSight designer won’t start."
+      },
+      {
+        "time": "10:05",
+        "from": "Control Room",
+        "to": "Superintendent, SCADA",
+        "text": "MBW-HMI-01 and HMI-03 still look normal and the plant is holding. Nobody here has touched the engineering workstation today."
+      }
+    ],
+    "background": "office",
+    "voiceStyle": "Woman in her 30s, controlled, slightly hurried",
+    "audioFile": "I-06_radio.wav",
+    "duration": "0:18",
+    "injectId": "I-06"
+  },
+  "variant": "default",
+  "instructorNote": "This is the “not clean” branch of OT Plan 10.5. Watch whether anyone wants to reboot the workstation (wrong: 10.7) and whether the IC decides on islanding and manual operations.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+      "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+      "chunkId": 84
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 13",
+      "quote": "- **Business side:** the city's SIEM collects MBW-DC-01/02 authentication logs, MBW-FW-01 logs and endpoint alerts; City IT reviews alerts during business hours and the SIEM pages the on-call IT techn",
+      "chunkId": 94
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of… › 4. Control System Summary",
+      "quote": "| Element | Identifier | Location / notes | |---|---|---| | SCADA servers | MBW-SCADA-SRV01 (primary), MBW-SCADA-SRV02 (hot standby) | Control Room server rack; AquaSight 7.2 | | HMIs | MBW-HMI-01 (Co",
+      "chunkId": 166
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Control Room",
+        "voiceStyle": "Woman in her 30s, controlled, slightly hurried",
+        "text": "Superintendent and SCADA, Control Room on DWS-1. MBW-EWS-01 in the server room has a black command window that opens and closes every minute or so, and the AquaSight designer won’t start."
+      },
+      {
+        "speaker": "Control Room",
+        "voiceStyle": "Woman in her 30s, controlled, slightly hurried",
+        "text": "MBW-HMI-01 and HMI-03 still look normal and the plant is holding. Nobody here has touched the engineering workstation today."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M5RJBG2EPRBPY09Z5GCXM881",
+      "kind": "image",
+      "path": "scenarios/01M5RD5TS55433RWCY9Z5FV7RJ/media/01M5RE9SCJJEAQ12MZR8JV2X46/01M5RJBG2EPRBPY09Z5GCXM881.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "48f3598515af73cea8573cc54cd71d864b1a47798d19489f64e0305f6361f9ea",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-25T03:41:01.720Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-25T02:30:29.337Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Radio: HMI-01 — Chemical Feed Override on PLC-02",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "DWS-1",
+          "frequency": "TG 1001 / 450.120 MHz",
+          "date": "10/24/2026",
+          "callsign": "HMI-01",
+          "lines": [
+            {
+              "time": "10:05:12",
+              "from": "HMI-01",
+              "to": "Control",
+              "text": "Control, this is HMI-01. The chemical feed pump for PLC-02 (Orchard Wellfield) has been manually overridden to 100% stroke and 100% speed on the HMI. The feed rate is not in the configured range—no target or setpoint is active. The override was not initiated by a local operator. I see a login on MBW-EWS-01 from user 'Kessler-Remote-01'—this account was not approved in the vendor access window. The session started 09:08:12 and has not been terminated. No ticket number is linked to this session in the remote-access log."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Young female, urgent, voice trembling slightly",
+          "audioFile": "I-06_radio.wav",
+          "duration": "0:23",
+          "injectId": "I-06"
+        },
+        "instructorNote": "This is a core narrative inject. The team must verify if the HMI and PLC are under unauthorized control and immediately begin SCADA network isolation per OT Plan 10.1. Watch for hesitation in initiating C2 steps.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-25T03:34:51.243Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Radio: Control Room — command window on MBW-EWS-01",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "City of Millbrook Department of Water & Sewer",
+          "centerName": "RWTP Control Room",
+          "channel": "DWS-1",
+          "frequency": "DWS-1 / 453.450 MHz",
+          "date": "10/26/2026",
+          "callsign": "RWTP Control Room",
+          "lines": [
+            {
+              "time": "10:05",
+              "from": "Control Room",
+              "to": "Superintendent, SCADA",
+              "text": "Superintendent and SCADA, Control Room on DWS-1. MBW-EWS-01 in the server room has a black command window that opens and closes every minute or so, and the AquaSight designer won’t start."
+            },
+            {
+              "time": "10:05",
+              "from": "Control Room",
+              "to": "Superintendent, SCADA",
+              "text": "MBW-HMI-01 and HMI-03 still look normal and the plant is holding. Nobody here has touched the engineering workstation today."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Woman in her 30s, controlled, slightly hurried",
+          "audioFile": "I-06_radio.wav",
+          "duration": "0:18",
+          "injectId": "I-06"
+        },
+        "instructorNote": "This is the “not clean” branch of OT Plan 10.5. Watch whether anyone wants to reboot the workstation (wrong: 10.7) and whether the IC decides on islanding and manual operations.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:43:34.399Z"
+}

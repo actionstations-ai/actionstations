@@ -1,0 +1,124 @@
+{
+  "id": "01M5RFAY3ZH9ZKXMEFDREBNY54",
+  "mselRowId": "I-09",
+  "type": "time_jump_card",
+  "title": "Time Jump: 09:00",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "newTime": "09:00",
+    "narration": "It is now 09:00. Two Millbrook Police detectives are at Orchard Standpipe. AIT-611 reads 0.58 mg/L. Hilltop Tank reads 26 feet. The two-hour mark since the cut lock was found is 10:05.",
+    "worldState": [
+      "Two Millbrook Police detectives are at Orchard Standpipe.",
+      "AIT-611 reads 0.58 mg/L.",
+      "Hilltop Tank reads 26 ft.",
+      "The two-hour mark since the sign of entry is 10:05."
+    ],
+    "facilitatorNote": "Ask where the isolation, the sampling and the advisory decision stand."
+  },
+  "variant": "default",
+  "instructorNote": "Reset the clock and name the deadline.",
+  "citations": [
+    {
+      "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+      "headingPath": "City of Millbrook Department of… › Section A",
+      "quote": "| Path | Endpoint reached | Authentication | Logging / recording | Approver | Status | |---|---|---|---|---|---| | MBW-JUMP-01 (RDP gateway in the SCADA DMZ) | MBW-EWS-01, MBW-SCADA-SRV01/02 | Named K",
+      "chunkId": 151
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 11 › 11.2 Evidence",
+      "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+      "chunkId": 45
+    },
+    {
+      "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+      "headingPath": "City of Millbrook Department of…",
+      "quote": "Document Control Number: MDWS-MAP-2026 · Revision 4.0 · Effective Date: 02/01/2026 · Maintained by: Tom Okonkwo (Distribution Superintendent) and Priya Nandakumar (SCADA / IT Security Manager) > **EXE",
+      "chunkId": 160
+    },
+    {
+      "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+      "headingPath": "City of Millbrook Department of… › Section 2",
+      "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+      "chunkId": 59
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 3",
+      "quote": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+      "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+      "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+      "quote": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T02:48:27.693Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "FBI Field Agent Arrival — Orchard Standpipe Site Secured",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "2:00",
+          "newTime": "09:00",
+          "jumpLabel": "+60 minutes",
+          "narration": "This is FBI Agent Elena Torres, Field Supervisor, Cyber-Physical Division. We’ve arrived at the Orchard Standpipe site. We’ve secured the site and are now in control of the evidence chain. We’ve pulled the full RTU-02 event log and MBW-NVR-01 video stream for 02:00–05:00. We’ve confirmed that no remote session on MBW-JUMP-01 or MBW-FW-01 matches any approved Kessler Controls window (WO-24-1187). The only physical access was via the ladder cage and gate. We are now performing a forensic analysis on the MBW-NVR-01 storage drive. The control system is not compromised. We will provide a status update in 90 minutes.",
+          "worldState": [
+            "The FBI has assumed on-site control of the Orchard Standpipe facility and the evidence chain.",
+            "All video and RTU-02 event logs are under FBI custody.",
+            "The FBI has confirmed no remote access via MBW-JUMP-01 or MBW-FW-01 matches the approved Kessler Controls window (WO-24-1187).",
+            "The control system remains un-compromised per FBI preliminary assessment.",
+            "The FBI will issue a full forensic status update in 90 minutes."
+          ],
+          "facilitatorNote": "Confirm that the Incident Commander has accepted FBI authority over the site and evidence. Ensure the SCADA / IT Security Manager is instructed to provide full access to RTU-02 logs and MBW-NVR-01 video under Form SEC-4.",
+          "scenarioTitle": "Cut Lock, Drifting Residual — Orchard Standpipe Intrusion & Precautionary Advisory",
+          "injectId": "I-09"
+        },
+        "instructorNote": "This inject confirms FBI control of the site and evidence. The Incident Commander must now formally hand over evidence custody and direct the SCADA / IT Security Manager to support the forensic process under SEC-4.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T03:43:40.038Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Time Jump: 09:00",
+        "type": "time_jump_card",
+        "fields": {
+          "newTime": "09:00",
+          "narration": "It is now 09:00. Two Millbrook Police detectives are at Orchard Standpipe. AIT-611 reads 0.58 mg/L. Hilltop Tank reads 26 feet. The two-hour mark since the cut lock was found is 10:05.",
+          "worldState": [
+            "Two Millbrook Police detectives are at Orchard Standpipe.",
+            "AIT-611 reads 0.58 mg/L.",
+            "Hilltop Tank reads 26 ft.",
+            "The two-hour mark since the sign of entry is 10:05."
+          ],
+          "facilitatorNote": "Ask where the isolation, the sampling and the advisory decision stand."
+        },
+        "instructorNote": "Reset the clock and name the deadline.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T03:43:44.618Z"
+}
