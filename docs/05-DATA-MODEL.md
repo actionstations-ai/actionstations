@@ -52,7 +52,7 @@ ExampleManifest { id, title, domainProfile, summary, fictional: true, notice,
 // "<!-- category: <id> -->" line, then one "- <entry>" bullet per identifier (gate ranges
 // such as "A1–A8" allowed). Default categories: runways, taxiways, gates, concourses (airport)
 // + locations, assets, hosts, networks, phones, agencies (all org types); a section the user
-// adds becomes a category (shown to the model, not linted). The marker
+// adds becomes a category (shown to the model; linted once defined, below). The marker
 // "<!-- ttx:facility-facts v1 auto-hash=<sha256 of the sections> -->" tells an unedited file
 // from an edited one: an edited file is never overwritten — the new extraction goes to
 // facility-facts.generated.md — and the generator reads facility-facts.md, so user edits
@@ -64,6 +64,15 @@ ExampleManifest { id, title, domainProfile, summary, fictional: true, notice,
 // it), project:facility-facts-reset. Save and reset first copy the previous file to
 // .cache/facility-facts-history/<timestamp>.md (last 20 kept). scenarios:lint includes
 // FACILITY_UNKNOWN_ID against this file (#155).
+// Category ids (#350): the id in "<!-- category: <id> -->" is the key a definition in
+// domainProfileOverrides.factCategories is matched by, exactly. Profile ids use underscores
+// ("pump_stations"); a section added in the editor (or a heading without an id line) gets a
+// hyphenated slug of its label ("pump-stations"). FactCategory.id accepts both shapes
+// (/^[a-z0-9][a-z0-9_-]{0,63}$/), so a user category is defined under its file id and no file
+// or project.json is migrated or renamed. project:facility-facts marks such a category
+// `definable` (no profile or built-in definition, valid id); the facts editor's
+// "Define for lint" appends its definition to the override list, "Remove the lint
+// definition" drops it. Ids with capitals (a hand-written id line) are not definable.
 
 // scenarios/<id>/scenario.json
 Scenario {

@@ -13,6 +13,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 #### Editors and saving
 
 - Facility facts: **Edit lint definition** on each category the domain profile defines (#180) edits its noun, generic noun and context, identifier shape, Checked by lint and Complete list. Saving writes `domainProfileOverrides.factCategories` (the whole list) through `project:update`, which refuses invalid or catastrophic regexes (capturing groups, look-arounds, back-references, nested quantifiers, empty matches, over-long sources) and extracts the facts again (an edited `facility-facts.md` is kept; the extraction goes to `facility-facts.generated.md`); the Scenario check then re-runs.
+- Facility facts: categories you add yourself (for example _Pump stations_) get **Define for lint** (#350), the same form, validation and save as the domain's categories. The definition is stored under the category's id from `facility-facts.md` as it is (`pump-stations`): fact category ids now accept hyphens as well as underscores, so existing files and `project.json` are read unchanged and nothing is renamed. **Remove the lint definition** takes it out again.
 
 ### Fixed
 
