@@ -113,74 +113,6 @@
       "title": "Positive + dark ceiling (lighting: dark)"
     }
   },
-  "15": {
-    "class_type": "CLIPTextEncode",
-    "inputs": {
-      "text": "solid opaque indoor ceiling, plain unlit architecture, bare walls",
-      "clip": ["4", 1]
-    },
-    "_meta": {
-      "title": "Unlit ceiling prompt (lighting: screens-off)"
-    }
-  },
-  "16": {
-    "class_type": "ConditioningSetAreaPercentage",
-    "inputs": {
-      "conditioning": ["15", 0],
-      "width": 1,
-      "height": 0.4,
-      "x": 0,
-      "y": 0,
-      "strength": 1
-    },
-    "_meta": {
-      "title": "Unlit ceiling area, top 40% (lighting: screens-off)"
-    }
-  },
-  "17": {
-    "class_type": "ConditioningCombine",
-    "inputs": {
-      "conditioning_1": ["6", 0],
-      "conditioning_2": ["16", 0]
-    },
-    "_meta": {
-      "title": "Positive + unlit ceiling (lighting: screens-off)"
-    }
-  },
-  "18": {
-    "class_type": "CLIPTextEncode",
-    "inputs": {
-      "text": "sky, glass roof, skylights, illuminated signs, glowing screens, digital displays, lit departure boards, backlit signage",
-      "clip": ["4", 1]
-    },
-    "_meta": {
-      "title": "Lit signs negative prompt (lighting: screens-off)"
-    }
-  },
-  "19": {
-    "class_type": "ConditioningSetAreaPercentage",
-    "inputs": {
-      "conditioning": ["18", 0],
-      "width": 1,
-      "height": 0.4,
-      "x": 0,
-      "y": 0,
-      "strength": 1
-    },
-    "_meta": {
-      "title": "Lit signs negative area, top 40% (lighting: screens-off)"
-    }
-  },
-  "20": {
-    "class_type": "ConditioningCombine",
-    "inputs": {
-      "conditioning_1": ["7", 0],
-      "conditioning_2": ["19", 0]
-    },
-    "_meta": {
-      "title": "Negative + lit signs (lighting: screens-off)"
-    }
-  },
   "21": {
     "class_type": "ImageToMask",
     "inputs": {
@@ -348,10 +280,10 @@
     "class_type": "ThresholdMask",
     "inputs": {
       "mask": ["35", 0],
-      "value": 0.35
+      "value": 0.55
     },
     "_meta": {
-      "title": "Red - blue > 0.35 (lighting: screens-off)"
+      "title": "Red - blue > 0.55 (lighting: screens-off)"
     }
   },
   "37": {
@@ -420,11 +352,11 @@
       "destination": ["40", 0],
       "source": ["41", 0],
       "x": 0,
-      "y": 374,
+      "y": 333,
       "operation": "multiply"
     },
     "_meta": {
-      "title": "Lit signs in the top 45% (lighting: screens-off)"
+      "title": "Lit signs in the top 40% (lighting: screens-off)"
     }
   },
   "43": {
@@ -535,8 +467,8 @@
       "scheduler": "karras",
       "denoise": 0.55,
       "model": ["4", 0],
-      "positive": ["17", 0],
-      "negative": ["20", 0],
+      "positive": ["6", 0],
+      "negative": ["7", 0],
       "latent_image": ["51", 0]
     },
     "_meta": {

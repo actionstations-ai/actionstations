@@ -234,16 +234,13 @@ describe('sdxl-photo screens-off lighting (#356)', () => {
     seed: 7,
   })
 
-  it('keeps the lit start latent and adds unlit-ceiling area prompts on both sides', () => {
+  it('renders the first pass exactly as a lit scene (people and room untouched)', () => {
     expect(out['3']!.inputs).toMatchObject({
       latent_image: ['5', 0],
       denoise: 1,
-      positive: ['17', 0],
-      negative: ['20', 0],
+      positive: ['6', 0],
+      negative: ['7', 0],
     })
-    expect(out['17']!.inputs).toEqual({ conditioning_1: ['6', 0], conditioning_2: ['16', 0] })
-    expect(out['20']!.inputs).toEqual({ conditioning_1: ['7', 0], conditioning_2: ['19', 0] })
-    expect(out['16']!.inputs).toMatchObject({ height: 0.4, y: 0 })
   })
 
   it('repaints the detected signs with the same seed and saves the composite', () => {
@@ -251,8 +248,8 @@ describe('sdxl-photo screens-off lighting (#356)', () => {
     expect(out['52']!.inputs).toMatchObject({
       seed: 7,
       denoise: 0.55,
-      positive: ['17', 0],
-      negative: ['20', 0],
+      positive: ['6', 0],
+      negative: ['7', 0],
       latent_image: ['51', 0],
     })
     // Only the masked signs change: the repaint goes back over the first decode.
@@ -266,6 +263,8 @@ describe('sdxl-photo screens-off lighting (#356)', () => {
   it('builds the sign mask at the job size from stock mask nodes', () => {
     expect(out['41']!.inputs).toMatchObject({ width: 1024, height: 768 })
     expect(out['48']!.inputs).toMatchObject({ width: 1024, height: 768 })
+    // Amber needs r - b > 0.55: lit skin highlights reach about 0.36 and must stay unmasked.
+    expect(out['36']!.inputs).toMatchObject({ mask: ['35', 0], value: 0.55 })
     const classes = new Set(
       ['21', '24', '25', '28', '40', '42', '44', '45', '47', '49', '51'].map(
         (id) => out[id]!.class_type,

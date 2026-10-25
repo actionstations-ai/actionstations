@@ -34,7 +34,7 @@ export const MEDIA_BRIEF_SCHEMA: JsonSchema = {
       title: 'Lighting',
       description:
         'dark = a power loss: displays off, dim room. screens-off = screens blank with the ' +
-        'power on: lit room, unlit signs and boards (workflows with lighting bindings).',
+        'power on: lit room, lit signs repainted dark (workflows with lighting bindings).',
       enum: ['normal', 'dark', 'screens-off'],
     },
     videoPrompt: { type: 'string', title: 'Video prompt', maxLength: LONG },

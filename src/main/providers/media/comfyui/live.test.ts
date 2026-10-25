@@ -19,7 +19,7 @@ const URL = process.env.LIVE_COMFY_URL ?? 'http://127.0.0.1:8188'
 const VIDEO = process.env.LIVE_COMFY_VIDEO !== '0'
 const VIDEO_WORKFLOW = process.env.LIVE_COMFY_VIDEO_WORKFLOW
 const DARK_SEEDS = (process.env.LIVE_COMFY_DARK_SEEDS ?? '1001,1002,1003').split(',').map(Number)
-/** Most lit-sign pixels (% of the top 45%) a screens-off render may keep (#356). */
+/** Most lit-sign pixels (% of the top 40%) a screens-off render may keep (#356). */
 const LIT_SIGN_MAX = 0.3
 
 /** Mean Rec. 601 luma (0–255) of a PNG file. */
@@ -32,18 +32,18 @@ function meanLuma(file: string): number {
 }
 
 /**
- * Share (%) of the top 45% of a PNG whose pixels look like a lit sign: the colour rules of
+ * Share (%) of the top 40% of a PNG whose pixels look like a lit sign: the colour rules of
  * sdxl-photo's screens-off mask (saturated blue: b - r > 0.3, b > 0.35, r and g <= 0.35;
- * amber: r > 0.85, r - b > 0.35, g > 0.55), without its clean-up (#356).
+ * amber: r > 0.85, r - b > 0.55, g > 0.55), without its clean-up (#356).
  */
 function litSignShare(file: string): number {
   const png = PNG.sync.read(readFileSync(file))
-  const rows = Math.floor(png.height * 0.45)
+  const rows = Math.floor(png.height * 0.4)
   let lit = 0
   for (let i = 0; i < rows * png.width * 4; i += 4) {
     const [r, g, b] = [png.data[i]! / 255, png.data[i + 1]! / 255, png.data[i + 2]! / 255]
     const blue = b - r > 0.3 && b > 0.35 && r <= 0.35 && g <= 0.35
-    const amber = r > 0.85 && r - b > 0.35 && g > 0.55
+    const amber = r > 0.85 && r - b > 0.55 && g > 0.55
     if (blue || amber) lit++
   }
   return (lit / (rows * png.width)) * 100
@@ -182,7 +182,7 @@ describe.skipIf(!LIVE)('ComfyUI live', () => {
           seed,
           'mean luma',
           luma.toFixed(1),
-          'lit-sign pixels in the top 45%',
+          'lit-sign pixels in the top 40%',
           `${lit.toFixed(2)}%`,
         )
         expect(luma).toBeGreaterThan(60)
