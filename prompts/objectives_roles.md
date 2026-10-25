@@ -1,7 +1,7 @@
 ---
 name: objectives_roles
 stage: objectives_roles
-version: 2
+version: 3
 description: Exercise objectives, the player roles with standing orders, and the critical resources players will track.
 outputSchema: ObjectivesRolesOutput
 task: draft
@@ -45,7 +45,7 @@ Rules:
 - objectives: 3–4. Each has a short name (e.g. "Communication", "Decision Making", "Technical Analysis", "Use of Doctrine") and one sentence beginning "Demonstrate the ability to …" that is observable during play and tied to this scenario (name the decision, the system, the stakeholder).
 - roles: 4–6 player roles. ALWAYS include an operational commander (the person who owns {{domain.vocabulary.facility}} and its people), a technical lead (owns the systems or, for an incident that is not about IT, the engineering / facilities function), a public-information role (owns the narrative: social media, press, public notices), and a security / law-enforcement role (owns physical order and the police liaison). Add a partner, tenant, regulator-facing or specialist role when the scenario needs one. The roles this kind of organization usually fields — adapt the titles to the documents:
   {{#each domain.roles}}- {{key}}: {{name}} ({{abbreviation}}, {{team}}) — {{description}}
-  {{/each}}If the audience list names disciplines, map them onto these roles.
+  {{/each}}If the audience list names disciplines, map them onto these roles: one role per audience entry, never more roles than the audience lists. Outside parties (federal and state agencies, regulators, vendors, partners, the media, the public) are played by the facilitator and are never player roles, even when the scenario depends on them; a role that deals with one of them is the organization's own liaison.
 - key: a short stable token in lowercase, letters/digits/underscore only ({{#each domain.roles}}"{{key}}"{{#unless @last}}, {{/unless}}{{/each}}). Keys are used by every later stage; keep them obvious.
 - name: the title as the documents use it, with the ICS function in parentheses when relevant ("{{#if domain.roles.length}}{{domain.roles.[0].name}}{{else}}Director of Operations (Incident Commander){{/if}}"). abbreviation: 2–5 characters. team: "Team A: Operations" style, one team per role.
 - description: one sentence, "Manages/Owns …".

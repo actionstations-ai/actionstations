@@ -1,7 +1,7 @@
 ---
 name: msel_phase
 stage: msel_phase
-version: 5
+version: 6
 description: The MSEL rows for one phase (time, inject id, from, to, event, expected action, purpose tag, format, citations).
 outputSchema: MselPhaseOutput
 task: draft
@@ -75,6 +75,8 @@ STRUCTURE
 - to: ONLY the role keys listed below, exactly as written, or ["all"]. Every role receives at least one inject in this phase. Never invent a key.
 - from: the source in the outside world that the facilitator plays ({{domain.vocabulary.frontline}}; a helpdesk; an automated system or alarm; a vendor; a reporter; a social media user; an outside agency such as {{join domain.outsideParties ", "}}). NEVER a player role: a player's own decision or announcement is not an inject — it belongs in expectedAction. If the story needs the players to decide, write the inject that forces the decision (a demand, a deadline, a failure) and put the decision in expectedAction.
 - Each row appears once. Do not repeat a row or restate the TIME_JUMP.
+- Exactly one STARTEX (first row), at most one TIME_JUMP per phase (its first row), exactly one ENDEX (the very last row of the exercise). Nothing comes after ENDEX, and no ENDEX appears before the last phase ends. Each TIME_JUMP moves the clock to a NEW time and says what changed since the last one; never write two time jumps with the same time or the same text.
+- The clock and the calendar are fixed by the brief: STARTEX states the narrative start clock {{startWallClock}}; every TIME_JUMP and the ENDEX state the clock their row time gives (start clock plus elapsed time: a row at 2:00 after a {{startWallClock}} start says the clock {{startWallClock}} plus two hours). The day and date STARTEX sets stay the same in every row; only a TIME_JUMP that says so moves to another day. A weekday must match its calendar date.
 
 INJECT MIX for this phase (all required):
 
@@ -84,6 +86,15 @@ INJECT MIX for this phase (all required):
 - {{#if threat.technicalClue}}at least one CLUE ({{threat.clueKinds}}) or TECH_HURDLE ({{threat.hurdleKinds}}) addressed to the {{#if (eq threat.clueRole "technical")}}technical{{else}}{{threat.clueRole}}{{/if}} role's key, in EVERY phase;{{else}}CLUE ({{threat.clueKinds}}) and TECH_HURDLE ({{threat.hurdleKinds}}) rows where the beats call for them, addressed to the {{threat.clueRole}} role's key;{{/if}}
 - DECISION_POINT: the whole exercise has exactly one, placed in phase {{dpPhase}}. {{#if phase.isDecisionPhase}}{{#if hasDecisionPoint}}It already exists; do not add another.{{else}}This is that phase: include exactly one DECISION_POINT that forces a high-consequence call with a cost on both sides — for this kind of incident: {{join threat.decisionPointExamples "; "}}{{#if threat.decisionMustMention}}. The decision must be taken with {{threat.decisionMustMention}}, and the row must say so{{/if}}.{{/if}}{{else}}This is not that phase: tag no row DECISION_POINT here (build toward it or live with its consequences).{{/if}}
 - other tags as the beats require: OPERATIONAL_FRICTION (partner, tenant or union conflict), CONFUSION (physical-safety or security side effect), DISTRACTION (public-sentiment noise). END_GAME is used only in the last phase, for the one or two injects that resolve the incident just before ENDEX.
+
+THE BRIEF IS BINDING
+
+- The designer's request below sets the start time, the day and date, the places, the systems and the threat. Use them as written: if it names a night shift, a county-wide ransomware attack or specific precincts, the MSEL has that night shift, that ransomware and those precincts, and no others. Do not drop a thread the request asks for and do not add places it does not name.
+- Player roles are only the roles listed below. Outside parties (agencies, vendors, partners, the media, residents) are played by the facilitator: they appear in "from", never in "to".
+- Outside agencies and regulators (CISA, the FBI, TSA, a state regulator, a federal partner) advise, assist, investigate and receive reports. They never close the incident, approve restoration, authorize a restart or give the all-clear: the organization's own incident commander decides those, and the expected action says so.
+- Recovery takes as long as it really does: encrypted or wiped servers, a compromised control network or a rebuilt controller are restored over hours to days. Within the exercise show recovery as started, partial, scheduled or waiting on verification, never as fully restored a row or two after the systems broke.
+- Quantities must be physically possible at this facility: a release is never larger than the largest container the documents describe, a pressure never exceeds what the system is rated for, and readings, flows and totals add up from one row to the next.
+- Contact details are fictional: email and web addresses of the organization use its exercise domain (given below when the designer set one) or end in .example; outside companies, newspapers and TV stations get fictional .example domains; a real agency's own published address may be used. Phone numbers use 555-0100 to 555-0199 (with any area code), except a real agency hotline the documents give.
 
 WRITING THE EVENT COLUMN
 
@@ -137,7 +148,7 @@ Roles (use these keys in "to"):
 {{/each}}{{/if}}
 </scenario_state>
 {{#if revisePass}}
-REVISION PASS for phase {{phase.number}}: {{phase.title}} ({{phase.startTime}}–{{phase.endTime}}). The rows already written above include this phase's rows. A reviewer flagged the rows below. Return ONLY those rows, rewritten so each note is fixed, keeping the SAME id, time and purposeTag. When a note says the source is a player role, re-source the inject from a SPECIFIC outside party (a named helpdesk, a system alarm or alert, a vendor NOC, a partner's employee, one of the front-line people, a dispatcher, a reporter, a social media user) and keep its substance; the players' own decision moves to expectedAction. "from" is never the bare "Facilitator" for a non-control row. When a note says the row is written in a player's voice ("This is the <role>", a named player announcing "I have made the decision"), the inject is the player's own decision: rewrite it as what an outside party says or sends that forces that decision (a demand, a deadline, a failure, a report), and put the decision in expectedAction. When a note says a row repeats another, write a different inject that moves the story on. When a note says a row lies outside the phase window or after the ENDEX row, keep the time (the app re-times it) and make the content fit before ENDEX. When a note says an identifier is not in the facility facts, replace it with one from the FACILITY FACTS list (the list is complete: an id that is not on it does not exist, however plausible it looks) or state in the event and expected action that it does not exist. Never write notes, explanations or bracketed remarks into a row; rows contain only the inject. Do not return any other rows.
+REVISION PASS for phase {{phase.number}}: {{phase.title}} ({{phase.startTime}}–{{phase.endTime}}). The rows already written above include this phase's rows. A reviewer flagged the rows below. Return ONLY those rows, rewritten so each note is fixed, keeping the SAME id, time and purposeTag. When a note says the source is a player role, re-source the inject from a SPECIFIC outside party (a named helpdesk, a system alarm or alert, a vendor NOC, a partner's employee, one of the front-line people, a dispatcher, a reporter, a social media user) and keep its substance; the players' own decision moves to expectedAction. "from" is never the bare "Facilitator" for a non-control row. When a note says the row is written in a player's voice ("This is the <role>", a named player announcing "I have made the decision"), the inject is the player's own decision: rewrite it as what an outside party says or sends that forces that decision (a demand, a deadline, a failure, a report), and put the decision in expectedAction. When a note says a row repeats another, write a different inject that moves the story on. When a note says a row lies outside the phase window or after the ENDEX row, keep the time (the app re-times it) and make the content fit before ENDEX. When a note says an outside agency decides, rewrite the row so the agency advises, assists or receives a report and the organization's incident commander decides. When a note says a restore is too fast, show the recovery as started, partial or scheduled. When a note says a contact detail looks real, use the organization's exercise domain or a fictional .example domain and a 555-0100 to 555-0199 number. When a note says a clock or a date is wrong, use the clock and the day the note gives. When a note says an identifier is not in the facility facts, replace it with one from the FACILITY FACTS list (the list is complete: an id that is not on it does not exist, however plausible it looks) or state in the event and expected action that it does not exist. Never write notes, explanations or bracketed remarks into a row; rows contain only the inject. Do not return any other rows.
 {{#each reviseNotes}}- {{this}}
 {{/each}}
 {{else}}
@@ -156,7 +167,9 @@ Goal: {{phase.goal}}
 Write {{targetRowCount}} to {{maxRowCount}} rows, START, TIME_JUMP, END and "b" side injects included — never more. A professional MSEL runs about six injects an hour: fewer, richer rows that each force a decision beat many thin ones; fold a minor beat into a row it rides on rather than adding a row for it. The next free core inject number is {{nextInjectNumber}} (use "I-{{nextInjectNumber}}" style ids, zero-padded to two digits).{{#if phase.isFirst}} Begin with the START row at {{phase.startTime}}.{{else}} Begin with a TIME_JUMP row at {{phase.startTime}}.{{/if}}{{#if phase.isLast}} End with the END row at {{phase.endTime}}.{{/if}}
 {{/if}}
 {{/if}}
-Available citation keys: {{join citationKeys ", "}}.
+{{#if brief.userPrompt}}Designer's request (binding for start time, day, places, systems and threat): {{brief.userPrompt}}
+{{/if}}{{#if brief.constraints.length}}Constraints from the designer: {{join brief.constraints "; "}}
+{{/if}}Available citation keys: {{join citationKeys ", "}}.
 {{#if instructions}}
 Additional instructions from the exercise designer (highest priority): {{instructions}}
 {{/if}}

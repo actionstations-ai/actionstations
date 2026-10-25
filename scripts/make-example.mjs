@@ -819,25 +819,31 @@ export function isDerived(rel) {
 }
 
 // Paths that reveal the author's machine, and key-shaped strings. Story content such as
-// "/var/log/scada.log" inside a system-log inject is exactly what those injects should carry.
+// "/var/log/scada.log" or "/tmp/auto_cleaner.py" inside a system-log inject is exactly what
+// those injects should carry (#347): only a user's home, the per-user temp folder and the
+// author's own folders (home, project, output) count.
 const AUTHOR_PATH =
-  /(?:^|["'\s(=:])((?:\/Users\/|\/home\/|\/private\/|\/tmp\/|\/var\/folders\/|[A-Za-z]:\\+Users\\+(?!\\*Public\\))[^"'\s)]*)/g
+  /(?:^|["'\s(=:])((?:\/Users\/|\/(?:private\/)?var\/folders\/|[A-Za-z]:\\+Users\\+(?!\\*Public\\))[^"'\s)]*)/g
+const PATH_TOKEN = /(?:^|["'\s(=:])(\/[^"'\s)]+)/g
 const SECRET_HINT = /\b(?:sk-[A-Za-z0-9]{8,}|api[_-]?key\s*[:=]|Bearer\s+[A-Za-z0-9._-]{16,})/g
 
-/** Author-machine paths or secret-looking strings in a text file of the packaged project. */
-export function findLeaks(text) {
+/** Author-machine paths (a home, the per-user temp folder, one of `roots`) or secret-looking strings. */
+export function findLeaks(text, roots = [homedir()]) {
   const found = new Set()
   for (const m of text.matchAll(AUTHOR_PATH)) found.add(m[1])
+  const mine = roots.filter((r) => r.length > 1).map((r) => r.replace(/\/+$/, ''))
+  for (const m of text.matchAll(PATH_TOKEN))
+    if (mine.some((r) => m[1] === r || m[1].startsWith(`${r}/`))) found.add(m[1])
   for (const m of text.matchAll(SECRET_HINT)) found.add(m[0])
   return [...found]
 }
 
 /** Every text file of the packaged project that still carries a leak, with what it carries. */
-export function leaksIn(dest) {
+export function leaksIn(dest, roots = [homedir()]) {
   const leaks = []
   for (const rel of walk(dest)) {
     if (!/\.(?:json|md|txt)$/.test(rel)) continue
-    const found = findLeaks(readFileSync(join(dest, rel), 'utf8'))
+    const found = findLeaks(readFileSync(join(dest, rel), 'utf8'), roots)
     if (found.length) leaks.push(`${rel}: ${found.join(', ')}`)
   }
   return leaks
@@ -1070,7 +1076,7 @@ export function packageProject(spec, out, dest = join(exampleDir(spec), 'project
     join(dest, '.gitignore'),
     ['index.sqlite', 'index.sqlite-*', '.cache/', ''].join('\n'),
   )
-  const leaks = leaksIn(dest)
+  const leaks = leaksIn(dest, absolute)
   if (leaks.length)
     throw new Error(`package: author paths or secrets in the example:\n  ${leaks.join('\n  ')}`)
   return { files, kept: kept.size, mediaBytes: total, bundles, clip: clip?.asset.id }

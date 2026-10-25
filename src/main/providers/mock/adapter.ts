@@ -59,8 +59,8 @@ export class MockTextProvider implements TextProvider {
     else if (req.json && name in MOCK_FIXTURES) value = MOCK_FIXTURES[name as StageOutputSchemaName]
     else if (req.json) throw new Error(`Mock provider has no fixture for ${name}`)
     else value = 'Mock response.'
-    if (req.json && name in STAGE_OUTPUT_SCHEMAS) {
-      // Fail loudly if a fixture drifts from its schema.
+    if (req.json && typeof value !== 'string' && name in STAGE_OUTPUT_SCHEMAS) {
+      // Fail loudly if a fixture drifts from its schema (a string is raw reply text on purpose).
       STAGE_OUTPUT_SCHEMAS[name as StageOutputSchemaName].parse(value)
     }
     const text = typeof value === 'string' ? value : JSON.stringify(value)

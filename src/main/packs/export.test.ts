@@ -324,6 +324,15 @@ describe('example export', () => {
     expect(r.problems[0]!.message).toMatch(/looks like it holds a secret/)
   })
 
+  it('keeps generic /tmp and /home paths in story text (#347)', async () => {
+    write(
+      join(root, 'notes.md'),
+      'The log shows python3 /tmp/auto_cleaner.py run as /home/ubuntu from cron.\n',
+    )
+    const r = await buildPackExport(exampleOnly(), { appVersion: APP })
+    if (!r.ok) throw new Error(JSON.stringify(r.problems))
+  })
+
   it('lists files a pack cannot carry as skipped', async () => {
     write(join(root, 'exports', 'handbook.html'), '<p>x</p>')
     write(join(root, 'scenarios', 'run.sh'), 'echo hi')

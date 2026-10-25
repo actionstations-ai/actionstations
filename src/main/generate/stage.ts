@@ -36,6 +36,8 @@ export interface StageCall {
   ctx: JobContext
   deps: PipelineDeps
   index: SearchIndex
+  /** At most this many retrieved sections go into the prompt (a smaller request, #347). */
+  maxRetrieved?: number
 }
 
 export interface StageResult<T> {
@@ -49,7 +51,11 @@ const REPAIR_ROUNDS = 1
 
 /** Carries the failed StageRun so the engine can persist it before surfacing the error. */
 export class StageFailure extends AppError {
-  constructor(readonly run: StageRun) {
+  /** `noJson`: the last reply carried no JSON at all (often a context window too small). */
+  constructor(
+    readonly run: StageRun,
+    readonly noJson = false,
+  ) {
     super(
       'VALIDATION',
       `Stage ${run.stage}${run.itemId ? ` (${run.itemId})` : ''} failed: ${run.error}`,
@@ -95,12 +101,27 @@ function formatIssues(err: z.ZodError): string {
     .join('\n')
 }
 
-type Parsed = { ok: true; data: unknown } | { ok: false; issues: string; raw: string }
+type Parsed =
+  { ok: true; data: unknown } | { ok: false; issues: string; raw: string; noJson?: boolean }
+
+export const NO_JSON = 'no JSON object found in the reply'
+
+/**
+ * Why a reply carried no JSON, when the response says: an empty reply or one cut off at the
+ * length limit usually means the prompt filled the model's context window (#347).
+ */
+function noJsonReason(res: ChatResponse): string {
+  const tokens = res.usage.inputTokens ? ` after ${res.usage.inputTokens} prompt tokens` : ''
+  if (res.finishReason === 'length')
+    return `${NO_JSON} (the reply was cut off at the length limit${tokens})`
+  if (!res.text.trim()) return `${NO_JSON} (the model returned an empty reply${tokens})`
+  return NO_JSON
+}
 
 function parseOutput(res: ChatResponse, schema: z.ZodType): Parsed {
   const candidate = res.json !== undefined ? res.json : extractJson(res.text)
   if (candidate === undefined) {
-    return { ok: false, issues: '- (root): no JSON object found in the reply', raw: res.text }
+    return { ok: false, issues: `- (root): ${noJsonReason(res)}`, raw: res.text, noJson: true }
   }
   const parsed = schema.safeParse(candidate)
   if (parsed.success) return { ok: true, data: parsed.data }
@@ -191,6 +212,7 @@ export async function runStage<T>(call: StageCall): Promise<StageResult<T>> {
   const retrieved = await asTask('embed', () =>
     retrieveForStage(call.index, queries, fm.retrieval.k, ctx.signal),
   )
+  if (call.maxRetrieved !== undefined) retrieved.splice(call.maxRetrieved)
   const { name, schema } = schemaWhen(schemaFor(prompt), retrieved)
   const rendered = deps.renderPrompt(prompt, {
     ...call.vars,
@@ -225,7 +247,7 @@ export async function runStage<T>(call: StageCall): Promise<StageResult<T>> {
   if (!parsed.ok) {
     run.status = 'error'
     run.error = `Output did not match ${name} after ${run.repairAttempts} repair attempt(s):\n${parsed.issues}`
-    throw new StageFailure(run)
+    throw new StageFailure(run, !!parsed.noJson)
   }
   run.status = 'ok'
   return { output: parsed.data as T, retrieved, run, prompt }
