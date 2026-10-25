@@ -411,8 +411,10 @@ export function normalizeBrief(
     if (anchored) brief.imagePrompt = powerOut ? `${anchored}, ${DARK_SCENE_LIGHTING}` : anchored
     brief.negativePrompt = mergeNegative(out?.negativePrompt, style, dark || powerOut)
     brief.imageStyle = style
-    // Only a power loss dims the room; blank screens with the power on keep normal light.
+    // Only a power loss dims the room; blank screens with the power on keep normal light
+    // but ask the workflow to keep background signs and boards unlit (#356).
     if (powerOut) brief.lighting = 'dark'
+    else if (dark) brief.lighting = 'screens-off'
   }
   if (plan.paths.includes('ai_video')) {
     const v = positivePrompt(out?.videoPrompt ?? out?.imagePrompt ?? '')

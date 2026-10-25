@@ -50,16 +50,36 @@ photojournalism realism. Core nodes only.
   template-rendered ([CONTRIBUTING.md, Project rules 5](../../CONTRIBUTING.md#project-rules)).
 - Dark scenes (#162): a brief that describes a power loss (outage, blackout, power failure,
   generators, emergency lighting) has `lighting: "dark"`. A brief whose screens are only blank
-  (power on, e.g. a cyber attack) leaves them out of the prompt but keeps normal lighting. Three `lighting` bindings then switch the sampler to the dark start latent
+  (power on, e.g. a cyber attack) leaves them out of the prompt and gets `screens-off` (below).
+  Three `lighting` bindings switch a dark scene's sampler to the dark start latent
   (node 11: a #404040 `EmptyImage` through `VAEEncode`, so the sampler starts dark) at denoise
   0.92, and to a positive prompt combined with "dark unlit ceiling in deep shadow" over the top
   40% of the frame (`ConditioningSetAreaPercentage`, node 13), where SDXL otherwise paints lit
   departure boards and signs. Lit scenes do not reach those nodes and render as before.
   Measured on the #141 brief (sample-run I-10), seeds 1001–1003: mean luma 87–116 with lit
   boards and signs before; 29–40 and no lit screens after. Prompt and negative-prompt changes
-  alone (with a dark start latent) still left a lit board in 2 of 3 seeds. With the power on
-  (no lighting set) the room stays lit (mean luma 91–116), but SDXL still paints lit signs in
-  the background of all 3 seeds.
+  alone (with a dark start latent) still left a lit board in 2 of 3 seeds.
+- Blank screens with the power on (#356): a brief whose screens are dark or blank without a
+  power loss has `lighting: "screens-off"`. The room keeps its light; three more `lighting`
+  bindings switch the sampler to a positive prompt combined with "solid opaque indoor ceiling,
+  plain unlit architecture" over the top 40% (nodes 15–17), a negative prompt combined with
+  "sky, glass roof, illuminated signs, glowing screens, …" over the same area (nodes 18–20),
+  and save a repainted image (node 54). The repaint finds lit signs in the first decode with
+  stock mask nodes (`ImageToMask`, `MaskComposite`, `ThresholdMask`, `InvertMask`,
+  `SolidMask`, `Morphology`, `GrowMask`; nodes 21–47): saturated blue (b − r > 0.3, b > 0.35,
+  r and g ≤ 0.35) or amber (r > 0.85, r − b > 0.35, g > 0.55) pixels in the top 45% of the
+  frame (`MaskComposite` y = 374, sized for 832 px), closed (15 px) so sign text joins into
+  boards, opened (7 px) to drop specks and grown by 8 px. It fills them with #1a1a1a, samples
+  them again at denoise 0.55 with the same seed (`SetLatentNoiseMask`, nodes 48–53) and
+  composites the result over the first decode through the mask, so nothing else changes.
+  Without lit signs the mask is empty and the image is the first decode. `Morphology` needs
+  ComfyUI's bundled `kornia` dependency.
+  Measured on sample-run I-10 (boards blank, power on), seeds 1001–1006: before, lit boards
+  or signs in 6 of 6 (mean luma 91–116); the two area prompts alone (no repaint) left
+  lit signs in 3 of 6 (1001, 1002, 1005); after, mean luma 92–130 and no lit signs in 5 of 6 (1001–1004, 1006).
+  Seed 1005 keeps a few small, pale lit screens at the far end of the hall: pale (low
+  saturation) screens are not told apart from windows and ceiling lights, so they are not
+  masked. The opt-in live test checks luma > 60 and lit-sign pixels < 0.3% of the top 45%.
 
 ## `image-to-video` — LTX-Video 2B distilled (video)
 

@@ -65,6 +65,7 @@ The **Defaults** row picks the workflow each media type uses when an inject does
 The media brief stage writes the image prompt; when you edit a brief or a prompt, keep these in mind:
 
 - **Describe things positively.** SDXL ignores negation: "no screens" produces screens. Write "departure boards powered off and dark".
+- **Dark screens: set Lighting.** SDXL lights any screen it draws, even "powered off" ones. A brief that says the screens are dark or blank gets **Lighting** `screens-off` (power on: the room stays lit and `sdxl-photo` repaints lit background signs as dark boards) or `dark` (a power loss: dim room). You can change it in the inject's media brief.
 - **Never rely on text in the image.** Signs, screens and documents come out garbled. Text belongs in a template; a photo can sit inside a template's image slot (see the [template guide](../templates.md#image-slots)).
 - **Name the camera.** "Phone photo", "security camera still, high angle, timestamp overlay" or "press photo" changes the look more than adjectives do.
 

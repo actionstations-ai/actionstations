@@ -158,7 +158,7 @@ describe('sdxl-photo dark lighting (#162)', () => {
   const sidecar = WorkflowSidecar.parse(
     JSON.parse(readFileSync(`${dir}/sdxl-photo.bindings.json`, 'utf8')),
   )
-  const render = (lighting?: 'dark') =>
+  const render = (lighting?: 'dark' | 'screens-off') =>
     applyBindings(workflow, sidecar.bindings, {
       job: {
         kind: 'image',
@@ -198,11 +198,88 @@ describe('sdxl-photo dark lighting (#162)', () => {
     expect(out['14']!.inputs).toEqual({ conditioning_1: ['6', 0], conditioning_2: ['13', 0] })
   })
 
+  it('saves the plain decode for lit and dark scenes', () => {
+    expect(render()['9']!.inputs.images).toEqual(['8', 0])
+    expect(render('dark')['9']!.inputs.images).toEqual(['8', 0])
+    expect(render('dark')['3']!.inputs.negative).toEqual(['7', 0])
+  })
+
   it('links only to nodes the workflow has', () => {
-    const out = render('dark')
-    for (const node of Object.values(out))
-      for (const value of Object.values(node.inputs))
-        if (Array.isArray(value) && typeof value[0] === 'string')
-          expect(out).toHaveProperty(value[0])
+    for (const lighting of ['dark', 'screens-off'] as const) {
+      const out = render(lighting)
+      for (const node of Object.values(out))
+        for (const value of Object.values(node.inputs))
+          if (Array.isArray(value) && typeof value[0] === 'string')
+            expect(out).toHaveProperty(value[0])
+    }
+  })
+})
+
+describe('sdxl-photo screens-off lighting (#356)', () => {
+  const dir = resolve('comfy/workflows')
+  const workflow = JSON.parse(readFileSync(`${dir}/sdxl-photo.json`, 'utf8')) as ApiWorkflow
+  const sidecar = WorkflowSidecar.parse(
+    JSON.parse(readFileSync(`${dir}/sdxl-photo.bindings.json`, 'utf8')),
+  )
+  const out = applyBindings(workflow, sidecar.bindings, {
+    job: {
+      kind: 'image',
+      injectId: 'I-10',
+      outDir: '/tmp',
+      width: 1024,
+      height: 768,
+      brief: { paths: ['ai_image'], imagePrompt: 'a concourse', lighting: 'screens-off' },
+    },
+    sidecar,
+    seed: 7,
+  })
+
+  it('keeps the lit start latent and adds unlit-ceiling area prompts on both sides', () => {
+    expect(out['3']!.inputs).toMatchObject({
+      latent_image: ['5', 0],
+      denoise: 1,
+      positive: ['17', 0],
+      negative: ['20', 0],
+    })
+    expect(out['17']!.inputs).toEqual({ conditioning_1: ['6', 0], conditioning_2: ['16', 0] })
+    expect(out['20']!.inputs).toEqual({ conditioning_1: ['7', 0], conditioning_2: ['19', 0] })
+    expect(out['16']!.inputs).toMatchObject({ height: 0.4, y: 0 })
+  })
+
+  it('repaints the detected signs with the same seed and saves the composite', () => {
+    expect(out['9']!.inputs.images).toEqual(['54', 0])
+    expect(out['52']!.inputs).toMatchObject({
+      seed: 7,
+      denoise: 0.55,
+      positive: ['17', 0],
+      negative: ['20', 0],
+      latent_image: ['51', 0],
+    })
+    // Only the masked signs change: the repaint goes back over the first decode.
+    expect(out['54']!.inputs).toMatchObject({
+      destination: ['8', 0],
+      source: ['53', 0],
+      mask: ['47', 0],
+    })
+  })
+
+  it('builds the sign mask at the job size from stock mask nodes', () => {
+    expect(out['41']!.inputs).toMatchObject({ width: 1024, height: 768 })
+    expect(out['48']!.inputs).toMatchObject({ width: 1024, height: 768 })
+    const classes = new Set(
+      ['21', '24', '25', '28', '40', '42', '44', '45', '47', '49', '51'].map(
+        (id) => out[id]!.class_type,
+      ),
+    )
+    expect([...classes].sort()).toEqual([
+      'GrowMask',
+      'ImageCompositeMasked',
+      'ImageToMask',
+      'InvertMask',
+      'MaskComposite',
+      'Morphology',
+      'SetLatentNoiseMask',
+      'ThresholdMask',
+    ])
   })
 })
