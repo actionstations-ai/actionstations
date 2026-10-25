@@ -2,7 +2,7 @@
 // for extracted ones, where the documents state them; an add box that takes one entry per
 // line (paste a list); and extracted entries the file no longer has, each restorable.
 import { Plus, RotateCcw, X } from 'lucide-react'
-import { useId, useRef, useState, type KeyboardEvent } from 'react'
+import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import type { FacilityFactCategory } from '@shared/ipc/project'
 import { Badge, Button } from '../../components/ui'
 import { linesOf, missingExtracted, originOf, type DraftCategory } from './facts-draft'
@@ -135,6 +135,8 @@ export function CategorySection(props: {
   category: FacilityFactCategory | undefined
   errors: Map<number, string>
   actions: CategoryActions
+  /** The lint definition editor (#180), for categories the domain profile defines. */
+  definition?: ReactNode
 }) {
   const { draft, category, actions } = props
   const listRef = useRef<HTMLUListElement>(null)
@@ -176,6 +178,7 @@ export function CategorySection(props: {
           <span className="muted facts-category__kind">Shown to the model, not linted</span>
         )}
       </header>
+      {props.definition}
       {draft.entries.length ? (
         <ul className="facts-entries" ref={listRef} aria-label={`${draft.label} entries`}>
           {draft.entries.map((e, i) => (

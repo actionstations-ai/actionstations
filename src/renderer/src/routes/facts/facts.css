@@ -169,3 +169,57 @@
   font-size: var(--text-sm);
   margin: 0;
 }
+
+/* Lint definition of a category (#180). */
+.facts-def {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.facts-def__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+.facts-def__text {
+  flex: 1 1 16rem;
+  min-width: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+.facts-def__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.facts-def__form p {
+  margin: 0;
+}
+.facts-def__regex {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+.facts-def__checks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.facts-def__check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.facts-def__check + .field__hint {
+  padding-left: var(--space-5);
+}
+.facts-def__actions {
+  flex-wrap: wrap;
+}

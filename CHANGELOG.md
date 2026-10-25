@@ -8,6 +8,16 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-24
+
+The first release since 0.1.0. It carries the 0.2.0 (review fixes), 0.3.0 (packs) and 0.4.0
+(domain packs) milestones, which were not released separately. Highlights: the app is now
+**Action Stations**; everything the app ships (templates, prompts, workflows, domain profiles,
+reference documents and examples) is a pack, with 25 domain packs included and public-domain
+library packs to download; nine example tabletops; an optional local-tools setup that installs
+LM Studio, Ollama or ComfyUI only if you choose to; and a guided workflow from documents to
+export.
+
 ### Changed
 
 #### Name
@@ -209,6 +219,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 #### Generation and checks
 
+- Facility facts: **Edit lint definition** on each category the domain profile defines (#180) edits its noun, generic noun and context, identifier shape, Checked by lint and Complete list. Saving writes `domainProfileOverrides.factCategories` (the whole list) through `project:update`, which refuses invalid or catastrophic regexes (capturing groups, look-arounds, back-references, nested quantifiers, empty matches, over-long sources) and extracts the facts again (an edited `facility-facts.md` is kept; the extraction goes to `facility-facts.generated.md`); the Scenario check then re-runs.
+- Fix: saving any domain profile override no longer stores empty `factCategories` and `rolePatterns` with it, which switched off the profile's facility-fact categories and role words for that project; projects saved that way drop those empty values when they load (non-empty overrides are kept) (#180).
 - Organization-name check for injects (#221): a name that starts like the organization's but is not the project name, `orgName` or `brand.aliases.org` ("North Coast Regional Airport") goes back to the model in the repair round, and becomes an inject warning if it survives.
 
 #### Media, templates and providers
