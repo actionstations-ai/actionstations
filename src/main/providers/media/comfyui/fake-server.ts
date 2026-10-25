@@ -12,6 +12,8 @@ export interface FakeComfyOptions {
   ws?: boolean
   mode?: FakeMode
   nodeClasses?: string[]
+  /** GET /object_info/<class> answers per class (input specs); a listed class without one gets {}. */
+  nodeInfo?: Record<string, unknown>
   /** Output file the "workflow" writes (extension decides image/video). */
   outputName?: string
   stepDelayMs?: number
@@ -59,6 +61,7 @@ const DEFAULT_NODES = [
   'GrowMask',
   'ImageCompositeMasked',
   'SetLatentNoiseMask',
+  'ImageCrop',
 ]
 
 function readBody(req: IncomingMessage): Promise<Buffer> {
@@ -141,6 +144,12 @@ export async function startFakeComfy(options: FakeComfyOptions = {}): Promise<Fa
         system: { comfyui_version: '0.42.0' },
         devices: [{ name: 'mps', type: 'mps' }],
       })
+    if (url.pathname.startsWith('/object_info/')) {
+      const cls = decodeURIComponent(url.pathname.slice('/object_info/'.length))
+      const known = options.nodeClasses ?? DEFAULT_NODES
+      const info = options.nodeInfo?.[cls] ?? (known.includes(cls) ? {} : undefined)
+      return json(res, 200, info === undefined ? {} : { [cls]: info })
+    }
     if (url.pathname === '/object_info')
       return json(
         res,

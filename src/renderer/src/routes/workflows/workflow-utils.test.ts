@@ -3,6 +3,7 @@ import {
   bindingsFromRows,
   initialValueText,
   missingSummary,
+  optionalSummary,
   parseLiteral,
   rowKey,
   rowsFromBindings,
@@ -71,5 +72,14 @@ describe('workflow-utils', () => {
     const w = { missingNodes: ['A', 'B', 'C', 'D', 'E', 'F'] } as never
     expect(missingSummary(w)).toBe('Missing nodes: A, B, C, D and 2 more')
     expect(missingSummary({ missingNodes: [] } as never)).toBeUndefined()
+  })
+
+  it('names optional nodes ComfyUI lacks without calling them missing (#356)', () => {
+    const w = { missingOptionalNodes: ['Florence2ModelLoader', 'Florence2Run'] } as never
+    expect(optionalSummary(w)).toBe(
+      'Optional, not installed: Florence2ModelLoader, Florence2Run (runs without them)',
+    )
+    expect(optionalSummary({ missingOptionalNodes: [] } as never)).toBeUndefined()
+    expect(optionalSummary({} as never)).toBeUndefined()
   })
 })

@@ -74,7 +74,7 @@ function exampleProject(): Record<string, unknown> {
 
 function workflow(): Record<string, unknown> {
   const wf = JSON.parse(repo('comfy/workflows/sdxl-photo.json')) as Record<string, unknown>
-  return { ...wf, '99': { class_type: 'UltimateSDUpscale', inputs: { image: ['8', 0] } } }
+  return { ...wf, '900': { class_type: 'UltimateSDUpscale', inputs: { image: ['8', 0] } } }
 }
 
 /** Every file of the valid pack except pack.json. */

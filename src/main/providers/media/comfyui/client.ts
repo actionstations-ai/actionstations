@@ -5,6 +5,7 @@ import { basename } from 'node:path'
 import { AppError } from '../../../lib/errors'
 import { joinUrl, request, requestJson } from '../../http'
 import type { ApiWorkflow } from '../../../comfy/workflow'
+import type { NodeInfo } from './optional'
 
 export const VENDOR = 'ComfyUI'
 
@@ -106,6 +107,15 @@ export class ComfyClient {
       vendor: VENDOR,
     })
     return Object.keys(info)
+  }
+
+  /** GET /object_info/<class>: the node's input specs, or undefined when it is not installed. */
+  async nodeInfo(classType: string, signal?: AbortSignal): Promise<NodeInfo | undefined> {
+    const info = await requestJson<Record<string, NodeInfo>>(
+      this.url(`/object_info/${encodeURIComponent(classType)}`),
+      { signal, timeoutMs: this.timeoutMs, retries: 1, vendor: VENDOR },
+    )
+    return info[classType]
   }
 
   /** POST /prompt; resolves the prompt id. Validation failures name the offending nodes. */

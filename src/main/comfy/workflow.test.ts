@@ -4,8 +4,11 @@ import {
   literalInputs,
   missingNodes,
   modelNameOf,
+  optionalGroups,
+  optionalNodes,
   parseApiWorkflow,
   requiredNodes,
+  withoutGroups,
   workflowSha256,
   type ApiWorkflow,
 } from './workflow'
@@ -66,5 +69,64 @@ describe('workflow helpers', () => {
     expect(
       modelNameOf({ '1': { class_type: 'X', inputs: { unet_name: 'wan.safetensors' } } }),
     ).toBe('wan.safetensors')
+  })
+})
+
+/** A save fed by a detector group (#356); without it, node 9 falls back to node 8. */
+const withDetector: ApiWorkflow = {
+  ...api,
+  '9': {
+    class_type: 'ImageCompositeMasked',
+    inputs: { destination: ['8', 0], mask: ['21', 0] },
+    _meta: { fallback: { mask: ['8', 1] } },
+  },
+  '20': {
+    class_type: 'DetectorLoader',
+    inputs: { model: 'det-large' },
+    _meta: { optional: 'detector' },
+  },
+  '21': {
+    class_type: 'DetectorRun',
+    inputs: { model: ['20', 0], image: ['8', 0] },
+    _meta: { optional: 'detector' },
+  },
+  '22': { class_type: 'VAEDecode', inputs: {}, _meta: { optional: 'detector' } },
+}
+
+describe('optional node groups (#356)', () => {
+  it('keeps optional-only classes out of the required list', () => {
+    expect(requiredNodes(withDetector)).toEqual([
+      'CheckpointLoaderSimple',
+      'ImageCompositeMasked',
+      'SaveImage',
+      'VAEDecode',
+    ])
+    // VAEDecode is also used outside the group, so only the detector classes are optional.
+    expect(optionalNodes(withDetector)).toEqual(['DetectorLoader', 'DetectorRun'])
+    expect(optionalGroups(withDetector)).toEqual(new Map([['detector', ['20', '21', '22']]]))
+    expect(optionalNodes(api)).toEqual([])
+  })
+
+  it('leaves a group out and wires the fallback in its place', () => {
+    const out = withoutGroups(withDetector, ['detector'])
+    expect(Object.keys(out).sort()).toEqual(['10', '4', '8', '9'])
+    expect(out['9']!.inputs.mask).toEqual(['8', 1])
+    // The input is not changed in place.
+    expect(withDetector['9']!.inputs.mask).toEqual(['21', 0])
+  })
+
+  it('keeps the workflow as is when no group is left out', () => {
+    expect(withoutGroups(withDetector, [])).toBe(withDetector)
+  })
+
+  it('refuses to leave out a group a node links to without a fallback', () => {
+    const noFallback = { ...withDetector, '9': { ...withDetector['9']!, _meta: {} } }
+    expect(() => withoutGroups(noFallback, ['detector'])).toThrow(/names no fallback/)
+  })
+
+  it('parses _meta.optional and _meta.fallback from workflow files', () => {
+    expect(parseApiWorkflow(JSON.stringify(withDetector))['9']!._meta?.fallback).toEqual({
+      mask: ['8', 1],
+    })
   })
 })

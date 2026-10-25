@@ -133,3 +133,9 @@ export function missingSummary(w: WorkflowEntry): string | undefined {
   const more = w.missingNodes.length > 4 ? ` and ${w.missingNodes.length - 4} more` : ''
   return `Missing nodes: ${shown}${more}`
 }
+
+/** One line for optional nodes this ComfyUI lacks: the workflow runs without them (#356). */
+export function optionalSummary(w: WorkflowEntry): string | undefined {
+  if (!w.missingOptionalNodes?.length) return undefined
+  return `Optional, not installed: ${w.missingOptionalNodes.join(', ')} (runs without them)`
+}

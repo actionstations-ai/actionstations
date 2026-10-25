@@ -90,6 +90,9 @@ function Contents({ r }: { r: PackReview }) {
                 {i.customNodes && i.customNodes.length > 0 && (
                   <Badge tone="warn">Needs custom nodes</Badge>
                 )}
+                {i.optionalNodes && i.optionalNodes.length > 0 && (
+                  <Badge tone="info">Uses optional custom nodes</Badge>
+                )}
               </li>
             ))}
           </ul>
@@ -143,6 +146,21 @@ function Warnings({ r }: { r: PackReview }) {
           </p>
           <ul className="mono">
             {r.customNodes.map((n) => (
+              <li key={n}>{n}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+      {r.optionalNodes && r.optionalNodes.length > 0 && (
+        <section className="pack-callout" aria-labelledby="pack-optional-nodes-heading">
+          <h3 id="pack-optional-nodes-heading">Uses optional custom ComfyUI nodes</h3>
+          <p>
+            These workflows use the nodes below when your ComfyUI has them and run without them
+            otherwise. The pack does not install them. Custom nodes run code on your ComfyUI server;
+            install them only from sources you trust.
+          </p>
+          <ul className="mono">
+            {r.optionalNodes.map((n) => (
               <li key={n}>{n}</li>
             ))}
           </ul>

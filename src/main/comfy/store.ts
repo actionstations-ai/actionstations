@@ -32,6 +32,7 @@ import type { ApiWorkflow } from './workflow'
 import {
   literalInputs,
   missingNodes,
+  optionalNodes,
   parseApiWorkflow,
   requiredNodes,
   workflowSha256,
@@ -192,6 +193,7 @@ function toEntry(
   extra: Partial<WorkflowEntry> = {},
 ): WorkflowEntry {
   const required = requiredNodes(workflow)
+  const optional = optionalNodes(workflow)
   const nodes = availableNodes()
   return {
     id,
@@ -203,6 +205,8 @@ function toEntry(
     requiredNodes: required,
     ...(nodes ? { missingNodes: missingNodes(required, nodes) } : {}),
     customNodes: customNodeClasses(required),
+    ...(optional.length ? { optionalNodes: optional } : {}),
+    ...(optional.length && nodes ? { missingOptionalNodes: missingNodes(optional, nodes) } : {}),
     sha256: workflowSha256(workflow),
     ...extra,
   }

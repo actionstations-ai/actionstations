@@ -132,6 +132,8 @@ export const PackReview = z.object({
   documents: z.array(PackDocument),
   /** Node classes outside ComfyUI core across all workflows ("needs custom nodes"). */
   customNodes: z.array(z.string()),
+  /** Custom node classes workflows use only when installed (#356). */
+  optionalNodes: z.array(z.string()).optional(),
   conflicts: z.array(PackConflictView),
   conflict: z.string().optional(),
   /** The installed version of the same pack id, if any. */

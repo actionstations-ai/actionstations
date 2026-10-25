@@ -212,8 +212,65 @@ describe('ComfyUI adapter', () => {
     const photo = list.find((w) => w.id === 'sdxl-photo')!
     const video = list.find((w) => w.id === 'image-to-video')!
     expect(photo.missingNodes).toEqual([])
+    // The sign detector is optional: listed, not counted as missing (#356).
+    expect(photo.optionalNodes).toEqual(['Florence2ModelLoader', 'Florence2Run', 'ImageCrop'])
+    expect(photo.missingOptionalNodes).toEqual(['Florence2ModelLoader', 'Florence2Run'])
     expect(video.missingNodes).toEqual(
       expect.arrayContaining(['LTXVImgToVideo', 'SamplerCustom', 'SaveVideo']),
     )
+  })
+})
+
+describe('sdxl-photo optional sign detector (#356)', () => {
+  const screensOff = () =>
+    imageJob({
+      seed: 7,
+      brief: { paths: ['ai_image' as const], imagePrompt: 'a concourse', lighting: 'screens-off' },
+    })
+  const groupIds = (sent: Record<string, { class_type: string }>) =>
+    Object.keys(sent).filter((id) => sent[id]!.class_type.startsWith('Florence2'))
+
+  it('leaves the detector out and repaints from the colour mask when Florence-2 is missing', async () => {
+    const { fake, provider } = await setup()
+    const messages: string[] = []
+    await provider.generate(screensOff(), (p) => p.message && messages.push(p.message))
+    const sent = fake.prompts[0]!.prompt
+    expect(groupIds(sent)).toEqual([])
+    for (const id of ['49', '51', '54']) expect(sent[id]!.inputs.mask).toEqual(['47', 0])
+    // Every link points at a node that was sent.
+    for (const node of Object.values(sent))
+      for (const value of Object.values(node.inputs))
+        if (Array.isArray(value) && typeof value[0] === 'string')
+          expect(sent).toHaveProperty(value[0])
+    expect(messages.some((m) => /sign-detector.*not installed/.test(m))).toBe(true)
+  })
+
+  it('leaves the detector out when the node is installed but the model folder is not', async () => {
+    const { fake, provider } = await setup({
+      nodeInfo: {
+        Florence2ModelLoader: { input: { required: { model: [['Florence-2-base'], {}] } } },
+        Florence2Run: { input: { required: {} } },
+      },
+    })
+    await provider.generate(screensOff())
+    expect(groupIds(fake.prompts[0]!.prompt)).toEqual([])
+  })
+
+  it('sends the detector when the node and Florence-2-large are installed', async () => {
+    const { fake, provider } = await setup({
+      nodeInfo: {
+        Florence2ModelLoader: {
+          input: { required: { model: [['Florence-2-large'], {}], precision: [['fp32'], {}] } },
+        },
+        Florence2Run: { input: { required: {} } },
+      },
+    })
+    const [out] = await provider.generate(screensOff())
+    const sent = fake.prompts[0]!.prompt
+    expect(groupIds(sent).length).toBeGreaterThan(8)
+    const mask = sent['54']!.inputs.mask as [string, number]
+    expect(sent[mask[0]]!.class_type).toBe('MaskComposite')
+    expect(sent['49']!.inputs.mask).toEqual(mask)
+    expect(out!.provenance.workflowHash).toBe(workflowSha256(sent as never))
   })
 })
