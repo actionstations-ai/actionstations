@@ -31,6 +31,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Security
 
+- Domain profiles in packs get the regex safety check from #180 (#351): every fact category noun, generic noun, context and custom pattern, every role pattern and the agency pattern must be a valid pattern without nested quantifiers, back-references, more than two open-ended repeats or empty matches (a custom pattern may use capturing groups and look-arounds and needs group 1). The install review lists a failing pattern as a pack problem with its field (`domains/<id>.json: factCategories.2.pattern: …`) and the pack is refused; a pack installed before this check that fails it is shown as broken at startup and not loaded; the bundled-pack build runs the same check. Three bundled patterns (K-12 reunification sites, data center clusters, food lot codes) were rewritten with bounded repeats to pass; they extract the same identifiers.
 - `exceljs` now uses `uuid` 11.1.1 or later (pnpm override); `pnpm audit` reported GHSA-w5hq-g745-h8pq for its `uuid` 8, which the app did not reach because `exceljs` never passes a buffer (#358).
 
 ## [0.4.0] - 2026-10-24

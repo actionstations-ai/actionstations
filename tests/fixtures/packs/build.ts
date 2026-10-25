@@ -416,6 +416,22 @@ export const PACK_FIXTURES: Record<string, PackFixture> = {
       ),
     expect: /"airport" is a built-in domain id or alias/,
   },
+  'domain-catastrophic-regex': {
+    // A fact category noun with nested quantifiers, the "(?:a+)+" shape that backtracks
+    // without end on a long run that almost matches (#351).
+    build: () =>
+      buildPack(
+        withTree((t) => {
+          const d = JSON.parse(t['domains/heritage_rail.json'] as string) as {
+            factCategories: Record<string, unknown>[]
+          }
+          d.factCategories.push({ id: 'sidings', label: 'Sidings', noun: '(?:Siding+)+s?' })
+          t['domains/heritage_rail.json'] = JSON.stringify(d)
+        }),
+      ),
+    expect:
+      /domains\/heritage_rail\.json: factCategories\.\d+\.noun: sidings: The noun cannot be used: it repeats a group that itself repeats/,
+  },
 }
 
 /** Write the valid pack and every broken one to `dir`; returns name → file path. */

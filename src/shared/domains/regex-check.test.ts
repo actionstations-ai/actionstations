@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { bundledProfiles, FactCategory, factCategoryProblems, regexSourceProblem } from './index'
+import {
+  bundledProfiles,
+  domainProfileRegexProblems,
+  FactCategory,
+  factCategoryProblems,
+  regexSourceProblem,
+} from './index'
+import { freightRailProfile } from './pack-fixtures'
 
 const category = (over: Partial<FactCategory>): FactCategory =>
   FactCategory.parse({ id: 'gates', label: 'Gates', noun: 'Gates?', ...over })
@@ -70,6 +77,68 @@ describe('factCategoryProblems', () => {
     ).toEqual([
       { field: 'noun', message: expect.stringMatching(/^The noun cannot be used: use/) },
       { field: 'genericNoun', message: expect.stringMatching(/nested quantifiers/) },
+    ])
+  })
+})
+
+describe('regexSourceProblem: custom patterns (#351)', () => {
+  it('allows capturing groups and look-arounds, and needs a capturing group', () => {
+    expect(regexSourceProblem(String.raw`\b([A-Z][a-z]+) Line\b`, 'pattern')).toBeUndefined()
+    expect(
+      regexSourceProblem(String.raw`\b(?!(?:The|A)\b)([A-Z][a-z]+ Yard)\b`, 'pattern'),
+    ).toBeUndefined()
+    expect(regexSourceProblem(String.raw`(?<=Train )([A-Z]\d{2,4})\b`, 'pattern')).toBeUndefined()
+    expect(regexSourceProblem(String.raw`\bCP-\d{1,4}\b`, 'pattern')).toMatch(/no capturing group/)
+    expect(regexSourceProblem('(?<id>X)', 'pattern')).toMatch(/named groups/)
+    expect(regexSourceProblem('(?i:x)(y)', 'pattern')).toMatch(/group modifiers/)
+  })
+
+  it('applies the backtracking rules inside groups and look-arounds', () => {
+    expect(regexSourceProblem(String.raw`\b((?:\w+\s?)+)\b`, 'pattern')).toMatch(
+      /nested quantifiers/,
+    )
+    expect(regexSourceProblem(String.raw`(?!(?:a+)+)(x)`, 'pattern')).toMatch(/nested quantifiers/)
+    expect(regexSourceProblem(String.raw`(x)\1`, 'pattern')).toMatch(/back-references/)
+    expect(regexSourceProblem('(x?)', 'pattern')).toMatch(/matches empty text/)
+    expect(regexSourceProblem(`(${'a'.repeat(400)})`, 'pattern')).toMatch(/longer than 400/)
+  })
+})
+
+describe('domainProfileRegexProblems (#351)', () => {
+  it('accepts every regex in the bundled profiles', () => {
+    const problems = bundledProfiles().flatMap((p) =>
+      domainProfileRegexProblems(p).map((x) => `${p.id} ${x.path}: ${x.message}`),
+    )
+    expect(problems).toEqual([])
+  })
+
+  it('names the field of each pattern it refuses', () => {
+    const profile = freightRailProfile({
+      factCategories: [
+        category({ id: 'yards', noun: 'Yards?' }),
+        category({ id: 'tracks', noun: 'Tracks?', genericNoun: 'Lines?', context: '(?:a|aa)*' }),
+        category({ id: 'trains', noun: undefined, pattern: String.raw`\b(?:\w+\s?)+Train\b` }),
+      ],
+      rolePatterns: { security: 'railroad police', technical: '(?:sig+)+nal' },
+      agencyPattern: 'FRA|',
+    })
+    expect(domainProfileRegexProblems(profile)).toEqual([
+      {
+        path: 'factCategories.1.context',
+        message: expect.stringMatching(/^tracks: The context cannot be used: .*nested/),
+      },
+      {
+        path: 'factCategories.2.pattern',
+        message: expect.stringMatching(/^trains: The pattern cannot be used: .*nested/),
+      },
+      {
+        path: 'rolePatterns.technical',
+        message: expect.stringMatching(/^The technical role pattern cannot be used: .*nested/),
+      },
+      {
+        path: 'agencyPattern',
+        message: expect.stringMatching(/^The agency pattern cannot be used: .*matches empty/),
+      },
     ])
   })
 })
