@@ -22,7 +22,9 @@ import {
   ReimportNote,
   StatusLine,
 } from './FactsParts'
+import { LintDefinition } from './LintDefinition'
 import { useFacilityLint } from './use-facility-lint'
+import { useLintDefinitions, type LintDefinitions } from './use-lint-definitions'
 import {
   QUERY,
   useFactsDraft,
@@ -40,6 +42,27 @@ function useBaselineLint(ready: boolean, lint: ReturnType<typeof useFacilityLint
   }, [ready, lint.baseline, lint.running, lint.error, runLint])
 }
 
+/** The lint definition editor for one category, when the domain profile defines it (#180). */
+function definitionEditor(defs: LintDefinitions, view: { edited: boolean }, dirty: boolean) {
+  const DefinitionFor = (id: string, label: string) => {
+    const spec = defs.spec(id)
+    if (!spec) return null
+    return (
+      <LintDefinition
+        label={label}
+        spec={spec}
+        customized={defs.customized(id)}
+        editedFile={view.edited}
+        blocked={dirty ? 'Save or discard your changes to the entries first.' : undefined}
+        saving={defs.saving}
+        onSave={defs.save}
+        onRestore={() => defs.restore(id, label)}
+      />
+    )
+  }
+  return DefinitionFor
+}
+
 function LoadError(props: { error: unknown }) {
   return (
     <div className="page">
@@ -55,6 +78,7 @@ export default function FactsPage() {
   const { base, draft, setDraft, dirty, stale, adopt } = useFactsDraft(query.data)
   const writes = useFactsWrites({ path, base, draft, dirty, adopt, relint: lint.run })
   const errors = useMemo(() => entryErrors(draft), [draft])
+  const defs = useLintDefinitions(path, lint.run)
   useProjectChanged(path)
   useBaselineLint(!!base, lint)
   useSaveShortcut(writes.onSave)
@@ -74,6 +98,7 @@ export default function FactsPage() {
       />
       <StatusLine view={base} count={entryCount(draft)} dirty={dirty} />
       <LiveStatus text={writes.announce} />
+      <LiveStatus text={defs.announce} />
       {(writes.conflict || stale) && <ConflictBanner onReload={() => void writes.reload()} />}
       {base.generatedMarkdown !== undefined && <ReimportNote />}
       <LintCheck
@@ -81,7 +106,13 @@ export default function FactsPage() {
         scenariosLink={`/p/${encodeURIComponent(path)}/scenarios`}
         dirty={dirty}
       />
-      <CategoryList base={base} draft={draft} setDraft={setDraft} errors={errors} />
+      <CategoryList
+        base={base}
+        draft={draft}
+        setDraft={setDraft}
+        errors={errors}
+        definition={definitionEditor(defs, base, dirty)}
+      />
       <AddCategory
         taken={draft.map((c) => c.label.toLowerCase())}
         onAdd={(label) => setDraft((d) => addCategory(d, label))}

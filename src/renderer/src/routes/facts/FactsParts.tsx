@@ -1,7 +1,7 @@
 // The parts of the facility facts page: header, status line, conflict banner, the category
 // sections and the footer.
 import { Save, Undo2 } from 'lucide-react'
-import type { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import { Link } from 'react-router'
 import type { FacilityFactsFile } from '@shared/ipc/project'
 import { Badge, Button, PageHeader } from '../../components/ui'
@@ -92,6 +92,8 @@ export function CategoryList(props: {
   draft: DraftCategory[]
   setDraft: Dispatch<SetStateAction<DraftCategory[]>>
   errors: Map<number, string>
+  /** The lint definition editor of a category, if it has one (#180). */
+  definition?: (id: string, label: string) => ReactNode
 }) {
   const { base, draft, setDraft } = props
   return draft.map((c) => (
@@ -100,6 +102,7 @@ export function CategoryList(props: {
       draft={c}
       category={base.categories.find((v) => v.id === c.id)}
       errors={props.errors}
+      definition={props.definition?.(c.id, c.label)}
       actions={{
         onChange: (key, value) => setDraft((d) => setEntry(d, c.id, key, value)),
         onRemove: (key) => setDraft((d) => removeEntry(d, c.id, key)),

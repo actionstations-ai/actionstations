@@ -165,7 +165,14 @@ export type DomainProfile = z.infer<typeof DomainProfile>
  * Per-project overrides stored in project.json: every field but id is optional and, when
  * present, replaces the built-in value (arrays replace, they do not merge).
  */
-export const DomainProfileOverrides = DomainProfile.omit({ id: true, aliases: true }).partial()
+export const DomainProfileOverrides = DomainProfile.omit({ id: true, aliases: true })
+  .extend({
+    // Without their defaults: zod fills a default even under .partial(), and an absent field
+    // stored as [] / {} would replace the profile's categories and role patterns (#180).
+    factCategories: z.array(FactCategory),
+    rolePatterns: RolePatterns,
+  })
+  .partial()
 export type DomainProfileOverrides = z.infer<typeof DomainProfileOverrides>
 
 /**

@@ -1,3 +1,4 @@
+import type { Project } from '@shared/schemas'
 import { defineHandlers } from '../registry'
 import { requireProject } from '../../project/guard'
 import { createProject, loadProject, openProject, updateProject } from '../../project/store'
@@ -7,11 +8,28 @@ import { ensureIndex } from '../../project/ensure-index'
 import { markInterruptedDocuments } from '../../ingest/interrupted'
 import { applyProjectPatch } from '../../project/patch'
 import { clearLogo, importLogo } from '../../project/logo'
+import { refreshFacilityFile } from '../../generate/facility-file'
 import {
   readFacilityView,
   resetFacilityFacts,
   saveFacilityFacts,
 } from '../../generate/facility-edit'
+
+/** What the facts extraction reads from a project's overrides. */
+const factDefinitionsKey = (p: Project): string =>
+  JSON.stringify([
+    p.domainProfileOverrides?.factCategories ?? null,
+    p.domainProfileOverrides?.agencyPattern ?? null,
+  ])
+
+/** The settings are saved either way; a failed extraction leaves the facts file as it was. */
+async function refreshFacts(root: string): Promise<void> {
+  try {
+    await refreshFacilityFile(root)
+  } catch (err) {
+    console.warn('[project] facility-facts.md was not re-extracted', err)
+  }
+}
 
 export default defineHandlers({
   'project:list-recent': () => listRecent(),
@@ -50,8 +68,15 @@ export default defineHandlers({
 
   'project:update': async ({ path, patch }) => {
     const root = await requireProject(path)
-    const project = await updateProject(root, (draft) => applyProjectPatch(draft, patch))
+    let before = ''
+    const project = await updateProject(root, (draft) => {
+      before = factDefinitionsKey(draft)
+      return applyProjectPatch(draft, patch)
+    })
     if (patch.name !== undefined || patch.orgName !== undefined) await syncRecent(root, project)
+    // New fact definitions (#180): extract again. An edited facility-facts.md is kept and the
+    // new extraction goes to facility-facts.generated.md beside it.
+    if (factDefinitionsKey(project) !== before) await refreshFacts(root)
     return { path: root, project }
   },
 
