@@ -28,6 +28,11 @@ export const FacilityFactCategory = z.object({
   sources: z.record(z.string(), FacilityFactSource),
   /** Generated rows naming an identifier of this kind outside the list get FACILITY_UNKNOWN_ID. */
   linted: z.boolean(),
+  /**
+   * Neither the domain profile nor the built-in categories define this kind (a category the
+   * user added), and its id can key a definition: the editor offers to define one (#350).
+   */
+  definable: z.boolean().optional(),
 })
 export type FacilityFactCategory = z.infer<typeof FacilityFactCategory>
 

@@ -13,8 +13,10 @@ A binding is `{ "target": ["<nodeId>", "inputs", "<input>"], "source": "<source>
 `negativePrompt`, `seed` (random when the job has none; recorded in provenance), `width`,
 `height`, `durationSec` (seconds; converted to a `frameStep·n + 1` frame count when the target
 input is a frame count such as `length`), `inputImage` (the scene image, uploaded to ComfyUI's
-input folder), `text` / `voiceStyle` / `speaker` (voice lines), `referenceAudio`, and `literal`
-(a fixed `value`). A source with no value leaves the workflow's own value in place.
+input folder), `text` / `voiceStyle` / `speaker` (voice lines), `referenceAudio`, `literal`
+(a fixed `value`) and `lighting` (a `value` per brief lighting, `normal` when the brief names
+none: `{ "dark": 0.92 }`; the value may be a node link such as `["11", 0]`, so a dark scene can
+be wired through extra nodes). A source with no value leaves the workflow's own value in place.
 
 Where workflows live (looked up in this order):
 
@@ -43,9 +45,45 @@ photojournalism realism. Core nodes only.
 - Model: `models/checkpoints/sd_xl_base_1.0.safetensors`
   ([stabilityai/stable-diffusion-xl-base-1.0](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0)).
 - Measured (ComfyUI 0.42.0, Apple Silicon, MPS): **15.6 s** per image with the model loaded.
-- SDXL cannot render legible text and ignores negation ("no screens"). Describe the scene
-  positively ("departure boards powered off and dark"); text-bearing media is always
+- SDXL cannot render legible text and ignores negation ("no screens"); it also lights any
+  screen it is asked to draw, "dark powered-off boards" included. Text-bearing media is always
   template-rendered ([CONTRIBUTING.md, Project rules 5](../../CONTRIBUTING.md#project-rules)).
+- Dark scenes (#162): a brief that describes a power loss (outage, blackout, power failure,
+  generators, emergency lighting) has `lighting: "dark"`. A brief whose screens are only blank
+  (power on, e.g. a cyber attack) leaves them out of the prompt and gets `screens-off` (below).
+  Three `lighting` bindings switch a dark scene's sampler to the dark start latent
+  (node 11: a #404040 `EmptyImage` through `VAEEncode`, so the sampler starts dark) at denoise
+  0.92, and to a positive prompt combined with "dark unlit ceiling in deep shadow" over the top
+  40% of the frame (`ConditioningSetAreaPercentage`, node 13), where SDXL otherwise paints lit
+  departure boards and signs. Lit scenes do not reach those nodes and render as before.
+  Measured on the #141 brief (sample-run I-10), seeds 1001–1003: mean luma 87–116 with lit
+  boards and signs before; 29–40 and no lit screens after. Prompt and negative-prompt changes
+  alone (with a dark start latent) still left a lit board in 2 of 3 seeds.
+- Blank screens with the power on (#356): a brief whose screens are dark or blank without a
+  power loss has `lighting: "screens-off"`. The first pass is the lit scene, unchanged (same
+  prompts, latent and seed as `normal`). One more `lighting` binding saves a repainted image
+  (node 54) instead of the first decode. The repaint finds lit signs in the first decode with
+  stock mask nodes (`ImageToMask`, `MaskComposite`, `ThresholdMask`, `InvertMask`,
+  `SolidMask`, `Morphology`, `GrowMask`; nodes 21–47): saturated blue (b − r > 0.3, b > 0.35,
+  r and g ≤ 0.35) or amber (r > 0.85, r − b > 0.55, g > 0.55; lit skin highlights reach
+  r − b ≈ 0.36) pixels in the top 40% of the frame (`MaskComposite` y = 333, sized for
+  832 px), closed (15 px) so sign text joins into boards, opened (7 px) to drop specks and
+  grown by 8 px. It fills them with #1a1a1a, samples them again at denoise 0.55 with the same
+  seed and prompts (`SetLatentNoiseMask`, nodes 48–53) and composites the result over the
+  first decode through the mask, so pixels outside the mask are the lit render's. Without lit
+  signs the mask is empty and the image is the first decode. `Morphology` needs ComfyUI's
+  bundled `kornia` dependency.
+  Area prompts over the top of the frame ("unlit ceiling" positive, "illuminated signs, sky"
+  negative) cleared more signs but replaced heads in the crowd with hair or fabric (also at
+  strength 0.5); confined to the top 20% they left people alone but changed the composition.
+  They are not used: people must come out exactly as in the lit render.
+  Measured on sample-run I-10 (boards blank, power on), seeds 1001–1006: mean luma 88–115
+  (lit render 91–116); pixels changed only inside sign masks (0–5.3% of the frame, none below
+  row 340); faces and people identical to the lit render in 6 of 6. The large saturated blue
+  boards and signs are dark in 5 of 6 (1004 has none the mask finds), but every seed still
+  shows some lit signage: small far-off screens, pale-blue signs, and black boards with
+  white lettering, which these colour rules do not separate from windows, sky or clothing.
+  The opt-in live test checks luma > 60 and lit-sign pixels < 0.3% of the top 40%.
 
 ## `image-to-video` — LTX-Video 2B distilled (video)
 

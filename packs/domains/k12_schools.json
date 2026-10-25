@@ -80,7 +80,7 @@
     {
       "id": "reunification_sites",
       "label": "Reunification / relocation sites",
-      "pattern": "\\b(?:[Rr]eunification|[Rr]elocation) [Ss]ites?(?: \\((?:primary|alternate|secondary)\\))?\\s*[:\\u2013\\u2014-]\\s*((?:[A-Z][\\w']*)(?: (?:[A-Z][\\w']*|of|the)){0,4})",
+      "pattern": "\\b(?:[Rr]eunification|[Rr]elocation) [Ss]ites?(?: \\((?:primary|alternate|secondary)\\))?\\s{0,3}[:\\u2013\\u2014-]\\s{0,3}([A-Z][\\w']{0,30}(?: (?:[A-Z][\\w']{0,30}|of|the)(?: (?:[A-Z][\\w']{0,30}|of|the)(?: (?:[A-Z][\\w']{0,30}|of|the)(?: (?:[A-Z][\\w']{0,30}|of|the))?)?)?)?)",
       "idShape": "alnum",
       "lint": true,
       "complete": true

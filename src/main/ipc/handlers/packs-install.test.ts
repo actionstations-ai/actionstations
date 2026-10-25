@@ -15,6 +15,7 @@ import {
   statSync,
   writeFileSync,
 } from 'node:fs'
+import { createHash } from 'node:crypto'
 import http from 'node:http'
 import https from 'node:https'
 import { tmpdir } from 'node:os'
@@ -55,6 +56,7 @@ const { catalogCachePath } = await import('../../packs/catalog')
 const { listProfiles, registerPackProfiles } = await import('@shared/domains')
 const packs = await import('../../packs')
 const { packsStagingDir, packsRoot, registryPath } = await import('../../packs/registry')
+const { contentSha256 } = await import('../../packs/reader')
 
 async function call<C extends Channel>(
   channel: C,
@@ -181,6 +183,17 @@ describe('packs:inspect', () => {
     const res = await call('packs:inspect', { filePath: path })
     expect(res.ok).toBe(false)
     if (!res.ok) expect(res.problems[0]!.message).toMatch(/sha256 does not match/)
+  })
+
+  it('shows a domain regex that could stall the app as a problem in the review (#351)', async () => {
+    const path = await writePack('bad.aspack', PACK_FIXTURES['domain-catastrophic-regex']!.build())
+    const res = await call('packs:inspect', { filePath: path })
+    expect(res.ok).toBe(false)
+    if (!res.ok)
+      expect(res.problems).toContainEqual({
+        path: 'domains/heritage_rail.json',
+        message: expect.stringMatching(/^factCategories\.\d+\.noun: sidings: .*nested quantifiers/),
+      })
   })
 
   it('says reinstall, update, downgrade and conflict against what is installed', async () => {
@@ -469,6 +482,38 @@ describe('startup', () => {
     const fixed = await install(await writePack('b.aspack', railPack()))
     expect(fixed.pack.broken).toBeUndefined()
     expect(packs.enabledPacks()).toHaveLength(1)
+  })
+
+  it('marks a pack whose domain has a backtracking regex as broken (installed before #351)', async () => {
+    await install(await writePack('a.aspack', railPack()))
+    // What an older build, without the regex check, would have installed: the domain file
+    // and pack.json rewritten together, and the registry's content hash to match.
+    const dir = join(packsRoot(), RAIL, '1.0.0')
+    const domainPath = join(dir, 'domains', 'heritage_rail.json')
+    const domain = JSON.parse(readFileSync(domainPath, 'utf8')) as { agencyPattern?: string }
+    domain.agencyPattern = '(?:\\w+\\s?)*Authority'
+    const bytes = Buffer.from(JSON.stringify(domain))
+    const manifestPath = join(dir, 'pack.json')
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as Manifest
+    const file = manifest.files.find((f) => f.path === 'domains/heritage_rail.json')!
+    file.sha256 = createHash('sha256').update(bytes).digest('hex')
+    file.size = bytes.length
+    for (const f of [domainPath, manifestPath]) chmodSync(f, 0o644)
+    writeFileSync(domainPath, bytes)
+    writeFileSync(manifestPath, JSON.stringify(manifest, null, 2))
+    const reg = JSON.parse(readFileSync(registryPath(), 'utf8')) as {
+      packs: { contentSha256: string }[]
+    }
+    reg.packs[0]!.contentSha256 = contentSha256(manifest.files)
+    writeFileSync(registryPath(), JSON.stringify(reg))
+    registerPackProfiles([]) // a fresh process
+    await packs.initPacks()
+    const [p] = await call('packs:list')
+    expect(p!.broken).toMatch(
+      /domains\/heritage_rail\.json: agencyPattern: The agency pattern cannot be used: .*nested quantifiers/,
+    )
+    expect(packs.enabledPacks()).toEqual([])
+    expect(packDomains()).toEqual([])
   })
 
   it('deletes orphan staging files and unregistered pack folders', async () => {

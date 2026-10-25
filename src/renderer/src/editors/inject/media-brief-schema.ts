@@ -18,7 +18,9 @@ export const MEDIA_BRIEF_SCHEMA: JsonSchema = {
       type: 'string',
       title: 'Image prompt',
       description:
-        'Describe the photo positively (SDXL ignores "no …"): "powered-off dark screens".',
+        'Describe the photo positively (SDXL ignores "no …"). SDXL lights any screen it is ' +
+        'asked to draw: leave dark screens out and set Lighting to screens-off (power on) or ' +
+        'dark (a power loss).',
       maxLength: LONG,
     },
     negativePrompt: { type: 'string', title: 'Negative prompt', maxLength: LONG },
@@ -26,6 +28,14 @@ export const MEDIA_BRIEF_SCHEMA: JsonSchema = {
       type: 'string',
       title: 'Image style',
       enum: ['phone', 'press', 'cctv', 'screen', 'portrait'],
+    },
+    lighting: {
+      type: 'string',
+      title: 'Lighting',
+      description:
+        'dark = a power loss: displays off, dim room. screens-off = screens blank with the ' +
+        'power on: lit room, lit signs repainted dark (workflows with lighting bindings).',
+      enum: ['normal', 'dark', 'screens-off'],
     },
     videoPrompt: { type: 'string', title: 'Video prompt', maxLength: LONG },
     durationSec: { type: 'number', title: 'Video length (s)', minimum: 1, maximum: 60 },

@@ -6,6 +6,8 @@ import {
   bundledProfiles,
   chooseThreatFamily,
   DomainProfile,
+  DomainProfileOverrides,
+  FactCategoryId,
   inferThreatFamily,
   isThreatFamilyId,
   resolveProfile,
@@ -132,6 +134,14 @@ describe('built-in domain profiles', () => {
     expect(resolveProfile('transit', undefined)).toEqual(builtinProfile('transit'))
   })
 
+  it('stores overrides without filling the fields they leave out (#180)', () => {
+    const stored = DomainProfileOverrides.parse({ outsideParties: ['County OEM'] })
+    expect(stored).toEqual({ outsideParties: ['County OEM'] })
+    const p = resolveProfile('airport', stored)
+    expect(p.factCategories).toEqual(builtinProfile('airport').factCategories)
+    expect(p.rolePatterns).toEqual(builtinProfile('airport').rolePatterns)
+  })
+
   it('tags airport-only inject types so other domains do not get them', () => {
     expect(injectTypeInfo('fids_board')?.domains).toEqual(['airport'])
     expect(injectTypeInfo('bhs_scada_screen')?.domains).toEqual(['airport'])
@@ -200,5 +210,23 @@ describe('threat families', () => {
     expect(resolveThreat(transit, 'uas_drone').id).toBe('uas_drone')
     expect(resolveThreat(transit, undefined).id).toBe('cyber_physical')
     expect(resolveThreat(builtinProfile('airport'), 'nonsense').id).toBe('cyber')
+  })
+})
+
+describe('fact category ids (#350)', () => {
+  it('accepts profile ids (underscores) and editor ids (hyphens) unchanged', () => {
+    for (const id of ['gates', 'pump_stations', 'pump-stations', '3rd-floor', 'facts-2'])
+      expect(FactCategoryId.parse(id)).toBe(id)
+    for (const id of ['', 'Pump-Stations', '-pumps', 'pump stations', 'a'.repeat(65)])
+      expect(FactCategoryId.safeParse(id).success).toBe(false)
+  })
+
+  it('keeps overrides saved before #350 and takes a user category by its file id', () => {
+    const airport = resolveProfile('airport').factCategories
+    const legacy = DomainProfileOverrides.parse({ factCategories: airport })
+    expect(legacy.factCategories?.map((c) => c.id)).toEqual(airport.map((c) => c.id))
+    const mine = { id: 'pump-stations', label: 'Pump stations', noun: 'Pump Stations?' }
+    const overrides = DomainProfileOverrides.parse({ factCategories: [...airport, mine] })
+    expect(resolveProfile('airport', overrides).factCategories.at(-1)).toMatchObject(mine)
   })
 })

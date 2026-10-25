@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { FACILITY_LIMITS } from '@shared/ipc/project'
 import { Button, Field } from '../../components/ui'
 
-/** A new `## Section` in facility-facts.md (shown to the model; lint checks only known kinds). */
+/** A new `## Section` in facility-facts.md (shown to the model; linted once it has a definition, #350). */
 export function AddCategory(props: { taken: string[]; onAdd: (label: string) => void }) {
   const [label, setLabel] = useState('')
   const name = label.trim()
@@ -21,7 +21,7 @@ export function AddCategory(props: { taken: string[]; onAdd: (label: string) => 
       <div className="facts-add__row">
         <Field
           label="Category name"
-          hint="For another kind of identifier, e.g. Pump stations. Shown to the model; not linted."
+          hint="For another kind of identifier, e.g. Pump stations. Shown to the model; once saved, Define for lint lets the Scenario check flag ones not on the list."
           {...(error ? { error } : {})}
         >
           {({ id, describedBy, invalid }) => (

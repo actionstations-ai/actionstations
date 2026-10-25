@@ -99,7 +99,7 @@
     {
       "id": "lot_codes",
       "label": "Lot codes",
-      "pattern": "\\b[Ll]ot (?:[Cc]ode|[Nn]o\\.|#)\\s*:?\\s*([A-Z0-9]*\\d[-A-Z0-9]*)\\b",
+      "pattern": "\\b[Ll]ot (?:[Cc]ode|[Nn]o\\.|#)\\s{0,3}:?\\s{0,3}([A-Z0-9]{0,24}\\d[-A-Z0-9]{0,24})\\b",
       "idShape": "token",
       "lint": false,
       "complete": false

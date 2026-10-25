@@ -99,7 +99,7 @@ Open **Facility facts** in the project sidebar to correct the list. Each categor
 
 - **Add** what the extraction missed, for example a runway that only appears on an image-only map: type `9/27` in **Add to Runways** and press Enter. Paste a list to add one entry per line. Rows naming Runway 9 or 27 are then accepted.
 - **Edit or remove** what is wrong, for example a gate range that belongs to the perimeter fence rather than the terminal: change the entry, or press **×** (or Backspace in an empty entry). Extracted entries you removed are listed under the section with **Restore**. Rows naming a removed gate are then flagged.
-- **Add a category** under **Add a category** (for example _Pump stations_); its entries are shown to the model but not linted. Only categories marked **Checked by lint** produce warnings.
+- **Add a category** under **Add a category** (for example _Pump stations_); its entries are shown to the model but not linted until you give it a lint definition (see [What lint looks for](#what-lint-looks-for)). Only categories marked **Checked by lint** produce warnings.
 
 **Save** (or Ctrl+S / Cmd+S) writes `facility-facts.md`; **Discard changes** goes back to the saved file. After every save the **Scenario check** re-lints the project's scenarios and says how many unknown-identifier warnings (FACILITY_UNKNOWN_ID) there are now compared with when you opened the screen; **Check scenarios** runs it again, and each scenario's **Warnings** tab shows the rows.
 
@@ -108,6 +108,19 @@ To catch impossible quantities, add a section named **Limits** with one bound pe
 You can also edit `facility-facts.md` in any text editor: one `## Section` per category and one `- ` bullet per entry. If the file changes on disk while the screen has unsaved edits, Save is refused and the screen offers to reload the file.
 
 Your edits win. Once you have changed the file, importing more documents no longer overwrites it; the fresh extraction is written to `facility-facts.generated.md` next to it, and the screen lists what it found that your list lacks. To start over from the documents, click **Reset to extracted facts** and confirm. Every save and reset first keeps the previous file in `.cache/facility-facts-history/` (the last 20 versions; the project's `.gitignore` excludes `.cache/`).
+
+#### What lint looks for
+
+Each category the domain profile defines has **Edit lint definition** under its heading: what the extraction and the Scenario check look for in a text. The fields are:
+
+- **Noun**: the word before an identifier, as a case-insensitive regular expression: `|` between alternatives, `?` for an optional letter, `(?:…)` for a group. Airports use `Gates?`; tightening it to `Jet Gates?` stops a row about "Gate 99" at the perimeter fence from being flagged.
+- **Generic noun** and **Context**: a broader noun (`Units?`) that counts only where the context matches (`turbine|powerhouse|\bMW\b`) and never after a qualifier such as _Patrol_ or _Access_. A generic noun needs a context.
+- **Identifier shape**: letters and numbers (`A1`, `B12`, ranges `A1–A8`), numbers only, runway pairs (`5/23`), or a noun glued to a number (`RTU-07`).
+- **Checked by lint** and **Complete list** (the model sees every identifier instead of the first 20).
+
+Enter in any field saves, Escape closes the form. Patterns that are not valid, use capturing groups `(…)`, look-arounds or back-references, repeat a group that itself repeats (`(?:a+)+`), match empty text or run longer than 200 characters (400 for a context) are refused with the reason. Saving writes the project's whole category list to `domainProfileOverrides.factCategories` in `project.json`, extracts the facts again and re-runs the Scenario check. If you have edited `facility-facts.md`, it is kept and the new extraction goes to `facility-facts.generated.md` (shown under "From the documents, not in your list"); lint uses the new definition right away. **Use the domain's definition** undoes the change for one category. Save or discard unsaved entry edits first.
+
+A category you added yourself (for example _Pump stations_) has **Define for lint** once the file is saved. It opens the same form with an empty noun: give one (`Pump Stations?`), choose the identifier shape (numbers only for `Pump Station 7`) and save. The definition is added after the domain's categories in `domainProfileOverrides.factCategories` under the category's id from `facility-facts.md` (`pump-stations`, as written in the `<!-- category: pump-stations -->` line), so nothing in the file is renamed; from then on a row naming Pump Station 7 when the list has 1 and 2 gets a FACILITY_UNKNOWN_ID warning. **Remove the lint definition** takes it out again and the category goes back to being shown to the model only. The built-in categories without a noun (hosts, phone numbers, networks and the like) are not offered a definition.
 
 ## 4. Search the plans
 

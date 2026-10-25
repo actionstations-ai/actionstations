@@ -162,6 +162,8 @@ interface Hit {
 interface TemplateInfo {
   type: string
   preview: Record<string, unknown>
+  /** preview.json per-variant sample data, merged (#331). */
+  previewVariants?: Record<string, Record<string, unknown>>
   variants: string[]
 }
 
@@ -253,7 +255,10 @@ test.describe('packaged app', () => {
         >('packs:list')
       const bundled = packs.filter((p) => p.bundled)
       expect(bundled.map((p) => p.id)).toContain('ai.actionstations.core')
-      expect(bundled.length).toBe(13)
+      const mapped = JSON.parse(readFileSync(resolve('packs/bundled.json'), 'utf8')) as {
+        packs: unknown[]
+      }
+      expect(bundled.length).toBe(mapped.packs.length)
       expect(bundled.filter((p) => p.broken)).toEqual([])
       const tweet = (await invoke<{ type: string; packId?: string }[]>('templates:list')).find(
         (t) => t.type === 'tweet',
@@ -285,7 +290,7 @@ test.describe('packaged app', () => {
         for (const variant of t.variants.length ? t.variants : ['default']) {
           const r = await invoke<{ dataUrl: string }>('render:preview', {
             type: t.type,
-            fields: t.preview,
+            fields: t.previewVariants?.[variant] ?? t.preview,
             variant,
             scale: 2,
           })

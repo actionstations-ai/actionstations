@@ -39,11 +39,26 @@ export function tinyPng(width = 64, height = 48): Buffer {
 const DEFAULT_NODES = [
   'CheckpointLoaderSimple',
   'EmptyLatentImage',
+  'EmptyImage',
+  'VAEEncode',
   'CLIPTextEncode',
+  'ConditioningSetAreaPercentage',
+  'ConditioningCombine',
   'KSampler',
   'VAEDecode',
   'SaveImage',
   'LoadImage',
+  // sdxl-photo screens-off sign repaint (#356)
+  'ImageToMask',
+  'MaskComposite',
+  'ThresholdMask',
+  'InvertMask',
+  'SolidMask',
+  'MaskToImage',
+  'Morphology',
+  'GrowMask',
+  'ImageCompositeMasked',
+  'SetLatentNoiseMask',
 ]
 
 function readBody(req: IncomingMessage): Promise<Buffer> {

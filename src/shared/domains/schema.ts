@@ -25,8 +25,16 @@ export type ThreatFamilyId = z.infer<typeof ThreatFamilyId>
  * them). Either `noun` + `idShape` ("Routes? 14, 22 and 41") or a custom `pattern` whose
  * first capture group is the identifier ("\b([A-Z][a-z]+) Line\b" → "Blue").
  */
+/**
+ * A fact category id. Domain profiles use underscores ("pump_stations"); categories a user adds
+ * in the facts editor get hyphenated slugs ("pump-stations", "3rd-floor"). Both shapes are
+ * accepted, unchanged, so the id in facility-facts.md (`<!-- category: … -->`) is the same key
+ * as the definition in `domainProfileOverrides.factCategories` (#350): nothing is renamed.
+ */
+export const FactCategoryId = z.string().regex(/^[a-z0-9][a-z0-9_-]{0,63}$/)
+
 export const FactCategory = z.object({
-  id: z.string().regex(/^[a-z][a-z0-9_]*$/),
+  id: FactCategoryId,
   /** Sheet label shown to the model and in lint messages, e.g. "Routes". */
   label: z.string(),
   /** Regex source (case-insensitive) for the noun(s) before an identifier list, e.g. "Routes?". */
@@ -165,8 +173,38 @@ export type DomainProfile = z.infer<typeof DomainProfile>
  * Per-project overrides stored in project.json: every field but id is optional and, when
  * present, replaces the built-in value (arrays replace, they do not merge).
  */
-export const DomainProfileOverrides = DomainProfile.omit({ id: true, aliases: true }).partial()
+export const DomainProfileOverrides = DomainProfile.omit({ id: true, aliases: true })
+  .extend({
+    // Without their defaults: zod fills a default even under .partial(), and an absent field
+    // stored as [] / {} would replace the profile's categories and role patterns (#180).
+    factCategories: z.array(FactCategory),
+    rolePatterns: RolePatterns,
+  })
+  .partial()
 export type DomainProfileOverrides = z.infer<typeof DomainProfileOverrides>
+
+/**
+ * Overrides as stored by builds before #180, which wrote `factCategories: []` and
+ * `rolePatterns: {}` with every override and so switched the profile's categories and role
+ * words off. Those empty values are dropped on load (non-empty ones are kept); nothing left
+ * means no overrides.
+ */
+export function withoutLegacyEmptyOverrides(value: unknown): unknown {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return value
+  const { factCategories, rolePatterns, ...rest } = value as Record<string, unknown>
+  const emptyList = Array.isArray(factCategories) && factCategories.length === 0
+  const emptyPatterns =
+    !!rolePatterns &&
+    typeof rolePatterns === 'object' &&
+    !Array.isArray(rolePatterns) &&
+    Object.keys(rolePatterns).length === 0
+  const kept: Record<string, unknown> = {
+    ...rest,
+    ...(factCategories !== undefined && !emptyList ? { factCategories } : {}),
+    ...(rolePatterns !== undefined && !emptyPatterns ? { rolePatterns } : {}),
+  }
+  return Object.keys(kept).length ? kept : undefined
+}
 
 /**
  * A pack domain profile copied into project.json when the project picks it (ADR-0018, #263):

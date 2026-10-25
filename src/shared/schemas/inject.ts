@@ -18,6 +18,14 @@ export const MediaBrief = z.object({
   imagePrompt: z.string().optional(),
   negativePrompt: z.string().optional(),
   imageStyle: z.enum(['phone', 'press', 'cctv', 'screen', 'portrait']).optional(),
+  /**
+   * Scene lighting. `dark` = a power loss: displays off, dim room (#162). `screens-off` =
+   * screens blank or dark with the power on: the room keeps its light and lit background
+   * signs are repainted unlit where the workflow finds them (#356). Workflows map it to node
+   * inputs through `lighting` bindings (sdxl-photo: dark start latent and dark ceiling for
+   * `dark`; a masked repaint of saturated lit signs for `screens-off`).
+   */
+  lighting: z.enum(['normal', 'dark', 'screens-off']).optional(),
   videoPrompt: z.string().optional(),
   durationSec: z.number().optional(),
   /** TTS lines; multi-voice for phone calls. */
