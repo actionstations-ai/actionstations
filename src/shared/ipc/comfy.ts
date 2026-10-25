@@ -23,7 +23,9 @@ export const WorkflowBinding = z.object({
     'inputImage',
     'referenceAudio',
     'literal',
+    'lighting',
   ]),
+  /** `literal`: the value. `lighting`: value per brief lighting, e.g. { "dark": 0.92 }. */
   value: z.unknown().optional(),
 })
 export type WorkflowBinding = z.infer<typeof WorkflowBinding>

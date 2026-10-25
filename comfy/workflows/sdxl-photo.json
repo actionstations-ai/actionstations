@@ -38,6 +38,41 @@
     },
     "_meta": { "title": "Sampler" }
   },
+  "10": {
+    "class_type": "EmptyImage",
+    "inputs": { "width": 1216, "height": 832, "batch_size": 1, "color": 4210752 },
+    "_meta": { "title": "Dark start image (lighting: dark)" }
+  },
+  "11": {
+    "class_type": "VAEEncode",
+    "inputs": { "pixels": ["10", 0], "vae": ["4", 2] },
+    "_meta": { "title": "Dark start latent (lighting: dark)" }
+  },
+  "12": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "dark unlit ceiling in deep shadow, black, power outage",
+      "clip": ["4", 1]
+    },
+    "_meta": { "title": "Dark ceiling prompt (lighting: dark)" }
+  },
+  "13": {
+    "class_type": "ConditioningSetAreaPercentage",
+    "inputs": {
+      "conditioning": ["12", 0],
+      "width": 1,
+      "height": 0.4,
+      "x": 0,
+      "y": 0,
+      "strength": 1
+    },
+    "_meta": { "title": "Dark ceiling area, top 40% (lighting: dark)" }
+  },
+  "14": {
+    "class_type": "ConditioningCombine",
+    "inputs": { "conditioning_1": ["6", 0], "conditioning_2": ["13", 0] },
+    "_meta": { "title": "Positive + dark ceiling (lighting: dark)" }
+  },
   "8": {
     "class_type": "VAEDecode",
     "inputs": { "samples": ["3", 0], "vae": ["4", 2] },

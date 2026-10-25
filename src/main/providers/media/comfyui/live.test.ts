@@ -3,11 +3,13 @@
 // listed in comfy/workflows/README.md. LIVE_COMFY_VIDEO=0 skips the (slow) video test;
 // LIVE_COMFY_VIDEO_WORKFLOW picks the video workflow (default: the configured default).
 // Outputs land in LIVE_COMFY_OUT (default: a temp dir) so they can be inspected.
-import { mkdtempSync } from 'node:fs'
+// LIVE_COMFY_DARK_SEEDS (default 1001,1002,1003) are the seeds of the dark-screens check (#162).
+import { mkdtempSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
+import { PNG } from 'pngjs'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
-import type { ProviderConfig } from '@shared/schemas'
+import type { Inject, MselRow, ProviderConfig } from '@shared/schemas'
 
 vi.mock('electron', () => ({ app: { getPath: () => tmpdir(), isPackaged: false } }))
 
@@ -15,6 +17,38 @@ const LIVE = process.env.LIVE === '1'
 const URL = process.env.LIVE_COMFY_URL ?? 'http://127.0.0.1:8188'
 const VIDEO = process.env.LIVE_COMFY_VIDEO !== '0'
 const VIDEO_WORKFLOW = process.env.LIVE_COMFY_VIDEO_WORKFLOW
+const DARK_SEEDS = (process.env.LIVE_COMFY_DARK_SEEDS ?? '1001,1002,1003').split(',').map(Number)
+
+/** Mean Rec. 601 luma (0–255) of a PNG file. */
+function meanLuma(file: string): number {
+  const png = PNG.sync.read(readFileSync(file))
+  let sum = 0
+  for (let i = 0; i < png.data.length; i += 4)
+    sum += 0.299 * png.data[i]! + 0.587 * png.data[i + 1]! + 0.114 * png.data[i + 2]!
+  return sum / (png.width * png.height)
+}
+
+/** The #141 brief: sample-run I-10, whose departure boards go dark. */
+async function darkScreensBrief() {
+  const { normalizeBrief, planMedia } = await import('../../../generate/injects/media-plan')
+  const injects = JSON.parse(
+    readFileSync(resolve('tests/fixtures/injects/sample-run/injects.json'), 'utf8'),
+  ) as Inject[]
+  const inject = injects.find((i) => i.mselRowId === 'I-10')!
+  const row: MselRow = {
+    id: 'I-10',
+    phaseId: 'p1',
+    time: '0:10',
+    from: 'Social media',
+    toRoleIds: ['ops'],
+    event: 'Photo of the concourse as the FIDS go dark',
+    expectedAction: '',
+    purposeTag: 'PRESSURE',
+    citations: [],
+    locked: false,
+  }
+  return normalizeBrief(planMedia(inject, row), undefined, inject, { orgType: 'airport' })
+}
 
 const config: ProviderConfig = {
   id: 'comfy-live',
@@ -77,6 +111,23 @@ describe.skipIf(!LIVE)('ComfyUI live', () => {
       'seed',
       out!.provenance.seed,
     )
+  })
+
+  it('renders the dark-screens brief dim (#162)', { timeout: 900_000 }, async () => {
+    const { ComfyMediaProvider } = await import('./provider')
+    const p = new ComfyMediaProvider(config)
+    const brief = await darkScreensBrief()
+    expect(brief.lighting).toBe('dark')
+    for (const seed of DARK_SEEDS) {
+      const [out] = await p.generate(
+        { kind: 'image', injectId: `live-dark-${seed}`, outDir, seed, brief },
+        () => {},
+      )
+      const luma = meanLuma(out!.filePath)
+      console.log('[live] dark screens', out!.filePath, 'seed', seed, 'mean luma', luma.toFixed(1))
+      // Lit concourse renders of this brief measure 87–116; the dark-lighting path 30–40.
+      expect(luma).toBeLessThan(60)
+    }
   })
 
   it.skipIf(!VIDEO)(

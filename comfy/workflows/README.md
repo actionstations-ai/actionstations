@@ -13,8 +13,10 @@ A binding is `{ "target": ["<nodeId>", "inputs", "<input>"], "source": "<source>
 `negativePrompt`, `seed` (random when the job has none; recorded in provenance), `width`,
 `height`, `durationSec` (seconds; converted to a `frameStep·n + 1` frame count when the target
 input is a frame count such as `length`), `inputImage` (the scene image, uploaded to ComfyUI's
-input folder), `text` / `voiceStyle` / `speaker` (voice lines), `referenceAudio`, and `literal`
-(a fixed `value`). A source with no value leaves the workflow's own value in place.
+input folder), `text` / `voiceStyle` / `speaker` (voice lines), `referenceAudio`, `literal`
+(a fixed `value`) and `lighting` (a `value` per brief lighting, `normal` when the brief names
+none: `{ "dark": 0.92 }`; the value may be a node link such as `["11", 0]`, so a dark scene can
+be wired through extra nodes). A source with no value leaves the workflow's own value in place.
 
 Where workflows live (looked up in this order):
 
@@ -43,9 +45,18 @@ photojournalism realism. Core nodes only.
 - Model: `models/checkpoints/sd_xl_base_1.0.safetensors`
   ([stabilityai/stable-diffusion-xl-base-1.0](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0)).
 - Measured (ComfyUI 0.42.0, Apple Silicon, MPS): **15.6 s** per image with the model loaded.
-- SDXL cannot render legible text and ignores negation ("no screens"). Describe the scene
-  positively ("departure boards powered off and dark"); text-bearing media is always
+- SDXL cannot render legible text and ignores negation ("no screens"); it also lights any
+  screen it is asked to draw, "dark powered-off boards" included. Text-bearing media is always
   template-rendered ([CONTRIBUTING.md, Project rules 5](../../CONTRIBUTING.md#project-rules)).
+- Dark scenes (#162): a brief whose screens are dark leaves them out of the prompt and has
+  `lighting: "dark"`. Three `lighting` bindings then switch the sampler to the dark start latent
+  (node 11: a #404040 `EmptyImage` through `VAEEncode`, so the sampler starts dark) at denoise
+  0.92, and to a positive prompt combined with "dark unlit ceiling in deep shadow" over the top
+  40% of the frame (`ConditioningSetAreaPercentage`, node 13), where SDXL otherwise paints lit
+  departure boards and signs. Lit scenes do not reach those nodes and render as before.
+  Measured on the #141 brief (sample-run I-10), seeds 1001–1003: mean luma 87–116 with lit
+  boards and signs before; 29–40 and no lit screens after. Prompt and negative-prompt changes
+  alone (with a dark start latent) still left a lit board in 2 of 3 seeds.
 
 ## `image-to-video` — LTX-Video 2B distilled (video)
 

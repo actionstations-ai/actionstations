@@ -18,6 +18,11 @@ export const MediaBrief = z.object({
   imagePrompt: z.string().optional(),
   negativePrompt: z.string().optional(),
   imageStyle: z.enum(['phone', 'press', 'cctv', 'screen', 'portrait']).optional(),
+  /**
+   * Scene lighting. `dark` = an outage: displays off, dim room (#162). Workflows map it to
+   * node inputs through `lighting` bindings (sdxl-photo: dark start latent, dark ceiling).
+   */
+  lighting: z.enum(['normal', 'dark']).optional(),
   videoPrompt: z.string().optional(),
   durationSec: z.number().optional(),
   /** TTS lines; multi-voice for phone calls. */

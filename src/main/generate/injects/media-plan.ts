@@ -273,7 +273,16 @@ const DARK_WORDS =
 
 /** Negative-prompt entries for a scene whose screens must stay dark. */
 export const LIT_SCREEN_NEGATIVE =
-  'illuminated screens, glowing displays, lit departure boards, bright monitors, backlit signs, text'
+  'illuminated screens, glowing displays, lit departure boards, bright monitors, backlit signs, text, ' +
+  'neon signs, digital signage, information screens, glowing signs, lightbox advertising'
+
+/**
+ * Light words for a scene whose screens are dark (#162). Prompts alone leave small lit signs
+ * in the background, so the brief also gets `lighting: 'dark'`, which workflows bind to a dark
+ * start latent and a dark-ceiling area prompt (comfy/workflows/sdxl-photo).
+ */
+export const DARK_SCENE_LIGHTING =
+  'during a power outage, blackout, emergency lighting only, dim low light'
 
 /** True when a clause of the text says the screens/boards/displays are dark or off. */
 export function describesDarkScreens(...texts: (string | undefined)[]): boolean {
@@ -382,9 +391,11 @@ export function normalizeBrief(
     )
     const positive = positivePrompt(source)
     const prompt = dark ? withoutScreens(positive) : positive
-    if (prompt) brief.imagePrompt = anchoredPrompt(prompt, style, { ...scene, screensDark: dark })
+    const anchored = prompt ? anchoredPrompt(prompt, style, { ...scene, screensDark: dark }) : ''
+    if (anchored) brief.imagePrompt = dark ? `${anchored}, ${DARK_SCENE_LIGHTING}` : anchored
     brief.negativePrompt = mergeNegative(out?.negativePrompt, style, dark)
     brief.imageStyle = style
+    if (dark) brief.lighting = 'dark'
   }
   if (plan.paths.includes('ai_video')) {
     const v = positivePrompt(out?.videoPrompt ?? out?.imagePrompt ?? '')

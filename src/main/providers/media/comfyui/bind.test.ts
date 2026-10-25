@@ -1,5 +1,9 @@
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import type { WorkflowBinding } from '@shared/ipc/comfy'
+import { WorkflowSidecar } from '../../../comfy/sidecar'
+import type { ApiWorkflow } from '../../../comfy/workflow'
 import type { MediaJob } from '../../types'
 import { applyBindings, assertJobFits, framesFor, randomSeed, type BindContext } from './bind'
 
@@ -108,5 +112,97 @@ describe('bindings', () => {
     expect(framesFor(0.01, 24, 4)).toBe(5)
     const s = randomSeed()
     expect(Number.isSafeInteger(s) && s >= 0).toBe(true)
+  })
+})
+
+describe('lighting bindings (#162)', () => {
+  const sampler = {
+    '3': { class_type: 'KSampler', inputs: { denoise: 1, latent_image: ['5', 0] } },
+  }
+  const lightingBindings = [
+    bind(['3', 'denoise'], 'lighting', { dark: 0.92 }),
+    bind(['3', 'latent_image'], 'lighting', { dark: ['11', 0] }),
+  ]
+  const brief = (lighting?: 'normal' | 'dark') =>
+    ctx({
+      brief: { paths: ['ai_image'], imagePrompt: 'a concourse', ...(lighting ? { lighting } : {}) },
+    })
+
+  it('writes the value named for the brief lighting', () => {
+    const out = applyBindings(sampler, lightingBindings, brief('dark'))
+    expect(out['3']!.inputs).toEqual({ denoise: 0.92, latent_image: ['11', 0] })
+  })
+
+  it('keeps the workflow value for a lighting the map does not name (normal or unset)', () => {
+    expect(applyBindings(sampler, lightingBindings, brief('normal'))['3']!.inputs).toEqual(
+      sampler['3'].inputs,
+    )
+    expect(applyBindings(sampler, lightingBindings, brief())['3']!.inputs).toEqual(
+      sampler['3'].inputs,
+    )
+    const withNormal = [bind(['3', 'denoise'], 'lighting', { normal: 0.8 })]
+    expect(applyBindings(sampler, withNormal, brief())['3']!.inputs.denoise).toBe(0.8)
+  })
+
+  it('ignores a lighting binding whose value is not a map', () => {
+    for (const value of [0.92, ['11', 0], 'dark', null]) {
+      const out = applyBindings(sampler, [bind(['3', 'denoise'], 'lighting', value)], brief('dark'))
+      expect(out['3']!.inputs.denoise).toBe(1)
+    }
+  })
+})
+
+describe('sdxl-photo dark lighting (#162)', () => {
+  const dir = resolve('comfy/workflows')
+  const workflow = JSON.parse(readFileSync(`${dir}/sdxl-photo.json`, 'utf8')) as ApiWorkflow
+  const sidecar = WorkflowSidecar.parse(
+    JSON.parse(readFileSync(`${dir}/sdxl-photo.bindings.json`, 'utf8')),
+  )
+  const render = (lighting?: 'dark') =>
+    applyBindings(workflow, sidecar.bindings, {
+      job: {
+        kind: 'image',
+        injectId: 'I-10',
+        outDir: '/tmp',
+        width: 1024,
+        height: 768,
+        brief: {
+          paths: ['ai_image'],
+          imagePrompt: 'a concourse',
+          ...(lighting ? { lighting } : {}),
+        },
+      },
+      sidecar,
+      seed: 7,
+    })
+
+  it('samples a lit scene from the empty latent with the plain prompt, as before', () => {
+    const out = render()
+    expect(out['3']!.inputs).toMatchObject({
+      latent_image: ['5', 0],
+      positive: ['6', 0],
+      denoise: 1,
+    })
+  })
+
+  it('samples a dark scene from the dark start latent with the dark-ceiling area prompt', () => {
+    const out = render('dark')
+    expect(out['3']!.inputs).toMatchObject({
+      latent_image: ['11', 0],
+      positive: ['14', 0],
+      denoise: 0.92,
+    })
+    // The dark start image follows the job size, so the latent matches the empty one.
+    expect(out['10']!.inputs).toMatchObject({ width: 1024, height: 768 })
+    expect(out['5']!.inputs).toMatchObject({ width: 1024, height: 768 })
+    expect(out['14']!.inputs).toEqual({ conditioning_1: ['6', 0], conditioning_2: ['13', 0] })
+  })
+
+  it('links only to nodes the workflow has', () => {
+    const out = render('dark')
+    for (const node of Object.values(out))
+      for (const value of Object.values(node.inputs))
+        if (Array.isArray(value) && typeof value[0] === 'string')
+          expect(out).toHaveProperty(value[0])
   })
 })

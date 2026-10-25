@@ -3,6 +3,7 @@ import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import type { Inject, MselRow } from '@shared/schemas'
 import {
+  DARK_SCENE_LIGHTING,
   describesDarkScreens,
   LIT_SCREEN_NEGATIVE,
   normalizeBrief,
@@ -59,6 +60,15 @@ describe('dark screens in scene prompts (#141)', () => {
     expect(brief.negativePrompt).toContain(LIT_SCREEN_NEGATIVE)
   })
 
+  it('sample run I-10: dark lighting and outage light words for the workflow (#162)', () => {
+    const inject = sampleInject('I-10')
+    const plan = planMedia(inject, row('I-10', 'Photo of the concourse as the FIDS go dark'))
+    const brief = normalizeBrief(plan, undefined, inject, { orgType: 'airport' })
+    expect(brief.lighting).toBe('dark')
+    expect(brief.imagePrompt?.endsWith(`, ${DARK_SCENE_LIGHTING}`)).toBe(true)
+    expect(brief.negativePrompt).toMatch(/digital signage, information screens/)
+  })
+
   it('leaves scenes whose screens are not dark as they were', () => {
     const inject = sampleInject('I-10')
     const lit = { ...inject, fields: { sceneBrief: 'Busy concourse, travellers at check-in' } }
@@ -66,5 +76,7 @@ describe('dark screens in scene prompts (#141)', () => {
     const brief = normalizeBrief(plan, undefined, lit, { orgType: 'airport' })
     expect(brief.imagePrompt).toContain('airport passenger terminal')
     expect(brief.negativePrompt).not.toContain('illuminated screens')
+    expect(brief.lighting).toBeUndefined()
+    expect(brief.imagePrompt).not.toContain('power outage')
   })
 })

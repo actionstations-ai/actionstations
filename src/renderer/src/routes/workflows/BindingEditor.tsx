@@ -9,6 +9,8 @@ import {
   SOURCE_OPTIONS,
   bindingsFromRows,
   formatValue,
+  hasTypedValue,
+  initialValueText,
   rowKey,
   rowsFromBindings,
   type BindingSource,
@@ -52,12 +54,10 @@ function BindingRow(props: {
             className="select"
             aria-label={`Binding for ${label}`}
             value={b.source}
-            onChange={(e) =>
-              props.onChange({
-                source: e.target.value as BindingSource | '',
-                literal: b.literal || formatValue(input.value),
-              })
-            }
+            onChange={(e) => {
+              const source = e.target.value as BindingSource | ''
+              props.onChange({ source, literal: initialValueText(source, b, input.value) })
+            }}
           >
             {SOURCE_OPTIONS.map((o) => (
               <option key={o.id} value={o.id}>
@@ -65,10 +65,11 @@ function BindingRow(props: {
               </option>
             ))}
           </select>
-          {b.source === 'literal' && (
+          {hasTypedValue(b.source) && (
             <input
               className="input"
-              aria-label={`Fixed value for ${label}`}
+              aria-label={`${b.source === 'lighting' ? 'Values by lighting' : 'Fixed value'} for ${label}`}
+              placeholder={b.source === 'lighting' ? '{"dark": 0.92}' : undefined}
               value={b.literal}
               onChange={(e) => props.onChange({ ...b, literal: e.target.value })}
             />

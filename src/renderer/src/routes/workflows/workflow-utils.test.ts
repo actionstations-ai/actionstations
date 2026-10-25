@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   bindingsFromRows,
+  initialValueText,
   missingSummary,
   parseLiteral,
   rowKey,
@@ -8,6 +9,31 @@ import {
 } from './workflow-utils'
 
 describe('workflow-utils', () => {
+  it('round-trips a lighting binding with its per-lighting values (#162)', () => {
+    const bindings = [
+      {
+        target: ['3', 'inputs', 'denoise'] as ['3', 'inputs', string],
+        source: 'lighting' as const,
+        value: { dark: 0.92 },
+      },
+    ]
+    const rows = rowsFromBindings(bindings)
+    expect(rows[rowKey({ nodeId: '3', inputName: 'denoise' })]).toEqual({
+      source: 'lighting',
+      literal: '{"dark":0.92}',
+    })
+    expect(bindingsFromRows(rows)).toEqual(bindings)
+  })
+
+  it('starts a lighting row from the workflow value under "dark"', () => {
+    const none = { source: '' as const, literal: '' }
+    expect(initialValueText('lighting', none, 1)).toBe('{"dark":1}')
+    const lit = { source: 'lighting' as const, literal: '{"dark":0.5}' }
+    expect(initialValueText('lighting', lit, 1)).toBe('{"dark":0.5}')
+    expect(initialValueText('literal', lit, 25)).toBe('25')
+    expect(initialValueText('literal', { source: 'literal', literal: '30' }, 25)).toBe('30')
+  })
+
   it('round-trips bindings through editor rows', () => {
     const bindings = [
       {
