@@ -8,6 +8,30 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Added
+
+#### Editors and saving
+
+- Facility facts: **Edit lint definition** on each category the domain profile defines (#180) edits its noun, generic noun and context, identifier shape, Checked by lint and Complete list. Saving writes `domainProfileOverrides.factCategories` (the whole list) through `project:update`, which refuses invalid or catastrophic regexes (capturing groups, look-arounds, back-references, nested quantifiers, empty matches, over-long sources) and extracts the facts again (an edited `facility-facts.md` is kept; the extraction goes to `facility-facts.generated.md`); the Scenario check then re-runs.
+
+### Fixed
+
+#### Generation and checks
+
+- Fix: saving any domain profile override no longer stores empty `factCategories` and `rolePatterns` with it, which switched off the profile's facility-fact categories and role words for that project; projects saved that way drop those empty values when they load (non-empty overrides are kept) (#180).
+- Checks and prompt rules for the defects found while building the 0.4.0 examples (#347). New Scenario check warnings, each with a fix hint: rows after an ENDEX in the middle are named one by one (`ENDEX_LAST`); `TIME_JUMP_REPEATED` (a second time jump in a phase, at the same time or with the same text); `START_TIME_MISMATCH` (the STARTEX clock is not the brief's start time) and `CLOCK_MISMATCH` (a time jump or end card states a clock its row time does not give); `DATE_DRIFT` (the day or date changes between rows without a time jump, or a weekday does not match its date); `OUTSIDE_AGENCY_DECIDES` (CISA, TSA, a regulator closing the incident or approving restoration); `RESTORE_TOO_FAST` (encrypted or compromised systems fully restored within the hour); `CONTACT_REAL_LOOKING` (email or web domains that are not `.example`, a real agency's or a public mail service's, 555 numbers outside 555-0100–0199, geographic numbers); `ROLES_EXCEED_AUDIENCE` (more than one role beyond the brief's audience) and `OUTSIDE_PARTY_ROLE` (a party the brief gives the SimCell seated as a player); `QUANTITY_OVER_LIMIT` (a quantity above a bound in a `## Limits` section of `facility-facts.md`, for example `Chlorine, largest container: 1 ton`). An info tip, `BRIEF_TIME_OUTSIDE`, notes a request whose times of day all fall outside the exercise window. The revision pass after the critique rewrites rows flagged by the row-level ones. The `msel_phase`, `inject_text`, `objectives_roles`, `scenario_overview` and `critique` prompts state the same rules, and `msel_phase` now receives the designer's request and constraints as binding for start time, day, places and threat.
+- The critique no longer fails with an empty result when the model's context window is too small (#347): a reply without JSON is retried once with a shorter request (rows shortened, three plan sections); if that also has none, the step fails with an error that says the context is likely too small and how to load the model with a larger one. A stage that gets no JSON now says whether the reply was empty or cut off at the length limit.
+- Packaging an example no longer treats story paths such as `/tmp/auto_cleaner.py` or `/home/ubuntu/…` in inject text as author paths (#347): only a user's home folder, the per-user temp folder and the author's own home, project and output folders count.
+- Two older bundled examples corrected in place for the new checks (#347): the City Water time jump at 2:00 repeated the 1:00 one word for word, and the UAS Operations time jump at 3:00 said "It is now 3:00" instead of 12:00.
+
+#### Media, templates and providers
+
+- Scene photos of a power loss (outage, blackout, power failure, generators, emergency lighting) are dim and free of lit screens and signs (#162): the media brief gets `lighting: "dark"` (editable in the inject's media brief) and outage light words, and the default `sdxl-photo` workflow binds it through a new `lighting` binding source to a dark start latent (denoise 0.92) and a dark-ceiling area prompt over the top 40% of the frame (ComfyUI core nodes, no new models). Measured on the #141 brief with seeds 1001–1003: mean luma 87–116 with lit boards before, 29–40 with no lit screens after. Screens that are dark or blank with the power on (a cyber-only outage) keep the room's normal light: the screens are left out of the prompt and lit signage is in the negative prompt, but no lighting is set.
+
+### Security
+
+- `exceljs` now uses `uuid` 11.1.1 or later (pnpm override); `pnpm audit` reported GHSA-w5hq-g745-h8pq for its `uuid` 8, which the app did not reach because `exceljs` never passes a buffer (#358).
+
 ## [0.4.0] - 2026-10-24
 
 The first release since 0.1.0. It carries the 0.2.0 (review fixes), 0.3.0 (packs) and 0.4.0
@@ -219,8 +243,6 @@ export.
 
 #### Generation and checks
 
-- Facility facts: **Edit lint definition** on each category the domain profile defines (#180) edits its noun, generic noun and context, identifier shape, Checked by lint and Complete list. Saving writes `domainProfileOverrides.factCategories` (the whole list) through `project:update`, which refuses invalid or catastrophic regexes (capturing groups, look-arounds, back-references, nested quantifiers, empty matches, over-long sources) and extracts the facts again (an edited `facility-facts.md` is kept; the extraction goes to `facility-facts.generated.md`); the Scenario check then re-runs.
-- Fix: saving any domain profile override no longer stores empty `factCategories` and `rolePatterns` with it, which switched off the profile's facility-fact categories and role words for that project; projects saved that way drop those empty values when they load (non-empty overrides are kept) (#180).
 - Organization-name check for injects (#221): a name that starts like the organization's but is not the project name, `orgName` or `brand.aliases.org` ("North Coast Regional Airport") goes back to the model in the repair round, and becomes an inject warning if it survives.
 
 #### Media, templates and providers
@@ -321,10 +343,6 @@ export.
 
 #### Generation and checks
 
-- Checks and prompt rules for the defects found while building the 0.4.0 examples (#347). New Scenario check warnings, each with a fix hint: rows after an ENDEX in the middle are named one by one (`ENDEX_LAST`); `TIME_JUMP_REPEATED` (a second time jump in a phase, at the same time or with the same text); `START_TIME_MISMATCH` (the STARTEX clock is not the brief's start time) and `CLOCK_MISMATCH` (a time jump or end card states a clock its row time does not give); `DATE_DRIFT` (the day or date changes between rows without a time jump, or a weekday does not match its date); `OUTSIDE_AGENCY_DECIDES` (CISA, TSA, a regulator closing the incident or approving restoration); `RESTORE_TOO_FAST` (encrypted or compromised systems fully restored within the hour); `CONTACT_REAL_LOOKING` (email or web domains that are not `.example`, a real agency's or a public mail service's, 555 numbers outside 555-0100–0199, geographic numbers); `ROLES_EXCEED_AUDIENCE` (more than one role beyond the brief's audience) and `OUTSIDE_PARTY_ROLE` (a party the brief gives the SimCell seated as a player); `QUANTITY_OVER_LIMIT` (a quantity above a bound in a `## Limits` section of `facility-facts.md`, for example `Chlorine, largest container: 1 ton`). An info tip, `BRIEF_TIME_OUTSIDE`, notes a request whose times of day all fall outside the exercise window. The revision pass after the critique rewrites rows flagged by the row-level ones. The `msel_phase`, `inject_text`, `objectives_roles`, `scenario_overview` and `critique` prompts state the same rules, and `msel_phase` now receives the designer's request and constraints as binding for start time, day, places and threat.
-- The critique no longer fails with an empty result when the model's context window is too small (#347): a reply without JSON is retried once with a shorter request (rows shortened, three plan sections); if that also has none, the step fails with an error that says the context is likely too small and how to load the model with a larger one. A stage that gets no JSON now says whether the reply was empty or cut off at the length limit.
-- Packaging an example no longer treats story paths such as `/tmp/auto_cleaner.py` or `/home/ubuntu/…` in inject text as author paths (#347): only a user's home folder, the per-user temp folder and the author's own home, project and output folders count.
-- Two older bundled examples corrected in place for the new checks (#347): the City Water time jump at 2:00 repeated the 1:00 one word for word, and the UAS Operations time jump at 3:00 said "It is now 3:00" instead of 12:00.
 - Warnings no longer go stale after hand fixes (#342): a user save of an inject, or the relint of **Repair**, drops the "fields repaired to fit the template" warning (and the other field warnings) once the inject's fields validate; a review (critique) note whose row or inject changed after the review ran is marked stale. The Warnings tab now lists the review notes under **Review notes**, with the stale ones folded away under a count. New critique notes record a fingerprint of the row they cite; older notes are compared with the stored MSEL on save and with the inject's version history. The bundled examples were refreshed so their stored notes carry the marks.
 - Re-running an MSEL phase, the phase plan or the critique (or repairing the MSEL) now marks the injects of rows whose event, expected action or format changed, or that were removed, as stale, so "Write all injects" writes them again; injects whose row is gone are left out of the export as they are from the deck (#207).
 - The critique and hot wash steps write their documents only after the step's checkpoint: a failed or cancelled step leaves `overview.md`, the handbook and the hot wash as they were (#209).
@@ -359,7 +377,6 @@ export.
 
 #### Media, templates and providers
 
-- Scene photos of a power loss (outage, blackout, power failure, generators, emergency lighting) are dim and free of lit screens and signs (#162): the media brief gets `lighting: "dark"` (editable in the inject's media brief) and outage light words, and the default `sdxl-photo` workflow binds it through a new `lighting` binding source to a dark start latent (denoise 0.92) and a dark-ceiling area prompt over the top 40% of the frame (ComfyUI core nodes, no new models). Measured on the #141 brief with seeds 1001–1003: mean luma 87–116 with lit boards before, 29–40 with no lit screens after. Screens that are dark or blank with the power on (a cyber-only outage) keep the room's normal light: the screens are left out of the prompt and lit signage is in the negative prompt, but no lighting is set.
 - Inject media (#177): a generated still is kept when the template step fails and the job log
   names the failing step; over-long strings and pattern violations (a 19-character tweet
   handle) and undeclared nested keys are repaired before validation; the model can choose a
