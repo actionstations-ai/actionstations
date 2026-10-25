@@ -1,0 +1,195 @@
+{
+  "id": "01M5RN5MR7BRNKQQFMP37WJPRN",
+  "mselRowId": "I-08",
+  "type": "system_log",
+  "title": "Detection console: back up, operator on the perimeter road",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "Harwick Police detection console (shared view)",
+    "host": "Event command post",
+    "logSource": "Remote ID receiver and radar track",
+    "exportedBy": "Harwick Police",
+    "exportedAt": "09/19/2026 12:04 PM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "12:02:18",
+        "level": "WARN",
+        "msg": "Track 1F7Q-ZX43-0915 airborne again · 220 ft AGL · circling the parade route",
+        "highlight": true
+      },
+      {
+        "ts": "12:02:30",
+        "level": "WARN",
+        "msg": "Operator position: HUOG perimeter road, inside the outer gate, ~40 m from Hangar 1",
+        "highlight": true
+      },
+      {
+        "ts": "12:03:50",
+        "level": "INFO",
+        "msg": "Takeoff point: HUOG perimeter road shoulder",
+        "highlight": false
+      }
+    ],
+    "classification": "LAW ENFORCEMENT SENSITIVE — SHARED WITH HUOG LIAISON",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "The operator is on Group property. Watch for who has gate access, and nobody sent to confront him.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 10 › 10.1 Remote ID",
+      "quote": "All aircraft broadcast Remote ID (standard, or the broadcast modules RID-BM-11 on UAS-11 and RID-BM-12 on UAS-12). The RPIC confirms the broadcast on the GCS status page at pre-flight. UAS-12 flies on",
+      "chunkId": 85
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+      "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+      "chunkId": 24
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+      "quote": "The Group does not fly within 500 ft of the footprint of a public event at the adjacent Harwick Fairgrounds with an expected attendance over 1,000 (the county fair, concerts, races). Harwick Police pu",
+      "chunkId": 72
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:30:29.575Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Second Remote ID Feed — Drone Over West Grandstand",
+        "type": "system_log",
+        "fields": {
+          "systemName": "HWP-DETECT-01",
+          "host": "HWP-DETECT-01",
+          "ip": "10.17.40.12",
+          "os": "Linux Ubuntu 22.04",
+          "logSource": "Remote ID Ingest Pipeline",
+          "exportedBy": "harwick.police.detect.sys",
+          "exportedAt": "10/25/2026 12:05 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "10/25/2026 12:05:17 PM",
+              "level": "INFO",
+              "msg": "New Remote ID feed received: aircraft 'RID-BM-12-004' confirmed in flight over Harwick Fairgrounds.",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 12:05:17 PM",
+              "level": "INFO",
+              "msg": "Track stability: 98.7% confidence; no replay detected.",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 12:05:17 PM",
+              "level": "INFO",
+              "msg": "Altitude: 320 ft AGL; pattern: circular, 500 m radius, centered on west grandstand.",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 12:05:17 PM",
+              "level": "INFO",
+              "msg": "Broadcast mode: standard (FOM-10.1); no anomalies in payload or telemetry.",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 12:05:17 PM",
+              "level": "WARN",
+              "msg": "Serial 'RID-BM-12-004' not in Group fleet register (FOM-101) or GCS-01 Remote ID cache.",
+              "highlight": true
+            },
+            {
+              "ts": "10/25/2026 12:05:17 PM",
+              "level": "ALERT",
+              "msg": "Second confirmed feed from same aircraft (crs: 312.01234567); pattern unchanged from first report (11:03).",
+              "highlight": true
+            },
+            {
+              "ts": "10/25/2026 12:05:17 PM",
+              "level": "ALERT",
+              "msg": "Persistent unknown drone over public event (6,000 attendees); HUOG-ERP Section 8.4 triggered.",
+              "highlight": true
+            },
+            {
+              "ts": "10/25/2026 12:05:17 PM",
+              "level": "NOTICE",
+              "msg": "Harwick Police Command notified via encrypted channel (FIR-2026-1025-1205).",
+              "highlight": false
+            },
+            {
+              "ts": "10/25/2026 12:05:17 PM",
+              "level": "INFO",
+              "msg": "Flight status: no Group aircraft airborne (FOM-102). All fleet confirmed grounded.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "HWP-DETECT-01: Drone Tracking Console",
+          "command": "tail -n 10 /var/log/hwp_detect/remote_id.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "Confirm the drone's persistence and update the hazard log. The technical team must not assume the feed is fake or corrupted; the alert is valid and triggers HUOG-ERP Section 8.4.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-25T04:59:53.398Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Detection console: back up, operator on the perimeter road",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Harwick Police detection console (shared view)",
+          "host": "Event command post",
+          "logSource": "Remote ID receiver and radar track",
+          "exportedBy": "Harwick Police",
+          "exportedAt": "09/19/2026 12:04 PM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "12:02:18",
+              "level": "WARN",
+              "msg": "Track 1F7Q-ZX43-0915 airborne again · 220 ft AGL · circling the parade route",
+              "highlight": true
+            },
+            {
+              "ts": "12:02:30",
+              "level": "WARN",
+              "msg": "Operator position: HUOG perimeter road, inside the outer gate, ~40 m from Hangar 1",
+              "highlight": true
+            },
+            {
+              "ts": "12:03:50",
+              "level": "INFO",
+              "msg": "Takeoff point: HUOG perimeter road shoulder",
+              "highlight": false
+            }
+          ],
+          "classification": "LAW ENFORCEMENT SENSITIVE — SHARED WITH HUOG LIAISON",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "The operator is on Group property. Watch for who has gate access, and nobody sent to confront him.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:45.366Z"
+}

@@ -9,13 +9,16 @@ A bundled project for the `unmanned_systems` domain profile (#157): a regional u
 - `example.json` — the manifest the app lists in its examples gallery (title, profile, notice, scenarios).
 - `project/` — a normal project folder as the app writes it:
   - the four exercise plans from `reference/uas-ops/` imported as documents (UAS Flight Operations & Safety Manual, Emergency Response Plan for flight operations, Information Security Plan for the GCS fleet and data pipeline, Site & Airspace Sheet) and the facility facts extracted from them;
-  - one generated scenario with its MSEL, phases, roles, injects, controller handbook, player briefing, hot wash and rendered inject media within the 6 MB git budget (one voice clip as a 48 kbps MP3, 1× PNGs of the template-rendered injects and up to two AI-composited scene photos; the other voice clips, PDFs and the remaining renders are in the release bundle, not in git).
+  - four generated scenarios, each with its MSEL, phases, roles, injects, controller handbook, player briefing, hot wash and rendered inject media, within the 6 MB git budget for the example (one voice clip as a 48 kbps MP3, 1× PNGs of the template-rendered injects and a few AI-composited scene photos; the other voice clips, PDFs and the remaining renders are in the release bundle, not in git).
 
-| Key         | Threat family    | Scenario                                                                                               |
-| ----------- | ---------------- | ------------------------------------------------------------------------------------------------------ |
-| `c2-hijack` | `cyber_physical` | C2-link hijack and GNSS spoofing during a multispectral / hyperspectral campaign at Birch Hollow Range |
+| Key           | Threat family            | Scenario                                                                                                                                           |
+| ------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `c2-hijack`   | `cyber_physical`         | C2-link hijack and GNSS spoofing during a multispectral / hyperspectral campaign at Birch Hollow Range                                             |
+| `ransomware`  | `cyber`                  | Ransomware on the NAS, a processing workstation and a ground control station ten days before CP&L Deliverable D-3                                  |
+| `rogue-drone` | `uas_drone`              | A Remote ID drone over 6,000 people at the Harwick Fairgrounds on a NO FLY day; the operator turns out to be one of the Group's own part-time crew |
+| `flyaway`     | `infrastructure_failure` | UAS-02 flies away toward the HWK Class C surface area after a field firmware update and comes down in a backyard                                   |
 
-The title, row count and inject count are in `example.json` and in the scenario's `scenario.json`. Three further briefs for this organization (ransomware on the GCS fleet before a client deadline, a rogue drone over a public event beside the base field, a flyaway toward the Class C boundary) are tracked as a follow-up issue.
+The title, row count and inject count are in `example.json` and in each scenario's `scenario.json`. The three later scenarios (#173) were generated with `generate --only <key>`, reviewed against `reference/scenario-3/` and corrected by hand in place (player roles matched to each brief's audience, identifiers and procedures checked against the plans, outside agencies advising rather than deciding), then recorded with `refresh` and packaged.
 
 ## How it was built
 

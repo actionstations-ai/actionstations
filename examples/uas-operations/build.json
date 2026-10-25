@@ -2,7 +2,7 @@
   "id": "uas-operations",
   "title": "Harwick UAS Operations Group",
   "domainProfile": "unmanned_systems",
-  "summary": "A regional unmanned-aircraft operator (infrastructure inspection, agricultural and environmental survey, public-safety support) flying under Part 107 beside a Class C airport: a C2-link hijack and GNSS spoofing during a multispectral sensor campaign at its leased range.",
+  "summary": "A regional unmanned-aircraft operator (infrastructure inspection, agricultural and environmental survey, public-safety support) flying under Part 107 beside a Class C airport, with four tabletops: a C2-link hijack and GNSS spoofing at its leased range, ransomware on its mission data before a client deadline, a rogue drone over a public event next door, and a flyaway toward the Class C boundary.",
   "notice": "Exercise material — for training use. The organization, people, procedures, numbers, frequencies, addresses and identifiers in this example are simulated; the public sources consulted for realism are listed in reference/uas-ops/SOURCES.md.",
   "project": {
     "name": "Harwick UAS Operations Group",
@@ -20,8 +20,14 @@
       }
     }
   },
-  "documents": { "dir": "reference/uas-ops", "exclude": ["SOURCES.md"] },
-  "media": { "aiImagesPerScenario": 2, "ttsPerScenario": 2 },
+  "documents": {
+    "dir": "reference/uas-ops",
+    "exclude": ["SOURCES.md"]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 2
+  },
   "scenarios": [
     {
       "key": "c2-hijack",
@@ -39,6 +45,59 @@
       "constraints": [
         "Every email address of the Group and its units uses the exercise domain huog.example; outside parties use fictional domains and fictional outlet names (Channel 10, the Harwick Daily News); never a real agency, company or newspaper domain.",
         "Player roles are only those in the audience list; outside parties (clients, the managed SOC, Data Center Operations, CCSO, the FAA) are played by the SimCell, not seated as players."
+      ]
+    },
+    {
+      "key": "ransomware",
+      "threatFamily": "cyber",
+      "summary": "Ten days before CP&L Deliverable D-3, the NAS and a processing workstation are found encrypted, a ground control station that mounted the NAS is infected, the newest clean backup is three weeks old and the controlled share was read overnight; the Group must ground what touched the NAS, decide within four hours what to tell its clients, recover in order and record the decision not to pay.",
+      "userPrompt": "Ten days before CP&L Deliverable D-3 is due, the processing team arrives on a weekday morning to find HUOG-NAS01 and the processing workstation HUOG-PROC01 encrypted with a ransom note on the share; the NAS snapshot schedule was disabled two nights earlier, GCS-02 was infected after it mounted the NAS to upload last week's flight logs, and the offline backup drive OB-1 in the General Manager's safe is three weeks old. The Group must isolate the Data VLAN at HUOG-FW01, keep the GCS fleet off the network and decide whether flights can continue, scope whether CP&L and CVAC client data was read and not only encrypted, recover from OB-1 and the off-site service in the HUOG-ISP Section 9.3 order once the managed SOC confirms the environment is clean, decide within four hours whether to notify the clients that D-3 is at risk, and record the decision not to pay.",
+      "audience": [
+        "Leadership",
+        "Systems / Cybersecurity",
+        "Flight Operations",
+        "Payload & Calibration",
+        "Corporate Communications"
+      ],
+      "constraints": [
+        "Every email address of the Group and its units uses the exercise domain huog.example; outside parties use fictional domains and fictional outlet names (Channel 10, the Harwick Daily News); never a real agency, company or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (clients, the managed SOC, Data Center Operations, the off-site backup service, the FBI, the media) are played by the SimCell, not seated as players."
+      ]
+    },
+    {
+      "key": "rogue-drone",
+      "threatFamily": "uas_drone",
+      "startWallClock": "11:00",
+      "summary": "On a NO FLY day a Remote ID drone circles 6,000 people at the Harwick Fairgrounds next door and a post blames the Group; it must prove from the register that its fleet is grounded and help Harwick Police without touching the aircraft, then decide what to say when the operator turns out to be one of its own part-time crew flying his personal drone.",
+      "userPrompt": "A 6,000-person public event is under way at the Harwick Fairgrounds beside Horton Field on a NO FLY day: the flight operations desk logged all twelve aircraft in Hangar 1 at 0800. Harwick Police's contracted detection vendor shows a drone with a Remote ID track circling over the crowd, and a bystander post with a photo blames the Group because its hangar is next door. The Group must prove from the schedule and the fleet register that every aircraft is grounded, lend an RPIC to the Harwick Police command post to interpret Remote ID data if asked, never launch, interfere with or chase the aircraft, coordinate with Harwick Police, CCSO and the FAA, and answer the post through Corporate Communications only.",
+      "audience": [
+        "Flight Operations",
+        "Aviation Safety",
+        "Leadership",
+        "Corporate Communications",
+        "Security / Harwick Police liaison"
+      ],
+      "constraints": [
+        "Every email address of the Group and its units uses the exercise domain huog.example; outside parties use fictional domains and fictional outlet names (Channel 10, the Harwick Daily News); never a real agency, company or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (Harwick Police, its detection vendor, CCSO, the FAA, event organizers, the media) are played by the SimCell, not seated as players."
+      ]
+    },
+    {
+      "key": "flyaway",
+      "threatFamily": "infrastructure_failure",
+      "summary": "After a crew accepts a field firmware update, UAS-02 loses its link, does not return and climbs past 400 ft toward the HWK Class C surface area before coming down in a backyard greenhouse; the Group must call HWK Tower, recover lawfully with a CCSO deputy, find what the update changed, decide what stays grounded with a client window at stake, and settle the FSDO, NTSB and Part 107.9 questions.",
+      "userPrompt": "On a routine inspection flight from Horton Field, UAS-02 loses its link a few minutes after a field firmware update that GCS-01 accepted that morning; return-to-launch does not trigger and the aircraft climbs through 400 ft AGL toward the HWK Class C boundary with 14 minutes of battery left. The RPIC must call HWK Tower, DAA-1 keeps watch for manned traffic, the aircraft comes down on private property and is recovered only with a CCSO deputy present, the ASO reports to the FSDO and decides with the Systems & Cybersecurity Lead whether an NTSB notification applies, the fleet is grounded by firmware version until the cause is known, and a neighbor's post with a video of the aircraft is spreading.",
+      "audience": [
+        "Flight Operations",
+        "Aviation Safety",
+        "Systems / Cybersecurity",
+        "Fleet & Logistics",
+        "Leadership",
+        "Corporate Communications"
+      ],
+      "constraints": [
+        "Every email address of the Group and its units uses the exercise domain huog.example; outside parties use fictional domains and fictional outlet names (Channel 10, the Harwick Daily News); never a real agency, company or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (HWK Tower, the FSDO, the NTSB, CCSO, the property owner, the aircraft manufacturer, the media) are played by the SimCell, not seated as players."
       ]
     }
   ]

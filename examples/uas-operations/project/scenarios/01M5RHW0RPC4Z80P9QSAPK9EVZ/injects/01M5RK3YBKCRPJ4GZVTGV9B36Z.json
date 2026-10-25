@@ -1,0 +1,95 @@
+{
+  "id": "01M5RK3YBKCRPJ4GZVTGV9B36Z",
+  "mselRowId": "I-14",
+  "type": "time_jump_card",
+  "title": "Time Jump: 12:00",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "newTime": "12:00",
+    "narration": "It is now 12:00. SecureWatch has confirmed the environment is clean enough to restore from OB-1 onto a rebuilt workstation. CP&L, CVAC and the press are waiting on the Group.",
+    "worldState": [
+      "SecureWatch has confirmed the restore can start.",
+      "HUOG-PROC02 has been rebuilt from the baseline image.",
+      "CP&L, CVAC and the press are waiting."
+    ],
+    "facilitatorNote": "Ask for the recovery order and what has been said to whom."
+  },
+  "variant": "default",
+  "instructorNote": "Reset the clock.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.2 Backups",
+      "quote": "- NAS → the offline backup drives OB-1 and OB-2 (rotated weekly; the one not in use is in the General Manager's office safe); and → the off-site backup service nightly. - DC-HPC project storage is bac",
+      "chunkId": 115
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:54:35.177Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump — Recovery Initiation",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "3:00",
+          "newTime": "12:00 PM",
+          "jumpLabel": "+60 minutes",
+          "narration": "Facilitator reads aloud: Time jump to 12:00 PM. The environment is clean. The MSSP has confirmed that OB-1 and the off-site backup service’s last good snapshot (2026-04-10 22:15) are valid for recovery. The recovery sequence under HUOG-ISP Section 9.3 has been authorized. The Systems & Cybersecurity Lead must now begin restoring the calibration share, followed by ops records, then the CP&L D-3 campaign. Verification against repository hashes will begin immediately for the calibration files. No further data transfer is permitted until integrity is confirmed.",
+          "worldState": [
+            "The environment is clean and isolated.",
+            "OB-1 (offline drive) has been verified as unmounted and not infected.",
+            "The off-site backup service’s last good snapshot is from 2026-04-10 22:15.",
+            "The recovery sequence under HUOG-ISP Section 9.3 has been initiated.",
+            "The calibration share is being restored and verified against repository hashes.",
+            "The Systems & Cybersecurity Lead has confirmed the recovery plan is in progress.",
+            "No data has been transferred to processing workstations or GCS devices beyond the calibration share."
+          ],
+          "scenarioTitle": "Silent Lockdown — NAS Ransomware & Client Data Exposure",
+          "injectId": "I-14"
+        },
+        "instructorNote": "This is a time jump to allow recovery to begin. The technical team must now validate the calibration share before proceeding to any other data. Watch for attempts to bypass verification or restore non-critical data early.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.410Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Time Jump: 12:00",
+        "type": "time_jump_card",
+        "fields": {
+          "newTime": "12:00",
+          "narration": "It is now 12:00. SecureWatch has confirmed the environment is clean enough to restore from OB-1 onto a rebuilt workstation. CP&L, CVAC and the press are waiting on the Group.",
+          "worldState": [
+            "SecureWatch has confirmed the restore can start.",
+            "HUOG-PROC02 has been rebuilt from the baseline image.",
+            "CP&L, CVAC and the press are waiting."
+          ],
+          "facilitatorNote": "Ask for the recovery order and what has been said to whom."
+        },
+        "instructorNote": "Reset the clock.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:33.440Z"
+}

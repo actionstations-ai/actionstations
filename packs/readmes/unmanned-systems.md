@@ -7,7 +7,7 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 ## What is in the pack
 
 - **Domain profile `unmanned_systems`:** flight sites, airframes, ground control stations, frequencies, payloads, airspace and hangars as fact categories. Systems: fleet management and flight logging, mission planning, LAANC clients, the vendor cloud, GCS, C2 and telemetry links, GNSS/RTK, autopilots, Remote ID, docking stations and UAS detection. Player roles: Director of Flight Operations, Systems & Cybersecurity Lead, Aviation Safety Officer, Communications, Security, Chief Remote Pilot, Maintenance / Airworthiness Lead and Risk Manager / Counsel.
-- **Example:** UAS operations (`uas-operations`).
+- **Example:** UAS operations (`uas-operations`), four tabletops: C2-link hijack and GNSS spoofing, ransomware on the mission data before a client deadline, a rogue drone over a public event next door, and a flyaway toward the Class C boundary.
 
 ## Plans and clocks the profile knows
 

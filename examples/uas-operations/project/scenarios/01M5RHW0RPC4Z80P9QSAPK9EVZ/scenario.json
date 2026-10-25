@@ -1,0 +1,2714 @@
+{
+  "formatVersion": 1,
+  "id": "01M5RHW0RPC4Z80P9QSAPK9EVZ",
+  "projectId": "01M5H3BY1EV4BBVDCB8DC08A56",
+  "title": "Ten Days Before D-3",
+  "subtitle": "Ransomware on the NAS and the processing workstation before a client deadline",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-25T03:32:34.710Z",
+  "updatedAt": "2026-10-25T05:02:38.523Z",
+  "brief": {
+    "userPrompt": "Ten days before CP&L Deliverable D-3 is due, the processing team arrives on a weekday morning to find HUOG-NAS01 and the processing workstation HUOG-PROC01 encrypted with a ransom note on the share; the NAS snapshot schedule was disabled two nights earlier, GCS-02 was infected after it mounted the NAS to upload last week's flight logs, and the offline backup drive OB-1 in the General Manager's safe is three weeks old. The Group must isolate the Data VLAN at HUOG-FW01, keep the GCS fleet off the network and decide whether flights can continue, scope whether CP&L and CVAC client data was read and not only encrypted, recover from OB-1 and the off-site service in the HUOG-ISP Section 9.3 order once the managed SOC confirms the environment is clean, decide within four hours whether to notify the clients that D-3 is at risk, and record the decision not to pay.",
+    "audience": [
+      "Leadership",
+      "Systems / Cybersecurity",
+      "Flight Operations",
+      "Payload & Calibration",
+      "Corporate Communications"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [
+      "Every email address of the Group and its units uses the exercise domain huog.example; outside parties use fictional domains and fictional outlet names (Channel 10, the Harwick Daily News); never a real agency, company or newspaper domain.",
+      "Player roles are only those in the audience list; outside parties (clients, the managed SOC, Data Center Operations, the off-site backup service, the FBI, the media) are played by the SimCell, not seated as players."
+    ],
+    "startWallClock": "09:00",
+    "threatFamily": "cyber"
+  },
+  "overview": {
+    "theme": "Ransomware against a small operator’s mission data: grounding what touched it, scoping what was read, recovering in order from stale backups, and telling clients the truth inside their contract clocks",
+    "threat": "On Monday morning, October 5 — ten days before Calder Power & Light Deliverable D-3 is due — the processing team finds HUOG-NAS01 and the processing workstation HUOG-PROC01 encrypted, with a ransom note on the shares. The NAS snapshot schedule was disabled on Saturday night by the backup service account, the off-site backup job has been failing since a credential expired, and the offline drive OB-1 in the General Manager’s safe was last written three weeks ago. GCS-02 mounted the NAS at 08:44 to upload last week’s flight logs and is now infected too. Overnight on Sunday the same account read the controlled share, which holds CP&L task-order data and the PL-02 calibration files.",
+    "operationalImpact": "Processing for D-3 stops. The Data VLAN has to be isolated at HUOG-FW01 and every ground control station that mounted the NAS since Saturday grounded until the managed SOC (SecureWatch MSSP) clears it, which also threatens the CVAC growing-season collections due within seven days. The General Manager must decide within four hours whether to tell CP&L and CVAC that deadlines are at risk, and whether CP&L’s 24-hour exposure notice applies because its data may have been read and not only encrypted. Recovery follows HUOG-ISP Section 9.3: OB-1 is not connected until the MSSP confirms a clean environment, the calibration share comes back first and is verified against the repository hashes, and the last three September collection days for D-3 may survive only on the aircraft payload media. The Group does not pay, and records that decision.",
+    "coreSectionsTested": [
+      {
+        "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+        "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+        "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+        "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+        "chunkId": 129
+      },
+      {
+        "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+        "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+        "headingPath": "ISP › Section 6 › 6.2 Backups",
+        "quote": "- NAS → the offline backup drives OB-1 and OB-2 (rotated weekly; the one not in use is in the General Manager's office safe); and → the off-site backup service nightly. - DC-HPC project storage is bac",
+        "chunkId": 115
+      },
+      {
+        "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+        "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+        "headingPath": "ERP › Section 2 › 2.4 Incident log",
+        "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+        "chunkId": 9
+      },
+      {
+        "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+        "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+        "headingPath": "ERP › Annex A",
+        "quote": "| Party | Number | Notes | |---|---|---| | Emergency | 911 | Fire, EMS, law enforcement | | Harwick Police Department | 585-555-0111 | 24 h; base first responder; event command post | | Flight operati",
+        "chunkId": 38
+      },
+      {
+        "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+        "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+        "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+        "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager fo",
+        "chunkId": 32
+      },
+      {
+        "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+        "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+        "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+        "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+        "chunkId": 99
+      }
+    ],
+    "targetAudience": "Leadership, Systems / Cybersecurity, Flight Operations, Payload & Calibration, Corporate Communications",
+    "location": "Millbrook Road hangar complex (Hangars 1–3), Harwick, Calder County, New York"
+  },
+  "objectives": [
+    {
+      "id": "01M5RHWNE9A89169M0WND69ZNH",
+      "name": "Data Integrity Verification",
+      "text": "Keep Leadership, the Systems & Cybersecurity Lead, Flight Operations, Payload & Calibration and Corporate Communications on one set of facts, and route every external statement through Corporate Communications (UC-CP-2025)."
+    },
+    {
+      "id": "01M5RHWNE967ARK5AJARDS66GB",
+      "name": "Client Notification Authority",
+      "text": "Within four hours of discovery, decide whether to notify CP&L and CVAC that deadlines are at risk and whether CP&L’s 24-hour exposure notice applies, on the evidence available (HUOG-ISP 9.3 step 4), and record the decision not to pay."
+    },
+    {
+      "id": "01M5RHWNE9705Q78Y4N37Y0S18",
+      "name": "Operational Continuity vs. System Containment",
+      "text": "Contain the ransomware (isolate the Data VLAN at HUOG-FW01, ground every GCS that mounted the NAS during the infection window), scope which shares were read, and preserve evidence for the MSSP."
+    },
+    {
+      "id": "01M5RHWNE95HY4QX9S54Y15PDX",
+      "name": "Incident Command Authority",
+      "text": "Recover in the HUOG-ISP 9.3 order from OB-1 and the off-site service once the MSSP confirms a clean environment, verifying restored data against manifests before any processing."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ops",
+      "name": "Director of Flight Operations (Flight Operations)",
+      "abbreviation": "FOM",
+      "team": "Team C: Flight Operations",
+      "description": "Owns the flight schedule, crew rosters and the fleet register; decides which flights go and on which GCS.",
+      "standingOrders": [
+        "No flight on a GCS that has not been cleared against the 03.2026-B baseline.",
+        "Crews do not connect a GCS to the NAS or accept updates until the Systems & Cybersecurity Lead says so.",
+        "Tell clients about flight changes through the Campaign Lead, with facts.",
+        "Keep the incident log in the incident folder on paper until the NAS is back."
+      ]
+    },
+    {
+      "id": "it",
+      "name": "Systems & Cybersecurity Lead (Systems / Cybersecurity)",
+      "abbreviation": "SCL",
+      "team": "Team B: Systems / Cybersecurity",
+      "description": "Owns the GCS baseline, the networks, HUOG-FW01, the NAS and backups; incident lead for cyber events and liaison to the managed SOC.",
+      "standingOrders": [
+        "Isolate the Data VLAN at HUOG-FW01 and disconnect the NAS; power down processing workstations only on the MSSP’s instruction.",
+        "A GCS that mounted the NAS during the infection window is infected and grounded.",
+        "OB-x is not connected until the MSSP confirms the environment is clean.",
+        "Restore in order: calibration share, ops records, the campaign with the nearest deadline, the rest; verify against manifests first."
+      ]
+    },
+    {
+      "id": "gm",
+      "name": "General Manager (Leadership)",
+      "abbreviation": "GM",
+      "team": "Team A: Leadership",
+      "description": "Accountable executive; decides on client and regulator notification, records the decision not to pay, and is the spokesperson with Corporate Communications.",
+      "standingOrders": [
+        "Decide within four hours whether client deadlines are at risk and tell the clients the facts (HUOG-ISP 9.3).",
+        "CP&L’s 24-hour exposure notice applies if its data may have been read, not only encrypted.",
+        "The Group does not pay a ransom; record the decision and the reasons.",
+        "Nothing goes to the media except through Corporate Communications."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Corporate Communications (Communications)",
+      "abbreviation": "COMMS",
+      "team": "Team E: Corporate Communications",
+      "description": "Owns all external messaging under crisis protocol UC-CP-2025, including the media and social media; the Group never speaks to the media directly.",
+      "standingOrders": [
+        "All media contact goes through Corporate Communications; staff do not comment.",
+        "Do not confirm a ransom, a demand or what was taken before the General Manager approves.",
+        "Clients hear from the Group before they read about it.",
+        "Give a time for the next update every time."
+      ]
+    },
+    {
+      "id": "pay",
+      "name": "Payload & Calibration Lead (Payload & Calibration)",
+      "abbreviation": "PCL",
+      "team": "Team D: Payload & Calibration",
+      "description": "Owns payload integration, calibration data integrity, ground-truth records, processing for client deliverables and PL-02 export-control handling.",
+      "standingOrders": [
+        "No restored data is processed until it matches its manifest.",
+        "The calibration share is verified against the repository hashes before anything else is restored.",
+        "Payload storage media are removable media: custody, no connection to an infected host.",
+        "Tell the General Manager a week ahead of any risk to a client date."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "01M5RHXANW6F95FJQHEQCG0V4Q",
+      "index": 0,
+      "title": "Encrypted Shares",
+      "goal": "Recognize ransomware on the mission data, contain it and ground what touched it before more of the fleet is lost.",
+      "beats": [
+        "At 09:05 the processing team finds the D-3 folders renamed and a ransom note on the share; HUOG-PROC01 shows the same note.",
+        "At 09:07 a local post shows the Group’s drones sitting on the pad on a flying day.",
+        "At 09:12 the NAS log shows the snapshot schedule disabled on Saturday and GCS-02 mounting the NAS at 08:44.",
+        "At 09:25 GCS-02 in Hangar 2 shows the ransom wallpaper; at 09:30 the backup alert shows OB-1 three weeks old and the off-site job failing."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "01M5RHXANW94H82K0534KBMXZE",
+      "index": 1,
+      "title": "Scope",
+      "goal": "Find out what was encrypted, what was read and what can still fly, while the first client and the press call.",
+      "beats": [
+        "At 10:05 CP&L calls about D-3; at 10:08 the MSSP flags a script on HUOG-PROC01 that turns out to be the processing team’s own.",
+        "At 10:15 the flight board shows today’s CVAC collection depending on GCS that may have touched the NAS.",
+        "At 10:25 the NAS audit shows the controlled share read on Sunday night and data leaving through HUOG-FW01.",
+        "At 10:30 the MSSP’s first assessment arrives."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "01M5RHXANWF08YA21DKH1FMJV9",
+      "index": 2,
+      "title": "The Four-Hour Call",
+      "goal": "Decide what to tell CP&L and CVAC inside the four-hour window, with the backups stale and the scope still uncertain.",
+      "beats": [
+        "At 11:05 a clean-laptop hash check shows OB-1 holds six of the nine D-3 collection days.",
+        "At 11:15 the Compliance Officer sets out the clocks: this is the decision point.",
+        "At 11:20 the UAS-11 payload SSDs may hold the missing days; at 11:30 the MSSP clears two GCS and grounds another."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "01M5RHXANW4FQAQF4HMA3NV06D",
+      "index": 3,
+      "title": "Recover in Order",
+      "goal": "Restore in the right order, verify before processing, keep the fleet flying for the next deadline and record the decision not to pay.",
+      "beats": [
+        "At 12:05 the calibration share is restored from OB-1 and verified; at 12:10 the Harwick Daily News asks whether the Group paid.",
+        "At 12:15 CVAC asks about its farm data; at 12:20 the missing D-3 days are found on the payload media.",
+        "At 12:30 Flight Operations needs crews and clean GCS for tomorrow’s CVAC flights; at 12:55 counsel asks for the decision not to pay in writing."
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "01M5RHXANW6F95FJQHEQCG0V4Q",
+      "time": "0:00",
+      "wallClock": "09:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "gm",
+        "it",
+        "ops",
+        "pay",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "STARTEX: It is 09:00 on Monday, October 5. CP&L Deliverable D-3 — calibrated hyperspectral cubes from the Lakeshore summer campaign — is due on October 15. The processing team is in Hangar 3; two crews are preparing a CVAC field collection for 10:30. The weather is clear, 52°F. All systems were normal when the last person left on Friday.",
+      "expectedAction": "Each team states what it is working on today and what depends on the NAS.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M5RJTVW7RN012CCF6FZWKKXX",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "01M5RHXANW6F95FJQHEQCG0V4Q",
+      "time": "0:05",
+      "wallClock": "09:05",
+      "from": "Processing analyst",
+      "toRoleIds": [
+        "pay",
+        "it"
+      ],
+      "toLabel": "PCL, SCL",
+      "event": "Email Forward: The processing analyst on HUOG-PROC01 reports that every file under \\\\HUOG-NAS01\\campaigns\\cpl-d3\\ has been renamed with a .lck0 extension, a file README-RECOVER.txt sits in every folder, and HUOG-PROC01 shows the same note as its desktop background. The processing script fails its manifest check.",
+      "expectedAction": "The Payload & Calibration Lead stops all processing and tells the Systems & Cybersecurity Lead by phone; the Systems & Cybersecurity Lead starts HUOG-ISP 9.3: isolate the Data VLAN at HUOG-FW01, disconnect the NAS, leave HUOG-PROC01 powered on for the MSSP and call SecureWatch.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5RJV516DRYDR14RJFJBB8ZK",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-01b",
+      "phaseId": "01M5RHXANW6F95FJQHEQCG0V4Q",
+      "time": "0:07",
+      "wallClock": "09:07",
+      "from": "Social media",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "COMMS",
+      "event": "Post: A local account posts a photo of one of the Group’s drones sitting on the pad at Horton Field: “Perfect flying weather and Harwick’s drone outfit has everything parked. Heard their computers got hacked?? #Harwick” — 60 likes and growing.",
+      "expectedAction": "Corporate Communications logs the post, does not reply with details, tells the General Manager the public is already asking, and prepares a holding line for when a statement is approved.",
+      "purposeTag": "PRESSURE",
+      "format": "instagram_post",
+      "injectId": "01M5RJVEV67FGX6H53N3N96G0E",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager fo",
+          "chunkId": 32
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 11 › 11.3 Records",
+          "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+          "chunkId": 36
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "01M5RHXANW6F95FJQHEQCG0V4Q",
+      "time": "0:12",
+      "wallClock": "09:12",
+      "from": "HUOG-NAS01 log",
+      "toRoleIds": [
+        "it"
+      ],
+      "toLabel": "SCL",
+      "event": "System Log: The NAS event log shows the snapshot schedule disabled on Saturday at 22:15 by the account svc-backup; mass renames on the campaigns, flightlogs and ops shares starting 08:41 today from HUOG-PROC01 (10.17.41.11); and GCS-02 (10.17.40.12) mounting \\\\HUOG-NAS01\\flightlogs at 08:44 to upload last week’s logs.",
+      "expectedAction": "The Systems & Cybersecurity Lead treats svc-backup as compromised, has it disabled, treats GCS-02 as infected under HUOG-ISP 9.3 step 2, and asks who else mounted the NAS since Saturday 22:15.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5RJVQ0RPT833GPGH0C85ZS5",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 3 › 3.1 Networks",
+          "quote": "| Network | Range | Hosts | Egress | |---|---|---|---| | Flight Ops VLAN | 10.17.40.0/24 | GCS-01 to GCS-04, RTK-1/2, PAY-01, HUOG-CAL01 when docked | Through HUOG-FW01; Internet only to the OEM updat",
+          "chunkId": 101
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-03b",
+      "phaseId": "01M5RHXANW6F95FJQHEQCG0V4Q",
+      "time": "0:20",
+      "wallClock": "09:20",
+      "from": "Field crew (Horton Field)",
+      "toRoleIds": [
+        "ops"
+      ],
+      "toLabel": "FOM",
+      "event": "Radio Call: The CVAC crew at Horton Field reports that RTK-2 has not reached a fixed solution after fifteen minutes and asks whether “the hack” has reached the base station.",
+      "expectedAction": "The Director of Flight Operations recognizes a normal cold start after the weekend (RTK-2 is not on the NAS and was not connected since Friday), tells the crew to keep the GCS off the network and to wait for word on today’s flight.",
+      "purposeTag": "RED_HERRING",
+      "format": "radio_call",
+      "injectId": "01M5RJW3ARJJAMCYMTJDZABWND",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 3 › 3.1 Networks",
+          "quote": "| Network | Range | Hosts | Egress | |---|---|---|---| | Flight Ops VLAN | 10.17.40.0/24 | GCS-01 to GCS-04, RTK-1/2, PAY-01, HUOG-CAL01 when docked | Through HUOG-FW01; Internet only to the OEM updat",
+          "chunkId": 101
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "01M5RHXANW6F95FJQHEQCG0V4Q",
+      "time": "0:25",
+      "wallClock": "09:25",
+      "from": "Hangar 2 crew",
+      "toRoleIds": [
+        "ops",
+        "it",
+        "gm"
+      ],
+      "toLabel": "FOM, SCL, GM",
+      "event": "Situation Update: In Hangar 2, GCS-02 shows the ransom note as its wallpaper and its mission files for UAS-03 and UAS-11 are renamed. The crew member who uploaded the flight logs at 08:44 is asking whether he should shut it down.",
+      "expectedAction": "The Systems & Cybersecurity Lead has GCS-02 unplugged from the network but left on, labeled and grounded; the Director of Flight Operations grounds UAS-03 and UAS-11 with it; the General Manager is told the Group has a cyber incident and the four-hour client clock in HUOG-ISP 9.3 has started.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "technical_update",
+      "injectId": "01M5RJWQ1GZREDBTK4N20SQGYS",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.5 Lost or stolen GCS, drive or payload",
+          "quote": "Within the hour: corporate account password resets for anyone signed in on it; the OEM fleet portal session revoked; the device marked lost in mobile-device management (tablets); a Harwick Police or C",
+          "chunkId": 131
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "01M5RHXANW6F95FJQHEQCG0V4Q",
+      "time": "0:30",
+      "wallClock": "09:30",
+      "from": "SecureWatch MSSP",
+      "toRoleIds": [
+        "it"
+      ],
+      "toLabel": "SCL",
+      "event": "SIEM Alert: SecureWatch reports that the nightly off-site backup job has failed since September 26 (expired service credential), and the backup log shows OB-1 — the drive in the General Manager’s safe — last written on September 14. OB-2 is in the rack and was connected to the NAS this morning.",
+      "expectedAction": "The Systems & Cybersecurity Lead treats OB-2 as infected, leaves OB-1 in the safe until the MSSP confirms the environment is clean, and tells the General Manager that the newest clean copy is three weeks old.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "siem_alert",
+      "injectId": "01M5RJWZJB7VT3B5TESNNBSVWV",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "TIME_JUMP",
+      "phaseId": "01M5RHXANW6F95FJQHEQCG0V4Q",
+      "time": "1:00",
+      "wallClock": "10:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "gm",
+        "it",
+        "ops",
+        "pay",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 10:00. The Data VLAN is cut off at HUOG-FW01 and the NAS is disconnected. GCS-02 is grounded in Hangar 2. The CVAC crew is waiting at Horton Field. The MSSP analyst is reviewing the HUOG-FW01 logs remotely.",
+      "expectedAction": "Each team states what it knows, what it has grounded or stopped, and what it still needs to know.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5RJXDR7MEA54ZG3THR7E2SA",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+          "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+          "chunkId": 99
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "01M5RHXANW94H82K0534KBMXZE",
+      "time": "1:05",
+      "wallClock": "10:05",
+      "from": "Calder Power & Light program office",
+      "toRoleIds": [
+        "gm"
+      ],
+      "toLabel": "GM",
+      "event": "Phone Call: CP&L’s program manager: “Calling about D-3 — we’ve heard nothing, and one of your crew told our line foreman you’d had ‘a computer problem.’ Is the fifteenth still good? And our task order says you tell us within 24 hours if our data may have been read. Has it?”",
+      "expectedAction": "The General Manager does not guess: says the Group is investigating an incident affecting its data systems, commits to a call back with facts by a set time inside the four-hour window, and logs the call; Corporate Communications is told.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5RJXQFRBBN7HVWCEWKJDYQB",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 7 › 7.5 Client notification",
+          "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrume",
+          "chunkId": 121
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-06b",
+      "phaseId": "01M5RHXANW94H82K0534KBMXZE",
+      "time": "1:08",
+      "wallClock": "10:08",
+      "from": "SecureWatch MSSP",
+      "toRoleIds": [
+        "it",
+        "pay"
+      ],
+      "toLabel": "SCL, PCL",
+      "event": "Email Forward: SecureWatch flags a script, restart_proc.py, modified on HUOG-PROC01 at 09:10 today, and asks whether it is part of the attack.",
+      "expectedAction": "The Payload & Calibration Lead confirms it is the processing team’s own restart script, edited by the analyst at 09:10 before the encryption was noticed; the Systems & Cybersecurity Lead tells the MSSP, and nobody runs it.",
+      "purposeTag": "RED_HERRING",
+      "format": "email_forward",
+      "injectId": "01M5RJY28XSSAC3DE8WFXZS0EQ",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "01M5RHXANW94H82K0534KBMXZE",
+      "time": "1:15",
+      "wallClock": "10:15",
+      "from": "Flight Operations Desk",
+      "toRoleIds": [
+        "ops"
+      ],
+      "toLabel": "FOM",
+      "event": "Status Board: Today’s CVAC collection at 10:30 is planned on GCS-03 with UAS-04. GCS-02 is grounded. GCS-01 and GCS-03 were docked in Hangar 2 over the weekend; whether either mounted the NAS since Saturday 22:15 is unknown. GCS-04 has been in the field kit since Thursday. GCS-05 and GCS-06 (tablets) never mount the NAS.",
+      "expectedAction": "The Director of Flight Operations postpones the CVAC collection until GCS-03 is cleared or swaps to a GCS that cannot have touched the NAS (GCS-05 or GCS-06 with a UAS-07 to UAS-10 aircraft), and tells CVAC through the Campaign Lead.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "status_board",
+      "injectId": "01M5RJYDZY14GGP3ZPWGQFKHR6",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 3 › 3.1 Networks",
+          "quote": "| Network | Range | Hosts | Egress | |---|---|---|---| | Flight Ops VLAN | 10.17.40.0/24 | GCS-01 to GCS-04, RTK-1/2, PAY-01, HUOG-CAL01 when docked | Through HUOG-FW01; Internet only to the OEM updat",
+          "chunkId": 101
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 11 › 11.1 Hazard log",
+          "quote": "The ASO keeps the hazard log; any crew member may add an entry anonymously through the safety form on the Group intranet. Entries are reviewed monthly at the safety meeting (FOM, ASO, Systems & Cybers",
+          "chunkId": 88
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-07b",
+      "phaseId": "01M5RHXANW94H82K0534KBMXZE",
+      "time": "1:20",
+      "wallClock": "10:20",
+      "from": "Channel 10",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "COMMS",
+      "event": "Media Inquiry: Channel 10 says a source tells them the Harwick drone company was hacked and that client data, including utility infrastructure imagery, has been stolen. They want comment for the 6 p.m. news.",
+      "expectedAction": "Corporate Communications confirms only what the General Manager approves — the Group is responding to a cyber incident affecting some data systems, with outside specialists — does not confirm theft or a ransom, and gives a time for a statement.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "injectId": "01M5RJYY8DQTB21SMZZKZH5P1R",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 1 › 1.3 Relationship to base and county plans",
+          "quote": "The Group is a tenant of the city emergency management structure: Harwick Police Department is the first responder at the base and activates the city emergency plan; at the Birch Hollow Range the firs",
+          "chunkId": 5
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager fo",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "01M5RHXANW94H82K0534KBMXZE",
+      "time": "1:25",
+      "wallClock": "10:25",
+      "from": "HUOG-NAS01 SMB audit",
+      "toRoleIds": [
+        "it",
+        "gm"
+      ],
+      "toLabel": "SCL, GM",
+      "event": "System Log: The NAS SMB audit shows svc-backup reading 2,140 files from \\\\HUOG-NAS01\\controlled\\ — CP&L task-order data and the PL-02 calibration files — on Sunday between 03:10 and 03:55, before any encryption. HUOG-FW01 shows 4.1 GB leaving the Data VLAN to an unknown address in the same window.",
+      "expectedAction": "The Systems & Cybersecurity Lead reports that CP&L data may have been read and copied, not only encrypted, so CP&L’s 24-hour exposure notice applies; the General Manager is told, and the Compliance Officer is asked about the PL-02 export-control files.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5RJZCMBEPA8XZB23K4CFMYC",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 3 › 3.1 Networks",
+          "quote": "| Network | Range | Hosts | Egress | |---|---|---|---| | Flight Ops VLAN | 10.17.40.0/24 | GCS-01 to GCS-04, RTK-1/2, PAY-01, HUOG-CAL01 when docked | Through HUOG-FW01; Internet only to the OEM updat",
+          "chunkId": 101
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-08b",
+      "phaseId": "01M5RHXANW94H82K0534KBMXZE",
+      "time": "1:27",
+      "wallClock": "10:27",
+      "from": "Fleet & Logistics",
+      "toRoleIds": [
+        "ops"
+      ],
+      "toLabel": "FOM",
+      "event": "Phone Call: The Fleet & Logistics Manager says the battery delivery for the CVAC season has arrived at Hangar 1 and needs a signature and a slot in the fire-rated cabinet.",
+      "expectedAction": "The Director of Flight Operations has it received and stored; it is not related to the incident.",
+      "purposeTag": "NOISE",
+      "format": "phone_call",
+      "injectId": "01M5RJZNVJ6J1P4DYDZKJSNGX6",
+      "citations": [
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 1 › 1.3 Relationship to base and county plans",
+          "quote": "The Group is a tenant of the city emergency management structure: Harwick Police Department is the first responder at the base and activates the city emergency plan; at the Birch Hollow Range the firs",
+          "chunkId": 5
+        },
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "01M5RHXANW94H82K0534KBMXZE",
+      "time": "1:30",
+      "wallClock": "10:30",
+      "from": "SecureWatch MSSP",
+      "toRoleIds": [
+        "it",
+        "gm"
+      ],
+      "toLabel": "SCL, GM",
+      "event": "Email Forward: SecureWatch’s first assessment: the svc-backup credential was used from HUOG-PROC01 after a phishing login on Friday; encryption is limited to the NAS, HUOG-PROC01 and GCS-02 so far; keep HUOG-PROC01 powered for memory capture; do not connect OB-1 until they confirm the environment is clean, expected by early afternoon; they will open the FBI report through the field office at the Group’s request.",
+      "expectedAction": "The Systems & Cybersecurity Lead follows the instructions and asks for a time for the clean confirmation; the General Manager authorizes the FBI report through the MSSP and confirms the Group will not pay.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5RK03Q534TR1S3Z4ANF6TFS",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+          "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+          "chunkId": 99
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 7 › 7.5 Client notification",
+          "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrume",
+          "chunkId": 121
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "01M5RHXANWF08YA21DKH1FMJV9",
+      "time": "2:00",
+      "wallClock": "11:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "gm",
+        "it",
+        "ops",
+        "pay",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 11:00. It is two hours since the encryption was found. The MSSP is imaging HUOG-PROC01. CP&L is waiting for a call back. Channel 10 has called twice more.",
+      "expectedAction": "Each team states what it knows about what was read, what can still be recovered and what the clients have been told.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5RK0HS7DGQVHQQMEYTQJ0H4",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-10a",
+      "phaseId": "01M5RHXANWF08YA21DKH1FMJV9",
+      "time": "2:05",
+      "wallClock": "11:05",
+      "from": "Calibration shop (clean laptop)",
+      "toRoleIds": [
+        "pay",
+        "it"
+      ],
+      "toLabel": "PCL, SCL",
+      "event": "System Log: With the MSSP’s agreement, OB-1 is read on a clean, off-network laptop: the calibration share matches the repository hashes; D-3 raw data for six of the nine Lakeshore collection days is present; the last three days (September 17, 22 and 24) were collected after September 14 and are not on OB-1.",
+      "expectedAction": "The Payload & Calibration Lead reports that D-3 cannot be completed from OB-1 alone and asks where the three missing days might still exist; the Systems & Cybersecurity Lead records the check and keeps OB-1 off the network.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M5RK0WZQE69CQD9SD0E535XP",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+          "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+          "chunkId": 99
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "01M5RHXANWF08YA21DKH1FMJV9",
+      "time": "2:15",
+      "wallClock": "11:15",
+      "from": "Compliance Officer",
+      "toRoleIds": [
+        "gm",
+        "it",
+        "pio"
+      ],
+      "toLabel": "GM, SCL, COMMS",
+      "event": "Phone Call: Compliance Officer Dana Kurtz: “The clocks are now. CP&L’s 24 hours started when we knew their data may have been read — call it 10:25. Our own rule says you decide by about 13:00 whether their deadline is at risk. CVAC gets five days, but their imagery was on the same NAS. And the PL-02 calibration files on that share are export-controlled. What are we telling CP&L, and when?”",
+      "expectedAction": "DECISION POINT: The General Manager, with the Systems & Cybersecurity Lead, decides whether to notify CP&L now with what is known (data may have been read and copied; D-3 at risk; facts and next update) or wait for the MSSP’s forensic confirmation, decides what CVAC is told, has the Compliance Officer assess the PL-02 files, and records the decision and its basis.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M5RK1YZW4DMPK355Y9ES4198",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+          "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+          "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+          "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+          "chunkId": 48
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+          "quote": "Parameter sets (failsafe actions, lost-link timers, RTL altitude, geofence) are exported after every change to `\\\\HUOG-NAS01\\ops\\param-log.md` with the hash of the parameter file. The pre-flight check",
+          "chunkId": 107
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11b",
+      "phaseId": "01M5RHXANWF08YA21DKH1FMJV9",
+      "time": "2:20",
+      "wallClock": "11:20",
+      "from": "Fleet & Logistics",
+      "toRoleIds": [
+        "pay",
+        "ops"
+      ],
+      "toLabel": "PCL, FOM",
+      "event": "Email Forward: The Fleet & Logistics Manager reports that the PL-03 and PL-01 payload SSDs from the September 17–24 Lakeshore flights are still in the Hangar 3 removable-media cabinet, never wiped. The processing analyst wants to copy them onto HUOG-PROC02 right away.",
+      "expectedAction": "The Payload & Calibration Lead stops the copy: the SSDs are custody items and are read only on the clean laptop after the MSSP clears it; the Director of Flight Operations confirms which aircraft flew those days.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "email_forward",
+      "injectId": "01M5RK2F4VWAGW4NXND3FNJFNF",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+          "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+          "chunkId": 99
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 8 › 8.2 Vendors and remote access",
+          "quote": "The OEM has no remote access to the Group's systems; support is by exported logs. The mission-planning software vendor's license server is reached outbound only. The GCS vendor's remote-support tool w",
+          "chunkId": 123
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "01M5RHXANWF08YA21DKH1FMJV9",
+      "time": "2:25",
+      "wallClock": "11:25",
+      "from": "Harwick Daily News",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "COMMS",
+      "event": "Media Inquiry: The Harwick Daily News has a tip that the Group lost imagery of the County’s emergency responders from a public-safety support flight. They want a statement within the hour.",
+      "expectedAction": "Corporate Communications confirms nothing it cannot verify, uses the approved incident line, and asks the Systems & Cybersecurity Lead whether public-safety data was on the affected shares.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "injectId": "01M5RK2WMEE6AFN07KGGTW32JJ",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 7 › 7.5 Client notification",
+          "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrume",
+          "chunkId": 121
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager fo",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "01M5RHXANWF08YA21DKH1FMJV9",
+      "time": "2:30",
+      "wallClock": "11:30",
+      "from": "SecureWatch MSSP",
+      "toRoleIds": [
+        "it",
+        "ops"
+      ],
+      "toLabel": "SCL, FOM",
+      "event": "Email Forward: SecureWatch reports on the GCS fleet: GCS-01 and GCS-04 show no NAS mount since Friday and match the 03.2026-B and L-2026.2 baselines — cleared; GCS-03 mounted \\\\HUOG-NAS01\\flightlogs on Saturday at 23:02 — treat as infected; GCS-05 and GCS-06 are out of scope. The clean-environment confirmation for restoring from OB-1 is expected at 12:00.",
+      "expectedAction": "The Director of Flight Operations grounds GCS-03 and the aircraft paired to it, releases GCS-01 and GCS-04, and reschedules the CVAC collection; the Systems & Cybersecurity Lead plans the restore for when the confirmation arrives.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5RK34FHXQKV2BKPB677A8EZ",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+          "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+          "chunkId": 99
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-12b",
+      "phaseId": "01M5RHXANWF08YA21DKH1FMJV9",
+      "time": "2:35",
+      "wallClock": "11:35",
+      "from": "Data Center Operations",
+      "toRoleIds": [
+        "it"
+      ],
+      "toLabel": "SCL",
+      "event": "Email Forward: Lin Zhou at Data Center Operations reminds the Group of the routine DC-HPC maintenance window on Saturday, 06:00–12:00.",
+      "expectedAction": "The Systems & Cybersecurity Lead notes it for the recovery schedule; it is routine.",
+      "purposeTag": "NOISE",
+      "format": "email_forward",
+      "injectId": "01M5RK3GH4TBX78JW44TE8H5ZN",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+          "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+          "chunkId": 99
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "01M5RHXANW4FQAQF4HMA3NV06D",
+      "time": "3:00",
+      "wallClock": "12:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "gm",
+        "it",
+        "ops",
+        "pay",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 12:00. SecureWatch has confirmed the environment is clean enough to restore from OB-1 onto a rebuilt workstation. CP&L, CVAC and the press are waiting on the Group.",
+      "expectedAction": "Each team states the recovery order it is following and what has been said to whom.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M5RK3YBKCRPJ4GZVTGV9B36Z",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14a",
+      "phaseId": "01M5RHXANW4FQAQF4HMA3NV06D",
+      "time": "3:05",
+      "wallClock": "12:05",
+      "from": "Rebuilt workstation HUOG-PROC02",
+      "toRoleIds": [
+        "pay",
+        "it"
+      ],
+      "toLabel": "PCL, SCL",
+      "event": "System Log: Restore from OB-1 to the rebuilt HUOG-PROC02: the calibration share restored and all 1,312 files match the repository hashes; ops records restored; D-3 raw data for six collection days restored and matching their manifests.",
+      "expectedAction": "The Payload & Calibration Lead releases the calibration share and the six days for processing only after the manifest checks; the Systems & Cybersecurity Lead records each step in the HUOG-ISP 9.3 order.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "system_log",
+      "injectId": "01M5RK4A9HTD7Y45JATRW3F2KA",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 6 › 6.3 Integrity",
+          "quote": "Raw data folders get a manifest of SHA-256 hashes when copied to the NAS; processing scripts verify the manifest before they start; deliverables carry a manifest the client can verify. A product gener",
+          "chunkId": 116
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-14b",
+      "phaseId": "01M5RHXANW4FQAQF4HMA3NV06D",
+      "time": "3:10",
+      "wallClock": "12:10",
+      "from": "Harwick Daily News",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "COMMS",
+      "event": "Media Inquiry: The Harwick Daily News asks directly whether the Group paid a ransom and whether the FBI is involved.",
+      "expectedAction": "Corporate Communications answers with the approved line — the Group does not pay ransoms and is working with law-enforcement through its security provider — after the General Manager confirms it.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "injectId": "01M5RK4XJT8C0FKNZ9RKN55RPZ",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 7 › 7.5 Client notification",
+          "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrume",
+          "chunkId": 121
+        },
+        {
+          "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+          "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+          "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+          "quote": "Trainees on the crew are briefed each campaign day that photos and video of an incident are evidence for the investigation and are not posted. Corporate Communications monitors; the General Manager fo",
+          "chunkId": 32
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "01M5RHXANW4FQAQF4HMA3NV06D",
+      "time": "3:15",
+      "wallClock": "12:15",
+      "from": "CVAC",
+      "toRoleIds": [
+        "gm",
+        "pio"
+      ],
+      "toLabel": "GM, COMMS",
+      "event": "Email Forward: CVAC’s operations manager writes that a member farmer heard the Group was hacked and asks whether field boundaries and yield estimates were taken, and whether this week’s collection will happen.",
+      "expectedAction": "The General Manager answers with facts (what is known about the shares that were read, what is still being checked, the five-day notice in the agreement) and the new collection date; Corporate Communications keeps the message consistent with what CP&L and the press have heard.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5RK55ZC5EFNY7FXX65SXX1Q",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 6 › 6.3 Integrity",
+          "quote": "Raw data folders get a manifest of SHA-256 hashes when copied to the NAS; processing scripts verify the manifest before they start; deliverables carry a manifest the client can verify. A product gener",
+          "chunkId": 116
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-15b",
+      "phaseId": "01M5RHXANW4FQAQF4HMA3NV06D",
+      "time": "3:20",
+      "wallClock": "12:20",
+      "from": "Calibration shop",
+      "toRoleIds": [
+        "pay",
+        "it"
+      ],
+      "toLabel": "PCL, SCL",
+      "event": "Email Forward: The calibration technician has read the payload SSDs on the clean laptop: the raw cubes for September 17, 22 and 24 are intact. But the downwelling-light and ground-panel readings for those days were entered only on the NAS calibration log, which is not on OB-1; the paper field sheets are in the Lakeshore kit.",
+      "expectedAction": "The Payload & Calibration Lead rebuilds the three days’ calibration from the paper field sheets, estimates the processing time, and tells the General Manager the realistic D-3 delivery date for the client notice.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "email_forward",
+      "injectId": "01M5RK5JWTDXNXVMHNC04NW60T",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 8 › 8.2 Vendors and remote access",
+          "quote": "The OEM has no remote access to the Group's systems; support is by exported logs. The mission-planning software vendor's license server is reached outbound only. The GCS vendor's remote-support tool w",
+          "chunkId": 123
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "01M5RHXANW4FQAQF4HMA3NV06D",
+      "time": "3:30",
+      "wallClock": "12:30",
+      "from": "Campaign Leads",
+      "toRoleIds": [
+        "ops",
+        "gm"
+      ],
+      "toLabel": "FOM, GM",
+      "event": "Situation Update: CVAC’s growing-season products are due within seven days of each collection, and the next collection must fly tomorrow. Only GCS-01 and GCS-04 are cleared; GCS-04 flies only UAS-12; two pilots are tied up helping the MSSP with interviews and logs.",
+      "expectedAction": "The Director of Flight Operations plans tomorrow’s collection on GCS-01 or a tablet GCS with its own aircraft, keeps crews off the NAS, and tells the General Manager what can and cannot be flown this week.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "scenario_update",
+      "injectId": "01M5RK5Y7KZX0EBPYGABCTSFPG",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 6 › 6.3 Integrity",
+          "quote": "Raw data folders get a manifest of SHA-256 hashes when copied to the NAS; processing scripts verify the manifest before they start; deliverables carry a manifest the client can verify. A product gener",
+          "chunkId": 116
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "01M5RHXANW4FQAQF4HMA3NV06D",
+      "time": "3:45",
+      "wallClock": "12:45",
+      "from": "Harwick Middle School",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "COMMS",
+      "event": "Email Forward: Harwick Middle School asks for photos for its STEM night flyer from last spring’s hangar visit.",
+      "expectedAction": "Corporate Communications defers it to next week; it is not related to the incident.",
+      "purposeTag": "NOISE",
+      "format": "email_forward",
+      "injectId": "01M5RK68GJNKSC5V12Y4B4AVE6",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 7 › 7.5 Client notification",
+          "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrume",
+          "chunkId": 121
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 11",
+          "quote": "This plan is reviewed each August with the MSSP and after any Section 9 incident. The Group runs one cyber tabletop a year (joined with the HUOG-ERP tabletop when possible) and one restore test a quar",
+          "chunkId": 134
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "01M5RHXANW4FQAQF4HMA3NV06D",
+      "time": "3:55",
+      "wallClock": "12:55",
+      "from": "Group counsel (via SecureWatch)",
+      "toRoleIds": [
+        "gm"
+      ],
+      "toLabel": "GM",
+      "event": "Email Forward: The Group’s counsel, writing through SecureWatch, asks the General Manager to put the decision not to pay in writing with its reasons, confirms the FBI field office has the report, and reminds her that the actor’s note threatens to publish the copied data on Friday.",
+      "expectedAction": "The General Manager records the decision not to pay and its reasons in the incident record, tells CP&L and CVAC that publication is threatened if that is not already in the notice, and has Corporate Communications prepare for Friday.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M5RK6P09KCVGZJAVNTHXA871",
+      "citations": [
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+          "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+          "chunkId": 129
+        },
+        {
+          "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+          "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+          "headingPath": "ISP › Section 6 › 6.3 Integrity",
+          "quote": "Raw data folders get a manifest of SHA-256 hashes when copied to the NAS; processing scripts verify the manifest before they start; deliverables carry a manifest the client can verify. A product gener",
+          "chunkId": 116
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "01M5RHXANW4FQAQF4HMA3NV06D",
+      "time": "4:00",
+      "wallClock": "13:00",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "gm",
+        "it",
+        "ops",
+        "pay",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "ENDEX: It is now 13:00. The exercise ends here. The NAS and HUOG-PROC01 remain with the MSSP, the calibration share and six D-3 days are restored, the last three days are being rebuilt from the payload media, and the client notices and the investigation continue.",
+      "expectedAction": "Teams hand in their incident logs and the record of the notification and no-payment decisions; the facilitator opens the hot wash.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M5RK7ZM74WCRYCA064J10YS5",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M5RHW0RPC4Z80P9QSAPK9EVZ/documents/handbook.md",
+    "briefing": "scenarios/01M5RHW0RPC4Z80P9QSAPK9EVZ/documents/briefing.md",
+    "overview": "scenarios/01M5RHW0RPC4Z80P9QSAPK9EVZ/documents/overview.md",
+    "hotwash": "scenarios/01M5RHW0RPC4Z80P9QSAPK9EVZ/documents/hotwash.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "01M5RJF5KMJ5EHSD3MPXMQEJ73",
+        "name": "Containment and Fleet Grounding",
+        "points": 25,
+        "fail": "A GCS that mounted the NAS kept flying, a host was reimaged or powered off without the MSSP, or OB-1 was connected before the clean confirmation.",
+        "pass": "The Data VLAN was isolated after I-01, GCS-02 grounded at I-04, GCS-03 grounded at I-13 and OB-1 kept in the safe until 12:00.",
+        "excellence": "The team asked “who else mounted the NAS?” at I-02, before the MSSP answered it, and moved the CVAC flight to equipment that could not have touched the NAS.",
+        "linkedInjectIds": [
+          "I-01",
+          "I-02",
+          "I-04",
+          "I-05",
+          "I-07",
+          "I-13"
+        ],
+        "objectiveRefs": [
+          "Technical Analysis"
+        ]
+      },
+      {
+        "id": "01M5RJF5KM9VH6VHVWVKZKY5QG",
+        "name": "Client Notification Decision",
+        "points": 30,
+        "fail": "No decision on CP&L within the four-hour window, or CP&L learned of the possible exposure from someone else; the decision not to pay was not recorded.",
+        "pass": "At I-11 the General Manager decided what CP&L and CVAC were told and when, on the evidence of I-08, with the basis recorded; the no-pay decision was written down at I-18.",
+        "excellence": "The notice included the realistic delivery date from I-15b, the publication threat from I-18 and a next-update time, and the PL-02 question went to the Compliance Officer.",
+        "linkedInjectIds": [
+          "I-06",
+          "I-08",
+          "I-11",
+          "I-15",
+          "I-18"
+        ],
+        "objectiveRefs": [
+          "Decision Making",
+          "Use of Doctrine"
+        ]
+      },
+      {
+        "id": "01M5RJF5KMDE2DRYKDTT5D0TMC",
+        "name": "Recovery in Order",
+        "points": 25,
+        "fail": "Data was processed before it was verified, the payload SSDs were copied onto an infected host, or the restore skipped the calibration share.",
+        "pass": "The restore followed HUOG-ISP 9.3 (I-14a); the SSDs stayed in custody (I-11b) and were read on the clean laptop (I-15b).",
+        "excellence": "The team identified the payload media as the source of the missing days at I-10a and rebuilt their calibration from the paper sheets without delaying the rest.",
+        "linkedInjectIds": [
+          "I-10a",
+          "I-11b",
+          "I-14a",
+          "I-15b"
+        ],
+        "objectiveRefs": [
+          "Use of Doctrine",
+          "Technical Analysis"
+        ]
+      },
+      {
+        "id": "01M5RJF5KMHRRT8HCBGYMM31JA",
+        "name": "Communications",
+        "points": 20,
+        "fail": "Staff commented to the press, or Corporate Communications confirmed a ransom, a payment or stolen data before the General Manager approved.",
+        "pass": "All media went through Corporate Communications with approved lines (I-07b, I-12, I-14b).",
+        "excellence": "Clients heard from the Group before the press reported, and every answer carried a next-update time.",
+        "linkedInjectIds": [
+          "I-01b",
+          "I-07b",
+          "I-12",
+          "I-14b",
+          "I-15"
+        ],
+        "objectiveRefs": [
+          "Communication"
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Each team names three things that went well and three that did not; the facilitator writes them up and looks for the same issue in more than one team.",
+    "questions": [
+      {
+        "topic": "Grounding",
+        "text": "How did you decide which ground control stations could fly, and how long did it take to know?",
+        "objectiveRef": "Technical Analysis"
+      },
+      {
+        "topic": "The Four-Hour Call",
+        "text": "What did you tell CP&L, when, and what evidence was it based on? Would you make the same call again?",
+        "objectiveRef": "Decision Making"
+      },
+      {
+        "topic": "The Backups",
+        "text": "The newest clean copy was three weeks old and the off-site job had been failing for ten days. Who should have known, and how?",
+        "objectiveRef": "Use of Doctrine"
+      },
+      {
+        "topic": "The Missing Days",
+        "text": "The last three D-3 days survived only on payload media and paper sheets. What should the media and calibration-log rules be after today?",
+        "objectiveRef": "Use of Doctrine"
+      },
+      {
+        "topic": "Who Heard First",
+        "text": "Did the clients hear from you before the press asked? What would have made that happen?",
+        "objectiveRef": "Communication"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "SecureWatch MSSP incident coordinator",
+      "trigger": "The Systems & Cybersecurity Lead calls the SOC or asks for a decision.",
+      "hardQuestions": [
+        "Which hosts mounted the NAS since Saturday 22:15? I need a list, not a guess.",
+        "Has anyone powered anything down or reimaged it?",
+        "Do you want us to open the FBI report? That is the General Manager’s call."
+      ],
+      "concessions": [
+        "Gives the clean-environment confirmation at 12:00 if OB-1 has stayed in the safe.",
+        "Advises on recovery order and evidence; never decides on client notification or payment."
+      ]
+    },
+    {
+      "rolePlayed": "CP&L program manager",
+      "trigger": "The General Manager calls back or sends the notice.",
+      "hardQuestions": [
+        "Was our data copied? Which data?",
+        "What date can you actually deliver D-3?",
+        "Who else knows?"
+      ],
+      "concessions": [
+        "Accepts a revised date and a written notice that states facts and the next update time."
+      ]
+    },
+    {
+      "rolePlayed": "Channel 10 / Harwick Daily News",
+      "trigger": "Corporate Communications returns a call.",
+      "hardQuestions": [
+        "Did you pay?",
+        "Is utility infrastructure imagery out there now?",
+        "Why didn’t your clients hear first?"
+      ],
+      "concessions": [
+        "Run the Group’s statement if it is factual and on time."
+      ]
+    }
+  ],
+  "criticalResources": [
+    "HUOG-NAS01 (campaigns, flightlogs, ops, calibration, controlled shares)",
+    "Processing workstations HUOG-PROC01 / HUOG-PROC02",
+    "HUOG-FW01 and the Data VLAN isolation",
+    "GCS-01 to GCS-04 (baseline 03.2026-B / L-2026.2) and tablets GCS-05/06",
+    "Offline drives OB-1 (safe) and OB-2 (rack)",
+    "Off-site backup service",
+    "Payload SSDs in the Hangar 3 media cabinet",
+    "Calibration share and repository hashes",
+    "CP&L D-3 (due October 15) and the 24-hour exposure notice",
+    "CVAC collections (7-day products; 5-day exposure notice)",
+    "SecureWatch MSSP and the FBI report",
+    "Public mood (posts, press)"
+  ],
+  "warnings": [
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-13 contains a player decision ('IC confirms to the GM...') in the inject; it must be narrated by the facilitator, not the player. (row rewritten once from this note)",
+      "rowId": "I-13",
+      "source": "critique",
+      "suggestion": "Replace the inject with a facilitator narration: 'The test flight has completed. The IC reports to the GM that the recovery path is verified and the client notification decision is pending.'",
+      "basis": {
+        "at": "2026-10-25T03:49:22.527Z",
+        "row": "d15a7d18e63425c2"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "Row I-14 states 'It is now 13:00' at 3:00 elapsed time, but 09:00 + 3:00 = 12:00, not 13:00. (row rewritten once from this note)",
+      "rowId": "I-14",
+      "source": "critique",
+      "suggestion": "Correct the time to 12:00 and update all subsequent time references accordingly.",
+      "basis": {
+        "at": "2026-10-25T03:49:22.527Z",
+        "row": "e30195e4453b23b2"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The script 'backup_fix.py' is presented as a red herring but uses a real file path and name not in the documents; it must be fictional or unverifiable. (row rewritten once from this note)",
+      "rowId": "I-06b",
+      "source": "critique",
+      "suggestion": "Rename the script to 'backup_fix_temp.py' and change its path to a non-existent location like /tmp/scripts/ to avoid implying real system access.",
+      "basis": {
+        "at": "2026-10-25T03:49:22.527Z",
+        "row": "d2474bb47cd66fc3"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "error",
+      "message": "The FAA FSDO team's claim to access the NAS contradicts the documents: the FSDO only handles reporting, not on-site access. (row rewritten once from this note)",
+      "rowId": "I-11b",
+      "source": "critique",
+      "suggestion": "Replace the FAA FSDO with a real external entity like the FBI or a vendor, or remove the claim and have the team report to the FBI via the MSSP.",
+      "basis": {
+        "at": "2026-10-25T03:49:22.527Z",
+        "row": "ba987d06e7a5464a"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The Harwick Police Department is listed as a contact, but the call claims a drone was seen at the Birch Hollow Range, which is not a listed facility.",
+      "rowId": "I-08b",
+      "source": "critique",
+      "suggestion": "Change the location to a listed facility, such as the Creek Test Area, or remove the reference to a physical location.",
+      "basis": {
+        "at": "2026-10-25T03:49:22.527Z",
+        "row": "36e3af18360e5fb4"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The off-site backup service's last good snapshot is said to be from 2026-03-20, but the documents state it is from 2026-04-10, before the snapshot was disabled.",
+      "rowId": "I-15b",
+      "source": "critique",
+      "suggestion": "Correct the date to 2026-04-10 to match the documents and avoid contradiction.",
+      "basis": {
+        "at": "2026-10-25T03:49:22.527Z",
+        "row": "a2cda38727755705"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The media inquiry from Harwick Daily News (585-555-0170) uses a number not in the documents; the correct number for the property manager is 585-555-0170.",
+      "rowId": "I-12b",
+      "source": "critique",
+      "suggestion": "Confirm that 585-555-0170 is the correct number for the Birch Hollow Lodge property manager and use it consistently.",
+      "basis": {
+        "at": "2026-10-25T03:49:22.527Z",
+        "row": "2c783e3b0dca607a"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The Instagram post claims to show GCS-02 with a red light, but GCS-02 is not listed as having a front-panel LED in the documents.",
+      "rowId": "I-01b",
+      "source": "critique",
+      "suggestion": "Remove the LED detail or change it to a generic status indicator to match documented GCS features.",
+      "basis": {
+        "at": "2026-10-25T03:49:22.527Z",
+        "row": "236f6b68a736b763"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The NAS access log shows unauthorized access from GCS-02, but GCS-02 is not listed as having a NAS mount point in the documents.",
+      "rowId": "I-04",
+      "source": "critique",
+      "suggestion": "Confirm that GCS-02 is allowed to mount the NAS; if not, remove the access or add a note that it was previously authorized.",
+      "basis": {
+        "at": "2026-10-25T03:49:22.527Z",
+        "row": "e758be081e92f8dc"
+      },
+      "stale": true
+    },
+    {
+      "code": "CRITIQUE",
+      "severity": "warning",
+      "message": "The verification script 'verify_manifest.py' is presented as a real tool, but no such script exists in the documents.",
+      "rowId": "I-14a",
+      "source": "critique",
+      "suggestion": "Rename the script to 'verify_manifest_temp.py' and state it was run on a clean machine to avoid implying a real system.",
+      "basis": {
+        "at": "2026-10-25T03:49:22.527Z",
+        "row": "d323d8e1cd18ded7"
+      },
+      "stale": true
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 1 has 8 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    },
+    {
+      "code": "DENSITY_DENSE",
+      "severity": "info",
+      "message": "Phase 4 has 9 injects over 60 min, more than the reference MSEL's pace (about 6 an hour, at most 7 here)",
+      "source": "lint",
+      "suggestion": "Merge or cut thin rows so each remaining inject forces a decision"
+    }
+  ],
+  "provenance": [
+    {
+      "stage": "scenario_overview",
+      "startedAt": "2026-10-25T03:32:34.740Z",
+      "finishedAt": "2026-10-25T03:32:40.505Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "scenario_overview@default",
+      "promptHash": "9f8944d1974755faf8b65a50618e8d9a4e9dafdbb5f15a80ea8e7fc6d6f52e11",
+      "inputTokens": 3545,
+      "outputTokens": 454,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "objectives_roles",
+      "startedAt": "2026-10-25T03:32:40.520Z",
+      "finishedAt": "2026-10-25T03:32:55.881Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "objectives_roles@default",
+      "promptHash": "2064d9112b27190e19fcffce58cc7d1b661679cd560ac948f322de6e766dbe18",
+      "inputTokens": 3673,
+      "outputTokens": 1371,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "phase_plan",
+      "startedAt": "2026-10-25T03:32:55.900Z",
+      "finishedAt": "2026-10-25T03:33:17.628Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "phase_plan@default",
+      "promptHash": "d5ba5715d3af2998a1d7f397abe4dee08f509a020e2084d00d52e1f11136e32a",
+      "inputTokens": 3502,
+      "outputTokens": 2023,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5RHXANW6F95FJQHEQCG0V4Q",
+      "startedAt": "2026-10-25T03:33:17.654Z",
+      "finishedAt": "2026-10-25T03:33:57.195Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "15a53dbfad3cec72bb6091c023023396b351b89ab62507360c5acc14b87b020e",
+      "inputTokens": 20197,
+      "outputTokens": 3201,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5RHXANW94H82K0534KBMXZE",
+      "startedAt": "2026-10-25T03:34:05.382Z",
+      "finishedAt": "2026-10-25T03:34:34.392Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "15a53dbfad3cec72bb6091c023023396b351b89ab62507360c5acc14b87b020e",
+      "inputTokens": 34683,
+      "outputTokens": 3092,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5RHXANWF08YA21DKH1FMJV9",
+      "startedAt": "2026-10-25T03:34:40.085Z",
+      "finishedAt": "2026-10-25T03:36:22.563Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "15a53dbfad3cec72bb6091c023023396b351b89ab62507360c5acc14b87b020e",
+      "inputTokens": 50026,
+      "outputTokens": 5980,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "msel_phase",
+      "itemId": "01M5RHXANW4FQAQF4HMA3NV06D",
+      "startedAt": "2026-10-25T03:36:57.960Z",
+      "finishedAt": "2026-10-25T03:39:46.186Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "msel_phase@default",
+      "promptHash": "15a53dbfad3cec72bb6091c023023396b351b89ab62507360c5acc14b87b020e",
+      "inputTokens": 56049,
+      "outputTokens": 7746,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "controller_handbook",
+      "startedAt": "2026-10-25T03:40:10.495Z",
+      "finishedAt": "2026-10-25T03:41:46.959Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "controller_handbook@default",
+      "promptHash": "e2fef25331b9e1d7345f70cd9b29ceec65c2c18f975219deb5ca4365edd96969",
+      "inputTokens": 8566,
+      "outputTokens": 1505,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "rubric",
+      "startedAt": "2026-10-25T03:41:46.977Z",
+      "finishedAt": "2026-10-25T03:43:02.260Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "rubric@default",
+      "promptHash": "ad7bd6953cef369fd9514e4afe0f3ba42c00ff46e006516319efc459947cf670",
+      "inputTokens": 8902,
+      "outputTokens": 1018,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "player_briefing",
+      "startedAt": "2026-10-25T03:43:02.278Z",
+      "finishedAt": "2026-10-25T03:44:11.467Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "player_briefing@default",
+      "promptHash": "8f2102ec53a8b66fec8b29b0e02e33e403ab08766558036ece9685bb58015158",
+      "inputTokens": 5226,
+      "outputTokens": 1523,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "hotwash",
+      "startedAt": "2026-10-25T03:44:11.486Z",
+      "finishedAt": "2026-10-25T03:44:22.162Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "hotwash@default",
+      "promptHash": "3203b67c6ff847c27925a8402438166159dad09b8fcc35fd87fa19f0115e5216",
+      "inputTokens": 2272,
+      "outputTokens": 541,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "critique",
+      "startedAt": "2026-10-25T03:44:22.259Z",
+      "finishedAt": "2026-10-25T03:45:17.505Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "critique@default",
+      "promptHash": "810ac6a39a9ac414c87c6ce3569bf8653d59e19a4e1a74d4ea60d15367877310",
+      "inputTokens": 13393,
+      "outputTokens": 1203,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJTVW7RN012CCF6FZWKKXX",
+      "startedAt": "2026-10-25T03:49:25.525Z",
+      "finishedAt": "2026-10-25T03:49:34.860Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 5482,
+      "outputTokens": 673,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJTVW7RN012CCF6FZWKKXX",
+      "startedAt": "2026-10-25T03:49:34.880Z",
+      "finishedAt": "2026-10-25T03:49:34.880Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJV516DRYDR14RJFJBB8ZK",
+      "startedAt": "2026-10-25T03:49:34.895Z",
+      "finishedAt": "2026-10-25T03:49:44.923Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 6077,
+      "outputTokens": 656,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJV516DRYDR14RJFJBB8ZK",
+      "startedAt": "2026-10-25T03:49:44.928Z",
+      "finishedAt": "2026-10-25T03:49:44.928Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJVEV67FGX6H53N3N96G0E",
+      "startedAt": "2026-10-25T03:49:44.941Z",
+      "finishedAt": "2026-10-25T03:49:50.310Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 5830,
+      "outputTokens": 312,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJVEV67FGX6H53N3N96G0E",
+      "startedAt": "2026-10-25T03:49:50.318Z",
+      "finishedAt": "2026-10-25T03:49:53.296Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1556,
+      "outputTokens": 232,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJVQ0RPT833GPGH0C85ZS5",
+      "startedAt": "2026-10-25T03:49:53.311Z",
+      "finishedAt": "2026-10-25T03:50:05.903Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 6109,
+      "outputTokens": 876,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJVQ0RPT833GPGH0C85ZS5",
+      "startedAt": "2026-10-25T03:50:05.906Z",
+      "finishedAt": "2026-10-25T03:50:05.906Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJW3ARJJAMCYMTJDZABWND",
+      "startedAt": "2026-10-25T03:50:05.919Z",
+      "finishedAt": "2026-10-25T03:50:13.244Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 14301,
+      "outputTokens": 812,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJW3ARJJAMCYMTJDZABWND",
+      "startedAt": "2026-10-25T03:50:20.884Z",
+      "finishedAt": "2026-10-25T03:50:26.089Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1801,
+      "outputTokens": 465,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJWQ1GZREDBTK4N20SQGYS",
+      "startedAt": "2026-10-25T03:50:26.105Z",
+      "finishedAt": "2026-10-25T03:50:34.817Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 6849,
+      "outputTokens": 519,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJWQ1GZREDBTK4N20SQGYS",
+      "startedAt": "2026-10-25T03:50:34.820Z",
+      "finishedAt": "2026-10-25T03:50:34.820Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJWZJB7VT3B5TESNNBSVWV",
+      "startedAt": "2026-10-25T03:50:34.840Z",
+      "finishedAt": "2026-10-25T03:50:49.333Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 8029,
+      "outputTokens": 854,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJWZJB7VT3B5TESNNBSVWV",
+      "startedAt": "2026-10-25T03:50:49.342Z",
+      "finishedAt": "2026-10-25T03:50:49.342Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJXDR7MEA54ZG3THR7E2SA",
+      "startedAt": "2026-10-25T03:50:49.367Z",
+      "finishedAt": "2026-10-25T03:50:59.309Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 7014,
+      "outputTokens": 582,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJXDR7MEA54ZG3THR7E2SA",
+      "startedAt": "2026-10-25T03:50:59.313Z",
+      "finishedAt": "2026-10-25T03:50:59.313Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJXQFRBBN7HVWCEWKJDYQB",
+      "startedAt": "2026-10-25T03:50:59.328Z",
+      "finishedAt": "2026-10-25T03:51:07.267Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 7257,
+      "outputTokens": 457,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJXQFRBBN7HVWCEWKJDYQB",
+      "startedAt": "2026-10-25T03:51:07.276Z",
+      "finishedAt": "2026-10-25T03:51:10.358Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1918,
+      "outputTokens": 240,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJY28XSSAC3DE8WFXZS0EQ",
+      "startedAt": "2026-10-25T03:51:10.374Z",
+      "finishedAt": "2026-10-25T03:51:22.358Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 7808,
+      "outputTokens": 723,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJY28XSSAC3DE8WFXZS0EQ",
+      "startedAt": "2026-10-25T03:51:22.360Z",
+      "finishedAt": "2026-10-25T03:51:22.360Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJYDZY14GGP3ZPWGQFKHR6",
+      "startedAt": "2026-10-25T03:51:22.375Z",
+      "finishedAt": "2026-10-25T03:51:39.008Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 8222,
+      "outputTokens": 810,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJYDZY14GGP3ZPWGQFKHR6",
+      "startedAt": "2026-10-25T03:51:39.012Z",
+      "finishedAt": "2026-10-25T03:51:39.012Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJYY8DQTB21SMZZKZH5P1R",
+      "startedAt": "2026-10-25T03:51:39.031Z",
+      "finishedAt": "2026-10-25T03:51:47.035Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 16025,
+      "outputTokens": 596,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJYY8DQTB21SMZZKZH5P1R",
+      "startedAt": "2026-10-25T03:51:53.734Z",
+      "finishedAt": "2026-10-25T03:51:53.734Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJZCMBEPA8XZB23K4CFMYC",
+      "startedAt": "2026-10-25T03:51:53.745Z",
+      "finishedAt": "2026-10-25T03:52:03.174Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 8483,
+      "outputTokens": 474,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJZCMBEPA8XZB23K4CFMYC",
+      "startedAt": "2026-10-25T03:52:03.178Z",
+      "finishedAt": "2026-10-25T03:52:03.178Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RJZNVJ6J1P4DYDZKJSNGX6",
+      "startedAt": "2026-10-25T03:52:03.197Z",
+      "finishedAt": "2026-10-25T03:52:13.443Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 8610,
+      "outputTokens": 526,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RJZNVJ6J1P4DYDZKJSNGX6",
+      "startedAt": "2026-10-25T03:52:13.450Z",
+      "finishedAt": "2026-10-25T03:52:17.375Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2206,
+      "outputTokens": 295,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK03Q534TR1S3Z4ANF6TFS",
+      "startedAt": "2026-10-25T03:52:17.393Z",
+      "finishedAt": "2026-10-25T03:52:31.772Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 8984,
+      "outputTokens": 826,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK03Q534TR1S3Z4ANF6TFS",
+      "startedAt": "2026-10-25T03:52:31.775Z",
+      "finishedAt": "2026-10-25T03:52:31.775Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK0HS7DGQVHQQMEYTQJ0H4",
+      "startedAt": "2026-10-25T03:52:31.793Z",
+      "finishedAt": "2026-10-25T03:52:43.246Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 9392,
+      "outputTokens": 595,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK0HS7DGQVHQQMEYTQJ0H4",
+      "startedAt": "2026-10-25T03:52:43.248Z",
+      "finishedAt": "2026-10-25T03:52:43.248Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK0WZQE69CQD9SD0E535XP",
+      "startedAt": "2026-10-25T03:52:43.266Z",
+      "finishedAt": "2026-10-25T03:53:00.348Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 20029,
+      "outputTokens": 1963,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK0WZQE69CQD9SD0E535XP",
+      "startedAt": "2026-10-25T03:53:18.069Z",
+      "finishedAt": "2026-10-25T03:53:18.069Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK1YZW4DMPK355Y9ES4198",
+      "startedAt": "2026-10-25T03:53:18.086Z",
+      "finishedAt": "2026-10-25T03:53:28.073Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 9688,
+      "outputTokens": 474,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK1YZW4DMPK355Y9ES4198",
+      "startedAt": "2026-10-25T03:53:28.080Z",
+      "finishedAt": "2026-10-25T03:53:34.611Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2276,
+      "outputTokens": 507,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK2F4VWAGW4NXND3FNJFNF",
+      "startedAt": "2026-10-25T03:53:34.631Z",
+      "finishedAt": "2026-10-25T03:53:48.421Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 10126,
+      "outputTokens": 720,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK2F4VWAGW4NXND3FNJFNF",
+      "startedAt": "2026-10-25T03:53:48.424Z",
+      "finishedAt": "2026-10-25T03:53:48.424Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK2WMEE6AFN07KGGTW32JJ",
+      "startedAt": "2026-10-25T03:53:48.439Z",
+      "finishedAt": "2026-10-25T03:53:56.457Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 9994,
+      "outputTokens": 313,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK2WMEE6AFN07KGGTW32JJ",
+      "startedAt": "2026-10-25T03:53:56.459Z",
+      "finishedAt": "2026-10-25T03:53:56.459Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK34FHXQKV2BKPB677A8EZ",
+      "startedAt": "2026-10-25T03:53:56.477Z",
+      "finishedAt": "2026-10-25T03:54:08.794Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 10546,
+      "outputTokens": 595,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK34FHXQKV2BKPB677A8EZ",
+      "startedAt": "2026-10-25T03:54:08.797Z",
+      "finishedAt": "2026-10-25T03:54:08.797Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK3GH4TBX78JW44TE8H5ZN",
+      "startedAt": "2026-10-25T03:54:08.815Z",
+      "finishedAt": "2026-10-25T03:54:22.954Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 11065,
+      "outputTokens": 706,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK3GH4TBX78JW44TE8H5ZN",
+      "startedAt": "2026-10-25T03:54:22.957Z",
+      "finishedAt": "2026-10-25T03:54:22.957Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK3YBKCRPJ4GZVTGV9B36Z",
+      "startedAt": "2026-10-25T03:54:22.973Z",
+      "finishedAt": "2026-10-25T03:54:35.172Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 10682,
+      "outputTokens": 487,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK3YBKCRPJ4GZVTGV9B36Z",
+      "startedAt": "2026-10-25T03:54:35.177Z",
+      "finishedAt": "2026-10-25T03:54:35.177Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK4A9HTD7Y45JATRW3F2KA",
+      "startedAt": "2026-10-25T03:54:35.197Z",
+      "finishedAt": "2026-10-25T03:54:54.931Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 11120,
+      "outputTokens": 1128,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK4A9HTD7Y45JATRW3F2KA",
+      "startedAt": "2026-10-25T03:54:54.934Z",
+      "finishedAt": "2026-10-25T03:54:54.934Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK4XJT8C0FKNZ9RKN55RPZ",
+      "startedAt": "2026-10-25T03:54:54.945Z",
+      "finishedAt": "2026-10-25T03:55:03.523Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 11089,
+      "outputTokens": 307,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK4XJT8C0FKNZ9RKN55RPZ",
+      "startedAt": "2026-10-25T03:55:03.526Z",
+      "finishedAt": "2026-10-25T03:55:03.526Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK55ZC5EFNY7FXX65SXX1Q",
+      "startedAt": "2026-10-25T03:55:03.539Z",
+      "finishedAt": "2026-10-25T03:55:16.752Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 11570,
+      "outputTokens": 632,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK55ZC5EFNY7FXX65SXX1Q",
+      "startedAt": "2026-10-25T03:55:16.756Z",
+      "finishedAt": "2026-10-25T03:55:16.756Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK5JWTDXNXVMHNC04NW60T",
+      "startedAt": "2026-10-25T03:55:16.769Z",
+      "finishedAt": "2026-10-25T03:55:28.362Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 11772,
+      "outputTokens": 498,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK5JWTDXNXVMHNC04NW60T",
+      "startedAt": "2026-10-25T03:55:28.366Z",
+      "finishedAt": "2026-10-25T03:55:28.366Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK5Y7KZX0EBPYGABCTSFPG",
+      "startedAt": "2026-10-25T03:55:28.378Z",
+      "finishedAt": "2026-10-25T03:55:38.891Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 11577,
+      "outputTokens": 412,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK5Y7KZX0EBPYGABCTSFPG",
+      "startedAt": "2026-10-25T03:55:38.894Z",
+      "finishedAt": "2026-10-25T03:55:38.894Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK68GJNKSC5V12Y4B4AVE6",
+      "startedAt": "2026-10-25T03:55:38.905Z",
+      "finishedAt": "2026-10-25T03:55:52.705Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 11822,
+      "outputTokens": 638,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK68GJNKSC5V12Y4B4AVE6",
+      "startedAt": "2026-10-25T03:55:52.708Z",
+      "finishedAt": "2026-10-25T03:55:52.708Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK6P09KCVGZJAVNTHXA871",
+      "startedAt": "2026-10-25T03:55:52.720Z",
+      "finishedAt": "2026-10-25T03:56:35.325Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 12735,
+      "outputTokens": 479,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK6P09KCVGZJAVNTHXA871",
+      "startedAt": "2026-10-25T03:56:35.328Z",
+      "finishedAt": "2026-10-25T03:56:35.328Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M5RK7ZM74WCRYCA064J10YS5",
+      "startedAt": "2026-10-25T03:56:35.342Z",
+      "finishedAt": "2026-10-25T03:57:18.967Z",
+      "model": "qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "547273144599894ad139b3e90dc25dd950cf7cd3f55b2ab976e458be45b0d692",
+      "inputTokens": 12143,
+      "outputTokens": 509,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M5RK7ZM74WCRYCA064J10YS5",
+      "startedAt": "2026-10-25T03:57:18.972Z",
+      "finishedAt": "2026-10-25T03:57:18.972Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJTVW7RN012CCF6FZWKKXX",
+      "startedAt": "2026-10-25T05:02:28.423Z",
+      "finishedAt": "2026-10-25T05:02:28.728Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJV516DRYDR14RJFJBB8ZK",
+      "startedAt": "2026-10-25T05:02:28.730Z",
+      "finishedAt": "2026-10-25T05:02:28.928Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJVEV67FGX6H53N3N96G0E",
+      "startedAt": "2026-10-25T05:02:28.930Z",
+      "finishedAt": "2026-10-25T05:02:29.295Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJVQ0RPT833GPGH0C85ZS5",
+      "startedAt": "2026-10-25T05:02:29.298Z",
+      "finishedAt": "2026-10-25T05:02:29.526Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJW3ARJJAMCYMTJDZABWND",
+      "startedAt": "2026-10-25T05:02:29.529Z",
+      "finishedAt": "2026-10-25T05:02:29.730Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJWQ1GZREDBTK4N20SQGYS",
+      "startedAt": "2026-10-25T05:02:29.732Z",
+      "finishedAt": "2026-10-25T05:02:29.939Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJWZJB7VT3B5TESNNBSVWV",
+      "startedAt": "2026-10-25T05:02:29.941Z",
+      "finishedAt": "2026-10-25T05:02:30.075Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJXDR7MEA54ZG3THR7E2SA",
+      "startedAt": "2026-10-25T05:02:30.077Z",
+      "finishedAt": "2026-10-25T05:02:30.279Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJXQFRBBN7HVWCEWKJDYQB",
+      "startedAt": "2026-10-25T05:02:30.281Z",
+      "finishedAt": "2026-10-25T05:02:30.482Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJY28XSSAC3DE8WFXZS0EQ",
+      "startedAt": "2026-10-25T05:02:30.484Z",
+      "finishedAt": "2026-10-25T05:02:30.671Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJYDZY14GGP3ZPWGQFKHR6",
+      "startedAt": "2026-10-25T05:02:30.673Z",
+      "finishedAt": "2026-10-25T05:02:30.881Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJYY8DQTB21SMZZKZH5P1R",
+      "startedAt": "2026-10-25T05:02:30.883Z",
+      "finishedAt": "2026-10-25T05:02:31.154Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJZCMBEPA8XZB23K4CFMYC",
+      "startedAt": "2026-10-25T05:02:31.156Z",
+      "finishedAt": "2026-10-25T05:02:31.366Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RJZNVJ6J1P4DYDZKJSNGX6",
+      "startedAt": "2026-10-25T05:02:31.369Z",
+      "finishedAt": "2026-10-25T05:02:31.565Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK03Q534TR1S3Z4ANF6TFS",
+      "startedAt": "2026-10-25T05:02:31.568Z",
+      "finishedAt": "2026-10-25T05:02:31.771Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK0HS7DGQVHQQMEYTQJ0H4",
+      "startedAt": "2026-10-25T05:02:31.774Z",
+      "finishedAt": "2026-10-25T05:02:31.997Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK0WZQE69CQD9SD0E535XP",
+      "startedAt": "2026-10-25T05:02:31.999Z",
+      "finishedAt": "2026-10-25T05:02:32.183Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK1YZW4DMPK355Y9ES4198",
+      "startedAt": "2026-10-25T05:02:32.185Z",
+      "finishedAt": "2026-10-25T05:02:32.393Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK2F4VWAGW4NXND3FNJFNF",
+      "startedAt": "2026-10-25T05:02:32.394Z",
+      "finishedAt": "2026-10-25T05:02:32.589Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK2WMEE6AFN07KGGTW32JJ",
+      "startedAt": "2026-10-25T05:02:32.591Z",
+      "finishedAt": "2026-10-25T05:02:32.854Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK34FHXQKV2BKPB677A8EZ",
+      "startedAt": "2026-10-25T05:02:32.856Z",
+      "finishedAt": "2026-10-25T05:02:33.046Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK3GH4TBX78JW44TE8H5ZN",
+      "startedAt": "2026-10-25T05:02:33.047Z",
+      "finishedAt": "2026-10-25T05:02:33.239Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK3YBKCRPJ4GZVTGV9B36Z",
+      "startedAt": "2026-10-25T05:02:33.241Z",
+      "finishedAt": "2026-10-25T05:02:33.442Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK4A9HTD7Y45JATRW3F2KA",
+      "startedAt": "2026-10-25T05:02:33.443Z",
+      "finishedAt": "2026-10-25T05:02:33.627Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK4XJT8C0FKNZ9RKN55RPZ",
+      "startedAt": "2026-10-25T05:02:33.629Z",
+      "finishedAt": "2026-10-25T05:02:33.909Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK55ZC5EFNY7FXX65SXX1Q",
+      "startedAt": "2026-10-25T05:02:33.911Z",
+      "finishedAt": "2026-10-25T05:02:34.116Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK5JWTDXNXVMHNC04NW60T",
+      "startedAt": "2026-10-25T05:02:34.119Z",
+      "finishedAt": "2026-10-25T05:02:34.326Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK5Y7KZX0EBPYGABCTSFPG",
+      "startedAt": "2026-10-25T05:02:34.327Z",
+      "finishedAt": "2026-10-25T05:02:34.528Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK68GJNKSC5V12Y4B4AVE6",
+      "startedAt": "2026-10-25T05:02:34.530Z",
+      "finishedAt": "2026-10-25T05:02:34.724Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK6P09KCVGZJAVNTHXA871",
+      "startedAt": "2026-10-25T05:02:34.727Z",
+      "finishedAt": "2026-10-25T05:02:34.926Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M5RK7ZM74WCRYCA064J10YS5",
+      "startedAt": "2026-10-25T05:02:34.927Z",
+      "finishedAt": "2026-10-25T05:02:35.134Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

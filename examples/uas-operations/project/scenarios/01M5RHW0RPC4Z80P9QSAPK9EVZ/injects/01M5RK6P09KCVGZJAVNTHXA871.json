@@ -1,0 +1,133 @@
+{
+  "id": "01M5RK6P09KCVGZJAVNTHXA871",
+  "mselRowId": "I-18",
+  "type": "email_forward",
+  "title": "Email: counsel — put the no-pay decision in writing",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Tomás Reyes",
+    "fromEmail": "treyes@huog.example",
+    "senderInitials": "TR",
+    "to": "Marguerite Ostrowski",
+    "subject": "FW: Counsel — decision record and Friday threat",
+    "sentAt": "Mon 10/05/2026 12:55 PM",
+    "note": "Marguerite — counsel’s note below, via SecureWatch. — Tomás",
+    "signature": "Tomás Reyes\nSystems & Cybersecurity Lead",
+    "importance": "normal",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Tomás Reyes",
+    "original": {
+      "cc": "",
+      "fromName": "Group counsel (via SecureWatch)",
+      "fromEmail": "counsel@huog-legal.example",
+      "to": "treyes@huog.example",
+      "subject": "Decision record",
+      "body": "Please have the General Manager record the decision not to pay, with the reasons, in the incident record today.\n\nThe FBI field office has the report.\n\nNote that the actor’s README threatens to publish the copied data on Friday if no contact is made. Clients whose data may be affected should hear that from us, not from the actor.",
+      "sentAt": "Mon 10/05/2026 12:51 PM"
+    }
+  },
+  "instructorNote": "Watch for the written decision and the clients told about the publication threat.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.1 Storage",
+      "quote": "| Store | Contents | Protection | |---|---|---| | GCS and payload drives | Current campaign's raw data until copied | Encrypted; copied to the NAS the same day, wiped after verification | | HUOG-NAS01",
+      "chunkId": 114
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.3 Integrity",
+      "quote": "Raw data folders get a manifest of SHA-256 hashes when copied to the NAS; processing scripts verify the manifest before they start; deliverables carry a manifest the client can verify. A product gener",
+      "chunkId": 116
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:56:35.329Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Recovery Order Confirmation — Final Verification",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Systems & Cybersecurity Lead",
+          "fromEmail": "it@huog.example",
+          "senderInitials": "SL",
+          "to": "ic@huog.example, gm@huog.example",
+          "subject": "Recovery Order Confirmation - Final Verification",
+          "sentAt": "Sat 10/24/2026 12:55 PM",
+          "note": "The recovery order has been fully executed and verified under HUOG-ISP Section 9.3. All data has been restored in the correct sequence and validated against its manifest before processing. No system has been reconnected to the network without verification. The environment is clean and operational.",
+          "signature": "Systems & Cybersecurity Lead\nHarwick UAS Operations Group",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Systems & Cybersecurity Lead",
+          "original": {
+            "fromName": "Systems & Cybersecurity Lead",
+            "fromEmail": "it@huog.example",
+            "sentAt": "Sat 10/24/2026 12:55 PM",
+            "to": "ic@huog.example, gm@huog.example",
+            "cc": "",
+            "subject": "Recovery Order Confirmation - Final Verification",
+            "body": "The recovery order has been followed:\n1. Calibration share verified and restored (OB-1).\n2. Ops records (flight logs, link logs, DAA-1 recordings) restored and verified.\n3. CP&L Campaign D-3 processed under manifest verification.\n4. Remaining campaigns restored in order.\n\nAll restored data has been verified against its manifest before any processing. No data was used without verification. The environment is clean. Recovery is complete."
+          }
+        },
+        "instructorNote": "This inject confirms the successful completion of the recovery order. The IC and GM must now validate that all steps were followed and that client data is ready for delivery. Watch for any attempt to bypass verification or proceed without formal approval.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.431Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email: counsel — put the no-pay decision in writing",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Tomás Reyes",
+          "fromEmail": "treyes@huog.example",
+          "senderInitials": "TR",
+          "to": "Marguerite Ostrowski",
+          "subject": "FW: Counsel — decision record and Friday threat",
+          "sentAt": "Mon 10/05/2026 12:55 PM",
+          "note": "Marguerite — counsel’s note below, via SecureWatch. — Tomás",
+          "signature": "Tomás Reyes\nSystems & Cybersecurity Lead",
+          "importance": "normal",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Tomás Reyes",
+          "original": {
+            "cc": "",
+            "fromName": "Group counsel (via SecureWatch)",
+            "fromEmail": "counsel@huog-legal.example",
+            "to": "treyes@huog.example",
+            "subject": "Decision record",
+            "body": "Please have the General Manager record the decision not to pay, with the reasons, in the incident record today.\n\nThe FBI field office has the report.\n\nNote that the actor’s README threatens to publish the copied data on Friday if no contact is made. Clients whose data may be affected should hear that from us, not from the actor.",
+            "sentAt": "Mon 10/05/2026 12:51 PM"
+          }
+        },
+        "instructorNote": "Watch for the written decision and the clients told about the publication threat.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:34.924Z"
+}

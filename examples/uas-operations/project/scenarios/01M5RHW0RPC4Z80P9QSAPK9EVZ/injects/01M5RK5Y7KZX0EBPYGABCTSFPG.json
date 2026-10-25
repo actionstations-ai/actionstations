@@ -1,0 +1,109 @@
+{
+  "id": "01M5RK5Y7KZX0EBPYGABCTSFPG",
+  "mselRowId": "I-16",
+  "type": "scenario_update",
+  "title": "Situation Update: tomorrow’s CVAC collection",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "3:30",
+    "scenarioTime": "12:30",
+    "headline": "Tomorrow’s CVAC collection: two cleared GCS, two pilots short",
+    "deliverTo": "Director of Flight Operations, General Manager",
+    "narration": "CVAC’s growing-season products are due within seven days of each collection, and the next collection must fly tomorrow. Only GCS-01 and GCS-04 are cleared, and GCS-04 flies only UAS-12. Two pilots are tied up with the MSSP’s interviews and log collection.",
+    "keyFacts": [
+      "GCS-01 and GCS-04 cleared; GCS-02 and GCS-03 grounded",
+      "GCS-05/06 tablets available with UAS-07 to UAS-10",
+      "Two pilots unavailable tomorrow"
+    ],
+    "expectedAction": "Plan tomorrow’s collection on cleared equipment, keep crews off the NAS, and tell the General Manager what can and cannot fly this week.",
+    "facilitatorNote": "If players propose using GCS-03 “just for one flight”, ask what the MSSP said."
+  },
+  "variant": "default",
+  "instructorNote": "The business still has to fly. Watch for a concrete plan.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP",
+      "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. Hostnames, addresses, vendors, clients and",
+      "chunkId": 95
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 7 › 7.5 Client notification",
+      "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrume",
+      "chunkId": 121
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:55:38.894Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Recovery Verified — D-3 Campaign Ready",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "3:30",
+          "scenarioTime": "12:30 PM",
+          "headline": "Manual Reconciliation Confirms Clean Environment",
+          "deliverTo": "All players",
+          "narration": "The frontline team has completed a manual reconciliation of all 147 calibration files and 34 campaign logs against the manifest hashes in the repository. No anomalies were found. The verification is complete. The team confirms that the environment is clean and that the D-3 campaign is ready for processing under the recovery order. The IC confirms: recovery is safe and verified under HUOG-ISP Section 9.3.",
+          "keyFacts": [
+            "Manual reconciliation of 147 calibration files and 34 campaign logs is complete.",
+            "All files match their manifest hashes in the repository.",
+            "The environment is clean and recovery is verified under HUOG-ISP Section 9.3.",
+            "The D-3 campaign is now ready for processing under the recovery order."
+          ],
+          "expectedAction": "The Incident Commander must confirm the recovery path is verified and that client notification is now the next decision point.",
+          "scenarioTitle": "Silent Lockdown — NAS Ransomware & Client Data Exposure",
+          "injectId": "I-16"
+        },
+        "instructorNote": "This inject confirms that the recovery verification is complete and that client notification is now the critical next decision. The GM must decide whether to notify CP&L and CVAC that D-3 is at risk.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.425Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Situation Update: tomorrow’s CVAC collection",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "3:30",
+          "scenarioTime": "12:30",
+          "headline": "Tomorrow’s CVAC collection: two cleared GCS, two pilots short",
+          "deliverTo": "Director of Flight Operations, General Manager",
+          "narration": "CVAC’s growing-season products are due within seven days of each collection, and the next collection must fly tomorrow. Only GCS-01 and GCS-04 are cleared, and GCS-04 flies only UAS-12. Two pilots are tied up with the MSSP’s interviews and log collection.",
+          "keyFacts": [
+            "GCS-01 and GCS-04 cleared; GCS-02 and GCS-03 grounded",
+            "GCS-05/06 tablets available with UAS-07 to UAS-10",
+            "Two pilots unavailable tomorrow"
+          ],
+          "expectedAction": "Plan tomorrow’s collection on cleared equipment, keep crews off the NAS, and tell the General Manager what can and cannot fly this week.",
+          "facilitatorNote": "If players propose using GCS-03 “just for one flight”, ask what the MSSP said."
+        },
+        "instructorNote": "The business still has to fly. Watch for a concrete plan.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:34.526Z"
+}

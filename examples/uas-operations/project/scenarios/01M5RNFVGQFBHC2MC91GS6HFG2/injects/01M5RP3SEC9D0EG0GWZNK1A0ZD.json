@@ -1,0 +1,106 @@
+{
+  "id": "01M5RP3SEC9D0EG0GWZNK1A0ZD",
+  "mselRowId": "I-08",
+  "type": "scenario_update",
+  "title": "Fleet Grounded — Firmware Review Pending",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "exerciseTime": "1:22",
+    "scenarioTime": "10:22",
+    "headline": "This week’s client flights",
+    "deliverTo": "Director of Flight Operations, General Manager",
+    "narration": "The desk lists this week’s client flights: CP&L substation inspections tomorrow on UAS-01 and UAS-03; a CVAC collection Thursday on UAS-04 and UAS-05; a CP&L line patrol Friday on UAS-11. All but UAS-11 are OEM aircraft that were offered the same update.",
+    "keyFacts": [
+      "CP&L Wednesday: UAS-01, UAS-03",
+      "CVAC Thursday: UAS-04, UAS-05",
+      "CP&L Friday: UAS-11 (not OEM)"
+    ],
+    "expectedAction": "Note which flights depend on possibly affected aircraft; prepare to tell clients once the grounding is decided.",
+    "facilitatorNote": "Let the cost sink in; do not ask for a decision yet."
+  },
+  "variant": "default",
+  "instructorNote": "Let the cost sink in; do not ask for a decision yet.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.2 Malware on a GCS",
+      "quote": "Indicators: endpoint alert; unexpected processes; the OEM app asking to re-pair or re-activate; a parameter file with a new hash; the GCS contacting addresses outside the update endpoints (HUOG-FW01 l",
+      "chunkId": 128
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Annex A",
+      "quote": "See the Site & Airspace Sheet Section 4 for the fleet table. Status on 09/01/2026: UAS-01 to UAS-11 UP; UAS-12 DOWN pending the HL-27 parameter audit; UAS-05 returned to service 07/02/2026 after the H",
+      "chunkId": 92
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ],
+    "postFx": [
+      "pa",
+      "terminal_ambience"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:46:52.868Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Fleet Grounded — Firmware Review Pending",
+        "type": "pa_announcement",
+        "fields": {
+          "text": "Attention all personnel. All UAS flights are suspended pending investigation. The firmware version 2.3.1, which was pushed to GCS-01 and UAS-02, has been identified as a potential root cause. The fleet status is now updated to: All UAS: Grounded — Firmware Review Pending. No new flights will be approved until further notice.",
+          "zones": "ALL HANGAR AREAS, OPERATIONS LEVELS 1–3, GCS CONSOLES",
+          "source": "Central Operations Command (CO-CMD)",
+          "voiceStyle": "robotic",
+          "voiceDirection": "Calm synthetic male paging voice, even pace, slight reverb",
+          "terminalAmbience": "Busy flight operations center, keyboard taps, low-level comms chatter",
+          "chime": true,
+          "repeat": "Plays 3x, 20 s apart",
+          "time": "10:22",
+          "deliveryNote": "Play the audio on all PA zones while the status board is displayed on the main screen. Do not explain it.",
+          "audioFile": "I-08_pa.wav",
+          "duration": "0:22",
+          "injectId": "I-08",
+          "scenarioTitle": "Lost Signal — Link Failure & Class C Incursion"
+        },
+        "instructorNote": "This inject confirms the fleet-wide grounding and forces ops to update the status board. Watch for compliance from RPICs and verification of the firmware version across systems.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.703Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Fleet Grounded — Firmware Review Pending",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "1:22",
+          "scenarioTime": "10:22",
+          "headline": "This week’s client flights",
+          "deliverTo": "Director of Flight Operations, General Manager",
+          "narration": "The desk lists this week’s client flights: CP&L substation inspections tomorrow on UAS-01 and UAS-03; a CVAC collection Thursday on UAS-04 and UAS-05; a CP&L line patrol Friday on UAS-11. All but UAS-11 are OEM aircraft that were offered the same update.",
+          "keyFacts": [
+            "CP&L Wednesday: UAS-01, UAS-03",
+            "CVAC Thursday: UAS-04, UAS-05",
+            "CP&L Friday: UAS-11 (not OEM)"
+          ],
+          "expectedAction": "Note which flights depend on possibly affected aircraft; prepare to tell clients once the grounding is decided.",
+          "facilitatorNote": "Let the cost sink in; do not ask for a decision yet."
+        },
+        "instructorNote": "Let the cost sink in; do not ask for a decision yet.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:03:01.531Z"
+}

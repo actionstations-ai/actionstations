@@ -1,0 +1,120 @@
+{
+  "id": "01M5RK34FHXQKV2BKPB677A8EZ",
+  "mselRowId": "I-13",
+  "type": "email_forward",
+  "title": "Email: SecureWatch — GCS fleet check",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Tomás Reyes",
+    "fromEmail": "treyes@huog.example",
+    "senderInitials": "TR",
+    "to": "Devin Alcott",
+    "subject": "FW: GCS fleet — which ones fly",
+    "sentAt": "Mon 10/05/2026 11:30 AM",
+    "note": "Devin — GCS-03 is out. GCS-01 and GCS-04 are cleared. — Tomás",
+    "signature": "Tomás Reyes\nSystems & Cybersecurity Lead",
+    "importance": "normal",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Tomás Reyes",
+    "original": {
+      "cc": "",
+      "fromName": "SecureWatch incident coordinator",
+      "fromEmail": "ir@securewatch-mssp.example",
+      "to": "treyes@huog.example",
+      "subject": "GCS fleet",
+      "body": "GCS-01: no NAS mount since Friday; matches baseline 03.2026-B — cleared.\nGCS-04: no NAS mount; matches L-2026.2 — cleared.\nGCS-03: mounted \\\\HUOG-NAS01\\flightlogs on Saturday at 23:02 — treat as infected.\nGCS-05/06: out of scope.\n\nClean-environment confirmation for the OB-1 restore expected at 12:00.",
+      "sentAt": "Mon 10/05/2026 11:26 AM"
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "Watch for GCS-03 grounded with its aircraft and the CVAC collection rescheduled.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:54:08.797Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "NAS and GCS-02 Infection Confirmed — Ransomware LockBit-2.0",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "MSSP SOC",
+          "fromEmail": "soc@huog-mssp.example",
+          "senderInitials": "MS",
+          "to": "it@huog.example",
+          "subject": "Critical Alert: NAS and GCS-02 Infection Confirmed",
+          "sentAt": "Sat 10/24/2026 11:30 AM",
+          "note": "This is a formal alert from the MSSP SOC. The infection is confirmed and the environment is not clean. No recovery actions may proceed until a clean network is confirmed. The Group must now follow HUOG-ISP Section 9.3 recovery order.",
+          "signature": "SecureWatch MSSP\nSOC Operations Lead",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Managed SOC (SecureWatch MSSP)",
+          "original": {
+            "fromName": "MSSP Incident Coordinator",
+            "fromEmail": "securewatch@securewatch.example",
+            "sentAt": "Sat 10/24/2026 11:30 AM",
+            "to": "it@huog.example",
+            "cc": "",
+            "subject": "Critical Alert: NAS and GCS-02 Infection Confirmed",
+            "body": "The MSSP has confirmed that HUOG-NAS01 and HUOG-PROC01 are infected with ransomware (variant: LockBit-2.0). The attack vector was an unauthorized session from GCS-02 (10.17.40.17) on 2026-04-20 at 08:42, using a cached service account (svc-nas-01). The NAS snapshot schedule was disabled on 2026-04-10 at 22:15. The off-site backup service has a last good snapshot from 2026-03-20. The offline drive OB-1 (in the GM's safe) is three weeks outdated and cannot be used. The environment is not clean. No recovery is permitted until the MSSP confirms the network is clean and the offline drive is validated. The Group must proceed with the recovery order in HUOG-ISP Section 9.3."
+          }
+        },
+        "instructorNote": "This inject confirms the ransomware infection and blocks any recovery attempts. The SL must not initiate any restore or access OB-1; the team must wait for the MSSP to confirm a clean environment.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.404Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email: SecureWatch — GCS fleet check",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Tomás Reyes",
+          "fromEmail": "treyes@huog.example",
+          "senderInitials": "TR",
+          "to": "Devin Alcott",
+          "subject": "FW: GCS fleet — which ones fly",
+          "sentAt": "Mon 10/05/2026 11:30 AM",
+          "note": "Devin — GCS-03 is out. GCS-01 and GCS-04 are cleared. — Tomás",
+          "signature": "Tomás Reyes\nSystems & Cybersecurity Lead",
+          "importance": "normal",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Tomás Reyes",
+          "original": {
+            "cc": "",
+            "fromName": "SecureWatch incident coordinator",
+            "fromEmail": "ir@securewatch-mssp.example",
+            "to": "treyes@huog.example",
+            "subject": "GCS fleet",
+            "body": "GCS-01: no NAS mount since Friday; matches baseline 03.2026-B — cleared.\nGCS-04: no NAS mount; matches L-2026.2 — cleared.\nGCS-03: mounted \\\\HUOG-NAS01\\flightlogs on Saturday at 23:02 — treat as infected.\nGCS-05/06: out of scope.\n\nClean-environment confirmation for the OB-1 restore expected at 12:00.",
+            "sentAt": "Mon 10/05/2026 11:26 AM"
+          }
+        },
+        "instructorNote": "Watch for GCS-03 grounded with its aircraft and the CVAC collection rescheduled.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:33.044Z"
+}

@@ -1,0 +1,149 @@
+{
+  "id": "01M5RJW3ARJJAMCYMTJDZABWND",
+  "mselRowId": "I-03b",
+  "type": "radio_call",
+  "title": "Radio: Horton Field — RTK-2 has no fix",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Harwick UAS Operations Group",
+    "centerName": "Flight Operations Desk",
+    "channel": "Crew Ch 1",
+    "date": "10/05/2026",
+    "callsign": "Crew 1",
+    "lines": [
+      {
+        "time": "09:20",
+        "from": "Crew 1",
+        "to": "Flight Ops",
+        "text": "Flight Ops, Crew 1 at Horton Field. RTK-2 still hasn’t got a fixed solution after fifteen minutes."
+      },
+      {
+        "time": "09:20",
+        "from": "Crew 1",
+        "to": "Flight Ops",
+        "text": "Has the hack got into the base station? Do we hold?"
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Woman in her 20s, uncertain, wind across the field",
+    "duration": "0:12"
+  },
+  "variant": "default",
+  "instructorNote": "Red herring: a normal cold start. RTK-2 is not on the NAS.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+      "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+      "headingPath": "SITE › 7. Radio channels (exercise values)",
+      "quote": "| Channel | Use | Frequency | |---|---|---| | C2 link, OEM aircraft | Command and control / video | 2.4 GHz and 5.8 GHz, frequency-hopping, OEM encryption | | C2 link, UAS-11 and UAS-12 | Telemetry an",
+      "chunkId": 145
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Crew 1",
+        "voiceStyle": "Woman in her 20s, uncertain, wind across the field",
+        "text": "Flight Ops, Crew 1 at Horton Field. RTK-2 still hasn’t got a fixed solution after fifteen minutes."
+      },
+      {
+        "speaker": "Crew 1",
+        "voiceStyle": "Woman in her 20s, uncertain, wind across the field",
+        "text": "Has the hack got into the base station? Do we hold?"
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:50:26.089Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GCS-02 Offline — Field Tech Alert",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "centerName": "Flight Operations Command Center",
+          "channel": "Crew Ch 1",
+          "frequency": "461.0375 MHz",
+          "date": "10/24/2026",
+          "callsign": "Field Tech Kline",
+          "lines": [
+            {
+              "time": "09:20",
+              "from": "Field Tech Kline",
+              "to": "IT",
+              "text": "IT, this is J. Kline in the field. We’re setting up DAA-1 for the test at Birch Hollow Range. The weather’s good, but I just noticed the GCS-02 icon is offline on the AVS map. Is it down? Should we hold the test?"
+            },
+            {
+              "time": "09:20",
+              "from": "Field Tech Kline",
+              "to": "IT",
+              "text": "[Pause] We’re at 10.17.40.17—same as GCS-02. But it’s not responding to pings. I don’t see it on the network. Is it on a different VLAN?"
+            }
+          ],
+          "background": "ramp",
+          "voiceStyle": "Male, mid-30s, calm but tense, slight background wind and radio static",
+          "audioFile": "I-03b_radio.wav",
+          "duration": "0:22",
+          "injectId": "I-03b"
+        },
+        "instructorNote": "This inject confirms the infection has severed GCS-02 from the network. The technical team must now trace the loss to the NAS or GCS compromise, not a network policy change.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.338Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Radio: Horton Field — RTK-2 has no fix",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "centerName": "Flight Operations Desk",
+          "channel": "Crew Ch 1",
+          "date": "10/05/2026",
+          "callsign": "Crew 1",
+          "lines": [
+            {
+              "time": "09:20",
+              "from": "Crew 1",
+              "to": "Flight Ops",
+              "text": "Flight Ops, Crew 1 at Horton Field. RTK-2 still hasn’t got a fixed solution after fifteen minutes."
+            },
+            {
+              "time": "09:20",
+              "from": "Crew 1",
+              "to": "Flight Ops",
+              "text": "Has the hack got into the base station? Do we hold?"
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Woman in her 20s, uncertain, wind across the field",
+          "duration": "0:12"
+        },
+        "instructorNote": "Red herring: a normal cold start. RTK-2 is not on the NAS.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:29.729Z"
+}

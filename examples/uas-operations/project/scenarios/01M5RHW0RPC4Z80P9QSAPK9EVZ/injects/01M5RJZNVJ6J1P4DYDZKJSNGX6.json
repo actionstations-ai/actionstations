@@ -1,0 +1,176 @@
+{
+  "id": "01M5RJZNVJ6J1P4DYDZKJSNGX6",
+  "mselRowId": "I-08b",
+  "type": "phone_call",
+  "title": "Phone: Fleet & Logistics — battery delivery",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Harwick UAS Operations Group",
+    "systemName": "Recorded Line",
+    "callId": "HUOG-20261005-102702",
+    "direction": "Internal",
+    "caller": {
+      "name": "Owen Castellano",
+      "number": "585-555-0145",
+      "label": "Fleet & Logistics Manager"
+    },
+    "callee": {
+      "name": "Devin Alcott",
+      "number": "585-555-0141",
+      "label": "Director of Flight Operations"
+    },
+    "startTime": "10/05/2026 10:27:02",
+    "duration": "0:20",
+    "transcript": [
+      {
+        "speaker": "Fleet & Logistics Manager",
+        "offset": "0:00",
+        "text": "Battery delivery for the CVAC season just came in at Hangar 1. I need a signature and room in the fire cabinet. Can someone come over?"
+      },
+      {
+        "speaker": "Director of Flight Operations",
+        "text": "",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Fleet & Logistics Manager": "Man in his 40s, brisk, forklift beeping"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "Noise.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+      "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+      "headingPath": "SITE › 9. Contacts (exercise numbers)",
+      "quote": "| Party | Role | Number | |---|---|---| | Harwick Police Department | City police, first response, public event at the adjacent Harwick Fairgrounds control | 585-555-0111 | | Calder County Sheriff's O",
+      "chunkId": 147
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+      "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+      "chunkId": 24
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 2 › 2.3 Where the team works",
+      "quote": "Hangar 2 (flight operations desk, 585-555-0140) is the Group's incident room; it has the fleet register, the site cards, the radio base on Crew Ch 3 and the shared incident log (`\\\\HUOG-NAS01\\ops\\inci",
+      "chunkId": 8
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Fleet & Logistics Manager",
+        "voiceStyle": "Man in his 40s, brisk, forklift beeping",
+        "text": "Battery delivery for the CVAC season just came in at Hangar 1. I need a signature and room in the fire cabinet. Can someone come over?"
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:52:17.376Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Harwick PD: Drone Sighting at Birch Hollow Range — 08:50",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "systemName": "AOC Console 3 (Call Recorder)",
+          "callId": "CR-20261024-102700-0001",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Officer M. Delgado",
+            "number": "585-555-0111",
+            "label": "Harwick PD"
+          },
+          "callee": {
+            "name": "Security / Campus Safety Liaison",
+            "number": "585-555-0140",
+            "label": "Sec"
+          },
+          "startTime": "10/24/2026 10:27:00",
+          "duration": "0:42",
+          "transcript": [
+            {
+              "speaker": "Officer M. Delgado",
+              "offset": "0:00",
+              "text": "This is Officer M. Delgado from Harwick PD. We received a 911 call from a neighbor at the Birch Hollow Range. They reported seeing a drone with a red light on, hovering near the test site fence at 08:50. They said it looked like it was scanning the area, and the light was flashing fast. We’re sending a unit to the site now, but we need to know if your team is aware of any unauthorized operations or if this could be a security breach.",
+              "prompt": false
+            },
+            {
+              "speaker": "Security / Campus Safety Liaison",
+              "offset": "0:32",
+              "text": "We’re aware of a system-wide cyber incident. All UAS are grounded. GCS-02 was offline and isolated at 08:50. No authorized flights were in progress. We’ll confirm the site status and send an update.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-08b"
+        },
+        "instructorNote": "This inject confirms the attacker's external reconnaissance window. The security team must verify that no flight was active and that the drone sighting aligns with GCS-02's compromised timeline. Watch for over-communication or attempts to override the hold on operations.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.382Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone: Fleet & Logistics — battery delivery",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "systemName": "Recorded Line",
+          "callId": "HUOG-20261005-102702",
+          "direction": "Internal",
+          "caller": {
+            "name": "Owen Castellano",
+            "number": "585-555-0145",
+            "label": "Fleet & Logistics Manager"
+          },
+          "callee": {
+            "name": "Devin Alcott",
+            "number": "585-555-0141",
+            "label": "Director of Flight Operations"
+          },
+          "startTime": "10/05/2026 10:27:02",
+          "duration": "0:20",
+          "transcript": [
+            {
+              "speaker": "Fleet & Logistics Manager",
+              "offset": "0:00",
+              "text": "Battery delivery for the CVAC season just came in at Hangar 1. I need a signature and room in the fire cabinet. Can someone come over?"
+            },
+            {
+              "speaker": "Director of Flight Operations",
+              "text": "",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Fleet & Logistics Manager": "Man in his 40s, brisk, forklift beeping"
+          }
+        },
+        "instructorNote": "Noise.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:31.562Z"
+}

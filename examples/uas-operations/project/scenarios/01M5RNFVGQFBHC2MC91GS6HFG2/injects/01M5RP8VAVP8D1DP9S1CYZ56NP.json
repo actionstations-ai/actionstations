@@ -1,0 +1,126 @@
+{
+  "id": "01M5RP8VAVP8D1DP9S1CYZ56NP",
+  "mselRowId": "I-19",
+  "type": "media_inquiry_phone_slip",
+  "title": "Media Inquiry: Channel 10 — will you keep flying near homes?",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "to": "Corporate Communications",
+    "date": "09/15",
+    "time": "12:30",
+    "ampm": "PM",
+    "fromName": "News desk",
+    "fromOrg": "Channel 10",
+    "phone": "585-555-0191",
+    "checks": [
+      "telephoned",
+      "please_call",
+      "rush"
+    ],
+    "message": "Will the Group keep flying near homes and the airport? What has it changed since this morning?",
+    "deadline": "6 p.m. news",
+    "takenBy": "Flight Operations Desk"
+  },
+  "variant": "default",
+  "instructorNote": "Watch for the approved measures stated plainly and no technical guesses.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+      "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+      "chunkId": 48
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 11 › 11.3 Records",
+      "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+      "chunkId": 36
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+      "quote": "Treat as Level 2. Land all aircraft; preserve the GCS state; call the Systems & Cybersecurity Lead before anything is powered down; no further launches at the site that day; the HUOG-ISP incident play",
+      "chunkId": 25
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.0 Common first steps",
+      "quote": "1. Whoever notices tells the Systems & Cybersecurity Lead (585-555-0143) and, if a flight is involved, the RPIC lands and the HUOG-ERP applies. 2. Do not power off, reboot or \"clean\" anything; disconn",
+      "chunkId": 126
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ],
+    "postFx": [
+      "pa",
+      "terminal_ambience"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:49:42.240Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Incident Closed — Firmware Root Cause Confirmed",
+        "type": "pa_announcement",
+        "fields": {
+          "text": "Attention all personnel. The UAS-02 incident has been officially closed. The root cause was a firmware bug in version 2.4.11a that disabled the failover logic, resulting in an uncommanded climb into Class C airspace. The decision to ground the fleet was correct and necessary. No further flights will resume until firmware version 2.3.2 is fully validated and approved by the FOM and ASO. The After-Action Note (AAN) has been drafted and submitted via HUOG-ERP Section 11.3 to the FOM, ASO, and FSDO. The incident log is now archived.",
+          "zones": "ALL HANGAR ZONES, INCIDENT COMMAND POST, GCS-01, HUOG-NAS01 ACCESS",
+          "source": "Incident Command Post (ICP) Paging System",
+          "voiceStyle": "human",
+          "voiceDirection": "Calm, authoritative male voice, steady pace, no reverb",
+          "terminalAmbience": "Quiet control room, faint keyboard taps, distant HVAC hum",
+          "chime": true,
+          "repeat": "Plays 1x, no repeat",
+          "time": "12:30",
+          "deliveryNote": "Play the audio on all main speakers. Do not explain it. The AAN is now filed.",
+          "audioFile": "I-19_pa.wav",
+          "duration": "0:32",
+          "injectId": "I-19",
+          "scenarioTitle": "Lost Signal — Link Failure & Class C Incursion"
+        },
+        "instructorNote": "This inject finalizes the incident. The IC must now confirm the AAN is filed and the NAS archive is updated. Watch for any attempt to resume flights or bypass the approval process.",
+        "deliveryMode": "play_audio"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.744Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Media Inquiry: Channel 10 — will you keep flying near homes?",
+        "type": "media_inquiry_phone_slip",
+        "fields": {
+          "to": "Corporate Communications",
+          "date": "09/15",
+          "time": "12:30",
+          "ampm": "PM",
+          "fromName": "News desk",
+          "fromOrg": "Channel 10",
+          "phone": "585-555-0191",
+          "checks": [
+            "telephoned",
+            "please_call",
+            "rush"
+          ],
+          "message": "Will the Group keep flying near homes and the airport? What has it changed since this morning?",
+          "deadline": "6 p.m. news",
+          "takenBy": "Flight Operations Desk"
+        },
+        "instructorNote": "Watch for the approved measures stated plainly and no technical guesses.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:03:04.439Z"
+}

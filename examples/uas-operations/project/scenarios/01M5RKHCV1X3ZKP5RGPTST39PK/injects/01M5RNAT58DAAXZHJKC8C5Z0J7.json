@@ -1,0 +1,178 @@
+{
+  "id": "01M5RNAT58DAAXZHJKC8C5Z0J7",
+  "mselRowId": "I-17",
+  "type": "phone_call",
+  "title": "Phone: Harwick Police — evidence and records",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Harwick UAS Operations Group",
+    "systemName": "Recorded Line",
+    "callId": "HUOG-20260919-140506",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Sgt. on duty, event command post",
+      "number": "585-555-0111",
+      "label": "Harwick Police"
+    },
+    "callee": {
+      "name": "Owen Castellano",
+      "number": "585-555-0145",
+      "label": "Fleet & Logistics Manager"
+    },
+    "startTime": "09/19/2026 14:05:06",
+    "duration": "0:44",
+    "transcript": [
+      {
+        "speaker": "Harwick Police",
+        "offset": "0:00",
+        "text": "We’re keeping the drone, the controller and the memory card as evidence."
+      },
+      {
+        "speaker": "Harwick Police",
+        "offset": "0:08",
+        "text": "We’d like copies of your eight o’clock fleet log, the register extract with your Remote ID serials and your pilot’s notes from the command post, by Monday."
+      },
+      {
+        "speaker": "Fleet & Logistics Manager",
+        "text": "",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Harwick Police": "Man in his 40s, tired, end of a long shift"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "Police keep the evidence; the Group gives copies of its own records.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 11 › 11.3 Records",
+      "quote": "Incident folder on the NAS (`\\\\HUOG-NAS01\\ops\\incident-log\\<yyyy-mm-dd>-<tail>\\`): the incident log, photos, GCS screenshots, telemetry, link logs, DAA-1 recording, notification record, Incident Repor",
+      "chunkId": 36
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 6 › 6.3 Integrity",
+      "quote": "Raw data folders get a manifest of SHA-256 hashes when copied to the NAS; processing scripts verify the manifest before they start; deliverables carry a manifest the client can verify. A product gener",
+      "chunkId": 116
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Harwick Police",
+        "voiceStyle": "Man in his 40s, tired, end of a long shift",
+        "text": "We’re keeping the drone, the controller and the memory card as evidence."
+      },
+      {
+        "speaker": "Harwick Police",
+        "voiceStyle": "Man in his 40s, tired, end of a long shift",
+        "text": "We’d like copies of your eight o’clock fleet log, the register extract with your Remote ID serials and your pilot’s notes from the command post, by Monday."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:33:16.738Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Drone Operator Apprehended — Evidence Handover",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Harwick Police Department",
+          "systemName": "CCSO Liaison Console",
+          "callId": "CR-20261025-140502-0045",
+          "direction": "Outbound",
+          "caller": {
+            "name": "CCSO Liaison",
+            "number": "585-555-0177",
+            "label": "CCSO Liaison"
+          },
+          "callee": {
+            "name": "Aviation Safety Officer",
+            "number": "585-555-0143",
+            "label": "ASO"
+          },
+          "startTime": "10/25/2026 14:05:02",
+          "duration": "0:38",
+          "transcript": [
+            {
+              "speaker": "CCSO Liaison",
+              "offset": "0:00",
+              "text": "This is the Harwick Police CCSO Liaison. We have located the operator in the public park west of Hangar 1. The drone has landed 200 meters from the fairgrounds and was secured. We are handovering the aircraft, the controller (model: DJI M350 RC), and the SD card with the flight log to your security team. The operator is in custody. Please log the evidence in your incident folder under ERP-1001.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-17"
+        },
+        "instructorNote": "Confirm the ASO has received the physical evidence and initiated the log entry in the incident folder. Verify the SHA-256 manifest is in place for forensic integrity.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T04:59:53.453Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone: Harwick Police — evidence and records",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "systemName": "Recorded Line",
+          "callId": "HUOG-20260919-140506",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Sgt. on duty, event command post",
+            "number": "585-555-0111",
+            "label": "Harwick Police"
+          },
+          "callee": {
+            "name": "Owen Castellano",
+            "number": "585-555-0145",
+            "label": "Fleet & Logistics Manager"
+          },
+          "startTime": "09/19/2026 14:05:06",
+          "duration": "0:44",
+          "transcript": [
+            {
+              "speaker": "Harwick Police",
+              "offset": "0:00",
+              "text": "We’re keeping the drone, the controller and the memory card as evidence."
+            },
+            {
+              "speaker": "Harwick Police",
+              "offset": "0:08",
+              "text": "We’d like copies of your eight o’clock fleet log, the register extract with your Remote ID serials and your pilot’s notes from the command post, by Monday."
+            },
+            {
+              "speaker": "Fleet & Logistics Manager",
+              "text": "",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Harwick Police": "Man in his 40s, tired, end of a long shift"
+          }
+        },
+        "instructorNote": "Police keep the evidence; the Group gives copies of its own records.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:48.062Z"
+}

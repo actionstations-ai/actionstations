@@ -1,0 +1,206 @@
+{
+  "id": "01M5RJXQFRBBN7HVWCEWKJDYQB",
+  "mselRowId": "I-06",
+  "type": "phone_call",
+  "title": "Phone: CP&L — is D-3 still good, and was our data read?",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Harwick UAS Operations Group",
+    "systemName": "Recorded Line",
+    "callId": "HUOG-20261005-100512",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Program manager",
+      "number": "585-555-0180",
+      "label": "Calder Power & Light"
+    },
+    "callee": {
+      "name": "Marguerite Ostrowski",
+      "number": "585-555-0146",
+      "label": "General Manager"
+    },
+    "startTime": "10/05/2026 10:05:12",
+    "duration": "0:58",
+    "transcript": [
+      {
+        "speaker": "Calder Power & Light",
+        "offset": "0:00",
+        "text": "Calling about D-3. We’ve heard nothing, and one of your crew told our line foreman you’d had a computer problem."
+      },
+      {
+        "speaker": "Calder Power & Light",
+        "offset": "0:14",
+        "text": "Is the fifteenth still good?"
+      },
+      {
+        "speaker": "Calder Power & Light",
+        "offset": "0:20",
+        "text": "And our task order says you tell us within twenty-four hours if our data may have been read. Has it?"
+      },
+      {
+        "speaker": "General Manager",
+        "text": "",
+        "prompt": true
+      }
+    ],
+    "voiceStyles": {
+      "Calder Power & Light": "Man in his 40s, polite but pointed"
+    }
+  },
+  "variant": "default",
+  "instructorNote": "Watch for no guessing, a committed call-back time inside the four-hour window, and Corporate Communications told.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Annex B",
+      "quote": "Systems & Cybersecurity Lead, Tomás Reyes — 585-555-0143 · Alternate admin, Nadia Okonkwo — 585-555-0147 · managed SOC — 585-555-0155 (24 h) · IT helpdesk — 585-555-0150 · Data Center Operations lead,",
+      "chunkId": 136
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 10 › 10.4 Clients and partners",
+      "quote": "Client program managers hear from the General Manager (Section 6.1, item 11) before they hear from anyone else; the Campaign Lead does not email the client about an incident on their own. The CVAC and",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Calder Power & Light",
+        "voiceStyle": "Man in his 40s, polite but pointed",
+        "text": "Calling about D-3. We’ve heard nothing, and one of your crew told our line foreman you’d had a computer problem."
+      },
+      {
+        "speaker": "Calder Power & Light",
+        "voiceStyle": "Man in his 40s, polite but pointed",
+        "text": "Is the fifteenth still good?"
+      },
+      {
+        "speaker": "Calder Power & Light",
+        "voiceStyle": "Man in his 40s, polite but pointed",
+        "text": "And our task order says you tell us within twenty-four hours if our data may have been read. Has it?"
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:51:10.358Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "CP&L Program Office: D-3 Data Integrity Check",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "systemName": "AOC Voice Recorder - Console 1",
+          "callId": "CR-20261024-100000-0001",
+          "direction": "Inbound",
+          "caller": {
+            "name": "L. Mendez",
+            "number": "585-555-0180",
+            "label": "CP&L Program Office"
+          },
+          "callee": {
+            "name": "General Manager",
+            "number": "585-555-0146",
+            "label": "General Manager"
+          },
+          "startTime": "10/24/2026 10:00:00",
+          "duration": "0:42",
+          "transcript": [
+            {
+              "speaker": "Caller",
+              "offset": "0:00",
+              "text": "Hi, this is L. Mendez from the CP&L program office. We're on track for D-3, but I just wanted to check in—has the team confirmed whether the raw data is still intact? The deadline is in 48 hours, and we need to know if we should expect a delay. Is the NAS still healthy?",
+              "prompt": false
+            },
+            {
+              "speaker": "Callee",
+              "offset": "0:21",
+              "text": "Thank you for calling, L. We're aware of the situation. The NAS has been compromised. We're currently assessing the impact on D-3 data. I’ll follow up with a status update within the hour.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-06"
+        },
+        "instructorNote": "This call confirms the client's awareness of the deadline pressure. The GM must now validate that data exposure occurred and trigger the formal client risk assessment per HUOG-ISP Section 9.3.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.366Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Phone: CP&L — is D-3 still good, and was our data read?",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Harwick UAS Operations Group",
+          "systemName": "Recorded Line",
+          "callId": "HUOG-20261005-100512",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Program manager",
+            "number": "585-555-0180",
+            "label": "Calder Power & Light"
+          },
+          "callee": {
+            "name": "Marguerite Ostrowski",
+            "number": "585-555-0146",
+            "label": "General Manager"
+          },
+          "startTime": "10/05/2026 10:05:12",
+          "duration": "0:58",
+          "transcript": [
+            {
+              "speaker": "Calder Power & Light",
+              "offset": "0:00",
+              "text": "Calling about D-3. We’ve heard nothing, and one of your crew told our line foreman you’d had a computer problem."
+            },
+            {
+              "speaker": "Calder Power & Light",
+              "offset": "0:14",
+              "text": "Is the fifteenth still good?"
+            },
+            {
+              "speaker": "Calder Power & Light",
+              "offset": "0:20",
+              "text": "And our task order says you tell us within twenty-four hours if our data may have been read. Has it?"
+            },
+            {
+              "speaker": "General Manager",
+              "text": "",
+              "prompt": true
+            }
+          ],
+          "voiceStyles": {
+            "Calder Power & Light": "Man in his 40s, polite but pointed"
+          }
+        },
+        "instructorNote": "Watch for no guessing, a committed call-back time inside the four-hour window, and Corporate Communications told.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:30.479Z"
+}

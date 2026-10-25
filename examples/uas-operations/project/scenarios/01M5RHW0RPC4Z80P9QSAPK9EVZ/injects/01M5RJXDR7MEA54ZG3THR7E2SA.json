@@ -1,0 +1,106 @@
+{
+  "id": "01M5RJXDR7MEA54ZG3THR7E2SA",
+  "mselRowId": "TIME_JUMP",
+  "type": "time_jump_card",
+  "title": "Time Jump: 10:00",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "newTime": "10:00",
+    "narration": "It is now 10:00. The Data VLAN is cut off at HUOG-FW01 and the NAS is disconnected. GCS-02 is grounded in Hangar 2. The CVAC crew is waiting at Horton Field. The MSSP analyst is reviewing the HUOG-FW01 logs remotely.",
+    "worldState": [
+      "The Data VLAN is isolated and the NAS disconnected.",
+      "GCS-02 is grounded in Hangar 2.",
+      "The CVAC crew is waiting at Horton Field.",
+      "The MSSP is reviewing the HUOG-FW01 logs."
+    ],
+    "facilitatorNote": "Ask each team what it has stopped or grounded and what it still needs to know."
+  },
+  "variant": "default",
+  "instructorNote": "Reset the clock.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+      "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+      "chunkId": 99
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+      "quote": "Treat as Level 2. Land all aircraft; preserve the GCS state; call the Systems & Cybersecurity Lead before anything is powered down; no further launches at the site that day; the HUOG-ISP incident play",
+      "chunkId": 25
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:50:59.313Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump — 10:00 AM",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "1:00",
+          "newTime": "10:00 AM",
+          "jumpLabel": "+60 minutes",
+          "narration": "Facilitator: This is 10:00 AM on Saturday, October 24, 2026. The situation has escalated. HUOG-FW01 has isolated the Data VLAN, cutting off all GCS units from the NAS and HUOG-PROC01. GCS-02 is confirmed infected and grounded. The last good backup, OB-1, is from March 20, 2026—three weeks outdated. The Systems & Cybersecurity Lead has confirmed that CP&L and CVAC data was accessed during the unauthorized window. The General Manager must decide within four hours whether to notify clients that D-3 is at risk. The Emergency Response Plan is now active under HUOG-ERP Section 8.5. All roles, review your responsibilities and prepare for formal incident declaration under HUOG-ISP Section 9.3.",
+          "worldState": [
+            "The Data VLAN is isolated at HUOG-FW01 (10.17.41.1).",
+            "All GCS units are now disconnected from the NAS and HUOG-PROC01.",
+            "GCS-02 is confirmed infected and grounded.",
+            "The last good offline backup (OB-1) is from 2026-03-20.",
+            "CP&L and CVAC data was read during the unauthorized access window.",
+            "The General Manager has four hours to decide whether to notify clients about D-3 risk.",
+            "The Emergency Response Plan (HUOG-ERP) is now active.",
+            "The HUOG-ISP Section 9.3 ransomware playbook is in effect."
+          ],
+          "facilitatorNote": "This is a time jump to stabilize the incident state. The player roles must now act under the full incident command structure. Watch for delayed activation of the HUOG-ERP and for the IC to call for a formal incident declaration.",
+          "scenarioTitle": "Silent Lockdown — NAS Ransomware & Client Data Exposure",
+          "injectId": "TIME_JUMP"
+        },
+        "instructorNote": "This time jump establishes the full operational impact. The players must now activate the HUOG-ERP and begin formal incident declaration under HUOG-ISP Section 9.3. The GM has four hours to decide on client notification—this is a critical decision point.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.362Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Time Jump: 10:00",
+        "type": "time_jump_card",
+        "fields": {
+          "newTime": "10:00",
+          "narration": "It is now 10:00. The Data VLAN is cut off at HUOG-FW01 and the NAS is disconnected. GCS-02 is grounded in Hangar 2. The CVAC crew is waiting at Horton Field. The MSSP analyst is reviewing the HUOG-FW01 logs remotely.",
+          "worldState": [
+            "The Data VLAN is isolated and the NAS disconnected.",
+            "GCS-02 is grounded in Hangar 2.",
+            "The CVAC crew is waiting at Horton Field.",
+            "The MSSP is reviewing the HUOG-FW01 logs."
+          ],
+          "facilitatorNote": "Ask each team what it has stopped or grounded and what it still needs to know."
+        },
+        "instructorNote": "Reset the clock.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:30.277Z"
+}

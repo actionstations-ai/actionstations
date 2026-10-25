@@ -1,0 +1,111 @@
+{
+  "id": "01M5RJWQ1GZREDBTK4N20SQGYS",
+  "mselRowId": "I-04",
+  "type": "scenario_update",
+  "title": "Situation Update: GCS-02 shows the ransom note",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "exerciseTime": "0:25",
+    "scenarioTime": "09:25",
+    "headline": "GCS-02 in Hangar 2 shows the ransom note",
+    "deliverTo": "Director of Flight Operations, Systems & Cybersecurity Lead, General Manager",
+    "narration": "In Hangar 2, GCS-02 shows the ransom note as its wallpaper. Its mission files for UAS-03 and UAS-11 have been renamed .lck0. The crew member who uploaded the flight logs at 08:44 is standing next to it and asks whether he should shut it down.",
+    "keyFacts": [
+      "GCS-02 mounted the NAS at 08:44",
+      "Mission files for UAS-03 and UAS-11 renamed",
+      "GCS-02 is still on the Flight Ops VLAN"
+    ],
+    "expectedAction": "Unplug GCS-02 from the network but leave it on, label and ground it with UAS-03 and UAS-11; the General Manager is told the four-hour clock has started.",
+    "facilitatorNote": "If anyone says “reimage it”, ask who will tell the MSSP that the evidence is gone."
+  },
+  "variant": "default",
+  "instructorNote": "The cyber incident now touches the aircraft. Watch for grounding by GCS, not by guesswork.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.0 Common first steps",
+      "quote": "1. Whoever notices tells the Systems & Cybersecurity Lead (585-555-0143) and, if a flight is involved, the RPIC lands and the HUOG-ERP applies. 2. Do not power off, reboot or \"clean\" anything; disconn",
+      "chunkId": 126
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 7 › 7.2 Data classes",
+      "quote": "| Class | Examples | Handling | |---|---|---| | **Public** | Published papers, demo imagery of Horton Field | No restriction | | **Internal** | Flight logs, maintenance records, most trainee projects ",
+      "chunkId": 118
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:50:34.820Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GCS-02 Quarantined — NAS Mount Corruption",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "0:25",
+          "scenarioTime": "09:25",
+          "headline": "GCS-02 Mount Error — System Isolation",
+          "deliverTo": "All players",
+          "narration": "The Systems & Cybersecurity Lead confirms that GCS-02's filesystem is now read-only and the mount point for CP&L Campaign D-3 is corrupted. The error message 'mount error 12' appears in the console, and no recovery command has restored access. The NAS remains accessible from HUOG-PROC01 and other workstations, but GCS-02 cannot read or write to any project share. The device is now isolated from the network. The last valid session was recorded on April 10 at 16:45, and no new access attempts have been made since the alert was raised.",
+          "keyFacts": [
+            "GCS-02 is quarantined and must not be powered on or connected to any network until verified.",
+            "The NAS remains accessible from HUOG-PROC01 and other workstations.",
+            "The last valid session on GCS-02 was on 04/10 at 16:45.",
+            "No new access attempts have been logged from GCS-02 since the alert.",
+            "The device must be treated as infected and grounded per HUOG-ISP Section 9.3."
+          ],
+          "expectedAction": "IT notifies the Ops and the Security Lead that GCS-02 is infected and must be grounded. Ops confirms no flight may use GCS-02 until cleaned and verified. Security confirms GCS-02 is secured in Hangar 2.",
+          "facilitatorNote": "This inject confirms the infection is active and spreading. Watch for the team to initiate isolation and report to the General Manager.",
+          "scenarioTitle": "Silent Lockdown — NAS Ransomware & Client Data Exposure",
+          "injectId": "I-04"
+        },
+        "instructorNote": "This inject confirms GCS-02 is infected and must be quarantined. The team must now follow the incident response protocol for infected systems, including notifying the General Manager and initiating backup verification.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.356Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Situation Update: GCS-02 shows the ransom note",
+        "type": "scenario_update",
+        "fields": {
+          "exerciseTime": "0:25",
+          "scenarioTime": "09:25",
+          "headline": "GCS-02 in Hangar 2 shows the ransom note",
+          "deliverTo": "Director of Flight Operations, Systems & Cybersecurity Lead, General Manager",
+          "narration": "In Hangar 2, GCS-02 shows the ransom note as its wallpaper. Its mission files for UAS-03 and UAS-11 have been renamed .lck0. The crew member who uploaded the flight logs at 08:44 is standing next to it and asks whether he should shut it down.",
+          "keyFacts": [
+            "GCS-02 mounted the NAS at 08:44",
+            "Mission files for UAS-03 and UAS-11 renamed",
+            "GCS-02 is still on the Flight Ops VLAN"
+          ],
+          "expectedAction": "Unplug GCS-02 from the network but leave it on, label and ground it with UAS-03 and UAS-11; the General Manager is told the four-hour clock has started.",
+          "facilitatorNote": "If anyone says “reimage it”, ask who will tell the MSSP that the evidence is gone."
+        },
+        "instructorNote": "The cyber incident now touches the aircraft. Watch for grounding by GCS, not by guesswork.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:29.938Z"
+}

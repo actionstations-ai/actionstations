@@ -1,0 +1,198 @@
+{
+  "id": "01M5RK0WZQE69CQD9SD0E535XP",
+  "mselRowId": "I-10a",
+  "type": "system_log",
+  "title": "System Log: what OB-1 holds",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "systemName": "Hash check on clean laptop",
+    "host": "CAL-LT-CLEAN (off network)",
+    "ip": "none",
+    "os": "Windows 11 (clean image)",
+    "logSource": "verify_manifest output",
+    "exportedBy": "hannah.whitlock",
+    "exportedAt": "10/05/2026 11:04 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "11:01:10",
+        "level": "INFO",
+        "msg": "OB-1 mounted read-only (last written 09/14/2026)",
+        "highlight": false
+      },
+      {
+        "ts": "11:02:40",
+        "level": "INFO",
+        "msg": "calibration: 1,312 / 1,312 files match repository hashes",
+        "highlight": true
+      },
+      {
+        "ts": "11:03:55",
+        "level": "INFO",
+        "msg": "cpl-d3 raw: 6 of 9 collection days present and matching manifests",
+        "highlight": true
+      },
+      {
+        "ts": "11:04:02",
+        "level": "WARN",
+        "msg": "cpl-d3 raw: 09/17, 09/22, 09/24 not present (collected after 09/14)",
+        "highlight": true
+      }
+    ],
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "terminal",
+  "instructorNote": "D-3 cannot be finished from OB-1 alone. Watch for someone asking where else those three days might be.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 10",
+      "quote": "- HUOG-FW01 sends logs to the MSSP SIEM; alerts for any Flight Ops VLAN host contacting the Internet outside the update window, any new outbound destination from the Data VLAN, and any SMB session to ",
+      "chunkId": 133
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 3 › 3.1 Networks",
+      "quote": "| Network | Range | Hosts | Egress | |---|---|---|---| | Flight Ops VLAN | 10.17.40.0/24 | GCS-01 to GCS-04, RTK-1/2, PAY-01, HUOG-CAL01 when docked | Through HUOG-FW01; Internet only to the OEM updat",
+      "chunkId": 101
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:53:18.069Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Ransomware Execution Confirmed — GCS-02 Session Script Compromise",
+        "type": "system_log",
+        "fields": {
+          "systemName": "AODB_SQL_MASTER",
+          "host": "HUOG-PROC01",
+          "ip": "10.17.41.11",
+          "os": "Windows Server 2019",
+          "logSource": "/var/log/audit/audit.log",
+          "exportedBy": "svc-nas-01",
+          "exportedAt": "10/24/2026 11:05 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "2026-04-20 09:01:12",
+              "level": "CRIT",
+              "msg": "User: root (UID: 0) from 10.17.41.17 (GCS-02) executed /bin/sh /tmp/.locky_r2.exe",
+              "highlight": true
+            },
+            {
+              "ts": "2026-04-20 09:01:12",
+              "level": "ALERT",
+              "msg": "Session ID: 0x3e4f5a; Process: /usr/bin/python3 /opt/scripts/mission_session.py (modified 2026-04-10 16:45)",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-20 09:01:12",
+              "level": "ERROR",
+              "msg": "No prior authentication for root session; cached service account credential (svc-nas-01) used",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-20 09:01:12",
+              "level": "CRIT",
+              "msg": "File /tmp/.locky_r2.exe (SHA256: d4a1f8b3c9e2a7d5f1e8c6b4a3c2b1d7e9f0a8b6c5d4e3f2a1b0c9d8e7f6a5b4) executed — known ransomware variant (TTP: T1486)",
+              "highlight": true
+            },
+            {
+              "ts": "2026-04-20 09:01:12",
+              "level": "INFO",
+              "msg": "Scheduled task triggered at 08:55:00; file copied from NAS share via GCS-02 (10.17.41.17) to /tmp/.locky_r2.exe",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-20 09:01:12",
+              "level": "WARN",
+              "msg": "File /opt/scripts/mission_session.py modified 2026-04-10 16:45; source: GCS-02 (10.17.41.17) — user: emp_un_session.py (unauthorized)",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-20 09:01:12",
+              "level": "INFO",
+              "msg": "Antivirus did not detect .locky_r2.exe — signature not in database",
+              "highlight": false
+            },
+            {
+              "ts": "2026-04-20 09:01:12",
+              "level": "NOTICE",
+              "msg": "All data in /projects/cp&l/d3 and /projects/cvac/2026-03-15 has been encrypted; .enc files found in 14 directories",
+              "highlight": true
+            }
+          ],
+          "terminalTitle": "Terminal: HUOG-PROC01 (root@proc01)",
+          "command": "tail -n 10 /var/log/audit/audit.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This confirms the ransomware execution vector via a compromised session script on GCS-02. The SL must now initiate forensic imaging of GCS-02 and HUOG-PROC01, preserving memory and disk state per HUOG-ISP Section 9.3.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.391Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "System Log: what OB-1 holds",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Hash check on clean laptop",
+          "host": "CAL-LT-CLEAN (off network)",
+          "ip": "none",
+          "os": "Windows 11 (clean image)",
+          "logSource": "verify_manifest output",
+          "exportedBy": "hannah.whitlock",
+          "exportedAt": "10/05/2026 11:04 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "11:01:10",
+              "level": "INFO",
+              "msg": "OB-1 mounted read-only (last written 09/14/2026)",
+              "highlight": false
+            },
+            {
+              "ts": "11:02:40",
+              "level": "INFO",
+              "msg": "calibration: 1,312 / 1,312 files match repository hashes",
+              "highlight": true
+            },
+            {
+              "ts": "11:03:55",
+              "level": "INFO",
+              "msg": "cpl-d3 raw: 6 of 9 collection days present and matching manifests",
+              "highlight": true
+            },
+            {
+              "ts": "11:04:02",
+              "level": "WARN",
+              "msg": "cpl-d3 raw: 09/17, 09/22, 09/24 not present (collected after 09/14)",
+              "highlight": true
+            }
+          ],
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "D-3 cannot be finished from OB-1 alone. Watch for someone asking where else those three days might be.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:32.182Z"
+}

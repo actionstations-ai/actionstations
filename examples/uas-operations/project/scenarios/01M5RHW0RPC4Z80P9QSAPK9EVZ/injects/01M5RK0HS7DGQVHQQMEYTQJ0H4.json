@@ -1,0 +1,103 @@
+{
+  "id": "01M5RK0HS7DGQVHQQMEYTQJ0H4",
+  "mselRowId": "I-10",
+  "type": "time_jump_card",
+  "title": "Time Jump: 11:00",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "newTime": "11:00",
+    "narration": "It is now 11:00, two hours since the encryption was found. The MSSP is imaging HUOG-PROC01. CP&L is waiting for a call back. Channel 10 has called twice more.",
+    "worldState": [
+      "Two hours since discovery.",
+      "The MSSP is imaging HUOG-PROC01.",
+      "CP&L is waiting for a call back.",
+      "Channel 10 has called twice more."
+    ],
+    "facilitatorNote": "Ask what is known about what was read, what can be recovered and what the clients have been told."
+  },
+  "variant": "default",
+  "instructorNote": "Reset the clock; two hours left on the four-hour decision.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 6 › 6.1 Notification order",
+      "quote": "| Order | Who | When | By whom | |---|---|---|---| | 1 | 911 (fire, EMS, law enforcement) | Immediately for Level 3 with injury, fire or a public hazard | Anyone | | 2 | HWK Air Traffic Control Tower ",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+      "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+      "headingPath": "ERP › Section 2 › 2.2 Group incident team",
+      "quote": "| Position | Holder | Alternate | |---|---|---| | Incident Commander | Director of Flight Operations | Aviation Safety Officer | | Safety and notifications | Aviation Safety Officer | General Manager ",
+      "chunkId": 7
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:52:43.248Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Time Jump — 11:00 AM",
+        "type": "time_jump_card",
+        "fields": {
+          "exerciseTime": "2:00",
+          "newTime": "11:00 AM",
+          "jumpLabel": "+60 minutes",
+          "narration": "It is now 11:00 AM on Saturday, October 24, 2026. The cyber incident has escalated to a Level 3 under HUOG-ISP Section 9.3. The Systems & Cybersecurity Lead has confirmed that the threat actor executed ransomware via a scheduled task on GCS-02, encrypting data in the \\HUOG-NAS01\\projects\\cp&l\\d3\\ and \\HUOG-NAS01\\projects\\cvac\\ folders. The NAS snapshot schedule remains disabled. The offline backup OB-1 is three weeks outdated. The off-site backup service’s last good snapshot is from 2026-04-07. The threat vector is confirmed: the attack exploited a cached service account credential (svc-nas-01) on GCS-02, which was mounted to the NAS during the infection window. The team must now decide whether to isolate the Data VLAN and shut down HUOG-PROC01 to prevent further corruption, or to keep it running to manually verify calibration files for D-3 under high risk.",
+          "worldState": [
+            "The cyber incident is now at Level 3 under HUOG-ISP Section 9.3.",
+            "The threat actor has executed ransomware on GCS-02 and encrypted data in the CP&L and CVAC project folders.",
+            "The NAS snapshot schedule remains disabled.",
+            "The offline backup OB-1 is three weeks outdated.",
+            "The off-site backup service’s last good snapshot is from 2026-04-07.",
+            "The threat vector is confirmed: the attack exploited a cached service account credential (svc-nas-01) on GCS-02, which was mounted to the NAS during the infection window.",
+            "The Systems & Cybersecurity Lead has provided a full technical assessment of the threat vector and impact surface.",
+            "The Incident Commander must now direct the recovery order per HUOG-ISP Section 9.3: calibration share (verify against the repository hashes) → ops records → the campaign with the nearest deadline → the rest."
+          ]
+        },
+        "instructorNote": "This is a critical time jump for the recovery phase. The IC must now activate the recovery order from HUOG-ISP Section 9.3. The SL should be prepared to report on the status of the calibration share and the integrity of the ops records.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.388Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Time Jump: 11:00",
+        "type": "time_jump_card",
+        "fields": {
+          "newTime": "11:00",
+          "narration": "It is now 11:00, two hours since the encryption was found. The MSSP is imaging HUOG-PROC01. CP&L is waiting for a call back. Channel 10 has called twice more.",
+          "worldState": [
+            "Two hours since discovery.",
+            "The MSSP is imaging HUOG-PROC01.",
+            "CP&L is waiting for a call back.",
+            "Channel 10 has called twice more."
+          ],
+          "facilitatorNote": "Ask what is known about what was read, what can be recovered and what the clients have been told."
+        },
+        "instructorNote": "Reset the clock; two hours left on the four-hour decision.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:31.996Z"
+}

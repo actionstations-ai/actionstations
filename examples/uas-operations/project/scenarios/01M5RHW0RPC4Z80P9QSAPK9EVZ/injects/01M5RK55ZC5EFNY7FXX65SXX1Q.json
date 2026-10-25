@@ -1,0 +1,127 @@
+{
+  "id": "01M5RK55ZC5EFNY7FXX65SXX1Q",
+  "mselRowId": "I-15",
+  "type": "email_forward",
+  "title": "Email: CVAC — were our farm data taken?",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Celeste Marrow",
+    "fromEmail": "cmarrow@huog.example",
+    "senderInitials": "CM",
+    "to": "Marguerite Ostrowski",
+    "subject": "FW: CVAC question — farm data",
+    "sentAt": "Mon 10/05/2026 12:15 PM",
+    "note": "Marguerite — CVAC needs an answer today. I’d like our reply to match what we told CP&L. — Celeste",
+    "signature": "Celeste Marrow\nCorporate Communications",
+    "importance": "normal",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Celeste Marrow",
+    "original": {
+      "cc": "",
+      "fromName": "Operations manager, CVAC",
+      "fromEmail": "operations@cvac-coop.example",
+      "to": "cmarrow@huog.example",
+      "subject": "Our data",
+      "body": "One of our member farmers heard you were hacked. Were field boundaries and yield estimates taken? And is this week’s collection going ahead?",
+      "sentAt": "Mon 10/05/2026 12:09 PM"
+    }
+  },
+  "variant": "print",
+  "instructorNote": "Watch for facts, the agreement’s five-day notice and consistency with CP&L.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+      "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+      "headingPath": "SITE › 8. Networks and systems (HUOG-ISP Section 3)",
+      "quote": "- **Flight Ops VLAN** 10.17.40.0/24 — GCS laptops, RTK bases, payload laptop; no Internet except the update window. - **Data VLAN** 10.17.41.0/24 — HUOG-NAS01, HUOG-PROC01/02, the calibration workstat",
+      "chunkId": 146
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:55:16.756Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "NAS Recovery Verification Plan — Calibration Share Confirmed",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Tomás Reyes",
+          "fromEmail": "it@huog.example",
+          "senderInitials": "TR",
+          "to": "pio@huog.example",
+          "subject": "FW: Verification Plan for NAS Recovery",
+          "sentAt": "Sat, Oct 24, 2026, 12:15 PM",
+          "note": "The MSSP has confirmed the environment is clean and the offline drive OB-1 is free of malicious artifacts. The verification protocol under HUOG-ISP Section 9.3 has been fully executed. The calibration share is now accessible only via the clean machine and the offline drive. All steps are documented in the incident folder. The IC and GM must approve before any network reconnection. No media release is permitted until the GM authorizes.",
+          "signature": "Tomás Reyes\nSystems & Cybersecurity Lead",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Systems & Cybersecurity Lead",
+          "original": {
+            "fromName": "Managed Security Provider (SecureWatch MSSP)",
+            "fromEmail": "soc@huog-mssp.example",
+            "sentAt": "Sat, Oct 24, 2026, 12:10 PM",
+            "to": "it@huog.example",
+            "cc": "",
+            "subject": "Final Verification: Calibration Share Integrity — OB-1 Mounted on DC-LOGIN01",
+            "body": "Subject: Final Verification: Calibration Share Integrity — OB-1 Mounted on DC-LOGIN01\n\nThe MSSP has completed the full forensic scan of the offline drive OB-1 (10.17.60.17). No malicious artifacts were detected. The drive was mounted on a clean machine (DC-LOGIN01, 10.17.60.1) with no network access.\n\nThe verification script (verify_manifest.py) was executed manually and passed for all 147 calibration files in \\HUOG-NAS01\\controlled\\calibration\\.\n\nThe calibration share is now accessible only via the clean machine and the offline drive. No network connection is active.\n\nThis completes the verification protocol under HUOG-ISP Section 9.3. The Systems & Cybersecurity Lead must approve the next step before any data is reconnected to the network.\n\n— SecureWatch MSSP, Incident Response Team\n\nAttachment: SOC-2026-0420-002 (Verification Report)"
+          }
+        },
+        "instructorNote": "This inject confirms that the recovery verification is complete and the calibration share is clean. The PIO must not confirm any details to media or public until the GM authorizes. Watch for premature media statements.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.419Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email: CVAC — were our farm data taken?",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Celeste Marrow",
+          "fromEmail": "cmarrow@huog.example",
+          "senderInitials": "CM",
+          "to": "Marguerite Ostrowski",
+          "subject": "FW: CVAC question — farm data",
+          "sentAt": "Mon 10/05/2026 12:15 PM",
+          "note": "Marguerite — CVAC needs an answer today. I’d like our reply to match what we told CP&L. — Celeste",
+          "signature": "Celeste Marrow\nCorporate Communications",
+          "importance": "normal",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Celeste Marrow",
+          "original": {
+            "cc": "",
+            "fromName": "Operations manager, CVAC",
+            "fromEmail": "operations@cvac-coop.example",
+            "to": "cmarrow@huog.example",
+            "subject": "Our data",
+            "body": "One of our member farmers heard you were hacked. Were field boundaries and yield estimates taken? And is this week’s collection going ahead?",
+            "sentAt": "Mon 10/05/2026 12:09 PM"
+          }
+        },
+        "instructorNote": "Watch for facts, the agreement’s five-day notice and consistency with CP&L.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:34.115Z"
+}

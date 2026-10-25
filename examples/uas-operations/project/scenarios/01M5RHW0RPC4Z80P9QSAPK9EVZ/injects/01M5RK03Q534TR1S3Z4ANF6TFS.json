@@ -1,0 +1,134 @@
+{
+  "id": "01M5RK03Q534TR1S3Z4ANF6TFS",
+  "mselRowId": "I-09",
+  "type": "email_forward",
+  "title": "Email: SecureWatch first assessment",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Tomás Reyes",
+    "fromEmail": "treyes@huog.example",
+    "senderInitials": "TR",
+    "to": "Marguerite Ostrowski",
+    "subject": "FW: SecureWatch first assessment",
+    "sentAt": "Mon 10/05/2026 10:30 AM",
+    "note": "Marguerite — their instructions are below. They need your go-ahead for the FBI report. — Tomás",
+    "signature": "Tomás Reyes\nSystems & Cybersecurity Lead",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "Tomás Reyes",
+    "original": {
+      "cc": "",
+      "fromName": "SecureWatch incident coordinator",
+      "fromEmail": "ir@securewatch-mssp.example",
+      "to": "treyes@huog.example",
+      "subject": "First assessment",
+      "body": "1. The svc-backup credential was used from HUOG-PROC01 after a phishing login to a processing account on Friday.\n2. Encryption so far: HUOG-NAS01, HUOG-PROC01, GCS-02.\n3. Keep HUOG-PROC01 powered on; we will capture memory remotely.\n4. Do not connect OB-1 until we confirm the environment is clean — expected early afternoon.\n5. With your approval we will open a report with the FBI field office.\n\nSecureWatch MSSP",
+      "sentAt": "Mon 10/05/2026 10:26 AM"
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "The MSSP advises; the Group decides. Watch for the FBI report authorized and the no-pay position stated.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.0 Common first steps",
+      "quote": "1. Whoever notices tells the Systems & Cybersecurity Lead (585-555-0143) and, if a flight is involved, the RPIC lands and the HUOG-ERP applies. 2. Do not power off, reboot or \"clean\" anything; disconn",
+      "chunkId": 126
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+      "quote": "The Flight Operations & Safety Manual (HUOG-FOM) sets the operational rules this plan's controls support (configuration baseline, parameter changes, no updates in the field). The Emergency Response Pl",
+      "chunkId": 99
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T03:52:31.776Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Formal Cyber Incident Declaration — HUOG-ISP Section 9.3",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "MSSP Incident Coordinator",
+          "fromEmail": "securewatch@securewatch.example",
+          "senderInitials": "M",
+          "to": "gm@huog.example, ops@huog.example, it@huog.example, safety@huog.example, pio@huog.example, security@huog.example",
+          "subject": "Formal Cyber Incident Declaration - HUOG-ISP Section 9.3",
+          "sentAt": "Sat 10/24/2026 10:30 AM",
+          "note": "Team,\n\nThis is a Level 3 cyber incident under HUOG-ISP Section 9.3. The MSSP has confirmed the ransomware infection on HUOG-NAS01 and HUOG-PROC01. The NAS snapshot schedule was disabled on 2026-04-10 at 22:15. The infection spread to GCS-02 via an unauthorized NAS mount. The environment is not clean. We are coordinating with the FBI field office (585-555-0155) and will not restore from any backup until a clean environment is confirmed.\n\nThe Group must now activate unified command: the General Manager is the Incident Commander. The Systems & Cybersecurity Lead is the technical co-IC. All actions must be logged in the incident folder at \\HUOG-NAS01\\ops\\incident-log\\2026-04-20\\ per HUOG-ERP Section 10.3 and HUOG-ISP Section 9.3.\n\nWe are now in recovery mode. The offline drive OB-1 is not valid for recovery as it is three weeks outdated. The off-site backup service’s last good snapshot is from 2026-04-07.\n\nYou have four hours from now to decide whether to notify CP&L and CVAC that D-3 is at risk.\n\nWe will report progress every hour.",
+          "signature": "MSSP Incident Coordinator",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Managed SOC (SecureWatch MSSP)",
+          "original": {
+            "fromName": "MSSP Operations Lead",
+            "fromEmail": "securewatch@securewatch.example",
+            "sentAt": "Sat 10/24/2026 10:30 AM",
+            "to": "it@huog.example",
+            "cc": "",
+            "subject": "Critical Alert: Suspicious Script Detected on HUOG-PROC01",
+            "body": "Hi IT,\n\nWe’ve detected a script named backup_fix_temp.py in /tmp/scripts/ on HUOG-PROC01 (10.17.41.11). It was modified at 09:10:17 and contains commands to re-enable the NAS snapshot cron job. However, the script was not part of the approved system baseline and has no known signature in our threat intelligence. We’ve blocked execution and quarantined the file. Do not run it.\n\nSource: HUOG-PROC01\nAlert: Unauthorized script execution\n\nBest,\n\nMSSP SOC\n\n[Attachment: backup_fix_temp.py, timestamp 09:10:17]"
+          }
+        },
+        "instructorNote": "This inject activates unified command and confirms the Group's formal incident response posture. Watch for the GM to declare a Level 3 incident and assign roles per HUOG-ISP Section 9.3.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:55:45.385Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Email: SecureWatch first assessment",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Tomás Reyes",
+          "fromEmail": "treyes@huog.example",
+          "senderInitials": "TR",
+          "to": "Marguerite Ostrowski",
+          "subject": "FW: SecureWatch first assessment",
+          "sentAt": "Mon 10/05/2026 10:30 AM",
+          "note": "Marguerite — their instructions are below. They need your go-ahead for the FBI report. — Tomás",
+          "signature": "Tomás Reyes\nSystems & Cybersecurity Lead",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "Tomás Reyes",
+          "original": {
+            "cc": "",
+            "fromName": "SecureWatch incident coordinator",
+            "fromEmail": "ir@securewatch-mssp.example",
+            "to": "treyes@huog.example",
+            "subject": "First assessment",
+            "body": "1. The svc-backup credential was used from HUOG-PROC01 after a phishing login to a processing account on Friday.\n2. Encryption so far: HUOG-NAS01, HUOG-PROC01, GCS-02.\n3. Keep HUOG-PROC01 powered on; we will capture memory remotely.\n4. Do not connect OB-1 until we confirm the environment is clean — expected early afternoon.\n5. With your approval we will open a report with the FBI field office.\n\nSecureWatch MSSP",
+            "sentAt": "Mon 10/05/2026 10:26 AM"
+          }
+        },
+        "instructorNote": "The MSSP advises; the Group decides. Watch for the FBI report authorized and the no-pay position stated.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:31.769Z"
+}

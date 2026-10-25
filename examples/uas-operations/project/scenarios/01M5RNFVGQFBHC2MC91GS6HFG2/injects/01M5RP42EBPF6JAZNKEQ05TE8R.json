@@ -1,0 +1,232 @@
+{
+  "id": "01M5RP42EBPF6JAZNKEQ05TE8R",
+  "mselRowId": "I-08b",
+  "type": "field_report",
+  "title": "Field Report: through a greenhouse roof",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Harwick UAS Operations Group — Fleet & Logistics",
+    "formTitle": "Recovery Report",
+    "reportNo": "RR-2026-0915-01",
+    "date": "09/15/2026",
+    "time": "10:24",
+    "location": "Backyard, Stony Creek Road (private property)",
+    "inspector": "Recovery team lead",
+    "unit": "Fleet & Logistics",
+    "reportType": "incident",
+    "weather": "Clear, 66°F",
+    "summary": "UAS-02 is on its side through the roof of a backyard greenhouse. One battery pack is swollen and warm. The homeowner is upset and has not agreed to let anyone in. The CCSO deputy arrives in about 20 minutes.",
+    "findings": [
+      {
+        "item": "Aircraft",
+        "condition": "failed",
+        "notes": "On its side in a greenhouse"
+      },
+      {
+        "item": "Battery pack",
+        "condition": "failed",
+        "notes": "Swollen and warm"
+      },
+      {
+        "item": "Access",
+        "condition": "not_inspected",
+        "notes": "No consent yet; deputy en route"
+      }
+    ],
+    "actionsTaken": [
+      "Stayed on the road side of the fence",
+      "Photographed from the road"
+    ],
+    "recommendations": [
+      "Wait for the deputy and the owner’s consent",
+      "Sand bag and gloves ready for the pack"
+    ],
+    "signature": "Recovery team lead",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "Watch for no entry without the deputy and consent, and the battery treated as a fire risk.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Annex B",
+      "quote": "FOM-1 Campaign Plan · FOM-2 Daily Flight Plan and Log · FOM-3 Site Survey · FOM-4 Incident Report (shared with HUOG-ERP) · FOM-5 Battery Log Sheet · FOM-6 Parameter Change Record",
+      "chunkId": 93
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.2 Malware on a GCS",
+      "quote": "Indicators: endpoint alert; unexpected processes; the OEM app asking to re-pair or re-activate; a parameter file with a new hash; the GCS contacting addresses outside the update endpoints (HUOG-FW01 l",
+      "chunkId": 128
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 4 › 4.1 Fleet",
+      "quote": "The fleet register (Annex A, mirrored in the OEM fleet portal and the maintenance spreadsheet) is the list of aircraft the Group may fly. An aircraft not on the register, or marked DOWN, does not leav",
+      "chunkId": 53
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 4 › 4.3 Firmware",
+      "quote": "Aircraft firmware, radio firmware and autopilot builds are downloaded only by the Systems & Cybersecurity Lead, hash-checked against the vendor's published hashes, stored in `\\\\HUOG-NAS01\\it\\firmware\\",
+      "chunkId": 106
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:47:07.923Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Firmware Parameter Mismatch — GCS-01 Hangar 2",
+        "type": "field_report",
+        "fields": {
+          "organization": "Harwick UAS Operations Group — Maintenance & Engineering",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-00047",
+          "date": "10/25/2026",
+          "time": "10:24",
+          "location": "Hangar 2, GCS-01 Console Station",
+          "inspector": "M. Vargas, Maintenance Supervisor",
+          "unit": "Field Ops Team 3",
+          "reportType": "incident",
+          "weather": "Clear, 19°C, light wind",
+          "summary": "During routine system verification at Hangar 2, GCS-01 console displayed firmware version 2.3.1 active. Parameter export from \\HUOG-NAS01\\ops\\param-log.md confirmed 'failover_logic = OFF' in the 2.3.1 profile. This parameter was not present in the 2.2.8 profile used in FOM-1 Annex B. No manual changes to the profile were recorded in the kit log (FOM-6). The parameter was not listed in the update approval record (FOM-1). The firmware package was downloaded via the update server (https://update.huog.example) and accepted by GCS-01 at 08:55:12.",
+          "findings": [
+            {
+              "item": "GCS-01 firmware version",
+              "condition": "failed",
+              "notes": "2.3.1 active, not 2.2.8 as per pre-flight checklist"
+            },
+            {
+              "item": "Backup radio link failover status",
+              "condition": "failed",
+              "notes": "failover_logic = OFF in 2.3.1 profile"
+            },
+            {
+              "item": "Parameter change record (FOM-6)",
+              "condition": "not_inspected",
+              "notes": "No entry for 'failover_logic' change in FOM-6"
+            },
+            {
+              "item": "Firmware update approval (FOM-1)",
+              "condition": "failed",
+              "notes": "2.3.1 not listed in FOM-1 Annex B"
+            },
+            {
+              "item": "OEM update server log (update.huog.example)",
+              "condition": "not_inspected",
+              "notes": "Pending verification from SOC"
+            },
+            {
+              "item": "DAA-1 GPS spoofing alert (GPS-071)",
+              "condition": "ok",
+              "notes": "Confirmed in DAA-1 event buffer"
+            },
+            {
+              "item": "GCS-01 console network status",
+              "condition": "ok",
+              "notes": "2.4 GHz and 915 MHz links stable"
+            },
+            {
+              "item": "UAS-02 telemetry heartbeat",
+              "condition": "failed",
+              "notes": "No packets received since 08:55:12"
+            },
+            {
+              "item": "Field camera video feed (DAA-1)",
+              "condition": "failed",
+              "notes": "Video stream dropped at 08:55:12"
+            },
+            {
+              "item": "Link failover test (461.0375 MHz)",
+              "condition": "failed",
+              "notes": "Failover not triggered; link remains disabled"
+            }
+          ],
+          "actionsTaken": [
+            "Notified DCO and SCL via secure channel at 10:24",
+            "Extracted parameter export from \\HUOG-NAS01\\ops\\param-log.md",
+            "Confirmed firmware version via GCS-01 console UI",
+            "Documented mismatch in FOM-6 and HUOG-ERP Incident Log (FOM-4)"
+          ],
+          "recommendations": [
+            "Immediately isolate GCS-01 (pull cable, disable Wi-Fi)",
+            "Initiate full forensic analysis of firmware package 2.3.1 and update server logs",
+            "Verify all GCS units for unauthorized parameter changes",
+            "Suspend all field firmware updates until baseline validation completes"
+          ],
+          "photosNote": "2 attached: FIR-2026-00047-01 (GCS-01 console, 2.3.1 version), FIR-2026-00047-02 (param-log.md export, 'failover_logic = OFF')",
+          "signature": "M. Vargas, Maintenance Supervisor",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject reveals a hidden configuration change in the firmware update. The SCL must now trace the root cause to the update server and confirm the package was tampered with.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.706Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field Report: through a greenhouse roof",
+        "type": "field_report",
+        "fields": {
+          "organization": "Harwick UAS Operations Group — Fleet & Logistics",
+          "formTitle": "Recovery Report",
+          "reportNo": "RR-2026-0915-01",
+          "date": "09/15/2026",
+          "time": "10:24",
+          "location": "Backyard, Stony Creek Road (private property)",
+          "inspector": "Recovery team lead",
+          "unit": "Fleet & Logistics",
+          "reportType": "incident",
+          "weather": "Clear, 66°F",
+          "summary": "UAS-02 is on its side through the roof of a backyard greenhouse. One battery pack is swollen and warm. The homeowner is upset and has not agreed to let anyone in. The CCSO deputy arrives in about 20 minutes.",
+          "findings": [
+            {
+              "item": "Aircraft",
+              "condition": "failed",
+              "notes": "On its side in a greenhouse"
+            },
+            {
+              "item": "Battery pack",
+              "condition": "failed",
+              "notes": "Swollen and warm"
+            },
+            {
+              "item": "Access",
+              "condition": "not_inspected",
+              "notes": "No consent yet; deputy en route"
+            }
+          ],
+          "actionsTaken": [
+            "Stayed on the road side of the fence",
+            "Photographed from the road"
+          ],
+          "recommendations": [
+            "Wait for the deputy and the owner’s consent",
+            "Sand bag and gloves ready for the pack"
+          ],
+          "signature": "Recovery team lead",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Watch for no entry without the deputy and consent, and the battery treated as a fire risk.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:03:01.731Z"
+}

@@ -1,0 +1,115 @@
+{
+  "id": "01M5RP24TCAE6AFW5C9JCJ4Q43",
+  "mselRowId": "I-05b",
+  "type": "helpdesk_ticket",
+  "title": "Ticket: the update is offered to the whole OEM fleet",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "HUOG IT helpdesk",
+    "orgName": "Harwick UAS Operations Group",
+    "ticketNo": "HUOG-IT-2026-0915-02",
+    "subject": "OEM portal: 03.2026-C offered to UAS-01 to UAS-10; GCS-03 auto-download",
+    "description": "The OEM fleet portal shows firmware 03.2026-C offered to every OEM aircraft (UAS-01 to UAS-10) since 07:30 today. Automatic download is enabled on GCS-03, which has the package staged but not installed.",
+    "priority": "High",
+    "status": "New",
+    "contactType": "Self-service",
+    "opened": "09/15/2026 10:06",
+    "category": "Fleet systems"
+  },
+  "instructorNote": "The problem is fleet-wide in waiting. Watch for the auto-download disabled and GCS-03 quarantined.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+      "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+      "chunkId": 129
+    },
+    {
+      "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+      "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+      "headingPath": "ISP › Section 5 › 5.1 C2 links",
+      "quote": "OEM aircraft use the manufacturer's frequency-hopping, encrypted link on 2.4/5.8 GHz with the controller paired to the aircraft; pairing is done in Hangar 2 and recorded. UAS-11 and UAS-12 use 915 MHz",
+      "chunkId": 109
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:46:00.645Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "GCS-01 Backup Radio Link Failure — UAS-02",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "HUOG-IT-2026-00046",
+          "priority": "High",
+          "impact": "High",
+          "urgency": "High",
+          "status": "New",
+          "requester": "Field Technician – Hangar 2",
+          "requesterContact": "x5555",
+          "contactType": "Monitoring",
+          "category": "UAS Operations",
+          "subcategory": "Link Systems",
+          "location": "Hangar 2, GCS-01 Console",
+          "configurationItem": "GCS-01 (10.17.40.15)",
+          "opened": "2026-10-25 10:07:12",
+          "assignmentGroup": "Systems & Cybersecurity Lead",
+          "subject": "Backup 461.0375 MHz Radio Link on GCS-01 Not Activated During UAS-02 Link Loss",
+          "description": "The 461.0375 MHz backup radio link on GCS-01 shows no signal from UAS-02. The channel was not activated during the link loss event. The radio's failover status is 'disabled' in the GCS-01 console log (file: \\HUOG-NAS01\\ops\\link-logs\\2026-10-15\\GCS-01-link-trace.txt). The firmware update accepted at 08:55:12 altered the failover logic to prevent automatic activation of the 461.0375 MHz channel, even when the primary C2 link (915 MHz) fails. This change was not documented in the GCS-01 parameter export or the HUOG-FOM 4.3 configuration baseline.",
+          "activity": [
+            {
+              "author": "Field Technician – Hangar 2",
+              "time": "2026-10-25 10:07:12",
+              "kind": "work_note",
+              "text": "Verified that 461.0375 MHz radio on GCS-01 is powered and configured, but failover status shows 'disabled' in the log. No manual override was attempted. Link loss persists. UAS-02 remains unresponsive at 398 ft AGL."
+            },
+            {
+              "author": "Systems & Cybersecurity Lead (SCL)",
+              "time": "2026-10-25 10:07:12",
+              "kind": "system",
+              "text": "Ticket auto-assigned to Systems & Cybersecurity Lead (SCL) due to high impact on UAS-02 flight integrity and potential cyber compromise."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Harwick UAS Operations Group"
+        },
+        "instructorNote": "This inject confirms the firmware update altered the failover logic. The technical team must trace the change to the update package and verify if the GCS-01 configuration was tampered with. Watch for attempts to override the disabled failover status.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T05:01:18.690Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Ticket: the update is offered to the whole OEM fleet",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "systemName": "HUOG IT helpdesk",
+          "orgName": "Harwick UAS Operations Group",
+          "ticketNo": "HUOG-IT-2026-0915-02",
+          "subject": "OEM portal: 03.2026-C offered to UAS-01 to UAS-10; GCS-03 auto-download",
+          "description": "The OEM fleet portal shows firmware 03.2026-C offered to every OEM aircraft (UAS-01 to UAS-10) since 07:30 today. Automatic download is enabled on GCS-03, which has the package staged but not installed.",
+          "priority": "High",
+          "status": "New",
+          "contactType": "Self-service",
+          "opened": "09/15/2026 10:06",
+          "category": "Fleet systems"
+        },
+        "instructorNote": "The problem is fleet-wide in waiting. Watch for the auto-download disabled and GCS-03 quarantined.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:03:00.513Z"
+}

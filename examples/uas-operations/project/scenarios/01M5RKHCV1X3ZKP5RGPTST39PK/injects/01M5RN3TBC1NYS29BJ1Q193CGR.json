@@ -1,0 +1,188 @@
+{
+  "id": "01M5RN3TBC1NYS29BJ1Q193CGR",
+  "mselRowId": "I-03b",
+  "type": "field_report",
+  "title": "Field Report: food truck wants power",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Harwick UAS Operations Group — Fleet & Logistics",
+    "formTitle": "Site Report",
+    "date": "09/19/2026",
+    "reportNo": "SR-2026-0919-01",
+    "time": "11:22",
+    "location": "Hangar 3 outdoor outlet",
+    "inspector": "Fleet & Logistics",
+    "unit": "Hangar 3",
+    "reportType": "routine",
+    "summary": "A festival food-truck vendor asks to plug into the Hangar 3 outdoor outlet because his generator failed.",
+    "findings": [
+      {
+        "item": "Request",
+        "condition": "ok",
+        "notes": "Declined; referred to fair organizers"
+      }
+    ],
+    "actionsTaken": [
+      "Referred to the fair office"
+    ],
+    "recommendations": [
+      "None"
+    ],
+    "signature": "Fleet & Logistics"
+  },
+  "variant": "default",
+  "instructorNote": "Noise.",
+  "citations": [
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+      "quote": "The Group does not fly within 500 ft of the footprint of a public event at the adjacent Harwick Fairgrounds with an expected attendance over 1,000 (the county fair, concerts, races). Harwick Police pu",
+      "chunkId": 72
+    },
+    {
+      "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+      "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+      "headingPath": "FOM › Section 7 › 7.5 Creek Test Area (Birch Hollow Range)",
+      "quote": "- Launch point TP-CTA-LP1 at the creek meadow gate; the SSL staffs the gate because Millstone County Park trail users can walk in. - No flight across the park boundary (the geofence stops 20 m short).",
+      "chunkId": 71
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-25T04:29:29.283Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Drone Sighting — Creek Test Area Perimeter",
+        "type": "field_report",
+        "fields": {
+          "organization": "Harwick UAS Operations Group — Security & Campus Safety",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-1025-1113",
+          "date": "10/25/2026",
+          "time": "11:13",
+          "location": "Creek Test Area, perimeter near gate TP-CTA-LP1 (Birch Hollow Range)",
+          "inspector": "Field Observer 2, Security Patrol",
+          "unit": "Patrol 4 · Vehicle 7",
+          "reportType": "security",
+          "weather": "Partly cloudy, 68°F, wind SSW 5 mph",
+          "summary": "While conducting routine perimeter patrol near the Creek Test Area gate, observed a drone with a red navigation light on top flying in a circular pattern over the Harwick Fairgrounds crowd. Altitude estimated at 200 ft AGL. No visible pilot or ground control station. Sound profile noted as higher than normal for Group aircraft. No Group aircraft were scheduled for flight today, and no operations were active in the area. The observation does not match any feed from HWP-DETECT-01 or GCS-01.",
+          "findings": [
+            {
+              "item": "Perimeter fence integrity",
+              "condition": "ok",
+              "notes": "No breaches or tampering observed."
+            },
+            {
+              "item": "Gate access point (TP-CTA-LP1)",
+              "condition": "ok",
+              "notes": "Gate closed, locked, and secured. No signs of forced entry."
+            },
+            {
+              "item": "Surveillance camera feed (CCTV-CTA-02)",
+              "condition": "not_inspected",
+              "notes": "Camera not active at time of observation."
+            },
+            {
+              "item": "Remote ID signal received",
+              "condition": "failed",
+              "notes": "No matching signal detected in HUOG-ISP-2026 log for 11:13."
+            },
+            {
+              "item": "Visual observer (VO) contact established",
+              "condition": "ok",
+              "notes": "VO on duty at Hangar 1; no alert received."
+            },
+            {
+              "item": "Airspace status (Class G, 200 ft ceiling)",
+              "condition": "ok",
+              "notes": "No Group flight approved for 200 ft AGL over fairgrounds."
+            },
+            {
+              "item": "GCS-01 system status",
+              "condition": "ok",
+              "notes": "No flight session active. No link disruption."
+            },
+            {
+              "item": "Drone operator identification",
+              "condition": "failed",
+              "notes": "No identifiable pilot or operator observed."
+            },
+            {
+              "item": "Compliance with NO FLY day (FOM-7.6)",
+              "condition": "ok",
+              "notes": "All Group aircraft grounded; no exceptions granted."
+            },
+            {
+              "item": "Report to law enforcement",
+              "condition": "not_inspected",
+              "notes": "Not yet reported; pending verification."
+            }
+          ],
+          "actionsTaken": [
+            "Logged observation in HUOG-ERP-2026 incident log under CR-20261025-111302-0035",
+            "Notified Security Lead (SEC) via encrypted channel (GCS-04)",
+            "Documented time, location, and visual description for cross-reference with vendor feed"
+          ],
+          "recommendations": [
+            "Cross-check visual report against HWP-DETECT-01 feed for 11:13",
+            "Verify no unauthorized personnel were on-site during patrol window",
+            "Flag for review by ASO and SCL for potential spoofing indicators"
+          ],
+          "photosNote": "1 photo attached: IMG-20261025-111302-0035 (drone in circular flight path over fairgrounds, red light visible)",
+          "signature": "Field Observer 2, Security Patrol",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "Noise inject; the technical team should triage it down without engaging. The Sec must note the report as sensory only, not official.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-25T04:59:53.373Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Field Report: food truck wants power",
+        "type": "field_report",
+        "fields": {
+          "organization": "Harwick UAS Operations Group — Fleet & Logistics",
+          "formTitle": "Site Report",
+          "date": "09/19/2026",
+          "reportNo": "SR-2026-0919-01",
+          "time": "11:22",
+          "location": "Hangar 3 outdoor outlet",
+          "inspector": "Fleet & Logistics",
+          "unit": "Hangar 3",
+          "reportType": "routine",
+          "summary": "A festival food-truck vendor asks to plug into the Hangar 3 outdoor outlet because his generator failed.",
+          "findings": [
+            {
+              "item": "Request",
+              "condition": "ok",
+              "notes": "Declined; referred to fair organizers"
+            }
+          ],
+          "actionsTaken": [
+            "Referred to the fair office"
+          ],
+          "recommendations": [
+            "None"
+          ],
+          "signature": "Fleet & Logistics"
+        },
+        "instructorNote": "Noise.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-25T05:02:44.551Z"
+}
