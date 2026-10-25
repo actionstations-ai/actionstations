@@ -4,7 +4,12 @@
 // item summaries the review screen shows.
 import Ajv2020 from 'ajv/dist/2020.js'
 import { z } from 'zod'
-import { DomainProfile, builtinByKey, bundledDomainIds } from '@shared/domains'
+import {
+  DomainProfile,
+  builtinByKey,
+  bundledDomainIds,
+  domainProfileRegexProblems,
+} from '@shared/domains'
 import { ExampleManifest } from '@shared/ipc/examples'
 import { Project } from '@shared/schemas/project'
 import {
@@ -158,6 +163,9 @@ function checkDomain(ctx: Ctx, id: string): ItemResult {
         path,
         message: `"${name}" is a built-in domain id or alias; a pack domain needs its own id (use domainProfileOverrides to change a built-in domain)`,
       })
+  // Its regexes run in the main process over every document and generated row (#351).
+  for (const p of domainProfileRegexProblems(profile))
+    ctx.problems.push({ path, message: `${p.path}: ${p.message}` })
   return { title: profile.label, replacesBuiltin: false }
 }
 
