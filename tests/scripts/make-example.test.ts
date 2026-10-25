@@ -140,6 +140,18 @@ describe('findLeaks', () => {
       findLeaks('tail -f /var/log/scada.log; C:\\\\Logs\\\\audit.log /opt/scada/x.sh 10.72.10.10'),
     ).toEqual([])
   })
+
+  it('leaves generic /tmp and /home story paths alone, flags the author folders (#347)', () => {
+    const story = 'python3 /tmp/auto_cleaner.py; cat /home/ubuntu/.bash_history; ls /private/tmp/x'
+    expect(findLeaks(story, ['/Users/matt'])).toEqual([])
+    expect(findLeaks('saved to /private/var/folders/x1/T/ttx-1/p.asproj', [])).toHaveLength(1)
+    expect(findLeaks('see /home/matt/Code/p.asproj', ['/home/matt'])).toEqual([
+      '/home/matt/Code/p.asproj',
+    ])
+    expect(findLeaks('out at /tmp/release/p.asproj', ['/tmp/release'])).toEqual([
+      '/tmp/release/p.asproj',
+    ])
+  })
 })
 
 describe('shippedPng', () => {

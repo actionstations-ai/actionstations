@@ -7,6 +7,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Channel, ChannelRequest, ChannelResponse } from '@shared/ipc'
 import { projectChannels, type FacilityFactsFile } from '@shared/ipc/project'
 import type { DocumentMeta, MselRow, Scenario } from '@shared/schemas'
+import { resolveProfile } from '@shared/domains'
 
 vi.mock('electron', () => ({
   app: { getVersion: () => '0.0.1', getPath: () => tmpdir() },
@@ -265,6 +266,59 @@ describe('scenarios:lint honours facility-facts.md', () => {
 
     await invoke('project:facility-facts-reset', { path })
     expect((await facilityWarnings(path, scenarioId)).map((w) => w.rowId)).toEqual(['I-01'])
+  })
+})
+
+describe('project:update with fact category overrides (#180)', () => {
+  const withGateNoun = (noun: string) =>
+    resolveProfile('airport').factCategories.map((c) => (c.id === 'gates' ? { ...c, noun } : c))
+
+  it('re-extracts an unedited file and re-lints with the tightened noun', async () => {
+    const scenarioId = await scenarioWithRows(path, [
+      row('I-01', 'A jet bridge fault at Gate 99 strands passengers.'),
+    ])
+    expect(await facilityWarnings(path, scenarioId)).toHaveLength(1)
+    const before = await invoke('project:facility-facts', { path })
+    expect(before.categories.find((c) => c.id === 'gates')?.entries.length).toBeGreaterThan(0)
+
+    await invoke('project:update', {
+      path,
+      patch: { domainProfileOverrides: { factCategories: withGateNoun('Jet Gates?') } },
+    })
+    const after = await invoke('project:facility-facts', { path })
+    expect(after.edited).toBe(false)
+    expect(after.revision).not.toBe(before.revision)
+    expect(after.categories.find((c) => c.id === 'gates')?.entries).toEqual([])
+    expect(await facilityWarnings(path, scenarioId)).toEqual([])
+  })
+
+  it('keeps an edited file and writes the new extraction beside it', async () => {
+    const view = await invoke('project:facility-facts', { path })
+    await invoke('project:facility-facts-save', {
+      path,
+      categories: edited(view, 'runways', (e) => [...e, '9/27']),
+    })
+    const kept = readFileSync(join(path, FACILITY_FILE), 'utf8')
+    await invoke('project:update', {
+      path,
+      patch: { domainProfileOverrides: { factCategories: withGateNoun('Jet Gates?') } },
+    })
+    expect(readFileSync(join(path, FACILITY_FILE), 'utf8')).toBe(kept)
+    const after = await invoke('project:facility-facts', { path })
+    expect(after.generatedMarkdown).toBeDefined()
+    expect(after.categories.find((c) => c.id === 'gates')?.extracted).toEqual([])
+  })
+
+  it('refuses a noun that is not a safe pattern and leaves project.json alone', async () => {
+    for (const noun of ['Gates(', '(?:G+)+', 'Gate(s)?'])
+      await expect(
+        invoke('project:update', {
+          path,
+          patch: { domainProfileOverrides: { factCategories: withGateNoun(noun) } },
+        }),
+      ).rejects.toMatchObject({ code: 'VALIDATION', message: expect.stringMatching(/^Gates: /) })
+    const { project } = await invoke('project:get', { path })
+    expect(project.domainProfileOverrides).toBeUndefined()
   })
 })
 

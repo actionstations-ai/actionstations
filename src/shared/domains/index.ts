@@ -15,6 +15,7 @@ import { snapshotMatches } from './snapshot'
 import { inferThreatFamily, isThreatFamilyId, threatFamily } from './threats'
 
 export * from './schema'
+export * from './regex-check'
 export { THREAT_FAMILIES, inferThreatFamily, isThreatFamilyId, threatFamily } from './threats'
 export { GENERIC_PROFILE, domainKey } from './builtins'
 export {

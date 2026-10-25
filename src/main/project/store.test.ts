@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { mkdtempSync, readFileSync, existsSync, renameSync } from 'node:fs'
+import { mkdtempSync, readFileSync, existsSync, renameSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -46,6 +46,38 @@ describe('project store', () => {
     expect((await getSettings()).recentProjects[0]?.path).toBe(legacy)
     const copy = await duplicateProject(legacy, { newName: 'Legacy copy' })
     expect(copy.path).toBe(join(parent, 'Legacy-copy.asproj'))
+  })
+
+  it('drops the empty override values older builds wrote, keeping real overrides (#180)', async () => {
+    const { path } = await createProject({ parentDir: parent, name: 'Old', orgType: 'airport' })
+    const write = (overrides: unknown) => {
+      const json = JSON.parse(readFileSync(join(path, 'project.json'), 'utf8'))
+      writeFileSync(
+        join(path, 'project.json'),
+        JSON.stringify({ ...json, domainProfileOverrides: overrides }),
+      )
+    }
+    write({ outsideParties: ['County OEM'], factCategories: [], rolePatterns: {} })
+    expect((await loadProject(path)).domainProfileOverrides).toEqual({
+      outsideParties: ['County OEM'],
+    })
+
+    write({ factCategories: [], rolePatterns: {} })
+    expect((await loadProject(path)).domainProfileOverrides).toBeUndefined()
+
+    const gates = { id: 'gates', label: 'Gates', noun: 'Jet Gates?' }
+    write({ factCategories: [gates], rolePatterns: { security: 'asc' } })
+    expect((await loadProject(path)).domainProfileOverrides).toEqual({
+      factCategories: [{ ...gates, idShape: 'alnum', lint: true, complete: false }],
+      rolePatterns: { security: 'asc' },
+    })
+
+    write({ outsideParties: ['State DOT'], factCategories: [], rolePatterns: {} })
+    await updateProject(path, (p) => {
+      p.orgName = 'NRAA'
+    })
+    const stored = JSON.parse(readFileSync(join(path, 'project.json'), 'utf8'))
+    expect(stored.domainProfileOverrides).toEqual({ outsideParties: ['State DOT'] })
   })
 
   it('labels both project folder extensions without the extension', () => {

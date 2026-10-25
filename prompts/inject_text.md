@@ -1,7 +1,7 @@
 ---
 name: inject_text
 stage: inject_text
-version: 6
+version: 7
 description: Expand one MSEL row into a full inject page - title, delivery mode, the template's fields filled exactly, instructor note.
 outputSchema: InjectTextOutput
 task: draft
@@ -82,6 +82,9 @@ WRITING THE CONTENT
 - Voice types (radio, phone, PA, voicemail): the transcript is what is said, with natural pauses as punctuation. No sound-effect notes, no "[static]".
 - Technical evidence must be forensically coherent: the timestamps run forward, a failed login precedes the success, the host that runs the script is the one named earlier, the rows affected match the impact seen by operations.
 - Nothing in the content may reveal the hidden threat earlier than the MSEL does; clues stay as subtle as the row says.
+- Dates and clocks: every date shown is the exercise date above (or an earlier one for something that happened before), with the weekday that matches it; never a different day for "today". A control card's new clock is the row's clock.
+- Contact details are fictional: the organization's addresses use its email domain (or end in .example), outside companies and media outlets get fictional .example domains, and phone numbers use 555-0100 to 555-0199. A real agency's own published address or hotline is the only exception.
+- Outside agencies and regulators advise, assist, investigate and receive reports; on the page they never close the incident, approve restoration or give the all-clear. A restore of encrypted or compromised systems is shown as started, partial or scheduled, never finished minutes after the attack. Quantities stay physically possible (no release larger than the largest container, no pressure above what the system is rated for).
 
 {{#if repairIssues}}
 REPAIR: your previous reply (below) did not pass validation. Fix every listed issue and return the complete corrected JSON object. Keep the content that was not flagged; change what the issues require (field names, types, missing or extra fields, copied examples, contradicting identifiers).

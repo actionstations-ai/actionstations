@@ -45,6 +45,7 @@ import {
   type FacilityFacts,
 } from './facility'
 import { CRITIQUE, withBasis } from './critique-notes'
+import { COMPACT_SECTIONS, compactCritiqueVars, critiqueContextError } from './critique-compact'
 import { findIdea } from './ideas'
 import { describeStaleInjects, markInjectsStale } from './inject-stale'
 import {
@@ -242,6 +243,7 @@ function noteDropped(
 export async function call<T>(
   input: StepInput,
   vars: Record<string, unknown>,
+  maxRetrieved?: number,
 ): Promise<StageResult<T>> {
   const { env, step } = input
   const result = await runStage<T>({
@@ -252,6 +254,7 @@ export async function call<T>(
     ctx: env.ctx,
     deps: env.deps,
     index: env.index,
+    ...(maxRetrieved !== undefined ? { maxRetrieved } : {}),
   })
   return { ...result, output: stripKeysDeep(result.output) }
 }
@@ -931,10 +934,40 @@ export async function reviseStructureAgain(
   if (changed) await writeDoc(env, s, 'overview', renderMselMarkdown(s), 'structural repair')
 }
 
+/**
+ * The critique call. A reply without any JSON (a context window the full request overflows,
+ * #347) is retried once with a compact request; when that also has none, the step fails with
+ * an error that says why and what to change, instead of an empty result.
+ */
+async function callCritique(input: StepInput): Promise<StageResult<CritiqueOutput>> {
+  const { scenario: s, env } = input
+  const full = vars(input, { lints: lintScenario(s, env.domain) })
+  try {
+    return await call<CritiqueOutput>(input, full)
+  } catch (err) {
+    if (!(err instanceof StageFailure) || !err.noJson) throw err
+    env.ctx.log(
+      'critique: the model returned no JSON; retrying with a shorter request (rows shortened, 3 plan sections)',
+      'warn',
+      { stage: 'critique' },
+    )
+    try {
+      const r = await call<CritiqueOutput>(input, compactCritiqueVars(full), COMPACT_SECTIONS)
+      sumTokens(r.run, err.run)
+      return r
+    } catch (again) {
+      if (!(again instanceof StageFailure) || !again.noJson) throw again
+      sumTokens(again.run, err.run)
+      again.run.error = critiqueContextError(again.run.error?.split('\n').at(-1) ?? '')
+      throw new StageFailure(again.run, true)
+    }
+  }
+}
+
 async function stepCritique(input: StepInput): Promise<StageRun> {
   const { scenario: s, env } = input
   const repaired = reportStructure(repairStructure(s), env.ctx, { stage: 'critique' })
-  const r = await call<CritiqueOutput>(input, vars(input, { lints: lintScenario(s, env.domain) }))
+  const r = await callCritique(input)
   const issues = dismissFalseSourceIssues(s, r.output.issues, env.ctx)
   const rewritten = await reviseFromCritique(input, [...issues, ...structuralIssues(s, env)], r.run)
   await reviseStructureAgain(input, r.run, rewritten, repaired)

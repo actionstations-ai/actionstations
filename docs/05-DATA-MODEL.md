@@ -13,6 +13,8 @@ Project {
          // selects the domain profile (src/shared/domains, ADR-0014); 'hospital', 'utility' and other
          // aliases resolve to a profile; unknown values are the generic profile
   domainProfileOverrides?: Partial<DomainProfile>,   // per-project edits; a field replaces the built-in one
+         // (factCategories is written whole by the facts editor, #180; project:update refuses unsafe
+         // noun / genericNoun / context regexes and re-extracts facility facts when it changes)
   domainProfileSnapshot?: { profile: DomainProfile, packId, version, packName? },
          // a pack domain copied in when chosen (ADR-0018, #263); resolveProfile uses it before
          // the registry, then applies the overrides; refreshed only by "Update profile from pack"

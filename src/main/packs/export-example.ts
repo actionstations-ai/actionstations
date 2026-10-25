@@ -19,8 +19,14 @@ export interface Skipped {
   reason: string
 }
 
+/**
+ * Paths into a user's home or the per-user temp folder. Generic story paths (/tmp/x.py,
+ * /home/ubuntu/.bash_history, /var/log/…) are what system-log injects carry (#347); a path
+ * under one of the author's own folders (home, project, user data) is flagged by prefix.
+ */
 const AUTHOR_PATH =
-  /(?:^|["'\s(=:])((?:\/Users\/|\/home\/|\/private\/|\/tmp\/|\/var\/folders\/|[A-Za-z]:\\+Users\\+(?!\\*Public\\))[^"'\s)]*)/g
+  /(?:^|["'\s(=:])((?:\/Users\/|\/(?:private\/)?var\/folders\/|[A-Za-z]:\\+Users\\+(?!\\*Public\\))[^"'\s)]*)/g
+const PATH_TOKEN = /(?:^|["'\s(=:])(\/[^"'\s)]+)/g
 const SECRET_HINT = /\b(?:sk-[A-Za-z0-9]{8,}|api[_-]?key\s*[:=]|Bearer\s+[A-Za-z0-9._-]{16,})/g
 /** JSON keys that name a provider or hold a credential: dropped from the copy. */
 const DROP_KEY =
@@ -36,9 +42,12 @@ const LEAVE_OUT: Record<string, string> = {
 export const EXAMPLE_GITIGNORE = 'index.sqlite\nindex.sqlite-*\n.cache/\n'
 
 /** Author-machine paths or secret-looking strings in a text. */
-export function findLeaks(text: string): string[] {
+export function findLeaks(text: string, roots: readonly string[] = [homedir()]): string[] {
   const found = new Set<string>()
   for (const m of text.matchAll(AUTHOR_PATH)) found.add(m[1]!)
+  const mine = roots.filter((r) => r.length > 1).map((r) => r.replace(/\/+$/, ''))
+  for (const m of text.matchAll(PATH_TOKEN))
+    if (mine.some((r) => m[1] === r || m[1]!.startsWith(`${r}/`))) found.add(m[1]!)
   for (const m of text.matchAll(SECRET_HINT)) found.add(m[0])
   return [...found]
 }
@@ -150,11 +159,11 @@ async function fileBytes(path: string, rel: string, absolute: readonly string[])
   return Buffer.from(scrubString(raw.toString('utf8'), absolute))
 }
 
-function leakProblems(files: PackTree): PackProblem[] {
+function leakProblems(files: PackTree, roots: readonly string[]): PackProblem[] {
   const problems: PackProblem[] = []
   for (const [path, bytes] of files) {
     if (!TEXT_EXT.test(path)) continue
-    const leaks = findLeaks(bytes.toString('utf8'))
+    const leaks = findLeaks(bytes.toString('utf8'), roots)
     if (leaks.length)
       problems.push({
         path,
@@ -202,6 +211,6 @@ export async function collectExample(input: ExampleInput): Promise<ExampleOutput
     scenarios: [],
   }
   files.set(`${base}/example.json`, Buffer.from(JSON.stringify(manifest, null, 2) + '\n'))
-  problems.push(...leakProblems(files))
+  problems.push(...leakProblems(files, absolute))
   return { files, skipped, problems }
 }
