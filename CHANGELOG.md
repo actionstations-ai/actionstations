@@ -8,6 +8,16 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-24
+
+The first release since 0.1.0. It carries the 0.2.0 (review fixes), 0.3.0 (packs) and 0.4.0
+(domain packs) milestones, which were not released separately. Highlights: the app is now
+**Action Stations**; everything the app ships (templates, prompts, workflows, domain profiles,
+reference documents and examples) is a pack, with 25 domain packs included and public-domain
+library packs to download; nine example tabletops; an optional local-tools setup that installs
+LM Studio, Ollama or ComfyUI only if you choose to; and a guided workflow from documents to
+export.
+
 ### Changed
 
 #### Name
