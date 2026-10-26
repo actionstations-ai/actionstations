@@ -1,6 +1,6 @@
 # Master Scenario Events List (MSEL)
 
-**Cut Lock, Drifting Residual** (Tampering at Orchard Standpipe and a Precautionary Advisory)
+**Cut Lock** (Tampering at Orchard Standpipe and a Precautionary Advisory)
 Location: City of Millbrook Department of Water & Sewer, Millbrook, Carver County, Ohio · Duration: 4 Hours
 Target Audience: Water Operations, Distribution, Water Quality / Lab, Public Information, Security
 

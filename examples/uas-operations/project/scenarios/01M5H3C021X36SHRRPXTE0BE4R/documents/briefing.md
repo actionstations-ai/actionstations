@@ -1,5 +1,5 @@
 # Player Briefing Packet
-## Ghost Flight at Birch Hollow — GNSS Spoofing & Command Hijack
+## Ghost Flight — GNSS Spoofing & Command Hijack
 
 Location: Harwick UAS Operations Group, Birch Hollow Range, Harwick, Calder County, New York · Exercise Duration: 4 Hours
 Current Time: 09:00 AM (Exercise Time) · Weather: Clear, 72°F, winds 6 mph from the west

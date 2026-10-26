@@ -1,6 +1,6 @@
 # Master Scenario Events List (MSEL)
 
-**Lost Link Toward the Class C** (A flyaway after a field firmware update)
+**Lost Link** (A flyaway after a field firmware update)
 Location: Horton Field and the Millbrook Road hangar complex, Harwick, Calder County, New York · Duration: 4 Hours
 Target Audience: Flight Operations, Aviation Safety, Systems / Cybersecurity, Fleet & Logistics, Leadership, Corporate Communications
 
