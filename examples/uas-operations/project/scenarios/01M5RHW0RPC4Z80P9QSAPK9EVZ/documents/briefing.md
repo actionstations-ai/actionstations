@@ -1,5 +1,5 @@
 # Player Briefing Packet
-## Ten Days Before D-3 — Ransomware on the NAS and the processing workstation before a client deadline
+## Deadline Ransom — Ransomware on the NAS and the processing workstation before a client deadline
 
 Location: Millbrook Road hangar complex (Hangars 1–3), Harwick, Calder County, New York · Exercise Duration: 4 Hours
 Current Time: 09:00 (Monday, October 5) (Exercise Time) · Weather: Clear, 52°F

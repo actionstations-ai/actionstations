@@ -1,6 +1,6 @@
 # Master Scenario Events List (MSEL)
 
-**Ghost Flight at Birch Hollow** (GNSS Spoofing & Command Hijack)
+**Ghost Flight** (GNSS Spoofing & Command Hijack)
 Location: Harwick UAS Operations Group, Birch Hollow Range, Harwick, Calder County, New York · Duration: 4 Hours
 Target Audience: Flight Operations, Systems / Cybersecurity, Aviation Safety, Corporate Communications, Security / CCSO liaison, Client Liaison (Data Deliverables)
 

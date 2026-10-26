@@ -1,5 +1,5 @@
 # Controller / Evaluator (C/E) Handbook
-## Ten Days Before D-3 — Ransomware on the NAS and the processing workstation before a client deadline
+## Deadline Ransom — Ransomware on the NAS and the processing workstation before a client deadline
 
 Exercise Date: [Date] · Location: Millbrook Road hangar complex (Hangars 1–3), Harwick, Calder County, New York · Duration: 4 Hours
 
@@ -86,7 +86,7 @@ Total: 100 points.
 
 **The "3-Up, 3-Down" Method:** Each team names three things that went well and three that did not; the facilitator writes them up and looks for the same issue in more than one team.
 
-**Key Discussion Questions for Ten Days Before D-3:**
+**Key Discussion Questions for Deadline Ransom:**
 - **Grounding:** How did you decide which ground control stations could fly, and how long did it take to know? _(Objective: Technical Analysis)_
 - **The Four-Hour Call:** What did you tell CP&L, when, and what evidence was it based on? Would you make the same call again? _(Objective: Decision Making)_
 - **The Backups:** The newest clean copy was three weeks old and the off-site job had been failing for ten days. Who should have known, and how? _(Objective: Use of Doctrine)_

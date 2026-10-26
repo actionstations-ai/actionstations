@@ -1,5 +1,5 @@
 # Controller / Evaluator (C/E) Handbook
-## Ghost Flight at Birch Hollow — GNSS Spoofing & Command Hijack
+## Ghost Flight — GNSS Spoofing & Command Hijack
 
 Exercise Date: [Date] · Location: Harwick UAS Operations Group, Birch Hollow Range, Harwick, Calder County, New York · Duration: 4 Hours
 
@@ -93,7 +93,7 @@ Total: 100 points.
 
 **The "3-Up, 3-Down" Method:** Use the '3-Up, 3-Down' method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room team by team, and write each response on a whiteboard to visualize the feedback. This helps surface both strengths and gaps in real time.
 
-**Key Discussion Questions for Ghost Flight at Birch Hollow:**
+**Key Discussion Questions for Ghost Flight:**
 - **Trust:** At the moment you received I-02, when did you stop trusting the telemetry from the GCS-02, DAA-1, and RTK-1, and what evidence made you switch from 'system says' to 'field says'? _(Objective: Cyber-Physical Trust)_
 - **The Gap:** When you saw the unauthorized remote session from IP 192.168.100.22 in I-17b, what did you treat as evidence and what did you treat as a ticket to action? What would have made you decide to isolate the GCS-02 sooner, based on C1 and C2? _(Objective: Command Integrity)_
 - **The Call:** At I-20, when you had to choose between keeping automation and risking a lake landing or switching to manual/attitude mode, what factors tipped the balance? What would have let you decide faster, and which part of the EOP (e.g. C3, C4) should have triggered that decision earlier? _(Objective: Incident Response Continuity)_
