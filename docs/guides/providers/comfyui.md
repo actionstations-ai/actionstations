@@ -74,7 +74,9 @@ shasum -a 256 model.safetensors   # 4f38ce741c6b71188fe2b3419a55e11917a8a7b321ae
 
 A ComfyUI environment made with `uv` has no `pip`; use `uv pip install --python .venv/bin/python -r custom_nodes/ComfyUI-Florence2/requirements.txt` instead. Restart ComfyUI, then **Recheck nodes** on the Workflows page. Only `model.safetensors` and the JSON files are needed; the model repository's `.py` files are not used by this node pack.
 
-What it costs: the node pack runs Florence-2 on the CPU on Apple Silicon, so a screens-off image takes about 2 minutes instead of about 45 s (16 detector passes over the top of the frame). Lit and power-loss scenes never run it. What it finds and misses is measured in [`comfy/workflows/README.md`](../../../comfy/workflows/README.md).
+What it costs: by default the node pack runs Florence-2 on the CPU on Apple Silicon, so a screens-off image takes about 2 minutes instead of about 45 s (16 detector passes over the top of the frame). Lit and power-loss scenes never run it.
+
+To run it on the GPU instead, start ComfyUI with `--gpu-only` (for example `.venv/bin/python main.py --listen 127.0.0.1 --port 8188 --gpu-only`). Measured on Apple Silicon: a screens-off image takes 41–45 s, and Florence-2 finds exactly the same boxes. Two side effects: the flag applies to every model ComfyUI loads, so the same seed gives a slightly different image than without it, and a screens-off scene without the detector fails under the flag (see the troubleshooting table). What it finds and misses is measured in [`comfy/workflows/README.md`](../../../comfy/workflows/README.md).
 
 ## 3. Connect it in the app
 
@@ -102,12 +104,13 @@ Any workflow exported from ComfyUI with **Workflow → Export (API)** can be imp
 
 ## Troubleshooting
 
-| Symptom                                                       | Fix                                                                                                                    |
-| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Detect says ComfyUI "Not found"                               | ComfyUI is not running, or listens elsewhere. Start it with `--listen 127.0.0.1 --port 8188`.                          |
-| A workflow card lists missing nodes                           | Install the node pack that provides them (for imported workflows), restart ComfyUI, then **Recheck nodes**.            |
-| Render fails with a missing model / "value not in list" error | The model file is not in the folder the workflow expects (table above) or ComfyUI was not restarted after adding it.   |
-| Renders are very slow on a Mac                                | Check `torch.backends.mps.is_available()` is `True`; without MPS, ComfyUI runs on the CPU.                             |
-| Video frames smear into colour after the first frame          | A model that does not work on MPS (seen with Wan 2.2). Use the built-in LTX-Video workflow.                            |
-| A screens-off image still shows small lit signs               | Expected without the optional sign detector, and for small far-off screens even with it. Install the detector (above). |
-| Images show garbled signs or screens                          | Expected for diffusion models. Describe screens as dark or off, and put text in a template.                            |
+| Symptom                                                        | Fix                                                                                                                                 |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Detect says ComfyUI "Not found"                                | ComfyUI is not running, or listens elsewhere. Start it with `--listen 127.0.0.1 --port 8188`.                                       |
+| A workflow card lists missing nodes                            | Install the node pack that provides them (for imported workflows), restart ComfyUI, then **Recheck nodes**.                         |
+| Render fails with a missing model / "value not in list" error  | The model file is not in the folder the workflow expects (table above) or ComfyUI was not restarted after adding it.                |
+| Renders are very slow on a Mac                                 | Check `torch.backends.mps.is_available()` is `True`; without MPS, ComfyUI runs on the CPU.                                          |
+| Video frames smear into colour after the first frame           | A model that does not work on MPS (seen with Wan 2.2). Use the built-in LTX-Video workflow.                                         |
+| A screens-off image still shows small lit signs                | Expected without the optional sign detector, and for small far-off screens even with it. Install the detector (above).              |
+| Screens-off render fails in `GrowMask` ("can't convert mps:0") | ComfyUI runs with `--gpu-only` and the sign detector is not installed. Install the detector, or start ComfyUI without `--gpu-only`. |
+| Images show garbled signs or screens                           | Expected for diffusion models. Describe screens as dark or off, and put text in a template.                                         |

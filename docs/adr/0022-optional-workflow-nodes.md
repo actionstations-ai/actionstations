@@ -26,3 +26,15 @@ ComfyUI refuses a whole prompt when any node class in it is unknown, even a node
 - Any workflow, including user and pack workflows, can use the same mechanism. A pack author who marks nodes optional must give fallbacks.
 - The node ids, tile layout and band are sized for 1216 × 832, like the colour mask. Other sizes still render, but tiles do not cover the frame exactly.
 - A node class or model check costs one small HTTP request per class per render of a workflow with optional groups.
+
+## Follow-up: detector speed and what else was tried (#356)
+
+- **GPU-safe grows.** The detector group grows its masks with `Morphology` dilations instead of `GrowMask`. `GrowMask` converts to numpy and fails when ComfyUI keeps tensors on the GPU, which is what `--gpu-only` does. With `--gpu-only`, the node pack puts Florence-2 on the GPU on Apple Silicon: 41–45 s per screens-off image instead of 115–135 s, and fp32 gives the same boxes as the CPU. The flag is a server-wide choice, so the guide documents it and the app does not require it. The colour-only path keeps `GrowMask` so it stays pixel-identical to before, which means that path does not yet run under `--gpu-only`.
+- **Not adopted** (measured on sample-run I-10, seeds 1001–1006; details in `comfy/workflows/README.md`):
+  - A stock-node light-source pass. It repainted part of a head that the people boxes missed.
+  - A separate unlit repaint prompt. It made no visible change.
+  - Finer or coarser tiling. It costs more, or it finds fewer people.
+  - Florence-2-base and greedy decoding. Neither gave a reliable saving, and greedy decoding lost a face box.
+  - fp16 or bf16. Boxes change, or the run is 7× slower.
+  - RT-DETR person boxes. They need the experimental layer compositor to become a mask, and they still miss far crowds.
+- Small far-off screens, white-lettered boards and lit fascias still stay lit in every seed. Removing them safely needs per-pixel segmentation of people and signs, which no permissively licensed ComfyUI node offers today.
