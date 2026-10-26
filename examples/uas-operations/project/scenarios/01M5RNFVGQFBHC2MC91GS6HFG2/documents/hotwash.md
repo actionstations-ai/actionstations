@@ -1,11 +1,11 @@
 # Hot Wash Guide
-## Lost Link Toward the Class C
+## Lost Link
 
 ### Hot Wash Guide (Debrief)
 
 **The "3-Up, 3-Down" Method:** Each team names three things that went well and three that did not; the facilitator writes them up and looks for the same issue in more than one team.
 
-**Key Discussion Questions for Lost Link Toward the Class C:**
+**Key Discussion Questions for Lost Link:**
 - **The Call:** How many minutes passed between the lost link and the call to HWK Tower, and what did the Tower hear? _(Objective: Communication)_
 - **The Prompt:** Why was an update prompt accepted in the field, and what stops it next time — procedure, configuration or both? _(Objective: Technical Analysis)_
 - **Grounding:** What did you ground, on what evidence, and what did the decision cost the clients? _(Objective: Decision Making)_

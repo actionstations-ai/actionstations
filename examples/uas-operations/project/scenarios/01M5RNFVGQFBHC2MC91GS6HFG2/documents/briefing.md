@@ -1,5 +1,5 @@
 # Player Briefing Packet
-## Lost Link Toward the Class C — A flyaway after a field firmware update
+## Lost Link — A flyaway after a field firmware update
 
 Location: Horton Field and the Millbrook Road hangar complex, Harwick, Calder County, New York · Exercise Duration: 4 Hours
 Current Time: 09:00 (Tuesday, September 15) (Exercise Time) · Weather: Clear, 64°F, wind light from the west

@@ -1,5 +1,5 @@
 # Player Briefing Packet
-## Cut Lock, Drifting Residual — Tampering at Orchard Standpipe and a Precautionary Advisory
+## Cut Lock — Tampering at Orchard Standpipe and a Precautionary Advisory
 
 Location: City of Millbrook Department of Water & Sewer, Millbrook, Carver County, Ohio · Exercise Duration: 4 Hours
 Current Time: 07:00 (Sunday, October 25) (Exercise Time) · Weather: Clear and cool, 52°F
