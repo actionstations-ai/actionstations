@@ -103,7 +103,9 @@ photojournalism realism. Core nodes only, plus an optional sign detector (below)
   (signboard, television, street sign, scoreboard, banner, billboard, computer monitor and similar),
   once keeping people (person, man, woman, human face or head, clothing, bags and similar). The
   repaint mask is the sign boxes plus the colour mask, grown 4 px, cut to the top 352 px, minus the
-  people boxes grown 10 px. Nodes 49, 51 and 54 take that mask; their `_meta.fallback` points them
+  people boxes grown 10 px. Both grows are `Morphology` dilations (nodes 109–112), not
+  `GrowMask`: `GrowMask` converts its mask to numpy and fails when ComfyUI keeps tensors on the
+  GPU (`--gpu-only`, below). Nodes 49, 51 and 54 take that mask; their `_meta.fallback` points them
   at the colour mask (node 47) when the group is left out, which gives exactly the colour-only
   render. Florence-2 phrase grounding ("illuminated sign. display screen. …") was tried as a third
   pass: it found white-lettered black boards and more small signs, but it also returned tile-sized
@@ -118,6 +120,37 @@ photojournalism realism. Core nodes only, plus an optional sign detector (below)
   lit signage the detector does not label: small screens far down the hall (1002, 1004, 1005),
   white-lettered black boards (1003), a blue-lit shop fascia (1006), small far-left signs and a
   cyan screen behind the crowd (1001).
+- Detector speed (#356): the node pack loads Florence-2 on ComfyUI's text-encoder device, which
+  is the CPU on Apple Silicon unless ComfyUI starts with `--gpu-only`. Measured on the same seeds:
+  115–135 s per screens-off image by default, 41–45 s with `--gpu-only` (Florence-2 on the GPU;
+  power-loss images 21–24 s either way). Florence-2-large on the GPU in fp32 returns the same boxes
+  as on the CPU (all 16 passes, seeds 1001–1006); fp16 on the GPU moves boxes and drops or adds
+  one per image, and bf16 on the CPU is about 7× slower than fp32, so the loader stays at fp32.
+  `--gpu-only` also moves the text encoders, so a seed renders a slightly different image than
+  without it (3–15% of pixels differ on these seeds). Without the detector, screens-off scenes do
+  not run under `--gpu-only` yet: the colour mask still uses `GrowMask` (node 47), kept so the
+  colour-only render stays exactly as before.
+- Tried for #356 and not used (sample-run I-10, seeds 1001–1006):
+  - A light-source pass with stock mask nodes (bright lettering on dark boards, saturated blue
+    or amber light, joined and cleaned with `Morphology`, minus the people boxes and everything
+    below them). It darkened the FIDS header in 1005 and a screen in 1006. In 1001 it also
+    repainted the top of a head under a cyan screen that the people boxes did not cover. Looser
+    versions also hit glass-roof panes (1004) and the tiny crowd in 1006. A skin-colour exclusion
+    zone covered nearly the whole warm-lit frame, so nothing was left to repaint.
+  - A separate repaint prompt ("switched-off blank black screens…"): no visible change from the
+    scene prompt. Small repainted areas can still come back with a lit dot.
+  - Smaller tiles (8 × 4) for Florence-2: more people found, but small signs were still missed,
+    other labels were hallucinated (train, toilet, curtain), and the cost is 4× on the CPU.
+    Four full-height tiles: half the cost, but they miss up to 13% of the people area the 4 × 2
+    tiles find.
+  - Florence-2-base: not faster on the CPU (14–44 s against 37–47 s for eight tiles), because it
+    sometimes produces long degenerate outputs. Greedy decoding (one beam): 20% faster, but it
+    missed a face box in 1002.
+  - Florence-2 phrase grounding as the sign pass: tile-sized boxes when nothing matches (see
+    above).
+  - RT-DETR v4 person boxes (core `RTDETR_detect`): fast (about 2 s for eight tiles), but
+    turning boxes into a mask needs the experimental layer compositor (at most 50 boxes per
+    call), and it still missed most of the tiny crowd in 1006.
 
 ## `image-to-video` — LTX-Video 2B distilled (video)
 

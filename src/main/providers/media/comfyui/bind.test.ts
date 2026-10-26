@@ -274,13 +274,34 @@ describe('sdxl-photo screens-off lighting (#356)', () => {
       destination: ['106', 0],
       source: ['107', 0],
     })
-    expect(out['107']!.class_type).toBe('GrowMask')
     // Masks follow the job size.
     expect(out['61']!.inputs).toMatchObject({ width: 1024, height: 768 })
     expect(out['104']!.inputs).toMatchObject({ width: 1024, height: 768 })
     const runs = group.filter(([, n]) => n.class_type === 'Florence2Run').map(([, n]) => n.inputs)
     expect(runs).toHaveLength(16)
     expect(runs.every((r) => r.task === 'region_caption' && r.do_sample === false)).toBe(true)
+  })
+
+  it('grows the detector masks with Morphology, which also runs with tensors on the GPU', () => {
+    // GrowMask converts its input to numpy and fails when ComfyUI keeps tensors on the GPU
+    // (`--gpu-only`, the way to run Florence-2 on Apple Silicon's GPU), so the group avoids it.
+    const group = Object.entries(out).filter(
+      ([id]) => workflow[id]!._meta?.optional === 'sign-detector',
+    )
+    expect(group.some(([, n]) => n.class_type === 'GrowMask')).toBe(false)
+    const dilate = (id: string) => {
+      const toMask = out[id]!
+      expect(toMask.class_type).toBe('ImageToMask')
+      const morph = out[(toMask.inputs.image as [string, number])[0]]!
+      expect(morph.class_type).toBe('Morphology')
+      expect(morph.inputs.operation).toBe('dilate')
+      const toImage = out[(morph.inputs.image as [string, number])[0]]!
+      expect(toImage.class_type).toBe('MaskToImage')
+      return { source: toImage.inputs.mask, kernel: morph.inputs.kernel_size }
+    }
+    // Signs (detected and colour-matched) grow 4 px; people grow 10 px before they are cut out.
+    expect(dilate('103')).toEqual({ source: ['102', 0], kernel: 9 })
+    expect(dilate('107')).toEqual({ source: ['101', 0], kernel: 21 })
   })
 
   it('builds the sign mask at the job size from stock mask nodes', () => {

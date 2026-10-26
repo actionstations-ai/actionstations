@@ -1222,11 +1222,10 @@
     }
   },
   "103": {
-    "class_type": "GrowMask",
+    "class_type": "ImageToMask",
     "inputs": {
-      "mask": ["102", 0],
-      "expand": 4,
-      "tapered_corners": true
+      "image": ["110", 0],
+      "channel": "red"
     },
     "_meta": {
       "title": "Signs, grown (lighting: screens-off, optional sign detector)",
@@ -1274,11 +1273,10 @@
     }
   },
   "107": {
-    "class_type": "GrowMask",
+    "class_type": "ImageToMask",
     "inputs": {
-      "mask": ["101", 0],
-      "expand": 10,
-      "tapered_corners": false
+      "image": ["112", 0],
+      "channel": "red"
     },
     "_meta": {
       "title": "People, grown (lighting: screens-off, optional sign detector)",
@@ -1296,6 +1294,50 @@
     },
     "_meta": {
       "title": "Signs without people (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "109": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": ["102", 0]
+    },
+    "_meta": {
+      "title": "Signs as image (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "110": {
+    "class_type": "Morphology",
+    "inputs": {
+      "image": ["109", 0],
+      "operation": "dilate",
+      "kernel_size": 9
+    },
+    "_meta": {
+      "title": "Signs, grown 4 px (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "111": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": ["101", 0]
+    },
+    "_meta": {
+      "title": "People as image (lighting: screens-off, optional sign detector)",
+      "optional": "sign-detector"
+    }
+  },
+  "112": {
+    "class_type": "Morphology",
+    "inputs": {
+      "image": ["111", 0],
+      "operation": "dilate",
+      "kernel_size": 21
+    },
+    "_meta": {
+      "title": "People, grown 10 px (lighting: screens-off, optional sign detector)",
       "optional": "sign-detector"
     }
   }
