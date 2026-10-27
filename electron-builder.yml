@@ -55,6 +55,9 @@ asarUnpack:
   - node_modules/better-sqlite3/**
   - node_modules/sqlite-vec*/**
   - node_modules/onnxruntime-node/**
+  # sharp's libvips ships in its own package with no .node file, so smart-unpack misses the
+  # versioned .so on Linux and the local embedder cannot load it (#372).
+  - node_modules/@img/**
   - node_modules/@tesseract.js-data/**
   - node_modules/tesseract.js/**
   - node_modules/tesseract.js-core/**

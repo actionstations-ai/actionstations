@@ -17,6 +17,7 @@ export declare function readFuseWires(binary: Buffer): FuseWire[]
 export declare function fuseProblems(wire: FuseWire, expected?: Record<string, boolean>): string[]
 export declare function asarFileList(headerJson: string): string[]
 export declare function asarLeaks(files: string[]): string[]
+export declare function packedNativeLibs(headerJson: string): string[]
 export declare function readAsarHeader(asarPath: string): string
 export declare function packagedLayout(appPath: string, platform?: NodeJS.Platform): PackagedLayout
 export declare function killLeftovers(executable: string): string[]

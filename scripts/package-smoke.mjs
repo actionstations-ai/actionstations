@@ -97,6 +97,25 @@ export function asarLeaks(files) {
   )
 }
 
+const NATIVE_LIB_RE = /\.(node|dll|dylib|so(\.\d+)*)$/
+
+/**
+ * Native libraries packed inside app.asar instead of app.asar.unpacked: the OS loader cannot
+ * open them there, so the module that needs them fails at runtime (#372, sharp's libvips).
+ */
+export function packedNativeLibs(headerJson) {
+  const out = []
+  const walk = (node, prefix) => {
+    for (const [name, child] of Object.entries(node.files ?? {})) {
+      const path = prefix ? `${prefix}/${name}` : name
+      if (child.files) walk(child, path)
+      else if (!child.unpacked && NATIVE_LIB_RE.test(name)) out.push(path)
+    }
+  }
+  walk(JSON.parse(headerJson), '')
+  return out
+}
+
 /** Read the JSON header of an asar archive (Chromium pickle framing). */
 export function readAsarHeader(asarPath) {
   const fd = openSync(asarPath, 'r')
@@ -197,10 +216,16 @@ function staticChecks(layout) {
   if (layout.infoPlist && !readFileSync(layout.infoPlist, 'utf8').includes('ElectronAsarIntegrity'))
     problems.push('Info.plist has no ElectronAsarIntegrity entry')
   const asar = join(layout.resources, 'app.asar')
-  const files = asarFileList(readAsarHeader(asar))
+  const header = readAsarHeader(asar)
+  const files = asarFileList(header)
   const leaks = asarLeaks(files)
   if (leaks.length)
     problems.push(`app.asar holds files that must not ship: ${leaks.slice(0, 8).join(', ')}`)
+  const natives = packedNativeLibs(header)
+  if (natives.length)
+    problems.push(
+      `native libraries packed inside app.asar (add to asarUnpack): ${natives.slice(0, 8).join(', ')}`,
+    )
   const mb = (p) => (statSync(p).size / 1e6).toFixed(1)
   console.log(`fuse wires: ${wires.length}; app.asar: ${files.length} files, ${mb(asar)} MB`)
   return problems

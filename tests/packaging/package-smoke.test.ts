@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest'
 import {
   asarFileList,
   asarLeaks,
+  packedNativeLibs,
   bundledPackProblems,
   EXPECTED_FUSES,
   FUSE_SENTINEL,
@@ -85,6 +86,27 @@ describe('asar contents', () => {
       'src/main.ts',
       'templates/x/__golden__/d.png',
     ])
+  })
+  it('flags native libraries left inside the archive, not unpacked ones (#372)', () => {
+    const lib = (unpacked: boolean) => ({ size: 1, ...(unpacked ? { unpacked } : {}) })
+    const natives = JSON.stringify({
+      files: {
+        node_modules: {
+          files: {
+            '@img': {
+              files: {
+                'sharp-libvips-linux-x64': { files: { 'libvips-cpp.so.8.17.2': lib(false) } },
+                'sharp-linux-x64': { files: { 'sharp.node': lib(true), 'index.js': lib(false) } },
+              },
+            },
+          },
+        },
+      },
+    })
+    expect(packedNativeLibs(natives)).toEqual([
+      'node_modules/@img/sharp-libvips-linux-x64/libvips-cpp.so.8.17.2',
+    ])
+    expect(packedNativeLibs(header)).toEqual([])
   })
   it('reads the JSON header from an asar file', () => {
     const json = Buffer.from(header)
