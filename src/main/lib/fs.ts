@@ -59,12 +59,46 @@ export async function ensureDir(p: string): Promise<void> {
   await fs.mkdir(p, { recursive: true })
 }
 
+const RENAME_RETRY_CODES = new Set(['EPERM', 'EACCES', 'EBUSY'])
+/** About two seconds in all, as graceful-fs allows. */
+export const RENAME_RETRY_DELAYS_MS = [10, 20, 40, 80, 160, 320, 500, 1000]
+
+export function isRenameRetryable(err: unknown): boolean {
+  return RENAME_RETRY_CODES.has((err as NodeJS.ErrnoException).code ?? '')
+}
+
+/**
+ * Windows refuses to replace a file that another handle has open (a concurrent read,
+ * Defender, the search indexer) with EPERM/EACCES/EBUSY until that handle closes, so the
+ * rename is retried for a short while (#375). Other platforms never take the retry path.
+ */
+export async function renameWithRetry(
+  from: string,
+  to: string,
+  rename: (a: string, b: string) => Promise<void> = fs.rename,
+  delays: readonly number[] = RENAME_RETRY_DELAYS_MS,
+): Promise<void> {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await rename(from, to)
+    } catch (err) {
+      if (!isRenameRetryable(err) || attempt >= delays.length) throw err
+      await new Promise((r) => setTimeout(r, delays[attempt]))
+    }
+  }
+}
+
 /** Write via temp file + rename so a crash never leaves half-written JSON. */
 export async function writeFileAtomic(path: string, data: string | Uint8Array): Promise<void> {
   await ensureDir(dirname(path))
   const tmp = join(dirname(path), `.${randomBytes(6).toString('hex')}.tmp`)
   await fs.writeFile(tmp, data)
-  await fs.rename(tmp, path)
+  try {
+    await renameWithRetry(tmp, path)
+  } catch (err) {
+    await fs.rm(tmp, { force: true })
+    throw err
+  }
 }
 
 export async function writeJsonAtomic(path: string, value: unknown): Promise<void> {
