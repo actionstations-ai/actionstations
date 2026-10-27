@@ -13,12 +13,18 @@ import { runCommand, type Runner } from './run'
 
 const GB = 1e9
 
+/** ComfyUI model folders the recommended models go into. */
+export const COMFY_FOLDERS = ['checkpoints', 'text_encoders', 'diffusion_models', 'vae'] as const
+export type ComfyFolder = (typeof COMFY_FOLDERS)[number]
+
 export interface ComfyFile {
   repo: string
   /** Pinned Hugging Face revision (commit). */
   revision: string
   file: string
-  folder: 'checkpoints' | 'text_encoders'
+  /** Path inside the repository when it is not `file` at its root. */
+  repoPath?: string
+  folder: ComfyFolder
   sha256: string
   sizeBytes: number
 }
@@ -64,6 +70,34 @@ const T5: ComfyFile = {
   folder: 'text_encoders',
   sha256: '6e480b09fae049a72d2a8c5fbccb8d3e92febeb233bbe9dfe7256958a9167635',
   sizeBytes: 9_787_841_024,
+}
+
+// FLUX.2 [klein] 4B (#356): the optional instruction edit of sdxl-photo's blank-screen scenes.
+const KLEIN: ComfyFile = {
+  repo: 'black-forest-labs/FLUX.2-klein-4B',
+  revision: 'e7b7dc27f91deacad38e78976d1f2b499d76a294',
+  file: 'flux-2-klein-4b.safetensors',
+  folder: 'diffusion_models',
+  sha256: 'ec3d4e733a771f61c052fb4856c48b336c55eaf2c65487c2a1faeb9bbda7a343',
+  sizeBytes: 7_751_105_712,
+}
+const QWEN3_4B: ComfyFile = {
+  repo: 'Comfy-Org/Z-Image-Turbo',
+  revision: '6fc90a3b1b653e935a0d175e260736de25b84df5',
+  file: 'qwen_3_4b.safetensors',
+  repoPath: 'split_files/text_encoders/qwen_3_4b.safetensors',
+  folder: 'text_encoders',
+  sha256: '6c671498573ac2f7a5501502ccce8d2b08ea6ca2f661c458e708f36b36edfc5a',
+  sizeBytes: 8_044_982_048,
+}
+const FLUX2_VAE: ComfyFile = {
+  repo: 'Comfy-Org/Flux-2-Dev',
+  revision: 'be27b9cf1b7212b3a281c2abbd9ecf6985242bb8',
+  file: 'flux2-vae.safetensors',
+  repoPath: 'split_files/vae/flux2-vae.safetensors',
+  folder: 'vae',
+  sha256: 'd64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5',
+  sizeBytes: 336_213_556,
 }
 
 export const MODEL_DEFS: ModelDef[] = [
@@ -129,6 +163,19 @@ export const MODEL_DEFS: ModelDef[] = [
     gpuOnly: true,
     files: [LTXV, T5],
   },
+  {
+    id: 'comfyui:flux2-klein-4b',
+    tool: 'comfyui',
+    role: 'image',
+    name: 'FLUX.2 [klein] 4B + Qwen3 4B text encoder + FLUX.2 VAE',
+    sizeBytes: KLEIN.sizeBytes + QWEN3_4B.sizeBytes + FLUX2_VAE.sizeBytes,
+    approximate: false,
+    license: 'Apache-2.0',
+    note: 'Optional: the default image workflow (sdxl-photo) uses it to switch off screens and signs in blank-screen scenes.',
+    minBudget: 32 * GB,
+    gpuOnly: true,
+    files: [KLEIN, QWEN3_4B, FLUX2_VAE],
+  },
 ]
 
 /** What is already on the machine, from the running tools. */
@@ -187,7 +234,7 @@ export async function installedModels(
   const comfy: string[] = []
   const comfyUrl = running.urls.comfyui
   if (comfyUrl) {
-    for (const folder of ['checkpoints', 'text_encoders'] as const) {
+    for (const folder of COMFY_FOLDERS) {
       try {
         const res = await fetchImpl(`${comfyUrl}/models/${folder}`, {
           signal: AbortSignal.timeout(1500),
@@ -219,7 +266,7 @@ export interface PullContext {
   /** Tests only: allow the local fixture server. */
   policy?: HostPolicy
   /** Tests only: where ComfyUI's model folders are (instead of asking ComfyUI). */
-  comfyFolders?: Partial<Record<ComfyFile['folder'], string>>
+  comfyFolders?: Partial<Record<ComfyFolder, string>>
   /** Tests only: where a model file is served from. */
   fileUrl?: (f: ComfyFile) => string
 }
@@ -271,7 +318,7 @@ async function pullLms(def: ModelDef, ctx: PullContext): Promise<void> {
     )
 }
 
-async function comfyFolder(folder: ComfyFile['folder'], ctx: PullContext): Promise<string> {
+async function comfyFolder(folder: ComfyFolder, ctx: PullContext): Promise<string> {
   const given = ctx.comfyFolders?.[folder]
   if (given) return given
   const url = ctx.running.urls.comfyui
@@ -290,7 +337,7 @@ async function comfyFolder(folder: ComfyFile['folder'], ctx: PullContext): Promi
 }
 
 export const huggingFaceUrl = (f: ComfyFile): string =>
-  `https://huggingface.co/${f.repo}/resolve/${f.revision}/${f.file}`
+  `https://huggingface.co/${f.repo}/resolve/${f.revision}/${f.repoPath ?? f.file}`
 
 async function pullComfy(def: ModelDef, ctx: PullContext): Promise<void> {
   const files = def.files ?? []

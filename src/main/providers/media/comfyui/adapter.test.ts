@@ -41,6 +41,39 @@ async function setup(opts: FakeComfyOptions = {}, options: Record<string, unknow
 
 const outDir = (): string => mkdtempSync(join(tmpdir(), 'ttx-comfy-out-'))
 
+/** Node classes only sdxl-photo's optional FLUX.2 klein edit uses (#356). */
+const KLEIN_CLASSES = [
+  'CFGGuider',
+  'CLIPLoader',
+  'ConditioningZeroOut',
+  'EmptyFlux2LatentImage',
+  'Flux2Scheduler',
+  'GetImageSize',
+  'ImageScale',
+  'KSamplerSelect',
+  'RandomNoise',
+  'ReferenceLatent',
+  'SamplerCustomAdvanced',
+  'UNETLoader',
+  'VAELoader',
+]
+
+/** /object_info answers of a ComfyUI that has the klein nodes and the given model files. */
+const kleinInfo = (models: { unet: string[]; clip: string[]; vae: string[] }) => ({
+  ...Object.fromEntries(KLEIN_CLASSES.map((c) => [c, { input: { required: {} } }])),
+  UNETLoader: { input: { required: { unet_name: [models.unet, {}] } } },
+  CLIPLoader: {
+    input: { required: { clip_name: [models.clip, {}], type: [['sd3', 'flux2'], {}] } },
+  },
+  VAELoader: { input: { required: { vae_name: ['COMBO', { options: models.vae }] } } },
+})
+
+const KLEIN_MODELS = {
+  unet: ['flux-2-klein-4b.safetensors'],
+  clip: ['qwen_3_4b.safetensors'],
+  vae: ['flux2-vae.safetensors'],
+}
+
 const imageJob = (extra: Record<string, unknown> = {}) => ({
   kind: 'image' as const,
   injectId: 'I-07',
@@ -212,9 +245,14 @@ describe('ComfyUI adapter', () => {
     const photo = list.find((w) => w.id === 'sdxl-photo')!
     const video = list.find((w) => w.id === 'image-to-video')!
     expect(photo.missingNodes).toEqual([])
-    // The sign detector is optional: listed, not counted as missing (#356).
-    expect(photo.optionalNodes).toEqual(['Florence2ModelLoader', 'Florence2Run', 'ImageCrop'])
-    expect(photo.missingOptionalNodes).toEqual(['Florence2ModelLoader', 'Florence2Run'])
+    // The sign detector and the FLUX.2 klein edit are optional: listed, not counted as missing
+    // (#356). This fake server has neither the Florence-2 nor the FLUX.2 nodes.
+    expect(photo.optionalNodes).toEqual(
+      [...KLEIN_CLASSES, 'Florence2ModelLoader', 'Florence2Run', 'ImageCrop'].sort(),
+    )
+    expect(photo.missingOptionalNodes).toEqual(
+      [...KLEIN_CLASSES, 'Florence2ModelLoader', 'Florence2Run'].sort(),
+    )
     expect(video.missingNodes).toEqual(
       expect.arrayContaining(['LTXVImgToVideo', 'SamplerCustom', 'SaveVideo']),
     )
@@ -272,5 +310,82 @@ describe('sdxl-photo optional sign detector (#356)', () => {
     expect(sent[mask[0]]!.class_type).toBe('MaskComposite')
     expect(sent['49']!.inputs.mask).toEqual(mask)
     expect(out!.provenance.workflowHash).toBe(workflowSha256(sent as never))
+  })
+})
+
+describe('sdxl-photo optional FLUX.2 klein edit (#356)', () => {
+  const job = (lighting?: 'dark' | 'screens-off') =>
+    imageJob({
+      seed: 7,
+      brief: {
+        paths: ['ai_image' as const],
+        imagePrompt: 'a concourse',
+        ...(lighting ? { lighting } : {}),
+      },
+    })
+  type Sent = Record<string, { class_type: string; inputs: Record<string, unknown> }>
+  /** Ids of the nodes the saved image depends on (what ComfyUI actually runs). */
+  const ancestors = (sent: Sent, id = '9', seen = new Set<string>()): Set<string> => {
+    for (const value of Object.values(sent[id]!.inputs))
+      if (Array.isArray(value) && typeof value[0] === 'string' && !seen.has(value[0])) {
+        seen.add(value[0])
+        ancestors(sent, value[0], seen)
+      }
+    return seen
+  }
+  const kleinIds = (sent: Sent) =>
+    Object.keys(sent).filter((id) => sent[id]!.class_type === 'UNETLoader')
+
+  it('leaves the edit out and saves the sign repaint when the FLUX.2 nodes are missing', async () => {
+    const { fake, provider } = await setup()
+    const messages: string[] = []
+    await provider.generate(job('screens-off'), (p) => p.message && messages.push(p.message))
+    const sent = fake.prompts[0]!.prompt
+    expect(kleinIds(sent)).toEqual([])
+    expect(sent['9']!.inputs.images).toEqual(['54', 0])
+    expect(messages.some((m) => /flux2-klein-edit.*not installed/.test(m))).toBe(true)
+  })
+
+  it('leaves the edit out when a FLUX.2 klein model file is missing', async () => {
+    const { fake, provider } = await setup({
+      nodeInfo: kleinInfo({ ...KLEIN_MODELS, unet: ['flux-2-dev.safetensors'] }),
+    })
+    const messages: string[] = []
+    await provider.generate(job('screens-off'), (p) => p.message && messages.push(p.message))
+    const sent = fake.prompts[0]!.prompt
+    expect(kleinIds(sent)).toEqual([])
+    expect(sent['9']!.inputs.images).toEqual(['54', 0])
+    expect(messages.some((m) => m.includes('no unet_name "flux-2-klein-4b.safetensors"'))).toBe(
+      true,
+    )
+  })
+
+  it('saves the edited image when the nodes and the three model files are installed', async () => {
+    const { fake, provider } = await setup({ nodeInfo: kleinInfo(KLEIN_MODELS) })
+    const [out] = await provider.generate(job('screens-off'))
+    const sent = fake.prompts[0]!.prompt
+    expect(sent['9']!.inputs.images).toEqual(['166', 0])
+    expect(sent['133']!.inputs.noise_seed).toBe(7)
+    expect(sent['164']!.inputs.seed).toBe(7)
+    // The Florence-2 detector is not installed here, and the edit path never needs it.
+    const used = ancestors(sent)
+    expect([...used].some((id) => sent[id]!.class_type.startsWith('Florence2'))).toBe(false)
+    expect(used.has('120')).toBe(true)
+    expect(out!.provenance.model).toBe('sd_xl_base_1.0.safetensors')
+    expect(out!.provenance.workflowHash).toBe(workflowSha256(sent as never))
+  })
+
+  it('does not run the edit for lit or power-loss scenes, even when it is installed', async () => {
+    for (const lighting of [undefined, 'dark'] as const) {
+      const { fake: server, provider } = await setup({ nodeInfo: kleinInfo(KLEIN_MODELS) })
+      await provider.generate(job(lighting))
+      const sent = server.prompts[0]!.prompt
+      expect(sent['9']!.inputs.images).toEqual(['8', 0])
+      // Only the first pass (nodes below 21) feeds the saved image.
+      expect([...ancestors(sent)].filter((id) => Number(id) >= 21)).toEqual([])
+      await server.close()
+      fake = undefined
+      resetStoreState()
+    }
   })
 })
