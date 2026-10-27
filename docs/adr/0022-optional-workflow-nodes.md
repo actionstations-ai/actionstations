@@ -38,3 +38,16 @@ ComfyUI refuses a whole prompt when any node class in it is unknown, even a node
   - fp16 or bf16. Boxes change, or the run is 7× slower.
   - RT-DETR person boxes. They need the experimental layer compositor to become a mask, and they still miss far crowds.
 - Small far-off screens, white-lettered boards and lit fascias still stay lit in every seed. Removing them safely needs per-pixel segmentation of people and signs, which no permissively licensed ComfyUI node offers today.
+
+## Follow-up: FLUX.2 [klein] edit for blank screens (#356)
+
+**Context.** The colour rule and the detector both decide _where_ a sign is and then ask SDXL to repaint it, and both miss small, pale and white-lettered signs. FLUX.2 [klein] 4B (Apache-2.0, with an Apache-2.0 text encoder and VAE) is an instruction-following editor that runs in ComfyUI core nodes. Asked to power off every screen and sign and keep everything else, it blacks out boards in place, but it redraws the whole frame, so faces and people come back slightly different.
+
+**Decision.**
+
+- `sdxl-photo` gets a second optional group, `flux2-klein-edit`. It needs no custom nodes, only the three model files, which the group's loaders name, so the existing model check leaves it out when a file is missing. When it is present, the image saved for `screens-off` is the edit's output; otherwise node 9 falls back to the repaint, which uses the detector when that is installed and the colour mask when it is not. Lit and power-loss scenes save the first decode, as before, and never reach either group.
+- Only darkening is taken from the edit: a mask of pixels the edit made clearly darker, cleaned with `Morphology`, extended into weaker darkening next to it (board lettering), cut to pixels that got darker at all, and composited over the lit render. People, faces and everything the edit only redrew stay the lit render's pixels. Signs the edit left lit and the colour rule finds are repainted as before.
+- **The detector is not used when the edit is.** The edit finds more signs than the detector and needs no people boxes, because its mask follows what it darkened rather than a box. Keeping both would cost about 2 minutes more per image on the CPU for little gain, so the simplest graph that meets the bar is the edit plus the colour repaint. The detector stays as the middle option for machines without the FLUX.2 files.
+- The setup (ADR-0021) offers the three files as one optional download: they are plain model files with pinned revisions and SHA-256 digests, not code, so they fit its trust model, unlike the detector.
+
+**Consequences.** A screens-off image takes 47–65 s on Apple Silicon (about 45 s with the colour rule only, about 2 minutes with the detector on the CPU), and the three files need 16 GB of disk. Some small far-off screens and lit fascias still stay lit, and where the edit made a small screen only partly dark, that screen can look patchy; the measurements are in `comfy/workflows/README.md`. The masks are thresholds on a generated edit, so a person standing directly in front of a board that the edit changed could in principle be touched; on sample-run I-10 no face pixel changed in 6 of 6 seeds.

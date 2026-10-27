@@ -43,7 +43,7 @@ Each provider card shows its reachability and latency, and has **Test** (a one-l
 
 The app never elevates silently and never downloads in the background. For LM Studio and ComfyUI on Linux, and for the mlx-audio voice server, only the download page or the exact command is offered: there is nothing signed or checksummed to verify. See [ADR-0021](../../adr/0021-local-tools-setup.md) for the publisher identities, the per-OS support matrix and what happens when a vendor moves its downloads.
 
-**Recommended models** follow the tools. They are chosen for this computer's memory: 70 % of RAM on Apple Silicon, VRAM on an NVIDIA GPU, otherwise half of RAM on the CPU. You get a text model per tool (from `qwen3.5:4b` up to `gpt-oss:120b`), `nomic-embed-text` for Ollama, and SDXL and LTX-Video for ComfyUI's default workflows. Each has its size and license and is its own **Download**. Downloads go through the tool's own pull: Ollama's pull API, `lms get`, or a sha256-checked file in the checkpoint folder of the running ComfyUI.
+**Recommended models** follow the tools. They are chosen for this computer's memory: 70 % of RAM on Apple Silicon, VRAM on an NVIDIA GPU, otherwise half of RAM on the CPU. You get a text model per tool (from `qwen3.5:4b` up to `gpt-oss:120b`), `nomic-embed-text` for Ollama, SDXL and LTX-Video for ComfyUI's default workflows, and, with 32 GB or more, the optional FLUX.2 [klein] 4B files that switch off screens in blank-screen scenes ([ComfyUI guide](comfyui.md#optional-flux2-klein-edit-for-blank-screen-scenes)). Each has its size and license and is its own **Download**. Downloads go through the tool's own pull: Ollama's pull API, `lms get`, or a sha256-checked file in the matching model folder of the running ComfyUI.
 
 ## Routing
 

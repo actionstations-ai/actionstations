@@ -9,6 +9,7 @@ import { bytes, redirect, sha256, startServer, type TestServer } from '../packs/
 import { hardwareView, parseNvidiaSmi } from './hardware'
 import {
   MODEL_DEFS,
+  huggingFaceUrl,
   modelDef,
   parsePercent,
   pullModel,
@@ -96,6 +97,26 @@ describe('recommendModels', () => {
     expect(by['lmstudio:qwen/qwen3-30b-a3b-2507']).toBe(false)
     expect(by['comfyui:sdxl-base-1.0']).toBe(true)
     expect(by['comfyui:ltxv-2b-0.9.8']).toBe(false)
+  })
+
+  it('offers FLUX.2 klein as an optional image model and finds its three files (#356)', () => {
+    expect(recommendModels(mac(16), none).map((m) => m.id)).not.toContain('comfyui:flux2-klein-4b')
+    const comfy = [
+      'diffusion_models/flux-2-klein-4b.safetensors',
+      'text_encoders/qwen_3_4b.safetensors',
+    ]
+    const find = (have: string[]) =>
+      recommendModels(mac(64), { ollama: [], lmstudio: [], comfy: have }).find(
+        (m) => m.id === 'comfyui:flux2-klein-4b',
+      )!
+    expect(find(comfy)).toMatchObject({ license: 'Apache-2.0', installed: false })
+    expect(find(comfy).note).toMatch(/Optional/)
+    expect(find([...comfy, 'vae/flux2-vae.safetensors']).installed).toBe(true)
+    // Files that sit below the repository root download from their path there.
+    const [, qwen] = modelDef('comfyui:flux2-klein-4b').files!
+    expect(huggingFaceUrl(qwen!)).toBe(
+      'https://huggingface.co/Comfy-Org/Z-Image-Turbo/resolve/6fc90a3b1b653e935a0d175e260736de25b84df5/split_files/text_encoders/qwen_3_4b.safetensors',
+    )
   })
 
   it('refuses ids that are not on the list', () => {

@@ -6,7 +6,8 @@
 // LIVE_COMFY_DARK_SEEDS (default 1001,1002,1003) are the seeds of the dark-screens checks
 // (#162 power loss, #356 blank screens with the power on). LIVE_COMFY_DETECTOR=1 requires the
 // optional Florence-2 sign detector of sdxl-photo (#356) to be installed and used; without it the
-// test logs whether it ran.
+// test logs whether it ran. LIVE_COMFY_KLEIN=1 requires the optional FLUX.2 [klein] edit of
+// sdxl-photo (#356) to be installed and used (it then replaces the detector for screens-off).
 import { mkdtempSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
@@ -22,6 +23,7 @@ const VIDEO = process.env.LIVE_COMFY_VIDEO !== '0'
 const VIDEO_WORKFLOW = process.env.LIVE_COMFY_VIDEO_WORKFLOW
 const DARK_SEEDS = (process.env.LIVE_COMFY_DARK_SEEDS ?? '1001,1002,1003').split(',').map(Number)
 const DETECTOR = process.env.LIVE_COMFY_DETECTOR === '1'
+const KLEIN = process.env.LIVE_COMFY_KLEIN === '1'
 /** Most lit-sign pixels (% of the top 40%) a screens-off render may keep (#356). */
 const LIT_SIGN_MAX = 0.3
 
@@ -179,12 +181,16 @@ describe.skipIf(!LIVE)('ComfyUI live', () => {
           (pr) => pr.message && messages.push(pr.message),
         )
         const leftOut = messages.find((m) => m.includes('"sign-detector" left out'))
+        const kleinOut = messages.find((m) => m.includes('"flux2-klein-edit" left out'))
         console.log(
-          '[live] sign detector',
-          leftOut ? `left out: ${leftOut}` : 'used',
+          '[live] FLUX.2 klein edit',
+          kleinOut ? `left out: ${kleinOut}` : 'used',
+          '· sign detector',
+          leftOut ? `left out: ${leftOut}` : 'installed',
           `${Date.now() - started} ms`,
         )
         if (DETECTOR) expect(leftOut).toBeUndefined()
+        if (KLEIN) expect(kleinOut).toBeUndefined()
         const luma = meanLuma(out!.filePath)
         const lit = litSignShare(out!.filePath)
         console.log(

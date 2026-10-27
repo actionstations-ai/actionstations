@@ -525,7 +525,10 @@
       "images": ["8", 0]
     },
     "_meta": {
-      "title": "Save"
+      "title": "Save",
+      "fallback": {
+        "images": ["54", 0]
+      }
     }
   },
   "60": {
@@ -1339,6 +1342,654 @@
     "_meta": {
       "title": "People, grown 10 px (lighting: screens-off, optional sign detector)",
       "optional": "sign-detector"
+    }
+  },
+  "120": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "flux-2-klein-4b.safetensors",
+      "weight_dtype": "default"
+    },
+    "_meta": {
+      "title": "Load FLUX.2 klein 4B (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "121": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen_3_4b.safetensors",
+      "type": "flux2",
+      "device": "default"
+    },
+    "_meta": {
+      "title": "Load Qwen3 4B text encoder (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "122": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "_meta": {
+      "title": "Load FLUX.2 VAE (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "123": {
+    "class_type": "GetImageSize",
+    "inputs": {
+      "image": ["8", 0]
+    },
+    "_meta": {
+      "title": "Lit image size (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "124": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": ["8", 0],
+      "vae": ["122", 0]
+    },
+    "_meta": {
+      "title": "Encode lit image (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "125": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "Power off every screen, departure board, monitor, LED counter and illuminated sign. Keep each one in exactly the same place and size, but make its face solid glossy black with no text, no light and no colour, like a switched-off TV. Keep everything else exactly the same, including every person, face, the lighting and the architecture.",
+      "clip": ["121", 0]
+    },
+    "_meta": {
+      "title": "Edit instruction (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "126": {
+    "class_type": "ConditioningZeroOut",
+    "inputs": {
+      "conditioning": ["125", 0]
+    },
+    "_meta": {
+      "title": "Empty negative (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "127": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": ["125", 0],
+      "latent": ["124", 0]
+    },
+    "_meta": {
+      "title": "Instruction + lit image (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "128": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": ["126", 0],
+      "latent": ["124", 0]
+    },
+    "_meta": {
+      "title": "Negative + lit image (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "129": {
+    "class_type": "CFGGuider",
+    "inputs": {
+      "model": ["120", 0],
+      "positive": ["127", 0],
+      "negative": ["128", 0],
+      "cfg": 1.0
+    },
+    "_meta": {
+      "title": "Guider, CFG 1 (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "130": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "_meta": {
+      "title": "Sampler euler (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "131": {
+    "class_type": "Flux2Scheduler",
+    "inputs": {
+      "steps": 4,
+      "width": ["123", 0],
+      "height": ["123", 1]
+    },
+    "_meta": {
+      "title": "4 steps (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "132": {
+    "class_type": "EmptyFlux2LatentImage",
+    "inputs": {
+      "width": ["123", 0],
+      "height": ["123", 1],
+      "batch_size": 1
+    },
+    "_meta": {
+      "title": "Edit latent at the lit size (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "133": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 0
+    },
+    "_meta": {
+      "title": "Edit noise (job seed) (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "134": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": ["133", 0],
+      "guider": ["129", 0],
+      "sampler": ["130", 0],
+      "sigmas": ["131", 0],
+      "latent_image": ["132", 0]
+    },
+    "_meta": {
+      "title": "Edit sampler (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "135": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["134", 0],
+      "vae": ["122", 0]
+    },
+    "_meta": {
+      "title": "Decode edit (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "136": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "image": ["135", 0],
+      "upscale_method": "bilinear",
+      "width": ["123", 0],
+      "height": ["123", 1],
+      "crop": "disabled"
+    },
+    "_meta": {
+      "title": "Edit at the lit size (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "137": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["8", 0],
+      "channel": "red"
+    },
+    "_meta": {
+      "title": "Lit red (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "140": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["136", 0],
+      "channel": "red"
+    },
+    "_meta": {
+      "title": "Edit red (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "143": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["137", 0],
+      "source": ["140", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "subtract"
+    },
+    "_meta": {
+      "title": "Darkening, red (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "138": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["8", 0],
+      "channel": "green"
+    },
+    "_meta": {
+      "title": "Lit green (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "141": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["136", 0],
+      "channel": "green"
+    },
+    "_meta": {
+      "title": "Edit green (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "144": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["138", 0],
+      "source": ["141", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "subtract"
+    },
+    "_meta": {
+      "title": "Darkening, green (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "139": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["8", 0],
+      "channel": "blue"
+    },
+    "_meta": {
+      "title": "Lit blue (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "142": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["136", 0],
+      "channel": "blue"
+    },
+    "_meta": {
+      "title": "Edit blue (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "145": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["139", 0],
+      "source": ["142", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "subtract"
+    },
+    "_meta": {
+      "title": "Darkening, blue (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "146": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["143", 0],
+      "source": ["144", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "add"
+    },
+    "_meta": {
+      "title": "Darkening, red + green (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "147": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["146", 0],
+      "source": ["145", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "add"
+    },
+    "_meta": {
+      "title": "Darkening, all channels (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "148": {
+    "class_type": "ThresholdMask",
+    "inputs": {
+      "mask": ["147", 0],
+      "value": 0.3
+    },
+    "_meta": {
+      "title": "Darkened by more than 0.3 (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "149": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": ["148", 0]
+    },
+    "_meta": {
+      "title": "Darkened as image (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "150": {
+    "class_type": "Morphology",
+    "inputs": {
+      "image": ["149", 0],
+      "operation": "open",
+      "kernel_size": 7
+    },
+    "_meta": {
+      "title": "Drop specks and thin edges (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "151": {
+    "class_type": "Morphology",
+    "inputs": {
+      "image": ["150", 0],
+      "operation": "close",
+      "kernel_size": 15
+    },
+    "_meta": {
+      "title": "Fill boards (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "152": {
+    "class_type": "Morphology",
+    "inputs": {
+      "image": ["151", 0],
+      "operation": "dilate",
+      "kernel_size": 21
+    },
+    "_meta": {
+      "title": "Reach 10 px around boards (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "153": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["173", 0],
+      "channel": "red"
+    },
+    "_meta": {
+      "title": "Near boards (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "154": {
+    "class_type": "ThresholdMask",
+    "inputs": {
+      "mask": ["147", 0],
+      "value": 0.05
+    },
+    "_meta": {
+      "title": "Darker at all (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "155": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["171", 0],
+      "source": ["154", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "multiply"
+    },
+    "_meta": {
+      "title": "Board mask, darkening only (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "156": {
+    "class_type": "ImageCompositeMasked",
+    "inputs": {
+      "destination": ["8", 0],
+      "source": ["136", 0],
+      "x": 0,
+      "y": 0,
+      "resize_source": false,
+      "mask": ["155", 0]
+    },
+    "_meta": {
+      "title": "Switched-off boards over the lit image (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "157": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": ["46", 0]
+    },
+    "_meta": {
+      "title": "Colour-matched signs as image (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "158": {
+    "class_type": "Morphology",
+    "inputs": {
+      "image": ["157", 0],
+      "operation": "dilate",
+      "kernel_size": 17
+    },
+    "_meta": {
+      "title": "Colour-matched signs, grown 8 px (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "159": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["158", 0],
+      "channel": "red"
+    },
+    "_meta": {
+      "title": "Colour-matched sign mask (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "160": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["159", 0],
+      "source": ["155", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "subtract"
+    },
+    "_meta": {
+      "title": "Lit signs the edit missed (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "161": {
+    "class_type": "ImageCompositeMasked",
+    "inputs": {
+      "destination": ["156", 0],
+      "source": ["48", 0],
+      "x": 0,
+      "y": 0,
+      "resize_source": false,
+      "mask": ["160", 0]
+    },
+    "_meta": {
+      "title": "Missed signs filled dark (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "162": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": ["161", 0],
+      "vae": ["4", 2]
+    },
+    "_meta": {
+      "title": "Encode filled edit (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "163": {
+    "class_type": "SetLatentNoiseMask",
+    "inputs": {
+      "samples": ["162", 0],
+      "mask": ["160", 0]
+    },
+    "_meta": {
+      "title": "Repaint only the missed signs (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "164": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 0,
+      "steps": 25,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 0.55,
+      "model": ["4", 0],
+      "positive": ["6", 0],
+      "negative": ["7", 0],
+      "latent_image": ["163", 0]
+    },
+    "_meta": {
+      "title": "Repaint sampler (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "165": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["164", 0],
+      "vae": ["4", 2]
+    },
+    "_meta": {
+      "title": "Decode repaint (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "166": {
+    "class_type": "ImageCompositeMasked",
+    "inputs": {
+      "destination": ["156", 0],
+      "source": ["165", 0],
+      "x": 0,
+      "y": 0,
+      "resize_source": false,
+      "mask": ["160", 0]
+    },
+    "_meta": {
+      "title": "Repainted missed signs over the edit (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "167": {
+    "class_type": "ThresholdMask",
+    "inputs": {
+      "mask": ["147", 0],
+      "value": 0.15
+    },
+    "_meta": {
+      "title": "Darkened by more than 0.15 (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "168": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": ["153", 0],
+      "source": ["167", 0],
+      "x": 0,
+      "y": 0,
+      "operation": "multiply"
+    },
+    "_meta": {
+      "title": "Board text and dim edges (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "169": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": ["168", 0]
+    },
+    "_meta": {
+      "title": "Boards as image (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "170": {
+    "class_type": "Morphology",
+    "inputs": {
+      "image": ["169", 0],
+      "operation": "dilate",
+      "kernel_size": 9
+    },
+    "_meta": {
+      "title": "Grow 4 px over board edges (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "171": {
+    "class_type": "ImageToMask",
+    "inputs": {
+      "image": ["170", 0],
+      "channel": "red"
+    },
+    "_meta": {
+      "title": "Board mask (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "172": {
+    "class_type": "Morphology",
+    "inputs": {
+      "image": ["152", 0],
+      "operation": "dilate",
+      "kernel_size": 21
+    },
+    "_meta": {
+      "title": "Reach 20 px around boards (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
+    }
+  },
+  "173": {
+    "class_type": "Morphology",
+    "inputs": {
+      "image": ["172", 0],
+      "operation": "dilate",
+      "kernel_size": 21
+    },
+    "_meta": {
+      "title": "Reach 30 px around boards (lighting: screens-off, optional FLUX.2 klein edit)",
+      "optional": "flux2-klein-edit"
     }
   }
 }
