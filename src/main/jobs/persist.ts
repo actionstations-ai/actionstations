@@ -1,11 +1,12 @@
 // Job records (never tokens or logs) persisted to userData/jobs.json (#54). On the next start,
 // jobs that were queued/running are shown as 'paused'; the resumable ones (a scenario pipeline
 // with checkpoints) can be picked up again through jobs:resume → generate:continue.
-import { mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { randomBytes } from 'node:crypto'
 import { dirname, join } from 'node:path'
 import { z } from 'zod'
 import { Job, type JobKind } from '@shared/schemas'
+import { isRenameRetryable, RENAME_RETRY_DELAYS_MS } from '../lib/fs'
 import { nowIso } from '../lib/ids'
 import { userDataPath } from '../lib/paths'
 
@@ -83,9 +84,25 @@ export class JobsFileWriter {
       mkdirSync(dirname(this.file), { recursive: true })
       const tmp = join(dirname(this.file), `.${randomBytes(6).toString('hex')}.tmp`)
       writeFileSync(tmp, JSON.stringify({ jobs }, null, 2) + '\n')
-      renameSync(tmp, this.file)
+      renameSyncWithRetry(tmp, this.file)
     } catch (err) {
       console.warn('[jobs] could not persist jobs.json:', err)
+    }
+  }
+}
+
+/** renameWithRetry (lib/fs.ts, #375) for the synchronous quit-time flush. */
+function renameSyncWithRetry(from: string, to: string): void {
+  const pause = new Int32Array(new SharedArrayBuffer(4))
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return renameSync(from, to)
+    } catch (err) {
+      if (!isRenameRetryable(err) || attempt >= RENAME_RETRY_DELAYS_MS.length) {
+        rmSync(from, { force: true })
+        throw err
+      }
+      Atomics.wait(pause, 0, 0, RENAME_RETRY_DELAYS_MS[attempt])
     }
   }
 }

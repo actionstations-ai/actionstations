@@ -3,7 +3,15 @@ import { mkdtempSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { z } from 'zod'
-import { readJson, safeJoin, safeJoinReal, slugify, toRel, writeJsonAtomic } from './fs'
+import {
+  readJson,
+  renameWithRetry,
+  safeJoin,
+  safeJoinReal,
+  slugify,
+  toRel,
+  writeJsonAtomic,
+} from './fs'
 import { mkdirSync, symlinkSync, writeFileSync } from 'node:fs'
 
 describe('safeJoin', () => {
@@ -46,6 +54,40 @@ describe('JSON helpers', () => {
     await expect(readJson(join(dir, 'missing.json'), z.any())).rejects.toMatchObject({
       code: 'NOT_FOUND',
     })
+  })
+})
+
+describe('renameWithRetry (#375)', () => {
+  const errno = (code: string) => Object.assign(new Error(code), { code })
+  const flaky = (failures: string[]) => {
+    let calls = 0
+    const rename = async () => {
+      const code = failures[calls++]
+      if (code) throw errno(code)
+    }
+    return { rename, calls: () => calls }
+  }
+
+  it('retries while Windows reports the target busy, then succeeds', async () => {
+    const r = flaky(['EPERM', 'EBUSY', 'EACCES'])
+    await renameWithRetry('a', 'b', r.rename, [0, 0, 0, 0])
+    expect(r.calls()).toBe(4)
+  })
+
+  it('gives up after the last delay with the original error', async () => {
+    const r = flaky(['EPERM', 'EPERM', 'EPERM'])
+    await expect(renameWithRetry('a', 'b', r.rename, [0, 0])).rejects.toMatchObject({
+      code: 'EPERM',
+    })
+    expect(r.calls()).toBe(3)
+  })
+
+  it('does not retry other errors', async () => {
+    const r = flaky(['ENOENT'])
+    await expect(renameWithRetry('a', 'b', r.rename, [0, 0])).rejects.toMatchObject({
+      code: 'ENOENT',
+    })
+    expect(r.calls()).toBe(1)
   })
 })
 
