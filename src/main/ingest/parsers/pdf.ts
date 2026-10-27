@@ -25,6 +25,18 @@ interface RawItem {
 
 const BOLD_FONT_RE = /bold|black|heavy|semibold|demi/i
 
+/**
+ * pdfjs loads @napi-rs/canvas, which on Linux scans the system font folders on import. Under
+ * Electron that scan aborts the whole process (SIGTRAP, #373), so it is switched off there;
+ * text extraction and OCR rendering use pdfjs's own standard fonts instead.
+ */
+export function skipCanvasSystemFonts(
+  env: NodeJS.ProcessEnv = process.env,
+  platform: NodeJS.Platform = process.platform,
+): void {
+  if (platform === 'linux') env.DISABLE_SYSTEM_FONTS_LOAD ??= '1'
+}
+
 function standardFontDir(): string {
   const requireFromHere = createRequire(import.meta.url)
   return join(dirname(requireFromHere.resolve('pdfjs-dist/package.json')), 'standard_fonts') + '/'
@@ -170,6 +182,7 @@ export async function parsePdf(
   fallbackTitle: string,
   opts: ParseOptions = {},
 ): Promise<ParsedDocument> {
+  skipCanvasSystemFonts()
   const pdfjs: PdfJs = await import('pdfjs-dist/legacy/build/pdf.mjs')
   const data = new Uint8Array(await fs.readFile(filePath))
   const task = pdfjs.getDocument({
