@@ -34,7 +34,7 @@ Open `http://127.0.0.1:8188` once to confirm the UI loads.
 
 ## 2. Download the model files
 
-The app ships two default workflows in [`comfy/workflows/`](../../../comfy/workflows/README.md). Both use ComfyUI core nodes only, so no custom node packs are needed. `sdxl-photo` can also use one optional custom node pack, the sign detector below.
+The app ships two default workflows in [`comfy/workflows/`](../../../comfy/workflows/README.md). Both use ComfyUI core nodes only, so no custom node packs are needed. For blank-screen scenes `sdxl-photo` can also use two optional extras, described below: the FLUX.2 [klein] edit (core nodes, three more model files) and the sign detector (a custom node pack).
 
 | Workflow         | Media | File                                  | Folder (inside `~/ComfyUI/models/`) | Size   | Source                                                                                                      |
 | ---------------- | ----- | ------------------------------------- | ----------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------- |
@@ -49,9 +49,39 @@ What the defaults do and how long they take on Apple Silicon (MPS):
 - **`sdxl-photo`**: SDXL base 1.0 text-to-image at 1216 × 832, 25 steps. Style suffixes push towards phone photos, press photos, CCTV frames and portraits. Measured through the app's **Test render**: 18.7 s per image with the model loaded.
 - **`image-to-video`**: LTX-Video 2B distilled animates the inject's scene image into an H.264 MP4 at 1024 × 576, 24 fps, up to 5 seconds. Measured: 29.6 s for a 3-second clip. Wan 2.2 was evaluated and produced broken frames on MPS, so it is not a default; with a CUDA GPU you can import Wan's official API-format workflow yourself. See [ADR-0011](../../adr/0011-video-model-ltxv.md).
 
+### Optional: FLUX.2 [klein] edit for blank-screen scenes
+
+Scenes whose screens are blank while the building has power (a cyber-only outage, **Lighting** `screens-off`) are rendered lit first. With the three files below, `sdxl-photo` then asks FLUX.2 [klein] 4B, an instruction-following image editor, to power off every screen, board and illuminated sign in that render and keep everything else. The app keeps the original render and takes from the edit only the boards it darkened, so people, faces and the room stay exactly as rendered. Lit signs the edit leaves on are found by colour and repainted dark, as without the edit. This is the recommended option: it switches off far more screens and signs than the colour rule or the sign detector, and it needs no custom nodes.
+
+| File                          | Folder (inside `~/ComfyUI/models/`) | Size   | License    | Source                                                                                                                                                                                                                                                                                                            |
+| ----------------------------- | ----------------------------------- | ------ | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `flux-2-klein-4b.safetensors` | `diffusion_models/`                 | 7.8 GB | Apache-2.0 | [black-forest-labs/FLUX.2-klein-4B](https://huggingface.co/black-forest-labs/FLUX.2-klein-4B)                                                                                                                                                                                                                     |
+| `qwen_3_4b.safetensors`       | `text_encoders/`                    | 8.0 GB | Apache-2.0 | [Comfy-Org/Z-Image-Turbo](https://huggingface.co/Comfy-Org/Z-Image-Turbo), `split_files/text_encoders/`                                                                                                                                                                                                           |
+| `flux2-vae.safetensors`       | `vae/`                              | 0.3 GB | Apache-2.0 | [Comfy-Org/Flux-2-Dev](https://huggingface.co/Comfy-Org/Flux-2-Dev), `split_files/vae/` (the FLUX.2 autoencoder, which Black Forest Labs [releases under Apache-2.0](https://github.com/black-forest-labs/flux2#flux2-autoencoder); the rest of that repository is under the FLUX.2 [dev] non-commercial licence) |
+
+**Settings → Local tools** (and the setup wizard) offers them as one download (_FLUX.2 [klein] 4B + Qwen3 4B text encoder + FLUX.2 VAE_) on machines with a GPU and 32 GB or more for models, and checks each file's SHA-256. To download them by hand:
+
+```bash
+cd ~/ComfyUI/models
+curl -fL -o diffusion_models/flux-2-klein-4b.safetensors \
+  https://huggingface.co/black-forest-labs/FLUX.2-klein-4B/resolve/e7b7dc27f91deacad38e78976d1f2b499d76a294/flux-2-klein-4b.safetensors
+curl -fL -o text_encoders/qwen_3_4b.safetensors \
+  https://huggingface.co/Comfy-Org/Z-Image-Turbo/resolve/6fc90a3b1b653e935a0d175e260736de25b84df5/split_files/text_encoders/qwen_3_4b.safetensors
+curl -fL -o vae/flux2-vae.safetensors \
+  https://huggingface.co/Comfy-Org/Flux-2-Dev/resolve/be27b9cf1b7212b3a281c2abbd9ecf6985242bb8/split_files/vae/flux2-vae.safetensors
+shasum -a 256 diffusion_models/flux-2-klein-4b.safetensors text_encoders/qwen_3_4b.safetensors vae/flux2-vae.safetensors
+# ec3d4e733a771f61c052fb4856c48b336c55eaf2c65487c2a1faeb9bbda7a343  diffusion_models/flux-2-klein-4b.safetensors
+# 6c671498573ac2f7a5501502ccce8d2b08ea6ca2f661c458e708f36b36edfc5a  text_encoders/qwen_3_4b.safetensors
+# d64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5  vae/flux2-vae.safetensors
+```
+
+Restart ComfyUI (it needs the core FLUX.2 nodes; 0.42.0 was tested), then **Recheck nodes** on the Workflows page. Without the files the workflow uses the repaint below, and the render's progress names the missing file. When the edit is used, the sign detector below is not run, even if it is installed.
+
+What it costs: on Apple Silicon (M5 Max) a screens-off image takes 53–65 s with ComfyUI's default settings and 47–54 s with `--gpu-only`, against about 45 s with the colour rule only and about 2 minutes with the sign detector on the CPU. Lit and power-loss scenes never run it. What it switches off and what it misses is measured in [`comfy/workflows/README.md`](../../../comfy/workflows/README.md).
+
 ### Optional: sign detector for blank-screen scenes
 
-Scenes whose screens are blank while the building has power (a cyber-only outage, **Lighting** `screens-off`) are rendered lit, and then `sdxl-photo` repaints the lit signs it finds as dark boards. Without extra nodes it finds signs by colour: large blue or amber boards. With the optional Florence-2 detector it also finds signs and screens by what they are, and it finds people so the repaint leaves them alone. It is optional: without it the workflow runs with the colour rule only, and the Workflows card shows **Optional, not installed**.
+Without the FLUX.2 [klein] edit, `sdxl-photo` repaints the lit signs it finds in the lit render as dark boards. Without extra nodes it finds signs by colour: large blue or amber boards. With the optional Florence-2 detector it also finds signs and screens by what they are, and it finds people so the repaint leaves them alone. It is optional: without it the workflow runs with the colour rule only, and the Workflows card shows **Optional, not installed**.
 
 | Part        | Where                                                                                                                                          | License | Size   |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ------ |
@@ -94,7 +124,7 @@ The **Defaults** row picks the workflow each media type uses when an inject does
 The media brief stage writes the image prompt; when you edit a brief or a prompt, keep these in mind:
 
 - **Describe things positively.** SDXL ignores negation: "no screens" produces screens. Write "departure boards powered off and dark".
-- **Dark screens: set Lighting.** SDXL lights any screen it draws, even "powered off" ones. A brief that says the screens are dark or blank gets **Lighting** `screens-off` (power on: the room stays lit and `sdxl-photo` repaints the lit background signs it finds as dark boards, leaving people untouched; the optional sign detector above finds more of them) or `dark` (a power loss: dim room). You can change it in the inject's media brief.
+- **Dark screens: set Lighting.** SDXL lights any screen it draws, even "powered off" ones. A brief that says the screens are dark or blank gets **Lighting** `screens-off` (power on: the room stays lit and `sdxl-photo` switches off the lit background screens and signs, leaving people untouched; the optional FLUX.2 [klein] edit above finds far more of them than the colour rule) or `dark` (a power loss: dim room). You can change it in the inject's media brief.
 - **Never rely on text in the image.** Signs, screens and documents come out garbled. Text belongs in a template; a photo can sit inside a template's image slot (see the [template guide](../templates.md#image-slots)).
 - **Name the camera.** "Phone photo", "security camera still, high angle, timestamp overlay" or "press photo" changes the look more than adjectives do.
 
@@ -104,13 +134,13 @@ Any workflow exported from ComfyUI with **Workflow → Export (API)** can be imp
 
 ## Troubleshooting
 
-| Symptom                                                        | Fix                                                                                                                                 |
-| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Detect says ComfyUI "Not found"                                | ComfyUI is not running, or listens elsewhere. Start it with `--listen 127.0.0.1 --port 8188`.                                       |
-| A workflow card lists missing nodes                            | Install the node pack that provides them (for imported workflows), restart ComfyUI, then **Recheck nodes**.                         |
-| Render fails with a missing model / "value not in list" error  | The model file is not in the folder the workflow expects (table above) or ComfyUI was not restarted after adding it.                |
-| Renders are very slow on a Mac                                 | Check `torch.backends.mps.is_available()` is `True`; without MPS, ComfyUI runs on the CPU.                                          |
-| Video frames smear into colour after the first frame           | A model that does not work on MPS (seen with Wan 2.2). Use the built-in LTX-Video workflow.                                         |
-| A screens-off image still shows small lit signs                | Expected without the optional sign detector, and for small far-off screens even with it. Install the detector (above).              |
-| Screens-off render fails in `GrowMask` ("can't convert mps:0") | ComfyUI runs with `--gpu-only` and the sign detector is not installed. Install the detector, or start ComfyUI without `--gpu-only`. |
-| Images show garbled signs or screens                           | Expected for diffusion models. Describe screens as dark or off, and put text in a template.                                         |
+| Symptom                                                        | Fix                                                                                                                                                    |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Detect says ComfyUI "Not found"                                | ComfyUI is not running, or listens elsewhere. Start it with `--listen 127.0.0.1 --port 8188`.                                                          |
+| A workflow card lists missing nodes                            | Install the node pack that provides them (for imported workflows), restart ComfyUI, then **Recheck nodes**.                                            |
+| Render fails with a missing model / "value not in list" error  | The model file is not in the folder the workflow expects (table above) or ComfyUI was not restarted after adding it.                                   |
+| Renders are very slow on a Mac                                 | Check `torch.backends.mps.is_available()` is `True`; without MPS, ComfyUI runs on the CPU.                                                             |
+| Video frames smear into colour after the first frame           | A model that does not work on MPS (seen with Wan 2.2). Use the built-in LTX-Video workflow.                                                            |
+| A screens-off image still shows small lit signs                | Small far-off screens can stay lit with every option. Without the FLUX.2 [klein] edit far more stay lit: add its three files (above).                  |
+| Screens-off render fails in `GrowMask` ("can't convert mps:0") | ComfyUI runs with `--gpu-only` and neither the FLUX.2 [klein] edit nor the sign detector is installed. Add one, or start ComfyUI without `--gpu-only`. |
+| Images show garbled signs or screens                           | Expected for diffusion models. Describe screens as dark or off, and put text in a template.                                                            |

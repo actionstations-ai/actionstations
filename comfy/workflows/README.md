@@ -49,7 +49,8 @@ independent), `model` (first checkpoint / diffusion model named in it) and `seed
 
 SDXL base 1.0 text-to-image, 1216×832, `dpmpp_2m` / `karras`, 25 steps, CFG 6.5. Style
 suffixes for `phone`, `press`, `cctv`, `screen` and `portrait` push towards phone-photo and
-photojournalism realism. Core nodes only, plus an optional sign detector (below).
+photojournalism realism. Core nodes only, plus two optional groups for blank-screen scenes: a
+FLUX.2 [klein] edit and a sign detector (below).
 
 - Model: `models/checkpoints/sd_xl_base_1.0.safetensors`
   ([stabilityai/stable-diffusion-xl-base-1.0](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0)).
@@ -93,6 +94,64 @@ photojournalism realism. Core nodes only, plus an optional sign detector (below)
   shows some lit signage: small far-off screens, pale-blue signs, and black boards with
   white lettering, which these colour rules do not separate from windows, sky or clothing.
   The opt-in live test checks luma > 60 and lit-sign pixels < 0.3% of the top 40%.
+- Optional FLUX.2 [klein] edit (#356, ADR-0022): nodes 120–173 form the optional group
+  `flux2-klein-edit`. It uses core nodes only and three Apache-2.0 model files:
+
+  | File                          | Folder              | Size   | Source                                                                                                      |
+  | ----------------------------- | ------------------- | ------ | ----------------------------------------------------------------------------------------------------------- |
+  | `flux-2-klein-4b.safetensors` | `diffusion_models/` | 7.8 GB | [black-forest-labs/FLUX.2-klein-4B](https://huggingface.co/black-forest-labs/FLUX.2-klein-4B)               |
+  | `qwen_3_4b.safetensors`       | `text_encoders/`    | 8.0 GB | [Comfy-Org/Z-Image-Turbo](https://huggingface.co/Comfy-Org/Z-Image-Turbo) `split_files/text_encoders/`      |
+  | `flux2-vae.safetensors`       | `vae/`              | 0.3 GB | [Comfy-Org/Flux-2-Dev](https://huggingface.co/Comfy-Org/Flux-2-Dev) `split_files/vae/` (FLUX.2 autoencoder) |
+
+  When they are installed, the `screens-off` binding of node 9 saves node 166; without them
+  node 9's `_meta.fallback` saves the repaint (node 54) as before, with or without the detector.
+  The graph follows ComfyUI's _FLUX.2 klein 4B image edit_ template: the lit decode (node 8) is
+  encoded at its own size (no rescale to 1 MP, so the edit lines up with it) and edited with
+  `ReferenceLatent`, CFG 1, `euler`, 4 `Flux2Scheduler` steps and the job seed (node 133). The
+  instruction is "Power off every screen, departure board, monitor, LED counter and illuminated
+  sign. Keep each one in exactly the same place and size, but make its face solid glossy black
+  with no text, no light and no colour, like a switched-off TV. Keep everything else exactly the
+  same, including every person, face, the lighting and the architecture." A shorter wording
+  ("switch off … keep everything else") removed the boards instead of blacking them.
+  The edit redraws the whole frame, so only part of it is used. Per channel, lit minus edit
+  (`MaskComposite` subtract clamps at 0, so only darkening counts) is summed; pixels darkened by
+  more than 0.3 are opened (7 px, drops specks from the redrawn crowd) and then closed (15 px,
+  fills boards). Within 30 px of those (three 21 px dilations; one 61 px `Morphology` kernel
+  needs 64-bit indexing, which MPS lacks), pixels darkened by more than 0.15 join them (board
+  lettering and dim board edges), the result grows 4 px and is cut to pixels the edit made darker
+  at all (> 0.05). The edit is composited over the lit decode through that mask (node 156).
+  Lit signs the edit left on are then handled the old way: the colour mask (node 46, grown 8 px
+  with `Morphology`) minus what the edit already took is filled #1a1a1a and repainted with SDXL
+  at denoise 0.55 with the scene prompts and seed (nodes 157–166). Opening after closing was
+  tried and rejected: closing first joins the redrawn crowd into blobs (1006). The group uses no
+  `GrowMask`, so it runs under `--gpu-only` too. The sign detector is not run when the edit is
+  used.
+  Measured on sample-run I-10, seeds 1001–1006, through the app (ComfyUI 0.42.0, Apple M5 Max),
+  against the detector render of the previous version. "Changed" is pixels differing from the lit
+  render by more than 12 in any channel; people and face boxes come from Florence-2-large object
+  detection over the whole lit frame (4 × 4 tiles), not from the workflow.
+
+  | Seed | Lit signs left by eye (edit)                                                | Changed, edit (detector) | In people boxes | In face boxes | Mean luma, edit (detector, lit) | Time, edit (detector) |
+  | ---- | --------------------------------------------------------------------------- | ------------------------ | --------------- | ------------- | ------------------------------- | --------------------- |
+  | 1001 | cyan screen behind the crowd, two small blue signs far left                 | 6.2% (5.6%)              | 16 px           | 0             | 87.0 (87.9, 90.7)               | 53 s (134 s)          |
+  | 1002 | a few small out-of-focus screens and amber signs far back                   | 2.5% (1.6%)              | 566 px          | 0             | 113.6 (114.6, 115.7)            | 55 s (116 s)          |
+  | 1003 | small signs at the far right                                                | 2.3% (1.9%)              | 0               | 0             | 95.5 (95.9, 97.3)               | 55 s (130 s)          |
+  | 1004 | lit shop fronts below the boards, dimmed fascia lettering                   | 2.5% (1.5%)              | 4 px            | 0             | 96.1 (98.7, 99.6)               | 58 s (118 s)          |
+  | 1005 | lower board row stays dim navy with one amber digit; small screens far left | 5.5% (5.0%)              | 245 px          | 0             | 111.9 (112.0, 114.5)            | 65 s (119 s)          |
+  | 1006 | small screens at the shops                                                  | 1.0% (0.2%)              | 0               | 0             | 108.4 (108.7, 108.8)            | 65 s (107 s)          |
+
+  Changed pixels lie in rows 0–372 and on screens, signs and their edges in every seed. The
+  pixels inside people boxes are screens behind people that the boxes overlap (1002, 1005), the
+  edge of a repainted shop fascia just above a head (1005) and a few pixels at the top of one
+  distant head (1001); no face-box pixel changed. Compared with the detector, the edit also
+  blacks out the white-lettered boards (1003), the whole FIDS board including its header (1005),
+  the boards over the shops (1004) and more of the small screens (1002). Where the edit darkened
+  a small screen only partly, it can look patchy (1002). Lit-sign colour pixels in the top 40%
+  (the live test's measure): 0.01–0.13% (detector 0.02–0.22%). With `--gpu-only` the same seeds
+  take 47–54 s and the live test passes (0.01–0.13%). Power-loss renders are pixel-identical to
+  the previous version (seeds 1001–1003 compared), and lit renders do not reach either optional
+  group.
+
 - Optional sign detector (#356, ADR-0022): nodes 60–108 form the optional group
   `sign-detector`. They need the [ComfyUI-Florence2](https://github.com/kijai/ComfyUI-Florence2)
   custom nodes (MIT) and `models/LLM/Florence-2-large/` from
@@ -127,9 +186,9 @@ photojournalism realism. Core nodes only, plus an optional sign detector (below)
   as on the CPU (all 16 passes, seeds 1001–1006); fp16 on the GPU moves boxes and drops or adds
   one per image, and bf16 on the CPU is about 7× slower than fp32, so the loader stays at fp32.
   `--gpu-only` also moves the text encoders, so a seed renders a slightly different image than
-  without it (3–15% of pixels differ on these seeds). Without the detector, screens-off scenes do
-  not run under `--gpu-only` yet: the colour mask still uses `GrowMask` (node 47), kept so the
-  colour-only render stays exactly as before.
+  without it (3–15% of pixels differ on these seeds). With neither the detector nor the FLUX.2
+  [klein] edit, screens-off scenes do not run under `--gpu-only` yet: the colour mask still uses
+  `GrowMask` (node 47), kept so the colour-only render stays exactly as before.
 - Tried for #356 and not used (sample-run I-10, seeds 1001–1006):
   - A light-source pass with stock mask nodes (bright lettering on dark boards, saturated blue
     or amber light, joined and cleaned with `Morphology`, minus the people boxes and everything

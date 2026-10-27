@@ -136,10 +136,11 @@ Recommendations by budget:
 | 10 GB or more | `qwen3.5:9b` (6.6 GB)    | `qwen/qwen3.5-9b`         |
 | less          | `qwen3.5:4b` (3.3 GB)    | `qwen/qwen3.5-4b`         |
 
-Embeddings use `nomic-embed-text` (0.27 GB) in Ollama. LM Studio ships its own nomic embedding model. ComfyUI gets two offers, matching the default workflows:
+Embeddings use `nomic-embed-text` (0.27 GB) in Ollama. LM Studio ships its own nomic embedding model. ComfyUI gets three offers, matching the default workflows:
 
 - images: SDXL base 1.0 (6.9 GB, CreativeML Open RAIL++-M);
-- video: LTX-Video 2B 0.9.8 distilled (6.3 GB, LTX-Video Open Weights License) plus the T5-XXL fp16 text encoder (9.8 GB, Apache-2.0), when the budget is 16 GB or more.
+- video: LTX-Video 2B 0.9.8 distilled (6.3 GB, LTX-Video Open Weights License) plus the T5-XXL fp16 text encoder (9.8 GB, Apache-2.0), when the budget is 16 GB or more;
+- optional, for blank-screen scenes (#356, [ADR-0022](0022-optional-workflow-nodes.md)): FLUX.2 [klein] 4B (7.8 GB) with the Qwen3 4B text encoder (8.0 GB) and the FLUX.2 VAE (0.3 GB), all Apache-2.0, when the budget is 32 GB or more. They go into `diffusion_models/`, `text_encoders/` and `vae/`.
 
 Ollama sizes come from the registry manifests. The LM Studio download depends on the variant `lms` picks and is shown as approximate.
 
