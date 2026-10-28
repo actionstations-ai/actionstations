@@ -8,6 +8,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Fixed
+
+- Installers never ship onnxruntime's CUDA or TensorRT providers (#401). A native Linux x64 build downloaded them (272 MB) although the app runs the CPU provider; `electron-builder.yml` leaves them out, the release workflow skips the download, and `package-smoke` fails if they appear.
+
 ## [0.5.1] - 2026-10-28
 
 Highlights: the app has its final identity, `ai.actionstations.app`, and the project lives in the `actionstations-ai` GitHub organization. The installers are the first built and tested on GitHub-hosted macOS, Windows and Linux machines. If you installed 0.5.0 on Windows, uninstall it before installing 0.5.1. Your settings and projects stay.

@@ -138,6 +138,20 @@ describe('asar contents', () => {
       'node_modules/sqlite-vec-linux-x64',
     ])
   })
+  it("flags onnxruntime's GPU providers, which a native Linux install downloads (#401)", () => {
+    const dir = 'node_modules/onnxruntime-node/bin/napi-v6/linux/x64'
+    const files = [
+      `${dir}/libonnxruntime.so.1`,
+      `${dir}/onnxruntime_binding.node`,
+      `${dir}/libonnxruntime_providers_shared.so`,
+      `${dir}/libonnxruntime_providers_cuda.so`,
+      `${dir}/libonnxruntime_providers_tensorrt.so`,
+    ]
+    expect(foreignBinaries(files, 'linux', 'x64')).toEqual([
+      `${dir}/libonnxruntime_providers_cuda.so`,
+      `${dir}/libonnxruntime_providers_tensorrt.so`,
+    ])
+  })
   it('treats musl builds as foreign on a glibc Linux target', () => {
     const files = [
       'node_modules/@napi-rs/canvas-linux-x64-gnu/a.node',

@@ -120,10 +120,14 @@ export function packedNativeLibs(headerJson) {
 const NATIVE_PACKAGE_RE =
   /^node_modules\/(?:@napi-rs\/canvas-|@img\/sharp-(?:libvips-)?|sqlite-vec-|better-sqlite3\/prebuilds\/)([a-z0-9]+)-([a-z0-9]+)([^/]*)/
 const OS_ALIASES = { windows: 'win32' }
+/** onnxruntime-node's GPU execution providers: the app runs the CPU provider only (#401). */
+const GPU_PROVIDER_RE =
+  /^node_modules\/onnxruntime-node\/bin\/.*onnxruntime_providers_(cuda|tensorrt)\./
 
 /**
  * Native binaries in the archive (packed or unpacked) built for another OS, CPU or libc than the
- * target, and packages the app never loads (#382). A cross-build installs every platform's
+ * target, and packages and libraries the app never loads (#382; onnxruntime's CUDA and TensorRT
+ * providers, which its install script downloads on a Linux x64 host, #401). A cross-build installs every platform's
  * native packages; electron-builder.yml keeps only the target's, and this check holds it to that.
  */
 export function foreignBinaries(files, platform = process.platform, arch = process.arch) {
@@ -131,6 +135,10 @@ export function foreignBinaries(files, platform = process.platform, arch = proce
   for (const f of files) {
     if (f.startsWith('node_modules/onnxruntime-web/')) {
       found.add('node_modules/onnxruntime-web')
+      continue
+    }
+    if (GPU_PROVIDER_RE.test(f)) {
+      found.add(f)
       continue
     }
     const m = NATIVE_PACKAGE_RE.exec(f)
