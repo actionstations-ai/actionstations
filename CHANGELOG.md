@@ -8,6 +8,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Fixed
+
+- Builds include only the app's own output from `out/` (`main`, `preload`, `renderer`) (#392). They used to take everything in `out/` apart from the bundled packs, so library packs built in the same checkout went into `app.asar` (a 907 MB dmg, caught before 0.5.0 was published). `package-smoke` refuses any other `out/` entry.
+
 ## [0.5.0] - 2026-10-27
 
 Highlights: smaller installers (Windows 290 MB, Linux 327 MB, macOS 325 MB) that carry only their

@@ -27,7 +27,7 @@ Action Stations is a desktop app for macOS, Windows and Linux that writes discus
 
 Download the latest release from the [releases page](https://github.com/mdcrowley/actionstations/releases) or [actionstations.ai/download](https://actionstations.ai/download/):
 
-- **macOS** (Apple Silicon): the `.dmg`.
+- **macOS** (Apple Silicon): the `.dmg`. It is not notarized yet, so macOS blocks the first launch: open System Settings → **Privacy & Security** and click **Open Anyway** (on macOS 14 and earlier, right-click the app and choose **Open**).
 - **Windows** (64-bit): the `-setup.exe` installer. It is not code-signed yet, so Windows shows "Windows protected your PC": choose **More info**, then **Run anyway**. PCs with Smart App Control turned on block unsigned apps.
 - **Linux** (64-bit): the `.AppImage`. Make it executable (`chmod +x`) before you run it.
 
