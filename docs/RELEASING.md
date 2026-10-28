@@ -246,7 +246,9 @@ Verify with `signtool verify /pa /v "actionstations-X.Y.Z-win-x64-setup.exe"`.
 
 ### Until then: installing unsigned builds
 
-- macOS: Gatekeeper blocks the first launch. Right-click the app → **Open**, or run
+- macOS: Gatekeeper blocks the first launch. On macOS 15 and later, open System Settings →
+  **Privacy & Security** and click **Open Anyway** (right-click → **Open** no longer bypasses
+  it); on macOS 14 and earlier, right-click the app → **Open**. Or run
   `xattr -dr com.apple.quarantine "/Applications/Action Stations.app"`.
 - Windows: SmartScreen shows "Windows protected your PC" → **More info** → **Run anyway**.
 - Linux: `chmod +x` the AppImage and run it.

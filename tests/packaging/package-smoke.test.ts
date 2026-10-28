@@ -68,7 +68,12 @@ describe('asar contents', () => {
   const header = JSON.stringify({
     files: {
       'package.json': { size: 1 },
-      out: { files: { main: { files: { 'index.js': { size: 1 } } } } },
+      out: {
+        files: {
+          main: { files: { 'index.js': { size: 1 } } },
+          'library-packs': { files: { 'a.aspack': { size: 1 } } },
+        },
+      },
       node_modules: {
         files: {
           a: { files: { 'index.js': { size: 1 }, test: { files: { 'x.js': { size: 1 } } } } },
@@ -84,6 +89,7 @@ describe('asar contents', () => {
     expect(files).toContain('out/main/index.js')
     expect(asarLeaks(files).sort()).toEqual([
       'node_modules/a/test/x.js',
+      'out/library-packs/a.aspack',
       'src/main.ts',
       'templates/x/__golden__/d.png',
     ])

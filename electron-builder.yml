@@ -27,9 +27,9 @@ fileAssociations:
     role: Viewer
     mimeType: application/vnd.actionstations.pack+zip
 files:
-  - out/**/*
-  # The bundled packs ship as extraResources (app-resources/packs), not inside app.asar.
-  - '!out/bundled-packs/**'
+  # Only the app's own build output. The bundled packs ship as extraResources
+  # (app-resources/packs), and other tools write to out/ too (library packs, #392).
+  - out/{main,preload,renderer}/**/*
   - package.json
   - '!**/*.{map,ts,tsx,mts,cts}'
   - '!**/*.d.{ts,mts,cts}'
@@ -95,8 +95,7 @@ mac:
   # A platform files list that holds only exclusions makes electron-builder copy the whole
   # project into app.asar, so each one restates the positive pattern.
   files:
-    - out/**/*
-    - '!out/bundled-packs/**'
+    - out/{main,preload,renderer}/**/*
     - '!**/node_modules/onnxruntime-node/bin/napi-*/{linux,win32}/**'
     # Only this target's native packages (#382): a cross-build installs every platform's.
     - '!**/node_modules/@napi-rs/canvas-{darwin-x64,linux-*,win32-*,android-*,freebsd-*}/**'
@@ -114,8 +113,7 @@ win:
   # A platform files list that holds only exclusions makes electron-builder copy the whole
   # project into app.asar, so each one restates the positive pattern.
   files:
-    - out/**/*
-    - '!out/bundled-packs/**'
+    - out/{main,preload,renderer}/**/*
     - '!**/node_modules/onnxruntime-node/bin/napi-*/{linux,darwin}/**'
     - '!**/node_modules/onnxruntime-node/bin/napi-*/win32/arm64/**'
     - '!**/node_modules/@napi-rs/canvas-{darwin-*,linux-*,win32-arm64-*,win32-ia32-*,android-*,freebsd-*}/**'
@@ -138,8 +136,7 @@ linux:
   # A platform files list that holds only exclusions makes electron-builder copy the whole
   # project into app.asar, so each one restates the positive pattern.
   files:
-    - out/**/*
-    - '!out/bundled-packs/**'
+    - out/{main,preload,renderer}/**/*
     - '!**/node_modules/onnxruntime-node/bin/napi-*/{darwin,win32}/**'
     - '!**/node_modules/onnxruntime-node/bin/napi-*/linux/arm64/**'
     - '!**/node_modules/@napi-rs/canvas-{darwin-*,win32-*,linux-arm64-*,linux-arm-*,linux-riscv64-*,linux-x64-musl,android-*,freebsd-*}/**'

@@ -45,8 +45,9 @@ export const ALLOWED_ASAR_ROOTS = ['out', 'node_modules', 'package.json']
 const FORBIDDEN_IN_ASAR = [
   /(^|\/)__golden__\//,
   /^node_modules\/[^/]+\/(test|tests|fixtures)\//,
-  // The bundled packs ship beside app.asar, in app-resources/packs (ADR-0020).
-  /^out\/bundled-packs\//,
+  // Only the app's own build output: the bundled packs ship beside app.asar, in
+  // app-resources/packs (ADR-0020), and other tools write to out/ too (#392).
+  /^out\/(?!(main|preload|renderer)\/)/,
 ]
 
 /** Every fuse wire in an Electron binary (universal mac binaries hold two). */
