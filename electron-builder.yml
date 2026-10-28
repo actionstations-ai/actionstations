@@ -42,6 +42,9 @@ files:
   # transformers.js's Node build bundles what it needs from onnxruntime-web and runs on
   # onnxruntime-node, so the 135 MB web package (mostly WASM) is never loaded (#382).
   - '!**/node_modules/onnxruntime-web/**'
+  # The app runs onnxruntime's CPU provider. Its install script downloads the CUDA providers on a
+  # Linux x64 host (272 MB); never ship them (#401).
+  - '!**/node_modules/onnxruntime-node/bin/**/*onnxruntime_providers_{cuda,tensorrt}.*'
 extraResources:
   # Built-in content ships as bundled packs (ADR-0020): templates, prompts, ComfyUI workflows,
   # domain profiles, examples and documents, assembled and validated by

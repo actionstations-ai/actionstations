@@ -59,6 +59,9 @@ jobs:
         shell: bash
     env:
       TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.tag }}
+      # onnxruntime-node would download its CUDA providers (272 MB) on Linux x64; the app runs
+      # on the CPU provider (#401). electron-builder.yml also excludes them.
+      ONNXRUNTIME_NODE_INSTALL: skip
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
