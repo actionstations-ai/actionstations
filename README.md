@@ -13,6 +13,9 @@
 [![platforms](docs/badges/platforms.svg)](#download-and-install)
 [![telemetry: none](docs/badges/telemetry.svg)](#privacy-and-local-first)
 [![local-first](docs/badges/local-first.svg)](#privacy-and-local-first)
+[![downloads](docs/stats/downloads-badge.svg)](#project-stats)
+[![GitHub stars](https://img.shields.io/github/stars/mdcrowley/actionstations?style=flat&label=stars)](https://github.com/mdcrowley/actionstations/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/mdcrowley/actionstations?style=flat&label=forks)](https://github.com/mdcrowley/actionstations/forks)
 
 [Download](#download-and-install) · [Quick start](#quick-start) · [Guides](#docs-and-guides) · [Packs](docs/guides/packs.md) · [License](#license) · [Contributing](CONTRIBUTING.md) · [Support](SUPPORT.md) · [Security](SECURITY.md)
 
@@ -22,7 +25,13 @@ Action Stations is a desktop app for macOS, Windows and Linux that writes discus
 
 ## Download and install
 
-Installers are not published yet. When they are, they will be on the [releases page](https://github.com/mdcrowley/actionstations/releases) for macOS (Apple Silicon `.dmg`), Windows (64-bit installer `.exe`) and Linux (64-bit `.AppImage`). Until then, run the app from source: see [Building from source](#building-from-source). It takes Node.js, pnpm and four commands.
+Download the latest release from the [releases page](https://github.com/mdcrowley/actionstations/releases) or [actionstations.ai/download](https://actionstations.ai/download/):
+
+- **macOS** (Apple Silicon): the `.dmg`.
+- **Windows** (64-bit): the `-setup.exe` installer. It is not code-signed yet, so Windows shows "Windows protected your PC": choose **More info**, then **Run anyway**. PCs with Smart App Control turned on block unsigned apps.
+- **Linux** (64-bit): the `.AppImage`. Make it executable (`chmod +x`) before you run it.
+
+The Windows and Linux files each have a `.sha256` checksum beside them. To run the app from source instead, see [Building from source](#building-from-source).
 
 ## Quick start
 
@@ -140,3 +149,21 @@ Bug reports, feature requests and pull requests are welcome. [CONTRIBUTING.md](C
 ## License
 
 Source-available under the [PolyForm Internal Use License 1.0.0](LICENSE.md): any organization may use and change Action Stations for free for its own internal operations, including running exercises for its own people. Schools, colleges and universities, their faculty, staff and students, may also use it for teaching, coursework, research and student exercises under the [Additional Permission for Education](LICENSE-EDUCATION.md). Selling or redistributing it, hosting it for others, and consulting, training or facilitation for other organizations need a commercial license; see [COMMERCIAL.md](COMMERCIAL.md). Contributions are accepted under the [CLA](CLA.md). Third-party dependencies keep their own licenses, and packs carry the license their author chose.
+
+## Project stats
+
+Installer downloads across all releases, with stars and forks. GitHub keeps only a running total per release file, so `pnpm stats` (also run by each release) records a dated snapshot in [docs/stats/history.json](docs/stats/history.json) and redraws this chart.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/stats/downloads-dark.svg">
+  <img alt="Line charts of installer downloads, stars and forks over time; the latest values are in docs/stats/history.json" src="docs/stats/downloads-light.svg">
+</picture>
+
+Stars over time, from [star-history.com](https://star-history.com/#mdcrowley/actionstations&Date):
+
+<a href="https://star-history.com/#mdcrowley/actionstations&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=mdcrowley/actionstations&type=Date&theme=dark">
+    <img alt="Star history chart for mdcrowley/actionstations" src="https://api.star-history.com/svg?repos=mdcrowley/actionstations&type=Date">
+  </picture>
+</a>
