@@ -116,6 +116,31 @@ export function packedNativeLibs(headerJson) {
   return out
 }
 
+const NATIVE_PACKAGE_RE =
+  /^node_modules\/(?:@napi-rs\/canvas-|@img\/sharp-(?:libvips-)?|sqlite-vec-|better-sqlite3\/prebuilds\/)([a-z0-9]+)-([a-z0-9]+)([^/]*)/
+const OS_ALIASES = { windows: 'win32' }
+
+/**
+ * Native binaries in the archive (packed or unpacked) built for another OS, CPU or libc than the
+ * target, and packages the app never loads (#382). A cross-build installs every platform's
+ * native packages; electron-builder.yml keeps only the target's, and this check holds it to that.
+ */
+export function foreignBinaries(files, platform = process.platform, arch = process.arch) {
+  const found = new Set()
+  for (const f of files) {
+    if (f.startsWith('node_modules/onnxruntime-web/')) {
+      found.add('node_modules/onnxruntime-web')
+      continue
+    }
+    const m = NATIVE_PACKAGE_RE.exec(f)
+    if (!m) continue
+    const os = OS_ALIASES[m[1]] ?? m[1]
+    if (os !== platform || m[2] !== arch || m[3].includes('musl'))
+      found.add(m[0].replace(/\.node$/, ''))
+  }
+  return [...found].sort()
+}
+
 /** Read the JSON header of an asar archive (Chromium pickle framing). */
 export function readAsarHeader(asarPath) {
   const fd = openSync(asarPath, 'r')
@@ -221,6 +246,9 @@ function staticChecks(layout) {
   const leaks = asarLeaks(files)
   if (leaks.length)
     problems.push(`app.asar holds files that must not ship: ${leaks.slice(0, 8).join(', ')}`)
+  const foreign = foreignBinaries(files)
+  if (foreign.length)
+    problems.push(`app.asar ships binaries for other platforms: ${foreign.slice(0, 8).join(', ')}`)
   const natives = packedNativeLibs(header)
   if (natives.length)
     problems.push(

@@ -39,6 +39,9 @@ files:
   - '!**/node_modules/**/*.{md,markdown}'
   # better-sqlite3 ships Node-API prebuilds for every platform; its C sources are build-only.
   - '!**/node_modules/better-sqlite3/{deps,src}/**'
+  # transformers.js's Node build bundles what it needs from onnxruntime-web and runs on
+  # onnxruntime-node, so the 135 MB web package (mostly WASM) is never loaded (#382).
+  - '!**/node_modules/onnxruntime-web/**'
 extraResources:
   # Built-in content ships as bundled packs (ADR-0020): templates, prompts, ComfyUI workflows,
   # domain profiles, examples and documents, assembled and validated by
@@ -95,6 +98,12 @@ mac:
     - out/**/*
     - '!out/bundled-packs/**'
     - '!**/node_modules/onnxruntime-node/bin/napi-*/{linux,win32}/**'
+    # Only this target's native packages (#382): a cross-build installs every platform's.
+    - '!**/node_modules/@napi-rs/canvas-{darwin-x64,linux-*,win32-*,android-*,freebsd-*}/**'
+    - '!**/node_modules/@img/sharp-{darwin-x64,linux-*,linuxmusl-*,win32-*,wasm32,webcontainers-*}/**'
+    - '!**/node_modules/@img/sharp-libvips-{darwin-x64,linux-*,linuxmusl-*}/**'
+    - '!**/node_modules/sqlite-vec-{darwin-x64,linux-*,windows-*}/**'
+    - '!**/node_modules/better-sqlite3/prebuilds/{darwin-x64,linux-*,linuxmusl-*,win32-*}.node'
 dmg:
   title: ${productName} ${version}
 win:
@@ -109,6 +118,11 @@ win:
     - '!out/bundled-packs/**'
     - '!**/node_modules/onnxruntime-node/bin/napi-*/{linux,darwin}/**'
     - '!**/node_modules/onnxruntime-node/bin/napi-*/win32/arm64/**'
+    - '!**/node_modules/@napi-rs/canvas-{darwin-*,linux-*,win32-arm64-*,win32-ia32-*,android-*,freebsd-*}/**'
+    - '!**/node_modules/@img/sharp-{darwin-*,linux-*,linuxmusl-*,win32-arm64,win32-ia32,wasm32,webcontainers-*}/**'
+    - '!**/node_modules/@img/sharp-libvips-*/**'
+    - '!**/node_modules/sqlite-vec-{darwin-*,linux-*}/**'
+    - '!**/node_modules/better-sqlite3/prebuilds/{darwin-*,linux-*,linuxmusl-*,win32-arm64}.node'
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
@@ -128,3 +142,8 @@ linux:
     - '!out/bundled-packs/**'
     - '!**/node_modules/onnxruntime-node/bin/napi-*/{darwin,win32}/**'
     - '!**/node_modules/onnxruntime-node/bin/napi-*/linux/arm64/**'
+    - '!**/node_modules/@napi-rs/canvas-{darwin-*,win32-*,linux-arm64-*,linux-arm-*,linux-riscv64-*,linux-x64-musl,android-*,freebsd-*}/**'
+    - '!**/node_modules/@img/sharp-{darwin-*,win32-*,linux-arm,linux-arm64,linux-ppc64,linux-riscv64,linux-s390x,linuxmusl-*,wasm32,webcontainers-*}/**'
+    - '!**/node_modules/@img/sharp-libvips-{darwin-*,linux-arm,linux-arm64,linux-ppc64,linux-riscv64,linux-s390x,linuxmusl-*}/**'
+    - '!**/node_modules/sqlite-vec-{darwin-*,windows-*,linux-arm64}/**'
+    - '!**/node_modules/better-sqlite3/prebuilds/{darwin-*,win32-*,linux-arm64,linuxmusl-*}.node'

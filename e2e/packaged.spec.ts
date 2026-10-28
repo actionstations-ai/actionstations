@@ -278,6 +278,16 @@ test.describe('packaged app', () => {
     }
   })
 
+  /** Same width as the golden and a height within 1%: the render is the same page. */
+  function geometryProblem(actual: Buffer, golden: Buffer): string | undefined {
+    const a = pngjs.PNG.sync.read(actual)
+    const g = pngjs.PNG.sync.read(golden)
+    if (a.width !== g.width) return `width ${a.width}, golden ${g.width}`
+    if (Math.abs(a.height - g.height) > g.height * 0.01)
+      return `height ${a.height}, golden ${g.height}`
+    return undefined
+  }
+
   test('renders every template preview to match its golden', async () => {
     test.setTimeout(240_000)
     const app = await launchPackaged()
@@ -295,13 +305,21 @@ test.describe('packaged app', () => {
             scale: 2,
           })
           const actual = Buffer.from(r.dataUrl.split(',')[1]!, 'base64')
-          const result = compareWithGolden(
-            actual,
-            goldenPath(resolve('templates/injects'), t.type, variant),
-            `${t.type}--${variant}`,
-            { ...GOLDEN_DEFAULTS, diffDir: resolve('.tmp/packaged-golden-diff'), update: false },
-          )
-          if (result.status !== 'match') failures.push(`${t.type}--${variant}: ${result.status}`)
+          const golden = goldenPath(resolve('templates/injects'), t.type, variant)
+          const name = `${t.type}--${variant}`
+          if (process.platform !== 'darwin') {
+            // The goldens are macOS (CoreText) renders; FreeType and DirectWrite place glyphs
+            // and line heights a pixel apart, so elsewhere only the page geometry is held (#383).
+            const problem = geometryProblem(actual, readFileSync(golden))
+            if (problem) failures.push(`${name}: ${problem}`)
+            continue
+          }
+          const result = compareWithGolden(actual, golden, name, {
+            ...GOLDEN_DEFAULTS,
+            diffDir: resolve('.tmp/packaged-golden-diff'),
+            update: false,
+          })
+          if (result.status !== 'match') failures.push(`${name}: ${result.status}`)
         }
       }
       expect(failures).toEqual([])

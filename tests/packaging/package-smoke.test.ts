@@ -7,6 +7,7 @@ import {
   asarFileList,
   asarLeaks,
   packedNativeLibs,
+  foreignBinaries,
   bundledPackProblems,
   EXPECTED_FUSES,
   FUSE_SENTINEL,
@@ -107,6 +108,40 @@ describe('asar contents', () => {
       'node_modules/@img/sharp-libvips-linux-x64/libvips-cpp.so.8.17.2',
     ])
     expect(packedNativeLibs(header)).toEqual([])
+  })
+  it('flags binaries for another OS, CPU or libc, and onnxruntime-web (#382)', () => {
+    const files = [
+      'node_modules/@napi-rs/canvas-win32-x64-msvc/skia.win32-x64-msvc.node',
+      'node_modules/@napi-rs/canvas-win32-arm64-msvc/skia.win32-arm64-msvc.node',
+      'node_modules/@napi-rs/canvas-darwin-arm64/skia.darwin-arm64.node',
+      'node_modules/@img/sharp-win32-x64/lib/sharp-win32-x64.node',
+      'node_modules/@img/sharp-libvips-darwin-x64/lib/libvips-cpp.dylib',
+      'node_modules/@img/colour/index.cjs',
+      'node_modules/sqlite-vec-windows-x64/vec0.dll',
+      'node_modules/sqlite-vec-linux-x64/vec0.so',
+      'node_modules/better-sqlite3/prebuilds/win32-x64.node',
+      'node_modules/better-sqlite3/prebuilds/linux-x64.node',
+      'node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded.wasm',
+    ]
+    expect(foreignBinaries(files, 'win32', 'x64')).toEqual([
+      'node_modules/@img/sharp-libvips-darwin-x64',
+      'node_modules/@napi-rs/canvas-darwin-arm64',
+      'node_modules/@napi-rs/canvas-win32-arm64-msvc',
+      'node_modules/better-sqlite3/prebuilds/linux-x64',
+      'node_modules/onnxruntime-web',
+      'node_modules/sqlite-vec-linux-x64',
+    ])
+  })
+  it('treats musl builds as foreign on a glibc Linux target', () => {
+    const files = [
+      'node_modules/@napi-rs/canvas-linux-x64-gnu/a.node',
+      'node_modules/@napi-rs/canvas-linux-x64-musl/a.node',
+      'node_modules/@img/sharp-linuxmusl-x64/a.node',
+    ]
+    expect(foreignBinaries(files, 'linux', 'x64')).toEqual([
+      'node_modules/@img/sharp-linuxmusl-x64',
+      'node_modules/@napi-rs/canvas-linux-x64-musl',
+    ])
   })
   it('reads the JSON header from an asar file', () => {
     const json = Buffer.from(header)
