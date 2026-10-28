@@ -119,7 +119,7 @@ describe('Export as pack wizard', () => {
     expect(ipc.calls('packs:openContribution')).toHaveLength(0)
     await userEvent.click(screen.getByRole('button', { name: 'Open the contribution page' }))
     await waitFor(() => expect(ipc.calls('packs:openContribution')).toHaveLength(1))
-    expect(PACK_CONTRIBUTION_URL).toBe('https://github.com/mdcrowley/actionstations-site')
+    expect(PACK_CONTRIBUTION_URL).toBe('https://github.com/actionstations-ai/actionstations-site')
   })
 
   it("shows the reader's problems and does not let the author continue", async () => {

@@ -9,7 +9,7 @@
 
 ## Bugs and feature requests
 
-Open a GitHub issue on `mdcrowley/actionstations` from one of the templates (bug, feature, new inject type). For a bug, include:
+Open a GitHub issue on `actionstations-ai/actionstations` from one of the templates (bug, feature, new inject type). For a bug, include:
 
 - the app version and operating system;
 - the provider and model involved, if generation is part of it;

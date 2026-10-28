@@ -68,7 +68,7 @@ Action Stations is source-available under the [PolyForm Internal Use License 1.0
 
 ## The loop
 
-1. **Issue first.** Every change starts as a GitHub issue on `mdcrowley/actionstations`, created from a template in `.github/ISSUE_TEMPLATE/` (feature, bug, new inject type). Apply `area:*`, `type:*` and priority labels and a milestone. If you find more work while you are at it, open an issue for it rather than leaving a placeholder comment in the code.
+1. **Issue first.** Every change starts as a GitHub issue on `actionstations-ai/actionstations`, created from a template in `.github/ISSUE_TEMPLATE/` (feature, bug, new inject type). Apply `area:*`, `type:*` and priority labels and a milestone. If you find more work while you are at it, open an issue for it rather than leaving a placeholder comment in the code.
 2. **Branch** from an up-to-date `main`:
    - `feat/<issue>-<slug>` for features
    - `fix/<issue>-<slug>` for bugs

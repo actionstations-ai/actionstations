@@ -1,6 +1,6 @@
 # 06 — Contributor workflow
 
-How work moves from an issue to `main` on `https://github.com/mdcrowley/actionstations` (default branch `main`). [CONTRIBUTING.md](../CONTRIBUTING.md) has the short version and the [project rules](../CONTRIBUTING.md#project-rules) every change follows; this page has the detail.
+How work moves from an issue to `main` on `https://github.com/actionstations-ai/actionstations` (default branch `main`). [CONTRIBUTING.md](../CONTRIBUTING.md) has the short version and the [project rules](../CONTRIBUTING.md#project-rules) every change follows; this page has the detail.
 
 ## No GitHub Actions
 

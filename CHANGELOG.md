@@ -8,6 +8,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Changed
+
+- The repositories moved to the `actionstations-ai` GitHub organization: the app is now `actionstations-ai/actionstations` (#394). Old `mdcrowley/actionstations` links redirect. The app id stays `com.mdcrowley.actionstations`, so installs and settings carry over.
+
 ### Fixed
 
 - Builds include only the app's own output from `out/` (`main`, `preload`, `renderer`) (#392). They used to take everything in `out/` apart from the bundled packs, so library packs built in the same checkout went into `app.asar` (a 907 MB dmg, caught before 0.5.0 was published). `package-smoke` refuses any other `out/` entry.

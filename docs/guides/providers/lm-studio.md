@@ -62,7 +62,7 @@ To use LM Studio on another machine on your network, enable serving on the local
 
 The app asks for JSON matching each stage's schema. For OpenAI-compatible servers it tries `response_format: json_schema` (strict) first, then `json_object`, then plain instructions, and remembers the first mode the server and model accept for the rest of the session. LM Studio supports `json_schema` for most models.
 
-Reasoning models that think out loud (`<think>` blocks, gpt-oss channels) are supported; the reasoning is stripped before the JSON is parsed. With `openai/gpt-oss-20b` under `json_schema` mode, LM Studio can return a single truncated item ([#81](https://github.com/mdcrowley/actionstations/issues/81)); use Qwen3-30B-A3B or set `jsonMode` to `json_object` for that provider (see [Advanced provider options](README.md#advanced-provider-options)).
+Reasoning models that think out loud (`<think>` blocks, gpt-oss channels) are supported; the reasoning is stripped before the JSON is parsed. With `openai/gpt-oss-20b` under `json_schema` mode, LM Studio can return a single truncated item ([#81](https://github.com/actionstations-ai/actionstations/issues/81)); use Qwen3-30B-A3B or set `jsonMode` to `json_object` for that provider (see [Advanced provider options](README.md#advanced-provider-options)).
 
 ## Troubleshooting
 
