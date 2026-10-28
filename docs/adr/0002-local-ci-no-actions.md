@@ -1,6 +1,6 @@
 # ADR-0002: Local CI only, no GitHub Actions
 
-Date: 2026-10-21 · Status: Accepted · Issue: #8
+Date: 2026-10-21 · Status: Superseded by [ADR-0023](0023-free-github-actions.md) · Issue: #8
 
 ## Context
 

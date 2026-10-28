@@ -6,7 +6,7 @@ Thanks for helping build Action Stations. This page covers the project rules, th
 
 Every change follows these rules, and a pull request that breaks one is not merged. Code comments and documents refer to them by number, for example "CONTRIBUTING.md, Project rules 5".
 
-1. **No GitHub Actions.** Nothing goes under `.github/workflows/`, and the project uses no Dependabot workflows or other paid GitHub compute. CI is `scripts/local-ci.sh` (`pnpm ci:local`) plus the Husky hooks. If a new check is needed, add it there ([ADR-0002](docs/adr/0002-local-ci-no-actions.md)).
+1. **GitHub costs nothing.** GitHub Actions runs only where it is free: workflows in this public repository, on standard GitHub-hosted runners, storing no artifacts or caches (`scripts/check-workflows.mjs` enforces it). CI is `scripts/local-ci.sh` (`pnpm ci:local`) plus the Husky hooks; Actions only builds the release installers. If a new check is needed, add it to `local-ci.sh` ([ADR-0023](docs/adr/0023-free-github-actions.md)).
 2. **GitHub Issues are the task tracker.** Every piece of work has an issue, created from a template in `.github/ISSUE_TEMPLATE/` with the labels and milestone described in [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md). Every commit message references its issue (`#NN`). When the work ships, close the issue with a comment that says what shipped.
 3. **Local-first and private.** No telemetry, and no network calls except to providers the user configured or downloads the user started. API keys are encrypted by the OS keychain through Electron `safeStorage`; they never go into project files or logs.
 4. **Providers only through adapters.** Every model and media call goes through the interfaces in `src/main/providers/`. No vendor SDK or direct vendor call outside an adapter; ESLint enforces the import rule.
@@ -95,11 +95,11 @@ Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`. The scope is the area
 
 ## Local CI
 
-There is no hosted CI. `scripts/local-ci.sh` (`pnpm ci:local`) is the CI, and it runs again on every `git push` through the Husky `pre-push` hook. The `pre-commit` hook runs lint-staged (ESLint `--fix` and Prettier on staged files).
+`scripts/local-ci.sh` (`pnpm ci:local`) is the CI, and it runs again on every `git push` through the Husky `pre-push` hook. The `pre-commit` hook runs lint-staged (ESLint `--fix` and Prettier on staged files).
 
 | Step                  | Command                                       | What it checks                                                                                                                                                                                                  |
 | --------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Guard                 | (built in)                                    | Fails if `.github/workflows/` has any file. This project never uses GitHub Actions.                                                                                                                             |
+| Guard                 | `node scripts/check-workflows.mjs`            | Every GitHub Actions workflow runs on standard GitHub-hosted runners and stores no artifacts or caches, so Actions stays free (ADR-0023).                                                                       |
 | Install               | `pnpm install --frozen-lockfile`              | The lockfile matches `package.json`.                                                                                                                                                                            |
 | Lint                  | `pnpm lint`                                   | ESLint with zero warnings allowed (including the renderer's import boundaries).                                                                                                                                 |
 | Format                | `pnpm format:check`                           | Prettier formatting of code, Markdown, JSON and CSS. Fix with `pnpm format`.                                                                                                                                    |
@@ -126,7 +126,7 @@ The files are deterministic. `docs/badges/badges.json` holds the current values 
 
 The GitHub social preview image (`docs/social-preview.png`, 1280 × 640) is built from the logo and a guide screenshot with `pnpm exec electron scripts/make-social-preview.mjs`. GitHub only takes it through the web UI: **Settings → General → Social preview → Edit → Upload an image**.
 
-If a new check is needed, add it to `scripts/local-ci.sh`. Never add files under `.github/workflows/`, Dependabot configuration, or anything else that runs on GitHub's compute ([ADR-0002](docs/adr/0002-local-ci-no-actions.md)).
+If a new check is needed, add it to `scripts/local-ci.sh`. GitHub Actions is for the release build only, on free standard runners ([ADR-0023](docs/adr/0023-free-github-actions.md)).
 
 ### Repository stats
 
@@ -184,7 +184,7 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 | ADR                                               | Decision                                                                        |
 | ------------------------------------------------- | ------------------------------------------------------------------------------- |
 | [0001](docs/adr/0001-stack.md)                    | Application stack: Electron, React, TypeScript, Vite, pnpm, SQLite + sqlite-vec |
-| [0002](docs/adr/0002-local-ci-no-actions.md)      | Local CI only, no GitHub Actions                                                |
+| [0002](docs/adr/0002-local-ci-no-actions.md)      | Local CI only, no GitHub Actions (superseded by 0023)                           |
 | [0003](docs/adr/0003-project-folder-format.md)    | Project folder format                                                           |
 | [0004](docs/adr/0004-native-modules-and-tests.md) | Native modules and the test runtime                                             |
 | [0005](docs/adr/0005-embeddings.md)               | Embeddings                                                                      |
@@ -204,6 +204,7 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 | [0019](docs/adr/0019-rename-action-stations.md)   | Rename to Action Stations; migrate old settings, projects and keys              |
 | [0020](docs/adr/0020-bundled-packs.md)            | Built-in content ships as bundled packs                                         |
 | [0021](docs/adr/0021-local-tools-setup.md)        | Optional setup of local model tools, or cloud APIs only                         |
+| [0023](docs/adr/0023-free-github-actions.md)      | GitHub Actions where it is free (release installers)                            |
 
 New ADRs start from [`docs/adr/0000-template.md`](docs/adr/0000-template.md).
 

@@ -16,7 +16,7 @@ Closes #
 
 ## Checklist
 - [ ] I have read the [Contributor License Agreement](../CLA.md) and agree to it for this and my later contributions
-- [ ] No files under `.github/workflows/`
+- [ ] Workflows (if any changed) use standard runners only and store nothing (`node scripts/check-workflows.mjs`)
 - [ ] Provider calls only via `src/main/providers/*`
 - [ ] No secrets in project folder or logs
 - [ ] Text-bearing media is template-rendered

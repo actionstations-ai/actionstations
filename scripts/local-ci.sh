@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Local CI — the only CI this project has. No GitHub Actions (ADR-0002).
+# Local CI — the merge gate (ADR-0002). GitHub Actions only builds release installers, on free
+# standard runners (ADR-0023).
 # Usage: scripts/local-ci.sh [--quick]   (E2E=1 to include Playwright, BADGES=1 to refresh docs/badges/)
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -7,10 +8,7 @@ QUICK="${1:-}"
 
 step() { printf '\n\033[1;32m▶ %s\033[0m\n' "$*"; }
 
-step "guard: no GitHub Actions workflows"
-if [[ -d .github/workflows ]] && [[ -n "$(ls -A .github/workflows 2>/dev/null)" ]]; then
-  echo "✖ .github/workflows/ must not exist (CONTRIBUTING.md, Project rules 1)"; exit 1
-fi
+step "guard: GitHub Actions stays free"; node scripts/check-workflows.mjs
 
 step "install (frozen lockfile)";   pnpm install --frozen-lockfile
 step "lint";                        pnpm lint

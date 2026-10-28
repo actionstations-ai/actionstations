@@ -2,9 +2,11 @@
 
 How work moves from an issue to `main` on `https://github.com/actionstations-ai/actionstations` (default branch `main`). [CONTRIBUTING.md](../CONTRIBUTING.md) has the short version and the [project rules](../CONTRIBUTING.md#project-rules) every change follows; this page has the detail.
 
-## No GitHub Actions
+## GitHub Actions only where it is free
 
-Nothing goes under `.github/workflows/`, and the project uses no Dependabot or other GitHub-hosted compute ([ADR-0002](adr/0002-local-ci-no-actions.md)). Every check runs on the contributor's machine through `scripts/local-ci.sh` (`pnpm ci:local`), which the Husky `pre-push` hook also runs. Branch protection on `main` requires a pull request but no status checks, because there are none on GitHub. Reviewers look for the pasted `ci:local` output in the PR description.
+Every check runs on the contributor's machine through `scripts/local-ci.sh` (`pnpm ci:local`), which the Husky `pre-push` hook also runs. Branch protection on `main` requires a pull request but no status checks. Reviewers look for the pasted `ci:local` output in the PR description.
+
+GitHub Actions builds the release installers (`.github/workflows/release.yml`) and nothing else. It may only run where it costs nothing: this public repository, standard GitHub-hosted runners, no artifacts or caches ([ADR-0023](adr/0023-free-github-actions.md)). `scripts/check-workflows.mjs` checks every workflow in `pnpm ci:local`. The organization's $0 budgets stop usage instead of billing it.
 
 ## Issues are the task tracker
 
@@ -47,8 +49,8 @@ Husky runs lint-staged (ESLint `--fix` and Prettier) on `pre-commit` and `script
 
 ## Releases
 
-Installers are built on a developer machine and attached to a draft GitHub release with `gh`; there is no release automation. The steps are in [RELEASING.md](RELEASING.md). The CHANGELOG is maintained by hand in Keep a Changelog format.
+`scripts/release.sh --publish` tags the release and creates a draft; the release workflow builds, tests and uploads the macOS, Windows and Linux installers to it. The steps are in [RELEASING.md](RELEASING.md). The CHANGELOG is maintained by hand in Keep a Changelog format.
 
 ## Dependency hygiene
 
-There is no Dependabot. `pnpm audit --prod` runs inside `local-ci.sh` as a warning that never fails the run; `pnpm outdated` is run by hand when updating dependencies.
+Dependabot alerts and secret scanning with push protection are on for the repository (no Dependabot pull requests). `pnpm audit --prod` runs inside `local-ci.sh` as a warning that never fails the run; `pnpm outdated` is run by hand when updating dependencies.
