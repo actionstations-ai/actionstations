@@ -24,3 +24,4 @@ export function buildBadgeFiles(
   today: string,
 ): Record<string, string>
 export function writeChanged(outDir: string, files: Record<string, string>): string[]
+export function badgeVersion(args: { version?: string }, pkg: { version: string }): string

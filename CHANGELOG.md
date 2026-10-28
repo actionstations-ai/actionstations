@@ -60,6 +60,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 - The 0.4.0 Linux AppImage and Windows installer on the releases page were rebuilt with these fixes on 2026-10-27.
 - Smaller installers (#382): each platform's build now ships only its own native packages (`@napi-rs/canvas`, sharp and libvips, `sqlite-vec`, the better-sqlite3 prebuild) and leaves out `onnxruntime-web`, which transformers.js's Node build never loads. Measured on 0.4.0 content: Windows 360 → 290 MB, Linux AppImage 473 → 327 MB, macOS dmg 360 → 325 MB. `package-smoke` fails when a build holds another platform's binaries.
 - The packaged smoke test passes on Linux and Windows (#383): template goldens are macOS renders, and other platforms place glyphs and line heights about a pixel apart, so there it checks each preview's page size instead of its pixels.
+- The README version badge shows the release being cut (#388). `release.sh` refreshed the badges before `pnpm version` bumped `package.json`, so the badge always showed the version before, and still said 0.1.0 after 0.4.0.
 
 ### Security
 
