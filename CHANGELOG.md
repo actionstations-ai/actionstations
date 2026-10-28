@@ -10,6 +10,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Changed
 
+- Images, PDFs, Office files, fonts and media in the repository are stored with Git LFS (#399). Install Git LFS before cloning. History was not rewritten, so earlier tags and their source archives are unchanged.
 - The repositories moved to the `actionstations-ai` GitHub organization: the app is now `actionstations-ai/actionstations` (#394). Old `mdcrowley/actionstations` links redirect.
 - The app id is now `ai.actionstations.app` (was `com.mdcrowley.actionstations`; dev builds `ai.actionstations.app.dev`) (#396). Windows treats an installer with a different app id as a different app, so a 0.5.0 install is not upgraded in place: uninstall it first. Settings and projects are unaffected (they follow the app name).
 

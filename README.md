@@ -118,6 +118,7 @@ The [CHANGELOG](CHANGELOG.md) lists what changed in each version. Design documen
 ### Prerequisites
 
 - macOS, Windows or Linux.
+- [Git LFS](https://git-lfs.com) (`brew install git-lfs`, or your package manager), then `git lfs install` once, before cloning: images, documents, fonts and media are stored with it.
 - Node.js 22.12 or later and pnpm 10 (`corepack enable && corepack prepare pnpm@10 --activate`).
 - Native build tools, in case a native module (`better-sqlite3`) has no prebuilt binary for your platform:
   - macOS: Xcode Command Line Tools (`xcode-select --install`)

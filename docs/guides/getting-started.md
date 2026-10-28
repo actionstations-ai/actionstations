@@ -10,7 +10,7 @@ Background reading: [How a good tabletop exercise is built](methodology.md).
 
 Installers are not published yet; run the app from source.
 
-Prerequisites: Node.js 22.12 or later, pnpm 10 (`corepack enable && corepack prepare pnpm@10 --activate`), and on macOS the Xcode Command Line Tools (`xcode-select --install`) in case a native module has to be compiled. See the [README](../../README.md#prerequisites) for Windows and Linux.
+Prerequisites: [Git LFS](https://git-lfs.com) (run `git lfs install` once before cloning), Node.js 22.12 or later, pnpm 10 (`corepack enable && corepack prepare pnpm@10 --activate`), and on macOS the Xcode Command Line Tools (`xcode-select --install`) in case a native module has to be compiled. See the [README](../../README.md#prerequisites) for Windows and Linux.
 
 ```bash
 git clone https://github.com/actionstations-ai/actionstations.git
