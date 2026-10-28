@@ -198,7 +198,7 @@ The release workflow runs `package:smoke` on each OS. For anything it does not c
   and rule afterwards.
 - **Template goldens** are macOS renders. On Linux and Windows, glyph placement and line
   height differ by about a pixel, so `packaged.spec.ts` holds only the page geometry there
-  (#383); compare the images by eye when a template changes.
+  (#383): same width, height within 1% (Linux) or 2% (Windows); compare the images by eye when a template changes.
 
 ### Replacing a published file
 
