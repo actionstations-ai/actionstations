@@ -8,8 +8,13 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-10-28
+
+Highlights: the app has its final identity, `ai.actionstations.app`, and the project lives in the `actionstations-ai` GitHub organization. The installers are the first built and tested on GitHub-hosted macOS, Windows and Linux machines. If you installed 0.5.0 on Windows, uninstall it before installing 0.5.1. Your settings and projects stay.
+
 ### Changed
 
+- Pack downloads in the official catalog come from the `packs` release of `actionstations-ai/packs` instead of actionstations.ai (#400). The catalog lists the new URLs and the app follows GitHub's download redirect, so 0.5.0 installs packs from there unchanged.
 - Images, PDFs, Office files, fonts and media in the repository are stored with Git LFS (#399). Install Git LFS before cloning. History was not rewritten, so earlier tags and their source archives are unchanged.
 - Release installers for macOS, Windows and Linux are built and smoke-tested on GitHub-hosted runners by `.github/workflows/release.yml` and uploaded to the draft release (#398, ADR-0023). GitHub Actions runs only where it is free (this public repository, standard runners, no artifacts or caches); `scripts/check-workflows.mjs` in local CI enforces it.
 - The repositories moved to the `actionstations-ai` GitHub organization: the app is now `actionstations-ai/actionstations` (#394). Old `mdcrowley/actionstations` links redirect.
@@ -17,6 +22,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Fixed
 
+- The packaged smoke test runs on Windows: Playwright is started through Node, leftover processes are found with PowerShell, and text files are checked out with LF on every OS (#398).
 - Builds include only the app's own output from `out/` (`main`, `preload`, `renderer`) (#392). They used to take everything in `out/` apart from the bundled packs, so library packs built in the same checkout went into `app.asar` (a 907 MB dmg, caught before 0.5.0 was published). `package-smoke` refuses any other `out/` entry.
 
 ## [0.5.0] - 2026-10-27
