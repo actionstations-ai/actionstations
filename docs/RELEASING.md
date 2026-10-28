@@ -151,8 +151,54 @@ To build for another CPU or OS, either:
   `pnpm build:app && pnpm exec electron-builder --mac --x64`.
 
   Undo it before the next host build with `rm -rf node_modules && pnpm install --frozen-lockfile`:
-  a plain reinstall leaves the foreign packages in `node_modules/.pnpm`, and electron-builder
-  then bundles them too (measured: +54 MB of darwin-x64 sharp/canvas binaries in an arm64 app).
+  a plain reinstall leaves the foreign packages in `node_modules/.pnpm`.
+
+Each platform's `files` list in `electron-builder.yml` keeps only that target's native packages
+(`@napi-rs/canvas-*`, `@img/sharp-*`, `@img/sharp-libvips-*`, `sqlite-vec-*`,
+`better-sqlite3/prebuilds/*`) and leaves out `onnxruntime-node`'s other binaries (#382).
+`onnxruntime-web` is left out everywhere: transformers.js's Node build bundles what it needs from
+it and runs on `onnxruntime-node`. `package-smoke` fails when an archive holds another
+OS's, CPU's or libc's binaries, or `onnxruntime-web`. Measured on 0.4.0 content: Windows
+360 → 290 MB, Linux AppImage 473 → 327 MB, macOS dmg 360 → 325 MB. A new native dependency
+needs its own exclusions there; adding a new target (Windows ARM64, Linux ARM64) means
+changing those lists.
+
+### Windows and Linux from a Mac
+
+Both were cross-built on Apple silicon for 0.4.0 (macOS host, `supportedArchitectures` with
+`os: [current, win32, linux]`):
+
+- **Windows:** `pnpm exec electron-builder --win nsis --x64`. Build from a short checkout path
+  (for example `~/Code/as-win`): NSIS's `makensis` aborts (SIGABRT) when an `!include` path is
+  too long, which a worktree under `/private/tmp/…` exceeds.
+- **Linux:** `pnpm exec electron-builder --linux AppImage --x64`. For a quick native test on
+  Apple silicon, also build `--linux dir --arm64 -c.directories.output=release-arm64`.
+
+### Testing Windows and Linux builds from a Mac
+
+- **Linux (Docker):** run the AppImage in `node:22-bookworm` with `--platform linux/amd64`
+  (emulated) or the arm64 `dir` build with `--platform linux/arm64` (native, much faster),
+  under `xvfb-run`, with the GTK and NSS libraries installed. Under emulation the AppImage
+  runtime fails with "Exec format error": on a copy, zero bytes 8–10 (the AppImage magic),
+  then `--appimage-extract` and run `squashfs-root/actionstations`. As root, Electron needs
+  `--no-sandbox`: point `TTX_PACKAGED_APP` at a two-line wrapper script that adds it, then run
+  `e2e/packaged.spec.ts`. The host's Ollama is at `http://host.docker.internal:11434`.
+- **Windows (VM):** a Windows 11 ARM VM in UTM runs the x64 installer under emulation. With
+  the SPICE guest tools installed, `utmctl exec` runs commands (as SYSTEM, without output:
+  write to a file and `utmctl file pull` it) and `utmctl ip-address` finds the VM. Install
+  silently with `setup.exe /S /allusers /D=C:\as\app`, start the app with
+  `--remote-debugging-port=9222`, expose it with `netsh interface portproxy` and a firewall
+  rule, and drive it from the Mac over CDP (`chromium.connectOverCDP`). Remove the port proxy
+  and rule afterwards.
+- **Template goldens** are macOS renders. On Linux and Windows, glyph placement and line
+  height differ by about a pixel, so `packaged.spec.ts` holds only the page geometry there
+  (#383); compare the images by eye when a template changes.
+
+### Replacing a published file
+
+`gh release upload --clobber` deletes the old asset, and GitHub's download count for it
+restarts at zero. `pnpm stats` keeps the earlier count (see CONTRIBUTING, Repository stats);
+run it before replacing a file.
 
 Intel macOS (x64) was cross-built this way on Apple silicon and passed the packaged smoke test
 under Rosetta (first start under Rosetta takes over 30 s). Caveat: onnxruntime-node ships no

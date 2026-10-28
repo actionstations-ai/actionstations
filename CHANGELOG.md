@@ -57,6 +57,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 - Linux: the built-in ONNX embedder loads (#372). sharp's libvips ships in its own package with only a versioned `.so`, which electron-builder's smart unpack left inside `app.asar` where Linux cannot load it; `node_modules/@img/**` is now unpacked. `package-smoke` fails when any `.node`, `.so`, `.dylib` or `.dll` is still packed inside the archive.
 - Windows: an import could fail with `EPERM` while saving `project.json` (#375). Windows refuses to replace a file another handle has open (a concurrent read, Defender, the search indexer); the temp-file rename now retries for about two seconds on `EPERM`, `EACCES` and `EBUSY`, as graceful-fs does, and the quit-time `jobs.json` flush does the same.
 - The 0.4.0 Linux AppImage and Windows installer on the releases page were rebuilt with these fixes on 2026-10-27.
+- Smaller installers (#382): each platform's build now ships only its own native packages (`@napi-rs/canvas`, sharp and libvips, `sqlite-vec`, the better-sqlite3 prebuild) and leaves out `onnxruntime-web`, which transformers.js's Node build never loads. Measured on 0.4.0 content: Windows 360 → 290 MB, Linux AppImage 473 → 327 MB, macOS dmg 360 → 325 MB. `package-smoke` fails when a build holds another platform's binaries.
+- The packaged smoke test passes on Linux and Windows (#383): template goldens are macOS renders, and other platforms place glyphs and line heights about a pixel apart, so there it checks each preview's page size instead of its pixels.
 
 ### Security
 
