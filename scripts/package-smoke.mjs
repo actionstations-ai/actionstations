@@ -274,7 +274,10 @@ function main() {
     if (problems.length) throw new Error(`static checks failed:\n  ${problems.join('\n  ')}`)
     console.log('static checks passed (fuses, asar integrity, asar contents, bundled packs)')
     const started = Date.now()
-    const run = spawnSync('pnpm', ['exec', 'playwright', 'test', 'e2e/packaged.spec.ts'], {
+    // Playwright's CLI through this Node: `pnpm` is pnpm.cmd on Windows, which spawnSync cannot
+    // start without a shell.
+    const cli = join(ROOT, 'node_modules', '@playwright', 'test', 'cli.js')
+    const run = spawnSync(process.execPath, [cli, 'test', 'e2e/packaged.spec.ts'], {
       cwd: ROOT,
       stdio: 'inherit',
       env: { ...process.env, TTX_PACKAGED_APP: layout.executable },

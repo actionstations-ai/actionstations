@@ -1,0 +1,120 @@
+# Release installers (ADR-0023, #398): builds the macOS, Windows and Linux installers each on
+# its own OS, runs the packaged smoke test on each, and uploads the installers and their
+# .sha256 files to the DRAFT release of the tag. A published release is never changed.
+#
+# Free by construction: this repository is public and every job runs on a standard
+# GitHub-hosted runner; nothing is stored on GitHub (no artifacts, no caches).
+# scripts/check-workflows.mjs (in pnpm ci:local) enforces that.
+#
+# Runs on: a vX.Y.Z tag push (scripts/release.sh --publish pushes it and creates the draft),
+# by hand from the Actions tab (with a tag to upload to that draft, without one to only build
+# and test), and on pull requests that change the packaging.
+name: Release installers
+
+on:
+  push:
+    tags: ['v*.*.*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Draft release to upload to (vX.Y.Z). Empty = build and test only.
+        required: false
+        default: ''
+  pull_request:
+    paths:
+      - .github/workflows/release.yml
+      - electron-builder.yml
+      - scripts/package-smoke.mjs
+      - e2e/packaged.spec.ts
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.event_name }}-${{ github.ref }}-${{ inputs.tag }}
+  cancel-in-progress: true
+
+jobs:
+  installers:
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS (arm64 dmg)
+            os: macos-15
+            target: --mac
+          - name: Windows (x64 setup.exe)
+            os: windows-2022
+            target: --win
+          - name: Linux (x64 AppImage)
+            os: ubuntu-24.04
+            target: --linux
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 75
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: bash
+    env:
+      TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.tag }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          lfs: true
+          ref: ${{ env.TAG || github.sha }}
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      - name: The tag matches package.json
+        if: env.TAG != ''
+        run: |
+          version=$(node -p "require('./package.json').version")
+          [[ "$TAG" == "v$version" ]] || { echo "::error::tag $TAG but package.json says $version"; exit 1; }
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: |
+          pnpm build:app
+          node scripts/build-bundled-packs.mjs
+          pnpm exec electron-builder ${{ matrix.target }} --publish never
+
+      # Ubuntu 24.04 restricts unprivileged user namespaces, which Electron's sandbox needs.
+      - name: Allow Electron's sandbox
+        if: runner.os == 'Linux'
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Packaged smoke test
+        run: |
+          if [[ "$RUNNER_OS" == Linux ]]; then xvfb-run -a pnpm package:smoke; else pnpm package:smoke; fi
+
+      - name: Upload to the draft release
+        if: env.TAG != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # scripts/release.sh creates the draft right after pushing the tag: wait for it.
+          draft=""
+          for _ in $(seq 30); do
+            draft=$(gh release view "$TAG" --json isDraft --jq .isDraft 2>/dev/null) && break
+            sleep 20
+          done
+          [[ "$draft" == true ]] || { echo "::error::$TAG has no draft release (published releases are never changed)"; exit 1; }
+          cd "release/${TAG#v}"
+          shopt -s nullglob
+          files=()
+          for f in actionstations-*.dmg actionstations-*-setup.exe actionstations-*.AppImage; do
+            # "<hex>  <name>", the same on every OS (sha256sum on Windows would print "*<name>").
+            node -e "const [f]=process.argv.slice(1);process.stdout.write(require('crypto').createHash('sha256').update(require('fs').readFileSync(f)).digest('hex')+'  '+f+'\\n')" "$f" >"$f.sha256"
+            files+=("$f" "$f.sha256")
+          done
+          (( ${#files[@]} > 0 )) || { echo "::error::no installer in release/${TAG#v}"; exit 1; }
+          ls -l "${files[@]}"
+          gh release upload "$TAG" "${files[@]}" --clobber --repo "$GITHUB_REPOSITORY"

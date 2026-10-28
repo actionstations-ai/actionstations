@@ -1,7 +1,9 @@
 # Releasing
 
-Installers are built on a developer machine and attached to a GitHub release with `gh`.
-There is no release automation and no GitHub Actions (ADR-0002).
+`scripts/release.sh` tags a release and creates a draft GitHub release; the release workflow
+(`.github/workflows/release.yml`) builds the macOS, Windows and Linux installers on GitHub-hosted
+runners, smoke-tests each and uploads them to the draft. The runners are free because the
+repository is public and the workflow uses standard runners only ([ADR-0023](adr/0023-free-github-actions.md)).
 
 ## Commands
 
@@ -25,12 +27,14 @@ There is no release automation and no GitHub Actions (ADR-0002).
    notes, then restores `package.json`. Nothing is committed, tagged, pushed or uploaded.
 4. Smoke-test the installer: `node scripts/package-smoke.mjs --dmg "release/X.Y.Z/actionstations-X.Y.Z-mac-arm64.dmg"`.
 5. Publish: `pnpm release X.Y.Z --publish [--issue N]`. This runs `pnpm version X.Y.Z` (commit
-   `chore(release): vX.Y.Z (#N)` + tag `vX.Y.Z`), rebuilds the installers, pushes `main` and the
-   tag, and creates a **draft** GitHub release with the installers and the CHANGELOG section as
-   notes. Review the draft on GitHub and publish it there.
-6. Installers for the other platforms: on a Windows and a Linux machine, check out the tag,
-   `pnpm install --frozen-lockfile && pnpm build`, then
-   `gh release upload vX.Y.Z release/X.Y.Z/<installer>` while the release is still a draft.
+   `chore(release): vX.Y.Z (#N)` + tag `vX.Y.Z`), pushes `main` and the tag, and creates a
+   **draft** GitHub release with the CHANGELOG section as notes.
+6. The tag push starts the **Release installers** workflow (`gh run watch`). Each of its three
+   jobs builds one installer on its own OS (macOS 15 arm64, Windows Server 2022 x64, Ubuntu
+   24.04 x64), runs `pnpm package:smoke` against it, and uploads the installer and its `.sha256`
+   file to the draft. It only ever uploads to a draft. To rebuild a draft's installers, run the
+   workflow by hand from the Actions tab with the tag.
+7. When all three jobs pass, review the draft on GitHub and publish it there.
 
 ## Artifacts
 
@@ -136,8 +140,8 @@ onnxruntime-node ships its binaries inside its own package.
 
 To build for another CPU or OS, either:
 
-- **build on the target OS** (recommended for Windows and Linux): check out the tag,
-  `pnpm install --frozen-lockfile`, `pnpm build`; or
+- **build on the target OS**: the release workflow does this for every release, and a
+  checkout of the tag with `pnpm install --frozen-lockfile && pnpm build` does it by hand; or
 - **cross-build** after telling pnpm to install the other platforms' packages, in
   `pnpm-workspace.yaml`:
 
@@ -165,7 +169,7 @@ changing those lists.
 
 ### Windows and Linux from a Mac
 
-Both were cross-built on Apple silicon for 0.4.0 (macOS host, `supportedArchitectures` with
+Releases are built by the workflow now. Before it, both were cross-built on Apple silicon for 0.4.0 (macOS host, `supportedArchitectures` with
 `os: [current, win32, linux]`):
 
 - **Windows:** `pnpm exec electron-builder --win nsis --x64`. Build from a short checkout path
@@ -175,6 +179,8 @@ Both were cross-built on Apple silicon for 0.4.0 (macOS host, `supportedArchitec
   Apple silicon, also build `--linux dir --arm64 -c.directories.output=release-arm64`.
 
 ### Testing Windows and Linux builds from a Mac
+
+The release workflow runs `package:smoke` on each OS. For anything it does not cover (local models, a real install), test by hand:
 
 - **Linux (Docker):** run the AppImage in `node:22-bookworm` with `--platform linux/amd64`
   (emulated) or the arm64 `dir` build with `--platform linux/arm64` (native, much faster),
@@ -192,7 +198,7 @@ Both were cross-built on Apple silicon for 0.4.0 (macOS host, `supportedArchitec
   and rule afterwards.
 - **Template goldens** are macOS renders. On Linux and Windows, glyph placement and line
   height differ by about a pixel, so `packaged.spec.ts` holds only the page geometry there
-  (#383); compare the images by eye when a template changes.
+  (#383): same width, height within 1% (Linux) or 2% (Windows); compare the images by eye when a template changes.
 
 ### Replacing a published file
 

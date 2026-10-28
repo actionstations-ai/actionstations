@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Cut a release from a local build (no GitHub Actions, ADR-0002). See docs/RELEASING.md.
+# Cut a release. See docs/RELEASING.md. The installers are built and uploaded by
+# .github/workflows/release.yml on GitHub-hosted runners (ADR-0023).
 #
 #   scripts/release.sh <patch|minor|major|X.Y.Z> [--publish] [--issue N] [--skip-ci]
 #
@@ -7,8 +8,9 @@
 # new version, then the version bump is reverted and the `gh release create` command is
 # printed instead of run. Nothing is committed, tagged, pushed or uploaded.
 # --publish  bump the version (commit + tag vX.Y.Z), push main and the tag, and create a
-#            DRAFT GitHub release with the installers and the CHANGELOG section as notes.
-#            Review the draft on GitHub and publish it there.
+#            DRAFT GitHub release with the CHANGELOG section as notes. The tag push starts the
+#            release workflow, which builds, tests and uploads the macOS, Windows and Linux
+#            installers to that draft. Review the draft on GitHub and publish it there.
 # --issue N  issue number for the release commit message (default 50).
 # --skip-ci  dry run only: skip `pnpm ci:local` (for iterating on this script).
 set -euo pipefail
@@ -141,27 +143,27 @@ else
   pnpm version "$VERSION" --no-git-tag-version >/dev/null
 fi
 
-step "build installers for this host"
-BUILD_START=$(date +%s)
-pnpm build:app
-pnpm exec electron-builder "$(host_installers)" --publish never
-echo "built in $(($(date +%s) - BUILD_START)) s"
+if [[ $PUBLISH == 1 ]]; then
+  step "installers: built by the release workflow on the tag push"
+else
+  step "build installers for this host (dry run check)"
+  BUILD_START=$(date +%s)
+  pnpm build:app
+  pnpm exec electron-builder "$(host_installers)" --publish never
+  echo "built in $(($(date +%s) - BUILD_START)) s"
+  step "artifacts"
+  find "release/${VERSION}" -maxdepth 1 -type f \( -name '*.dmg' -o -name '*.exe' -o -name '*.AppImage' \) -print0 |
+    xargs -0 du -h | sed 's/^/  /'
+fi
 
-ARTIFACTS=()
-while IFS= read -r f; do ARTIFACTS+=("$f"); done < <(
-  find "release/${VERSION}" -maxdepth 1 -type f \( -name '*.dmg' -o -name '*.exe' -o -name '*.AppImage' -o -name '*.blockmap' -o -name 'latest*.yml' \) | sort
-)
-[[ ${#ARTIFACTS[@]} -gt 0 ]] || fail "no installers in release/${VERSION}"
-step "artifacts"
-for f in "${ARTIFACTS[@]}"; do printf '  %8s  %s\n' "$(du -h "$f" | cut -f1)" "$f"; done
-
-RELEASE_CMD=(gh release create "$TAG" --draft --verify-tag --title "Action Stations ${VERSION}" --notes-file "$NOTES_FILE" "${ARTIFACTS[@]}")
+RELEASE_CMD=(gh release create "$TAG" --draft --verify-tag --title "Action Stations ${VERSION}" --notes-file "$NOTES_FILE")
 if [[ $PUBLISH == 1 ]]; then
   step "push main and ${TAG}"
   git push origin main "$TAG"
   step "create draft release ${TAG}"
   "${RELEASE_CMD[@]}"
-  echo "Draft created. Review it on GitHub, then publish it there."
+  echo "Draft created. The release workflow uploads the installers (gh run watch); review the"
+  echo "draft on GitHub once all three jobs pass, then publish it there."
 else
   step "dry run — would run:"
   printf '  git push origin main %s\n  ' "$TAG"

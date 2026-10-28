@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Records repository stats for the README (#378): installer downloads, stars and forks.
 // GitHub keeps only a running total per release asset, with no history, and that total is lost
-// when an asset is replaced. No GitHub Actions run for this repository, so this script keeps the
+// when an asset is replaced. No scheduled job runs for this repository, so this script keeps the
 // history: each run adds today's snapshot to docs/stats/history.json (a second run on the same
 // date replaces it) and redraws the chart and the downloads badge in docs/stats/. It reads the
 // repository with `gh api`, so the GitHub CLI must be signed in. scripts/release.sh runs it.

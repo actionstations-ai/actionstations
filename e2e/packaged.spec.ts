@@ -51,11 +51,26 @@ for (const signal of ['SIGINT', 'SIGTERM'] as const)
     process.exit(130)
   })
 
-/** PIDs of processes whose command line contains the packaged executable path. */
+/** PIDs of processes running the packaged executable (by command line; Windows has no pgrep). */
 function processesOf(exe: string): string[] {
-  const r = spawnSync('pgrep', ['-f', '--', exe], { encoding: 'utf8' })
+  const r =
+    process.platform === 'win32'
+      ? spawnSync(
+          'powershell',
+          [
+            '-NoProfile',
+            '-Command',
+            'Get-CimInstance Win32_Process | Where-Object { $_.ExecutablePath -eq $env:TTX_EXE } | ForEach-Object { $_.ProcessId }',
+          ],
+          { encoding: 'utf8', env: { ...process.env, TTX_EXE: exe } },
+        )
+      : spawnSync('pgrep', ['-f', '--', exe], { encoding: 'utf8' })
+  if (r.error) throw r.error
   const self = [String(process.pid), String(process.ppid)]
-  return r.stdout.split('\n').filter((pid) => pid && !self.includes(pid))
+  return (r.stdout ?? '')
+    .split(/\r?\n/)
+    .map((pid) => pid.trim())
+    .filter((pid) => pid && !self.includes(pid))
 }
 
 function start(args: string[], env: Record<string, string> = {}): Running {
@@ -283,7 +298,10 @@ test.describe('packaged app', () => {
     const a = pngjs.PNG.sync.read(actual)
     const g = pngjs.PNG.sync.read(golden)
     if (a.width !== g.width) return `width ${a.width}, golden ${g.width}`
-    if (Math.abs(a.height - g.height) > g.height * 0.01)
+    // About a pixel per text line: within 1% on Linux; Windows' text metrics run up to ~1.3%
+    // taller on the text-heavy templates (hl7_interface_monitor, siren_pa), so 2% there.
+    const tolerance = process.platform === 'win32' ? 0.02 : 0.01
+    if (Math.abs(a.height - g.height) > g.height * tolerance)
       return `height ${a.height}, golden ${g.height}`
     return undefined
   }
