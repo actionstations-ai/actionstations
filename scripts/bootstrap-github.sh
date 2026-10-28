@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# One-shot setup of labels, milestones and the seed backlog on mdcrowley/actionstations.
+# One-shot setup of labels, milestones and the seed backlog on actionstations-ai/actionstations.
 # Requires: gh (authenticated), jq. Safe to re-run: existing labels/milestones are updated, issues are only created if a same-title open issue does not exist.
 set -euo pipefail
-REPO="${REPO:-mdcrowley/actionstations}"
+REPO="${REPO:-actionstations-ai/actionstations}"
 
 say() { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
 

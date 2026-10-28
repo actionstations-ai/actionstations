@@ -14,8 +14,8 @@
 [![telemetry: none](docs/badges/telemetry.svg)](#privacy-and-local-first)
 [![local-first](docs/badges/local-first.svg)](#privacy-and-local-first)
 [![downloads](docs/stats/downloads-badge.svg)](#project-stats)
-[![GitHub stars](https://img.shields.io/github/stars/mdcrowley/actionstations?style=flat&label=stars)](https://github.com/mdcrowley/actionstations/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/mdcrowley/actionstations?style=flat&label=forks)](https://github.com/mdcrowley/actionstations/forks)
+[![GitHub stars](https://img.shields.io/github/stars/actionstations-ai/actionstations?style=flat&label=stars)](https://github.com/actionstations-ai/actionstations/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/actionstations-ai/actionstations?style=flat&label=forks)](https://github.com/actionstations-ai/actionstations/forks)
 
 [Download](#download-and-install) · [Quick start](#quick-start) · [Guides](#docs-and-guides) · [Packs](docs/guides/packs.md) · [License](#license) · [Contributing](CONTRIBUTING.md) · [Support](SUPPORT.md) · [Security](SECURITY.md)
 
@@ -25,7 +25,7 @@ Action Stations is a desktop app for macOS, Windows and Linux that writes discus
 
 ## Download and install
 
-Download the latest release from the [releases page](https://github.com/mdcrowley/actionstations/releases) or [actionstations.ai/download](https://actionstations.ai/download/):
+Download the latest release from the [releases page](https://github.com/actionstations-ai/actionstations/releases) or [actionstations.ai/download](https://actionstations.ai/download/):
 
 - **macOS** (Apple Silicon): the `.dmg`. It is not notarized yet, so macOS blocks the first launch: open System Settings → **Privacy & Security** and click **Open Anyway** (on macOS 14 and earlier, right-click the app and choose **Open**).
 - **Windows** (64-bit): the `-setup.exe` installer. It is not code-signed yet, so Windows shows "Windows protected your PC": choose **More info**, then **Run anyway**. PCs with Smart App Control turned on block unsigned apps.
@@ -127,7 +127,7 @@ The [CHANGELOG](CHANGELOG.md) lists what changed in each version. Design documen
 ### Build and run
 
 ```bash
-git clone https://github.com/mdcrowley/actionstations.git
+git clone https://github.com/actionstations-ai/actionstations.git
 cd actionstations
 pnpm install      # installs dependencies and rebuilds native modules for Electron
 pnpm dev          # runs the app with hot reload
@@ -159,11 +159,11 @@ Installer downloads across all releases, with stars and forks. GitHub keeps only
   <img alt="Line charts of installer downloads, stars and forks over time; the latest values are in docs/stats/history.json" src="docs/stats/downloads-light.svg">
 </picture>
 
-Stars over time, from [star-history.com](https://star-history.com/#mdcrowley/actionstations&Date):
+Stars over time, from [star-history.com](https://star-history.com/#actionstations-ai/actionstations&Date):
 
-<a href="https://star-history.com/#mdcrowley/actionstations&Date">
+<a href="https://star-history.com/#actionstations-ai/actionstations&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=mdcrowley/actionstations&type=Date&theme=dark">
-    <img alt="Star history chart for mdcrowley/actionstations" src="https://api.star-history.com/svg?repos=mdcrowley/actionstations&type=Date">
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=actionstations-ai/actionstations&type=Date&theme=dark">
+    <img alt="Star history chart for actionstations-ai/actionstations" src="https://api.star-history.com/svg?repos=actionstations-ai/actionstations&type=Date">
   </picture>
 </a>

@@ -21,7 +21,7 @@ import {
  * Where packs are shared: a pull request to the site repository (docs/packs-format.md,
  * "Publishing to the official catalog"). Confirm the URL when the site repository goes public.
  */
-export const PACK_CONTRIBUTION_URL = 'https://github.com/mdcrowley/actionstations-site'
+export const PACK_CONTRIBUTION_URL = 'https://github.com/actionstations-ai/actionstations-site'
 
 /** Common pack licenses the wizard offers (any SPDX expression or LicenseRef-* is accepted). */
 export const COMMON_PACK_LICENSES = [

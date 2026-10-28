@@ -13,7 +13,7 @@ Installers are not published yet; run the app from source.
 Prerequisites: Node.js 22.12 or later, pnpm 10 (`corepack enable && corepack prepare pnpm@10 --activate`), and on macOS the Xcode Command Line Tools (`xcode-select --install`) in case a native module has to be compiled. See the [README](../../README.md#prerequisites) for Windows and Linux.
 
 ```bash
-git clone https://github.com/mdcrowley/actionstations.git
+git clone https://github.com/actionstations-ai/actionstations.git
 cd actionstations
 pnpm install
 pnpm dev

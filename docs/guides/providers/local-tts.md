@@ -83,7 +83,7 @@ Options in the provider's `options` (see [Advanced provider options](README.md#a
 - `voice`: default voice id; `voices`: a map from speaker name to voice id.
 - `speakerGapSec`: silence between speakers when lines are joined (default 0.35 s).
 
-Each voice line is one request; the clips are joined into one WAV, and the app's post-FX (radio band-pass, phone compression, PA ambience) are applied afterwards whichever provider produced the audio. With VoiceDesign, the same speaker can sound different from line to line ([#108](https://github.com/mdcrowley/actionstations/issues/108)).
+Each voice line is one request; the clips are joined into one WAV, and the app's post-FX (radio band-pass, phone compression, PA ambience) are applied afterwards whichever provider produced the audio. With VoiceDesign, the same speaker can sound different from line to line ([#108](https://github.com/actionstations-ai/actionstations/issues/108)).
 
 ## Troubleshooting
 

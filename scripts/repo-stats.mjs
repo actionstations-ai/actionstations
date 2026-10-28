@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url'
 import { COLORS, escapeXml, renderBadge } from './make-badges.mjs'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-export const REPO = 'mdcrowley/actionstations'
+export const REPO = 'actionstations-ai/actionstations'
 
 /** Files people install. Checksums, blockmaps and latest-*.yml are not downloads of the app. */
 export const INSTALLER_RE = /\.(dmg|exe|msi|AppImage|deb|rpm|zip|tar\.gz)$/
