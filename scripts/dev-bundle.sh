@@ -8,7 +8,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 NAME="Action Stations"
-BUNDLE_ID="com.mdcrowley.actionstations.dev"
+BUNDLE_ID="ai.actionstations.app.dev"
 SRC="node_modules/electron/dist/Electron.app"
 DEST=".dev-app/$NAME.app"
 STAMP=".dev-app/.stamp"

@@ -21,3 +21,7 @@ API keys are encrypted with Electron `safeStorage`. On macOS its key lives in a 
 - One launch after updating moves settings and projects; users see their providers, recent projects and (for keys saved since #191) their keys unchanged.
 - Keys saved before #191 must be entered again once; the notice says which.
 - The GitHub repo becomes `mdcrowley/actionstations` (GitHub redirects the old URL).
+
+## Update (#394, #396)
+
+The repositories moved to the `actionstations-ai` organization (`actionstations-ai/actionstations`), and before any public install the app id became `ai.actionstations.app` (dev bundle `ai.actionstations.app.dev`), matching the `ai.actionstations.*` pack ids. The settings folder and stored keys follow the product name, not the app id, so neither changed.
