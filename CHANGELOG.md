@@ -22,6 +22,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 #### Project
 
 - README badges for installer downloads, stars and forks, and a Project stats section with a downloads-over-time chart and the star-history.com stars chart (#378). `pnpm stats` (`scripts/repo-stats.mjs`) records a dated snapshot in `docs/stats/history.json`, counts installers only, keeps a replaced file's earlier downloads, and redraws the chart in light and dark; `pnpm release` runs it.
+- Financial services reference library 1.0.1 (#386): the five FFIEC documents that ffiec.gov serves only to browsers (Information Security, Business Continuity Management, Outsourcing Technology Services, Wholesale Payment Systems, Authentication and Access) are now in the pack, 37 documents in all. Information Security (September 2016) and Business Continuity Management (November 2019) are the same editions, re-pinned because ffiec.gov re-saved the PDFs in 2026; Outsourcing and Wholesale Payment Systems are pinned for the first time.
 
 ### Changed
 
