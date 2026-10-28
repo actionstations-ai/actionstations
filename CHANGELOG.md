@@ -8,6 +8,15 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-10-27
+
+Highlights: smaller installers (Windows 290 MB, Linux 327 MB, macOS 325 MB) that carry only their
+own platform's native code; PDF import and the built-in embedder working on Linux; a Windows
+save error fixed; lint definitions for facility-fact categories in the editor; six more example
+tabletops; new Scenario checks for defects found while building the examples; scene photos with
+screens switched off for cyber-only outages; and a complete public-domain FFIEC library for
+financial services. Windows and macOS installers are not code-signed yet.
+
 ### Added
 
 #### Editors and saving
