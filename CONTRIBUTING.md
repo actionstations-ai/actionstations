@@ -36,6 +36,7 @@ pnpm test                     # Vitest unit tests (run under Electron-as-Node, m
 pnpm lint && pnpm typecheck   # ESLint + tsc
 pnpm ci:local                 # full local CI: scripts/local-ci.sh
 pnpm badges                   # full local CI, then refresh the README badges in docs/badges/
+pnpm stats                    # snapshot downloads, stars and forks into docs/stats/ (README chart)
 pnpm e2e                      # Playwright end-to-end tests against the Electron app
 pnpm build                    # electron-builder installers (dmg / nsis / AppImage)
 ```
@@ -119,13 +120,17 @@ There is no hosted CI. `scripts/local-ci.sh` (`pnpm ci:local`) is the CI, and it
 
 ### Badges
 
-The repository is private, so shields.io and other badge services cannot read it. The README badges are SVG files in `docs/badges/`, written offline by `scripts/make-badges.mjs` as the last step of a full local CI run with `BADGES=1` (`pnpm badges`), so they only ever say "passing" after a green run. The step is off by default: `pnpm ci:local` and the pre-push hook never touch `docs/badges/`, so feature branches do not conflict over them. The values come from the run itself and the repository: the unit-test count from the Vitest summary, the e2e count from `playwright test --list`, the version and Electron version from `package.json`, the license from `LICENSE.md` and `LICENSE-EDUCATION.md`, the platforms from `electron-builder.yml`.
+The README badges for the build itself are SVG files in `docs/badges/`, written offline by `scripts/make-badges.mjs` as the last step of a full local CI run with `BADGES=1` (`pnpm badges`), so they only ever say "passing" after a green run. The step is off by default: `pnpm ci:local` and the pre-push hook never touch `docs/badges/`, so feature branches do not conflict over them. The values come from the run itself and the repository: the unit-test count from the Vitest summary, the e2e count from `playwright test --list`, the version and Electron version from `package.json`, the license from `LICENSE.md` and `LICENSE-EDUCATION.md`, the platforms from `electron-builder.yml`.
 
 The files are deterministic. `docs/badges/badges.json` holds the current values and the date on the "local CI" badge. A run that measures the same values keeps the old date and leaves the files untouched, so the tree stays clean. When a value changes (a test was added, the version moved) every changed badge is rewritten and the date becomes today's. Badges are refreshed in two places only: `pnpm badges` on an up-to-date `main`, committed in a small `chore(badges)` pull request, and `pnpm release`, which runs local CI with `BADGES=1` and on `--publish` commits the refreshed badges before `pnpm version`, so the tree is clean for the version bump.
 
 The GitHub social preview image (`docs/social-preview.png`, 1280 × 640) is built from the logo and a guide screenshot with `pnpm exec electron scripts/make-social-preview.mjs`. GitHub only takes it through the web UI: **Settings → General → Social preview → Edit → Upload an image**.
 
 If a new check is needed, add it to `scripts/local-ci.sh`. Never add files under `.github/workflows/`, Dependabot configuration, or anything else that runs on GitHub's compute ([ADR-0002](docs/adr/0002-local-ci-no-actions.md)).
+
+### Repository stats
+
+`pnpm stats` (`scripts/repo-stats.mjs`) reads stars, forks and every release's download counts with `gh api` (sign in with `gh auth login` first) and adds today's snapshot to `docs/stats/history.json`; a second run on the same day replaces it. Only installers count (`.dmg`, `.exe`, `.AppImage` and similar), not checksums, blockmaps or `latest-*.yml`. GitHub keeps no history and restarts an asset's count when the file is replaced, so the script keeps a per-file ledger: when a count drops, the earlier total is carried forward. It then redraws the README chart (`downloads-light.svg`, `downloads-dark.svg`) and the downloads badge. `pnpm release` runs it and, on `--publish`, commits the result in a `chore(stats)` commit; between releases, run it on an up-to-date `main` and commit it in a small `chore(stats)` pull request. `--offline` redraws from `history.json` without fetching. The stars and forks badges come live from shields.io, and the stars-over-time chart from star-history.com.
 
 ## Tests in more detail
 

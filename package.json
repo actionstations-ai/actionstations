@@ -32,6 +32,7 @@
     "e2e": "electron-vite build && playwright test",
     "ci:local": "bash scripts/local-ci.sh",
     "badges": "BADGES=1 bash scripts/local-ci.sh",
+    "stats": "node scripts/repo-stats.mjs",
     "rebuild:native": "electron-builder install-app-deps",
     "prepare": "husky"
   },

@@ -118,6 +118,20 @@ else
   fi
 fi
 
+step "repository stats (docs/stats/)"
+# Downloads, stars and forks for the README chart (#378). GitHub keeps no history, so each
+# release records a snapshot; `pnpm stats` adds one any other time.
+node scripts/repo-stats.mjs
+if [[ -n "$(git status --porcelain -- docs/stats)" ]]; then
+  if [[ $PUBLISH == 1 ]]; then
+    git add docs/stats
+    git commit --quiet --no-verify -m "chore(stats): snapshot for v${VERSION} (#${ISSUE})"
+    echo "committed repository stats"
+  else
+    echo "note: docs/stats/ changed (dry run: not committed)"
+  fi
+fi
+
 step "version bump → ${VERSION}"
 if [[ $PUBLISH == 1 ]]; then
   pnpm version "$VERSION" --message "chore(release): v%s (#${ISSUE})"
