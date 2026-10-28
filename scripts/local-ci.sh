@@ -38,7 +38,8 @@ if [[ "$QUICK" != "--quick" ]]; then
   # Last, so badges only ever say "passing" after a full green run. Files change only when a
   # value does (counts, version, license, Electron); see scripts/make-badges.mjs.
   if [[ "${BADGES:-0}" == "1" ]]; then
-    step "badges (docs/badges/)";     node scripts/make-badges.mjs --unit-log "$UNIT_LOG"
+    # BADGE_VERSION: the version release.sh is about to tag (#388).
+    step "badges (docs/badges/)";     node scripts/make-badges.mjs --unit-log "$UNIT_LOG" ${BADGE_VERSION:+--version "$BADGE_VERSION"}
   fi
 fi
 printf '\n\033[1;32m✔ local CI passed\033[0m\n'

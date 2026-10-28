@@ -5,6 +5,7 @@ import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import {
   badgeValues,
+  badgeVersion,
   buildBadgeFiles,
   escapeXml,
   licenseName,
@@ -147,5 +148,12 @@ describe('writeChanged', () => {
     expect(writeChanged(dir, files)).toEqual([])
     expect(statSync(join(dir, 'ci.svg')).mtimeMs).toBe(before)
     expect(readdirSync(dir)).toHaveLength(Object.keys(files).length)
+  })
+})
+
+describe('badgeVersion (#388)', () => {
+  it('uses the version being released over package.json', () => {
+    expect(badgeVersion({ version: '0.5.0' }, { version: '0.4.0' })).toBe('0.5.0')
+    expect(badgeVersion({}, { version: '0.4.0' })).toBe('0.4.0')
   })
 })

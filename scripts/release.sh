@@ -106,7 +106,7 @@ else
   step "local CI"
   # BADGES=1 refreshes docs/badges/. On --publish the changes are committed here, so the tree is
   # clean again before `pnpm version`; a dry run leaves them uncommitted for you to inspect.
-  BADGES=1 pnpm ci:local
+  BADGE_VERSION="$VERSION" BADGES=1 pnpm ci:local
   if [[ -n "$(git status --porcelain -- docs/badges)" ]]; then
     if [[ $PUBLISH == 1 ]]; then
       git add docs/badges

@@ -5,6 +5,10 @@
 // after every other step passed, and passes the unit-test log so the count is not re-run.
 //
 //   node scripts/make-badges.mjs [--unit-log FILE] [--e2e-tests N] [--e2e-files N] [--date YYYY-MM-DD] [--out DIR]
+//                                [--version X.Y.Z]
+//
+// --version: the version being released. scripts/release.sh refreshes the badges before
+// `pnpm version` bumps package.json, so it passes the new version here (#388).
 //
 // Determinism: the "local CI" badge carries the date of the last green run that changed any
 // other badge value. When every value matches docs/badges/badges.json the old date is kept and
@@ -185,6 +189,11 @@ function localDate() {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
+/** The version badge value: the release in progress if given, else package.json's. */
+export function badgeVersion(args, pkg) {
+  return args.version ?? pkg.version
+}
+
 function parseArgs(argv) {
   const args = {}
   for (let i = 0; i < argv.length; i += 2) {
@@ -233,7 +242,7 @@ function main() {
     unitTests,
     e2eTests: e2e.tests,
     e2eFiles: e2e.files,
-    version: pkg.version,
+    version: badgeVersion(args, pkg),
     license: licenseName(
       readFileSync(join(ROOT, 'LICENSE.md'), 'utf8'),
       existsSync(join(ROOT, 'LICENSE-EDUCATION.md')),
