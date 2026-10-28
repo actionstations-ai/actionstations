@@ -16,7 +16,7 @@ Every change follows these rules, and a pull request that breaks one is not merg
 
 ## Set up
 
-Prerequisites are in the [README](README.md#prerequisites) (Node.js 22.12+, pnpm 10, native build tools). Then:
+Prerequisites are in the [README](README.md#prerequisites) (Git LFS, Node.js 22.12+, pnpm 10, native build tools). Images, PDFs, Office files, fonts and media are stored with Git LFS (`.gitattributes`); the Husky hooks run its commands, so a clone made before `git lfs install` needs `git lfs pull`. Then:
 
 ```bash
 pnpm install          # also installs the git hooks (Husky) and rebuilds native modules for Electron

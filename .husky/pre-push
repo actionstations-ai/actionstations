@@ -1,2 +1,5 @@
 #!/usr/bin/env sh
+# Git LFS (#399): Husky owns core.hooksPath, so the LFS hooks are called from here.
+command -v git-lfs >/dev/null 2>&1 || { printf "\nThis repository uses Git LFS, which was not found on your PATH: install it (https://git-lfs.com).\n" >&2; exit 2; }
+git lfs pre-push "$@" || exit 1
 bash scripts/local-ci.sh
