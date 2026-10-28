@@ -30,7 +30,7 @@ repository is public and the workflow uses standard runners only ([ADR-0023](adr
    `chore(release): vX.Y.Z (#N)` + tag `vX.Y.Z`), pushes `main` and the tag, and creates a
    **draft** GitHub release with the CHANGELOG section as notes.
 6. The tag push starts the **Release installers** workflow (`gh run watch`). Each of its three
-   jobs builds one installer on its own OS (macOS 15 arm64, Windows Server 2025 x64, Ubuntu
+   jobs builds one installer on its own OS (macOS 15 arm64, Windows Server 2022 x64, Ubuntu
    24.04 x64), runs `pnpm package:smoke` against it, and uploads the installer and its `.sha256`
    file to the draft. It only ever uploads to a draft. To rebuild a draft's installers, run the
    workflow by hand from the Actions tab with the tag.
