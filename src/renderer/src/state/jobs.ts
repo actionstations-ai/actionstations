@@ -82,6 +82,7 @@ export const JOB_LABEL: Record<JobKind, string> = {
   'simcell-capability': 'Checking the SimCell model',
   'map-download': 'Downloading a state map',
   'map-area': 'Downloading a map area',
+  'compliance-map': 'Suggesting compliance controls',
 }
 const MAX_FINISHED = 50
 const MAX_ITEMS = 500

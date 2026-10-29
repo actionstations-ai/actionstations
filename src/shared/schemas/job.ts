@@ -29,6 +29,7 @@ export const JobKind = z.enum([
   'simcell-capability',
   'map-download',
   'map-area',
+  'compliance-map',
 ])
 export type JobKind = z.infer<typeof JobKind>
 

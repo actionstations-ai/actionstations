@@ -5,6 +5,7 @@ import { join } from 'node:path'
 import type { MicroDrillListItem } from '@shared/schemas'
 import { debriefHtml, debriefOf } from '../../microdrill/debrief'
 import { buildMicroDrill } from '../../microdrill/build'
+import { buildFromScenario } from '../../microdrill/from-scenario'
 import { listAnnexes, openChunks } from '../../microdrill/annex'
 import { saveEditedDrill } from '../../microdrill/edit'
 import { reportToProgram } from '../../microdrill/program'
@@ -76,6 +77,16 @@ export default defineHandlers({
       'build-micro-drill',
       (ctx) => buildMicroDrill(root, { documentId, headingPath, settings }, ctx),
       { projectPath: root, payload: { documentId, headingPath } },
+    )
+    return { jobId: job.id }
+  },
+
+  'microdrills:from-scenario': async ({ projectPath, scenarioId, settings }) => {
+    const root = await requireProject(projectPath)
+    const job = jobs.start(
+      'build-micro-drill',
+      (ctx) => buildFromScenario(root, scenarioId, settings, ctx),
+      { projectPath: root, scenarioId },
     )
     return { jobId: job.id }
   },

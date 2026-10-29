@@ -24,6 +24,7 @@ interface RowOpsDeps {
   confirmDelete: (key: string) => void
   /** Open the "Starts reporting clocks" dialog for a row (#426). */
   editTriggers: (key: string) => void
+  editControls: (key: string) => void
   toggleSelect: (key: string, range: boolean) => void
   togglePhaseSelect: (phaseId: string) => void
   /** Open the source-check details of a row (#423). */
@@ -66,6 +67,7 @@ export function useRowOps(d: RowOpsDeps) {
     if (d.isReadOnly(key)) return
     if (action === 'duplicate') return applyInsert(duplicateRow(draft, key))
     if (action === 'clocks') return d.editTriggers(key)
+    if (action === 'controls') return d.editControls(key)
     if (action.startsWith('move:')) {
       edit(moveToPhase(draft, new Set([key]), action.slice(5)))
       return grid.focus({ line: key, col: 'time' })

@@ -1,22 +1,27 @@
 // Change the status of one or several corrective actions (FR-5). The rules are the shared ones
 // main enforces: a note for deferred and cancelled, a verification for verified.
 import { useState } from 'react'
+import { drillEvidenceFor, evidenceNote, suggestedResult } from '@shared/program/drill-evidence'
 import { statusChangeProblem } from '@shared/program/status'
 import {
   CORRECTIVE_ACTION_STATUSES,
   CORRECTIVE_ACTION_STATUS_LABELS,
   type CorrectiveActionStatus,
   type CorrectiveActionVerification,
+  type PlanSectionRef,
 } from '@shared/schemas'
 import { Button, Dialog, Field } from '../../components/ui'
 import { call } from '../../lib/api'
 import { errorText } from '../../lib/errors'
+import { useIpcQuery } from '../../lib/query'
 import { refreshProgramQueries } from '../../state/program'
 
 export function StatusDialog(props: {
   programPath: string
   ids: string[]
   current?: CorrectiveActionStatus
+  /** The plan sections of the action (one action only): micro-drill runs on them can be evidence. */
+  planSections?: readonly PlanSectionRef[]
   onClose: (changedTo?: CorrectiveActionStatus) => void
 }) {
   const choices = CORRECTIVE_ACTION_STATUSES.filter((s) => s !== props.current)
@@ -26,9 +31,32 @@ export function StatusDialog(props: {
   const [result, setResult] = useState<'pass' | 'partial' | 'fail'>('pass')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+  const [evidenceKey, setEvidenceKey] = useState('')
+  const snapshots = useIpcQuery(
+    'program:snapshots',
+    { programPath: props.programPath },
+    { enabled: to === 'verified' && !!props.planSections?.length },
+  )
+  const evidence = drillEvidenceFor(props.planSections ?? [], snapshots.data ?? [])
+  const chosen = evidence.find((e) => e.run.runId === evidenceKey)
+  const pickEvidence = (runId: string) => {
+    setEvidenceKey(runId)
+    const found = evidence.find((e) => e.run.runId === runId)
+    if (!found) return
+    setMethod('review')
+    setResult(suggestedResult(found.run.coverage))
+    setNote(evidenceNote(found))
+    setError('')
+  }
   const verification = (): CorrectiveActionVerification | undefined =>
     to === 'verified'
-      ? { method, result, at: new Date().toISOString(), note: note.trim() }
+      ? {
+          method,
+          result,
+          at: new Date().toISOString(),
+          note: note.trim(),
+          ...(chosen ? { projectId: chosen.projectId } : {}),
+        }
       : undefined
 
   const submit = async () => {
@@ -126,6 +154,30 @@ export function StatusDialog(props: {
               )}
             </Field>
           </div>
+        )}
+        {to === 'verified' && evidence.length > 0 && (
+          <Field
+            label="Use a short drill as evidence"
+            hint="Drills on a plan section this action cites. Only totals are kept, never answers or names."
+          >
+            {({ id, describedBy }) => (
+              <select
+                id={id}
+                className="select"
+                aria-describedby={describedBy}
+                value={evidenceKey}
+                onChange={(e) => pickEvidence(e.target.value)}
+              >
+                <option value="">No drill</option>
+                {evidence.map((e) => (
+                  <option key={e.run.runId} value={e.run.runId}>
+                    {e.run.at.slice(0, 10)}: {e.run.planSection.headingPath} (
+                    {Math.round(e.run.coverage * 100)}% covered, {e.run.participants} people)
+                  </option>
+                ))}
+              </select>
+            )}
+          </Field>
         )}
         <Field label={noteLabel} {...(error ? { error } : {})}>
           {({ id, describedBy, invalid }) => (

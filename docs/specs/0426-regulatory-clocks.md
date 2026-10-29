@@ -439,8 +439,14 @@ Not built yet (follow-up issue):
   for clocks.
 - Firing a trigger from a live-play message (FR-6c) waits for #418; the state is ready for it
   (`by: 'live'`).
-- The "Compliance coverage" section of the DOCX exports and the coverage preview tab on the
-  scenario page.
+- The coverage preview tab on the scenario page.
+
+Follow-up (#499):
+
+- **Controls chips (FR-11).** Row actions, **Controls...** opens a dialog: accepted controls (solid chips, remove), suggestions (dashed chips, accept or dismiss), and a searchable picker over the enabled frameworks. Suggestions come from the rules until the row's suggestions have been saved once; saving stores the remaining ones as `controlSuggestions`, so a dismissed suggestion stays dismissed in the editor. The coverage matrix still runs the rules itself, so a dismissed rule suggestion still counts as "Suggested" there.
+- **Generation hook.** After each `msel_phase` step the rules of the enabled frameworks store `controlSuggestions` (`by: 'rule'`) on the phase's rows; model suggestions already on a row are kept. There is no `compliance:suggest-rules` channel: the editor runs the same rules from the frameworks `compliance:list` returns. The `regulations` prompt variable and `MselPhaseOutput.triggers` are still not built.
+- **Model-assisted mapping (FR-12).** Off unless the project switches on **Settings, Compliance, Let the model suggest controls** (`ProjectCompliance.modelMapping`, default false). Then the Controls dialog shows **Suggest controls with <provider>**, and says whether the provider is local. `compliance:suggest-model` runs stage `compliance_map` (prompt `prompts/compliance_map.md`, task `critique`, schema `ComplianceMapOutput`) for one row or all rows (25 per call, at most 150), drops references that are not controls of an enabled framework, and returns suggestions that the editor shows as dashed chips. Nothing is stored or accepted by the job.
+- **Word.** The classroom handbook DOCX ends with the Compliance coverage section, and the HSEEP Controller/Evaluator Handbook (PDF and DOCX) has **Appendix F: Compliance Coverage**, both only when a framework or regulation is switched on.
 
 ## Open questions
 

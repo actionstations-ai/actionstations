@@ -7,6 +7,8 @@ import { ProposalResult } from '@shared/branching/proposal'
 import type { BranchingLogInput, FacilitatorState } from '@shared/ipc/facilitator'
 import type { MselRow, Scenario } from '@shared/schemas/scenario'
 import { Button } from '../../components/ui'
+import { GroundingBadge } from '../../components/GroundingBadge'
+import { shownLabel } from '../../lib/grounding'
 import { call } from '../../lib/api'
 import { errorText } from '../../lib/errors'
 import { queryClient } from '../../lib/query'
@@ -46,12 +48,13 @@ function verdictState(
   }
 }
 
-function ProposalCard(props: {
+export function ProposalCard(props: {
   result: ProposalResult
   onAccept: () => void
   onReject: () => void
 }) {
   const r = props.result.row
+  const unsupported = shownLabel(props.result.grounding) === 'unsupported'
   return (
     <article className="fac-proposal" aria-label="Proposed inject">
       <h4>
@@ -63,10 +66,16 @@ function ProposalCard(props: {
       <p>
         <strong>Expected action:</strong> {r.expectedAction}
       </p>
+      {props.result.grounding && (
+        <p>
+          <GroundingBadge result={props.result.grounding} />{' '}
+          <span className="muted">{props.result.grounding.reason}</span>
+        </p>
+      )}
       <p className="muted">Nothing is delivered until you accept it.</p>
       <div className="fac-decision__buttons">
-        <Button variant="primary" onClick={props.onAccept}>
-          Accept and add to the branch
+        <Button variant={unsupported ? 'default' : 'primary'} onClick={props.onAccept}>
+          {unsupported ? 'Accept anyway' : 'Accept and add to the branch'}
         </Button>
         <Button onClick={props.onReject}>Reject</Button>
       </div>

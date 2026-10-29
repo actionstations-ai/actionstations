@@ -22,6 +22,7 @@ Where the code differs from the design below, and why:
 - `StageCall` also gained `decorateVars(retrieved)`, so the msel_phase prompt can name the pinned passages' C keys.
 - The MSEL grid's Seam tag shows the passages as tooltip and screen-reader text instead of a popover, so the grid's keyboard navigation is unchanged.
 - The Seam marker in the controller MSEL is added in `views.ts` to the Source check cell ("Grounded · Seam"); it shows when the export asks for that column.
+- The Excel MSEL (`msel_xlsx`) gets a **Plan Seam** column ("Seam: <slot label>") only when a row has a `seamId`, and the HSEEP Controller/Evaluator Handbook (PDF and Word) gets **Plan Seams This Exercise Tests** under Controller Instructions unless the handbook markdown already carries it (#499).
 - `SEAM_OUTDATED` needs the plan check's file, so it is computed where the file is read (Scenario checks and the critique step), not in the pure `lintScenario`.
 
 ## Requirements

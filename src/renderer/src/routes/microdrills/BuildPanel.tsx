@@ -9,6 +9,7 @@ import { call } from '../../lib/api'
 import { errorText } from '../../lib/errors'
 import { useIpcQuery } from '../../lib/query'
 import { useJobSettled, useTrackedJob } from '../../state/use-jobs'
+import { FromScenario } from './FromScenario'
 
 const DEFAULTS: MicroDrillSettings = {
   audience: 'new_staff',
@@ -192,6 +193,7 @@ export function BuildPanel(props: { projectPath: string; onBuilt: (drillId: stri
           </div>
         )}
       </div>
+      <FromScenario projectPath={projectPath} settings={settings} />
     </section>
   )
 }

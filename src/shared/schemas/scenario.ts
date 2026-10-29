@@ -345,6 +345,10 @@ export const STAGES = [
   'objectives_roles',
   'phase_plan',
   'msel_phase',
+  /** Rows for each option of a decision (#430); on demand from the Branches panel. */
+  'branch_plan',
+  /** Controls a model suggests for MSEL rows (#426); on demand from the MSEL editor. */
+  'compliance_map',
   'inject_text',
   'inject_media_brief',
   'media_render',

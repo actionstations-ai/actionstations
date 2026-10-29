@@ -50,6 +50,18 @@ export const generateChannels = {
     }),
     JobRef,
   ),
+  /**
+   * Draft the rows of every branch of a decision (spec 0430 FR-11). The job result is a
+   * BranchPlanResult; the scenario is not changed: the editor applies the rows.
+   */
+  'generate:branch-plan': channel(
+    P.extend({
+      scenarioId: SafeId,
+      decisionRowId: z.string().min(1).max(64),
+      instructions: z.string().max(1000).optional(),
+    }),
+    JobRef,
+  ),
   'generate:media': channel(
     P.extend({
       scenarioId: SafeId,

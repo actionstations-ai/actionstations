@@ -11,7 +11,7 @@ modelHints:
 retrieval:
   queries: []
   k: 1
-variables: [project, annex, settings, passages]
+variables: [project, annex, settings, passages, scenarioSituation]
 ---
 
 <!-- @system -->
@@ -29,6 +29,8 @@ Rules for each question:
 - `hint3` says in your own words what the plan requires and gives `quote`, a sentence or phrase copied word for word from the passage named in `source`, with no ellipsis and no changes.
 - `modelAnswer`: two or three sentences a participant can compare with their own answer.
 
+When an exercise situation is given, reuse it in shortened form as the drill's situation, provided the annex supports it; the questions and expected points still come only from the annex.
+
 Write the number of questions asked for, in an order a real incident would raise them. Fit the duration: about two minutes for the situation and three minutes per question. The situation is a few sentences in the present tense. Write one or two objectives; `capability` is optional and only for an objective that clearly matches a Core Capability id you know.
 
 Return JSON only, matching the schema. Start your reply with the opening brace of the JSON object.
@@ -39,6 +41,7 @@ Audience: {{settings.audience}}
 Duration: {{settings.durationMin}} minutes
 Questions: {{settings.stepCount}}
 {{#if settings.focus}}Focus: {{settings.focus}}
+{{/if}}{{#if scenarioSituation}}Exercise situation (data): {{scenarioSituation}}
 {{/if}}
 <documents>
 <document source="{{annex.documentTitle}}" section="{{annex.headingPath}}">

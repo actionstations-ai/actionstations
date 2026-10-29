@@ -44,6 +44,14 @@ export const microDrillChannels = {
     }),
     z.object({ jobId: SafeId }),
   ),
+  /**
+   * Build one draft drill per plan section the scenario's overview says it tests (FR-7), up to
+   * five. The job result is `{ drillIds, skipped }`.
+   */
+  'microdrills:from-scenario': channel(
+    P.extend({ scenarioId: SafeId, settings: MicroDrillSettings }),
+    z.object({ jobId: SafeId }),
+  ),
   'microdrills:get': channel(P.extend({ id: SafeId }), MicroDrill),
   /** Save an edit: the build checks run again; Ready needs no open problems or an override. */
   'microdrills:save': channel(P.extend({ drill: MicroDrill }), MicroDrill),

@@ -165,9 +165,24 @@ export function mselRowValues(model: ExportModel, row: MselRow, phase: string): 
 
 const BRANCH_COLUMN: ColumnSpec = { key: 'branch', header: 'Branch', width: 22 }
 
-/** The MSEL columns; a branched scenario gets a Branch column after the inject number. */
-const columnsFor = (branched: boolean): readonly ColumnSpec[] =>
-  branched ? [MSEL_COLUMNS[0], BRANCH_COLUMN, ...MSEL_COLUMNS.slice(1)] : MSEL_COLUMNS
+const SEAM_COLUMN: ColumnSpec = { key: 'seam', header: 'Plan Seam', width: 28, wrap: true }
+
+/** The MSEL columns; a branched scenario gets a Branch column, one with seam rows a Plan Seam column. */
+function columnsFor(branched: boolean, seamed = false): readonly ColumnSpec[] {
+  const cols: ColumnSpec[] = [...MSEL_COLUMNS]
+  if (branched) cols.splice(1, 0, BRANCH_COLUMN)
+  if (seamed) cols.splice(cols.findIndex((c) => c.key === 'purpose') + 1, 0, SEAM_COLUMN)
+  return cols
+}
+
+const hasSeamRows = (model: ExportModel): boolean => model.scenario.msel.some((r) => r.seamId)
+
+/** "Seam: Who approves public releases" on a row that tests a plan seam (#427), else "". */
+function seamCell(model: ExportModel, row: MselRow): string {
+  if (!row.seamId) return ''
+  const seam = model.scenario.seams?.find((x) => x.id === row.seamId)
+  return seam ? `Seam: ${seam.slotLabel}` : 'Seam'
+}
 
 /** "B1 Pay" for a branch row, "" on the trunk. */
 function branchCell(model: ExportModel, row: MselRow): string {
@@ -177,7 +192,12 @@ function branchCell(model: ExportModel, row: MselRow): string {
 
 function sheetRow(model: ExportModel, row: MselRow, phase: string, branched: boolean): string[] {
   const values = mselRowValues(model, row, phase)
-  return branched ? [values[0]!, branchCell(model, row), ...values.slice(1)] : values
+  if (branched) values.splice(1, 0, branchCell(model, row))
+  if (hasSeamRows(model)) {
+    const at = columnsFor(branched, true).findIndex((c) => c.key === 'seam')
+    values.splice(at, 0, seamCell(model, row))
+  }
+  return values
 }
 
 function mselSheet(model: ExportModel): SheetSpec {
@@ -194,7 +214,12 @@ function mselSheet(model: ExportModel): SheetSpec {
       })
     }
   })
-  return { name: 'MSEL', columns: columnsFor(branched), rows, style: (i) => styles[i] }
+  return {
+    name: 'MSEL',
+    columns: columnsFor(branched, hasSeamRows(model)),
+    rows,
+    style: (i) => styles[i],
+  }
 }
 
 /** Excel sheet names: at most 31 characters, none of []:*?/\ , unique within the workbook. */
@@ -221,7 +246,7 @@ function branchSheets(model: ExportModel): SheetSpec[] {
   }
   return [...buildGraph(s).branches.values()].map((node) => ({
     name: sheetName(`Branch ${node.branch.id.toUpperCase()} ${node.branch.label}`, taken),
-    columns: columnsFor(true),
+    columns: columnsFor(true, hasSeamRows(model)),
     rows: node.rows.map((r) => sheetRow(model, r, phaseOf(r), true)),
   }))
 }

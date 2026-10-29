@@ -166,6 +166,7 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
     grid,
     confirmDelete: dialogs.setConfirmDelete,
     editTriggers: dialogs.setTriggersFor,
+    editControls: dialogs.setControlsFor,
     toggleSelect: sel.toggle,
     togglePhaseSelect: sel.togglePhase,
     openSources: (key) => setSourcesRow(draft.rows.find((r) => r.key === key)?.row.id ?? null),
@@ -238,6 +239,7 @@ export function MselEditor(props: { projectPath: string; scenario: Scenario; jum
         filter={path.filter}
         onFilter={path.set}
         onJump={jumpTo}
+        generate={{ projectPath, scenarioId: scenario.id, dirty: isDirty(state) }}
       />
       <SourceCheckBar
         projectPath={projectPath}

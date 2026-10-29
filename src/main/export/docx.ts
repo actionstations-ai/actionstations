@@ -23,6 +23,7 @@ import {
 } from 'docx'
 import { Lexer, type Token, type Tokens } from 'marked'
 import { aarView, type AarView } from './aar'
+import { coverageMarkdown, hasCoverage } from './coverage'
 import { eegView, evaluatorCopies } from './eeg'
 import { hasHeading, stripEndNote, stripSectionMarkers } from './escape'
 import type { ExportModel } from './model'
@@ -278,6 +279,8 @@ function handbookExtras(model: ExportModel): Block[] {
       )
     }
   }
+  if (hasCoverage(model.coverage))
+    out.push(...markdownBlocks(coverageMarkdown(model.coverage), 2, true))
   return out
 }
 

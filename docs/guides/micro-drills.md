@@ -90,8 +90,21 @@ Drills, answers and names stay in the project folder (`micro-drills/`, `micro-dr
 and keeps the labels and results. Only the section text, a question, its expected points and the
 answer go to a model, and only to the provider you set for drafting.
 
+## From a scenario
+
+On the Build panel, **Make drills from this scenario** builds one draft drill for each plan
+section the scenario says it tests (up to five), using the settings above and the scenario's
+situation in shortened form. Sections too large for a drill are skipped and counted. Every drill
+is a draft: read it before you mark it Ready.
+
+## As evidence for a corrective action
+
+When you mark a corrective action Verified, the status dialog lists finished drill runs on a plan
+section the action cites. Choosing one sets the check to Review, suggests a result from the share
+of expected points covered, and writes a note that names the run. Only the totals the program
+keeps are used, never answers or names. You can change the result and the note.
+
 ## Not in this version
 
-Running a drill on players' own devices through the live player page, building drills from a
-scenario's tested sections, and offering a run as evidence when verifying a corrective action
-are specified in `docs/specs/0437-micro-tabletops.md` and not built yet.
+Running a drill on players' own devices through the live player page is specified in
+`docs/specs/0437-micro-tabletops.md` and not built yet.
