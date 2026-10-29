@@ -1182,3 +1182,82 @@
   overflow-wrap: anywhere;
   font-family: var(--font-mono, monospace);
 }
+
+/* Room and session log (#417) */
+.room {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.room-grid {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) minmax(0, 3fr);
+  gap: var(--space-4);
+}
+@media (max-width: 52rem) {
+  .room-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.room-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.room-caption {
+  text-align: left;
+  font-weight: var(--weight-semibold);
+  padding-bottom: var(--space-2);
+}
+.room-heading {
+  font-size: var(--text-md);
+  margin: 0 0 var(--space-2);
+}
+.room-table th[scope='row'] {
+  font-weight: var(--weight-semibold);
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: var(--text-sm);
+  color: inherit;
+}
+.room-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.room-summary {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.room-line {
+  display: flex;
+  gap: var(--space-3);
+}
+.room-line dt {
+  font-weight: var(--weight-semibold);
+  min-width: 7rem;
+}
+.room-line dd {
+  margin: 0;
+}
+.room-health {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+.room-log__controls,
+.room-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+.live-past {
+  margin-top: var(--space-6);
+}

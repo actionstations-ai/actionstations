@@ -50,6 +50,7 @@ import {
 import { storeAttachment } from './attachments'
 import { Messages, type MessageRole, type MessageSeat } from './messages'
 import { LogWriter } from './log'
+import { countEntries, readAll } from './log-read'
 import { deleteSessionKeys, writeSessionKeys } from './keys'
 import { Seats, type Seat } from './seats'
 import { runSessionEndHooks } from './end-hooks'
@@ -734,6 +735,37 @@ export const pinMessage = (root: string, scenarioId: string, messageId: string) 
   activeFor(root, scenarioId).messages.pin(messageId)
 
 /** True while a session for this scenario runs (Deliver also goes to devices then). */
+/** Flush the running session's log so a read sees every entry; no-op when none runs. */
+export async function flushActiveLog(root: string, scenarioId: string): Promise<void> {
+  if (active && active.root === root && active.session.scenarioId === scenarioId) {
+    await active.log.flush()
+  }
+}
+
+/** Facilitator marks a release answered (spec 0417 FR-9); logged, then the Room refreshes. */
+export async function markAnswered(
+  root: string,
+  scenarioId: string,
+  releaseId: string,
+  note?: string,
+): Promise<void> {
+  const a = active
+  if (!a || a.root !== root || a.session.scenarioId !== scenarioId) {
+    throw new AppError('NOT_FOUND', 'No live session is running for this scenario')
+  }
+  const rowId = (await releaseSummaries(root, scenarioId)).find(
+    (r) => r.releaseId === releaseId,
+  )?.rowId
+  if (!rowId) throw new AppError('NOT_FOUND', 'No such release in this session')
+  await a.log.append({
+    kind: 'inject.answered',
+    actor: { kind: 'controller' },
+    ref: { rowId, releaseId },
+    data: note ? { note: note.slice(0, 500) } : {},
+  })
+  emitChanged('receipts')
+}
+
 export function isLiveFor(root: string, scenarioId: string): boolean {
   return active?.root === root && active.session.scenarioId === scenarioId
 }
@@ -789,6 +821,7 @@ async function teardown(a: Active, reason: 'endex' | 'cancelled'): Promise<LiveS
   a.session = { ...a.session, endedAt: new Date().toISOString() }
   await a.log.append({ kind: 'session.end', actor: { kind: 'controller' }, data: { reason } })
   await a.log.flush()
+  a.session = { ...a.session, summary: countEntries(await readAll(a.log.path)) }
   await writeSessionFile(a)
   await deleteSessionKeys(a.session.id).catch(() => undefined)
   return a.session

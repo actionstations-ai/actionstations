@@ -250,3 +250,23 @@ For the facilitator, in the **Messages** tab beside **Live**:
 - **Reply as** picks who is speaking: the SimCell scripts' roles, the senders in the MSEL, SimCell, Controller, or any name. The scripts for that persona appear under the thread; **Insert** puts a question or concession in the box without sending it.
 - **Mark handled** clears the waiting time for a message that needs no answer. **Star** marks it for the AAR. **Pin to hot wash** records it in the session log for the hot wash. Players never see these marks.
 - The log keeps each message with the role (never the name at attribution by role) and exercise time; the controller is always recorded as the sender of an answer.
+
+## The Room and the session log
+
+The **Room** tab in Facilitate is the one place to see how a live session is going. It follows the session as it happens and also opens for a past one (**View** in the Live tab).
+
+- **Seats** shows how many devices are connected in each seat. A player seat nobody has joined is marked **Empty**.
+- **Released injects** lists each inject you released with how many devices have it delivered, read and acted on, how long the median device took to read it, and what answered it.
+- **Unanswered injects** lists a release that expects a response and has had none after 10 minutes. It counts as answered when a targeted seat marks it acted on, when a player in a targeted seat sends a message after the release, or when you press **Mark answered**. Each newly unanswered inject is announced once by the screen reader's status region.
+- **Messages**, **Votes**, **Hot wash** and **Evaluation** give one line each. The line at the top shows connected devices, dropped frames by reason and the size of the log.
+
+**Log** opens the newest 200 entries of the session log with a kind filter and a search box. **Load earlier** adds older entries. **Star** marks a message for the after-action report.
+
+### Past sessions
+
+The Live tab lists the scenario's earlier sessions with their length and counts. A session that was never ended (the app closed or the computer lost power) is marked **Interrupted**; **Close as ended** ends it at the time of its last entry. This version cannot reconnect devices to an interrupted session.
+
+- **Export JSON** and **Export CSV** write the log to a file you choose. The CSV opens in a spreadsheet. Names are left out unless the session was run with display names and you tick **Include display names**.
+- **Delete session data** removes the session's log, attachments and staged media from the project folder. It cannot be undone. The facilitator notes and the evaluation for the scenario are not touched.
+
+The log is a plain file in the project folder (`scenarios/<id>/live/<sessionId>/log.jsonl`). It holds the exercise content in the clear, like the rest of the project; protect the folder as you protect the scenario.

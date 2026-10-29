@@ -22,6 +22,8 @@ import { tallySourceFromVotes } from '@shared/branching/vote-input'
 import { useLiveVotes } from './live/use-live-votes'
 import { VotePanel } from './live/VotePanel'
 import { VOTES } from './live/vote-strings'
+import { RoomPanel } from './live/RoomPanel'
+import { SessionsList } from './live/SessionsList'
 import { LIVE } from './live/strings'
 import type { TimelineEntry } from './Timeline'
 import type { UpdateState } from './use-delivery-actions'
@@ -194,6 +196,9 @@ export function SidePanel(props: {
         <Tabs.Trigger value="live" className="fac-tabs__trigger">
           {LIVE.tab}
         </Tabs.Trigger>
+        <Tabs.Trigger value="room" className="fac-tabs__trigger">
+          Room
+        </Tabs.Trigger>
         <Tabs.Trigger value="messages" className="fac-tabs__trigger">
           <MessagesTabLabel projectPath={props.projectPath} scenarioId={props.scenario.id} />
         </Tabs.Trigger>
@@ -263,6 +268,10 @@ export function SidePanel(props: {
       </Tabs.Content>
       <Tabs.Content value="live" className="fac-tabs__panel">
         <LivePanel projectPath={props.projectPath} scenarioId={props.scenario.id} />
+        <SessionsList projectPath={props.projectPath} scenario={props.scenario} />
+      </Tabs.Content>
+      <Tabs.Content value="room" className="fac-tabs__panel">
+        <RoomPanel projectPath={props.projectPath} scenario={props.scenario} />
       </Tabs.Content>
       <Tabs.Content value="votes" className="fac-tabs__panel">
         <VotePanel projectPath={props.projectPath} scenario={props.scenario} update={update} />
