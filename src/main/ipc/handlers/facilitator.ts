@@ -5,6 +5,7 @@ import { requireProject } from '../../project/guard'
 import { readFacilitatorState, writeFacilitatorState } from '../../facilitator/state'
 import { appendBranchingEntries, checkBranchingReplay } from '../../facilitator/branching-log'
 import { closePresent, isPresenting, listDisplays, present } from '../../facilitator/present'
+import { engagementCacheFile } from '../../render/engagement'
 import { scenarioLayout } from '../../scenario/layout'
 import { requireScenarioDir } from '../../scenario/store'
 import { defineHandlers, type HandlerContext } from '../registry'
@@ -45,12 +46,21 @@ export default defineHandlers({
 
   'facilitator:displays': () => listDisplays(),
 
-  'facilitator:present': async ({ projectPath, scenarioId, injectId, assetId, displayId }, ctx) => {
+  'facilitator:present': async (
+    { projectPath, scenarioId, injectId, assetId, cachePath, displayId },
+    ctx,
+  ) => {
     const root = await requireProject(projectPath)
     await requireInject(root, scenarioId, injectId)
     const owner = ownerWindow(ctx)
     present(
-      { projectPath: root, scenarioId, injectId, ...(assetId ? { assetId } : {}) },
+      {
+        projectPath: root,
+        scenarioId,
+        injectId,
+        ...(assetId ? { assetId } : {}),
+        ...(cachePath ? { cachePath: engagementCacheFile(root, cachePath) } : {}),
+      },
       { ...(displayId !== undefined ? { displayId } : {}), ...(owner ? { owner } : {}) },
     )
   },

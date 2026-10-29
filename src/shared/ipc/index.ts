@@ -16,6 +16,7 @@ import { comfyChannels } from './comfy'
 import { exportChannels } from './export'
 import { facilitatorChannels, PresentChangedEvent } from './facilitator'
 import { evaluationChannels } from './evaluation'
+import { trackerChannels } from './tracker'
 import { exampleChannels } from './examples'
 import { domainChannels, DomainsChangedEvent } from './domains'
 import { packChannels, PacksChangedEvent } from './packs'
@@ -54,6 +55,7 @@ export {
   PREVIEW_DOC_IDS,
 } from './export'
 export { FacilitatorState } from './facilitator'
+export type { ClockLogEntry, Commitment, CommitmentSuggestion, TrackerState } from './facilitator'
 export { ExampleInfo, ExampleManifest, ExampleMarker, ExampleMarkerView } from './examples'
 export { ListedDomainProfile } from './domains'
 export { PackDocumentRef, PackDocumentView } from './pack-documents'
@@ -148,6 +150,7 @@ export const channels = mergeChannels(
   exportChannels,
   facilitatorChannels,
   evaluationChannels,
+  trackerChannels,
   exampleChannels,
   domainChannels,
   packChannels,

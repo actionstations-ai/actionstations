@@ -2,7 +2,13 @@ import { describe, expect, it } from 'vitest'
 import type { FacilitatorState } from '@shared/ipc'
 import type { MselRow } from '@shared/schemas/scenario'
 import {
+  changeClock,
   clockMinutes,
+  CLOCK_LOG_LIMIT,
+  deliveriesAfter,
+  nudgeClock,
+  setRate,
+  logClock,
   dueRows,
   exerciseStamp,
   formatClock,
@@ -129,5 +135,68 @@ describe('timeline', () => {
     expect(nextTimeJump(msel, 10)?.id).toBe('I-05')
     expect(nextTimeJump(msel, 60.5)?.id).toBe('I-09')
     expect(nextTimeJump(msel, 120)).toBeUndefined()
+  })
+})
+
+describe('clock rate (spec 0428 FR-2)', () => {
+  it('runs at the rate from the moment it changes', () => {
+    let s = startClock(base, T0)
+    s = setRate(s, 4, plus(10)) // 10 min at 1x, then 4x
+    expect(clockMinutes(s, plus(10))).toBeCloseTo(10)
+    expect(clockMinutes(s, plus(15))).toBeCloseTo(30)
+  })
+  it('holds the time while paused and resumes at the same rate', () => {
+    let s = setRate(startClock(base, T0), 2, T0)
+    s = pauseClock(s, plus(5))
+    expect(clockMinutes(s, plus(50))).toBeCloseTo(10)
+    s = startClock(s, plus(50))
+    expect(clockMinutes(s, plus(52))).toBeCloseTo(14)
+  })
+  it('keeps the rate within 0.25x and 60x', () => {
+    expect(setRate(base, 500, T0).rate).toBe(60)
+    expect(setRate(base, 0, T0).rate).toBe(0.25)
+  })
+})
+
+describe('nudges and the clock log (spec 0428 FR-1, FR-4)', () => {
+  it('moves a running clock and keeps it running', () => {
+    const s = nudgeClock(startClock(base, T0), 5, plus(10))
+    expect(clockMinutes(s, plus(10))).toBeCloseTo(15)
+    expect(isRunning(s)).toBe(true)
+  })
+  it('clamps a rewind at zero', () => {
+    expect(nudgeClock({ ...base, elapsedMin: 3 }, -5, T0).elapsedMin).toBe(0)
+  })
+  it('logs from, to, rate and reason', () => {
+    const s = changeClock(
+      { ...base, elapsedMin: 20 },
+      'nudge',
+      T0,
+      (x) => nudgeClock(x, -2, T0),
+      '-2',
+    )
+    expect(s.clockLog).toEqual([
+      { at: T0.toISOString(), kind: 'nudge', fromMin: 20, toMin: 18, rate: 1, note: '-2' },
+    ])
+  })
+  it('keeps only the newest entries', () => {
+    let s: FacilitatorState = base
+    for (let i = 0; i < CLOCK_LOG_LIMIT + 3; i++) s = logClock(s, s, 'set', plus(i), String(i))
+    expect(s.clockLog).toHaveLength(CLOCK_LOG_LIMIT)
+    expect(s.clockLog?.at(-1)?.note).toBe(String(CLOCK_LOG_LIMIT + 2))
+  })
+})
+
+describe('deliveriesAfter (spec 0428 FR-3)', () => {
+  it('lists rows delivered later than the target time', () => {
+    const state = {
+      delivered: {
+        a: { at: 'x', exerciseTime: '0:10' },
+        b: { at: 'x', exerciseTime: '0:30' },
+        c: { at: 'x', exerciseTime: '1:05' },
+      },
+    }
+    expect(deliveriesAfter(state, 20)).toEqual(['b', 'c'])
+    expect(deliveriesAfter(state, 90)).toEqual([])
   })
 })

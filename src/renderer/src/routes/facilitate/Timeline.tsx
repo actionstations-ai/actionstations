@@ -14,6 +14,8 @@ export interface TimelineEntry {
   row: MselRow
   inject: Inject | undefined
   target: string
+  /** How many roles the row goes to once teams are resolved (spec 0428). */
+  seats?: number | undefined
   thumbUrl: string | undefined
   hasAudio: boolean
   due: boolean

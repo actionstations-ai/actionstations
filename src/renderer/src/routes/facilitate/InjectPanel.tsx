@@ -13,6 +13,7 @@ import {
   screenAsset,
   type DeliveryAction,
 } from './delivery'
+import { EngagementPanel } from './EngagementPanel'
 import { LiveInjectSection } from './live/LiveInjectSection'
 import { OpenVoteButton } from './live/OpenVoteButton'
 import type { LiveDelivery } from './live/use-live-delivery'
@@ -38,6 +39,15 @@ export interface InjectPanelProps {
   seam?: ScenarioSeam | undefined
   /** Live play delivery (#412): targets, receipts, resend and withdraw while a session runs. */
   live?: LiveDelivery
+  /** The exercise clock in minutes, for the engagement counts (spec 0428). */
+  minutes: number
+  /** Open the "Deliver to…" picker. */
+  onDeliverTo: () => void
+  /** Record (or clear) that players answered this row. */
+  answered: boolean
+  onAnswer: () => void
+  onShowEngagement: (entry: TimelineEntry, cachePath: string) => void
+  onAnnounce: (text: string) => void
 }
 
 /** FR-10: the two passages the players are about to run into, for the facilitator's eyes. */
@@ -66,6 +76,14 @@ function SeamFacts({ seam }: { seam: ScenarioSeam }) {
       </p>
     </section>
   )
+}
+
+/** "Ops team (3 seats)" when a team is addressed; the plain label otherwise. */
+function handTo(entry: TimelineEntry): string {
+  const seats = entry.seats
+  return entry.row.toTeams?.length && seats && seats > 1
+    ? `${entry.target} (${seats} seats)`
+    : entry.target
 }
 
 function DeliveryHint({ action, target }: { action: DeliveryAction; target: string }) {
@@ -170,9 +188,9 @@ export function InjectPanel(p: InjectPanelProps) {
       </header>
       <h2 className="fac-panel__title">{inject?.title || row.event}</h2>
       <p className="muted">
-        {row.from} → {p.entry.target}
+        {row.from} → {handTo(p.entry)}
       </p>
-      <DeliveryHint action={action} target={p.entry.target} />
+      <DeliveryHint action={action} target={handTo(p.entry)} />
       <div className="row">
         {p.entry.deliveredAt ? (
           <Button key="undo" onClick={p.onUndo}>
@@ -185,6 +203,16 @@ export function InjectPanel(p: InjectPanelProps) {
             Deliver
           </Button>
         )}
+        {!p.entry.deliveredAt && (
+          <Button onClick={p.onDeliverTo} aria-keyshortcuts="Shift+D">
+            Deliver to…
+          </Button>
+        )}
+        {p.entry.deliveredAt && (
+          <Button onClick={p.onAnswer} aria-keyshortcuts="A" aria-pressed={p.answered}>
+            {p.answered ? 'Answered (click to undo)' : 'Mark answered'}
+          </Button>
+        )}
         <Button onClick={p.onShow} disabled={!screenAsset(inject)}>
           <Monitor size={16} aria-hidden /> Show on screen
         </Button>
@@ -194,6 +222,14 @@ export function InjectPanel(p: InjectPanelProps) {
         <OpenVoteButton projectPath={p.projectPath} scenarioId={p.scenario.id} row={row} />
       )}
       <Preview projectPath={p.projectPath} entry={p.entry} />
+      <EngagementPanel
+        projectPath={p.projectPath}
+        scenarioId={p.scenario.id}
+        entry={p.entry}
+        minutes={p.minutes}
+        onShow={p.onShowEngagement}
+        onAnnounce={p.onAnnounce}
+      />
       <dl className="fac-panel__facts">
         <dt>Event</dt>
         <dd>{row.event}</dd>

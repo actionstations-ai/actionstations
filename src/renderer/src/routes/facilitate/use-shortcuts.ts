@@ -1,5 +1,7 @@
 // Facilitator single-key shortcuts: Space start/pause, N next due, D deliver selected,
-// R record / pause / resume the hot wash recording and Shift+R stop it (#425).
+// R record / pause / resume the hot wash recording and Shift+R stop it (#425), Shift+D deliver
+// to a chosen set of roles, [ ] move the clock 1 minute (Shift: 5), A mark answered and C add a
+// commitment (spec 0428).
 import { useEffect, useState } from 'react'
 
 const isTyping = (el: EventTarget | null) =>
@@ -41,6 +43,22 @@ export interface ShortcutKeys {
   record?: () => void
   /** Stop the hot wash recording. */
   stopRecording?: () => void
+  /** Open the "Deliver to…" picker for the selected row (spec 0428). */
+  deliverTo?: () => void
+  /** Move the clock by this many minutes; negative moves it back. */
+  nudge?: (deltaMin: number) => void
+  /** Mark the selected row answered. */
+  answer?: () => void
+  /** Add a commitment. */
+  commitment?: () => void
+}
+
+/** Minutes a bracket key moves the clock: [ and ] are 1, Shift+[ and Shift+] are 5. */
+function nudgeDelta(k: string, shift: boolean): number | undefined {
+  // Shift+[ types "{" and Shift+] types "}" on a US keyboard.
+  if (k === '[' || k === '{') return shift || k === '{' ? -5 : -1
+  if (k === ']' || k === '}') return shift || k === '}' ? 5 : 1
+  return undefined
 }
 
 /** The handler a key press maps to, or undefined when the key is not a shortcut. */
@@ -48,7 +66,12 @@ function handlerFor(keys: ShortcutKeys, k: string, shift: boolean): (() => void)
   if (k === 'r') return shift ? keys.stopRecording : keys.record
   if (k === ' ') return keys.toggle
   if (k === 'n') return keys.next
-  if (k === 'd') return keys.deliver
+  if (k === 'd') return shift ? keys.deliverTo : keys.deliver
+  if (k === 'a') return keys.answer
+  if (k === 'c') return keys.commitment
+  const delta = nudgeDelta(k, shift)
+  const nudge = keys.nudge
+  if (delta !== undefined && nudge) return () => nudge(delta)
   return undefined
 }
 

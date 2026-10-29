@@ -14,21 +14,36 @@ import { fromProjectKey, projectKey } from '../../state/project'
 import { toLabel } from '../../lib/msel'
 import {
   clockMinutes,
+  clockRate,
   dueRows,
   isDue,
   isRunning,
   nextRow,
   nextTimeJump,
-  resetClock,
-  setClock,
   toggleClock,
 } from './clock'
+import { addressedTo, recipients } from '@shared/facilitator/recipients'
+import { clearAnswer } from '@shared/facilitator/tracker'
+import { call } from '../../lib/api'
+import { DeliverToDialog, RewindDialog, ResetDialog } from './ClockDialogs'
+import { CommitmentDialog } from './TrackerPanel'
+import { TimelineFilter } from './TimelineFilter'
+import { useTimelineFilter } from './use-timeline-filter'
+import { useClockControls } from './use-clock-controls'
+import { answerNow, useAnnounceFlags, useFlags, useNoteScan } from './use-tracker'
 import { availability, pathFor } from './branching'
 import { audioAsset, imageAsset, screenAsset } from './delivery'
 import { fireRowTriggers } from './compliance'
 import { ExerciseClock } from './ExerciseClock'
 import { RegulatoryClocks } from './RegulatoryClocks'
-import { NoMsel, PresentControls, ShortcutsBar, SidePanel, StatusLine } from './FacilitateParts'
+import {
+  NoMsel,
+  PresentControls,
+  ShortcutsBar,
+  SidePanel,
+  StatusLine,
+  type ControllerTools,
+} from './FacilitateParts'
 import { Timeline, type TimelineEntry } from './Timeline'
 import { hasBranches } from '@shared/branching/graph'
 import { useBranchLog } from './use-branch-log'
@@ -73,6 +88,7 @@ function buildEntries(
       row,
       inject,
       target: toLabel(row, scenario.roles),
+      seats: recipients(row, scenario.roles).roleIds.length,
       thumbUrl: thumb ? mediaUrl(projectPath, thumb.path) : undefined,
       hasAudio: !!audioAsset(inject),
       due: available === 'on_path' && isDue(row, minutes, state.delivered),
@@ -199,6 +215,49 @@ function useCompliance(projectPath: string, scenario: Scenario, state: Facilitat
   return { regulations, start, fireRow, startsClocks }
 }
 
+/** Tracker flags, answers, the commitment dialog and the "Deliver to…" picker (spec 0428). */
+function useControllerTools(
+  p: ViewProps,
+  minutes: number,
+  h: {
+    onSelect: (rowId: string) => void
+    onAnnounce: (text: string) => void
+    onShowEngagement: ControllerTools['onShowEngagement']
+  },
+) {
+  const { scenario, state, update } = p
+  const flags = useFlags(scenario, state, minutes)
+  useAnnounceFlags(flags, h.onAnnounce)
+  useNoteScan(scenario, state, minutes, update)
+  const [commitmentOpen, setCommitmentOpen] = useState(false)
+  const [deliverToId, setDeliverToId] = useState<string>()
+  const isAnswered = useCallback(
+    (rowId: string) => !!state.tracker?.responses[rowId],
+    [state.tracker],
+  )
+  const { onAnnounce } = h
+  const onAnswer = useCallback(
+    (rowId: string) => {
+      const was = !!state.tracker?.responses[rowId]
+      update((s) => (was ? clearAnswer(s, rowId) : answerNow(s, rowId, minutes)))
+      onAnnounce(was ? `${rowId} answer cleared` : `${rowId} marked answered`)
+    },
+    [state.tracker, update, minutes, onAnnounce],
+  )
+  const tools: ControllerTools = {
+    minutes,
+    flags,
+    isAnswered,
+    onAnswer,
+    onDeliverTo: setDeliverToId,
+    onShowEngagement: h.onShowEngagement,
+    onGoToRow: h.onSelect,
+    onAnnounce,
+    onAddCommitment: () => setCommitmentOpen(true),
+  }
+  return { tools, commitmentOpen, setCommitmentOpen, deliverToId, setDeliverToId, onAnswer }
+}
+
 /** Clock, timeline entries, selection and the delivery actions of facilitator mode. */
 function useFacilitate(p: ViewProps) {
   const { projectPath, scenario, injects, state, update } = p
@@ -230,13 +289,22 @@ function useFacilitate(p: ViewProps) {
     onAnnounce: setAnnounce,
     fireRow: compliance.fireRow,
     startsClocks: compliance.startsClocks,
+    roles: scenario.roles,
     live,
     branching: hasBranches(scenario)
       ? { path: pathFor(scenario, state), log: branchLog }
       : undefined,
   })
   const keys = useKeys(p, selected, setSelectedId, actions.deliver)
+  const controls = useClockControls({ state, update, undo: actions.undo, onAnnounce: setAnnounce })
+  const ct = useControllerTools(p, minutes, {
+    onSelect: setSelectedId,
+    onAnnounce: setAnnounce,
+    onShowEngagement: (entry, cachePath) => void actions.present(entry, undefined, cachePath),
+  })
   return {
+    ct,
+    controls,
     now,
     minutes,
     entries,
@@ -260,19 +328,31 @@ type Facilitate = ReturnType<typeof useFacilitate>
 function RunArea(props: ViewProps & { f: Facilitate; onShow: (entry: TimelineEntry) => void }) {
   const { projectPath, scenario, state, update, f } = props
   const { deliver, undo } = f.actions
+  const [filter, setFilter] = useTimelineFilter(scenario.id)
+  const visible = useMemo(
+    () => f.entries.filter((e) => addressedTo(e.row, scenario.roles, filter)),
+    [f.entries, scenario.roles, filter],
+  )
   if (scenario.msel.length === 0)
     return <NoMsel projectPath={projectPath} scenarioId={scenario.id} />
   return (
     <div className="fac-layout">
-      <Timeline
-        phases={scenario.phases}
-        entries={f.entries}
-        selectedId={f.selected?.row.id}
-        onSelect={f.setSelectedId}
-        onDeliver={deliver}
-        onUndo={undo}
-      />
+      <div className="fac-main">
+        <TimelineFilter roles={scenario.roles} value={filter} onChange={setFilter} />
+        {visible.length === 0 && (
+          <p className="muted">No rows are addressed to that team or role.</p>
+        )}
+        <Timeline
+          phases={scenario.phases}
+          entries={visible}
+          selectedId={f.selected?.row.id}
+          onSelect={f.setSelectedId}
+          onDeliver={deliver}
+          onUndo={undo}
+        />
+      </div>
       <SidePanel
+        tools={f.ct.tools}
         projectPath={projectPath}
         scenario={scenario}
         state={state}
@@ -331,11 +411,31 @@ function FacilitateView(props: ViewProps) {
   const [shortcutsOn, setShortcutsOn] = useShortcutsEnabled()
   const hw = useHotwashRecorder(props, f.minutes)
   const { recorder, setConsentOpen } = hw
+  const { controls: clock, ct } = f
+  const selectedId = f.selected?.row.id
   const keys = useMemo(
-    () => ({ ...f.keys, ...recorderKeys(recorder, () => setConsentOpen(true)) }),
-    [f.keys, recorder, setConsentOpen],
+    () => ({
+      ...f.keys,
+      ...recorderKeys(recorder, () => setConsentOpen(true)),
+      toggle: clock.toggle,
+      nudge: clock.nudge,
+      deliverTo: () => selectedId && ct.setDeliverToId(selectedId),
+      answer: () => selectedId && ct.onAnswer(selectedId),
+      commitment: () => ct.setCommitmentOpen(true),
+    }),
+    [f.keys, recorder, setConsentOpen, clock.toggle, clock.nudge, ct, selectedId],
   )
   useShortcuts(keys, shortcutsOn)
+  useEffect(
+    // The engagement renders are only a cache: drop them when Facilitate closes.
+    () => () => {
+      void call('render:engagement-clear', { projectPath: props.projectPath }).catch(
+        () => undefined,
+      )
+    },
+    [props.projectPath],
+  )
+  const deliverRow = f.entries.find((e) => e.row.id === ct.deliverToId)
 
   return (
     <div className="page page--wide fac-page">
@@ -369,9 +469,43 @@ function FacilitateView(props: ViewProps) {
         startWallClock={scenario.brief.startWallClock}
         dueCount={f.entries.filter((e) => e.due).length}
         nextJump={nextTimeJump(scenario.msel, f.minutes)}
-        onToggle={f.keys.toggle}
-        onReset={() => update((s) => resetClock(s))}
-        onSet={(m) => update((s) => setClock(s, m, new Date()))}
+        rate={clockRate(state)}
+        onToggle={clock.toggle}
+        onReset={clock.reset}
+        onSet={clock.set}
+        onNudge={clock.nudge}
+        onRate={clock.setRate}
+        onJump={clock.jump}
+      />
+      <RewindDialog
+        move={clock.pendingMove}
+        onResolve={clock.resolveMove}
+        onCancel={clock.cancelMove}
+      />
+      <ResetDialog
+        open={clock.confirmingReset}
+        onConfirm={clock.confirmReset}
+        onCancel={clock.cancelReset}
+      />
+      <DeliverToDialog
+        open={!!deliverRow}
+        rowId={ct.deliverToId ?? ''}
+        roles={scenario.roles}
+        planned={deliverRow ? recipients(deliverRow.row, scenario.roles).roleIds : []}
+        onCancel={() => ct.setDeliverToId(undefined)}
+        onDeliver={(ids) => {
+          if (ct.deliverToId) f.actions.deliver(ct.deliverToId, ids)
+          ct.setDeliverToId(undefined)
+        }}
+      />
+      <CommitmentDialog
+        open={ct.commitmentOpen}
+        scenario={scenario}
+        minutes={f.minutes}
+        rowId={selectedId}
+        update={update}
+        onClose={() => ct.setCommitmentOpen(false)}
+        onAnnounce={f.setAnnounce}
       />
       <RegulatoryClocks
         regulations={f.compliance.regulations}

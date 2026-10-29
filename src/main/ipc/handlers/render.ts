@@ -6,6 +6,7 @@ import { composeDocument } from '../../render/compose'
 import { injectSlotFiles, renderAndSaveInject } from '../../render/inject'
 import { ensurePacksLoaded } from '../../packs/state'
 import { listTemplateInfos } from '../../render/template-copies'
+import { clearEngagementCache, renderEngagement } from '../../render/engagement'
 import { renderPng } from '../../render/window'
 import { assertNotGenerating } from '../../scenario/busy'
 
@@ -60,6 +61,15 @@ export default defineHandlers({
       width: out.width,
       height: out.height,
     }
+  },
+
+  'render:engagement': async ({ projectPath, scenarioId, injectId, minutes, refreshMin }) => {
+    const root = await requireProject(projectPath)
+    return renderEngagement(root, scenarioId, injectId, minutes, refreshMin)
+  },
+
+  'render:engagement-clear': async ({ projectPath }) => {
+    await clearEngagementCache(await requireProject(projectPath))
   },
 
   'render:inject': async ({ projectPath, scenarioId, injectId }) => {

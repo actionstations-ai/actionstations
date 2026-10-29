@@ -120,6 +120,7 @@ export function EditorForm(props: {
   issues: FieldIssue[]
   onSave: () => void
   sourceCheck?: ReactNode
+  purposeTag?: string | undefined
 }) {
   const { inject, draft, setDraft } = props
   return (
@@ -144,6 +145,7 @@ export function EditorForm(props: {
           onVariant={(v) => setDraft({ ...draft, variant: v })}
           issues={issuesByPath(props.issues)}
           {...(props.sourceCheck ? { sourceCheck: props.sourceCheck } : {})}
+          purposeTag={props.purposeTag}
         />
       </fieldset>
     </form>

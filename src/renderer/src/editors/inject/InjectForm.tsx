@@ -1,5 +1,6 @@
 // Left side of the inject editor: basics (title, type, variant, delivery), the template's
 // fields as a schema-driven form, the instructor note, citations and the media brief.
+import { EngagementSection } from './EngagementSection'
 import { X } from 'lucide-react'
 import { useMemo, useState, type ReactNode } from 'react'
 import type { TemplateInfo } from '@shared/ipc'
@@ -34,6 +35,8 @@ export interface FormProps {
   issues: Map<string, string>
   /** The controller note's source check (#423), shown under the note. */
   sourceCheck?: ReactNode
+  /** The MSEL row's purpose tag, to pick the default engagement curve. */
+  purposeTag?: string | undefined
 }
 
 function typeOptions(all: TemplateInfo[], current: string) {
@@ -405,6 +408,13 @@ export function InjectForm(props: FormProps) {
       <BasicsSection {...props} onType={onType} />
       <TemplateFields {...props} />
       <NoteSection {...props} />
+      <EngagementSection
+        type={props.draft.type}
+        fields={props.draft.fields}
+        plan={props.draft.engagement}
+        purposeTag={props.purposeTag}
+        onChange={(engagement) => props.onChange({ ...props.draft, engagement })}
+      />
       <CitationsSection draft={props.draft} onChange={props.onChange} />
       <MediaBriefSection draft={props.draft} onChange={props.onChange} />
       <TypeSwitchDialog

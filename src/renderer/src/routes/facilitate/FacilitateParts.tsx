@@ -1,6 +1,6 @@
 // The parts of facilitator mode around the timeline: the presentation controls, the status
 // and shortcut lines, the empty MSEL state and the side panel (inject, hot wash, notes).
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { Tabs } from 'radix-ui'
 import { Monitor, MonitorX } from 'lucide-react'
@@ -14,6 +14,8 @@ import { DecisionPanel } from './DecisionPanel'
 import type { BranchLog } from './use-branch-log'
 import { EvaluationTab } from './EvaluationTab'
 import { HotWashPanel } from './HotWashPanel'
+import { TrackerPanel } from './TrackerPanel'
+import type { Flag } from '@shared/facilitator/tracker'
 import { InjectPanel } from './InjectPanel'
 import type { LiveDelivery } from './live/use-live-delivery'
 import { LivePanel } from './live/LivePanel'
@@ -156,7 +158,21 @@ function GeneralNotes(props: { state: FacilitatorState; update: UpdateState }) {
   )
 }
 
+/** What the controller tools (spec 0428) add to the side panel. */
+export interface ControllerTools {
+  minutes: number
+  flags: Flag[]
+  isAnswered: (rowId: string) => boolean
+  onAnswer: (rowId: string) => void
+  onDeliverTo: (rowId: string) => void
+  onShowEngagement: (entry: TimelineEntry, cachePath: string) => void
+  onGoToRow: (rowId: string) => void
+  onAnnounce: (text: string) => void
+  onAddCommitment: () => void
+}
+
 export function SidePanel(props: {
+  tools: ControllerTools
   projectPath: string
   scenario: Scenario
   state: FacilitatorState
@@ -172,11 +188,13 @@ export function SidePanel(props: {
   /** Present when the scenario has branches (spec 0430): shows the Decisions tab. */
   branching?: { minutes: number; onLog: BranchLog; onAnnounce: (text: string) => void } | undefined
 }) {
-  const { selected, state, update } = props
+  const { selected, state, update, tools } = props
+  const [tab, setTab] = useState('inject')
+  const warnings = tools.flags.filter((f) => f.level === 'warn').length
   const liveVotes = useLiveVotes(props.projectPath, props.scenario.id)
   const tallySource = useMemo(() => tallySourceFromVotes(liveVotes.votes), [liveVotes.votes])
   return (
-    <Tabs.Root defaultValue="inject" className="fac-side">
+    <Tabs.Root value={tab} onValueChange={setTab} className="fac-side">
       <Tabs.List className="fac-tabs" aria-label="Facilitator panels">
         <Tabs.Trigger value="inject" className="fac-tabs__trigger">
           Inject
@@ -186,6 +204,14 @@ export function SidePanel(props: {
             Decisions
           </Tabs.Trigger>
         )}
+        <Tabs.Trigger value="tracker" className="fac-tabs__trigger">
+          Tracker
+          {warnings > 0 && (
+            <span className="fac-tabs__badge" aria-label={`, ${warnings} open`}>
+              {warnings}
+            </span>
+          )}
+        </Tabs.Trigger>
         <Tabs.Trigger value="evaluation" className="fac-tabs__trigger">
           Evaluation
         </Tabs.Trigger>
@@ -229,6 +255,12 @@ export function SidePanel(props: {
             onDeliver={() => props.onDeliver(selected.row.id)}
             onUndo={() => props.onUndo(selected.row.id)}
             onShow={() => props.onShow(selected)}
+            minutes={tools.minutes}
+            onDeliverTo={() => tools.onDeliverTo(selected.row.id)}
+            answered={tools.isAnswered(selected.row.id)}
+            onAnswer={() => tools.onAnswer(selected.row.id)}
+            onShowEngagement={tools.onShowEngagement}
+            onAnnounce={tools.onAnnounce}
             {...(props.live ? { live: props.live } : {})}
             seam={props.scenario.seams?.find((x) => x.id === selected.row.seamId)}
           />
@@ -248,6 +280,21 @@ export function SidePanel(props: {
           />
         </Tabs.Content>
       )}
+      <Tabs.Content value="tracker" className="fac-tabs__panel">
+        <TrackerPanel
+          scenario={props.scenario}
+          state={state}
+          update={update}
+          flags={tools.flags}
+          minutes={tools.minutes}
+          onGoToRow={(rowId) => {
+            setTab('inject')
+            tools.onGoToRow(rowId)
+          }}
+          onAnnounce={tools.onAnnounce}
+          onAddCommitment={tools.onAddCommitment}
+        />
+      </Tabs.Content>
       <Tabs.Content value="evaluation" className="fac-tabs__panel">
         <EvaluationTab
           projectPath={props.projectPath}

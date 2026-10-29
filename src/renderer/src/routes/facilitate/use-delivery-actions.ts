@@ -4,7 +4,9 @@ import type { FacilitatorState } from '@shared/ipc'
 import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
 import { clockMinutes, exerciseStamp } from './clock'
+import type { Role } from '@shared/schemas/project'
 import type { MselRow } from '@shared/schemas/scenario'
+import { recipients } from '@shared/facilitator/recipients'
 import { unfireRow } from './compliance'
 import { deliveryAction } from './delivery'
 import type { ActivePath } from '@shared/branching/active-path'
@@ -29,6 +31,8 @@ export interface ActionDeps {
   fireRow?: (s: FacilitatorState, row: MselRow, minutes: number) => FacilitatorState
   /** Labels of the regulations a row's delivery starts clocks for. */
   startsClocks?: (row: MselRow) => string[]
+  /** The scenario's roles, to name who a delivery went to (spec 0428). */
+  roles?: Role[]
   /** Live play (#412): when a session runs, Deliver also puts the inject on devices. */
   live?: LiveDelivery
   /** Branching (spec 0430): the path that can be delivered, and the run log. */
@@ -49,7 +53,7 @@ export function deliveredMessage(
 
 function usePresent(projectPath: string, scenarioId: string, displayId: string) {
   return useCallback(
-    async (entry: TimelineEntry, assetId?: string) => {
+    async (entry: TimelineEntry, assetId?: string, cachePath?: string) => {
       if (!entry.inject) return
       try {
         await call('facilitator:present', {
@@ -57,6 +61,7 @@ function usePresent(projectPath: string, scenarioId: string, displayId: string) 
           scenarioId,
           injectId: entry.inject.id,
           ...(assetId ? { assetId } : {}),
+          ...(cachePath ? { cachePath } : {}),
           ...(displayId ? { displayId: Number(displayId) } : {}),
         })
       } catch (err) {
@@ -73,7 +78,7 @@ export function useDeliveryActions(d: ActionDeps) {
   const present = usePresent(d.projectPath, d.scenarioId, d.displayId)
 
   const deliver = useCallback(
-    (rowId: string) => {
+    (rowId: string, to?: string[]) => {
       const entry = entries.find((e) => e.row.id === rowId)
       if (!entry || state.delivered[rowId]) return
       if (branching && availability(branching.path, rowId) !== 'on_path') {
@@ -82,7 +87,11 @@ export function useDeliveryActions(d: ActionDeps) {
       }
       const now = new Date()
       const minutes = clockMinutes(state, now)
-      const stamp = { at: now.toISOString(), exerciseTime: exerciseStamp(minutes) }
+      const stamp = {
+        at: now.toISOString(),
+        exerciseTime: exerciseStamp(minutes),
+        ...(to ? { recipients: to } : {}),
+      }
       if (branching) {
         const decision = entry.row.decision
         branching.log([
@@ -99,18 +108,35 @@ export function useDeliveryActions(d: ActionDeps) {
       if (action.kind === 'present' || action.kind === 'play') void present(entry, action.asset.id)
       if (live?.active) {
         void live
-          .release(rowId)
+          .release(
+            rowId,
+            to?.map((id) => `role:${id}` as const),
+          )
           .catch((err: Error) =>
             toast.error('Delivered to the room, but not to devices', err.message),
           )
       }
       const clocks = startsClocks?.(entry.row) ?? []
+      const who = to ? ` to ${recipients(entry.row, d.roles ?? [], to).label}` : ''
       onAnnounce(
         deliveredMessage(entry, action.kind) +
+          who +
           (clocks.length ? ` — reporting clock started: ${clocks.join(', ')}` : ''),
       )
     },
-    [entries, state, update, present, onSelect, onAnnounce, fireRow, startsClocks, live, branching],
+    [
+      entries,
+      state,
+      update,
+      present,
+      onSelect,
+      onAnnounce,
+      fireRow,
+      startsClocks,
+      live,
+      branching,
+      d.roles,
+    ],
   )
 
   const undo = useCallback(

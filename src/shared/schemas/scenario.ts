@@ -164,6 +164,12 @@ export const MselRow = z.object({
   wallClock: WallClock.optional(),
   from: z.string(),
   toRoleIds: z.array(z.string()).default([]),
+  /** Teams (`Role.team` names) the row goes to, in addition to `toRoleIds` (spec 0428 FR-5). */
+  toTeams: z.array(z.string().max(80)).max(20).optional(),
+  /** Whether silence on this row should be flagged; absent = by purpose tag (spec 0428 FR-13). */
+  expectsResponse: z.boolean().optional(),
+  /** Exercise minutes to wait for a response before flagging; absent = the default window. */
+  responseWindowMin: z.number().int().min(1).max(240).optional(),
   /** Free-text "To" as shown in the MSEL (e.g. "All", "Ops"); derived from roles if empty. */
   toLabel: z.string().optional(),
   event: z.string(),

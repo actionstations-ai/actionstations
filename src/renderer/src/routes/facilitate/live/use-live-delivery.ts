@@ -23,7 +23,8 @@ export interface LiveDelivery {
   setOptions: (rowId: string, patch: Partial<RowOptions>) => void
   summary: (rowId: string) => ReleaseSummary | undefined
   stage: StageStatus | undefined
-  release: (rowId: string) => Promise<void>
+  /** `targets` replaces the plan for this release (spec 0428 FR-6). */
+  release: (rowId: string, targets?: Destination[]) => Promise<void>
   resend: (releaseId: string, targets: Destination[]) => Promise<void>
   withdraw: (rowId: string) => Promise<void>
 }
@@ -66,13 +67,14 @@ export function useLiveDelivery(projectPath: string, scenarioId: string): LiveDe
   )
 
   const release = useCallback(
-    async (rowId: string) => {
+    async (rowId: string, targets?: Destination[]) => {
       const o = { ...DEFAULTS, ...opts[rowId] }
       if (!o.sendToDevices) return
+      const chosen = targets ?? o.targets
       await call('live:release-inject', {
         ...req,
         rowId,
-        ...(o.targets ? { targets: o.targets } : {}),
+        ...(chosen ? { targets: chosen } : {}),
         showExpected: o.showExpected,
       })
       await refresh()

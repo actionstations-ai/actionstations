@@ -24,6 +24,12 @@ describe('resolveTargets', () => {
     ])
   })
 
+  it('sends a row addressed to a team (spec 0428) to the team and any other listed role', () => {
+    expect(
+      resolveTargets({ toRoleIds: ['pio'], toTeams: ['operations'] }, 'hand_to_role', roles),
+    ).toEqual(['team:operations', 'role:pio'])
+  })
+
   it('keeps single roles of a team that is only partly addressed', () => {
     expect(resolveTargets({ toRoleIds: ['ops'] }, 'hand_to_role', roles)).toEqual(['role:ops'])
   })

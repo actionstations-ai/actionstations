@@ -20,6 +20,8 @@ export interface PresentTarget {
   /** An inject's media; absent when the window shows a vote. */
   injectId?: string
   assetId?: string
+  /** A project-relative image under `.cache/engagement/` shown in place of the asset (#428). */
+  cachePath?: string
   /** Show this vote's tally instead of an inject (#414). */
   voteId?: string
   /** Show the promoted hot wash board instead of an inject (#415). */
@@ -67,7 +69,11 @@ export function presentHash(t: PresentTarget): string {
   const base = ['present', encodeURIComponent(t.projectPath), t.scenarioId, t.injectId ?? ''].join(
     '/',
   )
-  return `/${base}${t.assetId ? `?asset=${encodeURIComponent(t.assetId)}` : ''}`
+  const query = [
+    t.assetId ? `asset=${encodeURIComponent(t.assetId)}` : '',
+    t.cachePath ? `cache=${encodeURIComponent(t.cachePath)}` : '',
+  ].filter(Boolean)
+  return `/${base}${query.length ? `?${query.join('&')}` : ''}`
 }
 
 const devRendererUrl = (): string | undefined =>

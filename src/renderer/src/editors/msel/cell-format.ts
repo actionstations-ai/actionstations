@@ -1,4 +1,5 @@
 // Pure helpers for MSEL cells: citation labels, the To column, list options, validation.
+import { recipients, teamNames } from '@shared/facilitator/recipients'
 import type { Role } from '@shared/schemas/project'
 import { exerciseMinutes, type Citation } from '@shared/schemas/common'
 import type { LintWarning, MselRow } from '@shared/schemas/scenario'
@@ -33,26 +34,35 @@ export const citationItems = (cs: Citation[]): CitationItem[] =>
   cs.map((c) => ({ label: citationShort(c), title: citationTitle(c) }))
 
 export function toDisplay(row: MselRow, roles: Role[]): string {
-  if (row.toLabel) return row.toLabel
-  const names = row.toRoleIds.map((id) => {
-    const r = roles.find((x) => x.id === id)
-    return r?.abbreviation || r?.name || id
-  })
-  return names.join(', ') || '—'
+  return recipients(row, roles).label
 }
 
-export const toValues = (row: MselRow): string[] =>
-  row.toLabel === 'All' && !row.toRoleIds.length ? [ALL] : row.toRoleIds
+/** Team values in the To editor are `team:<name>`; role ids never contain a colon. */
+const TEAM_PREFIX = 'team:'
 
-/** Apply the To editor's selection: "All" or a set of roles (label derived from roles). */
+export const toValues = (row: MselRow): string[] =>
+  row.toLabel === 'All' && !row.toRoleIds.length
+    ? [ALL]
+    : [...(row.toTeams ?? []).map((t) => `${TEAM_PREFIX}${t}`), ...row.toRoleIds]
+
+/** Apply the To editor's selection: "All", or roles and whole teams (label derived). */
 export function applyTo(row: MselRow, values: string[]): MselRow {
-  const { toLabel: _old, ...rest } = row
+  const { toLabel: _old, toTeams: _teams, ...rest } = row
   if (values.includes(ALL)) return { ...rest, toRoleIds: [], toLabel: 'All' }
-  return { ...rest, toRoleIds: values }
+  const teams = values
+    .filter((v) => v.startsWith(TEAM_PREFIX))
+    .map((v) => v.slice(TEAM_PREFIX.length))
+  const roleIds = values.filter((v) => !v.startsWith(TEAM_PREFIX))
+  return { ...rest, toRoleIds: roleIds, ...(teams.length ? { toTeams: teams } : {}) }
 }
 
 export const roleOptions = (roles: Role[]): ListOption[] => [
   { value: ALL, label: 'All', hint: 'every player' },
+  ...teamNames(roles).map((t) => ({
+    value: `${TEAM_PREFIX}${t}`,
+    label: `${t} team`,
+    hint: 'every role on the team',
+  })),
   ...roles.map((r) => ({
     value: r.id,
     label: r.abbreviation || r.name,

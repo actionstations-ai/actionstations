@@ -164,6 +164,7 @@ function Editor(props: EditorProps) {
         <EditorForm
           {...form}
           onSave={() => void actions.save()}
+          purposeTag={scenario.msel.find((r) => r.id === form.inject.mselRowId)?.purposeTag}
           sourceCheck={
             <SourceCheck
               projectPath={projectPath}

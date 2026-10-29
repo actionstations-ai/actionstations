@@ -86,6 +86,7 @@ export default function PresentPage() {
   }
   const inject = useIpcQuery('injects:get', req)
   const asset = presentAsset(inject.data, search.get('asset'))
+  const cache = search.get('cache')
   const showTitle = search.get('title') === '1'
   const recordingNotice = useRecordingNotice()
 
@@ -101,7 +102,15 @@ export default function PresentPage() {
 
   return (
     <div className="present" data-testid="present">
-      {asset && (
+      {cache && (
+        <img
+          key={cache}
+          className="present__image"
+          src={mediaUrl(projectPath, cache)}
+          alt={injectAlt(inject.data)}
+        />
+      )}
+      {!cache && asset && (
         <Media
           key={asset.id}
           projectPath={projectPath}
@@ -109,7 +118,9 @@ export default function PresentPage() {
           alt={injectAlt(inject.data)}
         />
       )}
-      {inject.data && !asset && <p className="present__empty">No media for this inject.</p>}
+      {inject.data && !asset && !cache && (
+        <p className="present__empty">No media for this inject.</p>
+      )}
       {inject.isError && <p className="present__empty">Could not load this inject.</p>}
       {showTitle && inject.data && <p className="present__title">{inject.data.title}</p>}
       <ClocksOnScreen projectPath={projectPath} scenarioId={req.scenarioId} />
