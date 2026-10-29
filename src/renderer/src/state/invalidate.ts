@@ -56,6 +56,8 @@ const BY_WHAT: Record<What, string[]> = {
   redlines: ['redlines:', 'drills:'],
   /** drills/ changed (#431). */
   drills: ['drills:'],
+  /** micro-drills/ or micro-drill-runs/ changed (#437). */
+  'micro-drills': ['microdrills:'],
 }
 
 const SCENARIO_WORK = [...new Set(BY_WHAT.injects.concat(BY_WHAT.scenario))]
@@ -81,6 +83,7 @@ const BY_KIND: Record<JobKind, string[]> = {
   'redline-export': ['redlines:'],
   'build-drill': ['drills:', 'scenarios:'],
   'drill-export': ['drills:'],
+  'build-micro-drill': ['microdrills:'],
 }
 
 export interface Change {

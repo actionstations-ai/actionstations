@@ -325,6 +325,26 @@ Folders created on first use; one loose JSON file per record, validated on read.
 - `DocumentMeta.supersedesDocumentId`: the earlier plan a document replaces.
   `ScenarioBrief.drillOf { drillId, sourceScenarioId }`: set on a drill's scenario.
 
+## Micro-drills (`micro-drills/`, `micro-drill-runs/`, `micro-drill-hints.json`, #437, ADR-0057)
+
+Created on first use; loose JSON validated on read; older versions ignore them. Schemas in
+`src/shared/schemas/micro-drill.ts`. Not the regression `drills/` above.
+
+- `micro-drills/<id>.json`: a drill. `annex` (document, heading path, page), `audience`,
+  `durationMin`, `mode` (`solo` or `team`), `situation`, `objectives` (with an optional Core
+  Capability), `steps` (3 to 5; each has a `prompt`, `expectedPoints` that each cite a chunk
+  inside the annex, three `hints` (Level 1 text; Level 2 text and citation; Level 3 text,
+  citation and verbatim `quote`) and a `modelAnswer`), `status` (`draft` or `ready`), `version`,
+  `lint` (the build checks' open problems) and `lintOverridden`.
+- `micro-drill-runs/<id>.json`: a run. `participants` (label, optional name), `assessment`
+  (`model` or `checklist`, with `checklistReason`), `hintRule` (`first_miss` or `second_miss`),
+  `withdrawnLevel3`, per step the `attempts` (text, covered, partial, missing points,
+  follow-up), `hintsUsed` and `score`, `pausedSec`, `coverage`.
+- `micro-drill-hints.json`: annex key to participant label to step id to `{ runs, lastHintMax,
+  cleanRuns }`, used for fading. Keyed by label, not by person.
+- `ProjectSnapshot.drills` (in the program folder): one summary per finished run (section, Core
+  Capabilities, participants, minutes, coverage, hints used); no answers, no names.
+
 ## Exercise program (`<Name>.asprogram/`, #424, ADR-0043)
 
 A folder the user chooses, outside every project, for corrective actions across exercises and

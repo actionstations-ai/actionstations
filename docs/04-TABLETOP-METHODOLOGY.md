@@ -111,6 +111,17 @@ Prompts alone do not stop a local model from overfilling a phase, writing a play
 
 When the designer picks plan seams (contradictions or missing documents from the plan check), each one is placed in a phase and that phase must contain a row that puts players exactly in the seam: a release that needs approval while both named approvers are reachable, a notification deadline one plan sets and the other does not. The inject creates the situation and never says the plans disagree; only the controller note, built by code, quotes both passages. Seam rows cite both passages, carry CORE_NARRATIVE, PRESSURE, OPERATIONAL_FRICTION or DECISION_POINT (never NOISE or RED_HERRING), are never rewritten as spare rows or trimmed, and the hot wash asks which plan players followed and which the plans should say. At most three seams per scenario: more turns the exercise into a plan audit.
 
+## 4a-ter. Micro-drills between exercises (#437, ADR-0057)
+
+HSEEP uses "drill" for an operations-based exercise that tests one function with real equipment.
+A micro-drill in Action Stations is something else: fifteen minutes of discussion-based practice
+on one plan annex, alone or around one screen. It helps new staff find their way around a plan
+before their first exercise and shows which sections people find hard. It does not replace an
+exercise, so the program view counts it apart ("practised in drills") and never as exercise
+coverage. The evidence for graded, fading hints is a small pilot (four students, intention to
+use); the hints are therefore prewritten, reviewable and visible, and the debrief records hint
+use.
+
 ## 4b. Repairing a finished scenario in place (#185, ADR-0015)
 
 A scenario generated before a generator fix does not have to be regenerated to get it. `generate:repair` (job `repair-scenario`) runs the current checks on what is saved and changes only what they flag:

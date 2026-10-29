@@ -341,6 +341,10 @@ export const STAGES = [
   'plan_redline',
   /** The STARTEX situation summary of a regression drill (#431); on demand. */
   'drill_startex',
+  /** A micro-drill built from one plan annex (#437); on demand. */
+  'micro_drill_build',
+  /** One answer of a micro-drill checked against the step's expected points (#437). */
+  'micro_drill_assess',
 ] as const
 export const Stage = z.enum(STAGES)
 export type Stage = z.infer<typeof Stage>

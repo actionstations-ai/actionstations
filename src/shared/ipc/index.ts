@@ -34,6 +34,7 @@ import { liveRoomChannels } from './live-room'
 import { hotwashChannels, HotwashRecordingEvent } from './hotwash'
 import { programChannels } from './program'
 import { redlineChannels } from './redlines'
+import { microDrillChannels } from './microdrills'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -157,6 +158,7 @@ export const channels = mergeChannels(
   hotwashChannels,
   programChannels,
   redlineChannels,
+  microDrillChannels,
 )
 
 export type Channels = typeof channels
@@ -221,6 +223,8 @@ export const events = {
       'redlines',
       /** drills/ changed (#431). */
       'drills',
+      /** micro-drills/ or micro-drill-runs/ changed (#437). */
+      'micro-drills',
     ]),
     scenarioId: z.string().optional(),
   }),

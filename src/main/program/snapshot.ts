@@ -18,6 +18,7 @@ import {
 import { FacilitatorState } from '@shared/ipc/facilitator'
 import { LiveSession } from '@shared/schemas/live'
 import { listDrills } from '../drill/store'
+import { microDrillSummaries } from '../microdrill/program'
 import { exists, readJson, readJsonOr, writeJsonAtomic } from '../lib/fs'
 import { nowIso } from '../lib/ids'
 import { listRedlines } from '../redline/store'
@@ -165,6 +166,7 @@ export async function snapshotProject(projectRoot: string): Promise<ProjectSnaps
     const s = await snapshotScenario(projectRoot, meta.id, shaOf, drills)
     if (s) scenarios.push(s)
   }
+  const practice = await microDrillSummaries(projectRoot, shaOf)
   return ProjectSnapshot.parse({
     projectId: project.id,
     name: project.name,
@@ -184,6 +186,7 @@ export async function snapshotProject(projectRoot: string): Promise<ProjectSnaps
       sections: d.headingsPreview.slice(0, MAX_SECTIONS_PER_DOC),
     })),
     scenarios,
+    ...(practice.length ? { drills: practice } : {}),
   })
 }
 

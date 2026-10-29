@@ -76,6 +76,7 @@ export const JOB_LABEL: Record<JobKind, string> = {
   'redline-export': 'Exporting plan changes',
   'build-drill': 'Building the drill',
   'drill-export': 'Exporting drill results',
+  'build-micro-drill': 'Building the short drill',
 }
 const MAX_FINISHED = 50
 const MAX_ITEMS = 500

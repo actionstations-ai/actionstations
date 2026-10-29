@@ -534,6 +534,72 @@ export const MOCK_FIXTURES: Record<StageOutputSchemaName, unknown> = {
       },
     ],
   },
+  // Cites passage P1 of the annex; the quote is a sentence of the e2e and test plan fixtures (a PIO
+  // release rule), so the verbatim check passes against them (#437).
+  MicroDrillBuildOutput: {
+    title: 'Public information in the first hour',
+    situation:
+      'It is 09:40. A data error has put the wrong departure times on the public boards. Passengers are asking staff what is happening and a reporter has called the main number.',
+    objectives: [
+      {
+        text: 'Staff know who may release information and who must be consulted first.',
+        capability: 'public_information_and_warning',
+      },
+    ],
+    steps: [
+      {
+        prompt:
+          'A reporter asks the desk for a statement about the board error. Who may release information, and what must happen first?',
+        expectedPoints: [
+          { text: 'The PIO may release information.', source: 'P1' },
+          { text: 'The Incident Commander is consulted before release.', source: 'P1' },
+        ],
+        hint1: 'Think about who speaks for the organization and whose agreement they need.',
+        hint2: { text: 'Look at the public information section of the plan.', source: 'P1' },
+        hint3: {
+          text: 'The plan states the rule in one sentence.',
+          source: 'P1',
+          quote: 'The PIO may release information after consulting the Incident Commander.',
+        },
+        modelAnswer: 'The PIO releases information, after consulting the Incident Commander.',
+      },
+      {
+        prompt:
+          'Passengers on the concourse ask the gate agents what is going on. What do the agents say, and who do they send questions to?',
+        expectedPoints: [
+          { text: 'Agents refer questions to the PIO.', source: 'P1' },
+          { text: 'Agents do not guess at causes.', source: 'P1' },
+        ],
+        hint1: 'Consider who is allowed to speak on the record.',
+        hint2: { text: 'The same section covers what staff say to the public.', source: 'P1' },
+        hint3: {
+          text: 'The plan names the one office that releases information.',
+          source: 'P1',
+          quote: 'The PIO may release information after consulting the Incident Commander.',
+        },
+        modelAnswer:
+          'Agents give the agreed line, refer questions to the PIO and do not guess at causes.',
+      },
+      {
+        prompt:
+          'The Incident Commander cannot be reached for twenty minutes. What does the plan ask, and what do you do?',
+        expectedPoints: [
+          { text: 'Release waits for consultation with the Incident Commander.', source: 'P1' },
+        ],
+        hint1: 'Ask what the rule requires before information goes out.',
+        hint2: { text: 'Read the sentence on consultation in the same section.', source: 'P1' },
+        hint3: {
+          text: 'The rule names the person who must be consulted.',
+          source: 'P1',
+          quote: 'The PIO may release information after consulting the Incident Commander.',
+        },
+        modelAnswer:
+          'The plan asks for consultation first, so the PIO keeps trying to reach the Incident Commander and the desk holds the line meanwhile.',
+      },
+    ],
+  },
+  // Static fallback; the mock adapter judges real answers by their words (micro-drill.ts).
+  MicroDrillAssessOutput: { covered: [], partial: [], missing: [] },
   DrillStartexOutput: {
     situationMd:
       'The terminal is on manual procedures. The Incident Commander has confirmed the data error and the PIO is preparing the first public statement.',

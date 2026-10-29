@@ -23,6 +23,7 @@ export const JobKind = z.enum([
   'redline-export',
   'build-drill',
   'drill-export',
+  'build-micro-drill',
 ])
 export type JobKind = z.infer<typeof JobKind>
 

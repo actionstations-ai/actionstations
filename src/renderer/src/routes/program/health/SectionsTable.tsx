@@ -57,6 +57,13 @@ export function SectionsTable({ health, ctx }: { health: ProgramHealth; ctx: Pro
       value: (s) => s.lastCitedAt?.slice(0, 10) ?? '',
       cell: (s) => s.lastCitedAt?.slice(0, 10) ?? '—',
     },
+    {
+      key: 'practised',
+      label: 'Practised in drills',
+      align: 'end',
+      value: (s) => s.practisedRuns ?? 0,
+      cell: (s) => s.practisedRuns ?? '—',
+    },
     { key: 'actions', label: 'Open actions', align: 'end', value: (s) => s.openActions },
     {
       key: 'redlines',

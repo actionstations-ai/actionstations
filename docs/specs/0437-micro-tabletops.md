@@ -1,6 +1,6 @@
 # Spec 0437: Micro-tabletops: short drills for new staff
 
-Issue: #437 · Milestone: 0.8.0 · Status: Draft · Depends on: #406 (session protocol), #411 (player page) for the shared-device mode only · Related: #424 (corrective actions and program), #421 (Core Capabilities), #438 (program health dashboard), #429 (SimCell assistant)
+Issue: #437 · Milestone: 0.8.0 · Status: Partly implemented (ADR-0057; see Implementation notes) · Depends on: #406 (session protocol), #411 (player page) for the shared-device mode only · Related: #424 (corrective actions and program), #421 (Core Capabilities), #438 (program health dashboard), #429 (SimCell assistant)
 
 ## Summary
 
@@ -247,6 +247,21 @@ This spec depends on the program folder and `ProjectSnapshot` from #424: it asks
 6. **Program reporting.** `src/main/drills/program.ts` writing drill summaries into #424's `ProjectSnapshot`; "Practised in drills" counts in #438's dashboard.
 7. **Player-page drills.** `src/main/drills/live.ts`, protocol message types, player-page drill view, `DrillLivePanel.tsx`, e2e with two participants.
 8. **Drills from a scenario and docs.** `drills:from-scenario`, `docs/guides/drills.md`, methodology note.
+
+## Implementation notes (what the code does differently)
+
+The first release builds the "This computer" mode, the program reporting and the Drills screen. Differences from the text above:
+
+- **Names.** The regression drills of #431 already own `drills/`, `drills:*`, the `Drill` and `DrillRun` schemas and the "Drills" sidebar entry. Micro-drills use `micro-drills/`, `micro-drill-runs/`, `microdrills:*`, `MicroDrill`, `MicroDrillRun`, `src/main/microdrill/` and the sidebar entry "Micro-drills" (route `/p/:projectKey/micro-drills`). Stages and prompts are `micro_drill_build` and `micro_drill_assess`.
+- **Storage.** Runs are in `micro-drill-runs/<runId>.json` (a collection beside `micro-drills/`), and the hint history in `micro-drill-hints.json` at the project root, keyed annex key, participant label, step id, as `{ runs, lastHintMax, cleanRuns }`.
+- **Schemas.** `provenance` is not stored on a drill (`provider-calls.jsonl` records the stage runs). `fromScenarioId` is not stored. A drill has `lintOverridden`. A run has `drillTitle`, `annex`, `checklistReason` and `withdrawnLevel3`; `where` is `this_computer` only. Build output cites passages by key (P1...) and the build maps keys to chunks; an unknown key becomes chunk -1, which the checks flag.
+- **Fading (FR-11).** Hints wait for a second missed answer when every participant label has run the annex before and none needed a Level 3 hint in its latest run. Level 3 is withdrawn for a step when every label answered it without hints in its latest two runs.
+- **Scoring (FR-12).** Covered points are the union across a step's answers; the reduction uses the highest hint level used.
+- **Assessment probes (FR-18).** Results are cached for ten minutes per project. The mock provider judges answers by word overlap so probes pass and fail as intended.
+- **IPC.** Channels: `microdrills:list`, `annexes`, `build`, `get`, `save` (re-runs the checks), `delete`, `remove-names`, `runs`, `run-start`, `run-get`, `answer`, `hint`, `run-finish`, `debrief`, `debrief-pdf`. `answer` returns the run and the hint level on offer; the hint text comes from `hint`. The debrief PDF is written to `<project>/exports/` rather than through a save dialog.
+- **Program (FR-20, FR-21).** `ProjectSnapshot.drills` is an optional array of `MicroDrillSummary`, rebuilt with the snapshot (and refreshed when a run finishes). Health sections gain `practisedRuns` and `lastPractisedAt`, shown as "Practised in drills" in the Plan sections table and its CSV; they never change `timesCited` or `never`.
+- **Not built yet:** FR-7 (drills from a scenario), FR-16's team participant list is built but hint history is per label only, FR-17 (player page), `live.ts` and `DrillLivePanel.tsx`, and offering a run as evidence for a corrective action (the last paragraph of FR-20). Each remains in the Requirements above.
+- **Copy.** The screens, the guide and the debrief say that the evidence for the format is thin.
 
 ## Open questions
 

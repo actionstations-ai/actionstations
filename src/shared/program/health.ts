@@ -202,6 +202,7 @@ function buildSections(
   index: DocIndex,
   exercises: Exercise[],
   actions: ProgramAction[],
+  snapshots: ProjectSnapshot[],
 ): SectionBuilder {
   const builder = sectionBuilder(index)
   for (const { key, doc } of index.docs.values())
@@ -210,6 +211,11 @@ function buildSections(
     for (const ref of e.scenario.planSections) {
       const { key, segments } = resolveRef(index, e.ref.projectId, ref)
       builder.cite(key, segments, e.ref)
+    }
+  for (const snap of snapshots)
+    for (const d of snap.drills ?? []) {
+      const { key, segments } = resolveRef(index, snap.projectId, d.planSection)
+      if (segments.length) builder.practise(key, segments, d.at)
     }
   for (const a of actions.filter(isActive))
     for (const ref of a.planSections) {
@@ -329,7 +335,7 @@ export function computeHealth(
     quarters,
   })
   const mappedExercises = exercises.filter((e) => e.scenario.coreCapabilities.length)
-  const builder = buildSections(index, exercises, actions)
+  const builder = buildSections(index, exercises, actions, snapshots)
   const allSections = builder.rows()
   const sections = filter.documentKeys
     ? allSections.filter((s) => filter.documentKeys!.includes(s.documentKey))

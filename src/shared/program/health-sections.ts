@@ -92,6 +92,8 @@ export interface SectionBuilder {
   declare(key: string, segments: string[]): void
   /** Record that an exercised scenario cited the path. */
   cite(key: string, segments: string[], exercise: ExerciseRef): void
+  /** Record a micro-drill run on the path and its ancestors; it never counts as an exercise. */
+  practise(key: string, segments: string[], at: string): void
   /** Count an open corrective action against the path and its ancestors. */
   addAction(key: string, segments: string[]): void
   rows(): SectionHealth[]
@@ -135,6 +137,13 @@ export function sectionBuilder(index: DocIndex): SectionBuilder {
         const at = exercise.exercisedAt
         if (at && (!row.health.lastCitedAt || at > row.health.lastCitedAt))
           row.health.lastCitedAt = at
+      }
+    },
+    practise(key, segments, at) {
+      for (const row of prefixes(segments).map((p) => rowFor(key, p))) {
+        row.health.practisedRuns = (row.health.practisedRuns ?? 0) + 1
+        if (!row.health.lastPractisedAt || at > row.health.lastPractisedAt)
+          row.health.lastPractisedAt = at
       }
     },
     addAction(key, segments) {

@@ -5,6 +5,7 @@
 // rejected by the lint pass, so models cannot invent sections.
 import { z } from 'zod'
 import { CoreCapabilityId } from '../core-capabilities'
+import { MicroDrillAssessOutput, MicroDrillBuildOutput } from './micro-drill'
 import { PurposeTag } from '../taxonomy'
 import { GroundingVerifyOutput, PlanConflictOutput } from './grounding'
 import { CapabilityElement, CapabilityRating } from './aar'
@@ -364,5 +365,7 @@ export const STAGE_OUTPUT_SCHEMAS = {
   AarOutput,
   RedlineOutput,
   DrillStartexOutput,
+  MicroDrillBuildOutput,
+  MicroDrillAssessOutput,
 } as const
 export type StageOutputSchemaName = keyof typeof STAGE_OUTPUT_SCHEMAS
