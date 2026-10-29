@@ -210,13 +210,14 @@ async function checkZip(
     'ExPlan',
     'SitMan',
     'CE-Handbook-HSEEP',
+    'EEGs',
   ])
     expect(
       pdfs.some((n) => n.endsWith(`-${suffix}.pdf`)),
       suffix,
     ).toBe(true)
-  // Every box is ticked, the SitMan player edition included.
-  expect(pdfs).toHaveLength(9)
+  // Every box is ticked, the SitMan player edition and the EEG packet included.
+  expect(pdfs).toHaveLength(10)
   expect(facilitator).toEqual(
     expect.arrayContaining(['facilitator/scenario.json', 'facilitator/scenario.md']),
   )
