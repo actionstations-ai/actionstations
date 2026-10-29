@@ -227,3 +227,59 @@ test('edit the handbook and a rubric cell, reload, files on disk match', async (
     await app.close()
   }
 })
+
+test('exercise details (#420): fill the form, see them in the ExPlan preview', async () => {
+  mkdirSync(SHOTS, { recursive: true })
+  const { app, page } = await launch({ TTX_MOCK_PROVIDERS: '1' })
+  const invoke = invoker(page)
+  try {
+    const parentDir = mkdtempSync(join(tmpdir(), 'ttx-e2e-conduct-'))
+    const { path: projectPath } = await invoke<{ path: string }>('project:create', {
+      parentDir,
+      name: 'NCIA Exercise Details E2E',
+    })
+    const empty = await invoke<{ id: string; projectId: string }>('scenarios:create-empty', {
+      projectPath,
+      title: 'Flight to Nowhere',
+    })
+    const id = empty.id
+    await invoke('scenarios:save', {
+      projectPath,
+      scenario: { ...FIXTURE, id, projectId: empty.projectId },
+      note: 'Scenario 3 fixture',
+    })
+    const scenarioUrl = `#/p/${encodeURIComponent(projectPath)}/scenarios/${id}`
+    await goTo(page, scenarioUrl)
+    await page.getByRole('tab', { name: 'Exercise details' }).click()
+    const form = page.getByRole('region', { name: 'Exercise details' })
+    await form.getByRole('textbox', { name: 'Sponsor organization' }).fill('Harbor Point Authority')
+    await form.getByRole('textbox', { name: 'Name', exact: true }).fill('Dana Whitfield')
+    await form.getByRole('button', { name: 'Add date' }).click()
+    await form.getByLabel('Exercise date 1').fill('2027-03-04')
+    await expect(page.getByRole('region', { name: 'SitMan modules' })).toBeVisible()
+    await shoot(page, 'exercise-details')
+    await form.getByRole('button', { name: 'Save' }).click()
+    await expect(form.getByText('All changes saved')).toBeVisible()
+    await expect
+      .poll(
+        () =>
+          (
+            JSON.parse(
+              readFileSync(join(projectPath, 'scenarios', id, 'scenario.json'), 'utf8'),
+            ) as { conduct?: { sponsor: string; dates: string[] } }
+          ).conduct,
+      )
+      .toMatchObject({ sponsor: 'Harbor Point Authority', dates: ['2027-03-04'] })
+
+    await goTo(page, `${scenarioUrl}/export`)
+    await page.getByRole('tab', { name: 'ExPlan' }).click()
+    const frame = page.frameLocator('iframe[title="Preview of ExPlan"]')
+    await expect(frame.getByText('Harbor Point Authority').first()).toBeVisible({
+      timeout: 20_000,
+    })
+    await expect(frame.getByText('March 4, 2027').first()).toBeVisible()
+    await expect(frame.getByText('Dana Whitfield', { exact: false }).first()).toBeVisible()
+  } finally {
+    await app.close()
+  }
+})

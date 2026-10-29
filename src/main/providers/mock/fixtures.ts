@@ -404,5 +404,122 @@ export const MOCK_FIXTURES: Record<StageOutputSchemaName, unknown> = {
       },
     ],
   },
+  SitManOutput: {
+    assumptions: [
+      'The exercise is conducted in a no-fault learning environment.',
+      'The scenario is plausible, and events occur as they are presented.',
+      'Players respond in accordance with existing plans, policies and procedures.',
+    ],
+    artificialities: [
+      'Time jumps move the clock forward between modules.',
+      'The SimCell plays every agency and caller outside the room.',
+    ],
+    modules: [
+      {
+        phase: 1,
+        narrativeMd:
+          'It is 09:00 on a busy Thursday. A gate screen shows the wrong destination and the helpdesk queue is filling.',
+        keyIssues: ['Is this a glitch or an incident?', 'Who owns the bad data on the screens?'],
+        discussionQuestions: [
+          {
+            text: 'Operations: what would make you declare an incident now?',
+            roleKeys: ['ops'],
+            objectiveRef: 'Decision Making',
+            citations: ['C1'],
+          },
+          {
+            text: 'IT: which log tells you the source data changed?',
+            roleKeys: ['it'],
+            objectiveRef: 'Technical Analysis',
+            citations: [],
+          },
+          {
+            text: 'PIO: what do you tell passengers before you know the cause?',
+            roleKeys: ['pio'],
+            objectiveRef: 'Communication',
+            citations: [],
+          },
+        ],
+      },
+      {
+        phase: 2,
+        narrativeMd:
+          'It is 10:00. One flight in five on the main board shows the wrong time or gate, and the PA has started to speak for itself.',
+        keyIssues: ['When do the screens go dark?', 'What does the public hear first?'],
+        discussionQuestions: [
+          {
+            text: 'Operations: what would make you declare an incident now?',
+            roleKeys: ['ops'],
+            objectiveRef: 'Decision Making',
+            citations: ['C1'],
+          },
+          {
+            text: 'IT: which log tells you the source data changed?',
+            roleKeys: ['it'],
+            objectiveRef: 'Technical Analysis',
+            citations: [],
+          },
+          {
+            text: 'PIO: what do you tell passengers before you know the cause?',
+            roleKeys: ['pio'],
+            objectiveRef: 'Communication',
+            citations: [],
+          },
+        ],
+      },
+      {
+        phase: 3,
+        narrativeMd:
+          'It is 11:00. The screens are dark and the terminal runs on whiteboards and runners.',
+        keyIssues: ['How is manual mode staffed and sustained?', 'Who confirms each gate change?'],
+        discussionQuestions: [
+          {
+            text: 'Operations: what would make you declare an incident now?',
+            roleKeys: ['ops'],
+            objectiveRef: 'Decision Making',
+            citations: ['C1'],
+          },
+          {
+            text: 'IT: which log tells you the source data changed?',
+            roleKeys: ['it'],
+            objectiveRef: 'Technical Analysis',
+            citations: [],
+          },
+          {
+            text: 'PIO: what do you tell passengers before you know the cause?',
+            roleKeys: ['pio'],
+            objectiveRef: 'Communication',
+            citations: [],
+          },
+        ],
+      },
+      {
+        phase: 4,
+        narrativeMd:
+          'It is 12:00. A clean server is ready, but nobody yet trusts the data it shows.',
+        keyIssues: ['What proves the data is clean?', 'Who signs off on returning to normal?'],
+        discussionQuestions: [
+          {
+            text: 'Operations: what would make you declare an incident now?',
+            roleKeys: ['ops'],
+            objectiveRef: 'Decision Making',
+            citations: ['C1'],
+          },
+          {
+            text: 'IT: which log tells you the source data changed?',
+            roleKeys: ['it'],
+            objectiveRef: 'Technical Analysis',
+            citations: [],
+          },
+          {
+            text: 'PIO: what do you tell passengers before you know the cause?',
+            roleKeys: ['pio'],
+            objectiveRef: 'Communication',
+            citations: [],
+          },
+        ],
+      },
+    ],
+  },
   CritiqueOutput: { issues: [], summary: 'No blocking issues found.' },
 }

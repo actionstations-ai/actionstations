@@ -5,12 +5,18 @@ describe('export targets', () => {
   it('defaults to everything except the optional Word files', () => {
     expect(DEFAULT_TARGETS).not.toContain('docx')
     expect(DEFAULT_TARGETS).toContain('zip')
-    expect(ALL_TARGETS).toHaveLength(13)
+    expect(ALL_TARGETS).toHaveLength(17)
     expect(DEFAULT_TARGETS).toContain('surveys_pdf')
+  })
+
+  it('selects the HSEEP set by default (#420)', () => {
+    for (const t of ['explan_pdf', 'sitman_pdf', 'handbook_hseep_pdf', 'msel_xlsx'] as const)
+      expect(DEFAULT_TARGETS).toContain(t)
   })
 
   it('toggles a target and keeps the canonical order', () => {
     expect(toggleTarget(['zip', 'msel_pdf'], 'docx')).toEqual(['msel_pdf', 'docx', 'zip'])
+    expect(toggleTarget(['msel_pdf'], 'explan_pdf')).toEqual(['explan_pdf', 'msel_pdf'])
     expect(toggleTarget(['msel_pdf', 'zip'], 'zip')).toEqual(['msel_pdf'])
   })
 

@@ -88,6 +88,8 @@ Scenario {
   documents: { handbook: MdRef, briefing: MdRef, rubric: Rubric, hotwash: HotWash },
   evaluation: Evaluation,                   // #421: objectives → Core Capabilities, EEGs; empty before the eeg stage ran
   simcellScripts: SimcellScript[],
+  conduct?: ConductDetails,                 // exercise details for the HSEEP documents (#420); read via conductOf()
+  sitman?: SitMan,                          // Situation Manual modules (stage `sitman`, #420)
   provenance: StageRun[]                    // what provider/prompt produced each part
 }
 
@@ -121,6 +123,20 @@ Observation {
 }
 
 Phase { id, index, title, goal, startTime, endTime }
+
+ConductDetails {                             // never generated, never sent to a provider (#420)
+  exerciseName, exerciseType: 'tabletop', dates: ISODate[], startTime?, endTime?, sponsor,
+  participatingOrganizations[], director: { name?, organization?, phone?, email? },
+  site, room, observersAllowed, marking,     // default "EXERCISE — FOR TRAINING USE"
+  communications: { channel, purpose, detail }[], safetyNotes, securityNotes,
+  acronyms: { term, meaning }[]
+}
+
+SitMan {
+  assumptions[], artificialities[],
+  modules: { phaseId, narrativeMd, keyIssues[],
+             discussionQuestions: { text, roleIds[], objectiveRef?, citations: Citation[] }[] }[]
+}
 
 MselRow {
   id,                                        // "I-07", "I-07b"

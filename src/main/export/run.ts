@@ -3,13 +3,15 @@
 // in every artifact it needs (all PDFs, media, scenario.json/.md).
 import { promises as fs } from 'node:fs'
 import { isAbsolute, join } from 'node:path'
-import type { ExportTarget } from '@shared/ipc'
+import type { ExportOptions, ExportTarget } from '@shared/ipc'
 import { AppError } from '../lib/errors'
 import { ensureDir, writeFileAtomic } from '../lib/fs'
 import type { JobContext } from '../jobs/manager'
 import { renderPdf } from '../render/window'
 import { buildDocumentHtml, EXPORT_DOC_LABELS, type ExportDoc } from './documents'
+import { completenessMarkdown, completenessReport } from './completeness'
 import { briefingDocx, eegDocx, handbookDocx } from './docx'
+import { explanDocx, handbookHseepDocx, sitmanDocx } from './hseep/docx'
 import { blankFormDocument } from './forms'
 import { scenarioJson, scenarioMarkdown } from './manifest'
 import { exportMedia, type ExportedFile } from './media'
@@ -22,6 +24,7 @@ import {
   isPlayerForm,
   printableSurveys,
 } from './surveys'
+import { mselWorkbook } from './xlsx'
 import { distributionEntries, writeZip } from './zip'
 
 /** Everything the ZIP's facilitator/ and players/ folders are built from. */
@@ -34,6 +37,10 @@ const ZIP_NEEDS: ExportTarget[] = [
   'surveys_pdf',
   'survey_results_pdf',
   'eeg_pdf',
+  'explan_pdf',
+  'sitman_pdf',
+  'handbook_hseep_pdf',
+  'msel_xlsx',
   'media',
   'json',
   'markdown',
@@ -41,6 +48,7 @@ const ZIP_NEEDS: ExportTarget[] = [
 /** Fixed execution order: media before markdown (checksums), ZIP last. */
 const ORDER: ExportTarget[] = [
   'media',
+  'msel_xlsx',
   'msel_pdf',
   'deck_pdf',
   'handbook_pdf',
@@ -49,6 +57,9 @@ const ORDER: ExportTarget[] = [
   'surveys_pdf',
   'survey_results_pdf',
   'eeg_pdf',
+  'explan_pdf',
+  'sitman_pdf',
+  'handbook_hseep_pdf',
   'docx',
   'json',
   'markdown',
@@ -70,6 +81,9 @@ const PDF_DOCS: Partial<Record<ExportTarget, { doc: ExportDoc; file: keyof Docum
   briefing_pdf: { doc: 'briefing', file: 'briefing' },
   exercise_plan_pdf: { doc: 'exercise_plan', file: 'exercisePlan' },
   eeg_pdf: { doc: 'eeg', file: 'eegs' },
+  explan_pdf: { doc: 'explan', file: 'explan' },
+  sitman_pdf: { doc: 'sitman', file: 'sitman' },
+  handbook_hseep_pdf: { doc: 'handbook_hseep', file: 'handbookHseep' },
 }
 
 /** The EEG packet needs guides to print; a scenario without any gets a warning, not a file. */
@@ -111,6 +125,7 @@ interface RunState {
   surveyIds?: string[]
   /** Participant survey forms written by this run: the only survey files players/ may get. */
   playerSurveyForms: string[]
+  options: ExportOptions
 }
 
 /** One printable form per survey in surveys/; participant forms are also allowed in players/. */
@@ -170,6 +185,31 @@ async function writeHandouts(
   )
 }
 
+async function writePdf(
+  state: RunState,
+  doc: ExportDoc,
+  file: keyof DocumentFileNames,
+): Promise<void> {
+  const html = buildDocumentHtml(state.model, doc, 'pdf')
+  await writeOut(
+    state,
+    state.names[file],
+    await htmlToPdf(html, EXPORT_DOC_LABELS[doc], [state.model.root]),
+  )
+}
+
+/** Every Word document: the classroom handbook and briefing, the HSEEP set (#420) and the EEG
+ *  packet when the scenario has guides (#421). */
+async function writeDocx(state: RunState): Promise<void> {
+  const { model, names } = state
+  await writeOut(state, names.handbookDocx, await handbookDocx(model))
+  await writeOut(state, names.briefingDocx, await briefingDocx(model))
+  await writeOut(state, names.explanDocx, await explanDocx(model))
+  await writeOut(state, names.sitmanDocx, await sitmanDocx(model, 'facilitator'))
+  await writeOut(state, names.handbookHseepDocx, await handbookHseepDocx(model))
+  if (hasEegs(model)) await writeOut(state, names.eegsDocx, await eegDocx(model))
+}
+
 async function runTarget(state: RunState, target: ExportTarget, outDir: string): Promise<void> {
   const pdf = PDF_DOCS[target]
   if (target === 'eeg_pdf' && !hasEegs(state.model)) {
@@ -177,12 +217,9 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
     return
   }
   if (pdf) {
-    const html = buildDocumentHtml(state.model, pdf.doc, 'pdf')
-    await writeOut(
-      state,
-      state.names[pdf.file],
-      await htmlToPdf(html, EXPORT_DOC_LABELS[pdf.doc], [state.model.root]),
-    )
+    await writePdf(state, pdf.doc, pdf.file)
+    if (target === 'sitman_pdf' && state.options.sitmanPlayerEdition)
+      await writePdf(state, 'sitman_player', 'sitmanPlayer')
     if (target === 'briefing_pdf') {
       await writeBlankForms(state)
       await writeHandouts(state, 'handouts', 'handouts')
@@ -209,13 +246,12 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
       return writeOut(state, 'scenario.json', scenarioJson(state.model))
     case 'markdown':
       return writeOut(state, 'scenario.md', scenarioMarkdown(state.model, state.media))
+    case 'msel_xlsx':
+      return writeOut(state, state.names.mselXlsx, await mselWorkbook(state.model))
     case 'docx':
-      await writeOut(state, state.names.handbookDocx, await handbookDocx(state.model))
-      await writeOut(state, state.names.briefingDocx, await briefingDocx(state.model))
-      if (hasEegs(state.model))
-        await writeOut(state, state.names.eegsDocx, await eegDocx(state.model))
-      return
+      return writeDocx(state)
     case 'zip': {
+      await writeReport(state)
       const zipPath = join(outDir, state.names.zip)
       await writeZip(
         zipPath,
@@ -228,6 +264,12 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
   }
 }
 
+/** export-report.md (#420): what the HSEEP set contains and which details are still blank. */
+async function writeReport(state: RunState): Promise<void> {
+  const md = completenessMarkdown(completenessReport(state.model), state.model.scenario.title)
+  await writeOut(state, state.names.report, md)
+}
+
 const TARGET_LABELS: Record<ExportTarget, string> = {
   msel_pdf: 'MSEL PDF',
   deck_pdf: 'Master Inject Deck PDF',
@@ -237,6 +279,10 @@ const TARGET_LABELS: Record<ExportTarget, string> = {
   surveys_pdf: 'survey forms',
   survey_results_pdf: 'survey results PDF',
   eeg_pdf: 'Exercise Evaluation Guides PDF',
+  explan_pdf: 'ExPlan PDF',
+  sitman_pdf: 'Situation Manual PDF',
+  handbook_hseep_pdf: 'C/E Handbook (HSEEP) PDF',
+  msel_xlsx: 'MSEL workbook',
   media: 'media files',
   json: 'scenario.json',
   markdown: 'scenario.md',
@@ -250,7 +296,7 @@ export async function runExport(
   outDir: string,
   targets: ExportTarget[],
   ctx: Pick<JobContext, 'progress' | 'log' | 'throwIfCancelled'>,
-  opts: { surveyIds?: string[] } = {},
+  opts: ExportOptions & { surveyIds?: string[] } = {},
 ): Promise<ExportResult> {
   const names = documentFileNames(model.scenario.title, {
     scenarioNo: model.scenarioNo,
@@ -263,6 +309,7 @@ export async function runExport(
     names,
     folder,
     media: [],
+    options: { ...(opts.sitmanPlayerEdition ? { sitmanPlayerEdition: true } : {}) },
     result: { folder, files: [], warnings: [] },
     playerSurveyForms: [],
     ...(opts.surveyIds?.length ? { surveyIds: opts.surveyIds } : {}),
@@ -277,6 +324,7 @@ export async function runExport(
       stage: target,
     })
   }
+  if (!plan.includes('zip')) await writeReport(state)
   for (const w of state.result.warnings) ctx.log(w, 'warn')
   ctx.progress(1, `Exported ${state.result.files.length} files`)
   return state.result

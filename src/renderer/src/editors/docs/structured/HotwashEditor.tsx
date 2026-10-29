@@ -18,7 +18,7 @@ const HOTWASH_PART: PartSpec<HotWash> = {
   note: 'Edited hot wash',
 }
 
-function ObjectiveSelect(props: {
+export function ObjectiveSelect(props: {
   label: string
   value: string | undefined
   scenario: Scenario

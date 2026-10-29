@@ -1,8 +1,8 @@
 import { Tabs } from 'radix-ui'
 import { ArrowLeft, CheckCircle2, FolderOpen, RotateCcw, TriangleAlert } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router'
-import type { ExportTarget } from '@shared/ipc'
+import type { CompletenessReport, ExportTarget } from '@shared/ipc'
 import type { JobDoneEvent } from '@shared/schemas/job'
 import { Button, PageHeader, ProgressBar } from '../../components/ui'
 import { call } from '../../lib/api'
@@ -14,6 +14,7 @@ import {
   DEFAULT_TARGETS,
   DOCUMENT_TARGETS,
   FILE_TARGETS,
+  HSEEP_TARGETS,
   PREVIEW_DOCS,
   rememberOutDir,
   rememberedOutDir,
@@ -35,6 +36,7 @@ function TargetGroup(props: {
   selected: ExportTarget[]
   onToggle: (id: ExportTarget) => void
   disabled: boolean
+  children?: ReactNode
 }) {
   return (
     <fieldset className="export-targets" disabled={props.disabled}>
@@ -55,6 +57,7 @@ function TargetGroup(props: {
           </span>
         </label>
       ))}
+      {props.children}
     </fieldset>
   )
 }
@@ -123,6 +126,50 @@ function ReadinessSummary(props: { readiness: Readiness | undefined; scenarioUrl
         {missing ? 'Write the missing injects' : unrendered ? 'Render media' : 'Show the errors'}
       </Link>
     </div>
+  )
+}
+
+/** What the HSEEP set will contain and which exercise details are still blank (#420). */
+function CompletenessSummary(props: {
+  report: CompletenessReport | undefined
+  error: unknown
+  scenarioUrl: string
+}) {
+  const { report } = props
+  if (props.error)
+    return (
+      <p className="field__error" role="alert">
+        Could not check the HSEEP documents: {errorText(props.error)}
+      </p>
+    )
+  if (!report) return <p className="muted export-ready">Checking the HSEEP documents…</p>
+  const gaps = report.documents.filter((d) => !d.ready && d.doc !== 'aar')
+  return (
+    <section className="export-report" aria-labelledby="export-report-title">
+      <h2 id="export-report-title" className="export-report__title">
+        HSEEP documents
+      </h2>
+      {gaps.length === 0 && !report.detailsMissing.length ? (
+        <p className="export-ready export-ready--ok">
+          <CheckCircle2 size={16} aria-hidden /> Every HSEEP document has its content.
+        </p>
+      ) : (
+        <ul className="export-report__list">
+          {gaps.map((d) => (
+            <li key={d.doc}>
+              <strong>{d.label}:</strong> {d.missing.join('; ')}
+            </li>
+          ))}
+          {report.detailsMissing.length > 0 && (
+            <li>
+              <strong>Blank exercise details</strong> (print as fill-in lines):{' '}
+              {report.detailsMissing.join(', ')}.{' '}
+              <Link to={`${props.scenarioUrl}?tab=exercise`}>Add exercise details</Link>
+            </li>
+          )}
+        </ul>
+      )}
+    </section>
   )
 }
 
@@ -214,6 +261,7 @@ function OutputFolder(props: { outDir: string; running: boolean; onChoose: () =>
 /** Targets, output folder (remembered per project) and the export job with its result. */
 function useExportForm(projectPath: string, scenarioId: string) {
   const [targets, setTargets] = useState<ExportTarget[]>(DEFAULT_TARGETS)
+  const [sitmanPlayerEdition, setSitmanPlayerEdition] = useState(false)
   const [outDir, setOutDir] = useState(() => rememberedOutDir(projectPath))
   const [result, setResult] = useState<ExportJobResult | null>(null)
   const [startError, setStartError] = useState('')
@@ -234,18 +282,55 @@ function useExportForm(projectPath: string, scenarioId: string) {
     setResult(null)
     setStartError('')
     try {
-      await run(outDir, targets)
+      await run(outDir, targets, { sitmanPlayerEdition })
     } catch (err) {
       setStartError(errorText(err))
     }
   }
   const toggle = (id: ExportTarget) => setTargets((t) => toggleTarget(t, id))
-  return { targets, toggle, outDir, chooseFolder, result, startError, start, jobId, job, running }
+  return {
+    targets,
+    toggle,
+    sitmanPlayerEdition,
+    setSitmanPlayerEdition,
+    outDir,
+    chooseFolder,
+    result,
+    startError,
+    start,
+    jobId,
+    job,
+    running,
+  }
+}
+
+function PlayerEditionOption(props: { form: ReturnType<typeof useExportForm> }) {
+  const { form } = props
+  const enabled = form.targets.includes('sitman_pdf')
+  return (
+    <label className="export-target export-option">
+      <input
+        type="checkbox"
+        checked={form.sitmanPlayerEdition && enabled}
+        disabled={form.running || !enabled}
+        onChange={(e) => form.setSitmanPlayerEdition(e.target.checked)}
+        aria-describedby="export-hint-sitman-player"
+      />
+      <span className="export-target__text">
+        <span className="export-target__label">Also write the SitMan player edition</span>
+        <span id="export-hint-sitman-player" className="export-target__hint">
+          Module 1 in full, later modules as questions only; goes into players/ of the ZIP. Leave
+          off when players should not see the modules ahead of play.
+        </span>
+      </span>
+    </label>
+  )
 }
 
 function ExportForm(props: {
   form: ReturnType<typeof useExportForm>
   readiness: Readiness | undefined
+  completeness: { data: CompletenessReport | undefined; error: unknown }
   scenarioUrl: string
 }) {
   const { form } = props
@@ -260,7 +345,14 @@ function ExportForm(props: {
       }}
     >
       <TargetGroup
-        legend="Documents (PDF)"
+        legend="HSEEP set"
+        options={HSEEP_TARGETS}
+        {...{ selected: targets, onToggle: form.toggle, disabled: running }}
+      >
+        <PlayerEditionOption form={form} />
+      </TargetGroup>
+      <TargetGroup
+        legend="Classroom set (PDF)"
         options={DOCUMENT_TARGETS}
         {...{ selected: targets, onToggle: form.toggle, disabled: running }}
       />
@@ -271,6 +363,11 @@ function ExportForm(props: {
       />
       <div className="export-actions" role="group" aria-label="Export">
         <ReadinessSummary readiness={props.readiness} scenarioUrl={props.scenarioUrl} />
+        <CompletenessSummary
+          report={props.completeness.data}
+          error={props.completeness.error}
+          scenarioUrl={props.scenarioUrl}
+        />
         <OutputFolder
           outDir={form.outDir}
           running={running}
@@ -310,6 +407,11 @@ export default function ExportPage() {
   )
   const form = useExportForm(projectPath, scenarioId)
   const { readiness } = useReadiness(projectPath, scenario.data)
+  const completeness = useIpcQuery(
+    'export:completeness',
+    { projectPath, scenarioId },
+    { enabled: !!scenarioId },
+  )
   const scenarioUrl = `/p/${projectKey(projectPath)}/scenarios/${scenarioId}`
 
   return (
@@ -323,7 +425,12 @@ export default function ExportPage() {
         description="Print-ready PDFs, named media files and a distribution package for the exercise."
       />
       <div className="export-layout">
-        <ExportForm form={form} readiness={readiness} scenarioUrl={scenarioUrl} />
+        <ExportForm
+          form={form}
+          readiness={readiness}
+          completeness={{ data: completeness.data, error: completeness.error }}
+          scenarioUrl={scenarioUrl}
+        />
         {scenarioId && <Preview projectPath={projectPath} scenarioId={scenarioId} />}
       </div>
     </div>

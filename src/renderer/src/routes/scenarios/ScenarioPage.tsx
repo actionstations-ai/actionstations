@@ -12,6 +12,7 @@ import { LiveLogPanel } from './LiveLogPanel'
 import {
   DocumentsTab,
   EvaluationTab,
+  ExerciseTab,
   ObjectivesTab,
   OverviewTab,
   PendingSavesNote,
@@ -78,6 +79,7 @@ function ScenarioTabs(props: {
     ['msel', `MSEL (${scenario.msel.length})`],
     ['injects', <InjectsTabLabel key="injects" readiness={props.readiness} />],
     ['documents', 'Documents'],
+    ['exercise', 'Exercise details'],
     ['rubric', 'Rubric'],
     ['evaluation', 'Evaluation'],
     ['warnings', `Warnings (${props.lintCount ?? scenario.warnings.length})`],
@@ -115,6 +117,10 @@ function ScenarioTabs(props: {
       <Tabs.Content value="documents" className="tabs__panel">
         <PanelHeading>Documents</PanelHeading>
         <DocumentsTab {...docProps} />
+      </Tabs.Content>
+      <Tabs.Content value="exercise" className="tabs__panel">
+        <PanelHeading>Exercise details</PanelHeading>
+        <ExerciseTab {...docProps} />
       </Tabs.Content>
       <Tabs.Content value="rubric" className="tabs__panel">
         <PanelHeading>Rubric</PanelHeading>

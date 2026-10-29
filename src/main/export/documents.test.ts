@@ -29,7 +29,16 @@ describe('document HTML', () => {
     model.scenario.title = 'Evil "</style><script>alert(1)</script>'
     model.scenario.msel[0]!.event = '<img src=x onerror=alert(1)>'
     model.injects[0]!.instructorNote = '<script>steal()</script>'
-    for (const doc of ['msel', 'deck', 'handbook', 'briefing', 'exercise_plan'] as const) {
+    for (const doc of [
+      'msel',
+      'deck',
+      'handbook',
+      'briefing',
+      'exercise_plan',
+      'explan',
+      'sitman',
+      'handbook_hseep',
+    ] as const) {
       const html = buildDocumentHtml(model, doc, 'pdf')
       expect(html, doc).not.toMatch(/<script|<img src=x/i)
     }
@@ -172,12 +181,41 @@ describe('document HTML', () => {
     expect(handbook).not.toContain('Exercise Date: [Date]')
   })
 
-  it('exercise plan: cover, then every document once, with unique heading ids', () => {
+  it('exercise plan: cover, ExPlan, SitMan, HSEEP handbook, MSEL, deck, briefing (#420)', () => {
     const html = buildDocumentHtml(fixtureModel(), 'exercise_plan', 'pdf')
-    for (const cls of ['doc--cover', 'doc--handbook', 'doc--msel', 'doc--deck', 'doc--briefing'])
-      expect(count(html, `class="doc ${cls}"`), cls).toBe(1)
+    const order = [
+      'class="doc doc--cover"',
+      'class="doc doc--hseep doc--explan"',
+      'class="doc doc--hseep doc--sitman"',
+      'class="doc doc--hseep doc--handbook_hseep"',
+      'class="doc doc--msel"',
+      'class="doc doc--deck"',
+      'class="doc doc--briefing"',
+    ]
+    for (const cls of order) expect(count(html, cls), cls).toBe(1)
+    const at = order.map((cls) => html.indexOf(cls))
+    expect([...at].sort((a, b) => a - b)).toEqual(at)
     const ids = [...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1])
     expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it('HSEEP documents: named pages, the exercise marking and escaped model text (#420)', () => {
+    const model = fixtureModel()
+    model.conduct.marking = 'EXERCISE — UNCLASSIFIED'
+    model.scenario.phases[0]!.title = '<script>alert(1)</script>'
+    for (const doc of ['explan', 'sitman', 'sitman_player', 'handbook_hseep'] as const) {
+      const html = buildDocumentHtml(model, doc, 'pdf')
+      expect(html, doc).toContain(`@page ${doc} {`)
+      expect(html, doc).toContain('EXERCISE — UNCLASSIFIED')
+      expect(html, doc).not.toMatch(/<script/i)
+      expect(html, doc).toContain('<th scope=')
+    }
+  })
+
+  it('blank exercise details print fill-in lines, never invented values (#420)', () => {
+    const html = buildDocumentHtml(fixtureModel(), 'explan', 'pdf')
+    expect(html).toMatch(/<th scope="row">Sponsor<\/th>\s*<td>\s*<span class="fill-in">/)
+    expect(html).toContain('To be completed')
   })
 })
 
@@ -205,6 +243,7 @@ describe('planTargets', () => {
     expect(planTargets(['markdown', 'msel_pdf'])).toEqual(['media', 'msel_pdf', 'markdown'])
     expect(planTargets(['zip'])).toEqual([
       'media',
+      'msel_xlsx',
       'msel_pdf',
       'deck_pdf',
       'handbook_pdf',
@@ -213,6 +252,9 @@ describe('planTargets', () => {
       'surveys_pdf',
       'survey_results_pdf',
       'eeg_pdf',
+      'explan_pdf',
+      'sitman_pdf',
+      'handbook_hseep_pdf',
       'json',
       'markdown',
       'zip',

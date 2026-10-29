@@ -436,8 +436,8 @@ test('v0.1 acceptance: NCIA plans → new non-FIDS 4-hour scenario → media →
       expect(media, `${wav} has no MP3`).toContain(wav.replace(/\.wav$/, '.mp3'))
     expect(report.export.mp4.length).toBeGreaterThan(0)
     expect(report.export.posters.length).toBeGreaterThan(0)
-    expect(Object.keys(report.export.pdfPages)).toHaveLength(5)
-    expect(report.export.zip.filter((n) => n.startsWith('players/'))).toHaveLength(3)
+    expect(Object.keys(report.export.pdfPages)).toHaveLength(9)
+    expect(report.export.zip.filter((n) => n.startsWith('players/'))).toHaveLength(4)
   } finally {
     await app.close()
   }

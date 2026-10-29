@@ -35,7 +35,13 @@ export { LibraryItem } from './injects'
 export { TemplateInfo, TemplateSource } from './render'
 export { ListedInjectType, RefusedTemplateView } from './templates'
 export { WorkflowBinding, WorkflowEntry, MediaType } from './comfy'
-export { ExportTarget, EXPORT_TARGETS } from './export'
+export {
+  CompletenessReport,
+  EXPORT_TARGETS,
+  ExportOptions,
+  ExportTarget,
+  PREVIEW_DOC_IDS,
+} from './export'
 export { FacilitatorState } from './facilitator'
 export { ExampleInfo, ExampleManifest, ExampleMarker, ExampleMarkerView } from './examples'
 export { ListedDomainProfile } from './domains'

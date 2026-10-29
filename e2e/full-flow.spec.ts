@@ -207,20 +207,27 @@ async function checkZip(
     'Controller-Evaluator-Handbook',
     'Player-Briefing-Packet',
     'Exercise-Plan',
+    'ExPlan',
+    'SitMan',
+    'CE-Handbook-HSEEP',
+    'EEGs',
   ])
     expect(
       pdfs.some((n) => n.endsWith(`-${suffix}.pdf`)),
       suffix,
     ).toBe(true)
-  expect(pdfs).toHaveLength(5)
+  // Every box is ticked, the SitMan player edition and the EEG packet included.
+  expect(pdfs).toHaveLength(10)
   expect(facilitator).toEqual(
     expect.arrayContaining(['facilitator/scenario.json', 'facilitator/scenario.md']),
   )
   expect(facilitator.filter((n) => n.startsWith('facilitator/media/')).length).toBeGreaterThan(0)
   const players = names.filter((n) => n.startsWith('players/')).sort()
-  expect(players).toHaveLength(3)
-  expect(players[0]).toMatch(/^players\/.+-Player-Briefing-Packet\.pdf$/)
-  expect(players.slice(1)).toEqual([
+  expect(players).toHaveLength(5)
+  expect(players[0]).toMatch(/^players\/.+-ExPlan\.pdf$/)
+  expect(players[1]).toMatch(/^players\/.+-Player-Briefing-Packet\.pdf$/)
+  expect(players[2]).toMatch(/^players\/.+-SitMan-Player-Edition\.pdf$/)
+  expect(players.slice(3)).toEqual([
     'players/ICS-201-Incident-Briefing-blank.pdf',
     'players/ICS-203-Organization-Assignment-List-blank.pdf',
   ])

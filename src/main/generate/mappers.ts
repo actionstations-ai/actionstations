@@ -19,6 +19,8 @@ import {
   type RubricOutput,
   type Scenario,
   type ScenarioIdea,
+  type SitManModule,
+  type SitManOutput,
 } from '@shared/schemas'
 import { newId } from '../lib/ids'
 import type { RetrievedChunk } from './retrieval'
@@ -658,4 +660,57 @@ export function briefingTeams(s: Scenario, out: BriefingOutput) {
     ...t,
     roles: t.roleKeys.map((k) => resolveToRoles([k], s.roles)).flatMap((r) => r.ids),
   }))
+}
+
+export interface SitManMapResult {
+  dropped: CitationCollector['dropped']
+  /** Module phase numbers that match no phase (the module is left out). */
+  unknownPhases: number[]
+  /** Role keys a question named that match no role. */
+  unknownRoles: string[]
+}
+
+/**
+ * The Situation Manual (#420): phase numbers become phase ids (one module per phase, the first
+ * wins; unknown numbers are dropped), role keys become role ids, citation keys become citations.
+ */
+export function applySitMan(
+  s: Scenario,
+  out: SitManOutput,
+  chunks: RetrievedChunk[],
+): SitManMapResult {
+  const c: CitationCollector = { chunks, dropped: [] }
+  const phases = [...s.phases].sort((a, b) => a.index - b.index)
+  const unknownPhases: number[] = []
+  const unknownRoles: string[] = []
+  const byPhase = new Map<string, SitManModule>()
+  for (const m of out.modules) {
+    const phase = phases[m.phase - 1]
+    if (!phase) {
+      unknownPhases.push(m.phase)
+      continue
+    }
+    if (byPhase.has(phase.id)) continue
+    byPhase.set(phase.id, {
+      phaseId: phase.id,
+      narrativeMd: m.narrativeMd.trim(),
+      keyIssues: m.keyIssues.map((k) => k.trim()).filter(Boolean),
+      discussionQuestions: m.discussionQuestions.map((q) => {
+        const roles = resolveToRoles(q.roleKeys, s.roles)
+        unknownRoles.push(...roles.unresolved)
+        return {
+          text: q.text.trim(),
+          roleIds: roles.label === 'All' ? [] : roles.ids,
+          ...(q.objectiveRef ? { objectiveRef: q.objectiveRef } : {}),
+          citations: cite(q.citations, c),
+        }
+      }),
+    })
+  }
+  s.sitman = {
+    assumptions: out.assumptions.map((a) => a.trim()).filter(Boolean),
+    artificialities: out.artificialities.map((a) => a.trim()).filter(Boolean),
+    modules: phases.flatMap((p) => byPhase.get(p.id) ?? []),
+  }
+  return { dropped: c.dropped, unknownPhases, unknownRoles: [...new Set(unknownRoles)] }
 }
