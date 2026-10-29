@@ -14,6 +14,7 @@ const LABELS: Record<string, string> = {
   eeg: 'Evaluation guides',
   player_briefing: 'Player briefing',
   hotwash: 'Hot wash',
+  sitman: 'SitMan modules',
   critique: 'Critique',
 }
 

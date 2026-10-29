@@ -1,8 +1,11 @@
 // Build the full HTML of each exported document (MSEL, Master Inject Deck, C/E Handbook,
-// Player Briefing Packet, Exercise Plan) from templates/export and the export model.
+// Player Briefing Packet, the HSEEP set (#420), the EEG packet (#421) and the Exercise Plan
+// bundle) from templates/export and the export model.
 import { eegView } from './eeg'
 import { documentBodyHtml, hasHeading, markdownToHtml, stripEndNote } from './escape'
 import { dropDuplicateHeaderFacts } from './header-facts'
+import { blocksView } from './hseep/blocks'
+import { HSEEP_EYEBROWS, hseepBlocks, hseepEndNote, markingOf, type HseepDoc } from './hseep'
 import { BLANK_FORMS, embedBlankForm, type EmbeddedForm } from './forms'
 import type { ExportModel } from './model'
 import { DOC_LABELS, embeddedFontsCss, pageCss, type DocKey } from './page'
@@ -156,10 +159,29 @@ function coverLogo(model: ExportModel, mode: RenderMode): string {
   return rel && model.available.has(rel) ? assetSrc(model, rel, mode) : ''
 }
 
+/** One HSEEP document (#420): title block plus its blocks in HSEEP order. */
+function hseepSection(model: ExportModel, prefix: string, doc: HseepDoc): string {
+  const s = model.scenario
+  return renderExportTemplate('hseep', {
+    prefix,
+    page: doc,
+    title: {
+      id: `${prefix}${doc}-title`,
+      eyebrow: HSEEP_EYEBROWS[doc],
+      heading: scenarioHeading(model),
+      sub: s.subtitle ?? '',
+      facts: titleFacts(model),
+    },
+    blocks: blocksView(hseepBlocks(model, doc)),
+    endNote: hseepEndNote(doc),
+  })
+}
+
 function coverSection(model: ExportModel, prefix: string, mode: RenderMode): string {
   const s = model.scenario
   return renderExportTemplate('cover', {
     prefix,
+    marking: markingOf(model),
     logo: coverLogo(model, mode),
     org: model.project.orgName || model.project.name,
     heading: scenarioHeading(model),
@@ -170,7 +192,9 @@ function coverSection(model: ExportModel, prefix: string, mode: RenderMode): str
       ['Generated', formatDate(model.generatedAt)],
     ]),
     contents: [
-      DOC_LABELS.handbook,
+      DOC_LABELS.explan,
+      DOC_LABELS.sitman,
+      'Controller and Evaluator Handbook',
       DOC_LABELS.msel,
       DOC_LABELS.deck,
       `${DOC_LABELS.briefing} (with blank ICS 201 form)`,
@@ -190,7 +214,12 @@ function wrap(model: ExportModel, doc: ExportDoc, body: string, forms: EmbeddedF
     title: `${label} — ${model.scenario.title}`,
     fontsCss: trusted(embeddedFontsCss()),
     printCss: trusted(printCss()),
-    pageCss: trusted(pageCss({ title: scenarioHeading(model), footer: footerText(model) }, label)),
+    pageCss: trusted(
+      pageCss(
+        { title: scenarioHeading(model), footer: footerText(model), marking: markingOf(model) },
+        label,
+      ),
+    ),
     formCss: trusted(forms.map((f) => f.css).join('\n')),
     body: trusted(body),
   })
@@ -214,13 +243,23 @@ export function buildDocumentHtml(model: ExportModel, doc: ExportDoc, mode: Rend
     case 'handouts':
     case 'controller_handouts':
       return wrap(model, doc, handoutsSection(model, '', doc), [])
+    case 'explan':
+    case 'sitman':
+    case 'sitman_player':
+    case 'handbook_hseep':
+      return wrap(model, doc, hseepSection(model, '', doc), [])
     case 'exercise_plan': {
+      // HSEEP bundle order (#420): cover, ExPlan, SitMan, C/E Handbook, MSEL, deck, EEGs (when
+      // the scenario has guides, #421), briefing.
       const forms = packetForms()
       const body = [
         coverSection(model, 'plan-', mode),
-        handbookSection(model, 'hb-'),
+        hseepSection(model, 'xp-', 'explan'),
+        hseepSection(model, 'sm-', 'sitman'),
+        hseepSection(model, 'hb-', 'handbook_hseep'),
         mselSection(model, 'ms-'),
         deckSection(model, 'dk-', mode),
+        ...(model.scenario.evaluation.eegs.length ? [eegSection(model, 'eg-')] : []),
         briefingSection(model, 'br-', forms),
       ].join('\n')
       return wrap(model, doc, body, forms)

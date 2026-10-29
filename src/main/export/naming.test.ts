@@ -56,6 +56,19 @@ describe('fileTitle / documentFileNames', () => {
   it('names the distribution ZIP after the title', () => {
     expect(documentFileNames('Flight to Nowhere').zip).toBe('Flight-to-Nowhere-distribution.zip')
   })
+  it('names the HSEEP set and its Word twins (#420)', () => {
+    expect(documentFileNames('Flight to Nowhere')).toMatchObject({
+      explan: 'Flight-to-Nowhere-ExPlan.pdf',
+      sitman: 'Flight-to-Nowhere-SitMan.pdf',
+      sitmanPlayer: 'Flight-to-Nowhere-SitMan-Player-Edition.pdf',
+      handbookHseep: 'Flight-to-Nowhere-CE-Handbook-HSEEP.pdf',
+      mselXlsx: 'Flight-to-Nowhere-MSEL.xlsx',
+      explanDocx: 'Flight-to-Nowhere-ExPlan.docx',
+      sitmanDocx: 'Flight-to-Nowhere-SitMan.docx',
+      handbookHseepDocx: 'Flight-to-Nowhere-CE-Handbook-HSEEP.docx',
+      report: 'export-report.md',
+    })
+  })
   it('gives each scenario its own folder and ZIP, even with the same title (#213)', () => {
     const a = documentFileNames('Flight to Nowhere', {
       scenarioNo: '3',

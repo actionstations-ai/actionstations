@@ -4,7 +4,7 @@ import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { WaveFile } from 'wavefile'
-import { Inject, Scenario, type MediaAsset } from '../../../src/shared/schemas'
+import { conductOf, Inject, Scenario, type MediaAsset } from '../../../src/shared/schemas'
 import type { ExportModel } from '../../../src/main/export/model'
 import { planMediaFiles } from '../../../src/main/export/naming'
 
@@ -129,6 +129,22 @@ export function fixtureModel(overrides: Partial<ExportModel> = {}): ExportModel 
     available,
     generatedAt: '2026-10-21T12:00:00.000Z',
     surveys: [],
+    conduct: conductOf(scenario),
     ...overrides,
   }
+}
+
+const readFixture = (name: string): unknown =>
+  JSON.parse(readFileSync(resolve('tests/fixtures/export', name), 'utf8'))
+
+/** The fixture model with hand-written exercise details and SitMan modules (#420). */
+export function hseepFixtureModel(overrides: Partial<ExportModel> = {}): ExportModel {
+  const model = fixtureModel(overrides)
+  model.scenario = Scenario.parse({
+    ...model.scenario,
+    conduct: readFixture('scenario-3.conduct.json'),
+    sitman: readFixture('scenario-3.sitman.json'),
+  })
+  model.conduct = conductOf(model.scenario)
+  return model
 }

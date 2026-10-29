@@ -1,6 +1,7 @@
 // Optional Word export (#44) of the C/E Handbook and the Player Briefing Packet: markdown
 // tokens become real Word headings, paragraphs, lists and tables (no HTML import), plus the
-// structured rubric / SimCell / team tables when the markdown lacks them.
+// structured rubric / SimCell / team tables when the markdown lacks them. The HSEEP documents
+// (#420) reuse these helpers from hseep/docx.ts.
 import {
   AlignmentType,
   Document,
@@ -27,7 +28,8 @@ import type { ExportModel } from './model'
 import { EXERCISE_MARKING } from './page'
 import { scenarioHeading, teamRows, titleFacts } from './views'
 
-type Block = Paragraph | Table
+export type DocxBlock = Paragraph | Table
+type Block = DocxBlock
 interface RunStyle {
   bold?: boolean
   italics?: boolean
@@ -89,7 +91,7 @@ function decodeEntities(s: string): string {
     .replace(/&amp;/g, '&')
 }
 
-const run = (text: string, style: RunStyle = {}): TextRun =>
+export const run = (text: string, style: RunStyle = {}): TextRun =>
   new TextRun({
     text,
     bold: style.bold,
@@ -105,7 +107,7 @@ function cell(children: Paragraph[], header = false): TableCell {
   })
 }
 
-function table(header: string[], rows: (Paragraph[] | string)[][]): Table {
+export function table(header: string[], rows: (Paragraph[] | string)[][]): Table {
   const para = (v: Paragraph[] | string) => (typeof v === 'string' ? [new Paragraph(v)] : v)
   return new Table({
     width: { size: 100, type: WidthType.PERCENTAGE },
@@ -192,11 +194,15 @@ function tokenBlocks(tokens: Token[], headingShift: number, counter: { n: number
   return out
 }
 
-/** Markdown body (leading title headings dropped, shallowest heading → Heading 2). */
-export function markdownBlocks(md: string): Block[] {
+/**
+ * Markdown body (leading title headings dropped, shallowest heading → Heading `topLevel`).
+ * `keepTitles` keeps the leading headings (a section cut out of a larger document).
+ */
+export function markdownBlocks(md: string, topLevel = 2, keepTitles = false): Block[] {
   const tokens = new Lexer({ gfm: true }).lex(stripEndNote(stripSectionMarkers(md)))
   let i = 0
   while (
+    !keepTitles &&
     i < tokens.length &&
     (tokens[i]!.type === 'space' ||
       (tokens[i]!.type === 'heading' && (tokens[i] as Tokens.Heading).depth <= 2))
@@ -204,11 +210,15 @@ export function markdownBlocks(md: string): Block[] {
     i++
   const body = tokens.slice(i)
   const depths = body.flatMap((t) => (t.type === 'heading' ? [(t as Tokens.Heading).depth] : []))
-  const shift = depths.length ? 2 - Math.min(...depths) : 0
+  const shift = depths.length ? topLevel - Math.min(...depths) : 0
   return tokenBlocks(body, shift, { n: 0 })
 }
 
-function titleBlocks(model: ExportModel, eyebrow: string, extra: [string, string][]): Block[] {
+export function titleBlocks(
+  model: ExportModel,
+  eyebrow: string,
+  extra: [string, string][],
+): Block[] {
   const facts = titleFacts(model, extra)
   return [
     new Paragraph({
@@ -281,18 +291,20 @@ function briefingExtras(model: ExportModel): Block[] {
   ]
 }
 
+const markingOf = (model: ExportModel): string => model.conduct.marking.trim() || EXERCISE_MARKING
+
 function runningHeader(model: ExportModel, label: string): Header {
   return new Header({
     children: [
       new Paragraph({
         alignment: AlignmentType.CENTER,
-        children: [run(`${scenarioHeading(model)}  ·  ${EXERCISE_MARKING}  ·  ${label}`, {})],
+        children: [run(`${scenarioHeading(model)}  ·  ${markingOf(model)}  ·  ${label}`, {})],
       }),
     ],
   })
 }
 
-function runningFooter(): Footer {
+function runningFooter(marking: string): Footer {
   return new Footer({
     children: [
       new Paragraph({
@@ -300,7 +312,7 @@ function runningFooter(): Footer {
         children: [
           new TextRun({
             children: [
-              `${EXERCISE_MARKING}   ·   Page `,
+              `${marking}   ·   Page `,
               PageNumber.CURRENT,
               ' of ',
               PageNumber.TOTAL_PAGES,
@@ -312,7 +324,7 @@ function runningFooter(): Footer {
   })
 }
 
-function buildDocument(model: ExportModel, label: string, children: Block[]): Document {
+export function buildDocument(model: ExportModel, label: string, children: Block[]): Document {
   return new Document({
     creator: model.project.orgName || 'Action Stations',
     title: `${label} — ${model.scenario.title}`,
@@ -334,7 +346,7 @@ function buildDocument(model: ExportModel, label: string, children: Block[]): Do
     sections: [
       {
         headers: { default: runningHeader(model, label) },
-        footers: { default: runningFooter() },
+        footers: { default: runningFooter(markingOf(model)) },
         children,
       },
     ],

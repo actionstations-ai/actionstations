@@ -53,6 +53,20 @@ export const INJECT_CATEGORIES = [
 ] as const
 export type InjectCategory = (typeof INJECT_CATEGORIES)[number]
 
+/** Delivery methods in the HSEEP MSEL sense (#420): how an inject reaches the players. */
+export const DELIVERY_METHODS = [
+  'Phone',
+  'Radio',
+  'Email',
+  'Social media',
+  'Document / handout',
+  'Visual (main screen)',
+  'Audio',
+  'Verbal / facilitator',
+] as const
+export type DeliveryMethod = (typeof DELIVERY_METHODS)[number]
+export const DEFAULT_DELIVERY_METHOD: DeliveryMethod = 'Verbal / facilitator'
+
 /** How an inject type's media is produced. T = HTML template, AI = ComfyUI image/video, TTS = voice. */
 export type RenderPath = 'template' | 'ai_image' | 'ai_video' | 'tts'
 
@@ -66,6 +80,11 @@ export interface InjectTypeInfo {
   /** Part of the M2/M3 minimum viable template set. */
   mvp: boolean
   defaultDelivery: 'hand_to_role' | 'display_main_screen' | 'play_audio' | 'read_aloud'
+  /**
+   * How the inject reaches players, as the Excel MSEL's Delivery Method column names it (#420).
+   * Absent: derived from the category (CATEGORY_DELIVERY_METHOD).
+   */
+  deliveryMethod?: DeliveryMethod
   /**
    * Domain profile ids this type belongs to (src/shared/domains). Absent = every domain.
    * A domain-tagged type is offered only to projects of those domains (type-map.ts).
@@ -84,7 +103,9 @@ const t = (
   label: string,
   category: InjectCategory,
   render: RenderPath[],
-  opts: Partial<Pick<InjectTypeInfo, 'paper' | 'mvp' | 'defaultDelivery' | 'domains'>> = {},
+  opts: Partial<
+    Pick<InjectTypeInfo, 'paper' | 'mvp' | 'defaultDelivery' | 'domains' | 'deliveryMethod'>
+  > = {},
 ): InjectTypeInfo => ({
   id,
   label,
@@ -94,6 +115,7 @@ const t = (
   mvp: opts.mvp ?? false,
   defaultDelivery: opts.defaultDelivery ?? 'hand_to_role',
   ...(opts.domains ? { domains: opts.domains } : {}),
+  ...(opts.deliveryMethod ? { deliveryMethod: opts.deliveryMethod } : {}),
 })
 
 export const INJECT_TYPES: readonly InjectTypeInfo[] = [
@@ -115,21 +137,39 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
   t('media_inquiry_phone_slip', 'Phone message slip', 'news', ['template'], {
     paper: true,
     mvp: true,
+    deliveryMethod: 'Phone',
   }),
-  t('reporter_email', 'Reporter email', 'news', ['template']),
+  t('reporter_email', 'Reporter email', 'news', ['template'], { deliveryMethod: 'Email' }),
   // Internal communications
   t('email', 'Email', 'internal', ['template'], { mvp: true }),
   t('email_forward', 'Email forward', 'internal', ['template'], { mvp: true }),
-  t('memo', 'Memo', 'internal', ['template'], { paper: true, mvp: true }),
+  t('memo', 'Memo', 'internal', ['template'], {
+    paper: true,
+    mvp: true,
+    deliveryMethod: 'Document / handout',
+  }),
   t('helpdesk_ticket', 'Helpdesk ticket', 'internal', ['template'], { mvp: true }),
-  t('chat_transcript', 'Chat transcript', 'internal', ['template']),
-  t('text_message', 'Text message', 'internal', ['template']),
-  t('voicemail', 'Voicemail', 'internal', ['tts', 'template'], { defaultDelivery: 'play_audio' }),
+  t('chat_transcript', 'Chat transcript', 'internal', ['template'], {
+    deliveryMethod: 'Document / handout',
+  }),
+  t('text_message', 'Text message', 'internal', ['template'], { deliveryMethod: 'Phone' }),
+  t('voicemail', 'Voicemail', 'internal', ['tts', 'template'], {
+    defaultDelivery: 'play_audio',
+    deliveryMethod: 'Phone',
+  }),
   // Voice & radio
-  t('radio_call', 'Radio call', 'voice', ['tts', 'template'], { mvp: true }),
+  t('radio_call', 'Radio call', 'voice', ['tts', 'template'], {
+    mvp: true,
+    deliveryMethod: 'Radio',
+  }),
   t('phone_call', 'Phone call', 'voice', ['tts', 'template'], { defaultDelivery: 'read_aloud' }),
-  t('pa_announcement', 'PA announcement', 'voice', ['tts'], { defaultDelivery: 'play_audio' }),
-  t('911_cad_entry', '911 CAD entry', 'voice', ['template']),
+  t('pa_announcement', 'PA announcement', 'voice', ['tts'], {
+    defaultDelivery: 'play_audio',
+    deliveryMethod: 'Audio',
+  }),
+  t('911_cad_entry', '911 CAD entry', 'voice', ['template'], {
+    deliveryMethod: 'Document / handout',
+  }),
   // Technical evidence
   t('system_log', 'System log', 'technical', ['template'], { paper: true, mvp: true }),
   t('siem_alert', 'SIEM alert', 'technical', ['template']),
@@ -271,6 +311,37 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
   }),
   t('simcell_script', 'SimCell script', 'control', ['template'], { paper: true }),
 ] as const
+
+/** Delivery method of a type without its own (#420). */
+export const CATEGORY_DELIVERY_METHOD: Record<InjectCategory, DeliveryMethod> = {
+  social: 'Social media',
+  news: 'Document / handout',
+  internal: 'Email',
+  voice: 'Phone',
+  technical: 'Document / handout',
+  operational: 'Visual (main screen)',
+  documents: 'Document / handout',
+  control: 'Verbal / facilitator',
+}
+
+/**
+ * The Excel MSEL's Delivery Method for a row (#420): the inject's delivery mode wins when it
+ * says how the room receives it (main screen, audio, read aloud), except that a phone or radio
+ * type stays Phone or Radio; otherwise the type's method; "Verbal / facilitator" when the type
+ * is unknown or absent.
+ */
+export function deliveryMethodFor(
+  format: string | undefined,
+  deliveryMode?: InjectTypeInfo['defaultDelivery'],
+): DeliveryMethod {
+  const info = format ? injectTypeInfo(format) : undefined
+  const own = info ? (info.deliveryMethod ?? CATEGORY_DELIVERY_METHOD[info.category]) : undefined
+  if (own === 'Phone' || own === 'Radio') return own
+  if (deliveryMode === 'display_main_screen') return 'Visual (main screen)'
+  if (deliveryMode === 'play_audio') return 'Audio'
+  if (deliveryMode === 'read_aloud') return 'Verbal / facilitator'
+  return own ?? DEFAULT_DELIVERY_METHOD
+}
 
 /** The built-in type ids (pack, user and project types are in the registry below). */
 export const INJECT_TYPE_IDS = INJECT_TYPES.map((x) => x.id)

@@ -1,9 +1,11 @@
 // Distribution ZIP: facilitator/ gets every file this export run wrote (never leftovers from
 // an earlier export into the same folder, #213); players/ gets only the Player Briefing
 // Packet, the blank ICS forms, the Player Handouts (when the scenario has any; Controller
-// Materials stay in facilitator/) and the participant survey forms this run printed (never
-// debrief forms or survey results, #422). The players/ list is checked against an
-// allow-list before anything is written, so the MSEL, deck or handbook can never leak to it.
+// Materials stay in facilitator/), the participant survey forms this run printed (never
+// debrief forms or survey results, #422), the Exercise Plan and, when the designer asked for
+// it, the SitMan player edition (#420). The players/ list is checked against an allow-list
+// before anything is written, so the MSEL, deck, handbooks or facilitator SitMan can never
+// leak to it.
 import { ZipArchive } from 'archiver'
 import { createWriteStream, promises as fs } from 'node:fs'
 import { basename, isAbsolute, relative, resolve, sep } from 'node:path'
@@ -18,7 +20,8 @@ export interface ZipEntry {
 }
 
 /** File names allowed in players/: the briefing packet, the blank forms, the player
- *  handouts and the participant survey forms named by the caller, nothing else. */
+ *  handouts, the ExPlan, the SitMan player edition and the participant survey forms named by
+ *  the caller, nothing else. */
 export function playerFileNames(names: DocumentFileNames, surveyForms: string[] = []): string[] {
   const refused = new Set<string>([names.surveyResults])
   return [
@@ -26,12 +29,15 @@ export function playerFileNames(names: DocumentFileNames, surveyForms: string[] 
     names.ics201,
     names.ics203,
     names.handouts,
+    names.explan,
+    names.sitmanPlayer,
     ...surveyForms.filter((f) => !refused.has(f)),
   ]
 }
 
-/** Player files a scenario may not have (no handouts written): skipped, not an error. */
-const optionalPlayerFiles = (names: DocumentFileNames): Set<string> => new Set([names.handouts])
+/** Player files an export may not have (no handouts, no player SitMan asked for): skipped. */
+const optionalPlayerFiles = (names: DocumentFileNames): Set<string> =>
+  new Set([names.handouts, names.sitmanPlayer])
 
 /** Throw if anything but the allowed player files would land in players/. */
 export function assertPlayersOnly(

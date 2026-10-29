@@ -22,6 +22,7 @@ import {
   type RubricOutput,
   type Scenario,
   type ScenarioIdea,
+  type SitManOutput,
   type Stage,
   type StageRun,
 } from '@shared/schemas'
@@ -82,6 +83,7 @@ import {
   applyOverview,
   applyPhasePlan,
   applyRubric,
+  applySitMan,
   stripKeysDeep,
 } from './mappers'
 import { runStage, StageFailure, type StageResult } from './stage'
@@ -103,6 +105,7 @@ export const PIPELINE_STAGES: Stage[] = [
   'eeg',
   'player_briefing',
   'hotwash',
+  'sitman',
   'critique',
 ]
 
@@ -736,6 +739,29 @@ async function stepHotwash(input: StepInput): Promise<StageRun> {
   return r.run
 }
 
+/**
+ * Situation Manual modules (#420). The stage's variables are the scenario state every stage
+ * sees; the exercise details (`conduct`: names, phone numbers) are never among them.
+ */
+async function stepSitMan(input: StepInput): Promise<StageRun> {
+  const { scenario: s, env } = input
+  const r = await call<SitManOutput>(input, vars(input))
+  const mapped = applySitMan(s, r.output, r.retrieved)
+  clearPipelineWarnings(s, (w) => w.code === CITATION_DROPPED && w.message.startsWith('sitman '))
+  noteDropped(s, 'sitman', mapped.dropped, env.ctx)
+  if (mapped.unknownPhases.length)
+    env.ctx.log(
+      `sitman: modules for unknown phase ${mapped.unknownPhases.join(', ')} dropped`,
+      'warn',
+      { stage: 'sitman' },
+    )
+  if (mapped.unknownRoles.length)
+    env.ctx.log(`sitman: unknown role keys ${mapped.unknownRoles.join(', ')}`, 'warn', {
+      stage: 'sitman',
+    })
+  return r.run
+}
+
 /** Phases that have at least one error-severity critique issue on an unlocked row. */
 function phasesToRevise(s: Scenario, issues: CritiqueOutput['issues']): Map<string, string[]> {
   const byPhase = new Map<string, string[]>()
@@ -1077,6 +1103,7 @@ const EXECUTORS: Record<string, (input: StepInput) => Promise<StageRun>> = {
   eeg: stepEeg,
   player_briefing: stepBriefing,
   hotwash: stepHotwash,
+  sitman: stepSitMan,
   critique: stepCritique,
 }
 

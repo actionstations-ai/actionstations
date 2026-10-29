@@ -1,6 +1,7 @@
 // Inject type registry (#261): INJECT_TYPES stays built-in; registered types join the lookups.
 import { afterEach, describe, expect, it } from 'vitest'
 import {
+  deliveryMethodFor,
   INJECT_TYPES,
   INJECT_TYPE_IDS,
   injectTypeInfo,
@@ -134,5 +135,25 @@ describe('second domain template batch and profile inject types (#331)', () => {
     for (const t of INJECT_TYPES.filter((x) => x.domains?.length && x.render.includes('template')))
       for (const d of t.domains!)
         expect(byId.get(d)?.injectTypes, `${d} should offer ${t.id}`).toContain(t.id)
+  })
+})
+
+describe('deliveryMethodFor (#420, Excel MSEL Delivery Method)', () => {
+  it('derives the method from the type, with the delivery mode for screens, audio and read-aloud', () => {
+    expect(deliveryMethodFor('radio_call')).toBe('Radio')
+    expect(deliveryMethodFor('radio_call', 'play_audio')).toBe('Radio')
+    expect(deliveryMethodFor('phone_call', 'read_aloud')).toBe('Phone')
+    expect(deliveryMethodFor('tweet', 'hand_to_role')).toBe('Social media')
+    expect(deliveryMethodFor('email')).toBe('Email')
+    expect(deliveryMethodFor('memo')).toBe('Document / handout')
+    expect(deliveryMethodFor('fids_board', 'display_main_screen')).toBe('Visual (main screen)')
+    expect(deliveryMethodFor('tweet', 'display_main_screen')).toBe('Visual (main screen)')
+    expect(deliveryMethodFor('pa_announcement')).toBe('Audio')
+    expect(deliveryMethodFor('startex_card')).toBe('Verbal / facilitator')
+  })
+
+  it('falls back to Verbal for unknown or missing types', () => {
+    expect(deliveryMethodFor(undefined)).toBe('Verbal / facilitator')
+    expect(deliveryMethodFor('no_such_type')).toBe('Verbal / facilitator')
   })
 })

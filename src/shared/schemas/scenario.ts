@@ -115,6 +115,67 @@ export const SimcellScript = z.object({
 })
 export type SimcellScript = z.infer<typeof SimcellScript>
 
+/**
+ * Exercise details (#420): what HSEEP documents print about the conduct of the exercise. Filled
+ * in by the designer on the Scenario page; never generated and never sent to a provider. A
+ * blank field prints a fill-in line in the documents, never an invented value.
+ */
+export const ConductDetails = z.object({
+  /** As filed; exports use the scenario title when blank. */
+  exerciseName: z.string().default(''),
+  exerciseType: z.literal('tabletop').default('tabletop'),
+  /** ISO dates (YYYY-MM-DD). */
+  dates: z.array(z.string()).default([]),
+  startTime: WallClock.optional(),
+  endTime: WallClock.optional(),
+  sponsor: z.string().default(''),
+  participatingOrganizations: z.array(z.string()).default([]),
+  director: z
+    .object({ name: z.string(), organization: z.string(), phone: z.string(), email: z.string() })
+    .partial()
+    .default({}),
+  site: z.string().default(''),
+  room: z.string().default(''),
+  observersAllowed: z.boolean().default(false),
+  marking: z.string().default('EXERCISE — FOR TRAINING USE'),
+  communications: z
+    .array(z.object({ channel: z.string(), purpose: z.string(), detail: z.string().default('') }))
+    .default([]),
+  safetyNotes: z.string().default(''),
+  securityNotes: z.string().default(''),
+  acronyms: z.array(z.object({ term: z.string(), meaning: z.string() })).default([]),
+})
+export type ConductDetails = z.infer<typeof ConductDetails>
+
+/** The scenario's exercise details with every default filled in (absent on older scenarios). */
+export const conductOf = (s: { conduct?: unknown }): ConductDetails =>
+  ConductDetails.parse(s.conduct ?? {})
+
+/** One Situation Manual module (one per phase): what players know at its start (#420). */
+export const SitManModule = z.object({
+  phaseId: Id,
+  narrativeMd: z.string(),
+  keyIssues: z.array(z.string()).default([]),
+  discussionQuestions: z
+    .array(
+      z.object({
+        text: z.string(),
+        roleIds: z.array(Id).default([]),
+        objectiveRef: z.string().optional(),
+        citations: z.array(Citation).default([]),
+      }),
+    )
+    .default([]),
+})
+export type SitManModule = z.infer<typeof SitManModule>
+
+export const SitMan = z.object({
+  assumptions: z.array(z.string()).default([]),
+  artificialities: z.array(z.string()).default([]),
+  modules: z.array(SitManModule).default([]),
+})
+export type SitMan = z.infer<typeof SitMan>
+
 export const STAGES = [
   'ideate',
   'scenario_overview',
@@ -129,6 +190,7 @@ export const STAGES = [
   'eeg',
   'player_briefing',
   'hotwash',
+  'sitman',
   'critique',
 ] as const
 export const Stage = z.enum(STAGES)
@@ -236,6 +298,10 @@ export const Scenario = z.looseObject({
   evaluation: Evaluation.default({ objectiveCapabilities: [], eegs: [] }),
   hotwash: HotWash.optional(),
   simcellScripts: z.array(SimcellScript).default([]),
+  /** Exercise details for the HSEEP documents (#420); read through conductOf(). */
+  conduct: ConductDetails.optional(),
+  /** Situation Manual modules, assumptions and artificialities (stage `sitman`, #420). */
+  sitman: SitMan.optional(),
   /** Resources for the ICS-201 critical resource status table. */
   criticalResources: z.array(z.string()).default([]),
   warnings: z.array(LintWarning).default([]),

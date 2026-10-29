@@ -1,0 +1,126 @@
+{
+  "assumptions": [
+    "The exercise is conducted in a no-fault learning environment where plans and procedures are evaluated, not individuals.",
+    "The scenario is plausible, and events occur as they are presented.",
+    "Players respond in accordance with the AEP, ASP and TIRP as they understand them today."
+  ],
+  "artificialities": [
+    "Time jumps move the clock forward an hour between modules.",
+    "The SimCell plays the airlines, TSA, the FBI and the media.",
+    "The AODB, FIDS, BHS and PA are described by injects; no real system is touched."
+  ],
+  "modules": [
+    {
+      "phaseId": "p1",
+      "narrativeMd": "It is 09:00 on a busy Thursday before a holiday weekend. Weather is clear and passenger load is high. Within the first hour, a gate agent reports that the screen above Gate B4 shows the wrong destination, and the helpdesk queue is filling with odd tickets.",
+      "keyIssues": [
+        "Is a wrong destination on one screen a glitch or an incident?",
+        "Who owns the data that feeds the screens?"
+      ],
+      "discussionQuestions": [
+        {
+          "text": "Ops: at what point would you open a ticket, and at what point would you call it an incident?",
+          "roleIds": ["ops-director"],
+          "objectiveRef": "Decision Making",
+          "citations": []
+        },
+        {
+          "text": "IT: where would you look first to tell a display fault from bad source data?",
+          "roleIds": ["it-director"],
+          "objectiveRef": "Technical Analysis",
+          "citations": []
+        },
+        {
+          "text": "PIO: what would you watch on social media this early, and who tells you what is going on?",
+          "roleIds": ["pio"],
+          "objectiveRef": "Communication",
+          "citations": []
+        }
+      ]
+    },
+    {
+      "phaseId": "p2",
+      "narrativeMd": "It is 10:00. One flight in five on the main board shows the wrong time or gate. The PA system has started making announcements nobody scheduled.",
+      "keyIssues": [
+        "When do the screens and the PA go dark?",
+        "How do you answer a rumor faster than it spreads?"
+      ],
+      "discussionQuestions": [
+        {
+          "text": "Ops: who has the authority to silence the PA and take FIDS offline, and how fast can they act?",
+          "roleIds": ["ops-director"],
+          "objectiveRef": "Decision Making",
+          "citations": []
+        },
+        {
+          "text": "PIO: what is your first statement when a viral post claims the airport has been taken over?",
+          "roleIds": ["pio"],
+          "objectiveRef": "Communication",
+          "citations": []
+        },
+        {
+          "text": "IT: what do you preserve before you disconnect anything?",
+          "roleIds": ["it-director"],
+          "objectiveRef": "Technical Analysis",
+          "citations": []
+        }
+      ]
+    },
+    {
+      "phaseId": "p3",
+      "narrativeMd": "It is 11:00. The terminal screens are dark. Staff with whiteboards and megaphones are moving passengers, and lines at the checkpoint are growing.",
+      "keyIssues": [
+        "How long can manual operations be sustained?",
+        "Who confirms every gate change?"
+      ],
+      "discussionQuestions": [
+        {
+          "text": "Ops: which TIRP checklist covers manual passenger information, and who staffs it?",
+          "roleIds": ["ops-director"],
+          "objectiveRef": "Decision Making",
+          "citations": []
+        },
+        {
+          "text": "ASC: how do you keep crowds at the checkpoint and the gates safe without the screens?",
+          "roleIds": ["asc"],
+          "objectiveRef": "Communication",
+          "citations": []
+        },
+        {
+          "text": "PIO: what do you tell a reporter who is going live in fifteen minutes?",
+          "roleIds": ["pio"],
+          "objectiveRef": "Communication",
+          "citations": []
+        }
+      ]
+    },
+    {
+      "phaseId": "p4",
+      "narrativeMd": "It is 12:00. IT reports a restored database, but the airlines want a guarantee before the screens come back.",
+      "keyIssues": [
+        "What proves the data is clean?",
+        "Who signs off on returning to normal operations?"
+      ],
+      "discussionQuestions": [
+        {
+          "text": "IT: what test would convince you the data is clean before every screen comes back?",
+          "roleIds": ["it-director"],
+          "objectiveRef": "Technical Analysis",
+          "citations": []
+        },
+        {
+          "text": "Ops: who makes the call to restore FIDS, and what would make you reverse it?",
+          "roleIds": ["ops-director"],
+          "objectiveRef": "Decision Making",
+          "citations": []
+        },
+        {
+          "text": "PIO: how do you announce the return to normal without promising too much?",
+          "roleIds": ["pio"],
+          "objectiveRef": "Communication",
+          "citations": []
+        }
+      ]
+    }
+  ]
+}

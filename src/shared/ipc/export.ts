@@ -11,6 +11,10 @@ export const EXPORT_TARGETS = [
   'surveys_pdf',
   'survey_results_pdf',
   'eeg_pdf',
+  'explan_pdf',
+  'sitman_pdf',
+  'handbook_hseep_pdf',
+  'msel_xlsx',
   'media',
   'json',
   'markdown',
@@ -19,6 +23,41 @@ export const EXPORT_TARGETS = [
 ] as const
 export const ExportTarget = z.enum(EXPORT_TARGETS)
 export type ExportTarget = z.infer<typeof ExportTarget>
+
+/** Documents the Export page can preview. */
+export const PREVIEW_DOC_IDS = [
+  'msel',
+  'deck',
+  'handbook',
+  'briefing',
+  'exercise_plan',
+  'explan',
+  'sitman',
+  'sitman_player',
+  'handbook_hseep',
+  'eeg',
+] as const
+
+export const ExportOptions = z.object({
+  /** Write the SitMan player edition and put it in players/ of the ZIP (#420). */
+  sitmanPlayerEdition: z.boolean().optional(),
+})
+export type ExportOptions = z.infer<typeof ExportOptions>
+
+/** What the HSEEP document set will contain (#420): per document, what is still missing. */
+export const CompletenessReport = z.object({
+  documents: z.array(
+    z.object({
+      doc: z.string(),
+      label: z.string(),
+      ready: z.boolean(),
+      missing: z.array(z.string()),
+    }),
+  ),
+  /** Exercise details that are blank and print as fill-in lines. */
+  detailsMissing: z.array(z.string()),
+})
+export type CompletenessReport = z.infer<typeof CompletenessReport>
 
 export const exportChannels = {
   'export:run': channel(
@@ -29,6 +68,7 @@ export const exportChannels = {
       targets: z.array(ExportTarget).min(1),
       /** surveys_pdf: print only these surveys (any status but archived). */
       surveyIds: z.array(SafeId).max(50).optional(),
+      options: ExportOptions.optional(),
     }),
     z.object({ jobId: SafeId }),
   ),
@@ -36,8 +76,12 @@ export const exportChannels = {
     z.object({
       projectPath: z.string(),
       scenarioId: SafeId,
-      doc: z.enum(['msel', 'deck', 'handbook', 'briefing', 'exercise_plan', 'eeg']),
+      doc: z.enum(PREVIEW_DOC_IDS),
     }),
     z.object({ html: z.string() }),
+  ),
+  'export:completeness': channel(
+    z.object({ projectPath: z.string(), scenarioId: SafeId }),
+    CompletenessReport,
   ),
 }

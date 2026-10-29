@@ -102,6 +102,41 @@ figure {
 .doc--cover {
   page: cover;
 }
+.doc--explan {
+  page: explan;
+}
+.doc--sitman {
+  page: sitman;
+}
+.doc--sitman_player {
+  page: sitman_player;
+}
+.doc--handbook_hseep {
+  page: handbook_hseep;
+}
+
+/* ---- HSEEP documents (#420) ---- */
+.fill-in {
+  display: inline-block;
+  min-width: 2.4in;
+  height: 0.9em;
+  border-bottom: 0.75pt solid var(--ink);
+  vertical-align: baseline;
+}
+.hseep__facts th {
+  width: 28%;
+}
+.hseep__note {
+  color: var(--muted);
+}
+.hseep table {
+  width: 100%;
+  border-collapse: collapse;
+  break-inside: auto;
+}
+.hseep tr {
+  break-inside: avoid;
+}
 
 /* ---- Title block ---- */
 .doc-title {

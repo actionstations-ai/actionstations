@@ -23,6 +23,10 @@ function exportFolder(): { dir: string; files: string[] } {
     names.briefing,
     names.exercisePlan,
     names.eegs,
+    names.explan,
+    names.sitman,
+    names.handbookHseep,
+    names.mselXlsx,
     'scenario.json',
     'scenario.md',
   ])
@@ -36,7 +40,7 @@ function exportFolder(): { dir: string; files: string[] } {
 }
 
 describe('distribution ZIP', () => {
-  it('puts everything in facilitator/ and only the packet + blank forms in players/', async () => {
+  it('puts everything in facilitator/ and only the packet, forms and ExPlan in players/', async () => {
     const { dir: folder, files: runFiles } = exportFolder()
     const entries = distributionEntries(folder, names, runFiles)
     const zipPath = join(mkdtempSync(join(tmpdir(), 'ttx-zip-out-')), names.zip)
@@ -46,6 +50,7 @@ describe('distribution ZIP', () => {
       .filter((n) => !zip.files[n]!.dir)
       .sort()
     expect(files.filter((f) => f.startsWith('players/'))).toEqual([
+      'players/Flight-to-Nowhere-ExPlan.pdf',
       'players/Flight-to-Nowhere-Player-Briefing-Packet.pdf',
       'players/ICS-201-Incident-Briefing-blank.pdf',
       'players/ICS-203-Organization-Assignment-List-blank.pdf',
@@ -57,6 +62,9 @@ describe('distribution ZIP', () => {
         'facilitator/Flight-to-Nowhere-Controller-Evaluator-Handbook.pdf',
         // The EEG packet is facilitator material (#421): never in players/.
         'facilitator/Flight-to-Nowhere-EEGs.pdf',
+        'facilitator/Flight-to-Nowhere-SitMan.pdf',
+        'facilitator/Flight-to-Nowhere-CE-Handbook-HSEEP.pdf',
+        'facilitator/Flight-to-Nowhere-MSEL.xlsx',
         'facilitator/forms/ICS-201-Incident-Briefing-blank.pdf',
         'facilitator/media/S3-I04-tweet.png',
         'facilitator/scenario.json',
@@ -109,8 +117,23 @@ describe('distribution ZIP', () => {
     ).toThrow(/Refusing/)
   })
 
+  it('puts the SitMan player edition in players/ only when the export wrote it (#420)', () => {
+    const { dir: folder, files: runFiles } = exportFolder()
+    const without = distributionEntries(folder, names, runFiles).map((e) => e.name)
+    expect(without).not.toContain('players/Flight-to-Nowhere-SitMan-Player-Edition.pdf')
+    writeFileSync(join(folder, names.sitmanPlayer), 'player sitman')
+    runFiles.push(join(folder, names.sitmanPlayer))
+    const withIt = distributionEntries(folder, names, runFiles).map((e) => e.name)
+    expect(withIt).toContain('players/Flight-to-Nowhere-SitMan-Player-Edition.pdf')
+    expect(withIt).not.toContain('players/Flight-to-Nowhere-SitMan.pdf')
+  })
+
   it('refuses facilitator material in players/', () => {
     for (const leak of [
+      names.sitman,
+      names.handbookHseep,
+      names.mselXlsx,
+      names.report,
       names.controllerHandouts,
       names.msel,
       names.deck,

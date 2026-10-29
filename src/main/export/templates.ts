@@ -19,6 +19,7 @@ export type ExportTemplateName =
   | 'survey'
   | 'survey-results'
   | 'eeg'
+  | 'hseep'
 
 const hb = Handlebars.create()
 let partialsLoaded = false

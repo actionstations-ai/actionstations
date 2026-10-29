@@ -1,0 +1,80 @@
+<section class="doc doc--hseep doc--{{page}}" aria-labelledby="{{prefix}}{{page}}-title">
+  {{> title title}}
+  <div class="prose hseep">
+    {{#each blocks}} {{#if h2}}
+    <h2>{{text}}</h2>
+    {{/if}} {{#if h3}}
+    <h3>{{text}}</h3>
+    {{/if}} {{#if h4}}
+    <h4>{{text}}</h4>
+    {{/if}} {{#if para}}
+    <p>
+      {{#if label}}<strong>{{label}}:</strong> {{/if}}{{#if blank}}<span class="fill-in"
+        ><span class="sr-only">To be completed</span></span
+      >{{else}}{{text}}{{/if}}
+    </p>
+    {{/if}} {{#if note}}
+    <p class="hseep__note"><em>{{text}}</em></p>
+    {{/if}} {{#if list}} {{#if ordered}}
+    <ol>
+      {{#each items}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ol>
+    {{else}}
+    <ul>
+      {{#each items}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    {{/if}} {{/if}} {{#if facts}}
+    <table class="grid hseep__facts">
+      <caption class="sr-only">
+        {{caption}}
+      </caption>
+      <tbody>
+        {{#each rows}}
+        <tr>
+          {{#each this}} {{#if @first}}
+          <th scope="row">{{text}}</th>
+          {{else}}
+          <td>
+            {{#if blank}}<span class="fill-in"><span class="sr-only">To be completed</span></span
+            >{{else}}{{text}}{{/if}}
+          </td>
+          {{/if}} {{/each}}
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}} {{#if table}}
+    <table class="grid">
+      <caption class="sr-only">
+        {{caption}}
+      </caption>
+      <thead>
+        <tr>
+          {{#each header}}
+          <th scope="col">{{this}}</th>
+          {{/each}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each rows}}
+        <tr>
+          {{#each this}}
+          <td>
+            {{#if blank}}<span class="fill-in"><span class="sr-only">To be completed</span></span
+            >{{else}}{{text}}{{/if}}
+          </td>
+          {{/each}}
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}} {{#if html}}{{html}}{{/if}} {{/each}}
+  </div>
+  {{#if endNote}}
+  <p class="doc-end">{{endNote}}</p>
+  {{/if}}
+</section>

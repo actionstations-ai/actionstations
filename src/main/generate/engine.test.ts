@@ -6,7 +6,9 @@ import { existsSync, mkdtempSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import type { Channel, ChannelRequest, ChannelResponse } from '@shared/ipc'
+import { ConductDetails } from '@shared/schemas'
 import type { ChatRequest } from '../providers/types'
+import { MOCK_FIXTURES } from '../providers/mock/fixtures'
 import { FakeNciaIndex, ScriptedProvider } from '../../../tests/fixtures/generate/fakes'
 import { RUBRIC, mselResponder } from '../../../tests/fixtures/generate/stage-fixtures'
 
@@ -133,6 +135,11 @@ describe('scenario pipeline (mock provider, shipped prompts)', () => {
       rowIds: ['I-09'],
       objectiveRefs: [s.objectives[1]?.id],
     })
+    // SitMan modules (#420): one per phase, role keys resolved, citations from the shown keys.
+    expect(s.sitman?.modules.map((m) => m.phaseId)).toEqual(s.phases.map((p) => p.id))
+    expect(s.sitman?.modules[0]?.discussionQuestions[0]?.roleIds).toEqual(['ops'])
+    expect(s.sitman?.modules[0]?.discussionQuestions[0]?.citations[0]?.chunkId).toBeDefined()
+    expect(s.sitman?.assumptions.length).toBeGreaterThanOrEqual(3)
     // Every step has an ok run with provenance.
     const steps = planSteps(s)
     expect(steps).toHaveLength(13)
@@ -416,6 +423,7 @@ describe('scenario pipeline (mock provider, shipped prompts)', () => {
       'eeg',
       'player_briefing',
       'hotwash',
+      'sitman',
       'critique',
     ] as const) {
       expect(runFor(after, { stage })?.status, stage).toBe('stale')
@@ -514,6 +522,33 @@ describe('scenario pipeline (mock provider, shipped prompts)', () => {
     await expect(
       invoke('generate:rerun-stage', { projectPath, scenarioId: s.id, stage: 'msel_phase' }),
     ).rejects.toMatchObject({ code: 'VALIDATION' })
+  })
+
+  it('the sitman stage never sends the exercise details to the provider (#420)', async () => {
+    const { scenario: s } = await generate()
+    const { saveScenario } = await import('../scenario/store')
+    const conduct = ConductDetails.parse({
+      sponsor: 'Sponsor Org Q',
+      director: { name: 'Dana Whitfield', phone: '555-0142', email: 'dw@ncia.example' },
+    })
+    await saveScenario(projectPath, { ...s, conduct }, { by: 'user' })
+    const prompts: string[] = []
+    setMockResponse('SitManOutput', (req: ChatRequest) => {
+      prompts.push(req.messages.map((m) => m.content).join('\n'))
+      return MOCK_FIXTURES.SitManOutput
+    })
+    const { jobId } = await invoke('generate:rerun-stage', {
+      projectPath,
+      scenarioId: s.id,
+      stage: 'sitman',
+    })
+    expect((await jobs.wait(jobId)).status).toBe('done')
+    expect(prompts).toHaveLength(1)
+    for (const secret of ['Dana Whitfield', '555-0142', 'dw@ncia.example', 'Sponsor Org Q'])
+      expect(prompts[0]).not.toContain(secret)
+    const after = await getScenario(projectPath, s.id)
+    expect(after.conduct?.director.name).toBe('Dana Whitfield')
+    expect(runFor(after, { stage: 'critique' })?.status).toBe('stale')
   })
 })
 

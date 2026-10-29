@@ -218,6 +218,32 @@ export const HotwashOutput = z.object({
 })
 export type HotwashOutput = z.infer<typeof HotwashOutput>
 
+export const SitManOutput = z.object({
+  assumptions: z.array(z.string()).min(3),
+  artificialities: z.array(z.string()).min(2),
+  modules: z
+    .array(
+      z.object({
+        phase: z.number().int().describe('1-based phase number'),
+        narrativeMd: z.string(),
+        keyIssues: z.array(z.string()).min(2).max(6),
+        discussionQuestions: z
+          .array(
+            z.object({
+              text: z.string(),
+              roleKeys: z.array(z.string()),
+              objectiveRef: z.string().optional(),
+              citations: z.array(CitationKey),
+            }),
+          )
+          .min(3)
+          .max(6),
+      }),
+    )
+    .min(1),
+})
+export type SitManOutput = z.infer<typeof SitManOutput>
+
 export const CritiqueOutput = z.object({
   issues: z.array(
     z.object({
@@ -245,6 +271,7 @@ export const STAGE_OUTPUT_SCHEMAS = {
   EegOutput,
   BriefingOutput,
   HotwashOutput,
+  SitManOutput,
   CritiqueOutput,
 } as const
 export type StageOutputSchemaName = keyof typeof STAGE_OUTPUT_SCHEMAS

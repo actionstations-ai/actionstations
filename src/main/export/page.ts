@@ -14,6 +14,10 @@ export const DOC_LABELS = {
   handbook: 'Controller / Evaluator Handbook',
   briefing: 'Player Briefing Packet',
   eeg: 'Exercise Evaluation Guides',
+  explan: 'Exercise Plan (ExPlan)',
+  sitman: 'Situation Manual',
+  sitman_player: 'Situation Manual (Player Edition)',
+  handbook_hseep: 'C/E Handbook (HSEEP)',
 } as const
 export type DocKey = keyof typeof DOC_LABELS
 
@@ -22,18 +26,21 @@ export interface RunningText {
   title: string
   /** Left of the footer: organization · version · date. */
   footer: string
+  /** Centre of header and footer; the exercise details' marking (#420), else EXERCISE_MARKING. */
+  marking?: string
 }
 
 const BOX_FONT = `font-family: 'Inter', Arial, sans-serif; font-size: 7pt; color: #45494f; white-space: nowrap;`
 const MARK_FONT = `font-family: 'Inter', Arial, sans-serif; font-size: 7pt; font-weight: 700; letter-spacing: 0.06em; color: #16181b; white-space: nowrap;`
 
 function marginBoxes(text: RunningText, docLabel: string): string {
+  const marking = text.marking || EXERCISE_MARKING
   return `
   @top-left { content: ${cssString(text.title)}; ${BOX_FONT} vertical-align: bottom; padding-bottom: 10pt; }
-  @top-center { content: ${cssString(EXERCISE_MARKING)}; ${MARK_FONT} vertical-align: bottom; padding-bottom: 10pt; }
+  @top-center { content: ${cssString(marking)}; ${MARK_FONT} vertical-align: bottom; padding-bottom: 10pt; }
   @top-right { content: ${cssString(docLabel)}; ${BOX_FONT} vertical-align: bottom; padding-bottom: 10pt; }
   @bottom-left { content: ${cssString(text.footer)}; ${BOX_FONT} vertical-align: top; padding-top: 10pt; }
-  @bottom-center { content: ${cssString(EXERCISE_MARKING)}; ${MARK_FONT} vertical-align: top; padding-top: 10pt; }
+  @bottom-center { content: ${cssString(marking)}; ${MARK_FONT} vertical-align: top; padding-top: 10pt; }
   @bottom-right { content: "Page " counter(page) " of " counter(pages); ${BOX_FONT} vertical-align: top; padding-top: 10pt; }`
 }
 
@@ -61,7 +68,11 @@ export function pageCss(text: RunningText, defaultLabel: string): string {
     named('handbook', 'letter', PORTRAIT_MARGIN),
     named('briefing', 'letter', PORTRAIT_MARGIN),
     named('eeg', 'letter landscape', LANDSCAPE_MARGIN),
-    `@page cover { size: letter; margin: 0.9in 0.85in 0.8in; ${NO_BOXES} @bottom-center { content: ${cssString(EXERCISE_MARKING)}; ${MARK_FONT} } }`,
+    named('explan', 'letter', PORTRAIT_MARGIN),
+    named('sitman', 'letter', PORTRAIT_MARGIN),
+    named('sitman_player', 'letter', PORTRAIT_MARGIN),
+    named('handbook_hseep', 'letter', PORTRAIT_MARGIN),
+    `@page cover { size: letter; margin: 0.9in 0.85in 0.8in; ${NO_BOXES} @bottom-center { content: ${cssString(text.marking || EXERCISE_MARKING)}; ${MARK_FONT} } }`,
     `@page form { size: letter; margin: 0; ${NO_BOXES} }`,
   ].join('\n')
 }
