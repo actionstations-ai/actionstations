@@ -32,6 +32,8 @@ export interface TestServerOptions {
   /** Answer `POST /v1/sessions` with the relay's daily-limit refusal. */
   dailyLimit?: boolean
   playerBundleSha256?: string
+  /** Keep the session when the controller says `end`: stands in for an app that crashed. */
+  keepOnEnd?: boolean
 }
 
 export interface TestServer {
@@ -114,7 +116,7 @@ export async function startTestServer(opts: TestServerOptions): Promise<TestServ
     const body = (await readBody(req)) as { joinTokenHash?: string; client?: string }
     if (m[2] === 'join-token') hub.setJoinTokenHash(body.joinTokenHash!)
     else if (m[2] === 'kick') hub.kick(body.client!)
-    else hub.end()
+    else if (!opts.keepOnEnd) hub.end()
     res.writeHead(204)
     res.end()
   }

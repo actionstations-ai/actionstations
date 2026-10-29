@@ -2,7 +2,7 @@
  * A running session's secrets, `userData/live/sessions/<id>.json` (spec 0406, docs/05): the staff
  * root per epoch and the controller signing key as a JWK, `safeStorage` ciphertext only, deleted
  * at `session.end`. They exist so an interrupted session can be resumed (spec 0417 FR-7) without
- * ever writing a key into the project folder. Resume itself lands with 0417.
+ * ever writing a key into the project folder. Resume reads them back.
  */
 import { promises as fs } from 'node:fs'
 import { safeStorage } from 'electron'
@@ -21,6 +21,11 @@ export const StoredSessionKeys = z.object({
   /** The controller's ECDH private key (JWK): opens frames sealed to the controller. */
   ecdh: z.object({ privateJwk: z.record(z.string(), z.unknown()), publicKey: z.string() }),
   lastSeq: z.number().int().min(0),
+  /** Relay and self-hosted sessions: the bearer for the server's control routes, to reattach. */
+  controllerToken: z
+    .string()
+    .regex(/^[A-Za-z0-9_-]{16,128}$/)
+    .optional(),
 })
 export type StoredSessionKeys = z.infer<typeof StoredSessionKeys>
 
