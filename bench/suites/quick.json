@@ -1,0 +1,40 @@
+{
+  "suite": "quick",
+  "suiteVersion": 1,
+  "description": "One case per task on the city-water corpus plus a second critique case: a check that a model works at all, about 45 minutes for a 9B model.",
+  "repeats": 1,
+  "seeds": [11, 23, 37],
+  "contextLength": 32768,
+  "ideationCount": 6,
+  "weights": {
+    "overall": { "drafting": 0.5, "critique": 0.25, "ideation": 0.25 },
+    "drafting": { "reliability": 0.25, "lint": 0.2, "citations": 0.2, "structure": 0.35 },
+    "citations": { "resolution": 0.5, "coverage": 0.5 },
+    "structure": {
+      "pace": 1,
+      "tagMix": 2,
+      "decisionPhase": 2,
+      "startEnd": 1,
+      "rolesEveryPhase": 1,
+      "briefIds": 1,
+      "noReferenceLeak": 2
+    },
+    "ideation": { "valid": 0.3, "distinct": 0.2, "resolution": 0.25, "spread": 0.25 },
+    "critique": { "recall": 0.85, "noise": 0.15 }
+  },
+  "thresholds": {
+    "lintCap": 20,
+    "paceBand": [0.5, 2],
+    "distinctCosine": 0.85,
+    "noisePenaltyPer10Rows": 20,
+    "unstableRange": 15,
+    "floorTaskScore": 50,
+    "floorDraftingReliability": 0.9
+  },
+  "ideation": [{ "id": "city-water", "example": "city-water" }],
+  "drafting": [{ "id": "city-water-chem", "example": "city-water", "scenario": "chem" }],
+  "critique": [
+    { "id": "city-water-chem", "example": "city-water", "defects": "city-water-chem" },
+    { "id": "county-911-storm-tdos", "example": "county-911", "defects": "county-911-storm-tdos" }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "case": "airport-ncia-scenario-7",
+  "example": "airport-ncia",
+  "scenario": "scenario-7",
+  "defects": [
+    {
+      "id": "olympics-duplicate",
+      "kind": "duplicate_row",
+      "row": "C-03",
+      "copyId": "C-03x",
+      "words": ["duplicate", "repeat", "same as", "twice", "identical", "again"]
+    },
+    {
+      "id": "olympics-player",
+      "kind": "player_inject",
+      "row": "C-07",
+      "set": { "from": "Team B: IT & Cybersecurity" },
+      "words": ["player", "role", "sender", "simcell", "should come from", "team b"]
+    },
+    {
+      "id": "olympics-order",
+      "kind": "time_order",
+      "row": "C-09",
+      "set": { "time": "0:20" },
+      "words": ["order", "sequence", "before", "earlier", "chronolog", "timeline", "out of phase"]
+    }
+  ]
+}

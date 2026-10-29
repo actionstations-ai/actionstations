@@ -89,17 +89,18 @@ After changing the mode or the Embeddings routing, press **Rebuild index** on th
 
 A few per-provider options have no form field yet. Quit the app, edit the provider's `options` object in `settings.json`, and start the app again:
 
-| Option                                         | Providers                 | Meaning                                                                                             |
-| ---------------------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------- |
-| `timeoutMs`, `maxTokens`                       | all                       | Request timeout and output cap.                                                                     |
-| `jsonMode`                                     | OpenAI-compatible         | Force `json_schema`, `json_object` or `prompt` structured output (default: negotiated, best first). |
-| `headers`                                      | OpenAI-compatible         | Extra request headers (not secrets; use the API key field for those).                               |
-| `inputUsdPerMTok`, `outputUsdPerMTok`          | OpenAI-compatible         | Prices for the cost estimate in the call log.                                                       |
-| `embeddingDims`                                | OpenAI-compatible, Ollama | Embedding size when the server does not report it.                                                  |
-| `ttsModel`, `voice`, `voices`, `speakerGapSec` | OpenAI-compatible         | Text-to-speech model, default voice, per-speaker voices, gap between speakers.                      |
-| `engine`, `voice`, `voices`, `speakerGapSec`   | System voice              | Speech engine to force, default voice, per-speaker voices, gap between speakers.                    |
-| `numCtx`                                       | Ollama                    | Context window sent as `num_ctx`.                                                                   |
-| `anthropicVersion`, `effort`, `fallbacks`      | Anthropic                 | API version header, effort level (default `high`), server-side model fallbacks.                     |
+| Option                                         | Providers                 | Meaning                                                                                                       |
+| ---------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `timeoutMs`, `maxTokens`                       | all                       | Request timeout and output cap.                                                                               |
+| `jsonMode`                                     | OpenAI-compatible         | Force `json_schema`, `json_object` or `prompt` structured output (default: negotiated, best first).           |
+| `headers`                                      | OpenAI-compatible         | Extra request headers (not secrets; use the API key field for those).                                         |
+| `inputUsdPerMTok`, `outputUsdPerMTok`          | OpenAI-compatible         | Prices for the cost estimate in the call log.                                                                 |
+| `embeddingDims`                                | OpenAI-compatible, Ollama | Embedding size when the server does not report it.                                                            |
+| `ttsModel`, `voice`, `voices`, `speakerGapSec` | OpenAI-compatible         | Text-to-speech model, default voice, per-speaker voices, gap between speakers.                                |
+| `engine`, `voice`, `voices`, `speakerGapSec`   | System voice              | Speech engine to force, default voice, per-speaker voices, gap between speakers.                              |
+| `numCtx`                                       | Ollama                    | Context window sent as `num_ctx`.                                                                             |
+| `seed`                                         | OpenAI-compatible, Ollama | Fixed sampling seed (an integer) for repeatable output, as the [model benchmark](../model-benchmark.md) uses. |
+| `anthropicVersion`, `effort`, `fallbacks`      | Anthropic                 | API version header, effort level (default `high`), server-side model fallbacks.                               |
 
 ## Offline development
 

@@ -77,6 +77,18 @@ describe('Ollama native adapter', () => {
     expect(body.messages[0]).toEqual({ role: 'system', content: 'You plan exercises.' })
   })
 
+  it('sends options.seed inside options when it is an integer (#434)', async () => {
+    const calls = stubFetch([
+      fixtureResponse('ollama-chat-format-stream'),
+      fixtureResponse('ollama-chat-format-stream'),
+    ])
+    const ask = { messages: [{ role: 'user' as const, content: 'Two rows.' }], json: SCHEMA }
+    await new OllamaTextProvider(config({ options: { seed: 11 } })).chat(ask)
+    await new OllamaTextProvider(config({ options: { seed: '11' } })).chat(ask)
+    expect((calls[0]!.body as Body).options).toEqual({ seed: 11 })
+    expect(calls[1]!.body as Body).not.toHaveProperty('options')
+  })
+
   it('accepts an OpenAI-style /v1 base URL', async () => {
     const calls = stubFetch([fixtureResponse('ollama-version')])
     await new OllamaTextProvider(config({ baseUrl: 'http://127.0.0.1:11434/v1' })).health()

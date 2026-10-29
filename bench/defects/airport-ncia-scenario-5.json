@@ -1,0 +1,39 @@
+{
+  "case": "airport-ncia-scenario-5",
+  "example": "airport-ncia",
+  "scenario": "scenario-5",
+  "defects": [
+    {
+      "id": "copy-player",
+      "kind": "player_inject",
+      "row": "I-08",
+      "set": { "from": "IT & Cybersecurity (Lead)" },
+      "words": ["player", "role", "sender", "simcell", "should come from", "from it"]
+    },
+    {
+      "id": "copy-duplicate",
+      "kind": "duplicate_row",
+      "row": "I-05",
+      "copyId": "I-05x",
+      "words": ["duplicate", "repeat", "same as", "twice", "identical", "again"]
+    },
+    {
+      "id": "copy-restoration",
+      "kind": "fast_restoration",
+      "row": "I-07",
+      "set": {
+        "event": "IT reports: the rogue bridge has been removed, all 12 legacy 125 kHz readers replaced and 802.1X enforced on every switch port, all in the last ten minutes."
+      },
+      "words": [
+        "fast",
+        "quick",
+        "unrealistic",
+        "implausib",
+        "too soon",
+        "minutes",
+        "rapid",
+        "premature"
+      ]
+    }
+  ]
+}

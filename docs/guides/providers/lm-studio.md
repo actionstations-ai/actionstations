@@ -58,6 +58,10 @@ Manual setup instead of detection: **Add provider → Type: LM Studio**, Base UR
 
 To use LM Studio on another machine on your network, enable serving on the local network in its server settings and use `http://<host>:1234/v1` as the base URL (prompts and document excerpts then travel over your network).
 
+## Comparing models
+
+[Benchmarking local models](../model-benchmark.md) runs a model through ideation, MSEL drafting and critique on the example projects and scores the result; load the model with a 32K context first. The benchmark sends a fixed `seed` with each request (the provider option `seed`), which LM Studio honours.
+
 ## Structured output
 
 The app asks for JSON matching each stage's schema. For OpenAI-compatible servers it tries `response_format: json_schema` (strict) first, then `json_object`, then plain instructions, and remembers the first mode the server and model accept for the rest of the session. LM Studio supports `json_schema` for most models.

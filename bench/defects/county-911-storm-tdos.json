@@ -1,0 +1,36 @@
+{
+  "case": "county-911-storm-tdos",
+  "example": "county-911",
+  "scenario": "storm-tdos",
+  "defects": [
+    {
+      "id": "storm-duplicate",
+      "kind": "duplicate_row",
+      "row": "I-08",
+      "copyId": "I-08c",
+      "words": ["duplicate", "repeat", "same as", "twice", "identical", "again"]
+    },
+    {
+      "id": "storm-decision",
+      "kind": "missing_decision_point",
+      "words": ["decision point", "decision", "no decision", "choice"]
+    },
+    {
+      "id": "storm-outside",
+      "kind": "outside_agency_decides",
+      "row": "I-16b",
+      "set": {
+        "expectedAction": "Tamarack County Communications decides to keep the overflow routing through the night and tells the state ESInet NOC; the Director accepts Tamarack's decision without discussion."
+      },
+      "words": [
+        "tamarack",
+        "outside",
+        "agency",
+        "decid",
+        "authority",
+        "director should",
+        "own decision"
+      ]
+    }
+  ]
+}

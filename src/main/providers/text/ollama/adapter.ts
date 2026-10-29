@@ -12,7 +12,14 @@ import type {
   EmbeddingProvider,
   TextProvider,
 } from '../../types'
-import { combinedSystem, elapsed, numberOption, parseJsonText, requireModel } from '../common'
+import {
+  combinedSystem,
+  elapsed,
+  numberOption,
+  parseJsonText,
+  requireModel,
+  seedOption,
+} from '../common'
 import { restoreOptionals } from '../strict-schema'
 import { classifyOllamaTags } from './models'
 
@@ -125,6 +132,8 @@ export class OllamaTextProvider implements TextProvider {
     if (req.stop?.length) options.stop = req.stop
     const numCtx = numberOption(this.config, 'numCtx')
     if (numCtx !== undefined) options.num_ctx = numCtx
+    const seed = seedOption(this.config)
+    if (seed !== undefined) options.seed = seed
     return {
       model,
       stream: true,

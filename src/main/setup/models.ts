@@ -39,8 +39,9 @@ export interface ModelDef extends Omit<RecommendedModel, 'installed' | 'needsRun
   files?: ComfyFile[]
 }
 
-// Text tiers measured from the Ollama registry manifests on 2026-10-24.
-const TEXT_TIERS = [
+// Text tiers measured from the Ollama registry manifests on 2026-10-24. The benchmark report
+// (#434, scripts/bench/report.mjs) recommends a model per tier from these bounds.
+export const TEXT_TIERS = [
   { min: 72, max: Infinity, ollama: ['gpt-oss:120b', 65.37], lms: 'openai/gpt-oss-120b' },
   { min: 24, max: 72, ollama: ['qwen3:30b', 18.56], lms: 'qwen/qwen3-30b-a3b-2507' },
   { min: 10, max: 24, ollama: ['qwen3.5:9b', 6.55], lms: 'qwen/qwen3.5-9b' },

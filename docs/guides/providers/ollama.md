@@ -43,6 +43,8 @@ Any chat model Ollama serves can be used. The suggested tag is the Ollama build 
 
 Manual setup: **Add provider → Type: Ollama**, Base URL `http://127.0.0.1:11434`.
 
+To compare models on this computer, see [Benchmarking local models](../model-benchmark.md); it sets `num_ctx` and a fixed `seed` for each request.
+
 Ollama also exposes an OpenAI-compatible API at `http://127.0.0.1:11434/v1`. Prefer the native **Ollama** type: it passes the JSON schema and `num_ctx` directly.
 
 ## Troubleshooting

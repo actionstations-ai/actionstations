@@ -38,6 +38,8 @@ pnpm ci:local                 # full local CI: scripts/local-ci.sh
 pnpm badges                   # full local CI, then refresh the README badges in docs/badges/
 pnpm stats                    # snapshot downloads, stars and forks into docs/stats/ (README chart)
 pnpm e2e                      # Playwright end-to-end tests against the Electron app
+pnpm bench -- --models ollama:<name>   # score local models on the example projects (docs/guides/model-benchmark.md)
+pnpm bench:report             # merge docs/benchmarks/runs/ into docs/benchmarks/model-benchmarks.json
 pnpm build                    # electron-builder installers (dmg / nsis / AppImage)
 ```
 
@@ -213,6 +215,7 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 | [0028](docs/adr/0028-deterministic-grounding-first.md)        | Deterministic grounding first, model verification only with validated quotes                                           |
 | [0030](docs/adr/0030-hseep-blocks-and-excel-msel.md)          | HSEEP documents as shared blocks; the MSEL workbook with exceljs                                                       |
 | [0031](docs/adr/0031-outbound-gate-and-keyed-placeholders.md) | One outbound gate at provider resolution, with keyed deterministic placeholders                                        |
+| [0039](docs/adr/0039-local-model-benchmark.md)                | Local model benchmark drives the built app with deterministic scoring                                                  |
 
 New ADRs start from [`docs/adr/0000-template.md`](docs/adr/0000-template.md).
 
