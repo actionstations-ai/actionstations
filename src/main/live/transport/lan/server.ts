@@ -5,7 +5,6 @@
  * the listener, the fixed route table and the caps on connections. It exists only between
  * `startLanServer()` and `stop()`.
  */
-import { once } from 'node:events'
 import { createReadStream } from 'node:fs'
 import {
   createServer as createHttpServer,
@@ -26,7 +25,15 @@ import { parseConnectParams, parseJoinToken } from './connect-params'
 import { HttpFallback } from './fallback'
 import type { LanLog } from './log'
 import { Flood, Peers } from './peers'
-import { applyCommonHeaders, htmlCsp, remoteOf, sendError, sendHtml, sendJson } from './respond'
+import {
+  applyCommonHeaders,
+  drained,
+  htmlCsp,
+  remoteOf,
+  sendError,
+  sendHtml,
+  sendJson,
+} from './respond'
 import { loadPlayerBundle, PLACEHOLDER_HTML, ROOT_HTML, type PlayerBundle } from './static'
 import { attachWebSocket, createWebSocketServer } from './ws'
 
@@ -340,7 +347,9 @@ class Router {
       res.writeHead(200, { 'Content-Type': 'application/octet-stream', 'Content-Length': total })
       for (const c of chunks) {
         if (res.destroyed) return
-        if (!res.write(Buffer.from(fromBase64Url(c)))) await once(res, 'drain')
+        // A reader that disconnects mid-download never drains: the wait ends on close too, so
+        // the per-address slot is released in `finally`.
+        if (!res.write(Buffer.from(fromBase64Url(c)))) await drained(res)
       }
       res.end()
     } finally {

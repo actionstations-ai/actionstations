@@ -109,6 +109,25 @@ export function readBody(req: IncomingMessage, max: number): Promise<Buffer | un
   })
 }
 
+/**
+ * Resolves when a response can take more data, or when its reader went away (`close`,
+ * `error`), so a writer waiting on back-pressure never hangs on a disconnected client.
+ */
+export function drained(res: ServerResponse): Promise<void> {
+  if (res.destroyed || res.writableEnded) return Promise.resolve()
+  return new Promise((resolve) => {
+    const done = () => {
+      res.off('drain', done)
+      res.off('close', done)
+      res.off('error', done)
+      resolve()
+    }
+    res.once('drain', done)
+    res.once('close', done)
+    res.once('error', done)
+  })
+}
+
 /** The peer's address for the log; IPv4-mapped IPv6 is shown as IPv4. */
 export function remoteOf(req: IncomingMessage): string {
   const addr = req.socket.remoteAddress ?? 'unknown'
