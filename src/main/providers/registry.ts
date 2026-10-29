@@ -1,6 +1,12 @@
 import type { ProviderConfig, ProviderKind } from '@shared/schemas'
 import { AppError } from '../lib/errors'
-import type { AdapterModule, EmbeddingProvider, MediaProvider, TextProvider } from './types'
+import type {
+  AdapterModule,
+  EmbeddingProvider,
+  MediaProvider,
+  SpeechToTextProvider,
+  TextProvider,
+} from './types'
 
 // Adapters are discovered at build time: each folder exports `adapter` from adapter.ts.
 // Adding a provider never requires editing this file.
@@ -51,4 +57,14 @@ export function createMediaProvider(config: ProviderConfig, secret?: string): Me
   if (!a.createMedia)
     throw new AppError('VALIDATION', `${config.kind} does not provide media generation`)
   return a.createMedia(config, secret)
+}
+
+export function createSpeechToTextProvider(
+  config: ProviderConfig,
+  secret?: string,
+): SpeechToTextProvider {
+  const a = adapterFor(config.kind)
+  if (!a.createSpeechToText)
+    throw new AppError('VALIDATION', `${config.kind} does not provide transcription`)
+  return a.createSpeechToText(config, secret)
 }

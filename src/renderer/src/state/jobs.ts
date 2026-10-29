@@ -71,6 +71,7 @@ export const JOB_LABEL: Record<JobKind, string> = {
   'tool-install': 'Installing a local tool',
   'plan-check': 'Checking plans for conflicts',
   'grounding-verify': 'Verifying sources with the model',
+  transcribe: 'Transcribing the hot wash',
 }
 const MAX_FINISHED = 50
 const MAX_ITEMS = 500

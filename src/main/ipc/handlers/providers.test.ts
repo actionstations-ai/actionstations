@@ -293,13 +293,30 @@ describe('providers:task-support', () => {
         'providers:task-support',
       )
     expect(Object.keys(support).sort()).toEqual(
-      ['audio', 'critique', 'draft', 'embed', 'ideate', 'image', 'video'].sort(),
+      ['audio', 'critique', 'draft', 'embed', 'ideate', 'image', 'transcribe', 'video'].sort(),
     )
     expect(support.draft!.kinds).toEqual(expect.arrayContaining(['anthropic', 'openai-compatible']))
     expect(support.draft!.providerIds.sort()).toEqual([lm.id, mock.id].sort())
     expect(support.image!.providerIds.sort()).toEqual([comfy.id, mock.id].sort())
     expect(support.embed!.providerIds).not.toContain(comfy.id)
     expect(support.audio!.providerIds).toEqual(expect.arrayContaining([comfy.id, lm.id]))
+    // Transcription (#425): built-in Whisper, the mock and local OpenAI-compatible servers.
+    expect(support.transcribe!.kinds).toEqual(
+      expect.arrayContaining(['local-whisper', 'mock', 'openai-compatible']),
+    )
+    expect(support.transcribe!.providerIds.sort()).toEqual([lm.id, mock.id].sort())
+  })
+
+  it('never offers a remote server for transcription', async () => {
+    const remote = await call<{ id: string }>('providers:upsert', {
+      config: { kind: 'openai-compatible', label: 'Hosted', baseUrl: 'https://api.example.com/v1' },
+    })
+    const support =
+      await call<Record<string, { kinds: string[]; providerIds: string[] }>>(
+        'providers:task-support',
+      )
+    expect(support.draft!.providerIds).toContain(remote.id)
+    expect(support.transcribe!.providerIds).not.toContain(remote.id)
   })
 })
 
@@ -353,7 +370,7 @@ describe('routing:get / set', () => {
     expect(list).toEqual([expect.objectContaining({ id: 'mock', kind: 'mock' })])
     const { effective } = await call<{ effective: Record<string, unknown> }>('routing:get', {})
     expect(Object.keys(effective).sort()).toEqual(
-      ['audio', 'critique', 'draft', 'embed', 'ideate', 'image', 'video'].sort(),
+      ['audio', 'critique', 'draft', 'embed', 'ideate', 'image', 'transcribe', 'video'].sort(),
     )
   })
 })

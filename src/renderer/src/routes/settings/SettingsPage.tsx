@@ -11,6 +11,7 @@ import { PackCatalogsSection } from './PackCatalogsSection'
 import { LocalToolsSection } from './LocalToolsSection'
 import { UpdatesSection } from './UpdatesSection'
 import { PrivacySection } from './PrivacySection'
+import { SpeechModelsSection } from './SpeechModelsSection'
 
 const THEMES: { value: UiSettings['theme']; label: string }[] = [
   { value: 'system', label: 'Match system' },
@@ -279,6 +280,7 @@ export default function SettingsPage() {
           <SurveysSection settings={settings.data} />
           <PrivacySection />
           <EmbeddingsSection settings={settings.data} />
+          <SpeechModelsSection />
           <PackCatalogsSection settings={settings.data} />
           <UpdatesSection />
         </>

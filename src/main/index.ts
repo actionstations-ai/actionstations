@@ -2,6 +2,8 @@ import { app, BrowserWindow, session, shell } from 'electron'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { registerIpc } from './ipc'
+import { allowPermissionCheck, allowPermissionRequest, isArmed } from './hotwash/permissions'
+import { stopAll as stopHotwashRecordings } from './hotwash/recorder'
 import { jobs } from './jobs/manager'
 import {
   APP_INDEX_URL,
@@ -31,6 +33,14 @@ import { isSessionRunning, stopLiveSession } from './live/session'
 registerMediaScheme()
 registerAppScheme()
 
+// e2e only (unpackaged): a fake microphone, optionally playing a WAV file, so the hot wash
+// recorder can be tested without hardware (#425). Packaged builds ignore these variables.
+if (!app.isPackaged && process.env.TTX_FAKE_MEDIA === '1') {
+  app.commandLine.appendSwitch('use-fake-device-for-media-stream')
+  if (process.env.TTX_FAKE_AUDIO_FILE)
+    app.commandLine.appendSwitch('use-file-for-fake-audio-capture', process.env.TTX_FAKE_AUDIO_FILE)
+}
+
 /**
  * The startup update check waits this long after the window is ready (#442). Unpackaged runs
  * (e2e) may shorten it with TTX_UPDATE_DELAY_MS.
@@ -46,6 +56,46 @@ const isDev = !app.isPackaged && !!process.env.ELECTRON_RENDERER_URL
 export function isAppUrl(url: string): boolean {
   if (isDev) return sameOrigin(url, process.env.ELECTRON_RENDERER_URL!)
   return isAppIndexUrl(url)
+}
+
+/** A permission check's requesting origin is the app's own (dev server origin in `pnpm dev`). */
+function isAppOriginUrl(origin: string): boolean {
+  if (isDev) return sameOrigin(origin, process.env.ELECTRON_RENDERER_URL!)
+  return isAppOrigin(origin)
+}
+
+const isMainWindow = (wc: Electron.WebContents | null): boolean =>
+  !!wc && !!mainWindow && !mainWindow.isDestroyed() && wc === mainWindow.webContents
+
+/**
+ * Every permission is denied except microphone audio for the main window's app page in the
+ * seconds after the user presses Record (#425, hotwash/permissions.ts).
+ */
+function installPermissionHandlers(): void {
+  session.defaultSession.setPermissionRequestHandler((wc, permission, cb, details) => {
+    const mediaTypes = (details as { mediaTypes?: string[] }).mediaTypes
+    cb(
+      allowPermissionRequest({
+        permission,
+        ...(mediaTypes ? { mediaTypes } : {}),
+        requestingUrl: details.requestingUrl ?? wc.getURL(),
+        fromMainWindow: isMainWindow(wc),
+        isAppUrl,
+        armed: isArmed(),
+      }),
+    )
+  })
+  session.defaultSession.setPermissionCheckHandler((wc, permission, requestingOrigin, details) => {
+    const mediaType = (details as { mediaType?: string }).mediaType
+    return allowPermissionCheck({
+      permission,
+      ...(mediaType ? { mediaType } : {}),
+      requestingOrigin,
+      fromMainWindow: isMainWindow(wc),
+      isAppOrigin: isAppOriginUrl,
+      armed: isArmed(),
+    })
+  })
 }
 
 function sameOrigin(a: string, b: string): boolean {
@@ -152,9 +202,9 @@ app.on('second-instance', (_e, argv) => {
 
 void app.whenReady().then(async () => {
   if (!isPrimaryInstance) return
-  // No camera/mic/geolocation/notifications etc. for any web content.
-  session.defaultSession.setPermissionRequestHandler((_wc, _perm, cb) => cb(false))
-  session.defaultSession.setPermissionCheckHandler(() => false)
+  // No camera/geolocation/notifications etc. for any web content; the microphone only for
+  // the main window while the user starts a hot wash recording.
+  installPermissionHandlers()
   registerMediaProtocol()
   registerAppProtocol(rendererRoot(import.meta.dirname))
   registerIpc(isAppUrl)
@@ -198,6 +248,8 @@ app.on('window-all-closed', () => app.quit())
 app.on('before-quit', (e) => {
   if (!quitGuard.intercept(e)) return
   void jobs.flush()
+  // A running hot wash recording keeps what was written; recovery finishes it if quit wins.
+  void stopHotwashRecordings()
   shutdownRenderPool()
   toolProcesses.stopAll()
   if (isSessionRunning()) {

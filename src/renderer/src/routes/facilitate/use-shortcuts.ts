@@ -1,4 +1,5 @@
-// Facilitator single-key shortcuts: Space start/pause, N next due, D deliver selected.
+// Facilitator single-key shortcuts: Space start/pause, N next due, D deliver selected,
+// R record / pause / resume the hot wash recording and Shift+R stop it (#425).
 import { useEffect, useState } from 'react'
 
 const isTyping = (el: EventTarget | null) =>
@@ -36,9 +37,22 @@ export interface ShortcutKeys {
   toggle: () => void
   next: () => void
   deliver: () => void
+  /** Start (opens the consent dialog), pause or resume the hot wash recording. */
+  record?: () => void
+  /** Stop the hot wash recording. */
+  stopRecording?: () => void
 }
 
-/** Space start/pause, N next due, D deliver selected — never while typing. */
+/** The handler a key press maps to, or undefined when the key is not a shortcut. */
+function handlerFor(keys: ShortcutKeys, k: string, shift: boolean): (() => void) | undefined {
+  if (k === 'r') return shift ? keys.stopRecording : keys.record
+  if (k === ' ') return keys.toggle
+  if (k === 'n') return keys.next
+  if (k === 'd') return keys.deliver
+  return undefined
+}
+
+/** Space start/pause, N next due, D deliver selected, R / Shift+R recorder — never while typing. */
 export function useShortcuts(keys: ShortcutKeys, enabled: boolean) {
   useEffect(() => {
     if (!enabled) return
@@ -46,10 +60,9 @@ export function useShortcuts(keys: ShortcutKeys, enabled: boolean) {
       if (e.repeat || e.metaKey || e.ctrlKey || e.altKey || isTyping(e.target)) return
       const k = e.key.toLowerCase()
       if (k === ' ' && ownsSpace(e.target)) return
-      if (k === ' ') keys.toggle()
-      else if (k === 'n') keys.next()
-      else if (k === 'd') keys.deliver()
-      else return
+      const run = handlerFor(keys, k, e.shiftKey)
+      if (!run) return
+      run()
       e.preventDefault()
     }
     window.addEventListener('keydown', onKey)

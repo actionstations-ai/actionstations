@@ -100,6 +100,9 @@ mac:
   hardenedRuntime: true
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
+  # Hot wash recording (#425): shown by macOS the first time Record is pressed.
+  extendInfo:
+    NSMicrophoneUsageDescription: Action Stations records the hot wash on this computer when you press Record. Audio is not uploaded.
   # No Developer ID certificate yet. docs/RELEASING.md describes signing + notarization.
   identity: null
   # A platform files list that holds only exclusions makes electron-builder copy the whole

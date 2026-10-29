@@ -50,6 +50,8 @@ const BY_WHAT: Record<What, string[]> = {
   'plan-conflicts': ['plan-check:'],
   /** The AAR/IP draft or its document changed (#419). */
   aar: ['aar:', 'scenarios:doc-get', 'scenarios:history', 'scenarios:get', 'export:preview-html'],
+  /** A hot wash recording or transcript changed (#425). */
+  hotwash: ['hotwash:'],
 }
 
 const SCENARIO_WORK = [...new Set(BY_WHAT.injects.concat(BY_WHAT.scenario))]
@@ -70,6 +72,7 @@ const BY_KIND: Record<JobKind, string[]> = {
   'tool-install': ['setup:', 'providers:'],
   'plan-check': ['plan-check:'],
   'grounding-verify': ['grounding:', 'scenarios:'],
+  transcribe: ['hotwash:'],
 }
 
 export interface Change {

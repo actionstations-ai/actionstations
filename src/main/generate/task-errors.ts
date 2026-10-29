@@ -15,6 +15,7 @@ export const TASK_LABELS: Record<ProviderTask, string> = {
   image: 'Image',
   video: 'Video',
   audio: 'Audio',
+  transcribe: 'Transcription',
 }
 
 const PREFIX = new RegExp(`^(?:${Object.values(TASK_LABELS).join('|')})(?: \\(|: )`)

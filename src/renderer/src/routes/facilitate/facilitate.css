@@ -798,3 +798,126 @@
 .live-switch .row {
   gap: var(--space-2);
 }
+/* Hot wash recorder (#425). The state is always written out; the dot only repeats it. */
+.fac-recorder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.fac-recorder[data-state='recording'],
+.fac-recorder[data-state='paused'] {
+  border-color: var(--color-danger);
+  border-width: 2px;
+}
+.fac-recorder__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  font-variant-numeric: tabular-nums;
+}
+.fac-rclock__status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+}
+.fac-rclock__status--due_soon {
+  color: var(--color-warning);
+}
+.fac-rclock__status--overdue,
+.fac-rclock__status--missed {
+  color: var(--color-danger);
+}
+.fac-rclock__status--met {
+  color: var(--color-success);
+}
+.fac-rclock__actions,
+.fac-rclock__form {
+}
+.fac-recorder__state {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+}
+.fac-recorder__dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--color-danger);
+}
+.fac-recorder[data-state='paused'] .fac-recorder__dot {
+  background: transparent;
+  border: 2px solid var(--color-danger);
+}
+.fac-recorder__level {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.fac-recorder__bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 1rem;
+}
+.fac-recorder__bar {
+  width: 4px;
+  height: 100%;
+  border: 1px solid var(--color-border-strong);
+  background: transparent;
+}
+.fac-recorder__bar[data-lit='on'] {
+  background: var(--color-text);
+}
+.fac-recorder__kbd {
+  margin-left: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: 0 var(--space-1);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+.fac-recordings {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.fac-recording {
+  border-top: var(--border-width) solid var(--color-border);
+  padding-top: var(--space-2);
+}
+.fac-recording__head {
+  margin: 0 0 var(--space-1);
+}
+.fac-recording__actions,
+.fac-recording__transcribe,
+.fac-recording__progress {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+.fac-rclock__screen {
+  font-size: var(--text-sm);
+}
+.fac-recording__progress {
+  min-width: 16rem;
+}
+.fac-recording__options {
+  margin-top: var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+}

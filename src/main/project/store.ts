@@ -27,7 +27,15 @@ export const PROJECT_EXT = '.asproj'
 export const LEGACY_PROJECT_EXT = '.ttxproj'
 const PROJECT_FILE = 'project.json'
 // exports/ is the export page's default output folder (#238): rebuilt from the project.
-const PROJECT_GITIGNORE = ['index.sqlite', 'index.sqlite-*', '.cache/', 'exports/', ''].join('\n')
+// Hot wash audio (#425) is never committed by accident when a project is kept in git.
+const PROJECT_GITIGNORE = [
+  'index.sqlite',
+  'index.sqlite-*',
+  '.cache/',
+  'exports/',
+  'scenarios/*/hotwash/**/audio.*',
+  '',
+].join('\n')
 
 /** Well-known locations inside a project folder. All results are guarded absolute paths. */
 export const projectPaths = (root: string) => ({
