@@ -1,6 +1,6 @@
 # Spec 0410: Live play: choose the connection per exercise
 
-Issue: #410 · Milestone: 0.6.0 · Status: Draft · Depends on: #406, #407, #408, #409 · Related: #418 (epic), #411 (player page), #417 (dashboard)
+Issue: #410 · Milestone: 0.6.0 · Status: Implemented (kick and key rotation excepted) · Depends on: #406, #407, #408, #409 · Related: #418 (epic), #411 (player page), #417 (dashboard)
 
 ## Summary
 
@@ -362,3 +362,13 @@ Packaged smoke: unchanged.
 5. **Showing the relay hostname before the custom domain exists.** Recommendation: show
    whatever `RELAY_URL` is, including a `workers.dev` host, rather than a prettier name the app
    does not use.
+
+## As built (differences from this spec)
+
+- `LiveConnection` stays in `src/shared/schemas/live.ts` (where #407 put it); `FacilitatorState.live` is optional rather than defaulted, so older files and fixtures parse untouched.
+- The server key's secret name is `live-server-<sha256 of the address>` (secret names cannot contain `:`).
+- Pinning is enforced by an agent that corks writes until the fingerprint is compared on `secureConnect`, because Node skips `checkServerIdentity` once chain validation fails ([ADR-0051](../adr/0051-live-connection-choice.md)).
+- `live:connection-test` takes an optional `projectPath` (Settings re-tests a remembered server without a project). `live:consent` is a new channel that records consent in `facilitator.json`.
+- `POST /v1/sessions/probe` is optional: a server that answers 404 gets a "checked when the session starts" line. The relay health check cannot return `DAILY_LIMIT`; that refusal is reported by the start call.
+- `RELAY_PLAYER_BUNDLE_SHA256` is empty until the release build sets it; the bundle line then reports presence without judging the hash.
+- Not built here: `live:kick`, `live:rotate-key` and the "New link issued" notice (the dashboard, #417), per-platform firewall text beyond the LAN guidance that exists, and the "certificate changed" end-to-end path (covered by unit and session tests).

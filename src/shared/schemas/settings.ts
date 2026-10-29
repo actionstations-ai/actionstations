@@ -1,5 +1,6 @@
 import { z } from 'zod'
-import { IsoDateTime } from './common'
+import { HttpUrl, IsoDateTime } from './common'
+import { Fingerprint } from './live'
 import { ProgramSettings } from './program'
 import { RecentProject } from './project'
 import { PrivacySettings, ProjectPrivacy } from './privacy'
@@ -117,6 +118,23 @@ export const SurveySettings = z.object({
 })
 export type SurveySettings = z.infer<typeof SurveySettings>
 
+/** A self-hosted live play server the facilitator saved (#410). The server key is never here. */
+export const LiveServerEntry = z.object({
+  url: HttpUrl,
+  name: z.string().max(80).optional(),
+  fingerprintSha256: Fingerprint.optional(),
+  addedAt: IsoDateTime,
+  lastTestedAt: IsoDateTime.optional(),
+  lastError: z.string().max(500).optional(),
+})
+export type LiveServerEntry = z.infer<typeof LiveServerEntry>
+
+export const LiveSettings = z.object({
+  defaultConnectionKind: z.enum(['lan', 'relay', 'self-hosted']).default('lan'),
+  servers: z.array(LiveServerEntry).max(20).default([]),
+})
+export type LiveSettings = z.infer<typeof LiveSettings>
+
 export const AppSettings = z.object({
   recentProjects: z.array(RecentProject).default([]),
   providers: z.array(ProviderConfig).default([]),
@@ -143,5 +161,7 @@ export const AppSettings = z.object({
   projectPrivacy: z.record(z.string().max(128), ProjectPrivacy).default({}),
   /** The active exercise program folder and the ones opened before (#424). */
   program: ProgramSettings.default(() => ({ recent: [] })),
+  /** Live play connection defaults and remembered servers (#410). */
+  live: LiveSettings.default(() => ({ defaultConnectionKind: 'lan' as const, servers: [] })),
 })
 export type AppSettings = z.infer<typeof AppSettings>

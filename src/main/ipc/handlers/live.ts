@@ -1,4 +1,7 @@
 import { AppError } from '../../lib/errors'
+import { readFacilitatorState, writeFacilitatorState } from '../../facilitator/state'
+import { connectionTest } from '../../live/test'
+import { forgetServer, listServers, recordServerTest, saveServer } from '../../live/servers'
 import { listLanAddresses } from '../../live/transport/lan/addresses'
 import { firewallGuidance } from '../../live/transport/lan/firewall'
 import {
@@ -35,6 +38,16 @@ import { requireProject } from '../../project/guard'
 import { refreshProgramOfProject } from '../../program/snapshot'
 import { defineHandlers, type HandlerContext } from '../registry'
 
+/** A saved server remembers when it was last tested and what went wrong. */
+async function noteServerTest(
+  connection: Parameters<typeof connectionTest>[0],
+  result: Awaited<ReturnType<typeof connectionTest>>,
+): Promise<void> {
+  if (connection.kind !== 'self-hosted') return
+  const failed = result.checks.find((c) => c.status === 'fail')
+  await recordServerTest(connection.url, failed?.detail)
+}
+
 export default defineHandlers({
   'live:session-start': async ({ projectPath, scenarioId, connection, attribution, name }) => {
     const running = activeSession()
@@ -52,6 +65,27 @@ export default defineHandlers({
       ...(name !== undefined ? { name } : {}),
     })
   },
+
+  'live:connection-test': async ({ connection, serverKey }) => {
+    const result = await connectionTest(connection, serverKey ? { serverKey } : {})
+    await noteServerTest(connection, result)
+    return result
+  },
+
+  'live:consent': async ({ projectPath, scenarioId, kind }) => {
+    const root = await requireProject(projectPath)
+    const state = await readFacilitatorState(root, scenarioId)
+    const consented = new Set(state.live?.consented ?? [])
+    consented.add(kind)
+    await writeFacilitatorState(root, scenarioId, {
+      ...state,
+      live: { ...state.live, consented: [...consented] },
+    })
+  },
+
+  'live:servers-list': () => listServers(),
+  'live:server-save': (req) => saveServer(req),
+  'live:server-forget': ({ url }) => forgetServer(url),
 
   'live:session-status': async ({ projectPath, scenarioId }) => {
     const root = await requireProject(projectPath)

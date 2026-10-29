@@ -71,6 +71,33 @@ With a session running, **Deliver** on a row also sends the inject to the device
 - **Media.** Files are sealed on this computer and staged when the session starts ("Staging media 14/26" in the Live tab). Template pages go as a phone-sized picture plus the full-size original. A file over the connection's limit is left out and the device is told it is shown on the main screen.
 - **Not covered by Deliver.** Printing and reading aloud are still done by you; players cannot send injects to each other.
 
+## Choosing the connection
+
+Each live session starts by choosing how devices reach this computer. The Live tab shows three options and what each one sends where, side by side with the Start button. Nothing contacts a network until you press **Test connection** or **Start session** on a connection you chose. The choice is remembered per exercise; **Settings > Live play** sets the one a new exercise opens on.
+
+**This computer.**
+
+```text
+Your computer listens on the Wi-Fi at the address shown. Players' devices load the player page from it and exchange encrypted session messages with it. Nothing is sent to the internet. Stops when you end the session.
+```
+
+**Action Stations relay.**
+
+```text
+Your computer connects to relay.actionstations.ai, run by the Action Stations project on Cloudflare. It sends the session id, encrypted messages and media, their sizes and timing, and your IP address. The relay cannot read session content and keeps encrypted messages only for late joiners, deleting them when you end the session or after 72 hours. Limits: 60 devices, 8 MB per media file, 25 sessions per day for everyone; when the free limit is reached it stops with an error and nothing is ever billed.
+```
+
+**Your server.**
+
+```text
+Your computer connects to the server address you enter, run by your organization. It sends the same things as to the relay: session id, encrypted messages and media, sizes and timing, your IP address, plus the server key you were given. The server cannot read session content. Its retention and limits are set by whoever runs it.
+```
+
+- **Test connection** runs a checklist without starting a session: for This computer, your network addresses and whether the port is free (no traffic leaves the computer); for the relay and for a server, one health request, the protocol, the limits, and for a server the certificate and whether it accepts your server key. A failed line says what to do next.
+- **The first time an exercise uses the relay or a server**, the Live tab repeats what is sent and asks you to continue. Test and Start stay off until you do. The answer is saved in the exercise's folder.
+- **Your server** needs its address (https), and the server key whoever runs it gave you. The key is stored encrypted on this computer, never in the exercise folder, and is entered again on each computer. A server with its own certificate shows a fingerprint after the first test: compare it with the one your IT team gave you and press **Confirm this fingerprint**. The app then accepts only that certificate and stops with "The server's certificate changed" if it ever differs. **This server has no TLS** is for a reverse proxy or a trusted network and allows http only for this computer or a private address.
+- **Remembered servers** (Settings > Live play) can be renamed, tested again or forgotten. Forgetting a server also deletes its stored key.
+
 ## In the room: this computer
 
 Your laptop serves the player page and relays the session's encrypted messages to the devices on the room's Wi-Fi. No internet, no account, no IT ticket. Nothing listens until you start a session, and nothing listens after you stop it or quit the app.

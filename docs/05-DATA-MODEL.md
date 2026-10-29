@@ -172,7 +172,13 @@ FacilitatorState {
   notes: Record<rowId, string>,              // per-inject hot wash notes
   generalNotes,
   hotwash: { id, kind: 'strength'|'improvement'|'other', text, objectiveRef?, rowId?, at }[],  // 3-Up / 3-Down items (#419)
-  decisions: { id, at, exerciseTime?, rowId?, text, byRole? /* role id, never a name */ }[]      // decision log (#419)
+  decisions: { id, at, exerciseTime?, rowId?, text, byRole? /* role id, never a name */ }[],     // decision log (#419)
+  live?: {                                    // live play connection (#410); absent = not chosen, nothing listens or connects
+    connection?: { kind: 'lan', address?, tls: 'self-signed'|'none', port? }
+               | { kind: 'relay' }
+               | { kind: 'self-hosted', url, fingerprintSha256?, insecureHttp },
+    consented: ('relay'|'self-hosted')[]      // remote kinds the facilitator confirmed for this scenario
+  }
 }
 
 // One generation job per scenario: while it runs, scenarios:save / scenarios:doc-save for that
@@ -411,7 +417,7 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 
 | File | Contents |
 |---|---|
-| `settings.json` | `AppSettings`: recent projects, provider configs (no keys), default routing, embedding mode, UI theme, pack catalog URLs (`packs.catalogs`) |
+| `settings.json` | `AppSettings`: recent projects, provider configs (no keys), default routing, embedding mode, UI theme, pack catalog URLs (`packs.catalogs`), live play defaults and remembered servers (`live.defaultConnectionKind`, `live.servers`: address, name, pinned certificate fingerprint, last test; the server key is never here) |
 | `secrets.json` | `{ [providerId]: base64(safeStorage.encryptString(apiKey)) }` — ciphertext only, mode 0600. Also `redaction:<key>` entries: each project's 32-byte redaction key, filed under a hash of the project id and folder path (#433) |
 | `cloud-sends.jsonl` | Send log for cloud requests made outside a project (#433); same lines as the project file |
 | `redaction/<key>.bin` | Values each project has redacted (#433), AES-256-GCM with a key derived from the project's redaction key; `<key>` hashes the project id and folder path |

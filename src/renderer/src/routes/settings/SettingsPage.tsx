@@ -7,6 +7,7 @@ import { call } from '../../lib/api'
 import { useIpcMutation, useIpcQuery } from '../../lib/query'
 import './settings.css'
 import { errorText } from '../../lib/errors'
+import { LivePlaySection } from './LivePlaySection'
 import { PackCatalogsSection } from './PackCatalogsSection'
 import { LocalToolsSection } from './LocalToolsSection'
 import { UpdatesSection } from './UpdatesSection'
@@ -281,6 +282,7 @@ export default function SettingsPage() {
           <PrivacySection />
           <EmbeddingsSection settings={settings.data} />
           <SpeechModelsSection />
+          <LivePlaySection settings={settings.data} />
           <PackCatalogsSection settings={settings.data} />
           <UpdatesSection />
         </>

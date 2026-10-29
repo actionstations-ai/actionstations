@@ -75,6 +75,8 @@ export const appChannels = {
       embeddings: patchOf(EmbeddingSettings).optional(),
       generation: patchOf(GenerationSettings).optional(),
       surveys: patchOf(SurveySettings).optional(),
+      /** Live play default connection (#410); servers have their own channels. */
+      live: z.object({ defaultConnectionKind: z.enum(['lan', 'relay', 'self-hosted']) }).optional(),
       defaultRouting: ProviderRouting.optional(),
       onboardingComplete: z.boolean().optional(),
       defaultProjectsDir: z.string().optional(),
