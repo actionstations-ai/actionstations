@@ -1,6 +1,6 @@
 # Spec 0424: Corrective-action tracking and multi-year exercise program
 
-Issue: #424 · Milestone: 0.8.0 · Status: Draft · Depends on: #419 (AAR/IP draft), #421 (Core Capabilities, EEGs) · Related: #417 (session log), #431 (redlines, drills), #438 (program health)
+Issue: #424 · Milestone: 0.8.0 · Status: Implemented (PR for #424; see "As built") · Depends on: #419 (AAR/IP draft), #421 (Core Capabilities, EEGs) · Related: #417 (session log), #431 (redlines, drills), #438 (program health)
 
 ## Summary
 
@@ -379,7 +379,7 @@ State: `src/renderer/src/state/program.ts` (Zustand: active path, filters). Quer
 - No existing data moves. A user who wants history can import the AAR/IP of each past scenario one by one; the import preview handles scenarios whose `aar.json` was written before `id`s were stable by hashing the corrective-action text as the item id.
 - `settings.json` gains `program` with defaults; nothing to migrate.
 
-ADR to write when the work lands (next free number; 0024 is taken by the live-play and Core Capabilities ADRs): `docs/adr/NNNN-program-folder.md` (program folder outside projects, one file per action, advisory lock, snapshots).
+ADR: `docs/adr/0043-program-folder.md` (program folder outside projects, one file per action, advisory lock, snapshots).
 
 ## Security and privacy
 
@@ -420,3 +420,38 @@ ADR to write when the work lands (next free number; 0024 is taken by the live-pl
 3. **Should "verified" require a drill from #431 or accept a manual observation?** Recommendation: accept both (`method: 'exercise' | 'review'` with a note naming where it was observed); the OIG finding is about actions never checked at all, and demanding a formal drill would push users back to "completed" as the end state.
 4. **One active program or many?** Recommendation: one active program with a recent list; a user with two agencies switches. Multiple simultaneous programs complicate every project-side hint for a rare case.
 5. **Lock file on synced folders (OneDrive, Dropbox) causes sync noise.** Recommendation: write it only while the Program screens are open, delete on close and app quit (via the quit guard, `src/main/lib/quit-guard.ts`), and make it a program setting.
+
+## As built
+
+Differences from the design above, with the reason:
+
+- **No jobs for refresh and export.** `program:refresh` returns when the snapshots are written and
+  `program:export` returns `{ files }`; both finish in well under a second for the sizes in NFR-4,
+  and PDF goes through the render pool already. `JobKind` is unchanged.
+- **`ProgramAction`, not `CorrectiveAction`.** `schemas/aar.ts` already exports `CorrectiveAction`
+  (the AAR's item); both are re-exported from `schemas/index.ts`. The AAR's item gained
+  `programActionId`, written back by the import (best effort).
+- **Action numbers.** `program.json` holds `nextActionNumber`; an action has `number` ("CA-0007")
+  and a ULID-like id for the file name. Numbers are never reused.
+- **List response.** `program:actions-list` returns `{ actions, problems }`: a file that fails
+  validation is listed as a problem, not hidden. `program:action-bulk` (owner, due date, priority
+  for several actions) is new. `program:get` also returns `reachable` and `projectPaths`.
+- **Status, history and verifications change only through `program:action-status`;** an edit
+  through `program:action-save` keeps the stored ones.
+- **Snapshots** use the document's stored heading preview (`headingsPreview`) for sections, so
+  `src/main/ingest/outline.ts` was not needed, and count observations from `evaluation.json`
+  only (live-log observations arrive with the live evaluation work).
+- **Table.** Sortable real table, rendered in pages of 200 rows with "Show more" instead of
+  virtual windowing; filtering narrows it. 2,000 actions render without noticeable delay.
+- **PDF and DOCX** are built in code from the same row builders (`export.ts`); no
+  `templates/export/program-*.html` files. CSV cells that start with a formula character are
+  neutralized.
+- **Lock.** Our own lock records the foreign lock it replaced (`previous`), so both apps keep
+  showing "Also open by"; a lock older than 24 hours is ignored. `lock: false` in the program's
+  settings turns it off.
+- **Open questions** took the recommendations: pre-filled default location is the projects
+  folder (dialog is always shown), CSV import deferred, `verified` accepts a manual observation,
+  one active program with a recent list, lock only while the program is open.
+- The "From program proposal" entry point is "Start a scenario from this proposal" on the
+  overview; it opens the Generate brief with the constraints and records `brief.programProposal`.
+  The scenario page shows no separate proposal button.

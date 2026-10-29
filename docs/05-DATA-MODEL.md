@@ -292,6 +292,41 @@ ExerciseRecord { sources: { facilitator, evaluation, live, surveys }, liveSessio
 
 Sources: `facilitator.json`, `evaluation.json`, `live/<sessionId>/log.jsonl` (spec 0417; read by `src/main/aar/sources/live-log.ts`, the most recent ended session unless one is chosen; `displayName` is never read) and the survey store. A missing source is a gap the report states, not an error.
 
+## Exercise program (`<Name>.asprogram/`, #424, ADR-0043)
+
+A folder the user chooses, outside every project, for corrective actions across exercises and
+the multi-year IPP schedule. Schemas in `src/shared/schemas/program.ts`; every file is validated
+on read (it may be on shared storage) and loose, so a newer build's keys survive a save.
+
+```
+<Name>.asprogram/
+  program.json                      Program: id, name, orgName, cycle { startYear, years }, priorities[],
+                                    projects[] { projectId, name, path (POSIX-relative to the folder's
+                                    parent, else absolute), linkedAt }, nextActionNumber, lock
+  schedule.json                     Schedule: exercises[] PlannedExercise (type, year+quarter or date,
+                                    status, priorityIds, coreCapabilities, planSections,
+                                    correctiveActionIds, projectId/scenarioId, completedAt)
+  corrective-actions/<id>.json      ProgramAction: number ("CA-0007"), title, description,
+                                    areaForImprovement, coreCapabilities, element, planSections,
+                                    owner { name, organization, email }, dueDate, startDate, priority,
+                                    status, history[], source { kind, project, scenario, aarItemId },
+                                    verifications[]
+  imports/<id>.json                 AarImport: one per import run; per item aarItemId, the action it
+                                    became, a hash of the AAR text (idempotent re-import)
+  projects/<projectId>.json         ProjectSnapshot: scenarios (status, exercisedAt, capabilities,
+                                    plan sections, ratings, aarPresent) and the document inventory
+  exports/                          default output folder, ignored by the folder's .gitignore
+  .lock.json                        advisory presence: host, user, time (ignored after 24 hours)
+```
+
+Status lifecycle: `open → in_progress → completed → verified`, plus `deferred` and `cancelled`.
+A note is required for `deferred` and `cancelled`; `verified` requires a verification
+(`drill`, `exercise` or `review`). Status, history and verifications change only through
+`program:action-status`. A save carries the revision (sha256 of the file's text) it was edited
+from; a stale one fails with `CONFLICT` and `details.theirs`. `project.json` gains an optional
+`program: { id, path }` and `ScenarioBrief` an optional `programProposal`; the AAR
+`CorrectiveAction` gains `programActionId`. `settings.json` gains `program: { activePath, recent }`.
+
 ## Cloud privacy (#433, ADR-0031)
 
 ```ts

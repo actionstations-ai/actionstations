@@ -1,0 +1,187 @@
+/* The exercise program (#424): overview, corrective actions table, IPP grid. Tokens only. */
+
+.program-page > * + * {
+  margin-top: var(--space-4);
+}
+.program-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+.program-tabs__link {
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+}
+.program-tabs__link:hover {
+  color: var(--color-text);
+}
+.program-tabs__link[aria-current='page'] {
+  color: var(--color-text);
+  font-weight: var(--weight-semibold);
+  border-bottom-color: var(--color-accent);
+}
+.program-lock {
+  background: var(--color-warning-soft);
+  border: var(--border-width) solid var(--color-warning);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+}
+.program-between {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.program-path {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+.program-folder code {
+  overflow-wrap: anywhere;
+}
+.program-form-row > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.program-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin: var(--space-3) 0 0;
+}
+.program-count {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.program-count dd {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+}
+.program-count dt {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+.program-ranked {
+  padding-left: var(--space-5);
+}
+.program-ranked > li + li {
+  margin-top: var(--space-3);
+}
+.program-constraints {
+  padding-left: var(--space-5);
+}
+.program-import {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.program-recent {
+  margin-top: var(--space-8);
+}
+
+/* Corrective actions table */
+.program-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+.program-filters .field {
+  min-width: 11rem;
+}
+.program-filters__check {
+  padding-bottom: var(--space-2);
+}
+.program-toolbar {
+  flex-wrap: wrap;
+}
+.program-bulk {
+  flex-wrap: wrap;
+  background: var(--color-accent-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+}
+.program-table {
+  table-layout: auto;
+}
+.program-sort,
+.program-link {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+.program-link {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+.program-sort:focus-visible,
+.program-link:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+.program-drawer {
+  width: min(44rem, calc(100vw - 2rem));
+}
+.program-history {
+  padding-left: var(--space-5);
+}
+
+/* Capability pickers and checkbox groups */
+.program-capabilities {
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+}
+.program-capabilities__list {
+  max-height: 11rem;
+  overflow: auto;
+  display: grid;
+  gap: var(--space-1);
+}
+
+/* IPP grid */
+.program-grid th[scope='row'] {
+  white-space: nowrap;
+}
+.program-grid td {
+  min-width: 9rem;
+}
+.program-grid__cell {
+  list-style: none;
+  margin: 0 0 var(--space-1);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.program-exercise {
+  font: inherit;
+  text-align: left;
+  width: 100%;
+  background: var(--color-surface-sunken);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  color: var(--color-text);
+  cursor: pointer;
+}
+.program-exercise:hover {
+  background: var(--color-hover);
+}
+.program-exercise:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+.program-export {
+  border: 0;
+  padding: 0;
+}

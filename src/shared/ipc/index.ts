@@ -31,6 +31,7 @@ import { ApprovalNeededEvent, privacyChannels } from './privacy'
 import { complianceChannels } from './compliance'
 import { liveChannels, LiveChangedEvent } from './live'
 import { hotwashChannels, HotwashRecordingEvent } from './hotwash'
+import { programChannels } from './program'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -65,6 +66,15 @@ export {
   ListedFramework,
   ListedRegulation,
 } from './compliance'
+export {
+  ActionFilter,
+  ActionList,
+  AarImportPreview,
+  AarImportSelection,
+  OpenProgram,
+  ProgramExportTarget,
+  EXPORT_TARGETS as PROGRAM_EXPORT_TARGETS,
+} from './program'
 export { HotwashListing, MicArmResult, SpeechModelView } from './hotwash'
 export {
   PACK_CONTRIBUTION_URL,
@@ -142,6 +152,7 @@ export const channels = mergeChannels(
   complianceChannels,
   liveChannels,
   hotwashChannels,
+  programChannels,
 )
 
 export type Channels = typeof channels
@@ -178,6 +189,11 @@ export const events = {
   'live:changed': LiveChangedEvent,
   /** A hot wash recording started or stopped (#425): the presentation notice follows it. */
   'hotwash:recording': HotwashRecordingEvent,
+  /** Something in a program folder changed (#424): refetch the Program queries. */
+  'program:changed': z.object({
+    path: z.string(),
+    what: z.enum(['program', 'actions', 'schedule', 'snapshots']),
+  }),
   'project:changed': z.object({
     path: z.string(),
     what: z.enum([

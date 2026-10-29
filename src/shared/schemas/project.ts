@@ -154,6 +154,8 @@ export const Project = z.looseObject({
   compliance: ProjectCompliance.optional(),
   /** Hot wash recording options (#425); absent until first changed. */
   hotwash: HotwashSettings.optional(),
+  /** The exercise program this project is linked to (#424); the program folder holds the rest. */
+  program: z.object({ id: Id, path: z.string().max(2000) }).optional(),
 })
 export type Project = z.infer<typeof Project>
 

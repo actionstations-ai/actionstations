@@ -1,6 +1,6 @@
 import { Tabs } from 'radix-ui'
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useLocation, useNavigate, useParams } from 'react-router'
 import type { ScenarioIdea } from '@shared/schemas/scenario'
 import { PageHeader } from '../../components/ui'
 import { call, type IpcError } from '../../lib/api'
@@ -9,7 +9,13 @@ import { fromProjectKey, projectKey } from '../../state/project'
 import { BriefForm } from './BriefForm'
 import { GenerateError } from './GenerateError'
 import { IdeasPanel } from './IdeasPanel'
-import { draftFromIdea, emptyDraft, toBrief, type BriefDraft } from './brief-form'
+import {
+  draftFromIdea,
+  draftFromProposal,
+  emptyDraft,
+  toBrief,
+  type BriefDraft,
+} from './brief-form'
 import { resolveProfile, type DomainProfile, type ThreatFamilyId } from '@shared/domains'
 import { suggestThreat } from '../../lib/domains'
 import '../scenarios/scenarios.css'
@@ -48,7 +54,8 @@ export default function GeneratePage() {
   const projectPath = fromProjectKey(useParams().projectKey ?? '')
   const project = useIpcQuery('project:get', { path: projectPath }, { enabled: !!projectPath })
   const [tab, setTab] = useState<Tab>('prompt')
-  const [draft, setDraft] = useState<BriefDraft>(emptyDraft)
+  const location = useLocation()
+  const [draft, setDraft] = useState<BriefDraft>(() => draftFromProposal(location.state))
   const [idea, setIdea] = useState<ScenarioIdea | null>(null)
   const { start, submitting, error } = useStartScenario(projectPath)
   const roleSuggestions = (project.data?.project.defaultRoles ?? []).map((r) => r.name)
