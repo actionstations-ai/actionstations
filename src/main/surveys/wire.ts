@@ -18,7 +18,13 @@
 import { z } from 'zod'
 import { SafeId } from '@shared/schemas/common'
 import type { Survey, SurveyChannel, SurveyResponse } from '@shared/schemas'
-import { cleanAnswers, roundToMinute, surveyQuestions, wireKind } from '@shared/survey-layout'
+import {
+  cleanAnswers,
+  roundToMinute,
+  scaleLabels,
+  surveyQuestions,
+  wireKind,
+} from '@shared/survey-layout'
 import { AppError } from '../lib/errors'
 
 export const Base64Url22 = z.string().regex(/^[A-Za-z0-9_-]{22}$/)
@@ -61,6 +67,13 @@ export const WireSurveyResponse = z.object({
     .max(WIRE_LIMITS.questions),
 })
 
+/** The wire has no labels for the ends of a scale, so they go into the question text. */
+function withScaleEnds(q: Survey['sections'][number]['questions'][number], text: string): string {
+  if (q.type !== 'rating' && q.type !== 'confidence') return text
+  const { low, high } = scaleLabels(q)
+  return low && high ? `${text} (1 = ${low}, 5 = ${high})` : text
+}
+
 const cut = (text: string, max: number) => (text.length > max ? text.slice(0, max) : text)
 
 /**
@@ -73,7 +86,7 @@ export function toWireSurvey(survey: Survey, deliveryId: string): WireSurveyOpen
     throw new AppError('VALIDATION', `Live play takes at most ${WIRE_LIMITS.questions} questions.`)
   const questions = placed.map(({ question: q }) => {
     const kind = wireKind(q)
-    const text = q.type === 'confidence' && q.statement ? q.statement : q.text
+    const text = withScaleEnds(q, q.type === 'confidence' && q.statement ? q.statement : q.text)
     return {
       id: q.id,
       kind,

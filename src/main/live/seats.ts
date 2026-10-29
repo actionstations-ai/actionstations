@@ -43,6 +43,8 @@ export interface SeatingContext {
   scenarioTitle: string
   /** The hot wash prompts devices show; sent with every welcome. */
   hotwash?: WelcomePayload['hotwash']
+  /** Surveys only: one participant seat, every feature but surveys off (spec 0422 FR-7). */
+  surveyOnly?: boolean
   clock: () => ClockState
   /**
    * A per-session pseudonym for a client id (22 base64url characters): what other devices see
@@ -69,18 +71,27 @@ function seatOfRole(role: Role): SeatShape {
 }
 
 const STAFF_SEAT_KINDS: ReadonlySet<ClientKind> = new Set(['evaluator', 'simcell'])
-const FEATURES = { messages: true, votes: true, hotwash: true, surveys: false, eval: true }
+const FEATURES = { messages: true, votes: true, hotwash: true, surveys: true, eval: true }
+const SURVEY_ONLY_FEATURES = {
+  messages: false,
+  votes: false,
+  hotwash: false,
+  surveys: true,
+  eval: false,
+}
 
 export class Seats {
   readonly byClient = new Map<ClientId, Seat>()
   private readonly defs: SeatShape[]
 
   constructor(private readonly ctx: SeatingContext) {
-    this.defs = [
-      ...ctx.roles.map(seatOfRole),
-      { id: RESERVED_ROLE_IDS[0], name: 'Evaluator', kind: 'evaluator' },
-      { id: RESERVED_ROLE_IDS[1], name: 'Observer', kind: 'observer' },
-    ]
+    this.defs = ctx.surveyOnly
+      ? [{ id: RESERVED_ROLE_IDS[1], name: 'Participant', kind: 'observer' }]
+      : [
+          ...ctx.roles.map(seatOfRole),
+          { id: RESERVED_ROLE_IDS[0], name: 'Evaluator', kind: 'evaluator' },
+          { id: RESERVED_ROLE_IDS[1], name: 'Observer', kind: 'observer' },
+        ]
   }
 
   get connected(): number {
@@ -109,7 +120,7 @@ export class Seats {
       scenarioTitle: this.ctx.scenarioTitle,
       clock: this.ctx.clock(),
       seats: this.seats(),
-      features: FEATURES,
+      features: this.ctx.surveyOnly ? SURVEY_ONLY_FEATURES : FEATURES,
       ...(this.ctx.hotwash ? { hotwash: this.ctx.hotwash } : {}),
     }
   }

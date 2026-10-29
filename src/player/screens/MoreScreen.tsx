@@ -24,11 +24,13 @@ export function MoreScreen({
   prefsStore,
   bundleVersion,
   onOpenVotes,
+  onOpenSurveys,
 }: {
   session: PlayerSession
   prefsStore: Store<Prefs>
   bundleVersion: string
   onOpenVotes?: () => void
+  onOpenSurveys?: () => void
 }) {
   const [view, setView] = useState<View>('menu')
   const info = useStore(session.store, (s) => s.info)
@@ -49,7 +51,13 @@ export function MoreScreen({
         ? { onOpen: () => setView('hotwash') }
         : { why: reason(features?.hotwash) }),
     },
-    { id: 'surveys', label: STRINGS.more.surveys, why: reason(features?.surveys) },
+    {
+      id: 'surveys',
+      label: STRINGS.more.surveys,
+      ...(features?.surveys
+        ? { onOpen: () => onOpenSurveys?.() }
+        : { why: reason(features?.surveys) }),
+    },
     {
       id: 'evaluate',
       label: STRINGS.more.evaluate,

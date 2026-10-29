@@ -10,6 +10,8 @@ import { Banner } from '../components/Banner'
 import { Clock } from '../components/Clock'
 import { ConnectionDot } from '../components/ConnectionDot'
 import { TabBar, type Tab, type TabSpec } from '../components/TabBar'
+import { SurveyBanner } from '../features/surveys/SurveyBanner'
+import { SurveysScreen } from '../features/surveys/SurveysScreen'
 import { VoteBanner } from '../features/votes/VoteBanner'
 import { VoteScreen } from '../features/votes/VoteScreen'
 import { currentVote } from '../features/votes/votes'
@@ -28,9 +30,10 @@ export function RoomShell({
   prefsStore: Store<Prefs>
   bundleVersion: string
 }) {
-  const [tab, setTab] = useState<Tab>('inbox')
+  const [surveys, setSurveys] = useState<{ initial?: string } | undefined>(undefined)
   const [voteId, setVoteId] = useState<string | undefined>(undefined)
   const info = useStore(session.store, (s) => s.info)
+  const [tab, setTab] = useState<Tab>(surveysOnly(info) ? 'more' : 'inbox')
   const seat = useStore(session.store, (s) => s.seat)
   const clock = useStore(session.store, (s) => s.clock)
   const offset = useStore(session.store, (s) => s.clockOffsetMs)
@@ -78,6 +81,7 @@ export function RoomShell({
   ]
   const select = (next: Tab) => {
     if (next === 'messages' && !canMessage) return
+    setSurveys(undefined)
     setTab(next)
   }
   const seatName = seat?.role
@@ -115,18 +119,33 @@ export function RoomShell({
         <Banner tone="success">{STRINGS.header.back}</Banner>
       ) : null}
       <VoteBanner session={session} onOpen={setVoteId} viewing={voteId} />
+      <SurveyBanner
+        session={session}
+        onOpen={(initial) => setSurveys({ initial })}
+        viewing={!!surveys}
+      />
       <main className="room__main" id="content">
         {voteId ? (
           <VoteScreen session={session} voteId={voteId} onBack={() => setVoteId(undefined)} />
         ) : null}
-        {!voteId && tab === 'inbox' ? <InboxScreen session={session} /> : null}
-        {!voteId && tab === 'feed' ? <FeedScreen session={session} onOpenTab={select} /> : null}
-        {!voteId && tab === 'messages' ? <MessagesScreen session={session} /> : null}
-        {!voteId && tab === 'more' ? (
+        {!voteId && surveys ? (
+          <SurveysScreen
+            session={session}
+            initialId={surveys.initial}
+            onBack={() => setSurveys(undefined)}
+          />
+        ) : null}
+        {!voteId && !surveys && tab === 'inbox' ? <InboxScreen session={session} /> : null}
+        {!voteId && !surveys && tab === 'feed' ? (
+          <FeedScreen session={session} onOpenTab={select} />
+        ) : null}
+        {!voteId && !surveys && tab === 'messages' ? <MessagesScreen session={session} /> : null}
+        {!voteId && !surveys && tab === 'more' ? (
           <MoreScreen
             session={session}
             prefsStore={prefsStore}
             bundleVersion={bundleVersion}
+            onOpenSurveys={() => setSurveys({})}
             onOpenVotes={() => setVoteId(currentVote(session.state.votes)?.voteId ?? 'none')}
           />
         ) : null}
@@ -135,6 +154,10 @@ export function RoomShell({
     </div>
   )
 }
+
+/** A session for surveys only: the room opens on More, where Surveys is the one entry in use. */
+const surveysOnly = (info: PlayerSession['state']['info']): boolean =>
+  !!info && info.features.surveys && !info.features.messages && !info.features.votes
 
 /** True while "You're back" should show: from `until` being set to the moment it passes. */
 function useBack(until: number | undefined): boolean {

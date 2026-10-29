@@ -36,9 +36,11 @@ import { readFacilitatorState } from '../facilitator/state'
 import { requireProject } from '../project/guard'
 import { scenarioLayout } from '../scenario/layout'
 import { getScenario } from '../scenario/store'
+import { appendResponse, readSurvey } from '../surveys/store'
 import { inviteViews } from './invites'
 import { teamSlug } from '@shared/live/targets'
 import { Delivery, type DeliverySeat } from './releases'
+import { LiveSurveys, type SurveySeat } from './surveys'
 import { Votes, type VoteResult, type VoteSeat } from './votes'
 import {
   emptyStage,
@@ -97,6 +99,7 @@ interface Active {
   messages: Messages
   hotwash: HotWash
   votes: Votes
+  surveys: LiveSurveys
   evaluation: LiveEvaluation
   stage: StageState
   mediaCache: Map<string, BlobRef>
@@ -116,6 +119,8 @@ export interface StartSessionRequest {
   name?: string
   /** The facilitator confirmed binding to a public (non-private) address. */
   allowPublicAddress?: boolean
+  /** A session for surveys only (spec 0422 FR-7). */
+  surveyOnly?: boolean
 }
 
 const sessionDir = (root: string, scenarioId: string, sessionId: string): string =>
@@ -181,7 +186,8 @@ function emitChanged(
     | 'messages'
     | 'votes'
     | 'evaluation'
-    | 'hotwash',
+    | 'hotwash'
+    | 'surveys',
   message?: string,
   threadId?: string,
 ) {
@@ -280,6 +286,11 @@ function wireClient(a: Active): void {
       'hotwash.item',
       (msg) => void a.hotwash.onItem(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e)),
     ),
+    a.client.on('survey.response', (msg) => {
+      // Sealed to the controller; the sender is used to find its seat and is not kept.
+      if (msg.to !== 'controller') return
+      void a.surveys.onResponse(msg.from, msg.payload).catch((e) => fail(a, e))
+    }),
     a.client.onDropped((reason, detail) => {
       if (reason === 'NOT_FOR_ME' || reason === 'STAFF_ONLY' || reason === 'CONTROLLER_ONLY') return
       void a.log
@@ -466,6 +477,44 @@ function makeVotes(getActive: () => Active, roles: readonly Role[]): Votes {
   })
 }
 
+/** Surveys' view of the session: sending as the controller, the seated devices, the log. */
+function makeSurveys(
+  getActive: () => Active,
+  roles: readonly Role[],
+  channel: 'live' | 'qr',
+): LiveSurveys {
+  const byId = new Map(roles.map((r) => [r.id, r]))
+  return new LiveSurveys({
+    send: (type, to, payload) =>
+      getActive().client.send(type, to, payload as never, { key: 'players' }),
+    log: { append: (input) => getActive().log.append(input) },
+    load: async (surveyId) => {
+      const a = getActive()
+      return readSurvey(a.root, a.session.scenarioId, surveyId)
+    },
+    store: (response) => {
+      const a = getActive()
+      return appendResponse(a.root, a.session.scenarioId, response)
+    },
+    seats: () =>
+      [...getActive().seats.byClient.values()].map((s): SurveySeat => {
+        const role = s.roleId ? byId.get(s.roleId) : undefined
+        const team = role ? teamSlug(role.team) : undefined
+        return {
+          clientId: s.clientId,
+          kind: s.kind,
+          ...(s.roleId ? { roleId: s.roleId } : {}),
+          ...(team ? { teamId: team } : {}),
+          label: role?.name ?? s.kind,
+          online: s.online,
+        }
+      }),
+    channel,
+    now: () => Date.now(),
+    changed: () => emitChanged('surveys'),
+  })
+}
+
 /** The hot wash's view of the session: sending as the controller, the seated devices, the log. */
 function makeHotWash(
   getActive: () => Active,
@@ -629,6 +678,7 @@ async function startOn(
       joinUrlPublic: '',
       attribution: req.attribution,
       protocolVersion: PROTOCOL_VERSION,
+      ...(req.surveyOnly ? { surveyOnly: true } : {}),
       lastIndex: 0,
     },
     root,
@@ -647,6 +697,7 @@ async function startOn(
       sessionName: req.name?.trim() || scenario.title,
       scenarioTitle: scenario.title,
       hotwash: prompts,
+      ...(req.surveyOnly ? { surveyOnly: true } : {}),
       clock: () => cachedClock,
       pseudonym: (id) => pseudonym({ crypto, salt }, id),
     }),
@@ -656,6 +707,7 @@ async function startOn(
     messages: makeMessages(() => a, scenario.roles),
     hotwash: makeHotWash(() => a, scenario.roles, prompts.questions),
     votes: makeVotes(() => a, scenario.roles),
+    surveys: makeSurveys(() => a, scenario.roles, req.surveyOnly ? 'qr' : 'live'),
     evaluation: makeEvaluation(() => a),
     stage: emptyStage(),
     mediaCache: new Map(),
@@ -997,6 +1049,7 @@ export async function switchAddress(address: string): Promise<LanServerStatus> {
 }
 
 async function teardown(a: Active, reason: 'endex' | 'cancelled'): Promise<LiveSession> {
+  await a.surveys.closeAll().catch((e: unknown) => console.error('[live] surveys:', e))
   await a.votes.closeInterrupted().catch((e: unknown) => console.error('[live] vote:', e))
   a.votes.dispose()
   for (const off of a.unsubscribe.splice(0)) off()
@@ -1103,4 +1156,22 @@ export async function recordVote(root: string, scenarioId: string, voteId: strin
     ...(rowId ? { rowId } : {}),
     text,
   }
+}
+
+/** Send a survey to devices (spec 0422 FR-5). */
+export const openSurvey = (
+  root: string,
+  scenarioId: string,
+  surveyId: string,
+  opts: { targets?: string[]; durationSec?: number } = {},
+) => activeFor(root, scenarioId).surveys.open(surveyId, opts)
+
+export const closeSurvey = (root: string, scenarioId: string, deliveryId: string) =>
+  activeFor(root, scenarioId).surveys.close(deliveryId)
+
+/** Surveys sent in the running session; empty when no session runs for this scenario. */
+export function liveSurveys(root: string, scenarioId: string) {
+  const a = active
+  if (!a || a.root !== root || a.session.scenarioId !== scenarioId) return []
+  return a.surveys.list()
 }

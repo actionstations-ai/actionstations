@@ -21,6 +21,7 @@ import { HotWashBoard } from './live/HotWashBoard'
 import { MessagesPanel, MessagesTabLabel } from './live/MessagesPanel'
 import { tallySourceFromVotes } from '@shared/branching/vote-input'
 import { useLiveVotes } from './live/use-live-votes'
+import { LiveSurveysSection } from './live/SurveySend'
 import { VotePanel } from './live/VotePanel'
 import { VOTES } from './live/vote-strings'
 import { RoomPanel } from './live/RoomPanel'
@@ -279,6 +280,7 @@ export function SidePanel(props: {
           scenarioId={props.scenario.id}
           roles={props.scenario.roles}
         />
+        <LiveSurveysSection projectPath={props.projectPath} scenarioId={props.scenario.id} />
         <SessionsList projectPath={props.projectPath} scenario={props.scenario} />
       </Tabs.Content>
       <Tabs.Content value="room" className="fac-tabs__panel">

@@ -55,7 +55,9 @@ describe('toWireSurvey', () => {
       ['t1', 'text'],
     ])
     expect(wire.questions[1]).toMatchObject({ min: 1, max: 5 })
-    expect(wire.questions[2]!.text).toBe('I could lead it')
+    expect(wire.questions[2]!.text).toBe(
+      'I could lead it (1 = Not at all confident, 5 = Very confident)',
+    )
   })
 
   it('never sends correct answers, citations or objective refs to a device', () => {

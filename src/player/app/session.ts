@@ -28,6 +28,14 @@ import type {
 } from '../../shared/live/schemas'
 import type { KeyValue, Transport } from '../../shared/live/transport'
 import { MediaCache } from '../features/injects/media'
+import {
+  applyClose as applySurveyClose,
+  applyOpen as applySurveyOpen,
+  mayAnswer,
+  wireAnswers,
+  type Answers,
+  type SurveyMap,
+} from '../features/surveys/surveys'
 import { applyClose, applyOpen, mayVote, type VoteMap } from '../features/votes/votes'
 import {
   EMPTY_HOTWASH,
@@ -129,6 +137,8 @@ export interface PlayerState {
   compose?: { releaseId: string; title: string; nonce: number }
   /** Votes this device has heard of, by vote id (spec 0414). */
   votes: VoteMap
+  /** Surveys this device has heard of, by delivery id (spec 0422). */
+  surveys: SurveyMap
   read: ReadonlySet<string>
   dismissed: ReadonlySet<string>
   /** Release ids this device marked as actioned. */
@@ -230,6 +240,7 @@ export class PlayerSession {
       items: [],
       messages: [],
       votes: {},
+      surveys: {},
       hotwash: EMPTY_HOTWASH,
       read: new Set(),
       dismissed: new Set(),
@@ -504,6 +515,14 @@ export class PlayerSession {
       case 'vote.close':
         this.applyVoteClose(msg as Opened<'vote.close'>)
         break
+      case 'survey.open':
+        this.applySurveyOpen(msg as Opened<'survey.open'>)
+        break
+      case 'survey.close':
+        this.store.set((s) => ({
+          surveys: applySurveyClose(s.surveys, msg as Opened<'survey.close'>),
+        }))
+        break
       case 'presence':
       case 'relay.blob.chunk':
       case 'relay.blob.done':
@@ -566,6 +585,7 @@ export class PlayerSession {
       ended: payload,
       items: [],
       messages: [],
+      surveys: {},
       hotwash: EMPTY_HOTWASH,
       info: undefined,
       roster: [],
@@ -900,6 +920,34 @@ export class PlayerSession {
     return !isNew && !reopened
   }
 
+  private applySurveyOpen(msg: Opened<'survey.open'>): void {
+    const { surveys, isNew } = applySurveyOpen(this.state.surveys, msg, this.now())
+    this.store.set({ surveys })
+    if (
+      isNew &&
+      mayAnswer(surveys[msg.payload.surveyId]!, this.seatView()) &&
+      !this.state.catchingUp
+    )
+      this.deps.announcer.announce(STRINGS.surveys.announceOpen(msg.payload.title))
+  }
+
+  /** Send this device's answers (or changed answers) to the controller, now or on reconnect. */
+  async submitSurvey(surveyId: string, answers: Answers): Promise<void> {
+    const survey = this.state.surveys[surveyId]
+    if (!survey || survey.status !== 'open' || !this.outbox) return
+    const sending = wireAnswers(survey, answers)
+    if (!sending.length) return
+    this.store.set((s) => ({
+      surveys: { ...s.surveys, [surveyId]: { ...survey, mine: answers, sent: false } },
+    }))
+    await this.outbox.enqueue({
+      id: `survey:${surveyId}:${this.now()}`,
+      type: 'survey.response',
+      to: 'controller',
+      payload: { surveyId, answers: sending },
+    })
+  }
+
   private applyVoteClose(msg: Opened<'vote.close'>): void {
     const votes = applyClose(this.state.votes, msg, this.now())
     this.store.set({ votes })
@@ -932,6 +980,13 @@ export class PlayerSession {
         revision: number
       }
       void this.evaluate?.markSent(observationId, revision)
+      return
+    }
+    if (action.type === 'survey.response') {
+      const id = String(action.payload.surveyId)
+      const survey = this.state.surveys[id]
+      if (survey)
+        this.store.set((s) => ({ surveys: { ...s.surveys, [id]: { ...survey, sent: true } } }))
       return
     }
     if (action.type !== 'vote.cast') return

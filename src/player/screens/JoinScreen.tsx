@@ -41,7 +41,8 @@ export function JoinScreen({
   const [picked, setSeatId] = useState<string | undefined>()
   const [name, setName] = useState('')
   // The per-role card's hint preselects until the player picks; the controller still decides.
-  const seatId = picked ?? hinted?.id
+  // A session with one seat (surveys only) preselects it.
+  const seatId = picked ?? hinted?.id ?? (seats.length === 1 ? seats[0]!.id : undefined)
   const chosen = seats.find((s) => s.id === seatId)
   const canJoin =
     !!chosen && !seatStatus(chosen, hasStaff).disabled && !joining && connection === 'connected'

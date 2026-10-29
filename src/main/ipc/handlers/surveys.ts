@@ -17,6 +17,7 @@ import {
   writeSurvey,
 } from '../../surveys/store'
 import { blankSurvey, surveyTemplateInfo, surveysFromTemplate } from '../../surveys/templates'
+import { closeSurvey, liveSurveys, openSurvey } from '../../live/session'
 import { defineHandlers } from '../registry'
 
 /** Team names of the scenario's roles: the only role groups a survey may offer. */
@@ -141,4 +142,16 @@ export default defineHandlers({
       surveyId,
       await minResponsesSetting(),
     ),
+
+  'surveys:open-live': async ({ projectPath, scenarioId, surveyId, targets, durationSec }) =>
+    openSurvey(await requireProject(projectPath), scenarioId, surveyId, {
+      ...(targets ? { targets } : {}),
+      ...(durationSec ? { durationSec } : {}),
+    }),
+
+  'surveys:close-live': async ({ projectPath, scenarioId, deliveryId }) =>
+    closeSurvey(await requireProject(projectPath), scenarioId, deliveryId),
+
+  'surveys:live-status': async ({ projectPath, scenarioId }) =>
+    liveSurveys(await requireProject(projectPath), scenarioId),
 })

@@ -229,7 +229,7 @@ test.describe('player page over the harness', () => {
     const messages = ops.page.getByRole('button', { name: /Messages/ })
     await expect(messages).not.toHaveAttribute('aria-disabled', 'true')
     await ops.page.getByRole('button', { name: 'More' }).click()
-    await expect(ops.page.getByRole('button', { name: /Surveys/ })).toHaveAttribute(
+    await expect(ops.page.getByRole('button', { name: /Evaluate/ })).toHaveAttribute(
       'aria-disabled',
       'true',
     )

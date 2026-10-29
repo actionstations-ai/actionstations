@@ -1,12 +1,14 @@
 // How a survey reaches participants. Printing works today: the form is written through the
 // export path into the export folder (surveys/), where participant forms are also allowed in
-// the distribution ZIP's players/ folder. Live play and phones (QR) arrive with live play.
+// the distribution ZIP's players/ folder. On phones, the survey goes to a running live session or
+// to a survey-only session on this computer with a join code (SurveySend).
 import { FolderOpen, Printer } from 'lucide-react'
 import type { Survey } from '@shared/schemas/survey'
 import { Button, Dialog, ProgressBar } from '../../components/ui'
 import { LiveStatus } from '../../components/LiveStatus'
 import { call } from '../../lib/api'
 import { errorText } from '../../lib/errors'
+import { SurveySend } from '../facilitate/live/SurveySend'
 import { useSurveyPrint } from './use-survey-print'
 
 export function PrintStatus({ printing }: { printing: ReturnType<typeof useSurveyPrint> }) {
@@ -46,7 +48,7 @@ export function SurveyDeliveryDialog(props: {
       open={props.open}
       onOpenChange={props.onOpenChange}
       title="Deliver this survey"
-      description="Print it to hand out, then type the returned forms in on the Results tab."
+      description="Print it to hand out, or send it to participants' phones."
       footer={<Button onClick={() => props.onOpenChange(false)}>Close</Button>}
     >
       <div className="stack">
@@ -65,14 +67,11 @@ export function SurveyDeliveryDialog(props: {
           </Button>
           <PrintStatus printing={printing} />
         </section>
-        <section className="sv-deliver" aria-labelledby="sv-deliver-live">
-          <h3 id="sv-deliver-live">On phones or in live play</h3>
-          <p className="muted">
-            Not available in this version yet. When live play is available, participants will answer
-            on their phones by scanning the room code, and their responses will appear in the same
-            results.
-          </p>
-        </section>
+        <SurveySend
+          projectPath={props.projectPath}
+          scenarioId={props.scenarioId}
+          surveys={[props.survey]}
+        />
       </div>
     </Dialog>
   )
