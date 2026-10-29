@@ -3,6 +3,8 @@ import type { DomainProfile } from '@shared/domains'
 import { ideaFamily, threatLabel } from '../../lib/domains'
 import { Badge, Button } from '../../components/ui'
 import { CitationChips } from '../scenarios/CitationChips'
+import { GroundingBadge } from '../../components/GroundingBadge'
+import type { GroundingResult } from '@shared/schemas/grounding'
 
 const DIFFICULTY_TONE = { introductory: 'ok', intermediate: 'info', advanced: 'warn' } as const
 
@@ -10,10 +12,13 @@ export function IdeaCard({
   idea,
   onDevelop,
   profile,
+  grounding,
 }: {
   idea: ScenarioIdea
   onDevelop: () => void
   profile?: DomainProfile
+  /** Source check of "Why it teaches" against the sections exercised (#423). */
+  grounding?: GroundingResult | undefined
 }) {
   const headingId = `idea-${idea.id}`
   const family = idea.threatFamily ?? (profile ? ideaFamily(idea, profile) : undefined)
@@ -46,7 +51,9 @@ export function IdeaCard({
         {idea.whyItTeaches && (
           <div>
             <dt>Why it teaches</dt>
-            <dd>{idea.whyItTeaches}</dd>
+            <dd>
+              {idea.whyItTeaches} <GroundingBadge result={grounding} />
+            </dd>
           </div>
         )}
         {idea.suggestedRoles.length > 0 && (

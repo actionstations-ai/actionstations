@@ -67,6 +67,9 @@
         <col class="col-event" />
         <col class="col-action" />
         <col class="col-tag" />
+        {{#if showCheck}}
+        <col class="col-check" />
+        {{/if}}
       </colgroup>
       <thead>
         <tr>
@@ -77,12 +80,15 @@
           <th scope="col">Event / Message</th>
           <th scope="col">Expected Action</th>
           <th scope="col">Purpose</th>
+          {{#if showCheck}}
+          <th scope="col">Source check</th>
+          {{/if}}
         </tr>
       </thead>
       <tbody>
         {{#if goal}}
         <tr class="goal-row">
-          <td colspan="7"><strong>Goal:</strong> {{goal}}</td>
+          <td colspan="{{columns}}"><strong>Goal:</strong> {{goal}}</td>
         </tr>
         {{/if}} {{#each rows}}
         <tr class="{{rowClass}}">
@@ -98,6 +104,9 @@
             >{{/if}}
           </td>
           <td>{{> tag tag}}</td>
+          {{#if showCheck}}
+          <td class="cell-check">{{check}}</td>
+          {{/if}}
         </tr>
         {{/each}}
       </tbody>

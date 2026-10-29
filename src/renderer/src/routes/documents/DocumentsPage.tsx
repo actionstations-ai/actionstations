@@ -14,6 +14,7 @@ import { DocumentTable } from './DocumentTable'
 import { DocumentsEmpty } from './DocumentsEmpty'
 import { IndexStatus } from './IndexStatus'
 import { IngestJobs } from './IngestJobs'
+import { PlanConflicts } from './PlanConflicts'
 import { INDEX_TARGET } from './job-progress'
 import { useDocumentActions, useImportDocuments } from './use-document-actions'
 import { useFileDrop } from './use-file-drop'
@@ -101,6 +102,7 @@ export default function DocumentsPage() {
   const actions = useDocumentActions(projectPath, track)
   const dragging = useFileDrop((paths) => void importer.importPaths(paths), !!projectPath)
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [focusChunk, setFocusChunk] = useState<number | undefined>()
   const [pendingRemove, setPendingRemove] = useState<DocumentMeta | null>(null)
   const [packDialogOpen, setPackDialogOpen] = useState(false)
   const packDocs = usePackDocuments(projectPath).data ?? []
@@ -150,20 +152,34 @@ export default function DocumentsPage() {
             docs={list}
             live={live}
             selectedId={selectedId}
-            onSelect={(d) => setSelectedId((cur) => (cur === d.id ? null : d.id))}
+            onSelect={(d) => {
+              setFocusChunk(undefined)
+              setSelectedId((cur) => (cur === d.id ? null : d.id))
+            }}
             onPatch={actions.patch}
             onReingest={actions.retry}
             onRemove={setPendingRemove}
           />
           {selected && (
             <DocumentDetail
-              key={selected.id}
+              key={`${selected.id}:${focusChunk ?? ''}`}
               projectPath={projectPath}
               doc={selected}
+              {...(focusChunk !== undefined ? { focusChunkId: focusChunk } : {})}
               onClose={() => setSelectedId(null)}
             />
           )}
         </div>
+      )}
+      {list.length > 0 && (
+        <PlanConflicts
+          projectPath={projectPath}
+          docs={list}
+          onOpen={(documentId, chunkId) => {
+            setSelectedId(documentId)
+            setFocusChunk(chunkId)
+          }}
+        />
       )}
       <RemoveDialog
         doc={pendingRemove}

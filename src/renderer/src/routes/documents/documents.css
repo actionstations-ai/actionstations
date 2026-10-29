@@ -417,3 +417,90 @@
   color: var(--color-text-muted);
   overflow-wrap: anywhere;
 }
+
+/* Plan conflicts (#423): run controls, findings with two passages side by side. */
+.plan-conflicts {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+.plan-conflicts__controls {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+}
+.plan-conflicts__check {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+.plan-conflicts__check input:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+.plan-conflicts__offer {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+}
+.plan-conflicts__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.plan-finding {
+  display: grid;
+  gap: var(--space-2);
+}
+.plan-finding__top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: baseline;
+  justify-content: space-between;
+}
+.plan-finding__top h3,
+.plan-finding__passage h4 {
+  margin: 0;
+}
+.plan-finding__passages {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+.plan-finding__passage {
+  display: grid;
+  gap: var(--space-1);
+  align-content: start;
+  min-width: 0;
+}
+.plan-finding__passage blockquote {
+  margin: 0;
+  padding-left: var(--space-2);
+  border-left: 3px solid var(--color-border);
+  overflow-wrap: anywhere;
+}
+.plan-finding__passage mark {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+  font-weight: var(--weight-semibold);
+  outline: 1px solid var(--color-warning);
+}
+.plan-finding__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+.plan-finding__actions .input {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+.chunk--focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+.plan-conflicts__filter {
+  width: auto;
+  max-width: 100%;
+}

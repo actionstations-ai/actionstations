@@ -31,7 +31,9 @@ function Steps({ r }: { r: Readiness }) {
       done: r.rows > 0 && r.rendered === r.rows,
     },
     {
-      label: r.errors ? `Checks: ${plural(r.errors, 'error')}` : 'Checks: no errors',
+      label:
+        (r.errors ? `Checks: ${plural(r.errors, 'error')}` : 'Checks: no errors') +
+        (r.unsupported ? ` · ${plural(r.unsupported, 'item')} without plan support` : ''),
       done: r.errors === 0,
     },
   ]

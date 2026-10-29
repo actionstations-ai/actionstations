@@ -1,6 +1,6 @@
 # Spec 0423: Grounding labels and contradictions between plans
 
-Issue: #423 · Milestone: 0.7.0 · Status: Draft · Depends on: none · Related: #427, #433, #434
+Issue: #423 · Milestone: 0.7.0 · Status: Implemented · Depends on: none · Related: #427, #433, #434
 
 ## Summary
 
@@ -378,6 +378,51 @@ add labels.
 10. Export column and docs: `src/main/export/views.ts`, export dialog checkbox, user guide
     `docs/guides/grounding.md`, ADR for "deterministic grounding first, model verification only
     with validated quotes", CHANGELOG entry.
+
+## Implementation notes
+
+Built as specified, with these differences (decided while building; the open questions below
+took their recommendations):
+
+- **No filter in the grid.** A **Source check** bar above the MSEL grid shows the counts and
+  lists the rows to check (unsupported first) with Go to row and Details. Hiding rows inside the
+  grid would break its keyboard navigation, drag and row numbering.
+- **Details is a dialog, not a popover in the citations cell.** The grid uses one roving focus
+  per cell, so a second focusable control in a cell is hard to reach from the keyboard. The
+  badge in the cell is static text with an icon; **Source check…** in the row's Actions menu, the
+  bar's **Details** buttons and the inject editor's **Details** open the dialog. Key events in
+  the row menu no longer reach the grid (they used to move the active cell and close the menu).
+- **"Makes a plan claim"** (FR-2): an item has citations, or names a role, agency, section,
+  duration, quantity or one of the action verbs. A row with neither gets no label.
+- **Anchor terms** (FR-3.2): identifiers are tag-shaped ones (letters joined to digits:
+  PLC-02, NAOH-FC-203, ERP-2) plus a short list of agency acronyms (FBI, CISA, EPA…); bare
+  acronyms such as SCADA or GPS are too common to require. The scenario's role names count as
+  known, like facility facts, and its role abbreviations are never anchors.
+- **Overlap** is the share of the claim's content words found in all its cited chunks together
+  (the best chunk is still named in the evidence). A duration or quantity is checked in the
+  passage sentence that states the same thing; a different value there is the conflict.
+- **Citations whose chunk id moved** (an index rebuilt in another order, as when an example is
+  opened) are found again by document and quote before they count as missing.
+- **Overview sections** are labelled by resolution: the cited chunk exists (Grounded), its quote
+  is not in it (Needs review), or it is gone (Unsupported).
+- **Model labels** (FR-7): every claim supported with a validated quote raises the label to
+  Grounded; any validated partial, unsupported or contradicted verdict lowers Grounded to Needs
+  review; nothing validated leaves the checker's label. A scenario-wide verify asks about at
+  most 120 items, weakest first.
+- **Inject edits** (FR-6): `injects:save` recomputes the labels and writes `scenario.json` only
+  when a result changed. `grounding:scenario` recomputes stale items without writing, as in
+  Migration.
+- **Subject matching** for plan conflicts uses token similarity (S_SUBJECT 0.5); embedding
+  similarity is not used there.
+- **Extra channels:** `grounding:ideas` (idea labels from `ideas.json`) and
+  `plan-check:defaults` (whether confirmation is on by default, and why). `grounding:override`
+  without a label clears the user's label.
+- **The post-ingest offer** appears once in the Plan conflicts section of the Documents page
+  when the project has two or more plans and no check has run, not in `IngestJobs.tsx`.
+- **Calibration:** 60 rows from the shipped examples (`fixtures/calibration.json`), 20 per
+  hand label; four unsupported cases change a duration from the plan's and two cite a chunk
+  that was removed. Agreement at the shipped thresholds is 58 of 60; the two disagreements
+  are rows the checker calls Grounded that a reader would review.
 
 ## Open questions
 

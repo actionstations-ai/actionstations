@@ -15,6 +15,8 @@ export const JobKind = z.enum([
   'export',
   'pack-download',
   'tool-install',
+  'plan-check',
+  'grounding-verify',
 ])
 export type JobKind = z.infer<typeof JobKind>
 

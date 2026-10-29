@@ -18,7 +18,28 @@ import {
 } from '../../generate/injects'
 import { AppError } from '../../lib/errors'
 import { requireProject } from '../../project/guard'
-import { listInjects, saveInject } from '../../scenario/store'
+import { getScenario, listInjects, saveInject, updateScenario } from '../../scenario/store'
+import { contextFor, regroundScenario, sameGrounding } from '../../grounding/project'
+
+/** Labels after an edit (#423, FR-6): written only when a result changed; never blocks the save. */
+async function groundSavedInject(root: string, scenarioId: string): Promise<void> {
+  try {
+    const scenario = await getScenario(root, scenarioId)
+    const ctx = await contextFor(root, scenario)
+    const grounding = await regroundScenario(scenario, ctx, await listInjects(root, scenarioId))
+    if (sameGrounding(scenario.grounding, grounding)) return
+    await updateScenario(
+      root,
+      scenarioId,
+      (s) => {
+        s.grounding = grounding
+      },
+      { by: 'user', snapshot: false, note: 'source check' },
+    )
+  } catch {
+    // Labels are recomputed on the next grounding:scenario.
+  }
+}
 
 async function requireUnlocked(root: string, scenarioId: string, injectId: string) {
   const inject = await getInject(root, scenarioId, injectId)
@@ -48,6 +69,7 @@ export default defineHandlers({
       ...(note ? { note } : {}),
     })
     await clearFixedFieldWarnings(root, scenarioId, saved)
+    await groundSavedInject(root, scenarioId)
     return saved
   },
 

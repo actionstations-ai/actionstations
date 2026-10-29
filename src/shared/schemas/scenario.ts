@@ -5,6 +5,7 @@ import { Evaluation } from './evaluation'
 import { Role } from './project'
 import { ProviderRef } from './provider'
 import { PurposeTag } from '../taxonomy'
+import { ScenarioGrounding } from './grounding'
 
 export const ScenarioBrief = z.object({
   userPrompt: z.string().default(''),
@@ -192,6 +193,10 @@ export const STAGES = [
   'hotwash',
   'sitman',
   'critique',
+  /** Model verification of grounding labels (#423); not part of the pipeline. */
+  'grounding_verify',
+  /** Model confirmation of a plan conflict (#423); not part of the pipeline. */
+  'plan_conflict',
 ] as const
 export const Stage = z.enum(STAGES)
 export type Stage = z.infer<typeof Stage>
@@ -306,6 +311,8 @@ export const Scenario = z.looseObject({
   criticalResources: z.array(z.string()).default([]),
   warnings: z.array(LintWarning).default([]),
   provenance: z.array(StageRun).default([]),
+  /** Grounding labels per item (#423); computed on demand when absent. */
+  grounding: ScenarioGrounding.optional(),
 })
 export type Scenario = z.infer<typeof Scenario>
 

@@ -6,6 +6,7 @@
 // and, for a failure, an INJECT_TEXT_FAILED warning on the row (#166); both go when the row
 // later gets its inject.
 import type { Inject, LintWarning, MselRow, Scenario, StageRun } from '@shared/schemas'
+import { contextFor, regroundScenario, sameGrounding } from '../../grounding/project'
 import type { JobContext } from '../../jobs/manager'
 import { AppError, toAppError } from '../../lib/errors'
 import { nowIso } from '../../lib/ids'
@@ -282,6 +283,33 @@ async function processRow(
   }
 }
 
+/** Labels for the injects just written (#423); a failure only costs the labels. */
+async function groundInjects(env: InjectEnv, scenarioId: string): Promise<void> {
+  try {
+    const injects = await env.deps.injects.listInjects(env.root, scenarioId)
+    const current = await env.deps.store.getScenario(env.root, scenarioId)
+    const ctx = await contextFor(env.root, current, {
+      index: env.index,
+      facility: env.facility,
+      project: env.project,
+    })
+    const grounding = await regroundScenario(current, ctx, injects)
+    if (sameGrounding(current.grounding, grounding)) return
+    await env.deps.injects.updateScenario(
+      env.root,
+      scenarioId,
+      (s) => {
+        s.grounding = grounding
+      },
+      { by: 'ai', snapshot: false, note: 'source check' },
+    )
+  } catch (err) {
+    env.ctx.log(`Source check skipped: ${toAppError(err).message}`, 'warn', {
+      stage: 'inject_text',
+    })
+  }
+}
+
 /** The job body. Returns the summary (also the job's result). */
 export async function runInjectsJob(
   root: string,
@@ -311,6 +339,7 @@ export async function runInjectsJob(
     scenario = await processRow(work, summary, byRow)
   }
   logSummary(ctx, summary)
+  if (summary.generated.length) await groundInjects(env, scenarioId)
   ctx.progress(1, `${summary.generated.length} inject(s) ready`)
   if (summary.failed.length && !summary.generated.length) {
     throw new AppError('PROVIDER', `Every inject failed: ${summary.failed[0]?.error}`)

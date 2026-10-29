@@ -54,13 +54,26 @@ function TextViewer({ projectPath, doc }: { projectPath: string; doc: DocumentMe
   )
 }
 
-function ChunkList({ projectPath, doc }: { projectPath: string; doc: DocumentMeta }) {
-  const [limit, setLimit] = useState(CHUNK_PAGE)
+/** A chunk opened from elsewhere (a plan conflict's passage) is scrolled to and focused. */
+function useFocusChunk(focusChunkId: number | undefined, loaded: boolean) {
+  useEffect(() => {
+    if (focusChunkId === undefined || !loaded) return
+    const el = document.querySelector<HTMLElement>(`[data-chunk-id="${focusChunkId}"]`)
+    void el?.scrollIntoView?.({ block: 'center' })
+    el?.focus()
+  }, [focusChunkId, loaded])
+}
+
+function ChunkList(props: { projectPath: string; doc: DocumentMeta; focusChunkId?: number }) {
+  const { projectPath, doc, focusChunkId } = props
+  // Opening a passage loads enough chunks to reach it (documents are chunked in order).
+  const [limit, setLimit] = useState(focusChunkId === undefined ? CHUNK_PAGE : 5000)
   const chunks = useIpcQuery(
     'documents:chunks',
     { projectPath, documentId: doc.id, limit, offset: 0 },
     { placeholderData: (prev) => prev },
   )
+  useFocusChunk(focusChunkId, !!chunks.data)
   if (chunks.isPending) return <p className="muted">Loading chunks…</p>
   if (chunks.isError)
     return (
@@ -74,7 +87,12 @@ function ChunkList({ projectPath, doc }: { projectPath: string; doc: DocumentMet
     <div className="stack">
       <ol className="chunk-list" aria-label={`Chunks of ${doc.title}`}>
         {list.map((c) => (
-          <li key={c.id} className="chunk">
+          <li
+            key={c.id}
+            className={c.id === focusChunkId ? 'chunk chunk--focus' : 'chunk'}
+            data-chunk-id={c.id}
+            {...(c.id === focusChunkId ? { tabIndex: -1 } : {})}
+          >
             <div className="chunk__meta">
               <strong className="chunk__heading">{c.headingPath || 'Untitled section'}</strong>
               <span className="muted">
@@ -114,6 +132,8 @@ function HeadingsTab({ projectPath, doc }: { projectPath: string; doc: DocumentM
 export function DocumentDetail(props: {
   projectPath: string
   doc: DocumentMeta
+  /** Open on the Chunks tab at this chunk (a plan conflict's passage, #423). */
+  focusChunkId?: number
   onClose: () => void
 }) {
   const { doc, projectPath } = props
@@ -134,7 +154,10 @@ export function DocumentDetail(props: {
           <X size={16} aria-hidden />
         </Button>
       </header>
-      <Tabs.Root defaultValue="headings" className="doc-tabs">
+      <Tabs.Root
+        defaultValue={props.focusChunkId === undefined ? 'headings' : 'chunks'}
+        className="doc-tabs"
+      >
         <Tabs.List className="doc-tabs__list" aria-label="Document views">
           <Tabs.Trigger value="headings" className="doc-tabs__tab">
             Headings
@@ -153,7 +176,11 @@ export function DocumentDetail(props: {
           <TextViewer projectPath={projectPath} doc={doc} />
         </Tabs.Content>
         <Tabs.Content value="chunks" className="doc-tabs__panel">
-          <ChunkList projectPath={projectPath} doc={doc} />
+          <ChunkList
+            projectPath={projectPath}
+            doc={doc}
+            {...(props.focusChunkId !== undefined ? { focusChunkId: props.focusChunkId } : {})}
+          />
         </Tabs.Content>
       </Tabs.Root>
     </aside>

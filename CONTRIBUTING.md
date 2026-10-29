@@ -210,7 +210,8 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 | [0025](docs/adr/0025-core-capabilities-and-eegs.md)        | Core Capabilities and Exercise Evaluation Guides from the plans                                                        |
 | [0026](docs/adr/0026-surveys-anonymous-by-construction.md) | Surveys are anonymous by construction                                                                                  |
 | [0027](docs/adr/0027-live-play-protocol.md)                | Live play protocol: two session keys, frames to the controller sealed to it, signed controller frames, no server reads |
-| [0030](docs/adr/0030-hseep-blocks-and-excel-msel.md) | HSEEP documents as shared blocks; the MSEL workbook with exceljs |
+| [0028](docs/adr/0028-deterministic-grounding-first.md)     | Deterministic grounding first, model verification only with validated quotes                                           |
+| [0030](docs/adr/0030-hseep-blocks-and-excel-msel.md)       | HSEEP documents as shared blocks; the MSEL workbook with exceljs                                                       |
 
 New ADRs start from [`docs/adr/0000-template.md`](docs/adr/0000-template.md).
 

@@ -7,6 +7,27 @@ import { loadExportModel } from '../../export/model'
 import { assertOutDir, runExport } from '../../export/run'
 import { jobs } from '../../jobs/manager'
 import { requireProject } from '../../project/guard'
+import { contextFor, regroundScenario } from '../../grounding/project'
+import { effectiveLabel, groundingKey, type Scenario } from '@shared/schemas'
+
+const LABEL_TEXT = { grounded: 'Grounded', review: 'Needs review', unsupported: 'Unsupported' }
+
+/** Row id → label text for the controller MSEL's Source check column (#423). */
+async function sourceCheckColumn(
+  root: string,
+  scenario: Scenario,
+): Promise<Record<string, string>> {
+  const grounding = await regroundScenario(scenario, await contextFor(root, scenario)).catch(
+    () => scenario.grounding,
+  )
+  const out: Record<string, string> = {}
+  for (const r of scenario.msel) {
+    const result = grounding?.items[groundingKey.row(r.id)]
+    const label = result && effectiveLabel(result)
+    out[r.id] = label && label !== 'none' ? LABEL_TEXT[label] : ''
+  }
+  return out
+}
 
 export default defineHandlers({
   'export:run': async ({ projectPath, scenarioId, outDir, targets, surveyIds, options }) => {
@@ -14,6 +35,7 @@ export default defineHandlers({
     await ensureDefaultOutDir(outDir, [root, projectPath])
     await assertOutDir(outDir)
     const model = await loadExportModel(root, scenarioId)
+    if (options?.sourceCheck) model.sourceCheck = await sourceCheckColumn(root, model.scenario)
     const job = jobs.start(
       'export',
       (ctx) =>

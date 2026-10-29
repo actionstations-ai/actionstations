@@ -522,4 +522,8 @@ export const MOCK_FIXTURES: Record<StageOutputSchemaName, unknown> = {
     ],
   },
   CritiqueOutput: { issues: [], summary: 'No blocking issues found.' },
+  // No verdicts and no quotes: the checker's own labels stand and plan conflicts stay
+  // unconfirmed (a verdict without a verbatim quote is discarded, #423).
+  GroundingVerifyOutput: { claims: [] },
+  PlanConflictOutput: { verdict: 'unrelated', quoteA: '', quoteB: '', explanation: '' },
 }

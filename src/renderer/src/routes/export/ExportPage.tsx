@@ -265,6 +265,7 @@ function useExportForm(projectPath: string, scenarioId: string) {
   const [outDir, setOutDir] = useState(() => rememberedOutDir(projectPath))
   const [result, setResult] = useState<ExportJobResult | null>(null)
   const [startError, setStartError] = useState('')
+  const [sourceCheck, setSourceCheck] = useState(false)
   const onDone = useCallback((e: JobDoneEvent) => setResult(asExportResult(e.result)), [])
   const { jobId, job, running, run } = useExportJob(projectPath, scenarioId, onDone)
 
@@ -282,7 +283,10 @@ function useExportForm(projectPath: string, scenarioId: string) {
     setResult(null)
     setStartError('')
     try {
-      await run(outDir, targets, { sitmanPlayerEdition })
+      await run(outDir, targets, {
+        sitmanPlayerEdition,
+        sourceCheck: sourceCheck && targets.includes('msel_pdf'),
+      })
     } catch (err) {
       setStartError(errorText(err))
     }
@@ -293,6 +297,8 @@ function useExportForm(projectPath: string, scenarioId: string) {
     toggle,
     sitmanPlayerEdition,
     setSitmanPlayerEdition,
+    sourceCheck,
+    setSourceCheck,
     outDir,
     chooseFolder,
     result,
@@ -356,6 +362,22 @@ function ExportForm(props: {
         options={DOCUMENT_TARGETS}
         {...{ selected: targets, onToggle: form.toggle, disabled: running }}
       />
+      <label className="export-target">
+        <input
+          type="checkbox"
+          checked={form.sourceCheck}
+          disabled={running || !targets.includes('msel_pdf')}
+          onChange={(e) => form.setSourceCheck(e.target.checked)}
+          aria-describedby="export-hint-source-check"
+        />
+        <span className="export-target__text">
+          <span className="export-target__label">Add a Source check column to the MSEL</span>
+          <span id="export-hint-source-check" className="export-target__hint">
+            Grounded, Needs review or Unsupported for each row. The MSEL is controller material;
+            player documents never show it.
+          </span>
+        </span>
+      </label>
       <TargetGroup
         legend="Files"
         options={FILE_TARGETS}

@@ -87,6 +87,7 @@ import {
   stripKeysDeep,
 } from './mappers'
 import { runStage, StageFailure, type StageResult } from './stage'
+import { contextFor, regroundScenario } from '../grounding/project'
 import { baseVars, dataSafe, rowVars } from './vars'
 
 export interface StepKey {
@@ -1154,6 +1155,7 @@ async function executeStep(input: StepInput, opts: ExecuteOptions): Promise<Scen
   try {
     const run = await exec({ ...input, env: { ...env, docs }, scenario: work })
     recordRun(work, run)
+    if (GROUNDED_STAGES.has(step.stage)) await groundStep(env, work)
     noteStaleInjects(input.scenario, work, env.ctx)
     opts.onSuccess?.(work)
     work.updatedAt = nowIso()
@@ -1171,6 +1173,23 @@ async function executeStep(input: StepInput, opts: ExecuteOptions): Promise<Scen
         .catch(() => undefined)
     }
     throw err
+  }
+}
+
+/** Stages whose rows or overview sections get grounding labels when they finish (#423). */
+const GROUNDED_STAGES = new Set<Stage>(['scenario_overview', 'msel_phase', 'critique'])
+
+/** Recompute the labels of the items the step changed; a failure only costs the labels. */
+async function groundStep(env: Env, s: Scenario): Promise<void> {
+  try {
+    const ctx = await contextFor(env.root, s, {
+      index: env.index,
+      facility: env.facility,
+      project: env.project,
+    })
+    s.grounding = await regroundScenario(s, ctx)
+  } catch (err) {
+    env.ctx.log(`Source check skipped: ${toAppError(err).message}`, 'warn')
   }
 }
 

@@ -9,6 +9,9 @@ import {
   ScenarioDocKind,
   exerciseMinutes,
   formatExerciseTime,
+  effectiveLabel,
+  PlanConflictsFile,
+  PlanFinding,
 } from './index'
 import { INJECT_TYPES, PURPOSE_TAGS, injectTypeInfo } from '../taxonomy'
 import { mediaUrl, parseMediaUrl } from '../media-url'
@@ -223,5 +226,78 @@ describe('review #53 regressions', () => {
     })
     expect(r.success).toBe(false)
     expect(JSON.stringify(r.error?.issues)).toMatch(/newer version/)
+  })
+
+  it('keeps grounding results on a scenario and works out the label shown (#423)', () => {
+    const result = {
+      label: 'review',
+      reason: '‘SOP 4.2’ is not in 5.3 Reporting.',
+      fingerprint: 'abcd',
+      claims: [{ text: 'x', overlap: 0.4 }],
+      at: now,
+      version: 1,
+    }
+    const s = Scenario.parse({
+      id: 's1',
+      projectId: 'p1',
+      title: 'T',
+      createdAt: now,
+      updatedAt: now,
+      brief: {},
+      grounding: { items: { 'row:I-01': result } },
+    })
+    const r = s.grounding!.items['row:I-01']!
+    expect(r.claims[0]).toMatchObject({ matched: [], missing: [], conflicting: [] })
+    expect(effectiveLabel(r)).toBe('review')
+    expect(
+      effectiveLabel({
+        ...r,
+        model: {
+          label: 'grounded',
+          at: now,
+          providerId: 'm',
+          model: 'm',
+          quotes: [],
+          discarded: 0,
+        },
+      }),
+    ).toBe('grounded')
+    expect(effectiveLabel({ ...r, override: { label: 'unsupported', at: now } })).toBe(
+      'unsupported',
+    )
+    expect(effectiveLabel({ ...r, label: 'none', override: { label: 'grounded', at: now } })).toBe(
+      'none',
+    )
+    expect(Scenario.parse({ ...s, grounding: undefined }).grounding).toBeUndefined()
+  })
+
+  it('validates plan-conflicts.json findings (#423)', () => {
+    const passage = {
+      documentId: 'erp',
+      documentTitle: 'ERP',
+      headingPath: 'ERP › 5',
+      chunkId: 3,
+      span: 'x',
+    }
+    const ok = PlanConflictsFile.parse({
+      checkedAt: now,
+      findings: [
+        {
+          id: '0123456789abcdef',
+          kind: 'contradiction',
+          slot: 'lead',
+          slotLabel: 'Who leads hazmat',
+          subject: 'hazmat',
+          a: passage,
+          b: passage,
+          values: ['Fire', 'Police'],
+          verdict: 'unconfirmed',
+          foundAt: now,
+        },
+      ],
+    })
+    expect(ok.formatVersion).toBe(1)
+    expect(ok.findings[0]!.status).toBe('open')
+    expect(PlanFinding.safeParse({ ...ok.findings[0], id: '../x' }).success).toBe(false)
   })
 })

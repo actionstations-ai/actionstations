@@ -41,6 +41,8 @@ export const PREVIEW_DOC_IDS = [
 export const ExportOptions = z.object({
   /** Write the SitMan player edition and put it in players/ of the ZIP (#420). */
   sitmanPlayerEdition: z.boolean().optional(),
+  /** msel_pdf (controller material only): add the source-check label column (#423). */
+  sourceCheck: z.boolean().optional(),
 })
 export type ExportOptions = z.infer<typeof ExportOptions>
 

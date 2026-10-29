@@ -24,6 +24,8 @@ interface RowOpsDeps {
   confirmDelete: (key: string) => void
   toggleSelect: (key: string, range: boolean) => void
   togglePhaseSelect: (phaseId: string) => void
+  /** Open the source-check details of a row (#423). */
+  openSources: (key: string) => void
 }
 
 function useInsertRemove(draft: Draft, edit: RowOpsDeps['edit'], grid: GridState) {
@@ -57,6 +59,7 @@ export function useRowOps(d: RowOpsDeps) {
   const rowAction = (key: string, action: RowAction) => {
     if (action === 'add-after') return applyInsert(addRowAfter(draft, key))
     if (action === 'duplicate') return applyInsert(duplicateRow(draft, key))
+    if (action === 'sources') return d.openSources(key)
     if (action.startsWith('move:')) {
       edit(moveToPhase(draft, new Set([key]), action.slice(5)))
       return grid.focus({ line: key, col: 'time' })
