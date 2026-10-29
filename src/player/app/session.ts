@@ -48,6 +48,7 @@ import {
   type HotwashKind,
   type HotwashState,
 } from '../features/hotwash/hotwash'
+import { loadOwnItems, ownItemsKey, restoreOwn, saveOwnItems } from '../features/hotwash/own-items'
 import type { Announcer } from './a11y'
 import { elapsedMinutes, formatClock } from './clock'
 import {
@@ -290,11 +291,13 @@ export class PlayerSession {
       () => this.state.connection === 'connected' && this.state.phase === 'seated',
     )
     this.evaluate = this.makeEvaluate(inv.sessionId)
+    const own = loadOwnItems(this.deps.storage, inv.sessionId)
     await this.evaluate.load().catch(() => undefined)
     this.store.set({
       phase: 'connecting',
       clientId: this.identity.clientId,
       sessionId: inv.sessionId,
+      hotwash: restoreOwn(EMPTY_HOTWASH, own),
       linkKind: inv.key.kind,
       ...(inv.roleHint ? { roleHint: inv.roleHint } : {}),
     })
@@ -594,6 +597,7 @@ export class PlayerSession {
   }
 
   private applyEnd(payload: SessionEndPayload): void {
+    this.deps.storage.set(ownItemsKey(this.state.sessionId), '')
     this.evaluate?.end()
     this.media.dispose()
     this.store.set({
@@ -829,7 +833,9 @@ export class PlayerSession {
 
   private applyHotwash(msg: Opened<'hotwash.update'>): void {
     const hotwash = applyHotwashUpdate(this.state.hotwash, msg.payload)
-    if (hotwash !== this.state.hotwash) this.store.set({ hotwash })
+    if (hotwash === this.state.hotwash) return
+    this.store.set({ hotwash })
+    if (msg.payload.action === 'hide') this.keepOwnItems()
   }
 
   private applyHotwashNotice(msg: Opened<'controller.notice'>): void {
@@ -861,6 +867,7 @@ export class PlayerSession {
         this.now(),
       ),
     }))
+    this.keepOwnItems()
     await this.outbox.enqueue({
       id: `hotwash:${itemId}`,
       type: 'hotwash.item',
@@ -874,6 +881,10 @@ export class PlayerSession {
         ...(draft.mselRowId ? { mselRowId: draft.mselRowId } : {}),
       },
     })
+  }
+
+  private keepOwnItems(): void {
+    saveOwnItems(this.deps.storage, this.state.sessionId, this.state.hotwash)
   }
 
   /** +1 on someone else's item, once per item (spec 0415 FR-5). */
@@ -900,6 +911,7 @@ export class PlayerSession {
     const item = this.state.hotwash.items[itemId]
     if (!item || !this.outbox || !canWithdraw(item, this.now())) return
     this.store.set((s) => ({ hotwash: removeOwn(s.hotwash, itemId) }))
+    this.keepOwnItems()
     await this.outbox.enqueue({
       id: `hotwash-retract:${itemId}`,
       type: 'hotwash.item',
@@ -1204,6 +1216,7 @@ export class PlayerSession {
   forgetDevice(): void {
     const sid = this.state.sessionId
     forgetIdentity(this.deps.storage, sid)
+    this.deps.storage.set(ownItemsKey(sid), '')
     this.deps.storage.set(epochKey(sid), '')
     this.deps.storage.set(wsBrokenKey(sid), '')
     void this.evaluate?.discard()

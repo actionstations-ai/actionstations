@@ -3,6 +3,7 @@ import { channel } from './define'
 import { SessionId } from '../live/schemas/envelope'
 import { SafeId } from '../schemas/common'
 import {
+  BoardView,
   DashboardView,
   LiveDevice,
   LiveSession,
@@ -94,6 +95,8 @@ export const liveRoomChannels = {
     S.extend({ minutes: z.number().int().min(1).max(240) }),
     z.void(),
   ),
+  /** A past session's hot wash board, rebuilt from its log (read only). */
+  'live:hotwash-past': channel(Session, BoardView),
   /** Mark a release answered; clears its "No response" flag. */
   'live:mark-answered': channel(
     S.extend({ releaseId: z.string().max(40), note: z.string().trim().max(500).optional() }),

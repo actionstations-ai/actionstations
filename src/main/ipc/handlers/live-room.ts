@@ -4,6 +4,7 @@ import {
   deleteSession,
   exportLog,
   logTail,
+  pastHotwashBoard,
   sessionsList,
   trackerFeedFor,
 } from '../../live/room'
@@ -76,6 +77,9 @@ export default defineHandlers({
 
   'live:staff-notice': async ({ projectPath, scenarioId, text, level, rowId }) =>
     sendEvaluatorNotice(await requireProject(projectPath), scenarioId, { text, level, rowId }),
+
+  'live:hotwash-past': async ({ projectPath, scenarioId, sessionId }) =>
+    pastHotwashBoard(await requireProject(projectPath), scenarioId, sessionId),
 
   'live:unanswered-window': async ({ projectPath, scenarioId, minutes }) =>
     setUnansweredWindow(await requireProject(projectPath), scenarioId, minutes),
