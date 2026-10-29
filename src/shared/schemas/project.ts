@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { ProjectCompliance } from './compliance'
 import {
   DomainProfileOverrides,
   DomainProfileSnapshot,
@@ -148,6 +149,8 @@ export const Project = z.looseObject({
   scenarios: z.array(ScenarioMeta).default([]),
   /** Overrides of the global cloud review and redaction settings (#433). */
   privacy: ProjectPrivacy.optional(),
+  /** Regulations and frameworks switched on or off for this project (#426); absent = profile defaults. */
+  compliance: ProjectCompliance.optional(),
 })
 export type Project = z.infer<typeof Project>
 

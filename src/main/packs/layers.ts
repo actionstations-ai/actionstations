@@ -137,6 +137,8 @@ const ITEM_PATH: Record<PackKind, (id: string) => string> = {
   workflows: (id) => `workflows/${id}.json`,
   documents: (id) => `documents/${id}`,
   examples: (id) => `examples/${id}`,
+  regulations: (id) => `regulations/${id}.json`,
+  frameworks: (id) => `frameworks/${id}.json`,
 }
 
 function assertItem(pack: InstalledPack, kind: PackKind, id: string): void {

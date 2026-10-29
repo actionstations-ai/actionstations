@@ -122,6 +122,7 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
     edit: editor.edit,
     grid,
     confirmDelete: dialogs.setConfirmDelete,
+    editTriggers: dialogs.setTriggersFor,
     toggleSelect: sel.toggle,
     togglePhaseSelect: sel.togglePhase,
     openSources: (key) => setSourcesRow(draft.rows.find((r) => r.key === key)?.row.id ?? null),

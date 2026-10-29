@@ -10,7 +10,9 @@ import {
   bundledDomainIds,
   domainProfileRegexProblems,
 } from '@shared/domains'
+import { bundledFrameworks } from '@shared/compliance/bundled'
 import { ExampleManifest } from '@shared/ipc/examples'
+import { Framework, Regulation, regulationLabel, splitControlRef } from '@shared/schemas/compliance'
 import { Project } from '@shared/schemas/project'
 import {
   PACK_KINDS,
@@ -226,6 +228,48 @@ function checkExample(ctx: Ctx, id: string): ItemResult {
   return { title: manifest?.title ?? id, replacesBuiltin: ctx.builtins.examples.includes(id) }
 }
 
+/** A pack's framework file may be at most 1 MB (spec 0426 §2). */
+export const MAX_FRAMEWORK_BYTES = 1024 * 1024
+
+function checkRegulation(ctx: Ctx, id: string): ItemResult {
+  const path = `regulations/${id}.json`
+  const reg = parseWith(ctx, path, Regulation)
+  if (!reg) return { title: id, replacesBuiltin: false }
+  if (reg.id !== id)
+    ctx.problems.push({ path, message: `id "${reg.id}" must equal the file name "${id}"` })
+  for (const ref of reg.controls) {
+    const problem = controlRefProblem(ctx, ref)
+    if (problem) ctx.problems.push({ path, message: problem })
+  }
+  return { title: regulationLabel(reg), replacesBuiltin: false }
+}
+
+/** Why "<frameworkId>:<controlId>" does not resolve to this pack's or a bundled framework. */
+function controlRefProblem(ctx: Ctx, ref: string): string | undefined {
+  const { frameworkId, controlId } = splitControlRef(ref)
+  const own = ctx.manifest.contents.frameworks.includes(frameworkId)
+    ? Framework.safeParse(json(ctx, `frameworks/${frameworkId}.json`))
+    : undefined
+  const framework = own?.success ? own.data : bundledFrameworks().get(frameworkId)
+  if (!framework)
+    return `controls: "${ref}" names a framework that is neither in this pack nor included with the app`
+  if (!framework.controls.some((c) => c.id === controlId))
+    return `controls: "${ref}": ${frameworkId} has no control "${controlId}"`
+  return undefined
+}
+
+function checkFramework(ctx: Ctx, id: string): ItemResult {
+  const path = `frameworks/${id}.json`
+  if ((ctx.files.get(path)?.length ?? 0) > MAX_FRAMEWORK_BYTES) {
+    ctx.problems.push({ path, message: 'A framework file may be at most 1 MB' })
+    return { title: id, replacesBuiltin: false }
+  }
+  const framework = parseWith(ctx, path, Framework)
+  if (framework && framework.id !== id)
+    ctx.problems.push({ path, message: `id "${framework.id}" must equal the file name "${id}"` })
+  return { title: framework?.label ?? id, replacesBuiltin: false }
+}
+
 const CHECKS: Record<PackKind, (ctx: Ctx, id: string) => ItemResult> = {
   templates: checkTemplate,
   prompts: checkPrompt,
@@ -233,6 +277,8 @@ const CHECKS: Record<PackKind, (ctx: Ctx, id: string) => ItemResult> = {
   workflows: checkWorkflow,
   documents: checkDocuments,
   examples: checkExample,
+  regulations: checkRegulation,
+  frameworks: checkFramework,
 }
 
 /** Archive paths that belong to one item. */
@@ -241,6 +287,8 @@ export function itemPaths(kind: PackKind, id: string, paths: Iterable<string>): 
     prompts: (p) => p === `prompts/${id}.md`,
     domains: (p) => p === `domains/${id}.json`,
     workflows: (p) => p === `workflows/${id}.json` || p === `workflows/${id}.bindings.json`,
+    regulations: (p) => p === `regulations/${id}.json`,
+    frameworks: (p) => p === `frameworks/${id}.json`,
   }
   const match = flat[kind] ?? ((p: string) => p.startsWith(`${kind}/${id}/`))
   return [...paths].filter(match)

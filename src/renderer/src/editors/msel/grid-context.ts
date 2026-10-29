@@ -9,7 +9,8 @@ import type { GroundingResult } from '@shared/schemas/grounding'
 import type { Move } from './CellEditors'
 import type { Cell, ColumnId } from './grid-nav'
 
-export type RowAction = 'add-after' | 'duplicate' | 'delete' | 'sources' | `move:${string}`
+export type RowAction =
+  'add-after' | 'duplicate' | 'delete' | 'sources' | 'clocks' | `move:${string}`
 
 export interface GridActions {
   activate: (cell: Cell) => void

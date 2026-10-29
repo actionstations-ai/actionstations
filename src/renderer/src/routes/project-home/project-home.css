@@ -252,3 +252,44 @@
 .role-card__header h4 {
   font-size: var(--text-md);
 }
+
+/* Settings › Compliance (#426) */
+.compliance-group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.compliance-group legend {
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-2);
+}
+.compliance-list,
+.compliance-item__sources {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.compliance-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.compliance-item__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.compliance-item__meta,
+.compliance-item__sources {
+  margin-left: var(--space-6);
+  font-size: var(--text-sm);
+}
+.compliance-item__meta p {
+  margin: 0;
+}
+.compliance-item__sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}

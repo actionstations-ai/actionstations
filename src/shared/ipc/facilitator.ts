@@ -2,10 +2,16 @@ import { z } from 'zod'
 import { channel } from './define'
 import { SafeId } from '../schemas/common'
 import { HotwashItemKind } from '../schemas/aar'
+import { ComplianceSession } from '../schemas/compliance'
 
 const S = z.object({ projectPath: z.string(), scenarioId: SafeId })
 
-export const FacilitatorState = z.object({
+/**
+ * scenarios/<id>/facilitator.json. A loose object (ADR-0016): live play (#418), controller tools
+ * (#428) and other features each add one optional top-level key, and a key this build does not
+ * know survives a save by it, so two builds can share the file.
+ */
+export const FacilitatorState = z.looseObject({
   /** Exercise clock: minutes elapsed when last paused/started, plus wall-clock anchor. */
   elapsedMin: z.number().nonnegative().default(0),
   runningSince: z.string().optional(),
@@ -44,6 +50,8 @@ export const FacilitatorState = z.object({
       }),
     )
     .default([]),
+  /** Regulatory clocks: triggers fired, clocks filed or waived, clocks on screen (#426). */
+  compliance: ComplianceSession.optional(),
 })
 export type FacilitatorState = z.infer<typeof FacilitatorState>
 export type FacilitatorHotwashItem = FacilitatorState['hotwash'][number]

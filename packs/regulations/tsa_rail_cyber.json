@@ -1,0 +1,52 @@
+{
+  "id": "tsa_rail_cyber",
+  "label": "TSA rail cybersecurity incident reporting",
+  "jurisdiction": "US",
+  "authority": "Transportation Security Administration (TSA)",
+  "citation": "Security Directives 1580-21-01 and 1582-21-01 series",
+  "sources": [
+    {
+      "title": "SD 1580-21-01C",
+      "url": "https://tsa.gov/sites/default/files/security_directive_1580-21-01c_and_memo_508c.pdf"
+    },
+    {
+      "title": "SD 1582-21-01C",
+      "url": "https://tsa.gov/sites/default/files/security_directive_1582-21-01c_and_memo_508c.pdf"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "In force through the SD 1580-21-01 and 1582-21-01 series (the 01C versions ran to 2025-10-24). A 2026 OMB notice cites an SD 1580-26-02 series. Uncertain: check the current version.",
+  "verifiedOn": "2026-10-28",
+  "calendar": "none",
+  "triggers": [
+    { "id": "incident_identified", "label": "Cybersecurity incident identified", "hint": "" },
+    {
+      "id": "new_information",
+      "label": "New information about the incident",
+      "hint": "Supplemental information is due within 24 hours of it becoming available."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "cisa_report",
+      "label": "Cybersecurity incident report",
+      "recipient": "CISA",
+      "dueAt": [{ "from": "incident_identified", "amount": 24, "unit": "hours" }],
+      "rule": "Report the cybersecurity incident to CISA within 24 hours of identifying it.",
+      "injectTypes": ["regulatory_report_form"]
+    },
+    {
+      "id": "supplemental",
+      "label": "Supplemental information",
+      "recipient": "CISA",
+      "dueAt": [{ "from": "new_information", "amount": 24, "unit": "hours" }],
+      "rule": "Send supplemental information within 24 hours of it becoming available.",
+      "injectTypes": ["regulatory_report_form"]
+    }
+  ],
+  "controls": ["nist_csf_2:RS.CO-02"],
+  "appliesTo": {
+    "threatFamilies": ["cyber", "cyber_physical", "insider"],
+    "note": "Freight and passenger railroads and rail transit systems the directives name."
+  }
+}

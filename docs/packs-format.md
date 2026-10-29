@@ -1,8 +1,8 @@
 # Pack and catalog formats
 
-Status: format version 1 · Decision record: [ADR-0018](adr/0018-packs.md) · Schemas: [`src/shared/schemas/pack.ts`](../src/shared/schemas/pack.ts)
+Status: format versions 1 and 2 · Decision records: [ADR-0018](adr/0018-packs.md), [ADR-0040](adr/0040-compliance-packs.md) (format 2) · Schemas: [`src/shared/schemas/pack.ts`](../src/shared/schemas/pack.ts)
 
-A **pack** is a zip archive named `<id>-<version>.aspack` with a `pack.json` manifest at its root. It carries content for Action Stations: inject templates, prompts, domain profiles, ComfyUI workflows, reference documents and example projects. A **catalog** is a JSON index (`index.json`) listing packs and where to download them. The official catalog is `https://actionstations.ai/packs/index.json`; anyone can publish another one. Installing and exporting packs in the app is covered in the [Packs guide](guides/packs.md).
+A **pack** is a zip archive named `<id>-<version>.aspack` with a `pack.json` manifest at its root. It carries content for Action Stations: inject templates, prompts, domain profiles, ComfyUI workflows, reference documents, example projects, and (format 2) regulatory reporting rules and control frameworks. A **catalog** is a JSON index (`index.json`) listing packs and where to download them. The official catalog is `https://actionstations.ai/packs/index.json`; anyone can publish another one. Installing and exporting packs in the app is covered in the [Packs guide](guides/packs.md).
 
 Integrity is **hashes only**: `pack.json` lists the sha256 and size of every file, and a catalog entry carries the sha256 of the archive. Nothing is signed. A hash proves the bytes are the ones the catalog (or the person who sent you the file) described, not who made them.
 
@@ -24,6 +24,8 @@ The zod schemas in `src/shared/schemas/pack.ts` are the source of truth. This pa
   documents/<slug>/<file>        reference documents, imported into projects on request
   examples/<slug>/example.json   example manifest (ExampleManifest)
   examples/<slug>/project/…      the example's .asproj folder content
+  regulations/<id>.json          reporting obligations with clocks (Regulation; format 2)
+  frameworks/<id>.json           control catalog with mapping rules (Framework; format 2)
 ```
 
 Nothing else is allowed. In particular there is no place for scripts, binaries, plugins or installers.
@@ -39,6 +41,8 @@ Nothing else is allowed. In particular there is no place for scripts, binaries, 
 | `workflows/`         | `.json`                                                                                                                                                                 | flat, `<id>.json` + `<id>.bindings.json`      |
 | `documents/<slug>/…` | `.pdf` `.docx` `.pptx` `.xlsx` `.md` `.markdown` `.txt` `.png` `.jpg` `.jpeg`                                                                                           | each file needs a `documents[]` entry         |
 | `examples/<slug>/…`  | `.json` `.md` `.txt` `.csv` `.png` `.jpg` `.jpeg` `.webp` `.mp3` `.wav` `.ogg` `.m4a` `.mp4` `.webm` `.pdf` `.docx` `.pptx` `.xlsx`, and `.gitignore` inside `project/` | no `index.sqlite`, no `.cache/`               |
+| `regulations/`       | `.json`                                                                                                                                                                 | flat, `<id>.json`; format 2                   |
+| `frameworks/`        | `.json`                                                                                                                                                                 | flat, `<id>.json`, at most 1 MB; format 2     |
 
 ### Path rules
 
@@ -53,14 +57,16 @@ Every path in the archive and in `pack.json`:
 
 ### Item ids
 
-| Kind      | Id pattern                          | Becomes                                                      |
-| --------- | ----------------------------------- | ------------------------------------------------------------ |
-| templates | `^[a-z0-9_]+$`                      | inject `type`, folder name (same rule as `meta.json` `type`) |
-| prompts   | `^[a-z][a-z0-9_]*$`                 | prompt name; must be a prompt the app ships (a stage)        |
-| domains   | `^[a-z][a-z0-9_]*$`                 | domain profile id (`project.orgType`)                        |
-| workflows | `^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$` | workflow id                                                  |
-| documents | `^[a-z0-9][a-z0-9_-]{0,63}$`        | folder grouping one or more files                            |
-| examples  | `^[a-z0-9][a-z0-9_-]{0,63}$`        | example slug                                                 |
+| Kind        | Id pattern                          | Becomes                                                                                     |
+| ----------- | ----------------------------------- | ------------------------------------------------------------------------------------------- |
+| templates   | `^[a-z0-9_]+$`                      | inject `type`, folder name (same rule as `meta.json` `type`)                                |
+| prompts     | `^[a-z][a-z0-9_]*$`                 | prompt name; must be a prompt the app ships (a stage)                                       |
+| domains     | `^[a-z][a-z0-9_]*$`                 | domain profile id (`project.orgType`)                                                       |
+| workflows   | `^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$` | workflow id                                                                                 |
+| documents   | `^[a-z0-9][a-z0-9_-]{0,63}$`        | folder grouping one or more files                                                           |
+| examples    | `^[a-z0-9][a-z0-9_-]{0,63}$`        | example slug                                                                                |
+| regulations | `^[a-z][a-z0-9_]{0,63}$`            | regulation id (`sec_8k_105`); a pack may replace a bundled one by using its id              |
+| frameworks  | `^[a-z][a-z0-9_]{0,63}$`            | framework id (`nist_csf_2`), the prefix of control references such as `nist_csf_2:RS.CO-02` |
 
 ### Limits
 
@@ -80,27 +86,27 @@ An archive must have exactly one reading, so that every zip tool sees the same f
 
 ## pack.json
 
-| Field           | Type     | Required                  | Rules                                                                                                                                                                                                    |
-| --------------- | -------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `formatVersion` | integer  | yes                       | `1`. A larger value is refused with "this pack needs a newer version of the app".                                                                                                                        |
-| `id`            | string   | yes                       | reverse-DNS, two or more labels of `[a-z0-9]` with inner `-`, dot-separated, ≤ 128 (`ai.actionstations.heritage-rail`, `org.example.my-pack`). Use a domain you control, or `io.github.<user>.<name>`.   |
-| `name`          | string   | yes                       | 1–100 characters                                                                                                                                                                                         |
-| `version`       | string   | yes                       | semantic version, prerelease allowed, no build metadata (`1.0.0`, `1.1.0-beta.1`)                                                                                                                        |
-| `summary`       | string   | yes                       | one line, ≤ 200                                                                                                                                                                                          |
-| `description`   | string   | no                        | Markdown, ≤ 20 000; shown as text-only Markdown (raw HTML is not rendered)                                                                                                                               |
-| `author`        | object   | yes                       | `name` (required), `url` (http/https), `email`                                                                                                                                                           |
-| `license`       | string   | yes                       | SPDX expression for the pack's own content (`CC-BY-4.0`, `MIT OR Apache-2.0`, `LicenseRef-…`)                                                                                                            |
-| `homepage`      | string   | no                        | http/https URL                                                                                                                                                                                           |
-| `minAppVersion` | string   | yes                       | semantic version; the app refuses to install when it is older. Packs need the app's pack support, so in practice `0.3.0` or later.                                                                       |
-| `domains`       | string[] | no                        | domain profile ids the pack is for (built-in or added by a pack). Empty = any domain. At most 50. Also limits where the pack's prompts apply (ADR-0018).                                                 |
-| `tags`          | string[] | no                        | ≤ 20, `^[a-z0-9][a-z0-9-]{0,31}$`                                                                                                                                                                        |
-| `contents`      | object   | yes                       | keys `templates`, `prompts`, `domains`, `workflows`, `documents`, `examples`, each a list of unique item ids (default empty, at most 500 per kind). Unknown keys are refused. At least one item overall. |
-| `documents`     | object[] | if the pack has documents | one entry per file under `documents/`: `path` (listed in `files`), `title` (≤ 300), `license` (SPDX, required), `source` (≤ 500), `description` (≤ 2000)                                                 |
-| `files`         | object[] | yes                       | every file in the archive except `pack.json`, exactly once: `path`, `sha256` (64 lowercase hex), `size` (bytes)                                                                                          |
+| Field           | Type     | Required                  | Rules                                                                                                                                                                                                                                                                                                                    |
+| --------------- | -------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `formatVersion` | integer  | yes                       | `1` or `2`. `2` is required when `contents` lists `regulations` or `frameworks`, and a version-1 manifest that lists them is refused. A value larger than the app knows is refused with "this pack needs a newer version of the app". Writers use the oldest version that holds the contents.                            |
+| `id`            | string   | yes                       | reverse-DNS, two or more labels of `[a-z0-9]` with inner `-`, dot-separated, ≤ 128 (`ai.actionstations.heritage-rail`, `org.example.my-pack`). Use a domain you control, or `io.github.<user>.<name>`.                                                                                                                   |
+| `name`          | string   | yes                       | 1–100 characters                                                                                                                                                                                                                                                                                                         |
+| `version`       | string   | yes                       | semantic version, prerelease allowed, no build metadata (`1.0.0`, `1.1.0-beta.1`)                                                                                                                                                                                                                                        |
+| `summary`       | string   | yes                       | one line, ≤ 200                                                                                                                                                                                                                                                                                                          |
+| `description`   | string   | no                        | Markdown, ≤ 20 000; shown as text-only Markdown (raw HTML is not rendered)                                                                                                                                                                                                                                               |
+| `author`        | object   | yes                       | `name` (required), `url` (http/https), `email`                                                                                                                                                                                                                                                                           |
+| `license`       | string   | yes                       | SPDX expression for the pack's own content (`CC-BY-4.0`, `MIT OR Apache-2.0`, `LicenseRef-…`)                                                                                                                                                                                                                            |
+| `homepage`      | string   | no                        | http/https URL                                                                                                                                                                                                                                                                                                           |
+| `minAppVersion` | string   | yes                       | semantic version; the app refuses to install when it is older. Packs need the app's pack support, so in practice `0.3.0` or later.                                                                                                                                                                                       |
+| `domains`       | string[] | no                        | domain profile ids the pack is for (built-in or added by a pack). Empty = any domain. At most 50. Also limits where the pack's prompts apply (ADR-0018).                                                                                                                                                                 |
+| `tags`          | string[] | no                        | ≤ 20, `^[a-z0-9][a-z0-9-]{0,31}$`                                                                                                                                                                                                                                                                                        |
+| `contents`      | object   | yes                       | keys `templates`, `prompts`, `domains`, `workflows`, `documents`, `examples` and (format 2) `regulations`, `frameworks`, each a list of unique item ids (default empty, at most 500 per kind). Unknown keys are refused, which is why a version-1 pack leaves the format-2 keys out entirely. At least one item overall. |
+| `documents`     | object[] | if the pack has documents | one entry per file under `documents/`: `path` (listed in `files`), `title` (≤ 300), `license` (SPDX, required), `source` (≤ 500), `description` (≤ 2000)                                                                                                                                                                 |
+| `files`         | object[] | yes                       | every file in the archive except `pack.json`, exactly once: `path`, `sha256` (64 lowercase hex), `size` (bytes)                                                                                                                                                                                                          |
 
 Cross-checks:
 
-- every file under a content folder belongs to an item listed in `contents`, and every listed item has its required files (template: `template.html` + `meta.json`; prompt: `prompts/<name>.md`; domain: `domains/<id>.json`; workflow: `<id>.json` + `<id>.bindings.json`; example: `example.json` + `project/project.json`; document group: at least one file);
+- every file under a content folder belongs to an item listed in `contents`, and every listed item has its required files (template: `template.html` + `meta.json`; prompt: `prompts/<name>.md`; domain: `domains/<id>.json`; workflow: `<id>.json` + `<id>.bindings.json`; example: `example.json` + `project/project.json`; document group: at least one file; regulation: `regulations/<id>.json`; framework: `frameworks/<id>.json`);
 - the archive holds exactly the files `files` lists: an extra entry or a missing one is refused;
 - every file's sha256 and size match.
 
@@ -115,6 +121,8 @@ The reader (`readPack` in `src/main/packs/reader.ts`) validates content with the
 - **domains**: `DomainProfile`; the id is not a built-in id or alias; `threatFamilies` use the built-in families; every regex the profile carries passes the domain regex rule (`domainProfileRegexProblems` in `src/shared/domains/regex-check.ts`, the same rule the facts editor applies to a project's fact categories, #180/#351), since the app compiles them in the main process and runs them over every document and generated row. The rule covers each fact category's `noun` and `genericNoun` (at most 200 characters), `context` and custom `pattern` (at most 400), each of `rolePatterns.public` / `technical` / `security` / `operations` and `agencyPattern` (at most 400). Each must compile as a JavaScript regex and must not match empty text; it may use alternation, `(?:…)`, character classes, escapes such as `\b` `\d`, and repeats with counts up to 100; it may not use back-references, named groups or group modifiers, repeat a group that itself repeats or alternates with `*` `+` `{n,}` or `{n,m}` (`(?:a+)+`, `(?:a|aa)*`), or have more than two open-ended repeats (`*` `+` `{n,}`) in one source (use bounded `{0,30}` instead). Capturing groups and look-arounds are refused everywhere except in a custom `pattern`, which needs at least one capturing group (group 1 is the identifier) and may use `(?=…)` `(?!…)` `(?<=…)` `(?<!…)`. A category also needs a `noun` or a `pattern`, and a `genericNoun` needs a `context`. Problems name the field, e.g. `domains/heritage_rail.json: factCategories.2.pattern: sidings: The pattern cannot be used: …`.
 - **workflows**: the workflow parses as ComfyUI API format, the sidecar as `WorkflowSidecar`; node classes outside ComfyUI core are listed in the review as "needs custom nodes".
 - **examples**: `ExampleManifest` (`fictional: true`, `id` equals the folder name), `project/project.json` as `Project`; `domainProfile` is built-in or provided by the same pack.
+- **regulations** (format 2): `Regulation` (`src/shared/schemas/compliance.ts`), `id` equals the file name. Every clock term's `from` names a trigger of the same regulation or `clock:<id>` of a clock listed **before** it, so clocks never form a cycle. Every `controls` entry (`<frameworkId>:<controlId>`) resolves to a framework in the same pack or one included with the app. Lists and strings are capped; source URLs are http(s).
+- **frameworks** (format 2): `Framework`, `id` equals the file name, the file is at most 1 MB. Control ids are unique, and every `parent` and every mapping rule control is a control of the same framework. Mapping rule keywords are plain lowercase words (`^[a-z0-9][a-z0-9 '-]*$`), matched on word boundaries; they are never compiled as regular expressions, so the domain regex rule stays the only regex a pack can carry.
 
 ### Template HTML and CSS
 
@@ -188,6 +196,110 @@ Pack authors can check their templates' goldens with the app's renderer: `pnpm b
 ```
 
 A complete pack with every kind is in [`tests/fixtures/packs/freight-rail.pack.json`](../tests/fixtures/packs/freight-rail.pack.json).
+
+## Regulations and frameworks (format 2)
+
+Format 2 (#426, [ADR-0040](adr/0040-compliance-packs.md)) adds two kinds of data that drive the regulatory clocks in Facilitate and the compliance coverage export. They are data, not code: a pack can add a national NIS2 transposition or a state breach law without an app release. The values are an exercise aid, not legal advice; each record says where its values come from (`sources`, `citation`), whether the rule is in force or proposed (`status`) and when a person last checked it (`verifiedOn`).
+
+**Regulation** (`regulations/<id>.json`): `triggers` are the events that start clocks ("became aware", "materiality determined"). Each clock is due at the **earliest** of up to four terms `{ from, amount, unit }`, where `from` is a trigger id or `clock:<id>` (that clock's filing) and `unit` is `minutes`, `hours`, `calendar_days`, `business_days` or `months` (calendar months, clamped to the month's last day). A term whose start is not known yet is left out, so the deadline can only move earlier when it becomes known. Business days use `calendar`: `us_federal` (weekends and US federal holidays with the observed-day rule, computed by the app), `weekdays` or `none` (weekdays). Scenario times are the organization's local time with no time zone. `controls` lists the framework controls a met clock is evidence for. `status` is `in_force`, `proposed`, `guidance` or `superseded`; the app labels a proposed rule wherever it shows the deadline.
+
+<!-- example:regulation -->
+
+```json
+{
+  "id": "nis2_example_state",
+  "label": "NIS2 (example member state)",
+  "jurisdiction": "EU-XX",
+  "authority": "National CSIRT",
+  "citation": "Example Cybersecurity Act, section 12 (transposing Directive (EU) 2022/2555, Art. 23)",
+  "sources": [
+    { "title": "Directive (EU) 2022/2555", "url": "https://eur-lex.europa.eu/eli/dir/2022/2555/oj" }
+  ],
+  "status": "in_force",
+  "verifiedOn": "2026-10-28",
+  "calendar": "none",
+  "triggers": [{ "id": "aware", "label": "Became aware of a significant incident" }],
+  "clocks": [
+    {
+      "id": "early_warning",
+      "label": "Early warning",
+      "recipient": "National CSIRT",
+      "dueAt": [{ "from": "aware", "amount": 12, "unit": "hours" }],
+      "rule": "Within 12 hours of becoming aware (shorter than the directive's 24 hours)."
+    },
+    {
+      "id": "final_report",
+      "label": "Final report",
+      "recipient": "National CSIRT",
+      "dueAt": [{ "from": "clock:early_warning", "amount": 1, "unit": "months" }]
+    }
+  ],
+  "controls": ["nis2_art21:23"]
+}
+```
+
+**Framework** (`frameworks/<id>.json`): `levels` names the hierarchy ("Function", "Category", "Subcategory"); each control has an `id`, an optional `parent`, a `title` and a short `summary` (ids, titles and summaries only, never a licensed full text). `shortLabel` (at most 31 characters) names the framework's sheet in the coverage workbook. `rules` suggest controls for MSEL rows: a rule matches a row when every criterion it sets matches (`purposeTags`, `injectTypes`, `threatFamilies`, `triggers` as `<regulationId>:<triggerId>`, `<regulationId>:*` or `*:*`, and `keywords` found in the row's event or expected action).
+
+<!-- example:framework -->
+
+```json
+{
+  "id": "example_controls",
+  "label": "Example incident controls",
+  "shortLabel": "Example controls",
+  "version": "1.0",
+  "publisher": "Example Exercise Group",
+  "license": "CC-BY-4.0",
+  "sources": [{ "title": "Example controls", "url": "https://example.org/controls" }],
+  "verifiedOn": "2026-10-28",
+  "levels": ["Area", "Control"],
+  "controls": [
+    { "id": "IR", "title": "Incident response" },
+    { "id": "IR-1", "parent": "IR", "title": "Regulators are notified on time" },
+    { "id": "IR-2", "parent": "IR", "title": "Systems are restored from known-good backups" }
+  ],
+  "rules": [
+    { "controls": ["IR-1"], "triggers": ["*:*"] },
+    { "controls": ["IR-2"], "purposeTags": ["TECH_HURDLE"], "keywords": ["restore", "backup"] }
+  ]
+}
+```
+
+A pack with these files declares `formatVersion: 2`:
+
+<!-- example:pack -->
+
+```json
+{
+  "formatVersion": 2,
+  "id": "org.example.nis2-example-state",
+  "name": "NIS2 example member state",
+  "version": "1.0.0",
+  "summary": "National NIS2 reporting deadlines and an incident control list.",
+  "author": { "name": "Example Exercise Group" },
+  "license": "CC-BY-4.0",
+  "minAppVersion": "0.7.0",
+  "contents": { "regulations": ["nis2_example_state"], "frameworks": ["example_controls"] },
+  "files": [
+    {
+      "path": "regulations/nis2_example_state.json",
+      "sha256": "5061728394a5b6c7d8e9f00112233445566778899aabbccddeeff00112233445",
+      "size": 1188
+    },
+    {
+      "path": "frameworks/example_controls.json",
+      "sha256": "61728394a5b6c7d8e9f00112233445566778899aabbccddeeff0011223344556",
+      "size": 942
+    }
+  ]
+}
+```
+
+In a project, regulations and frameworks resolve like domain profiles: the project's own copy (`<project>/compliance/regulations/<id>.json`, `compliance/frameworks/<id>.json`) > an enabled installed pack > a bundled pack. Switching on an item that comes from an installed pack copies it into the project and records it in `packs.json`, so a shared project keeps its deadlines when the pack changes or is removed. Bundled items (the core pack's) are read from the app, so a rule update in a release reaches every project.
+
+**Older apps.** An app that knows only format 1 refuses a version-2 pack with "This pack needs a newer version of the app (pack format 2)", and its catalog view hides entries whose `formatVersion` it cannot read. Packs without regulations or frameworks stay version 1 and keep installing in older apps: the app writes `formatVersion: 1` for them and leaves the format-2 `contents` keys out.
+
+The bundled regulations and frameworks live in `packs/regulations/` and `packs/frameworks/` and belong to the core pack. A unit test fails when any bundled record's `verifiedOn` is 12 months old or more, so each release re-checks the deadlines against their sources. NIST CSF 2.0 is converted from the NIST CPRT export by `scripts/import-csf.mjs` (run once per CSF revision; the output is committed).
 
 ## Catalog index.json
 
@@ -399,3 +511,4 @@ The website was started against a draft of this format. Differences:
 - `homepage` added to `pack.json` (optional).
 - Catalog entry: `formatVersion` added (optional, default 1); `url` must be https; `kinds` non-empty; `id`+`version` unique, several versions allowed. Catalog `homepage` added (optional).
 - Folders: workflows need their `<id>.bindings.json`; examples need `project/project.json`; no SVG anywhere; the only template HTML file is `template.html`.
+- Format 2 (#426): `formatVersion` may be `2`; `contents` gains `regulations` and `frameworks`; folders `regulations/` and `frameworks/` (flat `<id>.json`). See [Regulations and frameworks](#regulations-and-frameworks-format-2).

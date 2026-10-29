@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { ThreatFamilyId } from '../domains/schema'
 import { Citation, ExerciseTime, Id, IsoDateTime, RelPath, WallClock } from './common'
+import { ComplianceId } from './compliance'
 import { Evaluation } from './evaluation'
 import { Role } from './project'
 import { ProviderRef } from './provider'
@@ -34,6 +35,8 @@ export const ScenarioBrief = z.object({
     .array(z.string().regex(/^[0-9a-f]{16}$/))
     .max(MAX_SEAMS)
     .optional(),
+  /** Narrative date of STARTEX ("2026-03-12"); regulatory clocks count business days from it (#426). */
+  startDate: z.iso.date().optional(),
 })
 export type ScenarioBrief = z.infer<typeof ScenarioBrief>
 
@@ -68,6 +71,10 @@ export const Phase = z.object({
 })
 export type Phase = z.infer<typeof Phase>
 
+/** A regulation trigger an MSEL row fires when it is delivered (#426). */
+export const MselRowTrigger = z.object({ regulationId: ComplianceId, triggerId: ComplianceId })
+export type MselRowTrigger = z.infer<typeof MselRowTrigger>
+
 export const MselRow = z.object({
   /** "I-07", "I-07b", "START", "END" */
   id: z.string().min(1),
@@ -88,6 +95,17 @@ export const MselRow = z.object({
   locked: z.boolean().default(false),
   /** The plan seam this row puts players in (#427): a ScenarioSeam id. */
   seamId: z.string().optional(),
+  // The three #426 fields are optional (absent = none) rather than defaulted, so rows built in
+  // code and rows written by older builds need no change.
+  /** Regulatory triggers that delivering this row fires in Facilitate (#426). */
+  triggers: z.array(MselRowTrigger).max(10).optional(),
+  /** Accepted framework controls the row exercises: "<frameworkId>:<controlId>" (#426). */
+  controls: z.array(z.string().max(120)).max(50).optional(),
+  /** Suggested controls not yet accepted or removed (mapping rules or a model). */
+  controlSuggestions: z
+    .array(z.object({ ref: z.string().max(120), by: z.enum(['rule', 'model']) }))
+    .max(100)
+    .optional(),
 })
 export type MselRow = z.infer<typeof MselRow>
 

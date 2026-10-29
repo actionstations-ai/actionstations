@@ -172,6 +172,13 @@ export const DomainProfile = z.object({
    * Systems lead (src/shared/core-capabilities.ts).
    */
   coreCapabilities: z.array(z.string()).optional(),
+  /**
+   * Regulation ids (pack `regulations/`) whose reporting clocks apply to this domain by default;
+   * a project switches them on or off in Settings › Compliance (#426).
+   */
+  regulations: z.array(z.string().max(64)).max(30).optional(),
+  /** Control framework ids (pack `frameworks/`) the coverage matrix uses by default (#426). */
+  frameworks: z.array(z.string().max(64)).max(10).optional(),
 })
 export type DomainProfile = z.infer<typeof DomainProfile>
 

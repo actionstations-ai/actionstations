@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import { Framework, Regulation } from './compliance'
 import {
   PACK_LIMITS,
   PackCatalog,
@@ -12,6 +13,8 @@ import {
   SemVer,
   catalogEntryUrlProblem,
   classifyPackPath,
+  manifestContents,
+  packFormatVersionFor,
   compareSemver,
   isAppCompatible,
   isLocalNetworkUrl,
@@ -103,9 +106,39 @@ describe('PackManifest: identity and versions', () => {
   )
 
   it('rejects a newer formatVersion (the header still reads it)', () => {
-    const raw = { ...manifest(), formatVersion: 2 }
+    const raw = { ...manifest(), formatVersion: 3 }
     expect(PackManifest.safeParse(raw).success).toBe(false)
-    expect(PackManifestHeader.parse(raw).formatVersion).toBe(2)
+    expect(PackManifestHeader.parse(raw).formatVersion).toBe(3)
+  })
+
+  it('reads format 1 and format 2 manifests', () => {
+    expect(PackManifest.safeParse({ ...manifest(), formatVersion: 1 }).success).toBe(true)
+    expect(PackManifest.safeParse({ ...manifest(), formatVersion: 2 }).success).toBe(true)
+  })
+
+  it('refuses a version-1 manifest that lists regulations or frameworks', () => {
+    const m = manifest()
+    m.contents.regulations = ['circia']
+    m.files.push({ path: 'regulations/circia.json', sha256: SHA, size: 10 })
+    expect(issues(PackManifest.safeParse(m))).toMatch(/contents\.regulations needs formatVersion 2/)
+    expect(PackManifest.safeParse({ ...m, formatVersion: 2 }).success).toBe(true)
+  })
+
+  it('writers pick the oldest format that holds the contents and leave empty new kinds out', () => {
+    expect(packFormatVersionFor({ templates: ['x'] })).toBe(1)
+    expect(packFormatVersionFor({ templates: ['x'], frameworks: ['nist_csf_2'] })).toBe(2)
+    expect(Object.keys(manifestContents({ templates: ['x'] }))).not.toContain('regulations')
+    expect(manifestContents({ regulations: ['circia'] }).regulations).toEqual(['circia'])
+  })
+
+  it('classifies regulation and framework files as flat items', () => {
+    expect(classifyPackPath('regulations/circia.json')).toMatchObject({
+      kind: 'regulations',
+      item: 'circia',
+    })
+    expect(classifyPackPath('frameworks/nist_csf_2.json')).toMatchObject({ kind: 'frameworks' })
+    expect(classifyPackPath('frameworks/a/b.json')).toHaveProperty('error')
+    expect(classifyPackPath('regulations/Bad-Id.json')).toHaveProperty('error')
   })
 
   it('rejects a license that is not an SPDX expression', () => {
@@ -269,6 +302,8 @@ describe('PackManifest: kinds, folders and extensions', () => {
       workflows: [],
       documents: [],
       examples: [],
+      regulations: [],
+      frameworks: [],
     }
     m.files = [{ path: 'README.md', sha256: SHA, size: 1 }]
     m.documents = []
@@ -493,5 +528,17 @@ describe('docs/packs-format.md examples', () => {
     const found = blocks('catalog')
     expect(found.length).toBeGreaterThan(0)
     for (const b of found) expect(PackCatalog.safeParse(b).error?.issues ?? []).toEqual([])
+  })
+
+  it('has valid regulation and framework examples (format 2, #426)', () => {
+    const regs = blocks('regulation')
+    const frameworks = blocks('framework')
+    expect(regs.length).toBeGreaterThan(0)
+    expect(frameworks.length).toBeGreaterThan(0)
+    for (const b of regs) expect(Regulation.safeParse(b).error?.issues ?? []).toEqual([])
+    for (const b of frameworks) expect(Framework.safeParse(b).error?.issues ?? []).toEqual([])
+    expect(blocks('pack').some((b) => (b as { formatVersion: number }).formatVersion === 2)).toBe(
+      true,
+    )
   })
 })

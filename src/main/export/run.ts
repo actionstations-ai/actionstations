@@ -26,6 +26,7 @@ import {
   printableSurveys,
 } from './surveys'
 import { mselWorkbook } from './xlsx'
+import { clocksCsv, coverageCsv, coverageWorkbook, hasCoverage } from './coverage'
 import { distributionEntries, writeZip } from './zip'
 
 /** Everything the ZIP's facilitator/ and players/ folders are built from. */
@@ -51,6 +52,8 @@ const ZIP_NEEDS: ExportTarget[] = [
 const ORDER: ExportTarget[] = [
   'media',
   'msel_xlsx',
+  'coverage_xlsx',
+  'coverage_csv',
   'msel_pdf',
   'deck_pdf',
   'handbook_pdf',
@@ -270,6 +273,9 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
       return writeOut(state, state.names.mselXlsx, await mselWorkbook(state.model))
     case 'docx':
       return writeDocx(state)
+    case 'coverage_xlsx':
+    case 'coverage_csv':
+      return writeCoverage(state, target)
     case 'zip': {
       await writeReport(state)
       const zipPath = join(outDir, state.names.zip)
@@ -282,6 +288,22 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
       return
     }
   }
+}
+
+const NO_COVERAGE =
+  'No compliance coverage to export: switch on a framework or a regulation in Settings › Compliance'
+
+/** The coverage matrix (#426): workbook, or the matrix and the clocks as CSV. */
+async function writeCoverage(state: RunState, target: 'coverage_xlsx' | 'coverage_csv') {
+  const report = state.model.coverage
+  if (!hasCoverage(report)) {
+    if (!state.result.warnings.includes(NO_COVERAGE)) state.result.warnings.push(NO_COVERAGE)
+    return
+  }
+  if (target === 'coverage_xlsx')
+    return writeOut(state, state.names.coverageXlsx, await coverageWorkbook(state.model, report))
+  await writeOut(state, state.names.coverageCsv, coverageCsv(report))
+  await writeOut(state, state.names.clocksCsv, clocksCsv(report))
 }
 
 /** export-report.md (#420): what the HSEEP set contains and which details are still blank. */
@@ -304,6 +326,8 @@ const TARGET_LABELS: Record<ExportTarget, string> = {
   handbook_hseep_pdf: 'C/E Handbook (HSEEP) PDF',
   msel_xlsx: 'MSEL workbook',
   aar_pdf: 'After-Action Report / Improvement Plan',
+  coverage_xlsx: 'compliance coverage workbook',
+  coverage_csv: 'compliance coverage CSV',
   media: 'media files',
   json: 'scenario.json',
   markdown: 'scenario.md',

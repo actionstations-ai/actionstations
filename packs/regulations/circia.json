@@ -1,0 +1,60 @@
+{
+  "id": "circia",
+  "label": "CIRCIA",
+  "jurisdiction": "US",
+  "authority": "Cybersecurity and Infrastructure Security Agency (CISA)",
+  "citation": "6 U.S.C. 681b; proposed 6 CFR part 226 (89 FR 23644)",
+  "sources": [
+    {
+      "title": "CIRCIA NPRM, 89 FR 23644",
+      "url": "https://www.federalregister.gov/documents/2024/04/04/2024-06526/cyber-incident-reporting-for-critical-infrastructure-act-circia-reporting-requirements"
+    },
+    {
+      "title": "Federal News Network, July 2026",
+      "url": "https://federalnewsnetwork.com/cybersecurity/2026/07/circia-other-big-cyber-rules-expected-to-get-finalized-this-fall/"
+    },
+    {
+      "title": "Hunton, September 2026 target",
+      "url": "https://www.hunton.com/privacy-and-cybersecurity-law-blog/cisa-plans-to-finalize-cyber-incident-reporting-regulations-in-september-2026"
+    }
+  ],
+  "status": "proposed",
+  "statusNote": "Final rule not published as of 2026-10-28. CISA missed the October 2025 statutory date and later targets; secondary reporting says it went to OMB review in October 2026. Values are from the April 2024 proposed rule and may change.",
+  "verifiedOn": "2026-10-28",
+  "calendar": "none",
+  "triggers": [
+    {
+      "id": "covered_incident",
+      "label": "Reasonably believes a covered cyber incident occurred",
+      "hint": "The 72-hour clock starts when the entity reasonably believes a covered incident occurred."
+    },
+    {
+      "id": "ransom_paid",
+      "label": "Ransom payment made",
+      "hint": "The 24-hour clock starts when the ransom is paid."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "incident_report",
+      "label": "Covered cyber incident report",
+      "recipient": "CISA",
+      "dueAt": [{ "from": "covered_incident", "amount": 72, "unit": "hours" }],
+      "rule": "Report a covered cyber incident to CISA within 72 hours (proposed rule).",
+      "injectTypes": ["regulatory_report_form"]
+    },
+    {
+      "id": "ransom_report",
+      "label": "Ransom payment report",
+      "recipient": "CISA",
+      "dueAt": [{ "from": "ransom_paid", "amount": 24, "unit": "hours" }],
+      "rule": "Report a ransom payment to CISA within 24 hours of paying (proposed rule).",
+      "injectTypes": ["regulatory_report_form"]
+    }
+  ],
+  "controls": ["nist_csf_2:RS.CO-02", "nist_csf_2:RS.CO-03"],
+  "appliesTo": {
+    "threatFamilies": ["cyber", "cyber_physical", "insider"],
+    "note": "Covered entities in critical infrastructure sectors (as the final rule defines them)."
+  }
+}

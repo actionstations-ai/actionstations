@@ -17,6 +17,8 @@ export const EXPORT_TARGETS = [
   'msel_xlsx',
   /** AAR/IP PDF plus the Improvement Plan tracker sheet (#419); only when a draft exists. */
   'aar_pdf',
+  'coverage_xlsx',
+  'coverage_csv',
   'media',
   'json',
   'markdown',

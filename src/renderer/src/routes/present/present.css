@@ -66,3 +66,50 @@
   font-weight: var(--weight-semibold);
   background: rgb(0 0 0 / 0.7);
 }
+
+/* Reporting clocks the facilitator put on screen (#426): white on black in both themes, the
+   time left at 48 px or more, the status in words with an icon. No animation. */
+.present__clocks {
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: min(40rem, 90vw);
+}
+.present__clock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-5);
+  background: black;
+  color: white;
+  border: 3px solid white;
+  border-radius: var(--radius-lg);
+}
+.present__clock--overdue,
+.present__clock--missed {
+  border-style: double;
+  border-width: 6px;
+}
+.present__clock-name {
+  font-size: var(--text-xl);
+}
+.present__clock-time {
+  font-size: max(3rem, 48px);
+  font-weight: var(--weight-semibold);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.present__clock-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xl);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

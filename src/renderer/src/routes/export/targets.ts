@@ -83,14 +83,31 @@ export const FILE_TARGETS: TargetOption[] = [
   },
 ]
 
+/** Compliance coverage and regulatory clocks (#426); off by default, facilitator only. */
+export const COMPLIANCE_TARGETS: TargetOption[] = [
+  {
+    id: 'coverage_xlsx',
+    label: 'Compliance coverage (Excel)',
+    hint: 'One sheet per framework (NIST CSF 2.0, NIS2, DORA) and the regulatory clocks',
+  },
+  {
+    id: 'coverage_csv',
+    label: 'Compliance coverage (CSV)',
+    hint: 'The coverage matrix and the clocks as two CSV files',
+  },
+]
+
 export const ALL_TARGETS: ExportTarget[] = [
   ...HSEEP_TARGETS,
   ...DOCUMENT_TARGETS,
+  ...COMPLIANCE_TARGETS,
   ...FILE_TARGETS,
 ].map((t) => t.id)
 
-/** Everything except the optional Word files. */
-export const DEFAULT_TARGETS: ExportTarget[] = ALL_TARGETS.filter((t) => t !== 'docx')
+const OPT_IN = new Set<ExportTarget>(['docx', 'coverage_xlsx', 'coverage_csv'])
+
+/** Everything except the optional Word files and the compliance exports. */
+export const DEFAULT_TARGETS: ExportTarget[] = ALL_TARGETS.filter((t) => !OPT_IN.has(t))
 
 export type PreviewDoc = (typeof PREVIEW_DOC_IDS)[number]
 

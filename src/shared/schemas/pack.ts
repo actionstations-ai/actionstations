@@ -7,7 +7,12 @@ import { z } from 'zod'
 import { HttpUrl, IsoDateTime } from './common'
 import { INJECT_CATEGORIES, type InjectTypeInfo, type RenderPath } from '../taxonomy'
 
-export const PACK_FORMAT_VERSION = 1
+/**
+ * The newest pack.json format this app reads. 2 added `regulations` and `frameworks` (#426,
+ * ADR-0040); the reader accepts 1 and 2, and writers use the oldest version that can hold the
+ * contents (packFormatVersionFor), so a pack without the new kinds still installs in older apps.
+ */
+export const PACK_FORMAT_VERSION = 2
 export const CATALOG_FORMAT_VERSION = 1
 export const PACK_FILE_EXT = '.aspack'
 export const PACK_MANIFEST_FILE = 'pack.json'
@@ -41,6 +46,8 @@ export const PACK_KINDS = [
   'workflows',
   'documents',
   'examples',
+  'regulations',
+  'frameworks',
 ] as const
 export const PackKind = z.enum(PACK_KINDS)
 export type PackKind = z.infer<typeof PackKind>
@@ -223,6 +230,8 @@ export const PACK_EXTENSIONS: Record<PackKind, readonly string[]> = {
     '.webm',
     ...OFFICE,
   ],
+  regulations: ['.json'],
+  frameworks: ['.json'],
 }
 
 /** Item id rules per kind (they become folder or file names in the app's layers). */
@@ -233,10 +242,43 @@ export const PACK_ITEM_ID: Record<PackKind, RegExp> = {
   workflows: /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/,
   documents: /^[a-z0-9][a-z0-9_-]{0,63}$/,
   examples: /^[a-z0-9][a-z0-9_-]{0,63}$/,
+  regulations: /^[a-z][a-z0-9_]{0,63}$/,
+  frameworks: /^[a-z][a-z0-9_]{0,63}$/,
+}
+
+/** Kinds that need pack format 2 (#426): a version-1 manifest may not list them. */
+export const FORMAT_2_KINDS = ['regulations', 'frameworks'] as const satisfies readonly PackKind[]
+
+/** The oldest pack.json formatVersion that can hold these contents. */
+export const packFormatVersionFor = (
+  contents: Partial<Record<PackKind, readonly string[]>>,
+): number => (FORMAT_2_KINDS.some((k) => (contents[k]?.length ?? 0) > 0) ? 2 : 1)
+
+/**
+ * `contents` for a pack.json a writer produces: every kind in order, except the format-2 kinds
+ * when they are empty, so a pack without them stays version 1 and older apps (whose contents
+ * schema is strict) can install it.
+ */
+export function manifestContents(
+  contents: Partial<Record<PackKind, readonly string[]>>,
+): Partial<Record<PackKind, string[]>> {
+  const format2 = new Set<PackKind>(FORMAT_2_KINDS)
+  return Object.fromEntries(
+    PACK_KINDS.filter((k) => !format2.has(k) || (contents[k]?.length ?? 0) > 0).map((k) => [
+      k,
+      [...(contents[k] ?? [])],
+    ]),
+  )
 }
 
 /** Kinds whose items are single files in a flat folder (prompts/<name>.md…). */
-const FLAT_KINDS: ReadonlySet<PackKind> = new Set(['prompts', 'domains', 'workflows'])
+const FLAT_KINDS: ReadonlySet<PackKind> = new Set([
+  'prompts',
+  'domains',
+  'workflows',
+  'regulations',
+  'frameworks',
+])
 
 export type PackPathClass =
   { root: true } | { root: false; kind: PackKind; item: string; rest: string } | { error: string }
@@ -307,6 +349,8 @@ export const PackContents = z.strictObject({
   workflows: itemIds('workflows'),
   documents: itemIds('documents'),
   examples: itemIds('examples'),
+  regulations: itemIds('regulations'),
+  frameworks: itemIds('frameworks'),
 })
 export type PackContents = z.infer<typeof PackContents>
 
@@ -336,6 +380,9 @@ function requiredFiles(kind: PackKind, id: string): string[] {
       return []
     case 'examples':
       return [`examples/${id}/example.json`, `examples/${id}/project/project.json`]
+    case 'regulations':
+    case 'frameworks':
+      return [`${kind}/${id}.json`]
   }
 }
 
@@ -448,8 +495,20 @@ function checkDocuments(
       })
 }
 
+/** A version-1 manifest cannot list the kinds format 2 added. */
+function checkFormatVersion(m: { formatVersion: number; contents: PackContents }, ctx: Ctx): void {
+  if (m.formatVersion >= 2) return
+  for (const kind of FORMAT_2_KINDS)
+    if (m.contents[kind].length)
+      ctx.addIssue({
+        code: 'custom',
+        path: ['contents', kind],
+        message: `contents.${kind} needs formatVersion 2 (this pack.json says ${m.formatVersion})`,
+      })
+}
+
 export const PackManifestShape = z.object({
-  formatVersion: z.literal(PACK_FORMAT_VERSION),
+  formatVersion: z.number().int().min(1).max(PACK_FORMAT_VERSION),
   id: PackId,
   name: z.string().min(1).max(100),
   version: SemVer,
@@ -475,6 +534,7 @@ export const PackManifest = PackManifestShape.superRefine((m, ctx) => {
   checkFiles(m.files, m.contents, ctx)
   checkContents(m, ctx)
   checkDocuments(m, ctx)
+  checkFormatVersion(m, ctx)
 })
 export type PackManifest = z.infer<typeof PackManifest>
 

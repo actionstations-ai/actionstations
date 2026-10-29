@@ -17,7 +17,8 @@ import {
 } from '@shared/ipc/pack-export'
 import { ExampleMarker } from '@shared/ipc/examples'
 import {
-  PACK_KINDS,
+  manifestContents,
+  packFormatVersionFor,
   PACK_MANIFEST_FILE,
   packArchiveName,
   type PackContents,
@@ -101,6 +102,8 @@ function contentsOf(req: ParsedExportRequest): PackContents {
     workflows: [...req.workflows].sort(byPath),
     documents: [],
     examples: req.example ? [req.example.slug] : [],
+    regulations: [],
+    frameworks: [],
   }
 }
 
@@ -114,7 +117,7 @@ function manifestJson(
 ): Buffer {
   const m = req.metadata
   const manifest = {
-    formatVersion: 1,
+    formatVersion: packFormatVersionFor(contents),
     id: m.id,
     name: m.name,
     version: m.version,
@@ -130,7 +133,7 @@ function manifestJson(
     minAppVersion: packMinAppVersion(appVersion),
     domains: m.domains,
     tags: m.tags,
-    contents: Object.fromEntries(PACK_KINDS.map((k) => [k, contents[k]])),
+    contents: manifestContents(contents),
     ...(documents.length
       ? { documents: [...documents].sort((a, b) => byPath(a.path, b.path)) }
       : {}),

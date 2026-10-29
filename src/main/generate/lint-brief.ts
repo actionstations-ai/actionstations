@@ -7,6 +7,7 @@
 // adds them to lintScenario.
 import type { DomainProfile } from '@shared/domains'
 import { exerciseMinutes, type LintWarning, type MselRow, type Scenario } from '@shared/schemas'
+import { DATE_SOURCE, MONTHS, WEEKDAYS, dateKey } from '@shared/dates'
 import { lintAudience } from './lint-audience'
 
 export const START_TIME_MISMATCH = 'START_TIME_MISMATCH'
@@ -183,26 +184,8 @@ function lintTimeJumps(s: Scenario): W[] {
 
 // ---- calendar ---------------------------------------------------------------------------
 
-const WEEKDAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
-const MONTHS = [
-  'january',
-  'february',
-  'march',
-  'april',
-  'may',
-  'june',
-  'july',
-  'august',
-  'september',
-  'october',
-  'november',
-  'december',
-]
 const WEEKDAY = `(${WEEKDAYS.join('|')})`
-const MONTH = `(?:${MONTHS.join('|')})`
-const ORD = '(?:st|nd|rd|th)?'
-/** "October 22, 2026", "October 22nd 2026", "22 October 2026", "10/22/2026", "2026-10-22". */
-const DATE = String.raw`(?:${MONTH}\.? \d{1,2}${ORD},? \d{4}|\d{1,2}${ORD} ${MONTH},? \d{4}|\d{1,2}/\d{1,2}/\d{4}|\d{4}-\d{2}-\d{2})`
+const DATE = DATE_SOURCE
 
 interface Day {
   weekday?: number
@@ -211,25 +194,7 @@ interface Day {
   quote: string
 }
 
-/** The calendar date a DATE match names, as "2026-10-22". */
-export function dateKey(text: string): string | undefined {
-  const t = text.toLowerCase().replace(/(\d)(?:st|nd|rd|th)\b/g, '$1')
-  const month = (name: string): number => MONTHS.indexOf(name) + 1
-  const forms: [RegExp, (m: RegExpExecArray) => [number, number, number]][] = [
-    [/^(\d{4})-(\d{2})-(\d{2})$/, (m) => [+m[1]!, +m[2]!, +m[3]!]],
-    [/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/, (m) => [+m[3]!, +m[1]!, +m[2]!]],
-    [/^([a-z]+)\.? (\d{1,2}),? (\d{4})$/, (m) => [+m[3]!, month(m[1]!), +m[2]!]],
-    [/^(\d{1,2}) ([a-z]+),? (\d{4})$/, (m) => [+m[3]!, month(m[2]!), +m[1]!]],
-  ]
-  for (const [re, read] of forms) {
-    const m = re.exec(t)
-    if (!m) continue
-    const [year, mon, day] = read(m)
-    if (mon < 1 || mon > 12 || day < 1 || day > 31) return undefined
-    return `${year}-${pad(mon)}-${pad(day)}`
-  }
-  return undefined
-}
+export { dateKey }
 
 const weekdayOf = (key: string): number => new Date(`${key}T12:00:00Z`).getUTCDay()
 const weekdayIndex = (name: string): number => WEEKDAYS.indexOf(name.toLowerCase())

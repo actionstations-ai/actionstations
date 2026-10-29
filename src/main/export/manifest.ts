@@ -1,6 +1,7 @@
 // Machine-readable exports: scenario.json (the full scenario with injects inlined) and
 // scenario.md (front matter manifest per docs/05 §Export manifest — id, version, generated
 // at, provider summary, sha256 of every media file — followed by a readable body).
+import { coverageMarkdown, hasCoverage } from './coverage'
 import { dump } from 'js-yaml'
 import { capabilityName } from '@shared/core-capabilities'
 import type { Scenario, StageRun } from '@shared/schemas'
@@ -202,6 +203,7 @@ export function scenarioMarkdown(model: ExportModel, media: ExportedFile[]): str
     ...evaluationMd(s),
     ...documentMd('Controller / Evaluator Handbook', model.docs.handbook),
     ...documentMd('Player Briefing Packet', model.docs.briefing),
+    ...(hasCoverage(model.coverage) ? [coverageMarkdown(model.coverage)] : []),
   ]
   return `${frontMatter(model, media)}\n${blocks.join('\n\n')}\n`
 }

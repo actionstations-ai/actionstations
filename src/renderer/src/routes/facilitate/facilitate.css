@@ -569,3 +569,108 @@
   margin: var(--space-1) 0 0;
   white-space: pre-wrap;
 }
+
+/* Regulatory clocks (#426). Status is text plus an icon; colour only reinforces it. */
+.fac-rclocks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+.fac-rclocks__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.fac-rclocks__title {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+.fac-rclocks__fire {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+.fac-rclocks__fire select {
+  max-width: 22rem;
+}
+.fac-rclocks__at {
+  width: 6rem;
+}
+.fac-rclocks__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.fac-rclocks__none,
+.fac-rclocks__waiting,
+.fac-rclocks__note {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+.fac-rclock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  border-left-width: 4px;
+  border-radius: var(--radius-md);
+}
+.fac-rclock--due_soon {
+  border-left-color: var(--color-warning);
+}
+.fac-rclock--overdue,
+.fac-rclock--missed {
+  border-left-color: var(--color-danger);
+}
+.fac-rclock--met {
+  border-left-color: var(--color-success);
+}
+.fac-rclock__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  font-variant-numeric: tabular-nums;
+}
+.fac-rclock__status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+}
+.fac-rclock__status--due_soon {
+  color: var(--color-warning);
+}
+.fac-rclock__status--overdue,
+.fac-rclock__status--missed {
+  color: var(--color-danger);
+}
+.fac-rclock__status--met {
+  color: var(--color-success);
+}
+.fac-rclock__actions,
+.fac-rclock__form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+.fac-rclock__screen {
+  font-size: var(--text-sm);
+}

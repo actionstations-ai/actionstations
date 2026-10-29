@@ -1,6 +1,6 @@
 import { useEffect, useRef, type KeyboardEvent } from 'react'
 import { clsx } from 'clsx'
-import { AudioLines, MessageSquare } from 'lucide-react'
+import { AudioLines, MessageSquare, Timer } from 'lucide-react'
 import type { Inject } from '@shared/schemas/inject'
 import type { MselRow, Phase } from '@shared/schemas/scenario'
 import { injectTypeInfo } from '@shared/taxonomy'
@@ -82,6 +82,11 @@ function TimelineRow(props: {
             {entry.hasNote && (
               <span className="fac-row__note">
                 <MessageSquare size={12} aria-hidden /> Note
+              </span>
+            )}
+            {!!row.triggers?.length && (
+              <span className="fac-row__note">
+                <Timer size={12} aria-hidden /> Starts a reporting clock
               </span>
             )}
           </span>

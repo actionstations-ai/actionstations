@@ -22,6 +22,8 @@ interface RowOpsDeps {
   grid: GridState
   /** Rows with an inject ask before they are deleted. */
   confirmDelete: (key: string) => void
+  /** Open the "Starts reporting clocks" dialog for a row (#426). */
+  editTriggers: (key: string) => void
   toggleSelect: (key: string, range: boolean) => void
   togglePhaseSelect: (phaseId: string) => void
   /** Open the source-check details of a row (#423). */
@@ -60,6 +62,7 @@ export function useRowOps(d: RowOpsDeps) {
     if (action === 'add-after') return applyInsert(addRowAfter(draft, key))
     if (action === 'duplicate') return applyInsert(duplicateRow(draft, key))
     if (action === 'sources') return d.openSources(key)
+    if (action === 'clocks') return d.editTriggers(key)
     if (action.startsWith('move:')) {
       edit(moveToPhase(draft, new Set([key]), action.slice(5)))
       return grid.focus({ line: key, col: 'time' })

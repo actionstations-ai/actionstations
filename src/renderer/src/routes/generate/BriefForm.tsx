@@ -130,6 +130,23 @@ function TimingFields(props: { draft: BriefDraft; errors: BriefErrors; set: SetF
           />
         )}
       </Field>
+      <Field
+        label="Start date (optional)"
+        hint="Narrative date of STARTEX. Reporting clocks count business days from it."
+        {...(errors.startDate ? { error: errors.startDate } : {})}
+      >
+        {({ id, describedBy, invalid }) => (
+          <input
+            id={id}
+            type="date"
+            className="input"
+            aria-describedby={describedBy}
+            aria-invalid={invalid}
+            value={draft.startDate ?? ''}
+            onChange={(e) => set('startDate', e.target.value)}
+          />
+        )}
+      </Field>
     </div>
   )
 }

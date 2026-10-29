@@ -1,0 +1,148 @@
+{
+  "id": "nis2_art21",
+  "label": "NIS2 Directive cybersecurity risk-management and reporting",
+  "shortLabel": "NIS2 Art. 21 and 23",
+  "version": "Directive (EU) 2022/2555",
+  "publisher": "European Union",
+  "license": "LicenseRef-EU-Commission-Decision-2011-833",
+  "sources": [
+    {
+      "title": "Directive (EU) 2022/2555 (NIS2), EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/dir/2022/2555/oj"
+    }
+  ],
+  "verifiedOn": "2026-10-28",
+  "levels": ["Article", "Measure"],
+  "controls": [
+    {
+      "id": "20",
+      "title": "Governance",
+      "summary": "Management bodies approve the risk-management measures, oversee them and take training."
+    },
+    {
+      "id": "21",
+      "title": "Cybersecurity risk-management measures",
+      "summary": "Appropriate and proportionate technical, operational and organisational measures (Article 21)."
+    },
+    {
+      "id": "21.2.a",
+      "parent": "21",
+      "title": "Risk analysis and information system security policies",
+      "summary": "Policies for analysing risk and securing network and information systems."
+    },
+    {
+      "id": "21.2.b",
+      "parent": "21",
+      "title": "Incident handling",
+      "summary": "Prevent, detect, analyse, contain and respond to incidents, and recover from them."
+    },
+    {
+      "id": "21.2.c",
+      "parent": "21",
+      "title": "Business continuity and crisis management",
+      "summary": "Backup management, disaster recovery and crisis management."
+    },
+    {
+      "id": "21.2.d",
+      "parent": "21",
+      "title": "Supply chain security",
+      "summary": "Security of relationships with direct suppliers and service providers."
+    },
+    {
+      "id": "21.2.e",
+      "parent": "21",
+      "title": "Secure acquisition, development and maintenance",
+      "summary": "Security in buying, building and maintaining systems, including vulnerability handling and disclosure."
+    },
+    {
+      "id": "21.2.f",
+      "parent": "21",
+      "title": "Effectiveness assessment",
+      "summary": "Policies and procedures to assess whether the risk-management measures work."
+    },
+    {
+      "id": "21.2.g",
+      "parent": "21",
+      "title": "Cyber hygiene and training",
+      "summary": "Basic cyber hygiene practices and cybersecurity training."
+    },
+    {
+      "id": "21.2.h",
+      "parent": "21",
+      "title": "Cryptography and encryption",
+      "summary": "Policies and procedures on the use of cryptography and, where appropriate, encryption."
+    },
+    {
+      "id": "21.2.i",
+      "parent": "21",
+      "title": "Human resources security, access control and asset management",
+      "summary": "Personnel security, access control policies and asset management."
+    },
+    {
+      "id": "21.2.j",
+      "parent": "21",
+      "title": "Multi-factor authentication and secured communications",
+      "summary": "Multi-factor or continuous authentication, secured voice, video and text communications and secured emergency communications."
+    },
+    {
+      "id": "23",
+      "title": "Reporting obligations",
+      "summary": "Notify the CSIRT or competent authority of significant incidents (Article 23)."
+    },
+    {
+      "id": "23.4.a",
+      "parent": "23",
+      "title": "Early warning",
+      "summary": "Within 24 hours of becoming aware of a significant incident."
+    },
+    {
+      "id": "23.4.b",
+      "parent": "23",
+      "title": "Incident notification",
+      "summary": "Within 72 hours of becoming aware, with an initial assessment."
+    },
+    {
+      "id": "23.4.d",
+      "parent": "23",
+      "title": "Final report",
+      "summary": "No later than one month after the incident notification."
+    }
+  ],
+  "rules": [
+    {
+      "controls": ["21.2.b"],
+      "purposeTags": ["DECISION_POINT"],
+      "threatFamilies": ["cyber", "cyber_physical", "insider"]
+    },
+    { "controls": ["21.2.b"], "purposeTags": ["CLUE"] },
+    { "controls": ["23"], "triggers": ["*:*"] },
+    { "controls": ["23.4.a", "23.4.b"], "triggers": ["nis2_art23:aware"] },
+    {
+      "controls": ["21.2.c"],
+      "purposeTags": ["TECH_HURDLE"],
+      "keywords": ["restore", "backup", "recovery", "failover", "rebuild"]
+    },
+    { "controls": ["21.2.c"], "keywords": ["continuity", "crisis", "disaster recovery", "backup"] },
+    {
+      "controls": ["21.2.d"],
+      "keywords": [
+        "vendor",
+        "supplier",
+        "third party",
+        "third-party",
+        "contractor",
+        "managed service"
+      ]
+    },
+    { "controls": ["21.2.g"], "keywords": ["phishing", "training", "awareness"] },
+    { "controls": ["21.2.e"], "keywords": ["patch", "vulnerability", "unpatched"] },
+    { "controls": ["21.2.i"], "keywords": ["access", "account", "asset inventory"] },
+    {
+      "controls": ["21.2.j"],
+      "keywords": ["mfa", "multi-factor", "credential", "credentials", "secure channel"]
+    },
+    { "controls": ["21.2.h"], "keywords": ["encryption", "encrypted", "certificate"] },
+    { "controls": ["20"], "keywords": ["executive", "board", "leadership"] },
+    { "controls": ["21.2.f"], "purposeTags": ["ENDEX"] }
+  ]
+}

@@ -158,6 +158,14 @@ describe('packs.json record paths are not trusted (#302)', () => {
     expect(isCopyPathAllowed('documents', 'p/s', 'documents/./original.md')).toBe(false)
     expect(isCopyPathAllowed('documents', 'p/s', 'documents\\abc\\original.md')).toBe(false)
     expect(isCopyPathAllowed('domains', 'd', 'domains/d.json')).toBe(false)
+    expect(isCopyPathAllowed('regulations', 'circia', 'compliance/regulations/circia.json')).toBe(
+      true,
+    )
+    expect(isCopyPathAllowed('regulations', 'circia', 'compliance/frameworks/circia.json')).toBe(
+      false,
+    )
+    expect(isCopyPathAllowed('frameworks', 'dora', 'compliance/frameworks/other.json')).toBe(false)
+    expect(isCopyPathAllowed('frameworks', 'dora', 'compliance/frameworks/dora.json')).toBe(true)
   })
 
   it('never removes a recorded file outside the item folder', async () => {

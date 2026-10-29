@@ -11,6 +11,8 @@ export interface BriefDraft {
   learningObjectives: string[]
   constraints: string[]
   startWallClock: string
+  /** Narrative date of STARTEX ("2026-03-12"), or ''; regulatory clocks use it (#426). */
+  startDate?: string
   ideaId?: string
   /** The designer's threat family; absent = use the suggestion (inferred from the text). */
   threatFamily?: ThreatFamilyId
@@ -52,6 +54,8 @@ export function draftFromIdea(idea: ScenarioIdea, base: BriefDraft = emptyDraft(
 
 const clean = (items: string[]) => items.map((s) => s.trim()).filter(Boolean)
 const WALL_CLOCK = /^([01]?\d|2[0-3]):[0-5]\d$/
+const isCalendarDate = (s: string): boolean =>
+  /^\d{4}-\d{2}-\d{2}$/.test(s) && new Date(`${s}T00:00:00Z`).toISOString().startsWith(s)
 
 export function validateDraft(d: BriefDraft): BriefErrors {
   const errors: BriefErrors = {}
@@ -64,6 +68,7 @@ export function validateDraft(d: BriefDraft): BriefErrors {
     errors.phaseCount = 'A whole number from 1 to 8.'
   if (d.startWallClock && !WALL_CLOCK.test(d.startWallClock))
     errors.startWallClock = 'Use HH:MM, e.g. 09:00.'
+  if (d.startDate && !isCalendarDate(d.startDate)) errors.startDate = 'Use a date like 2026-03-12.'
   return errors
 }
 
@@ -82,6 +87,7 @@ export function toBrief(d: BriefDraft, suggested?: ThreatFamilyId): ScenarioBrie
     constraints: clean(d.constraints),
     ...(d.ideaId ? { ideaId: d.ideaId } : {}),
     ...(d.startWallClock ? { startWallClock: d.startWallClock } : {}),
+    ...(d.startDate ? { startDate: d.startDate } : {}),
     ...(threatFamily ? { threatFamily } : {}),
     ...(d.seamIds.length ? { seamIds: d.seamIds.slice(0, MAX_SEAMS) } : {}),
   }

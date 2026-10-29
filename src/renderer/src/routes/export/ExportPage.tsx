@@ -13,6 +13,7 @@ import {
   asExportResult,
   DEFAULT_TARGETS,
   DOCUMENT_TARGETS,
+  COMPLIANCE_TARGETS,
   FILE_TARGETS,
   HSEEP_TARGETS,
   PREVIEW_DOCS,
@@ -378,6 +379,11 @@ function ExportForm(props: {
           </span>
         </span>
       </label>
+      <TargetGroup
+        legend="Compliance"
+        options={COMPLIANCE_TARGETS}
+        {...{ selected: targets, onToggle: form.toggle, disabled: running }}
+      />
       <TargetGroup
         legend="Files"
         options={FILE_TARGETS}

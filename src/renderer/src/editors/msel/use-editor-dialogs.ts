@@ -7,7 +7,10 @@ export function useEditorDialogs() {
   const [timeJump, setTimeJump] = useState(false)
   const [renames, setRenames] = useState<Rename[] | null>(null)
   const [historyOpen, setHistoryOpen] = useState(false)
+  const [triggersFor, setTriggersFor] = useState<string | null>(null)
   return {
+    triggersFor,
+    setTriggersFor,
     confirmDelete,
     setConfirmDelete,
     timeJump,

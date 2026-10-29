@@ -360,7 +360,7 @@ export const PACK_FIXTURES: Record<string, PackFixture> = {
     expect: /encrypted/,
   },
   'newer-format': {
-    build: () => buildPack(undefined, { manifest: (m) => (m.formatVersion = 2) }),
+    build: () => buildPack(undefined, { manifest: (m) => (m.formatVersion = 3) }),
     expect: /needs a newer version of the app.*Update Action Stations/,
   },
   'min-app-version': {

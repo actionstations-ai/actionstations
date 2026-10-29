@@ -1,0 +1,60 @@
+{
+  "id": "hipaa_breach",
+  "label": "HIPAA Breach Notification Rule",
+  "jurisdiction": "US",
+  "authority": "U.S. Department of Health and Human Services (HHS OCR)",
+  "citation": "45 CFR 164.404, 164.406, 164.408",
+  "sources": [
+    {
+      "title": "45 CFR 164.404 (individuals)",
+      "url": "https://www.law.cornell.edu/cfr/text/45/164.404"
+    },
+    { "title": "45 CFR 164.406 (media)", "url": "https://www.law.cornell.edu/cfr/text/45/164.406" },
+    {
+      "title": "45 CFR 164.408 (Secretary)",
+      "url": "https://www.law.cornell.edu/cfr/text/45/164.408"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "",
+  "verifiedOn": "2026-10-28",
+  "calendar": "none",
+  "triggers": [
+    {
+      "id": "breach_discovered",
+      "label": "Breach discovered",
+      "hint": "The first day the breach is known, or would have been known with reasonable diligence."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "individuals",
+      "label": "Notice to individuals",
+      "recipient": "Affected individuals",
+      "dueAt": [{ "from": "breach_discovered", "amount": 60, "unit": "calendar_days" }],
+      "rule": "Without unreasonable delay and no later than 60 calendar days after discovery.",
+      "injectTypes": ["breach_notification_letter"]
+    },
+    {
+      "id": "hhs",
+      "label": "Notice to HHS",
+      "recipient": "HHS Secretary (OCR portal)",
+      "dueAt": [{ "from": "breach_discovered", "amount": 60, "unit": "calendar_days" }],
+      "rule": "Within 60 days when 500 or more people are affected; for fewer, within 60 days after the end of the calendar year (this clock shows the 500-or-more case).",
+      "injectTypes": ["regulatory_report_form"]
+    },
+    {
+      "id": "media",
+      "label": "Notice to media",
+      "recipient": "Prominent media outlets",
+      "dueAt": [{ "from": "breach_discovered", "amount": 60, "unit": "calendar_days" }],
+      "rule": "Within 60 days when more than 500 residents of a state or jurisdiction are affected.",
+      "injectTypes": ["press_release"]
+    }
+  ],
+  "controls": ["nist_csf_2:RS.CO-02", "nist_csf_2:RS.CO-03"],
+  "appliesTo": {
+    "threatFamilies": ["cyber", "cyber_physical", "insider"],
+    "note": "Covered entities and business associates holding protected health information."
+  }
+}

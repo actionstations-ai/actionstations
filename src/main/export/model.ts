@@ -1,5 +1,7 @@
 // Everything one export needs, read once from the project: scenario, injects (MSEL order),
 // markdown documents, brand, and the media file plan.
+import type { CoverageReport } from '@shared/compliance/coverage'
+import { scenarioCoverage } from '../compliance/coverage'
 import {
   conductOf,
   type Aar,
@@ -64,6 +66,8 @@ export interface ExportModel {
   sourceCheck?: Record<string, string>
   /** The After-Action Report / Improvement Plan (#419); null before the first draft. */
   aar: Aar | null
+  /** Compliance coverage and regulatory clocks (#426); absent when it could not be built. */
+  coverage?: CoverageReport
 }
 
 /** Surveys with their summaries, the anonymity threshold from settings applied. */
@@ -131,6 +135,21 @@ export async function loadExportModel(
     conduct: conductOf(scenario),
     ...optionalEvaluation(scenario),
     aar: await readAar(root, scenarioId),
+    ...(await optionalCoverage(root, scenarioId, now)),
+  }
+}
+
+/** The coverage report; an export never fails because of it (it is logged and left out). */
+async function optionalCoverage(
+  root: string,
+  scenarioId: string,
+  now: Date,
+): Promise<{ coverage?: CoverageReport }> {
+  try {
+    return { coverage: await scenarioCoverage(root, scenarioId, now) }
+  } catch (e) {
+    console.error('[export] compliance coverage not built:', (e as Error).message)
+    return {}
   }
 }
 

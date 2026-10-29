@@ -1,6 +1,6 @@
 # Spec 0426: Regulatory clocks and compliance mapping
 
-Issue: #426 · Milestone: 0.7.0 · Status: Draft · Depends on: — · Related: #417 (session log), #419 (AAR/IP draft), #420 (Excel MSEL), #421 (Core Capabilities, EEGs), #416 (evaluator observations), #428 (controller tools)
+Issue: #426 · Milestone: 0.7.0 · Status: Partly implemented (see Implementation notes) · Depends on: — · Related: #417 (session log), #419 (AAR/IP draft), #420 (Excel MSEL), #421 (Core Capabilities, EEGs), #416 (evaluator observations), #428 (controller tools)
 
 ## Summary
 
@@ -390,6 +390,57 @@ DE.AE-02 Potentially…   I-03      —         —
    `EXPORT_TARGETS` in `src/shared/ipc/export.ts`, the export screen checkboxes, the
    `compliance:coverage` hand-off to #419, and the guide `docs/guides/methodology.md` (compliance
    section).
+
+## Implementation notes (first pull request)
+
+Built: tasks 1 to 5 and 7 except where listed below, with the deviations below. The rest is
+follow-up work tracked in its own issue.
+
+Differences from the design above, and why:
+
+- `MselRow.triggers`, `controls` and `controlSuggestions` are **optional** (absent = none) rather
+  than `.default([])`: a defaulted field becomes required in the output type, which would change
+  every place that builds a row in code, and an absent field reads the same.
+- `FacilitatorState.compliance` is **optional** too (one optional top-level key per feature, as
+  §1 says). A fired trigger stores `exerciseMin` (the clocks count from it, so a time jump or a
+  later start-date change moves them correctly) and `scenarioAt` as a floating local date-time
+  `YYYY-MM-DDTHH:MM` (`LocalDateTime`), not an `IsoDateTime` with an offset: scenario time has no
+  time zone (§3). Completions store `exerciseMin` and `scenarioAt` the same way.
+- A filing recorded after the deadline shows as **missed** (filed late).
+- A clock that is due at the earliest of several terms uses the terms whose start is known; it
+  waits only when none is known. The DORA initial notification therefore runs from awareness
+  (24 h) and can only move earlier when the incident is classified as major (4 h).
+- `Framework.shortLabel` (≤ 31 characters) names the framework's sheet in the workbook, since
+  Excel sheet names are limited to 31 characters.
+- Settings › Compliance lives in **Project settings** on the project Overview
+  (`routes/project-home/ComplianceSettings.tsx`), because `routes/settings/` is the app-wide
+  settings page and the switches are per project.
+- Layer precedence is project copy > installed pack > bundled pack (there is no user layer for
+  this data). Only items from an **installed** pack are copied into the project when switched
+  on; bundled items are read from the app, so a corrected deadline in a release reaches every
+  project (the rule bundled templates follow, ADR-0040).
+- The coverage matrix lists **every leaf control** of each enabled framework (so gaps are
+  visible), with "Accepted" or "Suggested" for its mapping. Mapping rules run when the coverage
+  is built rather than being stored on the rows. `coverage_csv` writes two files, the matrix and
+  the clocks. The Markdown export gains the "Compliance coverage" section; the Word documents do
+  not yet.
+- The MSEL editor gets **Row actions → Starts reporting clocks…** (a dialog), and the Facilitate
+  timeline marks such rows "Starts a reporting clock". `ScenarioBrief.startDate` is set in the
+  brief form of a new scenario.
+
+Not built yet (follow-up issue):
+
+- `compliance:suggest-rules` and the stored `controlSuggestions` after each `msel_phase` step,
+  the MSEL editor's "Controls" chips (accept / remove / add), the `regulations` prompt variable
+  and `MselPhaseOutput.triggers`, and the optional model-assisted mapping (`compliance:suggest-model`,
+  `ComplianceMapOutput`, FR-12).
+- Session log entries (`compliance.trigger`, `compliance.clock`) wait for the session log (#417);
+  the AAR inputs (FR-15) wait for #419. `compliance:coverage` already returns the `K<n>` cite keys
+  for clocks.
+- Firing a trigger from a live-play message (FR-6c) waits for #418; the state is ready for it
+  (`by: 'live'`).
+- The "Compliance coverage" section of the DOCX exports and the coverage preview tab on the
+  scenario page.
 
 ## Open questions
 
