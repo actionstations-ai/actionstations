@@ -76,7 +76,6 @@ export function itemKey(msg: Pick<Opened, 'from' | 'seq'>): string {
 
 /** Message types that produce no item here because another spec owns them. */
 export const DEFERRED_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
-  'message.send',
   'hotwash.item',
   'hotwash.update',
   'vote.cast',

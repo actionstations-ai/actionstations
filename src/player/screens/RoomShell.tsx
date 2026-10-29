@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { focusHeading } from '../app/a11y'
 import { inboxItems } from '../app/items'
+import { unreadCount } from '../app/messages'
 import type { Prefs } from '../app/prefs'
 import type { PlayerSession } from '../app/session'
 import { useStore, type Store } from '../app/store'
@@ -11,6 +12,7 @@ import { ConnectionDot } from '../components/ConnectionDot'
 import { TabBar, type Tab, type TabSpec } from '../components/TabBar'
 import { FeedScreen } from './FeedScreen'
 import { InboxScreen } from './InboxScreen'
+import { MessagesScreen } from './MessagesScreen'
 import { MoreScreen } from './MoreScreen'
 
 /** Header (clock, title, seat, connection), banners, the active section and the tab bar. */
@@ -35,6 +37,8 @@ export function RoomShell({
   const items = useStore(session.store, (s) => s.items)
   const read = useStore(session.store, (s) => s.read)
   const clientId = useStore(session.store, (s) => s.clientId)
+  const chats = useStore(session.store, (s) => s.messages)
+  const compose = useStore(session.store, (s) => s.compose)
   const back = useBack(backUntil)
 
   const unread = useMemo(() => {
@@ -47,15 +51,29 @@ export function RoomShell({
   useEffect(() => {
     focusHeading()
   }, [tab])
+  // "Reply to SimCell" on an inject opens the Messages tab.
+  const [seenReply, setSeenReply] = useState(0)
+  if (compose && compose.nonce !== seenReply) {
+    setSeenReply(compose.nonce)
+    setTab('messages')
+  }
+
+  const canMessage = !!info?.features.messages && seat?.kind === 'player'
+  const unreadChats = canMessage ? unreadCount(chats, read) : 0
 
   const tabs: TabSpec[] = [
     { id: 'inbox', label: STRINGS.tabs.inbox, badge: unread },
     { id: 'feed', label: STRINGS.tabs.feed },
-    { id: 'messages', label: STRINGS.tabs.messages, disabledReason: STRINGS.tabs.messagesSoon },
+    {
+      id: 'messages',
+      label: STRINGS.tabs.messages,
+      badge: unreadChats,
+      ...(canMessage ? {} : { disabledReason: STRINGS.messages.emptyDisabled }),
+    },
     { id: 'more', label: STRINGS.tabs.more },
   ]
   const select = (next: Tab) => {
-    if (next === 'messages') return
+    if (next === 'messages' && !canMessage) return
     setTab(next)
   }
   const seatName = seat?.role
@@ -95,6 +113,7 @@ export function RoomShell({
       <main className="room__main" id="content">
         {tab === 'inbox' ? <InboxScreen session={session} /> : null}
         {tab === 'feed' ? <FeedScreen session={session} onOpenTab={select} /> : null}
+        {tab === 'messages' ? <MessagesScreen session={session} /> : null}
         {tab === 'more' ? (
           <MoreScreen session={session} prefsStore={prefsStore} bundleVersion={bundleVersion} />
         ) : null}

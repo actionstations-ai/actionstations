@@ -921,3 +921,91 @@
   border-radius: var(--radius-md);
   padding: var(--space-2) var(--space-3);
 }
+
+/* SimCell messages (#413). */
+.fac-tabs__badge {
+  margin-inline-start: var(--space-1);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-size: var(--text-xs, 0.75rem);
+}
+.fac-msg {
+  display: grid;
+  grid-template-columns: minmax(10rem, 14rem) 1fr;
+  gap: var(--space-4);
+}
+.fac-msg__side,
+.fac-msg__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.fac-msg__threads {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.fac-msg__thread {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--space-2);
+  text-align: start;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+.fac-msg__thread[aria-pressed='true'] {
+  border-color: var(--color-accent);
+}
+.fac-msg__log {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 24rem;
+  overflow-y: auto;
+}
+.fac-msg__item {
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.fac-msg__text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.fac-msg__photo {
+  max-width: 100%;
+  max-height: 16rem;
+  border-radius: var(--radius-md);
+}
+.fac-msg__canned ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.fac-msg__canned-row {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: space-between;
+}
+.fac-msg__composer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+@media (max-width: 40rem) {
+  .fac-msg {
+    grid-template-columns: 1fr;
+  }
+}

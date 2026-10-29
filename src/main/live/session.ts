@@ -36,10 +36,19 @@ import { getScenario } from '../scenario/store'
 import { inviteViews } from './invites'
 import { teamSlug } from '@shared/live/targets'
 import { Delivery, type DeliverySeat } from './releases'
-import { emptyStage, releaseRow, stageAll, stageStatus, type StageState } from './delivery-service'
+import {
+  emptyStage,
+  formatClock,
+  releaseRow,
+  stageAll,
+  stageStatus,
+  type StageState,
+} from './delivery-service'
+import { storeAttachment } from './attachments'
+import { Messages, type MessageRole, type MessageSeat } from './messages'
 import { LogWriter } from './log'
 import { deleteSessionKeys, writeSessionKeys } from './keys'
-import { Seats } from './seats'
+import { Seats, type Seat } from './seats'
 import { chooseAddress, listLanAddresses } from './transport/lan/addresses'
 import { LanLog } from './transport/lan/log'
 import { startLanServer, type LanServer } from './transport/lan/server'
@@ -66,6 +75,7 @@ interface Active {
   /** Per-session salt for `clientRef`; memory only, so refs are unlinkable after the session. */
   salt: Uint8Array
   delivery: Delivery
+  messages: Messages
   stage: StageState
   mediaCache: Map<string, BlobRef>
   powerSave?: number
@@ -134,11 +144,13 @@ async function clockState(root: string, scenarioId: string): Promise<ClockState>
 }
 
 function emitChanged(
-  reason: 'started' | 'stopped' | 'presence' | 'error' | 'receipts' | 'staging',
+  reason: 'started' | 'stopped' | 'presence' | 'error' | 'receipts' | 'staging' | 'messages',
   message?: string,
+  threadId?: string,
 ) {
   emit('live:changed', {
     reason,
+    ...(threadId ? { threadId } : {}),
     ...(active ? { sessionId: active.session.id } : {}),
     connected: active?.lan?.connected ?? 0,
     ...(message ? { message } : {}),
@@ -211,6 +223,12 @@ function wireClient(a: Active): void {
       'inject.receipt',
       (msg) => void a.delivery.onReceipt(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e)),
     ),
+    a.client.on('message.send', (msg) => {
+      // Only a device's own frame to the controller is a player message; anything else on the
+      // channel (another device's echo, a forged frame) is not handled here.
+      if (msg.to !== 'controller') return
+      void a.messages.onPlayerMessage(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e))
+    }),
     a.client.onDropped((reason, detail) => {
       if (reason === 'NOT_FOR_ME' || reason === 'STAFF_ONLY' || reason === 'CONTROLLER_ONLY') return
       void a.log
@@ -261,6 +279,61 @@ function makeDelivery(getActive: () => Active, roles: readonly Role[]): Delivery
         }
       })
     },
+  })
+}
+
+function messageRoles(roles: readonly Role[]): MessageRole[] {
+  return roles.map((r) => {
+    const team = teamSlug(r.team)
+    return { id: r.id, name: r.name, ...(team ? { teamId: team, teamName: r.team } : {}) }
+  })
+}
+
+/** Messages' view of the session: sending as the controller, seated devices, the log, blobs. */
+function makeMessages(getActive: () => Active, roles: readonly Role[]): Messages {
+  const byId = new Map(roles.map((r) => [r.id, r]))
+  const label = (s: Seat): MessageSeat => {
+    const role = s.roleId ? byId.get(s.roleId) : undefined
+    const team = role ? teamSlug(role.team) : undefined
+    return {
+      clientId: s.clientId,
+      kind: s.kind,
+      ...(s.roleId ? { roleId: s.roleId } : {}),
+      ...(team ? { teamId: team } : {}),
+      label: role?.name ?? s.kind,
+      ...(getActive().session.attribution === 'named' && s.name ? { displayName: s.name } : {}),
+    }
+  }
+  return new Messages({
+    send: (to, payload) =>
+      getActive().client.send('message.send', to, payload as never, { key: 'players', sign: true }),
+    log: { append: (input) => getActive().log.append(input) },
+    roles: messageRoles(roles),
+    seats: () => [...getActive().seats.byClient.values()].map(label),
+    seatOf: (id) => {
+      const s = getActive().seats.byClient.get(id)
+      return s ? label(s) : undefined
+    },
+    clientRef: (id) => clientRef(getActive(), id),
+    getBlob: (ref) => getActive().client.getBlob(ref),
+    store: (ref, bytes) =>
+      storeAttachment({
+        sessionDir: getActive().dir,
+        projectRoot: getActive().root,
+        blobId: ref.blobId,
+        bytes,
+        claimedMime: ref.mime,
+        claimedSha256: ref.sha256,
+        maxBytes: getActive().client.limits.playerBlobBytes,
+      }),
+    clock: async () => {
+      const a = getActive()
+      const c = await clockState(a.root, a.session.scenarioId)
+      return { time: formatClock(c, Date.now()), pre: c.elapsedMin === 0 && !c.runningSince }
+    },
+    now: () => Date.now(),
+    newId: () => toBase64Url(getActive().crypto.random(16)),
+    changed: (threadId) => emitChanged('messages', undefined, threadId),
   })
 }
 
@@ -357,6 +430,7 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
     joins: new Map(),
     salt,
     delivery: makeDelivery(() => a, scenario.roles),
+    messages: makeMessages(() => a, scenario.roles),
     stage: emptyStage(),
     mediaCache: new Map(),
     unsubscribe: [],
@@ -500,6 +574,33 @@ export const releaseSummaries = (root: string, scenarioId: string) =>
 
 export const stageProgress = (root: string, scenarioId: string) =>
   stageStatus(activeFor(root, scenarioId))
+
+export const messageThreads = (root: string, scenarioId: string) =>
+  activeFor(root, scenarioId).messages.summaries()
+
+export const messageThread = (root: string, scenarioId: string, channel: string) =>
+  activeFor(root, scenarioId).messages.thread(channel)
+
+export const messageTargets = (root: string, scenarioId: string) =>
+  activeFor(root, scenarioId).messages.targets()
+
+export const openMessageThread = (root: string, scenarioId: string, channel: string) =>
+  activeFor(root, scenarioId).messages.openThread(channel)
+
+export const sendMessage = (
+  root: string,
+  scenarioId: string,
+  req: Parameters<Messages['sendControllerMessage']>[0],
+) => activeFor(root, scenarioId).messages.sendControllerMessage(req)
+
+export const markMessageHandled = (root: string, scenarioId: string, messageId: string) =>
+  activeFor(root, scenarioId).messages.markHandled(messageId)
+
+export const starMessage = (root: string, scenarioId: string, messageId: string, on: boolean) =>
+  activeFor(root, scenarioId).messages.star(messageId, on)
+
+export const pinMessage = (root: string, scenarioId: string, messageId: string) =>
+  activeFor(root, scenarioId).messages.pin(messageId)
 
 /** True while a session for this scenario runs (Deliver also goes to devices then). */
 export function isLiveFor(root: string, scenarioId: string): boolean {

@@ -373,6 +373,7 @@ code {
 .room__main {
   grid-area: main;
   min-height: 0;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
@@ -889,4 +890,110 @@ code {
   max-width: none;
   width: auto;
   min-width: 100%;
+}
+
+/* Messages with the SimCell (spec 0413). */
+.thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.thread__log {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-height: 12rem;
+}
+.msg {
+  max-width: 85%;
+  align-self: flex-start;
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.msg--mine {
+  align-self: flex-end;
+  border-color: var(--color-accent);
+}
+.msg__who {
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-md);
+}
+.msg__quote {
+  font-size: var(--text-md);
+  color: var(--color-text-muted);
+  border-inline-start: 3px solid var(--color-border);
+  padding-inline-start: var(--space-2);
+}
+.msg__text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.msg__photo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-top: var(--space-2);
+  border-radius: var(--radius-md);
+}
+.msg__meta {
+  font-size: var(--text-md);
+  color: var(--color-text-muted);
+}
+.msg__status--failed {
+  color: var(--color-danger);
+}
+.thread-row {
+  width: 100%;
+  text-align: start;
+}
+.composer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  position: sticky;
+  bottom: 0;
+  background: var(--color-bg);
+  padding-block: var(--space-2);
+}
+.composer__row {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-end;
+}
+.composer__text {
+  flex: 1;
+  min-width: 0;
+  resize: vertical;
+}
+.composer__attach,
+.composer__send {
+  min-width: 44px;
+  min-height: 44px;
+}
+.composer__quote {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--text-md);
+  border-inline-start: 3px solid var(--color-border);
+  padding-inline-start: var(--space-2);
+}
+.composer__photos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.composer__photo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.composer__thumb {
+  max-height: 6rem;
+  width: auto;
+  align-self: flex-start;
+  border-radius: var(--radius-md);
 }

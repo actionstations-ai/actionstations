@@ -1,6 +1,15 @@
 # Spec 0413: Live play: messages between players and the SimCell
 
-Issue: #413 · Milestone: 0.6.0 · Status: Draft · Depends on: #406, #407, #411 · Related: #418, #412, #417, #419
+Issue: #413 · Milestone: 0.6.0 · Status: Implemented (#413) · Depends on: #406, #407, #411 · Related: #418, #412, #417, #419
+
+## Implementation notes (as built)
+
+- **Pin is log-only.** `FacilitatorState.hotwash` has no free-item shape yet, so **Pin to hot wash** writes a `message.pinned` log entry (who, text, exercise time) that the Hot wash tab and the AAR read once 0419 lands (ADR-0045).
+- **Photos do not queue offline.** Text queues in the outbox; a message with a photo needs a connection to upload and shows "Not sent" with **Try again**. Photos are saved as JPEG.
+- **No `live:attachment-url`.** `LiveMessage.attachments[].path` is project-relative, so the renderer uses `mediaUrl` directly. `live:message-targets` was added (roles, teams, connected devices as `client:<ref>`) and `live:message-pin` returns nothing.
+- **Channels.** A player may write to its own role; team and device channels only after the controller opened them. Evaluators and observers have no Messages tab. Messages are accepted before STARTEX and flagged `preExercise` in the log.
+- `LogRef.channel` allows 140 characters (a team slug can be 60). `live:changed` gained `reason: 'messages'` with `threadId`.
+- The Facilitate **Messages** tab sits beside **Live** in the side panel; the e2e runs over the harness (`e2e/live/messages.spec.ts`), with the panel covered by component tests.
 
 ## Summary
 

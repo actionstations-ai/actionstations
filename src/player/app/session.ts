@@ -29,7 +29,7 @@ import type {
 import type { KeyValue, Transport } from '../../shared/live/transport'
 import { MediaCache } from '../features/injects/media'
 import type { Announcer } from './a11y'
-import { elapsedMinutes } from './clock'
+import { elapsedMinutes, formatClock } from './clock'
 import {
   addressedToSeat,
   insertItem,
@@ -38,6 +38,8 @@ import {
   type Item,
   type SeatView,
 } from './items'
+import { chatFromFrame, upsertMessage, type ChatMessage } from './messages'
+import type { PreparedImage } from '../features/messages/attach'
 import type { Prefs } from './prefs'
 import { createOutboxStore, Outbox, type OutboxStore } from './queue'
 import {
@@ -105,6 +107,10 @@ export interface PlayerState {
   /** Controller wall clock minus this device's, from the last welcome. */
   clockOffsetMs: number
   items: Item[]
+  /** Messages with the SimCell for this seat, oldest first (spec 0413). */
+  messages: ChatMessage[]
+  /** An inject the player is replying to; the Messages tab opens on it. */
+  compose?: { releaseId: string; title: string; nonce: number }
   read: ReadonlySet<string>
   dismissed: ReadonlySet<string>
   /** Release ids this device marked as actioned. */
@@ -119,6 +125,14 @@ export interface PlayerState {
   backUntil?: number
   attempts: number
   displayName: string
+}
+
+/** What the composer hands over: text, prepared photos and the thing being replied to. */
+export interface MessageDraft {
+  channel: string
+  text: string
+  photos: PreparedImage[]
+  replyTo?: string
 }
 
 export interface ConnectedTransport extends Transport {
@@ -193,6 +207,7 @@ export class PlayerSession {
       roster: [],
       clockOffsetMs: 0,
       items: [],
+      messages: [],
       read: new Set(),
       dismissed: new Set(),
       actioned: new Set(),
@@ -438,6 +453,8 @@ export class PlayerSession {
         if (msg.signedBy === 'host')
           this.store.set({ clock: (msg as Opened<'clock.state'>).payload })
         break
+      case 'message.send':
+        return this.addChat(msg as Opened<'message.send'>)
       case 'session.end':
         return this.applyEnd((msg as Opened<'session.end'>).payload)
       case 'session.rekey':
@@ -500,7 +517,7 @@ export class PlayerSession {
 
   private applyEnd(payload: SessionEndPayload): void {
     this.media.dispose()
-    this.store.set({ ended: payload, items: [], info: undefined, roster: [] })
+    this.store.set({ ended: payload, items: [], messages: [], info: undefined, roster: [] })
     this.terminal('ended')
   }
 
@@ -588,6 +605,116 @@ export class PlayerSession {
       to: 'controller',
       payload: { releaseId, status, at: this.now() },
     })
+  }
+
+  // ---- messages with the SimCell (spec 0413) ----
+
+  /** Photos still to send, and the uploads already done, by message id (memory only). */
+  private readonly drafts = new Map<string, { draft: MessageDraft; refs: BlobRef[] }>()
+
+  /** Largest photo this connection takes from a player. */
+  get photoCap(): number {
+    return this.client?.limits.playerBlobBytes ?? 1024 * 1024
+  }
+
+  /** Compose and send: the message shows at once as sending, then settles when echoed. */
+  async sendMessage(draft: MessageDraft): Promise<void> {
+    const id = toBase64Url(this.deps.crypto.random(16))
+    const ts = this.now() + this.state.clockOffsetMs
+    this.drafts.set(id, { draft, refs: [] })
+    this.putChat({
+      id,
+      channel: draft.channel,
+      mine: true,
+      playedBy: false,
+      text: draft.text,
+      attachments: [],
+      pendingPhotos: draft.photos.length,
+      exerciseTime: formatClock(elapsedMinutes(this.state.clock, ts)),
+      ts,
+      ...(draft.replyTo ? { replyTo: draft.replyTo } : {}),
+      status: 'sending',
+    })
+    await this.deliverMessage(id)
+  }
+
+  /** Try a message that failed again; photos already uploaded are not uploaded twice. */
+  async retryMessage(id: string): Promise<void> {
+    const m = this.state.messages.find((x) => x.id === id)
+    if (!m || m.status !== 'failed' || !this.drafts.has(id)) return
+    this.putChat({ ...m, status: 'sending' })
+    await this.deliverMessage(id)
+  }
+
+  private async deliverMessage(id: string): Promise<void> {
+    const entry = this.drafts.get(id)
+    if (!entry) return
+    const { draft, refs } = entry
+    try {
+      while (refs.length < draft.photos.length) {
+        const photo = draft.photos[refs.length]!
+        const client = this.client
+        if (!client || client.state !== 'joined') throw new Error('Not connected')
+        refs.push(
+          await client.putBlob(
+            {
+              kind: 'image',
+              mime: photo.mime,
+              width: photo.width,
+              height: photo.height,
+              ...(photo.alt ? { name: photo.alt.slice(0, 120) } : {}),
+            },
+            photo.bytes,
+          ),
+        )
+      }
+      await this.outbox?.enqueue({
+        id: `message:${id}`,
+        type: 'message.send',
+        to: 'controller',
+        payload: {
+          messageId: id,
+          channel: draft.channel,
+          text: draft.text,
+          attachments: refs,
+          ...(draft.replyTo ? { replyTo: draft.replyTo } : {}),
+        },
+      })
+    } catch {
+      const m = this.state.messages.find((x) => x.id === id)
+      if (m && m.status !== 'sent') this.putChat({ ...m, status: 'failed' })
+    }
+  }
+
+  private putChat(chat: ChatMessage): void {
+    this.store.set((s) => ({ messages: upsertMessage(s.messages, chat) }))
+  }
+
+  private addChat(msg: Opened<'message.send'>): void {
+    const clock = this.state.clock
+    const chat = chatFromFrame(msg, this.seatView(), (ts) => elapsedMinutes(clock, ts))
+    if (!chat) return
+    if (chat.mine) this.drafts.delete(chat.id)
+    const known = this.state.messages.some((m) => m.id === chat.id && m.status === 'sent')
+    this.putChat(chat)
+    if (!chat.mine && !known && !this.state.catchingUp) {
+      this.deps.announcer.announce(
+        STRINGS.messages.newMessage(chat.persona ?? STRINGS.messages.simcell),
+      )
+      this.deps.cue?.(this.deps.prefs())
+    }
+  }
+
+  /** "Reply to SimCell" on an inject: open the Messages tab with the inject quoted. */
+  startReply(releaseId: string): void {
+    const title = this.state.items.find((i) => i.inject?.releaseId === releaseId)?.title
+    this.store.set((s) => ({
+      compose: { releaseId, title: title ?? '', nonce: (s.compose?.nonce ?? 0) + 1 },
+    }))
+  }
+
+  clearReply(): void {
+    this.store.set({ compose: undefined })
   }
 
   /** Download and open an inject's media (sealed under the session key). */

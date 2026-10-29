@@ -595,6 +595,162 @@ describe('PlayerSession inject delivery (#412)', () => {
   })
 })
 
+describe('PlayerSession messages (#413)', () => {
+  async function seated() {
+    const r = await room()
+    const pio = r.player()
+    await pio.session.start()
+    await flush()
+    await pio.session.chooseSeat('pio', '')
+    await flush()
+    const pio2 = r.player()
+    await pio2.session.start()
+    await flush()
+    await pio2.session.chooseSeat('pio', '')
+    await flush()
+    const ops = r.player()
+    await ops.session.start()
+    await flush()
+    await ops.session.chooseSeat('ops-director', '')
+    await flush()
+    return { ...r, pio, pio2, ops }
+  }
+  const JPEG = new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 1, 2, 3])
+
+  it('sends a message, shows it as sending, and settles when the controller echoes it', async () => {
+    const { controller, pio } = await seated()
+    const sending = pio.session.sendMessage({
+      channel: 'role:pio',
+      text: 'Statement at 1800.',
+      photos: [],
+    })
+    expect(pio.state().messages[0]).toMatchObject({ mine: true, text: 'Statement at 1800.' })
+    await sending
+    await flush()
+    expect(pio.state().messages).toHaveLength(1)
+    expect(pio.state().messages[0]).toMatchObject({ mine: true, status: 'sent' })
+    expect(controller.messageLog[0]).toMatchObject({
+      from: 'player',
+      roleId: 'pio',
+      channel: 'role:pio',
+    })
+  })
+
+  it('shows the controller reply with its persona and the played-by flag, and counts it unread', async () => {
+    const { controller, pio } = await seated()
+    await controller.reply('role:pio', 'Can you confirm ransomware?', 'Channel 5 newsroom')
+    await flush()
+    const reply = pio.state().messages[0]!
+    expect(reply).toMatchObject({
+      mine: false,
+      persona: 'Channel 5 newsroom',
+      playedBy: true,
+      text: 'Can you confirm ransomware?',
+    })
+    expect(pio.announced.at(-1)).toBe('New message from Channel 5 newsroom')
+    const { unreadCount } = await import('./messages')
+    expect(unreadCount(pio.state().messages, pio.state().read)).toBe(1)
+    pio.session.markRead(`msg:${reply.id}`)
+    expect(unreadCount(pio.state().messages, pio.state().read)).toBe(0)
+  })
+
+  it('a second device in the seat sees both sides; another seat sees neither', async () => {
+    const { controller, pio, pio2, ops } = await seated()
+    await pio.session.sendMessage({
+      channel: 'role:pio',
+      text: 'We are investigating.',
+      photos: [],
+    })
+    await flush()
+    await controller.reply('role:pio', 'Thank you.', 'Reporter', { showPlayedBy: false })
+    await flush()
+    expect(pio2.state().messages.map((m) => [m.mine, m.text])).toEqual([
+      [true, 'We are investigating.'],
+      [false, 'Thank you.'],
+    ])
+    expect(pio2.state().messages[1]!.playedBy).toBe(false)
+    expect(ops.state().messages).toEqual([])
+  })
+
+  it('uploads a photo before sending and shows it on the echo', async () => {
+    const { controller, pio, pio2 } = await seated()
+    await pio.session.sendMessage({
+      channel: 'role:pio',
+      text: 'Whiteboard',
+      photos: [{ bytes: JPEG, mime: 'image/jpeg', width: 800, height: 600, alt: 'ICS-201 board' }],
+    })
+    await flush()
+    expect(controller.messageLog[0]!.attachmentBytes).toEqual([JPEG.length])
+    expect(pio2.state().messages[0]!.attachments[0]).toMatchObject({
+      kind: 'image',
+      name: 'ICS-201 board',
+    })
+  })
+
+  it('queues a text message while offline and sends it once on reconnect', async () => {
+    const { controller, pio, transports } = await seated()
+    transports.forEach((t) => t.drop())
+    await flush()
+    await pio.session.sendMessage({ channel: 'role:pio', text: 'Offline note', photos: [] })
+    expect(pio.state().messages[0]!.status).toBe('sending')
+    expect(controller.messageLog).toHaveLength(0)
+    pio.timers.advance(60_000)
+    await flush(8)
+    expect(controller.messageLog.filter((m) => m.text === 'Offline note')).toHaveLength(1)
+    expect(pio.state().messages[0]!.status).toBe('sent')
+  })
+
+  it('marks a message with a photo failed when the connection is down, and retries it', async () => {
+    const { controller, pio, transports } = await seated()
+    transports.forEach((t) => t.drop())
+    await flush()
+    const photos = [{ bytes: JPEG, mime: 'image/jpeg' as const, width: 8, height: 8, alt: '' }]
+    await pio.session.sendMessage({ channel: 'role:pio', text: 'Photo', photos })
+    const failed = pio.state().messages[0]!
+    expect(failed.status).toBe('failed')
+    pio.timers.advance(60_000)
+    await flush(8)
+    await pio.session.retryMessage(failed.id)
+    await flush()
+    expect(controller.messageLog.filter((m) => m.text === 'Photo')).toHaveLength(1)
+    expect(pio.state().messages[0]!.status).toBe('sent')
+  })
+
+  it('ignores a message.send that the controller did not sign', async () => {
+    const { controller, pio } = await seated()
+    await controller.client.send(
+      'message.send',
+      'role:pio',
+      {
+        messageId: 'u'.repeat(22),
+        channel: 'role:pio',
+        text: 'Forged',
+        persona: 'X',
+        attachments: [],
+      },
+      { key: 'players' },
+    )
+    await flush()
+    expect(pio.state().messages).toEqual([])
+  })
+
+  it('"Reply to SimCell" quotes the inject and sends its release id as replyTo', async () => {
+    const { controller, pio } = await seated()
+    const releaseId = await controller.release({ title: 'FIDS board', body: 'x' }, ['role:pio'])
+    await flush()
+    pio.session.startReply(releaseId)
+    expect(pio.state().compose).toMatchObject({ releaseId, title: 'FIDS board' })
+    await pio.session.sendMessage({
+      channel: 'role:pio',
+      text: 'On it',
+      photos: [],
+      replyTo: releaseId,
+    })
+    await flush()
+    expect(pio.state().messages[0]!.replyTo).toBe(releaseId)
+  })
+})
+
 describe('sanitizeName', () => {
   it('trims, strips control and zero-width characters and caps at 40', () => {
     expect(sanitizeName('  Dana\u0007​ Lee\n ')).toBe('Dana Lee')

@@ -51,6 +51,10 @@ const {
   releaseInject,
   releaseSummaries,
   retractInject,
+  sendMessage,
+  messageThreads,
+  messageThread,
+  pinMessage,
 } = await import('./session')
 const { createProject } = await import('../project/store')
 const { createScenario, getScenario, saveScenario } = await import('../scenario/store')
@@ -325,6 +329,99 @@ describe('inject delivery through a running session (#412)', () => {
     )
     expect(log.filter((e) => e.kind === 'inject.receipt')).toHaveLength(2)
     expect(JSON.stringify(log)).not.toContain(ops.identity.clientId)
+    await endSession(projectPath, scenarioId)
+  })
+})
+
+describe('messages through a running session (#413)', () => {
+  afterEach(async () => {
+    await stopLiveSession()
+    delete process.env.TTX_LIVE_BIND
+  })
+
+  const PNG = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 7, 7, 7, 7])
+
+  async function running() {
+    const { projectPath, scenarioId } = await setup()
+    const started = await startSession({
+      projectPath,
+      scenarioId,
+      connection: { kind: 'lan', tls: 'none' },
+      attribution: 'role',
+    })
+    return { projectPath, scenarioId, started }
+  }
+
+  it('takes a PIO message with a photo, echoes it to the seat only, answers in character, and logs it', async () => {
+    const { projectPath, scenarioId, started } = await running()
+    const pio = await joinAsPlayer(started.invites!.players.url, 'Sam', 'pio')
+    const pioSecond = await joinAsPlayer(started.invites!.players.url, 'Lee', 'pio')
+    const ops = await joinAsPlayer(started.invites!.players.url, 'Dana', 'ops')
+    pio.client.setDestinations(['all', 'role:pio'])
+    pioSecond.client.setDestinations(['all', 'role:pio'])
+    ops.client.setDestinations(['all', 'role:ops'])
+    const seen: Record<string, Opened<'message.send'>[]> = { pio: [], second: [], ops: [] }
+    pio.client.on('message.send', (m) => seen.pio!.push(m))
+    pioSecond.client.on('message.send', (m) => seen.second!.push(m))
+    ops.client.on('message.send', (m) => seen.ops!.push(m))
+
+    const photo = await pio.client.putBlob({ kind: 'image', mime: 'image/png' }, PNG)
+    const messageId = newId(pio.crypto)
+    await pio.client.send('message.send', 'controller', {
+      messageId,
+      channel: 'role:pio',
+      text: 'We are investigating a systems issue.',
+      attachments: [photo],
+    })
+    await vi.waitFor(() => expect(seen.second).toHaveLength(1))
+    expect(seen.pio![0]!.payload).toMatchObject({ echoOf: messageId, fromRole: 'pio' })
+    expect(seen.pio![0]!.signedBy).toBe('host')
+
+    await sendMessage(projectPath, scenarioId, {
+      channel: 'role:pio',
+      text: 'Can you confirm ransomware?',
+      persona: 'Channel 5 newsroom',
+      showPlayedBy: true,
+    })
+    await vi.waitFor(() => expect(seen.second).toHaveLength(2))
+    expect(seen.second![1]!.payload).toMatchObject({
+      persona: 'Channel 5 newsroom',
+      showPlayedBy: true,
+    })
+    expect(seen.ops).toEqual([])
+
+    const [thread] = messageThreads(projectPath, scenarioId)
+    expect(thread).toMatchObject({ channel: 'role:pio', messages: 2, unread: 1 })
+    const [first] = messageThread(projectPath, scenarioId, 'role:pio')
+    expect(first!.attachments[0]!.path).toMatch(/attachments\/.+\.png$/)
+    await pinMessage(projectPath, scenarioId, first!.messageId)
+
+    const log = readLog(projectPath, scenarioId, started.session!.id)
+    expect(log.map((e) => e.kind)).toEqual(expect.arrayContaining(['message', 'message.pinned']))
+    const mine = log.find((e) => e.kind === 'message' && e.actor.kind === 'client')!
+    expect(mine.actor).toMatchObject({ seat: { roleId: 'pio' } })
+    expect(mine.actor.displayName).toBeUndefined()
+    expect(mine.ex).toBeDefined()
+    expect(JSON.stringify(log)).not.toContain(pio.identity.clientId)
+    await endSession(projectPath, scenarioId)
+  })
+
+  it('drops a message to another role and logs an anomaly', async () => {
+    const { projectPath, scenarioId, started } = await running()
+    const ops = await joinAsPlayer(started.invites!.players.url, 'Dana', 'ops')
+    await ops.client.send('message.send', 'controller', {
+      messageId: newId(ops.crypto),
+      channel: 'role:pio',
+      text: 'Hello from the wrong seat',
+      attachments: [],
+    })
+    await vi.waitFor(() => {
+      const log = readLog(projectPath, scenarioId, started.session!.id)
+      expect(log.some((e) => e.kind === 'anomaly' && JSON.stringify(e.data).includes('own'))).toBe(
+        true,
+      )
+    })
+    expect(messageThreads(projectPath, scenarioId)).toEqual([])
     await endSession(projectPath, scenarioId)
   })
 })

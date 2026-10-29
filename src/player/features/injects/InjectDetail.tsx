@@ -190,6 +190,10 @@ export function InjectDetail({
   const seat = useStore(session.store, (s) => s.seat)
   const clientId = useStore(session.store, (s) => s.clientId)
   const actioned = useStore(session.store, (s) => s.actioned)
+  const canMessage = useStore(
+    session.store,
+    (s) => !!s.info?.features.messages && s.seat?.kind === 'player',
+  )
   const view = seat
     ? { clientId, kind: seat.kind, roleId: seat.role?.id, teamId: seat.role?.teamId }
     : undefined
@@ -248,6 +252,15 @@ export function InjectDetail({
         <AudioBlock cache={session.media} audio={audio} vtt={inject.captionsVtt} />
       ) : null}
       <TextVersion id={textId} text={inject.text} />
+      {mine && canMessage && !item.withdrawn ? (
+        <button
+          type="button"
+          className="btn btn--block"
+          onClick={() => session.startReply(inject.releaseId)}
+        >
+          {STRINGS.messages.replyToSimcell}
+        </button>
+      ) : null}
       {mine && inject.expectsResponse && !item.withdrawn ? (
         <button
           type="button"
