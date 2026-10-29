@@ -40,6 +40,7 @@ import { requireProject } from '../project/guard'
 import { scenarioLayout } from '../scenario/layout'
 import { getScenario } from '../scenario/store'
 import { appendResponse, readSurvey } from '../surveys/store'
+import { rebuildSurveyResponses } from './survey-replay'
 import { inviteViews } from './invites'
 import { DEVICE_TARGET, teamSlug } from '@shared/live/targets'
 import { Delivery, type DeliverySeat } from './releases'
@@ -810,6 +811,17 @@ async function logResume(a: Active, resume: ResumeInput): Promise<void> {
   })
 }
 
+/** The response file is a mirror of the log: put back what a crash kept out of it. */
+async function restoreSurveyResponses(a: Active): Promise<void> {
+  try {
+    const channel = a.session.surveyOnly ? 'qr' : 'live'
+    const entries = await readAll(a.log.path)
+    await rebuildSurveyResponses(a.root, a.session.scenarioId, entries, channel)
+  } catch (err) {
+    console.error('[live] could not rebuild survey responses:', (err as Error).message)
+  }
+}
+
 interface Parts {
   hub?: SessionHub
   transport: Transport
@@ -974,8 +986,10 @@ async function startOn(
   )
   simcell.startClock()
   await writeSessionFile(a)
-  if (resume) await logResume(a, resume)
-  else {
+  if (resume) {
+    await logResume(a, resume)
+    await restoreSurveyResponses(a)
+  } else {
     await log.append({
       kind: 'session.start',
       actor: { kind: 'controller' },

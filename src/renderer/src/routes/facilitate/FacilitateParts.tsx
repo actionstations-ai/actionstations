@@ -27,6 +27,7 @@ import { useLiveVotes } from './live/use-live-votes'
 import { LiveSurveysSection } from './live/SurveySend'
 import { VotePanel } from './live/VotePanel'
 import { VOTES } from './live/vote-strings'
+import { PostExerciseChecklist } from './PostExerciseChecklist'
 import { RoomPanel } from './live/RoomPanel'
 import { SessionsList } from './live/SessionsList'
 import { LIVE } from './live/strings'
@@ -197,6 +198,11 @@ export function SidePanel(props: {
   const tallySource = useMemo(() => tallySourceFromVotes(liveVotes.votes), [liveVotes.votes])
   return (
     <Tabs.Root value={tab} onValueChange={setTab} className="fac-side">
+      <PostExerciseChecklist
+        projectPath={props.projectPath}
+        scenario={props.scenario}
+        state={state}
+      />
       <Tabs.List className="fac-tabs" aria-label="Facilitator panels">
         <Tabs.Trigger value="inject" className="fac-tabs__trigger">
           Inject

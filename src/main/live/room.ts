@@ -6,6 +6,7 @@
 import { promises as fs } from 'node:fs'
 import { dashboardView } from './dashboard'
 import { hotwashPrompts } from './hotwash'
+import { rebuildSurveyResponses } from './survey-replay'
 import { boardFromLog } from './hotwash-replay'
 import { trackerFeed, type TrackerFeed } from './tracker-feed'
 import type { BoardView, DashboardView, LiveSession, LogTailEntry } from '@shared/schemas/live'
@@ -161,6 +162,9 @@ export async function closeSession(
     summary: countEntries(entries),
   }
   await writeJsonAtomic(file, closed)
+  await rebuildSurveyResponses(root, scenarioId, entries, session.surveyOnly ? 'qr' : 'live').catch(
+    (e: unknown) => console.error('[live] could not rebuild survey responses:', e),
+  )
   return closed
 }
 
