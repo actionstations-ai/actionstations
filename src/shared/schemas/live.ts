@@ -60,6 +60,8 @@ export const LiveSession = z.object({
   protocolVersion: z.number().int().positive(),
   /** Last server arrival index the controller applied; resume continues from it. */
   lastIndex: z.number().int().min(0).default(0),
+  /** Counts written when the session ends (spec 0417 FR-1). */
+  summary: z.lazy(() => LiveSessionCounts).optional(),
 })
 export type LiveSession = z.infer<typeof LiveSession>
 
@@ -486,3 +488,162 @@ export const VoteScope = z.object({
   smallRoles: z.array(z.object({ roleId: SafeId, label: Text(80), devices: z.number().int() })),
 })
 export type VoteScope = z.infer<typeof VoteScope>
+
+// ---------------------------------------------------------------------------------------------
+// Session log API and the Room dashboard (spec 0417)
+
+export const LiveSessionCounts = z.object({
+  clients: z.number().int().min(0),
+  releases: z.number().int().min(0),
+  receipts: z.number().int().min(0),
+  messages: z.number().int().min(0),
+  votes: z.number().int().min(0),
+  hotwashItems: z.number().int().min(0),
+  observations: z.number().int().min(0),
+  surveys: z.number().int().min(0),
+})
+export type LiveSessionCounts = z.infer<typeof LiveSessionCounts>
+
+/** One row of the Live tab's sessions list, read from `session.json` (FR-6). */
+export const LiveSessionSummary = z.object({
+  id: SessionId,
+  name: Text(120),
+  startedAt: IsoDateTime,
+  endedAt: IsoDateTime.optional(),
+  /** No `endedAt`, and no session of this id is running: the app stopped mid-session. */
+  interrupted: z.boolean(),
+  attribution: Attribution,
+  counts: LiveSessionCounts,
+})
+export type LiveSessionSummary = z.infer<typeof LiveSessionSummary>
+
+/**
+ * What `readSlice` returns (FR-11): the fields other features read, so none of them parses the
+ * file. `displayName` and `clientRef` are never included; `data` is the entry's payload.
+ */
+export const LogSliceRow = z.object({
+  i: z.number().int().positive(),
+  kind: z.string(),
+  at: IsoDateTime,
+  ex: ExerciseTime.optional(),
+  rowId: z.string().optional(),
+  releaseId: z.string().optional(),
+  inReplyTo: z.string().optional(),
+  fromRoleId: z.string().optional(),
+  text: z.string().optional(),
+  actor: z.object({
+    kind: z.enum(['controller', 'client', 'server', 'system']),
+    seat: LogActor.shape.seat,
+    evaluator: z.string().optional(),
+    persona: z.string().optional(),
+  }),
+  ref: LogRef.optional(),
+  data: z.record(z.string(), z.unknown()),
+})
+export type LogSliceRow = z.infer<typeof LogSliceRow>
+
+/** One entry as the Log view shows it. */
+export const LogTailEntry = z.object({
+  i: z.number().int().positive(),
+  at: IsoDateTime,
+  ex: ExerciseTime.optional(),
+  kind: z.string(),
+  actor: z.string(),
+  summary: z.string(),
+  messageId: z.string().optional(),
+  starred: z.boolean().optional(),
+})
+export type LogTailEntry = z.infer<typeof LogTailEntry>
+
+export const RosterRow = z.object({
+  seat: z.string(),
+  label: z.string(),
+  kind: z.enum(['player', 'evaluator', 'observer']),
+  connected: z.number().int().min(0),
+  removed: z.number().int().min(0),
+  /** Display names of connected devices; only in a `named` session. */
+  names: z.array(z.string()),
+  /** A player seat nobody is in. */
+  empty: z.boolean(),
+})
+export type RosterRow = z.infer<typeof RosterRow>
+
+export const InjectRow = z.object({
+  releaseId: z.string(),
+  rowId: z.string(),
+  targets: z.array(z.string()),
+  releasedAt: IsoDateTime,
+  withdrawn: z.boolean(),
+  expected: z.number().int().min(0),
+  delivered: z.number().int().min(0),
+  read: z.number().int().min(0),
+  actioned: z.number().int().min(0),
+  /** Median seconds from release to first read across devices. */
+  firstReadSec: z.number().min(0).optional(),
+  expectsResponse: z.boolean(),
+  answered: z.enum(['actioned', 'message', 'marked']).optional(),
+  /** Seconds from release to the first answer. */
+  responseSec: z.number().min(0).optional(),
+  ageMin: z.number().min(0),
+})
+export type InjectRow = z.infer<typeof InjectRow>
+
+export const UnansweredRow = z.object({
+  releaseId: z.string(),
+  rowId: z.string(),
+  ageMin: z.number().min(0),
+  windowMin: z.number().min(0),
+})
+export type UnansweredRow = z.infer<typeof UnansweredRow>
+
+export const DashboardView = z.object({
+  sessionId: SessionId.optional(),
+  /** The session is running now (not a past one being viewed). */
+  live: z.boolean(),
+  unansweredAfterMin: z.number().min(1),
+  connected: z.number().int().min(0),
+  roster: z.array(RosterRow),
+  injects: z.array(InjectRow),
+  unanswered: z.array(UnansweredRow),
+  messages: z.object({
+    threads: z.number().int().min(0),
+    waiting: z.array(z.object({ channel: z.string(), waitingMin: z.number().min(0) })),
+    medianReplySec: z.number().min(0).optional(),
+    perRole: z.array(z.object({ role: z.string(), count: z.number().int().min(0) })),
+  }),
+  votes: z.object({
+    open: z
+      .object({
+        voteId: z.string(),
+        question: z.string(),
+        tally: z.array(z.object({ label: z.string(), count: z.number().int().min(0) })),
+      })
+      .optional(),
+    lastClosed: z
+      .object({
+        voteId: z.string(),
+        question: z.string(),
+        tally: z.array(z.object({ label: z.string(), count: z.number().int().min(0) })),
+      })
+      .optional(),
+  }),
+  /** Filled by the hot wash feature's entries (#415); zeros until the board is used. */
+  hotwash: z.object({
+    open: z.boolean(),
+    items: z.number().int().min(0),
+    plusOnes: z.number().int().min(0),
+    promoted: z.number().int().min(0),
+  }),
+  evaluation: z.object({
+    observations: z.number().int().min(0),
+    evaluatorsConnected: z.number().int().min(0),
+  }),
+  health: z.object({
+    dropped: z.array(z.object({ reason: z.string(), count: z.number().int().min(0) })),
+    rejected: z.number().int().min(0),
+    protocolVersion: z.number().int().positive().optional(),
+    lastIndex: z.number().int().min(0),
+    logBytes: z.number().int().min(0),
+  }),
+})
+export type DashboardView = z.infer<typeof DashboardView>

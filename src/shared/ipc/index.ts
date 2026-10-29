@@ -30,6 +30,7 @@ import { aarChannels } from './aar'
 import { ApprovalNeededEvent, privacyChannels } from './privacy'
 import { complianceChannels } from './compliance'
 import { liveChannels, LiveChangedEvent } from './live'
+import { liveRoomChannels } from './live-room'
 import { hotwashChannels, HotwashRecordingEvent } from './hotwash'
 import { programChannels } from './program'
 import { redlineChannels } from './redlines'
@@ -152,6 +153,7 @@ export const channels = mergeChannels(
   privacyChannels,
   complianceChannels,
   liveChannels,
+  liveRoomChannels,
   hotwashChannels,
   programChannels,
   redlineChannels,

@@ -10,8 +10,8 @@
 // This adapter is the only module here that knows the log's shape, and it is where identities
 // are removed: `actor.displayName` is never read, seats become role labels or "a player", and an
 // evaluator reaches the record only as the label they signed with. A missing or unreadable log
-// yields no live source and a warning, never a failed draft. When spec 0417's `readSlice` lands,
-// this adapter should read through it instead of parsing the file.
+// yields no live source and a warning, never a failed draft. The file is read through
+// `readSlice` (spec 0417 FR-11), which already leaves out display names and client references.
 import { promises as fs } from 'node:fs'
 import { z } from 'zod'
 import type { LiveSessionInfo } from '@shared/ipc/aar'
@@ -26,38 +26,44 @@ import {
 import { Rating } from '@shared/schemas/evaluation'
 import type { Scenario } from '@shared/schemas/scenario'
 import { exists, safeJoin } from '../../lib/fs'
-import { assertSafeId, scenarioLayout } from '../../scenario/layout'
+import {
+  LOG_FILE,
+  SESSION_FILE,
+  isSessionName,
+  liveRoot,
+  logFile,
+  parseLogText,
+  readAll,
+  readSliceDetailed,
+} from '../../live/log-read'
 import { roleLabel } from './facilitator'
 
-/** The parts of a log entry this adapter reads. Loose: other fields are ignored, never copied. */
-const LogEntry = z.looseObject({
-  i: z.number().int().nonnegative(),
-  at: z.string(),
-  ex: z.string().optional(),
-  kind: z.string(),
-  actor: z
-    .looseObject({
-      kind: z.string().optional(),
-      seat: z
-        .looseObject({ kind: z.string().optional(), roleId: z.string().optional() })
-        .optional(),
-      evaluator: z.string().optional(),
-      persona: z.string().optional(),
-    })
-    .optional(),
-  ref: z
-    .looseObject({
-      rowId: z.string().optional(),
-      releaseId: z.string().optional(),
-      messageId: z.string().optional(),
-      voteId: z.string().optional(),
-      itemId: z.string().optional(),
-      observationId: z.string().optional(),
-    })
-    .optional(),
-  data: z.record(z.string(), z.unknown()).default({}),
-})
-export type LogEntry = z.infer<typeof LogEntry>
+/** The parts of a log entry this adapter reads: a slice row, or a parsed log line. */
+export interface LogEntry {
+  i: number
+  at: string
+  ex?: string | undefined
+  kind: string
+  actor?:
+    | {
+        kind?: string | undefined
+        seat?: { kind?: string | undefined; roleId?: string | undefined } | undefined
+        evaluator?: string | undefined
+        persona?: string | undefined
+      }
+    | undefined
+  ref?:
+    | {
+        rowId?: string | undefined
+        releaseId?: string | undefined
+        messageId?: string | undefined
+        voteId?: string | undefined
+        itemId?: string | undefined
+        observationId?: string | undefined
+      }
+    | undefined
+  data: Record<string, unknown>
+}
 
 export interface LiveLogResult {
   sessionId: string
@@ -66,10 +72,7 @@ export interface LiveLogResult {
   skipped: number
 }
 
-const LOG_FILE = 'log.jsonl'
-const SESSION_FILE = 'session.json'
 /** Caps so a hand-edited log cannot exhaust memory: entries read and text kept per field. */
-const MAX_ENTRIES = 50_000
 const MAX_TEXT = 4000
 
 const SessionFile = z.looseObject({
@@ -77,34 +80,13 @@ const SessionFile = z.looseObject({
   endedAt: z.string().optional(),
 })
 
-export const liveDir = (root: string, scenarioId: string): string =>
-  safeJoin(scenarioLayout(root, scenarioId).dir, 'live')
+export const liveDir = liveRoot
 
-/** Parse a log file; invalid lines are counted, not fatal. */
-export function parseLog(raw: string): { entries: LogEntry[]; skipped: number } {
-  const entries: LogEntry[] = []
-  let skipped = 0
-  for (const line of raw.split('\n')) {
-    if (!line.trim()) continue
-    if (entries.length >= MAX_ENTRIES) break
-    try {
-      const parsed = LogEntry.safeParse(JSON.parse(line))
-      if (parsed.success) entries.push(parsed.data)
-      else skipped++
-    } catch {
-      skipped++
-    }
-  }
-  entries.sort((a, b) => a.i - b.i)
-  return { entries, skipped }
-}
-
-async function readLog(dir: string): Promise<{ entries: LogEntry[]; skipped: number }> {
-  return parseLog(await fs.readFile(safeJoin(dir, LOG_FILE), 'utf8'))
-}
+/** Parse a log file's text (used by tests; the adapter itself reads through `readSlice`). */
+export const parseLog = parseLogText
 
 async function sessionInfo(dir: string, id: string): Promise<LiveSessionInfo> {
-  const { entries } = await readLog(dir)
+  const entries = await readAll(safeJoin(dir, LOG_FILE))
   const meta = await fs
     .readFile(safeJoin(dir, SESSION_FILE), 'utf8')
     .then((raw) => SessionFile.safeParse(JSON.parse(raw)))
@@ -130,7 +112,7 @@ export async function listLiveSessions(
   const names = await fs.readdir(dir).catch(() => [] as string[])
   const infos: LiveSessionInfo[] = []
   for (const name of names) {
-    if (!/^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/.test(name)) continue
+    if (!isSessionName(name)) continue
     const sessionDir = safeJoin(dir, name)
     if (!(await exists(safeJoin(sessionDir, LOG_FILE)))) continue
     infos.push(await sessionInfo(sessionDir, name).catch(() => ({ id: name, entries: 0 })))
@@ -154,13 +136,11 @@ export async function readLiveLog(
   scenarioId: string,
   sessionId?: string,
 ): Promise<LiveLogResult | undefined> {
-  const id = sessionId
-    ? assertSafeId(sessionId, 'session id')
-    : (await listLiveSessions(root, scenarioId))[0]?.id
+  const id = sessionId ?? (await listLiveSessions(root, scenarioId))[0]?.id
   if (!id) return undefined
-  const dir = safeJoin(liveDir(root, scenarioId), id)
-  if (!(await exists(safeJoin(dir, LOG_FILE)))) return undefined
-  return { sessionId: id, ...(await readLog(dir)) }
+  if (!(await exists(logFile(root, scenarioId, id)))) return undefined
+  const { rows, skipped } = await readSliceDetailed(root, scenarioId, id)
+  return { sessionId: id, entries: rows, skipped }
 }
 
 // ---------------------------------------------------------------------------------------------

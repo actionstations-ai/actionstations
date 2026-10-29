@@ -1,6 +1,6 @@
 # Spec 0417: Live play: controller dashboard and session log
 
-Issue: #417 · Milestone: 0.6.0 · Status: Draft · Depends on: #406, #411 · Related: #418, #412, #413, #414, #415, #416, #419 (AAR reads the log), #428 (controller tools read a log slice), #422
+Issue: #417 · Milestone: 0.6.0 · Status: Partly built (dashboard, log API, exports, sessions list; resume, ZIP target and Timeline badge to follow) · Depends on: #406, #411 · Related: #418, #412, #413, #414, #415, #416, #419 (AAR reads the log), #428 (controller tools read a log slice), #422
 
 ## Summary
 
@@ -187,3 +187,10 @@ None; the `live/` folder is new. Older builds ignore it (`Scenario` is a loose o
 2. **Default unanswered window.** Recommendation: 10 minutes, overridable per row by 0428's `responseWindowMin` and per session in the Live tab. Scenario 3's cadence is one inject per 10 minutes, so a longer default would flag nothing useful.
 3. **Keep the per-ballot `vote.cast` lines in the exported CSV?** Recommendation: yes; they carry no identity (0414) and the AAR's "how divided" reading needs them. The JSON export has them too.
 4. **Write a Markdown transcript export as well?** Recommendation: not now; the CSV opens in a spreadsheet and 0419 produces the readable document. Add it if facilitators ask for a quick printout.
+
+## Implementation notes (first PR)
+
+- The Room is a fold of the log (`src/main/live/dashboard.ts`) rather than of in-memory feature state, so a past session shows the same way; it re-reads the log on each `live:changed`. Away devices (no presence for 60 s) are not shown: presence is not in the log.
+- `readSlice` also returns the actor (without `displayName` and `clientRef`), `ref` and `data`, so the after-action reader needs no second parser. Readers parse lines loosely; the writer stays strict.
+- The module split is `log-read.ts` (slice, tail, sessions list), `log-summary.ts`, `log-export.ts` and `room.ts` instead of everything in `log.ts`.
+- Not in this PR: **Resume** (FR-7), the `live_log` ZIP target, the "No response" badge on Timeline, a per-session `unansweredAfterMin` setting (the default of 10 applies), and `MselRow.expectsResponse` (the release's own `expectsResponse` is used).
