@@ -10,6 +10,7 @@ import { applyAarImport, previewAarImport } from '../../program/import-aar'
 import { linkProject, unlinkProject } from '../../program/links'
 import { openSummary } from '../../program/open'
 import { exportProgram } from '../../program/export'
+import { loadHealth } from '../../program/health'
 import { saveSchedule } from '../../program/schedule'
 import { readSnapshots, refreshSnapshots } from '../../program/snapshot'
 import {
@@ -126,7 +127,10 @@ export default defineHandlers({
     )
   },
 
-  'program:export': async ({ programPath, outDir, targets }) => ({
-    files: await exportProgram(await requireProgram(programPath), outDir, targets),
+  'program:health': async ({ programPath, filter }) =>
+    loadHealth(await requireProgram(programPath), filter),
+
+  'program:export': async ({ programPath, outDir, targets, filter }) => ({
+    files: await exportProgram(await requireProgram(programPath), outDir, targets, filter),
   }),
 })

@@ -1,0 +1,47 @@
+/* The program health dashboard (#438). Tokens only; no gradients or animation. */
+
+.health-scroll {
+  overflow-x: auto;
+}
+.health-table .health-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.health-table th[scope='row'] {
+  text-align: left;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  font-weight: var(--weight-semibold);
+}
+.health-cell {
+  min-width: 2rem;
+  min-height: 1.5rem;
+}
+.health-fresh {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.health-between {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.health-chart {
+  margin: 0;
+  max-width: 32rem;
+}
+.health-bars {
+  width: 100%;
+  height: auto;
+}
+.health-bars__label,
+.health-bars__value {
+  fill: var(--color-text);
+  font-size: 12px;
+}
+.health-bars__bar {
+  fill: var(--color-accent);
+  stroke: var(--color-text);
+  stroke-width: 1;
+}

@@ -5,6 +5,7 @@
 import { z } from 'zod'
 import { channel } from './define'
 import { patchOf, SafeId } from '../schemas/common'
+import { HealthFilter, ProgramHealth } from '../schemas/program-health'
 import {
   AarImport,
   CorrectiveActionStatus,
@@ -103,6 +104,8 @@ export const EXPORT_TARGETS = [
   'ipp_pdf',
   'ipp_csv',
   'zip',
+  'health_pdf',
+  'health_csv',
 ] as const
 export const ProgramExportTarget = z.enum(EXPORT_TARGETS)
 export type ProgramExportTarget = z.infer<typeof ProgramExportTarget>
@@ -181,10 +184,14 @@ export const programChannels = {
     AarImport,
   ),
   'program:propose': channel(R, ExerciseProposal),
+  /** The program health dashboard (#438), computed from the program's own files. */
+  'program:health': channel(R.extend({ filter: HealthFilter.optional() }), ProgramHealth),
   'program:export': channel(
     R.extend({
       outDir: z.string().min(1),
       targets: z.array(ProgramExportTarget).min(1).max(EXPORT_TARGETS.length),
+      /** Applies to the health_pdf and health_csv targets (#438). */
+      filter: HealthFilter.optional(),
     }),
     z.object({ files: z.array(z.string()) }),
   ),

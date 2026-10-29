@@ -21,6 +21,7 @@ const TABS = [
   { to: '/program', label: 'Overview', end: true },
   { to: '/program/actions', label: 'Corrective actions', end: false },
   { to: '/program/schedule', label: 'Schedule', end: false },
+  { to: '/program/health', label: 'Health', end: false },
 ]
 
 function Tabs() {

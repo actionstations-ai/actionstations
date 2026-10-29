@@ -1,6 +1,6 @@
 # Spec 0438: Program health dashboard
 
-Issue: #438 · Milestone: 0.8.0 · Status: Draft · Depends on: #424 (program folder, snapshots, corrective actions), #421 (Core Capabilities on objectives, observation ratings) · Related: #419 (AAR present), #431 (drill trend), #417 (exercise dates)
+Issue: #438 · Milestone: 0.8.0 · Status: Implemented (0.8.0), with the changes listed under "As built" · Depends on: #424 (program folder, snapshots, corrective actions), #421 (Core Capabilities on objectives, observation ratings) · Related: #419 (AAR present), #431 (drill trend), #417 (exercise dates)
 
 ## Summary
 
@@ -310,3 +310,15 @@ Portrait, Letter; cover line (program, cycle, date, filters, data freshness); ea
 3. **Should the matrix show observation ratings (met/partial/not met) as colour?** Recommendation: numbers only in the cell, ratings in a separate column; a red/green heat map invites reading HSEEP evaluation as a grade, which #421 states it is not.
 4. **Depth of plan-section coverage.** Recommendation: depth 3 (as specified). Deeper paths make the table unreadable; the citations themselves keep full depth and the popover shows them.
 5. **Dark-theme chart tokens.** Recommendation: add two sequential tokens (`--chart-1`, `--chart-2`) and one emphasis token to `styles/tokens.css` rather than per-component colours, so the SVGs follow the theme.
+
+## As built
+
+Changes from the text above, made while implementing:
+
+- **Section depth.** Snapshots keep only each document's top-level headings, so declared sections are depth 1; deeper rows (to depth 3) exist where an exercised scenario cited them. A citation counts toward every ancestor up to depth 3, so a cited 13.6 also marks Section 13 as exercised. Capturing deeper headings in the snapshot is a follow-up.
+- **`drillRuns` and `redlineCount`** are in the snapshot schema (optional) and are shown when present; `snapshotProject` does not fill them until #431 lands.
+- **No mtime cache** in `src/main/program/health.ts`: the files are read on each request (about 2,000 small files is fast enough; revisit if it is not). Filtering is in `computeHealth`, so screen and exports agree.
+- **Filters** are one value per field in the bar (the schema takes lists). The mission-area list has the five areas; `common` was dropped because no data carries it. The document filter limits the plan-section panels and the never-cited documents only.
+- **Export** builds the PDF HTML in `src/main/program/health-export.ts` (same approach as the other program PDFs) from `healthTables()` in `src/shared/program/health-tables.ts`, which also feeds the CSV files; there is no separate template file or print stylesheet. The export dialog is `HealthExport.tsx`.
+- **Charts.** One SVG chart (ageing) with a hidden table twin, using existing tokens; no new `--chart-*` tokens and no sparkline. Heat colours are not used in the matrix.
+- **Section links** open the Documents page of the first reachable project that cited the section (no per-heading anchor yet).

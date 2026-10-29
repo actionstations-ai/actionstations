@@ -1,7 +1,7 @@
 // /program/actions: every corrective action of the program as a real table with sortable
 // column headers, filters, bulk changes, the editor drawer and the AAR/IP import entry.
-import { useMemo, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useEffect, useMemo, useState } from 'react'
+import { useNavigate, useParams, useSearchParams } from 'react-router'
 import { capabilityName, CORE_CAPABILITIES } from '@shared/core-capabilities'
 import { isOverdue } from '@shared/program/status'
 import {
@@ -423,7 +423,13 @@ function ActionsTable(props: {
 }
 
 function ActionsBody({ ctx }: { ctx: ProgramContext }) {
-  const { filters } = useProgramUi()
+  const { filters, setFilters } = useProgramUi()
+  // The health dashboard links here with ?capability=<id> (#438): show every status for it.
+  const [params] = useSearchParams()
+  const linked = params.get('capability')
+  useEffect(() => {
+    if (linked) setFilters({ capability: linked, statuses: [] })
+  }, [linked, setFilters])
   const navigate = useNavigate()
   const openId = useParams().id
   const [creating, setCreating] = useState(false)

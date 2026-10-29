@@ -14,6 +14,7 @@ import {
   EXERCISE_TYPE_LABELS,
   type PlannedExercise,
   type Program,
+  type HealthFilter,
   type ProgramAction,
   type Schedule,
 } from '@shared/schemas'
@@ -23,6 +24,8 @@ import { run, table } from '../export/docx'
 import type { ComposedDocument } from '../render/compose'
 import { renderPdf } from '../render/window'
 import { listAllActions } from './actions'
+import { loadHealth } from './health'
+import { healthCsvZip, healthHtml } from './health-export'
 import { loadProgram, loadSchedule, programPaths } from './store'
 
 export const IP_COLUMNS = [
@@ -171,6 +174,7 @@ interface Built {
   program: Program
   schedule: Schedule
   actions: ProgramAction[]
+  filter: HealthFilter
 }
 
 type Maker = (b: Built, root: string) => Promise<Buffer | string>
@@ -220,6 +224,15 @@ const MAKERS: Record<ProgramExportTarget, { file: string; make: Maker }> = {
     file: 'ipp-schedule.csv',
     make: async (b) => toCsv(IPP_COLUMNS, ippRows(b.program, b.schedule, b.actions)),
   },
+  health_pdf: {
+    file: 'program-health.pdf',
+    make: async (b, root) =>
+      renderPdf(pdfDocument(healthHtml(await loadHealth(root, b.filter), b.program))),
+  },
+  health_csv: {
+    file: 'program-health-csv.zip',
+    make: async (b, root) => healthCsvZip(await loadHealth(root, b.filter), toCsv),
+  },
   zip: { file: 'program-handoff.zip', make: (_b, root) => handoffZip(root) },
 }
 
@@ -228,12 +241,14 @@ export async function exportProgram(
   root: string,
   outDir: string,
   targets: ProgramExportTarget[],
+  filter: HealthFilter = {},
 ): Promise<string[]> {
   const program = await loadProgram(root)
   const built: Built = {
     program,
     schedule: (await loadSchedule(root)).value,
     actions: (await listAllActions(root)).actions.map((v) => v.action),
+    filter,
   }
   const dir = resolve(outDir)
   await ensureDir(dir)

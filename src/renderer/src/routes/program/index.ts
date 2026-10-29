@@ -12,6 +12,7 @@ export const routes: RouteDef[] = [
   { path: '/program/actions', component: lazy(() => import('./ActionsPage')) },
   { path: '/program/actions/:id', component: lazy(() => import('./ActionsPage')) },
   { path: '/program/schedule', component: lazy(() => import('./SchedulePage')) },
+  { path: '/program/health', component: lazy(() => import('./health/HealthPage')) },
   {
     path: '/program/import/:projectKey/:scenarioId',
     component: lazy(() => import('./ImportAarPage')),
