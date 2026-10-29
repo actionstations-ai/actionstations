@@ -7,6 +7,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { Scenario, type LintWarning } from '@shared/schemas/scenario'
 import fixture from '../../../../../tests/fixtures/scenarios/scenario-3.json'
 import { FakeIpcError, PROJECT, mockTtx, type Handlers } from '../../routes/documents/test-utils'
+import { RegionalState } from '@shared/schemas/regional'
 import { queryClient } from '../../lib/query'
 import { pendingKey, usePendingSaves } from '../docs/pending-saves'
 import { flushAndListUnsaved, unsavedItems } from '../unsaved-work'
@@ -408,13 +409,17 @@ describe('MselEditor save integrity', () => {
 })
 
 describe('MselEditor in a regional exercise (#497)', () => {
-  const regionalState = {
+  const regionalState = RegionalState.parse({
+    exerciseId: '01ARZ3NDEKTSV4RRFFQ69G5FAV',
+    role: 'participant',
+    hostOrg: 'air',
+    frameVersion: 1,
     thisOrg: 'city',
     orgs: [
       { orgId: 'air', name: 'Harborview Airport Authority', prefix: 'AIR' },
       { orgId: 'city', name: 'Cleveland Office of Emergency Management', prefix: 'CITY' },
     ],
-  }
+  })
   const withPartnerRow = (): Scenario => ({
     ...base,
     msel: base.msel.map((r) => (r.id === 'I-01' ? { ...r, owner: 'air', revision: 2 } : r)),
