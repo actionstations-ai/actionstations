@@ -22,3 +22,27 @@
   min-width: 0;
   overflow-wrap: anywhere;
 }
+
+/* Path field + buttons wrap instead of overflowing at 200 % zoom. */
+.settings-path-row {
+  flex-wrap: wrap;
+}
+.settings-path-row .input {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+/* Any settings row wraps at high zoom; text inputs may shrink. */
+.settings-section .row {
+  flex-wrap: wrap;
+}
+.settings-section .row > .input {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+/* Wide tables scroll inside their own focusable region instead of the page. */
+.settings-table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}

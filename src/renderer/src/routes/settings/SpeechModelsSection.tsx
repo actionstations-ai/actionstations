@@ -89,25 +89,32 @@ export function SpeechModelsSection() {
         <p className="field__error">Could not list the models: {models.error.message}</p>
       )}
       {models.data && (
-        <table className="table">
-          <caption className="sr-only">Speech models</caption>
-          <thead>
-            <tr>
-              <th scope="col">Model</th>
-              <th scope="col">Download</th>
-              <th scope="col">Speed</th>
-              <th scope="col">Languages</th>
-              <th scope="col">
-                <span className="sr-only">Status and actions</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {models.data.map((m) => (
-              <ModelRow key={m.id} m={m} />
-            ))}
-          </tbody>
-        </table>
+        <div
+          className="settings-table-scroll"
+          role="region"
+          aria-label="Speech models"
+          tabIndex={0}
+        >
+          <table className="table">
+            <caption className="sr-only">Speech models</caption>
+            <thead>
+              <tr>
+                <th scope="col">Model</th>
+                <th scope="col">Download</th>
+                <th scope="col">Speed</th>
+                <th scope="col">Languages</th>
+                <th scope="col">
+                  <span className="sr-only">Status and actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {models.data.map((m) => (
+                <ModelRow key={m.id} m={m} />
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </section>
   )
