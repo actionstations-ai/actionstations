@@ -59,6 +59,10 @@ extraResources:
   # Survey templates (HSEEP Participant Feedback Form, debriefs, #422).
   - from: surveys/templates
     to: app-resources/surveys/templates
+  # The player web page (#411): built by `pnpm build:player` from src/player/ into out/player/
+  # (index.html, assets/, manifest.json); the live-play servers serve it from here.
+  - from: out/player
+    to: app-resources/player
 # Native code and data files read with real fs paths must live outside app.asar.
 asarUnpack:
   - node_modules/better-sqlite3/**

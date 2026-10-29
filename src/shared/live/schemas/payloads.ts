@@ -42,12 +42,34 @@ export const JoinPayload = z.strictObject({
   ua: Text(100).optional(),
 })
 
+/**
+ * Who holds which seat. The controller sends players roles and names only: a client id is
+ * never shown to every device (#411), so `client` is set only in welcomes to staff.
+ */
 const RosterEntry = z.strictObject({
-  client: ClientId,
+  client: ClientId.optional(),
   name: Text(60),
   roleId: RoleId.optional(),
   kind: ClientKind,
 })
+
+/**
+ * A seat a device may ask for (#411). The controller sends the list in a `welcome` without a
+ * `role` (the lobby) so the join screen can show names, teams and capacities; the server never
+ * sees it. Evaluator and observer seats use the reserved role ids.
+ */
+export const Seat = z.strictObject({
+  id: RoleId,
+  name: Text(80),
+  abbreviation: Text(12).optional(),
+  teamId: SafeId.optional(),
+  teamName: Text(80).optional(),
+  kind: ClientKind,
+  /** Absent: unlimited. */
+  capacity: z.number().int().min(0).max(500).optional(),
+  taken: z.number().int().min(0).max(500),
+})
+export type Seat = z.infer<typeof Seat>
 
 export const WelcomePayload = z.strictObject({
   client: ClientId,
@@ -66,6 +88,8 @@ export const WelcomePayload = z.strictObject({
   scenarioTitle: Text(200),
   clock: ClockState,
   roster: z.array(RosterEntry).max(200),
+  /** The seats a device may choose; sent with a lobby welcome (no `role`) and on reseat. */
+  seats: z.array(Seat).max(200).optional(),
   features: z.strictObject({
     messages: z.boolean(),
     votes: z.boolean(),

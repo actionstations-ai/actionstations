@@ -94,5 +94,50 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    // The player page (#411) runs in a phone browser: browser globals, React hooks, and nothing
+    // from the renderer or main (it shares design tokens and src/shared/live only).
+    files: ['src/player/**/*.{ts,tsx}'],
+    ignores: ['src/player/harness/**'],
+    languageOptions: { globals: { ...globals.browser } },
+    plugins: { 'react-hooks': reactHooks, 'react-refresh': reactRefresh },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            'electron',
+            'fs',
+            'node:fs',
+            'path',
+            'node:path',
+            'child_process',
+            'zustand',
+            'react-router',
+          ],
+          patterns: [
+            {
+              group: [
+                '@renderer/*',
+                '@main/*',
+                '**/renderer/src/**',
+                '**/src/main/**',
+                'radix-ui',
+                '@tanstack/react-query',
+              ],
+              message:
+                'The player bundle shares tokens and src/shared/live with the app, no components or Node code',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    // The dev harness (#411) is Node: it serves the built bundle and bridges sockets to MemoryServer.
+    files: ['src/player/harness/**/*.ts'],
+    languageOptions: { globals: { ...globals.node } },
+  },
   prettier,
 )

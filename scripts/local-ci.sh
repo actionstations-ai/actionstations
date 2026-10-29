@@ -24,6 +24,9 @@ if [[ "$QUICK" != "--quick" ]]; then
   # Always launch the built app once: catches ESM/CJS interop and startup crashes that
   # unit tests (Vitest interop) cannot see.
   step "launch smoke (built app)";  pnpm exec playwright test e2e/smoke.spec.ts
+  # The player page (#411) runs in a phone browser against the in-process session server: no
+  # Electron, a few seconds, and it is the only check of the page's reconnect and a11y paths.
+  step "player page e2e";           pnpm exec playwright test e2e/live/
   if [[ "${E2E:-0}" == "1" ]]; then step "e2e (full)"; pnpm exec playwright test; fi
   step "secrets scan (gitleaks)"
   if command -v gitleaks >/dev/null 2>&1; then

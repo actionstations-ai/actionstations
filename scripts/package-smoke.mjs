@@ -254,10 +254,39 @@ export function surveyTemplateProblems(resources) {
   return existsSync(file) ? [] : ['app-resources/surveys/templates is missing (#422)']
 }
 
+/**
+ * The player web page (#411) ships beside app.asar in app-resources/player: manifest.json and
+ * every file it lists must exist with the recorded size, and the page must keep its CSP.
+ */
+export function playerBundleProblems(resources) {
+  const root = join(resources, 'app-resources', 'player')
+  const manifestPath = join(root, 'manifest.json')
+  if (!existsSync(manifestPath))
+    return ['app-resources/player/manifest.json is missing (#411, pnpm build:player)']
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+  const problems = []
+  const files = Object.entries(manifest.files ?? {})
+  if (!manifest.files?.['/index.html']) problems.push('player manifest lists no /index.html')
+  for (const [served, entry] of files) {
+    const file = join(root, entry.file)
+    if (!existsSync(file)) problems.push(`player file ${served} is missing`)
+    else if (statSync(file).size !== entry.bytes)
+      problems.push(`player file ${served} has the wrong size`)
+  }
+  if (manifest.files?.['/index.html']) {
+    const html = readFileSync(join(root, 'index.html'), 'utf8')
+    if (!/Content-Security-Policy/.test(html) || /unsafe-inline/.test(html))
+      problems.push('player index.html has no CSP or allows unsafe-inline')
+  }
+  console.log(`player page: ${files.length} files, version ${manifest.version}`)
+  return problems
+}
+
 function staticChecks(layout) {
   const problems = [
     ...bundledPackProblems(layout.resources),
     ...surveyTemplateProblems(layout.resources),
+    ...playerBundleProblems(layout.resources),
   ]
   const wires = readFuseWires(readFileSync(layout.fuseBinary))
   if (wires.length === 0) problems.push('no fuse wire found in the Electron binary')

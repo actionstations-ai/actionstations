@@ -186,4 +186,25 @@ describe('payload schemas', () => {
     expect(maximal.success).toBe(true)
     expect(estimateFrameBytes(maximal.data)).toBeGreaterThan(LIMITS.relay.envelopeBytes)
   })
+
+  it('a lobby welcome carries the seats a device may pick, with capacity and count taken (#411)', () => {
+    const seats = [
+      {
+        id: 'ops-director',
+        name: 'Operations Director',
+        abbreviation: 'OPS',
+        kind: 'player',
+        capacity: 1,
+        taken: 1,
+      },
+      { id: 'evaluators', name: 'Evaluator', kind: 'evaluator', taken: 0 },
+    ]
+    const lobby = { ...PAYLOAD_FIXTURES.welcome, role: undefined, seats }
+    expect(PAYLOAD_SCHEMAS.welcome.safeParse(lobby).success).toBe(true)
+    expect(PAYLOAD_SCHEMAS.welcome.safeParse(PAYLOAD_FIXTURES.welcome).success).toBe(true)
+    const bad = { ...lobby, seats: [{ ...seats[0], taken: -1 }] }
+    expect(PAYLOAD_SCHEMAS.welcome.safeParse(bad).success).toBe(false)
+    const unknownField = { ...lobby, seats: [{ ...seats[0], colour: 'red' }] }
+    expect(PAYLOAD_SCHEMAS.welcome.safeParse(unknownField).success).toBe(false)
+  })
 })

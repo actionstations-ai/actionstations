@@ -6,5 +6,6 @@
     "jsx": "react-jsx",
     "types": ["vite/client"]
   },
-  "include": ["src/renderer/src/**/*", "src/preload/*.d.ts", "src/shared/**/*"]
+  "include": ["src/renderer/src/**/*", "src/preload/*.d.ts", "src/shared/**/*", "src/player/**/*"],
+  "exclude": ["src/player/harness/server.ts", "src/player/harness/dev.ts"]
 }
