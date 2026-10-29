@@ -1,0 +1,17 @@
+/* Partner-owned rows in a regional exercise (#497): a text badge and a quieter, read-only row. */
+.msel-owner {
+  display: inline-block;
+  margin-top: var(--space-1);
+  padding: 0 var(--space-2);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  background: var(--color-surface-sunken);
+}
+.msel-editor__row--partner {
+  background: var(--color-surface-sunken);
+}
+.msel-editor__row--partner .msel-editor__handle {
+  cursor: not-allowed;
+}

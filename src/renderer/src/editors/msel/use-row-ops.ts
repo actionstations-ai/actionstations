@@ -28,6 +28,8 @@ interface RowOpsDeps {
   togglePhaseSelect: (phaseId: string) => void
   /** Open the source-check details of a row (#423). */
   openSources: (key: string) => void
+  /** Partner-owned rows (regional exercises) cannot be changed here (#497). */
+  isReadOnly: (key: string) => boolean
 }
 
 function useInsertRemove(draft: Draft, edit: RowOpsDeps['edit'], grid: GridState) {
@@ -59,9 +61,10 @@ export function useRowOps(d: RowOpsDeps) {
   const { applyInsert, removeRow } = useInsertRemove(draft, edit, grid)
 
   const rowAction = (key: string, action: RowAction) => {
-    if (action === 'add-after') return applyInsert(addRowAfter(draft, key))
-    if (action === 'duplicate') return applyInsert(duplicateRow(draft, key))
     if (action === 'sources') return d.openSources(key)
+    if (action === 'add-after') return applyInsert(addRowAfter(draft, key))
+    if (d.isReadOnly(key)) return
+    if (action === 'duplicate') return applyInsert(duplicateRow(draft, key))
     if (action === 'clocks') return d.editTriggers(key)
     if (action.startsWith('move:')) {
       edit(moveToPhase(draft, new Set([key]), action.slice(5)))
@@ -73,6 +76,7 @@ export function useRowOps(d: RowOpsDeps) {
   }
 
   const commit = (cell: Cell, value: unknown, move: Move) => {
+    if (d.isReadOnly(cell.line)) return grid.setEditing(null)
     edit(commitCell(draft, cell, value))
     if (move === 'blur') return grid.setEditing(null)
     const tab = move && !cell.line.startsWith('phase:') ? tabTarget(grid.lines, cell, move) : null
@@ -83,7 +87,7 @@ export function useRowOps(d: RowOpsDeps) {
 
   const toggleLock = (key: string) => {
     const row = draft.rows.find((r) => r.key === key)?.row
-    if (!row) return
+    if (!row || d.isReadOnly(key)) return
     edit({
       ...draft,
       rows: draft.rows.map((r) =>
@@ -96,7 +100,7 @@ export function useRowOps(d: RowOpsDeps) {
     activate: grid.setActive,
     startEdit: (cell) => {
       grid.setActive(cell)
-      grid.setEditing(cell)
+      if (!d.isReadOnly(cell.line)) grid.setEditing(cell)
     },
     commit,
     cancelEdit: () => {

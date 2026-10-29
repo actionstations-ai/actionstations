@@ -167,6 +167,23 @@ test('regional: frame, join, slice with a private row, pin, merge, tampered slic
       }),
     ).rejects.toThrow(/not a valid exercise bundle/)
 
+    // The host's MSEL editor badges the partner's rows and keeps them read-only (#497).
+    await goTo(page, `#/p/${encodeURIComponent(host.path)}/scenarios/${host.s.id}?tab=msel`)
+    const grid = page.getByRole('grid', { name: 'Master Scenario Events List' })
+    const partnerRow = grid.getByRole('row').filter({ hasText: 'AIR-I-05' })
+    await expect(partnerRow.getByText('Owned by AIR')).toBeVisible()
+    await expect(grid.getByRole('row').filter({ hasText: 'Event I-01' })).not.toContainText(
+      'Owned by',
+    )
+    await partnerRow.locator('[data-col="event"]').focus()
+    await page.keyboard.press('Enter')
+    await expect(page.getByRole('textbox', { name: 'Event for AIR-I-05' })).toHaveCount(0)
+    const mselAxe = await new AxeBuilder({ page })
+      .setLegacyMode(true)
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+      .analyze()
+    expect(mselAxe.violations.map((v) => `${v.id}: ${v.nodes[0]?.html.slice(0, 100)}`)).toEqual([])
+
     // The screen shows the organizations and passes axe.
     await goTo(page, `#/p/${encodeURIComponent(host.path)}/regional`)
     await expect(page.getByRole('heading', { name: 'Regional exercises', level: 1 })).toBeVisible()

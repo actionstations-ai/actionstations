@@ -2,10 +2,12 @@
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { QueryClientProvider } from '@tanstack/react-query'
+import axe from 'axe-core'
 import { afterEach, describe, expect, it } from 'vitest'
 import { Scenario, type LintWarning } from '@shared/schemas/scenario'
 import fixture from '../../../../../tests/fixtures/scenarios/scenario-3.json'
 import { FakeIpcError, PROJECT, mockTtx, type Handlers } from '../../routes/documents/test-utils'
+import { RegionalState } from '@shared/schemas/regional'
 import { queryClient } from '../../lib/query'
 import { pendingKey, usePendingSaves } from '../docs/pending-saves'
 import { flushAndListUnsaved, unsavedItems } from '../unsaved-work'
@@ -403,5 +405,62 @@ describe('MselEditor save integrity', () => {
     expect(unsavedItems()).toContain('MSEL')
     expect(await flushAndListUnsaved()).not.toContain('MSEL')
     expect(saves()).toHaveLength(1)
+  })
+})
+
+describe('MselEditor in a regional exercise (#497)', () => {
+  const regionalState = RegionalState.parse({
+    exerciseId: '01ARZ3NDEKTSV4RRFFQ69G5FAV',
+    role: 'participant',
+    hostOrg: 'air',
+    frameVersion: 1,
+    thisOrg: 'city',
+    orgs: [
+      { orgId: 'air', name: 'Harborview Airport Authority', prefix: 'AIR' },
+      { orgId: 'city', name: 'Cleveland Office of Emergency Management', prefix: 'CITY' },
+    ],
+  })
+  const withPartnerRow = (): Scenario => ({
+    ...base,
+    msel: base.msel.map((r) => (r.id === 'I-01' ? { ...r, owner: 'air', revision: 2 } : r)),
+  })
+  const regional = () =>
+    setup({ scenario: withPartnerRow(), handlers: { 'regional:state': () => regionalState } })
+
+  it('badges a partner row with its owner in words, and not its own rows', async () => {
+    regional()
+    expect(await within(rowWith('I-01')).findByText(/Owned by AIR/)).toBeTruthy()
+    expect(within(rowWith('I-01')).getByText(/Harborview Airport Authority/)).toBeTruthy()
+    expect(within(rowWith('I-02')).queryByText(/Owned by/)).toBeNull()
+  })
+
+  it('does not open an editor on a partner row, so nothing is saved', async () => {
+    const { user, saves } = regional()
+    await within(rowWith('I-01')).findByText(/Owned by AIR/)
+    cell('I-01', 'time').focus()
+    await user.keyboard('{Enter}')
+    expect(screen.queryByRole('textbox', { name: 'Time for I-01' })).toBeNull()
+    expect(within(rowWith('I-01')).getByRole('checkbox', { name: 'Select I-01' })).toHaveProperty(
+      'disabled',
+      true,
+    )
+    await new Promise((r) => setTimeout(r, SAVE_DEBOUNCE_MS + 100))
+    expect(saves()).toHaveLength(0)
+  })
+
+  it('still edits the rows this organization owns', async () => {
+    const { user } = regional()
+    await within(rowWith('I-01')).findByText(/Owned by AIR/)
+    cell('I-02', 'time').focus()
+    await user.keyboard('{Enter}')
+    expect(screen.getByRole('textbox', { name: 'Time for I-02' })).toBeTruthy()
+  })
+
+  it('has no axe violations with a partner row', async () => {
+    regional()
+    await within(rowWith('I-01')).findByText(/Owned by AIR/)
+    const rules = { 'color-contrast': { enabled: false }, region: { enabled: false } }
+    const { violations } = await axe.run(document.body, { rules })
+    expect(violations.map((v) => v.id)).toEqual([])
   })
 })

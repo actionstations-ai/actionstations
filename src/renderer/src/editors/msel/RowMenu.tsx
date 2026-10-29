@@ -4,6 +4,7 @@ import { MoreHorizontal } from 'lucide-react'
 import type { KeyboardEvent } from 'react'
 import { focusProps, useGridActions, useGridShared, type RowAction } from './grid-context'
 import type { DraftRow } from './model'
+import { isPartnerRow } from './owner'
 
 /**
  * React passes key events from the portalled menu up to the grid, whose arrow keys and Enter
@@ -37,6 +38,7 @@ function MoveToPhase({ r }: { r: DraftRow }) {
 
 export function RowMenu({ r, active }: { r: DraftRow; active: boolean }) {
   const g = useGridActions()
+  const partner = isPartnerRow(r.row, useGridShared().regional)
   const item = (action: RowAction, label: string) => (
     <DropdownMenu.Item className="msel-menu__item" onSelect={() => g.rowAction(r.key, action)}>
       {label}
@@ -62,20 +64,23 @@ export function RowMenu({ r, active }: { r: DraftRow; active: boolean }) {
           onKeyDown={keepInMenu}
         >
           {item('add-after', 'Add row after')}
-          {item('duplicate', 'Duplicate row')}
-          <MoveToPhase r={r} />
+          {!partner && item('duplicate', 'Duplicate row')}
+          {!partner && <MoveToPhase r={r} />}
           {item('sources', 'Source check…')}
-          {item(
-            'clocks',
-            r.row.triggers?.length ? 'Reporting clocks (on)…' : 'Starts reporting clocks…',
+          {!partner &&
+            item(
+              'clocks',
+              r.row.triggers?.length ? 'Reporting clocks (on)…' : 'Starts reporting clocks…',
+            )}
+          {!partner && <DropdownMenu.Separator className="msel-menu__separator" />}
+          {!partner && (
+            <DropdownMenu.Item
+              className="msel-menu__item msel-menu__item--danger"
+              onSelect={() => g.rowAction(r.key, 'delete')}
+            >
+              Delete row…
+            </DropdownMenu.Item>
           )}
-          <DropdownMenu.Separator className="msel-menu__separator" />
-          <DropdownMenu.Item
-            className="msel-menu__item msel-menu__item--danger"
-            onSelect={() => g.rowAction(r.key, 'delete')}
-          >
-            Delete row…
-          </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>

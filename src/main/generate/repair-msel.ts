@@ -39,6 +39,7 @@ import {
   type Env,
   type StepInput,
 } from './engine'
+import { restorePartnerRows } from './owner-filter'
 import { markStaleCritique } from './critique-notes'
 import { FACILITY_UNKNOWN_ID, lintFacilityIds } from './facility'
 import { describeStaleInjects, markInjectsStale } from './inject-stale'
@@ -399,6 +400,8 @@ export async function repairMsel(
     ctx.log(`repair: row ${id} kept its control-card format and source`, 'info', {
       stage: 'critique',
     })
+  const kept = restorePartnerRows(s, beforeRows, env.ownerFilter)
+  if (kept.length) ctx.log(`repair: kept ${kept.join(', ')} as its owner wrote it`, 'info')
   pruneRubricLinks(s, ctx)
   const injects = await listInjects(root, scenarioId)
   const settled = await settledFieldInjects(root, injects, s.warnings)
