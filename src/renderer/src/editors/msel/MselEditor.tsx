@@ -9,6 +9,8 @@ import { EditorDialogs } from './EditorDialogs'
 import { useEditorDialogs, type DialogState } from './use-editor-dialogs'
 import type { GridContextValue } from './grid-context'
 import { LintBar } from './LintBar'
+import { SourceCheckBar } from './SourceCheckBar'
+import { GroundingDetails } from '../../components/GroundingDetails'
 import { MselGrid } from './MselGrid'
 import { BulkBar, MselToolbar } from './MselToolbar'
 import { addRowAfter, moveToPhase, shiftTimes, type Draft, type Inserted } from './model'
@@ -113,6 +115,8 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
   const grid = useGridState(draft)
   const dialogs = useEditorDialogs()
   const snap = useSnap()
+  const grounding = useIpcQuery('grounding:scenario', { projectPath, scenarioId: scenario.id })
+  const [sourcesRow, setSourcesRow] = useState<string | null>(null)
   const ops = useRowOps({
     draft,
     edit: editor.edit,
@@ -120,6 +124,7 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
     confirmDelete: dialogs.setConfirmDelete,
     toggleSelect: sel.toggle,
     togglePhaseSelect: sel.togglePhase,
+    openSources: (key) => setSourcesRow(draft.rows.find((r) => r.key === key)?.row.id ?? null),
   })
   const ctx: GridContextValue = {
     actions: ops.actions,
@@ -130,19 +135,21 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
     phases: draft.phases,
     selected: sel.selected,
     warnings,
+    grounding: grounding.data?.items,
   }
   const jumpTo = (rowId: string) => {
     const r = draft.rows.find((x) => x.row.id === rowId)
     if (r) grid.focus({ line: r.key, col: 'id' })
   }
   useRowJump(jump, jumpTo)
-  return { editor, draft, lint, sel, grid, dialogs, ops, ctx, snap, jumpTo }
+  const sources = { grounding, row: sourcesRow, open: setSourcesRow }
+  return { editor, draft, lint, sel, grid, dialogs, ops, ctx, snap, jumpTo, sources }
 }
 
 export function MselEditor(props: { projectPath: string; scenario: Scenario; jump?: RowJump }) {
   const { projectPath, scenario } = props
   const m = useEditorModel(projectPath, scenario, props.jump)
-  const { editor, draft, lint, sel, grid, dialogs, ops, ctx, snap, jumpTo } = m
+  const { editor, draft, lint, sel, grid, dialogs, ops, ctx, snap, jumpTo, sources } = m
   const { state, edit } = editor
 
   return (
@@ -157,6 +164,15 @@ export function MselEditor(props: { projectPath: string; scenario: Scenario; jum
         snap={snap}
       />
       <LintBar warnings={lint.data} checking={lint.isFetching} onJump={jumpTo} />
+      <SourceCheckBar
+        projectPath={projectPath}
+        scenarioId={scenario.id}
+        items={sources.grounding.data?.items}
+        loading={sources.grounding.isFetching}
+        rowOrder={draft.rows.map((r) => r.row.id)}
+        onJump={jumpTo}
+        onDetails={sources.open}
+      />
       {sel.selected.size > 0 && (
         <BulkBar
           count={sel.selected.size}
@@ -178,6 +194,15 @@ export function MselEditor(props: { projectPath: string; scenario: Scenario; jum
         applyInsert={ops.applyInsert}
         removeRow={ops.removeRow}
         onRestored={editor.reload}
+      />
+      <GroundingDetails
+        projectPath={projectPath}
+        scenarioId={scenario.id}
+        itemKey={`row:${sources.row ?? ''}`}
+        title={`Row ${sources.row ?? ''}`}
+        result={sources.row ? sources.grounding.data?.items[`row:${sources.row}`] : undefined}
+        open={!!sources.row}
+        onOpenChange={(o) => !o && sources.open(null)}
       />
     </div>
   )

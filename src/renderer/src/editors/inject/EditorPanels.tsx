@@ -1,6 +1,7 @@
 // The parts of the inject editor page: navigation, header, warnings, the regeneration diff,
 // the field form and the preview / media / versions side panel.
 import { Tabs } from 'radix-ui'
+import type { ReactNode } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { Link } from 'react-router'
 import type { TemplateInfo } from '@shared/ipc'
@@ -118,6 +119,7 @@ export function EditorForm(props: {
   variant: string
   issues: FieldIssue[]
   onSave: () => void
+  sourceCheck?: ReactNode
 }) {
   const { inject, draft, setDraft } = props
   return (
@@ -141,6 +143,7 @@ export function EditorForm(props: {
           variant={props.variant}
           onVariant={(v) => setDraft({ ...draft, variant: v })}
           issues={issuesByPath(props.issues)}
+          {...(props.sourceCheck ? { sourceCheck: props.sourceCheck } : {})}
         />
       </fieldset>
     </form>

@@ -42,6 +42,8 @@ const CONCURRENCY: Partial<Record<JobKind, number>> = {
   'generate-injects': 1,
   'repair-scenario': 1,
   'model-pull': 1,
+  'plan-check': 1,
+  'grounding-verify': 1,
 }
 /**
  * Jobs that own their scenario while they run (scenario/busy). A new one supersedes any

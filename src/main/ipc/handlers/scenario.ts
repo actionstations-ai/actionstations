@@ -8,6 +8,8 @@ import { domainContext, type DomainContext } from '../../generate/domain'
 import { markStaleCritique } from '../../generate/critique-notes'
 import { lintFacilityIds } from '../../generate/facility'
 import { loadFacilityFacts } from '../../generate/facility-file'
+import { contextFor, regroundScenario, type ContextSources } from '../../grounding/project'
+import { groundingWarnings } from '../../grounding/scenario'
 import { z } from 'zod'
 import { AppError } from '../../lib/errors'
 import { readHistory } from '../../scenario/history'
@@ -50,7 +52,42 @@ export async function lintOrStored(scenario: Scenario, root?: string): Promise<L
   const project = await loadProject(root)
   const fresh = await mod.lintScenario(scenario, domainContext(project, scenario))
   const facts = await loadFacilityFacts(root, project)
-  return [...fresh, ...lintFacilityIds(scenario, facts)]
+  return [
+    ...fresh,
+    ...lintFacilityIds(scenario, facts),
+    ...(await groundingLints(root, scenario, { project, facility: facts })),
+  ]
+}
+
+/**
+ * GROUNDING_UNSUPPORTED / GROUNDING_REVIEW (#423) from labels recomputed where stale, so the
+ * checks of a scenario that never had labels (an example, an older project) list them too.
+ */
+async function groundingLints(
+  root: string,
+  scenario: Scenario,
+  src: Pick<ContextSources, 'project' | 'facility'>,
+): Promise<LintWarning[]> {
+  try {
+    const ctx = await contextFor(root, scenario, src)
+    const grounding = await regroundScenario(scenario, ctx, await listInjects(root, scenario.id))
+    return groundingWarnings({ ...scenario, grounding })
+  } catch {
+    return groundingWarnings(scenario)
+  }
+}
+
+/**
+ * Labels for the items this save changed (#423, FR-6); unchanged items keep their results. A
+ * failure (no index yet) leaves the stored labels; the next read recomputes them.
+ */
+async function groundBeforeSave(root: string, scenario: Scenario): Promise<void> {
+  try {
+    const ctx = await contextFor(root, scenario)
+    scenario.grounding = await regroundScenario(scenario, ctx, await listInjects(root, scenario.id))
+  } catch {
+    // Labels are recomputed on the next grounding:scenario.
+  }
 }
 
 /**
@@ -74,6 +111,7 @@ export default defineHandlers({
   'scenarios:save': async ({ projectPath, scenario, note, baseUpdatedAt }) => {
     const root = await requireProject(projectPath)
     await markEditedNotes(root, scenario)
+    await groundBeforeSave(root, scenario)
     const saved = await saveScenario(root, scenario, {
       by: 'user',
       ...(note ? { note } : {}),

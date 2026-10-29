@@ -53,6 +53,11 @@ export interface ExportModel {
   evaluation?: ExportEvaluation
   /** The scenario's surveys, archived ones left out, with their results. */
   surveys: ExportSurvey[]
+  /**
+   * MSEL row id → source-check label text, when the export asked for the column (#423). The
+   * controller MSEL is the only document that reads it; player material never does.
+   */
+  sourceCheck?: Record<string, string>
 }
 
 /** Surveys with their summaries, the anonymity threshold from settings applied. */

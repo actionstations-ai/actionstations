@@ -1,0 +1,89 @@
+/* Source check (#423): badge, details dialog and the MSEL source-check bar. */
+.grounding-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.grounding-badge svg {
+  flex: none;
+}
+
+.grounding-details {
+  display: grid;
+  gap: var(--space-3);
+  max-height: 60vh;
+  overflow: auto;
+}
+.grounding-details__layers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.grounding-details__claims {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.grounding-details__claim {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+}
+.grounding-details__claim h4 {
+  margin: 0 0 var(--space-1);
+  font-size: inherit;
+}
+.grounding-details__terms {
+  margin: var(--space-1) 0 0;
+}
+.grounding-details__quote {
+  margin: var(--space-1) 0 0;
+  padding-left: var(--space-2);
+  border-left: 3px solid var(--color-border);
+}
+.grounding-details__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: flex-end;
+}
+
+.source-check {
+  display: grid;
+  gap: var(--space-2);
+}
+.source-check__summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+.source-check__list {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.source-check__item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: baseline;
+}
+.source-check__reason {
+  flex: 1 1 20rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.grounding-details__actions .field {
+  flex-basis: 100%;
+}

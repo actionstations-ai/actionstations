@@ -1,5 +1,8 @@
 // Scenario overview: theme, threat, operational impact, location, audience, and the plan
 // sections it tests (citation chips; new citations come from regenerating with retrieval).
+import type { GroundingResult } from '@shared/schemas/grounding'
+import { GroundingBadge } from '../../../components/GroundingBadge'
+import { useIpcQuery } from '../../../lib/query'
 import { X } from 'lucide-react'
 import type { Citation } from '@shared/schemas/common'
 import type { ScenarioOverview } from '@shared/schemas/scenario'
@@ -26,7 +29,11 @@ const OVERVIEW_PART: PartSpec<ScenarioOverview> = {
 
 const shortHeading = (c: Citation) => c.headingPath.split('›').at(-1)?.trim() || c.documentTitle
 
-function CitationChipList(props: { citations: Citation[]; onRemove: (i: number) => void }) {
+function CitationChipList(props: {
+  citations: Citation[]
+  onRemove: (i: number) => void
+  grounding?: Record<string, GroundingResult> | undefined
+}) {
   if (!props.citations.length) return <Empty>No plan sections cited.</Empty>
   return (
     <ul className="citations citations--editable" aria-label="Core sections tested">
@@ -38,6 +45,7 @@ function CitationChipList(props: { citations: Citation[]; onRemove: (i: number) 
         >
           <span className="citation__doc">{c.headingPath.split('›')[0]?.trim()}</span>
           <span className="citation__heading">{shortHeading(c)}</span>
+          <GroundingBadge result={props.grounding?.[`overview:${i}`]} compact />
           <button
             type="button"
             className="chip__remove"
@@ -66,6 +74,10 @@ const FIELDS: {
 
 export function OverviewEditor(props: PartEditorProps) {
   const part = useScenarioPart(props.projectPath, props.scenario, OVERVIEW_PART)
+  const grounding = useIpcQuery('grounding:scenario', {
+    projectPath: props.projectPath,
+    scenarioId: props.scenario.id,
+  })
   const o = part.value
   const hasContent = !!(o.theme || o.threat || o.operationalImpact)
   return (
@@ -92,6 +104,7 @@ export function OverviewEditor(props: PartEditorProps) {
           <span className="field__label">Core sections tested</span>
           <CitationChipList
             citations={o.coreSectionsTested}
+            grounding={grounding.data?.items}
             onRemove={(i) =>
               part.update((p) => ({
                 ...p,

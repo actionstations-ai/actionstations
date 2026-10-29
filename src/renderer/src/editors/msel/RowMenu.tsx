@@ -1,8 +1,15 @@
 // The "Row actions" menu of an MSEL row: add after, duplicate, move to phase, delete.
 import { DropdownMenu } from 'radix-ui'
 import { MoreHorizontal } from 'lucide-react'
+import type { KeyboardEvent } from 'react'
 import { focusProps, useGridActions, useGridShared, type RowAction } from './grid-context'
 import type { DraftRow } from './model'
+
+/**
+ * React passes key events from the portalled menu up to the grid, whose arrow keys and Enter
+ * would move the active cell and close the menu: keep them in the menu.
+ */
+const keepInMenu = (e: KeyboardEvent): void => e.stopPropagation()
 
 function MoveToPhase({ r }: { r: DraftRow }) {
   const g = useGridActions()
@@ -11,7 +18,7 @@ function MoveToPhase({ r }: { r: DraftRow }) {
     <DropdownMenu.Sub>
       <DropdownMenu.SubTrigger className="msel-menu__item">Move to phase</DropdownMenu.SubTrigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.SubContent className="msel-menu">
+        <DropdownMenu.SubContent className="msel-menu" onKeyDown={keepInMenu}>
           {phases.map((p) => (
             <DropdownMenu.Item
               key={p.id}
@@ -48,10 +55,16 @@ export function RowMenu({ r, active }: { r: DraftRow; active: boolean }) {
         </button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.Content className="msel-menu" align="end" sideOffset={4}>
+        <DropdownMenu.Content
+          className="msel-menu"
+          align="end"
+          sideOffset={4}
+          onKeyDown={keepInMenu}
+        >
           {item('add-after', 'Add row after')}
           {item('duplicate', 'Duplicate row')}
           <MoveToPhase r={r} />
+          {item('sources', 'Source check…')}
           <DropdownMenu.Separator className="msel-menu__separator" />
           <DropdownMenu.Item
             className="msel-menu__item msel-menu__item--danger"

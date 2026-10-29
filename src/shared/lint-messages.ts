@@ -75,6 +75,10 @@ const PLAIN: Record<string, string> = {
   EEG_TASK_UNCITED: 'A critical task does not cite a plan section.',
   EEG_CAPABILITY_UNKNOWN: 'An evaluation guide names a capability that is not one of the 32.',
   CRITIQUE: 'The review pass suggests an improvement.',
+  GROUNDING_UNSUPPORTED:
+    'An expected action or controller note is not supported by the plan passages it cites.',
+  GROUNDING_REVIEW:
+    'An expected action or controller note is only partly supported by the plan passages it cites.',
 }
 
 /** Plain-language headline for a warning; the checker's message when the code is new. */

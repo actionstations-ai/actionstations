@@ -58,6 +58,8 @@ export const JOB_LABEL: Record<JobKind, string> = {
   export: 'Exporting',
   'pack-download': 'Downloading a pack',
   'tool-install': 'Installing a local tool',
+  'plan-check': 'Checking plans for conflicts',
+  'grounding-verify': 'Verifying sources with the model',
 }
 const MAX_FINISHED = 50
 const MAX_ITEMS = 500

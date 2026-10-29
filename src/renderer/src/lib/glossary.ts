@@ -38,6 +38,22 @@ export const GLOSSARY = {
     term: 'Lint',
     text: 'Automatic checks on the scenario, such as a phase with no events or a role with nothing to do. Errors should be fixed before the exercise; warnings are suggestions.',
   },
+  grounded: {
+    term: 'Grounded',
+    text: 'Source check: the plan passages an expected action or note cites say what it claims, with the same roles, deadlines and numbers.',
+  },
+  review: {
+    term: 'Needs review',
+    text: 'Source check: the cited passages support part of the claim, or a role, deadline or section it names is not in them. Read the passage before the exercise.',
+  },
+  unsupported: {
+    term: 'Unsupported',
+    text: 'Source check: nothing is cited, the cited passage is gone, the passage does not address the claim, or it says something different (another deadline, number or role).',
+  },
+  planConflict: {
+    term: 'Plan conflict',
+    text: 'Two of your own plans answer the same question differently, for example two different approvers for public releases. Fix the plans or exercise the conflict.',
+  },
 } as const
 
 export type GlossaryId = keyof typeof GLOSSARY

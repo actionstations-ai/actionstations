@@ -7,6 +7,7 @@ import { useIpcQuery } from '../../lib/query'
 import { errorText } from '../../lib/errors'
 import { plainLintMessage, SEVERITY_LABEL } from '@shared/lint-messages'
 import { injectUrl } from '../../editors/inject/links'
+import { countLabels, countsLine } from '../../lib/grounding'
 
 const SEVERITY_TONE = { info: 'neutral', warning: 'warn', error: 'error' } as const
 const ORDER = { error: 0, warning: 1, info: 2 } as const
@@ -122,6 +123,20 @@ function ReviewNotes(props: ListProps & { notes: LintWarning[] }) {
   )
 }
 
+/** Label counts of the source check (#423, FR-9); its items are listed with the checks below. */
+function SourceSummary(props: { projectPath: string; scenarioId: string }) {
+  const q = useIpcQuery('grounding:scenario', props)
+  if (!q.data) return null
+  const c = countLabels(q.data.items)
+  if (!c.grounded && !c.review && !c.unsupported) return null
+  return (
+    <p className="warnings__intro" data-testid="source-summary">
+      <Term id="grounded">Source check</Term>: {countsLine(c)}. Unsupported items are listed as
+      checks below and items to review as tips; none of them block saving or export.
+    </p>
+  )
+}
+
 export function WarningsSection(
   props: ListProps & {
     /** The scenario's stored warnings; the review notes among them are listed apart. */
@@ -149,6 +164,7 @@ export function WarningsSection(
         fix&rdquo; items are problems players would notice; the others are suggestions. None of them
         block saving or export.
       </p>
+      <SourceSummary projectPath={projectPath} scenarioId={scenarioId} />
       {lint.data.length ? (
         <WarningList {...list} items={lint.data} label="Warnings" />
       ) : (

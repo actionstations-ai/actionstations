@@ -11,7 +11,7 @@ type What = EventPayload<'project:changed'>['what']
 /** Channel prefixes (query key [0]) a change can affect. 'project:' matches every project:*. */
 const BY_WHAT: Record<What, string[]> = {
   project: ['project:', 'examples:', 'embeddings:status', 'routing:get'],
-  documents: ['documents:', 'embeddings:status', 'project:get', 'retrieve:search'],
+  documents: ['documents:', 'embeddings:status', 'project:get', 'retrieve:search', 'grounding:'],
   scenarios: [
     'scenarios:',
     'project:get',
@@ -22,8 +22,22 @@ const BY_WHAT: Record<What, string[]> = {
     'surveys:',
   ],
   // A scenario save (every MSEL autosave) leaves the inject files alone: no injects:list.
-  scenario: ['scenarios:', 'project:get', 'facilitator:', 'evaluation:', 'export:preview-html'],
-  injects: ['injects:', 'scenarios:', 'render:', 'facilitator:', 'export:preview-html'],
+  scenario: [
+    'scenarios:',
+    'project:get',
+    'facilitator:',
+    'evaluation:',
+    'export:preview-html',
+    'grounding:',
+  ],
+  injects: [
+    'injects:',
+    'scenarios:',
+    'render:',
+    'facilitator:',
+    'export:preview-html',
+    'grounding:',
+  ],
   media: ['injects:', 'render:', 'facilitator:', 'export:preview-html'],
   prompts: ['prompts:'],
   workflows: ['comfy:'],
@@ -32,6 +46,8 @@ const BY_WHAT: Record<What, string[]> = {
   library: ['library:'],
   /** A survey, its responses or its results changed (#422). */
   surveys: ['surveys:'],
+  /** plan-conflicts.json changed: a plan check ran or a finding was dismissed (#423). */
+  'plan-conflicts': ['plan-check:'],
 }
 
 const SCENARIO_WORK = [...new Set(BY_WHAT.injects.concat(BY_WHAT.scenario))]
@@ -49,6 +65,8 @@ const BY_KIND: Record<JobKind, string[]> = {
   export: [],
   'pack-download': [],
   'tool-install': ['setup:', 'providers:'],
+  'plan-check': ['plan-check:'],
+  'grounding-verify': ['grounding:', 'scenarios:'],
 }
 
 export interface Change {

@@ -4,13 +4,23 @@
 // it even after the next ideate run rewrites ideas.json.
 import { z } from 'zod'
 import { threatFamily } from '@shared/domains'
-import { ScenarioIdea, type IdeasOutput, type ScenarioBrief } from '@shared/schemas'
+import {
+  GroundingResult,
+  ScenarioIdea,
+  type IdeasOutput,
+  type ScenarioBrief,
+} from '@shared/schemas'
 import type { JobContext } from '../jobs/manager'
 import { exists, readJson, readJsonOr, writeJsonAtomic } from '../lib/fs'
 import { nowIso } from '../lib/ids'
 import { projectPaths } from '../project/store'
 import { scenarioLayout } from '../scenario/layout'
-import { pipelineDeps } from './deps'
+import { pipelineDeps, type SearchIndex } from './deps'
+import type { FacilityFacts } from './facility'
+import type { Project } from '@shared/schemas'
+import { contextFor } from '../grounding/project'
+import { groundItems, ideaItems } from '../grounding/scenario'
+import { toAppError } from '../lib/errors'
 import { domainVars, ideaThreatFamily, profileFor, threatVars } from './domain'
 import { facilitySheet } from './facility'
 import { mapIdeas } from './mappers'
@@ -20,6 +30,8 @@ import { projectVars, taxonomyVarsFor } from './vars'
 const IdeasFile = z.object({
   generatedAt: z.string(),
   ideas: z.array(ScenarioIdea).default([]),
+  /** Grounding label per idea id (#423): whyItTeaches against sectionsExercised. */
+  grounding: z.record(z.string(), GroundingResult).optional(),
 })
 type IdeasFile = z.infer<typeof IdeasFile>
 
@@ -31,16 +43,63 @@ export async function readIdeas(root: string): Promise<ScenarioIdea[]> {
   return file.ideas
 }
 
-export async function writeIdeas(root: string, ideas: ScenarioIdea[]): Promise<void> {
-  const value: IdeasFile = { generatedAt: nowIso(), ideas }
+export async function writeIdeas(
+  root: string,
+  ideas: ScenarioIdea[],
+  grounding?: Record<string, GroundingResult>,
+): Promise<void> {
+  const value: IdeasFile = { generatedAt: nowIso(), ideas, ...(grounding ? { grounding } : {}) }
   await writeJsonAtomic(projectPaths(root).ideas, value)
+}
+
+/** Grounding labels of the ideas in ideas.json, by idea id (#423). */
+export async function readIdeaGrounding(root: string): Promise<Record<string, GroundingResult>> {
+  const file = await readJsonOr(projectPaths(root).ideas, IdeasFile, () => ({
+    generatedAt: nowIso(),
+    ideas: [],
+  }))
+  const out: Record<string, GroundingResult> = {}
+  for (const [key, r] of Object.entries(file.grounding ?? {}))
+    if (key.startsWith('idea:')) out[key.slice('idea:'.length)] = r
+  return out
 }
 
 /** Keep ideas.json current with an idea handed in with generate:scenario (edits win). */
 export async function rememberIdea(root: string, idea: ScenarioIdea): Promise<void> {
   const ideas = await readIdeas(root)
   const at = ideas.findIndex((i) => i.id === idea.id)
-  await writeIdeas(root, at >= 0 ? ideas.map((i, n) => (n === at ? idea : i)) : [idea, ...ideas])
+  const grounding = await readIdeaGroundingRaw(root)
+  await writeIdeas(
+    root,
+    at >= 0 ? ideas.map((i, n) => (n === at ? idea : i)) : [idea, ...ideas],
+    grounding,
+  )
+}
+
+async function readIdeaGroundingRaw(
+  root: string,
+): Promise<Record<string, GroundingResult> | undefined> {
+  const file = await readJsonOr(projectPaths(root).ideas, IdeasFile, () => ({
+    generatedAt: nowIso(),
+    ideas: [],
+  }))
+  return file.grounding
+}
+
+/** Labels for freshly written ideas; a failure only costs the labels. */
+async function groundIdeas(
+  root: string,
+  ideas: ScenarioIdea[],
+  src: { index: SearchIndex; facility: FacilityFacts; project: Project },
+  ctx: JobContext,
+): Promise<Record<string, GroundingResult> | undefined> {
+  try {
+    const gctx = await contextFor(root, { roles: [] }, src)
+    return await groundItems(ideaItems(ideas), {}, gctx)
+  } catch (err) {
+    ctx.log(`Source check skipped: ${toAppError(err).message}`, 'warn', { stage: 'ideate' })
+    return undefined
+  }
 }
 
 /**
@@ -114,7 +173,7 @@ export async function generateIdeas(
     ...idea,
     threatFamily: idea.threatFamily ?? ideaThreatFamily(idea, profile),
   }))
-  await writeIdeas(root, kept)
+  await writeIdeas(root, kept, await groundIdeas(root, kept, { index, facility, project }, ctx))
   ctx.progress(1, `${kept.length} ideas`, { stage: 'ideate' })
   ctx.log(
     `ideate: ${kept.length} ideas, ${result.run.inputTokens ?? 0} in / ${result.run.outputTokens ?? 0} out tokens`,

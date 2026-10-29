@@ -90,7 +90,8 @@ Scenario {
   simcellScripts: SimcellScript[],
   conduct?: ConductDetails,                 // exercise details for the HSEEP documents (#420); read via conductOf()
   sitman?: SitMan,                          // Situation Manual modules (stage `sitman`, #420)
-  provenance: StageRun[]                    // what provider/prompt produced each part
+  provenance: StageRun[],                   // what provider/prompt produced each part
+  grounding?: ScenarioGrounding             // source-check labels per item (#423)
 }
 
 // Exercise evaluation (#421; src/shared/schemas/evaluation.ts, src/shared/core-capabilities.ts).
@@ -219,6 +220,26 @@ SurveySummary {                            // summarizeSurvey(), src/main/survey
 ```
 
 Before/after editions keep the same questions: saving one copies its sections into the other. Templates ship in `surveys/templates/<templateId>.json` (app resources). `AppSettings.surveys.minResponses` (default 3) is the anonymity threshold: below it, results show counts only. The AAR draft (#419) reads `scenarioSurveySummaries()` from `src/main/surveys/results.ts` and cites survey evidence as `survey:<surveyId>:<questionId>`.
+
+## Source check and plan conflicts (#423)
+
+`Scenario.grounding.items` maps an item key (`row:I-07`, `inject:<id>`, `overview:<n>`) to a `GroundingResult` (`src/shared/schemas/grounding.ts`):
+
+```
+GroundingResult {
+  label: grounded | review | unsupported | none,   // the automatic check
+  reason,                                           // one plain sentence
+  fingerprint,                                      // claim text + citations + cited text
+  claims: [{ text, chunkId?, headingPath?, overlap, similarity?, matched[], missing[], conflicting[{ term, passage }] }],
+  model?: { label, at, providerId, model, quotes[{ claim, quote }], discarded },
+  override?: { label, note?, at },                  // the user's label, until the fingerprint changes
+  at, version                                       // checker version; a bump recomputes
+}
+```
+
+The label shown is `override ?? model ?? label`. Results are kept at scenario level, not on `MselRow` or `Inject`, so an older build that strips unknown row keys loses nothing. Idea labels are in `ideas.json` under `grounding` (keys `idea:<id>`).
+
+`<project>/plan-conflicts.json` (`src/shared/schemas/plan-conflicts.ts`): `{ formatVersion: 1, checkedAt, documents[{ id, sha256 }], stats?{ candidates, sent, skipped }, findings: PlanFinding[] }`. A finding is a `contradiction` (slot, slot label, subject, passages `a` and `b` with document, heading path, page, chunk id and the statement's text, the two values, the model verdict and its quotes) or a `dangling_reference` (passage `a` and the missing target), with `status` open / dismissed / confirmed / outdated and an optional note. Its id is sha256 of the slot and both spans (16 hex), so a re-run keeps decisions for unchanged passages.
 
 ## SQLite (index.sqlite, rebuildable)
 

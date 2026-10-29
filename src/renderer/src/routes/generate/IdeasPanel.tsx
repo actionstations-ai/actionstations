@@ -81,6 +81,7 @@ export function IdeasPanel(props: {
   const [count, setCount] = useState('6')
   const { jobId, job, running, error, request } = useIdeasJob(projectPath)
   const ideas = useIpcQuery('generate:ideas-result', { projectPath })
+  const grounding = useIpcQuery('grounding:ideas', { projectPath })
   const start = (e: FormEvent) => {
     e.preventDefault()
     void request(focus, count)
@@ -107,6 +108,7 @@ export function IdeasPanel(props: {
               key={idea.id}
               idea={idea}
               onDevelop={() => props.onDevelop(idea)}
+              grounding={grounding.data?.[idea.id]}
               {...(props.profile ? { profile: props.profile } : {})}
             />
           ))}

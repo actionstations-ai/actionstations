@@ -1,7 +1,7 @@
 // Left side of the inject editor: basics (title, type, variant, delivery), the template's
 // fields as a schema-driven form, the instructor note, citations and the media brief.
 import { X } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 import type { TemplateInfo } from '@shared/ipc'
 import { DeliveryMode } from '@shared/schemas/inject'
 import { injectTypeInfo, injectTypes, isInjectTypeHidden } from '@shared/taxonomy'
@@ -31,6 +31,8 @@ export interface FormProps {
   variant: string
   onVariant: (v: string) => void
   issues: Map<string, string>
+  /** The controller note's source check (#423), shown under the note. */
+  sourceCheck?: ReactNode
 }
 
 function typeOptions(all: TemplateInfo[], current: string) {
@@ -371,6 +373,7 @@ export function InjectForm(props: FormProps) {
             />
           )}
         </Field>
+        {props.sourceCheck}
       </fieldset>
       <CitationsSection draft={props.draft} onChange={props.onChange} />
       <MediaBriefSection draft={props.draft} onChange={props.onChange} />

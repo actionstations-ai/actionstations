@@ -6,6 +6,8 @@ import type { MselRow, Phase } from '@shared/schemas/scenario'
 import { PURPOSE_TAGS, PURPOSE_TAG_INFO, injectTypes } from '@shared/taxonomy'
 import { TagChip } from '../../components/ui'
 import { ProvenanceBadge } from '../../components/ProvenanceBadge'
+import { GroundingBadge } from '../../components/GroundingBadge'
+import type { GroundingResult } from '@shared/schemas/grounding'
 import { injectTypeProvenance } from '../../lib/template-source'
 import {
   CitationsEditor,
@@ -175,6 +177,8 @@ export interface ViewContext {
   roles: Role[]
   phases: Phase[]
   warnings: string[] | undefined
+  /** The row's source-check result (#423). */
+  grounding?: GroundingResult | undefined
 }
 
 /** The read-mode content of `col` for `row`. */
@@ -197,7 +201,12 @@ export function viewFor(row: MselRow, col: ColumnId, v: ViewContext): ReactNode 
     case 'format':
       return formatLabel(row.format)
     case 'citations':
-      return <CompactCitations citations={row.citations} />
+      return (
+        <>
+          <CompactCitations citations={row.citations} />
+          <GroundingBadge result={v.grounding} compact className="msel-editor__grounding" />
+        </>
+      )
     default:
       return null
   }

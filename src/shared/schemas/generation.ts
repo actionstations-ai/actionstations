@@ -6,6 +6,7 @@
 import { z } from 'zod'
 import { CoreCapabilityId } from '../core-capabilities'
 import { PurposeTag } from '../taxonomy'
+import { GroundingVerifyOutput, PlanConflictOutput } from './grounding'
 
 /** Key of a retrieved chunk as presented in the prompt, e.g. "C3". */
 export const CitationKey = z.string().regex(/^C\d+$/)
@@ -273,5 +274,7 @@ export const STAGE_OUTPUT_SCHEMAS = {
   HotwashOutput,
   SitManOutput,
   CritiqueOutput,
+  GroundingVerifyOutput,
+  PlanConflictOutput,
 } as const
 export type StageOutputSchemaName = keyof typeof STAGE_OUTPUT_SCHEMAS

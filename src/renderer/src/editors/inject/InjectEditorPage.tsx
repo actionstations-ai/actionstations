@@ -24,6 +24,7 @@ import {
   RegenDiff,
 } from './EditorPanels'
 import { JobBanner } from './JobBanner'
+import { SourceCheck } from '../../components/SourceCheck'
 import { validateFields } from './schema/validate'
 import type { JsonSchema } from './schema/fields'
 import { useInjectActions } from './use-inject-actions'
@@ -160,7 +161,18 @@ function Editor(props: EditorProps) {
       <InjectWarnings warnings={scenario.warnings.filter((w) => w.injectId === inject.id)} />
       <RegenDiff changes={regen.changes} onDismiss={regen.dismiss} />
       <div className="inject-editor__body">
-        <EditorForm {...form} onSave={() => void actions.save()} />
+        <EditorForm
+          {...form}
+          onSave={() => void actions.save()}
+          sourceCheck={
+            <SourceCheck
+              projectPath={projectPath}
+              scenarioId={scenario.id}
+              itemKey={`inject:${form.inject.id}`}
+              title={`Inject ${form.inject.mselRowId}, controller note`}
+            />
+          }
+        />
         <EditorSide
           {...form}
           {...{ projectPath, tab }}

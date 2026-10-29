@@ -16,6 +16,7 @@ const ready = (over: Partial<Readiness> = {}): Readiness => ({
   rendered: 0,
   errors: 0,
   warnings: 0,
+  unsupported: 0,
   status: 'draft',
   next: 'write-injects',
   ...over,

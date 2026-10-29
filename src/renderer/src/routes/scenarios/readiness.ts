@@ -3,6 +3,7 @@
 // next-action bar and the project Overview checklist, so they all tell the same story.
 import type { Inject } from '@shared/schemas/inject'
 import type { LintWarning, Scenario } from '@shared/schemas/scenario'
+import { GROUNDING_UNSUPPORTED } from '@shared/schemas/grounding'
 import { deckEntries } from '../../editors/inject/deck-model'
 
 export type ReadinessStatus = 'draft' | 'injects-written' | 'media-rendered' | 'ready' | 'archived'
@@ -21,6 +22,8 @@ export interface Readiness {
   rendered: number
   errors: number
   warnings: number
+  /** Items the source check found unsupported (#423): mentioned, never blocking. */
+  unsupported: number
   status: ReadinessStatus
   next: NextAction
 }
@@ -53,6 +56,7 @@ export function readiness(
   const list = lint ?? scenario.warnings
   const errors = list.filter((w) => w.severity === 'error').length
   const warnings = list.filter((w) => w.severity === 'warning').length
+  const unsupported = list.filter((w) => w.code === GROUNDING_UNSUPPORTED).length
   const next: NextAction = !rows
     ? 'msel'
     : written < rows
@@ -70,6 +74,7 @@ export function readiness(
     rendered,
     errors,
     warnings,
+    unsupported,
     next,
     status: statusOf(scenario, next),
   }

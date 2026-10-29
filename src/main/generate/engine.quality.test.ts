@@ -266,3 +266,23 @@ describe('rubric links after a revision (#86)', () => {
     )
   })
 })
+
+describe('source check after generation (#423)', () => {
+  it('labels every MSEL row and overview section the pipeline wrote, with the mock provider', async () => {
+    const { job, scenario } = await generate()
+    expect(job.status).toBe('done')
+    const items = scenario.grounding?.items ?? {}
+    for (const r of scenario.msel) {
+      const result = items[`row:${r.id}`]
+      expect(result, r.id).toBeDefined()
+      const control = ['STARTEX', 'ENDEX', 'TIME_JUMP'].includes(r.purposeTag)
+      if (control || !r.expectedAction.trim()) expect(result!.label).toBe('none')
+      // A row that cites the plans always gets a label; one that cites nothing and names no
+      // role, section, deadline or plan action makes no plan claim.
+      else if (r.citations.length)
+        expect(['grounded', 'review', 'unsupported']).toContain(result!.label)
+    }
+    const sections = scenario.overview?.coreSectionsTested ?? []
+    sections.forEach((_, i) => expect(items[`overview:${i}`]?.label).toBeDefined())
+  })
+})

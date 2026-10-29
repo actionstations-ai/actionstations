@@ -49,10 +49,11 @@ function ContentCell(props: {
 }) {
   const { r, col, editing } = props
   const g = useGridActions()
-  const { roles, phases } = useGridShared()
+  const { roles, phases, grounding } = useGridShared()
+  const result = col === 'citations' ? grounding?.[`row:${r.row.id}`] : undefined
   const view = (
     <div className="msel-editor__view">
-      {viewFor(r.row, col, { roles, phases, warnings: props.warnings })}
+      {viewFor(r.row, col, { roles, phases, warnings: props.warnings, grounding: result })}
     </div>
   )
   return (
