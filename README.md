@@ -57,6 +57,8 @@ For each scenario, the app writes:
 
 Everything is editable in the app. **Facilitate** runs the exercise: an exercise clock with time jumps, the MSEL timeline with due injects, a presentation window for a second display, and notes for the hot wash. **Export** writes PDFs (MSEL, master inject deck, controller handbook, player briefing, a combined exercise plan), Word copies of the handbook and briefing, the media files, the scenario as JSON and Markdown, and a distribution ZIP that keeps controller material apart from what players see.
 
+The Projects screen shows a tip of the day from a list shipped with the app, each linking to the guide section that explains it; **Next tip**, **Hide** and **Turn off tips** are on the card, and **Settings → General** turns tips back on.
+
 Nine example projects ship with the app, each built from a simulated organization's plans: North Coast International Airport (the eight original CSAAP scenarios), a city water department, a drone operator, a chemical plant, a county health department, a county 911 center, a county board of elections, a school district and a gas utility.
 
 The model writes a first draft. A person who knows the organization still has to read it, correct it and decide what reaches the room.

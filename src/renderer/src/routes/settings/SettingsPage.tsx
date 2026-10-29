@@ -112,6 +112,14 @@ function GeneralSection({ settings }: { settings: AppSettings }) {
           </select>
         )}
       </Field>
+      <label className="row">
+        <input
+          type="checkbox"
+          checked={settings.ui.tips?.enabled ?? true}
+          onChange={(e) => save({ ui: { tips: { enabled: e.target.checked } } }, 'Tip setting')}
+        />
+        <span>Show a tip on the Projects screen</span>
+      </label>
       <ProjectsFolderField
         key={settings.defaultProjectsDir ?? ''}
         current={settings.defaultProjectsDir ?? ''}

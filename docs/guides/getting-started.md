@@ -38,7 +38,9 @@ On first launch the **setup wizard** opens. It has six steps, each of which can 
 
 ![Settings](images/settings.png)
 
-**Settings** also holds the default projects folder, the theme, the embedding mode and **Generation → Write injects and render media automatically after generation** (see step 8).
+The Projects screen shows a **Tip** card: one short tip about a feature, with a link to the guide section that explains it (opened in your browser). **Next tip** shows another, **Hide** removes the card until the next launch, and **Turn off tips** removes it for good. Each launch starts with the tip after the last one shown. Tips ship with the app, so showing them sends nothing over the network. Turn them back on with **Settings → General → Show a tip on the Projects screen**.
+
+**Settings** also holds the default projects folder, the theme, the tip of the day, the embedding mode and **Generation → Write injects and render media automatically after generation** (see step 8).
 
 ### Updating from Tabletop Generator
 

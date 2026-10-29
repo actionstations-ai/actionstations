@@ -1,6 +1,6 @@
 # Spec 0443: Tip of the day
 
-Issue: #443 · Milestone: 0.6.0 · Status: Draft · Depends on: none · Related: #442 (Projects screen banner), `docs/guides/`
+Issue: #443 · Milestone: 0.6.0 · Status: Implemented · Depends on: none · Related: #442 (Projects screen banner), `docs/guides/`
 
 ## Summary
 
@@ -17,13 +17,13 @@ The Projects screen shows one short tip from a list shipped with the app, each t
 
 ### Functional requirements
 
-- **FR-1** Tips live in `src/shared/tips/tips.json`, an array validated by the zod schema `Tip` (`src/shared/tips/schema.ts`): `id` (`^[a-z0-9][a-z0-9-]{0,63}$`, unique, never reused), `text` (plain text, 1–220 characters, one or two sentences), `guide` (a repository path under `docs/guides/` ending in `.md`, with a required `#anchor`), `linkLabel` (optional, ≤ 40 characters, default "Read the guide"), `since` (optional app version that introduced the feature; tips with a `since` newer than the running app are skipped, so a tip can land with its feature).
+- **FR-1** Tips live in `src/shared/tips/tips.json`, an array validated by the zod schema `Tip` (`src/shared/tips/schema.ts`): `id` (`^[a-z0-9][a-z0-9-]{0,63}$`, unique, never reused), `text` (plain text, 1–220 characters, one or two sentences), `guide` (a repository path under `docs/guides/` ending in `.md`, with a required `#anchor`), `linkLabel` (required, ≤ 40 characters: the guide section's name, shown as "Read: <linkLabel>"; required rather than defaulting to "Read the guide" so every link says where it goes, as NFR-3 asks), `since` (optional app version that introduced the feature; tips with a `since` newer than the running app are skipped, so a tip can land with its feature).
 - **FR-2** The Projects screen (`src/renderer/src/routes/projects/ProjectsPage.tsx`) shows a "Tip" card with the tip text, a link to the guide, **Next tip**, **Hide** and **Turn off tips**. It does not show during the setup wizard, and it sits below the update banner of #442 when both are present.
 - **FR-3** Order: the app shows tips in file order, starting after the last one shown (`ui.tips.nextIndex`), wrapping at the end. Each launch shows the next tip, so a user sees a different tip each time. **Next tip** advances within the session and stores the position.
 - **FR-4** **Hide** removes the card until the next launch. **Turn off tips** sets `ui.tips.enabled = false` and removes the card; a toast says "Tips are off. Turn them on again in Settings."
 - **FR-5** **Settings → General** (beside the theme) has a switch "Show a tip on the Projects screen", on by default, which sets `ui.tips.enabled`.
 - **FR-6** The guide link opens the guide section in the OS browser at the app's own version: `https://github.com/actionstations-ai/actionstations/blob/v<version>/<guide>#<anchor>`; unpackaged builds use `blob/main/`. The renderer passes the tip id to main, and main builds the URL from the bundled tip (the renderer never supplies a URL).
-- **FR-7** A test (`src/shared/tips/tips.test.ts`) fails when: the file does not parse; an id repeats; a `guide` file does not exist; its anchor is not a heading slug of that file (computed with `headingSlugs` from `scripts/check-doc-links.mjs`, the same rule the local CI doc-link check uses); the text contains Markdown or HTML; there are fewer than 15 tips.
+- **FR-7** A test (`src/shared/tips/tips.test.ts`) fails when: the file does not parse; an id repeats; a `guide` file does not exist; its anchor is not a heading slug of that file (computed with `headingSlugs` from `scripts/check-doc-links.mjs`, the same rule the local CI doc-link check uses); the text contains Markdown or HTML; there are fewer than 20 tips (FR-8's minimum); the file is 20 KB or more.
 - **FR-8** The first release ships at least 20 tips covering: example projects, facility facts, lint warnings, search, ideas, the MSEL editor, improve a stage, repair a scenario, background jobs, facilitator mode, export and the players folder, keyboard and zoom, installing a pack, project copies of pack templates, exporting a pack, prompt layers, iterating on prompts, brand aliases, the project logo, routing tasks to providers, local tools setup, and the methodology's "every inject has a purpose".
 
 ### Non-functional requirements
@@ -112,6 +112,12 @@ The position is an index, not a list of seen ids: adding tips to the end of the 
 2. **Settings and IPC.** `TipSettings` in `src/shared/schemas/settings.ts`; `help:open-guide` in `src/shared/ipc/app.ts` and `src/main/ipc/handlers/app.ts`; tests.
 3. **Card and settings switch.** `src/renderer/src/routes/projects/{TipCard.tsx,tip-state.ts,projects.css}`, `ProjectsPage.tsx`, `src/renderer/src/routes/settings/SettingsPage.tsx`; component tests.
 4. **e2e, screenshots and docs.** `e2e/tips.spec.ts`; stabilize `e2e/tour.spec.ts` and `e2e/guide-screenshots.spec.ts`; Getting started and CONTRIBUTING lines; CHANGELOG.
+
+## Implementation notes
+
+- `linkLabel` is required (see FR-1) and the schema is strict, so a misspelled field fails the test.
+- The tip shown this launch and the **Hide** state live in a small session store (`tip-state.ts`), not in component state, so leaving Projects and returning shows the same tip and keeps a hidden card hidden until the next launch.
+- e2e: `launch()` in `e2e/helpers.ts` writes `ui.tips.enabled = false` unless a spec passes `tips: true`, which keeps `tour.spec.ts`, `guide-screenshots.spec.ts` and every other screen stable without editing each spec. The network recorder helpers used by `e2e/tips.spec.ts` are in `e2e/net-log.ts`.
 
 ## Open questions
 

@@ -11,6 +11,7 @@ import { ExamplesList } from './ExamplesSection'
 import { NewProjectDialog } from './NewProjectDialog'
 import { ProjectCard, type CardAction } from './ProjectCard'
 import { revealFolder } from './reveal'
+import { TipCard } from './TipCard'
 import { useOpenProject } from './use-open-project'
 import './projects.css'
 
@@ -101,6 +102,7 @@ export default function ProjectsPage() {
           </>
         }
       />
+      <TipCard />
       {empty ? (
         <EmptyState
           title="No projects yet"

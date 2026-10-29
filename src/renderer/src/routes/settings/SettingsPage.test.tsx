@@ -70,6 +70,21 @@ describe('SettingsPage', () => {
     )
   })
 
+  it('turns the tip of the day on and off under General, on by default (#443)', async () => {
+    const ttx = setup({
+      'settings:get': () => AppSettings.parse({}),
+      'settings:update': () => AppSettings.parse({ ui: { tips: { enabled: false } } }),
+    })
+    const box = (await screen.findByRole('checkbox', {
+      name: 'Show a tip on the Projects screen',
+    })) as HTMLInputElement
+    expect(box.checked).toBe(true)
+    await userEvent.setup().click(box)
+    await waitFor(() =>
+      expect(ttx.calls('settings:update')[0]).toEqual({ ui: { tips: { enabled: false } } }),
+    )
+  })
+
   it('adds the official catalog with one click and lists catalogs with their status (#267)', async () => {
     const official = 'https://actionstations.ai/packs/index.json'
     let catalogs: AppSettings['packs']['catalogs'] = []

@@ -4,6 +4,8 @@ import { getSettings, updateSettings } from '../../settings/store'
 import { userDataDir } from '../../lib/paths'
 import { onUnsavedReport } from '../../lib/quit-guard'
 import { takePendingOpens, takePendingPackOpens } from '../../lib/open-requests'
+import { AppError } from '../../lib/errors'
+import { TIPS, guideUrl } from '@shared/tips'
 
 const focused = (): BrowserWindow | undefined =>
   BrowserWindow.getFocusedWindow() ?? BrowserWindow.getAllWindows()[0]
@@ -55,6 +57,12 @@ export default defineHandlers({
 
   'app:pending-pack-opens': () => takePendingPackOpens(),
 
+  'help:open-guide': async ({ tipId }) => {
+    const tip = TIPS.find((t) => t.id === tipId)
+    if (!tip) throw new AppError('VALIDATION', `No tip with id ${tipId}`)
+    await shell.openExternal(guideUrl(tip, app.getVersion(), app.isPackaged))
+  },
+
   'shell:show-item': ({ path }) => {
     shell.showItemInFolder(path)
   },
@@ -63,7 +71,10 @@ export default defineHandlers({
 
   'settings:update': (patch) =>
     updateSettings((s) => {
-      if (patch.ui) s.ui = { ...s.ui, ...patch.ui }
+      if (patch.ui) {
+        const { tips, ...rest } = patch.ui
+        s.ui = { ...s.ui, ...rest, tips: { ...s.ui.tips, ...tips } }
+      }
       if (patch.embeddings) s.embeddings = { ...s.embeddings, ...patch.embeddings }
       if (patch.generation) s.generation = { ...s.generation, ...patch.generation }
       if (patch.defaultRouting) s.defaultRouting = patch.defaultRouting
