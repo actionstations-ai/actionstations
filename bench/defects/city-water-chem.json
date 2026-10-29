@@ -1,0 +1,71 @@
+{
+  "case": "city-water-chem",
+  "example": "city-water",
+  "scenario": "chem",
+  "defects": [
+    {
+      "id": "chem-order",
+      "kind": "time_order",
+      "row": "I-13",
+      "set": { "time": "0:40" },
+      "words": ["order", "sequence", "before", "earlier", "chronolog", "timeline", "out of phase"]
+    },
+    {
+      "id": "chem-citation",
+      "kind": "contradicts_citation",
+      "row": "I-17",
+      "set": {
+        "expectedAction": "The PIO releases the Do Not Drink advisory on her own authority, without sign-off from the Incident Commander or the Water Quality Manager, since the communications plan makes the PIO alone the approver of public advisories."
+      },
+      "words": [
+        "sign-off",
+        "sign off",
+        "approv",
+        "authority",
+        "contradict",
+        "plan says",
+        "requires"
+      ]
+    },
+    {
+      "id": "chem-facility",
+      "kind": "unknown_facility_id",
+      "row": "I-05",
+      "replace": [{ "field": "event", "find": "MBW-HMI-02", "with": "MBW-HMI-07" }],
+      "words": [
+        "mbw-hmi-07",
+        "identifier",
+        "unknown",
+        "not in the",
+        "does not exist",
+        "no such",
+        "not listed"
+      ]
+    },
+    {
+      "id": "chem-restoration",
+      "kind": "fast_restoration",
+      "row": "I-19a",
+      "set": {
+        "event": "System Log: PLC-02 re-imaged, verified and returned to automatic control at 11:04, two minutes after the program comparison started. All chemical feed loops are back on AUTO and the HMI matches the field readings."
+      },
+      "words": [
+        "fast",
+        "quick",
+        "unrealistic",
+        "implausib",
+        "too soon",
+        "minutes",
+        "rapid",
+        "premature"
+      ]
+    },
+    {
+      "id": "chem-player",
+      "kind": "player_inject",
+      "row": "I-07",
+      "set": { "from": "Public Information Officer (PIO)" },
+      "words": ["player", "role", "sender", "simcell", "should come from", "from the pio"]
+    }
+  ]
+}

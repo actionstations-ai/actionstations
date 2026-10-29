@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "formatVersion": { "type": "number", "const": 1 },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+    },
+    "suite": { "type": "string" },
+    "suiteVersion": { "type": "integer", "exclusiveMinimum": 0, "maximum": 9007199254740991 },
+    "scoringVersion": { "type": "integer", "exclusiveMinimum": 0, "maximum": 9007199254740991 },
+    "models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "object",
+            "properties": {
+              "ref": { "type": "string", "minLength": 1, "maxLength": 200 },
+              "tool": { "type": "string", "enum": ["lmstudio", "ollama", "mock"] },
+              "toolVersion": { "type": "string", "maxLength": 60 },
+              "name": { "type": "string", "minLength": 1, "maxLength": 200 },
+              "digest": { "type": "string", "maxLength": 100 },
+              "quantization": { "type": "string", "maxLength": 60 },
+              "sizeBytes": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+              "contextLength": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": ["ref", "tool", "name"],
+            "additionalProperties": false
+          },
+          "runs": { "type": "integer", "exclusiveMinimum": 0, "maximum": 9007199254740991 },
+          "median": {
+            "type": "object",
+            "properties": {
+              "overall": { "type": "number" },
+              "tasks": {
+                "type": "object",
+                "propertyNames": { "type": "string" },
+                "additionalProperties": { "type": "number" }
+              },
+              "draftingReliability": { "type": "number", "minimum": 0, "maximum": 1 }
+            },
+            "required": ["overall", "tasks", "draftingReliability"],
+            "additionalProperties": false
+          },
+          "range": {
+            "type": "object",
+            "properties": {
+              "overall": {
+                "type": "array",
+                "prefixItems": [{ "type": "number" }, { "type": "number" }],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "required": ["overall"],
+            "additionalProperties": false
+          },
+          "unstable": { "type": "boolean" },
+          "hardware": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "platform": { "type": "string", "maxLength": 20 },
+                "arch": { "type": "string", "maxLength": 20 },
+                "appleSilicon": { "type": "boolean" },
+                "ramGb": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                "vramGb": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                "gpuName": { "type": "string", "maxLength": 100 },
+                "budgetGb": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 }
+              },
+              "required": ["platform", "arch", "appleSilicon", "ramGb", "budgetGb"],
+              "additionalProperties": false
+            }
+          },
+          "fitsBudgetGb": { "type": "number", "minimum": 0 }
+        },
+        "required": ["model", "runs", "median", "range", "unstable", "hardware", "fitsBudgetGb"],
+        "additionalProperties": false
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tier": { "type": "string" },
+          "minBudgetGb": { "type": "number" },
+          "maxBudgetGb": { "type": ["number", "null"] },
+          "model": { "type": ["string", "null"] },
+          "reason": { "type": "string" },
+          "backedBy": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "hardware": {
+                  "type": "object",
+                  "properties": {
+                    "platform": { "type": "string", "maxLength": 20 },
+                    "arch": { "type": "string", "maxLength": 20 },
+                    "appleSilicon": { "type": "boolean" },
+                    "ramGb": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                    "vramGb": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                    "gpuName": { "type": "string", "maxLength": 100 },
+                    "budgetGb": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 }
+                  },
+                  "required": ["platform", "arch", "appleSilicon", "ramGb", "budgetGb"],
+                  "additionalProperties": false
+                },
+                "startedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                }
+              },
+              "required": ["hardware", "startedAt"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["tier", "minBudgetGb", "maxBudgetGb", "model", "reason", "backedBy"],
+        "additionalProperties": false
+      }
+    },
+    "archived": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "suiteVersion": { "type": "integer", "exclusiveMinimum": 0, "maximum": 9007199254740991 },
+          "scoringVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "runs": { "type": "integer", "exclusiveMinimum": 0, "maximum": 9007199254740991 }
+        },
+        "required": ["suiteVersion", "scoringVersion", "runs"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "formatVersion",
+    "generatedAt",
+    "suite",
+    "suiteVersion",
+    "scoringVersion",
+    "models",
+    "recommendations",
+    "archived"
+  ],
+  "additionalProperties": false
+}

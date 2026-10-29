@@ -1,0 +1,28 @@
+{
+  "case": "airport-ncia-scenario-6",
+  "example": "airport-ncia",
+  "scenario": "scenario-6",
+  "defects": [
+    {
+      "id": "fire-decision",
+      "kind": "missing_decision_point",
+      "words": ["decision point", "decision", "no decision", "choice"]
+    },
+    {
+      "id": "fire-order",
+      "kind": "time_order",
+      "row": "I-04",
+      "set": { "time": "0:05" },
+      "words": ["order", "sequence", "before", "earlier", "chronolog", "timeline", "out of phase"]
+    },
+    {
+      "id": "fire-outside",
+      "kind": "outside_agency_decides",
+      "row": "I-07",
+      "set": {
+        "expectedAction": "Skyline's station manager decides that the airport will reimburse every affected passenger and rebook them at the airport's expense; Ops carries out the decision."
+      },
+      "words": ["skyline", "airline", "outside", "decid", "authority", "tenant"]
+    }
+  ]
+}

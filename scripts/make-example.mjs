@@ -48,7 +48,6 @@
 //   scenario carries a lint warning other than CRITIQUE notes: stored ones, and for a
 //   generated scenario the recomputed lints too (the generator's inject-mix and coverage rules
 //   do not apply to a hand-authored MSEL).
-import { _electron as electron } from '@playwright/test'
 import { createHash } from 'node:crypto'
 import {
   cpSync,
@@ -68,6 +67,12 @@ import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { runInThisContext } from 'node:vm'
 import wavefile from 'wavefile'
+import {
+  freshUserData,
+  launchApp as driverLaunch,
+  sleep,
+  waitForJob as driverWaitForJob,
+} from './lib/app-driver.mjs'
 import { simulateNames } from './simulate-names.mjs'
 
 const { PNG } = pngjs
@@ -155,43 +160,9 @@ const exampleDir = (spec) => join(ROOT, 'examples', spec.id)
 
 // ---- the app -----------------------------------------------------------------------------------
 
-async function launchApp() {
-  const userData = mkdtempSync(join(tmpdir(), 'ttx-example-'))
-  writeFileSync(join(userData, 'settings.json'), JSON.stringify({ onboardingComplete: true }))
-  const app = await electron.launch({
-    timeout: 180_000,
-    args: [join(ROOT, 'out/main/index.js')],
-    env: { ...process.env, TTX_USER_DATA: userData, TTX_HEADLESS: '1', NODE_ENV: 'test' },
-  })
-  const page = await app.firstWindow({ timeout: 180_000 })
-  await page.waitForLoadState('domcontentloaded')
-  const invoke = async (channel, payload) => {
-    const r = await page.evaluate(([c, p]) => globalThis.ttx.invoke(c, p), [channel, payload])
-    if (!r.ok) throw new Error(`${channel} failed: ${r.error.code} ${r.error.message}`)
-    return r.data
-  }
-  return { app, invoke }
-}
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
-
-async function waitForJob(invoke, jobId, label, timeoutMs) {
-  const started = Date.now()
-  let last = ''
-  for (;;) {
-    const job = await invoke('jobs:get', { jobId })
-    if (job.message && job.message !== last) {
-      last = job.message
-      log(`  ${label}: ${job.message}`)
-    }
-    if (/done|error|cancelled/.test(job.status)) {
-      if (job.status !== 'done') throw new Error(`${label} ${job.status}: ${job.error ?? ''}`)
-      return job
-    }
-    if (Date.now() - started > timeoutMs) throw new Error(`${label} timed out`)
-    await sleep(5000)
-  }
-}
+const launchApp = () => driverLaunch({ userData: freshUserData('ttx-example-') })
+const waitForJob = (invoke, jobId, label, timeoutMs) =>
+  driverWaitForJob(invoke, jobId, label, timeoutMs, { log })
 
 const log = (msg) => console.log(`[make-example ${new Date().toISOString().slice(11, 19)}] ${msg}`)
 

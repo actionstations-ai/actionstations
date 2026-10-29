@@ -1,0 +1,72 @@
+{
+  "suite": "standard",
+  "suiteVersion": 1,
+  "description": "The published suite: three corpora for ideation, five briefs for drafting and six critique cases, three repeats.",
+  "repeats": 3,
+  "seeds": [11, 23, 37],
+  "contextLength": 32768,
+  "ideationCount": 6,
+  "weights": {
+    "overall": { "drafting": 0.5, "critique": 0.25, "ideation": 0.25 },
+    "drafting": { "reliability": 0.25, "lint": 0.2, "citations": 0.2, "structure": 0.35 },
+    "citations": { "resolution": 0.3, "support": 0.4, "coverage": 0.3 },
+    "structure": {
+      "pace": 1,
+      "tagMix": 2,
+      "decisionPhase": 2,
+      "startEnd": 1,
+      "rolesEveryPhase": 1,
+      "briefIds": 1,
+      "noReferenceLeak": 2
+    },
+    "ideation": {
+      "valid": 0.25,
+      "distinct": 0.2,
+      "resolution": 0.2,
+      "spread": 0.15,
+      "grounding": 0.2
+    },
+    "critique": { "recall": 0.85, "noise": 0.15 }
+  },
+  "thresholds": {
+    "lintCap": 20,
+    "paceBand": [0.5, 2],
+    "distinctCosine": 0.85,
+    "noisePenaltyPer10Rows": 20,
+    "unstableRange": 15,
+    "floorTaskScore": 50,
+    "floorDraftingReliability": 0.9
+  },
+  "ideation": [
+    { "id": "airport-ncia", "example": "airport-ncia" },
+    { "id": "city-water", "example": "city-water" },
+    { "id": "county-911", "example": "county-911" }
+  ],
+  "drafting": [
+    { "id": "airport-ncia-scenario-5", "example": "airport-ncia", "scenario": "scenario-5" },
+    { "id": "airport-ncia-scenario-6", "example": "airport-ncia", "scenario": "scenario-6" },
+    { "id": "city-water-chem", "example": "city-water", "scenario": "chem" },
+    { "id": "city-water-ransomware", "example": "city-water", "scenario": "ransomware" },
+    { "id": "county-911-storm-tdos", "example": "county-911", "scenario": "storm-tdos" }
+  ],
+  "critique": [
+    { "id": "city-water-chem", "example": "city-water", "defects": "city-water-chem" },
+    { "id": "city-water-tank", "example": "city-water", "defects": "city-water-tank" },
+    { "id": "county-911-storm-tdos", "example": "county-911", "defects": "county-911-storm-tdos" },
+    {
+      "id": "airport-ncia-scenario-5",
+      "example": "airport-ncia",
+      "defects": "airport-ncia-scenario-5"
+    },
+    {
+      "id": "airport-ncia-scenario-6",
+      "example": "airport-ncia",
+      "defects": "airport-ncia-scenario-6"
+    },
+    {
+      "id": "airport-ncia-scenario-7",
+      "example": "airport-ncia",
+      "defects": "airport-ncia-scenario-7"
+    }
+  ]
+}

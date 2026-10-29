@@ -57,6 +57,12 @@ export function numberOption(config: ProviderConfig, key: string): number | unde
   return typeof v === 'number' && Number.isFinite(v) ? v : undefined
 }
 
+/** `options.seed` when it is an integer: a fixed sampling seed for repeatable runs (#434). */
+export function seedOption(config: ProviderConfig): number | undefined {
+  const v = config.options.seed
+  return typeof v === 'number' && Number.isInteger(v) ? v : undefined
+}
+
 export function stringOption(config: ProviderConfig, key: string): string | undefined {
   const v = config.options[key]
   return typeof v === 'string' && v.length > 0 ? v : undefined

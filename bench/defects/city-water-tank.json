@@ -1,0 +1,47 @@
+{
+  "case": "city-water-tank",
+  "example": "city-water",
+  "scenario": "tank",
+  "defects": [
+    {
+      "id": "tank-order",
+      "kind": "time_order",
+      "row": "I-16",
+      "set": { "time": "3:02" },
+      "words": ["order", "sequence", "before", "earlier", "chronolog", "timeline", "out of phase"]
+    },
+    {
+      "id": "tank-citation",
+      "kind": "contradicts_citation",
+      "row": "I-08",
+      "set": {
+        "expectedAction": "The Distribution Superintendent leaves Orchard Standpipe in service and keeps the wells running, since the plan says a standpipe is isolated only after laboratory confirmation of contamination."
+      },
+      "words": ["isolat", "in service", "contradict", "plan", "laboratory", "confirmation"]
+    },
+    {
+      "id": "tank-facility",
+      "kind": "unknown_facility_id",
+      "row": "I-02",
+      "replace": [{ "field": "event", "find": "AIT-611", "with": "AIT-688" }],
+      "words": [
+        "ait-688",
+        "identifier",
+        "unknown",
+        "not in the",
+        "does not exist",
+        "no such",
+        "not listed"
+      ]
+    },
+    {
+      "id": "tank-outside",
+      "kind": "outside_agency_decides",
+      "row": "I-15",
+      "set": {
+        "expectedAction": "Ohio EPA DDAGW decides the advisory type and the street boundaries and issues the advisory to customers itself; the department waits for its instructions."
+      },
+      "words": ["ddagw", "ohio epa", "outside", "decid", "authority", "regulator"]
+    }
+  ]
+}

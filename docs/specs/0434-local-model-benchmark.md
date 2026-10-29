@@ -1,6 +1,6 @@
 # Spec 0434: Benchmark local models on Action Stations tasks
 
-Issue: #434 · Milestone: 0.7.0 · Status: Draft · Depends on: #423 (citation support scoring) · Related: #433
+Issue: #434 · Milestone: 0.7.0 · Status: Implemented (scoring version 1 with grounding support; judge deferred, see As built) · Depends on: #423 (citation support scoring) · Related: #433
 
 ## Summary
 
@@ -38,9 +38,10 @@ no cloud judge, no GitHub Actions.
   uses the local ONNX embedder (`bge-small-en-v1.5`, downloaded once on first run after a
   confirmation prompt, or `--embedder hash` for a fully offline run, recorded in the result).
   Media tasks are not routed and never run.
-- **FR-3** The runner refuses a remote endpoint (`isRemoteProvider` from #433): the benchmark is
-  for local models and must never send the corpora to a cloud service. There is no flag to
-  override this.
+- **FR-3** The runner refuses any endpoint that is not on this machine (loopback only:
+  `assertLocalEndpoint` in `scripts/bench/model-info.mjs`, stricter than `isRemoteProvider` of
+  #433): the benchmark is for local models and must never send the corpora to a cloud service.
+  There is no flag to override this.
 - **FR-4** Suites are data, not code: `bench/suites/quick.json` and `bench/suites/standard.json`
   list the cases (FR-6 to FR-8), weights and thresholds, with a `suiteVersion`. Changing a case
   or weight bumps the version; results from different versions are never ranked together.
@@ -55,11 +56,13 @@ no cloud judge, no GitHub Actions.
 **Tasks and cases**
 
 - **FR-6** **Ideation**: for each case project (standard: `airport-ncia`, `city-water`,
-  `county-911`; quick: `city-water`), import the documents named by the example's `build.json`
-  (`documents.dir`, `exclude`) and run `generate:ideas` with `count: 6` and an empty brief.
+  `county-911`; quick: `city-water`), open a copy of the example project with `examples:open`
+  (its documents are the ones `build.json` names, with simulated names) and rebuild its index,
+  then run `generate:ideas` with `count: 6` and an empty brief. One copy per example and repeat
+  serves all three tasks.
 - **FR-7** **MSEL drafting**: for each case brief taken from `build.json` `scenarios[]` with its
   `userPrompt`, `audience` and `threatFamily` (standard: five briefs, two each from `airport-ncia`
-  and `city-water` and the one in `county-911`; quick: the `city-water` `chem` scenario), run `generate:scenario` through the pipeline stages up to and
+  and `city-water` and the one in `county-911`, a hand-authored entry without a `userPrompt` taking the brief stored with its shipped scenario; quick: the `city-water` `chem` scenario), run `generate:scenario` through the pipeline stages up to and
   including `critique` and the revision passes (`PIPELINE_STAGES` in
   `src/main/generate/engine.ts`), without injects or media. A stage that fails after its repair
   round is recorded and the case continues where the engine allows.
@@ -92,9 +95,10 @@ no cloud judge, no GitHub Actions.
   identifiers used (no `BRIEF_IDS_MISSING`), no `REFERENCE_LEAK`. Each item is pass/fail with a
   weight; the score is the weighted share passed.
 - **FR-13** **Ideation**: valid ideas returned (out of 6), distinctness (no two ideas with
-  title + hook cosine similarity ≥ 0.85 under the local embedder), citation resolution of
-  `sectionsExercised`, threat-family spread (distinct families / ideas), and grounding of
-  `whyItTeaches` (#423).
+  title + hook cosine similarity ≥ 0.85, computed on term-frequency vectors so the number is the
+  same on every machine; an embedding model's output depends on its runtime), citation
+  resolution of `sectionsExercised` (dropped keys read from the ideate job log), threat-family
+  spread (distinct families / ideas), and grounding of `whyItTeaches` (#423, `grounding:ideas`).
 - **FR-14** **Critique**: recall of planted defects (a note matches when its `rowId` is the
   defect's row, or a row adjacent for order defects, and its text contains one of the defect's
   words), plus noise: notes on rows with no planted defect and no lint finding, per 10 rows,
@@ -364,10 +368,54 @@ reason. The site does not compute scores.
    checks and marked in the result.
 2. **Scoring before #423 lands.** Recommendation: ship scoring version 1 without grounding support
    (FR-11 b) if #423 slips, then bump the scoring version; reports never mix scoring versions.
-3. **Context length.** Models behave differently at 8k and 32k context. Recommendation: fix 16k for
-   the suite (set through LM Studio's load parameters and Ollama's `num_ctx` option) and record
-   it; a model that cannot load 16k is reported as not fitting.
+3. **Context length.** Models behave differently at 8k and 32k context. Decided: 32k for the
+   suite (Ollama's `num_ctx` per request; LM Studio's load setting, which the runner checks and
+   warns about), not the 16k first recommended: the MSEL stage sends up to about 30,000 input
+   tokens per phase (provider guides), so 16k would fail the drafting of capable models for
+   lack of context rather than measure them.
 4. **Who may submit runs.** Recommendation: anyone by pull request; the maintainer reruns any run
    that would change a recommendation before merging it.
 5. **Include inject text in drafting.** It is where small models fail most visibly.
    Recommendation: add it in suite version 2 after the first table is out.
+
+## As built (PR for #434)
+
+Where the code differs from the text above, and why:
+
+- **Corpus**: the cases open a copy of the shipped example project (`examples:open`,
+  `index:rebuild`) instead of `project:create` and `documents:import`. The documents are the
+  same files `build.json` names, already with simulated names; the copy also holds the
+  hand-corrected scenarios the critique cases need, with their document ids intact, and skips
+  re-ingesting per case. The critique case saves the scenario with planted defects in place on
+  that copy (`scenarios:save`, stored warnings cleared) and re-runs `critique`.
+- **Context**: 32k, not 16k (open question 3).
+- **Pace item** of the rubric: content rows per hour between half the gold's slowest phase and
+  twice its busiest (`thresholds.paceBand: [0.5, 2]`). The gold's own band (5 to 6 an hour) is
+  narrower than the hand-corrected examples (about 9.5 an hour), which must pass.
+- **Reliability**: a pipeline stage without a successful run counts as failed, so stages the
+  engine never reached after a failure count against the model. Hand-made examples that predate
+  the `eeg` and `sitman` stages are given those runs in the tests.
+- **Schemas**: `BenchModel.tool` also allows `mock` (smoke runs only; `bench:report` refuses
+  them); `median.draftingReliability` (0 to 1) carries the floor's reliability; `BenchReport`
+  records `scoringVersion`, archives by suite and scoring version, and each recommendation lists
+  the runs (`backedBy`: hardware and date) behind it. `ramGb` and `vramGb` are GiB as sold;
+  `budgetGb` is in the app's 10^9 units, like `TEXT_TIERS`.
+- **Memory fit**: size on disk plus a context-cache estimate of a tenth of the weights at 32k
+  (at least 0.25 GB). A tier's budget is its lower bound; the lowest tier assumes 5.5 GB.
+- **Remote refusal**: the runner has its own loopback-only check, stricter than `isRemoteProvider` of #433 (a benchmark never needs a host other than this machine).
+- **Grounding**: #423 merged before this shipped, so scoring version 1 includes support
+  (FR-11 b, from `grounding:scenario`) and the grounding of `whyItTeaches` (FR-13, from
+  `grounding:ideas`), using the checker's own label. Support is (grounded − unsupported) /
+  claim-bearing rows, at least 0. Weights: citations resolution 0.3, support 0.4, coverage 0.3;
+  ideation valid 0.25, distinct 0.2, resolution 0.2, spread 0.15, grounding 0.2. When the check
+  fails, the run records a `grounding` failure and leaves the part out.
+- **Files**: `scripts/bench/corpus.mjs` (suites, examples, briefs, hashes) and
+  `scripts/bench/cases.mjs` (the three case runners) split `run.mjs`;
+  `scripts/lib/bench-app.ts` is the bundled entry through which the scripts use the zod
+  schemas, `TEXT_TIERS` and `hardwareView` (`scripts/lib/bundle-main.mjs`). Default `--out` is
+  `.tmp/bench`; `--repeats` is 1 to 3 (one per seed).
+- **Not built yet**: the optional local judge (FR-17, task 8) needs the maintainer's
+  calibration set and never enters the composite in this version; the `LIVE=1` determinism
+  check; the first published runs of the `TEXT_TIERS` models (task 9) and the site import
+  (task 10). Quick runs of `ollama:qwen2.5:3b` (hash embedder) completed end to end while
+  building this.

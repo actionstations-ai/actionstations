@@ -101,6 +101,20 @@ describe('OpenAI-compatible chat', () => {
     expect(calls[0]!.headers.authorization).toBeUndefined()
   })
 
+  it('sends options.seed as seed when it is an integer, and nothing otherwise (#434)', async () => {
+    const calls = stubFetch([
+      fixtureResponse('lmstudio-chat-stream'),
+      fixtureResponse('lmstudio-chat-stream'),
+      fixtureResponse('lmstudio-chat-stream'),
+    ])
+    await provider({ options: { seed: 23 } }).chat(ask())
+    await provider({ options: { seed: 2.5 } }).chat(ask())
+    await provider().chat(ask())
+    expect((calls[0]!.body as Body).seed).toBe(23)
+    expect(calls[1]!.body as Body).not.toHaveProperty('seed')
+    expect(calls[2]!.body as Body).not.toHaveProperty('seed')
+  })
+
   it('sends a Bearer key only when one is stored', async () => {
     const calls = stubFetch([fixtureResponse('lmstudio-chat-stream')])
     await provider({ baseUrl: 'https://openrouter.ai/api/v1' }, 'sk-or-v1-abcdefabcdef').chat(ask())

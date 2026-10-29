@@ -15,6 +15,7 @@ import {
   numberOption,
   parseJsonText,
   requireModel,
+  seedOption,
   stringOption,
 } from '../common'
 import { restoreOptionals } from '../strict-schema'
@@ -162,6 +163,8 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
     const maxTokens = req.maxTokens ?? numberOption(this.config, 'maxTokens')
     if (maxTokens !== undefined) body.max_tokens = maxTokens
     if (req.stop?.length) body.stop = req.stop
+    const seed = seedOption(this.config)
+    if (seed !== undefined) body.seed = seed
     return body
   }
 

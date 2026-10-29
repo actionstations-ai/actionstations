@@ -1,0 +1,70 @@
+{
+  "source": "reference/scenario-3/msel.md",
+  "durationHours": 4,
+  "rows": 24,
+  "contentRows": 21,
+  "rowsPerHour": {
+    "overall": 5.25,
+    "min": 5,
+    "max": 6
+  },
+  "phases": [
+    {
+      "index": 0,
+      "title": "The Glitch",
+      "startMin": 0,
+      "endMin": 60,
+      "rows": 5,
+      "rowsPerHour": 5
+    },
+    {
+      "index": 1,
+      "title": "The Crisis",
+      "startMin": 60,
+      "endMin": 120,
+      "rows": 6,
+      "rowsPerHour": 6
+    },
+    {
+      "index": 2,
+      "title": "Manual Mode",
+      "startMin": 120,
+      "endMin": 180,
+      "rows": 5,
+      "rowsPerHour": 5
+    },
+    {
+      "index": 3,
+      "title": "Recovery & Verification",
+      "startMin": 180,
+      "endMin": 240,
+      "rows": 5,
+      "rowsPerHour": 5
+    }
+  ],
+  "tags": {
+    "STARTEX": 1,
+    "CORE_NARRATIVE": 7,
+    "NOISE": 1,
+    "PRESSURE": 3,
+    "TIME_JUMP": 1,
+    "RED_HERRING": 1,
+    "DECISION_POINT": 2,
+    "MISINFORMATION": 1,
+    "CLUE": 1,
+    "CONFUSION": 2,
+    "OPERATIONAL_FRICTION": 1,
+    "TECH_HURDLE": 1,
+    "END_GAME": 1,
+    "ENDEX": 1
+  },
+  "groups": [
+    ["CORE_NARRATIVE"],
+    ["NOISE", "RED_HERRING"],
+    ["PRESSURE", "MISINFORMATION"],
+    ["CLUE"],
+    ["DECISION_POINT"],
+    ["TIME_JUMP"]
+  ],
+  "decisionPhases": [1, 2]
+}
