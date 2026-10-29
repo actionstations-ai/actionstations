@@ -2,7 +2,7 @@
 // the provider choice, and the map data stored on this computer. Nothing goes out while the
 // switch is off; downloads start only from the buttons here.
 import { useState } from 'react'
-import type { AppSettings, MapsSettings } from '@shared/schemas'
+import { MapsSettings, type AppSettings } from '@shared/schemas'
 import { Button, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
@@ -10,6 +10,8 @@ import { errorText } from '../../lib/errors'
 import { queryClient, useIpcQuery } from '../../lib/query'
 import { useMapsEvents } from '../../state/maps'
 import { AreaDialog, ImportDialog, StateDialog } from './MapsDialogs'
+
+const defaultMaps = MapsSettings.parse({})
 
 export const ONLINE_MAPS_NOTICE =
   "When on, the map provider receives your computer's IP address and the map tiles for the area you view. Nothing else from your project is sent."
@@ -238,7 +240,7 @@ export function MapsSection({ settings }: { settings: AppSettings }) {
           started by you, checked against its published checksum, and shown with its attribution.
         </p>
       </div>
-      <OnlinePart maps={settings.maps} />
+      <OnlinePart maps={settings.maps ?? defaultMaps} />
       <h3>Offline map data</h3>
       <DataPart />
     </section>
