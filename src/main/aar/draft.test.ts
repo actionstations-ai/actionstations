@@ -9,7 +9,13 @@ import type { AarOutput } from '@shared/schemas'
 import type { ChatRequest } from '../providers/types'
 
 vi.mock('electron', () => ({
-  app: { on: vi.fn(), getVersion: () => '0.0.1', getPath: () => tmpdir(), getAppPath: () => process.cwd(), isPackaged: false },
+  app: {
+    on: vi.fn(),
+    getVersion: () => '0.0.1',
+    getPath: () => tmpdir(),
+    getAppPath: () => process.cwd(),
+    isPackaged: false,
+  },
   BrowserWindow: { getAllWindows: () => [] },
 }))
 process.env.TTX_MOCK_PROVIDERS = '1'
@@ -28,7 +34,9 @@ const { createScenario, saveScenario } = await import('../scenario/store')
 const { writeFacilitatorState } = await import('../facilitator/state')
 const { Scenario, ScenarioBrief } = await import('@shared/schemas')
 
-const FIXTURE = JSON.parse(readFileSync(resolve('tests/fixtures/scenarios/scenario-3.json'), 'utf8')) as Record<string, unknown>
+const FIXTURE = JSON.parse(
+  readFileSync(resolve('tests/fixtures/scenarios/scenario-3.json'), 'utf8'),
+) as Record<string, unknown>
 const OUTPUT = MOCK_FIXTURES.AarOutput as AarOutput
 
 async function setup(provider?: InstanceType<typeof ScriptedProvider>) {
@@ -38,13 +46,27 @@ async function setup(provider?: InstanceType<typeof ScriptedProvider>) {
   setPipelineDeps({
     openIndex: async () => new FakeNciaIndex(),
     ...(provider
-      ? { resolveTextProvider: async () => ({ provider, model: 'scripted', providerId: 'scripted' }) }
+      ? {
+          resolveTextProvider: async () => ({
+            provider,
+            model: 'scripted',
+            providerId: 'scripted',
+          }),
+        }
       : {}),
   })
   const parent = mkdtempSync(join(tmpdir(), 'ttx-draft-'))
-  const { path: root } = await createProject({ parentDir: parent, name: 'NCIA', orgType: 'airport' })
+  const { path: root } = await createProject({
+    parentDir: parent,
+    name: 'NCIA',
+    orgType: 'airport',
+  })
   const created = await createScenario(root, { title: 'Flight', brief: ScenarioBrief.parse({}) })
-  await saveScenario(root, Scenario.parse({ ...FIXTURE, id: created.id, projectId: created.projectId }), { by: 'user' })
+  await saveScenario(
+    root,
+    Scenario.parse({ ...FIXTURE, id: created.id, projectId: created.projectId }),
+    { by: 'user' },
+  )
   await writeFacilitatorState(root, created.id, {
     elapsedMin: 225,
     delivered: {},
@@ -55,13 +77,22 @@ async function setup(provider?: InstanceType<typeof ScriptedProvider>) {
   })
   const live = join(root, 'scenarios', created.id, 'live', 'run1')
   mkdirSync(live, { recursive: true })
-  writeFileSync(join(live, 'log.jsonl'), readFileSync(resolve('tests/fixtures/live/session-scenario-3.jsonl')))
+  writeFileSync(
+    join(live, 'log.jsonl'),
+    readFileSync(resolve('tests/fixtures/live/session-scenario-3.jsonl')),
+  )
   return { root, scenarioId: created.id }
 }
 afterEach(() => setPipelineDeps(undefined))
 
 const run = (root: string, scenarioId: string, instructions?: string) =>
-  jobs.wait(jobs.start('draft-aar', (ctx) => draftAar(root, scenarioId, instructions ? { instructions } : {}, ctx), { projectPath: root, scenarioId }).id)
+  jobs.wait(
+    jobs.start(
+      'draft-aar',
+      (ctx) => draftAar(root, scenarioId, instructions ? { instructions } : {}, ctx),
+      { projectPath: root, scenarioId },
+    ).id,
+  )
 
 const userOf = (req: ChatRequest): string => req.messages[0]!.content
 
@@ -79,7 +110,8 @@ describe('draftAar', () => {
     expect(user).toContain('[hw:hw_anon_boards')
     expect(user).toContain('Keep it short.')
     expect(user).toContain('- S1: ')
-    for (const name of ['Dana Whitfield', 'Marcus Lee', 'Tom Okafor']) expect(user).not.toContain(name)
+    for (const name of ['Dana Whitfield', 'Marcus Lee', 'Tom Okafor'])
+      expect(user).not.toContain(name)
     const aar = (await readAar(root, scenarioId))!
     expect(aar.sourcesUsed).toEqual(['facilitator', 'live'])
     expect(aar.liveSessionId).toBe('run1')
@@ -95,7 +127,10 @@ describe('draftAar', () => {
     expect(job.status, job.error).toBe('done')
     expect(provider.requests).toHaveLength(3)
     expect(userOf(provider.requests[2]!).length).toBeLessThan(userOf(provider.requests[0]!).length)
-    const log = jobs.logOf(job.id).entries.map((e) => e.message).join('\n')
+    const log = jobs
+      .logOf(job.id)
+      .entries.map((e) => e.message)
+      .join('\n')
     expect(log).toContain('retrying with a condensed record')
   })
 
@@ -134,8 +169,21 @@ describe('draftAar', () => {
                   {
                     ...area,
                     correctiveActions: [
-                      { ...area.correctiveActions[0]!, ownerOrganization: 'Airport Operations', poc: 'Duty manager', dueDate: '2027-03-31' },
-                      { id: 'extra', action: 'Buy whiteboards', element: 'equipment', ownerOrganization: 'Facilities', poc: '', status: 'open', locked: true },
+                      {
+                        ...area.correctiveActions[0]!,
+                        ownerOrganization: 'Airport Operations',
+                        poc: 'Duty manager',
+                        dueDate: '2027-03-31',
+                      },
+                      {
+                        id: 'extra',
+                        action: 'Buy whiteboards',
+                        element: 'equipment',
+                        ownerOrganization: 'Facilities',
+                        poc: '',
+                        status: 'open',
+                        locked: true,
+                      },
                     ],
                   },
                 ],
@@ -151,7 +199,11 @@ describe('draftAar', () => {
     expect(again.rating).toBe('S')
     expect(again.strengths[0]!.analysisMd).toBe('Edited.')
     const actions = again.areasForImprovement[0]!.correctiveActions
-    expect(actions[0]).toMatchObject({ ownerOrganization: 'Airport Operations', poc: 'Duty manager', dueDate: '2027-03-31' })
+    expect(actions[0]).toMatchObject({
+      ownerOrganization: 'Airport Operations',
+      poc: 'Duty manager',
+      dueDate: '2027-03-31',
+    })
     expect(actions.at(-1)).toMatchObject({ id: 'extra', locked: true })
     expect(second.exerciseDate).toBe('2026-10-28')
     expect(second.participatingOrganizations).toEqual(['Skyline Air'])

@@ -15,17 +15,31 @@ const NOW = '2026-10-28T18:00:00.000Z'
 
 describe('AAR schemas', () => {
   it('accepts the record refs of every source and rejects other shapes', () => {
-    for (const ref of ['note:I-09', 'note:general', 'obs:O-I-06-T-07', 'hw:hw_anon_boards_000000', 'dec:dec-1', 'vote:v1', 'msg:m1', 'survey:SRV1:q1', 'log:12'])
+    for (const ref of [
+      'note:I-09',
+      'note:general',
+      'obs:O-I-06-T-07',
+      'hw:hw_anon_boards_000000',
+      'dec:dec-1',
+      'vote:v1',
+      'msg:m1',
+      'survey:SRV1:q1',
+      'log:12',
+    ])
       expect(EvidenceRef.safeParse(ref).success, ref).toBe(true)
     for (const ref of ['I-09', 'name:Dana', 'note:', 'note:a b', 'obs:../x'])
       expect(EvidenceRef.safeParse(ref).success, ref).toBe(false)
   })
 
   it('requires evidence on a finding and fills the person-typed fields of an action with blanks', () => {
-    expect(Finding.safeParse({ id: 'f', title: 't', analysisMd: 'a', evidence: [] }).success).toBe(false)
+    expect(Finding.safeParse({ id: 'f', title: 't', analysisMd: 'a', evidence: [] }).success).toBe(
+      false,
+    )
     const action = CorrectiveAction.parse({ id: 'a', action: 'Do it', element: 'training' })
     expect(action).toMatchObject({ ownerOrganization: '', poc: '', status: 'open', locked: false })
-    expect(CorrectiveAction.safeParse({ id: 'a', action: 'x', element: 'budget' }).success).toBe(false)
+    expect(CorrectiveAction.safeParse({ id: 'a', action: 'x', element: 'budget' }).success).toBe(
+      false,
+    )
   })
 
   it('defaults an Aar and keeps unknown keys (loose, ADR-0016)', () => {
@@ -37,9 +51,22 @@ describe('AAR schemas', () => {
   })
 
   it('is a draft while any capability has no confirmed rating', () => {
-    const capability = { capability: 'planning', observationCounts: { met: 0, partial: 0, not_met: 0, not_observed: 0 } }
-    expect(aarStatus(Aar.parse({ createdAt: NOW, updatedAt: NOW, capabilities: [capability] }))).toBe('draft')
-    expect(aarStatus(Aar.parse({ createdAt: NOW, updatedAt: NOW, capabilities: [{ ...capability, rating: 'P' }] }))).toBe('reviewed')
+    const capability = {
+      capability: 'planning',
+      observationCounts: { met: 0, partial: 0, not_met: 0, not_observed: 0 },
+    }
+    expect(
+      aarStatus(Aar.parse({ createdAt: NOW, updatedAt: NOW, capabilities: [capability] })),
+    ).toBe('draft')
+    expect(
+      aarStatus(
+        Aar.parse({
+          createdAt: NOW,
+          updatedAt: NOW,
+          capabilities: [{ ...capability, rating: 'P' }],
+        }),
+      ),
+    ).toBe('reviewed')
   })
 
   it('flattens the improvement plan to one row per corrective action', () => {
@@ -50,7 +77,16 @@ describe('AAR schemas', () => {
         {
           capability: 'planning',
           areasForImprovement: [
-            { id: 'f', title: 'Gap', analysisMd: '', evidence: ['note:general'], correctiveActions: [{ id: 'a', action: 'A', element: 'planning' }, { id: 'b', action: 'B', element: 'training' }] },
+            {
+              id: 'f',
+              title: 'Gap',
+              analysisMd: '',
+              evidence: ['note:general'],
+              correctiveActions: [
+                { id: 'a', action: 'A', element: 'planning' },
+                { id: 'b', action: 'B', element: 'training' },
+              ],
+            },
           ],
         },
       ],
@@ -81,8 +117,12 @@ describe('AAR schemas', () => {
 
   it('refuses a message or decision that carries a name field', () => {
     const base = { ref: 'msg:1', fromRole: 'PIO', text: 'hello' }
-    expect(ExerciseRecord.shape.messages.element.safeParse({ ...base, displayName: 'Dana' }).success).toBe(true)
+    expect(
+      ExerciseRecord.shape.messages.element.safeParse({ ...base, displayName: 'Dana' }).success,
+    ).toBe(true)
     // Unknown keys are stripped (strict object output), so a name never survives parsing.
-    expect(ExerciseRecord.shape.messages.element.parse({ ...base, displayName: 'Dana' })).not.toHaveProperty('displayName')
+    expect(
+      ExerciseRecord.shape.messages.element.parse({ ...base, displayName: 'Dana' }),
+    ).not.toHaveProperty('displayName')
   })
 })

@@ -56,8 +56,27 @@ const aar: Aar = {
           objectiveRefs: [],
           recommendation: 'Make it a joint call.',
           correctiveActions: [
-            { id: 'a1', action: 'Revise TIRP 13.6', element: 'planning', ownerRole: 'ops-director', ownerOrganization: '', poc: '', status: 'open', locked: false },
-            { id: 'a2', action: 'Quarterly manual FIDS drill', element: 'exercises', ownerOrganization: 'Airport Operations', poc: 'Duty manager', startDate: '2027-01-01', dueDate: '2027-03-31', status: 'open', locked: true },
+            {
+              id: 'a1',
+              action: 'Revise TIRP 13.6',
+              element: 'planning',
+              ownerRole: 'ops-director',
+              ownerOrganization: '',
+              poc: '',
+              status: 'open',
+              locked: false,
+            },
+            {
+              id: 'a2',
+              action: 'Quarterly manual FIDS drill',
+              element: 'exercises',
+              ownerOrganization: 'Airport Operations',
+              poc: 'Duty manager',
+              startDate: '2027-01-01',
+              dueDate: '2027-03-31',
+              status: 'open',
+              locked: true,
+            },
           ],
           locked: false,
         },
@@ -83,15 +102,27 @@ describe('renderAarMarkdown', () => {
   const md = renderAarMarkdown(aar, scenario, 'North Coast Regional Airport Authority')
 
   it('follows the HSEEP layout with every section between markers', () => {
-    for (const name of ['overview', 'summary', 'ratings', 'findings', 'ip', 'participants', 'acronyms'])
+    for (const name of [
+      'overview',
+      'summary',
+      'ratings',
+      'findings',
+      'ip',
+      'participants',
+      'acronyms',
+    ])
       expect(sectionBody(md, name as never), name).toBeTruthy()
     expect(sectionBody(md, 'feedback')).toBeUndefined()
     expect(md.indexOf('## Exercise Overview')).toBeLessThan(md.indexOf('## Executive Summary'))
-    expect(md.indexOf('## Analysis of Core Capabilities')).toBeLessThan(md.indexOf('## Appendix A: Improvement Plan'))
+    expect(md.indexOf('## Analysis of Core Capabilities')).toBeLessThan(
+      md.indexOf('## Appendix A: Improvement Plan'),
+    )
     expect(md).toContain('## Appendix B: Exercise Participants')
     expect(md).toContain('## Appendix D: Acronyms')
     expect(md).toContain('Status: Draft (ratings pending)')
-    expect(md).toContain('Evidence: facilitator notes, hot wash items and decision log; evaluator observations. Not recorded: the live-play session log; participant feedback surveys.')
+    expect(md).toContain(
+      'Evidence: facilitator notes, hot wash items and decision log; evaluator observations. Not recorded: the live-play session log; participant feedback surveys.',
+    )
   })
 
   it('prints only confirmed ratings and never the proposal', () => {
@@ -116,9 +147,15 @@ describe('renderAarMarkdown', () => {
 
   it('fills Appendix A with one row per corrective action, the proposed role in brackets', () => {
     const ip = sectionBody(md, 'ip')!
-    expect(ip).toContain('| Core Capability | Issue/Area for Improvement | Corrective Action | Capability Element | Primary Responsible Organization | Organization POC | Start Date | Completion Date |')
-    expect(ip).toContain('| Operational Coordination | Go Dark decided apart | Revise TIRP 13.6 | Planning | [IC] |  |  |  |')
-    expect(ip).toContain('| Quarterly manual FIDS drill | Exercises | Airport Operations | Duty manager | 2027-01-01 | 2027-03-31 |')
+    expect(ip).toContain(
+      '| Core Capability | Issue/Area for Improvement | Corrective Action | Capability Element | Primary Responsible Organization | Organization POC | Start Date | Completion Date |',
+    )
+    expect(ip).toContain(
+      '| Operational Coordination | Go Dark decided apart | Revise TIRP 13.6 | Planning | [IC] |  |  |  |',
+    )
+    expect(ip).toContain(
+      '| Quarterly manual FIDS drill | Exercises | Airport Operations | Duty manager | 2027-01-01 | 2027-03-31 |',
+    )
   })
 
   it('lists organizations and merges the scenario acronyms with the built-in ones', () => {
@@ -152,19 +189,49 @@ describe('refreshAarMarkdown', () => {
     const md = refreshAarMarkdown('', aar, scenario, 'NCRAA')
     expect(sectionBody(md, 'ip')).toBeTruthy()
     const partial = '<!-- section:summary -->\nKept summary\n<!-- /section:summary -->'
-    expect(sectionBody(refreshAarMarkdown(partial, aar, scenario, 'NCRAA'), 'summary')).toBe('Kept summary')
+    expect(sectionBody(refreshAarMarkdown(partial, aar, scenario, 'NCRAA'), 'summary')).toBe(
+      'Kept summary',
+    )
   })
 })
 
 describe('labels', () => {
   it('shortens plan sections to document and number', () => {
-    expect(planSectionLabel({ documentId: 'tirp', documentTitle: 'TIRP', headingPath: 'TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure', page: 41 })).toBe('TIRP 13.6 (p. 41)')
-    expect(planSectionLabel({ documentId: 'asp', documentTitle: 'Airport Security Program', headingPath: 'ASP › Appendix B' })).toBe('ASP Appendix B')
-    expect(planSectionLabel({ documentId: 'x', documentTitle: 'Plan', headingPath: 'Plan' })).toBe('Plan')
+    expect(
+      planSectionLabel({
+        documentId: 'tirp',
+        documentTitle: 'TIRP',
+        headingPath: 'TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure',
+        page: 41,
+      }),
+    ).toBe('TIRP 13.6 (p. 41)')
+    expect(
+      planSectionLabel({
+        documentId: 'asp',
+        documentTitle: 'Airport Security Program',
+        headingPath: 'ASP › Appendix B',
+      }),
+    ).toBe('ASP Appendix B')
+    expect(planSectionLabel({ documentId: 'x', documentTitle: 'Plan', headingPath: 'Plan' })).toBe(
+      'Plan',
+    )
   })
 
   it('describes evidence by kind, never by id', () => {
-    expect(evidenceLabel(['note:I-09', 'note:general', 'obs:a', 'obs:b', 'dec:1', 'vote:v', 'msg:m', 'msg:n', 'survey:s:q', 'log:3'])).toBe(
+    expect(
+      evidenceLabel([
+        'note:I-09',
+        'note:general',
+        'obs:a',
+        'obs:b',
+        'dec:1',
+        'vote:v',
+        'msg:m',
+        'msg:n',
+        'survey:s:q',
+        'log:3',
+      ]),
+    ).toBe(
       'note on I-09; general notes; 2 observations; 1 decision; 1 vote; 2 messages; 1 participant feedback item; 1 log entry',
     )
   })

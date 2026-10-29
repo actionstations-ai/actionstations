@@ -14,9 +14,8 @@ vi.mock('electron', () => ({
 const { readAar, syncAarDocument, writeAar } = await import('./store')
 const { sectionBody, upsertSection } = await import('./markdown')
 const { createProject } = await import('../project/store')
-const { createScenario, readScenarioDoc, saveScenario, writeScenarioDoc } = await import(
-  '../scenario/store'
-)
+const { createScenario, readScenarioDoc, saveScenario, writeScenarioDoc } =
+  await import('../scenario/store')
 const { claimScenario } = await import('../scenario/busy')
 const { Scenario, ScenarioBrief } = await import('@shared/schemas')
 

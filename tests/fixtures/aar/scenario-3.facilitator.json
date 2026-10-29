@@ -29,15 +29,71 @@
   },
   "generalNotes": "Room started ten minutes late. The whiteboards at the gates were never assigned to a role; Ops improvised with the Airline Liaison at 2:15. The TIRP 13.6 checklist was open on the table from 1:15 onward and the team followed it for the manual boarding announcements.",
   "hotwash": [
-    { "id": "hw-up-1", "kind": "strength", "text": "One voice to the airlines: the Airline Liaison relayed every Ops decision within minutes.", "objectiveRef": "obj-communication", "rowId": "I-07", "at": "2026-10-28T16:50:00.000Z" },
-    { "id": "hw-up-2", "kind": "strength", "text": "The PIO held the line on 'no cyber attack confirmed' and used the holding statement.", "objectiveRef": "obj-communication", "rowId": "I-12", "at": "2026-10-28T16:51:00.000Z" },
-    { "id": "hw-up-3", "kind": "strength", "text": "IT preserved the AODB logs before touching the server.", "objectiveRef": "obj-technical", "rowId": "I-13", "at": "2026-10-28T16:52:00.000Z" },
-    { "id": "hw-down-1", "kind": "improvement", "text": "The Go Dark decision took twelve minutes because Ops and IT were deciding in two rooms.", "objectiveRef": "obj-decision", "rowId": "I-06", "at": "2026-10-28T16:53:00.000Z" },
-    { "id": "hw-down-2", "kind": "improvement", "text": "Nobody owns the gate whiteboards in the plan; we improvised.", "objectiveRef": "obj-decision", "rowId": "I-10", "at": "2026-10-28T16:54:00.000Z" },
-    { "id": "hw-down-3", "kind": "improvement", "text": "The external notifications (FBI, CISA) only happened when prompted.", "objectiveRef": "obj-technical", "rowId": "I-09", "at": "2026-10-28T16:55:00.000Z" }
+    {
+      "id": "hw-up-1",
+      "kind": "strength",
+      "text": "One voice to the airlines: the Airline Liaison relayed every Ops decision within minutes.",
+      "objectiveRef": "obj-communication",
+      "rowId": "I-07",
+      "at": "2026-10-28T16:50:00.000Z"
+    },
+    {
+      "id": "hw-up-2",
+      "kind": "strength",
+      "text": "The PIO held the line on 'no cyber attack confirmed' and used the holding statement.",
+      "objectiveRef": "obj-communication",
+      "rowId": "I-12",
+      "at": "2026-10-28T16:51:00.000Z"
+    },
+    {
+      "id": "hw-up-3",
+      "kind": "strength",
+      "text": "IT preserved the AODB logs before touching the server.",
+      "objectiveRef": "obj-technical",
+      "rowId": "I-13",
+      "at": "2026-10-28T16:52:00.000Z"
+    },
+    {
+      "id": "hw-down-1",
+      "kind": "improvement",
+      "text": "The Go Dark decision took twelve minutes because Ops and IT were deciding in two rooms.",
+      "objectiveRef": "obj-decision",
+      "rowId": "I-06",
+      "at": "2026-10-28T16:53:00.000Z"
+    },
+    {
+      "id": "hw-down-2",
+      "kind": "improvement",
+      "text": "Nobody owns the gate whiteboards in the plan; we improvised.",
+      "objectiveRef": "obj-decision",
+      "rowId": "I-10",
+      "at": "2026-10-28T16:54:00.000Z"
+    },
+    {
+      "id": "hw-down-3",
+      "kind": "improvement",
+      "text": "The external notifications (FBI, CISA) only happened when prompted.",
+      "objectiveRef": "obj-technical",
+      "rowId": "I-09",
+      "at": "2026-10-28T16:55:00.000Z"
+    }
   ],
   "decisions": [
-    { "id": "dec-1", "at": "2026-10-28T14:27:00.000Z", "exerciseTime": "1:27", "rowId": "I-06", "text": "Take the FIDS dark and move to manual gate announcements.", "byRole": "ops-director" },
-    { "id": "dec-2", "at": "2026-10-28T15:15:00.000Z", "exerciseTime": "2:15", "rowId": "I-09", "text": "Isolate the compromised workstation now; restoration waits for a clean backup.", "byRole": "it-director" }
+    {
+      "id": "dec-1",
+      "at": "2026-10-28T14:27:00.000Z",
+      "exerciseTime": "1:27",
+      "rowId": "I-06",
+      "text": "Take the FIDS dark and move to manual gate announcements.",
+      "byRole": "ops-director"
+    },
+    {
+      "id": "dec-2",
+      "at": "2026-10-28T15:15:00.000Z",
+      "exerciseTime": "2:15",
+      "rowId": "I-09",
+      "text": "Isolate the compromised workstation now; restoration waits for a clean backup.",
+      "byRole": "it-director"
+    }
   ]
 }
