@@ -1,0 +1,18 @@
+{
+  "name": "@actionstations/relay-cloudflare",
+  "version": "0.1.0",
+  "description": "The Action Stations relay: a Cloudflare Worker with one Durable Object per live play session, on the free Workers plan (spec 0408).",
+  "license": "SEE LICENSE IN ../../LICENSE.md",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-public.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "bundle:check": "node scripts/build-public.mjs && WRANGLER_SEND_METRICS=false pnpm dlx wrangler@4.155.0 deploy --dry-run --outdir dist",
+    "dev": "node scripts/build-public.mjs && WRANGLER_SEND_METRICS=false pnpm dlx wrangler@4.155.0 dev"
+  },
+  "dependencies": {
+    "@actionstations/relay-core": "workspace:*",
+    "zod": "^4.6.7"
+  }
+}

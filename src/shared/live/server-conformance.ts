@@ -8,7 +8,7 @@ import { describe, expect, it, afterEach } from 'vitest'
 import { toBase64Url } from './bytes'
 import type { CryptoProvider } from './crypto/provider'
 import { createWebCryptoProvider } from './crypto/webcrypto'
-import { CLOSE_CODES, LIMITS, PROTOCOL_VERSION, type ConnectionKind } from './protocol'
+import { CLOSE_CODES, LIMITS, PROTOCOL_VERSION, type ConnectionKind, type Limits } from './protocol'
 import type { ClientId, Envelope, RelayErrorCode } from './schemas'
 import type { Transport } from './transport'
 
@@ -35,6 +35,12 @@ export interface ServerFactoryOptions {
   joinTokenHash: string
   crypto: CryptoProvider
   framesPerMinute?: number
+  /** Caps below the kind's defaults, so a test can reach them; a server applies what it can. */
+  limits?: Partial<Limits>
+  storedEnvelopes?: number
+  storedBytes?: number
+  rowWriteBudget?: number
+  catchupBytes?: number
 }
 
 export type ServerFactory = (opts: ServerFactoryOptions) => Promise<ServerUnderTest>
@@ -401,6 +407,226 @@ export function describeServerContract(name: string, factory: ServerFactory): vo
       expect(a.got.errors('RATE_LIMITED')).toHaveLength(1)
       await until(() => server!.lastIndex === 9)
       expect(c.got.closes).toHaveLength(0)
+    })
+
+    it('pages catch-up by entries and bytes; the client continues from `to` until done', async () => {
+      await start('lan', { catchupBytes: 600 })
+      const c = await controller()
+      const a = await participant(1)
+      await until(
+        () => a.got.of('relay.hello').length === 1 && c.got.of('relay.hello').length === 1,
+      )
+      // Five frames of about 300 bytes each: two fit a 600-byte page.
+      for (let i = 1; i <= 5; i++) {
+        c.t.send(frame(c.id, i, 'all', 'clock.state', { pad: 'x'.repeat(150) }))
+      }
+      await until(() => server!.lastIndex === 5)
+      a.t.send(frame(a.id, 1, 'controller', 'catchup.request', { after: 0 }))
+      await until(() => a.got.of('catchup.batch').length === 1)
+      const first = a.got.of('catchup.batch')[0]!.payload as {
+        from: number
+        to: number
+        done: boolean
+        entries: { i: number }[]
+      }
+      expect(first.from).toBe(0)
+      expect(first.done).toBe(false)
+      expect(first.entries.length).toBeGreaterThanOrEqual(1)
+      expect(first.entries.length).toBeLessThan(5)
+      expect(first.to).toBe(first.entries[first.entries.length - 1]!.i)
+      // A client that asks for an entry cap gets at most that many too.
+      a.t.send(frame(a.id, 2, 'controller', 'catchup.request', { after: first.to, limit: 1 }))
+      await until(() => a.got.of('catchup.batch').length === 2)
+      const second = a.got.of('catchup.batch')[1]!.payload as typeof first
+      expect(second).toMatchObject({ from: first.to, to: first.to + 1 })
+      expect(second.entries.map((x) => x.i)).toEqual([first.to + 1])
+      // Continue until done: every index once, in order.
+      let after = second.to
+      let pages = 2
+      let done = second.done
+      while (!done) {
+        a.t.send(frame(a.id, 1 + pages, 'controller', 'catchup.request', { after }))
+        pages += 1
+        await until(() => a.got.of('catchup.batch').length === pages)
+        const page = a.got.of('catchup.batch')[pages - 1]!.payload as typeof first
+        expect(page.from).toBe(after)
+        after = page.to
+        done = page.done
+      }
+      const all = a.got
+        .of('catchup.batch')
+        .flatMap((b) => (b.payload as { entries: { i: number }[] }).entries.map((x) => x.i))
+      expect(all).toEqual([1, 2, 3, 4, 5])
+      // Past the end: one empty page, done.
+      a.t.send(frame(a.id, 50, 'controller', 'catchup.request', { after: 9 }))
+      await until(() => a.got.of('catchup.batch').length === pages + 1)
+      expect(a.got.of('catchup.batch')[pages]!.payload).toEqual({
+        from: 9,
+        to: 9,
+        entries: [],
+        done: true,
+      })
+    })
+
+    it('a refused frame does not advance the sender’s seq', async () => {
+      await start()
+      const c = await controller()
+      const a = await participant(1)
+      await until(
+        () => a.got.of('relay.hello').length === 1 && c.got.of('relay.hello').length === 1,
+      )
+      a.t.send(frame(a.id, 5, 'all', 'clock.state')) // controller-only: refused
+      await until(() => a.got.errors('NOT_CONTROLLER').length === 1)
+      a.t.send(frame(a.id, 5, 'all', 'message.send')) // the same seq, now a valid frame
+      await until(() => server!.lastIndex === 1)
+      expect(c.got.of('message.send')).toHaveLength(1)
+      a.t.close()
+      const again = await participant(1)
+      await until(() => again.got.of('relay.hello').length === 1)
+      expect((again.got.of('relay.hello')[0]!.payload as { yourLastSeq: number }).yourLastSeq).toBe(
+        5,
+      )
+    })
+
+    it('the store caps apply to every sender: a participant past them is refused, a controller is routed but not stored', async () => {
+      await start('lan', { storedEnvelopes: 2 })
+      const c = await controller()
+      const a = await participant(1)
+      const b = await participant(2)
+      await until(() => [a, b, c].every((x) => x.got.of('relay.hello').length === 1))
+      a.t.send(frame(a.id, 1, 'all', 'message.send'))
+      a.t.send(frame(a.id, 2, 'all', 'message.send'))
+      await until(() => server!.lastIndex === 2)
+      a.t.send(frame(a.id, 3, 'all', 'message.send'))
+      await until(() => a.got.errors('STORE_FULL').length === 1)
+      expect(b.got.of('message.send')).toHaveLength(2)
+      c.t.send(frame(c.id, 1, 'all', 'session.end'))
+      await until(() => b.got.of('session.end').length === 1)
+      await until(() => c.got.errors('STORE_FULL').length === 1)
+      expect(server!.lastIndex).toBe(2)
+    })
+
+    it('a session has a lifetime write budget: past it nothing more is stored, blobs included', async () => {
+      // The controller's identity is one write; each accepted frame is two (seq, envelope).
+      await start('lan', { rowWriteBudget: 5 })
+      const c = await controller()
+      await until(() => c.got.of('relay.hello').length === 1)
+      c.t.send(frame(c.id, 1, 'all', 'clock.state'))
+      c.t.send(frame(c.id, 2, 'all', 'clock.state'))
+      await until(() => server!.lastIndex === 2)
+      c.t.send(frame(c.id, 3, 'all', 'clock.state'))
+      await until(() => c.got.errors('STORE_FULL').length === 1)
+      expect(server!.lastIndex).toBe(2)
+      const blobId = toBase64Url(new Uint8Array(16).fill(4))
+      c.t.send(
+        frame(c.id, 4, 'controller', 'relay.blob.put', {
+          blobId,
+          index: 0,
+          count: 1,
+          bytes: toBase64Url(new Uint8Array(10)),
+        }),
+      )
+      await until(() => c.got.errors('BLOB_QUOTA').length === 1)
+    })
+
+    it('refuses a connection past the client cap with SESSION_FULL', async () => {
+      await start('lan', { limits: { clients: 2 } })
+      const c = await controller()
+      const a = await participant(1)
+      await until(
+        () => a.got.of('relay.hello').length === 1 && c.got.of('relay.hello').length === 1,
+      )
+      const extra = await participant(2)
+      await until(() => extra.got.closes.length === 1)
+      expect(extra.got.errors('SESSION_FULL')).toHaveLength(1)
+      expect(extra.got.closes[0]![0]).toBe(CLOSE_CODES.SESSION_FULL)
+      expect(server!.connected).toHaveLength(2)
+    })
+
+    it('caps a participant’s blob at the player cap and the session’s blobs at the quota', async () => {
+      await start('lan', { limits: { playerBlobBytes: 1500, blobsTotalBytes: 4000 } })
+      const c = await controller()
+      const a = await participant(1)
+      await until(
+        () => a.got.of('relay.hello').length === 1 && c.got.of('relay.hello').length === 1,
+      )
+      const chunk = toBase64Url(new Uint8Array(1000).fill(1))
+      const blobA = toBase64Url(new Uint8Array(16).fill(5))
+      for (let index = 0; index < 2; index++) {
+        a.t.send(
+          frame(a.id, index + 1, 'controller', 'relay.blob.put', {
+            blobId: blobA,
+            index,
+            count: 2,
+            bytes: chunk,
+          }),
+        )
+      }
+      await until(() => a.got.errors('BLOB_TOO_LARGE').length === 1)
+      a.t.send(frame(a.id, 3, 'controller', 'relay.blob.get', { blobId: blobA }))
+      await until(() => a.got.errors('BLOB_UNKNOWN').length === 1)
+      const blobC = toBase64Url(new Uint8Array(16).fill(6))
+      for (let index = 0; index < 5; index++) {
+        c.t.send(
+          frame(c.id, index + 1, 'controller', 'relay.blob.put', {
+            blobId: blobC,
+            index,
+            count: 5,
+            bytes: chunk,
+          }),
+        )
+      }
+      await until(() => c.got.errors('BLOB_QUOTA').length === 1)
+      expect(c.got.of('relay.blob.done')).toHaveLength(0)
+    })
+
+    it('refuses a chunk out of range, a changed count and another client’s blob, and ignores a duplicate', async () => {
+      await start('lan')
+      const c = await controller()
+      const a = await participant(1)
+      await until(
+        () => a.got.of('relay.hello').length === 1 && c.got.of('relay.hello').length === 1,
+      )
+      const blobId = toBase64Url(new Uint8Array(16).fill(8))
+      const bytes = toBase64Url(new Uint8Array(100))
+      const put = (
+        who: { id: ClientId; t: Transport },
+        seq: number,
+        index: number,
+        count: number,
+      ) =>
+        who.t.send(
+          frame(who.id, seq, 'controller', 'relay.blob.put', { blobId, index, count, bytes }),
+        )
+      put(c, 1, 0, 2)
+      put(c, 2, 0, 2) // duplicate: ignored
+      put(c, 3, 2, 2) // out of range
+      put(c, 4, 1, 3) // count changed
+      put(a, 1, 1, 2) // someone else's blob
+      await until(
+        () => c.got.errors('INVALID').length === 2 && a.got.errors('INVALID').length === 1,
+      )
+      put(c, 5, 1, 2)
+      await until(() => c.got.of('relay.blob.done').length === 1)
+      expect(c.got.of('relay.blob.done')[0]!.payload).toMatchObject({ totalBytes: 200 })
+    })
+
+    it('routes payloads unchanged without reading them', async () => {
+      await start()
+      const c = await controller()
+      const a = await participant(1)
+      await until(
+        () => a.got.of('relay.hello').length === 1 && c.got.of('relay.hello').length === 1,
+      )
+      const text = frame(a.id, 1, 'controller', 'vote.cast', {
+        anything: [1, { nested: true }],
+        c: 42,
+      })
+      const raw: string[] = []
+      c.t.onFrame((f) => raw.push(f))
+      a.t.send(text)
+      await until(() => c.got.of('vote.cast').length === 1)
+      expect(raw).toContain(text)
     })
   })
 }

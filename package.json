@@ -27,7 +27,7 @@
     "lint": "eslint . --max-warnings=0",
     "format": "node scripts/format.mjs --write",
     "format:check": "node scripts/format.mjs --check",
-    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json && tsc --noEmit -p relay/core/tsconfig.json && tsc --noEmit -p relay/cloudflare/tsconfig.json",
     "test": "node scripts/vitest-electron.mjs run",
     "test:watch": "node scripts/vitest-electron.mjs",
     "test:templates": "node scripts/test-templates.mjs",

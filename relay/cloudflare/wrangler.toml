@@ -1,0 +1,42 @@
+# The Action Stations relay (spec 0408). Names and bindings only: the Worker has no secrets.
+# Deployed by hand from a developer machine (DEPLOY.md); never from a workflow.
+#
+# Free plan only. Everything here is available on Workers Free: Durable Objects with the SQLite
+# backend, static assets, workers.dev and a custom domain on a zone whose DNS is on Cloudflare.
+# Nothing below turns on a paid feature (no Logpush, no observability retention, no cron).
+name = "actionstations-relay"
+main = "src/worker.ts"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+# relay.actionstations.ai: the zone's DNS is on Cloudflare (free plan). Comment this block out
+# when deploying from an account that does not hold the zone; workers.dev still works.
+[[routes]]
+pattern = "relay.actionstations.ai"
+custom_domain = true
+
+[vars]
+RELAY_VERSION = "0.1.0"
+
+# The player page (spec 0411) and this package's placeholder, built into public/ by
+# scripts/build-public.mjs. Static asset requests are not metered; /v1/* always reaches the Worker.
+[assets]
+directory = "./public"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+run_worker_first = ["/v1/*"]
+
+[[durable_objects.bindings]]
+name = "SESSIONS"
+class_name = "SessionObject"
+
+[[durable_objects.bindings]]
+name = "QUOTA"
+class_name = "QuotaObject"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["SessionObject", "QuotaObject"]
+
+[observability]
+enabled = false

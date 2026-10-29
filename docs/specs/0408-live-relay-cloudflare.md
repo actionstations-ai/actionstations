@@ -1,6 +1,6 @@
 # Spec 0408: Live play: Action Stations relay on Cloudflare's free plan
 
-Issue: #408 · Milestone: 0.6.0 · Status: Draft · Depends on: #406 · Related: #418 (epic), #407 (shares the core), #409 (Node adapter of the same core), #410 (connection choice), #411 (player bundle)
+Issue: #408 · Milestone: 0.6.0 · Status: Implemented (Cloudflare adapter over the shared hub, deploy guide; first deploy, workerd/live/load tests, and the app transport (#410) open) · Depends on: #406 · Related: #418 (epic), #407 (shares the core), #409 (Node adapter of the same core), #410 (connection choice), #411 (player bundle)
 
 ## Summary
 
@@ -312,7 +312,7 @@ logged-in developer keeps both out). `scripts/check-workflows.mjs` is unchanged.
   retention, how to run your own (#409), how to report a problem.
 - `docs/guides/live-play.md` section "Remote and hybrid: the Action Stations relay": when to
   use it, the limits in plain numbers, the daily-limit message and what to do.
-- `docs/adr/0025-live-relay-hosting.md`: Cloudflare free plan, repository location, hand
+- `docs/adr/0034-live-relay-hosting.md`: Cloudflare free plan, repository location, hand
   deploy, caps, and the reasons.
 
 ## Security and privacy
@@ -389,11 +389,64 @@ inject round trip, end. Covers the app ↔ relay path without the internet.
    `RELAY_PLAYER_BUNDLE_SHA256` constants in `src/shared/ipc/live.ts`, close-code → message
    mapping, pre-staging hook for #412; tests against a local core server.
 5. **Deploy, docs, ADR.** `relay/cloudflare/DEPLOY.md`, `relay/README.md`,
-   `docs/adr/0025-live-relay-hosting.md`, `docs/guides/live-play.md` relay section; first hand
+   `docs/adr/0034-live-relay-hosting.md`, `docs/guides/live-play.md` relay section; first hand
    deploy to the free account; `live.test.ts` and `e2e/live/relay.spec.ts`.
 6. **Load test and budget check.** `LOAD=1` script, numbers written into the budget table of
    this spec and `relay/README.md`; adjust caps if the measurements disagree with the
    estimates.
+
+## Changes after implementation
+
+Made in the pull request for #408 (and its security review); the sections above keep the
+original design where they still hold.
+
+- **One server core (coordinator decision).** There is no `relay/core` hub: the server contract
+  is `SessionHub` in `src/shared/live/hub.ts` (ADR-0032, #407), and the relay is an adapter over
+  it. The hub gained the extension points persisting servers need: a `HubStore` interface
+  (`MemoryHubStore` default; `SqliteHubStore` on a Durable Object here), `restore()` to
+  re-register sockets after a hibernation, `limits` overrides, `rowWriteBudget` and
+  `catchupBytes`. `relay/core` keeps only what two adapters share and the hub does not (HTTP
+  shapes, the connection contract, tokens, edge rate windows). The conformance suite is
+  `src/shared/live/server-conformance.ts` (now 23 cases) plus `hub-store-conformance.ts`.
+- **Owner decisions.** The relay code lives in this repository under `relay/` (open question 1);
+  the hostname is `relay.actionstations.ai` from the start (open question 2); the account must be
+  on the Workers Free plan with no payment method, and `relay/cloudflare/DEPLOY.md` makes checking
+  both the first step of every deploy. Nothing was deployed in the pull request.
+- **Connection contract (review L1).** `GET /v1/sessions/<id>/ws?client=<id>` with subprotocols
+  `as-live.v1`, `j.<joinToken>`, `r.<resumeToken>` (the server echoes `as-live.v1`); controllers
+  send `Authorization: Bearer`; SSE and POST (self-hosted, LAN) carry `X-AS-Join` / `X-AS-Resume`.
+  Any token in a query string is refused, so `wrangler tail` never shows one.
+- **Budgets for every sender (review H2).** `storedEnvelopes`, `storedBytes` and `rowWriteBudget`
+  bind controllers too: past them a participant's frame is refused with `STORE_FULL`; a
+  controller's is routed live but not stored, and the controller is told. A sender's `seq` is
+  recorded only after a frame passed every check, and ephemeral frames' seqs are not persisted.
+  Row writes follow one formula in every store (frame 2, chunk 2, identity 1) so budgets mean the
+  same everywhere; the Durable Object store keeps running totals in its rows and never counts.
+- **Catch-up (review M1).** One page per request, cut by `limit` entries and by `catchupBytes`
+  (512 KiB) of entries; the client continues from `to` until `done` (`LiveClient.applyCatchup`).
+  A send that throws ends the connection instead of being swallowed.
+- **Session creation (review H1).** Accepted only as `application/json` without an `Origin`
+  header; counted per address (3 a day, IPv6 by /64) and per day (25) durably in the
+  `QuotaObject`. A Turnstile challenge was considered and not adopted (the controller is a
+  desktop app; the caps and the absence of a payment method bound the harm); revisit on evidence.
+  `joinTokenHash` is optional at creation (the join token derives from the minted session id) and
+  the server stores no `name`.
+- **Review L2–L4.** No per-client reconnect window exists any more (identity-based limits are
+  #457's); edge windows prune idle keys and cap their size; controller tokens are capped at 8 per
+  session and controller actions at 60 a minute; the free-plan error mapping matches only the
+  runtime's "limit/quota exceeded/reached" wording in a plain `Error`.
+- **Allowance budget, measured.** A stored frame is two row writes (envelope, seq), a chunk two,
+  a device one; frames are 0.5–64 KiB. Caps: 1,500 stored envelopes, 12 MiB, 3,600 row writes,
+  30 frames a minute per participant. Worst day: 25 × 3,600 = 90,000 rows written (plan: 100,000);
+  catch-up reads at 60 clients × 1,500 = 90,000 rows per session, 2.25 M a day (plan: 5 M).
+- **Tests.** `@cloudflare/vitest-pool-workers` pins vitest 4 and the repository is on 5, so the
+  Durable Object runs under a shim (`relay/cloudflare/test/shim.ts`) inside the root Vitest run;
+  a workerd run (hibernation, alarms, limits) is a follow-up before the first deploy. The Worker
+  bundle is checked with `wrangler deploy --dry-run`; `wrangler` runs through `pnpm dlx` and is
+  not a dependency. `@cloudflare/workers-types` is not used (it replaces the DOM globals
+  `src/shared/live` compiles against); `src/workers-runtime.d.ts` declares the runtime slice used.
+- **App transport (task 4)** belongs to #410 with the connection choice. The ADR is
+  `docs/adr/0034-live-relay-hosting.md`.
 
 ## Open questions
 
