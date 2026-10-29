@@ -4,11 +4,18 @@
 // encrypted servers or a control network within the hour, and contact details that look real
 // (an email or web domain that is not a reserved .example one, a 555 number outside
 // 555-0100–0199, a geographic phone number). Pure; lint.ts adds them to lintScenario.
-import { exerciseMinutes, type LintWarning, type MselRow, type Scenario } from '@shared/schemas'
+import {
+  exerciseMinutes,
+  type HazardSnapshot,
+  type LintWarning,
+  type MselRow,
+  type Scenario,
+} from '@shared/schemas'
 
 export const OUTSIDE_AGENCY_DECIDES = 'OUTSIDE_AGENCY_DECIDES'
 export const RESTORE_TOO_FAST = 'RESTORE_TOO_FAST'
 export const CONTACT_REAL_LOOKING = 'CONTACT_REAL_LOOKING'
+export const HAZARD_AS_CURRENT = 'HAZARD_AS_CURRENT'
 
 type W = LintWarning
 const warn = (code: string, message: string, rowId: string, suggestion: string): W => ({
@@ -294,4 +301,57 @@ function lintContacts(s: Scenario): W[] {
 /** Every realism lint. */
 export function lintRealism(s: Scenario): LintWarning[] {
   return [...lintAgencyDecisions(s), ...lintRestorePace(s), ...lintContacts(s)]
+}
+
+// ---- hazard snapshot values shown as current (#439 FR-20) ------------------------------------
+
+/** A snapshot older than this, relative to the exercise date, no longer describes "now". */
+export const HAZARD_STALE_DAYS = 30
+const escapeRe = (t: string): string => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+/** What a row could quote from the snapshot: [label, pattern]. */
+function hazardNeedles(snap: HazardSnapshot): [string, RegExp][] {
+  const out: [string, RegExp][] = []
+  for (const a of snap.alerts)
+    if (a.headline.length >= 20)
+      out.push([`the alert "${clip(a.headline)}"`, new RegExp(escapeRe(a.headline), 'i')])
+  for (const q of [...snap.earthquakes.recent, ...snap.earthquakes.historical])
+    out.push([
+      `magnitude ${q.mag}`,
+      new RegExp(String.raw`\b(?:M\s?|magnitude\s+)${escapeRe(String(q.mag))}\b`, 'i'),
+    ])
+  for (const d of snap.declarations)
+    if (d.disasterNumber >= 1000)
+      out.push([
+        `declaration ${d.disasterNumber}`,
+        new RegExp(String.raw`\b(?:DR|EM|FM)?-?${d.disasterNumber}\b`),
+      ])
+  return out
+}
+
+/**
+ * Warn when a row repeats a value from the hazard snapshot as if it were current, in an
+ * exercise dated more than 30 days after the snapshot. Pure; the engine passes the snapshot.
+ */
+export function lintHazardCurrency(s: Scenario, snap: HazardSnapshot | undefined): LintWarning[] {
+  const start = s.brief.startDate
+  if (!snap || !start) return []
+  const days = (Date.parse(start) - Date.parse(snap.fetchedAt)) / 86_400_000
+  if (!(days > HAZARD_STALE_DAYS)) return []
+  const needles = hazardNeedles(snap)
+  const out: W[] = []
+  for (const row of s.msel) {
+    if (CONTROL.has(row.purposeTag)) continue
+    const hit = needles.find(([, re]) => re.test(row.event))
+    if (!hit) continue
+    out.push(
+      warn(
+        HAZARD_AS_CURRENT,
+        `Row ${row.id} gives ${hit[0]} from the hazard snapshot of ${snap.fetchedAt.slice(0, 10)} as if it were current, but the exercise is set ${Math.round(days)} days later.`,
+        row.id,
+        'Describe a kind of hazard that fits the place instead of copying a dated alert, magnitude or declaration number.',
+      ),
+    )
+  }
+  return out
 }

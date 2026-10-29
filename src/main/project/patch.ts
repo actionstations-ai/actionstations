@@ -64,5 +64,7 @@ export function applyProjectPatch(draft: Project, patch: ProjectPatch): Project 
   if (patch.brand) draft.brand = mergeBrand(draft.brand, patch.brand)
   if (patch.defaultRoles) draft.defaultRoles = patch.defaultRoles
   if (patch.providerRouting) draft.providerRouting = patch.providerRouting
+  if (patch.location === null) delete draft.location
+  else if (patch.location) draft.location = patch.location
   return draft
 }

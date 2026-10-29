@@ -7,6 +7,7 @@ import { fromProjectKey } from '../../state/project'
 import { revealFolder, revealLabel } from '../projects/reveal'
 import { ProjectSettingsForm } from './ProjectSettingsForm'
 import { ComplianceSettings } from './ComplianceSettings'
+import { LocationSettings } from './LocationSettings'
 import { GlossaryButton } from '../../components/Glossary'
 import { ProjectScenarios } from './ProjectScenarios'
 import { ReadinessChecklist } from './ReadinessChecklist'
@@ -118,6 +119,7 @@ export default function ProjectHomePage() {
       <SettingsDisclosure>
         <ProjectSummary path={query.data.path} project={project} />
         <ProjectSettingsForm key={project.id} path={query.data.path} project={project} />
+        <LocationSettings key={`loc-${project.id}`} path={query.data.path} project={project} />
         <ComplianceSettings path={query.data.path} />
       </SettingsDisclosure>
     </div>

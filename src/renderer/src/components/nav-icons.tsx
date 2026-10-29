@@ -2,6 +2,7 @@ import {
   BookOpen,
   MapPinned,
   Clapperboard,
+  CloudLightning,
   FileDiff,
   FileStack,
   FileText,
@@ -41,4 +42,5 @@ export const NAV_ICONS: Record<string, LucideIcon> = {
   'micro-drills': Timer,
   regional: Network,
   maps: MapPinned,
+  hazards: CloudLightning,
 }

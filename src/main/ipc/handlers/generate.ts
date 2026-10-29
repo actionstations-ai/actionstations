@@ -23,9 +23,9 @@ function scenarioTitle(brief: ScenarioBrief, idea?: ScenarioIdea): string {
 }
 
 export default defineHandlers({
-  'generate:ideas': async ({ projectPath, brief, count, fromSeams }) => {
+  'generate:ideas': async ({ projectPath, brief, count, fromSeams, useHazards }) => {
     const root = await requireProject(projectPath)
-    const req = { brief, count, fromSeams }
+    const req = { brief, count, fromSeams, useHazards }
     const job = jobs.start('ideate', (ctx) => generateIdeas(root, req, ctx), {
       projectPath: root,
       payload: { count },
@@ -41,7 +41,11 @@ export default defineHandlers({
     const settled = briefWithThreat(brief, profileFor(await deps.loadProject(root)), idea)
     const scenario = await deps.store.createScenario(root, {
       title: scenarioTitle(brief, idea),
-      brief: { ...settled, ...(idea ? { ideaId: idea.id } : {}) },
+      brief: {
+        ...settled,
+        ...(idea ? { ideaId: idea.id } : {}),
+        ...(idea?.hazardSnapshotId ? { hazardSnapshotId: idea.hazardSnapshotId } : {}),
+      },
     })
     if (idea) await saveScenarioIdea(root, scenario.id, idea)
     return { jobId: continueJob(root, scenario.id).id, scenarioId: scenario.id }

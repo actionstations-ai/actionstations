@@ -42,6 +42,8 @@ export const ScenarioBrief = z.object({
   programProposal: z
     .object({ at: z.string(), correctiveActionIds: z.array(z.string()).max(200).default([]) })
     .optional(),
+  /** The hazard snapshot the scenario drew on (#439); its summary is part of the prompts. */
+  hazardSnapshotId: Id.optional(),
   /** Set when the scenario is a regression drill built from another scenario (#431). */
   drillOf: z.object({ drillId: Id, sourceScenarioId: Id }).optional(),
 })
@@ -527,5 +529,7 @@ export const ScenarioIdea = z.object({
   threatFamily: ThreatFamilyId.optional(),
   /** Plan seams the idea puts under pressure (#427): PlanFinding ids. */
   seamIds: z.array(z.string()).optional(),
+  /** The hazard snapshot the idea was written with (#439). */
+  hazardSnapshotId: Id.optional(),
 })
 export type ScenarioIdea = z.infer<typeof ScenarioIdea>

@@ -12,6 +12,7 @@ import { PackCatalogsSection } from './PackCatalogsSection'
 import { LocalToolsSection } from './LocalToolsSection'
 import { UpdatesSection } from './UpdatesSection'
 import { MapsSection } from './MapsSection'
+import { HazardDataSection } from './HazardDataSection'
 import { PrivacySection } from './PrivacySection'
 import { SpeechModelsSection } from './SpeechModelsSection'
 
@@ -281,6 +282,7 @@ export default function SettingsPage() {
           <GenerationSection settings={settings.data} />
           <SurveysSection settings={settings.data} />
           <PrivacySection />
+          <HazardDataSection />
           <EmbeddingsSection settings={settings.data} />
           <SpeechModelsSection />
           <LivePlaySection settings={settings.data} />

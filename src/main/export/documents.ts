@@ -81,7 +81,7 @@ function bodyMarkdown(md: string, facts: { label: string }[]): string {
 function handbookSection(model: ExportModel, prefix: string): string {
   const { scenario: s, docs } = model
   const facts = titleFacts(model, [['Exercise date', '____________']])
-  const md = withSeamSection(s, bodyMarkdown(docs.handbook, facts))
+  const md = withHazardSection(model, withSeamSection(s, bodyMarkdown(docs.handbook, facts)))
   const rubric = hasHeading(md, /rubric|grading|evaluation/i) ? [] : (s.rubric?.metrics ?? [])
   const needsHotwash = !hasHeading(md, /hot\s*wash|debrief/i)
   const structuredHotwash = s.hotwash && (s.hotwash.questions.length || s.hotwash.methodDescription)
@@ -111,6 +111,12 @@ function handbookSection(model: ExportModel, prefix: string): string {
     },
     model.lang,
   )
+}
+
+/** #439 FR-19: the hazard data sources and their attribution close the handbook. */
+function withHazardSection(model: ExportModel, md: string): string {
+  if (!model.hazardAppendix || !md.trim() || hasHeading(md, /hazard data sources/i)) return md
+  return `${md.trimEnd()}\n\n${model.hazardAppendix}\n`
 }
 
 /**

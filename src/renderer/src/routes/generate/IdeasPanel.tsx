@@ -96,6 +96,28 @@ function SeamsToggle(props: { on: boolean; onChange: (v: boolean) => void; avail
   )
 }
 
+function HazardsToggle(props: { on: boolean; onChange: (v: boolean) => void; fetchedAt: string }) {
+  const hintId = useId()
+  const day = props.fetchedAt.slice(0, 10)
+  return (
+    <div className="stack">
+      <label className="ideas-form__seams">
+        <input
+          type="checkbox"
+          checked={props.on}
+          aria-describedby={hintId}
+          onChange={(e) => props.onChange(e.target.checked)}
+        />
+        <span>Use hazard context (snapshot of {day})</span>
+      </label>
+      <p id={hintId} className="field__hint">
+        Adds a short summary of the saved hazard data for your area to the request, so ideas fit the
+        place. It is dated {day} and may be out of date. Nothing new is fetched.
+      </p>
+    </div>
+  )
+}
+
 export function IdeasPanel(props: {
   projectPath: string
   onDevelop: (idea: ScenarioIdea) => void
@@ -105,6 +127,10 @@ export function IdeasPanel(props: {
   const [focus, setFocus] = useState('')
   const [count, setCount] = useState('6')
   const [fromSeams, setFromSeams] = useState(false)
+  const [wantHazards, setWantHazards] = useState(true)
+  const hazardList = useIpcQuery('hazards:list', { projectPath })
+  const activeHazard = hazardList.data?.snapshots.find((s) => s.id === hazardList.data?.active)
+  const useHazards = wantHazards && !!activeHazard
   const conflicts = useIpcQuery('plan-check:get', { projectPath })
   const seams = seamChoices(conflicts.data?.findings ?? [])
   const useSeams = fromSeams && seams.length > 0
@@ -113,7 +139,7 @@ export function IdeasPanel(props: {
   const grounding = useIpcQuery('grounding:ideas', { projectPath })
   const start = (e: FormEvent) => {
     e.preventDefault()
-    void request(focus, count, useSeams)
+    void request(focus, count, useSeams, useHazards)
   }
 
   const list = ideas.data ?? []
@@ -122,12 +148,19 @@ export function IdeasPanel(props: {
       <form className="card ideas-form" onSubmit={start} aria-label="Idea request">
         <FocusField value={focus} onChange={setFocus} />
         <SeamsToggle on={fromSeams} onChange={setFromSeams} available={seams.length} />
+        {activeHazard && (
+          <HazardsToggle
+            on={wantHazards}
+            onChange={setWantHazards}
+            fetchedAt={activeHazard.fetchedAt}
+          />
+        )}
         <CountAndSubmit count={count} onCount={setCount} running={running} />
         {running && job && <IdeasProgress job={job} jobId={jobId} />}
         <GenerateError
           error={error}
           {...(error && error.code !== 'CANCELLED'
-            ? { onRetry: () => void request(focus, count, useSeams) }
+            ? { onRetry: () => void request(focus, count, useSeams, useHazards) }
             : {})}
         />
       </form>

@@ -40,6 +40,7 @@ import { regionalChannels } from './regional'
 import { translateChannels } from './translate'
 import { simcellChannels, simcellEvents } from './simcell'
 import { mapsChannels } from './maps'
+import { hazardChannels } from './hazards'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -185,6 +186,7 @@ export const channels = mergeChannels(
   translateChannels,
   simcellChannels,
   mapsChannels,
+  hazardChannels,
 )
 
 export type Channels = typeof channels

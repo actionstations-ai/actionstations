@@ -9,6 +9,7 @@ import { Id, IsoDateTime, RelPath } from './common'
 import { PackId, PackPath, SemVer } from './pack'
 import { ProjectPrivacy } from './privacy'
 import { ProviderRouting } from './provider'
+import { ProjectLocation } from './hazards'
 import { HotwashSettings } from './hotwash'
 import { ProjectGlossary } from './translation'
 
@@ -166,6 +167,8 @@ export const Project = z.looseObject({
   program: z.object({ id: Id, path: z.string().max(2000) }).optional(),
   /** Fixed term pairs per player language, passed to the translation prompt (spec 0435). */
   glossary: ProjectGlossary.optional(),
+  /** Where the organization is (#439); only rounded values are ever sent to a hazard source. */
+  location: ProjectLocation.optional(),
 })
 export type Project = z.infer<typeof Project>
 

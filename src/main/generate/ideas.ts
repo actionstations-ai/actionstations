@@ -28,7 +28,9 @@ import { domainVars, ideaThreatFamily, profileFor, threatVars } from './domain'
 import { facilitySheet } from './facility'
 import { mapIdeas } from './mappers'
 import { runStage } from './stage'
-import { projectVars, taxonomyVarsFor } from './vars'
+import { dataSafe, projectVars, taxonomyVarsFor } from './vars'
+import { activeSnapshot } from '../hazards/store'
+import { hazardSummary } from '../hazards/summary'
 
 const IdeasFile = z.object({
   generatedAt: z.string(),
@@ -136,6 +138,8 @@ export interface IdeasRequest {
   count: number
   /** "From plan seams" (#427, FR-3): build the ideas around the open plan conflicts. */
   fromSeams?: boolean
+  /** "Use hazard context" (#439): put the active hazard snapshot's summary in the prompt. */
+  useHazards?: boolean
 }
 
 /** At most this many seams go into the ideate prompt; the picker offers the same order. */
@@ -160,6 +164,12 @@ export async function generateIdeas(
   const facility = await deps.loadFacilityFacts(root, project)
   const profile = profileFor(project)
   const seams = await ideateSeams(root, req.fromSeams)
+  const hazard = req.useHazards ? await activeSnapshot(root) : undefined
+  const hazards = hazard ? hazardSummary(hazard) : ''
+  if (req.useHazards && !hazards)
+    ctx.log('ideate: no hazard snapshot with data is active; ideas use the plans only', 'warn', {
+      stage: 'ideate',
+    })
   if (req.fromSeams && !seams.length)
     ctx.log('ideate: no open plan conflicts to build ideas on; run the plan check first', 'warn', {
       stage: 'ideate',
@@ -179,6 +189,7 @@ export async function generateIdeas(
       facility: facilitySheet(facility),
       instructions: '',
       ...(seams.length ? { seams: seamPromptVars({ seams }, seams) } : {}),
+      ...(hazards ? { hazards: dataSafe(hazards) } : {}),
     },
     ctx,
     deps,
@@ -202,6 +213,7 @@ export async function generateIdeas(
   const kept = ideas.slice(0, req.count).map((idea) => ({
     ...idea,
     threatFamily: idea.threatFamily ?? ideaThreatFamily(idea, profile),
+    ...(hazards && hazard ? { hazardSnapshotId: hazard.id } : {}),
   }))
   await writeIdeas(root, kept, await groundIdeas(root, kept, { index, facility, project }, ctx))
   ctx.progress(1, `${kept.length} ideas`, { stage: 'ideate' })
