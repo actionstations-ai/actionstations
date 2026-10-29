@@ -22,7 +22,7 @@ export const Fingerprint = z.string().regex(/^([A-F0-9]{2}:){31}[A-F0-9]{2}$/)
 export const LanTls = z.enum(['self-signed', 'none'])
 export type LanTls = z.infer<typeof LanTls>
 
-/** Which server carries a session (spec 0410). Only `lan` is implemented so far (#407). */
+/** Which server carries a session (spec 0410). */
 export const LiveConnection = z.discriminatedUnion('kind', [
   z.object({
     kind: z.literal('lan'),
@@ -31,7 +31,14 @@ export const LiveConnection = z.discriminatedUnion('kind', [
     port: z.number().int().min(1024).max(65535).optional(),
   }),
   z.object({ kind: z.literal('relay') }),
-  z.object({ kind: z.literal('self-hosted'), url: z.url({ protocol: /^https?$/ }) }),
+  z.object({
+    kind: z.literal('self-hosted'),
+    url: z.url({ protocol: /^https?$/ }).max(2048),
+    /** The pinned certificate of a self-signed server, confirmed by the facilitator. */
+    fingerprintSha256: Fingerprint.optional(),
+    /** `http://` on a loopback or private host, ticked as "no TLS" (spec 0410 FR-3). */
+    insecureHttp: z.boolean().default(false),
+  }),
 ])
 export type LiveConnection = z.infer<typeof LiveConnection>
 export type LiveConnectionInput = z.input<typeof LiveConnection>
@@ -219,9 +226,46 @@ export const InviteView = z.object({
 })
 export type InviteView = z.infer<typeof InviteView>
 
+/** Where a relay or self-hosted session runs (spec 0410 FR-6). */
+export const RemoteStatus = z.object({
+  kind: z.enum(['relay', 'self-hosted']),
+  host: Text(300),
+  security: z.enum(['https', 'self-signed', 'http']),
+})
+export type RemoteStatus = z.infer<typeof RemoteStatus>
+
+/** One line of a connection test: pass, warn or fail with the next step (spec 0410 FR-4). */
+export const ConnectionCheck = z.object({
+  id: Text(40),
+  label: Text(200),
+  status: z.enum(['pass', 'warn', 'fail']),
+  detail: Text(500).optional(),
+  nextStep: Text(500).optional(),
+})
+export type ConnectionCheck = z.infer<typeof ConnectionCheck>
+
+export const ConnectionTestResult = z.object({
+  ok: z.boolean(),
+  checks: z.array(ConnectionCheck).max(20),
+  server: z
+    .object({
+      kind: z.enum(['lan', 'relay', 'self-hosted']),
+      version: Text(40).optional(),
+      protocol: z.array(z.number().int()).max(10).optional(),
+      fingerprintSha256: Fingerprint.optional(),
+      /** The certificate is self-signed and not pinned yet: the facilitator may confirm it. */
+      untrusted: z.boolean().optional(),
+      playerBundleMatches: z.boolean().optional(),
+      host: Text(300).optional(),
+    })
+    .optional(),
+})
+export type ConnectionTestResult = z.infer<typeof ConnectionTestResult>
+
 export const LiveSessionStatus = z.object({
   session: LiveSession.optional(),
   lan: LanServerStatus.optional(),
+  remote: RemoteStatus.optional(),
   invites: z.object({ players: InviteView, staff: InviteView }).optional(),
   connected: z.number().int().min(0),
   /** Milliseconds since start with no device ever connected; absent once one has (spec 0407 FR-8). */

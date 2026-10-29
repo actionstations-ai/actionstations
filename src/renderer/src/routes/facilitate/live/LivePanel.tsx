@@ -3,13 +3,17 @@
 // (players link on screen, staff link behind a button), the URL with Copy link, the status
 // line (a live region), Switch address and Stop. After a minute with no device the firewall
 // recovery text appears inline.
-import { useState } from 'react'
-import type { InviteView, LanAddress, LiveSessionStatus } from '@shared/schemas/live'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
+import type { LanAddress, LiveConnectionInput, LiveSessionStatus } from '@shared/schemas/live'
 import { useIpcQuery } from '../../../lib/query'
 import { Button } from '../../../components/ui'
-import { toast } from '../../../components/toast-store'
-import { QrCode } from './QrCode'
+import { InviteCard } from './InviteCard'
+import { ConnectionChooser, type ConnectionKind } from './ConnectionChooser'
+import { RemotePanel } from './RemotePanel'
+import { RemoteSetup } from './RemoteSetup'
 import { LIVE } from './strings'
+import { TestBlock } from './TestResults'
+import { useConnectionTest } from './use-connection-test'
 import { useLiveSession, type LiveBusy } from './use-live-session'
 
 const NO_CONNECTIONS_AFTER_MS = 60_000
@@ -62,6 +66,8 @@ function Setup(props: {
   addresses: LanAddress[]
   firewall: string | undefined
   busy: LiveBusy
+  /** Rendered above Start with the connection the form describes (the Test button). */
+  extra?: (connection: LiveConnectionInput) => ReactNode
   onStart: (
     address: string,
     tls: 'self-signed' | 'none',
@@ -172,37 +178,11 @@ function Setup(props: {
           <p>{props.firewall}</p>
         </section>
       )}
+      {props.extra?.({ kind: 'lan', ...(chosen ? { address: chosen } : {}), tls })}
       <Button type="submit" variant="primary" disabled={!chosen || props.busy !== 'idle'}>
         {props.busy === 'starting' ? LIVE.starting : LIVE.start}
       </Button>
     </form>
-  )
-}
-
-function InviteCard(props: { title: string; invite: InviteView; help?: string; size?: number }) {
-  const { url } = props.invite
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(url)
-      toast.success(LIVE.copied)
-    } catch {
-      toast.error('Could not copy the link', new Error('Clipboard unavailable'))
-    }
-  }
-  return (
-    <section className="live-invite" aria-label={props.title}>
-      <h3 className="live-invite__title">{props.title}</h3>
-      {props.help && <p className="muted live-invite__help">{props.help}</p>}
-      <div className="live-invite__body">
-        <QrCode qr={props.invite.qr} label={LIVE.qrAlt(url)} size={props.size} />
-        <div className="live-invite__link">
-          <code className="live-invite__url">{url}</code>
-          <Button size="sm" onClick={() => void copy()}>
-            {LIVE.copyLink}
-          </Button>
-        </div>
-      </div>
-    </section>
   )
 }
 
@@ -309,6 +289,81 @@ function StageProgress(props: { projectPath: string; scenarioId: string }) {
   )
 }
 
+/** The kind to open on: this scenario's earlier choice, else the settings default (spec 0410). */
+function useChosenKind(projectPath: string, scenarioId: string) {
+  const state = useIpcQuery('facilitator:state-get', { projectPath, scenarioId })
+  const settings = useIpcQuery('settings:get', undefined)
+  const [kind, setKind] = useState<ConnectionKind>('lan')
+  const touched = useRef(false)
+  const initial = state.data?.live?.connection?.kind ?? settings.data?.live?.defaultConnectionKind
+  useEffect(() => {
+    if (!touched.current && initial) setKind(initial)
+  }, [initial])
+  const consented = state.data?.live?.consented ?? []
+  return {
+    kind,
+    choose: (k: ConnectionKind) => {
+      touched.current = true
+      setKind(k)
+    },
+    consented,
+  }
+}
+
+function LanSetup(props: { projectPath: string; live: ReturnType<typeof useLiveSession> }) {
+  const { live } = props
+  const test = useConnectionTest(props.projectPath)
+  return (
+    <Setup
+      addresses={live.addresses}
+      firewall={live.firewall?.beforeStart}
+      busy={live.busy}
+      extra={(connection) => (
+        <TestBlock
+          testing={test.testing}
+          result={test.result}
+          error={test.error}
+          onTest={() => void test.run(connection)}
+        />
+      )}
+      onStart={(address, tls, attribution, allowPublic) =>
+        void live.start({ kind: 'lan', address, tls }, attribution, allowPublic)
+      }
+    />
+  )
+}
+
+function Chooser(props: {
+  projectPath: string
+  scenarioId: string
+  live: ReturnType<typeof useLiveSession>
+}) {
+  const { live } = props
+  const choice = useChosenKind(props.projectPath, props.scenarioId)
+  return (
+    <>
+      <ConnectionChooser
+        value={choice.kind}
+        onChange={choice.choose}
+        disabled={live.busy !== 'idle'}
+      />
+      {choice.kind === 'lan' ? (
+        <LanSetup projectPath={props.projectPath} live={live} />
+      ) : (
+        <RemoteSetup
+          key={choice.kind}
+          kind={choice.kind}
+          projectPath={props.projectPath}
+          scenarioId={props.scenarioId}
+          consented={choice.consented.includes(choice.kind)}
+          busy={live.busy}
+          onStart={(connection, attribution) => void live.start(connection, attribution)}
+        />
+      )}
+    </>
+  )
+}
+
 export function LivePanel(props: { projectPath: string; scenarioId: string }) {
   const live = useLiveSession(props.projectPath, props.scenarioId)
   if (live.loading) return <p className="muted">Loading…</p>
@@ -322,7 +377,9 @@ export function LivePanel(props: { projectPath: string; scenarioId: string }) {
         </p>
       )}
       {running && <StageProgress projectPath={props.projectPath} scenarioId={props.scenarioId} />}
-      {running && live.status ? (
+      {running && live.status?.remote ? (
+        <RemotePanel status={live.status} busy={live.busy} onStop={() => void live.stop()} />
+      ) : running && live.status ? (
         <Running
           status={live.status}
           addresses={live.addresses}
@@ -332,14 +389,7 @@ export function LivePanel(props: { projectPath: string; scenarioId: string }) {
           onSwitch={(address) => void live.switchAddress(address)}
         />
       ) : (
-        <Setup
-          addresses={live.addresses}
-          firewall={live.firewall?.beforeStart}
-          busy={live.busy}
-          onStart={(address, tls, attribution, allowPublic) =>
-            void live.start({ kind: 'lan', address, tls }, attribution, allowPublic)
-          }
-        />
+        <Chooser projectPath={props.projectPath} scenarioId={props.scenarioId} live={live} />
       )}
     </div>
   )

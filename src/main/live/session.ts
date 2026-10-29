@@ -14,6 +14,7 @@ import { SessionKeys } from '@shared/live/crypto/keys'
 import type { CryptoProvider, KeyPair } from '@shared/live/crypto/provider'
 import { createWebCryptoProvider } from '@shared/live/crypto/webcrypto'
 import { SessionHub } from '@shared/live/hub'
+import type { Transport } from '@shared/live/transport'
 import { LIMITS, PROTOCOL_VERSION } from '@shared/live/protocol'
 import type { BlobRef, ClientId, ClockState, Destination } from '@shared/live/schemas'
 import { MemoryServer } from '@shared/live/transport-memory'
@@ -52,6 +53,14 @@ import { LogWriter } from './log'
 import { deleteSessionKeys, writeSessionKeys } from './keys'
 import { Seats, type Seat } from './seats'
 import { runSessionEndHooks } from './end-hooks'
+import { requireConsent, isRemote } from './connection'
+import {
+  attachController,
+  createRemoteSession,
+  endRemoteSession,
+  type RemoteHandle,
+} from './remote-session'
+import { writeFacilitatorState } from '../facilitator/state'
 import { chooseAddress, listLanAddresses } from './transport/lan/addresses'
 import { LanLog } from './transport/lan/log'
 import { startLanServer, type LanServer } from './transport/lan/server'
@@ -67,7 +76,9 @@ interface Active {
   crypto: CryptoProvider
   keys: SessionKeys
   signing: KeyPair
-  hub: SessionHub
+  /** In-process hub (LAN); a remote session's hub lives on the server. */
+  hub?: SessionHub
+  remote?: RemoteHandle
   client: LiveClient
   lan?: LanServer
   lanLog: LanLog
@@ -147,6 +158,11 @@ async function clockState(root: string, scenarioId: string): Promise<ClockState>
   }
 }
 
+/** Devices currently connected: the LAN listener's count, or the seats online on a remote server. */
+function connectedCount(a: Active | undefined): number {
+  return a ? (a.lan?.connected ?? a.seats.connected) : 0
+}
+
 function emitChanged(
   reason:
     'started' | 'stopped' | 'presence' | 'error' | 'receipts' | 'staging' | 'messages' | 'votes',
@@ -157,7 +173,7 @@ function emitChanged(
     reason,
     ...(threadId ? { threadId } : {}),
     ...(active ? { sessionId: active.session.id } : {}),
-    connected: active?.lan?.connected ?? 0,
+    connected: connectedCount(active),
     ...(message ? { message } : {}),
   })
 }
@@ -380,6 +396,7 @@ function makeVotes(getActive: () => Active, roles: readonly Role[]): Votes {
 }
 
 async function openLan(a: Active, address: string, tls: 'self-signed' | 'none', port?: number) {
+  if (!a.hub) throw new AppError('INTERNAL', 'This session has no in-process hub')
   a.lan = await startLanServer({
     address,
     ...(port !== undefined ? { port } : {}),
@@ -404,15 +421,38 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
       'A live session is already running. End it before starting another.',
     )
   }
-  if (req.connection.kind !== 'lan') {
-    throw new AppError('NOT_IMPLEMENTED', 'Only "This computer" is available in this version.')
-  }
   const root = await requireProject(req.projectPath)
   const scenario = await getScenario(root, req.scenarioId)
-  const crypto = createWebCryptoProvider()
-  const sessionId = toBase64Url(crypto.random(16))
-  const keys = await SessionKeys.create(crypto, sessionId)
-  const signing = await crypto.ecdsaGenerate()
+  if (isRemote(req.connection)) {
+    requireConsent(await readFacilitatorState(root, req.scenarioId), req.connection)
+  }
+  const remote = isRemote(req.connection) ? await createRemoteSession(req.connection) : undefined
+  try {
+    return await startOn(req, root, scenario, remote)
+  } catch (err) {
+    if (remote) await endRemoteSession(remote)
+    throw err
+  }
+}
+
+interface Parts {
+  hub?: SessionHub
+  transport: Transport
+  limits: typeof LIMITS.lan
+}
+
+/** The controller's connection to the session server: in-process hub (LAN) or the remote socket. */
+async function controllerParts(
+  crypto: CryptoProvider,
+  sessionId: string,
+  keys: SessionKeys,
+  controllerId: string,
+  remote: RemoteHandle | undefined,
+): Promise<Parts> {
+  if (remote) {
+    const transport = await attachController(remote, await keys.joinTokenHash(), controllerId)
+    return { transport, limits: remote.limits }
+  }
   const hub = new SessionHub({
     sessionId,
     kind: 'lan',
@@ -421,11 +461,31 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
     version: app.getVersion(),
     framesPerMinute: LAN_FRAMES_PER_MINUTE,
   })
-  const controllerId = toBase64Url(crypto.random(16))
   const transport = await new MemoryServer({ hub }).connect({
     clientId: controllerId,
     controller: true,
   })
+  return { hub, transport, limits: LIMITS.lan }
+}
+
+async function startOn(
+  req: StartSessionRequest,
+  root: string,
+  scenario: Awaited<ReturnType<typeof getScenario>>,
+  remote: RemoteHandle | undefined,
+): Promise<LiveSessionStatus> {
+  const crypto = createWebCryptoProvider()
+  const sessionId = remote?.auth.sessionId ?? toBase64Url(crypto.random(16))
+  const keys = await SessionKeys.create(crypto, sessionId)
+  const signing = await crypto.ecdsaGenerate()
+  const controllerId = toBase64Url(crypto.random(16))
+  const { hub, transport, limits } = await controllerParts(
+    crypto,
+    sessionId,
+    keys,
+    controllerId,
+    remote,
+  )
   const client = new LiveClient({
     transport,
     keys,
@@ -434,9 +494,14 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
     crypto,
     controllerPub: signing.publicKey,
     signer: signing.privateKey,
-    limits: LIMITS.lan,
+    limits,
   })
-  const address = bindAddress(req.connection.address, req.allowPublicAddress)
+  const address = remote
+    ? ''
+    : bindAddress(
+        req.connection.kind === 'lan' ? req.connection.address : undefined,
+        req.allowPublicAddress,
+      )
   const dir = sessionDir(root, req.scenarioId, sessionId)
   const log = await LogWriter.open(join(dir, 'log.jsonl'), req.attribution)
   const salt = crypto.random(16)
@@ -446,7 +511,7 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
       scenarioId: req.scenarioId,
       name: req.name?.trim() || scenario.title,
       startedAt: new Date().toISOString(),
-      connection: { ...req.connection, address },
+      connection: req.connection.kind === 'lan' ? { ...req.connection, address } : req.connection,
       joinUrlPublic: '',
       attribution: req.attribution,
       protocolVersion: PROTOCOL_VERSION,
@@ -456,7 +521,8 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
     crypto,
     keys,
     signing,
-    hub,
+    ...(hub ? { hub } : {}),
+    ...(remote ? { remote } : {}),
     client,
     lanLog: new LanLog(userDataPath('live', 'lan.log')),
     log,
@@ -486,14 +552,16 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
     }),
   )
   try {
-    await openLan(a, address, req.connection.tls, req.connection.port)
+    if (req.connection.kind === 'lan') {
+      await openLan(a, address, req.connection.tls, req.connection.port)
+    }
   } catch (err) {
     client.close()
-    hub.end()
+    hub?.end()
     await log.flush()
     throw err
   }
-  a.session.joinUrlPublic = a.lan!.status.url
+  a.session.joinUrlPublic = a.lan?.status.url ?? `${remote!.origin}/s/${sessionId}`
   active = a
   wireClient(a)
   await writeSessionFile(a)
@@ -501,17 +569,35 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
     kind: 'session.start',
     actor: { kind: 'controller' },
     data: {
-      connection: 'lan',
-      tls: req.connection.tls,
+      connection: req.connection.kind,
+      ...(req.connection.kind === 'lan' ? { tls: req.connection.tls } : {}),
       attribution: req.attribution,
       protocol: PROTOCOL_VERSION,
     },
   })
   await persistKeys(a)
   a.powerSave = powerSaveBlocker.start('prevent-app-suspension')
+  await rememberConnection(root, req.scenarioId, req.connection)
   emitChanged('started')
   void stageAll(hostOf(a)).catch((e) => console.error('[live] staging:', (e as Error).message))
   return status(root, req.scenarioId)
+}
+
+/** The scenario remembers the connection it used, so the chooser opens on it next time. */
+async function rememberConnection(
+  root: string,
+  scenarioId: string,
+  connection: LiveConnection,
+): Promise<void> {
+  try {
+    const state = await readFacilitatorState(root, scenarioId)
+    await writeFacilitatorState(root, scenarioId, {
+      ...state,
+      live: { ...state.live, consented: state.live?.consented ?? [], connection },
+    })
+  } catch (err) {
+    console.error('[live] could not remember the connection:', (err as Error).message)
+  }
 }
 
 /** Best effort: without OS encryption the session still runs, it just cannot be resumed. */
@@ -546,9 +632,10 @@ export function status(root: string, scenarioId: string): LiveSessionStatus {
   const a = active
   if (!a || a.root !== root || a.session.scenarioId !== scenarioId) return { connected: 0 }
   const lan = a.lan?.status
-  const invites = lan
+  const origin = lan ? lan.url.slice(0, lan.url.indexOf('/s/')) : a.remote?.origin
+  const invites = origin
     ? inviteViews({
-        origin: lan.url.slice(0, lan.url.indexOf('/s/')),
+        origin,
         sessionId: a.session.id,
         keys: a.keys,
         controllerPub: a.signing.publicKey,
@@ -558,8 +645,9 @@ export function status(root: string, scenarioId: string): LiveSessionStatus {
   return {
     session: a.session,
     ...(lan ? { lan } : {}),
+    ...(a.remote ? { remote: a.remote.status } : {}),
     ...(invites ? { invites } : {}),
-    connected: a.lan?.connected ?? 0,
+    connected: connectedCount(a),
     ...(a.lan && !a.lan.everConnected ? { noConnectionsForMs: Math.max(0, since) } : {}),
   }
 }
@@ -690,7 +778,8 @@ async function teardown(a: Active, reason: 'endex' | 'cancelled'): Promise<LiveS
   } catch (err) {
     console.error('[live] session.end not sent:', (err as Error).message)
   }
-  a.hub.end()
+  a.hub?.end()
+  if (a.remote) await endRemoteSession(a.remote)
   a.client.close()
   await a.lan?.stop().catch((e: unknown) => console.error('[live] stop:', e))
   a.lan = undefined

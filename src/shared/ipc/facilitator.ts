@@ -4,6 +4,7 @@ import { ExerciseTime, IsoDateTime, SafeId } from '../schemas/common'
 import { BranchRule } from '../schemas/scenario'
 import { HotwashItemKind } from '../schemas/aar'
 import { ComplianceSession } from '../schemas/compliance'
+import { LiveConnection } from '../schemas/live'
 
 const S = z.object({ projectPath: z.string(), scenarioId: SafeId })
 
@@ -91,6 +92,19 @@ export const FacilitatorState = z.looseObject({
       seed: SafeId.optional(),
       decisions: z.array(DecisionRecord).max(500).default([]),
       proposals: z.array(ProposalVerdict).max(500).default([]),
+    })
+    .optional(),
+  /**
+   * Live play (#410): the connection chosen for this exercise and the remote kinds the facilitator
+   * confirmed. Absent connection means "not chosen": nothing listens or connects.
+   */
+  live: z
+    .looseObject({
+      connection: LiveConnection.optional(),
+      consented: z
+        .array(z.enum(['relay', 'self-hosted']))
+        .max(2)
+        .optional(),
     })
     .optional(),
 })

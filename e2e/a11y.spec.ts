@@ -131,6 +131,25 @@ const SCREENS: Screen[] = [
   { name: 'redlines', hash: (s) => `#/p/${s.key}/redlines` },
   { name: 'drills', hash: (s) => `#/p/${s.key}/drills` },
   { name: 'facilitate', hash: (s) => `#/p/${s.key}/scenarios/${s.scenarioId}/facilitate` },
+  {
+    // Connection chooser (#410): the three cards with their statements and the LAN Test button.
+    name: 'live-connection',
+    hash: (s) => `#/p/${s.key}/scenarios/${s.scenarioId}/facilitate`,
+    prepare: async (page) => {
+      await page.getByRole('tab', { name: 'Live' }).click()
+      await page.getByRole('radiogroup', { name: 'How will devices connect?' }).waitFor()
+    },
+  },
+  {
+    // The relay option before consent: statement, limits, the consent notice, Test and Start off.
+    name: 'live-connection-relay',
+    hash: (s) => `#/p/${s.key}/scenarios/${s.scenarioId}/facilitate`,
+    prepare: async (page) => {
+      await page.getByRole('tab', { name: 'Live' }).click()
+      await page.getByLabel(/Action Stations relay/).check()
+      await page.getByRole('heading', { name: 'Before you continue' }).waitFor()
+    },
+  },
   { name: 'present', hash: (s) => `#/present/${s.key}/${s.scenarioId}/${s.injectId}` },
   { name: 'prompts', hash: () => '#/prompts' },
   { name: 'providers', hash: () => '#/providers' },

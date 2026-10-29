@@ -1100,3 +1100,85 @@
   margin: 0;
   padding-left: var(--space-5);
 }
+
+/* Connection chooser (#410): radio cards, test checklist, fingerprint pairs. Tokens only. */
+.live-choices {
+  gap: var(--space-3);
+}
+.live-card {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+.live-card.is-selected {
+  border-color: var(--color-accent);
+}
+.live-card:has(input:focus-visible) {
+  outline: 2px solid var(--color-focus, var(--color-accent));
+  outline-offset: 2px;
+}
+.live-card input {
+  margin-top: 0.3em;
+  flex: none;
+}
+.live-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.live-card__statement {
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+.live-card__statement .field__label {
+  display: block;
+}
+.live-test {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.live-checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.live-check {
+  display: flex;
+  flex-direction: column;
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--color-border);
+}
+.live-check--pass {
+  border-left-color: var(--color-success, var(--color-border));
+}
+.live-check--warn {
+  border-left-color: var(--color-warning);
+}
+.live-check--fail {
+  border-left-color: var(--color-danger, var(--color-warning));
+}
+.live-check__detail,
+.live-check__next {
+  font-size: var(--text-sm);
+}
+.live-fingerprint-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+.live-fingerprint-view__pairs {
+  user-select: text;
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono, monospace);
+}

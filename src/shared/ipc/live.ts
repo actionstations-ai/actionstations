@@ -1,9 +1,12 @@
 import { z } from 'zod'
 import { channel } from './define'
 import { Destination } from '../live/schemas/envelope'
-import { SafeId } from '../schemas/common'
+import { HttpUrl, SafeId } from '../schemas/common'
+import { LiveServerEntry } from '../schemas/settings'
 import {
   Attribution,
+  ConnectionTestResult,
+  Fingerprint,
   FirewallGuidance,
   Ipv4,
   LanAddress,
@@ -50,6 +53,31 @@ export const liveChannels = {
   'live:lan-switch-address': channel(z.object({ address: Ipv4 }), LanServerStatus),
   /** The firewall prompt this OS shows and how to recover from a denial (spec 0407 FR-8). */
   'live:firewall-guidance': channel(z.void(), FirewallGuidance),
+  /** Probe a connection without starting a session (spec 0410 FR-4). The only call besides start that touches a server. */
+  'live:connection-test': channel(
+    z.object({
+      /** Not needed to test; the Facilitate page sends it, Settings does not. */
+      projectPath: z.string().optional(),
+      connection: LiveConnection,
+      /** A key typed but not saved yet; otherwise the stored key for the URL is used. */
+      serverKey: z.string().max(200).optional(),
+    }),
+    ConnectionTestResult,
+  ),
+  /** The remote kind the facilitator confirmed for this scenario (spec 0410 FR-7). */
+  'live:consent': channel(S.extend({ kind: z.enum(['relay', 'self-hosted']) }), z.void()),
+  'live:servers-list': channel(z.void(), z.array(LiveServerEntry.extend({ hasKey: z.boolean() }))),
+  /** Remember a server, its pinned fingerprint and (encrypted) its key. */
+  'live:server-save': channel(
+    z.object({
+      url: HttpUrl,
+      name: z.string().trim().max(80).optional(),
+      fingerprintSha256: Fingerprint.optional(),
+      serverKey: z.string().trim().min(1).max(200).optional(),
+    }),
+    LiveServerEntry.extend({ hasKey: z.boolean() }),
+  ),
+  'live:server-forget': channel(z.object({ url: HttpUrl }), z.void()),
   /** Release an MSEL row to devices (#412). Targets default from the row; `showExpected` adds the expected action to evaluators' copies. */
   'live:release-inject': channel(
     S.extend({
