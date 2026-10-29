@@ -251,6 +251,11 @@ export const facilitatorChannels = {
     }),
     z.void(),
   ),
+  /** Show a branch decision in the presentation window (spec 0430). */
+  'facilitator:present-decision': channel(
+    S.extend({ decisionId: SafeId, displayId: z.number().optional() }),
+    z.void(),
+  ),
   'facilitator:close-present': channel(z.void(), z.void()),
   /** Whether the presentation window is open (changes arrive as facilitator:present-changed). */
   'facilitator:present-status': channel(z.void(), z.object({ open: z.boolean() })),

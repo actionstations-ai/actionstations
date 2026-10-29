@@ -94,6 +94,25 @@ function TallyEditor(props: {
   )
 }
 
+/** Puts the decision on the presentation screen; it follows the decision once it is taken. */
+function ShowOnScreen(props: { projectPath: string; scenarioId: string; decisionId: string }) {
+  return (
+    <Button
+      size="sm"
+      variant="ghost"
+      onClick={() =>
+        void call('facilitator:present-decision', {
+          projectPath: props.projectPath,
+          scenarioId: props.scenarioId,
+          decisionId: props.decisionId,
+        })
+      }
+    >
+      Show on screen
+    </Button>
+  )
+}
+
 function OpenDecision(props: Props & { decision: Decision; rowId: string; close: Close }) {
   const { decision, state } = props
   const [hand, setHand] = useState<Record<string, number>>({})
@@ -149,6 +168,11 @@ function OpenDecision(props: Props & { decision: Decision; rowId: string; close:
             Controller chooses: {o.label}
           </Button>
         ))}
+        <ShowOnScreen
+          projectPath={props.projectPath}
+          scenarioId={props.scenario.id}
+          decisionId={decision.id}
+        />
       </div>
       {rule !== 'controller' && cast === 0 && (
         <p className="muted">Enter a tally to decide by rule, or choose an option yourself.</p>
@@ -180,6 +204,11 @@ function ClosedList(props: Props & { close: Close }) {
               {rec.input.cast > 0 ? `, ${rec.input.cast} votes` : ''}
               {rec.note ? `. Note: ${rec.note}` : ''}
             </span>
+            <ShowOnScreen
+              projectPath={props.projectPath}
+              scenarioId={scenario.id}
+              decisionId={rec.decisionId}
+            />
             {canOverride && open !== rec.decisionId && (
               <Button size="sm" variant="ghost" onClick={() => setOpen(rec.decisionId)}>
                 Override…
