@@ -8,6 +8,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Added
+
+- Tip of the day on the Projects screen (#443): one short tip from a list shipped with the app (`src/shared/tips/tips.json`, 24 tips), with a link to the guide section that explains it, **Next tip**, **Hide** and **Turn off tips**, and a switch in **Settings → General**. Tips are bundled, so showing them makes no request; the guide opens on GitHub at the app's own version. A test fails when a tip links to a guide heading that does not exist.
+
 ### Fixed
 
 - Installers never ship onnxruntime's CUDA or TensorRT providers (#401). A native Linux x64 build downloaded them (272 MB) although the app runs the CPU provider; `electron-builder.yml` leaves them out, the release workflow skips the download, and `package-smoke` fails if they appear.

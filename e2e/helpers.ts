@@ -21,6 +21,8 @@ export interface LaunchOptions {
   onboarding?: boolean
   /** Electron / Node switches placed before the app path (e.g. `-r <file>`, `--log-net-log=`). */
   args?: string[]
+  /** Show the tip of the day (#443). Off by default so screens and screenshots stay stable. */
+  tips?: boolean
 }
 
 /** Launch the built app (out/) with an isolated userData dir. */
@@ -30,7 +32,10 @@ export async function launch(
 ): Promise<Launched> {
   const userData = opts.userData ?? mkdtempSync(join(tmpdir(), 'ttx-e2e-'))
   if (!opts.userData && !opts.onboarding)
-    writeFileSync(join(userData, 'settings.json'), JSON.stringify({ onboardingComplete: true }))
+    writeFileSync(
+      join(userData, 'settings.json'),
+      JSON.stringify({ onboardingComplete: true, ui: { tips: { enabled: !!opts.tips } } }),
+    )
   const app = await electron.launch({
     args: [...(opts.args ?? []), resolve('out/main/index.js')],
     env: {

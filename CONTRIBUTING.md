@@ -161,6 +161,7 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 ## Documentation
 
 - Keep [`README.md`](README.md) runnable and the guides in [`docs/guides/`](docs/guides/) accurate when behaviour changes. Guide screenshots live in `docs/guides/images/`; retake them from the built app when a screen changes with `pnpm build:app && GUIDE_SHOTS=1 pnpm exec playwright test e2e/guide-screenshots.spec.ts` (mock provider, 1440 × 900), then look at each changed image before committing it. The Packs screenshots in `docs/guides/images/packs/` come from `GUIDE_SHOTS=1 pnpm exec playwright test e2e/packs.spec.ts`.
+- When a feature adds or renames a guide section, add or update its tip in [`src/shared/tips/tips.json`](src/shared/tips/tips.json) (id, one or two plain sentences, `guide` as `docs/guides/<file>.md#<anchor>`, `linkLabel`, and `since` for a feature newer than the last release). Never reuse an id. `pnpm test` fails when a tip links to a heading that does not exist, so renaming a heading means updating its tips.
 - Any architectural choice (a new library, a storage format change, a new process boundary) gets an ADR in `docs/adr/NNNN-title.md`, copied from [`docs/adr/0000-template.md`](docs/adr/0000-template.md): context, decision, consequences, kept short. To reverse a decision, write a new ADR and mark the old one `Superseded by ADR-XXXX`.
 
 ## Design documents

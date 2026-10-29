@@ -12,7 +12,20 @@ export const EmbeddingSettings = z.object({
 })
 export type EmbeddingSettings = z.infer<typeof EmbeddingSettings>
 
-export const UiSettings = z.object({ theme: z.enum(['system', 'light', 'dark']).default('system') })
+/** Tip of the day on the Projects screen (#443). */
+export const TipSettings = z.object({
+  enabled: z.boolean().default(true),
+  /** Index into the tips this version shows of the next tip; wraps when out of range. */
+  nextIndex: z.number().int().min(0).max(10_000).default(0),
+})
+export type TipSettings = z.infer<typeof TipSettings>
+
+const defaultTips = (): TipSettings => ({ enabled: true, nextIndex: 0 })
+
+export const UiSettings = z.object({
+  theme: z.enum(['system', 'light', 'dark']).default('system'),
+  tips: TipSettings.default(defaultTips),
+})
 export type UiSettings = z.infer<typeof UiSettings>
 
 /** What happens after a scenario finishes generating (#227). */
@@ -60,7 +73,7 @@ export const AppSettings = z.object({
   /** Global default routing; a project's providerRouting overrides per task. */
   defaultRouting: ProviderRouting.default({}),
   embeddings: EmbeddingSettings.default({ mode: 'hash', model: 'Xenova/bge-small-en-v1.5' }),
-  ui: UiSettings.default({ theme: 'system' }),
+  ui: UiSettings.default(() => ({ theme: 'system' as const, tips: defaultTips() })),
   generation: GenerationSettings.default({ autoInjectsAndMedia: false }),
   onboardingComplete: z.boolean().default(false),
   defaultProjectsDir: z.string().optional(),

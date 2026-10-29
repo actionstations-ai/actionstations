@@ -98,6 +98,16 @@ describe('schemas', () => {
   it('defaults app settings to the offline hash embedder', () => {
     expect(AppSettings.parse({}).embeddings.mode).toBe('hash')
   })
+
+  it('turns tips on for settings files written before tips existed (#443)', () => {
+    const tips = { enabled: true, nextIndex: 0 }
+    expect(AppSettings.parse({}).ui.tips).toEqual(tips)
+    expect(AppSettings.parse({ ui: { theme: 'dark' } }).ui).toEqual({ theme: 'dark', tips })
+    expect(AppSettings.parse({ ui: { tips: { enabled: false } } }).ui.tips).toEqual({
+      enabled: false,
+      nextIndex: 0,
+    })
+  })
 })
 
 describe('taxonomy', () => {
