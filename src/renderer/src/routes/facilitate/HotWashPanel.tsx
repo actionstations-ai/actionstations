@@ -14,6 +14,8 @@ import { Badge } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { CitationChips } from '../scenarios/CitationChips'
 import { countRatings, type RatingCounts } from './evaluation'
+import { DecisionLog, HotwashCapture } from './HotWashCapture'
+import type { UpdateState } from './use-delivery-actions'
 
 interface NoteLine {
   row: MselRow
@@ -174,10 +176,15 @@ export function HotWashPanel({
   projectPath,
   scenario,
   state,
+  update,
+  exerciseTime,
 }: {
   projectPath: string
   scenario: Scenario
   state: FacilitatorState
+  update: UpdateState
+  /** The exercise clock ("H:MM"), recorded with each logged decision. */
+  exerciseTime: string
 }) {
   const questions = scenario.hotwash?.questions ?? []
   const metrics = scenario.rubric?.metrics ?? []
@@ -187,8 +194,11 @@ export function HotWashPanel({
     scenario.msel,
     state.notes,
   )
+  const capture = { scenario, state, update, exerciseTime }
   return (
     <div className="fac-hotwash">
+      <HotwashCapture {...capture} />
+      <DecisionLog {...capture} />
       <section aria-labelledby="fac-hw-questions">
         <h2 id="fac-hw-questions">Hot wash questions</h2>
         {scenario.hotwash?.methodDescription && (

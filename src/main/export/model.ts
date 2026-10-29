@@ -2,6 +2,7 @@
 // markdown documents, brand, and the media file plan.
 import {
   conductOf,
+  type Aar,
   type Brand,
   type ConductDetails,
   type Inject,
@@ -10,6 +11,7 @@ import {
   type Survey,
   type SurveySummary,
 } from '@shared/schemas'
+import { readAar } from '../aar/store'
 import { safeJoinReal } from '../lib/fs'
 import { loadProject } from '../project/store'
 import { getScenario, listInjects, readScenarioDoc } from '../scenario/store'
@@ -27,6 +29,8 @@ export interface ExportDocs {
   handouts: string
   /** Facilitator-only handouts (facilitator/ only); '' when the scenario has none. */
   controller_handouts: string
+  /** The AAR/IP document (#419), with the prose a person edited; '' before the first draft. */
+  aar: string
 }
 
 /** A survey and its results (#422): forms print the survey, the results PDF the summary. */
@@ -58,6 +62,8 @@ export interface ExportModel {
    * controller MSEL is the only document that reads it; player material never does.
    */
   sourceCheck?: Record<string, string>
+  /** The After-Action Report / Improvement Plan (#419); null before the first draft. */
+  aar: Aar | null
 }
 
 /** Surveys with their summaries, the anonymity threshold from settings applied. */
@@ -85,14 +91,16 @@ export async function loadExportModel(
   ])
   const injects = liveInjects(scenario, all)
   const read = (kind: keyof ExportDocs) => readScenarioDoc(root, scenarioId, kind)
-  const [handbook, briefing, hotwash, overview, handouts, controllerHandouts] = await Promise.all([
-    read('handbook'),
-    read('briefing'),
-    read('hotwash'),
-    read('overview'),
-    read('handouts'),
-    read('controller_handouts'),
-  ])
+  const [handbook, briefing, hotwash, overview, handouts, controllerHandouts, aarDoc] =
+    await Promise.all([
+      read('handbook'),
+      read('briefing'),
+      read('hotwash'),
+      read('overview'),
+      read('handouts'),
+      read('controller_handouts'),
+      read('aar'),
+    ])
   const scenarioNo = scenarioNumber(scenario, project.scenarios)
   const media = planMediaFiles(scenarioNo, injects)
   return {
@@ -113,6 +121,7 @@ export async function loadExportModel(
       overview,
       handouts,
       controller_handouts: controllerHandouts,
+      aar: aarDoc,
     },
     scenarioNo,
     media,
@@ -121,6 +130,7 @@ export async function loadExportModel(
     surveys: await loadSurveys(root, scenarioId),
     conduct: conductOf(scenario),
     ...optionalEvaluation(scenario),
+    aar: await readAar(root, scenarioId),
   }
 }
 

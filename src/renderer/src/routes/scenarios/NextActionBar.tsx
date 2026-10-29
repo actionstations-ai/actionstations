@@ -1,7 +1,7 @@
 // "What to do next" bar on the scenario page (#227): write injects → render media → fix lint
 // errors → export / facilitate, with live counts. The same jobs as the Injects tab buttons;
 // the stage controls stay under Advanced information for power users.
-import { Check, Circle, Download, Presentation } from 'lucide-react'
+import { Check, Circle, Download, FileText, Presentation } from 'lucide-react'
 import { Link } from 'react-router'
 import type { JobKind } from '@shared/schemas/job'
 import { Term } from '../../components/Glossary'
@@ -89,6 +89,8 @@ function headline(r: Readiness): string {
       return `Next: fix ${plural(r.errors, 'error')} found by the checks`
     case 'evaluation':
       return 'Ready. Next: generate the evaluation guides'
+    case 'draft-aar':
+      return 'Exercise run. Next: draft the AAR/IP from the exercise record'
     case 'run':
       return 'Ready: export or facilitate'
   }
@@ -144,6 +146,11 @@ export function NextActionBar(props: {
             Generate evaluation guides
           </Button>
         )}
+        {r.next === 'draft-aar' && (
+          <Link className="btn btn--primary" to={`${base}/aar`}>
+            <FileText size={16} aria-hidden /> Draft the AAR/IP
+          </Link>
+        )}
         {isReadyNext(r.next) && (
           <>
             <Link className="btn" to={`${base}/facilitate`}>
@@ -186,6 +193,14 @@ function Hint({ r }: { r: Readiness }) {
       <p className="muted">
         The automatic checks (<Term id="lint">lint</Term>) found problems players would notice. You
         can still export.
+      </p>
+    )
+  if (r.next === 'draft-aar')
+    return (
+      <p className="muted">
+        The Facilitate screen captured notes, hot wash items or decisions. The After-Action Report
+        / Improvement Plan is drafted from them (and from observations, live play and surveys); you
+        confirm the ratings and set the owners.
       </p>
     )
   if (r.next === 'evaluation')

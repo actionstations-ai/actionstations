@@ -1,0 +1,223 @@
+<section class="doc doc--aar" aria-labelledby="{{prefix}}aar-title">
+  {{> title title}} {{#if missing}}
+  <p class="prose aar-missing">{{missing}}</p>
+  {{else}} {{#if draft}}
+  <p class="aar-draft" role="note">
+    Draft: one or more capability ratings are still pending. Confirm every rating before this report
+    is issued.
+  </p>
+  {{/if}}
+  <section class="section" aria-labelledby="{{prefix}}aar-overview">
+    <h2 id="{{prefix}}aar-overview">Exercise Overview</h2>
+    <table class="grid aar-overview">
+      <caption class="sr-only">
+        Exercise overview
+      </caption>
+      <tbody>
+        {{#each overview}}
+        <tr>
+          <th scope="row">{{label}}</th>
+          <td>{{value}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <p class="aar-evidence">{{evidence}}</p>
+  </section>
+
+  <section class="section" aria-labelledby="{{prefix}}aar-summary">
+    <h2 id="{{prefix}}aar-summary">Executive Summary</h2>
+    <div class="prose">{{summaryHtml}}</div>
+  </section>
+
+  <section class="section aar-analysis" aria-labelledby="{{prefix}}aar-analysis">
+    <h2 id="{{prefix}}aar-analysis">Analysis of Core Capabilities</h2>
+    <p class="prose">
+      Aligning exercise objectives and core capabilities provides a consistent taxonomy for
+      evaluation that transcends individual exercises to support preparedness reporting and trend
+      analysis. The table below lists each objective and the core capability it exercised, with the
+      rating the exercising organization confirmed.
+    </p>
+    <table class="grid aar-ratings">
+      <caption class="sr-only">
+        Capability ratings per objective
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Objective</th>
+          <th scope="col">Core Capability</th>
+          <th scope="col" class="aar-ratings__mark">P</th>
+          <th scope="col" class="aar-ratings__mark">S</th>
+          <th scope="col" class="aar-ratings__mark">M</th>
+          <th scope="col" class="aar-ratings__mark">U</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each ratings}}
+        <tr>
+          <td>{{objective}}</td>
+          <td>{{capability}}</td>
+          {{#each marks}}
+          <td class="aar-ratings__mark">{{#if marked}}X{{/if}}</td>
+          {{/each}}
+          <td class="aar-ratings__status">{{#if pending}}Rating pending{{/if}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <h3>Ratings Definitions</h3>
+    <dl class="aar-legend">
+      {{#each legend}}
+      <dt>{{label}} ({{code}})</dt>
+      <dd>{{definition}}</dd>
+      {{/each}}
+    </dl>
+  </section>
+
+  {{#if findingsHtml}}
+  <section class="section aar-findings" aria-label="Strengths and areas for improvement">
+    <div class="prose">{{findingsHtml}}</div>
+  </section>
+  {{/if}} {{#each capabilities}}
+  <section class="section aar-capability" aria-labelledby="{{id}}">
+    <h3 id="{{id}}">{{capability}}</h3>
+    {{#if objectives.length}}
+    <p class="aar-capability__meta">
+      Objectives: {{#each objectives}}{{this}}{{#unless @last}}; {{/unless}}{{/each}}
+    </p>
+    {{/if}}
+    <p class="aar-capability__rating">
+      Rating: {{#if rating}}<strong>{{rating}}</strong>{{else}}<em>Rating pending</em>{{/if}}
+    </p>
+    {{#if rationale}}
+    <p class="prose">{{rationale}}</p>
+    {{/if}}
+    <h4>Strengths</h4>
+    {{#unless strengths.length}}
+    <p class="prose muted">No strengths recorded for this capability.</p>
+    {{/unless}} {{#each strengths}}
+    <article class="aar-finding">
+      <h5>Strength {{n}}: {{title}}</h5>
+      <div class="prose">{{analysisHtml}}</div>
+      {{#if reference}}
+      <p><strong>Reference:</strong> {{reference}}</p>
+      {{/if}}
+      <p class="aar-finding__evidence">Evidence: {{evidence}}</p>
+    </article>
+    {{/each}}
+    <h4>Areas for Improvement</h4>
+    {{#unless areas.length}}
+    <p class="prose muted">No areas for improvement recorded for this capability.</p>
+    {{/unless}} {{#each areas}}
+    <article class="aar-finding">
+      <h5>Area for Improvement {{n}}: {{title}}</h5>
+      <p><strong>Analysis:</strong></p>
+      <div class="prose">{{analysisHtml}}</div>
+      {{#if reference}}
+      <p><strong>Reference:</strong> {{reference}}</p>
+      {{/if}}
+      <p><strong>Recommendation:</strong> {{recommendation}}</p>
+      {{#if actions.length}}
+      <ul class="list">
+        {{#each actions}}
+        <li>{{action}} <span class="aar-finding__element">({{element}})</span></li>
+        {{/each}}
+      </ul>
+      {{/if}}
+      <p class="aar-finding__evidence">Evidence: {{evidence}}</p>
+    </article>
+    {{/each}}
+  </section>
+  {{/each}}
+
+  <section class="section aar-ip" aria-labelledby="{{prefix}}aar-ip">
+    <h2 id="{{prefix}}aar-ip">Appendix A: Improvement Plan</h2>
+    <p class="prose">
+      This Improvement Plan has been developed specifically for the exercising organization as a
+      result of this exercise. A responsible organization in square brackets is the role the draft
+      proposed; it is replaced by the organization and point of contact that own the action.
+    </p>
+    {{#if plan.length}}
+    <table class="grid aar-ip__table">
+      <caption class="sr-only">
+        Improvement Plan: corrective actions with owner and dates
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Core Capability</th>
+          <th scope="col">Issue/Area for Improvement</th>
+          <th scope="col">Corrective Action</th>
+          <th scope="col">Capability Element</th>
+          <th scope="col">Primary Responsible Organization</th>
+          <th scope="col">Organization POC</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">Completion Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each plan}}
+        <tr>
+          <td>{{capability}}</td>
+          <td>{{issue}}</td>
+          <td>{{action}}</td>
+          <td>{{element}}</td>
+          <td>{{organization}}</td>
+          <td>{{poc}}</td>
+          <td>{{startDate}}</td>
+          <td>{{dueDate}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+    <p class="prose muted">No corrective actions yet.</p>
+    {{/if}}
+  </section>
+
+  <section class="section aar-appendix" aria-labelledby="{{prefix}}aar-participants">
+    <h2 id="{{prefix}}aar-participants">Appendix B: Exercise Participants</h2>
+    {{#if organizations.length}}
+    <ul class="list prose">
+      {{#each organizations}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    {{else}}
+    <p class="prose muted">Participating organizations to be completed (organizations only).</p>
+    {{/if}}
+  </section>
+
+  {{#if hasFeedback}}
+  <section class="section" aria-labelledby="{{prefix}}aar-feedback">
+    <h2 id="{{prefix}}aar-feedback">Appendix C: Participant Feedback Summary</h2>
+    <div class="prose">{{feedbackHtml}}</div>
+  </section>
+  {{/if}}
+
+  <section class="section" aria-labelledby="{{prefix}}aar-acronyms">
+    <h2 id="{{prefix}}aar-acronyms">Appendix D: Acronyms</h2>
+    <table class="grid aar-acronyms">
+      <caption class="sr-only">
+        Acronyms used in this report
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Acronym</th>
+          <th scope="col">Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each acronyms}}
+        <tr>
+          <td class="mono">{{term}}</td>
+          <td>{{meaning}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{#if endNote}}
+  <p class="doc-end">{{endNote}}</p>
+  {{/if}} {{/if}}
+</section>

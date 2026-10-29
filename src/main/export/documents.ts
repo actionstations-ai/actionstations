@@ -1,6 +1,7 @@
 // Build the full HTML of each exported document (MSEL, Master Inject Deck, C/E Handbook,
 // Player Briefing Packet, the HSEEP set (#420), the EEG packet (#421) and the Exercise Plan
 // bundle) from templates/export and the export model.
+import { aarView } from './aar'
 import { eegView } from './eeg'
 import { documentBodyHtml, hasHeading, markdownToHtml, stripEndNote } from './escape'
 import { dropDuplicateHeaderFacts } from './header-facts'
@@ -57,6 +58,11 @@ function deckSection(model: ExportModel, prefix: string, mode: RenderMode): stri
 /** The EEG packet (#421): one guide per capability, blank rating boxes, no observations. */
 function eegSection(model: ExportModel, prefix: string): string {
   return renderExportTemplate('eeg', eegView(model, prefix))
+}
+
+/** The AAR/IP (#419); a "no report yet" body when nothing has been drafted. */
+function aarSection(model: ExportModel, prefix: string): string {
+  return renderExportTemplate('aar', aarView(model, prefix))
 }
 
 /** A generated document's markdown minus its end note and the header facts it repeats. */
@@ -236,6 +242,8 @@ export function buildDocumentHtml(model: ExportModel, doc: ExportDoc, mode: Rend
       return wrap(model, doc, handbookSection(model, ''), [])
     case 'eeg':
       return wrap(model, doc, eegSection(model, ''), [])
+    case 'aar':
+      return wrap(model, doc, aarSection(model, ''), [])
     case 'briefing': {
       const forms = packetForms()
       return wrap(model, doc, briefingSection(model, '', forms), forms)

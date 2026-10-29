@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { CoreCapabilityId } from '../core-capabilities'
 import { PurposeTag } from '../taxonomy'
 import { GroundingVerifyOutput, PlanConflictOutput } from './grounding'
+import { CapabilityElement, CapabilityRating } from './aar'
 
 /** Key of a retrieved chunk as presented in the prompt, e.g. "C3". */
 export const CitationKey = z.string().regex(/^C\d+$/)
@@ -258,6 +259,57 @@ export const CritiqueOutput = z.object({
 })
 export type CritiqueOutput = z.infer<typeof CritiqueOutput>
 
+/**
+ * A plan section the AAR may cite (#419): a retrieved chunk ("C3") or a section the scenario
+ * already cites ("S2": overview, MSEL rows and EEG tasks, listed in the prompt). Other keys are
+ * dropped by the mapper.
+ */
+export const AarCitationKey = z.string().regex(/^[CS]\d+$/)
+
+const AarFinding = z.object({
+  title: z.string(),
+  analysisMd: z.string(),
+  /** Evidence refs copied from the record block ("note:I-09", "obs:O-I-06-T-07"). */
+  evidence: z.array(z.string()).min(1),
+  citations: z.array(AarCitationKey),
+})
+
+/**
+ * The aar stage (#419): the After-Action Report / Improvement Plan draft. Ratings are
+ * proposals (a person confirms them); every finding names the evidence it rests on, and the
+ * mapper drops a finding whose refs all point at nothing. Owners are roles, never people.
+ */
+export const AarOutput = z.object({
+  executiveSummaryMd: z.string(),
+  capabilities: z
+    .array(
+      z.object({
+        capability: CoreCapabilityId,
+        /** Left out when the record holds too little evidence for the capability. */
+        proposedRating: CapabilityRating.optional(),
+        ratingRationale: z.string(),
+        strengths: z.array(AarFinding),
+        areasForImprovement: z.array(
+          AarFinding.extend({
+            recommendation: z.string(),
+            correctiveActions: z
+              .array(
+                z.object({
+                  action: z.string(),
+                  element: CapabilityElement,
+                  ownerRole: z.string().optional().describe('role key'),
+                }),
+              )
+              .min(1),
+          }),
+        ),
+      }),
+    )
+    .min(1),
+  participantFeedbackMd: z.string().optional(),
+})
+export type AarOutput = z.infer<typeof AarOutput>
+
 /** Registry so prompt frontmatter `outputSchema: MselPhaseOutput` resolves to a schema. */
 export const STAGE_OUTPUT_SCHEMAS = {
   IdeasOutput,
@@ -276,5 +328,6 @@ export const STAGE_OUTPUT_SCHEMAS = {
   CritiqueOutput,
   GroundingVerifyOutput,
   PlanConflictOutput,
+  AarOutput,
 } as const
 export type StageOutputSchemaName = keyof typeof STAGE_OUTPUT_SCHEMAS

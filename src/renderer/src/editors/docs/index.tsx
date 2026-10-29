@@ -1,7 +1,9 @@
 // Tab bodies for the scenario screen's editable parts.
 import { useState } from 'react'
+import { Link } from 'react-router'
 import type { ScenarioDocKind } from '@shared/schemas/scenario'
 import { Button } from '../../components/ui'
+import { projectKey } from '../../state/project'
 import { MarkdownDocEditor } from './MarkdownDocEditor'
 import { DOC_LABELS, DOC_ORDER } from './owners'
 export { PendingSavesNote } from './PendingSavesNote'
@@ -62,7 +64,17 @@ export function DocumentsTab(props: TabProps) {
         ))}
       </div>
       {kind === 'hotwash' && <HotwashEditor {...props} />}
-      <MarkdownDocEditor key={kind} {...props} kind={kind} />
+      {kind === 'aar' ? (
+        <p className="muted">
+          The After-Action Report / Improvement Plan has its own screen, with the ratings,
+          Improvement Plan table and evidence beside the document.{' '}
+          <Link to={`/p/${projectKey(props.projectPath)}/scenarios/${props.scenario.id}/aar`}>
+            Open the AAR/IP
+          </Link>
+        </p>
+      ) : (
+        <MarkdownDocEditor key={kind} {...props} kind={kind} />
+      )}
     </div>
   )
 }

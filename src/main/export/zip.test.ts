@@ -27,6 +27,8 @@ function exportFolder(): { dir: string; files: string[] } {
     names.sitman,
     names.handbookHseep,
     names.mselXlsx,
+    names.aar,
+    names.improvementPlanXlsx,
     'scenario.json',
     'scenario.md',
   ])
@@ -65,6 +67,8 @@ describe('distribution ZIP', () => {
         'facilitator/Flight-to-Nowhere-SitMan.pdf',
         'facilitator/Flight-to-Nowhere-CE-Handbook-HSEEP.pdf',
         'facilitator/Flight-to-Nowhere-MSEL.xlsx',
+        'facilitator/Flight-to-Nowhere-After-Action-Report.pdf',
+        'facilitator/Flight-to-Nowhere-Improvement-Plan.xlsx',
         'facilitator/forms/ICS-201-Incident-Briefing-blank.pdf',
         'facilitator/media/S3-I04-tweet.png',
         'facilitator/scenario.json',
@@ -141,6 +145,10 @@ describe('distribution ZIP', () => {
       names.exercisePlan,
       names.eegs,
       names.eegsDocx,
+      // The AAR/IP and its tracker sheet (#419) are facilitator material.
+      names.aar,
+      names.aarDocx,
+      names.improvementPlanXlsx,
       'scenario.json',
       'media/S3-I04-tweet.png',
     ]) {

@@ -15,6 +15,8 @@ export const EXPORT_TARGETS = [
   'sitman_pdf',
   'handbook_hseep_pdf',
   'msel_xlsx',
+  /** AAR/IP PDF plus the Improvement Plan tracker sheet (#419); only when a draft exists. */
+  'aar_pdf',
   'media',
   'json',
   'markdown',
@@ -36,6 +38,7 @@ export const PREVIEW_DOC_IDS = [
   'sitman_player',
   'handbook_hseep',
   'eeg',
+  'aar',
 ] as const
 
 export const ExportOptions = z.object({

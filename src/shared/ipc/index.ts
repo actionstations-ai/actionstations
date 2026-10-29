@@ -26,6 +26,7 @@ import { setupChannels } from './setup'
 import { updateChannels } from './updates'
 import { surveyChannels } from './surveys'
 import { groundingChannels } from './grounding'
+import { aarChannels } from './aar'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -51,6 +52,7 @@ export { SetupInstallResult } from './setup'
 export { UpdateStatus } from './updates'
 export { SurveyListItem } from './surveys'
 export { GroundingItemKey } from './grounding'
+export { LiveSessionInfo } from './aar'
 export {
   PACK_CONTRIBUTION_URL,
   COMMON_PACK_LICENSES,
@@ -122,6 +124,7 @@ export const channels = mergeChannels(
   updateChannels,
   surveyChannels,
   groundingChannels,
+  aarChannels,
 )
 
 export type Channels = typeof channels
@@ -166,6 +169,8 @@ export const events = {
       'library',
       'surveys',
       'plan-conflicts',
+      /** aar.json or documents/aar.md changed (#419). */
+      'aar',
     ]),
     scenarioId: z.string().optional(),
   }),

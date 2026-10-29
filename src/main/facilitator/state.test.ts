@@ -30,6 +30,8 @@ describe('facilitator state store', () => {
       delivered: {},
       notes: {},
       generalNotes: '',
+      hotwash: [],
+      decisions: [],
     })
   })
 
@@ -41,6 +43,8 @@ describe('facilitator state store', () => {
       delivered: { 'I-06': { at: '2026-10-21T14:01:00.000Z', exerciseTime: '1:15' } },
       notes: { 'I-06': 'Ops did not trust the board' },
       generalNotes: 'Start late by 5 minutes',
+      hotwash: [],
+      decisions: [],
     }
     await writeFacilitatorState(root, scenarioId, state)
     const file = await facilitatorStatePath(root, scenarioId)
@@ -58,6 +62,8 @@ describe('facilitator state store', () => {
           delivered: {},
           notes: {},
           generalNotes: `save ${n}`,
+          hotwash: [],
+          decisions: [],
         }),
       ),
     )

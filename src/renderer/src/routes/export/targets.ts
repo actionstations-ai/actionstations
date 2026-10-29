@@ -60,6 +60,11 @@ export const DOCUMENT_TARGETS: TargetOption[] = [
     label: 'Exercise Evaluation Guides',
     hint: 'One EEG per Core Capability, critical tasks with plan citations and rating boxes',
   },
+  {
+    id: 'aar_pdf',
+    label: 'After-Action Report / Improvement Plan',
+    hint: 'HSEEP AAR/IP with the Improvement Plan tracker sheet; needs a draft from Facilitate',
+  },
 ]
 
 export const FILE_TARGETS: TargetOption[] = [
@@ -69,7 +74,7 @@ export const FILE_TARGETS: TargetOption[] = [
   {
     id: 'docx',
     label: 'Word documents',
-    hint: 'Handbooks, Player Briefing, ExPlan, SitMan and EEGs as .docx',
+    hint: 'Handbooks, Player Briefing, ExPlan, SitMan, EEGs and the AAR/IP as .docx',
   },
   {
     id: 'zip',
@@ -99,6 +104,7 @@ export const PREVIEW_DOCS: { id: PreviewDoc; label: string }[] = [
   { id: 'sitman_player', label: 'SitMan (players)' },
   { id: 'handbook_hseep', label: 'C/E Handbook (HSEEP)' },
   { id: 'eeg', label: 'EEGs' },
+  { id: 'aar', label: 'AAR/IP' },
   { id: 'exercise_plan', label: 'Bundle' },
 ]
 

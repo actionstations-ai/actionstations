@@ -1,6 +1,6 @@
 # Spec 0419: AAR/IP draft from the exercise record
 
-Issue: #419 · Milestone: 0.6.0 · Status: Draft · Depends on: #421 (EEGs and Core Capabilities) · Related: #417 (live session log), #416 (evaluator forms), #420 (HSEEP document set), #422 (surveys)
+Issue: #419 · Milestone: 0.6.0 · Status: Implemented (ADR-0035) · Depends on: #421 (EEGs and Core Capabilities) · Related: #417 (live session log), #416 (evaluator forms), #420 (HSEEP document set), #422 (surveys)
 
 ## Summary
 
@@ -261,6 +261,19 @@ The record contains what people said in the room. It stays in the project folder
 5. **AAR page and editors.** `routes/scenarios/AarPage.tsx`, `routes/scenarios/index.ts` (route), `editors/docs/owners.ts` (`aar` label and stage), `editors/docs/structured/ImprovementPlanEditor.tsx`, `CapabilityRatings.tsx`, `EvidenceDrawer.tsx`, `readiness.ts`, Facilitate entry point, component tests, `e2e/aar.spec.ts`.
 6. **Export.** `templates/export/aar.html`, `src/main/export/aar.ts`, `model.ts`, `documents.ts`, `docx.ts` (`aarDocx`), `naming.ts`, `run.ts`, `src/shared/ipc/export.ts` (`aar_pdf`), `routes/export/targets.ts`, Improvement Plan sheet via `export/xlsx.ts` (#420), tests.
 7. **Fixtures, docs and ADR.** `tests/content/aar-scenario-3.test.ts`, `tests/fixtures/aar/`, `docs/guides/methodology.md` ("After the exercise"), `docs/05-DATA-MODEL.md`, `README.md` feature list, ADR `docs/adr/NNNN-aar-from-exercise-record.md` at the next free number when the work lands (0024 is taken by live play; several 0.6.0 specs are claiming numbers at once) covering the record format, the non-attribution rule and evidence refs.
+
+## Implementation notes
+
+What shipped differs from the design above in these points:
+
+- **Record types live in `src/shared/schemas/aar.ts`.** `ExerciseRecord` is a zod schema (it crosses IPC as the editor's evidence source, `aar:record`) and does not carry the scenario; `buildExerciseRecord()` returns `{ scenario, record }`. The live-log adapter also turns `eval.observation` entries of kind `note` into record notes (`note:<observationId>`) and keeps `plusOnes` and `promoted` on hot wash items.
+- **The live log is parsed by the adapter** (`src/main/aar/sources/live-log.ts`), because spec 0417's `readSlice` had not landed; the adapter should switch to it when it does. The fixture is `tests/fixtures/live/session-scenario-3.jsonl` (spec 0417 FR-12 naming), a `named` session whose display names must never reach the record. Sessions are listed by `aar:sessions`; the draft dialog lets the facilitator pick one (`aar:draft { sessionId }`).
+- **Citations.** The prompt shows the sections the scenario already cites as `S1…Sn` next to the retrieved `C1…Cn`; `AarCitationKey` accepts both and the mapper resolves both, dropping other keys with `CITATION_DROPPED`.
+- **Exercise details (#420) seed the report.** The first draft takes `exerciseDate`, `participatingOrganizations` and `acronyms` from `conduct`; the exports print `conduct.sponsor` when set. A person's later edits in the AAR editor win.
+- **Storage.** `aar.json` keeps its history in `history/aar-json.jsonl`; `documents/aar.md` uses the scenario document history. The prose sections `summary`, `findings` and `feedback` are kept on a structured save; the table sections are re-rendered.
+- **Export.** `aar_pdf` writes the PDF and the Improvement Plan tracker workbook (`<Title>-Improvement-Plan.xlsx`, through the #420 workbook helpers); there is no separate tracker target. `docx` adds the AAR when a draft exists. A scenario without a draft gets a warning, not a file.
+- **Entry points.** The Facilitate header has **Draft AAR/IP** (enabled once the state holds a note, item, decision or delivery) and the scenario header links to the **AAR/IP** page. The readiness next-action bar was not changed.
+- **Job.** Kind `draft-aar`, started through `startScenarioJob` so the scenario is claimed; an interrupted draft resumes with the same instructions. The condensed retry caps notes at 150 characters, pinned messages at five and gives survey counts only.
 
 ## Open questions
 

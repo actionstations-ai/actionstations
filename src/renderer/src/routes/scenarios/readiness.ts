@@ -8,12 +8,23 @@ import { deckEntries } from '../../editors/inject/deck-model'
 
 export type ReadinessStatus = 'draft' | 'injects-written' | 'media-rendered' | 'ready' | 'archived'
 
-/** 'evaluation': the scenario is ready but has no evaluation guides yet (#421, FR-12). */
+/**
+ * 'evaluation': the scenario is ready but has no evaluation guides yet (#421, FR-12).
+ * 'draft-aar': the exercise was run (the facilitator captured notes, items, decisions or
+ * deliveries) and no AAR/IP has been drafted yet (#419, FR-9).
+ */
 export type NextAction =
-  'msel' | 'write-injects' | 'render-media' | 'fix-errors' | 'evaluation' | 'run'
+  'msel' | 'write-injects' | 'render-media' | 'fix-errors' | 'evaluation' | 'draft-aar' | 'run'
 
-/** The scenario can be exported and facilitated (the guides are an addition, not a gate). */
-export const isReadyNext = (next: NextAction): boolean => next === 'run' || next === 'evaluation'
+/** The scenario can be exported and facilitated (the guides and the AAR are additions, not gates). */
+export const isReadyNext = (next: NextAction): boolean =>
+  next === 'run' || next === 'evaluation' || next === 'draft-aar'
+
+/** What happened after the exercise: whether anything was captured and whether an AAR exists. */
+export interface AfterExercise {
+  hasEvidence: boolean
+  hasAar: boolean
+}
 
 export interface Readiness {
   /** MSEL rows (each becomes one inject, control cards included). */
@@ -48,6 +59,7 @@ export function readiness(
   scenario: Scenario,
   injects: readonly Inject[],
   lint: readonly LintWarning[] | undefined,
+  after?: AfterExercise,
 ): Readiness {
   const entries = deckEntries(scenario, [...injects])
   const rows = entries.length
@@ -67,7 +79,9 @@ export function readiness(
           ? 'fix-errors'
           : !(scenario.evaluation?.eegs.length ?? 0)
             ? 'evaluation'
-            : 'run'
+            : after?.hasEvidence && !after.hasAar
+              ? 'draft-aar'
+              : 'run'
   return {
     rows,
     written,

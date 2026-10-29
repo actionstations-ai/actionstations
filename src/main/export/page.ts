@@ -18,6 +18,7 @@ export const DOC_LABELS = {
   sitman: 'Situation Manual',
   sitman_player: 'Situation Manual (Player Edition)',
   handbook_hseep: 'C/E Handbook (HSEEP)',
+  aar: 'After-Action Report / Improvement Plan',
 } as const
 export type DocKey = keyof typeof DOC_LABELS
 
@@ -72,6 +73,9 @@ export function pageCss(text: RunningText, defaultLabel: string): string {
     named('sitman', 'letter', PORTRAIT_MARGIN),
     named('sitman_player', 'letter', PORTRAIT_MARGIN),
     named('handbook_hseep', 'letter', PORTRAIT_MARGIN),
+    named('aar', 'letter', PORTRAIT_MARGIN),
+    // Appendix A of the AAR/IP (#419): the eight-column Improvement Plan prints landscape.
+    `@page aar-ip { size: letter landscape; ${LANDSCAPE_MARGIN} ${marginBoxes(text, DOC_LABELS.aar)} }`,
     `@page cover { size: letter; margin: 0.9in 0.85in 0.8in; ${NO_BOXES} @bottom-center { content: ${cssString(text.marking || EXERCISE_MARKING)}; ${MARK_FONT} } }`,
     `@page form { size: letter; margin: 0; ${NO_BOXES} }`,
   ].join('\n')

@@ -1,6 +1,11 @@
 import { Monitor, Printer, Volume2 } from 'lucide-react'
+import { useState } from 'react'
+import type { FacilitatorState } from '@shared/ipc'
 import { mediaUrl } from '@shared/media-url'
+import type { Scenario } from '@shared/schemas/scenario'
 import { Badge, Button } from '../../components/ui'
+import { DecisionRow, LogDecisionForm } from './HotWashCapture'
+import type { UpdateState } from './use-delivery-actions'
 import {
   DELIVERY_LABEL,
   deliveryAction,
@@ -13,6 +18,11 @@ import { injectAlt } from '../../lib/inject-alt'
 
 export interface InjectPanelProps {
   projectPath: string
+  scenario: Scenario
+  state: FacilitatorState
+  update: UpdateState
+  /** The exercise clock ("H:MM"), prefilled on a logged decision. */
+  exerciseTime: string
   entry: TimelineEntry
   note: string
   onNote: (text: string) => void
@@ -70,6 +80,38 @@ function Preview({ projectPath, entry }: { projectPath: string; entry: TimelineE
         />
       )}
     </>
+  )
+}
+
+/** The row's logged decisions (#419, FR-3) and the form that adds one, opened on demand. */
+function Decisions(p: InjectPanelProps) {
+  const rowId = p.entry.row.id
+  const [open, setOpen] = useState(false)
+  const mine = p.state.decisions.filter((d) => d.rowId === rowId)
+  const capture = {
+    scenario: p.scenario,
+    state: p.state,
+    update: p.update,
+    exerciseTime: p.exerciseTime,
+  }
+  return (
+    <section className="fac-panel__decisions" aria-label={`Decisions on ${rowId}`}>
+      <h3 className="fac-panel__subtitle">Decisions on {rowId}</h3>
+      {mine.length > 0 && (
+        <ul className="fac-capture__list">
+          {mine.map((d) => (
+            <DecisionRow key={d.id} decision={d} scenario={p.scenario} update={p.update} />
+          ))}
+        </ul>
+      )}
+      {open ? (
+        <LogDecisionForm {...capture} rowId={rowId} />
+      ) : (
+        <Button size="sm" onClick={() => setOpen(true)}>
+          Log decision
+        </Button>
+      )}
+    </section>
   )
 }
 
@@ -131,6 +173,7 @@ export function InjectPanel(p: InjectPanelProps) {
           onChange={(e) => p.onNote(e.target.value)}
         />
       </div>
+      <Decisions {...p} />
     </article>
   )
 }

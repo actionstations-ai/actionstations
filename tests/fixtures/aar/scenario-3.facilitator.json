@@ -1,0 +1,43 @@
+{
+  "elapsedMin": 225,
+  "delivered": {
+    "START": { "at": "2026-10-28T13:00:00.000Z", "exerciseTime": "0:00" },
+    "I-01": { "at": "2026-10-28T13:15:00.000Z", "exerciseTime": "0:15" },
+    "I-02a": { "at": "2026-10-28T13:20:00.000Z", "exerciseTime": "0:20" },
+    "I-02": { "at": "2026-10-28T13:30:00.000Z", "exerciseTime": "0:30" },
+    "I-03": { "at": "2026-10-28T13:45:00.000Z", "exerciseTime": "0:45" },
+    "I-04": { "at": "2026-10-28T13:55:00.000Z", "exerciseTime": "0:55" },
+    "I-05": { "at": "2026-10-28T14:00:00.000Z", "exerciseTime": "1:00" },
+    "I-05b": { "at": "2026-10-28T14:10:00.000Z", "exerciseTime": "1:10" },
+    "I-06": { "at": "2026-10-28T14:15:00.000Z", "exerciseTime": "1:15" },
+    "I-06b": { "at": "2026-10-28T14:20:00.000Z", "exerciseTime": "1:20" },
+    "I-07": { "at": "2026-10-28T14:30:00.000Z", "exerciseTime": "1:30" },
+    "I-08b": { "at": "2026-10-28T14:40:00.000Z", "exerciseTime": "1:40" },
+    "I-08": { "at": "2026-10-28T14:45:00.000Z", "exerciseTime": "1:45" },
+    "I-09": { "at": "2026-10-28T15:00:00.000Z", "exerciseTime": "2:00" },
+    "I-10": { "at": "2026-10-28T15:15:00.000Z", "exerciseTime": "2:15" },
+    "I-12": { "at": "2026-10-28T15:45:00.000Z", "exerciseTime": "2:45" },
+    "I-13": { "at": "2026-10-28T16:00:00.000Z", "exerciseTime": "3:00" },
+    "I-14": { "at": "2026-10-28T16:15:00.000Z", "exerciseTime": "3:15" },
+    "I-15": { "at": "2026-10-28T16:30:00.000Z", "exerciseTime": "3:30" },
+    "END": { "at": "2026-10-28T16:45:00.000Z", "exerciseTime": "3:45" }
+  },
+  "notes": {
+    "I-06": "Ops silenced the PA within four minutes of the Flight 666 announcement and sent the Airline Liaison to the gates with the manual script. The FIDS stayed on for another twelve minutes while IT argued the feed might be clean; the Go Dark call was finally made by Ops alone at 1:27.",
+    "I-09": "IT confirmed the compromised credential and wanted to isolate the workstation at once; Ops wanted the boards back first. Fifteen minutes of discussion before both agreed to isolate and keep the terminal on whiteboards. Nobody called the FBI Cyber Task Force until the facilitator prompted at 2:20.",
+    "I-12": "PIO had a holding statement ready and refused to confirm a cyber attack to Channel 5 until IT confirmed, as the standing order says. Good. The statement did not say where passengers should get gate information."
+  },
+  "generalNotes": "Room started ten minutes late. The whiteboards at the gates were never assigned to a role; Ops improvised with the Airline Liaison at 2:15. The TIRP 13.6 checklist was open on the table from 1:15 onward and the team followed it for the manual boarding announcements.",
+  "hotwash": [
+    { "id": "hw-up-1", "kind": "strength", "text": "One voice to the airlines: the Airline Liaison relayed every Ops decision within minutes.", "objectiveRef": "obj-communication", "rowId": "I-07", "at": "2026-10-28T16:50:00.000Z" },
+    { "id": "hw-up-2", "kind": "strength", "text": "The PIO held the line on 'no cyber attack confirmed' and used the holding statement.", "objectiveRef": "obj-communication", "rowId": "I-12", "at": "2026-10-28T16:51:00.000Z" },
+    { "id": "hw-up-3", "kind": "strength", "text": "IT preserved the AODB logs before touching the server.", "objectiveRef": "obj-technical", "rowId": "I-13", "at": "2026-10-28T16:52:00.000Z" },
+    { "id": "hw-down-1", "kind": "improvement", "text": "The Go Dark decision took twelve minutes because Ops and IT were deciding in two rooms.", "objectiveRef": "obj-decision", "rowId": "I-06", "at": "2026-10-28T16:53:00.000Z" },
+    { "id": "hw-down-2", "kind": "improvement", "text": "Nobody owns the gate whiteboards in the plan; we improvised.", "objectiveRef": "obj-decision", "rowId": "I-10", "at": "2026-10-28T16:54:00.000Z" },
+    { "id": "hw-down-3", "kind": "improvement", "text": "The external notifications (FBI, CISA) only happened when prompted.", "objectiveRef": "obj-technical", "rowId": "I-09", "at": "2026-10-28T16:55:00.000Z" }
+  ],
+  "decisions": [
+    { "id": "dec-1", "at": "2026-10-28T14:27:00.000Z", "exerciseTime": "1:27", "rowId": "I-06", "text": "Take the FIDS dark and move to manual gate announcements.", "byRole": "ops-director" },
+    { "id": "dec-2", "at": "2026-10-28T15:15:00.000Z", "exerciseTime": "2:15", "rowId": "I-09", "text": "Isolate the compromised workstation now; restoration waits for a clean backup.", "byRole": "it-director" }
+  ]
+}

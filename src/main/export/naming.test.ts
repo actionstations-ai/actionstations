@@ -83,6 +83,9 @@ describe('fileTitle / documentFileNames', () => {
     expect(b.folder).not.toBe(a.folder)
     expect(b.zip).not.toBe(a.zip)
     expect(a.msel).toBe('Flight-to-Nowhere-MSEL.pdf')
+    expect(a.aar).toBe('Flight-to-Nowhere-After-Action-Report.pdf')
+    expect(a.aarDocx).toBe('Flight-to-Nowhere-After-Action-Report.docx')
+    expect(a.improvementPlanXlsx).toBe('Flight-to-Nowhere-Improvement-Plan.xlsx')
   })
   it('makes a file-safe tag from any scenario id', () => {
     expect(scenarioTag('scenario-3')).toBe('nario3')

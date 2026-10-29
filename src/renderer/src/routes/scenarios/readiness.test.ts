@@ -75,6 +75,16 @@ describe('scenario readiness', () => {
     expect(readiness(without, [], []).next).toBe('write-injects')
   })
 
+  it('asks for the AAR/IP once the exercise produced evidence and no draft exists (#419)', () => {
+    const all = rowIds.map((id) => inject(id, true))
+    const run = { hasEvidence: true, hasAar: false }
+    expect(readiness(scenario, all, [], run)).toMatchObject({ status: 'ready', next: 'draft-aar' })
+    expect(readiness(scenario, all, [], { hasEvidence: true, hasAar: true }).next).toBe('run')
+    expect(readiness(scenario, all, [], { hasEvidence: false, hasAar: false }).next).toBe('run')
+    // Never ahead of the earlier steps.
+    expect(readiness(scenario, all, [error], run).next).toBe('fix-errors')
+  })
+
   it('points at the MSEL when there are no rows, and keeps archived scenarios archived', () => {
     expect(readiness({ ...scenario, msel: [] }, [], []).next).toBe('msel')
     expect(readiness({ ...scenario, status: 'archived' }, [], []).status).toBe('archived')

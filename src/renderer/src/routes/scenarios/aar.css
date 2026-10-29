@@ -1,0 +1,185 @@
+/* After-Action Report / Improvement Plan page (#419). Tokens only. */
+.aar-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.aar-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(20rem, 2fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+@media (max-width: 72rem) {
+  .aar-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.aar-layout__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.aar-save {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 2rem;
+}
+.draft-aar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.draft-aar__progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 12rem;
+}
+
+/* Ratings */
+.aar-ratings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.aar-definitions summary {
+  cursor: pointer;
+  font-size: var(--text-sm);
+}
+.aar-definitions dl {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+}
+.aar-definitions dt {
+  font-weight: var(--weight-medium);
+}
+.aar-definitions dd {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+.aar-capability {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.aar-capability__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-md);
+  margin: 0;
+}
+.aar-capability__proposed {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+.aar-rating {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.aar-rating legend {
+  margin-bottom: var(--space-1);
+}
+.aar-findings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  border-top: var(--border-width) solid var(--color-border);
+  padding-top: var(--space-2);
+}
+.aar-finding {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+.aar-finding__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Evidence drawer */
+.aar-evidence {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-soft);
+}
+.aar-evidence__finding {
+  margin: 0;
+}
+.aar-evidence__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.aar-evidence__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: var(--space-2);
+  border-top: var(--border-width) solid var(--color-border);
+  font-size: var(--text-sm);
+}
+.aar-evidence__text {
+  white-space: pre-wrap;
+}
+
+/* Improvement Plan */
+.aar-ip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.aar-ip__table {
+  min-width: 72rem;
+}
+.aar-ip__table td,
+.aar-ip__table th {
+  vertical-align: top;
+}
+.aar-ip__table .textarea {
+  min-width: 14rem;
+  min-height: 3.5rem;
+}
+.aar-ip__table .input {
+  min-width: 8rem;
+}
+.aar-ip__add {
+  align-items: center;
+}
+.aar-ip__meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+.aar-acronyms__row {
+  display: grid;
+  grid-template-columns: minmax(6rem, 1fr) minmax(10rem, 2fr) auto;
+  gap: var(--space-2);
+  align-items: start;
+}

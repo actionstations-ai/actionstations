@@ -526,4 +526,64 @@ export const MOCK_FIXTURES: Record<StageOutputSchemaName, unknown> = {
   // unconfirmed (a verdict without a verbatim quote is discarded, #423).
   GroundingVerifyOutput: { claims: [] },
   PlanConflictOutput: { verdict: 'unrelated', quoteA: '', quoteB: '', explanation: '' },
+  // Evidence refs name the Scenario 3 fixture's rows and the facilitator notes a test writes
+  // (note:I-06, note:I-09, note:general). The strength citing note:I-99 rests on nothing and
+  // is dropped by the mapper (AAR_UNSUPPORTED_FINDING), so tests can see that path too.
+  AarOutput: {
+    executiveSummaryMd:
+      'The exercise tested the response to manipulated flight information. Operations moved the terminal to manual procedures and the PIO held the public line; the hand-off between IT and Operations at the Go Dark decision took longer than TIRP 13.6 allows.',
+    capabilities: [
+      {
+        capability: 'operational_coordination',
+        proposedRating: 'S',
+        ratingRationale:
+          'Incident command was established and the Go Dark decision was taken, but the IT and Operations command posts worked apart for twenty minutes.',
+        strengths: [
+          {
+            title: 'Incident command established early',
+            analysisMd:
+              'Operations assumed Operational Incident Command at the first confirmed data error and kept one log of decisions.',
+            evidence: ['note:I-06', 'note:general'],
+            citations: ['S1'],
+          },
+          {
+            title: 'Unsupported finding',
+            analysisMd: 'This finding cites a note that was never written.',
+            evidence: ['note:I-99'],
+            citations: [],
+          },
+        ],
+        areasForImprovement: [
+          {
+            title: 'IT and Operations decided the Go Dark call apart',
+            analysisMd:
+              'The decision to silence the PA and take the FIDS dark was made in the IT room and reached Operations by hallway conversation, so gate agents heard two versions.',
+            evidence: ['note:I-09'],
+            citations: ['S1', 'C1'],
+            recommendation:
+              'Add the Go Dark decision to the TIRP 13.6 checklist as a joint Operations and IT call with one announcement channel.',
+            correctiveActions: [
+              {
+                action: 'Revise TIRP 13.6 so the Go Dark decision is taken jointly and announced once',
+                element: 'planning',
+                ownerRole: 'ops-director',
+              },
+              {
+                action: 'Run a 30-minute drill of the manual FIDS procedure each quarter',
+                element: 'exercises',
+                ownerRole: 'ops-director',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        capability: 'cybersecurity',
+        ratingRationale: 'Not enough evidence: no observation or note covers this capability.',
+        strengths: [],
+        areasForImprovement: [],
+      },
+    ],
+    participantFeedbackMd: '',
+  },
 }

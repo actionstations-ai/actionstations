@@ -84,6 +84,14 @@ Two before-and-after measures show what the session taught:
 
 Both are compared only as a group: the app never matches one person's before and after answers. Responses carry no name or device, times are kept to the minute, free text is listed in no particular order, and with fewer than three responses (the default threshold) only counts are shown, so a two-person room cannot tell who said what. The **facilitator debrief** and the **controller/evaluator debrief** are for the exercise staff and feed the After-Action Report alongside the participants' feedback.
 
+## After the exercise
+
+HSEEP closes an exercise with an After-Action Report / Improvement Plan (AAR/IP): what each Core Capability showed, rated Performed without Challenges (P), with Some Challenges (S), with Major Challenges (M) or Unable to be Performed (U); the strengths and areas for improvement behind the rating, each tied to the plan sections involved; and an Improvement Plan of corrective actions, each with a capability element (planning, organization, equipment, training or exercises), a responsible organization, a point of contact and a completion date.
+
+The app drafts it from the **exercise record**: the facilitator's inject notes, the 3-Up / 3-Down items and the decision log captured on the Facilitate screen, the met / partial / not met / not observed ratings against the evaluation guides, the live-play session log when the exercise ran on devices (names are removed before anything reads it) and the survey results. The draft works from a hot wash alone; the report says which sources were available instead of filling the gaps. Every strength and area for improvement lists the evidence it rests on, and a finding the record cannot support is dropped.
+
+The model drafts and a person decides. The AAR/IP page shows the proposed rating next to the observation counts; the exercise director confirms or changes it, and the document prints "Rating pending" until then. Owners, points of contact and dates are never proposed: a planner types them into the Improvement Plan table, locks the rows that must survive a re-draft, and exports the report as PDF or Word with a tracker workbook of the corrective actions. The report is non-attributional: it describes how plans and procedures worked, never how a person performed.
+
 ## How the generator follows the method
 
 | Exercise designer's step                                             | What the app does                                                                                                                                                           |
