@@ -48,6 +48,11 @@ export const LIVE = {
   hideStaff: 'Hide staff link',
   switchAddress: 'Switch address',
   switching: 'Switching…',
+  staging: (done: number, total: number) => `Staging media ${done}/${total}`,
+  stagingFailed: (n: number) =>
+    n === 1
+      ? '1 inject has media that could not be prepared for devices; it will show on the main screen.'
+      : `${n} injects have media that could not be prepared for devices; they will show on the main screen.`,
   connected: (n: number) => (n === 1 ? '1 device connected' : `${n} devices connected`),
   listening: (address: string, port: number, tls: boolean) =>
     `Listening on ${address}:${port} (${tls ? 'HTTPS' : 'HTTP'})`,

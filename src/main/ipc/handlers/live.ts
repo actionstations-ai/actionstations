@@ -5,6 +5,11 @@ import {
   activeLanPort,
   activeSession,
   endSession,
+  releaseInject,
+  releaseSummaries,
+  resendInject,
+  retractInject,
+  stageProgress,
   startSession,
   status,
   switchAddress,
@@ -45,4 +50,23 @@ export default defineHandlers({
   'live:lan-switch-address': ({ address }) => switchAddress(address),
 
   'live:firewall-guidance': () => firewallGuidance(process.platform, activeLanPort()),
+
+  'live:release-inject': async ({ projectPath, scenarioId, rowId, targets, showExpected }) =>
+    releaseInject(await requireProject(projectPath), scenarioId, {
+      rowId,
+      ...(targets ? { targets } : {}),
+      showExpected,
+    }),
+
+  'live:resend-inject': async ({ projectPath, scenarioId, releaseId, targets }) =>
+    resendInject(await requireProject(projectPath), scenarioId, releaseId, targets),
+
+  'live:retract-inject': async ({ projectPath, scenarioId, releaseId }) =>
+    retractInject(await requireProject(projectPath), scenarioId, releaseId),
+
+  'live:receipts': async ({ projectPath, scenarioId }) =>
+    releaseSummaries(await requireProject(projectPath), scenarioId),
+
+  'live:stage-status': async ({ projectPath, scenarioId }) =>
+    stageProgress(await requireProject(projectPath), scenarioId),
 })

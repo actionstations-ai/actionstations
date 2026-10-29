@@ -323,6 +323,8 @@ export class HarnessController {
   async release(
     inject: Partial<InjectReleasePayload> & { title: string; body: string },
     targets: Destination[] = ['all'],
+    /** Copies sent to other destinations without naming them in `targets` (evaluators, observers). */
+    alsoTo: Destination[] = [],
   ): Promise<string> {
     this.releases += 1
     const releaseId = toBase64Url(this.crypto.random(16))
@@ -337,10 +339,30 @@ export class HarnessController {
       exerciseTime: inject.exerciseTime ?? '0:00',
       targets,
       media: inject.media ?? [],
+      ...(inject.captionsVtt ? { captionsVtt: inject.captionsVtt } : {}),
+      ...(inject.expectsResponse !== undefined ? { expectsResponse: inject.expectsResponse } : {}),
     }
-    for (const to of targets)
+    for (const to of [...targets, ...alsoTo])
       await this.client.send('inject.release', to, payload, { key: 'players' })
     return releaseId
+  }
+
+  /** Withdraw a release (`inject.recall`) from its targets. */
+  async recall(releaseId: string, targets: Destination[], mselRowId = 'I-01'): Promise<void> {
+    for (const to of targets) {
+      await this.client.send(
+        'inject.recall',
+        to,
+        {
+          releaseId,
+          mselRowId,
+          reason: 'withdrawn',
+          text: 'Withdrawn by the facilitator',
+          targets,
+        },
+        { key: 'players' },
+      )
+    }
   }
 
   async setClock(clock: ClockState): Promise<void> {

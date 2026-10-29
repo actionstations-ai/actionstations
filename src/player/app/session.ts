@@ -19,6 +19,7 @@ import {
 import { InviteError, parseInvite, type Invite } from '../../shared/live/invite'
 import { CLOSE_CODES, PROTOCOL_VERSION, type KeyKind } from '../../shared/live/protocol'
 import type {
+  BlobRef,
   ClientKind,
   ClockState,
   Seat,
@@ -26,9 +27,17 @@ import type {
   WelcomePayload,
 } from '../../shared/live/schemas'
 import type { KeyValue, Transport } from '../../shared/live/transport'
+import { MediaCache } from '../features/injects/media'
 import type { Announcer } from './a11y'
 import { elapsedMinutes } from './clock'
-import { insertItem, isInboxItem, itemFromMessage, type Item, type SeatView } from './items'
+import {
+  addressedToSeat,
+  insertItem,
+  isInboxItem,
+  itemFromMessage,
+  type Item,
+  type SeatView,
+} from './items'
 import type { Prefs } from './prefs'
 import { createOutboxStore, Outbox, type OutboxStore } from './queue'
 import {
@@ -98,6 +107,8 @@ export interface PlayerState {
   items: Item[]
   read: ReadonlySet<string>
   dismissed: ReadonlySet<string>
+  /** Release ids this device marked as actioned. */
+  actioned: ReadonlySet<string>
   joining: boolean
   joinError?: NonNullable<WelcomePayload['rejected']>['reason']
   catchingUp: boolean
@@ -163,6 +174,8 @@ export class PlayerSession {
   private stopped = false
   private seatRequest: { seatId: string; kind: ClientKind } | undefined
   outbox: Outbox | undefined
+  /** Opened inject media for this page (`blob:` URLs, memory only). */
+  readonly media = new MediaCache({ fetchBlob: (ref) => this.fetchBlob(ref) })
 
   constructor(private readonly deps: SessionDeps) {
     this.timers = deps.timers ?? globalThis
@@ -182,6 +195,7 @@ export class PlayerSession {
       items: [],
       read: new Set(),
       dismissed: new Set(),
+      actioned: new Set(),
       joining: false,
       catchingUp: false,
       attempts: 0,
@@ -479,11 +493,13 @@ export class PlayerSession {
     })
     if (seated) {
       this.seatRequest = undefined
+      this.flushDelivered()
       void this.outbox?.drain()
     }
   }
 
   private applyEnd(payload: SessionEndPayload): void {
+    this.media.dispose()
     this.store.set({ ended: payload, items: [], info: undefined, roster: [] })
     this.terminal('ended')
   }
@@ -511,17 +527,74 @@ export class PlayerSession {
 
   private addItem(msg: Opened): void {
     const clock = this.state.clock
-    const item = itemFromMessage(msg, (ts) => elapsedMinutes(clock, ts))
-    if (!item) return
+    if (msg.type === 'inject.recall')
+      this.withdraw((msg as Opened<'inject.recall'>).payload.releaseId)
+    const found = itemFromMessage(msg, (ts) => elapsedMinutes(clock, ts))
+    if (!found) return
+    const item =
+      found.inject && this.withdrawnIds.has(found.inject.releaseId)
+        ? { ...found, withdrawn: true }
+        : found
     const before = this.state.items
     const items = insertItem(before, item)
     if (items === before) return
     this.store.set({ items })
-    const isNew = !before.some((x) => x.key === item.key)
-    if (isNew && !this.state.catchingUp && isInboxItem(item, this.seatView())) {
+    const view = this.seatView()
+    const isNew = !before.some(
+      (x) => x.key === item.key || (!!item.ref && x.ref === item.ref && isInboxItem(x, view)),
+    )
+    if (isNew && !this.state.catchingUp && isInboxItem(item, view)) {
       this.deps.announcer.announce(STRINGS.inbox.newItem(item.title))
       this.deps.cue?.(this.deps.prefs())
     }
+    this.flushDelivered()
+  }
+
+  /** Release ids the facilitator withdrew (a recall can reach a device before the release does). */
+  private readonly withdrawnIds = new Set<string>()
+  /** Receipts already queued this page load, by `releaseId:status`. */
+  private readonly receiptsQueued = new Set<string>()
+
+  private withdraw(releaseId: string | undefined): void {
+    if (!releaseId) return
+    this.withdrawnIds.add(releaseId)
+    this.store.set((s) => ({
+      items: s.items.map((i) =>
+        i.inject?.releaseId === releaseId ? { ...i, withdrawn: true } : i,
+      ),
+    }))
+  }
+
+  /** `delivered` for every inject in this seat's list that has no receipt yet (FR-9). */
+  private flushDelivered(): void {
+    const view = this.seatView()
+    if (!view || this.state.phase !== 'seated') return
+    for (const item of this.state.items) {
+      if (item.inject && !item.withdrawn && addressedToSeat(item, view))
+        void this.sendReceipt(item.inject.releaseId, 'delivered')
+    }
+  }
+
+  /** Queue an `inject.receipt`; the outbox sends it now or on the next connection, once. */
+  async sendReceipt(releaseId: string, status: 'delivered' | 'read' | 'actioned'): Promise<void> {
+    const key = `${releaseId}:${status}`
+    if (this.receiptsQueued.has(key) || !this.outbox) return
+    this.receiptsQueued.add(key)
+    if (status === 'actioned')
+      this.store.set((s) => ({ actioned: new Set([...s.actioned, releaseId]) }))
+    await this.outbox.enqueue({
+      id: `receipt:${releaseId}:${status}`,
+      type: 'inject.receipt',
+      to: 'controller',
+      payload: { releaseId, status, at: this.now() },
+    })
+  }
+
+  /** Download and open an inject's media (sealed under the session key). */
+  fetchBlob(ref: BlobRef): Promise<Uint8Array> {
+    const client = this.client
+    if (!client || client.state !== 'joined') return Promise.reject(new Error('Not connected'))
+    return client.getBlob(ref)
   }
 
   seatView(): SeatView | undefined {
@@ -655,6 +728,7 @@ export class PlayerSession {
     this.stopped = true
     this.scheduler.stop()
     this.clearTimer('dropTimer')
+    this.media.dispose()
     this.teardownClient()
   }
 

@@ -46,7 +46,8 @@ describe('itemFromMessage', () => {
       clockAt,
     )!
     expect(item.kind).toBe('inject')
-    expect(item.key).toBe(`${IDS.controller}:1`)
+    expect(item.key).toBe(`inject:${IDS.release}:role:ops-director`)
+    expect(item.inject).toMatchObject({ releaseId: IDS.release, expectsResponse: true })
     expect(item.title).toBe('FIDS boards go dark')
     expect(item.body).toContain('All departure boards')
     expect(item.altText).toBe('A dark FIDS board')

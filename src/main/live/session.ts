@@ -15,7 +15,7 @@ import type { CryptoProvider, KeyPair } from '@shared/live/crypto/provider'
 import { createWebCryptoProvider } from '@shared/live/crypto/webcrypto'
 import { SessionHub } from '@shared/live/hub'
 import { LIMITS, PROTOCOL_VERSION } from '@shared/live/protocol'
-import type { ClientId, ClockState } from '@shared/live/schemas'
+import type { BlobRef, ClientId, ClockState, Destination } from '@shared/live/schemas'
 import { MemoryServer } from '@shared/live/transport-memory'
 import type {
   Attribution,
@@ -24,6 +24,7 @@ import type {
   LiveSession,
   LiveSessionStatus,
 } from '@shared/schemas/live'
+import type { Role } from '@shared/schemas/project'
 import { AppError } from '../lib/errors'
 import { emit } from '../lib/events'
 import { safeJoin, writeJsonAtomic } from '../lib/fs'
@@ -33,6 +34,9 @@ import { requireProject } from '../project/guard'
 import { scenarioLayout } from '../scenario/layout'
 import { getScenario } from '../scenario/store'
 import { inviteViews } from './invites'
+import { teamSlug } from '@shared/live/targets'
+import { Delivery, type DeliverySeat } from './releases'
+import { emptyStage, releaseRow, stageAll, stageStatus, type StageState } from './delivery-service'
 import { LogWriter } from './log'
 import { deleteSessionKeys, writeSessionKeys } from './keys'
 import { Seats } from './seats'
@@ -61,6 +65,9 @@ interface Active {
   joins: Map<ClientId, number>
   /** Per-session salt for `clientRef`; memory only, so refs are unlinkable after the session. */
   salt: Uint8Array
+  delivery: Delivery
+  stage: StageState
+  mediaCache: Map<string, BlobRef>
   powerSave?: number
   unsubscribe: (() => void)[]
   dir: string
@@ -126,7 +133,10 @@ async function clockState(root: string, scenarioId: string): Promise<ClockState>
   }
 }
 
-function emitChanged(reason: 'started' | 'stopped' | 'presence' | 'error', message?: string) {
+function emitChanged(
+  reason: 'started' | 'stopped' | 'presence' | 'error' | 'receipts' | 'staging',
+  message?: string,
+) {
   emit('live:changed', {
     reason,
     ...(active ? { sessionId: active.session.id } : {}),
@@ -197,6 +207,10 @@ function wireClient(a: Active): void {
   a.unsubscribe.push(
     a.client.on('join', (msg) => void onJoin(a, msg).catch((e) => fail(a, e))),
     a.client.on('presence', (msg) => void onPresence(a, msg).catch((e) => fail(a, e))),
+    a.client.on(
+      'inject.receipt',
+      (msg) => void a.delivery.onReceipt(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e)),
+    ),
     a.client.onDropped((reason, detail) => {
       if (reason === 'NOT_FOR_ME' || reason === 'STAFF_ONLY' || reason === 'CONTROLLER_ONLY') return
       void a.log
@@ -218,6 +232,36 @@ function fail(a: Active, err: unknown): void {
   if (active !== a) return
   console.error('[live]', err)
   emitChanged('error', err instanceof Error ? err.message : String(err))
+}
+
+/** Delivery's view of the session: sending as the controller, the seated devices, the log. */
+function makeDelivery(getActive: () => Active, roles: readonly Role[]): Delivery {
+  const byId = new Map(roles.map((r) => [r.id, r]))
+  return new Delivery({
+    send: (type, to, payload, key) =>
+      getActive().client.send(type, to as Destination, payload as never, { key }),
+    log: { append: (input) => getActive().log.append(input) },
+    clientRef: (id) => clientRef(getActive(), id),
+    now: () => Date.now(),
+    changed: () => emitChanged('receipts'),
+    seats: () => {
+      const a = getActive()
+      return [...a.seats.byClient.values()].map((s): DeliverySeat => {
+        const role = s.roleId ? byId.get(s.roleId) : undefined
+        const team = role ? teamSlug(role.team) : undefined
+        return {
+          clientId: s.clientId,
+          kind: s.kind,
+          ...(s.roleId ? { roleId: s.roleId } : {}),
+          ...(team ? { teamId: team } : {}),
+          label:
+            role?.name ??
+            (s.kind === 'evaluator' ? 'Evaluator' : s.kind === 'observer' ? 'Observer' : s.kind),
+          ...(a.session.attribution === 'named' && s.name ? { displayName: s.name } : {}),
+        }
+      })
+    },
+  })
 }
 
 async function openLan(a: Active, address: string, tls: 'self-signed' | 'none', port?: number) {
@@ -312,6 +356,9 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
     }),
     joins: new Map(),
     salt,
+    delivery: makeDelivery(() => a, scenario.roles),
+    stage: emptyStage(),
+    mediaCache: new Map(),
     unsubscribe: [],
     dir,
   }
@@ -346,6 +393,7 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
   await persistKeys(a)
   a.powerSave = powerSaveBlocker.start('prevent-app-suspension')
   emitChanged('started')
+  void stageAll(hostOf(a)).catch((e) => console.error('[live] staging:', (e as Error).message))
   return status(root, req.scenarioId)
 }
 
@@ -397,6 +445,65 @@ export function status(root: string, scenarioId: string): LiveSessionStatus {
     connected: a.lan?.connected ?? 0,
     ...(a.lan && !a.lan.everConnected ? { noConnectionsForMs: Math.max(0, since) } : {}),
   }
+}
+
+/** What delivery needs from the running session. */
+function hostOf(a: Active) {
+  return {
+    get root() {
+      return a.root
+    },
+    scenarioId: a.session.scenarioId,
+    client: a.client,
+    delivery: a.delivery,
+    get stage() {
+      return a.stage
+    },
+    set stage(v: StageState) {
+      a.stage = v
+    },
+    mediaCache: a.mediaCache,
+    clock: () => clockState(a.root, a.session.scenarioId),
+    alive: () => active === a,
+    staging: () => emitChanged('staging'),
+  }
+}
+
+function activeFor(root: string, scenarioId: string): Active {
+  const a = active
+  if (!a || a.root !== root || a.session.scenarioId !== scenarioId) {
+    throw new AppError('NOT_FOUND', 'No live session is running for this scenario')
+  }
+  return a
+}
+
+export function releaseInject(
+  root: string,
+  scenarioId: string,
+  req: { rowId: string; targets?: Destination[]; showExpected?: boolean },
+) {
+  return releaseRow(hostOf(activeFor(root, scenarioId)), req)
+}
+
+export const resendInject = (
+  root: string,
+  scenarioId: string,
+  releaseId: string,
+  t: Destination[],
+) => activeFor(root, scenarioId).delivery.resend(releaseId, t)
+
+export const retractInject = (root: string, scenarioId: string, releaseId: string) =>
+  activeFor(root, scenarioId).delivery.retract(releaseId)
+
+export const releaseSummaries = (root: string, scenarioId: string) =>
+  activeFor(root, scenarioId).delivery.summaries()
+
+export const stageProgress = (root: string, scenarioId: string) =>
+  stageStatus(activeFor(root, scenarioId))
+
+/** True while a session for this scenario runs (Deliver also goes to devices then). */
+export function isLiveFor(root: string, scenarioId: string): boolean {
+  return active?.root === root && active.session.scenarioId === scenarioId
 }
 
 /** The running session regardless of scenario (for the handler's conflict message). */

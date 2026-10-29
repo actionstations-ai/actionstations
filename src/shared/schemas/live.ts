@@ -229,9 +229,47 @@ export const FirewallGuidance = z.object({
 export type FirewallGuidance = z.infer<typeof FirewallGuidance>
 
 export const LiveChangedEvent = z.object({
-  reason: z.enum(['started', 'stopped', 'presence', 'error']),
+  reason: z.enum(['started', 'stopped', 'presence', 'error', 'receipts', 'staging']),
   sessionId: SessionId.optional(),
   connected: z.number().int().min(0),
   message: Text(300).optional(),
 })
 export type LiveChangedEvent = z.infer<typeof LiveChangedEvent>
+
+/** One device's receipts for a release (spec 0412 FR-10); times are epoch ms. */
+export const ReceiptRow = z.object({
+  clientRef: z.string().regex(/^[a-f0-9]{8}$/),
+  seat: Text(120),
+  displayName: Text(60).optional(),
+  delivered: z.number().optional(),
+  read: z.number().optional(),
+  actioned: z.number().optional(),
+})
+export type ReceiptRow = z.infer<typeof ReceiptRow>
+
+export const ReceiptCounts = z.object({
+  to: z.number().int().min(0),
+  delivered: z.number().int().min(0),
+  read: z.number().int().min(0),
+  actioned: z.number().int().min(0),
+})
+export type ReceiptCounts = z.infer<typeof ReceiptCounts>
+
+/** What the Facilitate page shows about one released MSEL row. */
+export const ReleaseSummary = z.object({
+  releaseId: z.string(),
+  rowId: SafeId,
+  targets: z.array(z.string()),
+  withdrawn: z.boolean(),
+  perClient: z.array(ReceiptRow),
+  counts: ReceiptCounts,
+})
+export type ReleaseSummary = z.infer<typeof ReleaseSummary>
+
+export const StageStatus = z.object({
+  staged: z.number().int().min(0),
+  total: z.number().int().min(0),
+  running: z.boolean(),
+  failed: z.array(z.object({ injectId: SafeId, reason: Text(300) })),
+})
+export type StageStatus = z.infer<typeof StageStatus>

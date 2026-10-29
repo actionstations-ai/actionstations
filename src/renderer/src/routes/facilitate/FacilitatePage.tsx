@@ -29,6 +29,7 @@ import { ExerciseClock } from './ExerciseClock'
 import { RegulatoryClocks } from './RegulatoryClocks'
 import { NoMsel, PresentControls, ShortcutsBar, SidePanel, StatusLine } from './FacilitateParts'
 import { Timeline, type TimelineEntry } from './Timeline'
+import { useLiveDelivery } from './live/use-live-delivery'
 import { useDeliveryActions, type UpdateState } from './use-delivery-actions'
 import { useFacilitatorState, type SaveStatus } from './use-facilitator-state'
 import { usePresenting } from './use-presenting'
@@ -191,9 +192,14 @@ function useFacilitate(p: ViewProps) {
   const compliance = useCompliance(projectPath, scenario, state)
   const now = useNow(isRunning(state))
   const minutes = clockMinutes(state, now)
-  const entries = useMemo(
+  const live = useLiveDelivery(projectPath, scenario.id)
+  const base = useMemo(
     () => buildEntries(projectPath, scenario, injects, state, minutes),
     [projectPath, scenario, injects, state, minutes],
+  )
+  const entries = useMemo(
+    () => (live.active ? base.map((e) => ({ ...e, live: live.summary(e.row.id) })) : base),
+    [base, live],
   )
   const [selectedId, setSelectedId] = useState(() => nextRow(scenario.msel, state.delivered)?.id)
   const [displayId, setDisplayId] = useState('')
@@ -210,6 +216,7 @@ function useFacilitate(p: ViewProps) {
     onAnnounce: setAnnounce,
     fireRow: compliance.fireRow,
     startsClocks: compliance.startsClocks,
+    live,
   })
   const keys = useKeys(p, selected, setSelectedId, actions.deliver)
   return {
@@ -225,6 +232,7 @@ function useFacilitate(p: ViewProps) {
     actions,
     keys,
     compliance,
+    live,
   }
 }
 
@@ -256,6 +264,7 @@ function RunArea(props: ViewProps & { f: Facilitate; onShow: (entry: TimelineEnt
         onDeliver={deliver}
         onUndo={undo}
         onShow={props.onShow}
+        live={f.live}
       />
     </div>
   )

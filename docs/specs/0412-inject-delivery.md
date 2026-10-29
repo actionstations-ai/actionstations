@@ -1,6 +1,6 @@
 # Spec 0412: Live play: deliver injects to players' devices
 
-Issue: #412 · Milestone: 0.6.0 · Status: Draft · Depends on: #406, #407, #411 · Related: #418, #417, #408 (asset caps)
+Issue: #412 · Milestone: 0.6.0 · Status: Implemented (#412) · Depends on: #406, #407, #411 · Related: #418, #417, #408 (asset caps)
 
 ## Summary
 
@@ -191,3 +191,16 @@ None. Staged files live under the session folder and are deleted with **Delete s
 2. **Should `display_main_screen` injects also land in the targeted roles' inboxes (not only the feed)?** Recommendation: feed only by default, with the target chips letting the facilitator add roles. Players already see it on the wall; duplicating it in inboxes dilutes "what is mine".
 3. **WebP or AVIF device renditions to cut bytes?** Recommendation: PNG now (deterministic, no new dependency, text stays crisp); measure on real phones and revisit if release latency through the relay is the bottleneck.
 4. **Expected action visible to players after they mark actioned?** Recommendation: no. It is evaluation material; the hot wash is where it is discussed.
+
+## Implementation notes (as built)
+
+Where the code differs from the text above:
+
+- **Recall, not `controller.notice`.** Withdraw sends `inject.recall` (`reason: 'withdrawn'`), which 0406 already defines; devices hide the item and the feed shows "Withdrawn by the facilitator".
+- **Device rendition** is made with Electron's `nativeImage` from the stored 2x PNG (width halved, at most 1200 px) instead of a second `renderPng` pass. The inject file is untouched either way.
+- **Staging** is a background pass started with the session (`stageAll` in `delivery-service.ts`) with progress in `live:stage-status`, not a registered `live-stage` job. The blob cache is per session in memory: LAN blobs live in the app's memory, so `blobs.json` and `resealFor` are not needed until the relay and self-hosted servers (#408, #410) land.
+- **Shared target function:** `resolveTargets` and `teamSlug` are in `src/shared/live/targets.ts` so the Facilitate chips and the main process agree.
+- **Files:** `deliver.ts` (text, captions), `assets.ts` (media plan and staging), `releases.ts` (releases, receipts, resend, retract), `delivery-service.ts` (row to release), player `features/injects/`. Receipts are sent from the session (`sendReceipt` through the outbox) rather than a `receipts.ts`.
+- **Not in this change:** **Reply to SimCell** (0413), editing targets down to specific connected clients, the offline-receipt e2e through the Electron app, the Scenario 3 Electron e2e with rendered injects, and the a11y additions to `e2e/a11y.spec.ts`. The harness e2e (`e2e/live/inject-delivery.spec.ts`) covers release, receive, receipts, the evaluator's copy and withdrawal.
+- **`expectsResponse`** uses the purpose-tag default (a row with an expected action that is not noise, a red herring, a distraction, a time jump or an end card) until 0428 adds the field.
+- **Duplicate frames:** a release addressed by role and by team arrives twice at a device; the page lists it once (`inboxItems`, `feedItems`).
