@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "NWS warning (text product)",
-  "description": "A National Weather Service short-fuse warning text product as shown on weather.gov (monospace bulletin: WMO header, AWIPS id, UGC and VTEC lines, '* Flash Flood Warning for...', '* Until...', '* At...' with HAZARD/SOURCE/IMPACT, locations, precautionary actions, && tags $$). The office is a real NWS office; counties and places come from the scenario.",
+  "description": "A National Weather Service short-fuse warning text product as shown on weather.gov (monospace bulletin: WMO header, AWIPS id, UGC and VTEC lines, '* Flash Flood Warning for...', '* Until...', '* At...' with HAZARD/SOURCE/IMPACT, locations, precautionary actions, && tags $$). The office is a real NWS office; counties and places come from the scenario. Version 2 adds follow-up statements, the Special Weather Statement and watch county notifications; the VTEC and UGC lines and the issuance times are built by the app from vtecInfo, ugcInfo, issuedAt, untilAt and timeZone when those are given (otherwise the typed vtec, ugc, issued and until lines are shown).",
   "type": "object",
   "required": ["office", "product", "issued", "warningFor", "until", "at"],
   "additionalProperties": false,
@@ -19,7 +19,23 @@
     "product": {
       "type": "string",
       "description": "Product name",
-      "examples": ["Flash Flood Warning", "Severe Thunderstorm Warning", "Tornado Warning"]
+      "enum": [
+        "Flash Flood Warning",
+        "Severe Thunderstorm Warning",
+        "Tornado Warning",
+        "Flood Warning",
+        "Winter Storm Warning",
+        "Special Marine Warning",
+        "Severe Weather Statement",
+        "Flash Flood Statement",
+        "Flood Statement",
+        "Special Weather Statement",
+        "Tornado Watch",
+        "Severe Thunderstorm Watch",
+        "Flash Flood Watch",
+        "Flood Watch"
+      ],
+      "examples": ["Flash Flood Warning", "Severe Weather Statement", "Tornado Watch"]
     },
     "bulletin": {
       "type": "string",
@@ -144,6 +160,125 @@
       "type": "string",
       "description": "Forecaster surname or initials after $$",
       "examples": ["Kowalski"]
+    },
+    "warningName": {
+      "type": "string",
+      "description": "For a statement: the warning it is about",
+      "maxLength": 60,
+      "examples": ["Tornado Warning"]
+    },
+    "watchNumber": {
+      "type": "string",
+      "description": "For a watch: the watch number",
+      "pattern": "^[0-9]{1,4}$",
+      "examples": ["123"]
+    },
+    "timeZone": {
+      "type": "string",
+      "description": "IANA time zone for the times the app writes",
+      "maxLength": 40,
+      "examples": ["America/New_York"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issue time with a UTC offset; the app writes the issuance line from it",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[+-][0-9]{2}:[0-9]{2}$",
+      "examples": ["2026-10-21T14:14:00-04:00"]
+    },
+    "untilAt": {
+      "type": "string",
+      "description": "Expiry time with a UTC offset; the app writes \"Until\" from it",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[+-][0-9]{2}:[0-9]{2}$",
+      "examples": ["2026-10-21T17:15:00-04:00"]
+    },
+    "vtecInfo": {
+      "type": "object",
+      "description": "Parts of the P-VTEC string (NWSI 10-1703); the app builds the line",
+      "additionalProperties": false,
+      "required": ["action", "office", "phenomenon", "eventNumber"],
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "VTEC action",
+          "enum": ["NEW", "CON", "EXT", "EXA", "EXB", "UPG", "CAN", "EXP", "COR", "ROU"],
+          "examples": ["NEW"]
+        },
+        "office": {
+          "type": "string",
+          "description": "Four-letter office id",
+          "pattern": "^K[A-Z]{3}$",
+          "examples": ["KILN"]
+        },
+        "phenomenon": {
+          "type": "string",
+          "description": "Phenomenon code",
+          "pattern": "^[A-Z]{2}$",
+          "examples": ["FF"]
+        },
+        "significance": {
+          "type": "string",
+          "description": "Significance: W warning, A watch, Y advisory, S statement",
+          "pattern": "^[WAYSFO]$",
+          "examples": ["W"]
+        },
+        "eventNumber": {
+          "type": "integer",
+          "description": "Event tracking number",
+          "minimum": 1,
+          "maximum": 9999,
+          "examples": [42]
+        },
+        "begin": {
+          "type": "string",
+          "description": "Event begin time with a UTC offset",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[+-][0-9]{2}:[0-9]{2}$",
+          "examples": ["2026-10-21T14:14:00-04:00"]
+        },
+        "end": {
+          "type": "string",
+          "description": "Event end time with a UTC offset",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[+-][0-9]{2}:[0-9]{2}$",
+          "examples": ["2026-10-21T17:15:00-04:00"]
+        }
+      }
+    },
+    "ugcInfo": {
+      "type": "object",
+      "description": "Parts of the UGC line; the app builds it",
+      "additionalProperties": false,
+      "required": ["state", "codes"],
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "Two-letter state",
+          "pattern": "^[A-Z]{2}$",
+          "examples": ["OH"]
+        },
+        "zoneType": {
+          "type": "string",
+          "description": "C county or Z zone",
+          "enum": ["C", "Z"],
+          "examples": ["C"]
+        },
+        "codes": {
+          "type": "array",
+          "description": "Three-digit county or zone codes",
+          "minItems": 1,
+          "maxItems": 12,
+          "items": {
+            "type": "string",
+            "description": "Code",
+            "pattern": "^[0-9]{3}$",
+            "examples": ["035"]
+          }
+        },
+        "expires": {
+          "type": "string",
+          "description": "UGC expiry with a UTC offset (defaults to untilAt)",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[+-][0-9]{2}:[0-9]{2}$",
+          "examples": ["2026-10-21T17:15:00-04:00"]
+        }
+      }
     }
   }
 }

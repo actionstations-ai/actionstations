@@ -47,12 +47,22 @@ p {
   color: #ffb4a8;
 }
 .app-tfr,
-.v-tfr {
+.app-icao,
+.v-tfr,
+.v-icao {
   display: none;
 }
 body.variant-tfr .app-text,
-body.variant-tfr .v-text {
+body.variant-tfr .v-text,
+body.variant-icao .app-text,
+body.variant-icao .v-text {
   display: none;
+}
+body.variant-icao .app-icao {
+  display: inline;
+}
+body.variant-icao .v-icao {
+  display: block;
 }
 body.variant-tfr .app-tfr {
   display: inline;
@@ -61,7 +71,8 @@ body.variant-tfr .v-tfr {
   display: block;
 }
 .v-text,
-.v-tfr {
+.v-tfr,
+.v-icao {
   padding: 14px 20px 0;
 }
 .query {
@@ -102,7 +113,8 @@ body.variant-tfr .v-tfr {
   word-break: break-word;
   background: #fafafa;
 }
-p.raw {
+p.raw,
+pre.raw {
   padding: 10px 12px;
   border: 1px solid #d6d7d9;
 }
@@ -199,4 +211,7 @@ ul {
 }
 li {
   margin: 3px 0;
+}
+pre.raw {
+  margin: 10px 0 0;
 }

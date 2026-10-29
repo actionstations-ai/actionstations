@@ -1,0 +1,35 @@
+<div class="frame">
+  <!-- ===== tv_crawl: station output ===== -->
+  <section class="v-tv">
+    <div class="picture">
+      {{#if assets.program_still}}
+      <img src="{{assets.program_still}}" alt="" />
+      {{/if}}
+    </div>
+    <p class="tag">EXERCISE · NOT A REAL ALERT</p>
+    <div class="band">
+      <p class="head">{{upper fields.event}} · {{upper derived.eventName}}</p>
+      <p class="crawl">{{derived.crawl}}</p>
+      {{#if fields.details}}
+      <p class="more">{{upper fields.details}}</p>
+      {{/if}}
+    </div>
+  </section>
+
+  <!-- ===== decoder_log: EAS decoder printout ===== -->
+  <section class="v-log">
+    <p class="log-title">EAS DECODER LOG · EXERCISE · NOT A REAL ALERT</p>
+    <pre class="log"><span class="k">RECEIVED</span>  {{derived.issuedUtc}}
+<span class="k">RAW</span>       {{derived.sameHeader}}
+          NNNN
+
+<span class="k">ORIGINATOR</span> {{fields.originator}}  {{derived.originatorName}}
+<span class="k">EVENT</span>      {{fields.event}}  {{derived.eventName}}
+<span class="k">LOCATIONS</span>  {{derived.locationCount}}  {{join fields.locations " "}}
+<span class="k">AREAS</span>      {{join fields.areaNames "; "}}
+<span class="k">PURGE</span>      +{{derived.purge}}  (valid until {{derived.endUtc}})
+<span class="k">STATION</span>    {{derived.stationId}}
+<span class="k">SOURCE</span>     {{default fields.source "not stated"}}
+<span class="k">RELAY</span>      HELD · EXERCISE MESSAGE · NOT RELAYED</pre>
+  </section>
+</div>

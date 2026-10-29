@@ -329,6 +329,8 @@ The right side previews each PDF before you export. The bar at the bottom of the
 
 Measured on the Scenario 3 deck (24 injects): every target exported in 5.9 seconds, 54 files including a 20.6 MB distribution ZIP.
 
+**For other platforms.** The Export screen also has **Conducttr MEL (CSV)**, **WebEOC / SimulationDeck package** and **CAP 1.2 XML**. They are off by default; see [Exercise platforms and real-world alert formats](eoc-platforms.md).
+
 ## Keyboard, screen readers and zoom
 
 Everything in the app works from the keyboard. **Skip to main content** is the first Tab stop; after you follow a link, focus moves to the new page's heading and the window title names the page. Dialogs keep focus inside until you close them (**Esc**), then return it to the button that opened them. Below about 830 px of width (for example a 1280 px window at 200 % zoom) the sidebar folds behind a **Menu** button. Long jobs (ingest, index rebuilds, model downloads, generation, export) show progress with a **Cancel** button, announce progress to screen readers without flooding them, and failures say what went wrong and what to try next, with **Retry** where it applies. Notifications appear at the bottom left of the page, away from the primary buttons on the right. Selected items in lists use one style everywhere (a highlight with an accent bar; the domain picker also shows a check and names the current domain above the list); hovering only tints an item. Colors meet WCAG AA in light and dark (`node scripts/check-contrast.mjs` checks every token pair the stylesheets use).

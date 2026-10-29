@@ -1,6 +1,6 @@
 # Spec 0432: Real-world inject formats and exports to EOC platforms
 
-Issue: #432 · Milestone: 0.9.0 · Status: Draft · Depends on: #420 (Excel MSEL in the HSEEP column layout) · Related: #435 (Spanish CAP info blocks), #411/#412 (live play delivery), ADR-0008 (template rendering), ADR-0018 (packs)
+Issue: #432 · Milestone: 0.9.0 · Status: Implemented (see Implementation notes) · Depends on: #420 (Excel MSEL in the HSEEP column layout) · Related: #435 (Spanish CAP info blocks), #411/#412 (live play delivery), ADR-0008 (template rendering), ADR-0018 (packs)
 
 ## Summary
 
@@ -162,3 +162,15 @@ Existing injects of `notam`, `nws_weather_warning` and `ics_213_general_message`
 - Juvare, WebEOC Nexus standard plug-ins (Simulator): <https://docs.juvare.com/webeoc-onnexa/help/get-started/standard-plug-ins.htm>
 - Juvare, Board Data Manager: <https://docs.juvare.com/webeoc-onnexa/plug-ins/board-data-manager.htm>
 - Juvare, SimulationDeck add-on board: <https://docs.juvare.com/ucp-onuniu/board-list/board-simulationdeck.htm>
+
+## Implementation notes
+
+Where the code differs from the text above:
+
+- CAP XML is checked in tests by a structural check (namespace, element order, enums, exercise marking), not against the XSD; no XML schema validator is a dependency (ADR-0046). `tests/fixtures/cap/` is therefore not used.
+- The SAME enum in the schemas is generated once from `src/shared/alerting/same-events.ts` and checked by a unit test; there is no generator script. The list has 55 codes, not 47.
+- Platform files are written to `platforms/` of the export folder (`platforms/<Title>-S<n>-eoc/`, `platforms/cap/`), so the ZIP puts them in `facilitator/platforms/` without special handling.
+- Structured fields (`vtecInfo`, `ugcInfo`, `issuedAt`, `untilAt`, `timeZone`) were added to `nws_weather_warning`; the typed `vtec`, `ugc`, `issued` and `until` lines still render when they are absent. `product` is an enum that includes every name the version 1 preview used.
+- `ics_213_general_message` matched the FEMA 502-2 blocks and labels; only the version and the schema description changed. The deck image `alt` still uses the old text; moving it to the text rendition is left for #435.
+- Excel cells use the existing leading-space neutralizer of `xlsx.ts`; CSV cells use a leading apostrophe.
+- Task 8's Conducttr trial import has not been done.

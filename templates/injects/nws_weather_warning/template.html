@@ -22,28 +22,38 @@
     <div class="ln">{{fields.wmoHeader}}</div>
     {{/if}} {{#if fields.awipsId}}
     <div class="ln">{{fields.awipsId}}</div>
-    {{/if}} {{#if fields.ugc}}
-    <div class="ln">{{fields.ugc}}</div>
-    {{/if}} {{#if fields.vtec}}
-    <div class="ln">{{fields.vtec}}</div>
-    {{/if}}
+    {{/if}} {{#if (or derived.ugc fields.ugc)}}
+    <div class="ln">{{default derived.ugc fields.ugc}}</div>
+    {{/if}} {{#if (ne derived.kind "sps")}} {{#if (or derived.vtec fields.vtec)}}
+    <div class="ln">{{default derived.vtec fields.vtec}}</div>
+    {{/if}} {{/if}}
     <div class="gap"></div>
     {{#if fields.bulletin}}
     <div class="ln">{{fields.bulletin}}</div>
     {{/if}}
     <div class="ln">{{fields.product}}</div>
     <div class="ln">{{fields.office}}</div>
-    <div class="ln">{{fields.issued}}</div>
+    <div class="ln">{{default derived.issued fields.issued}}</div>
     <div class="gap"></div>
     <!-- prettier-ignore -->
-    <div class="p">{{#if fields.officeCity}}The National Weather Service in {{fields.officeCity}} has issued a{{else}}The {{fields.office}} has issued a{{/if}}</div>
+    <div class="p">{{#if (eq derived.kind "watch")}}The National Weather Service has issued{{else if (eq derived.kind "statement")}}{{#if fields.officeCity}}The National Weather Service in {{fields.officeCity}} is updating the{{else}}The {{fields.office}} is updating the{{/if}}{{else}}{{#if fields.officeCity}}The National Weather Service in {{fields.officeCity}} has issued a{{else}}The {{fields.office}} has issued a{{/if}}{{/if}}</div>
     <div class="gap"></div>
+    {{#if (eq derived.kind "statement")}}
+    <div class="b">
+      * {{derived.warningName}} {{default derived.actionPhrase "continues for"}}...
+    </div>
+    {{else if (eq derived.kind "watch")}}
+    <div class="b">
+      * {{fields.product}}{{#if fields.watchNumber}} {{fields.watchNumber}}{{/if}} for the following
+      areas...
+    </div>
+    {{else}}
     <div class="b">* {{fields.product}} for...</div>
-    {{#each fields.warningFor}}
+    {{/if}} {{#each fields.warningFor}}
     <div class="i">{{this}}</div>
     {{/each}}
     <div class="gap"></div>
-    <div class="b">* Until {{fields.until}}.</div>
+    <div class="b">* Until {{default derived.until fields.until}}.</div>
     <div class="gap"></div>
     <div class="b hang">* {{fields.at}}</div>
     {{#if fields.hazard}}

@@ -8,7 +8,8 @@
       <p class="site-agency">Federal Aviation Administration</p>
       <p class="site-app">
         <span class="app-text">NOTAM Search</span
-        ><span class="app-tfr">Temporary Flight Restrictions</span>
+        ><span class="app-tfr">Temporary Flight Restrictions</span
+        ><span class="app-icao">NOTAM (ICAO format)</span>
       </p>
     </div>
     <p class="site-ex">EXERCISE · EXERCISE</p>
@@ -127,5 +128,22 @@
     {{/if}}
     <h2>NOTAM Text</h2>
     <p class="raw">{{fields.text}}</p>
+  </section>
+
+  <!-- ===== icao: ICAO-format NOTAM ===== -->
+  <section class="v-icao">
+    <p class="note">
+      Exercise NOTAM in the ICAO format (Annex 15). The domestic FAA format is the text variant.
+    </p>
+    <pre class="raw icao-raw">
+{{derived.icaoHeading}}
+{{derived.icaoQ}}
+A) {{default fields.icao.location fields.facility}}
+B) {{fields.icao.from}}
+C) {{default fields.icao.to fields.effectiveEnd}}{{#if fields.icao.schedule}}
+D) {{fields.icao.schedule}}{{/if}}
+E) {{default fields.icao.text fields.text}}
+F) {{default fields.icao.lowerLimit "SFC"}}
+G) {{default fields.icao.upperLimit "UNL"}}</pre>
   </section>
 </div>

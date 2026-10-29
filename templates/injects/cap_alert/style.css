@@ -1,0 +1,131 @@
+/* CAP alert, 900 px wide. variant-review: the summary screen before Send. variant-xml: the CAP 1.2 document. */
+.tool {
+  background: #fff;
+  color: #1b1b1b;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  padding-bottom: 20px;
+}
+.tool p,
+.tool h1,
+.tool h2 {
+  margin: 0;
+}
+.bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: #1f3a5f;
+  color: #fff;
+}
+.bar-name {
+  font-size: 18px;
+  font-weight: 700;
+}
+.bar-step {
+  font-size: 13px;
+}
+.banner {
+  padding: 8px 24px;
+  background: #b3261e;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-size: 13px;
+}
+section {
+  padding: 18px 24px 0;
+}
+h1 {
+  font-size: 21px;
+  line-height: 1.25;
+  margin-bottom: 14px;
+}
+h2 {
+  margin: 14px 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #4a5561;
+}
+.facts {
+  width: 100%;
+  border-collapse: collapse;
+}
+.facts th,
+.facts td {
+  padding: 6px 10px;
+  border: 1px solid #c9d0d8;
+  text-align: left;
+  vertical-align: top;
+}
+.facts th {
+  width: 14%;
+  background: #f1f3f6;
+  font-weight: 700;
+  font-size: 12px;
+  color: #3a4552;
+}
+.codes {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #3a4552;
+}
+.text {
+  white-space: pre-wrap;
+}
+.wea {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.box {
+  padding: 10px 12px;
+  border: 1px solid #8a96a3;
+  background: #f8f9fb;
+  min-height: 64px;
+}
+.count {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #3a4552;
+}
+.count.over {
+  color: #b3261e;
+  font-weight: 700;
+}
+.send {
+  margin-top: 16px;
+  padding: 8px 12px;
+  border: 1px dashed #8a96a3;
+  color: #4a5561;
+  font-size: 12px;
+}
+.xml {
+  margin: 0;
+  padding: 14px 16px;
+  background: #101820;
+  color: #e6edf3;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.step-xml,
+.v-xml {
+  display: none;
+}
+body.variant-xml .step-review,
+body.variant-xml .v-review {
+  display: none;
+}
+body.variant-xml .step-xml {
+  display: inline;
+}
+body.variant-xml .v-xml {
+  display: block;
+}
