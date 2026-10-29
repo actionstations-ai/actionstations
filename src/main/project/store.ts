@@ -34,6 +34,9 @@ const PROJECT_GITIGNORE = [
   '.cache/',
   'exports/',
   'scenarios/*/hotwash/**/audio.*',
+  // Map archives copied into a project (#436) are large and rebuildable from the store.
+  'maps/*/*.pmtiles',
+  'maps/*/*.mbtiles',
   '',
 ].join('\n')
 

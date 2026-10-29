@@ -80,6 +80,8 @@ export const JOB_LABEL: Record<JobKind, string> = {
   translate: 'Translating player material',
   'simcell-personas': 'Filling in persona cards',
   'simcell-capability': 'Checking the SimCell model',
+  'map-download': 'Downloading a state map',
+  'map-area': 'Downloading a map area',
 }
 const MAX_FINISHED = 50
 const MAX_ITEMS = 500

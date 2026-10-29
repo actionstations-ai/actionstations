@@ -39,6 +39,7 @@ import { microDrillChannels } from './microdrills'
 import { regionalChannels } from './regional'
 import { translateChannels } from './translate'
 import { simcellChannels, simcellEvents } from './simcell'
+import { mapsChannels } from './maps'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -90,6 +91,14 @@ export {
   ProgramExportTarget,
   EXPORT_TARGETS as PROGRAM_EXPORT_TARGETS,
 } from './program'
+export {
+  AreaPlanView,
+  BasemapView,
+  CatalogEntryView,
+  CatalogView,
+  MapsWithRevision,
+  StoredArchiveView,
+} from './maps'
 export { HotwashListing, MicArmResult, SpeechModelView } from './hotwash'
 export {
   PACK_CONTRIBUTION_URL,
@@ -175,6 +184,7 @@ export const channels = mergeChannels(
   regionalChannels,
   translateChannels,
   simcellChannels,
+  mapsChannels,
 )
 
 export type Channels = typeof channels
@@ -210,6 +220,10 @@ export const events = {
   'outbound:approval-settled': z.object({ requestId: z.string() }),
   /** A live session started, stopped or changed its device count (#407): refetch live:session-status. */
   'live:changed': LiveChangedEvent,
+  /** Maps or places in a project changed (#436): refetch maps:get. */
+  'maps:changed': z.object({ path: z.string() }),
+  /** An archive was added to or removed from the app-level map store (#436). */
+  'maps:store-changed': z.object({}),
   /** A hot wash recording started or stopped (#425): the presentation notice follows it. */
   'hotwash:recording': HotwashRecordingEvent,
   /** SimCell drafts changed (#429): refetch simcell:queue. */

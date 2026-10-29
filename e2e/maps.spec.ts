@@ -1,0 +1,196 @@
+// Maps (#436): a site plan with pinned places in Facilitate, a PMTiles map file read through
+// maps:tile, and online maps against a local tile server. Nothing here reaches a real tile
+// server: the tile provider is a loopback HTTP server, and online maps start switched off.
+import { expect, test } from '@playwright/test'
+import { createServer } from 'node:http'
+import type { AddressInfo } from 'node:net'
+import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join, resolve } from 'node:path'
+import { invoker, launch } from './helpers'
+import { makePmtiles, solidPng } from '../tests/fixtures/maps/files'
+
+const FIXTURE = JSON.parse(
+  readFileSync(resolve('tests/fixtures/scenarios/scenario-3.json'), 'utf8'),
+) as { msel: { id: string; [k: string]: unknown }[]; [k: string]: unknown }
+
+interface Maps {
+  maps: { maps: unknown[]; places: unknown[]; [k: string]: unknown }
+  revision: string
+}
+
+const AT: Record<string, string[]> = { 'I-01': ['gate'], 'I-06': ['eoc'], 'I-13': ['gate'] }
+
+async function tileServer() {
+  const seen: { url: string; ua: string | undefined }[] = []
+  const server = createServer((req, res) => {
+    seen.push({ url: req.url ?? '', ua: req.headers['user-agent'] })
+    res.setHeader('content-type', 'image/png')
+    res.end(solidPng(8, [30, 90, 160, 255]))
+  })
+  await new Promise<void>((r) => server.listen(0, '127.0.0.1', r))
+  const origin = `http://127.0.0.1:${(server.address() as AddressInfo).port}`
+  return { origin, seen, close: () => new Promise<void>((r) => server.close(() => r())) }
+}
+
+test('maps: site plan pins in Facilitate, a map file through maps:tile, online maps off then on', async () => {
+  test.setTimeout(120_000)
+  const tiles = await tileServer()
+  const { app, page } = await launch()
+  const invoke = invoker(page)
+  try {
+    const dir = mkdtempSync(join(tmpdir(), 'ttx-e2e-maps-'))
+    const { path: projectPath } = await invoke<{ path: string }>('project:create', {
+      parentDir: dir,
+      name: 'Maps E2E',
+    })
+    const empty = await invoke<{ id: string; projectId: string }>('scenarios:create-empty', {
+      projectPath,
+      title: 'Smoke at the gate',
+    })
+    const msel = FIXTURE.msel.map((r) => ({ ...r, placeIds: AT[r.id] ?? [] }))
+    await invoke('scenarios:save', {
+      projectPath,
+      scenario: { ...FIXTURE, msel, id: empty.id, projectId: empty.projectId },
+    })
+
+    // A site plan with two places.
+    const planFile = join(dir, 'terminal.png')
+    writeFileSync(planFile, solidPng(64, [220, 220, 200, 255]))
+    const added = await invoke<Maps & { mapId: string }>('maps:import-plan', {
+      projectPath,
+      filePath: planFile,
+      title: 'Terminal level 1',
+    })
+    const place = (id: string, label: string, kind: string, x: number, y: number) => ({
+      id,
+      label,
+      kind,
+      note: '',
+      positions: [{ mapId: added.mapId, x, y }],
+    })
+    await invoke('maps:save', {
+      projectPath,
+      revision: added.revision,
+      maps: {
+        ...added.maps,
+        places: [
+          place('gate', 'Gate A1', 'incident', 20, 30),
+          place('eoc', 'EOC', 'command', 70, 60),
+        ],
+      },
+    })
+
+    // Facilitate: clock at 1:15, deliver I-01, open the Map tab.
+    const key = encodeURIComponent(projectPath)
+    await page.evaluate(
+      (h) => ((globalThis as unknown as { location: { hash: string } }).location.hash = h),
+      `#/p/${key}/facilitate`,
+    )
+    await page.getByRole('link', { name: 'Flight to Nowhere' }).click()
+    await page.getByRole('button', { name: 'Start', exact: true }).click()
+    await page.getByLabel('Exercise time (H:MM)').fill('1:15')
+    await page.getByRole('button', { name: 'Set time', exact: true }).click()
+    await page
+      .getByRole('region', { name: 'Timeline' })
+      .getByRole('button', { name: 'Deliver I-01', exact: true })
+      .click()
+    await page.getByRole('tab', { name: 'Map' }).click()
+
+    const plan = page.getByTestId('site-plan')
+    await expect(plan).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Gate A1: I-01 delivered' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'EOC: I-06 due' })).toBeVisible()
+    // I-13 is at 3:00, so it is upcoming and hidden until Show upcoming is on.
+    await expect(page.getByText('I-13')).toHaveCount(0)
+    await page.getByRole('checkbox', { name: 'Show upcoming' }).check()
+    await expect(
+      page.getByRole('button', { name: 'Gate A1: I-01 delivered, I-13 upcoming' }),
+    ).toBeVisible()
+    await expect(page.getByRole('table').getByText('upcoming')).toBeVisible()
+
+    // A PMTiles file is read through maps:tile with no network.
+    const file = join(dir, 'fixture.pmtiles')
+    makePmtiles(file, solidPng(16, [200, 30, 30, 255]), 'Fixture data')
+    const archive = await invoke<{ sha256: string; attribution: string }>('maps:import-archive', {
+      filePath: file,
+      title: 'Fixture map',
+    })
+    expect(archive.attribution).toBe('Fixture data')
+    const withFile = await invoke<Maps>('maps:get', { projectPath })
+    await invoke('maps:save', {
+      projectPath,
+      revision: withFile.revision,
+      maps: {
+        ...withFile.maps,
+        maps: [
+          ...withFile.maps.maps,
+          {
+            kind: 'geo',
+            id: 'geo1',
+            title: 'County',
+            style: 'light',
+            basemap: { kind: 'file', sha256: archive.sha256 },
+          },
+          {
+            kind: 'geo',
+            id: 'geo2',
+            title: 'Online',
+            style: 'light',
+            basemap: { kind: 'online', provider: 'osm' },
+          },
+        ],
+      },
+    })
+    const tile = await invoke<{ data: Uint8Array | Record<string, number>; contentType: string }>(
+      'maps:tile',
+      {
+        projectPath,
+        mapId: 'geo1',
+        z: 0,
+        x: 0,
+        y: 0,
+      },
+    )
+    expect(tile.contentType).toBe('image/png')
+    expect(Object.keys(tile.data).length).toBeGreaterThan(50)
+    const basemap = await invoke<{ mode: string; attribution?: string }>('maps:basemap', {
+      projectPath,
+      mapId: 'geo1',
+    })
+    expect(basemap).toMatchObject({ mode: 'archive', attribution: 'Fixture data' })
+
+    // Online maps are off: the map says so and nothing is requested.
+    const off = await invoke<{ mode: string; message?: string }>('maps:basemap', {
+      projectPath,
+      mapId: 'geo2',
+    })
+    expect(off.mode).toBe('offline-off')
+    expect(off.message).toMatch(/Online maps are off/)
+    expect(tiles.seen).toHaveLength(0)
+
+    // Turned on with a provider on this computer, a tile is fetched once and then cached.
+    await invoke('maps:settings-set', {
+      online: { enabled: true, provider: 'osm', osmUrl: `${tiles.origin}/{z}/{x}/{y}.png` },
+    })
+    const url = `${tiles.origin}/3/2/1.png`
+    await invoke('maps:fetch', { url })
+    await invoke('maps:fetch', { url })
+    expect(tiles.seen).toHaveLength(1)
+    expect(tiles.seen[0]!.ua).toMatch(/^ActionStations\/\S+ \(\+https:\/\/actionstations\.ai\)$/)
+    const refused = await page.evaluate(
+      (u) =>
+        (
+          globalThis as unknown as {
+            ttx: { invoke: (c: string, p: unknown) => Promise<{ ok: boolean }> }
+          }
+        ).ttx.invoke('maps:fetch', { url: u }),
+      'https://example.org/1/1/1.png',
+    )
+    expect(refused.ok).toBe(false)
+    expect(tiles.seen).toHaveLength(1)
+  } finally {
+    await app.close()
+    await tiles.close()
+  }
+})

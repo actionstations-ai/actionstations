@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { ThreatFamilyId } from '../domains/schema'
-import { Citation, ExerciseTime, Id, IsoDateTime, RelPath, WallClock } from './common'
+import { Citation, ExerciseTime, Id, IsoDateTime, RelPath, SafeId, WallClock } from './common'
 import { ComplianceId } from './compliance'
 import { Evaluation } from './evaluation'
 import { Role } from './project'
@@ -182,6 +182,8 @@ export const MselRow = z.object({
   locked: z.boolean().default(false),
   /** The plan seam this row puts players in (#427): a ScenarioSeam id. */
   seamId: z.string().optional(),
+  /** Places this row happens at (#436): Place ids from maps.json. */
+  placeIds: z.array(SafeId).max(5).optional(),
   // The three #426 fields are optional (absent = none) rather than defaulted, so rows built in
   // code and rows written by older builds need no change.
   /** Regulatory triggers that delivering this row fires in Facilitate (#426). */
