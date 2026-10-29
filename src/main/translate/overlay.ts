@@ -32,9 +32,13 @@ export async function unreviewedItems(
   controller: boolean,
 ): Promise<TranslationItem[]> {
   const items = await translationItems(root, scenarioId, lang)
-  return items
-    .filter((i) => controller || !(i.kind === 'doc' && CONTROLLER_DOCS.includes(i.id as never)))
-    .filter((i) => i.status !== 'reviewed')
+  return (
+    items
+      .filter((i) => controller || !(i.kind === 'doc' && CONTROLLER_DOCS.includes(i.id as never)))
+      // A survey with no translation is simply not printed in Spanish; it never blocks the export.
+      .filter((i) => !(i.kind === 'survey' && i.status === 'missing'))
+      .filter((i) => i.status !== 'reviewed')
+  )
 }
 
 /** Refuse with the list of items when any is unreviewed; true when the override stamps pages. */

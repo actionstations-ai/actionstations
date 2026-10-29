@@ -1,8 +1,8 @@
 <div class="page" style="--accent: {{default brand.primaryColor '#1f3a5f'}}">
   {{#if (or (eq fields.urgency 'urgent') (eq fields.urgency 'emergency'))}}
   <div class="banner u-{{fields.urgency}}">
-    {{#if fields.urgencyText}}{{fields.urgencyText}}{{else if (eq fields.urgency
-    'emergency')}}EMERGENCY — IMMEDIATE ACTION REQUIRED{{else}}URGENT — ACTION REQUIRED{{/if}}
+    {{#if fields.urgencyText}}{{fields.urgencyText}}{{else if (eq fields.urgency 'emergency')}}{{t
+    'EMERGENCY — IMMEDIATE ACTION REQUIRED'}}{{else}}{{t 'URGENT — ACTION REQUIRED'}}{{/if}}
   </div>
   {{/if}}
   <header class="lh">

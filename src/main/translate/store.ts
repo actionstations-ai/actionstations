@@ -10,6 +10,7 @@ import type {
   InjectTranslation,
   Project,
   Scenario,
+  Survey,
   SupportedLanguage,
   TranslatableDoc,
   TranslationStatus,
@@ -31,6 +32,7 @@ import { applyTranslation, translatableFields } from './fields'
 import { schemaOf } from './inject'
 import { effectiveGlossary, flagText, glossaryFlags } from './glossary'
 import { docsInScope, playerInjects, type ItemRef } from './scope'
+import { saveSurveyTranslation, surveySourceHash, surveysInScope, surveyTexts } from './survey'
 
 type Json = Record<string, unknown>
 
@@ -117,6 +119,23 @@ function injectItem(
   }
 }
 
+function surveyItem(
+  survey: Survey,
+  lang: SupportedLanguage,
+  glossary: GlossaryEntry[],
+): TranslationItem {
+  const stored = survey.translations?.[lang]
+  return {
+    kind: 'survey',
+    id: survey.id,
+    label: `Survey: ${survey.title}`,
+    status: statusOf(stored, surveySourceHash(survey)),
+    flags: stored
+      ? glossaryFlags(allText(surveyTexts(survey)), allText(stored.text), glossary).map(flagText)
+      : [],
+  }
+}
+
 /** The injects a translation covers: players' rows whose MSEL row still exists. */
 export async function injectsInScope(root: string, scenarioId: string): Promise<Inject[]> {
   const [scenario, all] = await Promise.all([
@@ -148,6 +167,8 @@ export async function translationItems(
   }
   for (const inject of await injectsInScope(root, scenarioId))
     items.push(injectItem(inject, lang, root, glossary))
+  for (const survey of await surveysInScope(root, scenarioId))
+    items.push(surveyItem(survey, lang, glossary))
   return items
 }
 
@@ -263,6 +284,13 @@ export async function acceptItems(
     if (!stored || !pick('inject', inject.id) || stored.status === 'reviewed') continue
     if (!wanted && stored.sourceHash !== injectSourceHash(inject, root)) continue
     await saveInjectTranslation(root, scenarioId, inject.id, lang, stored, 'reviewed')
+    accepted++
+  }
+  for (const survey of await surveysInScope(root, scenarioId)) {
+    const stored = survey.translations?.[lang]
+    if (!stored || !pick('survey', survey.id) || stored.status === 'reviewed') continue
+    if (!wanted && stored.sourceHash !== surveySourceHash(survey)) continue
+    await saveSurveyTranslation(root, scenarioId, survey.id, lang, stored.text, 'reviewed')
     accepted++
   }
   return accepted

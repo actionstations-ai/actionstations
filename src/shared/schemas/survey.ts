@@ -4,6 +4,7 @@
 // construction: the schema has no field for a name, device, address or user agent.
 import { z } from 'zod'
 import { Citation, Id, IsoDateTime } from './common'
+import { SupportedLanguage, TranslationStatus } from './translation'
 
 /** FEMA Core Capability id ("operational_communications"); a free id until #421 lands its list. */
 export const SurveyCapabilityId = z.string().regex(/^[a-z][a-z0-9_]{0,79}$/)
@@ -105,6 +106,19 @@ export const SurveyTiming = z.enum(['pre', 'post', 'during', 'any'])
 export const SurveyEdition = z.enum(['before', 'after'])
 export type SurveyEdition = z.infer<typeof SurveyEdition>
 
+/**
+ * A survey in another player language (spec 0435, #501). `text` maps a position in the survey
+ * ("title", "q:<questionId>:text", "o:<questionId>:<optionId>", ...) to its translation; the
+ * keys come from the English survey, so structure, ids, answers and results never change.
+ */
+export const SurveyTranslation = z.object({
+  text: z.record(z.string().max(120), z.string().max(4000)),
+  sourceHash: z.string(),
+  status: TranslationStatus,
+  updatedAt: IsoDateTime,
+})
+export type SurveyTranslation = z.infer<typeof SurveyTranslation>
+
 /** survey.json format; missing means 1. */
 export const SURVEY_FORMAT_VERSION = 1
 
@@ -131,6 +145,7 @@ export const Survey = z.looseObject({
   /** Choices offered for the role group: the scenario's teams, never single roles. */
   roleGroups: z.array(z.string().min(1).max(60)).max(20).default([]),
   sections: z.array(SurveySection).max(20).default([]),
+  translations: z.partialRecord(SupportedLanguage, SurveyTranslation).optional(),
   templateId: z.string().max(80).optional(),
   templateVersion: z.number().int().optional(),
   status: z.enum(['draft', 'ready', 'archived']).default('draft'),

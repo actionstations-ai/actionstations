@@ -266,7 +266,7 @@ const packetForms = (): EmbeddedForm[] =>
     embedBlankForm(f.type, f.label),
   )
 
-const UNREVIEWED_STAMP = 'Traducción automática sin revisar / Unreviewed machine translation'
+export const UNREVIEWED_STAMP = 'Traducción automática sin revisar / Unreviewed machine translation'
 
 function wrap(model: ExportModel, doc: ExportDoc, body: string, forms: EmbeddedForm[]): string {
   const label = docLabel(model, doc)

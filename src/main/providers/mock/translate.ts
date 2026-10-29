@@ -48,11 +48,12 @@ function translateValue(v: unknown, glossary: Glossary): unknown {
   return v
 }
 
-/** The mock's reply to a `TranslateDocument` or `TranslateInject` request. */
+/** The mock's reply to a `TranslateDocument`, `TranslateSurvey` or `TranslateInject` request. */
 export function mockTranslation(req: ChatRequest): unknown {
   const glossary = glossaryOf(req.system)
   const source = sourceOf(req)
   if (req.json?.name === 'TranslateDocument')
     return { markdown: translateMarkdown(source, glossary) }
-  return translateValue(JSON.parse(source), glossary)
+  const value = translateValue(JSON.parse(source), glossary)
+  return req.json?.name === 'TranslateSurvey' ? { texts: value } : value
 }

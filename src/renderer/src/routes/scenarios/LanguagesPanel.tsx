@@ -27,7 +27,7 @@ const STATUS: Record<
 }
 
 const refOf = (i: Pick<TranslationItemView, 'kind' | 'id'>): ItemRef =>
-  (i.kind === 'doc' ? { kind: 'doc', id: i.id } : { kind: 'inject', id: i.id }) as ItemRef
+  ({ kind: i.kind, id: i.id }) as ItemRef
 
 function useTranslateJob(projectPath: string, scenarioId: string) {
   const job = useJobsStore((s) =>

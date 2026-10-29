@@ -18,11 +18,12 @@ const SL = S.extend({ lang: SupportedLanguage })
 export const ItemRef = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('doc'), id: TranslatableDoc }),
   z.object({ kind: z.literal('inject'), id: SafeId }),
+  z.object({ kind: z.literal('survey'), id: SafeId }),
 ])
 export type ItemRef = z.infer<typeof ItemRef>
 
 export const TranslationItemView = z.object({
-  kind: z.enum(['doc', 'inject']),
+  kind: z.enum(['doc', 'inject', 'survey']),
   id: z.string(),
   label: z.string(),
   status: z.enum(['missing', 'machine', 'reviewed', 'stale']),
@@ -50,7 +51,7 @@ export type TranslationStatusView = z.infer<typeof TranslationStatusView>
 
 /** One item side by side: the English and its translation. */
 export const TranslationItemText = z.object({
-  kind: z.enum(['doc', 'inject']),
+  kind: z.enum(['doc', 'inject', 'survey']),
   id: z.string(),
   label: z.string(),
   status: z.enum(['missing', 'machine', 'reviewed', 'stale']),
@@ -61,6 +62,8 @@ export const TranslationItemText = z.object({
   /** Injects: title and translatable fields, English and translated, in the same shape. */
   sourceFields: z.record(z.string(), z.unknown()).optional(),
   translatedFields: z.record(z.string(), z.unknown()).optional(),
+  /** Surveys: a readable name for each key of the fields ("Question 3: text"). */
+  fieldLabels: z.record(z.string(), z.string()).optional(),
   sourceTitle: z.string().optional(),
   translatedTitle: z.string().optional(),
 })
