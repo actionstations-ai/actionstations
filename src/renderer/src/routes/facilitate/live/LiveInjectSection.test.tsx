@@ -27,9 +27,13 @@ function entry(over: Partial<TimelineEntry> = {}): TimelineEntry {
   return { row: row(), inject: undefined, live: undefined, ...over } as TimelineEntry
 }
 
-function fakeLive(options: Partial<RowOptions> = {}): LiveDelivery {
+function fakeLive(
+  options: Partial<RowOptions> = {},
+  devices: LiveDelivery['devices'] = [],
+): LiveDelivery {
   return {
     active: true,
+    devices,
     options: () => ({ sendToDevices: true, showExpected: false, ...options }),
     setOptions: vi.fn(),
     summary: () => undefined,
@@ -69,6 +73,20 @@ describe('LiveInjectSection', () => {
     render(<LiveInjectSection live={fakeLive()} scenario={scenario} entry={entry()} />)
     expect(screen.getByLabelText('Send to devices')).toHaveProperty('checked', true)
     expect(screen.getByText('PIO', { selector: '.fac-live__chip' })).toBeTruthy()
+  })
+
+  it('offers each player device as a target and sends the pick by its reference', () => {
+    const live = fakeLive({}, [
+      { clientRef: 'aaaaaaaa', kind: 'player', label: 'PIO', staff: false, online: true },
+      { clientRef: 'bbbbbbbb', kind: 'evaluator', label: 'Evaluator', staff: true, online: true },
+    ])
+    render(<LiveInjectSection live={live} scenario={scenario} entry={entry()} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Edit targets' }))
+    expect(screen.queryByLabelText('Device: Evaluator')).toBeNull()
+    fireEvent.click(screen.getByLabelText('Device: PIO'))
+    expect(live.setOptions).toHaveBeenCalledWith('I-06', {
+      targets: ['role:pio', 'client:aaaaaaaa'],
+    })
   })
 
   it('collapses a whole team to one chip', () => {

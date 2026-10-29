@@ -3,7 +3,7 @@
 // the release / resend / withdraw calls.
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Destination } from '@shared/live/schemas/envelope'
-import type { ReleaseSummary, StageStatus } from '@shared/schemas/live'
+import type { LiveDevice, ReleaseSummary, StageStatus } from '@shared/schemas/live'
 import { call, subscribe } from '../../../lib/api'
 import { queryClient, useIpcQuery } from '../../../lib/query'
 
@@ -23,6 +23,8 @@ export interface LiveDelivery {
   setOptions: (rowId: string, patch: Partial<RowOptions>) => void
   summary: (rowId: string) => ReleaseSummary | undefined
   stage: StageStatus | undefined
+  /** Devices in the session, to pick a single one as a target (spec 0412 FR-3). */
+  devices: LiveDevice[]
   /** `targets` replaces the plan for this release (spec 0428 FR-6). */
   release: (rowId: string, targets?: Destination[]) => Promise<void>
   resend: (releaseId: string, targets: Destination[]) => Promise<void>
@@ -35,6 +37,7 @@ export function useLiveDelivery(projectPath: string, scenarioId: string): LiveDe
   const active = !!status.data?.session && !status.data.session.endedAt
   const receipts = useIpcQuery('live:receipts', req, { enabled: active })
   const stage = useIpcQuery('live:stage-status', req, { enabled: active })
+  const devices = useIpcQuery('live:devices', req, { enabled: active, refetchInterval: 15_000 })
   const [opts, setOpts] = useState<Record<string, Partial<RowOptions>>>({})
 
   useEffect(
@@ -106,6 +109,7 @@ export function useLiveDelivery(projectPath: string, scenarioId: string): LiveDe
     setOptions,
     summary: (rowId) => byRow.get(rowId),
     stage: stage.data,
+    devices: devices.data ?? [],
     release,
     resend,
     withdraw,
