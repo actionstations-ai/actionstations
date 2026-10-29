@@ -2,7 +2,8 @@ import { describe, expect, it, vi } from 'vitest'
 import { resolve } from 'node:path'
 
 vi.mock('electron', () => ({ app: { isPackaged: false, getAppPath: () => resolve('.') } }))
-const { fixtureModel, hseepFixtureModel } = await import('../../../tests/fixtures/export/model')
+const { fixtureModel, hseepFixtureModel, withoutEvaluation } =
+  await import('../../../tests/fixtures/export/model')
 const { completenessMarkdown, completenessReport, missingDetails } = await import('./completeness')
 
 const doc = (r: ReturnType<typeof completenessReport>, id: string) =>
@@ -10,7 +11,7 @@ const doc = (r: ReturnType<typeof completenessReport>, id: string) =>
 
 describe('completeness report (#420)', () => {
   it('lists the blank exercise details and the content not generated yet', () => {
-    const report = completenessReport(fixtureModel())
+    const report = completenessReport(withoutEvaluation(fixtureModel()))
     expect(report.detailsMissing).toEqual(
       expect.arrayContaining(['Exercise dates', 'Sponsor organization', 'Point of contact']),
     )
@@ -20,13 +21,11 @@ describe('completeness report (#420)', () => {
     expect(doc(report, 'msel_xlsx')).toMatchObject({ ready: true, missing: [] })
   })
 
-  it('is clean for a scenario with full details and SitMan modules (EEGs aside)', () => {
+  it('is clean for a scenario with full details, SitMan modules and EEGs', () => {
     const report = completenessReport(hseepFixtureModel())
     expect(report.detailsMissing).toEqual([])
-    expect(doc(report, 'explan').ready).toBe(true)
-    expect(doc(report, 'sitman').ready).toBe(true)
-    expect(doc(report, 'handbook_hseep').ready).toBe(true)
-    expect(doc(report, 'eeg').missing).toEqual(['Exercise Evaluation Guides not prepared yet'])
+    for (const id of ['explan', 'sitman', 'handbook_hseep', 'msel_xlsx', 'eeg'])
+      expect(doc(report, id).ready, id).toBe(true)
   })
 
   it('flags modules without discussion questions', () => {

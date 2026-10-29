@@ -70,7 +70,7 @@ export function threatOrHazard(s: Scenario): string {
   return [label, theme].filter(Boolean).join(': ')
 }
 
-/** Distinct Core Capabilities across the objectives (#421 data; empty until it exists). */
+/** Distinct Core Capabilities across the objectives (#421; empty without evaluation guides). */
 export function coreCapabilities(model: ExportModel): string[] {
   const caps = model.scenario.objectives.flatMap((o) => capabilitiesFor(model.evaluation, o.id))
   return [...new Set(caps)]
@@ -111,7 +111,7 @@ export function exerciseOverviewFacts(model: ExportModel): Fact[] {
   ]
 }
 
-/** Objective → Core Capability table rows (capability blank until #421 data exists). */
+/** Objective → Core Capability table rows (capability blank without evaluation guides). */
 export function objectiveRows(model: ExportModel): string[][] {
   return model.scenario.objectives.map((o) => [
     objectiveText(o),

@@ -10,7 +10,7 @@ The HSEEP document set (Exercise Plan, Situation Manual in two editions, Control
 
 - Each HSEEP document is built once as a list of blocks (`src/main/export/hseep/`: headings, paragraphs, fact tables, lists, tables, markdown) in HSEEP order. One template (`templates/export/hseep.html`) renders the blocks for PDF and preview; `hseep/docx.ts` renders the same blocks to Word. A blank exercise detail is an empty string in the blocks and prints as a fill-in line in both formats.
 - The MSEL workbook is written by `src/main/export/xlsx.ts` with exceljs: every cell a plain string, no formulas, macros or external links; text that starts with `=`, `+`, `-`, `@`, tab or CR gets a leading space so no spreadsheet evaluates it. `tableWorkbook()` is the shared writer for later tables (the AAR's Improvement Plan, #419).
-- Evaluation content (EEGs, Core Capabilities, critical tasks) is read through one seam, `src/main/export/evaluation.ts` (`evaluationOf()`), which #421 fills from its schema. Until then the documents print fill-in lines and "not prepared yet" notes.
+- Evaluation content (EEGs, Core Capabilities, critical tasks, #421) is read through one adapter, `src/main/export/evaluation.ts` (`evaluationOf()`), which turns `scenario.evaluation` into what the documents print. A scenario without guides prints fill-in lines and "not prepared yet" notes instead.
 - Exercise details live in `scenario.json` under `conduct` (optional, read through `conductOf()`), so existing scenarios load unchanged and no format version bump is needed. The `sitman` stage never receives them.
 
 ## Consequences

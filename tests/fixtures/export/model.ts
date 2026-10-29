@@ -6,6 +6,7 @@ import { join, resolve } from 'node:path'
 import { WaveFile } from 'wavefile'
 import { conductOf, Inject, Scenario, type MediaAsset } from '../../../src/shared/schemas'
 import type { ExportModel } from '../../../src/main/export/model'
+import { evaluationOf } from '../../../src/main/export/evaluation'
 import { planMediaFiles } from '../../../src/main/export/naming'
 
 const ULID = (n: number) => `01M5GJ27PWYJ1CJB60T579J4${String(n).padStart(2, '0')}`
@@ -130,6 +131,7 @@ export function fixtureModel(overrides: Partial<ExportModel> = {}): ExportModel 
     generatedAt: '2026-10-21T12:00:00.000Z',
     surveys: [],
     conduct: conductOf(scenario),
+    ...(evaluationOf(scenario) ? { evaluation: evaluationOf(scenario)! } : {}),
     ...overrides,
   }
 }
@@ -146,5 +148,12 @@ export function hseepFixtureModel(overrides: Partial<ExportModel> = {}): ExportM
     sitman: readFixture('scenario-3.sitman.json'),
   })
   model.conduct = conductOf(model.scenario)
+  return model
+}
+
+/** The model as for a scenario written before the eeg stage existed: no evaluation guides. */
+export function withoutEvaluation(model: ExportModel): ExportModel {
+  model.scenario.evaluation = { objectiveCapabilities: [], eegs: [] }
+  delete model.evaluation
   return model
 }

@@ -4,7 +4,8 @@ import JSZip from 'jszip'
 import { resolve } from 'node:path'
 
 vi.mock('electron', () => ({ app: { isPackaged: false, getAppPath: () => resolve('.') } }))
-const { fixtureModel, hseepFixtureModel } = await import('../../../tests/fixtures/export/model')
+const { fixtureModel, hseepFixtureModel, withoutEvaluation } =
+  await import('../../../tests/fixtures/export/model')
 const { MSEL_COLUMNS, mselWorkbook, neutralizeFormula } = await import('./xlsx')
 
 async function open(buf: Buffer): Promise<ExcelJS.Workbook> {
@@ -79,6 +80,26 @@ describe('Excel MSEL', () => {
       method: 'Verbal / facilitator',
     })
     expect(row('I-09').objectives).toContain('Decision Making')
+  })
+
+  it('fills capabilities and critical tasks from the EEGs, blank without them (#421)', async () => {
+    const model = fixtureModel()
+    const task = model.scenario.evaluation.eegs[0]!.criticalTasks[0]!
+    const rowAt = async (m: typeof model) => {
+      const ws = (await open(await mselWorkbook(m))).getWorksheet('MSEL')!
+      const i = m.scenario.msel.findIndex((r) => r.id === task.rowIds[0])
+      const v = (ws.getRow(i + 2).values as ExcelJS.CellValue[]).slice(1).map(text)
+      return Object.fromEntries(MSEL_COLUMNS.map((c, k) => [c.key, v[k] ?? '']))
+    }
+    const withEegs = await rowAt(model)
+    expect(withEegs.capabilities).toContain('Public Information and Warning')
+    expect(withEegs.tasks).toContain(task.id)
+    expect(withEegs.objectives).toContain('Communication')
+    const bare = await rowAt(withoutEvaluation(fixtureModel()))
+    expect(bare.capabilities).toBe('')
+    expect(bare.tasks).toBe('')
+    const objectives = (await open(await mselWorkbook(model))).getWorksheet('Objectives')!
+    expect(text(objectives.getRow(2).getCell(2).value)).toBe('Public Information and Warning')
   })
 
   it('italicizes control cards and bands phases', async () => {

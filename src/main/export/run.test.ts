@@ -50,6 +50,7 @@ describe('runExport (#420)', () => {
       'Flight-to-Nowhere-ExPlan.docx',
       'Flight-to-Nowhere-SitMan.docx',
       'Flight-to-Nowhere-CE-Handbook-HSEEP.docx',
+      'Flight-to-Nowhere-EEGs.docx',
     ])
   })
 

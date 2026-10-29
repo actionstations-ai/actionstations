@@ -3,7 +3,8 @@ import { resolve } from 'node:path'
 
 vi.mock('electron', () => ({ app: { isPackaged: false, getAppPath: () => resolve('.') } }))
 process.env.TTX_RESOURCES = resolve('.')
-const { fixtureModel, hseepFixtureModel } = await import('../../../../tests/fixtures/export/model')
+const { fixtureModel, hseepFixtureModel, withoutEvaluation } =
+  await import('../../../../tests/fixtures/export/model')
 const { hseepBlocks, headingsOf, textOf, scheduleRows, acronymRows, FILL_IN } = await import('.')
 const { NO_QUESTIONS_YET, WITHHELD_NARRATIVE } = await import('./sitman')
 const { NO_EEGS_YET } = await import('./handbook')
@@ -41,17 +42,32 @@ describe('Exercise Plan (ExPlan)', () => {
   })
 
   it('prints blank details as blanks (fill-in lines), never invented values', () => {
-    const blocks = hseepBlocks(fixtureModel(), 'explan')
+    const blocks = hseepBlocks(withoutEvaluation(fixtureModel()), 'explan')
     const facts = blocks.find((b) => b.kind === 'facts')
     if (facts?.kind !== 'facts') throw new Error('no facts table')
     const value = (label: string) => facts.rows.find((r) => r.label === label)?.value
     expect(value('Exercise Name')).toBe('Flight to Nowhere')
-    for (const label of ['Exercise Dates', 'Sponsor', 'Point of Contact', 'Core Capabilities'])
+    for (const label of [
+      'Exercise Dates',
+      'Sponsor',
+      'Point of Contact',
+      'Mission Area(s)',
+      'Core Capabilities',
+    ])
       expect(value(label), label).toBe('')
     const participants = blocks.find(
       (b) => b.kind === 'table' && b.caption === 'Exercise participants',
     )
     expect(participants).toMatchObject({ rows: [['', '']], fillBlanks: true })
+  })
+
+  it('shows mission areas and Core Capabilities from the evaluation guides (#421)', () => {
+    const text = textOf(hseepBlocks(fixtureModel(), 'explan'))
+    expect(text).toContain(
+      'Core Capabilities: Public Information and Warning, Operational Coordination, Infrastructure Systems, Cybersecurity',
+    )
+    expect(text).toMatch(/Mission Area\(s\): \S/)
+    expect(text).toMatch(/Decision Making: .* \| Operational Coordination, Infrastructure Systems/)
   })
 
   it('carries no inject detail, so players may read it', () => {
@@ -126,7 +142,25 @@ describe('Controller and Evaluator Handbook (HSEEP)', () => {
     const text = textOf(blocks)
     expect(text).toContain('Head Table: Incident Commander')
     expect(text).toContain('Metric 1: Operational Coordination')
-    expect(text).toContain(NO_EEGS_YET)
+    expect(text).not.toContain(NO_EEGS_YET)
+  })
+
+  it('EEG appendix and MSEL summary carry the guides; fill-ins without them (#421)', () => {
+    const model = fixtureModel()
+    const task = model.scenario.evaluation.eegs[0]!.criticalTasks[0]!
+    const blocks = hseepBlocks(model, 'handbook_hseep')
+    const text = textOf(blocks)
+    expect(headingsOf(blocks).map((h) => h.text)).toContain('Public Information and Warning')
+    expect(text).toContain(`${task.task} | ${task.rowIds.join(', ')}`)
+    expect(text).toContain('Met: the critical task was performed')
+    const summary = blocks.find((b) => b.kind === 'table' && b.caption === 'MSEL summary')
+    if (summary?.kind !== 'table') throw new Error('no MSEL summary')
+    expect(summary.rows.find((r) => r[1] === task.rowIds[0])![6]).toContain(
+      'Public Information and Warning',
+    )
+    const bare = textOf(hseepBlocks(withoutEvaluation(fixtureModel()), 'handbook_hseep'))
+    expect(bare.split(NO_EEGS_YET).length - 1).toBe(2)
+    expect(bare).toContain('P: Performed without challenges')
   })
 
   it('MSEL summary has one row per MSEL row', () => {
@@ -147,7 +181,7 @@ describe('Controller and Evaluator Handbook (HSEEP)', () => {
     expect(summary.rows.map((r) => r[1])).toEqual(model.scenario.msel.map((r) => r.id))
   })
 
-  it('shows EEGs from the evaluation seam when #421 data is present', () => {
+  it('shows EEGs from any evaluation data the model carries', () => {
     const model = fixtureModel({
       evaluation: {
         missionAreas: ['Response'],

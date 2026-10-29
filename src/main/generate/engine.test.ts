@@ -142,7 +142,7 @@ describe('scenario pipeline (mock provider, shipped prompts)', () => {
     expect(s.sitman?.assumptions.length).toBeGreaterThanOrEqual(3)
     // Every step has an ok run with provenance.
     const steps = planSteps(s)
-    expect(steps).toHaveLength(13)
+    expect(steps).toHaveLength(14)
     for (const step of steps) {
       const run = runFor(s, step)
       expect(run?.status, step.stage).toBe('ok')
@@ -453,7 +453,7 @@ describe('scenario pipeline (mock provider, shipped prompts)', () => {
     expect(overviewCalls).toEqual([])
     expect(done.title).toBe('Flight to Nowhere')
     expect(done.status).toBe('ready')
-    expect(planSteps(done)).toHaveLength(11)
+    expect(planSteps(done)).toHaveLength(12)
     expect(done.provenance.every((r) => r.status === 'ok' || r.stage === 'msel_phase')).toBe(true)
     expect(planSteps(done).every((st) => runFor(done, st)?.status === 'ok')).toBe(true)
   })
