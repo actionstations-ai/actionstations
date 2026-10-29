@@ -79,7 +79,11 @@ test('live: start a LAN session from Facilitate, serve the join page, stop', asy
     const response = await joinPage.goto(inviteUrl)
     expect(response?.status()).toBe(200)
     expect(response?.headers()['content-security-policy']).toContain("default-src 'none'")
-    await expect(joinPage.getByRole('heading', { level: 1 })).toContainText('Action Stations')
+    // The player bundle (#411) shows the scenario title on its join screen; without a built
+    // bundle the server's placeholder page is served instead.
+    await expect(joinPage.getByRole('heading', { level: 1 })).toContainText(
+      /Flight to Nowhere|Action Stations/,
+    )
     await phone.close()
 
     page.once('dialog', (d) => void d.accept())
