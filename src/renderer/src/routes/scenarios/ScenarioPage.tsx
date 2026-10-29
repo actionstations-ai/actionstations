@@ -24,6 +24,7 @@ import { GlossaryButton } from '../../components/Glossary'
 import { NextActionBar } from './NextActionBar'
 import { isReadyNext, STATUS_LABEL, STATUS_TONE, type Readiness } from './readiness'
 import { useReadiness } from './use-readiness'
+import { PersonasEditor } from './PersonasEditor'
 import { StageTimeline } from './StageTimeline'
 import { LanguagesPanel } from './LanguagesPanel'
 import { useLiveLog } from './use-live-log'
@@ -84,6 +85,7 @@ function ScenarioTabs(props: {
     ['rubric', 'Rubric'],
     ['evaluation', 'Evaluation'],
     ['languages', 'Languages'],
+    ['personas', `Personas (${scenario.simcellScripts.length})`],
     ['warnings', `Warnings (${props.lintCount ?? scenario.warnings.length})`],
   ]
   return (
@@ -135,6 +137,10 @@ function ScenarioTabs(props: {
       <Tabs.Content value="languages" className="tabs__panel">
         <PanelHeading>Languages</PanelHeading>
         <LanguagesPanel projectPath={projectPath} scenario={scenario} />
+      </Tabs.Content>
+      <Tabs.Content value="personas" className="tabs__panel">
+        <PanelHeading>Personas</PanelHeading>
+        <PersonasEditor projectPath={projectPath} scenario={scenario} />
       </Tabs.Content>
       <Tabs.Content value="warnings" className="tabs__panel">
         <PanelHeading>Warnings</PanelHeading>

@@ -85,6 +85,11 @@ export const LOG_ENTRY_KINDS = [
   'message.handled',
   'message.star',
   'message.pinned',
+  /** A SimCell draft was approved, edited, rewritten or discarded (#429). Staff only. */
+  'simcell.draft',
+  'call.ring',
+  'call.answer',
+  'call.end',
   'vote.open',
   'vote.cast',
   'vote.rationale',

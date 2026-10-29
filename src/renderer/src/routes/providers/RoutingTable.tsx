@@ -5,13 +5,14 @@ import type { ProviderKind, ProviderRef, ProviderRouting, ProviderTask } from '@
 import { Button } from '../../components/ui'
 import { CloudMarker } from '../../components/privacy/CloudMarker'
 import { useIpcQuery } from '../../lib/query'
+import { CapabilityStatus } from '../facilitate/CapabilityStatus'
 import { ModelInput } from './ModelInput'
 import type { ModelPurpose } from './model-suggestions'
 import { TASKS, cleanRouting, type ProviderViewT, type RoutingView, type TaskInfo } from './catalog'
 
 type Draft = Partial<Record<ProviderTask, ProviderRef>>
 
-const CHAT_TASKS: ProviderTask[] = ['ideate', 'draft', 'critique', 'translate']
+const CHAT_TASKS: ProviderTask[] = ['ideate', 'draft', 'critique', 'translate', 'roleplay']
 
 /** Text tasks never get embedding suggestions; the embed task gets only those (#225). */
 function modelPurpose(task: ProviderTask): ModelPurpose | undefined {
@@ -110,6 +111,7 @@ function RoutingRow(props: {
         <span className="routing-task__label">{info.label}</span>
         <span className="muted routing-task__purpose">{info.purpose}</span>
         {info.task === 'embed' && <EmbeddingNote />}
+        {info.task === 'roleplay' && !projectScope && <CapabilityStatus />}
         {effective && (
           <span className="routing-task__purpose">
             <CloudMarker config={effective} />

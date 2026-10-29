@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { HttpUrl, IsoDateTime } from './common'
 import { Fingerprint } from './live'
+import { CapabilityResult } from './persona'
 import { ProgramSettings } from './program'
 import { RecentProject } from './project'
 import { PrivacySettings, ProjectPrivacy } from './privacy'
@@ -135,6 +136,12 @@ export const LiveSettings = z.object({
 })
 export type LiveSettings = z.infer<typeof LiveSettings>
 
+/** SimCell assistant (#429): the model capability check, cached per provider and model. */
+export const SimcellSettings = z.object({
+  capability: z.record(z.string().max(300), CapabilityResult).default({}),
+})
+export type SimcellSettings = z.infer<typeof SimcellSettings>
+
 export const AppSettings = z.object({
   recentProjects: z.array(RecentProject).default([]),
   providers: z.array(ProviderConfig).default([]),
@@ -163,5 +170,6 @@ export const AppSettings = z.object({
   program: ProgramSettings.default(() => ({ recent: [] })),
   /** Live play connection defaults and remembered servers (#410). */
   live: LiveSettings.default(() => ({ defaultConnectionKind: 'lan' as const, servers: [] })),
+  simcell: SimcellSettings.default({ capability: {} }),
 })
 export type AppSettings = z.infer<typeof AppSettings>

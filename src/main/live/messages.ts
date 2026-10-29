@@ -56,6 +56,8 @@ export interface MessagesDeps {
   now: () => number
   newId: () => string
   changed: (threadId: string) => void
+  /** A player message was recorded (the SimCell assistant drafts a reply, spec 0429). */
+  incoming?: (msg: LiveMessage) => void
 }
 
 interface Thread {
@@ -137,6 +139,7 @@ export class Messages {
     await this.logMessage(msg, seq, { rejectedAttachments: rejected })
     await this.echo(msg, refs, seat.roleId, p.channel)
     this.deps.changed(threadId)
+    this.deps.incoming?.(msg)
   }
 
   private ownThread(seat: PlayerSeat, ref: string, wire: string): string | undefined {
@@ -239,6 +242,24 @@ export class Messages {
       : undefined
     if (client) return `client:${client}`
     throw new AppError('VALIDATION', 'There is no such role, team or device to message')
+  }
+
+  /** A thread's messages without marking it as seen (the SimCell assistant reads it this way). */
+  peek(threadId: string): LiveMessage[] {
+    return (this.threads.get(threadId)?.messages ?? []).map((m) => ({ ...m }))
+  }
+
+  /** The wire destination of a thread, for ringing it. */
+  destination(threadId: string): Destination {
+    return this.wireChannel(threadId)
+  }
+
+  threadLabel(threadId: string): string {
+    return this.label(threadId)
+  }
+
+  threadIds(): string[] {
+    return [...this.threads.keys()]
   }
 
   /** Validate a channel and say what it would look like as a thread (no message yet). */

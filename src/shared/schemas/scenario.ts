@@ -354,6 +354,10 @@ export const STAGES = [
   'micro_drill_assess',
   /** Player-language translation (spec 0435); on demand from the Languages panel. */
   'translate',
+  /** A SimCell persona's reply draft (#429); on demand during play. */
+  'simcell_reply',
+  /** Persona cards filled from SimCell scripts (#429); on demand. */
+  'simcell_personas',
 ] as const
 export const Stage = z.enum(STAGES)
 export type Stage = z.infer<typeof Stage>

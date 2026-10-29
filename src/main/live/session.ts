@@ -55,6 +55,9 @@ import { HotWash, hotwashPrompts, type HotWashQuestion } from './hotwash'
 import { Messages, type MessageRole, type MessageSeat } from './messages'
 import { LiveEvaluation } from './evaluation'
 import { upsertObservation } from '../evaluation/store'
+import type { Calls, CallSeat } from './calls'
+import { makeBridge, makeCalls, type LinkHost } from './simcell-link'
+import { simcellFor } from '../simcell/registry'
 import { LogWriter } from './log'
 import { countEntries, readAll } from './log-read'
 import { deleteSessionKeys, writeSessionKeys } from './keys'
@@ -98,6 +101,7 @@ interface Active {
   delivery: Delivery
   messages: Messages
   hotwash: HotWash
+  calls: Calls
   votes: Votes
   surveys: LiveSurveys
   evaluation: LiveEvaluation
@@ -278,6 +282,14 @@ function wireClient(a: Active): void {
       if (msg.to !== 'controller') return
       void a.messages.onPlayerMessage(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e))
     }),
+    a.client.on('call.answer', (msg) => {
+      if (msg.to !== 'controller') return
+      void a.calls.onAnswer(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e))
+    }),
+    a.client.on('call.end', (msg) => {
+      if (msg.to !== 'controller') return
+      void a.calls.onPlayerEnd(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e))
+    }),
     a.client.on(
       'vote.cast',
       (msg) => void a.votes.onBallot(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e)),
@@ -441,7 +453,59 @@ function makeMessages(getActive: () => Active, roles: readonly Role[]): Messages
     now: () => Date.now(),
     newId: () => toBase64Url(getActive().crypto.random(16)),
     changed: (threadId) => emitChanged('messages', undefined, threadId),
+    incoming: (m) =>
+      void simcellFor(getActive().root, getActive().session.scenarioId)
+        .onPlayerMessage({
+          messageId: m.messageId,
+          channel: m.channel,
+          ...(m.replyTo ? { replyTo: m.replyTo } : {}),
+        })
+        .catch((e: unknown) => console.error('[simcell] routing:', e)),
   })
+}
+
+/** What the SimCell assistant and voice calls need from this session (spec 0429). */
+function linkHost(getActive: () => Active, roles: readonly Role[]): LinkHost {
+  const byId = new Map(roles.map((r) => [r.id, r]))
+  const seatOf = (id: string): CallSeat | undefined => {
+    const s = getActive().seats.byClient.get(id)
+    if (!s) return undefined
+    const role = s.roleId ? byId.get(s.roleId) : undefined
+    const team = role ? teamSlug(role.team) : undefined
+    return {
+      clientId: s.clientId,
+      kind: s.kind,
+      ...(s.roleId ? { roleId: s.roleId } : {}),
+      ...(team ? { teamId: team } : {}),
+      label: role?.name ?? s.kind,
+    }
+  }
+  return {
+    get sessionId() {
+      return getActive().session.id
+    },
+    get dir() {
+      return getActive().dir
+    },
+    send: (type, to, payload) =>
+      getActive().client.send(type, to, payload as never, { key: 'players', sign: true }),
+    putBlob: (meta, bytes) => getActive().client.putBlob(meta, bytes),
+    getBlob: (ref) => getActive().client.getBlob(ref),
+    maxAnswerBytes: () => getActive().client.limits.playerBlobBytes,
+    log: { append: (input) => getActive().log.append(input) },
+    seatOf,
+    clientRef: (id) => clientRef(getActive(), id),
+    clock: async () => {
+      const a = getActive()
+      return formatClock(await clockState(a.root, a.session.scenarioId), Date.now())
+    },
+    newId: () => toBase64Url(getActive().crypto.random(16)),
+    changed: () => emitChanged('messages'),
+    get messages() {
+      return getActive().messages
+    },
+    releases: async () => await getActive().delivery.summaries(),
+  }
 }
 
 /** Votes' view of the session: sending as the controller, the seated devices, the log. */
@@ -706,6 +770,10 @@ async function startOn(
     delivery: makeDelivery(() => a, scenario.roles),
     messages: makeMessages(() => a, scenario.roles),
     hotwash: makeHotWash(() => a, scenario.roles, prompts.questions),
+    calls: makeCalls(
+      linkHost(() => a, scenario.roles),
+      simcellFor(root, req.scenarioId),
+    ),
     votes: makeVotes(() => a, scenario.roles),
     surveys: makeSurveys(() => a, scenario.roles, req.surveyOnly ? 'qr' : 'live'),
     evaluation: makeEvaluation(() => a),
@@ -734,6 +802,14 @@ async function startOn(
   active = a
   wireClient(a)
   a.unsubscribe.push(watchScenarioChanges(a))
+  const simcell = simcellFor(root, req.scenarioId)
+  await simcell.attach(
+    makeBridge(
+      linkHost(() => a, scenario.roles),
+      a.calls,
+    ),
+  )
+  simcell.startClock()
   await writeSessionFile(a)
   await log.append({
     kind: 'session.start',
@@ -1050,6 +1126,9 @@ export async function switchAddress(address: string): Promise<LanServerStatus> {
 
 async function teardown(a: Active, reason: 'endex' | 'cancelled'): Promise<LiveSession> {
   await a.surveys.closeAll().catch((e: unknown) => console.error('[live] surveys:', e))
+  for (const call of a.calls.list())
+    if (call.status !== 'ended') await a.calls.end(call.callId).catch(() => undefined)
+  simcellFor(a.root, a.session.scenarioId).detach()
   await a.votes.closeInterrupted().catch((e: unknown) => console.error('[live] vote:', e))
   a.votes.dispose()
   for (const off of a.unsubscribe.splice(0)) off()

@@ -12,6 +12,7 @@ export const TASK_LABELS: Record<ProviderTask, string> = {
   draft: 'Drafting',
   critique: 'Critique',
   translate: 'Translation',
+  roleplay: 'SimCell replies',
   embed: 'Embeddings',
   image: 'Image',
   video: 'Video',

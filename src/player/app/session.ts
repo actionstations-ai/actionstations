@@ -59,6 +59,13 @@ import {
   type SeatView,
 } from './items'
 import { chatFromFrame, upsertMessage, type ChatMessage } from './messages'
+import {
+  applyEnd as applyCallEnd,
+  applyRing,
+  markAnswered,
+  markHungUp,
+  type CallMap,
+} from '../features/calls/calls'
 import type { PreparedImage } from '../features/messages/attach'
 import { EvaluatorFeature } from '../features/evaluate/evaluator'
 import { createObservationStore, type ObservationStore } from '../features/evaluate/observations'
@@ -139,6 +146,8 @@ export interface PlayerState {
   votes: VoteMap
   /** Surveys this device has heard of, by delivery id (spec 0422). */
   surveys: SurveyMap
+  /** Voice calls this device has heard of, by call id (spec 0429). */
+  calls: CallMap
   read: ReadonlySet<string>
   dismissed: ReadonlySet<string>
   /** Release ids this device marked as actioned. */
@@ -242,6 +251,7 @@ export class PlayerSession {
       votes: {},
       surveys: {},
       hotwash: EMPTY_HOTWASH,
+      calls: {},
       read: new Set(),
       dismissed: new Set(),
       actioned: new Set(),
@@ -523,6 +533,11 @@ export class PlayerSession {
           surveys: applySurveyClose(s.surveys, msg as Opened<'survey.close'>),
         }))
         break
+      case 'call.ring':
+        return this.applyCallRing(msg as Opened<'call.ring'>)
+      case 'call.end':
+        this.store.set((st) => ({ calls: applyCallEnd(st.calls, msg as Opened<'call.end'>) }))
+        return
       case 'presence':
       case 'relay.blob.chunk':
       case 'relay.blob.done':
@@ -587,6 +602,7 @@ export class PlayerSession {
       messages: [],
       surveys: {},
       hotwash: EMPTY_HOTWASH,
+      calls: {},
       info: undefined,
       roster: [],
     })
@@ -895,6 +911,69 @@ export class PlayerSession {
         anonymous: true,
         retractOf: itemId,
       },
+    })
+  }
+
+  // ---- voice calls (spec 0429) ----
+
+  /** The longest spoken answer this connection takes, in bytes. */
+  get answerCap(): number {
+    return this.client?.limits.playerBlobBytes ?? 1024 * 1024
+  }
+
+  private applyCallRing(msg: Opened<'call.ring'>): void {
+    const next = applyRing(this.state.calls, msg, this.seatView(), this.now())
+    if (next.calls === this.state.calls) return
+    this.store.set({ calls: next.calls })
+    if (this.state.catchingUp) return
+    this.deps.announcer.announce(
+      next.isNew
+        ? STRINGS.calls.incoming(msg.payload.persona.name)
+        : STRINGS.calls.nextLine(msg.payload.persona.name),
+    )
+    this.deps.cue?.(this.deps.prefs())
+  }
+
+  /** Answer the open turn by text or with a recording (a 16 kHz mono WAV). Goes out now, or on reconnect. */
+  async answerCall(
+    callId: string,
+    answer: { text?: string; audio?: { bytes: Uint8Array; durationSec: number } },
+  ): Promise<void> {
+    const call = this.state.calls[callId]
+    if (!call || call.status !== 'ringing' || !this.outbox) return
+    const text = answer.text?.trim()
+    if (!text && !answer.audio) return
+    const payload: Record<string, unknown> = { callId, turn: call.turn }
+    if (answer.audio) {
+      const client = this.client
+      if (!client || client.state !== 'joined') throw new Error('Not connected')
+      payload.audio = await client.putBlob(
+        { kind: 'audio', mime: 'audio/wav', durationSec: Math.max(0.1, answer.audio.durationSec) },
+        answer.audio.bytes,
+      )
+    } else {
+      payload.text = text
+    }
+    this.store.set((s) => ({
+      calls: markAnswered(s.calls, callId, text ?? STRINGS.calls.spokenAnswer),
+    }))
+    await this.outbox.enqueue({
+      id: `call:${callId}:${call.turn}`,
+      type: 'call.answer',
+      to: 'controller',
+      payload,
+    })
+  }
+
+  async hangUp(callId: string): Promise<void> {
+    const call = this.state.calls[callId]
+    if (!call || call.status === 'ended' || !this.outbox) return
+    this.store.set((s) => ({ calls: markHungUp(s.calls, callId) }))
+    await this.outbox.enqueue({
+      id: `call-end:${callId}`,
+      type: 'call.end',
+      to: 'controller',
+      payload: { callId, turn: call.turn, reason: 'hangup', by: 'player' },
     })
   }
 

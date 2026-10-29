@@ -1,6 +1,6 @@
 # Spec 0429: SimCell assistant with voice calls
 
-Issue: #429 · Milestone: 0.8.0 · Status: Draft · Depends on: #406 (session protocol), #413 (player ↔ SimCell messages), #417 (controller dashboard and session log) · Related: #425 (local speech-to-text), #411 (player page), #412 (inject delivery)
+Issue: #429 · Milestone: 0.8.0 · Status: Implemented · Depends on: #406 (session protocol), #413 (player ↔ SimCell messages), #417 (controller dashboard and session log) · Related: #425 (local speech-to-text), #411 (player page), #412 (inject delivery)
 
 ## Summary
 
@@ -289,3 +289,17 @@ Nothing leaves the computer except through providers the user configured and the
 3. **Should approved replies be signed as the host controller or as a separate SimCell key?** Recommendation: the host controller key (#406). One authority keeps the player-side check simple; the persona is a display attribute.
 4. **Keep call recordings by default?** Recommendation: off. The transcript is enough for the AAR; recordings of staff voices are personal data some organizations must not keep.
 5. **Probe set ownership.** Recommendation: ship the probes in code (not as an editable prompt) so a pack or override cannot weaken the gate; publish the probe list in the guide.
+
+## As built
+
+Open questions 1 to 5 were settled as recommended (a `roleplay` task that falls back to `draft`; a Limited model drafts only on request; approved replies are signed with the host controller key; call recordings are off by default; the probes live in code). Where the build differs from the text above:
+
+1. **Recordings are converted on the player's device.** The main process has no decoder for WebM or MP4, so the page records with `MediaRecorder`, decodes the clip with the browser's own decoders and sends a 16 kHz mono 16-bit WAV. `assertClip` in `voice.ts` checks the WAV header and length in main before transcription. The cap is the connection's player blob limit: about 32 seconds on the relay (1 MiB), 60 seconds elsewhere. The microphone toggle (tap to talk, tap to send) replaces press-and-hold.
+2. **The microphone is allowed for the player page.** `Permissions-Policy` was `microphone=()` on the LAN server, the relay and the harness; it is now `microphone=(self)`. The page asks only when a player taps to talk.
+3. **IPC.** `simcell:queue` returns `{ drafts, waiting, status }`; `simcell:voice-render` takes `{ personaId, text }`; `simcell:personas-from-scripts` returns `{ proposal }` (plain mapping) or `{ jobId }` (model fill-in, the job result is the proposal); `simcell:capability` and `simcell:capability-run` take an optional `projectPath` so Settings can use them. Added `simcell:status`, `simcell:set-options`, `simcell:assign`, `simcell:call-start`, `simcell:call-end`. `simcell:resolve` takes `channel` (for a draft with no thread) and `asCall`.
+4. **Goals.** `PersonaCard.goals` has no minimum, so a card made from a script can be saved before it has a goal; drafting for a card without one fails with a clear message and the editor says so.
+5. **Drafts never travel.** Drafts live on the controller only (`simcell.jsonl`), so there is nothing to seal with the staff key. A staff-side SimCell helper device would need a new message type; left for later.
+6. **Flags.** Two codes were added: `RULE_JUDGED_BY_MODEL` (FR-10 says the `player_says` rule is flagged as judged) and `LIMITED_MODEL` (FR-22 says each Limited draft carries a warning). `BROKE_CHARACTER` has no per-card allowance.
+7. **Calls from injects.** A controller starts a call with **Start a call** or ticks **Ring the players with this reply as a call** on a draft. A released phone inject does not turn into a call by itself; that is a follow-up.
+8. **Export.** `personas.md` is written by the `markdown` export target next to `scenario.md` (facilitator folder), not by `documents.ts`.
+9. **Capability display.** The model check shows on the Settings > Providers row and on the SimCell tab. `live.test.ts` is opt-in (`LIVE=1`).

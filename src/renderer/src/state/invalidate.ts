@@ -87,6 +87,8 @@ const BY_KIND: Record<JobKind, string[]> = {
   'drill-export': ['drills:'],
   'build-micro-drill': ['microdrills:'],
   translate: [...SCENARIO_WORK, 'translate:'],
+  'simcell-personas': [],
+  'simcell-capability': ['simcell:'],
 }
 
 export interface Change {

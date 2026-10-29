@@ -12,6 +12,7 @@ import { ConnectionDot } from '../components/ConnectionDot'
 import { TabBar, type Tab, type TabSpec } from '../components/TabBar'
 import { SurveyBanner } from '../features/surveys/SurveyBanner'
 import { SurveysScreen } from '../features/surveys/SurveysScreen'
+import { CallBanner, CallScreen } from '../features/calls/CallScreen'
 import { VoteBanner } from '../features/votes/VoteBanner'
 import { VoteScreen } from '../features/votes/VoteScreen'
 import { currentVote } from '../features/votes/votes'
@@ -32,6 +33,7 @@ export function RoomShell({
 }) {
   const [surveys, setSurveys] = useState<{ initial?: string } | undefined>(undefined)
   const [voteId, setVoteId] = useState<string | undefined>(undefined)
+  const [callId, setCallId] = useState<string | undefined>(undefined)
   const info = useStore(session.store, (s) => s.info)
   const [tab, setTab] = useState<Tab>(surveysOnly(info) ? 'more' : 'inbox')
   const seat = useStore(session.store, (s) => s.seat)
@@ -118,6 +120,7 @@ export function RoomShell({
       ) : back ? (
         <Banner tone="success">{STRINGS.header.back}</Banner>
       ) : null}
+      <CallBanner session={session} onOpen={setCallId} viewing={callId} />
       <VoteBanner session={session} onOpen={setVoteId} viewing={voteId} />
       <SurveyBanner
         session={session}
@@ -125,22 +128,29 @@ export function RoomShell({
         viewing={!!surveys}
       />
       <main className="room__main" id="content">
-        {voteId ? (
+        {callId ? (
+          <CallScreen session={session} callId={callId} onClose={() => setCallId(undefined)} />
+        ) : null}
+        {!callId && voteId ? (
           <VoteScreen session={session} voteId={voteId} onBack={() => setVoteId(undefined)} />
         ) : null}
-        {!voteId && surveys ? (
+        {!voteId && !callId && surveys ? (
           <SurveysScreen
             session={session}
             initialId={surveys.initial}
             onBack={() => setSurveys(undefined)}
           />
         ) : null}
-        {!voteId && !surveys && tab === 'inbox' ? <InboxScreen session={session} /> : null}
-        {!voteId && !surveys && tab === 'feed' ? (
+        {!voteId && !surveys && !callId && tab === 'inbox' ? (
+          <InboxScreen session={session} />
+        ) : null}
+        {!voteId && !surveys && !callId && tab === 'feed' ? (
           <FeedScreen session={session} onOpenTab={select} />
         ) : null}
-        {!voteId && !surveys && tab === 'messages' ? <MessagesScreen session={session} /> : null}
-        {!voteId && !surveys && tab === 'more' ? (
+        {!voteId && !surveys && !callId && tab === 'messages' ? (
+          <MessagesScreen session={session} />
+        ) : null}
+        {!voteId && !surveys && !callId && tab === 'more' ? (
           <MoreScreen
             session={session}
             prefsStore={prefsStore}

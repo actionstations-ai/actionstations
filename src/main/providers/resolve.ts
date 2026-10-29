@@ -33,7 +33,10 @@ import type {
   TextProvider,
 } from './types'
 
-export type TextTask = Extract<ProviderTask, 'ideate' | 'draft' | 'critique' | 'translate'>
+export type TextTask = Extract<
+  ProviderTask,
+  'ideate' | 'draft' | 'critique' | 'translate' | 'roleplay'
+>
 export type MediaTask = Extract<ProviderTask, 'image' | 'video' | 'audio'>
 
 export interface ResolvedText {
@@ -121,7 +124,7 @@ export function assertRoutingTargetsExist(routing: ProviderRouting, settings: Ap
 
 // ---- task support (derived from the adapters) --------------------------------------------
 
-const TEXT_TASKS: readonly TextTask[] = ['ideate', 'draft', 'critique', 'translate']
+const TEXT_TASKS: readonly TextTask[] = ['ideate', 'draft', 'critique', 'translate', 'roleplay']
 const MEDIA_TASKS: readonly MediaTask[] = ['image', 'video', 'audio']
 
 /** Media capabilities of an adapter, read from a throwaway instance (constructors do no I/O). */
@@ -168,8 +171,10 @@ export function providerTaskSupport(): Record<ProviderTask, ProviderKind[]> {
 
 async function refFor(task: ProviderTask, projectPath?: string): Promise<ProviderRef> {
   const effective = (await getRoutingView(projectPath)).effective
-  // Translation uses the drafting route until a person routes it elsewhere (spec 0435 FR-5).
-  const ref = effective[task] ?? (task === 'translate' ? effective.draft : undefined)
+  // Translation and SimCell replies use the drafting route until a person routes them elsewhere
+  // (spec 0435 FR-5, #429).
+  const ref =
+    effective[task] ?? (task === 'translate' || task === 'roleplay' ? effective.draft : undefined)
   if (!ref)
     throw new AppError(
       'VALIDATION',

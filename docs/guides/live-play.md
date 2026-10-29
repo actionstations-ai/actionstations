@@ -237,6 +237,8 @@ For the facilitator, in the **Votes** tab beside **Live** (a session must be run
 
 ## Messages with the SimCell
 
+The SimCell assistant can draft these replies for you to approve, and a persona can phone a player. See the [SimCell assistant guide](live-simcell.md).
+
 On your device:
 
 - **Messages tab.** Write to the SimCell to call the vendor, answer the reporter or ask for something. Enter sends; Shift+Enter starts a new line. **Reply to SimCell** on an inject quotes it above your message.

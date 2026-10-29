@@ -468,3 +468,16 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 | `templates/injects/<type>/` | User inject templates, the layer between project and pack templates (ADR-0018) |
 | `live/sessions/<sessionId>.json` | A running live session's secrets (ADR-0027; written by #407–#410): staff root per epoch, controller signing and ECDH keys as JWK, last `seq`; `safeStorage` ciphertext only, deleted at `session.end`. Never in a project folder |
 | `live/lan.log` (+ `.1`–`.3`) | The LAN session server's connection log (#407, ADR-0032): time, event, remote address, client id, close code; fixed fields, never a frame, a query string or a key. Rotated at 5 MB × 3 |
+
+## SimCell personas and drafts (#429)
+
+| File | Contents |
+|---|---|
+| `scenarios/<id>/personas.json` | `PersonasFile` (`src/shared/schemas/persona.ts`): `version: 1` and up to 20 `PersonaCard`s. Optional: a scenario without it loads as before. A card holds `displayName` (a fictional person or a title), `roleTitle`, `organization {name, fictional}`, `kind`, `register` (style only, 40 characters), `goals`, `deadlines {at, wants, ifMissed}`, `escalationRules {when, then}` (`when` is `time`, `row_released`, `no_reply` or `player_says`), `knowledge {knows, doesNotKnow, mustNotReveal}`, `concessions {give, onlyIf}`, `hardQuestions`, `linkedRowIds`, `channels`, `voice {providerId, voiceId, postFx}` and `source.simcellScriptIndex`. Included in history snapshots and in the facilitator part of the distribution ZIP as `personas.md`, never in `players/`. |
+| `scenarios/<id>/live/<sessionId>/simcell.jsonl` | One `SimcellDraft` per line, appended each time a draft is created and again when it is resolved (the last line per id wins). Controller side only. Holds the draft, its `applied` ids, `flags`, `providerRef`, `status` (`queued`, `sent`, `edited`, `rewritten`, `discarded`) and `finalText`. |
+| `scenarios/<id>/live/<sessionId>/calls/*.wav` | Call recordings, only while "Keep call recordings" is on for the session; otherwise deleted once transcribed. |
+| `scenarios/<id>/media/_calls/*.wav` | Rendered voice lines for calls and previews. |
+| `scenarios/<id>/facilitator.json` `simcell` | `SimcellExchange[]`: what a player said and the approved reply, from the offline mode, for the hot wash. |
+| `settings.json` `simcell.capability` | `{ "<providerId>/<model>": { level, passed, failed, checkedAt } }`, the model check result per provider and model. |
+
+The session log (`log.jsonl`) gains `simcell.draft` (draft text, final text, checks, whether edited), `call.ring`, `call.answer` (text or transcript, audio size, never the audio) and `call.end`.

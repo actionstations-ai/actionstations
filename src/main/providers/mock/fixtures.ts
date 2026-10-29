@@ -600,6 +600,49 @@ export const MOCK_FIXTURES: Record<StageOutputSchemaName, unknown> = {
   },
   // Static fallback; the mock adapter judges real answers by their words (micro-drill.ts).
   MicroDrillAssessOutput: { covered: [], partial: [], missing: [] },
+  SimcellDraftOutput: {
+    text: 'Thanks for the update. We still need the statement you promised by 1:30, and we will publish what we have at the deadline.',
+    intent: 'stall',
+    applied: { goals: ['goal-1'], deadlines: ['deadline-1'], rules: [], concessions: [] },
+    controllerNote: 'Pushes for the promised statement; no concession given.',
+  },
+  PersonasOutput: {
+    personas: [
+      {
+        scriptIndex: 0,
+        displayName: 'Dana Whitlock',
+        roleTitle: 'Reporter',
+        organizationName: 'Harbor Ledger',
+        organizationFictional: true,
+        kind: 'reporter',
+        register: 'plain-spoken',
+        goals: ['Publish a first report before the evening edition.'],
+        deadlines: [
+          {
+            at: '1:30',
+            wants: 'A statement from the operator.',
+            ifMissed: 'Publishes without comment.',
+          },
+        ],
+        escalationRules: [
+          {
+            whenKind: 'no_reply',
+            minutes: 10,
+            then: 'Calls the operator again and mentions a source.',
+          },
+        ],
+        knows: ['Passengers are posting about delays.'],
+        doesNotKnow: ['The cause of the outage.'],
+        mustNotReveal: ['source name'],
+        concessions: [
+          {
+            give: 'Holds the story one hour.',
+            onlyIf: 'The players give a statement with a time for the next update.',
+          },
+        ],
+      },
+    ],
+  },
   DrillStartexOutput: {
     situationMd:
       'The terminal is on manual procedures. The Incident Commander has confirmed the data error and the PIO is preparing the first public statement.',

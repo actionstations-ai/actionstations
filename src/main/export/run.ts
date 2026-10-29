@@ -1,6 +1,8 @@
 // export:run — one job that writes the selected targets into <outDir>/<Title>-S<n>-<tag>/ and,
 // for 'zip', <outDir>/<Title>-S<n>-<tag>-distribution.zip (unique per scenario, #213). Each target is one progress step; the ZIP pulls
 // in every artifact it needs (all PDFs, media, scenario.json/.md).
+import { personasMarkdown } from '../simcell/export'
+import { readPersonas } from '../simcell/personas'
 import { promises as fs } from 'node:fs'
 import { isAbsolute, join } from 'node:path'
 import type { ExportOptions, ExportTarget } from '@shared/ipc'
@@ -334,7 +336,8 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
     case 'json':
       return writeOut(state, 'scenario.json', scenarioJson(state.model))
     case 'markdown':
-      return writeOut(state, 'scenario.md', scenarioMarkdown(state.model, state.media))
+      await writeOut(state, 'scenario.md', scenarioMarkdown(state.model, state.media))
+      return writePersonas(state)
     case 'msel_xlsx':
       return writeOut(state, state.names.mselXlsx, await mselWorkbook(state.model))
     case 'docx':
@@ -380,6 +383,13 @@ async function writeCoverage(state: RunState, target: 'coverage_xlsx' | 'coverag
     return writeOut(state, state.names.coverageXlsx, await coverageWorkbook(state.model, report))
   await writeOut(state, state.names.coverageCsv, coverageCsv(report))
   await writeOut(state, state.names.clocksCsv, clocksCsv(report))
+}
+
+/** personas.md (#429): the SimCell persona cards, facilitator/ only, when the scenario has any. */
+async function writePersonas(state: RunState): Promise<void> {
+  const file = await readPersonas(state.model.root, state.model.scenario.id).catch(() => undefined)
+  if (!file?.personas.length) return
+  await writeOut(state, 'personas.md', personasMarkdown(file, state.model.scenario.title))
 }
 
 /** export-report.md (#420): what the HSEEP set contains and which details are still blank. */

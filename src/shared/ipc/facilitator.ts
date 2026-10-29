@@ -5,6 +5,7 @@ import { BranchRule } from '../schemas/scenario'
 import { HotwashItemKind } from '../schemas/aar'
 import { ComplianceSession } from '../schemas/compliance'
 import { LiveConnection } from '../schemas/live'
+import { SimcellExchange } from '../schemas/persona'
 
 const S = z.object({ projectPath: z.string(), scenarioId: SafeId })
 
@@ -159,6 +160,8 @@ export const FacilitatorState = z.looseObject({
     .default([]),
   /** Regulatory clocks: triggers fired, clocks filed or waived, clocks on screen (#426). */
   compliance: ComplianceSession.optional(),
+  /** SimCell exchanges typed in without live play, kept for the hot wash (spec 0429 FR-15). */
+  simcell: z.array(SimcellExchange).max(500).optional(),
   /** Branch decisions taken and proposals seen this run (spec 0430); absent without branches. */
   branching: z
     .object({
