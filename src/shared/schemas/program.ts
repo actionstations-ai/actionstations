@@ -282,6 +282,17 @@ export const SnapshotScenario = z.object({
     })
     .optional(),
   aarPresent: z.boolean(),
+  /** Drill runs for this scenario (#431), when the project has them. */
+  drillRuns: z
+    .array(
+      z.object({
+        ranAt: IsoDateTime,
+        pass: z.number().int(),
+        fail: z.number().int(),
+        partial: z.number().int(),
+      }),
+    )
+    .optional(),
 })
 export type SnapshotScenario = z.infer<typeof SnapshotScenario>
 
@@ -301,6 +312,8 @@ export const ProjectSnapshot = z.looseObject({
       shortName: z.string().optional(),
       kind: DocumentKind,
       sha256: z.string().optional(),
+      /** Redlines made against this document (#431), when the project has them. */
+      redlineCount: z.number().int().optional(),
       /** Top-level headings, from the document's index. */
       sections: z.array(z.string()),
     }),

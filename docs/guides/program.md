@@ -70,6 +70,18 @@ same list. **Start a scenario from this proposal** opens the Generate brief with
 filled in ("Must test ... ; Verify CA-0012: ..."). Only those sentences go to the brief; owner
 names and emails never do. Review the brief before generating.
 
+## Health
+
+**Program > Health** answers the questions leadership and grant reviewers ask: which Core Capabilities and plan sections have been exercised, when, and what has never been tested. It is built from the program folder only (the snapshots of each linked project, the schedule and the corrective actions), so it works when some project folders are on other computers. A line at the top shows when each snapshot was taken; a snapshot older than 30 days, or for a project that is not on this computer, is marked "Out of date" and **Refresh from projects** is highlighted.
+
+- **Core Capabilities by quarter.** One row per capability with a status in words: _Current_ (exercised in this cycle and within the stale window), _Stale_ (last exercised before the cycle began, or more than the chosen number of months ago; 24 by default), _Planned only_ (not exercised, but a planned exercise names it) and _Never exercised_. Each quarter cell is the number of exercises; click it to see them and open the scenario (when the project is on this computer) or the corrective actions for the capability. Met, partly met and not met are counts from observation, not a score. Exercises that predate Core Capability mapping are counted in a notice above the table.
+- **Plan sections.** Sections to three levels of each plan, with how many exercises cited them and the last date. The same plan ingested into two projects is one row.
+- **Corrective actions.** Counts by status, how long open actions have been open, the overdue list and open actions by organization.
+- **Never tested.** Capabilities a program priority names that no exercise addressed, plan documents with no cited section, uncited plan sections at the top two levels, and planned exercises whose quarter has passed.
+- **Filters.** Project, year, mission area and plan document apply to every panel and are kept in the address, so you can bookmark a filtered view.
+
+**Export report** writes a dated PDF and a ZIP of five CSV files (`capabilities`, `sections`, `corrective-actions`, `never-tested`, `timeline`) with the same rows as the screen. Tick _Leave out owner names_ before sharing outside your agency.
+
 ## Privacy
 
 Owner names and emails are stored in the program folder you chose and shown in its exports. They
