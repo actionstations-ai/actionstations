@@ -1252,6 +1252,18 @@ export async function flushActiveLog(root: string, scenarioId: string): Promise<
   }
 }
 
+/** The minutes of silence before an inject that expects a response is flagged, this session. */
+export async function setUnansweredWindow(
+  root: string,
+  scenarioId: string,
+  minutes: number,
+): Promise<void> {
+  const a = activeFor(root, scenarioId)
+  a.session = { ...a.session, unansweredAfterMin: minutes }
+  await writeSessionFile(a)
+  emitChanged('receipts')
+}
+
 /** Facilitator marks a release answered (spec 0417 FR-9); logged, then the Room refreshes. */
 export async function markAnswered(
   root: string,

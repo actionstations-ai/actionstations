@@ -28,6 +28,8 @@ export interface DashboardContext {
   sessionId?: string
   /** Minutes before a release that expects a response is flagged (default 10). */
   unansweredAfterMin?: number
+  /** Per-row windows from the MSEL (`responseWindowMin`); they win over the session's. */
+  rowWindows?: Readonly<Record<string, number>>
   logBytes?: number
 }
 
@@ -39,7 +41,12 @@ interface Client {
   teamId?: string | undefined
   state: 'in' | 'out' | 'removed'
   name?: string | undefined
+  /** When the device last left, epoch ms. */
+  leftAt?: number | undefined
 }
+
+/** A device that left this long ago and has not come back is shown as away (spec 0417 FR-8). */
+export const AWAY_AFTER_MS = 60_000
 
 const ms = (iso: string): number => Date.parse(iso)
 const str = (v: unknown): string => (typeof v === 'string' ? v : '')
@@ -73,17 +80,36 @@ export function trackClients(entries: readonly SessionLogEntry[]): Map<string, C
       })
     } else if (e.kind === 'client.leave' || e.kind === 'client.kick') {
       const c = clients.get(ref)
-      if (c) c.state = e.kind === 'client.kick' ? 'removed' : 'out'
+      if (c) {
+        c.state = e.kind === 'client.kick' ? 'removed' : 'out'
+        c.leftAt = ms(e.at)
+      }
     }
   }
   return clients
 }
 
-function roster(clients: Map<string, Client>, roles: readonly DashboardRole[]): RosterRow[] {
+const isAway = (c: Client, now: number): boolean =>
+  c.state === 'out' && c.leftAt !== undefined && now - c.leftAt >= AWAY_AFTER_MS
+
+function roster(
+  clients: Map<string, Client>,
+  roles: readonly DashboardRole[],
+  now: number,
+): RosterRow[] {
   const rows = new Map<string, RosterRow>()
   const row = (seat: string, label: string, kind: SeatKind) => {
     if (!rows.has(seat)) {
-      rows.set(seat, { seat, label, kind, connected: 0, removed: 0, names: [], empty: false })
+      rows.set(seat, {
+        seat,
+        label,
+        kind,
+        connected: 0,
+        removed: 0,
+        away: 0,
+        names: [],
+        empty: false,
+      })
     }
     return rows.get(seat)!
   }
@@ -95,6 +121,7 @@ function roster(clients: Map<string, Client>, roles: readonly DashboardRole[]): 
       r.connected += 1
       if (c.name) r.names.push(c.name)
     } else if (c.state === 'removed') r.removed += 1
+    else if (isAway(c, now)) r.away += 1
   }
   for (const r of rows.values()) r.empty = r.kind === 'player' && r.connected === 0
   return [...rows.values()]
@@ -225,8 +252,9 @@ function injectRows(
         : {}),
       ageMin,
     })
-    if (expectsResponse && !r.withdrawn && !r.answer && ageMin >= windowMin) {
-      unanswered.push({ releaseId: r.releaseId, rowId: r.rowId, ageMin, windowMin })
+    const own = c.rowWindows?.[r.rowId] ?? windowMin
+    if (expectsResponse && !r.withdrawn && !r.answer && ageMin >= own) {
+      unanswered.push({ releaseId: r.releaseId, rowId: r.rowId, ageMin, windowMin: own })
     }
   }
   unanswered.sort((a, b) => b.ageMin - a.ageMin)
@@ -410,7 +438,8 @@ export function dashboardView(
     live: c.live,
     unansweredAfterMin: windowMin,
     connected: [...clients.values()].filter((x) => x.state === 'in').length,
-    roster: roster(clients, c.roles),
+    roster: roster(clients, c.roles, c.now),
+    away: [...clients.values()].filter((x) => isAway(x, c.now)).length,
     injects: rows,
     unanswered: late,
     messages: messageStats(entries, c, clients),

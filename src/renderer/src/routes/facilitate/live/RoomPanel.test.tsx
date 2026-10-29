@@ -13,6 +13,7 @@ const view = (over: Partial<DashboardView> = {}): DashboardView => ({
   live: true,
   unansweredAfterMin: 10,
   connected: 3,
+  away: 0,
   roster: [
     {
       seat: 'ops',
@@ -20,6 +21,7 @@ const view = (over: Partial<DashboardView> = {}): DashboardView => ({
       kind: 'player',
       connected: 2,
       removed: 0,
+      away: 0,
       names: [],
       empty: false,
     },
@@ -29,6 +31,7 @@ const view = (over: Partial<DashboardView> = {}): DashboardView => ({
       kind: 'player',
       connected: 0,
       removed: 0,
+      away: 0,
       names: [],
       empty: true,
     },
@@ -108,7 +111,7 @@ describe('RoomView', () => {
       within(seats)
         .getAllByRole('columnheader')
         .map((h) => h.textContent),
-    ).toEqual(['Seat', 'Connected', 'Removed'])
+    ).toEqual(['Seat', 'Connected', 'Away', 'Removed'])
     expect(screen.getByRole('table', { name: 'Released injects' })).toBeTruthy()
   })
 
@@ -132,6 +135,18 @@ describe('RoomView', () => {
     expect(within(section).getByText('No response · 12 min')).toBeTruthy()
     fireEvent.click(within(section).getByRole('button', { name: 'Mark I-07 answered' }))
     expect(onMark).toHaveBeenCalledWith('r7')
+  })
+
+  it('changes the window for the session and keeps Set off until the number differs', () => {
+    const onSet = vi.fn()
+    render(
+      <RoomView view={view()} roleName={roleName} onMarkAnswered={vi.fn()} onSetWindow={onSet} />,
+    )
+    const set = screen.getByRole('button', { name: 'Set' })
+    expect(set).toHaveProperty('disabled', true)
+    fireEvent.change(screen.getByLabelText('Flag after (minutes)'), { target: { value: '5' } })
+    fireEvent.click(set)
+    expect(onSet).toHaveBeenCalledWith(5)
   })
 
   it('announces a newly unanswered row once in a status region', () => {

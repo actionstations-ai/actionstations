@@ -10,6 +10,7 @@ import {
 import {
   liveDevices,
   markAnswered,
+  setUnansweredWindow,
   removeDevice,
   replaceKeys,
   resumeSession,
@@ -75,6 +76,9 @@ export default defineHandlers({
 
   'live:staff-notice': async ({ projectPath, scenarioId, text, level, rowId }) =>
     sendEvaluatorNotice(await requireProject(projectPath), scenarioId, { text, level, rowId }),
+
+  'live:unanswered-window': async ({ projectPath, scenarioId, minutes }) =>
+    setUnansweredWindow(await requireProject(projectPath), scenarioId, minutes),
 
   'live:mark-answered': async ({ projectPath, scenarioId, releaseId, note }) =>
     markAnswered(await requireProject(projectPath), scenarioId, releaseId, note),

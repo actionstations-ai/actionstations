@@ -11,6 +11,7 @@ vi.mock('./session', () => ({
 vi.mock('../scenario/store', () => ({
   getScenario: async () => ({
     roles: [{ id: 'ops', name: 'Operations Director', abbreviation: 'Ops', team: 'a' }],
+    msel: [{ id: 'I-01', responseWindowMin: 3 }],
   }),
 }))
 
@@ -70,6 +71,16 @@ describe('room', () => {
     mkdirSync(join(empty, 'scenarios', 'scn1'), { recursive: true })
     writeFileSync(join(empty, 'scenarios', 'scn1', 'scenario.json'), '{}')
     expect(await dashboard(empty, 'scn1')).toBeNull()
+  })
+
+  it("reads the session's own window, and a row's window wins over it", async () => {
+    const { root, dir } = project()
+    const file = join(dir, 'session.json')
+    const session = JSON.parse(readFileSync(file, 'utf8')) as Record<string, unknown>
+    writeFileSync(file, JSON.stringify({ ...session, unansweredAfterMin: 45 }))
+    const view = await dashboard(root, 'scn1')
+    expect(view!.unansweredAfterMin).toBe(45)
+    expect(view!.unanswered[0]!.windowMin).toBe(3)
   })
 
   it('marks a running session as live', async () => {

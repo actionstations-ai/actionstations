@@ -37,6 +37,7 @@ function fakeLive(
     options: () => ({ sendToDevices: true, showExpected: false, ...options }),
     setOptions: vi.fn(),
     summary: () => undefined,
+    unansweredMin: () => undefined,
     stage: undefined,
     release: vi.fn(async () => undefined),
     resend: vi.fn(async () => undefined),

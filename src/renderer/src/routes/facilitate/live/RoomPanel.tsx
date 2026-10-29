@@ -25,6 +25,7 @@ export function RoomView(props: {
   view: DashboardView
   roleName: (id: string) => string | undefined
   onMarkAnswered: (releaseId: string) => void
+  onSetWindow?: (minutes: number) => void
   /** The hot wash summary from the hot wash feature; the default reads the log counts. */
   hotwash?: ReactNode
   log?: ReactNode
@@ -45,7 +46,11 @@ export function RoomView(props: {
           <RosterSummary view={view} />
           <div className="room-main">
             <InjectsTable view={view} roleName={props.roleName} />
-            <UnansweredList view={view} onMarkAnswered={props.onMarkAnswered} />
+            <UnansweredList
+              view={view}
+              onMarkAnswered={props.onMarkAnswered}
+              {...(props.onSetWindow ? { onSetWindow: props.onSetWindow } : {})}
+            />
             <dl className="room-summary">
               <MessagesSummary view={view} />
               <VotesSummary view={view} />
@@ -82,9 +87,14 @@ export function RoomPanel(props: { projectPath: string; scenario: Scenario; sess
     call('live:mark-answered', { projectPath, scenarioId: scenario.id, releaseId })
       .then(() => queryClient.invalidateQueries({ queryKey: ['live:dashboard'] }))
       .catch((e: unknown) => toast.error('Could not mark the inject answered', e))
+  const setWindow = (minutes: number) =>
+    call('live:unanswered-window', { projectPath, scenarioId: scenario.id, minutes })
+      .then(() => queryClient.invalidateQueries({ queryKey: ['live:dashboard'] }))
+      .catch((e: unknown) => toast.error('Could not change the window', e))
   return (
     <RoomView
       view={view}
+      onSetWindow={(m) => void setWindow(m)}
       roleName={(id) => scenario.roles.find((r) => r.id === id)?.name}
       onMarkAnswered={(id) => void markAnswered(id)}
       log={
