@@ -1,6 +1,6 @@
 # Spec 0422: Surveys: builder, templates, delivery and results
 
-Issue: #422 · Milestone: 0.6.0 · Status: In progress (tasks 1–4, 6 and the AAR feed of 8 built; see Implementation notes) · Depends on: — · Related: #417 (live session log; message types `survey.open`, `survey.response`, `survey.close`), #419 (AAR/IP), #420 (HSEEP document set), #421 (EEGs)
+Issue: #422 · Milestone: 0.6.0 · Status: In progress (tasks 1–4, 6, 7 and the AAR feed of 8 built; see Implementation notes) · Depends on: — · Related: #417 (live session log; message types `survey.open`, `survey.response`, `survey.close`), #419 (AAR/IP), #420 (HSEEP document set), #421 (EEGs)
 
 ## Summary
 
@@ -287,7 +287,17 @@ Built: schemas, templates, store, summaries, IPC, the builder / preview / result
 - **ADR.** The anonymity decision is recorded now, in [ADR-0026](../adr/0026-surveys-anonymous-by-construction.md), since the paper path already depends on it.
 - **Live seam.** `src/main/surveys/wire.ts` holds `toWireSurvey` and `fromWireResponse` with local zod copies of the 0406 payloads (no transport, no sender parameter), until `src/main/live/` exists; the live work moves or imports them.
 
-Not built yet (follow-ups): task 5 (`survey_items` generation), task 7 (live and QR delivery, Facilitate Surveys tab and post-ENDEX checklist), the Participant Feedback Form as DOCX and the Excel "Survey results" sheet (#420), the Scenario 3 golden fixture test, and surveys in the example projects.
+## Implementation notes (live delivery)
+
+- **Module.** `src/main/live/surveys.ts` (`LiveSurveys`) wraps `wire.ts`: `open` sends one `survey.open` per target, `onResponse` checks the sender's seat against the targets, maps the payload with `fromWireResponse`, logs it and appends it to the response file; `close` and `closeAll` (session end) log the close. IPC: `surveys:open-live`, `surveys:close-live`, `surveys:live-status` (spec names), and `surveyOnly` on `live:session-start`.
+- **Anonymity.** The log entry is `{ kind: 'survey.response', actor: { kind: 'client' }, ref: { surveyId: deliveryId }, data: { responseId, answers } }`: no `clientRef`, seat or name. A device's second answer reuses its response id (replace); that map is memory only. A cap of 5000 answers per opening.
+- **Survey-only session.** `Seats` gets `surveyOnly`: the only seat is "Participant" (the observer seat), `welcome.features` has only `surveys` on, `session.json` records `surveyOnly`, and responses are tagged `channel: 'qr'`. The player preselects the single seat and opens on More.
+- **Scale labels.** `survey.open` has no label fields, so `toWireSurvey` appends "(1 = low label, 5 = high label)" to rating and confidence questions.
+- **Player.** `src/player/features/surveys/` (`SurveysScreen`, `SurveyForm`, `SurveyBanner`, pure helpers); answers go through the outbox as `survey.response`. A draft that has not been sent is not kept across a reload (the spec's draft-in-outbox is dropped; sent answers are queued).
+- **Facilitate.** `SurveySend` (Live tab section and the Deliver dialog) with `use-live-surveys`. The post-ENDEX checklist entry is not built.
+- **Not built.** Rebuilding the response file from the log after a crash (replay), the checklist entry, Electron e2e for the Deliver dialog (the harness e2e `e2e/live/surveys.spec.ts` covers the player side with four devices).
+
+Not built yet (follow-ups): task 5 (`survey_items` generation), the post-ENDEX checklist entry of task 7, the Participant Feedback Form as DOCX and the Excel "Survey results" sheet (#420), the Scenario 3 golden fixture test, and surveys in the example projects.
 
 ## Open questions
 

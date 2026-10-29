@@ -13,6 +13,7 @@ import { createIdentity } from '@shared/live/identity'
 import { parseInvite } from '@shared/live/invite'
 import type { Opened } from '@shared/live/codec'
 import type { WelcomePayload } from '@shared/live/schemas'
+import { Survey } from '@shared/schemas'
 import { VoteDefinition, type SessionLogEntry } from '@shared/schemas/live'
 import { httpGet, wsTransport } from './transport/lan/test-clients'
 
@@ -66,7 +67,11 @@ const {
   hotwashBoard,
   updateHotwash,
   promoteHotwash,
+  openSurvey,
+  closeSurvey,
+  liveSurveys,
 } = await import('./session')
+const { writeSurvey, readResponses } = await import('../surveys/store')
 const { createProject } = await import('../project/store')
 const { createScenario, getScenario, saveScenario } = await import('../scenario/store')
 const { resetSettingsCache } = await import('../settings/store')
@@ -112,7 +117,7 @@ async function joinAsPlayer(
   inviteUrl: string,
   name: string,
   requestedRole?: string,
-  kind: 'player' | 'evaluator' = 'player',
+  kind: 'player' | 'evaluator' | 'observer' = 'player',
 ) {
   const crypto = createWebCryptoProvider()
   const invite = parseInvite(inviteUrl)
@@ -886,6 +891,133 @@ describe('evaluator observations through a running session (#416)', () => {
       ).toBe(true),
     )
     expect(JSON.parse(readFileSync(recordPath, 'utf8')).observations).toHaveLength(1)
+    await endSession(projectPath, scenarioId)
+  })
+})
+
+describe('surveys on devices through a running session (#422)', () => {
+  afterEach(async () => {
+    await stopLiveSession()
+    delete process.env.TTX_LIVE_BIND
+  })
+
+  const NOW = '2026-10-28T14:00:00.000Z'
+  const feedback = Survey.parse({
+    id: 'FEEDBACK',
+    title: 'Participant feedback',
+    kind: 'participant_feedback',
+    createdAt: NOW,
+    updatedAt: NOW,
+    sections: [
+      {
+        id: 's',
+        questions: [
+          { id: 'r1', type: 'rating', text: 'The scenario was realistic', required: true },
+          { id: 't1', type: 'text', text: 'What would you change?' },
+        ],
+      },
+    ],
+  })
+
+  it('sends a survey to devices, stores sealed answers without a sender, and closes', async () => {
+    const { projectPath, scenarioId } = await setup()
+    await writeSurvey(projectPath, scenarioId, feedback)
+    const started = await startSession({
+      projectPath,
+      scenarioId,
+      connection: { kind: 'lan', tls: 'none' },
+      attribution: 'role',
+    })
+    const url = started.invites!.players.url
+    const players = [await joinAsPlayer(url, 'A', 'ops'), await joinAsPlayer(url, 'B', 'pio')]
+    expect(players[0]!.welcome.features.surveys).toBe(true)
+    const opens = players.map(() => [] as Opened<'survey.open'>[])
+    const closes = players.map(() => [] as Opened<'survey.close'>[])
+    players.forEach((p, i) => {
+      p.client.setDestinations(['all', `role:${i ? 'pio' : 'ops'}`])
+      p.client.on('survey.open', (m) => opens[i]!.push(m))
+      p.client.on('survey.close', (m) => closes[i]!.push(m))
+    })
+
+    const view = await openSurvey(projectPath, scenarioId, 'FEEDBACK')
+    await vi.waitFor(() => expect(opens.every((o) => o.length === 1)).toBe(true))
+    expect(opens[0]![0]!.payload).toMatchObject({
+      surveyId: view.deliveryId,
+      anonymous: true,
+      title: 'Participant feedback',
+    })
+    expect(opens[0]![0]!.signedBy).toBe('host')
+
+    const answer = (i: number, rating: number) =>
+      players[i]!.client.send('survey.response', 'controller', {
+        surveyId: view.deliveryId,
+        answers: [{ questionId: 'r1', value: rating }],
+      })
+    await answer(0, 2)
+    await answer(0, 4)
+    await answer(1, 5)
+    await vi.waitFor(() => expect(liveSurveys(projectPath, scenarioId)[0]!.responses).toBe(2))
+    const stored = await readResponses(projectPath, scenarioId, 'FEEDBACK')
+    expect(stored.map((r) => r.answers['r1']).sort()).toEqual([4, 5])
+    expect(stored.every((r) => r.channel === 'live' && r.deliveryId === view.deliveryId)).toBe(true)
+
+    const done = await closeSurvey(projectPath, scenarioId, view.deliveryId)
+    expect(done).toMatchObject({ status: 'closed', responses: 2 })
+    await vi.waitFor(() => expect(closes.every((c) => c.length === 1)).toBe(true))
+    await answer(1, 1)
+    await endSession(projectPath, scenarioId)
+
+    const log = readLog(projectPath, scenarioId, started.session!.id)
+    expect(
+      log
+        .filter((e) => e.kind === 'survey.response')
+        .every((e) => e.actor.kind === 'client' && !e.actor.clientRef && !e.actor.seat),
+    ).toBe(true)
+    const text = JSON.stringify(log) + JSON.stringify(stored)
+    for (const p of players) expect(text).not.toContain(p.identity.clientId)
+  })
+
+  it('a survey-only session offers one participant seat, only surveys, and tags answers as QR', async () => {
+    const { projectPath, scenarioId } = await setup()
+    await writeSurvey(projectPath, scenarioId, feedback)
+    const started = await startSession({
+      projectPath,
+      scenarioId,
+      connection: { kind: 'lan', tls: 'none' },
+      attribution: 'role',
+      surveyOnly: true,
+    })
+    expect(started.session!.surveyOnly).toBe(true)
+    const lobby = await joinAsPlayer(started.invites!.players.url, 'Phone')
+    expect(lobby.welcome.seats!.map((s) => s.name)).toEqual(['Participant'])
+    expect(lobby.welcome.features).toEqual({
+      messages: false,
+      votes: false,
+      hotwash: false,
+      surveys: true,
+      eval: false,
+    })
+    const seated = await joinAsPlayer(
+      started.invites!.players.url,
+      'Phone 2',
+      'observers',
+      'observer',
+    )
+    seated.client.setDestinations(['all', 'role:observers'])
+    const opened = new Promise<Opened<'survey.open'>>((resolve) =>
+      seated.client.on('survey.open', resolve),
+    )
+    const view = await openSurvey(projectPath, scenarioId, 'FEEDBACK')
+    await opened
+    await seated.client.send('survey.response', 'controller', {
+      surveyId: view.deliveryId,
+      answers: [{ questionId: 'r1', value: 3 }],
+    })
+    await vi.waitFor(async () =>
+      expect((await readResponses(projectPath, scenarioId, 'FEEDBACK'))[0]).toMatchObject({
+        channel: 'qr',
+      }),
+    )
     await endSession(projectPath, scenarioId)
   })
 })

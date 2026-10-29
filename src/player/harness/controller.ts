@@ -28,6 +28,7 @@ import {
 } from '../../shared/live/schemas'
 import { MemoryServer, settle } from '../../shared/live/transport-memory'
 import { HarnessHotwash } from './hotwash'
+import { HarnessSurveys } from './surveys'
 
 export interface RosterEntry {
   clientId: ClientId
@@ -144,6 +145,8 @@ export class HarnessController {
   private readonly evaluatorLabels = new Map<ClientId, string>()
   /** The hot wash: items from devices, shown on the board (spec 0415). */
   readonly hotwash = new HarnessHotwash(this)
+  /** Surveys sent to devices and the answers that came back (spec 0422). */
+  readonly surveys = new HarnessSurveys(this)
 
   private constructor(
     readonly crypto: CryptoProvider,
@@ -161,6 +164,7 @@ export class HarnessController {
     client.on('message.send', (m) => void this.onMessage(m))
     client.on('eval.observation', (m) => this.onObservation(m))
     client.on('hotwash.item', (m) => void this.hotwash.onItem(m))
+    client.on('survey.response', (m) => this.surveys.onResponse(m))
     client.on('presence', (m) => {
       const entry = this.roster.get(m.payload.client)
       if (entry) entry.connected = m.payload.state === 'online'

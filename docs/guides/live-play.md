@@ -18,7 +18,7 @@ The header shows the exercise clock (it ticks on the device while the facilitato
 - **Inbox** holds what was addressed to your role, your team or this device, newest exercise time on top, with an unread marker and a count on the tab. A new inbox item is announced to screen readers; the device vibrates if it can and you left that on, and plays a short sound only if you turned sound on in Settings (off by default: rooms are loud enough).
 - **Feed** holds what everyone saw: items sent to the whole room, controller notices (dismissible unless the facilitator marked them otherwise), clock changes ("Time jump to 2:00") and announcements that a vote, survey or the hot wash opened or closed.
 - **Messages** (to the SimCell) comes with a later update. The tab is shown disabled rather than hidden so the layout does not change when it opens.
-- **More** holds Votes, Hot wash, Surveys and Evaluate (each shown disabled with a one-line reason until its feature lands or when the exercise does not use it), **Settings** (theme: system, light or dark; text size; sound; vibration) and **About** (versions, which connection the page uses, what is and is not recorded, and **Forget this device**).
+- **More** holds Votes, Hot wash, Surveys and Evaluate (each shown disabled with a one-line reason when the exercise does not use it), **Settings** (theme: system, light or dark; text size; sound; vibration) and **About** (versions, which connection the page uses, what is and is not recorded, and **Forget this device**).
 
 On phones the tabs are at the bottom; on wide screens they become a left rail.
 
@@ -297,3 +297,11 @@ Evaluators join with the **staff link** (Live tab, **Show staff link**) and choo
 - **Group and promote.** Tick items (keyboard or touch), then **Group selected**, **Name group**, **Promote**. A promoted group is one finding ("name (3 contributions)") in the Hot wash tab under **From devices** and in the AAR/IP draft. **Edit text** fixes a typo; the original stays in the log. **Tag** links items to an objective, capability or inject. A promoted item is locked until you **Unpromote** it.
 - **Projector.** **Show on screen** shows the promoted items only, large, with no roles, names or counts.
 - **Close.** **Close on devices** makes the board read-only.
+
+## Surveys on devices
+
+- **Send.** On a survey's **Deliver** dialog (Surveys page) or in the **Live** tab under **Surveys on devices**, press **Send to devices**. Everyone in the session gets a banner, **Answer the survey**, and the survey is under **More, Surveys**. Each row shows how many devices have answered, not who.
+- **Answer.** Scales are rows of numbers 1 to 5 (the ends are named in the question), choices are radio buttons or check boxes, free text is a box. Required questions are checked before sending. Answers go out at once or when the connection returns, and can be changed until the survey closes.
+- **Anonymous.** Nothing an answer carries, and nothing the app stores with it, says which person, seat or device sent it. Results appear on the survey's Results tab with the same minimum of responses as paper forms.
+- **Close.** **Close survey** stops answers and tells devices; a closed survey stays readable. **Send again** opens a new round whose answers are added to the same results.
+- **After the exercise, on phones.** With no session running, **Start a survey session and send** opens a session on this computer for surveys only. Show the join code (**Join with a phone**); participants scan it and see surveys and nothing else. **End survey session** stops the listener. Your computer and the phones must be on the same network, as for live play.

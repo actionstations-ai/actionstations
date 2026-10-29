@@ -60,7 +60,14 @@ async function noteServerTest(
 }
 
 export default defineHandlers({
-  'live:session-start': async ({ projectPath, scenarioId, connection, attribution, name }) => {
+  'live:session-start': async ({
+    projectPath,
+    scenarioId,
+    connection,
+    attribution,
+    name,
+    surveyOnly,
+  }) => {
     const running = activeSession()
     if (running) {
       throw new AppError(
@@ -74,6 +81,7 @@ export default defineHandlers({
       connection,
       attribution,
       ...(name !== undefined ? { name } : {}),
+      ...(surveyOnly ? { surveyOnly } : {}),
     })
   },
 

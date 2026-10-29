@@ -46,6 +46,8 @@ export const liveChannels = {
       name: z.string().max(120).optional(),
       /** Confirmed in the UI: bind to a public (non-private) address. */
       allowPublicAddress: z.boolean().default(false),
+      /** A session for surveys only: devices join as participants and see surveys (spec 0422). */
+      surveyOnly: z.boolean().default(false),
     }),
     LiveSessionStatus,
   ),

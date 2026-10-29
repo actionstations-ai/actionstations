@@ -1,9 +1,10 @@
 // surveys:* (#422): survey definitions, paper/manual responses and results for one scenario.
-// Live delivery (surveys:open-live / surveys:close-live, spec 0422 FR-5, FR-7) is added by the
-// live-play work; see src/main/surveys/wire.ts for the seam.
+// Live delivery (surveys:open-live / surveys:close-live / surveys:live-status, spec 0422 FR-5,
+// FR-7) goes through the running session in src/main/live/surveys.ts.
 import { z } from 'zod'
 import { channel } from './define'
 import { IsoDateTime, SafeId } from '../schemas/common'
+import { LiveSurveyView } from '../schemas/live'
 import {
   Survey,
   SurveyResponse,
@@ -54,4 +55,16 @@ export const surveyChannels = {
   ),
   /** Results with the anonymity threshold from settings applied. */
   'surveys:summary': channel(One, SurveySummary),
+  /** Send a survey to the devices of the running session. Opening an open survey returns it. */
+  'surveys:open-live': channel(
+    One.extend({
+      targets: z.array(z.string().max(140)).max(20).optional(),
+      durationSec: z.number().int().min(10).max(7200).optional(),
+    }),
+    LiveSurveyView,
+  ),
+  /** Stop taking answers on devices. */
+  'surveys:close-live': channel(S.extend({ deliveryId: z.string() }), LiveSurveyView),
+  /** Surveys sent in the running session, with answer counts. Empty without a session. */
+  'surveys:live-status': channel(S, z.array(LiveSurveyView)),
 }

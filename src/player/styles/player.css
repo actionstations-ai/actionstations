@@ -1352,3 +1352,64 @@ code {
   margin: 0;
   font-weight: var(--weight-medium);
 }
+
+/* Surveys (spec 0422) */
+.survey-form {
+  gap: var(--space-5);
+}
+.survey-q {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.survey-q__legend {
+  padding: 0;
+  font-weight: var(--weight-semibold);
+}
+.survey-q__marker {
+  font-weight: var(--weight-regular, 400);
+  color: var(--color-text-muted);
+}
+.survey-q__error {
+  margin: 0;
+  color: var(--color-danger-text, var(--color-danger));
+  font-weight: var(--weight-medium);
+}
+.survey-scale {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.survey-scale__point {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--text-lg);
+  cursor: pointer;
+}
+.survey-scale__point input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.survey-scale__point.is-chosen {
+  border-color: var(--color-border-strong);
+  background: var(--color-accent-soft);
+  font-weight: var(--weight-semibold);
+}
+.survey-scale__point:focus-within {
+  box-shadow: var(--focus-ring);
+}

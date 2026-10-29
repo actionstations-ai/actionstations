@@ -147,9 +147,7 @@ describe('RoomShell', () => {
       'Not used in this exercise.',
     )
     expect(describedBy(screen.getByRole('button', { name: /^Votes/ }))).toBe('')
-    expect(describedBy(screen.getByRole('button', { name: /Surveys/ }))).toBe(
-      'Comes with a later update.',
-    )
+    expect(describedBy(screen.getByRole('button', { name: /Surveys/ }))).toBe('')
     expect(describedBy(screen.getByRole('button', { name: /Evaluate/ }))).toBe('For evaluators.')
   })
 

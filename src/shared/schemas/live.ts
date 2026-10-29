@@ -58,6 +58,8 @@ export const LiveSession = z.object({
   joinUrlPublic: Text(500),
   attribution: Attribution,
   protocolVersion: z.number().int().positive(),
+  /** A session for surveys only (spec 0422 FR-7): every device joins as a participant. */
+  surveyOnly: z.boolean().optional(),
   /** Last server arrival index the controller applied; resume continues from it. */
   lastIndex: z.number().int().min(0).default(0),
   /** Counts written when the session ends (spec 0417 FR-1). */
@@ -286,6 +288,20 @@ export const FirewallGuidance = z.object({
 })
 export type FirewallGuidance = z.infer<typeof FirewallGuidance>
 
+/** A survey sent to devices (spec 0422 FR-5). Counts only; never who answered. */
+export const LiveSurveyView = z.object({
+  deliveryId: z.string(),
+  surveyId: SafeId,
+  title: z.string(),
+  status: z.enum(['open', 'closed']),
+  responses: z.number().int().min(0),
+  eligible: z.number().int().min(0),
+  targets: z.array(z.string()),
+  openedAt: z.number(),
+  closesAt: z.number().optional(),
+})
+export type LiveSurveyView = z.infer<typeof LiveSurveyView>
+
 export const LiveChangedEvent = z.object({
   reason: z.enum([
     'started',
@@ -298,6 +314,7 @@ export const LiveChangedEvent = z.object({
     'votes',
     'evaluation',
     'hotwash',
+    'surveys',
   ]),
   sessionId: SessionId.optional(),
   /** With `messages`: the thread that changed, so the panel fetches only that one. */
