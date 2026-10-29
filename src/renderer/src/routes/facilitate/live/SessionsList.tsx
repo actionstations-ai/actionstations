@@ -9,6 +9,7 @@ import { queryClient, useIpcQuery } from '../../../lib/query'
 import { toast } from '../../../components/toast-store'
 import { Badge, Button } from '../../../components/ui'
 import { exportLog } from './log-actions'
+import { PastHotWash } from './PastHotWash'
 import { RoomPanel } from './RoomPanel'
 
 const when = (iso: string): string => iso.replace('T', ' ').slice(0, 16)
@@ -25,6 +26,7 @@ export const DELETE_CONFIRM =
 export function SessionRow(props: {
   session: LiveSessionSummary
   onView: () => void
+  onHotWash?: (() => void) | undefined
   onExport: (format: 'json' | 'csv') => void
   onClose: () => void
   onResume?: (() => void) | undefined
@@ -44,6 +46,11 @@ export function SessionRow(props: {
         <Button size="sm" onClick={props.onView} aria-label={`View ${s.name}`}>
           View
         </Button>
+        {props.onHotWash && c.hotwashItems > 0 && (
+          <Button size="sm" onClick={props.onHotWash} aria-label={`Hot wash of ${s.name}`}>
+            Hot wash
+          </Button>
+        )}
         <Button
           size="sm"
           onClick={() => props.onExport('json')}
@@ -90,6 +97,7 @@ export function SessionsList(props: { projectPath: string; scenario: Scenario })
   const base = { projectPath: props.projectPath, scenarioId: props.scenario.id }
   const sessions = useIpcQuery('live:sessions-list', base)
   const [viewing, setViewing] = useState<string | undefined>()
+  const [washing, setWashing] = useState<string | undefined>()
   const refresh = () =>
     Promise.all([
       queryClient.invalidateQueries({ queryKey: ['live:sessions-list'] }),
@@ -122,6 +130,7 @@ export function SessionsList(props: { projectPath: string; scenario: Scenario })
               key={s.id}
               session={s}
               onView={() => setViewing(viewing === s.id ? undefined : s.id)}
+              onHotWash={() => setWashing(washing === s.id ? undefined : s.id)}
               onExport={(format) => void exportLog({ ...base, sessionId: s.id }, format, false)}
               onResume={() =>
                 run(
@@ -147,6 +156,13 @@ export function SessionsList(props: { projectPath: string; scenario: Scenario })
           ))}
         </tbody>
       </table>
+      {washing && (
+        <PastHotWash
+          projectPath={props.projectPath}
+          scenario={props.scenario}
+          sessionId={washing}
+        />
+      )}
       {viewing && (
         <RoomPanel projectPath={props.projectPath} scenario={props.scenario} sessionId={viewing} />
       )}

@@ -15,7 +15,15 @@ vi.mock('../scenario/store', () => ({
   }),
 }))
 
-import { closeSession, dashboard, deleteSession, exportLog, logTail, sessionsList } from './room'
+import {
+  closeSession,
+  dashboard,
+  deleteSession,
+  exportLog,
+  logTail,
+  pastHotwashBoard,
+  sessionsList,
+} from './room'
 
 const ID = 'AAAAAAAAAAAAAAAAAAAAAA'
 const line = (i: number, kind: string, extra: object = {}) =>
@@ -81,6 +89,30 @@ describe('room', () => {
     const view = await dashboard(root, 'scn1')
     expect(view!.unansweredAfterMin).toBe(45)
     expect(view!.unanswered[0]!.windowMin).toBe(3)
+  })
+
+  it("rebuilds a past session's hot wash board from its log", async () => {
+    const { root, dir } = project()
+    const post = line(3, 'hotwash.item', {
+      actor: { kind: 'client', clientRef: 'aaaa0001', seat: { kind: 'player', roleId: 'ops' } },
+      ref: { itemId: 'item-1' },
+      data: { kind: 'strength', text: 'Clear PA script', anonymous: false },
+    })
+    writeFileSync(
+      join(dir, 'log.jsonl'),
+      readFileSync(join(dir, 'log.jsonl'), 'utf8') + post + '\n',
+    )
+    const board = await pastHotwashBoard(root, 'scn1', ID)
+    expect(board.open).toBe(false)
+    expect(board.items).toHaveLength(1)
+    expect(board.items[0]).toMatchObject({
+      text: 'Clear PA script',
+      roleLabel: 'Ops',
+      accepted: true,
+    })
+    await expect(pastHotwashBoard(root, 'scn1', 'BBBBBBBBBBBBBBBBBBBBBB')).rejects.toMatchObject({
+      code: 'NOT_FOUND',
+    })
   })
 
   it('marks a running session as live', async () => {
