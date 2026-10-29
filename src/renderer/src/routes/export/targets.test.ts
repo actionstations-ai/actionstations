@@ -5,12 +5,14 @@ describe('export targets', () => {
   it('defaults to everything except the optional Word files', () => {
     expect(DEFAULT_TARGETS).not.toContain('docx')
     expect(DEFAULT_TARGETS).toContain('zip')
-    expect(ALL_TARGETS).toHaveLength(25)
+    expect(ALL_TARGETS).toHaveLength(26)
     expect(DEFAULT_TARGETS).toContain('aar_pdf')
     expect(DEFAULT_TARGETS).not.toContain('coverage_xlsx')
     for (const t of ['conducttr_csv', 'eoc_package', 'cap_xml'] as const)
       expect(DEFAULT_TARGETS).not.toContain(t)
     expect(DEFAULT_TARGETS).toContain('surveys_pdf')
+    expect(ALL_TARGETS).toContain('live_log')
+    expect(DEFAULT_TARGETS).not.toContain('live_log')
   })
 
   it('selects the HSEEP set by default (#420)', () => {

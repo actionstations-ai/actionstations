@@ -7,7 +7,10 @@ import { promises as fs } from 'node:fs'
 import { isAbsolute, join } from 'node:path'
 import type { ExportOptions, ExportTarget } from '@shared/ipc'
 import { AppError } from '../lib/errors'
-import { ensureDir, writeFileAtomic } from '../lib/fs'
+import { ensureDir, readJson, safeJoin, writeFileAtomic } from '../lib/fs'
+import { LiveSession as LiveSessionSchema } from '@shared/schemas/live'
+import { writeExport } from '../live/log-export'
+import { LOG_FILE, SESSION_FILE, listSessions, readAll, sessionFolder } from '../live/log-read'
 import type { JobContext } from '../jobs/manager'
 import { renderPdf } from '../render/window'
 import { buildDocumentHtml, EXPORT_DOC_LABELS, type ExportDoc } from './documents'
@@ -93,6 +96,7 @@ const ORDER: ExportTarget[] = [
   'docx',
   'json',
   'markdown',
+  'live_log',
   'zip',
 ]
 
@@ -329,6 +333,8 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
       return writeEocPackage(platformContext(state))
     case 'cap_xml':
       return writeCapXml(platformContext(state))
+    case 'live_log':
+      return writeLiveLogs(state)
     case 'surveys_pdf':
       return writeSurveyForms(state)
     case 'survey_results_pdf':
@@ -385,6 +391,35 @@ async function writeCoverage(state: RunState, target: 'coverage_xlsx' | 'coverag
   await writeOut(state, state.names.clocksCsv, clocksCsv(report))
 }
 
+const NO_LIVE_SESSIONS = 'No live sessions to include: this scenario has not run one yet'
+
+/**
+ * live-sessions/<sessionId>.json (#417): the log of each live session, facilitator side only.
+ * Display names are left out; the ZIP puts the folder under facilitator/, never in players/.
+ */
+async function writeLiveLogs(state: RunState): Promise<void> {
+  const { root, scenario } = state.model
+  const sessions = await listSessions(root, scenario.id)
+  if (!sessions.length) {
+    state.result.warnings.push(NO_LIVE_SESSIONS)
+    return
+  }
+  const roleName = (id: string | undefined) => scenario.roles.find((r) => r.id === id)?.name
+  for (const s of sessions) {
+    const dir = sessionFolder(root, scenario.id, s.id)
+    const session = await readJson(safeJoin(dir, SESSION_FILE), LiveSessionSchema).catch(
+      () => undefined,
+    )
+    const out = join(state.folder, 'live-sessions', `${s.id}.json`)
+    await writeExport(out, 'json', await readAll(safeJoin(dir, LOG_FILE)), {
+      includeNames: false,
+      roleName,
+      ...(session ? { session } : {}),
+    })
+    state.result.files.push(out)
+  }
+}
+
 /** personas.md (#429): the SimCell persona cards, facilitator/ only, when the scenario has any. */
 async function writePersonas(state: RunState): Promise<void> {
   const file = await readPersonas(state.model.root, state.model.scenario.id).catch(() => undefined)
@@ -420,6 +455,7 @@ const TARGET_LABELS: Record<ExportTarget, string> = {
   conducttr_csv: 'Conducttr MEL CSV',
   eoc_package: 'WebEOC / SimulationDeck package',
   cap_xml: 'CAP XML files',
+  live_log: 'live session logs',
   json: 'scenario.json',
   markdown: 'scenario.md',
   docx: 'Word documents',
